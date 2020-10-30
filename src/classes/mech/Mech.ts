@@ -740,6 +740,11 @@ class Mech implements IActor {
     this.save()
   }
 
+  public Move(val: number): void {
+    this.Pilot.State.IsProtocolAvailable = false
+    this.CurrentMove = val
+  }
+
   public get MaxMove(): number {
     return this.Speed
   }

@@ -1,6 +1,16 @@
 <template>
   <div>
-    <p class="text--text body-text mb-2" v-html="action.Terse ? action.Terse : action.Detail" />
+    <p
+      v-if="!action.Trigger"
+      class="text--text body-text mb-2"
+      v-html="action.Terse ? action.Terse : action.Detail"
+    />
+    <div v-else>
+      <div class="overline my-n3">Trigger</div>
+      <div class="ml-3 body-text stark--text" v-html="action.Trigger" />
+      <div class="overline mb-n3">Effect</div>
+      <div class="ml-3 body-text stark--text" v-html="action.Detail" />
+    </div>
     <div
       v-if="action.Terse"
       class="sidebar-box ml-2"

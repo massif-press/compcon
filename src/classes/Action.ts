@@ -1,4 +1,5 @@
 import { ActivationType } from '@/class'
+import { IDeployableData } from './Deployable'
 
 interface IActionData {
   id?: string
@@ -148,6 +149,22 @@ class Action {
       default:
         return `cci-${this.Activation.toLowerCase().replace(' ', '-')}`
     }
+  }
+
+  public static CreateDeployAction(d: IDeployableData, origin?: string): Action {
+    return new Action(
+      {
+        id: `deploy_${d.name}`,
+        name: `Deploy ${d.name}`,
+        activation: d.activation,
+        cost: d.cost || 1,
+        detail: '',
+        synergy_locations:
+          d.type.toLowerCase() === 'drone' ? ['deployable', 'drone'] : ['deployable'],
+        log: ['DEPLOYING EQUIPMENT.'],
+      },
+      origin
+    )
   }
 }
 

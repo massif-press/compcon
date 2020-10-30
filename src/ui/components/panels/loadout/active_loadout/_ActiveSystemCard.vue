@@ -10,7 +10,7 @@
         <v-card-title
           class="white--text py-0 heading h3 hover-item"
           style="cursor: pointer;"
-          @click="empty ? '' : $refs.detailDialog.show()"
+          @click="$refs.detailDialog.show()"
         >
           <span style="display: flex; width: 100%">
             <span v-if="item">
@@ -76,7 +76,7 @@
               </div>
             </div>
             <div v-if="item">
-              <v-row class="text-left" dense align="end">
+              <!-- <v-row class="text-left" dense align="end">
                 <v-col>
                   <v-row justify="space-around" dense>
                     <v-col v-if="item.Deployables.length" cols="auto">
@@ -97,7 +97,7 @@
                     </v-col>
                   </v-row>
                 </v-col>
-              </v-row>
+              </v-row> -->
               <v-row no-gutters class="mr-3 mt-n2" align="start">
                 <v-col cols="auto">
                   <cc-tags small :tags="item.Tags" :color="color" />
@@ -129,7 +129,7 @@ import EquipmentOptions from '../mech_loadout/components/_EquipmentOptions.vue'
 import EquipmentHeader from '../mech_loadout/components/_EquipmentHeader.vue'
 
 export default Vue.extend({
-  name: 'weapon-slot-card',
+  name: 'active-system-card',
   components: {
     EquipmentOptions,
     EquipmentHeader,

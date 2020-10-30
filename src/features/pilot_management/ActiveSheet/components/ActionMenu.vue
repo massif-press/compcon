@@ -3,43 +3,101 @@
     <v-tabs
       v-model="selected"
       color="accent"
+      icons-and-text
       background-color="primary"
-      class="pa-0 ma-0 ml-n6"
-      style="width: calc(85vw - 30px);"
+      grow
+      align-with-title
+      class="ml-n6"
+      style="width: calc(100% + 48px)"
     >
-      <v-tab>Protocols</v-tab>
-      <v-tab>Full Actions</v-tab>
-      <v-tab>Quick Actions</v-tab>
-      <v-tab>Free Actions</v-tab>
-      <v-tab>Reactions</v-tab>
-      <v-tab>Combat Log</v-tab>
-      <v-tab>Other</v-tab>
+      <v-tab>
+        Protocols
+        <v-icon>cci-protocol</v-icon>
+      </v-tab>
+      <v-tab>
+        Full Actions
+        <v-icon>mdi-hexagon-slice-6</v-icon>
+      </v-tab>
+      <v-tab>
+        Quick Actions
+        <v-icon>mdi-hexagon-slice-3</v-icon>
+      </v-tab>
+      <v-tab>
+        Reactions
+        <v-icon>cci-reaction</v-icon>
+      </v-tab>
+      <v-tab>
+        Free Actions
+        <v-icon>cci-free-action</v-icon>
+      </v-tab>
+      <v-tab>
+        Combat Log
+        <v-icon>mdi-notebook</v-icon>
+      </v-tab>
+      <v-tab class="mr-12">
+        Other
+        <v-icon>mdi-dots-vertical</v-icon>
+      </v-tab>
     </v-tabs>
     <v-tabs-items v-model="selected">
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>{{ pilot.State.Protocols }}</v-card-text>
+          <v-list>
+            <action-menu-item
+              v-for="(a, i) in pilot.State.ActionsByType('Protocol')"
+              :key="`am_protocol_${i}`"
+              :action="a"
+              :mech="pilot.ActiveMech"
+            />
+          </v-list>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>{{ pilot.State.FullActions }}</v-card-text>
+          <v-list>
+            <action-menu-item
+              v-for="(a, i) in pilot.State.ActionsByType('Full')"
+              :key="`am_protocol_${i}`"
+              :action="a"
+              :mech="pilot.ActiveMech"
+            />
+          </v-list>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>{{ pilot.State.QuickActions }}</v-card-text>
+          <v-list>
+            <action-menu-item
+              v-for="(a, i) in pilot.State.ActionsByType('Quick')"
+              :key="`am_protocol_${i}`"
+              :action="a"
+              :mech="pilot.ActiveMech"
+            />
+          </v-list>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>{{ pilot.State.Reactions }}</v-card-text>
+          <v-list>
+            <action-menu-item
+              v-for="(a, i) in pilot.State.ActionsByType('Reaction')"
+              :key="`am_protocol_${i}`"
+              :action="a"
+              :mech="pilot.ActiveMech"
+            />
+          </v-list>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>Overwatch</v-card-text>
-          <v-card-text>{{ pilot.State.FreeActions }}</v-card-text>
+          <v-list>
+            <action-menu-item
+              v-for="(a, i) in pilot.State.ActionsByType('Free')"
+              :key="`am_protocol_${i}`"
+              :action="a"
+              :mech="pilot.ActiveMech"
+            />
+          </v-list>
         </v-card>
       </v-tab-item>
       <v-tab-item>
@@ -59,9 +117,11 @@
 <script lang="ts">
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
+import ActionMenuItem from './ActionMenuItem.vue'
 
 export default vueMixins(activePilot).extend({
   name: 'active-action-menu',
+  components: { ActionMenuItem },
   props: {
     tab: { type: Number, required: true },
   },

@@ -9,6 +9,13 @@
       <cc-titlebar large :color="action.Color" class="mb-1">
         <v-icon x-large>{{ action.Icon }}</v-icon>
         {{ action.Name }}
+        <span
+          v-if="action.Origin"
+          class="pl-1 flavor-text white--text font-weight-light"
+          style="opacity: 0.7"
+        >
+          // {{ action.Origin }}
+        </span>
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
         </v-btn>
@@ -18,7 +25,7 @@
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
 
         <v-row justify="center" align="center">
-          <v-col>
+          <v-col v-if="action.Detail">
             <action-detail-expander :action="action" />
           </v-col>
           <v-col cols="auto">

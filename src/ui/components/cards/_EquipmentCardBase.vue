@@ -58,6 +58,10 @@
       <div class="overline ml-n2 mb-n1 subtle--text">EQUIPMENT TAGS</div>
       <cc-tags :tags="item.Tags" extended />
     </div>
+    <div v-if="item.ProfileTags && item.ProfileTags.length">
+      <div class="overline ml-n2 mb-n1 subtle--text">EQUIPMENT TAGS</div>
+      <cc-tags :tags="item.ProfileTags" extended />
+    </div>
     <div v-if="item.Description" class="mt-2">
       <div class="overline ml-n2 mb-n2">COMPENDIUM ENTRY</div>
       <p class="flavor-text mb-1" v-html="item.Description" />

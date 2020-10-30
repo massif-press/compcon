@@ -7,6 +7,7 @@ import {
   MechEquipment,
   Range,
   RangeType,
+  Tag,
   WeaponMod,
   WeaponSize,
   WeaponType,
@@ -127,6 +128,10 @@ class MechWeapon extends MechEquipment {
 
   public get ProfileOnCrit(): string {
     return this.SelectedProfile.OnCrit || ''
+  }
+
+  public get ProfileTags(): Tag[] {
+    return this.SelectedProfile.Tags || []
   }
 
   public get Damage(): Damage[] {

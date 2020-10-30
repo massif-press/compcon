@@ -136,9 +136,7 @@
                 @click="finished = true"
               >
                 <v-icon style="position: absolute; left: 0" large>mdi-alert-rhombus-outline</v-icon>
-                {{
-                  finished ? 'ERR ERR ERR ERR ERR ERR ERR ERR ERR ERR ERR ERR' : 'OVERLOAD REACTOR'
-                }}
+                {{ finished ? 'CRITICAL ALERT: REACTOR MELTDOWN IMMINENT' : 'OVERLOAD REACTOR' }}
                 <v-icon style="position: absolute; right: 0" large>
                   mdi-alert-rhombus-outline
                 </v-icon>
