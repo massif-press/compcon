@@ -8,7 +8,7 @@
         </v-btn>
       </v-col>
       <v-scroll-y-reverse-transition mode="out-in">
-        <cc-active-mech-loadout v-if="showLoadout" :mech="mech" />
+        <cc-active-mech-loadout v-if="showLoadout" :mech="mech" :rest="rest" />
       </v-scroll-y-reverse-transition>
     </v-row>
   </div>
@@ -22,6 +22,9 @@ export default Vue.extend({
     mech: {
       type: Object,
       required: true,
+    },
+    rest: {
+      type: Boolean,
     },
   },
   data: () => ({

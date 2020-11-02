@@ -42,13 +42,14 @@
                 class="d-inline"
               />
             </span>
-            <v-btn right icon class="fadeSelect" @click.stop="hide = !hide">
+            <v-btn v-if="!rest" right icon class="fadeSelect" @click.stop="hide = !hide">
               <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
+            <div v-else class="mr-4" />
           </span>
         </v-card-title>
         <v-slide-y-transition>
-          <v-card-text v-if="!hide" class="underline-parent px-2 py-0 mt-0">
+          <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
             <div class="underline-slide">
               <v-row no-gutters>
                 <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
@@ -189,6 +190,9 @@ export default Vue.extend({
     mount: {
       type: Object,
       required: true,
+    },
+    rest: {
+      type: Boolean,
     },
   },
   data: () => ({

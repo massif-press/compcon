@@ -3,12 +3,12 @@
     <v-dialog v-model="rcDialog" width="80vw">
       <template v-slot:activator="{ on }">
         <v-btn outlined small class="mr-5" style="border-color: var(--v-warning-base)" v-on="on">
-          RESUME COMBAT
+          NEXT ENCOUTNER
         </v-btn>
       </template>
       <v-card>
         <v-toolbar dense flat tile color="warning darken-3 heading h2">
-          RESUME COMBAT
+          NEXT ENCOUTNER
         </v-toolbar>
         <v-card-text>
           <p class="flavor-text stark--text mt-2 mb-0 mx-6">
@@ -92,13 +92,19 @@
 
     <v-spacer />
 
-    <action-menu-button :actions="pilot.State.Protocols" color="primary" title="DATA">
-      <v-icon slot="icon" size="25">mdi-notebook</v-icon>
-    </action-menu-button>
+    <div class="mt-n1">
+      <cc-tooltip inline content="Combat Log" delayed>
+        <v-btn class="mx-1" small fab elevation="0" color="primary" @click="openMenu(0)">
+          <v-icon color="white" size="25">mdi-notebook</v-icon>
+        </v-btn>
+      </cc-tooltip>
 
-    <action-menu-button :actions="pilot.State.Protocols" color="primary" title="ACTIONS">
-      <v-icon slot="icon" size="30">mdi-dots-vertical</v-icon>
-    </action-menu-button>
+      <cc-tooltip inline content="Other" delayed>
+        <v-btn class="mx-1" small fab elevation="0" color="primary" @click="openMenu(1)">
+          <v-icon color="white" size="25">mdi-dots-vertical</v-icon>
+        </v-btn>
+      </cc-tooltip>
+    </div>
   </v-footer>
 </template>
 
@@ -114,5 +120,10 @@ export default vueMixins(activePilot).extend({
     emDialog: false,
     rcDialog: false,
   }),
+  methods: {
+    openMenu(idx: number) {
+      console.log(idx)
+    },
+  },
 })
 </script>

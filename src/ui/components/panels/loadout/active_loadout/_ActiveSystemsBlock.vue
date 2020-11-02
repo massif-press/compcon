@@ -22,6 +22,7 @@
           :mech="mech"
           :item="s"
           :color="color"
+          :rest="rest"
           readonly
         />
 
@@ -32,6 +33,7 @@
             :weapon="w"
             :color="color"
             readonly
+            :rest="rest"
             @remove="w.Mod = null"
           />
         </v-col>
@@ -43,6 +45,7 @@
           :item="s"
           :color="color"
           :index="i"
+          :rest="rest"
           :readonly="readonly"
         />
       </v-row>
@@ -68,6 +71,9 @@ export default Vue.extend({
       required: true,
     },
     readonly: {
+      type: Boolean,
+    },
+    rest: {
       type: Boolean,
     },
   },

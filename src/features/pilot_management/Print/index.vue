@@ -1,12 +1,5 @@
 <template>
-  <v-card
-    tile
-    flat
-    light
-    class="printable"
-    style="width: 210mm; margin-left:auto; margin-right: auto;"
-  >
-    <div class="no-print" style="min-height: 48px!important" />
+  <v-card tile flat light class="printable" style="margin-left:auto; margin-right: auto;">
     <blank-pilot-print v-if="blank" />
     <pilot-print v-else-if="pilot" :pilot="pilot" />
     <div style="page-break-before: always;" />
@@ -66,6 +59,7 @@ export default Vue.extend({
 <style scoped>
 .printable {
   background-color: white !important;
+  width: 210mm;
 }
 
 @page {
@@ -76,7 +70,8 @@ export default Vue.extend({
 @media print {
   @page {
     max-height: 100%;
-    max-width: 210mm !important;
+    width: 100% !important;
+    max-width: 100% !important;
     margin: 0;
     padding: 0;
     color-adjust: exact !important;
@@ -86,6 +81,9 @@ export default Vue.extend({
 
   .printable {
     /* zoom: 75%; */
+    width: 100% !important;
+    max-width: 100% !important;
+
     margin: 0 !important;
     padding: 0 !important;
     color-adjust: exact !important;

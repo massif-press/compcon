@@ -17,6 +17,7 @@
             :item="s.Weapon"
             :mech="mech"
             :mount="mount"
+            :rest="rest"
           />
         </v-col>
       </v-row>
@@ -46,6 +47,9 @@ export default Vue.extend({
     mech: {
       type: Object,
       required: true,
+    },
+    rest: {
+      type: Boolean,
     },
   },
 })

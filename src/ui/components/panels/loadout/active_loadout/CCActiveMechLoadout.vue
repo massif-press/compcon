@@ -10,10 +10,11 @@
               :mount="m"
               :mech="mech"
               :color="color"
+              :rest="rest"
             />
           </v-row>
           <v-divider class="my-2" />
-          <active-systems-block :mech="mech" :color="color" />
+          <active-systems-block :mech="mech" :color="color" :rest="rest" />
         </div>
       </v-card-text>
     </v-card>
@@ -32,6 +33,9 @@ export default Vue.extend({
     mech: {
       type: Object,
       required: true,
+    },
+    rest: {
+      type: Boolean,
     },
   },
   computed: {
