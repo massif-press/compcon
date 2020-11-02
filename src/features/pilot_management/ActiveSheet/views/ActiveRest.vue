@@ -356,7 +356,7 @@
       </v-row>
     </div>
 
-    <active-mode-loadout :mech="mech" />
+    <active-mode-loadout :mech="mech" rest />
   </div>
 </template>
 

@@ -57,15 +57,19 @@
       </span>
     </span>
 
-    <v-btn
-      outlined
-      small
-      class="ml-5"
-      style="border-color: var(--v-active-base)"
-      @click="state.NextRound()"
-    >
-      NEXT ROUND
-    </v-btn>
+    <v-menu v-model="roundConfirm" close-on-content-click offset-y>
+      <template v-slot:activator="{ on }">
+        <v-btn outlined small class="ml-5" style="border-color: var(--v-active-base)" v-on="on">
+          NEXT ROUND
+        </v-btn>
+      </template>
+      <cc-confirmation
+        content="
+        next round warning
+      "
+        @confirm="nextRound()"
+      />
+    </v-menu>
 
     <v-spacer />
 
@@ -193,6 +197,7 @@ export default vueMixins(activePilot).extend({
   data: () => ({
     menuTab: 0,
     ecDialog: false,
+    roundConfirm: false,
   }),
   computed: {
     state() {
@@ -203,6 +208,10 @@ export default vueMixins(activePilot).extend({
     },
   },
   methods: {
+    nextRound() {
+      this.state.NextRound()
+      this.roundConfirm = false
+    },
     openMenu(tab) {
       this.menuTab = tab
       this.$refs.actionMenu.show()

@@ -5,7 +5,7 @@
         flat
         tile
         :class="hide ? 'panel' : 'clipped-large panel'"
-        :style="!hide ? 'height: 100%; min-height: 100px' : ''"
+        :style="!hide && !rest ? 'height: 100%; min-height: 100px' : ''"
       >
         <v-card-title
           class="white--text py-0 heading h3 hover-item"
@@ -34,13 +34,14 @@
               <span class="heading h2">{{ item.SP }}</span>
               <span class="heading h3">SP</span>
             </div>
-            <v-btn right icon class="fadeSelect" @click.stop="hide = !hide">
+            <v-btn v-if="!rest" right icon class="fadeSelect" @click.stop="hide = !hide">
               <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
+            <div v-else class="mr-4" />
           </span>
         </v-card-title>
         <v-slide-y-transition>
-          <v-card-text v-if="!hide" class="underline-parent px-2 py-0 mt-0">
+          <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
             <div class="underline-slide">
               <v-row dense>
                 <v-col
@@ -144,6 +145,9 @@ export default Vue.extend({
       type: Object,
       required: true,
       default: null,
+    },
+    rest: {
+      type: Boolean,
     },
   },
   data: () => ({

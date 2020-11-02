@@ -15,10 +15,10 @@
             >//[
             <span class="accent--text">COMP/CON</span>
             :
-            <span class="stark-text--text">Active Protocols Standing By</span>
+            <span class="stark--text">Active Protocols Standing By</span>
             ] Pilot, proceeding will engage COMP/CON ACTIVE MODE, which will assist with running
             LANCER Missions and Encounters. First-time users are encouraged to enable the Active
-            Mode Tutorial using the checkbox below.
+            Mode Tutorial.
           </p>
           <v-row justify="center" no-gutters class="mt-n2">
             <v-col cols="auto">
@@ -59,7 +59,7 @@
             >//[
             <span class="accent--text">COMP/CON</span>
             :
-            <span class="stark-text--text">Frame Issues Detected</span>
+            <span class="stark--text">Frame Issues Detected</span>
             ] Pilot, COMP/CON has detected one ore more issues with the selected mech. If these
             issues are not addressed, your mech may operate at reduced combat efficacy. Caution is
             advised.
