@@ -61,17 +61,30 @@
             </v-col>
           </v-row>
         </v-slide-x-reverse-transition>
-      </v-card-text>
 
-      <v-slide-x-reverse-transition>
-        <v-row v-if="quick.length === 2" dense justify="center">
-          <v-col lg="6" md="10" xs="12">
-            <v-btn block x-large color="primary" @click="hide()">
-              CONFIRM
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-slide-x-reverse-transition>
+        <v-slide-x-reverse-transition>
+          <v-row v-if="quick.length === 2" dense justify="center">
+            <v-col lg="6" md="10" xs="12">
+              <v-btn block x-large color="primary" :disabled="finished" @click="complete()">
+                CONFIRM
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-slide-x-reverse-transition>
+
+        <v-slide-x-reverse-transition>
+          <v-row v-if="finished">
+            <v-col cols="auto" class="ml-auto">
+              <cc-tooltip content="Undo this action, refunding any cost it may have had">
+                <v-btn x-small color="primary" class="fadeSelect" @click="unro()">
+                  <v-icon small left>mdi-reload</v-icon>
+                  UNDO
+                </v-btn>
+              </cc-tooltip>
+            </v-col>
+          </v-row>
+        </v-slide-x-reverse-transition>
+      </v-card-text>
 
       <v-divider />
       <v-card-actions>
@@ -109,6 +122,7 @@ export default Vue.extend({
     dialog: false,
     quick: [],
     selected: null,
+    finished: false,
   }),
   computed: {
     state() {
@@ -131,6 +145,18 @@ export default Vue.extend({
     this.selected = this.action
   },
   methods: {
+    complete() {
+      this.finished = true
+      this.action.Use()
+      this.mech.Pilot.State.CommitAction(this.action, ActivationType.Full)
+    },
+    undo() {
+      this.quick = []
+      this.selected = null
+      this.finished = false
+      this.action.Undo()
+      this.mech.Pilot.State.UndoAction(this.action, ActivationType.Full)
+    },
     addQuick(action) {
       if (this.quick.length < 2) this.quick.push(action)
     },

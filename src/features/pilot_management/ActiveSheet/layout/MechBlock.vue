@@ -17,11 +17,6 @@
           <div class="overline subtle--text mt-n2">PILOT::</div>
           <div class="heading h2 mt-n3 subtle--text">{{ pilot.Callsign }}</div>
         </v-col>
-        <v-col v-if="pilot.Mounted" cols="auto">
-          <cc-tooltip title="DISMOUNT MECH" content="Exit the mech and switch to Pilot Mode">
-            <v-btn small outlined @click="pilot.Mounted = false">dismount mech</v-btn>
-          </cc-tooltip>
-        </v-col>
       </v-row>
 
       <v-row dense justify="center">
@@ -43,7 +38,7 @@
             :model="mech.Statuses"
             dark
             color="deep-orange darken-1"
-            @set="mech.Statuses = $event"
+            @set="state.SetStatusCondition($event, true)"
           />
         </v-col>
         <v-col cols="3">
@@ -53,7 +48,7 @@
             :model="mech.Conditions"
             dark
             color="red darken-2"
-            @set="mech.Conditions = $event"
+            @set="state.SetStatusCondition($event)"
           />
         </v-col>
         <v-col cols="3">
@@ -63,7 +58,7 @@
             :model="mech.Resistances"
             dark
             color="blue darken-2"
-            @set="mech.Resistances = $event"
+            @set="state.SetResistance($event)"
           />
         </v-col>
 
@@ -79,9 +74,9 @@
             hint="BURN"
             persistent-hint
             dense
-            @click:append-outer="mech.Burn += 1"
-            @click:prepend="mech.Burn -= 1"
-            @change="mech.Burn = parseInt($event)"
+            @click:append-outer="state.SetBurn(mech.Burn + 1)"
+            @click:prepend="state.SetBurn(mech.Burn - 1)"
+            @change="state.SetBurn(parseInt($event))"
           />
         </v-col>
 
@@ -95,7 +90,7 @@
               </template>
               <cc-confirmation
                 content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
-                @confirm="mech.FullRepair()"
+                @confirm="state.CommitFullRepair()"
               />
             </v-menu>
           </cc-tooltip>
@@ -125,7 +120,7 @@
       />
 
       <v-row dense align="center" class="mt-n3">
-        <v-col cols="auto" class="ml-2 mt-n2">
+        <v-col cols="auto" class="ml-2 mt-n2 mr-2">
           <div class="mb-n2">
             <span class="heading h2 accent--text">
               {{ pilot.MechSkills.Hull }}
@@ -222,7 +217,7 @@
             <span v-html="trait.Description" />
           </cc-active-card>
         </v-col>
-        <v-col cols="8">
+        <v-col cols="8" align-self="center">
           <cc-active-card
             color="corepower"
             :header="mech.Frame.CoreSystem.Name"
@@ -244,7 +239,10 @@
             </span>
             <p class="mb-1 text--text body-text" v-html="mech.Frame.CoreSystem.ActiveEffect" />
             <div class="my-1 px-6">
-              <cc-action active :action="coreActivator" />
+              <cc-action v-if="mech.CurrentCoreEnergy > 0" active :action="coreActivator" />
+              <div v-else class="heading h3 text-center" style="letter-spacing: 5px; opacity: 0.4">
+                CORE ENERGY EXHAUSTED
+              </div>
             </div>
             <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
           </cc-active-card>
@@ -399,21 +397,26 @@ export default vueMixins(activePilot).extend({
     showCounters: true,
     tabs: 0,
     burn: 0,
-    resistances: [
-      { name: 'Kinetic', color: 'kinetic' },
-      { name: 'Energy', color: 'energy' },
-      { name: 'Explosive', color: 'explosive' },
-      { name: 'Heat', color: 'heat' },
-      { name: 'Burn', color: 'burn' },
-      { name: 'All', color: 'variable' },
-      { name: 'Next Attack', color: 'overcharge' },
-    ],
     structRolledOver: false,
     stressRolledOver: false,
   }),
   computed: {
     mech(): Mech {
       return this.pilot.ActiveMech || null
+    },
+    state() {
+      return this.pilot.State
+    },
+    resistances() {
+      return [
+        { name: 'Kinetic', color: 'kinetic' },
+        { name: 'Energy', color: 'energy' },
+        { name: 'Explosive', color: 'explosive' },
+        { name: 'Heat', color: 'heat' },
+        { name: 'Burn', color: 'burn' },
+        { name: 'All', color: 'variable' },
+        { name: 'Next Attack', color: 'overcharge' },
+      ]
     },
     coreActivator() {
       return this.mech.Actions.find(x => x.ID === 'core_active_activate')

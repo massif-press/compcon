@@ -1,3 +1,4 @@
+import uuid from 'uuid/v4'
 import { ActivationType } from '@/class'
 import { IDeployableData } from './Deployable'
 
@@ -85,6 +86,7 @@ class Action {
   public readonly Terse: string
   public readonly Detail: string
   public readonly Cost: number
+  public readonly HeatCost: number
   public readonly Frequency: Frequency
   public readonly Init: string
   public readonly Trigger: string
@@ -95,8 +97,10 @@ class Action {
   public readonly SynergyLocations: string[]
   public readonly Log: string[]
   private _uses: number
+  private _used: boolean
+  private _log_id: string
 
-  public constructor(data: IActionData, origin?: string) {
+  public constructor(data: IActionData, origin?: string, heat?: number) {
     if (data.name) this.Name = data.name
     else this.Name = `Activate ${origin}` || 'Unknown Action'
     this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}`
@@ -112,6 +116,7 @@ class Action {
     this.Terse = data.terse || ''
     this.Detail = data.detail || ''
     this.Cost = data.cost || 1
+    this.HeatCost = heat || 0
     this.Frequency = new Frequency(data.frequency || '')
     this._uses = this.Frequency.Uses
     this.Init = data.init || ''
@@ -120,6 +125,12 @@ class Action {
     this.IsMechAction = data.mech || !data.pilot
     this.IsActiveHidden = data.hide_active
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'
+    this._used = false
+    this._log_id = ''
+  }
+
+  public get Used(): boolean {
+    return this._used
   }
 
   public get Uses(): number {
@@ -127,11 +138,23 @@ class Action {
   }
 
   public Use(): void {
-    this._uses--
+    this._log_id = uuid()
+    this._uses -= this.Cost
+    this._used = true
+  }
+
+  public get LogID(): string {
+    return this._log_id
+  }
+
+  public Undo(): void {
+    this._uses += this.Cost
+    this._used = false
   }
 
   public Reset(): void {
     this._uses = this.Frequency.Uses
+    this._used = false
   }
 
   public get Color(): string {

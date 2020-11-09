@@ -46,7 +46,12 @@ abstract class CompendiumItem {
       this._name = data.name
       this._description = data.description || ''
       this.Brew = data.brew || 'Core'
-      this.Actions = data.actions ? data.actions.map(x => new Action(x, data.name)) : []
+      this.Tags = Tag.Deserialize(data.tags)
+      const heatTag = this.Tags.find(x => x.IsHeatCost)
+      const heatCost = heatTag ? heatTag.Value : 0
+      this.Actions = data.actions
+        ? data.actions.map(x => new Action(x, data.name, heatCost as number))
+        : []
       this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
       this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x, data.name)) : []
       this.Deployables = data.deployables ? data.deployables : []
@@ -56,7 +61,6 @@ abstract class CompendiumItem {
         )
       }
       this.Counters = data.counters ? data.counters : []
-      this.Tags = Tag.Deserialize(data.tags)
       this._integrated = data.integrated ? data.integrated : []
       this.Err = ''
     } else {

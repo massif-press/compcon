@@ -29,6 +29,7 @@ interface IMechData {
   frame: string
   active: boolean
   current_structure: number
+  current_move: number
   current_hp: number
   overshield: number
   current_stress: number
@@ -703,6 +704,11 @@ class Mech implements IActor {
     this.save()
   }
 
+  public get OverchargeTrack(): string[] {
+    const b = Bonus.getUneval('overcharge', this)
+    return b.length ? b[0].Value : Rules.Overcharge
+  }
+
   public get CurrentOvercharge(): number {
     return this._current_overcharge
   }
@@ -738,11 +744,6 @@ class Mech implements IActor {
   public set CurrentMove(val: number) {
     this._currentMove = val
     this.save()
-  }
-
-  public Move(val: number): void {
-    this.Pilot.State.IsProtocolAvailable = false
-    this.CurrentMove = val
   }
 
   public get MaxMove(): number {
@@ -1057,6 +1058,7 @@ class Mech implements IActor {
       frame: m.Frame.ID,
       active: m._active,
       current_structure: m._current_structure,
+      current_move: m._currentMove,
       current_hp: m._current_hp,
       overshield: m._overshield,
       current_stress: m._current_stress,
@@ -1106,6 +1108,7 @@ class Mech implements IActor {
         : m._loadouts[0]
     }
     m._current_structure = data.current_structure
+    m._currentMove = data.current_move || 0
     m._current_hp = data.current_hp
     m._overshield = data.overshield || 0
     m._current_stress = data.current_stress

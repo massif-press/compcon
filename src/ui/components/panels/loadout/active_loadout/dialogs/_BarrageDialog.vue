@@ -27,6 +27,7 @@
               :key="`weap_${j}`"
               :item="w"
               :selected="barrageToggle(w)"
+              color="action--quick"
               @click="setBarrage(w, m)"
             />
             <v-divider
@@ -37,6 +38,7 @@
               v-for="(w, j) in m.Weapons.filter(x => x.Size === 'Superheavy' && !x.Destroyed)"
               :key="`weap_${j}`"
               :item="w"
+              color="action--full"
               :selected="barrageToggle(w)"
               @click="setBarrage(w, m)"
             />

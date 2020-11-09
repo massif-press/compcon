@@ -69,16 +69,18 @@
         class="mb-2"
         outlined
       />
-      <talent-select-item
-        v-for="talent in talents"
-        :key="talent.ID"
-        :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
-        :talent="talent"
-        :pilot-rank="pilot.getTalentRank(talent.ID)"
-        :new-pilot="newPilot"
-        @add="pilot.AddTalent(talent)"
-        @remove="pilot.RemoveTalent(talent)"
-      />
+      <v-slide-x-transition group>
+        <talent-select-item
+          v-for="talent in talents"
+          :key="talent.ID"
+          :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
+          :talent="talent"
+          :pilot-rank="pilot.getTalentRank(talent.ID)"
+          :new-pilot="newPilot"
+          @add="pilot.AddTalent(talent)"
+          @remove="pilot.RemoveTalent(talent)"
+        />
+      </v-slide-x-transition>
     </template>
   </selector>
 </template>

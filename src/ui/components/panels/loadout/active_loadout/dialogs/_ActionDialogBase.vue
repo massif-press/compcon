@@ -33,9 +33,9 @@
               large
               tile
               block
-              :disabled="actionFree"
+              :disabled="canCostActivate"
               :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
-              @click="actionCost = select(actionCost)"
+              @click="actionCost = select(actionCost, action.Activation)"
             >
               <v-icon left>{{ action.Icon }}</v-icon>
               {{ action.Name }}
@@ -47,25 +47,28 @@
               block
               :disabled="actionCost"
               :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
-              @click="actionFree = select(actionFree)"
+              @click="actionFree = select(actionFree, 'Free')"
             >
               <v-icon left small>cci-free-action</v-icon>
               Free Action
               <cc-tooltip
                 inline
                 :content="
-                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a Full Action this turn`
+                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
                 "
               >
                 <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
               </cc-tooltip>
             </v-btn>
+            <div v-if="action.HeatCost" class="overline error--text text-center">
+              ALERT: This action will incur {{ action.HeatCost }} heat
+            </div>
           </v-col>
         </v-row>
         <v-slide-x-reverse-transition>
           <v-row v-if="actionFree || actionCost" no-gutters class="mt-2">
             <v-col cols="auto" class="ml-auto" align="end">
-              <v-fade-transition v-for="(s, i) in action.Log" :key="`log_${i}`">
+              <v-fade-transition v-for="(s, i) in finalLog" :key="`log_${i}`">
                 <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
                   <span>
                     >//[
@@ -108,6 +111,7 @@
 </template>
 
 <script lang="ts">
+import { ActivationType } from '@/class'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 
@@ -134,6 +138,22 @@ export default Vue.extend({
     timer: 0,
     finished: false,
   }),
+  computed: {
+    canCostActivate() {
+      if (this.actionFree) return true
+      if (this.action.Used) return true
+      //check item canUse
+      let activationCost = 0
+      if (this.action.Activation === ActivationType.Quick) activationCost = 1
+      else if (this.action.Activation === ActivationType.Full) activationCost = 2
+      return this.mech.Pilot.State.Actions < activationCost
+    },
+    finalLog() {
+      const out = this.action.Log
+      if (this.action.HeatCost) out.push('ALERT: REACTOR HEAT LEVELS INCREASING')
+      return out
+    },
+  },
   methods: {
     runTimeout() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -147,11 +167,16 @@ export default Vue.extend({
         }
       }, 80)
     },
-    select(action) {
+    select(activation, activationType) {
       this.runTimeout()
-      return !action
+      this.mech.Pilot.State.CommitAction(this.action, activationType)
+      this.$emit('use', this.action.Cost || 1)
+      return !activation
     },
     reset() {
+      const activationType = this.actionFree ? ActivationType.Free : this.action.Activation
+      this.mech.Pilot.State.UndoAction(this.action, activationType)
+      this.$emit('reset', this.action.Cost)
       this.actionCost = false
       this.actionFree = false
       this.finished = false

@@ -187,7 +187,7 @@ export default class CCTickBar extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
 .pipbar {
   display: flex;
   flex-wrap: wrap;
@@ -209,5 +209,9 @@ export default class CCTickBar extends Vue {
 }
 .pipinput:focus {
   outline: none;
+}
+
+.v-rating--dense .v-icon {
+  padding: 0;
 }
 </style>

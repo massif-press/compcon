@@ -23,14 +23,14 @@
       :tag="t"
       :small="small"
       :color="color"
-      :pilot="pilot"
+      :bonus="bonus"
     />
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Pilot, Tag } from '@/class'
+import { Tag } from '@/class'
 
 @Component({ name: 'cc-tags' })
 export default class CCTags extends Vue {
@@ -45,9 +45,6 @@ export default class CCTags extends Vue {
 
   @Prop({ type: Array, required: true })
   readonly tags!: Tag[]
-
-  @Prop({ type: Object, required: false, default: null })
-  readonly pilot?: Pilot
 
   @Prop({ type: Number, required: false, default: 0 })
   readonly bonus?: number

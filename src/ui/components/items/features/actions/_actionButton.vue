@@ -1,6 +1,13 @@
 <template>
   <div class="text-center">
-    <v-btn :color="action.Color" block tile left @click="$refs.dialog.show()">
+    <v-btn
+      :color="usable ? 'grey darken-2' : action.Color"
+      block
+      tile
+      left
+      :disabled="disabled"
+      @click="$refs.dialog.show()"
+    >
       <v-icon dark left>{{ action.Icon }}</v-icon>
       {{ action.Name }}
       <v-menu offset-y max-width="700px">
@@ -24,11 +31,18 @@
         </v-card>
       </v-menu>
     </v-btn>
-    <cc-combat-dialog ref="dialog" :action="action" :mech="pilot.ActiveMech" />
+    <cc-combat-dialog
+      ref="dialog"
+      :action="action"
+      :mech="pilot.ActiveMech"
+      @use="$emit('use', $event)"
+      @reset="$emit('reset', $event)"
+    />
   </div>
 </template>
 
 <script lang="ts">
+import { ActivationType } from '@/classes/enums'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 import ActionBase from './_actionBase.vue'
@@ -40,6 +54,22 @@ export default vueMixins(activePilot).extend({
     action: {
       type: Object,
       required: true,
+    },
+    activations: {
+      type: Number,
+      required: false,
+      default: 2,
+    },
+    disabled: { type: Boolean },
+  },
+  computed: {
+    cost() {
+      if (this.action.Activation === ActivationType.Quick) return 1
+      else if (this.action.Activation === ActivationType.Full) return 2
+      return 0
+    },
+    usable() {
+      return this.action.Used || this.activations < this.cost
     },
   },
 })

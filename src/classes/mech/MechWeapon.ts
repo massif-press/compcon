@@ -27,6 +27,8 @@ import { IDeployableData } from '../Deployable'
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize
   type: WeaponType
+  skirmish_cost?: number
+  barrage_cost?: number
   on_attack?: string
   on_hit?: string
   on_crit?: string
@@ -39,6 +41,8 @@ interface IMechWeaponData extends IMechEquipmentData {
 interface IWeaponProfileData {
   name?: string
   effect?: string
+  skirmish_cost?: number
+  barrage_cost?: number
   on_attack?: string
   on_hit?: string
   on_crit?: string
@@ -59,12 +63,16 @@ class WeaponProfile extends CompendiumItem {
   OnAttack?: string
   OnHit?: string
   OnCrit?: string
+  SkirmishCost: number
+  BarrageCost: number
 
   public constructor(pData: IWeaponProfileData | IMechWeaponData, originId?: string, idx?: number) {
     const data = Object.assign({}, pData) as ICompendiumItemData
     if (!data.id) data.id = originId
     data.id += `_profile_${idx || 0}`
     super(data)
+    this.SkirmishCost = pData.skirmish_cost || 1
+    this.BarrageCost = pData.barrage_cost || 1
     if (pData.damage) this.Damage = pData.damage.map(x => new Damage(x))
     if (pData.range) this.Range = pData.range.map(x => new Range(x))
     if (pData.effect) this.Effect = pData.effect
@@ -105,6 +113,22 @@ class MechWeapon extends MechEquipment {
     return this.Mod ? this.Mod.SP : 0
   }
 
+  public get SkirmishCost(): number {
+    return this.SelectedProfile.SkirmishCost
+  }
+
+  public get CanSkirmish(): boolean {
+    return this.CheckUsable(this.SkirmishCost)
+  }
+
+  public get BarrageCost(): number {
+    return this.SelectedProfile.BarrageCost
+  }
+
+  public get CanBarrage(): boolean {
+    return this.CheckUsable(this.BarrageCost)
+  }
+
   public get SelectedProfile(): WeaponProfile {
     return this.Profiles[this._selected_profile]
   }
@@ -132,6 +156,11 @@ class MechWeapon extends MechEquipment {
 
   public get ProfileTags(): Tag[] {
     return this.SelectedProfile.Tags || []
+  }
+
+  public get ProfileHeatCost(): number {
+    const selfHeatTag = this.ProfileTags.find(x => x.IsHeatCost)
+    return selfHeatTag ? (selfHeatTag.Value as number) : 0
   }
 
   public get Damage(): Damage[] {

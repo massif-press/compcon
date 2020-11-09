@@ -48,8 +48,15 @@
                   v-for="(a, i) in item.Actions"
                   :key="`${item.Name}_action_${i}`"
                   style="min-width: 40%"
+                  class="mb-n1"
                 >
-                  <cc-action :action="a" active />
+                  <cc-action
+                    :action="a"
+                    active
+                    :activations="mech.Pilot.State.Actions"
+                    @use="item.Use($event)"
+                    @reset="item.Reset($event)"
+                  />
                 </v-col>
               </v-row>
               <equipment-header
@@ -99,10 +106,21 @@
                   </v-row>
                 </v-col>
               </v-row> -->
-              <v-row no-gutters class="mr-3 mt-n2" align="start">
+              <v-row no-gutters class="mr-3 mt-n1" align="start">
                 <v-col cols="auto">
-                  <cc-tags small :tags="item.Tags" :color="color" />
-                  <cc-tags v-if="item.Mod" small :tags="item.Mod.AddedTags" color="mod darken-2" />
+                  <cc-tags
+                    small
+                    :tags="item.Tags"
+                    :color="color"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
+                  <cc-tags
+                    v-if="item.Mod"
+                    small
+                    :tags="item.Mod.AddedTags"
+                    color="mod darken-2"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
                 </v-col>
                 <v-spacer />
                 <v-col cols="auto">

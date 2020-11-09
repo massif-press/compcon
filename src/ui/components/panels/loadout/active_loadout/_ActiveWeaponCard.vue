@@ -1,6 +1,6 @@
 <template>
   <v-col class="pa-2">
-    <div style="height: 100%">
+    <div v-if="item" style="height: 100%">
       <v-card
         flat
         tile
@@ -135,8 +135,19 @@
               </v-row>
               <v-row no-gutters class="mr-3 mt-n2" align="start">
                 <v-col cols="auto">
-                  <cc-tags small :tags="item.ProfileTags" :color="color" />
-                  <cc-tags v-if="item.Mod" small :tags="item.Mod.AddedTags" color="mod darken-2" />
+                  <cc-tags
+                    small
+                    :tags="item.ProfileTags"
+                    :color="color"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
+                  <cc-tags
+                    v-if="item.Mod"
+                    small
+                    :tags="item.Mod.AddedTags"
+                    color="mod darken-2"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
                 </v-col>
                 <v-spacer />
                 <v-col cols="auto">

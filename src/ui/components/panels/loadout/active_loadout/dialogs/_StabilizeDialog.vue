@@ -99,7 +99,7 @@
               <cc-tooltip
                 inline
                 :content="
-                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a Full Action this turn`
+                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
                 "
               >
                 <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
@@ -182,7 +182,6 @@ export default Vue.extend({
   }),
   computed: {
     dLog() {
-      console.log(this.stabilizeMajor, this.stabilizeMinor)
       const arr = ['EMERGENCY PROTOCOLS ACTIVATED.']
       if (this.stabilizeMajor === 'cool') arr.push('VENTING REACTOR HEAT.')
       else if (this.stabilizeMajor === 'repair') arr.push('AUTOREPAIR SUBSYSTEMS ENGAGED.')
@@ -192,8 +191,6 @@ export default Vue.extend({
       else if (this.stabilizeMinor === 'end_self_condition')
         arr.push('SYSTEM RESTORATION COMPLETED.')
       else if (this.stabilizeMinor === 'end_ally_condition') arr.push('REMOTE ASSIST ON.')
-
-      console.log(arr)
       return arr
     },
   },
@@ -212,12 +209,16 @@ export default Vue.extend({
     },
     select(action) {
       this.runTimeout()
+      this.action.Use()
+      this.mech.Pilot.State.CommitStabilize(this.stabilizeMajor, this.stabilizeMinor)
       return !action
     },
     reset() {
       this.actionCost = false
       this.actionFree = false
       this.finished = false
+      this.action.Use()
+      this.mech.Pilot.State.UndoStabilize(this.stabilizeMajor, this.stabilizeMinor)
       this.timer = 0
     },
     show(): void {
