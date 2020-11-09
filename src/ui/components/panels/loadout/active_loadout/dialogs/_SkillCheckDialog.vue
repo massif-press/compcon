@@ -47,7 +47,7 @@
               <cc-tooltip
                 inline
                 :content="
-                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a Full Action this turn`
+                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
                 "
               >
                 <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
@@ -300,6 +300,8 @@ export default Vue.extend({
     },
     select(action) {
       this.runTimeout()
+      this.action.Use()
+      this.mech.Pilot.State.Actions -= 2
       return !action
     },
     rollSkill(): void {
@@ -327,6 +329,8 @@ export default Vue.extend({
       this.actionFree = false
       this.timer = 0
       this.finished = false
+      this.mech.Pilot.State.Actions += 2
+      this.action.Undo()
     },
     show(): void {
       this.dialog = true

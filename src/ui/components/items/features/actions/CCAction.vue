@@ -1,5 +1,12 @@
 <template>
-  <component :is="cType" :action="action" />
+  <component
+    :is="cType"
+    :action="action"
+    :activations="activations"
+    :disabled="disabled"
+    @use="$emit('use', $event)"
+    @reset="$emit('reset', $event)"
+  />
 </template>
 
 <script lang="ts">
@@ -25,6 +32,14 @@ export default Vue.extend({
     },
     active: {
       type: Boolean,
+    },
+    disabled: {
+      type: Boolean,
+    },
+    activations: {
+      type: Number,
+      required: false,
+      default: 2,
     },
   },
   computed: {

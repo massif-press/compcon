@@ -547,7 +547,7 @@ Triggers/Skill Triggers (called 'Skills' here) are purely Pilot/Narrative based 
 
 ### Family
 
-Skills are sorted into four general groupings "families". The groupings given in COMP/CON aren't official and ideomatic only to the app, but might give you some idea on how to organize your custom skill based on how they fit into a traditional RPG archetype. They are:
+Skills are sorted into four general groupings "families". The groupings given in COMP/CON aren't official and idiosyncratic to the app, but might give you some idea on how to organize your custom skill based on how they fit into a traditional RPG archetype. They are:
 family field string | Offical LANCER grouping
 :------------------:|:----------------------:
 str |Your pilot’s ability to use, resist, and apply direct force, physical or otherwise

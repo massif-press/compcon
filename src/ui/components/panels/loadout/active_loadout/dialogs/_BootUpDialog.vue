@@ -58,7 +58,7 @@
               Free Action
               <cc-tooltip
                 inline
-                content="Special rules or equipment may allow you to Boot Up as a Free Action. Using this button will commit the action without spending a Full Action this turn"
+                content="Special rules or equipment may allow you to Boot Up as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn"
               >
                 <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
               </cc-tooltip>

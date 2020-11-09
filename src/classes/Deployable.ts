@@ -1,8 +1,8 @@
-import { ActivationType } from '@/class'
+import { ActivationType, Mech } from '@/class'
 import { ICounterData, ISynergyData } from '@/interface'
 import uuid from 'uuid/v4'
 import { IActionData } from './Action'
-import { IBonusData } from './Bonus'
+import { Bonus, IBonusData } from './Bonus'
 import { ICompendiumItemData, CompendiumItem } from './CompendiumItem'
 
 interface IDeployableData extends ICompendiumItemData {
@@ -62,24 +62,24 @@ class Deployable extends CompendiumItem {
   private _destroyed: boolean
   private _activation: ActivationType
 
-  public constructor(data: IDeployableData, owner: IActor, n?: number) {
+  public constructor(data: IDeployableData, owner: Mech, n?: number) {
     data.id = `deployable_${uuid()}`
     super(data)
     this.BaseName = `${owner ? `${owner.EncounterName}'s ` : ''}${data.name}${n ? ` (#${n})` : ''}`
     this.Type = data.type || 'Deployable'
     this.Detail = data.detail
-    this.Size = data.size
-    this.MaxHP = data.hp
+    this.Size = data.size + Bonus.get('deployable_size', owner)
+    this.MaxHP = data.hp + Bonus.get('deployable_hp', owner)
     this._current_hp = this.MaxHP
-    this.Armor = data.armor || 0
-    this.Evasion = data.evasion || 5
-    this.EDefense = data.edef || 5
-    this.Heatcap = data.heatcap || 0
-    this.Repcap = data.repcap || 0
-    this.Sensors = data.sensor_range || 0
-    this.TechAttack = data.tech_attack || 0
-    this.Save = data.save || 0
-    this.Speed = data.speed || 0
+    this.Armor = (data.armor || 0) + Bonus.get('deployable_armor', owner)
+    this.Evasion = (data.evasion || 5) + Bonus.get('deployable_evasion', owner)
+    this.EDefense = (data.edef || 5) + Bonus.get('deployable_edef', owner)
+    this.Heatcap = (data.heatcap || 0) + Bonus.get('deployable_heatcap', owner)
+    this.Repcap = (data.repcap || 0) + Bonus.get('deployable_repcap', owner)
+    this.Sensors = (data.sensor_range || 0) + Bonus.get('deployable_sensor_range', owner)
+    this.TechAttack = (data.tech_attack || 0) + Bonus.get('deployable_tech_attack', owner)
+    this.Save = (data.save || 0) + Bonus.get('deployable_save', owner)
+    this.Speed = (data.speed || 0) + Bonus.get('deployable_speed', owner)
     this._overshield = 0
     this._current_heat = 0
     this._destroyed = false
@@ -146,7 +146,7 @@ class Deployable extends CompendiumItem {
     }
   }
 
-  public static Deserialize(base: IDeployableData, owner: IActor, data: IDeployedData): Deployable {
+  public static Deserialize(base: IDeployableData, owner: Mech, data: IDeployedData): Deployable {
     const d = new Deployable(base, owner)
     d.Name = data.assigned_name
     d.CurrentHP = data.current_hp

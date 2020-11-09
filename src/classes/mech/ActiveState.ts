@@ -6,11 +6,11 @@
 // new ver tutorial on startup (first time only, track in profile)
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import Vue from 'vue'
 import { store } from '@/store'
 import { Mech, Deployable, Pilot, MechEquipment, MechWeapon, Mount, ActivationType } from '@/class'
 import { Action } from '@/interface'
-import { throws } from 'assert'
+import { ICombatLogData } from '../pilot/CombatLog'
+import { IDeployableData } from '../Deployable'
 
 enum Stage {
   Narrative = 'Narrative',
@@ -18,17 +18,9 @@ enum Stage {
   Rest = 'Rest',
 }
 
-interface LogEntry {
-  id: string
-  key: string
-  value: any
-  detail: string
-}
-
 interface IActiveStateData {
   stage: string
   turn: number
-  move: number
   actions: number
   overwatch: boolean
   braced: boolean
@@ -37,7 +29,6 @@ interface IActiveStateData {
   bracedCooldown: boolean
   redundant: boolean
   history: IHistoryItem[]
-  // active_mech_id: string
   mounted: boolean
 }
 
@@ -45,9 +36,10 @@ class ActiveState {
   private _deployed: Deployable[]
   public _stage: Stage
 
-  private _log: LogEntry[] // write this to a pilot log after mission is ended
+  private _log: ICombatLogData[] // write this to a pilot log after mission is ended
 
   private _pilot_mounted: boolean
+  private _pilot_move: number
 
   private _pilot_status: string //enum?
 
@@ -58,15 +50,20 @@ class ActiveState {
   private _encounter: number
 
   private _actions: number
-  private _protocol_available: boolean
 
   private _barrageSelections: MechWeapon[]
   private _barrageMounts: Mount[]
   private _shBarrageSelection: MechWeapon
   private _shBarrageMount: Mount
 
-  private _move: number
-  private _maxMove: number
+  private _stabilizeUndo: {
+    heat: number
+    hp: number
+    reloads: string[]
+    burn: number
+    exposed: boolean
+  }
+
   private _overwatch: boolean
   private _braced: boolean
   private _overcharged: boolean
@@ -80,10 +77,9 @@ class ActiveState {
     this._mech = null
     this._stage = Stage.Narrative
     this._round = 1
-    this._encounter = 0
-    this._move = 0
+    this._encounter = 1
+    this._pilot_move = pilot.Speed
     this._actions = 2
-    this._protocol_available = true
     this._barrageSelections = []
     this._barrageMounts = []
     this._overwatch = false
@@ -93,6 +89,7 @@ class ActiveState {
     this._bracedCooldown = false
     this._redundant = false
     this._history = []
+    this._log = []
   }
 
   private save(): void {
@@ -102,9 +99,8 @@ class ActiveState {
   public newRound(): void {
     this._round += 1
     this._history = []
-    this._move = 0
+    this._pilot_move = this._pilot.Speed
     this._actions = 2
-    this._protocol_available = true
     this._barrageSelections = []
     this._overcharged = false
     this._overwatch = false
@@ -112,7 +108,6 @@ class ActiveState {
     if (this._braced) {
       this._bracedCooldown = true
       this._actions = 1
-      this._move = this._maxMove
       this._braced = false
     } else if (this._bracedCooldown) {
       this._bracedCooldown = false
@@ -122,8 +117,12 @@ class ActiveState {
     }
   }
 
+  public get Move(): number {
+    return !this._pilot_mounted ? this._pilot_move : this._mech.CurrentMove
+  }
+
   public get MaxMove(): number {
-    return this._pilot_mounted ? this._pilot.Speed : this._mech.Speed
+    return !this._pilot_mounted ? this._pilot.Speed : this._mech.Speed
   }
 
   public get Actions(): number {
@@ -135,15 +134,19 @@ class ActiveState {
   }
 
   public get IsProtocolAvailable(): boolean {
-    return this._protocol_available
-  }
-
-  public set IsProtocolAvailable(val: boolean) {
-    this._protocol_available = val
+    return this.Move === this.MaxMove && this.Actions === 2 && !this._overcharged
   }
 
   public get Stage(): Stage {
     return this._stage
+  }
+
+  public get Encounter(): number {
+    return this._encounter
+  }
+
+  public get Round(): number {
+    return this._round
   }
 
   public StartCombat(): void {
@@ -154,15 +157,12 @@ class ActiveState {
     this.save()
   }
 
-  public get Round(): number {
-    return this._round
-  }
-
   public NextRound(): void {
     this._round++
     this._actions = 2
-    this._protocol_available = true
-    //un-'use' all actions/weapons based on frequency
+    this._pilot_move = this._pilot.Speed
+    // TODO: base on freq
+    this.AllActions.forEach(a => a.Reset())
     this._mech.CurrentMove = this._mech.MaxMove
     //if in brace recovery, do so here
     this.save()
@@ -240,8 +240,10 @@ class ActiveState {
   }
 
   // public DestroyMech()
-  // public DestroyReactor()
   // public StartMeltdown()
+  // public DestroyReactor()
+
+  // -- Barrage Staging ---------------------------------------------------------------------------
 
   public get BarrageSelections(): MechWeapon[] {
     return this._barrageSelections
@@ -286,79 +288,376 @@ class ActiveState {
     this._barrageMounts = []
   }
 
+  // -- Actions -----------------------------------------------------------------------------------
+  private get timestamp(): string {
+    const d = new Date()
+    return `${d.getFullYear() + 3000}.${d.getMonth() + 1}.${d
+      .getDate()
+      .toString()
+      .padStart(2, '0')}//${d
+      .getHours()
+      .toString()
+      .padStart(2, '0')}:${d
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}:${d
+      .getMilliseconds()
+      .toString()
+      .padStart(2, '0')}`
+  }
+
+  public SetLog(entry: { id: string; event: string; detail: string }) {
+    this._log.push({
+      id: entry.id,
+      timestamp: this.timestamp,
+      encounter: this._encounter,
+      round: this._round,
+      event: entry.event,
+      detail: entry.detail,
+    })
+  }
+
+  public CommitAction(action: Action, activation: ActivationType) {
+    let activationCost = 0
+    if (activation === ActivationType.Quick) activationCost = 1
+    else if (activation === ActivationType.Full) activationCost = 2
+
+    if (this.Actions >= activationCost) {
+      action.Use()
+      this.Actions -= activationCost
+      if (action.HeatCost) this._mech.CurrentHeat += action.HeatCost
+      this.SetLog({
+        id: action.LogID,
+        event: action.Activation.toUpperCase(),
+        detail: action.Name.toUpperCase(),
+      })
+    }
+
+    if (action.ID === 'act_dismount') this._pilot_mounted = false
+    if (action.ID === 'act_mount') this._pilot_mounted = true
+  }
+
+  public UndoAction(action: Action, activation: ActivationType) {
+    if (activation === ActivationType.Quick) this.Actions += 1
+    else if (activation === ActivationType.Full) this.Actions += 2
+    action.Undo()
+    if (action.HeatCost) this._mech.CurrentHeat -= action.HeatCost
+    const idx = this._log.map(x => x.id === action.LogID).lastIndexOf(true)
+    if (idx > -1) this._log.splice(idx, 1)
+  }
+
+  public SetMove(val: number) {
+    this._mech.CurrentMove = val
+    this.SetLog({
+      id: `set_move`,
+      event: 'MOVE',
+      detail: `${
+        val > 0 ? `FRAME/COMMIT.TAC: ${val} SPACES` : `FRAME/RESCIND.TAC: ${Math.abs(val)} SPACES`
+      }`,
+    })
+  }
+
+  public SetStatusCondition(statuses: string[], isStatus?: boolean) {
+    const scType = isStatus ? 'Statuses' : 'Conditions'
+    if (!statuses.length) {
+      this._mech[scType] = statuses
+      this.SetLog({
+        id: `clear_status`,
+        event: 'STATUS',
+        detail: `FRAME/STATUS.CLEAR ++ALARM.OFF.ALL++`,
+      })
+      return
+    }
+    const added = statuses.find(x => !this._mech[scType].includes(x))
+    const removed = this._mech[scType].find(x => !statuses.includes(x))
+    const sstr = added ? added : removed
+    this._mech[scType] = statuses
+    this.SetLog({
+      id: `set_status`,
+      event: 'STATUS',
+      detail: `${added ? '' : '!ALERT! '}FRAME/STATUS.${sstr.toUpperCase()} ++ALARM.${
+        removed ? 'OFF' : 'ON'
+      }++`,
+    })
+  }
+
+  public SetResistance(resistances: string[]) {
+    if (!resistances.length) {
+      this._mech.Resistances = resistances
+      this.SetLog({
+        id: `clear_resist`,
+        event: 'RESISTANCE',
+        detail: `FRAME/DEF.RES ++RES.END.ALL++`,
+      })
+      return
+    }
+    const added = resistances.find(x => !this._mech.Resistances.includes(x))
+    const removed = this._mech.Resistances.find(x => !resistances.includes(x))
+    const sstr = added ? added : removed
+    this._mech.Resistances = resistances
+    this.SetLog({
+      id: `set_res`,
+      event: 'RESISTANCE',
+      detail: `FRAME/DEF.RES::${sstr.toUpperCase()}${removed ? '++RES.END++' : ''}`,
+    })
+  }
+
+  public SetBurn(val: number) {
+    this._mech.Burn = val
+    this.SetLog({
+      id: `set_burn`,
+      event: 'BURN',
+      detail: `${
+        val > 0
+          ? `!ALERT! FRAME/DMG.ONGOING: ${val} ++ALARM.ON++`
+          : `FRAME/DMG.MITIGATE: ${Math.abs(val)} ${
+              this._mech.Burn > 0 ? '++ALARM.ON++' : '++ALARM.OFF++'
+            }`
+      }`,
+    })
+  }
+
+  public CommitFullRepair() {
+    this._mech.FullRepair()
+    this.SetLog({
+      id: `full_repair`,
+      event: 'FULL REPAIR',
+      detail: `FRAME/ROOT::FULL REPAIR`,
+    })
+  }
+
+  public SetStructure(val: number) {
+    this._mech.CurrentStructure = val
+    const pct = (this._mech.CurrentStructure / this._mech.MaxStructure).toFixed(2)
+    this.SetLog({
+      id: `set_str`,
+      event: 'STRUCTURE DAMAGE',
+      detail: `!CRITICAL! FRAME.STR::INTEGRITY COMPROMISED ++${pct}++`,
+    })
+  }
+
+  public SetStress(val: number) {
+    this._mech.CurrentStress = val
+    const pct = (this._mech.CurrentStress / this._mech.MaxStress).toFixed(2)
+    this.SetLog({
+      id: `set_stress`,
+      event: 'REACTOR STRESS',
+      detail: `!CRITICAL! FRAME.REACTOR::INTEGRITY COMPROMISED ++${pct}++`,
+    })
+  }
+
+  public SetOvershield(val: number) {
+    this._mech.Overshield = val
+    this.SetLog({
+      id: `set_overshield`,
+      event: 'OVERSHIELD',
+      detail: `FRAME.REMOTE::OVERSHIELD.SET ++${val}++`,
+    })
+  }
+
+  public SetHp(val: number) {
+    if (val > this._mech.CurrentHP) {
+      this._mech.CurrentHP = val
+      this.SetLog({
+        id: `rep_dmg`,
+        event: 'REPAIR',
+        detail: `FRAME/REP.PROCESS:: ${val} HP RESTORED`,
+      })
+    } else {
+      const str = this._mech.CurrentStructure
+      this._mech.CurrentHP = val
+      this.SetLog({
+        id: `add_dmg`,
+        event: 'DAMAGE',
+        detail: `!WARN! INC:: ${val} HP DAMAGE`,
+      })
+      if (this._mech.CurrentStructure < str) {
+        const pct = (this._mech.CurrentStructure / this._mech.MaxStructure).toFixed(2)
+        this.SetLog({
+          id: `set_str`,
+          event: 'STRUCTURE DAMAGE',
+          detail: `!CRITICAL! FRAME.STR::INTEGRITY COMPROMISED ++${pct}++`,
+        })
+      }
+    }
+  }
+
+  public SetHeat(val: number) {
+    if (val < this._mech.CurrentHeat) {
+      const dz = this._mech.IsInDangerZone
+      this._mech.CurrentHeat = val
+      this.SetLog({
+        id: `clear_heat`,
+        event: 'CLEAR HEAT',
+        detail: `FRAME/REACTOR.VENT:: ${val} HEAT CLEARED`,
+      })
+      if (dz && !this._mech.IsInDangerZone) {
+        this.SetLog({
+          id: `out_dangerzone`,
+          event: 'HEAT LEVELS NOMINAL',
+          detail: `FRAME/REACTOR:: ++TEMP.OK++`,
+        })
+      }
+    } else {
+      const str = this._mech.CurrentStress
+      this._mech.CurrentHeat = val
+      this.SetLog({
+        id: `add_heat`,
+        event: 'HEAT',
+        detail: `!WARN! FRAME/REACTOR.HEAT_LVL:: ${val} HEAT`,
+      })
+      if (this._mech.IsInDangerZone) {
+        this.SetLog({
+          id: `dangerzone`,
+          event: 'HEAT ALERT',
+          detail: `!ALERT! FRAME/REACTOR:: ++TEMP.CRITICAL++`,
+        })
+      }
+      if (this._mech.CurrentStress < str) {
+        const pct = (this._mech.CurrentStress / this._mech.MaxStress).toFixed(2)
+        this.SetLog({
+          id: `set_stress`,
+          event: 'REACTOR STRESS',
+          detail: `!CRITICAL! FRAME.REACTOR::INTEGRITY COMPROMISED ++${pct}++`,
+        })
+      }
+    }
+  }
+
+  public SetRepCap(val: number) {
+    this._mech.CurrentRepairs = val
+    this.SetLog({
+      id: `set_rep`,
+      event: 'REPAIR CAPACITY',
+      detail: `${
+        val < 0 ? `FRAME/COMMIT.REPAIR: ${val}` : `FRAME/RECOVER.REPAIR: ${Math.abs(val)}`
+      }`,
+    })
+  }
+
+  public SetCorePower(val: number) {
+    this._mech.CurrentCoreEnergy = val
+    this.SetLog({
+      id: `set_core`,
+      event: 'CORE POWER',
+      detail: `${
+        val > 0 ? `FRAME/CORE:: CAPACITY RESTORED` : `!ALERT! FRAME CORE ACTIVATION !ALERT!`
+      }`,
+    })
+  }
+
+  public SetOvercharge(val: number) {
+    const inc = this._mech.CurrentOvercharge < val
+    this._mech.CurrentOvercharge = val
+    this.SetLog({
+      id: `set_oc`,
+      event: 'OVERCHARGE',
+      detail: `${
+        inc
+          ? `!WARN! FRAME/REACTOR.SYS::POWER REROUTE CONFIRM ++HEAT.ALARM.ON++`
+          : `FRAME/REACTOR.SYS::CHARGE PROTOCOL RECOVERY`
+      }`,
+    })
+  }
+
+  public CommitStabilize(major: string, minor: string) {
+    this.Actions -= 2
+    this._stabilizeUndo = {
+      heat: this._mech.CurrentHeat,
+      hp: this._mech.CurrentHP,
+      reloads: this._mech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).map(
+        w => w.ID
+      ),
+      burn: this._mech.Burn,
+      exposed: this._mech.Statuses.includes('EXPOSED'),
+    }
+    let str = 'FRAME.ROOT.DEF//STABILIZE'
+    if (major === 'cool') {
+      str += ' ::REACTOR_VENT'
+      this._mech.CurrentHeat = 0
+      const expIdx = this._mech.Statuses.indexOf('EXPOSED')
+      if (expIdx > -1) this._mech.Statuses.splice(expIdx, 1)
+    } else if (major === 'repair') {
+      str += ' ::REPAIR'
+      this._mech.CurrentRepairs -= 1
+      this._mech.CurrentHP = this._mech.MaxHP
+    }
+
+    if (minor === 'reload') {
+      str += ' ::RELOAD'
+      this._mech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).forEach(
+        w => (w.Loaded = true)
+      )
+    } else if (minor === 'end_burn') {
+      str += ' ::END.BURN'
+      this._mech.Burn = 0
+    } else if (minor === 'end_self_condition') str += ' ::SYS.RESTORE'
+    else if (minor === 'end_ally_condition') str += ' ::REMOTE.ASSIST'
+
+    this.SetLog({
+      id: `stabilize`,
+      event: 'STABILIZE',
+      detail: str,
+    })
+  }
+
+  public UndoStabilize(major: string, minor: string) {
+    this.Actions += 2
+    const idx = this._log.map(x => x.id === 'stabilize').lastIndexOf(true)
+    if (idx > -1) this._log.splice(idx, 1)
+    if (major === 'cool') {
+      this._mech.CurrentHeat = this._stabilizeUndo.heat
+      if (this._stabilizeUndo.exposed) this._mech.Statuses.push('EXPOSED')
+    } else if (major === 'repair') {
+      this._mech.CurrentRepairs += 1
+      this._mech.CurrentHP = this._stabilizeUndo.hp
+    }
+
+    if (minor === 'reload') {
+      this._stabilizeUndo.reloads.forEach(
+        x => (this._mech.ActiveLoadout.Weapons.find(w => w.ID === x).Loaded = false)
+      )
+    } else if (minor === 'end_burn') {
+      this._mech.Burn = this._stabilizeUndo.burn
+    }
+  }
+
+  public LogAttackAction(action: string, weapon: string, damage: number, kill?: boolean) {
+    this.SetLog({
+      id: action,
+      event: weapon.toUpperCase(),
+      detail: `${action.toUpperCase()}//${weapon.toUpperCase()}::${damage} DMG ${
+        kill ? '++KILL CONFIRM++' : ''
+      }`,
+    })
+  }
+
+  public UndoLogAttackAction(action: string, weapon: string) {
+    const idx = this._log
+      .map(x => x.id === action && x.event === weapon.toUpperCase())
+      .lastIndexOf(true)
+    if (idx > -1) this._log.splice(idx, 1)
+  }
+
+  public Deploy(d: IDeployableData) {
+    const n = this._deployed.filter(x => x.BaseName.toLowerCase().includes(d.name.toLowerCase()))
+      .length
+    this._deployed.push(new Deployable(d, this._mech, n))
+    this.SetLog({
+      id: `deploy`,
+      event: 'DEPLOY EQUIPMENT',
+      detail: `FRAME/REMOTE::${d.name.toUpperCase().replace(/\s/g, '.')}.${n} ++STATUS OK++`,
+    })
+  }
+
   restart(): void {
     this._round = 1
     this._history = []
-    this._move = 0
     this._actions = 2
-    this._protocol_available = true
-    this._maxMove = this._mech.Ejected ? this._mech.Pilot.Speed : this._mech.Speed
     this._overcharged = false
     this._prepare = false
     this._braced = false
     this._bracedCooldown = false
-  }
-
-  //undo needs to be able to take a generic action
-  undo(): void {
-    const action = this._history.pop()
-    switch (action.field) {
-      case 'avoid_meltdown':
-        this._mech.MeltdownImminent = true
-      case 'meltdown':
-        this._mech.Destroyed = false
-        this._mech.ReactorDestroyed = false
-      case 'boost':
-        this._maxMove -= this._mech.Ejected ? this._mech.Pilot.Speed : this._mech.Speed
-        if (this._move < this._maxMove) this._move === this._maxMove
-        this._actions += 1
-        break
-      case 'hide':
-        const hidx = this._mech.Statuses.findIndex(x => x === 'Hidden')
-        if (hidx > -1) this._mech.Statuses.splice(hidx, 1)
-        this._actions += 1
-        break
-      case 'dismount':
-        this._actions += 1
-      case 'eject':
-        this._mech.Ejected = false
-        this._actions += 1
-        break
-      case 'remount':
-        this._mech.Ejected = true
-        this._actions += 2
-        break
-      case 'bombard':
-        this._actions += 2
-        const abidx = this._mech.Pilot.Reserves.findIndex(x => x.ID === 'reserve_bombardment')
-        if (abidx > -1) this._mech.Pilot.Reserves[abidx].Used = false
-        break
-      case 'depshield':
-        const dsidx = this._mech.Pilot.Reserves.findIndex(x => x.ID === 'reserve_bombardment')
-        if (dsidx > -1) this._mech.Pilot.Reserves[dsidx].Used = false
-        break
-      case 'corebattery':
-        const cdidx = this._mech.Pilot.Reserves.findIndex(x => x.ID === 'reserve_bombardment')
-        this._mech.CurrentCoreEnergy = 0
-        if (cdidx > -1) this._mech.Pilot.Reserves[cdidx].Used = false
-        break
-      case 'overcharge':
-        this._mech.ReduceHeat(action.val, true)
-        this._actions -= 1
-        break
-      case 'prepare':
-        this._actions += 1
-      case 'shutdown':
-        this._actions += 1
-        const sdidx = this._mech.Statuses.findIndex(x => x === 'SHUT DOWN')
-        if (sdidx > -1) this._mech.Statuses.splice(sdidx, 1)
-      case 'braced':
-        const bidx = this._mech.Resistances.findIndex(x => x === 'Next Attack')
-        if (bidx > -1) this._mech.Resistances.splice(bidx, 1)
-      default:
-        Vue.set(this, action.field, action.val)
-        break
-    }
   }
 
   quickAction() {
@@ -372,8 +671,8 @@ class ActiveState {
     if (this._actions > 0) {
       this._history.push({ field: 'boost' })
       this._actions--
-      this._maxMove += this._mech.Ejected ? this._mech.Pilot.Speed : this._mech.Speed
-      if (this._move < 0) this._move === 0
+      // this._maxMove += this._mech.Ejected ? this._mech.Pilot.Speed : this._mech.Speed
+      // if (this._move < 0) this._move === 0
     }
   }
 
@@ -487,7 +786,7 @@ class ActiveState {
   boot() {
     this.endStatus('SHUT DOWN')
     this.endCondition('STUNNED')
-    this._move = 0
+    // this._move = 0
     this._actions = 0
   }
 
@@ -502,8 +801,10 @@ class ActiveState {
     this._mech.MeltdownImminent = false
   }
 
+  // -- Action Collection -------------------------------------------------------------------------
+
   private get baseActions(): Action[] {
-    return store.getters.getItemCollection('Actions')
+    return store.getters.getItemCollection('Actions').filter(x => x)
   }
 
   public BaseActions(type: string): Action[] {
@@ -571,11 +872,28 @@ class ActiveState {
     return out.filter(x => !exclude.some(y => y === x.Name.toUpperCase()))
   }
 
+  // interface ICombatLogData {
+  //   date: string
+  //   mission: number
+  //   encounter: number
+  //   turn: number
+  //   round: number
+  //   event: string
+  //   detail: string
+  // }
+
+  // -- Log ---------------------------------------------------------------------------------------
+  public get Log() {
+    return this._log
+  }
+
+  // -- I/O ---------------------------------------------------------------------------------------
+
   public static Serialize(s: ActiveState): IActiveStateData {
     return {
       stage: s._stage,
       turn: s._round,
-      move: s._move,
+      // move: s.Move,
       actions: s._actions,
       overwatch: s._overwatch,
       braced: s._braced,
@@ -590,11 +908,10 @@ class ActiveState {
 
   public static Deserialize(pilot: Pilot, data: IActiveStateData): ActiveState {
     const s = new ActiveState(pilot)
-    s._stage = data.stage as Stage
-    s._round = data.turn
-    s._move = data.move
-    s._actions = data.actions
-    s._overwatch = data.overwatch
+    s._stage = (data.stage as Stage) || Stage.Narrative
+    s._round = data.turn || 1
+    s._actions = data.actions || 2
+    s._overwatch = data.overwatch || false
     s._braced = data.braced
     s._overcharged = data.overcharged
     s._prepare = data.prepare

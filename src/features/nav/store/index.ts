@@ -24,13 +24,14 @@ export class NavStore extends VuexModule {
 
   public Errors: IErrorReport[] = []
 
-  @Mutation
-  public [LOG_ERROR](error: IErrorReport) {
-    this.Errors = [error, ...this.Errors]
-  }
+  // TODO: set prod only
+  // @Mutation
+  // public [LOG_ERROR](error: IErrorReport) {
+  //   this.Errors = [error, ...this.Errors]
+  // }
 
-  @Action({ commit: LOG_ERROR })
-  public logError(error: IErrorReport) {
-    return error
-  }
+  // @Action({ commit: LOG_ERROR })
+  // public logError(error: IErrorReport) {
+  //   return error
+  // }
 }

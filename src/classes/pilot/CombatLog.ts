@@ -1,8 +1,7 @@
 interface ICombatLogData {
-  date: string
-  mission: number
+  id: string
+  timestamp: string
   encounter: number
-  turn: number
   round: number
   event: string
   detail: string

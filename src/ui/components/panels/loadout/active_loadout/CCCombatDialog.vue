@@ -1,5 +1,13 @@
 <template>
-  <component :is="component" v-if="component" ref="c" :mech="mech" :action="action" />
+  <component
+    :is="component"
+    v-if="component"
+    ref="c"
+    :mech="mech"
+    :action="action"
+    @use="$emit('use', $event)"
+    @reset="$emit('reset', $event)"
+  />
 </template>
 
 <script lang="ts">

@@ -25,6 +25,7 @@ abstract class MechEquipment extends LicensedItem {
   public readonly IsLoading: boolean
   public readonly IsAI: boolean
   public readonly IsIndestructible: boolean
+  public readonly IsIndestructible: boolean
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
 
@@ -33,10 +34,10 @@ abstract class MechEquipment extends LicensedItem {
     this.SP = data.sp || 0
     this.Effect = data.effect
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated')
-    this._uses = 0
     this._destroyed = false
     this._cascading = false
     this._loaded = true
+    this._used = false
     if (data.tags) {
       const ltd = data.tags.find(x => x.id === 'tg_limited')
       this.IsLimited = !!ltd
@@ -50,6 +51,33 @@ abstract class MechEquipment extends LicensedItem {
     } else {
       this._max_uses = 0
     }
+    this._uses = this._max_uses
+  }
+
+  public Use(cost?: number): void {
+    if (!this.CheckUsable(cost)) return
+    this._used = true
+    if (this.IsLoading) this._loaded = false
+    if (this.IsLimited && cost) this.Uses -= cost
+  }
+
+  public Undo(cost?: number): void {
+    if (cost) this.Uses += cost
+    if (this.IsLoading) this._loaded = true
+    this._used = false
+  }
+
+  public Reset(): void {
+    this._used = false
+  }
+
+  public CheckUsable(cost?: number): boolean {
+    if (this.Destroyed) return false
+    if (this.IsLoading && !this._loaded) return false
+    if (this.IsCascading) return false
+    if (this.IsLimited && this.Uses === 0) return false
+    if (this.IsLimited && cost && this.Uses < cost) return false
+    return !this._used
   }
 
   public get Used(): boolean {

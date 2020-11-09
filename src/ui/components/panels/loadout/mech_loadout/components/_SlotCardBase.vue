@@ -58,8 +58,19 @@
               </v-row>
               <v-row no-gutters class="mr-3 mt-n2">
                 <v-col cols="auto">
-                  <cc-tags small :tags="item.Tags" :color="color" />
-                  <cc-tags v-if="item.Mod" small :tags="item.Mod.AddedTags" color="mod darken-2" />
+                  <cc-tags
+                    small
+                    :tags="item.Tags"
+                    :color="color"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
+                  <cc-tags
+                    v-if="item.Mod"
+                    small
+                    :tags="item.Mod.AddedTags"
+                    color="mod darken-2"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
                 </v-col>
                 <v-spacer />
                 <v-col cols="auto">

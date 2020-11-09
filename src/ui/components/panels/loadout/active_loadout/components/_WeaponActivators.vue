@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="mb-n1">
     <v-row v-if="item.Size === 'Superheavy'">
       <v-col>
         <v-btn
           tile
           block
-          color="action--full"
-          :disabled="!!barrageCount"
+          dark
+          :color="soloBarrageDisabled ? 'grey darken-2' : `action--full`"
           @click="setBarrage(item, mount)"
         >
           <v-icon left>mdi-hexagon-slice-6</v-icon>
@@ -33,7 +33,15 @@
     </v-row>
     <v-row v-else dense>
       <v-col>
-        <v-btn tile block color="action--quick" @click="$refs.sk_dialog.show()">
+        <v-btn
+          tile
+          block
+          dark
+          :color="
+            mech.Pilot.State.Actions < 1 || !item.CanSkirmish ? 'grey darken-2' : `action--quick`
+          "
+          @click="$refs.sk_dialog.show()"
+        >
           <v-icon left>mdi-hexagon-slice-3</v-icon>
           skirmish
           <v-menu offset-y max-width="700px">
@@ -57,6 +65,7 @@
         <v-btn
           tile
           block
+          dark
           :color="barrageToggle ? 'secondary' : 'action--full'"
           :disabled="barrageDisabled"
           @click="setBarrage(item, mount)"
@@ -139,7 +148,14 @@ export default Vue.extend({
     barrageToggle() {
       return this.state.BarrageSelections.some(x => x === this.item)
     },
+    soloBarrageDisabled() {
+      if (!this.item.CanBarrage) return true
+      if (this.mech.Pilot.State.Actions < 2) return true
+      return !!this.barrageCount
+    },
     barrageDisabled() {
+      if (!this.item.CanBarrage) return true
+      if (this.mech.Pilot.State.Actions < 2) return true
       if (this.item.Size === WeaponSize.Superheavy) return this.barrageCount > 0
       return !this.barrageToggle && this.barrageCount === 2
     },

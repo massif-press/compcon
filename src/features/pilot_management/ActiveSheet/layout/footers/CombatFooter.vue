@@ -80,6 +80,7 @@
           :base-actions="state.BaseActions('Protocol')"
           :item-actions="state.ItemActions('Protocol')"
           :mech="pilot.ActiveMech"
+          :available="state.IsProtocolAvailable"
           :color="state.IsProtocolAvailable ? 'action--protocol' : 'grey darken-1'"
           title="PROTOCOLS"
           @open-menu="openMenu(0)"
@@ -102,7 +103,8 @@
           :base-actions="state.BaseActions('Full')"
           :item-actions="state.ItemActions('Full')"
           :mech="pilot.ActiveMech"
-          color="action--full"
+          :available="state.Actions > 1"
+          :color="state.Actions > 1 ? 'action--full' : 'grey darken-1'"
           title="FULL ACTIONS"
           @open-menu="openMenu(1)"
           @open-dialog="openDialog($event)"
@@ -116,7 +118,8 @@
           :base-actions="state.BaseActions('Quick')"
           :item-actions="state.ItemActions('Quick')"
           :mech="pilot.ActiveMech"
-          color="action--quick"
+          :color="state.Actions > 0 ? 'action--quick' : 'grey darken-1'"
+          :available="state.Actions > 0"
           title="QUICK ACTIONS"
           @open-menu="openMenu(2)"
           @open-dialog="openDialog($event)"
@@ -131,6 +134,7 @@
           :item-actions="state.ItemActions('Reaction')"
           :mech="pilot.ActiveMech"
           color="action--reaction"
+          available
           title="REACTIONS"
           @open-menu="openMenu(3)"
           @open-dialog="openDialog($event)"
@@ -144,6 +148,7 @@
           :base-actions="state.BaseActions('Free')"
           :item-actions="state.ItemActions('Free')"
           :mech="pilot.ActiveMech"
+          available
           color="action--free"
           title="FREE ACTIONS"
           @open-menu="openMenu(4)"
@@ -195,7 +200,7 @@ export default vueMixins(activePilot).extend({
   name: 'combat-footer',
   components: { MoveMenuButton, ActionMenuButton, ActionMenu },
   data: () => ({
-    menuTab: 0,
+    menuTab: 1,
     ecDialog: false,
     roundConfirm: false,
   }),

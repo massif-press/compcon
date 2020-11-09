@@ -30,9 +30,7 @@ export default class CCTag extends Vue {
   @Prop({ type: Object, required: false, default: null })
   readonly pilot?: Pilot
 
-  get bonus(): number {
-    if (!this.pilot) return 0
-    else return this.pilot.LimitedBonus
-  }
+  @Prop({ type: Number, required: false, default: 0 })
+  readonly bonus?: number
 }
 </script>

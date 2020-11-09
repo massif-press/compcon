@@ -285,7 +285,7 @@
               <span class="heading h3">
                 Overcharge&nbsp;
                 <span class="text-center overcharge--text font-weight-bold">
-                  {{ overcharge[mech.CurrentOvercharge] }}
+                  {{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
                 </span>
               </span>
             </cc-tick-bar>
@@ -479,7 +479,6 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],
     resistances: [
       { name: 'Kinetic', color: 'kinetic' },
       { name: 'Energy', color: 'energy' },

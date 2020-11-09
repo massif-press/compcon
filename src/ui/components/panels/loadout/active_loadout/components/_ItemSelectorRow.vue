@@ -5,7 +5,7 @@
         x-large
         block
         tile
-        :color="selected ? 'secondary' : item.Color"
+        :color="item.Used ? 'grey darken-2' : selected ? 'secondary' : color ? color : item.Color"
         :disabled="disabled"
         @click="$emit('click')"
       >
@@ -37,6 +37,11 @@ export default Vue.extend({
     },
     disabled: {
       type: Boolean,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '',
     },
   },
 })

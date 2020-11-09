@@ -12,7 +12,7 @@ interface IBonusData {
 
 class Bonus {
   public readonly ID: string
-  public readonly Value: string | number
+  public readonly Value: string | number | string[]
   public readonly Title: string | number
   public readonly Detail: string | number
   public readonly DamageTypes: DamageType[]
@@ -57,6 +57,7 @@ class Bonus {
   }
 
   public static Evaluate(bonus: Bonus, pilot: Pilot): number {
+    if (Array.isArray(bonus.Value)) return
     if (typeof bonus.Value === 'number') return Math.ceil(bonus.Value)
     let valStr = bonus.Value
     valStr = valStr.replaceAll(`{ll}`, pilot.Level.toString())
@@ -70,6 +71,10 @@ class Bonus {
       (sum, bonus) => sum + this.Evaluate(bonus, mech.Pilot),
       0
     )
+  }
+
+  public static getUneval(id: string, mech: Mech): any {
+    return mech.Bonuses.filter(x => x.ID === id)
   }
 
   public static getPilot(id: string, pilot: Pilot): number {

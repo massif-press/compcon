@@ -21,8 +21,8 @@
           :item="item"
           :mech="mech"
           improv
-          @confirm="attackConfirm"
-          @reset="attackUndo"
+          @confirm="attackConfirm($event)"
+          @reset="attackUndo()"
         />
       </v-card-text>
       <v-slide-y-reverse-transition>
@@ -52,10 +52,15 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    action: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     dialog: false,
     complete: false,
+    activation: null,
   }),
   computed: {
     item(): MechWeapon {
@@ -88,11 +93,22 @@ export default Vue.extend({
     },
   },
   methods: {
-    attackConfirm() {
+    attackConfirm(atk: any) {
+      console.log(atk)
       this.complete = true
+      this.activation = atk.activation
+      this.mech.Pilot.State.CommitAction(this.action, atk.activation)
+      this.mech.Pilot.State.LogAttackAction(
+        'IMPROVISED ATTACK',
+        atk.activation.toUpperCase(),
+        atk.damage,
+        atk.kill
+      )
     },
     attackUndo() {
       this.complete = false
+      this.mech.Pilot.State.UndoAction(this.action, this.activation)
+      this.mech.Pilot.State.UndoLogAttackAction('IMPROVISED ATTACK', this.activation.toUpperCase())
     },
     reset() {
       this.$refs.main.reset()

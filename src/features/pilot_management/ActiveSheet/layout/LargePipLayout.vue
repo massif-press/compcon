@@ -9,7 +9,7 @@
           large
           color="action--move"
           full-icon="mdi-arrow-right-bold-hexagon-outline"
-          @update="mech.Move($event)"
+          @update="state.SetMove($event)"
         >
           <span class="heading h3">
             Movement
@@ -33,7 +33,7 @@
           color="structure"
           full-icon="cci-structure"
           :class="{ rolledOver: structRollover }"
-          @update="mech.CurrentStructure = $event"
+          @update="state.SetStructure($event)"
         >
           <span class="heading h3">
             Structure
@@ -68,8 +68,8 @@
           large
           color="hp"
           :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
-          max-length="30"
-          @update="mech.CurrentHP = $event"
+          :max-length="$vuetify.breakpoint.xl ? 35 : 25"
+          @update="state.SetHp($event)"
         >
           <span class="heading h3">HP</span>
         </cc-tick-bar>
@@ -87,7 +87,7 @@
           :full-icon="'mdi-octagram'"
           max-length="6"
           hide-max
-          @update="mech.Overshield = $event"
+          @update="state.SetOvershield($event)"
         >
           <span class="heading h3">OVERSHIELD: {{ mech.Overshield }}</span>
         </cc-tick-bar>
@@ -107,7 +107,7 @@
           color="stress"
           full-icon="cci-reactor"
           :class="{ rolledOver: stressRollover }"
-          @update="mech.CurrentStress = $event"
+          @update="state.SetStress($event)"
         >
           <span class="heading h3">Reactor</span>
         </cc-tick-bar>
@@ -124,7 +124,7 @@
           :color="mech.IsInDangerZone ? 'dangerzone' : 'heatcap'"
           :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
           clearable
-          @update="mech.CurrentHeat = $event"
+          @update="state.SetHeat($event)"
         >
           <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
             HEAT
@@ -154,12 +154,37 @@
           large
           color="repcap"
           full-icon="cci-repair"
-          @update="mech.CurrentRepairs = $event"
+          @update="state.SetRepCap($event)"
         >
           <span class="heading h3">
             REPAIR CAPACITY
           </span>
         </cc-tick-bar>
+      </v-col>
+      <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display large location="overcharge" :mech="mech" class="d-inline" />
+        </v-col>
+        <cc-tick-bar
+          :key="mech.CurrentOvercharge"
+          :current="mech.CurrentOvercharge"
+          :max="3"
+          large
+          no-input
+          clearable
+          color="overcharge"
+          full-icon="mdi-alert-decagram"
+          class="text-center"
+          hide-values
+          @update="state.SetOvercharge($event)"
+        >
+          <span class="heading h3">
+            Overcharge
+          </span>
+        </cc-tick-bar>
+        <div class="text-center caption overcharge--text font-weight-bold">
+          {{ mech.OverchargeTrack()[mech.CurrentOvercharge] }}
+        </div>
       </v-col>
       <v-col cols="auto">
         <v-col cols="auto" align-self="end" class="ma-0 pa-0">
@@ -177,7 +202,7 @@
           empty-icon="mdi-battery-10"
           full-icon="mdi-battery"
           hide-values
-          @update="mech.CurrentCoreEnergy = $event"
+          @update="state.SetCorePower($event)"
         >
           <span class="heading h3">CORE POWER</span>
         </cc-tick-bar>
@@ -189,31 +214,6 @@
         </div>
         <div v-else class="text-center caption subtle--text">
           EXHAUSTED
-        </div>
-      </v-col>
-      <v-col cols="auto">
-        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-          <cc-synergy-display large location="overcharge" :mech="mech" class="d-inline" />
-        </v-col>
-        <cc-tick-bar
-          :key="mech.CurrentOvercharge"
-          :current="mech.CurrentOvercharge"
-          :max="3"
-          large
-          no-input
-          clearable
-          color="overcharge"
-          full-icon="mdi-alert-decagram"
-          class="text-center"
-          hide-values
-          @update="mech.CurrentOvercharge = $event"
-        >
-          <span class="heading h3">
-            Overcharge
-          </span>
-        </cc-tick-bar>
-        <div class="text-center caption overcharge--text font-weight-bold">
-          {{ overcharge[mech.CurrentOvercharge] }}
         </div>
       </v-col>
     </v-row>
@@ -234,10 +234,8 @@ export default Vue.extend({
     hpResistance: { type: Boolean },
   },
   computed: {
-    overcharge(): string[] {
-      return this.mech.Pilot.has('corebonus', 'cb_heatfall_coolant_system')
-        ? [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6']
-        : [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4']
+    state() {
+      return this.mech.Pilot.State
     },
   },
 })

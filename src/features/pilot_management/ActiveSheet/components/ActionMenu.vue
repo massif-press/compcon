@@ -102,12 +102,18 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>combat log</v-card-text>
+          <v-card-text><combat-log-renderer :log="pilot.State.Log" /></v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text>List of other options</v-card-text>
+          <v-card-text>
+            <v-row justify="center" no-gutters class="mt-n2">
+              <v-col cols="auto">
+                <v-checkbox color="accent" label="Enable Active Mode Tutorial" dense hide-details />
+              </v-col>
+            </v-row>
+          </v-card-text>
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -118,12 +124,13 @@
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 import ActionMenuItem from './ActionMenuItem.vue'
+import CombatLogRenderer from './CombatLogRenderer.vue'
 
 export default vueMixins(activePilot).extend({
   name: 'active-action-menu',
-  components: { ActionMenuItem },
+  components: { ActionMenuItem, CombatLogRenderer },
   props: {
-    tab: { type: Number, required: true },
+    tab: { type: Number, required: true, default: 1 },
   },
   data: () => ({
     selected: 0,

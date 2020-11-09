@@ -13,9 +13,9 @@
     <div v-else>
       <h3 class="heading accent--text">
         <v-icon v-if="$vuetify.breakpoint.mdAndDown" class="mt-n1" :color="color">label</v-icon>
-        {{ tag.GetName() }}
+        {{ tag.GetName(bonus) }}
       </h3>
-      <p class="text--text body-text pb-0 mb-0" v-html="tag.GetDescription()" />
+      <p class="text--text body-text pb-0 mb-0" v-html="tag.GetDescription(bonus)" />
     </div>
   </v-alert>
 </template>
@@ -30,5 +30,7 @@ export default class CCExtendedTag extends Vue {
   readonly tag: Tag
   @Prop({ type: String, required: false, default: 'active' })
   readonly color: string
+  @Prop({ type: Number, required: false, default: 0 })
+  readonly bonus?: number
 }
 </script>

@@ -232,11 +232,14 @@
                   block
                   :disabled="attackFree || !attackRoll"
                   :color="
-                    `${crit ? 'secondary' : 'action--quick'} ${attackQuick ? 'lighten-1' : ''}`
+                    `${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
+                      attackQuick ? 'lighten-1' : ''
+                    }`
                   "
                   @click="attackQuick = !attackQuick"
                 >
-                  <v-icon left>mdi-hexagon-slice-3</v-icon>
+                  <v-icon v-if="improv" left>mdi-hexagon-slice-6</v-icon>
+                  <v-icon v-else left>mdi-hexagon-slice-3</v-icon>
                   Attack
                 </v-btn>
                 <v-btn
@@ -256,6 +259,9 @@
                     <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
                   </cc-tooltip>
                 </v-btn>
+                <div v-if="item.ProfileHeatCost" class="overline error--text text-center">
+                  ALERT: This action will incur {{ item.ProfileHeatCost }} heat
+                </div>
               </v-col>
             </v-row>
           </v-col>
@@ -469,6 +475,10 @@ each source of damage is used.`
             <cc-slashes />
             <span v-if="finalDamage">{{ finalDamage }} DMG</span>
             <span v-if="kill">KILL CONFIRM</span>
+            <span v-if="item.ProfileHeatCost">
+              <br />
+              ALERT: REACTOR HEAT LEVELS INCREASING
+            </span>
             <cc-tooltip inline content="Undo this attack, refunding any actions it may have cost">
               <v-btn x-small color="primary" class="fadeSelect" @click="reset">
                 <v-icon small left>mdi-reload</v-icon>
@@ -509,6 +519,7 @@ export default Vue.extend({
     },
     aux: { type: Boolean },
     improv: { type: Boolean },
+    barrage: { type: Boolean },
   },
   data: () => ({
     tab: 0,
@@ -617,7 +628,7 @@ export default Vue.extend({
         if (this.rollAccuracyResults.length)
           str += ` <span class="subtle--text">[${this.rollAccuracyResults.join(', ')}]</span>`
         str += '</div>'
-      }
+      } else str += '<div><br></div>'
       return str
     },
     damageRollString() {
@@ -630,9 +641,8 @@ export default Vue.extend({
     },
     damageRollTooltip() {
       let str = this.damageRollString
-      if (this.damageResultString) {
-        str += `<div class="overline my-n2">Last Roll:</div><div class="caption ml-3">${this.damageResultString}</div>`
-      }
+      str += `<div class="overline my-n2">Last Roll:</div><div class="caption ml-3">${this
+        .damageResultString || '--'}</div>`
       return str
     },
     summedDamage() {
@@ -653,7 +663,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.reset()
+    this.init()
   },
   methods: {
     rollAttack(): void {
@@ -688,11 +698,25 @@ export default Vue.extend({
         hit: this.hit,
         damage: this.summedDamage,
         kill: this.kill,
-        activation: this.attackQuick ? ActivationType.Quick : ActivationType.Free,
+        activation: this.improv
+          ? ActivationType.Full
+          : this.attackQuick
+          ? ActivationType.Quick
+          : ActivationType.Free,
       }
+      let cost = 1
+      if (this.item.SkirmishCost) cost = this.item.SkirmishCost
+      if (this.barrage && this.item.BarrageCost) cost = this.item.BarrageCost
+      this.item.Use(cost)
+      console.log(this.item.ProfileHeatCost)
+      this.mech.CurrentHeat += this.item.ProfileHeatCost
       this.$emit('confirm', actionObj)
     },
-    reset(): void {
+    reset() {
+      this.init()
+      this.$emit('reset')
+    },
+    init(): void {
       this.accuracy += this.minAccuracy
       this.difficulty += this.minDifficulty
       this.attackRoll = null
@@ -707,7 +731,6 @@ export default Vue.extend({
       this.bonusDamage = null
       this.kill = false
       this.confirmed = false
-      this.$emit('reset')
     },
   },
 })

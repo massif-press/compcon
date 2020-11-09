@@ -23,6 +23,7 @@ class Tag {
   public readonly IsRecharging: boolean
   public readonly IsIndestructible: boolean
   public readonly IsSmart: boolean
+  public readonly IsHeatCost: boolean
   private _name: string
   private _val: number | string
   private _description: string
@@ -43,6 +44,7 @@ class Tag {
     this.IsRecharging = this.ID === 'tg_recharge'
     this.IsIndestructible = this.ID === 'tg_indestructible'
     this.IsSmart = this.ID === 'tg_smart'
+    this.IsHeatCost = this.ID === 'tg_heat_self'
   }
 
   public get Name(): string {
@@ -66,7 +68,14 @@ class Tag {
     if (this.ID === 'tg_limited') bonus = addBonus || 0
     if (!this._val) return this._description
     if (typeof this._val === 'number') {
-      return this._description.replace(/{VAL}/g, (this._val + bonus).toString())
+      return this._description.replace(
+        /{VAL}/g,
+        bonus
+          ? `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
+              this._val
+            } + ${bonus} bonus)</span>`
+          : this._val.toString()
+      )
     } else {
       const str = this._val as string
       if (str.includes('+')) {

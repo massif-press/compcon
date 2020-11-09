@@ -6,7 +6,7 @@
         small
         fab
         elevation="0"
-        :color="mech.CurrentMove < 1 ? 'grey darken-1' : 'action--move'"
+        :color="state.Move < 1 ? 'grey darken-1' : 'action--move'"
         v-on="on"
       >
         <v-icon color="white" size="30">mdi-arrow-right-bold-hexagon-outline</v-icon>
@@ -15,15 +15,15 @@
     <div>
       <v-card class="px-4 py-2" dense color="panel">
         <cc-tick-bar
-          :key="mech.CurrentMove"
-          :current="mech.CurrentMove"
-          :max="mech.MaxMove"
+          :key="state.Move"
+          :current="state.Move"
+          :max="state.MaxMove"
           large
           color="action--move"
           bg-color="panel lighten-1"
           full-icon="mdi-arrow-right-bold-hexagon-outline"
           empty-icon="mdi-hexagon-outline"
-          @update="mech.Move($event)"
+          @update="mech.Pilot.State.SetMove($event)"
         >
           <span class="heading h3">Movement</span>
         </cc-tick-bar>
@@ -54,6 +54,9 @@ export default Vue.extend({
   computed: {
     boost() {
       return this.mech.Pilot.State.BaseActions('Quick').find(x => x.ID === 'act_boost')
+    },
+    state() {
+      return this.mech.Pilot.State
     },
   },
 })

@@ -40,7 +40,7 @@ class CoreSystem {
   public readonly ActiveBonuses: Bonus[]
   public readonly ActiveSynergies: Synergy[]
   public readonly Deactivation?: ActivationType
-  public readonly Use: Duration
+  public readonly Duration: Duration
   public readonly PassiveName: string
   public readonly PassiveEffect: string
   public readonly PassiveActions: Action[]
@@ -50,6 +50,7 @@ class CoreSystem {
   public readonly Counters: ICounterData[]
   private _integrated: string[]
   private _tags: ITagData[]
+  private _used: boolean
 
   private generateActivateAction(): Action {
     return new Action(
@@ -77,7 +78,7 @@ class CoreSystem {
       ? data.active_synergies.map(x => new Synergy(x, 'Frame CORE System (Active)'))
       : []
     if (data.deactivation) this.Deactivation = data.deactivation
-    this.Use = data.use ? (data.use as Duration) : Duration.Mission
+    this.Duration = data.use ? (data.use as Duration) : Duration.Mission
     this.PassiveName = data.passive_name || ''
     this.PassiveEffect = data.passive_effect || ''
     this.PassiveActions = data.passive_actions ? data.passive_actions.map(x => new Action(x)) : []
@@ -90,6 +91,22 @@ class CoreSystem {
     this._integrated = data.integrated ? data.integrated : []
     this._tags = data.tags
     this.ActivateAction = this.generateActivateAction()
+  }
+
+  public get Used(): boolean {
+    return this._used
+  }
+
+  public Use(): void {
+    this._used = true
+  }
+
+  public Reset(): void {
+    this._used = false
+  }
+
+  public Undo(): void {
+    this._used = false
   }
 
   public get IntegratedEquipment(): MechEquipment[] {

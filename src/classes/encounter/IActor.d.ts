@@ -26,4 +26,5 @@ declare interface IActor {
   Icon: string
   NewTurn: () => void
   FullRepair: () => void
+  Bonuses?: any[]
 }
