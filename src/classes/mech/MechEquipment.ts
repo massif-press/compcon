@@ -25,7 +25,6 @@ abstract class MechEquipment extends LicensedItem {
   public readonly IsLoading: boolean
   public readonly IsAI: boolean
   public readonly IsIndestructible: boolean
-  public readonly IsIndestructible: boolean
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
 
