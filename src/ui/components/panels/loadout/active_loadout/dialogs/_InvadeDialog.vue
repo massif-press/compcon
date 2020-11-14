@@ -261,7 +261,6 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash'
 import { ActivationType, DiceRoller } from '@/class'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
@@ -374,6 +373,8 @@ export default Vue.extend({
       this.dialog = true
     },
     hide(): void {
+      const activation = this.actionCost ? this.action.Activation : ActivationType.Free
+      this.$emit('close', activation)
       this.dialog = false
     },
   },

@@ -53,8 +53,8 @@
       </v-card-actions>
     </v-card>
 
-    <w-barrage-dialog ref="b_dialog" :mech="mech" @close="hide()" />
-    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" @close="hide()" />
+    <w-barrage-dialog ref="b_dialog" :mech="mech" @close="completeBarrage()" />
+    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" @close="completeBarrage()" />
   </v-dialog>
 </template>
 
@@ -65,7 +65,7 @@ import WBarrageDialog from './_SelBarrageDialog.vue'
 import ShBarrageDialog from './_SelSHBarrageDialog.vue'
 
 import Vue from 'vue'
-import { WeaponSize } from '@/class'
+import { ActivationType, WeaponSize } from '@/class'
 
 export default Vue.extend({
   name: 'barrage-dialog',
@@ -105,6 +105,12 @@ export default Vue.extend({
           }
         }
       }
+    },
+    completeBarrage() {
+      this.state.CommitAction(this.action, ActivationType.Full)
+    },
+    undoBarrage() {
+      this.state.UndoAction(this.action, ActivationType.Full)
     },
     show(): void {
       this.dialog = true

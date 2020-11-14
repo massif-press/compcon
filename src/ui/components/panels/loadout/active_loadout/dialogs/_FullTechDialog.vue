@@ -66,7 +66,7 @@
           <v-row v-if="quick.length === 2" dense justify="center">
             <v-col lg="6" md="10" xs="12">
               <v-btn block x-large color="primary" :disabled="finished" @click="complete()">
-                CONFIRM
+                {{ !finished ? 'CONFIRM' : 'ACTION CONFIRMED' }}
               </v-btn>
             </v-col>
           </v-row>
@@ -76,7 +76,7 @@
           <v-row v-if="finished">
             <v-col cols="auto" class="ml-auto">
               <cc-tooltip content="Undo this action, refunding any cost it may have had">
-                <v-btn x-small color="primary" class="fadeSelect" @click="unro()">
+                <v-btn x-small color="primary" class="fadeSelect" @click="undo()">
                   <v-icon small left>mdi-reload</v-icon>
                   UNDO
                 </v-btn>
@@ -147,14 +147,12 @@ export default Vue.extend({
   methods: {
     complete() {
       this.finished = true
-      this.action.Use()
       this.mech.Pilot.State.CommitAction(this.action, ActivationType.Full)
     },
     undo() {
       this.quick = []
       this.selected = null
       this.finished = false
-      this.action.Undo()
       this.mech.Pilot.State.UndoAction(this.action, ActivationType.Full)
     },
     addQuick(action) {

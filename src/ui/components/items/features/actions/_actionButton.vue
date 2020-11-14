@@ -61,6 +61,7 @@ export default vueMixins(activePilot).extend({
       default: 2,
     },
     disabled: { type: Boolean },
+    unusable: { type: Boolean },
   },
   computed: {
     cost() {
@@ -69,7 +70,7 @@ export default vueMixins(activePilot).extend({
       return 0
     },
     usable() {
-      return this.action.Used || this.activations < this.cost
+      return this.unusable || this.action.Used || this.activations < this.cost
     },
   },
 })

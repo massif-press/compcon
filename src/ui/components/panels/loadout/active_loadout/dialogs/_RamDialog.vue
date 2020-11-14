@@ -214,7 +214,7 @@
       </v-card-text>
 
       <v-slide-y-reverse-transition>
-        <div v-if="complete">
+        <div v-if="succeeded || failed">
           <v-divider />
           <v-card-actions>
             <v-spacer />
@@ -228,6 +228,7 @@
 
 <script lang="ts">
 import { DiceRoller } from '@/class'
+import { ActivationType } from '@/classes/enums'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 
@@ -298,6 +299,10 @@ export default Vue.extend({
     },
     select(action) {
       this.runTimeout()
+      this.mech.Pilot.State.CommitAction(
+        this.action,
+        this.actionFree ? ActivationType.Free : ActivationType.Quick
+      )
       return !action
     },
     rollSkill(): void {
@@ -312,6 +317,10 @@ export default Vue.extend({
       this.attackRoll = roll.total
     },
     reset() {
+      this.mech.Pilot.State.UndoAction(
+        this.action,
+        this.actionFree ? ActivationType.Free : ActivationType.Quick
+      )
       this.accuracy = 0
       this.difficulty = 0
       this.attackRoll = ''

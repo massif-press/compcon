@@ -11,8 +11,8 @@
         :style="pilot ? 'border-color: var(--v-pilot-base)' : ''"
       >
         <v-expansion-panel-header class="px-2">
-          <v-row dense>
-            <v-col cols="3" dense>
+          <v-row no-gutters>
+            <v-col cols="3">
               <div class="centered text-left pl-2">
                 <span class="stat-text">{{ skill.Trigger }}</span>
                 <div v-if="bonus">
@@ -23,15 +23,15 @@
                 </div>
               </div>
             </v-col>
-            <v-col cols="9" dense>
+            <v-col cols="9" align-self="center">
               <span class="body-text pl-2">{{ skill.Description }}</span>
             </v-col>
           </v-row>
         </v-expansion-panel-header>
         <v-expansion-panel-content v-if="skill.Detail">
-          <v-row dense>
-            <v-col offset="3" dense>
-              <p class="pb-2 text-left flavor-text mb-0">{{ skill.Detail }}</p>
+          <v-row no-gutters>
+            <v-col offset="3">
+              <p class="text-left flavor-text mb-0">{{ skill.Detail }}</p>
             </v-col>
           </v-row>
         </v-expansion-panel-content>

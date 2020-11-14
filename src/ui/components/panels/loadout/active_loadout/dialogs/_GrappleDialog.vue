@@ -212,7 +212,7 @@
           </v-row>
         </v-slide-x-reverse-transition>
         <v-slide-x-reverse-transition>
-          <v-row v-if="finished" no-gutters>
+          <v-row v-if="succeeded || failed" no-gutters>
             <v-col cols="auto" class="ml-auto">
               <cc-tooltip content="Undo this action, refunding any cost it may have had">
                 <v-btn x-small color="primary" class="fadeSelect" @click="reset">
@@ -239,7 +239,7 @@
 </template>
 
 <script lang="ts">
-import { DiceRoller } from '@/class'
+import { ActivationType, DiceRoller } from '@/class'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 
@@ -305,6 +305,10 @@ export default Vue.extend({
     },
     select(action) {
       this.runTimeout()
+      this.mech.Pilot.State.CommitAction(
+        this.action,
+        this.actionFree ? ActivationType.Free : ActivationType.Quick
+      )
       return !action
     },
     rollSkill(): void {
@@ -319,6 +323,10 @@ export default Vue.extend({
       this.attackRoll = roll.total
     },
     reset() {
+      this.mech.Pilot.State.UndoAction(
+        this.action,
+        this.actionFree ? ActivationType.Free : ActivationType.Quick
+      )
       this.accuracy = 0
       this.difficulty = 0
       this.attackRoll = ''

@@ -5,7 +5,15 @@
         x-large
         block
         tile
-        :color="item.Used ? 'grey darken-2' : selected ? 'secondary' : color ? color : item.Color"
+        :color="
+          item.Used || (item.ItemType === 'MechWeapon' && !item.Loaded)
+            ? 'grey darken-2'
+            : selected
+            ? 'secondary'
+            : color
+            ? color
+            : item.Color
+        "
         :disabled="disabled"
         @click="$emit('click')"
       >

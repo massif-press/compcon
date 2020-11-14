@@ -24,6 +24,7 @@
               v-for="(a, j) in actions[k]"
               :key="`action_${j}`"
               :item="a"
+              color="action--quick"
               @click="activate(a)"
             />
           </div>
@@ -43,8 +44,8 @@
         <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
       </v-card-actions>
     </v-card>
-    <item-dialog ref="i_dialog" :mech="mech" :action="selected" @close="hide()" />
-    <invade-dialog ref="inv_dialog" :mech="mech" :action="selected" @close="hide()" />
+    <item-dialog ref="i_dialog" :mech="mech" :action="selected" @close="commitAction($event)" />
+    <invade-dialog ref="inv_dialog" :mech="mech" :action="selected" @close="commitAction($event)" />
   </v-dialog>
 </template>
 
@@ -88,6 +89,10 @@ export default Vue.extend({
     this.selected = this.action
   },
   methods: {
+    commitAction(a) {
+      this.state.CommitAction(this.action, a.Activation)
+      this.hide()
+    },
     activate(action) {
       this.selected = action
       if (this.selected.ID === 'act_invade') this.$refs.inv_dialog.show()

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{ cs }} -->
     <span class="heading h2 text--text">{{ cs.Name }}</span>
     <p class="flavor-text px-3" v-html="cs.Description" />
 
@@ -17,12 +18,6 @@
             />
           </v-col>
         </v-row>
-        <!-- <cc-bonus v-for="(b, i) in cs.PassiveBonuses" :key="`${cs.Name}_bonus_${i}`" :bonus="b" />
-        <cc-synergy
-          v-for="(s, i) in cs.PassiveSynergies"
-          :key="`${cs.Name}_synergy_${i}`"
-          :synergy="s"
-        /> -->
       </div>
     </div>
 
@@ -31,7 +26,9 @@
         <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-chip v-if="cs.Use !== 'Mission'" small label outlined>{{ cs.Use.toUpperCase() }}</v-chip>
+        <v-chip v-if="cs.Duration !== 'Mission'" small label outlined>
+          {{ cs.Duration.toUpperCase() }}
+        </v-chip>
         <v-chip small label dark :color="`action--${cs.Activation.toLowerCase()}`">
           {{ cs.Activation.toUpperCase() }}
         </v-chip>
@@ -46,18 +43,6 @@
         :panel="$vuetify.breakpoint.lgAndUp"
         class="ma-2"
       />
-      <!-- <cc-bonus
-        v-for="(b, i) in cs.ActiveBonuses"
-        :key="`${cs.Name}_bonus_${i}`"
-        :bonus="b"
-        :panel="$vuetify.breakpoint.lgAndUp"
-      />
-      <cc-synergy
-        v-for="(s, i) in cs.ActiveSynergies"
-        :key="`${cs.Name}_synergy_${i}`"
-        :synergy="s"
-        :panel="$vuetify.breakpoint.lgAndUp"
-      /> -->
     </div>
 
     <span v-if="cs.IntegratedEquipment.length || cs.Deployables.length" class="heading sub">

@@ -64,6 +64,8 @@ class ActiveState {
     exposed: boolean
   }
 
+  private _overchargeUndo: string[]
+
   private _overwatch: boolean
   private _braced: boolean
   private _overcharged: boolean
@@ -137,6 +139,10 @@ class ActiveState {
     return this.Move === this.MaxMove && this.Actions === 2 && !this._overcharged
   }
 
+  public get IsBraceCooldown(): boolean {
+    return this._bracedCooldown
+  }
+
   public get Stage(): Stage {
     return this._stage
   }
@@ -159,12 +165,16 @@ class ActiveState {
 
   public NextRound(): void {
     this._round++
-    this._actions = 2
+    if (this._bracedCooldown) this._bracedCooldown = false
+    if (this._braced) this._braced = true
+    this._actions = this._braced ? 1 : 2
     this._pilot_move = this._pilot.Speed
     // TODO: base on freq
     this.AllActions.forEach(a => a.Reset())
-    this._mech.CurrentMove = this._mech.MaxMove
-    //if in brace recovery, do so here
+    this.AllBaseTechActions.forEach(a => a.Reset())
+    this._mech.ActiveLoadout.Equipment.forEach(e => e.Reset())
+    this._mech.CurrentMove = this._braced ? 0 : this._mech.MaxMove
+    this._braced = false
     this.save()
   }
 
@@ -333,8 +343,16 @@ class ActiveState {
       })
     }
 
+    if (action.ID === 'act_brace') this._braced = true
     if (action.ID === 'act_dismount') this._pilot_mounted = false
     if (action.ID === 'act_mount') this._pilot_mounted = true
+    if (action.ID === 'act_hide') {
+      if (!this._mech.Statuses.includes('HIDDEN')) this._mech.Statuses.push('HIDDEN')
+    }
+    if (action.ID === 'act_eject') {
+      if (!this._mech.Conditions.includes('IMPAIRED')) this._mech.Statuses.push('IMPAIRED')
+      this._pilot_mounted = false
+    }
   }
 
   public UndoAction(action: Action, activation: ActivationType) {
@@ -344,6 +362,19 @@ class ActiveState {
     if (action.HeatCost) this._mech.CurrentHeat -= action.HeatCost
     const idx = this._log.map(x => x.id === action.LogID).lastIndexOf(true)
     if (idx > -1) this._log.splice(idx, 1)
+
+    if (action.ID === 'act_brace') this._braced = false
+    if (action.ID === 'act_dismount') this._pilot_mounted = true
+    if (action.ID === 'act_mount') this._pilot_mounted = false
+    if (action.ID === 'act_hide') {
+      if (this._mech.Statuses.includes('HIDDEN'))
+        this._mech.Statuses.splice(this._mech.Statuses.indexOf('HIDDEN'), 1)
+    }
+    if (action.ID === 'act_eject') {
+      if (this._mech.Conditions.includes('IMPAIRED'))
+        this._mech.Conditions.splice(this._mech.Conditions.indexOf('IMPAIRED'), 1)
+      this._pilot_mounted = false
+    }
   }
 
   public SetMove(val: number) {
@@ -622,6 +653,41 @@ class ActiveState {
     }
   }
 
+  public ClearBurn() {
+    this._mech.Burn = 0
+  }
+
+  public TakeBurn() {
+    this._mech.AddDamage(this._mech.Burn)
+  }
+
+  public CommitOvercharge(action: Action, heat: number) {
+    this._overchargeUndo = []
+    this.AllActions.concat(this.TechActions).forEach(a => {
+      if (a.Used) this._overchargeUndo.push(a.ID)
+      a.Reset()
+    })
+    this.CommitAction(action, ActivationType.Free)
+    this.Actions += 1
+    this._mech.AddHeat(heat)
+    if (this._mech.CurrentOvercharge < this._mech.OverchargeTrack.length)
+      this._mech.CurrentOvercharge += 1
+  }
+
+  public UndoOvercharge(action: Action, heat: number) {
+    this.AllActions.forEach(a => {
+      if (this._overchargeUndo.includes(a.ID)) a.Use()
+    })
+    this.TechActions.forEach(a => {
+      if (this._overchargeUndo.includes(a.ID)) a.Use()
+    })
+    this.UndoAction(action, ActivationType.Free)
+    this._overchargeUndo = []
+    this.Actions -= 1
+    this._mech.ReduceHeat(heat)
+    if (this._mech.CurrentOvercharge > 0) this._mech.CurrentOvercharge -= 1
+  }
+
   public LogAttackAction(action: string, weapon: string, damage: number, kill?: boolean) {
     this.SetLog({
       id: action,
@@ -739,12 +805,6 @@ class ActiveState {
     this._history.push({ field: 'prepare', val: false })
     this._prepare = true
     this._actions -= 1
-  }
-
-  setBrace() {
-    this._history.push({ field: 'braced', val: false })
-    if (!this._mech.Resistances.includes('Next Attack')) this._mech.Resistances.push('Next Attack')
-    this._braced = true
   }
 
   setOverwatch() {
