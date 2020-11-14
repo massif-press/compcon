@@ -51,6 +51,11 @@
           <span class="stat-text">{{ speed }}</span>
         </v-col>
       </v-row>
+      <v-row no-gutters class="mt-n3">
+        <v-col cols="auto" class="ml-auto mr-4 mt-n2">
+          <cc-tags small :tags="item.Tags" color="secondary" />
+        </v-col>
+      </v-row>
     </div>
     <v-card-text slot="selector">
       <cc-selector-table no-filter :items="getArmor()" :headers="headers" @equip="equip($event)">

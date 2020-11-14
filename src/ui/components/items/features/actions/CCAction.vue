@@ -3,6 +3,7 @@
     :is="cType"
     :action="action"
     :activations="activations"
+    :unusable="unusable"
     :disabled="disabled"
     @use="$emit('use', $event)"
     @reset="$emit('reset', $event)"
@@ -34,6 +35,9 @@ export default Vue.extend({
       type: Boolean,
     },
     disabled: {
+      type: Boolean,
+    },
+    unusable: {
       type: Boolean,
     },
     activations: {

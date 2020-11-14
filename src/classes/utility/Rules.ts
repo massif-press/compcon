@@ -1,5 +1,4 @@
 import { rules } from 'lancer-data'
-import { Action } from '@/interface'
 
 export class Rules {
   public static get BaseStructure(): number {
@@ -86,11 +85,7 @@ export class Rules {
     return rules.mount_fittings
   }
 
-  public static Overcharge(): string[] {
+  public static get Overcharge(): string[] {
     return rules.overcharge
-  }
-
-  public static BaseProtocols(): Action[] {
-    return []
   }
 }

@@ -1,24 +1,40 @@
 <template>
-  <v-dialog v-model="dialog" scrollable width="50vw" transition="dialog-transition">
+  <v-dialog v-model="dialog" width="60vw">
     <v-card>
       <v-toolbar flat dense dark color="damage--burn" class="heading h2">Burn</v-toolbar>
-      <v-card-text class="pb-0 text-center">
+      <v-card-text class="text-center">
         <div class="heading h3 font-weight-bold stark--text mt-2">
-          <cc-slashes />
-          Your mech has been inflicted with
+          <span class="subtle--text">FRAME.ALERT::</span>
+          mech has been inflicted with
           <span class="damage--burn--text">{{ mech.Burn }} Burn</span>
-          <cc-slashes />
         </div>
         <p class="my-2 body-text text--text">
           Make an
           <b>ENGINEERING</b>
-          check to clear the current
-          <span class="damage--burn--text">Burn</span>
-          , or suffer
+          check to clear the current Burn , or suffer
           <span class="damage--burn--text">{{ mech.Burn }} Damage</span>
         </p>
-        <v-row dense justify="center">
-          <v-col cols="6">
+        <v-row justify="center" class="text-center">
+          <v-col lg="auto" md="12" class="mt-n5">
+            <v-row dense class="text-center mb-n3" justify="start" align="start">
+              <v-col cols="auto" class="mx-8">
+                <div class="overline mb-n2">Engineering Roll</div>
+                <div class="heading text--text" style="font-size: 24pt;">
+                  <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
+                  + {{ mech.Eng }}
+                  <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
+                </div>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col cols="auto" class="mr-2">
+            <cc-tooltip title="Roll Engineering Check" :content="rollTooltip">
+              <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollCheck">
+                <v-icon large>mdi-dice-multiple</v-icon>
+              </v-btn>
+            </cc-tooltip>
+          </v-col>
+          <v-col cols="auto">
             <v-text-field
               v-model="roll"
               type="number"
@@ -27,10 +43,7 @@
               dense
               hide-details
               class="flavor-text"
-              append-outer-icon="mdi-plus-circle-outline"
-              prepend-icon="mdi-minus-circle-outline"
-              @click:append-outer="roll++"
-              @click:prepend="roll > 0 ? roll-- : ''"
+              style="width: 300px"
             />
           </v-col>
         </v-row>
@@ -69,6 +82,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { DiceRoller } from '@/class'
+
 export default Vue.extend({
   name: 'burn-dialog',
   props: {
@@ -81,13 +96,24 @@ export default Vue.extend({
     roll: null,
     dialog: false,
   }),
+  computed: {
+    rollTooltip() {
+      if (this.roll) return `${this.roll} + ${this.mech.Eng}`
+      return ''
+    },
+  },
   methods: {
+    rollCheck() {
+      this.roll = DiceRoller.rollToHit(this.mech.Eng).total
+    },
     show() {
       this.dialog = true
     },
     complete(success) {
-      if (success) this.mech.Burn = 0
+      if (success) this.mech.Pilot.State.ClearBurn()
+      else this.mech.Pilot.State.TakeBurn()
       this.$emit('complete')
+      this.roll = null
       this.dialog = false
     },
   },

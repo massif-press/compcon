@@ -1,7 +1,14 @@
 <template>
   <v-menu offset-y top>
     <template v-slot:activator="{ on }">
-      <v-btn class="mx-1" small fab elevation="0" :color="color" v-on="on">
+      <v-btn
+        class="mx-1"
+        small
+        fab
+        elevation="0"
+        :color="available ? color : 'grey darken-2'"
+        v-on="on"
+      >
         <slot name="icon" />
       </v-btn>
     </template>

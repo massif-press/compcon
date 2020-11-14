@@ -19,6 +19,14 @@
       <v-col cols="auto" align-self="end">
         <cc-synergy-display large location="move" :mech="mech" class="d-inline" />
       </v-col>
+      <v-col cols="auto" align-self="center" class="ml-auto text-center">
+        <fieldset class="ma-0 py-0 px-3" style="height: 100%;">
+          <legend class="overline px-1 mb-n1" style="line-height: 0">
+            Active Effects
+          </legend>
+          <cc-synergy-display large location="active_effects" :mech="mech" />
+        </fieldset>
+      </v-col>
     </v-row>
     <v-row align="start" class="mt-n3 mx-2">
       <v-col cols="auto" align-self="end" class="ma-0 pa-0">
@@ -183,7 +191,7 @@
           </span>
         </cc-tick-bar>
         <div class="text-center caption overcharge--text font-weight-bold">
-          {{ mech.OverchargeTrack()[mech.CurrentOvercharge] }}
+          {{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
         </div>
       </v-col>
       <v-col cols="auto">

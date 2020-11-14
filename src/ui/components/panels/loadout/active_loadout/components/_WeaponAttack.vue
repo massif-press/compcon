@@ -708,12 +708,13 @@ export default Vue.extend({
       if (this.item.SkirmishCost) cost = this.item.SkirmishCost
       if (this.barrage && this.item.BarrageCost) cost = this.item.BarrageCost
       this.item.Use(cost)
-      console.log(this.item.ProfileHeatCost)
       this.mech.CurrentHeat += this.item.ProfileHeatCost
+      this.mech.Pilot.State.LogAttackAction('ATTACK', this.item.Name, this.summedDamage, this.kill)
       this.$emit('confirm', actionObj)
     },
     reset() {
       this.init()
+      this.mech.Pilot.State.UndoLogAttackAction('ATTACK', this.item.Name)
       this.$emit('reset')
     },
     init(): void {

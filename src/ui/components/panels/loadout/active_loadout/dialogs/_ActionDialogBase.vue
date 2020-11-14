@@ -186,8 +186,9 @@ export default Vue.extend({
       this.dialog = true
     },
     hide(): void {
+      const activation = this.actionCost ? this.action.Activation : ActivationType.Free
+      this.$emit('close', activation)
       this.dialog = false
-      this.$emit('close')
     },
   },
 })

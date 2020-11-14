@@ -67,7 +67,7 @@
         content="
         next round warning
       "
-        @confirm="nextRound()"
+        @confirm="stageNextRound()"
       />
     </v-menu>
 
@@ -134,7 +134,7 @@
           :item-actions="state.ItemActions('Reaction')"
           :mech="pilot.ActiveMech"
           color="action--reaction"
-          available
+          :available="!state.IsBraceCooldown"
           title="REACTIONS"
           @open-menu="openMenu(3)"
           @open-dialog="openDialog($event)"
@@ -142,13 +142,12 @@
           <v-icon slot="icon" color="white" size="35">cci-reaction</v-icon>
         </action-menu-button>
       </cc-tooltip>
-
       <cc-tooltip inline content="Free Actions" delayed>
         <action-menu-button
           :base-actions="state.BaseActions('Free')"
           :item-actions="state.ItemActions('Free')"
           :mech="pilot.ActiveMech"
-          available
+          :available="!state.IsBraceCooldown"
           color="action--free"
           title="FREE ACTIONS"
           @open-menu="openMenu(4)"
@@ -186,6 +185,7 @@
     <cc-solo-dialog ref="actionMenu" no-confirm title="Actions" large no-title-clip>
       <action-menu :tab="menuTab" />
     </cc-solo-dialog>
+    <burn-dialog ref="burnDialog" :mech="mech" @close="nextRound()" />
   </v-footer>
 </template>
 
@@ -193,12 +193,13 @@
 import ActionMenuButton from '../../components/ActionMenuButton.vue'
 import MoveMenuButton from '../../components/MoveMenuButton.vue'
 import ActionMenu from '../../components/ActionMenu.vue'
+import BurnDialog from '../../components/BurnDialog.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
   name: 'combat-footer',
-  components: { MoveMenuButton, ActionMenuButton, ActionMenu },
+  components: { MoveMenuButton, ActionMenuButton, ActionMenu, BurnDialog },
   data: () => ({
     menuTab: 1,
     ecDialog: false,
@@ -213,6 +214,10 @@ export default vueMixins(activePilot).extend({
     },
   },
   methods: {
+    stageNextRound() {
+      if (this.mech.Burn) this.$refs.burnDialog.show()
+      else this.nextRound()
+    },
     nextRound() {
       this.state.NextRound()
       this.roundConfirm = false

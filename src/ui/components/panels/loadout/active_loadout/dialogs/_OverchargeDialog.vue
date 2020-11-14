@@ -5,7 +5,7 @@
     :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
     width="90vw"
   >
-    <v-card tile class="background">
+    <v-card :key="action.Used" tile class="background">
       <cc-titlebar large color="overcharge">
         <v-icon x-large>cci-overcharge</v-icon>
         Overcharge
@@ -26,7 +26,7 @@
         <div class="text-center heading h3 pb-0 mt-4 mb-2">
           Overcharging will incur
           <span class="red--text text--darken-2">
-            +{{ overcharge_levels[mech.CurrentOvercharge] }} Heat
+            +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }} Heat
           </span>
         </div>
         <v-row v-if="!flat" justify="center">
@@ -59,7 +59,7 @@
               large
               color="overcharge"
               block
-              :disabled="actionFree || (!flat && !overcharge_heat)"
+              :disabled="action.Used || (!flat && !overcharge_heat)"
               @click="select()"
             >
               <v-icon large left>cci-overcharge</v-icon>
@@ -67,10 +67,21 @@
             </v-btn>
           </v-col>
         </v-row>
+        <v-slide-x-reverse-transition>
+          <v-row v-if="action.Used" no-gutters>
+            <v-col cols="auto" class="ml-auto">
+              <cc-tooltip content="Undo this action, refunding any cost it may have had">
+                <v-btn x-small color="primary" class="fadeSelect" @click="reset">
+                  <v-icon small left>mdi-reload</v-icon>
+                  UNDO
+                </v-btn>
+              </cc-tooltip>
+            </v-col>
+          </v-row>
+        </v-slide-x-reverse-transition>
       </v-card-text>
-
       <v-slide-y-reverse-transition>
-        <div v-if="finished">
+        <div v-if="action.Used">
           <v-divider />
           <v-card-actions>
             <v-spacer />
@@ -105,20 +116,18 @@ export default Vue.extend({
   data: () => ({
     dialog: false,
     expanded: false,
-    actionFree: false,
     timer: 0,
     finished: false,
     overcharge_heat: null,
-    overcharge_levels: [1, '1d3', '1d6', '1d6+4'],
   }),
   computed: {
     flat() {
-      return typeof this.overcharge_levels[this.mech.CurrentOvercharge] === 'number'
+      return typeof parseInt(this.mech.OverchargeTrack[this.mech.CurrentOvercharge]) === 'number'
     },
   },
   methods: {
     rollOvercharge(): void {
-      const roll = DiceRoller.rollDamage(this.overcharge_levels[this.mech.CurrentOvercharge])
+      const roll = DiceRoller.rollDamage(this.mech.OverchargeTrack[this.mech.CurrentOvercharge])
       this.overcharge_heat = roll.total
     },
     runTimeout() {
@@ -134,19 +143,22 @@ export default Vue.extend({
       }, 80)
     },
     select() {
-      this.actionFree = true
+      this.mech.Pilot.State.CommitOvercharge(this.action, this.overcharge_heat)
+      this.$forceUpdate()
       this.runTimeout()
     },
     reset() {
-      this.actionFree = false
+      this.mech.Pilot.State.UndoOvercharge(this.action, this.overcharge_heat)
       this.finished = false
       this.timer = 0
       this.overcharge_heat = null
+      this.$forceUpdate()
     },
     show(): void {
       this.dialog = true
     },
     hide(): void {
+      this.overcharge_heat = null
       this.dialog = false
       this.$emit('close')
     },

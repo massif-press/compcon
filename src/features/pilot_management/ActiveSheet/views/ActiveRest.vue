@@ -106,6 +106,9 @@
       </div>
     </div>
     <v-divider class="my-4" />
+    <div class="text-center">
+      <cc-active-synergy :locations="['rest']" :mech="mech" />
+    </div>
     <span v-if="!mech.Destroyed && !mech.ReactorDestroyed" class="overline">
       FIELD REPAIR INTERFACE
       <v-btn small right icon class="fadeSelect" @click="showRepair = !showRepair">

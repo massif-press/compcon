@@ -23,6 +23,7 @@
               v-for="(w, j) in m.Weapons.filter(x => x.Size !== 'Superheavy' && !x.Destroyed)"
               :key="`weap_${j}`"
               :item="w"
+              color="action--quick"
               @click="skirmish(w, m)"
             />
           </div>
@@ -41,7 +42,7 @@
       :mech="mech"
       :item="selected"
       :mount="selectedMount"
-      @close="hide()"
+      @close="completeSkirmish()"
     />
   </v-dialog>
 </template>
@@ -52,6 +53,7 @@ import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
 import WSkirmishDialog from './_SelSkirmishDialog.vue'
 
 import Vue from 'vue'
+import { ActivationType } from '@/classes/enums'
 
 export default Vue.extend({
   name: 'skirmish-dialog',
@@ -77,6 +79,10 @@ export default Vue.extend({
     },
   },
   methods: {
+    completeSkirmish() {
+      this.state.CommitAction(this.action, ActivationType.Quick)
+      this.hide()
+    },
     skirmish(item, mount) {
       this.selected = item
       this.selectedMount = mount

@@ -199,7 +199,7 @@
             <v-icon size="120" color="frame" style="z-index:2">{{ mech.SizeIcon }}</v-icon>
             <div
               v-if="mech.Size > 0.5"
-              style="background-color: white; position: absolute; bottom: 20px; top: 20px; left:20px;right:20px; border-radius:50%; z-index:1"
+              style="background-color: white; position: absolute; bottom: 21px; top: 21px; left:21px;right:21px; border-radius:50%; z-index:1"
             />
           </div>
         </v-col>
@@ -363,8 +363,6 @@
       </v-row>
 
       <active-mode-loadout :mech="mech" />
-
-      <deployed-block />
     </div>
   </div>
 </template>
@@ -377,8 +375,6 @@ import LargePipLayout from './LargePipLayout.vue'
 import MedPipLayout from './MedPipLayout.vue'
 import SmallPipLayout from './SmallPipLayout.vue'
 import ActiveModeLoadout from './ActiveModeLoadout.vue'
-import DeployedBlock from './DeployedBlock.vue'
-
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 export default vueMixins(activePilot).extend({
@@ -389,7 +385,6 @@ export default vueMixins(activePilot).extend({
     MedPipLayout,
     SmallPipLayout,
     ActiveModeLoadout,
-    DeployedBlock,
   },
   data: () => ({
     showTalents: true,
