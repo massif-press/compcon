@@ -191,7 +191,7 @@
           </span>
         </cc-tick-bar>
         <div class="text-center caption overcharge--text font-weight-bold">
-          {{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
+          +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
         </div>
       </v-col>
       <v-col cols="auto">

@@ -2,50 +2,15 @@
   <v-alert v-if="show" :color="color" dense dark class="ma-0">
     <v-icon slot="prepend" x-large class="ml-n2 mr-2" color="white">{{ icon }}</v-icon>
     <div class="heading h2">
-      <span v-if="type === 'ejected'">ALERT: PILOT EJECTED</span>
-      <span v-else-if="type === 'destroyed'">MECH DESTROYED</span>
-      <span v-else-if="type === 'meltdown'">DANGER: REACTOR MELTDOWN IMMINENT</span>
-      <span v-else-if="type === 'reactorDestroyed'">REACTOR DESTROYED</span>
+      <span v-if="type === 'destroyed'">MECH DESTROYED</span>
       <span v-else-if="type === 'cascading'">DANGER: UNSHACKLED NHP</span>
       <span v-else-if="type === 'overSP'">ALERT: SYSTEM CAPACITY EXCEEDED</span>
       <span v-else-if="type === 'unfinished'">WARNING: EMPTY MOUNTS DETECTED</span>
       <span v-else-if="type === 'underSP'">WARNING: SYSTEM CAPACITY REMAINING</span>
       <span v-else-if="type === 'unlicensed'">WARNING: UNLICENSED EQUIPMENT DETECTED</span>
     </div>
-    <div v-if="!hideClear">
-      <v-btn v-if="type === 'ejected'" block small outlined dark @click="$emit('clear-ejected')">
-        <v-icon left>cci-pilot</v-icon>
-        Confirm Pilot has re-boarded mech
-      </v-btn>
-      <v-btn
-        v-else-if="type === 'destroyed'"
-        block
-        small
-        outlined
-        dark
-        @click="$emit('clear-status')"
-      >
-        <v-icon left>cci-mech</v-icon>
-        Repair Mech
-      </v-btn>
-      <v-btn
-        v-else-if="type === 'meltdown'"
-        block
-        small
-        outlined
-        dark
-        @click="$emit('clear-status')"
-      >
-        Vent Reactor
-      </v-btn>
-      <v-btn
-        v-else-if="type === 'reactorDestroyed'"
-        block
-        small
-        outlined
-        dark
-        @click="$emit('clear-status')"
-      >
+    <div v-if="!hideClear" class="mt-1">
+      <v-btn v-if="type === 'destroyed'" block small outlined dark @click="$emit('reprint')">
         <v-icon left>cci-mech</v-icon>
         Reprint Mech
       </v-btn>
@@ -94,9 +59,6 @@ export default class CCMechStatusAlert extends Vue {
   }
   get icon() {
     switch (this.type) {
-      case 'ejected':
-        return 'mdi-account-off-outline'
-        break
       case 'destroyed':
         return 'mdi-image-broken-variant'
         break
@@ -134,10 +96,9 @@ export default class CCMechStatusAlert extends Vue {
         return 'dangerzone'
         break
       case 'reactorDestroyed':
-        return 'accent darken-1'
+        return 'error darken-1'
         break
       case 'overSP':
-      case 'ejected':
       case 'unlicensed':
         return 'warning darken-1'
         break

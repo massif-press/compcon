@@ -25,6 +25,7 @@ abstract class MechEquipment extends LicensedItem {
   public readonly IsLoading: boolean
   public readonly IsAI: boolean
   public readonly IsIndestructible: boolean
+  public readonly IsOrdnance: boolean
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
 
@@ -45,6 +46,7 @@ abstract class MechEquipment extends LicensedItem {
       this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
       this.IsAI = data.tags.some(x => x.id === 'tg_ai')
       this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructable')
+      this.IsOrdnance = data.tags.some(x => x.id === 'tg_ordnance')
       this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
       this.CanSetUses = data.tags.some(x => x.id === 'tg_set_max_uses')
     } else {
@@ -71,7 +73,6 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public CheckUsable(cost?: number): boolean {
-    if (this.Destroyed) return false
     if (this.IsLoading && !this._loaded) return false
     if (this.IsCascading) return false
     if (this.IsLimited && this.Uses === 0) return false

@@ -44,7 +44,6 @@ interface IMechData {
   resistances: string[]
   reactions: string[]
   burn: number
-  ejected: boolean
   destroyed: boolean
   defeat: string
   activations: number
@@ -81,7 +80,6 @@ class Mech implements IActor {
   private _conditions: string[]
   private _resistances: string[]
   private _reactions: string[]
-  private _ejected: boolean
   private _destroyed: boolean
   private _defeat: string
   private _reactor_destroyed: boolean
@@ -110,7 +108,6 @@ class Mech implements IActor {
     this._resistances = []
     this._reactions = []
     this._burn = 0
-    this._ejected = false
     this._destroyed = false
     this._defeat = ''
     this._reactor_destroyed = false
@@ -739,6 +736,7 @@ class Mech implements IActor {
   }
 
   public get CurrentMove(): number {
+    if (this.IsStunned || this.Destroyed) return 0
     return this._currentMove
   }
 
@@ -748,6 +746,7 @@ class Mech implements IActor {
   }
 
   public get MaxMove(): number {
+    if (this.IsStunned || this.Destroyed) return 0
     return this.Speed
   }
 
@@ -778,10 +777,7 @@ class Mech implements IActor {
   // -- Statuses and Conditions -------------------------------------------------------------------
   public get StatusString(): string[] {
     const out = []
-    if (this.ReactorDestroyed) out.push('reactorDestroyed')
     if (this.Destroyed) out.push('destroyed')
-    if (this.Ejected) out.push('ejected')
-    if (this.MeltdownImminent) out.push('meltdown')
     if (this.ActiveLoadout.Systems.filter(x => x.IsCascading).length) out.push('cascading')
     if (this.FreeSP < 0) out.push('overSP')
     if (this.FreeSP > 0) out.push('underSP')
@@ -799,31 +795,18 @@ class Mech implements IActor {
     this.save()
   }
 
+  public get IsDestroyed(): boolean {
+    return this._destroyed
+  }
+
   public get Destroyed(): boolean {
+    if (this._reactor_destroyed) return true
     return this._destroyed
   }
 
   public set Destroyed(b: boolean) {
     this._destroyed = b
     this._defeat = b ? 'Destroyed' : ''
-    this.save()
-  }
-
-  public get Ejected(): boolean {
-    return this._ejected
-  }
-
-  public set Ejected(b: boolean) {
-    this._ejected = b
-    this.save()
-  }
-
-  public get MeltdownImminent(): boolean {
-    return this._meltdown_imminent
-  }
-
-  public set MeltdownImminent(meltdown: boolean) {
-    this._meltdown_imminent = meltdown
     this.save()
   }
 
@@ -866,12 +849,24 @@ class Mech implements IActor {
   }
 
   public get Conditions(): string[] {
+    if (this.IsShutDown && !this.IsStunned) this._conditions.push('STUNNED')
     return this._conditions
   }
 
   public set Conditions(conditions: string[]) {
     this._conditions = conditions
     this.save()
+  }
+
+  public AddCondition(condition: string): void {
+    const stidx = this.Conditions.findIndex(x => x === condition)
+    if (stidx === -1) this.Conditions.push(condition)
+  }
+
+  public RemoveCondition(condition: string): void {
+    if (condition.toLowerCase() === 'stunned' && this.IsShutDown) return
+    const stidx = this.Conditions.findIndex(x => x === condition)
+    if (stidx > -1) this.Conditions.splice(stidx, 1)
   }
 
   public get Statuses(): string[] {
@@ -881,6 +876,16 @@ class Mech implements IActor {
   public set Statuses(statuses: string[]) {
     this._statuses = statuses
     this.save()
+  }
+
+  public AddStatus(status: string): void {
+    const stidx = this.Statuses.findIndex(x => x === status)
+    if (stidx === -1) this.Statuses.push(status)
+  }
+
+  public RemoveStatus(status: string): void {
+    const stidx = this.Statuses.findIndex(x => x === status)
+    if (stidx > -1) this.Statuses.splice(stidx, 1)
   }
 
   public get Resistances(): string[] {
@@ -904,6 +909,8 @@ class Mech implements IActor {
 
   // -- Active Mode Utilities ---------------------------------------------------------------------
   public FullRepair(): void {
+    this._destroyed = false
+    this._reactor_destroyed = false
     this.CurrentStructure = this.MaxStructure
     this.CurrentHP = this.MaxHP
     this.CurrentStress = this.MaxStress
@@ -921,10 +928,7 @@ class Mech implements IActor {
     this._conditions = []
     this._resistances = []
     this.Burn = 0
-    this._destroyed = false
     this._defeat = ''
-    this._reactor_destroyed = false
-    this._meltdown_imminent = false
     this.save()
   }
 
@@ -1039,12 +1043,10 @@ class Mech implements IActor {
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
-    // console.log(this.features('IntegratedWeapons'))
     return this.features('IntegratedWeapons')
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    // console.log(this.features('IntegratedSystems'))
     return this.features('IntegratedSystems')
   }
   // -- I/O ---------------------------------------------------------------------------------------
@@ -1074,7 +1076,6 @@ class Mech implements IActor {
       resistances: m._resistances,
       reactions: m._reactions,
       burn: m._burn,
-      ejected: m._ejected,
       destroyed: m._destroyed,
       defeat: m._defeat,
       activations: m._activations,
@@ -1122,11 +1123,9 @@ class Mech implements IActor {
     m._resistances = data.resistances || []
     m._reactions = data.reactions || []
     m._burn = data.burn || 0
-    m._ejected = data.ejected || false
     m._destroyed = data.destroyed || false
     m._defeat = data.defeat || ''
     m._activations = data.activations || 1
-    m._meltdown_imminent = data.meltdown_imminent || false
     m._reactor_destroyed = data.reactor_destroyed || false
     m._core_active = data.core_active || false
     m._cc_ver = data.cc_ver || ''

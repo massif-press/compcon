@@ -14,6 +14,7 @@ abstract class PilotEquipment extends CompendiumItem {
   protected _destroyed: boolean
   protected _cascading: boolean
   protected _loaded: boolean
+  protected _used: boolean
   protected max_use_override: number
   private _max_uses: number
   public readonly SP: number
@@ -24,12 +25,13 @@ abstract class PilotEquipment extends CompendiumItem {
   public readonly IsLoading: boolean
   public readonly IsAI: boolean
   public readonly IsIndestructible: boolean
+  public readonly IsOrdnance: boolean
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
 
   public constructor(data: IPilotEquipmentData) {
     super(data)
-    this._uses = 0
+    this._used = false
     this._destroyed = false
     this._cascading = false
     this._loaded = true
@@ -41,11 +43,46 @@ abstract class PilotEquipment extends CompendiumItem {
       this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
       this.IsAI = data.tags.some(x => x.id === 'tg_ai')
       this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructable')
+      this.IsOrdnance = data.tags.some(x => x.id === 'tg_ordnance')
       this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
       this.CanSetUses = data.tags.some(x => x.id === 'tg_set_max_uses')
     } else {
       this._max_uses = 0
     }
+    this._uses = this._max_uses
+  }
+
+  public Use(cost?: number): void {
+    if (!this.CheckUsable(cost)) return
+    this._used = true
+    if (this.IsLoading) this._loaded = false
+    if (this.IsLimited && cost) this.Uses -= cost
+  }
+
+  public Undo(cost?: number): void {
+    if (cost) this.Uses += cost
+    if (this.IsLoading) this._loaded = true
+    this._used = false
+  }
+
+  public Reset(): void {
+    this._used = false
+  }
+
+  public CheckUsable(cost?: number): boolean {
+    if (this.IsLoading && !this._loaded) return false
+    if (this.IsCascading) return false
+    if (this.IsLimited && this.Uses === 0) return false
+    if (this.IsLimited && cost && this.Uses < cost) return false
+    return !this._used
+  }
+
+  public get Used(): boolean {
+    return this._used
+  }
+
+  public set Used(b: boolean) {
+    this._used = b
   }
 
   public get IsCascading(): boolean {

@@ -44,6 +44,10 @@ class PilotWeapon extends PilotEquipment {
       return this.Damage[0].Max
     }
   }
+
+  public get Icon(): string {
+    return 'cci-pilot'
+  }
 }
 
 export { PilotWeapon, IPilotWeaponData }

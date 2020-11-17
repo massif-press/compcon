@@ -35,7 +35,9 @@
                     size="xLarge"
                     class="mb-n3 mt-n3 mr-n2"
                   />
-                  {{ pilot.ActiveMech.Name }}
+                  <span :class="pilot.ActiveMech.Destroyed ? 'text-decoration-line-through' : ''">
+                    {{ pilot.ActiveMech.Name }}
+                  </span>
                 </div>
                 <div class="overline text--text ml-4">
                   {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
@@ -50,12 +52,7 @@
               </v-col>
             </v-row>
           </v-alert>
-          <v-row dense justify="center">
-            <v-col v-for="s in pilot.ActiveMech.StatusString" :key="`status-${s}`" cols="auto">
-              <cc-mech-status-alert :type="s" readonly />
-            </v-col>
-          </v-row>
-          <p v-if="pilot.ActiveMech.StatusString" class="flavor-text stark--text mt-2 mx-6">
+          <p v-if="pilot.ActiveMech.StatusString" class="flavor-text stark--text mt-2 mx-6 mb-0">
             >//[
             <span class="accent--text">COMP/CON</span>
             :
@@ -64,15 +61,23 @@
             issues are not addressed, your mech may operate at reduced combat efficacy. Caution is
             advised.
           </p>
+          <v-row dense justify="center">
+            <v-col v-for="s in pilot.ActiveMech.StatusString" :key="`status-${s}`" cols="12">
+              <div class="px-10">
+                <cc-mech-status-alert :type="s" readonly @reprint="pilot.ActiveMech.FullRepair()" />
+              </div>
+            </v-col>
+          </v-row>
           <v-row justify="center" class="mt-2">
             <v-col cols="auto">
               <v-btn
                 x-large
                 tile
-                color="warning darken-3"
+                color="primary"
+                :disabled="startDisabled"
                 @click="
                   scDialog = false
-                  pilot.State.StartCombat()
+                  pilot.State.StartMission()
                 "
               >
                 <v-icon large left>cci-activate</v-icon>
@@ -187,5 +192,11 @@ export default vueMixins(activePilot).extend({
     DowntimeMenu,
   },
   data: () => ({ scDialog: false }),
+  computed: {
+    startDisabled() {
+      const m = this.pilot.ActiveMech
+      return m.Destroyed || m.ReactorDestroyed
+    },
+  },
 })
 </script>

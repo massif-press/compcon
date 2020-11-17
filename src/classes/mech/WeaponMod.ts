@@ -49,11 +49,15 @@ class WeaponMod extends MechEquipment {
   }
 
   public get PossibleTypes(): WeaponType[] {
-    return this.AllowedTypes.filter(x => !this.RestrictedTypes.includes(x))
+    return this.AllowedTypes.filter(
+      x => !this.RestrictedTypes.some(y => y.toLowerCase() === x.toLowerCase())
+    )
   }
 
   public get PossibleSizes(): WeaponSize[] {
-    return this.AllowedSizes.filter(x => !this.RestrictedSizes.includes(x))
+    return this.AllowedSizes.filter(
+      x => !this.RestrictedSizes.some(y => y.toLowerCase() === x.toLowerCase())
+    )
   }
 
   public static Serialize(item: WeaponMod): IEquipmentData {

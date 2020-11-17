@@ -25,13 +25,12 @@ import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ICounterData, Action } from '@/interface'
-import { ActiveState, IActiveStateData } from '../mech/ActiveState'
+import { ActiveState, IActiveStateData, ICombatStats } from '../mech/ActiveState'
 import { Bonus } from '../Bonus'
 import { IReserveData } from './reserves/Reserve'
 import { MechSystem } from '../mech/MechSystem'
 import { IMechData } from '../mech/Mech'
 import { IDeployableData } from '../Deployable'
-// import { ICombatLogData } from './CombatLog'
 
 interface IPilotData {
   id: string
@@ -52,7 +51,7 @@ interface IPilotData {
   history: string
   portrait: string
   cloud_portrait: string
-  quirk: string
+  quirks: string[]
   current_hp: number
   background: string
   mechSkills: number[]
@@ -70,7 +69,8 @@ interface IPilotData {
   custom_counters: object[]
   brews: string[]
   state: IActiveStateData
-  // combat_log: ICombatLogData[]
+  combat_history: ICombatStats
+  dead: boolean
 }
 
 class Pilot {
@@ -86,7 +86,7 @@ class Pilot {
   private _factionID: string
   private _text_appearance: string
   private _notes: string
-  private _quirk: string
+  private _quirks: string[]
   private _history: string
 
   private _group: string
@@ -112,6 +112,8 @@ class Pilot {
 
   private _mechs: Mech[]
   private _state: ActiveState
+  private _combat_history: ICombatStats
+  private _dead: boolean
 
   private cc_ver: string
   private _brews: string[]
@@ -131,7 +133,7 @@ class Pilot {
     this._history = ''
     this._portrait = ''
     this._cloud_portrait = ''
-    this._quirk = ''
+    this._quirks = []
     this._current_hp = Rules.BasePilotHP
     this._loadout = new PilotLoadout(0)
     this._background = ''
@@ -147,13 +149,14 @@ class Pilot {
     this._group = ''
     this._sortIndex = 0
     this._campaign = ''
+    this._dead = false
     this._state = new ActiveState(this)
+    this._combat_history = ActiveState.NewCombatStats()
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
-    // this._initCounters()
   }
 
   // -- Utility -----------------------------------------------------------------------------------
-  private save(): void {
+  public save(): void {
     store.dispatch('saveData')
   }
 
@@ -263,6 +266,19 @@ class Pilot {
     this.save()
   }
 
+  public get IsDownAndOut(): boolean {
+    return this.CurrentHP === 0
+  }
+
+  public get IsDead(): boolean {
+    return this._dead
+  }
+
+  public set IsDead(val: boolean) {
+    this._dead = val
+    this.save()
+  }
+
   public get Status(): string {
     return this._status
   }
@@ -304,13 +320,21 @@ class Pilot {
     this.save()
   }
 
-  public get Quirk(): string {
-    return this._quirk
+  public get Quirks(): string[] {
+    return this._quirks
   }
 
-  public set Quirk(newVal: string) {
-    this._quirk = newVal
+  public set Quirks(val: string[]) {
+    this._quirks = val
     this.save()
+  }
+
+  public AddQuirk(val: string): void {
+    this._quirks.push(val)
+  }
+
+  public RemoveQuirk(idx: number): void {
+    this._quirks.splice(idx, 1)
   }
 
   public get History(): string {
@@ -443,16 +467,13 @@ class Pilot {
     if (hp > this.MaxHP) this._current_hp = this.MaxHP
     else if (hp < 0) this._current_hp = 0
     else this._current_hp = hp
-
-    if (this._current_hp === 0) {
-      this.Status = 'KIA'
-    }
-
     this.save()
   }
 
   public Heal(): void {
+    this._dead = false
     this.CurrentHP = this.MaxHP
+    this.Status = 'Active'
   }
 
   public get Armor(): number {
@@ -911,6 +932,7 @@ class Pilot {
   // -- COUNTERS ----------------------------------------------------------------------------------
 
   private _counterSaveData = []
+
   public get CounterSaveData(): ICounterSaveData[] {
     return this._counterSaveData
   }
@@ -926,6 +948,7 @@ class Pilot {
   }
 
   private _customCounters: ICounterData[] = []
+
   public get CustomCounterData(): ICounterData[] {
     return this._customCounters || []
   }
@@ -937,6 +960,7 @@ class Pilot {
       custom: true,
     }
     this._customCounters = [...this._customCounters, counter]
+    console.log(this._customCounters)
     this.save()
   }
 
@@ -947,6 +971,25 @@ class Pilot {
       this._customCounters = [...this._customCounters]
     }
     this.save()
+  }
+
+  public get CounterData(): ICounterData[] {
+    return [
+      this.Talents?.flatMap(pilotTalent =>
+        pilotTalent.Talent.Counters.filter(x => !x.level || x.level <= pilotTalent.Rank)
+      ),
+      this.CoreBonuses?.flatMap(cb => cb.Counters),
+      this.ActiveMech?.Frame.Counters,
+      this.ActiveMech?.ActiveLoadout.Systems.flatMap(system => system.Counters),
+      this.ActiveMech?.ActiveLoadout.Weapons.flatMap(weapon => [
+        ...weapon.Counters,
+        ...(weapon.Mod?.Counters || []),
+      ]),
+      this.ActiveMech?.Frame.CoreSystem.Counters,
+      this.CustomCounterData,
+    ]
+      .flat()
+      .filter(x => x)
   }
 
   // -- Organization ------------------------------------------------------------------------------
@@ -980,6 +1023,17 @@ class Pilot {
   // -- Active Mode -------------------------------------------------------------------------------
   public get State(): ActiveState {
     return this._state
+  }
+
+  public UpdateCombatStats(ms: ICombatStats): void {
+    for (const k in this._combat_history) {
+      if (ms[k]) this._combat_history[k] += ms[k]
+    }
+  }
+
+  public Kill(): void {
+    this._status = 'KIA'
+    this.IsDead = true
   }
 
   // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
@@ -1035,13 +1089,14 @@ class Pilot {
       name: p.Name,
       player_name: p.PlayerName,
       status: p.Status,
+      dead: p.IsDead,
       factionID: p._factionID,
       text_appearance: p.TextAppearance,
       notes: p.Notes,
       history: p.History,
       portrait: p._portrait,
       cloud_portrait: p._cloud_portrait,
-      quirk: p.Quirk,
+      quirks: p.Quirks,
       current_hp: p.CurrentHP,
       reserves: p.Reserves.length ? p.Reserves.map(x => Reserve.Serialize(x)) : [],
       orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
@@ -1057,6 +1112,7 @@ class Pilot {
       cc_ver: p.cc_ver,
       counter_data: p.CounterSaveData,
       custom_counters: p.CustomCounterData,
+      combat_history: p.State.Stats,
       state: ActiveState.Serialize(p.State),
       brews: p._brews || [],
     }
@@ -1078,9 +1134,11 @@ class Pilot {
     this._id = data.id
     this._loadout = data.loadout ? PilotLoadout.Deserialize(data.loadout) : new PilotLoadout(0)
     this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
+    this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats()
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name
+    this._dead = data.dead || false
     this._player_name = data.player_name
     this._status = data.status || 'ACTIVE'
     this._factionID = data.factionID
@@ -1089,7 +1147,7 @@ class Pilot {
     this._history = data.history
     this._portrait = data.portrait
     this._cloud_portrait = data.cloud_portrait
-    this._quirk = data.quirk
+    this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : []
     this._current_hp = data.current_hp
     this._background = data.background
     this._mechSkills = MechSkills.Deserialize(data.mechSkills)

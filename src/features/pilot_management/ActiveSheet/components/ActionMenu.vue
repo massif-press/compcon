@@ -47,6 +47,7 @@
               v-for="(a, i) in pilot.State.ActionsByType('Protocol')"
               :key="`am_protocol_${i}`"
               :action="a"
+              :available="pilot.State.IsProtocolAvailable"
               :mech="pilot.ActiveMech"
             />
           </v-list>
@@ -59,6 +60,7 @@
               v-for="(a, i) in pilot.State.ActionsByType('Full')"
               :key="`am_protocol_${i}`"
               :action="a"
+              :available="pilot.State.Actions > 1"
               :mech="pilot.ActiveMech"
             />
           </v-list>
@@ -72,6 +74,7 @@
               :key="`am_protocol_${i}`"
               :action="a"
               :mech="pilot.ActiveMech"
+              :available="pilot.State.Actions > 0"
             />
           </v-list>
         </v-card>
@@ -83,6 +86,7 @@
               v-for="(a, i) in pilot.State.ActionsByType('Reaction')"
               :key="`am_protocol_${i}`"
               :action="a"
+              available
               :mech="pilot.ActiveMech"
             />
           </v-list>
@@ -95,6 +99,7 @@
               v-for="(a, i) in pilot.State.ActionsByType('Free')"
               :key="`am_protocol_${i}`"
               :action="a"
+              available
               :mech="pilot.ActiveMech"
             />
           </v-list>
@@ -102,7 +107,9 @@
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
-          <v-card-text><combat-log-renderer :log="pilot.State.Log" /></v-card-text>
+          <v-card-text>
+            <combat-log-renderer :log="pilot.State.Log" :stats="pilot.State.Stats" />
+          </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>

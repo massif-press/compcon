@@ -133,7 +133,7 @@
                 block
                 :disabled="!or3"
                 :color="finished ? 'error' : `error darken-2`"
-                @click="finished = true"
+                @click="start()"
               >
                 <v-icon style="position: absolute; left: 0" large>mdi-alert-rhombus-outline</v-icon>
                 {{ finished ? 'CRITICAL ALERT: REACTOR MELTDOWN IMMINENT' : 'OVERLOAD REACTOR' }}
@@ -173,6 +173,7 @@
 </template>
 
 <script lang="ts">
+import { ActivationType } from '@/classes/enums'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 
@@ -205,7 +206,18 @@ export default Vue.extend({
     select(action) {
       return !action
     },
+    start() {
+      this.finished = true
+      this.mech.Pilot.State.CommitAction(
+        this.action,
+        this.actionCost ? this.action.Activation : ActivationType.Free
+      )
+    },
     reset() {
+      this.mech.Pilot.State.UndoAction(
+        this.action,
+        this.actionCost ? this.action.Activation : ActivationType.Free
+      )
       this.actionCost = false
       this.actionFree = false
       this.finished = false

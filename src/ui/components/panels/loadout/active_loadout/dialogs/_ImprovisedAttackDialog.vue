@@ -61,6 +61,7 @@ export default Vue.extend({
     dialog: false,
     complete: false,
     activation: null,
+    atk: null,
   }),
   computed: {
     item(): MechWeapon {
@@ -94,7 +95,7 @@ export default Vue.extend({
   },
   methods: {
     attackConfirm(atk: any) {
-      console.log(atk)
+      this.atk = atk
       this.complete = true
       this.activation = atk.activation
       this.mech.Pilot.State.CommitAction(this.action, atk.activation)
@@ -106,9 +107,15 @@ export default Vue.extend({
       )
     },
     attackUndo() {
+      this.mech.Pilot.State.UndoLogAttackAction(
+        'IMPROVISED ATTACK',
+        this.activation.toUpperCase(),
+        this.atk.damage,
+        this.atk.kill
+      )
       this.complete = false
       this.mech.Pilot.State.UndoAction(this.action, this.activation)
-      this.mech.Pilot.State.UndoLogAttackAction('IMPROVISED ATTACK', this.activation.toUpperCase())
+      this.atk = null
     },
     reset() {
       this.$refs.main.reset()
