@@ -206,23 +206,6 @@
       </div>
     </div>
     <div v-if="!mech.IsShutDown && !mech.Ejected && !mech.Destroyed && !mech.ReactorDestroyed">
-      <div v-if="mech.MeltdownImminent" class="px-4">
-        <v-btn block dark x-large tile color="dangerzone" @click="mech.State.meltdown()">
-          <v-icon left large>cci-reactor</v-icon>
-          REACTOR MELTDOWN
-          <v-icon right large>cci-reactor</v-icon>
-        </v-btn>
-        <v-btn
-          block
-          small
-          outlined
-          class="my-2"
-          color="success"
-          @click="mech.State.avoidMeltdown()"
-        >
-          VENT REACTOR
-        </v-btn>
-      </div>
       <v-scale-transition group>
         <v-row v-if="mech.State.actions" key="a-r8" justify="center" dense>
           <action-button cols="4" action-id="skirmish" @click="mech.State.quickAction()" />

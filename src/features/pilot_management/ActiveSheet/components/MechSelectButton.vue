@@ -17,7 +17,11 @@
           <cc-logo size="large" :source="mech.Frame.Manufacturer" />
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ mech.Name }}</v-list-item-title>
+          <v-list-item-title>
+            <span :class="mech.Destroyed ? 'text-decoration-line-through text--disabled' : ''">
+              {{ mech.Name }}
+            </span>
+          </v-list-item-title>
           <v-list-item-subtitle>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>

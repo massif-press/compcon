@@ -54,6 +54,7 @@
                     :action="a"
                     active
                     :activations="mech.Pilot.State.Actions"
+                    :disabled="mech.IsStunned"
                     :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
                     @use="item.Use($event)"
                     @reset="item.Reset($event)"

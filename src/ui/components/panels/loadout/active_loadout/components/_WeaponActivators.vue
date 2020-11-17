@@ -6,6 +6,7 @@
           tile
           block
           dark
+          :disabled="mech.IsStunned"
           :color="soloBarrageDisabled ? 'grey darken-2' : `action--full`"
           @click="setBarrage(item, mount)"
         >
@@ -37,9 +38,8 @@
           tile
           block
           dark
-          :color="
-            mech.Pilot.State.Actions < 1 || !item.CanSkirmish ? 'grey darken-2' : `action--quick`
-          "
+          :disabled="mech.IsStunned"
+          :color="canSkirmish ? 'grey darken-2' : `action--quick`"
           @click="$refs.sk_dialog.show()"
         >
           <v-icon left>mdi-hexagon-slice-3</v-icon>
@@ -149,15 +149,22 @@ export default Vue.extend({
       return this.state.BarrageSelections.some(x => x === this.item)
     },
     soloBarrageDisabled() {
+      if (this.mech.IsStunned) return true
+      if (this.item.IsOrdnance && !this.state.IsProtocolAvailable) return true
       if (!this.item.CanBarrage) return true
       if (this.mech.Pilot.State.Actions < 2) return true
       return !!this.barrageCount
     },
     barrageDisabled() {
+      if (this.mech.IsStunned) return true
       if (!this.item.CanBarrage) return true
       if (this.mech.Pilot.State.Actions < 2) return true
       if (this.item.Size === WeaponSize.Superheavy) return this.barrageCount > 0
       return !this.barrageToggle && this.barrageCount === 2
+    },
+    canSkirmish() {
+      if (this.item.IsOrdnance && !this.state.IsProtocolAvailable) return false
+      return this.mech.Pilot.State.Actions < 1 || !this.item.CanSkirmish
     },
   },
   methods: {

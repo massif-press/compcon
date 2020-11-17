@@ -16,13 +16,10 @@
             <span class="accent--text">COMP/CON</span>
             :
             <span class="stark-text--text">Confirmation Required</span>
-            ] TODO: text here about confirming end combat and enter rest mode, give option for
-            ending mission
+            ] Pilot, proceeding will disengage combat mode and enable rest and repair protocols.
+            This cannot be undone. Continue?
           </p>
           <v-row justify="center" no-gutters class="mt-n2"></v-row>
-          <v-alert dense outlined :color="pilot.ActiveMech.Frame.Manufacturer.Color" class="mt-4">
-            current running stats, number of encounters completed, etc
-          </v-alert>
           <v-row justify="center" class="mt-2">
             <v-col cols="auto">
               <v-btn
@@ -63,17 +60,11 @@
           NEXT ROUND
         </v-btn>
       </template>
-      <cc-confirmation
-        content="
-        next round warning
-      "
-        @confirm="stageNextRound()"
-      />
+      <cc-confirmation no-cc :content="nextRoundConfirm" @confirm="stageNextRound()" />
     </v-menu>
 
     <v-spacer />
-
-    <div class="mt-n1">
+    <div v-if="!mech.Destroyed && !mech.Pilot.IsDownAndOut" class="mt-n1">
       <cc-tooltip inline content="Protocol Actions" delayed>
         <action-menu-button
           :key="`protocol_btn_${state.IsProtocolAvailable}`"
@@ -91,9 +82,9 @@
       </cc-tooltip>
     </div>
 
-    <v-divider vertical class="mx-3" />
+    <v-divider v-if="!mech.Destroyed && !mech.Pilot.IsDownAndOut" vertical class="mx-3" />
 
-    <div class="mt-n1">
+    <div v-if="!mech.Destroyed && !mech.Pilot.IsDownAndOut" class="mt-n1">
       <cc-tooltip inline content="Movement" delayed>
         <move-menu-button :mech="pilot.ActiveMech" @open-dialog="openDialog($event)" />
       </cc-tooltip>
@@ -211,6 +202,15 @@ export default vueMixins(activePilot).extend({
     },
     mech() {
       return this.pilot.ActiveMech
+    },
+    nextRoundConfirm() {
+      let str = ''
+      if (this.state.Actions > 0) str += `<div class='px-2'>Actions available</div>`
+      if (this.state.Move > 0) str += `<div class='px-2'>Movement available</div>`
+      if (str.length) {
+        str = `<div class='error--text'>ALERT::<div>${str}`
+      } else str = '<div>Round Complete</div>'
+      return str
     },
   },
   methods: {

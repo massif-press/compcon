@@ -97,15 +97,6 @@
                     <span style="letter-spacing: 5px">// DESTROYED //</span>
                   </v-alert>
                   <v-alert
-                    v-if="mech.MeltdownImminent"
-                    color="orange"
-                    dense
-                    tile
-                    class="text-center"
-                  >
-                    <span style="letter-spacing: 5px">// REACTOR CRITICAL //</span>
-                  </v-alert>
-                  <v-alert
                     v-if="mech.ReactorDestroyed"
                     color="accent"
                     dense

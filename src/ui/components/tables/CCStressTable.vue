@@ -199,7 +199,7 @@ export default class CCStressTable extends Vue {
     this.close()
   }
   applyMeltdown(): void {
-    this.mech.MeltdownImminent = true
+    // this.mech.MeltdownImminent = true
     this.close()
   }
 }

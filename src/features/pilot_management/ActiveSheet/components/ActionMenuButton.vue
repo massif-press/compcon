@@ -6,7 +6,7 @@
         small
         fab
         elevation="0"
-        :color="available ? color : 'grey darken-2'"
+        :color="available && (baseActions.length || itemActions.length) ? color : 'grey darken-2'"
         v-on="on"
       >
         <slot name="icon" />

@@ -30,6 +30,8 @@ interface IDeployableData extends ICompendiumItemData {
   synergies?: ISynergyData[]
   counters?: ICounterData[]
   tags?: ITagData[]
+  pilot?: boolean
+  mech?: boolean
 }
 
 interface IDeployedData {
@@ -56,6 +58,8 @@ class Deployable extends CompendiumItem {
   public readonly TechAttack: number
   public readonly Save: number
   public readonly Speed: number
+  public readonly IsPilotDeployable: boolean
+  public readonly IsMechDeployable: boolean
   private _current_hp: number
   private _current_heat: number
   private _overshield: number
@@ -84,6 +88,8 @@ class Deployable extends CompendiumItem {
     this._current_heat = 0
     this._destroyed = false
     this._activation = data.activation || ActivationType.Quick
+    this.IsPilotDeployable = data.pilot
+    this.IsMechDeployable = data.mech || !data.pilot
   }
 
   public get Name(): string {

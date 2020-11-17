@@ -16,7 +16,8 @@ interface IActionData {
   mech?: boolean
   hide_active?: boolean
   synergy_locations?: string[]
-  log?: string[]
+  confirm?: string[]
+  log?: string
 }
 
 enum ActivePeriod {
@@ -95,7 +96,8 @@ class Action {
   public readonly IsDowntimeAction: boolean
   public readonly IsActiveHidden: boolean
   public readonly SynergyLocations: string[]
-  public readonly Log: string[]
+  public readonly Confirm: string[]
+  public readonly Log: string
   private _uses: number
   private _used: boolean
   private _log_id: string
@@ -110,8 +112,9 @@ class Action {
         ? data.synergy_locations
         : [data.synergy_locations]
     else this.SynergyLocations = []
-    if (data.log) this.Log = Array.isArray(data.log) ? data.log : [data.log]
-    else this.Log = [`ACTIVATION CONFIRMED.`]
+    if (data.confirm) this.Confirm = Array.isArray(data.confirm) ? data.confirm : [data.confirm]
+    else this.Confirm = [`ACTIVATION CONFIRMED.`]
+    this.Log = data.log || ''
     this.Activation = data.activation || ActivationType.Quick
     this.Terse = data.terse || ''
     this.Detail = data.detail || ''
@@ -184,7 +187,8 @@ class Action {
         detail: '',
         synergy_locations:
           d.type.toLowerCase() === 'drone' ? ['deployable', 'drone'] : ['deployable'],
-        log: ['DEPLOYING EQUIPMENT.'],
+        pilot: d.pilot,
+        confirm: ['DEPLOYING EQUIPMENT.'],
       },
       origin
     )

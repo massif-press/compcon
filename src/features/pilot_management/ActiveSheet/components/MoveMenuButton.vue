@@ -27,15 +27,6 @@
         >
           <span class="heading h3">Movement</span>
         </cc-tick-bar>
-        <v-divider class="my-2" />
-        <v-list dense color="panel">
-          <v-list-item dense @click="$emit('open-dialog', boost)">
-            <v-list-item-title class="text-button">
-              <v-icon left>{{ boost.Icon }}</v-icon>
-              {{ boost.Name }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
       </v-card>
     </div>
   </v-menu>
@@ -52,9 +43,6 @@ export default Vue.extend({
     },
   },
   computed: {
-    boost() {
-      return this.mech.Pilot.State.BaseActions('Quick').find(x => x.ID === 'act_boost')
-    },
     state() {
       return this.mech.Pilot.State
     },

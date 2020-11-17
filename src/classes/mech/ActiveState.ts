@@ -1,16 +1,13 @@
+/* eslint-disable @typescript-eslint/indent */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 // defines the pilot's relationship to the mech for actvive mode. does not hold active mech info (eg heat, destroyed status)
 // but associated logic should be handled by this class (eg. ride-along conditions)
 
-// activemech via activestate
-// status via activestate
-// new ver tutorial on startup (first time only, track in profile)
-
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { store } from '@/store'
 import { Mech, Deployable, Pilot, MechEquipment, MechWeapon, Mount, ActivationType } from '@/class'
 import { Action } from '@/interface'
-import { ICombatLogData } from '../pilot/CombatLog'
 import { IDeployableData } from '../Deployable'
+import { mission } from '@/io/Generators'
 
 enum Stage {
   Narrative = 'Narrative',
@@ -18,8 +15,32 @@ enum Stage {
   Rest = 'Rest',
 }
 
+interface ICombatLogData {
+  id: string
+  timestamp: string
+  mission: number
+  encounter: number
+  round: number
+  event: string
+  detail: string
+}
+
+interface ICombatStats {
+  moves: number
+  kills: number
+  damage: number
+  hp_damage: number
+  structure_damage: number
+  overshield: number
+  heat_damage: number
+  reactor_damage: number
+  overcharge_uses: number
+  core_uses: number
+}
+
 interface IActiveStateData {
   stage: string
+  mission: number
   turn: number
   actions: number
   overwatch: boolean
@@ -30,6 +51,7 @@ interface IActiveStateData {
   redundant: boolean
   history: IHistoryItem[]
   mounted: boolean
+  stats: ICombatStats
 }
 
 class ActiveState {
@@ -48,6 +70,7 @@ class ActiveState {
 
   private _round: number
   private _encounter: number
+  private _mission: number
 
   private _actions: number
 
@@ -56,6 +79,8 @@ class ActiveState {
   private _shBarrageSelection: MechWeapon
   private _shBarrageMount: Mount
 
+  private _self_destruct_counter: number
+
   private _stabilizeUndo: {
     heat: number
     hp: number
@@ -63,8 +88,13 @@ class ActiveState {
     burn: number
     exposed: boolean
   }
-
   private _overchargeUndo: string[]
+  private _shutDownUndo: {
+    heat: number
+    cascade: string[]
+    statuses: string[]
+    conditions: string[]
+  }
 
   private _overwatch: boolean
   private _braced: boolean
@@ -73,11 +103,13 @@ class ActiveState {
   private _bracedCooldown: boolean
   private _redundant: boolean
   private _history: IHistoryItem[]
+  private _stats: ICombatStats
 
   public constructor(pilot: Pilot) {
     this._pilot = pilot
     this._mech = null
     this._stage = Stage.Narrative
+    this._self_destruct_counter = -1
     this._round = 1
     this._encounter = 1
     this._pilot_move = pilot.Speed
@@ -92,38 +124,39 @@ class ActiveState {
     this._redundant = false
     this._history = []
     this._log = []
+    this._stats = ActiveState.NewCombatStats()
+  }
+
+  public static NewCombatStats(): ICombatStats {
+    return {
+      moves: 0,
+      kills: 0,
+      damage: 0,
+      hp_damage: 0,
+      structure_damage: 0,
+      overshield: 0,
+      heat_damage: 0,
+      reactor_damage: 0,
+      overcharge_uses: 0,
+      core_uses: 0,
+    }
   }
 
   private save(): void {
     store.dispatch('saveData')
   }
 
-  public newRound(): void {
-    this._round += 1
-    this._history = []
-    this._pilot_move = this._pilot.Speed
-    this._actions = 2
-    this._barrageSelections = []
-    this._overcharged = false
-    this._overwatch = false
-    this._prepare = false
-    if (this._braced) {
-      this._bracedCooldown = true
-      this._actions = 1
-      this._braced = false
-    } else if (this._bracedCooldown) {
-      this._bracedCooldown = false
-    }
-    if (this._mech.Burn) {
-      this._mech.AddDamage(this._mech.Burn, 'Burn')
-    }
+  public get Stats(): ICombatStats {
+    return this._stats
   }
 
   public get Move(): number {
+    if (this._pilot_mounted && this._mech.IsShutDown) return 0
     return !this._pilot_mounted ? this._pilot_move : this._mech.CurrentMove
   }
 
   public get MaxMove(): number {
+    if (this._pilot_mounted && this._mech.IsShutDown) return 0
     return !this._pilot_mounted ? this._pilot.Speed : this._mech.Speed
   }
 
@@ -143,12 +176,38 @@ class ActiveState {
     return this._bracedCooldown
   }
 
+  public get SelfDestructCounter(): number {
+    return this._self_destruct_counter
+  }
+
+  public StartSelfDestruct(): void {
+    this._self_destruct_counter = 3
+  }
+
+  public CancelSelfDestruct(): void {
+    this._self_destruct_counter = -1
+  }
+
+  public SelfDestruct(): void {
+    this._mech.CurrentHP = 0
+    this._mech.CurrentStructure = 0
+    this._mech.CurrentStress = 0
+    this._mech.Destroyed = true
+    this._mech.ReactorDestroyed = true
+    this._self_destruct_counter = 0
+    if (this._pilot_mounted) this._mech.Pilot.Kill()
+  }
+
   public get Stage(): Stage {
     return this._stage
   }
 
   public get Encounter(): number {
     return this._encounter
+  }
+
+  public get Mission(): number {
+    return this._mission
   }
 
   public get Round(): number {
@@ -158,13 +217,21 @@ class ActiveState {
   public StartCombat(): void {
     this._stage = Stage.Combat
     this._pilot_mounted = true
-    this._round = 1
+    this._round = 0
     this._encounter++
+    this.SetLog({
+      id: 'start_combat',
+      event: 'LOG.INIT',
+      detail: 'COMBAT MODE ACTIVATED',
+    })
+    this.NextRound()
     this.save()
   }
 
   public NextRound(): void {
     this._round++
+    if (this.SelfDestructCounter > 0) this._self_destruct_counter -= 1
+    if (this.SelfDestructCounter === 0) this.SelfDestruct()
     if (this._bracedCooldown) this._bracedCooldown = false
     if (this._braced) this._braced = true
     this._actions = this._braced ? 1 : 2
@@ -173,8 +240,14 @@ class ActiveState {
     this.AllActions.forEach(a => a.Reset())
     this.AllBaseTechActions.forEach(a => a.Reset())
     this._mech.ActiveLoadout.Equipment.forEach(e => e.Reset())
+    this._mech.Pilot.Loadout.Equipment.forEach(e => e.Reset())
     this._mech.CurrentMove = this._braced ? 0 : this._mech.MaxMove
     this._braced = false
+    this.SetLog({
+      id: 'start_combat',
+      event: 'LOG.ROUND',
+      detail: 'ROUND START',
+    })
     this.save()
   }
 
@@ -184,6 +257,35 @@ class ActiveState {
     this._mech.CurrentHeat = 0
     this._mech.Conditions.splice(0, this._mech.Conditions.length)
     this._mech.Statuses.splice(0, this._mech.Statuses.length)
+    if (this._mech.Pilot.IsDownAndOut)
+      this._mech.Pilot.CurrentHP = Math.ceil(this._mech.Pilot.MaxHP / 2)
+    this.SetLog({
+      id: 'start_combat',
+      event: 'LOG.END',
+      detail: 'ENCOUNTER COMPLETE. COMBAT MODE DEACTIVATED.',
+    })
+    this.save()
+  }
+
+  public StartMission(): void {
+    this._mission += 1
+    this._stats = ActiveState.NewCombatStats()
+    this.SetLog({
+      id: 'start_mission',
+      event: 'MISSION.START',
+      detail: `STARTING MISSION//${this.timestamp}::${mission()}`,
+    })
+    this.StartCombat()
+  }
+
+  public EndMission(): void {
+    this._pilot.UpdateCombatStats(this._stats)
+    this.SetLog({
+      id: 'end_mission',
+      event: 'MISSION.COMPLETE',
+      detail: `REC::MISSION COMPLETE @ ${this.timestamp}`,
+    })
+    this._stage = Stage.Narrative
     this.save()
   }
 
@@ -194,12 +296,14 @@ class ActiveState {
 
   RepairStructure(): void {
     this._mech.CurrentStructure += 1
-    this._mech.CurrentRepairs -= this._mech.ID === 'mf_standard_pattern_i_everest' ? 1 : 2
+    const cheap = this._mech.Bonuses.find(x => x.ID === 'cheap-struct')
+    this._mech.CurrentRepairs -= cheap ? 1 : 2
   }
 
   RepairStress(): void {
     this._mech.CurrentStress = this._mech.MaxStress
-    this._mech.CurrentRepairs -= 2
+    const cheap = this._mech.Bonuses.find(x => x.ID === 'cheap-stress')
+    this._mech.CurrentRepairs -= cheap ? 1 : 2
   }
 
   RepairSystem(w: MechEquipment): void {
@@ -210,11 +314,6 @@ class ActiveState {
   RepairDestroyed(selfRepairPts: number): void {
     this._mech.CurrentRepairs -= selfRepairPts
     this._mech.Repair()
-  }
-
-  public StartDowntime(): void {
-    this._stage = Stage.Narrative
-    this.save()
   }
 
   public set ActiveMech(mech: Mech | null) {
@@ -234,24 +333,6 @@ class ActiveState {
     this._pilot_mounted = val
     this.save()
   }
-
-  public MountMech(): void {
-    this.IsMounted = true
-  }
-
-  public DismountMech(): void {
-    this.IsMounted = false
-  }
-
-  public EjectMech(): void {
-    // add Impaired
-    // mech remains impaired and cannot eject again until a full repair
-    this.IsMounted = false
-  }
-
-  // public DestroyMech()
-  // public StartMeltdown()
-  // public DestroyReactor()
 
   // -- Barrage Staging ---------------------------------------------------------------------------
 
@@ -321,6 +402,7 @@ class ActiveState {
       id: entry.id,
       timestamp: this.timestamp,
       encounter: this._encounter,
+      mission: this._mission,
       round: this._round,
       event: entry.event,
       detail: entry.detail,
@@ -339,18 +421,19 @@ class ActiveState {
       this.SetLog({
         id: action.LogID,
         event: action.Activation.toUpperCase(),
-        detail: action.Name.toUpperCase(),
+        detail: action.Log ? action.Log : action.Name.toUpperCase(),
       })
     }
 
+    if (action.ID === 'act_self_destruct') this.StartSelfDestruct()
+    if (action.ID === 'act_shut_down') this.CommitShutDown()
+    if (action.ID === 'act_boot_up') this.CommitBootUp()
     if (action.ID === 'act_brace') this._braced = true
     if (action.ID === 'act_dismount') this._pilot_mounted = false
     if (action.ID === 'act_mount') this._pilot_mounted = true
-    if (action.ID === 'act_hide') {
-      if (!this._mech.Statuses.includes('HIDDEN')) this._mech.Statuses.push('HIDDEN')
-    }
+    if (action.ID === 'act_hide') this._mech.AddStatus('HIDDEN')
     if (action.ID === 'act_eject') {
-      if (!this._mech.Conditions.includes('IMPAIRED')) this._mech.Statuses.push('IMPAIRED')
+      this._mech.AddCondition('IMPAIRED')
       this._pilot_mounted = false
     }
   }
@@ -363,21 +446,21 @@ class ActiveState {
     const idx = this._log.map(x => x.id === action.LogID).lastIndexOf(true)
     if (idx > -1) this._log.splice(idx, 1)
 
+    if (action.ID === 'act_self_destruct') this.CancelSelfDestruct()
+    if (action.ID === 'act_shut_down') this.UndoShutDown()
+    if (action.ID === 'act_boot_up') this.UndoBootUp()
     if (action.ID === 'act_brace') this._braced = false
     if (action.ID === 'act_dismount') this._pilot_mounted = true
     if (action.ID === 'act_mount') this._pilot_mounted = false
-    if (action.ID === 'act_hide') {
-      if (this._mech.Statuses.includes('HIDDEN'))
-        this._mech.Statuses.splice(this._mech.Statuses.indexOf('HIDDEN'), 1)
-    }
+    if (action.ID === 'act_hide') this._mech.RemoveStatus('HIDDEN')
     if (action.ID === 'act_eject') {
-      if (this._mech.Conditions.includes('IMPAIRED'))
-        this._mech.Conditions.splice(this._mech.Conditions.indexOf('IMPAIRED'), 1)
+      this._mech.RemoveCondition('IMPAIRED')
       this._pilot_mounted = false
     }
   }
 
   public SetMove(val: number) {
+    this._stats.moves += this._mech.CurrentMove - val
     this._mech.CurrentMove = val
     this.SetLog({
       id: `set_move`,
@@ -458,6 +541,7 @@ class ActiveState {
   }
 
   public SetStructure(val: number) {
+    this._stats.structure_damage += this._mech.CurrentStructure - val
     this._mech.CurrentStructure = val
     const pct = (this._mech.CurrentStructure / this._mech.MaxStructure).toFixed(2)
     this.SetLog({
@@ -468,6 +552,7 @@ class ActiveState {
   }
 
   public SetStress(val: number) {
+    this._stats.reactor_damage += this._mech.CurrentStress - val
     this._mech.CurrentStress = val
     const pct = (this._mech.CurrentStress / this._mech.MaxStress).toFixed(2)
     this.SetLog({
@@ -478,6 +563,7 @@ class ActiveState {
   }
 
   public SetOvershield(val: number) {
+    this._stats.overshield += this._mech.Overshield - val
     this._mech.Overshield = val
     this.SetLog({
       id: `set_overshield`,
@@ -487,6 +573,7 @@ class ActiveState {
   }
 
   public SetHp(val: number) {
+    this._stats.hp_damage += this._mech.CurrentHP - val
     if (val > this._mech.CurrentHP) {
       this._mech.CurrentHP = val
       this.SetLog({
@@ -514,6 +601,7 @@ class ActiveState {
   }
 
   public SetHeat(val: number) {
+    this._stats.heat_damage += val
     if (val < this._mech.CurrentHeat) {
       const dz = this._mech.IsInDangerZone
       this._mech.CurrentHeat = val
@@ -567,6 +655,7 @@ class ActiveState {
   }
 
   public SetCorePower(val: number) {
+    this._stats.core_uses += this._mech.CurrentCoreEnergy - val
     this._mech.CurrentCoreEnergy = val
     this.SetLog({
       id: `set_core`,
@@ -688,7 +777,46 @@ class ActiveState {
     if (this._mech.CurrentOvercharge > 0) this._mech.CurrentOvercharge -= 1
   }
 
+  public CommitShutDown() {
+    this._shutDownUndo = {
+      heat: this._mech.CurrentHeat,
+      cascade: this._mech.ActiveLoadout.Equipment.filter(x => x.IsCascading).map(e => e.ID),
+      statuses: this._mech.Statuses,
+      conditions: this._mech.Conditions,
+    }
+    this._mech.CurrentHeat = 0
+    this._mech.RemoveStatus('EXPOSED')
+    this._mech.RemoveCondition('JAMMED')
+    this._mech.RemoveCondition('LOCK ON')
+    this._mech.ActiveLoadout.Equipment.filter(x => x.IsCascading).forEach(e => {
+      e.IsCascading = false
+    })
+    this._mech.AddStatus('SHUT DOWN')
+    this._mech.AddStatus('STUNNED')
+  }
+
+  public UndoShutDown() {
+    this._mech.CurrentHeat = this._shutDownUndo.heat
+    this._mech.ActiveLoadout.Equipment.forEach(e => {
+      if (this._shutDownUndo.cascade.includes(e.ID)) e.IsCascading = true
+    })
+    this._mech.Statuses = this._shutDownUndo.statuses
+    this._mech.Conditions = this._shutDownUndo.conditions
+  }
+
+  public CommitBootUp() {
+    this._mech.RemoveStatus('SHUT DOWN')
+    this._mech.RemoveCondition('STUNNED')
+  }
+
+  public UndoBootUp() {
+    this._mech.AddStatus('SHUT DOWN')
+    this._mech.AddCondition('STUNNED')
+  }
+
   public LogAttackAction(action: string, weapon: string, damage: number, kill?: boolean) {
+    this._stats.damage += damage
+    this._stats.kills += kill ? 1 : 0
     this.SetLog({
       id: action,
       event: weapon.toUpperCase(),
@@ -698,7 +826,9 @@ class ActiveState {
     })
   }
 
-  public UndoLogAttackAction(action: string, weapon: string) {
+  public UndoLogAttackAction(action: string, weapon: string, damage: number, kill?: boolean) {
+    this._stats.damage -= damage
+    this._stats.kills -= kill ? 1 : 0
     const idx = this._log
       .map(x => x.id === action && x.event === weapon.toUpperCase())
       .lastIndexOf(true)
@@ -716,171 +846,36 @@ class ActiveState {
     })
   }
 
-  restart(): void {
-    this._round = 1
-    this._history = []
-    this._actions = 2
-    this._overcharged = false
-    this._prepare = false
-    this._braced = false
-    this._bracedCooldown = false
-  }
-
-  quickAction() {
-    if (this._actions > 0) {
-      this._history.push({ field: 'actions', val: this._actions })
-      this._actions--
-    }
-  }
-
-  boost() {
-    if (this._actions > 0) {
-      this._history.push({ field: 'boost' })
-      this._actions--
-      // this._maxMove += this._mech.Ejected ? this._mech.Pilot.Speed : this._mech.Speed
-      // if (this._move < 0) this._move === 0
-    }
-  }
-
-  hide() {
-    this._history.push({ field: 'hide', val: false })
-    if (!this._mech.Statuses.includes('HIDDEN')) this._mech.Statuses.push('HIDDEN')
-    this._actions -= 1
-  }
-
-  dismount() {
-    this._history.push({ field: 'dismount', val: false })
-    this._mech.Ejected = true
-    this._actions -= 2
-  }
-
-  eject() {
-    this._history.push({ field: 'eject', val: false })
-    this._mech.Ejected = true
-    this._actions -= 1
-  }
-
-  remount() {
-    this._history.push({ field: 'remount', val: false })
-    this._mech.Ejected = false
-    this._actions -= 2
-  }
-
-  fullAction() {
-    if (this._actions >= 2) {
-      this._history.push({ field: 'actions', val: 2 })
-      this._actions -= 2
-    }
-  }
-
-  bombard() {
-    if (this._actions >= 2) {
-      this._history.push({ field: 'bombard', val: false })
-      this._actions -= 2
-      const abidx = this._mech.Pilot.Reserves.findIndex(x => x.ID === 'reserve_bombardment')
-      if (abidx > -1) this._mech.Pilot.Reserves[abidx].Used = true
-    }
-  }
-
-  redundantRepair() {
-    const rridx = this._mech.Pilot.Reserves.findIndex(x => x.ID === 'reserve_redundant_repair')
-    if (rridx > -1) this._mech.Pilot.Reserves[rridx].Used = true
-    // this.$refs.stabilize.show(true)
-  }
-
-  deployableShield() {
-    this._history.push({ field: 'depshield', val: false })
-    const dsidx = this._mech.Pilot.Reserves.findIndex(x => x.ID === 'reserve_deployable_shield')
-    if (dsidx > -1) this._mech.Pilot.Reserves[dsidx].Used = true
-  }
-
-  coreBattery() {
-    this._history.push({ field: 'corebattery', val: false })
-    const cbidx = this._mech.Pilot.Reserves.findIndex(x => x.ID === 'reserve_core_battery')
-    if (cbidx > -1) this._mech.Pilot.Reserves[cbidx].Used = true
-    this._mech.CurrentCoreEnergy = 1
-  }
-
-  setPrepare() {
-    this._history.push({ field: 'prepare', val: false })
-    this._prepare = true
-    this._actions -= 1
-  }
-
-  setOverwatch() {
-    this._history.push({ field: 'overwatch', val: false })
-    this._overwatch = true
-  }
-
-  commitOvercharge(heat: number) {
-    this._history.push({ field: 'overcharge', val: heat })
-    this._overcharged = true
-    this._mech.CurrentOvercharge += 1
-    this._actions += 1
-    this._mech.AddHeat(heat)
-  }
-
-  commitStabilize(actionsUsed: number) {
-    this._actions += actionsUsed
-  }
-
-  endStatus(s: string) {
-    const stidx = this._mech.Statuses.findIndex(x => x === s)
-    if (stidx > -1) this._mech.Statuses.splice(stidx, 1)
-  }
-
-  endCondition(s: string) {
-    const stidx = this._mech.Conditions.findIndex(x => x === s)
-    if (stidx > -1) this._mech.Conditions.splice(stidx, 1)
-  }
-
-  shutDown() {
-    this._mech.Statuses.push('SHUT DOWN')
-    this._mech.Conditions.push('STUNNED')
-    this._actions -= 1
-    this._mech.CurrentHeat = 0
-    this.endStatus('EXPOSED')
-    this._history.push({ field: 'shutdown' })
-  }
-
-  boot() {
-    this.endStatus('SHUT DOWN')
-    this.endCondition('STUNNED')
-    // this._move = 0
-    this._actions = 0
-  }
-
-  meltdown() {
-    this._history.push({ field: 'meltdown', val: true })
-    this._mech.Destroy()
-    this._mech.ReactorDestroyed = true
-  }
-
-  avoidMeltdown() {
-    this._history.push({ field: 'avoid_meltdown', val: false })
-    this._mech.MeltdownImminent = false
-  }
-
   // -- Action Collection -------------------------------------------------------------------------
 
   private get baseActions(): Action[] {
     return store.getters.getItemCollection('Actions').filter(x => x)
   }
 
+  private get stunnedActions(): Action[] {
+    const arr = [
+      this.baseActions.find(x => x.ID === 'act_dismount'),
+      this.baseActions.find(x => x.ID === 'act_eject'),
+    ]
+    if (this._mech.IsShutDown) arr.push(this.baseActions.find(x => x.ID === 'act_boot_up'))
+    return arr.filter(x => x)
+  }
+
   public BaseActions(type: string): Action[] {
-    let act = this.baseActions.filter(
+    let arr = this._pilot_mounted && this._mech.IsStunned ? this.stunnedActions : this.baseActions
+    const act = arr.filter(
       x =>
         x.Activation === type &&
         ((x.IsMechAction && this._pilot_mounted) || (x.IsPilotAction && !this._pilot_mounted))
     )
-    if (!this._mech.IsShutDown) act = act.filter(x => x.ID !== 'act_boot_up')
-    if (type === ActivationType.Free)
+    if (!this._mech.IsShutDown) arr = arr.filter(x => x.ID !== 'act_boot_up')
+    if (type === ActivationType.Free && !this._mech.IsStunned)
       act.push(this.baseActions.find(x => x.ID === 'act_overcharge'))
-    // if (type === ActivationType.Quick) act.push(this.baseActions.find(x => x.ID === 'act_invade'))
     return act.filter(x => !x.IsActiveHidden)
   }
 
   public ItemActions(type: string): Action[] {
+    if (this._pilot_mounted && this._mech.IsStunned) return []
     return this._mech.Actions.filter(
       x =>
         x.Activation === type &&
@@ -932,16 +927,6 @@ class ActiveState {
     return out.filter(x => !exclude.some(y => y === x.Name.toUpperCase()))
   }
 
-  // interface ICombatLogData {
-  //   date: string
-  //   mission: number
-  //   encounter: number
-  //   turn: number
-  //   round: number
-  //   event: string
-  //   detail: string
-  // }
-
   // -- Log ---------------------------------------------------------------------------------------
   public get Log() {
     return this._log
@@ -953,6 +938,7 @@ class ActiveState {
     return {
       stage: s._stage,
       turn: s._round,
+      mission: s._mission,
       // move: s.Move,
       actions: s._actions,
       overwatch: s._overwatch,
@@ -963,6 +949,7 @@ class ActiveState {
       redundant: s._redundant,
       history: s._history,
       mounted: s._pilot_mounted,
+      stats: s._stats,
     }
   }
 
@@ -970,6 +957,7 @@ class ActiveState {
     const s = new ActiveState(pilot)
     s._stage = (data.stage as Stage) || Stage.Narrative
     s._round = data.turn || 1
+    s._mission = data.mission || 0
     s._actions = data.actions || 2
     s._overwatch = data.overwatch || false
     s._braced = data.braced
@@ -979,8 +967,9 @@ class ActiveState {
     s._redundant = data.redundant
     s._history = data.history
     s._pilot_mounted = data.mounted
+    s._stats = data.stats ? data.stats : ActiveState.NewCombatStats()
     return s
   }
 }
 
-export { ActiveState, IActiveStateData }
+export { ActiveState, IActiveStateData, ICombatStats }

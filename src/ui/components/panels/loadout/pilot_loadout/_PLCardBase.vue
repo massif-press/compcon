@@ -78,7 +78,7 @@
           <div class="underline-slide" style="height: 100%">
             <div v-if="item">
               <slot @click="$refs.detailDialog.show()" />
-              <div v-if="item.Actions.length">
+              <!-- <div v-if="item.Actions.length">
                 <div class="overline ml-n2 subtle--text">EQUIPMENT ACTIONS</div>
                 <v-row no-gutters justify="center">
                   <v-col
@@ -89,10 +89,10 @@
                     <cc-action :action="a" :panel="false" class="ma-2" />
                   </v-col>
                 </v-row>
-              </div>
+              </div> -->
 
               <div v-if="item.Deployables.length">
-                <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
+                <div class="overline ml-n2 my-n3 subtle--text">EQUIPMENT DEPLOYABLES</div>
                 <v-row no-gutters justify="center">
                   <v-col
                     v-for="(d, i) in item.Deployables"

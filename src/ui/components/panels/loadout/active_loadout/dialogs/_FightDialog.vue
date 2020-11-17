@@ -8,89 +8,81 @@
     <v-card tile class="background">
       <cc-titlebar large color="action--full">
         <v-icon x-large>mdi-hexagon-slice-6</v-icon>
-        Barrage
+        Fight
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
         </v-btn>
       </cc-titlebar>
 
-      select two weapons or one superheavy weapon
+      <v-card-text class="pt-3">
+        <action-detail-expander :action="action" />
+        <v-divider class="my-3" />
+        <v-container style="max-width: 800px">
+          <item-selector-row
+            v-for="(w, j) in mech.Pilot.Loadout.Weapons"
+            :key="`weap_${j}`"
+            :item="w"
+            color="action--full"
+            @click="fight(w)"
+          />
+        </v-container>
+      </v-card-text>
 
-      <v-slide-y-reverse-transition>
-        <div v-if="complete">
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
-          </v-card-actions>
-        </div>
-      </v-slide-y-reverse-transition>
+      <v-divider />
+      <v-card-actions>
+        <v-spacer />
+        <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
+      </v-card-actions>
     </v-card>
+
+    <sel-fight-dialog
+      ref="f_dialog"
+      :pilot="mech.Pilot"
+      :item="selected"
+      @close="completeFight()"
+    />
   </v-dialog>
 </template>
 
 <script lang="ts">
-import { RangeType, WeaponType, MechWeapon, WeaponSize } from '@/class'
-import { DamageType } from '@/classes/enums'
+import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
+import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
+import SelFightDialog from './_SelFightDialog.vue'
+
 import Vue from 'vue'
-// import WeaponAttack from '../components/_WeaponAttack.vue'
+import { ActivationType } from '@/classes/enums'
 
 export default Vue.extend({
-  name: 'improvised-attack-dialog',
-  // components: { WeaponAttack },
+  name: 'fight-dialog',
+  components: { ActionDetailExpander, ItemSelectorRow, SelFightDialog },
   props: {
     mech: {
+      type: Object,
+      required: true,
+    },
+    action: {
       type: Object,
       required: true,
     },
   },
   data: () => ({
     dialog: false,
-    complete: false,
+    selected: null,
+    selectedMount: null,
   }),
   computed: {
-    item(): MechWeapon {
-      return new MechWeapon({
-        id: 'improv_attack',
-        name: 'Improvised Attack',
-        mount: WeaponSize.Main,
-        type: WeaponType.Melee,
-        damage: [
-          {
-            type: DamageType.Kinetic,
-            val: '1d6',
-          },
-        ],
-        range: [
-          {
-            type: RangeType.Threat,
-            val: 1,
-          },
-        ],
-        source: 'GMS',
-        license: 'GMS',
-        license_level: 0,
-        description: '',
-        selected_profile: 0,
-        sp: 0,
-        tags: [],
-        effect: '',
-      })
+    state() {
+      return this.mech.Pilot.State
     },
   },
   methods: {
-    attackConfirm() {
-      this.complete = true
+    completeFight() {
+      this.state.CommitAction(this.action, ActivationType.Full)
+      this.hide()
     },
-    attackUndo() {
-      this.complete = false
-    },
-    reset() {
-      this.$refs.main.reset()
-      if (this.extraAux) this.$refs.aux.reset()
-    },
-    confirm(): void {
-      this.dialog = false
+    fight(item) {
+      this.selected = item
+      this.$refs.f_dialog.show()
     },
     show(): void {
       this.dialog = true

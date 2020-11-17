@@ -15,19 +15,6 @@
       </cc-titlebar>
 
       <v-card-text class="pt-2">
-        <v-row dense justify="center" class="mb-n4">
-          <v-col v-for="(s, i) in synergies" :key="`syn_${i}`" cols="auto" style="min-width: 30vw">
-            <v-alert dense outlined class="py-1" color="primary">
-              <div class="overline my-n2 subtle--text">
-                ACTIVE SYNERGY
-                <cc-slashes />
-                <span class="text--text">{{ s.Origin }}</span>
-              </div>
-              <div class="body-text text--text" v-html="s.Detail" />
-            </v-alert>
-          </v-col>
-        </v-row>
-
         <v-row justify="center" align="start">
           <v-col>
             <p class="text--text body-text ma-0">
@@ -127,12 +114,16 @@
 </template>
 
 <script lang="ts">
-import { Synergy } from '@/class'
+import { ActivationType, Synergy } from '@/class'
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'disenage-dialog',
+  name: 'boot-up-dialog',
   props: {
+    action: {
+      type: Object,
+      required: true,
+    },
     mech: {
       type: Object,
       required: true,
@@ -165,20 +156,16 @@ export default Vue.extend({
           self.finished = true
         }
       }, 80)
-
-      // const dotTimer = setTimeout(() => {
-      //   this.timeoutDots += '.'
-      // }, 1)
-      // if (this.timeoutDots.length === 20) {
-      //   clearTimeout(dotTimer)
-      //   this.timeoutDots += 'done'
-      // }
     },
     select(action) {
       this.runTimeout()
+      const activationType = this.actionFree ? ActivationType.Free : this.action.Activation
+      this.mech.Pilot.State.CommitAction(this.action, activationType)
       return !action
     },
     reset() {
+      const activationType = this.actionFree ? ActivationType.Free : this.action.Activation
+      this.mech.Pilot.State.UndoAction(this.action, activationType)
       this.actionFull = false
       this.actionFree = false
       this.finished = false

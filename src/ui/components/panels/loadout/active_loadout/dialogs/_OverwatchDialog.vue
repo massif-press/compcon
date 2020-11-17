@@ -14,7 +14,7 @@
         </v-btn>
       </cc-titlebar>
 
-      <v-card-text class="pt-3">
+      <v-card-text v-if="mech.Pilot.State.IsMounted" class="pt-3">
         <action-detail-expander :action="action" />
         <v-divider class="my-3" />
         <v-container style="max-width: 800px">
@@ -27,6 +27,19 @@
               @click="overwatch(w, m)"
             />
           </div>
+        </v-container>
+      </v-card-text>
+      <v-card-text v-else class="pt-3">
+        <action-detail-expander :action="action" />
+        <v-divider class="my-3" />
+        <v-container style="max-width: 800px">
+          <item-selector-row
+            v-for="(w, j) in mech.Pilot.Loadout.Weapons"
+            :key="`weap_${j}`"
+            :item="w"
+            color="action--full"
+            @click="pilotOverwatch(w)"
+          />
         </v-container>
       </v-card-text>
 
@@ -44,6 +57,14 @@
       :mount="selectedMount"
       @close="completeOverwatch()"
     />
+
+    <sel-fight-dialog
+      ref="f_dialog"
+      :pilot="mech.Pilot"
+      :item="selected"
+      overwatch
+      @close="completeOverwatch()"
+    />
   </v-dialog>
 </template>
 
@@ -51,13 +72,14 @@
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
 import WSkirmishDialog from './_SelSkirmishDialog.vue'
+import SelFightDialog from './_SelFightDialog.vue'
 
 import Vue from 'vue'
 import { ActivationType } from '@/class'
 
 export default Vue.extend({
   name: 'overwatch-dialog',
-  components: { ActionDetailExpander, ItemSelectorRow, WSkirmishDialog },
+  components: { ActionDetailExpander, ItemSelectorRow, WSkirmishDialog, SelFightDialog },
   props: {
     mech: {
       type: Object,
@@ -82,6 +104,10 @@ export default Vue.extend({
     completeOverwatch() {
       this.state.CommitAction(this.action, ActivationType.Reaction)
       this.hide()
+    },
+    pilotOverwatch(item) {
+      this.selected = item
+      this.$refs.f_dialog.show()
     },
     overwatch(item, mount) {
       this.selected = item

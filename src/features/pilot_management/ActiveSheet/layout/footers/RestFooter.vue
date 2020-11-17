@@ -16,12 +16,9 @@
             <span class="accent--text">COMP/CON</span>
             :
             <span class="stark-text--text">Confirmation Required</span>
-            ] TODO: text here about confirming resume mission
+            ] Pilot, proceeding will end the rest and repair protocols and re-engage combat mode.
+            Continue?
           </p>
-          <v-row justify="center" no-gutters class="mt-n2"></v-row>
-          <v-alert dense outlined :color="pilot.ActiveMech.Frame.Manufacturer.Color" class="mt-4">
-            current running stats, number of encounters completed, etc
-          </v-alert>
           <v-row justify="center" class="mt-2">
             <v-col cols="auto">
               <v-btn
@@ -57,11 +54,44 @@
             <span class="accent--text">COMP/CON</span>
             :
             <span class="stark-text--text">Confirmation Required</span>
-            ] TODO: text here about confirming mission will end, record data to pilot log
+            ] Pilot, proceeding will end the current mission and write all combat telemetry data to
+            your record. This cannot be undone. Continue?
           </p>
           <v-row justify="center" no-gutters class="mt-n2"></v-row>
           <v-alert dense outlined :color="pilot.ActiveMech.Frame.Manufacturer.Color" class="mt-4">
-            pilot log here with ability to edit stats
+            <span class="text--text">
+              The following mission data will be added to the Pilot Combat Telemetry Record:
+            </span>
+            <div class="pl-2 pr-4 flavor-text">
+              <div>
+                MOVES:
+                <b class="stark--text">{{ pilot.State.Stats.moves }}</b>
+              </div>
+              <div>
+                DAMAGE DEALT:
+                <b class="stark--text">{{ pilot.State.Stats.damage }}</b>
+              </div>
+              <div>
+                ENEMIES DESTROYED:
+                <b class="stark--text">{{ pilot.State.Stats.kills }}</b>
+              </div>
+              <div>
+                DAMAGE TAKEN:
+                <b class="stark--text">{{ pilot.State.Stats.hp_damage }}</b>
+              </div>
+              <div>
+                STRUCTURE LOST:
+                <b class="stark--text">{{ pilot.State.Stats.structure_damage }}</b>
+              </div>
+              <div>
+                HEAT TAKEN:
+                <b class="stark--text">{{ pilot.State.Stats.heat_damage }}</b>
+              </div>
+              <div>
+                REACTOR STRESS:
+                <b class="stark--text">{{ pilot.State.Stats.reactor_damage }}</b>
+              </div>
+            </div>
           </v-alert>
           <v-row justify="center" class="mt-2">
             <v-col cols="auto">
@@ -71,7 +101,7 @@
                 color="warning darken-3"
                 @click="
                   emDialog = false
-                  pilot.State.StartDowntime()
+                  pilot.State.EndMission()
                 "
               >
                 &nbsp;Complete Mission

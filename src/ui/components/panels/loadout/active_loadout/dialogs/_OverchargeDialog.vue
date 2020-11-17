@@ -136,7 +136,7 @@ export default Vue.extend({
       const timer = setInterval(function() {
         self.timer++
 
-        if (self.timer > self.action.Log.length * 10) {
+        if (self.timer > self.action.Confirm.length * 10) {
           clearInterval(timer)
           self.finished = true
         }
