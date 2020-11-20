@@ -6,6 +6,7 @@ import { NpcStats, NpcClass, NpcTemplate, NpcFeature, NpcItem } from './'
 import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
 import { ICounterData } from '@/interface'
+import { ICounterSaveData } from '../Interfaces'
 
 export interface INpcData {
   active: boolean
@@ -294,29 +295,6 @@ export class Npc implements IActor {
     }
   }
 
-  setStatBonuses(): void {
-    this._stats.ClearBonuses()
-    this._items.forEach(item => {
-      if (item.Feature.Override) {
-        for (const key in item.Feature.Override) {
-          const o = Array.isArray(item.Feature.Override[key])
-            ? item.Feature.Override[key][item.Tier - 1]
-            : item.Feature.Override[key]
-          this._stats.Overrides[key] = o
-        }
-      } else {
-        if (item.Feature.Bonus) {
-          for (const key in item.Feature.Bonus) {
-            const b = Array.isArray(item.Feature.Bonus[key])
-              ? item.Feature.Bonus[key][item.Tier - 1]
-              : item.Feature.Bonus[key]
-            this._stats.Bonuses[key] += parseInt(b)
-          }
-        }
-      }
-    })
-  }
-
   public RecalcBonuses(): void {
     this.setStatBonuses()
     this.ResetStats()
@@ -369,6 +347,29 @@ export class Npc implements IActor {
     else if (Capacitor.platform !== 'web' && this._local_image)
       return getImagePath(ImageTag.NPC, this._local_image)
     else return getImagePath(ImageTag.Frame, 'nodata.png', true)
+  }
+
+  private setStatBonuses(): void {
+    this._stats.ClearBonuses()
+    this._items.forEach(item => {
+      if (item.Feature.Override) {
+        for (const key in item.Feature.Override) {
+          const o = Array.isArray(item.Feature.Override[key])
+            ? item.Feature.Override[key][item.Tier - 1]
+            : item.Feature.Override[key]
+          this._stats.Overrides[key] = o
+        }
+      } else {
+        if (item.Feature.Bonus) {
+          for (const key in item.Feature.Bonus) {
+            const b = Array.isArray(item.Feature.Bonus[key])
+              ? item.Feature.Bonus[key][item.Tier - 1]
+              : item.Feature.Bonus[key]
+            this._stats.Bonuses[key] += parseInt(b)
+          }
+        }
+      }
+    })
   }
 
   // -- COUNTERS ----------------------------------------------------------------------------------
