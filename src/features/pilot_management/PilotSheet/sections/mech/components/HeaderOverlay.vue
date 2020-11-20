@@ -78,7 +78,7 @@ export default Vue.extend({
 <style scoped>
 #stat-row {
   position: absolute;
-  top: -54px;
+  top: -63px;
   left: -20px;
   transform: skew(0.65rad);
   background-color: var(--v-panel-base);

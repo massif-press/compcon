@@ -1,5 +1,6 @@
 {
-  "writers": [{
+  "writers": [
+    {
       "name": "Miguel Lopez",
       "twitter": "The_One_Lopez",
       "website": "https://massif-press.itch.io",
@@ -12,7 +13,8 @@
       "image": "https://pbs.twimg.com/profile_images/1181997333824901129/db5oOkTm_400x400.png"
     }
   ],
-  "lead_devs": [{
+  "lead_devs": [
+    {
       "name": "John Arena",
       "twitter": "jarena2",
       "website": "https://github.com/massif-press",
@@ -25,7 +27,8 @@
       "image": "https://pbs.twimg.com/profile_images/1221063769759133698/825h6y4B_400x400.jpg"
     }
   ],
-  "devs": [{
+  "devs": [
+    {
       "name": "Matthew Johnston",
       "github": "Eranziel",
       "image": "https://cdn.discordapp.com/attachments/654899655800258597/673268137701146655/Eranziel-avatar2.jpg"
@@ -42,7 +45,8 @@
       "image": "https://avatars2.githubusercontent.com/u/360217?s=460&v=4"
     }
   ],
-  "t5": [{
+  "t5": [
+    {
       "name": "Dustin R Kelley",
       "website": "https://kazzuma.com/",
       "blurb": "Kazzuma Creations, Art Is Not an Industry!",
@@ -66,24 +70,13 @@
       "name": "Onno Inada"
     }
   ],
-  "t4": [{
-      "name": "Adam Harrington"
-    },
-    {
-      "name": "akn318"
-    },
-    {
-      "name": "WHITESPINE"
-    },
-    {
-      "name": "ArsèneLupin42"
-    },
-    {
-      "name": "squeakanine"
-    },
-    {
-      "name": "Ginger"
-    }
+  "t4": [
+    { "name": "Adam Harrington" },
+    { "name": "akn318" },
+    { "name": "WHITESPINE" },
+    { "name": "ArsèneLupin42" },
+    { "name": "squeakanine" },
+    { "name": "Ginger" }
   ],
   "t3": [
     "MeckaMecha",
@@ -98,9 +91,7 @@
     "Mike Michael Karamchandani",
     "Mason Hochstetler",
     "Richard Moon",
-    "Thom Black",
-    "Devin",
-    "That Odd Deer"
+    "Thom Black"
   ],
   "t2": [
     "Classical_Bass",
@@ -125,34 +116,7 @@
     "John Machin",
     "David Stanfield",
     "Rowan Brown",
-    "Connor Best",
-    "[ REDACTED ]",
-    "Zombeh Zombehson",
-    "Nitro Typat",
-    "Stephen Brady",
-    "Rachel Chamberlain",
-    "Zack Walters",
-    "Sal Russo",
-    "Jonathan Konig",
-    "Arlen Pringle",
-    "friar_thea",
-    "TheLazyOne",
-    "Jath Lucent",
-    "Whitney Lee",
-    "Nicholas Vanni",
-    "spacies",
-    "Sam Collard",
-    "Tyson Haverkort",
-    "Danny Seedhouse",
-    "Reyna Angquico",
-    "Christian Alexander Torres",
-    "yuliy",
-    "S",
-    "Vania Kanstle",
-    "Sam Nikle",
-    "simon jones",
-    "Hamnat Wolf",
-    "Aethia"
+    "Connor Best"
   ],
   "t1": [
     "James Goldsworthy",
@@ -219,27 +183,7 @@
     "Halae",
     "Howard Hansen",
     "Alison",
-    "Alexander Hickman",
-    "Pierre Cogné",
-    "joseph kane",
-    "techy",
-    "SirPaperweightTheThird",
-    "Patrick Hedglen",
-    "James Lynch",
-    "Ytilee",
-    "Connor D. Phillips",
-    "Ben Jeffrey",
-    "Jack Toups",
-    "Jeffrey Sisler",
-    "Jessie Arvin",
-    "Michael",
-    "John evanofski",
-    "C.J.Schneider",
-    "Nathan",
-    "Shaun McRae",
-    "Kevin Stewart",
-    "FlgbtClub",
-    "Jeff Alexander"
+    "Alexander Hickman"
   ],
   "special_thanks": [
     "#!",

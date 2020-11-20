@@ -95,7 +95,7 @@
       </v-row>
       <v-row dense align="center" class="mt-n2">
         <v-col cols="7">
-          <v-btn-toggle v-model="npc.Tier" dense mandatory active-class="accent--text" class="mb-2">
+          <v-btn-toggle v-model="npc.Tier" dense active-class="accent--text" class="mb-2">
             <v-btn :value="1">
               <v-icon left>cci-rank-1</v-icon>
               Tier 1

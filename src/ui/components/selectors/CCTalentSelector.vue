@@ -113,7 +113,7 @@ export default Vue.extend({
     },
     enoughSelections(): boolean {
       // we should only care about the minimum pilot talents in non-levelup (creation)
-      return this.pilot.Level === 0 || !(this.pilot.Talents.length < this.selectedMin)
+      return this.levelUp || !(this.pilot.Talents.length < this.selectedMin)
     },
     selectionComplete(): boolean {
       return (this.newPilot || this.levelUp) && !this.pilot.IsMissingTalents

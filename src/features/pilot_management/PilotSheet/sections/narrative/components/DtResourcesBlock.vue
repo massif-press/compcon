@@ -1,17 +1,14 @@
 <template>
   <div class="my-3">
     <cc-title small color="pilot">
-      <section-edit-icon
-        label="Add Reserves and Bonuses"
-        @open-selector="$refs.dtSelector.show()"
-      />
-      Reserves and Bonuses
+      <section-edit-icon label="Add Downtime Reserves" @open-selector="$refs.dtSelector.show()" />
+      Downtime Reserves
     </cc-title>
     <cc-solo-dialog
       ref="dtSelector"
       icon="cci-barrage"
       no-confirm
-      title="Edit Reserves and Bonuses"
+      title="Edit Downtime Resources"
       fullscreen
       no-pad
     >

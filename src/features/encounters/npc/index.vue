@@ -201,7 +201,7 @@ import { importData } from '@/io/Data'
 import { saveFile } from '@/io/Dialog'
 
 @Component({
-  name: 'npc-manager',
+  name: 'ncp-manager',
   components: { PanelView, NpcCard, RosterGroup },
 })
 export default class NpcManager extends Vue {
@@ -261,14 +261,10 @@ export default class NpcManager extends Vue {
 
   @Watch('npcImportFile')
   async fileImport(file) {
-    console.log(file)
-    console.log(!file)
     if (!file) return
     const npcData = await importData<INpcData>(file)
-    console.log(npcData)
     this.importNpc = Npc.Deserialize(npcData)
     this.importNpc.RenewID()
-    console.log(this.importNpc)
   }
 
   confirmImport() {
