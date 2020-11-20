@@ -190,7 +190,11 @@
 
 <script lang="ts">
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+=======
+  import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+>>>>>>> parent of 6a97f2d... Added GM Resource Exporting!
 =======
   import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 >>>>>>> parent of 6a97f2d... Added GM Resource Exporting!
@@ -228,7 +232,12 @@ export default class NpcManager extends Vue {
   @Watch('selectedNpc')
   onSelectedNpcChanged() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     // this.$refs.view.resetScroll()
+=======
+    this.$refs.view.resetScroll()
+
+>>>>>>> parent of 6a97f2d... Added GM Resource Exporting!
 =======
     this.$refs.view.resetScroll()
 
