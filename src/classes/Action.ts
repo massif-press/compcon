@@ -161,7 +161,6 @@ class Action {
   }
 
   public Undo(): void {
-    console.log('undoing')
     this._uses += this.Cost
     this._used = false
     this.LastUse = null
