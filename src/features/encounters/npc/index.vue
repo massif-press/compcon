@@ -223,7 +223,7 @@ export default class NpcManager extends Vue {
 
   @Watch('selectedNpc')
   onSelectedNpcChanged() {
-    this.$refs.view.resetScroll()
+    // this.$refs.view.resetScroll()
   }
 
   created() {
