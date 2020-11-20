@@ -1,5 +1,7 @@
 import { Pilot } from '@/class'
+import { Npc } from '@/class'
 import axios from 'axios'
+import { INpcData } from '@/classes/npc/Npc'
 
 // this token is scoped to only allow for the creation of gists on a burner account
 // if this is insufficient, we'll move to a login scheme
@@ -17,16 +19,16 @@ const gistApi = axios.create({
 })
 
 const changelogGistID = '3eaedde89e606f60a6346ab190972edf'
-const getChangelog = function() {
+export const getChangelog = async (): Promise<any> => {
   return gistApi.get(changelogGistID).then(res => res.data)
 }
 
 const creditsGistID = 'c79f09f5459c5991c1228c853191bd51'
-const getCredits = function() {
+export const getCredits = async (): Promise<any> =>  {
   return gistApi.get(creditsGistID).then(res => res.data)
 }
 
-const newPilot = async function(pilot: Pilot): Promise<any> {
+export const newPilot = async (pilot: Pilot): Promise<any> => {
   return gistApi
     .post('', {
       files: {
@@ -40,7 +42,7 @@ const newPilot = async function(pilot: Pilot): Promise<any> {
     .then(res => res.data)
 }
 
-const savePilot = async function(pilot: Pilot) {
+export const savePilot = async (pilot: Pilot): Promise<any> => {
   return gistApi
     .patch(pilot.CloudID, {
       files: {
@@ -53,16 +55,36 @@ const savePilot = async function(pilot: Pilot) {
     .then(res => res.data)
 }
 
-const loadPilot = async function(id: string): Promise<IPilotData> {
+export const loadPilot = async (id: string): Promise<IPilotData> => {
   const gistData = (await gistApi.get(id)).data
   const pilotData = JSON.parse(gistData.files['pilot.txt'].content) as IPilotData
   return pilotData
 }
 
-export default {
-  getChangelog,
-  getCredits,
-  newPilot,
-  savePilot,
-  loadPilot,
+export const newNpc = async (npc: Npc): Promise<any> => {
+  const templateNames = npc.Templates.map( (template) => template.Name ).join(' ');
+
+  const result = await gistApi.post('', {
+    files: {
+      'npc.txt': { content: JSON.stringify(Npc.Serialize(npc)) },
+    },
+    description: `${npc.Name} - ${npc.Class} - ${templateNames}`
+  })
+  return result.data;
+}
+
+export const saveNpc = async (npc: Npc): Promise<any> => {
+  const templateNames = npc.Templates.map((template) => template.Name).join(' ');
+  const result = await gistApi.patch(npc.CloudID, {
+    files: {'npc.txt': { content: JSON.stringify(Npc.Serialize(npc)) }
+    },
+    description: `${npc.Name} - ${npc.Class} - ${templateNames}`
+  })
+  return result.data
+}
+
+export const loadNpc = async (id: string) : Promise<INpcData> => {
+  const gistData = (await gistApi.get(id)).data
+  const npcData = JSON.parse(gistData.files['npc.txt'].content) as INpcData
+  return npcData
 }

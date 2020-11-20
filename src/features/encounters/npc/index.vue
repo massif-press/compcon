@@ -189,7 +189,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import PanelView from '../components/PanelView.vue'
 import NpcCard from './NpcCard.vue'
 import RosterGroup from './components/RosterGroup.vue'
@@ -222,37 +222,37 @@ export default class NpcManager extends Vue {
   statblockNpc = null
 
   @Watch('selectedNpc')
-  onSelectedNpcChanged() {
+  onSelectedNpcChanged(): void {
     this.$refs.view.resetScroll()
   }
 
-  created() {
+  created(): void {
     const store = getModule(NpcStore, this.$store)
     this.npcs = store.Npcs
   }
 
-  setStatblock(npc: Npc) {
+  setStatblock(npc: Npc): void {
     this.statblockNpc = npc
     this.statblockDialog = true
   }
 
-  statblock() {
+  statblock(): string {
     return Statblock.GenerateNPC(this.statblockNpc)
   }
 
-  deleteNpc(npc: Npc) {
+  deleteNpc(npc: Npc): void {
     this.selectedNpc = null
     const store = getModule(NpcStore, this.$store)
     store.deleteNpc(npc)
   }
 
-  copyNpc(npc: Npc) {
+  copyNpc(npc: Npc): void {
     const store = getModule(NpcStore, this.$store)
     store.cloneNpc(npc)
   }
 
-  exportNpc(npc: Npc) {
-    saveFile(
+  async exportNpc(npc: Npc): Promise<any> {
+    await saveFile(
       npc.Name.toUpperCase().replace(/\W/g, '') + '.json',
       JSON.stringify(Npc.Serialize(npc)),
       'Save NPC'
@@ -260,7 +260,7 @@ export default class NpcManager extends Vue {
   }
 
   @Watch('npcImportFile')
-  async fileImport(file) {
+  async fileImport(file): Promise<any> {
     console.log(file)
     console.log(!file)
     if (!file) return
@@ -271,7 +271,7 @@ export default class NpcManager extends Vue {
     console.log(this.importNpc)
   }
 
-  confirmImport() {
+  confirmImport(): void {
     const store = getModule(NpcStore, this.$store)
     store.addNpc(this.importNpc)
     this.importNpc = null
