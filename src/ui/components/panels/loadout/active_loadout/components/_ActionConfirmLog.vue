@@ -1,7 +1,5 @@
 <template>
   <div>
-    action.used:
-    {{ action.Used }} {{ action.LogID }}
     <v-card-text class="my-0 pt-0 pb-1">
       <v-slide-x-reverse-transition v-if="!hideLog">
         <div v-if="finished" class="text-right">
@@ -83,9 +81,13 @@ export default Vue.extend({
     },
   },
   watch: {
-    used: function(newval, oldval) {
-      console.log('in watch')
-      console.log(newval, oldval)
+    used: {
+      immediate: true,
+      deep: true,
+      handler: function(newval) {
+        if (newval) this.runTimeout()
+        else this.reset()
+      },
     },
   },
   methods: {

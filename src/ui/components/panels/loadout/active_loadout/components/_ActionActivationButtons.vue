@@ -16,7 +16,7 @@
       small
       tile
       block
-      :disabled="action.Used"
+      :disabled="used"
       color="action--free"
       @click="select(true)"
     >
@@ -43,6 +43,7 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'action-activation-buttons',
   props: {
+    used: { type: Boolean },
     action: {
       type: Object,
       required: true,
@@ -54,7 +55,7 @@ export default Vue.extend({
   },
   computed: {
     disableCostActivate() {
-      if (this.action.Used) return true
+      if (this.used) return true
       if (this.action.Activation === ActivationType.Protocol)
         return !this.mech.Pilot.State.IsProtocolAvailable
       let activationCost = 0

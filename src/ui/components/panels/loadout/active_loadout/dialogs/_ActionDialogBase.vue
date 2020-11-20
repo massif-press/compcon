@@ -3,7 +3,12 @@
     <v-col v-if="action.Detail">
       <action-detail-expander :action="action" />
     </v-col>
-    <action-activation-buttons :action="action" :mech="mech" @use="$emit('use', $event)" />
+    <action-activation-buttons
+      :used="used"
+      :action="action"
+      :mech="mech"
+      @use="$emit('use', $event)"
+    />
   </v-row>
 </template>
 
@@ -16,6 +21,7 @@ export default Vue.extend({
   name: 'action-dialog-base',
   components: { ActionDetailExpander, ActionActivationButtons },
   props: {
+    used: { type: Boolean },
     mech: {
       type: Object,
       required: true,

@@ -22,6 +22,7 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'action-titlebar',
   props: {
+    used: { type: Boolean },
     mech: {
       type: Object,
       required: true,
@@ -42,8 +43,8 @@ export default Vue.extend({
     },
     unusable() {
       if (this.action.Activation === ActivationType.Protocol)
-        return this.action.Used || !this.mech.Pilot.State.IsProtocolAvailable
-      return this.action.Used || this.state.Actions < this.cost
+        return this.used || !this.mech.Pilot.State.IsProtocolAvailable
+      return this.used || this.state.Actions < this.cost
     },
   },
 })

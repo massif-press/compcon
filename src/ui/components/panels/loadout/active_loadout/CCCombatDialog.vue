@@ -6,20 +6,20 @@
     width="85vw"
   >
     <v-card tile class="background">
-      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
+      <action-titlebar :used="action.Used" :action="action" :mech="mech" @hide="hide()" />
       <v-card-text class="pt-5 pb-0">
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
         <component
           :is="component"
           v-if="component"
           ref="c"
+          :used="action.Used"
           :mech="mech"
           :action="action"
           @use="use($event)"
         />
       </v-card-text>
       <action-confirm-log
-        :key="`${action.Used}_${action.LogID}`"
         :used="action.Used"
         :action="action"
         :mech="mech"

@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    {{ process }}
+    {{ env }}
+    <v-divider />
     <cc-title>new talent ui</cc-title>
     <talent-test />
     <v-divider />
@@ -298,6 +301,14 @@ export default Vue.extend({
     onCritExample: null,
     asDroneExample: null,
   }),
+  computed: {
+    process() {
+      return process
+    },
+    env() {
+      return process.env
+    },
+  },
   created() {
     const s = getModule(CompendiumStore, this.$store)
     this.genericExample = s.MechSystems.find(x => x.ID === 'ms_eva_module')
