@@ -4,7 +4,7 @@ import axios from 'axios'
 // this token is scoped to only allow for the creation of gists on a burner account
 // if this is insufficient, we'll move to a login scheme
 const gistToken = Buffer.from(
-  'ZTk4MjJhZTE0MzYyMTRkNDY5YTlkZTNkMDIxMTRmODVkNTJhMjAwMg==',
+  'ZDM2YWU3ODA4NDNmZjk0NDYwNmYzMzQ0YzZkMTc5YjQ2MTU5NzRlMw==',
   'base64'
 ).toString()
 
