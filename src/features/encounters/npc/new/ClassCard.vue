@@ -17,13 +17,7 @@
     <v-divider class="mb-3" />
     <v-row dense align="center">
       <v-col>
-        <v-btn-toggle
-          v-model="tierPreview"
-          dense
-          mandatory
-          active-class="accent--text"
-          class="mb-2"
-        >
+        <v-btn-toggle v-model="tierPreview" dense active-class="accent--text" class="mb-2">
           <v-btn :value="1">
             <v-icon left>cci-rank-1</v-icon>
             Tier 1
