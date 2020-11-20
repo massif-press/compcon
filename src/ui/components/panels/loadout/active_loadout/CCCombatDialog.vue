@@ -1,22 +1,29 @@
 <template>
   <v-dialog
-    :key="`${action.ID}_${action.LogID}`"
     v-model="dialog"
     :fullscreen="$vuetify.breakpoint.mdAndDown"
     :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
     width="85vw"
   >
     <v-card tile class="background">
-      {{ action.LogID }}
       <action-titlebar :action="action" :mech="mech" @hide="hide()" />
       <v-card-text class="pt-5 pb-0">
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
-        <component :is="component" v-if="component" ref="c" :mech="mech" :action="action" />
+        <component
+          :is="component"
+          v-if="component"
+          ref="c"
+          :mech="mech"
+          :action="action"
+          @use="use($event)"
+        />
       </v-card-text>
       <action-confirm-log
-        :key="`${action.ID}_${action.LogID}`"
+        :key="`${action.Used}_${action.LogID}`"
+        :used="action.Used"
         :action="action"
         :mech="mech"
+        @undo="undo()"
         @hide="hide()"
       />
     </v-card>
@@ -80,6 +87,18 @@ export default Vue.extend({
       })
   },
   methods: {
+    use(free) {
+      this.mech.Pilot.State.CommitAction(this.action, free)
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this
+      Vue.nextTick().then(() => self.$forceUpdate())
+    },
+    undo() {
+      this.mech.Pilot.State.UndoAction(this.action)
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this
+      Vue.nextTick().then(() => self.$forceUpdate())
+    },
     show() {
       this.dialog = true
     },

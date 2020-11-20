@@ -65,7 +65,7 @@ export default Vue.extend({
   },
   methods: {
     select(free: boolean) {
-      this.mech.Pilot.State.CommitAction(this.action, free)
+      this.$emit('use', free)
     },
   },
 })

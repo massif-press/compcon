@@ -1,6 +1,6 @@
 <template>
   <div>
-    hidelog: {{ hideLog }} complete_condition: {{ completeCondition }} action.used:
+    action.used:
     {{ action.Used }} {{ action.LogID }}
     <v-card-text class="my-0 pt-0 pb-1">
       <v-slide-x-reverse-transition v-if="!hideLog">
@@ -47,6 +47,7 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'action-confirm-log',
   props: {
+    used: { type: Boolean },
     action: {
       type: Object,
       required: true,
@@ -77,21 +78,14 @@ export default Vue.extend({
       if (this.action.HeatCost) out.push('ALERT: REACTOR HEAT LEVELS INCREASING')
       return out
     },
-    used() {
-      return this.action.Used
-    },
     finished() {
-      return this.completeCondition && this.action.Used
+      return this.completeCondition && this.used
     },
   },
   watch: {
-    used: {
-      deep: true,
-      handler(newval, oldval) {
-        console.log(newval, oldval)
-        if (newval && !oldval) this.runTimeout()
-        else if (!newval && oldval) this.reset()
-      },
+    used: function(newval, oldval) {
+      console.log('in watch')
+      console.log(newval, oldval)
     },
   },
   methods: {
@@ -110,8 +104,8 @@ export default Vue.extend({
       this.timer = 0
     },
     undo() {
-      console.log('undo')
-      this.mech.Pilot.State.UndoAction(this.action)
+      this.$emit('undo')
+      this.reset()
     },
   },
 })

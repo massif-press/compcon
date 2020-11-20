@@ -1,11 +1,5 @@
 <template>
-  <action-dialog-base
-    ref="base"
-    :action="action"
-    :mech="mech"
-    @use="$emit('use', $event)"
-    @reset="$emit('reset', $event)"
-  />
+  <action-dialog-base ref="base" :action="action" :mech="mech" @use="$emit('use', $event)" />
 </template>
 
 <script lang="ts">
