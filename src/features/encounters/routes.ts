@@ -3,6 +3,7 @@ import Main from './index.vue'
 import Home from './landing.vue'
 
 import NpcRoster from './npc/index.vue'
+import NpcCard from './npc/NpcCard.vue'
 import NewNpc from './npc/new/index.vue'
 
 import EncounterBuilder from './encounter/index.vue'
@@ -17,11 +18,7 @@ import MissionBriefing from './mission/runner/Briefing.vue'
 import MissionRunner from './mission/runner/Active.vue'
 import MissionDebriefing from './mission/runner/Debriefing.vue'
 
-import GmPackBuilder from './sharing/components/GmPackBuilder.vue'
-
 import { RouteConfig } from 'vue-router'
-import { getModule } from 'vuex-module-decorators'
-import { NpcStore, EncounterStore, MissionStore } from '@/store'
 
 const routes: RouteConfig[] = [
   {
@@ -103,10 +100,6 @@ const routes: RouteConfig[] = [
           },
         ],
       },
-      {
-        path: '/gm/pack-builder',
-        component: GmPackBuilder
-      }
     ],
   },
 ]

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid style="overflow: hidden; margin-top: 48px; height: calc(100vh - 50px)">
-    <v-row style="height: 50%" align="center">
+    <v-row style="height: 100%" align="center">
       <v-col>
         <home-card
           title="NPC Roster"
@@ -28,27 +28,6 @@
           :icon-offset="13"
         />
       </v-col>
-
-    </v-row>
-    <v-row style="height: 50%" align="center">
-      <v-col>
-        <home-card
-          title="GM Pack Builder"
-          icon="mdi-book-plus"
-          text="Export Missions, Encounters and NPCs to share with other GMs."
-          to="/gm/pack-builder"
-        />
-      </v-col>
-
-      <v-col>
-        <home-card
-          title="GM Pack Importer"
-          icon="mdi-book-open-variant"
-          text="Import Missions, Encounters and NPCs that other GMs have made."
-          to="/gm/pack-builder"
-        />
-      </v-col>
-
     </v-row>
   </v-container>
 </template>
