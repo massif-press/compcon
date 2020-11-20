@@ -153,14 +153,8 @@ class Encounter implements IMissionStep {
     this.save()
   }
 
-  public Npcs(side: EncounterSide | "all"): Npc[] {
+  public Npcs(side: EncounterSide): Npc[] {
     const npcs = []
-    if (side === "all") {
-      const ids = this._npcs.map(x => x.id)
-      const npcs = ids.map(id => store.getters['npc/getNpcs'].find((x: Npc) => x.ID === id))
-      return npcs;
-    }
-
     this.npcIDBySide(side).forEach(id => {
       const n = store.getters['npc/getNpcs'].find((x: Npc) => x.ID === id)
       if (n) npcs.push(n)

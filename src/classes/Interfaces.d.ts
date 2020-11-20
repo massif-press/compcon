@@ -1,7 +1,3 @@
-import { INpcData } from "./npc/Npc";
-import { IMissionData } from "./encounter/Mission";
-import { IEncounterData } from "./encounter/Encounter";
-
 // global declaration file for common interfaces that are used too often to warrant placing in @/interfaces
 declare interface IImageContainer {
   SetLocalImage(): any
@@ -71,14 +67,6 @@ declare interface IEquipmentData {
   flavorName?: string
   flavorDescription?: string
   customDamageType?: string
-}
-
-declare interface IGmPackData {
-  name: string
-  description?: string
-  missions: IMissionData[]
-  encounters: IEncounterData[]
-  npcs: INpcData[]
 }
 
 declare interface IMechWeaponSaveData extends IEquipmentData {
