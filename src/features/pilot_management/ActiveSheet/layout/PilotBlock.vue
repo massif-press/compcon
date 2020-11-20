@@ -36,7 +36,7 @@
       </v-col>
     </v-row>
 
-    <clone-block v-if="pilot.State.Stage === 'Narrative'" readonly />
+    <clone-block v-if="pilot.State.Stage === 'Narrative'" hide-quirks />
 
     <v-alert
       v-if="pilot.IsDownAndOut"

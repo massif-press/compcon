@@ -68,8 +68,7 @@
       <cc-tooltip inline content="Protocol Actions" delayed>
         <action-menu-button
           :key="`protocol_btn_${state.IsProtocolAvailable}`"
-          :base-actions="state.BaseActions('Protocol')"
-          :item-actions="state.ItemActions('Protocol')"
+          :actions="state.ActionsByType('Protocol')"
           :mech="pilot.ActiveMech"
           :available="state.IsProtocolAvailable"
           :color="state.IsProtocolAvailable ? 'action--protocol' : 'grey darken-1'"
@@ -91,8 +90,7 @@
 
       <cc-tooltip inline content="Full Actions" delayed>
         <action-menu-button
-          :base-actions="state.BaseActions('Full')"
-          :item-actions="state.ItemActions('Full')"
+          :actions="state.ActionsByType('Full')"
           :mech="pilot.ActiveMech"
           :available="state.Actions > 1"
           :color="state.Actions > 1 ? 'action--full' : 'grey darken-1'"
@@ -106,8 +104,7 @@
 
       <cc-tooltip inline content="Quick Actions" delayed>
         <action-menu-button
-          :base-actions="state.BaseActions('Quick')"
-          :item-actions="state.ItemActions('Quick')"
+          :actions="state.ActionsByType('Quick')"
           :mech="pilot.ActiveMech"
           :color="state.Actions > 0 ? 'action--quick' : 'grey darken-1'"
           :available="state.Actions > 0"
@@ -121,8 +118,7 @@
 
       <cc-tooltip inline content="Reactions" delayed>
         <action-menu-button
-          :base-actions="state.BaseActions('Reaction')"
-          :item-actions="state.ItemActions('Reaction')"
+          :actions="state.ActionsByType('Reaction')"
           :mech="pilot.ActiveMech"
           color="action--reaction"
           :available="!state.IsBraceCooldown"
@@ -135,8 +131,7 @@
       </cc-tooltip>
       <cc-tooltip inline content="Free Actions" delayed>
         <action-menu-button
-          :base-actions="state.BaseActions('Free')"
-          :item-actions="state.ItemActions('Free')"
+          :actions="state.ActionsByType('Free')"
           :mech="pilot.ActiveMech"
           :available="!state.IsBraceCooldown"
           color="action--free"

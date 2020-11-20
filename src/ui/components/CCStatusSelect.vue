@@ -58,7 +58,6 @@ export default class CCStatusSelect extends Vue {
     return this.model
   }
   set arr(val) {
-    console.log(this.model)
     if (!Array.isArray(val)) val = [val]
     this.$emit('set', val)
   }

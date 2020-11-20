@@ -6,13 +6,7 @@
     width="90vw"
   >
     <v-card tile class="background">
-      <cc-titlebar large color="action--reaction">
-        <v-icon x-large>cci-reaction</v-icon>
-        Overwatch
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
+      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text v-if="mech.Pilot.State.IsMounted" class="pt-3">
         <action-detail-expander :action="action" />
@@ -76,10 +70,17 @@ import SelFightDialog from './_SelFightDialog.vue'
 
 import Vue from 'vue'
 import { ActivationType } from '@/class'
+import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 export default Vue.extend({
   name: 'overwatch-dialog',
-  components: { ActionDetailExpander, ItemSelectorRow, WSkirmishDialog, SelFightDialog },
+  components: {
+    ActionDetailExpander,
+    ItemSelectorRow,
+    WSkirmishDialog,
+    SelFightDialog,
+    ActionTitlebar,
+  },
   props: {
     mech: {
       type: Object,

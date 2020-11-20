@@ -34,7 +34,7 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'weapon-selector-row',
+  name: 'item-selector-row',
   props: {
     item: {
       type: Object,

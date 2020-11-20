@@ -96,6 +96,7 @@ class ActiveState {
     conditions: string[]
   }
 
+  private _jockeying: boolean
   private _overwatch: boolean
   private _braced: boolean
   private _overcharged: boolean
@@ -172,6 +173,14 @@ class ActiveState {
     return this.Move === this.MaxMove && this.Actions === 2 && !this._overcharged
   }
 
+  public get IsJockeying(): boolean {
+    return this._jockeying
+  }
+
+  public set IsJockeying(val: boolean) {
+    this._jockeying = val
+  }
+
   public get IsBraceCooldown(): boolean {
     return this._bracedCooldown
   }
@@ -236,6 +245,8 @@ class ActiveState {
     if (this._braced) this._braced = true
     this._actions = this._braced ? 1 : 2
     this._pilot_move = this._pilot.Speed
+    this._barrageSelections = []
+    this._barrageMounts = []
     // TODO: base on freq
     this.AllActions.forEach(a => a.Reset())
     this.AllBaseTechActions.forEach(a => a.Reset())
@@ -409,10 +420,12 @@ class ActiveState {
     })
   }
 
-  public CommitAction(action: Action, activation: ActivationType) {
+  public CommitAction(action: Action, free?: boolean) {
     let activationCost = 0
-    if (activation === ActivationType.Quick) activationCost = 1
-    else if (activation === ActivationType.Full) activationCost = 2
+    if (!free) {
+      if (action.Activation === ActivationType.Quick) activationCost = 1
+      else if (action.Activation === ActivationType.Full) activationCost = 2
+    }
 
     if (this.Actions >= activationCost) {
       action.Use()
@@ -425,6 +438,8 @@ class ActiveState {
       })
     }
 
+    if (action.ID === 'act_jockey') this.IsJockeying = true
+    else this.IsJockeying = false
     if (action.ID === 'act_self_destruct') this.StartSelfDestruct()
     if (action.ID === 'act_shut_down') this.CommitShutDown()
     if (action.ID === 'act_boot_up') this.CommitBootUp()
@@ -438,14 +453,18 @@ class ActiveState {
     }
   }
 
-  public UndoAction(action: Action, activation: ActivationType) {
-    if (activation === ActivationType.Quick) this.Actions += 1
-    else if (activation === ActivationType.Full) this.Actions += 2
+  public UndoAction(action: Action) {
+    if (action.LastUse === ActivationType.Quick) this.Actions += 1
+    else if (action.LastUse === ActivationType.Full) this.Actions += 2
+
     action.Undo()
+
     if (action.HeatCost) this._mech.CurrentHeat -= action.HeatCost
+
     const idx = this._log.map(x => x.id === action.LogID).lastIndexOf(true)
     if (idx > -1) this._log.splice(idx, 1)
 
+    if (action.ID === 'act_jockey') this.IsJockeying = false
     if (action.ID === 'act_self_destruct') this.CancelSelfDestruct()
     if (action.ID === 'act_shut_down') this.UndoShutDown()
     if (action.ID === 'act_boot_up') this.UndoBootUp()
@@ -756,7 +775,7 @@ class ActiveState {
       if (a.Used) this._overchargeUndo.push(a.ID)
       a.Reset()
     })
-    this.CommitAction(action, ActivationType.Free)
+    this.CommitAction(action)
     this.Actions += 1
     this._mech.AddHeat(heat)
     if (this._mech.CurrentOvercharge < this._mech.OverchargeTrack.length)
@@ -770,7 +789,7 @@ class ActiveState {
     this.TechActions.forEach(a => {
       if (this._overchargeUndo.includes(a.ID)) a.Use()
     })
-    this.UndoAction(action, ActivationType.Free)
+    this.UndoAction(action)
     this._overchargeUndo = []
     this.Actions -= 1
     this._mech.ReduceHeat(heat)
@@ -852,35 +871,12 @@ class ActiveState {
     return store.getters.getItemCollection('Actions').filter(x => x)
   }
 
-  private get stunnedActions(): Action[] {
-    const arr = [
-      this.baseActions.find(x => x.ID === 'act_dismount'),
-      this.baseActions.find(x => x.ID === 'act_eject'),
-    ]
-    if (this._mech.IsShutDown) arr.push(this.baseActions.find(x => x.ID === 'act_boot_up'))
-    return arr.filter(x => x)
-  }
-
   public BaseActions(type: string): Action[] {
-    let arr = this._pilot_mounted && this._mech.IsStunned ? this.stunnedActions : this.baseActions
-    const act = arr.filter(
-      x =>
-        x.Activation === type &&
-        ((x.IsMechAction && this._pilot_mounted) || (x.IsPilotAction && !this._pilot_mounted))
-    )
-    if (!this._mech.IsShutDown) arr = arr.filter(x => x.ID !== 'act_boot_up')
-    if (type === ActivationType.Free && !this._mech.IsStunned)
-      act.push(this.baseActions.find(x => x.ID === 'act_overcharge'))
-    return act.filter(x => !x.IsActiveHidden)
+    return this.baseActions.filter(x => x.Activation === type)
   }
 
   public ItemActions(type: string): Action[] {
-    if (this._pilot_mounted && this._mech.IsStunned) return []
-    return this._mech.Actions.filter(
-      x =>
-        x.Activation === type &&
-        ((x.IsMechAction && this._pilot_mounted) || (x.IsPilotAction && !this._pilot_mounted))
-    )
+    return this._mech.Actions.filter(x => x.Activation === type)
   }
 
   public ActionsByType(type: string): Action[] {
@@ -919,6 +915,20 @@ class ActiveState {
 
   public get AllActions(): Action[] {
     return this.AllBaseActions.concat(this.AllItemActions)
+  }
+
+  public get AvailableActions(): string[] {
+    if (!this.IsMounted) {
+      return this.AllActions.filter(x => x.IsPilotAction && !x.IsActiveHidden).map(x => x.ID)
+    } else {
+      if (this._mech.IsShutDown) {
+        return ['act_boot_up', 'act_dismount', 'act_eject']
+      }
+      if (this._mech.IsStunned) {
+        return ['act_dismount', 'act_eject']
+      }
+      return this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
+    }
   }
 
   public get TechActions(): Action[] {

@@ -6,13 +6,7 @@
     width="90vw"
   >
     <v-card :key="action.Used" tile class="background">
-      <cc-titlebar large color="overcharge">
-        <v-icon x-large>cci-overcharge</v-icon>
-        Overcharge
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
+      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text class="pt-3">
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
@@ -97,10 +91,11 @@
 import { DiceRoller } from '@/class'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
+import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 export default Vue.extend({
   name: 'action-dialog-base',
-  components: { ActionDetailExpander },
+  components: { ActionDetailExpander, ActionTitlebar },
   props: {
     synergyLocation: { type: [String, Array], required: false, default: () => [] },
     log: { type: Array, required: false, default: () => [] },

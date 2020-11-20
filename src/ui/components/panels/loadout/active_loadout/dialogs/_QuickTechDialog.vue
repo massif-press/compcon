@@ -6,13 +6,7 @@
     width="90vw"
   >
     <v-card tile class="background">
-      <cc-titlebar large color="action--quick">
-        <v-icon x-large>cci-quick-tech</v-icon>
-        Quick Tech
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
+      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text class="pt-3">
         <action-detail-expander :action="action" />
@@ -55,13 +49,14 @@ import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
 import ItemDialog from './_ItemActionDialog.vue'
 import InvadeDialog from './_InvadeDialog.vue'
+import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 import Vue from 'vue'
 import { ActivationType } from '@/class'
 
 export default Vue.extend({
   name: 'quick-tech-dialog',
-  components: { ActionDetailExpander, ItemDialog, InvadeDialog, ItemSelectorRow },
+  components: { ActionDetailExpander, ItemDialog, InvadeDialog, ItemSelectorRow, ActionTitlebar },
   props: {
     mech: {
       type: Object,

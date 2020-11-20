@@ -1,11 +1,13 @@
 <template>
   <v-container fluid class="mt-4 mx-2">
     <div style="height: 40px" />
-    <v-fade-transition group leave-absolute>
-      <active-narrative v-if="pilot.State.Stage === 'Narrative'" :key="'act-ft-tr-narrative'" />
-      <active-combat v-else-if="pilot.State.Stage === 'Combat'" :key="'act-ft-tr-combat'" />
-      <active-rest v-else-if="pilot.State.Stage === 'Rest'" :key="'act-ft-tr-rest'" />
-    </v-fade-transition>
+    <div v-if="pilot && pilot.State">
+      <v-fade-transition group leave-absolute>
+        <active-narrative v-if="pilot.State.Stage === 'Narrative'" :key="'act-ft-tr-narrative'" />
+        <active-combat v-else-if="pilot.State.Stage === 'Combat'" :key="'act-ft-tr-combat'" />
+        <active-rest v-else-if="pilot.State.Stage === 'Rest'" :key="'act-ft-tr-rest'" />
+      </v-fade-transition>
+    </div>
     <div>
       <span class="overline">
         PLAYER NOTES

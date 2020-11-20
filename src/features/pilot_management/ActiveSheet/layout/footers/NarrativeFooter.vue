@@ -52,7 +52,10 @@
               </v-col>
             </v-row>
           </v-alert>
-          <p v-if="pilot.ActiveMech.StatusString" class="flavor-text stark--text mt-2 mx-6 mb-0">
+          <p
+            v-if="pilot.ActiveMech.StatusString.length"
+            class="flavor-text stark--text mt-2 mx-6 mb-0"
+          >
             >//[
             <span class="accent--text">COMP/CON</span>
             :
