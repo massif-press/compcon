@@ -3,7 +3,7 @@
     <v-col v-if="action.Detail">
       <action-detail-expander :action="action" />
     </v-col>
-    <action-activation-buttons :action="action" :mech="mech" />
+    <action-activation-buttons :action="action" :mech="mech" @use="$emit('use', $event)" />
   </v-row>
 </template>
 

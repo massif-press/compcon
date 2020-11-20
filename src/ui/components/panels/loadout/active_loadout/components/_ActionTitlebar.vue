@@ -41,7 +41,6 @@ export default Vue.extend({
       return 0
     },
     unusable() {
-      console.log(this.action.Used)
       if (this.action.Activation === ActivationType.Protocol)
         return this.action.Used || !this.mech.Pilot.State.IsProtocolAvailable
       return this.action.Used || this.state.Actions < this.cost
