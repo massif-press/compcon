@@ -80,6 +80,7 @@ class Frequency {
 }
 
 class Action {
+  public LastUse: ActivationType | null
   public readonly ID: string
   public readonly Name: string
   public readonly Origin: string
@@ -93,6 +94,7 @@ class Action {
   public readonly Trigger: string
   public readonly IsPilotAction: boolean
   public readonly IsMechAction: boolean
+  public readonly IsItemAction: boolean
   public readonly IsDowntimeAction: boolean
   public readonly IsActiveHidden: boolean
   public readonly SynergyLocations: string[]
@@ -107,6 +109,7 @@ class Action {
     else this.Name = `Activate ${origin}` || 'Unknown Action'
     this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}`
     this.Origin = origin || ''
+    this.IsItemAction = !!origin
     if (data.synergy_locations)
       this.SynergyLocations = Array.isArray(data.synergy_locations)
         ? data.synergy_locations
@@ -129,6 +132,7 @@ class Action {
     this.IsActiveHidden = data.hide_active
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'
     this._used = false
+    this.LastUse = null
     this._log_id = ''
   }
 
@@ -144,6 +148,12 @@ class Action {
     this._log_id = uuid()
     this._uses -= this.Cost
     this._used = true
+    this.LastUse = this.Activation
+  }
+
+  public UseFree(): void {
+    this.Use()
+    this.LastUse = ActivationType.Free
   }
 
   public get LogID(): string {
@@ -151,13 +161,16 @@ class Action {
   }
 
   public Undo(): void {
+    console.log('undoing')
     this._uses += this.Cost
     this._used = false
+    this.LastUse = null
   }
 
   public Reset(): void {
     this._uses = this.Frequency.Uses
     this._used = false
+    this.LastUse = null
   }
 
   public get Color(): string {

@@ -6,13 +6,7 @@
     width="90vw"
   >
     <v-card tile class="background">
-      <cc-titlebar large color="action--quick">
-        <v-icon x-large>mdi-hexagon-slice-3</v-icon>
-        Ram
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
+      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text class="pt-4">
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
@@ -231,10 +225,11 @@ import { DiceRoller } from '@/class'
 import { ActivationType } from '@/classes/enums'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
+import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 export default Vue.extend({
   name: 'ram-dialog',
-  components: { ActionDetailExpander },
+  components: { ActionDetailExpander, ActionTitlebar },
   props: {
     mech: {
       type: Object,

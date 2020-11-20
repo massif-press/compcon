@@ -1,17 +1,32 @@
 <template>
-  <component
-    :is="component"
-    v-if="component"
-    ref="c"
-    :mech="mech"
-    :action="action"
-    @use="$emit('use', $event)"
-    @reset="$emit('reset', $event)"
-  />
+  <v-dialog
+    :key="`${action.ID}_${action.LogID}`"
+    v-model="dialog"
+    :fullscreen="$vuetify.breakpoint.mdAndDown"
+    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
+    width="85vw"
+  >
+    <v-card tile class="background">
+      {{ action.LogID }}
+      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
+      <v-card-text class="pt-5 pb-0">
+        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
+        <component :is="component" v-if="component" ref="c" :mech="mech" :action="action" />
+      </v-card-text>
+      <action-confirm-log
+        :key="`${action.ID}_${action.LogID}`"
+        :action="action"
+        :mech="mech"
+        @hide="hide()"
+      />
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import ActionConfirmLog from './components/_ActionConfirmLog.vue'
+import ActionTitlebar from './components/_ActionTitlebar.vue'
 
 function toTitleCase(str): string {
   str = str.toLowerCase().split(' ')
@@ -23,6 +38,7 @@ function toTitleCase(str): string {
 
 export default Vue.extend({
   name: 'cc-combat-dialog',
+  components: { ActionTitlebar, ActionConfirmLog },
   props: {
     action: {
       type: Object,
@@ -35,6 +51,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      dialog: false,
       component: null,
     }
   },
@@ -64,7 +81,10 @@ export default Vue.extend({
   },
   methods: {
     show() {
-      this.$refs.c.show()
+      this.dialog = true
+    },
+    hide() {
+      this.dialog = false
     },
   },
 })

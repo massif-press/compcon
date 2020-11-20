@@ -6,13 +6,7 @@
     width="90vw"
   >
     <v-card tile class="background">
-      <cc-titlebar large :color="action.Color" class="mb-1">
-        <v-icon x-large>{{ action.Icon }}</v-icon>
-        {{ action.Name }}
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
+      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text class="pt-4">
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
@@ -155,10 +149,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
+import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 export default Vue.extend({
   name: 'stabilize-dialog',
-  components: { ActionDetailExpander },
+  components: { ActionDetailExpander, ActionTitlebar },
   props: {
     synergyLocation: { type: [String, Array], required: false, default: () => [] },
     log: { type: Array, required: false, default: () => [] },

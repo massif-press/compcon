@@ -258,26 +258,45 @@
         <span class="overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
       <div v-for="(w, j) in m.Weapons" v-else :key="`mmtw_${i}_${j}`" class="px-1">
-        <span class="stat-text">
+        <v-row no-gutters class="stat-text">
           {{ w.Name }}
-          <span class="overline">{{ w.Source }} {{ w.Size }} {{ w.Type }}</span>
-        </span>
-        <div class="my-n1">
-          <cc-tags :tags="w.Tags" :bonus="mech.Pilot.LimitedBonus" print />
-        </div>
-        <div class="caption">
-          <b v-for="(r, k) in w.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
-          <span v-if="w.Damage.length">|</span>
-          <b v-for="(d, k) in w.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
-          <p v-if="w.Effect" :v-html="w.Effect" print />
-          <div v-if="w.Mod" class="px-2">
-            <span class="heading">
-              {{ w.Mod.Name }}
-            </span>
-            <span class="overline">&nbsp;//APPLIED MOD</span>
-            <br />
-            <p v-if="w.Mod.Effect" :v-html="w.Mod.Effect" print />
+          <div class="d-inline-block overline ml-2 my-n1">
+            {{ w.Source }} {{ w.Size }} {{ w.Type }}
           </div>
+          <v-spacer />
+          <span v-if="w.Uses">
+            <v-icon
+              v-for="n in w.MaxUses + mech.Pilot.LimitedBonus"
+              :key="`use_${w.ID}_${n}`"
+              small
+            >
+              mdi-hexagon-outline
+            </v-icon>
+          </span>
+        </v-row>
+        <div v-for="p in w.Profiles" :key="`${w.ID}_${p.Name}`">
+          <div class="caption">
+            <b v-for="(r, k) in p.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
+            <span v-if="p.Damage.length">|</span>
+            <b v-for="(d, k) in p.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
+            <p v-if="p.Effect" :v-html="p.Effect" print />
+            <p v-if="p.OnAttack" :v-html="`<b>ON ATTACK:</b> ${p.OnAttack}`" print />
+            <p v-if="p.OnHit" :v-html="`<b>ON HIT:</b> ${p.OnHit}`" print />
+            <p v-if="p.OnCrit" :v-html="`<b>ON CRIT:</b> ${p.OnCrit}`" print />
+            <print-action :actions="p.Actions" />
+            <print-deployable :deployables="p.Deployables" />
+          </div>
+          <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0;">
+            <cc-tags :tags="p.Tags" :bonus="mech.Pilot.LimitedBonus" print />
+          </div>
+        </div>
+        <div v-if="w.Mod" class="px-2">
+          <span class="heading">
+            {{ w.Mod.Name }}
+          </span>
+          <span class="overline">&nbsp;//APPLIED MOD</span>
+          <br />
+          <p v-if="w.Mod.Effect" :v-html="w.Mod.Effect" print />
         </div>
       </div>
     </fieldset>
@@ -285,11 +304,23 @@
     <fieldset>
       <legend class="heading ml-1 px-2">Systems</legend>
       <div v-for="(s, i) in mech.ActiveLoadout.Systems" :key="`mms_${i}`" class="bordered-block">
-        <span class="stat-text">
+        <v-row no-gutters class="stat-text mt-n1">
           {{ s.Name }}
-          <span class="overline">{{ s.Source }} {{ s.Type }}</span>
-        </span>
-        <p v-if="s.Effect" :v-html="s.Effect" print />
+          <div class="d-inline-block overline ml-2 my-n1">{{ s.Source }} {{ s.Type }}</div>
+          <v-spacer />
+          <span v-if="s.Uses">
+            <v-icon
+              v-for="n in s.MaxUses + mech.Pilot.LimitedBonus"
+              :key="`use_${s.ID}_${n}`"
+              small
+            >
+              mdi-hexagon-outline
+            </v-icon>
+          </span>
+        </v-row>
+        <p v-if="s.Effect" class="caption mb-n1" v-html="s.Effect" />
+        <print-action :actions="s.Actions" />
+        <print-deployable :deployables="s.Deployables" />
         <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0;">
           <cc-tags :tags="s.Tags" :bonus="mech.Pilot.LimitedBonus" print />
         </div>
@@ -300,9 +331,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import PrintAction from './components/PrintAction.vue'
+import PrintDeployable from './components/PrintDeployable.vue'
 
 export default Vue.extend({
   name: 'mech-print',
+  components: { PrintAction, PrintDeployable },
   props: {
     mech: {
       type: Object,

@@ -23,6 +23,7 @@
       <v-list class="px-2 py-3" dense color="panel">
         <v-list-item
           v-for="(a, i) in baseActions"
+          v-show="allowed.includes(a.ID)"
           :key="`${title}_action${i}_${a.Name}_${a.Used}`"
           @click="$emit('open-dialog', a)"
         >
@@ -33,9 +34,10 @@
             {{ a.Name }}
           </v-list-item-title>
         </v-list-item>
-        <v-divider v-if="baseActions.length && itemActions.length" />
+        <v-divider v-if="baseActions.length > 0 && itemActions.length > 0" />
         <v-list-item
           v-for="(a, i) in itemActions"
+          v-show="allowed.includes(a.ID)"
           :key="`${title}_action${i}_${a.Name}_${a.Used}`"
           @click="$emit('open-dialog', a)"
         >
@@ -64,16 +66,27 @@ export default Vue.extend({
       type: String,
       required: true,
     },
-    baseActions: {
+    actions: {
       type: Array,
       required: true,
     },
-    itemActions: {
-      type: Array,
+    mech: {
+      type: Object,
       required: true,
     },
     available: {
       type: Boolean,
+    },
+  },
+  computed: {
+    baseActions() {
+      return this.actions.filter(x => !x.IsItemAction)
+    },
+    itemActions() {
+      return this.actions.filter(x => x.IsItemAction)
+    },
+    allowed() {
+      return this.mech.Pilot.State.AvailableActions
     },
   },
 })

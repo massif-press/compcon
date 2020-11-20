@@ -1,41 +1,12 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
-    width="90vw"
-  >
-    <v-card tile class="background">
-      <cc-titlebar large color="action--full">
-        <v-icon x-large>mdi-hexagon-slice-6</v-icon>
-        Improvised Attack
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
-
-      <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
-      <v-card-text class="mb-0 pb-2">
-        <weapon-attack
-          ref="main"
-          :item="item"
-          :mech="mech"
-          improv
-          @confirm="attackConfirm($event)"
-          @reset="attackUndo()"
-        />
-      </v-card-text>
-      <v-slide-y-reverse-transition>
-        <div v-if="complete">
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
-          </v-card-actions>
-        </div>
-      </v-slide-y-reverse-transition>
-    </v-card>
-  </v-dialog>
+  <weapon-attack
+    ref="main"
+    :item="item"
+    :mech="mech"
+    improv
+    @confirm="attackConfirm($event)"
+    @reset="attackUndo()"
+  />
 </template>
 
 <script lang="ts">
@@ -122,12 +93,6 @@ export default Vue.extend({
       if (this.extraAux) this.$refs.aux.reset()
     },
     confirm(): void {
-      this.dialog = false
-    },
-    show(): void {
-      this.dialog = true
-    },
-    hide(): void {
       this.dialog = false
     },
   },

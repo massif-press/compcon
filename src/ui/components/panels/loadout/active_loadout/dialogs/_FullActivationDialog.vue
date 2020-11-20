@@ -1,63 +1,46 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
-    width="90vw"
-  >
-    <v-card tile class="background">
-      <cc-titlebar large color="action--full">
-        <v-icon x-large>mdi-hexagon-slice-6</v-icon>
-        Full Activation
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
-
-      <v-card-text class="pt-3">
-        <action-detail-expander :action="action" />
-        <v-divider class="my-3" />
-        <v-container v-if="Object.keys(actions).length" style="max-width: 800px">
-          <div v-for="(k, i) in Object.keys(actions)" :key="`sys_act_${i}`">
-            <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
-            <item-selector-row
-              v-for="(a, j) in actions[k]"
-              :key="`action_${j}`"
-              :item="a"
-              @click="activate(a)"
-            />
-          </div>
-        </v-container>
-        <v-card v-else flat tile class="panel clipped">
-          <v-row justify="center" align="center">
-            <v-col class="heading h3" style="opacity: 0.3" cols="auto">
-              / / NO ACTIONS AVAILABLE / /
-            </v-col>
-          </v-row>
-        </v-card>
-      </v-card-text>
-
-      <v-divider />
-      <v-card-actions>
-        <v-spacer />
-        <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
-      </v-card-actions>
+  <div>
+    <action-detail-expander :action="action" />
+    <v-divider class="mt-3" />
+    <v-container v-if="Object.keys(actions).length" style="max-width: 800px">
+      <div v-for="(k, i) in Object.keys(actions)" :key="`sys_act_${i}`">
+        <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
+        <item-selector-row
+          v-for="(a, j) in actions[k]"
+          :key="`action_${j}`"
+          :item="a"
+          @click="activate(a)"
+        />
+      </div>
+    </v-container>
+    <v-card v-else flat tile class="panel clipped">
+      <v-row justify="center" align="center">
+        <v-col class="heading h3" style="opacity: 0.3" cols="auto">
+          / / NO ACTIONS AVAILABLE / /
+        </v-col>
+      </v-row>
     </v-card>
-    <item-dialog ref="i_dialog" :mech="mech" :action="selected" @close="hide()" />
-  </v-dialog>
+
+    <cc-combat-dialog
+      v-if="selected"
+      ref="i_dialog"
+      :mech="mech"
+      :action="selected"
+      @close="hide()"
+    />
+  </div>
 </template>
 
 <script lang="ts">
 import _ from 'lodash'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
-import ItemDialog from './_ItemActionDialog.vue'
 
 import Vue from 'vue'
 
 export default Vue.extend({
   name: 'full-activation-dialog',
-  components: { ActionDetailExpander, ItemDialog, ItemSelectorRow },
+  components: { ActionDetailExpander, ItemSelectorRow },
   props: {
     mech: {
       type: Object,
@@ -69,7 +52,6 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    dialog: false,
     selected: null,
   }),
   computed: {
@@ -77,22 +59,20 @@ export default Vue.extend({
       return this.mech.Pilot.State
     },
     actions() {
-      return _.groupBy(this.state.ItemActions('Full'), 'Origin')
+      const availableActions = this.state
+        .ItemActions('Full')
+        .filter(x => this.state.AvailableActions.includes(x.ID))
+      return _.groupBy(availableActions, 'Origin')
     },
-  },
-  created() {
-    this.selected = this.action
   },
   methods: {
     activate(action) {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this
       this.selected = action
-      this.$refs.i_dialog.show()
-    },
-    show(): void {
-      this.dialog = true
-    },
-    hide(): void {
-      this.dialog = false
+      Vue.nextTick()
+        .then(() => (self.selected = action))
+        .then(() => Vue.nextTick().then(() => self.$refs.i_dialog.show()))
     },
   },
 })

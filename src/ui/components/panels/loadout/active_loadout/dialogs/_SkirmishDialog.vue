@@ -6,13 +6,7 @@
     width="90vw"
   >
     <v-card tile class="background">
-      <cc-titlebar large color="action--quick">
-        <v-icon x-large>mdi-hexagon-slice-3</v-icon>
-        Skirmish
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
+      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text class="pt-3">
         <action-detail-expander :action="action" />
@@ -51,13 +45,14 @@
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
 import WSkirmishDialog from './_SelSkirmishDialog.vue'
+import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 import Vue from 'vue'
 import { ActivationType } from '@/classes/enums'
 
 export default Vue.extend({
   name: 'skirmish-dialog',
-  components: { ActionDetailExpander, ItemSelectorRow, WSkirmishDialog },
+  components: { ActionDetailExpander, ItemSelectorRow, WSkirmishDialog, ActionTitlebar },
   props: {
     mech: {
       type: Object,

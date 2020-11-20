@@ -1,238 +1,207 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
-    width="90vw"
-  >
-    <v-card tile class="background">
-      <cc-titlebar large color="action--full">
-        <v-icon x-large>mdi-hexagon-slice-6</v-icon>
-        Skill Check
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
+  <div class="pt-2">
+    <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
+
+    <v-row justify="center" align="center">
+      <v-col>
+        <action-detail-expander :action="action" />
+      </v-col>
+      <v-col cols="auto">
+        <v-btn
+          large
+          tile
+          block
+          :disabled="actionFree"
+          :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
+          @click="actionCost = !actionCost"
+        >
+          <v-icon left>{{ action.Icon }}</v-icon>
+          {{ action.Name }}
         </v-btn>
-      </cc-titlebar>
+        <v-btn
+          v-if="action.Activation !== 'Free'"
+          small
+          tile
+          block
+          :disabled="actionCost"
+          :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
+          @click="actionFree = !actionFree"
+        >
+          <v-icon left small>cci-free-action</v-icon>
+          Free Action
+          <cc-tooltip
+            inline
+            :content="
+              `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
+            "
+          >
+            <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
+          </cc-tooltip>
+        </v-btn>
+      </v-col>
+    </v-row>
 
-      <v-card-text class="pt-4">
-        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
-
-        <v-row justify="center" align="center">
-          <v-col>
-            <action-detail-expander :action="action" />
-          </v-col>
-          <v-col cols="auto">
-            <v-btn
-              large
-              tile
-              block
-              :disabled="actionFree"
-              :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
-              @click="actionCost = !actionCost"
-            >
-              <v-icon left>{{ action.Icon }}</v-icon>
-              {{ action.Name }}
-            </v-btn>
-            <v-btn
-              v-if="action.Activation !== 'Free'"
-              small
-              tile
-              block
-              :disabled="actionCost"
-              :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
-              @click="actionFree = !actionFree"
-            >
-              <v-icon left small>cci-free-action</v-icon>
-              Free Action
-              <cc-tooltip
-                inline
-                :content="
-                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
-                "
-              >
-                <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
-              </cc-tooltip>
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-slide-x-reverse-transition>
-          <v-row v-if="actionFree || actionCost" justify="center" align="center">
-            <v-col class="mt-n2">
-              <v-row dense justify="space-around" class="text-center">
-                <v-col cols="auto">
-                  <div class="heading h3">
-                    hull
-                    <cc-synergy-display :mech="mech" location="hull" />
-                  </div>
-                  <div class="heading h2 accent--text">{{ mech.Hull }}</div>
-                </v-col>
-                <v-divider vertical />
-                <v-col cols="auto">
-                  <div class="heading h3">
-                    agility
-                    <cc-synergy-display :mech="mech" location="agility" />
-                  </div>
-                  <div class="heading h2 accent--text">{{ mech.Agi }}</div>
-                </v-col>
-                <v-divider vertical />
-                <v-col cols="auto">
-                  <div class="heading h3">
-                    systems
-                    <cc-synergy-display :mech="mech" location="systems" />
-                  </div>
-                  <div class="heading h2 accent--text">{{ mech.Sys }}</div>
-                </v-col>
-                <v-divider vertical />
-                <v-col cols="auto">
-                  <div class="heading h3">
-                    engineering
-                    <cc-synergy-display :mech="mech" location="engineering" />
-                  </div>
-                  <div class="heading h2 accent--text">{{ mech.Eng }}</div>
-                </v-col>
-              </v-row>
-            </v-col>
+    <v-slide-x-reverse-transition>
+      <v-row v-if="actionFree || actionCost" justify="center" align="center">
+        <v-col class="mt-n2">
+          <v-row dense justify="space-around" class="text-center">
             <v-col cols="auto">
-              <v-row dense justify="end">
-                <v-col
-                  cols="auto"
-                  class="ml-auto px-12 mr-n10 panel dual-sliced"
-                  style="height: 70px"
-                >
-                  <div class="overline mt-n2 pl-1">Accuracy</div>
+              <div class="heading h3">
+                hull
+                <cc-synergy-display :mech="mech" location="hull" />
+              </div>
+              <div class="heading h2 accent--text">{{ mech.Hull }}</div>
+            </v-col>
+            <v-divider vertical />
+            <v-col cols="auto">
+              <div class="heading h3">
+                agility
+                <cc-synergy-display :mech="mech" location="agility" />
+              </div>
+              <div class="heading h2 accent--text">{{ mech.Agi }}</div>
+            </v-col>
+            <v-divider vertical />
+            <v-col cols="auto">
+              <div class="heading h3">
+                systems
+                <cc-synergy-display :mech="mech" location="systems" />
+              </div>
+              <div class="heading h2 accent--text">{{ mech.Sys }}</div>
+            </v-col>
+            <v-divider vertical />
+            <v-col cols="auto">
+              <div class="heading h3">
+                engineering
+                <cc-synergy-display :mech="mech" location="engineering" />
+              </div>
+              <div class="heading h2 accent--text">{{ mech.Eng }}</div>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="auto">
+          <v-row dense justify="end">
+            <v-col cols="auto" class="ml-auto px-12 mr-n10 panel dual-sliced" style="height: 70px">
+              <div class="overline mt-n2 pl-1">Accuracy</div>
+              <v-text-field
+                v-model="accuracy"
+                type="number"
+                append-outer-icon="mdi-plus-circle-outline"
+                append-icon="cci-accuracy"
+                prepend-icon="mdi-minus-circle-outline"
+                style="width: 115px"
+                class="hide-input-spinners"
+                color="accent"
+                dense
+                hide-details
+                @click:append-outer="accuracy < 99 ? (accuracy += 1) : ''"
+                @click:prepend="accuracy > minAccuracy ? (accuracy -= 1) : ''"
+                @change="accuracy = parseInt($event)"
+              />
+            </v-col>
+            <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
+              <div class="overline mt-n2 pl-1">Difficulty</div>
+              <v-text-field
+                v-model="difficulty"
+                type="number"
+                append-outer-icon="mdi-plus-circle-outline"
+                append-icon="cci-difficulty"
+                prepend-icon="mdi-minus-circle-outline"
+                style="width: 115px"
+                class="hide-input-spinners"
+                color="accent"
+                dense
+                hide-details
+                @click:append-outer="difficulty < 99 ? (difficulty += 1) : ''"
+                @click:prepend="difficulty > minDifficulty ? (difficulty -= 1) : ''"
+                @change="difficulty = parseInt($event)"
+              />
+            </v-col>
+            <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
+              <div class="overline mt-n2 pl-1">Skill Roll</div>
+              <v-row no-gutters>
+                <v-col class="mr-n2 ml-n2">
+                  <cc-tooltip title="Roll Skill Check" :content="rollResultTooltip">
+                    <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollSkill">
+                      <v-icon large>mdi-dice-multiple</v-icon>
+                    </v-btn>
+                  </cc-tooltip>
+                </v-col>
+                <v-col>
                   <v-text-field
-                    v-model="accuracy"
+                    v-model="skillRoll"
                     type="number"
-                    append-outer-icon="mdi-plus-circle-outline"
-                    append-icon="cci-accuracy"
-                    prepend-icon="mdi-minus-circle-outline"
-                    style="width: 115px"
-                    class="hide-input-spinners"
+                    class="hide-input-spinners ml-n3"
+                    style="max-width: 60px; margin-top: -0.5px"
                     color="accent"
                     dense
                     hide-details
-                    @click:append-outer="accuracy < 99 ? (accuracy += 1) : ''"
-                    @click:prepend="accuracy > minAccuracy ? (accuracy -= 1) : ''"
-                    @change="accuracy = parseInt($event)"
                   />
-                </v-col>
-                <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
-                  <div class="overline mt-n2 pl-1">Difficulty</div>
-                  <v-text-field
-                    v-model="difficulty"
-                    type="number"
-                    append-outer-icon="mdi-plus-circle-outline"
-                    append-icon="cci-difficulty"
-                    prepend-icon="mdi-minus-circle-outline"
-                    style="width: 115px"
-                    class="hide-input-spinners"
-                    color="accent"
-                    dense
-                    hide-details
-                    @click:append-outer="difficulty < 99 ? (difficulty += 1) : ''"
-                    @click:prepend="difficulty > minDifficulty ? (difficulty -= 1) : ''"
-                    @change="difficulty = parseInt($event)"
-                  />
-                </v-col>
-                <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
-                  <div class="overline mt-n2 pl-1">Skill Roll</div>
-                  <v-row no-gutters>
-                    <v-col class="mr-n2 ml-n2">
-                      <cc-tooltip title="Roll Skill Check" :content="rollResultTooltip">
-                        <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollSkill">
-                          <v-icon large>mdi-dice-multiple</v-icon>
-                        </v-btn>
-                      </cc-tooltip>
-                    </v-col>
-                    <v-col>
-                      <v-text-field
-                        v-model="skillRoll"
-                        type="number"
-                        class="hide-input-spinners ml-n3"
-                        style="max-width: 60px; margin-top: -0.5px"
-                        color="accent"
-                        dense
-                        hide-details
-                      />
-                    </v-col>
-                  </v-row>
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
-        </v-slide-x-reverse-transition>
+        </v-col>
+      </v-row>
+    </v-slide-x-reverse-transition>
 
-        <v-slide-x-reverse-transition>
-          <v-row v-if="skillRoll" dense class="mt-n2">
-            <v-col md="6" lg="3" xl="2" class="ml-auto">
-              <v-btn
-                tile
-                block
-                class="primary"
-                :color="`primary ${succeeded ? 'lighten-1' : ''}`"
-                :disabled="failed"
-                @click="succeeded = select(succeeded)"
-              >
-                SUCCESS
-              </v-btn>
-            </v-col>
-            <v-col md="6" lg="3" xl="2">
-              <v-btn
-                tile
-                block
-                :disabled="succeeded"
-                :color="failed ? 'error' : ''"
-                @click="failed = select(failed)"
-              >
-                FAILURE
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-slide-x-reverse-transition>
-        <v-slide-x-reverse-transition>
-          <v-row v-if="succeeded || failed" no-gutters class="mt-2">
-            <v-col cols="auto" class="ml-auto" align="end">
-              <v-fade-transition v-for="(s, i) in skLog" :key="`skLog_${i}`">
-                <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
-                  <span>
-                    >//[
-                    <span class="accent--text">
-                      COMP/CON:
-                    </span>
-                    ] :
-                    <span>{{ s }}</span>
-                  </span>
-                </p>
-              </v-fade-transition>
-            </v-col>
-          </v-row>
-        </v-slide-x-reverse-transition>
-        <v-slide-x-reverse-transition>
-          <v-row v-if="finished" no-gutters>
-            <v-col cols="auto" class="ml-auto">
-              <cc-tooltip content="Undo this action, refunding any cost it may have had">
-                <v-btn x-small color="primary" class="fadeSelect" @click="reset">
-                  <v-icon small left>mdi-reload</v-icon>
-                  UNDO
-                </v-btn>
-              </cc-tooltip>
-            </v-col>
-          </v-row>
-        </v-slide-x-reverse-transition>
-      </v-card-text>
-
-      <v-slide-y-reverse-transition>
-        <div v-if="complete">
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
-          </v-card-actions>
-        </div>
-      </v-slide-y-reverse-transition>
-    </v-card>
-  </v-dialog>
+    <v-slide-x-reverse-transition>
+      <v-row v-if="skillRoll" dense class="mt-n2">
+        <v-col md="6" lg="3" xl="2" class="ml-auto">
+          <v-btn
+            tile
+            block
+            class="primary"
+            :color="`primary ${succeeded ? 'lighten-1' : ''}`"
+            :disabled="failed"
+            @click="succeeded = select(succeeded)"
+          >
+            SUCCESS
+          </v-btn>
+        </v-col>
+        <v-col md="6" lg="3" xl="2">
+          <v-btn
+            tile
+            block
+            :disabled="succeeded"
+            :color="failed ? 'error' : ''"
+            @click="failed = select(failed)"
+          >
+            FAILURE
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-slide-x-reverse-transition>
+    <v-slide-x-reverse-transition>
+      <v-row v-if="succeeded || failed" no-gutters class="mt-2">
+        <v-col cols="auto" class="ml-auto" align="end">
+          <v-fade-transition v-for="(s, i) in skLog" :key="`skLog_${i}`">
+            <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
+              <span>
+                >//[
+                <span class="accent--text">
+                  COMP/CON:
+                </span>
+                ] :
+                <span>{{ s }}</span>
+              </span>
+            </p>
+          </v-fade-transition>
+        </v-col>
+      </v-row>
+    </v-slide-x-reverse-transition>
+    <v-slide-x-reverse-transition>
+      <v-row v-if="finished" no-gutters>
+        <v-col cols="auto" class="ml-auto">
+          <cc-tooltip content="Undo this action, refunding any cost it may have had">
+            <v-btn x-small color="primary" class="fadeSelect" @click="reset">
+              <v-icon small left>mdi-reload</v-icon>
+              UNDO
+            </v-btn>
+          </cc-tooltip>
+        </v-col>
+      </v-row>
+    </v-slide-x-reverse-transition>
+  </div>
 </template>
 
 <script lang="ts">
