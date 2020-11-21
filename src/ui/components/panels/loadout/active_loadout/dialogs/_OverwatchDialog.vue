@@ -1,48 +1,33 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
-    width="90vw"
-  >
-    <v-card tile class="background">
-      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
-
-      <v-card-text v-if="mech.Pilot.State.IsMounted" class="pt-3">
-        <action-detail-expander :action="action" />
-        <v-divider class="my-3" />
-        <v-container style="max-width: 800px">
-          <div v-for="(m, i) in mech.ActiveLoadout.Mounts" :key="`bar_${i}`">
-            <item-selector-row
-              v-for="(w, j) in m.Weapons.filter(x => x.Size !== 'Superheavy' && !x.Destroyed)"
-              :key="`weap_${j}`"
-              :item="w"
-              color="action--reaction"
-              @click="overwatch(w, m)"
-            />
-          </div>
-        </v-container>
-      </v-card-text>
-      <v-card-text v-else class="pt-3">
-        <action-detail-expander :action="action" />
-        <v-divider class="my-3" />
-        <v-container style="max-width: 800px">
+  <div>
+    <v-card-text v-if="mech.Pilot.State.IsMounted" class="pt-3">
+      <action-detail-expander :action="action" />
+      <v-divider class="my-3" />
+      <v-container style="max-width: 800px">
+        <div v-for="(m, i) in mech.ActiveLoadout.Mounts" :key="`bar_${i}`">
           <item-selector-row
-            v-for="(w, j) in mech.Pilot.Loadout.Weapons"
+            v-for="(w, j) in m.Weapons.filter(x => x.Size !== 'Superheavy' && !x.Destroyed)"
             :key="`weap_${j}`"
             :item="w"
-            color="action--full"
-            @click="pilotOverwatch(w)"
+            color="action--reaction"
+            @click="overwatch(w, m)"
           />
-        </v-container>
-      </v-card-text>
-
-      <v-divider />
-      <v-card-actions>
-        <v-spacer />
-        <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
-      </v-card-actions>
-    </v-card>
+        </div>
+      </v-container>
+    </v-card-text>
+    <v-card-text v-else class="pt-3">
+      <action-detail-expander :action="action" />
+      <v-divider class="my-3" />
+      <v-container style="max-width: 800px">
+        <item-selector-row
+          v-for="(w, j) in mech.Pilot.Loadout.Weapons"
+          :key="`weap_${j}`"
+          :item="w"
+          color="action--full"
+          @click="pilotOverwatch(w)"
+        />
+      </v-container>
+    </v-card-text>
 
     <w-skirmish-dialog
       ref="s_dialog"
@@ -59,7 +44,7 @@
       overwatch
       @close="completeOverwatch()"
     />
-  </v-dialog>
+  </div>
 </template>
 
 <script lang="ts">
@@ -70,7 +55,6 @@ import SelFightDialog from './_SelFightDialog.vue'
 
 import Vue from 'vue'
 import { ActivationType } from '@/class'
-import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 export default Vue.extend({
   name: 'overwatch-dialog',
@@ -79,7 +63,6 @@ export default Vue.extend({
     ItemSelectorRow,
     WSkirmishDialog,
     SelFightDialog,
-    ActionTitlebar,
   },
   props: {
     mech: {
@@ -92,7 +75,6 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    dialog: false,
     selected: null,
     selectedMount: null,
   }),
@@ -114,12 +96,6 @@ export default Vue.extend({
       this.selected = item
       this.selectedMount = mount
       this.$refs.s_dialog.show()
-    },
-    show(): void {
-      this.dialog = true
-    },
-    hide(): void {
-      this.dialog = false
     },
   },
 })

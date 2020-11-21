@@ -1,19 +1,35 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
-    width="90vw"
-  >
-    <v-card tile class="background">
-      <cc-titlebar large color="error">
-        <v-icon x-large>mdi-alert-rhombus</v-icon>
-        SELF-DESTRUCT
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
-      </cc-titlebar>
-
+  <div>
+    <v-row v-if="state.SelfDestructCounter > 0" dense justify="center" class="text-center">
+      <v-col cols="auto">
+        <v-alert dense outlined color="error" prominent>
+          <v-icon slot="prepend" color="error" size="90" class="mr-3">
+            cci-reactor
+          </v-icon>
+          <span v-if="state.SelfDestructCounter > 1" class="heading h1 pt-2">
+            SELF DESTRUCT IN {{ state.SelfDestructCounter }} ROUNDS
+          </span>
+          <span v-else class="heading h1">SELF DESTRUCT IMMINENT</span>
+          <div class="heading subtle--text">
+            FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
+          </div>
+          <div class="px-5 my-1">
+            <v-btn small block color="error" @click="selfDestruct()">
+              <v-icon left>mdi-skull</v-icon>
+              DETONATE REACTOR
+              <v-icon right>mdi-skull</v-icon>
+            </v-btn>
+          </div>
+        </v-alert>
+        <div class="text-right mt-1">
+          <v-btn x-small color="primary" class="fadeSelect" @click="reset()">
+            <v-icon small left>mdi-reload</v-icon>
+            UNDO
+          </v-btn>
+        </div>
+      </v-col>
+    </v-row>
+    <div v-else>
       <div class="marquee">
         <span v-html="'WARNING // '.repeat(400)" />
       </div>
@@ -36,8 +52,6 @@
       </div>
 
       <v-card-text class="pt-3">
-        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
-
         <v-row justify="center" align="center">
           <v-col>
             <action-detail-expander :action="action" />
@@ -164,16 +178,15 @@
           <v-divider />
           <v-card-actions>
             <v-spacer />
-            <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
+            <v-btn color="primary" tile @click="$emit('hide')">DISMISS</v-btn>
           </v-card-actions>
         </div>
       </v-slide-y-reverse-transition>
-    </v-card>
-  </v-dialog>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { ActivationType } from '@/classes/enums'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 
@@ -195,29 +208,27 @@ export default Vue.extend({
   data: () => ({
     actionCost: false,
     actionFree: false,
-    dialog: false,
     expanded: false,
     finished: false,
     or1: false,
     or2: false,
     or3: false,
   }),
+  computed: {
+    state() {
+      return this.mech.Pilot.State
+    },
+  },
   methods: {
     select(action) {
       return !action
     },
     start() {
       this.finished = true
-      this.mech.Pilot.State.CommitAction(
-        this.action,
-        this.actionCost ? this.action.Activation : ActivationType.Free
-      )
+      this.state.CommitAction(this.action, this.actionFree)
     },
     reset() {
-      this.mech.Pilot.State.UndoAction(
-        this.action,
-        this.actionCost ? this.action.Activation : ActivationType.Free
-      )
+      this.state.UndoAction(this.action)
       this.actionCost = false
       this.actionFree = false
       this.finished = false
@@ -226,12 +237,9 @@ export default Vue.extend({
       this.or3 = false
       this.timer = 0
     },
-    show(): void {
-      this.dialog = true
-    },
-    hide(): void {
-      this.dialog = false
-      this.$emit('close')
+    selfDestruct() {
+      this.state.SelfDestruct()
+      this.$emit('hide')
     },
   },
 })

@@ -2,7 +2,14 @@
   <v-footer fixed style="padding-bottom: 2px; border-top: 2px solid var(--v-primary-base)">
     <v-dialog v-model="scDialog" width="80vw">
       <template v-slot:activator="{ on }">
-        <v-btn outlined small class="mr-5" style="border-color: var(--v-warning-base)" v-on="on">
+        <v-btn
+          outlined
+          small
+          class="mr-5"
+          style="border-color: var(--v-warning-base)"
+          :disabled="pilot.IsDead"
+          v-on="on"
+        >
           START MISSION
         </v-btn>
       </template>

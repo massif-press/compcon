@@ -49,28 +49,13 @@
       <v-slide-x-reverse-transition>
         <v-row v-if="quick.length === 2" dense justify="center">
           <v-col lg="6" md="10" xs="12">
-            <v-btn block x-large color="primary" :disabled="finished" @click="complete()">
-              {{ !finished ? 'CONFIRM' : 'ACTION CONFIRMED' }}
+            <v-btn block x-large color="primary" :disabled="used" @click="$emit('use')">
+              {{ !used ? 'CONFIRM' : 'ACTION CONFIRMED' }}
             </v-btn>
           </v-col>
         </v-row>
       </v-slide-x-reverse-transition>
-
-      <v-slide-x-reverse-transition>
-        <v-row v-if="finished">
-          <v-col cols="auto" class="ml-auto">
-            <cc-tooltip content="Undo this action, refunding any cost it may have had">
-              <v-btn x-small color="primary" class="fadeSelect" @click="undo()">
-                <v-icon small left>mdi-reload</v-icon>
-                UNDO
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-        </v-row>
-      </v-slide-x-reverse-transition>
     </v-card-text>
-
-    <cc-combat-dialog ref="i_dialog" :mech="mech" :action="selected" @close="hide()" />
   </div>
 </template>
 
@@ -83,9 +68,10 @@ import Vue from 'vue'
 import { ActivationType } from '@/classes/enums'
 
 export default Vue.extend({
-  name: 'full-activation-dialog',
+  name: 'full-tech-dialog',
   components: { ActionDetailExpander, ItemSelectorRow },
   props: {
+    used: { type: Boolean },
     mech: {
       type: Object,
       required: true,
@@ -97,8 +83,6 @@ export default Vue.extend({
   },
   data: () => ({
     quick: [],
-    selected: null,
-    finished: false,
   }),
   computed: {
     state() {
@@ -117,29 +101,21 @@ export default Vue.extend({
       )
     },
   },
-  created() {
-    this.selected = this.action
+  watch: {
+    used: {
+      immediate: true,
+      deep: true,
+      handler: function(newval) {
+        if (!newval) this.quick = []
+      },
+    },
   },
   methods: {
-    complete() {
-      this.finished = true
-      this.mech.Pilot.State.CommitAction(this.action, ActivationType.Full)
-    },
-    undo() {
-      this.quick = []
-      this.selected = null
-      this.finished = false
-      this.mech.Pilot.State.UndoAction(this.action, ActivationType.Full)
-    },
     addQuick(action) {
       if (this.quick.length < 2) this.quick.push(action)
     },
     removeQuick(idx) {
       this.quick.splice(idx, 1)
-    },
-    activate(action) {
-      this.selected = action
-      this.$refs.i_dialog.show()
     },
   },
 })

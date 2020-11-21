@@ -45,6 +45,7 @@
           :type="s"
           @clear-ejected="mech.Ejected = false"
           @clear-status="mech.Repair()"
+          @reprint="mech.FullRepair()"
         />
       </v-col>
     </v-row>

@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { RangeType, WeaponType, MechWeapon, WeaponSize } from '@/class'
-import { DamageType } from '@/classes/enums'
+import { ActivationType, DamageType } from '@/classes/enums'
 import Vue from 'vue'
 import WeaponAttack from '../components/_WeaponAttack.vue'
 
@@ -19,6 +19,7 @@ export default Vue.extend({
   name: 'improvised-attack-dialog',
   components: { WeaponAttack },
   props: {
+    used: { type: Boolean },
     mech: {
       type: Object,
       required: true,
@@ -30,7 +31,6 @@ export default Vue.extend({
   },
   data: () => ({
     dialog: false,
-    complete: false,
     activation: null,
     atk: null,
   }),
@@ -64,18 +64,30 @@ export default Vue.extend({
       })
     },
   },
+  watch: {
+    used: {
+      immediate: true,
+      deep: true,
+      handler: function(newval) {
+        if (!this.$refs.main)
+          Vue.nextTick().then(() => {
+            if (!newval) this.$refs.main.init()
+          })
+        else if (!newval) this.$refs.main.init()
+      },
+    },
+  },
   methods: {
     attackConfirm(atk: any) {
       this.atk = atk
-      this.complete = true
       this.activation = atk.activation
-      this.mech.Pilot.State.CommitAction(this.action, atk.activation)
       this.mech.Pilot.State.LogAttackAction(
         'IMPROVISED ATTACK',
         atk.activation.toUpperCase(),
         atk.damage,
         atk.kill
       )
+      this.$emit('use', atk.activation === ActivationType.Free)
     },
     attackUndo() {
       this.mech.Pilot.State.UndoLogAttackAction(
@@ -84,16 +96,7 @@ export default Vue.extend({
         this.atk.damage,
         this.atk.kill
       )
-      this.complete = false
-      this.mech.Pilot.State.UndoAction(this.action, this.activation)
-      this.atk = null
-    },
-    reset() {
-      this.$refs.main.reset()
-      if (this.extraAux) this.$refs.aux.reset()
-    },
-    confirm(): void {
-      this.dialog = false
+      this.$emit('undo')
     },
   },
 })

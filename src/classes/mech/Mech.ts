@@ -713,6 +713,8 @@ class Mech implements IActor {
   public set CurrentOvercharge(overcharge: number) {
     this._current_overcharge = overcharge
     if (this._current_overcharge < 0) this._current_overcharge = 0
+    if (this._current_overcharge > this.OverchargeTrack.length - 1)
+      this._current_overcharge = this.OverchargeTrack.length - 1
     this.save()
   }
 

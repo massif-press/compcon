@@ -23,7 +23,6 @@
 </template>
 
 <script lang="ts">
-import TurnSidebar from './turn/index.vue'
 import ActiveCombat from './views/ActiveCombat.vue'
 import ActiveNarrative from './views/ActiveNarrative.vue'
 import ActiveRest from './views/ActiveRest.vue'
@@ -37,7 +36,6 @@ import vueMixins from '@/util/vueMixins'
 export default vueMixins(activePilot).extend({
   name: 'active-sheet',
   components: {
-    TurnSidebar,
     PilotMode,
     MechBlock,
     TurnFooter,

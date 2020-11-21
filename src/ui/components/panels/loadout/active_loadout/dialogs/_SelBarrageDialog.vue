@@ -18,7 +18,13 @@
 
       <v-card-text v-if="items.length" class="mb-0 pb-2">
         <div v-for="(item, i) in items" :key="`barrage_item_${item.ID}_${i}`">
-          <weapon-attack :ref="`main_${i}`" :item="item" :mech="mech" :mount="mounts[i]">
+          <weapon-attack
+            :ref="`main_${i}`"
+            :item="item"
+            :mech="mech"
+            :mount="mounts[i]"
+            @confirm="$emit('confirm')"
+          >
             <div class="heading h2 mt-3 mb-n3">
               <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
               {{ item.Name }}
@@ -111,7 +117,6 @@ export default Vue.extend({
       this.dialog = true
     },
     hide(): void {
-      console.log('clear')
       this.mech.Pilot.State.ClearBarrageSelections()
       this.dialog = false
       this.$emit('close')

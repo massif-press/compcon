@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-n1">
+  <div class="mb-1">
     <v-row v-if="item.Size === 'Superheavy'">
       <v-col>
         <v-btn
@@ -39,7 +39,7 @@
           block
           dark
           :disabled="mech.IsStunned"
-          :color="canSkirmish ? 'grey darken-2' : `action--quick`"
+          :color="canSkirmish ? `action--quick` : 'grey darken-2'"
           @click="$refs.sk_dialog.show()"
         >
           <v-icon left>mdi-hexagon-slice-3</v-icon>
@@ -59,7 +59,13 @@
             </v-card>
           </v-menu>
         </v-btn>
-        <skirmish-dialog ref="sk_dialog" :item="item" :mech="mech" :mount="mount" />
+        <skirmish-dialog
+          ref="sk_dialog"
+          :item="item"
+          :mech="mech"
+          :mount="mount"
+          @confirm="completeSkirmish()"
+        />
       </v-col>
       <v-col>
         <v-btn
@@ -97,9 +103,10 @@
         :items="state.BarrageSelections"
         :mech="mech"
         :mounts="state.BarrageMounts"
+        @confirm="regularConfirm()"
       />
     </v-row>
-    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" :cached="item" />
+    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" :cached="item" @confirm="shConfirm()" />
   </div>
 </template>
 
@@ -129,6 +136,9 @@ export default Vue.extend({
       required: true,
     },
   },
+  data: () => ({
+    regularConfirmations: 0,
+  }),
   computed: {
     state() {
       return this.mech.Pilot.State
@@ -153,6 +163,7 @@ export default Vue.extend({
       if (this.item.IsOrdnance && !this.state.IsProtocolAvailable) return true
       if (!this.item.CanBarrage) return true
       if (this.mech.Pilot.State.Actions < 2) return true
+      if (this.item.IsLoading && !this.item.Loaded) return true
       return !!this.barrageCount
     },
     barrageDisabled() {
@@ -160,11 +171,15 @@ export default Vue.extend({
       if (!this.item.CanBarrage) return true
       if (this.mech.Pilot.State.Actions < 2) return true
       if (this.item.Size === WeaponSize.Superheavy) return this.barrageCount > 0
+      if (this.item.IsOrdnance && !this.state.IsProtocolAvailable) return true
+      if (this.item.IsLoading && !this.item.Loaded) return true
       return !this.barrageToggle && this.barrageCount === 2
     },
     canSkirmish() {
+      if (this.item.IsLoading && !this.item.Loaded) return false
       if (this.item.IsOrdnance && !this.state.IsProtocolAvailable) return false
-      return this.mech.Pilot.State.Actions < 1 || !this.item.CanSkirmish
+      if (!this.item.CanSkirmish) return false
+      return this.state.Actions > 0
     },
   },
   methods: {
@@ -180,6 +195,19 @@ export default Vue.extend({
       } else {
         this.state.RemoveBarrage(item, mount)
       }
+    },
+    regularConfirm() {
+      this.regularConfirmations += 1
+      if (this.regularConfirmations === 2) {
+        this.state.RegisterBarrage()
+        this.regularConfirmations = 0
+      }
+    },
+    shConfirm() {
+      this.state.RegisterBarrage()
+    },
+    completeSkirmish() {
+      this.state.RegisterSkirmish()
     },
   },
 })

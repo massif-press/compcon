@@ -17,12 +17,14 @@
           :mech="mech"
           :action="action"
           @use="use($event)"
+          @hide="hide()"
         />
       </v-card-text>
       <action-confirm-log
         :used="action.Used"
         :action="action"
         :mech="mech"
+        :hide-log="action && action.ID === 'act_self_destruct'"
         @undo="undo()"
         @hide="hide()"
       />
@@ -91,12 +93,14 @@ export default Vue.extend({
       this.mech.Pilot.State.CommitAction(this.action, free)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
+      this.$emit('use')
       Vue.nextTick().then(() => self.$forceUpdate())
     },
     undo() {
       this.mech.Pilot.State.UndoAction(this.action)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
+      this.$emit('undo')
       Vue.nextTick().then(() => self.$forceUpdate())
     },
     show() {

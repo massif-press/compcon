@@ -62,18 +62,11 @@
       </v-col>
     </v-row>
 
-    <v-row dense justify="center" class="mt-n1 mb-n4">
-      <v-col v-for="(s, i) in synergies" :key="`syn_${i}`" cols="auto" style="min-width: 30vw">
-        <v-alert dense outlined class="py-1" color="primary">
-          <div class="overline my-n2 subtle--text">
-            ACTIVE SYNERGY
-            <cc-slashes />
-            <span class="text--text">{{ s.Origin }}</span>
-          </div>
-          <div class="body-text text--text" v-html="s.Detail" />
-        </v-alert>
-      </v-col>
-    </v-row>
+    <cc-active-synergy
+      :locations="improv ? 'improvised_attack' : 'weapon'"
+      :mech="mech"
+      :item="improv ? null : item"
+    />
 
     <v-row dense justify="center">
       <v-col md="12" lg="10">
@@ -479,7 +472,11 @@ each source of damage is used.`
               <br />
               ALERT: REACTOR HEAT LEVELS INCREASING
             </span>
-            <cc-tooltip inline content="Undo this attack, refunding any actions it may have cost">
+            <cc-tooltip
+              v-if="!improv"
+              inline
+              content="Undo this attack, refunding any actions it may have cost"
+            >
               <v-btn x-small color="primary" class="fadeSelect" @click="reset">
                 <v-icon small left>mdi-reload</v-icon>
                 UNDO
@@ -555,12 +552,6 @@ export default Vue.extend({
     },
     attacked() {
       return this.attackQuick || this.attackFree
-    },
-    synergies() {
-      const sArr = Synergy.Collect('weapon', this.mech, this.item)
-      if (this.improv)
-        return sArr.concat(Synergy.Collect('improvised_attack', this.mech, this.item))
-      return sArr
     },
     hardpoints() {
       if (!this.mount) return false

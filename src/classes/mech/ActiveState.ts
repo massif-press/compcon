@@ -81,6 +81,11 @@ class ActiveState {
 
   private _self_destruct_counter: number
 
+  public StabilizeMajor: string
+  private _last_stabilize_major: string
+  public StabilizeMinor: string
+  private _last_stabilize_minor: string
+
   private _stabilizeUndo: {
     heat: number
     hp: number
@@ -88,7 +93,10 @@ class ActiveState {
     burn: number
     exposed: boolean
   }
+
+  public OverchargeHeat: number
   private _overchargeUndo: string[]
+
   private _shutDownUndo: {
     heat: number
     cascade: string[]
@@ -167,6 +175,7 @@ class ActiveState {
 
   public set Actions(val: number) {
     this._actions = val
+    if (this._actions > 3) this._actions = 3
   }
 
   public get IsProtocolAvailable(): boolean {
@@ -390,6 +399,14 @@ class ActiveState {
     this._barrageMounts = []
   }
 
+  public RegisterBarrage() {
+    this.CommitAction(this.AllActions.find(x => x.ID === 'act_barrage'))
+  }
+
+  public RegisterSkirmish() {
+    this.CommitAction(this.AllActions.find(x => x.ID === 'act_skirmish'))
+  }
+
   // -- Actions -----------------------------------------------------------------------------------
   private get timestamp(): string {
     const d = new Date()
@@ -423,8 +440,9 @@ class ActiveState {
   public CommitAction(action: Action, free?: boolean) {
     let activationCost = 0
     if (!free) {
-      if (action.Activation === ActivationType.Quick) activationCost = 1
-      else if (action.Activation === ActivationType.Full) activationCost = 2
+      const act = action.Activation
+      if (act === ActivationType.Quick || act === ActivationType.QuickTech) activationCost = 1
+      else if (act === ActivationType.Full || act === ActivationType.FullTech) activationCost = 2
     }
 
     if (this.Actions >= activationCost) {
@@ -438,6 +456,8 @@ class ActiveState {
       })
     }
 
+    if (action.ID === 'act_overcharge') this.CommitOvercharge()
+    if (action.ID === 'act_stabilize') this.CommitStabilize()
     if (action.ID === 'act_jockey') this.IsJockeying = true
     else this.IsJockeying = false
     if (action.ID === 'act_self_destruct') this.StartSelfDestruct()
@@ -454,8 +474,9 @@ class ActiveState {
   }
 
   public UndoAction(action: Action) {
-    if (action.LastUse === ActivationType.Quick) this.Actions += 1
-    else if (action.LastUse === ActivationType.Full) this.Actions += 2
+    const act = action.LastUse
+    if (act === ActivationType.Quick || act === ActivationType.QuickTech) this.Actions += 1
+    else if (act === ActivationType.Full || act === ActivationType.FullTech) this.Actions += 2
 
     action.Undo()
 
@@ -464,6 +485,8 @@ class ActiveState {
     const idx = this._log.map(x => x.id === action.LogID).lastIndexOf(true)
     if (idx > -1) this._log.splice(idx, 1)
 
+    if (action.ID === 'act_overcharge') this.UndoOvercharge()
+    if (action.ID === 'act_stabilize') this.UndoStabilize()
     if (action.ID === 'act_jockey') this.IsJockeying = false
     if (action.ID === 'act_self_destruct') this.CancelSelfDestruct()
     if (action.ID === 'act_shut_down') this.UndoShutDown()
@@ -474,7 +497,7 @@ class ActiveState {
     if (action.ID === 'act_hide') this._mech.RemoveStatus('HIDDEN')
     if (action.ID === 'act_eject') {
       this._mech.RemoveCondition('IMPAIRED')
-      this._pilot_mounted = false
+      this._pilot_mounted = true
     }
   }
 
@@ -699,8 +722,7 @@ class ActiveState {
     })
   }
 
-  public CommitStabilize(major: string, minor: string) {
-    this.Actions -= 2
+  public CommitStabilize() {
     this._stabilizeUndo = {
       heat: this._mech.CurrentHeat,
       hp: this._mech.CurrentHP,
@@ -711,52 +733,56 @@ class ActiveState {
       exposed: this._mech.Statuses.includes('EXPOSED'),
     }
     let str = 'FRAME.ROOT.DEF//STABILIZE'
-    if (major === 'cool') {
+    if (this.StabilizeMajor === 'cool') {
       str += ' ::REACTOR_VENT'
       this._mech.CurrentHeat = 0
       const expIdx = this._mech.Statuses.indexOf('EXPOSED')
       if (expIdx > -1) this._mech.Statuses.splice(expIdx, 1)
-    } else if (major === 'repair') {
+    } else if (this.StabilizeMajor === 'repair') {
       str += ' ::REPAIR'
       this._mech.CurrentRepairs -= 1
       this._mech.CurrentHP = this._mech.MaxHP
     }
 
-    if (minor === 'reload') {
+    if (this.StabilizeMinor === 'reload') {
       str += ' ::RELOAD'
       this._mech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).forEach(
         w => (w.Loaded = true)
       )
-    } else if (minor === 'end_burn') {
+    } else if (this.StabilizeMinor === 'end_burn') {
       str += ' ::END.BURN'
       this._mech.Burn = 0
-    } else if (minor === 'end_self_condition') str += ' ::SYS.RESTORE'
-    else if (minor === 'end_ally_condition') str += ' ::REMOTE.ASSIST'
+    } else if (this.StabilizeMinor === 'end_self_condition') str += ' ::SYS.RESTORE'
+    else if (this.StabilizeMinor === 'end_ally_condition') str += ' ::REMOTE.ASSIST'
 
     this.SetLog({
       id: `stabilize`,
       event: 'STABILIZE',
       detail: str,
     })
+
+    this._last_stabilize_major = this.StabilizeMajor
+    this.StabilizeMajor = null
+    this._last_stabilize_minor = this.StabilizeMinor
+    this.StabilizeMinor = null
   }
 
-  public UndoStabilize(major: string, minor: string) {
-    this.Actions += 2
+  public UndoStabilize() {
     const idx = this._log.map(x => x.id === 'stabilize').lastIndexOf(true)
     if (idx > -1) this._log.splice(idx, 1)
-    if (major === 'cool') {
+    if (this._last_stabilize_major === 'cool') {
       this._mech.CurrentHeat = this._stabilizeUndo.heat
       if (this._stabilizeUndo.exposed) this._mech.Statuses.push('EXPOSED')
-    } else if (major === 'repair') {
+    } else if (this._last_stabilize_major === 'repair') {
       this._mech.CurrentRepairs += 1
       this._mech.CurrentHP = this._stabilizeUndo.hp
     }
 
-    if (minor === 'reload') {
+    if (this._last_stabilize_minor === 'reload') {
       this._stabilizeUndo.reloads.forEach(
         x => (this._mech.ActiveLoadout.Weapons.find(w => w.ID === x).Loaded = false)
       )
-    } else if (minor === 'end_burn') {
+    } else if (this._last_stabilize_minor === 'end_burn') {
       this._mech.Burn = this._stabilizeUndo.burn
     }
   }
@@ -769,31 +795,31 @@ class ActiveState {
     this._mech.AddDamage(this._mech.Burn)
   }
 
-  public CommitOvercharge(action: Action, heat: number) {
+  public CommitOvercharge() {
     this._overchargeUndo = []
     this.AllActions.concat(this.TechActions).forEach(a => {
       if (a.Used) this._overchargeUndo.push(a.ID)
       a.Reset()
     })
-    this.CommitAction(action)
     this.Actions += 1
-    this._mech.AddHeat(heat)
+    this._mech.AddHeat(this.OverchargeHeat)
     if (this._mech.CurrentOvercharge < this._mech.OverchargeTrack.length)
       this._mech.CurrentOvercharge += 1
+    this.AllActions.find(x => x.ID === 'act_overcharge').Use()
   }
 
-  public UndoOvercharge(action: Action, heat: number) {
+  public UndoOvercharge() {
     this.AllActions.forEach(a => {
       if (this._overchargeUndo.includes(a.ID)) a.Use()
     })
     this.TechActions.forEach(a => {
       if (this._overchargeUndo.includes(a.ID)) a.Use()
     })
-    this.UndoAction(action)
     this._overchargeUndo = []
     this.Actions -= 1
-    this._mech.ReduceHeat(heat)
+    this._mech.ReduceHeat(this.OverchargeHeat)
     if (this._mech.CurrentOvercharge > 0) this._mech.CurrentOvercharge -= 1
+    this.OverchargeHeat = 0
   }
 
   public CommitShutDown() {
@@ -927,7 +953,9 @@ class ActiveState {
       if (this._mech.IsStunned) {
         return ['act_dismount', 'act_eject']
       }
-      return this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
+      const out = this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
+      if (!this._mech.IsShutDown) out.splice(out.indexOf('act_boot_up'), 1)
+      return out
     }
   }
 

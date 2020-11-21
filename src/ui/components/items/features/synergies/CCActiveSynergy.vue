@@ -1,7 +1,7 @@
 <template>
-  <v-row dense justify="center">
-    <v-col v-for="(s, i) in synergies" :key="`syn_${i}`" cols="auto" style="min-width: 30vw">
-      <v-alert dense outlined class="py-1" color="primary">
+  <v-row no-gutters justify="center">
+    <v-col v-for="(s, i) in synergies" :key="`syn_${i}`" style="min-width: 33%;">
+      <v-alert dense outlined class="py-1 ma-1" color="primary">
         <div class="overline my-n2 subtle--text">
           ACTIVE SYNERGY
           <cc-slashes />
