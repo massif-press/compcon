@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="inline ? 'd-inline-block' : ''">
     <cc-tooltip
       v-for="(s, i) in synergies"
       :key="`${item ? item.ID : location}_synergy_${i}`"
@@ -36,6 +36,7 @@ export default vueMixins(activePilot).extend({
     },
     large: { type: Boolean },
     small: { type: Boolean },
+    inline: { type: Boolean },
   },
   computed: {
     synergies() {

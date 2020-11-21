@@ -18,6 +18,7 @@ interface IActionData {
   synergy_locations?: string[]
   confirm?: string[]
   log?: string
+  ignore_used?: boolean
 }
 
 enum ActivePeriod {
@@ -102,6 +103,7 @@ class Action {
   public readonly Log: string
   private _uses: number
   private _used: boolean
+  private _ignore_used: boolean
   private _log_id: string
 
   public constructor(data: IActionData, origin?: string, heat?: number) {
@@ -132,6 +134,7 @@ class Action {
     this.IsActiveHidden = data.hide_active
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'
     this._used = false
+    this._ignore_used = data.ignore_used
     this.LastUse = null
     this._log_id = ''
   }
@@ -147,7 +150,7 @@ class Action {
   public Use(): void {
     this._log_id = uuid()
     this._uses -= this.Cost
-    this._used = true
+    if (!this._ignore_used) this._used = true
     this.LastUse = this.Activation
   }
 
@@ -173,10 +176,14 @@ class Action {
   }
 
   public get Color(): string {
+    if (this.ID === 'act_overcharge') return 'action--overcharge'
+    if (this.ID === 'act_self_destruct') return 'error'
     return `action--${this.Activation.toLowerCase()}`
   }
 
   public get Icon(): string {
+    if (this.ID === 'act_overcharge') return 'cci-overcharge'
+    if (this.ID === 'act_self_destruct') return 'mdi-alert-rhombus'
     switch (this.Activation) {
       case ActivationType.Full:
         return 'mdi-hexagon-slice-6'

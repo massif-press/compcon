@@ -1,7 +1,5 @@
 <template>
   <div class="pt-2">
-    <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
-
     <v-row justify="center" align="center">
       <v-col>
         <action-detail-expander :action="action" />
@@ -11,7 +9,7 @@
           large
           tile
           block
-          :disabled="actionFree"
+          :disabled="actionFree || used"
           :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
           @click="actionCost = !actionCost"
         >
@@ -23,7 +21,7 @@
           small
           tile
           block
-          :disabled="actionCost"
+          :disabled="actionCost || used"
           :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
           @click="actionFree = !actionFree"
         >
@@ -48,33 +46,41 @@
             <v-col cols="auto">
               <div class="heading h3">
                 hull
-                <cc-synergy-display :mech="mech" location="hull" />
               </div>
-              <div class="heading h2 accent--text">{{ mech.Hull }}</div>
+              <div class="heading h2 accent--text">
+                {{ mech.Hull }}
+                <cc-synergy-display inline :mech="mech" location="hull" />
+              </div>
             </v-col>
             <v-divider vertical />
             <v-col cols="auto">
               <div class="heading h3">
                 agility
-                <cc-synergy-display :mech="mech" location="agility" />
               </div>
-              <div class="heading h2 accent--text">{{ mech.Agi }}</div>
+              <div class="heading h2 accent--text">
+                {{ mech.Agi }}
+                <cc-synergy-display inline :mech="mech" location="agility" />
+              </div>
             </v-col>
             <v-divider vertical />
             <v-col cols="auto">
               <div class="heading h3">
                 systems
-                <cc-synergy-display :mech="mech" location="systems" />
               </div>
-              <div class="heading h2 accent--text">{{ mech.Sys }}</div>
+              <div class="heading h2 accent--text">
+                {{ mech.Sys }}
+                <cc-synergy-display inline :mech="mech" location="systems" />
+              </div>
             </v-col>
             <v-divider vertical />
             <v-col cols="auto">
               <div class="heading h3">
                 engineering
-                <cc-synergy-display :mech="mech" location="engineering" />
               </div>
-              <div class="heading h2 accent--text">{{ mech.Eng }}</div>
+              <div class="heading h2 accent--text">
+                {{ mech.Eng }}
+                <cc-synergy-display inline :mech="mech" location="engineering" />
+              </div>
             </v-col>
           </v-row>
         </v-col>
@@ -152,8 +158,8 @@
             block
             class="primary"
             :color="`primary ${succeeded ? 'lighten-1' : ''}`"
-            :disabled="failed"
-            @click="succeeded = select(succeeded)"
+            :disabled="used"
+            @click="$emit('use', actionFree)"
           >
             SUCCESS
           </v-btn>
@@ -162,42 +168,12 @@
           <v-btn
             tile
             block
-            :disabled="succeeded"
+            :disabled="used"
             :color="failed ? 'error' : ''"
-            @click="failed = select(failed)"
+            @click="$emit('use', actionFree)"
           >
             FAILURE
           </v-btn>
-        </v-col>
-      </v-row>
-    </v-slide-x-reverse-transition>
-    <v-slide-x-reverse-transition>
-      <v-row v-if="succeeded || failed" no-gutters class="mt-2">
-        <v-col cols="auto" class="ml-auto" align="end">
-          <v-fade-transition v-for="(s, i) in skLog" :key="`skLog_${i}`">
-            <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
-              <span>
-                >//[
-                <span class="accent--text">
-                  COMP/CON:
-                </span>
-                ] :
-                <span>{{ s }}</span>
-              </span>
-            </p>
-          </v-fade-transition>
-        </v-col>
-      </v-row>
-    </v-slide-x-reverse-transition>
-    <v-slide-x-reverse-transition>
-      <v-row v-if="finished" no-gutters>
-        <v-col cols="auto" class="ml-auto">
-          <cc-tooltip content="Undo this action, refunding any cost it may have had">
-            <v-btn x-small color="primary" class="fadeSelect" @click="reset">
-              <v-icon small left>mdi-reload</v-icon>
-              UNDO
-            </v-btn>
-          </cc-tooltip>
         </v-col>
       </v-row>
     </v-slide-x-reverse-transition>
@@ -213,6 +189,7 @@ export default Vue.extend({
   name: 'skill-check-dialog',
   components: { ActionDetailExpander },
   props: {
+    used: { type: Boolean },
     mech: {
       type: Object,
       required: true,
@@ -249,30 +226,17 @@ export default Vue.extend({
       }
       return str
     },
-    skLog() {
-      if (this.succeeded) return ['SUCCESS RECORDED.']
-      return ['FAILURE RECORDED.']
+  },
+  watch: {
+    used: {
+      immediate: true,
+      deep: true,
+      handler: function(newval) {
+        if (!newval) this.reset()
+      },
     },
   },
   methods: {
-    runTimeout() {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      const timer = setInterval(function() {
-        self.timer++
-
-        if (self.timer > self.skLog.length * 10) {
-          clearInterval(timer)
-          self.finished = true
-        }
-      }, 80)
-    },
-    select(action) {
-      this.runTimeout()
-      this.action.Use()
-      this.mech.Pilot.State.Actions -= 2
-      return !action
-    },
     rollSkill(): void {
       const roll = DiceRoller.rollToHit(this.mech.AttackBonus, this.accuracy, this.difficulty)
       this.rollResultString = `${roll.rawDieRoll} + ${roll.staticBonus}`
@@ -298,14 +262,6 @@ export default Vue.extend({
       this.actionFree = false
       this.timer = 0
       this.finished = false
-      this.mech.Pilot.State.Actions += 2
-      this.action.Undo()
-    },
-    show(): void {
-      this.dialog = true
-    },
-    hide(): void {
-      this.dialog = false
     },
   },
 })

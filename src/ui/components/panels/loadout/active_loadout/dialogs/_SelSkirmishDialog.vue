@@ -17,7 +17,13 @@
       <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
 
       <v-card-text v-if="item && mount" class="mb-0 pb-2">
-        <weapon-attack ref="main" :item="item" :mech="mech" :mount="mount">
+        <weapon-attack
+          ref="main"
+          :item="item"
+          :mech="mech"
+          :mount="mount"
+          @confirm="$emit('confirm')"
+        >
           <div class="heading h2 mt-3 mb-n3">
             <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
             {{ item.Name }}
@@ -92,6 +98,9 @@ export default Vue.extend({
     reset() {
       this.$refs.main.reset()
       if (this.extraAux) this.$refs.aux.reset()
+    },
+    init() {
+      this.$refs.main.init()
     },
     confirm(): void {
       this.dialog = false

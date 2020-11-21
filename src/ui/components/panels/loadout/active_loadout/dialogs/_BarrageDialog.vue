@@ -44,7 +44,6 @@ import WBarrageDialog from './_SelBarrageDialog.vue'
 import ShBarrageDialog from './_SelSHBarrageDialog.vue'
 
 import Vue from 'vue'
-import { ActivationType } from '@/class'
 
 export default Vue.extend({
   name: 'barrage-dialog',
@@ -71,9 +70,13 @@ export default Vue.extend({
   },
   methods: {
     disableShBarrage(w) {
+      if (w.IsLoading && !w.Loaded) return true
+      if (w.IsOrdnance && !this.state.IsProtocolAvailable) return true
       return w.Used || this.state.BarrageSelections.length > 0 || this.state.Actions < 2
     },
     disableBarrage(w) {
+      if (w.IsLoading && !w.Loaded) return true
+      if (w.IsOrdnance && !this.state.IsProtocolAvailable) return true
       return w.Used || this.state.Actions < 2
     },
     barrageToggle(w) {
@@ -89,14 +92,17 @@ export default Vue.extend({
       }
     },
     setSHBarrage(item, mount) {
-      this.state.SelectShBarrage(item, mount)
-      this.$refs.sh_b_dialog.show()
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this
+      Vue.nextTick()
+        .then(() => self.state.SelectShBarrage(item, mount))
+        .then(() => Vue.nextTick().then(() => self.$refs.sh_b_dialog.show()))
     },
     completeBarrage() {
-      this.state.CommitAction(this.action, ActivationType.Full)
+      this.$emit('use')
     },
     undoBarrage() {
-      this.state.UndoAction(this.action, ActivationType.Full)
+      this.$emit('undo')
     },
   },
 })

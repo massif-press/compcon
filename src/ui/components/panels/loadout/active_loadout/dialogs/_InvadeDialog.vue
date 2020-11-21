@@ -316,6 +316,18 @@ export default Vue.extend({
       } else l.push('ACCESS DENIED. INVASION FAILURE RECORDED.')
       return l
     },
+    round() {
+      return this.state.Round
+    },
+  },
+  watch: {
+    round: {
+      immediate: true,
+      deep: true,
+      handler: function() {
+        this.reset()
+      },
+    },
   },
   methods: {
     runTimeout() {
@@ -331,11 +343,15 @@ export default Vue.extend({
       }, 80)
     },
     select(a) {
+      this.state.CommitAction(this.action, this.actionFree)
+      this.$emit('use')
       this.selected = a
       this.runTimeout()
     },
     fail() {
       this.failed = true
+      this.state.CommitAction(this.action, this.actionFree)
+      this.$emit('use')
       this.runTimeout()
     },
     rollSkill(): void {
@@ -349,7 +365,12 @@ export default Vue.extend({
       this.rollAccuracyResults = roll.rawAccuracyRolls
       this.attackRoll = roll.total
     },
+    undo() {
+      this.state.Undo(this.action, this.actionFree)
+      this.reset()
+    },
     reset() {
+      this.$emit('undo')
       this.accuracy = 0
       this.difficulty = 0
       this.attackRoll = ''
@@ -368,8 +389,6 @@ export default Vue.extend({
       this.dialog = true
     },
     hide(): void {
-      const activation = this.actionCost ? this.action.Activation : ActivationType.Free
-      this.$emit('close', activation)
       this.dialog = false
     },
   },

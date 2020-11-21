@@ -80,6 +80,7 @@
       :type="s"
       critical-only
       hide-clear
+      @reprint="mech.FullRepair()"
     />
 
     <v-row dense>

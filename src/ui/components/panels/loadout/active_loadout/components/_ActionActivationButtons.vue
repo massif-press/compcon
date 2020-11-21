@@ -59,8 +59,16 @@ export default Vue.extend({
       if (this.action.Activation === ActivationType.Protocol)
         return !this.mech.Pilot.State.IsProtocolAvailable
       let activationCost = 0
-      if (this.action.Activation === ActivationType.Quick) activationCost = 1
-      else if (this.action.Activation === ActivationType.Full) activationCost = 2
+      if (
+        this.action.Activation === ActivationType.Quick ||
+        this.action.Activation === ActivationType.QuickTech
+      )
+        activationCost = 1
+      else if (
+        this.action.Activation === ActivationType.Full ||
+        this.action.Activation === ActivationType.FullTech
+      )
+        activationCost = 2
       return this.mech.Pilot.State.Actions < activationCost
     },
   },
