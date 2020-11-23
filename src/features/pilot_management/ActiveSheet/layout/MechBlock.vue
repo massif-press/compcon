@@ -526,27 +526,44 @@ export default vueMixins(activePilot).extend({
   watch: {
     'mech.CurrentStructure': {
       async handler(newVal: number, oldVal: number) {
+        if (newVal === 0) return
         if (newVal < oldVal) {
           this.structRolledOver = true
           await sleep(500)
           this.structRolledOver = false
           this.$refs.structureTable.show()
-        } else if (newVal > 0 && oldVal === 0) {
+        } else if (newVal > 0 && this.mech.Destroyed) {
           this.mech.Destroyed = false
         }
       },
     },
     'mech.CurrentStress': {
       async handler(newVal: number, oldVal: number) {
+        if (newVal === 0) return
         if (newVal < oldVal) {
           this.stressRolledOver = true
           await sleep(500)
           this.stressRolledOver = false
           this.$refs.stressTable.show()
+        } else if (newVal > 0 && this.mech.ReactorDestroyed) {
+          this.mech.ReactorDestroyed = false
         }
       },
     },
     'mech.Destroyed': {
+      async handler(newVal: boolean) {
+        if (newVal) {
+          this.showTalents = false
+          this.showCBs = false
+          this.showCounters = false
+        } else {
+          this.showTalents = true
+          this.showCBs = true
+          this.showCounters = true
+        }
+      },
+    },
+    'mech.ReactorDestroyed': {
       async handler(newVal: boolean) {
         if (newVal) {
           this.showTalents = false

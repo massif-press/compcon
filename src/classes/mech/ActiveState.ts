@@ -6,7 +6,7 @@
 import { store } from '@/store'
 import { Mech, Deployable, Pilot, MechEquipment, MechWeapon, Mount, ActivationType } from '@/class'
 import { Action } from '@/interface'
-import { IDeployableData } from '../Deployable'
+import { IDeployableData, IDeployedData } from '../Deployable'
 import { mission } from '@/io/Generators'
 
 enum Stage {
@@ -52,6 +52,7 @@ interface IActiveStateData {
   history: IHistoryItem[]
   mounted: boolean
   stats: ICombatStats
+  deployed: IDeployedData[]
 }
 
 class ActiveState {
@@ -131,6 +132,7 @@ class ActiveState {
     this._prepare = false
     this._bracedCooldown = false
     this._redundant = false
+    this._deployed = []
     this._history = []
     this._log = []
     this._stats = ActiveState.NewCombatStats()
@@ -202,6 +204,10 @@ class ActiveState {
     this._self_destruct_counter = 3
   }
 
+  public ReactorCriticalDestruct(): void {
+    this._self_destruct_counter = 1
+  }
+
   public CancelSelfDestruct(): void {
     this._self_destruct_counter = -1
   }
@@ -237,6 +243,7 @@ class ActiveState {
     this._pilot_mounted = true
     this._round = 0
     this._encounter++
+    this._deployed = []
     this.SetLog({
       id: 'start_combat',
       event: 'LOG.INIT',
@@ -277,6 +284,7 @@ class ActiveState {
     this._mech.CurrentHeat = 0
     this._mech.Conditions.splice(0, this._mech.Conditions.length)
     this._mech.Statuses.splice(0, this._mech.Statuses.length)
+    this._deployed.splice(0, this._deployed.length)
     if (this._mech.Pilot.IsDownAndOut)
       this._mech.Pilot.CurrentHP = Math.ceil(this._mech.Pilot.MaxHP / 2)
     this.SetLog({
@@ -295,6 +303,7 @@ class ActiveState {
       event: 'MISSION.START',
       detail: `STARTING MISSION//${this.timestamp}::${mission()}`,
     })
+    this._deployed.splice(0, this._deployed.length)
     this.StartCombat()
   }
 
@@ -305,6 +314,7 @@ class ActiveState {
       event: 'MISSION.COMPLETE',
       detail: `REC::MISSION COMPLETE @ ${this.timestamp}`,
     })
+    this._deployed.splice(0, this._deployed.length)
     this._stage = Stage.Narrative
     this.save()
   }
@@ -445,16 +455,13 @@ class ActiveState {
       else if (act === ActivationType.Full || act === ActivationType.FullTech) activationCost = 2
     }
 
-    if (this.Actions >= activationCost) {
-      action.Use()
-      this.Actions -= activationCost
-      if (action.HeatCost) this._mech.CurrentHeat += action.HeatCost
-      this.SetLog({
-        id: action.LogID,
-        event: action.Activation.toUpperCase(),
-        detail: action.Log ? action.Log : action.Name.toUpperCase(),
-      })
-    }
+    if (this.Actions < activationCost) return
+
+    action.Use()
+    this.Actions -= activationCost
+    if (action.HeatCost) this._mech.CurrentHeat += action.HeatCost
+
+    if (action.Deployable) this.Deploy(action.Deployable)
 
     if (action.ID === 'act_overcharge') this.CommitOvercharge()
     if (action.ID === 'act_stabilize') this.CommitStabilize()
@@ -471,6 +478,12 @@ class ActiveState {
       this._mech.AddCondition('IMPAIRED')
       this._pilot_mounted = false
     }
+
+    this.SetLog({
+      id: action.LogID,
+      event: action.Activation.toUpperCase(),
+      detail: action.Log ? action.Log : action.Name.toUpperCase(),
+    })
   }
 
   public UndoAction(action: Action) {
@@ -889,6 +902,57 @@ class ActiveState {
       event: 'DEPLOY EQUIPMENT',
       detail: `FRAME/REMOTE::${d.name.toUpperCase().replace(/\s/g, '.')}.${n} ++STATUS OK++`,
     })
+    this.save()
+  }
+
+  public get Deployed(): Deployable[] {
+    return this._deployed
+  }
+
+  public RemoveDeployable(id: string) {
+    this._deployed.splice(
+      this._deployed.findIndex(x => x.ID === id),
+      1
+    )
+    this.save()
+  }
+
+  public RecallDeployable(d: Deployable): boolean {
+    let activationCost = 0
+    if (d.Recall === ActivationType.Quick) activationCost = 1
+    else if (d.Recall === ActivationType.Full) activationCost = 2
+
+    if (this.Actions < activationCost) return false
+    this._actions -= activationCost
+
+    this.SetLog({
+      id: `recall_${d.ID}`,
+      event: 'RECALL EQUIPMENT',
+      detail: `DEPLOYABLE.RECALL//${d.Name}`,
+    })
+
+    d.IsRecalled = true
+    this.save()
+    return true
+  }
+
+  public RedeployDeployable(d: Deployable): boolean {
+    let activationCost = 0
+    if (d.Redeploy === ActivationType.Quick) activationCost = 1
+    else if (d.Redeploy === ActivationType.Full) activationCost = 2
+
+    if (this.Actions < activationCost) return false
+    this._actions -= activationCost
+
+    this.SetLog({
+      id: `redeploy_${d.ID}`,
+      event: 'REDEPLOY EQUIPMENT',
+      detail: `DEPLOYABLE.REDEPLOY//${d.Name}`,
+    })
+
+    d.IsRecalled = false
+    this.save()
+    return true
   }
 
   // -- Action Collection -------------------------------------------------------------------------
@@ -977,7 +1041,6 @@ class ActiveState {
       stage: s._stage,
       turn: s._round,
       mission: s._mission,
-      // move: s.Move,
       actions: s._actions,
       overwatch: s._overwatch,
       braced: s._braced,
@@ -988,6 +1051,7 @@ class ActiveState {
       history: s._history,
       mounted: s._pilot_mounted,
       stats: s._stats,
+      deployed: s._deployed.map(x => Deployable.Serialize(x)),
     }
   }
 
@@ -1006,6 +1070,9 @@ class ActiveState {
     s._history = data.history
     s._pilot_mounted = data.mounted
     s._stats = data.stats ? data.stats : ActiveState.NewCombatStats()
+    s._deployed = data.deployed
+      ? data.deployed.map(x => Deployable.Deserialize(x, pilot.ActiveMech))
+      : []
     return s
   }
 }
