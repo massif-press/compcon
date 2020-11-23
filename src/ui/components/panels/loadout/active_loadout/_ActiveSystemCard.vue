@@ -54,10 +54,10 @@
                     :action="a"
                     active
                     :activations="mech.Pilot.State.Actions"
-                    :disabled="mech.IsStunned"
+                    :disabled="item.Destroyed || mech.IsStunned"
                     :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
-                    @use="item.Use($event)"
-                    @reset="item.Reset($event)"
+                    @use="item.Use(a.Cost)"
+                    @reset="item.Undo(a.Cost)"
                   />
                 </v-col>
               </v-row>

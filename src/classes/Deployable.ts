@@ -35,7 +35,8 @@ interface IDeployableData extends ICompendiumItemData {
 }
 
 interface IDeployedData {
-  id: string
+  // id: string
+  data: IDeployableData
   assigned_name: string
   current_hp: number
   current_duration?: number
@@ -44,6 +45,7 @@ interface IDeployedData {
 }
 
 class Deployable extends CompendiumItem {
+  public readonly ID: string
   public readonly BaseName: string
   public readonly Type: string
   public readonly Detail: string
@@ -60,18 +62,26 @@ class Deployable extends CompendiumItem {
   public readonly Speed: number
   public readonly IsPilotDeployable: boolean
   public readonly IsMechDeployable: boolean
+  public readonly Recall: ActivationType | null
+  public readonly Redeploy: ActivationType | null
   private _current_hp: number
   private _current_heat: number
+  private _current_repairs: number
   private _overshield: number
   private _destroyed: boolean
-  private _activation: ActivationType
+  private _recalled: boolean
+  private _data: IDeployableData
 
   public constructor(data: IDeployableData, owner: Mech, n?: number) {
     data.id = `deployable_${uuid()}`
     super(data)
+    this.ID = data.id
+    this._data = data
     this.BaseName = `${owner ? `${owner.EncounterName}'s ` : ''}${data.name}${n ? ` (#${n})` : ''}`
     this.Type = data.type || 'Deployable'
     this.Detail = data.detail
+    this.Recall = data.recall || null
+    this.Redeploy = data.redeploy || null
     this.Size = data.size + Bonus.get('deployable_size', owner)
     this.MaxHP = data.hp + Bonus.get('deployable_hp', owner)
     this._current_hp = this.MaxHP
@@ -86,8 +96,8 @@ class Deployable extends CompendiumItem {
     this.Speed = (data.speed || 0) + Bonus.get('deployable_speed', owner)
     this._overshield = 0
     this._current_heat = 0
+    this._current_repairs = 0
     this._destroyed = false
-    this._activation = data.activation || ActivationType.Quick
     this.IsPilotDeployable = data.pilot
     this.IsMechDeployable = data.mech || !data.pilot
   }
@@ -133,6 +143,16 @@ class Deployable extends CompendiumItem {
     else this._current_heat = heat
     this.save()
   }
+  public get CurrentRepairs(): number {
+    if (this._current_heat > this.Repcap) this.CurrentRepairs = this.Repcap
+    return this._current_heat
+  }
+
+  public set CurrentRepairs(heat: number) {
+    if (heat > this.Repcap) this._current_heat = this.Repcap
+    else this._current_heat = heat
+    this.save()
+  }
 
   public get Destroyed(): boolean {
     return this._destroyed
@@ -143,21 +163,37 @@ class Deployable extends CompendiumItem {
     this.save()
   }
 
+  public get IsRecalled(): boolean {
+    return this._recalled
+  }
+
+  public set IsRecalled(val: boolean) {
+    this._recalled = val
+  }
+
+  public Repair(): void {
+    this.CurrentHP = this.MaxHP
+    this.CurrentHeat = 0
+    this.Destroyed = false
+  }
+
   public static Serialize(deployable: Deployable): IDeployedData {
     return {
-      id: deployable.ID,
+      // id: deployable.ID,
+      data: deployable._data,
       assigned_name: deployable.Name,
       current_hp: deployable.CurrentHP,
       Destroyed: deployable.Destroyed,
     }
   }
 
-  public static Deserialize(base: IDeployableData, owner: Mech, data: IDeployedData): Deployable {
-    const d = new Deployable(base, owner)
-    d.Name = data.assigned_name
-    d.CurrentHP = data.current_hp
-    d.Destroyed = data.Destroyed
-    return d
+  public static Deserialize(d: IDeployedData, owner: Mech): Deployable {
+    if (!d.data) return
+    const dep = new Deployable(d.data, owner)
+    dep.Name = d.assigned_name
+    dep.CurrentHP = d.current_hp
+    dep.Destroyed = d.Destroyed
+    return dep
   }
 }
 

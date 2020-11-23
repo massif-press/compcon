@@ -1133,7 +1133,6 @@ class Pilot {
     this._lastCloudUpdate = data.lastCloudUpdate || ''
     this._id = data.id
     this._loadout = data.loadout ? PilotLoadout.Deserialize(data.loadout) : new PilotLoadout(0)
-    this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
     this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats()
     this._level = data.level
     this._callsign = data.callsign
@@ -1165,6 +1164,7 @@ class Pilot {
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []
     this.ActiveMech = this._mechs.find(x => x.ID === data.active_mech)
+    this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []

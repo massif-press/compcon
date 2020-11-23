@@ -337,7 +337,7 @@
               full-icon="cci-reactor"
               @update="mech.CurrentStress = $event"
             >
-              <span class="heading h3">Reactor</span>
+              <span class="heading h3">Stress</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto">

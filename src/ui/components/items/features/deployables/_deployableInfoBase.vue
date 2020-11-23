@@ -35,7 +35,7 @@
         inline
         class="mx-1"
         name="Evasion"
-        :value="deployable.evasion || 10"
+        :value="deployable.evasion || 5"
       />
       <cc-statblock-panel
         v-if="deployable.edef"

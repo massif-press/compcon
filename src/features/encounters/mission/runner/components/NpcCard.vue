@@ -162,7 +162,7 @@
               :class="{ rolledOver: stressRolledOver }"
               @update="npc.CurrentStress = $event"
             >
-              <span class="heading h3">Reactor</span>
+              <span class="heading h3">Stress</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto" class="mr-4">

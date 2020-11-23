@@ -120,7 +120,7 @@
       </v-col>
       <v-spacer />
       <v-col class="text-center">
-        <div style="line-height:0" class="overline mb-6 mr-2">REACTOR</div>
+        <div style="line-height:0" class="overline mb-6 mr-2">STRESS</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">cci-reactor</v-icon>
           <b

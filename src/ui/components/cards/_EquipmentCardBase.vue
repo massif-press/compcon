@@ -58,7 +58,7 @@
       <div class="overline ml-n2 mb-n1 subtle--text">EQUIPMENT TAGS</div>
       <cc-tags :tags="item.Tags" extended />
     </div>
-    <div v-if="item.ProfileTags && item.ProfileTags.length">
+    <div v-else-if="item.ProfileTags && item.ProfileTags.length">
       <div class="overline ml-n2 mb-n1 subtle--text">EQUIPMENT TAGS</div>
       <cc-tags :tags="item.ProfileTags" extended />
     </div>

@@ -1,6 +1,6 @@
 <template>
   <v-container fluid style="margin-top: 40px; overflow-y: hidden" class="pb-0">
-    <div class="overline">
+    <div class="overline my-n2">
       <b>{{ mission.Name }}</b>
       //{{ activeMission.Step.toString().padStart(2, '0') }}:{{
         activeMission.Encounter.StepType === 'Encounter' ? activeMission.Encounter.Name : 'Rest'

@@ -101,6 +101,7 @@ class Action {
   public readonly SynergyLocations: string[]
   public readonly Confirm: string[]
   public readonly Log: string
+  public Deployable: IDeployableData
   private _uses: number
   private _used: boolean
   private _ignore_used: boolean
@@ -197,7 +198,7 @@ class Action {
   }
 
   public static CreateDeployAction(d: IDeployableData, origin?: string): Action {
-    return new Action(
+    const a = new Action(
       {
         id: `deploy_${d.name}`,
         name: `Deploy ${d.name}`,
@@ -211,6 +212,8 @@ class Action {
       },
       origin
     )
+    a.Deployable = d
+    return a
   }
 }
 

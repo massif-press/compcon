@@ -191,15 +191,15 @@ export default class CCStressTable extends Vue {
   }
 
   applyES(): void {
-    if (!this.mech.Conditions.includes('Impaired')) this.mech.Conditions.push('Impaired')
+    this.mech.AddCondition('IMPAIRED')
     this.close()
   }
   applyPPD(): void {
-    if (!this.mech.Statuses.includes('Exposed')) this.mech.Statuses.push('Exposed')
+    this.mech.AddCondition('EXPOSED')
     this.close()
   }
   applyMeltdown(): void {
-    // this.mech.MeltdownImminent = true
+    this.mech.Pilot.State.ReactorCriticalDestruct()
     this.close()
   }
 }

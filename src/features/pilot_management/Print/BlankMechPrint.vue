@@ -57,7 +57,7 @@
         </v-row>
       </v-col>
       <v-col>
-        <div class="overline mb-n1">REACTOR</div>
+        <div class="overline mb-n1">STRESS</div>
         <v-row dense no-gutters align="center">
           <v-col cols="auto">
             <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-reactor</v-icon>
