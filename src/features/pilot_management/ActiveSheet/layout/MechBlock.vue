@@ -421,7 +421,7 @@
         <v-row dense>
           <v-col cols="12" class="mb-n4">
             <span class="overline">
-              COUTNERS
+              COUNTERS
             </span>
             <v-btn small right icon class="fadeSelect" @click="showCounters = !showCounters">
               <v-icon small v-html="showCounters ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />

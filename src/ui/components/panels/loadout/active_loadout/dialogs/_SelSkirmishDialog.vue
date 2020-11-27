@@ -6,7 +6,14 @@
     width="90vw"
   >
     <v-card tile class="background">
-      <cc-titlebar large color="action--quick">
+      <cc-titlebar v-if="overwatch" large color="action--reaction">
+        <v-icon x-large>cci-reaction</v-icon>
+        Overwatch
+        <v-btn slot="items" dark icon @click="hide">
+          <v-icon large left>close</v-icon>
+        </v-btn>
+      </cc-titlebar>
+      <cc-titlebar v-else large color="action--quick">
         <v-icon x-large>mdi-hexagon-slice-3</v-icon>
         Skirmish
         <v-btn slot="items" dark icon @click="hide">
@@ -22,7 +29,8 @@
           :item="item"
           :mech="mech"
           :mount="mount"
-          @confirm="$emit('confirm')"
+          :overwatch="overwatch"
+          @confirm="confirmAttack($event)"
         >
           <div class="heading h2 mt-3 mb-n3">
             <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
@@ -81,9 +89,13 @@ export default Vue.extend({
       required: false,
       default: null,
     },
+    overwatch: {
+      type: Boolean,
+    },
   },
   data: () => ({
     dialog: false,
+    confirmedFree: false,
   }),
   computed: {
     extraAux() {
@@ -95,6 +107,10 @@ export default Vue.extend({
     },
   },
   methods: {
+    confirmAttack(free) {
+      this.confirmedFree = free
+      this.$emit('confirm', free)
+    },
     reset() {
       this.$refs.main.reset()
       if (this.extraAux) this.$refs.aux.reset()
@@ -103,6 +119,8 @@ export default Vue.extend({
       this.$refs.main.init()
     },
     confirm(): void {
+      if (this.confirmedFree) this.reset()
+      this.confirmedFree = false
       this.dialog = false
       this.$emit('close')
     },
@@ -110,6 +128,8 @@ export default Vue.extend({
       this.dialog = true
     },
     hide(): void {
+      if (this.confirmedFree) this.reset()
+      this.confirmedFree = false
       this.dialog = false
       this.$emit('close')
     },

@@ -16,7 +16,7 @@
           <span v-if="inline || $vuetify.breakpoint.lgAndUp">{{ name }}</span>
         </cc-tooltip>
         <v-spacer />
-        <span v-if="inline">{{ value }}</span>
+        <span v-if="inline" class="pl-2">{{ value }}</span>
       </v-card-title>
       <v-card-text v-if="!inline" class="heading stark--text py-3" style="font-size: 32px">
         <span>{{ value }}</span>

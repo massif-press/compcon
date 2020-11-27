@@ -9,7 +9,8 @@
             v-for="(w, j) in m.Weapons.filter(x => x.Size !== 'Superheavy' && !x.Destroyed)"
             :key="`weap_${j}`"
             :item="w"
-            color="action--reaction"
+            overwatch
+            :color="canOverwatch(w) ? 'action--reaction' : 'grey darken-2'"
             @click="overwatch(w, m)"
           />
         </div>
@@ -34,7 +35,8 @@
       :mech="mech"
       :item="selected"
       :mount="selectedMount"
-      @close="completeOverwatch()"
+      overwatch
+      @confirm="completeOverwatch()"
     />
 
     <sel-fight-dialog
@@ -42,7 +44,7 @@
       :pilot="mech.Pilot"
       :item="selected"
       overwatch
-      @close="completeOverwatch()"
+      @confirm="completeOverwatch()"
     />
   </div>
 </template>
@@ -84,9 +86,12 @@ export default Vue.extend({
     },
   },
   methods: {
+    canOverwatch(item) {
+      return !this.state.OverwatchedWeapons.includes(item.ID)
+    },
     completeOverwatch() {
+      this.state.OverwatchedWeapons.push(this.selected.ID)
       this.state.CommitAction(this.action, ActivationType.Reaction)
-      this.hide()
     },
     pilotOverwatch(item) {
       this.selected = item

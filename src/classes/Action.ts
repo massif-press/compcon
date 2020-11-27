@@ -105,6 +105,7 @@ class Action {
   private _uses: number
   private _used: boolean
   private _ignore_used: boolean
+  private _free_used: boolean
   private _log_id: string
 
   public constructor(data: IActionData, origin?: string, heat?: number) {
@@ -136,6 +137,7 @@ class Action {
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'
     this._used = false
     this._ignore_used = data.ignore_used
+    this._free_used = false
     this.LastUse = null
     this._log_id = ''
   }
@@ -155,8 +157,18 @@ class Action {
     this.LastUse = this.Activation
   }
 
+  public get FreeUsed(): boolean {
+    return this._free_used
+  }
+
+  public get AnyUsed(): boolean {
+    return this._free_used || this._used
+  }
+
   public UseFree(): void {
-    this.Use()
+    this._log_id = uuid()
+    this._uses -= this.Cost
+    this._free_used = true
     this.LastUse = ActivationType.Free
   }
 
@@ -167,12 +179,14 @@ class Action {
   public Undo(): void {
     this._uses += this.Cost
     this._used = false
+    this._free_used = false
     this.LastUse = null
   }
 
   public Reset(): void {
     this._uses = this.Frequency.Uses
     this._used = false
+    this._free_used = false
     this.LastUse = null
   }
 

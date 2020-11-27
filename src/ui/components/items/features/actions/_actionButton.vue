@@ -36,7 +36,7 @@
       :action="action"
       :mech="pilot.ActiveMech"
       @use="$emit('use', $event)"
-      @reset="$emit('reset', $event)"
+      @undo="$emit('undo', $event)"
     />
   </div>
 </template>
