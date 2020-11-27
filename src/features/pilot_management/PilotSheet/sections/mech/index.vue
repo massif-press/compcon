@@ -5,7 +5,9 @@
     <v-row no-gutters>
       <v-col cols="auto">
         <cc-short-string-editor large before @set="mech.Name = $event">
-          <cc-title :large="mech.Name.length < 31" :color="color">{{ mech.Name }}&emsp;</cc-title>
+          <cc-title :large="mech.Name.length < 31" :color="color" class="px-3 ml-n6">
+            {{ mech.Name }}&emsp;
+          </cc-title>
         </cc-short-string-editor>
         <div class="mt-n6">
           <cc-logo size="large" :source="mech.Frame.Manufacturer" />
@@ -19,11 +21,11 @@
               ref="frameInfoDialog"
               icon="cci-frame"
               :color="color"
-              no-confirm
+              no-actions
               large
               :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
             >
-              <p class="flavor-text mt-3 text--text" v-html="mech.Frame.Description" />
+              <p class="flavor-text mt-3 mb-1 text--text" v-html="mech.Frame.Description" />
             </cc-solo-dialog>
           </span>
         </div>
@@ -37,13 +39,16 @@
         <v-icon v-else class="mt-n1" x-large color="success">cci-activate</v-icon>
       </v-col>
     </v-row>
-    <cc-mech-status-alert
-      v-for="s in mech.StatusString"
-      :key="`status-${s}`"
-      :type="s"
-      @clear-ejected="mech.Ejected = false"
-      @clear-status="mech.Repair()"
-    />
+    <v-row v-if="mech.StatusString.length" dense justify="center" class="mt-n3 mb-1">
+      <v-col v-for="s in mech.StatusString" :key="`status-${s}`" cols="auto">
+        <cc-mech-status-alert
+          :type="s"
+          @clear-ejected="mech.Ejected = false"
+          @clear-status="mech.Repair()"
+          @reprint="mech.FullRepair()"
+        />
+      </v-col>
+    </v-row>
     <v-row align="center" no-gutters>
       <v-col cols="8">
         <v-row class="px-3 mt-n4">
@@ -92,11 +97,11 @@
     <v-row class="mt-n6 mb-2 px-3">
       <attributes-block :color="color" :mech="mech" :pilot="pilot" />
     </v-row>
-    <cc-title small :color="color">
+    <cc-title small class="ml-n6" :color="color">
       {{ mech.Frame.Source }} {{ mech.Frame.Name }} CORE System
     </cc-title>
     <core-item :core-system="mech.Frame.CoreSystem" :color="color" />
-    <cc-title small :color="color" class="mb-2">Equipment Loadout</cc-title>
+    <cc-title small :color="color" class="mb-2 ml-n6">Equipment Loadout</cc-title>
     <cc-mech-loadout :mech="mech" class="px-3" />
     <delete-mech-dialog ref="deleteDialog" :mech="mech" @delete="deleteMech()" />
   </div>
@@ -144,7 +149,7 @@ export default Vue.extend({
       return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID)
     },
     color() {
-      return this.mech.Frame.Manufacturer.Color
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
     },
     isPixel() {
       return this.mech.LocalImage && this.mech.LocalImage.includes('_pixel')

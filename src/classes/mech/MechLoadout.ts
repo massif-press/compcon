@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import _ from 'lodash'
 import {
   LicensedItem,
@@ -13,6 +14,17 @@ import {
   WeaponMod,
 } from '@/class'
 
+interface IMechLoadoutData {
+  id: string
+  name: string
+  systems: IEquipmentData[]
+  integratedSystems: IEquipmentData[]
+  mounts: IMountData[]
+  integratedMounts: { weapon: IMechWeaponSaveData }[]
+  improved_armament: IMountData
+  integratedWeapon: IMountData
+}
+
 class MechLoadout extends Loadout {
   private _integratedMounts: IntegratedMount[]
   private _equippableMounts: EquippableMount[]
@@ -23,7 +35,8 @@ class MechLoadout extends Loadout {
 
   public constructor(mech: Mech) {
     super(mech.Loadouts ? mech.Loadouts.length : 0)
-    this._integratedMounts = [...mech.IntegratedMounts]
+    // console.log(mech.IntegratedWeapons)
+    this._integratedMounts = mech.IntegratedWeapons.map(x => new IntegratedMount(x))
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this._systems = []
     this._integratedSystems = mech.IntegratedSystems
@@ -32,20 +45,12 @@ class MechLoadout extends Loadout {
   }
 
   public UpdateIntegrated(mech: Mech): void {
-    this._integratedSystems.splice(0, this._integratedSystems.length)
-
-    mech.IntegratedSystems.forEach(s => {
-      this._integratedSystems.push(s)
-    })
-
-    this._integratedMounts.splice(0, this._integratedMounts.length)
-
-    mech.IntegratedMounts.forEach(s => {
-      this._integratedMounts.push(s)
-    })
-
-    console.log(this._integratedMounts)
-
+    Vue.set(this, '_integratedSystems', mech.IntegratedSystems)
+    Vue.set(
+      this,
+      '_integratedMounts',
+      mech.IntegratedWeapons.map(x => new IntegratedMount(x))
+    )
     this.save()
   }
 
@@ -79,6 +84,15 @@ class MechLoadout extends Loadout {
     if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament)
     ms = ms.concat(this._equippableMounts)
     return ms
+  }
+
+  public AllActiveMounts(m: Mech): Mount[] {
+    let ms = [] as Mount[]
+    if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon')) ms.push(this.IntegratedWeaponMount)
+    if (m.Pilot.has('CoreBonus', 'cb_improved_armament') && this.EquippableMounts.length < 3)
+      ms.push(this.ImprovedArmamentMount)
+    ms = ms.concat(this.EquippableMounts).concat(this.IntegratedMounts)
+    return ms.filter(x => x.Weapons.length)
   }
 
   public get Mounts(): Mount[] {
@@ -137,6 +151,10 @@ class MechLoadout extends Loadout {
     this.save()
   }
 
+  public AllActiveSystems(): MechSystem[] {
+    return this.IntegratedSystems.concat(this.Systems)
+  }
+
   public HasSystem(systemID: string): boolean {
     return !!this.Systems.find(x => x.ID === systemID)
   }
@@ -170,6 +188,7 @@ class MechLoadout extends Loadout {
     const equippedSystems = this._systems as LicensedItem[]
 
     equippedSystems.concat(equippedWeapons).forEach(item => {
+      //TODO: change from GMS to LL0
       if (item.Source === 'GMS') {
         const GMSIndex = requirements.findIndex(x => x.source === 'GMS')
         if (GMSIndex > -1) {
@@ -251,7 +270,7 @@ class MechLoadout extends Loadout {
       : loadoutData.integratedSystems.map(x => MechSystem.Deserialize(x))
     ml._equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
     ml._integratedMounts = !loadoutData.integratedMounts
-      ? mech.IntegratedMounts
+      ? mech.IntegratedWeapons.map(x => new IntegratedMount(x))
       : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x))
     ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
     ml._integratedWeapon = !loadoutData.integratedWeapon
@@ -262,4 +281,4 @@ class MechLoadout extends Loadout {
   }
 }
 
-export default MechLoadout
+export { MechLoadout, IMechLoadoutData }

@@ -1,4 +1,13 @@
 import { Reserve, ReserveType } from '@/class'
+import { IReserveData } from './Reserve'
+
+declare interface IProjectData extends IReserveData {
+  complicated: boolean
+  can_finish: boolean
+  finished: boolean
+  progress: number
+  requirements: string[]
+}
 
 class Project extends Reserve {
   private _complicated: boolean
@@ -9,7 +18,6 @@ class Project extends Reserve {
 
   public constructor(data: IProjectData) {
     super(data)
-    this.type = ReserveType.Project
     this._complicated = data.complicated
     this._can_finish = data.can_finish
     this._finished = data.finished
@@ -67,6 +75,7 @@ class Project extends Reserve {
       resource_name: project.ResourceName,
       resource_note: project.Note,
       resource_cost: project.ResourceCost,
+      consumable: project.Consumable,
       used: project.Used,
       complicated: project.IsComplicated,
       can_finish: project.CanFinish,

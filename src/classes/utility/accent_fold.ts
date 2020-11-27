@@ -651,7 +651,7 @@ export default function accentFold(s: string): string {
     return ''
   }
   let ret = ''
-  for (var i = 0; i < s.length; i++) {
+  for (let i = 0; i < s.length; i++) {
     ret += accentMap[s.charAt(i)] || s.charAt(i)
   }
   return ret

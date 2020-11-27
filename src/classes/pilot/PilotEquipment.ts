@@ -1,5 +1,5 @@
 import { store } from '@/store'
-import { CompendiumItem, Tag } from '@/class'
+import { CompendiumItem } from '@/class'
 import { ICompendiumItemData } from '@/interface'
 
 interface IPilotEquipmentData extends ICompendiumItemData {
@@ -8,26 +8,147 @@ interface IPilotEquipmentData extends ICompendiumItemData {
 }
 
 abstract class PilotEquipment extends CompendiumItem {
-  private _tags: ITagData[]
   protected current_uses: number
   protected _custom_damage_type?: string
+  protected _uses: number
+  protected _destroyed: boolean
+  protected _cascading: boolean
+  protected _loaded: boolean
+  protected _used: boolean
+  protected max_use_override: number
+  private _max_uses: number
+  public readonly SP: number
+  public readonly Effect: string
+  public readonly IsIntegrated: boolean
+  public readonly IsUnique: boolean
+  public readonly IsLimited: boolean
+  public readonly IsLoading: boolean
+  public readonly IsAI: boolean
+  public readonly IsIndestructible: boolean
+  public readonly IsOrdnance: boolean
+  public readonly CanSetDamage: boolean
+  public readonly CanSetUses: boolean
 
-  public constructor(equipmentData: IPilotEquipmentData) {
-    super(equipmentData)
-    this._tags = equipmentData.tags || []
-    this.current_uses = 0
+  public constructor(data: IPilotEquipmentData) {
+    super(data)
+    this._used = false
+    this._destroyed = false
+    this._cascading = false
+    this._loaded = true
+    if (data.tags) {
+      const ltd = data.tags.find(x => x.id === 'tg_limited')
+      this.IsLimited = !!ltd
+      this._max_uses = ltd && typeof ltd.val === 'number' ? ltd.val : 0
+      this.IsUnique = data.tags.some(x => x.id === 'tg_unique')
+      this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
+      this.IsAI = data.tags.some(x => x.id === 'tg_ai')
+      this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructable')
+      this.IsOrdnance = data.tags.some(x => x.id === 'tg_ordnance')
+      this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
+      this.CanSetUses = data.tags.some(x => x.id === 'tg_set_max_uses')
+    } else {
+      this._max_uses = 0
+    }
+    this._uses = this._max_uses
   }
 
-  protected save(): void {
-    store.dispatch('saveData')
+  public Use(cost?: number): void {
+    if (!this.CheckUsable(cost)) return
+    this._used = true
+    if (this.IsLoading) this._loaded = false
+    if (this.IsLimited && cost) this.Uses -= cost
   }
 
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
+  public Undo(cost?: number): void {
+    if (cost) this.Uses += cost
+    if (this.IsLoading) this._loaded = true
+    this._used = false
   }
 
-  public get CanSetDamage(): boolean {
-    return this._tags.some(x => x.id === 'tg_set_damage_type')
+  public Reset(): void {
+    this._used = false
+  }
+
+  public CheckUsable(cost?: number): boolean {
+    if (this.IsLoading && !this._loaded) return false
+    if (this.IsCascading) return false
+    if (this.IsLimited && this.Uses === 0) return false
+    if (this.IsLimited && cost && this.Uses < cost) return false
+    return !this._used
+  }
+
+  public get Used(): boolean {
+    return this._used
+  }
+
+  public set Used(b: boolean) {
+    this._used = b
+  }
+
+  public get IsCascading(): boolean {
+    return this._cascading
+  }
+
+  public set IsCascading(b: boolean) {
+    this._cascading = b
+  }
+
+  public Unshackle(): void {
+    if (!this.IsAI) return
+    this._cascading = true
+    this.save()
+  }
+
+  public Shackle(): void {
+    this._cascading = false
+    this.save()
+  }
+
+  public get Destroyed(): boolean {
+    return this._destroyed
+  }
+
+  public set Destroyed(b: boolean) {
+    this._destroyed = b
+  }
+
+  public Destroy(): void {
+    if (this.IsIndestructible) return
+    this._destroyed = true
+    this.save()
+  }
+
+  public Repair(): void {
+    this._destroyed = false
+    this.save()
+  }
+
+  public get Loaded(): boolean {
+    return this._loaded
+  }
+
+  public set Loaded(_loaded: boolean) {
+    this._loaded = _loaded
+    this.save()
+  }
+
+  public get Uses(): number {
+    return this._uses
+  }
+
+  public set Uses(val: number) {
+    this._uses = val
+    this.save()
+  }
+
+  public get MaxUses(): number {
+    if (this.max_use_override) return this.max_use_override
+    return this._max_uses
+  }
+
+  public getTotalUses(bonus?: number): number {
+    const b = bonus ? bonus : 0
+    return this.MaxUses + b
   }
 
   public static Serialize(item: PilotEquipment | null): IEquipmentData | null {
@@ -48,7 +169,7 @@ abstract class PilotEquipment extends CompendiumItem {
     if (!itemData) return null
     const item = store.getters.instantiate('PilotGear', itemData.id)
     item.current_uses = itemData.uses
-    item.note = itemData.note
+    item._note = itemData.note
     item._flavor_name = itemData.flavorName
     item._flavor_description = itemData.flavorDescription
     item._custom_damage_type = itemData.customDamageType || null

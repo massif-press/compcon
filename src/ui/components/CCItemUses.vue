@@ -1,15 +1,17 @@
 <template>
-  <div class="mt-n1">
-    <v-icon
+  <div class="mt-n2">
+    <v-btn
       v-for="n in max"
       :key="`chk_${item.ID}-${n}`"
-      class="d-inline ma-0"
+      class="d-inline my-0 mx-n1 pa-0"
+      icon
       :small="small"
       :large="large"
       :color="color"
       @click.stop="set(n)"
-      v-html="n <= current ? fullIcon : emptyIcon"
-    />
+    >
+      <v-icon v-html="n <= current ? fullIcon : emptyIcon" />
+    </v-btn>
   </div>
 </template>
 

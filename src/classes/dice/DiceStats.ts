@@ -1,5 +1,13 @@
 import { DiceRoller, ParsedDieString } from './DiceRoller'
 
+declare interface IDiceStats {
+  min: number
+  max: number
+  mean: number
+  error: boolean
+  diceString: string
+}
+
 class DiceStatsResult implements IDiceStats {
   private _diceString: string
   private _min: number
@@ -44,7 +52,7 @@ class DiceStats {
     let mean = 0
     let error = false
 
-    let parsedString = DiceRoller.parseDiceString(diceString)
+    const parsedString = DiceRoller.parseDiceString(diceString)
 
     if (parsedString) {
       min = DiceStats.calculateMin(parsedString)

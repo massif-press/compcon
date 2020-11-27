@@ -1,6 +1,9 @@
 <template>
-  <v-col style="min-width: 40vw">
-    <fieldset class="ma-0" style="height: 100%">
+  <v-col
+    :style="$vuetify.breakpoint.lgAndUp ? 'min-width: 40vw' : ''"
+    :cols="$vuetify.breakpoint.mdAndDown ? '12' : ''"
+  >
+    <fieldset class="ma-0 py-0" style="height: 100%">
       <legend :style="`color: ${color}`" class="heading h3">
         {{ mount.Name }}
         <span v-if="impArm">(IMPROVED ARMAMENT)</span>
@@ -13,17 +16,19 @@
       />
       <cb-card v-for="b in mount.Bonuses" :key="`${mount.ID}_bonus-${b.ID}`" :bonus="b" />
       <sh-lock-card v-if="mount.IsLocked" />
-      <div v-else>
-        <weapon-slot-card
-          v-for="(s, i) in mount.Slots"
-          :key="`slot_${mount.ID}-${i}`"
-          :weapon-slot="s"
-          :mech="mech"
-          :mount="mount"
-          :readonly="integrated || readonly"
-          :int-weapon="intWeapon"
-        />
-      </div>
+      <v-row v-else no-gutters align="center">
+        <v-col>
+          <weapon-slot-card
+            v-for="(s, i) in mount.Slots"
+            :key="`slot_${mount.ID}-${i}`"
+            :weapon-slot="s"
+            :mech="mech"
+            :mount="mount"
+            :readonly="integrated || readonly"
+            :int-weapon="intWeapon"
+          />
+        </v-col>
+      </v-row>
     </fieldset>
   </v-col>
 </template>
@@ -70,13 +75,13 @@ export default Vue.extend({
 
 <style scoped>
 fieldset {
-  border-color: var(--v-grey-darken2);
+  border-color: var(--v-subtle-base);
   border-radius: 5px;
-  margin-bottom: 12px;
-  padding: 4px;
+  /* margin-bottom: 12px; */
+  padding-left: 4px;
 }
 
 legend {
-  padding: 3px 12px;
+  padding: 0 8px;
 }
 </style>

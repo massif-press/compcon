@@ -2,6 +2,7 @@
 import _ from 'lodash'
 import { saveData, loadData } from '@/io/Data'
 import { Pilot } from '@/class'
+import { IPilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 
 async function savePilots(pilots: Pilot[]) {

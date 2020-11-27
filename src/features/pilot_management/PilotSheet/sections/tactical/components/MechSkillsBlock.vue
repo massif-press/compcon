@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot">
+    <cc-title small color="pilot" class="ml-n10 pl-3">
       <section-edit-chip
         :highlight="!pilot.HasFullHASE"
         :current="pilot.CurrentHASEPoints"

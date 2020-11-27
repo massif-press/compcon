@@ -44,10 +44,10 @@
                       <p class="mb-1" v-html="mech.Frame.CoreSystem.Passive" />
                     </div>
                     <span class="heading h2">
-                      {{ mech.Frame.CoreSystem.Active }}
+                      {{ mech.Frame.CoreSystem.ActiveName }}
                       <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
                     </span>
-                    <p class="mb-1" v-html="mech.Frame.CoreSystem.Effect" />
+                    <p class="mb-1" v-html="mech.Frame.CoreSystem.ActiveEffect" />
                     <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
                   </cc-active-card>
                 </v-col>
@@ -80,9 +80,10 @@
       :type="s"
       critical-only
       hide-clear
+      @reprint="mech.FullRepair()"
     />
 
-    <v-row dense>
+    <v-row dense class="mb-2">
       <v-col cols="9">
         <v-row justify="space-around" dense>
           <v-col cols="3">
@@ -211,7 +212,7 @@
               :class="{ rolledOver: stressRolledOver }"
               @update="mech.CurrentStress = $event"
             >
-              <span class="heading h3">Reactor</span>
+              <span class="heading h3">Stress</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto">
@@ -285,7 +286,7 @@
               <span class="heading h3">
                 Overcharge&nbsp;
                 <span class="text-center overcharge--text font-weight-bold">
-                  {{ overcharge[mech.CurrentOvercharge] }}
+                  {{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
                 </span>
               </span>
             </cc-tick-bar>
@@ -321,13 +322,13 @@
               <cc-active-card
                 prominent
                 color="pilot"
-                header="Attack Bonus"
+                header="Atk Bonus"
                 :content="`+${mech.AttackBonus}`"
               />
               <cc-active-card
                 prominent
                 color="pilot"
-                header="Tech Attack"
+                header="Tech Atk"
                 :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`"
               />
             </v-row>
@@ -338,17 +339,12 @@
                 header="Evasion"
                 :content="mech.IsStunned ? 5 : mech.Evasion"
               />
-              <cc-active-card prominent color="pilot" header="E-Defense" :content="mech.EDefense" />
+              <cc-active-card prominent color="pilot" header="E-Def" :content="mech.EDefense" />
+              <cc-active-card prominent color="pilot" header="Save" :content="mech.SaveTarget" />
               <cc-active-card
                 prominent
                 color="pilot"
-                header="Save Target"
-                :content="mech.SaveTarget"
-              />
-              <cc-active-card
-                prominent
-                color="pilot"
-                header="Sensor Range"
+                header="Sensors"
                 :content="mech.SensorRange"
               />
             </v-row>
@@ -369,7 +365,7 @@
 
     <v-row dense class="mt-n2">
       <v-col cols="auto">
-        <span class="overline">TALENTS</span>
+        <div class="overline my-n2">TALENTS</div>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-btn
@@ -400,24 +396,22 @@
         collapsible
         start-closed
         color="primary"
-        md="12"
-        lg="6"
-        xl="4"
+        :cols="$vuetify.breakpoint.lgAndUp ? 4 : 6"
         :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
         subheader="PILOT TALENT"
       >
         <ul v-for="n in 3" :key="'t_' + n">
           <li v-if="t.Rank >= n">
-            <span v-html="t.Talent.Ranks[n - 1].description" />
+            <span v-html="t.Talent.Ranks[n - 1].Description" />
           </li>
         </ul>
       </cc-active-card>
     </v-row>
 
-    <div class="overline">COUNTERS</div>
-    <cc-counter-set :actor="mech.Pilot" />
+    <div class="overline mt-n2">COUNTERS</div>
+    <cc-counter-set :actor="mech.Pilot" class="my-n4" />
 
-    <div class="overline mt-n6">LOADOUT</div>
+    <div class="overline mb-n2 mt-n5">LOADOUT</div>
     <v-row dense>
       <player-equipment-item
         v-for="(i, idx) in mech.ActiveLoadout.Equipment"
@@ -479,7 +473,6 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    overcharge: [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4'],
     resistances: [
       { name: 'Kinetic', color: 'kinetic' },
       { name: 'Energy', color: 'energy' },

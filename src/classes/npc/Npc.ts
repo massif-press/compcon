@@ -29,6 +29,7 @@ export interface INpcData {
   conditions: string[]
   resistances: string[]
   burn: number
+  overshield: number
   destroyed: boolean
   defeat: string
   actions: number
@@ -59,7 +60,8 @@ export class Npc implements IActor {
   private _conditions: string[]
   private _resistances: string[]
   private _burn: number
-  private _actions: number
+  private _overshield: number
+  private _turn_actions: number
   private _destroyed: boolean
   private _defeat: string
   private cc_ver: string
@@ -85,7 +87,8 @@ export class Npc implements IActor {
       this._items.push(new NpcItem(f, t))
     })
     this._burn = 0
-    this._actions = 2
+    this._overshield = 0
+    this._turn_actions = 2
     this._destroyed = false
     this._defeat = ''
     this._statuses = []
@@ -210,6 +213,11 @@ export class Npc implements IActor {
 
   public set Labels(val: string[]) {
     this._user_labels = val
+    this.save()
+  }
+
+  public get LabelString(): string {
+    return this._user_labels.join(', ')
   }
 
   public get Tier(): number | string {
@@ -510,6 +518,15 @@ export class Npc implements IActor {
     this.save()
   }
 
+  public get Overshield(): number {
+    return this._overshield
+  }
+
+  public set Overshield(val: number) {
+    this._overshield = val
+    this.save()
+  }
+
   public get Destroyed(): boolean {
     return this._destroyed
   }
@@ -538,12 +555,12 @@ export class Npc implements IActor {
     this.save()
   }
 
-  public get Actions(): number {
-    return this._actions
+  public get TurnActions(): number {
+    return this._turn_actions
   }
 
-  public set Actions(val: number) {
-    this._actions = val
+  public set TurnActions(val: number) {
+    this._turn_actions = val
     this.save()
   }
 
@@ -589,7 +606,7 @@ export class Npc implements IActor {
 
   public NewTurn(): void {
     this.CurrentStats.Activations = this.Stats.Activations
-    this._actions = 2
+    this._turn_actions = 2
     this.CurrentStats.Speed = 0
     this.CurrentStats.AddReaction('Overwatch')
     this.save()
@@ -622,9 +639,10 @@ export class Npc implements IActor {
       conditions: npc._conditions,
       resistances: npc._resistances,
       burn: npc._burn,
+      overshield: npc._overshield,
       destroyed: npc._destroyed,
       defeat: npc._defeat,
-      actions: npc._actions,
+      actions: npc._turn_actions,
       counter_data: npc.CounterSaveData,
       custom_counters: npc.CustomCounterData,
       cc_ver: npc.cc_ver,
@@ -657,7 +675,8 @@ export class Npc implements IActor {
     npc._conditions = data.conditions || []
     npc._resistances = data.resistances || []
     npc._burn = data.burn || 0
-    npc._actions = data.actions || 1
+    npc._overshield = data.overshield || 0
+    npc._turn_actions = data.actions || 1
     npc._destroyed = data.destroyed || false
     npc._defeat = data.defeat || ''
     npc._counterSaveData = data.counter_data || []

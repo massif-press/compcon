@@ -3,6 +3,9 @@
     <cc-selector-table
       :items="availableMods"
       :headers="headers"
+      sp-disable
+      :sp="freeSP"
+      :sp-ignore="showOverSP"
       item-type-fallback="WeaponMod"
       @equip="$emit('install', $event)"
     >
@@ -79,7 +82,7 @@
               <v-icon
                 class="ml-n2"
                 :color="showOverSP ? 'warning' : 'success'"
-                v-html="showOverSP ? 'mdi-flash-off' : 'mdi-flash'"
+                v-html="'cci-system-point'"
               />
             </cc-tooltip>
           </v-switch>
@@ -93,8 +96,9 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { MechWeapon } from '@/class'
+import { MechSystem } from '@/class'
 import { flavorID } from '@/io/Generators'
+import { Bonus } from '@/classes/Bonus'
 
 export default Vue.extend({
   name: 'mod-selector',
@@ -126,12 +130,14 @@ export default Vue.extend({
     freeSP(): number {
       return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP
     },
-    availableMods(): MechWeapon[] {
+    availableMods(): MechSystem[] {
       // filter by applied_to
-      let i = this.mods.filter(x => x.AppliedTo.includes(this.weapon.Type.toLowerCase()))
+      let i = this.mods.filter(x => x.AllowedTypes.includes(this.weapon.WeaponType))
+      i = this.mods.filter(x => x.AllowedSizes.includes(this.weapon.Size))
 
       // // filter out any mount restrictions
-      i = i.filter(x => !x.Restricted || !x.Restricted.includes(this.weapon.Size.toLowerCase()))
+      i = i.filter(x => !x.RestrictedTypes || !x.RestrictedTypes.includes(this.weapon.WeaponType))
+      i = i.filter(x => !x.RestrictedSizes || !x.RestrictedSizes.includes(this.weapon.Size))
 
       // filter already equipped
       if (this.weapon.Mod) i = i.filter(x => x.ID !== this.weapon.Mod.ID)
@@ -140,19 +146,19 @@ export default Vue.extend({
       i = i.filter(x => !this.mech.ActiveLoadout.UniqueMods.map(y => y.ID).includes(x.ID))
 
       // filter ai
-      if (this.mech.ActiveLoadout.AICount >= this.mech.Pilot.AICapacity) {
+      if (this.mech.ActiveLoadout.AICount >= 1 + Bonus.get('ai_cap', this.mech)) {
         i = i.filter(x => !x.IsAI)
       }
 
       if (!this.showUnlicensed) {
         i = i.filter(
-          x => x.Source === 'GMS' || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
+          x => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
         )
       }
 
-      if (!this.showOverSP) {
-        i = i.filter(x => x.SP <= this.freeSP)
-      }
+      // if (!this.showOverSP) {
+      //   i = i.filter(x => x.SP <= this.freeSP)
+      // }
 
       return i
     },

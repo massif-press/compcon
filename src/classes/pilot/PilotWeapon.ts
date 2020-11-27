@@ -8,20 +8,16 @@ interface IPilotWeaponData extends IPilotEquipmentData {
 }
 
 class PilotWeapon extends PilotEquipment {
-  private range: Range[]
-  private damage: Damage[]
-  private effect: string
+  public readonly Range: Range[]
+  public readonly Damage: Damage[]
+  public readonly Effect: string
 
   public constructor(data: IPilotWeaponData) {
     super(data)
-    this.range = data.range.map(x => new Range(x))
-    this.damage = data.damage.map(x => new Damage(x))
-    this.effect = data.effect || ''
-    this._item_type = ItemType.PilotWeapon
-  }
-
-  public get Range(): Range[] {
-    return this.range
+    this.Range = data.range.map(x => new Range(x))
+    this.Damage = data.damage.map(x => new Damage(x))
+    this.Effect = data.effect || ''
+    this.ItemType = ItemType.PilotWeapon
   }
 
   public get DamageTypeOverride(): string {
@@ -41,20 +37,16 @@ class PilotWeapon extends PilotEquipment {
     }
   }
 
-  public get Damage(): Damage[] {
-    return this.damage
-  }
-
   public get MaxDamage(): number {
     if (0 === this.Damage.length) {
-      return 0;
+      return 0
     } else {
-      return this.Damage[0].Max;
+      return this.Damage[0].Max
     }
   }
 
-  public get Effect(): string {
-    return this.effect
+  public get Icon(): string {
+    return 'cci-pilot'
   }
 }
 

@@ -11,13 +11,13 @@
       <v-tab ripple>ARMOR</v-tab>
       <v-tab ripple>WEAPONS</v-tab>
       <v-tab ripple>GEAR</v-tab>
-      <v-tab-item>
+      <v-tab-item class="ml-4">
         <compendium-browser no-filter :headers="armor_headers" :items="armor" />
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item class="ml-4">
         <compendium-browser no-filter :headers="weapon_headers" :items="weapons" />
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item class="ml-4">
         <compendium-browser no-filter :headers="gear_headers" :items="gear" />
       </v-tab-item>
     </v-tabs>
@@ -30,12 +30,13 @@ import Component from 'vue-class-component'
 import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { ItemType } from '@/class'
+import { ItemType, PilotArmor, PilotGear } from '@/class'
+import { PilotWeapon } from '@/classes/pilot/PilotWeapon'
 
 @Component({
   components: { CompendiumBrowser },
 })
-export default class PilotGear extends Vue {
+export default class PilotGearBrowser extends Vue {
   public armor_headers = [
     { text: 'Item', align: 'left', value: 'Name' },
     { text: 'Armor', align: 'center', value: 'Armor' },
@@ -51,19 +52,24 @@ export default class PilotGear extends Vue {
   ]
   public gear_headers = [
     { text: 'Item', align: 'left', value: 'Name' },
-    { text: 'Uses', align: 'center', value: 'Uses' },
+    { text: 'Uses', align: 'center', value: 'MaxUses' },
   ]
 
   // typing on these is wrong... look into fixing it
   private compendium = getModule(CompendiumStore, this.$store)
-  get armor() {
-    return this.compendium.PilotGear.filter(x => x.ItemType === ItemType.PilotArmor)
+  get armor(): PilotArmor[] {
+    return this.compendium.PilotGear.filter(x => {
+      console.log(x.ItemType)
+      return x.ItemType === ItemType.PilotArmor
+    }) as PilotArmor[]
   }
-  get weapons() {
-    return this.compendium.PilotGear.filter(x => x.ItemType === ItemType.PilotWeapon)
+  get weapons(): PilotWeapon[] {
+    return this.compendium.PilotGear.filter(
+      x => x.ItemType === ItemType.PilotWeapon
+    ) as PilotWeapon[]
   }
-  get gear() {
-    return this.compendium.PilotGear.filter(x => x.ItemType === ItemType.PilotGear)
+  get gear(): PilotGear[] {
+    return this.compendium.PilotGear.filter(x => x.ItemType === ItemType.PilotGear) as PilotGear[]
   }
 }
 </script>

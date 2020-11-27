@@ -4,24 +4,10 @@
 // stored anywhere and collected imports are fine as long as their constituents are impored
 // first in this file.
 
-import {
-  IAIData,
-  IBasicEffectData,
-  IChargeData,
-  IChargeEffectData,
-  IDeployableData,
-  IDroneData,
-  IEffectData,
-  IBonusEffectData,
-  IProtocolEffectData,
-  IReactionEffectData,
-  IInvadeOptionData,
-  ITechEffectData,
-  IProfileEffectData,
-  IOffensiveEffectData,
-} from './classes/effects/interfaces'
 import { ICompendiumItemData } from './classes/CompendiumItem'
 import { ILicensedItemData } from './classes/LicensedItem'
+import { ISynergyData } from './classes/Synergy'
+import { Action } from './classes/Action'
 import { ICoreData } from './classes/mech/CoreSystem'
 import { IFrameData, IFrameStats } from './classes/mech/Frame'
 import { IMechEquipmentData } from './classes/mech/MechEquipment'
@@ -33,8 +19,8 @@ import { ICoreBonusData } from './classes/pilot/CoreBonus'
 import { IPilotEquipmentData } from './classes/pilot/PilotEquipment'
 import { IPilotArmorData } from './classes/pilot/PilotArmor'
 import { IPilotWeaponData } from './classes/pilot/PilotWeapon'
-import { IPilotGearData } from './classes/pilot/PilotGear'
 import { IManufacturerData } from './classes/Manufacturer'
+import { IFactionData } from './classes/Faction'
 import { ITalentData } from './classes/pilot/Talent'
 import { ISkillData } from './classes/pilot/Skill'
 import { IMechWeaponData } from './classes/mech/MechWeapon'
@@ -55,22 +41,13 @@ import { IEncounterData, IMissionData, IActiveMissionData } from './classes/enco
 import { IContentPackManifest, IContentPack } from './classes/ContentPack'
 import { ICounterData } from './classes/Counter'
 import { ITagCompendiumData } from './classes/Tag'
+import { IPilotData } from './classes/pilot/Pilot'
 
 export {
-  IAIData,
-  IBasicEffectData,
-  IChargeData,
-  IChargeEffectData,
-  IDeployableData,
-  IDroneData,
-  IEffectData,
-  IBonusEffectData,
-  IProtocolEffectData,
-  IReactionEffectData,
-  IProfileEffectData,
-  IOffensiveEffectData,
   ICompendiumItemData,
   ILicensedItemData,
+  ISynergyData,
+  Action,
   ICoreData,
   IFrameData,
   IFrameStats,
@@ -83,8 +60,8 @@ export {
   IPilotEquipmentData,
   IPilotArmorData,
   IPilotWeaponData,
-  IPilotGearData,
   IManufacturerData,
+  IFactionData,
   ITalentData,
   ISkillData,
   IMechWeaponData,
@@ -106,6 +83,5 @@ export {
   IContentPack,
   ICounterData,
   ITagCompendiumData,
-  IInvadeOptionData,
-  ITechEffectData,
+  IPilotData,
 }

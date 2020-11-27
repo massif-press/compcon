@@ -2,31 +2,82 @@
   <v-col class="pa-2">
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
-        <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
-          <span class="mt-n1" style="display: flex; width: 100%">
+        <v-card-title
+          class="white--text py-0 heading h3 hover-item"
+          style="cursor: pointer;"
+          @click="empty ? '' : $refs.detailDialog.show()"
+        >
+          <span style="display: flex; width: 100%">
             <slot name="header" />
             <v-spacer />
             <slot name="header-items" />
           </span>
         </v-card-title>
-        <v-card-text
-          :id="item ? 'underline-parent' : ''"
-          class="`px-2 py-1 text-center`"
-          style="height: calc(100% - 28px)"
-        >
-          <div class="underline-slide" style="height: 100%">
-            <div
-              v-if="item"
-              class="text-left"
-              style="cursor: pointer!important"
-              @click="$refs.detailDialog.show()"
-            >
-              <slot />
-              <v-row v-if="item.notes">
-                <v-col v-for="(n, i) in item.notes" :key="`${item.Name}_n${i}`">
-                  <cc-tooltip simple inline :content="n">
-                    <v-icon color="active">mdi-note</v-icon>
-                  </cc-tooltip>
+        <v-card-text :id="item ? 'underline-parent' : ''" class="`px-2 py-0 text-center`">
+          <div class="underline-slide">
+            <slot />
+            <div v-if="item">
+              <v-row class="text-left" dense align="end">
+                <v-col>
+                  <v-row justify="space-around" dense>
+                    <v-col v-if="item.Actions && item.Actions.length" cols="auto">
+                      <div v-if="!readonly" class="overline ml-n2 my-n3">EQUIPMENT ACTIONS</div>
+                      <v-row no-gutters justify="center">
+                        <v-col
+                          v-for="(a, i) in item.Actions"
+                          :key="`${item.Name}_action_${i}`"
+                          cols="auto"
+                        >
+                          <cc-action
+                            :action="a"
+                            :panel="!readonly && $vuetify.breakpoint.lgAndUp"
+                            class="ma-2"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                    <v-col v-if="item.Deployables.length" cols="auto">
+                      <div v-if="!readonly" class="overline ml-n2 my-n3">EQUIPMENT DEPLOYABLES</div>
+                      <v-row no-gutters justify="center">
+                        <v-col
+                          v-for="(d, i) in item.Deployables"
+                          :key="`${item.Name}_deployable_${i}`"
+                          cols="auto"
+                        >
+                          <cc-deployable-info
+                            :deployable="d"
+                            :panel="!readonly && $vuetify.breakpoint.lgAndUp"
+                            :name-override="item.Name"
+                            class="ma-2"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              <v-row no-gutters class="mr-3 mt-n2">
+                <v-col cols="auto">
+                  <cc-tags
+                    small
+                    :tags="item.Tags"
+                    :color="color"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
+                  <cc-tags
+                    v-if="item.Mod"
+                    small
+                    :tags="item.Mod.AddedTags"
+                    color="mod darken-2"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
+                </v-col>
+                <v-spacer />
+                <v-col cols="auto">
+                  <cc-bonus-display :item="item" />
+                </v-col>
+                <v-col cols="auto">
+                  <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large />
                 </v-col>
               </v-row>
             </div>
@@ -55,22 +106,12 @@
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
       <cc-item-card :item="item" />
       <slot name="detail" />
-      <div v-if="item">
-        <v-textarea
-          v-model="item.Note"
-          outlined
-          auto-grow
-          rows="2"
-          filled
-          prepend-icon="mdi-note"
-          label="Equipment Notes"
-        />
-      </div>
     </cc-solo-dialog>
   </v-col>
 </template>
 
 <script lang="ts">
+import { ItemType } from '@/class'
 import Vue from 'vue'
 
 export default Vue.extend({
@@ -81,9 +122,29 @@ export default Vue.extend({
       required: false,
       default: null,
     },
+    mech: {
+      type: Object,
+      required: true,
+      default: null,
+    },
     readonly: {
       type: Boolean,
       default: false,
+    },
+    empty: {
+      type: Boolean,
+      default: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+  },
+  computed: {
+    synergyLocation() {
+      if (!this.item) return 'none'
+      return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
     },
   },
 })
@@ -91,30 +152,15 @@ export default Vue.extend({
 
 <style scoped>
 #underline-parent {
-  background-color: var(--v-light-panel-darken1);
-  transition: background-color 0.4s ease-in-out;
+  background-color: var(--v-light-panel);
 }
 
-#underline-parent:hover {
-  background-color: var(--v-light-panel-base);
+.hover-item {
+  background-color: var(--v-pilot-base);
+  transition: 0.4s all;
 }
 
-.underline-slide::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  z-index: 10;
-  background-color: var(--v-grey-base);
-  transform-origin: bottom left;
-  transform: scaleX(0);
-  transition: transform 0.4s ease;
-}
-
-#underline-parent:hover > .underline-slide::before {
-  transform-origin: bottom left;
-  transform: scaleX(1);
+.hover-item:hover {
+  background-color: var(--v-pilot-lighten1);
 }
 </style>

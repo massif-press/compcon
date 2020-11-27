@@ -17,12 +17,61 @@ import {
   Organization,
   CompendiumItem,
   ContentPack,
+  Synergy,
+  MechWeapon,
 } from '@/class'
 import { store } from '@/store'
 import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { ICounterData } from '@/interface'
+import { ICounterData, Action } from '@/interface'
+import { ActiveState, IActiveStateData, ICombatStats } from '../mech/ActiveState'
+import { Bonus } from '../Bonus'
+import { IReserveData } from './reserves/Reserve'
+import { MechSystem } from '../mech/MechSystem'
+import { IMechData } from '../mech/Mech'
+import { IDeployableData } from '../Deployable'
+
+interface IPilotData {
+  id: string
+  campaign: string
+  group: string
+  sort_index: number
+  cloudID: string
+  cloudOwnerID: string
+  lastCloudUpdate: string
+  level: number
+  callsign: string
+  name: string
+  player_name: string
+  status: string
+  factionID: string
+  text_appearance: string
+  notes: string
+  history: string
+  portrait: string
+  cloud_portrait: string
+  quirks: string[]
+  current_hp: number
+  background: string
+  mechSkills: number[]
+  licenses: IRankedData[]
+  skills: IRankedData[]
+  talents: IRankedData[]
+  core_bonuses: string[]
+  reserves: IReserveData[]
+  orgs: IOrganizationData[]
+  loadout: IPilotLoadoutData
+  mechs: IMechData[]
+  active_mech: string | null
+  cc_ver: string
+  counter_data: ICounterSaveData[]
+  custom_counters: object[]
+  brews: string[]
+  state: IActiveStateData
+  combat_history: ICombatStats
+  dead: boolean
+}
 
 class Pilot {
   private _cloudID: string
@@ -37,7 +86,7 @@ class Pilot {
   private _factionID: string
   private _text_appearance: string
   private _notes: string
-  private _quirk: string
+  private _quirks: string[]
   private _history: string
 
   private _group: string
@@ -62,8 +111,9 @@ class Pilot {
   private _loadout: PilotLoadout
 
   private _mechs: Mech[]
-  private _active_mech: string | null
-  private _mounted: boolean
+  private _state: ActiveState
+  private _combat_history: ICombatStats
+  private _dead: boolean
 
   private cc_ver: string
   private _brews: string[]
@@ -83,17 +133,15 @@ class Pilot {
     this._history = ''
     this._portrait = ''
     this._cloud_portrait = ''
-    this._quirk = ''
+    this._quirks = []
+    this._current_hp = Rules.BasePilotHP
     this._loadout = new PilotLoadout(0)
-    this._current_hp = this.MaxHP
     this._background = ''
     this._licenses = []
     this._skills = []
     this._talents = []
-    this._mounted = false
     this._mechSkills = new MechSkills()
     this._core_bonuses = []
-    this._active_mech = null
     this._mechs = []
     this._reserves = []
     this._orgs = []
@@ -101,12 +149,14 @@ class Pilot {
     this._group = ''
     this._sortIndex = 0
     this._campaign = ''
+    this._dead = false
+    this._state = new ActiveState(this)
+    this._combat_history = ActiveState.NewCombatStats()
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
-    // this._initCounters()
   }
 
   // -- Utility -----------------------------------------------------------------------------------
-  private save(): void {
+  public save(): void {
     store.dispatch('saveData')
   }
 
@@ -216,6 +266,19 @@ class Pilot {
     this.save()
   }
 
+  public get IsDownAndOut(): boolean {
+    return this.CurrentHP === 0
+  }
+
+  public get IsDead(): boolean {
+    return this._dead
+  }
+
+  public set IsDead(val: boolean) {
+    this._dead = val
+    this.save()
+  }
+
   public get Status(): string {
     return this._status
   }
@@ -257,13 +320,21 @@ class Pilot {
     this.save()
   }
 
-  public get Quirk(): string {
-    return this._quirk
+  public get Quirks(): string[] {
+    return this._quirks
   }
 
-  public set Quirk(newVal: string) {
-    this._quirk = newVal
+  public set Quirks(val: string[]) {
+    this._quirks = val
     this.save()
+  }
+
+  public AddQuirk(val: string): void {
+    this._quirks.push(val)
+  }
+
+  public RemoveQuirk(idx: number): void {
+    this._quirks.splice(idx, 1)
   }
 
   public get History(): string {
@@ -383,11 +454,9 @@ class Pilot {
   }
 
   public get MaxHP(): number {
-    let health = Rules.BasePilotHP + this.Grit
-    this.Loadout.Armor.forEach(x => {
-      if (x) health += x.HPBonus
-    })
-    return health
+    const health = Rules.BasePilotHP + this.Grit
+    const bonus = Bonus.getPilot('pilot_hp', this)
+    return health + bonus
   }
 
   public get CurrentHP(): number {
@@ -398,44 +467,25 @@ class Pilot {
     if (hp > this.MaxHP) this._current_hp = this.MaxHP
     else if (hp < 0) this._current_hp = 0
     else this._current_hp = hp
-
-    if (this._current_hp === 0) {
-      this.Status = 'KIA'
-    }
-
     this.save()
   }
 
   public Heal(): void {
+    this._dead = false
     this.CurrentHP = this.MaxHP
+    this.Status = 'Active'
   }
 
   public get Armor(): number {
-    let armor = 0
-    this.Loadout.Armor.forEach(x => {
-      if (x) armor += x.Armor
-    })
-    return armor
+    return Bonus.getPilot('pilot_armor', this)
   }
 
   public get Speed(): number {
-    let speed = Rules.BasePilotSpeed
-    this.Loadout.Armor.forEach(x => {
-      if (!x) return
-      if (x.Speed) speed = x.Speed
-      speed += x.SpeedBonus
-    })
-    return speed
+    return Rules.BasePilotSpeed + Bonus.getPilot('pilot_speed', this)
   }
 
   public get Evasion(): number {
-    let evasion = Rules.BasePilotEvasion
-    this.Loadout.Armor.forEach(x => {
-      if (!x) return
-      if (x.Evasion) evasion = x.Evasion
-      evasion += x.EvasionBonus
-    })
-    return evasion
+    return Rules.BasePilotEvasion + Bonus.getPilot('pilot_evasion', this)
   }
 
   public get EDefense(): number {
@@ -448,17 +498,8 @@ class Pilot {
     return edef
   }
 
-  //TODO: collect passives, eg:
   public get LimitedBonus(): number {
-    let bonus = Math.floor(this.MechSkills.Eng / 2)
-    if (this._core_bonuses.find(x => x.ID === 'cb_integrated_ammo_feeds')) {
-      bonus += 2
-    }
-    return bonus
-  }
-
-  public get AICapacity(): number {
-    return this.has('corebonus', 'cb_the_lesson_of_shaping') ? 2 : 1
+    return Math.floor(this.MechSkills.Eng / 2) + Bonus.getPilot('limited_bonus', this)
   }
 
   // -- Skills ------------------------------------------------------------------------------------
@@ -476,8 +517,7 @@ class Pilot {
   }
 
   public get MaxSkillPoints(): number {
-    const bonus = this.Reserves.filter(x => x.ID === 'reserve_skill').length
-    return Rules.MinimumPilotSkills + this._level + bonus
+    return Rules.MinimumPilotSkills + this._level + Bonus.getPilot('skill_point', this)
   }
 
   public get IsMissingSkills(): boolean {
@@ -513,8 +553,8 @@ class Pilot {
     this.save()
   }
 
-  public AddCustomSkill(cs: { skill: string; description: string }): void {
-    this.AddSkill(new CustomSkill(cs.skill, cs.description))
+  public AddCustomSkill(cs: { skill: string; description: string; detail: string }): void {
+    this.AddSkill(new CustomSkill(cs.skill, cs.description, cs.detail))
   }
 
   public CanRemoveSkill(skill: Skill | CustomSkill): boolean {
@@ -558,7 +598,7 @@ class Pilot {
   }
 
   public get MaxTalentPoints(): number {
-    return Rules.MinimumPilotTalents + this._level
+    return Rules.MinimumPilotTalents + this._level + Bonus.getPilot('talent_point', this)
   }
 
   public get IsMissingTalents(): boolean {
@@ -641,7 +681,7 @@ class Pilot {
   }
 
   public get MaxCBPoints(): number {
-    return Math.floor(this._level / 3)
+    return Math.floor(this._level / 3) + Bonus.getPilot('cb_point', this)
   }
 
   public get IsMissingCBs(): boolean {
@@ -712,7 +752,8 @@ class Pilot {
   }
 
   public get MaxLicensePoints(): number {
-    return this._level
+    const bonus = this.Reserves.filter(x => x.ID === 'reserve_license').length
+    return this._level + bonus
   }
 
   public get IsMissingLicenses(): boolean {
@@ -783,7 +824,7 @@ class Pilot {
   }
 
   public get MaxHASEPoints(): number {
-    return Rules.MinimumMechSkills + this._level
+    return Rules.MinimumMechSkills + this._level + Bonus.getPilot('mech_skill_point', this)
   }
 
   public get IsMissingHASE(): boolean {
@@ -808,6 +849,11 @@ class Pilot {
     this.save()
   }
 
+  public AddReserve(reserve: Reserve): void {
+    this._reserves.push(reserve)
+    this.save()
+  }
+
   public RemoveReserve(index: number): void {
     this._reserves.splice(index, 1)
     this.save()
@@ -819,6 +865,11 @@ class Pilot {
 
   public set Organizations(orgs: Organization[]) {
     this._orgs = orgs
+    this.save()
+  }
+
+  public AddOrganization(org: Organization): void {
+    this._orgs.push(org)
     this.save()
   }
 
@@ -868,44 +919,20 @@ class Pilot {
   }
 
   public get ActiveMech(): Mech | null {
-    if (!this._active_mech) {
-      if (!this._mechs.length) return null
-      this.ActiveMech = this._mechs[0]
+    if (!this._state.ActiveMech && this._mechs.length) {
+      this._state.ActiveMech = this._mechs[0]
     }
-    return this._mechs.find(x => x.ID === this._active_mech) || null
+    return this._state.ActiveMech
   }
 
   public set ActiveMech(mech: Mech | null) {
-    this._mechs.forEach(m => {
-      m.IsActive = false
-    })
-
-    if (!mech) {
-      this.save()
-      return
-    }
-
-    mech.IsActive = true
-    this._active_mech = mech.ID
-    this.save()
-  }
-
-  public get Mounted(): boolean {
-    if (!this.ActiveMech) return false
-    if (this.ActiveMech.Destroyed || this.ActiveMech.ReactorDestroyed || this.ActiveMech.Ejected)
-      return false
-    return this._mounted
-  }
-
-  public set Mounted(val: boolean) {
-    if (val) this.ActiveMech.Ejected = false
-    this._mounted = val
-    this.save()
+    this._state.ActiveMech = mech
   }
 
   // -- COUNTERS ----------------------------------------------------------------------------------
 
   private _counterSaveData = []
+
   public get CounterSaveData(): ICounterSaveData[] {
     return this._counterSaveData
   }
@@ -921,6 +948,7 @@ class Pilot {
   }
 
   private _customCounters: ICounterData[] = []
+
   public get CustomCounterData(): ICounterData[] {
     return this._customCounters || []
   }
@@ -932,6 +960,7 @@ class Pilot {
       custom: true,
     }
     this._customCounters = [...this._customCounters, counter]
+    console.log(this._customCounters)
     this.save()
   }
 
@@ -956,7 +985,7 @@ class Pilot {
         ...weapon.Counters,
         ...(weapon.Mod?.Counters || []),
       ]),
-      this.ActiveMech?.Frame.CoreSystem.Integrated?.Counters,
+      this.ActiveMech?.Frame.CoreSystem.Counters,
       this.CustomCounterData,
     ]
       .flat()
@@ -991,6 +1020,60 @@ class Pilot {
     this.save()
   }
 
+  // -- Active Mode -------------------------------------------------------------------------------
+  public get State(): ActiveState {
+    return this._state
+  }
+
+  public UpdateCombatStats(ms: ICombatStats): void {
+    for (const k in this._combat_history) {
+      if (ms[k]) this._combat_history[k] += ms[k]
+    }
+  }
+
+  public Kill(): void {
+    this._status = 'KIA'
+    this.IsDead = true
+  }
+
+  // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
+  private features<T>(p: string): T[] {
+    if (!this.Loadout) return []
+    return this._loadout.Items.filter(i => !!i)
+      .flatMap(x => x[p])
+      .concat(this._core_bonuses.flatMap(x => x[p]))
+      .concat(this._reserves.filter(x => !x.Used).flatMap(y => y[p]))
+      .concat(this._talents.flatMap(x => x.UnlockedRanks.flatMap(y => y[p])))
+  }
+
+  public get Bonuses(): Bonus[] {
+    return this.features('Bonuses')
+  }
+
+  public get Synergies(): Synergy[] {
+    return this.features('Synergies')
+  }
+
+  public get Actions(): Action[] {
+    return this.features('Actions')
+  }
+
+  public get Deployables(): IDeployableData[] {
+    return this.features('Deployables')
+  }
+
+  public get Counters(): ICounterData[] {
+    return this.features('Counters')
+  }
+
+  public get IntegratedWeapons(): MechWeapon[] {
+    return this.features('IntegratedWeapons')
+  }
+
+  public get IntegratedSystems(): MechSystem[] {
+    return this.features('IntegratedSystems')
+  }
+
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(p: Pilot): IPilotData {
     return {
@@ -1006,14 +1089,14 @@ class Pilot {
       name: p.Name,
       player_name: p.PlayerName,
       status: p.Status,
-      mounted: p.Mounted,
+      dead: p.IsDead,
       factionID: p._factionID,
       text_appearance: p.TextAppearance,
       notes: p.Notes,
       history: p.History,
       portrait: p._portrait,
       cloud_portrait: p._cloud_portrait,
-      quirk: p.Quirk,
+      quirks: p.Quirks,
       current_hp: p.CurrentHP,
       reserves: p.Reserves.length ? p.Reserves.map(x => Reserve.Serialize(x)) : [],
       orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
@@ -1029,6 +1112,8 @@ class Pilot {
       cc_ver: p.cc_ver,
       counter_data: p.CounterSaveData,
       custom_counters: p.CustomCounterData,
+      combat_history: p.State.Stats,
+      state: ActiveState.Serialize(p.State),
       brews: p._brews || [],
     }
   }
@@ -1047,24 +1132,21 @@ class Pilot {
     this._cloudOwnerID = data.cloudOwnerID || ''
     this._lastCloudUpdate = data.lastCloudUpdate || ''
     this._id = data.id
-    this._loadout = (data as any).loadouts
-      ? PilotLoadout.Deserialize((data as any).loadouts[0])
-      : data.loadout
-      ? PilotLoadout.Deserialize(data.loadout)
-      : new PilotLoadout(0)
+    this._loadout = data.loadout ? PilotLoadout.Deserialize(data.loadout) : new PilotLoadout(0)
+    this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats()
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name
+    this._dead = data.dead || false
     this._player_name = data.player_name
     this._status = data.status || 'ACTIVE'
-    this._mounted = data.mounted || true
     this._factionID = data.factionID
     this._text_appearance = data.text_appearance
     this._notes = data.notes
     this._history = data.history
     this._portrait = data.portrait
     this._cloud_portrait = data.cloud_portrait
-    this._quirk = data.quirk
+    this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : []
     this._current_hp = data.current_hp
     this._background = data.background
     this._mechSkills = MechSkills.Deserialize(data.mechSkills)
@@ -1081,7 +1163,8 @@ class Pilot {
     this._mechs = data.mechs.length
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []
-    this._active_mech = data.active_mech
+    this.ActiveMech = this._mechs.find(x => x.ID === data.active_mech)
+    this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []
@@ -1089,4 +1172,4 @@ class Pilot {
   }
 }
 
-export default Pilot
+export { Pilot, IPilotData }

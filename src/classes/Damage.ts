@@ -1,4 +1,5 @@
-import { DamageType } from '@/class'
+import { DamageType, Mech, MechWeapon } from '@/class'
+import { Bonus } from './Bonus'
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -6,19 +7,34 @@ interface IDamageData {
   type: DamageType
   val: string | number
   override?: boolean
+  bonus?: string | number
 }
 
 class Damage {
-  private _damage_type: DamageType
-  private _value: string
+  public readonly Type: DamageType
+  public readonly Value: string
+  public readonly Bonus: string
+  public readonly Override: boolean
   private _raw_value: string | number
-  private _override: boolean
 
   public constructor(damage: IDamageData) {
-    this._damage_type = this.getDamageType(damage.type)
+    this.Type = this.getDamageType(damage.type)
+    if (typeof damage.val === 'number') {
+      if (!damage.bonus) this.Value = damage.val.toString()
+      else if (typeof damage.bonus === 'number') this.Value = (damage.val + damage.bonus).toString()
+      else this.Value = `${damage.val} + ${damage.bonus}`
+    } else {
+      if (damage.bonus)
+        this.Value = damage.val + damage.bonus ? ` + ${damage.bonus.toString()}` : ''
+      else this.Value = damage.val
+    }
+    this.Bonus = damage.bonus
+      ? typeof damage.bonus === 'number'
+        ? damage.bonus.toString()
+        : damage.bonus
+      : ''
+    this.Override = damage.override || false
     this._raw_value = damage.val
-    this._value = typeof damage.val === 'number' ? damage.val.toString() : damage.val
-    this._override = damage.override || false
   }
 
   private getDamageType(str?: string): DamageType {
@@ -37,18 +53,6 @@ class Damage {
     return DamageType.Variable
   }
 
-  public get Override(): boolean {
-    return this._override
-  }
-
-  public get Type(): DamageType {
-    return this._damage_type
-  }
-
-  public get Value(): string {
-    return this._value
-  }
-
   //TODO: replace with dicemath
   public get Max(): number {
     if (typeof this._raw_value === 'number') return this._raw_value
@@ -61,21 +65,49 @@ class Damage {
     }
   }
 
+  public static CalculateDamage(item: MechWeapon, mech: Mech): Damage[] {
+    if (!item || !mech) return []
+    if (!Bonus.get('damage', mech)) return item.Damage
+    const bonuses = mech.Bonuses.filter(x => x.ID === 'damage')
+    const output = []
+    item.Damage.forEach(d => {
+      if (d.Override) return
+      let bonus = 0
+      bonuses.forEach(b => {
+        if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => item.WeaponType === wt)) return
+        if (b.WeaponSizes.length && !b.WeaponSizes.some(ws => item.Size === ws)) return
+        if (b.RangeTypes.length && !b.RangeTypes.some(rt => item.RangeType.some(x => x === rt)))
+          return
+        if (!b.DamageTypes.length || b.DamageTypes.some(rt => d.Type === rt)) {
+          bonus += Bonus.Evaluate(b, mech.Pilot)
+        }
+      })
+      output.push(
+        new Damage({
+          type: d.Type,
+          val: d._raw_value,
+          bonus: bonus,
+        })
+      )
+    })
+    return output
+  }
+
   public get Icon(): string {
-    return `cci-${this._damage_type.toLowerCase()}`
+    return `cci-${this.Type.toLowerCase()}`
   }
 
   public get DiscordEmoji(): string {
-    return `:cc_damage_${this._damage_type.toLowerCase()}:`
+    return `:cc_damage_${this.Type.toLowerCase()}:`
   }
 
   public get Color(): string {
-    return `damage--${this._damage_type.toLowerCase()}`
+    return `damage--${this.Type.toLowerCase()}`
   }
 
   public get Text(): string {
-    if (this._override) return this._value
-    return `${this._value} ${this._damage_type} Damage`
+    if (this.Override) return this.Value
+    return `${this.Value} ${this.Type} Damage`
   }
 }
 

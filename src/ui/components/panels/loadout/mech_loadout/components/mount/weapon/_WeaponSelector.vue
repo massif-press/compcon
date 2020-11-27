@@ -3,6 +3,9 @@
     <cc-selector-table
       :items="availableWeapons"
       :headers="headers"
+      sp-disable
+      :sp="freeSP"
+      :sp-ignore="showOverSP"
       item-type-fallback="MechWeapon"
       @equip="$emit('equip', $event)"
     >
@@ -80,7 +83,7 @@
               <v-icon
                 class="ml-n2"
                 :color="showOverSP ? 'warning' : 'success'"
-                v-html="showOverSP ? 'mdi-flash-off' : 'mdi-flash'"
+                v-html="'cci-system-point'"
               />
             </cc-tooltip>
           </v-switch>
@@ -92,10 +95,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Rules, MechWeapon } from '@/class'
 import { flavorID } from '@/io/Generators'
+import { Bonus } from '@/classes/Bonus'
 
 export default Vue.extend({
   name: 'weapon-selector',
@@ -142,16 +147,21 @@ export default Vue.extend({
       // filter unique
       i = i.filter(x => !this.mech.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
 
-      if (!this.showUnlicensed) {
-        i = i.filter(
-          x => x.Source === 'GMS' || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
-        )
-      }
-      if (!this.showOverSP) {
-        i = i.filter(x => x.SP <= this.freeSP)
+      // filter ai
+      if (this.mech.ActiveLoadout.AICount >= 1 + Bonus.get('ai_cap', this.mech)) {
+        i = i.filter(x => !x.IsAI)
       }
 
-      return i
+      if (!this.showUnlicensed) {
+        i = i.filter(
+          x => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
+        )
+      }
+      // if (!this.showOverSP) {
+      //   i = i.filter(x => x.SP <= this.freeSP)
+      // }
+
+      return _.sortBy(i, ['Source', 'Name'])
     },
   },
   created() {

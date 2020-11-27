@@ -11,10 +11,21 @@
               </v-list-item-icon>
               <v-list-item-content class="ml-n6 mt-n1">
                 <v-list-item-title
-                  class="heading h3 stark--text font-weight-bold"
+                  :class="
+                    `heading h3 ${
+                      spDisable && i.SP > sp && !spIgnore ? 'subtle--text' : 'stark--text'
+                    } font-weight-bold`
+                  "
                   style="font-size: 15px"
                 >
                   {{ i.Name }}
+                  <cc-tooltip
+                    v-if="spDisable && i.SP > sp && !spIgnore"
+                    inline
+                    content="Equipment exceeds System Point capacity"
+                  >
+                    <v-icon color="warning">mdi-alert</v-icon>
+                  </cc-tooltip>
                 </v-list-item-title>
               </v-list-item-content>
             </v-list-item>
@@ -34,7 +45,19 @@
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
           <div class="text-center mt-3">
-            <v-btn color="secondary" x-large tile @click="$emit('equip', selectedItem)">
+            <div
+              v-if="spDisable && selectedItem.SP > sp && !spIgnore"
+              class="overline warning--text"
+            >
+              // ALERT: EQUIPMENT EXCEEDS SYSTEM POINT CAPACITY //
+            </div>
+            <v-btn
+              color="secondary"
+              x-large
+              tile
+              :disabled="spDisable && selectedItem.SP > sp && !spIgnore"
+              @click="$emit('equip', selectedItem)"
+            >
               Equip {{ selectedItem.Name }}
             </v-btn>
           </div>
@@ -53,6 +76,9 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
+    spDisable: { type: Boolean },
+    spIgnore: { type: Boolean },
+    sp: { type: Number, required: false, default: 0 },
   },
   data: () => ({
     selected: null,

@@ -1,5 +1,5 @@
 <template>
-  <v-col :cols="cols" :xl="xl" :lg="lg" :md="md" :sm="sm" class="pa-1">
+  <v-col :cols="cols" class="pa-1">
     <v-card
       tile
       color="panel clipped"
@@ -11,12 +11,18 @@
           {{ collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
         </v-icon>
         <span class="heading h3 white--text">{{ header }}</span>
-        <v-spacer />
+        <v-divider v-if="content && prominent" class="mx-3 subtle" style="opacity: 0.5" />
+        <v-spacer v-else />
         <span class="overline white--text mr-2">{{ subheader }}</span>
+        <span v-if="content && prominent" class="heading h1 py-2 pr-3 white--text">
+          {{ content }}
+        </span>
       </v-card-title>
       <v-scroll-y-transition leave-absolute>
-        <v-card-text v-if="!collapsed" class="pa-1 pl-2 ma-0 text--text body-text">
-          <div v-if="content" :class="prominent ? 'text-center heading h3' : ''">{{ content }}</div>
+        <v-card-text v-if="!collapsed && !prominent" class="pa-1 pl-2 ma-0 text--text body-text">
+          <div v-if="content && !prominent">
+            {{ content }}
+          </div>
           <slot v-else />
         </v-card-text>
       </v-scroll-y-transition>
@@ -26,7 +32,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-@Component({name: 'cc-active-card'})
+@Component({ name: 'cc-active-card' })
 export default class CCActiveCard extends Vue {
   @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
@@ -38,14 +44,6 @@ export default class CCActiveCard extends Vue {
   readonly content: string | number
   @Prop({ type: [String, Number], required: false, default: '' })
   readonly cols: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly xl: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly lg: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly md: string | number
-  @Prop({ type: [String, Number], required: false, default: '' })
-  readonly cm: string | number
   @Prop({ type: Boolean })
   readonly collapsible: boolean
   @Prop({ type: Boolean })
@@ -55,7 +53,7 @@ export default class CCActiveCard extends Vue {
 
   collapsed = false
 
-  created() {
+  created(): void {
     this.collapsed = this.startClosed
   }
 }

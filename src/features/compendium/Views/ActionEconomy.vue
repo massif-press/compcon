@@ -27,9 +27,30 @@
       </v-card>
     </v-container>
 
-    <v-container grid-list-md fluid>
+    <v-container>
+      <v-row class="mt-3">
+        <v-divider class="mt-5" />
+        <v-icon x-large color="panel-border">cci-frame</v-icon>
+        <v-divider class="mt-5" />
+      </v-row>
       <v-row fill-height justify="center">
         <action-card v-for="a in actions" :key="a.id" :action="a" />
+      </v-row>
+      <v-row class="mt-3">
+        <v-divider class="mt-5" />
+        <v-icon x-large color="panel-border">cci-pilot</v-icon>
+        <v-divider class="mt-5" />
+      </v-row>
+      <v-row fill-height justify="center">
+        <action-card v-for="a in pilotActions" :key="a.id" :action="a" />
+      </v-row>
+      <v-row class="mt-3">
+        <v-divider class="mt-5" />
+        <v-icon x-large color="panel-border">cci-downtime</v-icon>
+        <v-divider class="mt-5" />
+      </v-row>
+      <v-row fill-height justify="center">
+        <action-card v-for="a in downtimeActions" :key="a.id" :action="a" />
       </v-row>
     </v-container>
   </div>
@@ -39,16 +60,24 @@
 import Vue from 'vue'
 import ActionTypeCard from '../components/ActionTypeCard.vue'
 import ActionCard from '../components/ActionCard.vue'
-import { actions } from 'lancer-data'
+import Component from 'vue-class-component'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
+import { Action } from '@/interface'
 
-export default Vue.extend({
-  name: 'reference',
+@Component({
   components: { ActionTypeCard, ActionCard },
-  data: () => ({
-    actions: [],
-  }),
-  created() {
-    this.actions = actions.filter(x => x.action_type !== 'downtime' && !x.reserve)
-  },
 })
+export default class CoreBonuses extends Vue {
+  private compendium = getModule(CompendiumStore, this.$store)
+  get actions(): Action[] {
+    return this.compendium.Actions.filter(a => !a.IsDowntimeAction && !a.IsPilotAction)
+  }
+  get pilotActions(): Action[] {
+    return this.compendium.Actions.filter(a => a.IsPilotAction)
+  }
+  get downtimeActions(): Action[] {
+    return this.compendium.Actions.filter(a => a.IsDowntimeAction)
+  }
+}
 </script>

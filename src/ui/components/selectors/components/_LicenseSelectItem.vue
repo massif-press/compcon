@@ -37,7 +37,7 @@
         style="position:absolute; top: 0; right: 0; z-index: 9"
       />
     </v-expansion-panel-header>
-    <v-expansion-panel-content>
+    <v-expansion-panel-content color="panel">
       <cc-license-panel :license="license" ranked :rank="rank" />
       <v-btn
         v-if="rank < license.Unlocks.length && isSelectable"

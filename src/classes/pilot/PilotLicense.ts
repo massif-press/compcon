@@ -1,16 +1,12 @@
 import { License } from '@/class'
 
 class PilotLicense {
-  private license: License
+  public readonly License: License
   private rank: number
 
   public constructor(license: License, rank: number) {
-    this.license = license
+    this.License = license
     this.rank = rank
-  }
-
-  public get License(): License {
-    return this.license
   }
 
   public get Rank(): number {

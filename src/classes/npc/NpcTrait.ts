@@ -14,6 +14,15 @@ export class NpcTrait extends NpcFeature {
   public get Icon(): string {
     return 'cci-trait'
   }
+
+  public get IsRecharging(): boolean {
+    return this.Tags.some(x => x.IsRecharging)
+  }
+
+  public get ChargeRoll(): string {
+    return this.Tags.find(x => x.IsRecharging).Value.toString()
+  }
+
 }
 
 export default NpcTrait

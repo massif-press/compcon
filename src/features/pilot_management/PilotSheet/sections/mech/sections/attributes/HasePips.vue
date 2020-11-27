@@ -1,7 +1,11 @@
 <template>
-  <cc-tooltip simple :content="`${attr.toUpperCase()}: ${val}`">
-    <span class="overline no-height ml-n1">{{ attr }}</span>
-    <br />
+  <div>
+    <cc-tooltip simple inline :content="`${attr.toUpperCase()}: ${val}`">
+      <span class="overline no-height ml-n1">
+        {{ attr }}
+      </span>
+    </cc-tooltip>
+    <cc-synergy-display :location="attr" :mech="mech" class="d-inline" />
     <div v-if="$vuetify.breakpoint.lgAndUp" class="mt-n2 ml-1">
       <span class="no-height ml-n1">
         <v-icon
@@ -25,7 +29,7 @@
     <div v-else class="mt-n2">
       <span class="accent--text heading h2">{{ val }}</span>
     </div>
-  </cc-tooltip>
+  </div>
 </template>
 
 <script lang="ts">
@@ -33,6 +37,10 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'hase-pips',
   props: {
+    mech: {
+      type: Object,
+      required: true,
+    },
     attr: {
       type: String,
       required: true,

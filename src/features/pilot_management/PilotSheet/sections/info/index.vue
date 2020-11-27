@@ -1,9 +1,12 @@
 <template>
   <div>
-    <v-row class="pt-0">
-      <v-col lg="10" cols="12" class="pt-0 mb-n8">
+    <v-row dense align="center" class="mt-n6 mb-n6">
+      <v-col>
         <ident-block />
       </v-col>
+      <v-col cols="1" />
+    </v-row>
+    <v-row>
       <v-col cols="8" dense>
         <clone-block />
         <history-block />

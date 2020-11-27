@@ -11,7 +11,7 @@ declare interface IActor {
   Activations: number
   Evasion: number
   EDefense: number
-  Actions: number
+  TurnActions: number
   CurrentStructure: number
   CurrentHP: number
   CurrentStress: number
@@ -26,4 +26,5 @@ declare interface IActor {
   Icon: string
   NewTurn: () => void
   FullRepair: () => void
+  Bonuses?: any[]
 }

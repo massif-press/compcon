@@ -6,6 +6,8 @@
 
 import { Rules } from './classes/utility/Rules'
 import {
+  Duration,
+  ActivationType,
   MountType,
   FittingSize,
   WeaponSize,
@@ -22,25 +24,6 @@ import {
   EncounterSide,
 } from './classes/enums'
 import Tag from './classes/Tag'
-import {
-  AIEffect,
-  BasicEffect,
-  ChargeType,
-  Charge,
-  ChargeEffect,
-  DeployableEffect,
-  DroneEffect,
-  GenericEffect,
-  EffectType,
-  ActivationType,
-  ItemEffect,
-  BonusEffect,
-  ProtocolEffect,
-  ReactionEffect,
-  TechEffect,
-  ProfileEffect,
-  OffensiveEffect,
-} from './classes/effects'
 import { CompendiumItem } from './classes/CompendiumItem'
 import { LicensedItem } from './classes/LicensedItem'
 import { CoreBonus } from './classes/pilot/CoreBonus'
@@ -49,7 +32,7 @@ import Loadout from './classes/Loadout'
 import { Range } from './classes/Range'
 import { Skill } from './classes/pilot/Skill'
 import CustomSkill from './classes/pilot/CustomSkill'
-import { Talent } from './classes/pilot/Talent'
+import { Talent, TalentRank } from './classes/pilot/Talent'
 import License from './classes/License'
 import MechSkills from './classes/pilot/MechSkills'
 import { PilotEquipment } from './classes/pilot/PilotEquipment'
@@ -60,10 +43,11 @@ import PilotLicense from './classes/pilot/PilotLicense'
 import PilotLoadout from './classes/pilot/PilotLoadout'
 import PilotSkill from './classes/pilot/PilotSkill'
 import PilotTalent from './classes/pilot/PilotTalent'
-import Pilot from './classes/pilot/Pilot'
+import { Synergy } from './classes/Synergy'
+import { Pilot } from './classes/pilot/Pilot'
 import { CoreSystem } from './classes/mech/CoreSystem'
 import { Frame } from './classes/mech/Frame'
-import MechLoadout from './classes/mech/MechLoadout'
+import { MechLoadout } from './classes/mech/MechLoadout'
 import { MechEquipment } from './classes/mech/MechEquipment'
 import { MechSystem } from './classes/mech/MechSystem'
 import { MechWeapon } from './classes/mech/MechWeapon'
@@ -72,11 +56,13 @@ import IntegratedMount from './classes/mech/IntegratedMount'
 import EquippableMount from './classes/mech/EquippableMount'
 import { WeaponMod } from './classes/mech/WeaponMod'
 import WeaponSlot from './classes/mech/WeaponSlot'
-import Mech from './classes/mech/Mech'
-import Reserve from './classes/pilot/reserves/Reserve'
+import { Mech } from './classes/mech/Mech'
+import { Reserve } from './classes/pilot/reserves/Reserve'
+import { Deployable } from './classes/Deployable'
 import Project from './classes/pilot/reserves/Project'
 import Organization from './classes/pilot/reserves/Organization'
 import { Manufacturer } from './classes/Manufacturer'
+import { Faction } from './classes/Faction'
 import Statblock from './classes/Statblock'
 import {
   DiceRoller,
@@ -106,23 +92,8 @@ import { Counter } from './classes/Counter'
 
 export {
   Rules,
-  AIEffect,
-  BasicEffect,
-  ChargeType,
-  Charge,
-  ChargeEffect,
-  DeployableEffect,
-  DroneEffect,
-  GenericEffect,
-  EffectType,
   ActivationType,
-  ItemEffect,
-  BonusEffect,
-  ProtocolEffect,
-  ReactionEffect,
-  TechEffect,
-  ProfileEffect,
-  OffensiveEffect,
+  Duration,
   MountType,
   FittingSize,
   WeaponSize,
@@ -147,6 +118,7 @@ export {
   CustomSkill,
   Tag,
   Talent,
+  TalentRank,
   MechSkills,
   Pilot,
   PilotEquipment,
@@ -157,7 +129,9 @@ export {
   PilotLoadout,
   PilotSkill,
   PilotTalent,
+  Synergy,
   Reserve,
+  Deployable,
   Project,
   Organization,
   CoreSystem,
@@ -173,6 +147,7 @@ export {
   WeaponMod,
   WeaponSlot,
   Manufacturer,
+  Faction,
   Statblock,
   DiceRoller,
   D20RollResult,

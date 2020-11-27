@@ -133,6 +133,21 @@
               <span class="heading h3">HP</span>
             </cc-tick-bar>
           </v-col>
+          <v-col cols="auto" class="ml-1">
+            <cc-tick-bar
+              :key="npc.Overshield"
+              :current="npc.Overshield"
+              :max="npc.Overshield"
+              large
+              color="stark"
+              number-only
+              hide-values
+              :full-icon="'mdi-octagram'"
+              @update="npc.Overshield = $event"
+            >
+              <span class="heading h3">Overshield</span>
+            </cc-tick-bar>
+          </v-col>
         </v-row>
 
         <v-row dense>
@@ -147,7 +162,7 @@
               :class="{ rolledOver: stressRolledOver }"
               @update="npc.CurrentStress = $event"
             >
-              <span class="heading h3">Reactor</span>
+              <span class="heading h3">Stress</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto" class="mr-4">
@@ -256,7 +271,14 @@
       <v-col v-if="npc.HasImage">
         <v-card flat outlined>
           <v-card-text class="pa-1">
-            <v-img v-if="npc.Image" :key="npc.Image" :src="npc.Image" aspect-ratio="1" />
+            <v-img
+              v-if="npc.Image"
+              :key="npc.Image"
+              max-width="30vw"
+              max-height="30vh"
+              :src="npc.Image"
+              aspect-ratio="1"
+            />
           </v-card-text>
         </v-card>
       </v-col>
@@ -290,6 +312,7 @@
           active
           @remove-feature="npc.RemoveFeature(i.Feature)"
           @recalc="npc.RecalcBonuses()"
+          @add-reaction="npc.AddReaction($event)"
         />
       </v-col>
     </v-row>

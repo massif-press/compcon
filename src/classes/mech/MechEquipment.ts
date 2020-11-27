@@ -1,73 +1,91 @@
-import { LicensedItem, Tag, ItemEffect } from '@/class'
+import { LicensedItem } from '@/class'
 import { ILicensedItemData } from '@/interface'
 
 interface IMechEquipmentData extends ILicensedItemData {
   sp: number
   tags: ITagData[]
-  effect: string | object | object[]
+  effect: string
   talent_item?: boolean
   frame_id?: boolean
 }
 
 abstract class MechEquipment extends LicensedItem {
-  protected sp: number
   protected _uses: number
+  protected _used: boolean
   protected _destroyed: boolean
   protected _cascading: boolean
   protected _loaded: boolean
-  private _effect: ItemEffect[]
-  private _integrated: boolean
-  private _max_uses: number
-  protected _tags: ITagData[]
   protected max_use_override: number
+  private _max_uses: number
+  public readonly SP: number
+  public readonly Effect: string
+  public readonly IsIntegrated: boolean
+  public readonly IsUnique: boolean
+  public readonly IsLimited: boolean
+  public readonly IsLoading: boolean
+  public readonly IsAI: boolean
+  public readonly IsIndestructible: boolean
+  public readonly IsOrdnance: boolean
+  public readonly CanSetDamage: boolean
+  public readonly CanSetUses: boolean
 
-  public constructor(itemData: IMechEquipmentData) {
-    super(itemData)
-    this.sp = itemData.sp || 0
-    this._tags = itemData.tags
-    this._effect = this.getItemData(itemData.effect)
-    this._integrated =
-      itemData.talent_item || itemData.frame_id || itemData.id.includes('_integrated')
-    this._uses = 0
+  public constructor(data: IMechEquipmentData) {
+    super(data)
+    this.SP = data.sp || 0
+    this.Effect = data.effect
+    this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated')
     this._destroyed = false
     this._cascading = false
     this._loaded = true
-    if (itemData.tags) {
-      const ltd = itemData.tags.find(x => x.id === 'tg_limited')
+    this._used = false
+    if (data.tags) {
+      const ltd = data.tags.find(x => x.id === 'tg_limited')
+      this.IsLimited = !!ltd
       this._max_uses = ltd && typeof ltd.val === 'number' ? ltd.val : 0
+      this.IsUnique = data.tags.some(x => x.id === 'tg_unique')
+      this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
+      this.IsAI = data.tags.some(x => x.id === 'tg_ai')
+      this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructable')
+      this.IsOrdnance = data.tags.some(x => x.id === 'tg_ordnance')
+      this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
+      this.CanSetUses = data.tags.some(x => x.id === 'tg_set_max_uses')
     } else {
       this._max_uses = 0
     }
+    this._uses = this._max_uses
   }
 
-  private getItemData(data: any): ItemEffect[] {
-    if (!Array.isArray(data)) {
-      return [ItemEffect.Generate(data)]
-    } else return data.map(x => ItemEffect.Generate(x))
+  public Use(cost?: number): void {
+    if (!this.CheckUsable(cost)) return
+    this._used = true
+    if (this.IsLoading) this._loaded = false
+    if (this.IsLimited && cost) this.Uses -= cost
   }
 
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
+  public Undo(cost?: number): void {
+    if (cost) this.Uses += cost
+    if (this.IsLoading) this._loaded = true
+    this._used = false
   }
 
-  public get Effect(): ItemEffect[] {
-    return this._effect
+  public Reset(): void {
+    this._used = false
   }
 
-  public get IsIntegrated(): boolean {
-    return this._integrated
+  public CheckUsable(cost?: number): boolean {
+    if (this.IsLoading && !this._loaded) return false
+    if (this.IsCascading) return false
+    if (this.IsLimited && this.Uses === 0) return false
+    if (this.IsLimited && cost && this.Uses < cost) return false
+    return !this._used
   }
 
-  public get IsUnique(): boolean {
-    return this.Tags.some(x => x.IsUnique)
+  public get Used(): boolean {
+    return this._used
   }
 
-  public get IsAI(): boolean {
-    return this.Tags.some(x => x.IsAI)
-  }
-
-  public get IsIndestructible(): boolean {
-    return this.Tags.some(x => x.IsIndestructible)
+  public set Used(b: boolean) {
+    this._used = b
   }
 
   public get IsCascading(): boolean {
@@ -89,10 +107,6 @@ abstract class MechEquipment extends LicensedItem {
     this.save()
   }
 
-  public get IsLimited(): boolean {
-    return this.Tags.some(x => x.IsLimited)
-  }
-
   public get Destroyed(): boolean {
     return this._destroyed
   }
@@ -110,18 +124,6 @@ abstract class MechEquipment extends LicensedItem {
   public Repair(): void {
     this._destroyed = false
     this.save()
-  }
-
-  public get CanSetDamage(): boolean {
-    return this._tags.some(x => x.id === 'tg_set_damage_type')
-  }
-
-  public get CanSetUses(): boolean {
-    return this._tags.some(x => x.id === 'tg_set_max_uses')
-  }
-
-  public get IsLoading(): boolean {
-    return this.Tags.some(x => x.IsLoading)
   }
 
   public get Loaded(): boolean {

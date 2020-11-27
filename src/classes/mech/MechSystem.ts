@@ -11,16 +11,16 @@ class MechSystem extends MechEquipment {
 
   public constructor(systemData: IMechSystemData) {
     super(systemData)
-    this._system_type = systemData.type
-    this._item_type = ItemType.MechSystem
-  }
-
-  public get SP(): number {
-    return this.sp
+    this._system_type = systemData.type || SystemType.System
+    this.ItemType = ItemType.MechSystem
   }
 
   public get Type(): SystemType {
     return this._system_type
+  }
+
+  public get Color(): string {
+    return 'mech-system'
   }
 
   public static Serialize(item: MechSystem): IEquipmentData {

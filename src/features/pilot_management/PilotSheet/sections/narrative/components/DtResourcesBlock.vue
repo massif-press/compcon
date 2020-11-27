@@ -1,14 +1,17 @@
 <template>
   <div class="my-3">
-    <cc-title small color="pilot">
-      <section-edit-icon label="Add Downtime Reserves" @open-selector="$refs.dtSelector.show()" />
-      Downtime Reserves
+    <cc-title small color="pilot" class="ml-n10 pl-3">
+      <section-edit-icon
+        label="Add Reserves and Bonuses"
+        @open-selector="$refs.dtSelector.show()"
+      />
+      Reserves and Bonuses
     </cc-title>
     <cc-solo-dialog
       ref="dtSelector"
       icon="cci-barrage"
       no-confirm
-      title="Edit Downtime Resources"
+      title="Edit Reserves and Bonuses"
       fullscreen
       no-pad
     >
@@ -16,7 +19,7 @@
     </cc-solo-dialog>
     <v-container>
       <no-data-block v-if="!pilot.Reserves.length && !pilot.Organizations.length" />
-      <v-row v-else>
+      <v-row v-else dense>
         <cc-reserve-item
           v-for="(r, i) in pilot.Reserves"
           :key="`r_${i}`"

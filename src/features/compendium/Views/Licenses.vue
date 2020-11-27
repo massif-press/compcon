@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid px-5>
+  <v-container px-5>
     <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading">LICENSES</h1>
     <v-row v-for="m in Object.keys(licenses)" :key="m">
       <v-col class="text-center pa-3">
@@ -7,11 +7,11 @@
           <cc-logo
             :source="manufacturer(m)"
             :size="$vuetify.breakpoint.mdAndDown ? 'large' : 'xLarge'"
-            class="pt-4"
+            class="pt-3 mb-n1"
           />
           <span
             :class="$vuetify.breakpoint.mdAndDown ? 'heading h2' : 'heading mech'"
-            :style="`width: 100%; color: ${manufacturer(m).Color}`"
+            :style="`width: 100%; color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
           >
             {{ manufacturer(m).Name }}
           </span>

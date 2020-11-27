@@ -182,7 +182,7 @@ class Encounter implements IMissionStep {
       .concat(this.Reinforcements(EncounterSide.Enemy))
       .reduce((a, b) => +a + +b.Power, 0)
     const ally = this.Npcs(EncounterSide.Ally)
-      .concat(this.Reinforcements(EncounterSide.Enemy))
+      .concat(this.Reinforcements(EncounterSide.Ally))
       .reduce((a, b) => +a + +b.Power, 0)
     return enemy - ally
   }

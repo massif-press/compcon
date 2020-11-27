@@ -4,77 +4,176 @@ import {
   Damage,
   DamageType,
   ItemType,
-  Mech,
   MechEquipment,
   Range,
   RangeType,
+  Tag,
   WeaponMod,
   WeaponSize,
   WeaponType,
 } from '@/class'
-import { IDamageData, IMechEquipmentData, IRangeData } from '@/interface'
-
-// TODO:
-// class WeaponAmmo {}
+import {
+  IDamageData,
+  IMechEquipmentData,
+  IRangeData,
+  ISynergyData,
+  ICounterData,
+} from '@/interface'
+import { IActionData } from '../Action'
+import { IBonusData } from '../Bonus'
+import { CompendiumItem, ICompendiumItemData } from '../CompendiumItem'
+import { IDeployableData } from '../Deployable'
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize
   type: WeaponType
-  damage: IDamageData[]
-  range: IRangeData[]
+  skirmish_cost?: number
+  barrage_cost?: number
+  on_attack?: string
+  on_hit?: string
+  on_crit?: string
+  damage?: IDamageData[]
+  range?: IRangeData[]
+  profiles?: IWeaponProfileData[]
+  selected_profile: number
+}
+
+interface IWeaponProfileData {
+  name?: string
+  effect?: string
+  skirmish_cost?: number
+  barrage_cost?: number
+  on_attack?: string
+  on_hit?: string
+  on_crit?: string
+  damage?: IDamageData[]
+  range?: IRangeData[]
+  actions?: IActionData[]
+  bonuses?: IBonusData[]
+  synergies?: ISynergyData[]
+  deployables?: IDeployableData[]
+  counters?: ICounterData[]
+  integrated?: string[]
+}
+
+class WeaponProfile extends CompendiumItem {
+  Damage?: Damage[]
+  Range?: Range[]
+  Effect?: string
+  OnAttack?: string
+  OnHit?: string
+  OnCrit?: string
+  SkirmishCost: number
+  BarrageCost: number
+
+  public constructor(pData: IWeaponProfileData | IMechWeaponData, originId?: string, idx?: number) {
+    const data = Object.assign({}, pData) as ICompendiumItemData
+    if (!data.id) data.id = originId
+    data.id += `_profile_${idx || 0}`
+    super(data)
+    this.SkirmishCost = pData.skirmish_cost || 1
+    this.BarrageCost = pData.barrage_cost || 1
+    if (pData.damage) this.Damage = pData.damage.map(x => new Damage(x))
+    if (pData.range) this.Range = pData.range.map(x => new Range(x))
+    if (pData.effect) this.Effect = pData.effect
+    if (pData.on_attack) this.OnAttack = pData.on_attack
+    if (pData.on_hit) this.OnHit = pData.on_hit
+    if (pData.on_crit) this.OnCrit = pData.on_crit
+  }
 }
 
 class MechWeapon extends MechEquipment {
-  private _size: WeaponSize
-  private _weapon_type: WeaponType
-  private _damage?: Damage[]
-  private _range?: Range[]
+  public readonly Size: WeaponSize
+  public readonly WeaponType: WeaponType
+  public readonly Profiles: WeaponProfile[]
   private _mod: WeaponMod | null
   private _custom_damage_type?: string
-  // private ammo?: WeaponAmmo | null;
+  private _selected_profile: number
 
-  public constructor(weaponData: IMechWeaponData) {
-    super(weaponData)
-    this._size = weaponData.mount
-    this._weapon_type = weaponData.type
-    if (weaponData.damage) this._damage = weaponData.damage.map(x => new Damage(x))
-    if (weaponData.range) this._range = weaponData.range.map(x => new Range(x))
+  public constructor(data: IMechWeaponData) {
+    super(data)
+    this.Size = data.mount
+    this.WeaponType = data.type
+    if (data.profiles) {
+      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this.ID, i))
+    } else {
+      this.Profiles = [new WeaponProfile(data, this.ID)]
+    }
+    this._selected_profile = 0
     this._mod = null
-    this._item_type = ItemType.MechWeapon
-  }
-
-  public get Size(): WeaponSize {
-    return this._size
-  }
-
-  public get Type(): WeaponType {
-    return this._weapon_type
+    this.ItemType = ItemType.MechWeapon
   }
 
   public get TotalSP(): number {
-    if (!this.Mod) return this.sp
-    return this.Mod.SP + this.sp
-  }
-
-  public get SP(): number {
-    return this.sp
+    if (!this.Mod) return this.SP
+    return this.Mod.SP + this.SP
   }
 
   public get ModSP(): number {
     return this.Mod ? this.Mod.SP : 0
   }
 
+  public get SkirmishCost(): number {
+    return this.SelectedProfile.SkirmishCost
+  }
+
+  public get CanSkirmish(): boolean {
+    return this.CheckUsable(this.SkirmishCost)
+  }
+
+  public get BarrageCost(): number {
+    return this.SelectedProfile.BarrageCost
+  }
+
+  public get CanBarrage(): boolean {
+    return this.CheckUsable(this.BarrageCost)
+  }
+
+  public get SelectedProfile(): WeaponProfile {
+    return this.Profiles[this._selected_profile]
+  }
+
+  public SetProfileSelection(val: number, temp: boolean): void {
+    this._selected_profile = val
+    if (!temp) this.save()
+  }
+
+  public get ProfileEffect(): string {
+    return this.SelectedProfile.Effect || ''
+  }
+
+  public get ProfileOnAttack(): string {
+    return this.SelectedProfile.OnAttack || ''
+  }
+
+  public get ProfileOnHit(): string {
+    return this.SelectedProfile.OnHit || ''
+  }
+
+  public get ProfileOnCrit(): string {
+    return this.SelectedProfile.OnCrit || ''
+  }
+
+  public get ProfileTags(): Tag[] {
+    return this.SelectedProfile.Tags || []
+  }
+
+  public get ProfileHeatCost(): number {
+    const selfHeatTag = this.ProfileTags.find(x => x.IsHeatCost)
+    return selfHeatTag ? (selfHeatTag.Value as number) : 0
+  }
+
   public get Damage(): Damage[] {
-    if (this._damage && this.Mod && this.Mod.AddedDamage)
-      return this._damage.concat(this.Mod.AddedDamage)
-    return this._damage || []
+    if (this.SelectedProfile.Damage && this.Mod && this.Mod.AddedDamage)
+      return this.SelectedProfile.Damage.concat(this.Mod.AddedDamage)
+    return this.SelectedProfile.Damage || []
   }
 
   public get MaxDamage(): number {
     if (0 === this.Damage.length) {
-      return 0;
+      return 0
     } else {
-      return this.Damage[0].Max;
+      return this.Damage[0].Max
     }
   }
 
@@ -93,7 +192,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public get DamageType(): DamageType[] {
-    return this._damage.map(x => x.Type)
+    return this.SelectedProfile.Damage.map(x => x.Type)
   }
 
   public get DefaultDamageType(): DamageType {
@@ -105,46 +204,11 @@ class MechWeapon extends MechEquipment {
   }
 
   public get Range(): Range[] {
-    return this._range || []
-  }
-
-  public getTotalRange(mech: Mech): Range[] {
-    const bonuses = [] as { type: RangeType; val: number }[]
-    if (this.Mod && this.Mod.AddedRange)
-      bonuses.push({
-        type: RangeType.Range,
-        val: parseInt(this.Mod.AddedRange.Value),
-      })
-    if (mech.Pilot.has('CoreBonus', 'cb_neurolink_targeting'))
-      bonuses.push({
-        type: RangeType.Range,
-        val: 3,
-      })
-    if (mech.Pilot.has('CoreBonus', 'cb_gyges_frame') && this.Type === WeaponType.Melee)
-      bonuses.push({
-        type: RangeType.Threat,
-        val: 1,
-      })
-    if (
-      mech.ActiveLoadout.HasSystem('ms_external_batteries') &&
-      this.Damage[0].Type === DamageType.Energy
-    )
-      if (this.Type === WeaponType.Melee) {
-        bonuses.push({
-          type: RangeType.Threat,
-          val: 1,
-        })
-      } else {
-        bonuses.push({
-          type: RangeType.Range,
-          val: 5,
-        })
-      }
-    return Range.AddBonuses(this.Range, bonuses)
+    return this.SelectedProfile.Range || []
   }
 
   public get RangeType(): RangeType[] {
-    return this._range.map(x => x.Type)
+    return this.SelectedProfile.Range.map(x => x.Type)
   }
 
   public set Mod(_mod: WeaponMod | null) {
@@ -153,6 +217,10 @@ class MechWeapon extends MechEquipment {
 
   public get Mod(): WeaponMod | null {
     return this._mod || null
+  }
+
+  public get Color(): string {
+    return 'mech-weapon'
   }
 
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
@@ -168,6 +236,7 @@ class MechWeapon extends MechEquipment {
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || null,
       maxUseOverride: item.max_use_override || 0,
+      selectedProfile: item._selected_profile || 0,
     }
   }
 
@@ -183,6 +252,7 @@ class MechWeapon extends MechEquipment {
     item._flavor_description = data.flavorDescription
     item._custom_damage_type = data.customDamageType || null
     item.max_use_override = data.maxUseOverride || 0
+    item._selected_profile = data.selectedProfile || 0
     return item
   }
 }

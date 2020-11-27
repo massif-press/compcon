@@ -12,69 +12,52 @@ import {
 import { IDamageData, IRangeData, IMechEquipmentData } from '@/interface'
 
 interface IWeaponModData extends IMechEquipmentData {
-  sp: number
-  applied_to: WeaponType[]
-  applied_string: string
-  description: string
-  restricted_mounts: WeaponSize[]
-  tags: ITagData[]
+  allowed_types?: WeaponType[]
+  allowed_sizes?: WeaponSize[]
+  restricted_types?: WeaponType[]
+  restricted_sizes?: WeaponSize[]
   added_tags?: ITagData[]
-  added_damage?: IDamageData
-  added_range?: IRangeData
+  added_damage?: IDamageData[]
+  added_range?: IRangeData[]
 }
 
 class WeaponMod extends MechEquipment {
-  private _applied_to: WeaponType[]
-  private _applied_string: string
-  private _restricted_mounts: WeaponSize[]
-  private _added_tags: ITagData[]
-  private _added_damage?: Damage
-  private _added_range?: Range
+  public readonly AllowedTypes: WeaponType[]
+  public readonly AllowedSizes: WeaponSize[]
+  public readonly RestrictedTypes: WeaponType[]
+  public readonly RestrictedSizes: WeaponSize[]
+  public readonly AddedTags: Tag[]
+  public readonly AddedDamage: Damage[]
+  public readonly AddedRange: Range[]
 
-  public constructor(weaponModData: IWeaponModData) {
-    super(weaponModData)
-    this.sp = weaponModData.sp
-    this._applied_to = weaponModData.applied_to
-    this._applied_string = weaponModData.applied_string
-    this._description = weaponModData.description
-    this._restricted_mounts = weaponModData.restricted_mounts
-    this._tags = weaponModData.tags
-    this._added_tags = weaponModData.added_tags || []
-    if (weaponModData.added_damage) this._added_damage = new Damage(weaponModData.added_damage)
-    if (weaponModData.added_range) this._added_range = new Range(weaponModData.added_range)
-    this._item_type = ItemType.WeaponMod
+  public constructor(data: IWeaponModData) {
+    super(data)
+    this.AllowedTypes =
+      data.allowed_types || Object.keys(WeaponType).map(k => WeaponType[k as string])
+    this.AllowedSizes =
+      data.allowed_sizes || Object.keys(WeaponSize).map(k => WeaponSize[k as string])
+    this.RestrictedTypes = data.restricted_types || []
+    this.RestrictedSizes = data.restricted_sizes || []
+    this.AddedTags = data.added_tags ? Tag.Deserialize(data.added_tags) : []
+    this.AddedDamage = data.added_damage ? data.added_damage.map(x => new Damage(x)) : []
+    this.AddedRange = data.added_range ? data.added_range.map(x => new Range(x)) : []
+    this.ItemType = ItemType.WeaponMod
   }
 
   public get Type(): SystemType {
     return SystemType.Mod
   }
 
-  public get SP(): number {
-    return this.sp
+  public get PossibleTypes(): WeaponType[] {
+    return this.AllowedTypes.filter(
+      x => !this.RestrictedTypes.some(y => y.toLowerCase() === x.toLowerCase())
+    )
   }
 
-  public get AppliedTo(): WeaponType[] {
-    return this._applied_to
-  }
-
-  public get AppliedString(): string {
-    return this._applied_string
-  }
-
-  public get Restricted(): WeaponSize[] {
-    return this._restricted_mounts
-  }
-
-  public get AddedTags(): Tag[] {
-    return Tag.Deserialize(this._added_tags)
-  }
-
-  public get AddedDamage(): Damage | null {
-    return this._added_damage || null
-  }
-
-  public get AddedRange(): Range | null {
-    return this._added_range || null
+  public get PossibleSizes(): WeaponSize[] {
+    return this.AllowedSizes.filter(
+      x => !this.RestrictedSizes.some(y => y.toLowerCase() === x.toLowerCase())
+    )
   }
 
   public static Serialize(item: WeaponMod): IEquipmentData {

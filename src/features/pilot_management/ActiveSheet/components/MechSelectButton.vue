@@ -2,7 +2,7 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
       <v-btn v-if="big" large block color="primary" v-on="on">Change Mech</v-btn>
-      <v-btn v-else outlined small v-on="on">Change Mech</v-btn>
+      <v-btn v-else outlined small class="fadeSelect" v-on="on">Change Mech</v-btn>
     </template>
     <v-list two-line subheader>
       <v-subheader class="heading h2 white--text primary py-0 px-2">
@@ -17,7 +17,11 @@
           <cc-logo size="large" :source="mech.Frame.Manufacturer" />
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>{{ mech.Name }}</v-list-item-title>
+          <v-list-item-title>
+            <span :class="mech.Destroyed ? 'text-decoration-line-through text--disabled' : ''">
+              {{ mech.Name }}
+            </span>
+          </v-list-item-title>
           <v-list-item-subtitle>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>

@@ -1,3 +1,28 @@
+enum Duration {
+  Free = 'Free',
+  Turn = 'Turn',
+  NextTurn = 'Next Turn',
+  Round = 'Round',
+  NextRound = 'Next Round',
+  Encounter = 'Encounter',
+  Mission = 'Mission',
+}
+
+enum ActivationType {
+  None = 'None',
+  Free = 'Free',
+  Passive = 'Passive',
+  Protocol = 'Protocol',
+  Move = 'Move',
+  Quick = 'Quick',
+  Full = 'Full',
+  Invade = 'Invade',
+  FullTech = 'Full Tech',
+  QuickTech = 'Quick Tech',
+  Reaction = 'Reaction',
+  Other = 'Other',
+}
+
 enum MountType {
   Main = 'Main',
   Heavy = 'Heavy',
@@ -47,6 +72,7 @@ enum ItemType {
   MechWeapon = 'MechWeapon',
   MechSystem = 'MechSystem',
   WeaponMod = 'WeaponMod',
+  SystemMod = 'SystemMod',
   NpcFeature = 'NpcFeature',
 }
 
@@ -131,6 +157,8 @@ enum EncounterSide {
 }
 
 export {
+  Duration,
+  ActivationType,
   MountType,
   FittingSize,
   WeaponSize,

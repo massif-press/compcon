@@ -66,8 +66,8 @@
                 >
                   <cc-tooltip
                     delayed
-                    :title="`${item('Talents', t).Name} I: ${item('Talents', t).Rank(1).name}`"
-                    :content="item('Talents', t).Rank(1).description"
+                    :title="`${item('Talents', t).Name} I: ${item('Talents', t).Rank(1).Name}`"
+                    :content="item('Talents', t).Rank(1).Description"
                   >
                     <v-chip outlined color="accent" label>
                       <v-icon left>cci-rank-1</v-icon>
@@ -155,7 +155,7 @@ export default Vue.extend({
 
 <style scoped>
 .gradient {
-  max-height: 55px;
+  max-height: 70px;
   background: -webkit-linear-gradient(
     left,
     var(--v-primary-base) 0%,
@@ -171,7 +171,7 @@ export default Vue.extend({
 }
 
 .selected-gradient {
-  max-height: 55px;
+  max-height: 70px;
   background: -webkit-linear-gradient(
     left,
     var(--v-info-base) 0%,

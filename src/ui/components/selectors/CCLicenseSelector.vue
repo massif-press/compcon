@@ -37,9 +37,12 @@
     <template v-slot:right-column>
       <v-row v-for="m in Object.keys(licenses)" :key="m">
         <v-col class="text-center pa-3">
-          <span class="heading mech" :style="`color: ${manufacturer(m).color}`">
+          <span
+            class="heading mech"
+            :style="`color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
+          >
             <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
-            {{ manufacturer(m).name }}
+            {{ manufacturer(m).Name }}
           </span>
           <v-expansion-panels accordion focusable active-class="border-primary">
             <license-select-item

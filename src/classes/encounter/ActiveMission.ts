@@ -38,7 +38,7 @@ export class ActiveMission {
     this._activeNpcs = []
     this._activeReinforcements = []
     this._step = 0
-    this._round = 0
+    this._round = 1
     this._start_date = new Date().toISOString().slice(0, 10)
     this._note = ''
     this._result = ''
@@ -209,10 +209,12 @@ export class ActiveMission {
 
   public set Pilots(val: Pilot[]) {
     this._pilotIDs = val.map(x => x.ID)
+    this.save()
   }
 
   public AddPilot(p: Pilot): void {
     this._pilotIDs.push(p.ID)
+    this.save()
   }
 
   public RemovePilot(p: Pilot): void {
@@ -226,6 +228,7 @@ export class ActiveMission {
 
   public set Note(val: string) {
     this._note = val
+    this.save()
   }
 
   public get Result(): string {
@@ -234,6 +237,7 @@ export class ActiveMission {
 
   public set Result(val: string) {
     this._result = val
+    this.save()
   }
 
   public CurrentStep(): IMissionStep {

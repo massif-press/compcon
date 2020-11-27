@@ -1,5 +1,5 @@
 <template>
-  <v-alert v-show="!tag.IsHidden" outlined dense color="primary" border="left">
+  <v-alert v-show="!tag.IsHidden" outlined dense :color="color" border="left" class="mb-1">
     <v-icon
       v-if="$vuetify.breakpoint.lgAndUp"
       slot="prepend"
@@ -12,10 +12,10 @@
     <span v-if="tag.err">ERR: MISSING DATA</span>
     <div v-else>
       <h3 class="heading accent--text">
-        <v-icon v-if="$vuetify.breakpoint.mdAndDown" class="mt-n1" color="primary">label</v-icon>
-        {{ tag.GetName() }}
+        <v-icon v-if="$vuetify.breakpoint.mdAndDown" class="mt-n1" :color="color">label</v-icon>
+        {{ tag.GetName(bonus) }}
       </h3>
-      <p class="text--text body-text pb-0 mb-0" v-html="tag.GetDescription()" />
+      <p class="text--text body-text pb-0 mb-0" v-html="tag.GetDescription(bonus)" />
     </div>
   </v-alert>
 </template>
@@ -28,5 +28,9 @@ import { Tag } from '@/class'
 export default class CCExtendedTag extends Vue {
   @Prop({ type: Object, required: true })
   readonly tag: Tag
+  @Prop({ type: String, required: false, default: 'active' })
+  readonly color: string
+  @Prop({ type: Number, required: false, default: 0 })
+  readonly bonus?: number
 }
 </script>

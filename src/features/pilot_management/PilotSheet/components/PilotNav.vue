@@ -2,31 +2,47 @@
   <div class="nav-body elevation-10">
     <div id="cap" />
     <cc-nav-item :selected="selected === '0'" to="../sheet/0">
-      DOSSIER
+      <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
+        DOSSIER
+      </cc-tooltip>
     </cc-nav-item>
     <cc-nav-item :selected="selected === '1'" to="../sheet/1">
-      NARRATIVE PROFILE
+      <cc-tooltip inline delayed content="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
+        NARRATIVE PROFILE
+      </cc-tooltip>
     </cc-nav-item>
     <cc-nav-item :selected="selected === '2'" to="../sheet/2">
-      TACTICAL PROFILE
+      <cc-tooltip inline delayed content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
+        TACTICAL PROFILE
+      </cc-tooltip>
     </cc-nav-item>
     <cc-nav-item :selected="selected === '3'" to="../sheet/3">
-      MECH HANGAR
+      <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
+        MECH HANGAR
+      </cc-tooltip>
     </cc-nav-item>
     <v-btn icon fab x-small outlined :disabled="!lastLoaded" class="mx-4 unskew" @click="toMech()">
-      <v-icon large color="white">cci-frame</v-icon>
+      <cc-tooltip inline delayed content="Active Mech Sheet">
+        <v-icon large color="white">cci-frame</v-icon>
+      </cc-tooltip>
     </v-btn>
     <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
-      <v-icon large color="white">cci-activate</v-icon>
+      <cc-tooltip inline delayed content="Active Mode">
+        <v-icon large color="white">cci-activate</v-icon>
+      </cc-tooltip>
     </v-btn>
     <v-divider vertical class="mx-2" />
     <div id="divider" />
-    <edit-menu :pilot="pilot" class="unskew" style="display: inline-block" />
+    <cc-tooltip inline delayed content="Pilot Options">
+      <edit-menu :pilot="pilot" class="unskew" style="display: inline-block" />
+    </cc-tooltip>
     <v-menu offset-y top>
       <template v-slot:activator="{ on: menu }">
-        <v-btn class="unskew ml-2" icon dark v-on="menu">
-          <v-icon>mdi-view-grid-plus</v-icon>
-        </v-btn>
+        <cc-tooltip inline delayed content="Pilot Sheet Layout Options">
+          <v-btn class="unskew ml-2" icon dark v-on="menu">
+            <v-icon>mdi-view-grid-plus</v-icon>
+          </v-btn>
+        </cc-tooltip>
       </template>
       <v-list subheader>
         <v-subheader class="heading h2 white--text primary py-0 px-4">Layout Options</v-subheader>

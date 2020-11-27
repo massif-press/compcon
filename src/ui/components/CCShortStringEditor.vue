@@ -6,7 +6,7 @@
         mdi-circle-edit-outline
       </v-icon>
     </div>
-    <v-col v-else key="editname" :class="{ 'd-inline': inline }">
+    <div v-else key="editname" :class="{ 'd-inline': inline }">
       <v-text-field
         v-model="newStr"
         :dense="!large"
@@ -15,12 +15,12 @@
         required
         hide-details
         autofocus
-        :class="inline ? '' : `mx-0 my-0 mt-n4`"
+        :class="inline ? '' : `d-inline mx-0 my-0 mt-n4`"
         @blur="submit()"
         @keyup.enter="submit()"
         @focus="$event.target.select()"
-      ></v-text-field>
-    </v-col>
+      />
+    </div>
   </v-fade-transition>
 </template>
 

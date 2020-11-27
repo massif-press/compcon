@@ -13,22 +13,22 @@
     </h2>
     <v-row dense justify="start" align="center">
       <v-col>
-        <span class="flavor-text" style="font-size: 14px">
+        <div class="flavor-text mt-n2" style="font-size: 14px">
           Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT registration service
           provides a Quick Access Selection module, created and curated by UAD Armored Cavalary
           Support. The UAD-ACS NHP staff have generated a selection of Combat Doctrine Templates
           based on the results of your OHM Health Examination//CR-2 Brain Activity Scan. Each of
           these templates will populate the remainder of your IDENT Combat Registration with a
           tailored set of combat-role-optimal responses.
-        </span>
+        </div>
         <br />
-        <v-alert dense outlined color="accent" class="mt-1">
+        <v-alert dense outlined color="accent" class="mt-n1">
           <div class="text-center stark--text">
             Selecting a template will complete the New Pilot interface and start your Pilot with a
             curated set of skills and talents and an outfitted GMS EVEREST mech, tailored to the
             combat role selected below. All of these selections may be edited at any time through
             the Pilot and Mech Sheet loadout sections, as well as section headings with the
-            <v-icon>mdi-circle-edit-outline</v-icon>
+            <v-icon color="accent">mdi-circle-edit-outline</v-icon>
             icon
           </div>
         </v-alert>

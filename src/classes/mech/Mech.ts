@@ -1,9 +1,57 @@
 import { store } from '@/store'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
-import { Rules, Pilot, Frame, MechLoadout, MechSystem, IntegratedMount, CoreBonus } from '@/class'
+import {
+  Rules,
+  Pilot,
+  Frame,
+  MechLoadout,
+  MechSystem,
+  CoreBonus,
+  Synergy,
+  MechWeapon,
+  Mount,
+} from '@/class'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { ActiveState } from './ActiveState'
+import { Bonus } from '../Bonus'
+import { ICounterData } from '../Counter'
+import { Action } from '../Action'
+import { IDeployableData } from '../Deployable'
+import { IMechLoadoutData } from './MechLoadout'
+
+interface IMechData {
+  id: string
+  name: string
+  notes: string
+  gm_note: string
+  portrait: string
+  cloud_portrait: string
+  frame: string
+  active: boolean
+  current_structure: number
+  current_move: number
+  current_hp: number
+  overshield: number
+  current_stress: number
+  current_heat: number
+  current_repairs: number
+  current_overcharge: number
+  current_core_energy: number
+  loadouts: IMechLoadoutData[]
+  active_loadout_index: number
+  statuses: string[]
+  conditions: string[]
+  resistances: string[]
+  reactions: string[]
+  burn: number
+  destroyed: boolean
+  defeat: string
+  activations: number
+  meltdown_imminent: boolean
+  reactor_destroyed: boolean
+  core_active: boolean
+  cc_ver: string
+}
 
 class Mech implements IActor {
   private _id: string
@@ -32,15 +80,14 @@ class Mech implements IActor {
   private _conditions: string[]
   private _resistances: string[]
   private _reactions: string[]
-  private _ejected: boolean
   private _destroyed: boolean
   private _defeat: string
   private _reactor_destroyed: boolean
   private _meltdown_imminent: boolean
   private _burn: number
-  private _actions: number
+  private _turn_actions: number
   private _currentMove: number
-  private _state: ActiveState
+  private _core_active: boolean
 
   public constructor(frame: Frame, pilot: Pilot) {
     this._id = uuid()
@@ -52,12 +99,8 @@ class Mech implements IActor {
     this._frame = frame
     this._pilot = pilot
     this._active = false
-    this._current_structure = this.MaxStructure
-    this._current_hp = this.MaxHP
     this._overshield = 0
-    this._current_stress = this.MaxStress
     this._current_heat = 0
-    this._current_repairs = this.RepairCapacity
     this._current_core_energy = 1
     this._current_overcharge = 0
     this._statuses = []
@@ -65,17 +108,20 @@ class Mech implements IActor {
     this._resistances = []
     this._reactions = []
     this._burn = 0
-    this._ejected = false
     this._destroyed = false
     this._defeat = ''
     this._reactor_destroyed = false
     this._meltdown_imminent = false
     this._loadouts = [new MechLoadout(this)]
     this.ActiveLoadout = this._loadouts[0]
+    this._current_structure = frame.Structure
+    this._current_hp = frame.HP
+    this._current_stress = frame.HeatStress
+    this._current_repairs = frame.RepCap
+    this._currentMove = frame.Speed
     this._activations = 1
-    this._actions = 2
-    this._currentMove = this.Speed
-    this._state = new ActiveState(this)
+    this._turn_actions = 2
+    this._core_active = false
     this._cc_ver = store.getters.getVersion || 'N/A'
   }
   // -- Utility -----------------------------------------------------------------------------------
@@ -155,6 +201,7 @@ class Mech implements IActor {
       ? this.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[])
 
+    //TODO: change from GMS to LL0
     if (this._frame.ID === 'mf_standard_pattern_i_everest') {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
       if (gmsIdx > -1) requirements[gmsIdx].items.push('STANDARD PATTERN I "EVEREST" Frame')
@@ -204,43 +251,43 @@ class Mech implements IActor {
   }
 
   // -- Attributes --------------------------------------------------------------------------------
-  public get Size(): number {
-    if (this._frame.Size === Rules.MaxFrameSize) return Rules.MaxFrameSize
-    const bonus = this._pilot.has('CoreBonus', 'cb_fomorian_frame')
-    if (bonus) {
-      return this._frame.Size === 0.5 ? 1 : this._frame.Size + 1
-    } else return this._frame.Size
-  }
-
   public get SizeIcon(): string {
     return `cci-size-${this.Size === 0.5 ? 'half' : this.Size}`
   }
 
+  public get Size(): number {
+    const bonus = Bonus.get('size', this)
+    let size = this._frame.Size + bonus
+    if (size > 0.5 && size % 1 !== 0) size = Math.ceil(size)
+    return size > Rules.MaxFrameSize ? Rules.MaxFrameSize : size
+  }
+
   public get SizeContributors(): string[] {
     const output = [`FRAME Base Size: ${this.Frame.Size}`]
-    if (this._pilot.has('CoreBonus', 'cb_fomorian_frame'))
-      output.push(`FOMORIAN FRAME (IPS-N CORE Bonus): +1`)
+    Bonus.Contributors('size', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
     return output
   }
 
   public get Armor(): number {
-    const bonus =
-      this._pilot.has('CoreBonus', 'cb_sloped_plating') && this._frame.Armor < Rules.MaxMechArmor
-        ? 1
-        : 0
-    return this._frame.Armor + bonus
+    const bonus = Bonus.get('armor', this)
+    const armor = this._frame.Armor + bonus
+    return armor > Rules.MaxMechArmor ? Rules.MaxMechArmor : armor
   }
 
   public get ArmorContributors(): string[] {
     const output = [`FRAME Base Armor: ${this.Frame.Armor}`]
-    if (this._pilot.has('CoreBonus', 'cb_sloped_plating'))
-      output.push(`SLOPED PLATING (IPS-N CORE Bonus): +1`)
+    Bonus.Contributors('armor', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
     return output
   }
 
   public get SaveTarget(): number {
-    let bonus = this._pilot.Grit
-    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_the_open_door')) bonus += 2
+    const bonus = Bonus.get('save', this) + this._pilot.Grit
     return this._frame.SaveTarget + bonus
   }
 
@@ -249,50 +296,65 @@ class Mech implements IActor {
       `FRAME Base Save Target: ${this.Frame.SaveTarget}`,
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
     ]
-    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_the_open_door'))
-      output.push(`THE LESSON OF THE OPEN DOOR (HORUS CORE Bonus): +2`)
+    Bonus.Contributors('save', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
     return output
   }
 
   public get Evasion(): number {
-    let bonus = this.Agi
-    if (this._pilot.has('CoreBonus', 'cb_full_subjectivity_sync')) bonus += 2
+    if (this.IsStunned) return 5
+    const bonus = Bonus.get('evasion', this) + this.Agi
     return this._frame.Evasion + bonus
   }
 
   public get EvasionContributors(): string[] {
+    if (this.IsStunned) return ['STUNNED']
     const output = [
       `FRAME Base Evasion: ${this.Frame.Evasion}`,
       `Pilot AGILITY Bonus: +${this.Agi}`,
     ]
-    if (this._pilot.has('CoreBonus', 'cb_full_subjectivity_sync'))
-      output.push(`FULL SUBJECTIVITY SYNC (SSC CORE Bonus): +2`)
+    Bonus.Contributors('evasion', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
     return output
   }
 
   public get Speed(): number {
-    const bonus = Math.floor(this.Agi / 2)
+    const bonus = Bonus.get('speed', this) + Math.floor(this.Agi / 2)
     return this._frame.Speed + bonus
   }
 
   public get SpeedContributors(): string[] {
-    return [
+    const output = [
       `FRAME Base Speed: ${this.Frame.Speed}`,
       `Pilot AGILITY Bonus: +${Math.floor(this.Agi / 2)}`,
     ]
+    Bonus.Contributors('speed', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get SensorRange(): number {
-    return this._frame.SensorRange
+    const bonus = Bonus.get('sensor', this)
+    return this._frame.SensorRange + bonus
   }
 
   public get SensorRangeContributors(): string[] {
-    return [`FRAME Base Sensor Range: ${this.Frame.SensorRange}`]
+    const output = [`FRAME Base Sensor Range: ${this.Frame.SensorRange}`]
+    Bonus.Contributors('sensor', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get EDefense(): number {
-    let bonus = this.Sys
-    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_disbelief')) bonus += 2
+    const bonus = Bonus.get('edef', this) + this.Sys
     return this._frame.EDefense + bonus
   }
 
@@ -301,55 +363,98 @@ class Mech implements IActor {
       `FRAME Base E-Defense: ${this.Frame.EDefense}`,
       `Pilot SYSTEMS Bonus: +${this.Sys}`,
     ]
-    if (this._pilot.has('CoreBonus', 'cb_the_lesson_of_disbelief'))
-      output.push(`THE LESSON OF DISBELIEF (HORUS CORE Bonus): +2`)
+    Bonus.Contributors('edef', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
     return output
   }
 
   public get LimitedBonus(): number {
-    let bonus = 0
-    if (this._pilot.has('CoreBonus', 'cb_integrated_ammo_feeds')) bonus += 2
+    const bonus = Bonus.get('limited_bonus', this)
     return Math.floor(this.Eng / 2) + bonus
   }
 
   public get LimitedContributors(): string[] {
     const output = [`Pilot ENGINEERING Bonus: +${Math.floor(this.Eng / 2)}`]
-    if (this._pilot.has('CoreBonus', 'cb_integrated_ammo_feeds'))
-      output.push(`INTEGRATED AMMO FEEDS (HA CORE Bonus): +2`)
+    Bonus.Contributors('limited_bonus', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
     return output
   }
 
   public get AttackBonus(): number {
-    return this._pilot.Grit
+    const bonus = Bonus.get('attack', this)
+    return this._pilot.Grit + bonus
   }
 
   public get AttackBonusContributors(): string[] {
-    return [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
+    const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
+    Bonus.Contributors('attack', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get TechAttack(): number {
-    const bonus = this.Sys
+    const bonus = Bonus.get('tech_attack', this) + this.Sys
     return this._frame.TechAttack + bonus
   }
 
   public get TechAttackContributors(): string[] {
-    return [`FRAME Base Tech Attack: ${this.Frame.TechAttack}`, `Pilot SYSTEMS Bonus: +${this.Sys}`]
+    const output = [
+      `FRAME Base Tech Attack: ${this.Frame.TechAttack}`,
+      `Pilot SYSTEMS Bonus: +${this.Sys}`,
+    ]
+    Bonus.Contributors('tech_attack', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get Grapple(): number {
-    return Rules.BaseGrapple
+    const bonus = Bonus.get('grapple', this)
+    return Rules.BaseGrapple + bonus
+  }
+
+  public get GrappleContributors(): string[] {
+    const output = [`Base Grapple Value: ${this.Grapple}`]
+    Bonus.Contributors('grapple', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get Ram(): number {
-    return Rules.BaseRam
+    const bonus = Bonus.get('ram', this)
+    return Rules.BaseRam + bonus
+  }
+
+  public get RamContributors(): string[] {
+    const output = [`Base Ram Value: ${this.Ram}`]
+    Bonus.Contributors('ram', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get SaveBonus(): number {
-    return this._pilot.Grit
+    const bonus = Bonus.get('save', this)
+    return this._pilot.Grit + bonus
   }
 
   public get SaveBonusContributors(): string[] {
-    return [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
+    const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
+    Bonus.Contributors('save', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   // -- HASE --------------------------------------------------------------------------------------
@@ -378,15 +483,22 @@ class Mech implements IActor {
     if (structure > this.MaxStructure) this._current_structure = this.MaxStructure
     else if (structure < 0) this._current_structure = 0
     else this._current_structure = structure
+    if (this._current_structure === 0) this.Destroy()
     this.save()
   }
 
   public get MaxStructure(): number {
-    return this._frame.Structure
+    const bonus = Bonus.get('structure', this)
+    return this._frame.Structure + bonus
   }
 
   public get StructureContributors(): string[] {
-    return [`FRAME Base Structure: ${this.Frame.Structure}`]
+    const output = [`FRAME Base Structure: ${this.Frame.Structure}`]
+    Bonus.Contributors('structure', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get Overshield(): number {
@@ -395,6 +507,7 @@ class Mech implements IActor {
 
   public set Overshield(val: number) {
     this._overshield = val
+    this.save()
   }
 
   public get CurrentHP(): number {
@@ -419,12 +532,7 @@ class Mech implements IActor {
   }
 
   public get MaxHP(): number {
-    let bonus = this._pilot.Grit + this.Hull * 2
-    if (this.ActiveLoadout) {
-      const personalizations = this.ActiveLoadout.GetSystem('ms_personalizations')
-      if (personalizations && !personalizations.Destroyed) bonus += 2
-    }
-    if (this._pilot.has('CoreBonus', 'cb_reinforced_frame')) bonus += 5
+    const bonus = Bonus.get('hp', this) + this._pilot.Grit + this.Hull * 2
     return this._frame.HP + bonus
   }
 
@@ -434,10 +542,10 @@ class Mech implements IActor {
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
       `Pilot HULL Bonus: +${this.Hull * 2}`,
     ]
-    if (this.ActiveLoadout && this.ActiveLoadout.HasSystem('ms_personalizations'))
-      output.push(`PERSONALIZATIONS (GMS System): +2`)
-    if (this._pilot.has('CoreBonus', 'cb_reinforced_frame'))
-      output.push(`REINFORCED FRAME (IPS-N CORE Bonus): +5`)
+    Bonus.Contributors('hp', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
     return output
   }
 
@@ -447,7 +555,7 @@ class Mech implements IActor {
   }
 
   public get MaxSP(): number {
-    const bonus = this._pilot.Grit + Math.floor(this.Sys / 2)
+    const bonus = Bonus.get('sp', this) + this._pilot.Grit + Math.floor(this.Sys / 2)
     return this.Frame.SP + bonus
   }
 
@@ -456,11 +564,16 @@ class Mech implements IActor {
   }
 
   public get SPContributors(): string[] {
-    return [
+    const output = [
       `FRAME Base SP: ${this.Frame.SP}`,
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
       `Pilot SYSTEMS Bonus: +${Math.floor(this.Sys / 2)}`,
     ]
+    Bonus.Contributors('sp', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get CurrentHeat(): number {
@@ -497,12 +610,11 @@ class Mech implements IActor {
   }
 
   public get IsInDangerZone(): boolean {
-    return this.IsActive && this._current_heat >= Math.ceil(this.HeatCapacity / 2)
+    return this._current_heat >= Math.ceil(this.HeatCapacity / 2)
   }
 
   public get HeatCapacity(): number {
-    let bonus = this.Eng
-    if (this._pilot.has('CoreBonus', 'cb_superior_by_design')) bonus += 2
+    const bonus = Bonus.get('heatcap', this) + this.Eng
     return this._frame.HeatCap + bonus
   }
 
@@ -511,8 +623,10 @@ class Mech implements IActor {
       `FRAME Base Heat Capacity: ${this.Frame.HeatCap}`,
       `Pilot ENGINEERING Bonus: +${this.Eng}`,
     ]
-    if (this._pilot.has('CoreBonus', 'cb_superior_by_design'))
-      output.push(`SUPERIOR BY DESIGN (HA CORE Bonus): +2`)
+    Bonus.Contributors('heatcap', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
     return output
   }
 
@@ -528,11 +642,17 @@ class Mech implements IActor {
   }
 
   public get MaxStress(): number {
-    return this._frame.HeatStress
+    const bonus = Bonus.get('stress', this)
+    return this._frame.HeatStress + bonus
   }
 
   public get StressContributors(): string[] {
-    return [`FRAME Base Reactor Stress: ${this.Frame.HeatStress}`]
+    const output = [`FRAME Base Reactor Stress: ${this.Frame.HeatStress}`]
+    Bonus.Contributors('stress', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get CurrentRepairs(): number {
@@ -547,15 +667,20 @@ class Mech implements IActor {
   }
 
   public get RepairCapacity(): number {
-    const bonus = Math.floor(this.Hull / 2)
+    const bonus = Bonus.get('repcap', this) + Math.floor(this.Hull / 2)
     return this._frame.RepCap + bonus
   }
 
   public get RepCapContributors(): string[] {
-    return [
+    const output = [
       `FRAME Base Repair Capacity: ${this.Frame.RepCap}`,
       `Pilot HULL Bonus: +${Math.floor(this.Hull / 2)}`,
     ]
+    Bonus.Contributors('repcap', this).forEach(b => {
+      const sign = b.val > -1 ? '+' : '-'
+      output.push(`${b.name}: ${sign}${b.val}`)
+    })
+    return output
   }
 
   public get CurrentCoreEnergy(): number {
@@ -567,12 +692,29 @@ class Mech implements IActor {
     this.save()
   }
 
+  public get IsCoreActive(): boolean {
+    return this._core_active
+  }
+
+  public set CoreActive(val: boolean) {
+    this._core_active = val
+    this.save()
+  }
+
+  public get OverchargeTrack(): string[] {
+    const b = Bonus.getUneval('overcharge', this)
+    return b.length ? b[0].Value : Rules.Overcharge
+  }
+
   public get CurrentOvercharge(): number {
     return this._current_overcharge
   }
 
   public set CurrentOvercharge(overcharge: number) {
     this._current_overcharge = overcharge
+    if (this._current_overcharge < 0) this._current_overcharge = 0
+    if (this._current_overcharge > this.OverchargeTrack.length - 1)
+      this._current_overcharge = this.OverchargeTrack.length - 1
     this.save()
   }
 
@@ -586,16 +728,17 @@ class Mech implements IActor {
     this.save()
   }
 
-  public get Actions(): number {
-    return this._actions
+  public get TurnActions(): number {
+    return this._turn_actions
   }
 
-  public set Actions(val: number) {
-    this._actions = val
+  public set TurnActions(val: number) {
+    this._turn_actions = val
     this.save()
   }
 
   public get CurrentMove(): number {
+    if (this.IsStunned || this.Destroyed) return 0
     return this._currentMove
   }
 
@@ -605,6 +748,7 @@ class Mech implements IActor {
   }
 
   public get MaxMove(): number {
+    if (this.IsStunned || this.Destroyed) return 0
     return this.Speed
   }
 
@@ -627,7 +771,7 @@ class Mech implements IActor {
 
   public NewTurn(): void {
     this._activations = 1
-    this._actions = 2
+    this._turn_actions = 2
     this._currentMove = this.MaxMove
     this.save()
   }
@@ -635,10 +779,7 @@ class Mech implements IActor {
   // -- Statuses and Conditions -------------------------------------------------------------------
   public get StatusString(): string[] {
     const out = []
-    if (this.ReactorDestroyed) out.push('reactorDestroyed')
     if (this.Destroyed) out.push('destroyed')
-    if (this.Ejected) out.push('ejected')
-    if (this.MeltdownImminent) out.push('meltdown')
     if (this.ActiveLoadout.Systems.filter(x => x.IsCascading).length) out.push('cascading')
     if (this.FreeSP < 0) out.push('overSP')
     if (this.FreeSP > 0) out.push('underSP')
@@ -656,31 +797,18 @@ class Mech implements IActor {
     this.save()
   }
 
+  public get IsDestroyed(): boolean {
+    return this._destroyed
+  }
+
   public get Destroyed(): boolean {
+    if (this._reactor_destroyed) return true
     return this._destroyed
   }
 
   public set Destroyed(b: boolean) {
     this._destroyed = b
     this._defeat = b ? 'Destroyed' : ''
-    this.save()
-  }
-
-  public get Ejected(): boolean {
-    return this._ejected
-  }
-
-  public set Ejected(b: boolean) {
-    this._ejected = b
-    this.save()
-  }
-
-  public get MeltdownImminent(): boolean {
-    return this._meltdown_imminent
-  }
-
-  public set MeltdownImminent(meltdown: boolean) {
-    this._meltdown_imminent = meltdown
     this.save()
   }
 
@@ -715,20 +843,32 @@ class Mech implements IActor {
   }
 
   public get IsShutDown(): boolean {
-    return this.Statuses.includes('Shut Down')
+    return this.Statuses.includes('SHUT DOWN')
   }
 
   public get IsStunned(): boolean {
-    return this._conditions.includes('Stunned')
+    return this._conditions.includes('STUNNED')
   }
 
   public get Conditions(): string[] {
+    if (this.IsShutDown && !this.IsStunned) this._conditions.push('STUNNED')
     return this._conditions
   }
 
   public set Conditions(conditions: string[]) {
     this._conditions = conditions
     this.save()
+  }
+
+  public AddCondition(condition: string): void {
+    const stidx = this.Conditions.findIndex(x => x === condition)
+    if (stidx === -1) this.Conditions.push(condition)
+  }
+
+  public RemoveCondition(condition: string): void {
+    if (condition.toLowerCase() === 'stunned' && this.IsShutDown) return
+    const stidx = this.Conditions.findIndex(x => x === condition)
+    if (stidx > -1) this.Conditions.splice(stidx, 1)
   }
 
   public get Statuses(): string[] {
@@ -738,6 +878,16 @@ class Mech implements IActor {
   public set Statuses(statuses: string[]) {
     this._statuses = statuses
     this.save()
+  }
+
+  public AddStatus(status: string): void {
+    const stidx = this.Statuses.findIndex(x => x === status)
+    if (stidx === -1) this.Statuses.push(status)
+  }
+
+  public RemoveStatus(status: string): void {
+    const stidx = this.Statuses.findIndex(x => x === status)
+    if (stidx > -1) this.Statuses.splice(stidx, 1)
   }
 
   public get Resistances(): string[] {
@@ -761,6 +911,8 @@ class Mech implements IActor {
 
   // -- Active Mode Utilities ---------------------------------------------------------------------
   public FullRepair(): void {
+    this._destroyed = false
+    this._reactor_destroyed = false
     this.CurrentStructure = this.MaxStructure
     this.CurrentHP = this.MaxHP
     this.CurrentStress = this.MaxStress
@@ -771,55 +923,15 @@ class Mech implements IActor {
     this._loadouts.forEach(x => {
       x.Equipment.forEach(y => {
         if (y.Destroyed) y.Repair()
-        if (y.IsLimited) y.Uses = y.getTotalUses(this.Pilot.LimitedBonus)
+        if (y.IsLimited) y.Uses = y.getTotalUses(this.LimitedBonus)
       })
     })
     this._statuses = []
     this._conditions = []
     this._resistances = []
     this.Burn = 0
-    this._destroyed = false
     this._defeat = ''
-    this._reactor_destroyed = false
-    this._meltdown_imminent = false
     this.save()
-  }
-
-  // -- Integrated/Talents ------------------------------------------------------------------------
-  public get IntegratedMounts(): IntegratedMount[] {
-    const intg = []
-    if (this._frame.CoreSystem.Integrated) {
-      intg.push(new IntegratedMount(this._frame.CoreSystem.getIntegrated(), 'CORE System'))
-    }
-    if (this._pilot.has('Talent', 't_nuclear_cavalier', 3)) {
-      const frWeapon = store.getters.referenceByID('MechWeapons', 'mw_fuel_rod_gun')
-      intg.push(new IntegratedMount(frWeapon, 'Nuclear Cavalier'))
-    }
-    if (this._pilot.has('Talent', 't_engineer')) {
-      const id = `mw_prototype_${this._pilot.getTalentRank('t_engineer')}`
-      const engWeapon = store.getters.referenceByID('MechWeapons', id)
-      intg.push(new IntegratedMount(engWeapon, 'Engineer'))
-    }
-    return intg
-  }
-
-  public get IntegratedSystems(): MechSystem[] {
-    const intg = []
-    if (this._pilot.has('Talent', 't_walking_armory')) {
-      const arms = store.getters.instantiate(
-        'MechSystems',
-        `ms_walking_armory_${this._pilot.getTalentRank('t_walking_armory')}`
-      )
-      intg.push(arms)
-    }
-    if (this._pilot.has('Talent', 't_technophile')) {
-      const techno = store.getters.instantiate(
-        'MechSystems',
-        `ms_technophile_${this._pilot.getTalentRank('t_technophile')}`
-      )
-      intg.push(techno)
-    }
-    return intg
   }
 
   // -- Loadouts ----------------------------------------------------------------------------------
@@ -839,6 +951,10 @@ class Mech implements IActor {
   public set ActiveLoadout(loadout: MechLoadout) {
     this._active_loadout = loadout
     this.save()
+  }
+
+  public get ActiveMounts(): Mount[] {
+    return this.ActiveLoadout.AllActiveMounts(this)
   }
 
   public AddLoadout(): void {
@@ -887,11 +1003,54 @@ class Mech implements IActor {
     return this.PilotBonuses.filter(x => !this.AppliedBonuses.includes(x))
   }
 
-  // -- Active Mode -------------------------------------------------------------------------------
-  public get State(): ActiveState {
-    return this._state
+  // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
+  private features<T>(p: string): T[] {
+    let output = this.Pilot[p]
+
+    if (this.ActiveLoadout) {
+      const activeBonuses = this.ActiveLoadout.Equipment.filter(
+        x => x && !x.Destroyed && !x.IsCascading
+      ).flatMap(x => x[p])
+      output = output.concat(activeBonuses)
+    }
+
+    output = output
+      .concat(this.Frame.Traits.flatMap(x => x[p]))
+      .concat(this.Frame.CoreSystem[`Passive${p}`] || [])
+      .concat(this.CoreActive ? this.Frame.CoreSystem[`Active${p}`] || [] : [])
+
+    return output.filter(x => !!x)
   }
 
+  public get Bonuses(): Bonus[] {
+    return this.features('Bonuses')
+  }
+
+  public get Synergies(): Synergy[] {
+    return this.features('Synergies')
+  }
+
+  public get Actions(): Action[] {
+    const arr = this.features<Action>('Actions')
+    if (this.CurrentCoreEnergy) arr.push(this.Frame.CoreSystem.ActivateAction)
+    return arr
+  }
+
+  public get Deployables(): IDeployableData[] {
+    return this.features('Deployables')
+  }
+
+  public get Counters(): ICounterData[] {
+    return this.features('Counters')
+  }
+
+  public get IntegratedWeapons(): MechWeapon[] {
+    return this.features('IntegratedWeapons')
+  }
+
+  public get IntegratedSystems(): MechSystem[] {
+    return this.features('IntegratedSystems')
+  }
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(m: Mech): IMechData {
     return {
@@ -904,6 +1063,7 @@ class Mech implements IActor {
       frame: m.Frame.ID,
       active: m._active,
       current_structure: m._current_structure,
+      current_move: m._currentMove,
       current_hp: m._current_hp,
       overshield: m._overshield,
       current_stress: m._current_stress,
@@ -918,14 +1078,13 @@ class Mech implements IActor {
       resistances: m._resistances,
       reactions: m._reactions,
       burn: m._burn,
-      ejected: m._ejected,
       destroyed: m._destroyed,
       defeat: m._defeat,
       activations: m._activations,
       meltdown_imminent: m._meltdown_imminent,
       reactor_destroyed: m._reactor_destroyed,
+      core_active: m._core_active,
       cc_ver: store.getters.getVersion || 'ERR',
-      state: ActiveState.Serialize(m._state),
     }
   }
 
@@ -939,15 +1098,6 @@ class Mech implements IActor {
     m._portrait = data.portrait
     m._cloud_portrait = data.cloud_portrait
     m._active = data.active
-    m._current_structure = data.current_structure
-    m._current_hp = data.current_hp
-    m._overshield = data.overshield || 0
-    m._current_stress = data.current_stress
-    m._current_heat = data.current_heat
-    m._current_repairs = data.current_repairs
-    m._current_overcharge = data.current_overcharge || 0
-    m._current_core_energy = data.current_core_energy != null ? data.current_core_energy : 1
-    m._cc_ver = data.cc_ver
     if (
       data.active_loadout_index === null ||
       data.active_loadout_index === undefined ||
@@ -961,21 +1111,28 @@ class Mech implements IActor {
         ? m._loadouts[data.active_loadout_index]
         : m._loadouts[0]
     }
+    m._current_structure = data.current_structure
+    m._currentMove = data.current_move || 0
+    m._current_hp = data.current_hp
+    m._overshield = data.overshield || 0
+    m._current_stress = data.current_stress
+    m._current_heat = data.current_heat
+    m._current_repairs = data.current_repairs
+    m._current_overcharge = data.current_overcharge || 0
+    m._current_core_energy = data.current_core_energy != null ? data.current_core_energy : 1
     m._statuses = data.statuses || []
     m._conditions = data.conditions || []
     m._resistances = data.resistances || []
     m._reactions = data.reactions || []
     m._burn = data.burn || 0
-    m._ejected = data.ejected || false
     m._destroyed = data.destroyed || false
     m._defeat = data.defeat || ''
     m._activations = data.activations || 1
-    m._meltdown_imminent = data.meltdown_imminent || false
     m._reactor_destroyed = data.reactor_destroyed || false
+    m._core_active = data.core_active || false
     m._cc_ver = data.cc_ver || ''
-    m._state = data.state ? ActiveState.Deserialize(data.state, m) : new ActiveState(m)
     return m
   }
 }
 
-export default Mech
+export { Mech, IMechData }

@@ -95,7 +95,7 @@
       </v-row>
       <v-row dense align="center" class="mt-n2">
         <v-col cols="7">
-          <v-btn-toggle v-model="npc.Tier" dense active-class="accent--text" class="mb-2">
+          <v-btn-toggle v-model="npc.Tier" dense mandatory active-class="accent--text" class="mb-2">
             <v-btn :value="1">
               <v-icon left>cci-rank-1</v-icon>
               Tier 1
@@ -251,7 +251,14 @@
         <v-col cols="5">
           <v-card flat outlined>
             <v-card-text class="pa-1">
-              <v-img v-if="npc.Image" :key="npc.Image" :src="npc.Image" aspect-ratio="1" />
+              <v-img
+                v-if="npc.Image"
+                :key="npc.Image"
+                :src="npc.Image"
+                max-width="30vw"
+                max-height="30vh"
+                aspect-ratio="1"
+              />
               <v-btn outlined small block color="secondary" @click="$refs.imageSelector.open()">
                 <span v-if="!npc.Image">
                   <v-icon left>mdi-plus</v-icon>

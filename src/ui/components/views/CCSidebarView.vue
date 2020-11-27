@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="mt-n3">
     <v-row dense no-gutters>
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" :cols="cols" style="position: fixed" class="pt-2">
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" style="width: 12vw; position: fixed" class="pt-2">
         <slot name="alt" />
         <v-list
           dense
@@ -12,7 +12,7 @@
         </v-list>
       </v-col>
       <v-col
-        :offset="$vuetify.breakpoint.mdAndUp ? cols : 0"
+        :style="$vuetify.breakpoint.mdAndUp ? 'margin-left: 12vw' : ''"
         :class="$vuetify.breakpoint.mdAndUp ? 'pl-7 mr-7' : ''"
       >
         <slot />
@@ -28,9 +28,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCSidebarView extends Vue {
   @Prop({ type: Boolean, required: false })
   popup?: boolean
-
-  @Prop({ type: [Number, String], required: false, default: '2' })
-  cols: number | string
 }
 </script>
 

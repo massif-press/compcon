@@ -4,12 +4,12 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-@Component({ name: 'cc-item-card', })
+@Component({ name: 'cc-item-card' })
 export default class CCItemCard extends Vue {
-  @Prop({ type: Object, required: true})
+  @Prop({ type: Object, required: true })
   readonly item
 
-  get componentLoader() {
+  get componentLoader(): any {
     if (!this.item) {
       return null
     }

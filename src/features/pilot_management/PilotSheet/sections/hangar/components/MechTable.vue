@@ -10,7 +10,7 @@
     <tbody>
       <tr v-for="m in mechs" :key="m.ID">
         <td>
-          <v-btn small text color="accent" @click="$emit('go', m)">{{ m.Name }}</v-btn>
+          <v-btn text color="accent" class="heading h3" @click="$emit('go', m)">{{ m.Name }}</v-btn>
         </td>
         <td>{{ m.Frame.Source }} {{ m.Frame.Name }}</td>
         <td>

@@ -278,7 +278,7 @@
             />
             <div class="mx-6">
               <v-btn
-                color="primary"
+                color="accent"
                 block
                 small
                 outlined
@@ -323,7 +323,7 @@
             />
             <div class="mx-6">
               <v-btn
-                color="primary"
+                color="accent"
                 block
                 small
                 outlined

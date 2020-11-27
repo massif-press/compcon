@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid px-5>
+  <v-container px-5>
     <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading">MANUFACTURERS</h1>
     <v-tabs
       v-model="tabModel"

@@ -1,5 +1,5 @@
 <template>
-  <v-col>
+  <v-col cols="auto">
     <v-card
       flat
       tile
@@ -7,17 +7,18 @@
       class="text-center"
       height="100%"
       width="100%"
-      style="min-width: 15vw"
+      :style="inline ? 'min-width: 15vw; max-width: 20vw' : 'min-width: 20vw'"
     >
       <v-card-title class="heading h3 primary px-3 py-0 ma-0 white--text">
-        <div class="text-center" style="width: 100%">
-          <cc-tooltip inline :content="name">
-            <v-icon large color="white">{{ icon }}</v-icon>
-          </cc-tooltip>
-          <span v-if="$vuetify.breakpoint.lgAndUp">{{ name }}</span>
-        </div>
+        <v-spacer v-if="!inline && $vuetify.breakpoint.mdAndDown" />
+        <cc-tooltip inline :title="name" :content="glossary(name)">
+          <v-icon large color="white">{{ icon }}</v-icon>
+          <span v-if="inline || $vuetify.breakpoint.lgAndUp">{{ name }}</span>
+        </cc-tooltip>
+        <v-spacer />
+        <span v-if="inline">{{ value }}</span>
       </v-card-title>
-      <v-card-text class="heading x-large-text text--text px-2 ma-0 mt-1 mb-0">
+      <v-card-text v-if="!inline" class="heading stark--text py-3" style="font-size: 32px">
         <span>{{ value }}</span>
       </v-card-text>
     </v-card>
@@ -26,6 +27,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { glossary } from 'lancer-data'
 
 @Component({ name: 'cc-statblock-panel' })
 export default class CCStatblockPanel extends Vue {
@@ -37,5 +39,13 @@ export default class CCStatblockPanel extends Vue {
 
   @Prop({ type: [String, Number], required: true })
   readonly value!: string | number
+
+  @Prop({ type: Boolean })
+  readonly inline: boolean
+
+  glossary(name: string): string {
+    const n = glossary.find(x => x.name.toLowerCase() === name.toLowerCase())
+    return n ? n.description : 'MISSING'
+  }
 }
 </script>
