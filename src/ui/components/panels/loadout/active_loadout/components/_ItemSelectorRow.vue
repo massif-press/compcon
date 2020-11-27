@@ -6,7 +6,7 @@
         block
         tile
         :color="
-          item.Used || (item.ItemType === 'MechWeapon' && !item.Loaded)
+          (!overwatch && item.Used) || (item.ItemType === 'MechWeapon' && !item.Loaded)
             ? 'grey darken-2'
             : selected
             ? 'secondary'
@@ -44,6 +44,9 @@ export default Vue.extend({
       type: Boolean,
     },
     disabled: {
+      type: Boolean,
+    },
+    overwatch: {
       type: Boolean,
     },
     color: {

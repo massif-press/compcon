@@ -55,14 +55,18 @@ abstract class MechEquipment extends LicensedItem {
     this._uses = this._max_uses
   }
 
-  public Use(cost?: number): void {
-    if (!this.CheckUsable(cost)) return
-    this._used = true
+  public Use(cost?: number, free?: boolean): void {
+    console.log('using item. free ? ', free, 'cost', cost)
+    if (!free) {
+      if (!this.CheckUsable(cost)) return
+      this._used = true
+    }
     if (this.IsLoading) this._loaded = false
     if (this.IsLimited && cost) this.Uses -= cost
   }
 
   public Undo(cost?: number): void {
+    console.log('undo -- cost:', cost)
     if (cost) this.Uses += cost
     if (this.IsLoading) this._loaded = true
     this._used = false

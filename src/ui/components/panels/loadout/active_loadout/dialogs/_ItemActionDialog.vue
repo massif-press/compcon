@@ -5,6 +5,7 @@
     :action="action"
     :mech="mech"
     @use="$emit('use', $event)"
+    @undo="$emit('undo')"
   />
 </template>
 

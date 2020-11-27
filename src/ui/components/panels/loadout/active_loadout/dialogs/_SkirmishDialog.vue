@@ -20,7 +20,7 @@
       :mech="mech"
       :item="selected"
       :mount="selectedMount"
-      @confirm="confirmSkirmish()"
+      @confirm="confirmSkirmish($event)"
     />
   </div>
 </template>
@@ -73,8 +73,8 @@ export default Vue.extend({
         this.$refs.s_dialog.show()
       })
     },
-    confirmSkirmish() {
-      this.state.RegisterSkirmish()
+    confirmSkirmish(free) {
+      this.state.RegisterSkirmish(free)
     },
   },
 })

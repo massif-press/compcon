@@ -205,7 +205,7 @@
                   CRITICAL
                 </div>
               </v-col>
-              <v-col v-if="aux">
+              <v-col v-if="aux" cols="auto" align-self="center">
                 <v-btn
                   large
                   tile
@@ -215,6 +215,21 @@
                   @click="attackFree = !attackFree"
                 >
                   <v-icon left>cci-free-action</v-icon>
+                  Attack
+                </v-btn>
+              </v-col>
+              <v-col v-else-if="overwatch" cols="auto" align-self="center">
+                <v-btn
+                  large
+                  tile
+                  block
+                  :disabled="!attackRoll"
+                  :color="
+                    `${crit ? 'secondary' : 'action--reaction'} ${attackFree ? 'lighten-1' : ''}`
+                  "
+                  @click="attackFree = !attackFree"
+                >
+                  <v-icon left>cci-reaction</v-icon>
                   Attack
                 </v-btn>
               </v-col>
@@ -518,6 +533,7 @@ export default Vue.extend({
     aux: { type: Boolean },
     improv: { type: Boolean },
     barrage: { type: Boolean },
+    overwatch: { type: Boolean },
   },
   data: () => ({
     tab: 0,
@@ -699,10 +715,10 @@ export default Vue.extend({
       let cost = 1
       if (this.item.SkirmishCost) cost = this.item.SkirmishCost
       if (this.barrage && this.item.BarrageCost) cost = this.item.BarrageCost
-      this.item.Use(cost)
+      this.item.Use(cost, actionObj.activation === ActivationType.Free)
       this.mech.CurrentHeat += this.item.ProfileHeatCost
       this.mech.Pilot.State.LogAttackAction('ATTACK', this.item.Name, this.summedDamage, this.kill)
-      this.$emit('confirm', actionObj)
+      this.$emit('confirm', actionObj.activation === ActivationType.Free)
     },
     reset() {
       this.mech.Pilot.State.UndoLogAttackAction(

@@ -80,6 +80,8 @@ class ActiveState {
   private _shBarrageSelection: MechWeapon
   private _shBarrageMount: Mount
 
+  private _usedOverwatch: string[]
+
   private _self_destruct_counter: number
 
   public StabilizeMajor: string
@@ -135,6 +137,7 @@ class ActiveState {
     this._deployed = []
     this._history = []
     this._log = []
+    this._usedOverwatch = []
     this._stats = ActiveState.NewCombatStats()
   }
 
@@ -263,6 +266,7 @@ class ActiveState {
     this._pilot_move = this._pilot.Speed
     this._barrageSelections = []
     this._barrageMounts = []
+    this._usedOverwatch = []
     // TODO: base on freq
     this.AllActions.forEach(a => a.Reset())
     this.AllBaseTechActions.forEach(a => a.Reset())
@@ -382,6 +386,14 @@ class ActiveState {
     return this._shBarrageMount
   }
 
+  public get OverwatchedWeapons(): string[] {
+    return this._usedOverwatch
+  }
+
+  public set OverwatchedWeapons(val: string[]) {
+    this._usedOverwatch = val
+  }
+
   public SelectShBarrage(w: MechWeapon, m: Mount) {
     this._shBarrageSelection = w
     this._shBarrageMount = m
@@ -409,12 +421,18 @@ class ActiveState {
     this._barrageMounts = []
   }
 
-  public RegisterBarrage() {
-    this.CommitAction(this.AllActions.find(x => x.ID === 'act_barrage'))
+  public RegisterBarrage(free?: boolean) {
+    this.CommitAction(
+      this.AllActions.find(x => x.ID === 'act_barrage'),
+      free
+    )
   }
 
-  public RegisterSkirmish() {
-    this.CommitAction(this.AllActions.find(x => x.ID === 'act_skirmish'))
+  public RegisterSkirmish(free?: boolean) {
+    this.CommitAction(
+      this.AllActions.find(x => x.ID === 'act_skirmish'),
+      free
+    )
   }
 
   // -- Actions -----------------------------------------------------------------------------------
@@ -457,7 +475,8 @@ class ActiveState {
 
     if (this.Actions < activationCost) return
 
-    action.Use()
+    free ? action.UseFree() : action.Use()
+
     this.Actions -= activationCost
     if (action.HeatCost) this._mech.CurrentHeat += action.HeatCost
 

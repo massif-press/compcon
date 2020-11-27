@@ -6,7 +6,7 @@
     :unusable="unusable"
     :disabled="disabled"
     @use="$emit('use', $event)"
-    @reset="$emit('reset', $event)"
+    @undo="$emit('undo')"
   />
 </template>
 

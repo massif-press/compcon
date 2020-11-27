@@ -86,8 +86,12 @@ class Deployable extends CompendiumItem {
     this.MaxHP = data.hp + Bonus.get('deployable_hp', owner)
     this._current_hp = this.MaxHP
     this.Armor = (data.armor || 0) + Bonus.get('deployable_armor', owner)
-    this.Evasion = (data.evasion || 5) + Bonus.get('deployable_evasion', owner)
-    this.EDefense = (data.edef || 5) + Bonus.get('deployable_edef', owner)
+    this.Evasion =
+      (data.evasion || data.type.toLowerCase() !== 'mine' ? 5 : 0) +
+      Bonus.get('deployable_evasion', owner)
+    this.EDefense =
+      (data.edef || data.type.toLowerCase() !== 'mine' ? 8 : 0) +
+      Bonus.get('deployable_edef', owner)
     this.Heatcap = (data.heatcap || 0) + Bonus.get('deployable_heatcap', owner)
     this.Repcap = (data.repcap || 0) + Bonus.get('deployable_repcap', owner)
     this.Sensors = (data.sensor_range || 0) + Bonus.get('deployable_sensor_range', owner)
@@ -175,6 +179,12 @@ class Deployable extends CompendiumItem {
     this.CurrentHP = this.MaxHP
     this.CurrentHeat = 0
     this.Destroyed = false
+  }
+
+  public get Icon(): string {
+    if (this.Type.toLowerCase() === 'mine') return 'cci-mine'
+    if (this.Type.toLowerCase() === 'drone') return 'cci-drone'
+    return 'cci-deployable'
   }
 
   public static Serialize(deployable: Deployable): IDeployedData {

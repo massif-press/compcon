@@ -4,7 +4,7 @@
       <v-toolbar-title>
         <v-row no-gutters>
           <v-col cols="auto">
-            <v-icon left>cci-drone</v-icon>
+            <v-icon left>{{ deployable.Icon }}</v-icon>
           </v-col>
           <v-col class="heading h3">
             <cc-short-string-editor inline @set="deployable.Name = $event">

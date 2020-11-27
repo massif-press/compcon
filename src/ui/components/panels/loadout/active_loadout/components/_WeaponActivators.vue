@@ -64,7 +64,7 @@
           :item="item"
           :mech="mech"
           :mount="mount"
-          @confirm="completeSkirmish()"
+          @confirm="completeSkirmish($event)"
         />
       </v-col>
       <v-col>
@@ -106,7 +106,7 @@
         @confirm="regularConfirm()"
       />
     </v-row>
-    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" :cached="item" @confirm="shConfirm()" />
+    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" :cached="item" @confirm="shConfirm($event)" />
   </div>
 </template>
 
@@ -203,11 +203,12 @@ export default Vue.extend({
         this.regularConfirmations = 0
       }
     },
-    shConfirm() {
-      this.state.RegisterBarrage()
+    shConfirm(free) {
+      this.state.RegisterBarrage(free)
     },
-    completeSkirmish() {
-      this.state.RegisterSkirmish()
+    completeSkirmish(free) {
+      console.log('from weapon activators - free: ', free)
+      this.state.RegisterSkirmish(free)
     },
   },
 })

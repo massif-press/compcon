@@ -3,12 +3,12 @@
     <v-dialog v-model="rcDialog" width="80vw">
       <template v-slot:activator="{ on }">
         <v-btn outlined small class="mr-5" style="border-color: var(--v-warning-base)" v-on="on">
-          NEXT ENCOUTNER
+          NEXT ENCOUNTER
         </v-btn>
       </template>
       <v-card>
         <v-toolbar dense flat tile color="warning darken-3 heading h2">
-          NEXT ENCOUTNER
+          NEXT ENCOUNTER
         </v-toolbar>
         <v-card-text>
           <p class="flavor-text stark--text mt-2 mb-0 mx-6">
@@ -16,7 +16,6 @@
             <span class="accent--text">COMP/CON</span>
             :
             <span class="stark-text--text">Confirmation Required</span>
-            ] Pilot, proceeding will end the rest and repair protocols and re-engage combat mode.
             Continue?
           </p>
           <v-row justify="center" class="mt-2">
