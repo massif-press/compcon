@@ -9,7 +9,47 @@
       />
     </v-col>
     <v-col>
-      <p class="body-text px-3 ma-0 ml-n2" v-html="description" />
+      <p class="body-text px-3 ma-0 ml-n2" v-html="talentRank.Description" />
+      <div v-if="talentRank.Actions.length">
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(a, i) in talentRank.Actions"
+            :key="`${talentRank.Name}_action_${i}`"
+            cols="auto"
+          >
+            <cc-action :action="a" :panel="!actionButtons" class="ma-2" />
+          </v-col>
+        </v-row>
+      </div>
+
+      <div v-if="talentRank.Deployables.length">
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(d, i) in talentRank.Deployables"
+            :key="`${talentRank.Name}_deployable_${i}`"
+            cols="auto"
+          >
+            <cc-deployable-info
+              :deployable="d"
+              :panel="false"
+              :name-override="talentRank.Name"
+              class="ma-2"
+            />
+          </v-col>
+        </v-row>
+      </div>
+
+      <div v-if="talentRank.IntegratedEquipment.length">
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(x, i) in talentRank.IntegratedEquipment"
+            :key="`${talentRank.Name}_integrated_${i}`"
+            cols="auto"
+          >
+            <cc-integrated-info :item="x" :panel="false" />
+          </v-col>
+        </v-row>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -23,11 +63,15 @@ export default Vue.extend({
       type: Number,
       required: true,
     },
-    description: {
-      type: String,
+    talentRank: {
+      type: Object,
       required: true,
     },
     lock: {
+      type: Boolean,
+      required: false,
+    },
+    actionButtons: {
       type: Boolean,
       required: false,
     },

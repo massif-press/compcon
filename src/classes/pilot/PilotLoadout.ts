@@ -75,6 +75,12 @@ class PilotLoadout extends Loadout {
       .concat(this._gear as PilotEquipment[])
   }
 
+  public get Equipment(): PilotEquipment[] {
+    return (this._armor.filter(x => x) as PilotEquipment[])
+      .concat(this._weapons.filter(x => x) as PilotEquipment[])
+      .concat(this._gear.filter(x => x) as PilotEquipment[])
+  }
+
   public Add(item: PilotEquipment, slot: number, extended?: boolean): void {
     switch (item.ItemType) {
       case ItemType.PilotArmor:

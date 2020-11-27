@@ -110,6 +110,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Pilot, Frame, Mech, MechType } from '@/class'
@@ -132,12 +133,11 @@ export default Vue.extend({
     filteredFrames() {
       let i = this.frames as Frame[]
 
-      if (!this.showAll)
-        i = i.filter(x => this.pilot.has('License', x.Name, 2) || x.Source === 'GMS')
+      if (!this.showAll) i = i.filter(x => this.pilot.has('License', x.Name, 2) || !x.LicenseLevel)
 
       if (this.selectedTypes.length) {
         const sel = this.selectedTypes.map(x => this.frameTypes[x])
-        i = i.filter(x => x.Mechtype.some(t => sel.includes(t)))
+        i = i.filter(x => x.MechType.some(t => sel.includes(t)))
       }
 
       return i.map(x => x.ID)
@@ -145,7 +145,7 @@ export default Vue.extend({
   },
   mounted() {
     const compendium = getModule(CompendiumStore, this.$store)
-    this.frames = compendium.Frames
+    this.frames = _.sortBy(compendium.Frames, ['Source', 'Name'])
     this.frameTypes = Object.keys(MechType).sort() as MechType[]
   },
   methods: {
@@ -168,3 +168,31 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+#img-hover {
+  opacity: 0.55;
+  transition: all 0.3s ease-in-out;
+}
+
+#hover-parent:hover > #img-hover {
+  opacity: 1;
+}
+
+.border-primary #img-hover {
+  opacity: 1;
+}
+
+#img-mobile {
+  opacity: 0.1;
+  transition: all 0.3s ease-in-out;
+}
+
+#mobile-parent:hover > #img-mobile {
+  opacity: 1;
+}
+
+.border-primary #img-mobile {
+  opacity: 1;
+}
+</style>

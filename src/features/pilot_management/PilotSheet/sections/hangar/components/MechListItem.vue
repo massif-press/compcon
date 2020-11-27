@@ -2,7 +2,7 @@
   <div id="pc-wrapper" @click="$emit('go', mech)">
     <v-card
       tile
-      :color="mech.IsActive ? 'success' : mech.Frame.Manufacturer.Color"
+      :color="mech.IsActive ? 'success' : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)"
       style="position: absolute; z-index:5"
       class="overlay clipped-square-invert"
       min-width="138px"
@@ -18,7 +18,9 @@
         class="overlay"
         :style="
           `background-color: ${
-            mech.IsActive ? 'var(--v-success-base)' : mech.Frame.Manufacturer.Color
+            mech.IsActive
+              ? 'var(--v-success-base)'
+              : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
           }`
         "
       >

@@ -1,4 +1,5 @@
 import { Pilot } from '@/class'
+import { IPilotData } from '@/interface'
 import axios from 'axios'
 
 // this token is scoped to only allow for the creation of gists on a burner account

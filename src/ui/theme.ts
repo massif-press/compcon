@@ -24,9 +24,10 @@ const themeDefaults = {
   'action--full': '#283593',
   'action--quick': '#3949AB',
   'action--overcharge': '#F50057',
-  'action--free': '#00695C',
+  'action--free': '#1fad79',
   'action--protocol': '#007676',
   'action--tech': '#802475',
+  'action--invade': '#802475',
 
   'damage--kinetic': '#757575',
   'damage--energy': '#29B6F6',
@@ -35,7 +36,7 @@ const themeDefaults = {
   'damage--heat': '#FF7043',
   'damage--variable': '#D500F9',
 
-  'reserve--resources': '#00695C',
+  'reserve--resource': '#00695C',
   'reserve--tactical': '#827717',
   'reserve--mech': '#BF360C',
   'reserve--project': '#5D4037',

@@ -2,15 +2,17 @@
   <div id="panel-wrapper" :class="`mb-2 ${clickable ? 'clickable' : ''}`" @click="$emit('click')">
     <v-toolbar
       :color="color ? color : 'primary'"
-      dark
       flat
       dense
+      dark
       :class="`${dense ? 'clipped-invert' : 'clipped-large-invert'} ${clickable ? 'titlebar' : ''}`"
       :style="dense ? 'height: 28px' : ''"
     >
       <v-toolbar-title :class="dense ? 'mt-n6' : ''">
         <v-icon v-if="icon" :x-large="!dense" left>{{ icon }}</v-icon>
-        <span :class="`heading h3 pr-3 ${clickable ? 'underline-slide' : ''}`">{{ title }}</span>
+        <span :class="`heading h3 pr-3 ${clickable ? 'underline-slide' : ''}`">
+          {{ title }}
+        </span>
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items class="mr-4">
@@ -22,7 +24,9 @@
       flat
       outlined
       :style="
-        `border-color: ${color ? color : 'var(--v-primary-base)'} !important; margin-top: -2px`
+        `background-color: var(--v-panel-base); border-color: ${
+          color ? color : 'var(--v-primary-base)'
+        } !important; margin-top: -2px`
       "
     >
       <v-card-text class="pt-2 pb-0 px-4">
@@ -35,24 +39,22 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-@Component({ name: 'cc-titled-panel', })
+@Component({ name: 'cc-titled-panel' })
 export default class CCTitledPanel extends Vue {
- 
-  @Prop({ type: String, required: true, })
-  readonly title!: string 
+  @Prop({ type: String, required: true })
+  readonly title!: string
 
-  @Prop({ type: String, required: false, default: '', })
+  @Prop({ type: String, required: false, default: '' })
   readonly icon: string
 
-  @Prop({ type: String, required: false, default: '', })
-  readonly color: string 
+  @Prop({ type: String, required: false, default: '' })
+  readonly color: string
 
-  @Prop({ type: Boolean, })
+  @Prop({ type: Boolean })
   readonly clickable?: boolean
-  
-  @Prop({ type: Boolean, })
-  readonly dense?: boolean
 
+  @Prop({ type: Boolean })
+  readonly dense?: boolean
 }
 </script>
 

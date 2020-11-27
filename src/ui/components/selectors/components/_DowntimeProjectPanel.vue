@@ -1,10 +1,16 @@
 <template>
   <v-row justify="center">
     <v-col cols="7">
-      <cc-titled-panel title="New Project" icon="cci-barrage" color="reserve--project">
+      <cc-titled-panel title="New Project" icon="mdi-atom-variant" color="reserve--project">
         <v-row>
           <v-col>
-            <v-text-field v-model="projectName" label="Project Name" outlined hide-details />
+            <v-text-field
+              v-model="projectName"
+              color="accent"
+              label="Project Name"
+              outlined
+              hide-details
+            />
           </v-col>
           <v-col cols="auto" class="ml-auto text-center">
             <v-switch v-model="complicated" dense inset hide-details color="secondary">
@@ -42,6 +48,7 @@
           label="Details"
           filled
           hide-details
+          color="accent"
           class="my-3"
         />
         <v-combobox
@@ -51,6 +58,7 @@
           chips
           multiple
           outlined
+          color="accent"
           dense
           class="mr-5 ml-5 mt-5"
           :disabled="finished"
@@ -108,6 +116,7 @@ export default Vue.extend({
         resource_note: this.details,
         resource_cost: '',
         used: false,
+        consumable: false,
       })
       if (this.costs && !this.finished) p.ResourceCost = `Requires: ${this.costs.join(', ')}`
       p.IsFinished = this.finished

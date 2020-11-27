@@ -1,4 +1,5 @@
-import { RangeType } from '@/class'
+import { Mech, MechWeapon, RangeType } from '@/class'
+import { Bonus } from './Bonus'
 
 //TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -44,8 +45,7 @@ class Range {
   }
 
   public get DiscordEmoji(): string {
-    switch (this._range_type)
-    {
+    switch (this._range_type) {
       case RangeType.Range:
       case RangeType.Threat:
       case RangeType.Thrown:
@@ -60,23 +60,37 @@ class Range {
     return `${this._range_type} ${this.Value}`
   }
 
-  public static AddBonuses(ranges: Range[], bonuses: { type: RangeType; val: number }[]): Range[] {
-    var output = [] as Range[]
-    ranges.forEach(range => {
-      let bonus = bonuses
-        .filter(x => x.type === range.Type)
-        .map(x => x.val)
-        .reduce((sum, bonus) => sum + bonus, 0)
+  public static CalculateRange(item: MechWeapon, mech: Mech): Range[] {
+    if (!item || !mech) return []
+    if (!Bonus.get('range', mech)) return item.Range
+    const bonuses = mech.Bonuses.filter(x => x.ID === 'range')
+    const output = []
+    item.Range.forEach(r => {
+      if (r.Override) return
+      let bonus = 0
+      bonuses.forEach(b => {
+        if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => item.WeaponType === wt)) return
+        if (b.WeaponSizes.length && !b.WeaponSizes.some(ws => item.Size === ws)) return
+        if (b.DamageTypes.length && !b.DamageTypes.some(dt => item.DamageType.some(x => x === dt)))
+          return
+        if (!b.RangeTypes.length || b.RangeTypes.some(rt => r.Type === rt)) {
+          bonus += Bonus.Evaluate(b, mech.Pilot)
+        }
+      })
       output.push(
         new Range({
-          type: range.Type,
-          val: range._value,
-          override: range._override,
+          type: r.Type,
+          val: r._value,
+          override: r._override,
           bonus: bonus,
         })
       )
     })
     return output
+  }
+
+  private static ci(a: string, b: string): boolean {
+    return a.toLowerCase() === b.toLowerCase()
   }
 }
 

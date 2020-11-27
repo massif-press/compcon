@@ -78,13 +78,13 @@ export default Vue.extend({
 <style scoped>
 #stat-row {
   position: absolute;
-  top: -63px;
+  top: -58px;
   left: -20px;
   transform: skew(0.65rad);
   background-color: var(--v-panel-base);
   color: var(--v-text-base);
   z-index: 2;
-  width: 75vw;
+  width: 70vw;
   margin-left: -20px;
 }
 .unskew {

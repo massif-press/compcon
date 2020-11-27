@@ -15,10 +15,13 @@
           <div v-else style="position: relative">
             <input
               ref="pipinput"
-              :color="color"
               type="text"
               class="pipinput mx-2"
-              :style="`text-align: ${flipInput ? 'right' : 'left; position: absolute;'} `"
+              :style="
+                `text-align: ${
+                  flipInput ? 'right' : 'left; position: absolute;'
+                }; color: var(--v-stark-base)`
+              "
               :value="myInput"
               @input="onInputChange"
               @keyup.enter="sendInput"
@@ -184,7 +187,7 @@ export default class CCTickBar extends Vue {
 }
 </script>
 
-<style scoped>
+<style>
 .pipbar {
   display: flex;
   flex-wrap: wrap;
@@ -206,5 +209,9 @@ export default class CCTickBar extends Vue {
 }
 .pipinput:focus {
   outline: none;
+}
+
+.v-rating--dense .v-icon {
+  padding: 0;
 }
 </style>

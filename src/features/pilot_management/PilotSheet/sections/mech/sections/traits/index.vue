@@ -1,7 +1,7 @@
 <template>
   <v-col>
     <div class="ml-n3">
-      <cc-title small :color="color" class="pl-3 mb-2">
+      <cc-title small :color="color" class="pl-3 mb-2 ml-n6">
         {{ mech.Frame.Source }} {{ mech.Frame.Name }} Frame Traits
       </cc-title>
     </div>

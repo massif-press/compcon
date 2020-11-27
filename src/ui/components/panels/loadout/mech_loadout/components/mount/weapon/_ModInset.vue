@@ -2,13 +2,19 @@
   <v-col>
     <v-card flat tile color="transparent" class="mx-4 my-2 mod-border">
       <v-card-title
-        class="mod darken-1 py-0 pt-n1 heading h3 white--text"
+        class="mod darken-3 py-0 pt-n1 heading h3 white--text"
         style="height: 24px!important"
       >
         <v-row class="mt-n1" no-gutters>
           <equipment-options slot="options" :item="mod" />
-          {{ mod.Name }}
+          <span v-if="mod.Destroyed" class="error" style="text-decoration: line-through">
+            DESTROYED
+          </span>
+          <span v-else>
+            {{ mod.Name }}
+          </span>
           <v-spacer />
+          <span v-if="mod.SP" class="pr-3">{{ mod.SP }}SP</span>
           <cc-tooltip simple inline content="Remove Mod">
             <v-icon dark class="mt-n1 fadeSelect" @click.stop="$emit('remove-mod')">
               mdi-delete
@@ -35,10 +41,54 @@
         >
           / / NHP IN CASCADE / /
         </v-alert>
-        <cc-item-effect-panel :effects="mod.Effect" @click.stop="$refs.detailDialog.show()" />
-        <v-row v-if="mod.Tags" dense no-gutters>
-          <v-col cols="auto" class="ml-auto mt-n2 mr-4">
-            <cc-tags :tags="mod.Tags" color="mod" small />
+        <div>
+          <div class="overline mb-n2">
+            <v-icon>cci-system</v-icon>
+            EQUIPMENT EFFECT
+          </div>
+          <p class="text--text body-text mb-1 mr-3 ml-7" v-html="mod.Effect" />
+        </div>
+        <v-row class="text-left" dense align="end">
+          <v-col>
+            <v-row justify="space-around" dense>
+              <v-col v-if="mod.Actions.length" cols="auto">
+                <div class="overline ml-n2 my-n3">EQUIPMENT ACTIONS</div>
+                <v-row no-gutters justify="center">
+                  <v-col v-for="(a, i) in mod.Actions" :key="`${mod.Name}_action_${i}`" cols="auto">
+                    <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col v-if="mod.Deployables.length" cols="auto">
+                <div class="overline ml-n2 my-n3">EQUIPMENT DEPLOYABLES</div>
+                <v-row no-gutters justify="center">
+                  <v-col
+                    v-for="(d, i) in mod.Deployables"
+                    :key="`${mod.Name}_deployable_${i}`"
+                    cols="auto"
+                  >
+                    <cc-deployable-info
+                      :deployable="d"
+                      :panel="$vuetify.breakpoint.lgAndUp"
+                      :name-override="mod.Name"
+                      class="ma-2"
+                    />
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+        <v-row no-gutters class="mr-3 mt-n3">
+          <v-col cols="auto">
+            <cc-tags small :tags="mod.Tags" :color="color" />
+          </v-col>
+          <v-spacer />
+          <v-col cols="auto">
+            <cc-bonus-display :item="mod" />
+          </v-col>
+          <v-col cols="auto">
+            <cc-synergy-display :item="mod" location="mod" :mech="mech" large />
           </v-col>
         </v-row>
       </div>
@@ -65,6 +115,11 @@ export default Vue.extend({
     mech: {
       type: Object,
       required: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
     },
   },
 })

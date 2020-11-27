@@ -48,14 +48,21 @@
           :key="`panel_m${manufacturer.ID}`"
           class="no-shadow"
         >
-          <v-expansion-panel-header>
+          <v-expansion-panel-header color="panel">
             <div>
-              <span class="heading mech" :style="`color: ${manufacturer.Color}`">
+              <span
+                class="heading mech"
+                :style="`color: ${manufacturer.GetColor($vuetify.theme.dark)}`"
+              >
                 <cc-logo :source="manufacturer" size="xLarge" class="pt-4" />
                 {{ manufacturer.Name }}
               </span>
               <br />
-              <v-alert outlined :color="manufacturer.Color" class="py-1 my-2">
+              <v-alert
+                outlined
+                :color="manufacturer.GetColor($vuetify.theme.dark)"
+                class="py-1 my-2"
+              >
                 <v-row class="text-center">
                   <span
                     class="flavor-text text--text"
@@ -67,14 +74,14 @@
             </div>
           </v-expansion-panel-header>
 
-          <v-expansion-panel-content>
+          <v-expansion-panel-content color="panel">
             <core-bonus-select-item
               v-for="b in coreBonuses"
               :key="b.ID"
               :bonus="b"
               :is-selectable="isSelectable(b)"
               :is-selected="isSelected(b)"
-              :color="manufacturer.Color"
+              :color="manufacturer.GetColor($vuetify.theme.dark)"
               @add="pilot.AddCoreBonus(b)"
               @remove="pilot.RemoveCoreBonus(b)"
             />
@@ -117,7 +124,7 @@ export default class CCCoreBonusSelector extends Vue {
     return manufacturers
       .map(manufacturer => ({
         manufacturer,
-        coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer === manufacturer),
+        coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer.ID === manufacturer.ID),
       }))
       .filter(x => x.coreBonuses.length > 0)
   }
@@ -125,7 +132,8 @@ export default class CCCoreBonusSelector extends Vue {
   get selectionComplete(): boolean {
     return this.levelUp && !this.pilot.IsMissingCBs
   }
-  @Watch('selectionComplete') onSelectionComplete() {
+
+  @Watch('selectionComplete') onSelectionComplete(): void {
     window.scrollTo(0, document.body.scrollHeight)
   }
 

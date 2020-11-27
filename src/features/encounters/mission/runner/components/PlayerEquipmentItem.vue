@@ -1,6 +1,6 @@
 <template>
   <v-col cols="4">
-    <v-card :color="item.Destroyed ? 'error' : ''" outlined class="ma-1">
+    <v-card :color="item.Destroyed ? 'rgba(200, 80, 80, 0.3)' : ''" outlined class="ma-1">
       <v-card-text class="py-2 px-3">
         <v-row dense align="center">
           <v-col lg="12" xl="auto" class="mr-2">

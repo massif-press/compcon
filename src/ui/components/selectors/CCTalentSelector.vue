@@ -5,7 +5,7 @@
     :success="!pilot.IsMissingTalents && enoughSelections"
   >
     <template v-slot:left-column>
-      <v-row v-for="(pTalent, i) in pilot.Talents" :key="`summary_${pTalent.talent.id}_${i}`">
+      <v-row v-for="(pTalent, i) in pilot.Talents" :key="`summary_${pTalent.Talent.ID}_${i}`">
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
           <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>
@@ -69,22 +69,25 @@
         class="mb-2"
         outlined
       />
-      <talent-select-item
-        v-for="talent in talents"
-        :key="talent.ID"
-        :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
-        :talent="talent"
-        :pilot-rank="pilot.getTalentRank(talent.ID)"
-        :new-pilot="newPilot"
-        @add="pilot.AddTalent(talent)"
-        @remove="pilot.RemoveTalent(talent)"
-      />
+      <v-slide-x-transition group>
+        <talent-select-item
+          v-for="talent in talents"
+          :key="talent.ID"
+          :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
+          :talent="talent"
+          :pilot-rank="pilot.getTalentRank(talent.ID)"
+          :new-pilot="newPilot"
+          @add="pilot.AddTalent(talent)"
+          @remove="pilot.RemoveTalent(talent)"
+        />
+      </v-slide-x-transition>
     </template>
   </selector>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import Selector from './components/_SelectorBase.vue'
 import MissingItem from './components/_MissingItem.vue'
 import TalentSelectItem from './components/_TalentSelectItem.vue'
@@ -112,7 +115,7 @@ export default Vue.extend({
     },
     enoughSelections(): boolean {
       // we should only care about the minimum pilot talents in non-levelup (creation)
-      return this.levelUp || !(this.pilot.Talents.length < this.selectedMin)
+      return this.pilot.Level === 0 || !(this.pilot.Talents.length < this.selectedMin)
     },
     selectionComplete(): boolean {
       return (this.newPilot || this.levelUp) && !this.pilot.IsMissingTalents
@@ -120,15 +123,13 @@ export default Vue.extend({
     talents(): Talent[] {
       const compendium = getModule(CompendiumStore, this.$store)
       if (this.search) return compendium.Talents.filter(x => accentInclude(x.Name, this.search))
-      return compendium.Talents.sort(function(a, b) {
-        if (a.ID < b.ID) return -1
-        if (a.ID > b.ID) return 1
-        return 0
-      }).sort(a => {
-        if (!this.pilot.Talents.some(x => x.Talent.ID === a.ID)) return 1
-        if (this.pilot.Talents.some(x => x.Talent.ID === a.ID)) return -1
-        return 0
-      })
+
+      return _.sortBy(compendium.Talents, [
+        t => {
+          return this.pilot.Talents.some(x => x.Talent.ID === t.ID) ? -1 : 1
+        },
+        'Name',
+      ])
     },
   },
   watch: {

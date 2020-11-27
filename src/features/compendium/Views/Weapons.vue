@@ -6,6 +6,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import _ from 'lodash'
 import Component from 'vue-class-component'
 import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
@@ -21,14 +22,17 @@ export default class Weapons extends Vue {
     { text: 'Weapon', align: 'left', value: 'Name' },
     { text: 'License', align: 'left', value: 'LicenseString' },
     { text: 'Size', align: 'left', value: 'Size' },
-    { text: 'Type', align: 'left', value: 'Type' },
+    { text: 'Type', align: 'left', value: 'WeaponType' },
     { text: 'Range', align: 'left', value: 'Range[0].Max' },
     { text: 'Damage', align: 'left', value: 'Damage[0].Max' },
   ]
 
   private compendium = getModule(CompendiumStore, this.$store)
   public get weapons(): MechWeapon[] {
-    return this.compendium.MechWeapons.filter(x => x.Source)
+    return _.sortBy(
+      this.compendium.MechWeapons.filter(x => x.Source),
+      ['Source', 'Name']
+    )
   }
 }
 </script>

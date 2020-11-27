@@ -1,6 +1,15 @@
 <template>
   <div>
-    <v-toolbar id="toolbar" :color="color" dark flat dense class="sliced" max-height="30px">
+    <v-toolbar
+      v-if="!readonly"
+      id="toolbar"
+      :color="color"
+      dark
+      flat
+      dense
+      class="sliced"
+      max-height="30px"
+    >
       <v-toolbar-title style="max-height: 30px" class="mt-n3">
         <v-menu offset-y top>
           <template v-slot:activator="{ on }">
@@ -53,7 +62,7 @@
         </v-menu>
       </v-toolbar-items>
     </v-toolbar>
-    <v-card flat outlined tile :color="color">
+    <v-card flat :outlined="!readonly" tile :color="color">
       <v-card-text class="px-2 py-0 background">
         <slot />
       </v-card-text>

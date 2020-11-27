@@ -6,7 +6,7 @@
     @remove-feature="$emit('remove-feature', $event)"
     @recalc="$emit('recalc')"
   >
-    <span class="overline">TRIGGER</span>
+    <span v-if="item.Feature.Trigger" class="overline">TRIGGER</span>
     <p class="panel body-1 mb-0" v-html="item.Feature.Trigger" />
     <span class="overline">EFFECT</span>
     <p v-if="item.Tier" class="body-1 mb-0" v-html="item.Feature.EffectByTier(item.Tier)" />

@@ -7,11 +7,12 @@
       <cc-talent-info :talent="talent" />
     </cc-solo-dialog>
     <cc-talent-rank-item
-      v-for="(tr, i) in ranks()"
-      :key="tr.name"
+      v-for="(tr, i) in ranks"
+      :key="tr.Name"
       :lock="i + 1 > rank"
       :rank="i + 1"
-      :description="tr.description"
+      :talent-rank="tr"
+      :action-buttons="actionButtons"
       small
       :color="itemColor"
     />
@@ -36,6 +37,10 @@ export default Vue.extend({
       type: Boolean,
       required: false,
     },
+    actionButtons: {
+      type: Boolean,
+      required: false,
+    },
     color: {
       type: String,
       required: false,
@@ -47,7 +52,7 @@ export default Vue.extend({
       default: 'primary',
     },
   },
-  methods: {
+  computed: {
     ranks() {
       if (this.hideLocked) return this.talent.Ranks.slice(0, this.rank)
       return this.talent.Ranks

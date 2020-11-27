@@ -17,11 +17,13 @@ import {
   Talent,
   Reserve,
   Manufacturer,
+  Faction,
   NpcClass,
   NpcTemplate,
   NpcFeature,
   ContentPack,
   CompendiumItem,
+  PilotEquipment,
 } from '@/class'
 import {
   ICoreBonusData,
@@ -30,16 +32,19 @@ import {
   IMechWeaponData,
   ISkillData,
   IPilotArmorData,
-  IPilotGearData,
   IPilotWeaponData,
   IWeaponModData,
   IMechSystemData,
   IManufacturerData,
+  IFactionData,
   IContentPack,
   ITagCompendiumData,
+  IPilotEquipmentData,
 } from '@/interface'
 import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
+import { IReserveData } from '@/classes/pilot/reserves/Reserve'
+import * as PActions from '@/classes/Action'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -76,12 +81,9 @@ export class CompendiumStore extends VuexModule {
   public LancerVersion = ''
   public CCVersion = ''
   public UserProfile: UserProfile = {} as any
-  public Skills: Skill[] = []
   public Statuses: Status[] = []
   public Quirks: string[] = []
   // public Licenses: License[] = []
-  public Reserves: Reserve[] = []
-  public Factions: Faction[] = []
   public Environments: Environment[] = []
   public Sitreps: Sitrep[] = []
 
@@ -96,7 +98,8 @@ export class CompendiumStore extends VuexModule {
   public get NpcFeatures(): NpcFeature[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
   }
-
+  @Brewable(() => lancerData.actions.map((x: PActions.IActionData) => new PActions.Action(x)))
+  Actions: PActions.Action[]
   @Brewable(() => lancerData.talents.map((x: ITalentData) => new Talent(x)))
   Talents: Talent[]
   @Brewable(() => lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x)))
@@ -105,6 +108,8 @@ export class CompendiumStore extends VuexModule {
   Frames: Frame[]
   @Brewable(() => lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x)))
   Manufacturers: Manufacturer[]
+  @Brewable(() => lancerData.factions.map((x: IFactionData) => new Faction(x)))
+  Factions: Faction[]
   @Brewable(() => lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x)))
   MechWeapons: MechWeapon[]
   @Brewable(() => lancerData.mods.map((x: IWeaponModData) => new WeaponMod(x)))
@@ -113,12 +118,16 @@ export class CompendiumStore extends VuexModule {
   MechSystems: MechSystem[]
   @Brewable(() =>
     lancerData.pilot_gear.map(function(x: any) {
-      if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
-      else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
-      return new PilotGear(x as IPilotGearData)
+      if (x.type.toLowerCase() === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
+      else if (x.type.toLowerCase() === 'armor') return new PilotArmor(x as IPilotArmorData)
+      return new PilotGear(x as IPilotEquipmentData)
     })
   )
-  PilotGear: PilotGear[]
+  PilotGear: PilotEquipment[]
+  @Brewable(() => lancerData.reserves.map((x: IReserveData) => new Reserve(x)))
+  Reserves: Reserve[]
+  @Brewable(() => lancerData.skills.map((x: ISkillData) => new Skill(x)))
+  Skills: Skill[]
   @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
 
   get Licenses(): License[] {
@@ -135,8 +144,6 @@ export class CompendiumStore extends VuexModule {
   @Mutation
   private [LOAD_DATA](): void {
     getUser().then(profile => (this.UserProfile = profile))
-    this.Skills = lancerData.skills.map((x: ISkillData) => new Skill(x))
-    this.Reserves = lancerData.reserves.map((x: IReserveData) => new Reserve(x))
     this.Statuses = lancerData.statuses
     this.Quirks = lancerData.quirks
     this.Environments = lancerData.environments

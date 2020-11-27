@@ -72,7 +72,7 @@
         <mobile-btn
           icon="mdi-flask-empty-plus-outline"
           title="Content Packs"
-          text="Manage LCPs"
+          text="Manage Content"
           disabled
         />
         <!-- @clicked="$refs.contentModal.show()" -->

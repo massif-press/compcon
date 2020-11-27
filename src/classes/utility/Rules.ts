@@ -85,7 +85,7 @@ export class Rules {
     return rules.mount_fittings
   }
 
-  public static Overcharge(): string[] {
+  public static get Overcharge(): string[] {
     return rules.overcharge
   }
 }

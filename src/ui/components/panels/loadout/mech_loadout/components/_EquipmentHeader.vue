@@ -1,32 +1,17 @@
 <template>
-  <v-row dense no-gutters align="center">
-    <v-col cols="auto" class="mr-1">
-      <slot name="options" />
-    </v-col>
-    <v-col>
+  <v-row no-gutters align="center" class="mb-n1">
+    <v-col cols="auto">
       <span :class="`heading h3 ${interior ? 'white--text' : 'text--text'}`">
         <v-icon v-if="item.IsCascading" color="warning" class="mt-n1">
           mdi-link-variant-off
         </v-icon>
-        <div v-if="item.Destroyed" class="error" style="text-decoration: line-through">
-          {{ mod ? item.Name : '' }}DESTROYED
-        </div>
-        <div v-else-if="mod">WEAPON MODIFICATION</div>
-        <div v-else>{{ item.Size }} {{ item.Type }}</div>
       </span>
     </v-col>
-    <v-col v-if="item.Note" cols="auto" class="ml-2">
-      <cc-tooltip :key="item.Note.length" simple inline :content="item.Note">
-        <v-icon small color="active">mdi-note</v-icon>
-      </cc-tooltip>
-    </v-col>
     <v-col v-if="item.IsLimited" cols="auto" class="mx-2">
-      <div class="overline">
-        USES
-      </div>
-      <cc-item-uses :item="item" :bonus="useBonus" :color="color" />
+      <cc-item-uses :item="item" :bonus="useBonus" :color="color" class="d-inline" />
+      <span class="overline">({{ item.Uses }}/{{ item.MaxUses + useBonus }}) USES</span>
     </v-col>
-    <v-col v-if="item.IsLoading" cols="auto" class="mx-2">
+    <v-col v-if="item.IsLoading && readonly" cols="auto" class="ma-1">
       <v-btn
         small
         dark
@@ -37,11 +22,11 @@
         {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
       </v-btn>
     </v-col>
-    <v-col cols="auto" class="">
-      <slot />
+    <v-col cols="auto">
+      <slot name="left" />
     </v-col>
-    <v-col v-if="item.SP" cols="auto" class="mr-3 ml-auto">
-      <span class="heading h3" :style="`color: ${color}`">{{ item.SP }}SP</span>
+    <v-col cols="auto" class="mx-2">
+      <slot />
     </v-col>
   </v-row>
 </template>
@@ -73,6 +58,9 @@ export default Vue.extend({
       type: Boolean,
     },
     mod: {
+      type: Boolean,
+    },
+    readonly: {
       type: Boolean,
     },
   },

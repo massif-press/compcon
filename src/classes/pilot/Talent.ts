@@ -2,31 +2,46 @@ import { store } from '@/store'
 import { CompendiumItem } from '@/class'
 import { ICompendiumItemData } from '@/interface'
 
-interface ITalentRank {
-  name: string
-  description: string
+interface ITalentRankData extends ICompendiumItemData {
+  exclusive: boolean
 }
 
 interface ITalentData extends ICompendiumItemData {
-  ranks: ITalentRank[]
+  terse: string
+  ranks: ITalentRankData[]
+}
+
+class TalentRank extends CompendiumItem {
+  public readonly Exclusive: boolean
+
+  public constructor(data: ITalentRankData) {
+    super(data)
+    this.Exclusive = data.exclusive
+  }
 }
 
 class Talent extends CompendiumItem {
-  private _ranks: ITalentRank[]
+  public readonly Terse: string
+  // public readonly Icon: string
+  private _ranks: TalentRank[]
 
-  public constructor(talentData: any) {
-    super(talentData)
-    this._ranks = talentData.ranks
+  public constructor(data: any) {
+    super(data)
+    this.Terse = data.terse || ''
+    // this.Icon = data.icon || 'GENERIC TALENT'
+    this._ranks = data.ranks.map(x => new TalentRank(x))
   }
 
-  public get Ranks(): ITalentRank[] {
+  public get Ranks(): TalentRank[] {
     return this._ranks
   }
 
-  public Rank(rank: number): ITalentRank {
-    if (this._ranks[rank - 1]) return this._ranks[rank - 1]
-    console.error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data`)
-    return { name: '', description: '' }
+  public Rank(rank: number): TalentRank {
+    try {
+      return this._ranks[rank - 1]
+    } catch (err) {
+      console.error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`)
+    }
   }
 
   public static Deserialize(id: string): Talent {
@@ -34,4 +49,4 @@ class Talent extends CompendiumItem {
   }
 }
 
-export { Talent, ITalentData }
+export { Talent, TalentRank, ITalentData }

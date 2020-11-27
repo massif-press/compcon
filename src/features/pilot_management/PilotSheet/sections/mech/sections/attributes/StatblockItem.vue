@@ -7,14 +7,13 @@
       >
         <contributor
           :label="attr"
-          :value="signed ? (val > -1 ? '+' : '-') + val : val"
+          :value="signed ? (val > -1 ? '+' : '') + val : val"
           :contributors="contributors"
         />
       </v-card-text>
       <v-card-text class="pt-2 pb-0">
         <span class="text--text font-weight-black" style="font-size: 32px">
-          <span v-if="signed">{{ val > -1 ? '+' : '-' }}</span>
-          {{ Math.abs(val) }}
+          {{ `${signed ? (val > -1 ? '+' : '-') : ''}${Math.abs(val)}` }}
         </span>
       </v-card-text>
     </v-card>

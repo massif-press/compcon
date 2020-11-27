@@ -24,31 +24,36 @@
           <cc-tooltip simple inline content="Armor Bonus">
             <v-icon>mdi-shield-outline</v-icon>
           </cc-tooltip>
-          <span class="stat-text">{{ item.Armor }}</span>
+          <span class="stat-text">{{ armor }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="HP Bonus">
             <v-icon>mdi-heart</v-icon>
           </cc-tooltip>
-          <span class="stat-text">+{{ item.HPBonus }}</span>
+          <span class="stat-text">+{{ hp }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Electronic Defense">
             <v-icon>cci-edef</v-icon>
           </cc-tooltip>
-          <span class="stat-text">{{ item.EDefense }}</span>
+          <span class="stat-text">{{ edef }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Evasion">
             <v-icon>cci-evasion</v-icon>
           </cc-tooltip>
-          <span class="stat-text">{{ item.Evasion }}</span>
+          <span class="stat-text">{{ evasion }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Speed">
             <v-icon>$vuetify.icons.move</v-icon>
           </cc-tooltip>
-          <span class="stat-text">{{ item.Speed }}</span>
+          <span class="stat-text">{{ speed }}</span>
+        </v-col>
+      </v-row>
+      <v-row no-gutters class="mt-n3">
+        <v-col cols="auto" class="ml-auto mr-4 mt-n2">
+          <cc-tags small :tags="item.Tags" color="secondary" />
         </v-col>
       </v-row>
     </div>
@@ -118,6 +123,28 @@ export default Vue.extend({
       { text: 'Detail', align: 'center', value: 'Detail' },
     ],
   }),
+  computed: {
+    armor() {
+      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_armor')
+      return attr ? attr.Value : 0
+    },
+    hp() {
+      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_hp')
+      return attr ? attr.Value : 0
+    },
+    edef() {
+      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_edef')
+      return attr ? attr.Value : 0
+    },
+    evasion() {
+      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_evasion')
+      return attr ? attr.Value : 0
+    },
+    speed() {
+      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_speed')
+      return attr ? attr.Value : 0
+    },
+  },
   methods: {
     equip(item: PilotArmor) {
       this.$emit('equip', this.$_.clone(item))

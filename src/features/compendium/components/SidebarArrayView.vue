@@ -15,18 +15,18 @@
     >
       <v-list-item-title class="heading h3 ml-2">{{ e[nameKey] }}</v-list-item-title>
     </v-list-item>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">{{ title }}</h1>
+    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 mt-2">{{ title }}</h1>
     <cc-titled-panel
       v-for="(e, i) in array"
       :id="`e_${e[nameKey].replace(/\W/g, '')}`"
       :key="`${e[nameKey].replace(/\W/g, '')}_${i}`"
       :icon="icon || ''"
       :title="e[nameKey]"
-      class="my-2"
+      class="my-6"
       dense
     >
       <h3 v-if="subKey" class="heading mb-2" v-html="e[subKey]" />
-      <p class="body-text" v-html="e[descriptionKey]" />
+      <p class="body-text mb-1" v-html="e[descriptionKey]" />
     </cc-titled-panel>
   </cc-sidebar-view>
 </template>

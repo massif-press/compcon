@@ -75,7 +75,7 @@
           :class="{ rolledOver: stressRollover }"
           @update="mech.CurrentStress = $event"
         >
-          <span class="heading h3">Reactor</span>
+          <span class="heading h3">Stress</span>
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto">
@@ -167,21 +167,6 @@
         <div class="caption overcharge--text font-weight-bold">
           {{ overcharge[mech.CurrentOvercharge] }}
         </div>
-      </v-col>
-
-      <v-col cols="auto" class="text-center">
-        <v-menu offset-y offset-x top nudge-left="30px">
-          <template v-slot:activator="{ on }">
-            <v-btn large outlined class="fadeSelect" v-on="on">
-              <v-icon large left>cci-repair</v-icon>
-              Full Repair
-            </v-btn>
-          </template>
-          <cc-confirmation
-            content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
-            @confirm="mech.FullRepair()"
-          />
-        </v-menu>
       </v-col>
     </v-row>
     <v-divider class="mt-1 mb-2" />

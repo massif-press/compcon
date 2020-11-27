@@ -1,29 +1,45 @@
 <template>
   <div>
-    <slot-card-base ref="base" :item="item">
+    <slot-card-base
+      ref="base"
+      :item="item"
+      :color="color"
+      :mech="mech"
+      :empty="empty"
+      :readonly="readonly"
+    >
       <div slot="header">
         <span v-if="item">
-          <equipment-options :item="item" />
+          <equipment-options :item="item" :readonly="readonly" />
           <span v-if="!item.Destroyed" :key="item.Name" class="ml-n2">
             {{ item.Name }}
             <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
           </span>
           <span v-else :key="item.Name + '_dest'" class="py-1 error" style="letter-spacing: 3px">
-            &emsp;/ / {{ item.Name }} DESTROYED / /&emsp;
+            &nbsp;//
+            <strike>{{ item.Name }}</strike>
+            //&nbsp;
           </span>
         </span>
         <span v-else>System</span>
       </div>
-      <div v-if="!readonly" slot="header-items" class="text-right">
-        <v-btn v-if="item" icon dark @click="remove(item)">
-          <v-icon class="fadeSelect mt-n1">delete</v-icon>
-        </v-btn>
-        <v-btn icon dark @click="$refs.base.$refs.selectorDialog.show()">
-          <v-icon class="fadeSelect mt-n1" v-html="item ? 'mdi-swap-vertical-variant' : 'add'" />
-        </v-btn>
+      <div v-if="!readonly" slot="header-items" class="text-right d-inline">
+        <div v-if="item" style="display: inline-block">
+          <span class="heading h2">{{ item.SP }}</span>
+          <span class="heading h3">SP</span>
+        </div>
+        <div v-if="!readonly" class="d-inline pl-3 ml-3" style=" border-left: 1px solid #616161;">
+          <v-icon v-if="item" class="fadeSelect mt-n1" @click.stop="remove(item)">
+            delete
+          </v-icon>
+          <v-icon
+            class="fadeSelect mt-n1"
+            @click.stop="$refs.base.$refs.selectorDialog.show()"
+            v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
+          />
+        </div>
       </div>
       <div v-if="item">
-        <v-row no-gutters align="center"></v-row>
         <v-alert
           v-if="item.IsCascading"
           dense
@@ -34,11 +50,7 @@
         >
           / / AI IN CASCADE / /
         </v-alert>
-        <v-row dense align="center" class="mt-n2">
-          <v-col cols="auto" class="mr-3">
-            <span class="heading h2" :style="`color: ${color}`">{{ item.SP }}</span>
-            <span class="heading h3">SP</span>
-          </v-col>
+        <v-row dense align="center" class="mt-n1">
           <v-col v-if="item.IsLimited" cols="auto" class="mr-2">
             <cc-item-uses
               :item="item"
@@ -61,12 +73,14 @@
               {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
             </v-btn>
           </v-col>
-          <v-col cols="auto" class="ml-auto">
-            <cc-tags small :tags="item.Tags" :color="color" />
-          </v-col>
         </v-row>
-
-        <cc-item-effect-panel v-if="item.Effect" :effects="item.Effect" transparent class="mt-n3" />
+        <div v-if="item && item.Effect">
+          <div class="overline mb-n2">
+            <v-icon>cci-system</v-icon>
+            EQUIPMENT EFFECT
+          </div>
+          <p class="text--text body-text mb-1 mr-3 ml-7" v-html="item.Effect" />
+        </div>
       </div>
       <system-selector slot="selector" :mech="mech" :equipped="item" @equip="equip($event)" />
     </slot-card-base>
@@ -108,6 +122,9 @@ export default Vue.extend({
       default: 'primary',
     },
     readonly: {
+      type: Boolean,
+    },
+    empty: {
       type: Boolean,
     },
   },

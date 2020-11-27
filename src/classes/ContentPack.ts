@@ -2,6 +2,7 @@ import { mapValues } from 'lodash'
 
 import {
   Manufacturer,
+  Faction,
   CoreBonus,
   Frame,
   MechWeapon,
@@ -24,6 +25,7 @@ import {
 } from '@/class'
 import {
   IManufacturerData,
+  IFactionData,
   ICoreBonusData,
   IFrameData,
   IMechWeaponData,
@@ -32,7 +34,6 @@ import {
   IPilotEquipmentData,
   IPilotWeaponData,
   IPilotArmorData,
-  IPilotGearData,
   ITalentData,
   INpcClassData,
   INpcFeatureData,
@@ -55,6 +56,7 @@ export interface IContentPackManifest {
 }
 interface IContentPackData {
   manufacturers: IManufacturerData[]
+  factions: IFactionData[]
   coreBonuses: ICoreBonusData[]
   frames: IFrameData[]
   weapons: IMechWeaponData[]
@@ -107,6 +109,10 @@ export class ContentPack {
   private _Manufacturers: Manufacturer[] = []
   public get Manufacturers(): Manufacturer[] {
     return this._Manufacturers
+  }
+  private _Factions: Faction[] = []
+  public get Factions(): Faction[] {
+    return this._Factions
   }
 
   private _CoreBonuses: CoreBonus[] = []
@@ -181,6 +187,7 @@ export class ContentPack {
     this._id = id
 
     this._Manufacturers = this._data.manufacturers?.map(x => new Manufacturer(x)) || []
+    this._Factions = this._data.factions?.map(x => new Faction(x)) || []
     this._CoreBonuses = this._data.coreBonuses?.map(x => new CoreBonus(x)) || []
     this._Frames = this._data.frames?.map(x => new Frame(x)) || []
     this._MechWeapons = this._data.weapons?.map(x => new MechWeapon(x)) || []
@@ -190,7 +197,7 @@ export class ContentPack {
       this._data.pilotGear?.map(function(x) {
         if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
         else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
-        return new PilotGear(x as IPilotGearData)
+        return new PilotGear(x as IPilotEquipmentData)
       }) || []
     this._Talents = this._data.talents?.map(x => new Talent(x)) || []
     this._Tags = this._data.tags?.map(x => new Tag(x)) || []

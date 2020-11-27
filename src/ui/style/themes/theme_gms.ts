@@ -30,6 +30,7 @@ const theme = {
     background: '#EDEDED',
     panel: '#ccc',
     'light-panel': '#dbdbdb',
+    'dark-panel': '#d6d6d6',
     'panel-border': '#8a949e',
     'stark-panel': '#EDEDED',
 

@@ -18,18 +18,19 @@
       <v-card-text :style="noPad ? 'padding: 0!important' : ''">
         <slot />
       </v-card-text>
+      <div v-if="!noActions">
+        <v-divider></v-divider>
 
-      <v-divider></v-divider>
-
-      <v-card-actions v-if="noConfirm">
-        <v-spacer />
-        <v-btn text @click="hide">dismiss</v-btn>
-      </v-card-actions>
-      <v-card-actions v-else>
-        <v-btn text @click="hide">cancel</v-btn>
-        <v-spacer />
-        <cc-btn @click="confirm">confirm</cc-btn>
-      </v-card-actions>
+        <v-card-actions v-if="noConfirm">
+          <v-spacer />
+          <v-btn text @click="hide">dismiss</v-btn>
+        </v-card-actions>
+        <v-card-actions v-else>
+          <v-btn text @click="hide">cancel</v-btn>
+          <v-spacer />
+          <cc-btn @click="confirm">confirm</cc-btn>
+        </v-card-actions>
+      </div>
     </v-card>
   </v-dialog>
 </template>
@@ -54,6 +55,8 @@ export default class CCSoloDialog extends Vue {
 
   @Prop({ type: Boolean, required: false })
   readonly noConfirm?: boolean
+  @Prop({ type: Boolean, required: false })
+  readonly noActions?: boolean
   @Prop({ type: Boolean, required: false })
   readonly noPad?: boolean
   @Prop({ type: Boolean, required: false })

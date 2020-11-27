@@ -46,11 +46,11 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-@Component({name: 'cc-item-modal'})
+@Component({ name: 'cc-item-modal' })
 export default class CCItemModal extends Vue {
-  @Prop({type: Object, required: true})
+  @Prop({ type: Object, required: true })
   readonly item
-  @Prop({type: Boolean})
+  @Prop({ type: Boolean })
   readonly smallBtn: boolean
   truncate(str) {
     if (str.length > 26) return str.substring(0, 24) + '…'

@@ -1,6 +1,37 @@
 <template>
   <div>
-    <v-row dense align="center" justify="space-around" class="mt-n3">
+    <v-row align="start" dense class="mt-n1 ml-4 mr-2">
+      <v-col cols="auto">
+        <cc-tick-bar
+          :key="mech.CurrentMove"
+          :current="mech.CurrentMove"
+          :max="mech.MaxMove"
+          large
+          color="action--move"
+          full-icon="mdi-arrow-right-bold-hexagon-outline"
+          @update="state.SetMove($event)"
+        >
+          <span class="heading h3">
+            Movement
+          </span>
+        </cc-tick-bar>
+      </v-col>
+      <v-col cols="auto" align-self="end">
+        <cc-synergy-display large location="move" :mech="mech" class="d-inline" />
+      </v-col>
+      <v-col cols="auto" align-self="center" class="ml-auto text-center">
+        <fieldset class="ma-0 py-0 px-3" style="height: 100%;">
+          <legend class="overline px-1 mb-n1" style="line-height: 0">
+            Active Effects
+          </legend>
+          <cc-synergy-display large location="active_effects" :mech="mech" />
+        </fieldset>
+      </v-col>
+    </v-row>
+    <v-row align="start" class="mt-n3 mx-2">
+      <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+        <cc-synergy-display large location="structure" :mech="mech" class="d-inline" />
+      </v-col>
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStructure"
@@ -10,7 +41,7 @@
           color="structure"
           full-icon="cci-structure"
           :class="{ rolledOver: structRollover }"
-          @update="mech.CurrentStructure = $event"
+          @update="state.SetStructure($event)"
         >
           <span class="heading h3">
             Structure
@@ -18,6 +49,9 @@
         </cc-tick-bar>
       </v-col>
       <v-col v-if="mech.Armor" cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display large location="armor" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.Armor"
           :current="mech.Armor"
@@ -28,8 +62,11 @@
           hide-max
           readonly
         >
-          <span class="heading h3">Armor</span>
+          <span class="heading h3">Armor: {{ mech.Armor }}</span>
         </cc-tick-bar>
+      </v-col>
+      <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+        <cc-synergy-display large location="hp" :mech="mech" class="d-inline" />
       </v-col>
       <v-col cols="auto">
         <cc-tick-bar
@@ -39,13 +76,16 @@
           large
           color="hp"
           :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
-          max-length="30"
-          @update="mech.CurrentHP = $event"
+          :max-length="$vuetify.breakpoint.xl ? 35 : 25"
+          @update="state.SetHp($event)"
         >
           <span class="heading h3">HP</span>
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display large location="overshield" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.Overshield"
           :current="mech.Overshield"
@@ -55,27 +95,17 @@
           :full-icon="'mdi-octagram'"
           max-length="6"
           hide-max
-          @update="mech.Overshield = $event"
+          @update="state.SetOvershield($event)"
         >
-          <span class="heading h3">OVERSHIELD</span>
+          <span class="heading h3">OVERSHIELD: {{ mech.Overshield }}</span>
         </cc-tick-bar>
-      </v-col>
-      <v-col cols="auto">
-        <v-menu offset-y offset-x top nudge-left="30px">
-          <template v-slot:activator="{ on }">
-            <v-btn large icon class="fadeSelect" v-on="on">
-              <v-icon x-large>cci-repair</v-icon>
-            </v-btn>
-          </template>
-          <cc-confirmation
-            content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
-            @confirm="mech.FullRepair()"
-          />
-        </v-menu>
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-around">
+    <v-row align="start" class="mt-n3 mx-2">
+      <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+        <cc-synergy-display large location="stress" :mech="mech" class="d-inline" />
+      </v-col>
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentStress"
@@ -85,12 +115,15 @@
           color="stress"
           full-icon="cci-reactor"
           :class="{ rolledOver: stressRollover }"
-          @update="mech.CurrentStress = $event"
+          @update="state.SetStress($event)"
         >
-          <span class="heading h3">Reactor</span>
+          <span class="heading h3">Stress</span>
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display large location="heat" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.CurrentHeat"
           :current="mech.CurrentHeat"
@@ -99,7 +132,7 @@
           :color="mech.IsInDangerZone ? 'dangerzone' : 'heatcap'"
           :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
           clearable
-          @update="mech.CurrentHeat = $event"
+          @update="state.SetHeat($event)"
         >
           <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
             HEAT
@@ -119,14 +152,17 @@
         </div>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display large location="repairs" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.CurrentRepairs"
           :current="mech.CurrentRepairs"
           :max="mech.RepairCapacity"
           large
           color="repcap"
-          full-icon="control_point"
-          @update="mech.CurrentRepairs = $event"
+          full-icon="cci-repair"
+          @update="state.SetRepCap($event)"
         >
           <span class="heading h3">
             REPAIR CAPACITY
@@ -134,6 +170,34 @@
         </cc-tick-bar>
       </v-col>
       <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display large location="overcharge" :mech="mech" class="d-inline" />
+        </v-col>
+        <cc-tick-bar
+          :key="mech.CurrentOvercharge"
+          :current="mech.CurrentOvercharge"
+          :max="3"
+          large
+          no-input
+          clearable
+          color="overcharge"
+          full-icon="mdi-alert-decagram"
+          class="text-center"
+          hide-values
+          @update="state.SetOvercharge($event)"
+        >
+          <span class="heading h3">
+            Overcharge
+          </span>
+        </cc-tick-bar>
+        <div class="text-center caption overcharge--text font-weight-bold">
+          +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
+        </div>
+      </v-col>
+      <v-col cols="auto">
+        <v-col cols="auto" align-self="end" class="ma-0 pa-0">
+          <cc-synergy-display large location="core_energy" :mech="mech" class="d-inline" />
+        </v-col>
         <cc-tick-bar
           :key="mech.CurrentCoreEnergy"
           :current="mech.CurrentCoreEnergy"
@@ -146,7 +210,7 @@
           empty-icon="mdi-battery-10"
           full-icon="mdi-battery"
           hide-values
-          @update="mech.CurrentCoreEnergy = $event"
+          @update="state.SetCorePower($event)"
         >
           <span class="heading h3">CORE POWER</span>
         </cc-tick-bar>
@@ -158,28 +222,6 @@
         </div>
         <div v-else class="text-center caption subtle--text">
           EXHAUSTED
-        </div>
-      </v-col>
-      <v-col cols="auto">
-        <cc-tick-bar
-          :key="mech.CurrentOvercharge"
-          :current="mech.CurrentOvercharge"
-          :max="3"
-          large
-          no-input
-          clearable
-          color="overcharge"
-          full-icon="mdi-alert-decagram"
-          class="text-center"
-          hide-values
-          @update="mech.CurrentOvercharge = $event"
-        >
-          <span class="heading h3">
-            Overcharge
-          </span>
-        </cc-tick-bar>
-        <div class="text-center caption overcharge--text font-weight-bold">
-          {{ overcharge[mech.CurrentOvercharge] }}
         </div>
       </v-col>
     </v-row>
@@ -200,10 +242,8 @@ export default Vue.extend({
     hpResistance: { type: Boolean },
   },
   computed: {
-    overcharge(): string[] {
-      return this.mech.Pilot.has('corebonus', 'cb_heatfall_coolant_system')
-        ? [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6']
-        : [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4']
+    state() {
+      return this.mech.Pilot.State
     },
   },
 })
