@@ -2,8 +2,8 @@
   <v-container>
     {{ process }}
     {{ env }}
-    {{ process.env.FAUNADB_SECRET }}
-    {{ env.FAUNADB_SECRET }}
+    {{ process.env.GITHUB_TOKEN }}
+    {{ env.GITHUB_TOKEN }}
     <v-divider />
     <cc-title>new talent ui</cc-title>
     <talent-test />
