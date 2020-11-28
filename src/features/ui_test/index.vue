@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    {{ process }}
-    {{ env }}
     <v-divider />
     <cc-title>new talent ui</cc-title>
     <talent-test />
