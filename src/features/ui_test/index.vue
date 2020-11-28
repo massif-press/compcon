@@ -2,6 +2,8 @@
   <v-container>
     {{ process }}
     {{ env }}
+    {{ process.env.FAUNADB_SECRET }}
+    {{ env.FAUNADB_SECRET }}
     <v-divider />
     <cc-title>new talent ui</cc-title>
     <talent-test />
