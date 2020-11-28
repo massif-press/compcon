@@ -63,7 +63,7 @@ const vuetify = new Vuetify(theme)
 
 console.log(process.env)
 console.log(process.env.NODE_ENV)
-console.log(process.env.FAUNADB_SECRET)
+console.log(process.env.GITHUB_TOKEN)
 
 Vue.use(Vuetify)
 Vue.use(VueMousetrap)
