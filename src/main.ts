@@ -61,6 +61,10 @@ theme.theme.themes.light = activeTheme.colors
 
 const vuetify = new Vuetify(theme)
 
+console.log(process.env)
+console.log(process.env.NODE_ENV)
+console.log(process.env.FAUNADB_SECRET)
+
 Vue.use(Vuetify)
 Vue.use(VueMousetrap)
 Vue.use(TiptapVuetifyPlugin, {
