@@ -416,6 +416,7 @@
       <player-equipment-item
         v-for="(i, idx) in mech.ActiveLoadout.Equipment"
         :key="i.ID + idx"
+        :limited-bonus="mech.Pilot.LimitedBonus"
         :item="i"
       />
     </v-row>

@@ -19,6 +19,7 @@ interface IActionData {
   confirm?: string[]
   log?: string
   ignore_used?: boolean
+  heat_cost?: number
 }
 
 enum ActivePeriod {
@@ -127,6 +128,8 @@ class Action {
     this.Detail = data.detail || ''
     this.Cost = data.cost || 1
     this.HeatCost = heat || 0
+    // heat cost override
+    if (data.heat_cost || data.heat_cost === 0) this.HeatCost = data.heat_cost
     this.Frequency = new Frequency(data.frequency || '')
     this._uses = this.Frequency.Uses
     this.Init = data.init || ''

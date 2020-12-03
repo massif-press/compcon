@@ -26,7 +26,7 @@
             <cc-range-element :range="item.Range" small class="d-inline" />
           </v-col>
           <v-col v-if="item.MaxUses" cols="auto" class="mb-n1">
-            <cc-item-uses :item="item" />
+            <cc-item-uses :item="item" :bonus="limitedBonus" />
           </v-col>
           <v-col cols="auto" class="ml-auto">
             <v-dialog width="75vw">
@@ -63,6 +63,11 @@ export default Vue.extend({
     item: {
       type: Object,
       required: true,
+    },
+    limitedBonus: {
+      type: Number,
+      required: false,
+      default: 0,
     },
   },
 })

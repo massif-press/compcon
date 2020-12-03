@@ -302,6 +302,7 @@ class ActiveState {
   public StartMission(): void {
     this._mission += 1
     this._stats = ActiveState.NewCombatStats()
+    this._mech.FullRepair()
     this.SetLog({
       id: 'start_mission',
       event: 'MISSION.START',

@@ -280,7 +280,23 @@
                 :header="trait.Name"
                 subheader="FRAME TRAIT"
               >
-                <span v-html="trait.Description" />
+                <div v-html="trait.Description" />
+                <v-row dense>
+                  <v-col
+                    v-for="(a, j) in trait.Actions"
+                    :key="`${trait.Name}_action_${j}`"
+                    style="min-width: 40%"
+                    class="mb-n1"
+                  >
+                    <cc-action
+                      :action="a"
+                      active
+                      :activations="pilot.State.Actions"
+                      :disabled="mech.IsStunned"
+                      :unusable="a.Activation === 'Protocol' && !pilot.State.IsProtocolAvailable"
+                    />
+                  </v-col>
+                </v-row>
               </cc-active-card>
             </v-col>
             <v-col cols="8" align-self="center">
@@ -290,14 +306,22 @@
                 subheader="CORE SYSTEM"
                 style="height: 100%"
               >
-                <div v-if="mech.Frame.CoreSystem.PassiveName">
+                <div v-if="mech.Frame.CoreSystem.PassiveName" class="mb-2">
                   <span class="heading h2">
                     {{ mech.Frame.CoreSystem.PassiveName }}
                     <span class="pt-2 ml-2 caption subtle--text">(PASSIVE)</span>
                   </span>
                   <p class="mb-1" v-html="mech.Frame.CoreSystem.PassiveEffect" />
-                  <br />
-                  <br />
+                  <cc-action
+                    v-for="(a, i) in mech.Frame.CoreSystem.PassiveActions"
+                    :key="`core_passive_action_${i}`"
+                    :action="a"
+                    active
+                    :activations="mech.Pilot.State.Actions"
+                    :disabled="mech.Destroyed || mech.IsStunned"
+                    :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
+                    class="mx-8"
+                  />
                 </div>
                 <span class="heading h2">
                   {{ mech.Frame.CoreSystem.ActiveName }}
@@ -313,6 +337,16 @@
                   >
                     CORE ENERGY EXHAUSTED
                   </div>
+                  <cc-action
+                    v-for="(a, i) in mech.Frame.CoreSystem.ActiveActions"
+                    :key="`core_active_action_${i}`"
+                    :action="a"
+                    active
+                    :activations="mech.Pilot.State.Actions"
+                    :disabled="mech.Destroyed || mech.IsStunned"
+                    :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
+                    class="mx-8"
+                  />
                 </div>
                 <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
               </cc-active-card>
@@ -490,11 +524,6 @@ export default vueMixins(activePilot).extend({
     },
     coreActivator() {
       return this.mech.Actions.find(x => x.ID === 'core_active_activate')
-    },
-    overcharge(): string[] {
-      return this.pilot.has('corebonus', 'cb_heatfall_coolant_system')
-        ? [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6']
-        : [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4']
     },
     loadout(): MechLoadout {
       return this.mech.ActiveLoadout

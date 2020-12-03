@@ -15,7 +15,7 @@
       />
       <v-divider />
       <v-card-actions>
-        <v-btn small text @click="cn_dialog = false">Cancel</v-btn>
+        <v-btn small text @click="dialog = false">Cancel</v-btn>
         <v-spacer />
         <v-btn v-if="!number" small text color="primary" @click="reset()">Reset</v-btn>
         <v-btn small text color="success darken-1" @click="confirm()">Save</v-btn>

@@ -454,9 +454,7 @@ class Pilot {
   }
 
   public get MaxHP(): number {
-    const health = Rules.BasePilotHP + this.Grit
-    const bonus = Bonus.getPilot('pilot_hp', this)
-    return health + bonus
+    return Bonus.IntPilot(Rules.BasePilotHP + this.Grit, 'pilot_hp', this)
   }
 
   public get CurrentHP(): number {
@@ -477,15 +475,15 @@ class Pilot {
   }
 
   public get Armor(): number {
-    return Bonus.getPilot('pilot_armor', this)
+    return Bonus.IntPilot(0, 'pilot_armor', this)
   }
 
   public get Speed(): number {
-    return Rules.BasePilotSpeed + Bonus.getPilot('pilot_speed', this)
+    return Bonus.IntPilot(Rules.BasePilotSpeed, 'pilot_speed', this)
   }
 
   public get Evasion(): number {
-    return Rules.BasePilotEvasion + Bonus.getPilot('pilot_evasion', this)
+    return Bonus.IntPilot(Rules.BasePilotEvasion, 'pilot_evasion', this)
   }
 
   public get EDefense(): number {
@@ -499,7 +497,7 @@ class Pilot {
   }
 
   public get LimitedBonus(): number {
-    return Math.floor(this.MechSkills.Eng / 2) + Bonus.getPilot('limited_bonus', this)
+    return Bonus.IntPilot(Math.floor(this.MechSkills.Eng / 2), 'limited_bonus', this)
   }
 
   // -- Skills ------------------------------------------------------------------------------------
@@ -517,7 +515,7 @@ class Pilot {
   }
 
   public get MaxSkillPoints(): number {
-    return Rules.MinimumPilotSkills + this._level + Bonus.getPilot('skill_point', this)
+    return Bonus.IntPilot(Rules.MinimumPilotSkills + this._level, 'skill_point', this)
   }
 
   public get IsMissingSkills(): boolean {
@@ -598,7 +596,7 @@ class Pilot {
   }
 
   public get MaxTalentPoints(): number {
-    return Rules.MinimumPilotTalents + this._level + Bonus.getPilot('talent_point', this)
+    return Bonus.IntPilot(Rules.MinimumPilotTalents + this._level, 'talent_point', this)
   }
 
   public get IsMissingTalents(): boolean {
@@ -681,7 +679,7 @@ class Pilot {
   }
 
   public get MaxCBPoints(): number {
-    return Math.floor(this._level / 3) + Bonus.getPilot('cb_point', this)
+    return Bonus.IntPilot(Math.floor(this._level / 3), 'cb_point', this)
   }
 
   public get IsMissingCBs(): boolean {
@@ -824,7 +822,7 @@ class Pilot {
   }
 
   public get MaxHASEPoints(): number {
-    return Rules.MinimumMechSkills + this._level + Bonus.getPilot('mech_skill_point', this)
+    return Bonus.IntPilot(Rules.MinimumMechSkills + this._level, 'mech_skill_point', this)
   }
 
   public get IsMissingHASE(): boolean {
@@ -927,6 +925,7 @@ class Pilot {
 
   public set ActiveMech(mech: Mech | null) {
     this._state.ActiveMech = mech
+    this.save()
   }
 
   // -- COUNTERS ----------------------------------------------------------------------------------

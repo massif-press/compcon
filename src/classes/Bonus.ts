@@ -8,6 +8,8 @@ interface IBonusData {
   range_types?: RangeType[]
   weapon_types?: WeaponType[]
   weapon_sizes?: WeaponSize[]
+  overwrite?: boolean
+  replace?: boolean
 }
 
 class Bonus {
@@ -19,6 +21,8 @@ class Bonus {
   public readonly RangeTypes: RangeType[]
   public readonly WeaponTypes: WeaponType[]
   public readonly WeaponSizes: WeaponSize[]
+  public readonly Overwrite: boolean
+  public readonly Replace: boolean
 
   public constructor(data: IBonusData) {
     const entry = dict.find(x => x.id === data.id)
@@ -30,6 +34,8 @@ class Bonus {
     this.WeaponSizes = data.weapon_sizes || []
     this.Title = entry ? entry.title : 'UNKNOWN BONUS'
     this.Detail = entry ? this.parseDetail(entry.detail) : 'UNKNOWN BONUS'
+    this.Overwrite = data.overwrite
+    this.Replace = data.replace
   }
 
   private parseDetail(detail): string {
@@ -56,6 +62,21 @@ class Bonus {
     return str
   }
 
+  public static IntPilot(base: number, id: string, pilot: Pilot): number {
+    const replace = pilot.Bonuses.filter(x => x.ID === id && x.Replace)
+    let val = base
+    if (replace.length) val = replace.reduce((sum, bonus) => sum + this.Evaluate(bonus, pilot), 0)
+    return val + this.getPilot(id, pilot)
+  }
+
+  public static Int(base: number, id: string, mech: Mech): number {
+    const replace = mech.Bonuses.filter(x => x.ID === id && x.Replace)
+    let val = base
+    if (replace.length)
+      val = replace.reduce((sum, bonus) => sum + this.Evaluate(bonus, mech.Pilot), 0)
+    return val + this.get(id, mech)
+  }
+
   public static Evaluate(bonus: Bonus, pilot: Pilot): number {
     if (Array.isArray(bonus.Value)) return
     if (typeof bonus.Value === 'number') return Math.ceil(bonus.Value)
@@ -67,10 +88,14 @@ class Bonus {
   }
 
   public static get(id: string, mech: Mech): number {
-    return mech.Bonuses.filter(x => x.ID === id).reduce(
-      (sum, bonus) => sum + this.Evaluate(bonus, mech.Pilot),
-      0
-    )
+    let bArr = mech.Bonuses.filter(x => x.ID === id && !x.Replace)
+    if (bArr.some(b => b.Overwrite)) {
+      bArr = bArr.filter(x => x.Overwrite)
+      return (bArr as any[]).reduce((prev, current) =>
+        +prev.Value > +current.Value ? prev : current
+      ).Value
+    }
+    return bArr.reduce((sum, bonus) => sum + this.Evaluate(bonus, mech.Pilot), 0)
   }
 
   public static getUneval(id: string, mech: Mech): any {
@@ -78,10 +103,14 @@ class Bonus {
   }
 
   public static getPilot(id: string, pilot: Pilot): number {
-    return pilot.Bonuses.filter(x => x.ID === id).reduce(
-      (sum, bonus) => sum + this.Evaluate(bonus, pilot),
-      0
-    )
+    let bArr = pilot.Bonuses.filter(x => x.ID === id && !x.Replace)
+    if (bArr.some(b => b.Overwrite)) {
+      bArr = bArr.filter(x => x.Overwrite)
+      return (bArr as any[]).reduce((prev, current) =>
+        +prev.Value > +current.Value ? prev : current
+      ).Value
+    }
+    return bArr.reduce((sum, bonus) => sum + this.Evaluate(bonus, pilot), 0)
   }
 
   private static MechContributors(m: Mech, id: string): { name: string; val: number }[] {
