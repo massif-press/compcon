@@ -7,6 +7,8 @@ interface IMechEquipmentData extends ILicensedItemData {
   effect: string
   talent_item?: boolean
   frame_id?: boolean
+  // TODO: expand
+  ammo?: any[]
 }
 
 abstract class MechEquipment extends LicensedItem {
@@ -28,6 +30,8 @@ abstract class MechEquipment extends LicensedItem {
   public readonly IsOrdnance: boolean
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
+  // TODO: expand
+  public readonly Ammo: any[]
 
   public constructor(data: IMechEquipmentData) {
     super(data)
@@ -53,10 +57,10 @@ abstract class MechEquipment extends LicensedItem {
       this._max_uses = 0
     }
     this._uses = this._max_uses
+    this.Ammo = data.ammo || []
   }
 
   public Use(cost?: number, free?: boolean): void {
-    console.log('using item. free ? ', free, 'cost', cost)
     if (!free) {
       if (!this.CheckUsable(cost)) return
       this._used = true
@@ -66,7 +70,6 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public Undo(cost?: number): void {
-    console.log('undo -- cost:', cost)
     if (cost) this.Uses += cost
     if (this.IsLoading) this._loaded = true
     this._used = false

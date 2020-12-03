@@ -27,6 +27,14 @@
       </v-row>
     </div>
 
+    <div v-if="item.Ammo.length">
+      <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
+        <b>{{ a.name }}</b>
+        :
+        <span v-html="a.detail" />
+      </div>
+    </div>
+
     <div v-if="item.Deployables.length">
       <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
       <v-row no-gutters justify="center">

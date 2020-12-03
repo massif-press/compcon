@@ -256,8 +256,7 @@ class Mech implements IActor {
   }
 
   public get Size(): number {
-    const bonus = Bonus.get('size', this)
-    let size = this._frame.Size + bonus
+    let size = Bonus.Int(this._frame.Size, 'size', this)
     if (size > 0.5 && size % 1 !== 0) size = Math.ceil(size)
     return size > Rules.MaxFrameSize ? Rules.MaxFrameSize : size
   }
@@ -272,8 +271,7 @@ class Mech implements IActor {
   }
 
   public get Armor(): number {
-    const bonus = Bonus.get('armor', this)
-    const armor = this._frame.Armor + bonus
+    const armor = Bonus.Int(this._frame.Armor, 'armor', this)
     return armor > Rules.MaxMechArmor ? Rules.MaxMechArmor : armor
   }
 
@@ -287,8 +285,7 @@ class Mech implements IActor {
   }
 
   public get SaveTarget(): number {
-    const bonus = Bonus.get('save', this) + this._pilot.Grit
-    return this._frame.SaveTarget + bonus
+    return Bonus.Int(this._frame.SaveTarget, 'save', this) + this._pilot.Grit
   }
 
   public get SaveTargetContributors(): string[] {
@@ -305,8 +302,7 @@ class Mech implements IActor {
 
   public get Evasion(): number {
     if (this.IsStunned) return 5
-    const bonus = Bonus.get('evasion', this) + this.Agi
-    return this._frame.Evasion + bonus
+    return Bonus.Int(this._frame.Evasion + this.Agi, 'evasion', this)
   }
 
   public get EvasionContributors(): string[] {
@@ -323,8 +319,7 @@ class Mech implements IActor {
   }
 
   public get Speed(): number {
-    const bonus = Bonus.get('speed', this) + Math.floor(this.Agi / 2)
-    return this._frame.Speed + bonus
+    return Bonus.Int(this._frame.Speed + Math.floor(this.Agi / 2), 'speed', this)
   }
 
   public get SpeedContributors(): string[] {
@@ -340,8 +335,7 @@ class Mech implements IActor {
   }
 
   public get SensorRange(): number {
-    const bonus = Bonus.get('sensor', this)
-    return this._frame.SensorRange + bonus
+    return Bonus.Int(this._frame.SensorRange, 'sensor', this)
   }
 
   public get SensorRangeContributors(): string[] {
@@ -354,8 +348,7 @@ class Mech implements IActor {
   }
 
   public get EDefense(): number {
-    const bonus = Bonus.get('edef', this) + this.Sys
-    return this._frame.EDefense + bonus
+    return Bonus.Int(this._frame.EDefense + this.Sys, 'edef', this)
   }
 
   public get EDefenseContributors(): string[] {
@@ -371,8 +364,7 @@ class Mech implements IActor {
   }
 
   public get LimitedBonus(): number {
-    const bonus = Bonus.get('limited_bonus', this)
-    return Math.floor(this.Eng / 2) + bonus
+    return Bonus.Int(Math.floor(this.Eng / 2), 'limited_bonus', this)
   }
 
   public get LimitedContributors(): string[] {
@@ -385,8 +377,7 @@ class Mech implements IActor {
   }
 
   public get AttackBonus(): number {
-    const bonus = Bonus.get('attack', this)
-    return this._pilot.Grit + bonus
+    return Bonus.Int(this._pilot.Grit, 'attack', this)
   }
 
   public get AttackBonusContributors(): string[] {
@@ -399,8 +390,7 @@ class Mech implements IActor {
   }
 
   public get TechAttack(): number {
-    const bonus = Bonus.get('tech_attack', this) + this.Sys
-    return this._frame.TechAttack + bonus
+    return Bonus.Int(this._frame.TechAttack + this.Sys, 'tech_attack', this)
   }
 
   public get TechAttackContributors(): string[] {
@@ -416,8 +406,7 @@ class Mech implements IActor {
   }
 
   public get Grapple(): number {
-    const bonus = Bonus.get('grapple', this)
-    return Rules.BaseGrapple + bonus
+    return Bonus.Int(Rules.BaseGrapple, 'grapple', this)
   }
 
   public get GrappleContributors(): string[] {
@@ -430,8 +419,7 @@ class Mech implements IActor {
   }
 
   public get Ram(): number {
-    const bonus = Bonus.get('ram', this)
-    return Rules.BaseRam + bonus
+    return Bonus.Int(Rules.BaseRam, 'ram', this)
   }
 
   public get RamContributors(): string[] {
@@ -444,8 +432,7 @@ class Mech implements IActor {
   }
 
   public get SaveBonus(): number {
-    const bonus = Bonus.get('save', this)
-    return this._pilot.Grit + bonus
+    return Bonus.Int(this._pilot.Grit, 'save', this)
   }
 
   public get SaveBonusContributors(): string[] {
@@ -488,8 +475,7 @@ class Mech implements IActor {
   }
 
   public get MaxStructure(): number {
-    const bonus = Bonus.get('structure', this)
-    return this._frame.Structure + bonus
+    return Bonus.Int(this._frame.Structure, 'structure', this)
   }
 
   public get StructureContributors(): string[] {
@@ -532,8 +518,7 @@ class Mech implements IActor {
   }
 
   public get MaxHP(): number {
-    const bonus = Bonus.get('hp', this) + this._pilot.Grit + this.Hull * 2
-    return this._frame.HP + bonus
+    return Bonus.Int(this._frame.HP + this._pilot.Grit + this.Hull * 2, 'hp', this)
   }
 
   public get HPContributors(): string[] {
@@ -555,8 +540,7 @@ class Mech implements IActor {
   }
 
   public get MaxSP(): number {
-    const bonus = Bonus.get('sp', this) + this._pilot.Grit + Math.floor(this.Sys / 2)
-    return this.Frame.SP + bonus
+    return Bonus.Int(this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2), 'sp', this)
   }
 
   public get FreeSP(): number {
@@ -614,8 +598,7 @@ class Mech implements IActor {
   }
 
   public get HeatCapacity(): number {
-    const bonus = Bonus.get('heatcap', this) + this.Eng
-    return this._frame.HeatCap + bonus
+    return Bonus.Int(this._frame.HeatCap + this.Eng, 'heatcap', this)
   }
 
   public get HeatCapContributors(): string[] {
@@ -642,8 +625,7 @@ class Mech implements IActor {
   }
 
   public get MaxStress(): number {
-    const bonus = Bonus.get('stress', this)
-    return this._frame.HeatStress + bonus
+    return Bonus.Int(this._frame.HeatStress, 'stress', this)
   }
 
   public get StressContributors(): string[] {
@@ -667,8 +649,7 @@ class Mech implements IActor {
   }
 
   public get RepairCapacity(): number {
-    const bonus = Bonus.get('repcap', this) + Math.floor(this.Hull / 2)
-    return this._frame.RepCap + bonus
+    return Bonus.Int(this._frame.RepCap + Math.floor(this.Hull / 2), 'repcap', this)
   }
 
   public get RepCapContributors(): string[] {

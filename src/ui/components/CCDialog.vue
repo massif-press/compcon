@@ -8,7 +8,7 @@
     </v-btn>
     <v-dialog
       v-model="dialog"
-      :fullscreen="fullscreen"
+      :fullscreen="fullscreen || $vuetify.breakpoint.mdAndDown"
       :width="small ? '30vw' : large ? '80vw' : '50vw'"
     >
       <v-card tile class="background">
@@ -23,7 +23,9 @@
 
         <v-divider></v-divider>
 
-        <v-card-actions v-if="noConfirm && !noDismiss">
+        <v-card-actions
+          v-if="fullscreen || $vuetify.breakpoint.mdAndDown || (noConfirm && !noDismiss)"
+        >
           <v-spacer />
           <v-btn text @click="dialog = false">dismiss</v-btn>
         </v-card-actions>

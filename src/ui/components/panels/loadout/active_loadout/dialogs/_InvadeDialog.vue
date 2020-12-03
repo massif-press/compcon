@@ -114,7 +114,7 @@
                   <div class="overline mt-n2 mr-n6 pl-3">Tech Attack Roll</div>
                   <v-row no-gutters>
                     <v-col class="mr-n2 ml-n2">
-                      <cc-tooltip title="Roll Melee Attack" :content="rollResultTooltip">
+                      <cc-tooltip title="Roll Tech Attack" :content="rollResultTooltip">
                         <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollSkill">
                           <v-icon large>mdi-dice-multiple</v-icon>
                         </v-btn>

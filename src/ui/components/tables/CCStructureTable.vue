@@ -70,7 +70,7 @@
           </v-card-text>
           <v-divider />
           <v-card-actions>
-            <v-btn text small @click="dialog = false">dismiss</v-btn>
+            <v-btn text small @click="close()">dismiss</v-btn>
             <v-spacer />
             <v-btn
               color="primary"
@@ -86,7 +86,7 @@
         <table-window-item
           :title="resultData[0].name"
           :content="resultData[0].description"
-          @dismiss="$emit('dismiss')"
+          @dismiss="close()"
           @previous="window = 0"
           @confirm="applyGlancingBlow()"
         />
@@ -96,7 +96,7 @@
             (systemTraumaRoll <= 3 && destroyedMount === null) ||
               (systemTraumaRoll > 3 && !destroyedSystem)
           "
-          @dismiss="$emit('dismiss')"
+          @dismiss="close()"
           @previous="window = 0"
           @confirm="applySystemTrauma()"
         >
@@ -141,7 +141,7 @@
         <table-window-item
           :title="resultData[2].name"
           other-btn
-          @dismiss="$emit('dismiss')"
+          @dismiss="close()"
           @previous="window = 0"
         >
           <p
@@ -166,7 +166,7 @@
         <table-window-item
           :title="resultData[3].name"
           :content="resultData[3].description"
-          @dismiss="$emit('dismiss')"
+          @dismiss="close()"
           @previous="window = 0"
           @confirm="applyDestroyed()"
         />
