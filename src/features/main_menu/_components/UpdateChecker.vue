@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import updateChecker from '@/classes/utility/UpdateChecker'
@@ -23,8 +24,6 @@ export default class UpdatesTracker extends Vue {
   updateFound = false
   checking = false
   async checkUpdates() {
-    console.log('checking....')
-
     this.checking = true
 
     await updateChecker.checkUpdates()

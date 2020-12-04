@@ -1,6 +1,6 @@
 import { CompendiumItem, ItemType, Manufacturer } from '@/class'
 import { store } from '@/store'
-import { ICompendiumItemData, ICounterData } from '@/interface'
+import { ICompendiumItemData, ICounterData, ITagCompendiumData } from '@/interface'
 import { IActionData } from '../Action'
 import { IBonusData } from '../Bonus'
 import { ISynergyData } from '../Synergy'
@@ -23,8 +23,8 @@ class CoreBonus extends CompendiumItem {
   public readonly Effect: string
   public readonly MountedEffect: string
 
-  public constructor(cbData?: ICoreBonusData) {
-    super(cbData)
+  public constructor(cbData?: ICoreBonusData, packTags?: ITagCompendiumData[]) {
+    super(cbData, packTags)
     this.Source = cbData.source
     this.Effect = cbData.effect
     this.MountedEffect = cbData.mounted_effect || ''

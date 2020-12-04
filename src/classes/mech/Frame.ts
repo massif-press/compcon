@@ -1,5 +1,5 @@
 import { LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
-import { ILicensedItemData, ICoreData } from '@/interface'
+import { ILicensedItemData, ICoreData, ITagCompendiumData } from '@/interface'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { FrameTrait, IFrameTraitData } from './FrameTrait'
 
@@ -42,8 +42,8 @@ class Frame extends LicensedItem {
   private _image_url?: string
   private _stats: IFrameStats
 
-  public constructor(frameData: IFrameData) {
-    super(frameData)
+  public constructor(frameData: IFrameData, packTags?: ITagCompendiumData[]) {
+    super(frameData, packTags)
     this.MechType = frameData.mechtype
     this.YPosition = frameData.y_pos || 30
     this.Mounts = frameData.mounts

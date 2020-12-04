@@ -114,5 +114,8 @@ export default Vue.extend({
       this.item.SetProfileSelection(newval, true)
     },
   },
+  mounted() {
+    this.tab = this.item.ProfileIndex
+  },
 })
 </script>

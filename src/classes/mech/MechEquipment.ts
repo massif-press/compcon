@@ -1,5 +1,5 @@
 import { LicensedItem } from '@/class'
-import { ILicensedItemData } from '@/interface'
+import { ILicensedItemData, ITagCompendiumData } from '@/interface'
 
 interface IMechEquipmentData extends ILicensedItemData {
   sp: number
@@ -33,8 +33,8 @@ abstract class MechEquipment extends LicensedItem {
   // TODO: expand
   public readonly Ammo: any[]
 
-  public constructor(data: IMechEquipmentData) {
-    super(data)
+  public constructor(data: IMechEquipmentData, packTags?: ITagCompendiumData[]) {
+    super(data, packTags)
     this.SP = data.sp || 0
     this.Effect = data.effect
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated')

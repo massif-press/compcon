@@ -24,7 +24,7 @@
           v-for="(w, j) in mech.Pilot.Loadout.Weapons"
           :key="`weap_${j}`"
           :item="w"
-          color="action--full"
+          :color="!used ? 'action--reaction' : 'grey darken-2'"
           @click="pilotOverwatch(w)"
         />
       </v-container>
@@ -67,6 +67,7 @@ export default Vue.extend({
     SelFightDialog,
   },
   props: {
+    used: { type: Boolean },
     mech: {
       type: Object,
       required: true,
@@ -87,6 +88,7 @@ export default Vue.extend({
   },
   methods: {
     canOverwatch(item) {
+      if (this.used) return false
       return !this.state.OverwatchedWeapons.includes(item.ID)
     },
     completeOverwatch() {

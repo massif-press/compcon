@@ -39,14 +39,14 @@ abstract class CompendiumItem {
   protected _flavor_name: string
   protected _flavor_description: string
 
-  public constructor(data?: ICompendiumItemData) {
+  public constructor(data?: ICompendiumItemData, packTags?: ITagCompendiumData[]) {
     this.ItemType = ItemType.None
     if (data) {
       this.ID = data.id
       this._name = data.name
       this._description = data.description || ''
       this.Brew = data.brew || 'Core'
-      this.Tags = Tag.Deserialize(data.tags)
+      this.Tags = Tag.Deserialize(data.tags, packTags)
       const heatTag = this.Tags.find(x => x.IsHeatCost)
       const heatCost = heatTag ? heatTag.Value : 0
       this.Actions = data.actions

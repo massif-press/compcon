@@ -19,7 +19,6 @@ import {
 } from '@/interface'
 import ExtLog from './ExtLog'
 
-
 const isValidManifest = function(obj: any): obj is IContentPackManifest {
   return (
     'name' in obj &&
@@ -60,23 +59,25 @@ async function getZipData<T>(zip: JSZip, filename: string): Promise<T[]> {
 const parseContentPack = async function(binString: string): Promise<IContentPack> {
   const zip = await JSZip.loadAsync(binString)
 
-
   const manifest = await readZipJSON<IContentPackManifest>(zip, 'lcp_manifest.json')
   if (!manifest) throw new Error('Content pack has no manifest')
   if (!isValidManifest(manifest)) throw new Error('Content manifest is invalid')
 
   const generateItemID = (type: string, name: string): string => {
-    const sanitizedName = name.replace(/[ \/-]/g, "_").replace(/[^A-Za-z0-9_]/g, "").toLowerCase()
+    const sanitizedName = name
+      .replace(/[ \/-]/g, '_')
+      .replace(/[^A-Za-z0-9_]/g, '')
+      .toLowerCase()
     return `${manifest.item_prefix}__${type}_${sanitizedName}`
   }
 
   function generateIDs<T extends ICompendiumItemData>(data: T[], dataPrefix: string): T[] {
-    return data.map(x => ({...x, id: x.id || generateItemID(dataPrefix, x.name)}))
+    return data.map(x => ({ ...x, id: x.id || generateItemID(dataPrefix, x.name) }))
   }
 
   const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json')
   const factions = await getZipData<IFactionData>(zip, 'factions.json')
-  const coreBonuses = generateIDs(await getZipData<ICoreBonusData>(zip, 'core_bonus.json'), 'cb')
+  const coreBonuses = generateIDs(await getZipData<ICoreBonusData>(zip, 'core_bonuses.json'), 'cb')
   const frames = generateIDs(await getZipData<IFrameData>(zip, 'frames.json'), 'mf')
   const weapons = generateIDs(await getZipData<IMechWeaponData>(zip, 'weapons.json'), 'mw')
   const systems = generateIDs(await getZipData<IMechSystemData>(zip, 'systems.json'), 'ms')
@@ -88,7 +89,6 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
   const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || []
   const npcFeatures = (await readZipJSON<INpcFeatureData[]>(zip, 'npc_features.json')) || []
   const npcTemplates = (await readZipJSON<INpcTemplateData[]>(zip, 'npc_templates.json')) || []
-
 
   const id = await getPackID(manifest)
 
@@ -110,7 +110,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
       npcClasses,
       npcFeatures,
       npcTemplates,
-    }
+    },
   }
 }
 

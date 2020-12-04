@@ -207,7 +207,6 @@ export default Vue.extend({
       this.state.RegisterBarrage(free)
     },
     completeSkirmish(free) {
-      console.log('from weapon activators - free: ', free)
       this.state.RegisterSkirmish(free)
     },
   },

@@ -10,6 +10,7 @@ interface IDeployableData extends ICompendiumItemData {
   detail: string
   type: string // this is for UI furnishing only
   activation: ActivationType
+  instances?: number
   deactivation?: ActivationType
   recall?: ActivationType
   redeploy?: ActivationType
@@ -64,6 +65,7 @@ class Deployable extends CompendiumItem {
   public readonly IsMechDeployable: boolean
   public readonly Recall: ActivationType | null
   public readonly Redeploy: ActivationType | null
+  public readonly Instances: number
   private _current_hp: number
   private _current_heat: number
   private _current_repairs: number
@@ -98,6 +100,7 @@ class Deployable extends CompendiumItem {
     this.TechAttack = (data.tech_attack || 0) + Bonus.get('deployable_tech_attack', owner)
     this.Save = (data.save || 0) + Bonus.get('deployable_save', owner)
     this.Speed = (data.speed || 0) + Bonus.get('deployable_speed', owner)
+    this.Instances = data.instances || 1
     this._overshield = 0
     this._current_heat = 0
     this._current_repairs = 0

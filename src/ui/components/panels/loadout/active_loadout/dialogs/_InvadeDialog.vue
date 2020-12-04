@@ -311,7 +311,6 @@ export default Vue.extend({
       let l = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.']
       if (this.succeeded) {
         l.push('SYSTEM INVASION SUCCESSFUL.')
-        console.log(this.selected)
         l = l.concat(this.selected.Log)
       } else l.push('ACCESS DENIED. INVASION FAILURE RECORDED.')
       return l

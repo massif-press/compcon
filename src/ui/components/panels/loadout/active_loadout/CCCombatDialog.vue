@@ -98,7 +98,6 @@ export default Vue.extend({
     },
     undo() {
       this.mech.Pilot.State.UndoAction(this.action)
-      console.log('emitting undo')
       this.$emit('undo')
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this

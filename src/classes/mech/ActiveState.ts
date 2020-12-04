@@ -303,6 +303,7 @@ class ActiveState {
     this._mission += 1
     this._stats = ActiveState.NewCombatStats()
     this._mech.FullRepair()
+    this.save()
     this.SetLog({
       id: 'start_mission',
       event: 'MISSION.START',
@@ -481,7 +482,12 @@ class ActiveState {
     this.Actions -= activationCost
     if (action.HeatCost) this._mech.CurrentHeat += action.HeatCost
 
-    if (action.Deployable) this.Deploy(action.Deployable)
+    if (action.Deployable) {
+      const instances = action.Deployable.instances || 1
+      for (let i = 0; i < instances; i++) {
+        this.Deploy(action.Deployable)
+      }
+    }
 
     if (action.ID === 'act_overcharge') this.CommitOvercharge()
     if (action.ID === 'act_stabilize') this.CommitStabilize()

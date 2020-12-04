@@ -46,17 +46,21 @@ class FrameTrait {
     if (!this._integrated) return []
     return this._integrated.map(x => {
       const w = store.getters.referenceByID('MechWeapons', x)
-      if (w) return w
+      if (w.Name) return w
       return store.getters.referenceByID('MechSystems', x)
     })
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
-    return this._integrated.map(x => store.getters.referenceByID('MechWeapons', x))
+    return this._integrated
+      .map(x => store.getters.referenceByID('MechWeapons', x))
+      .filter(x => !x.err)
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this._integrated.map(x => store.getters.referenceByID('MechSystems', x))
+    return this._integrated
+      .map(x => store.getters.referenceByID('MechSystems', x))
+      .filter(x => !x.err)
   }
 }
 
