@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '@/class'
-import { ICounterData } from '@/interface'
+import { ICounterData, ITagCompendiumData } from '@/interface'
 import _ from 'lodash'
 import { IActionData, Action } from './Action'
 import { IBonusData, Bonus } from './Bonus'
