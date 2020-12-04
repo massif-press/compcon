@@ -24,7 +24,7 @@
                 <v-btn icon @click="rolls.splice(n - 1, 1)">
                   <v-icon
                     x-large
-                    :color="rolls[n - 1] === 1 ? 'error' : 'black'"
+                    :color="rolls[n - 1] === 1 ? 'error' : 'stark'"
                     v-html="`mdi-dice-${rolls[n - 1]}`"
                   />
                 </v-btn>
@@ -38,6 +38,18 @@
             <br />
             <v-scroll-y-transition group leave-absolute>
               <div v-if="rolls.length < totalRolls" key="tr01" class="d-inline">
+                <cc-tooltip inline content="Roll Die">
+                  <v-btn
+                    icon
+                    color="accent"
+                    class="mt-n1 mb-1"
+                    :disabled="rolls.length === totalRolls"
+                    @click="rolls.push(rollRandom())"
+                  >
+                    <v-icon large>mdi-dice-multiple</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+                <v-divider vertical class="mr-3" />
                 <v-btn
                   v-for="n in 6"
                   :key="`rb${n}`"
@@ -66,11 +78,22 @@
                   </span>
                 </v-scroll-y-transition>
               </div>
+              <div v-if="rolls.length === totalRolls" :key="'undo_1'" class="text-right">
+                <v-btn
+                  x-small
+                  color="primary"
+                  class="fadeSelect"
+                  @click="rolls.splice(0, rolls.length)"
+                >
+                  <v-icon small left>mdi-reload</v-icon>
+                  UNDO
+                </v-btn>
+              </div>
             </v-scroll-y-transition>
           </v-card-text>
           <v-divider />
           <v-card-actions>
-            <v-btn color="warning" @click="dialog = false">dismiss</v-btn>
+            <v-btn color="warning" text @click="dialog = false">dismiss</v-btn>
             <v-spacer />
             <v-btn
               color="primary"
@@ -188,6 +211,10 @@ export default class CCStressTable extends Vue {
         return 3
     }
     return 4
+  }
+
+  rollRandom(): number {
+    return Math.floor(Math.random() * 6) + 1
   }
 
   applyES(): void {

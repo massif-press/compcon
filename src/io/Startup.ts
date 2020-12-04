@@ -17,8 +17,7 @@ export default function(lancerVer: string, ccVer: string, store: any): void {
 
   const dataStore = getModule(CompendiumStore, store)
   dataStore.setVersions(lancerVer, ccVer)
-  dataStore.loadData()
-  dataStore.loadExtraContent()
+  dataStore.loadExtraContent().then(() => dataStore.loadData())
 
   validateImageFolders()
 

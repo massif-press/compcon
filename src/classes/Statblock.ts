@@ -261,12 +261,6 @@ class Statblock {
       (item, index) =>
         `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
     ).join('')
-    console.log(
-      npc.Items.map(
-        (item, index) =>
-          `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
-      ).join('')
-    )
     return output
   }
 }

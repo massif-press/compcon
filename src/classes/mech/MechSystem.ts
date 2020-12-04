@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import { MechEquipment, SystemType, ItemType } from '@/class'
-import { IMechEquipmentData } from '@/interface'
+import { IMechEquipmentData, ITagCompendiumData } from '@/interface'
 
 interface IMechSystemData extends IMechEquipmentData {
   type: SystemType
@@ -9,8 +9,8 @@ interface IMechSystemData extends IMechEquipmentData {
 class MechSystem extends MechEquipment {
   private _system_type: SystemType
 
-  public constructor(systemData: IMechSystemData) {
-    super(systemData)
+  public constructor(systemData: IMechSystemData, packTags?: ITagCompendiumData[]) {
+    super(systemData, packTags)
     this._system_type = systemData.type || SystemType.System
     this.ItemType = ItemType.MechSystem
   }

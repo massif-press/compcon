@@ -77,7 +77,6 @@ export default Vue.extend({
       )
     },
     reserves() {
-      console.log(reserves)
       return reserves.filter(x => x.type === this.type)
     },
   },

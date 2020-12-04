@@ -1,13 +1,14 @@
 import { ItemType } from '@/class'
 import { store } from '@/store'
-import { ICompendiumItemData } from '@/interface'
+// import { ICompendiumItemData } from '@/interface'
 
-export interface ITagCompendiumData extends ICompendiumItemData {
+export interface ITagCompendiumData {
   id: string
   name: string
   description: string
   filter_ignore?: boolean
   hidden?: boolean
+  brew?: string
 }
 
 class Tag {
@@ -112,11 +113,14 @@ class Tag {
     }
   }
 
-  public static Deserialize(data: ITagData[]): Tag[] {
+  public static Deserialize(data: ITagData[], packTags?: ITagCompendiumData[]): Tag[] {
     const output = [] as Tag[]
     if (!data) return output
     data.forEach(x => {
-      const t = store.getters.instantiate('Tags', x.id)
+      let t = store.getters.instantiate('Tags', x.id)
+      if ((!t || t.err) && packTags) {
+        t = new Tag(packTags.find(t => t.id === x.id))
+      }
       if (x.val) t.Value = x.val
       output.push(t)
     })

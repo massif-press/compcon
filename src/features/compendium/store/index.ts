@@ -98,6 +98,7 @@ export class CompendiumStore extends VuexModule {
   public get NpcFeatures(): NpcFeature[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
   }
+  @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
   @Brewable(() => lancerData.actions.map((x: PActions.IActionData) => new PActions.Action(x)))
   Actions: PActions.Action[]
   @Brewable(() => lancerData.talents.map((x: ITalentData) => new Talent(x)))
@@ -128,7 +129,6 @@ export class CompendiumStore extends VuexModule {
   Reserves: Reserve[]
   @Brewable(() => lancerData.skills.map((x: ISkillData) => new Skill(x)))
   Skills: Skill[]
-  @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
 
   get Licenses(): License[] {
     return this.Frames.filter(x => x.Source !== 'GMS').map(frame => new License(frame))

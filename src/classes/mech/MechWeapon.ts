@@ -18,6 +18,7 @@ import {
   IRangeData,
   ISynergyData,
   ICounterData,
+  ITagCompendiumData,
 } from '@/interface'
 import { IActionData } from '../Action'
 import { IBonusData } from '../Bonus'
@@ -90,8 +91,8 @@ class MechWeapon extends MechEquipment {
   private _custom_damage_type?: string
   private _selected_profile: number
 
-  public constructor(data: IMechWeaponData) {
-    super(data)
+  public constructor(data: IMechWeaponData, packTags?: ITagCompendiumData[]) {
+    super(data, packTags)
     this.Size = data.mount
     this.WeaponType = data.type
     if (data.profiles) {
@@ -136,6 +137,10 @@ class MechWeapon extends MechEquipment {
   public SetProfileSelection(val: number, temp: boolean): void {
     this._selected_profile = val
     if (!temp) this.save()
+  }
+
+  public get ProfileIndex(): number {
+    return this._selected_profile
   }
 
   public get ProfileEffect(): string {

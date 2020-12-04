@@ -106,7 +106,7 @@ function getImagePath(subdir: ImageTag, fileName: string, defaults: boolean = fa
 //   writeImageInfo(info, subdir)
 // }
 
-async function getImagePaths(subdir: ImageTag, defaults: boolean = false): Promise<string[]> {
+async function getImagePaths(subdir: ImageTag, defaults: boolean): Promise<string[]> {
   if (isWeb) return
   const imageDir = getImageDir(subdir, defaults)
   const dirExists = await exists(imageDir)

@@ -139,7 +139,6 @@ export default Vue.extend({
   },
   created() {
     const store = getModule(MissionStore, this.$store)
-    console.log(store.Missions)
     this.missions = store.Missions
   },
   methods: {

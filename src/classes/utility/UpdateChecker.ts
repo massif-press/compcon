@@ -40,7 +40,7 @@ export class UpdateChecker extends EventEmitter {
   }
 
   private async _checkUpdates(): Promise<void> {
-    console.log('UpdateChecker is checking...')
+    // console.log('UpdateChecker is checking...')
     switch (Capacitor.platform) {
       case 'web':
         {

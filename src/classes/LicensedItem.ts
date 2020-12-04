@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import { CompendiumItem, ItemType, Manufacturer } from '@/class'
-import { ICompendiumItemData } from '@/interface'
+import { ICompendiumItemData, ITagCompendiumData } from '@/interface'
 
 interface ILicensedItemData extends ICompendiumItemData {
   source: string
@@ -13,8 +13,8 @@ abstract class LicensedItem extends CompendiumItem {
   public readonly LicenseLevel: number
   private _license: string
 
-  public constructor(data: ILicensedItemData) {
-    super(data)
+  public constructor(data: ILicensedItemData, packTags?: ITagCompendiumData[]) {
+    super(data, packTags)
     this.Source = data.source ? data.source.toUpperCase() : ''
     this._license = data.license || ''
     this.LicenseLevel = data.license_level || 0

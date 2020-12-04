@@ -1,5 +1,5 @@
 import { PilotEquipment, Range, Damage, ItemType, DamageType } from '@/class'
-import { IPilotEquipmentData, IRangeData, IDamageData } from '@/interface'
+import { IPilotEquipmentData, IRangeData, IDamageData, ITagCompendiumData } from '@/interface'
 
 interface IPilotWeaponData extends IPilotEquipmentData {
   range: IRangeData[]
@@ -12,8 +12,8 @@ class PilotWeapon extends PilotEquipment {
   public readonly Damage: Damage[]
   public readonly Effect: string
 
-  public constructor(data: IPilotWeaponData) {
-    super(data)
+  public constructor(data: IPilotWeaponData, packTags?: ITagCompendiumData[]) {
+    super(data, packTags)
     this.Range = data.range.map(x => new Range(x))
     this.Damage = data.damage.map(x => new Damage(x))
     this.Effect = data.effect || ''

@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { Mech } from '@/class'
 import { CompendiumItem } from './CompendiumItem'
 import { ItemType } from './enums'
@@ -48,7 +49,8 @@ class Synergy {
         return s.SystemTypes.includes((item as MechSystem).Type)
       })
     }
-    return sArr
+
+    return _.uniq(sArr)
   }
 }
 

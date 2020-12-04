@@ -33,7 +33,7 @@
           style="min-width: 100%"
           disable-pagination
         >
-          <template v-slot:group.header="h" class="transparent">
+          <template v-slot:[`group.header`]="h" class="transparent">
             <div class="primary sliced">
               <v-icon dark left>mdi-chevron-right</v-icon>
               <span v-if="h.group && h.group !== 'null'" class="heading white--text text-uppercase">
@@ -43,10 +43,10 @@
               <span v-else>NONE</span>
             </div>
           </template>
-          <template v-slot:item.Name="{ item }">
+          <template v-slot:[`item.Name`]="{ item }">
             <span class="accent--text heading clickable ml-n2" @click="selectedNpc = item">
               <v-menu offset-x left>
-                <template v-slot:activator="{ on }">
+                <template v-slot:`activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
                     <v-icon small class="fadeSelect">mdi-settings</v-icon>
                   </v-btn>
@@ -105,15 +105,15 @@
               </v-icon>
             </v-scroll-x-transition>
           </template>
-          <template v-slot:item.Class="{ item }">
+          <template v-slot:[`item.Class`]="{ item }">
             <span class="caption text-uppercase">{{ item.Class.Name }}</span>
           </template>
-          <template v-slot:item.Role="{ item }">
+          <template v-slot:[`item.Role`]="{ item }">
             <cc-tooltip simple :content="item.Class.Role.toUpperCase()">
               <v-icon large :color="item.Class.Color">{{ item.Class.RoleIcon }}</v-icon>
             </cc-tooltip>
           </template>
-          <template v-slot:item.Tier="{ item }">
+          <template v-slot:[`item.Tier`]="{ item }">
             <cc-tooltip simple :content="`TIER ${item.Tier} NPC`">
               <v-icon v-if="item.Tier === 'custom'" large color="grey darken-2">
                 mdi-star-circle-outline
@@ -189,7 +189,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import PanelView from '../components/PanelView.vue'
 import NpcCard from './NpcCard.vue'
 import RosterGroup from './components/RosterGroup.vue'
@@ -223,7 +224,7 @@ export default class NpcManager extends Vue {
 
   @Watch('selectedNpc')
   onSelectedNpcChanged() {
-    this.$refs.view.resetScroll()
+    // this.$refs.view.resetScroll()
   }
 
   created() {
@@ -261,14 +262,10 @@ export default class NpcManager extends Vue {
 
   @Watch('npcImportFile')
   async fileImport(file) {
-    console.log(file)
-    console.log(!file)
     if (!file) return
     const npcData = await importData<INpcData>(file)
-    console.log(npcData)
     this.importNpc = Npc.Deserialize(npcData)
     this.importNpc.RenewID()
-    console.log(this.importNpc)
   }
 
   confirmImport() {

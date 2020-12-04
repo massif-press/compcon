@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import { CompendiumItem } from '@/class'
-import { ICompendiumItemData } from '@/interface'
+import { ICompendiumItemData, ITagCompendiumData } from '@/interface'
 
 interface IPilotEquipmentData extends ICompendiumItemData {
   type?: string
@@ -29,8 +29,8 @@ abstract class PilotEquipment extends CompendiumItem {
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
 
-  public constructor(data: IPilotEquipmentData) {
-    super(data)
+  public constructor(data: IPilotEquipmentData, packTags?: ITagCompendiumData[]) {
+    super(data, packTags)
     this._used = false
     this._destroyed = false
     this._cascading = false

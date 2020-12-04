@@ -7,11 +7,10 @@
       :headers="headers"
       :items="contentPacks"
       show-expand
-      :expanded.sync="expanded"
       item-key="Name"
     >
       <!-- Active toggle -->
-      <template v-slot:item.toggleActive="{ item }">
+      <template v-slot:[`item.toggleActive`]="{ item }">
         <v-switch
           :input-value="item.Active"
           color="primary"
@@ -19,19 +18,19 @@
         />
       </template>
       <!-- Name -->
-      <template v-slot:item.name="{ item }">
+      <template v-slot:[`item.name`]="{ item }">
         <span class="title" :class="item.Active ? 'accent--text' : 'subtle--text font-italic'">
           {{ item.Name }}
         </span>
       </template>
       <!-- Version -->
-      <template v-slot:item.version="{ item }">
+      <template v-slot:[`item.version`]="{ item }">
         <span class="packVersion">
           {{ item.Version }}
         </span>
       </template>
       <!-- Delete action -->
-      <template v-slot:item.deleteAction="{ item }">
+      <template v-slot:[`item.deleteAction`]="{ item }">
         <v-menu offset-y offset-x top nudge-left="30px">
           <template v-slot:activator="{ on }">
             <v-btn icon color="primary" class="fadeSelect" v-on="on">

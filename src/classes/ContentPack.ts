@@ -185,22 +185,22 @@ export class ContentPack {
     this._manifest = manifest
     this._data = mapValues(data, (items: any) => items.map(item => ({ ...item, brew: id })))
     this._id = id
+    this._Tags = this._data.tags?.map(x => new Tag(x)) || []
 
     this._Manufacturers = this._data.manufacturers?.map(x => new Manufacturer(x)) || []
     this._Factions = this._data.factions?.map(x => new Faction(x)) || []
-    this._CoreBonuses = this._data.coreBonuses?.map(x => new CoreBonus(x)) || []
-    this._Frames = this._data.frames?.map(x => new Frame(x)) || []
-    this._MechWeapons = this._data.weapons?.map(x => new MechWeapon(x)) || []
-    this._MechSystems = this._data.systems?.map(x => new MechSystem(x)) || []
-    this._WeaponMods = this._data.mods?.map(x => new WeaponMod(x)) || []
+    this._CoreBonuses = this._data.coreBonuses?.map(x => new CoreBonus(x, this._data.tags)) || []
+    this._Frames = this._data.frames?.map(x => new Frame(x, this._data.tags)) || []
+    this._MechWeapons = this._data.weapons?.map(x => new MechWeapon(x, this._data.tags)) || []
+    this._MechSystems = this._data.systems?.map(x => new MechSystem(x, this._data.tags)) || []
+    this._WeaponMods = this._data.mods?.map(x => new WeaponMod(x, this._data.tags)) || []
     this._PilotGear =
       this._data.pilotGear?.map(function(x) {
-        if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
-        else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData)
-        return new PilotGear(x as IPilotEquipmentData)
+        if (x.type === 'weapon') return new PilotWeapon(x as IPilotWeaponData, this._data.tags)
+        else if (x.type === 'armor') return new PilotArmor(x as IPilotArmorData, this._data.tags)
+        return new PilotGear(x as IPilotEquipmentData, this._data.tags)
       }) || []
     this._Talents = this._data.talents?.map(x => new Talent(x)) || []
-    this._Tags = this._data.tags?.map(x => new Tag(x)) || []
 
     this._NpcFeatures =
       this._data.npcFeatures?.map(function(x) {

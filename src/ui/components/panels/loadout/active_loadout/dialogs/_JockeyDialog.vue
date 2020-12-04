@@ -314,12 +314,10 @@ export default Vue.extend({
   },
   methods: {
     confirmJockey() {
-      console.log(this.action.Used)
       this.mech.Pilot.State.CommitAction(
         this.action,
         this.actionFree ? ActivationType.Free : ActivationType.Full
       )
-      console.log(this.action.Used)
     },
     select(action) {
       return !action

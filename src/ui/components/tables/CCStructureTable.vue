@@ -8,9 +8,6 @@
         <v-window-item>
           <v-card-text class="text-center">
             <span class="flavor-text">
-              <v-alert prominent dark dense icon="cci-structure" color="error" border="left" tile>
-                <b class="heading h2">FRAME INTEGRITY COMPROMISED</b>
-              </v-alert>
               Roll 1d6 per point of structure damage
             </span>
             <br />
@@ -24,7 +21,7 @@
                 <v-btn text icon @click="rolls.splice(n - 1, 1)">
                   <v-icon
                     x-large
-                    :color="rolls[n - 1] === 1 ? 'error' : ''"
+                    :color="rolls[n - 1] === 1 ? 'error' : 'stark'"
                     v-html="`mdi-dice-${rolls[n - 1]}`"
                   />
                 </v-btn>
@@ -38,6 +35,18 @@
             <br />
             <v-scroll-y-transition group leave-absolute>
               <div v-if="rolls.length < totalRolls" key="tr01" class="d-inline">
+                <cc-tooltip inline content="Roll Die">
+                  <v-btn
+                    icon
+                    color="accent"
+                    class="mt-n1 mb-1"
+                    :disabled="rolls.length === totalRolls"
+                    @click="rolls.push(rollRandom())"
+                  >
+                    <v-icon large>mdi-dice-multiple</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+                <v-divider vertical class="mr-3" />
                 <v-btn
                   v-for="n in 6"
                   :key="`rb${n}`"
@@ -66,11 +75,22 @@
                   </span>
                 </v-scroll-y-transition>
               </div>
+              <div v-if="rolls.length === totalRolls" :key="'undo_1'" class="text-right">
+                <v-btn
+                  x-small
+                  color="primary"
+                  class="fadeSelect"
+                  @click="rolls.splice(0, rolls.length)"
+                >
+                  <v-icon small left>mdi-reload</v-icon>
+                  UNDO
+                </v-btn>
+              </div>
             </v-scroll-y-transition>
           </v-card-text>
           <v-divider />
           <v-card-actions>
-            <v-btn text small @click="close()">dismiss</v-btn>
+            <v-btn text small color="warning" @click="close()">dismiss</v-btn>
             <v-spacer />
             <v-btn
               color="primary"
@@ -103,6 +123,18 @@
           <p class="fluff-text">
             Parts of your mech have been torn off by the damage. Roll a d6.
           </p>
+          <cc-tooltip inline content="Roll Die">
+            <v-btn
+              icon
+              color="accent"
+              class="mt-n1 mb-1"
+              :disabled="!!systemTraumaRoll"
+              @click="systemTraumaRoll = rollRandom()"
+            >
+              <v-icon large>mdi-dice-multiple</v-icon>
+            </v-btn>
+          </cc-tooltip>
+          <v-divider vertical class="mr-3" />
           <v-btn
             v-for="n in 6"
             :key="`rb${n}`"
@@ -120,9 +152,12 @@
               v-model="destroyedMount"
               style="margin-left: 30%; margin-right: 30%"
               label="Mounts"
+              outlined
+              placeholder="Select Destroyed Mount"
               :items="destroyableMounts"
               item-text="name"
               item-value="index"
+              color="accent"
             />
             <span class="effect-text">All weapons on this mount are destroyed</span>
           </div>
@@ -131,9 +166,12 @@
               v-model="destroyedSystem"
               style="margin-left: 30%; margin-right: 30%"
               label="Systems"
+              outlined
+              placeholder="Select Destroyed System"
               :items="destroyableSystems"
               item-text="Name"
               item-value="ID"
+              color="accent"
             />
             <span class="effect-text">This system is destroyed</span>
           </div>
@@ -254,6 +292,10 @@ export default class CCSidebarView extends Vue {
     return this.loadout.Systems.filter(
       x => !x.IsIndestructible && !x.Destroyed && !(x.IsLimited && x.Uses === 0)
     )
+  }
+
+  rollRandom(): number {
+    return Math.floor(Math.random() * 6) + 1
   }
 
   applyGlancingBlow(): void {

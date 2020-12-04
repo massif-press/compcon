@@ -959,7 +959,6 @@ class Pilot {
       custom: true,
     }
     this._customCounters = [...this._customCounters, counter]
-    console.log(this._customCounters)
     this.save()
   }
 
