@@ -19,7 +19,7 @@ import {
   ContentPack,
 } from '@/class'
 import { store } from '@/store'
-import * as gistApi from '@/io/apis/gist'
+import gistApi from '@/io/apis/gist'
 import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ICounterData } from '@/interface'
@@ -1054,8 +1054,8 @@ class Pilot {
     this._loadout = (data as any).loadouts
       ? PilotLoadout.Deserialize((data as any).loadouts[0])
       : data.loadout
-        ? PilotLoadout.Deserialize(data.loadout)
-        : new PilotLoadout(0)
+      ? PilotLoadout.Deserialize(data.loadout)
+      : new PilotLoadout(0)
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name
