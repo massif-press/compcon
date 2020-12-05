@@ -99,10 +99,6 @@ export class MissionStore extends VuexModule {
     saveActiveMissionData(this.ActiveMissions)
   }
 
-  get getMissions(): Mission[] {
-    return this.Missions
-  }
-
   @Action
   public saveMissionData(): void {
     this.context.commit(SAVE_DATA)

@@ -3,11 +3,11 @@
     <div id="header-container">
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
         <v-col :lg="10" :cols="12">
-          <v-row dense style="height: 60px;">
+          <v-row style="height: 60px;">
             <v-col cols="auto">
-              <div class="overline mb-n6">callsign</div>
+              <div class="overline my-n2">callsign</div>
               <div
-                class="heading h1"
+                class="heading h1 mt-n6"
                 style="letter-spacing: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
               >
                 {{ pilot.Callsign }}
@@ -15,7 +15,9 @@
             </v-col>
             <v-col cols="auto" class="ml-auto text-center mt-2">
               <div class="overline mb-n9">license level</div>
-              <div class="heading h1 mt-n6 mb-n2" style="font-size: 80px">{{ pilot.Level }}</div>
+              <div class="heading h1 mt-n6 mb-n5 mt-n4" style="font-size: 80px">
+                {{ pilot.Level }}
+              </div>
               <cc-tooltip
                 v-if="!isLevelingUp && pilot.Level < 12"
                 simple
@@ -39,7 +41,7 @@
               </cc-tooltip>
             </v-col>
           </v-row>
-          <v-row dense>
+          <v-row dense class="mt-1 mb-n1">
             <v-col cols="auto" class="mr-3">
               <span class="overline lh">name</span>
               <br />
