@@ -127,7 +127,7 @@ class MechWeapon extends MechEquipment {
       })
     if (
       mech.ActiveLoadout.HasSystem('ms_external_batteries') &&
-      this.Damage[0].Type === DamageType.Energy
+      this.Damage.some(d => d.Type === DamageType.Energy)
     )
       if (this.Type === WeaponType.Melee) {
         bonuses.push({
