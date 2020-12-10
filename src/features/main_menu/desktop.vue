@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
     <main-title @logupdate="ccLog('update')" />
-    <c-c-log ref="log" />
+    <c-c-log v-show="$vuetify.breakpoint.mdAndUp" ref="log" />
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height:100%">
         <main-btn
@@ -29,9 +29,9 @@
         >
           Encounter Toolkit
         </main-btn>
-        <main-btn icon="cci-campaign" disabled help="Feature In Progress">
+        <!-- <main-btn icon="cci-campaign" disabled help="Feature In Progress">
           Campaign Manager
-        </main-btn>
+        </main-btn> -->
         <main-btn
           icon="cci-content-manager"
           help="Import Content Packs"
@@ -44,29 +44,101 @@
     </v-container>
 
     <v-footer color="primary" fixed>
-      <v-spacer />
-      <v-btn small dark text @mouseenter="ccLog('options')" @click="$refs.optionsModal.show()">
-        Options
-      </v-btn>
-      <v-divider vertical dark class="mx-1" />
-      <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">
-        About
-      </v-btn>
-      <v-divider vertical dark class="mx-1" />
-      <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">
-        Help
-      </v-btn>
-      <v-divider vertical dark class="mx-1" />
-      <v-btn
-        v-extlink="`https://www.patreon.com/compcon`"
-        color="warning"
-        small
-        dark
-        text
-        href="https://www.patreon.com/compcon"
-      >
-        Support This Project
-      </v-btn>
+      <v-row no-gutters justify="space-around" align="center">
+        <v-col cols="auto" class="text-center mr-3">
+          <v-btn small outlined @click="bulkExport">
+            <v-icon left>mdi-database</v-icon>
+            Create COMP/CON Data Backup
+            <cc-tooltip
+              inline
+              content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+            >
+              <v-icon right class="fadeSelect">mdi-help-circle-outline</v-icon>
+            </cc-tooltip>
+          </v-btn>
+        </v-col>
+        <v-col cols="auto" class="text-center">
+          <v-dialog v-model="importDialog" width="50%">
+            <template v-slot:activator="{ on }">
+              <v-btn small outlined v-on="on">
+                <v-icon left>mdi-database-refresh</v-icon>
+                Load COMP/CON Data Backup
+                <cc-tooltip
+                  inline
+                  content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+                >
+                  <v-icon right class="fadeSelect">mdi-help-circle-outline</v-icon>
+                </cc-tooltip>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text class="pa-6">
+                <p class="text-center heading h3 text--text">
+                  This will OVERWRITE
+                  <b class="accent--text">ALL</b>
+                  local COMP/CON data.
+                  <br />
+                  This
+                  <b class="accent--text">cannot</b>
+                  be undone.
+                </p>
+                <v-file-input
+                  v-model="fileValue"
+                  accept=".compcon"
+                  outlined
+                  dense
+                  hide-details
+                  autofocus
+                  placeholder="Select COMP/CON Bulk Export File"
+                  prepend-icon="mdi-paperclip"
+                  @change="bulkImport"
+                />
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </v-col>
+
+        <v-col cols="auto" class="ml-auto text-right">
+          <v-row no-gutters justify="space-between">
+            <v-col cols="auto">
+              <v-btn
+                small
+                dark
+                text
+                @mouseenter="ccLog('options')"
+                @click="$refs.optionsModal.show()"
+              >
+                Options
+              </v-btn>
+            </v-col>
+
+            <v-col cols="auto">
+              <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">
+                About
+              </v-btn>
+            </v-col>
+
+            <v-col cols="auto">
+              <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">
+                Help
+              </v-btn>
+            </v-col>
+
+            <v-col cols="auto">
+              <v-btn
+                v-extlink="`https://www.patreon.com/compcon`"
+                color="warning"
+                small
+                dark
+                text
+                href="https://www.patreon.com/compcon"
+              >
+                Support This Project
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
     </v-footer>
     <cc-solo-dialog
       ref="optionsModal"
@@ -95,6 +167,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { exportAll, importAll } from '@/io/BulkData'
+import { saveFile } from '@/io/Dialog'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
 import CCLog from './_components/CCLog.vue'
@@ -116,12 +190,28 @@ export default Vue.extend({
   },
   data: () => ({
     pilotLoading: false,
+    importDialog: false,
+    fileValue: null,
   }),
   beforeRouteLeave(to, from, next) {
     if (to.path === '/pilot_management') this.pilotLoading = true
     next()
   },
   methods: {
+    async bulkExport() {
+      const result = await exportAll()
+      await saveFile(
+        `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
+        JSON.stringify(result),
+        'Save COMP/CON Archive'
+      )
+    },
+    async bulkImport(file) {
+      await importAll(file)
+        .then(() => this.$notify('Data import successful', 'confirmation'))
+        .catch(err => this.$notify(`ERROR: Unable to import: ${err}`, 'error'))
+      this.importDialog = false
+    },
     ccLog(btn: string) {
       switch (btn) {
         case 'compendium':

@@ -150,7 +150,7 @@ class MechLoadout extends Loadout {
     this.save()
   }
 
-  public AllActiveSystems(): MechSystem[] {
+  public get AllActiveSystems(): MechSystem[] {
     return this.IntegratedSystems.concat(this.Systems)
   }
 

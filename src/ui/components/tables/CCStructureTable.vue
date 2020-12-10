@@ -289,7 +289,7 @@ export default class CCSidebarView extends Vue {
   }
 
   get destroyableSystems(): MechSystem[] {
-    return this.loadout.Systems.filter(
+    return this.loadout.AllActiveSystems.filter(
       x => !x.IsIndestructible && !x.Destroyed && !(x.IsLimited && x.Uses === 0)
     )
   }

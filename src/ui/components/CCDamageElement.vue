@@ -6,36 +6,27 @@
       :class="`text-center ml-auto mr-auto ${i > 0 && !small ? 'pl-4' : ''}`"
       style="display: inline-block"
     >
-      <cc-tooltip
-        v-if="typeOverride"
-        :key="typeOverride"
-        :title="`${added ? '+' : ''}${d.Value} ${typeOverride} Damage`"
-        :content="Help(d)"
-      >
+      <cc-tooltip :title="`${d.Value} ${typeOverride || d.Type} Damage`" :content="Help(d)">
         <span v-if="small">
-          <v-icon :color="`damage--${typeOverride.toLowerCase()}`" class="mr-n2 ml-n1">
-            cci-{{ typeOverride.toLowerCase() }}
+          <v-icon
+            :color="typeOverride ? `damage--${typeOverride.toLowerCase()}` : d.Color"
+            class="mr-n2 ml-n1"
+          >
+            {{ typeOverride ? `cci-${typeOverride.toLowerCase()}` : d.Icon }}
           </v-icon>
-          <span>
-            {{ d.Value }}
-          </span>
-        </span>
-        <div v-else class="clip-icon">
-          <v-icon x-large :color="`damage--${typeOverride.toLowerCase()}`">
-            cci-{{ typeOverride.toLowerCase() }}
-          </v-icon>
-        </div>
-      </cc-tooltip>
-      <cc-tooltip v-else :title="`${d.Value} ${d.Type} Damage`" :content="Help(d)">
-        <span v-if="small">
-          <v-icon :color="d.Color" class="mr-n2 ml-n1">{{ d.Icon }}</v-icon>
           <v-icon v-if="d.Override">mdi-information-outline</v-icon>
           <span v-else>
             {{ `${added ? '+' : ''}${d.Value}` }}
           </span>
         </span>
         <div v-else>
-          <v-icon x-large :color="d.Color" class="mt-n4 mr-n3">{{ d.Icon }}</v-icon>
+          <v-icon
+            x-large
+            :color="typeOverride ? `damage--${typeOverride.toLowerCase()}` : d.Color"
+            class="mt-n4 mr-n3"
+          >
+            {{ typeOverride ? `cci-${typeOverride.toLowerCase()}` : d.Icon }}
+          </v-icon>
           <span class="heading text--text" style="font-size: 24pt;">
             {{ `${added ? '+' : ''}${d.Value}` }}
           </span>

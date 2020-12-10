@@ -15,7 +15,7 @@
             >//[
             <span class="accent--text">COMP/CON</span>
             :
-            <span class="stark-text--text">Confirmation Required</span>
+            <span class="stark-text--text">Confirmation Required.</span>
             Continue?
           </p>
           <v-row justify="center" class="mt-2">

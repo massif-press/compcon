@@ -111,7 +111,7 @@ export default Vue.extend({
     confirm(): void {
       this.mech.Pilot.State.ClearBarrageSelections()
       this.dialog = false
-      this.$emit('close')
+      this.$emit('confirm')
     },
     show(): void {
       this.dialog = true

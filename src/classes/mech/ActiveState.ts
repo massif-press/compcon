@@ -43,7 +43,6 @@ interface IActiveStateData {
   mission: number
   turn: number
   actions: number
-  overwatch: boolean
   braced: boolean
   overcharged: boolean
   prepare: boolean
@@ -80,8 +79,6 @@ class ActiveState {
   private _shBarrageSelection: MechWeapon
   private _shBarrageMount: Mount
 
-  private _usedOverwatch: string[]
-
   private _self_destruct_counter: number
 
   public StabilizeMajor: string
@@ -108,7 +105,6 @@ class ActiveState {
   }
 
   private _jockeying: boolean
-  private _overwatch: boolean
   private _braced: boolean
   private _overcharged: boolean
   private _prepare: boolean
@@ -128,7 +124,6 @@ class ActiveState {
     this._actions = 2
     this._barrageSelections = []
     this._barrageMounts = []
-    this._overwatch = false
     this._braced = false
     this._overcharged = false
     this._prepare = false
@@ -137,7 +132,6 @@ class ActiveState {
     this._deployed = []
     this._history = []
     this._log = []
-    this._usedOverwatch = []
     this._stats = ActiveState.NewCombatStats()
   }
 
@@ -185,6 +179,10 @@ class ActiveState {
 
   public get IsProtocolAvailable(): boolean {
     return this.Move === this.MaxMove && this.Actions === 2 && !this._overcharged
+  }
+
+  public get IsSkirmishAvailable(): boolean {
+    return this.Actions > 0 && !this.AllActions.find(x => x.ID === 'act_skirmish').Used
   }
 
   public get IsJockeying(): boolean {
@@ -266,7 +264,6 @@ class ActiveState {
     this._pilot_move = this._pilot.Speed
     this._barrageSelections = []
     this._barrageMounts = []
-    this._usedOverwatch = []
     // TODO: base on freq
     this.AllActions.forEach(a => a.Reset())
     this.AllBaseTechActions.forEach(a => a.Reset())
@@ -388,14 +385,6 @@ class ActiveState {
     return this._shBarrageMount
   }
 
-  public get OverwatchedWeapons(): string[] {
-    return this._usedOverwatch
-  }
-
-  public set OverwatchedWeapons(val: string[]) {
-    this._usedOverwatch = val
-  }
-
   public SelectShBarrage(w: MechWeapon, m: Mount) {
     this._shBarrageSelection = w
     this._shBarrageMount = m
@@ -435,6 +424,22 @@ class ActiveState {
       this.AllActions.find(x => x.ID === 'act_skirmish'),
       free
     )
+  }
+
+  public get AvailableAmmoUses(): number {
+    const ac = this._mech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    if (!ac) return 0
+    else return ac.Uses
+  }
+
+  public SpendAmmoCost(cost: number) {
+    const ac = this._mech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    if (ac) ac.Uses -= cost
+  }
+
+  public RefundAmmoCost(cost: number) {
+    const ac = this._mech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    if (ac) ac.Uses += cost
   }
 
   // -- Actions -----------------------------------------------------------------------------------
@@ -1068,7 +1073,6 @@ class ActiveState {
       turn: s._round,
       mission: s._mission,
       actions: s._actions,
-      overwatch: s._overwatch,
       braced: s._braced,
       overcharged: s._overcharged,
       prepare: s._prepare,
@@ -1087,7 +1091,6 @@ class ActiveState {
     s._round = data.turn || 1
     s._mission = data.mission || 0
     s._actions = data.actions || 2
-    s._overwatch = data.overwatch || false
     s._braced = data.braced
     s._overcharged = data.overcharged
     s._prepare = data.prepare

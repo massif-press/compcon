@@ -50,7 +50,7 @@
         >
           / / AI IN CASCADE / /
         </v-alert>
-        <v-row dense align="center" class="mt-n1">
+        <!-- <v-row dense align="center" class="mt-n1">
           <v-col v-if="item.IsLimited" cols="auto" class="mr-2">
             <cc-item-uses
               :item="item"
@@ -73,13 +73,20 @@
               {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
             </v-btn>
           </v-col>
-        </v-row>
+        </v-row> -->
         <div v-if="item && item.Effect">
           <div class="overline mb-n2">
             <v-icon>cci-system</v-icon>
             EQUIPMENT EFFECT
           </div>
           <p class="text--text body-text mb-1 mr-3 ml-7" v-html="item.Effect" />
+        </div>
+      </div>
+      <div v-if="item && item.Ammo && item.Ammo.length">
+        <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
+          <b>{{ a.name }}</b>
+          :
+          <span v-html="a.detail" />
         </div>
       </div>
       <system-selector slot="selector" :mech="mech" :equipped="item" @equip="equip($event)" />

@@ -58,7 +58,12 @@
         <v-row v-if="item.Mod" dense justify="center">
           <active-mod-inset :mod="item.Mod" :mech="mech" color="mod" action />
         </v-row>
-        <ammo-case-inset :level="armoryLevel" />
+        <ammo-case-inset
+          :level="armoryLevel"
+          :uses="state.AvailableAmmoUses"
+          @set-cost="setAmmoCost($event)"
+          @set-damage="setAmmoDamage($event)"
+        />
       </v-col>
     </v-row>
 
@@ -127,7 +132,11 @@
               </v-col>
               <v-col cols="auto" class="ml-8">
                 <div class="overline">Damage</div>
-                <cc-damage-element :damage="getDamage" class="d-inline" />
+                <cc-damage-element
+                  :damage="getDamage"
+                  :type-override="ammoDamage"
+                  class="d-inline"
+                />
               </v-col>
             </v-row>
           </v-col>
@@ -238,7 +247,7 @@
                   large
                   tile
                   block
-                  :disabled="attackFree || !attackRoll"
+                  :disabled="attackFree || !attackRoll || (!improv && !state.IsSkirmishAvailable)"
                   :color="
                     `${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
                       attackQuick ? 'lighten-1' : ''
@@ -386,8 +395,12 @@ each source of damage is used.`
                     <div class="heading h2 stark--text">
                       {{ damageRolls[i] ? damageRolls[i] : '--' }}
                       <cc-tooltip inline :content="d.Type">
-                        <v-icon large :color="d.Color" class="ml-n3">
-                          {{ d.Icon }}
+                        <v-icon
+                          large
+                          :color="ammoDamage ? `damage--${ammoDamage}` : d.Color"
+                          class="ml-n3"
+                        >
+                          {{ ammoDamage ? `cci-${ammoDamage}` : d.Icon }}
                         </v-icon>
                       </cc-tooltip>
                     </div>
@@ -537,6 +550,8 @@ export default Vue.extend({
   },
   data: () => ({
     tab: 0,
+    ammoCost: 0,
+    ammoDamage: '',
     accuracy: 0,
     difficulty: 0,
     attackRoll: null,
@@ -553,6 +568,9 @@ export default Vue.extend({
     confirmed: false,
   }),
   computed: {
+    state() {
+      return this.mech.Pilot.State
+    },
     missText() {
       if (this.reliable) return 'Glancing hit'
       switch (this.item.WeaponType) {
@@ -674,6 +692,12 @@ export default Vue.extend({
     this.init()
   },
   methods: {
+    setAmmoCost(cost) {
+      this.ammoCost = cost
+    },
+    setAmmoDamage(damage) {
+      this.ammoDamage = damage
+    },
     rollAttack(): void {
       const roll = DiceRoller.rollToHit(this.mech.AttackBonus, this.accuracy, this.difficulty)
       this.rollResultString = `${roll.rawDieRoll} + ${roll.staticBonus}`
@@ -716,6 +740,7 @@ export default Vue.extend({
       if (this.item.SkirmishCost) cost = this.item.SkirmishCost
       if (this.barrage && this.item.BarrageCost) cost = this.item.BarrageCost
       this.item.Use(cost, actionObj.activation === ActivationType.Free)
+      if (this.ammoCost) this.state.SpendAmmoCost(this.ammoCost)
       this.mech.CurrentHeat += this.item.ProfileHeatCost
       this.mech.Pilot.State.LogAttackAction('ATTACK', this.item.Name, this.summedDamage, this.kill)
       this.$emit('confirm', actionObj.activation === ActivationType.Free)
@@ -727,10 +752,13 @@ export default Vue.extend({
         this.summedDamage,
         this.kill
       )
+      if (this.ammoCost) this.state.RefundAmmoCost(this.ammoCost)
       this.init()
       this.$emit('reset')
     },
     init(): void {
+      this.ammoCost = 0
+      this.ammoDamage = ''
       this.accuracy += this.minAccuracy
       this.difficulty += this.minDifficulty
       this.attackRoll = null

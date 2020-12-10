@@ -9,6 +9,8 @@
         <v-select
           v-model="selected"
           color="accent"
+          item-color="accent"
+          :item-disabled="item => !readonly && item.cost > uses"
           outlined
           dense
           hide-details
@@ -16,10 +18,11 @@
           item-text="name"
           return-object
           class="mb-1"
+          @change="setSelection($event)"
         />
       </v-col>
       <v-col v-if="selected.cost" class="ml-auto pl-4 pr-3 text-left">
-        <div class="overline">COST::AMMO CASE</div>
+        <div class="overline my-n2">COST::AMMO CASE</div>
         <div>
           <v-icon v-for="n in selected.cost" :key="selected.name + '_ammo_' + n">
             mdi-hexagon-slice-6
@@ -27,7 +30,7 @@
         </div>
       </v-col>
     </v-row>
-    <div v-if="selected.effect" class="mt-1">
+    <div v-if="selected.effect" class="mb-1 py-1">
       <div class="caption px-2 font-weight-bold">EFFECT</div>
       <div class="body-text px-4">{{ selected.effect }}</div>
     </div>
@@ -40,6 +43,8 @@ export default Vue.extend({
   name: 'ammo-case-inset',
   props: {
     level: { type: Number, required: true, default: 0 },
+    uses: { type: Number, required: false, default: 0 },
+    readonly: { type: Boolean },
   },
   data: () => ({
     selected: null,
@@ -47,38 +52,45 @@ export default Vue.extend({
       {
         name: 'Standard',
         cost: 0,
+        damage: '',
         effect: '',
       },
       {
         name: 'Thumper',
         cost: 1,
+        damage: 'explosive',
         effect: 'This weapon gains Knockback 1 and deals Explosive damage.',
       },
       {
         name: 'Shock',
         cost: 1,
+        damage: 'energy',
         effect:
           'This weapon deals Energy damage. Choose one character targeted by your attack; adjacent characters take 1 Energy AP, whether the result is a hit or miss.',
       },
       {
         name: 'Mag',
         cost: 1,
+        damage: 'kinetic',
         effect: 'This weapon gains Arcing and deals Kinetic damage.',
       },
       {
         name: 'Hellfire',
         cost: 2,
+        damage: 'energy',
         effect: 'This weapon deals Energy damage and deals any bonus damage as Burn.',
       },
       {
         name: 'Jager',
         cost: 2,
+        damage: 'explosive',
         effect:
           'This weapon gains Knockback 2, deals Explosive damage, and one character hit by this weapon – your choice – must succeed on a Hull save or be knocked Prone.',
       },
       {
         name: 'Sabot',
         cost: 2,
+        damage: 'kinetic',
         effect: 'This weapon gains AP and deals Kinetic damage.',
       },
     ],
@@ -91,6 +103,12 @@ export default Vue.extend({
   },
   created() {
     this.selected = this.allAmmo[0]
+  },
+  methods: {
+    setSelection(ammo) {
+      this.$emit('set-cost', ammo.cost)
+      this.$emit('set-damage', ammo.damage)
+    },
   },
 })
 </script>

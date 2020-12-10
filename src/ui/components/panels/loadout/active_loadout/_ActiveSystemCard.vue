@@ -108,6 +108,13 @@
                   </v-row>
                 </v-col>
               </v-row> -->
+              <div v-if="item && item.Ammo && item.Ammo.length">
+                <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
+                  <b>{{ a.name }}</b>
+                  :
+                  <span v-html="a.detail" />
+                </div>
+              </div>
               <v-row no-gutters class="mr-3 mt-n1" align="start">
                 <v-col cols="auto">
                   <cc-tags
