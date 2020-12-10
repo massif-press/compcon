@@ -152,11 +152,6 @@ export default Vue.extend({
   data: () => ({
     theme: 'gms',
     themes: [],
-    // themes: [
-    //   { name: 'GMS Red (Default Light)', value: 'light' },
-    //   { name: 'MSMC Dark', value: 'dark' },
-    //   { name: 'HORUS Dark', value: 'horus' },
-    // ],
     importDialog: false,
     fileValue: null,
     deleteDialog: false,

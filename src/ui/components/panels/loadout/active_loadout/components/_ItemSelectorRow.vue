@@ -6,7 +6,7 @@
         block
         tile
         :color="
-          (!overwatch && item.Used) || (item.ItemType === 'MechWeapon' && !item.Loaded)
+          item.ItemType === 'MechWeapon' && !item.Loaded
             ? 'grey darken-2'
             : selected
             ? 'secondary'

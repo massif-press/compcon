@@ -119,7 +119,7 @@
           <v-row v-if="item.Mod" dense justify="center">
             <mod-inset :mod="item.Mod" :mech="mech" :color="color" @remove-mod="item.Mod = null" />
           </v-row>
-          <ammo-case-inset :level="armoryLevel" />
+          <!-- <ammo-case-inset :level="armoryLevel" /> -->
         </div>
       </div>
       <weapon-selector
@@ -154,7 +154,7 @@ import SlotCardBase from '../../_SlotCardBase.vue'
 import WeaponSelector from './_WeaponSelector.vue'
 import ModSelector from './_ModSelector.vue'
 import ModInset from './_ModInset.vue'
-import AmmoCaseInset from './_AmmoCaseInset.vue'
+// import AmmoCaseInset from './_AmmoCaseInset.vue'
 import EquipmentOptions from '../../_EquipmentOptions.vue'
 import EquipmentHeader from '../../_EquipmentHeader.vue'
 import ShLockDialog from '../_ShLockDialog.vue'
@@ -176,7 +176,7 @@ export default Vue.extend({
     WeaponSelector,
     ModSelector,
     ModInset,
-    AmmoCaseInset,
+    // AmmoCaseInset,
     EquipmentOptions,
     EquipmentHeader,
     ShLockDialog,

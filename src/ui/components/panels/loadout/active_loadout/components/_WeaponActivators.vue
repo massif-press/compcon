@@ -179,7 +179,7 @@ export default Vue.extend({
       if (this.item.IsLoading && !this.item.Loaded) return false
       if (this.item.IsOrdnance && !this.state.IsProtocolAvailable) return false
       if (!this.item.CanSkirmish) return false
-      return this.state.Actions > 0
+      return this.state.IsSkirmishAvailable
     },
   },
   methods: {

@@ -68,6 +68,8 @@
                 :color="color"
                 :use-bonus="mech.LimitedBonus"
               />
+              <!-- <ammo-case-inset :level="armoryLevel" readonly /> -->
+
               <div class="mt-n1">
                 <div v-if="item.ProfileEffect">
                   <div class="mb-n2">
@@ -107,7 +109,6 @@
                 <v-row v-if="item.Mod" dense justify="center">
                   <active-mod-inset :mod="item.Mod" :mech="mech" :color="color" />
                 </v-row>
-                <ammo-case-inset :level="armoryLevel" />
               </div>
             </div>
             <div v-if="item">

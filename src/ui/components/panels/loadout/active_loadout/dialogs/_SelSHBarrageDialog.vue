@@ -74,7 +74,7 @@ export default Vue.extend({
     },
     confirm(): void {
       this.dialog = false
-      this.$emit('close')
+      this.$emit('confirm')
     },
     show(): void {
       this.dialog = true

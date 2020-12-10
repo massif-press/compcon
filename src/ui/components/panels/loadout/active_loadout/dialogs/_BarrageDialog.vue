@@ -32,8 +32,8 @@
       </div>
     </v-container>
 
-    <w-barrage-dialog ref="b_dialog" :mech="mech" @close="completeBarrage()" />
-    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" @close="completeBarrage()" />
+    <w-barrage-dialog ref="b_dialog" :mech="mech" @confirm="completeBarrage()" />
+    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" @confirm="completeBarrage()" />
   </div>
 </template>
 
@@ -92,11 +92,10 @@ export default Vue.extend({
       }
     },
     setSHBarrage(item, mount) {
+      this.state.SelectShBarrage(item, mount)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
-      Vue.nextTick()
-        .then(() => self.state.SelectShBarrage(item, mount))
-        .then(() => Vue.nextTick().then(() => self.$refs.sh_b_dialog.show()))
+      Vue.nextTick().then(() => Vue.nextTick().then(() => self.$refs.sh_b_dialog.show()))
     },
     completeBarrage() {
       this.$emit('use')

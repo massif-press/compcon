@@ -3,6 +3,7 @@
     <action-detail-expander :action="action" />
     <v-divider class="my-3" />
     <v-container style="max-width: 800px">
+      {{ state.IsSkirmishAvailable }}
       <div v-for="(m, i) in mech.ActiveLoadout.Mounts" :key="`bar_${i}`">
         <item-selector-row
           v-for="(w, j) in m.Weapons.filter(x => x.Size !== 'Superheavy' && !x.Destroyed)"
@@ -56,10 +57,13 @@ export default Vue.extend({
   },
   methods: {
     disableSkirmish(w) {
+      console.log(w.Name)
       if (w.IsLoading && !w.Loaded) return true
       if (w.IsOrdnance && !this.state.IsProtocolAvailable) return true
       if (!w.CanSkirmish) return false
-      return w.Used || this.state.Actions < 1
+      console.log('should be okay')
+      console.log(this.state.IsSkirmishAvailable)
+      return !this.state.IsSkirmishAvailable
     },
     skirmish(item, mount) {
       Vue.nextTick().then(() => {

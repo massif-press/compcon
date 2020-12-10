@@ -10,7 +10,7 @@
             :key="`weap_${j}`"
             :item="w"
             overwatch
-            :color="canOverwatch(w) ? 'action--reaction' : 'grey darken-2'"
+            color="action--reaction"
             @click="overwatch(w, m)"
           />
         </div>
@@ -24,7 +24,7 @@
           v-for="(w, j) in mech.Pilot.Loadout.Weapons"
           :key="`weap_${j}`"
           :item="w"
-          :color="!used ? 'action--reaction' : 'grey darken-2'"
+          color="action--reaction"
           @click="pilotOverwatch(w)"
         />
       </v-container>
@@ -36,7 +36,7 @@
       :item="selected"
       :mount="selectedMount"
       overwatch
-      @confirm="completeOverwatch()"
+      @confirm="completeOverwatch($event)"
     />
 
     <sel-fight-dialog
@@ -44,7 +44,7 @@
       :pilot="mech.Pilot"
       :item="selected"
       overwatch
-      @confirm="completeOverwatch()"
+      @confirm="completeOverwatch($event)"
     />
   </div>
 </template>
@@ -56,7 +56,6 @@ import WSkirmishDialog from './_SelSkirmishDialog.vue'
 import SelFightDialog from './_SelFightDialog.vue'
 
 import Vue from 'vue'
-import { ActivationType } from '@/class'
 
 export default Vue.extend({
   name: 'overwatch-dialog',
@@ -87,13 +86,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    canOverwatch(item) {
-      if (this.used) return false
-      return !this.state.OverwatchedWeapons.includes(item.ID)
-    },
-    completeOverwatch() {
-      this.state.OverwatchedWeapons.push(this.selected.ID)
-      this.state.CommitAction(this.action, ActivationType.Reaction)
+    completeOverwatch(free) {
+      this.state.CommitAction(this.action, free)
     },
     pilotOverwatch(item) {
       this.selected = item
