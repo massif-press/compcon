@@ -27,7 +27,7 @@
       </v-row>
     </div>
 
-    <div v-if="item.Ammo.length">
+    <div v-if="item && item.Ammo && item.Ammo.length">
       <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
         <b>{{ a.name }}</b>
         :

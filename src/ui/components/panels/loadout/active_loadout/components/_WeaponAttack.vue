@@ -523,7 +523,7 @@ import Vue from 'vue'
 import ActiveModInset from '../components/_ActiveModInset.vue'
 import AmmoCaseInset from '../../mech_loadout/components/mount/weapon/_AmmoCaseInset.vue'
 import PilotTalent from '@/classes/pilot/PilotTalent'
-import { ActivationType, Damage, DiceRoller, Range, Synergy, WeaponSize, WeaponType } from '@/class'
+import { ActivationType, Damage, DiceRoller, Range, WeaponSize, WeaponType } from '@/class'
 import CbCard from '../../mech_loadout/components/mount/_CbCard.vue'
 
 export default Vue.extend({
@@ -599,7 +599,8 @@ export default Vue.extend({
       return this.mount.Bonuses && this.mount.Bonuses.find(x => x.ID === 'cb_overpower_caliber')
     },
     armoryLevel() {
-      if (this.item.Size !== WeaponSize.Main || this.item.Type === WeaponType.Melee) return 0
+      if (this.improv || this.item.Size !== WeaponSize.Main || this.item.Type === WeaponType.Melee)
+        return 0
       const tal = this.mech.Pilot.Talents.find(
         (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
       )

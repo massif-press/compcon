@@ -4,12 +4,17 @@
       <v-btn
         class="mx-1"
         small
-        fab
+        :fab="$vuetify.breakpoint.lgAndUp"
         elevation="0"
         :color="available && (baseActions.length || itemActions.length) ? color : 'grey darken-2'"
         v-on="on"
       >
         <slot name="icon" />
+        <span
+          v-if="$vuetify.breakpoint.mdAndDown"
+          class="pl-2"
+          v-html="title.replace(' ACTIONS', '')"
+        />
       </v-btn>
     </template>
     <div>

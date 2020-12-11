@@ -4,26 +4,31 @@
       <v-icon slot="prepend" size="80" class="mr-2">mdi-skull</v-icon>
       <div class="heading h1 pb-2 text-center">KILLED IN ACTION</div>
       <div style="position: relative">
-        <v-menu offset-y offset-x>
-          <template v-slot:activator="{ on }">
-            <v-btn
-              color="secondary"
-              absolute
-              right
-              small
-              outlined
-              class="fadeSelect"
-              style="bottom: 0; right: 0"
-              v-on="on"
-            >
-              Flash Clone Pilot
-            </v-btn>
-          </template>
-          <cc-confirmation
-            content="This will clone the selected pilot. Cloned characters can’t join a mission in progress, and cloned characters receive a random quirk. Additional cloning and subjectivity imprinting adds further quirks."
-            @confirm="setQuirk"
-          />
-        </v-menu>
+        <div style="position: absolute; bottom: -3px; right: -3px">
+          <v-menu offset-y offset-x>
+            <template v-slot:activator="{ on }">
+              <v-btn color="secondary" x-small outlined v-on="on">
+                Flash Clone Pilot
+              </v-btn>
+            </template>
+            <cc-confirmation
+              content="This will clone the selected pilot. Cloned characters can’t join a mission in progress, and cloned characters receive a random quirk. Additional cloning and subjectivity imprinting adds further quirks."
+              @confirm="setQuirk"
+            />
+          </v-menu>
+          <v-menu offset-y offset-x>
+            <template v-slot:activator="{ on }">
+              <v-btn color="pimary" x-small class="fadeSelect ml-3" v-on="on">
+                <v-icon small left>mdi-reload</v-icon>
+                Revert
+              </v-btn>
+            </template>
+            <cc-confirmation
+              content="This will restore the selected pilot and clear the KIA and Down and Out statuses."
+              @confirm="pilot.Restore()"
+            />
+          </v-menu>
+        </div>
       </div>
     </v-alert>
     <div v-if="pilot.Quirks.length && !hideQuirks">

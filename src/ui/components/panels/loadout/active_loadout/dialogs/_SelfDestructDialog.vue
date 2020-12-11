@@ -105,7 +105,7 @@
             </span>
           </p>
           <v-row justify="space-around">
-            <v-col cols="3">
+            <v-col cols="auto">
               <v-btn
                 large
                 tile
@@ -117,7 +117,7 @@
                 "
               />
             </v-col>
-            <v-col cols="3">
+            <v-col cols="auto">
               <v-btn
                 large
                 tile
@@ -128,7 +128,7 @@
                 v-html="or2 ? 'CORE EMERGENCY VENTS LOCKED' : 'LOCK CORE EMERGENCY VENTS'"
               />
             </v-col>
-            <v-col cols="3">
+            <v-col cols="auto">
               <v-btn
                 large
                 tile

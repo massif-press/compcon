@@ -911,15 +911,14 @@ class Pilot {
     const clone = Mech.Deserialize(mechData, this)
     clone.RenewID()
     clone.Name += '*'
-    clone.IsActive = false
     this._mechs.push(clone)
     this.save()
   }
 
   public get ActiveMech(): Mech | null {
-    if (!this._state.ActiveMech && this._mechs.length) {
-      this._state.ActiveMech = this._mechs[0]
-    }
+    // if (!this._state.ActiveMech && this._mechs.length) {
+    //   this._state.ActiveMech = this._mechs[0]
+    // }
     return this._state.ActiveMech
   }
 
@@ -1032,6 +1031,18 @@ class Pilot {
   public Kill(): void {
     this._status = 'KIA'
     this.IsDead = true
+    this.CurrentHP = 0
+  }
+
+  public Restore(): void {
+    this.CurrentHP = 1
+    this._dead = false
+    this._status = 'Active'
+  }
+
+  public FullRestore(): void {
+    this.Restore()
+    this.CurrentHP = this.MaxHP
   }
 
   // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
@@ -1161,8 +1172,8 @@ class Pilot {
     this._mechs = data.mechs.length
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []
-    this.ActiveMech = this._mechs.find(x => x.ID === data.active_mech)
     this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
+    this.ActiveMech = this._mechs.find(x => x.ID === data.active_mech)
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []

@@ -28,7 +28,7 @@
               {{ action.Name }}
             </v-btn>
             <v-btn
-              v-if="action.Activation !== 'Free'"
+              v-if="!fulltech && action.Activation !== 'Free'"
               small
               tile
               block
@@ -261,7 +261,7 @@ import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
 import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 export default Vue.extend({
-  name: 'grapple-dialog',
+  name: 'invade-dialog',
   components: { ActionDetailExpander, ActionTitlebar },
   props: {
     mech: {
@@ -272,6 +272,7 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    fulltech: { type: Boolean },
   },
   data: () => ({
     dialog: false,
@@ -342,12 +343,22 @@ export default Vue.extend({
       }, 80)
     },
     select(a) {
+      if (this.fulltech) {
+        this.$emit('add-invade', a)
+        this.init()
+        this.hide()
+      }
       this.state.CommitAction(this.action, this.actionFree)
       this.$emit('use')
       this.selected = a
       this.runTimeout()
     },
     fail() {
+      if (this.fulltech) {
+        this.$emit('add-fail')
+        this.init()
+        this.hide()
+      }
       this.failed = true
       this.state.CommitAction(this.action, this.actionFree)
       this.$emit('use')
@@ -370,6 +381,9 @@ export default Vue.extend({
     },
     reset() {
       this.$emit('undo')
+      this.init()
+    },
+    init() {
       this.accuracy = 0
       this.difficulty = 0
       this.attackRoll = ''

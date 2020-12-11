@@ -26,7 +26,6 @@
 import ActiveCombat from './views/ActiveCombat.vue'
 import ActiveNarrative from './views/ActiveNarrative.vue'
 import ActiveRest from './views/ActiveRest.vue'
-import PilotMode from './layout/PilotMode.vue'
 import MechBlock from './layout/MechBlock.vue'
 import TurnFooter from './layout/TurnFooter.vue'
 
@@ -36,7 +35,6 @@ import vueMixins from '@/util/vueMixins'
 export default vueMixins(activePilot).extend({
   name: 'active-sheet',
   components: {
-    PilotMode,
     MechBlock,
     TurnFooter,
     ActiveCombat,

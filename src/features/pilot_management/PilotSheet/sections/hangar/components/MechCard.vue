@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="4">
+  <v-col style="min-width: 400px">
     <div
       :style="
         `border: 2px solid ${
@@ -54,42 +54,55 @@
                     //
                     <b>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</b>
                     <br />
-                    Equipped Loadout: {{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
+                    <fieldset>
+                      <legend class="px-2">
+                        Loadout//{{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
+                      </legend>
+                      <div v-if="mech.ActiveLoadout">
+                        <span v-for="(item, i) in loadoutWeapons" :key="`${mech.ID}_lw_${i}`">
+                          {{ item }}
+                        </span>
+                        <br />
+                        <span v-for="(item, i) in loadoutSystems" :key="`${mech.ID}_ls_${i}`">
+                          {{ i > 0 ? ' - ' : '' }}{{ item }}
+                        </span>
+                      </div>
+                    </fieldset>
                     <!-- TODO: add charts -->
-                    <v-row dense>
+                    <v-row no-gutters justify="space-between">
                       <v-col cols="auto">
-                        <span class="overline">STR</span>
-                        <br />
-                        <b>{{ mech.CurrentStructure }}</b>
-                        <span class="subtle--text ml-n2">/{{ mech.MaxStructure }}</span>
+                        <span class="overline">
+                          STR
+                          <b>{{ mech.MaxStructure }}</b>
+                        </span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
-                        <span class="overline">HP</span>
-                        <br />
-                        <b>{{ mech.CurrentHP }}</b>
-                        <span class="subtle--text ml-n2">/{{ mech.MaxHP }}</span>
+                        <span class="overline">
+                          HP
+                          <b>{{ mech.MaxHP }}</b>
+                        </span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
-                        <span class="overline">Stress</span>
-                        <br />
-                        <b>{{ mech.CurrentStress }}</b>
-                        <span class="subtle--text ml-n2">/{{ mech.MaxStress }}</span>
+                        <span class="overline">
+                          Stress
+                          <b>{{ mech.MaxStress }}</b>
+                        </span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
-                        <span class="overline">Heat</span>
-                        <br />
-                        <b>{{ mech.CurrentHeat }}</b>
-                        <span class="subtle--text ml-n2">/{{ mech.HeatCapacity }}</span>
+                        <span class="overline">
+                          Heat
+                          <b>{{ mech.HeatCapacity }}</b>
+                        </span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
-                        <span class="overline">RepCap</span>
-                        <br />
-                        <b>{{ mech.CurrentRepairs }}</b>
-                        <span class="subtle--text ml-n2">/{{ mech.RepairCapacity }}</span>
+                        <span class="overline">
+                          RepCap
+                          <b>{{ mech.RepairCapacity }}</b>
+                        </span>
                       </v-col>
                     </v-row>
                   </v-card-text>
@@ -112,12 +125,6 @@
                   </v-expand-transition>
                   <v-divider />
                   <v-card-actions>
-                    <cc-tooltip v-if="!mech.IsActive" simple content="Set as Active">
-                      <v-btn icon @click.stop="$emit('set-active', mech)">
-                        <v-icon large>cci-activate</v-icon>
-                      </v-btn>
-                    </cc-tooltip>
-                    <v-icon v-else large color="success">cci-activate</v-icon>
                     <v-spacer />
                     <cc-tooltip simple inline content="Delete Mech">
                       <v-btn
@@ -167,6 +174,32 @@ export default Vue.extend({
     mech: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    loadoutWeapons() {
+      const output = []
+      for (const mount of this.mech.ActiveLoadout.AllEquippableMounts(
+        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+      )) {
+        if (!mount.IsLocked) {
+          let str = `${mount.Name}:`
+          if (!mount.Weapons.length) str += ' EMPTY'
+          else {
+            mount.Weapons.forEach((w, i) => {
+              str += ` ${w.Name}`
+              if (w.Mod) str += ` (${w.Mod.Name})`
+              if (i + 1 < mount.Weapons.length) str += '/'
+            })
+          }
+          output.push(str)
+        }
+      }
+      return output
+    },
+    loadoutSystems() {
+      return this.mech.ActiveLoadout.AllActiveSystems.map(x => x.Name)
     },
   },
 })

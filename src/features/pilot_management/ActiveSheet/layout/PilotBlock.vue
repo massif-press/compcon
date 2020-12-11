@@ -38,6 +38,47 @@
 
     <clone-block v-if="pilot.State.Stage === 'Narrative'" hide-quirks />
 
+    <destroyed-alert
+      v-if="pilot.ActiveMech.Destroyed"
+      :mech="pilot.ActiveMech"
+      @restore="pilot.ActiveMech.BasicRepair($event)"
+    />
+
+    <v-row v-if="pilot.State.SelfDestructCounter > 0" dense justify="center" class="text-center">
+      <v-col cols="auto">
+        <v-alert dense outlined color="error" prominent>
+          <v-icon slot="prepend" color="error" size="90" class="mr-3">
+            cci-reactor
+          </v-icon>
+          <span v-if="pilot.State.SelfDestructCounter > 1" class="heading h1">
+            MECH WILL SELF DESTRUCT IN {{ pilot.State.SelfDestructCounter }} ROUNDS
+          </span>
+          <span v-else class="heading h1">MECH SELF DESTRUCTION IMMINENT</span>
+          <div class="heading mt-n4 subtle--text">
+            FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
+          </div>
+          <div class="px-5 my-1">
+            <v-btn small block color="error" @click="pilot.State.SelfDestruct()">
+              <v-icon left>mdi-skull</v-icon>
+              DETONATE REACTOR
+              <v-icon right>mdi-skull</v-icon>
+            </v-btn>
+          </div>
+          <div class="text-right mt-1">
+            <v-btn
+              x-small
+              color="primary"
+              class="fadeSelect"
+              @click="pilot.State.CancelSelfDestruct()"
+            >
+              <v-icon small left>mdi-reload</v-icon>
+              UNDO
+            </v-btn>
+          </div>
+        </v-alert>
+      </v-col>
+    </v-row>
+
     <v-alert
       v-if="pilot.IsDownAndOut"
       prominent
@@ -52,7 +93,14 @@
         regain consciousness and half of their HP when they rest.
       </div>
       <div style="position: relative">
-        <v-btn small absolute color="error" class="fadeSelect" style="bottom: 0; right: 0">
+        <v-btn
+          small
+          absolute
+          color="error"
+          class="fadeSelect"
+          style="bottom: 0; right: 0"
+          @click="pilot.Kill()"
+        >
           <v-icon>mdi-skull</v-icon>
           Mark as Killed
         </v-btn>
@@ -134,10 +182,11 @@
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 import CloneBlock from '@/features/pilot_management/PilotSheet/sections/info/components/CloneBlock.vue'
+import DestroyedAlert from '../components/DestroyedAlert.vue'
 
 export default vueMixins(activePilot).extend({
   name: 'pilot-block',
-  components: { CloneBlock },
+  components: { CloneBlock, DestroyedAlert },
   data: () => ({
     showReserves: false,
   }),

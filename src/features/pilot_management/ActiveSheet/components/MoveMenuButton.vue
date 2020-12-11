@@ -4,12 +4,13 @@
       <v-btn
         class="mx-1"
         small
-        fab
+        :fab="$vuetify.breakpoint.lgAndUp"
         elevation="0"
         :color="state.Move < 1 ? 'grey darken-1' : 'action--move'"
         v-on="on"
       >
         <v-icon color="white" size="30">mdi-arrow-right-bold-hexagon-outline</v-icon>
+        <span v-if="$vuetify.breakpoint.mdAndDown" class="pl-2" v-html="'MOVEMENT'" />
       </v-btn>
     </template>
     <div>

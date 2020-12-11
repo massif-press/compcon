@@ -6,10 +6,10 @@
       style="position: absolute; z-index:5"
       class="overlay clipped-square-invert"
       min-width="138px"
-      min-height="138px"
+      min-height="100%"
     >
       <div id="interior" class="clipped-square-invert">
-        <v-img :src="mech.Portrait" position="top center" height="138px" />
+        <v-img :src="mech.Portrait" position="top center" height="100%" />
       </div>
     </v-card>
     <div id="banner" style="width: 100%">
@@ -36,57 +36,87 @@
       <div style="border-top: 0!important" class="light-panel clipped">
         <div style="margin-left: 138px; padding-left: 8px; min-height: 100px">
           <p class="flavor-text mb-0">
-            <v-row no-gutters justify="end">
+            <v-row no-gutters>
               <v-col cols="auto">
-                <b>{{ mech.Name }}</b>
-                //
                 <b>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</b>
-                <br />
-                Equipped Loadout: {{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
               </v-col>
               <v-col cols="auto" class="ml-auto mr-4">
-                <cc-tooltip v-if="!mech.IsActive" simple content="Set as Active">
-                  <v-icon size="50" class="fadeSelect" @click.stop="$emit('set-active', mech)">
-                    cci-activate
-                  </v-icon>
+                <cc-tooltip simple inline content="Delete Mech">
+                  <v-btn
+                    small
+                    icon
+                    class="fadeSelect"
+                    color="error"
+                    @click.stop="$refs.delete.show()"
+                  >
+                    <v-icon small>delete</v-icon>
+                  </v-btn>
                 </cc-tooltip>
-                <v-icon v-else size="50" color="success">cci-activate</v-icon>
+                <cc-tooltip simple inline content="Duplicate Mech">
+                  <v-btn small icon class="fadeSelect" @click.stop="$refs.copy.show()">
+                    <v-icon small>mdi-content-copy</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+                <cc-tooltip simple inline content="Print Mech Sheet">
+                  <v-btn small icon class="fadeSelect" @click.stop="$refs.print.show()">
+                    <v-icon small>mdi-printer</v-icon>
+                  </v-btn>
+                </cc-tooltip>
               </v-col>
             </v-row>
-            <v-row dense>
+            <v-row no-gutters class="mt-n2">
               <v-col cols="auto">
-                <span class="overline">STR</span>
-                <br />
-                <b>{{ mech.CurrentStructure }}</b>
-                <span class="subtle--text ml-n2">/{{ mech.MaxStructure }}</span>
-              </v-col>
-              <v-divider vertical class="mx-2" />
-              <v-col cols="auto">
-                <span class="overline">HP</span>
-                <br />
-                <b>{{ mech.CurrentHP }}</b>
-                <span class="subtle--text ml-n2">/{{ mech.MaxHP }}</span>
-              </v-col>
-              <v-divider vertical class="mx-2" />
-              <v-col cols="auto">
-                <span class="overline">Stress</span>
-                <br />
-                <b>{{ mech.CurrentStress }}</b>
-                <span class="subtle--text ml-n2">/{{ mech.MaxStress }}</span>
-              </v-col>
-              <v-divider vertical class="mx-2" />
-              <v-col cols="auto">
-                <span class="overline">Heat</span>
-                <br />
-                <b>{{ mech.CurrentHeat }}</b>
-                <span class="subtle--text ml-n2">/{{ mech.HeatCapacity }}</span>
-              </v-col>
-              <v-divider vertical class="mx-2" />
-              <v-col cols="auto">
-                <span class="overline">RepCap</span>
-                <br />
-                <b>{{ mech.CurrentRepairs }}</b>
-                <span class="subtle--text ml-n2">/{{ mech.RepairCapacity }}</span>
+                <fieldset class="px-3">
+                  <legend class="px-2">
+                    Loadout//{{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
+                  </legend>
+                  <div v-if="mech.ActiveLoadout">
+                    <span v-for="(item, i) in loadoutWeapons" :key="`${mech.ID}_lw_${i}`">
+                      {{ item }}
+                    </span>
+                    <br />
+                    <span v-for="(item, i) in loadoutSystems" :key="`${mech.ID}_ls_${i}`">
+                      {{ i > 0 ? ' - ' : '' }}{{ item }}
+                    </span>
+                  </div>
+                </fieldset>
+                <!-- TODO: add charts -->
+                <v-row no-gutters justify="space-around">
+                  <v-col cols="auto">
+                    <span class="overline">
+                      STR
+                      <b>{{ mech.MaxStructure }}</b>
+                    </span>
+                  </v-col>
+                  <v-divider vertical class="mx-2" />
+                  <v-col cols="auto">
+                    <span class="overline">
+                      HP
+                      <b>{{ mech.MaxHP }}</b>
+                    </span>
+                  </v-col>
+                  <v-divider vertical class="mx-2" />
+                  <v-col cols="auto">
+                    <span class="overline">
+                      Stress
+                      <b>{{ mech.MaxStress }}</b>
+                    </span>
+                  </v-col>
+                  <v-divider vertical class="mx-2" />
+                  <v-col cols="auto">
+                    <span class="overline">
+                      Heat
+                      <b>{{ mech.HeatCapacity }}</b>
+                    </span>
+                  </v-col>
+                  <v-divider vertical class="mx-2" />
+                  <v-col cols="auto">
+                    <span class="overline">
+                      RepCap
+                      <b>{{ mech.RepairCapacity }}</b>
+                    </span>
+                  </v-col>
+                </v-row>
               </v-col>
               <v-col cols="auto" class="white--text flavor-text">
                 <v-alert v-if="mech.Destroyed" color="error" dense tile class="text-center">
@@ -98,29 +128,6 @@
                 <v-alert v-if="mech.ReactorDestroyed" color="accent" dense tile class="text-center">
                   <span style="letter-spacing: 5px">// REACTOR DESTROYED //</span>
                 </v-alert>
-              </v-col>
-              <v-col cols="auto" class="ml-auto mr-4 mt-2">
-                <cc-tooltip simple inline content="Delete Mech">
-                  <v-btn
-                    small
-                    icon
-                    class="fadeSelect"
-                    color="error"
-                    @click.stop="$refs.delete.show()"
-                  >
-                    <v-icon>delete</v-icon>
-                  </v-btn>
-                </cc-tooltip>
-                <cc-tooltip simple inline content="Duplicate Mech">
-                  <v-btn small icon class="fadeSelect" @click.stop="$refs.copy.show()">
-                    <v-icon>mdi-content-copy</v-icon>
-                  </v-btn>
-                </cc-tooltip>
-                <cc-tooltip simple inline content="Print Mech Sheet">
-                  <v-btn small icon class="fadeSelect" @click.stop="$refs.print.show()">
-                    <v-icon>mdi-printer</v-icon>
-                  </v-btn>
-                </cc-tooltip>
               </v-col>
             </v-row>
           </p>
@@ -146,6 +153,32 @@ export default Vue.extend({
     mech: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    loadoutWeapons() {
+      const output = []
+      for (const mount of this.mech.ActiveLoadout.AllEquippableMounts(
+        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+      )) {
+        if (!mount.IsLocked) {
+          let str = `${mount.Name}:`
+          if (!mount.Weapons.length) str += ' EMPTY'
+          else {
+            mount.Weapons.forEach((w, i) => {
+              str += ` ${w.Name}`
+              if (w.Mod) str += ` (${w.Mod.Name})`
+              if (i + 1 < mount.Weapons.length) str += '/'
+            })
+          }
+          output.push(str)
+        }
+      }
+      return output
+    },
+    loadoutSystems() {
+      return this.mech.ActiveLoadout.AllActiveSystems.map(x => x.Name)
     },
   },
 })
