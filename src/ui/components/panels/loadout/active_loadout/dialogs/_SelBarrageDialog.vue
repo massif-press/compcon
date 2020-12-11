@@ -30,32 +30,32 @@
               {{ item.Name }}
             </div>
           </weapon-attack>
-        </div>
-        <v-container v-if="auxes.length">
-          <div v-for="(aux, i) in auxes" :key="`barrage_item_${aux.ID}_${i}`" class="my-3">
-            <div class="body-text text-center font-weight-bold">
-              You may make an additional attack with the following mounted Auxiliary weapon:
-              <div class="text-center overline my-n2">
-                This weapon cannot deal bonus damage.
-              </div>
-            </div>
-            <v-alert dense outlined class="my-1" colored-border color="primary">
-              <weapon-attack
-                :ref="`aux_${i}`"
-                :item="aux"
-                :mech="mech"
-                :mount="mounts[i]"
-                aux
-                class="mt-n3"
-              >
-                <div class="heading h3 mt-3 mb-n3">
-                  <v-icon large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
-                  {{ extraAux.Name }}
+          <v-container v-if="hasAux(mounts[i], item)">
+            <div class="my-3">
+              <div class="body-text text-center font-weight-bold">
+                You may make an additional attack with the following mounted Auxiliary weapon:
+                <div class="text-center overline my-n2">
+                  This weapon cannot deal bonus damage.
                 </div>
-              </weapon-attack>
-            </v-alert>
-          </div>
-        </v-container>
+              </div>
+              <v-alert dense outlined class="my-1" colored-border color="primary">
+                <weapon-attack
+                  :ref="`aux_${i}`"
+                  :item="hasAux(mounts[i], item)"
+                  :mech="mech"
+                  :mount="mounts[i]"
+                  aux
+                  class="mt-n3"
+                >
+                  <div class="heading h3 mt-3 mb-n3">
+                    <v-icon large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
+                    {{ hasAux(mounts[i], item).Name }}
+                  </div>
+                </weapon-attack>
+              </v-alert>
+            </div>
+          </v-container>
+        </div>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -88,18 +88,17 @@ export default Vue.extend({
     mounts() {
       return this.state.BarrageMounts
     },
-    auxes() {
-      const arr = []
-      this.mounts.forEach(m => {
-        if (!m.Weapons || m.Weapons.length === 1) return
-        let extra = m.Weapons.find(x => !this.items.some(y => y === x))
-        if (extra && extra.length) extra = extra.filter(w => w.WeaponSize === WeaponSize.Aux)
-        if (extra) arr.concat(extra)
-      })
-      return arr
-    },
   },
   methods: {
+    hasAux(mount, primary) {
+      const auxes = mount.Weapons.filter(x => x.Size === WeaponSize.Aux)
+      if (!auxes.length) return false
+      const unusedAux = auxes.filter(x => x.InstanceID !== primary.InstanceID)
+      if (!unusedAux.length) return false
+      const candidate = unusedAux[0]
+      if (this.items.some(x => x === candidate)) return false
+      return candidate || false
+    },
     reset() {
       for (let i = 0; i < this.items.length; i++) {
         this.$refs[`main_${i}`].reset()

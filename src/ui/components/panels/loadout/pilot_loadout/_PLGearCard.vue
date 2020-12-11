@@ -24,7 +24,7 @@
         </v-col>
         <v-col cols="auto" class="ml-auto text-right mt-n2 mb-n2">
           <div class="overline">ITEM USES</div>
-          <v-icon v-if="!item.MaxUses" color="secondary" class="mt-n3">mdi-infinity</v-icon>
+          <v-icon v-if="!item.MaxUses" color="secondary" class="mt-n3 mr-2">mdi-infinity</v-icon>
           <cc-item-uses v-else :item="item" color="secondary" class="mt-n3" />
         </v-col>
       </v-row>

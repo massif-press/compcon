@@ -182,13 +182,7 @@ class Mech implements IActor {
   }
 
   public get IsActive(): boolean {
-    return this._active
-  }
-
-  public set IsActive(toggle: boolean) {
-    this._active = toggle
-    if (this.IsActive) this.FullRepair()
-    this.save()
+    return this.Pilot.State.ActiveMech.ID === this.ID
   }
 
   public get IsCascading(): boolean {
@@ -907,6 +901,23 @@ class Mech implements IActor {
         if (y.IsLimited) y.Uses = y.getTotalUses(this.LimitedBonus)
       })
     })
+    this._statuses = []
+    this._conditions = []
+    this._resistances = []
+    this.Burn = 0
+    this._defeat = ''
+    this.save()
+  }
+
+  public BasicRepair(restoreReactor: boolean): void {
+    this._destroyed = false
+    if (restoreReactor) {
+      this._reactor_destroyed = false
+      this.CurrentStress = 1
+    }
+    this.CurrentStructure = 1
+    this.CurrentHP = 1
+    this.CurrentHeat = 0
     this._statuses = []
     this._conditions = []
     this._resistances = []

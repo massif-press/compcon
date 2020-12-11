@@ -30,14 +30,6 @@
           </span>
         </div>
       </v-col>
-      <v-col cols="auto" class="ml-auto mt-4">
-        <cc-tooltip v-if="!mech.IsActive" simple content="Set as Active">
-          <v-btn icon @click.stop="pilot.ActiveMech = mech">
-            <v-icon x-large>cci-activate</v-icon>
-          </v-btn>
-        </cc-tooltip>
-        <v-icon v-else class="mt-n1" x-large color="success">cci-activate</v-icon>
-      </v-col>
     </v-row>
     <v-row v-if="mech.StatusString.length" dense justify="center" class="mt-n3 mb-1">
       <v-col v-for="s in mech.StatusString" :key="`status-${s}`" cols="auto">

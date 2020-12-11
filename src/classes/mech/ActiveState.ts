@@ -299,6 +299,7 @@ class ActiveState {
   public StartMission(): void {
     this._mission += 1
     this._stats = ActiveState.NewCombatStats()
+    this._pilot.FullRestore()
     this._mech.FullRepair()
     this.save()
     this.SetLog({
@@ -1040,13 +1041,23 @@ class ActiveState {
 
   public get AvailableActions(): string[] {
     if (!this.IsMounted) {
-      return this.AllActions.filter(x => x.IsPilotAction && !x.IsActiveHidden).map(x => x.ID)
+      const pilotActions = this.AllActions.filter(x => x.IsPilotAction && !x.IsActiveHidden).map(
+        x => x.ID
+      )
+      if (!this._mech.ReactorDestroyed) return pilotActions
+      return pilotActions.filter(x => x !== 'act_mount')
     } else {
       if (this._mech.IsShutDown) {
         return ['act_boot_up', 'act_dismount', 'act_eject']
       }
       if (this._mech.IsStunned) {
         return ['act_dismount', 'act_eject']
+      }
+      if (this._mech.ReactorDestroyed) {
+        return []
+      }
+      if (this._mech.Destroyed) {
+        return ['act_dismount']
       }
       const out = this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
       if (!this._mech.IsShutDown) out.splice(out.indexOf('act_boot_up'), 1)

@@ -9,6 +9,7 @@
           large
           color="action--move"
           full-icon="mdi-arrow-right-bold-hexagon-outline"
+          :number-only="$vuetify.breakpoint.mdAndDown"
           @update="state.SetMove($event)"
         >
           <span class="heading h3">
@@ -26,6 +27,9 @@
           </legend>
           <cc-synergy-display large location="active_effects" :mech="mech" />
         </fieldset>
+      </v-col>
+      <v-col cols="auto" align-self="center">
+        <slot name="repair" />
       </v-col>
     </v-row>
     <v-row align="start" class="mt-n3 mx-2">
@@ -59,7 +63,7 @@
           large
           color="armor"
           full-icon="mdi-shield"
-          hide-max
+          number-only
           readonly
         >
           <span class="heading h3">Armor: {{ mech.Armor }}</span>
@@ -77,6 +81,7 @@
           color="hp"
           :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
           :max-length="$vuetify.breakpoint.xl ? 35 : 25"
+          :number-only="$vuetify.breakpoint.mdAndDown"
           @update="state.SetHp($event)"
         >
           <span class="heading h3">HP</span>
@@ -131,6 +136,7 @@
           large
           :color="mech.IsInDangerZone ? 'dangerzone' : 'heatcap'"
           :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
+          :number-only="$vuetify.breakpoint.mdAndDown"
           clearable
           @update="state.SetHeat($event)"
         >
@@ -161,6 +167,7 @@
           :max="mech.RepairCapacity"
           large
           color="repcap"
+          :number-only="$vuetify.breakpoint.mdAndDown"
           full-icon="cci-repair"
           @update="state.SetRepCap($event)"
         >
@@ -231,7 +238,7 @@
 <script lang="ts">
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'large-pip-layout',
+  name: 'pip-layout',
   props: {
     mech: {
       type: Object,

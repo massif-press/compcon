@@ -49,30 +49,40 @@
         </v-col>
       </v-row>
 
-      <v-row v-if="mech.ReactorDestroyed" dense justify="center" class="text-center">
-        <v-col cols="auto">
-          <v-alert dense outlined color="error" prominent>
-            <v-icon slot="prepend" color="error" size="70" class="mr-3">
-              mdi-nuke
-            </v-icon>
-            <span class="heading h1">REACTOR DESTROYED</span>
-          </v-alert>
-        </v-col>
-      </v-row>
+      <v-alert
+        v-if="mech.Pilot.Status === 'KIA' || mech.Pilot.IsDead"
+        prominent
+        dense
+        outlined
+        color="error"
+      >
+        <v-icon slot="prepend" size="80" class="mr-2">mdi-skull</v-icon>
+        <div class="heading h1 pb-2 text-center">KILLED IN ACTION</div>
+        <div style="position: relative">
+          <v-menu offset-y offset-x>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                color="secondary"
+                absolute
+                right
+                small
+                outlined
+                class="fadeSelect"
+                style="bottom: 0; right: 0"
+                v-on="on"
+              >
+                Revert
+              </v-btn>
+            </template>
+            <cc-confirmation
+              content="This will restore the selected pilot and clear the KIA and Down and Out statuses."
+              @confirm="mech.Pilot.Restore()"
+            />
+          </v-menu>
+        </div>
+      </v-alert>
 
-      <v-row v-else-if="mech.Destroyed" dense justify="center" class="text-center">
-        <v-col cols="auto">
-          <v-alert dense outlined color="error" prominent>
-            <v-icon slot="prepend" color="error" size="70" class="mr-3">
-              cci-eclipse
-            </v-icon>
-            <span class="heading h1">MECH DESTROYED</span>
-            <div class="heading mt-n4 subtle--text">
-              FRAME.CRITICAL//: CATASTROPHIC DAMAGE
-            </div>
-          </v-alert>
-        </v-col>
-      </v-row>
+      <destroyed-alert v-if="mech.Destroyed" :mech="mech" @restore="mech.BasicRepair($event)" />
 
       <v-row v-else-if="mech.IsShutDown" dense justify="center" class="text-center">
         <v-col cols="auto">
@@ -139,8 +149,20 @@
             />
           </v-col>
 
-          <v-col cols="auto" class="mx-3">
-            <cc-tooltip simple inline content="Full Repair">
+          <v-col
+            cols="auto"
+            :class="`mx-3 ${$vuetify.breakpoint.lgAndDown ? 'ml-auto' : ''}`"
+          ></v-col>
+        </v-row>
+
+        <div :style="mech.Destroyed ? 'opacity: 0.5' : ''">
+          <pip-layout
+            :mech="mech"
+            :struct-rollover="structRolledOver"
+            :stress-rollover="stressRolledOver"
+            :hp-resistance="hpResistance"
+          >
+            <cc-tooltip slot="repair" simple inline content="Full Repair">
               <v-menu v-model="repairMenu" offset-y offset-x bottom left>
                 <template v-slot:activator="{ on }">
                   <v-btn v-if="!mech.Destroyed" icon class="fadeSelect" v-on="on">
@@ -159,31 +181,7 @@
                 />
               </v-menu>
             </cc-tooltip>
-          </v-col>
-        </v-row>
-
-        <div :style="mech.Destroyed ? 'opacity: 0.5' : ''">
-          <large-pip-layout
-            v-if="$vuetify.breakpoint.lgAndUp"
-            :mech="mech"
-            :struct-rollover="structRolledOver"
-            :stress-rollover="stressRolledOver"
-            :hp-resistance="hpResistance"
-          />
-          <med-pip-layout
-            v-else-if="$vuetify.breakpoint.mdAndUp"
-            :mech="mech"
-            :struct-rollover="structRolledOver"
-            :stress-rollover="stressRolledOver"
-            :hp-resistance="hpResistance"
-          />
-          <small-pip-layout
-            v-else
-            :mech="mech"
-            :struct-rollover="structRolledOver"
-            :stress-rollover="stressRolledOver"
-            :hp-resistance="hpResistance"
-          />
+          </pip-layout>
 
           <v-row dense align="center" class="mt-n3">
             <v-col cols="auto" class="ml-2 mt-n2 mr-2">
@@ -479,20 +477,19 @@
 import sleep from '@/util/sleep'
 import { Mech, MechLoadout } from '@/class'
 import MechSelectButton from '../components/MechSelectButton.vue'
-import LargePipLayout from './LargePipLayout.vue'
-import MedPipLayout from './MedPipLayout.vue'
-import SmallPipLayout from './SmallPipLayout.vue'
+import PipLayout from './PipLayout.vue'
 import ActiveModeLoadout from './ActiveModeLoadout.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
+import DestroyedAlert from '../components/DestroyedAlert.vue'
+
 export default vueMixins(activePilot).extend({
   name: 'mech-block',
   components: {
     MechSelectButton,
-    LargePipLayout,
-    MedPipLayout,
-    SmallPipLayout,
+    PipLayout,
     ActiveModeLoadout,
+    DestroyedAlert,
   },
   data: () => ({
     showTalents: true,

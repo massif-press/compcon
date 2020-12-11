@@ -1,203 +1,161 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
-    width="90vw"
-  >
-    <v-card tile class="background">
-      <action-titlebar :action="action" :mech="mech" @hide="hide()" />
+  <div class="pt-2">
+    <v-row justify="center" align="center">
+      <v-col>
+        <action-detail-expander :action="action" />
+      </v-col>
+      <v-col cols="auto">
+        <v-btn
+          large
+          tile
+          block
+          :disabled="actionFree"
+          :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
+          @click="actionCost = !actionCost"
+        >
+          <v-icon left>{{ action.Icon }}</v-icon>
+          {{ action.Name }}
+        </v-btn>
+        <v-btn
+          v-if="action.Activation !== 'Free'"
+          small
+          tile
+          block
+          :disabled="actionCost"
+          :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
+          @click="actionFree = !actionFree"
+        >
+          <v-icon left small>cci-free-action</v-icon>
+          Free Action
+          <cc-tooltip
+            inline
+            :content="
+              `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
+            "
+          >
+            <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
+          </cc-tooltip>
+        </v-btn>
+      </v-col>
+    </v-row>
 
-      <v-card-text class="pt-4">
-        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
-
-        <v-row justify="center" align="center">
-          <v-col>
-            <action-detail-expander :action="action" />
-          </v-col>
-          <v-col cols="auto">
-            <v-btn
-              large
-              tile
-              block
-              :disabled="actionFree"
-              :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
-              @click="actionCost = !actionCost"
-            >
-              <v-icon left>{{ action.Icon }}</v-icon>
-              {{ action.Name }}
-            </v-btn>
-            <v-btn
-              v-if="action.Activation !== 'Free'"
-              small
-              tile
-              block
-              :disabled="actionCost"
-              :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
-              @click="actionFree = !actionFree"
-            >
-              <v-icon left small>cci-free-action</v-icon>
-              Free Action
-              <cc-tooltip
-                inline
-                :content="
-                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
-                "
-              >
-                <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
-              </cc-tooltip>
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-slide-x-reverse-transition>
-          <v-row v-if="actionFree || actionCost" justify="center" align="center">
-            <v-col lg="auto" md="12" class="mt-n5">
-              <v-row dense class="text-center mb-n3" justify="start" align="start">
-                <v-col cols="auto" class="ml-auto px-12 panel dual-sliced" style="height: 70px">
-                  <div class="overline mt-n2 pl-4 mr-n4">Contested SYSTEMS</div>
+    <v-slide-x-reverse-transition>
+      <v-row v-if="actionFree || actionCost" justify="center" align="center">
+        <v-col lg="auto" md="12" class="mt-n5">
+          <v-row dense class="text-center mb-n3" justify="start" align="start">
+            <v-col cols="auto" class="ml-auto px-12 panel dual-sliced" style="height: 70px">
+              <div class="overline mt-n2 pl-4 mr-n4">Contested SYSTEMS</div>
+              <v-text-field
+                v-model="sys"
+                type="number"
+                style="width: 60px"
+                class="hide-input-spinners mt-n1 ml-10"
+                color="accent"
+                dense
+                hide-details
+                @change="sys = parseInt($event)"
+              />
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <v-row dense justify="end">
+            <v-col cols="auto" class="ml-auto px-12 mr-n10 panel dual-sliced" style="height: 70px">
+              <div class="overline mt-n2 pl-1">Accuracy</div>
+              <v-text-field
+                v-model="accuracy"
+                type="number"
+                append-outer-icon="mdi-plus-circle-outline"
+                append-icon="cci-accuracy"
+                prepend-icon="mdi-minus-circle-outline"
+                style="width: 115px"
+                class="hide-input-spinners"
+                color="accent"
+                dense
+                hide-details
+                @click:append-outer="accuracy < 99 ? (accuracy += 1) : ''"
+                @click:prepend="accuracy > minAccuracy ? (accuracy -= 1) : ''"
+                @change="accuracy = parseInt($event)"
+              />
+            </v-col>
+            <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
+              <div class="overline mt-n2 pl-1">Difficulty</div>
+              <v-text-field
+                v-model="difficulty"
+                type="number"
+                append-outer-icon="mdi-plus-circle-outline"
+                append-icon="cci-difficulty"
+                prepend-icon="mdi-minus-circle-outline"
+                style="width: 115px"
+                class="hide-input-spinners"
+                color="accent"
+                dense
+                hide-details
+                @click:append-outer="difficulty < 99 ? (difficulty += 1) : ''"
+                @click:prepend="difficulty > minDifficulty ? (difficulty -= 1) : ''"
+                @change="difficulty = parseInt($event)"
+              />
+            </v-col>
+            <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
+              <div class="overline mt-n2 mr-n6 pl-3">Contested Roll</div>
+              <v-row no-gutters>
+                <v-col class="mr-n2 ml-n2">
+                  <cc-tooltip title="SYSTEMS Roll" :content="rollResultTooltip">
+                    <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollSkill">
+                      <v-icon large>mdi-dice-multiple</v-icon>
+                    </v-btn>
+                  </cc-tooltip>
+                </v-col>
+                <v-col>
                   <v-text-field
-                    v-model="sys"
+                    v-model="roll"
                     type="number"
-                    style="width: 60px"
-                    class="hide-input-spinners mt-n1 ml-10"
+                    class="hide-input-spinners ml-n3"
+                    style="max-width: 60px; margin-top: -0.5px"
                     color="accent"
                     dense
                     hide-details
-                    @change="sys = parseInt($event)"
                   />
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="auto" class="ml-auto">
-              <v-row dense justify="end">
-                <v-col
-                  cols="auto"
-                  class="ml-auto px-12 mr-n10 panel dual-sliced"
-                  style="height: 70px"
-                >
-                  <div class="overline mt-n2 pl-1">Accuracy</div>
-                  <v-text-field
-                    v-model="accuracy"
-                    type="number"
-                    append-outer-icon="mdi-plus-circle-outline"
-                    append-icon="cci-accuracy"
-                    prepend-icon="mdi-minus-circle-outline"
-                    style="width: 115px"
-                    class="hide-input-spinners"
-                    color="accent"
-                    dense
-                    hide-details
-                    @click:append-outer="accuracy < 99 ? (accuracy += 1) : ''"
-                    @click:prepend="accuracy > minAccuracy ? (accuracy -= 1) : ''"
-                    @change="accuracy = parseInt($event)"
-                  />
-                </v-col>
-                <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
-                  <div class="overline mt-n2 pl-1">Difficulty</div>
-                  <v-text-field
-                    v-model="difficulty"
-                    type="number"
-                    append-outer-icon="mdi-plus-circle-outline"
-                    append-icon="cci-difficulty"
-                    prepend-icon="mdi-minus-circle-outline"
-                    style="width: 115px"
-                    class="hide-input-spinners"
-                    color="accent"
-                    dense
-                    hide-details
-                    @click:append-outer="difficulty < 99 ? (difficulty += 1) : ''"
-                    @click:prepend="difficulty > minDifficulty ? (difficulty -= 1) : ''"
-                    @change="difficulty = parseInt($event)"
-                  />
-                </v-col>
-                <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
-                  <div class="overline mt-n2 mr-n6 pl-3">Contested Roll</div>
-                  <v-row no-gutters>
-                    <v-col class="mr-n2 ml-n2">
-                      <cc-tooltip title="SYSTEMS Roll" :content="rollResultTooltip">
-                        <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollSkill">
-                          <v-icon large>mdi-dice-multiple</v-icon>
-                        </v-btn>
-                      </cc-tooltip>
-                    </v-col>
-                    <v-col>
-                      <v-text-field
-                        v-model="roll"
-                        type="number"
-                        class="hide-input-spinners ml-n3"
-                        style="max-width: 60px; margin-top: -0.5px"
-                        color="accent"
-                        dense
-                        hide-details
-                      />
-                    </v-col>
-                  </v-row>
-                </v-col>
-                <v-col cols="auto" class="text-center mt-3 mr-6">
-                  <div class="heading h1" v-html="`+${mech.Sys}`" />
-                  <div class="mt-2">SYSTEMS</div>
-                </v-col>
-              </v-row>
+            <v-col cols="auto" class="text-center mt-3 mr-6">
+              <div class="heading h1" v-html="`+${mech.Sys}`" />
+              <div class="mt-2">SYSTEMS</div>
             </v-col>
           </v-row>
-        </v-slide-x-reverse-transition>
+        </v-col>
+      </v-row>
+    </v-slide-x-reverse-transition>
 
-        <v-slide-x-reverse-transition>
-          <v-row v-if="roll && sys" no-gutters class="mt-2">
-            <v-col cols="auto" class="ml-auto" align="end">
-              <v-fade-transition v-for="(s, i) in skLog" :key="`skLog_${i}`">
-                <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
-                  <span>
-                    >//[
-                    <span class="accent--text">
-                      COMP/CON:
-                    </span>
-                    ] :
-                    <span>{{ s }}</span>
-                  </span>
-                </p>
-              </v-fade-transition>
-            </v-col>
-          </v-row>
-        </v-slide-x-reverse-transition>
-        <v-slide-x-reverse-transition>
-          <v-row v-if="finished" no-gutters>
-            <v-col cols="auto" class="ml-auto">
-              <cc-tooltip content="Undo this action, refunding any cost it may have had">
-                <v-btn x-small color="primary" class="fadeSelect" @click="reset">
-                  <v-icon small left>mdi-reload</v-icon>
-                  UNDO
-                </v-btn>
-              </cc-tooltip>
-            </v-col>
-          </v-row>
-        </v-slide-x-reverse-transition>
-      </v-card-text>
-
-      <v-slide-y-reverse-transition>
-        <div v-if="complete">
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="primary" tile @click="dialog = false">DISMISS</v-btn>
-          </v-card-actions>
-        </div>
-      </v-slide-y-reverse-transition>
-    </v-card>
-  </v-dialog>
+    <v-slide-x-reverse-transition>
+      <v-row v-if="roll && sys" no-gutters class="mt-2">
+        <v-col cols="auto" class="ml-auto" align="end">
+          <v-btn
+            large
+            tile
+            :color="roll > sys ? 'success' : 'error'"
+            :disabled="used"
+            @click="complete()"
+          >
+            CONFIRM
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-slide-x-reverse-transition>
+  </div>
 </template>
 
 <script lang="ts">
 import { ActivationType, DiceRoller } from '@/class'
 import Vue from 'vue'
 import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
-import ActionTitlebar from '../components/_ActionTitlebar.vue'
 
 export default Vue.extend({
-  name: 'skill-check-dialog',
-  components: { ActionDetailExpander, ActionTitlebar },
+  name: 'search-dialog',
+  components: { ActionDetailExpander },
   props: {
+    used: { type: Boolean },
     mech: {
       type: Object,
       required: true,
@@ -216,20 +174,12 @@ export default Vue.extend({
     rollString: '',
     rollResultString: '',
     rollAccuracyResults: '[]',
-    complete: false,
     actionCost: false,
     actionFree: false,
     timer: 0,
     finished: false,
   }),
   computed: {
-    succeeded() {
-      if (this.roll && this.sys) {
-        this.runTimeout()
-        return this.roll >= this.sys
-      }
-      return false
-    },
     rollResultTooltip() {
       let str = this.rollString
       if (this.rollResultString) {
@@ -240,33 +190,10 @@ export default Vue.extend({
       }
       return str
     },
-    skLog() {
-      const l = ['FULL SUITE SCAN INITIATED.']
-      if (this.succeeded) l.push('ALERT: WAVEFORM DETECTED. SIGNATURE IDENTIFIED.')
-      else l.push('SENSOR SUBPROCESS RETURNED 0 RESULTS.')
-      return l
-    },
   },
   methods: {
-    runTimeout() {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      const timer = setInterval(function() {
-        self.timer++
-
-        if (self.timer > self.skLog.length * 10) {
-          clearInterval(timer)
-          self.finished = true
-        }
-      }, 80)
-    },
-    select(action) {
-      this.runTimeout()
-      this.mech.Pilot.State.CommitAction(
-        this.action,
-        this.actionFree ? ActivationType.Free : ActivationType.Quick
-      )
-      return !action
+    complete() {
+      this.$emit('use', this.actionFree ? ActivationType.Free : ActivationType.Quick)
     },
     rollSkill(): void {
       const roll = DiceRoller.rollToHit(this.mech.Sys, this.accuracy, this.difficulty)
@@ -291,7 +218,6 @@ export default Vue.extend({
       this.rollString = ''
       this.rollResultString = ''
       this.rollAccuracyResults = '[]'
-      this.complete = false
       this.actionCost = false
       this.actionFree = false
       this.timer = 0
