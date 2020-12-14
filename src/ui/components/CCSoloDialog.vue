@@ -74,6 +74,7 @@ export default class CCSoloDialog extends Vue {
     this.dialog = true
   }
   hide(): void {
+    this.$emit('close')
     this.dialog = false
   }
 }

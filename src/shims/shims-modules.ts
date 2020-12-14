@@ -29,7 +29,6 @@ declare module 'lancer-data' {
   const mods: any
   const pilot_gear: any
   const tables: any
-  const quirks: any
   const statuses: any
   const systems: any
   const tags: any

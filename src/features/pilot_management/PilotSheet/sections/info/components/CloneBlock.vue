@@ -68,7 +68,9 @@
 <script lang="ts">
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
-import data from 'lancer-data'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
+
 import _ from 'lodash'
 
 export default vueMixins(activePilot).extend({
@@ -82,7 +84,8 @@ export default vueMixins(activePilot).extend({
       if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※'
       if (!this.pilot.Callsign.includes('※')) this.pilot.Name += '※'
       this.pilot.Heal()
-      this.pilot.AddQuirk(_.sample(data.quirks))
+      const compendium = getModule(CompendiumStore, this.$store)
+      this.pilot.AddQuirk(_.sample(compendium.Tables.quirks))
     },
     updateQuirk(index, str) {
       this.$set(this.pilot.Quirks, index, str)

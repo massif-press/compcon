@@ -24,14 +24,14 @@
             :
             <span class="stark--text">Active Protocols Standing By</span>
             ] Pilot, proceeding will engage COMP/CON ACTIVE MODE, which will assist with running
-            LANCER Missions and Encounters. First-time users are encouraged to enable the Active
-            Mode Tutorial.
+            LANCER Missions and Encounters.
+            <!-- First-time users are encouraged to enable the Active Mode Tutorial. -->
           </p>
-          <v-row justify="center" no-gutters class="mt-n2">
+          <!-- <v-row justify="center" no-gutters class="mt-n2">
             <v-col cols="auto">
               <v-checkbox color="accent" label="Enable Active Mode Tutorial" dense hide-details />
             </v-col>
-          </v-row>
+          </v-row> -->
           <v-alert
             dense
             outlined

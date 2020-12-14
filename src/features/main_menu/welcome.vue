@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-dialog ref="dialog" no-confirm large :title="title">
+  <cc-solo-dialog ref="dialog" no-confirm large :title="title" @close="setHash()">
     <div class="mt-2 body-text text--text" v-html="body" />
     <v-row no-gutters align="end" justify="end">
       <v-col cols="auto">
@@ -58,6 +58,12 @@ export default Vue.extend({
       .catch(err => {
         console.error('There was an issue downloading the latest welcome message.', err)
       })
+  },
+  methods: {
+    setHash() {
+      if (this.noshow) this.profile.WelcomeHash = this.hash
+      else this.profile.WelcomeHash = ''
+    },
   },
 })
 </script>
