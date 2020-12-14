@@ -1,10 +1,10 @@
 const { resolve } = require('path')
 const { writeFile, mkdirSync, existsSync } = require('fs')
 const { promisify } = require('util')
-const TJS = require('typescript-json-schema');
+const TJS = require('typescript-json-schema')
 
 const settings = {
-  required: true
+  required: true,
 }
 
 console.log('Creating TS program...')
@@ -17,13 +17,18 @@ const schemasWanted = [
   'manifest',
   'manufacturers',
   'factions',
+  'environments',
   'core_bonus',
   'frames',
   'weapons',
   'systems',
   'mods',
   'pilot_gear',
+  'reserves',
   'talents',
+  'sitreps',
+  'skills',
+  'statuses',
   'tags',
   'npc_classes',
   'npc_features',
@@ -32,10 +37,10 @@ const schemasWanted = [
 
 console.log('Generating schemas...')
 
-const schemaMap = schemasWanted.reduce(function (map, schemaName) {
-  map[schemaName] = TJS.generateSchema(program, `SCHEMA__${schemaName}`, settings);
-  return map;
-}, {});
+const schemaMap = schemasWanted.reduce(function(map, schemaName) {
+  map[schemaName] = TJS.generateSchema(program, `SCHEMA__${schemaName}`, settings)
+  return map
+}, {})
 
 console.log('Done.')
 console.log('Emitting schemas...')
@@ -54,6 +59,4 @@ const promises = Object.entries(schemaMap).map(([name, schema]) => {
   )
 })
 
-Promise.all(promises).then(
-  () => console.log('Done.')
-)
+Promise.all(promises).then(() => console.log('Done.'))
