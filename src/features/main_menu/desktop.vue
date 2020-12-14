@@ -46,7 +46,7 @@
     <v-footer color="primary" fixed>
       <v-row no-gutters justify="space-around" align="center">
         <v-col cols="auto" class="text-center mr-3">
-          <v-btn small outlined @click="bulkExport">
+          <v-btn small dark outlined @click="bulkExport">
             <v-icon left>mdi-database</v-icon>
             Create COMP/CON Data Backup
             <cc-tooltip
@@ -60,7 +60,7 @@
         <v-col cols="auto" class="text-center">
           <v-dialog v-model="importDialog" width="50%">
             <template v-slot:activator="{ on }">
-              <v-btn small outlined v-on="on">
+              <v-btn small dark outlined v-on="on">
                 <v-icon left>mdi-database-refresh</v-icon>
                 Load COMP/CON Data Backup
                 <cc-tooltip

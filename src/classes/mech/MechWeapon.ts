@@ -28,8 +28,9 @@ import { IDeployableData } from '../Deployable'
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize
   type: WeaponType
-  skirmish_cost?: number
-  barrage_cost?: number
+  skirmish?: boolean
+  barrage?: boolean
+  cost?: number
   on_attack?: string
   on_hit?: string
   on_crit?: string
@@ -40,10 +41,11 @@ interface IMechWeaponData extends IMechEquipmentData {
 }
 
 interface IWeaponProfileData {
-  name?: string
+  name: string
   effect?: string
-  skirmish_cost?: number
-  barrage_cost?: number
+  skirmish?: boolean
+  barrage?: boolean
+  cost?: number
   on_attack?: string
   on_hit?: string
   on_crit?: string
@@ -64,16 +66,22 @@ class WeaponProfile extends CompendiumItem {
   OnAttack?: string
   OnHit?: string
   OnCrit?: string
-  SkirmishCost: number
-  BarrageCost: number
+  Cost: number
+  Skirmish: boolean
+  Barrage: boolean
 
-  public constructor(pData: IWeaponProfileData | IMechWeaponData, originId?: string, idx?: number) {
+  public constructor(
+    pData: IWeaponProfileData | IMechWeaponData,
+    container: MechWeapon,
+    idx?: number
+  ) {
     const data = Object.assign({}, pData) as ICompendiumItemData
-    if (!data.id) data.id = originId
+    if (!data.id) data.id = container.ID
     data.id += `_profile_${idx || 0}`
     super(data)
-    this.SkirmishCost = pData.skirmish_cost || 1
-    this.BarrageCost = pData.barrage_cost || 1
+    this.Cost = pData.cost || 1
+    this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
+    this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish
     if (pData.damage) this.Damage = pData.damage.map(x => new Damage(x))
     if (pData.range) this.Range = pData.range.map(x => new Range(x))
     if (pData.effect) this.Effect = pData.effect
@@ -87,6 +95,8 @@ class MechWeapon extends MechEquipment {
   public readonly Size: WeaponSize
   public readonly WeaponType: WeaponType
   public readonly Profiles: WeaponProfile[]
+  public readonly Skirmish: boolean
+  public readonly Barrage: boolean
   private _mod: WeaponMod | null
   private _custom_damage_type?: string
   private _selected_profile: number
@@ -95,10 +105,14 @@ class MechWeapon extends MechEquipment {
     super(data, packTags)
     this.Size = data.mount
     this.WeaponType = data.type
+    this.Skirmish =
+      data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy
+    this.Barrage = data.barrage != undefined ? data.skirmish : true
+
     if (data.profiles) {
-      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this.ID, i))
+      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, i))
     } else {
-      this.Profiles = [new WeaponProfile(data, this.ID)]
+      this.Profiles = [new WeaponProfile(data, this)]
     }
     this._selected_profile = 0
     this._mod = null
@@ -114,20 +128,16 @@ class MechWeapon extends MechEquipment {
     return this.Mod ? this.Mod.SP : 0
   }
 
-  public get SkirmishCost(): number {
-    return this.SelectedProfile.SkirmishCost
+  public get Cost(): number {
+    return this.SelectedProfile.Cost
   }
 
   public get CanSkirmish(): boolean {
-    return this.CheckUsable(this.SkirmishCost)
-  }
-
-  public get BarrageCost(): number {
-    return this.SelectedProfile.BarrageCost
+    return this.SelectedProfile.Skirmish && this.CheckUsable(this.Cost)
   }
 
   public get CanBarrage(): boolean {
-    return this.CheckUsable(this.BarrageCost)
+    return this.SelectedProfile.Barrage && this.CheckUsable(this.Cost)
   }
 
   public get SelectedProfile(): WeaponProfile {

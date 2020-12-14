@@ -1,6 +1,6 @@
 <template>
   <v-card flat tile class="containerCard">
-    <v-tabs v-model="tabs" background-color="panel" color="accent" dark icons-and-text>
+    <v-tabs v-model="tabs" background-color="panel" color="accent" icons-and-text>
       <v-tab>
         Content Packs
         <v-icon>list_alt</v-icon>
@@ -22,7 +22,7 @@
         <pack-install @installed="onInstalled" />
       </v-tab-item>
       <v-tab-item>
-        <v-card>TODO</v-card>
+        <packs-directory />
       </v-tab-item>
     </v-tabs-items>
   </v-card>
@@ -34,14 +34,15 @@ import Component from 'vue-class-component'
 
 import PacksList from './PacksList.vue'
 import PackInstall from './PackInstall.vue'
+import PacksDirectory from './PacksDirectory.vue'
 
 @Component({
-  components: { PacksList, PackInstall },
+  components: { PacksList, PackInstall, PacksDirectory },
 })
 export default class ExtraContent extends Vue {
   public tabs = null
 
-  public onInstalled() {
+  public onInstalled(): void {
     this.tabs = 0
   }
 }

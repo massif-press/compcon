@@ -524,8 +524,7 @@ export default Vue.extend({
           : ActivationType.Free,
       }
       let cost = 1
-      if (this.item.SkirmishCost) cost = this.item.SkirmishCost
-      if (this.barrage && this.item.BarrageCost) cost = this.item.BarrageCost
+      cost = this.item.Cost
       this.item.Use(cost)
       this.pilot.State.LogAttackAction('FIGHT', this.item.Name, this.summedDamage, this.kill)
       this.$emit('confirm', actionObj)

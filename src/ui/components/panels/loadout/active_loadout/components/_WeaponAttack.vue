@@ -130,7 +130,7 @@
                   v-html="isSmart ? 'E-Defense' : 'Evasion'"
                 />
               </v-col>
-              <v-col cols="auto" class="ml-8">
+              <v-col v-if="!noDamageItem" cols="auto" class="ml-8">
                 <div class="overline">Damage</div>
                 <cc-damage-element
                   :damage="getDamage"
@@ -326,7 +326,7 @@ each source of damage is used.`
               </cc-tooltip>
             </v-col>
             <v-col
-              v-if="hit"
+              v-if="hit && !noDamageItem"
               cols="auto"
               class="px-12 mr-n10 panel dual-sliced mt-n2"
               style="height: 70px"
@@ -365,7 +365,7 @@ each source of damage is used.`
               </v-row>
             </v-col>
             <v-col
-              v-if="hit && !aux"
+              v-if="hit && !aux && !noDamageItem"
               cols="auto"
               class="px-12 mr-n10 panel dual-sliced mt-n2"
               style="height: 70px"
@@ -384,7 +384,7 @@ each source of damage is used.`
             </v-col>
             <v-slide-x-reverse-transition>
               <v-col
-                v-if="hit"
+                v-if="hit && !noDamageItem"
                 cols="auto"
                 class="px-12 panel dual-sliced mt-n2"
                 style="height: 70px"
@@ -433,7 +433,51 @@ each source of damage is used.`
                 </cc-tooltip>
               </v-col>
             </v-slide-x-reverse-transition>
+            <v-slide-x-reverse-transition>
+              <v-col v-if="overkill" cols="12">
+                <div class="text-right overline stark--text mt-n2 mb-n1">
+                  <b>OVERKILL</b>
+                </div>
+                <v-row no-gutters justify="end" align="center">
+                  <v-col cols="auto">
+                    <cc-tooltip
+                      :content="
+                        `When rolling for damage with this weapon, any damage dice that land on a 1 cause the attacker to take 1 Heat, and are then rerolled. Additional 1s continue to trigger this effect. ${autoOverkillString}`
+                      "
+                    >
+                      <v-icon x-large>mdi-progress-alert</v-icon>
+                    </cc-tooltip>
+                  </v-col>
+                  <v-col
+                    v-for="(i, j) in overkillRolls"
+                    :key="`ovkr_${i}_${j}`"
+                    cols="auto"
+                    class="px-12 mx-n2 panel dual-sliced text-center mt-n1"
+                    style="height: 60px"
+                  >
+                    <v-icon large color="dangerzone">mdi-fire</v-icon>
+                    <div class="overline my-n2">
+                      +1 HEAT
+                      <v-icon small class="fadeSelect" @click="overkillRolls.splice(i, 1)">
+                        mdi-close
+                      </v-icon>
+                    </div>
+                  </v-col>
+                  <v-col cols="auto">
+                    <cc-tooltip content="Add Overkill Heat">
+                      <v-btn large icon @click="overkillRolls.push(1)">
+                        <v-icon large>mdi-plus-circle-outline</v-icon>
+                      </v-btn>
+                    </cc-tooltip>
+                  </v-col>
+                </v-row>
+                <div v-if="overkillHeat" class="overline error--text text-right">
+                  ALERT: This action will incur an additional {{ overkillHeat }} heat
+                </div>
+              </v-col>
+            </v-slide-x-reverse-transition>
 
+            <v-col v-if="overkill" class="ml-auto" />
             <v-slide-x-reverse-transition>
               <v-col v-if="hit || missed" cols="auto" class="text-center mt-n2 mb-n5 ml-n4">
                 <v-row no-gutters class="mt-2">
@@ -442,7 +486,7 @@ each source of damage is used.`
                       large
                       tile
                       color="success darken-2"
-                      :disabled="hit && !summedDamage"
+                      :disabled="hit && !summedDamage && !noDamageItem"
                       @click="confirm()"
                     >
                       <v-icon left>mdi-check</v-icon>
@@ -453,6 +497,7 @@ each source of damage is used.`
                 <v-row v-if="hit || (missed && !!reliable)" no-gutters class="mt-n4">
                   <v-col cols="auto" class="ml-auto">
                     <v-checkbox
+                      v-if="!noDamageItem"
                       v-model="kill"
                       color="accent"
                       dense
@@ -469,7 +514,7 @@ each source of damage is used.`
       </v-container>
     </v-slide-y-reverse-transition>
     <v-slide-x-reverse-transition>
-      <v-row v-if="hit || missed" no-gutters class="mt-2">
+      <v-row v-if="(hit || missed) && !noDamageItem" no-gutters class="mt-2">
         <v-col cols="auto" class="ml-auto">
           <p class="flavor-text stark--text ma-0">
             >//[
@@ -496,7 +541,7 @@ each source of damage is used.`
             <cc-slashes />
             <span v-if="finalDamage">{{ finalDamage }} DMG</span>
             <span v-if="kill">KILL CONFIRM</span>
-            <span v-if="item.ProfileHeatCost">
+            <span v-if="item.ProfileHeatCost || overkillHeat">
               <br />
               ALERT: REACTOR HEAT LEVELS INCREASING
             </span>
@@ -551,6 +596,8 @@ export default Vue.extend({
   data: () => ({
     tab: 0,
     ammoCost: 0,
+    overkillRolls: [],
+    autoOverkillString: '',
     ammoDamage: '',
     accuracy: 0,
     difficulty: 0,
@@ -571,6 +618,9 @@ export default Vue.extend({
     state() {
       return this.mech.Pilot.State
     },
+    noDamageItem() {
+      return !this.item.Damage.length
+    },
     missText() {
       if (this.reliable) return 'Glancing hit'
       switch (this.item.WeaponType) {
@@ -580,6 +630,12 @@ export default Vue.extend({
         default:
           return 'No effect'
       }
+    },
+    overkill() {
+      return this.item.Tags.some(x => x.IsOverkill)
+    },
+    overkillHeat() {
+      return this.overkillRolls.length
     },
     crit() {
       return this.attackRoll && this.attackRoll >= 20
@@ -713,7 +769,15 @@ export default Vue.extend({
     rollDamage(): void {
       this.damageResultString = ''
       this.getDamage.forEach((d, i) => {
-        const result = DiceRoller.rollDamage(d.Value, this.crit)
+        const result = DiceRoller.rollDamage(d.Value, this.crit, this.overkill)
+        if (this.overkill) {
+          this.overkillRolls = Array(result.overkillRerolls).fill(1)
+          this.autoOverkillString = `<br> COMP/CON rolled: ${'[1]'.repeat(
+            result.overkillRerolls
+          )}. Final Overkill re-roll: [${result.rawDieRolls.join('][')}]<br><b>+${
+            result.overkillRerolls
+          } Overkill Heat</b>`
+        }
         if (this.damageRolls[i]) {
           Vue.set(this.damageRolls, i, result.total)
         } else {
@@ -738,11 +802,11 @@ export default Vue.extend({
           : ActivationType.Free,
       }
       let cost = 1
-      if (this.item.SkirmishCost) cost = this.item.SkirmishCost
-      if (this.barrage && this.item.BarrageCost) cost = this.item.BarrageCost
+      cost = this.item.Cost
       this.item.Use(cost, actionObj.activation === ActivationType.Free)
       if (this.ammoCost) this.state.SpendAmmoCost(this.ammoCost)
       this.mech.CurrentHeat += this.item.ProfileHeatCost
+      this.mech.CurrentHeat += this.overkillHeat
       this.mech.Pilot.State.LogAttackAction('ATTACK', this.item.Name, this.summedDamage, this.kill)
       this.$emit('confirm', actionObj.activation === ActivationType.Free)
     },

@@ -23,6 +23,7 @@ import {
   NpcSystem,
   NpcTech,
 } from '@/class'
+import * as PlayerAction from '@/classes/Action'
 import {
   IManufacturerData,
   IFactionData,
@@ -44,6 +45,7 @@ import {
   INpcTechData,
   ITagCompendiumData,
 } from '@/interface'
+import { Action } from './Action'
 
 export interface IContentPackManifest {
   name: string
@@ -69,6 +71,14 @@ interface IContentPackData {
   npcClasses: INpcClassData[]
   npcFeatures: INpcFeatureData[]
   npcTemplates: INpcTemplateData[]
+
+  actions: PlayerAction.IActionData[]
+
+  statuses: Status[]
+  environments: Environment[]
+  sitreps: Sitrep[]
+
+  tables: any
 }
 
 export interface IContentPack {
@@ -170,6 +180,31 @@ export class ContentPack {
     return this._NpcFeatures
   }
 
+  private _Statuses: Status[] = []
+  public get Statuses(): Status[] {
+    return this._Statuses
+  }
+
+  private _Environments: Environment[] = []
+  public get Environments(): Environment[] {
+    return this._Environments
+  }
+
+  private _PlayerActions: Action[] = []
+  public get PlayerActions(): Action[] {
+    return this._PlayerActions
+  }
+
+  private _Sitreps: Sitrep[] = []
+  public get Sitreps(): Sitrep[] {
+    return this._Sitreps
+  }
+
+  private _Tables: any = {}
+  public get Tables(): any {
+    return this._Tables
+  }
+
   private _active: boolean
   public get Active(): boolean {
     return this._active
@@ -212,6 +247,16 @@ export class ContentPack {
       }) || []
     this._NpcClasses = this._data.npcClasses?.map(x => new NpcClass(x)) || []
     this._NpcTemplates = this._data.npcTemplates?.map(x => new NpcTemplate(x)) || []
+
+    this._PlayerActions = this._data.actions?.map(
+      (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
+    )
+
+    this._Statuses = this._data.statuses || []
+    this._Environments = this._data.environments || []
+    this._Sitreps = this._data.sitreps || []
+
+    this._Tables = this._data.tables || {}
   }
 
   public Serialize(): IContentPack {

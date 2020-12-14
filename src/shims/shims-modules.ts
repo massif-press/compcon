@@ -12,9 +12,9 @@ declare module 'imgur'
 
 declare module 'vuedraggable'
 
-declare module "*.txt" {
-  const content: string;
-  export default content;
+declare module '*.txt' {
+  const content: string
+  export default content
 }
 
 declare module 'lancer-data' {
@@ -28,6 +28,7 @@ declare module 'lancer-data' {
   const factions: any
   const mods: any
   const pilot_gear: any
+  const tables: any
   const quirks: any
   const statuses: any
   const systems: any

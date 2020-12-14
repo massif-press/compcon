@@ -1,20 +1,19 @@
-const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
-const isDevMode = require('electron-is-dev');
-const { CapacitorSplashScreen } = require('@capacitor/electron');
+const { app, BrowserWindow, Menu, globalShortcut } = require('electron')
+const isDevMode = require('electron-is-dev')
+const { CapacitorSplashScreen } = require('@capacitor/electron')
 
-const path = require('path');
+const path = require('path')
 
-
-if (isDevMode) require('electron-reload')(__dirname);
+if (isDevMode) require('electron-reload')(__dirname)
 
 // Place holders for our windows so they don't get garbage collected.
-let mainWindow = null;
+let mainWindow = null
 
 // Placeholder for SplashScreen ref
-let splashScreen = null;
+let splashScreen = null
 
 //Change this if you do not wish to have a splash screen
-let useSplashScreen = !isDevMode;
+let useSplashScreen = !isDevMode
 
 // Create simple menu for easy devtools access, and for demo
 const menuTemplateDev = [
@@ -24,12 +23,12 @@ const menuTemplateDev = [
       {
         label: 'Open Dev Tools',
         click() {
-          mainWindow.openDevTools();
+          mainWindow.openDevTools()
         },
       },
     ],
   },
-];
+]
 
 async function createWindow() {
   // Define our main window size
@@ -39,11 +38,18 @@ async function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      preload: path.join(__dirname, 'node_modules', '@capacitor', 'electron', 'dist', 'electron-bridge.js')
-    }
-  });
+      preload: path.join(
+        __dirname,
+        'node_modules',
+        '@capacitor',
+        'electron',
+        'dist',
+        'electron-bridge.js'
+      ),
+    },
+  })
 
-  globalShortcut.register('CommandOrControl+R', function () {
+  globalShortcut.register('CommandOrControl+R', function() {
     mainWindow.reload()
   })
 
@@ -51,49 +57,48 @@ async function createWindow() {
     require('vue-devtools').install()
   }
 
-  globalShortcut.register('CommandOrControl+Shift+I', function () {
-    mainWindow.webContents.openDevTools();
+  globalShortcut.register('CommandOrControl+Shift+I', function() {
+    mainWindow.webContents.openDevTools()
   })
 
   if (isDevMode) {
     // Set our above template to the Menu Object if we are in development mode, dont want users having the devtools.
-    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplateDev));
+    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplateDev))
     // If we are developers we might as well open the devtools by default.
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools()
   }
 
   if (useSplashScreen) {
-    splashScreen = new CapacitorSplashScreen(mainWindow);
-    splashScreen.init(false);
+    splashScreen = new CapacitorSplashScreen(mainWindow)
+    splashScreen.init(false)
   } else {
-    mainWindow.loadURL(`file://${__dirname}/app/index.html`);
+    mainWindow.loadURL(`file://${__dirname}/app/index.html`)
     mainWindow.webContents.on('dom-ready', () => {
-      mainWindow.show();
-    });
+      mainWindow.show()
+    })
   }
-
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some Electron APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', createWindow)
 
 // Quit when all windows are closed.
-app.on('window-all-closed', function () {
+app.on('window-all-closed', function() {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
-    app.quit();
+    app.quit()
   }
-});
+})
 
-app.on('activate', function () {
+app.on('activate', function() {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow();
+    createWindow()
   }
-});
+})
 
 // Define any IPC or other custom functionality below here

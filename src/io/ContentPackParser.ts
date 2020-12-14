@@ -18,6 +18,7 @@ import {
   ICompendiumItemData,
 } from '@/interface'
 import ExtLog from './ExtLog'
+import { IActionData } from '@/classes/Action'
 
 const isValidManifest = function(obj: any): obj is IContentPackManifest {
   return (
@@ -90,6 +91,12 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
   const npcFeatures = (await readZipJSON<INpcFeatureData[]>(zip, 'npc_features.json')) || []
   const npcTemplates = (await readZipJSON<INpcTemplateData[]>(zip, 'npc_templates.json')) || []
 
+  const actions = (await readZipJSON<IActionData[]>(zip, 'actions.json')) || []
+  const statuses = (await readZipJSON<Status[]>(zip, 'statuses.json')) || []
+  const environments = (await readZipJSON<Environment[]>(zip, 'environments.json')) || []
+  const sitreps = (await readZipJSON<Sitrep[]>(zip, 'sitreps.json')) || []
+  const tables = (await readZipJSON<any[]>(zip, 'tables.json')) || []
+
   const id = await getPackID(manifest)
 
   return {
@@ -110,6 +117,11 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
       npcClasses,
       npcFeatures,
       npcTemplates,
+      actions,
+      statuses,
+      environments,
+      sitreps,
+      tables,
     },
   }
 }

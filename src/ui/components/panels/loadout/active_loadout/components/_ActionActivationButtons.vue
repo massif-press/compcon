@@ -12,7 +12,7 @@
       {{ action.Name }}
     </v-btn>
     <v-btn
-      v-if="action.Activation !== 'Free'"
+      v-if="action.Activation !== 'Free' && action.Activation !== 'Protocol'"
       small
       tile
       block

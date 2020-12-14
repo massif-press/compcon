@@ -57,12 +57,9 @@ export default Vue.extend({
   },
   methods: {
     disableSkirmish(w) {
-      console.log(w.Name)
       if (w.IsLoading && !w.Loaded) return true
       if (w.IsOrdnance && !this.state.IsProtocolAvailable) return true
       if (!w.CanSkirmish) return false
-      console.log('should be okay')
-      console.log(this.state.IsSkirmishAvailable)
       return !this.state.IsSkirmishAvailable
     },
     skirmish(item, mount) {

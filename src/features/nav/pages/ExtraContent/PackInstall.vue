@@ -111,7 +111,7 @@ export default class PackInstall extends Vue {
   public installing = false
   public done = false
 
-  async install() {
+  async install(): Promise<void> {
     if (this.done || this.installing) return
     this.installing = true
     this.contentPack.active = true

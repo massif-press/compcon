@@ -19,7 +19,7 @@
               END COMBAT
             </v-toolbar>
             <v-card-text>
-              <p class="flavor-text stark--text mt-2 mb-0 mx-6">
+              <p class="flavor-text stark--text mt-1 mb-0 mx-6">
                 >//[
                 <span class="accent--text">COMP/CON</span>
                 :

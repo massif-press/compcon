@@ -12,6 +12,7 @@ declare interface IDamageRollResult {
   total: number
   rawDieRolls: number[]
   staticBonus: number
+  overkillRerolls: number
   parseError: boolean
 }
 
@@ -95,6 +96,10 @@ class D20RollResult implements Id20RollResult {
     return this._rawAccuracyRolls
   }
 
+  public get overkillRerolls(): number {
+    return 0
+  }
+
   public get accuracyResult(): number {
     return this._accuracyResult
   }
@@ -103,6 +108,7 @@ class D20RollResult implements Id20RollResult {
 class DamageRollResult implements IDamageRollResult {
   private _total: number
   private _rawDieRolls: number[]
+  private _overkillRerolls: number
   private _staticBonus: number
   private _parseError: boolean
   private _diceString: string
@@ -112,11 +118,13 @@ class DamageRollResult implements IDamageRollResult {
     total: number,
     rawRolls: number[],
     staticBonus: number,
+    overkillRerolls: number,
     parseError?: boolean
   ) {
     this._diceString = diceString
     this._total = total || 0
     this._rawDieRolls = rawRolls || [0]
+    this._overkillRerolls = overkillRerolls || 0
     this._staticBonus = staticBonus || 0
     this._parseError = parseError || false
   }
@@ -139,6 +147,10 @@ class DamageRollResult implements IDamageRollResult {
 
   public get parseError(): boolean {
     return this._parseError
+  }
+
+  public get overkillRerolls(): number {
+    return this._overkillRerolls
   }
 }
 
@@ -171,17 +183,22 @@ class DiceRoller {
     return DiceRoller.rollSkillCheck(staticBonus, totalAccuracy, totalDifficulty)
   }
 
-  public static rollDamage(diceString: string, critical?: boolean): DamageRollResult {
+  public static rollDamage(
+    diceString: string,
+    critical?: boolean,
+    overkill?: boolean
+  ): DamageRollResult {
     const parsedRoll = DiceRoller.parseDiceString(diceString)
 
     if (!parsedRoll) {
       // return as a error - they get back the dice string
       // and can handle as a special case
 
-      return new DamageRollResult(diceString, 0, [0], 0, true)
+      return new DamageRollResult(diceString, 0, [0], 0, 0, true)
     } else {
       let total = 0
       const rawRolls: number[] = []
+      let okRerolls = 0
       let staticBonus = 0
 
       staticBonus = parsedRoll.modifier
@@ -189,19 +206,27 @@ class DiceRoller {
 
       parsedRoll.dice.forEach(dieSet => {
         if (critical) {
-          const x = DiceRoller.rollDieSet(dieSet)
-          const y = DiceRoller.rollDieSet(dieSet)
-          total += x.result > y.result ? x.result : y.result
+          let x, y
+          do {
+            x = DiceRoller.rollDieSet(dieSet)
+            y = DiceRoller.rollDieSet(dieSet)
+            total += x.result > y.result ? x.result : y.result
+            if (overkill && total - staticBonus === 1) okRerolls += 1
+          } while (overkill && total - staticBonus === 1)
           rawRolls.push(...x.rolls)
           rawRolls.push(...y.rolls)
         } else {
-          const x = DiceRoller.rollDieSet(dieSet)
-          total += x.result
+          let x
+          do {
+            x = DiceRoller.rollDieSet(dieSet)
+            total += x.result
+            if (x.result) okRerolls += 1
+          } while (overkill && overkill && x.result === 1)
           rawRolls.push(...x.rolls)
         }
       })
 
-      return new DamageRollResult(diceString, total, rawRolls, staticBonus, false)
+      return new DamageRollResult(diceString, total, rawRolls, staticBonus, okRerolls, false)
     }
   }
 
