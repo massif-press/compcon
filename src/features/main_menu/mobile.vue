@@ -54,7 +54,7 @@
           <update-checker small />
         </v-col>
       </v-row>
-      <v-row dense justify="space-between">
+      <v-row dense justify="space-around">
         <mobile-btn
           icon="mdi-book"
           title="Compendium"
@@ -68,15 +68,16 @@
           :loading="pilotLoading"
           :to="'/pilot_management'"
         />
-        <mobile-btn disabled icon="mdi-map" title="Campaigns" text="WIP" />
+        <!-- <mobile-btn disabled icon="mdi-map" title="Campaigns" text="WIP" /> -->
         <mobile-btn
           icon="mdi-flask-empty-plus-outline"
           title="Content Packs"
           text="Manage Content"
-          disabled
+          @clicked="$refs.contentModal.show()"
         />
-        <!-- @clicked="$refs.contentModal.show()" -->
+        <!--  -->
       </v-row>
+      <div style="height: 40px" />
 
       <v-footer color="primary" fixed>
         <v-btn x-small dark outlined @click="$refs.optionsModal.show()">

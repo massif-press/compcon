@@ -55,7 +55,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import data from 'lancer-data'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 import _ from 'lodash'
 import { Pilot } from '@/class'
 
@@ -79,14 +80,16 @@ export default Vue.extend({
       this.$refs.dialog.hide()
     },
     rollQuirk() {
-      this.quirk = _.sample(data.quirks)
+      const compendium = getModule(CompendiumStore, this.$store)
+      this.quirk = _.sample(compendium.Tables.quirks)
     },
     clonePilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot))
       newPilot.RenewID()
-      newPilot.Callsign += '※'
-      newPilot.Name += ' (CLONE)'
-      newPilot.Quirk = this.quirk
+      if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※'
+      if (!this.pilot.Callsign.includes('※')) this.pilot.Name += '※'
+      this.pilot.Heal()
+      this.pilot.AddQuirk(this.quirk)
       for (const mech of newPilot.Mechs) {
         mech.RenewID()
       }

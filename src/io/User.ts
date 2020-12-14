@@ -13,6 +13,7 @@ interface IUserProfile {
   hangarView: string
   pilotSheetView: string
   theme: string
+  welcome_hash: string
 }
 
 class UserProfile {
@@ -23,6 +24,7 @@ class UserProfile {
   private _hangarView: string
   private _pilotSheetView: string
   private _theme: string
+  private _welcome_hash: string
 
   public constructor(id: string) {
     this._id = id
@@ -32,6 +34,7 @@ class UserProfile {
     this._hangarView = 'cards'
     this._pilotSheetView = 'tabbed'
     this._theme = 'gms'
+    this._welcome_hash = ''
   }
 
   private save(): void {
@@ -43,6 +46,7 @@ class UserProfile {
       hangarView: this.HangarView,
       pilotSheetView: this.PilotSheetView,
       theme: this.Theme,
+      welcome_hash: this.WelcomeHash,
     }
 
     writeFile(CONFIG_FILE_NAME, JSON.stringify(data, null, 2))
@@ -111,6 +115,15 @@ class UserProfile {
     this.save()
   }
 
+  public get WelcomeHash(): string {
+    return this._welcome_hash
+  }
+
+  public set WelcomeHash(id: string) {
+    this._welcome_hash = id
+    this.save()
+  }
+
   public static Deserialize(data: IUserProfile): UserProfile {
     const profile = new UserProfile(data.id)
     profile._id = data.id || uuid()
@@ -120,6 +133,7 @@ class UserProfile {
     profile.HangarView = data.hangarView || 'cards'
     profile.PilotSheetView = data.pilotSheetView || 'tabbed'
     profile.Theme = data.theme || 'light'
+    profile.WelcomeHash = data.welcome_hash || ''
     return profile
   }
 }

@@ -17,6 +17,9 @@
             <v-btn outlined block color="info" class="my-1" @click="reload">
               Download Updates and Reload
             </v-btn>
+            <v-btn outlined block small color="accent" class="my-1" @click="showMessage()">
+              Show Latest Update Message
+            </v-btn>
             <v-divider class="my-2" />
           </div>
           <v-btn outlined block color="secondary" class="my-1" @click="bulkExport">
@@ -190,6 +193,11 @@ export default Vue.extend({
         this.$vuetify.theme.themes.light = allThemes[this.theme].colors
         this.$vuetify.theme.dark = false
       }
+    },
+    showMessage() {
+      const store = getModule(CompendiumStore, this.$store)
+      store.UserProfile.WelcomeHash = ''
+      this.reload()
     },
     setUserID(id: string) {
       const store = getModule(CompendiumStore, this.$store)

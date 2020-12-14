@@ -30,9 +30,10 @@ abstract class CompendiumItem {
   public readonly Synergies: Synergy[]
   public readonly Deployables: IDeployableData[]
   public readonly Counters: ICounterData[]
-  public readonly Tags: Tag[]
+  // public readonly Tags: Tag[]
   public readonly Err: string
   private _integrated: string[]
+  private _baseTags: Tag[]
   protected _name: string
   protected _description: string
   protected _note: string
@@ -46,7 +47,7 @@ abstract class CompendiumItem {
       this._name = data.name
       this._description = data.description || ''
       this.Brew = data.brew || 'Core'
-      this.Tags = Tag.Deserialize(data.tags, packTags)
+      this._baseTags = Tag.Deserialize(data.tags, packTags)
       const heatTag = this.Tags.find(x => x.IsHeatCost)
       const heatCost = heatTag ? heatTag.Value : 0
       this.Actions = data.actions
@@ -68,7 +69,7 @@ abstract class CompendiumItem {
         .toString(36)
         .substring(2)}`
       this._name = this._description = this._note = this.Brew = ''
-      this.Actions = this.Bonuses = this.Synergies = this.Deployables = this.Counters = this.Tags = []
+      this.Actions = this.Bonuses = this.Synergies = this.Deployables = this.Counters = this._baseTags = []
       this.Err = 'Item data not found!'
     }
   }
@@ -122,6 +123,10 @@ abstract class CompendiumItem {
     return this._integrated
       .map(x => store.getters.referenceByID('MechSystems', x))
       .filter(x => !x.err)
+  }
+
+  public get Tags(): Tag[] {
+    return this._baseTags.concat(Tag.Populate(this))
   }
 
   public get Note(): string {

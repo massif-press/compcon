@@ -1,6 +1,7 @@
 <template>
   <v-col style="min-width: 400px">
     <div
+      v-if="mech"
       :style="
         `border: 2px solid ${
           mech.IsActive
@@ -58,7 +59,7 @@
                       <legend class="px-2">
                         Loadout//{{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
                       </legend>
-                      <div v-if="mech.ActiveLoadout">
+                      <div v-if="mech && mech.ActiveLoadout">
                         <span v-for="(item, i) in loadoutWeapons" :key="`${mech.ID}_lw_${i}`">
                           {{ item }}
                         </span>

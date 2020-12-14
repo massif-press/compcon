@@ -182,7 +182,7 @@ class Mech implements IActor {
   }
 
   public get IsActive(): boolean {
-    return this.Pilot.State.ActiveMech.ID === this.ID
+    return this.Pilot.State.ActiveMech && this.Pilot.State.ActiveMech.ID === this.ID
   }
 
   public get IsCascading(): boolean {

@@ -11,10 +11,17 @@
           {{ collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
         </v-icon>
         <span class="heading h3 white--text">{{ header }}</span>
-        <v-divider v-if="content && prominent" class="mx-3 subtle" style="opacity: 0.5" />
+        <v-divider
+          v-if="content && prominent && $vuetify.breakpoint.lgAndUp"
+          class="mx-3 subtle"
+          style="opacity: 0.5"
+        />
         <v-spacer v-else />
         <span class="overline white--text mr-2">{{ subheader }}</span>
-        <span v-if="content && prominent" class="heading h1 py-2 pr-3 white--text">
+        <span
+          v-if="content && prominent"
+          :class="`heading ${$vuetify.breakpoint.lgAndup ? 'h1' : 'h2'} pt-1 pb-3 pr-3 white--text`"
+        >
           {{ content }}
         </span>
       </v-card-title>

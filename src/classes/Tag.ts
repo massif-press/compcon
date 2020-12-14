@@ -1,6 +1,6 @@
-import { ItemType } from '@/class'
+import { CompendiumItem, ItemType } from '@/class'
 import { store } from '@/store'
-// import { ICompendiumItemData } from '@/interface'
+import { ActivationType } from './enums'
 
 export interface ITagCompendiumData {
   id: string
@@ -25,6 +25,7 @@ class Tag {
   public readonly IsIndestructible: boolean
   public readonly IsSmart: boolean
   public readonly IsHeatCost: boolean
+  public readonly IsOverkill: boolean
   private _name: string
   private _val: number | string
   private _description: string
@@ -46,6 +47,7 @@ class Tag {
     this.IsIndestructible = this.ID === 'tg_indestructible'
     this.IsSmart = this.ID === 'tg_smart'
     this.IsHeatCost = this.ID === 'tg_heat_self'
+    this.IsOverkill = this.ID === 'tg_overkill'
   }
 
   public get Name(): string {
@@ -111,6 +113,35 @@ class Tag {
           : this._name.replace(/{VAL}/g, this._val)
       }
     }
+  }
+
+  public static Populate(item: CompendiumItem): Tag[] {
+    const tags = []
+    if (item.Deployables) {
+      if (item.Deployables.some(x => x.type === 'Drone'))
+        tags.push(store.getters.instantiate('Tags', 'tg_drone'))
+      if (item.Deployables.some(x => x.type === 'Mine'))
+        tags.push(store.getters.instantiate('Tags', 'tg_mine'))
+      if (item.Deployables.some(x => x.type !== 'Drone' && x.type !== 'Mine'))
+        tags.push(store.getters.instantiate('Tags', 'tg_deployable'))
+    }
+    if (item.Actions) {
+      if (item.Actions.some(x => x.Activation === ActivationType.Protocol))
+        tags.push(store.getters.instantiate('Tags', 'tg_protocol'))
+      if (item.Actions.some(x => x.Activation === ActivationType.Quick))
+        tags.push(store.getters.instantiate('Tags', 'tg_quick_action'))
+      if (item.Actions.some(x => x.Activation === ActivationType.QuickTech))
+        tags.push(store.getters.instantiate('Tags', 'tg_quick_tech'))
+      if (item.Actions.some(x => x.Activation === ActivationType.Full))
+        tags.push(store.getters.instantiate('Tags', 'tg_full_action'))
+      if (item.Actions.some(x => x.Activation === ActivationType.FullTech))
+        tags.push(store.getters.instantiate('Tags', 'tg_full_tech'))
+      if (item.Actions.some(x => x.Activation === ActivationType.Reaction))
+        tags.push(store.getters.instantiate('Tags', 'tg_reaction'))
+      if (item.Actions.some(x => x.Activation === ActivationType.Free))
+        tags.push(store.getters.instantiate('Tags', 'tg_free_action'))
+    }
+    return tags
   }
 
   public static Deserialize(data: ITagData[], packTags?: ITagCompendiumData[]): Tag[] {

@@ -44,7 +44,7 @@ import {
 import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
 import { IReserveData } from '@/classes/pilot/reserves/Reserve'
-import * as PActions from '@/classes/Action'
+import * as PlayerAction from '@/classes/Action'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -81,11 +81,6 @@ export class CompendiumStore extends VuexModule {
   public LancerVersion = ''
   public CCVersion = ''
   public UserProfile: UserProfile = {} as any
-  public Statuses: Status[] = []
-  public Quirks: string[] = []
-  // public Licenses: License[] = []
-  public Environments: Environment[] = []
-  public Sitreps: Sitrep[] = []
 
   public ContentPacks: ContentPack[] = []
 
@@ -99,8 +94,10 @@ export class CompendiumStore extends VuexModule {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
   }
   @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
-  @Brewable(() => lancerData.actions.map((x: PActions.IActionData) => new PActions.Action(x)))
-  Actions: PActions.Action[]
+  @Brewable(() =>
+    lancerData.actions.map((x: PlayerAction.IActionData) => new PlayerAction.Action(x))
+  )
+  Actions: PlayerAction.Action[]
   @Brewable(() => lancerData.talents.map((x: ITalentData) => new Talent(x)))
   Talents: Talent[]
   @Brewable(() => lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x)))
@@ -130,6 +127,35 @@ export class CompendiumStore extends VuexModule {
   @Brewable(() => lancerData.skills.map((x: ISkillData) => new Skill(x)))
   Skills: Skill[]
 
+  public get Statuses(): Status[] {
+    return lancerData.statuses.concat(
+      this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Statuses)
+    )
+  }
+
+  public get Environments(): Environment[] {
+    return lancerData.environments.concat(
+      this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Environments)
+    )
+  }
+
+  public get Sitreps(): Sitrep[] {
+    return lancerData.sitreps.concat(
+      this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Sitreps)
+    )
+  }
+
+  public get Tables(): any {
+    const tables = lancerData.tables
+    this.ContentPacks.filter(pack => pack.Active).forEach(pack => {
+      for (const t in pack.Tables) {
+        if (tables[t] !== undefined) tables[t] = [...tables[t], ...pack.Tables[t]]
+        else tables[t] = pack.Tables[t]
+      }
+    })
+    return tables
+  }
+
   get Licenses(): License[] {
     return this.Frames.filter(x => x.Source !== 'GMS').map(frame => new License(frame))
   }
@@ -144,10 +170,6 @@ export class CompendiumStore extends VuexModule {
   @Mutation
   private [LOAD_DATA](): void {
     getUser().then(profile => (this.UserProfile = profile))
-    this.Statuses = lancerData.statuses
-    this.Quirks = lancerData.quirks
-    this.Environments = lancerData.environments
-    this.Sitreps = lancerData.sitreps
   }
 
   @Mutation

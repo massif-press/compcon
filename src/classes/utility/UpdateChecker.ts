@@ -83,9 +83,6 @@ export class UpdateChecker extends EventEmitter {
       case 'web':
         window.location.reload(true)
         break
-      case 'electron':
-        require('electron').shell.openExternal('https://massif-press.itch.io/compcon')
-        break
       default:
         throw new Error(`Platform ${Capacitor.platform} not supported by UpdateChecker`)
     }

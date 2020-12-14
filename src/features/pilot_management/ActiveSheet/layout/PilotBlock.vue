@@ -39,7 +39,7 @@
     <clone-block v-if="pilot.State.Stage === 'Narrative'" hide-quirks />
 
     <destroyed-alert
-      v-if="pilot.ActiveMech.Destroyed"
+      v-if="pilot.ActiveMech && pilot.ActiveMech.Destroyed"
       :mech="pilot.ActiveMech"
       @restore="pilot.ActiveMech.BasicRepair($event)"
     />

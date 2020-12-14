@@ -901,6 +901,9 @@ class Pilot {
     if (index === -1) {
       console.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`)
     } else {
+      if (this.State.ActiveMech.ID === mech.ID) {
+        this._state = new ActiveState(this)
+      }
       this._mechs.splice(index, 1)
     }
     this.save()
@@ -916,9 +919,6 @@ class Pilot {
   }
 
   public get ActiveMech(): Mech | null {
-    // if (!this._state.ActiveMech && this._mechs.length) {
-    //   this._state.ActiveMech = this._mechs[0]
-    // }
     return this._state.ActiveMech
   }
 
@@ -1173,7 +1173,7 @@ class Pilot {
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []
     this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
-    this.ActiveMech = this._mechs.find(x => x.ID === data.active_mech)
+    this.ActiveMech = this._mechs.find(x => x.ID === data.active_mech) || null
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []
