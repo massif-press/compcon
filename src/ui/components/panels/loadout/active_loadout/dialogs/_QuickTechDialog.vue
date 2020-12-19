@@ -118,6 +118,11 @@ export default Vue.extend({
           })
         )
     },
+    init() {
+      this.selected = null
+      this.index = -1
+      this.usedArr = this.usedArr.splice(0, this.usedArr.length)
+    },
   },
 })
 </script>

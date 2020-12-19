@@ -82,21 +82,6 @@ declare interface IHistoryItem {
   val?: any
 }
 
-declare interface IMechState {
-  stage: string
-  turn: number
-  move: number
-  actions: number
-  overwatch: boolean
-  braced: boolean
-  overcharged: boolean
-  prepare: boolean
-  bracedCooldown: boolean
-  redundant: boolean
-  history: IHistoryItem[]
-  mounted?: boolean
-}
-
 declare interface IMountData {
   mount_type: string
   lock: boolean

@@ -108,14 +108,14 @@
       <v-tab-item>
         <v-card flat color="background">
           <v-card-text>
-            <combat-log-renderer :log="pilot.State.Log" :stats="pilot.State.Stats" />
+            <combat-log-renderer :state="pilot.State" />
           </v-card-text>
         </v-card>
       </v-tab-item>
       <v-tab-item>
         <v-card flat color="background">
           <v-card-text>
-            <v-row justify="center" no-gutters class="mt-n2">
+            <!-- <v-row justify="center" no-gutters class="mt-n2">
               <v-col cols="auto">
                 <v-checkbox
                   color="accent"
@@ -125,7 +125,46 @@
                   disabled
                 />
               </v-col>
+            </v-row> -->
+            <v-divider class="my-4" />
+            <v-row dense>
+              <v-col cols="auto">
+                <span class="overline">PILOT SKILL TRIGGERS</span>
+              </v-col>
             </v-row>
+            <v-row dense justify="center">
+              <cc-active-card
+                v-for="(s, i) in pilot.Skills"
+                :key="`sk_${i}`"
+                :ref="`sk_${i}`"
+                :cols="12"
+                color="primary"
+                collapsible
+                :header="`${s.Skill.Name} (+${s.Bonus})`"
+                :content="s.Skill.Detail"
+              />
+            </v-row>
+
+            <div v-if="pilot.Reserves || pilot.Organizations">
+              <v-divider class="my-4" />
+              <span class="overline">
+                RESERVES AND RESOURCES
+              </span>
+              <v-row v-if="pilot.Reserves || pilot.Organizations" class="mt-n3">
+                <cc-reserve-item
+                  v-for="(r, i) in pilot.Reserves.filter(r => r.Type !== 'Bonus')"
+                  :key="`r_${i}`"
+                  :reserve="r"
+                  @remove="pilot.RemoveReserve(i)"
+                />
+                <cc-org-item
+                  v-for="(o, i) in pilot.Organizations"
+                  :key="`o_${i}`"
+                  :org="o"
+                  @remove="pilot.RemoveOrganization(i)"
+                />
+              </v-row>
+            </div>
           </v-card-text>
         </v-card>
       </v-tab-item>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-show="!item.NoBonus">
     <cc-tooltip
       v-for="(b, i) in item.Bonuses"
       :key="`${i}_${b.ID}`"

@@ -62,7 +62,7 @@ class Range {
 
   public static CalculateRange(item: MechWeapon, mech: Mech): Range[] {
     if (!item || !mech) return []
-    if (!Bonus.get('range', mech)) return item.Range
+    if (!Bonus.get('range', mech) || item.NoCoreBonus || item.NoBonuses) return item.Range
     const bonuses = mech.Bonuses.filter(x => x.ID === 'range')
     const output = []
     item.Range.forEach(r => {

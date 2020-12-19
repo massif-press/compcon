@@ -30,7 +30,7 @@ export default class Weapons extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
   public get weapons(): MechWeapon[] {
     return _.sortBy(
-      this.compendium.MechWeapons.filter(x => x.Source),
+      this.compendium.MechWeapons.filter(x => x.Source && !x.IsHidden),
       ['Source', 'Name']
     )
   }

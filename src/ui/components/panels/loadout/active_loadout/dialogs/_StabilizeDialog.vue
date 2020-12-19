@@ -109,7 +109,7 @@ export default Vue.extend({
       return this.mech.Pilot.State
     },
     canUse() {
-      return this.state.StabilizeMajor && this.state.StabilizeMinor && !this.used
+      return this.state.StabilizeMajor && this.state.StabilizeMinor
     },
   },
 })

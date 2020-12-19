@@ -34,7 +34,6 @@ import { IDeployableData } from '../Deployable'
 
 interface IPilotData {
   id: string
-  campaign: string
   group: string
   sort_index: number
   cloudID: string
@@ -63,7 +62,6 @@ interface IPilotData {
   orgs: IOrganizationData[]
   loadout: IPilotLoadoutData
   mechs: IMechData[]
-  active_mech: string | null
   cc_ver: string
   counter_data: ICounterSaveData[]
   custom_counters: object[]
@@ -91,7 +89,6 @@ class Pilot {
 
   private _group: string
   private _sortIndex: number
-  private _campaign: string
 
   private _id: string
   private _level: number
@@ -148,7 +145,6 @@ class Pilot {
     this._brews = []
     this._group = ''
     this._sortIndex = 0
-    this._campaign = ''
     this._dead = false
     this._state = new ActiveState(this)
     this._combat_history = ActiveState.NewCombatStats()
@@ -922,11 +918,6 @@ class Pilot {
     return this._state.ActiveMech
   }
 
-  public set ActiveMech(mech: Mech | null) {
-    this._state.ActiveMech = mech
-    this.save()
-  }
-
   // -- COUNTERS ----------------------------------------------------------------------------------
 
   private _counterSaveData = []
@@ -1008,16 +999,16 @@ class Pilot {
     this.save()
   }
 
-  public get Campaign(): string {
-    return this._campaign
-  }
-
-  public set Campaign(val: string) {
-    this._campaign = val
-    this.save()
-  }
-
   // -- Active Mode -------------------------------------------------------------------------------
+  public SpecialEval(val: number | string): number {
+    if (typeof val === 'number') return val
+    let valStr = val as string
+    valStr = valStr.replaceAll(`{ll}`, this.Level.toString())
+    valStr = valStr.replaceAll(`{grit}`, this.Grit.toString())
+    valStr = valStr.replace(/[^-()\d/*+.]/g, '')
+    return Math.ceil(eval(valStr))
+  }
+
   public get State(): ActiveState {
     return this._state
   }
@@ -1087,7 +1078,6 @@ class Pilot {
   public static Serialize(p: Pilot): IPilotData {
     return {
       id: p.ID,
-      campaign: p.Campaign,
       group: p.Group,
       sort_index: p.SortIndex,
       cloudID: p.CloudID,
@@ -1117,7 +1107,6 @@ class Pilot {
       core_bonuses: p.CoreBonuses.map(x => x.ID),
       loadout: PilotLoadout.Serialize(p.Loadout),
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
-      active_mech: p.ActiveMech ? p.ActiveMech.ID : null,
       cc_ver: p.cc_ver,
       counter_data: p.CounterSaveData,
       custom_counters: p.CustomCounterData,
@@ -1134,7 +1123,6 @@ class Pilot {
   }
 
   private setPilotData(data: IPilotData): void {
-    this._campaign = data.campaign || ''
     this._group = data.group || ''
     this._sortIndex = data.sort_index || 0
     this._cloudID = data.cloudID || ''
@@ -1173,7 +1161,6 @@ class Pilot {
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []
     this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
-    this.ActiveMech = this._mechs.find(x => x.ID === data.active_mech) || null
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []

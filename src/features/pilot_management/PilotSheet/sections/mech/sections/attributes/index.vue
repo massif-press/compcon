@@ -161,6 +161,6 @@ export default Vue.extend({
 
 <style scoped>
 .no-height {
-  line-height: 0;
+  line-height: 0 !important;
 }
 </style>

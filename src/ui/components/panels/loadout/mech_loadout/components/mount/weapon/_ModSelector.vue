@@ -132,7 +132,7 @@ export default Vue.extend({
     },
     availableMods(): MechSystem[] {
       // filter by applied_to
-      let i = this.mods.filter(x => x.AllowedTypes.includes(this.weapon.WeaponType))
+      let i = this.mods.filter(x => x.AllowedTypes.includes(this.weapon.WeaponType) && !x.IsHidden)
       i = this.mods.filter(x => x.AllowedSizes.includes(this.weapon.Size))
 
       // // filter out any mount restrictions

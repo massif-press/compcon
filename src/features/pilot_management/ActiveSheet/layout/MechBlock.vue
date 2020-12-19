@@ -321,6 +321,21 @@
                     class="mx-8"
                   />
                 </div>
+                <v-row dense class="mb-1">
+                  <v-col
+                    v-for="(a, i) in mech.Frame.CoreSystem.DeployActions"
+                    :key="`${mech.Frame.CoreSystem.Name}_deployable_action_${i}`"
+                    style="min-width: 40%"
+                    class="mb-n1"
+                  >
+                    <cc-action
+                      :action="a"
+                      active
+                      no-action
+                      :activations="mech.Pilot.State.Actions"
+                    />
+                  </v-col>
+                </v-row>
                 <span class="heading h2">
                   {{ mech.Frame.CoreSystem.ActiveName }}
                   <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>

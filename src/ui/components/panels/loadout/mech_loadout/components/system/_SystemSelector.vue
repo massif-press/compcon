@@ -133,7 +133,7 @@ export default Vue.extend({
     availableSystems(): MechSystem[] {
       // filter unique
       let i = this.systems.filter(
-        x => !this.mech.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(x.ID)
+        x => !this.mech.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(x.ID) && !x.IsHidden
       )
 
       // filter ai

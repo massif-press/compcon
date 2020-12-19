@@ -31,6 +31,7 @@ abstract class CompendiumItem {
   public readonly Deployables: IDeployableData[]
   public readonly Counters: ICounterData[]
   // public readonly Tags: Tag[]
+  public readonly IsHidden: boolean
   public readonly Err: string
   private _integrated: string[]
   private _baseTags: Tag[]
@@ -44,6 +45,7 @@ abstract class CompendiumItem {
     this.ItemType = ItemType.None
     if (data) {
       this.ID = data.id
+      if (data.id && data.id.includes('missing_')) this.IsHidden = true
       this._name = data.name
       this._description = data.description || ''
       this.Brew = data.brew || 'Core'

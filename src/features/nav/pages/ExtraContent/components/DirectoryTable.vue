@@ -6,9 +6,7 @@
     :headers="tableHeaders"
     :items="items"
     show-expand
-    single-expand
-    :expanded.sync="expanded"
-    item-key="Name"
+    item-key="name"
     :loading="loading"
     loading-text="Loading Content Pack Data..."
   >
@@ -95,26 +93,23 @@ export default Vue.extend({
     noAuthor: { type: Boolean },
     loading: { type: Boolean },
   },
-  data: () => ({
-    expanded: [],
-  }),
   computed: {
     tableHeaders() {
       return this.noAuthor
         ? [
+            { text: '', value: 'data-table-expand' },
             { text: 'Download', value: 'website', sortable: false, align: 'center' },
             { text: 'Name', value: 'name' },
             { text: 'Version', value: 'version' },
             { text: 'Cost', value: 'cost' },
-            { text: '', value: 'data-table-expand' },
           ]
         : [
+            { text: '', value: 'data-table-expand' },
             { text: 'Download', value: 'website', sortable: false, align: 'center' },
             { text: 'Name', value: 'name' },
             { text: 'Author', value: 'author' },
             { text: 'Version', value: 'version' },
             { text: 'Cost', value: 'cost' },
-            { text: '', value: 'data-table-expand' },
           ]
     },
     contentPacks() {

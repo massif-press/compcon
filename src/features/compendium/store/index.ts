@@ -157,7 +157,9 @@ export class CompendiumStore extends VuexModule {
   }
 
   get Licenses(): License[] {
-    return this.Frames.filter(x => x.Source !== 'GMS').map(frame => new License(frame))
+    return this.Frames.filter(x => x.Source !== 'GMS' && !x.IsHidden).map(
+      frame => new License(frame)
+    )
   }
 
   // TODO: just set as part of the data loader
@@ -237,7 +239,11 @@ export class CompendiumStore extends VuexModule {
     return (itemType: string, id: string) => {
       if (this[itemType] && this[itemType] instanceof Array) {
         const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
-        return i ? _.cloneDeep(i) : this.nfErr
+        if (i) return _.cloneDeep(i)
+        const miID = `missing_${itemType.toLowerCase()}`
+        const missingItem = this[itemType].find((x: any) => x.ID === miID || x.id === miID)
+        if (missingItem) return _.cloneDeep(missingItem)
+        return this.nfErr
       }
       return { err: 'Invalid Item Type' }
     }
@@ -247,7 +253,11 @@ export class CompendiumStore extends VuexModule {
     return (itemType: string, id: string) => {
       if (this[itemType] && this[itemType] instanceof Array) {
         const i = this[itemType].find((x: any) => x.ID === id || x.id === id)
-        return i ? i : this.nfErr
+        if (i) return i
+        const miID = `missing_${itemType.toLowerCase()}`
+        const missingItem = this[itemType].find((x: any) => x.ID === miID || x.id === miID)
+        if (missingItem) return missingItem
+        return this.nfErr
       }
       return { err: 'Invalid Item Type' }
     }
@@ -255,7 +265,7 @@ export class CompendiumStore extends VuexModule {
 
   get getItemCollection(): any {
     return (itemType: string) => {
-      return this[itemType]
+      return this[itemType].filter(x => !x.IsHidden)
     }
   }
 

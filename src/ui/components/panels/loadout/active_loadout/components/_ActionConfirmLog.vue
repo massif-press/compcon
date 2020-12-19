@@ -86,7 +86,7 @@ export default Vue.extend({
       deep: true,
       handler: function(newval) {
         if (newval) this.runTimeout()
-        else this.reset()
+        else this.init()
       },
     },
   },
@@ -102,12 +102,12 @@ export default Vue.extend({
         }
       }, 80)
     },
-    reset() {
+    init() {
       this.timer = 0
     },
     undo() {
       this.$emit('undo')
-      this.reset()
+      this.init()
     },
   },
 })

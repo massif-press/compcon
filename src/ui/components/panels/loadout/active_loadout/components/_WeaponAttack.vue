@@ -68,6 +68,7 @@
     </v-row>
 
     <cc-active-synergy
+      v-if="!item.NoBonuses"
       :locations="improv ? 'improvised_attack' : 'weapon'"
       :mech="mech"
       :item="improv ? null : item"
@@ -645,6 +646,7 @@ export default Vue.extend({
     },
     hardpoints() {
       if (!this.mount) return false
+      if (this.item.NoCoreBonus) return false
       return (
         this.mount.Bonuses &&
         this.mount.Bonuses.find(x => x.ID === 'cb_auto_stabilizing_hardpoints')
@@ -652,6 +654,7 @@ export default Vue.extend({
     },
     overpower() {
       if (!this.mount) return false
+      if (this.item.NoCoreBonus) return false
       return this.mount.Bonuses && this.mount.Bonuses.find(x => x.ID === 'cb_overpower_caliber')
     },
     armoryLevel() {

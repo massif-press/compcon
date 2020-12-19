@@ -21,7 +21,7 @@
           small
           tile
           block
-          :disabled="actionCost || used"
+          :disabled="actionCost"
           :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
           @click="actionFree = !actionFree"
         >

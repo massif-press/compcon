@@ -145,7 +145,10 @@ export default Vue.extend({
   },
   mounted() {
     const compendium = getModule(CompendiumStore, this.$store)
-    this.frames = _.sortBy(compendium.Frames, ['Source', 'Name'])
+    this.frames = _.sortBy(
+      compendium.Frames.filter(x => !x.IsHidden),
+      ['Source', 'Name']
+    )
     this.frameTypes = Object.keys(MechType).sort() as MechType[]
   },
   methods: {

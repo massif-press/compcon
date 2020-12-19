@@ -46,7 +46,6 @@ import gistApi from '@/io/apis/gist'
   components: { DirectoryTable },
 })
 export default class PacksDirectory extends Vue {
-  private expanded
   private massifPacks = []
   private massifLoading = true
   private communityPacks = []

@@ -229,6 +229,9 @@ export default Vue.extend({
     },
     reset() {
       this.state.UndoAction(this.action)
+      this.init()
+    },
+    init() {
       this.actionCost = false
       this.actionFree = false
       this.finished = false

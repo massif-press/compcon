@@ -8,7 +8,9 @@
       </div>
       <div v-for="(m, i) in mech.ActiveLoadout.Mounts.filter(x => !x.IsLocked)" :key="`bar_${i}`">
         <item-selector-row
-          v-for="(w, j) in m.Weapons.filter(x => x.Size !== 'Superheavy' && !x.Destroyed)"
+          v-for="(w, j) in m.Weapons.filter(
+            x => x.Size !== 'Superheavy' && !x.Destroyed && !x.NoAttack
+          )"
           :key="`weap_${j}`"
           :item="w"
           :selected="barrageToggle(w)"
@@ -21,7 +23,9 @@
           class="my-2"
         />
         <item-selector-row
-          v-for="(w, j) in m.Weapons.filter(x => x.Size === 'Superheavy' && !x.Destroyed)"
+          v-for="(w, j) in m.Weapons.filter(
+            x => x.Size === 'Superheavy' && !x.Destroyed && !x.NoAttack
+          )"
           :key="`weap_${j}`"
           :item="w"
           color="action--full"

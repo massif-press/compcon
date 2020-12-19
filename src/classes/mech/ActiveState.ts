@@ -23,6 +23,7 @@ interface ICombatLogData {
   round: number
   event: string
   detail: string
+  undoAction: Action
 }
 
 interface ICombatStats {
@@ -39,6 +40,7 @@ interface ICombatStats {
 }
 
 interface IActiveStateData {
+  active_mech_id: string
   stage: string
   mission: number
   turn: number
@@ -48,7 +50,6 @@ interface IActiveStateData {
   prepare: boolean
   bracedCooldown: boolean
   redundant: boolean
-  history: IHistoryItem[]
   mounted: boolean
   stats: ICombatStats
   deployed: IDeployedData[]
@@ -62,8 +63,6 @@ class ActiveState {
 
   private _pilot_mounted: boolean
   private _pilot_move: number
-
-  private _pilot_status: string //enum?
 
   private _pilot: Pilot
   private _mech: Mech | null
@@ -110,7 +109,6 @@ class ActiveState {
   private _prepare: boolean
   private _bracedCooldown: boolean
   private _redundant: boolean
-  private _history: IHistoryItem[]
   private _stats: ICombatStats
 
   public constructor(pilot: Pilot) {
@@ -130,7 +128,6 @@ class ActiveState {
     this._bracedCooldown = false
     this._redundant = false
     this._deployed = []
-    this._history = []
     this._log = []
     this._stats = ActiveState.NewCombatStats()
   }
@@ -251,7 +248,6 @@ class ActiveState {
       detail: 'COMBAT MODE ACTIVATED',
     })
     this.NextRound()
-    this.save()
   }
 
   public NextRound(): void {
@@ -301,7 +297,6 @@ class ActiveState {
     this._stats = ActiveState.NewCombatStats()
     this._pilot.FullRestore()
     this._mech.FullRepair()
-    this.save()
     this.SetLog({
       id: 'start_mission',
       event: 'MISSION.START',
@@ -352,7 +347,7 @@ class ActiveState {
 
   public set ActiveMech(mech: Mech | null) {
     this._mech = mech
-    this.save()
+    console.log(this._mech)
   }
 
   public get ActiveMech(): Mech | null {
@@ -461,7 +456,7 @@ class ActiveState {
       .padStart(2, '0')}`
   }
 
-  public SetLog(entry: { id: string; event: string; detail: string }) {
+  public SetLog(entry: { id: string; event: string; detail: string }, action?: Action) {
     this._log.push({
       id: entry.id,
       timestamp: this.timestamp,
@@ -470,6 +465,7 @@ class ActiveState {
       round: this._round,
       event: entry.event,
       detail: entry.detail,
+      undoAction: action,
     })
   }
 
@@ -511,11 +507,14 @@ class ActiveState {
       this._pilot_mounted = false
     }
 
-    this.SetLog({
-      id: action.LogID,
-      event: action.Activation.toUpperCase(),
-      detail: action.Log ? action.Log : action.Name.toUpperCase(),
-    })
+    this.SetLog(
+      {
+        id: action.LogID,
+        event: action.Activation.toUpperCase(),
+        detail: action.Log ? action.Log : action.Name.toUpperCase(),
+      },
+      action
+    )
   }
 
   public UndoAction(action: Action) {
@@ -1080,6 +1079,7 @@ class ActiveState {
 
   public static Serialize(s: ActiveState): IActiveStateData {
     return {
+      active_mech_id: s._mech ? s._mech.ID : '',
       stage: s._stage,
       turn: s._round,
       mission: s._mission,
@@ -1089,7 +1089,6 @@ class ActiveState {
       prepare: s._prepare,
       bracedCooldown: s._bracedCooldown,
       redundant: s._redundant,
-      history: s._history,
       mounted: s._pilot_mounted,
       stats: s._stats,
       deployed: s._deployed.map(x => Deployable.Serialize(x)),
@@ -1097,7 +1096,10 @@ class ActiveState {
   }
 
   public static Deserialize(pilot: Pilot, data: IActiveStateData): ActiveState {
+    const mech = pilot.Mechs.find(x => x.ID === data.active_mech_id)
+    if (!mech) return new ActiveState(pilot)
     const s = new ActiveState(pilot)
+    s._mech = mech
     s._stage = (data.stage as Stage) || Stage.Narrative
     s._round = data.turn || 1
     s._mission = data.mission || 0
@@ -1107,12 +1109,9 @@ class ActiveState {
     s._prepare = data.prepare
     s._bracedCooldown = data.bracedCooldown
     s._redundant = data.redundant
-    s._history = data.history
     s._pilot_mounted = data.mounted
     s._stats = data.stats ? data.stats : ActiveState.NewCombatStats()
-    s._deployed = data.deployed
-      ? data.deployed.map(x => Deployable.Deserialize(x, pilot.ActiveMech))
-      : []
+    s._deployed = data.deployed ? data.deployed.map(x => Deployable.Deserialize(x, s._mech)) : []
     return s
   }
 }

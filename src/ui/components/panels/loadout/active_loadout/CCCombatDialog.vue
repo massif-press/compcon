@@ -6,7 +6,13 @@
     width="85vw"
   >
     <v-card tile class="background">
-      <action-titlebar :used="action.Used" :action="action" :mech="mech" @hide="hide()" />
+      <action-titlebar
+        :used="action.Used"
+        :no-action="noAction"
+        :action="action"
+        :mech="mech"
+        @hide="hide()"
+      />
       <v-card-text class="pt-5 pb-0">
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
         <component
@@ -21,6 +27,7 @@
         />
       </v-card-text>
       <action-confirm-log
+        ref="log"
         :used="action.AnyUsed"
         :action="action"
         :mech="mech"
@@ -57,6 +64,7 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    noAction: { type: Boolean },
   },
   data() {
     return {
@@ -107,6 +115,12 @@ export default Vue.extend({
       this.dialog = true
     },
     hide() {
+      if (!this.$refs.c.init) {
+        console.log('no init fn', this.$refs.c.name)
+      } else {
+        this.$refs.c.init()
+        this.$refs.log.init()
+      }
       this.dialog = false
     },
   },

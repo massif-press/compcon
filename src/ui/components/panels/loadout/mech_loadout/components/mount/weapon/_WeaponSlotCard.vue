@@ -77,7 +77,7 @@
         >
           <div v-if="!intWeapon && !readonly" slot="left">
             <v-btn
-              v-if="!item.Mod"
+              v-if="!item.Mod && !item.NoMods"
               outlined
               small
               :color="color"
