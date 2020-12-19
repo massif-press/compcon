@@ -373,6 +373,76 @@
       </div>
 
       <active-mode-loadout :mech="mech" rest />
+
+      <div v-show="pilot.State.IsMounted">
+        <v-divider class="my-5" />
+        <div :style="pilot.IsDead || pilot.IsDownAndOut ? 'opacity: 0.5' : ''">
+          <span class="overline">PILOT LOADOUT</span>
+          <cc-pilot-loadout :pilot="pilot" readonly />
+
+          <v-row dense>
+            <v-col cols="auto">
+              <span class="overline">SKILL TRIGGERS</span>
+            </v-col>
+            <v-col cols="auto" class="ml-auto">
+              <v-btn
+                x-small
+                outlined
+                class="fadeSelect"
+                @click="expandAll(pilot.Skills.length, 'sk_', true)"
+              >
+                <v-icon small left>mdi-chevron-up</v-icon>
+                All
+              </v-btn>
+              <v-btn
+                x-small
+                outlined
+                class="fadeSelect"
+                @click="expandAll(pilot.Skills.length, 'sk_', false)"
+              >
+                <v-icon small left>mdi-chevron-down</v-icon>
+                All
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row dense justify="center">
+            <cc-active-card
+              v-for="(s, i) in pilot.Skills"
+              :key="`sk_${i}`"
+              :ref="`sk_${i}`"
+              :cols="$vuetify.breakpoint.lgAndUp ? 4 : 6"
+              color="secondary"
+              collapsible
+              start-closed
+              :header="`${s.Skill.Name} (+${s.Bonus})`"
+              :content="s.Skill.Detail"
+            />
+          </v-row>
+        </div>
+
+        <span v-if="pilot.Reserves || pilot.Organizations" class="overline">
+          RESERVES AND RESOURCES
+          <v-btn small right icon class="fadeSelect" @click="showReserves = !showReserves">
+            <v-icon small v-html="showReserves ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+          </v-btn>
+        </span>
+        <v-scroll-y-reverse-transition mode="out-in">
+          <v-row v-if="showReserves && (pilot.Reserves || pilot.Organizations)" class="mt-n3">
+            <cc-reserve-item
+              v-for="(r, i) in pilot.Reserves.filter(r => r.Type !== 'Bonus')"
+              :key="`r_${i}`"
+              :reserve="r"
+              @remove="pilot.RemoveReserve(i)"
+            />
+            <cc-org-item
+              v-for="(o, i) in pilot.Organizations"
+              :key="`o_${i}`"
+              :org="o"
+              @remove="pilot.RemoveOrganization(i)"
+            />
+          </v-row>
+        </v-scroll-y-reverse-transition>
+      </div>
     </div>
   </div>
 </template>
@@ -396,6 +466,7 @@ export default vueMixins(activePilot).extend({
     selfRepair: 0,
     allyRepair: 0,
     showRepair: true,
+    showReserves: true,
   }),
   computed: {
     mech() {

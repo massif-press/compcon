@@ -93,7 +93,7 @@ export default Vue.extend({
     hasAux(mount, primary) {
       const auxes = mount.Weapons.filter(x => x.Size === WeaponSize.Aux)
       if (!auxes.length) return false
-      const unusedAux = auxes.filter(x => x.InstanceID !== primary.InstanceID)
+      const unusedAux = auxes.filter(x => x !== primary)
       if (!unusedAux.length) return false
       const candidate = unusedAux[0]
       if (this.items.some(x => x === candidate)) return false

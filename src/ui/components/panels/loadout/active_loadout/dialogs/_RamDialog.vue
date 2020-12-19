@@ -20,7 +20,7 @@
           small
           tile
           block
-          :disabled="used || actionCost"
+          :disabled="actionCost"
           :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
           @click="actionFree = !actionFree"
         >
@@ -212,7 +212,7 @@ export default Vue.extend({
       immediate: true,
       deep: true,
       handler: function(newval) {
-        if (!newval) this.reset()
+        if (!newval) this.init()
       },
     },
   },
@@ -232,7 +232,7 @@ export default Vue.extend({
       this.rollAccuracyResults = roll.rawAccuracyRolls
       this.attackRoll = roll.total
     },
-    reset() {
+    init() {
       this.accuracy = 0
       this.difficulty = 0
       this.attackRoll = ''

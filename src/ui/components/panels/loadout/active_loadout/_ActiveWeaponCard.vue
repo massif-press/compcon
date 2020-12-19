@@ -71,7 +71,7 @@
               <!-- <ammo-case-inset :level="armoryLevel" readonly /> -->
 
               <div class="mt-n1">
-                <div v-if="item.ProfileEffect">
+                <div v-if="item.ProfileEffect" class="py-1">
                   <div class="mb-n2">
                     <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileEffect" />
                   </div>
@@ -174,7 +174,6 @@
 import Vue from 'vue'
 import ActiveModInset from './components/_ActiveModInset.vue'
 import WeaponActivators from './components/_WeaponActivators.vue'
-import AmmoCaseInset from '../mech_loadout/components/mount/weapon/_AmmoCaseInset.vue'
 import EquipmentOptions from '../mech_loadout/components/_EquipmentOptions.vue'
 import EquipmentHeader from '../mech_loadout/components/_EquipmentHeader.vue'
 import { WeaponSize, PilotTalent, WeaponType, Range, Damage } from '@/class'
@@ -184,7 +183,6 @@ export default Vue.extend({
   components: {
     WeaponActivators,
     ActiveModInset,
-    AmmoCaseInset,
     EquipmentOptions,
     EquipmentHeader,
   },

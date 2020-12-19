@@ -55,6 +55,7 @@ export default class GlobalNotifier extends Vue {
       component: vm?.$options?.name ?? undefined,
       stack: error.stack,
     })
+    console.error(error.message)
     this.notify(error.message, 'error')
   }
 

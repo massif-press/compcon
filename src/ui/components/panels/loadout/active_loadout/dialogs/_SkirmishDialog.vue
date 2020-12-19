@@ -6,7 +6,9 @@
       {{ state.IsSkirmishAvailable }}
       <div v-for="(m, i) in mech.ActiveLoadout.Mounts" :key="`bar_${i}`">
         <item-selector-row
-          v-for="(w, j) in m.Weapons.filter(x => x.Size !== 'Superheavy' && !x.Destroyed)"
+          v-for="(w, j) in m.Weapons.filter(
+            x => x.Size !== 'Superheavy' && !x.Destroyed && !x.NoAttack
+          )"
           :key="`weap_${j}`"
           :item="w"
           color="action--quick"

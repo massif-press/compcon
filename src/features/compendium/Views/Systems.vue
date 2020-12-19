@@ -28,8 +28,8 @@ export default class Systems extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
   public get systems(): MechEquipment[] {
     const sys = (this.compendium.MechSystems as MechEquipment[])
-      .filter(x => x.Source)
-      .concat(this.compendium.WeaponMods as MechEquipment[])
+      .filter(x => x.Source && !x.IsHidden)
+      .concat(this.compendium.WeaponMods.filter(x => x.Source && !x.IsHidden) as MechEquipment[])
 
     return _.sortBy(sys, ['Source', 'Name'])
   }

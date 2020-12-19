@@ -74,6 +74,9 @@ export default Vue.extend({
         .then(() => (self.selected = action))
         .then(() => Vue.nextTick().then(() => self.$refs.i_dialog.show()))
     },
+    init() {
+      this.selected = null
+    },
   },
 })
 </script>

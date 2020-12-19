@@ -36,7 +36,10 @@ export default class Frames extends Vue {
 
   private compendium = getModule(CompendiumStore, this.$store)
   public get frames(): Frame[] {
-    return _.sortBy(this.compendium.Frames, ['Source', 'Name'])
+    return _.sortBy(
+      this.compendium.Frames.filter(x => !x.IsHidden),
+      ['Source', 'Name']
+    )
   }
 
   public frameTypes = Object.keys(MechType).sort() as MechType[]

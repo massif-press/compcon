@@ -9,6 +9,9 @@ interface IMechEquipmentData extends ILicensedItemData {
   frame_id?: boolean
   // TODO: expand
   ammo?: any[]
+  no_mods?: boolean
+  no_bonuses?: boolean
+  no_synergies?: boolean
 }
 
 abstract class MechEquipment extends LicensedItem {
@@ -30,6 +33,9 @@ abstract class MechEquipment extends LicensedItem {
   public readonly IsOrdnance: boolean
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
+  public readonly NoMods: boolean
+  public readonly NoBonuses: boolean
+  public readonly NoSynergies: boolean
   // TODO: expand
   public readonly Ammo: any[]
 
@@ -58,6 +64,9 @@ abstract class MechEquipment extends LicensedItem {
     }
     this._uses = this._max_uses
     this.Ammo = data.ammo || []
+    this.NoMods = data.no_mods
+    this.NoBonuses = data.no_bonuses
+    this.NoSynergies = data.no_synergies
   }
 
   public Use(cost?: number, free?: boolean): void {
@@ -84,7 +93,7 @@ abstract class MechEquipment extends LicensedItem {
     if (this.IsCascading) return false
     if (this.IsLimited && this.Uses === 0) return false
     if (this.IsLimited && cost && this.Uses < cost) return false
-    return !this._used
+    return true
   }
 
   public get Used(): boolean {

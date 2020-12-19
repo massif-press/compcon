@@ -121,7 +121,7 @@
 
     <v-spacer />
 
-    <div class="mt-n1">
+    <!-- <div class="mt-n1">
       <cc-tooltip inline content="Combat Log" delayed>
         <v-btn class="mx-1" small fab elevation="0" color="primary" @click="openMenu(0)">
           <v-icon color="white" size="25">mdi-notebook</v-icon>
@@ -133,7 +133,7 @@
           <v-icon color="white" size="25">mdi-dots-vertical</v-icon>
         </v-btn>
       </cc-tooltip>
-    </div>
+    </div> -->
   </v-footer>
 </template>
 

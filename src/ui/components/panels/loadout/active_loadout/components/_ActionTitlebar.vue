@@ -1,6 +1,6 @@
 <template>
   <cc-titlebar large :color="unusable ? '#616161' : action.Color">
-    <v-icon x-large v-html="unusable ? 'mdi-cancel' : action.Icon" />
+    <v-icon v-if="!noAction" x-large v-html="unusable ? 'mdi-cancel' : action.Icon" />
     {{ action.Name }}
     <span v-if="unusable" class="flavor-text">
       <cc-slashes />
@@ -23,6 +23,7 @@ export default Vue.extend({
   name: 'action-titlebar',
   props: {
     used: { type: Boolean },
+    noAction: { type: Boolean },
     mech: {
       type: Object,
       required: true,

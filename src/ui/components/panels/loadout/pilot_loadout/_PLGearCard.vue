@@ -104,7 +104,9 @@ export default Vue.extend({
     },
     getGear() {
       const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.PilotGear.filter((x: CompendiumItem) => x.ItemType === ItemType.PilotGear)
+      return compendium.PilotGear.filter(
+        (x: CompendiumItem) => x.ItemType === ItemType.PilotGear && !x.IsHidden
+      )
     },
     fID(template: string): string {
       return flavorID(template)

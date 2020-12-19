@@ -71,7 +71,9 @@ export default Vue.extend({
       if (!this.searchText) {
         return []
       }
-      const results = this.validResults.filter(r => accentInclude(r.Name, this.searchText))
+      const results = this.validResults.filter(
+        r => !r.IsHidden && accentInclude(r.Name, this.searchText)
+      )
       return results
     },
   },

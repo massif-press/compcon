@@ -211,6 +211,9 @@ export default Vue.extend({
         this.action,
         this.actionFree ? ActivationType.Free : ActivationType.Quick
       )
+      this.init()
+    },
+    init() {
       this.accuracy = 0
       this.difficulty = 0
       this.sys = ''

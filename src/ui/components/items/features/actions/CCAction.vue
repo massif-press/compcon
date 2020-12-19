@@ -2,6 +2,7 @@
   <component
     :is="cType"
     :action="action"
+    :no-action="noAction"
     :activations="activations"
     :unusable="unusable"
     :disabled="disabled"
@@ -29,6 +30,9 @@ export default Vue.extend({
       default: true,
     },
     panel: {
+      type: Boolean,
+    },
+    noAction: {
       type: Boolean,
     },
     active: {

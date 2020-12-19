@@ -8,9 +8,9 @@
       :disabled="disabled"
       @click="$refs.dialog.show()"
     >
-      <v-icon dark left>{{ action.Icon }}</v-icon>
+      <v-icon v-if="!noAction" dark left>{{ action.Icon }}</v-icon>
       {{ action.Name }}
-      <v-menu offset-y max-width="700px">
+      <v-menu v-if="!noAction" offset-y max-width="700px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn style="position:absolute; right: 0" icon v-bind="attrs" v-on="on">
             <v-icon class="fadeSelect">
@@ -33,6 +33,7 @@
     </v-btn>
     <cc-combat-dialog
       ref="dialog"
+      :no-action="noAction"
       :action="action"
       :mech="pilot.ActiveMech"
       @use="$emit('use', $event)"
@@ -62,6 +63,7 @@ export default vueMixins(activePilot).extend({
     },
     disabled: { type: Boolean },
     unusable: { type: Boolean },
+    noAction: { type: Boolean },
   },
   computed: {
     cost() {

@@ -31,6 +31,8 @@ interface IMechWeaponData extends IMechEquipmentData {
   skirmish?: boolean
   barrage?: boolean
   cost?: number
+  no_attack?: boolean
+  no_core_bonus?: boolean
   on_attack?: string
   on_hit?: string
   on_crit?: string
@@ -97,6 +99,8 @@ class MechWeapon extends MechEquipment {
   public readonly Profiles: WeaponProfile[]
   public readonly Skirmish: boolean
   public readonly Barrage: boolean
+  public readonly NoAttack: boolean
+  public readonly NoCoreBonus: boolean
   private _mod: WeaponMod | null
   private _custom_damage_type?: string
   private _selected_profile: number
@@ -108,7 +112,8 @@ class MechWeapon extends MechEquipment {
     this.Skirmish =
       data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy
     this.Barrage = data.barrage != undefined ? data.skirmish : true
-
+    this.NoAttack = data.no_attack
+    this.NoCoreBonus = data.no_core_bonus
     if (data.profiles) {
       this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, i))
     } else {
@@ -203,6 +208,7 @@ class MechWeapon extends MechEquipment {
 
   public set MaxUseOverride(val: number) {
     this.max_use_override = val
+    this._uses = val
     this.save()
   }
 

@@ -29,7 +29,6 @@
         v-for="m in pilot.Mechs"
         :key="`${m.ID}_mc`"
         :mech="m"
-        @set-active="pilot.ActiveMech = $event"
         @delete="pilot.RemoveMech($event)"
         @copy="pilot.CloneMech($event)"
         @go="toMechSheet($event)"

@@ -1,4 +1,4 @@
-import { ActivationType, Mech } from '@/class'
+import { ActivationType, Mech, Pilot } from '@/class'
 import { ICounterData, ISynergyData } from '@/interface'
 import uuid from 'uuid/v4'
 import { IActionData } from './Action'
@@ -84,22 +84,28 @@ class Deployable extends CompendiumItem {
     this.Detail = data.detail
     this.Recall = data.recall || null
     this.Redeploy = data.redeploy || null
-    this.Size = data.size + Bonus.get('deployable_size', owner)
-    this.MaxHP = data.hp + Bonus.get('deployable_hp', owner)
+    this.Size = this.collect(data.size, owner, 'size')
+    this.MaxHP = this.collect(data.hp, owner, 'hp')
     this._current_hp = this.MaxHP
-    this.Armor = (data.armor || 0) + Bonus.get('deployable_armor', owner)
-    this.Evasion =
-      (data.evasion || data.type.toLowerCase() !== 'mine' ? 5 : 0) +
-      Bonus.get('deployable_evasion', owner)
-    this.EDefense =
-      (data.edef || data.type.toLowerCase() !== 'mine' ? 8 : 0) +
-      Bonus.get('deployable_edef', owner)
-    this.Heatcap = (data.heatcap || 0) + Bonus.get('deployable_heatcap', owner)
-    this.Repcap = (data.repcap || 0) + Bonus.get('deployable_repcap', owner)
-    this.Sensors = (data.sensor_range || 0) + Bonus.get('deployable_sensor_range', owner)
-    this.TechAttack = (data.tech_attack || 0) + Bonus.get('deployable_tech_attack', owner)
-    this.Save = (data.save || 0) + Bonus.get('deployable_save', owner)
-    this.Speed = (data.speed || 0) + Bonus.get('deployable_speed', owner)
+    this.Armor = this.collect(data.armor, owner, 'armor')
+    this.Evasion = this.collect(
+      data.evasion,
+      owner,
+      'evasion',
+      data.type.toLowerCase() !== 'mine' ? 5 : 0
+    )
+    this.EDefense = this.collect(
+      data.edef,
+      owner,
+      'edef',
+      data.type.toLowerCase() !== 'mine' ? 8 : 0
+    )
+    this.Heatcap = this.collect(data.heatcap, owner, 'heatcap')
+    this.Repcap = this.collect(data.repcap, owner, 'repcap')
+    this.Sensors = this.collect(data.sensor_range, owner, 'sensor_range')
+    this.TechAttack = this.collect(data.tech_attack, owner, 'tech_attack')
+    this.Save = this.collect(data.save, owner, 'save')
+    this.Speed = this.collect(data.speed, owner, 'speed')
     this.Instances = data.instances || 1
     this._overshield = 0
     this._current_heat = 0
@@ -107,6 +113,16 @@ class Deployable extends CompendiumItem {
     this._destroyed = false
     this.IsPilotDeployable = data.pilot
     this.IsMechDeployable = data.mech || !data.pilot
+  }
+
+  private collect(val: string | number, owner: Mech, bonusID: string, mineVal?: number): number {
+    let out = val ? val : 0
+    if (!out && mineVal) return mineVal
+    if (owner && owner.Pilot) {
+      out = owner.Pilot.SpecialEval(out)
+      out += Bonus.get(`deployable_${bonusID}`, owner)
+    }
+    return out as number
   }
 
   public get Name(): string {

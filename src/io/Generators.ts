@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { store } from '@/store'
 // import {CompendiumStore} from '@/features/compendium/store/index'
 // import extlog from './ExtLog'
 
@@ -8,15 +9,24 @@ function pullRandom(data: string, count: number): string[] {
 }
 
 function callsign(): string {
-  return pullRandom(require('@/assets/generators/callsigns.txt'), 1)[0]
+  const callsigns = require('@/assets/generators/callsigns.txt').concat(
+    store.getters.Tables.callsigns
+  )
+  return pullRandom(callsigns, 1)[0]
 }
 
 function mechname(): string {
-  return pullRandom(require('@/assets/generators/mechnames.txt'), 1)[0]
+  const mechnames = require('@/assets/generators/mechnames.txt').concat(
+    store.getters.Tables.mech_names
+  )
+  return pullRandom(mechnames, 1)[0]
 }
 
 function teamName(): string {
-  return pullRandom(require('@/assets/generators/teamnames.txt'), 1)[0]
+  const teamnames = require('@/assets/generators/teamnames.txt').concat(
+    store.getters.Tables.team_names
+  )
+  return pullRandom(teamnames, 1)[0]
 }
 
 function tracert(jumps: number): string[] {

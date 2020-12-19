@@ -59,16 +59,18 @@ export default class PilotGearBrowser extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
   get armor(): PilotArmor[] {
     return this.compendium.PilotGear.filter(x => {
-      return x.ItemType === ItemType.PilotArmor
+      return !x.IsHidden && x.ItemType === ItemType.PilotArmor
     }) as PilotArmor[]
   }
   get weapons(): PilotWeapon[] {
     return this.compendium.PilotGear.filter(
-      x => x.ItemType === ItemType.PilotWeapon
+      x => !x.IsHidden && x.ItemType === ItemType.PilotWeapon
     ) as PilotWeapon[]
   }
   get gear(): PilotGear[] {
-    return this.compendium.PilotGear.filter(x => x.ItemType === ItemType.PilotGear) as PilotGear[]
+    return this.compendium.PilotGear.filter(
+      x => !x.IsHidden && x.ItemType === ItemType.PilotGear
+    ) as PilotGear[]
   }
 }
 </script>

@@ -65,7 +65,10 @@ import _ from 'lodash'
 export default class CoreBonuses extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
   get bonuses() {
-    return _.groupBy(this.compendium.CoreBonuses, 'Source')
+    return _.groupBy(
+      this.compendium.CoreBonuses.filter(x => !x.IsHidden),
+      'Source'
+    )
   }
 
   public manufacturer(id: string) {

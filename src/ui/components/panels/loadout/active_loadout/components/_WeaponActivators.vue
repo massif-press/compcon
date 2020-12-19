@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-1">
+  <div v-show="!item.NoAttack" class="mb-1">
     <v-row v-if="item.Size === 'Superheavy'">
       <v-col>
         <v-btn

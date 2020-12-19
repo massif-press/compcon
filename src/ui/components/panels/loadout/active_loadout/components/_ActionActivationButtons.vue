@@ -16,7 +16,6 @@
       small
       tile
       block
-      :disabled="used"
       color="action--free"
       @click="select(true)"
     >

@@ -47,6 +47,7 @@ class CoreSystem {
   public readonly PassiveBonuses: Bonus[]
   public readonly PassiveSynergies: Synergy[]
   public readonly Deployables: IDeployableData[]
+  public readonly DeployActions: Action[]
   public readonly Counters: ICounterData[]
   private _integrated: string[]
   private _tags: ITagData[]
@@ -87,6 +88,8 @@ class CoreSystem {
       ? data.passive_synergies.map(x => new Synergy(x, 'Frame CORE System (Passive)'))
       : []
     this.Deployables = data.deployables ? data.deployables : []
+    if (this.Deployables.length)
+      this.DeployActions = this.Deployables.map(x => Action.CreateDeployAction(x, this.Name))
     this.Counters = data.counters ? data.counters : []
     this._integrated = data.integrated ? data.integrated : []
     this._tags = data.tags

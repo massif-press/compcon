@@ -131,6 +131,9 @@ export default Vue.extend({
     },
   },
   methods: {
+    init() {
+      this.quick = this.quick.splice(0, this.quick.length)
+    },
     addQuick(action) {
       if (this.quick.length < 2) this.quick.push(action)
     },

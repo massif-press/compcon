@@ -160,6 +160,7 @@ class Bonus {
   public static Contributors(id: string, m: Mech): { name: string; val: number }[] {
     const output = Bonus.MechContributors(m, id)
     m.Pilot.Loadout.Items.forEach(i => {
+      if (!i) return
       i.Bonuses.forEach(b => {
         if (b.ID === id)
           output.push({
