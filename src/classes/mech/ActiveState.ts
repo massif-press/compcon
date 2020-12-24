@@ -347,7 +347,6 @@ class ActiveState {
 
   public set ActiveMech(mech: Mech | null) {
     this._mech = mech
-    console.log(this._mech)
   }
 
   public get ActiveMech(): Mech | null {
@@ -1077,10 +1076,6 @@ class ActiveState {
   }
 
   public get DowntimeActions(): Action[] {
-    console.log(
-      store.getters.getItemCollection('Actions').filter(x => x && x.Activation === 'Downtime')
-    )
-
     return store.getters.getItemCollection('Actions').filter(x => x && x.Activation === 'Downtime')
   }
 
