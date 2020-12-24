@@ -161,7 +161,6 @@
 </template>
 
 <script lang="ts">
-import DtMenuItem from '../../components/Downtime/DtMenuItem.vue'
 import MechSelectButton from '../../components/MechSelectButton.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
@@ -172,7 +171,6 @@ export default vueMixins(activePilot).extend({
   name: 'narrative-footer',
   components: {
     ActionMenuButton,
-    DtMenuItem,
     MechSelectButton,
     DowntimeMenu,
   },
