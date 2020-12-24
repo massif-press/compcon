@@ -25,20 +25,24 @@
 <script lang="ts">
 import Vue from 'vue'
 import ReserveCard from '../components/ReserveCard.vue'
-import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { Reserve } from '@/class'
-import _, { Dictionary } from 'lodash'
+import _ from 'lodash'
 
-@Component({
+export default Vue.extend({
+  name: 'reserves',
   components: { ReserveCard },
+  data: () => ({
+    tabModel: 0,
+  }),
+  computed: {
+    reserves() {
+      const compendium = getModule(CompendiumStore, this.$store)
+      return _.groupBy(
+        compendium.Reserves.filter(x => x),
+        'Type'
+      )
+    },
+  },
 })
-export default class Reserves extends Vue {
-  tabModel: 0
-  private compendium = getModule(CompendiumStore, this.$store)
-  get reserves(): Dictionary<Reserve[]> {
-    return _.groupBy(this.compendium.Reserves, 'Type')
-  }
-}
 </script>

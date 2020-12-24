@@ -18,7 +18,7 @@
     </div>
     <slot name="other_effects" />
 
-    <div v-if="item.Actions.length">
+    <div v-if="item.Actions && item.Actions.length">
       <div class="overline ml-n2 subtle--text">EQUIPMENT ACTIONS</div>
       <v-row no-gutters justify="center">
         <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`" cols="auto">
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div v-if="item.Deployables.length">
+    <div v-if="item.Deployables && item.Deployables.length">
       <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
       <v-row no-gutters justify="center">
         <v-col v-for="(d, i) in item.Deployables" :key="`${item.Name}_deployable_${i}`" cols="auto">
@@ -49,7 +49,7 @@
       </v-row>
     </div>
 
-    <div v-if="item.IntegratedEquipment.length">
+    <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
       <div class="overline ml-n2 subtle--text">EQUIPMENT INTEGRATIONS</div>
       <v-row no-gutters justify="center">
         <v-col
