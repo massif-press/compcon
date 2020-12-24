@@ -4,6 +4,7 @@
       <v-btn
         x-large
         block
+        dark
         tile
         :color="
           item.ItemType === 'MechWeapon' && !item.Loaded

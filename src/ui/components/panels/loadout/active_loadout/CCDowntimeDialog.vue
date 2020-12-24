@@ -14,34 +14,26 @@
         @hide="hide()"
       />
       <v-card-text class="pt-5 pb-0">
-        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
+        <!-- <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" /> -->
         <component
           :is="component"
           v-if="component"
           ref="c"
           :used="action.Used"
           :mech="mech"
+          :pilot="mech.Pilot"
           :action="action"
           @use="use($event)"
           @hide="hide()"
+          @close="hide()"
         />
       </v-card-text>
-      <action-confirm-log
-        ref="log"
-        :used="action.AnyUsed"
-        :action="action"
-        :mech="mech"
-        :hide-log="action && action.ID === 'act_self_destruct'"
-        @undo="undo()"
-        @hide="hide()"
-      />
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import ActionConfirmLog from './components/_ActionConfirmLog.vue'
 import ActionTitlebar from './components/_ActionTitlebar.vue'
 
 function toTitleCase(str): string {
@@ -54,7 +46,7 @@ function toTitleCase(str): string {
 
 export default Vue.extend({
   name: 'cc-combat-dialog',
-  components: { ActionTitlebar, ActionConfirmLog },
+  components: { ActionTitlebar },
   props: {
     action: {
       type: Object,
@@ -78,13 +70,13 @@ export default Vue.extend({
         return null
       }
       const name = toTitleCase(this.action.Name)
-      return () => import(`./dialogs/action/_${name}Dialog.vue`)
+      return () => import(`./dialogs/downtime/_${name}.vue`)
     },
     itemLoader() {
       if (!this.action) {
         return null
       }
-      return () => import(`./dialogs/action/_ItemActionDialog.vue`)
+      return () => import(`./dialogs/downtime/_GenericDowntimeDialog.vue`)
     },
   },
   mounted() {
@@ -98,29 +90,24 @@ export default Vue.extend({
   },
   methods: {
     use(free) {
-      this.mech.Pilot.State.CommitAction(this.action, free)
+      console.log(free)
+      // this.mech.Pilot.State.CommitAction(this.action, free)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
       this.$emit('use')
       Vue.nextTick().then(() => self.$forceUpdate())
     },
     undo() {
-      this.mech.Pilot.State.UndoAction(this.action)
-      this.$emit('undo')
+      // this.mech.Pilot.State.UndoAction(this.action)
+      // this.$emit('undo')
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      Vue.nextTick().then(() => self.$forceUpdate())
+      // const self = this
+      // Vue.nextTick().then(() => self.$forceUpdate())
     },
     show() {
       this.dialog = true
     },
     hide() {
-      if (!this.$refs.c.init) {
-        console.log('no init fn', this.$refs.c.name)
-      } else {
-        this.$refs.c.init()
-        this.$refs.log.init()
-      }
       this.dialog = false
     },
   },

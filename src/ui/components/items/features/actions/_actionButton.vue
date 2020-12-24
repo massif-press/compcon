@@ -4,7 +4,7 @@
       :color="usable ? 'grey darken-2' : action.Color"
       block
       tile
-      left
+      dark
       :disabled="disabled"
       @click="$refs.dialog.show()"
     >
@@ -12,7 +12,7 @@
       {{ action.Name }}
       <v-menu v-if="!noAction" offset-y max-width="700px">
         <template v-slot:activator="{ on, attrs }">
-          <v-btn style="position:absolute; right: 0" icon v-bind="attrs" v-on="on">
+          <v-btn right icon v-bind="attrs" v-on="on">
             <v-icon class="fadeSelect">
               mdi-information-outline
             </v-icon>

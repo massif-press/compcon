@@ -33,8 +33,8 @@
 
 <script lang="ts">
 import _ from 'lodash'
-import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
 
 import Vue from 'vue'
 

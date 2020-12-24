@@ -87,6 +87,11 @@ export default class PackInfo extends Vue {
     npcClasses: ['NPC class', 'NPC classes'],
     npcFeatures: ['NPC feature', 'NPC features'],
     npcTemplates: ['NPC template', 'NPC templates'],
+    actions: ['Player action', 'Player actions'],
+    statuses: ['Status/Condition', 'Statuses/Conditions'],
+    environments: ['Combat Environment', 'Combat Environments'],
+    sitreps: ['SITREP', 'SITREPs'],
+    tables: ['Data Table', 'Data Tables'],
   }
 
   get packContents() {

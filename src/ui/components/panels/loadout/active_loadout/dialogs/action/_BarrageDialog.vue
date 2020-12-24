@@ -42,8 +42,8 @@
 </template>
 
 <script lang="ts">
-import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
 import WBarrageDialog from './_SelBarrageDialog.vue'
 import ShBarrageDialog from './_SelSHBarrageDialog.vue'
 

@@ -80,6 +80,43 @@
         <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnCrit" />
       </div>
     </v-col>
+    <div slot="profile">
+      <div v-if="item.ProfileActions.length">
+        <div class="overline ml-n2 subtle--text">PROFILE ACTIONS</div>
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(a, i) in item.ProfileActions"
+            :key="`${item.Name}_action_${i}`"
+            cols="auto"
+          >
+            <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+          </v-col>
+        </v-row>
+      </div>
+
+      <div v-if="item.ProfileDeployables.length">
+        <div class="overline ml-n2 subtle--text">PROFILE DEPLOYABLES</div>
+        <v-row no-gutters justify="center">
+          <v-col
+            v-for="(d, i) in item.ProfileDeployables"
+            :key="`${item.Name}_deployable_${i}`"
+            cols="auto"
+          >
+            <cc-deployable-info
+              :deployable="d"
+              :panel="$vuetify.breakpoint.lgAndUp"
+              :name-override="item.Name"
+              class="ma-2"
+            />
+          </v-col>
+        </v-row>
+      </div>
+
+      <div v-if="item.ProfileTags && item.ProfileTags.length">
+        <div class="overline ml-n2 mb-n1 subtle--text">PROFILE TAGS</div>
+        <cc-tags :tags="item.ProfileTags" extended />
+      </div>
+    </div>
   </equipment-card-base>
 </template>
 

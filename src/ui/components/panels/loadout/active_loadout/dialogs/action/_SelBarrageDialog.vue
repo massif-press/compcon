@@ -64,7 +64,7 @@
 <script lang="ts">
 import { WeaponSize } from '@/class'
 import Vue from 'vue'
-import WeaponAttack from '../components/_WeaponAttack.vue'
+import WeaponAttack from '../../components/_WeaponAttack.vue'
 
 export default Vue.extend({
   name: 'barrage-dialog',

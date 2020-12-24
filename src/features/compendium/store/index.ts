@@ -265,7 +265,7 @@ export class CompendiumStore extends VuexModule {
 
   get getItemCollection(): any {
     return (itemType: string) => {
-      return this[itemType].filter(x => !x.IsHidden)
+      return this[itemType].filter(x => x && !x.IsHidden)
     }
   }
 

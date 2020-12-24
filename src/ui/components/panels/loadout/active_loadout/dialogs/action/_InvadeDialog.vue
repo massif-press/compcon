@@ -257,8 +257,8 @@
 <script lang="ts">
 import { ActivationType, DiceRoller } from '@/class'
 import Vue from 'vue'
-import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
-import ActionTitlebar from '../components/_ActionTitlebar.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ActionTitlebar from '../../components/_ActionTitlebar.vue'
 
 export default Vue.extend({
   name: 'invade-dialog',

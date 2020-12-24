@@ -4,6 +4,7 @@
       <v-btn
         class="mx-1"
         small
+        dark
         :fab="$vuetify.breakpoint.lgAndUp"
         elevation="0"
         :color="available && (baseActions.length || itemActions.length) ? color : 'grey darken-2'"

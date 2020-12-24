@@ -14,8 +14,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ActionActivationButtons from '../components/_ActionActivationButtons.vue'
-import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
+import ActionActivationButtons from '../../components/_ActionActivationButtons.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
 
 export default Vue.extend({
   name: 'action-dialog-base',

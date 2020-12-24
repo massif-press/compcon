@@ -27,6 +27,7 @@ export default {
   'action--free': '#00695C',
   'action--protocol': '#007676',
   'action--tech': '#802475',
+  'action--invade': '#222222',
 
   'damage--kinetic': '#757575',
   'damage--energy': '#29B6F6',

@@ -10,7 +10,7 @@
     <div
       v-if="item"
       class="text-left"
-      style="cursor: pointer!important; height:100%"
+      style="cursor: pointer!important; height:100%; min-height: 80px"
       @click="$refs.base.openDetail()"
     >
       <span :key="item.Name" class="h2 heading text--text" style="line-height: 35px">
@@ -152,7 +152,9 @@ export default Vue.extend({
     },
     getArmor() {
       const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.PilotGear.filter((x: CompendiumItem) => x.ItemType === ItemType.PilotArmor)
+      return compendium.PilotGear.filter(
+        (x: CompendiumItem) => !x.IsHidden && x.ItemType === ItemType.PilotArmor
+      )
     },
     fID(template: string): string {
       return flavorID(template)

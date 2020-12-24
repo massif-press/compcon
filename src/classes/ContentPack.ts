@@ -191,7 +191,7 @@ export class ContentPack {
   }
 
   private _PlayerActions: Action[] = []
-  public get PlayerActions(): Action[] {
+  public get Actions(): Action[] {
     return this._PlayerActions
   }
 
@@ -248,9 +248,12 @@ export class ContentPack {
     this._NpcClasses = this._data.npcClasses?.map(x => new NpcClass(x)) || []
     this._NpcTemplates = this._data.npcTemplates?.map(x => new NpcTemplate(x)) || []
 
+    console.log(this._data.actions)
     this._PlayerActions = this._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     )
+
+    console.log(this._PlayerActions)
 
     this._Statuses = this._data.statuses || []
     this._Environments = this._data.environments || []

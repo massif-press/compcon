@@ -117,6 +117,7 @@ export default Vue.extend({
         resource_name: this.custom_name,
         resource_cost: '',
         used: false,
+        consumable: false,
       })
       if (this.skillRoll < 10) nr.ResourceCost = this.choices[this.choice]
       else if (this.skillRoll < 20)

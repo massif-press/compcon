@@ -1039,6 +1039,12 @@ class ActiveState {
   }
 
   public get AvailableActions(): string[] {
+    if (this.Stage === 'Narrative')
+      return store.getters
+        .getItemCollection('Actions')
+        .filter(x => x && x.Activation === 'Downtime')
+        .map(x => x.ID)
+
     if (!this.IsMounted) {
       const pilotActions = this.AllActions.filter(x => x.IsPilotAction && !x.IsActiveHidden).map(
         x => x.ID
@@ -1068,6 +1074,14 @@ class ActiveState {
     const exclude = ['QUICK TECH', 'FULL TECH']
     const out = this.AllBaseTechActions.concat(this.AllItemTechActions)
     return out.filter(x => !exclude.some(y => y === x.Name.toUpperCase()))
+  }
+
+  public get DowntimeActions(): Action[] {
+    console.log(
+      store.getters.getItemCollection('Actions').filter(x => x && x.Activation === 'Downtime')
+    )
+
+    return store.getters.getItemCollection('Actions').filter(x => x && x.Activation === 'Downtime')
   }
 
   // -- Log ---------------------------------------------------------------------------------------

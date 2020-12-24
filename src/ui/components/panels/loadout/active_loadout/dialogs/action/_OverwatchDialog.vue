@@ -52,8 +52,8 @@
 </template>
 
 <script lang="ts">
-import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
 import WSkirmishDialog from './_SelSkirmishDialog.vue'
 import SelFightDialog from './_SelFightDialog.vue'
 

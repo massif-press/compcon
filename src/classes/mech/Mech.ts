@@ -1003,7 +1003,14 @@ class Mech implements IActor {
       const activeBonuses = this.ActiveLoadout.Equipment.filter(
         x => x && !x.Destroyed && !x.IsCascading
       ).flatMap(x => x[p])
+
       output = output.concat(activeBonuses)
+
+      const profileSelectedBonuses = this.ActiveLoadout.Weapons.filter(
+        x => x && !x.Destroyed && !x.IsCascading
+      ).flatMap(x => x[`Profile${p}`])
+
+      output = output.concat(profileSelectedBonuses)
     }
 
     output = output

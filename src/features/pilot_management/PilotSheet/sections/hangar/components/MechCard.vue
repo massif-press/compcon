@@ -1,5 +1,5 @@
 <template>
-  <v-col style="min-width: 400px">
+  <v-col style="min-width: 400px; max-width: 50%">
     <div
       v-if="mech"
       :style="

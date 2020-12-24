@@ -13,6 +13,7 @@
           @click="addQuick(a)"
         />
         <item-selector-row
+          v-if="i === 0"
           :item="invadeAction"
           :disabled="quick.length === 2"
           @click="openInvade()"
@@ -28,7 +29,14 @@
           :key="`action_${j}`"
           :item="a"
           :disabled="quick.length > 0"
-          @click="activate(a)"
+          @click="fulltech(a)"
+        />
+        <cc-combat-dialog
+          v-for="(a, j) in fullActions[k]"
+          :key="`action_dialog_${j}`"
+          :ref="`dialog_${a.ID}`"
+          :action="a"
+          :mech="mech"
         />
       </div>
     </v-container>
@@ -77,8 +85,8 @@
 
 <script lang="ts">
 import _ from 'lodash'
-import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
 import InvadeDialog from './_InvadeDialog.vue'
 
 import Vue from 'vue'
@@ -131,6 +139,10 @@ export default Vue.extend({
     },
   },
   methods: {
+    fulltech(action) {
+      const ref = `dialog_${action.ID}`
+      this.$refs[ref][0].show()
+    },
     init() {
       this.quick = this.quick.splice(0, this.quick.length)
     },

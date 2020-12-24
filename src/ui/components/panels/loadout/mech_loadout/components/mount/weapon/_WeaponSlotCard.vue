@@ -58,11 +58,12 @@
           class="d-inline pl-3 ml-3"
           style=" border-left: 1px solid #616161;"
         >
-          <v-icon v-if="item" class="fadeSelect mt-n1" @click.stop="remove()">
+          <v-icon v-if="item" dark class="fadeSelect mt-n1" @click.stop="remove()">
             delete
           </v-icon>
           <v-icon
             class="fadeSelect mt-n1"
+            dark
             @click.stop="$refs.base.$refs.selectorDialog.show()"
             v-html="item ? 'mdi-swap-vertical-variant' : 'mdi-add'"
           />

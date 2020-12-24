@@ -43,11 +43,12 @@
         <v-slide-y-transition>
           <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
             <div class="underline-slide">
-              <v-row dense>
+              <v-row dense justify="center">
                 <v-col
                   v-for="(a, i) in item.Actions"
                   :key="`${item.Name}_action_${i}`"
                   style="min-width: 40%"
+                  cols="auto"
                   class="mb-n1"
                 >
                   <cc-action

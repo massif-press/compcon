@@ -459,6 +459,19 @@
               <ul v-for="n in 3" :key="'t_' + n">
                 <li v-if="t.Rank >= n">
                   <span v-html="t.Talent.Ranks[n - 1].Description" />
+                  <div class="text-center">
+                    <cc-action
+                      v-for="a in t.Talent.Ranks[n - 1].Actions"
+                      :key="`t_a_${n}_${a.Name}`"
+                      :action="a"
+                      :active="a.Activation !== 'Invade'"
+                      :activations="pilot.State.Actions"
+                      :disabled="mech.IsStunned"
+                      :unusable="a.Activation === 'Protocol' && !pilot.State.IsProtocolAvailable"
+                      @use="item.Use(a.Cost, $event)"
+                      @undo="item.Undo(a.Cost)"
+                    />
+                  </div>
                 </li>
               </ul>
             </cc-active-card>

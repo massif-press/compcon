@@ -15,7 +15,7 @@
             </v-btn>
           </template>
           <v-card>
-            <v-toolbar dense flat tile color="warning darken-3 heading h2">
+            <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
               END COMBAT
             </v-toolbar>
             <v-card-text>
