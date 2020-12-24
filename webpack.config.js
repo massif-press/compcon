@@ -14,6 +14,9 @@ function versionString() {
   // Versioned releases
   // Travis should only build on tags - therefore TRAVIS_TAG should always exist
   // when we are in a Travis environment.
+  if (process.env.VERSION_TAG) {
+    return process.env.VERSION_TAG
+  }
   if (process.env.TRAVIS_TAG) {
     return process.env.TRAVIS_TAG
     // Otherwise, if COMMIT_REF exists, we are being built by Netlify (usually previews)
