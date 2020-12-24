@@ -27,7 +27,7 @@
         <v-card-text class="body-text text--text" v-html="action.Detail" />
       </v-card>
     </v-menu>
-    <cc-downtime-dialog ref="dialog" :action="action" :mech="mech" />
+    <cc-downtime-dialog ref="dialog" :action="action" :pilot="pilot" />
   </v-list-item>
 </template>
 
@@ -35,10 +35,10 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'action-menu-item',
+  name: 'downtime-menu-item',
   props: {
     action: { type: Object, required: true },
-    mech: { type: Object, required: true },
+    pilot: { type: Object, required: true },
     available: { type: Boolean },
   },
   computed: {

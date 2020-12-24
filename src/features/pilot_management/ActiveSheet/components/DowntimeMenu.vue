@@ -7,7 +7,7 @@
           :key="`am_downtime_${i}`"
           :action="a"
           available
-          :mech="pilot.ActiveMech"
+          :pilot="pilot"
         />
       </v-list>
     </v-card>
