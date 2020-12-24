@@ -126,9 +126,9 @@
     <v-spacer />
 
     <cc-tooltip inline content="Downtime Actions" delayed>
-      <action-menu-button
+      <downtime-menu-button
         :actions="pilot.State.DowntimeActions"
-        :mech="pilot.ActiveMech"
+        :pilot="pilot"
         available
         color="action--downtime"
         title="DOWNTIME ACTIONS"
@@ -136,7 +136,7 @@
         @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="35">cci-downtime</v-icon>
-      </action-menu-button>
+      </downtime-menu-button>
     </cc-tooltip>
 
     <cc-downtime-dialog
@@ -144,7 +144,7 @@
       :key="`fa_${a.ID}`"
       :ref="`dialog_${a.ID}`"
       :action="a"
-      :mech="pilot.ActiveMech"
+      :pilot="pilot"
     />
 
     <cc-solo-dialog
@@ -164,13 +164,13 @@
 import MechSelectButton from '../../components/MechSelectButton.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
-import ActionMenuButton from '../../components/ActionMenuButton.vue'
+import DowntimeMenuButton from '../../components/DowntimeMenuButton.vue'
 import DowntimeMenu from '../../components/DowntimeMenu.vue'
 
 export default vueMixins(activePilot).extend({
   name: 'narrative-footer',
   components: {
-    ActionMenuButton,
+    DowntimeMenuButton,
     MechSelectButton,
     DowntimeMenu,
   },

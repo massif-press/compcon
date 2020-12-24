@@ -6,11 +6,11 @@
     width="85vw"
   >
     <v-card tile class="background">
-      <action-titlebar
+      <downtime-titlebar
         :used="action.Used"
         :no-action="noAction"
         :action="action"
-        :mech="mech"
+        :pilot="pilot"
         @hide="hide()"
       />
       <v-card-text class="pt-5 pb-0">
@@ -20,8 +20,7 @@
           v-if="component"
           ref="c"
           :used="action.Used"
-          :mech="mech"
-          :pilot="mech.Pilot"
+          :pilot="pilot"
           :action="action"
           @use="use($event)"
           @hide="hide()"
@@ -34,7 +33,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ActionTitlebar from './components/_ActionTitlebar.vue'
+import DowntimeTitlebar from './components/_DowntimeTitlebar.vue'
 
 function toTitleCase(str): string {
   str = str.toLowerCase().split(' ')
@@ -45,14 +44,14 @@ function toTitleCase(str): string {
 }
 
 export default Vue.extend({
-  name: 'cc-combat-dialog',
-  components: { ActionTitlebar },
+  name: 'cc-downtime-dialog',
+  components: { DowntimeTitlebar },
   props: {
     action: {
       type: Object,
       required: true,
     },
-    mech: {
+    pilot: {
       type: Object,
       required: true,
     },

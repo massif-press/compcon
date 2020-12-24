@@ -897,7 +897,11 @@ class Pilot {
     if (index === -1) {
       console.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`)
     } else {
-      if (this.State.ActiveMech.ID === mech.ID) {
+      if (
+        !this.State.ActiveMech ||
+        !this.State.ActiveMech.ID ||
+        (this.State.ActiveMech && this.State.ActiveMech.ID === mech.ID)
+      ) {
         this._state = new ActiveState(this)
       }
       this._mechs.splice(index, 1)
