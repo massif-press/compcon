@@ -80,8 +80,9 @@
         <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileOnCrit" />
       </div>
     </v-col>
+
     <div slot="profile">
-      <div v-if="item.ProfileActions.length">
+      <div v-if="item.Profiles.length > 1 && item.ProfileActions.length">
         <div class="overline ml-n2 subtle--text">PROFILE ACTIONS</div>
         <v-row no-gutters justify="center">
           <v-col
@@ -94,7 +95,7 @@
         </v-row>
       </div>
 
-      <div v-if="item.ProfileDeployables.length">
+      <div v-if="item.Profiles.length > 1 && item.ProfileDeployables.length">
         <div class="overline ml-n2 subtle--text">PROFILE DEPLOYABLES</div>
         <v-row no-gutters justify="center">
           <v-col
@@ -112,7 +113,7 @@
         </v-row>
       </div>
 
-      <div v-if="item.ProfileTags && item.ProfileTags.length">
+      <div v-if="item.Profiles.length > 1 && item.ProfileTags && item.ProfileTags.length">
         <div class="overline ml-n2 mb-n1 subtle--text">PROFILE TAGS</div>
         <cc-tags :tags="item.ProfileTags" extended />
       </div>
