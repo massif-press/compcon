@@ -46,7 +46,7 @@
           <template v-slot:[`item.Name`]="{ item }">
             <span class="accent--text heading clickable ml-n2" @click="selectedNpc = item">
               <v-menu offset-x left>
-                <template v-slot:`activator="{ on }">
+                <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
                     <v-icon small class="fadeSelect">mdi-settings</v-icon>
                   </v-btn>

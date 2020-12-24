@@ -47,10 +47,8 @@ export class PilotManagementStore extends VuexModule {
     // TODO: bring back validator?
     // should maybe validate in the action instead of the mutator...
     // this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
-    console.log(payload.pilotData)
     this.Pilots = [...payload.pilotData.map(x => Pilot.Deserialize(x))]
     // savePilots(this.Pilots)
-    console.log(this.Pilots)
     this.PilotGroups = _.uniq(payload.pilotData.map(x => x.group).concat(payload.groupData))
   }
 
@@ -119,7 +117,6 @@ export class PilotManagementStore extends VuexModule {
   @Action({ rawError: true })
   public async loadPilots() {
     const pilotData = await loadData<IPilotData>('pilots_v2.json')
-    console.log(pilotData)
     const groupData = await loadData<string>('pilot_groups.json')
     this.context.commit(LOAD_PILOTS, { pilotData, groupData })
   }
