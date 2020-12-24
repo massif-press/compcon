@@ -69,7 +69,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import WeaponAttack from '../components/_WeaponAttack.vue'
+import WeaponAttack from '../../components/_WeaponAttack.vue'
 
 export default Vue.extend({
   name: 'skirmish-dialog',

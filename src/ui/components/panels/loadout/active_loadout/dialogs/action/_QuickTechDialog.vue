@@ -14,6 +14,7 @@
           @click="activate(a, j)"
         />
         <item-selector-row
+          v-if="i === 0"
           key="invade_action"
           :item="invadeAction"
           :color="usedArr.includes('invade') ? 'grey darken-2' : 'action--quick'"
@@ -51,8 +52,8 @@
 
 <script lang="ts">
 import _ from 'lodash'
-import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../components/_ItemSelectorRow.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
 import InvadeDialog from './_InvadeDialog.vue'
 
 import Vue from 'vue'

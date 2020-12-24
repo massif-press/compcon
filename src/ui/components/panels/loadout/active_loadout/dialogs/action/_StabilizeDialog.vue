@@ -88,7 +88,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ActionDetailExpander from '../components/_ActionDetailExpander.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
 
 export default Vue.extend({
   name: 'stabilize-dialog',

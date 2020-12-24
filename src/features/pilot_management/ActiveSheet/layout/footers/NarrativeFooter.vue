@@ -14,7 +14,7 @@
         </v-btn>
       </template>
       <v-card>
-        <v-toolbar dense flat tile color="warning darken-3 heading h2">
+        <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
           START MISSION
         </v-toolbar>
         <v-card-text>
@@ -125,51 +125,28 @@
 
     <v-spacer />
 
-    <v-menu offset-y top>
-      <template v-slot:activator="{ on }">
-        <v-btn class="mx-1" small fab elevation="0" color="action--downtime" v-on="on">
-          <v-icon size="30">cci-downtime</v-icon>
-        </v-btn>
-      </template>
-      <div>
-        <v-toolbar dense flat class="heading h3" style="min-width: 80px">
-          DOWNTIME ACTIONS
-          <v-spacer />
-          <v-btn small icon color="accent" class="ml-4" @click="$refs.dialog.show()">
-            <v-icon>mdi-open-in-new</v-icon>
-          </v-btn>
-        </v-toolbar>
-        <v-list class="px-2 py-3" color="panel" two-line>
-          <dt-menu-item ref="atcost" action-id="act_power_at_a_cost">
-            <power-at-cost :pilot="pilot" @close="$refs.atcost.dialog = false" />
-          </dt-menu-item>
-          <dt-menu-item ref="buytime" action-id="act_buy_some_time">
-            <buy-time :pilot="pilot" @close="$refs.buytime.dialog = false" />
-          </dt-menu-item>
-          <dt-menu-item ref="damndrink" action-id="act_get_a_damn_drink">
-            <damn-drink :pilot="pilot" @close="$refs.damndrink.dialog = false" />
-          </dt-menu-item>
-          <dt-menu-item ref="getcreative" action-id="act_get_creative">
-            <get-creative :pilot="pilot" @close="$refs.getcreative.dialog = false" />
-          </dt-menu-item>
-          <dt-menu-item ref="getfocused" action-id="act_get_focused">
-            <get-focused :pilot="pilot" @close="$refs.getfocused.dialog = false" />
-          </dt-menu-item>
-          <dt-menu-item ref="getorganized" action-id="act_get_organized">
-            <get-organized :pilot="pilot" @close="$refs.getorganized.dialog = false" />
-          </dt-menu-item>
-          <dt-menu-item ref="gatherinfo" action-id="act_gather_information">
-            <gather-information :pilot="pilot" @close="$refs.gatherinfo.dialog = false" />
-          </dt-menu-item>
-          <dt-menu-item ref="getconnected" action-id="act_get_connected">
-            <get-connected :pilot="pilot" @close="$refs.getconnected.dialog = false" />
-          </dt-menu-item>
-          <dt-menu-item ref="scrounge" action-id="act_scrounge_and_barter">
-            <scrounge-barter :pilot="pilot" @close="$refs.scrounge.dialog = false" />
-          </dt-menu-item>
-        </v-list>
-      </div>
-    </v-menu>
+    <cc-tooltip inline content="Downtime Actions" delayed>
+      <action-menu-button
+        :actions="pilot.State.DowntimeActions"
+        :mech="pilot.ActiveMech"
+        available
+        color="action--downtime"
+        title="DOWNTIME ACTIONS"
+        @open-menu="$refs.dialog.show()"
+        @open-dialog="openDialog($event)"
+      >
+        <v-icon slot="icon" color="white" size="35">cci-downtime</v-icon>
+      </action-menu-button>
+    </cc-tooltip>
+
+    <cc-downtime-dialog
+      v-for="a in pilot.State.DowntimeActions"
+      :key="`fa_${a.ID}`"
+      :ref="`dialog_${a.ID}`"
+      :action="a"
+      :mech="pilot.ActiveMech"
+    />
+
     <cc-solo-dialog
       ref="dialog"
       title="Downtime Actions"
@@ -188,33 +165,15 @@ import DtMenuItem from '../../components/Downtime/DtMenuItem.vue'
 import MechSelectButton from '../../components/MechSelectButton.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
-import {
-  PowerAtCost,
-  BuyTime,
-  DamnDrink,
-  GatherInformation,
-  GetConnected,
-  ScroungeBarter,
-  GetFocused,
-  GetCreative,
-  GetOrganized,
-  DowntimeMenu,
-} from '../../components/Downtime'
+import ActionMenuButton from '../../components/ActionMenuButton.vue'
+import DowntimeMenu from '../../components/DowntimeMenu.vue'
 
 export default vueMixins(activePilot).extend({
   name: 'narrative-footer',
   components: {
+    ActionMenuButton,
     DtMenuItem,
     MechSelectButton,
-    PowerAtCost,
-    BuyTime,
-    DamnDrink,
-    GatherInformation,
-    GetConnected,
-    ScroungeBarter,
-    GetFocused,
-    GetCreative,
-    GetOrganized,
     DowntimeMenu,
   },
   data: () => ({ scDialog: false }),
@@ -222,6 +181,12 @@ export default vueMixins(activePilot).extend({
     startDisabled() {
       const m = this.pilot.ActiveMech
       return m.Destroyed || m.ReactorDestroyed
+    },
+  },
+  methods: {
+    openDialog(action) {
+      const r = this.$refs[`dialog_${action.ID}`]
+      if (r && r[0]) r[0].show()
     },
   },
 })

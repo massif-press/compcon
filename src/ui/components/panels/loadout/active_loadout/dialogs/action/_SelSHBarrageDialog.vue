@@ -6,9 +6,9 @@
     width="90vw"
   >
     <v-card tile class="background">
-      <cc-titlebar large color="action--quick">
+      <cc-titlebar large color="action--full">
         <v-icon x-large>mdi-hexagon-slice-6</v-icon>
-        Fight
+        Barrage
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
         </v-btn>
@@ -17,12 +17,19 @@
       <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
 
       <v-card-text v-if="item" class="mb-0 pb-2">
-        <pilot-attack ref="main" :item="item" :pilot="pilot" :overwatch="overwatch">
+        <weapon-attack
+          ref="main"
+          :item="item"
+          :mech="mech"
+          :mount="mount"
+          barrage
+          @confirm="$emit('confirm')"
+        >
           <div class="heading h2 mt-3 mb-n3">
-            <v-icon x-large class="mt-n2 mr-n1">cci-pilot</v-icon>
+            <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
             {{ item.Name }}
           </div>
-        </pilot-attack>
+        </weapon-attack>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -30,33 +37,44 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import PilotAttack from '../components/_PilotAttack.vue'
+import WeaponAttack from '../../components/_WeaponAttack.vue'
 
 export default Vue.extend({
-  name: 'selected-fight-dialog',
-  components: { PilotAttack },
+  name: 'superheavy-barrage-dialog',
+  components: { WeaponAttack },
   props: {
-    item: {
+    mech: {
+      type: Object,
+      required: true,
+    },
+    cached: {
       type: Object,
       required: false,
       default: null,
     },
-    pilot: {
-      type: Object,
-      required: true,
-    },
-    overwatch: { type: Boolean },
   },
   data: () => ({
     dialog: false,
   }),
+  computed: {
+    state() {
+      return this.mech.Pilot.State
+    },
+    item() {
+      if (!this.state.SHBarrageSelection) return this.cached
+      return this.state.SHBarrageSelection
+    },
+    mount() {
+      return this.state.SHBarrageMount
+    },
+  },
   methods: {
     reset() {
       this.$refs.main.reset()
     },
     confirm(): void {
       this.dialog = false
-      this.$emit('close')
+      this.$emit('confirm')
     },
     show(): void {
       this.dialog = true

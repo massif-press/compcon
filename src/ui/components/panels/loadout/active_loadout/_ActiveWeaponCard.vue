@@ -61,7 +61,16 @@
                   </v-tabs>
                 </v-col>
               </v-row>
-              <weapon-activators v-if="!item.Destroyed" :item="item" :mech="mech" :mount="mount" />
+              <v-row dense>
+                <v-col cols="12">
+                  <weapon-activators
+                    v-if="!item.Destroyed"
+                    :item="item"
+                    :mech="mech"
+                    :mount="mount"
+                  />
+                </v-col>
+              </v-row>
               <equipment-header
                 :item="item"
                 readonly
@@ -69,6 +78,24 @@
                 :use-bonus="mech.LimitedBonus"
               />
               <!-- <ammo-case-inset :level="armoryLevel" readonly /> -->
+              <v-row v-if="item.ProfileActions.length" dense justify="center">
+                <v-col
+                  v-for="(a, i) in item.ProfileActions"
+                  :key="`${item.Name}_action_${i}`"
+                  style="min-width: 40%"
+                  class="mb-n1"
+                >
+                  <cc-action
+                    :action="a"
+                    active
+                    :activations="mech.Pilot.State.Actions"
+                    :disabled="item.Destroyed || mech.IsStunned"
+                    :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
+                    @use="item.Use(a.Cost, $event)"
+                    @undo="item.Undo(a.Cost)"
+                  />
+                </v-col>
+              </v-row>
 
               <div class="mt-n1">
                 <div v-if="item.ProfileEffect" class="py-1">

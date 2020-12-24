@@ -1,6 +1,6 @@
 <template>
   <div v-show="!item.NoAttack" class="mb-1">
-    <v-row v-if="item.Size === 'Superheavy'">
+    <v-row v-if="item.Size === 'Superheavy'" justify="center">
       <v-col>
         <v-btn
           tile
@@ -32,7 +32,7 @@
         <cc-action :action="a" active />
       </v-col>
     </v-row>
-    <v-row v-else dense>
+    <v-row v-else dense justify="center">
       <v-col>
         <v-btn
           tile
@@ -112,9 +112,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import SkirmishDialog from '../dialogs/_SelSkirmishDialog.vue'
-import BarrageDialog from '../dialogs/_SelBarrageDialog.vue'
-import ShBarrageDialog from '../dialogs/_SelSHBarrageDialog.vue'
+import SkirmishDialog from '../dialogs/action/_SelSkirmishDialog.vue'
+import BarrageDialog from '../dialogs/action/_SelBarrageDialog.vue'
+import ShBarrageDialog from '../dialogs/action/_SelSHBarrageDialog.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { WeaponSize } from '@/class'

@@ -56,7 +56,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ReserveSelector from './ReserveSelector.vue'
+import ReserveSelector from './_ReserveSelector.vue'
 import { Reserve } from '@/class'
 
 export default Vue.extend({

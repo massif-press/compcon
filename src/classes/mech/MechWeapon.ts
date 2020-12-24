@@ -20,10 +20,10 @@ import {
   ICounterData,
   ITagCompendiumData,
 } from '@/interface'
-import { IActionData } from '../Action'
+import { Action, IActionData } from '../Action'
 import { IBonusData } from '../Bonus'
 import { CompendiumItem, ICompendiumItemData } from '../CompendiumItem'
-import { IDeployableData } from '../Deployable'
+import { Deployable, IDeployableData } from '../Deployable'
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize
@@ -181,6 +181,14 @@ class MechWeapon extends MechEquipment {
   public get ProfileHeatCost(): number {
     const selfHeatTag = this.ProfileTags.find(x => x.IsHeatCost)
     return selfHeatTag ? (selfHeatTag.Value as number) : 0
+  }
+
+  public get ProfileActions(): Action[] {
+    return this.SelectedProfile.Actions
+  }
+
+  public get ProfileDeployables(): IDeployableData[] {
+    return this.SelectedProfile.Deployables
   }
 
   public get Damage(): Damage[] {
