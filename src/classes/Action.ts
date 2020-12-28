@@ -1,6 +1,7 @@
 import uuid from 'uuid/v4'
 import { ActivationType } from '@/class'
 import { IDeployableData } from './Deployable'
+import { isNumber } from 'lodash'
 
 interface IActionData {
   id?: string
@@ -127,9 +128,10 @@ class Action {
     this.Terse = data.terse || ''
     this.Detail = data.detail || ''
     this.Cost = data.cost || 1
-    this.HeatCost = heat || 0
+    this.HeatCost = heat && isNumber(heat) ? heat : 0
     // heat cost override
-    if (data.heat_cost || data.heat_cost === 0) this.HeatCost = data.heat_cost
+    if (data.heat_cost || data.heat_cost === 0)
+      this.HeatCost = isNumber(data.heat_cost) ? data.heat_cost : 0
     this.Frequency = new Frequency(data.frequency || '')
     this._uses = this.Frequency.Uses
     this.Init = data.init || ''

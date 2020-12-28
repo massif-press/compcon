@@ -325,13 +325,14 @@ class ActiveState {
 
   RepairStructure(): void {
     this._mech.CurrentStructure += 1
-    const cheap = this._mech.Bonuses.find(x => x.ID === 'cheap-struct')
+    const cheap = this._mech.Bonuses.some(x => x.ID === 'cheap_struct')
+    console.log('cheap struct')
     this._mech.CurrentRepairs -= cheap ? 1 : 2
   }
 
   RepairStress(): void {
     this._mech.CurrentStress = this._mech.MaxStress
-    const cheap = this._mech.Bonuses.find(x => x.ID === 'cheap-stress')
+    const cheap = this._mech.Bonuses.some(x => x.ID === 'cheap_stress')
     this._mech.CurrentRepairs -= cheap ? 1 : 2
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-tooltip top content-class="cc-tooltip" :open-delay="delayed ? 500 : 150">
+  <v-tooltip top content-class="cc-tooltip" :open-delay="delayed ? 500 : 150" :bottom="bottom">
     <template v-slot:activator="{ on }">
       <div :class="{ 'd-inline': inline }" v-on="on">
         <slot />
@@ -32,6 +32,9 @@ export default class CCTooltip extends Vue {
 
   @Prop({ type: Boolean, required: false })
   readonly simple?: boolean
+
+  @Prop({ type: Boolean, required: false })
+  readonly bottom?: boolean
 
   @Prop({ type: Boolean, required: false })
   readonly inline?: boolean

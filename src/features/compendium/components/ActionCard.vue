@@ -1,5 +1,5 @@
 <template>
-  <v-col xl="4" :lg="downtime ? '4' : '3'" md="6" xs="12">
+  <v-col lg="4" md="6" xs="12">
     <cc-titled-panel
       clickable
       :title="`${action.Name}${action.IsPilotAction ? ' (Pilot Only)' : ''}`"

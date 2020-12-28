@@ -35,7 +35,12 @@
         </span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-chip v-if="coreSystem.Use !== 'Mission'" small label outlined>
+        <v-chip
+          v-if="coreSystem.Use !== 'Mission' || coreSystem.Duration !== 'Unlimited'"
+          small
+          label
+          outlined
+        >
           {{ coreSystem.Duration.toUpperCase() }}
         </v-chip>
         <v-chip small label dark :color="`action--${coreSystem.Activation.toLowerCase()}`">

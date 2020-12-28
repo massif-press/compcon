@@ -10,21 +10,21 @@ function pullRandom(data: string, count: number): string[] {
 
 function callsign(): string {
   const callsigns = require('@/assets/generators/callsigns.txt').concat(
-    store.getters.Tables.callsigns
+    store.getters.Tables?.callsigns || []
   )
   return pullRandom(callsigns, 1)[0]
 }
 
 function mechname(): string {
   const mechnames = require('@/assets/generators/mechnames.txt').concat(
-    store.getters.Tables.mech_names
+    store.getters.Tables?.mech_names || []
   )
   return pullRandom(mechnames, 1)[0]
 }
 
 function teamName(): string {
   const teamnames = require('@/assets/generators/teamnames.txt').concat(
-    store.getters.Tables.team_names
+    store.getters.Tables?.team_names || []
   )
   return pullRandom(teamnames, 1)[0]
 }
