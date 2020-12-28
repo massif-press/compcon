@@ -68,16 +68,16 @@ import { Action } from '@/interface'
 @Component({
   components: { ActionTypeCard, ActionCard },
 })
-export default class CoreBonuses extends Vue {
+export default class ActionEconomy extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
   get actions(): Action[] {
-    return this.compendium.Actions.filter(a => !a.IsDowntimeAction && !a.IsPilotAction)
+    return this.compendium.Actions.filter(a => a && !a.IsDowntimeAction && !a.IsPilotAction)
   }
   get pilotActions(): Action[] {
-    return this.compendium.Actions.filter(a => a.IsPilotAction)
+    return this.compendium.Actions.filter(a => a && a.IsPilotAction)
   }
   get downtimeActions(): Action[] {
-    return this.compendium.Actions.filter(a => a.IsDowntimeAction)
+    return this.compendium.Actions.filter(a => a && a.IsDowntimeAction)
   }
 }
 </script>

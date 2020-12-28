@@ -6,7 +6,15 @@
         <span class="heading h2 text--text">{{ action.Name }}&emsp;</span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-chip slot="title-items" color="stark" small class="stat-text mr-2" outlined label>
+        <v-chip
+          v-if="action.Frequency.ToString() !== 'Unlimited'"
+          slot="title-items"
+          color="stark"
+          small
+          class="stat-text mr-2"
+          outlined
+          label
+        >
           {{ action.Frequency.ToString() }}
         </v-chip>
         <v-chip small label dark :color="`action--${action.Activation.toLowerCase()}`">

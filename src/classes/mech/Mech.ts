@@ -258,7 +258,7 @@ class Mech implements IActor {
   public get SizeContributors(): string[] {
     const output = [`FRAME Base Size: ${this.Frame.Size}`]
     Bonus.Contributors('size', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -272,7 +272,7 @@ class Mech implements IActor {
   public get ArmorContributors(): string[] {
     const output = [`FRAME Base Armor: ${this.Frame.Armor}`]
     Bonus.Contributors('armor', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -288,7 +288,7 @@ class Mech implements IActor {
       `Pilot GRIT Bonus: +${this._pilot.Grit}`,
     ]
     Bonus.Contributors('save', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -306,7 +306,7 @@ class Mech implements IActor {
       `Pilot AGILITY Bonus: +${this.Agi}`,
     ]
     Bonus.Contributors('evasion', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -322,7 +322,7 @@ class Mech implements IActor {
       `Pilot AGILITY Bonus: +${Math.floor(this.Agi / 2)}`,
     ]
     Bonus.Contributors('speed', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -335,7 +335,7 @@ class Mech implements IActor {
   public get SensorRangeContributors(): string[] {
     const output = [`FRAME Base Sensor Range: ${this.Frame.SensorRange}`]
     Bonus.Contributors('sensor', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -351,7 +351,7 @@ class Mech implements IActor {
       `Pilot SYSTEMS Bonus: +${this.Sys}`,
     ]
     Bonus.Contributors('edef', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -364,7 +364,7 @@ class Mech implements IActor {
   public get LimitedContributors(): string[] {
     const output = [`Pilot ENGINEERING Bonus: +${Math.floor(this.Eng / 2)}`]
     Bonus.Contributors('limited_bonus', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -377,7 +377,7 @@ class Mech implements IActor {
   public get AttackBonusContributors(): string[] {
     const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
     Bonus.Contributors('attack', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -393,7 +393,7 @@ class Mech implements IActor {
       `Pilot SYSTEMS Bonus: +${this.Sys}`,
     ]
     Bonus.Contributors('tech_attack', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -406,7 +406,7 @@ class Mech implements IActor {
   public get GrappleContributors(): string[] {
     const output = [`Base Grapple Value: ${this.Grapple}`]
     Bonus.Contributors('grapple', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -419,7 +419,7 @@ class Mech implements IActor {
   public get RamContributors(): string[] {
     const output = [`Base Ram Value: ${this.Ram}`]
     Bonus.Contributors('ram', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -432,7 +432,7 @@ class Mech implements IActor {
   public get SaveBonusContributors(): string[] {
     const output = [`Pilot GRIT Bonus: ${this._pilot.Grit}`]
     Bonus.Contributors('save', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -475,7 +475,7 @@ class Mech implements IActor {
   public get StructureContributors(): string[] {
     const output = [`FRAME Base Structure: ${this.Frame.Structure}`]
     Bonus.Contributors('structure', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -522,7 +522,7 @@ class Mech implements IActor {
       `Pilot HULL Bonus: +${this.Hull * 2}`,
     ]
     Bonus.Contributors('hp', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -548,7 +548,7 @@ class Mech implements IActor {
       `Pilot SYSTEMS Bonus: +${Math.floor(this.Sys / 2)}`,
     ]
     Bonus.Contributors('sp', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -601,7 +601,7 @@ class Mech implements IActor {
       `Pilot ENGINEERING Bonus: +${this.Eng}`,
     ]
     Bonus.Contributors('heatcap', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -625,7 +625,7 @@ class Mech implements IActor {
   public get StressContributors(): string[] {
     const output = [`FRAME Base Reactor Stress: ${this.Frame.HeatStress}`]
     Bonus.Contributors('stress', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
@@ -652,7 +652,7 @@ class Mech implements IActor {
       `Pilot HULL Bonus: +${Math.floor(this.Hull / 2)}`,
     ]
     Bonus.Contributors('repcap', this).forEach(b => {
-      const sign = b.val > -1 ? '+' : '-'
+      const sign = b.val > -1 ? '+' : ''
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output

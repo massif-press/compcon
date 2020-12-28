@@ -31,7 +31,7 @@
       </a>
       <br />
       <div id="subtitle">
-        <span>VERSION: {{ $appVersion }} // LANCER CORE {{ $lancerVersion }}</span>
+        <span>VERSION: {{ $appVersion }}</span>
       </div>
     </div>
     <div
@@ -55,7 +55,7 @@ import UpdateChecker from './UpdateChecker.vue'
 
 export default Vue.extend({
   name: 'cci-banner',
-  components: { UpdateChecker }
+  components: { UpdateChecker },
 })
 </script>
 

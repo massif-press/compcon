@@ -177,7 +177,8 @@ export default Vue.extend({
       const fObj = {} as any
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
-      if (this.weaponTypeFilter && this.weaponTypeFilter.length) fObj.Type = [this.weaponTypeFilter]
+      if (this.weaponTypeFilter && this.weaponTypeFilter.length)
+        fObj.WeaponType = [this.weaponTypeFilter]
       if (this.weaponSizeFilter && this.weaponSizeFilter.length) fObj.Size = [this.weaponSizeFilter]
       if (this.attackTypeFilter && this.attackTypeFilter.length)
         fObj.RangeType = this.attackTypeFilter

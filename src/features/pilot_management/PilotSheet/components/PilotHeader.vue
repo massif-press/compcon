@@ -20,7 +20,14 @@
             >
               <div class="overline mb-n9">
                 license level
-                <cc-tooltip v-if="!isLevelingUp" delayed simple inline content="Edit License Level">
+                <cc-tooltip
+                  v-if="!isLevelingUp"
+                  delayed
+                  simple
+                  inline
+                  bottom
+                  content="Edit License Level"
+                >
                   <v-icon small dark class="fadeSelect" @click="$refs.levelEdit.show()">
                     mdi-circle-edit-outline
                   </v-icon>

@@ -121,7 +121,8 @@
               <v-icon
                 v-else
                 large
-                :color="item.Tier === 1 ? 'grey' : item.Tier === 2 ? 'grey darken-2' : 'black'"
+                color="accent"
+                :style="`opacity: ${item.Tier === 1 ? '0.55' : item.Tier === 2 ? '0.75' : '1'}`"
               >
                 cci-rank-{{ item.Tier }}
               </v-icon>

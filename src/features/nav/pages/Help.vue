@@ -22,7 +22,7 @@
     <h3 class="heading accent--text">FAQ</h3>
     <div class="body-text text--text">
       <b>
-        What happened to the NPCs?
+        Where are the NPCs?
       </b>
       <p>
         Now that LANCER is offically released, COMP/CON mirrors the Core Book structure in terms of
@@ -30,15 +30,6 @@
         package that contains all Core NPC data. You can use the Content Manager button on the main
         page or in the nav bar options menu to import the package and start building and running
         encounters.
-      </p>
-      <b>
-        My COMP/CON Pilot I made in v.1.x isn't working correctly, or at all
-      </b>
-      <p>
-        Unfortunately, v2 was a breaking change. The Options menu will allow you to save old pilot
-        data to disk as we work on a (probably somwhat limited) converter. Sorry for the
-        inconvienience, and I think this'll probably be the only time we'll have a big breaking
-        change like this
       </p>
       <b>Will COMP/CON get [feature]?</b>
       <p>
@@ -80,7 +71,7 @@
     <h3 class="heading accent--text">Additional Help</h3>
     <p class="body-text">
       We're currently working on more help resources for COMP/CON, especially for new players and
-      GMs. In ththe meantime, please stop by
+      GMs. In the meantime, please stop by
       <a
         v-extlink="`https://discord.gg/rwcpzsU`"
         href="https://discord.gg/rwcpzsU"

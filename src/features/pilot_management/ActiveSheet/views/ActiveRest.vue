@@ -229,12 +229,12 @@
               tile
               outlined
               color="secondary"
-              :disabled="isEverest ? !mech.CurrentRepairs : mech.CurrentRepairs < 2"
+              :disabled="cheapStruct ? !mech.CurrentRepairs : mech.CurrentRepairs < 2"
               @click="pilot.State.RepairStructure()"
             >
               Repair
               <v-icon right>control_point</v-icon>
-              <v-icon v-if="!isEverest" right>control_point</v-icon>
+              <v-icon v-if="!cheapStruct" right>control_point</v-icon>
             </v-btn>
           </v-col>
 
@@ -251,11 +251,11 @@
               tile
               outlined
               color="secondary"
-              :disabled="mech.CurrentRepairs < 2"
+              :disabled="cheapStress ? !mech.CurrentRepairs : mech.CurrentRepairs < 2"
               @click="pilot.State.RepairStress()"
             >
               Repair
-              <v-icon right>control_point</v-icon>
+              <v-icon v-if="!cheapStress" right>control_point</v-icon>
               <v-icon right>control_point</v-icon>
             </v-btn>
           </v-col>
@@ -481,8 +481,11 @@ export default vueMixins(activePilot).extend({
     destroyedSystems() {
       return this.loadout.Systems.filter(x => x.Destroyed)
     },
-    isEverest() {
-      return this.mech.Frame.ID === 'mf_standard_pattern_i_everest'
+    cheapStruct() {
+      return this.mech.Bonuses.some(x => x.ID === 'cheap_struct')
+    },
+    cheapStress() {
+      return this.mech.Bonuses.some(x => x.ID === 'cheap_stress')
     },
     issues() {
       return (
