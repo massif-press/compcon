@@ -6,7 +6,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ExtLog from '@/io/ExtLog'
 
 export default Vue.extend({
   name: 'ident-block',
@@ -32,7 +31,7 @@ export default Vue.extend({
           this.$emit('end-sync')
         })
         .catch((err: any) => {
-          ExtLog(`Cloud save error: ${err}`)
+          console.error(`Cloud save error: ${err}`)
           this.noteColor = 'error'
           this.notification = `Unable to sync: ${err}`
           this.$refs.note.open()
@@ -50,7 +49,7 @@ export default Vue.extend({
           this.$emit('end-sync')
         })
         .catch((err: any) => {
-          ExtLog(`Cloud update error: ${err}`)
+          console.error(`Cloud update error: ${err}`)
           this.noteColor = 'error'
           this.notification = `Unable to sync:<br> ${err}`
           this.$refs.note.open()
@@ -68,7 +67,7 @@ export default Vue.extend({
           this.$emit('end-sync')
         })
         .catch((err: any) => {
-          ExtLog(`Cloud update error: ${err}`)
+          console.error(`Cloud update error: ${err}`)
           this.noteColor = 'error'
           this.notification = `Unable to create cloud save:<br> ${err}`
           this.$refs.note.open()

@@ -13,7 +13,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import PilotHeader from './components/PilotHeader.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 

@@ -31,6 +31,7 @@ export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 })
 export class PilotManagementStore extends VuexModule {
   public Pilots: Pilot[] = []
+  public BadPilots: any[] = []
   public PilotGroups: string[] = []
   public LoadedMechID = ''
   public ActivePilot: Pilot = null
@@ -47,7 +48,10 @@ export class PilotManagementStore extends VuexModule {
     // TODO: bring back validator?
     // should maybe validate in the action instead of the mutator...
     // this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
-    this.Pilots = [...payload.pilotData.map(x => Pilot.Deserialize(x))]
+    const allPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
+    this.Pilots = allPilots
+    this.BadPilots = []
+    console.log(this.Pilots)
     // savePilots(this.Pilots)
     this.PilotGroups = _.uniq(payload.pilotData.map(x => x.group).concat(payload.groupData))
   }

@@ -3,8 +3,6 @@ import path from 'path'
 import { promisify } from 'util'
 import PromisifyFileReader from 'promisify-file-reader'
 
-import ExtLog from './ExtLog'
-
 const PLATFORM = Capacitor.platform
 const platformNotSupportedMessage = `ERROR - PLATFORM NOT SUPPORTED: "${PLATFORM}" `
 
@@ -23,13 +21,6 @@ const ensureDataDir = function(): void {
   switch (PLATFORM) {
     case 'web':
       return
-    case 'electron':
-      const dataPathExists = fs.existsSync(userDataPath)
-      if (!dataPathExists) {
-        fs.mkdirSync(userDataPath)
-        ExtLog(`Created user data directory at ${userDataPath}`)
-      }
-      break
     default:
       throw new Error(platformNotSupportedMessage)
   }
@@ -77,8 +68,13 @@ const saveData = async function<T>(fileName: string, data: T): Promise<void> {
 const loadData = async function<T>(fileName: string): Promise<T[]> {
   const fileExists = await exists(fileName)
   if (fileExists) {
-    const dataText = await readFile(fileName)
-    return (JSON.parse(dataText) || []) as T[]
+    try {
+      const dataText = await readFile(fileName)
+      console.log(JSON.parse(dataText))
+      return (JSON.parse(dataText) || []) as T[]
+    } catch (err) {
+      console.error(err)
+    }
   } else {
     return []
   }

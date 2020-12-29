@@ -204,8 +204,8 @@
     </v-row>
 
     <cc-combat-dialog
-      v-for="a in state.AllActions"
-      :key="`fa_${a.ID}`"
+      v-for="(a, i) in state.AllActions"
+      :key="`fa_${i}_${a.ID}`"
       :ref="`dialog_${a.ID}`"
       :action="a"
       :mech="pilot.ActiveMech"

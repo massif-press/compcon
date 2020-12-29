@@ -1,6 +1,5 @@
 import path from 'path'
 import { promisify } from 'util'
-import extlog from './ExtLog'
 import { Capacitor } from '@capacitor/core'
 
 const PLATFORM = Capacitor.platform
@@ -70,11 +69,11 @@ function getImagePath(subdir: ImageTag, fileName: string, defaults: boolean = fa
 //   const imageData = path.join(imageDir, 'info.json')
 
 //   if (!fs.existsSync(imageData)) {
-//     extlog(`image subdir ${subdir} author db doesn't exist, creating...`)
+//     console.info(`image subdir ${subdir} author db doesn't exist, creating...`)
 //     try {
 //       fs.writeFileSync(imageData, '[]')
 //     } catch (error) {
-//       extlog(`error getting image info array for ${imageData}`)
+//       console.info(`error getting image info array for ${imageData}`)
 //       return
 //     }
 //   }
@@ -86,7 +85,7 @@ function getImagePath(subdir: ImageTag, fileName: string, defaults: boolean = fa
 //   try {
 //     fs.writeFileSync(path.join(imageDir, 'info.json'), JSON.stringify(infoArray))
 //   } catch (err) {
-//     extlog(`unable to write image info file in ${imageDir}`)
+//     console.info(`unable to write image info file in ${imageDir}`)
 //   }
 // }
 
@@ -111,7 +110,7 @@ async function getImagePaths(subdir: ImageTag, defaults: boolean): Promise<strin
   const imageDir = getImageDir(subdir, defaults)
   const dirExists = await exists(imageDir)
   if (!dirExists) {
-    extlog(`${defaults ? 'default' : ''} image subdir ${subdir} doesn't exist, creating...`)
+    console.info(`${defaults ? 'default' : ''} image subdir ${subdir} doesn't exist, creating...`)
     await mkdir(imageDir)
   }
   const dir = await readdir(imageDir)
@@ -126,7 +125,7 @@ async function copyDefaults(origin: string): Promise<void> {
   const destinationDir = path.join(userDataPath, 'img', 'default', origin)
   const destinationDirExists = await exists(destinationDir)
   if (!destinationDirExists) {
-    extlog(`${origin} default folder does not exist in user folder. Creating...`)
+    console.info(`${origin} default folder does not exist in user folder. Creating...`)
     await mkdir(destinationDir)
   }
   await Promise.all(
@@ -138,7 +137,7 @@ async function copyDefaults(origin: string): Promise<void> {
         !(await exists(imagePath)) ||
         (await stat(imagePath)).size !== (await stat(defaultPath)).size
       ) {
-        extlog(`${origin} default ${defaultImg} does not exist in user folder. Copying...`)
+        console.info(`${origin} default ${defaultImg} does not exist in user folder. Copying...`)
         const originPath = path.join(defaultDirPath, defaultImg)
         const destinationPath = path.join(destinationDir, defaultImg)
         await copyFile(originPath, destinationPath)
@@ -149,18 +148,18 @@ async function copyDefaults(origin: string): Promise<void> {
 
 async function validateImageFolders(): Promise<void> {
   if (isWeb) return
-  let subdirs = Object.keys(ImageTag).map(k => ImageTag[k as string])
+  const subdirs = Object.keys(ImageTag).map(k => ImageTag[k as string])
 
   const imgPath = path.join(userDataPath, 'img')
   const imgPathExists = await exists(imgPath)
   if (!imgPathExists) {
-    extlog(`img subfolder doesn't exist, creating...`)
+    console.info(`img subfolder doesn't exist, creating...`)
     await mkdir(imgPath)
   }
   const defaultPath = path.join(userDataPath, 'img', 'default')
   const defaultsExist = await exists(defaultPath)
   if (!defaultsExist) {
-    extlog(`default subfolder doesn't exist, creating...`)
+    console.info(`default subfolder doesn't exist, creating...`)
     await mkdir(defaultPath)
   }
   Promise.all(
@@ -191,7 +190,7 @@ async function removeImage(subdir: ImageTag, filename: string) {
   if (await exists(p)) {
     await unlink(p)
   } else {
-    extlog(`unable to delete image: file missing at ${p}`)
+    console.info(`unable to delete image: file missing at ${p}`)
     return
   }
   // TODO:

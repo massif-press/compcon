@@ -1,5 +1,4 @@
 import path from 'path'
-import extlog from './ExtLog'
 import uuid from 'uuid/v4'
 import { writeFile, readFile, exists, USER_DATA_PATH } from './Data'
 
@@ -143,9 +142,9 @@ async function getUser(): Promise<UserProfile> {
   if (!configFileExists) {
     try {
       await writeFile(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
-      extlog('Created user profile')
+      console.info('Created user profile')
     } catch (err) {
-      extlog(
+      console.error(
         `Critical Error: COMP/CON unable to create user profile at ${path.join(
           USER_DATA_PATH,
           CONFIG_FILE_NAME
