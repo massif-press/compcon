@@ -1122,8 +1122,13 @@ class Pilot {
 
   public static Deserialize(pilotData: IPilotData): Pilot {
     const p = new Pilot()
-    p.setPilotData(pilotData)
-    return p
+    console.log(pilotData)
+    try {
+      p.setPilotData(pilotData)
+      return p
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   private setPilotData(data: IPilotData): void {

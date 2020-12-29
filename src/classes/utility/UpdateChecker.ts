@@ -1,7 +1,6 @@
 import { EventEmitter } from 'events'
 import { Capacitor } from '@capacitor/core'
 import Vue from 'vue'
-import ExtLog from '@/io/ExtLog'
 
 const TIMEOUT = 10_000
 
@@ -74,7 +73,7 @@ export class UpdateChecker extends EventEmitter {
     try {
       await promiseTimeout(this._checkUpdates(), TIMEOUT)
     } catch (err) {
-      ExtLog(`Failed to check for update with error: ${err}`)
+      // console.error(`Failed to check for update with error: ${err}`)
     }
   }
 

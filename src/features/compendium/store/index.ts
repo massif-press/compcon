@@ -41,7 +41,6 @@ import {
   ITagCompendiumData,
   IPilotEquipmentData,
 } from '@/interface'
-import ExtLog from '@/io/ExtLog'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
 import { IReserveData } from '@/classes/pilot/reserves/Reserve'
 import * as PlayerAction from '@/classes/Action'
@@ -204,7 +203,7 @@ export class CompendiumStore extends VuexModule {
   @Action
   public async installContentPack(pack: IContentPack): Promise<void> {
     if (this.packAlreadyInstalled(pack.id)) {
-      ExtLog(`pack ${pack.manifest.name} [${pack.id}] already exists, deleting original...`)
+      console.info(`pack ${pack.manifest.name} [${pack.id}] already exists, deleting original...`)
       await this.deleteContentPack(pack.id)
     }
     this.context.commit(LOAD_PACK, pack)
@@ -226,7 +225,11 @@ export class CompendiumStore extends VuexModule {
   @Action
   public async loadExtraContent(): Promise<void> {
     const content = await loadUserData('extra_content.json')
-    content.forEach(c => this.context.commit(LOAD_PACK, c))
+    try {
+      content.forEach(c => this.context.commit(LOAD_PACK, c))
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   get packAlreadyInstalled(): any {

@@ -17,7 +17,6 @@ import {
   INpcTemplateData,
   ICompendiumItemData,
 } from '@/interface'
-import ExtLog from './ExtLog'
 import { IActionData } from '@/classes/Action'
 
 const isValidManifest = function(obj: any): obj is IContentPackManifest {
@@ -50,7 +49,7 @@ async function getZipData<T>(zip: JSZip, filename: string): Promise<T[]> {
   try {
     readResult = await readZipJSON<T[]>(zip, filename)
   } catch (e) {
-    ExtLog(`Error reading file ${filename} from package, skipping. Error follows:`)
+    console.error(`Error reading file ${filename} from package, skipping. Error follows:`)
     console.trace(e)
     readResult = null
   }
