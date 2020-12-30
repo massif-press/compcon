@@ -10,7 +10,7 @@
     </v-row>
     <v-row dense align="center">
       <v-col>
-        <div class="body-text text--text">{{ trait.Description }}</div>
+        <div class="body-text text--text" v-html="trait.Description" />
       </v-col>
       <v-col md="auto" lg="12" :class="$vuetify.breakpoint.lgAndUp ? '' : 'ml-auto'">
         <cc-action

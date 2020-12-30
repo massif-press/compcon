@@ -57,6 +57,7 @@ export default Vue.extend({
     confirm(): void {
       this.dialog = false
       this.$emit('close')
+      this.$refs.main.init()
     },
     show(): void {
       this.dialog = true
@@ -64,6 +65,7 @@ export default Vue.extend({
     hide(): void {
       this.dialog = false
       this.$emit('close')
+      this.$refs.main.init()
     },
   },
 })

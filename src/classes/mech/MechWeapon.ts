@@ -23,7 +23,7 @@ import {
 import { Action, IActionData } from '../Action'
 import { IBonusData } from '../Bonus'
 import { CompendiumItem, ICompendiumItemData } from '../CompendiumItem'
-import { Deployable, IDeployableData } from '../Deployable'
+import { IDeployableData } from '../Deployable'
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize

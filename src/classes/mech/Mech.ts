@@ -1040,6 +1040,7 @@ class Mech implements IActor {
   }
 
   public get Counters(): ICounterData[] {
+    console.log(this.features('Counters'))
     return this.features('Counters')
   }
 

@@ -51,7 +51,6 @@ export class PilotManagementStore extends VuexModule {
     const allPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
     this.BadPilots = []
-    console.log(this.Pilots)
     // savePilots(this.Pilots)
     this.PilotGroups = _.uniq(payload.pilotData.map(x => x.group).concat(payload.groupData))
   }

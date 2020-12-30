@@ -966,22 +966,7 @@ class Pilot {
   }
 
   public get CounterData(): ICounterData[] {
-    return [
-      this.Talents?.flatMap(pilotTalent =>
-        pilotTalent.Talent.Counters.filter(x => !x.level || x.level <= pilotTalent.Rank)
-      ),
-      this.CoreBonuses?.flatMap(cb => cb.Counters),
-      this.ActiveMech?.Frame.Counters,
-      this.ActiveMech?.ActiveLoadout.Systems.flatMap(system => system.Counters),
-      this.ActiveMech?.ActiveLoadout.Weapons.flatMap(weapon => [
-        ...weapon.Counters,
-        ...(weapon.Mod?.Counters || []),
-      ]),
-      this.ActiveMech?.Frame.CoreSystem.Counters,
-      this.CustomCounterData,
-    ]
-      .flat()
-      .filter(x => x)
+    return [...this.Counters, ...this.CustomCounterData].flat().filter(x => x)
   }
 
   // -- Organization ------------------------------------------------------------------------------
