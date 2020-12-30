@@ -70,7 +70,6 @@ const loadData = async function<T>(fileName: string): Promise<T[]> {
   if (fileExists) {
     try {
       const dataText = await readFile(fileName)
-      console.log(JSON.parse(dataText))
       return (JSON.parse(dataText) || []) as T[]
     } catch (err) {
       console.error(err)

@@ -123,6 +123,7 @@ export default Vue.extend({
       this.confirmedFree = false
       this.dialog = false
       this.$emit('close')
+      this.$refs.main.init()
     },
     show(): void {
       this.dialog = true
@@ -132,6 +133,7 @@ export default Vue.extend({
       this.confirmedFree = false
       this.dialog = false
       this.$emit('close')
+      this.$refs.main.init()
     },
   },
 })
