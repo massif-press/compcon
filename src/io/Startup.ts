@@ -9,7 +9,6 @@ import {
   MissionStore,
 } from '@/store'
 import { getModule } from 'vuex-module-decorators'
-import { validateImageFolders } from './ImageManagement'
 import { ensureDataDir } from './Data'
 
 export default function(lancerVer: string, ccVer: string, store: any): void {
@@ -19,7 +18,7 @@ export default function(lancerVer: string, ccVer: string, store: any): void {
   dataStore.setVersions(lancerVer, ccVer)
   dataStore.loadExtraContent().then(() => dataStore.loadData())
 
-  validateImageFolders()
+  // validateImageFolders()
 
   const pilotStore = getModule(PilotManagementStore, store)
   pilotStore.loadPilots()

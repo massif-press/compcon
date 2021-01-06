@@ -13,7 +13,7 @@
         </div>
         <v-divider />
         <div class="text-center">
-          <div v-if="$platform === 'web'">
+          <div>
             <v-btn outlined block color="info" class="my-1" @click="reload">
               Download Updates and Reload
             </v-btn>

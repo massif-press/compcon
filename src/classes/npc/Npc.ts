@@ -1,6 +1,5 @@
 import uuid from 'uuid/v4'
 import { store } from '@/store'
-import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { NpcStats, NpcClass, NpcTemplate, NpcFeature, NpcItem } from './'
 import { INpcStats, INpcItemSaveData } from './interfaces'
@@ -366,9 +365,7 @@ export class Npc implements IActor {
 
   public get Image(): string {
     if (this._cloud_image) return this._cloud_image
-    else if (Capacitor.platform !== 'web' && this._local_image)
-      return getImagePath(ImageTag.NPC, this._local_image)
-    else return getImagePath(ImageTag.Frame, 'nodata.png', true)
+    else return getImagePath(ImageTag.Frame, 'nodata.png')
   }
 
   // -- COUNTERS ----------------------------------------------------------------------------------

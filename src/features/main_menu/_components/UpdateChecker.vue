@@ -40,12 +40,7 @@ export default class UpdatesTracker extends Vue {
   }
 
   get updateText(): string {
-    switch (this.$platform) {
-      case 'web':
-        return 'Update and Reload'
-      case 'electron':
-        return 'Download Update'
-    }
+    return 'Update and Reload'
   }
   updateClick() {
     updateChecker.getUpdate()

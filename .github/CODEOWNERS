@@ -5,7 +5,6 @@
 
 /webpack.config.js  @aritsune
 /webpack_config/* @aritsune
-/electron/* @aritsune
 
 /netlify.toml @aritsune
 

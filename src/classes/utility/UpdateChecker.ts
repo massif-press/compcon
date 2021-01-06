@@ -1,16 +1,7 @@
 import { EventEmitter } from 'events'
-import { Capacitor } from '@capacitor/core'
 import Vue from 'vue'
 
 const TIMEOUT = 10_000
-
-const nodeProcess: typeof import('process') = require('process')
-
-const ELECTRON_ITCH_CHANNELS = {
-  linux: 'linux',
-  darwin: 'osx',
-  win32: 'win',
-}
 
 function promiseTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   const timeout: Promise<never> = new Promise((_, reject) => {
@@ -40,33 +31,14 @@ export class UpdateChecker extends EventEmitter {
 
   private async _checkUpdates(): Promise<void> {
     // console.log('UpdateChecker is checking...')
-    switch (Capacitor.platform) {
-      case 'web':
-        {
-          const swReg = await navigator.serviceWorker.ready
 
-          swReg.addEventListener('updatefound', () => (this.updateAvailable = true), {
-            once: true,
-          })
+    const swReg = await navigator.serviceWorker.ready
 
-          await swReg.update()
-        }
-        break
-      case 'electron':
-        {
-          const channel = ELECTRON_ITCH_CHANNELS[nodeProcess.platform]
-          const response = await fetch(
-            `https://itch.io/api/1/x/wharf/latest?target=massif-press/compcon&channel_name=${channel}-beta`
-          )
-          const { latest } = await response.json()
-          const version = process.env.PACKAGE_VERSION
+    swReg.addEventListener('updatefound', () => (this.updateAvailable = true), {
+      once: true,
+    })
 
-          if (latest !== version) this.updateAvailable = true
-        }
-        break
-      default:
-        throw new Error(`Platform ${Capacitor.platform} not supported by UpdateChecker`)
-    }
+    await swReg.update()
   }
 
   async checkUpdates(): Promise<void> {
@@ -78,13 +50,7 @@ export class UpdateChecker extends EventEmitter {
   }
 
   getUpdate(): void {
-    switch (Capacitor.platform) {
-      case 'web':
-        window.location.reload(true)
-        break
-      default:
-        throw new Error(`Platform ${Capacitor.platform} not supported by UpdateChecker`)
-    }
+    window.location.reload(true)
   }
 }
 

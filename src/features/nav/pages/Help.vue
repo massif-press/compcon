@@ -2,13 +2,19 @@
   <div>
     <v-row>
       <v-col>
-        <v-btn v-extlink="'https://forms.gle/rb3ZBFYbZ6kFWhBz7'" large block color="error">
+        <v-btn target="_blank" href="https://forms.gle/rb3ZBFYbZ6kFWhBz7" large block color="error">
           report a bug
         </v-btn>
       </v-col>
       <v-col cols="1" />
       <v-col>
-        <v-btn v-extlink="'https://forms.gle/Gxsu3vaPX1Zs9CX29'" large block color="secondary">
+        <v-btn
+          target="_blank"
+          href="https://forms.gle/Gxsu3vaPX1Zs9CX29"
+          large
+          block
+          color="secondary"
+        >
           request a feature
         </v-btn>
       </v-col>
@@ -35,9 +41,7 @@
       <p>
         You can check out what's next for COMP/CON on our
         <a
-          v-extlink="
-            'https://github.com/massif-press/compcon/issues?q=is%3Aopen+is%3Aissue+label%3Afeature'
-          "
+          target="_blank"
           href="https://github.com/massif-press/compcon/issues?q=is%3Aopen+is%3Aissue+label%3Afeature"
           v-html="'GitHub issue tracker'"
         />
@@ -72,11 +76,7 @@
     <p class="body-text">
       We're currently working on more help resources for COMP/CON, especially for new players and
       GMs. In the meantime, please stop by
-      <a
-        v-extlink="`https://discord.gg/rwcpzsU`"
-        href="https://discord.gg/rwcpzsU"
-        v-html="`the LANCER discord`"
-      />
+      <a target="_blank" href="https://discord.gg/rwcpzsU" v-html="`the LANCER discord`" />
       (and specifically the #comp-con channel) if you have a question or comment for the developers.
     </p>
 

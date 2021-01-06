@@ -122,7 +122,7 @@ class Frame extends LicensedItem {
 
   public get DefaultImage(): string {
     if (this._image_url) return this._image_url
-    return getImagePath(ImageTag.Frame, `${this.ID}.png`, true)
+    return getImagePath(ImageTag.Frame, `${this.ID}.png`)
   }
 }
 

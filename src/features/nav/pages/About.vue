@@ -36,7 +36,7 @@
       COMP/CON is a free, open-source digital toolkit and gameplay assistant for building and
       playing LANCER TTRPG games. The LANCER CORE Book, COMP/CON, and associated downloads and
       expansions can be found at
-      <a v-extlink="`http://www.massifpress.com`" href="http://www.massifpress.com">
+      <a target="_blank" href="http://www.massifpress.com">
         massifpress.com
       </a>
     </p>
@@ -57,11 +57,7 @@
       <v-divider class="my-3" />
       <span class="heading h3 text--text text-center mt-4">
         COMP/CON is supported by the generous
-        <a
-          v-extlink="`https://www.patreon.com/compcon`"
-          href="https://www.patreon.com/compcon"
-          v-html="'contributions'"
-        />
+        <a target="_blank" href="https://www.patreon.com/compcon" v-html="'contributions'" />
         of:
       </span>
       <v-row>

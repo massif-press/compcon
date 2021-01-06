@@ -38,7 +38,8 @@
           MECH ART COURTESY OF
         </b>
         <v-img
-          v-extlink="'https://www.retrogrademinis.com/'"
+          target="_blank"
+          href="https://www.retrogrademinis.com/"
           :src="retrogradeLogo"
           class="img-select"
           max-height="131px"

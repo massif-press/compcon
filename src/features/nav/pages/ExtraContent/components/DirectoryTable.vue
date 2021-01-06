@@ -13,7 +13,7 @@
     <!-- Download -->
     <template v-slot:[`item.website`]="{ item }">
       <cc-tooltip content="Download">
-        <v-btn v-extlink="item.link" :href="item.link" fab small color="secondary">
+        <v-btn target="_blank" :href="item.link" fab small color="secondary">
           <v-icon color="anti">open_in_new</v-icon>
         </v-btn>
       </cc-tooltip>
@@ -63,7 +63,7 @@
 
             <div v-if="item.website" class="mt-2">
               <v-divider class="ma-1" />
-              <v-btn v-extlink="item.website" :href="item.website" text color="secondary">
+              <v-btn target="_blank" :href="item.website" text color="secondary">
                 <v-icon prepend left>open_in_new</v-icon>
                 Author's Website
               </v-btn>

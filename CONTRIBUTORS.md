@@ -22,8 +22,6 @@ yarn dev
 
 Which will open a browser window pointed to `localhost:8080`. Hot Module Reload is enabled, which means that the app should refresh as you save code. Occasionally (especially after certain syntax errors) this can start to fall off, in part or completely. If this is the case, a refresh will either get HMR working again or find your error.
 
-Unless you're working on something specifically for an Electron build, prefer developing to browser.
-
 ## App Conventions
 
 WIP

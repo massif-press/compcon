@@ -34,7 +34,7 @@
             <div class="heading h3 accent--text">{{ artist.imgName }}</div>
             <div class="flavor-text ml-3">by {{ artist.name }}</div>
           </div>
-          <a v-if="artist.website" v-extlink="`${artist.website}`" class="ml-3">
+          <a v-if="artist.website" target="_blank" :href="`${artist.website}`" class="ml-3">
             <v-icon color="primary">mdi-web</v-icon>
             <span>Website</span>
           </a>
@@ -42,7 +42,8 @@
           <a
             v-if="artist.twitter"
             :key="artist.twitter"
-            v-extlink="`https://twitter.com/${artist.twitter}`"
+            target="_blank"
+            :href="`https://twitter.com/${artist.twitter}`"
             class="ml-3"
           >
             <v-icon color="primary">mdi-twitter</v-icon>
@@ -50,7 +51,7 @@
           </a>
         </v-col>
         <v-col v-if="artist.logo" cols="4">
-          <v-img v-extlink="artist.website" :src="artist.logo" class="logo" contain />
+          <v-img target="_blank" href="artist.website" :src="artist.logo" class="logo" contain />
         </v-col>
       </v-row>
     </v-alert>

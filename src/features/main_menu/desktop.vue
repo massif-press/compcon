@@ -126,7 +126,7 @@
 
             <v-col cols="auto">
               <v-btn
-                v-extlink="`https://www.patreon.com/compcon`"
+                target="_blank"
                 color="warning"
                 small
                 dark
