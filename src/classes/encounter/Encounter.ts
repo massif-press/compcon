@@ -1,7 +1,6 @@
 import uuid from 'uuid/v4'
 import { Npc, EncounterSide, MissionStepType } from '@/class'
 import { store } from '@/store'
-import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { IMissionStep } from './IMissionStep'
 
@@ -240,9 +239,7 @@ class Encounter implements IMissionStep {
 
   public get Map(): string {
     if (this._cloud_map) return this._cloud_map
-    else if (Capacitor.platform !== 'web' && this._local_map)
-      return getImagePath(ImageTag.Map, this._local_map)
-    else return getImagePath(ImageTag.Map, 'nodata.png', true)
+    else return getImagePath(ImageTag.Map, 'nodata.png')
   }
 
   public static Serialize(enc: Encounter): IEncounterData {

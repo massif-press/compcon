@@ -110,13 +110,7 @@
                   Edit Encounter Map
                 </span>
               </v-btn>
-              <cc-image-selector-web
-                v-if="$platform === 'web'"
-                ref="imageSelector"
-                :item="encounter"
-                type="map"
-              />
-              <cc-image-selector v-else ref="imageSelector" :item="encounter" type="map" />
+              <cc-image-selector-web ref="imageSelector" :item="encounter" type="map" />
             </v-card-text>
           </v-card>
         </v-col>

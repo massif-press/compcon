@@ -20,15 +20,15 @@
               v-html="info.blurb"
             />
             <div class="text-right mr-3">
-              <a v-if="info.website" v-extlink="`${info.website}`">
+              <a v-if="info.website" target="_blank" :href="`${info.website}`">
                 <v-icon color="primary">mdi-web</v-icon>
                 <span>Website</span>
               </a>
-              <a v-if="info.twitter" v-extlink="`https://twitter.com/${info.twitter}`">
+              <a v-if="info.twitter" target="_blank" :href="`https://twitter.com/${info.twitter}`">
                 <v-icon color="primary">mdi-twitter</v-icon>
                 <span>@{{ info.twitter }}</span>
               </a>
-              <a v-if="info.github" v-extlink="`https://github.com/${info.github}`">
+              <a v-if="info.github" target="_blank" :href="`https://github.com/${info.github}`">
                 <v-icon color="primary">mdi-github-circle</v-icon>
                 <span>{{ info.github }}</span>
               </a>

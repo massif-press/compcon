@@ -269,13 +269,7 @@
                   Edit NPC Image
                 </span>
               </v-btn>
-              <cc-image-selector-web
-                v-if="$platform === 'web'"
-                ref="imageSelector"
-                :item="npc"
-                type="npc"
-              />
-              <cc-image-selector v-else ref="imageSelector" :item="npc" type="npc" />
+              <cc-image-selector-web ref="imageSelector" :item="npc" type="npc" />
             </v-card-text>
           </v-card>
         </v-col>

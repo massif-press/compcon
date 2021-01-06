@@ -9,13 +9,9 @@ import { NavStore, store } from '@/store'
 
 import updateChecker from '@/classes/utility/UpdateChecker'
 
-// import { Capacitor } from '@capacitor/core'
-
 Vue.use(Router)
 
 const r = new Router({
-  // TODO: put in a check for dev here so it doesn't break HMR
-  // mode: Capacitor.platform === 'web' ? 'history' : 'hash',
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition

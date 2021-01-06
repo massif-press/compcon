@@ -18,7 +18,6 @@
   <a href="https://patreon.com/compcon"><img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fcompcon" alt="Support COMP/CON on Patreon"></a>
 </p>
 
-
 ## Features
 
 - Character & mech creation
@@ -35,17 +34,15 @@ See [CONTRIBUTING](/.github/CONTRIBUTING).
 
 ## Building
 
-COMP/CON is built with [Vue.js](https://vuejs.org/) and can build to either web or Electron.
+COMP/CON is built with [Vue.js](https://vuejs.org/).
 
 ```sh
 # Install dependencies
   yarn
 # Run in dev mode in the browser, with hot reloading
   yarn dev
-# Build for web
+# Build
   yarn build
-# Build for Electron
-  yarn electron:build
 ```
 
 ## Got a problem?

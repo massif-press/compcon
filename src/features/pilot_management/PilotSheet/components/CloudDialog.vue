@@ -154,8 +154,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import CloudManager from './CloudManager.vue'
-import { Plugins } from '@capacitor/core'
-const { Clipboard } = Plugins
 
 export default Vue.extend({
   name: 'cloud-dialog',
@@ -179,9 +177,15 @@ export default Vue.extend({
     },
     async copyCode() {
       this.copyConfirm = true
-      await Clipboard.write({
-        string: this.pilot.CloudID,
-      })
+
+      navigator.clipboard.writeText(this.pilot.CloudID).then(
+        function() {
+          Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
+        },
+        function() {
+          Vue.prototype.$notifyError('Unable to copy Cloud ID')
+        }
+      )
       setTimeout(() => {
         this.copyConfirm = false
       }, 1200)

@@ -6,7 +6,6 @@ const basePath = join(__dirname, '..')
 
 
 const mainPackage = require(resolve(basePath, 'package.json'))
-const electronPackage = require(resolve(basePath, 'electron/package.json'))
 
 
 const newPackage = Object.assign({}, electronPackage)

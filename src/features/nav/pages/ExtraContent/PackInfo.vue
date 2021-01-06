@@ -44,12 +44,7 @@
           </div>
           <div v-if="pack.manifest.website" class="mt-2">
             <v-divider class="ma-1" />
-            <v-btn
-              v-extlink="pack.manifest.website"
-              :href="pack.manifest.website"
-              text
-              color="secondary"
-            >
+            <v-btn target="_blank" :href="pack.manifest.website" text color="secondary">
               <v-icon prepend class="mr-1">open_in_new</v-icon>
               &nbsp;Website
             </v-btn>

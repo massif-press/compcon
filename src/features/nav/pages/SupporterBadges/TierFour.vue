@@ -5,12 +5,13 @@
         {{ info.name }}
       </div>
       <div v-if="info.website || info.twitter || info.github" class="mt-1 mb-n3">
-        <v-btn v-if="info.website" v-extlink="`${info.website}`" icon>
+        <v-btn v-if="info.website" target="_blank" :href="`${info.website}`" icon>
           <v-icon color="cyan lighten-2">mdi-web</v-icon>
         </v-btn>
         <v-btn
           v-if="info.twitter"
-          v-extlink="`https://twitter.com/${info.twitter}`"
+          target="_blank"
+          :href="`https://twitter.com/${info.twitter}`"
           icon
           class="mb-n2"
         >
@@ -18,7 +19,8 @@
         </v-btn>
         <v-btn
           v-if="info.github"
-          v-extlink="`https://github.com/${info.github}`"
+          target="_blank"
+          :href="`https://github.com/${info.github}`"
           icon
           class="mb-n2"
         >

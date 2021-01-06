@@ -22,7 +22,6 @@ import {
 } from '@/class'
 import { store } from '@/store'
 import gistApi from '@/io/apis/gist'
-import { Capacitor } from '@capacitor/core'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { ICounterData, Action } from '@/interface'
 import { ActiveState, IActiveStateData, ICombatStats } from '../mech/ActiveState'
@@ -357,9 +356,7 @@ class Pilot {
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
-    else if (Capacitor.platform !== 'web' && this._portrait)
-      return getImagePath(ImageTag.Pilot, this._portrait)
-    else return getImagePath(ImageTag.Pilot, 'nodata.png', true)
+    else return getImagePath(ImageTag.Pilot, 'nodata.png')
   }
 
   // -- Cloud -------------------------------------------------------------------------------------

@@ -19,9 +19,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import roll20ToPilot from '@/io/Roll20'
-import { Pilot } from '@/class'
-import { Plugins } from '@capacitor/core'
-const { Clipboard } = Plugins
 
 export default Vue.extend({
   name: 'roll20-dialog',
@@ -44,12 +41,15 @@ export default Vue.extend({
     async doConvert() {
       const mech = this.pilot.Mechs.find(mech => mech.ID === this.mechSelect)
       const converted = roll20ToPilot(this.pilot, mech)
-      await Clipboard.write({
-        string: JSON.stringify(converted, null, 4)
-      })
-      this.hide()
-      Vue.prototype.$notify('Roll20 data copied to clipboard')
-    }
+      navigator.clipboard.writeText(JSON.stringify(converted, null, 4)).then(
+        function() {
+          Vue.prototype.$notify('Roll20 data copied to clipboard.', 'confirmation')
+        },
+        function() {
+          Vue.prototype.$notifyError('Unable to copy Roll20 data')
+        }
+      )
+    },
   },
 })
 </script>

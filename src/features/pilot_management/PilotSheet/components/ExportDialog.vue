@@ -19,9 +19,6 @@
           <v-fade-transition>
             <span v-if="copyConfirm" class="subtle--text">Copied!</span>
           </v-fade-transition>
-          <v-fade-transition>
-            <span v-if="copyConfirm" class="subtle--text">Copied!</span>
-          </v-fade-transition>
         </span>
       </div>
       <v-row>
@@ -66,8 +63,6 @@
 import Vue from 'vue'
 import { saveFile } from '@/io/Dialog'
 import { Pilot } from '@/class'
-import { Plugins } from '@capacitor/core'
-const { Clipboard } = Plugins
 
 export default Vue.extend({
   name: 'cloud-dialog',
@@ -105,9 +100,14 @@ export default Vue.extend({
     },
     async copyCode() {
       this.copyConfirm = true
-      await Clipboard.write({
-        string: this.pilot.CloudID,
-      })
+      navigator.clipboard.writeText(this.pilot.CloudID).then(
+        function() {
+          Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
+        },
+        function() {
+          Vue.prototype.$notifyError('Unable to copy Cloud ID')
+        }
+      )
       setTimeout(() => {
         this.copyConfirm = false
       }, 1200)

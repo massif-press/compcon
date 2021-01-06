@@ -5,7 +5,8 @@
     >
       <update-checker class="mt-2 mr-2" @mouseenter="$emit('logupdate')" />
       <v-btn
-        v-extlink="'https://github.com/massif-press/compcon/blob/master/CHANGELOG.md'"
+        target="_blank"
+        href="'https://github.com/massif-press/compcon/blob/master/CHANGELOG.md'"
         dark
         outlined
         small
@@ -22,7 +23,6 @@
       <span id="title">COMP/CON</span>
       <!-- Shout out Netlify on web for their free open source plan -->
       <a
-        v-if="$platform === 'web'"
         href="https://www.netlify.com"
         style="position: relative; top: 1px; left: 5px;"
         class="fadeSelect"

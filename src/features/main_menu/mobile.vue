@@ -35,7 +35,8 @@
         </div>
         <!-- Shout out Netlify on web for their free open source plan -->
         <v-btn
-          v-extlink="`https://www.netlify.com`"
+          target="_blank"
+          href="https://www.netlify.com"
           class="fadeSelect mt-n2"
           x-small
           outlined
@@ -93,12 +94,12 @@
         </v-btn>
         <v-spacer />
         <v-btn
-          v-extlink="`https://www.patreon.com/compcon`"
+          target="_blank"
+          href="https://www.patreon.com/compcon"
           color="warning"
           x-small
           dark
           outlined
-          href="https://www.patreon.com/compcon"
         >
           Support
         </v-btn>

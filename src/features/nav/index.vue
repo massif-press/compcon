@@ -76,10 +76,7 @@
         <v-list-item @click="$refs.aboutModal.show()">About</v-list-item>
         <v-list-item @click="$refs.helpModal.show()">Help</v-list-item>
         <v-divider />
-        <v-list-item
-          v-extlink="`https://www.patreon.com/compcon`"
-          href="https://www.patreon.com/compcon"
-        >
+        <v-list-item target="_blank" href="https://www.patreon.com/compcon">
           Support COMP/CON
         </v-list-item>
       </v-list>
