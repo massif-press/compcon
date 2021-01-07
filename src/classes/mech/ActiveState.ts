@@ -326,7 +326,6 @@ class ActiveState {
   RepairStructure(): void {
     this._mech.CurrentStructure += 1
     const cheap = this._mech.Bonuses.some(x => x.ID === 'cheap_struct')
-    console.log('cheap struct')
     this._mech.CurrentRepairs -= cheap ? 1 : 2
   }
 

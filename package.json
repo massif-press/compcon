@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "2.2.1",
+  "version": "2.2.3",
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
   "author": "Massif Press",
@@ -17,7 +17,7 @@
     "@mdi/font": "^4.8.95",
     "axios": "^0.19.0",
     "jszip": "^3.2.2",
-    "lancer-data": "^3.0.19",
+    "lancer-data": "^3.0.20",
     "lodash": "^4.17.11",
     "material-icons": "^0.3.1",
     "promisify-file-reader": "^3.0.5",

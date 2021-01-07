@@ -27,7 +27,9 @@
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-chip
-          v-if="cs.Duration !== 'Mission' || cs.Duration !== 'Unlimited'"
+          v-if="
+            cs.Duration !== 'Mission' || cs.Duration !== 'Unlimited' || cs.Duration !== 'Mission'
+          "
           small
           label
           outlined
