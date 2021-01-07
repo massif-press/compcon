@@ -146,7 +146,8 @@ export default class CCCoreBonusSelector extends Vue {
       )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
     const lvl = `<b>${this.pilot.LicenseLevel(m.ID)}</b>`
     let output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
-    const remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.ID)
+    let remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.ID)
+    if (remain < 1) remain += 3
     output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
     output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
     if (this.pilot.Level < 12)

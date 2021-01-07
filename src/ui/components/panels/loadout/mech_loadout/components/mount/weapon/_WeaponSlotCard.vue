@@ -24,7 +24,7 @@
             <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
             <span class="caption subtle--text ml-1">
               <b>{{ item.Size }}</b>
-              {{ item.Type }}
+              {{ item.WeaponType }}
             </span>
           </span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
@@ -214,7 +214,7 @@ export default Vue.extend({
     },
     armoryLevel() {
       if (!this.item) return 0
-      if (this.item.Size !== WeaponSize.Main || this.item.Type === WeaponType.Melee) return 0
+      if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0
       const tal = this.mech.Pilot.Talents.find(
         (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
       )

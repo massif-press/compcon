@@ -36,7 +36,11 @@
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-chip
-          v-if="coreSystem.Use !== 'Mission' || coreSystem.Duration !== 'Unlimited'"
+          v-if="
+            coreSystem.Use !== 'Mission' ||
+              coreSystem.Duration !== 'Unlimited' ||
+              coreSystem.Duration !== 'Mission'
+          "
           small
           label
           outlined

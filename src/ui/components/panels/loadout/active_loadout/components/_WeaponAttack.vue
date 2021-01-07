@@ -658,7 +658,11 @@ export default Vue.extend({
       return this.mount.Bonuses && this.mount.Bonuses.find(x => x.ID === 'cb_overpower_caliber')
     },
     armoryLevel() {
-      if (this.improv || this.item.Size !== WeaponSize.Main || this.item.Type === WeaponType.Melee)
+      if (
+        this.improv ||
+        this.item.Size !== WeaponSize.Main ||
+        this.item.WeaponType === WeaponType.Melee
+      )
         return 0
       const tal = this.mech.Pilot.Talents.find(
         (x: PilotTalent) => x.Talent.ID === 't_walking_armory'

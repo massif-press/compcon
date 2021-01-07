@@ -46,7 +46,6 @@ abstract class CompendiumItem {
     if (data) {
       this.ID = data.id
       if (data.id && data.id.includes('missing_')) {
-        console.log(data.id)
         this.IsHidden = true
       }
       this._name = data.name
