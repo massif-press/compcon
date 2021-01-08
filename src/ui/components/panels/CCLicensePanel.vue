@@ -1,22 +1,14 @@
 <template>
   <v-row dense justify="center" align="center">
     <v-col
-      v-for="n in 3"
+      v-for="n in license.MaxRank"
       :key="`r_${n}`"
       lg="4"
       md="6"
       sm="12"
       :class="{ locked: ranked && rank < n }"
     >
-      <div
-        :class="
-          `${
-            $vuetify.breakpoint.lgAndUp
-              ? `text-${n === 1 ? 'left' : n === 2 ? 'center' : 'right'}`
-              : 'text-center'
-          }`
-        "
-      >
+      <div class="text-center">
         <p class="pt-1 mb-1">
           <span class="stat-text subtle--text text--darken-1">
             RANK {{ 'I'.repeat(n) }}
