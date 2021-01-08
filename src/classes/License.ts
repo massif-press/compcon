@@ -22,16 +22,21 @@ class License {
       )
       .filter((x: LicensedItem) => x.License.toUpperCase() === frame.Name.toUpperCase())
 
-    this.Unlocks = [
-      items.filter(x => x.LicenseLevel === 1),
-      items.filter(x => x.LicenseLevel === 2),
-      items.filter(x => x.LicenseLevel === 3),
-    ]
+    this.Unlocks = new Array<LicensedItem[]>(Math.max(...items.map(i => i.LicenseLevel))).fill([])
+
+    for (let i = 0; i < this.Unlocks.length; i++) {
+      this.Unlocks[i] = items.filter(x => x.LicenseLevel === i + 1)
+    }
+
     if (frame.LicenseLevel) this.Unlocks[frame.LicenseLevel - 1].unshift(frame)
   }
 
   public get Manufacturer(): Manufacturer {
     return store.getters.referenceByID('Manufacturers', this.Source)
+  }
+
+  public get MaxRank(): number {
+    return this.Unlocks.length
   }
 
   public UnlockByRank(rank: number): LicensedItem[] {
