@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import _ from 'lodash'
-import { LicensedItem, Frame, Manufacturer } from '@/class'
+import { LicensedItem, Frame, Manufacturer, Pilot } from '@/class'
 
 class License {
   public readonly Name: string
@@ -8,6 +8,8 @@ class License {
   public readonly FrameID: string
   public readonly Brew: string
   public readonly Unlocks: LicensedItem[][]
+  public readonly Specialty: boolean
+  public readonly Prerequisite?: { source: string; min_rank: number; cumulative?: boolean }
 
   public constructor(frame: Frame) {
     this.Name = frame.Name
@@ -28,7 +30,26 @@ class License {
       this.Unlocks[i] = items.filter(x => x.LicenseLevel === i + 1)
     }
 
-    if (frame.LicenseLevel) this.Unlocks[frame.LicenseLevel - 1].unshift(frame)
+    this.Specialty = !!frame.Specialty
+    if (typeof frame.Specialty !== 'boolean') {
+      this.Prerequisite = frame.Specialty
+    }
+
+    if (frame.LicenseLevel && !this.Specialty) this.Unlocks[frame.LicenseLevel - 1].unshift(frame)
+  }
+
+  public CanSelect(pilot: Pilot): boolean {
+    if (!pilot.IsMissingLicenses) return false
+    if (!this.Specialty || !this.Prerequisite) return true
+    if (this.Prerequisite.cumulative) {
+      const rankTotal = pilot.Licenses.filter(
+        x => x.License.Source === this.Prerequisite.source && x.Rank
+      ).reduce((a, b) => +a + +b.Rank, 0)
+      return rankTotal >= this.Prerequisite.min_rank
+    }
+    return pilot.Licenses.some(
+      x => x.License.Source === this.Prerequisite.source && x.Rank >= this.Prerequisite.min_rank
+    )
   }
 
   public get Manufacturer(): Manufacturer {

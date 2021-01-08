@@ -13,8 +13,7 @@
           />
         </v-col>
         <v-col class="ml-2">
-          <span class="caption">{{ frame(license.FrameID).Source }}</span>
-          <br />
+          <div class="caption">{{ frame(license.FrameID).Source }}</div>
           <span class="heading h2 font-weight-bold pop">{{ license.Name }}</span>
           <v-chip
             v-for="f in frame(license.FrameID).Mechtype"
@@ -38,6 +37,22 @@
       />
     </v-expansion-panel-header>
     <v-expansion-panel-content color="panel">
+      <v-alert
+        v-if="!!prereq(license)"
+        outlined
+        dense
+        class="text-center mx-10 mt-2 mb-n1"
+        color="warning"
+      >
+        <div v-if="prereq(license).cumulative">
+          This License requires at least {{ prereq(license).min_rank }} cumulative Ranks of
+          {{ prereq(license).source }} licenses
+        </div>
+        <div v-else>
+          This License requires at least one other {{ prereq(license).source }} License at Rank
+          {{ prereq(license).min_rank }} or above
+        </div>
+      </v-alert>
       <cc-license-panel :license="license" ranked :rank="rank" />
       <v-btn
         v-if="rank < license.Unlocks.length && isSelectable"
@@ -61,6 +76,7 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import { License } from '@/class'
 
 export default Vue.extend({
   name: 'license-select-item',
@@ -82,6 +98,9 @@ export default Vue.extend({
     frame(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
       return compendium.referenceByID('Frames', id)
+    },
+    prereq(l: License) {
+      return l.Prerequisite
     },
   },
 })

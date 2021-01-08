@@ -49,7 +49,7 @@
               v-for="l in licenses[m]"
               :key="l.FrameID"
               :license="l"
-              :is-selectable="pilot.IsMissingLicenses"
+              :is-selectable="l.CanSelect(pilot)"
               :rank="pilot.getLicenseRank(l.Name)"
               @add="pilot.AddLicense(l)"
               @remove="pilot.RemoveLicense(l)"

@@ -18,7 +18,7 @@ class PilotLicense {
   }
 
   public Increment(): boolean {
-    if (this.rank < 3) {
+    if (this.rank < this.License.MaxRank) {
       this.rank += 1
       return true
     }
