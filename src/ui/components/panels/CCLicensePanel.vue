@@ -54,7 +54,6 @@ export default Vue.extend({
 
 <style scoped>
 .locked {
-  background-color: var(--v-panel-base);
   opacity: 0.35;
 }
 </style>

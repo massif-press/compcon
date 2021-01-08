@@ -27,6 +27,7 @@ interface IFrameData extends ILicensedItemData {
   stats: IFrameStats
   traits: IFrameTraitData[]
   core_system: ICoreData
+  specialty: boolean | { source: string; min_rank: number; cumulative?: boolean }
   y_pos?: number
   image_url?: string
   other_art?: { tag?: ImageTag; src?: string; url?: string }[]
@@ -39,6 +40,7 @@ class Frame extends LicensedItem {
   public readonly Traits: FrameTrait[]
   public readonly CoreSystem: CoreSystem
   public readonly OtherArt?: { tag?: ImageTag; src?: string; url?: string }[]
+  public readonly Specialty: boolean | { source: string; min_rank: number; cumulative?: boolean }
   private _image_url?: string
   private _stats: IFrameStats
 
@@ -53,6 +55,7 @@ class Frame extends LicensedItem {
     this.ItemType = ItemType.Frame
     this._image_url = frameData.image_url
     this.OtherArt = frameData.other_art
+    this.Specialty = frameData.specialty || false
   }
 
   public get MechTypeString(): string {
