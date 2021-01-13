@@ -46,9 +46,16 @@
     <v-footer color="primary" fixed>
       <v-row no-gutters justify="space-around" align="center">
         <v-col cols="auto" class="text-center mr-3">
+          <v-btn small light elevation="0" class="pulse" @click="$refs.loginModal.show()">
+            <v-icon left>cci-pilot</v-icon>
+            Log In
+          </v-btn>
+        </v-col>
+        <v-col cols="auto" class="ml-1 mr-3"><v-divider vertical class="d-inline" /></v-col>
+        <v-col cols="auto" class="text-center mr-3">
           <v-btn small dark outlined @click="bulkExport">
             <v-icon left>mdi-database</v-icon>
-            Create COMP/CON Data Backup
+            Create Data Backup
             <cc-tooltip
               inline
               content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
@@ -62,7 +69,7 @@
             <template v-slot:activator="{ on }">
               <v-btn small dark outlined v-on="on">
                 <v-icon left>mdi-database-refresh</v-icon>
-                Load COMP/CON Data Backup
+                Load Data Backup
                 <cc-tooltip
                   inline
                   content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
@@ -140,6 +147,9 @@
         </v-col>
       </v-row>
     </v-footer>
+    <cc-solo-dialog ref="loginModal" large no-confirm title="CLOUD ACCOUNT">
+      <sign-in />
+    </cc-solo-dialog>
     <cc-solo-dialog
       ref="optionsModal"
       large
@@ -172,10 +182,13 @@ import { saveFile } from '@/io/Dialog'
 import MainTitle from './_components/MainTitle.vue'
 import MainBtn from './_components/MainBtn.vue'
 import CCLog from './_components/CCLog.vue'
+import SignIn from './_components/login/index.vue'
 import ContentPage from '../nav/pages/ExtraContent/index.vue'
 import AboutPage from '../nav/pages/About.vue'
 import HelpPage from '../nav/pages/Help.vue'
 import OptionsPage from '../nav/pages/Options/index.vue'
+import { CloudStore } from '@/store'
+import { getModule } from 'vuex-module-decorators'
 
 export default Vue.extend({
   name: 'landing-page',
@@ -187,12 +200,17 @@ export default Vue.extend({
     AboutPage,
     HelpPage,
     OptionsPage,
+    SignIn,
   },
   data: () => ({
     pilotLoading: false,
     importDialog: false,
     fileValue: null,
   }),
+  mounted() {
+    const cloudstore = getModule(CloudStore, this.$store)
+    if (cloudstore.IsPatron) this.$refs.loginModal.show()
+  },
   beforeRouteLeave(to, from, next) {
     if (to.path === '/pilot_management') this.pilotLoading = true
     next()

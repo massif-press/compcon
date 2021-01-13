@@ -3,6 +3,7 @@
     <landing-page-mobile v-if="$vuetify.breakpoint.smAndDown" />
     <landing-page-desktop v-else />
     <welcome-message />
+    <router-view />
   </div>
 </template>
 

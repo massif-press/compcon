@@ -1,0 +1,12 @@
+type UserData @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  welcome_hash: String
+  theme: String
+  view_options: String
+  sync_frequency: [String]
+  sync_options: [String]
+  achievements: [String]
+  lcp_data: String
+  pilots: [String]
+}
+ 

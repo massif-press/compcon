@@ -7,7 +7,7 @@
       <v-btn
         target="_blank"
         href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
-        dark
+        color="white"
         outlined
         small
         class="mt-2 mr-2"

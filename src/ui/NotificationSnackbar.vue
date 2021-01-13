@@ -43,28 +43,27 @@ import Component from 'vue-class-component'
 import { Prop, Watch, Ref } from 'vue-property-decorator'
 
 const notificationVariants: { [key: string]: INotificationVariant } = {
-  'error': {
+  error: {
     color: 'error',
     icon: '$error',
     prefix: '<b>ERROR:</b>',
     timeout: 0,
   },
-  'confirmation': {
+  confirmation: {
     color: 'secondary',
     icon: '$info',
     timeout: 4000,
   },
-  'achievement': {
+  achievement: {
     color: 'success',
     icon: 'mdi-trophy',
     prefix: '<b>Achivement Unlocked:</b>',
     timeout: 6000,
-  }
+  },
 }
 
 @Component
 export default class NotificationSnackbar extends Vue {
-
   @Prop({ type: Object, required: true }) notification: INotification
 
   // utility function that sets the transition-duration of the progress-linear component
@@ -89,7 +88,7 @@ export default class NotificationSnackbar extends Vue {
       this.doTimeoutProgress()
       this.timeoutRef = setTimeout(() => {
         this.$emit('dismiss')
-      }, this.timeout);
+      }, this.timeout)
     }
   }
 
@@ -102,9 +101,9 @@ export default class NotificationSnackbar extends Vue {
   }
 
   @Ref('snackbar') snackbar!: { setTimeout: () => void }
-  interacted = false;
+  interacted = false
   async onInteract() {
-    if (this.interacted || this.timeout === 0) return;
+    if (this.interacted || this.timeout === 0) return
     // stop timeout if interaction detected
     this.setProgressTransition(500)
     // wait for next tick so that the transition duration change takes
@@ -113,7 +112,7 @@ export default class NotificationSnackbar extends Vue {
     clearTimeout(this.timeoutRef)
   }
 
-  // 
+  //
   get isClickable() {
     return typeof this.notification.onClick === 'function'
   }
@@ -123,7 +122,6 @@ export default class NotificationSnackbar extends Vue {
     this.notification.onClick()
     this.$emit('dismiss')
   }
-
 }
 </script>
 
