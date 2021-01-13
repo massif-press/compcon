@@ -30,6 +30,11 @@ const r = new Router({
       name: 'ui-test',
       component: require('@/features/ui_test/index').default,
     },
+    {
+      path: '/oauth/:code/:state',
+      props: true,
+      component: require('@/cloud/oauth').default,
+    },
     ...compendiumRoutes.map(route => ({
       ...route,
       path: route.path = '/compendium/' + route.path,
@@ -50,6 +55,7 @@ const r = new Router({
 })
 
 r.beforeEach((to, from, next) => {
+  console.log(to)
   const p = to.path
   const ns = getModule(NavStore, store)
 

@@ -123,6 +123,11 @@ const baseConfig = {
       //   ],
       // },
       {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
+      },
+      {
         test: /\.(woff|woff2|ttf|otf|eot)$/,
         loader: 'file-loader',
         options: {
@@ -150,7 +155,7 @@ const baseConfig = {
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.vue', '.js'],
+    extensions: ['.tsx', '.ts', '.vue', '.mjs', '.js'],
     alias: {
       '@': path.resolve('src'),
       '@assets': path.resolve('src/assets'),

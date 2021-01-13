@@ -14,12 +14,17 @@
     "release": "./build_scripts/release.sh"
   },
   "dependencies": {
+    "@aws-amplify/ui-vue": "^0.2.33",
     "@mdi/font": "^4.8.95",
+    "aws-amplify": "^3.3.14",
+    "aws-amplify-vue": "^2.1.4",
     "axios": "^0.19.0",
     "jszip": "^3.2.2",
     "lancer-data": "^3.0.20",
     "lodash": "^4.17.11",
     "material-icons": "^0.3.1",
+    "patreon": "^0.4.1",
+    "pizzly-js": "^0.2.8",
     "promisify-file-reader": "^3.0.5",
     "tiptap-vuetify": "^2.12.0",
     "typeface-roboto": "^0.0.75",

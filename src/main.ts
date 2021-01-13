@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import '@mdi/font/css/materialdesignicons.css'
 import 'typeface-roboto/index.css'
 import 'material-icons/iconfont/material-icons.css'
@@ -29,6 +30,12 @@ import Startup from './io/Startup'
 
 import { TiptapVuetifyPlugin } from 'tiptap-vuetify'
 import 'tiptap-vuetify/dist/main.css'
+
+import Amplify from 'aws-amplify'
+import '@aws-amplify/ui-vue'
+import aws_exports from './aws-exports'
+
+Amplify.configure(aws_exports)
 
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
@@ -63,6 +70,7 @@ Vue.use(TiptapVuetifyPlugin, {
   iconsGroup: 'md',
 })
 Vue.use(VueResizeText)
+// Vue.use(Amplify)
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
