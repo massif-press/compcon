@@ -10,7 +10,7 @@
     </div>
     <div v-else>
       <v-row no-gutters justify="center" align="center" class="mt-2">
-        <v-btn x-large color="#f96854" dark :href="patreonLoginUrl()" target="_blank">
+        <v-btn x-large color="#f96854" dark :href="patreonLoginUrl" target="_blank">
           <v-icon left>mdi-patreon</v-icon>
           Link Patreon Account
         </v-btn>
