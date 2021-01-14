@@ -8,7 +8,7 @@ import { format as formatUrl } from 'url'
 const clientId = process.env.PATREON_CLIENT_ID
 const clientSecret = process.env.PATREON_CLIENT_SECRET
 // redirect_uri should be the full redirect url
-const redirect = 'https://compcon.app'
+const redirect = 'https://beef-backend.d3gu3i4ec3uyxo.amplifyapp.com/'
 
 const oauthClient = oauth(clientId, clientSecret)
 
@@ -35,6 +35,9 @@ const patreonApi = axios.create({
 export default {
   loginEndpoint() {
     return loginUrl
+  },
+  ids() {
+    console.log(clientId, clientSecret)
   },
 
   // patreonApi.get('/', (req, res) => {
