@@ -120,6 +120,7 @@ export default Vue.extend({
       return cloudstore.IsPatron
     },
     patreonLoginUrl() {
+      Patreon.ids()
       return Patreon.loginEndpoint
     },
   },
