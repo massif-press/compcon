@@ -8,7 +8,7 @@ import { format as formatUrl } from 'url'
 const clientId = process.env.PATREON_CLIENT_ID
 const clientSecret = process.env.PATREON_CLIENT_SECRET
 // redirect_uri should be the full redirect url
-const redirect = 'https://beef-backend.d3gu3i4ec3uyxo.amplifyapp.com/'
+const redirect = 'https://beef-backend.d3gu3i4ec3uyxo.amplifyapp.com/#/oauth'
 
 const oauthClient = oauth(clientId, clientSecret)
 
@@ -27,17 +27,31 @@ const loginUrl = formatUrl({
   },
 })
 
-const patreonApi = axios.create({
-  baseURL: 'https://patreon.com',
-  responseType: 'json',
-})
+// const patreonApi = axios.create({
+//   baseURL: 'https://patreon.com',
+//   responseType: 'json',
+// })
 
 export default {
   loginEndpoint() {
     return loginUrl
   },
-  ids() {
-    console.log(clientId, clientSecret)
+  getUserToken(code, state) {
+    console.info('Getting patreon token: ', state)
+    return axios.post('https://www.patreon.com/api/oauth2/token', {
+      code,
+      grant_type: 'authorization_code',
+      client_id: clientId,
+      client_secret: clientSecret,
+      redirect_uri: redirect,
+    })
+  },
+  getUserCampaigns(token) {
+    return axios.get('https://www.patreon.com/api/oauth2/api/current_user', {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
   },
 
   // patreonApi.get('/', (req, res) => {

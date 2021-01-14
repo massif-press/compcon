@@ -31,7 +31,7 @@ const r = new Router({
       component: require('@/features/ui_test/index').default,
     },
     {
-      path: '/oauth/:code/:state',
+      path: '/oauth',
       props: true,
       component: require('@/cloud/oauth').default,
     },
@@ -55,7 +55,6 @@ const r = new Router({
 })
 
 r.beforeEach((to, from, next) => {
-  console.log(to)
   const p = to.path
   const ns = getModule(NavStore, store)
 
