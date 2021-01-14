@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { oauth, patreon } from 'patreon'
+import { oauth } from 'patreon'
 
 import axios from 'axios'
 import { format as formatUrl } from 'url'
 // import { defaultCipherList } from 'constants'
 
-// const clientId = process.env.PATREON_CLIENT_ID
-const clientId = 'HzavAk66tgiBKeQ_MsCbq4vg4eL1CBu5r6qEJt-IZ0ykHEtqp3KOupQIX1ywNSrB'
-// const clientSecret = process.env.PATREON_CLIENT_SECRET
-const clientSecret = 'qgSRlOclEcljt_G6cJWKvR5mn_cLi3pTJHW_QfKHhGDUeiygdS2L58nDg8UD33Jp'
+const clientId = process.env.PATREON_CLIENT_ID
+const clientSecret = process.env.PATREON_CLIENT_SECRET
 // redirect_uri should be the full redirect url
 const redirect = 'https://compcon.app'
 

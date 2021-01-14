@@ -9,4 +9,4 @@ type UserData @model @auth(rules: [{allow: public}]) {
   lcp_data: String
   pilots: [String]
 }
- 
+  
