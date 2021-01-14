@@ -17,8 +17,8 @@
       </v-row>
       <div class="text-center mt-2">
         <i>
-          For the time being, you must first log in to your Patreon account to register a new
-          COMP/CON cloud account
+          While this feature is in development, you must first authenticate your Patreon account to
+          register a new COMP/CON cloud account.
         </i>
       </div>
     </div>
@@ -120,7 +120,6 @@ export default Vue.extend({
       return cloudstore.IsPatron
     },
     patreonLoginUrl() {
-      Patreon.ids()
       return Patreon.loginEndpoint
     },
   },

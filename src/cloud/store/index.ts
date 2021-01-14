@@ -3,6 +3,7 @@ import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
 export const SET_PATRON = 'SET_PATRON'
+export const SET_PATREON_TOKEN = 'SET_PATREON_TOKEN'
 export const SET_USER = 'SET_USER'
 
 @Module({
@@ -11,6 +12,7 @@ export const SET_USER = 'SET_USER'
 export class CloudStore extends VuexModule {
   public AuthStatus = 'No User'
   public User = ''
+  public PatreonToken = {}
   public IsPatron = false
 
   @Mutation
@@ -28,6 +30,11 @@ export class CloudStore extends VuexModule {
     this.User = data
   }
 
+  @Mutation
+  private [SET_PATREON_TOKEN](data: any): void {
+    this.PatreonToken = data
+  }
+
   @Action
   public clearOauth(): void {
     this.context.commit(SET_PATRON, false)
@@ -43,5 +50,10 @@ export class CloudStore extends VuexModule {
   public setPatron(payload: any): void {
     console.log('setting oauth', payload)
     this.context.commit(SET_PATRON, payload)
+  }
+
+  @Action
+  public setPatreonToken(payload: any): void {
+    this.context.commit(SET_PATREON_TOKEN, payload)
   }
 }
