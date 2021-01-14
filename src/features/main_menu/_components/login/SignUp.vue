@@ -3,7 +3,7 @@
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">CREATE ACCOUNT</v-col>
     </v-row>
-    <div v-if="oauthState" class="mt-2 heading h3 accent--text text-center">
+    <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
       <v-icon large color="success">mdi-patreon</v-icon>
       Patreon Account Connected
       <v-icon large color="success">mdi-check</v-icon>

@@ -12,6 +12,7 @@ import updateChecker from '@/classes/utility/UpdateChecker'
 Vue.use(Router)
 
 const r = new Router({
+  mode: 'history',
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
