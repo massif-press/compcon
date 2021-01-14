@@ -15,7 +15,7 @@ const loginUrl = function(): string {
     query: {
       response_type: 'code',
       client_id: CLIENT_ID,
-      redirect_uri: CLIENT_SECRET,
+      redirect_uri: redirectURL,
       state: 'patreon_auth',
     },
   })
