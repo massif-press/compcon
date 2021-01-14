@@ -92,7 +92,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Auth } from '@aws-amplify/auth'
-import Patreon from '@/cloud/patreon'
+import { loginUrl } from '@/cloud/patreon'
 import { CloudStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
 
@@ -120,7 +120,7 @@ export default Vue.extend({
       return cloudstore.IsPatron
     },
     patreonLoginUrl() {
-      return Patreon.loginEndpoint
+      return loginUrl
     },
   },
   created() {

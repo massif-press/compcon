@@ -29,6 +29,12 @@
             Last Sync: 12:45 PM July 13th, 2021
           </p>
         </v-col>
+        <v-col cols="auto">
+          Patreon Account Linked
+        </v-col>
+        <v-col cols="auto">
+          <v-btn large>Link itch.io Account</v-btn>
+        </v-col>
         <v-col cols="auto mr-6">
           <cc-tooltip content="Manual Sync">
             <v-btn fab large elevation="0" color="accent" dark :loading="loading">

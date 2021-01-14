@@ -1,10 +1,23 @@
 import { patreon as patreonAPI, oauth as patreonOAuth } from 'patreon'
+import { format as formatUrl } from 'url'
 
 const CLIENT_ID = process.env.PATREON_CLIENT_ID
 const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET
 const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET)
 
 const redirectURL = 'https://beef-backend.d3gu3i4ec3uyxo.amplifyapp.com/oauth'
+
+const loginUrl = formatUrl({
+  protocol: 'https',
+  host: 'patreon.com',
+  pathname: '/oauth2/authorize',
+  query: {
+    response_type: 'code',
+    client_id: CLIENT_ID,
+    redirect_uri: CLIENT_SECRET,
+    state: 'chill',
+  },
+})
 
 const handleOAuthRedirectRequest = function(code, response): void {
   const oauthGrantCode = code
@@ -31,13 +44,13 @@ const handleOAuthRedirectRequest = function(code, response): void {
     })
 }
 
-export { handleOAuthRedirectRequest }
+export { loginUrl, handleOAuthRedirectRequest }
 
 /* eslint-disable @typescript-eslint/camelcase */
 // import { oauth } from 'patreon'
 
 // import axios from 'axios'
-// import { format as formatUrl } from 'url'
+//
 // // import { defaultCipherList } from 'constants'
 
 // const clientId = process.env.PATREON_CLIENT_ID
@@ -48,18 +61,6 @@ export { handleOAuthRedirectRequest }
 
 // // mimic a database
 // const database = {}
-
-// const loginUrl = formatUrl({
-//   protocol: 'https',
-//   host: 'patreon.com',
-//   pathname: '/oauth2/authorize',
-//   query: {
-//     response_type: 'code',
-//     client_id: clientId,
-//     redirect_uri: redirect,
-//     state: 'chill',
-//   },
-// })
 
 // // const patreonApi = axios.create({
 // //   baseURL: 'https://patreon.com',
