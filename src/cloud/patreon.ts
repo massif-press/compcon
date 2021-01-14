@@ -7,17 +7,19 @@ const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET)
 
 const redirectURL = 'https://beef-backend.d3gu3i4ec3uyxo.amplifyapp.com/oauth'
 
-const loginUrl = formatUrl({
-  protocol: 'https',
-  host: 'patreon.com',
-  pathname: '/oauth2/authorize',
-  query: {
-    response_type: 'code',
-    client_id: CLIENT_ID,
-    redirect_uri: CLIENT_SECRET,
-    state: 'chill',
-  },
-})
+const loginUrl = function(): string {
+  return formatUrl({
+    protocol: 'https',
+    host: 'patreon.com',
+    pathname: '/oauth2/authorize',
+    query: {
+      response_type: 'code',
+      client_id: CLIENT_ID,
+      redirect_uri: CLIENT_SECRET,
+      state: 'patreon_auth',
+    },
+  })
+}
 
 const handleOAuthRedirectRequest = function(code, response): void {
   const oauthGrantCode = code
