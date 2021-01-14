@@ -152,9 +152,6 @@ export default Vue.extend({
         this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`
       }
     },
-    patreonLogin() {
-      Patreon.loginEndpoint
-    },
   },
 })
 </script>
