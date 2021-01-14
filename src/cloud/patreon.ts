@@ -7,8 +7,7 @@ import { format as formatUrl } from 'url'
 
 const clientId = process.env.PATREON_CLIENT_ID
 const clientSecret = process.env.PATREON_CLIENT_SECRET
-// redirect_uri should be the full redirect url
-const redirect = 'https://beef-backend.d3gu3i4ec3uyxo.amplifyapp.com/#/oauth'
+const redirect = 'https://beef-backend.d3gu3i4ec3uyxo.amplifyapp.com/oauth'
 
 const oauthClient = oauth(clientId, clientSecret)
 
