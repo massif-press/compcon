@@ -37,6 +37,22 @@ function githubToken() {
   }
 }
 
+function patreonClientId() {
+  if (process.env.PATREON_CLIENT_ID) {
+    return `${process.env.PATREON_CLIENT_ID}`
+  } else {
+    return 'UNKNOWN'
+  }
+}
+
+function patreonClientSecret() {
+  if (process.env.PATREON_CLIENT_SECRET) {
+    return `${process.env.PATREON_CLIENT_SECRET}`
+  } else {
+    return 'UNKNOWN'
+  }
+}
+
 const baseConfig = {
   entry: {
     app: './src/main.ts',
@@ -178,6 +194,8 @@ const baseConfig = {
       'process.env.VERSION_STRING': JSON.stringify(versionString()),
       'process.env.PACKAGE_VERSION': JSON.stringify(require('./package.json').version),
       'process.env.GITHUB_TOKEN': JSON.stringify(githubToken()),
+      'process.env.PATREON_CLIENT_ID': JSON.stringify(patreonClientId()),
+      'process.env.PATREON_CLIENT_SECRET': JSON.stringify(patreonClientSecret()),
     }),
   ],
 }
