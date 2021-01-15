@@ -1,17 +1,29 @@
 <template>
   <div>
     <div v-if="!!authedUser && !!authedUser.attributes">
-      <div class="text-center heading h3">
+      <div class="text-center heading h3 mt-3">
         CONNECTED
         <cc-slashes />
         <b class="accent--text">{{ authedUser.attributes.email.toUpperCase() }}</b>
       </div>
+      <v-row>
+        <v-col>
+          <v-btn tile small block color="secondary" disabled class="my-1">
+            Link Patreon Account
+          </v-btn>
+        </v-col>
+        <v-col>
+          <v-btn tile small block color="secondary" disabled class="my-1">
+            Link itch.io Account
+          </v-btn>
+        </v-col>
+      </v-row>
       <v-row dense class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">
           ACCOUNT INFORMATION
         </v-col>
       </v-row>
-      <v-row dense align="center">
+      <v-row dense justify="space-between" align="center">
         <v-col>
           <div class="overline font-weight-bold my-0">
             VAULT CONTENTS
@@ -29,13 +41,7 @@
             Last Sync: 12:45 PM July 13th, 2021
           </p>
         </v-col>
-        <v-col cols="auto">
-          Patreon Account Linked
-        </v-col>
-        <v-col cols="auto">
-          <v-btn large>Link itch.io Account</v-btn>
-        </v-col>
-        <v-col cols="auto mr-6">
+        <v-col cols="auto" class="mr-6">
           <cc-tooltip content="Manual Sync">
             <v-btn fab large elevation="0" color="accent" dark :loading="loading">
               <v-icon x-large>mdi-cloud-sync-outline</v-icon>

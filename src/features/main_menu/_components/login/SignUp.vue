@@ -1,14 +1,25 @@
 <template>
   <v-container>
+    <v-alert outlined prominent icon="mdi-information-outline" class="my-2">
+      <div><b>Cloud Account</b></div>
+      <div>
+        COMP/CON cloud storage accounts are an upcoming feature that is currently in development.
+        They allow for storage and syncing of COMP/CON data across multiple devices with minimal
+        hassle. For the time being, they are restricted to
+        <a href="https://www.patreon.com/compcon" target="_blank">Patreon supporters</a>
+        while we try to determine storage requirements and get an idea of what operating costs might
+        look like.
+      </div>
+    </v-alert>
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">CREATE ACCOUNT</v-col>
     </v-row>
-    <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
+    <!-- <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
       <v-icon large color="success">mdi-patreon</v-icon>
       Patreon Account Connected
       <v-icon large color="success">mdi-check</v-icon>
-    </div>
-    <div v-else>
+    </div> -->
+    <!-- <div v-else>
       <v-row no-gutters justify="center" align="center" class="mt-2">
         <v-btn x-large color="#f96854" dark :href="patreonLoginUrl" target="_blank">
           <v-icon left>mdi-patreon</v-icon>
@@ -21,8 +32,9 @@
           register a new COMP/CON cloud account.
         </i>
       </div>
-    </div>
-    <div v-if="isPatron">
+    </div> -->
+    <div>
+      <!-- <div v-if="isPatron"> -->
       <v-row justify="center" align="center">
         <v-col lg="4" cols="12">
           <v-text-field
@@ -43,7 +55,8 @@
             @click:append="show = !show"
           />
         </v-col>
-        <!-- <v-col lg="4" cols="12">
+        <!-- Temporary auth method until patreon oauth is set up -->
+        <v-col lg="4" cols="12">
           <v-text-field
             v-model="invite"
             label="Invitation Code"
@@ -51,7 +64,7 @@
             solo
             @click:append="show = !show"
           />
-        </v-col> -->
+        </v-col>
       </v-row>
       <v-row no-gutters justify="center">
         <v-col cols="auto">
@@ -135,7 +148,7 @@ export default Vue.extend({
           password: this.password,
           attributes: {
             email: this.email,
-            'custom:access_code': 'ccjan21',
+            'custom:access_code': this.code,
           },
         })
         this.loading = false
