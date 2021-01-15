@@ -1,11 +1,13 @@
 import { patreon as patreonAPI, oauth as patreonOAuth } from 'patreon'
 import { format as formatUrl } from 'url'
 
-const CLIENT_ID = process.env.PATREON_CLIENT_ID
-const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET
+// const CLIENT_ID = process.env.PATREON_CLIENT_ID
+const CLIENT_ID = '_1O6Z4dBszp3Q9ERr93RVNCwM1VUveu9xI5vq1DqJUXEK47FC7MkTtF1lwT5_ko3'
+// const CLIENT_SECRET = process.env.PATREON_CLIENT_SECRET
+const CLIENT_SECRET = 'ff1GRqjdS2SIdFD50CVlkjPadrIPHpL9DHH1nN7SY7olJWVIC8afOavlqwpTCr13'
 const patreonOAuthClient = patreonOAuth(CLIENT_ID, CLIENT_SECRET)
 
-const redirectURL = 'https://beef-backend.d3gu3i4ec3uyxo.amplifyapp.com/oauth'
+const redirectURL = 'https://ezfwoqs40f.execute-api.us-east-1.amazonaws.com/dev/patreon'
 
 const loginUrl = function(): string {
   return formatUrl({

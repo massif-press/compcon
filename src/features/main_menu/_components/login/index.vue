@@ -1,16 +1,5 @@
 <template>
   <div>
-    <v-alert outlined prominent icon="mdi-information-outline" class="my-2">
-      <div><b>Cloud Account</b></div>
-      <div>
-        COMP/CON cloud storage accounts are an upcoming feature that is currently in development.
-        They allow for storage and syncing of COMP/CON data across multiple devices with minimal
-        hassle. For the time being, they are restricted to
-        <a href="https://www.patreon.com/compcon" target="_blank">Patreon supporters</a>
-        while we try to determine storage requirements and get an idea of what operating costs might
-        look like.
-      </div>
-    </v-alert>
     <v-slide-x-transition group leave-absolute>
       <sign-in v-if="state === 'sign-in'" :key="'auth-signin'" @set-state="state = $event" />
       <password-reset
