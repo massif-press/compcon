@@ -9,6 +9,7 @@
           large
           tile
           block
+          dark
           :disabled="used || actionFree"
           :color="action.Color"
           @click="actionCost = !actionCost"
@@ -20,6 +21,7 @@
           small
           tile
           block
+          dark
           :disabled="actionCost"
           color="action--free"
           @click="actionFree = !actionFree"

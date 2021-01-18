@@ -19,6 +19,7 @@
             <v-btn
               large
               tile
+              dark
               block
               :disabled="actionFree"
               :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
@@ -31,6 +32,7 @@
               v-if="!fulltech && action.Activation !== 'Free'"
               small
               tile
+              dark
               block
               :disabled="actionCost"
               :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
