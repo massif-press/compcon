@@ -831,8 +831,8 @@ export default Vue.extend({
     init(): void {
       this.ammoCost = 0
       this.ammoDamage = ''
-      this.accuracy += this.minAccuracy
-      this.difficulty += this.minDifficulty
+      this.accuracy = this.minAccuracy
+      this.difficulty = this.minDifficulty
       this.attackRoll = null
       this.rollResultString = null
       this.rollAccuracyResults = []
