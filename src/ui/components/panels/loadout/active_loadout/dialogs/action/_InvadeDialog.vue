@@ -399,11 +399,13 @@ export default Vue.extend({
       this.actionFree = false
       this.timer = 0
       this.finished = false
+      this.selected = null
     },
     show(): void {
       this.dialog = true
     },
     hide(): void {
+      this.init()
       this.dialog = false
     },
   },
