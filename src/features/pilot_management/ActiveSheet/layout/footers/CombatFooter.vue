@@ -214,7 +214,7 @@
     <cc-solo-dialog ref="actionMenu" no-confirm title="Actions" large no-title-clip>
       <action-menu :tab="menuTab" />
     </cc-solo-dialog>
-    <burn-dialog ref="burnDialog" :mech="mech" @close="nextRound()" />
+    <burn-dialog ref="burnDialog" :mech="mech" @complete="nextRound()" />
   </v-footer>
 </template>
 
