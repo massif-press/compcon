@@ -20,9 +20,9 @@ export default Vue.extend({
   data: () => ({
     skills: [],
   }),
-  created() {
+  async created() {
     const compendium = getModule(CompendiumStore, this.$store)
-    this.skills = compendium.Skills
+    this.skills = await compendium.Skills.filter(x => x)
   },
 })
 </script>

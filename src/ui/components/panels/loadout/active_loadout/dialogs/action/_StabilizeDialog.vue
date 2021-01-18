@@ -57,13 +57,22 @@
         </v-row>
       </v-col>
       <v-col cols="auto">
-        <v-btn large tile block :disabled="!canUse" :color="action.Color" @click="$emit('use')">
+        <v-btn
+          large
+          tile
+          block
+          dark
+          :disabled="!canUse"
+          :color="action.Color"
+          @click="$emit('use')"
+        >
           <v-icon left>{{ action.Icon }}</v-icon>
           {{ action.Name }}
         </v-btn>
         <v-btn
           v-if="action.Activation !== 'Free'"
           small
+          dark
           tile
           block
           :disabled="!canUse"

@@ -61,6 +61,7 @@
               large
               tile
               block
+              dark
               :disabled="actionFree"
               :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
               @click="actionCost = select(actionCost)"
@@ -73,6 +74,7 @@
               small
               tile
               block
+              dark
               :disabled="actionCost"
               :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
               @click="actionFree = select(actionFree)"
