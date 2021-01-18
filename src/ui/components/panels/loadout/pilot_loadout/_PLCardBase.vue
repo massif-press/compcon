@@ -131,17 +131,20 @@
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
       <cc-item-card :item="item" />
       <slot name="detail" />
-      <!-- <div v-if="item">
+      <div v-if="item">
         <v-textarea
           v-model="item.Note"
           outlined
           auto-grow
           rows="2"
           filled
+          dense
+          hide-details
           prepend-icon="mdi-note"
           label="Equipment Notes"
+          class="mt-2"
         />
-      </div> -->
+      </div>
     </cc-solo-dialog>
     <cc-string-edit-dialog
       v-if="item"
