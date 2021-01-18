@@ -41,6 +41,7 @@
       <v-col cols="3">
         <v-btn
           large
+          dark
           color="overcharge"
           block
           :disabled="used || (!flat && !overcharge_heat)"
