@@ -4,6 +4,7 @@
       <v-btn
         class="mx-1"
         small
+        dark
         :fab="$vuetify.breakpoint.lgAndUp"
         elevation="0"
         :color="state.Move < 1 ? 'grey darken-1' : 'action--move'"

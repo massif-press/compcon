@@ -8,6 +8,7 @@
         <v-btn
           large
           tile
+          dark
           block
           :disabled="used || actionFree"
           :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
@@ -19,6 +20,7 @@
         <v-btn
           small
           tile
+          dark
           block
           :disabled="actionCost"
           :color="`action--free ${actionFree ? 'lighten-1' : ''}`"

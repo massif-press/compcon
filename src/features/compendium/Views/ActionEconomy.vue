@@ -60,24 +60,24 @@
 import Vue from 'vue'
 import ActionTypeCard from '../components/ActionTypeCard.vue'
 import ActionCard from '../components/ActionCard.vue'
-import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { Action } from '@/interface'
 
-@Component({
+export default Vue.extend({
+  name: 'action-economy',
   components: { ActionTypeCard, ActionCard },
+  data: () => ({
+    actions: [],
+    pilotActions: [],
+    downtimeActions: [],
+  }),
+  async created() {
+    const compendium = getModule(CompendiumStore, this.$store)
+    this.actions = await compendium.Actions.filter(
+      a => a && !a.IsDowntimeAction && !a.IsPilotAction
+    )
+    this.pilotActions = await compendium.Actions.filter(a => a && a.IsPilotAction)
+    this.downtimeActions = await compendium.Actions.filter(a => a && a.IsDowntimeAction)
+  },
 })
-export default class ActionEconomy extends Vue {
-  private compendium = getModule(CompendiumStore, this.$store)
-  get actions(): Action[] {
-    return this.compendium.Actions.filter(a => a && !a.IsDowntimeAction && !a.IsPilotAction)
-  }
-  get pilotActions(): Action[] {
-    return this.compendium.Actions.filter(a => a && a.IsPilotAction)
-  }
-  get downtimeActions(): Action[] {
-    return this.compendium.Actions.filter(a => a && a.IsDowntimeAction)
-  }
-}
 </script>
