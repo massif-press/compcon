@@ -33,9 +33,10 @@
       <p>
         Now that LANCER is offically released, COMP/CON mirrors the Core Book structure in terms of
         paid/free content. If you bought the LANCER Core Book, you'll find a downloadble data
-        package that contains all Core NPC data. You can use the Content Manager button on the main
-        page or in the nav bar options menu to import the package and start building and running
-        encounters.
+        package that contains all Core NPC data on the LANCER Core Book's itch.io page, which you
+        can access by going to the Content Manager in the main page or in the nav bar options menu
+        and selecting the Core Book item from the LCP Directory tab. You can use the Content
+        Manager's Install LCP tab to import the package and start building and running encounters.
       </p>
       <b>Will COMP/CON get [feature]?</b>
       <p>
@@ -55,20 +56,15 @@
         tablet mode -- as well as a phone mode -- in the future. Also, COMP/CON can be saved as a
         Progressive Web App to most mobile devices.
       </p>
-      <b>
-        Where are the Long Rim mechs?
-      </b>
+      <b>Is there any way to get the Wallflower/KTB/other preview mechs in COMP/CON?</b>
       <p>
-        Long Rim/Wallflower/etc content will be released as soon as we finish porting them to C/C v2
-        and will be released as packages on Massif's itch.io page.
+        Additional content, such as the Wallflower previews are available in the pins of the
+        #comp-con channel of the LANCER Discord. These will be officially released along with their
+        respective books, and downloadable through the LCP Directory.
       </p>
-      <b>
-        Will we be able to add our own Frames, Equipment, or other game data?
-      </b>
+      <b>I see a Roll20 import function, how do I use it?</b>
       <p>
-        Homebrew content is a major incoming feature that we'll start work on shortly. Stop by the
-        Discord and join the `comp-con club` role if you want to stay updated. When it releases,
-        we'll make a major update announcement on itch and twitter.
+        The importer on Roll20's side is not available yet.
       </p>
     </div>
 
