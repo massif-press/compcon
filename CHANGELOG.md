@@ -1,3 +1,7 @@
+## [2.20 - 2.2.1](2020-12)
+
+2.2 was a full overhaul of COMP/CON's item data schema and an Active Mode overhaul. 2.2.1 denotes the end of the hotfixing process and the formal changelog tracking will resume from here on out. Thank you for your patience.
+
 ## [2.1.7](https://github.com/massif-press/compcon/compare/2.1.6...2.1.7) (2020-07-08)
 
 ### Bug Fixes
