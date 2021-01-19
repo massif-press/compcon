@@ -27,7 +27,7 @@
       </v-card>
     </v-container>
 
-    <v-container>
+    <v-container fluid>
       <v-row class="mt-3">
         <v-divider class="mt-5" />
         <v-icon x-large color="panel-border">cci-frame</v-icon>
