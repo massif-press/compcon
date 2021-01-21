@@ -89,8 +89,8 @@
                     color="accent"
                     dense
                     hide-details
-                    @click:append-outer="accuracy < 99 ? (accuracy += 1) : ''"
-                    @click:prepend="accuracy > minAccuracy ? (accuracy -= 1) : ''"
+                    @click:append-outer="accuracy += 1"
+                    @click:prepend="accuracy > 0 ? (accuracy -= 1) : ''"
                     @change="accuracy = parseInt($event)"
                   />
                 </v-col>
@@ -107,8 +107,8 @@
                     color="accent"
                     dense
                     hide-details
-                    @click:append-outer="difficulty < 99 ? (difficulty += 1) : ''"
-                    @click:prepend="difficulty > minDifficulty ? (difficulty -= 1) : ''"
+                    @click:append-outer="difficulty += 1"
+                    @click:prepend="difficulty > 0 ? (difficulty -= 1) : ''"
                     @change="difficulty = parseInt($event)"
                   />
                 </v-col>
