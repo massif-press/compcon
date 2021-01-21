@@ -1,5 +1,6 @@
 <template>
   <equipment-card-base :item="item">
+    {{ item.OnAttack }}
     <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12" class="mt-n4 mb-4">
       <div class="overline mb-n2">WEAPON PROFILES</div>
       <v-tabs v-model="tab" grow height="30px">
