@@ -468,8 +468,6 @@
                       :activations="pilot.State.Actions"
                       :disabled="mech.IsStunned"
                       :unusable="a.Activation === 'Protocol' && !pilot.State.IsProtocolAvailable"
-                      @use="item.Use(a.Cost, $event)"
-                      @undo="item.Undo(a.Cost)"
                     />
                   </div>
                 </li>
