@@ -3,7 +3,6 @@
     <action-detail-expander :action="action" />
     <v-divider class="my-3" />
     <v-container style="max-width: 800px">
-      {{ state.IsSkirmishAvailable }}
       <div v-for="(m, i) in mech.ActiveLoadout.Mounts" :key="`bar_${i}`">
         <item-selector-row
           v-for="(w, j) in m.Weapons.filter(
