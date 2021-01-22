@@ -487,7 +487,7 @@ class Mech implements IActor {
   }
 
   public set Overshield(val: number) {
-    this._overshield = val
+    this._overshield = val < 0 ? 0 : val
     this.save()
   }
 
@@ -719,7 +719,7 @@ class Mech implements IActor {
   }
 
   public set CurrentMove(val: number) {
-    this._currentMove = val
+    this._currentMove = val < 0 ? 0 : val
     this.save()
   }
 

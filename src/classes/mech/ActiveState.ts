@@ -547,6 +547,7 @@ class ActiveState {
   public SetMove(val: number) {
     this._stats.moves += this._mech.CurrentMove - val
     this._mech.CurrentMove = val
+    if (this._mech.CurrentMove > this._mech.MaxMove) this._mech.CurrentMove = this._mech.MaxMove
     this.SetLog({
       id: `set_move`,
       event: 'MOVE',

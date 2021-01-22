@@ -248,6 +248,7 @@
                   large
                   tile
                   block
+                  dark
                   :disabled="attackFree || !attackRoll || (!improv && !state.IsSkirmishAvailable)"
                   :color="
                     `${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
@@ -264,6 +265,7 @@
                   small
                   tile
                   block
+                  dark
                   :disabled="attackQuick || !attackRoll"
                   :color="`action--free ${attackFree ? 'lighten-1' : ''}`"
                   @click="attackFree = !attackFree"
