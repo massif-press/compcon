@@ -22,7 +22,7 @@
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">CREATE ACCOUNT</v-col>
     </v-row>
-    <!-- <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
+    <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
       <v-icon large color="success">mdi-patreon</v-icon>
       Patreon Account Connected: {{ patreonAuthCode }}
       <v-icon large color="success">mdi-check</v-icon>
@@ -40,7 +40,7 @@
           register a new COMP/CON cloud account.
         </i>
       </div>
-    </div> -->
+    </div>
     <div>
       <v-row justify="center" align="center">
         <v-col lg="4" cols="12">
@@ -127,13 +127,16 @@ export default Vue.extend({
   }),
   computed: {
     isPatron() {
-      return true
-      // const userstore = getModule(UserStore, this.$store)
-      // return userstore.IsPatron
-    },
-    patreonLoginUrl() {
-      return ''
-      // return loginUrl()
+      //       return true
+      //       // const userstore = getModule(UserStore, this.$store)
+      //       // return userstore.IsPatron
+      //     },
+      //     patreonLoginUrl() {
+      //       return ''
+      //       // return loginUrl()
+      return !!this.patreonAuthCode
+      // const cloudstore = getModule(CloudStore, this.$store)
+      // return cloudstore.IsPatron
     },
   },
   created() {

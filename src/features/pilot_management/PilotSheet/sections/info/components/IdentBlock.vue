@@ -34,25 +34,15 @@
         </cc-short-string-editor>
       </v-col>
       <v-col>
-        <div class="overline mb-n3 subtle--text">OMNINET UPLINK ID</div>
-        <span>temporarily disabled</span>
-        <!-- <span v-if="pilot.CloudID">
-          {{ pilot.CloudID }}
-        </span>
+        <div class="overline mb-n3 subtle--text">OMNINET VAULT</div>
+        <span v-if="pilot.IsLocallyOwned">Current User</span>
+        <span v-else-if="!pilot.IsLocallyOwned">Remote Sync</span>
         <span v-else class="stat-text error--text">
           // NOT SYNCED //
         </span>
-        <cc-tooltip
-          v-if="!syncing"
-          inline
-          :title="!pilot.CloudID || pilot.IsUserOwned ? 'Save to Cloud' : 'Update from Cloud'"
-          :content="`Last Sync at:<br>${pilot.LastCloudUpdate}`"
-        >
-          <v-icon small class="fadeSelect" @click="sync()">mdi-cloud-sync</v-icon>
+        <cc-tooltip inline title="Copy Share Code" :content="`Last Sync at:<br>${pilot.LastSync}`">
+          <v-icon small class="fadeSelect" @click="copyCode()">mdi-cloud-sync</v-icon>
         </cc-tooltip>
-        <cc-tooltip v-else simple inline content="Syncing...">
-          <v-progress-circular indeterminate size="20" width="2" color="secondary" />
-        </cc-tooltip> -->
       </v-col>
       <v-col>
         <div class="overline mb-n3 subtle--text">STATUS</div>
@@ -101,10 +91,14 @@ export default vueMixins(activePilot).extend({
           break
       }
     },
-    setCloudID(id: string) {
-      // if (id && id != '// NOT SYNCED //') {
-      //   this.pilot.CloudID = id
-      // }
+    async copyCode() {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this
+      this.copyConfirm = true
+      navigator.clipboard
+        .writeText(this.pilot.ShareCode)
+        .then(() => self.$notify('Cloud share code copied to clipboard.', 'success'))
+        .catch(() => self.$notify('Unable to copy cloud share code', 'error'))
     },
     sync() {
       this.syncing = true

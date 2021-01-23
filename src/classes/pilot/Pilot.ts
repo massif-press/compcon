@@ -37,7 +37,8 @@ interface IPilotData {
   sort_index: number
   cloudID: string
   cloudOwnerID: string
-  lastCloudUpdate: string
+  isLocal: boolean
+  lastSync: string
   level: number
   callsign: string
   name: string
@@ -70,10 +71,15 @@ interface IPilotData {
   dead: boolean
 }
 
-class Pilot {
-  private _cloudID: string
-  private _cloudOwnerID: string
-  private _lastCloudUpdate: string
+class Pilot implements ICloudSyncable {
+  public readonly TypePrefix: string = 'pilot'
+  public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public IsLocallyOwned: boolean
+  public LastSync: string
+  public CloudID: string
+  public CloudOwnerID: string
+  public IsDirty: boolean
+
   private _cloud_portrait: string
 
   private _callsign: string
@@ -114,13 +120,8 @@ class Pilot {
   private cc_ver: string
   private _brews: string[]
 
-  public dirty: boolean
-
   public constructor() {
     this._id = uuid()
-    this._cloudID = ''
-    this._cloudOwnerID = ''
-    this._lastCloudUpdate = ''
     this._level = 0
     this._callsign = ''
     this._name = ''
@@ -150,12 +151,14 @@ class Pilot {
     this._state = new ActiveState(this)
     this._combat_history = ActiveState.NewCombatStats()
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
-    this.dirty = false
+    this.IsDirty = false
+    this.IsLocallyOwned = true
+    this.LastSync = new Date('1-1-1000').toJSON()
   }
 
   // -- Utility -----------------------------------------------------------------------------------
   public save(): void {
-    this.dirty = true
+    if (this.IsLocallyOwned) this.IsDirty = true
     store.dispatch('saveData')
   }
 
@@ -205,13 +208,16 @@ class Pilot {
     return this._id
   }
 
-  public get CloudKey(): string {
-    return `pilot_${this._id}.json`
+  public get ResourceURI(): string {
+    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
+  }
+
+  public get ShareCode(): string {
+    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
   }
 
   public RenewID(): void {
     this._id = uuid()
-    this._cloudID = ''
     this.save()
   }
 
@@ -225,7 +231,7 @@ class Pilot {
   }
 
   public ApplyLevel(update: IPilotData): void {
-    this.setPilotData(update)
+    this.Update(update)
     this.save()
   }
 
@@ -368,6 +374,27 @@ class Pilot {
   }
 
   // -- Cloud -------------------------------------------------------------------------------------
+
+  public MarkSync(): void {
+    this.LastSync = new Date().toJSON()
+    this.IsDirty = false
+  }
+
+  public SetRemoteResource(): void {
+    console.log('setting remote resource')
+    this.CloudID = this.ID
+    this.IsLocallyOwned = false
+    console.log(this.ID, this.CloudID)
+    this.RenewID()
+    console.log(this.ID, this.CloudID)
+  }
+
+  public SetOwnedResource(userCognitoId: string): void {
+    this.CloudID = this.ID
+    this.CloudOwnerID = userCognitoId
+    this.IsLocallyOwned = true
+  }
+
   public get CloudImage(): string {
     return this._cloud_portrait
   }
@@ -377,32 +404,7 @@ class Pilot {
     this.save()
   }
 
-  public get CloudID(): string {
-    return this._cloudID
-  }
-
-  public set CloudID(id: string) {
-    this._cloudID = id
-    this.save()
-  }
-
-  public get CloudOwnerID(): string {
-    return this._cloudOwnerID
-  }
-
-  public set CloudOwnerID(id: string) {
-    this._cloudOwnerID = id
-    this.save()
-  }
-
-  public get LastCloudUpdate(): string {
-    return this._lastCloudUpdate
-  }
-
-  public set LastCloudUpdate(id: string) {
-    this._lastCloudUpdate = id
-    this.save()
-  }
+  // old gist stuff:
 
   public get IsUserOwned(): boolean {
     return this.CloudOwnerID === store.getters.getUserProfile.ID
@@ -432,8 +434,8 @@ class Pilot {
   public async CloudLoad(): Promise<any> {
     if (!this.CloudID) return Promise.reject('No Cloud ID')
     return gistApi.loadPilot(this.CloudID).then((gist: any) => {
-      this.setPilotData(gist)
-      this.LastCloudUpdate = new Date().toString()
+      this.Update(gist)
+      // this.lastSync = new Date().toString()
     })
   }
 
@@ -446,7 +448,7 @@ class Pilot {
   public setCloudInfo(id: string): void {
     this.CloudID = id
     this.CloudOwnerID = store.getters.getUserProfile.ID
-    this.LastCloudUpdate = new Date().toString()
+    // this.lastSync = new Date().toString()
   }
 
   // -- Stats -------------------------------------------------------------------------------------
@@ -1077,9 +1079,10 @@ class Pilot {
       id: p.ID,
       group: p.Group,
       sort_index: p.SortIndex,
+      isLocal: p.IsLocallyOwned,
       cloudID: p.CloudID,
       cloudOwnerID: p.CloudOwnerID,
-      lastCloudUpdate: p.LastCloudUpdate,
+      lastSync: p.LastSync,
       level: p.Level,
       callsign: p.Callsign,
       name: p.Name,
@@ -1116,19 +1119,26 @@ class Pilot {
   public static Deserialize(pilotData: IPilotData): Pilot {
     const p = new Pilot()
     try {
-      p.setPilotData(pilotData)
+      p.Update(pilotData)
       return p
     } catch (err) {
       console.error(err)
     }
   }
 
-  public setPilotData(data: IPilotData): void {
-    this._group = data.group || ''
-    this._sortIndex = data.sort_index || 0
-    this._cloudID = data.cloudID || ''
-    this._cloudOwnerID = data.cloudOwnerID || ''
-    this._lastCloudUpdate = data.lastCloudUpdate || ''
+  public Update(data: IPilotData, ignoreProps?: boolean): void {
+    if (ignoreProps) {
+      for (const key in data) {
+        if (this.SyncIgnore.includes(key)) data[key] = null
+      }
+    }
+
+    if (!ignoreProps) this._group = data.group || ''
+    if (!ignoreProps) this._sortIndex = data.sort_index || 0
+    this.IsLocallyOwned = data.isLocal
+    this.CloudID = data.cloudID || ''
+    this.CloudOwnerID = data.cloudOwnerID || ''
+    this.LastSync = data.lastSync || ''
     this._id = data.id
     this._loadout = data.loadout ? PilotLoadout.Deserialize(data.loadout) : new PilotLoadout(0)
     this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats()

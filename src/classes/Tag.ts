@@ -71,14 +71,12 @@ class Tag {
     if (this.ID === 'tg_limited') bonus = addBonus || 0
     if (!this._val) return this._description
     if (typeof this._val === 'number') {
-      return this._description.replace(
-        /{VAL}/g,
-        bonus
-          ? `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
-              this._val
-            } + ${bonus} bonus)</span>`
-          : this._val.toString()
-      )
+      let r = this._val.toString()
+      if (bonus)
+        r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
+          this._val
+        } + ${bonus} bonus)</span>`
+      return this._description.replace(/{VAL}/g, r)
     } else {
       const str = this._val as string
       if (str.includes('+')) {
@@ -140,6 +138,10 @@ class Tag {
         tags.push(store.getters.instantiate('Tags', 'tg_reaction'))
       if (item.Actions.some(x => x.Activation === ActivationType.Free))
         tags.push(store.getters.instantiate('Tags', 'tg_free_action'))
+      if (item.Actions.some(x => x.Activation === ActivationType.Free))
+        tags.push(store.getters.instantiate('Tags', 'tg_free_action'))
+      if (item.Actions.some(x => x.Activation === ActivationType.Invade))
+        tags.push(store.getters.instantiate('Tags', 'tg_invade'))
     }
     return tags
   }
