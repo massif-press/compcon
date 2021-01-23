@@ -43,22 +43,35 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-rating
-      v-if="!noPips && !maxExceeded"
-      :key="current"
-      v-model="model"
-      class="d-inline-block"
-      dense
-      hover
-      :length="max"
-      :readonly="readonly"
-      :small="small"
-      :large="large"
-      :empty-icon="emptyIcon"
-      :full-icon="fullIcon"
-      :color="color"
-      :background-color="bgColor"
-    />
+    <v-row v-if="!noPips && !maxExceeded" no-gutters align="center" justify="center">
+      <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
+        <v-btn icon small class="fadeSelect" @click="$emit('update', model - 1)">
+          <v-icon :color="color">mdi-minus</v-icon>
+        </v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-rating
+          :key="current"
+          v-model="model"
+          class="d-inline-block"
+          dense
+          hover
+          :length="max"
+          :readonly="readonly"
+          :small="small"
+          :large="large"
+          :empty-icon="emptyIcon"
+          :full-icon="fullIcon"
+          :color="color"
+          :background-color="bgColor"
+        />
+      </v-col>
+      <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
+        <v-btn icon small class="fadeSelect" @click="$emit('update', model + 1)">
+          <v-icon :color="color">mdi-plus</v-icon>
+        </v-btn>
+      </v-col>
+    </v-row>
     <div v-else-if="maxExceeded">
       <v-icon :large="large" :small="small" :color="color" v-html="fullIcon" />
       <span class="flavor-text subtle--text">x</span>
@@ -90,6 +103,8 @@ export default class CCTickBar extends Vue {
 
   @Prop({ type: String, required: false, default: 'start' })
   readonly justify: string
+  @Prop({ type: Boolean })
+  readonly hideButtons?: boolean
   @Prop({ type: Boolean })
   readonly small?: boolean
   @Prop({ type: Boolean })

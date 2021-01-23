@@ -2,7 +2,7 @@
   <v-col lg="4" md="6" xs="12">
     <cc-titled-panel
       clickable
-      :title="`${action.Name}${action.IsPilotAction ? ' (Pilot Only)' : ''}`"
+      :title="`${action.Name}${exclusive}`"
       :icon="action.Icon"
       :color="action.Color"
       style="height:100%"
@@ -14,7 +14,7 @@
     </cc-titled-panel>
     <cc-solo-dialog
       ref="dialog"
-      :title="`${action.Name}${action.IsPilotAction ? ' (Pilot Only)' : ''}`"
+      :title="`${action.Name}${exclusive}`"
       :icon="action.Icon"
       :color="action.Color"
       no-actions
@@ -49,6 +49,12 @@ export default Vue.extend({
     downtime: {
       type: Boolean,
       required: false,
+    },
+  },
+  computed: {
+    exclusive() {
+      if (this.action.IsPilotAction && !this.action.IsMechAction) return ' (Pilot Only)'
+      return ''
     },
   },
 })
