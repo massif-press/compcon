@@ -14,14 +14,14 @@
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">CREATE ACCOUNT</v-col>
     </v-row>
-    <!-- <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
+    <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
       <v-icon large color="success">mdi-patreon</v-icon>
-      Patreon Account Connected
+      Patreon Account Connected: {{ patreonAuthCode }}
       <v-icon large color="success">mdi-check</v-icon>
-    </div> -->
-    <!-- <div v-else>
+    </div>
+    <div v-else>
       <v-row no-gutters justify="center" align="center" class="mt-2">
-        <v-btn x-large color="#f96854" dark :href="patreonLoginUrl" target="_blank">
+        <v-btn x-large color="patreon" dark @click="verifyPatreon">
           <v-icon left>mdi-patreon</v-icon>
           Link Patreon Account
         </v-btn>
@@ -32,9 +32,8 @@
           register a new COMP/CON cloud account.
         </i>
       </div>
-    </div> -->
+    </div>
     <div>
-      <!-- <div v-if="isPatron"> -->
       <v-row justify="center" align="center">
         <v-col lg="4" cols="12">
           <v-text-field
@@ -55,16 +54,6 @@
             @click:append="show = !show"
           />
         </v-col>
-        <!-- Temporary auth method until patreon oauth is set up -->
-        <v-col lg="4" cols="12">
-          <v-text-field
-            v-model="invite"
-            label="Invitation Code"
-            type="text"
-            solo
-            @click:append="show = !show"
-          />
-        </v-col>
       </v-row>
       <v-row no-gutters justify="center">
         <v-col cols="auto">
@@ -72,7 +61,7 @@
             large
             color="secondary"
             :loading="loading"
-            :disabled="!email || !password || !invite"
+            :disabled="!email || !password || !isPatron"
             @click="createAccount"
           >
             submit
@@ -105,9 +94,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Auth } from '@aws-amplify/auth'
-import { loginUrl } from '@/cloud/patreon'
 import { CloudStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
+import popupOauth from '@/util/oauth2-popup'
 
 export default Vue.extend({
   name: 'sign-up',
@@ -119,7 +108,7 @@ export default Vue.extend({
     show: false,
     email: '',
     password: '',
-    invite: '',
+    patreonAuthCode: '',
     rules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 6 || 'Min 6 characters',
@@ -129,11 +118,9 @@ export default Vue.extend({
   }),
   computed: {
     isPatron() {
-      const cloudstore = getModule(CloudStore, this.$store)
-      return cloudstore.IsPatron
-    },
-    patreonLoginUrl() {
-      return loginUrl()
+      return !!this.patreonAuthCode
+      // const cloudstore = getModule(CloudStore, this.$store)
+      // return cloudstore.IsPatron
     },
   },
   created() {
@@ -165,6 +152,16 @@ export default Vue.extend({
         this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`
       }
     },
+    async verifyPatreon() {
+      const authorizationCode = await popupOauth(
+        'https://www.patreon.com/oauth2/authorize',
+        '_1O6Z4dBszp3Q9ERr93RVNCwM1VUveu9xI5vq1DqJUXEK47FC7MkTtF1lwT5_ko3',
+        'http://localhost:8080/patreon-callback',
+        '',
+        'code'
+      )
+      this.patreonAuthCode = authorizationCode
+    }
   },
 })
 </script>
