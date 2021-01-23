@@ -1,0 +1,5 @@
+{
+    "tableName": "patreonsnowflakes",
+    "partitionKeyName": "snowflake",
+    "partitionKeyType": "S"
+}
