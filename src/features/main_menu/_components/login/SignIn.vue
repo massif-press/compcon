@@ -9,7 +9,7 @@
         <div>
           <v-fade-transition>
             <a v-if="email" class="fadeSelect" @click="$emit('reverify', email)">
-              <i>Enter Validation Code</i>
+              <i>Have a validation code? Click here.</i>
             </a>
           </v-fade-transition>
         </div>

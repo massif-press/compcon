@@ -14,8 +14,6 @@
       @cancel="cancelImport"
       @confirm="confirmImport"
     >
-      <div class="my-3">Cloud Import is temporarily disabled during this testing phase</div>
-      <br />
       <v-text-field
         v-model="importID"
         dark
@@ -25,7 +23,6 @@
         outlined
         append-outer-icon="mdi-cloud-search"
         :loading="cloudLoading"
-        disabled
         @click:append-outer="cloudImport"
         @keypress.enter="cloudImport"
       />
@@ -63,6 +60,7 @@ import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore, CompendiumStore } from '@/store'
 
 import ImportDialog from './ImportDialog.vue'
+import { IPilotData } from '@/interface'
 
 export default Vue.extend({
   name: 'cloud-import',
@@ -92,19 +90,23 @@ export default Vue.extend({
       this.reset()
       this.cloudLoading = true
       try {
-        const pilotData = await AwsImport(this.importID)
-        if (!pilotData.brews) pilotData.brews = []
-        const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
-          x => `${x.Name} @ ${x.Version}`
-        )
-        const missingPacks = this.$_.pullAll(pilotData.brews, installedPacks)
-        if (missingPacks.length) {
-          this.missingContent = missingPacks.join('<br />')
-          this.missingContentWarning = true
+        if (Array.isArray(JSON.parse(this.importID))) {
+          const pilotData = await AwsImport(this.importID)
+          if (!pilotData.brews) pilotData.brews = []
+          const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
+            x => `${x.Name} @ ${x.Version}`
+          )
+          const missingPacks = this.$_.pullAll(pilotData.brews, installedPacks)
+          if (missingPacks.length) {
+            this.missingContent = missingPacks.join('<br />')
+            this.missingContentWarning = true
+          }
+          this.importPilot = Pilot.Deserialize(pilotData)
+          this.importPilot.brews = pilotData.brews
+          this.importPilot.SetRemoteResource()
+        } else {
+          //old way
         }
-        this.importPilot = Pilot.Deserialize(pilotData)
-        this.importPilot.brews = pilotData.brews
-        this.importPilot.RenewID()
       } catch (e) {
         this.error = e.message
       }

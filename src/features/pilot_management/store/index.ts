@@ -84,7 +84,7 @@ export class PilotManagementStore extends VuexModule {
   }
 
   get unsavedCloudPilots(): Pilot[] {
-    return this.Pilots.filter(x => x.dirty)
+    return this.Pilots.filter(x => x.IsDirty)
   }
 
   @Action

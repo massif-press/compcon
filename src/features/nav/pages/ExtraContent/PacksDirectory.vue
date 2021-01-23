@@ -22,7 +22,7 @@
             If you are interested in creating your own homebrew LANCER content, or submitting your
             content to be featured in this directory, please
             <a
-              href="https://github.com/massif-press/lancer-data/blob/master/README.md"
+              href="https://github.com/massif-press/lancer-data#lancer-community-content-packs"
               target="_blank"
             >
               click here
