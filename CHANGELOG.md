@@ -1,4 +1,28 @@
-## [2.20 - 2.2.1](2020-12)
+## [2.2.5](https://github.com/massif-press/compcon/compare/2.2.0...2.2.5) (2021-01-19)
+
+### Bug Fixes
+
+- **Active Mode:** fix burn check not advancing round ([83993e9](https://github.com/massif-press/compcon/commit/83993e97dae8dc4d2079497e5dd5d5ec1dc18818)), closes [#1151](https://github.com/massif-press/compcon/issues/1151)
+- **Active Mode:** fix Invasion actions not resetting ([37c5c24](https://github.com/massif-press/compcon/commit/37c5c2469405d7b11913fe4868eb758759d688ca)), closes [#1185](https://github.com/massif-press/compcon/issues/1185)
+- **Active Mode:** fix some light mode colors ([193a358](https://github.com/massif-press/compcon/commit/193a35860b6f3c7bd70a7a48ec55fc257f2f4bd6))
+- **Active Mode:** fixed incorrect accuracy stacking ([90dae0b](https://github.com/massif-press/compcon/commit/90dae0b7c43d671f863c722e1c8cd1fc57189cd2))
+- **Compendium:** correct action economy items ([15266f6](https://github.com/massif-press/compcon/commit/15266f6cba9e430d92157ff53dea4aa70260523e))
+- **Compendium:** fix Skill Triggers compendium page ([9cd8814](https://github.com/massif-press/compcon/commit/9cd8814fc82ff7f07e8ed760f58a39e103f5c9a7)), closes [#1176](https://github.com/massif-press/compcon/issues/1176) [#1161](https://github.com/massif-press/compcon/issues/1161) [#1160](https://github.com/massif-press/compcon/issues/1160) [#1189](https://github.com/massif-press/compcon/issues/1189)
+- **Compendium:** fix Tokugawa Overclock not showing up in Compendium ([4b9bbd5](https://github.com/massif-press/compcon/commit/4b9bbd523fabe04cfd62512d43e59846df91962d))
+- **Compendium:** update lancer-data ([9600ef0](https://github.com/massif-press/compcon/commit/9600ef0125703814ccef6d4cfc99aeb08d7a5b86))
+- **Compendium:** various bugfixes ([008c78e](https://github.com/massif-press/compcon/commit/008c78eaed7e8754ee1ae212ae171b3381193b39))
+- **Mech Sheet:** fix weapon mod application criteria ([e6f21be](https://github.com/massif-press/compcon/commit/e6f21be459d1480bcbbd9623a825fbe642e5e483)), closes [#1138](https://github.com/massif-press/compcon/issues/1138)
+- **Pilot Sheet:** hotfixes missing (but otherwise useable) pilots. ([cbb7a79](https://github.com/massif-press/compcon/commit/cbb7a793e1fa46ac7971454adca65c6eea9ce4ce))
+- update FAQ ([4a9b866](https://github.com/massif-press/compcon/commit/4a9b866d88f1e40ca59c850cf705eabf21d3bdab)), closes [#1076](https://github.com/massif-press/compcon/issues/1076)
+- **Pilot Sheet:** re-enable pilot equipment notes ([1e170bd](https://github.com/massif-press/compcon/commit/1e170bd938ad0cafb251727efb84e32b7fd19e1b)), closes [#1131](https://github.com/massif-press/compcon/issues/1131)
+
+### Features
+
+- expands the license structure to include non-core licenses of less than or more than three ranks ([7af5915](https://github.com/massif-press/compcon/commit/7af5915766c91396a58a95ff4a37694d8c9c0bec))
+- **Active Mode:** pip bar improvements ([d8247e9](https://github.com/massif-press/compcon/commit/d8247e9c0ec933eb359bc25bcfe6d04d0ea1ce5e))
+- **Mission Runner): feat(Mission Runner:** add Pilot Active Mech selector ([0a91a0d](https://github.com/massif-press/compcon/commit/0a91a0d66aa0c75fb590803d9323268f7cf9fddf))
+
+## [2.20 - 2.2.3](2020-12)
 
 2.2 was a full overhaul of COMP/CON's item data schema and an Active Mode overhaul. 2.2.1 denotes the end of the hotfixing process and the formal changelog tracking will resume from here on out. Thank you for your patience.
 

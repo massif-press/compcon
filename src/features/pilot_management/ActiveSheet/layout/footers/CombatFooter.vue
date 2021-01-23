@@ -76,9 +76,9 @@
         </v-menu>
       </v-col>
 
-      <v-col :cols="$vuetify.breakpoint.lg ? 'auto' : '12'">
+      <v-col lg="auto" cols="auto">
         <v-row no-gutters class="text-center" justify="space-around">
-          <v-col v-if="!mech.Pilot.IsDownAndOut">
+          <v-col v-if="!mech.Pilot.IsDownAndOut" cols="auto">
             <cc-tooltip inline content="Protocol Actions" delayed>
               <action-menu-button
                 :key="`protocol_btn_${state.IsProtocolAvailable}`"
@@ -99,7 +99,7 @@
             <v-divider vertical class="mx-3" />
           </v-col>
 
-          <v-col v-if="!mech.Pilot.IsDownAndOut">
+          <v-col v-if="!mech.Pilot.IsDownAndOut" cols="auto">
             <cc-tooltip inline content="Movement" delayed>
               <move-menu-button :mech="pilot.ActiveMech" @open-dialog="openDialog($event)" />
             </cc-tooltip>
@@ -119,7 +119,7 @@
               </action-menu-button>
             </cc-tooltip>
           </v-col>
-          <v-col v-if="!mech.Pilot.IsDownAndOut">
+          <v-col v-if="!mech.Pilot.IsDownAndOut" cols="auto">
             <cc-tooltip inline content="Quick Actions" delayed>
               <action-menu-button
                 :actions="state.ActionsByType('Quick')"
@@ -134,7 +134,7 @@
               </action-menu-button>
             </cc-tooltip>
           </v-col>
-          <v-col v-if="!mech.Pilot.IsDownAndOut">
+          <v-col v-if="!mech.Pilot.IsDownAndOut" cols="auto">
             <cc-tooltip inline content="Reactions" delayed>
               <action-menu-button
                 :actions="state.ActionsByType('Reaction')"
@@ -149,7 +149,7 @@
               </action-menu-button>
             </cc-tooltip>
           </v-col>
-          <v-col v-if="!mech.Pilot.IsDownAndOut">
+          <v-col v-if="!mech.Pilot.IsDownAndOut" cols="auto">
             <cc-tooltip inline content="Free Actions" delayed>
               <action-menu-button
                 :actions="state.ActionsByType('Free')"
@@ -169,7 +169,7 @@
             <v-divider vertical class="mx-3" />
           </v-col>
 
-          <v-col>
+          <v-col cols="auto">
             <cc-tooltip inline content="Combat Log" delayed>
               <v-btn
                 class="mx-1"
@@ -185,7 +185,7 @@
             </cc-tooltip>
           </v-col>
           <v-col>
-            <cc-tooltip inline content="Other" delayed>
+            <cc-tooltip inline content="Other" delayed cols="auto">
               <v-btn
                 class="mx-1"
                 small
@@ -214,7 +214,7 @@
     <cc-solo-dialog ref="actionMenu" no-confirm title="Actions" large no-title-clip>
       <action-menu :tab="menuTab" />
     </cc-solo-dialog>
-    <burn-dialog ref="burnDialog" :mech="mech" @close="nextRound()" />
+    <burn-dialog ref="burnDialog" :mech="mech" @complete="nextRound()" />
   </v-footer>
 </template>
 
