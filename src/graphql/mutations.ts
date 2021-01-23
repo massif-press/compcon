@@ -2,48 +2,6 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createPilotData = /* GraphQL */ `
-  mutation CreatePilotData(
-    $input: CreatePilotDataInput!
-    $condition: ModelPilotDataConditionInput
-  ) {
-    createPilotData(input: $input, condition: $condition) {
-      id
-      data
-      userdataID
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const updatePilotData = /* GraphQL */ `
-  mutation UpdatePilotData(
-    $input: UpdatePilotDataInput!
-    $condition: ModelPilotDataConditionInput
-  ) {
-    updatePilotData(input: $input, condition: $condition) {
-      id
-      data
-      userdataID
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const deletePilotData = /* GraphQL */ `
-  mutation DeletePilotData(
-    $input: DeletePilotDataInput!
-    $condition: ModelPilotDataConditionInput
-  ) {
-    deletePilotData(input: $input, condition: $condition) {
-      id
-      data
-      userdataID
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const createUserData = /* GraphQL */ `
   mutation CreateUserData(
     $input: CreateUserDataInput!
@@ -51,17 +9,22 @@ export const createUserData = /* GraphQL */ `
   ) {
     createUserData(input: $input, condition: $condition) {
       id
-      achievements
-      selectorView
-      npcView
-      rosterView
-      hangarView
-      pilotSheetView
+      user_id
       theme
+      achievements
+      lcp_data
+      pilots
+      npcs
+      encounters
+      missions
+      active_missions
       welcome_hash
-      PilotData {
-        nextToken
-      }
+      sync_frequency
+      sync_options
+      view_options
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -74,17 +37,22 @@ export const updateUserData = /* GraphQL */ `
   ) {
     updateUserData(input: $input, condition: $condition) {
       id
-      achievements
-      selectorView
-      npcView
-      rosterView
-      hangarView
-      pilotSheetView
+      user_id
       theme
+      achievements
+      lcp_data
+      pilots
+      npcs
+      encounters
+      missions
+      active_missions
       welcome_hash
-      PilotData {
-        nextToken
-      }
+      sync_frequency
+      sync_options
+      view_options
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -97,17 +65,22 @@ export const deleteUserData = /* GraphQL */ `
   ) {
     deleteUserData(input: $input, condition: $condition) {
       id
-      achievements
-      selectorView
-      npcView
-      rosterView
-      hangarView
-      pilotSheetView
+      user_id
       theme
+      achievements
+      lcp_data
+      pilots
+      npcs
+      encounters
+      missions
+      active_missions
       welcome_hash
-      PilotData {
-        nextToken
-      }
+      sync_frequency
+      sync_options
+      view_options
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }

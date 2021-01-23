@@ -47,8 +47,10 @@
       <v-row no-gutters justify="space-around" align="center">
         <v-col cols="auto" class="text-center mr-3">
           <v-btn small light elevation="0" class="pulse" @click="$refs.loginModal.show()">
-            <v-icon left>cci-pilot</v-icon>
-            Log In
+            <v-icon left>
+              {{ userstore.IsLoggedIn ? 'cci-pilot' : 'mdi-account-off-outline' }}
+            </v-icon>
+            <span>{{ userstore.IsLoggedIn ? 'Connected' : 'Log In' }}</span>
           </v-btn>
         </v-col>
         <v-col cols="auto" class="ml-1 mr-3"><v-divider vertical class="d-inline" /></v-col>
@@ -187,7 +189,7 @@ import ContentPage from '../nav/pages/ExtraContent/index.vue'
 import AboutPage from '../nav/pages/About.vue'
 import HelpPage from '../nav/pages/Help.vue'
 import OptionsPage from '../nav/pages/Options/index.vue'
-import { CloudStore } from '@/store'
+import { UserStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
 
 export default Vue.extend({
@@ -207,9 +209,13 @@ export default Vue.extend({
     importDialog: false,
     fileValue: null,
   }),
+  computed: {
+    userstore() {
+      return getModule(UserStore, this.$store)
+    },
+  },
   mounted() {
-    const cloudstore = getModule(CloudStore, this.$store)
-    if (cloudstore.IsPatron) this.$refs.loginModal.show()
+    if (this.userstore.IsPatron) this.$refs.loginModal.show()
   },
   beforeRouteLeave(to, from, next) {
     if (to.path === '/pilot_management') this.pilotLoading = true

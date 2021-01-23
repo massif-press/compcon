@@ -2,54 +2,26 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreatePilotData = /* GraphQL */ `
-  subscription OnCreatePilotData {
-    onCreatePilotData {
-      id
-      data
-      userdataID
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdatePilotData = /* GraphQL */ `
-  subscription OnUpdatePilotData {
-    onUpdatePilotData {
-      id
-      data
-      userdataID
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeletePilotData = /* GraphQL */ `
-  subscription OnDeletePilotData {
-    onDeletePilotData {
-      id
-      data
-      userdataID
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateUserData = /* GraphQL */ `
   subscription OnCreateUserData {
     onCreateUserData {
       id
-      achievements
-      selectorView
-      npcView
-      rosterView
-      hangarView
-      pilotSheetView
+      user_id
       theme
+      achievements
+      lcp_data
+      pilots
+      npcs
+      encounters
+      missions
+      active_missions
       welcome_hash
-      PilotData {
-        nextToken
-      }
+      sync_frequency
+      sync_options
+      view_options
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -59,17 +31,22 @@ export const onUpdateUserData = /* GraphQL */ `
   subscription OnUpdateUserData {
     onUpdateUserData {
       id
-      achievements
-      selectorView
-      npcView
-      rosterView
-      hangarView
-      pilotSheetView
+      user_id
       theme
+      achievements
+      lcp_data
+      pilots
+      npcs
+      encounters
+      missions
+      active_missions
       welcome_hash
-      PilotData {
-        nextToken
-      }
+      sync_frequency
+      sync_options
+      view_options
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -79,17 +56,22 @@ export const onDeleteUserData = /* GraphQL */ `
   subscription OnDeleteUserData {
     onDeleteUserData {
       id
-      achievements
-      selectorView
-      npcView
-      rosterView
-      hangarView
-      pilotSheetView
+      user_id
       theme
+      achievements
+      lcp_data
+      pilots
+      npcs
+      encounters
+      missions
+      active_missions
       welcome_hash
-      PilotData {
-        nextToken
-      }
+      sync_frequency
+      sync_options
+      view_options
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }

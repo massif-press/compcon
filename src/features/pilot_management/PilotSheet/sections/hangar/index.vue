@@ -1,18 +1,18 @@
 <template>
   <div>
     <cc-title large color="pilot" class="ml-n10 pl-3">Hangar&emsp;</cc-title>
-    <v-btn-toggle id="viewtoggle" v-model="profile.HangarView" mandatory>
-      <v-btn small icon value="cards">
+    <v-btn-toggle id="viewtoggle" :value="profile.GetView('hangar')" mandatory>
+      <v-btn small icon value="cards" @click="profile.SetView('hangar', 'cards')">
         <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
-      <v-btn small icon value="list">
+      <v-btn small icon value="list" @click="profile.SetView('hangar', 'list')">
         <v-icon color="accent">mdi-view-list</v-icon>
       </v-btn>
-      <v-btn small icon value="table">
+      <v-btn small icon value="table" @click="profile.SetView('hangar', 'table')">
         <v-icon color="accent">mdi-format-align-justify</v-icon>
       </v-btn>
     </v-btn-toggle>
-    <v-container v-if="profile.HangarView === 'cards'" fluid>
+    <v-container v-if="profile.GetView('hangar') === 'cards'" fluid>
       <v-row justify="center">
         <mech-card
           v-for="m in pilot.Mechs"
@@ -24,7 +24,7 @@
         />
       </v-row>
     </v-container>
-    <v-container v-else-if="profile.HangarView === 'list'" class="mt-2" fluid>
+    <v-container v-else-if="profile.GetView('hangar') === 'list'" class="mt-2" fluid>
       <mech-list-item
         v-for="m in pilot.Mechs"
         :key="`${m.ID}_mc`"
@@ -58,9 +58,9 @@ import MechListItem from './components/MechListItem.vue'
 import MechTable from './components/MechTable.vue'
 import NewMechMenu from './components/NewMechMenu.vue'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, PilotManagementStore } from '@/store'
+import { UserStore, PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
-import { UserProfile } from '@/io/User'
+import { UserProfile } from '@/user'
 
 export default Vue.extend({
   name: 'mech-hangar-view',
@@ -73,7 +73,7 @@ export default Vue.extend({
   },
   computed: {
     profile(): UserProfile {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
   },

@@ -1,16 +1,20 @@
 <template>
   <div>
-    <tabbed-layout v-if="profile.PilotSheetView === 'tabbed'" :page="tab" :pilot="pilot" />
-    <classic-layout v-else-if="profile.PilotSheetView === 'classic'" :page="tab" :pilot="pilot" />
-    <pilot-nav :pilot="pilot" :selected="tab" @set-layout="profile.PilotSheetView = $event" />
+    <tabbed-layout v-if="profile.GetView('pilotSheet') === 'tabbed'" :page="tab" :pilot="pilot" />
+    <classic-layout
+      v-else-if="profile.GetView('pilotSheet') === 'classic'"
+      :page="tab"
+      :pilot="pilot"
+    />
+    <pilot-nav :pilot="pilot" :selected="tab" @set-layout="profile.SetView('pilotSheet', $event)" />
   </div>
 </template>
 
 <script lang="ts">
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { UserStore } from '@/store'
 import { Pilot } from '@/class'
-import { UserProfile } from '@/io/User'
+import { UserProfile } from '@/user'
 import TabbedLayout from './Tabbed.vue'
 import ClassicLayout from './Classic.vue'
 import PilotNav from '../components/PilotNav.vue'
@@ -37,7 +41,7 @@ export default Vue.extend({
       return this.$store.state.management.Pilots.find(p => p.ID === this.pilotID)
     },
     profile(): UserProfile {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
   },

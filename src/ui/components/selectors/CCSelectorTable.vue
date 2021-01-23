@@ -67,8 +67,8 @@ import SelectorTableView from './views/_SelectorTableView.vue'
 import SelectorSplitView from './views/_SelectorSplitView.vue'
 import { accentInclude } from '@/classes/utility/accent_fold'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { UserProfile } from '@/io/User'
+import { UserStore } from '@/store'
+import { UserProfile } from '@/user'
 
 export default Vue.extend({
   name: 'cc-selector-table',
@@ -102,7 +102,7 @@ export default Vue.extend({
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
     fItems() {

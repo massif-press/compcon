@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import lancerData from 'lancer-data'
-import { getUser, UserProfile } from '@/io/User'
+// import { getUser, UserProfile } from '@/user'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import {
   License,
@@ -79,7 +79,6 @@ function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
 export class CompendiumStore extends VuexModule {
   public LancerVersion = ''
   public CCVersion = ''
-  public UserProfile: UserProfile = {} as any
 
   public ContentPacks: ContentPack[] = []
 
@@ -168,10 +167,10 @@ export class CompendiumStore extends VuexModule {
     this.CCVersion = cc
   }
 
-  @Mutation
-  private [LOAD_DATA](): void {
-    getUser().then(profile => (this.UserProfile = profile))
-  }
+  // @Mutation
+  // private [LOAD_DATA](): void {
+  //   getUser().then(profile => (this.UserProfile = profile))
+  // }
 
   @Mutation
   private [LOAD_PACK](packData: IContentPack): void {
@@ -272,18 +271,14 @@ export class CompendiumStore extends VuexModule {
     }
   }
 
-  get getUserProfile(): UserProfile {
-    return this.UserProfile
-  }
-
   get getVersion(): string {
     return this.CCVersion
   }
 
-  @Action
-  public loadData(): void {
-    this.context.commit(LOAD_DATA)
-  }
+  // @Action
+  // public loadData(): void {
+  //   this.context.commit(LOAD_DATA)
+  // }
 
   @Action
   public setVersions(lancerVer: string, ccVer: string): void {

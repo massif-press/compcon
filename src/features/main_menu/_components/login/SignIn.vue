@@ -68,7 +68,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
-import { CloudStore } from '@/store'
+import { UserStore } from '@/store'
 import { Auth } from '@aws-amplify/auth'
 
 export default Vue.extend({
@@ -86,8 +86,8 @@ export default Vue.extend({
       this.loading = true
       Auth.signIn(this.email, this.password)
         .then(user => {
-          const cloudstore = getModule(CloudStore, this.$store)
-          cloudstore.setUser(user)
+          const userstore = getModule(UserStore, this.$store)
+          userstore.setUser(user)
           this.loading = false
           this.showError = false
           this.$emit('set-state', 'signed-in')

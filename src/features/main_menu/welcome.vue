@@ -15,8 +15,8 @@
 import Vue from 'vue'
 import gistApi from '@/io/apis/gist'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { UserProfile } from '@/io/User'
+import { UserStore } from '@/store'
+import { UserProfile } from '@/user'
 
 export default Vue.extend({
   name: 'welcome-dialog',
@@ -28,7 +28,7 @@ export default Vue.extend({
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
   },

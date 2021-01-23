@@ -78,16 +78,22 @@ mixins.forEach(m => {
   Vue.mixin(m)
 })
 
-Vue.config.errorHandler = (error, vm) => Vue.prototype.$notifyError(error, vm)
-window.onerror = error => Vue.prototype.$notifyError(error)
+Vue.config.errorHandler = (error, vm) => {
+  console.error(error)
+  Vue.prototype.$notifyError(error, vm)
+}
+window.onerror = error => {
+  console.error(error)
+  Vue.prototype.$notifyError(error)
+}
 
 new Vue({
   components: { App },
   vuetify,
   router,
   store,
-  created() {
-    Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
+  async created() {
+    await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
   },
   render: h => h(App),
 }).$mount('#app')
