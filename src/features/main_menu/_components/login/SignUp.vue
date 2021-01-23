@@ -105,8 +105,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Auth } from '@aws-amplify/auth'
-import { loginUrl } from '@/cloud/patreon'
-import { CloudStore } from '@/store'
+// import { loginUrl } from '@/cloud/patreon'
+import { UserStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
 
 export default Vue.extend({
@@ -129,11 +129,12 @@ export default Vue.extend({
   }),
   computed: {
     isPatron() {
-      const cloudstore = getModule(CloudStore, this.$store)
-      return cloudstore.IsPatron
+      const userstore = getModule(UserStore, this.$store)
+      return userstore.IsPatron
     },
     patreonLoginUrl() {
-      return loginUrl()
+      return ''
+      // return loginUrl()
     },
   },
   created() {
@@ -156,8 +157,8 @@ export default Vue.extend({
         console.log(user)
         this.showError = false
         this.$emit('success', this.email)
-        const cloudstore = getModule(CloudStore, this.$store)
-        cloudstore.clearOauth()
+        const userstore = getModule(UserStore, this.$store)
+        userstore.clearOauth()
       } catch (error) {
         console.log('error signing up:', error)
         this.loading = false

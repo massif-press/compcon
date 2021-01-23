@@ -106,7 +106,7 @@
           <v-btn text color="accent" :loading="loading">Save</v-btn>
         </v-card-actions>
       </v-card>
-      <v-card tile outlined class="my-2">
+      <!-- <v-card tile outlined class="my-2">
         <v-toolbar dense flat tile color="light-panel">
           <div class="heading h3">SYNC OPTIONS</div>
         </v-toolbar>
@@ -121,7 +121,7 @@
           <v-spacer />
           <v-btn text color="accent" :loading="loading">Save</v-btn>
         </v-card-actions>
-      </v-card>
+      </v-card> -->
       <v-row dense class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">
           CHANGE PASSWORD

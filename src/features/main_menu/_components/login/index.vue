@@ -39,7 +39,7 @@ import SignUp from './SignUp.vue'
 import Verify from './Verify.vue'
 import SignedIn from './SignedIn.vue'
 import { Auth } from '@aws-amplify/auth'
-import { CloudStore } from '@/store'
+import { UserStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
 
 export default Vue.extend({
@@ -53,8 +53,8 @@ export default Vue.extend({
   }),
   async mounted() {
     await this.getAuthedUser()
-    const cloudstore = getModule(CloudStore, this.$store)
-    if (cloudstore.IsPatron) {
+    const userstore = getModule(UserStore, this.$store)
+    if (userstore.IsPatron) {
       this.state = 'sign-up'
     }
   },

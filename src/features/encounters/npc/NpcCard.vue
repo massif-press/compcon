@@ -308,17 +308,17 @@
           </cc-title>
         </v-col>
         <v-col cols="auto" class="ml-auto">
-          <v-btn-toggle v-model="profile.NpcView" mandatory>
-            <v-btn small icon value="list">
+          <v-btn-toggle :value="profile.GetView('npc')" mandatory>
+            <v-btn small icon value="list" @click="profile.SetView('npc', 'list')">
               <v-icon color="accent">mdi-view-list</v-icon>
             </v-btn>
-            <v-btn small icon value="chips">
+            <v-btn small icon value="chips" @click="profile.SetView('npc', 'chips')">
               <v-icon color="accent">mdi-view-comfy</v-icon>
             </v-btn>
           </v-btn-toggle>
         </v-col>
       </v-row>
-      <v-row v-if="profile.NpcView === 'list'" dense>
+      <v-row v-if="profile.GetView('npc') === 'list'" dense>
         <v-col v-for="(i, idx) in npc.Items" :key="i.Feature.ID + idx" md="12" lg="12" xl="6">
           <cc-npc-item-card
             :item="i"
@@ -327,7 +327,7 @@
           />
         </v-col>
       </v-row>
-      <v-row v-else-if="profile.NpcView === 'chips'" dense>
+      <v-row v-else-if="profile.GetView('npc') === 'chips'" dense>
         <v-chip-group column>
           <cc-npc-item-chip
             v-for="(i, idx) in npc.Items"
@@ -393,8 +393,8 @@ import FeatureSelector from './components/FeatureSelector.vue'
 import TemplateSelector from './components/TemplateSelector.vue'
 import { NpcFeature, NpcTemplate } from '@/class'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, NpcStore } from '@/store'
-import { UserProfile } from '@/io/User'
+import { UserStore, NpcStore } from '@/store'
+import { UserProfile } from '@/user'
 
 export default Vue.extend({
   name: 'npc-card',
@@ -427,7 +427,7 @@ export default Vue.extend({
       return store.Npcs.map(x => x.Campaign).filter(x => x)
     },
     profile(): UserProfile {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
   },

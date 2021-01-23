@@ -7,32 +7,39 @@ import {
   NpcStore,
   EncounterStore,
   MissionStore,
+  UserStore,
 } from '@/store'
+import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
 import { ensureDataDir } from './Data'
 
-export default function(lancerVer: string, ccVer: string, store: any): void {
+export default async function(lancerVer: string, ccVer: string, store: any): Promise<void> {
   ensureDataDir()
 
   const dataStore = getModule(CompendiumStore, store)
-  dataStore.setVersions(lancerVer, ccVer)
-  dataStore.loadExtraContent().then(() => dataStore.loadData())
-
-  // validateImageFolders()
-
+  const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
-  pilotStore.loadPilots()
-
   const npcStore = getModule(NpcStore, store)
-  npcStore.loadNpcs()
-
   const encounterStore = getModule(EncounterStore, store)
-  encounterStore.loadEncounters()
-
   const missionStore = getModule(MissionStore, store)
-  missionStore.loadMissions()
-  missionStore.loadActiveMissions()
 
-  // TODO: In browser, save active pilot & mech IDs, reconstitute them here
-  // TODO: Move GM toolkit data loading here
+  await dataStore.setVersions(lancerVer, ccVer)
+
+  await Auth.currentAuthenticatedUser()
+    .then(user => {
+      userstore.setAws(user)
+      console.log(user)
+    })
+    .catch(() => {
+      userstore.loadUser()
+    })
+
+  await dataStore.loadExtraContent()
+  await pilotStore.loadPilots()
+  await npcStore.loadNpcs()
+  await encounterStore.loadEncounters()
+  await missionStore.loadMissions()
+  await missionStore.loadActiveMissions()
+
+  console.info('loading complete')
 }

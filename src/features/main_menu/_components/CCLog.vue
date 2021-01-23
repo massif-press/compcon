@@ -37,8 +37,8 @@ import GmsStart from './startup_logs/gms'
 import MsmcStart from './startup_logs/msmc'
 import { HorusStart, HorusChat } from './startup_logs/horus'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { UserProfile } from '@/io/User'
+import { UserStore } from '@/store'
+import { UserProfile } from '@/user'
 
 export default Vue.extend({
   name: 'cc-log',
@@ -49,7 +49,7 @@ export default Vue.extend({
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
   },

@@ -146,7 +146,7 @@
 import Vue from 'vue'
 import allThemes from '@/ui/style/themes'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { UserStore } from '@/store'
 import { exportAll, importAll, exportV1Pilots, clearAllData } from '@/io/BulkData'
 import { saveFile } from '@/io/Dialog'
 
@@ -161,11 +161,11 @@ export default Vue.extend({
   }),
   computed: {
     userID() {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile.ID
     },
     userTheme() {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile.Theme
     },
   },
@@ -183,7 +183,7 @@ export default Vue.extend({
       location.reload(true)
     },
     setTheme() {
-      getModule(CompendiumStore, this.$store).UserProfile.Theme = this.theme
+      getModule(UserStore, this.$store).UserProfile.Theme = this.theme
       const isDark = allThemes[this.theme].type === 'dark'
 
       if (isDark) {
@@ -195,14 +195,14 @@ export default Vue.extend({
       }
     },
     showMessage() {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       store.UserProfile.WelcomeHash = ''
       this.reload()
     },
-    setUserID(id: string) {
-      const store = getModule(CompendiumStore, this.$store)
-      store.UserProfile.ID = id
-    },
+    // setUserID(id: string) {
+    //   const store = getModule(UserStore, this.$store)
+    //   store.UserProfile.ID = id
+    // },
     async bulkExport() {
       const result = await exportAll()
       await saveFile(

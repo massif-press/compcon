@@ -2,18 +2,41 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreatePilotDataInput = {
+export type CreateUserDataInput = {
   id?: string | null,
-  data: string,
-  userdataID: string,
+  user_id: string,
+  theme?: string | null,
+  achievements?: Array< string | null > | null,
+  lcp_data?: string | null,
+  pilots?: Array< string | null > | null,
+  npcs?: Array< string | null > | null,
+  encounters?: Array< string | null > | null,
+  missions?: Array< string | null > | null,
+  active_missions?: Array< string | null > | null,
+  welcome_hash?: string | null,
+  sync_frequency?: string | null,
+  sync_options?: string | null,
+  view_options?: string | null,
+  _version?: number | null,
 };
 
-export type ModelPilotDataConditionInput = {
-  data?: ModelStringInput | null,
-  userdataID?: ModelIDInput | null,
-  and?: Array< ModelPilotDataConditionInput | null > | null,
-  or?: Array< ModelPilotDataConditionInput | null > | null,
-  not?: ModelPilotDataConditionInput | null,
+export type ModelUserDataConditionInput = {
+  user_id?: ModelStringInput | null,
+  theme?: ModelStringInput | null,
+  achievements?: ModelStringInput | null,
+  lcp_data?: ModelStringInput | null,
+  pilots?: ModelStringInput | null,
+  npcs?: ModelStringInput | null,
+  encounters?: ModelStringInput | null,
+  missions?: ModelStringInput | null,
+  active_missions?: ModelStringInput | null,
+  welcome_hash?: ModelStringInput | null,
+  sync_frequency?: ModelStringInput | null,
+  sync_options?: ModelStringInput | null,
+  view_options?: ModelStringInput | null,
+  and?: Array< ModelUserDataConditionInput | null > | null,
+  or?: Array< ModelUserDataConditionInput | null > | null,
+  not?: ModelUserDataConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -56,6 +79,49 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
+export type UpdateUserDataInput = {
+  id: string,
+  user_id?: string | null,
+  theme?: string | null,
+  achievements?: Array< string | null > | null,
+  lcp_data?: string | null,
+  pilots?: Array< string | null > | null,
+  npcs?: Array< string | null > | null,
+  encounters?: Array< string | null > | null,
+  missions?: Array< string | null > | null,
+  active_missions?: Array< string | null > | null,
+  welcome_hash?: string | null,
+  sync_frequency?: string | null,
+  sync_options?: string | null,
+  view_options?: string | null,
+  _version?: number | null,
+};
+
+export type DeleteUserDataInput = {
+  id?: string | null,
+  _version?: number | null,
+};
+
+export type ModelUserDataFilterInput = {
+  id?: ModelIDInput | null,
+  user_id?: ModelStringInput | null,
+  theme?: ModelStringInput | null,
+  achievements?: ModelStringInput | null,
+  lcp_data?: ModelStringInput | null,
+  pilots?: ModelStringInput | null,
+  npcs?: ModelStringInput | null,
+  encounters?: ModelStringInput | null,
+  missions?: ModelStringInput | null,
+  active_missions?: ModelStringInput | null,
+  welcome_hash?: ModelStringInput | null,
+  sync_frequency?: ModelStringInput | null,
+  sync_options?: ModelStringInput | null,
+  view_options?: ModelStringInput | null,
+  and?: Array< ModelUserDataFilterInput | null > | null,
+  or?: Array< ModelUserDataFilterInput | null > | null,
+  not?: ModelUserDataFilterInput | null,
+};
+
 export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
@@ -72,130 +138,6 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type UpdatePilotDataInput = {
-  id: string,
-  data?: string | null,
-  userdataID?: string | null,
-};
-
-export type DeletePilotDataInput = {
-  id?: string | null,
-};
-
-export type CreateUserDataInput = {
-  id?: string | null,
-  achievements?: Array< string | null > | null,
-  selectorView?: string | null,
-  npcView?: string | null,
-  rosterView?: string | null,
-  hangarView?: string | null,
-  pilotSheetView?: string | null,
-  theme?: string | null,
-  welcome_hash?: string | null,
-};
-
-export type ModelUserDataConditionInput = {
-  achievements?: ModelStringInput | null,
-  selectorView?: ModelStringInput | null,
-  npcView?: ModelStringInput | null,
-  rosterView?: ModelStringInput | null,
-  hangarView?: ModelStringInput | null,
-  pilotSheetView?: ModelStringInput | null,
-  theme?: ModelStringInput | null,
-  welcome_hash?: ModelStringInput | null,
-  and?: Array< ModelUserDataConditionInput | null > | null,
-  or?: Array< ModelUserDataConditionInput | null > | null,
-  not?: ModelUserDataConditionInput | null,
-};
-
-export type UpdateUserDataInput = {
-  id: string,
-  achievements?: Array< string | null > | null,
-  selectorView?: string | null,
-  npcView?: string | null,
-  rosterView?: string | null,
-  hangarView?: string | null,
-  pilotSheetView?: string | null,
-  theme?: string | null,
-  welcome_hash?: string | null,
-};
-
-export type DeleteUserDataInput = {
-  id?: string | null,
-};
-
-export type ModelPilotDataFilterInput = {
-  id?: ModelIDInput | null,
-  data?: ModelStringInput | null,
-  userdataID?: ModelIDInput | null,
-  and?: Array< ModelPilotDataFilterInput | null > | null,
-  or?: Array< ModelPilotDataFilterInput | null > | null,
-  not?: ModelPilotDataFilterInput | null,
-};
-
-export type ModelUserDataFilterInput = {
-  id?: ModelIDInput | null,
-  achievements?: ModelStringInput | null,
-  selectorView?: ModelStringInput | null,
-  npcView?: ModelStringInput | null,
-  rosterView?: ModelStringInput | null,
-  hangarView?: ModelStringInput | null,
-  pilotSheetView?: ModelStringInput | null,
-  theme?: ModelStringInput | null,
-  welcome_hash?: ModelStringInput | null,
-  and?: Array< ModelUserDataFilterInput | null > | null,
-  or?: Array< ModelUserDataFilterInput | null > | null,
-  not?: ModelUserDataFilterInput | null,
-};
-
-export type CreatePilotDataMutationVariables = {
-  input: CreatePilotDataInput,
-  condition?: ModelPilotDataConditionInput | null,
-};
-
-export type CreatePilotDataMutation = {
-  createPilotData:  {
-    __typename: "PilotData",
-    id: string,
-    data: string,
-    userdataID: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdatePilotDataMutationVariables = {
-  input: UpdatePilotDataInput,
-  condition?: ModelPilotDataConditionInput | null,
-};
-
-export type UpdatePilotDataMutation = {
-  updatePilotData:  {
-    __typename: "PilotData",
-    id: string,
-    data: string,
-    userdataID: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeletePilotDataMutationVariables = {
-  input: DeletePilotDataInput,
-  condition?: ModelPilotDataConditionInput | null,
-};
-
-export type DeletePilotDataMutation = {
-  deletePilotData:  {
-    __typename: "PilotData",
-    id: string,
-    data: string,
-    userdataID: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
 export type CreateUserDataMutationVariables = {
   input: CreateUserDataInput,
   condition?: ModelUserDataConditionInput | null,
@@ -205,18 +147,22 @@ export type CreateUserDataMutation = {
   createUserData:  {
     __typename: "UserData",
     id: string,
-    achievements: Array< string | null > | null,
-    selectorView: string | null,
-    npcView: string | null,
-    rosterView: string | null,
-    hangarView: string | null,
-    pilotSheetView: string | null,
+    user_id: string,
     theme: string | null,
+    achievements: Array< string | null > | null,
+    lcp_data: string | null,
+    pilots: Array< string | null > | null,
+    npcs: Array< string | null > | null,
+    encounters: Array< string | null > | null,
+    missions: Array< string | null > | null,
+    active_missions: Array< string | null > | null,
     welcome_hash: string | null,
-    PilotData:  {
-      __typename: "ModelPilotDataConnection",
-      nextToken: string | null,
-    } | null,
+    sync_frequency: string | null,
+    sync_options: string | null,
+    view_options: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -231,18 +177,22 @@ export type UpdateUserDataMutation = {
   updateUserData:  {
     __typename: "UserData",
     id: string,
-    achievements: Array< string | null > | null,
-    selectorView: string | null,
-    npcView: string | null,
-    rosterView: string | null,
-    hangarView: string | null,
-    pilotSheetView: string | null,
+    user_id: string,
     theme: string | null,
+    achievements: Array< string | null > | null,
+    lcp_data: string | null,
+    pilots: Array< string | null > | null,
+    npcs: Array< string | null > | null,
+    encounters: Array< string | null > | null,
+    missions: Array< string | null > | null,
+    active_missions: Array< string | null > | null,
     welcome_hash: string | null,
-    PilotData:  {
-      __typename: "ModelPilotDataConnection",
-      nextToken: string | null,
-    } | null,
+    sync_frequency: string | null,
+    sync_options: string | null,
+    view_options: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -257,56 +207,24 @@ export type DeleteUserDataMutation = {
   deleteUserData:  {
     __typename: "UserData",
     id: string,
-    achievements: Array< string | null > | null,
-    selectorView: string | null,
-    npcView: string | null,
-    rosterView: string | null,
-    hangarView: string | null,
-    pilotSheetView: string | null,
+    user_id: string,
     theme: string | null,
+    achievements: Array< string | null > | null,
+    lcp_data: string | null,
+    pilots: Array< string | null > | null,
+    npcs: Array< string | null > | null,
+    encounters: Array< string | null > | null,
+    missions: Array< string | null > | null,
+    active_missions: Array< string | null > | null,
     welcome_hash: string | null,
-    PilotData:  {
-      __typename: "ModelPilotDataConnection",
-      nextToken: string | null,
-    } | null,
+    sync_frequency: string | null,
+    sync_options: string | null,
+    view_options: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
-  } | null,
-};
-
-export type GetPilotDataQueryVariables = {
-  id: string,
-};
-
-export type GetPilotDataQuery = {
-  getPilotData:  {
-    __typename: "PilotData",
-    id: string,
-    data: string,
-    userdataID: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListPilotDatasQueryVariables = {
-  filter?: ModelPilotDataFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListPilotDatasQuery = {
-  listPilotDatas:  {
-    __typename: "ModelPilotDataConnection",
-    items:  Array< {
-      __typename: "PilotData",
-      id: string,
-      data: string,
-      userdataID: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken: string | null,
   } | null,
 };
 
@@ -318,18 +236,22 @@ export type GetUserDataQuery = {
   getUserData:  {
     __typename: "UserData",
     id: string,
-    achievements: Array< string | null > | null,
-    selectorView: string | null,
-    npcView: string | null,
-    rosterView: string | null,
-    hangarView: string | null,
-    pilotSheetView: string | null,
+    user_id: string,
     theme: string | null,
+    achievements: Array< string | null > | null,
+    lcp_data: string | null,
+    pilots: Array< string | null > | null,
+    npcs: Array< string | null > | null,
+    encounters: Array< string | null > | null,
+    missions: Array< string | null > | null,
+    active_missions: Array< string | null > | null,
     welcome_hash: string | null,
-    PilotData:  {
-      __typename: "ModelPilotDataConnection",
-      nextToken: string | null,
-    } | null,
+    sync_frequency: string | null,
+    sync_options: string | null,
+    view_options: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -347,51 +269,64 @@ export type ListUserDatasQuery = {
     items:  Array< {
       __typename: "UserData",
       id: string,
-      achievements: Array< string | null > | null,
-      selectorView: string | null,
-      npcView: string | null,
-      rosterView: string | null,
-      hangarView: string | null,
-      pilotSheetView: string | null,
+      user_id: string,
       theme: string | null,
+      achievements: Array< string | null > | null,
+      lcp_data: string | null,
+      pilots: Array< string | null > | null,
+      npcs: Array< string | null > | null,
+      encounters: Array< string | null > | null,
+      missions: Array< string | null > | null,
+      active_missions: Array< string | null > | null,
       welcome_hash: string | null,
+      sync_frequency: string | null,
+      sync_options: string | null,
+      view_options: string | null,
+      _version: number,
+      _deleted: boolean | null,
+      _lastChangedAt: number,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
     nextToken: string | null,
+    startedAt: number | null,
   } | null,
 };
 
-export type OnCreatePilotDataSubscription = {
-  onCreatePilotData:  {
-    __typename: "PilotData",
-    id: string,
-    data: string,
-    userdataID: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
+export type SyncUserDataQueryVariables = {
+  filter?: ModelUserDataFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  lastSync?: number | null,
 };
 
-export type OnUpdatePilotDataSubscription = {
-  onUpdatePilotData:  {
-    __typename: "PilotData",
-    id: string,
-    data: string,
-    userdataID: string,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeletePilotDataSubscription = {
-  onDeletePilotData:  {
-    __typename: "PilotData",
-    id: string,
-    data: string,
-    userdataID: string,
-    createdAt: string,
-    updatedAt: string,
+export type SyncUserDataQuery = {
+  syncUserData:  {
+    __typename: "ModelUserDataConnection",
+    items:  Array< {
+      __typename: "UserData",
+      id: string,
+      user_id: string,
+      theme: string | null,
+      achievements: Array< string | null > | null,
+      lcp_data: string | null,
+      pilots: Array< string | null > | null,
+      npcs: Array< string | null > | null,
+      encounters: Array< string | null > | null,
+      missions: Array< string | null > | null,
+      active_missions: Array< string | null > | null,
+      welcome_hash: string | null,
+      sync_frequency: string | null,
+      sync_options: string | null,
+      view_options: string | null,
+      _version: number,
+      _deleted: boolean | null,
+      _lastChangedAt: number,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+    startedAt: number | null,
   } | null,
 };
 
@@ -399,18 +334,22 @@ export type OnCreateUserDataSubscription = {
   onCreateUserData:  {
     __typename: "UserData",
     id: string,
-    achievements: Array< string | null > | null,
-    selectorView: string | null,
-    npcView: string | null,
-    rosterView: string | null,
-    hangarView: string | null,
-    pilotSheetView: string | null,
+    user_id: string,
     theme: string | null,
+    achievements: Array< string | null > | null,
+    lcp_data: string | null,
+    pilots: Array< string | null > | null,
+    npcs: Array< string | null > | null,
+    encounters: Array< string | null > | null,
+    missions: Array< string | null > | null,
+    active_missions: Array< string | null > | null,
     welcome_hash: string | null,
-    PilotData:  {
-      __typename: "ModelPilotDataConnection",
-      nextToken: string | null,
-    } | null,
+    sync_frequency: string | null,
+    sync_options: string | null,
+    view_options: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -420,18 +359,22 @@ export type OnUpdateUserDataSubscription = {
   onUpdateUserData:  {
     __typename: "UserData",
     id: string,
-    achievements: Array< string | null > | null,
-    selectorView: string | null,
-    npcView: string | null,
-    rosterView: string | null,
-    hangarView: string | null,
-    pilotSheetView: string | null,
+    user_id: string,
     theme: string | null,
+    achievements: Array< string | null > | null,
+    lcp_data: string | null,
+    pilots: Array< string | null > | null,
+    npcs: Array< string | null > | null,
+    encounters: Array< string | null > | null,
+    missions: Array< string | null > | null,
+    active_missions: Array< string | null > | null,
     welcome_hash: string | null,
-    PilotData:  {
-      __typename: "ModelPilotDataConnection",
-      nextToken: string | null,
-    } | null,
+    sync_frequency: string | null,
+    sync_options: string | null,
+    view_options: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -441,18 +384,22 @@ export type OnDeleteUserDataSubscription = {
   onDeleteUserData:  {
     __typename: "UserData",
     id: string,
-    achievements: Array< string | null > | null,
-    selectorView: string | null,
-    npcView: string | null,
-    rosterView: string | null,
-    hangarView: string | null,
-    pilotSheetView: string | null,
+    user_id: string,
     theme: string | null,
+    achievements: Array< string | null > | null,
+    lcp_data: string | null,
+    pilots: Array< string | null > | null,
+    npcs: Array< string | null > | null,
+    encounters: Array< string | null > | null,
+    missions: Array< string | null > | null,
+    active_missions: Array< string | null > | null,
     welcome_hash: string | null,
-    PilotData:  {
-      __typename: "ModelPilotDataConnection",
-      nextToken: string | null,
-    } | null,
+    sync_frequency: string | null,
+    sync_options: string | null,
+    view_options: string | null,
+    _version: number,
+    _deleted: boolean | null,
+    _lastChangedAt: number,
     createdAt: string,
     updatedAt: string,
   } | null,

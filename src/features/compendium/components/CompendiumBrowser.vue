@@ -5,14 +5,14 @@
         <h1 v-resize-text="{ maxFontSize: '42pt' }" class="ml-n2 heading accent--text"><slot /></h1>
       </v-col>
       <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-4 mr-2">
-        <v-btn-toggle v-model="profile.SelectorView" mandatory>
-          <v-btn small icon value="split">
+        <v-btn-toggle :value="profile.GetView('selector')" mandatory>
+          <v-btn small icon value="split" @click="profile.SetView('selector', 'split')">
             <v-icon color="accent">mdi-view-split-vertical</v-icon>
           </v-btn>
-          <v-btn small icon value="list">
+          <v-btn small icon value="list" @click="profile.SetView('roster, list)')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn small icon value="cards" disabled>
+          <v-btn small icon value="cards" disabled @click="profile.SetView('roster, cards)')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
@@ -41,11 +41,11 @@
     <compendium-mobile-view v-if="!$vuetify.breakpoint.mdAndUp" :items="fItems" />
     <div v-else>
       <compendium-table-view
-        v-if="profile.SelectorView === 'list'"
+        v-if="profile.GetView('selector') === 'list'"
         :items="fItems"
         :headers="headers"
       />
-      <compendium-split-view v-else-if="profile.SelectorView === 'split'" :items="fItems" />
+      <compendium-split-view v-else-if="profile.GetView('selector') === 'split'" :items="fItems" />
     </div>
   </v-container>
 </template>
@@ -58,8 +58,8 @@ import CompendiumMobileView from './views/CompendiumMobileView.vue'
 import CompendiumSplitView from './views/CompendiumSplitView.vue'
 import CompendiumTableView from './views/CompendiumTableView.vue'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { UserProfile } from '@/io/User'
+import { UserStore } from '@/store'
+import { UserProfile } from '@/user'
 
 export default Vue.extend({
   name: 'compendium-browser',
@@ -85,7 +85,7 @@ export default Vue.extend({
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
     fItems() {

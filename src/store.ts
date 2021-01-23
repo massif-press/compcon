@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { CloudStore } from './cloud/store'
+import { UserStore } from './user/store'
 import { NavStore } from './features/nav/store'
 import { CompendiumStore } from './features/compendium/store'
 import { PilotManagementStore } from './features/pilot_management/store/'
@@ -14,7 +14,7 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules: {
-    cloud: CloudStore,
+    cloud: UserStore,
     nav: NavStore,
     datastore: CompendiumStore,
     management: PilotManagementStore,
@@ -26,7 +26,7 @@ const store = new Vuex.Store({
 
 export {
   store,
-  CloudStore,
+  UserStore,
   NavStore,
   CompendiumStore,
   EncounterStore,

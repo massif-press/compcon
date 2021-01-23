@@ -39,7 +39,7 @@ const importAll = async function(file): Promise<void> {
   const promises = arr.map(o => writeFile(o.filename, o.data))
   await Promise.all(promises)
   console.info('Import data loaded! Running startup...')
-  Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
+  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
 const clearAllData = async function(): Promise<void> {
@@ -47,7 +47,7 @@ const clearAllData = async function(): Promise<void> {
   const promises = files.map(file => writeFile(file, ''))
   await promises
   console.info('All data erased! Running startup...')
-  Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
+  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
 export { exportV1Pilots, exportAll, importAll, clearAllData }

@@ -5,14 +5,14 @@
         <h1 class="heading">Pilot Roster</h1>
       </v-col>
       <v-col cols="auto" class="mt-6">
-        <v-btn-toggle v-model="profile.RosterView" mandatory dense class="mt-n4">
-          <v-btn small icon value="list">
+        <v-btn-toggle :value="profile.GetView('roster')" mandatory dense class="mt-n4">
+          <v-btn small icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn small icon value="cards">
+          <v-btn small icon value="cards" @click="profile.SetView('roster', 'cards')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
-          <v-btn small icon value="small-cards">
+          <v-btn small icon value="small-cards" @click="profile.SetView('roster', 'small-cards')">
             <v-icon color="accent">mdi-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
@@ -83,7 +83,7 @@
                   v-for="(p, i) in groups[g]"
                   :key="`${pilotCardType}_${i}`"
                   :pilot="p"
-                  :small="profile.RosterView === 'small-cards'"
+                  :small="profile.GetView('roster') === 'small-cards'"
                 />
               </draggable>
             </v-expand-transition>
@@ -139,9 +139,9 @@ import PilotCard from './components/PilotCard.vue'
 import PilotListItem from './components/PilotListItem.vue'
 import AddPilot from './components/AddPilot.vue'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, PilotManagementStore } from '@/store'
+import { UserStore, PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
-import { UserProfile } from '@/io/User'
+import { UserProfile } from '@/user'
 import draggable from 'vuedraggable'
 import { teamName } from '@/io/Generators'
 
@@ -159,7 +159,8 @@ export default Vue.extend({
   }),
   computed: {
     pilotCardType(): string {
-      switch (this.profile.RosterView) {
+      console.log(this.profile)
+      switch (this.profile.GetView('roster')) {
         case 'cards':
         case 'small-cards':
           return 'pilot-card'
@@ -169,7 +170,7 @@ export default Vue.extend({
       }
     },
     profile(): UserProfile {
-      const store = getModule(CompendiumStore, this.$store)
+      const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
     pilotsUnsorted() {
