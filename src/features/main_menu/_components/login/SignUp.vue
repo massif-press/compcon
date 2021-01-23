@@ -96,7 +96,7 @@ import Vue from 'vue'
 import { Auth } from '@aws-amplify/auth'
 import { CloudStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
-import popupOauth from '@/util/oauth2-popup'
+import popupOauth from '@/cloud/oauth2-popup'
 
 export default Vue.extend({
   name: 'sign-up',
