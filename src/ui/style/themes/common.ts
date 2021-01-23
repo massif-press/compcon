@@ -59,4 +59,7 @@ export default {
   enemy: '#C62828',
   ally: '#1661b8',
   neutral: '#455A64',
+
+  // brand colors
+  patreon: '#FF424D'
 }
