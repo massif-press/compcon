@@ -25,11 +25,9 @@
 							"description": "api key description"
 						}
 					},
-					"additionalAuthenticationProviders": [
-						{
-							"authenticationType": "AWS_IAM"
-						}
-					]
+					"additionalAuthenticationProviders": [{
+						"authenticationType": "AWS_IAM"
+					}]
 				},
 				"GraphQLAPIIdOutput": "6i7mbsp6cnerlpmxeg7u67uk6q",
 				"GraphQLAPIEndpointOutput": "https://glr3k4vdbbcsbdl5w7rrrdbdpu.appsync-api.us-east-1.amazonaws.com/graphql",
@@ -45,16 +43,14 @@
 		"patreonOauth": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "function",
-					"resourceName": "patreonOauthL",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				}
-			],
+			"dependsOn": [{
+				"category": "function",
+				"resourceName": "patreonOauthL",
+				"attributes": [
+					"Name",
+					"Arn"
+				]
+			}],
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-compcon-dev-215454-deployment/amplify-cfn-templates/api/patreonOauth-cloudformation-template.json",
 				"logicalId": "apipatreonOauth"
@@ -70,16 +66,14 @@
 		"itchOauth": {
 			"service": "API Gateway",
 			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "function",
-					"resourceName": "itchOauthL",
-					"attributes": [
-						"Name",
-						"Arn"
-					]
-				}
-			],
+			"dependsOn": [{
+				"category": "function",
+				"resourceName": "itchOauthL",
+				"attributes": [
+					"Name",
+					"Arn"
+				]
+			}],
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-compcon-dev-215454-deployment/amplify-cfn-templates/api/itchOauth-cloudformation-template.json",
 				"logicalId": "apiitchOauth"
