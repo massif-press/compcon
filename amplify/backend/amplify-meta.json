@@ -74,15 +74,15 @@
           "Arn"
         ]
       }],
-      "providerMetadata": {
-        "s3TemplateURL": "https://s3.amazonaws.com/amplify-compcon-dev-215454-deployment/amplify-cfn-templates/api/itchOauth-cloudformation-template.json",
-        "logicalId": "apiitchOauth"
-      },
-      "lastPushTimeStamp": "2021-01-26T21:52:11.289Z",
       "output": {
         "ApiName": "itchOauth",
-        "RootUrl": "https://og5h6f0453.execute-api.us-east-1.amazonaws.com/dev",
-        "ApiId": "og5h6f0453"
+        "RootUrl": "https://rde6yv0phf.execute-api.us-east-1.amazonaws.com/staging",
+        "ApiId": "rde6yv0phf"
+      },
+      "lastPushTimeStamp": "2021-01-24T00:40:28.068Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-compcon-staging-215530-deployment/amplify-cfn-templates/api/itchOauth-cloudformation-template.json",
+        "logicalId": "apiitchOauth"
       },
       "lastPushDirHash": "UDOBToFMauIfkGbMOYIJlZDsMVA="
     }
