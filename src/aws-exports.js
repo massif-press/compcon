@@ -17,15 +17,33 @@ const awsmobile = {
             "name": "itchOauth",
             "endpoint": "https://og5h6f0453.execute-api.us-east-1.amazonaws.com/dev",
             "region": "us-east-1"
+        },
+        {
+            "name": "patreonsnowflake",
+            "endpoint": "https://tit1dpxwz4.execute-api.us-east-1.amazonaws.com/staging",
+            "region": "us-east-1"
         }
     ],
     "aws_cognito_identity_pool_id": "us-east-1:aa986bbd-519f-4771-90f7-c612a90eb62b",
     "aws_cognito_region": "us-east-1",
+<<<<<<< HEAD
     "aws_user_pools_id": "us-east-1_KURME9BSC",
     "aws_user_pools_web_client_id": "1hdv0rkurl240br4mfhjbvjnlg",
     "oauth": {},
     "aws_user_files_s3_bucket": "cc-user-storage215454-dev",
     "aws_user_files_s3_bucket_region": "us-east-1"
+=======
+    "aws_user_pools_id": "us-east-1_Opk2nQAEb",
+    "aws_user_pools_web_client_id": "611vsmduourtkeafa6bdmn0gpb",
+    "oauth": {},
+    "aws_dynamodb_all_tables_region": "us-east-1",
+    "aws_dynamodb_table_schemas": [
+        {
+            "tableName": "patreonsnowflakes-staging",
+            "region": "us-east-1"
+        }
+    ]
+>>>>>>> 0a7ad74... wip: snowflake backend done
 };
 
 
