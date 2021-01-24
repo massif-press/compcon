@@ -33,6 +33,7 @@
         "GraphQLAPIEndpointOutput": "https://glr3k4vdbbcsbdl5w7rrrdbdpu.appsync-api.us-east-1.amazonaws.com/graphql",
         "GraphQLAPIKeyOutput": "da2-skfszymhqjedhmobuz7nqcjtna"
       },
+      "lastPushTimeStamp": "2021-01-24T03:21:09.823Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-compcon-dev-215454-deployment/amplify-cfn-templates/api/cloudformation-template.json",
         "logicalId": "apicompcon"
@@ -79,12 +80,35 @@
         "RootUrl": "https://rde6yv0phf.execute-api.us-east-1.amazonaws.com/staging",
         "ApiId": "rde6yv0phf"
       },
-      "lastPushTimeStamp": "2021-01-24T00:40:28.068Z",
+      "lastPushTimeStamp": "2021-01-24T03:21:09.829Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-compcon-staging-215530-deployment/amplify-cfn-templates/api/itchOauth-cloudformation-template.json",
         "logicalId": "apiitchOauth"
       },
       "lastPushDirHash": "UDOBToFMauIfkGbMOYIJlZDsMVA="
+    },
+    "patreonsnowflake": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [{
+        "category": "function",
+        "resourceName": "createPatreonSnowflake",
+        "attributes": [
+          "Name",
+          "Arn"
+        ]
+      }],
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-compcon-staging-215530-deployment/amplify-cfn-templates/api/patreonsnowflake-cloudformation-template.json",
+        "logicalId": "apipatreonsnowflake"
+      },
+      "lastPushTimeStamp": "2021-01-24T03:21:09.831Z",
+      "output": {
+        "ApiName": "patreonsnowflake",
+        "RootUrl": "https://tit1dpxwz4.execute-api.us-east-1.amazonaws.com/staging",
+        "ApiId": "tit1dpxwz4"
+      },
+      "lastPushDirHash": "sY5vb+e7DYrhJQpCjKKTYdb0Nas="
     }
   },
   "auth": {
@@ -93,6 +117,14 @@
       "providerPlugin": "awscloudformation",
       "dependsOn": [],
       "customAuth": false,
+      "output": {
+        "AppClientSecret": "d9ea9n9ifnlp858ujo5shn8bfh1jmg1157s8bf9fc2dq9ei09l3",
+        "UserPoolId": "us-east-1_Opk2nQAEb",
+        "AppClientIDWeb": "611vsmduourtkeafa6bdmn0gpb",
+        "AppClientID": "6du06h85kvormfrajnmb8mvq4g",
+        "UserPoolName": "compcon"
+      },
+      "lastPushTimeStamp": "2021-01-24T03:21:09.833Z",
       "providerMetadata": {
         "s3TemplateURL": "https://s3.amazonaws.com/amplify-compcon-dev-215454-deployment/amplify-cfn-templates/auth/compcon-cloudformation-template.yml",
         "logicalId": "authcompcon"

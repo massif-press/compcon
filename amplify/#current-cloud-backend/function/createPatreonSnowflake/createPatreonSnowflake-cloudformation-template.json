@@ -21,7 +21,8 @@
   },
   "Conditions": {
     "ShouldNotCreateEnvResources": {
-      "Fn::Equals": [{
+      "Fn::Equals": [
+        {
           "Ref": "env"
         },
         "NONE"
@@ -103,17 +104,19 @@
         },
         "AssumeRolePolicyDocument": {
           "Version": "2012-10-17",
-          "Statement": [{
-            "Effect": "Allow",
-            "Principal": {
-              "Service": [
-                "lambda.amazonaws.com"
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
               ]
-            },
-            "Action": [
-              "sts:AssumeRole"
-            ]
-          }]
+            }
+          ]
         }
       }
     },
@@ -124,12 +127,15 @@
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyName": "lambda-execution-policy",
-        "Roles": [{
-          "Ref": "LambdaExecutionRole"
-        }],
+        "Roles": [
+          {
+            "Ref": "LambdaExecutionRole"
+          }
+        ],
         "PolicyDocument": {
           "Version": "2012-10-17",
-          "Statement": [{
+          "Statement": [
+            {
               "Effect": "Allow",
               "Action": [
                 "logs:CreateLogGroup",
@@ -183,13 +189,15 @@
                 "dynamodb:UpdateItem",
                 "dynamodb:DeleteItem"
               ],
-              "Resource": [{
+              "Resource": [
+                {
                   "Ref": "storagepatreonsnowflakesArn"
                 },
                 {
                   "Fn::Join": [
                     "/",
-                    [{
+                    [
+                      {
                         "Ref": "storagepatreonsnowflakesArn"
                       },
                       "index/*"
