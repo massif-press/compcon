@@ -2,7 +2,7 @@
     "providers": [
         "awscloudformation"
     ],
-    "projectName": "compcon",
+    "projectName": "compcon-dev",
     "version": "3.0",
     "frontend": "javascript",
     "javascript": {

@@ -31,25 +31,25 @@
             {{ authedUser.attributes.sub }}
           </div>
           <p class="body-text ml-3">
-            <b class="accent--text">6</b>
-            Pilots in
-            <b class="accent--text">2</b>
+            <b class="accent--text">{{ userProfile.Pilots.length }}</b>
+            Pilots
+            <!-- <b class="accent--text">X</b>
             Groups (
-            <b class="accent--text">1</b>
-            Ungrouped)
+            <b class="accent--text">X</b>
+            Ungrouped) -->
             <br />
-            Last Sync: 12:45 PM July 13th, 2021
+            Last Sync: {{ userProfile.LastSync }}
           </p>
         </v-col>
         <v-col cols="auto" class="mr-6">
           <cc-tooltip content="Manual Sync">
-            <v-btn fab large elevation="0" color="accent" dark :loading="loading">
+            <v-btn fab large elevation="0" color="accent" dark :loading="loading" @click="sync()">
               <v-icon x-large>mdi-cloud-sync-outline</v-icon>
             </v-btn>
           </cc-tooltip>
         </v-col>
       </v-row>
-      <v-row dense class="panel" justify="center" align="center">
+      <!-- <v-row dense class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">
           ACCOUNT OPTIONS
         </v-col>
@@ -105,7 +105,7 @@
           <v-spacer />
           <v-btn text color="accent" :loading="loading">Save</v-btn>
         </v-card-actions>
-      </v-card>
+      </v-card> -->
       <!-- <v-card tile outlined class="my-2">
         <v-toolbar dense flat tile color="light-panel">
           <div class="heading h3">SYNC OPTIONS</div>
@@ -202,6 +202,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Auth } from '@aws-amplify/auth'
+import { getModule } from 'vuex-module-decorators'
+import { UserStore } from '@/store'
 
 export default Vue.extend({
   name: 'auth-signed-in',
@@ -224,6 +226,9 @@ export default Vue.extend({
         (this.oldpass && this.newpass && this.oldpass !== this.newpass) ||
         'Password must be different'
     },
+    userProfile() {
+      return getModule(UserStore, this.$store).UserProfile
+    },
   },
   mounted() {
     Auth.currentAuthenticatedUser()
@@ -236,15 +241,27 @@ export default Vue.extend({
       })
   },
   methods: {
+    sync() {
+      this.loading = true
+      const userstore = getModule(UserStore, this.$store)
+      userstore
+        .cloudSync((status: string, message: string) => this.$notify(message, status))
+        .then(() => {
+          this.loading = false
+          this.$notify('Sync Complete', 'success')
+        })
+        .catch(err => {
+          console.error(err)
+          this.loading = false
+        })
+    },
     changePass() {
       this.loading = true
       Auth.currentAuthenticatedUser()
         .then(user => {
-          console.log(user)
           return Auth.changePassword(user, this.oldpass, this.newpass)
         })
-        .then(data => {
-          console.log(data)
+        .then(() => {
           this.loading = false
           this.showError = false
           this.$notify('Password Changed')
@@ -259,9 +276,10 @@ export default Vue.extend({
     },
     signOut() {
       Auth.signOut()
-        .then(data => {
-          console.log(data)
+        .then(() => {
           this.$notify('Sign Out Complete')
+          const store = getModule(UserStore, this.$store)
+          store.setLoggedIn(false)
           this.$emit('set-state', 'sign-in')
         })
         .catch(err => {

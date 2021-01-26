@@ -28,7 +28,6 @@ export default async function(lancerVer: string, ccVer: string, store: any): Pro
   await Auth.currentAuthenticatedUser()
     .then(user => {
       userstore.setAws(user)
-      console.log(user)
     })
     .catch(() => {
       userstore.loadUser()

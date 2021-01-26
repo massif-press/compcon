@@ -66,7 +66,6 @@ export default Vue.extend({
     async getAuthedUser() {
       Auth.currentAuthenticatedUser()
         .then(user => {
-          console.log(user)
           this.currentAuthedUser = user
           this.state = 'signed-in'
         })

@@ -162,7 +162,7 @@ export default Vue.extend({
   computed: {
     userID() {
       const store = getModule(UserStore, this.$store)
-      return store.UserProfile.ID
+      return store.UserProfile.id
     },
     userTheme() {
       const store = getModule(UserStore, this.$store)
@@ -183,7 +183,9 @@ export default Vue.extend({
       location.reload(true)
     },
     setTheme() {
-      getModule(UserStore, this.$store).UserProfile.Theme = this.theme
+      const profile = getModule(UserStore, this.$store).UserProfile
+      Vue.set(profile, 'Theme', this.theme)
+      console.log(profile.Theme)
       const isDark = allThemes[this.theme].type === 'dark'
 
       if (isDark) {

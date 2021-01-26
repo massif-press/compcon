@@ -1112,7 +1112,7 @@ class Pilot {
     }
   }
 
-  private setPilotData(data: IPilotData): void {
+  public setPilotData(data: IPilotData): void {
     this._group = data.group || ''
     this._sortIndex = data.sort_index || 0
     this._cloudID = data.cloudID || ''

@@ -119,8 +119,9 @@ export default Vue.extend({
   }),
   computed: {
     isPatron() {
-      const userstore = getModule(UserStore, this.$store)
-      return userstore.IsPatron
+      return true
+      // const userstore = getModule(UserStore, this.$store)
+      // return userstore.IsPatron
     },
     patreonLoginUrl() {
       return ''
@@ -139,12 +140,10 @@ export default Vue.extend({
           password: this.password,
           attributes: {
             email: this.email,
-            'custom:access_code': this.code,
           },
         })
         this.loading = false
         // this.$notify('Account creation successful. E-mail verification sent.')
-        console.log(user)
         this.showError = false
         this.$emit('success', this.email)
         const userstore = getModule(UserStore, this.$store)

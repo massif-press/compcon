@@ -82,12 +82,18 @@ export default Vue.extend({
     loading: false,
   }),
   methods: {
-    signIn() {
+    async signIn() {
       this.loading = true
+      const userstore = getModule(UserStore, this.$store)
       Auth.signIn(this.email, this.password)
         .then(user => {
-          const userstore = getModule(UserStore, this.$store)
           userstore.setUser(user)
+        })
+        .then(() => {
+          userstore.setAws(userstore.User)
+        })
+        .then(() => {
+          this.$notify('Cloud Data Synchronized', 'success')
           this.loading = false
           this.showError = false
           this.$emit('set-state', 'signed-in')

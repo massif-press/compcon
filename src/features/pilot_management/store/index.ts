@@ -124,6 +124,12 @@ export class PilotManagementStore extends VuexModule {
     this.context.commit(LOAD_PILOTS, { pilotData, groupData })
   }
 
+  @Action({ rawError: true })
+  public async loadCloudPilots(pilotData) {
+    const groupData = []
+    this.context.commit(LOAD_PILOTS, { pilotData, groupData })
+  }
+
   @Action
   public clonePilot(payload: Pilot): void {
     this.context.commit(CLONE_PILOT, payload)
