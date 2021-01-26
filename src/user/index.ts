@@ -40,7 +40,8 @@ interface IUserProfile {
   encounters: string[]
   missions: string[]
   active_missions: string[]
-  updatedAt: string
+  _version: number
+  last_sync: string
 }
 
 const defaultViewOptions = (): IViewOptions => ({
@@ -79,8 +80,8 @@ class UserProfile {
   private _missions: string[]
   private _active_missions: string[]
   public id: string
-  public createdAt: string
-  public updatedAt: string
+  public _version: number
+  public LastSync: string
 
   public constructor(id: string) {
     this._user_id = id
@@ -96,6 +97,7 @@ class UserProfile {
     this._encounters = []
     this._missions = []
     this._active_missions = []
+    this.LastSync = 'Never'
   }
 
   private save(): void {
@@ -114,7 +116,8 @@ class UserProfile {
       encounters: this._encounters,
       missions: this._missions,
       active_missions: this._active_missions,
-      updatedAt: this.updatedAt || '',
+      _version: this._version,
+      last_sync: this.LastSync,
     }
 
     writeFile(CONFIG_FILE_NAME, JSON.stringify(data, null, 2))
@@ -135,6 +138,15 @@ class UserProfile {
 
   public set Achievements(data: string[]) {
     this._achievements = data
+    this.save()
+  }
+
+  public get Pilots(): string[] {
+    return this._pilots
+  }
+
+  public set Pilots(data: string[]) {
+    this._pilots = data
     this.save()
   }
 
@@ -167,6 +179,13 @@ class UserProfile {
     this.save()
   }
 
+  public MarkSync(): void {
+    const now = new Date()
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+
+    this.LastSync = `${now.toLocaleTimeString()}, ${now.toLocaleDateString(undefined, options)}`
+  }
+
   public static Serialize(data: UserProfile): IUserProfile {
     return {
       id: data.id || '',
@@ -183,7 +202,8 @@ class UserProfile {
       encounters: data._encounters,
       missions: data._missions,
       active_missions: data._active_missions,
-      updatedAt: data.updatedAt || '',
+      _version: data._version,
+      last_sync: data.LastSync,
     }
   }
 
@@ -205,13 +225,13 @@ class UserProfile {
     profile._encounters = data.encounters || []
     profile._missions = data.missions || []
     profile._active_missions = data.active_missions || []
-    profile.updatedAt = data.updatedAt || ''
+    profile._version = data._version || 0
+    profile.LastSync = data.last_sync
     return profile
   }
 }
 
 async function getUser(): Promise<UserProfile> {
-  console.log('getting user')
   const configFileExists = await exists(CONFIG_FILE_NAME)
   if (!configFileExists) {
     try {
@@ -231,4 +251,4 @@ async function getUser(): Promise<UserProfile> {
   return UserProfile.Deserialize(data)
 }
 
-export { getUser, UserProfile }
+export { getUser, UserProfile, IUserProfile }

@@ -63,6 +63,12 @@
 
     <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="ml-2 mr-2" />
 
+    <cc-tooltip content="Cloud Sync">
+      <v-btn icon @click="sync()"><v-icon>mdi-cloud-sync-outline</v-icon></v-btn>
+    </cc-tooltip>
+
+    <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="ml-2 mr-2" />
+
     <v-menu nudge-bottom="40px">
       <template v-slot:activator="{ on }">
         <v-btn text icon v-on="on">
@@ -123,7 +129,7 @@ import CompendiumMode from './modes/compendium.vue'
 
 import vueMixins from '@/util/vueMixins'
 import { getModule } from 'vuex-module-decorators'
-import { NavStore } from '@/store'
+import { UserStore, NavStore } from '@/store'
 
 export default vueMixins(activePilot).extend({
   name: 'cc-nav',
@@ -151,6 +157,11 @@ export default vueMixins(activePilot).extend({
     },
   },
   methods: {
+    sync() {
+      getModule(UserStore, this.$store).cloudSync((status: string, message: string) =>
+        this.$notify(message, status)
+      )
+    },
     home() {
       this.$router.push('/')
     },

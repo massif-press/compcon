@@ -1,14 +1,14 @@
 <template>
   <div class="notificationContainer">
+    <div class="v-menu__content--active" style="display:none; z-index:1000;"></div>
     <v-snackbar
       ref="snackbar"
-      v-ripple="isClickable"
-      :style="{ cursor: isClickable ? 'pointer' : 'inherit' }"
+      v-ripple="false"
       :value="true"
       :color="notificationVariant && notificationVariant.color"
       :timeout="-1"
       @mouseover="onInteract"
-      @click="onClick"
+      @click.stop="onClick"
     >
       <v-icon dark prepend class="mr-2">
         {{ notificationVariant && notificationVariant.icon }}
@@ -19,7 +19,7 @@
       />
       &nbsp;
       <span v-html="notification.text" />
-      <v-btn class="ml-auto" dark text @click.stop="$emit('dismiss')">
+      <v-btn class="ml-auto" dark text @click.stop="$emit('dismiss-snackbar')">
         Dismiss
       </v-btn>
       <v-fade-transition>
@@ -48,6 +48,11 @@ const notificationVariants: { [key: string]: INotificationVariant } = {
     icon: '$error',
     prefix: '<b>ERROR:</b>',
     timeout: 0,
+  },
+  success: {
+    color: 'success',
+    icon: 'mdi-check',
+    timeout: 4000,
   },
   confirmation: {
     color: 'secondary',
@@ -87,7 +92,7 @@ export default class NotificationSnackbar extends Vue {
     if (this.timeout > 0) {
       this.doTimeoutProgress()
       this.timeoutRef = setTimeout(() => {
-        this.$emit('dismiss')
+        this.$emit('dismiss-snackbar')
       }, this.timeout)
     }
   }
@@ -120,7 +125,7 @@ export default class NotificationSnackbar extends Vue {
   onClick() {
     if (!this.isClickable) return
     this.notification.onClick()
-    this.$emit('dismiss')
+    this.$emit('dismiss-snackbar')
   }
 }
 </script>

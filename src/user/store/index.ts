@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import { API } from 'aws-amplify'
-import { getUser } from './graphql'
-import { createUserData } from '@/graphql/mutations'
 import * as Sync from '../sync'
 import * as Client from '../index'
+import { Pilot } from '@/class'
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
@@ -13,6 +11,7 @@ export const SET_PATREON_TOKEN = 'SET_PATREON_TOKEN'
 export const LOAD_USER = 'LOAD_USER'
 export const SET_USER = 'SET_USER'
 export const SET_AWS_DATA = 'SET_AWS_DATA'
+export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 
 @Module({
   name: 'cloud',
@@ -52,6 +51,11 @@ export class UserStore extends VuexModule {
   }
 
   @Mutation
+  private [SET_USER_PROFILE](data: any): void {
+    this.UserProfile = data
+  }
+
+  @Mutation
   private [SET_AWS_DATA](data: any): void {
     this.AwsData = data
   }
@@ -68,9 +72,17 @@ export class UserStore extends VuexModule {
 
   @Action
   public setUser(payload: any): void {
-    console.log('setting user', payload)
     this.context.commit(SET_USER, payload)
-    // sync data
+  }
+
+  @Action
+  public setUserProfile(payload: any): void {
+    this.context.commit(SET_USER_PROFILE, payload)
+  }
+
+  @Action
+  public setLoggedIn(payload: boolean): void {
+    this.context.commit(SET_LOGGED_IN, payload)
   }
 
   get getUserProfile(): Client.UserProfile {
@@ -79,10 +91,22 @@ export class UserStore extends VuexModule {
 
   @Action({ rawError: true })
   public async setAws(payload: any): Promise<void> {
-    this.context.commit(SET_LOGGED_IN, true)
-    Sync.GetSync(payload.username)
-      .then(res => console.log(res))
+    await Sync.GetSync(payload.username)
+      .then(res => {
+        this.context.commit(SET_LOGGED_IN, true)
+        this.setUserProfile(res)
+      })
+      .then(() => {
+        Sync.ContentPull().then(() => {
+          this.context.dispatch('loadExtraContent')
+        })
+      })
+      .then(() => {
+        Sync.CloudPull((pilot: Pilot) => this.context.dispatch('addPilot', pilot))
+      })
+      .then(() => this.UserProfile.MarkSync())
       .catch(err => {
+        console.error(err)
         throw new Error(`Unable to sync userdata\n${err}`)
       })
   }
@@ -90,14 +114,12 @@ export class UserStore extends VuexModule {
   @Action({ rawError: true })
   public async loadUser(): Promise<void> {
     const localdata = await Client.getUser().then(data => data)
-    console.log('this.user vs localdata')
-    console.log(this.User, localdata)
-    //check if already logged in
-    //if yes, get user data
-    //check user data against saved user data
-    //if local is later, check options and send to cloud
-    //if remote is later, check options and pull from cloud
     this.context.commit(LOAD_USER, localdata)
+  }
+
+  @Action({ rawError: true })
+  public async cloudSync(callback: any): Promise<void> {
+    Sync.CloudPush(this.UserProfile, callback).then(() => this.UserProfile.MarkSync())
   }
 
   @Action

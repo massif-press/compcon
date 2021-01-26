@@ -1,4 +1,6 @@
 {
+    "identityPoolName": "compcon_identitypool_e56f270f",
+    "allowUnauthenticatedIdentities": false,
     "resourceNameTruncated": "compcoa36153c6",
     "userPoolName": "compcon",
     "autoVerifiedAttributes": [
@@ -30,7 +32,7 @@
     "userpoolClientSetAttributes": false,
     "sharedId": "a36153c6",
     "resourceName": "compcon",
-    "authSelections": "userPoolOnly",
+    "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
             "AuthRole",

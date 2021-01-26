@@ -11,7 +11,7 @@
         class="mb-1 align-end snackFade"
         :notification="notification"
         :timeout="5000"
-        @dismiss="hideNotification(notification.id)"
+        @dismiss-snackbar="hideNotification(notification.id)"
       />
     </transition-group>
   </div>

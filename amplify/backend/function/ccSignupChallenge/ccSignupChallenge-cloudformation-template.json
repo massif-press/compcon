@@ -68,7 +68,7 @@
         "Layers": [],
         "Timeout": "25",
         "Code": {
-          "S3Bucket": "amplify-compcon-staging-215530-deployment",
+          "S3Bucket": "amplify-compcon-dev-215454-deployment",
           "S3Key": "amplify-builds/ccSignupChallenge-464f644479756f546676-build.zip"
         }
       }
