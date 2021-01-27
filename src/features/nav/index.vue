@@ -158,9 +158,9 @@ export default vueMixins(activePilot).extend({
   },
   methods: {
     sync() {
-      getModule(UserStore, this.$store).cloudSync((status: string, message: string) =>
-        this.$notify(message, status)
-      )
+      getModule(UserStore, this.$store).cloudSync({
+        callback: (status, message) => this.$notify(status, message),
+      })
     },
     home() {
       this.$router.push('/')

@@ -14,10 +14,13 @@ interface IViewOptions {
 
 interface ISyncFrequency {
   onAppLoad: boolean
+  onLogIn: boolean
   onAppExit: boolean
   onPilotLevel: boolean
   onPilotCreate: boolean
+  onPilotDelete: boolean
   onMechCreate: boolean
+  onMechDelete: boolean
 }
 
 interface ISyncOptions {
@@ -42,6 +45,7 @@ interface IUserProfile {
   active_missions: string[]
   _version: number
   last_sync: string
+  username: string
 }
 
 const defaultViewOptions = (): IViewOptions => ({
@@ -54,10 +58,13 @@ const defaultViewOptions = (): IViewOptions => ({
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
   onAppLoad: true,
+  onLogIn: true,
   onAppExit: true,
   onPilotLevel: true,
   onPilotCreate: true,
+  onPilotDelete: true,
   onMechCreate: true,
+  onMechDelete: true,
 })
 
 const defaultSyncOptions = (): ISyncOptions => ({
@@ -67,6 +74,7 @@ const defaultSyncOptions = (): ISyncOptions => ({
 
 class UserProfile {
   private _user_id: string
+  private _username: string
   private _welcome_hash: string
   private _theme: string
   private _viewOptions: IViewOptions
@@ -82,9 +90,11 @@ class UserProfile {
   public id: string
   public _version: number
   public LastSync: string
+  public Username: string
 
   public constructor(id: string) {
     this._user_id = id
+    this._username = 'No Cloud Account'
     this._theme = 'gms'
     this._welcome_hash = 'none'
     this._viewOptions = defaultViewOptions()
@@ -104,6 +114,7 @@ class UserProfile {
     const data: IUserProfile = {
       id: this.id,
       user_id: this.UserID,
+      username: this.Username,
       theme: this.Theme,
       welcome_hash: this.WelcomeHash,
       achievements: this._achievements,
@@ -129,6 +140,15 @@ class UserProfile {
 
   public set UserID(id: string) {
     this._user_id = id
+    this.save()
+  }
+
+  public get SyncFrequency(): ISyncFrequency {
+    return this._syncFrequency
+  }
+
+  public set SyncFrequency(data: ISyncFrequency) {
+    this._syncFrequency = data
     this.save()
   }
 
@@ -179,7 +199,7 @@ class UserProfile {
     this.save()
   }
 
-  public MarkSync(): void {
+  public async MarkSync(): Promise<void> {
     const now = new Date()
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
@@ -204,6 +224,7 @@ class UserProfile {
       active_missions: data._active_missions,
       _version: data._version,
       last_sync: data.LastSync,
+      username: data.Username,
     }
   }
 

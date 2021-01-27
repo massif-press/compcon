@@ -63,34 +63,6 @@
             <v-list-item-subtitle>Open the pilot export menu</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.cloudDialog.show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-cloud</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Cloud Settings</v-list-item-title>
-            <v-list-item-subtitle>
-              Manage this pilot's cloud data and share codes
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item @click="$refs.cloud.sync()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-cloud-sync</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Quick Sync</v-list-item-title>
-            <v-list-item-subtitle v-if="!pilot.CloudID && !pilot.IsUserOwned">
-              Sync cloud with pilot (creates new cloud data)
-            </v-list-item-subtitle>
-            <v-list-item-subtitle v-else-if="!pilot.CloudID || pilot.IsUserOwned">
-              Sync cloud with pilot (overwrites cloud data)
-            </v-list-item-subtitle>
-            <v-list-item-subtitle v-else>
-              Sync pilot with cloud (overwrites local data)
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
         <v-divider />
         <v-list-item @click="$refs.deleteDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
@@ -109,7 +81,6 @@
     <export-dialog ref="exportDialog" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" :pilot="pilot" />
     <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
-    <cloud-dialog ref="cloudDialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="deletePilot()" />
     <clone-dialog ref="cloneDialog" :pilot="pilot" />
     <cloud-manager ref="cloud" :pilot="pilot" />
@@ -120,7 +91,6 @@
 import Vue from 'vue'
 
 import CloudManager from './CloudManager.vue'
-import CloudDialog from './CloudDialog.vue'
 import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import Roll20Dialog from './Roll20Dialog.vue'
@@ -135,7 +105,6 @@ export default Vue.extend({
   name: 'edit-menu',
   components: {
     CloudManager,
-    CloudDialog,
     StatblockDialog,
     Roll20Dialog,
     ExportDialog,

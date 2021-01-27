@@ -11,11 +11,8 @@ import {
 } from '@/store'
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
-import { ensureDataDir } from './Data'
 
 export default async function(lancerVer: string, ccVer: string, store: any): Promise<void> {
-  ensureDataDir()
-
   const dataStore = getModule(CompendiumStore, store)
   const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
@@ -27,7 +24,7 @@ export default async function(lancerVer: string, ccVer: string, store: any): Pro
 
   await Auth.currentAuthenticatedUser()
     .then(user => {
-      userstore.setAws(user)
+      userstore.setAws(user, 'appLoad')
     })
     .catch(() => {
       userstore.loadUser()

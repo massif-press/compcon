@@ -11,6 +11,7 @@
         <span class="font-weight-bold accent--text">Pilot Share Code:&nbsp;</span>
         <span>
           {{ pilot.CloudID }}
+          {{ pilot.CloudOwner }}
           <cc-tooltip simple inline content="Copy Share Code to clipboard">
             <v-icon :color="copyConfirm ? 'success' : 'grey'" @click="copyCode()">
               {{ copyConfirm ? 'mdi-check-outline' : 'mdi-clipboard-text-outline' }}

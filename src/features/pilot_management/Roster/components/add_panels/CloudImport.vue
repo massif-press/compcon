@@ -54,6 +54,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import gistApi from '@/io/apis/gist'
+import { AwsImport } from '@/user/sync'
 import { Pilot } from '@/class'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore, CompendiumStore } from '@/store'
@@ -88,7 +89,7 @@ export default Vue.extend({
       this.reset()
       this.cloudLoading = true
       try {
-        const pilotData = await gistApi.loadPilot(this.importID)
+        const pilotData = await AwsImport(this.importID)
         if (!pilotData.brews) pilotData.brews = []
         const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
           x => `${x.Name} @ ${x.Version}`
