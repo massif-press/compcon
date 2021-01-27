@@ -50,6 +50,7 @@ export const LOAD_DATA = 'LOAD_DATA'
 
 export const LOAD_PACK = 'LOAD_PACK'
 export const DELETE_PACK = 'DELETE_PACK'
+export const CLEAR_PACKS = 'CLEAR_PACKS'
 export const SET_PACK_ACTIVE = 'SET_PACK_ACTIVE'
 
 function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
@@ -173,6 +174,11 @@ export class CompendiumStore extends VuexModule {
   // }
 
   @Mutation
+  private [CLEAR_PACKS](): void {
+    this.ContentPacks.splice(0, this.ContentPacks.length)
+  }
+
+  @Mutation
   private [LOAD_PACK](packData: IContentPack): void {
     const pack = new ContentPack(packData)
     this.ContentPacks = [...this.ContentPacks, pack]
@@ -223,6 +229,17 @@ export class CompendiumStore extends VuexModule {
 
   @Action
   public async loadExtraContent(): Promise<void> {
+    const content = await loadUserData('extra_content.json')
+    try {
+      content.forEach(c => this.context.commit(LOAD_PACK, c))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  @Action
+  public async refreshExtraContent(): Promise<void> {
+    await this.context.commit(CLEAR_PACKS)
     const content = await loadUserData('extra_content.json')
     try {
       content.forEach(c => this.context.commit(LOAD_PACK, c))

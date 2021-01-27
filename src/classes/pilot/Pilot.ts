@@ -201,6 +201,10 @@ class Pilot {
     return this._id
   }
 
+  public get CloudKey(): string {
+    return `pilot_${this._id}.json`
+  }
+
   public RenewID(): void {
     this._id = uuid()
     this._cloudID = ''
@@ -886,6 +890,7 @@ class Pilot {
 
   public AddMech(mech: Mech): void {
     this._mechs.push(mech)
+    store.dispatch('cloudSync', { callback: null, condition: 'mechCreate' })
     this.save()
   }
 
@@ -902,6 +907,7 @@ class Pilot {
         this._state = new ActiveState(this)
       }
       this._mechs.splice(index, 1)
+      store.dispatch('cloudSync', { callback: null, condition: 'mechDelete' })
     }
     this.save()
   }

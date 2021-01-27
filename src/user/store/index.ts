@@ -90,21 +90,32 @@ export class UserStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async setAws(payload: any): Promise<void> {
+  public async setAws(payload: any, condition?: string): Promise<void> {
+    let sync = true
     await Sync.GetSync(payload.username)
       .then(res => {
         this.context.commit(SET_LOGGED_IN, true)
         this.setUserProfile(res)
+        this.UserProfile.Username = payload.attributes.email
+        if (condition === 'appLoad' && !this.UserProfile.SyncFrequency.onAppLoad) sync = false
+        if (condition === 'logIn' && !this.UserProfile.SyncFrequency.onLogIn) sync = false
       })
       .then(() => {
-        Sync.ContentPull().then(() => {
-          this.context.dispatch('loadExtraContent')
-        })
+        if (sync) {
+          Sync.ContentPull()
+            .then(() => {
+              this.context.dispatch('refreshExtraContent')
+            })
+            .then(() => {
+              Sync.CloudPull(this.UserProfile, (pilot: Pilot) =>
+                this.context.dispatch('addPilot', pilot)
+              )
+            })
+            .then(() => {
+              this.UserProfile.MarkSync()
+            })
+        }
       })
-      .then(() => {
-        Sync.CloudPull((pilot: Pilot) => this.context.dispatch('addPilot', pilot))
-      })
-      .then(() => this.UserProfile.MarkSync())
       .catch(err => {
         console.error(err)
         throw new Error(`Unable to sync userdata\n${err}`)
@@ -118,8 +129,21 @@ export class UserStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async cloudSync(callback: any): Promise<void> {
-    Sync.CloudPush(this.UserProfile, callback).then(() => this.UserProfile.MarkSync())
+  public async cloudSync(payload: { callback?: any; condition?: string }): Promise<void> {
+    let sync = true
+    if (payload.condition === 'pilotLevel' && !this.UserProfile.SyncFrequency.onPilotLevel)
+      sync = false
+    if (payload.condition === 'pilotCreate' && !this.UserProfile.SyncFrequency.onPilotCreate)
+      sync = false
+    if (payload.condition === 'pilotDelete' && !this.UserProfile.SyncFrequency.onPilotDelete)
+      sync = false
+    if (payload.condition === 'mechCreate' && !this.UserProfile.SyncFrequency.onMechCreate)
+      sync = false
+    if (payload.condition === 'mechDelete' && !this.UserProfile.SyncFrequency.onMechDelete)
+      sync = false
+
+    if (sync)
+      Sync.CloudPush(this.UserProfile, payload.callback).then(() => this.UserProfile.MarkSync())
   }
 
   @Action

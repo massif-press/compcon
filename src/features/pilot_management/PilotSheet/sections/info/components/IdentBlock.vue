@@ -101,9 +101,9 @@ export default vueMixins(activePilot).extend({
       }
     },
     setCloudID(id: string) {
-      if (id && id != '// NOT SYNCED //') {
-        this.pilot.CloudID = id
-      }
+      // if (id && id != '// NOT SYNCED //') {
+      //   this.pilot.CloudID = id
+      // }
     },
     sync() {
       this.syncing = true

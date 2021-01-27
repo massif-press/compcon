@@ -2,19 +2,27 @@
   <v-container>
     <v-alert outlined prominent icon="mdi-information-outline" class="my-2">
       <div><b>Cloud Account</b></div>
-      <div>
+      <!-- <div>
         COMP/CON cloud storage accounts are an upcoming feature that is currently in development.
         They allow for storage and syncing of COMP/CON data across multiple devices with minimal
         hassle. For the time being, they are restricted to
         <a href="https://www.patreon.com/compcon" target="_blank">Patreon supporters</a>
         while we try to determine storage requirements and get an idea of what operating costs might
         look like.
+      </div> -->
+      <div>
+        The e-mail address input below will be used to send you a confirmation code to finalize the
+        creation of your account. From there, your e-mail will only be used to log in to your
+        COMP/CON account. We are committed to keeping your e-mail address confidential. We do not
+        sell, rent, or lease our contact data or lists to third parties, and we will not provide
+        your personal information to any third party individual, government agency, or company at
+        any time.
       </div>
     </v-alert>
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">CREATE ACCOUNT</v-col>
     </v-row>
-    <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
+    <!-- <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
       <v-icon large color="success">mdi-patreon</v-icon>
       Patreon Account Connected: {{ patreonAuthCode }}
       <v-icon large color="success">mdi-check</v-icon>
@@ -32,7 +40,7 @@
           register a new COMP/CON cloud account.
         </i>
       </div>
-    </div>
+    </div> -->
     <div>
       <v-row justify="center" align="center">
         <v-col lg="4" cols="12">

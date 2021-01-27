@@ -4,7 +4,9 @@
       <div class="text-center heading h3 mt-3">
         CONNECTED
         <cc-slashes />
-        <b class="accent--text">{{ authedUser.attributes.email.toUpperCase() }}</b>
+        <b class="accent--text">
+          {{ userProfile.Username }}
+        </b>
       </div>
       <v-row>
         <v-col>
@@ -49,7 +51,7 @@
           </cc-tooltip>
         </v-col>
       </v-row>
-      <!-- <v-row dense class="panel" justify="center" align="center">
+      <v-row dense class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">
           ACCOUNT OPTIONS
         </v-col>
@@ -60,26 +62,77 @@
         </v-toolbar>
         <v-row dense align="center">
           <v-col cols="auto">
-            <v-switch hide-details class="px-6" label="Manual Sync Only" />
+            <v-switch
+              :input-value="isManualOnly"
+              hide-details
+              color="accent"
+              class="px-6"
+              label="Manual Sync Only"
+              @change="setManualOnly($event)"
+            />
           </v-col>
           <v-divider vertical class="mx-3" />
           <v-col>
             <v-row dense>
-              <v-col lg="4" cols="6"><v-switch hide-details label="On App Load" /></v-col>
-              <v-col lg="4" cols="6"><v-switch hide-details label="On App Exit" /></v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onAppLoad"
+                  hide-details
+                  color="accent"
+                  label="On App Load"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onSignIn"
+                  hide-details
+                  color="accent"
+                  label="On User Sign In"
+                />
+              </v-col>
+              <!-- <v-col lg="4" cols="6"><v-switch v-model="userProfile.SyncFrequency.onAppLoad" hide-details color="accent" label="On App Exit" /></v-col> -->
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onPilotLevel"
+                  hide-details
+                  color="accent"
+                  label="On Pilot Level Up"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onPilotCreate"
+                  hide-details
+                  color="accent"
+                  label="On Pilot Creation"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onPilotDelete"
+                  hide-details
+                  color="accent"
+                  label="On Pilot Deletion"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onMechCreate"
+                  hide-details
+                  color="accent"
+                  label="On Mech Creation"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onMechDelete"
+                  hide-details
+                  color="accent"
+                  label="On Mech Deletion"
+                />
+              </v-col>
             </v-row>
-            <v-row dense>
-              <v-col lg="4" cols="6">
-                <v-switch hide-details label="On Pilot Level Up" />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch hide-details label="On Pilot Creation" />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch hide-details label="On Mech Creation" />
-              </v-col>
-            </v-row>
-            <v-row dense>
+            <!-- <v-row dense>
               <v-col lg="4" cols="6">
                 <v-switch hide-details label="On NPC Creation" disabled />
               </v-col>
@@ -97,15 +150,15 @@
               <v-col lg="4" cols="6">
                 <v-switch dense hide-details label="On Mission End" disabled />
               </v-col>
-            </v-row>
+            </v-row> -->
           </v-col>
         </v-row>
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn text color="accent" :loading="loading">Save</v-btn>
+          <v-btn text color="accent" :loading="loading" @click="sync()">Save</v-btn>
         </v-card-actions>
-      </v-card> -->
+      </v-card>
       <!-- <v-card tile outlined class="my-2">
         <v-toolbar dense flat tile color="light-panel">
           <div class="heading h3">SYNC OPTIONS</div>
@@ -229,6 +282,9 @@ export default Vue.extend({
     userProfile() {
       return getModule(UserStore, this.$store).UserProfile
     },
+    isManualOnly() {
+      return !Object.values(this.userProfile.SyncFrequency).some((x: boolean) => x === true)
+    },
   },
   mounted() {
     Auth.currentAuthenticatedUser()
@@ -241,11 +297,23 @@ export default Vue.extend({
       })
   },
   methods: {
+    setManualOnly(toggle) {
+      if (toggle) {
+        for (const k in this.userProfile.SyncFrequency) {
+          if (Object.prototype.hasOwnProperty.call(this.userProfile.SyncFrequency, k)) {
+            Vue.set(this.userProfile.SyncFrequency, k, false)
+          }
+        }
+      }
+    },
     sync() {
       this.loading = true
       const userstore = getModule(UserStore, this.$store)
       userstore
-        .cloudSync((status: string, message: string) => this.$notify(message, status))
+        .cloudSync({
+          callback: (status: string, message: string) => this.$notify(message, status),
+          condition: null,
+        })
         .then(() => {
           this.loading = false
           this.$notify('Sync Complete', 'success')
