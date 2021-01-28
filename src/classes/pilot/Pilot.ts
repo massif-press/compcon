@@ -114,6 +114,8 @@ class Pilot {
   private cc_ver: string
   private _brews: string[]
 
+  public dirty: boolean
+
   public constructor() {
     this._id = uuid()
     this._cloudID = ''
@@ -148,10 +150,12 @@ class Pilot {
     this._state = new ActiveState(this)
     this._combat_history = ActiveState.NewCombatStats()
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
+    this.dirty = false
   }
 
   // -- Utility -----------------------------------------------------------------------------------
   public save(): void {
+    this.dirty = true
     store.dispatch('saveData')
   }
 
@@ -978,6 +982,7 @@ class Pilot {
   }
 
   public set Group(val: string) {
+    console.log('setting group: ', val)
     this._group = val
     this.save()
   }

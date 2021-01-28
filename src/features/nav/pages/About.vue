@@ -1,6 +1,6 @@
 <template>
   <div :class="`mt-2 ${$vuetify.breakpoint.mdAndDown ? 'text-center' : ''}`">
-    <p class="heading mech">COMP/CON</p>
+    <p class="heading mech mt-2">COMP/CON</p>
     <div class="mx-2">
       C/C version:
       <b class="accent--text">{{ $appVersion }}</b>
@@ -14,9 +14,6 @@
           src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status"
         />
       </a>
-      <a href="https://travis-ci.com/massif-press/compcon">
-        <img src="https://travis-ci.com/massif-press/compcon.svg?branch=dev" alt="Build Status" />
-      </a>
       <a href="https://discord.gg/rwcpzsU">
         <img
           src="https://img.shields.io/badge/discord-%23compcon-7289DA?logo=discord&logoColor=white"
@@ -26,7 +23,7 @@
       <br />
       <a href="https://patreon.com/compcon">
         <img
-          src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fcompcon"
+          src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dcompcon%26type%3Dpatrons&style=for-the-badge"
           alt="Support COMP/CON on Patreon"
         />
       </a>
@@ -52,6 +49,8 @@
       <div class="heading h2 accent--text text-center mt-2">COMP/CON Development by:</div>
       <v-row dense>
         <dev-badge v-for="c in credits.lead_devs" :key="c.name" :info="c" big />
+      </v-row>
+      <v-row dense>
         <dev-badge v-for="c in credits.devs" :key="c.name" :info="c" />
       </v-row>
       <v-divider class="my-3" />
@@ -93,34 +92,31 @@ import TierThree from './SupporterBadges/TierThree.vue'
 import TierTwo from './SupporterBadges/TierTwo.vue'
 import TierOne from './SupporterBadges/TierOne.vue'
 import SpecialThanks from './SupporterBadges/SpecialThanks.vue'
-import gistApi from '@/io/apis/gist'
 
 export default Vue.extend({
   name: 'about',
   components: { DevBadge, TierFive, TierFour, TierThree, TierTwo, TierOne, SpecialThanks },
   data: () => ({
-    commitRef: 'UNKNOWN',
+    creditsUrl: 'https://compcon-text-assets.s3.amazonaws.com/credits.json',
     credits: credits,
     loading: true,
   }),
-  created() {
-    gistApi
-      .getCredits()
-      .then((response: any) => {
-        if (!response || !response.files) {
-          this.credits = credits
-        } else {
-          this.credits = JSON.parse(response.files['credits.json'].content)
-        }
-        this.loading = false
-      })
-      .catch(() => {
-        this.credits = credits
-        this.loading = false
-      })
-  },
   mounted() {
-    this.commitRef = process.env.COMMIT_REF
+    fetch(this.creditsUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then(res => res.json())
+      .then(content => {
+        this.credits = content
+      })
+      .catch(err => {
+        console.error('There was an issue downloading the latest welcome message.', err)
+      })
+      .finally(() => (this.loading = false))
   },
 })
 </script>

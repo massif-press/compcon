@@ -95,7 +95,8 @@
             <v-col v-if="pilot.CloudID" cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">rm-4://(OMNINET UPLINK ID)</div>
               <div class="stat-text white--text mt-n3">
-                {{ pilot.CloudID }}
+                temporarily disabled
+                <!-- {{ pilot.CloudID }} -->
               </div>
             </v-col>
             <v-col cols="auto" class="mr-5">

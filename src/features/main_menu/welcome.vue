@@ -13,7 +13,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import gistApi from '@/io/apis/gist'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
 import { UserProfile } from '@/user'
@@ -21,6 +20,7 @@ import { UserProfile } from '@/user'
 export default Vue.extend({
   name: 'welcome-dialog',
   data: () => ({
+    welcomeMessageUrl: 'https://compcon-text-assets.s3.amazonaws.com/welcome.json',
     title: '',
     body: '',
     hash: '',
@@ -37,27 +37,30 @@ export default Vue.extend({
       if (newval) this.profile.WelcomeHash = this.hash
       else this.profile.WelcomeHash = ''
     },
-  },
-  mounted() {
-    gistApi
-      .getMessage()
-      .then((response: any) => {
-        if (!response || !response.files) {
-          this.title = 'ERR'
-          this.body = 'Unable to download message'
-        } else {
-          const content = JSON.parse(response.files['welcome.json'].content)
-          this.title = content.title
-          this.body = content.body
-          this.hash = content.hash
-          if (content.hash !== this.profile.WelcomeHash) {
-            this.$refs.dialog.show()
-          }
-        }
-      })
-      .catch(err => {
-        console.error('There was an issue downloading the latest welcome message.', err)
-      })
+    profile(newval) {
+      if (newval.WelcomeHash !== undefined)
+        fetch(this.welcomeMessageUrl, {
+          method: 'GET',
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+        })
+          .then(res => res.json())
+          .then(content => {
+            this.title = content.title
+            this.body = content.body
+            this.hash = content.hash
+          })
+          .then(() => {
+            if (this.hash !== this.profile.WelcomeHash) {
+              this.$refs.dialog.show()
+            }
+          })
+          .catch(err => {
+            console.error('There was an issue downloading the latest welcome message.', err)
+          })
+    },
   },
   methods: {
     setHash() {

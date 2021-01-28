@@ -10,10 +10,6 @@ async function savePilots(pilots: Pilot[]) {
   await saveData('pilots_v2.json', serialized)
 }
 
-async function savePilotGroups(groups: string[]) {
-  await saveData('pilot_groups.json', groups)
-}
-
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_PILOT = 'SET_PILOT'
 export const ADD_GROUP = 'ADD_GROUP'
@@ -31,7 +27,6 @@ export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 })
 export class PilotManagementStore extends VuexModule {
   public Pilots: Pilot[] = []
-  public BadPilots: any[] = []
   public PilotGroups: string[] = []
   public LoadedMechID = ''
   public ActivePilot: Pilot = null
@@ -40,37 +35,18 @@ export class PilotManagementStore extends VuexModule {
   @Mutation
   private [SAVE_DATA](): void {
     if (this.Pilots.length) _.debounce(savePilots, 1000)(this.Pilots)
-    if (this.PilotGroups.length) _.debounce(savePilotGroups, 1000)(this.PilotGroups)
   }
 
   @Mutation
-  private [LOAD_PILOTS](payload: { pilotData: IPilotData[]; groupData: string[] }): void {
-    // TODO: bring back validator?
-    // should maybe validate in the action instead of the mutator...
-    // this.Pilots = validator.checkVersion(payload).map(x => Pilot.Deserialize(x))
-    const allPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
+  private [LOAD_PILOTS](payload: IPilotData[]): void {
+    const allPilots = [...payload.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
-    this.BadPilots = []
-    // savePilots(this.Pilots)
-    this.PilotGroups = _.uniq(payload.pilotData.map(x => x.group).concat(payload.groupData))
   }
 
   @Mutation
   private [ADD_PILOT](payload: Pilot): void {
     this.Pilots.push(payload)
     savePilots(this.Pilots)
-  }
-
-  @Mutation
-  private [ADD_GROUP](payload: string): void {
-    this.PilotGroups.push(payload)
-    savePilotGroups(this.PilotGroups)
-  }
-
-  @Mutation
-  private [DELETE_GROUP](payload: string): void {
-    this.PilotGroups.splice(this.PilotGroups.indexOf(payload), 1)
-    savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
@@ -107,6 +83,10 @@ export class PilotManagementStore extends VuexModule {
     return this.Pilots
   }
 
+  get unsavedCloudPilots(): Pilot[] {
+    return this.Pilots.filter(x => x.dirty)
+  }
+
   @Action
   public setPilots(payload: Pilot[]) {
     this.context.commit('SET_PILOTS', payload)
@@ -120,14 +100,12 @@ export class PilotManagementStore extends VuexModule {
   @Action({ rawError: true })
   public async loadPilots() {
     const pilotData = await loadData<IPilotData>('pilots_v2.json')
-    const groupData = await loadData<string>('pilot_groups.json')
-    this.context.commit(LOAD_PILOTS, { pilotData, groupData })
+    this.context.commit(LOAD_PILOTS, pilotData)
   }
 
   @Action({ rawError: true })
   public async loadCloudPilots(pilotData) {
-    const groupData = []
-    this.context.commit(LOAD_PILOTS, { pilotData, groupData })
+    this.context.commit(LOAD_PILOTS, pilotData)
   }
 
   @Action

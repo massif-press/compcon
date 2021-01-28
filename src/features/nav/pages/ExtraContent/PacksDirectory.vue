@@ -40,47 +40,46 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import DirectoryTable from './components/DirectoryTable.vue'
-import gistApi from '@/io/apis/gist'
 
 @Component({
   components: { DirectoryTable },
 })
 export default class PacksDirectory extends Vue {
+  private massifPacksUrl = 'https://compcon-text-assets.s3.amazonaws.com/massifpacks.json'
+  private communityPacksUrl = 'https://compcon-text-assets.s3.amazonaws.com/communitypacks.json'
   private massifPacks = []
   private massifLoading = true
   private communityPacks = []
   private communityLoading = true
 
   mounted(): void {
-    gistApi
-      .getMassifPacks()
-      .then((response: any) => {
-        this.massifLoading = false
-        if (!response || !response.files) {
-          this.massifPacks = []
-        } else {
-          this.massifPacks = JSON.parse(response.files['massifpacks.json'].content)
-        }
-      })
+    fetch(this.massifPacksUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then(res => res.json())
+      .then(list => (this.massifPacks = list))
       .catch(err => {
-        this.massifLoading = false
         console.error('There was an issue downloading the Massif content packs.', err)
       })
+      .finally(() => (this.massifLoading = false))
 
-    gistApi
-      .getCommunityPacks()
-      .then((response: any) => {
-        this.communityLoading = false
-        if (!response || !response.files) {
-          this.communityPacks = []
-        } else {
-          this.communityPacks = JSON.parse(response.files['communitypacks.json'].content)
-        }
-      })
+    fetch(this.communityPacksUrl, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    })
+      .then(res => res.json())
+      .then(list => (this.communityPacks = list))
       .catch(err => {
-        this.communityLoading = false
-        console.error('There was an issue downloading the Massif content packs.', err)
+        console.error('There was an issue downloading the community content packs.', err)
       })
+      .finally(() => (this.communityLoading = false))
   }
 }
 </script>
