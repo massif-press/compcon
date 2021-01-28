@@ -49,17 +49,16 @@
         <roster-sort :pilots="pilots" @sort="onSort" />
       </v-col> -->
     </v-row>
-
     <v-slide-x-transition mode="out-in">
       <v-container fluid class="mx-3">
-        <div v-for="g in Object.keys(groups)" :key="`pg_${g}`">
+        <div v-for="g in groups" :key="`pg_${g}`">
           <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
             <v-col cols="auto">
               <v-btn small dark icon class="mt-n1" @click="toggleShown(g)">
                 <v-icon v-html="shown.includes(g) ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
               </v-btn>
               {{ g ? g : 'Ungrouped' }}
-              <span class="overline">({{ groups[g].length }})</span>
+              <span class="overline">({{ pilots.filter(x => x.Group === g).length }})</span>
             </v-col>
             <v-col v-if="g" cols="auto" class="ml-auto mr-8">
               <v-btn dark small icon class="fadeSelect" @click="deleteGroup(g)">
@@ -70,7 +69,8 @@
           <div v-if="shown.includes(g)">
             <v-expand-transition>
               <draggable
-                :list="groups[g]"
+                :key="`draggable${g}`"
+                :list="pilots.filter(x => x.Group === g)"
                 :disabled="preventDnd"
                 group="pilots"
                 v-bind="dragOptions"
@@ -80,7 +80,7 @@
               >
                 <component
                   :is="pilotCardType"
-                  v-for="(p, i) in groups[g]"
+                  v-for="(p, i) in pilots.filter(x => x.Group === g)"
                   :key="`${pilotCardType}_${i}`"
                   :pilot="p"
                   :small="profile.GetView('roster') === 'small-cards'"
@@ -152,14 +152,16 @@ export default Vue.extend({
     sortParams: null,
     drag: false,
     newGroupMenu: false,
-    groups: [],
+    tempGroups: [],
     shown: [],
     newGroupName: '',
     preventDnd: true,
   }),
   computed: {
+    pilotStore() {
+      return getModule(PilotManagementStore, this.$store)
+    },
     pilotCardType(): string {
-      console.log(this.profile)
       switch (this.profile.GetView('roster')) {
         case 'cards':
         case 'small-cards':
@@ -173,21 +175,15 @@ export default Vue.extend({
       const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
-    pilotsUnsorted() {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.Pilots
-    },
-    pilotGroups() {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.PilotGroups
+    // pilotsUnsorted() {
+    //   return this.pilotStore.Pilots
+    // },
+    groups() {
+      return _.uniq(this.pilots.map(x => x.Group).concat(this.tempGroups))
     },
     pilots() {
-      const store = getModule(PilotManagementStore, this.$store)
-      return store.Pilots
-    },
-    pilotsByGroup() {
-      const grouped = _.groupBy(this.pilots, 'Group')
-      return grouped
+      // const store = getModule(PilotManagementStore, this.$store)
+      return this.pilotStore.Pilots
     },
     dragOptions() {
       return {
@@ -204,36 +200,32 @@ export default Vue.extend({
       }
     },
   },
-  watch: {
-    pilots() {
-      this.reset()
-    },
-  },
+  // watch: {
+  //   pilots() {
+  //     this.reset()
+  //   },
+  // },
   created() {
-    this.reset()
-    this.shown = Object.keys(this.groups)
+    // this.reset()
+    this.shown = [...this.groups]
     this.preventDnd = this.isTouch
   },
   methods: {
-    reset() {
-      const store = getModule(PilotManagementStore, this.$store)
-      this.groups = _.groupBy(this.pilots, 'Group')
-      for (const g in this.groups) {
-        if (this.groups.hasOwnProperty(g)) {
-          this.groups[g] = _.sortBy(this.groups[g], 'SortIndex')
-        }
-      }
-      store.PilotGroups.forEach(pg => {
-        if (!Object.keys(this.groups).includes(pg)) Vue.set(this.groups, pg, [])
-      })
-    },
+    // reset() {
+    //   this.groups = _.groupBy(this.pilots, 'Group')
+    //   for (const g in this.groups) {
+    //     if (this.groups.hasOwnProperty(g)) {
+    //       this.groups[g] = _.sortBy(this.groups[g], 'SortIndex')
+    //     }
+    //   }
+    // },
     toggleShown(group: string) {
       const idx = this.shown.indexOf(group)
       if (idx === -1) this.shown.push(group)
       else this.shown.splice(idx, 1)
     },
     showAll() {
-      Vue.set(this, 'shown', Object.keys(this.groups))
+      Vue.set(this, 'shown', [...this.groups])
     },
     hideAll() {
       Vue.set(this, 'shown', [])
@@ -242,10 +234,8 @@ export default Vue.extend({
       this.sortParams = sortParams
     },
     addNewGroup() {
-      const store = getModule(PilotManagementStore, this.$store)
-      store.addGroup(this.newGroupName)
+      this.tempGroups.push(this.newGroupName)
       this.shown.push(this.newGroupName)
-      Vue.set(this.groups, this.newGroupName, [])
       this.newGroupName = ''
       this.newGroupMenu = false
     },
@@ -258,17 +248,16 @@ export default Vue.extend({
         const p = e.added.element as Pilot
         p.SortIndex = e.added.newIndex
         p.Group = g
+        // if (this.tempGroups.includes(g))
       }
     },
     deleteGroup(g) {
-      const store = getModule(PilotManagementStore, this.$store)
-      this.groups[g].forEach((p: Pilot) => {
-        Vue.set(p, 'Group', '')
+      this.pilots.forEach((p: Pilot) => {
+        if (p.Group === g) p.Group = ''
       })
-      if (!this.groups[g]) return
-      Vue.delete(this.groups, g)
-      store.deleteGroup(g)
-      this.reset()
+      const idx = this.tempGroups.indexOf(g)
+      if (idx === -1) return
+      this.tempGroups.splice(idx, 1)
     },
     randomName() {
       this.newGroupName = teamName()

@@ -18,8 +18,6 @@ const GetSync = async (uid?: string): Promise<Client.UserProfile> => {
 
   const userData = res.data.syncUserData.items[0]
 
-  console.log(userData)
-
   if (userData) {
     try {
       const CloudUser = Client.UserProfile.Deserialize(userData)
@@ -134,10 +132,12 @@ const CloudPull = async (userProfile: Client.UserProfile, addPilotCallback: any)
         // update existing pilot
         match.setPilotData(data)
         if (!match.CloudOwnerID) match.CloudOwnerID = currentCognitoUser
+        match.dirty = false
       } else {
         console.info('Adding New Pilot')
         const dlPilot = Pilot.Deserialize(data)
         dlPilot.CloudOwnerID = currentCognitoUser
+        dlPilot.dirty = false
         addPilotCallback(dlPilot)
       }
     } catch (err) {
@@ -186,6 +186,7 @@ const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any>
         .then(() => {
           // callback('success', `${match.Callsign}//UPDATE SUCCESSFUL`)
           storageIds.push(match.CloudKey)
+          match.dirty = false
         })
         .catch(err => {
           console.error(err)
@@ -213,6 +214,7 @@ const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any>
       .then(() => {
         // if (callback) callback('success', `${p.Callsign}//ADDED TO VAULT`)
         storageIds.push(p.CloudKey)
+        p.dirty = false
       })
       .catch(err => {
         console.error(err)

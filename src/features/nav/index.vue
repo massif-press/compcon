@@ -63,8 +63,15 @@
 
     <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="ml-2 mr-2" />
 
-    <cc-tooltip content="Cloud Sync">
-      <v-btn icon @click="sync()"><v-icon>mdi-cloud-sync-outline</v-icon></v-btn>
+    <cc-tooltip bottom :content="syncTooltip">
+      <v-btn
+        icon
+        :class="unsaved.length ? 'pulse' : ''"
+        :style="`opacity: ${unsaved.length ? '1' : '0.4'}`"
+        @click="sync()"
+      >
+        <v-icon>mdi-cloud-sync-outline</v-icon>
+      </v-btn>
     </cc-tooltip>
 
     <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="ml-2 mr-2" />
@@ -129,7 +136,7 @@ import CompendiumMode from './modes/compendium.vue'
 
 import vueMixins from '@/util/vueMixins'
 import { getModule } from 'vuex-module-decorators'
-import { UserStore, NavStore } from '@/store'
+import { PilotManagementStore, UserStore, NavStore } from '@/store'
 
 export default vueMixins(activePilot).extend({
   name: 'cc-nav',
@@ -154,6 +161,17 @@ export default vueMixins(activePilot).extend({
   computed: {
     mode(): string {
       return getModule(NavStore, this.$store).NavMode
+    },
+    unsaved() {
+      return getModule(PilotManagementStore, this.$store).unsavedCloudPilots
+    },
+    syncTooltip(): string {
+      if (!this.unsaved.length) return 'Pilot data synced'
+      return (
+        '<div class="text-center"><b>LOCAL CHANGES<br></b>' +
+        this.unsaved.map(p => `Pilot::${p.Callsign}`).join('<br>') +
+        '<br><span class="caption">Click to save changes to your cloud account</span></div>'
+      )
     },
   },
   methods: {

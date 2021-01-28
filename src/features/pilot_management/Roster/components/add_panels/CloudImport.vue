@@ -14,6 +14,8 @@
       @cancel="cancelImport"
       @confirm="confirmImport"
     >
+      <div class="my-3">Cloud Import is temporarily disabled during this testing phase</div>
+      <br />
       <v-text-field
         v-model="importID"
         dark
@@ -23,6 +25,7 @@
         outlined
         append-outer-icon="mdi-cloud-search"
         :loading="cloudLoading"
+        disabled
         @click:append-outer="cloudImport"
         @keypress.enter="cloudImport"
       />

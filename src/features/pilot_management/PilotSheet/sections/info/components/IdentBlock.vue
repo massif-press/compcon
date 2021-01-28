@@ -35,7 +35,8 @@
       </v-col>
       <v-col>
         <div class="overline mb-n3 subtle--text">OMNINET UPLINK ID</div>
-        <span v-if="pilot.CloudID">
+        <span>temporarily disabled</span>
+        <!-- <span v-if="pilot.CloudID">
           {{ pilot.CloudID }}
         </span>
         <span v-else class="stat-text error--text">
@@ -51,7 +52,7 @@
         </cc-tooltip>
         <cc-tooltip v-else simple inline content="Syncing...">
           <v-progress-circular indeterminate size="20" width="2" color="secondary" />
-        </cc-tooltip>
+        </cc-tooltip> -->
       </v-col>
       <v-col>
         <div class="overline mb-n3 subtle--text">STATUS</div>

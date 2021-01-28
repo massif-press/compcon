@@ -21,7 +21,7 @@
     <!-- Name -->
     <template v-slot:[`item.name`]="{ item }">
       <span class="title">
-        {{ item.name }}
+        {{ item.title }}
       </span>
     </template>
     <!-- Version -->
@@ -95,22 +95,22 @@ export default Vue.extend({
   },
   computed: {
     tableHeaders() {
-      return this.noAuthor
-        ? [
-            { text: '', value: 'data-table-expand' },
-            { text: 'Download', value: 'website', sortable: false, align: 'center' },
-            { text: 'Name', value: 'name' },
-            { text: 'Version', value: 'version' },
-            { text: 'Cost', value: 'cost' },
-          ]
-        : [
-            { text: '', value: 'data-table-expand' },
-            { text: 'Download', value: 'website', sortable: false, align: 'center' },
-            { text: 'Name', value: 'name' },
-            { text: 'Author', value: 'author' },
-            { text: 'Version', value: 'version' },
-            { text: 'Cost', value: 'cost' },
-          ]
+      if (this.noAuthor)
+        return [
+          { text: '', value: 'data-table-expand' },
+          { text: 'Download', value: 'website', sortable: false, align: 'center' },
+          { text: 'Name', value: 'name' },
+          { text: 'Version', value: 'version' },
+          { text: 'Cost', value: 'cost' },
+        ]
+      return [
+        { text: '', value: 'data-table-expand' },
+        { text: 'Download', value: 'website', sortable: false, align: 'center' },
+        { text: 'Name', value: 'name' },
+        { text: 'Author', value: 'author' },
+        { text: 'Version', value: 'version' },
+        { text: 'Cost', value: 'cost' },
+      ]
     },
     contentPacks() {
       return getModule(CompendiumStore, this.$store).ContentPacks
@@ -118,10 +118,12 @@ export default Vue.extend({
   },
   methods: {
     packInstalled(item) {
-      return this.contentPacks.some(x => x.Name === item.name)
+      return this.contentPacks.some(x => x.Name === item.name || x.Name === item.title)
     },
     packOutdated(item) {
-      const installedPack = this.contentPacks.find(x => x.Name === item.name)
+      const installedPack = this.contentPacks.find(
+        x => x.Name === item.name || x.Name === item.title
+      )
       if (!installedPack) return true
       return installedPack.Version !== item.version
     },
