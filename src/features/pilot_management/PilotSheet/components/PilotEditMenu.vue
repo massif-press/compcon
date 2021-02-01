@@ -43,6 +43,17 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="$refs.cloudDialog.show()">
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
+            <v-icon>mdi-cloud</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Cloud Management</v-list-item-title>
+            <v-list-item-subtitle>
+              Save or update this pilot's cloud record (old method)
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
         <!-- <v-list-item @click="$refs.roll20Dialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-dice-d20</v-icon>
@@ -83,6 +94,7 @@
     <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="deletePilot()" />
     <clone-dialog ref="cloneDialog" :pilot="pilot" />
+    <cloud-dialog ref="cloudDialog" :pilot="pilot" />
     <cloud-manager ref="cloud" :pilot="pilot" />
   </div>
 </template>
@@ -91,6 +103,7 @@
 import Vue from 'vue'
 
 import CloudManager from './CloudManager.vue'
+import CloudDialog from './CloudDialog.vue'
 import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import Roll20Dialog from './Roll20Dialog.vue'
@@ -111,6 +124,7 @@ export default Vue.extend({
     PrintDialog,
     DeleteDialog,
     CloneDialog,
+    CloudDialog,
   },
   props: {
     pilot: {

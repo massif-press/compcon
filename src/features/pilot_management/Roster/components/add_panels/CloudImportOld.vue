@@ -1,8 +1,8 @@
 <template>
   <cc-major-btn
-    icon="mdi-download"
-    color="secondary"
-    name="File Import"
+    icon="mdi-cloud-download"
+    color="success"
+    name="Cloud Download"
     small
     @clicked="dialog = true"
   >
@@ -10,19 +10,21 @@
       v-model="dialog"
       :pilot="importPilot"
       :error="error"
+      :loading="cloudLoading"
       @cancel="cancelImport"
-      @confirm="stageImport"
+      @confirm="confirmImport"
     >
-      <v-file-input
-        v-model="fileValue"
-        accept="text/json"
+      <v-text-field
+        v-model="importID"
         dark
-        outlined
         autofocus
-        placeholder="Select Pilot Data File"
-        label="UND IDENT RECORD"
-        prepend-icon="mdi-paperclip"
-        @change="importFile"
+        label="UND IDENT ID"
+        placeholder="Input Pilot Share ID"
+        outlined
+        append-outer-icon="mdi-cloud-search"
+        :loading="cloudLoading"
+        @click:append-outer="cloudImport"
+        @keypress.enter="cloudImport"
       />
     </import-dialog>
     <v-dialog v-model="missingContentWarning">
@@ -42,7 +44,7 @@
         <v-divider />
         <v-card-actions>
           <v-spacer />
-          <v-btn text color="primary" @click="reset">Abort Import</v-btn>
+          <v-btn text color="primary" @click="cancelImport">Abort Import</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -51,42 +53,42 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import gistApi from '@/io/apis/gist'
 import { Pilot } from '@/class'
-import { importData } from '@/io/Data'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { IPilotData } from '@/interface'
+import { PilotManagementStore, CompendiumStore } from '@/store'
+
 import ImportDialog from './ImportDialog.vue'
 
 export default Vue.extend({
-  name: 'file-import',
+  name: 'cloud-import',
   components: { ImportDialog },
   data: () => ({
     dialog: false,
-    // fileValue is just used to clear the file input
-    fileValue: null,
+    importID: '',
     importPilot: null,
+    cloudLoading: false,
     error: null,
     missingContentWarning: false,
     missingContent: '',
   }),
   watch: {
-    dialog(dialogOpen) {
-      if (!dialogOpen) this.reset()
+    dialog(open) {
+      if (!open) this.reset()
     },
   },
   methods: {
     reset() {
-      this.fileValue = null
       this.importPilot = null
       this.error = null
+      this.cloudLoading = false
       this.missingContentWarning = false
     },
-    async importFile(file) {
+    async cloudImport() {
       this.reset()
-      if (!file) return
+      this.cloudLoading = true
       try {
-        const pilotData = await importData<IPilotData>(file)
+        const pilotData = await gistApi.loadPilot(this.importID)
         if (!pilotData.brews) pilotData.brews = []
         const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
           x => `${x.Name} @ ${x.Version}`
@@ -101,27 +103,23 @@ export default Vue.extend({
         this.importPilot.RenewID()
       } catch (e) {
         this.error = e.message
-        return
       }
-    },
-    stageImport() {
-      const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(x => x.Name)
-      const missingPacks = this.$_.without(this.importPilot.brews, installedPacks)
-      if (!missingPacks.length) this.confirmImport()
-      else {
-        this.missingContent = missingPacks.join('<br />')
-        this.missingContentWarning = true
-      }
+      this.cloudLoading = false
     },
     confirmImport() {
-      this.importPilot.RenewID()
-      this.$store.dispatch('addPilot', this.importPilot)
+      const importPilot = this.importPilot as Pilot
+      if (!importPilot.CloudID) {
+        importPilot.CloudID = this.importID
+      }
+      getModule(PilotManagementStore, this.$store).addPilot(importPilot)
       this.reset()
       this.dialog = false
+      this.importID = ''
       this.$emit('done')
     },
     cancelImport() {
       this.reset()
+      this.importID = ''
       this.dialog = false
     },
   },

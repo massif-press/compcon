@@ -127,20 +127,8 @@ export default Vue.extend({
   }),
   computed: {
     isPatron() {
-      //       return true
-      //       // const userstore = getModule(UserStore, this.$store)
-      //       // return userstore.IsPatron
-      //     },
-      //     patreonLoginUrl() {
-      //       return ''
-      //       // return loginUrl()
       return !!this.patreonAuthCode
-      // const cloudstore = getModule(CloudStore, this.$store)
-      // return cloudstore.IsPatron
     },
-  },
-  created() {
-    // console.log(aws)
   },
   methods: {
     async createAccount() {
@@ -174,7 +162,6 @@ export default Vue.extend({
         '',
         'code'
       )
-      console.log(authorizationCode)
       this.patreonAuthCode = authorizationCode
     },
   },

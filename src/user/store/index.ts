@@ -148,7 +148,6 @@ export class UserStore extends VuexModule {
 
   @Action
   public setPatron(payload: any): void {
-    console.log('setting oauth', payload)
     this.context.commit(SET_PATRON, payload)
   }
 
