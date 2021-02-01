@@ -1,103 +1,86 @@
 {
-  "api": {
-    "compcon": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "API_KEY",
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 30,
-              "description": "api key description"
-            }
-          },
-          "additionalAuthenticationProviders": [{
-            "authenticationType": "AWS_IAM"
-          }]
-        }
-      }
-    },
-    "patreonOauth": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [{
-        "category": "function",
-        "resourceName": "patreonOauthL",
-        "attributes": [
-          "Name",
-          "Arn"
-        ]
-      }]
-    },
-    "itchOauth": {
-      "service": "API Gateway",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [{
-        "category": "function",
-        "resourceName": "itchOauthL",
-        "attributes": [
-          "Name",
-          "Arn"
-        ]
-      }]
-    }
-  },
-  "auth": {
-    "compcon": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
-    }
-  },
-  "function": {
-    "ccSignupChallenge": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
-    },
-    "patreonOauthL": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
-    },
-    "itchOauthL": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
-    },
-    "createPatreonSnowflake": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": [{
-        "category": "storage",
-        "resourceName": "patreonsnowflakes",
-        "attributes": [
-          "Name",
-          "Arn"
-        ],
-        "attributeEnvMap": {
-          "Name": "TABLE_NAME",
-          "Arn": "TABLE_ARN"
-        }
-      }]
-    }
-  },
-  "storage": {
-    "patreonsnowflakes": {
-      "service": "DynamoDB",
-      "providerPlugin": "awscloudformation"
-    }
-  },
-  "storage": {
-    "ccUserStorage": {
-      "service": "S3",
-      "providerPlugin": "awscloudformation"
-    }
-  }
+	"api": {
+		"compcon": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"apiKeyExpirationDays": 30,
+							"description": "api key description"
+						}
+					},
+					"additionalAuthenticationProviders": [
+						{
+							"authenticationType": "AWS_IAM"
+						}
+					]
+				}
+			}
+		},
+		"patreonOauth": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "patreonOauthL",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		},
+		"itchOauth": {
+			"service": "API Gateway",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "function",
+					"resourceName": "itchOauthL",
+					"attributes": [
+						"Name",
+						"Arn"
+					]
+				}
+			]
+		}
+	},
+	"auth": {
+		"compcon": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	},
+	"function": {
+		"ccSignupChallenge": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": []
+		},
+		"patreonOauthL": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": []
+		},
+		"itchOauthL": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": []
+		}
+	},
+	"storage": {
+		"ccUserStorage": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	}
 }

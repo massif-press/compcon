@@ -1,9 +1,10 @@
 <template>
   <cc-major-btn
-    icon="mdi-cloud-download"
-    color="success"
-    name="Cloud Import"
+    icon="mdi-database"
+    color="damage--energy"
+    name="Vault Import"
     small
+    :disabled="disabled"
     @clicked="dialog = true"
   >
     <import-dialog
@@ -65,6 +66,11 @@ import { IPilotData } from '@/interface'
 export default Vue.extend({
   name: 'cloud-import',
   components: { ImportDialog },
+  props: {
+    disabled: {
+      type: Boolean,
+    },
+  },
   data: () => ({
     dialog: false,
     importID: '',

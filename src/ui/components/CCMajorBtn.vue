@@ -5,9 +5,10 @@
         id="underline-parent"
         :class="`clipped-x-large ${hover ? 'on-hover' : ''}`"
         :height="small ? '8em' : '10em'"
-        :color="color"
+        :color="disabled ? 'grey' : color"
         tile
         outlined
+        :disabled="disabled"
         @click="$emit('clicked')"
       >
         <v-icon
@@ -53,6 +54,9 @@ export default class CCMajorButton extends Vue {
 
   @Prop({ type: Boolean, required: false })
   readonly small?: boolean
+
+  @Prop({ type: Boolean, required: false })
+  readonly disabled?: boolean
 
   @Prop({ type: String, required: false, default: '' })
   readonly cols?: string

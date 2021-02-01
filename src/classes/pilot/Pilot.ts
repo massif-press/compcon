@@ -80,6 +80,9 @@ class Pilot implements ICloudSyncable {
   public CloudOwnerID: string
   public IsDirty: boolean
 
+  public GistCode: string
+  public GistOwner: string
+
   private _cloud_portrait: string
 
   private _callsign: string
@@ -381,12 +384,9 @@ class Pilot implements ICloudSyncable {
   }
 
   public SetRemoteResource(): void {
-    console.log('setting remote resource')
     this.CloudID = this.ID
     this.IsLocallyOwned = false
-    console.log(this.ID, this.CloudID)
     this.RenewID()
-    console.log(this.ID, this.CloudID)
   }
 
   public SetOwnedResource(userCognitoId: string): void {
@@ -407,7 +407,7 @@ class Pilot implements ICloudSyncable {
   // old gist stuff:
 
   public get IsUserOwned(): boolean {
-    return this.CloudOwnerID === store.getters.getUserProfile.ID
+    return this.GistOwner === store.getters.getUserProfile.ID
   }
 
   public SetCloudImage(src: string): void {
@@ -417,10 +417,10 @@ class Pilot implements ICloudSyncable {
 
   public async CloudSave(): Promise<any> {
     this.SetBrewData()
-    if (!this.CloudOwnerID) {
-      this.CloudOwnerID = store.getters.getUserProfile.ID
+    if (!this.GistOwner) {
+      this.GistOwner = store.getters.getUserProfile.ID
     }
-    if (!this.CloudID) {
+    if (!this.GistCode) {
       return gistApi.newPilot(this).then((response: any) => {
         this.setCloudInfo(response.id)
       })
@@ -432,23 +432,23 @@ class Pilot implements ICloudSyncable {
   }
 
   public async CloudLoad(): Promise<any> {
-    if (!this.CloudID) return Promise.reject('No Cloud ID')
-    return gistApi.loadPilot(this.CloudID).then((gist: any) => {
+    if (!this.GistCode) return Promise.reject('No Cloud ID')
+    return gistApi.loadPilot(this.GistCode).then((gist: any) => {
       this.Update(gist)
-      // this.lastSync = new Date().toString()
+      this.MarkSync()
     })
   }
 
   public CloudCopy(): Promise<any> {
-    this.CloudID = ''
-    this.CloudOwnerID = ''
+    this.GistCode = ''
+    this.GistOwner = ''
     return this.CloudSave()
   }
 
   public setCloudInfo(id: string): void {
-    this.CloudID = id
-    this.CloudOwnerID = store.getters.getUserProfile.ID
-    // this.lastSync = new Date().toString()
+    this.GistCode = id
+    this.GistOwner = store.getters.getUserProfile.ID
+    this.MarkSync()
   }
 
   // -- Stats -------------------------------------------------------------------------------------
