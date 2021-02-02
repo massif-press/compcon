@@ -10,8 +10,9 @@
       </div>
       <v-row>
         <v-col>
-          <v-btn tile small block color="secondary" disabled class="my-1">
-            Link Patreon Account
+          <v-btn tile small block color="patreon" depressed class="my-1">
+            <v-icon left>mdi-check</v-icon>
+            Patreon Account Linked
           </v-btn>
         </v-col>
         <v-col>

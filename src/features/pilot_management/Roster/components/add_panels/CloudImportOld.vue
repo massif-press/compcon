@@ -108,8 +108,8 @@ export default Vue.extend({
     },
     confirmImport() {
       const importPilot = this.importPilot as Pilot
-      if (!importPilot.CloudID) {
-        importPilot.CloudID = this.importID
+      if (!importPilot.GistCode) {
+        importPilot.GistCode = this.importID
       }
       getModule(PilotManagementStore, this.$store).addPilot(importPilot)
       this.reset()

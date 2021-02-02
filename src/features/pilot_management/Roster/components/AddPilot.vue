@@ -14,13 +14,13 @@
           <cloud-import-old @done="$refs.dialog.hide()" />
         </v-row>
         <v-alert prominent dense icon="mdi-alert" colored-border color="panel">
-          <div class="heading h3"><b>Cloud Service Change Notice</b></div>
+          <div class="heading h3"><b>Cloud Service Update</b></div>
           <div class="body-text">
             Vault Import allows for seamless, automatic syncing of remote pilots and is only
             available for users with COMP/CON accounts. Cloud Importing/Exporting pilots can still
             be done the old, manual, way via Cloud Download. Both systems are compatible, but
             <b class="accent--text">
-              public service cloud data made prior to v. 2.2.6 must be re-synced
+              public cloud data made prior to v. 2.2.6 must be re-synced
             </b>
             <br />
             <br />

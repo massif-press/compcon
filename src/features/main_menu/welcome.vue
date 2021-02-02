@@ -50,11 +50,15 @@ export default Vue.extend({
           .then(content => {
             this.title = content.title
             this.body = content.body
-            this.hash = content.hash
+            this.hash = content.body
+              .split('')
+              .reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0)
+              .toString()
           })
           .then(() => {
             if (this.hash !== this.profile.WelcomeHash) {
               this.$refs.dialog.show()
+              this.setHash()
             }
           })
           .catch(err => {

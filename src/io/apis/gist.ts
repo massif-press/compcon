@@ -4,7 +4,9 @@ import axios from 'axios'
 
 // this token is scoped to only allow for the creation of gists on a burner account
 // if this is insufficient, we'll move to a login scheme
-const gistToken = process.env.GITHUB_TOKEN
+// const gistToken = process.env.GITHUB_TOKEN
+
+const gistToken = 'da5231b128434ac2d9fad6a9d02aaba15c76e251'
 
 const gistApi = axios.create({
   baseURL: 'https://api.github.com/gists',
@@ -40,11 +42,12 @@ const getCommunityPacks = function(): any {
 }
 
 const newPilot = async function(pilot: Pilot): Promise<any> {
+  const pData: IPilotData = Pilot.Serialize(pilot)
   return gistApi
     .post('', {
       files: {
         'pilot.txt': {
-          content: JSON.stringify(Pilot.Serialize(pilot)),
+          content: JSON.stringify(pData),
         },
       },
       description: `${pilot.Callsign} - ${pilot.Name} (LL:${pilot.Level})`,
@@ -55,7 +58,7 @@ const newPilot = async function(pilot: Pilot): Promise<any> {
 
 const savePilot = async function(pilot: Pilot): Promise<void> {
   return gistApi
-    .patch(pilot.CloudID, {
+    .patch(pilot.GistCode, {
       files: {
         'pilot.txt': {
           content: JSON.stringify(Pilot.Serialize(pilot)),
@@ -67,8 +70,8 @@ const savePilot = async function(pilot: Pilot): Promise<void> {
 }
 
 const loadPilot = async function(id: string): Promise<IPilotData> {
-  const gistData = (await gistApi.get(id)).data
-  const pilotData = JSON.parse(gistData.files['pilot.txt'].content) as IPilotData
+  const gistData = await gistApi.get(id).then(res => res.data.files['pilot.txt'].content)
+  const pilotData = JSON.parse(gistData) as IPilotData
   return pilotData
 }
 

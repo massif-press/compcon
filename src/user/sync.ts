@@ -83,6 +83,13 @@ const ContentPull = async (): Promise<any> => {
 }
 
 const PullRemoteData = async (): Promise<void> => {
+  // const oldExternal: Pilot[] = await store.getters.getPilots.filter(
+  //   (x: Pilot) => x.GistCode && x.GistOwner && !x.IsUserOwned
+  // )
+  // oldExternal.forEach(p => {
+  //   p.CloudLoad()
+  // })
+
   const external: Pilot[] = store.getters.getPilots.filter((x: Pilot) => !x.IsLocallyOwned)
 
   external.forEach(async p => {
