@@ -1,7 +1,5 @@
 {
-    "dev": {
-        "configLevel": "project",
-        "useProfile": true,
-        "profileName": "amplify-compcon"
-    }
+  "prod": {
+    "configLevel": "amplifyAdmin"
+  }
 }
