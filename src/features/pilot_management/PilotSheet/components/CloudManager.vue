@@ -42,9 +42,10 @@ export default Vue.extend({
       this.$emit('start-sync')
       this.pilot
         .CloudLoad()
-        .then((res: any) => {
+        .then(() => {
           this.noteColor = 'success darken-2'
           this.notification = 'Pilot Data Loaded'
+          console.log(this.$refs.note)
           this.$refs.note.open()
           this.$emit('end-sync')
         })
@@ -60,7 +61,7 @@ export default Vue.extend({
       this.$emit('start-sync')
       this.pilot
         .CloudCopy()
-        .then((res: any) => {
+        .then(() => {
           this.noteColor = 'success darken-2'
           this.notification = 'Pilot Data Generated'
           this.$refs.note.open()

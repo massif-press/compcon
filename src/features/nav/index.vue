@@ -61,9 +61,14 @@
       <encounter-mode v-if="mode === 'encounter'" />
     </div>
 
-    <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="ml-2 mr-2" />
+    <v-divider
+      v-if="$vuetify.breakpoint.mdAndUp && currentAuthedUser"
+      vertical
+      dark
+      class="ml-2 mr-2"
+    />
 
-    <cc-tooltip bottom :content="syncTooltip">
+    <cc-tooltip v-if="currentAuthedUser" bottom :content="syncTooltip">
       <v-btn
         icon
         :class="unsaved.length ? 'pulse' : ''"
@@ -137,6 +142,7 @@ import CompendiumMode from './modes/compendium.vue'
 import vueMixins from '@/util/vueMixins'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore, UserStore, NavStore } from '@/store'
+import { Auth } from 'aws-amplify'
 
 export default vueMixins(activePilot).extend({
   name: 'cc-nav',
@@ -157,7 +163,13 @@ export default vueMixins(activePilot).extend({
     aboutDialog: false,
     helpDialog: false,
     optionsDialog: false,
+    currentAuthedUser: null,
   }),
+  async mounted() {
+    await Auth.currentAuthenticatedUser().then(res => {
+      this.currentAuthedUser = res.username
+    })
+  },
   computed: {
     mode(): string {
       return getModule(NavStore, this.$store).NavMode

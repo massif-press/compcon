@@ -15,13 +15,13 @@
     >
       <v-card-text>
         <v-alert prominent dense icon="mdi-alert" colored-border color="panel">
-          <div class="heading h3"><b>Cloud Service Change Notice</b></div>
+          <div class="heading h3"><b>Cloud Service Update</b></div>
           <div class="body-text">
             These tools are exclusively for the old, public cloud save service. Users with COMP/CON
             accounts have their cloud exports managed automatically, synced to their local instance
             of the app. Both systems are compatible, but
             <b class="accent--text">
-              public service cloud data made prior to v. 2.2.6 must be re-synced
+              public cloud data made prior to v. 2.2.6 must be re-synced
             </b>
             <br />
             If you have a COMP/CON account and want to sync pilot data with users who do not have
@@ -96,7 +96,7 @@
               block
               tile
               outlined
-              color="primary"
+              color="accent"
               :disabled="!pilot.IsUserOwned || !pilot.GistCode"
               @click="$refs.cloud.save()"
             >

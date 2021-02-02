@@ -3,6 +3,7 @@ import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import * as Sync from '../sync'
 import * as Client from '../index'
 import { Pilot } from '@/class'
+import { Auth } from 'aws-amplify'
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
@@ -130,6 +131,14 @@ export class UserStore extends VuexModule {
 
   @Action({ rawError: true })
   public async cloudSync(payload: { callback?: any; condition?: string }): Promise<void> {
+    const user = await Auth.currentAuthenticatedUser().then(res => res.username)
+    if (!user) {
+      console.info('no user')
+      return
+    }
+
+    console.log(user)
+
     let sync = true
     if (payload.condition === 'pilotLevel' && !this.UserProfile.SyncFrequency.onPilotLevel)
       sync = false

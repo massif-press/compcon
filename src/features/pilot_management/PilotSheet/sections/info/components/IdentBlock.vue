@@ -35,13 +35,38 @@
       </v-col>
       <v-col>
         <div class="overline mb-n3 subtle--text">OMNINET VAULT</div>
-        <span v-if="pilot.IsLocallyOwned">Current User</span>
-        <span v-else-if="!pilot.IsLocallyOwned">Remote Sync</span>
+        <span v-if="(pilot.CloudOwnerID && pilot.IsLocallyOwned) || pilot.IsUserOwned">
+          Current User
+        </span>
+        <span v-else-if="!pilot.IsLocallyOwned || (!pilot.IsUserOwned && pilot.GistOwner)">
+          Remote Sync
+        </span>
         <span v-else class="stat-text error--text">
           // NOT SYNCED //
         </span>
-        <cc-tooltip inline title="Copy Share Code" :content="`Last Sync at:<br>${pilot.LastSync}`">
-          <v-icon small class="fadeSelect" @click="copyCode()">mdi-cloud-sync</v-icon>
+        <cc-tooltip
+          v-if="currentAuthedUser"
+          inline
+          title="Copy Vault Sync (COMP/CON Account) Code"
+          :content="`Last Sync at:<br>${pilot.LastSync}`"
+        >
+          <v-icon small class="fadeSelect" @click="copyVault()">mdi-qrcode-scan</v-icon>
+        </cc-tooltip>
+        <cc-tooltip
+          v-if="pilot.IsUserOwned && pilot.GistCode"
+          inline
+          title="Copy Share Code"
+          :content="`Public Share Code<br>Last Sync at:<br>${pilot.LastSync}`"
+        >
+          <v-icon small class="fadeSelect" @click="copyCode()">mdi-barcode-scan</v-icon>
+        </cc-tooltip>
+        <cc-tooltip
+          v-if="pilot.GistOwner && pilot.GistCode"
+          inline
+          title="Sync"
+          :content="`Public Cloud Save<br>Last Sync at:<br>${pilot.LastSync}`"
+        >
+          <v-icon small class="fadeSelect" @click="sync()">mdi-reload</v-icon>
         </cc-tooltip>
       </v-col>
       <v-col>
@@ -57,7 +82,7 @@
 <script lang="ts">
 import CloudManager from '../../../components/CloudManager.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
-
+import { Auth } from 'aws-amplify'
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
@@ -76,7 +101,13 @@ export default vueMixins(activePilot).extend({
     noteColor: '',
     notification: '',
     syncing: false,
+    currentAuthedUser: null,
   }),
+  async mounted() {
+    await Auth.currentAuthenticatedUser().then(res => {
+      this.currentAuthedUser = !!res.username
+    })
+  },
   methods: {
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {
@@ -96,9 +127,18 @@ export default vueMixins(activePilot).extend({
       const self = this
       this.copyConfirm = true
       navigator.clipboard
-        .writeText(this.pilot.ShareCode)
+        .writeText(this.pilot.GistCode)
         .then(() => self.$notify('Cloud share code copied to clipboard.', 'success'))
         .catch(() => self.$notify('Unable to copy cloud share code', 'error'))
+    },
+    async copyVault() {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this
+      this.copyConfirm = true
+      navigator.clipboard
+        .writeText(this.pilot.ShareCode)
+        .then(() => self.$notify('Vault sync code copied to clipboard.', 'success'))
+        .catch(() => self.$notify('Unable to copy vault sync code', 'error'))
     },
     sync() {
       this.syncing = true

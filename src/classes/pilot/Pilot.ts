@@ -37,6 +37,8 @@ interface IPilotData {
   sort_index: number
   cloudID: string
   cloudOwnerID: string
+  gistCode: string
+  gistOwner: string
   isLocal: boolean
   lastSync: string
   level: number
@@ -80,8 +82,8 @@ class Pilot implements ICloudSyncable {
   public CloudOwnerID: string
   public IsDirty: boolean
 
-  public GistCode: string
-  public GistOwner: string
+  private _gistCode: string
+  private _gistOwner: string
 
   private _cloud_portrait: string
 
@@ -406,8 +408,26 @@ class Pilot implements ICloudSyncable {
 
   // old gist stuff:
 
+  public get GistOwner(): string {
+    return this._gistOwner
+  }
+
+  public set GistOwner(val: string) {
+    this._gistOwner = val
+    this.save()
+  }
+
+  public get GistCode(): string {
+    return this._gistCode
+  }
+
+  public set GistCode(val: string) {
+    this._gistCode = val
+    this.save()
+  }
+
   public get IsUserOwned(): boolean {
-    return this.GistOwner === store.getters.getUserProfile.ID
+    return this.GistOwner === store.getters.getUserProfile.UserID
   }
 
   public SetCloudImage(src: string): void {
@@ -417,9 +437,7 @@ class Pilot implements ICloudSyncable {
 
   public async CloudSave(): Promise<any> {
     this.SetBrewData()
-    if (!this.GistOwner) {
-      this.GistOwner = store.getters.getUserProfile.ID
-    }
+    this.GistOwner = store.getters.getUserProfile.UserID
     if (!this.GistCode) {
       return gistApi.newPilot(this).then((response: any) => {
         this.setCloudInfo(response.id)
@@ -447,7 +465,7 @@ class Pilot implements ICloudSyncable {
 
   public setCloudInfo(id: string): void {
     this.GistCode = id
-    this.GistOwner = store.getters.getUserProfile.ID
+    this.GistOwner = store.getters.getUserProfile.UserID
     this.MarkSync()
   }
 
@@ -984,7 +1002,6 @@ class Pilot implements ICloudSyncable {
   }
 
   public set Group(val: string) {
-    console.log('setting group: ', val)
     this._group = val
     this.save()
   }
@@ -1082,6 +1099,8 @@ class Pilot implements ICloudSyncable {
       isLocal: p.IsLocallyOwned,
       cloudID: p.CloudID,
       cloudOwnerID: p.CloudOwnerID,
+      gistCode: p.GistCode,
+      gistOwner: p.GistOwner,
       lastSync: p.LastSync,
       level: p.Level,
       callsign: p.Callsign,
@@ -1135,6 +1154,9 @@ class Pilot implements ICloudSyncable {
 
     if (!ignoreProps) this._group = data.group || ''
     if (!ignoreProps) this._sortIndex = data.sort_index || 0
+
+    this.GistCode = data.gistCode || ''
+    this.GistOwner = data.gistOwner || ''
     this.IsLocallyOwned = data.isLocal
     this.CloudID = data.cloudID || ''
     this.CloudOwnerID = data.cloudOwnerID || ''
