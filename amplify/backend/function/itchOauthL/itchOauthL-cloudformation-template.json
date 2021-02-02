@@ -68,7 +68,7 @@
         "Layers": [],
         "Timeout": "25",
         "Code": {
-          "S3Bucket": "amplify-compcon-dev-215454-deployment",
+          "S3Bucket": "amplify-compcon-dev-prod-214751-deployment",
           "S3Key": "amplify-builds/itchOauthL-73644e3532427a534b31-build.zip"
         }
       }

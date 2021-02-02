@@ -1,5 +1,5 @@
 {
-    "projectPath": "F:\\Projects\\compcon",
-    "envName": "dev",
-    "defaultEditor": "vscode"
+  "projectPath": "F:\\Projects\\compcon",
+  "envName": "prod",
+  "defaultEditor": "vscode"
 }

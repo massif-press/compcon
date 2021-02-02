@@ -29,7 +29,8 @@ export const schema = {
                     "isArray": true,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "lcp_data": {
                     "name": "lcp_data",
@@ -43,35 +44,40 @@ export const schema = {
                     "isArray": true,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "npcs": {
                     "name": "npcs",
                     "isArray": true,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "encounters": {
                     "name": "encounters",
                     "isArray": true,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "missions": {
                     "name": "missions",
                     "isArray": true,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "active_missions": {
                     "name": "active_missions",
                     "isArray": true,
                     "type": "String",
                     "isRequired": false,
-                    "attributes": []
+                    "attributes": [],
+                    "isArrayNullable": true
                 },
                 "welcome_hash": {
                     "name": "welcome_hash",

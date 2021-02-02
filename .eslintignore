@@ -2,3 +2,5 @@ node_modules/
 dist/
 
 src/models
+
+src\models
