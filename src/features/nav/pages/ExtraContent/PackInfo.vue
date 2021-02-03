@@ -49,7 +49,12 @@
           </div>
         </v-col>
         <v-col cols="4">
-          <v-img :src="pack.manifest.image_url" alt="Pack image" />
+          <v-img
+            :src="pack.manifest.image_url"
+            alt="Pack image"
+            max-width="200px"
+            max-height="300px"
+          />
         </v-col>
       </v-row>
     </v-card-text>

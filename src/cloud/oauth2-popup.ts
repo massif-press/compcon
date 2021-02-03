@@ -27,7 +27,7 @@ export default async function popupOauth(
         }
       } catch (e) {
         if (e.name === 'SecurityError') {
-          console.log('got cross-origin error, polling again in pollingTimems')
+          console.log(`got cross-origin error, polling again in ${pollingTime}ms`)
           setTimeout(waitForCallback, pollingTime)
         } else {
           reject(e)
@@ -54,6 +54,7 @@ export default async function popupOauth(
   }
 
   const authResponse = data.split('&').reduce((decoded, keyValuePair) => {
+    console.log(decoded, keyValuePair)
     const [keyEncoded, valueEncoded] = keyValuePair.split('=')
     const key = decodeUri(keyEncoded)
     const value = decodeUri(valueEncoded)

@@ -10,6 +10,7 @@ libc7zip.dylib
 schema_out/
 yarn-error.log
 .idea/
+.env
 
 #amplify
 amplify/\#current-cloud-backend
