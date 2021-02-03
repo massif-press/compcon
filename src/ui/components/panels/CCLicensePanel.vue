@@ -2,6 +2,7 @@
   <v-row dense justify="center" align="center">
     <v-col
       v-for="n in license.MaxRank"
+      v-show="license.Unlocks[n - 1].length"
       :key="`r_${n}`"
       lg="4"
       md="6"

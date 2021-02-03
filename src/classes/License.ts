@@ -24,7 +24,11 @@ class License {
       )
       .filter((x: LicensedItem) => x.License.toUpperCase() === frame.Name.toUpperCase())
 
-    this.Unlocks = new Array<LicensedItem[]>(Math.max(...items.map(i => i.LicenseLevel))).fill([])
+    const lls = [...items].map(i => i.LicenseLevel)
+
+    const max = lls.length ? Math.max(...lls) : frame.LicenseLevel
+
+    this.Unlocks = new Array<LicensedItem[]>(max).fill([])
 
     for (let i = 0; i < this.Unlocks.length; i++) {
       this.Unlocks[i] = items.filter(x => x.LicenseLevel === i + 1)
