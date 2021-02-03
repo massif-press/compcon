@@ -155,11 +155,10 @@ export default Vue.extend({
       }
     },
     async verifyPatreon() {
-      const callbackURI = process.env.PATREON_REDIRECT_URI
       const authorizationCode = await popupOauth(
         'https://www.patreon.com/oauth2/authorize',
         '_1O6Z4dBszp3Q9ERr93RVNCwM1VUveu9xI5vq1DqJUXEK47FC7MkTtF1lwT5_ko3',
-        'https://compcon-preview.netlify.app/#/patreon-callback',
+        'https://compcon-preview.netlify.app/patreon-callback',
         '',
         'code'
       )
