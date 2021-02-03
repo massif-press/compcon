@@ -1,4 +1,5 @@
 import { mapValues } from 'lodash'
+import uuid from 'uuid/v4'
 
 import {
   Manufacturer,
@@ -91,6 +92,7 @@ export interface IContentPack {
 export class ContentPack {
   private _manifest: IContentPackManifest
   private _id: string
+  public Key: string
   public get ID(): string {
     return this._id
   }
@@ -217,6 +219,7 @@ export class ContentPack {
     const { id, active, manifest, data } = pack
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this
+    this.Key = uuid()
 
     self._active = active
     self._manifest = manifest

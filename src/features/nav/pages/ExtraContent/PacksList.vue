@@ -7,7 +7,7 @@
       :headers="headers"
       :items="contentPacks"
       show-expand
-      :item-key="uuid"
+      item-key="Key"
     >
       <!-- Active toggle -->
       <template v-slot:[`item.toggleActive`]="{ item }">
@@ -80,7 +80,7 @@
               </div>
             </v-col>
             <v-col cols="2">
-              <v-img :src="item.ImageURL" alt="Pack image" />
+              <v-img :src="item.ImageURL" alt="Pack image" max-width="200px" max-height="300px" />
             </v-col>
           </v-row>
         </td>
@@ -91,7 +91,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import uuid from 'uuid/v4'
 import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
@@ -116,10 +115,6 @@ export default class PacksList extends Vue {
 
   public get contentPacks(): ContentPack[] {
     return this.compendiumStore.ContentPacks
-  }
-
-  public get uuid(): string {
-    return uuid()
   }
 
   public headers = [

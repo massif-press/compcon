@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-alert outlined prominent icon="mdi-information-outline" class="my-2">
+      {{ test }}
       <div><b>Cloud Account</b></div>
       <!-- <div>
         COMP/CON cloud storage accounts are an upcoming feature that is currently in development.
@@ -128,6 +129,9 @@ export default Vue.extend({
   computed: {
     isPatron() {
       return !!this.patreonAuthCode
+    },
+    test() {
+      return process.env.VUE_APP_SOMEKEY
     },
   },
   methods: {
