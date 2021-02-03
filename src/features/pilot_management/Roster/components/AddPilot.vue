@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-btn x-large block color="accent" @click="$refs.dialog.show()">
+    <v-btn x-large block color="accent" class="my-2" @click="$refs.dialog.show()">
       <v-icon left large>cci-accuracy</v-icon>
       Add New Pilot
     </v-btn>

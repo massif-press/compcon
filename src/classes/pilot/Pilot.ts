@@ -1157,7 +1157,7 @@ class Pilot implements ICloudSyncable {
 
     this.GistCode = data.gistCode || ''
     this.GistOwner = data.gistOwner || ''
-    this.IsLocallyOwned = data.isLocal
+    this.IsLocallyOwned = data.isLocal || true
     this.CloudID = data.cloudID || ''
     this.CloudOwnerID = data.cloudOwnerID || ''
     this.LastSync = data.lastSync || ''

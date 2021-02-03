@@ -99,8 +99,13 @@ const PullRemoteData = async (): Promise<void> => {
       return
     }
 
-    const data: IPilotData = await fetch(url).then(res => res.json())
+    const data: IPilotData = await fetch(url)
+      .then(res => {
+        return res.json()
+      })
+      .catch(() => null)
 
+    if (!data) return
     try {
       console.info('Syncing remote pilot// ', p.Callsign)
       p.Update(data, true)
