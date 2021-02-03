@@ -33,12 +33,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "itchOauthL",
+            "createPatreonsnowflake",
             {
               "Fn::Join": [
                 "",
                 [
-                  "itchOauthL",
+                  "createPatreonsnowflake",
                   "-",
                   {
                     "Ref": "env"
@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-compcon-dev-prod-214751-deployment",
-          "S3Key": "amplify-builds/itchOauthL-73644e3532427a534b31-build.zip"
+          "S3Key": "amplify-builds/createPatreonsnowflake-2f336d626d77377a6d5a-build.zip"
         }
       }
     },
@@ -79,12 +79,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "compconLambdaRole423796f6",
+            "compcondevLambdaRole741d34ec",
             {
               "Fn::Join": [
                 "",
                 [
-                  "compconLambdaRole423796f6",
+                  "compcondevLambdaRole741d34ec",
                   "-",
                   {
                     "Ref": "env"

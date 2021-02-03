@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/patreon-snowflake",
+            "lambdaFunction": "createPatreonsnowflake",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/patreon-snowflake"
+        }
+    ],
+    "resourceName": "patreonsnowflake",
+    "apiName": "patreonsnowflake",
+    "functionArns": [
+        {
+            "lambdaFunction": "createPatreonsnowflake"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-compcon-dev-prod-214751-authRole",
+        "unAuthRoleName": "amplify-compcon-dev-prod-214751-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "createPatreonsnowflake",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

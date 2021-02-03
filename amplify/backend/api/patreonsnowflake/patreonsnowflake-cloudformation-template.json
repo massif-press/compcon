@@ -14,15 +14,15 @@
         },
     
     
-          "functionitchOauthLName": {
+          "functioncreatePatreonsnowflakeName": {
             "Type": "String",
-            "Default": "functionitchOauthLName"
+            "Default": "functioncreatePatreonsnowflakeName"
           },
         
           
-          "functionitchOauthLArn": {
+          "functioncreatePatreonsnowflakeArn": {
             "Type": "String",
-            "Default": "functionitchOauthLArn"
+            "Default": "functioncreatePatreonsnowflakeArn"
           }
         
           
@@ -45,16 +45,16 @@
         
         
         
-      "itchOauth": {
+      "patreonsnowflake": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "itchOauth",
+          "Name": "patreonsnowflake",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "itchOauth"
+              "title": "patreonsnowflake"
             },
             "host": {
                 "Fn::Join": [
@@ -90,7 +90,7 @@
             ],
             "paths": {
               
-              "/oauth/itch": {
+              "/patreon-snowflake": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -176,7 +176,7 @@
                             
                             {
                                 
-                                "Ref": "functionitchOauthLArn"
+                                "Ref": "functioncreatePatreonsnowflakeArn"
                             },
                             
                             "/invocations"
@@ -189,7 +189,7 @@
                   }
                 }
               },
-              "/oauth/itch/{proxy+}": {
+              "/patreon-snowflake/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -275,7 +275,7 @@
                           
                           {
                             
-                            "Ref": "functionitchOauthLArn"
+                            "Ref": "functioncreatePatreonsnowflakeArn"
                           },
                           
                           "/invocations"
@@ -332,12 +332,12 @@
                   
         
         
-        "functionitchOauthLPermissionitchOauth": {
+        "functioncreatePatreonsnowflakePermissionpatreonsnowflake": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
                     {
-                        "Ref":  "functionitchOauthLName"
+                        "Ref":  "functioncreatePatreonsnowflakeName"
                     },
                     
                     "Action": "lambda:InvokeFunction",
@@ -356,7 +356,7 @@
                             },
                             ":",
                             {
-                                "Ref": "itchOauth"
+                                "Ref": "patreonsnowflake"
                             },
                             "/*/*/*"
                         ]
@@ -367,7 +367,7 @@
         
         
         
-      "DeploymentAPIGWitchOauth": {
+      "DeploymentAPIGWpatreonsnowflake": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -381,7 +381,7 @@
             ]
           },
           "RestApiId": {
-            "Ref": "itchOauth"
+            "Ref": "patreonsnowflake"
           }
         }
       }
@@ -389,15 +389,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "itchOauth"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "patreonsnowflake"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "itchOauth"
+          "Value": "patreonsnowflake"
         },
         "ApiId": {
           "Description": "API ID (prefix of API URL)",
-          "Value": {"Ref": "itchOauth"}
+          "Value": {"Ref": "patreonsnowflake"}
         }
     }
   }

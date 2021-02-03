@@ -155,10 +155,11 @@ export default Vue.extend({
       }
     },
     async verifyPatreon() {
+      const callbackURI = process.env.PATREON_REDIRECT_URI
       const authorizationCode = await popupOauth(
         'https://www.patreon.com/oauth2/authorize',
         '_1O6Z4dBszp3Q9ERr93RVNCwM1VUveu9xI5vq1DqJUXEK47FC7MkTtF1lwT5_ko3',
-        'http://localhost:8080/patreon-callback',
+        callbackURI,
         '',
         'code'
       )

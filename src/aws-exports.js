@@ -9,13 +9,8 @@ const awsmobile = {
     "aws_appsync_apiKey": "da2-nmaqhbb62zabjhctesiydgfuvu",
     "aws_cloud_logic_custom": [
         {
-            "name": "patreonOauth",
-            "endpoint": "https://k7gh3e0gb7.execute-api.us-east-1.amazonaws.com/prod",
-            "region": "us-east-1"
-        },
-        {
-            "name": "itchOauth",
-            "endpoint": "https://vdp0184nsk.execute-api.us-east-1.amazonaws.com/prod",
+            "name": "patreonsnowflake",
+            "endpoint": "https://dpnb77cof1.execute-api.us-east-1.amazonaws.com/prod",
             "region": "us-east-1"
         }
     ],
