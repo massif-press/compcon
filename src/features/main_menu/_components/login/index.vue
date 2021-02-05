@@ -1,7 +1,12 @@
 <template>
   <div>
     <v-slide-x-transition group leave-absolute>
-      <sign-in v-if="state === 'sign-in'" :key="'auth-signin'" @set-state="state = $event" />
+      <sign-in
+        v-if="state === 'sign-in'"
+        :key="'auth-signin'"
+        @set-state="state = $event"
+        @reverify="verifyFlow($event)"
+      />
       <password-reset
         v-else-if="state === 'reset'"
         :key="'auth-reset'"
@@ -25,7 +30,6 @@
         :key="'auth-signedin'"
         :email="email"
         @set-state="state = $event"
-        @reverify="verifyFlow($event)"
       />
     </v-slide-x-transition>
   </div>
@@ -60,6 +64,7 @@ export default Vue.extend({
   },
   methods: {
     verifyFlow(email) {
+      console.log(email)
       this.email = email
       this.state = 'verify'
     },

@@ -1,5 +1,8 @@
 <template>
   <div id="wrapper">
+    <cc-solo-dialog ref="loginModal" large no-confirm title="CLOUD ACCOUNT">
+      <sign-in />
+    </cc-solo-dialog>
     <cc-solo-dialog
       ref="optionsModal"
       large
@@ -77,6 +80,12 @@
           @clicked="$refs.contentModal.show()"
         />
         <!--  -->
+        <mobile-btn
+          :icon="userstore.IsLoggedIn ? 'mdi-account-check' : 'mdi-account-off-outline'"
+          :title="userstore.IsLoggedIn ? 'Connected' : 'Log In'"
+          text="COMP/CON Account"
+          @clicked="$refs.loginModal.show()"
+        />
       </v-row>
       <div style="height: 40px" />
 
@@ -116,6 +125,9 @@ import ContentPage from '../nav/pages/ExtraContent/index.vue'
 import AboutPage from '../nav/pages/About.vue'
 import HelpPage from '../nav/pages/Help.vue'
 import OptionsPage from '../nav/pages/Options/index.vue'
+import { UserStore } from '@/store'
+import { getModule } from 'vuex-module-decorators'
+import SignIn from './_components/login/index.vue'
 
 export default Vue.extend({
   name: 'landing-page-mobile',
@@ -126,10 +138,16 @@ export default Vue.extend({
     AboutPage,
     HelpPage,
     OptionsPage,
+    SignIn,
   },
   data: () => ({
     pilotLoading: false,
   }),
+  computed: {
+    userstore() {
+      return getModule(UserStore, this.$store)
+    },
+  },
   beforeRouteLeave(to, from, next) {
     if (to.path === '/pilot_management') this.pilotLoading = true
     next()

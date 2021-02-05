@@ -8,7 +8,7 @@
           {{ userProfile.Username }}
         </b>
       </div>
-      <v-row>
+      <v-row dense>
         <v-col>
           <v-btn tile small block color="patreon" depressed class="my-1">
             <v-icon left>mdi-check</v-icon>
@@ -61,18 +61,18 @@
         <v-toolbar dense flat tile color="light-panel">
           <div class="heading h3">SYNC FREQUENCY</div>
         </v-toolbar>
-        <v-row dense align="center">
-          <v-col cols="auto">
+        <v-row dense align="center" class="pa-2">
+          <v-col md="auto" cols="12">
             <v-switch
               :input-value="isManualOnly"
               hide-details
               color="accent"
-              class="px-6"
+              :class="$vuetify.breakpoint.mdAndUp ? 'px-6' : ''"
               label="Manual Sync Only"
               @change="setManualOnly($event)"
             />
           </v-col>
-          <v-divider vertical class="mx-3" />
+          <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical class="mx-3" />
           <v-col>
             <v-row dense>
               <v-col lg="4" cols="6">
@@ -362,5 +362,9 @@ export default Vue.extend({
 <style scoped>
 .v-input--selection-controls {
   margin: 0;
+}
+
+label {
+  font-size: 10px;
 }
 </style>

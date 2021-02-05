@@ -17,6 +17,14 @@
     "storagepatreonsnowflakesArn": {
       "Type": "String",
       "Default": "storagepatreonsnowflakesArn"
+    },
+    "storageuserpatreontokensName": {
+      "Type": "String",
+      "Default": "storageuserpatreontokensName"
+    },
+    "storageuserpatreontokensArn": {
+      "Type": "String",
+      "Default": "storageuserpatreontokensArn"
     }
   },
   "Conditions": {
@@ -41,12 +49,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "createPatreonsnowflake",
+            "savePatreonTokenFromSnowflake",
             {
               "Fn::Join": [
                 "",
                 [
-                  "createPatreonsnowflake",
+                  "savePatreonTokenFromSnowflake",
                   "-",
                   {
                     "Ref": "env"
@@ -69,6 +77,12 @@
             },
             "STORAGE_PATREONSNOWFLAKES_ARN": {
               "Ref": "storagepatreonsnowflakesArn"
+            },
+            "STORAGE_USERPATREONTOKENS_NAME": {
+              "Ref": "storageuserpatreontokensName"
+            },
+            "STORAGE_USERPATREONTOKENS_ARN": {
+              "Ref": "storageuserpatreontokensArn"
             }
           }
         },
@@ -83,7 +97,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-compcon-dev-prod-214751-deployment",
-          "S3Key": "amplify-builds/createPatreonsnowflake-7066706c307950526842-build.zip"
+          "S3Key": "amplify-builds/savePatreonTokenFromSnowflake-76526c65663242543668-build.zip"
         }
       }
     },
@@ -93,12 +107,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "compcondevLambdaRole741d34ec",
+            "compcondevLambdaRole0c7ec06a",
             {
               "Fn::Join": [
                 "",
                 [
-                  "compcondevLambdaRole741d34ec",
+                  "compcondevLambdaRole0c7ec06a",
                   "-",
                   {
                     "Ref": "env"
@@ -141,25 +155,6 @@
         "PolicyDocument": {
           "Version": "2012-10-17",
           "Statement": [
-            {
-              "Effect": "Allow",
-              "Action": [
-                "secretsmanager:GetSecretValue"
-              ],
-              "Resource": {
-                "Fn::Sub": [
-                  "arn:aws:secretsmanager:${region}:${account}:secret:compcon-prod-P0eTsD",
-                  {
-                    "region": {
-                      "Ref": "AWS::Region"
-                    },
-                    "account": {
-                      "Ref": "AWS::AccountId"
-                    }
-                  }
-                ]
-              }
-            },
             {
               "Effect": "Allow",
               "Action": [
@@ -206,37 +201,12 @@
             {
               "Effect": "Allow",
               "Action": [
-                "secretsmanager:GetSecretValue"
-              ],
-              "Resource": {
-                "Fn::Sub": [
-                  "arn:aws:secretsmanager:${region}:${account}:secret:compcon-prod-P0eTsD",
-                  {
-                    "region": {
-                      "Ref": "AWS::Region"
-                    },
-                    "account": {
-                      "Ref": "AWS::AccountId"
-                    }
-                  }
-                ]
-              }
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
-                "dynamodb:Put*",
-                "dynamodb:Create*",
-                "dynamodb:BatchWriteItem",
                 "dynamodb:Get*",
                 "dynamodb:BatchGetItem",
                 "dynamodb:List*",
                 "dynamodb:Describe*",
                 "dynamodb:Scan",
-                "dynamodb:Query",
-                "dynamodb:Update*",
-                "dynamodb:RestoreTable*",
-                "dynamodb:Delete*"
+                "dynamodb:Query"
               ],
               "Resource": [
                 {
@@ -248,6 +218,32 @@
                     [
                       {
                         "Ref": "storagepatreonsnowflakesArn"
+                      },
+                      "index/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:Put*",
+                "dynamodb:Create*",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:Update*",
+                "dynamodb:RestoreTable*"
+              ],
+              "Resource": [
+                {
+                  "Ref": "storageuserpatreontokensArn"
+                },
+                {
+                  "Fn::Join": [
+                    "/",
+                    [
+                      {
+                        "Ref": "storageuserpatreontokensArn"
                       },
                       "index/*"
                     ]

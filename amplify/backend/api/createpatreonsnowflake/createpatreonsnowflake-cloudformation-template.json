@@ -45,16 +45,16 @@
         
         
         
-      "patreonsnowflake": {
+      "createpatreonsnowflake": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "patreonsnowflake",
+          "Name": "createpatreonsnowflake",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "patreonsnowflake"
+              "title": "createpatreonsnowflake"
             },
             "host": {
                 "Fn::Join": [
@@ -332,7 +332,7 @@
                   
         
         
-        "functioncreatePatreonsnowflakePermissionpatreonsnowflake": {
+        "functioncreatePatreonsnowflakePermissioncreatepatreonsnowflake": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
@@ -356,7 +356,7 @@
                             },
                             ":",
                             {
-                                "Ref": "patreonsnowflake"
+                                "Ref": "createpatreonsnowflake"
                             },
                             "/*/*/*"
                         ]
@@ -367,7 +367,7 @@
         
         
         
-      "DeploymentAPIGWpatreonsnowflake": {
+      "DeploymentAPIGWcreatepatreonsnowflake": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -381,7 +381,7 @@
             ]
           },
           "RestApiId": {
-            "Ref": "patreonsnowflake"
+            "Ref": "createpatreonsnowflake"
           }
         }
       }
@@ -389,15 +389,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "patreonsnowflake"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "createpatreonsnowflake"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "patreonsnowflake"
+          "Value": "createpatreonsnowflake"
         },
         "ApiId": {
           "Description": "API ID (prefix of API URL)",
-          "Value": {"Ref": "patreonsnowflake"}
+          "Value": {"Ref": "createpatreonsnowflake"}
         }
     }
   }

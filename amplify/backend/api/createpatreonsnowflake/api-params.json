@@ -9,8 +9,8 @@
             "policyResourceName": "/patreon-snowflake"
         }
     ],
-    "resourceName": "patreonsnowflake",
-    "apiName": "patreonsnowflake",
+    "resourceName": "createpatreonsnowflake",
+    "apiName": "createpatreonsnowflake",
     "functionArns": [
         {
             "lambdaFunction": "createPatreonsnowflake"

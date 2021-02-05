@@ -29,9 +29,6 @@
         >
           Encounter Toolkit
         </main-btn>
-        <!-- <main-btn icon="cci-campaign" disabled help="Feature In Progress">
-          Campaign Manager
-        </main-btn> -->
         <main-btn
           icon="cci-content-manager"
           help="Import Content Packs"
@@ -213,9 +210,6 @@ export default Vue.extend({
     userstore() {
       return getModule(UserStore, this.$store)
     },
-  },
-  mounted() {
-    if (this.userstore.IsPatron) this.$refs.loginModal.show()
   },
   beforeRouteLeave(to, from, next) {
     if (to.path === '/pilot_management') this.pilotLoading = true

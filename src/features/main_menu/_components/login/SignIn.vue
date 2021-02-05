@@ -8,9 +8,11 @@
         <v-text-field v-model="email" label="E-Mail Address" dense outlined hide-details />
         <div>
           <v-fade-transition>
-            <a v-if="email" class="fadeSelect" @click="$emit('reverify', email)">
-              <i>Have a validation code? Click here.</i>
-            </a>
+            <div @click="$emit('reverify', email)">
+              <a v-if="email" class="fadeSelect">
+                <i>Have a validation code? Click here.</i>
+              </a>
+            </div>
           </v-fade-transition>
         </div>
       </v-col>
