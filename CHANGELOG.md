@@ -1,3 +1,43 @@
+## [2.2.3](https://github.com/massif-press/compcon/compare/2.2.5...2.2.3) (2021-02-05)
+
+
+### Bug Fixes
+
+* update FAQ ([706707f](https://github.com/massif-press/compcon/commit/706707f13e98e3265c929dc2c842c66f5a843cdd)), closes [#1076](https://github.com/massif-press/compcon/issues/1076)
+* **Active Mode:** clean tickbar buttons ([cfdab43](https://github.com/massif-press/compcon/commit/cfdab4357f3485e5235fa3c389a9c896f891054b)), closes [#1210](https://github.com/massif-press/compcon/issues/1210)
+* **Active Mode:** fix accuracy/difficulty decrement ([5366ad6](https://github.com/massif-press/compcon/commit/5366ad6c4d018d106212b7d626755ccc681c4e21)), closes [#1213](https://github.com/massif-press/compcon/issues/1213)
+* **Compendium:** correct action economy items ([46d738e](https://github.com/massif-press/compcon/commit/46d738e3ecc4e033a7280627b0e6529b7396dc45))
+* **Compendium:** fix Tokugawa Overclock not showing up in Compendium ([d670300](https://github.com/massif-press/compcon/commit/d67030081812d9f5ddddada02b05922cae924eae))
+* **Compendium:** update lancer-data ([eb352eb](https://github.com/massif-press/compcon/commit/eb352ebeec165ab111bdc6fe37488194f8257b4c))
+
+
+### Features
+
+* **Global:** add backend account management ([15e4a06](https://github.com/massif-press/compcon/commit/15e4a0688717d4ad8ce344fc38a103596c3f04c9)), closes [#453](https://github.com/massif-press/compcon/issues/453)
+* **Pilot Sheet:** add mobile-format log in ([7f23b4a](https://github.com/massif-press/compcon/commit/7f23b4a3a9e8e73913f732aef068522b09a69340))
+
+
+
+## [2.2.3](https://github.com/massif-press/compcon/compare/2.2.5...2.2.3) (2021-02-05)
+
+
+### Bug Fixes
+
+* update FAQ ([706707f](https://github.com/massif-press/compcon/commit/706707f13e98e3265c929dc2c842c66f5a843cdd)), closes [#1076](https://github.com/massif-press/compcon/issues/1076)
+* **Active Mode:** clean tickbar buttons ([cfdab43](https://github.com/massif-press/compcon/commit/cfdab4357f3485e5235fa3c389a9c896f891054b)), closes [#1210](https://github.com/massif-press/compcon/issues/1210)
+* **Active Mode:** fix accuracy/difficulty decrement ([5366ad6](https://github.com/massif-press/compcon/commit/5366ad6c4d018d106212b7d626755ccc681c4e21)), closes [#1213](https://github.com/massif-press/compcon/issues/1213)
+* **Compendium:** correct action economy items ([46d738e](https://github.com/massif-press/compcon/commit/46d738e3ecc4e033a7280627b0e6529b7396dc45))
+* **Compendium:** fix Tokugawa Overclock not showing up in Compendium ([d670300](https://github.com/massif-press/compcon/commit/d67030081812d9f5ddddada02b05922cae924eae))
+* **Compendium:** update lancer-data ([eb352eb](https://github.com/massif-press/compcon/commit/eb352ebeec165ab111bdc6fe37488194f8257b4c))
+
+
+### Features
+
+* **Global:** add backend account management ([15e4a06](https://github.com/massif-press/compcon/commit/15e4a0688717d4ad8ce344fc38a103596c3f04c9)), closes [#453](https://github.com/massif-press/compcon/issues/453)
+* **Pilot Sheet:** add mobile-format log in ([7f23b4a](https://github.com/massif-press/compcon/commit/7f23b4a3a9e8e73913f732aef068522b09a69340))
+
+
+
 ## [2.2.3](https://github.com/massif-press/compcon/compare/2.2.5...2.2.3) (2021-02-03)
 
 
