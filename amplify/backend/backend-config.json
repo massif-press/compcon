@@ -20,7 +20,7 @@
         }
       }
     },
-    "patreonsnowflake": {
+    "createpatreonsnowflake": {
       "service": "API Gateway",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
@@ -54,12 +54,67 @@
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda",
-      "dependsOn": []
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "patreonsnowflakes",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "savePatreonTokenFromSnowflake": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "patreonsnowflakes",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        },
+        {
+          "category": "storage",
+          "resourceName": "userpatreontokens",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    },
+    "preSignupChecks": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": [
+        {
+          "category": "storage",
+          "resourceName": "patreonsnowflakes",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
     }
   },
   "storage": {
     "ccUserStorage": {
       "service": "S3",
+      "providerPlugin": "awscloudformation"
+    },
+    "patreonsnowflakes": {
+      "service": "DynamoDB",
+      "providerPlugin": "awscloudformation"
+    },
+    "userpatreontokens": {
+      "service": "DynamoDB",
       "providerPlugin": "awscloudformation"
     }
   }

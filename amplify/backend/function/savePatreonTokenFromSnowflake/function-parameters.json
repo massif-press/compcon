@@ -1,13 +1,14 @@
 {
-  "lambdaLayers": [],
   "permissions": {
     "storage": {
       "patreonsnowflakes": [
+        "read"
+      ],
+      "userpatreontokens": [
         "create",
-        "read",
-        "update",
-        "delete"
+        "update"
       ]
     }
-  }
+  },
+  "lambdaLayers": []
 }

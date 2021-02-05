@@ -9,8 +9,8 @@ const awsmobile = {
     "aws_appsync_apiKey": "da2-nmaqhbb62zabjhctesiydgfuvu",
     "aws_cloud_logic_custom": [
         {
-            "name": "patreonsnowflake",
-            "endpoint": "https://dpnb77cof1.execute-api.us-east-1.amazonaws.com/prod",
+            "name": "createpatreonsnowflake",
+            "endpoint": "https://1eh3faw192.execute-api.us-east-1.amazonaws.com/prod",
             "region": "us-east-1"
         }
     ],
@@ -20,7 +20,18 @@ const awsmobile = {
     "aws_user_pools_web_client_id": "5v4pvpbr6mbcgfj0cll14trpkk",
     "oauth": {},
     "aws_user_files_s3_bucket": "cc-user-storageprod-prod",
-    "aws_user_files_s3_bucket_region": "us-east-1"
+    "aws_user_files_s3_bucket_region": "us-east-1",
+    "aws_dynamodb_all_tables_region": "us-east-1",
+    "aws_dynamodb_table_schemas": [
+        {
+            "tableName": "patreonsnowflakes-prod",
+            "region": "us-east-1"
+        },
+        {
+            "tableName": "userpatreontokens-prod",
+            "region": "us-east-1"
+        }
+    ]
 };
 
 

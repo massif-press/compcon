@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "storage": {
+      "patreonsnowflakes": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

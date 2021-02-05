@@ -88,20 +88,11 @@
   font-weight: 900;
   text-transform: uppercase;
 }
-h1.heading {
-  font-size: 36pt;
-}
 .heading.h1 {
   font-size: 36pt;
 }
-h2.heading {
-  font-size: 18pt;
-}
 .heading.h2 {
   font-size: 18pt;
-}
-h3.heading {
-  font-size: 14pt;
 }
 .heading.h3 {
   font-size: 14pt;
@@ -123,6 +114,34 @@ h3.heading {
   font-family: 'Helvetica Regular', sans-serif;
   font-size: 12pt;
   color: var(--v-text-base);
+}
+
+@media only screen and (max-width: 600px) {
+.heading.h1 {
+  font-size: 34pt;
+}
+.heading.h2 {
+  font-size: 18pt;
+}
+.heading.h3 {
+  font-size: 13pt;
+}
+
+.heading.table {
+  font-size: 22pt;
+}
+
+.heading.mech {
+  font-size: 32pt;
+}
+
+.heading.sub {
+  font-size: 14pt;
+}
+  .body-text {
+    font-size: 11pt;
+  }
+
 }
 
 .flavor-text {
