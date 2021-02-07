@@ -22,6 +22,8 @@
       :key="`${t.ID}_${i}`"
       :tag="t"
       :small="small"
+      :dense="dense"
+      :outlined="outlined"
       :color="color"
       :bonus="bonus"
     />
@@ -36,6 +38,11 @@ import { Tag } from '@/class'
 export default class CCTags extends Vue {
   @Prop({ type: Boolean, required: false })
   readonly small?: boolean
+  @Prop({ type: Boolean, required: false })
+  readonly dense?: boolean
+  @Prop({ type: Boolean, required: false })
+  readonly outlined?: boolean
+
   @Prop({ type: Boolean, required: false })
   readonly extended?: boolean
   @Prop({ type: Boolean, required: false })

@@ -2,7 +2,7 @@
   <equipment-card-base :item="item">
     <v-col cols="auto" class="text-center">
       <v-icon size="56px" color="stark" class="mt-n3 mb-n2">cci-weapon-mod</v-icon>
-      <div class="overline mt-n1 mb-n5">
+      <div class="overline mb-n1">
         WEAPON
       </div>
       <div class="overline">
@@ -10,11 +10,11 @@
       </div>
     </v-col>
     <v-divider vertical class="mx-4" />
-    <v-col v-if="item.AddedRange && item.AddedRange.length" cols="auto">
+    <v-col v-if="item.AddedRange && item.AddedRange.length" cols="auto" align-self="center">
       <cc-range-element :range="item.AddedRange" added />
     </v-col>
     <v-divider v-if="item.AddedRange && item.AddedRange.length" vertical class="mx-4" />
-    <v-col v-if="item.AddedDamage && item.AddedDamage.length" cols="auto">
+    <v-col v-if="item.AddedDamage && item.AddedDamage.length" cols="auto" align-self="center">
       <cc-damage-element :damage="item.AddedDamage" added />
     </v-col>
     <v-divider v-if="item.AddedDamage && item.AddedDamage.length" vertical class="mx-4" />

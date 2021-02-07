@@ -5,14 +5,14 @@
         <h1 v-resize-text="{ maxFontSize: '42pt' }" class="ml-n2 heading accent--text"><slot /></h1>
       </v-col>
       <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-4 mr-2">
-        <v-btn-toggle :value="profile.GetView('selector')" mandatory>
+        <v-btn-toggle v-if="!lockView" :value="profile.GetView('selector')" mandatory>
           <v-btn small icon value="split" @click="profile.SetView('selector', 'split')">
             <v-icon color="accent">mdi-view-split-vertical</v-icon>
           </v-btn>
-          <v-btn small icon value="list" @click="profile.SetView('roster, list)')">
+          <v-btn small icon value="list" @click="profile.SetView('selector', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn small icon value="cards" disabled @click="profile.SetView('roster, cards)')">
+          <v-btn small icon value="cards" @click="profile.SetView('selector', 'cards')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
@@ -40,12 +40,16 @@
     </v-row>
     <compendium-mobile-view v-if="!$vuetify.breakpoint.mdAndUp" :items="fItems" />
     <div v-else>
+      <compendium-split-view
+        v-if="lockView || profile.GetView('selector') === 'split'"
+        :items="fItems"
+      />
       <compendium-table-view
-        v-if="profile.GetView('selector') === 'list'"
+        v-else-if="profile.GetView('selector') === 'list'"
         :items="fItems"
         :headers="headers"
       />
-      <compendium-split-view v-else-if="profile.GetView('selector') === 'split'" :items="fItems" />
+      <compendium-cards-view v-else-if="profile.GetView('selector') === 'cards'" :items="fItems" />
     </div>
   </v-container>
 </template>
@@ -56,6 +60,7 @@ import ItemFilter from '@/classes/utility/ItemFilter'
 import { accentInclude } from '@/classes/utility/accent_fold'
 import CompendiumMobileView from './views/CompendiumMobileView.vue'
 import CompendiumSplitView from './views/CompendiumSplitView.vue'
+import CompendiumCardsView from './views/CompendiumCardsView.vue'
 import CompendiumTableView from './views/CompendiumTableView.vue'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
@@ -63,7 +68,12 @@ import { UserProfile } from '@/user'
 
 export default Vue.extend({
   name: 'compendium-browser',
-  components: { CompendiumMobileView, CompendiumTableView, CompendiumSplitView },
+  components: {
+    CompendiumMobileView,
+    CompendiumTableView,
+    CompendiumSplitView,
+    CompendiumCardsView,
+  },
   props: {
     headers: {
       type: Array,
@@ -74,6 +84,10 @@ export default Vue.extend({
       required: true,
     },
     noFilter: {
+      type: Boolean,
+      required: false,
+    },
+    lockView: {
       type: Boolean,
       required: false,
     },

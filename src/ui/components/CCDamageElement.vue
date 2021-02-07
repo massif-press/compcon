@@ -33,7 +33,7 @@
         </div>
       </cc-tooltip>
       <span v-if="!small">
-        <div class="overline mt-n2">
+        <div class="overline mt-n1">
           <b>{{ typeOverride ? typeOverride : d.Type }}</b>
         </div>
       </span>

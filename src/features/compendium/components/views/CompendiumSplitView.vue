@@ -2,7 +2,7 @@
   <div class="mt-n3">
     <v-row dense>
       <v-col cols="auto" class="pt-2 ml-n6">
-        <v-list dense class="side-fixed pr-2">
+        <v-list dense class="side-fixed pr-2" color="panel">
           <v-list-item-group v-model="selected" color="accent">
             <v-list-item v-for="i in items" :key="`${i.ID}_sidebar'`" :value="i.ID" dense>
               <v-list-item-icon>
