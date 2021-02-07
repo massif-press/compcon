@@ -4,7 +4,7 @@
       <slot />
     </v-row>
 
-    <v-row v-if="item.LicenseString">
+    <v-row v-if="item.LicenseString" class="mb-2 mt-n1">
       <v-divider class="mt-3" />
       <v-icon color="panel-border">cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
       <v-divider class="mt-3" />

@@ -1,7 +1,14 @@
 <template>
-  <div v-if="!tag.IsHidden" class="d-inline-block my-2">
+  <div v-if="!tag.IsHidden" :class="`d-inline-block ${dense ? '' : 'my-2'}`">
     <cc-tooltip :err="tag.err" :title="tag.GetName(bonus)" :content="tag.GetDescription(bonus)">
-      <v-chip class="px-2 py-2 mx-1" :color="tag.err ? 'error' : color" dark label :small="small">
+      <v-chip
+        class="px-2 py-2 mx-1"
+        :color="tag.err ? 'error' : color"
+        dark
+        label
+        :small="small"
+        :outlined="outlined"
+      >
         <v-avatar>
           <v-icon v-if="tag.err" small>label_off</v-icon>
           <v-icon v-else small>label</v-icon>
@@ -21,6 +28,11 @@ import { Pilot, Tag } from '@/class'
 export default class CCTag extends Vue {
   @Prop({ type: Boolean, required: false })
   readonly small?: boolean
+  @Prop({ type: Boolean, required: false })
+  readonly dense?: boolean
+  @Prop({ type: Boolean, required: false })
+  readonly outlined?: boolean
+
   @Prop({ type: String, required: false, default: 'primary' })
   readonly color: string
 

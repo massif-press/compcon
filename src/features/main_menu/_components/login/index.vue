@@ -64,7 +64,6 @@ export default Vue.extend({
   },
   methods: {
     verifyFlow(email) {
-      console.log(email)
       this.email = email
       this.state = 'verify'
     },

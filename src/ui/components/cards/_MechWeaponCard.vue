@@ -2,7 +2,7 @@
   <equipment-card-base :item="item">
     {{ item.OnAttack }}
     <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12" class="mt-n4 mb-4">
-      <div class="overline mb-n2">WEAPON PROFILES</div>
+      <div class="overline mb-1">WEAPON PROFILES</div>
       <v-tabs v-model="tab" grow height="30px">
         <v-tab v-for="p in item.Profiles" :key="p.ID">
           <span class="accent--text font-weight-bold">{{ p.Name }}</span>
