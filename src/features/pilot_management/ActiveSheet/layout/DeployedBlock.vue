@@ -1,11 +1,11 @@
 <template>
   <div>
-    <span class="overline">
+    <div class="overline mb-2">
       DEPLOYED EQUIPMENT
       <v-btn small right icon class="fadeSelect" @click="showDeployed = !showDeployed">
         <v-icon small v-html="showDeployed ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
       </v-btn>
-    </span>
+    </div>
     <v-scroll-y-reverse-transition mode="out-in" leave-absolute>
       <div v-if="showDeployed">
         <div v-if="pilot.State.Deployed.length">

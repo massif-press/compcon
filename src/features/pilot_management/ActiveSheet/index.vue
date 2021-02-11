@@ -9,12 +9,12 @@
       </v-fade-transition>
     </div>
     <div>
-      <span class="overline">
+      <div class="overline my-2">
         PLAYER NOTES
         <v-btn small right icon class="fadeSelect" @click="showNotes = !showNotes">
           <v-icon small v-html="showNotes ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>
-      </span>
+      </div>
       <v-textarea v-if="showNotes" v-model="pilot.Notes" outlined auto-grow color="accent" />
     </div>
     <div style="height: 60px" />

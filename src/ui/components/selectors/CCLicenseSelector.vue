@@ -1,12 +1,17 @@
 <template>
   <selector title="Pilot Licenses" height="60vh" :success="!pilot.IsMissingLicenses">
     <template v-slot:left-column>
-      <v-row v-for="pl in pilot.Licenses" :key="`summary_${pl.License.Name}`">
+      <v-row
+        v-for="pl in pilot.Licenses"
+        :key="`summary_${pl.License.Name}`"
+        class="my-2"
+        style="width:98%"
+      >
         <missing-item v-if="pl.License.err" @remove="remove(pl)" />
-        <span v-else>
+        <div v-else>
           <v-icon :color="manufacturer(pl.License.Source).Color">cci-rank-{{ pl.Rank }}</v-icon>
           <strong>{{ pl.License.Name }}</strong>
-        </span>
+        </div>
       </v-row>
       <v-divider v-if="pilot.Licenses.length" class="ma-2 ml-4 mr-4" />
       <v-row>
@@ -15,6 +20,7 @@
           color="success"
           icon="check_circle"
           class="stat-text"
+          style="width: 95%"
           :value="!pilot.IsMissingLicenses"
         >
           License Selection Complete
@@ -28,9 +34,11 @@
         >
           {{ pilot.CurrentLicensePoints }} / {{ pilot.MaxLicensePoints }} Licenses selected
         </v-alert>
-        <v-btn block text small :disabled="!pilot.Licenses.length" @click="pilot.ClearLicenses()">
-          Reset
-        </v-btn>
+        <div class="my-2">
+          <v-btn block text small :disabled="!pilot.Licenses.length" @click="pilot.ClearLicenses()">
+            Reset
+          </v-btn>
+        </div>
       </v-row>
     </template>
 

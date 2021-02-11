@@ -1,13 +1,18 @@
 <template>
   <selector title="Pilot CORE Bonuses" height="60vh" :success="!pilot.IsMissingCBs">
     <template v-slot:left-column>
-      <v-row v-for="b in pilot.CoreBonuses" :key="`summary_${b.ID}`">
+      <v-row
+        v-for="b in pilot.CoreBonuses"
+        :key="`summary_${b.ID}`"
+        class="my-2"
+        style="width: 98%"
+      >
         <!-- <missing-item v-if="b.err" @remove="pilot.RemoveCoreBonus(b)" /> -->
-        <span>
+        <div>
           <v-icon small color="accent">cci-corebonus</v-icon>
           <strong>{{ b.Name }}</strong>
           <span class="overline">{{ b.Source }}</span>
-        </span>
+        </div>
       </v-row>
       <v-divider v-if="pilot.CoreBonuses.length" class="ma-2 ml-4 mr-4" />
       <v-row>
@@ -16,6 +21,7 @@
           color="success"
           icon="check_circle"
           class="stat-text"
+          style="width: 95%"
           :value="!pilot.IsMissingCBs"
         >
           CORE Bonus Selection Complete
@@ -29,15 +35,17 @@
         >
           {{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected
         </v-alert>
-        <v-btn
-          block
-          text
-          small
-          :disabled="!pilot.CoreBonuses.length"
-          @click="pilot.ClearCoreBonuses()"
-        >
-          Reset
-        </v-btn>
+        <div class="my-2">
+          <v-btn
+            block
+            text
+            small
+            :disabled="!pilot.CoreBonuses.length"
+            @click="pilot.ClearCoreBonuses()"
+          >
+            Reset
+          </v-btn>
+        </div>
       </v-row>
     </template>
 
@@ -61,7 +69,7 @@
               <v-alert
                 outlined
                 :color="manufacturer.GetColor($vuetify.theme.dark)"
-                class="py-1 my-2"
+                class="py-3 my-2"
               >
                 <v-row class="text-center">
                   <span

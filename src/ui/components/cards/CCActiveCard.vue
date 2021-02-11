@@ -10,7 +10,9 @@
         <v-icon v-if="collapsible" left dark class="fadeSelect" @click="collapsed = !collapsed">
           {{ collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
         </v-icon>
-        <span class="heading h3 white--text">{{ header }}</span>
+        <span :class="`heading ${$vuetify.breakpoint.lgAndUp ? 'h3' : 'h2'} white--text`">
+          {{ header }}
+        </span>
         <v-divider
           v-if="content && prominent && $vuetify.breakpoint.lgAndUp"
           class="mx-3 subtle"

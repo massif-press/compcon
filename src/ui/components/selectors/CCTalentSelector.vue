@@ -5,7 +5,11 @@
     :success="!pilot.IsMissingTalents && enoughSelections"
   >
     <template v-slot:left-column>
-      <v-row v-for="(pTalent, i) in pilot.Talents" :key="`summary_${pTalent.Talent.ID}_${i}`">
+      <v-row
+        v-for="(pTalent, i) in pilot.Talents"
+        :key="`summary_${pTalent.Talent.ID}_${i}`"
+        class="my-2"
+      >
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
           <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>
@@ -23,6 +27,7 @@
             color="success"
             icon="check_circle"
             class="stat-text"
+            style="width: 95%"
             :value="!pilot.IsMissingTalents && enoughSelections"
           >
             Talent Selection Complete
@@ -35,6 +40,7 @@
             color="accent"
             icon="warning"
             class="stat-text"
+            style="width: 95%"
             :value="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
           >
             {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }} Talent selections remaining
@@ -47,13 +53,16 @@
             color="accent"
             icon="warning"
             class="stat-text"
+            style="width: 95%"
             :value="!enoughSelections"
           >
             Must select a minimum of {{ selectedMin }} talents
           </v-alert>
-          <v-btn block text small :disabled="!talents.length" @click="pilot.ClearTalents()">
-            Reset
-          </v-btn>
+          <div class="my-2">
+            <v-btn block text small :disabled="!talents.length" @click="pilot.ClearTalents()">
+              Reset
+            </v-btn>
+          </div>
         </v-col>
       </v-row>
     </template>

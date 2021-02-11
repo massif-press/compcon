@@ -216,15 +216,23 @@
             </v-col>
             <v-col>
               <v-row>
-                <cc-active-card prominent color="frame" header="Speed" :content="mech.Speed" />
                 <cc-active-card
                   prominent
+                  class="my-1"
+                  color="frame"
+                  header="Speed"
+                  :content="mech.Speed"
+                />
+                <cc-active-card
+                  prominent
+                  class="my-1"
                   color="frame"
                   :header="$vuetify.breakpoint.lgAndUp ? 'Attack Bonus' : 'Atk Bonus'"
                   :content="`${mech.AttackBonus > 0 ? '+' : ''}${mech.AttackBonus}`"
                 />
                 <cc-active-card
                   prominent
+                  class="my-1"
                   color="frame"
                   :header="$vuetify.breakpoint.lgAndUp ? 'Tech Attack' : 'Tech Atk'"
                   :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`"
@@ -234,24 +242,28 @@
                 <cc-active-card
                   :key="mech.IsStunned"
                   prominent
+                  class="my-1"
                   color="frame"
                   header="Evasion"
                   :content="mech.Evasion"
                 />
                 <cc-active-card
                   prominent
+                  class="my-1"
                   color="frame"
                   :header="$vuetify.breakpoint.lgAndUp ? 'E-Defense' : 'E-Def'"
                   :content="mech.EDefense"
                 />
                 <cc-active-card
                   prominent
+                  class="my-1"
                   color="frame"
                   :header="$vuetify.breakpoint.lgAndUp ? 'Save Target' : 'Save'"
                   :content="mech.SaveTarget"
                 />
                 <cc-active-card
                   prominent
+                  class="my-1"
                   color="frame"
                   :header="$vuetify.breakpoint.lgAndUp ? 'Sensor Range' : 'Sensors'"
                   :content="mech.SensorRange"
@@ -477,7 +489,7 @@
         </v-scroll-y-reverse-transition>
 
         <v-row dense>
-          <v-col cols="12" class="mb-n4">
+          <v-col cols="12">
             <span class="overline">
               COUNTERS
             </span>

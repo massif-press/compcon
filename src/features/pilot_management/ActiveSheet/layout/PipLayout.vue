@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row align="start" dense class="mt-n1 ml-4 mr-2" justify="space-between">
+    <v-row align="start" dense justify="space-between">
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentMove"
@@ -26,14 +26,14 @@
           <legend class="overline px-1 mb-n1" style="line-height: 0">
             Active Effects
           </legend>
-          <cc-synergy-display large location="active_effects" :mech="mech" />
+          <cc-synergy-display large location="active_effects" :mech="mech" show-none />
         </fieldset>
       </v-col>
       <v-col cols="auto" align-self="center">
         <slot name="repair" />
       </v-col>
     </v-row>
-    <v-row align="start" class="mt-n3 mx-2">
+    <v-row align="start" class="mt-n3">
       <v-col cols="auto">
         <v-row dense>
           <v-col cols="auto" align-self="end" class="ma-0 pa-0">
@@ -87,7 +87,7 @@
               large
               color="hp"
               :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
-              :max-length="$vuetify.breakpoint.xl ? 35 : 25"
+              :max-length="$vuetify.breakpoint.xl ? 35 : 20"
               :number-only="$vuetify.breakpoint.mdAndDown"
               @update="state.SetHp($event)"
             >
@@ -117,7 +117,7 @@
       </v-col>
     </v-row>
 
-    <v-row align="start" class="mt-n3 mx-2" justify="space-between">
+    <v-row align="start" class="mt-n3" justify="space-between">
       <v-col cols="auto">
         <v-row dense>
           <v-col cols="auto" align-self="end" class="ma-0 pa-0">

@@ -75,7 +75,7 @@
           </v-col>
         </v-row> -->
         <div v-if="item && item.Effect">
-          <div class="overline mb-n2">
+          <div class="overline">
             <v-icon>cci-system</v-icon>
             EQUIPMENT EFFECT
           </div>
