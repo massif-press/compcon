@@ -123,7 +123,7 @@ export default Vue.extend({
       required: value => !!value || 'Required.',
       min: v => v.length >= 6 || 'Min 6 characters',
       emailMatch: v =>
-        !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid',
+        !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(v) || 'E-mail must be valid',
     },
   }),
   computed: {
