@@ -1,6 +1,6 @@
 <template>
   <v-row justify="space-around" dense class="mx-4">
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="sourceFilter"
         dense
@@ -16,7 +16,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="tagFilter"
         dense
@@ -35,7 +35,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="weaponTypeFilter"
         dense
@@ -51,7 +51,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="weaponSizeFilter"
         dense
@@ -67,7 +67,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="attackTypeFilter"
         dense
@@ -84,7 +84,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="damageTypeFilter"
         dense
@@ -108,7 +108,7 @@
 import Vue from 'vue'
 import { Tag, WeaponType, WeaponSize, RangeType, DamageType, Manufacturer } from '@/class'
 
-const nameSort = function(a, b) {
+const nameSort = function(a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
   if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
   return 0

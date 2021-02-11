@@ -7,7 +7,7 @@ import compendiumRoutes from './features/compendium/routes'
 import { getModule } from 'vuex-module-decorators'
 import { NavStore, store } from '@/store'
 
-import updateChecker from '@/classes/utility/UpdateChecker'
+import updateChecker from '@/util/UpdateChecker'
 
 Vue.use(Router)
 

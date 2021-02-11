@@ -1,6 +1,6 @@
 <template>
   <v-row justify-space-around class="mx-4">
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="sourceFilter"
         class="px-2"
@@ -16,7 +16,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="typeFilter"
         class="px-2"
@@ -33,7 +33,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="mountFilter"
         class="px-2"
@@ -57,7 +57,7 @@
 import Vue from 'vue'
 import { MechType, MountType, Manufacturer } from '@/class'
 
-const nameSort = function(a, b) {
+const nameSort = function(a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
   if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
   return 0
@@ -96,7 +96,7 @@ export default Vue.extend({
       this.mountFilter = []
     },
     updateFilters() {
-      let fObj = {} as any
+      const fObj = {} as any
       if (this.sourceFilter) fObj.Source = [this.sourceFilter]
       if (this.typeFilter && this.typeFilter.length) fObj.Mechtype = this.typeFilter
       if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter

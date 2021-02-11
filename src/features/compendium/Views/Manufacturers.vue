@@ -1,6 +1,6 @@
 <template>
   <v-container px-5>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading">MANUFACTURERS</h1>
+    <div class="heading h1">MANUFACTURERS</div>
     <v-tabs
       v-model="tabModel"
       :vertical="$vuetify.breakpoint.lgAndUp"
@@ -54,13 +54,14 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import { Manufacturer } from '@/class'
 
 @Component
 export default class Manufacturers extends Vue {
   public tabModel = 0
 
   private compendiumStore = getModule(CompendiumStore, this.$store)
-  get manufacturers() {
+  get manufacturers(): Manufacturer[] {
     return this.compendiumStore.Manufacturers
   }
 }

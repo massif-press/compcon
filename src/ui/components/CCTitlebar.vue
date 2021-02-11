@@ -3,8 +3,15 @@
     :color="getColor()"
     :class="{ 'clipped-large': clipped }"
     :style="fixed ? 'position: fixed; width: 100%; z-index:99' : ''"
+    :dense="$vuetify.breakpoint.mdAndDown"
   >
-    <v-toolbar-title :class="`heading h2 ${dark ? 'white--text' : 'stark--text'}`">
+    <v-toolbar-title
+      :class="
+        `heading ${$vuetify.breakpoint.mdAndDown ? 'h3' : 'h2'} ${
+          dark ? 'white--text' : 'stark--text'
+        }`
+      "
+    >
       <v-icon v-if="icon" x-large :dark="dark" class="mt-n1" left>{{ icon }}</v-icon>
       <slot></slot>
     </v-toolbar-title>
@@ -16,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import GetColorMixin from '@/mixins/getColor'
 
 @Component({ name: 'cc-titlebar' })

@@ -12,6 +12,7 @@
             return `${item.Source ? item.Source + ' ' : ''}${item.Name}`
           }
         "
+        class="my-2"
         return-object
       />
     </v-row>

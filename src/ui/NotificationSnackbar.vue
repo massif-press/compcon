@@ -147,7 +147,7 @@ export default class NotificationSnackbar extends Vue {
 }
 
 .notificationContainer >>> .v-snack__wrapper {
-  min-width: 600px;
+  min-width: 40vw;
   max-width: 70vw;
   border-radius: 0px;
 }

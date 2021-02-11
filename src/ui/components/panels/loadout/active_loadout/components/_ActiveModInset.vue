@@ -45,7 +45,7 @@
           <v-col>
             <v-row justify="space-around" dense>
               <v-col v-if="mod.Actions.length" cols="auto">
-                <div class="overline ml-n2 my-n3">EQUIPMENT ACTIONS</div>
+                <div class="overline ml-n2 ">EQUIPMENT ACTIONS</div>
                 <v-row no-gutters justify="center">
                   <v-col v-for="(a, i) in mod.Actions" :key="`${mod.Name}_action_${i}`" cols="auto">
                     <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
@@ -53,7 +53,7 @@
                 </v-row>
               </v-col>
               <v-col v-if="mod.Deployables.length" cols="auto">
-                <div class="overline ml-n2 my-n3">EQUIPMENT DEPLOYABLES</div>
+                <div class="overline ml-n2 ">EQUIPMENT DEPLOYABLES</div>
                 <v-row no-gutters justify="center">
                   <v-col
                     v-for="(d, i) in mod.Deployables"

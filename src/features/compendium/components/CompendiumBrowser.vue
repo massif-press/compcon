@@ -4,9 +4,15 @@
       <v-col cols="auto">
         <h1 v-resize-text="{ maxFontSize: '42pt' }" class="ml-n2 heading accent--text"><slot /></h1>
       </v-col>
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-4 mr-2">
-        <v-btn-toggle v-if="!lockView" :value="profile.GetView('selector')" mandatory>
-          <v-btn small icon value="split" @click="profile.SetView('selector', 'split')">
+      <v-col cols="auto" class="ml-4 mr-2">
+        <v-btn-toggle :value="profile.GetView('selector')" mandatory>
+          <v-btn
+            v-show="!lockView"
+            small
+            icon
+            value="split"
+            @click="profile.SetView('selector', 'split')"
+          >
             <v-icon color="accent">mdi-view-split-vertical</v-icon>
           </v-btn>
           <v-btn small icon value="list" @click="profile.SetView('selector', 'list')">
@@ -17,7 +23,7 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="3" class="ml-auto mr-5">
+      <v-col cols="12" md="3" class="ml-auto mr-5">
         <v-text-field
           v-model="search"
           class="search-field"
@@ -32,18 +38,13 @@
           :hint="`${fItems.length} Items`"
         />
       </v-col>
-      <cc-filter-panel
-        v-if="$vuetify.breakpoint.mdAndUp && !noFilter"
-        :item-type="itemType"
-        @set-filters="setFilters"
-      />
+      <cc-filter-panel :item-type="itemType" @set-filters="setFilters" />
     </v-row>
-    <compendium-mobile-view v-if="!$vuetify.breakpoint.mdAndUp" :items="fItems" />
-    <div v-else>
-      <compendium-split-view
-        v-if="lockView || profile.GetView('selector') === 'split'"
-        :items="fItems"
-      />
+    <div>
+      <div v-if="profile.GetView('selector') === 'split' || lockView">
+        <compendium-mobile-view v-if="$vuetify.breakpoint.smAndDown" :items="fItems" />
+        <compendium-split-view v-else :items="fItems" />
+      </div>
       <compendium-table-view
         v-else-if="profile.GetView('selector') === 'list'"
         :items="fItems"

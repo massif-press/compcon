@@ -67,5 +67,6 @@ export default Vue.extend({
   overflow-y: scroll;
   top: 125px;
   padding-bottom: 35px;
+  max-width: 25vw;
 }
 </style>

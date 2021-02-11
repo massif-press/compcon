@@ -48,7 +48,7 @@
             </v-btn>
           </div>
         </v-col>
-        <v-col cols="4">
+        <v-col cols="12" md="4">
           <v-img
             :src="pack.manifest.image_url"
             alt="Pack image"

@@ -14,7 +14,14 @@
       <v-tab-item v-for="(k, i) in Object.keys(reserves)" :key="'titem_' + k + i + 'desc'">
         <v-container>
           <v-row justify="center">
-            <reserve-card v-for="r in reserves[k]" :key="r.ID" :reserve="r" />
+            <v-col v-for="reserve in reserves[k]" :key="reserve.ID" lg="4" md="6" sm="12">
+              <cc-titled-panel :title="reserve.Name" :icon="reserve.Icon" :color="reserve.Color">
+                <v-card-text class="text-xs-left mt-0 pt-0" style="height: 115px">
+                  <div class="overline subtle--text mt-n2 mb-n1">{{ reserve.Type }}</div>
+                  <p class="flavor-text mb-0" v-html="reserve.Description" />
+                </v-card-text>
+              </cc-titled-panel>
+            </v-col>
           </v-row>
         </v-container>
       </v-tab-item>
@@ -24,14 +31,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ReserveCard from '../components/ReserveCard.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import _ from 'lodash'
 
 export default Vue.extend({
   name: 'reserves',
-  components: { ReserveCard },
   data: () => ({
     tabModel: 0,
   }),
@@ -46,3 +51,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+.v-tabs >>> .v-slide-group__prev {
+  display: none !important;
+}
+</style>

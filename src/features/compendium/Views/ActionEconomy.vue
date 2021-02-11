@@ -18,10 +18,19 @@
                 <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
               </v-card>
             </v-col>
-            <action-type-card icon="$vuetify.icons.move" action="move" />
-            <action-type-card icon="cci-overcharge" action="overcharge" />
-            <action-type-card icon="cci-reaction" action="reaction" />
-            <action-type-card icon="cci-free-action" action="free" />
+            <v-col
+              v-for="a in actionTypes"
+              :key="`atc_${a.action}`"
+              sm="6"
+              lg="2"
+              class="effect-text text-center text-capitalize"
+            >
+              {{ a.action }}
+              <br />
+              <v-card tile :color="`action--${a.action}`" class="pt-4 pb-4">
+                <v-icon size="100" dark>{{ a.icon }}</v-icon>
+              </v-card>
+            </v-col>
           </v-row>
         </v-card-text>
       </v-card>
@@ -58,15 +67,20 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import ActionTypeCard from '../components/ActionTypeCard.vue'
 import ActionCard from '../components/ActionCard.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'action-economy',
-  components: { ActionTypeCard, ActionCard },
+  components: { ActionCard },
   data: () => ({
+    actionTypes: [
+      { action: 'move', icon: '$vuetify.icons.move' },
+      { action: 'overcharge', icon: 'cci-overcharge' },
+      { action: 'reaction', icon: 'cci-reaction' },
+      { action: 'free', icon: 'cci-free' },
+    ],
     actions: [],
     pilotActions: [],
     downtimeActions: [],
