@@ -42,7 +42,7 @@
           / / NHP IN CASCADE / /
         </v-alert>
         <div>
-          <div class="overline mb-n2">
+          <div class="overline">
             <v-icon>cci-system</v-icon>
             EQUIPMENT EFFECT
           </div>

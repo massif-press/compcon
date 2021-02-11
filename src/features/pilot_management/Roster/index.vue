@@ -70,7 +70,7 @@
             <v-expand-transition>
               <draggable
                 :key="`draggable${g}`"
-                :list="pilots.filter(x => x.Group === g)"
+                :list="_.pilots.filter(x => x.Group === g)"
                 :disabled="preventDnd"
                 group="pilots"
                 v-bind="dragOptions"
@@ -158,6 +158,9 @@ export default Vue.extend({
     preventDnd: true,
   }),
   computed: {
+    _() {
+      return _
+    },
     pilotStore() {
       return getModule(PilotManagementStore, this.$store)
     },
@@ -175,14 +178,10 @@ export default Vue.extend({
       const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
-    // pilotsUnsorted() {
-    //   return this.pilotStore.Pilots
-    // },
     groups() {
       return _.uniq(this.pilots.map(x => x.Group).concat(this.tempGroups))
     },
     pilots() {
-      // const store = getModule(PilotManagementStore, this.$store)
       return this.pilotStore.Pilots
     },
     dragOptions() {
@@ -200,25 +199,11 @@ export default Vue.extend({
       }
     },
   },
-  // watch: {
-  //   pilots() {
-  //     this.reset()
-  //   },
-  // },
   created() {
-    // this.reset()
     this.shown = [...this.groups]
     this.preventDnd = this.isTouch
   },
   methods: {
-    // reset() {
-    //   this.groups = _.groupBy(this.pilots, 'Group')
-    //   for (const g in this.groups) {
-    //     if (this.groups.hasOwnProperty(g)) {
-    //       this.groups[g] = _.sortBy(this.groups[g], 'SortIndex')
-    //     }
-    //   }
-    // },
     toggleShown(group: string) {
       const idx = this.shown.indexOf(group)
       if (idx === -1) this.shown.push(group)

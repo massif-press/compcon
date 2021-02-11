@@ -26,10 +26,10 @@
                     v-for="(trait, i) in mech.Frame.Traits"
                     :key="`tr_${i}`"
                     color="frame"
-                    :header="trait.name"
+                    :header="trait.Name"
                     subheader="FRAME TRAIT"
                   >
-                    <span v-html="trait.description" />
+                    <span v-html="trait.Description" />
                   </cc-active-card>
                 </v-col>
                 <v-col cols="8">
@@ -190,9 +190,10 @@
               :max="mech.Overshield"
               large
               color="stark"
-              number-only
-              hide-values
               :full-icon="'mdi-octagram'"
+              max-length="6"
+              hide-max
+              clearable
               @update="mech.Overshield = $event"
             >
               <span class="heading h3">OVERSHIELD</span>

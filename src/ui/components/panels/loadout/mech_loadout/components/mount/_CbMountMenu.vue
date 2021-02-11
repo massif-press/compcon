@@ -82,7 +82,7 @@ export default Vue.extend({
 .side-legend {
   position: absolute;
   right: 20px;
-  top: -30px;
+  top: -40px;
   background-color: var(--v-background-base);
   height: 30px;
   border: 2px;

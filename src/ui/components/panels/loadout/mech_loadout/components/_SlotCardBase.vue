@@ -91,9 +91,9 @@
               @click="if (!readonly) $refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
-                <span class="heading h2 subtle--text my-auto" style="width: 100%; ">
+                <div class="heading h2 subtle--text my-auto py-3" style="width: 100%; ">
                   // EMPTY //
-                </span>
+                </div>
               </v-row>
             </div>
           </div>

@@ -43,7 +43,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row v-if="!noPips && !maxExceeded" no-gutters align="center" justify="center">
+    <v-row v-if="!noPips && !maxExceeded" no-gutters align="center" justify="start" class="mt-0">
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
         <v-btn icon small class="fadeSelect" @click="$emit('update', model - 1)">
           <v-icon :color="color">mdi-minus</v-icon>
@@ -228,5 +228,7 @@ export default class CCTickBar extends Vue {
 
 .v-rating--dense .v-icon {
   padding: 0;
+  margin-left: -4px;
+  margin-right: -4px;
 }
 </style>

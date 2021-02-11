@@ -62,6 +62,17 @@
                     <v-icon small>mdi-printer</v-icon>
                   </v-btn>
                 </cc-tooltip>
+                <cc-tooltip simple inline content="Set As Active Mech">
+                  <v-btn
+                    small
+                    icon
+                    class="fadeSelect"
+                    :disabled="mech.Pilot.ActiveMech === mech"
+                    @click.stop="mech.Pilot.ActiveMech = mech"
+                  >
+                    <v-icon>cci-activate</v-icon>
+                  </v-btn>
+                </cc-tooltip>
               </v-col>
             </v-row>
             <v-row no-gutters class="mt-n2">

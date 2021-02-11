@@ -2,7 +2,7 @@
   <v-row no-gutters justify="center">
     <v-col v-for="(s, i) in synergies" :key="`syn_${i}`" style="min-width: 33%;">
       <v-alert dense outlined class="py-1 ma-1" color="primary">
-        <div class="overline my-n2 subtle--text">
+        <div class="overline mt-n2 subtle--text">
           ACTIVE SYNERGY
           <cc-slashes />
           <span class="text--text">{{ s.Origin }}</span>

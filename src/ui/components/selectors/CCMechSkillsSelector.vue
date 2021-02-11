@@ -6,7 +6,7 @@
           :value="true"
           :type="pilot.IsMissingHASE ? 'info' : 'success'"
           outlined
-          class="stat-text"
+          class="stat-text mt-6"
         >
           {{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }} Mech Skills selected
         </v-alert>

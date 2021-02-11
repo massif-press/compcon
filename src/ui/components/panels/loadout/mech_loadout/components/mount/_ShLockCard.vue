@@ -1,5 +1,5 @@
 <template>
-  <v-col class="pa-2" style="height: 100%">
+  <v-col class="pa-2 mt-2" style="height: 100%">
     <v-card
       flat
       tile
