@@ -1,6 +1,6 @@
 <template>
   <v-col :cols="cols" :lg="lg" :md="md" :sm="sm">
-    <div @click="$emit('clicked')" class="mx-2">
+    <div class="mx-2" @click="$emit('clicked')">
       <v-alert outlined :color="color" prominent dense border="left">
         <v-icon slot="prepend" class="icn" x-large :color="`${color} lighten-1`" left>
           {{ icon }}

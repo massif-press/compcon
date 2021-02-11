@@ -20,11 +20,14 @@ export class UpdateChecker extends EventEmitter {
     return this._updateAvailable
   }
   set updateAvailable(val) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const self = this
     if (val === true && this.updateAvailable !== true) {
       this.emit('updatefound')
-      Vue.prototype.$notify('Update found! Click <b>here</b> to download it.', null, () =>
-        this.getUpdate()
-      )
+      Vue.prototype.$notify('Update found! Click <b>here</b> to download it.', null, () => {
+        window.location.reload(true)
+        self.getUpdate()
+      })
     }
     this._updateAvailable = val
   }

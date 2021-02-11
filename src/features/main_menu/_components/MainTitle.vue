@@ -4,20 +4,20 @@
       style="position: absolute; z-index: 2; height: 43px; left: 0; right: 0; top: 0; bottom: 20px; background-color: var(--v-primary-base); text-align: right"
     >
       <update-checker class="mt-2 mr-2" @mouseenter="$emit('logupdate')" />
-      <v-btn
-        target="_blank"
-        href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
-        color="white"
-        outlined
-        small
-        class="mt-2 mr-2"
-        @mouseenter="$emit('logupdate')"
-      >
-        <v-icon left small>
-          mdi-information-outline
-        </v-icon>
-        View Changelog
-      </v-btn>
+      <div style="position: relative; z-index:999!important">
+        <v-btn
+          target="_blank"
+          href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
+          color="white"
+          outlined
+          small
+          style="z-index:999!important"
+          class="mt-2 mr-2"
+          @mouseenter="$emit('logupdate')"
+        >
+          View Changelog
+        </v-btn>
+      </div>
     </div>
     <div class="clipped px-2 pt-1">
       <span id="title">COMP/CON</span>

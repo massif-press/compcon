@@ -21,7 +21,7 @@ export default class Weapons extends Vue {
     { text: 'Source', align: 'left', value: 'Source' },
     { text: 'Weapon', align: 'left', value: 'Name' },
     { text: 'License', align: 'left', value: 'LicenseString' },
-    { text: 'Size', align: 'left', value: 'Size' },
+    { text: 'Size', align: 'left', value: 'SizeInt' },
     { text: 'Type', align: 'left', value: 'WeaponType' },
     { text: 'Range', align: 'left', value: 'Range[0].Max' },
     { text: 'Damage', align: 'left', value: 'Damage[0].Max' },

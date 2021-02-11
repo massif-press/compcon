@@ -5,7 +5,6 @@
         <v-col>
           <v-row dense style="height: 60px;">
             <v-col cols="auto">
-              <div class="overline mb-n6 subtle--text">callsign</div>
               <div
                 class="heading h1"
                 style="letter-spacing: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
@@ -92,13 +91,6 @@
                 {{ pilot.PlayerName }}
               </div>
             </v-col>
-            <v-col v-if="pilot.CloudID" cols="auto" class="mr-5">
-              <div class="overline mb-n2 subtle--text">rm-4://(OMNINET UPLINK ID)</div>
-              <div class="stat-text white--text mt-n3">
-                temporarily disabled
-                <!-- {{ pilot.CloudID }} -->
-              </div>
-            </v-col>
             <v-col cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">rm-4://(IDENT)</div>
               <div class="stat-text white--text mt-n3">
@@ -115,7 +107,70 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row id="stat-row" dense>
+      <v-row v-if="mech" id="stat-row" dense>
+        <v-col cols="2" offset="1" class="unskew">
+          <cc-tooltip
+            simple
+            inline
+            delay
+            :content="`Structure: ${mech.CurrentStructure}/${mech.MaxStructure}`"
+          >
+            <v-icon>cci-structure</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ mech.CurrentStructure }}</span>
+          <span class="flavor-text subtle--text" style="font-size:14px">
+            /{{ mech.MaxStructure }}
+          </span>
+        </v-col>
+        <v-col cols="2" class="unskew">
+          <cc-tooltip simple inline delay :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`">
+            <v-icon>mdi-heart-outline</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ mech.CurrentHP }}</span>
+          <span class="flavor-text subtle--text" style="font-size:14px">/{{ mech.MaxHP }}</span>
+        </v-col>
+        <v-col cols="2" class="unskew">
+          <cc-tooltip
+            simple
+            inline
+            delay
+            :content="`Reactor Stress: ${mech.CurrentStress}/${mech.MaxStress}`"
+          >
+            <v-icon>cci-reactor</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ mech.CurrentStress }}</span>
+          <span class="flavor-text subtle--text" style="font-size:14px">/{{ mech.MaxStress }}</span>
+        </v-col>
+        <v-col cols="2" class="unskew">
+          <cc-tooltip
+            simple
+            inline
+            delay
+            :content="`Heat: ${mech.CurrentHeat}/${mech.HeatCapacity}`"
+          >
+            <v-icon>mdi-fire</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ mech.CurrentHeat }}</span>
+          <span class="flavor-text subtle--text" style="font-size:14px">
+            /{{ mech.HeatCapacity }}
+          </span>
+        </v-col>
+        <v-col cols="2" class="unskew">
+          <cc-tooltip
+            simple
+            inline
+            delay
+            :content="`Repair Capacity: ${mech.CurrentRepairs}/${mech.RepairCapacity}`"
+          >
+            <v-icon>cci-repair</v-icon>
+          </cc-tooltip>
+          <span class="stat-text">{{ mech.CurrentRepairs }}</span>
+          <span class="flavor-text subtle--text" style="font-size:14px">
+            /{{ mech.RepairCapacity }}
+          </span>
+        </v-col>
+      </v-row>
+      <v-row v-else id="stat-row" dense>
         <v-col cols="2" offset="1" class="unskew">
           <cc-tooltip simple inline delay :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`">
             <v-icon>mdi-heart-outline</v-icon>
@@ -160,6 +215,7 @@ import LevelEditDialog from './LevelEditDialog.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 
 import vueMixins from '@/util/vueMixins'
+import { Mech } from '@/class'
 
 export default vueMixins(activePilot).extend({
   name: 'pilot-header',
@@ -168,6 +224,11 @@ export default vueMixins(activePilot).extend({
   computed: {
     isLevelingUp(): boolean {
       return this.$route.name === 'pilot-level-wizard'
+    },
+    mech(): Mech {
+      if (this.$route.name === 'mech-sheet')
+        return this.pilot.Mechs.find((m: Mech) => m.ID === this.$route.params.mechID)
+      return null
     },
   },
 })

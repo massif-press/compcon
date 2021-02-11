@@ -1,15 +1,23 @@
 <template>
   <v-bottom-sheet v-model="panel">
     <template v-slot:activator="{ on }">
-      <v-badge :value="filterCount" overlap right color="secondary">
-        <template v-slot:badge>
-          <span class="stat-text white--text">{{ filterCount }}</span>
-        </template>
+      <div
+        :style="
+          $vuetify.breakpoint.smAndDown
+            ? 'z-index:2; position: fixed; bottom: 28px; right: 28px'
+            : ''
+        "
+      >
+        <v-badge :value="filterCount" overlap right color="secondary">
+          <template v-slot:badge>
+            <span class="stat-text white--text">{{ filterCount }}</span>
+          </template>
 
-        <v-btn fab color="primary" v-on="on">
-          <v-icon dark>mdi-filter-variant</v-icon>
-        </v-btn>
-      </v-badge>
+          <v-btn fab color="primary" v-on="on">
+            <v-icon dark>mdi-filter-variant</v-icon>
+          </v-btn>
+        </v-badge>
+      </div>
     </template>
 
     <v-sheet>

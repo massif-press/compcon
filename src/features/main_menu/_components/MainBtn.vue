@@ -3,10 +3,6 @@
     <div style="height: 70px">
       <div
         class="btn-main"
-        :class="{
-          disabled: disabled || loading,
-          grey: disabled,
-        }"
         @mouseenter="$emit('hover')"
         @mouseover="mouseOver = true"
         @mouseleave="mouseOver = false"
@@ -16,7 +12,6 @@
           <v-icon dark size="50" class="ml-n4 mt-n3">{{ icon }}</v-icon>
           <slot />
         </div>
-        <v-progress-linear v-if="loading" absolute bottom color="white" indeterminate />
       </div>
     </div>
     <div
@@ -44,9 +39,6 @@ export default Vue.extend({
       required: true,
     },
     disabled: {
-      type: Boolean,
-    },
-    loading: {
       type: Boolean,
     },
     icon: {

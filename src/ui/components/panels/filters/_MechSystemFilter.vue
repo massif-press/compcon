@@ -1,6 +1,6 @@
 <template>
   <v-row wrap justify-space-around class="mx-4">
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="sourceFilter"
         class="px-2"
@@ -16,7 +16,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="tagFilter"
         class="px-2"
@@ -35,7 +35,7 @@
         @change="updateFilters()"
       />
     </v-col>
-    <v-col cols="4">
+    <v-col cols="12" md="4">
       <v-select
         v-model="systemTypeFilter"
         class="px-2"
@@ -57,7 +57,7 @@
 import Vue from 'vue'
 import { Tag, SystemType, Manufacturer } from '@/class'
 
-const nameSort = function(a, b) {
+const nameSort = function(a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
   if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
   return 0
@@ -102,7 +102,7 @@ export default Vue.extend({
       this.systemTypeFilter = []
     },
     updateFilters() {
-      let fObj = {} as any
+      const fObj = {} as any
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       if (this.systemTypeFilter && this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter]

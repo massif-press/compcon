@@ -12,20 +12,13 @@
       <v-col>
         <div class="body-text text--text" v-html="trait.Description" />
       </v-col>
-      <v-col md="auto" lg="12" :class="$vuetify.breakpoint.lgAndUp ? '' : 'ml-auto'">
+      <v-col cols="12" lg="auto" :class="$vuetify.breakpoint.lgAndUp ? '' : 'ml-auto'">
         <cc-action
           v-for="(a, i) in trait.Actions"
           :key="`${trait.ID}_action_${i}`"
           :action="a"
           :panel="$vuetify.breakpoint.lgAndUp"
         />
-        <!-- <cc-bonus
-          v-for="(b, i) in trait.Bonuses"
-          :key="`${trait.ID}_bonus_${i}`"
-          :bonus="b"
-          :panel="$vuetify.breakpoint.lgAndUp"
-        /> -->
-        <!-- <cc-synergy v-for="(s, i) in trait.Synergies" :key="`${trait.ID}_synergy_${i}`" :synergy="s" :panel="$vuetify.breakpoint.lgAndUp"/> -->
         <cc-deployable-info
           v-for="(d, i) in trait.Deployables"
           :key="`${trait.ID}_deployable_${i}`"

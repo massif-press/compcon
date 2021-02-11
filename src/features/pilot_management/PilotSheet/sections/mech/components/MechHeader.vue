@@ -1,4 +1,3 @@
-<!-- temp lame hack -->
 <template>
   <div style="position: relative">
     <v-row id="stat-row" dense>

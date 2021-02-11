@@ -149,6 +149,21 @@ class MechWeapon extends MechEquipment {
     return this.Profiles[this._selected_profile]
   }
 
+  public get SizeInt(): number {
+    switch (this.Size.toLowerCase()) {
+      case 'superheavy':
+        return 4
+      case 'heavy':
+        return 3
+      case 'main':
+        return 2
+      case 'auxiliary':
+        return 1
+      default:
+        return 0
+    }
+  }
+
   public SetProfileSelection(val: number, temp: boolean): void {
     this._selected_profile = val
     if (!temp) this.save()

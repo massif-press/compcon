@@ -69,17 +69,14 @@
           icon="cci-pilot"
           title="Roster"
           text="Manage Pilots"
-          :loading="pilotLoading"
           :to="'/pilot_management'"
         />
-        <!-- <mobile-btn disabled icon="mdi-map" title="Campaigns" text="WIP" /> -->
         <mobile-btn
           icon="mdi-flask-empty-plus-outline"
           title="Content Packs"
           text="Manage Content"
           @clicked="$refs.contentModal.show()"
         />
-        <!--  -->
         <mobile-btn
           :icon="userstore.IsLoggedIn ? 'mdi-account-check' : 'mdi-account-off-outline'"
           :title="userstore.IsLoggedIn ? 'Connected' : 'Log In'"
@@ -140,17 +137,10 @@ export default Vue.extend({
     OptionsPage,
     SignIn,
   },
-  data: () => ({
-    pilotLoading: false,
-  }),
   computed: {
     userstore() {
       return getModule(UserStore, this.$store)
     },
-  },
-  beforeRouteLeave(to, from, next) {
-    if (to.path === '/pilot_management') this.pilotLoading = true
-    next()
   },
 })
 </script>

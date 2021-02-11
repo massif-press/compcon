@@ -1,7 +1,7 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <div v-for="s in sources" :key="s.ID">
-      <v-row no-gutters align="center" justify="center">
+      <v-row v-if="s.Name" no-gutters align="center" justify="center">
         <v-col cols="auto">
           <cc-logo
             :size="$vuetify.breakpoint.mdAndUp ? 'xLarge' : 'large'"
@@ -10,66 +10,21 @@
           />
         </v-col>
         <v-col cols="auto">
-          <div class="heading h1" :style="`color: ${s.GetColor($vuetify.theme.dark)}`">
+          <div
+            :class="`heading ${$vuetify.breakpoint.mdAndDown ? 'h3' : 'h1'}`"
+            :style="`color: ${s.GetColor($vuetify.theme.dark)}`"
+          >
             {{ s.Name }}
           </div>
         </v-col>
       </v-row>
       <v-row align="center" justify="center" class="mt-0 mb-3">
-        <v-col v-for="item in itemsBySource(s.ID)" :key="`card_${item.ID}`" cols="4">
-          <v-hover v-slot="{ hover }">
-            <v-card
-              class="clipped-large"
-              :color="hover ? 'panel lighten-1' : 'panel'"
-              tile
-              @click="$refs[`diag_${item.ID}`][0].show()"
-            >
-              <v-img
-                v-if="item.DefaultImage"
-                :src="item.DefaultImage"
-                max-width="35vw"
-                max-height="200px"
-                contain
-                class="py-2"
-              />
-              <div v-else>
-                <v-row
-                  no-gutters
-                  justify="space-around"
-                  align="center"
-                  style="max-height: 200px; min-height: 175px"
-                >
-                  <v-col v-if="item.Damage" cols="auto">
-                    <cc-damage-element :damage="item.Damage" />
-                  </v-col>
-                  <v-col v-if="item.Range" cols="auto">
-                    <cc-range-element :range="item.Range" />
-                  </v-col>
-                  <v-col v-if="item.Tags" cols="12" class="text-center pb-2">
-                    <cc-tags :tags="item.Tags" small dense outlined color="accent" />
-                  </v-col>
-                </v-row>
-              </div>
-              <v-toolbar dense :color="hover ? 'primary lighten-1' : 'primary'" dark>
-                <div>
-                  <div class="overline mb-n2">
-                    {{ item.Source }}
-                    <span v-if="item.WeaponType">{{ item.Size }} {{ item.WeaponType }}</span>
-                  </div>
-                  <div
-                    class="heading h3"
-                    style="max-width: 80%; text-overflow: ellipsis; white-space: nowrap;"
-                  >
-                    {{ item.Name }}
-                  </div>
-                </div>
-              </v-toolbar>
-            </v-card>
-          </v-hover>
-          <cc-solo-dialog :ref="`diag_${item.ID}`" :title="`${item.Source} ${item.Name}`" large>
-            <cc-item-card :item="item" />
-          </cc-solo-dialog>
-        </v-col>
+        <compendium-card
+          v-for="item in itemsBySource(s.ID)"
+          :key="`card_${item.ID}`"
+          :item="item"
+          :small="$vuetify.breakpoint.smAndDown"
+        />
       </v-row>
     </div>
   </v-container>
@@ -80,9 +35,11 @@ import Vue from 'vue'
 import _ from 'lodash'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import CompendiumCard from './components/CompendiumCard.vue'
 
 export default Vue.extend({
   name: 'compendium-cards-view',
+  components: { CompendiumCard },
   props: {
     items: {
       type: Array,
@@ -97,15 +54,18 @@ export default Vue.extend({
       return getModule(CompendiumStore, this.$store)
     },
     sources() {
-      return _.uniq(
-        this.items.map(x =>
-          this.compendium.Manufacturers.find(y => y.ID === x.Source.toUpperCase())
+      if (this.items.some(x => x.Source))
+        return _.uniq(
+          this.items.map(x =>
+            this.compendium.Manufacturers.find(y => y.ID === x.Source.toUpperCase())
+          )
         )
-      )
+      return ['']
     },
   },
   methods: {
     itemsBySource(s) {
+      if (!s) return this.items
       return this.items.filter(x => x.Source === s)
     },
   },

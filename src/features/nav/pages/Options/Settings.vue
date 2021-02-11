@@ -6,9 +6,7 @@
         <div class="flavor-text">
           <b>USER ID:</b>
           <span class="accent--text">
-            <cc-short-string-editor class="d-inline" @set="setUserID($event)">
-              {{ userID }}
-            </cc-short-string-editor>
+            {{ userID }}
           </span>
         </div>
         <v-divider />
@@ -56,9 +54,6 @@
               </v-card-text>
             </v-card>
           </v-dialog>
-          <v-btn outlined block color="secondary" class="my-1" @click="oldExport">
-            Export Old COMP/CON v1.x Data
-          </v-btn>
           <v-divider class="my-3" />
           <v-dialog v-model="deleteDialog" width="80%">
             <template v-slot:activator="{ on }">
@@ -122,13 +117,6 @@
 
     <v-divider class="my-4" />
 
-    <h3 class="heading accent--text">Cloud Account</h3>
-    <p class="panel py-3 text-center subtle--text">
-      <v-icon color="grey">mdi-lock</v-icon>
-      <br />
-      // FEATURE IN DEVELOPMENT //
-    </p>
-
     <h3 class="heading accent--text">Achievements</h3>
     <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
@@ -185,7 +173,6 @@ export default Vue.extend({
     setTheme() {
       const profile = getModule(UserStore, this.$store).UserProfile
       Vue.set(profile, 'Theme', this.theme)
-      console.log(profile.Theme)
       const isDark = allThemes[this.theme].type === 'dark'
 
       if (isDark) {
@@ -201,10 +188,6 @@ export default Vue.extend({
       store.UserProfile.WelcomeHash = ''
       this.reload()
     },
-    // setUserID(id: string) {
-    //   const store = getModule(UserStore, this.$store)
-    //   store.UserProfile.ID = id
-    // },
     async bulkExport() {
       const result = await exportAll()
       await saveFile(
@@ -216,10 +199,6 @@ export default Vue.extend({
     async bulkImport(file) {
       await importAll(file)
       this.importDialog = false
-    },
-    async oldExport() {
-      const res = await exportV1Pilots()
-      saveFile('CC_v1_pilots.json', res, 'Save COMP/CON v1.x Pilot Archive')
     },
     async deleteAll() {
       await clearAllData()

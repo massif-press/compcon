@@ -73,7 +73,7 @@
       <cc-tags :tags="item.ProfileTags" extended />
     </div> -->
     <div v-if="item.Description" class="mt-2">
-      <div class="overline ml-n2 mb-n2">COMPENDIUM ENTRY</div>
+      <div class="overline ml-n2">COMPENDIUM ENTRY</div>
       <p class="flavor-text mb-1" v-html="item.Description" />
     </div>
   </v-card-text>

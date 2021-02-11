@@ -92,7 +92,7 @@
               </div> -->
 
               <div v-if="item.Deployables.length">
-                <div class="overline ml-n2 my-n3 subtle--text">EQUIPMENT DEPLOYABLES</div>
+                <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
                 <v-row no-gutters justify="center">
                   <v-col
                     v-for="(d, i) in item.Deployables"

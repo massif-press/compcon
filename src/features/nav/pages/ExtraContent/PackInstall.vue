@@ -1,6 +1,6 @@
 <template>
-  <v-layout class="packInstaller" style="min-height: 300px;">
-    <v-flex style="height: 100%; min-width: 25%; max-width: 25%" class="px-3 py-4">
+  <v-row class="packInstaller" style="min-height: 300px;">
+    <v-col style="height: 100%;" cols="12" md="3" class="px-3 py-4">
       <v-file-input
         v-model="value"
         placeholder="Select an .LCP file"
@@ -46,9 +46,9 @@
         A pack with this same name and author is already installed. It will be replaced by this
         copy.
       </v-alert>
-    </v-flex>
+    </v-col>
     <v-divider vertical class="mx-3" />
-    <v-flex class="px-3 py-4">
+    <v-col class="px-3 py-4">
       <v-fade-transition mode="out-in">
         <div v-if="contentPack" key="pack">
           <pack-info :pack="contentPack" />
@@ -56,15 +56,15 @@
         <div
           v-else
           key="nopack"
-          style="display: flex; width: 100%; height: 200px; align-items: center; justify-content: center;"
+          style="display: col; width: 100%; height: 200px; align-items: center; justify-content: center;"
         >
           <div class="heading h3 font-italic subtle--text text--darken-1">
             No content pack selected.
           </div>
         </div>
       </v-fade-transition>
-    </v-flex>
-  </v-layout>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">

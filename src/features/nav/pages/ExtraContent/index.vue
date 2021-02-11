@@ -53,4 +53,7 @@ export default class ExtraContent extends Vue {
 .containerCard >>> .v-window-item {
   height: 100%;
 }
+.v-tabs >>> .v-slide-group__prev {
+  display: none !important;
+}
 </style>

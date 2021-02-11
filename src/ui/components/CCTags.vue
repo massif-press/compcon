@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="extended" no-gutters>
+  <v-row v-if="extended && $vuetify.breakpoint.mdAndUp" no-gutters>
     <v-col v-for="(t, i) in tags" :key="`${t.ID}_${i}`" cols="12">
       <cc-extended-tag :tag="t" :color="color" />
     </v-col>

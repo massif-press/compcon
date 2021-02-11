@@ -16,7 +16,6 @@
           icon="cci-pilot"
           :to="'/pilot_management'"
           help="Manage Pilots"
-          :loading="pilotLoading"
           @hover="ccLog('pilot')"
         >
           Pilot Roster
@@ -202,7 +201,6 @@ export default Vue.extend({
     SignIn,
   },
   data: () => ({
-    pilotLoading: false,
     importDialog: false,
     fileValue: null,
   }),
@@ -210,10 +208,6 @@ export default Vue.extend({
     userstore() {
       return getModule(UserStore, this.$store)
     },
-  },
-  beforeRouteLeave(to, from, next) {
-    if (to.path === '/pilot_management') this.pilotLoading = true
-    next()
   },
   methods: {
     async bulkExport() {

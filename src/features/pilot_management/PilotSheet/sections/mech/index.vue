@@ -1,6 +1,5 @@
 <template>
   <div>
-    <header-overlay :mech="mech" />
     <mech-nav :selected="0" :pilot="pilot" :mech="mech" @delete="$refs.deleteDialog.show()" />
     <v-row no-gutters>
       <v-col cols="auto">
@@ -101,7 +100,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import MechNav from './components/MechNav.vue'
-import HeaderOverlay from './components/HeaderOverlay.vue'
 import CoreItem from './components/CoreItem.vue'
 import OperatorNotes from './sections/OperatorNotes.vue'
 import LicenseRequirementBlock from './sections/license_requirements/index.vue'
@@ -115,7 +113,6 @@ export default Vue.extend({
   components: {
     MechNav,
     LicenseRequirementBlock,
-    HeaderOverlay,
     OperatorNotes,
     TraitBlock,
     AttributesBlock,

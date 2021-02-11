@@ -50,6 +50,7 @@ const routes: RouteConfig[] = [
           },
           {
             path: 'mech/:mechID',
+            name: 'mech-sheet',
             component: MechSheet,
             props: true,
           },

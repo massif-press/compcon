@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <compendium-browser :headers="headers" :items="features" no-filter>
+    <compendium-browser :headers="headers" :items="features" no-filter lock-view>
       NPC Features
     </compendium-browser>
   </v-container>

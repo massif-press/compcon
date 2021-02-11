@@ -23,7 +23,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import Vue from 'vue'
 import Component from 'vue-class-component'
-import updateChecker from '@/classes/utility/UpdateChecker'
+import updateChecker from '@/util/UpdateChecker'
 
 @Component
 export default class UpdatesTracker extends Vue {

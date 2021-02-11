@@ -113,14 +113,16 @@ function formatBan(input: string[]): string {
 }
 
 function randomNoRepeat(arr) {
-  var copy = arr.slice(0);
-  return function () {
-    if (copy.length < 1) { copy = arr.slice(0); }
-    var index = Math.floor(Math.random() * copy.length);
-    var item = copy[index];
-    copy.splice(index, 1);
-    return item;
-  };
+  let copy = arr.slice(0)
+  return function() {
+    if (copy.length < 1) {
+      copy = arr.slice(0)
+    }
+    const index = Math.floor(Math.random() * copy.length)
+    const item = copy[index]
+    copy.splice(index, 1)
+    return item
+  }
 }
 
 const HorusChat = output => {
@@ -147,11 +149,12 @@ const HorusChat = output => {
     allLines.push(formatBan(l.split(/,(.+)/)))
   })
 
-  const sel = randomNoRepeat(allLines);
+  const sel = randomNoRepeat(allLines)
 
   function callback(): void {
     output.innerHTML += `<br>${sel()}`
     output.scrollIntoView({ block: 'end' })
+    if (output && output.innerHTML.length > 2500) output.innerHTML = output.innerHTML.trim(200)
   }
 
   function loop(): void {
