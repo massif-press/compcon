@@ -1,3 +1,42 @@
+## [2.2.7](https://github.com/jarena3/compcon/compare/2.2.0...2.2.7) (2021-02-11)
+
+
+### Bug Fixes
+
+* correct spacing and alignment issues ([549b828](https://github.com/jarena3/compcon/commit/549b8288aad0561b539d1e09377ff6f032987f2c)), closes [#1260](https://github.com/jarena3/compcon/issues/1260) [#1253](https://github.com/jarena3/compcon/issues/1253) [#1251](https://github.com/jarena3/compcon/issues/1251) [#1247](https://github.com/jarena3/compcon/issues/1247)
+* **Active Mode:** clean tickbar buttons ([cfdab43](https://github.com/jarena3/compcon/commit/cfdab4357f3485e5235fa3c389a9c896f891054b)), closes [#1210](https://github.com/jarena3/compcon/issues/1210)
+* **Active Mode:** fix accuracy/difficulty decrement ([5366ad6](https://github.com/jarena3/compcon/commit/5366ad6c4d018d106212b7d626755ccc681c4e21)), closes [#1213](https://github.com/jarena3/compcon/issues/1213)
+* **Active Mode:** fix burn check not advancing round ([83993e9](https://github.com/jarena3/compcon/commit/83993e97dae8dc4d2079497e5dd5d5ec1dc18818)), closes [#1151](https://github.com/jarena3/compcon/issues/1151)
+* **Active Mode:** fix Invasion actions not resetting ([37c5c24](https://github.com/jarena3/compcon/commit/37c5c2469405d7b11913fe4868eb758759d688ca)), closes [#1185](https://github.com/jarena3/compcon/issues/1185)
+* **Active Mode:** fix some light mode colors ([193a358](https://github.com/jarena3/compcon/commit/193a35860b6f3c7bd70a7a48ec55fc257f2f4bd6))
+* **Active Mode:** fixed incorrect accuracy stacking ([90dae0b](https://github.com/jarena3/compcon/commit/90dae0b7c43d671f863c722e1c8cd1fc57189cd2))
+* **Compendium:** correct action economy items ([46d738e](https://github.com/jarena3/compcon/commit/46d738e3ecc4e033a7280627b0e6529b7396dc45))
+* **Compendium:** correct action economy items ([15266f6](https://github.com/jarena3/compcon/commit/15266f6cba9e430d92157ff53dea4aa70260523e))
+* **Compendium:** fix Skill Triggers compendium page ([9cd8814](https://github.com/jarena3/compcon/commit/9cd8814fc82ff7f07e8ed760f58a39e103f5c9a7)), closes [#1176](https://github.com/jarena3/compcon/issues/1176) [#1161](https://github.com/jarena3/compcon/issues/1161) [#1160](https://github.com/jarena3/compcon/issues/1160) [#1189](https://github.com/jarena3/compcon/issues/1189)
+* **Compendium:** fix Tokugawa Overclock not showing up in Compendium ([d670300](https://github.com/jarena3/compcon/commit/d67030081812d9f5ddddada02b05922cae924eae))
+* **Compendium:** fix Tokugawa Overclock not showing up in Compendium ([4b9bbd5](https://github.com/jarena3/compcon/commit/4b9bbd523fabe04cfd62512d43e59846df91962d))
+* **Compendium:** update lancer-data ([eb352eb](https://github.com/jarena3/compcon/commit/eb352ebeec165ab111bdc6fe37488194f8257b4c))
+* **Compendium:** update lancer-data ([9600ef0](https://github.com/jarena3/compcon/commit/9600ef0125703814ccef6d4cfc99aeb08d7a5b86))
+* **Compendium:** various bugfixes ([008c78e](https://github.com/jarena3/compcon/commit/008c78eaed7e8754ee1ae212ae171b3381193b39))
+* **Main Menu:** update email validation rules ([b33b7c6](https://github.com/jarena3/compcon/commit/b33b7c663b0a61add92a5a696e43e1d682135f49)), closes [#1258](https://github.com/jarena3/compcon/issues/1258)
+* update FAQ ([706707f](https://github.com/jarena3/compcon/commit/706707f13e98e3265c929dc2c842c66f5a843cdd)), closes [#1076](https://github.com/jarena3/compcon/issues/1076)
+* update FAQ ([4a9b866](https://github.com/jarena3/compcon/commit/4a9b866d88f1e40ca59c850cf705eabf21d3bdab)), closes [#1076](https://github.com/jarena3/compcon/issues/1076)
+* **Mech Sheet:** fix weapon mod application criteria ([e6f21be](https://github.com/jarena3/compcon/commit/e6f21be459d1480bcbbd9623a825fbe642e5e483)), closes [#1138](https://github.com/jarena3/compcon/issues/1138)
+* **Pilot Sheet:** hotfixes missing (but otherwise useable) pilots. ([cbb7a79](https://github.com/jarena3/compcon/commit/cbb7a793e1fa46ac7971454adca65c6eea9ce4ce))
+* **Pilot Sheet:** re-enable pilot equipment notes ([1e170bd](https://github.com/jarena3/compcon/commit/1e170bd938ad0cafb251727efb84e32b7fd19e1b)), closes [#1131](https://github.com/jarena3/compcon/issues/1131)
+
+
+### Features
+
+* **Active Mode:** pip bar improvements ([d8247e9](https://github.com/jarena3/compcon/commit/d8247e9c0ec933eb359bc25bcfe6d04d0ea1ce5e))
+* **Compendium:** better mobile view support in the compendium ([1809f1b](https://github.com/jarena3/compcon/commit/1809f1b5a50b656c4dc09975b8b400afd4314878)), closes [#1118](https://github.com/jarena3/compcon/issues/1118) [#866](https://github.com/jarena3/compcon/issues/866)
+* **Global:** add backend account management ([15e4a06](https://github.com/jarena3/compcon/commit/15e4a0688717d4ad8ce344fc38a103596c3f04c9)), closes [#453](https://github.com/jarena3/compcon/issues/453)
+* **Mission Runner): feat(Mission Runner:** add Pilot Active Mech selector ([0a91a0d](https://github.com/jarena3/compcon/commit/0a91a0d66aa0c75fb590803d9323268f7cf9fddf))
+* **Pilot Sheet:** add mobile-format log in ([7f23b4a](https://github.com/jarena3/compcon/commit/7f23b4a3a9e8e73913f732aef068522b09a69340))
+* expands the license structure to include non-core licenses of less than or more than three ranks ([7af5915](https://github.com/jarena3/compcon/commit/7af5915766c91396a58a95ff4a37694d8c9c0bec))
+
+
+
 ## [2.2.3](https://github.com/massif-press/compcon/compare/2.2.5...2.2.3) (2021-02-05)
 
 
