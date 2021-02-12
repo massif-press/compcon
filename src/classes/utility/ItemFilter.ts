@@ -7,6 +7,12 @@ class ItemFilter {
         items = items.filter((e: MechEquipment) =>
           e.Tags.map(t => t.ID).some(x => filter.Tags.includes(x))
         )
+      } else if (p === 'SP_greater') {
+        items = items.filter((x: MechEquipment) => x.SP > filter[p])
+      } else if (p === 'SP_less') {
+        items = items.filter((x: MechEquipment) => x.SP < filter[p])
+      } else if (p === 'SP_eq') {
+        items = items.filter((x: MechEquipment) => x.SP === filter[p])
       } else if (filter[p].length) items = items.filter(x => filter[p].some(e => x[p].includes(e)))
     })
     return items

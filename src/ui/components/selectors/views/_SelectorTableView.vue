@@ -38,6 +38,9 @@
       </span>
       <span v-else class="stat-text">{{ item.Name }}</span>
     </template>
+    <template v-slot:[`item.SizeInt`]="{ item }">
+      {{ item.Size }}
+    </template>
     <template v-slot:[`item.Damage[0].Max`]="{ item }">
       <cc-damage-element small :damage="item.Damage" />
     </template>
