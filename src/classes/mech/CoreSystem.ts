@@ -125,6 +125,10 @@ class CoreSystem {
     return this.IntegratedWeapons
   }
 
+  public get PassiveCounters(): ICounterData[] {
+    return this.Counters
+  }
+
   public get IntegratedWeapons(): MechWeapon[] {
     return this._integrated
       .map(x => store.getters.referenceByID('MechWeapons', x))

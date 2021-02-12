@@ -1015,7 +1015,9 @@ class Mech implements IActor {
     }
 
     output = output
-      .concat(this.Frame.Traits.flatMap(x => x[p]))
+      .concat(this.Frame.Traits.flatMap(x => x[p] || []))
+      .concat(this.Frame[p] || [])
+      // .concat(this.Frame.CoreSystem[p] || [])
       .concat(this.Frame.CoreSystem[`Passive${p}`] || [])
       .concat(this.CoreActive ? this.Frame.CoreSystem[`Active${p}`] || [] : [])
 
@@ -1042,6 +1044,10 @@ class Mech implements IActor {
 
   public get Counters(): ICounterData[] {
     return this.features('Counters')
+  }
+
+  public get CounterData(): ICounterData[] {
+    return this.Counters
   }
 
   public get IntegratedWeapons(): MechWeapon[] {

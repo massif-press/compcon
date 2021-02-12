@@ -1056,6 +1056,7 @@ class Pilot implements ICloudSyncable {
   // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
   private features<T>(p: string): T[] {
     if (!this.Loadout) return []
+
     return this._loadout.Items.filter(i => !!i)
       .flatMap(x => x[p])
       .concat(this._core_bonuses.flatMap(x => x[p]))

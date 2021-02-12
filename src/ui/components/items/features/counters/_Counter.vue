@@ -1,7 +1,15 @@
 <template>
-  <v-card v-if="counter" tile outlined color="primary" width="200px" min-width="200px">
-    <v-card-title class="white--text py-2 d-flex">
-      <span class="subtitle-2">{{ counter.Name }}</span>
+  <v-card
+    v-if="counter"
+    tile
+    outlined
+    color="primary"
+    width="200px"
+    min-width="200px"
+    height="100%"
+  >
+    <v-card-title class="primary white--text py-2">
+      <span class="text-button">{{ counter.Name }}</span>
       <v-spacer />
       <cc-tooltip simple content="Reset Counter">
         <v-btn class="fadeSelect" dark icon x-small @click="counter.Reset()">
@@ -16,7 +24,7 @@
       </cc-tooltip>
     </v-card-title>
     <v-card-text class="background pb-0">
-      <v-row justify="center" class="counterContent">
+      <v-row justify="center" align="center" class="counterContent">
         <v-col cols="auto">
           <v-btn
             small
