@@ -47,7 +47,7 @@
       <div class="heading h2">{{ item.Size }} {{ item.WeaponType }}</div>
       <span v-if="item.Source" class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
     </v-col>
-    <v-col v-if="item.Profiles && item.Profiles.length > 1 && showProfileBlock" cols="12">
+    <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
       <div v-if="item.ProfileEffect" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
         <span class="overline">
@@ -138,18 +138,9 @@ export default Vue.extend({
   data: () => ({
     tab: 0,
   }),
-  computed: {
-    showProfileBlock() {
-      return (
-        this.item.ProfileEffect ||
-        this.item.ProfileOnAttack ||
-        this.item.ProfileOnHit ||
-        this.item.ProfileOnCrit
-      )
-    },
-  },
   watch: {
     tab(newval: number) {
+      console.log(this.item)
       this.item.SetProfileSelection(newval, true)
     },
   },
