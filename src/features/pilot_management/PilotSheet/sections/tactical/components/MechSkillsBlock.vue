@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="ml-n4 pl-3">
+    <cc-title small color="pilot" class="ml-n8 pl-3">
       <section-edit-chip
         :highlight="!pilot.HasFullHASE"
         :current="pilot.CurrentHASEPoints"
@@ -19,7 +19,7 @@
     >
       <cc-mech-skills-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-row class="pt-1 pb-3">
+    <v-row dense class="pt-3 pb-3">
       <v-col cols="auto" dense class="py-0">
         <hase-pips title="hull" :skill-points="pilot.MechSkills.Hull" />
       </v-col>
