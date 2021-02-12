@@ -46,7 +46,7 @@
         :readonly="readonly"
       />
 
-      <system-slot-card v-if="mech.FreeSP > 0 && !readonly" :mech="mech" empty />
+      <system-slot-card v-if="!readonly" :mech="mech" empty />
     </fieldset>
   </v-card>
 </template>
