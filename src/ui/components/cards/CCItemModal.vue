@@ -52,7 +52,7 @@ export default class CCItemModal extends Vue {
   readonly item
   @Prop({ type: Boolean })
   readonly smallBtn: boolean
-  truncate(str) {
+  truncate(str): string {
     if (str.length > 26) return str.substring(0, 24) + '…'
     return str
   }
