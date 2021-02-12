@@ -1,6 +1,26 @@
 <template>
   <div>
+    <v-row v-if="empty && mech.FreeSP <= 0" no-gutters justify="end">
+      <v-col cols="auto">
+        <v-btn
+          text
+          dark
+          small
+          color="primary"
+          class="fadeSelect"
+          @click.stop="$refs.selectorDialog.show()"
+        >
+          <v-icon small>mdi-plus</v-icon>
+          Add Additional System
+        </v-btn>
+        <cc-solo-dialog ref="selectorDialog" no-confirm title="SELECT EQUIPMENT" fullscreen no-pad>
+          <system-selector :mech="mech" @equip="equipExtra($event)" />
+        </cc-solo-dialog>
+      </v-col>
+    </v-row>
+
     <slot-card-base
+      v-else
       ref="base"
       :item="item"
       :color="color"
@@ -51,30 +71,6 @@
         >
           / / AI IN CASCADE / /
         </v-alert>
-        <!-- <v-row dense align="center" class="mt-n1">
-          <v-col v-if="item.IsLimited" cols="auto" class="mr-2">
-            <cc-item-uses
-              :item="item"
-              :bonus="mech.Pilot.LimitedBonus"
-              :color="color"
-              class="d-inline"
-            />
-            <span class="overline">
-              ({{ item.Uses }}/{{ item.MaxUses + mech.Pilot.LimitedBonus }}) USES
-            </span>
-          </v-col>
-          <v-col v-if="item.IsLoading" cols="auto" dense>
-            <v-btn
-              small
-              dark
-              :color="item.Loaded ? 'pilot' : 'grey'"
-              @click.stop="item.Loaded = !item.Loaded"
-            >
-              <v-icon left small>mdi-progress-{{ item.Loaded ? 'upload' : 'download' }}</v-icon>
-              {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
-            </v-btn>
-          </v-col>
-        </v-row> -->
         <div v-if="item && item.Effect">
           <div class="overline">
             <v-icon>cci-system</v-icon>
@@ -137,6 +133,10 @@ export default Vue.extend({
     },
   },
   methods: {
+    equipExtra(sys: MechSystem) {
+      this.mech.ActiveLoadout.AddSystem(sys)
+      this.$refs.selectorDialog.hide()
+    },
     equip(sys: MechSystem) {
       if (this.item) {
         this.mech.ActiveLoadout.ChangeSystem(this.index, sys)
