@@ -50,12 +50,31 @@
         @change="updateFilters()"
       />
     </v-col>
+    <v-col cols="12" md="4">
+      <v-select
+        v-model="lcpFilter"
+        class="px-2"
+        hide-details
+        dense
+        prepend-icon="cci-compendium"
+        chips
+        deletable-chips
+        outlined
+        label="From Content Pack"
+        :items="lcps"
+        multiple
+        small-chips
+        @change="updateFilters()"
+      />
+    </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import { MechType, MountType, Manufacturer } from '@/class'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 const nameSort = function(a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
@@ -69,6 +88,7 @@ export default Vue.extend({
     sourceFilter: '',
     typeFilter: [],
     mountFilter: [],
+    lcpFilter: [],
   }),
   computed: {
     manufacturers(): Manufacturer[] {
@@ -88,15 +108,20 @@ export default Vue.extend({
         .filter(x => x !== 'Integrated')
         .sort() as MountType[]
     },
+    lcps(): string[] {
+      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+    },
   },
   methods: {
     clear() {
       this.sourceFilter = []
       this.typeFilter = []
       this.mountFilter = []
+      this.lcpFilter = []
     },
     updateFilters() {
       const fObj = {} as any
+      if (this.lcpFilter) fObj.LcpName = [this.lcpFilter]
       if (this.sourceFilter) fObj.Source = [this.sourceFilter]
       if (this.typeFilter && this.typeFilter.length) fObj.MechType = this.typeFilter
       if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter

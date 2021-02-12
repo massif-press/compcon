@@ -24,6 +24,7 @@ interface ICompendiumItemData {
 abstract class CompendiumItem {
   public ItemType: ItemType
   public readonly Brew: string
+  public readonly LcpName: string
   public readonly ID: string
   public readonly Actions: Action[]
   public readonly Bonuses: Bonus[]
@@ -41,7 +42,11 @@ abstract class CompendiumItem {
   protected _flavor_name: string
   protected _flavor_description: string
 
-  public constructor(data?: ICompendiumItemData, packTags?: ITagCompendiumData[]) {
+  public constructor(
+    data?: ICompendiumItemData,
+    packTags?: ITagCompendiumData[],
+    packName?: string
+  ) {
     this.ItemType = ItemType.None
     if (data) {
       this.ID = data.id
@@ -51,6 +56,7 @@ abstract class CompendiumItem {
       this._name = data.name
       this._description = data.description || ''
       this.Brew = data.brew || 'Core'
+      this.LcpName = packName || 'LANCER Core Book'
       this._baseTags = Tag.Deserialize(data.tags, packTags)
       const heatTag = this.Tags.find(x => x.IsHeatCost)
       const heatCost = heatTag ? heatTag.Value : 0

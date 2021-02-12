@@ -23,11 +23,11 @@ class CoreBonus extends CompendiumItem {
   public readonly Effect: string
   public readonly MountedEffect: string
 
-  public constructor(cbData?: ICoreBonusData, packTags?: ITagCompendiumData[]) {
-    super(cbData, packTags)
-    this.Source = cbData.source
-    this.Effect = cbData.effect
-    this.MountedEffect = cbData.mounted_effect || ''
+  public constructor(data?: ICoreBonusData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
+    this.Source = data.source
+    this.Effect = data.effect
+    this.MountedEffect = data.mounted_effect || ''
     this.ItemType = ItemType.CoreBonus
   }
 

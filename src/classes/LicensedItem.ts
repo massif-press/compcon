@@ -13,8 +13,8 @@ abstract class LicensedItem extends CompendiumItem {
   public readonly LicenseLevel: number
   private _license: string
 
-  public constructor(data: ILicensedItemData, packTags?: ITagCompendiumData[]) {
-    super(data, packTags)
+  public constructor(data: ILicensedItemData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
     this.Source = data.source ? data.source.toUpperCase() : ''
     this._license = data.license || ''
     this.LicenseLevel = data.license_level || 0

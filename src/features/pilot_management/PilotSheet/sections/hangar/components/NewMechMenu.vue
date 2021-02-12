@@ -3,9 +3,6 @@
     <v-row>
       <v-col>
         <cc-title>Select Frame</cc-title>
-        <v-chip-group v-model="selectedTypes" multiple column active-class="primary">
-          <v-chip v-for="t in frameTypes" :key="t" filter small label outlined>{{ t }}</v-chip>
-        </v-chip-group>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-switch v-model="showAll" dense inset hide-details color="warning">
@@ -21,6 +18,9 @@
             />
           </cc-tooltip>
         </v-switch>
+      </v-col>
+      <v-col cols="auto">
+        <cc-filter-panel item-type="Frame" @set-filters="setFilters" />
       </v-col>
     </v-row>
     <v-row>
@@ -115,6 +115,7 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Pilot, Frame, Mech, MechType } from '@/class'
 import { mechname } from '@/io/Generators'
+import ItemFilter from '@/classes/utility/ItemFilter'
 
 export default Vue.extend({
   name: 'new-mech-menu',
@@ -126,8 +127,7 @@ export default Vue.extend({
     showAll: false,
     frames: [],
     selectedFrame: null,
-    frameTypes: [],
-    selectedTypes: [],
+    filters: {},
   }),
   computed: {
     filteredFrames() {
@@ -135,9 +135,8 @@ export default Vue.extend({
 
       if (!this.showAll) i = i.filter(x => this.pilot.has('License', x.Name, 2) || !x.LicenseLevel)
 
-      if (this.selectedTypes.length) {
-        const sel = this.selectedTypes.map(x => this.frameTypes[x])
-        i = i.filter(x => x.MechType.some(t => sel.includes(t)))
+      if (Object.keys(this.filters).length) {
+        i = ItemFilter.Filter(i, this.filters) as Frame[]
       }
 
       return i.map(x => x.ID)
@@ -149,9 +148,11 @@ export default Vue.extend({
       compendium.Frames.filter(x => !x.IsHidden),
       ['Source', 'Name']
     )
-    this.frameTypes = Object.keys(MechType).sort() as MechType[]
   },
   methods: {
+    setFilters(newFilter) {
+      this.filters = newFilter
+    },
     selectIncl(id: string) {
       return this.filteredFrames.includes(id)
     },

@@ -30,8 +30,8 @@ class WeaponMod extends MechEquipment {
   public readonly AddedDamage: Damage[]
   public readonly AddedRange: Range[]
 
-  public constructor(data: IWeaponModData, packTags?: ITagCompendiumData[]) {
-    super(data, packTags)
+  public constructor(data: IWeaponModData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
     this.AllowedTypes =
       data.allowed_types || Object.keys(WeaponType).map(k => WeaponType[k as string])
     this.AllowedSizes =

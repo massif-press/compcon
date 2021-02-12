@@ -22,8 +22,8 @@ class PilotArmor extends PilotEquipment {
   public readonly Evasion: number
   public readonly EvasionBonus: number
 
-  public constructor(data: IPilotArmorData, packTags?: ITagCompendiumData[]) {
-    super(data, packTags)
+  public constructor(data: IPilotArmorData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
     this.HPBonus = data.hp_bonus || 0
     this.Speed = data.speed || 0
     this.SpeedBonus = data.speed_bonus || 0

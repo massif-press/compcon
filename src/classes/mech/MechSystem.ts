@@ -9,9 +9,9 @@ interface IMechSystemData extends IMechEquipmentData {
 class MechSystem extends MechEquipment {
   private _system_type: SystemType
 
-  public constructor(systemData: IMechSystemData, packTags?: ITagCompendiumData[]) {
-    super(systemData, packTags)
-    this._system_type = systemData.type || SystemType.System
+  public constructor(data: IMechSystemData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
+    this._system_type = data.type || SystemType.System
     this.ItemType = ItemType.MechSystem
   }
 

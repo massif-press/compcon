@@ -105,8 +105,8 @@ class MechWeapon extends MechEquipment {
   private _custom_damage_type?: string
   private _selected_profile: number
 
-  public constructor(data: IMechWeaponData, packTags?: ITagCompendiumData[]) {
-    super(data, packTags)
+  public constructor(data: IMechWeaponData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
     this.Size = data.mount
     this.WeaponType = data.type
     this.Skirmish =
