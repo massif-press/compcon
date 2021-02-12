@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="space-around" dense class="mx-4">
+  <v-row dense justify="space-around" class="mx-4">
     <v-col cols="12" md="4">
       <v-select
         v-model="sourceFilter"
@@ -101,6 +101,39 @@
         @change="updateFilters()"
       />
     </v-col>
+    <v-col cols="12" md="4" class="text-center">
+      <v-icon>cci-system-point</v-icon>
+      <span class="text-button">SP Cost</span>
+      <v-btn-toggle v-model="spType" color="accent" class="ml-1 py-1" @change="updateFilters()">
+        <v-btn value="less" small text>Less Than</v-btn>
+        <v-btn value="eq" small text>Equal To</v-btn>
+        <v-btn value="greater" small text>Greater Than</v-btn>
+      </v-btn-toggle>
+      <v-row no-gutters justify="center">
+        <v-col cols="auto">
+          <v-text-field
+            v-model="sp"
+            type="number"
+            outlined
+            style="width: 150px;"
+            dense
+            hide-details
+            class="hide-input-spinners"
+            prepend-icon="mdi-minus"
+            append-outer-icon="mdi-plus"
+            @click:prepend="
+              sp > 0 ? sp-- : sp
+              updateFilters()
+            "
+            @click:append-outer="
+              sp++
+              updateFilters()
+            "
+            @change="updateFilters()"
+          />
+        </v-col>
+      </v-row>
+    </v-col>
   </v-row>
 </template>
 
@@ -123,6 +156,8 @@ export default Vue.extend({
     weaponSizeFilter: [],
     attackTypeFilter: [],
     damageTypeFilter: [],
+    sp: '',
+    spType: '',
   }),
   computed: {
     manufacturers(): Manufacturer[] {
@@ -172,9 +207,12 @@ export default Vue.extend({
       this.weaponSizeFilter = []
       this.attackTypeFilter = []
       this.damageTypeFilter = []
+      this.sp = ''
+      this.spType = ''
     },
     updateFilters() {
       const fObj = {} as any
+      if (this.spType && parseInt(this.sp) !== NaN) fObj[`SP_${this.spType}`] = parseInt(this.sp)
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       if (this.weaponTypeFilter && this.weaponTypeFilter.length)

@@ -1,5 +1,5 @@
 <template>
-  <v-row justify-space-around class="mx-4">
+  <v-row dense justify="space-around" class="mx-4">
     <v-col cols="12" md="4">
       <v-select
         v-model="sourceFilter"

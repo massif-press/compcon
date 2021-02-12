@@ -29,11 +29,12 @@
           <span class="heading h3">SP</span>
         </div>
         <div v-if="!readonly" class="d-inline pl-3 ml-3" style=" border-left: 1px solid #616161;">
-          <v-icon v-if="item" class="fadeSelect mt-n1" @click.stop="remove(item)">
+          <v-icon v-if="item" dark class="fadeSelect mt-n1" @click.stop="remove(item)">
             delete
           </v-icon>
           <v-icon
             class="fadeSelect mt-n1"
+            dark
             @click.stop="$refs.base.$refs.selectorDialog.show()"
             v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
           />
