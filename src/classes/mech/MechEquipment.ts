@@ -39,8 +39,8 @@ abstract class MechEquipment extends LicensedItem {
   // TODO: expand
   public readonly Ammo: any[]
 
-  public constructor(data: IMechEquipmentData, packTags?: ITagCompendiumData[]) {
-    super(data, packTags)
+  public constructor(data: IMechEquipmentData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
     this.SP = data.sp || 0
     this.Effect = data.effect
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated')

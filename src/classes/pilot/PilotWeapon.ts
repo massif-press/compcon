@@ -12,8 +12,8 @@ class PilotWeapon extends PilotEquipment {
   public readonly Damage: Damage[]
   public readonly Effect: string
 
-  public constructor(data: IPilotWeaponData, packTags?: ITagCompendiumData[]) {
-    super(data, packTags)
+  public constructor(data: IPilotWeaponData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
     this.Range = data.range.map(x => new Range(x))
     this.Damage = data.damage.map(x => new Damage(x))
     this.Effect = data.effect || ''

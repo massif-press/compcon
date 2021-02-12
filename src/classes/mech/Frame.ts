@@ -44,8 +44,8 @@ class Frame extends LicensedItem {
   private _image_url?: string
   private _stats: IFrameStats
 
-  public constructor(frameData: IFrameData, packTags?: ITagCompendiumData[]) {
-    super(frameData, packTags)
+  public constructor(frameData: IFrameData, packTags?: ITagCompendiumData[], packName?: string) {
+    super(frameData, packTags, packName)
     this.MechType = frameData.mechtype
     this.YPosition = frameData.y_pos || 30
     this.Mounts = frameData.mounts

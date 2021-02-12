@@ -29,8 +29,12 @@ abstract class PilotEquipment extends CompendiumItem {
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
 
-  public constructor(data: IPilotEquipmentData, packTags?: ITagCompendiumData[]) {
-    super(data, packTags)
+  public constructor(
+    data: IPilotEquipmentData,
+    packTags?: ITagCompendiumData[],
+    packName?: string
+  ) {
+    super(data, packTags, packName)
     this._used = false
     this._destroyed = false
     this._cascading = false

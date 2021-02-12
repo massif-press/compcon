@@ -50,6 +50,23 @@
         @change="updateFilters()"
       />
     </v-col>
+    <v-col cols="12" md="4">
+      <v-select
+        v-model="lcpFilter"
+        class="px-2"
+        hide-details
+        dense
+        prepend-icon="cci-compendium"
+        chips
+        deletable-chips
+        outlined
+        label="From Content Pack"
+        :items="lcps"
+        multiple
+        small-chips
+        @change="updateFilters()"
+      />
+    </v-col>
     <v-col cols="12" md="4" class="text-center">
       <v-icon>cci-system-point</v-icon>
       <span class="text-button">SP Cost</span>
@@ -89,6 +106,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Tag, SystemType, Manufacturer } from '@/class'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 const nameSort = function(a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
@@ -104,6 +123,7 @@ export default Vue.extend({
     systemTypeFilter: [],
     sp: '',
     spType: '',
+    lcpFilter: [],
   }),
   computed: {
     manufacturers(): Manufacturer[] {
@@ -129,6 +149,9 @@ export default Vue.extend({
         'ID'
       )
     },
+    lcps(): string[] {
+      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+    },
   },
   methods: {
     clear() {
@@ -137,9 +160,11 @@ export default Vue.extend({
       this.systemTypeFilter = []
       this.sp = ''
       this.spType = ''
+      this.lcpFilter = []
     },
     updateFilters() {
       const fObj = {} as any
+      if (this.lcpFilter) fObj.LcpName = [this.lcpFilter]
       if (this.spType && parseInt(this.sp) !== NaN) fObj[`SP_${this.spType}`] = parseInt(this.sp)
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter

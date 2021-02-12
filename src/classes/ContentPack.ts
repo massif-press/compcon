@@ -229,18 +229,23 @@ export class ContentPack {
 
     self._Manufacturers = self._data.manufacturers?.map(x => new Manufacturer(x)) || []
     self._Factions = self._data.factions?.map(x => new Faction(x)) || []
-    self._CoreBonuses = self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags)) || []
-    self._Frames = self._data.frames?.map(x => new Frame(x, self._data.tags)) || []
-    self._MechWeapons = self._data.weapons?.map(x => new MechWeapon(x, self._data.tags)) || []
-    self._MechSystems = self._data.systems?.map(x => new MechSystem(x, self._data.tags)) || []
-    self._WeaponMods = self._data.mods?.map(x => new WeaponMod(x, self._data.tags)) || []
+    self._CoreBonuses =
+      self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags, self._manifest.name)) || []
+    self._Frames =
+      self._data.frames?.map(x => new Frame(x, self._data.tags, self._manifest.name)) || []
+    self._MechWeapons =
+      self._data.weapons?.map(x => new MechWeapon(x, self._data.tags, self._manifest.name)) || []
+    self._MechSystems =
+      self._data.systems?.map(x => new MechSystem(x, self._data.tags, self._manifest.name)) || []
+    self._WeaponMods =
+      self._data.mods?.map(x => new WeaponMod(x, self._data.tags, self._manifest.name)) || []
     self._PilotGear =
       self._data.pilotGear?.map(function(x) {
         if (x.type.toLowerCase() === 'weapon')
-          return new PilotWeapon(x as IPilotWeaponData, self._data.tags)
+          return new PilotWeapon(x as IPilotWeaponData, self._data.tags, self._manifest.name)
         else if (x.type.toLowerCase() === 'armor')
-          return new PilotArmor(x as IPilotArmorData, self._data.tags)
-        return new PilotGear(x as IPilotEquipmentData, self._data.tags)
+          return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name)
+        return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name)
       }) || []
     self._Talents = self._data.talents?.map(x => new Talent(x)) || []
 
