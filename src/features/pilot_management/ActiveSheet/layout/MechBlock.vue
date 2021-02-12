@@ -498,7 +498,9 @@
             </v-btn>
           </v-col>
           <v-scroll-y-reverse-transition mode="out-in">
-            <cc-counter-set v-if="showCounters" :actor="pilot" />
+            <div v-if="showCounters">
+              <cc-counter-set :actor="[pilot, mech]" />
+            </div>
             <div v-else style="min-height: 24px" />
           </v-scroll-y-reverse-transition>
         </v-row>
