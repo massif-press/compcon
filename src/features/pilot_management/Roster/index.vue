@@ -70,7 +70,7 @@
             <v-expand-transition>
               <draggable
                 :key="`draggable${g}`"
-                :list="_.pilots.filter(x => x.Group === g)"
+                :list="pilots.filter(x => x.Group === g)"
                 :disabled="preventDnd"
                 group="pilots"
                 v-bind="dragOptions"
