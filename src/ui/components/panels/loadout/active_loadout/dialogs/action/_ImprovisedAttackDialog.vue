@@ -79,23 +79,9 @@ export default Vue.extend({
   },
   methods: {
     attackConfirm(atk: any) {
-      this.atk = atk
-      this.activation = atk.activation
-      this.mech.Pilot.State.LogAttackAction(
-        'IMPROVISED ATTACK',
-        atk.activation.toUpperCase(),
-        atk.damage,
-        atk.kill
-      )
-      this.$emit('use', atk.activation === ActivationType.Free)
+      this.$emit('use', atk)
     },
     attackUndo() {
-      this.mech.Pilot.State.UndoLogAttackAction(
-        'IMPROVISED ATTACK',
-        this.activation.toUpperCase(),
-        this.atk.damage,
-        this.atk.kill
-      )
       this.$emit('undo')
     },
   },
