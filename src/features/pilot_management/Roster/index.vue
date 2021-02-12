@@ -1,10 +1,10 @@
 <template>
   <v-container fluid class="px-3 mt-3">
-    <v-row dense align="start" class="mt-2">
+    <v-row dense align="end" class="mt-2">
       <v-col cols="auto">
-        <h1 class="heading">Pilot Roster</h1>
+        <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
-      <v-col cols="auto" class="mt-6">
+      <v-col cols="auto">
         <v-btn-toggle :value="profile.GetView('roster')" mandatory dense class="mt-n4">
           <v-btn small icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
@@ -17,7 +17,7 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col cols="auto" class="ml-auto mt-4 mr-2">
+      <v-col cols="auto" class="ml-auto mr-2">
         <v-btn-toggle>
           <v-btn text small @click="showAll">
             <v-icon>mdi-chevron-down</v-icon>

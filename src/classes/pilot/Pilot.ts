@@ -237,6 +237,7 @@ class Pilot implements ICloudSyncable {
 
   public ApplyLevel(update: IPilotData): void {
     this.Update(update)
+    this.CurrentHP = this.MaxHP
     this.save()
   }
 
