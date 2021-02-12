@@ -1,6 +1,8 @@
 <template>
   <v-container class="mt-0 pt-1">
     <v-row justify="center" dense>
+      <cc-statblock-panel icon="cci-structure" name="Structure" :value="frame.Structure" />
+      <cc-statblock-panel icon="cci-reactor" name="Stress" :value="frame.HeatStress" />
       <cc-statblock-panel icon="$vuetify.icons.armor" name="Armor" :value="frame.Armor" />
       <cc-statblock-panel icon="$vuetify.icons.hp" name="HP" :value="frame.HP" />
       <cc-statblock-panel icon="$vuetify.icons.evasion" name="Evasion" :value="frame.Evasion" />
