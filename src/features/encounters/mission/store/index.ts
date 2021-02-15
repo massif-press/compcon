@@ -27,7 +27,6 @@ async function saveActiveMissionData(activeMissions: ActiveMission[]) {
 
 @Module({
   name: 'mission',
-  namespaced: true,
 })
 export class MissionStore extends VuexModule {
   Missions: Mission[] = []
@@ -144,5 +143,13 @@ export class MissionStore extends VuexModule {
   public async loadActiveMissions() {
     const missionData = await loadData<IActiveMissionData>('active_missions_v2.json')
     this.context.commit(LOAD_ACTIVE_MISSIONS, missionData)
+  }
+
+  get getMissions(): Mission[] {
+    return this.Missions
+  }
+
+  get getActiveMissions(): ActiveMission[] {
+    return this.ActiveMissions
   }
 }

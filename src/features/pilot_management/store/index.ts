@@ -114,9 +114,10 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public addPilot(payload: Pilot): void {
-    this.context.commit(ADD_PILOT, payload)
-    this.context.dispatch('cloudSync', { callback: null, condition: 'pilotAdd' })
+  public addPilot(payload: { pilot: Pilot; update: boolean }): void {
+    this.context.commit(ADD_PILOT, payload.pilot)
+    if (payload.update)
+      this.context.dispatch('cloudSync', { callback: null, condition: 'pilotAdd' })
   }
 
   @Action
@@ -125,9 +126,10 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public deletePilot(payload: Pilot): void {
-    this.context.commit(DELETE_PILOT, payload)
-    this.context.dispatch('cloudSync', { callback: null, condition: 'pilotDelete' })
+  public deletePilot(payload: { pilot: Pilot; update: boolean }): void {
+    this.context.commit(DELETE_PILOT, payload.pilot)
+    if (payload.update)
+      this.context.dispatch('cloudSync', { callback: null, condition: 'pilotDelete' })
   }
 
   @Action

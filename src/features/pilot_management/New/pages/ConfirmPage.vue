@@ -64,7 +64,7 @@ export default Vue.extend({
     savePilot() {
       this.pilot.cc_ver = Vue.prototype.version
       const store = getModule(PilotManagementStore, this.$store)
-      store.addPilot(this.pilot)
+      store.addPilot({ pilot: this.pilot, update: true })
       this.$emit('done')
     },
   },

@@ -123,7 +123,7 @@ export default Vue.extend({
       if (!importPilot.CloudID) {
         importPilot.CloudID = this.importID
       }
-      getModule(PilotManagementStore, this.$store).addPilot(importPilot)
+      getModule(PilotManagementStore, this.$store).addPilot({ pilot: importPilot, update: true })
       this.reset()
       this.dialog = false
       this.importID = ''

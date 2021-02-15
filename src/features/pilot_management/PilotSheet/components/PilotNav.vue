@@ -118,7 +118,7 @@ export default Vue.extend({
     deletePilot() {
       this.$router.push('/pilot_management')
       const store = getModule(PilotManagementStore, this.$store)
-      store.deletePilot(this.pilot)
+      store.deletePilot({ pilot: this.pilot, update: true })
     },
   },
 })

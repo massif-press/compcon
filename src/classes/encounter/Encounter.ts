@@ -6,6 +6,10 @@ import { IMissionStep } from './IMissionStep'
 
 interface IEncounterData {
   id: string
+  cloudID: string
+  cloudOwnerID: string
+  isLocal: boolean
+  lastSync: string
   name: string
   location: string
   npcs: { id: string; side: EncounterSide }[]
@@ -21,7 +25,15 @@ interface IEncounterData {
   local_map?: string
 }
 
-class Encounter implements IMissionStep {
+class Encounter implements IMissionStep, ICloudSyncable {
+  public readonly TypePrefix: string = 'encounter'
+  public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public IsLocallyOwned: boolean
+  public LastSync: string
+  public CloudID: string
+  public CloudOwnerID: string
+  public IsDirty: boolean
+
   private _id: string
   private _name: string
   private _location: string
@@ -52,14 +64,24 @@ class Encounter implements IMissionStep {
     this._sitrep = store.getters.getItemCollection('Sitreps')[0]
     this._npcs = []
     this._reinforcements = []
+    this.LastSync = new Date('1-1-1000').toJSON()
   }
 
   private save(): void {
-    store.dispatch('encounter/saveEncounterData')
+    if (this.IsLocallyOwned) this.IsDirty = true
+    store.dispatch('saveEncounterData')
   }
 
   public get ID(): string {
     return this._id
+  }
+
+  public get ResourceURI(): string {
+    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
+  }
+
+  public get ShareCode(): string {
+    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
   }
 
   public RenewID(): void {
@@ -155,7 +177,7 @@ class Encounter implements IMissionStep {
   public Npcs(side: EncounterSide): Npc[] {
     const npcs = []
     this.npcIDBySide(side).forEach(id => {
-      const n = store.getters['npc/getNpcs'].find((x: Npc) => x.ID === id)
+      const n = store.getters['getNpcs'].find((x: Npc) => x.ID === id)
       if (n) npcs.push(n)
     })
     return npcs
@@ -189,7 +211,7 @@ class Encounter implements IMissionStep {
   public Reinforcements(side: EncounterSide): Npc[] {
     const npcs = []
     this.reinforcementIDBySide(side).forEach(id => {
-      const n = store.getters['npc/getNpcs'].find((x: Npc) => x.ID === id)
+      const n = store.getters['getNpcs'].find((x: Npc) => x.ID === id)
       if (n) npcs.push(n)
     })
     return npcs
@@ -242,9 +264,32 @@ class Encounter implements IMissionStep {
     else return getImagePath(ImageTag.Map, 'nodata.png')
   }
 
+  // -- Cloud -------------------------------------------------------------------------------------
+
+  public MarkSync(): void {
+    this.LastSync = new Date().toJSON()
+    this.IsDirty = false
+  }
+
+  public SetRemoteResource(): void {
+    this.CloudID = this.ID
+    this.IsLocallyOwned = false
+    this.RenewID()
+  }
+
+  public SetOwnedResource(userCognitoId: string): void {
+    this.CloudID = this.ID
+    this.CloudOwnerID = userCognitoId
+    this.IsLocallyOwned = true
+  }
+
   public static Serialize(enc: Encounter): IEncounterData {
     return {
       id: enc.ID,
+      isLocal: enc.IsLocallyOwned,
+      cloudID: enc.CloudID,
+      cloudOwnerID: enc.CloudOwnerID,
+      lastSync: enc.LastSync,
       name: enc.Name,
       npcs: enc._npcs,
       reinforcements: enc._reinforcements,
@@ -261,23 +306,42 @@ class Encounter implements IMissionStep {
     }
   }
 
+  public Update(data: IEncounterData, ignoreProps?: boolean): void {
+    if (ignoreProps) {
+      for (const key in data) {
+        if (this.SyncIgnore.includes(key)) data[key] = null
+      }
+    }
+
+    this._id = data.id
+    this.IsLocallyOwned = data.isLocal || true
+    this.CloudID = data.cloudID || ''
+    this.CloudOwnerID = data.cloudOwnerID || ''
+    this.LastSync = data.lastSync || ''
+
+    this._name = data.name
+    this._location = data.location
+    this._labels = data.labels
+    this._campaign = data.campaign
+    this._gm_notes = data.gmNotes
+    this._narrative_notes = data.narrativeNotes
+    this._environment = data.environment
+    this._environment_details = data.environmentDetails
+    this._cloud_map = data.cloud_map
+    this._local_map = data.local_map
+    this._sitrep = data.sitrep
+    this._npcs = data.npcs
+    this._reinforcements = data.reinforcements
+  }
+
   public static Deserialize(data: IEncounterData): Encounter {
     const e = new Encounter()
-    e._id = data.id
-    e._name = data.name
-    e._location = data.location
-    e._labels = data.labels
-    e._campaign = data.campaign
-    e._gm_notes = data.gmNotes
-    e._narrative_notes = data.narrativeNotes
-    e._environment = data.environment
-    e._environment_details = data.environmentDetails
-    e._cloud_map = data.cloud_map
-    e._local_map = data.local_map
-    e._sitrep = data.sitrep
-    e._npcs = data.npcs
-    e._reinforcements = data.reinforcements
-    return e
+    try {
+      e.Update(data)
+      return e
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 

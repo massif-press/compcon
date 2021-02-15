@@ -111,7 +111,7 @@ export default Vue.extend({
       if (!importPilot.GistCode) {
         importPilot.GistCode = this.importID
       }
-      getModule(PilotManagementStore, this.$store).addPilot(importPilot)
+      getModule(PilotManagementStore, this.$store).addPilot({ pilot: importPilot, update: true })
       this.reset()
       this.dialog = false
       this.importID = ''

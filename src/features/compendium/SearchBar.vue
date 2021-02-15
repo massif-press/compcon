@@ -21,6 +21,7 @@ export default Vue.extend({
     searchText: '',
   }),
   mounted() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const vm = this
     vm.$mousetrap.bind(['ctrl+f', '/'], () => {
       ;(vm.$refs.input as HTMLElement).focus()

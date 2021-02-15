@@ -36,10 +36,18 @@
           <p class="body-text ml-3">
             <b class="accent--text">{{ userProfile.Pilots.length }}</b>
             Pilots
-            <!-- <b class="accent--text">X</b>
-            Groups (
-            <b class="accent--text">X</b>
-            Ungrouped) -->
+            <cc-slashes />
+            <b class="accent--text">{{ userProfile.Npcs.length }}</b>
+            NPCs
+            <cc-slashes />
+            <b class="accent--text">{{ userProfile.Encounters.length }}</b>
+            Encounters
+            <cc-slashes />
+            <b class="accent--text">{{ userProfile.Missions.length }}</b>
+            Missions
+            <cc-slashes />
+            <b class="accent--text">{{ userProfile.ActiveMissions.length }}</b>
+            Active Missions
             <br />
             Last Sync: {{ userProfile.LastSync }}
           </p>

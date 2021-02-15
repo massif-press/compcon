@@ -2,7 +2,7 @@
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import * as Sync from '../sync'
 import * as Client from '../index'
-import { Pilot } from '@/class'
+import { ActiveMission, Encounter, Mission, Npc, Pilot } from '@/class'
 import { Auth } from 'aws-amplify'
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
@@ -108,9 +108,14 @@ export class UserStore extends VuexModule {
               this.context.dispatch('refreshExtraContent')
             })
             .then(() => {
-              Sync.CloudPull(this.UserProfile, (pilot: Pilot) =>
-                this.context.dispatch('addPilot', pilot)
-              )
+              Sync.CloudPull(this.UserProfile, e => {
+                if (e instanceof Pilot)
+                  this.context.dispatch('addPilot', { pilot: e, update: false })
+                if (e instanceof Npc) this.context.dispatch('addNpc', e)
+                if (e instanceof Encounter) this.context.dispatch('addEncounter', e)
+                if (e instanceof Mission) this.context.dispatch('addMission', e)
+                if (e instanceof ActiveMission) this.context.dispatch('addActiveMission', e)
+              })
             })
             .then(() => {
               this.UserProfile.MarkSync()
@@ -136,8 +141,6 @@ export class UserStore extends VuexModule {
       console.info('no user')
       return
     }
-
-    console.log(user)
 
     let sync = true
     if (payload.condition === 'pilotLevel' && !this.UserProfile.SyncFrequency.onPilotLevel)

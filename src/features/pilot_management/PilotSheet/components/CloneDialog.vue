@@ -93,7 +93,7 @@ export default Vue.extend({
       for (const mech of newPilot.Mechs) {
         mech.RenewID()
       }
-      this.$store.dispatch('addPilot', newPilot)
+      this.$store.dispatch('addPilot', { pilot: newPilot, update: true })
       this.hide()
     },
     copyPilot() {
@@ -105,7 +105,7 @@ export default Vue.extend({
       for (const mech of newPilot.Mechs) {
         mech.RenewID()
       }
-      this.$store.dispatch('addPilot', newPilot)
+      this.$store.dispatch('addPilot', { pilot: newPilot, update: true })
       this.hide()
     },
   },
