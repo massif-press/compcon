@@ -3,7 +3,9 @@ import { MechEquipment, CompendiumItem } from '@/class'
 class ItemFilter {
   public static Filter(items: CompendiumItem[], filter: any): CompendiumItem[] {
     Object.keys(filter).forEach(p => {
-      if (p === 'Tags') {
+      if (p === 'LcpName') {
+        items = items.filter(i => filter[p][0].includes(i.LcpName))
+      } else if (p === 'Tags') {
         items = items.filter((e: MechEquipment) =>
           e.Tags.map(t => t.ID).some(x => filter.Tags.includes(x))
         )
