@@ -6,6 +6,7 @@ import { IMissionStep } from './IMissionStep'
 import { EncounterSide } from '../enums'
 
 interface IActiveMissionData {
+  id: string
   cloudID: string
   cloudOwnerID: string
   isLocal: boolean
@@ -285,6 +286,7 @@ class ActiveMission implements ICloudSyncable {
 
   public static Serialize(m: ActiveMission): IActiveMissionData {
     return {
+      id: m.ID,
       mission: Mission.Serialize(m._mission),
       isLocal: m.IsLocallyOwned,
       cloudID: m.CloudID,
@@ -308,6 +310,7 @@ class ActiveMission implements ICloudSyncable {
         if (this.SyncIgnore.includes(key)) data[key] = null
       }
     }
+    this._id = data.id || uuid()
     this.IsLocallyOwned = data.isLocal || true
     this.CloudID = data.cloudID || ''
     this.CloudOwnerID = data.cloudOwnerID || ''

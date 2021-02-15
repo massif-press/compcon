@@ -147,7 +147,7 @@ async function Pull(
         if (storageKey === 'Pilots') dl = Pilot.Deserialize(data)
         else if (storageKey === 'Npcs') dl = Npc.Deserialize(data)
         else if (storageKey === 'Encounters') dl = Encounter.Deserialize(data)
-        else if (storageKey === 'Missions') dl = Mission.Deserialize(data)
+        else if (storageKey === 'Missions' && data.id) dl = Mission.Deserialize(data)
         else if (storageKey === 'ActiveMissions') dl = ActiveMission.Deserialize(data)
         else return
 

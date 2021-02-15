@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%">
     <v-card flat tile>
       <v-card-text class="px-2 py-0 background">
         <div>

@@ -69,12 +69,7 @@
     />
 
     <cc-tooltip v-if="currentAuthedUser" bottom :content="syncTooltip">
-      <v-btn
-        icon
-        :class="unsaved.length ? 'pulse' : ''"
-        :style="`opacity: ${unsaved.length ? '1' : '0.4'}`"
-        @click="sync()"
-      >
+      <v-btn icon dark :style="`opacity: ${unsaved.length ? '1' : '0.4'}`" @click="sync()">
         <v-icon>mdi-cloud-sync-outline</v-icon>
       </v-btn>
     </cc-tooltip>

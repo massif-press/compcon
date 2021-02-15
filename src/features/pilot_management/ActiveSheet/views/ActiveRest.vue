@@ -516,5 +516,13 @@ export default vueMixins(activePilot).extend({
       )
     },
   },
+  methods: {
+    expandAll(len: number, key: string, expand: boolean) {
+      for (let i = 0; i < len; i++) {
+        const k = key + i
+        this.$refs[k][0].collapsed = expand
+      }
+    },
+  },
 })
 </script>
