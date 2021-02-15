@@ -18,7 +18,6 @@ async function saveEncounterData(encounters: Encounter[]) {
 
 @Module({
   name: 'encounter',
-  namespaced: true,
 })
 export class EncounterStore extends VuexModule {
   Encounters: Encounter[] = []

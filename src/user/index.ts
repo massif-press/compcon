@@ -170,6 +170,42 @@ class UserProfile {
     this.save()
   }
 
+  public get Npcs(): string[] {
+    return this._npcs
+  }
+
+  public set Npcs(data: string[]) {
+    this._npcs = data
+    this.save()
+  }
+
+  public get Encounters(): string[] {
+    return this._encounters
+  }
+
+  public set Encounters(data: string[]) {
+    this._encounters = data
+    this.save()
+  }
+
+  public get Missions(): string[] {
+    return this._missions
+  }
+
+  public set Missions(data: string[]) {
+    this._missions = data
+    this.save()
+  }
+
+  public get ActiveMissions(): string[] {
+    return this._active_missions
+  }
+
+  public set ActiveMissions(data: string[]) {
+    this._active_missions = data
+    this.save()
+  }
+
   public SetView(view: string, setting: string): void {
     this._viewOptions[view] = setting
     this.save()

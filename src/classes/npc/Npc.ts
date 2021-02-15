@@ -6,9 +6,13 @@ import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
 import { ICounterData } from '@/interface'
 
-export interface INpcData {
+interface INpcData {
   active: boolean
   id: string
+  cloudID: string
+  cloudOwnerID: string
+  isLocal: boolean
+  lastSync: string
   class: string
   tier: number | string
   name: string
@@ -37,7 +41,15 @@ export interface INpcData {
   cc_ver: string
 }
 
-export class Npc implements IActor {
+class Npc implements IActor, ICloudSyncable {
+  public readonly TypePrefix: string = 'npc'
+  public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public IsLocallyOwned: boolean
+  public LastSync: string
+  public CloudID: string
+  public CloudOwnerID: string
+  public IsDirty: boolean
+
   private _active: boolean
   private _id: string
   private _name: string
@@ -94,6 +106,7 @@ export class Npc implements IActor {
     this._conditions = []
     this._resistances = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
+    this.LastSync = new Date('1-1-1000').toJSON()
   }
 
   public get Active(): boolean {
@@ -106,12 +119,21 @@ export class Npc implements IActor {
   }
 
   private save(): void {
-    if (this.Active) store.dispatch('mission/saveActiveMissionData')
-    else store.dispatch('npc/saveNpcData')
+    if (this.IsLocallyOwned) this.IsDirty = true
+    if (this.Active) store.dispatch('saveActiveMissionData')
+    else store.dispatch('saveNpcData')
   }
 
   public get ID(): string {
     return this._id
+  }
+
+  public get ResourceURI(): string {
+    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
+  }
+
+  public get ShareCode(): string {
+    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
   }
 
   public RenewID(): void {
@@ -613,10 +635,33 @@ export class Npc implements IActor {
     return `cci-size-${this.Stats.Size === 0.5 ? 'half' : this.Stats.Size}`
   }
 
+  // -- Cloud -------------------------------------------------------------------------------------
+
+  public MarkSync(): void {
+    this.LastSync = new Date().toJSON()
+    this.IsDirty = false
+  }
+
+  public SetRemoteResource(): void {
+    this.CloudID = this.ID
+    this.IsLocallyOwned = false
+    this.RenewID()
+  }
+
+  public SetOwnedResource(userCognitoId: string): void {
+    this.CloudID = this.ID
+    this.CloudOwnerID = userCognitoId
+    this.IsLocallyOwned = true
+  }
+
   public static Serialize(npc: Npc): INpcData {
     return {
       active: npc.Active,
       id: npc.ID,
+      isLocal: npc.IsLocallyOwned,
+      cloudID: npc.CloudID,
+      cloudOwnerID: npc.CloudOwnerID,
+      lastSync: npc.LastSync,
       class: npc.Class.ID,
       tier: npc._tier,
       name: npc._name,
@@ -646,39 +691,60 @@ export class Npc implements IActor {
     }
   }
 
+  public Update(data: INpcData, ignoreProps?: boolean): void {
+    if (ignoreProps) {
+      for (const key in data) {
+        if (this.SyncIgnore.includes(key)) data[key] = null
+      }
+    }
+
+    this.Active = data.active
+    this._id = data.id
+    this.IsLocallyOwned = data.isLocal || true
+    this.CloudID = data.cloudID || ''
+    this.CloudOwnerID = data.cloudOwnerID || ''
+    this.LastSync = data.lastSync || ''
+    this._tier = data.tier
+    this._name = data.name
+    this._subtitle = data.subtitle || ''
+    this._side = data.side as EncounterSide
+    this._campaign = data.campaign || ''
+    this._user_labels = data.labels || []
+    this._tag = data.tag
+    this._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplates', x))
+    this._items = data.items.map(x => NpcItem.Deserialize(x))
+    this._stats = NpcStats.Deserialize(data.stats)
+    this.RecalcBonuses()
+    this._note = data.note
+    this._cloud_image = data.cloudImage
+    this._local_image = data.localImage
+    this._current_stats = data.currentStats
+      ? NpcStats.Deserialize(data.currentStats)
+      : NpcStats.FromMax(this._stats)
+    this._statuses = data.statuses || []
+    this._conditions = data.conditions || []
+    this._resistances = data.resistances || []
+    this._burn = data.burn || 0
+    this._overshield = data.overshield || 0
+    this._turn_actions = data.actions || 1
+    this._destroyed = data.destroyed || false
+    this._defeat = data.defeat || ''
+    this._counterSaveData = data.counter_data || []
+    this._customCounters = (data.custom_counters as ICounterData[]) || []
+    this.cc_ver = data.cc_ver
+  }
+
   public static Deserialize(data: INpcData): Npc {
     const c = store.getters.referenceByID('NpcClasses', data.class)
     const npc = new Npc(c)
-    npc.Active = data.active
-    npc._id = data.id
-    npc._tier = data.tier
-    npc._name = data.name
-    npc._subtitle = data.subtitle || ''
-    npc._side = data.side as EncounterSide
-    npc._campaign = data.campaign || ''
-    npc._user_labels = data.labels || []
-    npc._tag = data.tag
-    npc._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplates', x))
-    npc._items = data.items.map(x => NpcItem.Deserialize(x))
-    npc._stats = NpcStats.Deserialize(data.stats)
-    npc.RecalcBonuses()
-    npc._note = data.note
-    npc._cloud_image = data.cloudImage
-    npc._local_image = data.localImage
-    npc._current_stats = data.currentStats
-      ? NpcStats.Deserialize(data.currentStats)
-      : NpcStats.FromMax(npc._stats)
-    npc._statuses = data.statuses || []
-    npc._conditions = data.conditions || []
-    npc._resistances = data.resistances || []
-    npc._burn = data.burn || 0
-    npc._overshield = data.overshield || 0
-    npc._turn_actions = data.actions || 1
-    npc._destroyed = data.destroyed || false
-    npc._defeat = data.defeat || ''
-    npc._counterSaveData = data.counter_data || []
-    npc._customCounters = (data.custom_counters as ICounterData[]) || []
-    npc.cc_ver = data.cc_ver
+    try {
+      npc.Update(data)
+      return npc
+    } catch (err) {
+      console.error(err)
+    }
     return npc
   }
 }
+
+export { INpcData, Npc }

@@ -115,7 +115,7 @@ export default Vue.extend({
     },
     confirmImport() {
       this.importPilot.RenewID()
-      this.$store.dispatch('addPilot', this.importPilot)
+      this.$store.dispatch('addPilot', { pilot: this.importPilot, update: true })
       this.reset()
       this.dialog = false
       this.$emit('done')

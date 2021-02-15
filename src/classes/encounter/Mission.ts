@@ -10,6 +10,10 @@ enum MissionStepType {
 
 interface IMissionData {
   id?: string
+  cloudID: string
+  cloudOwnerID: string
+  isLocal: boolean
+  lastSync: string
   name: string
   note: string
   campaign: string
@@ -18,7 +22,15 @@ interface IMissionData {
   rests: { id: string; note: string }[]
 }
 
-class Mission {
+class Mission implements ICloudSyncable {
+  public readonly TypePrefix: string = 'mission'
+  public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public IsLocallyOwned: boolean
+  public LastSync: string
+  public CloudID: string
+  public CloudOwnerID: string
+  public IsDirty: boolean
+
   private _id: string
   private _name: string
   private _note: string
@@ -38,11 +50,19 @@ class Mission {
   }
 
   private save(): void {
-    store.dispatch('mission/saveMissionData')
+    store.dispatch('saveMissionData')
   }
 
   public get ID(): string {
     return this._id
+  }
+
+  public get ResourceURI(): string {
+    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
+  }
+
+  public get ShareCode(): string {
+    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
   }
 
   public RenewID(): void {
@@ -96,7 +116,7 @@ class Mission {
 
   public get Encounters(): Encounter[] {
     const ids = this._step_ids.filter(x => !this.Rests.map(r => r.ID).some(y => y === x))
-    const enc = store.getters['encounter/getEncounters']
+    const enc = store.getters['getEncounters']
     return ids.map(x => enc.find(y => y.ID === x))
   }
 
@@ -105,7 +125,7 @@ class Mission {
   }
 
   public ValidateSteps(): void {
-    const ids = store.getters['encounter/getEncounters']
+    const ids = store.getters['getEncounters']
       .map((x: Encounter) => x.ID)
       .concat(this._rests.map(x => x.ID))
     this._step_ids = this._step_ids.filter(x => ids.some(y => y === x))
@@ -118,7 +138,7 @@ class Mission {
   public Step(id: string): IMissionStep {
     const r = this._rests.find(x => x.ID === id)
     if (r) return r
-    const enc = store.getters['encounter/getEncounters']
+    const enc = store.getters['getEncounters']
     const rIdx = this._step_ids.indexOf(id)
     if (rIdx == -1) this.RemoveStep(rIdx)
     return enc.find(x => x.ID === id)
@@ -157,9 +177,32 @@ class Mission {
     this.save()
   }
 
+  // -- Cloud -------------------------------------------------------------------------------------
+
+  public MarkSync(): void {
+    this.LastSync = new Date().toJSON()
+    this.IsDirty = false
+  }
+
+  public SetRemoteResource(): void {
+    this.CloudID = this.ID
+    this.IsLocallyOwned = false
+    this.RenewID()
+  }
+
+  public SetOwnedResource(userCognitoId: string): void {
+    this.CloudID = this.ID
+    this.CloudOwnerID = userCognitoId
+    this.IsLocallyOwned = true
+  }
+
   public static Serialize(mission: Mission): IMissionData {
     return {
       id: mission.ID,
+      isLocal: mission.IsLocallyOwned,
+      cloudID: mission.CloudID,
+      cloudOwnerID: mission.CloudOwnerID,
+      lastSync: mission.LastSync,
       name: mission._name,
       note: mission._note,
       campaign: mission._campaign,
@@ -169,16 +212,35 @@ class Mission {
     }
   }
 
+  public Update(data: IMissionData, ignoreProps?: boolean): void {
+    if (ignoreProps) {
+      for (const key in data) {
+        if (this.SyncIgnore.includes(key)) data[key] = null
+      }
+    }
+
+    this._id = data.id
+    this.IsLocallyOwned = data.isLocal || true
+    this.CloudID = data.cloudID || ''
+    this.CloudOwnerID = data.cloudOwnerID || ''
+    this.LastSync = data.lastSync || ''
+
+    this._name = data.name
+    this._note = data.note
+    this._labels = data.labels
+    this._campaign = data.campaign || ''
+    this._rests = data.rests.map(x => Rest.Deserialize(x))
+    this._step_ids = data.step_ids
+  }
+
   public static Deserialize(data: IMissionData): Mission {
     const m = new Mission()
-    m._id = data.id
-    m._name = data.name
-    m._note = data.note
-    m._labels = data.labels
-    m._campaign = data.campaign || ''
-    m._rests = data.rests.map(x => Rest.Deserialize(x))
-    m._step_ids = data.step_ids
-    return m
+    try {
+      m.Update(data)
+      return m
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 

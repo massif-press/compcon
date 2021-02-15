@@ -3,8 +3,9 @@ import * as Client from '@/user'
 import { Auth, API, Storage } from 'aws-amplify'
 import { createUserData, updateUserData } from '@/graphql/mutations'
 import { syncUserData } from '@/graphql/queries'
-import { Pilot } from '@/class'
+import { ActiveMission, Encounter, Mission, Pilot } from '@/class'
 import { IPilotData } from '@/classes/pilot/Pilot'
+import { Npc } from '@/classes/npc/Npc'
 
 const currentCognitoIdentity = async (): Promise<any> =>
   Auth.currentUserCredentials()
@@ -83,13 +84,6 @@ const ContentPull = async (): Promise<any> => {
 }
 
 const PullRemoteData = async (): Promise<void> => {
-  // const oldExternal: Pilot[] = await store.getters.getPilots.filter(
-  //   (x: Pilot) => x.GistCode && x.GistOwner && !x.IsUserOwned
-  // )
-  // oldExternal.forEach(p => {
-  //   p.CloudLoad()
-  // })
-
   const external: Pilot[] = store.getters.getPilots.filter((x: Pilot) => !x.IsLocallyOwned)
 
   external.forEach(async p => {
@@ -115,16 +109,21 @@ const PullRemoteData = async (): Promise<void> => {
   })
 }
 
-const CloudPull = async (userProfile: Client.UserProfile, addPilotCallback: any): Promise<any> => {
-  const ccId = await currentCognitoIdentity()
+async function Pull(
+  storageKey: string,
+  userProfile: Client.UserProfile,
+  ccid: string,
+  callback: any
+): Promise<any> {
+  const typePrefix = storageKey.substring(storageKey.length - 1, 0).toLowerCase()
 
-  const cloudPilotURIs = await Storage.list('pilot', { level: 'protected' })
+  const cloudURIs = await Storage.list(typePrefix, { level: 'protected' })
     .then(result => result.map(k => k.key))
     .catch(err => console.log(err))
 
-  userProfile.Pilots = cloudPilotURIs
+  userProfile[storageKey] = cloudURIs
 
-  cloudPilotURIs.forEach(async k => {
+  cloudURIs.forEach(async k => {
     const url = await Storage.get(k, { level: 'protected' })
 
     if (typeof url === 'object') {
@@ -132,10 +131,10 @@ const CloudPull = async (userProfile: Client.UserProfile, addPilotCallback: any)
       return
     }
 
-    const data: IPilotData = await fetch(url).then(res => res.json())
+    const data = await fetch(url).then(res => res.json())
 
     try {
-      const match: Pilot = store.getters.getPilots.find((x: Pilot) => x.ID === data.id)
+      const match = store.getters[`get${storageKey}`].find(x => x.ID === data.id)
       if (match) {
         // if the incoming data has a later sync time than our last recorded sync, update
         if (new Date(data.lastSync) > new Date(match.LastSync)) {
@@ -143,17 +142,32 @@ const CloudPull = async (userProfile: Client.UserProfile, addPilotCallback: any)
           match.MarkSync()
         }
       } else {
-        console.info('Adding New Pilot')
-        const dlPilot = Pilot.Deserialize(data)
-        dlPilot.SetOwnedResource(ccId)
-        dlPilot.MarkSync()
-        addPilotCallback(dlPilot)
+        console.info(`Adding New ${typePrefix}`)
+        let dl = {} as ICloudSyncable
+        if (storageKey === 'Pilots') dl = Pilot.Deserialize(data)
+        else if (storageKey === 'Npcs') dl = Npc.Deserialize(data)
+        else if (storageKey === 'Encounters') dl = Encounter.Deserialize(data)
+        else if (storageKey === 'Missions') dl = Mission.Deserialize(data)
+        else if (storageKey === 'ActiveMissions') dl = ActiveMission.Deserialize(data)
+        else return
+
+        dl.SetOwnedResource(ccid)
+        dl.MarkSync()
+        callback(dl)
       }
     } catch (err) {
-      throw new Error(`Malformed Pilot data returned from S3`)
+      throw new Error(`Malformed data returned from S3`)
     }
   })
+}
 
+const CloudPull = async (userProfile: Client.UserProfile, callback: any): Promise<any> => {
+  const ccid = await currentCognitoIdentity()
+  await Pull('Pilots', userProfile, ccid, callback)
+  await Pull('Npcs', userProfile, ccid, callback)
+  await Pull('Encounters', userProfile, ccid, callback)
+  await Pull('Missions', userProfile, ccid, callback)
+  await Pull('ActiveMissions', userProfile, ccid, callback)
   await PullRemoteData()
 }
 
@@ -170,11 +184,17 @@ function DeleteS3(filename: string): Promise<any> {
   })
 }
 
-const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any> => {
-  const ccId = await currentCognitoIdentity()
+async function Push(
+  storageKey: string,
+  userProfile: Client.UserProfile,
+  ccid: string,
+  callback: any
+): Promise<any> {
+  const typePrefix = storageKey.substring(storageKey.length - 1, 0).toLowerCase()
 
-  // collect current cloud pilots
-  const cloudPilotURIs = await Storage.list('pilot/', { level: 'protected' })
+  const cloudURIs = await Storage.list(`${typePrefix}/`, {
+    level: 'protected',
+  })
     .then(result => {
       return result.map(i => i.key)
     })
@@ -182,42 +202,57 @@ const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any>
 
   const storageURIs = []
 
-  // compare against local pilots
-  cloudPilotURIs.forEach(async uri => {
-    const match = store.getters.getPilots.find((x: Pilot) => x.ResourceURI === uri)
+  cloudURIs.forEach(async uri => {
+    const match = store.getters[`get${storageKey}`].find(
+      (x: ICloudSyncable) => x.ResourceURI === uri
+    )
     if (match) {
       // we found a local version of the cloud ID, so upload them
-      match.SetOwnedResource(ccId)
-      await UploadS3(match.ResourceURI, Pilot.Serialize(match))
+      match.SetOwnedResource(ccid)
+      let data = {} as any
+      if (storageKey === 'Pilots') data = Pilot.Serialize(match)
+      else if (storageKey === 'Npcs') data = Npc.Serialize(match)
+      else if (storageKey === 'Encounters') data = Encounter.Serialize(match)
+      else if (storageKey === 'Missions') data = Mission.Serialize(match)
+      else if (storageKey === 'ActiveMissions') data = ActiveMission.Serialize(match)
+
+      await UploadS3(match.ResourceURI, data)
         .then(() => {
           storageURIs.push(match.ResourceURI)
           match.IsDirty = false
         })
         .catch(err => {
           console.error(err)
-          if (callback) callback('error', `Unable to upload pilot data`)
+          if (callback) callback('error', `Unable to upload ${typePrefix} data`)
         })
     } else {
       // there is no local match for this cloud pilot, delete them
       await DeleteS3(uri)
         .then(() => {
-          console.info('Removed locally-deleted Pilot')
+          console.info(`Removed locally-deleted ${typePrefix}`)
         })
         .catch(err => {
           console.error(err)
-          if (callback) callback('error', `Unable to delete pilot data`)
+          if (callback) callback('error', `Unable to delete ${typePrefix} data`)
         })
     }
   })
 
-  // find new pilots
-  store.getters.getPilots.forEach(async (p: Pilot) => {
-    if (cloudPilotURIs.includes(p.ResourceURI)) return
+  // find new items
+  store.getters[`get${storageKey}`].forEach(async (p: any) => {
+    if (cloudURIs.includes(p.ResourceURI)) return
     if (!p.IsLocallyOwned) return
-    // pilot is a local resource that does not exist in the cloud
-    console.log('new pilot found', p.IsLocallyOwned)
-    p.SetOwnedResource(ccId)
-    await UploadS3(p.ResourceURI, Pilot.Serialize(p))
+    // this is a local resource that does not exist in the cloud
+    console.log(`new ${typePrefix} found`, p.IsLocallyOwned)
+    p.SetOwnedResource(ccid)
+    let data = {} as any
+    if (storageKey === 'Pilots') data = Pilot.Serialize(p)
+    else if (storageKey === 'Npcs') data = Npc.Serialize(p)
+    else if (storageKey === 'Encounters') data = Encounter.Serialize(p)
+    else if (storageKey === 'Missions') data = Mission.Serialize(p)
+    else if (storageKey === 'ActiveMissions') data = ActiveMission.Serialize(p)
+
+    await UploadS3(p.ResourceURI, data)
       .then(() => {
         storageURIs.push(p.ResourceURI)
         p.MarkSync()
@@ -228,7 +263,17 @@ const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any>
       })
   })
 
-  user.Pilots = storageURIs
+  userProfile[storageKey] = storageURIs
+}
+
+const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any> => {
+  const ccid = await currentCognitoIdentity()
+
+  Push('Pilots', user, ccid, callback)
+  Push('Npcs', user, ccid, callback)
+  Push('Encounters', user, ccid, callback)
+  Push('Missions', user, ccid, callback)
+  Push('ActiveMissions', user, ccid, callback)
 
   // upload lcps
   const lcps = localStorage.getItem('extra_content.json')

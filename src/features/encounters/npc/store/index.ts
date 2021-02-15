@@ -18,18 +18,17 @@ async function saveNpcData(npcs: Npc[]) {
 
 @Module({
   name: 'npc',
-  namespaced: true,
 })
 export class NpcStore extends VuexModule {
   Npcs: Npc[] = []
 
   @Mutation
   private [LOAD_NPCS](payload: INpcData[]): void {
-    const newNpcs: Npc[] = [...payload.map(x => Npc.Deserialize(x))];
-    this.Npcs.splice(0, this.Npcs.length);
+    const newNpcs: Npc[] = [...payload.map(x => Npc.Deserialize(x))]
+    this.Npcs.splice(0, this.Npcs.length)
     newNpcs.forEach((npc: Npc) => {
-      this.Npcs.push(npc);
-    });
+      this.Npcs.push(npc)
+    })
   }
 
   @Mutation

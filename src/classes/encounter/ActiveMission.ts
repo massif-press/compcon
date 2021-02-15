@@ -5,7 +5,11 @@ import { IMissionData, INpcData } from '@/interface'
 import { IMissionStep } from './IMissionStep'
 import { EncounterSide } from '../enums'
 
-export interface IActiveMissionData {
+interface IActiveMissionData {
+  cloudID: string
+  cloudOwnerID: string
+  isLocal: boolean
+  lastSync: string
   mission: IMissionData
   pilotIDs: string[]
   activeNpcs: INpcData[]
@@ -18,7 +22,15 @@ export interface IActiveMissionData {
   result: string
 }
 
-export class ActiveMission {
+class ActiveMission implements ICloudSyncable {
+  public readonly TypePrefix: string = 'activemission'
+  public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public IsLocallyOwned: boolean
+  public LastSync: string
+  public CloudID: string
+  public CloudOwnerID: string
+  public IsDirty: boolean
+
   private _id: string
   private _mission: Mission
   private _step: number
@@ -46,11 +58,19 @@ export class ActiveMission {
   }
 
   private save(): void {
-    store.dispatch('mission/saveActiveMissionData')
+    store.dispatch('saveActiveMissionData')
   }
 
   public get ID(): string {
     return this._id
+  }
+
+  public get ResourceURI(): string {
+    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
+  }
+
+  public get ShareCode(): string {
+    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
   }
 
   public RenewID(): void {
@@ -244,9 +264,32 @@ export class ActiveMission {
     return this._mission.Steps[this._step]
   }
 
+  // -- Cloud -------------------------------------------------------------------------------------
+
+  public MarkSync(): void {
+    this.LastSync = new Date().toJSON()
+    this.IsDirty = false
+  }
+
+  public SetRemoteResource(): void {
+    this.CloudID = this.ID
+    this.IsLocallyOwned = false
+    this.RenewID()
+  }
+
+  public SetOwnedResource(userCognitoId: string): void {
+    this.CloudID = this.ID
+    this.CloudOwnerID = userCognitoId
+    this.IsLocallyOwned = true
+  }
+
   public static Serialize(m: ActiveMission): IActiveMissionData {
     return {
       mission: Mission.Serialize(m._mission),
+      isLocal: m.IsLocallyOwned,
+      cloudID: m.CloudID,
+      cloudOwnerID: m.CloudOwnerID,
+      lastSync: m.LastSync,
       pilotIDs: m.Pilots.map(x => x.ID),
       step: m.Step,
       round: m.Round,
@@ -259,23 +302,43 @@ export class ActiveMission {
     }
   }
 
+  public Update(data: IActiveMissionData, ignoreProps?: boolean): void {
+    if (ignoreProps) {
+      for (const key in data) {
+        if (this.SyncIgnore.includes(key)) data[key] = null
+      }
+    }
+    this.IsLocallyOwned = data.isLocal || true
+    this.CloudID = data.cloudID || ''
+    this.CloudOwnerID = data.cloudOwnerID || ''
+    this.LastSync = data.lastSync || ''
+
+    this.Round = data.round
+    this.Step = data.step
+    this.ActiveNpcs = data.activeNpcs.map(x => Npc.Deserialize(x))
+    this.ActiveNpcs.forEach(n => {
+      n.Active = true
+    })
+    this.ActiveReinforcements = data.activeReinforcements.map(x => Npc.Deserialize(x))
+    this.ActiveReinforcements.forEach(n => {
+      n.Active = true
+    })
+    this._pilotIDs = data.pilotIDs
+    this._start_date = data.start
+    this._end_date = data.end
+    this._note = data.note
+    this._result = data.result
+  }
+
   public static Deserialize(data: IActiveMissionData): ActiveMission {
     const m = new ActiveMission(Mission.Deserialize(data.mission), [])
-    m.Round = data.round
-    m.Step = data.step
-    m.ActiveNpcs = data.activeNpcs.map(x => Npc.Deserialize(x))
-    m.ActiveNpcs.forEach(n => {
-      n.Active = true
-    })
-    m.ActiveReinforcements = data.activeReinforcements.map(x => Npc.Deserialize(x))
-    m.ActiveReinforcements.forEach(n => {
-      n.Active = true
-    })
-    m._pilotIDs = data.pilotIDs
-    m._start_date = data.start
-    m._end_date = data.end
-    m._note = data.note
-    m._result = data.result
-    return m
+    try {
+      m.Update(data)
+      return m
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
+
+export { IActiveMissionData, ActiveMission }
