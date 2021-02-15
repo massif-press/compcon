@@ -17,7 +17,11 @@
         >
           BACK
         </v-btn>
+      </v-col>
+      <v-col cols="auto">
         <slot name="other" />
+      </v-col>
+      <v-col cols="auto">
         <v-btn
           v-if="!noConfirm"
           color="success"
