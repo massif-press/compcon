@@ -2,6 +2,7 @@
   <cc-stepper-content
     :complete="selected !== null"
     exit="pilot_management"
+    back
     @back="$emit('back')"
     @complete="setTemplate()"
   >

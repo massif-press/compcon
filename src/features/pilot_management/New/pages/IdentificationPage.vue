@@ -154,7 +154,6 @@
         class="mx-2"
         :disabled="!pilot.HasIdent"
         large
-        outlined
         @click="$emit('templates')"
       >
         Select Character Template
