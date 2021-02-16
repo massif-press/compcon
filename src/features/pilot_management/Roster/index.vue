@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid class="px-3 mt-3">
+  <v-container fluid class="px-3 mt-4">
     <v-row dense align="end" class="mt-2">
-      <v-col cols="auto">
+      <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
@@ -17,15 +17,15 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col cols="auto" class="ml-auto mr-2">
-        <v-btn-toggle>
+      <v-col cols="auto" class="ml-auto">
+        <v-btn-toggle class="mr-2">
           <v-btn text small @click="showAll">
             <v-icon>mdi-chevron-down</v-icon>
-            Expand All
+            <span v-if="$vuetify.breakpoint.mdAndUp">Expand All</span>
           </v-btn>
           <v-btn text small @click="hideAll">
             <v-icon>mdi-chevron-up</v-icon>
-            Collapse All
+            <span v-if="$vuetify.breakpoint.mdAndUp">Collapse All</span>
           </v-btn>
         </v-btn-toggle>
       </v-col>
@@ -45,12 +45,9 @@
           </cc-tooltip>
         </v-switch>
       </v-col>
-      <!-- <v-col cols="auto">
-        <roster-sort :pilots="pilots" @sort="onSort" />
-      </v-col> -->
     </v-row>
     <v-slide-x-transition mode="out-in">
-      <v-container fluid class="mx-3">
+      <v-container fluid :class="$vuetify.breakpoint.mdAndUp ? 'mx-1' : 'mx-n4 pa-0'">
         <div v-for="g in groups" :key="`pg_${g}`">
           <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
             <v-col cols="auto">
@@ -66,7 +63,10 @@
               </v-btn>
             </v-col>
           </v-row>
-          <div v-if="shown.includes(g)">
+          <div
+            v-if="shown.includes(g)"
+            :style="profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
+          >
             <v-expand-transition>
               <draggable
                 :key="`draggable${g}`"
@@ -93,7 +93,7 @@
     </v-slide-x-transition>
     <v-divider class="my-3" />
     <v-row dense justify="center">
-      <v-col cols="3">
+      <v-col cols="12" md="6" lg="3">
         <add-pilot />
         <v-menu v-model="newGroupMenu" top :close-on-content-click="false">
           <template v-slot:activator="{ on }">
@@ -134,7 +134,6 @@
 <script lang="ts">
 import _ from 'lodash'
 import Vue from 'vue'
-import RosterSort from './components/RosterSort.vue'
 import PilotCard from './components/PilotCard.vue'
 import PilotListItem from './components/PilotListItem.vue'
 import AddPilot from './components/AddPilot.vue'
@@ -147,7 +146,7 @@ import { teamName } from '@/io/Generators'
 
 export default Vue.extend({
   name: 'roster-view',
-  components: { RosterSort, AddPilot, PilotListItem, PilotCard, draggable },
+  components: { AddPilot, PilotListItem, PilotCard, draggable },
   data: () => ({
     sortParams: null,
     drag: false,
@@ -158,9 +157,6 @@ export default Vue.extend({
     preventDnd: true,
   }),
   computed: {
-    _() {
-      return _
-    },
     pilotStore() {
       return getModule(PilotManagementStore, this.$store)
     },

@@ -5,37 +5,45 @@
       color="primary"
       style="position: absolute; z-index:5"
       class="overlay clipped-square-invert"
-      min-width="108px"
-      min-height="108px"
+      :min-width="mobile ? '75px' : '108px'"
+      :min-height="mobile ? '75px' : '108px'"
     >
       <div id="interior" class="clipped-square-invert">
-        <v-img :src="pilot.Portrait" position="top" height="108px" />
+        <v-img :src="pilot.Portrait" position="top" :height="mobile ? '75px' : '108px'" />
       </div>
     </v-card>
     <div id="banner" style="width: 100%">
       <div
-        style="width: 100%;display: flex;justify-content: space-between;"
+        style="width: 100%;display: flex;justify-content: space-between;align-content:center"
         class="overlay primary"
       >
-        <div class="heading callsign" style="margin-left: 108px; display: inline-block;">
+        <div
+          class="heading callsign"
+          :style="`margin-left: ${mobile ? '75px' : '108px'}; display: inline-block;`"
+        >
           {{ pilot.Callsign }}
         </div>
         <edit-menu style="display: inline-block; padding-right: 10px;" dense :pilot="pilot" />
       </div>
-      <div style="border-top: 0!important;  min-height: 72px; " class="light-panel clipped">
-        <div style="margin-left: 108px; padding-left: 8px;">
-          <p class="flavor-text pt-1">
-            <span class="subtle--text">>[</span>
-            <b class="stark--text">{{ pilot.Name }}</b>
-            <span class="subtle--text">]</span>
-            <span class="subtle--text">STATUS [</span>
-            <span :class="`${statusColor(pilot.Status)}--text`">{{ pilot.Status }}</span>
-            <span class="subtle--text">] -</span>
-            <span class="text--text">
-              {{ pilot.Background.Name }}
+      <div
+        :style="`border-top: 0!important;  min-height: ${mobile ? '44px' : '72px'};`"
+        class="light-panel clipped"
+      >
+        <div :style="`margin-left: ${mobile ? '75px' : '108px'}; padding-left: 8px;`" class="mt-n1">
+          <p class="flavor-text">
+            <span v-show="!mobile">
+              <span class="subtle--text">>[</span>
+              <b class="stark--text">{{ pilot.Name }}</b>
+              <span class="subtle--text">]</span>
+              <span class="subtle--text">STATUS [</span>
+              <span :class="`${statusColor(pilot.Status)}--text`">{{ pilot.Status }}</span>
+              <span class="subtle--text">] -</span>
+              <span class="text--text">
+                {{ pilot.Background.Name }}
+              </span>
             </span>
             <b class="success--text">LL: {{ pilot.Level }}</b>
-            <cc-slashes />
+            <cc-slashes v-show="$vuetify.breakpoint.mdAndUp" />
             <span class="text--text">
               [ H:{{ pilot.MechSkills.Hull }} A:{{ pilot.MechSkills.Agi }} S:{{
                 pilot.MechSkills.Sys
@@ -43,7 +51,7 @@
               E:{{ pilot.MechSkills.Eng }} ]
             </span>
           </p>
-          <p v-if="pilot.ActiveMech" class="flavor-text mb-0 pb-2 mt-n1">
+          <p v-if="pilot.ActiveMech && !mobile" class="flavor-text mb-0 pb-2 mt-n1">
             <span class="subtle--text">UNB::CAV (LNCR)</span>
             <cc-slashes />
             <span class="text--text">
@@ -53,6 +61,11 @@
             <span class="text--text font-weight-bold">{{ pilot.ActiveMech.Name }}</span>
             <span class="subtle--text">]</span>
           </p>
+          <div v-else-if="pilot.ActiveMech" class="mt-n6">
+            <span class="overline">
+              {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -75,6 +88,11 @@ export default Vue.extend({
     },
     selectable: {
       type: Boolean,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.breakpoint.smAndDown
     },
   },
   methods: {

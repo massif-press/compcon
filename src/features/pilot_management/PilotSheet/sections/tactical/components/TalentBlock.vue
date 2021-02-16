@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="ml-n10 pl-3">
+    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px!important">
       <section-edit-chip
         :highlight="!pilot.HasFullTalents"
         :current="pilot.CurrentTalentPoints"
@@ -19,10 +19,10 @@
     >
       <cc-talent-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-container :fluid="!!pilot.Talents.length">
+    <v-container :fluid="!!pilot.Talents.length" class="px-0">
       <no-data-block v-if="!pilot.Talents.length" />
       <v-row v-else dense justify="center">
-        <v-col v-for="(t, i) in pilot.Talents" :key="`t_${i}`" md="12" lg="6" xl="4">
+        <v-col v-for="(t, i) in pilot.Talents" :key="`t_${i}`" cols="12" lg="6" xl="4">
           <cc-talent-item
             :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
             :talent="t.Talent"

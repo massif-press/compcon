@@ -105,7 +105,7 @@ export default Vue.extend({
     },
     updateFilters() {
       const fObj = {} as any
-      if (this.lcpFilter) fObj.LcpName = [this.lcpFilter]
+      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter]
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       this.$emit('set-filters', fObj)

@@ -4,16 +4,19 @@
       <v-col>
         <ident-block />
       </v-col>
-      <v-col cols="1" />
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="1" />
     </v-row>
     <v-row>
-      <v-col cols="8" dense>
+      <v-col v-if="$vuetify.breakpoint.smAndDown" cols="12">
+        <image-block />
+      </v-col>
+      <v-col cols="12" md="8" dense>
         <clone-block />
         <history-block />
         <appearance-block />
         <notes-block />
       </v-col>
-      <v-col cols="4" dense>
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="4" dense>
         <image-block />
       </v-col>
     </v-row>

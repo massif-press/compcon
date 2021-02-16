@@ -1,5 +1,5 @@
 <template>
-  <v-row>
+  <div>
     <v-btn x-large block color="accent" class="my-2" @click="$refs.dialog.show()">
       <v-icon left large>cci-accuracy</v-icon>
       Add New Pilot
@@ -30,7 +30,7 @@
         </v-alert>
       </v-container>
     </cc-solo-dialog>
-  </v-row>
+  </div>
 </template>
 
 <script lang="ts">

@@ -7,7 +7,7 @@
         @equip="setArmor($event)"
         @remove="setArmor(null)"
       />
-      <v-divider vertical class="mx-4 my-3" />
+      <v-divider :vertical="$vuetify.breakpoint.mdAndUp" class="mx-4 my-1" />
       <pilot-weapon-card
         v-for="(w, i) in weapons()"
         :key="`pgwi_${i}`"

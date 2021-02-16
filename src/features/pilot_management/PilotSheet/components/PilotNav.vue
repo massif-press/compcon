@@ -1,26 +1,51 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <cc-nav-item :selected="selected === '0'" to="../sheet/0">
-      <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
-        DOSSIER
-      </cc-tooltip>
-    </cc-nav-item>
-    <cc-nav-item :selected="selected === '1'" to="../sheet/1">
-      <cc-tooltip inline delayed content="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
-        NARRATIVE PROFILE
-      </cc-tooltip>
-    </cc-nav-item>
-    <cc-nav-item :selected="selected === '2'" to="../sheet/2">
-      <cc-tooltip inline delayed content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
-        TACTICAL PROFILE
-      </cc-tooltip>
-    </cc-nav-item>
-    <cc-nav-item :selected="selected === '3'" to="../sheet/3">
-      <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
-        MECH HANGAR
-      </cc-tooltip>
-    </cc-nav-item>
+    <div v-if="$vuetify.breakpoint.mdAndUp" class="d-inline">
+      <cc-nav-item :selected="selected === '0'" to="../sheet/0">
+        <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
+          DOSSIER
+        </cc-tooltip>
+      </cc-nav-item>
+      <cc-nav-item :selected="selected === '1'" to="../sheet/1">
+        <cc-tooltip inline delayed content="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
+          NARRATIVE PROFILE
+        </cc-tooltip>
+      </cc-nav-item>
+      <cc-nav-item :selected="selected === '2'" to="../sheet/2">
+        <cc-tooltip inline delayed content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
+          TACTICAL PROFILE
+        </cc-tooltip>
+      </cc-nav-item>
+      <cc-nav-item :selected="selected === '3'" to="../sheet/3">
+        <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
+          MECH HANGAR
+        </cc-tooltip>
+      </cc-nav-item>
+    </div>
+    <v-menu v-else open-on-hover>
+      <template v-slot:activator="{ on }">
+        <v-btn light icon color="white" style="z-index: 9" class="unskew pl-1 pr-0" v-on="on">
+          <v-icon large>mdi-book-open-page-variant</v-icon>
+          <v-icon>arrow_drop_up</v-icon>
+        </v-btn>
+      </template>
+      <v-list dense class="heading h3">
+        <v-list-item to="../sheet/0">
+          DOSSIER
+        </v-list-item>
+        <v-list-item to="../sheet/1">
+          NARRATIVE PROFILE
+        </v-list-item>
+        <v-list-item to="../sheet/2">
+          TACTICAL PROFILE
+        </v-list-item>
+        <v-list-item to="../sheet/3">
+          MECH HANGAR
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     <v-btn icon fab x-small outlined :disabled="!lastLoaded" class="mx-4 unskew" @click="toMech()">
       <cc-tooltip inline delayed content="Active Mech Sheet">
         <v-icon large color="white">cci-frame</v-icon>

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="mt-7">
+  <v-container fluid class="mt-7 px-0">
     <template v-if="pilot">
       <pilot-header />
       <router-view class="mt-5" />

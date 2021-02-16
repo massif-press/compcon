@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="ml-n10 pl-3">
+    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px!important">
       <section-edit-chip
         :highlight="!pilot.HasLicenses"
         :current="pilot.CurrentLicensePoints"
@@ -21,8 +21,8 @@
     </cc-solo-dialog>
     <v-container fluid>
       <no-data-block v-if="!pilot.Licenses.length" />
-      <v-row v-else :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''">
-        <v-col v-for="(l, i) in pilot.Licenses" :key="`l_${i}`" cols="4">
+      <v-row v-else dense :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''">
+        <v-col v-for="(l, i) in pilot.Licenses" :key="`l_${i}`" cols="12" md="4">
           <cc-pilot-license-item :pilot-license="l" />
         </v-col>
       </v-row>

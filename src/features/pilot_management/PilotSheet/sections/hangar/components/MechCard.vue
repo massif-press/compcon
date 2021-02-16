@@ -1,5 +1,9 @@
 <template>
-  <v-col style="min-width: 400px; max-width: 50%">
+  <v-col
+    cols="12"
+    md=""
+    :style="$vuetify.breakpoint.mdAndUp ? 'min-width: 400px; max-width: 50%' : ''"
+  >
     <div
       v-if="mech"
       :style="
