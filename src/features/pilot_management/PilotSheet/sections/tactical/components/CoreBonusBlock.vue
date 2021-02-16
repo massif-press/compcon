@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="ml-n10 pl-3">
+    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px!important">
       <section-edit-chip
         :highlight="!pilot.HasCBs"
         :current="pilot.CurrentCBPoints"
@@ -19,10 +19,16 @@
     >
       <cc-core-bonus-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-container :fluid="!!pilot.CoreBonuses.length">
+    <v-container :fluid="!!pilot.CoreBonuses.length" class="px-0">
       <no-data-block v-if="!pilot.CoreBonuses.length" />
       <v-row v-else dense justify="center">
-        <v-col v-for="(b, i) in pilot.CoreBonuses" :key="`b_${i}`" style="min-width: 500px;">
+        <v-col
+          v-for="(b, i) in pilot.CoreBonuses"
+          :key="`b_${i}`"
+          cols="12"
+          md=""
+          :style="$vuetify.breakpoint.mdAndUp ? 'min-width: 500px;' : ''"
+        >
           <cc-core-bonus-item :bonus="b" />
         </v-col>
       </v-row>

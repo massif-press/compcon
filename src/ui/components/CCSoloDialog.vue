@@ -15,7 +15,7 @@
 
       <v-spacer v-if="fullscreen" class="titlebar-margin" />
 
-      <v-card-text :style="noPad ? 'padding: 0!important' : ''">
+      <v-card-text :style="noPad || $vuetify.breakpoint.mdAndDown ? 'padding: 0!important' : ''">
         <slot />
       </v-card-text>
       <div v-if="!noActions">

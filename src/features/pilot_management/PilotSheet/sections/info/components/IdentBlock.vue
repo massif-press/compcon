@@ -1,17 +1,17 @@
 <template>
   <v-container fluid class="pt-0">
     <v-row dense class="stat-text pt-0 pb-0 mt-n2">
-      <v-col>
+      <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">CALLSIGN</div>
         <cc-short-string-editor @set="pilot.Callsign = $event">
           {{ pilot.Callsign }}
         </cc-short-string-editor>
       </v-col>
-      <v-col>
+      <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">NAME</div>
         <cc-short-string-editor @set="pilot.Name = $event">{{ pilot.Name }}</cc-short-string-editor>
       </v-col>
-      <v-col>
+      <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">BACKGROUND</div>
         <cc-short-string-editor class="d-inline" @set="pilot.Background = $event">
           {{ pilot.Background }}
@@ -25,16 +25,17 @@
           />
         </span>
       </v-col>
-    </v-row>
-    <v-row dense class="stat-text pt-0 mt-n3">
-      <v-col>
+      <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">PLAYER</div>
         <cc-short-string-editor @set="pilot.PlayerName = $event">
           {{ pilot.PlayerName || '---' }}
         </cc-short-string-editor>
       </v-col>
-      <v-col>
-        <div class="overline mb-n3 subtle--text">OMNINET VAULT</div>
+      <v-col cols="6" md="4" xl="3">
+        <div class="overline mb-n3 subtle--text">
+          <span v-show="$vuetify.breakpoint.mdAndUp">OMNINET</span>
+          VAULT
+        </div>
         <span v-if="(pilot.CloudOwnerID && pilot.IsLocallyOwned) || pilot.IsUserOwned">
           Current User
         </span>
@@ -69,7 +70,7 @@
           <v-icon small class="fadeSelect" @click="sync()">mdi-reload</v-icon>
         </cc-tooltip>
       </v-col>
-      <v-col>
+      <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">STATUS</div>
         <span :class="`stat-text ${statusColor()}--text`">{{ pilot.Status }}</span>
         <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />

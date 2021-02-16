@@ -28,7 +28,14 @@
           <cc-item-uses v-else :item="item" color="secondary" class="mt-n3" />
         </v-col>
       </v-row>
-      <v-row v-if="!readonly" dense class="mt-2" style="max-height: 200px; overflow-y: scroll">
+      <v-row
+        v-if="!readonly"
+        dense
+        class="mt-2"
+        :style="
+          `max-height: ${$vuetify.breakpoint.smAndDown ? '125' : '200'}px; overflow-y: scroll`
+        "
+      >
         <p class="text--text" v-html="item.Description" />
       </v-row>
       <v-row no-gutters>

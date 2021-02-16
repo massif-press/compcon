@@ -27,7 +27,11 @@
         <v-row no-gutters>
           <span class="heading h2 callsign" style="margin-left: 138px;">{{ mech.Name }}</span>
           <v-fade-transition>
-            <span v-if="mech.IsActive" class="heading h2 callsign ml-auto pr-10">
+            <span
+              v-if="mech.IsActive"
+              v-show="$vuetify.breakpoint.mdAndUp"
+              class="heading h2 callsign ml-auto pr-10"
+            >
               / / ACTIVE / /&nbsp;
             </span>
           </v-fade-transition>
@@ -92,7 +96,7 @@
                   </div>
                 </fieldset>
                 <!-- TODO: add charts -->
-                <v-row no-gutters justify="space-around">
+                <v-row v-show="$vuetify.breakpoint.mdAndUp" no-gutters justify="space-around">
                   <v-col cols="auto">
                     <span class="overline">
                       STR

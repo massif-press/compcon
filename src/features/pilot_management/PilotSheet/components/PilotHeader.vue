@@ -1,18 +1,55 @@
 <template>
-  <div style="height: 155px;">
+  <div :style="`height: ${$vuetify.breakpoint.mdAndUp ? '155px' : '45px'};`">
     <div id="header-container">
       <v-row dense class="pt-9 ml-2" style="width: 97vw">
         <v-col>
-          <v-row dense style="height: 60px;">
+          <v-row
+            dense
+            :style="`height: ${$vuetify.breakpoint.mdAndUp ? '60px' : '45px'};`"
+            align="end"
+            align-md="start"
+          >
             <v-col cols="auto">
               <div
-                class="heading h1"
+                :class="
+                  `heading ${
+                    $vuetify.breakpoint.lgAndUp ? 'h1' : $vuetify.breakpoint.mdAndUp ? 'h2' : 'h3'
+                  }`
+                "
                 style="letter-spacing: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
               >
                 {{ pilot.Callsign }}
               </div>
             </v-col>
+            <v-col v-if="$vuetify.breakpoint.smAndDown" cols="auto" class="ml-auto">
+              <cc-tooltip
+                v-if="!isLevelingUp"
+                delayed
+                simple
+                inline
+                bottom
+                content="Edit License Level"
+              >
+                <v-icon small dark class="fadeSelect" @click="$refs.levelEdit.show()">
+                  mdi-circle-edit-outline
+                </v-icon>
+              </cc-tooltip>
+              <span class="caption">LL</span>
+              <span class="heading h3 px-2">{{ pilot.Level }}</span>
+              <v-btn
+                v-if="!isLevelingUp && pilot.Level < 12"
+                tile
+                outlined
+                x-small
+                right
+                dark
+                @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
+              >
+                Level Up
+              </v-btn>
+            </v-col>
             <v-col
+              v-else
               cols="auto"
               class="ml-auto text-center mt-2"
               :style="$vuetify.breakpoint.lgAndUp ? `margin-right:200px` : ''"
@@ -72,7 +109,7 @@
               </v-hover>
             </v-col>
           </v-row>
-          <v-row dense>
+          <v-row v-show="$vuetify.breakpoint.mdAndUp" dense>
             <v-col cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">name</div>
               <div class="stat-text white--text mt-n3">
@@ -107,7 +144,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="mech" id="stat-row" dense>
+      <v-row v-if="$vuetify.breakpoint.mdAndUp && mech" id="stat-row" dense>
         <v-col cols="2" offset="1" class="unskew">
           <cc-tooltip
             simple
@@ -170,7 +207,7 @@
           </span>
         </v-col>
       </v-row>
-      <v-row v-else id="stat-row" dense>
+      <v-row v-else-if="$vuetify.breakpoint.mdAndUp" id="stat-row" dense>
         <v-col cols="2" offset="1" class="unskew">
           <cc-tooltip simple inline delay :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`">
             <v-icon>mdi-heart-outline</v-icon>

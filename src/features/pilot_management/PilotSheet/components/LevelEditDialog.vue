@@ -6,6 +6,7 @@
         border="left"
         close-text="Close"
         type="warning"
+        color="stark"
         dismissible
         outlined
         prominent

@@ -1,8 +1,15 @@
 <template>
   <v-col cols="auto">
-    <v-dialog v-model="dialog" width="60vw">
+    <v-dialog v-model="dialog" :width="$vuetify.breakpoint.mdAndDown ? '100vw' : '60vw'">
       <template v-slot:activator="{ on }">
-        <v-btn large outlined color="stark" class="px-4" block v-on="on">
+        <v-btn
+          :large="$vuetify.breakpoint.lgAndUp"
+          outlined
+          color="stark"
+          class="px-4"
+          block
+          v-on="on"
+        >
           <v-icon left color="stark">{{ reserve.Icon }}</v-icon>
           <s v-if="reserve.Used">
             {{ reserve.Name }}

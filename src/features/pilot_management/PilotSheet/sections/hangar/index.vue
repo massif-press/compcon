@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <cc-title large color="pilot" class="ml-n10 pl-3">Hangar&emsp;</cc-title>
+  <div class="mt-n4">
+    <cc-title large color="pilot" class="ml-n10 pl-3 mb-2">Hangar&emsp;</cc-title>
     <v-btn-toggle id="viewtoggle" :value="profile.GetView('hangar')" mandatory>
       <v-btn small icon value="cards" @click="profile.SetView('hangar', 'cards')">
         <v-icon color="accent">mdi-view-grid</v-icon>
@@ -24,7 +24,7 @@
         />
       </v-row>
     </v-container>
-    <v-container v-else-if="profile.GetView('hangar') === 'list'" class="mt-2" fluid>
+    <v-container v-else-if="profile.GetView('hangar') === 'list'" class="mt-2 px-0" fluid>
       <mech-list-item
         v-for="m in pilot.Mechs"
         :key="`${m.ID}_mc`"
@@ -34,7 +34,7 @@
         @go="toMechSheet($event)"
       />
     </v-container>
-    <v-container v-else>
+    <v-container v-else class="px-0">
       <mech-table :mechs="pilot.Mechs" @go="toMechSheet($event)" />
     </v-container>
     <v-row justify="center">
@@ -89,9 +89,6 @@ export default Vue.extend({
 
 <style scoped>
 #viewtoggle {
-  position: absolute;
-  left: calc(100vw - 400px);
-  top: 190px;
   z-index: 4;
 }
 </style>

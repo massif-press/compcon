@@ -2,7 +2,7 @@
   <v-dialog width="90vw">
     <template v-slot:activator="{ on }">
       <v-btn
-        x-large
+        :x-large="$vuetify.breakpoint.lgAndUp"
         outlined
         :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.dark)"
         block

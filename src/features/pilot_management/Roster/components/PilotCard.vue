@@ -1,35 +1,36 @@
 <template>
-  <div class="d-inline-flex ma-2" :style="small ? 'min-width: 10vw' : 'min-width: 25vw'">
-    <v-hover :style="small ? 'min-width: 10vw' : 'min-width: 25vw'">
+  <div class="d-inline-flex ma-2" :style="`min-width: ${minWidth};`">
+    <v-hover :style="`min-width: ${minWidth}`">
       <template v-slot:default="{ hover }">
         <v-card
           class="card-outline"
-          :min-height="small ? '10vw' : '25vw'"
-          :min-width="small ? '10vw' : '25vw'"
+          :min-height="minWidth"
+          :min-width="minWidth"
           tile
           flat
           @click="$router.push(`pilot/${pilot.ID}`)"
         >
           <div
+            v-show="!(small && mobile)"
             class="clipped-large"
             :style="
               `
               z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: ${
-                small ? '25' : '32'
+                small || mobile ? '25' : '32'
               }px; ${
                 small && hover ? 'opacity: 1' : 'opacity: 0.6'
               }; background-color: var(--v-primary-base); transition: opacity 0.2s;`
             "
           >
             <div
-              :class="`heading ${small ? 'h3' : 'h2'} white--text flavor-text ml-2`"
+              :class="`heading ${small || mobile ? 'h3' : 'h2'} white--text flavor-text ml-2`"
               style="letter-spacing: 3px; text-overflow: ellipsis;"
             >
               {{ pilot.Callsign }}
             </div>
           </div>
-          <div :class="small ? 'small-triangle' : 'triangle'" />
-          <div class="ll white--text" style="line-height: 25px">
+          <div v-show="!(small && mobile)" :class="small ? 'small-triangle' : 'triangle'" />
+          <div v-show="!(small && mobile)" class="ll white--text" style="line-height: 25px">
             <div v-if="!small" class="overline mb-n1 text-right">LL</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
@@ -96,6 +97,17 @@ export default Vue.extend({
     },
     small: {
       type: Boolean,
+    },
+  },
+  computed: {
+    mobile() {
+      return this.$vuetify.breakpoint.smAndDown
+    },
+    minWidth() {
+      if (this.mobile) {
+        return this.small ? '18vw' : '40vw'
+      }
+      return this.small ? '10vw' : '20vw'
     },
   },
 })

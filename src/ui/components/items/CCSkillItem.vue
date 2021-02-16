@@ -10,27 +10,30 @@
         :class="`text-center no-shadow ${noBorder ? '' : 'border-thin-primary '}`"
         :style="pilot ? 'border-color: var(--v-pilot-base)' : ''"
       >
-        <v-expansion-panel-header class="px-2">
+        <v-expansion-panel-header :class="$vuetify.breakpoint.mdAndUp ? 'px-2' : 'py-1 px-2'">
           <v-row no-gutters>
-            <v-col cols="3">
+            <v-col cols="12" md="3">
               <div class="centered text-left pl-2">
                 <span class="stat-text">{{ skill.Trigger }}</span>
-                <div v-if="bonus">
+                <div v-if="bonus && $vuetify.breakpoint.mdAndUp">
                   <v-icon v-for="n in bonus" :key="skill.ID + n" color="secondary" small>
                     mdi-hexagon
                   </v-icon>
                   <span class="flavor-text subtle--text">(+{{ bonus }})</span>
                 </div>
+                <span v-else-if="bonus" class="font-weight-bold accent--text pl-2">
+                  +{{ bonus }}
+                </span>
               </div>
             </v-col>
-            <v-col cols="9" align-self="center">
+            <v-col cols="12" md="9" align-self="center">
               <span class="body-text pl-2">{{ skill.Description }}</span>
             </v-col>
           </v-row>
         </v-expansion-panel-header>
         <v-expansion-panel-content v-if="skill.Detail">
           <v-row no-gutters>
-            <v-col offset="3">
+            <v-col offset-md="3">
               <p class="text-left flavor-text mb-0">{{ skill.Detail }}</p>
             </v-col>
           </v-row>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="ml-n10 pl-3">
+    <cc-title small color="pilot" style="margin-left: -40px!important">
       <section-edit-chip
         :highlight="!pilot.HasFullSkills"
         :current="pilot.CurrentSkillPoints"
@@ -19,13 +19,17 @@
     >
       <cc-skill-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-row :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''">
-      <v-col cols="auto" class="mr-2 text-center">
-        <span class="stat-text">PILOT GRIT</span>
-        <br />
-        <span class="heading mech secondary--text" style="font-size: 80px; line-height: 50px">
+    <v-row :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''" dense>
+      <v-col cols="12" md="auto" class="mr-2 text-center">
+        <div class="stat-text">PILOT GRIT</div>
+        <div
+          class="heading h1 secondary--text"
+          :style="
+            $vuetify.breakpoint.lgAndUp ? 'font-size: 80px; line-height: 50px' : 'line-height: 30px'
+          "
+        >
           +{{ pilot.Grit }}
-        </span>
+        </div>
       </v-col>
       <v-col>
         <no-data-block v-if="!pilot.Skills.length" />
