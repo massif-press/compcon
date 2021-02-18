@@ -136,6 +136,7 @@ export class UserStore extends VuexModule {
 
   @Action({ rawError: true })
   public async cloudSync(payload: { callback?: any; condition?: string }): Promise<void> {
+    console.log(payload)
     const user = await Auth.currentAuthenticatedUser().then(res => res.username)
     if (!user) {
       console.info('no user')
@@ -153,6 +154,29 @@ export class UserStore extends VuexModule {
       sync = false
     if (payload.condition === 'mechDelete' && !this.UserProfile.SyncFrequency.onMechDelete)
       sync = false
+    if (payload.condition === 'mechDelete' && !this.UserProfile.SyncFrequency.onNpcCreate)
+      sync = false
+    if (payload.condition === 'mechDelete' && !this.UserProfile.SyncFrequency.onNpcDelete)
+      sync = false
+    if (
+      payload.condition === 'encounterCreate' &&
+      !this.UserProfile.SyncFrequency.onEncounterCreate
+    )
+      sync = false
+    if (
+      payload.condition === 'encounterDelete' &&
+      !this.UserProfile.SyncFrequency.onEncounterDelete
+    )
+      sync = false
+    if (payload.condition === 'missionCreate' && !this.UserProfile.SyncFrequency.onMissionCreate)
+      sync = false
+    if (payload.condition === 'missionDelete' && !this.UserProfile.SyncFrequency.onMissionDelete)
+      sync = false
+    if (payload.condition === 'missionStart' && !this.UserProfile.SyncFrequency.onMissionStart)
+      sync = false
+    if (payload.condition === 'turnEnd' && !this.UserProfile.SyncFrequency.onTurnEnd) sync = false
+
+    console.log('sync: ', sync)
 
     if (sync)
       Sync.CloudPush(this.UserProfile, payload.callback).then(() => this.UserProfile.MarkSync())

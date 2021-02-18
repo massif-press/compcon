@@ -140,6 +140,70 @@
                   label="On Mech Deletion"
                 />
               </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onNpcCreate"
+                  hide-details
+                  color="accent"
+                  label="On NPC Creation"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onNpcDelete"
+                  hide-details
+                  color="accent"
+                  label="On NPC Deletion"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onEncounterCreate"
+                  hide-details
+                  color="accent"
+                  label="On Encounter Creation"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onEncounterDelete"
+                  hide-details
+                  color="accent"
+                  label="On Encounter Deletion"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onMissionCreate"
+                  hide-details
+                  color="accent"
+                  label="On Mission Creation"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onMissionDelete"
+                  hide-details
+                  color="accent"
+                  label="On Mission Deletion"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onMissionStart"
+                  hide-details
+                  color="accent"
+                  label="On Mission Start"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onTurnEnd"
+                  hide-details
+                  color="accent"
+                  label="On Turn End"
+                />
+              </v-col>
             </v-row>
             <!-- <v-row dense>
               <v-col lg="4" cols="6">

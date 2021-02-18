@@ -246,6 +246,7 @@ export default class NpcManager extends Vue {
     this.selectedNpc = null
     const store = getModule(NpcStore, this.$store)
     store.deleteNpc(npc)
+    this.$store.dispatch('cloudSync', { callback: null, condition: 'npcDelete' })
   }
 
   copyNpc(npc: Npc) {

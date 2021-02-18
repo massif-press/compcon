@@ -148,14 +148,17 @@ export default Vue.extend({
     deleteMission(Mission: Mission) {
       const store = getModule(MissionStore, this.$store)
       store.deleteMission(Mission)
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionDelete' })
     },
     copyMission(Mission: Mission) {
       const store = getModule(MissionStore, this.$store)
       store.cloneMission(Mission)
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionCreate' })
     },
     addNew() {
       const store = getModule(MissionStore, this.$store)
       store.addMission(new Mission())
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionCreate' })
       const m = this.missions[this.missions.length - 1].ID
       this.$router.push({ name: 'edit-mission', params: { id: m } })
     },

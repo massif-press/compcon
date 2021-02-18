@@ -117,6 +117,7 @@ export default Vue.extend({
     AddNpc() {
       const store = getModule(NpcStore, this.$store)
       store.addNpc(new Npc(this.selectedClass, this.$refs.card.tierPreview))
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'npcCreate' })
       this.$router.push('./npc-roster')
     },
   },

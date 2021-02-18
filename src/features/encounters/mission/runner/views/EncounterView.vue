@@ -170,6 +170,7 @@ export default Vue.extend({
       } else this.commitRoundEnd()
     },
     commitRoundEnd() {
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'turnEnd' })
       this.finished.forEach((a: IActor) => {
         a.NewTurn()
       })
