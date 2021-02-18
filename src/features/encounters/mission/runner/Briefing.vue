@@ -176,6 +176,7 @@ export default Vue.extend({
       const m = new ActiveMission(this.mission, this.pilots)
       const store = getModule(MissionStore, this.$store)
       store.addActiveMission(m)
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionStart' })
       this.$router.push({ name: 'mission-runner', params: { id: m.ID } })
     },
   },

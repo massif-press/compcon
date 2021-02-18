@@ -149,14 +149,17 @@ export default Vue.extend({
     deleteEncounter(encounter: Encounter) {
       const store = getModule(EncounterStore, this.$store)
       store.deleteEncounter(encounter)
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'encounterDelete' })
     },
     copyEncounter(encounter: Encounter) {
       const store = getModule(EncounterStore, this.$store)
       store.cloneEncounter(encounter)
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'encounterCreate' })
     },
     addNew() {
       const store = getModule(EncounterStore, this.$store)
       store.addEncounter(new Encounter())
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'encounterCreate' })
       const enc = this.encounters[this.encounters.length - 1].ID
       this.$router.push({ name: 'encounter', params: { id: enc } })
     },

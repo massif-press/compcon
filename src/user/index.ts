@@ -21,6 +21,14 @@ interface ISyncFrequency {
   onPilotDelete: boolean
   onMechCreate: boolean
   onMechDelete: boolean
+  onNpcCreate: boolean
+  onNpcDelete: boolean
+  onEncounterCreate: boolean
+  onEncounterDelete: boolean
+  onMissionCreate: boolean
+  onMissionDelete: boolean
+  onMissionStart: boolean
+  onTurnEnd: boolean
 }
 
 interface ISyncOptions {
@@ -65,6 +73,14 @@ const defaultSyncFrequency = (): ISyncFrequency => ({
   onPilotDelete: true,
   onMechCreate: true,
   onMechDelete: true,
+  onNpcCreate: true,
+  onNpcDelete: true,
+  onEncounterCreate: true,
+  onEncounterDelete: true,
+  onMissionCreate: true,
+  onMissionDelete: true,
+  onMissionStart: true,
+  onTurnEnd: false,
 })
 
 const defaultSyncOptions = (): ISyncOptions => ({
