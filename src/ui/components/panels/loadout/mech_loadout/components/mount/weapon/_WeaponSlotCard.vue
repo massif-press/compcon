@@ -18,7 +18,7 @@
           />
           <span v-if="!item.Destroyed" class="ml-n2">
             <cc-tooltip v-if="item.Mod" inline :content="`Weapon Modification Equipped`">
-              <v-icon style="margin-top: -2px">cci-weaponmod</v-icon>
+              <v-icon style="margin-top: -2px" dark>cci-weaponmod</v-icon>
             </cc-tooltip>
             {{ item.Name }}
             <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
@@ -223,7 +223,9 @@ export default Vue.extend({
     },
     getRange() {
       if (!this.item) return []
-      return Range.CalculateRange(this.item, this.mech)
+      const mod = this.weaponSlot.Mod
+      const ar = mod && mod.AddedRange ? mod.AddedRange : null
+      return Range.CalculateRange(this.item, this.mech, ar)
     },
     getDamage() {
       if (!this.item) return []

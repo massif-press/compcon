@@ -60,22 +60,19 @@ class Range {
     return `${this._range_type} ${this.Value}`
   }
 
-  public static CalculateRange(item: MechWeapon, mech: Mech): Range[] {
+  public static CalculateRange(item: MechWeapon, mech: Mech, addedRange?: Range[]): Range[] {
     if (!item || !mech) return []
-    if (!Bonus.get('range', mech) || item.NoCoreBonus || item.NoBonuses) return item.Range
-    const bonuses = mech.Bonuses.filter(x => x.ID === 'range')
+    if (item.NoBonuses) return item.Range
+
+    if (!addedRange || !addedRange.length) addedRange = []
+
     const output = []
+
     item.Range.forEach(r => {
       if (r.Override) return
       let bonus = 0
-      bonuses.forEach(b => {
-        if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => item.WeaponType === wt)) return
-        if (b.WeaponSizes.length && !b.WeaponSizes.some(ws => item.Size === ws)) return
-        if (b.DamageTypes.length && !b.DamageTypes.some(dt => item.DamageType.some(x => x === dt)))
-          return
-        if (!b.RangeTypes.length || b.RangeTypes.some(rt => r.Type === rt)) {
-          bonus += Bonus.Evaluate(b, mech.Pilot)
-        }
+      addedRange.forEach(added => {
+        if (added._range_type === r._range_type) bonus += added._value
       })
       output.push(
         new Range({
@@ -85,6 +82,23 @@ class Range {
           bonus: bonus,
         })
       )
+    })
+
+    console.log(output)
+
+    if (!Bonus.get('range', mech) || item.NoCoreBonus) return output
+    const bonuses = mech.Bonuses.filter(x => x.ID === 'range')
+    output.forEach(r => {
+      if (r.Override) return
+      bonuses.forEach(b => {
+        if (b.WeaponTypes.length && !b.WeaponTypes.some(wt => item.WeaponType === wt)) return
+        if (b.WeaponSizes.length && !b.WeaponSizes.some(ws => item.Size === ws)) return
+        if (b.DamageTypes.length && !b.DamageTypes.some(dt => item.DamageType.some(x => x === dt)))
+          return
+        if (!b.RangeTypes.length || b.RangeTypes.some(rt => r.Type === rt)) {
+          r._bonus += Bonus.Evaluate(b, mech.Pilot)
+        }
+      })
     })
     return output
   }
