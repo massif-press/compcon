@@ -12,7 +12,7 @@ function linebreak(i: number, length: number): string {
 }
 
 function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon | null): string {
-  if (w) output += `${w.Name}`
+  if (w) output += `${w.TrueName}`
   if (discordEmoji) {
     if (w.Range) {
       const ranges: string[] = []
@@ -76,7 +76,7 @@ class Statblock {
         output += '[ GEAR ]\n  '
         for (let i = 0; i < loadout.Items.length; i++) {
           if (loadout.Items[i]) {
-            output += `${loadout.Items[i].Name}`
+            output += `${loadout.Items[i].TrueName}`
             if (discordEmoji) {
               const weapon = loadout.Items[i] as PilotWeapon
               if ('Range' in weapon) {
@@ -139,7 +139,7 @@ class Statblock {
           } else {
             mount.Weapons.forEach((w, idx) => {
               output = addWeaponToOutput(output, discordEmoji, w)
-              if (w.Mod) output += ` (${w.Mod.Name})`
+              if (w.Mod) output += ` (${w.Mod.TrueName})`
               if (idx + 1 < mount.Weapons.length) output += ' / '
             })
           }
@@ -149,7 +149,7 @@ class Statblock {
         output += '[ SYSTEMS ]\n  '
         const allsys = mech.IntegratedSystems.concat(loadout.Systems)
         allsys.forEach((sys, i) => {
-          output += `${sys.Name}${linebreak(i, allsys.length)}`
+          output += `${sys.TrueName}${linebreak(i, allsys.length)}`
         })
       }
     }
@@ -185,7 +185,7 @@ class Statblock {
 [ WEAPONS ]
   ${mech.IntegratedWeapons.map(
     weapon =>
-      `Integrated: ${weapon ? weapon.Name : 'N/A  '}${
+      `Integrated: ${weapon ? weapon.TrueName : 'N/A  '}${
         discordEmoji && weapon && weapon.Range
           ? ' ' +
             weapon.Range.filter(Boolean)
@@ -212,7 +212,7 @@ class Statblock {
           out += mount.Weapons.filter(Boolean)
             .map(
               weapon =>
-                `${weapon.Name}${
+                `${weapon.TrueName}${
                   discordEmoji && weapon.Range
                     ? ' ' +
                       weapon.Range.filter(Boolean)
@@ -226,7 +226,7 @@ class Statblock {
                         .map(d => `${d.DiscordEmoji}${d.Value}`)
                         .join(' ')
                     : ''
-                }${weapon.Mod ? ` (${weapon.Mod.Name})` : ''}`
+                }${weapon.Mod ? ` (${weapon.Mod.TrueName})` : ''}`
             )
             .join(' / ')
 
@@ -238,7 +238,7 @@ class Statblock {
       .join('\n  ')}
 [ SYSTEMS ]
   ${mechLoadout.Systems.map(sys => {
-    let out = sys.Name
+    let out = sys.TrueName
     if (sys.IsLimited) out += ` x${sys.MaxUses + mech.LimitedBonus}`
     return out
   }).join(', ')}`
