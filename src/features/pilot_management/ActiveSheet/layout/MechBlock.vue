@@ -499,7 +499,7 @@
           </v-col>
           <v-scroll-y-reverse-transition mode="out-in">
             <div v-if="showCounters">
-              <cc-counter-set :actor="[mech]" />
+              <cc-counter-set :actor="[pilot]" />
             </div>
             <div v-else style="min-height: 24px" />
           </v-scroll-y-reverse-transition>

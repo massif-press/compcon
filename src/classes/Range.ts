@@ -84,8 +84,6 @@ class Range {
       )
     })
 
-    console.log(output)
-
     if (!Bonus.get('range', mech) || item.NoCoreBonus) return output
     const bonuses = mech.Bonuses.filter(x => x.ID === 'range')
     output.forEach(r => {

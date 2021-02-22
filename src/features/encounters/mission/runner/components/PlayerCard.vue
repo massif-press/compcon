@@ -410,7 +410,7 @@
     </v-row>
 
     <div class="overline mt-n2">COUNTERS</div>
-    <cc-counter-set :actor="[mech]" class="my-n4" />
+    <cc-counter-set :actor="[pilot]" class="my-n4" />
 
     <div class="overline mb-n2 mt-n5">LOADOUT</div>
     <v-row dense>
