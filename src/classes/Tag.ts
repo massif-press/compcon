@@ -138,8 +138,6 @@ class Tag {
         tags.push(store.getters.instantiate('Tags', 'tg_reaction'))
       if (item.Actions.some(x => x.Activation === ActivationType.Free))
         tags.push(store.getters.instantiate('Tags', 'tg_free_action'))
-      if (item.Actions.some(x => x.Activation === ActivationType.Free))
-        tags.push(store.getters.instantiate('Tags', 'tg_free_action'))
       if (item.Actions.some(x => x.Activation === ActivationType.Invade))
         tags.push(store.getters.instantiate('Tags', 'tg_invade'))
     }
