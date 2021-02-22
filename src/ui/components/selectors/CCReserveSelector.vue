@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      v-show="$vuetify.breakpoint.mdAndUp"
       style="position: absolute; top: 0; right: 0; height:108px; width:100px; overflow-x: hidden"
       class="primary"
     />
@@ -27,8 +28,8 @@
         <b>Organization</b>
       </v-tab>
       <v-tab-item>
-        <v-row dense class="px-12">
-          <v-col v-for="r in reserves['Bonus']" :key="`item_${r.ID}`" cols="6" class="px-4">
+        <v-row dense>
+          <v-col v-for="r in reserves['Bonus']" :key="`item_${r.ID}`" cols="12" md="6">
             <reserve-item
               :reserve="r"
               icon="cci-pilot"
@@ -40,8 +41,8 @@
         </v-row>
       </v-tab-item>
       <v-tab-item>
-        <v-row dense class="px-12">
-          <v-col v-for="r in reserves['Resource']" :key="`item_${r.ID}`" cols="6" class="px-4">
+        <v-row dense>
+          <v-col v-for="r in reserves['Resource']" :key="`item_${r.ID}`" cols="12" md="6">
             <reserve-item
               :reserve="r"
               icon="cci-reserve-resource"
@@ -53,8 +54,8 @@
         </v-row>
       </v-tab-item>
       <v-tab-item>
-        <v-row dense class="px-12">
-          <v-col v-for="r in reserves['Tactical']" :key="`item_${r.ID}`" cols="6" class="px-4">
+        <v-row dense>
+          <v-col v-for="r in reserves['Tactical']" :key="`item_${r.ID}`" cols="12" md="6">
             <reserve-item
               :reserve="r"
               icon="cci-reserve-tactical"
@@ -66,8 +67,8 @@
         </v-row>
       </v-tab-item>
       <v-tab-item>
-        <v-row dense class="px-12">
-          <v-col v-for="r in reserves['Mech']" :key="`item_${r.ID}`" cols="6" class="px-4">
+        <v-row dense>
+          <v-col v-for="r in reserves['Mech']" :key="`item_${r.ID}`" cols="12" md="6">
             <reserve-item
               :reserve="r"
               icon="cci-reserve-mech"

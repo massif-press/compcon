@@ -21,7 +21,7 @@
         <v-col>
           <v-alert
             outlined
-            prominent
+            :prominent="$vuetify.breakpoint.mdAndUp"
             dense
             border="left"
             color="success"
@@ -33,7 +33,7 @@
           </v-alert>
           <v-alert
             outlined
-            prominent
+            :prominent="$vuetify.breakpoint.mdAndUp"
             dense
             border="left"
             color="accent"
@@ -45,7 +45,7 @@
           </v-alert>
           <v-alert
             outlined
-            prominent
+            :prominent="$vuetify.breakpoint.mdAndUp"
             dense
             border="left"
             color="accent"
@@ -64,14 +64,18 @@
 
     <template v-slot:right-column>
       <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
+        <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-2" />
         <span v-if="h.attr !== 'Custom'" class="overline">Your Ability To</span>
-        <cc-title small>{{ h.description }}</cc-title>
+        <cc-title v-if="$vuetify.breakpoint.mdAndUp" small>{{ h.description }}</cc-title>
+        <div v-else class="heading h3 accent--text mb-1">
+          {{ h.description }}
+        </div>
         <skill-select-item
           v-for="(s, i) in skills[h.attr]"
           :key="`skill_${h.attr}_${i}`"
           :skill="s"
-          :canAdd="pilot.CanAddSkill(s)"
-          :canRemove="pilot.CanRemoveSkill(s)"
+          :can-add="pilot.CanAddSkill(s)"
+          :can-remove="pilot.CanRemoveSkill(s)"
           @add="pilot.AddSkill(s)"
           @remove="pilot.RemoveSkill(s)"
         />

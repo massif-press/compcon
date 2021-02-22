@@ -45,7 +45,13 @@
       </v-row>
     </div>
     <v-card-text slot="selector">
-      <cc-selector-table no-filter :items="getGear()" :headers="headers" @equip="equip($event)">
+      <cc-selector-table
+        no-filter
+        no-extra
+        :items="getGear()"
+        :headers="headers"
+        @equip="equip($event)"
+      >
         <div v-if="item">
           <span class="overline">
             GMS EQUIPMENT CATALOG PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;

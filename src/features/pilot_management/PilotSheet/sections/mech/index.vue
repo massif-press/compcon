@@ -1,16 +1,21 @@
 <template>
-  <div>
+  <div :class="small ? 'mt-n3' : ''">
     <mech-nav :selected="0" :pilot="pilot" :mech="mech" @delete="$refs.deleteDialog.show()" />
     <v-row no-gutters>
       <v-col cols="auto">
         <cc-short-string-editor large before @set="mech.Name = $event">
-          <cc-title :large="mech.Name.length < 31" :color="color" class="px-3 ml-n6">
+          <cc-title
+            :small="small"
+            :large="!small && mech.Name.length < 31"
+            :color="color"
+            class="px-3 ml-n6"
+          >
             {{ mech.Name }}&emsp;
           </cc-title>
         </cc-short-string-editor>
-        <div class="mt-n6">
-          <cc-logo size="large" :source="mech.Frame.Manufacturer" />
-          <span class="heading h2" style="position: relative; top: -11px">
+        <div :class="`mt-n${small ? '3' : '6'}`">
+          <cc-logo v-show="!small" size="large" :source="mech.Frame.Manufacturer" />
+          <span :class="small ? 'heading h3' : 'heading h2'" style="position: relative; top: -11px">
             <span :style="`color: ${color}`" class="pt-n3">{{ mech.Frame.Manufacturer.Name }}</span>
             <span class="text--text">{{ mech.Frame.Name }}</span>
             <v-icon right class="fadeSelect mt-n1" @click="$refs.frameInfoDialog.show()">
@@ -24,7 +29,7 @@
               large
               :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
             >
-              <p class="flavor-text mt-3 mb-1 text--text" v-html="mech.Frame.Description" />
+              <p class="flavor-text mt-3 mb-1 px-1 text--text" v-html="mech.Frame.Description" />
             </cc-solo-dialog>
           </span>
         </div>
@@ -40,8 +45,35 @@
         />
       </v-col>
     </v-row>
+    <div>
+      <div v-if="small" class="text-center mb-2">
+        <img
+          :key="mech.Image"
+          :src="mech.Portrait"
+          :style="
+            `object-fit: contain; max-height: 200px; width: 100%; image-rendering: ${
+              isPixel ? 'pixelated' : 'crisp-edges'
+            };`
+          "
+          position="top center"
+        />
+        <v-btn
+          outlined
+          color="secondary"
+          small
+          block
+          class="fadeSelect"
+          @click="$refs.imageSelector.open()"
+        >
+          <v-icon left>mdi-circle-edit-outline</v-icon>
+          Set Mech Image
+        </v-btn>
+      </div>
+
+      <cc-image-selector-web ref="imageSelector" :item="mech" type="mech" />
+    </div>
     <v-row align="center" no-gutters>
-      <v-col cols="8">
+      <v-col cols="12" md="8">
         <v-row class="px-3 mt-n4">
           <v-col>
             <operator-notes :mech="mech" :color="color" />
@@ -54,7 +86,7 @@
           <trait-block :mech="mech" :color="color" />
         </v-row>
       </v-col>
-      <v-col cols="4" style="max-height: inherit;">
+      <v-col v-if="!small" cols="4" style="max-height: inherit;">
         <div class="text-center mt-n10" style="max-height: inherit;">
           <div style="position:relative; max-height: inherit;">
             <img
@@ -84,7 +116,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row class="mt-n6 mb-2 px-3">
+    <v-row :class="`mt-n6 mb-2 ${small ? '' : 'px-3'}`">
       <attributes-block :color="color" :mech="mech" :pilot="pilot" />
     </v-row>
     <cc-title small class="ml-n6" :color="color">
@@ -130,6 +162,9 @@ export default Vue.extend({
     },
   },
   computed: {
+    small() {
+      return this.$vuetify.breakpoint.smAndDown
+    },
     pilot(): Pilot {
       return this.$store.state.management.Pilots.find(p => p.ID === this.pilotID)
     },

@@ -1,18 +1,28 @@
 <template>
   <v-row justify="center">
-    <v-col cols="7">
+    <v-col cols="12" md="7">
       <cc-titled-panel
         title="Custom Reserve"
         :icon="`cci-reserve-${customType.toLowerCase()}`"
         :color="`reserve--${customType.toLowerCase()}`"
       >
         <div class="text-center">
-          <v-btn-toggle v-model="customType" tile mandatory group color="secondary">
-            <v-btn value="Resource">Resource Reserve</v-btn>
-            <v-divider vertical class="mx-2" />
-            <v-btn value="Mech">Mech Reserve</v-btn>
-            <v-divider vertical class="mx-2" />
-            <v-btn value="Tactical">Tactical Reserve</v-btn>
+          <v-btn-toggle
+            v-model="customType"
+            tile
+            mandatory
+            :group="$vuetify.breakpoint.mdAndUp"
+            color="secondary"
+          >
+            <v-btn :small="$vuetify.breakpoint.smAndDown" value="Resource">
+              Resource
+            </v-btn>
+            <v-divider v-show="$vuetify.breakpoint.mdAndUp" vertical class="mx-2" />
+            <v-btn :small="$vuetify.breakpoint.smAndDown" value="Mech">Mech</v-btn>
+            <v-divider v-show="$vuetify.breakpoint.mdAndUp" vertical class="mx-2" />
+            <v-btn :small="$vuetify.breakpoint.smAndDown" value="Tactical">
+              Tactical
+            </v-btn>
           </v-btn-toggle>
         </div>
         <div class="mx-4 my-2">

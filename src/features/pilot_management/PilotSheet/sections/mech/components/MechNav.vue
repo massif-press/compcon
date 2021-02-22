@@ -1,20 +1,39 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <cc-nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
-      MECH CONFIGURATION
-    </cc-nav-item>
-    <cc-tooltip simple inline content="Feature In Development">
-      <cc-nav-item disabled :selected="selected === 1" @click="$emit('set-page', 1)">
-        COMBAT ANALYTICS
+    <div v-if="$vuetify.breakpoint.mdAndUp" class="d-inline">
+      <cc-nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
+        MECH CONFIGURATION
       </cc-nav-item>
-    </cc-tooltip>
-    <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
-      <v-icon large>cci-pilot</v-icon>
-    </v-btn>
-    <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
-      <v-icon large color="white">cci-activate</v-icon>
-    </v-btn>
+      <cc-tooltip simple inline content="Feature In Development">
+        <cc-nav-item disabled :selected="selected === 1" @click="$emit('set-page', 1)">
+          COMBAT ANALYTICS
+        </cc-nav-item>
+      </cc-tooltip>
+      <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
+        <v-icon large>cci-pilot</v-icon>
+      </v-btn>
+      <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
+        <v-icon large color="white">cci-activate</v-icon>
+      </v-btn>
+    </div>
+    <v-menu v-else open-on-hover>
+      <template v-slot:activator="{ on }">
+        <v-btn light icon color="white" style="z-index: 9" class="unskew pl-2 pr-0" v-on="on">
+          <v-icon large>mdi-book-open-page-variant</v-icon>
+          <v-icon>arrow_drop_up</v-icon>
+        </v-btn>
+      </template>
+      <v-list dense class="heading h3">
+        <v-list-item @click="$emit('set-page', 0)">
+          MECH CONFIGURATION
+        </v-list-item>
+        <v-list-item disabled @click="$emit('set-page', 1)">
+          COMBAT ANALYTICS
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     <v-divider vertical class="mx-2" />
     <div id="divider" />
     <v-menu offset-y top>

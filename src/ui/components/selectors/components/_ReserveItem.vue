@@ -1,8 +1,17 @@
 <template>
   <cc-titled-panel :title="reserve.Name" :icon="icon" :color="color">
     <v-row dense style="min-height: 70px">
-      <v-col cols="auto" dense class="pr-0">
-        <cc-tooltip simple inline content="Add Reserve">
+      <v-col cols="12" md="auto" dense class="pr-0">
+        <v-btn
+          v-if="$vuetify.breakpoint.smAndDown"
+          :color="color"
+          dark
+          block
+          @click="$emit('click')"
+        >
+          Add Resource
+        </v-btn>
+        <cc-tooltip v-else simple inline content="Add Reserve">
           <v-btn
             block
             icon

@@ -4,8 +4,8 @@
     tile
     outlined
     color="primary"
-    width="200px"
-    min-width="200px"
+    width="225px"
+    min-width="225px"
     height="100%"
   >
     <v-card-title class="primary white--text py-2">

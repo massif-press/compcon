@@ -3,21 +3,30 @@
     <v-row no-gutters>
       <v-col cols="auto">
         <v-icon large dark class="mt-n2" color="stark">{{ action.Icon }}</v-icon>
-        <span class="heading h2 text--text">{{ action.Name }}&emsp;</span>
+        <span :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h3' : 'h2'} text--text`">
+          {{ action.Name }}
+        </span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-chip
           v-if="action.Frequency.ToString() !== 'Unlimited'"
           slot="title-items"
           color="stark"
-          small
+          :small="!$vuetify.breakpoint.smAndDown"
+          :x-small="$vuetify.breakpoint.smAndDown"
           class="stat-text mr-2"
           outlined
           label
         >
           {{ action.Frequency.ToString() }}
         </v-chip>
-        <v-chip small label dark :color="`action--${action.Activation.toLowerCase()}`">
+        <v-chip
+          :small="!$vuetify.breakpoint.smAndDown"
+          :x-small="$vuetify.breakpoint.smAndDown"
+          label
+          dark
+          :color="`action--${action.Activation.toLowerCase()}`"
+        >
           {{ action.Activation.toUpperCase() }}
         </v-chip>
       </v-col>

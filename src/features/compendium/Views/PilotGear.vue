@@ -11,14 +11,14 @@
       <v-tab ripple>ARMOR</v-tab>
       <v-tab ripple>WEAPONS</v-tab>
       <v-tab ripple>GEAR</v-tab>
-      <v-tab-item class="ml-4">
-        <compendium-browser no-filter lock-view :headers="armor_headers" :items="armor" />
+      <v-tab-item :class="$vuetify.breakpoint.mdAndUp ? 'ml-4' : ''">
+        <compendium-browser no-filter :headers="armor_headers" :items="armor" />
       </v-tab-item>
-      <v-tab-item class="ml-4">
-        <compendium-browser no-filter lock-view :headers="weapon_headers" :items="weapons" />
+      <v-tab-item :class="$vuetify.breakpoint.mdAndUp ? 'ml-4' : ''">
+        <compendium-browser no-filter :headers="weapon_headers" :items="weapons" />
       </v-tab-item>
-      <v-tab-item class="ml-4">
-        <compendium-browser no-filter lock-view :headers="gear_headers" :items="gear" />
+      <v-tab-item :class="$vuetify.breakpoint.mdAndUp ? 'ml-4' : ''">
+        <compendium-browser no-filter :headers="gear_headers" :items="gear" />
       </v-tab-item>
     </v-tabs>
   </v-container>

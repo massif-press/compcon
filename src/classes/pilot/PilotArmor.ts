@@ -1,5 +1,6 @@
 import { PilotEquipment, ItemType } from '@/class'
 import { IPilotEquipmentData, ITagCompendiumData } from '@/interface'
+import { Bonus } from '../Bonus'
 
 interface IPilotArmorData extends IPilotEquipmentData {
   hp_bonus?: number
@@ -13,25 +14,21 @@ interface IPilotArmorData extends IPilotEquipmentData {
 }
 
 class PilotArmor extends PilotEquipment {
-  public readonly HPBonus: number
-  public readonly Speed: number
-  public readonly SpeedBonus: number
-  public readonly Armor: number
-  public readonly EDefense: number
-  public readonly EDefenseBonus: number
-  public readonly Evasion: number
-  public readonly EvasionBonus: number
+  public readonly HPBonus: string
+  public readonly Speed: string
+  public readonly SpeedBonus: string
+  public readonly Armor: string
+  public readonly EDefense: string
+  public readonly Evasion: string
 
   public constructor(data: IPilotArmorData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName)
-    this.HPBonus = data.hp_bonus || 0
-    this.Speed = data.speed || 0
-    this.SpeedBonus = data.speed_bonus || 0
-    this.Armor = data.armor || 0
-    this.EDefense = data.edef || 0
-    this.EDefenseBonus = data.edef_bonus || 0
-    this.Evasion = data.evasion || 0
-    this.EvasionBonus = data.evasion_bonus || 0
+    this.HPBonus = Bonus.SumStatic(data, 'pilot_hp')
+    this.Speed = Bonus.SumStatic(data, 'pilot_speed')
+    this.SpeedBonus = Bonus.SumStatic(data, 'pilot_evasion')
+    this.Armor = Bonus.SumStatic(data, 'pilot_armor')
+    this.EDefense = Bonus.SumStatic(data, 'pilot_edef')
+    this.Evasion = Bonus.SumStatic(data, 'pilot_evasion')
     this.ItemType = ItemType.PilotArmor
   }
 }

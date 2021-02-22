@@ -211,6 +211,14 @@ a {
   opacity: 0.85;
 }
 
+.v-tabs >>> .v-slide-group__prev {
+  display: none !important;
+}
+
+.v-slide-group__prev {
+  display: none !important;
+}
+
 /* .theme--dark.v-application, .theme--dark.v-application .v-list, .theme--dark.v-application .v-navigation-drawer, .theme--dark.v-data-table, .theme--dark.v-card, .theme--dark.v-tabs-items { 
   background: var(--v-panel-base) !important;
 }

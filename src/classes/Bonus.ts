@@ -62,6 +62,18 @@ class Bonus {
     return str
   }
 
+  public static SumStatic(item: any, id: string): string {
+    if (item.bonuses) {
+      const bArr = item.bonuses.filter(x => x.id === id).map(y => y.val)
+      const uncompVal = bArr.filter(x => !isNaN(parseInt(x)))
+      const compVal = bArr.filter(x => isNaN(parseInt(x)))
+      let str = `${uncompVal.reduce((a, b) => +a + +b, 0)}`
+      if (compVal.length) str += ` (${compVal.join(', ')})`
+      return str
+    }
+    return ''
+  }
+
   public static IntPilot(base: number, id: string, pilot: Pilot): number {
     const replace = pilot.Bonuses.filter(x => x.ID === id && x.Replace)
     let val = base

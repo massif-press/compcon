@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     v-resize="onResize"
-    :headers="headers"
+    :headers="shownHeaders"
     :items="items"
     :custom-sort="customSort"
     item-key="ID"
@@ -16,18 +16,21 @@
     style="text-transform: uppercase; background-color: transparent"
   >
     <template v-slot:[`item.data-table-select`]="{ item }">
-      <cc-tooltip simple inline :content="`Equip ${item.Name}`">
-        <v-btn
-          icon
-          color="accent"
-          dark
-          :disabled="spDisable && item.SP > sp && !spIgnore"
-          @click="$emit('equip', item)"
-        >
-          <v-icon v-if="spDisable && item.SP > sp && !spIgnore">mdi-cancel</v-icon>
-          <v-icon v-else large>cci-accuracy</v-icon>
-        </v-btn>
-      </cc-tooltip>
+      <v-btn
+        v-if="$vuetify.breakpoint.smAndDown"
+        block
+        text
+        color="accent"
+        @click="$refs[`modal_${item.ID}`].show()"
+      >
+        {{ item.Name }}
+      </v-btn>
+      <v-btn v-else x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+      <cc-solo-dialog :ref="`modal_${item.ID}`" :title="`${item.Source} ${item.Name}`" large>
+        <cc-item-card :item="item" />
+      </cc-solo-dialog>
     </template>
     <template v-slot:[`item.Name`]="{ item }">
       <span v-if="spDisable && item.SP > sp && !spIgnore" class="stat-text subtle--text">
@@ -53,6 +56,12 @@
       </v-icon>
       <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
     </template>
+    <template v-slot:[`item.Equip`]="{ item }">
+      <v-btn color="accent" tile class="mb-4" @click="$emit('equip', item)">
+        <v-icon small left>mdi-plus</v-icon>
+        Equip
+      </v-btn>
+    </template>
   </v-data-table>
 </template>
 
@@ -66,7 +75,14 @@ export default class SelectorTableView extends Vue {
     type: Array,
     required: true,
   })
-  readonly headers: string[]
+  readonly headers: any[]
+
+  get shownHeaders(): any[] {
+    const hide = ['weapon', 'system', 'item', 'license level']
+    return this.$vuetify.breakpoint.smAndDown
+      ? this.headers.filter(x => !hide.includes(x.text.toLowerCase()))
+      : this.headers
+  }
 
   @Prop({
     type: Array,

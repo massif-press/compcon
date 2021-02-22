@@ -1,12 +1,7 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover">
+  <c-card-base :item="item" :small="small" :hover="hover" @equip="$emit('equip', $event)">
     <div slot="top">
-      <v-row
-        v-if="item.ItemType.toLowerCase() === 'pilotarmor'"
-        dense
-        justify="space-around"
-        class="mt-2"
-      >
+      <v-row dense justify="space-around" class="mt-2">
         <v-col v-if="item.Armor" cols="auto">
           <cc-tooltip simple inline content="Armor Bonus">
             <v-icon>mdi-shield-outline</v-icon>

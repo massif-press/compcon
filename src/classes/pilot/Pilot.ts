@@ -509,13 +509,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public get EDefense(): number {
-    let edef = Rules.BasePilotEdef
-    this.Loadout.Armor.forEach(x => {
-      if (!x) return
-      if (x.EDefense) edef = x.EDefense
-      edef += x.EDefenseBonus
-    })
-    return edef
+    return Bonus.IntPilot(Rules.BasePilotEdef, 'pilot_edef', this)
   }
 
   public get LimitedBonus(): number {

@@ -90,7 +90,6 @@ export default class PackInstall extends Vue {
   error: string = null
 
   async fileChange(file: HTMLInputElement) {
-    console.log(file)
     this.contentPack = null
     this.error = null
 
