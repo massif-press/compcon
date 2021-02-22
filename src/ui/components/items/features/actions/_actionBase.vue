@@ -1,5 +1,5 @@
 <template>
-  <v-card-text>
+  <v-card-text :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''">
     <div>
       <div v-if="action.Init" class="body-text stark--text mt-2" v-html="action.Init" />
       <div v-if="action.Trigger">

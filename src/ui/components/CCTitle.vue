@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
+import { Component, Prop, Mixins } from 'vue-property-decorator'
 import GetColorMixin from '@/mixins/getColor'
 
 @Component({ name: 'cc-title' })

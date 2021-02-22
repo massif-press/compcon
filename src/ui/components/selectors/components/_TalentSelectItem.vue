@@ -23,22 +23,28 @@
       </v-stepper-header>
 
       <v-stepper-items>
-        <v-stepper-content v-for="i in 3" :key="i" :step="'I'.repeat(i)" class="pt-0 pb-2">
+        <v-stepper-content
+          v-for="i in 3"
+          :key="i"
+          :step="'I'.repeat(i)"
+          :class="`pt-0 ${small ? 'px-1' : 'pb-2'}`"
+        >
           <cc-talent-rank-item :lock="pilotRank < i" :rank="i" :talent-rank="talent.Rank(i)" />
           <v-btn
             v-if="pilotRank < i"
             block
+            :small="small"
             :disabled="!available || (newPilot && i > 1) || pilotRank + 1 < i"
             outlined
             color="secondary"
             @click="add()"
           >
             <v-icon left>cci-accuracy</v-icon>
-            Unlock {{ talent.Name }}: {{ talent.Rank(i).Name }}
+            Unlock {{ small ? '' : talent.Name }}: {{ talent.Rank(i).Name }}
           </v-btn>
-          <v-btn v-else block outlined color="error" @click="remove()">
+          <v-btn v-else :small="small" block outlined color="error" @click="remove()">
             <v-icon left>cci-difficulty</v-icon>
-            Unlearn {{ talent.Name }}: {{ talent.Rank(i).Name }}
+            Unlearn {{ small ? '' : talent.Name }}: {{ talent.Rank(i).Name }}
           </v-btn>
         </v-stepper-content>
       </v-stepper-items>
@@ -72,6 +78,11 @@ export default Vue.extend({
   data: () => ({
     step: 'I',
   }),
+  computed: {
+    small() {
+      return this.$vuetify.breakpoint.smAndDown
+    },
+  },
   watch: {
     pilotRank(newval, oldval) {
       if (newval < oldval) this.step = 'I'.repeat(this.pilotRank + 1)

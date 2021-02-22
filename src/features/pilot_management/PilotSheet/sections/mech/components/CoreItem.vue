@@ -1,7 +1,11 @@
 <template>
   <div class="mx-3">
     <span class="heading h2 text--text">{{ coreSystem.Name }}</span>
-    <p class="flavor-text px-3" v-html="coreSystem.Description" />
+    <p
+      v-show="$vuetify.breakpoint.mdAndUp"
+      class="flavor-text px-3"
+      v-html="coreSystem.Description"
+    />
 
     <div v-if="coreSystem.PassiveEffect">
       <span class="heading sub">

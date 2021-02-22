@@ -1,7 +1,7 @@
 <template>
   <v-alert v-if="show" :color="color" dense dark class="ma-0">
     <v-icon slot="prepend" x-large class="ml-n2 mr-2" color="white">{{ icon }}</v-icon>
-    <div class="heading h2">
+    <div :class="`heading ${small ? 'h3' : 'h2'}`">
       <span v-if="type === 'destroyed'">MECH DESTROYED</span>
       <span v-else-if="type === 'cascading'">DANGER: UNSHACKLED NHP</span>
       <span v-else-if="type === 'overSP'">ALERT: SYSTEM CAPACITY EXCEEDED</span>
@@ -9,7 +9,7 @@
       <span v-else-if="type === 'underSP'">WARNING: SYSTEM CAPACITY REMAINING</span>
       <span v-else-if="type === 'unlicensed'">WARNING: UNLICENSED EQUIPMENT DETECTED</span>
     </div>
-    <div v-if="!hideClear" class="mt-1">
+    <div v-if="!small && !hideClear" class="mt-1">
       <v-btn v-if="type === 'destroyed'" block small outlined dark @click="$emit('reprint')">
         <v-icon left>cci-mech</v-icon>
         Reprint Mech
@@ -44,6 +44,10 @@ export default class CCMechStatusAlert extends Vue {
   readonly criticalOnly?: boolean
   @Prop({ type: Boolean })
   readonly hideClear?: boolean
+
+  get small() {
+    return this.$vuetify.breakpoint.smAndDown
+  }
 
   get show() {
     if (!this.criticalOnly) return true

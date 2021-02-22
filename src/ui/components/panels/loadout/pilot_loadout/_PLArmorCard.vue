@@ -58,7 +58,13 @@
       </v-row>
     </div>
     <v-card-text slot="selector">
-      <cc-selector-table no-filter :items="getArmor()" :headers="headers" @equip="equip($event)">
+      <cc-selector-table
+        no-filter
+        no-extra
+        :items="getArmor()"
+        :headers="headers"
+        @equip="equip($event)"
+      >
         <div v-if="item">
           <span class="overline">
             GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
@@ -120,7 +126,7 @@ export default Vue.extend({
       { text: 'E-Defense', align: 'center', value: 'EDefense' },
       { text: 'Evasion', align: 'center', value: 'Evasion' },
       { text: 'Speed', align: 'center', value: 'Speed' },
-      { text: 'Detail', align: 'center', value: 'Detail' },
+      { text: '', align: 'center', value: 'Equip' },
     ],
   }),
   computed: {

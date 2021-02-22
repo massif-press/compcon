@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row dense class="mt-n6 mb-3">
-      <v-col cols="5" class="ml-auto mr-auto">
+      <v-col cols="12" md="5" class="ml-auto mr-auto">
         <v-alert
           :value="true"
           :type="pilot.IsMissingHASE ? 'info' : 'success'"
@@ -19,14 +19,14 @@
     </v-row>
 
     <v-row dense>
-      <v-col md="12" lg="6">
-        <cc-title>HULL</cc-title>
+      <v-col cols="12" lg="6">
+        <cc-title :small="$vuetify.breakpoint.smAndDown">HULL</cc-title>
         <span class="flavor-text">
           Your HULL skill describes your ability to build and pilot durable, heavy mechs that can
           take punches and keep going
         </span>
         <v-row dense>
-          <v-col cols="auto" class="ml-auto mr-auto">
+          <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
               :disabled="!pilot.MechSkills.Hull"
@@ -39,7 +39,7 @@
             >
               <v-icon>remove</v-icon>
             </v-btn>
-            <cc-rating :model="pilot.MechSkills.Hull" />
+            <cc-rating :dense="$vuetify.breakpoint.mdAndDown" :model="pilot.MechSkills.Hull" />
             <v-btn
               :disabled="!pilot.IsMissingHASE"
               color="secondary"
@@ -55,7 +55,7 @@
           </v-col>
         </v-row>
         <v-row dense class="mt-n3 mb-6">
-          <v-col cols="auto" class="ml-auto mr-auto">
+          <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">
               MECH HP
               <span class="accent--text">+{{ pilot.MechSkills.Hull * 2 }}</span>
@@ -69,13 +69,13 @@
         </v-row>
       </v-col>
 
-      <v-col md="12" lg="6">
-        <cc-title>AGILITY</cc-title>
+      <v-col cols="12" lg="6">
+        <cc-title :small="$vuetify.breakpoint.smAndDown">AGILITY</cc-title>
         <span class="flavor-text">
           Your AGILITY skill describes your ability to build and pilot fast, evasive mechs
         </span>
         <v-row dense>
-          <v-col cols="auto" class="ml-auto mr-auto">
+          <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
               :disabled="!pilot.MechSkills.Agi"
@@ -88,7 +88,7 @@
             >
               <v-icon>remove</v-icon>
             </v-btn>
-            <cc-rating :model="pilot.MechSkills.Agi" />
+            <cc-rating :dense="$vuetify.breakpoint.mdAndDown" :model="pilot.MechSkills.Agi" />
             <v-btn
               :disabled="!pilot.IsMissingHASE"
               color="secondary"
@@ -105,7 +105,7 @@
         </v-row>
 
         <v-row dense class="mt-n3 mb-6">
-          <v-col cols="auto" class="ml-auto mr-auto">
+          <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">EVASION</span>
             <span class="heading h3 accent--text">+{{ pilot.MechSkills.Agi }}</span>
             <cc-slashes class="ml-1 mr-1" />
@@ -115,14 +115,14 @@
         </v-row>
       </v-col>
 
-      <v-col md="12" lg="6">
-        <cc-title>SYSTEMS</cc-title>
+      <v-col cols="12" lg="6">
+        <cc-title :small="$vuetify.breakpoint.smAndDown">SYSTEMS</cc-title>
         <span class="flavor-text">
           Your SYSTEMS skill describes your ability to build and pilot technical mechs with powerful
           electronic warfare tools
         </span>
         <v-row dense>
-          <v-col cols="auto" class="ml-auto mr-auto">
+          <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
               :disabled="!pilot.MechSkills.Sys"
@@ -135,7 +135,7 @@
             >
               <v-icon>remove</v-icon>
             </v-btn>
-            <cc-rating :model="pilot.MechSkills.Sys" />
+            <cc-rating :dense="$vuetify.breakpoint.mdAndDown" :model="pilot.MechSkills.Sys" />
             <v-btn
               class="d-inline elevation-0"
               color="secondary"
@@ -152,7 +152,7 @@
         </v-row>
 
         <v-row dense class="mt-n3 mb-6">
-          <v-col cols="auto" class="ml-auto mr-auto">
+          <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">ELECTRONIC DEFENSE</span>
             <span class="heading h3 accent--text">+{{ pilot.MechSkills.Sys }}</span>
             <cc-slashes class="ml-1 mr-1" />
@@ -165,14 +165,14 @@
         </v-row>
       </v-col>
 
-      <v-col md="12" lg="6">
-        <cc-title>Engineering</cc-title>
+      <v-col cols="12" lg="6">
+        <cc-title :small="$vuetify.breakpoint.smAndDown">Engineering</cc-title>
         <span class="flavor-text">
           Your ENGINEERING skill describes your ability to build and pilot mechs with powerful
           reactors, supplies and support systems
         </span>
         <v-row dense>
-          <v-col cols="auto" class="ml-auto mr-auto">
+          <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
               :disabled="!pilot.MechSkills.Eng"
@@ -185,7 +185,7 @@
             >
               <v-icon>remove</v-icon>
             </v-btn>
-            <cc-rating :model="pilot.MechSkills.Eng" />
+            <cc-rating :dense="$vuetify.breakpoint.mdAndDown" :model="pilot.MechSkills.Eng" />
             <v-btn
               class="d-inline elevation-0"
               color="secondary"
@@ -202,7 +202,7 @@
         </v-row>
 
         <v-row dense class="mt-n3 mb-6">
-          <v-col cols="auto" class="ml-auto mr-auto">
+          <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">HEAT CAPACITY</span>
             <span class="heading h3 accent--text">+{{ pilot.MechSkills.Eng }}</span>
 

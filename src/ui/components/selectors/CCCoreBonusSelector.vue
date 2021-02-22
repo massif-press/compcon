@@ -56,16 +56,24 @@
           :key="`panel_m${manufacturer.ID}`"
           class="no-shadow"
         >
-          <v-expansion-panel-header color="panel">
+          <v-expansion-panel-header color="panel" class="px-1">
             <div>
-              <span
-                class="heading mech"
+              <v-row
+                no-gutters
+                align="center"
+                :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h3' : 'h1'}`"
                 :style="`color: ${manufacturer.GetColor($vuetify.theme.dark)}`"
               >
-                <cc-logo :source="manufacturer" size="xLarge" class="pt-4" />
-                {{ manufacturer.Name }}
-              </span>
-              <br />
+                <v-col cols="auto">
+                  <cc-logo
+                    :source="manufacturer"
+                    :size="$vuetify.breakpoint.smAndDown ? 'large' : 'xLarge'"
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  {{ manufacturer.Name }}
+                </v-col>
+              </v-row>
               <v-alert
                 outlined
                 :color="manufacturer.GetColor($vuetify.theme.dark)"
@@ -146,6 +154,7 @@ export default class CCCoreBonusSelector extends Vue {
   }
 
   requirement(m: Manufacturer): string {
+    const br = this.$vuetify.breakpoint.smAndDown ? '<br>' : '&emsp;//&emsp;'
     const abbr = `<b>${m.ID}</b>`
     const name = `<b>${m.Name}</b>`
     if (m.ID === 'GMS')
@@ -153,10 +162,10 @@ export default class CCCoreBonusSelector extends Vue {
         m.ID
       )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
     const lvl = `<b>${this.pilot.LicenseLevel(m.ID)}</b>`
-    let output = `${lvl} ${abbr} Licenses Acquired &emsp;//&emsp; `
+    let output = `${lvl} ${abbr} Licenses Acquired ${br} `
     let remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.ID)
     if (remain < 1) remain += 3
-    output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available &emsp;//&emsp; `
+    output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available ${br} `
     output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
     if (this.pilot.Level < 12)
       output += `<br>${

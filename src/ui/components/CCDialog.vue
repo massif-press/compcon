@@ -1,9 +1,22 @@
 <template>
   <div>
-    <v-btn v-if="flat" :small="smallBtn" :color="color" text :dark="dark" @click="dialog = true">
+    <v-btn
+      v-if="flat"
+      :small="smallBtn || $vuetify.breakpoint.smAndDown"
+      :color="color"
+      text
+      :dark="dark"
+      @click="dialog = true"
+    >
       <slot name="button" />
     </v-btn>
-    <v-btn v-else tile :small="smallBtn" :color="color" @click="dialog = true">
+    <v-btn
+      v-else
+      tile
+      :small="smallBtn || $vuetify.breakpoint.smAndDown"
+      :color="color"
+      @click="dialog = true"
+    >
       <slot name="button" />
     </v-btn>
     <v-dialog

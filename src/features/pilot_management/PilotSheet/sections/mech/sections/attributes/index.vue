@@ -6,27 +6,46 @@
       </cc-title>
     </div>
     <v-row no-gutters>
-      <v-col cols="1" class="mr-3">
-        <hase-pips :mech="mech" attr="hull" :val="pilot.MechSkills.Hull" :color="color" />
-        <hase-pips :mech="mech" attr="agility" :val="pilot.MechSkills.Agi" :color="color" />
-        <hase-pips :mech="mech" attr="systems" :val="pilot.MechSkills.Sys" :color="color" />
-        <hase-pips :mech="mech" attr="engineering" :val="pilot.MechSkills.Eng" :color="color" />
-        <v-divider class="mt-2" />
-        <span v-if="$vuetify.breakpoint.lgAndUp" class="overline no-height">System Points</span>
-        <span v-else class="overline no-height">SP</span>
-        <cc-tooltip
-          :title="`${mech.MaxSP} System Points`"
-          :content="mech.SPContributors.join('<br />')"
-        >
-          <span class="heading h3 no-height">&nbsp;{{ mech.MaxSP }}</span>
-        </cc-tooltip>
+      <v-col cols="12" md="1" class="mr-3">
+        <v-row no-gutters justify="space-between">
+          <hase-pips :mech="mech" attr="hull" :val="pilot.MechSkills.Hull" :color="color" />
+          <hase-pips
+            :mech="mech"
+            :attr="small ? 'agi' : 'agility'"
+            :val="pilot.MechSkills.Agi"
+            :color="color"
+          />
+          <hase-pips
+            :mech="mech"
+            :attr="small ? 'sys' : 'systems'"
+            :val="pilot.MechSkills.Sys"
+            :color="color"
+          />
+          <hase-pips
+            :mech="mech"
+            :attr="small ? 'eng' : 'engineering'"
+            :val="pilot.MechSkills.Eng"
+            :color="color"
+          />
+          <v-col cols="auto" md="12">
+            <v-divider v-if="$vuetify.breakpoint.mdAndUp" class="mt-2" />
+            <span v-if="$vuetify.breakpoint.lgAndUp" class="overline no-height">System Points</span>
+            <span v-else class="overline no-height">SP</span>
+            <cc-tooltip
+              :title="`${mech.MaxSP} System Points`"
+              :content="mech.SPContributors.join('<br />')"
+            >
+              <span class="heading h3 no-height">&nbsp;{{ mech.MaxSP }}</span>
+            </cc-tooltip>
+          </v-col>
+        </v-row>
       </v-col>
       <v-col>
         <v-row no-gutters align="center">
           <v-col>
             <v-row no-gutters>
               <statblock-item
-                attr="Structure"
+                :attr="small ? 'Struct' : 'Structure'"
                 :val="mech.MaxStructure"
                 :contributors="mech.StructureContributors"
                 :color="color"
@@ -54,20 +73,24 @@
                 :color="color"
               />
               <statblock-item
-                :attr="$vuetify.breakpoint.lgAndUp ? 'Heat Capacity' : 'Heat Cap'"
+                :attr="
+                  small ? 'heatcap' : $vuetify.breakpoint.lgAndUp ? 'Heat Capacity' : 'Heat Cap'
+                "
                 :val="mech.HeatCapacity"
                 :contributors="mech.HeatCapContributors"
                 :color="color"
               />
               <statblock-item
-                :attr="$vuetify.breakpoint.lgAndUp ? 'Repair Capacity' : 'Repair Cap'"
+                :attr="
+                  small ? 'repcap' : $vuetify.breakpoint.lgAndUp ? 'Repair Capacity' : 'Repair Cap'
+                "
                 :val="mech.RepairCapacity"
                 :contributors="mech.RepCapContributors"
                 :color="color"
               />
             </v-row>
           </v-col>
-          <v-col cols="auto">
+          <v-col v-if="!small" cols="auto">
             <v-icon size="120" :color="color" class="px-4 mt-n2">
               {{ mech.SizeIcon }}
             </v-icon>
@@ -104,7 +127,7 @@
             :color="color"
           />
           <statblock-item
-            attr="Evasion"
+            :attr="small ? 'evade' : 'Evasion'"
             :val="mech.Evasion"
             :contributors="mech.EvasionContributors"
             :color="color"
@@ -116,7 +139,7 @@
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lgAndUp ? 'Sensor Range' : 'Sensors'"
+            :attr="small ? 'sensor' : $vuetify.breakpoint.lgAndUp ? 'Sensor Range' : 'Sensors'"
             :val="mech.SensorRange"
             :contributors="mech.SensorRangeContributors"
             :color="color"
@@ -125,6 +148,13 @@
             :attr="$vuetify.breakpoint.lgAndUp ? 'Save Target' : 'Save'"
             :val="mech.SaveTarget"
             :contributors="mech.SaveTargetContributors"
+            :color="color"
+          />
+          <statblock-item
+            v-if="small"
+            attr="Size"
+            :val="mech.Size"
+            :contributors="mech.SizeContributors"
             :color="color"
           />
         </v-row>
@@ -154,6 +184,11 @@ export default Vue.extend({
       type: String,
       required: false,
       default: 'primary',
+    },
+  },
+  computed: {
+    small() {
+      return this.$vuetify.breakpoint.smAndDown
     },
   },
 })

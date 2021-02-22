@@ -4,14 +4,28 @@
       <cc-skill-item :bonus="bonus" :skill="skill" />
     </v-col>
     <v-col cols="auto">
-      <div class="ml-auto mr-auto">
+      <div :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto mr-auto' : ''">
         <cc-tooltip simple content="Increase Skill Bonus" inline>
-          <v-btn large color="secondary" icon :disabled="!canAdd" @click="$emit('add')">
+          <v-btn
+            :large="$vuetify.breakpoint.mdAndUp"
+            :small="$vuetify.breakpoint.smAndDown"
+            color="secondary"
+            icon
+            :disabled="!canAdd"
+            @click="$emit('add')"
+          >
             <v-icon x-large>cci-accuracy</v-icon>
           </v-btn>
         </cc-tooltip>
         <cc-tooltip simple content="Decrease Skill Bonus" inline>
-          <v-btn large color="error" icon :disabled="!canRemove" @click="$emit('remove')">
+          <v-btn
+            :large="$vuetify.breakpoint.mdAndUp"
+            :small="$vuetify.breakpoint.smAndDown"
+            color="error"
+            icon
+            :disabled="!canRemove"
+            @click="$emit('remove')"
+          >
             <v-icon x-large>cci-difficulty</v-icon>
           </v-btn>
         </cc-tooltip>

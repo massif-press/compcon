@@ -1,9 +1,9 @@
 <template>
   <v-row justify="center">
-    <v-col cols="7">
+    <v-col cols="12" md="7">
       <cc-titled-panel title="New Project" icon="mdi-atom-variant" color="reserve--project">
-        <v-row>
-          <v-col>
+        <v-row dense>
+          <v-col cols="12" md="">
             <v-text-field
               v-model="projectName"
               color="accent"
@@ -12,33 +12,44 @@
               hide-details
             />
           </v-col>
-          <v-col cols="auto" class="ml-auto text-center">
-            <v-switch v-model="complicated" dense inset hide-details color="secondary">
-              <span slot="label" class="stat-text text--text">
-                Complicated
-                <cc-tooltip
-                  simple
-                  inline
-                  content="This project is complex, resource-intensive, or generally difficult to complete"
+          <v-col cols="12" md="auto">
+            <v-row no-gutters align="start">
+              <v-col cols="auto" class="text-center">
+                <v-switch
+                  v-model="complicated"
+                  dense
+                  inset
+                  hide-details
+                  color="secondary"
+                  class="mr-3"
                 >
-                  <v-icon small>mdi-help-circle-outline</v-icon>
-                </cc-tooltip>
-              </span>
-            </v-switch>
-          </v-col>
-          <v-col cols="auto" class="text-center">
-            <v-switch v-model="finished" dense inset hide-details color="secondary">
-              <span slot="label" class="stat-text text--text">
-                Finished
-                <cc-tooltip
-                  simple
-                  inline
-                  content="This project is complete and available to use as a <strong>reserve</strong>"
-                >
-                  <v-icon small>mdi-help-circle-outline</v-icon>
-                </cc-tooltip>
-              </span>
-            </v-switch>
+                  <span slot="label" class="stat-text text--text">
+                    Complicated
+                    <cc-tooltip
+                      simple
+                      inline
+                      content="This project is complex, resource-intensive, or generally difficult to complete"
+                    >
+                      <v-icon small>mdi-help-circle-outline</v-icon>
+                    </cc-tooltip>
+                  </span>
+                </v-switch>
+              </v-col>
+              <v-col cols="auto" class="text-center">
+                <v-switch v-model="finished" dense inset hide-details color="secondary">
+                  <span slot="label" class="stat-text text--text">
+                    Finished
+                    <cc-tooltip
+                      simple
+                      inline
+                      content="This project is complete and available to use as a <strong>reserve</strong>"
+                    >
+                      <v-icon small>mdi-help-circle-outline</v-icon>
+                    </cc-tooltip>
+                  </span>
+                </v-switch>
+              </v-col>
+            </v-row>
           </v-col>
         </v-row>
         <v-textarea

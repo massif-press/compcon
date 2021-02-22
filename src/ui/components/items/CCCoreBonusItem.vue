@@ -1,7 +1,16 @@
 <template>
   <cc-titled-panel :title="bonus.Name" dense>
-    <p class="flavor-text pb-0 mb-2 mt-0" v-html="bonus.Description" />
-    <p class="effect-text pa-2 mx-2 mb-2 light-panel clipped" v-html="bonus.Effect" />
+    <p
+      v-show="$vuetify.breakpoint.mdAndUp"
+      class="flavor-text pb-0 mb-2 mt-0"
+      v-html="bonus.Description"
+    />
+    <p
+      v-if="$vuetify.breakpoint.mdAndUp"
+      class="effect-text pa-2 mx-2 mb-2 light-panel clipped"
+      v-html="bonus.Effect"
+    />
+    <div v-else class="body-text mt-n1 pb-1" v-html="bonus.Effect" />
     <div v-if="bonus.Actions.length">
       <div class="overline ml-n2 mb-n2 subtle--text">CORE BONUS ACTIONS</div>
       <v-row no-gutters justify="center">

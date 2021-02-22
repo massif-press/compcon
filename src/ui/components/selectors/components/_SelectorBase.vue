@@ -1,6 +1,15 @@
 <template>
   <v-container fluid style="overflow: hidden">
-    <v-row>
+    <v-row v-if="$vuetify.breakpoint.mdAndDown">
+      <v-col cols="12">
+        <cc-title small :color="success ? 'success' : 'primary'">{{ title }}</cc-title>
+        <slot name="left-column" />
+      </v-col>
+      <v-col ref="content" cols="12">
+        <slot name="right-column" />
+      </v-col>
+    </v-row>
+    <v-row v-else>
       <v-col cols="3" class="pr-4">
         <div
           ref="float"

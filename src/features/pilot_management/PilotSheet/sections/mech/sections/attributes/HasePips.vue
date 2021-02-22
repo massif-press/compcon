@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-col cols="auto" md="12">
     <cc-tooltip simple inline :content="`${attr.toUpperCase()}: ${val}`">
       <span class="overline no-height ml-n1">
         {{ attr }}
@@ -29,7 +29,7 @@
     <div v-else class="mt-n2">
       <span class="accent--text heading h2">{{ val }}</span>
     </div>
-  </div>
+  </v-col>
 </template>
 
 <script lang="ts">

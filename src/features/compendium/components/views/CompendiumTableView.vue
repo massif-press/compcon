@@ -59,7 +59,7 @@ export default class CompendiumTableView extends Vue {
   readonly headers: any[]
 
   get shownHeaders(): any[] {
-    const hide = ['weapon', 'system', 'license level']
+    const hide = ['weapon', 'system', 'item', 'license level']
     return this.$vuetify.breakpoint.smAndDown
       ? this.headers.filter(x => !hide.includes(x.text.toLowerCase()))
       : this.headers

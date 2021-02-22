@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col cols="7">
+    <v-col cols="12" md="7">
       <cc-titled-panel
         title="New Organization"
         icon="mdi-account-group"
@@ -8,18 +8,12 @@
       >
         <v-row>
           <v-col cols="6">
-            <v-text-field
-              v-model="orgName"
-              color="accent"
-              label="Organization Name"
-              outlined
-              hide-details
-            />
+            <v-text-field v-model="orgName" color="accent" label="Name" outlined hide-details />
           </v-col>
           <v-col cols="6">
             <v-select
               v-model="orgType"
-              label="Organization Type"
+              label="Type"
               color="accent"
               :items="orgTypes"
               outlined
@@ -39,7 +33,7 @@
         <br />
         <span class="heading h3">Start with:</span>
         <v-row dense justify="center" class="mx-4">
-          <v-col class="text-center">
+          <v-col cols="12" md="" class="text-center">
             <v-btn
               v-if="!orgStart"
               large
@@ -67,8 +61,8 @@
               <span>Organization Efficiency</span>
             </div>
           </v-col>
-          <v-divider vertical class="mx-5" />
-          <v-col class="text-center">
+          <v-divider v-show="$vuetify.breakpoint.mdAndUp" vertical class="mx-5" />
+          <v-col cols="12" md="" class="text-center">
             <v-btn
               v-if="!orgStart"
               large

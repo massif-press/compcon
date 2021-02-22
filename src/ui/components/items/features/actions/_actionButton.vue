@@ -5,6 +5,7 @@
       block
       tile
       dark
+      :small="$vuetify.breakpoint.smAndDown"
       :disabled="disabled"
       @click="$refs.dialog.show()"
     >

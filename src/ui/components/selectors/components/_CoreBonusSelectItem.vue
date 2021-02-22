@@ -1,6 +1,6 @@
 <template>
   <v-row dense>
-    <v-col cols="auto" dense class="pr-0">
+    <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="auto" class="pr-0">
       <v-btn
         tile
         block
@@ -18,8 +18,33 @@
         </cc-tooltip>
       </v-btn>
     </v-col>
-    <v-col class="pl-0">
+    <v-col cols="12" md="" class="pl-0">
       <cc-core-bonus-item :bonus="bonus" />
+    </v-col>
+    <v-col v-if="$vuetify.breakpoint.smAndDown" cols="12" md="auto" class="mb-4 mt-n2">
+      <v-btn
+        tile
+        block
+        :dark="isSelectable || isSelected"
+        :color="color"
+        :disabled="!isSelected && !isSelectable"
+        @click="$emit(isSelected ? 'remove' : 'add', bonus)"
+      >
+        <span>
+          <span v-if="isSelected">
+            <v-icon left>cci-difficulty</v-icon>
+            Remove Bonus
+          </span>
+          <span v-else-if="isSelectable">
+            <v-icon left>cci-accuracy</v-icon>
+            Add Bonus
+          </span>
+          <span v-else>
+            <v-icon left>mdi-lock</v-icon>
+            Unavailable
+          </span>
+        </span>
+      </v-btn>
     </v-col>
   </v-row>
 </template>

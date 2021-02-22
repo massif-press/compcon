@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="auto">
+  <v-col cols="12" md="auto">
     <v-dialog v-model="dialog" :width="$vuetify.breakpoint.mdAndDown ? '100vw' : '60vw'">
       <template v-slot:activator="{ on }">
         <v-btn
