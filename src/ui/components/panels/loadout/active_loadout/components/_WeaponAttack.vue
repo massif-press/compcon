@@ -69,6 +69,7 @@
 
     <cc-active-synergy
       v-if="!item.NoBonuses"
+      v-show="!improv"
       :locations="improv ? 'improvised_attack' : 'weapon'"
       :mech="mech"
       :item="improv ? null : item"
