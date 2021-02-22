@@ -1,5 +1,5 @@
 <template>
-  <equipment-card-base :item="item">
+  <equipment-card-base :item="item" :notes="notes">
     {{ item.OnAttack }}
     <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12" class="mt-n4 mb-4">
       <div class="overline mb-1">WEAPON PROFILES</div>
@@ -134,6 +134,7 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    notes: { type: Boolean },
   },
   data: () => ({
     tab: 0,

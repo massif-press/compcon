@@ -1,5 +1,5 @@
 <template>
-  <equipment-card-base :item="item">
+  <equipment-card-base :item="item" :notes="notes">
     <v-col v-if="item.SP" cols="auto" class="text-center">
       <div class="panel clipped">
         <v-icon v-for="n in item.SP" :key="`${item.ID}_sp-${n}`" x-large>cci-system-point</v-icon>
@@ -28,6 +28,7 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    notes: { type: Boolean },
   },
 })
 </script>

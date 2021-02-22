@@ -104,7 +104,7 @@
       <slot name="selector" />
     </cc-solo-dialog>
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
-      <cc-item-card :item="item" />
+      <cc-item-card :item="item" notes />
       <slot name="detail" />
     </cc-solo-dialog>
   </v-col>
