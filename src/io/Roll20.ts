@@ -138,11 +138,11 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
         armor
           ? {
               name: armor.Name,
-              armor: armor.Armor,
-              evade: armor.Evasion,
-              edef: armor.EDefense,
-              speed: armor.Speed,
-              bonusHP: armor.HPBonus,
+              armor: parseInt(armor.Armor),
+              evade: parseInt(armor.Evasion),
+              edef: parseInt(armor.EDefense),
+              speed: parseInt(armor.Speed),
+              bonusHP: parseInt(armor.HPBonus),
             }
           : null
       )[0],
