@@ -116,11 +116,11 @@ export default class ReserveSelector extends Vue {
     return _.groupBy(this.compendium.Reserves, 'Type')
   }
   add(reserve: Reserve): void {
-    this.pilot.AddReserve(reserve)
+    this.pilot.AddReserve(_.clone(reserve))
     this.$emit('close')
   }
   addOrg(org: Organization): void {
-    this.pilot.AddOrganization(org)
+    this.pilot.AddOrganization(_.clone(org))
     this.$emit('close')
   }
 }
