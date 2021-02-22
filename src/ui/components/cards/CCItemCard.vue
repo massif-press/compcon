@@ -1,5 +1,5 @@
 <template>
-  <component :is="componentLoader" v-if="componentLoader" :item="item" />
+  <component :is="componentLoader" v-if="componentLoader" :item="item" :notes="notes" />
 </template>
 
 <script lang="ts">
@@ -8,6 +8,9 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CCItemCard extends Vue {
   @Prop({ type: Object, required: true })
   readonly item
+
+  @Prop({ type: Boolean })
+  readonly notes
 
   get componentLoader(): any {
     if (!this.item) {

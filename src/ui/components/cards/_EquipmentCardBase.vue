@@ -76,6 +76,21 @@
       <div class="overline ml-n2">COMPENDIUM ENTRY</div>
       <p class="flavor-text mb-1" v-html="item.Description" />
     </div>
+
+    <div v-if="notes">
+      <v-textarea
+        v-model="item.Note"
+        outlined
+        auto-grow
+        rows="2"
+        filled
+        dense
+        hide-details
+        prepend-icon="mdi-note"
+        label="Equipment Notes"
+        class="mt-2"
+      />
+    </div>
   </v-card-text>
 </template>
 
@@ -88,6 +103,7 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    notes: { type: Boolean },
   },
 })
 </script>
