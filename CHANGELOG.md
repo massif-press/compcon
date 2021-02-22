@@ -1,3 +1,46 @@
+## [2.2.10](https://github.com/massif-press/compcon/compare/2.2.5...2.2.10) (2021-02-22)
+
+
+### Bug Fixes
+
+* **Active Mode:** clean tickbar buttons ([cfdab43](https://github.com/massif-press/compcon/commit/cfdab4357f3485e5235fa3c389a9c896f891054b)), closes [#1210](https://github.com/massif-press/compcon/issues/1210)
+* **Active Mode:** correctly apply Brawler II's improvised attack bonus ([8a74338](https://github.com/massif-press/compcon/commit/8a7433856b0b738d113f94e0647df52b82f03651)), closes [#1187](https://github.com/massif-press/compcon/issues/1187)
+* **Active Mode:** ensure core system counters display correctly ([647ec58](https://github.com/massif-press/compcon/commit/647ec586491756d53062f84616f169498570f84e)), closes [#1234](https://github.com/massif-press/compcon/issues/1234)
+* **Active Mode:** fix accuracy/difficulty decrement ([5366ad6](https://github.com/massif-press/compcon/commit/5366ad6c4d018d106212b7d626755ccc681c4e21)), closes [#1213](https://github.com/massif-press/compcon/issues/1213)
+* **Active Mode:** fix counter duplication ([44212b6](https://github.com/massif-press/compcon/commit/44212b63b5039a2a3a38d863ed817ee8f6ff1899)), closes [#1284](https://github.com/massif-press/compcon/issues/1284) [#1285](https://github.com/massif-press/compcon/issues/1285)
+* **Active Mode:** fix Improvised Attack dialog ([3b22ace](https://github.com/massif-press/compcon/commit/3b22ace0011f172e0315ab041120dc2bab4cb1b7)), closes [#1226](https://github.com/massif-press/compcon/issues/1226)
+* **Active Mode:** fix mod added range calculations ([99dd4a0](https://github.com/massif-press/compcon/commit/99dd4a0340282d328acadde4265b905b11cd715b)), closes [#1233](https://github.com/massif-press/compcon/issues/1233)
+* **Active Mode:** fix trigger expand/contract all buttons in active mode rest ([12a4f0b](https://github.com/massif-press/compcon/commit/12a4f0b0f07af8e88e8e1baf96c3b457ac080a21)), closes [#1273](https://github.com/massif-press/compcon/issues/1273)
+* **Compendium:** change LCP filter to OR from AND ([d1948cc](https://github.com/massif-press/compcon/commit/d1948cc346e4966b7fb83351be31a2c41cd14412)), closes [#1275](https://github.com/massif-press/compcon/issues/1275)
+* **Compendium:** correct action economy items ([46d738e](https://github.com/massif-press/compcon/commit/46d738e3ecc4e033a7280627b0e6529b7396dc45))
+* **Compendium:** fix profiled weapon display issues ([4df37c7](https://github.com/massif-press/compcon/commit/4df37c7ee76c524c20d3d1bffb73d25cb6535265)), closes [#1219](https://github.com/massif-press/compcon/issues/1219) [#1238](https://github.com/massif-press/compcon/issues/1238) [#1228](https://github.com/massif-press/compcon/issues/1228)
+* **Compendium:** fix Tokugawa Overclock not showing up in Compendium ([d670300](https://github.com/massif-press/compcon/commit/d67030081812d9f5ddddada02b05922cae924eae))
+* **Compendium:** update lancer-data ([eb352eb](https://github.com/massif-press/compcon/commit/eb352ebeec165ab111bdc6fe37488194f8257b4c))
+* correct spacing and alignment issues ([549b828](https://github.com/massif-press/compcon/commit/549b8288aad0561b539d1e09377ff6f032987f2c)), closes [#1260](https://github.com/massif-press/compcon/issues/1260) [#1253](https://github.com/massif-press/compcon/issues/1253) [#1251](https://github.com/massif-press/compcon/issues/1251) [#1247](https://github.com/massif-press/compcon/issues/1247)
+* update FAQ ([706707f](https://github.com/massif-press/compcon/commit/706707f13e98e3265c929dc2c842c66f5a843cdd)), closes [#1076](https://github.com/massif-press/compcon/issues/1076)
+* **Main Menu:** update email validation rules ([b33b7c6](https://github.com/massif-press/compcon/commit/b33b7c663b0a61add92a5a696e43e1d682135f49)), closes [#1258](https://github.com/massif-press/compcon/issues/1258)
+* **Mech Sheet:** re-add equipment notes to mech equipment ([fc31acb](https://github.com/massif-press/compcon/commit/fc31acba4146d8ae9398988641b8366285f082d8)), closes [#1223](https://github.com/massif-press/compcon/issues/1223)
+* **Pilot Sheet:** fix back button on new character > template page ([b4d770a](https://github.com/massif-press/compcon/commit/b4d770a33528e8bc322a9b0c5871533f996e195d)), closes [#1274](https://github.com/massif-press/compcon/issues/1274)
+* **Pilot Sheet:** fixes pilot reserves incorrectly referencing data ([4150f9f](https://github.com/massif-press/compcon/commit/4150f9f8facf75218b4e8c3f4f69080c8dba44f4)), closes [#1028](https://github.com/massif-press/compcon/issues/1028)
+
+
+### Features
+
+* **Compendium:** add SP filter for compendium and selectors ([d0ef1d8](https://github.com/massif-press/compcon/commit/d0ef1d8dbd76389c82b38fb6cc1b2c4e01909d4c)), closes [#811](https://github.com/massif-press/compcon/issues/811)
+* **Compendium:** add structure and stress values to frame statblocks ([c000275](https://github.com/massif-press/compcon/commit/c000275ca11c4e0b86219091d5d8b21219a0ca0b)), closes [#1230](https://github.com/massif-press/compcon/issues/1230)
+* **Compendium:** better mobile view support in the compendium ([1809f1b](https://github.com/massif-press/compcon/commit/1809f1b5a50b656c4dc09975b8b400afd4314878)), closes [#1118](https://github.com/massif-press/compcon/issues/1118) [#866](https://github.com/massif-press/compcon/issues/866)
+* **Compendium:** better sort weapons by size ([28fad12](https://github.com/massif-press/compcon/commit/28fad1282afa52ad09d25c2ceac2e42faf772040)), closes [#477](https://github.com/massif-press/compcon/issues/477) [#1270](https://github.com/massif-press/compcon/issues/1270)
+* **Compendium:** lCP filtering and new mech menu frame filtering ([83ecace](https://github.com/massif-press/compcon/commit/83ecacece199fe645432f13e3b0739dcfcedecf5)), closes [#965](https://github.com/massif-press/compcon/issues/965) [#1254](https://github.com/massif-press/compcon/issues/1254)
+* **Global:** add backend account management ([15e4a06](https://github.com/massif-press/compcon/commit/15e4a0688717d4ad8ce344fc38a103596c3f04c9)), closes [#453](https://github.com/massif-press/compcon/issues/453)
+* **Mech Sheet:** add systems while over SP limit ([5036743](https://github.com/massif-press/compcon/commit/5036743b6aed84e80f8832f3a1db22f4ff16532a)), closes [#1071](https://github.com/massif-press/compcon/issues/1071)
+* **Pilot Sheet:** add mobile-format log in ([7f23b4a](https://github.com/massif-press/compcon/commit/7f23b4a3a9e8e73913f732aef068522b09a69340))
+* **Pilot Sheet:** enforce true item names in generated statblocks ([d72e379](https://github.com/massif-press/compcon/commit/d72e3793d9e7b63011ad8dda8ef2ba2d5c12f882)), closes [#1287](https://github.com/massif-press/compcon/issues/1287)
+* **Pilot Sheet:** pilot HP QoL improvements ([aeda3bb](https://github.com/massif-press/compcon/commit/aeda3bb0c1845605fc625287f5b597621d6bb585)), closes [#1271](https://github.com/massif-press/compcon/issues/1271)
+* add additional syncing options ([b3c0c93](https://github.com/massif-press/compcon/commit/b3c0c9334368a8125d42786fcfe6a2a6bccdc75e))
+* add syncing for npcs, encounters, missions, and active missions ([cfae021](https://github.com/massif-press/compcon/commit/cfae0219c2e90ef2474499abab3f8417b53112eb))
+
+
+
 ## [2.2.9](https://github.com/massif-press/compcon/compare/2.2.5...2.2.9) (2021-02-15)
 
 
