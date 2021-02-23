@@ -35,6 +35,7 @@
                       target="_blank"
                       :href="`${artist.website}`"
                       class="ml-3"
+                      style="text-decoration: none;"
                     >
                       <v-icon color="primary">mdi-web</v-icon>
                       <span>Website</span>
@@ -57,11 +58,13 @@
               <v-row dense justify="space-around">
                 <v-col
                   v-if="frame.ID !== 'mf_standard_pattern_i_everest'"
-                  :class="selected === frame.DefaultImage ? 'selected-img' : 'unselected-img'"
                   cols="auto"
                   style="max-width: 200px"
                 >
-                  <div @click="selected = frame.DefaultImage">
+                  <div
+                    :class="selected === frame.DefaultImage ? 'selected-img' : 'unselected-img'"
+                    @click="selected = frame.DefaultImage"
+                  >
                     <v-img
                       :src="frame.DefaultImage"
                       :style="
@@ -76,11 +79,13 @@
                 <v-col
                   v-for="a in frame.OtherArt"
                   :key="a.src"
-                  :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
                   cols="auto"
                   style="max-width: 200px"
                 >
-                  <div @click="selectImg(a)">
+                  <div
+                    :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
+                    @click="selectImg(a)"
+                  >
                     <v-img
                       :src="imgPath(a.tag, a.src)"
                       :style="
