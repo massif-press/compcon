@@ -1,27 +1,24 @@
 <template>
-  <div class="ml-4">
+  <div class="ml-4 my-2">
     <v-row>
       <div class="flavor-text">
         COMP/CON OMNINET ARCHIVE ::
         <b class="stark--text">{{ mech.Frame.Name }}</b>
       </div>
       <v-row align="center">
-        <v-col
-          v-if="mech.Frame.ID !== 'mf_standard_pattern_i_everest'"
-          cols="2"
-          :class="selected === mech.Frame.DefaultImage ? 'selected-img' : 'unselected-img'"
-        >
-          <div @click="selected = mech.Frame.DefaultImage">
+        <v-col v-if="mech.Frame.ID !== 'mf_standard_pattern_i_everest'" cols="2">
+          <div
+            :class="selected === mech.Frame.DefaultImage ? 'selected-img' : 'unselected-img'"
+            @click="selected = mech.Frame.DefaultImage"
+          >
             <v-img :src="mech.Frame.DefaultImage" contain />
           </div>
         </v-col>
-        <v-col
-          v-for="a in mech.Frame.OtherArt"
-          :key="a.src"
-          :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
-          cols="2"
-        >
-          <div @click="selectImg(a)">
+        <v-col v-for="a in mech.Frame.OtherArt" :key="a.src" cols="2">
+          <div
+            :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
+            @click="selectImg(a)"
+          >
             <v-img :src="imgPath(a.tag, a.src)" contain />
           </div>
         </v-col>
@@ -34,7 +31,13 @@
             <div class="heading h3 accent--text">{{ artist.imgName }}</div>
             <div class="flavor-text ml-3">by {{ artist.name }}</div>
           </div>
-          <a v-if="artist.website" target="_blank" :href="`${artist.website}`" class="ml-3">
+          <a
+            v-if="artist.website"
+            target="_blank"
+            :href="`${artist.website}`"
+            class="ml-3"
+            style="text-decoration: none;"
+          >
             <v-icon color="primary">mdi-web</v-icon>
             <span>Website</span>
           </a>
@@ -45,6 +48,7 @@
             target="_blank"
             :href="`https://twitter.com/${artist.twitter}`"
             class="ml-3"
+            style="text-decoration: none;"
           >
             <v-icon color="primary">mdi-twitter</v-icon>
             <span>@{{ artist.twitter }}</span>
