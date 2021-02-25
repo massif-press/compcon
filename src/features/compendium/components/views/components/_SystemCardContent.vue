@@ -5,7 +5,7 @@
       slot="top"
       class="card-effect pa-2 mb-1"
       style="font-size: 15px"
-      v-html="item.Effect"
+      v-html-safe="item.Effect"
     />
     <span slot="overline">{{ item.Type }}</span>
   </c-card-base>

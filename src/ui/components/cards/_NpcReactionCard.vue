@@ -8,7 +8,7 @@
       <p
         class="text--text"
         style="font-size: 20px"
-        v-html="`<b>Trigger:&nbsp;</b>${item.Trigger}`"
+        v-html-safe="`<b>Trigger:&nbsp;</b>${item.Trigger}`"
       />
     </div>
   </equipment-card-base>

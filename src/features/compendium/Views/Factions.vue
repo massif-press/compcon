@@ -39,7 +39,7 @@
             <p
               class="body-text stark-text--text mb-2"
               style="min-height: 400px;"
-              v-html="f.Description"
+              v-html-safe="f.Description"
             />
           </v-card-text>
         </v-card>

@@ -155,7 +155,7 @@
               <v-icon>cci-rank-{{ n }}</v-icon>
             </v-col>
             <v-col>
-              <span v-html="t.Talent.Ranks[n - 1].Description" />
+              <span v-html-safe="t.Talent.Ranks[n - 1].Description" />
             </v-col>
           </v-row>
         </fieldset>
@@ -173,7 +173,7 @@
       <v-col>
         <fieldset>
           <legend class="heading ml-1 px-2">{{ b.Name }}</legend>
-          <span v-html="b.Effect" />
+          <span v-html-safe="b.Effect" />
         </fieldset>
       </v-col>
     </v-row>
@@ -211,7 +211,7 @@
             <b v-for="(r, j) in w.Range" :key="`plwr_${i}_${j}`">{{ r.Text }}</b>
             |
             <b v-for="(d, j) in w.Damage" :key="`plwd_${i}_${j}`">{{ d.Text }}</b>
-            <div v-if="w.Effect" v-html="w.Effect" />
+            <div v-if="w.Effect" v-html-safe="w.Effect" />
             <div class="text-right">
               <span v-for="(t, j) in i.Tags" :key="`plwt_${i}_${j}`" class="mx-1">
                 {{ t.Name() }}
@@ -229,7 +229,7 @@
             <span class="overline flavor-text">//GEAR</span>
           </legend>
           <div class="pa-1 my-n2">
-            <div v-if="g.Description" v-html="g.Description" />
+            <div v-if="g.Description" v-html-safe="g.Description" />
             <div class="text-right">
               <span v-for="(t, j) in i.Tags" :key="`plgt_${i}_${j}`" class="mx-1">
                 {{ t.Name() }}

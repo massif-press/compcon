@@ -27,7 +27,7 @@
           <v-card-text
             v-if="action.Detail"
             class="body-text text--text mt-0 pt-1"
-            v-html="action.Detail"
+            v-html-safe="action.Detail"
           />
         </v-card>
       </v-menu>

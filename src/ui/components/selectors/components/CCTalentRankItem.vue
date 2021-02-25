@@ -9,7 +9,7 @@
       />
     </v-col>
     <v-col>
-      <p class="body-text px-3 ma-0 ml-n2" v-html="talentRank.Description" />
+      <p class="body-text px-3 ma-0 ml-n2" v-html-safe="talentRank.Description" />
       <div v-if="talentRank.Actions.length">
         <v-row no-gutters justify="center">
           <v-col

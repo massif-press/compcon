@@ -93,28 +93,37 @@
         <div class="mt-n1">
           <div v-if="item.ProfileEffect">
             <div class="mb-n2">
-              <p class="text--text body-text mb-1 mx-3" v-html="item.ProfileEffect" />
+              <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileEffect" />
             </div>
           </div>
           <div v-if="item.ProfileOnAttack">
             <div class="mb-n2 mt-1">
               <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON ATTACK</span>
-              <p class="text--text body-text mb-1 mr-2 ml-6 mt-n2" v-html="item.ProfileOnAttack" />
+              <p
+                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                v-html-safe="item.ProfileOnAttack"
+              />
             </div>
           </div>
           <div v-if="item.ProfileOnHit">
             <div class="mb-n2 mt-1">
               <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON HIT</span>
-              <p class="text--text body-text mb-1 mr-2 ml-6 mt-n2" v-html="item.ProfileOnHit" />
+              <p
+                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                v-html-safe="item.ProfileOnHit"
+              />
             </div>
           </div>
           <div v-if="item.ProfileOnCrit">
             <div class="mb-n2 mt-1">
               <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON CRITICAL HIT</span>
-              <p class="text--text body-text mb-1 mr-2 ml-6 mt-n2" v-html="item.ProfileOnCrit" />
+              <p
+                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                v-html-safe="item.ProfileOnCrit"
+              />
             </div>
           </div>
           <v-row v-if="item.Mod" dense justify="center">

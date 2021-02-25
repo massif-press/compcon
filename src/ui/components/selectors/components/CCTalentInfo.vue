@@ -1,6 +1,6 @@
 <template>
   <div class="mt-2">
-    <p class="flavor-text mx-2" v-html="talent.Description" />
+    <p class="flavor-text mx-2" v-html-safe="talent.Description" />
     <v-alert v-for="(tr, i) in talent.Ranks" :key="`rank_${i}`" outlined dense class="my-2">
       <cc-title small>
         {{ tr.Name }}

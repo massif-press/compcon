@@ -8,7 +8,7 @@
       <p
         v-if="pilot.TextAppearance"
         class="flavor-text text--text mx-2 preserve-linebreaks"
-        v-html="pilot.TextAppearance"
+        v-html-safe="pilot.TextAppearance"
       />
       <no-data-block v-else />
     </div>

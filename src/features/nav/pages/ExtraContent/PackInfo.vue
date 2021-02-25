@@ -18,7 +18,7 @@
       <v-row>
         <v-col>
           <p class="body-text text--text light-panel pa-2 mb-1">
-            <span v-if="pack.manifest.description" v-html="pack.manifest.description" />
+            <span v-if="pack.manifest.description" v-html-safe="pack.manifest.description" />
             <span v-else>
               No description given.
             </span>

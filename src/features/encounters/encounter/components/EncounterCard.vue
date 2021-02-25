@@ -59,7 +59,7 @@
           @save="encounter.NarrativeNotes = $event"
         />
       </cc-title>
-      <p v-html="encounter.NarrativeNotes" />
+      <p v-html-safe="encounter.NarrativeNotes" />
       <cc-title small class="mb-3">
         Location
         <cc-text-editor
@@ -70,7 +70,7 @@
       </cc-title>
       <v-row dense align="start" class="mt-n2">
         <v-col cols="7">
-          <p v-html="encounter.Location" />
+          <p v-html-safe="encounter.Location" />
           <v-divider class="my-3" />
           <v-combobox
             v-model="encounter.Environment"
@@ -340,7 +340,7 @@
           @save="encounter.Note = $event"
         />
       </cc-title>
-      <p :key="encounter.Note.length" v-html="encounter.Note" />
+      <p :key="encounter.Note.length" v-html-safe="encounter.Note" />
       <br />
       <cc-solo-dialog ref="npcDialog" no-confirm title="ADD NPC" fullscreen no-pad>
         <npc-selector @select="addNpc($event)" />

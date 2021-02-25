@@ -35,12 +35,12 @@
                 <use :href="m.Logo + '#Content'"></use>
               </svg>
             </div>
-            <blockquote class="quote-block fluff-text text--text" v-html="m.Quote" />
+            <blockquote class="quote-block fluff-text text--text" v-html-safe="m.Quote" />
             <v-divider class="ma-2" style="width: 800px" />
             <p
               class="body-text stark-text--text mb-2"
               style="min-height: 400px;"
-              v-html="m.Description"
+              v-html-safe="m.Description"
             />
           </v-card-text>
         </v-card>

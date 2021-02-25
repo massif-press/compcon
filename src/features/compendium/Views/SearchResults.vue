@@ -30,7 +30,7 @@
                 clickable
                 @click="$refs[`modal_${item.ID}`][0].show()"
               >
-                <span class="item-description" v-html="item.Description || ''" />
+                <span class="item-description" v-html-safe="item.Description || ''" />
               </cc-titled-panel>
               <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
             </v-col>

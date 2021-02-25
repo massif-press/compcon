@@ -197,7 +197,7 @@
       <v-col v-for="(t, i) in mech.Frame.Traits" :key="`mt_${i}`" class="mt-n1">
         <fieldset>
           <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
-          <p class="ml-6 mb-0" v-html="t.Description" />
+          <p class="ml-6 mb-0" v-html-safe="t.Description" />
         </fieldset>
       </v-col>
     </v-row>
@@ -214,7 +214,7 @@
           }}
         </span>
         <br />
-        <span class="caption ml-6" v-html="mech.Frame.CoreSystem.PassiveEffect" />
+        <span class="caption ml-6" v-html-safe="mech.Frame.CoreSystem.PassiveEffect" />
       </div>
       <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
         {{
@@ -223,7 +223,7 @@
             : 'CORE ACTIVE'
         }}
       </div>
-      <p class="caption ml-6 mb-1" v-html="mech.Frame.CoreSystem.ActiveEffect" />
+      <p class="caption ml-6 mb-1" v-html-safe="mech.Frame.CoreSystem.ActiveEffect" />
       <div v-if="mech.Frame.CoreSystem.Tag" class="text-right">
         <span v-for="(t, i) in mech.Frame.CoreSystem.Tags" :key="`mcst_${i}`" class="mx-1">
           {{ t.Name() }}
@@ -279,10 +279,10 @@
             <b v-for="(r, k) in p.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
             <span v-if="p.Damage.length">|</span>
             <b v-for="(d, k) in p.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
-            <p v-if="p.Effect" :v-html="p.Effect" print />
-            <p v-if="p.OnAttack" :v-html="`<b>ON ATTACK:</b> ${p.OnAttack}`" print />
-            <p v-if="p.OnHit" :v-html="`<b>ON HIT:</b> ${p.OnHit}`" print />
-            <p v-if="p.OnCrit" :v-html="`<b>ON CRIT:</b> ${p.OnCrit}`" print />
+            <p v-if="p.Effect" :v-html-safe="p.Effect" print />
+            <p v-if="p.OnAttack" :v-html-safe="`<b>ON ATTACK:</b> ${p.OnAttack}`" print />
+            <p v-if="p.OnHit" :v-html-safe="`<b>ON HIT:</b> ${p.OnHit}`" print />
+            <p v-if="p.OnCrit" :v-html-safe="`<b>ON CRIT:</b> ${p.OnCrit}`" print />
             <print-action :actions="p.Actions" />
             <print-deployable :deployables="p.Deployables" />
           </div>

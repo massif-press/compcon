@@ -21,7 +21,7 @@
     <v-row v-for="(e, i) in templates" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`">
       <v-col class="pl-0">
         <cc-titled-panel dense icon="cci-trait" :title="e.Name" color="primary">
-          <p class="flavor-text mb-0" v-html="e.Description" />
+          <p class="flavor-text mb-0" v-html-safe="e.Description" />
           <v-divider class="my-2" />
           <span class="heading">
             <b class="accent--text">Base</b>

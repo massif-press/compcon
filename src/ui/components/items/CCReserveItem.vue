@@ -35,7 +35,7 @@
             <v-icon>close</v-icon>
           </v-btn>
         </div>
-        <p class="flavor-text mx-2 my-1" v-html="reserve.Description" />
+        <p class="flavor-text mx-2 my-1" v-html-safe="reserve.Description" />
         <v-card v-if="reserve.ID != 'reserve_skill'" flat outlined class="px-5">
           <v-card-text>
             <v-row>

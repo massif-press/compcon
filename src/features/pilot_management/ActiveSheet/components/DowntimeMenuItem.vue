@@ -11,7 +11,7 @@
       </v-list-item-title>
       <v-list-item-subtitle
         :style="!available && !action.Used ? 'opacity:0.3' : ''"
-        v-html="terse"
+        v-html-safe="terse"
       />
     </v-list-item-content>
     <v-menu left width="80vw" offset-x open-on-hover open-delay="100">
@@ -24,7 +24,7 @@
         <v-toolbar dense flat :color="action.Color" class="heading h2" dark>
           {{ action.Name }}
         </v-toolbar>
-        <v-card-text class="body-text text--text" v-html="action.Detail" />
+        <v-card-text class="body-text text--text" v-html-safe="action.Detail" />
       </v-card>
     </v-menu>
     <cc-downtime-dialog ref="dialog" :action="action" :pilot="pilot" />

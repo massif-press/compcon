@@ -29,7 +29,7 @@
               clickable
               @click="choose(e.name)"
             >
-              <p class="flavor-text" v-html="e.description" />
+              <p class="flavor-text" v-html-safe="e.description" />
             </cc-titled-panel>
           </v-col>
         </v-row>

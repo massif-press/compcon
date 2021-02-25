@@ -290,7 +290,7 @@
                 :header="trait.Name"
                 subheader="FRAME TRAIT"
               >
-                <div v-html="trait.Description" />
+                <div v-html-safe="trait.Description" />
                 <v-row dense>
                   <v-col
                     v-for="(a, j) in trait.Actions"
@@ -321,7 +321,7 @@
                     {{ mech.Frame.CoreSystem.PassiveName }}
                     <span class="pt-2 ml-2 caption subtle--text">(PASSIVE)</span>
                   </span>
-                  <p class="mb-1" v-html="mech.Frame.CoreSystem.PassiveEffect" />
+                  <p class="mb-1" v-html-safe="mech.Frame.CoreSystem.PassiveEffect" />
                   <cc-action
                     v-for="(a, i) in mech.Frame.CoreSystem.PassiveActions"
                     :key="`core_passive_action_${i}`"
@@ -352,7 +352,10 @@
                   {{ mech.Frame.CoreSystem.ActiveName }}
                   <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
                 </span>
-                <p class="mb-1 text--text body-text" v-html="mech.Frame.CoreSystem.ActiveEffect" />
+                <p
+                  class="mb-1 text--text body-text"
+                  v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
+                />
                 <div class="my-1 px-6">
                   <cc-action v-if="mech.CurrentCoreEnergy > 0" active :action="coreActivator" />
                   <div
@@ -421,7 +424,7 @@
               :header="bonus.Name"
               style="min-width: 400px"
             >
-              <p class="pa-1 ma-0" v-html="bonus.Effect" />
+              <p class="pa-1 ma-0" v-html-safe="bonus.Effect" />
             </cc-active-card>
           </v-row>
         </v-scroll-y-reverse-transition>
@@ -470,7 +473,7 @@
             >
               <ul v-for="n in 3" :key="'t_' + n">
                 <li v-if="t.Rank >= n">
-                  <span v-html="t.Talent.Ranks[n - 1].Description" />
+                  <span v-html-safe="t.Talent.Ranks[n - 1].Description" />
                   <div class="text-center">
                     <cc-action
                       v-for="a in t.Talent.Ranks[n - 1].Actions"

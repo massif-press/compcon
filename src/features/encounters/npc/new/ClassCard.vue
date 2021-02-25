@@ -11,9 +11,9 @@
         <div class="overline mt-n1">{{ npcc.Role }}</div>
       </v-col>
     </v-row>
-    <p class="flavor-text panel pa-2 stark--text" v-html="npcc.Flavor" />
+    <p class="flavor-text panel pa-2 stark--text" v-html-safe="npcc.Flavor" />
     <span class="heading h3 accent--text">Tactics</span>
-    <p class="body-1" v-html="npcc.Tactics" />
+    <p class="body-1" v-html-safe="npcc.Tactics" />
     <v-divider class="mb-3" />
     <v-row dense align="center">
       <v-col>

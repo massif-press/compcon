@@ -201,8 +201,8 @@
                     </v-toolbar-title>
                   </v-toolbar>
                   <v-card-text>
-                    <div class="body-text text--text" v-html="a.Terse" />
-                    <div class="flavor-text mt-1 mx-3" v-html="a.Detail" />
+                    <div class="body-text text--text" v-html-safe="a.Terse" />
+                    <div class="flavor-text mt-1 mx-3" v-html-safe="a.Detail" />
                   </v-card-text>
                 </v-card>
               </v-col>

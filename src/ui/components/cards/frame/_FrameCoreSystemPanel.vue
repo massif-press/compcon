@@ -2,12 +2,12 @@
   <div>
     <!-- {{ cs }} -->
     <span class="heading h2 text--text">{{ cs.Name }}</span>
-    <p class="flavor-text px-3" v-html="cs.Description" />
+    <p class="flavor-text px-3" v-html-safe="cs.Description" />
 
     <div v-if="cs.PassiveName">
       <span class="heading sub">PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span>
       <div class="light-panel pa-2 clipped mb-2 mx-3">
-        <p v-if="cs.PassiveEffect" class="body-text mb-1 px-3" v-html="cs.PassiveEffect" />
+        <p v-if="cs.PassiveEffect" class="body-text mb-1 px-3" v-html-safe="cs.PassiveEffect" />
         <v-row no-gutters justify="center">
           <v-col cols="auto">
             <cc-action
@@ -42,7 +42,7 @@
       </v-col>
     </v-row>
     <div class="light-panel pa-2 clipped mb-2 mx-3 mt-1">
-      <p class="body-text mb-1 px-3" v-html="cs.ActiveEffect" />
+      <p class="body-text mb-1 px-3" v-html-safe="cs.ActiveEffect" />
       <cc-action
         v-for="(a, i) in cs.ActiveActions"
         :key="`${cs.Name}_action_${i}`"

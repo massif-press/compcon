@@ -29,7 +29,10 @@
               large
               :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
             >
-              <p class="flavor-text mt-3 mb-1 px-1 text--text" v-html="mech.Frame.Description" />
+              <p
+                class="flavor-text mt-3 mb-1 px-1 text--text"
+                v-html-safe="mech.Frame.Description"
+              />
             </cc-solo-dialog>
           </span>
         </div>

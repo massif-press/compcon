@@ -39,7 +39,7 @@
       rows="2"
       class="mt-3"
     />
-    <p v-else-if="npc.Note" class="flavor-text mb-0" v-html="npc.Note" />
+    <p v-else-if="npc.Note" class="flavor-text mb-0" v-html-safe="npc.Note" />
 
     <v-row dense class="text-center" align="center">
       <v-col cols="7">
@@ -135,7 +135,7 @@
           </v-chip>
 
           <cc-item-card :item="item.Feature">
-            <p slot="statblock" v-html="item.Description" />
+            <p slot="statblock" v-html-safe="item.Description" />
           </cc-item-card>
         </cc-dialog>
       </v-col>
