@@ -15,9 +15,11 @@
             :mech="item"
             @set-img="selectedImage = $event"
           />
-          <p v-else class="panel ma-2 pa-2">
-            <i>No Images Found</i>
-          </p>
+          <pilot-image-selector
+            v-if="type === 'pilot'"
+            :pilot="item"
+            @set-img="selectedImage = $event"
+          />
           <v-divider class="mx-3" />
           <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
           <v-file-input
@@ -27,7 +29,6 @@
             dense
             outlined
             placeholder="Select Image"
-            label="IMAGE FILE"
             prepend-icon="mdi-file-upload-outline"
             :disabled="loading"
             @change="onChange"
@@ -70,10 +71,11 @@ import Vue from 'vue'
 import path from 'path'
 import imgur from '../../../io/apis/imgur'
 import MechImageSelector from './components/_MechImageSelector.vue'
+import PilotImageSelector from './components/_PilotImageSelector.vue'
 
 export default Vue.extend({
   name: 'web-image-selector',
-  components: { MechImageSelector },
+  components: { MechImageSelector, PilotImageSelector },
   props: {
     item: {
       type: Object,

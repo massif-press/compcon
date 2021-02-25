@@ -364,9 +364,9 @@
       </v-col>
     </v-row>
 
-    <v-row dense class="mt-n2">
+    <v-row dense class="mt-n2 mb-n1">
       <v-col cols="auto">
-        <div class="overline my-n2">TALENTS</div>
+        <div class="overline">TALENTS</div>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-btn
@@ -389,7 +389,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row dense>
       <cc-active-card
         v-for="(t, i) in mech.Pilot.Talents"
         :key="`tal_${i}`"
@@ -409,10 +409,10 @@
       </cc-active-card>
     </v-row>
 
-    <div class="overline mt-n2">COUNTERS</div>
-    <cc-counter-set :actor="[pilot]" class="my-n4" />
+    <div class="overline mt-2">COUNTERS</div>
+    <cc-counter-set :actor="[mech.Pilot]" />
 
-    <div class="overline mb-n2 mt-n5">LOADOUT</div>
+    <div class="overline mb-n1 mt-2">LOADOUT</div>
     <v-row dense>
       <player-equipment-item
         v-for="(i, idx) in mech.ActiveLoadout.Equipment"

@@ -19,7 +19,7 @@
           <v-icon small color="active">mdi-note</v-icon>
         </cc-tooltip>
       </span>
-      <v-row dense style="height: calc(100% - 45px)">
+      <v-row dense class="pb-2">
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Armor Bonus">
             <v-icon>mdi-shield-outline</v-icon>
