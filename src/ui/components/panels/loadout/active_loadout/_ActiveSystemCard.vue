@@ -83,7 +83,7 @@
                   <v-icon>cci-system</v-icon>
                   EQUIPMENT EFFECT
                 </div>
-                <p class="text--text body-text mb-1 mr-3 ml-7" v-html="item.Effect" />
+                <p class="text--text body-text mb-1 mr-3 ml-7" v-html-safe="item.Effect" />
               </div>
             </div>
             <div v-if="item">
@@ -113,7 +113,7 @@
                 <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
                   <b>{{ a.name }}</b>
                   :
-                  <span v-html="a.detail" />
+                  <span v-html-safe="a.detail" />
                 </div>
               </div>
               <v-row no-gutters class="mr-3 mt-n1" align="start">

@@ -25,7 +25,7 @@
         <span style="position: absolute; right: 0">
           <cc-damage-element v-if="item.Damage" :damage="item.Damage" small class="d-inline" />
           <cc-range-element v-if="item.Range" :range="item.Range" small class="d-inline" />
-          <v-chip v-if="item.Frequency" small outlined v-html="item.Frequency.ToString()" />
+          <v-chip v-if="item.Frequency" small outlined v-html-safe="item.Frequency.ToString()" />
         </span>
       </v-btn>
     </v-col>

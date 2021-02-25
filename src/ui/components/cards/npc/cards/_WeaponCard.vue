@@ -81,12 +81,12 @@
     </v-row>
     <div v-if="item.Feature.OnHit">
       <span class="overline">ON HIT</span>
-      <p else class="body-1 mb-0" v-html="item.Feature.OnHit" />
+      <p else class="body-1 mb-0" v-html-safe="item.Feature.OnHit" />
     </div>
     <div v-if="item.Feature.Effect">
       <span class="overline">EFFECT</span>
-      <p v-if="item.Tier" class="body-1 mb-0" v-html="item.Feature.EffectByTier(item.Tier)" />
-      <p v-else class="body-1 mb-0" v-html="item.Feature.Effect" />
+      <p v-if="item.Tier" class="body-1 mb-0" v-html-safe="item.Feature.EffectByTier(item.Tier)" />
+      <p v-else class="body-1 mb-0" v-html-safe="item.Feature.Effect" />
     </div>
     <cc-tags v-if="item.Feature.Tags" :tags="item.Feature.Tags" small />
   </card-base>

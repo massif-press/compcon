@@ -8,6 +8,7 @@ import './assets/glyphs/glyphs.css'
 import './ui/globals'
 
 import Vue from 'vue'
+import VueSecureHTML from 'vue-html-secure'
 
 import App from './App.vue'
 import router from './router'
@@ -63,6 +64,7 @@ theme.theme.themes.light = activeTheme.colors
 
 const vuetify = new Vuetify(theme)
 
+Vue.use(VueSecureHTML)
 Vue.use(Vuetify)
 Vue.use(VueMousetrap)
 Vue.use(TiptapVuetifyPlugin, {

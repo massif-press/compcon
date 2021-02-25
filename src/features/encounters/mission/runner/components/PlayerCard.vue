@@ -29,7 +29,7 @@
                     :header="trait.Name"
                     subheader="FRAME TRAIT"
                   >
-                    <span v-html="trait.Description" />
+                    <span v-html-safe="trait.Description" />
                   </cc-active-card>
                 </v-col>
                 <v-col cols="8">
@@ -41,13 +41,13 @@
                   >
                     <div v-if="mech.Frame.CoreSystem.Passive">
                       <span class="heading h2">Passive</span>
-                      <p class="mb-1" v-html="mech.Frame.CoreSystem.Passive" />
+                      <p class="mb-1" v-html-safe="mech.Frame.CoreSystem.Passive" />
                     </div>
                     <span class="heading h2">
                       {{ mech.Frame.CoreSystem.ActiveName }}
                       <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
                     </span>
-                    <p class="mb-1" v-html="mech.Frame.CoreSystem.ActiveEffect" />
+                    <p class="mb-1" v-html-safe="mech.Frame.CoreSystem.ActiveEffect" />
                     <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
                   </cc-active-card>
                 </v-col>

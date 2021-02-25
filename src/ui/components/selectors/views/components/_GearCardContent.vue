@@ -37,19 +37,19 @@
         v-if="item.Effect"
         class="card-effect pa-2 mb-1"
         style="font-size: 15px"
-        v-html="item.Effect"
+        v-html-safe="item.Effect"
       /> -->
       <p
         v-if="item.Description"
         class="card-effect pa-2 mb-1"
         style="font-size: 15px"
-        v-html="item.Description"
+        v-html-safe="item.Description"
       />
       <p
         v-if="item.Detail"
         class="card-effect pa-2 mb-1"
         style="font-size: 15px"
-        v-html="item.Detail"
+        v-html-safe="item.Detail"
       />
       <div>
         <v-row

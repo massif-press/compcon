@@ -12,7 +12,7 @@
         PASSIVE {{ coreSystem.PassiveName ? ` - ${coreSystem.PassiveName}` : '' }}
       </span>
       <div class="light-panel pa-2 clipped mb-2 mx-3">
-        <p class="body-text mb-1 px-3" v-html="coreSystem.PassiveEffect" />
+        <p class="body-text mb-1 px-3" v-html-safe="coreSystem.PassiveEffect" />
         <v-row no-gutters justify="center">
           <v-col cols="auto">
             <cc-action
@@ -57,7 +57,7 @@
       </v-col>
     </v-row>
     <div class="light-panel pa-2 clipped mb-2 mx-3 mt-1">
-      <p class="body-text mb-1 px-3" v-html="coreSystem.ActiveEffect" />
+      <p class="body-text mb-1 px-3" v-html-safe="coreSystem.ActiveEffect" />
       <cc-action
         v-for="(a, i) in coreSystem.ActiveActions"
         :key="`${coreSystem.Name}_action_${i}`"

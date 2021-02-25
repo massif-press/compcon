@@ -14,7 +14,9 @@
           <v-icon>cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
           <span class="heading h3 px-2 mt-n1">{{ item.Name }}</span>
           <v-icon
-            v-html="item.Tier === 'custom' ? 'mdi-star-circle-outline' : 'cci-rank-' + item.Tier"
+            v-html-safe="
+              item.Tier === 'custom' ? 'mdi-star-circle-outline' : 'cci-rank-' + item.Tier
+            "
           />
         </div>
       </template>

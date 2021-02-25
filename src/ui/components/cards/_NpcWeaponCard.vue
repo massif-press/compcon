@@ -74,7 +74,7 @@
       slot="statblock"
       class="panel text--text"
       style="font-size: 20px"
-      v-html="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
+      v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
     />
   </equipment-card-base>
 </template>

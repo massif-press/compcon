@@ -1,14 +1,14 @@
 <template>
   <v-card-text :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''">
     <div>
-      <div v-if="action.Init" class="body-text stark--text mt-2" v-html="action.Init" />
+      <div v-if="action.Init" class="body-text stark--text mt-2" v-html-safe="action.Init" />
       <div v-if="action.Trigger">
         <div class="subtle--text overline mb-n2">Trigger</div>
-        <div class="body-text stark--text" v-html="action.Trigger" />
+        <div class="body-text stark--text" v-html-safe="action.Trigger" />
       </div>
       <div v-if="action.Detail">
         <div class="subtle--text overline mb-n2">Effect</div>
-        <div class="body-text stark--text" v-html="action.Detail" />
+        <div class="body-text stark--text" v-html-safe="action.Detail" />
       </div>
     </div>
   </v-card-text>

@@ -32,6 +32,7 @@
     "typeface-roboto": "^0.0.75",
     "typeit": "^6.0.3",
     "vue-class-component": "^7.1.0",
+    "vue-html-secure": "^1.0.9",
     "vue-mousetrap": "^1.0.1",
     "vue-property-decorator": "^8.3.0",
     "vue-resize-text": "^0.1.1",

@@ -21,7 +21,7 @@
         </v-row>
         <div v-if="item.Description">
           <div class="overline ml-n2 my-1 text--text">COMPENDIUM ENTRY</div>
-          <p class="flavor-text" v-html="item.Description" />
+          <p class="flavor-text" v-html-safe="item.Description" />
         </div>
         <div>
           <span class="overline ml-n2 text--text">COMBAT PROFILE</span>

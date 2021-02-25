@@ -1,6 +1,6 @@
 <template>
   <cc-solo-dialog ref="dialog" no-confirm large :title="title" @close="setHash()">
-    <div class="mt-2 body-text text--text" v-html="body" />
+    <div class="mt-2 body-text text--text" v-html-safe="body" />
     <v-row no-gutters align="end" justify="end">
       <v-col cols="auto">
         <v-checkbox v-model="noshow" color="secondary" hide-details dense>

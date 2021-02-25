@@ -14,7 +14,7 @@
 
     <div v-if="item.Effect">
       <div class="overline ml-n2 subtle--text">EQUIPMENT EFFECT</div>
-      <p class="text--text body-text mb-1" v-html="item.Effect" />
+      <p class="text--text body-text mb-1" v-html-safe="item.Effect" />
     </div>
     <slot name="other_effects" />
 
@@ -31,7 +31,7 @@
       <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
         <b>{{ a.name }}</b>
         :
-        <span v-html="a.detail" />
+        <span v-html-safe="a.detail" />
       </div>
     </div>
 
@@ -74,7 +74,7 @@
     </div> -->
     <div v-if="item.Description" class="mt-2">
       <div class="overline ml-n2">COMPENDIUM ENTRY</div>
-      <p class="flavor-text mb-1" v-html="item.Description" />
+      <p class="flavor-text mb-1" v-html-safe="item.Description" />
     </div>
 
     <div v-if="notes">
