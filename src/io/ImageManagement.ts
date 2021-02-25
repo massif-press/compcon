@@ -1,4 +1,5 @@
 import path from 'path'
+import artistmap from '../../static/img/artistmap.json'
 
 // const webImageTypes = ['.jpeg', '.jpg', '.png', '.gif', '.svg', '.bmp']
 
@@ -24,60 +25,25 @@ enum ImageTag {
 }
 
 function getImageDir(subdir: ImageTag): string {
-  return path.join('/static', 'img', subdir)
+  return path.join('/static', 'img', subdir as string)
 }
 
 function getImagePath(subdir: ImageTag, fileName: string): string {
   return path.join(getImageDir(subdir), fileName)
 }
 
-// TODO: figure out how to make this work on web
-// function getImageInfoArray(subdir: ImageTag): IImageInfo[] {
-//   const imageDir = imageDir(subdir)
-//   const imageData = path.join(imageDir, 'info.json')
+function getAllImages(tag: ImageTag): string[] {
+  if (!tag) return []
+  const arr = artistmap
+    .flatMap(a => a.images)
+    .filter(i => i.tag === tag)
+    .map(x => x.img)
+  const out = arr.map(x => getImagePath(tag, x))
+  return out
+}
 
-//   if (!fs.existsSync(imageData)) {
-//     console.info(`image subdir ${subdir} author db doesn't exist, creating...`)
-//     try {
-//       fs.writeFileSync(imageData, '[]')
-//     } catch (error) {
-//       console.info(`error getting image info array for ${imageData}`)
-//       return
-//     }
-//   }
+function getAllImageData(tag: ImageTag): any[] {
+  return artistmap.flatMap(a => a.images).filter(i => i.tag === tag)
+}
 
-//   return JSON.parse(fs.readFileSync(imageData, 'utf-8')) as IImageInfo[]
-// }
-// function writeImageInfo(infoArray: IImageInfo[], subdir: ImageTag): void {
-//   const imageDir = getImageDir(subdir)
-//   try {
-//     fs.writeFileSync(path.join(imageDir, 'info.json'), JSON.stringify(infoArray))
-//   } catch (err) {
-//     console.info(`unable to write image info file in ${imageDir}`)
-//   }
-// }
-
-// function checkImageData(subdir: ImageTag): void {
-//   const images = getImagePaths(subdir)
-//   const info = getImageInfoArray(subdir)
-
-//   images.forEach(i => {
-//     if (!info.find(x => x.filename === i)) {
-//       info.push({
-//         filename: i,
-//         artist: 'Unknown',
-//       })
-//     }
-//   })
-
-//   writeImageInfo(info, subdir)
-// }
-
-//TODO: image data management
-// function updateImageInfo(info: IImageInfo) {}
-
-// function importImagePackage() {}
-
-// function exportImagePackage() {}
-
-export { getImagePath, ImageTag }
+export { getImagePath, ImageTag, getAllImages, getAllImageData }

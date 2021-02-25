@@ -1,28 +1,41 @@
 <template>
   <div class="ml-4 my-2">
+    <div class="flavor-text">
+      COMP/CON OMNINET ARCHIVE ::
+      <b class="stark--text">{{ mech.Frame.Name }}</b>
+    </div>
+    <v-row align="center">
+      <v-col v-if="mech.Frame.ID !== 'mf_standard_pattern_i_everest'" cols="2">
+        <div
+          :class="selected === mech.Frame.DefaultImage ? 'selected-img' : 'unselected-img'"
+          @click="selectDefault()"
+        >
+          <v-img :src="mech.Frame.DefaultImage" contain />
+        </div>
+      </v-col>
+      <v-col v-for="a in mech.Frame.OtherArt" :key="a.src" cols="2">
+        <div
+          :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
+          @click="selectImg(a)"
+        >
+          <v-img :src="imgPath(a.tag, a.src)" contain />
+        </div>
+      </v-col>
+    </v-row>
+    <v-divider class="my-2" />
+    <div class="flavor-text">
+      COMP/CON OMNINET ARCHIVE ::
+      <b class="stark--text">OTHER FRAMES</b>
+    </div>
     <v-row>
-      <div class="flavor-text">
-        COMP/CON OMNINET ARCHIVE ::
-        <b class="stark--text">{{ mech.Frame.Name }}</b>
-      </div>
-      <v-row align="center">
-        <v-col v-if="mech.Frame.ID !== 'mf_standard_pattern_i_everest'" cols="2">
-          <div
-            :class="selected === mech.Frame.DefaultImage ? 'selected-img' : 'unselected-img'"
-            @click="selected = mech.Frame.DefaultImage"
-          >
-            <v-img :src="mech.Frame.DefaultImage" contain />
-          </div>
-        </v-col>
-        <v-col v-for="a in mech.Frame.OtherArt" :key="a.src" cols="2">
-          <div
-            :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
-            @click="selectImg(a)"
-          >
-            <v-img :src="imgPath(a.tag, a.src)" contain />
-          </div>
-        </v-col>
-      </v-row>
+      <v-col v-for="a in genericArt" :key="a.img" cols="2">
+        <div
+          :class="selected === imgPath(a.tag, a.img) ? 'selected-img' : 'unselected-img'"
+          @click="selectImg(a)"
+        >
+          <v-img :src="imgPath(a.tag, a.img)" contain />
+        </div>
+      </v-col>
     </v-row>
     <v-alert v-if="selected && artist" outlined dense color="primary" class="my-2">
       <v-row>
@@ -64,7 +77,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { getImagePath, ImageTag } from '@/io/ImageManagement'
+import { getImagePath, ImageTag, getAllImageData } from '@/io/ImageManagement'
 import map from '../../../../../static/img/artistmap.json'
 import path from 'path'
 
@@ -83,9 +96,11 @@ export default Vue.extend({
     artist() {
       if (!this.selected) return null
       const basename = path.basename(this.selected, path.extname(this.selected))
-      const artist = map.find(x => x.images.some(y => y.img === basename))
+      const artist = map.find(x =>
+        x.images.some(y => y.img === basename || y.img.split('.')[0] === basename)
+      )
       if (!artist) return null
-      const image = artist.images.find(x => x.img === basename)
+      const image = artist.images.find(x => x.img === basename || x.img.split('.')[0] === basename)
       return {
         imgName: image.name,
         name: artist.artist,
@@ -94,11 +109,18 @@ export default Vue.extend({
         twitter: artist.twitter || null,
       }
     },
+    genericArt() {
+      return getAllImageData(ImageTag.Mech)
+    },
   },
   methods: {
+    selectDefault() {
+      this.selected = this.mech.Frame.DefaultImage
+      this.$emit('set-img', this.mech.Frame.DefaultImage)
+    },
     selectImg(a) {
-      this.selected = this.imgPath(a.tag, a.src)
-      this.$emit('set-img', this.imgPath(a.tag, a.src))
+      this.selected = this.imgPath(a.tag, a.src || a.img)
+      this.$emit('set-img', this.imgPath(a.tag, a.src || a.img))
     },
     imgPath(tag: ImageTag, src: string) {
       return getImagePath(tag, src)

@@ -47,6 +47,7 @@
                       target="_blank"
                       :href="`https://twitter.com/${artist.twitter}`"
                       class="ml-3"
+                      style="text-decoration: none;"
                     >
                       <v-icon color="primary">mdi-twitter</v-icon>
                       <span>@{{ artist.twitter }}</span>
