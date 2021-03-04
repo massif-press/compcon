@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid :class="$vuetify.breakpoint.smAndDown ? 'px-1 mt-n4' : ''">
+  <v-container fluid :class="$vuetify.breakpoint.smAndDown ? 'px-1 mt-n4 mb-12' : ''">
     <v-row dense class="mx-2 mt-n2 mb-2" no-gutters align="center">
       <v-col v-if="$vuetify.breakpoint.mdAndUp">
         <slot />

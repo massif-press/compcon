@@ -13,18 +13,14 @@
     fixed-header
     show-select
     single-select
-    style="text-transform: uppercase; background-color: transparent"
+    style="text-transform: uppercase; background-color: transparent; max-width: 100vw!important"
   >
     <template v-slot:[`item.data-table-select`]="{ item }">
-      <v-btn
-        v-if="$vuetify.breakpoint.smAndDown"
-        block
-        text
-        color="accent"
-        @click="$refs[`modal_${item.ID}`].show()"
-      >
-        {{ item.Name }}
-      </v-btn>
+      <div v-if="$vuetify.breakpoint.smAndDown" class="text-left" style="display: grid">
+        <v-btn block text color="accent" @click="$refs[`modal_${item.ID}`].show()">
+          {{ item.Name }}
+        </v-btn>
+      </div>
       <v-btn v-else x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
@@ -57,7 +53,13 @@
       <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
     </template>
     <template v-slot:[`item.Equip`]="{ item }">
-      <v-btn color="accent" tile class="mb-4" @click="$emit('equip', item)">
+      <div v-if="$vuetify.breakpoint.smAndDown" class="text-left pl-0 ml-n6" style="display: grid">
+        <v-btn color="accent" small tile @click="$emit('equip', item)">
+          <v-icon small left>mdi-plus</v-icon>
+          Equip {{ item.Name }}
+        </v-btn>
+      </div>
+      <v-btn v-else color="accent" small tile @click="$emit('equip', item)">
         <v-icon small left>mdi-plus</v-icon>
         Equip
       </v-btn>

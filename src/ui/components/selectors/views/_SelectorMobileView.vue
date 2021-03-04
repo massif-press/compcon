@@ -29,6 +29,17 @@
           <div class="heading h2 stark--text">{{ selectedItem.Name }}</div>
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
+          <v-divider class="my-3" />
+          <v-btn
+            color="secondary"
+            large
+            tile
+            block
+            :disabled="spDisable && selectedItem.SP > sp && !spIgnore"
+            @click="$emit('equip', selectedItem)"
+          >
+            Equip {{ selectedItem.Name }}
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -45,6 +56,9 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
+    spDisable: { type: Boolean },
+    spIgnore: { type: Boolean },
+    sp: { type: Number, required: false, default: 0 },
   },
   data: () => ({
     selectedItem: null,
