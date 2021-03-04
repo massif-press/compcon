@@ -124,7 +124,7 @@ export default Vue.extend({
       { text: 'Range', align: 'left', value: 'Range[0].Max' },
       { text: 'Damage', align: 'left', value: 'Damage[0].Max' },
       { text: 'SP', align: 'left', value: 'SP' },
-      { text: '', align: 'center', value: 'Detail' },
+      { text: '', align: 'center', value: 'Equip' },
     ],
     weapons: [],
     showUnlicensed: false,

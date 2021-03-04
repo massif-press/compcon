@@ -120,7 +120,7 @@ export default Vue.extend({
       { text: 'System', align: 'left', value: 'Name' },
       { text: 'License', align: 'left', value: 'LicenseString' },
       { text: 'SP Cost', align: 'left', value: 'SP' },
-      { text: '', align: 'center', value: 'Detail' },
+      { text: '', align: 'center', value: 'Equip' },
     ],
     systems: [],
     showUnlicensed: false,

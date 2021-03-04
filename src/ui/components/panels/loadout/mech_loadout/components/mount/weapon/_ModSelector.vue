@@ -114,13 +114,11 @@ export default Vue.extend({
   },
   data: () => ({
     headers: [
-      { align: 'left', sortable: false, width: '5vw' },
       { text: 'Source', align: 'left', value: 'Source' },
       { text: 'Mod', align: 'left', value: 'Name' },
       { text: 'License', align: 'left', value: 'LicenseString' },
-      { text: 'Applied To', align: 'left', value: 'AppliedString' },
       { text: 'SP', align: 'left', value: 'SP' },
-      { text: '', align: 'center', value: 'Detail' },
+      { text: '', align: 'center', value: 'Equip' },
     ],
     mods: [],
     showUnlicensed: false,
