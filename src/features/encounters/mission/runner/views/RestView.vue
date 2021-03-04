@@ -27,7 +27,6 @@
           <v-slide-group
             v-model="selectedPilot"
             mandatory
-            show-arrows
             center-active
             style="height: calc(100% - 8px)"
           >
