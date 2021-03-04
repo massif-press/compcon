@@ -24,7 +24,6 @@
           <v-slide-group
             v-model="selectedActor"
             mandatory
-            show-arrows
             center-active
             style="height: calc(100% - 8px)"
           >
@@ -186,3 +185,9 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+.v-slide-group__prev {
+  display: block !important;
+}
+</style>
