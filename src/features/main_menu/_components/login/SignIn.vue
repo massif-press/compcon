@@ -85,6 +85,7 @@ export default Vue.extend({
   }),
   methods: {
     async signIn() {
+      this.email = this.email.trim()
       this.loading = true
       const userstore = getModule(UserStore, this.$store)
       Auth.signIn(this.email, this.password)
