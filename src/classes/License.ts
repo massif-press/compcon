@@ -10,6 +10,7 @@ class License {
   public readonly Unlocks: LicensedItem[][]
   public readonly Specialty: boolean
   public readonly Prerequisite?: { source: string; min_rank: number; cumulative?: boolean }
+  public readonly Hidden: boolean
 
   public constructor(frame: Frame) {
     this.Name = frame.Name
@@ -40,6 +41,8 @@ class License {
     }
 
     if (frame.LicenseLevel && !this.Specialty) this.Unlocks[frame.LicenseLevel - 1].unshift(frame)
+
+    if (frame.IsVariantFrame) this.Hidden = true
   }
 
   public CanSelect(pilot: Pilot): boolean {

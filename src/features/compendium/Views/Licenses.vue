@@ -71,7 +71,7 @@ export default Vue.extend({
   name: 'licenses',
   computed: {
     licenses() {
-      const licenseData = getModule(CompendiumStore, this.$store).Licenses
+      const licenseData = getModule(CompendiumStore, this.$store).Licenses.filter(x => !x.Hidden)
       return this.$_.groupBy(licenseData, 'Source')
     },
   },

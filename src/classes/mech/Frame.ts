@@ -28,6 +28,7 @@ interface IFrameData extends ILicensedItemData {
   traits: IFrameTraitData[]
   core_system: ICoreData
   specialty: boolean | { source: string; min_rank: number; cumulative?: boolean }
+  variant?: string
   y_pos?: number
   image_url?: string
   other_art?: { tag?: ImageTag; src?: string; url?: string }[]
@@ -41,6 +42,7 @@ class Frame extends LicensedItem {
   public readonly CoreSystem: CoreSystem
   public readonly OtherArt?: { tag?: ImageTag; src?: string; url?: string }[]
   public readonly Specialty: boolean | { source: string; min_rank: number; cumulative?: boolean }
+  public readonly Variant: string
   private _image_url?: string
   private _stats: IFrameStats
 
@@ -56,6 +58,11 @@ class Frame extends LicensedItem {
     this._image_url = frameData.image_url
     this.OtherArt = frameData.other_art
     this.Specialty = frameData.specialty || false
+    this.Variant = frameData.variant || ''
+  }
+
+  public get IsVariantFrame(): boolean {
+    return this.Variant != ''
   }
 
   public get MechTypeString(): string {
