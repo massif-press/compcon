@@ -101,7 +101,10 @@ export default Vue.extend({
   },
   created() {
     const compendium = getModule(CompendiumStore, this.$store)
-    this.licenses = this.$_.groupBy(compendium.Licenses, 'Source')
+    this.licenses = this.$_.groupBy(
+      compendium.Licenses.filter(x => !x.Hidden),
+      'Source'
+    )
   },
   methods: {
     manufacturer(id: string) {

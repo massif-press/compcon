@@ -133,7 +133,13 @@ export default Vue.extend({
     filteredFrames() {
       let i = this.frames as Frame[]
 
-      if (!this.showAll) i = i.filter(x => this.pilot.has('License', x.Name, 2) || !x.LicenseLevel)
+      if (!this.showAll)
+        i = i.filter(
+          x =>
+            this.pilot.has('License', x.Name, 2) ||
+            this.pilot.has('License', x.Variant, 2) ||
+            !x.LicenseLevel
+        )
 
       if (Object.keys(this.filters).length) {
         i = ItemFilter.Filter(i, this.filters) as Frame[]
