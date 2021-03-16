@@ -62,13 +62,7 @@ function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
     })
     Object.defineProperty(self, name, {
       get: function() {
-        return [
-          ...this[baseName],
-          ...this.ContentPacks.filter(pack => pack.Active).flatMap(
-            pack => pack[name]
-            // .forEach((item: T /* ? */) => item._brew = pack.ID)
-          ),
-        ]
+        return [...this[baseName], ...this.ContentPacks.flatMap(pack => pack[name])]
       },
     })
   }
@@ -203,6 +197,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
+    await this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -216,6 +211,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
+    await this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -225,6 +221,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
+    await this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action

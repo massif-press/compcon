@@ -18,6 +18,7 @@ class Manufacturer {
   public readonly Quote: string
   public readonly Light: string
   public readonly Dark: string
+  public IsHidden: boolean
   private _logo: string
   private _logo_url?: string
 

@@ -16,13 +16,19 @@
     </v-tabs>
     <v-tabs-items v-model="tabs">
       <v-tab-item>
-        <packs-list />
+        <v-container>
+          <packs-list />
+        </v-container>
       </v-tab-item>
       <v-tab-item>
-        <pack-install @installed="onInstalled" />
+        <v-container>
+          <pack-install @installed="onInstalled" />
+        </v-container>
       </v-tab-item>
       <v-tab-item>
-        <packs-directory />
+        <v-container>
+          <packs-directory />
+        </v-container>
       </v-tab-item>
     </v-tabs-items>
   </v-card>

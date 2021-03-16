@@ -32,8 +32,8 @@ abstract class CompendiumItem {
   public readonly Deployables: IDeployableData[]
   public readonly Counters: ICounterData[]
   // public readonly Tags: Tag[]
-  public readonly IsHidden: boolean
   public readonly Err: string
+  public IsHidden: boolean
   private _integrated: string[]
   private _baseTags: Tag[]
   protected _name: string

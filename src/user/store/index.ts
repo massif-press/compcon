@@ -136,7 +136,6 @@ export class UserStore extends VuexModule {
 
   @Action({ rawError: true })
   public async cloudSync(payload: { callback?: any; condition?: string }): Promise<void> {
-    console.log(payload)
     const user = await Auth.currentAuthenticatedUser().then(res => res.username)
     if (!user) {
       console.info('no user')

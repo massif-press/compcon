@@ -40,6 +40,7 @@ export abstract class NpcFeature {
   private _brew: string
   private _hide_active: boolean
   protected type: NpcFeatureType
+  public IsHidden: boolean
 
   public constructor(data: INpcFeatureData) {
     this._id = data.id

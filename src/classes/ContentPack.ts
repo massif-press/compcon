@@ -120,6 +120,7 @@ export class ContentPack {
 
   private _Manufacturers: Manufacturer[] = []
   public get Manufacturers(): Manufacturer[] {
+    this._Manufacturers.forEach(x => (x.IsHidden = !this.Active))
     return this._Manufacturers
   }
   private _Factions: Faction[] = []
@@ -129,36 +130,43 @@ export class ContentPack {
 
   private _CoreBonuses: CoreBonus[] = []
   public get CoreBonuses(): CoreBonus[] {
+    this._CoreBonuses.forEach(x => (x.IsHidden = !this.Active))
     return this._CoreBonuses
   }
 
   private _Frames: Frame[] = []
   public get Frames(): Frame[] {
+    this._Frames.forEach(x => (x.IsHidden = !this.Active))
     return this._Frames
   }
 
   private _MechWeapons: MechWeapon[] = []
   public get MechWeapons(): MechWeapon[] {
+    this._MechWeapons.forEach(x => (x.IsHidden = !this.Active))
     return this._MechWeapons
   }
 
   private _MechSystems: MechSystem[] = []
   public get MechSystems(): MechSystem[] {
+    this._MechSystems.forEach(x => (x.IsHidden = !this.Active))
     return this._MechSystems
   }
 
   private _WeaponMods: WeaponMod[] = []
   public get WeaponMods(): WeaponMod[] {
+    this._WeaponMods.forEach(x => (x.IsHidden = !this.Active))
     return this._WeaponMods
   }
 
   private _PilotGear: PilotEquipment[] = []
   public get PilotGear(): PilotEquipment[] {
+    this._PilotGear.forEach(x => (x.IsHidden = !this.Active))
     return this._PilotGear
   }
 
   private _Talents: Talent[] = []
   public get Talents(): Talent[] {
+    this._Talents.forEach(x => (x.IsHidden = !this.Active))
     return this._Talents
   }
 
@@ -179,6 +187,7 @@ export class ContentPack {
 
   private _NpcFeatures: NpcFeature[] = []
   public get NpcFeatures(): NpcFeature[] {
+    this._NpcFeatures.forEach(x => (x.IsHidden = !this.Active))
     return this._NpcFeatures
   }
 
