@@ -195,10 +195,9 @@ class Mech implements IActor {
       ? this.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[])
 
-    //TODO: change from GMS to LL0
-    if (this._frame.ID === 'mf_standard_pattern_i_everest') {
+    if (this._frame.LicenseLevel === 0) {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
-      if (gmsIdx > -1) requirements[gmsIdx].items.push('STANDARD PATTERN I "EVEREST" Frame')
+      if (gmsIdx > -1) requirements[gmsIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`)
       else requirements.push(this.Frame.RequiredLicense)
     } else {
       const reqIdx = requirements.findIndex(x => x.name === `${this._frame.Name}` && x.rank === 2)

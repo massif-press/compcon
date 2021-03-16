@@ -110,6 +110,7 @@ export default class PacksList extends Vue {
   }
 
   public async deletePack(id: string): Promise<void> {
+    await this.$store.dispatch('cloudSync', { callback: null, condition: null })
     return await this.compendiumStore.deleteContentPack(id)
   }
 

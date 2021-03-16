@@ -55,7 +55,7 @@
         <v-row>
           <v-col>
             <p class="body-text text--text pa-2 mb-1">
-              <span v-if="item.description" v-html-safe="item.Description" />
+              <span v-if="item.description" v-html-safe="item.description" />
               <span v-else>
                 No description given.
               </span>

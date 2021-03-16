@@ -1,5 +1,5 @@
 import { store } from '@/store'
-import { CompendiumItem, ItemType, Manufacturer } from '@/class'
+import { CompendiumItem, Frame, ItemType, Manufacturer } from '@/class'
 import { ICompendiumItemData, ITagCompendiumData } from '@/interface'
 
 interface ILicensedItemData extends ICompendiumItemData {
@@ -36,10 +36,19 @@ abstract class LicensedItem extends CompendiumItem {
   public get RequiredLicense(): ILicenseRequirement {
     return {
       source: this.Source,
-      name: this.License,
+      name: this.getLicenseName(),
       rank: this.LicenseLevel,
       items: [this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name],
     }
+  }
+
+  private getLicenseName(): string {
+    if (this.ItemType === ItemType.Frame) {
+      const f = (this as unknown) as Frame
+      if (f.IsVariantFrame) return f.Variant
+      return this.License
+    }
+    return this.License
   }
 }
 
