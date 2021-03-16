@@ -197,7 +197,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    await this.context.dispatch('cloudSync', { callback: null, condition: null })
+    this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -211,7 +211,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    await this.context.dispatch('cloudSync', { callback: null, condition: null })
+    this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -221,7 +221,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    await this.context.dispatch('cloudSync', { callback: null, condition: null })
+    this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
