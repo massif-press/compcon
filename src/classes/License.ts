@@ -12,7 +12,7 @@ class License {
   public readonly Prerequisite?: { source: string; min_rank: number; cumulative?: boolean }
   public readonly Hidden: boolean
 
-  public constructor(frame: Frame, variants: Frame[]) {
+  public constructor(frame: Frame, variants?: Frame[]) {
     this.Name = frame.Name
     this.Source = frame.Source
     this.FrameID = frame.ID
