@@ -19,7 +19,7 @@
     >
       <cc-license-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-container fluid>
+    <v-container>
       <no-data-block v-if="!pilot.Licenses.length" />
       <v-row v-else dense :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''">
         <v-col v-for="(l, i) in pilot.Licenses" :key="`l_${i}`" cols="12" md="4">

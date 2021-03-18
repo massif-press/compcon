@@ -113,7 +113,7 @@ import Vue from 'vue'
 import _ from 'lodash'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { Pilot, Frame, Mech, MechType } from '@/class'
+import { Pilot, Frame, Mech } from '@/class'
 import { mechname } from '@/io/Generators'
 import ItemFilter from '@/classes/utility/ItemFilter'
 
@@ -136,16 +136,19 @@ export default Vue.extend({
       if (!this.showAll)
         i = i.filter(
           x =>
-            this.pilot.has('License', x.Name, 2) ||
-            this.pilot.has('License', x.Variant, 2) ||
-            !x.LicenseLevel
+            !x.IsExotic &&
+            (this.pilot.has('License', x.Name, 2) ||
+              this.pilot.has('License', x.Variant, 2) ||
+              !x.LicenseLevel)
         )
 
       if (Object.keys(this.filters).length) {
         i = ItemFilter.Filter(i, this.filters) as Frame[]
       }
 
-      return i.map(x => x.ID)
+      return i
+        .map(x => x.ID)
+        .concat(this.pilot.SpecialEquipment.filter(x => x.ItemType === 'Frame').map(f => f.ID))
     },
   },
   mounted() {

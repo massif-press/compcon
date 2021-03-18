@@ -98,6 +98,11 @@ export default Vue.extend({
     readonly: {
       type: Boolean,
     },
+    exotics: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
   },
   data: () => ({
     headers: [
@@ -114,9 +119,13 @@ export default Vue.extend({
     },
     getWeapons() {
       const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.PilotGear.filter(
-        (x: CompendiumItem) => !x.IsHidden && x.ItemType === ItemType.PilotWeapon
+      let gear = compendium.PilotGear.filter(
+        (x: CompendiumItem) => !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotWeapon
       )
+      if (this.exotics.length) {
+        gear = gear.concat(this.exotics)
+      }
+      return gear
     },
     fID(template: string): string {
       return flavorID(template)

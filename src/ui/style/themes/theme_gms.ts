@@ -7,6 +7,7 @@ const theme = {
   colors: {
     ...themeDefaults,
     primary: '#991E2A',
+    exotic: '#673AB7',
     active: '#d93f4e',
     accent: '#8c1420',
     secondary: '#283593',

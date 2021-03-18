@@ -31,6 +31,16 @@
           <cc-item-card :item="selectedItem" />
           <v-divider class="my-3" />
           <v-btn
+            v-if="equipmentAdd"
+            color="secondary"
+            large
+            tile
+            block
+            @click="$emit('add', selectedItem)"
+          >
+            Add {{ selectedItem.Name }}
+          </v-btn>
+          <v-btn
             color="secondary"
             large
             tile
@@ -56,6 +66,7 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
+    equipmentAdd: { type: Boolean },
     spDisable: { type: Boolean },
     spIgnore: { type: Boolean },
     sp: { type: Number, required: false, default: 0 },

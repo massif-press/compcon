@@ -19,7 +19,7 @@
     >
       <cc-talent-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-container :fluid="!!pilot.Talents.length" class="px-0">
+    <v-container class="px-0">
       <no-data-block v-if="!pilot.Talents.length" />
       <v-row v-else dense justify="center">
         <v-col v-for="(t, i) in pilot.Talents" :key="`t_${i}`" cols="12" lg="6" xl="4">

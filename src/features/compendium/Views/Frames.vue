@@ -10,7 +10,7 @@ import _ from 'lodash'
 import Component from 'vue-class-component'
 import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore, UserStore } from '@/store'
 import { MechType, Frame } from '@/class'
 
 @Component({
@@ -35,11 +35,12 @@ export default class Frames extends Vue {
   ]
 
   private compendium = getModule(CompendiumStore, this.$store)
+  private user = getModule(UserStore, this.$store).UserProfile
   public get frames(): Frame[] {
-    return _.sortBy(
-      this.compendium.Frames.filter(x => !x.IsHidden),
-      ['Source', 'Name']
-    )
+    let arr = this.compendium.Frames.filter(x => !x.IsHidden)
+    if (!this.user.GetView('showExotics')) arr = arr.filter(x => !x.IsExotic)
+
+    return _.sortBy(arr, ['Source', 'Name'])
   }
 
   public frameTypes = Object.keys(MechType).sort() as MechType[]

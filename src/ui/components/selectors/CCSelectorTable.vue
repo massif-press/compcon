@@ -45,6 +45,7 @@
       sp-disable
       :sp-ignore="spIgnore"
       :sp="sp"
+      :equipment-add="equipmentAdd"
       @equip="$emit('equip', $event)"
     />
     <selector-split-view
@@ -54,6 +55,7 @@
       sp-disable
       :sp-ignore="spIgnore"
       :sp="sp"
+      :equipment-add="equipmentAdd"
       @equip="$emit('equip', $event)"
     />
     <selector-mobile-view
@@ -63,6 +65,7 @@
       sp-disable
       :sp-ignore="spIgnore"
       :sp="sp"
+      :equipment-add="equipmentAdd"
       @equip="$emit('equip', $event)"
     />
     <selector-cards-view
@@ -72,6 +75,7 @@
       sp-disable
       :sp-ignore="spIgnore"
       :sp="sp"
+      :equipment-add="equipmentAdd"
       @equip="$emit('equip', $event)"
     />
     <div v-else />
@@ -117,6 +121,7 @@ export default Vue.extend({
     },
     spDisable: { type: Boolean },
     spIgnore: { type: Boolean },
+    equipmentAdd: { type: Boolean },
     sp: { type: Number, required: false, default: 0 },
   },
   data: () => ({

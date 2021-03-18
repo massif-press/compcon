@@ -10,7 +10,7 @@ import _ from 'lodash'
 import Component from 'vue-class-component'
 import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore, UserStore } from '@/store'
 import { MechWeapon } from '../../../classes/mech/MechWeapon'
 
 @Component({
@@ -28,11 +28,15 @@ export default class Weapons extends Vue {
   ]
 
   private compendium = getModule(CompendiumStore, this.$store)
+  private user = getModule(UserStore, this.$store).UserProfile
   public get weapons(): MechWeapon[] {
-    return _.sortBy(
-      this.compendium.MechWeapons.filter(x => x.Source && !x.IsHidden),
-      ['Source', 'Name']
-    )
+    console.log(this.user.GetView('showExotics'))
+    let arr = this.compendium.MechWeapons.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
+    if (!this.user.GetView('showExotics')) {
+      arr = arr.filter(x => !x.IsExotic)
+    }
+
+    return _.orderBy(arr, ['Source', 'Name'])
   }
 }
 </script>

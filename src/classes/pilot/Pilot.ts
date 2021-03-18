@@ -30,6 +30,18 @@ import { IReserveData } from './reserves/Reserve'
 import { MechSystem } from '../mech/MechSystem'
 import { IMechData } from '../mech/Mech'
 import { IDeployableData } from '../Deployable'
+import { ItemType } from '../enums'
+
+interface IUnlockData {
+  PilotArmor: string[]
+  PilotWeapon: string[]
+  PilotGear: string[]
+  Frame: string[]
+  Weapon: string[]
+  WeaponMod: string[]
+  System: string[]
+  SystemMod: string[]
+}
 
 interface IPilotData {
   id: string
@@ -56,6 +68,7 @@ interface IPilotData {
   current_hp: number
   background: string
   mechSkills: number[]
+  special_equipment: IUnlockData
   licenses: IRankedData[]
   skills: IRankedData[]
   talents: IRankedData[]
@@ -106,6 +119,7 @@ class Pilot implements ICloudSyncable {
   private _current_hp: number
   private _background: string
 
+  private _special_equipment: CompendiumItem[]
   private _licenses: PilotLicense[]
   private _skills: PilotSkill[]
   private _talents: PilotTalent[]
@@ -141,6 +155,7 @@ class Pilot implements ICloudSyncable {
     this._current_hp = Rules.BasePilotHP
     this._loadout = new PilotLoadout(0)
     this._background = ''
+    this._special_equipment = []
     this._licenses = []
     this._skills = []
     this._talents = []
@@ -903,7 +918,17 @@ class Pilot implements ICloudSyncable {
     this.save()
   }
 
-  // -- Mechs -----------------------------------------------------------------------------------
+  // -- Exotics and Other Equipment ---------------------------------------------------------------
+  public get SpecialEquipment(): CompendiumItem[] {
+    return this._special_equipment
+  }
+
+  public set SpecialEquipment(data: CompendiumItem[]) {
+    this._special_equipment = data
+    this.save()
+  }
+
+  // -- Mechs -------------------------------------------------------------------------------------
   public get Mechs(): Mech[] {
     return this._mechs
   }
@@ -1088,6 +1113,28 @@ class Pilot implements ICloudSyncable {
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
+  private static serializeSE(equipment: CompendiumItem[]): IUnlockData {
+    return {
+      PilotArmor: equipment.filter(x => x.ItemType === ItemType.PilotArmor).map(i => i.ID),
+      PilotWeapon: equipment.filter(x => x.ItemType === ItemType.PilotWeapon).map(i => i.ID),
+      PilotGear: equipment.filter(x => x.ItemType === ItemType.PilotGear).map(i => i.ID),
+      Frame: equipment.filter(x => x.ItemType === ItemType.Frame).map(i => i.ID),
+      Weapon: equipment.filter(x => x.ItemType === ItemType.MechWeapon).map(i => i.ID),
+      WeaponMod: equipment.filter(x => x.ItemType === ItemType.WeaponMod).map(i => i.ID),
+      System: equipment.filter(x => x.ItemType === ItemType.MechSystem).map(i => i.ID),
+      SystemMod: equipment.filter(x => x.ItemType === ItemType.SystemMod).map(i => i.ID),
+    }
+  }
+
+  private static deserializeSE(equipment: IUnlockData): CompendiumItem[] {
+    if (!equipment) return []
+    const items = []
+    Object.keys(equipment).forEach(key => {
+      equipment[key].forEach(id => items.push(store.getters.referenceByID(key, id)))
+    })
+    return items
+  }
+
   public static Serialize(p: Pilot): IPilotData {
     return {
       id: p.ID,
@@ -1117,6 +1164,7 @@ class Pilot implements ICloudSyncable {
       orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
       background: p.Background,
       mechSkills: MechSkills.Serialize(p.MechSkills),
+      special_equipment: this.serializeSE(p.SpecialEquipment),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
       skills: p.Skills.map(x => PilotSkill.Serialize(x)),
       talents: p.Talents.map(x => PilotTalent.Serialize(x)),
@@ -1177,6 +1225,9 @@ class Pilot implements ICloudSyncable {
     this._current_hp = data.current_hp
     this._background = data.background
     this._mechSkills = MechSkills.Deserialize(data.mechSkills)
+    this._special_equipment = data.special_equipment
+      ? Pilot.deserializeSE(data.special_equipment)
+      : []
     this._licenses = data.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
     this._skills = data.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
     this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))

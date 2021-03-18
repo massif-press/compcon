@@ -62,7 +62,7 @@ export default class Manufacturers extends Vue {
 
   private compendiumStore = getModule(CompendiumStore, this.$store)
   get manufacturers(): Manufacturer[] {
-    return this.compendiumStore.Manufacturers
+    return this.compendiumStore.Manufacturers.filter(x => !x.IsHidden)
   }
 }
 </script>

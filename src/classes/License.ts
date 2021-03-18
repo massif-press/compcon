@@ -12,7 +12,7 @@ class License {
   public readonly Prerequisite?: { source: string; min_rank: number; cumulative?: boolean }
   public readonly Hidden: boolean
 
-  public constructor(frame: Frame) {
+  public constructor(frame: Frame, variants: Frame[]) {
     this.Name = frame.Name
     this.Source = frame.Source
     this.FrameID = frame.ID
@@ -41,6 +41,12 @@ class License {
     }
 
     if (frame.LicenseLevel && !this.Specialty) this.Unlocks[frame.LicenseLevel - 1].unshift(frame)
+
+    if (variants) {
+      variants.forEach(v => {
+        this.Unlocks[v.LicenseLevel - 1].push(v)
+      })
+    }
 
     if (frame.IsVariantFrame) this.Hidden = true
   }

@@ -129,7 +129,7 @@ export default class CCCoreBonusSelector extends Vue {
   @Prop(Boolean) levelUp!: boolean
 
   get coreBonuses(): CoreBonus[] {
-    return getModule(CompendiumStore, this.$store).CoreBonuses
+    return getModule(CompendiumStore, this.$store).CoreBonuses.filter(x => !x.IsHidden)
   }
   get manufacturersWithCBs(): {
     manufacturer: Manufacturer
@@ -138,6 +138,7 @@ export default class CCCoreBonusSelector extends Vue {
     const manufacturers = getModule(CompendiumStore, this.$store).Manufacturers
 
     return manufacturers
+      .filter(x => !x.IsHidden)
       .map(manufacturer => ({
         manufacturer,
         coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer.ID === manufacturer.ID),

@@ -139,7 +139,7 @@ export default Vue.extend({
     availableWeapons(): MechWeapon[] {
       const fittings = Rules.MountFittings[this.weaponSlot.Size]
       // filter by fitting size
-      let i = this.weapons.filter(x => fittings.includes(x.Size) && !x.IsHidden)
+      let i = this.weapons.filter(x => fittings.includes(x.Size) && !x.IsHidden && !x.IsExotic)
 
       // filter already equipped
       if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
@@ -160,6 +160,8 @@ export default Vue.extend({
       // if (!this.showOverSP) {
       //   i = i.filter(x => x.SP <= this.freeSP)
       // }
+
+      i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'MechWeapon'))
 
       return _.sortBy(i, ['Source', 'Name'])
     },

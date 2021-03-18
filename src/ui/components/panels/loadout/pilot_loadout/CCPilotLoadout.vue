@@ -4,41 +4,46 @@
       <pilot-armor-card
         :item="pilot.Loadout.Armor[0]"
         :readonly="readonly"
+        :exotics="exotics('PilotArmor')"
         @equip="setArmor($event)"
         @remove="setArmor(null)"
       />
       <v-divider :vertical="$vuetify.breakpoint.mdAndUp" class="mx-4 my-1" />
       <pilot-weapon-card
-        v-for="(w, i) in weapons()"
+        v-for="(w, i) in weapons"
         :key="`pgwi_${i}`"
         :item="w"
         :readonly="readonly"
+        :exotics="exotics('PilotWeapon')"
         @equip="setWeapon($event, i)"
         @remove="setWeapon(null, i)"
       />
       <pilot-weapon-card
-        v-for="(w, i) in extendedWeapons()"
+        v-for="(w, i) in extendedWeapons"
         :key="`pgwi_${i}`"
         :item="w"
         :readonly="readonly"
+        :exotics="exotics('PilotWeapon')"
         @equip="setWeapon($event, i)"
         @remove="setWeapon(null, i)"
       />
     </v-row>
     <v-row dense>
       <pilot-gear-card
-        v-for="(g, i) in gear()"
+        v-for="(g, i) in gear"
         :key="`pgi_${i}`"
         :item="g"
         :readonly="readonly"
+        :exotics="exotics('PilotGear')"
         @equip="setGear($event, i)"
         @remove="setGear(null, i)"
       />
       <pilot-gear-card
-        v-for="(g, i) in extendedGear()"
+        v-for="(g, i) in extendedGear"
         :key="`pgi_${i}`"
         :item="g"
         :readonly="readonly"
+        :exotics="exotics('PilotGear')"
         @equip="$set(pilot.Loadout.ExtendedGear, i, $event)"
         @remove="$set(pilot.Loadout.ExtendedGear, i, null)"
       />
@@ -65,7 +70,7 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-  methods: {
+  computed: {
     gear() {
       return this.pilot.Loadout.Gear
     },
@@ -79,6 +84,11 @@ export default Vue.extend({
     extendedWeapons() {
       if (this.pilot.has('reserve', 'extendedharness')) return this.pilot.Loadout.ExtendedWeapons
       return []
+    },
+  },
+  methods: {
+    exotics(type: string) {
+      return this.pilot.SpecialEquipment.filter(x => x.ItemType === type)
     },
     setArmor(a: PilotArmor | null) {
       this.$set(this.pilot.Loadout.Armor, 0, a)

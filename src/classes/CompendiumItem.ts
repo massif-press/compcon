@@ -34,6 +34,7 @@ abstract class CompendiumItem {
   // public readonly Tags: Tag[]
   public readonly Err: string
   public IsHidden: boolean
+  public IsExotic: boolean
   private _integrated: string[]
   private _baseTags: Tag[]
   protected _name: string
@@ -58,6 +59,7 @@ abstract class CompendiumItem {
       this.Brew = data.brew || 'Core'
       this.LcpName = packName || 'LANCER Core Book'
       this._baseTags = Tag.Deserialize(data.tags, packTags)
+      this.IsExotic = this._baseTags.some(x => x.IsExotic)
       const heatTag = this.Tags.find(x => x.IsHeatCost)
       const heatCost = heatTag ? heatTag.Value : 0
       this.Actions = data.actions

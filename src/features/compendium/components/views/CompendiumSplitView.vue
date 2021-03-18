@@ -6,7 +6,14 @@
           <v-list-item-group v-model="selected" color="accent">
             <v-list-item v-for="i in items" :key="`${i.ID}_sidebar'`" :value="i.ID" dense>
               <v-list-item-icon>
-                <cc-logo v-if="i.Manufacturer" :source="i.Manufacturer" class="mb-n1" />
+                <v-icon v-if="i.IsExotic" color="exotic">
+                  mdi-star
+                </v-icon>
+                <cc-logo
+                  v-else-if="i.Source && i.Manufacturer"
+                  :source="i.Manufacturer"
+                  class="mb-n1"
+                />
                 <v-icon v-else>cci-trait</v-icon>
               </v-list-item-icon>
               <v-list-item-content class="ml-n6 mb-n1">

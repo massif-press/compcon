@@ -15,6 +15,7 @@ const theme = {
     info: '#00e5e5',
     success: '#00C853',
     warning: '#e5e500',
+    exotic: '#FFAB00',
 
     weapon: '#555555',
     'mech-weapon': '#555555',

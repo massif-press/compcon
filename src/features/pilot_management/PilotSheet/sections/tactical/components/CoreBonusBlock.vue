@@ -19,7 +19,7 @@
     >
       <cc-core-bonus-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-container :fluid="!!pilot.CoreBonuses.length" class="px-0">
+    <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonuses.length" />
       <v-row v-else dense justify="center">
         <v-col

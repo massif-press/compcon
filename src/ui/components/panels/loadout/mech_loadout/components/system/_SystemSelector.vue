@@ -133,7 +133,10 @@ export default Vue.extend({
     availableSystems(): MechSystem[] {
       // filter unique
       let i = this.systems.filter(
-        x => !this.mech.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(x.ID) && !x.IsHidden
+        x =>
+          !this.mech.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(x.ID) &&
+          !x.IsHidden &&
+          !x.IsExotic
       )
 
       // filter ai
@@ -150,6 +153,8 @@ export default Vue.extend({
       // if (!this.showOverSP) {
       //   i = i.filter(x => x.SP <= this.freeSP)
       // }
+
+      i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'MechSystem'))
 
       return _.sortBy(i, ['Source', 'Name'])
     },

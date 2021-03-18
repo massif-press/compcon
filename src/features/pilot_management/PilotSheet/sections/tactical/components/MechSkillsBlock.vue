@@ -19,7 +19,7 @@
     >
       <cc-mech-skills-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-row dense class="pt-3 pb-3">
+    <v-row dense class="pt-3 pb-3" justify="space-around">
       <v-col cols="auto" dense class="py-0">
         <hase-pips title="hull" :skill-points="pilot.MechSkills.Hull" />
       </v-col>
