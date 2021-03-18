@@ -26,7 +26,11 @@
           <slot name="overline" />
         </div>
         <div
-          :class="`d-inline ${small ? 'font-weight-bold' : 'heading h3'}`"
+          :class="
+            `d-inline ${small ? 'font-weight-bold' : 'heading h3'} ${
+              item.IsExotic ? 'exotic--text' : ''
+            }`
+          "
           :style="
             `overflow: hidden; width: ${
               small ? '73vw' : '25vw'

@@ -10,6 +10,10 @@ class PilotGear extends PilotEquipment {
     super(data, packTags, packName)
     this.ItemType = ItemType.PilotGear
   }
+
+  public get Icon(): string {
+    return 'cci-pilot'
+  }
 }
 
 export { PilotGear }

@@ -17,7 +17,12 @@
   >
     <template v-slot:[`item.data-table-select`]="{ item }">
       <div v-if="$vuetify.breakpoint.smAndDown" class="text-left" style="display: grid">
-        <v-btn block text color="accent" @click="$refs[`modal_${item.ID}`].show()">
+        <v-btn
+          block
+          text
+          :color="item.IsExotic ? 'exotic' : 'accent'"
+          @click="$refs[`modal_${item.ID}`].show()"
+        >
           {{ item.Name }}
         </v-btn>
       </div>
@@ -28,6 +33,9 @@
         <cc-item-card :item="item" />
       </cc-solo-dialog>
     </template>
+    <template v-slot:[`item.ItemType`]="{ item }">
+      <v-icon v-html="item.Icon" />
+    </template>
     <template v-slot:[`item.Name`]="{ item }">
       <span v-if="spDisable && item.SP > sp && !spIgnore" class="stat-text subtle--text">
         {{ item.Name }}
@@ -35,7 +43,9 @@
           <v-icon color="warning">mdi-alert</v-icon>
         </cc-tooltip>
       </span>
-      <span v-else class="stat-text">{{ item.Name }}</span>
+      <span v-else :class="`stat-text ${item.IsExotic ? 'amber--text text-accent-4' : ''}`">
+        {{ item.Name }}
+      </span>
     </template>
     <template v-slot:[`item.SizeInt`]="{ item }">
       {{ item.Size }}
@@ -62,6 +72,18 @@
       <v-btn v-else color="accent" small tile @click="$emit('equip', item)">
         <v-icon small left>mdi-plus</v-icon>
         Equip
+      </v-btn>
+    </template>
+    <template v-slot:[`item.Add`]="{ item }">
+      <div v-if="$vuetify.breakpoint.smAndDown" class="text-left pl-0 ml-n6" style="display: grid">
+        <v-btn color="accent" small tile @click="$emit('equip', item)">
+          <v-icon small left>mdi-plus</v-icon>
+          Add {{ item.Name }}
+        </v-btn>
+      </div>
+      <v-btn v-else color="accent" small tile @click="$emit('equip', item)">
+        <v-icon small left>mdi-plus</v-icon>
+        Add
       </v-btn>
     </template>
   </v-data-table>

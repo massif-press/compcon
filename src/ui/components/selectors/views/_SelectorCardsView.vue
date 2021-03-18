@@ -9,12 +9,11 @@
             class="mb-n2"
           />
         </v-col>
+      </v-row>
+      <v-row v-else-if="!!s" align="center" justify="center">
         <v-col cols="auto">
-          <div
-            :class="`heading ${$vuetify.breakpoint.mdAndDown ? 'h3' : 'h1'}`"
-            :style="`color: ${s.GetColor($vuetify.theme.dark)}`"
-          >
-            {{ s.Name }}
+          <div :class="`heading ${$vuetify.breakpoint.mdAndDown ? 'h3' : 'h1'}`">
+            {{ s.match(/[A-Z]*[^A-Z]+/g).join(' ') }}
           </div>
         </v-col>
       </v-row>
@@ -24,6 +23,7 @@
           :key="`card_${item.ID}`"
           :item="item"
           :small="$vuetify.breakpoint.smAndDown"
+          :equipment-add="equipmentAdd"
           @equip="$emit('equip', $event)"
         />
       </v-row>
@@ -46,6 +46,7 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
+    equipmentAdd: { type: Boolean },
   },
   data: () => ({
     selected: null,
@@ -55,18 +56,22 @@ export default Vue.extend({
       return getModule(CompendiumStore, this.$store)
     },
     sources() {
-      if (this.items.some(x => x.Source))
-        return _.uniq(
-          this.items.map(x =>
-            this.compendium.Manufacturers.find(y => y.ID === x.Source.toUpperCase())
-          )
+      if (this.equipmentAdd) {
+        return ['']
+      }
+      if (!this.items.some(x => !x.Source)) {
+        const sources = _.uniq(this.items.map(x => x.Source))
+        return sources.map((x: string) =>
+          this.compendium.Manufacturers.find(y => y.ID === x.toUpperCase())
         )
+      }
       return ['']
     },
   },
   methods: {
     itemsBySource(s) {
       if (!s) return this.items
+      if (this.equipmentAdd) return this.items.filter(x => x.ItemType === s)
       return this.items.filter(x => x.Source === s)
     },
   },

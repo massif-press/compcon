@@ -29,7 +29,7 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore, UserStore } from '@/store'
 import { ItemType, PilotArmor, PilotGear } from '@/class'
 import { PilotWeapon } from '@/classes/pilot/PilotWeapon'
 
@@ -57,20 +57,27 @@ export default class PilotGearBrowser extends Vue {
 
   // typing on these is wrong... look into fixing it
   private compendium = getModule(CompendiumStore, this.$store)
+  private user = getModule(UserStore, this.$store).UserProfile
   get armor(): PilotArmor[] {
-    return this.compendium.PilotGear.filter(x => {
-      return !x.IsHidden && x.ItemType === ItemType.PilotArmor
-    }) as PilotArmor[]
+    let arr = this.compendium.PilotGear.filter(
+      x => !x.IsHidden && x.ItemType === ItemType.PilotArmor
+    )
+    if (!this.user.GetView('showExotics')) arr = arr.filter(x => !x.IsExotic)
+    return arr as PilotArmor[]
   }
   get weapons(): PilotWeapon[] {
-    return this.compendium.PilotGear.filter(
+    let arr = this.compendium.PilotGear.filter(
       x => !x.IsHidden && x.ItemType === ItemType.PilotWeapon
-    ) as PilotWeapon[]
+    )
+    if (!this.user.GetView('showExotics')) arr = arr.filter(x => !x.IsExotic)
+    return arr as PilotWeapon[]
   }
   get gear(): PilotGear[] {
-    return this.compendium.PilotGear.filter(
+    let arr = this.compendium.PilotGear.filter(
       x => !x.IsHidden && x.ItemType === ItemType.PilotGear
-    ) as PilotGear[]
+    )
+    if (!this.user.GetView('showExotics')) arr = arr.filter(x => !x.IsExotic)
+    return arr as PilotGear[]
   }
 }
 </script>

@@ -141,7 +141,6 @@ export default Vue.extend({
   }),
   watch: {
     tab(newval: number) {
-      console.log(this.item)
       this.item.SetProfileSelection(newval, true)
     },
   },

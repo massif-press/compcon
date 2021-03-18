@@ -160,6 +160,8 @@ export default Vue.extend({
       //   i = i.filter(x => x.SP <= this.freeSP)
       // }
 
+      i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'WeaponMod'))
+
       return i
     },
   },

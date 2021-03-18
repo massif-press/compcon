@@ -20,40 +20,6 @@
             </v-btn>
             <v-divider class="my-2" />
           </div>
-          <v-btn outlined block color="secondary" class="my-1" @click="bulkExport">
-            Export All COMP/CON Data
-          </v-btn>
-          <v-dialog v-model="importDialog" width="50%">
-            <template v-slot:activator="{ on }">
-              <v-btn outlined block color="secondary" class="my-1" v-on="on">
-                Import All COMP/CON Data
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-text class="pa-6">
-                <p class="text-center heading h2 text--text">
-                  This will OVERWRITE
-                  <b class="accent--text">ALL</b>
-                  local COMP/CON data.
-                  <br />
-                  This
-                  <b class="accent--text">cannot</b>
-                  be undone.
-                </p>
-                <v-file-input
-                  v-model="fileValue"
-                  accept=".compcon"
-                  outlined
-                  dense
-                  hide-details
-                  autofocus
-                  placeholder="Select COMP/CON Bulk Export File"
-                  prepend-icon="mdi-paperclip"
-                  @change="bulkImport"
-                />
-              </v-card-text>
-            </v-card>
-          </v-dialog>
           <v-divider class="my-3" />
           <v-dialog v-model="deleteDialog" width="80%">
             <template v-slot:activator="{ on }">
@@ -103,7 +69,21 @@
         </div>
       </v-col>
       <v-col>
-        <h3 class="heading accent--text">Theme</h3>
+        <h3 class="heading accent--text mb-n2">Compendium</h3>
+        <v-switch v-model="userViewExotics" color="exotic" inset dense hide-details>
+          <span slot="label">
+            Show Exotic Items
+            <cc-tooltip
+              title="SPOILER ALERT"
+              content="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED
+              if you are not the GM"
+              inline
+            >
+              <v-icon color="warning">mdi-alert</v-icon>
+            </cc-tooltip>
+          </span>
+        </v-switch>
+        <h3 class="heading accent--text mt-2">Theme</h3>
         <v-select
           v-model="theme"
           dense
@@ -148,13 +128,23 @@ export default Vue.extend({
     deleteDialog: false,
   }),
   computed: {
-    userID() {
+    user() {
       const store = getModule(UserStore, this.$store)
-      return store.UserProfile.id
+      return store.UserProfile
+    },
+    userViewExotics: {
+      get: function() {
+        return this.user.GetView('showExotics')
+      },
+      set: function(newval) {
+        this.user.SetView('showExotics', newval)
+      },
+    },
+    userID() {
+      return this.user.id
     },
     userTheme() {
-      const store = getModule(UserStore, this.$store)
-      return store.UserProfile.Theme
+      return this.user.Theme
     },
   },
   created() {

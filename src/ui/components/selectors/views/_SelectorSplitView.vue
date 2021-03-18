@@ -6,7 +6,11 @@
           <v-list-item-group v-model="selected" color="accent">
             <v-list-item v-for="i in items" :key="`${i.ID}_sidebar'`" :value="i.ID" dense>
               <v-list-item-icon>
-                <cc-logo v-if="i.Manufacturer" :source="i.Manufacturer" class="mb-n1" />
+                <v-icon v-if="equipmentAdd" v-html="i.Icon" />
+                <v-icon v-else-if="i.IsExotic" color="exotic">
+                  mdi-star
+                </v-icon>
+                <cc-logo v-else-if="i.Manufacturer" :source="i.Manufacturer" class="mb-n1" />
                 <v-icon v-else>cci-trait</v-icon>
               </v-list-item-icon>
               <v-list-item-content class="ml-n6 mt-n1">
@@ -44,7 +48,12 @@
           <div class="heading h1 mt-2 stark--text">{{ selectedItem.Name }}</div>
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
-          <div class="text-center mt-3">
+          <div v-if="equipmentAdd" class="text-center mt-3">
+            <v-btn color="accent" x-large tile @click="$emit('equip', selectedItem)">
+              Add {{ selectedItem.Name }}
+            </v-btn>
+          </div>
+          <div v-else class="text-center mt-3">
             <div
               v-if="spDisable && selectedItem.SP > sp && !spIgnore"
               class="overline warning--text"
@@ -76,6 +85,7 @@ export default Vue.extend({
       type: Array,
       required: true,
     },
+    equipmentAdd: { type: Boolean },
     spDisable: { type: Boolean },
     spIgnore: { type: Boolean },
     sp: { type: Number, required: false, default: 0 },

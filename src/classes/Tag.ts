@@ -19,6 +19,7 @@ class Tag {
   public readonly Brew: string
   public readonly IsUnique: boolean
   public readonly IsAI: boolean
+  public readonly IsExotic: boolean
   public readonly IsLimited: boolean
   public readonly IsLoading: boolean
   public readonly IsRecharging: boolean
@@ -48,6 +49,7 @@ class Tag {
     this.IsSmart = this.ID === 'tg_smart'
     this.IsHeatCost = this.ID === 'tg_heat_self'
     this.IsOverkill = this.ID === 'tg_overkill'
+    this.IsExotic = this.ID === 'tg_exotic'
   }
 
   public get Name(): string {

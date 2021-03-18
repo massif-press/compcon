@@ -31,6 +31,10 @@ class PilotArmor extends PilotEquipment {
     this.Evasion = Bonus.SumStatic(data, 'pilot_evasion')
     this.ItemType = ItemType.PilotArmor
   }
+
+  public get Icon(): string {
+    return 'cci-pilot'
+  }
 }
 
 export { PilotArmor, IPilotArmorData }

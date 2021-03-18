@@ -33,7 +33,7 @@ import { Talent } from '@/class'
 export default class Talents extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
   get talents(): Talent[] {
-    return this.compendium.Talents
+    return this.compendium.Talents.filter(x => !x.IsHidden)
   }
 }
 </script>

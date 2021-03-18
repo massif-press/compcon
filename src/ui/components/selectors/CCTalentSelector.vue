@@ -131,9 +131,10 @@ export default Vue.extend({
     },
     talents(): Talent[] {
       const compendium = getModule(CompendiumStore, this.$store)
-      if (this.search) return compendium.Talents.filter(x => accentInclude(x.Name, this.search))
+      const talents = compendium.Talents.filter(x => !x.IsHidden)
+      if (this.search) return talents.filter(x => accentInclude(x.Name, this.search))
 
-      return _.sortBy(compendium.Talents, [
+      return _.sortBy(talents, [
         t => {
           return this.pilot.Talents.some(x => x.Talent.ID === t.ID) ? -1 : 1
         },

@@ -10,6 +10,7 @@ interface IViewOptions {
   roster: string
   hangar: string
   pilotSheet: string
+  showExotics: boolean
 }
 
 interface ISyncFrequency {
@@ -62,6 +63,7 @@ const defaultViewOptions = (): IViewOptions => ({
   roster: 'list',
   hangar: 'cards',
   pilotSheet: 'tabbed',
+  showExotics: false,
 })
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
@@ -222,14 +224,13 @@ class UserProfile {
     this.save()
   }
 
-  public SetView(view: string, setting: string): void {
+  public SetView(view: string, setting: string | boolean): void {
     this._viewOptions[view] = setting
     this.save()
   }
 
-  public GetView(view: string): string {
+  public GetView(view: string): string | boolean {
     if (this._viewOptions[view]) return this._viewOptions[view]
-    console.error(`No view set in User for ${view}`)
     return ''
   }
 
