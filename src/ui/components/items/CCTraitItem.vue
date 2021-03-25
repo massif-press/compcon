@@ -12,7 +12,7 @@
       <v-col>
         <div class="body-text text--text" v-html="trait.Description" />
       </v-col>
-      <v-col cols="12" lg="auto" :class="$vuetify.breakpoint.lgAndUp ? '' : 'ml-auto'">
+      <v-col cols="12">
         <cc-action
           v-for="(a, i) in trait.Actions"
           :key="`${trait.ID}_action_${i}`"
