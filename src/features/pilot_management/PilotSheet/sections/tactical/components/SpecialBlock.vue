@@ -64,13 +64,12 @@ export default Vue.extend({
   },
   methods: {
     addItem(item) {
-      this.pilot.SpecialEquipment.push(item)
+      this.pilot.AddSpecialEquipment(item)
       this.$refs.specialSelector.hide()
       this.$refs.exoticSelector.hide()
     },
     removeItem(item) {
-      const idx = this.pilot.SpecialEquipment.findIndex(x => x.ID === item.ID)
-      if (idx > -1) this.pilot.SpecialEquipment.splice(idx, 1)
+      this.pilot.RemoveSpecialEquipment(item)
     },
   },
 })

@@ -34,13 +34,13 @@ import { ItemType } from '../enums'
 
 interface IUnlockData {
   PilotArmor: string[]
-  PilotWeapon: string[]
+  PilotWeapons: string[]
   PilotGear: string[]
-  Frame: string[]
-  Weapon: string[]
-  WeaponMod: string[]
-  System: string[]
-  SystemMod: string[]
+  Frames: string[]
+  MechWeapons: string[]
+  WeaponMods: string[]
+  MechSystems: string[]
+  SystemMods: string[]
 }
 
 interface IPilotData {
@@ -925,8 +925,20 @@ class Pilot implements ICloudSyncable {
 
   public set SpecialEquipment(data: CompendiumItem[]) {
     this._special_equipment = data
+  }
+
+  public AddSpecialEquipment(data: CompendiumItem) {
+    this._special_equipment.push(data)
+    console.log('calling save');
     this.save()
   }
+
+  public RemoveSpecialEquipment(data: CompendiumItem) {
+    const idx = this._special_equipment.findIndex(x => x.ID === data.ID)
+    if (idx > -1) this._special_equipment.splice(idx, 1)
+    this.save()
+  }
+
 
   // -- Mechs -------------------------------------------------------------------------------------
   public get Mechs(): Mech[] {
@@ -1116,13 +1128,13 @@ class Pilot implements ICloudSyncable {
   private static serializeSE(equipment: CompendiumItem[]): IUnlockData {
     return {
       PilotArmor: equipment.filter(x => x.ItemType === ItemType.PilotArmor).map(i => i.ID),
-      PilotWeapon: equipment.filter(x => x.ItemType === ItemType.PilotWeapon).map(i => i.ID),
+      PilotWeapons: equipment.filter(x => x.ItemType === ItemType.PilotWeapon).map(i => i.ID),
       PilotGear: equipment.filter(x => x.ItemType === ItemType.PilotGear).map(i => i.ID),
-      Frame: equipment.filter(x => x.ItemType === ItemType.Frame).map(i => i.ID),
-      Weapon: equipment.filter(x => x.ItemType === ItemType.MechWeapon).map(i => i.ID),
-      WeaponMod: equipment.filter(x => x.ItemType === ItemType.WeaponMod).map(i => i.ID),
-      System: equipment.filter(x => x.ItemType === ItemType.MechSystem).map(i => i.ID),
-      SystemMod: equipment.filter(x => x.ItemType === ItemType.SystemMod).map(i => i.ID),
+      Frames: equipment.filter(x => x.ItemType === ItemType.Frame).map(i => i.ID),
+      MechWeapons: equipment.filter(x => x.ItemType === ItemType.MechWeapon).map(i => i.ID),
+      WeaponMods: equipment.filter(x => x.ItemType === ItemType.WeaponMod).map(i => i.ID),
+      MechSystems: equipment.filter(x => x.ItemType === ItemType.MechSystem).map(i => i.ID),
+      SystemMods: equipment.filter(x => x.ItemType === ItemType.SystemMod).map(i => i.ID),
     }
   }
 
@@ -1164,7 +1176,6 @@ class Pilot implements ICloudSyncable {
       orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
       background: p.Background,
       mechSkills: MechSkills.Serialize(p.MechSkills),
-      special_equipment: this.serializeSE(p.SpecialEquipment),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
       skills: p.Skills.map(x => PilotSkill.Serialize(x)),
       talents: p.Talents.map(x => PilotTalent.Serialize(x)),
@@ -1174,6 +1185,7 @@ class Pilot implements ICloudSyncable {
       cc_ver: p.cc_ver,
       counter_data: p.CounterSaveData,
       custom_counters: p.CustomCounterData,
+      special_equipment: this.serializeSE(p.SpecialEquipment),
       combat_history: p.State.Stats,
       state: ActiveState.Serialize(p.State),
       brews: p._brews || [],
@@ -1225,21 +1237,21 @@ class Pilot implements ICloudSyncable {
     this._current_hp = data.current_hp
     this._background = data.background
     this._mechSkills = MechSkills.Deserialize(data.mechSkills)
-    this._special_equipment = data.special_equipment
-      ? Pilot.deserializeSE(data.special_equipment)
-      : []
     this._licenses = data.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
     this._skills = data.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
     this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
     this._core_bonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
     this._reserves = data.reserves
-      ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
-      : []
+    ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
+    : []
     this._orgs = data.orgs
-      ? data.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
-      : []
+    ? data.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
+    : []
     this._mechs = data.mechs.length
-      ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
+    ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
+    : []
+    this._special_equipment = data.special_equipment
+      ? Pilot.deserializeSE(data.special_equipment)
       : []
     this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
     this.cc_ver = data.cc_ver || ''
