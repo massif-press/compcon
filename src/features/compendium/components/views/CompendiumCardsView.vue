@@ -54,12 +54,12 @@ export default Vue.extend({
       return getModule(CompendiumStore, this.$store)
     },
     sources() {
-      if (this.items.some(x => x.Source))
-        return _.uniq(
-          this.items.map(x =>
-            this.compendium.Manufacturers.find(y => y.ID === x.Source.toUpperCase())
-          )
+      if (!this.items.some(x => !x.Source)) {
+        const sources = _.uniq(this.items.map(x => x.Source))
+        return sources.map((x: string) =>
+          this.compendium.Manufacturers.find(y => y.ID === x.toUpperCase())
         )
+      }
       return ['']
     },
   },
