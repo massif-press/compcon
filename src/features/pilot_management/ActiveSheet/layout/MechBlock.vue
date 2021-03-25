@@ -357,7 +357,7 @@
                   v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
                 />
                 <div class="my-1 px-6">
-                  <cc-action v-if="mech.CurrentCoreEnergy > 0" active :action="coreActivator" />
+                  <cc-action v-if="mech.CurrentCoreEnergy > 0" active :action="coreActivator" @use="mech.CurrentCoreEnergy --" />
                   <div
                     v-else
                     class="heading h3 text-center"
