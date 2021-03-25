@@ -1,8 +1,8 @@
 <template>
   <v-container>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 ml-5">REFERENCE</h1>
+    <h1  class="heading mb-3 ml-5">REFERENCE</h1>
     <v-container fluid class="effect-text">
-      <span v-resize-text="{ maxFontSize: '36pt' }" class="heading mech">
+      <span  class="heading mech">
         Structure Damage & Overheating
       </span>
       <v-row dense justify="center">

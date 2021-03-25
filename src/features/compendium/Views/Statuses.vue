@@ -15,7 +15,7 @@
     >
       <v-list-item-title class="heading h3 ml-2">{{ e.name }}</v-list-item-title>
     </v-list-item>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mt-3 mb-n3">STATUSES & EFFECTS</h1>
+    <h1  class="heading mt-3 mb-n3">STATUSES & EFFECTS</h1>
     <v-container>
       <cc-titled-panel
         v-for="(e, i) in statuses"

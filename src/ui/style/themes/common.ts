@@ -18,7 +18,7 @@ export default {
   repcap: '#8E8E8E',
   overcharge: '#F50057',
   corepower: '#00BFA5',
-  background: '#EDEDED',
+  background: '#f4f4f4',
 
   'action--move': '#C62828',
   'action--full': '#283593',

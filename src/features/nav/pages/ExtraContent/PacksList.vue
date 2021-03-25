@@ -128,9 +128,6 @@ export default class PacksList extends Vue {
 </script>
 
 <style scoped>
-.packsList >>> .packVersion {
-  font-family: 'Roboto Mono', monospace;
-}
 .packsList >>> .v-data-table tbody tr.v-data-table__expanded__content {
   box-shadow: none;
 }

@@ -9589,11 +9589,6 @@ moment@^2.22.1:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
   integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
-mousetrap@^1.6.5:
-  version "1.6.5"
-  resolved "https://registry.yarnpkg.com/mousetrap/-/mousetrap-1.6.5.tgz#8a766d8c272b08393d5f56074e0b5ec183485bf9"
-  integrity sha512-QNo4kEepaIBwiT8CDhP98umTetp+JNfQYBWvC1pc6/OAibuXtRcxZ58Qz8skvEHYvURne/7R8T5VoOI7rDsEUA==
-
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -10528,11 +10523,6 @@ pixelmatch@^4.0.0, pixelmatch@^4.0.2:
   integrity sha1-j0fc7FARtHe2fbA8JDvB8wheiFQ=
   dependencies:
     pngjs "^3.0.0"
-
-pizzly-js@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/pizzly-js/-/pizzly-js-0.2.8.tgz#5fb118c9e0faaf5716b3de5ab76aa276c06faf1c"
-  integrity sha512-770xh/dunk7034B5C0EZChRd9gIhhrDTvol5rt0EspM5Ny69kaluenjoh+jbu9HNJUZw019Iayqh9vTpItAFGA==
 
 pkg-dir@^1.0.0:
   version "1.0.0"
@@ -12981,11 +12971,6 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeface-roboto@^0.0.75:
-  version "0.0.75"
-  resolved "https://registry.yarnpkg.com/typeface-roboto/-/typeface-roboto-0.0.75.tgz#98d5ba35ec234bbc7172374c8297277099cc712b"
-  integrity sha512-VrR/IiH00Z1tFP4vDGfwZ1esNqTiDMchBEXYY9kilT6wRGgFoCAlgkEUMHb1E3mB0FsfZhv756IF0+R+SFPfdg==
-
 typeit@^6.0.3:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/typeit/-/typeit-6.5.1.tgz#e5ad713e1d92a802d781f7c0c9a24459bd9385b9"
@@ -13332,24 +13317,12 @@ vue-loader@^15.7.2:
     vue-hot-reload-api "^2.3.0"
     vue-style-loader "^4.1.0"
 
-vue-mousetrap@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/vue-mousetrap/-/vue-mousetrap-1.0.2.tgz#702a54da04f97e628dc2ed12608ba449b2b19470"
-  integrity sha512-7JcLgTv61nA0KcRYjMabUn8oY4XWTFfhI9/wwHozQgWnphBtMwj8Pquu4pfqukwqkPxP9FUCvIPr9cjZgwRpvg==
-  dependencies:
-    mousetrap "^1.6.5"
-
 vue-property-decorator@^8.3.0:
   version "8.5.1"
   resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-8.5.1.tgz#571a91cf8d2b507f537d79bf8275af3184572fff"
   integrity sha512-O6OUN2OMsYTGPvgFtXeBU3jPnX5ffQ9V4I1WfxFQ6dqz6cOUbR3Usou7kgFpfiXDvV7dJQSFcJ5yUPgOtPPm1Q==
   dependencies:
     vue-class-component "^7.1.0"
-
-vue-resize-text@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/vue-resize-text/-/vue-resize-text-0.1.1.tgz#b3143c086d412ca181c2b2abd0153bc22742d11b"
-  integrity sha512-teQjTzJpwYdBKG2hOc7lA6U3hUNuew3nROuPLPRzX1wxSgG/tQ+YNOHobxXxuIKf36zFTs68y2Y0JY1zx7fZrg==
 
 vue-router@^3.0.6:
   version "3.5.1"

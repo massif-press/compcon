@@ -4,7 +4,7 @@
       large
       tile
       block
-      dark
+      class="white--text"
       :disabled="disableCostActivate"
       :color="`${action.Color}`"
       @click="select()"
@@ -17,7 +17,7 @@
       small
       tile
       block
-      dark
+      class="white--text"
       color="action--free"
       @click="select(true)"
     >

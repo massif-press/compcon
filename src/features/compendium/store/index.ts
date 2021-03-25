@@ -44,6 +44,7 @@ import {
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
 import { IReserveData } from '@/classes/pilot/reserves/Reserve'
 import * as PlayerAction from '@/classes/Action'
+import { Background, IBackgroundData } from '@/classes/Background'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -85,6 +86,9 @@ export class CompendiumStore extends VuexModule {
   }
   public get NpcFeatures(): NpcFeature[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
+  }
+  public get Backgrounds(): Background[] {
+    return lancerData.backgrounds.map(((x: IBackgroundData) => new Background(x))).concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
   }
   @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
   @Brewable(() =>

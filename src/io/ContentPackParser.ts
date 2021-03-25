@@ -77,6 +77,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
 
   const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json')
   const factions = await getZipData<IFactionData>(zip, 'factions.json')
+  const backgrounds = await getZipData<IFactionData>(zip, 'backgrounds.json')
   const coreBonuses = generateIDs(await getZipData<ICoreBonusData>(zip, 'core_bonuses.json'), 'cb')
   const frames = generateIDs(await getZipData<IFrameData>(zip, 'frames.json'), 'mf')
   const weapons = generateIDs(await getZipData<IMechWeaponData>(zip, 'weapons.json'), 'mw')
@@ -105,6 +106,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
     data: {
       manufacturers,
       factions,
+      backgrounds,
       coreBonuses,
       frames,
       weapons,

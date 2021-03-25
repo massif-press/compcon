@@ -21,22 +21,6 @@ export default Vue.extend({
     Navbar,
   },
   mounted() {
-    this.$mousetrap.bind('g r', () => {
-      this.$router.push('/pilot_management')
-    })
-    this.$mousetrap.bind('g h', () => {
-      this.$router.push('/hangar')
-    })
-    this.$mousetrap.bind('g c', () => {
-      this.$router.push('/compendium')
-    })
-    this.$mousetrap.bind(['ctrl+left', 'backspace'], () => {
-      this.$router.go(-1)
-    })
-    this.$mousetrap.bind('ctrl+right', () => {
-      this.$router.go(1)
-    })
-
     Vue.prototype.$confirm = this.$refs.confirm.open
     Vue.prototype.$notify = this.$refs.notifier.notify.bind(this.$refs.notifier)
     // TODO: disable in dev

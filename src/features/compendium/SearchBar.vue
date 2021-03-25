@@ -20,13 +20,6 @@ export default Vue.extend({
   data: () => ({
     searchText: '',
   }),
-  mounted() {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const vm = this
-    vm.$mousetrap.bind(['ctrl+f', '/'], () => {
-      ;(vm.$refs.input as HTMLElement).focus()
-    })
-  },
   methods: {
     search() {
       this.$router.push(`/compendium/search?search=${this.searchText}`)

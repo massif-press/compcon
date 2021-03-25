@@ -17,19 +17,19 @@
             })
           "
         >
-          <v-list-item-title class="heading h3 ml-2">{{ e.name }}</v-list-item-title>
+          <v-list-item-title class="heading h3 ml-2">{{ e.Name }}</v-list-item-title>
         </v-list-item>
         <br />
         <v-row v-for="(e, i) in backgrounds" :id="`e_${e.id}`" :key="`${e.id}_${i}`" dense>
           <v-col>
             <cc-titled-panel
               icon="cci-orbit"
-              :title="e.name"
+              :title="e.Name"
               class="ma-3 ml-5"
               clickable
-              @click="choose(e.name)"
+              @click="choose(e.Name)"
             >
-              <p class="flavor-text" v-html-safe="e.description" />
+              <p class="flavor-text" v-html-safe="e.Description" />
             </cc-titled-panel>
           </v-col>
         </v-row>
@@ -40,7 +40,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { backgrounds } from 'lancer-data'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'cc-background-selector',
@@ -56,7 +57,7 @@ export default Vue.extend({
   methods: {
     open() {
       this.$refs.dialog.show()
-      this.backgrounds = backgrounds
+      this.backgrounds = getModule(CompendiumStore, this.$store).Backgrounds
     },
     choose(background: string) {
       this.$emit('select', background)

@@ -1,6 +1,6 @@
 <template>
   <v-container px-5>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading">LICENSES</h1>
+    <h1  class="heading">LICENSES</h1>
     <v-row v-for="m in Object.keys(licenses)" :key="m">
       <v-col class="text-center pa-3">
         <div>
