@@ -28,7 +28,7 @@ const theme = {
     'light-text': '#424242',
     'stark-text': '#000',
 
-    background: '#EDEDED',
+    background: '#f4f4f4',
     panel: '#ccc',
     'light-panel': '#dbdbdb',
     'dark-panel': '#d6d6d6',

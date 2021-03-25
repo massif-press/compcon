@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import '@mdi/font/css/materialdesignicons.css'
-import 'typeface-roboto/index.css'
 import 'material-icons/iconfont/material-icons.css'
 import './assets/css/global.css'
 import './ui/style/_style.css'
@@ -15,9 +14,7 @@ import router from './router'
 import { store } from './store'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
-import VueMousetrap from 'vue-mousetrap'
 import lancerData from 'lancer-data'
-import VueResizeText from 'vue-resize-text'
 
 import './registerServiceWorker'
 
@@ -66,12 +63,10 @@ const vuetify = new Vuetify(theme)
 
 Vue.use(VueSecureHTML)
 Vue.use(Vuetify)
-Vue.use(VueMousetrap)
 Vue.use(TiptapVuetifyPlugin, {
   vuetify,
   iconsGroup: 'md',
 })
-Vue.use(VueResizeText)
 // Vue.use(Amplify)
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'

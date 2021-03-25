@@ -15,7 +15,7 @@
     >
       <v-list-item-title class="heading h3 ml-2">{{ t.Name }}</v-list-item-title>
     </v-list-item>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mt-3 mb-2">PILOT TALENTS</h1>
+    <h1  class="heading mt-3 mb-2">PILOT TALENTS</h1>
     <div v-for="t in talents" :id="`e_${t.ID}`" :key="`${t.ID}_data'`" class="pb-3">
       <cc-talent-panel :talent="t" />
     </div>

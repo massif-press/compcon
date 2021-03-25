@@ -1,6 +1,6 @@
 <template>
   <v-container fluid px-5>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading">FACTIONS</h1>
+    <h1  class="heading">FACTIONS</h1>
     <v-tabs
       v-model="tabModel"
       :vertical="$vuetify.breakpoint.lgAndUp"

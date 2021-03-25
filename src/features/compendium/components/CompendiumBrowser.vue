@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="mx-2 mt-n2 mb-2" no-gutters align="center">
       <v-col cols="auto">
-        <h1 v-resize-text="{ maxFontSize: '42pt' }" class="ml-n2 heading accent--text"><slot /></h1>
+        <h1 class="ml-n2 heading accent--text"><slot /></h1>
       </v-col>
       <v-col cols="auto" class="ml-4 mr-2">
         <v-btn-toggle :value="profile.GetView('selector')" mandatory>

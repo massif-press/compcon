@@ -47,6 +47,7 @@ import {
   ITagCompendiumData,
 } from '@/interface'
 import { Action } from './Action'
+import { Background, IBackgroundData } from './Background'
 
 export interface IContentPackManifest {
   name: string
@@ -60,6 +61,7 @@ export interface IContentPackManifest {
 interface IContentPackData {
   manufacturers: IManufacturerData[]
   factions: IFactionData[]
+  backgrounds: IBackgroundData[]
   coreBonuses: ICoreBonusData[]
   frames: IFrameData[]
   weapons: IMechWeaponData[]
@@ -126,6 +128,11 @@ export class ContentPack {
   private _Factions: Faction[] = []
   public get Factions(): Faction[] {
     return this._Factions
+  }
+
+  private _Backgrounds: Background[] = []
+  public get Backgrounds(): Background[] {
+    return this._Backgrounds
   }
 
   private _CoreBonuses: CoreBonus[] = []
@@ -238,6 +245,7 @@ export class ContentPack {
 
     self._Manufacturers = self._data.manufacturers?.map(x => new Manufacturer(x)) || []
     self._Factions = self._data.factions?.map(x => new Faction(x)) || []
+    self._Backgrounds = self._data.backgrounds?.map(x => new Background(x)) || []
     self._CoreBonuses =
       self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags, self._manifest.name)) || []
     self._Frames =

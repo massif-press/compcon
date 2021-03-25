@@ -3,15 +3,16 @@
     title="PILOT BACKGROUNDS"
     :array="backgrounds"
     icon="cci-orbit"
-    name-key="name"
-    description-key="description"
+    name-key="Name"
+    description-key="Description"
   />
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import SidebarArrayView from '../components/SidebarArrayView.vue'
-import { backgrounds } from 'lancer-data'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'backgrounds',
@@ -20,7 +21,7 @@ export default Vue.extend({
     backgrounds: [],
   }),
   created() {
-    this.backgrounds = backgrounds
+    this.backgrounds = getModule(CompendiumStore, this.$store).Backgrounds
   },
 })
 </script>

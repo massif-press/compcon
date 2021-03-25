@@ -4,8 +4,6 @@ declare module '*.vue' {
   export default Vue
 }
 
-declare module 'vue-mousetrap'
-
 declare module 'gist-client'
 
 declare module 'imgur'

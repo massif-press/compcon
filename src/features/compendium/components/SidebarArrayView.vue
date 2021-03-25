@@ -15,7 +15,7 @@
     >
       <v-list-item-title class="heading h3 ml-2">{{ e[nameKey] }}</v-list-item-title>
     </v-list-item>
-    <h1 v-resize-text="{ maxFontSize: '36pt' }" class="heading mb-3 mt-2">{{ title }}</h1>
+    <h1 class="heading mb-3 mt-2">{{ title }}</h1>
     <cc-titled-panel
       v-for="(e, i) in array"
       :id="`e_${e[nameKey].replace(/\W/g, '')}`"
