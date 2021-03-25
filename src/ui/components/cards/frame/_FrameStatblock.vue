@@ -10,7 +10,7 @@
       <cc-statblock-panel icon="$vuetify.icons.heat" name="Heat Capacity" :value="frame.HeatCap" />
       <cc-statblock-panel
         icon="$vuetify.icons.sensor"
-        name="Sensor Range"
+        name="Sensors"
         :value="frame.SensorRange"
       />
       <cc-statblock-panel icon="$vuetify.icons.tech" name="Tech Attack" :value="frame.TechAttack" />
