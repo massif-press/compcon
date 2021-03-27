@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-if="profile && profile.GetView">
     <tabbed-layout v-if="profile.GetView('pilotSheet') === 'tabbed'" :page="tab" :pilot="pilot" />
     <classic-layout
       v-else-if="profile.GetView('pilotSheet') === 'classic'"
       :page="tab"
       :pilot="pilot"
     />
-    <pilot-nav :pilot="pilot" :selected="tab" @set-layout="profile.SetView('pilotSheet', $event)" />
+    <pilot-nav :pilot="pilot" :selected="tab" @set="profile.SetView('pilotSheet', $event)" />
   </div>
 </template>
 

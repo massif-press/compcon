@@ -314,6 +314,7 @@
             </v-col>
           </v-row>
         </v-slide-x-reverse-transition>
+        <br>
         <v-slide-x-reverse-transition>
           <v-row v-if="hit || missed" align="center" class="mt-1">
             <v-col cols="auto" class="ml-auto" />
@@ -439,7 +440,7 @@ each source of damage is used.`
             </v-slide-x-reverse-transition>
             <v-slide-x-reverse-transition>
               <v-col v-if="overkill" cols="12">
-                <div class="text-right overline stark--text mt-n2 mb-n1">
+                <div class="text-right overline stark--text mt-n2">
                   <b>OVERKILL</b>
                 </div>
                 <v-row no-gutters justify="end" align="center">
