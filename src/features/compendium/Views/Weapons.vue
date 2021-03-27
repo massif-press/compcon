@@ -30,7 +30,6 @@ export default class Weapons extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
   private user = getModule(UserStore, this.$store).UserProfile
   public get weapons(): MechWeapon[] {
-    console.log(this.user.GetView('showExotics'))
     let arr = this.compendium.MechWeapons.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
     if (!this.user.GetView('showExotics')) {
       arr = arr.filter(x => !x.IsExotic)
