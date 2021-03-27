@@ -60,7 +60,7 @@
 
     <v-row dense align="start" justify="space-between">
       <v-col>
-        <div class="overline mb-n2">SKILL TRIGGERS</div>
+        <div class="overline">SKILL TRIGGERS</div>
         <div class="text-left">
           <v-chip
             v-for="(s, i) in pilot.Skills"
@@ -78,7 +78,6 @@
         </div>
       </v-col>
       <v-col cols="4">
-        <div class="overline mb-n4">MECH SKILLS</div>
         <v-row dense justify="space-between" class="mt-n5 pl-3">
           <v-col>
             <span class="font-weight-bold overline  pr-4">HULL</span>
