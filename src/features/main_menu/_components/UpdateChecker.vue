@@ -2,11 +2,13 @@
   <v-btn
     v-if="updateFound"
     small
-    class="primary--text glow-anim"
+    dark
+    color="secondary"
+    class="glow-anim"
     style="z-index:999!important"
     @click="updateClick"
   >
-    <v-icon left small color="primary">
+    <v-icon left small>
       cloud_download
     </v-icon>
     {{ updateText }}

@@ -24,8 +24,7 @@ export class UpdateChecker extends EventEmitter {
     const self = this
     if (val === true && this.updateAvailable !== true) {
       this.emit('updatefound')
-      Vue.prototype.$notify('Update found! Click <b>here</b> to download it.', null, () => {
-        window.location.reload(true)
+      Vue.prototype.$notify('Update found! Refresh to update your version of COMP/CON', null, () => {
         self.getUpdate()
       })
     }

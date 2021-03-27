@@ -9,7 +9,7 @@
       <v-icon left large dark>cci-drone</v-icon>
       {{ deployable.name }}
     </span>
-    <v-chip slot="title-items" color="stark" small class="stat-text mr-2 pr-0 mt-4" outlined label>
+    <v-chip slot="title-items" dark small class="stat-text mr-2 pr-0 mt-4" outlined label>
       DEPLOY&nbsp;
       <v-chip small label dark :color="`action--${activation.toLowerCase()}`">
         {{ activation.toUpperCase() }}

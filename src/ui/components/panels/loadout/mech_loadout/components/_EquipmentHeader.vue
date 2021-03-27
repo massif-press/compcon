@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters align="center" class="mb-n1">
+  <v-row no-gutters align="center" class="mt-0 mb-n1">
     <v-col cols="auto">
       <span :class="`heading h3 ${interior ? 'white--text' : 'text--text'}`">
         <v-icon v-if="item.IsCascading" color="warning" class="mt-n1">

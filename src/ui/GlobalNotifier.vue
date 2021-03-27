@@ -20,7 +20,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import Component from 'vue-class-component'
-
+import { getModule } from 'vuex-module-decorators'
+import { NavStore } from '@/store'
 import uuid from 'uuid/v4'
 
 import NotificationSnackbar from './NotificationSnackbar.vue'
@@ -47,6 +48,14 @@ export default class GlobalNotifier extends Vue {
   public notifyError(error: Error): void {
     if (!error || !error.message) return
     console.error(error.message)
+    const vm = this
+    const nm = getModule(NavStore, this.$store)
+    nm.logError({
+      time: new Date(),
+      message: error.message,
+      component: vm?.$options?.name ?? undefined,
+      stack: error.stack,
+    })
     this.notify(error.message, 'error')
   }
 

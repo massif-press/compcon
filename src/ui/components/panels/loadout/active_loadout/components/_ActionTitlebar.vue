@@ -1,12 +1,12 @@
 <template>
-  <cc-titlebar large :color="unusable ? '#616161' : action.Color">
+  <cc-titlebar large :color="unusable ? '#616161' : action.Color" class="white--text">
     <v-icon v-if="!noAction" dark x-large v-html="unusable ? 'mdi-cancel' : action.Icon" />
     {{ action.Name }}
     <span v-if="unusable" class="flavor-text">
       <cc-slashes />
       Action Unavailable
     </span>
-    <span v-else-if="action.Origin" class="flavor-text">
+    <span v-else-if="action.Origin" class="flavor-text white--text">
       <cc-slashes />
       {{ action.Origin }}
     </span>

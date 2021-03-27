@@ -34,7 +34,7 @@
               <span class="heading h2">{{ item.SP }}</span>
               <span class="heading h3">SP</span>
             </div>
-            <v-btn v-if="!rest" right icon class="fadeSelect" @click.stop="hide = !hide">
+            <v-btn v-if="!rest" right dark icon class="fadeSelect" @click.stop="hide = !hide">
               <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
             <div v-else class="mr-4" />
@@ -43,7 +43,7 @@
         <v-slide-y-transition>
           <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
             <div class="underline-slide">
-              <v-row dense justify="center">
+              <v-row v-if="item.Actions.length" dense justify="center" class="my-1">
                 <v-col
                   v-for="(a, i) in item.Actions"
                   :key="`${item.Name}_action_${i}`"

@@ -1,23 +1,7 @@
 <template>
   <v-row no-gutters class="my-1">
     <v-col>
-      <v-btn
-        x-large
-        block
-        dark
-        tile
-        :color="
-          item.ItemType === 'MechWeapon' && !item.Loaded
-            ? 'grey darken-2'
-            : selected
-            ? 'secondary'
-            : color
-            ? color
-            : item.Color
-        "
-        :disabled="disabled"
-        @click="$emit('click')"
-      >
+      <v-btn x-large block dark tile :color="btnColor" :disabled="disabled" @click="$emit('click')">
         <span style="position: absolute; left: 0">
           <v-icon large left>{{ item.Icon }}</v-icon>
           {{ item.Name }}
@@ -36,6 +20,13 @@
 import Vue from 'vue'
 export default Vue.extend({
   name: 'item-selector-row',
+  computed: {
+    btnColor() {
+      if (this.item.ItemType === 'MechWeapon' && !this.item.Loaded) return 'grey darken-2'
+      else if (this.selected) return 'accent'
+      return this.color
+    },
+  },
   props: {
     item: {
       type: Object,

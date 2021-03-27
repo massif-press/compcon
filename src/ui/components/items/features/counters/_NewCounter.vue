@@ -5,7 +5,7 @@
     style="position: relative"
     :elevation="creating ? 12 : 0"
     class="clipped-large text-center"
-    width="200px"
+    width="215px"
     height="118px"
   >
     <transition name="fade">
