@@ -8,7 +8,7 @@ abstract class Mount {
   protected lock: boolean
   protected slots: WeaponSlot[]
   protected extra: WeaponSlot[]
-  private _name_override: string
+  protected _name_override: string
 
   public constructor(mountType: MountType) {
     this._id = uuid()
@@ -67,7 +67,8 @@ abstract class Mount {
     if (
       this.Type == MountType.Flex &&
       this.slots[0].Weapon &&
-      this.slots[0].Weapon.Size === WeaponSize.Aux
+      this.slots[0].Weapon.Size === WeaponSize.Aux &&
+      this._name_override !== 'Retrofitted Mount'
     )
       return this.slots.concat(this.extra)
     return this.slots

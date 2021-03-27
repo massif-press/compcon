@@ -17,14 +17,14 @@
                 <v-list-item-title
                   :class="
                     `heading h3 ${
-                      spDisable && i.SP > sp && !spIgnore ? 'subtle--text' : 'stark--text'
+                      spDisable && i.SP > 0 && i.SP > sp && !spIgnore ? 'subtle--text' : 'stark--text'
                     } font-weight-bold`
                   "
                   style="font-size: 15px"
                 >
                   {{ i.Name }}
                   <cc-tooltip
-                    v-if="spDisable && i.SP > sp && !spIgnore"
+                    v-if="spDisable && i.SP > 0 && i.SP > sp && !spIgnore"
                     inline
                     content="Equipment exceeds System Point capacity"
                   >
@@ -55,7 +55,7 @@
           </div>
           <div v-else class="text-center mt-3">
             <div
-              v-if="spDisable && selectedItem.SP > sp && !spIgnore"
+              v-if="spDisable && selectedItem.SP > 0 && selectedItem.SP > sp && !spIgnore"
               class="overline warning--text"
             >
               // ALERT: EQUIPMENT EXCEEDS SYSTEM POINT CAPACITY //
@@ -64,7 +64,7 @@
               color="secondary"
               x-large
               tile
-              :disabled="spDisable && selectedItem.SP > sp && !spIgnore"
+              :disabled="spDisable && selectedItem.SP > 0 && selectedItem.SP > sp && !spIgnore"
               @click="$emit('equip', selectedItem)"
             >
               Equip {{ selectedItem.Name }}
