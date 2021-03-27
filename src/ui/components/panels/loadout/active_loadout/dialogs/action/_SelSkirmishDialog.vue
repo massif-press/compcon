@@ -14,7 +14,7 @@
         </v-btn>
       </cc-titlebar>
       <cc-titlebar v-else large color="action--quick">
-        <v-icon x-large>mdi-hexagon-slice-3</v-icon>
+        <v-icon x-large color="white">mdi-hexagon-slice-3</v-icon>
         Skirmish
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>

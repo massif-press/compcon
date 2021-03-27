@@ -71,7 +71,9 @@
               color="armor"
               full-icon="mdi-shield"
               number-only
+              hide-values
               readonly
+              justify="center"
             >
               <span class="heading h3">Armor: {{ mech.Armor }}</span>
             </cc-tick-bar>
@@ -89,6 +91,7 @@
               :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
               :max-length="$vuetify.breakpoint.xl ? 35 : 20"
               :number-only="$vuetify.breakpoint.mdAndDown"
+              justify="start"
               @update="state.SetHp($event)"
             >
               <span class="heading h3">HP</span>
@@ -105,6 +108,7 @@
               large
               color="stark"
               :full-icon="'mdi-octagram'"
+              justify="center"
               max-length="6"
               hide-max
               clearable
@@ -208,7 +212,7 @@
               clearable
               color="overcharge"
               full-icon="mdi-alert-decagram"
-              class="text-center"
+              justify="center"
               hide-values
               @update="state.SetOvercharge($event)"
             >
@@ -232,7 +236,7 @@
               no-input
               clearable
               color="corepower"
-              class="text-center"
+              justify="center"
               empty-icon="mdi-battery-10"
               full-icon="mdi-battery"
               hide-values

@@ -42,7 +42,7 @@
                 class="d-inline"
               />
             </span>
-            <v-btn v-if="!rest" right icon class="fadeSelect" @click.stop="hide = !hide">
+            <v-btn v-if="!rest" right icon class="fadeSelect" dark @click.stop="hide = !hide">
               <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
             <div v-else class="mr-4" />
@@ -97,7 +97,7 @@
                 </v-col>
               </v-row>
 
-              <div class="mt-n1">
+              <div>
                 <div v-if="item.ProfileEffect" class="py-1">
                   <div class="mb-n2">
                     <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileEffect" />

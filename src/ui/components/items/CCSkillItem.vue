@@ -33,7 +33,7 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content v-if="skill.Detail">
           <v-row no-gutters>
-            <v-col offset-md="3">
+            <v-col>
               <p class="text-left flavor-text mb-0">{{ skill.Detail }}</p>
             </v-col>
           </v-row>

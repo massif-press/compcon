@@ -32,7 +32,7 @@
         id="img-hover"
         :src="frame(license.FrameID).DefaultImage"
         max-height="100%"
-        :position="`top ${frame(license.FrameID).YPosition}% left 200px`"
+        :position="`top ${frame(license.FrameID).YPosition}% left 100px`"
         style="position:absolute; top: 0; right: 0; z-index: 9"
       />
     </v-expansion-panel-header>

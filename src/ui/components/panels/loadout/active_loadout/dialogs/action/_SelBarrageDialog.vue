@@ -7,7 +7,7 @@
   >
     <v-card tile class="background">
       <cc-titlebar large color="action--full">
-        <v-icon x-large>mdi-hexagon-slice-6</v-icon>
+        <v-icon x-large color="white">mdi-hexagon-slice-6</v-icon>
         Barrage
         <v-btn slot="items" dark icon @click="hide()">
           <v-icon large left>close</v-icon>

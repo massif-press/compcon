@@ -22,7 +22,7 @@
     <v-container class="px-0">
       <no-data-block v-if="!pilot.Talents.length" />
       <v-row v-else dense justify="center">
-        <v-col v-for="(t, i) in pilot.Talents" :key="`t_${i}`" cols="12" lg="6" xl="4">
+        <v-col v-for="(t, i) in pilot.Talents" :key="`t_${i}`" cols="12">
           <cc-talent-item
             :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
             :talent="t.Talent"

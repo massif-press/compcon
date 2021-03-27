@@ -110,7 +110,7 @@
 
     <v-slide-y-reverse-transition>
       <v-container v-if="!confirmed" fluid>
-        <v-row dense align="center" class="mt-n1">
+        <v-row align="center" >
           <v-col lg="auto" md="12" class="mt-n5">
             <v-row dense class="text-center mb-n3" justify="start" align="start">
               <v-col v-if="item.Range" cols="auto" class="mr-8">
@@ -249,7 +249,7 @@
                   large
                   tile
                   block
-                  dark
+                  class="white--text"
                   :disabled="attackFree || !attackRoll || (!improv && !state.IsSkirmishAvailable)"
                   :color="
                     `${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
@@ -266,7 +266,7 @@
                   small
                   tile
                   block
-                  dark
+                  class="white--text"
                   :disabled="attackQuick || !attackRoll"
                   :color="`action--free ${attackFree ? 'lighten-1' : ''}`"
                   @click="attackFree = !attackFree"
@@ -288,7 +288,7 @@
           </v-col>
         </v-row>
         <v-slide-x-reverse-transition>
-          <v-row v-if="attacked" dense class="mt-n2">
+          <v-row v-if="attacked" class="mt-n2">
             <v-col md="6" lg="3" xl="2" class="ml-auto">
               <v-btn
                 tile
@@ -315,7 +315,7 @@
           </v-row>
         </v-slide-x-reverse-transition>
         <v-slide-x-reverse-transition>
-          <v-row v-if="hit || missed" dense align="center" class="mt-1">
+          <v-row v-if="hit || missed" align="center" class="mt-1">
             <v-col cols="auto" class="ml-auto" />
             <v-col v-if="hit && crit" cols="auto" class="text-center">
               <cc-tooltip

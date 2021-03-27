@@ -25,7 +25,6 @@ export class NavStore extends VuexModule {
   public Errors: IErrorReport[] = []
 
   // ERROR NOTIFIER
-  // TODO: set prod only
   @Mutation
   public [LOG_ERROR](error: IErrorReport) {
     this.Errors = [error, ...this.Errors]

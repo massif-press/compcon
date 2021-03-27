@@ -43,7 +43,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row v-if="!noPips && !maxExceeded" no-gutters align="center" justify="start" class="mt-0">
+    <v-row v-if="!noPips && !maxExceeded" no-gutters align="center" :justify="justify" class="mt-0">
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
         <v-btn icon small class="fadeSelect" @click="$emit('update', model - 1)">
           <v-icon :color="color">mdi-minus</v-icon>

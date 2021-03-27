@@ -291,7 +291,7 @@
                 subheader="FRAME TRAIT"
               >
                 <div v-html-safe="trait.Description" />
-                <v-row dense>
+                <v-row v-if="trait.Actions.length" dense>
                   <v-col
                     v-for="(a, j) in trait.Actions"
                     :key="`${trait.Name}_action_${j}`"
