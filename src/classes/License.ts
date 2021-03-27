@@ -77,6 +77,12 @@ class License {
     return this.Unlocks[rank - 1]
   }
 
+  public UnlocksByTotalRank(rank: number): LicensedItem[] {
+    let out = this.Unlocks.flatMap(x => x)
+    out = out.filter(x => x.LicenseLevel <= rank)
+    return out
+  }
+
   public ToString(): string {
     return `${this.Source} ${this.Name}`
   }
