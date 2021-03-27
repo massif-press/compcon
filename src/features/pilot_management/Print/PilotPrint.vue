@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="mt-n7">
+  <v-container fluid  >
     <v-row dense align="start">
       <v-col cols="auto" class="mr-4">
         <div class="overline mt-n2 mb-n4">CALLSIGN</div>
@@ -58,9 +58,9 @@
       </v-col>
     </v-row>
 
-    <v-row dense align="start" justify="space-between" class="mt-n2">
+    <v-row dense align="start" justify="space-between">
       <v-col>
-        <div class="overline mb-n2 mt-n1">SKILL TRIGGERS</div>
+        <div class="overline mb-n2">SKILL TRIGGERS</div>
         <div class="text-left">
           <v-chip
             v-for="(s, i) in pilot.Skills"
@@ -78,7 +78,7 @@
         </div>
       </v-col>
       <v-col cols="4">
-        <div class="overline mb-n4 mt-n1">MECH SKILLS</div>
+        <div class="overline mb-n4">MECH SKILLS</div>
         <v-row dense justify="space-between" class="mt-n5 pl-3">
           <v-col>
             <span class="font-weight-bold overline  pr-4">HULL</span>
@@ -178,7 +178,7 @@
       </v-col>
     </v-row>
 
-    <div class="overline mb-n5 mt-n1">PILOT LOADOUT</div>
+    <div class="overline mb-n3 mt-n1">PILOT LOADOUT</div>
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
         v-for="(a, i) in pilot.Loadout.Armor.filter(x => x)"

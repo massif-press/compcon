@@ -6,7 +6,7 @@
         <div class="heading h2 mt-n4 font-weight-bolder">{{ mech.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-center caption">
-        <div class="overline my-n2">OVERCHARGE</div>
+        <div class="overline mt-n2">OVERCHARGE</div>
         <span class="mx-1 oc-border">
           &nbsp;+1
           <v-icon small class="ml-n1">mdi-fire</v-icon>
@@ -84,9 +84,9 @@
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-between" align="start">
+    <v-row dense justify="space-between" align="start" class="mt-n4">
       <v-col class="text-center">
-        <div style="line-height:0" class="overline mb-6">STRUCTURE</div>
+        <div style="line-height:0" class="overline mb-4">STRUCTURE</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">cci-structure</v-icon>
           <b
@@ -98,7 +98,7 @@
       <v-col cols="auto">
         <v-row dense no-gutters justify="center">
           <v-col cols="auto" class="text-center">
-            <div style="line-height:0" class="overline mb-6 mr-6">HP</div>
+            <div style="line-height:0" class="overline mb-4 mr-6">HP</div>
             <div>
               <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">
                 mdi-hexagon-outline
@@ -120,7 +120,7 @@
       </v-col>
       <v-spacer />
       <v-col class="text-center">
-        <div style="line-height:0" class="overline mb-6 mr-2">STRESS</div>
+        <div style="line-height:0" class="overline mb-4 mr-2">STRESS</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">cci-reactor</v-icon>
           <b
@@ -130,7 +130,7 @@
         </div>
       </v-col>
       <v-col class="text-center">
-        <div style="line-height:0" class="overline mb-6 mr-6">HEAT</div>
+        <div style="line-height:0" class="overline mb-4 mr-6">HEAT</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">mdi-fire</v-icon>
           <b
@@ -144,7 +144,7 @@
     <v-row dense>
       <v-col>
         <fieldset>
-          <legend class="caption font-weight-bold px-1">ATK BONUS</legend>
+          <legend class="caption font-weight-bold px-1">ATK</legend>
           <div class="heading h2 text-center mt-n2">{{ signed(mech.AttackBonus) }}</div>
         </fieldset>
       </v-col>
@@ -214,7 +214,7 @@
           }}
         </span>
         <br />
-        <span class="caption ml-6" v-html-safe="mech.Frame.CoreSystem.PassiveEffect" />
+        <p class="caption ml-6 mb-1" v-html-safe="mech.Frame.CoreSystem.PassiveEffect" />
       </div>
       <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
         {{
