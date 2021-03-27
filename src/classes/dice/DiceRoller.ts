@@ -211,8 +211,8 @@ class DiceRoller {
             x = DiceRoller.rollDieSet(dieSet)
             y = DiceRoller.rollDieSet(dieSet)
             total += x.result > y.result ? x.result : y.result
-            if (overkill && total - staticBonus === 1) okRerolls += 1
-          } while (overkill && total - staticBonus === 1)
+            if (overkill && (total - staticBonus === 1)) okRerolls += 1
+          } while (overkill && (total - staticBonus === 1))
           rawRolls.push(...x.rolls)
           rawRolls.push(...y.rolls)
         } else {
@@ -220,8 +220,8 @@ class DiceRoller {
           do {
             x = DiceRoller.rollDieSet(dieSet)
             total += x.result
-            if (x.result) okRerolls += 1
-          } while (overkill && overkill && x.result === 1)
+            if (overkill && (total - staticBonus === 1)) okRerolls += 1
+          } while  (overkill && (total - staticBonus === 1))
           rawRolls.push(...x.rolls)
         }
       })
