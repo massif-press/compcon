@@ -28,8 +28,8 @@ export default class Systems extends Vue {
   private compendium = getModule(CompendiumStore, this.$store)
   private user = getModule(UserStore, this.$store).UserProfile
   public get systems(): MechEquipment[] {
-    let sys = this.compendium.MechSystems.filter(x => x.Source && !x.IsHidden)
-    let mod = this.compendium.WeaponMods.filter(x => x.Source && !x.IsHidden)
+    let sys = this.compendium.MechSystems.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
+    let mod = this.compendium.WeaponMods.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
     if (!this.user.GetView('showExotics')) {
       sys = sys.filter(x => !x.IsExotic)
       mod = mod.filter(x => !x.IsExotic)
