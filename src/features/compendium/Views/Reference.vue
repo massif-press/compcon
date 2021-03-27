@@ -1,10 +1,8 @@
 <template>
   <v-container>
-    <h1  class="heading mb-3 ml-5">REFERENCE</h1>
+    <h1 class="heading mb-3 ml-5">REFERENCE</h1>
     <v-container fluid class="effect-text">
-      <span  class="heading mech">
-        Structure Damage & Overheating
-      </span>
+      <span class="heading mech">Structure Damage & Overheating</span>
       <v-row dense justify="center">
         <v-col>
           <v-toolbar color="red darken-3" dark>
@@ -223,6 +221,69 @@
                 on the mech must pass an agility save or take 4d6 explosive damage, and half on a
                 successful save
               </p>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row justify="center" class="mt-4">
+        <v-col>
+          <v-toolbar color="yellow darken-4" dark>
+            <v-toolbar-title>DOWN AND OUT</v-toolbar-title>
+          </v-toolbar>
+          <v-card>
+            <v-card-text>
+              <v-row>
+                <v-col>
+                  <span class="heading h3">Roll</span>
+                </v-col>
+                <v-col cols="10">
+                  <span class="heading h3">Effect</span>
+                </v-col>
+              </v-row>
+              <v-divider class="ma-2" />
+              <v-row>
+                <v-col>
+                  <v-icon large>mdi-dice-6</v-icon>
+                </v-col>
+                <v-col cols="10">
+                  <span class="body-text text--text">
+                    On 6, your pilot barely shrugs off the hit (or it’s a close call) – they return
+                    to 1 HP.
+                  </span>
+                </v-col>
+              </v-row>
+              <v-divider class="ma-2" />
+              <v-row>
+                <v-col>
+                  <v-icon large>mdi-dice-2</v-icon>
+                  <v-icon large>mdi-minus</v-icon>
+                  <v-icon large>mdi-dice-5</v-icon>
+                </v-col>
+                <v-col cols="10">
+                  <span class="body-text text--text">
+                    On 2–5, your pilot gains the DOWN AND OUT status (and the STUNNED condition) and
+                    remains at 0 HP. They are unconscious, pinned, bleeding out, or otherwise unable
+                    to act. If you’re in mech combat, they are Stunned and their EVASION drops to 5.
+                    If they take any more damage – from being shot in the head, for instance – they
+                    die.
+                    <br />
+                    You can choose for your pilot to die instead of becoming DOWN AND OUT.
+                  </span>
+                </v-col>
+              </v-row>
+              <v-divider class="ma-2" />
+              <v-row>
+                <v-col>
+                  <v-icon large>mdi-dice-1</v-icon>
+                </v-col>
+                <v-col cols="10">
+                  <span class="body-text text--text">
+                    On 1, your pilot’s luck has run out – they die immediately.
+                  </span>
+                </v-col>
+              </v-row>
+              <v-divider class="ma-2" />
+              <p class="ma-3 flavor-text">If your pilot is ever reduced to 0 HP, roll 1d6</p>
             </v-card-text>
           </v-card>
         </v-col>
