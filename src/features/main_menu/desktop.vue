@@ -3,7 +3,7 @@
     <main-title @logupdate="ccLog('update')" />
     <c-c-log v-show="$vuetify.breakpoint.mdAndUp" ref="log" />
     <v-container style="height: calc(100vh - 135px)">
-      <v-row justify="space-between" style="height:100%">
+      <v-row justify="space-between" style="height: 100%">
         <main-btn
           icon="cci-compendium"
           :to="'/compendium'"
@@ -124,6 +124,18 @@
             </v-col>
 
             <v-col cols="auto">
+              <v-btn
+                small
+                dark
+                text
+                @mouseenter="ccLog('about')"
+                @click="$refs.creditsModal.show()"
+              >
+                Credits
+              </v-btn>
+            </v-col>
+
+            <v-col cols="auto">
               <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">
                 Help
               </v-btn>
@@ -160,6 +172,9 @@
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
     <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
+      <credits-page />
+    </cc-solo-dialog>
     <cc-solo-dialog
       ref="contentModal"
       no-title-clip
@@ -183,6 +198,7 @@ import CCLog from './_components/CCLog.vue'
 import SignIn from './_components/login/index.vue'
 import ContentPage from '../nav/pages/ExtraContent/index.vue'
 import AboutPage from '../nav/pages/About.vue'
+import CreditsPage from '../nav/pages/Credits.vue'
 import HelpPage from '../nav/pages/Help.vue'
 import OptionsPage from '../nav/pages/Options/index.vue'
 import { UserStore } from '@/store'
@@ -195,6 +211,7 @@ export default Vue.extend({
     MainBtn,
     CCLog,
     ContentPage,
+    CreditsPage,
     AboutPage,
     HelpPage,
     OptionsPage,

@@ -1,9 +1,10 @@
 {
-  "writers": [{
+  "writers": [
+    {
       "name": "Miguel Lopez",
       "twitter": "The_One_Lopez",
-      "website": "https://massif-press.itch.io",
-      "image": "https://pbs.twimg.com/profile_images/1201241048732717056/SfxfR0CP_400x400.jpg"
+      "website": "https://massifpress.com",
+      "image": "https://pbs.twimg.com/profile_images/1229549300046127104/0wkpyfo6_400x400.jpg"
     },
     {
       "name": "Tom Parkinson Morgan",
@@ -12,20 +13,21 @@
       "image": "https://pbs.twimg.com/profile_images/1181997333824901129/db5oOkTm_400x400.png"
     }
   ],
-  "lead_devs": [{
+  "lead_devs": [
+    {
       "name": "John Arena",
       "twitter": "jarena2",
-      "website": "https://github.com/massif-press",
+      "website": "http://jarena3.github.io/",
       "image": "https://pbs.twimg.com/profile_images/1123993702425350144/OD4BlOya_400x400.png"
-    },
-    {
-      "name": "Ari K",
-      "twitter": "hellwife0",
-      "website": "https://github.com/massif-press",
-      "image": "https://pbs.twimg.com/profile_images/1221063769759133698/825h6y4B_400x400.jpg"
     }
   ],
-  "devs": [{
+  "devs": [
+    {
+      "name": "Ari K",
+      "twitter": "deathimouto",
+      "image": "https://pbs.twimg.com/profile_images/1370417988348821508/kbdRM2tO_400x400.png"
+    },
+    {
       "name": "Matthew Johnston",
       "github": "Eranziel",
       "image": "https://cdn.discordapp.com/attachments/654899655800258597/673268137701146655/Eranziel-avatar2.jpg"
@@ -42,204 +44,42 @@
       "image": "https://avatars2.githubusercontent.com/u/360217?s=460&v=4"
     }
   ],
-  "t5": [{
-      "name": "Dustin R Kelley",
-      "website": "https://kazzuma.com/",
-      "blurb": "Kazzuma Creations, Art Is Not an Industry!",
-      "image": "https://scontent-ort2-1.xx.fbcdn.net/v/t1.0-9/60871054_2046096015692177_923287156821065728_n.png?_nc_cat=110&_nc_oc=AQnXA1TdthnlrazEHXBryuGHuEraymyeevm-F_cWJjQWsoFJC29dAcZF7T5q9oYT3Frlt2VCWIVCo3d76FbUQEm6&_nc_ht=scontent-ort2-1.xx&oh=f707d19ef37ac93447f02250378aa2b6&oe=5EBD1B64"
+  "graphics": [
+    {
+      "name": "Justin Saenger",
+      "twitter": "submarinesquid",
+      "image": "https://pbs.twimg.com/profile_images/976634335968231425/VP8lbjMB_400x400.jpg"
     },
     {
-      "name": "Aphyria",
-      "blurb": "When the whole world's on fire, everybody feels the burn.<br>(Avatar by Michelle Hoefener)",
-      "image": "https://cdn.discordapp.com/attachments/673952684381831169/674667123188039711/Kia_Avatar.jpg"
+      "name": "Steve",
+      "twitter": "Ritual_Del_Sol",
+      "image": "https://pbs.twimg.com/profile_images/1271111899447517184/5WrdBEzU_400x400.jpg"
     },
     {
-      "name": "Mikhail “khail” Echávarri, PhC",
-      "twitter": "khailcon"
-    },
-    {
-      "name": "Hetros",
-      "website": "http://www.patreon.com/towergirls",
-      "image": "https://cdn.discordapp.com/attachments/235563694891859969/675546668371935256/kp2.png"
-    },
-    {
-      "name": "Onno Inada"
+      "name": "Danny Kane",
+      "twitter": "deardannykane",
+      "image": "https://pbs.twimg.com/profile_images/1080495379370688512/mhiuJaRW_400x400.jpg"
     }
   ],
-  "t4": [{
-      "name": "Adam Harrington"
+  "art": [
+    {
+      "name": "Retrograde Minis",
+      "twitter": "MinisRetrograde",
+      "image": "https://pbs.twimg.com/profile_images/1333305506232864769/0rBNHF_5_400x400.jpg",
+      "website": "https://www.retrogrademinis.com/"
     },
     {
-      "name": "akn318"
+      "name": "juan gee",
+      "twitter": "juangeedraws",
+      "image": "https://pbs.twimg.com/profile_images/1346671208775880707/FYi8SWKC_400x400.jpg",
+      "website": " http://juangeedraws-portfolio.squarespace.com/"
     },
     {
-      "name": "WHITESPINE"
-    },
-    {
-      "name": "ArsèneLupin42"
-    },
-    {
-      "name": "squeakanine"
-    },
-    {
-      "name": "Ginger"
+      "name": "WampyreKeli",
+      "twitter": "WampyreKeli",
+      "image": "https://pbs.twimg.com/profile_images/1334706241071968260/Ue9nvCOa_400x400.jpg",
+      "website": "https://www.wampyrekeli.com/"
     }
-  ],
-  "t3": [
-    "MeckaMecha",
-    "Praxiis",
-    "Big Iron",
-    "Cloudyshine",
-    "Archiomode",
-    "Tricky",
-    "Xen",
-    "Joe Halberstadt",
-    "Adam Millson",
-    "Mike Michael Karamchandani",
-    "Mason Hochstetler",
-    "Richard Moon",
-    "Thom Black",
-    "Devin",
-    "That Odd Deer"
-  ],
-  "t2": [
-    "Classical_Bass",
-    "FLABIS",
-    "Steven Pritchett",
-    "Vekell",
-    "R0bobot",
-    "Ragu",
-    "Knifes",
-    "Double A",
-    "No thank you",
-    "Crusader Knight",
-    "Ian Auger-Juul",
-    "Abbott Veldhuizen",
-    "Marcus Yonce",
-    "Jacob Hoey",
-    "Jack Lemmer",
-    "Nice",
-    "Vincent",
-    "Amos Isom",
-    "Jordan Ritz",
-    "John Machin",
-    "David Stanfield",
-    "Rowan Brown",
-    "Connor Best",
-    "[ REDACTED ]",
-    "Zombeh Zombehson",
-    "Nitro Typat",
-    "Stephen Brady",
-    "Rachel Chamberlain",
-    "Zack Walters",
-    "Sal Russo",
-    "Jonathan Konig",
-    "Arlen Pringle",
-    "friar_thea",
-    "TheLazyOne",
-    "Jath Lucent",
-    "Whitney Lee",
-    "Nicholas Vanni",
-    "spacies",
-    "Sam Collard",
-    "Tyson Haverkort",
-    "Danny Seedhouse",
-    "Reyna Angquico",
-    "Christian Alexander Torres",
-    "yuliy",
-    "S",
-    "Vania Kanstle",
-    "Sam Nikle",
-    "simon jones",
-    "Hamnat Wolf",
-    "Aethia"
-  ],
-  "t1": [
-    "James Goldsworthy",
-    "Frank \"Broadway\" Neuman",
-    "VertigoCharades",
-    "MIHistoryGuy",
-    "William McDuff",
-    "Kettellcorn",
-    "Starduster",
-    "SirSnufflesTheStalwart",
-    "Joonas Laakso",
-    "Ol_Coyote",
-    "Grant Brownlee",
-    "Phenomen#1337",
-    "Enkufka",
-    "Fenna Ashwood",
-    "MrETheOne",
-    "Zoe \"Hornlet\" Rifkin",
-    "St Booker",
-    "jbuck",
-    "Sir Killjoy",
-    "Elesday",
-    "Mithril_Toaster",
-    "Ryan Borja",
-    "Jack P",
-    "patrick morrissey",
-    "Tyler Schuster",
-    "JonNotJon",
-    "Brendon Butler",
-    "Jack Purcell",
-    "Scott Evans",
-    "Duke Kayn",
-    "Mike",
-    "Kent Hay",
-    "Al Billings",
-    "TJRHTK",
-    "Cameron Colgate",
-    "Connor Townsend",
-    "Jude",
-    "Jonathan Lin",
-    "Sean Richmond",
-    "glitchghoul",
-    "Jenny",
-    "JadeFalcon777",
-    "Paul Lagasse",
-    "JD Cole",
-    "Ellen McCauley",
-    "Elijah Kolesar",
-    "TheCalicoKid",
-    "Jack Darby",
-    "Tony Sorrentino",
-    "Bubu",
-    "Internationale Skeleton",
-    "Chris Walker",
-    "Patrick Taylor",
-    "Jackson Maxey",
-    "DandyAndyJ",
-    "Matthew Watts",
-    "Rhaplanca",
-    "Arthur Lace",
-    "Shane Boras",
-    "Brandan Drury",
-    "Steven Simeone",
-    "Halae",
-    "Howard Hansen",
-    "Alison",
-    "Alexander Hickman",
-    "Pierre Cogné",
-    "joseph kane",
-    "techy",
-    "SirPaperweightTheThird",
-    "Patrick Hedglen",
-    "James Lynch",
-    "Ytilee",
-    "Connor D. Phillips",
-    "Ben Jeffrey",
-    "Jack Toups",
-    "Jeffrey Sisler",
-    "Jessie Arvin",
-    "Michael",
-    "John evanofski",
-    "C.J.Schneider",
-    "Nathan",
-    "Shaun McRae",
-    "Kevin Stewart",
-    "FlgbtClub",
-    "Jeff Alexander"
   ],
   "special_thanks": [
     "#!",
