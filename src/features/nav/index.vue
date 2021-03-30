@@ -8,7 +8,7 @@
     class="clipped-large no-print"
     dark
     dense
-    style="z-index:50"
+    style="z-index: 50"
   >
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
@@ -87,6 +87,7 @@
         <v-list-item @click="$refs.contentModal.show()">Manage Content</v-list-item>
         <v-list-item @click="$refs.optionsModal.show()">Options</v-list-item>
         <v-list-item @click="$refs.aboutModal.show()">About</v-list-item>
+        <v-list-item @click="$refs.creditsModal.show()">Credits</v-list-item>
         <v-list-item @click="$refs.helpModal.show()">Help</v-list-item>
         <v-divider />
         <v-list-item target="_blank" href="https://www.patreon.com/compcon">
@@ -119,13 +120,20 @@
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
+      <credits-page />
+    </cc-solo-dialog>
     <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
+      <credits-page />
+    </cc-solo-dialog>
   </v-app-bar>
 </template>
 
 <script lang="ts">
 import HelpPage from './pages/Help.vue'
 import AboutPage from './pages/About.vue'
+import CreditsPage from './pages/Credits.vue'
 import OptionsPage from './pages/Options/index.vue'
 import ContentPage from './pages/ExtraContent/index.vue'
 import activePilot from '../pilot_management/mixins/activePilot'
@@ -144,6 +152,7 @@ export default vueMixins(activePilot).extend({
   components: {
     HelpPage,
     AboutPage,
+    CreditsPage,
     OptionsPage,
     ContentPage,
     PilotMode,

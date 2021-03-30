@@ -1,10 +1,10 @@
 <template>
-  <v-col xs="12" lg="6">
+  <v-col :cols="cols">
     <v-card outlined>
       <v-card-text class="pa-1">
-        <v-row dense align="center">
+        <v-row align="center">
           <v-col cols="auto" class="mr-2 ml-2">
-            <v-avatar color="orange" size="62px">
+            <v-avatar color="orange" size="80px">
               <v-img v-if="info.image" :src="info.image" />
               <span v-else class="white--text headline">{{ info.name.substring(0, 1) }}</span>
             </v-avatar>
@@ -15,16 +15,16 @@
             </div>
             <a v-if="info.website" target="_blank" :href="`${info.website}`">
               <v-icon color="primary">mdi-web</v-icon>
-              <span v-if="big">Website</span>
+              <span>Website</span>
             </a>
-            <span v-if="big" class="mx-3">|</span>
+            <span v-if="info.website" class="mx-3">|</span>
             <a v-if="info.twitter" target="_blank" :href="`https://twitter.com/${info.twitter}`">
               <v-icon color="primary">mdi-twitter</v-icon>
-              <span v-if="big">@{{ info.twitter }}</span>
+              <span>@{{ info.twitter }}</span>
             </a>
             <a v-if="info.github" target="_blank" :href="`https://github.com/${info.github}`">
               <v-icon color="primary">mdi-github-circle</v-icon>
-              <span v-if="big">{{ info.github }}</span>
+              <span>{{ info.github }}</span>
             </a>
           </v-col>
         </v-row>
@@ -42,7 +42,13 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
-    big: { type: Boolean },
+    cols: { type: Number, default: 6 },
   },
 })
 </script>
+
+<style scoped>
+a {
+  text-decoration: none !important;
+}
+</style>

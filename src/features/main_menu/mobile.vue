@@ -16,6 +16,9 @@
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About">
       <about-page />
     </cc-solo-dialog>
+    <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
+      <credits-page />
+    </cc-solo-dialog>
     <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
     <cc-solo-dialog
       ref="contentModal"
@@ -87,17 +90,12 @@
       <div style="height: 40px" />
 
       <v-footer color="primary" fixed>
-        <v-btn x-small dark outlined @click="$refs.optionsModal.show()">
-          Options
-        </v-btn>
+        <v-btn x-small dark outlined @click="$refs.optionsModal.show()">Options</v-btn>
         <v-spacer />
-        <v-btn x-small dark outlined @click="$refs.aboutModal.show()">
-          About
-        </v-btn>
+        <v-btn x-small dark outlined @click="$refs.aboutModal.show()">About</v-btn>
+        <v-btn x-small dark outlined @click="$refs.creditsModal.show()">Credits</v-btn>
         <v-spacer />
-        <v-btn x-small dark outlined @click="$refs.helpModal.show()">
-          Help
-        </v-btn>
+        <v-btn x-small dark outlined @click="$refs.helpModal.show()">Help</v-btn>
         <v-spacer />
         <v-btn
           target="_blank"
@@ -119,6 +117,7 @@ import Vue from 'vue'
 import UpdateChecker from './_components/UpdateChecker.vue'
 import MobileBtn from './_components/MobileBtn.vue'
 import ContentPage from '../nav/pages/ExtraContent/index.vue'
+import CreditsPage from '../nav/pages/Credits.vue'
 import AboutPage from '../nav/pages/About.vue'
 import HelpPage from '../nav/pages/Help.vue'
 import OptionsPage from '../nav/pages/Options/index.vue'
@@ -133,6 +132,7 @@ export default Vue.extend({
     MobileBtn,
     ContentPage,
     AboutPage,
+    CreditsPage,
     HelpPage,
     OptionsPage,
     SignIn,
