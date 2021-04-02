@@ -1,6 +1,6 @@
 const toJson = function (csv) {
 
-  var lines = csv.split("\n");
+  var lines = csv.split("\r");
 
   var result = [];
 

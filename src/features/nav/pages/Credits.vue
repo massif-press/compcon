@@ -48,6 +48,11 @@
                 :src="`/static/img/misc/patreon_tiers/${t}.svg`"
                 :max-height="isActive(p) ? '100px' : '50px'"
                 :max-width="isActive(p) ? '100px' : '50px'"
+                :style="
+                  $vuetify.theme.dark
+                    ? 'filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);'
+                    : 'filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(320deg) brightness(96%) contrast(104%);'
+                "
                 class="mr-n5"
               />
             </v-col>
@@ -58,7 +63,9 @@
                 <span class="success--text">ACTIVE</span>
                 ]
               </div>
-              <div class="flavor--text">Since {{ p['Patronage Since Date'].substring(0, 10) }}</div>
+              <div v-if="p['Patronage Since Date']" class="flavor--text">
+                Since {{ p['Patronage Since Date'].substring(0, 10) }}
+              </div>
             </v-col>
             <v-col v-else>
               <div class="heading h3">{{ p.Name }}</div>

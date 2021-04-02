@@ -14,6 +14,20 @@
         <span v-else>
           <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>
           <strong>{{ pTalent.Talent.Name }}</strong>
+          <v-icon
+            right
+            class="fadeSelect"
+            @click="
+              $vuetify.goTo(`#e_${pTalent.Talent.ID}`, {
+                duration: 150,
+                easing: 'easeInOutQuad',
+                offset: 25,
+                container: '.v-dialog--active',
+              })
+            "
+          >
+            mdi-chevron-right
+          </v-icon>
         </span>
       </v-row>
       <v-divider v-if="pilot.Talents.length" class="ma-2 ml-4 mr-4" />
@@ -68,28 +82,42 @@
     </template>
 
     <template v-slot:right-column>
-      <v-text-field
-        v-model="search"
-        prepend-icon="mdi-magnify"
-        color="accent"
-        label="Search Talents"
-        dense
-        hide-details
-        class="mb-2"
-        outlined
-      />
-      <v-slide-x-transition group>
-        <talent-select-item
-          v-for="talent in talents"
-          :key="talent.ID"
-          :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
-          :talent="talent"
-          :pilot-rank="pilot.getTalentRank(talent.ID)"
-          :new-pilot="newPilot"
-          @add="pilot.AddTalent(talent)"
-          @remove="pilot.RemoveTalent(talent)"
+      <v-row dense align="center">
+        <v-col cols="10" lg="5">
+          <v-text-field
+            v-model="search"
+            prepend-icon="mdi-magnify"
+            color="accent"
+            label="Search Talents"
+            dense
+            hide-details
+            class="mb-2"
+            outlined
+          />
+        </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <v-btn-toggle v-model="ctype" mandatory>
+            <v-btn value="full"><v-icon>mdi-view-stream</v-icon></v-btn>
+            <v-btn value="terse"><v-icon>mdi-view-list</v-icon></v-btn>
+            <v-btn value="small"><v-icon>mdi-view-comfy</v-icon></v-btn>
+          </v-btn-toggle>
+        </v-col>
+      </v-row>
+
+      <v-row dense justify="center">
+        <cc-talent
+          v-for="(t, i) in talents"
+          :key="`t_${i}`"
+          :id="`e_${t.ID}`"
+          :talent="t"
+          :rank="pilot.getTalentRank(t.ID)"
+          :terse="ctype === 'terse'"
+          :small="ctype === 'small'"
+          selectable
+          @add="pilot.AddTalent(t)"
+          @remove="pilot.RemoveTalent(t)"
         />
-      </v-slide-x-transition>
+      </v-row>
     </template>
   </selector>
 </template>
@@ -99,7 +127,6 @@ import Vue from 'vue'
 import _ from 'lodash'
 import Selector from './components/_SelectorBase.vue'
 import MissingItem from './components/_MissingItem.vue'
-import TalentSelectItem from './components/_TalentSelectItem.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Rules, Pilot, Talent } from '@/class'
@@ -107,13 +134,14 @@ import { accentInclude } from '@/classes/utility/accent_fold'
 
 export default Vue.extend({
   name: 'talent-selector',
-  components: { Selector, TalentSelectItem, MissingItem },
+  components: { Selector, MissingItem },
   props: {
     pilot: Pilot,
     levelUp: Boolean,
   },
   data: () => ({
     search: '',
+    ctype: 'full',
   }),
   computed: {
     newPilot(): boolean {
@@ -134,12 +162,7 @@ export default Vue.extend({
       const talents = compendium.Talents.filter(x => !x.IsHidden)
       if (this.search) return talents.filter(x => accentInclude(x.Name, this.search))
 
-      return _.sortBy(talents, [
-        t => {
-          return this.pilot.Talents.some(x => x.Talent.ID === t.ID) ? -1 : 1
-        },
-        'Name',
-      ])
+      return talents
     },
   },
   watch: {

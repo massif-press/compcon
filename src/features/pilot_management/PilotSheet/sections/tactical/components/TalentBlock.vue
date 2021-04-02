@@ -1,15 +1,40 @@
 <template>
-  <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px!important">
-      <section-edit-chip
-        :highlight="!pilot.HasFullTalents"
-        :current="pilot.CurrentTalentPoints"
-        :max="pilot.MaxTalentPoints"
-        :label="`Edit Pilot Talents (${pilot.CurrentTalentPoints}/${pilot.MaxTalentPoints})`"
-        @open-selector="$refs.talentSelector.show()"
-      />
-      Talents
-    </cc-title>
+  <div class="mb-4">
+    <v-row no-gutters>
+      <v-col cols="auto">
+        <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
+          <section-edit-chip
+            :highlight="!pilot.HasFullTalents"
+            :current="pilot.CurrentTalentPoints"
+            :max="pilot.MaxTalentPoints"
+            :label="`Edit Pilot Talents (${pilot.CurrentTalentPoints}/${pilot.MaxTalentPoints})`"
+            @open-selector="$refs.talentSelector.show()"
+          />
+          Talents
+        </cc-title>
+      </v-col>
+      <v-col cols="auto" class="ml-auto">
+        <v-btn-toggle v-model="ctype" mandatory>
+          <v-btn value="full"><v-icon>mdi-view-stream</v-icon></v-btn>
+          <v-btn value="terse"><v-icon>mdi-view-list</v-icon></v-btn>
+          <v-btn value="small"><v-icon>mdi-view-comfy</v-icon></v-btn>
+        </v-btn-toggle>
+      </v-col>
+    </v-row>
+
+    <v-container class="px-0">
+      <no-data-block v-if="!pilot.Talents.length" />
+      <v-row v-else dense justify="center">
+        <cc-talent
+          v-for="(t, i) in pilot.Talents"
+          :key="`t_${i}`"
+          :talent="t.Talent"
+          :rank="t.Rank"
+          :terse="ctype === 'terse'"
+          :small="ctype === 'small'"
+        />
+      </v-row>
+    </v-container>
     <cc-solo-dialog
       ref="talentSelector"
       icon="cci-trait"
@@ -19,22 +44,6 @@
     >
       <cc-talent-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-container class="px-0">
-      <no-data-block v-if="!pilot.Talents.length" />
-      <v-row v-else dense justify="center">
-        <v-col v-for="(t, i) in pilot.Talents" :key="`t_${i}`" cols="12">
-          <cc-talent-item
-            :available="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
-            :talent="t.Talent"
-            :rank="t.Rank"
-            hide-locked
-            action-buttons
-            color="pilot"
-            item-color="secondary"
-          />
-        </v-col>
-      </v-row>
-    </v-container>
   </div>
 </template>
 
@@ -52,5 +61,8 @@ export default Vue.extend({
       required: true,
     },
   },
+  data: () => ({
+    ctype: 'small',
+  }),
 })
 </script>
