@@ -5,11 +5,7 @@
         style="position: relative; border: 1px solid var(--v-primary-base); border-radius: 1px"
         class="pa-2"
       >
-        <talent-emblem
-          :url="`/static/img/talent/${talent.Name.toUpperCase()}.svg`"
-          :name="talent.Name"
-          large
-        />
+        <talent-emblem :url="talent.Image" :name="talent.Name" large />
       </div>
     </v-col>
     <v-col>

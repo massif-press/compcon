@@ -13376,10 +13376,10 @@ vuetify-loader@^1.4.3:
     file-loader "^6.2.0"
     loader-utils "^2.0.0"
 
-vuetify@^2.3.6:
-  version "2.4.3"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.4.3.tgz#8d6f15dde396e81f64e130d8ac0bc272e030879c"
-  integrity sha512-i2/Df0U0sedlaCbft4NMbna7WXbTCBhKVYTMjBrLVzrYTTWqzSO7ZCxLuDRY7MjwQhn7AOec7ent9U/NyIICqA==
+vuetify@^2.4.9:
+  version "2.4.9"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.4.9.tgz#c4ccf4cf3dc81d426da78913c32d47ab33ede38f"
+  integrity sha512-IS+ZKCk4+RhN8PW9mw6dLSGy0hnFZ0YwOg0Ga+sr9bngbSOI6nw0p+Y/U00vRw8DPScqUmK5cSrI8RhiaTpXow==
 
 vuex-module-decorators@^0.10.1:
   version "0.10.1"

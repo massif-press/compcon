@@ -1,10 +1,14 @@
 <template>
   <div style="position: relative">
     <v-img
+      ref="img"
       :src="src"
       class="pa-2"
       :width="size"
+      min-height="100%"
+      contain
       :class="white ? 'white-emblem' : $vuetify.theme.dark ? 'white-emblem' : 'black-emblem'"
+      @error="imageLoadFailed()"
     />
     <div
       v-if="backup"
@@ -28,18 +32,10 @@ export default Vue.extend({
     white: { type: Boolean },
   },
   data: () => ({
-    src: '',
     backup: '',
+    src: '',
   }),
   computed: {
-    exists() {
-      var http = new XMLHttpRequest()
-
-      http.open('HEAD', this.url, false)
-      http.send()
-
-      return http.status != 404
-    },
     size() {
       if (this.large) return '100px'
       if (this.small) return '50px'
@@ -47,11 +43,13 @@ export default Vue.extend({
     },
   },
   mounted() {
-    if (this.exists) this.src = this.url
-    else {
+    this.src = this.url
+  },
+  methods: {
+    imageLoadFailed() {
       this.src = '/static/img/talent/GENERIC TALENT.svg'
       this.backup = this.name
-    }
+    },
   },
 })
 </script>

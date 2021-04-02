@@ -12,7 +12,7 @@
       <template v-slot:activator="{ on }">
         <div style="position: relative" v-on="on">
           <talent-emblem
-            :url="`/static/img/talent/${talent.Name.toUpperCase()}.svg`"
+            :url="talent.Image"
             :name="talent.Name"
             large
           />
