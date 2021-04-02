@@ -29,7 +29,7 @@ module.exports = {
       ],
     }),
     new FaviconsWebpackPlugin({
-      logo: './icons/256x256.png', // svg works too!
+      logo: './icons/192x192.png', // svg works too!
       favicons: {
         appName: 'COMP/CON',
         appDescription: 'A digital toolset for the LANCER TTRPG',
