@@ -3,7 +3,7 @@
     <v-img
       :src="src"
       class="pa-2"
-      :max-width="size"
+      :width="size"
       :class="white ? 'white-emblem' : $vuetify.theme.dark ? 'white-emblem' : 'black-emblem'"
     />
     <div
