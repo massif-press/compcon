@@ -3,11 +3,7 @@
     <v-toolbar flat color="primary">
       <v-row no-gutters align="center">
         <v-col cols="auto">
-          <talent-emblem
-            :url="`/static/img/talent/${talent.Name.toUpperCase()}.svg`"
-            :name="talent.Name"
-            white
-          />
+          <talent-emblem :url="talent.Image" :name="talent.Name" white />
         </v-col>
         <v-col>
           <div class="white--text heading h1 ml-2">{{ talent.Name }}</div>

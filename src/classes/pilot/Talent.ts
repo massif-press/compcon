@@ -24,16 +24,22 @@ class Talent extends CompendiumItem {
   public readonly Terse: string
   // public readonly Icon: string
   private _ranks: TalentRank[]
+  private _icon_url: string
 
   public constructor(data: any) {
     super(data)
     this.Terse = data.terse || ''
-    // this.Icon = data.icon || 'GENERIC TALENT'
+    this._icon_url = data.icon_url || ''
     this._ranks = data.ranks.map(x => new TalentRank(x))
   }
 
   public get Ranks(): TalentRank[] {
     return this._ranks
+  }
+
+  public get Image(): string {
+    if (this._icon_url) return this._icon_url
+    return `/static/img/talent/${this.Name.toUpperCase()}.svg`
   }
 
   public Rank(rank: number): TalentRank {

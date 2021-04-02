@@ -3,11 +3,7 @@
     <v-menu open-on-hover bottom offset-y open-delay="100">
       <template v-slot:activator="{ on }">
         <div style="position: relative" class="pa-1 mx-n2" v-on="on">
-          <talent-emblem
-            :url="`/static/img/talent/${talent.Name.toUpperCase()}.svg`"
-            :name="talent.Name"
-            small
-          />
+          <talent-emblem :url="talent.Image" :name="talent.Name" small />
         </div>
       </template>
       <v-card>
