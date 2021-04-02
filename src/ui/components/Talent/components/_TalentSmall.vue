@@ -6,8 +6,8 @@
       bottom
       offset-y
       open-delay="100"
-      max-width="100vw"
-      min-width="80vw"
+      max-width="80vw"
+      min-width="50vw"
     >
       <template v-slot:activator="{ on }">
         <div style="position: relative" v-on="on">
