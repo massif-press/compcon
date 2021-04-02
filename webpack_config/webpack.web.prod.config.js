@@ -23,7 +23,7 @@ module.exports = {
       crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
       icons: [
         {
-          src: path.resolve('icons/256x256.png'),
+          src: path.resolve('icons/192x192.png'),
           sizes: [96, 128, 192, 256, 384, 512], // multiple sizes
         },
       ],

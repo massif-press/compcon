@@ -1,8 +1,24 @@
 <template>
   <v-container>
     <v-divider />
-    <cc-title>new talent ui</cc-title>
-    <talent-test />
+    <cc-title class="mb-2">new talent ui</cc-title>
+
+    <v-row dense>
+      <cc-talent :talent="exampleTalents[0]" micro rank="2" selectable />
+      <cc-talent :talent="exampleTalents[1]" micro rank="1" />
+      <cc-talent :talent="exampleTalents[2]" micro />
+    </v-row>
+    <v-row dense>
+      <cc-talent :talent="exampleTalents[0]" small rank="2" selectable />
+      <cc-talent :talent="exampleTalents[1]" small rank="1" />
+      <cc-talent :talent="exampleTalents[2]" small />
+    </v-row>
+    <cc-talent :talent="exampleTalents[0]" terse rank="1" selectable />
+    <cc-talent :talent="exampleTalents[1]" terse rank="3" />
+    <cc-talent :talent="exampleTalents[2]" terse />
+    <cc-talent :talent="exampleTalents[3]" rank="2" selectable />
+    <cc-talent :talent="exampleTalents[0]" rank="1" />
+    <cc-talent :talent="exampleTalents[1]" />
     <v-divider />
     <cc-title>typography</cc-title>
     <v-row class="mx-5">
@@ -154,7 +170,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import TalentTest from './TalentTest.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
@@ -280,11 +295,11 @@ const icons = [
 ]
 export default Vue.extend({
   name: 'ui-test',
-  components: { TalentTest },
   data: () => ({
     notificationText: 'test',
     notificationTypes: ['achievement', 'confirmation', 'error'],
     notificationType: 'confirmation',
+    exampleTalents: [],
     chargeExample: null,
     deployExample: null,
     droneExample: null,
@@ -322,6 +337,8 @@ export default Vue.extend({
     this.onHitExample = s.MechWeapons.find(x => x.ID === 'mw_annihilator')
     this.onCritExample = s.MechWeapons.find(x => x.ID === 'mw_chain_axe')
     this.asDroneExample = s.MechWeapons.find(x => x.ID === 'mw_ghast_nexus')
+    this.exampleTalents = s.Talents.sort(() => 0.5 - Math.random()).slice(0, 4)
+    console.log(this.exampleTalents)
   },
   methods: {
     allIcons() {

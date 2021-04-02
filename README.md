@@ -1,6 +1,6 @@
 <h1 align="center">COMP/CON</h1>
 <p align="center" style="font-style: italic; font-weight: bold">
-  <img width="250" src="/icons/256x256.png">
+  <img width="250" src="/icons/192x192.png">
 </p>
 <p align="center"><b><i>The companion app for <a href="https://massif-press.itch.io/corebook-pdf">Massif Press's LANCER Tabletop RPG</a></b></i></p>
 <p align="center">
