@@ -1,6 +1,12 @@
 <template>
   <v-container>
     <v-divider />
+    <cc-title class="mb-2">dice menu</cc-title>
+    <cc-dice-menu />
+    <cc-dice-menu preset="2d6+1" title="preset 1" />
+    <cc-dice-menu preset="2d6+1d20+3d8-9" :preset-accuracy="-2" title="preset 2" />
+
+    <v-divider />
     <cc-title class="mb-2">new talent ui</cc-title>
 
     <v-row dense>
@@ -295,6 +301,7 @@ const icons = [
 ]
 export default Vue.extend({
   name: 'ui-test',
+  components: { DiceMenu },
   data: () => ({
     notificationText: 'test',
     notificationTypes: ['achievement', 'confirmation', 'error'],
