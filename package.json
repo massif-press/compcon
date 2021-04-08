@@ -82,6 +82,7 @@
     "standard-changelog": "^2.0.21",
     "ts-jest": "^25.0.0",
     "ts-loader": "^6.2.1",
+    "tslib": "^2.2.0",
     "typescript": "^3.7.5",
     "typescript-json-schema": "^0.42.0",
     "vue": "^2.6.10",

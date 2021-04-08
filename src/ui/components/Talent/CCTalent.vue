@@ -3,6 +3,7 @@
     :is="type"
     :selectable="selectable"
     :rank="rank"
+    :can-add="canAdd"
     :talent="talent"
     @expand="expand = $event"
     @clicked="$emit('clicked')"
@@ -28,6 +29,7 @@ export default Vue.extend({
   },
   props: {
     talent: { type: Object, required: true },
+    canAdd: { type: Boolean },
     micro: { type: Boolean },
     small: { type: Boolean },
     terse: { type: Boolean },

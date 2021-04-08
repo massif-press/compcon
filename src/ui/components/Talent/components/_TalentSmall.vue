@@ -11,11 +11,7 @@
     >
       <template v-slot:activator="{ on }">
         <div style="position: relative" v-on="on">
-          <talent-emblem
-            :url="talent.Image"
-            :name="talent.Name"
-            large
-          />
+          <talent-emblem :url="talent.Image" :name="talent.Name" large />
           <div v-if="rank" class="triangle" />
           <div
             v-if="rank"
@@ -73,6 +69,7 @@
                   v-if="n === parseInt(rank) + 1"
                   small
                   color="secondary"
+                  :disabled="canAdd"
                   @click="$emit('add')"
                 >
                   <v-icon left>mdi-lock-open</v-icon>
@@ -114,6 +111,7 @@ export default Vue.extend({
   name: 'talent-small',
   props: {
     talent: { type: Object, required: true },
+    canAdd: { type: Boolean },
     selectable: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },

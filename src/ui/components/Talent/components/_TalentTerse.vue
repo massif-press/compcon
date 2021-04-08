@@ -62,6 +62,7 @@
                     v-if="n === parseInt(rank) + 1"
                     small
                     color="secondary"
+                    :disabled="canAdd"
                     @click="$emit('add')"
                   >
                     <v-icon left>mdi-lock-open</v-icon>
@@ -104,6 +105,7 @@ export default Vue.extend({
   components: { TalentEmblem, TalentRankContents },
   props: {
     talent: { type: Object, required: true },
+    canAdd: { type: Boolean },
     selectable: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },

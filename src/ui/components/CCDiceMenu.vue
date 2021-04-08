@@ -215,7 +215,7 @@ import Vue from 'vue'
 import { DiceRoller } from '@/classes/dice/DiceRoller'
 
 export default Vue.extend({
-  name: 'dice-menu',
+  name: 'cc-dice-menu',
   props: {
     title: { type: String, required: false },
     preset: { type: String, required: false },

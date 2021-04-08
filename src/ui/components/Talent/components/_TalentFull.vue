@@ -47,6 +47,7 @@
                 v-else-if="selectable && parseInt(rank) + 1 === n"
                 small
                 color="secondary"
+                :disabled="canAdd"
                 @click="$emit('add')"
               >
                 <v-icon left small>mdi-lock-open</v-icon>
@@ -85,6 +86,7 @@ export default Vue.extend({
   props: {
     talent: { type: Object, required: true },
     selectable: { type: Boolean },
+    canAdd: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
 })

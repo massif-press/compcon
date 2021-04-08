@@ -301,7 +301,6 @@ const icons = [
 ]
 export default Vue.extend({
   name: 'ui-test',
-  components: { DiceMenu },
   data: () => ({
     notificationText: 'test',
     notificationTypes: ['achievement', 'confirmation', 'error'],
