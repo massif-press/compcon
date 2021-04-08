@@ -5,12 +5,15 @@
         v-for="pl in pilot.Licenses"
         :key="`summary_${pl.License.Name}`"
         class="my-2"
-        style="width:98%"
+        style="width: 98%"
       >
         <missing-item v-if="pl.License.err" @remove="remove(pl)" />
         <div v-else>
           <v-icon :color="manufacturer(pl.License.Source).Color">cci-rank-{{ pl.Rank }}</v-icon>
           <strong>{{ pl.License.Name }}</strong>
+          <v-icon right class="fadeSelect" @click="scroll(pl.License.FrameID)">
+            mdi-chevron-right
+          </v-icon>
         </div>
       </v-row>
       <v-divider v-if="pilot.Licenses.length" class="ma-2 ml-4 mr-4" />
@@ -55,6 +58,7 @@
           <v-expansion-panels accordion focusable active-class="border-primary">
             <license-select-item
               v-for="l in licenses[m]"
+              :id="`e_${l.FrameID}`"
               :key="l.FrameID"
               :license="l"
               :is-selectable="l.CanSelect(pilot)"
@@ -107,6 +111,21 @@ export default Vue.extend({
     )
   },
   methods: {
+    scroll(id) {
+      if (this.levelUp)
+        this.$vuetify.goTo(`#e_${id}`, {
+          duration: 150,
+          easing: 'easeInOutQuad',
+          offset: 25,
+        })
+      else
+        this.$vuetify.goTo(`#e_${id}`, {
+          duration: 150,
+          easing: 'easeInOutQuad',
+          offset: 25,
+          container: '.v-dialog--active',
+        })
+    },
     manufacturer(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
       return compendium.referenceByID('Manufacturers', id.toUpperCase())
