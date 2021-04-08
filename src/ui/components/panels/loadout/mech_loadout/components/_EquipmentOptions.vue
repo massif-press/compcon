@@ -18,6 +18,22 @@
           </v-list-item>
           <v-divider />
         </div>
+        <v-list-item v-if="!item.Destroyed && !item.Used" @click="item.Used = true">
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
+            <v-icon color="success">mdi-check</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Mark as Used</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-else-if="item.Used" @click="item.Used = false">
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
+            <v-icon>mdi-redo</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Mark as Unused</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon>cci-variable</v-icon>
@@ -34,7 +50,10 @@
             <v-list-item-title>Set Max Uses</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
+        <v-list-item
+          v-if="!item.Destroyed && !readonly && !item.IsIndestructible"
+          @click="item.Destroy()"
+        >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="error">mdi-image-broken-variant</v-icon>
           </v-list-item-icon>

@@ -9,13 +9,16 @@
       >
         <v-card-title
           class="white--text py-0 heading h3 hover-item"
-          style="cursor: pointer;"
+          style="cursor: pointer"
           @click="$refs.detailDialog.show()"
         >
           <span style="display: flex; width: 100%">
             <span v-if="item">
               <equipment-options :item="item" readonly active />
-              <span v-if="!item.Destroyed" class="ml-n2">
+              <span v-if="!item.Destroyed" class="ml-n2" :style="item.Used ? 'opacity: 0.6' : ''">
+                <cc-tooltip v-if="item.Used" inline content="Equipment has been marked as 'Used'">
+                  <v-icon color="success">mdi-check</v-icon>
+                </cc-tooltip>
                 {{ item.Name }}
                 <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
                 <span class="caption subtle--text ml-1">
