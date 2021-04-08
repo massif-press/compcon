@@ -117,7 +117,7 @@ export default Vue.extend({
     },
   },
   created() {
-    this.itemType = this.items[0].ItemType
+    this.itemType = this.items && this.items.length ? this.items[0].ItemType : ''
   },
   methods: {
     setFilters(newFilter) {
