@@ -14,18 +14,7 @@
         <span v-else>
           <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>
           <strong>{{ pTalent.Talent.Name }}</strong>
-          <v-icon
-            right
-            class="fadeSelect"
-            @click="
-              $vuetify.goTo(`#e_${pTalent.Talent.ID}`, {
-                duration: 150,
-                easing: 'easeInOutQuad',
-                offset: 25,
-                container: '.v-dialog--active',
-              })
-            "
-          >
+          <v-icon right class="fadeSelect" @click="scroll(pTalent.Talent.ID)">
             mdi-chevron-right
           </v-icon>
         </span>
@@ -104,7 +93,7 @@
         </v-col>
       </v-row>
 
-      <v-row dense justify="center">
+      <v-row id="talent-list" dense justify="center">
         <cc-talent
           v-for="(t, i) in talents"
           :key="`t_${i}`"
@@ -113,6 +102,7 @@
           :rank="pilot.getTalentRank(t.ID)"
           :terse="ctype === 'terse'"
           :small="ctype === 'small'"
+          :can-add="!pilot.IsMissingTalents"
           selectable
           @add="pilot.AddTalent(t)"
           @remove="pilot.RemoveTalent(t)"
@@ -163,6 +153,23 @@ export default Vue.extend({
       if (this.search) return talents.filter(x => accentInclude(x.Name, this.search))
 
       return talents
+    },
+  },
+  methods: {
+    scroll(id) {
+      if (this.levelUp)
+        this.$vuetify.goTo(`#e_${id}`, {
+          duration: 150,
+          easing: 'easeInOutQuad',
+          offset: 25,
+        })
+      else
+        this.$vuetify.goTo(`#e_${id}`, {
+          duration: 150,
+          easing: 'easeInOutQuad',
+          offset: 25,
+          container: '.v-dialog--active',
+        })
     },
   },
   watch: {
