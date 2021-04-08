@@ -221,7 +221,7 @@ class DiceRoller {
             x = DiceRoller.rollDieSet(dieSet)
             total += x.result
             if (overkill && (total - staticBonus === 1)) okRerolls += 1
-          } while  (overkill && (total - staticBonus === 1))
+          } while (overkill && (total - staticBonus === 1))
           rawRolls.push(...x.rolls)
         }
       })
