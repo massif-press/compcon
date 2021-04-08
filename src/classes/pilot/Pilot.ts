@@ -804,7 +804,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public AddLicense(license: License): void {
-    const index = this._licenses.findIndex(x => x.License.FrameID)
+    const index = this._licenses.findIndex(x => x.License.FrameID === license.FrameID)
     if (index === -1) {
       this._licenses.push(new PilotLicense(license, 1))
     } else {
@@ -814,7 +814,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public RemoveLicense(license: License): void {
-    const index = this._licenses.findIndex(x => x.License.FrameID)
+    const index = this._licenses.findIndex(x => x.License.FrameID === license.FrameID)
     if (index === -1) {
       console.error(`License "${license.ToString()}" does not exist on Pilot ${this._callsign}`)
     } else {
