@@ -574,7 +574,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public AddSkill(skill: Skill | CustomSkill): void {
-    const index = this._skills.findIndex(x => _.isEqual(x.Skill, skill))
+    const index = this._skills.findIndex(x => x.Skill.ID === skill.ID)
     if (index === -1) {
       this._skills.push(new PilotSkill(skill))
     } else {
@@ -649,7 +649,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public AddTalent(talent: Talent): void {
-    const index = this._talents.findIndex(x => _.isEqual(x.Talent, talent))
+    const index = this._talents.findIndex(x => x.Talent.ID === talent.ID)
     if (index === -1) {
       this._talents.push(new PilotTalent(talent))
     } else {
@@ -661,7 +661,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public RemoveTalent(talent: Talent): void {
-    const index = this._talents.findIndex(x => _.isEqual(x.Talent, talent))
+    const index = this._talents.findIndex(x => x.Talent.ID === talent.ID)
     if (index === -1) {
       console.error(`Talent "${talent.Name}" does not exist on Pilot ${this._callsign}`)
     } else {
@@ -685,7 +685,7 @@ class Pilot implements ICloudSyncable {
   }
 
   private talentSort(): void {
-    this._talents = this._talents.sort(function(a, b) {
+    this._talents = this._talents.sort(function (a, b) {
       return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
     })
   }
@@ -804,7 +804,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public AddLicense(license: License): void {
-    const index = this._licenses.findIndex(x => _.isEqual(x.License, license))
+    const index = this._licenses.findIndex(x => x.License.FrameID)
     if (index === -1) {
       this._licenses.push(new PilotLicense(license, 1))
     } else {
@@ -814,7 +814,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public RemoveLicense(license: License): void {
-    const index = this._licenses.findIndex(x => _.isEqual(x.License, license))
+    const index = this._licenses.findIndex(x => x.License.FrameID)
     if (index === -1) {
       console.error(`License "${license.ToString()}" does not exist on Pilot ${this._callsign}`)
     } else {
@@ -952,7 +952,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public RemoveMech(mech: Mech): void {
-    const index = this._mechs.findIndex(x => _.isEqual(x, mech))
+    const index = this._mechs.findIndex(x => x.ID === mech.ID)
     if (index === -1) {
       console.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`)
     } else {
@@ -1242,14 +1242,14 @@ class Pilot implements ICloudSyncable {
     this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
     this._core_bonuses = data.core_bonuses.map((x: string) => CoreBonus.Deserialize(x))
     this._reserves = data.reserves
-    ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
-    : []
+      ? data.reserves.map((x: IReserveData) => Reserve.Deserialize(x))
+      : []
     this._orgs = data.orgs
-    ? data.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
-    : []
+      ? data.orgs.map((x: IOrganizationData) => Organization.Deserialize(x))
+      : []
     this._mechs = data.mechs.length
-    ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
-    : []
+      ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
+      : []
     this._special_equipment = data.special_equipment
       ? Pilot.deserializeSE(data.special_equipment)
       : []
