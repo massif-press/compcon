@@ -157,11 +157,12 @@ export default Vue.extend({
           x => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
         )
       }
-      // if (!this.showOverSP) {
-      //   i = i.filter(x => x.SP <= this.freeSP)
-      // }
 
-      i = i.concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'MechWeapon'))
+      i = i.concat(
+        this.mech.Pilot.SpecialEquipment.filter(
+          x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
+        )
+      )
 
       return _.sortBy(i, ['Source', 'Name'])
     },
