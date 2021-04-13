@@ -288,6 +288,7 @@ class ActiveState {
     this.AllBaseTechActions.forEach(a => a.Reset())
     this._mech.ActiveLoadout.Equipment.forEach(e => e.Reset())
     this._mech.Pilot.Loadout.Equipment.forEach(e => e.Reset())
+    this.Deployed.forEach(d => d.Actions.forEach(a => a.Reset()))
     this._mech.CurrentMove = this._braced ? 0 : this._mech.MaxMove
     this._braced = false
     this.SetLog({

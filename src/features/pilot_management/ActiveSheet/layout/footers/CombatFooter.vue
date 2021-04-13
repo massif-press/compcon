@@ -49,38 +49,44 @@
       </v-col>
 
       <v-col cols="auto">
-        <v-menu v-if="state.InTurn" v-model="turnConfirm" close-on-content-click offset-y>
-          <v-btn
-            slot="activator"
-            small
-            color="secondary"
-            dark
-            elevation="0"
-            @click="endTurnConfirm.length ? (turnConfirm = true) : stageEndTurn()"
-          >
-            END TURN
-          </v-btn>
-          <cc-confirmation no-cc :content="endTurnConfirm" @confirm="stageEndTurn()" />
-        </v-menu>
-        <v-btn v-else outlined small color="secondary" @click="undoEndTurn">UNDO END TURN</v-btn>
-      </v-col>
-
-      <v-col cols="auto">
-        <v-menu v-model="roundConfirm" close-on-content-click offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn
-              small
-              color="accent"
-              class="white--text"
-              elevation="0"
-              :disabled="state.InTurn"
-              v-on="on"
-            >
-              START ROUND {{ state.Round + 1 }}
+        <v-row dense>
+          <v-col cols="auto">
+            <v-menu v-if="state.InTurn" v-model="turnConfirm" close-on-content-click offset-y>
+              <v-btn
+                slot="activator"
+                small
+                color="secondary"
+                dark
+                elevation="0"
+                @click="endTurnConfirm.length ? (turnConfirm = true) : stageEndTurn()"
+              >
+                END TURN
+              </v-btn>
+              <cc-confirmation no-cc :content="endTurnConfirm" @confirm="stageEndTurn()" />
+            </v-menu>
+            <v-btn v-else outlined small color="secondary" @click="undoEndTurn">
+              UNDO END TURN
             </v-btn>
-          </template>
-          <cc-confirmation no-cc :content="nextRoundConfirm" @confirm="stageNextRound()" />
-        </v-menu>
+          </v-col>
+
+          <v-col cols="auto">
+            <v-menu v-model="roundConfirm" close-on-content-click offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  small
+                  color="accent"
+                  class="white--text"
+                  elevation="0"
+                  :disabled="state.InTurn"
+                  v-on="on"
+                >
+                  START ROUND {{ state.Round + 1 }}
+                </v-btn>
+              </template>
+              <cc-confirmation no-cc :content="nextRoundConfirm" @confirm="stageNextRound()" />
+            </v-menu>
+          </v-col>
+        </v-row>
       </v-col>
 
       <v-col lg="auto" cols="auto">
