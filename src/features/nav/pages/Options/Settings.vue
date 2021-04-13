@@ -228,6 +228,7 @@ export default Vue.extend({
     showMessage() {
       const store = getModule(UserStore, this.$store)
       store.UserProfile.WelcomeHash = ''
+      localStorage.removeItem('cc-welcome-hash')
       this.reload()
     },
     async bulkExport() {

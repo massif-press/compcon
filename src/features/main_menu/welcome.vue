@@ -56,6 +56,7 @@ export default Vue.extend({
               .toString()
           })
           .then(() => {
+            if (localStorage.getItem('cc-welcome-hash') === this.hash) return
             if (this.hash !== this.profile.WelcomeHash) {
               this.$refs.dialog.show()
               this.setHash()
@@ -68,8 +69,13 @@ export default Vue.extend({
   },
   methods: {
     setHash() {
-      if (this.noshow) this.profile.WelcomeHash = this.hash
-      else this.profile.WelcomeHash = ''
+      if (this.noshow) {
+        localStorage.setItem('cc-welcome-hash', this.hash)
+        this.profile.WelcomeHash = this.hash
+      } else {
+        localStorage.removeItem('cc-welcome-hash')
+        this.profile.WelcomeHash = ''
+      }
     },
   },
 })
