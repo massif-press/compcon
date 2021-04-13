@@ -49,27 +49,34 @@
       </v-col>
 
       <v-col cols="auto">
-        <span class="flavor-text">
-          >//[
-          <span class="active--text">COMP/CON</span>
-          :
-          <span class="stark-text--text">Combat Mode Active</span>
-          ]
-        </span>
-
-        <span class="heading h3 accent--text pl-4">
-          ROUND
-          <span class="font-weight-bold">
-            {{ state.Round }}
-          </span>
-        </span>
+        <v-menu v-if="state.InTurn" v-model="turnConfirm" close-on-content-click offset-y>
+          <v-btn
+            slot="activator"
+            small
+            color="secondary"
+            dark
+            elevation="0"
+            @click="endTurnConfirm.length ? (turnConfirm = true) : stageEndTurn()"
+          >
+            END TURN
+          </v-btn>
+          <cc-confirmation no-cc :content="endTurnConfirm" @confirm="stageEndTurn()" />
+        </v-menu>
+        <v-btn v-else outlined small color="secondary" @click="undoEndTurn">UNDO END TURN</v-btn>
       </v-col>
 
       <v-col cols="auto">
         <v-menu v-model="roundConfirm" close-on-content-click offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn outlined small class="ml-5" style="border-color: var(--v-active-base)" v-on="on">
-              NEXT ROUND
+            <v-btn
+              small
+              color="accent"
+              class="white--text"
+              elevation="0"
+              :disabled="state.InTurn"
+              v-on="on"
+            >
+              START ROUND {{ state.Round + 1 }}
             </v-btn>
           </template>
           <cc-confirmation no-cc :content="nextRoundConfirm" @confirm="stageNextRound()" />
@@ -214,7 +221,7 @@
     <cc-solo-dialog ref="actionMenu" no-confirm title="Actions" large no-title-clip>
       <action-menu :tab="menuTab" />
     </cc-solo-dialog>
-    <burn-dialog ref="burnDialog" :mech="mech" @complete="nextRound()" />
+    <burn-dialog ref="burnDialog" :mech="mech" @complete="endTurn($event)" />
   </v-footer>
 </template>
 
@@ -233,6 +240,7 @@ export default vueMixins(activePilot).extend({
     menuTab: 1,
     ecDialog: false,
     roundConfirm: false,
+    turnConfirm: false,
   }),
   computed: {
     state() {
@@ -247,11 +255,26 @@ export default vueMixins(activePilot).extend({
       if (this.state.Move > 0) str += `<div class='px-2'>Movement available</div>`
       if (str.length) {
         str = `<div class='error--text'>ALERT::<div>${str}`
-      } else str = '<div>Round Complete</div>'
+      } else
+        str =
+          '<div>Confirm Round Complete</div> <div class="text--secondary">This cannot be undone.</div>'
+      return str
+    },
+    endTurnConfirm() {
+      let str = ''
+      if (this.state.Actions > 0) str += `<div class='px-2'>Actions available</div>`
+      if (this.state.Move > 0) str += `<div class='px-2'>Movement available</div>`
+      if (str.length) {
+        str = `<div class='error--text'>ALERT::<div>${str}`
+      } else str = ''
       return str
     },
   },
   methods: {
+    stageEndTurn() {
+      if (this.mech.Burn) this.$refs.burnDialog.show()
+      else this.endTurn()
+    },
     stageNextRound() {
       if (this.mech.Burn) this.$refs.burnDialog.show()
       else this.nextRound()
@@ -259,6 +282,13 @@ export default vueMixins(activePilot).extend({
     nextRound() {
       this.state.NextRound()
       this.roundConfirm = false
+    },
+    endTurn(burn) {
+      this.state.EndTurn(burn?.hp || 0, burn?.str || 0)
+      this.turnConfirm = false
+    },
+    undoEndTurn() {
+      this.state.UndoEndTurn()
     },
     openMenu(tab) {
       this.menuTab = tab
