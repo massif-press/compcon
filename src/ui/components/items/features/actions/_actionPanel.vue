@@ -7,7 +7,7 @@
           {{ action.Name }}
         </span>
       </v-col>
-      <v-col cols="auto" class="ml-auto">
+      <v-col cols="auto" class="ml-auto pl-5">
         <v-chip
           v-if="action.Frequency.ToString() !== 'Unlimited'"
           slot="title-items"
