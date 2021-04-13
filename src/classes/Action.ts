@@ -1,7 +1,9 @@
 import uuid from 'uuid/v4'
-import { ActivationType } from '@/class'
+import { ActivationType, Damage, Range } from '@/class'
 import { IDeployableData } from './Deployable'
 import { isNumber } from 'lodash'
+import { IDamageData } from './Damage'
+import { IRangeData } from './Range'
 
 interface IActionData {
   id?: string
@@ -15,6 +17,8 @@ interface IActionData {
   detail: string
   pilot?: boolean
   mech?: boolean
+  damage?: IDamageData[]
+  range?: IRangeData[]
   hide_active?: boolean
   synergy_locations?: string[]
   confirm?: string[]
@@ -95,6 +99,8 @@ class Action {
   public readonly Frequency: Frequency
   public readonly Init: string
   public readonly Trigger: string
+  public readonly Damage: Damage[]
+  public readonly Range: Range[]
   public readonly IsPilotAction: boolean
   public readonly IsMechAction: boolean
   public readonly IsItemAction: boolean
@@ -136,6 +142,8 @@ class Action {
     this._uses = this.Frequency.Uses
     this.Init = data.init || ''
     this.Trigger = data.trigger || ''
+    if (data.damage) this.Damage = data.damage.map(x => new Damage(x))
+    if (data.range) this.Range = data.range.map(x => new Range(x))
     this.IsPilotAction = data.pilot
     this.IsMechAction = data.mech || !data.pilot
     this.IsActiveHidden = data.hide_active

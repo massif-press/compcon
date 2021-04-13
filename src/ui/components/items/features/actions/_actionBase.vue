@@ -1,6 +1,17 @@
 <template>
   <v-card-text :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''">
     <div>
+      <div v-if="action.Damage || action.Range" class="my-2">
+        <v-row dense justify="space-around" align="center">
+          <v-col cols="auto">
+            <cc-range-element :range="action.Range" />
+          </v-col>
+          <v-col cols="auto">
+            <cc-damage-element :damage="action.Damage" />
+          </v-col>
+        </v-row>
+        <v-divider class="my-1" />
+      </div>
       <div v-if="action.Init" class="body-text stark--text mt-2" v-html-safe="action.Init" />
       <div v-if="action.Trigger">
         <div class="subtle--text overline mb-n2">Trigger</div>
