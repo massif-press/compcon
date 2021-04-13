@@ -444,15 +444,15 @@ class ActiveState {
       .getDate()
       .toString()
       .padStart(2, '0')}//${d
-      .getHours()
-      .toString()
-      .padStart(2, '0')}:${d
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}:${d
-      .getMilliseconds()
-      .toString()
-      .padStart(2, '0')}`
+        .getHours()
+        .toString()
+        .padStart(2, '0')}:${d
+          .getMinutes()
+          .toString()
+          .padStart(2, '0')}:${d
+            .getMilliseconds()
+            .toString()
+            .padStart(2, '0')}`
   }
 
   public SetLog(entry: { id: string; event: string; detail: string }, action?: Action) {
@@ -551,9 +551,8 @@ class ActiveState {
     this.SetLog({
       id: `set_move`,
       event: 'MOVE',
-      detail: `${
-        val > 0 ? `FRAME/COMMIT.TAC: ${val} SPACES` : `FRAME/RESCIND.TAC: ${Math.abs(val)} SPACES`
-      }`,
+      detail: `${val > 0 ? `FRAME/COMMIT.TAC: ${val} SPACES` : `FRAME/RESCIND.TAC: ${Math.abs(val)} SPACES`
+        }`,
     })
   }
 
@@ -575,9 +574,8 @@ class ActiveState {
     this.SetLog({
       id: `set_status`,
       event: 'STATUS',
-      detail: `${added ? '' : '!ALERT! '}FRAME/STATUS.${sstr.toUpperCase()} ++ALARM.${
-        removed ? 'OFF' : 'ON'
-      }++`,
+      detail: `${added ? '' : '!ALERT! '}FRAME/STATUS.${sstr.toUpperCase()} ++ALARM.${removed ? 'OFF' : 'ON'
+        }++`,
     })
   }
 
@@ -607,13 +605,11 @@ class ActiveState {
     this.SetLog({
       id: `set_burn`,
       event: 'BURN',
-      detail: `${
-        val > 0
-          ? `!ALERT! FRAME/DMG.ONGOING: ${val} ++ALARM.ON++`
-          : `FRAME/DMG.MITIGATE: ${Math.abs(val)} ${
-              this._mech.Burn > 0 ? '++ALARM.ON++' : '++ALARM.OFF++'
-            }`
-      }`,
+      detail: `${val > 0
+        ? `!ALERT! FRAME/DMG.ONGOING: ${val} ++ALARM.ON++`
+        : `FRAME/DMG.MITIGATE: ${Math.abs(val)} ${this._mech.Burn > 0 ? '++ALARM.ON++' : '++ALARM.OFF++'
+        }`
+        }`,
     })
   }
 
@@ -734,9 +730,8 @@ class ActiveState {
     this.SetLog({
       id: `set_rep`,
       event: 'REPAIR CAPACITY',
-      detail: `${
-        val < 0 ? `FRAME/COMMIT.REPAIR: ${val}` : `FRAME/RECOVER.REPAIR: ${Math.abs(val)}`
-      }`,
+      detail: `${val < 0 ? `FRAME/COMMIT.REPAIR: ${val}` : `FRAME/RECOVER.REPAIR: ${Math.abs(val)}`
+        }`,
     })
   }
 
@@ -746,9 +741,8 @@ class ActiveState {
     this.SetLog({
       id: `set_core`,
       event: 'CORE POWER',
-      detail: `${
-        val > 0 ? `FRAME/CORE:: CAPACITY RESTORED` : `!ALERT! FRAME CORE ACTIVATION !ALERT!`
-      }`,
+      detail: `${val > 0 ? `FRAME/CORE:: CAPACITY RESTORED` : `!ALERT! FRAME CORE ACTIVATION !ALERT!`
+        }`,
     })
   }
 
@@ -758,11 +752,10 @@ class ActiveState {
     this.SetLog({
       id: `set_oc`,
       event: 'OVERCHARGE',
-      detail: `${
-        inc
-          ? `!WARN! FRAME/REACTOR.SYS::POWER REROUTE CONFIRM ++HEAT.ALARM.ON++`
-          : `FRAME/REACTOR.SYS::CHARGE PROTOCOL RECOVERY`
-      }`,
+      detail: `${inc
+        ? `!WARN! FRAME/REACTOR.SYS::POWER REROUTE CONFIRM ++HEAT.ALARM.ON++`
+        : `FRAME/REACTOR.SYS::CHARGE PROTOCOL RECOVERY`
+        }`,
     })
   }
 
@@ -909,9 +902,8 @@ class ActiveState {
     this.SetLog({
       id: action,
       event: weapon.toUpperCase(),
-      detail: `${action.toUpperCase()}//${weapon.toUpperCase()}::${damage} DMG ${
-        kill ? '++KILL CONFIRM++' : ''
-      }`,
+      detail: `${action.toUpperCase()}//${weapon.toUpperCase()}::${damage} DMG ${kill ? '++KILL CONFIRM++' : ''
+        }`,
     })
   }
 

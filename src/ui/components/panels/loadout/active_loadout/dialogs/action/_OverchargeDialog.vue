@@ -92,7 +92,7 @@ export default Vue.extend({
     select() {
       if (this.flat)
         this.overcharge_heat = parseInt(this.mech.OverchargeTrack[this.mech.CurrentOvercharge])
-      this.mech.Pilot.State.OverchargeHeat = this.overcharge_heat
+      this.mech.Pilot.State.OverchargeHeat = parseInt(this.overcharge_heat)
       Vue.nextTick().then(() => this.$emit('use'))
     },
     reset() {
