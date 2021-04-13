@@ -58,6 +58,7 @@ interface IActiveStateData {
 class ActiveState {
   private _deployed: Deployable[]
   public _stage: Stage
+  public InTurn: boolean
 
   private _log: ICombatLogData[] // write this to a pilot log after mission is ended
 
@@ -84,6 +85,9 @@ class ActiveState {
   private _last_stabilize_major: string
   public StabilizeMinor: string
   private _last_stabilize_minor: string
+
+  private _cachedBurnDamage: number
+  private _cachedBurnStructure: number
 
   private _stabilizeUndo: {
     heat: number
@@ -130,6 +134,9 @@ class ActiveState {
     this._deployed = []
     this._log = []
     this._stats = ActiveState.NewCombatStats()
+    this.InTurn = true
+    this._cachedBurnDamage = 0
+    this._cachedBurnStructure = 0
   }
 
   public static NewCombatStats(): ICombatStats {
@@ -248,6 +255,22 @@ class ActiveState {
       detail: 'COMBAT MODE ACTIVATED',
     })
     this.NextRound()
+    this.InTurn = true
+  }
+
+  public UndoEndTurn(): void {
+    if (this._cachedBurnDamage) {
+      this._mech.Burn = this._cachedBurnDamage
+      this._mech.CurrentHP += this._cachedBurnDamage
+    }
+    if (this._cachedBurnStructure) this._mech.CurrentStructure += this._cachedBurnStructure
+    this.InTurn = true
+  }
+
+  public EndTurn(burnHp: number, burnStr: number): void {
+    this._cachedBurnDamage = burnHp
+    this._cachedBurnStructure = burnStr
+    this.InTurn = false
   }
 
   public NextRound(): void {
@@ -272,6 +295,7 @@ class ActiveState {
       event: 'LOG.ROUND',
       detail: 'ROUND START',
     })
+    this.InTurn = true
     this.save()
   }
 
@@ -289,6 +313,7 @@ class ActiveState {
       event: 'LOG.END',
       detail: 'ENCOUNTER COMPLETE. COMBAT MODE DEACTIVATED.',
     })
+    this.InTurn = true
     this.save()
   }
 
@@ -303,6 +328,7 @@ class ActiveState {
       detail: `STARTING MISSION//${this.timestamp}::${mission()}`,
     })
     this._deployed.splice(0, this._deployed.length)
+    this.InTurn = true
     this.StartCombat()
   }
 

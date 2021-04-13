@@ -14,12 +14,12 @@
           check to clear the current Burn , or suffer
           <span class="damage--burn--text">{{ mech.Burn }} Damage</span>
         </p>
-        <v-row justify="center" class="text-center">
+        <v-row justify="center" class="text-center mt-4">
           <v-col lg="auto" md="12" class="mt-n5">
             <v-row dense class="text-center mb-n3" justify="start" align="start">
               <v-col cols="auto" class="mx-8">
                 <div class="overline mb-n2">Engineering Roll</div>
-                <div class="heading text--text" style="font-size: 24pt;">
+                <div class="heading text--text" style="font-size: 24pt">
                   <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                   + {{ mech.Eng }}
                   <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
@@ -110,9 +110,18 @@ export default Vue.extend({
       this.dialog = true
     },
     complete(success) {
-      if (success) this.mech.Pilot.State.ClearBurn()
-      else this.mech.Pilot.State.TakeBurn()
-      this.$emit('complete')
+      if (success) {
+        this.mech.Pilot.State.ClearBurn()
+        this.$emit('complete', null)
+      } else {
+        const preStruct = this.mech.CurrentStructure
+        const preHP = this.mech.CurrentHP
+        this.mech.Pilot.State.TakeBurn()
+        this.$emit('complete', {
+          hp: preHP - this.mech.CurrentHP,
+          str: preStruct - this.mech.CurrentStructure,
+        })
+      }
       this.roll = null
       this.dialog = false
     },
