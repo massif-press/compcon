@@ -2,7 +2,7 @@
   <div>
     <h3 class="heading accent--text">User Options</h3>
     <v-row dense>
-      <v-col md="12" lg="8" class="mr-3">
+      <v-col md="12" lg="6" class="mr-3">
         <div class="flavor-text">
           <b>USER ID:</b>
           <span class="accent--text">
@@ -12,13 +12,65 @@
         <v-divider />
         <div class="text-center">
           <div>
-            <v-btn outlined block color="info" class="my-1" @click="reload">
+            <v-btn large block color="info" class="my-1" @click="reload">
               Download Updates and Reload
             </v-btn>
-            <v-btn outlined block small color="accent" class="my-1" @click="showMessage()">
+            <v-btn block color="accent" class="my-1" @click="showMessage()">
               Show Latest Update Message
             </v-btn>
             <v-divider class="my-2" />
+          </div>
+          <div class="text-center my-2">
+            <v-btn block large color="primary" @click="bulkExport">
+              <v-icon left>mdi-database</v-icon>
+              Create Data Backup
+              <cc-tooltip
+                inline
+                content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+              >
+                <v-icon right class="fadeSelect">mdi-help-circle-outline</v-icon>
+              </cc-tooltip>
+            </v-btn>
+          </div>
+          <div class="text-center my-2">
+            <v-dialog v-model="importDialog" width="50%">
+              <template v-slot:activator="{ on }">
+                <v-btn block large color="primary" v-on="on">
+                  <v-icon left>mdi-database-refresh</v-icon>
+                  Load Data Backup
+                  <cc-tooltip
+                    inline
+                    content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+                  >
+                    <v-icon right class="fadeSelect">mdi-help-circle-outline</v-icon>
+                  </cc-tooltip>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-text class="pa-6">
+                  <p class="text-center heading h3 text--text">
+                    This will OVERWRITE
+                    <b class="accent--text">ALL</b>
+                    local COMP/CON data.
+                    <br />
+                    This
+                    <b class="accent--text">cannot</b>
+                    be undone.
+                  </p>
+                  <v-file-input
+                    v-model="fileValue"
+                    accept=".compcon"
+                    outlined
+                    dense
+                    hide-details
+                    autofocus
+                    placeholder="Select COMP/CON Bulk Export File"
+                    prepend-icon="mdi-paperclip"
+                    @change="bulkImport"
+                  />
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </div>
           <v-divider class="my-3" />
           <v-dialog v-model="deleteDialog" width="80%">
@@ -133,10 +185,10 @@ export default Vue.extend({
       return store.UserProfile
     },
     userViewExotics: {
-      get: function() {
+      get: function () {
         return this.user.GetView('showExotics')
       },
-      set: function(newval) {
+      set: function (newval) {
         this.user.SetView('showExotics', newval)
       },
     },
@@ -188,6 +240,8 @@ export default Vue.extend({
     },
     async bulkImport(file) {
       await importAll(file)
+        .then(() => this.$notify('Data import successful', 'confirmation'))
+        .catch(err => this.$notify(`ERROR: Unable to import: ${err}`, 'error'))
       this.importDialog = false
     },
     async deleteAll() {
