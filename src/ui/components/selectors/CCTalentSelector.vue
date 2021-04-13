@@ -57,7 +57,7 @@
             icon="warning"
             class="stat-text"
             style="width: 95%"
-            :value="!enoughSelections"
+            :value="!enoughSelections && newPilot"
           >
             Must select a minimum of {{ selectedMin }} talents
           </v-alert>
@@ -82,6 +82,7 @@
             hide-details
             class="mb-2"
             outlined
+            clearable
           />
         </v-col>
         <v-col cols="auto" class="ml-auto">

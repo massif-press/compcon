@@ -75,7 +75,7 @@ class Deployable extends CompendiumItem {
   private _data: IDeployableData
 
   public constructor(data: IDeployableData, owner: Mech, n?: number) {
-    data.id = `deployable_${uuid()}`
+    data.id = `${data.type || 'deployable'}_${uuid()}`
     super(data)
     this.ID = data.id
     this._data = data
@@ -116,11 +116,12 @@ class Deployable extends CompendiumItem {
   }
 
   private collect(val: string | number, owner: Mech, bonusID: string, mineVal?: number): number {
+    const prefix = this.Type.toLowerCase() === 'drone' ? 'drone' : 'deployable'
     let out = val ? val : 0
     if (!out && mineVal) return mineVal
     if (owner && owner.Pilot) {
       out = owner.Pilot.SpecialEval(out)
-      out += Bonus.get(`deployable_${bonusID}`, owner)
+      out += Bonus.get(`${prefix}_${bonusID}`, owner)
     }
     return out as number
   }
