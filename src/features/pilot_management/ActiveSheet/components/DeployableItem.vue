@@ -1,259 +1,256 @@
 <template>
-  <v-card flat tile class="clipped-large light-panel mb-2">
-    <v-toolbar dense flat>
-      <v-toolbar-title>
-        <v-row no-gutters>
-          <v-col cols="auto">
-            <v-icon left>{{ deployable.Icon }}</v-icon>
+  <v-col cols="12" lg="6">
+    <v-card flat tile class="clipped-large light-panel pb-2">
+      <v-toolbar dense flat>
+        <v-toolbar-title>
+          <v-row no-gutters>
+            <v-col cols="auto">
+              <v-icon left>{{ deployable.Icon }}</v-icon>
+            </v-col>
+            <v-col class="heading h3">
+              <cc-short-string-editor inline @set="deployable.Name = $event">
+                {{ deployable.Name }}
+              </cc-short-string-editor>
+            </v-col>
+            <v-col>
+              <span class="pl-3 flavor-text subtle--text">//{{ deployable.BaseName }}</span>
+            </v-col>
+          </v-row>
+        </v-toolbar-title>
+        <v-spacer />
+        <v-toolbar-items>
+          <v-btn
+            v-if="deployable.Recall && !recallState"
+            small
+            text
+            color="accent"
+            class="fadeSelect"
+            :disabled="!canRecall"
+            @click="recall"
+          >
+            <v-icon v-if="recallIcon" left>{{ recallIcon }}</v-icon>
+            Recall
+          </v-btn>
+          <v-btn
+            v-if="deployable.Redeploy && recallState"
+            small
+            text
+            color="accent"
+            class="fadeSelect"
+            :disabled="!canRedeploy"
+            @click="redeploy"
+          >
+            <v-icon v-if="redeployIcon" left>{{ redeployIcon }}</v-icon>
+            Redeploy
+          </v-btn>
+          <v-menu v-model="removeMenu" offset-y offset-x top left>
+            <template v-slot:activator="{ on }">
+              <v-btn small text color="error" class="fadeSelect" v-on="on">Remove</v-btn>
+            </template>
+            <cc-confirmation
+              content="Lancer, this will remove this deployable from the Deployed Equipment list. <span class='accent--text'>This cannot be undone.</span> Do you want to continue?"
+              @confirm="
+                removeMenu = false
+                pilot.State.RemoveDeployable(deployable.ID)
+              "
+            />
+          </v-menu>
+        </v-toolbar-items>
+      </v-toolbar>
+      <v-card-text v-if="deployable.Destroyed">
+        <div class="heading h2 error--text text-center">EQUIPMENT DESTROYED</div>
+        <div class="text-right mr-3 mb-n3">
+          <v-btn x-small color="primary" class="fadeSelect" @click="deployable.Repair()">
+            <cc-tooltip
+              content="Restore this deployable to working order. This does not consume an action and should be used to correct an error or in special cases, such as GM fiat"
+            >
+              <v-icon small left>mdi-reload</v-icon>
+              RESTORE
+            </cc-tooltip>
+          </v-btn>
+        </div>
+      </v-card-text>
+      <v-card-text v-else-if="recallState">
+        <div class="heading h2 subtle--text text-center">EQUIPMENT RECALLED</div>
+        <div class="text-right mr-3 mb-n3">
+          <v-btn x-small color="primary" class="fadeSelect" @click="freeRecall()">
+            <cc-tooltip
+              content="Return this deployable to the battlefield. This does not consume an action and should be used to correct an error or in special cases, such as GM fiat"
+            >
+              <v-icon small left>mdi-reload</v-icon>
+              RESTORE
+            </cc-tooltip>
+          </v-btn>
+        </div>
+      </v-card-text>
+
+      <v-card-text v-else class="py-1">
+        <v-row dense>
+          <v-col v-if="deployable.Armor" cols="auto">
+            <cc-tick-bar
+              :key="deployable.Armor"
+              :current="deployable.Armor"
+              :max="deployable.Armor"
+              color="armor"
+              full-icon="mdi-shield"
+              hide-max
+              readonly
+            >
+              <span class="heading">Armor: {{ deployable.Armor }}</span>
+            </cc-tick-bar>
           </v-col>
-          <v-col class="heading h3">
-            <cc-short-string-editor inline @set="deployable.Name = $event">
-              {{ deployable.Name }}
-            </cc-short-string-editor>
+          <v-col v-if="deployable.MaxHP" cols="auto">
+            <cc-tick-bar
+              :key="deployable.CurrentHP"
+              :current="deployable.CurrentHP"
+              :max="deployable.MaxHP"
+              color="hp"
+              full-icon="mdi-hexagon"
+              :max-length="15"
+              @update="deployable.CurrentHP = $event"
+            >
+              <span class="heading">HP</span>
+            </cc-tick-bar>
           </v-col>
-          <v-col>
-            <span class="pl-3 flavor-text subtle--text">//{{ deployable.BaseName }}</span>
+          <v-col v-if="deployable.MaxHP" cols="auto">
+            <cc-tick-bar
+              :key="deployable.Overshield"
+              :current="deployable.Overshield"
+              :max="deployable.Overshield"
+              color="stark"
+              :full-icon="'mdi-octagram'"
+              max-length="3"
+              hide-max
+              @update="deployable.Overshield = $event"
+            >
+              <span class="heading">OVERSHIELD: {{ deployable.Overshield }}</span>
+            </cc-tick-bar>
+          </v-col>
+          <v-col v-if="deployable.Heatcap" cols="auto">
+            <cc-tick-bar
+              :key="deployable.CurrentHeat"
+              :current="deployable.CurrentHeat"
+              :max="deployable.Heatcap"
+              color="heatcap"
+              full-icon="mdi-circle"
+              clearable
+              @update="deployable.CurrentHeat = $event"
+            >
+              <span class="heading">HEAT</span>
+            </cc-tick-bar>
+          </v-col>
+          <v-col v-if="deployable.Repcap" cols="auto">
+            <cc-tick-bar
+              :key="deployable.CurrentRepairs"
+              :current="deployable.CurrentRepairs"
+              :max="deployable.Repcap"
+              color="repcap"
+              full-icon="cci-repair"
+              @update="deployable.CurrentRepairs = $event"
+            >
+              <span class="heading">REPAIR CAPACITY</span>
+            </cc-tick-bar>
           </v-col>
         </v-row>
-      </v-toolbar-title>
-      <v-spacer />
-      <v-toolbar-items>
-        <v-btn
-          v-if="deployable.Recall && !recallState"
-          small
-          text
-          color="accent"
-          class="fadeSelect"
-          :disabled="!canRecall"
-          @click="recall"
-        >
-          <v-icon v-if="recallIcon" left>{{ recallIcon }}</v-icon>
-          Recall
-        </v-btn>
-        <v-btn
-          v-if="deployable.Redeploy && recallState"
-          small
-          text
-          color="accent"
-          class="fadeSelect"
-          :disabled="!canRedeploy"
-          @click="redeploy"
-        >
-          <v-icon v-if="redeployIcon" left>{{ redeployIcon }}</v-icon>
-          Redeploy
-        </v-btn>
-        <v-menu v-model="removeMenu" offset-y offset-x top left>
-          <template v-slot:activator="{ on }">
-            <v-btn small text color="error" class="fadeSelect" v-on="on">
-              Remove
-            </v-btn>
-          </template>
-          <cc-confirmation
-            content="Lancer, this will remove this deployable from the Deployed Equipment list. <span class='accent--text'>This cannot be undone.</span> Do you want to continue?"
-            @confirm="
-              removeMenu = false
-              pilot.State.RemoveDeployable(deployable.ID)
-            "
+        <v-row justify="center" dense class="mx-8">
+          <cc-statblock-panel
+            v-if="deployable.Size"
+            inline
+            class="mx-1"
+            :icon="`cci-size-${deployable.Size === 0.5 ? 'half' : deployable.Size}`"
+            name="Size"
+            :value="`${deployable.Size === 0.5 ? '½' : deployable.Size}`"
           />
-        </v-menu>
-      </v-toolbar-items>
-    </v-toolbar>
-    <v-card-text v-if="deployable.Destroyed">
-      <div class="heading h2 error--text text-center">EQUIPMENT DESTROYED</div>
-      <div class="text-right mr-3 mb-n3">
-        <v-btn x-small color="primary" class="fadeSelect" @click="deployable.Repair()">
-          <cc-tooltip
-            content="Restore this deployable to working order. This does not consume an action and should be used to correct an error or in special cases, such as GM fiat"
-          >
-            <v-icon small left>mdi-reload</v-icon>
-            RESTORE
-          </cc-tooltip>
-        </v-btn>
-      </div>
-    </v-card-text>
-    <v-card-text v-else-if="recallState">
-      <div class="heading h2 subtle--text text-center">EQUIPMENT RECALLED</div>
-      <div class="text-right mr-3 mb-n3">
-        <v-btn x-small color="primary" class="fadeSelect" @click="freeRecall()">
-          <cc-tooltip
-            content="Return this deployable to the battlefield. This does not consume an action and should be used to correct an error or in special cases, such as GM fiat"
-          >
-            <v-icon small left>mdi-reload</v-icon>
-            RESTORE
-          </cc-tooltip>
-        </v-btn>
-      </div>
-    </v-card-text>
-
-    <v-card-text v-else class="py-1">
-      <v-row dense>
-        <v-col v-if="deployable.Armor" cols="auto">
-          <cc-tick-bar
-            :key="deployable.Armor"
-            :current="deployable.Armor"
-            :max="deployable.Armor"
-            color="armor"
-            full-icon="mdi-shield"
-            hide-max
-            readonly
-          >
-            <span class="heading">Armor: {{ deployable.Armor }}</span>
-          </cc-tick-bar>
-        </v-col>
-        <v-col v-if="deployable.MaxHP" cols="auto">
-          <cc-tick-bar
-            :key="deployable.CurrentHP"
-            :current="deployable.CurrentHP"
-            :max="deployable.MaxHP"
-            color="hp"
-            full-icon="mdi-hexagon"
-            :max-length="15"
-            @update="deployable.CurrentHP = $event"
-          >
-            <span class="heading">HP</span>
-          </cc-tick-bar>
-        </v-col>
-        <v-col v-if="deployable.MaxHP" cols="auto">
-          <cc-tick-bar
-            :key="deployable.Overshield"
-            :current="deployable.Overshield"
-            :max="deployable.Overshield"
-            color="stark"
-            :full-icon="'mdi-octagram'"
-            max-length="3"
-            hide-max
-            @update="deployable.Overshield = $event"
-          >
-            <span class="heading">OVERSHIELD: {{ deployable.Overshield }}</span>
-          </cc-tick-bar>
-        </v-col>
-        <v-col v-if="deployable.Heatcap" cols="auto">
-          <cc-tick-bar
-            :key="deployable.CurrentHeat"
-            :current="deployable.CurrentHeat"
-            :max="deployable.Heatcap"
-            color="heatcap"
-            full-icon="mdi-circle"
-            clearable
-            @update="deployable.CurrentHeat = $event"
-          >
-            <span class="heading">
-              HEAT
-            </span>
-          </cc-tick-bar>
-        </v-col>
-        <v-col v-if="deployable.Repcap" cols="auto">
-          <cc-tick-bar
-            :key="deployable.CurrentRepairs"
-            :current="deployable.CurrentRepairs"
-            :max="deployable.Repcap"
-            color="repcap"
-            full-icon="cci-repair"
-            @update="deployable.CurrentRepairs = $event"
-          >
-            <span class="heading">
-              REPAIR CAPACITY
-            </span>
-          </cc-tick-bar>
-        </v-col>
-      </v-row>
-      <v-row justify="center" dense class="mx-8">
-        <cc-statblock-panel
-          v-if="deployable.Size"
-          inline
-          class="mx-1"
-          :icon="`cci-size-${deployable.Size === 0.5 ? 'half' : deployable.Size}`"
-          name="Size"
-          :value="`${deployable.Size === 0.5 ? '½' : deployable.Size}`"
-        />
-        <cc-statblock-panel
-          v-if="deployable.Size"
-          icon="$vuetify.icons.evasion"
-          inline
-          class="mx-1"
-          name="Evasion"
-          :value="deployable.Evasion"
-        />
-        <cc-statblock-panel
-          v-if="deployable.EDefense"
-          inline
-          class="mx-1"
-          icon="$vuetify.icons.edef"
-          name="E-Defense"
-          :value="deployable.EDefense"
-        />
-        <cc-statblock-panel
-          v-if="deployable.Heatcap"
-          inline
-          class="mx-1"
-          icon="$vuetify.icons.heat"
-          name="Heat Capacity"
-          :value="deployable.Heatcap"
-        />
-        <cc-statblock-panel
-          v-if="deployable.Sensor"
-          inline
-          class="mx-1"
-          icon="$vuetify.icons.sensor"
-          name="Sensor Range"
-          :value="deployable.Sensor"
-        />
-        <cc-statblock-panel
-          v-if="deployable.TechAttack"
-          inline
-          class="mx-1"
-          icon="$vuetify.icons.tech"
-          name="Tech Attack"
-          :value="deployable.TechAttack"
-        />
-        <cc-statblock-panel
-          v-if="deployable.Repcap"
-          inline
-          class="mx-1"
-          icon="$vuetify.icons.repair"
-          name="Repair Capacity"
-          :value="deployable.Repcap"
-        />
-        <cc-statblock-panel
-          v-if="deployable.Save"
-          inline
-          class="mx-1"
-          icon="$vuetify.icons.save"
-          name="Save Target"
-          :value="deployable.Save"
-        />
-        <cc-statblock-panel
-          v-if="deployable.Speed"
-          inline
-          class="mx-1"
-          icon="$vuetify.icons.speed"
-          name="Speed"
-          :value="deployable.Speed"
-        />
-      </v-row>
-      <v-row justify="center" dense>
-        <v-col cols="auto">
-          <p class="light-panel mb-0 clipped body-text px-4" v-html-safe="deployable.Detail" />
-        </v-col>
-      </v-row>
-      <v-row dense justify="center">
-        <v-col
-          v-for="(a, i) in deployable.Actions"
-          :key="`${deployable.Name}_action_${i}`"
-          cols="auto"
-          style="min-width: 25%"
-        >
-          <cc-action
-            :action="a"
-            active
-            :activations="pilot.State.Actions"
-            :unusable="a.Used || (a.Activation === 'Protocol' && !pilot.State.IsProtocolAvailable)"
+          <cc-statblock-panel
+            v-if="deployable.Size"
+            icon="$vuetify.icons.evasion"
+            inline
+            class="mx-1"
+            name="Evasion"
+            :value="deployable.Evasion"
           />
-        </v-col>
-      </v-row>
-    </v-card-text>
-    <v-divider />
-  </v-card>
+          <cc-statblock-panel
+            v-if="deployable.EDefense"
+            inline
+            class="mx-1"
+            icon="$vuetify.icons.edef"
+            name="E-Defense"
+            :value="deployable.EDefense"
+          />
+          <cc-statblock-panel
+            v-if="deployable.Heatcap"
+            inline
+            class="mx-1"
+            icon="$vuetify.icons.heat"
+            name="Heat Capacity"
+            :value="deployable.Heatcap"
+          />
+          <cc-statblock-panel
+            v-if="deployable.Sensor"
+            inline
+            class="mx-1"
+            icon="$vuetify.icons.sensor"
+            name="Sensor Range"
+            :value="deployable.Sensor"
+          />
+          <cc-statblock-panel
+            v-if="deployable.TechAttack"
+            inline
+            class="mx-1"
+            icon="$vuetify.icons.tech"
+            name="Tech Attack"
+            :value="deployable.TechAttack"
+          />
+          <cc-statblock-panel
+            v-if="deployable.Repcap"
+            inline
+            class="mx-1"
+            icon="$vuetify.icons.repair"
+            name="Repair Capacity"
+            :value="deployable.Repcap"
+          />
+          <cc-statblock-panel
+            v-if="deployable.Save"
+            inline
+            class="mx-1"
+            icon="$vuetify.icons.save"
+            name="Save Target"
+            :value="deployable.Save"
+          />
+          <cc-statblock-panel
+            v-if="deployable.Speed"
+            inline
+            class="mx-1"
+            icon="$vuetify.icons.speed"
+            name="Speed"
+            :value="deployable.Speed"
+          />
+        </v-row>
+        <v-row justify="center" dense>
+          <v-col cols="auto">
+            <p class="light-panel mb-0 clipped body-text px-4" v-html-safe="deployable.Detail" />
+          </v-col>
+        </v-row>
+        <v-row dense justify="center">
+          <v-col
+            v-for="(a, i) in deployable.Actions"
+            :key="`${deployable.Name}_action_${i}`"
+            cols="auto"
+            style="min-width: 25%"
+          >
+            <cc-action
+              :action="a"
+              active
+              :activations="pilot.State.Actions"
+              :unusable="
+                a.Used || (a.Activation === 'Protocol' && !pilot.State.IsProtocolAvailable)
+              "
+            />
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </v-col>
 </template>
 
 <script lang="ts">
@@ -278,7 +275,7 @@ export default vueMixins(activePilot).extend({
     isRecalled: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
+      handler: function (newval) {
         this.recallState = newval
       },
     },

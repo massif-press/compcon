@@ -8,9 +8,9 @@
     </div>
     <v-scroll-y-reverse-transition mode="out-in" leave-absolute>
       <div v-if="showDeployed">
-        <div v-if="pilot.State.Deployed.length">
+        <v-row dense v-if="pilot.State.Deployed.length">
           <deployable-item v-for="d in pilot.State.Deployed" :key="d.ID" :deployable="d" />
-        </div>
+        </v-row>
         <v-card
           v-else
           flat
