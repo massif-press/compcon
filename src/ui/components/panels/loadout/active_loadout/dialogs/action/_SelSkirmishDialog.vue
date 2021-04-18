@@ -38,17 +38,15 @@
           </div>
         </weapon-attack>
         <v-container>
-          <div v-if="extraAux" class="my-3">
+          <div v-if="hasAux(mount, item)" class="my-3">
             <div class="body-text text-center font-weight-bold">
               You may make an additional attack with the following mounted Auxiliary weapon:
-              <div class="text-center overline my-n2">
-                This weapon cannot deal bonus damage.
-              </div>
+              <div class="text-center overline my-n2">This weapon cannot deal bonus damage.</div>
             </div>
             <v-alert dense outlined class="my-1" colored-border color="primary">
               <weapon-attack
                 ref="aux"
-                :item="extraAux"
+                :item="hasAux(mount, item)"
                 :mech="mech"
                 :mount="mount"
                 aux
@@ -56,7 +54,7 @@
               >
                 <div class="heading h3 mt-3 mb-n3">
                   <v-icon large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
-                  {{ extraAux.Name }}
+                  {{ hasAux(mount, item).Name }}
                 </div>
               </weapon-attack>
             </v-alert>
@@ -68,6 +66,7 @@
 </template>
 
 <script lang="ts">
+import { WeaponSize } from '@/class'
 import Vue from 'vue'
 import WeaponAttack from '../../components/_WeaponAttack.vue'
 
@@ -97,23 +96,23 @@ export default Vue.extend({
     dialog: false,
     confirmedFree: false,
   }),
-  computed: {
-    extraAux() {
-      if (this.mount.Weapons.length === 1) return null
-      else {
-        const extra = this.mount.Weapons.find(x => x !== this.item)
-        return extra || null
-      }
-    },
-  },
   methods: {
+    hasAux(mount, primary) {
+      const auxes = mount.Weapons.filter(x => x.Size === WeaponSize.Aux)
+      if (!auxes.length) return false
+      const unusedAux = auxes.filter(x => x !== primary)
+      if (!unusedAux.length) return false
+      const candidate = unusedAux[0]
+      if (this.item === candidate) return false
+      return candidate || false
+    },
     confirmAttack(free) {
       this.confirmedFree = free
       this.$emit('confirm', free)
     },
     reset() {
       this.$refs.main.reset()
-      if (this.extraAux) this.$refs.aux.reset()
+      if (this.hasAux) this.$refs.aux.reset()
     },
     init() {
       this.$refs.main.init()

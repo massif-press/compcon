@@ -3,10 +3,9 @@
     v-model="menu"
     :close-on-click="false"
     :close-on-content-click="false"
-    bottom
     right
     offset-x
-    offset-y
+    nudge-bottom="-200px"
   >
     <template v-slot:activator="{ on }">
       <v-btn icon @click.stop="menu = true" v-on="on">
@@ -14,8 +13,17 @@
       </v-btn>
     </template>
     <v-card min-width="400px">
-      <v-toolbar v-if="title" tile dense flat color="primary" class="white--text heading h3">
+      <v-toolbar
+        v-if="title"
+        tile
+        dense
+        flat
+        :color="critical ? 'exotic' : 'primary'"
+        class="white--text heading h3"
+      >
         {{ title }}
+        <span v-if="critical" class="flavor-text white--text text--secondary">// CRITICAL</span>
+        <span v-if="overkill" class="flavor-text white--text text--secondary">// OVERKILL</span>
       </v-toolbar>
       <v-card-text>
         <v-row
@@ -97,7 +105,7 @@
           <v-col cols="auto">
             <v-chip v-if="!dice.length" outlined style="opacity: 0.5">No Roll</v-chip>
           </v-col>
-          <v-col v-for="d in dice" :key="`dice_${d.sides}`" cols="auto">
+          <v-col v-for="(d, i) in dice" :key="`${i}_dice_${d.sides}`" cols="auto">
             <v-chip
               outlined
               class="mx-1"
@@ -143,17 +151,17 @@
         <v-divider v-if="result" />
         <div style="min-height: 20px">
           <div v-if="result">
-            <div v-for="r in result" :key="`res_${r.sides}`">
+            <div v-for="(r, j) in result" :key="`${j}_res_${r.sides}`">
               <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
               <v-row no-gutters>
                 <v-col v-for="(val, i) in r.rolls" :key="`roll_${r.sides}_${i}_${val}`" cols="auto">
-                  <v-chip x-small label>
+                  <v-chip x-small label :color="overkill && val === 1 ? 'heat' : ''">
                     {{ val }}
                   </v-chip>
                   <v-icon v-if="i + 1 < r.rolls.length" small>mdi-plus</v-icon>
                 </v-col>
                 <v-col cols="auto" class="ml-auto stark--text">
-                  <b>= {{ r.rolls.reduce((a, b) => a + b, 0) }}</b>
+                  <b>= {{ r.rolls.reduce((a, b) => a + b, 0) - overkillRolls }}</b>
                 </v-col>
               </v-row>
             </div>
@@ -194,6 +202,19 @@
                 <div class="heading h2">{{ total }}</div>
               </v-col>
             </v-row>
+            <v-row
+              v-if="overkill && overkillRolls"
+              no-gutters
+              class="pa-1 ma-1"
+              style="border: 1px solid var(--v-heat-base); border-radius: 2px"
+            >
+              <v-col cols="auto" class="ml-auto stark--text text-right">
+                <div class="caption">// OVERKILL //</div>
+                <v-chip v-for="n in overkillRolls" :key="`overkill_${n}`" x-small color="heat">
+                  <v-icon small>cci-heat</v-icon>
+                </v-chip>
+              </v-col>
+            </v-row>
           </div>
         </div>
         <v-divider />
@@ -203,7 +224,9 @@
           <v-btn small outlined color="accent" @click="clear">Clear All</v-btn>
           <v-btn small outlined color="accent" @click="reset">Reset All</v-btn>
           <v-spacer />
-          <v-btn small class="ml-3" color="secondary" :disabled="!result">Commit Result</v-btn>
+          <v-btn small class="ml-3" color="secondary" :disabled="!result" @click="commit">
+            Commit Result
+          </v-btn>
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -220,6 +243,8 @@ export default Vue.extend({
     title: { type: String, required: false },
     preset: { type: String, required: false },
     presetAccuracy: { type: Number, required: false, default: 0 },
+    overkill: { type: Boolean },
+    critical: { type: Boolean },
   },
   data: () => ({
     menu: false,
@@ -234,16 +259,26 @@ export default Vue.extend({
   mounted() {
     this.reset()
   },
+  watch: {
+    menu() {
+      this.reset()
+    },
+  },
   computed: {
     accString() {
       if (this.accuracy > 0) return `<b>${this.accuracy}</b>&nbsp;&nbsp;ACCURACY`
       else return `<b>${Math.abs(this.accuracy)}</b>&nbsp;&nbsp;DIFFICULTY`
     },
+    overkillRolls() {
+      if (!this.result) return 0
+      return this.result.map(x => x.overkill).reduce((a, b) => a + b, 0)
+    },
     total() {
       return (
         this.result.flatMap(x => x.rolls).reduce((a, b) => a + b, 0) +
         parseInt(this.flat) +
-        parseInt(this.accTotal)
+        parseInt(this.accTotal) -
+        this.overkillRolls
       )
     },
   },
@@ -266,10 +301,15 @@ export default Vue.extend({
       else this.accuracy++
     },
     roll() {
-      this.result = this.dice.map(x => ({
-        sides: x.sides,
-        rolls: DiceRoller.rollDamage(`${x.count}d${x.sides}`, false, false).rawDieRolls,
-      }))
+      this.result = this.dice.map(x => {
+        const dRoll = DiceRoller.rollDamage(`${x.count}d${x.sides}`, this.critical, this.overkill)
+        return {
+          sides: x.sides,
+          rolls: dRoll.rawDieRolls,
+          overkill: dRoll.overkillRerolls,
+        }
+      })
+
       if (this.accuracy) {
         this.accRolls = DiceRoller.rollDamage(
           `${Math.abs(this.accuracy)}d${6}`,
@@ -299,6 +339,13 @@ export default Vue.extend({
       this.result = null
       this.accuracy = 0
       this.accTotal = 0
+    },
+    commit() {
+      this.$emit('commit', {
+        total: this.total,
+        overkill: this.overkillRolls,
+      })
+      this.menu = false
     },
   },
 })

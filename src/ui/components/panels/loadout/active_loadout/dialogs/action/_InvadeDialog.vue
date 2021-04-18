@@ -42,9 +42,7 @@
               Free Action
               <cc-tooltip
                 inline
-                :content="
-                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a Quick Action this turn`
-                "
+                :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a Quick Action this turn`"
               >
                 <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
               </cc-tooltip>
@@ -57,14 +55,14 @@
             <v-col lg="auto" md="12" class="mt-n5">
               <v-row dense class="text-center mb-n3" justify="start" align="start">
                 <v-col cols="auto" class="mx-8">
-                  <div class="overline mb-n2">Tech Attack Roll</div>
-                  <div class="heading text--text" style="font-size: 24pt;">
+                  <div class="overline">Tech Attack Roll</div>
+                  <div class="heading text--text" style="font-size: 24pt">
                     <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                     {{ `${mech.TechAttack >= 0 ? '+' : ''}${mech.TechAttack}` }}
                   </div>
                 </v-col>
                 <v-col cols="auto" class="mx-8">
-                  <div class="overline mb-n3">vs. Target</div>
+                  <div class="overline">vs. Target</div>
                   <v-icon x-large v-html="'cci-edef'" />
                   <div class="overline font-weight-bold mt-n2" v-html="'E-Defense'" />
                 </v-col>
@@ -77,7 +75,7 @@
                   class="ml-auto px-12 mr-n10 panel dual-sliced"
                   style="height: 70px"
                 >
-                  <div class="overline mt-n2 pl-1">Accuracy</div>
+                  <div class="overline pl-1">Accuracy</div>
                   <v-text-field
                     v-model="accuracy"
                     type="number"
@@ -95,7 +93,7 @@
                   />
                 </v-col>
                 <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
-                  <div class="overline mt-n2 pl-1">Difficulty</div>
+                  <div class="overline pl-1">Difficulty</div>
                   <v-text-field
                     v-model="difficulty"
                     type="number"
@@ -113,14 +111,15 @@
                   />
                 </v-col>
                 <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
-                  <div class="overline mt-n2 mr-n6 pl-3">Tech Attack Roll</div>
+                  <div class="overline mr-n6 pl-3">Tech Attack Roll</div>
                   <v-row no-gutters>
                     <v-col class="mr-n2 ml-n2">
-                      <cc-tooltip title="Roll Tech Attack" :content="rollResultTooltip">
-                        <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollSkill">
-                          <v-icon large>mdi-dice-multiple</v-icon>
-                        </v-btn>
-                      </cc-tooltip>
+                      <cc-dice-menu
+                        :preset="`1d20+${mech.TechAttack}`"
+                        :preset-accuracy="accuracy - difficulty"
+                        title="Tech Attack"
+                        @commit="registerTechRoll($event.total)"
+                      />
                     </v-col>
                     <v-col>
                       <v-text-field
@@ -170,7 +169,7 @@
 
         <v-slide-x-reverse-transition>
           <div v-if="succeeded">
-            <v-row no-gutters justify="center" class="mt-2 mb-n2">
+            <v-row no-gutters justify="center" class="mt-4 mb-n2">
               <v-col cols="auto" class="ml-auto" align="end" style="max-width: 800px">
                 <div class="body-text stark--text text-left">
                   <b>Invasion Success</b>
@@ -217,9 +216,7 @@
                 <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
                   <span>
                     >//[
-                    <span class="accent--text">
-                      COMP/CON:
-                    </span>
+                    <span class="accent--text">COMP/CON:</span>
                     ] :
                     <span>{{ s }}</span>
                   </span>
@@ -282,9 +279,6 @@ export default Vue.extend({
     accuracy: 0,
     difficulty: 0,
     attackRoll: '',
-    attackRollString: '',
-    rollResultString: '',
-    rollAccuracyResults: '[]',
     succeeded: false,
     failed: false,
     complete: false,
@@ -299,16 +293,6 @@ export default Vue.extend({
     },
     actions() {
       return this.state.TechActions.filter(x => x.Activation === ActivationType.Invade)
-    },
-    rollResultTooltip() {
-      let str = this.attackRollString
-      if (this.rollResultString) {
-        str += `<div class="overline my-n2">Last Roll:</div><div class="caption ml-3">${this.rollResultString}`
-        if (this.rollAccuracyResults.length)
-          str += ` <span class="subtle--text">[${this.rollAccuracyResults.join(', ')}]</span>`
-        str += '</div>'
-      }
-      return str
     },
     skLog() {
       let l = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.']
@@ -326,7 +310,7 @@ export default Vue.extend({
     round: {
       immediate: true,
       deep: true,
-      handler: function() {
+      handler: function () {
         this.reset()
       },
     },
@@ -335,7 +319,7 @@ export default Vue.extend({
     runTimeout() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
-      const timer = setInterval(function() {
+      const timer = setInterval(function () {
         self.timer++
 
         if (self.timer > self.skLog.length * 10) {
@@ -366,16 +350,9 @@ export default Vue.extend({
       this.$emit('use')
       this.runTimeout()
     },
-    rollSkill(): void {
-      const roll = DiceRoller.rollToHit(this.mech.TechAttack, this.accuracy, this.difficulty)
-      this.rollResultString = `${roll.rawDieRoll} + ${roll.staticBonus}`
-      if (roll.accuracyResult) {
-        this.rollResultString += ` ${roll.accuracyResult > 0 ? '+' : '-'} ${Math.abs(
-          roll.accuracyResult
-        )}`
-      }
-      this.rollAccuracyResults = roll.rawAccuracyRolls
-      this.attackRoll = roll.total
+    registerTechRoll(roll) {
+      Vue.set(this, 'attackRoll', roll)
+      Vue.nextTick().then(() => this.$forceUpdate())
     },
     undo() {
       this.state.Undo(this.action, this.actionFree)

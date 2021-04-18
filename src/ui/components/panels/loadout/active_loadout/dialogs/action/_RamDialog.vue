@@ -30,9 +30,7 @@
           Free Action
           <cc-tooltip
             inline
-            :content="
-              `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
-            "
+            :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
             <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
           </cc-tooltip>
@@ -46,7 +44,7 @@
           <v-row dense class="text-center mb-n3" justify="start" align="start">
             <v-col cols="auto" class="mx-8">
               <div class="overline mb-n2">Attack Roll</div>
-              <div class="heading text--text" style="font-size: 24pt;">
+              <div class="heading text--text" style="font-size: 24pt">
                 <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                 + {{ mech.AttackBonus }}
               </div>
@@ -61,7 +59,7 @@
         <v-col cols="auto" class="ml-auto">
           <v-row dense justify="end">
             <v-col cols="auto" class="ml-auto px-12 mr-n10 panel dual-sliced" style="height: 70px">
-              <div class="overline mt-n2 pl-1">Accuracy</div>
+              <div class="overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
                 type="number"
@@ -73,13 +71,13 @@
                 color="accent"
                 dense
                 hide-details
-                @click:append-outer="accuracy < 99 ? (accuracy += 1) : ''"
-                @click:prepend="accuracy > minAccuracy ? (accuracy -= 1) : ''"
+                @click:append-outer="accuracy += 1"
+                @click:prepend="accuracy -= 1"
                 @change="accuracy = parseInt($event)"
               />
             </v-col>
             <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
-              <div class="overline mt-n2 pl-1">Difficulty</div>
+              <div class="overline pl-1">Difficulty</div>
               <v-text-field
                 v-model="difficulty"
                 type="number"
@@ -91,24 +89,26 @@
                 color="accent"
                 dense
                 hide-details
-                @click:append-outer="difficulty < 99 ? (difficulty += 1) : ''"
-                @click:prepend="difficulty > minDifficulty ? (difficulty -= 1) : ''"
+                @click:append-outer="difficulty += 1"
+                @click:prepend="difficulty -= 1"
                 @change="difficulty = parseInt($event)"
               />
             </v-col>
             <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
-              <div class="overline mt-n2 mr-n6 pl-3">Melee Attack Roll</div>
+              <div class="overline pl-1">Melee Attack Roll</div>
               <v-row no-gutters>
                 <v-col class="mr-n2 ml-n2">
-                  <cc-tooltip title="Roll Melee Attack" :content="rollResultTooltip">
-                    <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollSkill">
-                      <v-icon large>mdi-dice-multiple</v-icon>
-                    </v-btn>
-                  </cc-tooltip>
+                  <cc-dice-menu
+                    :preset="`1d20+${mech.AttackBonus}`"
+                    :preset-accuracy="accuracy - difficulty"
+                    title="SKILL CHECK"
+                    @commit="registerAttackRoll($event.total)"
+                  />
                 </v-col>
                 <v-col>
                   <v-text-field
                     v-model="attackRoll"
+                    :key="`input_${attackRoll}`"
                     type="number"
                     class="hide-input-spinners ml-n3"
                     style="max-width: 60px; margin-top: -0.5px"
@@ -165,7 +165,6 @@
 </template>
 
 <script lang="ts">
-import { DiceRoller } from '@/class'
 import Vue from 'vue'
 import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
 
@@ -188,32 +187,17 @@ export default Vue.extend({
     accuracy: 0,
     difficulty: 0,
     attackRoll: '',
-    attackRollString: '',
-    rollResultString: '',
-    rollAccuracyResults: '[]',
     succeeded: false,
     failed: false,
     complete: false,
     actionCost: false,
     actionFree: false,
   }),
-  computed: {
-    rollResultTooltip() {
-      let str = this.attackRollString
-      if (this.rollResultString) {
-        str += `<div class="overline my-n2">Last Roll:</div><div class="caption ml-3">${this.rollResultString}`
-        if (this.rollAccuracyResults.length)
-          str += ` <span class="subtle--text">[${this.rollAccuracyResults.join(', ')}]</span>`
-        str += '</div>'
-      }
-      return str
-    },
-  },
   watch: {
     used: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
+      handler: function (newval) {
         if (!newval) this.init()
       },
     },
@@ -223,24 +207,14 @@ export default Vue.extend({
       this.$emit('use', this.actionFree)
       return !action
     },
-    rollSkill(): void {
-      const roll = DiceRoller.rollToHit(this.mech.AttackBonus, this.accuracy, this.difficulty)
-      this.rollResultString = `${roll.rawDieRoll} + ${roll.staticBonus}`
-      if (roll.accuracyResult) {
-        this.rollResultString += ` ${roll.accuracyResult > 0 ? '+' : '-'} ${Math.abs(
-          roll.accuracyResult
-        )}`
-      }
-      this.rollAccuracyResults = roll.rawAccuracyRolls
-      this.attackRoll = roll.total
+    registerAttackRoll(roll) {
+      Vue.set(this, 'attackRoll', roll)
+      Vue.nextTick().then(() => this.$forceUpdate())
     },
     init() {
       this.accuracy = 0
       this.difficulty = 0
       this.attackRoll = ''
-      this.attackRollString = ''
-      this.rollResultString = ''
-      this.rollAccuracyResults = '[]'
       this.succeeded = false
       this.failed = false
       this.actionCost = false
