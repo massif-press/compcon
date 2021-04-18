@@ -12,12 +12,14 @@
         +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }} Heat
       </span>
     </div>
-    <v-row v-if="!flat" justify="center">
+    <v-row dense justify="center">
       <v-col cols="auto">
         <cc-tooltip content="Roll Overcharge">
-          <v-btn icon small color="overcharge" class="mt-1 mr-n3" @click="rollOvercharge">
-            <v-icon large>mdi-dice-multiple</v-icon>
-          </v-btn>
+          <cc-dice-menu
+            :preset="mech.OverchargeTrack[mech.CurrentOvercharge]"
+            title="OVERCHARGE"
+            @commit="registerOverchargeRoll($event.total)"
+          />
         </cc-tooltip>
       </v-col>
       <v-col cols="3">
@@ -32,7 +34,7 @@
           class="hide-spinners"
           append-outer-icon="mdi-plus-circle-outline"
           prepend-icon="mdi-minus-circle-outline"
-          @click:append-outer="overcharge_heat < 10 ? overcharge_heat++ : ''"
+          @click:append-outer="overcharge_heat++"
           @click:prepend="overcharge_heat > 0 ? overcharge_heat-- : ''"
         />
       </v-col>
@@ -56,7 +58,6 @@
 </template>
 
 <script lang="ts">
-import { DiceRoller } from '@/class'
 import Vue from 'vue'
 import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
 
@@ -78,20 +79,12 @@ export default Vue.extend({
     finished: false,
     overcharge_heat: null,
   }),
-  computed: {
-    flat() {
-      const val = this.mech.OverchargeTrack[this.mech.CurrentOvercharge]
-      return /^\d+$/.test(val)
-    },
-  },
   methods: {
-    rollOvercharge(): void {
-      const roll = DiceRoller.rollDamage(this.mech.OverchargeTrack[this.mech.CurrentOvercharge])
-      this.overcharge_heat = roll.total
+    registerOverchargeRoll(roll) {
+      Vue.set(this, 'overcharge_heat', roll)
+      Vue.nextTick().then(() => this.$forceUpdate())
     },
     select() {
-      if (this.flat)
-        this.overcharge_heat = parseInt(this.mech.OverchargeTrack[this.mech.CurrentOvercharge])
       this.mech.Pilot.State.OverchargeHeat = parseInt(this.overcharge_heat)
       Vue.nextTick().then(() => this.$emit('use'))
     },

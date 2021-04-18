@@ -4,7 +4,7 @@
     <v-row justify="center" align="center">
       <v-col>
         <v-row dense justify="space-around">
-          <v-col cols="auto">
+          <v-col cols="12" lg="auto">
             <div class="heading h3 text-center">Choose one of the following:</div>
             <v-radio-group v-model="state.StabilizeMajor" dense hide-details colum>
               <v-radio
@@ -13,11 +13,9 @@
                 color="accent"
               />
               <v-radio
-                :label="
-                  `Spend 1 Repair to restore HP to maximum. ${
-                    !mech.CurrentRepairs ? ' // REPAIR CAPACITY EXHAUSTED //' : ''
-                  }`
-                "
+                :label="`Spend 1 Repair to restore HP to maximum. ${
+                  !mech.CurrentRepairs ? ' // REPAIR CAPACITY EXHAUSTED //' : ''
+                }`"
                 value="repair"
                 color="accent"
                 :disabled="!mech.CurrentRepairs"
@@ -27,7 +25,7 @@
           <v-col cols="auto">
             <v-divider vertical />
           </v-col>
-          <v-col cols="auto">
+          <v-col cols="12" lg="auto">
             <div class="heading h3 text-center">And one of the following:</div>
             <v-radio-group v-model="state.StabilizeMinor" color="accent" dense hide-details column>
               <v-radio
@@ -83,9 +81,7 @@
           Free Action
           <cc-tooltip
             inline
-            :content="
-              `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
-            "
+            :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
             <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
           </cc-tooltip>

@@ -207,22 +207,18 @@ class DiceRoller {
       parsedRoll.dice.forEach(dieSet => {
         if (critical) {
           let x, y
-          do {
-            x = DiceRoller.rollDieSet(dieSet)
-            y = DiceRoller.rollDieSet(dieSet)
-            total += x.result > y.result ? x.result : y.result
-            if (overkill && (total - staticBonus === 1)) okRerolls += 1
-          } while (overkill && (total - staticBonus === 1))
+          x = DiceRoller.rollDieSet(dieSet, overkill)
+          y = DiceRoller.rollDieSet(dieSet, overkill)
           rawRolls.push(...x.rolls)
           rawRolls.push(...y.rolls)
+          okRerolls += x.result > y.result ? x.rerolls : y.rerolls
+          total += x.result > y.result ? x.result : y.result
         } else {
           let x
-          do {
-            x = DiceRoller.rollDieSet(dieSet)
-            total += x.result
-            if (overkill && (total - staticBonus === 1)) okRerolls += 1
-          } while (overkill && (total - staticBonus === 1))
+          x = DiceRoller.rollDieSet(dieSet, overkill)
           rawRolls.push(...x.rolls)
+          okRerolls += x.rerolls
+          total += x.result
         }
       })
 
@@ -259,21 +255,27 @@ class DiceRoller {
     }
   }
 
-  public static rollDieSet(dieSet: DieSet): { result: number; rolls: number[] } {
-    if (dieSet.quantity <= 0 || dieSet.type <= 0) return { result: 0, rolls: [] }
+  public static rollDieSet(dieSet: DieSet, overkill?: boolean): { result: number; rolls: number[]; rerolls: number } {
+    if (dieSet.quantity <= 0 || dieSet.type <= 0) return { result: 0, rolls: [], rerolls: 0 }
 
     let total = 0
+    let rerolls = 0
     const rolls: number[] = []
 
     for (let x = 0; x < dieSet.quantity; x++) {
       const result = DiceRoller.rollDie(dieSet.type)
+      if (overkill && result === 1) {
+        rerolls += 1
+        x -= 1
+      }
       total += result
       rolls.push(result)
     }
 
     return {
       result: total,
-      rolls: rolls,
+      rolls,
+      rerolls
     }
   }
 
