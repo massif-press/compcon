@@ -26,9 +26,14 @@
         </v-row>
       </div>
       <div :class="$vuetify.breakpoint.mdAndUp ? 'box-outline px-2 py-1' : 'px-2'">
-        <div class="flavor-text mb-2" v-html-safe="talent.Terse" />
+        <div v-if="showFull" class="flavor-text mb-2">{{ talent.Terse }}</div>
+        <div v-else style="height: 30px" />
         <v-row align="center" justify="space-around" class="text-center" dense>
-          <v-col v-for="n in 3" :key="`rank-btn-${n}`">
+          <v-col
+            v-for="n in 3"
+            v-show="showAll || (!showAll && rank && parseInt(rank) >= n)"
+            :key="`rank-btn-${n}`"
+          >
             <v-menu open-on-hover bottom offset-y open-delay="100">
               <template v-slot:activator="{ on }">
                 <v-btn :block="$vuetify.breakpoint.smAndDown" tile :color="rankColor(n)" v-on="on">
@@ -93,6 +98,17 @@
         </v-row>
       </div>
     </v-col>
+    <v-col cols="12" class="ma-0 pa-0 mt-n8 ml-n2">
+      <v-row no-gutters>
+        <v-col cols="auto" class="ml-auto">
+          <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
+            <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
+              <v-icon small>mdi-eye</v-icon>
+            </v-btn>
+          </cc-tooltip>
+        </v-col>
+      </v-row>
+    </v-col>
   </v-row>
 </template>
 
@@ -104,10 +120,20 @@ export default Vue.extend({
   name: 'talent-terse',
   components: { TalentEmblem, TalentRankContents },
   props: {
+    hideLocked: { type: Boolean },
     talent: { type: Object, required: true },
     canAdd: { type: Boolean },
     selectable: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
+  },
+  data: () => ({
+    showAll: false,
+  }),
+  computed: {
+    showFull() {
+      if (this.hideLocked) return this.showAll
+      return true
+    },
   },
   methods: {
     rankColor(n) {

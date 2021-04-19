@@ -28,6 +28,7 @@
         <cc-talent
           v-for="(t, i) in pilot.Talents"
           :key="`t_${i}`"
+          hide-locked
           :talent="t.Talent"
           :rank="t.Rank"
           :terse="ctype === 'terse'"
