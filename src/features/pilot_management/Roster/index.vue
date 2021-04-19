@@ -58,6 +58,25 @@
               <span class="overline">({{ pilots.filter(x => x.Group === g).length }})</span>
             </v-col>
             <v-col v-if="g" cols="auto" class="ml-auto mr-8">
+              <v-menu offset-x left :close-on-content-click="false">
+                <template v-slot:activator="{ on }">
+                  <v-btn dark small icon class="fadeSelect" v-on="on">
+                    <v-icon>mdi-circle-edit-outline</v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-text>
+                    <v-text-field
+                      :value="g"
+                      autofocus
+                      outlined
+                      hide-details
+                      label="Group Name"
+                      @change="setGroupName(g, $event)"
+                    />
+                  </v-card-text>
+                </v-card>
+              </v-menu>
               <v-btn dark small icon class="fadeSelect" @click="deleteGroup(g)">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -237,6 +256,15 @@ export default Vue.extend({
         if (p.Group === g) p.Group = ''
       })
       const idx = this.tempGroups.indexOf(g)
+      if (idx === -1) return
+      this.tempGroups.splice(idx, 1)
+    },
+    setGroupName(oldName, newName) {
+      this.tempGroups.push(newName)
+      this.pilots.forEach((p: Pilot) => {
+        if (p.Group === oldName) p.Group = newName
+      })
+      const idx = this.tempGroups.indexOf(oldName)
       if (idx === -1) return
       this.tempGroups.splice(idx, 1)
     },
