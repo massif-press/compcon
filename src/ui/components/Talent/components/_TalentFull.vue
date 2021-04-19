@@ -24,7 +24,7 @@
     <v-card-text>
       <v-row
         v-for="n in 3"
-        v-show="showAll || (!showAll && rank && parseInt(rank) >= n)"
+        v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
         :key="`rank-layout-${n}`"
         dense
         :class="rank && parseInt(rank) < n ? 'text--disabled' : 'stark--text'"
@@ -74,7 +74,7 @@
         </v-col>
       </v-row>
     </v-card-text>
-    <v-row no-gutters>
+    <v-row v-if="hideLocked" no-gutters>
       <v-col cols="auto" class="ml-auto">
         <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
           <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
