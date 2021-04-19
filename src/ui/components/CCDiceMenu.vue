@@ -155,6 +155,9 @@
               <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
               <v-row no-gutters>
                 <v-col v-for="(val, i) in r.rolls" :key="`roll_${r.sides}_${i}_${val}`" cols="auto">
+                  <v-chip v-if="r.lowRolls[i]" x-small label style="opacity: 0.4">
+                    {{ r.lowRolls[i] }}
+                  </v-chip>
                   <v-chip x-small label :color="overkill && val === 1 ? 'heat' : ''">
                     {{ val }}
                   </v-chip>
@@ -306,6 +309,7 @@ export default Vue.extend({
         return {
           sides: x.sides,
           rolls: dRoll.rawDieRolls,
+          lowRolls: dRoll.lowDieRolls,
           overkill: dRoll.overkillRerolls,
         }
       })

@@ -367,7 +367,11 @@ each source of damage is used.`"
               <div class="overline mt-n2 pl-1">Bonus Damage</div>
               <v-row no-gutters>
                 <v-col cols="auto">
-                  <cc-dice-menu title="BONUS DAMAGE" @commit="bonusDamage = $event.total" />
+                  <cc-dice-menu
+                    title="BONUS DAMAGE"
+                    :critical="crit"
+                    @commit="bonusDamage = $event.total"
+                  />
                 </v-col>
                 <v-col cols="auto" class="ml-n2">
                   <v-text-field

@@ -46,7 +46,7 @@
           dark
           color="overcharge"
           block
-          :disabled="used || (!flat && !overcharge_heat)"
+          :disabled="used || !overcharge_heat"
           @click="select()"
         >
           <v-icon large left>cci-overcharge</v-icon>
