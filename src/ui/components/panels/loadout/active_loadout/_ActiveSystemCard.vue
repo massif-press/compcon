@@ -58,7 +58,7 @@
                     :action="a"
                     active
                     :activations="mech.Pilot.State.Actions"
-                    :disabled="item.Destroyed || mech.IsStunned"
+                    :disabled="actionDisabled(a)"
                     :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
                     @use="item.Use(a.Cost, $event)"
                     @undo="item.Undo(a.Cost)"
@@ -90,28 +90,6 @@
               </div>
             </div>
             <div v-if="item">
-              <!-- <v-row class="text-left" dense align="end">
-                <v-col>
-                  <v-row justify="space-around" dense>
-                    <v-col v-if="item.Deployables.length" cols="auto">
-                      <v-row no-gutters justify="center">
-                        <v-col
-                          v-for="(d, i) in item.Deployables"
-                          :key="`${item.Name}_deployable_${i}`"
-                          cols="auto"
-                        >
-                          <cc-deployable-info
-                            :deployable="d"
-                            :panel="false"
-                            :name-override="item.Name"
-                            class="ma-2"
-                          />
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row> -->
               <div v-if="item && item.Ammo && item.Ammo.length">
                 <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
                   <b>{{ a.name }}</b>
@@ -187,6 +165,16 @@ export default Vue.extend({
   computed: {
     color() {
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
+    },
+  },
+  methods: {
+    actionDisabled(action) {
+      if (!this.item) return true
+      if (this.item.MaxUses && this.item.Uses === 0) return true
+      if (!this.item.MaxUses && action.Deployable) {
+        return this.mech.Pilot.State.Deployed.map(x => x.Name).includes(action.Deployable.name)
+      }
+      return this.item.Destroyed || this.mech.IsStunned
     },
   },
 })
