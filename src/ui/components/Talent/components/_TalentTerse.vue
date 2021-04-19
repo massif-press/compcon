@@ -31,7 +31,7 @@
         <v-row align="center" justify="space-around" class="text-center" dense>
           <v-col
             v-for="n in 3"
-            v-show="showAll || (!showAll && rank && parseInt(rank) >= n)"
+            v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
             :key="`rank-btn-${n}`"
           >
             <v-menu open-on-hover bottom offset-y open-delay="100">
@@ -98,7 +98,7 @@
         </v-row>
       </div>
     </v-col>
-    <v-col cols="12" class="ma-0 pa-0 mt-n8 ml-n2">
+    <v-col v-if="hideLocked" cols="12" class="ma-0 pa-0 mt-n8 ml-n2">
       <v-row no-gutters>
         <v-col cols="auto" class="ml-auto">
           <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">

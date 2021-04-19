@@ -26,7 +26,7 @@
         <v-toolbar flat dense tile color="primary">
           <span class="heading h3 white--text">{{ talent.Name }}</span>
           <v-spacer />
-          <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
+          <cc-tooltip v-if="hideLocked" :content="`${showAll ? 'Hide' : 'Show'} All`">
             <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
               <v-icon small>mdi-eye</v-icon>
             </v-btn>
@@ -35,7 +35,7 @@
         <v-row no-gutters class="fill-height">
           <v-col
             v-for="n in 3"
-            v-show="showAll || (!showAll && rank && parseInt(rank) >= n)"
+            v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
             :key="`rank-col-${n}`"
             cols="12"
             md=""
