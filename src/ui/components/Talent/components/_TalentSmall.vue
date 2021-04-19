@@ -25,9 +25,22 @@
       <v-card height="100%">
         <v-toolbar flat dense tile color="primary">
           <span class="heading h3 white--text">{{ talent.Name }}</span>
+          <v-spacer />
+          <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
+            <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
+              <v-icon small>mdi-eye</v-icon>
+            </v-btn>
+          </cc-tooltip>
         </v-toolbar>
         <v-row no-gutters class="fill-height">
-          <v-col v-for="n in 3" :key="`rank-col-${n}`" cols="12" md="" style="min-height: 100%">
+          <v-col
+            v-for="n in 3"
+            v-show="showAll || (!showAll && rank && parseInt(rank) >= n)"
+            :key="`rank-col-${n}`"
+            cols="12"
+            md=""
+            style="min-height: 100%"
+          >
             <v-card flat tile outlined min-height="100%">
               <v-toolbar
                 flat
@@ -110,10 +123,20 @@ export default Vue.extend({
   components: { TalentRankContents, TalentEmblem },
   name: 'talent-small',
   props: {
+    hideLocked: { type: Boolean },
     talent: { type: Object, required: true },
     canAdd: { type: Boolean },
     selectable: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
+  },
+  data: () => ({
+    showAll: false,
+  }),
+  computed: {
+    showFull() {
+      if (this.hideLocked) return this.showAll
+      return true
+    },
   },
 })
 </script>

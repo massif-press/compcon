@@ -1,5 +1,5 @@
 <template>
-  <v-card flat tile class="my-1">
+  <v-card flat tile class="my-1" width="100%">
     <v-toolbar flat color="primary">
       <v-row no-gutters align="center">
         <v-col cols="auto">
@@ -18,12 +18,13 @@
         </v-col>
       </v-row>
     </v-toolbar>
-    <v-card-text class="mb-0 pb-0">
+    <v-card-text v-show="showFull" class="mb-0 pb-0">
       <div class="flavor-text" v-html-safe="talent.Description" />
     </v-card-text>
     <v-card-text>
       <v-row
         v-for="n in 3"
+        v-show="showAll || (!showAll && rank && parseInt(rank) >= n)"
         :key="`rank-layout-${n}`"
         dense
         :class="rank && parseInt(rank) < n ? 'text--disabled' : 'stark--text'"
@@ -73,6 +74,15 @@
         </v-col>
       </v-row>
     </v-card-text>
+    <v-row no-gutters>
+      <v-col cols="auto" class="ml-auto">
+        <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
+          <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
+            <v-icon small>mdi-eye</v-icon>
+          </v-btn>
+        </cc-tooltip>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -80,10 +90,21 @@
 import Vue from 'vue'
 import TalentEmblem from './_TalentEmblem.vue'
 import TalentRankContents from './_TalentRankContents.vue'
+
 export default Vue.extend({
   name: 'talent-full',
   components: { TalentEmblem, TalentRankContents },
+  data: () => ({
+    showAll: false,
+  }),
+  computed: {
+    showFull() {
+      if (this.hideLocked) return this.showAll
+      return true
+    },
+  },
   props: {
+    hideLocked: { type: Boolean },
     talent: { type: Object, required: true },
     selectable: { type: Boolean },
     canAdd: { type: Boolean },

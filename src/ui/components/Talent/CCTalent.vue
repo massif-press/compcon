@@ -4,6 +4,7 @@
     :selectable="selectable"
     :rank="rank"
     :can-add="canAdd"
+    :hide-locked="hideLocked"
     :talent="talent"
     @expand="expand = $event"
     @clicked="$emit('clicked')"
@@ -29,6 +30,7 @@ export default Vue.extend({
   },
   props: {
     talent: { type: Object, required: true },
+    hideLocked: { type: Boolean },
     canAdd: { type: Boolean },
     micro: { type: Boolean },
     small: { type: Boolean },
