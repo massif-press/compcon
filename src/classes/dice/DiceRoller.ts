@@ -108,6 +108,7 @@ class D20RollResult implements Id20RollResult {
 class DamageRollResult implements IDamageRollResult {
   private _total: number
   private _rawDieRolls: number[]
+  private _lowDieRolls: number[]
   private _overkillRerolls: number
   private _staticBonus: number
   private _parseError: boolean
@@ -117,6 +118,7 @@ class DamageRollResult implements IDamageRollResult {
     diceString: string,
     total: number,
     rawRolls: number[],
+    lowRolls: number[],
     staticBonus: number,
     overkillRerolls: number,
     parseError?: boolean
@@ -124,6 +126,7 @@ class DamageRollResult implements IDamageRollResult {
     this._diceString = diceString
     this._total = total || 0
     this._rawDieRolls = rawRolls || [0]
+    this._lowDieRolls = lowRolls || [0]
     this._overkillRerolls = overkillRerolls || 0
     this._staticBonus = staticBonus || 0
     this._parseError = parseError || false
@@ -140,6 +143,11 @@ class DamageRollResult implements IDamageRollResult {
   public get rawDieRolls(): number[] {
     return this._rawDieRolls
   }
+
+  public get lowDieRolls(): number[] {
+    return this._lowDieRolls
+  }
+
 
   public get staticBonus(): number {
     return this._staticBonus
@@ -194,10 +202,11 @@ class DiceRoller {
       // return as a error - they get back the dice string
       // and can handle as a special case
 
-      return new DamageRollResult(diceString, 0, [0], 0, 0, true)
+      return new DamageRollResult(diceString, 0, [0], [], 0, 0, true)
     } else {
       let total = 0
       const rawRolls: number[] = []
+      const lowRolls: number[] = []
       let okRerolls = 0
       let staticBonus = 0
 
@@ -209,8 +218,14 @@ class DiceRoller {
           let x, y
           x = DiceRoller.rollDieSet(dieSet, overkill)
           y = DiceRoller.rollDieSet(dieSet, overkill)
-          rawRolls.push(...x.rolls)
-          rawRolls.push(...y.rolls)
+          if (x.result > y.result) {
+            rawRolls.push(...x.rolls)
+            lowRolls.push(...y.rolls)
+          }
+          else {
+            rawRolls.push(...y.rolls)
+            lowRolls.push(...x.rolls)
+          }
           okRerolls += x.result > y.result ? x.rerolls : y.rerolls
           total += x.result > y.result ? x.result : y.result
         } else {
@@ -222,7 +237,7 @@ class DiceRoller {
         }
       })
 
-      return new DamageRollResult(diceString, total, rawRolls, staticBonus, okRerolls, false)
+      return new DamageRollResult(diceString, total, rawRolls, lowRolls, staticBonus, okRerolls, false)
     }
   }
 
