@@ -112,7 +112,7 @@ export default Vue.extend({
     },
     reset() {
       this.$refs.main.reset()
-      if (this.hasAux) this.$refs.aux.reset()
+      if (this.hasAux && this.$refs.aux) this.$refs.aux.reset()
     },
     init() {
       this.$refs.main.init()
