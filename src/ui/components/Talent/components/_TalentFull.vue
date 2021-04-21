@@ -48,7 +48,7 @@
                 v-else-if="selectable && parseInt(rank) + 1 === n"
                 small
                 color="secondary"
-                :disabled="canAdd"
+                :disabled="!canAdd"
                 @click="$emit('add')"
               >
                 <v-icon left small>mdi-lock-open</v-icon>

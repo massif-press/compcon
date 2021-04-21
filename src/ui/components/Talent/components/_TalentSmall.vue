@@ -82,7 +82,7 @@
                   v-if="n === parseInt(rank) + 1"
                   small
                   color="secondary"
-                  :disabled="canAdd"
+                  :disabled="!canAdd"
                   @click="$emit('add')"
                 >
                   <v-icon left>mdi-lock-open</v-icon>
