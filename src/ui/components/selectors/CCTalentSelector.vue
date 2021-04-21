@@ -103,7 +103,7 @@
           :rank="pilot.getTalentRank(t.ID)"
           :terse="ctype === 'terse'"
           :small="ctype === 'small'"
-          :can-add="!pilot.IsMissingTalents"
+          :can-add="canAdd(t.ID)"
           selectable
           @add="pilot.AddTalent(t)"
           @remove="pilot.RemoveTalent(t)"
@@ -157,6 +157,12 @@ export default Vue.extend({
     },
   },
   methods: {
+    canAdd(id) {
+      if (this.newPilot) {
+        return this.pilot.getTalentRank(id) === 0 && this.pilot.IsMissingTalents
+      }
+      return this.pilot.IsMissingTalents
+    },
     scroll(id) {
       if (this.levelUp)
         this.$vuetify.goTo(`#e_${id}`, {
