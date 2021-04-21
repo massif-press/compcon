@@ -8960,10 +8960,10 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-lancer-data@^3.0.32:
-  version "3.0.32"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.32.tgz#523a6371994fcf5f65371b3a10256421c80d8eb5"
-  integrity sha512-rpcCA4APJ6E7bANf6QyJWyULOLVczhmChTj2sMYoT/CQjhQJnUrvAlfHUB0/E/g/TIvRUsfYQ7HjCzc1+Q/DUw==
+lancer-data@^3.0.33:
+  version "3.0.33"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.33.tgz#6271ac337da2688d2b26a4356547263245144459"
+  integrity sha512-Fk0H6CuqY17WaqZ1WdfZbtN8dlcrudPidXufZsmPt7YOqNBzn8iO2UaGkClltEEfvImu0/rKnOZKmyBdIeU8OA==
 
 leven@^3.1.0:
   version "3.1.0"

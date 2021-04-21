@@ -105,20 +105,27 @@
             </v-btn>
           </v-card-actions>
         </v-window-item>
+
         <table-window-item
           :title="resultData[0].name"
           :content="resultData[0].description"
           @dismiss="close()"
           @previous="window = 0"
           @confirm="applyES()"
-        />
+        >
+          <cascade-check :mech="mech" />
+        </table-window-item>
+
         <table-window-item
           :title="resultData[1].name"
           :content="resultData[1].description"
           @dismiss="close()"
           @previous="window = 0"
           @confirm="applyPPD()"
-        />
+        >
+          <cascade-check :mech="mech" />
+        </table-window-item>
+
         <table-window-item
           :title="resultData[2].name"
           other-btn
@@ -142,6 +149,7 @@
               <v-btn color="success" large @click="applyPPD">succeed check</v-btn>
             </div>
           </div>
+          <cascade-check :mech="mech" />
         </table-window-item>
 
         <table-window-item
@@ -151,7 +159,9 @@
           @dismiss="close()"
           @previous="window = 0"
           @confirm="applyMeltdown()"
-        />
+        >
+          <cascade-check :mech="mech" />
+        </table-window-item>
       </v-window>
     </v-card>
   </v-dialog>
@@ -161,11 +171,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import TableWindowItem from './_TableWindowItem.vue'
 import ResultData from './_stress_results.json'
+import CascadeCheck from './_CascadeCheck.vue'
 import { Mech } from '@/class'
 
 @Component({
   name: 'stress-table',
-  components: { TableWindowItem },
+  components: { TableWindowItem, CascadeCheck },
 })
 export default class CCStressTable extends Vue {
   dialog = false

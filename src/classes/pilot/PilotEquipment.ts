@@ -28,6 +28,7 @@ abstract class PilotEquipment extends CompendiumItem {
   public readonly IsOrdnance: boolean
   public readonly CanSetDamage: boolean
   public readonly CanSetUses: boolean
+  public readonly NoCascade: boolean
 
   public constructor(
     data: IPilotEquipmentData,
@@ -46,6 +47,7 @@ abstract class PilotEquipment extends CompendiumItem {
       this.IsUnique = data.tags.some(x => x.id === 'tg_unique')
       this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
       this.IsAI = data.tags.some(x => x.id === 'tg_ai')
+      this.NoCascade = data.tags.some(x => x.id === 'tg_no_cascade')
       this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructable')
       this.IsOrdnance = data.tags.some(x => x.id === 'tg_ordnance')
       this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')

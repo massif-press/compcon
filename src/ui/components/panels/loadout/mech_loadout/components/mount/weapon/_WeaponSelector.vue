@@ -144,9 +144,6 @@ export default Vue.extend({
       // filter already equipped
       if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
 
-      // filter unique
-      i = i.filter(x => !this.mech.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
-
       // filter ai
       if (this.mech.ActiveLoadout.AICount >= 1 + Bonus.get('ai_cap', this.mech)) {
         i = i.filter(x => !x.IsAI)
@@ -163,6 +160,9 @@ export default Vue.extend({
           x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
         )
       )
+
+      // filter unique
+      i = i.filter(x => !this.mech.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
 
       return _.sortBy(i, ['Source', 'Name'])
     },

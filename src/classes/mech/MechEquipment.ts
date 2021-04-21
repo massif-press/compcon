@@ -29,6 +29,7 @@ abstract class MechEquipment extends LicensedItem {
   public readonly IsLimited: boolean
   public readonly IsLoading: boolean
   public readonly IsAI: boolean
+  public readonly NoCascade: boolean
   public readonly IsIndestructible: boolean
   public readonly IsOrdnance: boolean
   public readonly CanSetDamage: boolean
@@ -55,6 +56,7 @@ abstract class MechEquipment extends LicensedItem {
       this.IsUnique = data.tags.some(x => x.id === 'tg_unique')
       this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
       this.IsAI = data.tags.some(x => x.id === 'tg_ai')
+      this.NoCascade = data.tags.some(x => x.id === 'tg_no_cascade')
       this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructable')
       this.IsOrdnance = data.tags.some(x => x.id === 'tg_ordnance')
       this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
