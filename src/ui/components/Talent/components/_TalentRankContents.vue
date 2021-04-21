@@ -36,6 +36,18 @@
         </v-col>
       </v-row>
     </div>
+
+    <div v-if="talentRank.SpecialEquipment.length">
+      <v-row dense justify="center">
+        <v-col
+          v-for="(x, i) in talentRank.SpecialEquipment"
+          :key="`${talentRank.Name}_special_${i}`"
+          cols="auto"
+        >
+          <cc-integrated-info :item="x" hover />
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 

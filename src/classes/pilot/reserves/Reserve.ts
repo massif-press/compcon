@@ -1,5 +1,5 @@
 import { store } from '@/store'
-import { ReserveType, Synergy, MechEquipment, MechWeapon, MechSystem } from '@/class'
+import { ReserveType, Synergy, MechEquipment, MechWeapon, MechSystem, CompendiumItem } from '@/class'
 import { reserves } from 'lancer-data'
 import { IActionData, Action } from '@/classes/Action'
 import { IBonusData, Bonus } from '@/classes/Bonus'
@@ -23,6 +23,7 @@ declare interface IReserveData {
   deployables?: IDeployableData[]
   counters?: ICounterData[]
   integrated?: string[]
+  special_equipment?: string[]
 }
 
 class Reserve {
@@ -35,6 +36,7 @@ class Reserve {
   public readonly Synergies: Synergy[]
   public readonly Deployables: IDeployableData[]
   public readonly Counters: ICounterData[]
+  private _special_equipment: string[]
   private _name: string
   private _resource_name: string
   private _resource_note: string
@@ -61,6 +63,7 @@ class Reserve {
     this.Deployables = data.deployables ? data.deployables : []
     this.Counters = data.counters ? data.counters : []
     this._integrated = data.integrated ? data.integrated : []
+    this._special_equipment = data.special_equipment || []
     this._used = false
   }
 
@@ -72,6 +75,22 @@ class Reserve {
     if (this.Type === ReserveType.Organization) return 'mdi-account-group'
     if (this.Type === ReserveType.Project) return 'cci-orbital'
     return `cci-reserve-${this.Type.toString().toLowerCase()}`
+  }
+
+  public get SpecialEquipment(): CompendiumItem[] {
+    if (!this._special_equipment) return []
+    const res = this._special_equipment.map(x => {
+      const w = store.getters.referenceByID('MechWeapons', x)
+      if (w && !w.err) return w
+      const s = store.getters.referenceByID('MechSystems', x)
+      if (s && !s.err) return s
+      const wm = store.getters.referenceByID('WeaponMods', x)
+      if (wm && !wm.err) return wm
+      const pg = store.getters.referenceByID('PilotGear', x)
+      if (pg && !pg.err) return pg
+      return false
+    })
+    return res.filter(x => x)
   }
 
   public get IntegratedEquipment(): MechEquipment[] {

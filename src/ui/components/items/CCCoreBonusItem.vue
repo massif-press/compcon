@@ -50,6 +50,19 @@
         </v-col>
       </v-row>
     </div>
+
+    <div v-if="bonus.SpecialEquipment.length">
+      <div class="overline ml-n2 mb-n2 subtle--text">CORE BONUS ADDITIONAL EQUIPMENT</div>
+      <v-row no-gutters justify="center">
+        <v-col
+          v-for="(x, i) in bonus.SpecialEquipment"
+          :key="`${bonus.Name}_special_${i}`"
+          cols="auto"
+        >
+          <cc-integrated-info :item="x" :panel="$vuetify.breakpoint.lgAndUp" />
+        </v-col>
+      </v-row>
+    </div>
   </cc-titled-panel>
 </template>
 
