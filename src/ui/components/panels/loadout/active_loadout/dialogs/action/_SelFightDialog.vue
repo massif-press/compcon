@@ -17,7 +17,7 @@
       <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
 
       <v-card-text v-if="item" class="mb-0 pb-2">
-        <pilot-attack ref="main" :item="item" :pilot="pilot" :overwatch="overwatch">
+        <pilot-attack ref="main" :item="item" :pilot="pilot" :overwatch="overwatch" class="mt-4">
           <div class="heading h2 mt-3 mb-n3">
             <v-icon x-large class="mt-n2 mr-n1">cci-pilot</v-icon>
             {{ item.Name }}

@@ -54,8 +54,9 @@ export default Vue.extend({
   },
   methods: {
     completeFight() {
+      this.$emit('use')
       this.state.CommitAction(this.action, ActivationType.Full)
-      this.hide()
+      this.dialog = false
     },
     fight(item) {
       this.selected = item
