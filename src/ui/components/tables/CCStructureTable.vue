@@ -7,9 +7,7 @@
       <v-window v-model="window">
         <v-window-item>
           <v-card-text class="text-center">
-            <span class="flavor-text">
-              Roll 1d6 per point of structure damage
-            </span>
+            <span class="flavor-text">Roll 1d6 per point of structure damage</span>
             <br />
             <span class="overline">
               <b>{{ totalRolls - rolls.length }}</b>
@@ -109,20 +107,20 @@
           @dismiss="close()"
           @previous="window = 0"
           @confirm="applyGlancingBlow()"
-        />
+        >
+          <cascade-check :mech="mech" />
+        </table-window-item>
         <table-window-item
           :title="resultData[1].name"
           :disabled="
             (systemTraumaRoll <= 3 && destroyedMount === null) ||
-              (systemTraumaRoll > 3 && !destroyedSystem)
+            (systemTraumaRoll > 3 && !destroyedSystem)
           "
           @dismiss="close()"
           @previous="window = 0"
           @confirm="applySystemTrauma()"
         >
-          <p class="fluff-text">
-            Parts of your mech have been torn off by the damage. Roll a d6.
-          </p>
+          <p class="fluff-text">Parts of your mech have been torn off by the damage. Roll a d6.</p>
           <cc-tooltip inline content="Roll Die">
             <v-btn
               icon
@@ -175,6 +173,7 @@
             />
             <span class="effect-text">This system is destroyed</span>
           </div>
+          <cascade-check :mech="mech" />
         </table-window-item>
         <table-window-item
           :title="resultData[2].name"
@@ -189,6 +188,7 @@
                 : 'Your mech must pass a <b>hull</b> check or be <b>destroyed</b>. Even on a successful check, your mech is <b>stunned</b> until the end of your next turn.'
             "
           />
+          <cascade-check :mech="mech" />
           <div slot="confirm-button">
             <div v-if="mech.CurrentStructure >= 3">
               <v-btn color="success" large @click="applyDirectHit">confirm</v-btn>
@@ -207,7 +207,9 @@
           @dismiss="close()"
           @previous="window = 0"
           @confirm="applyDestroyed()"
-        />
+        >
+          <cascade-check :mech="mech" />
+        </table-window-item>
       </v-window>
     </v-card>
   </v-dialog>
@@ -216,12 +218,13 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import TableWindowItem from './_TableWindowItem.vue'
+import CascadeCheck from './_CascadeCheck.vue'
 import ResultData from './_structure_results.json'
 import { Mech, MechLoadout, MechSystem } from '@/class'
 
 @Component({
   name: 'structure-table',
-  components: { TableWindowItem },
+  components: { TableWindowItem, CascadeCheck },
 })
 export default class CCSidebarView extends Vue {
   dialog = false

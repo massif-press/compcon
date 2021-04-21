@@ -19,6 +19,7 @@ class Tag {
   public readonly Brew: string
   public readonly IsUnique: boolean
   public readonly IsAI: boolean
+  public readonly NoCascade: boolean
   public readonly IsExotic: boolean
   public readonly IsLimited: boolean
   public readonly IsLoading: boolean
@@ -42,6 +43,7 @@ class Tag {
     this.ItemType = ItemType.Tag
     this.IsUnique = this.ID === 'tg_unique'
     this.IsAI = this.ID === 'tg_ai'
+    this.NoCascade = this.ID === 'tg_no_cascade'
     this.IsLimited = this.ID === 'tg_limited'
     this.IsLoading = this.ID === 'tg_loading'
     this.IsRecharging = this.ID === 'tg_recharge'
@@ -75,9 +77,8 @@ class Tag {
     if (typeof this._val === 'number') {
       let r = this._val.toString()
       if (bonus)
-        r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
-          this._val
-        } + ${bonus} bonus)</span>`
+        r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${this._val
+          } + ${bonus} bonus)</span>`
       return this._description.replace(/{VAL}/g, r)
     } else {
       const str = this._val as string

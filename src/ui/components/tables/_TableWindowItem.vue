@@ -3,7 +3,7 @@
     <v-card-title primary-title class="heading h2" v-html="title" />
     <v-card-text class="text-center flavor-text">
       <p v-if="content" class="flavor-text" v-html="content" />
-      <slot v-else />
+      <slot />
     </v-card-text>
     <v-card-actions>
       <v-btn text color="warning" @click="$emit('dismiss')">dismiss</v-btn>
