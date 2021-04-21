@@ -59,6 +59,7 @@ interface IWeaponProfileData {
   deployables?: IDeployableData[]
   counters?: ICounterData[]
   integrated?: string[]
+  special_equipment?: string[]
 }
 
 class WeaponProfile extends CompendiumItem {

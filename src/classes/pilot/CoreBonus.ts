@@ -15,6 +15,7 @@ interface ICoreBonusData extends ICompendiumItemData {
   synergies?: ISynergyData[]
   deployables?: IDeployableData[]
   integrated?: string[]
+  special_equipment?: string[]
   counters?: ICounterData[]
 }
 

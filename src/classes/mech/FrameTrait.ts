@@ -1,5 +1,5 @@
 import { store } from '@/store'
-import { MechWeapon, Duration, MechSystem } from '@/class'
+import { MechWeapon, Duration, MechSystem, CompendiumItem } from '@/class'
 import { IActionData, Action } from '../Action'
 import { IBonusData, Bonus } from '../Bonus'
 import { ISynergyData, Synergy } from '../Synergy'
@@ -17,6 +17,7 @@ interface IFrameTraitData {
   deployables?: IDeployableData[]
   counters?: ICounterData[]
   integrated?: string[]
+  special_equipment?: string[]
 }
 
 class FrameTrait {
@@ -29,6 +30,7 @@ class FrameTrait {
   public readonly Deployables: IDeployableData[]
   public readonly Counters: ICounterData[]
   private _integrated: string[]
+  private _special_equipment: string[]
 
   public constructor(data: IFrameTraitData) {
     this.Name = data.name
@@ -40,6 +42,23 @@ class FrameTrait {
     this.Deployables = data.deployables ? data.deployables : []
     this.Counters = data.counters ? data.counters : []
     this._integrated = data.integrated ? data.integrated : []
+    this._special_equipment = data.special_equipment || []
+  }
+
+  public get SpecialEquipment(): CompendiumItem[] {
+    if (!this._special_equipment) return []
+    const res = this._special_equipment.map(x => {
+      const w = store.getters.referenceByID('MechWeapons', x)
+      if (w && !w.err) return w
+      const s = store.getters.referenceByID('MechSystems', x)
+      if (s && !s.err) return s
+      const wm = store.getters.referenceByID('WeaponMods', x)
+      if (wm && !wm.err) return wm
+      const pg = store.getters.referenceByID('PilotGear', x)
+      if (pg && !pg.err) return pg
+      return false
+    })
+    return res.filter(x => x)
   }
 
   public get IntegratedEquipment(): MechEquipment[] {

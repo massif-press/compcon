@@ -16,6 +16,7 @@ interface ICompendiumItemData {
   synergies?: ISynergyData[]
   deployables?: IDeployableData[]
   counters?: ICounterData[]
+  special_equipment?: string[]
   integrated?: string[]
   brew?: string
   tags?: ITagData[]
@@ -36,6 +37,7 @@ abstract class CompendiumItem {
   public IsHidden: boolean
   public IsExotic: boolean
   private _integrated: string[]
+  private _special_equipment: string[]
   private _baseTags: Tag[]
   protected _name: string
   protected _description: string
@@ -75,6 +77,7 @@ abstract class CompendiumItem {
       }
       this.Counters = data.counters ? data.counters : []
       this._integrated = data.integrated ? data.integrated : []
+      this._special_equipment = data.special_equipment ? data.special_equipment : []
       this.Err = ''
     } else {
       this.ID = `err_${Math.random()
@@ -114,6 +117,22 @@ abstract class CompendiumItem {
   public set Description(val: string) {
     this._flavor_description = val
     this.save()
+  }
+
+  public get SpecialEquipment(): CompendiumItem[] {
+    if (!this._special_equipment) return []
+    const res = this._special_equipment.map(x => {
+      const w = store.getters.referenceByID('MechWeapons', x)
+      if (w && !w.err) return w
+      const s = store.getters.referenceByID('MechSystems', x)
+      if (s && !s.err) return s
+      const wm = store.getters.referenceByID('WeaponMods', x)
+      if (wm && !wm.err) return wm
+      const pg = store.getters.referenceByID('PilotGear', x)
+      if (pg && !pg.err) return pg
+      return false
+    })
+    return res.filter(x => x)
   }
 
   public get IntegratedEquipment(): MechEquipment[] {

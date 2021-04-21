@@ -920,7 +920,7 @@ class Pilot implements ICloudSyncable {
 
   // -- Exotics and Other Equipment ---------------------------------------------------------------
   public get SpecialEquipment(): CompendiumItem[] {
-    return this._special_equipment
+    return this.IntegratedSpecialEquipment.concat(this._special_equipment)
   }
 
   public set SpecialEquipment(data: CompendiumItem[]) {
@@ -929,7 +929,6 @@ class Pilot implements ICloudSyncable {
 
   public AddSpecialEquipment(data: CompendiumItem) {
     this._special_equipment.push(data)
-    console.log('calling save');
     this.save()
   }
 
@@ -1124,6 +1123,10 @@ class Pilot implements ICloudSyncable {
     return this.features('IntegratedSystems')
   }
 
+  public get IntegratedSpecialEquipment(): CompendiumItem[] {
+    return this.features('SpecialEquipment')
+  }
+
   // -- I/O ---------------------------------------------------------------------------------------
   private static serializeSE(equipment: CompendiumItem[]): IUnlockData {
     return {
@@ -1185,7 +1188,7 @@ class Pilot implements ICloudSyncable {
       cc_ver: p.cc_ver,
       counter_data: p.CounterSaveData,
       custom_counters: p.CustomCounterData,
-      special_equipment: this.serializeSE(p.SpecialEquipment),
+      special_equipment: this.serializeSE(p._special_equipment),
       combat_history: p.State.Stats,
       state: ActiveState.Serialize(p.State),
       brews: p._brews || [],

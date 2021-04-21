@@ -6,6 +6,7 @@ import { ISynergyData, Synergy } from '../Synergy'
 import { ICounterData } from '../Counter'
 import { MechEquipment } from './MechEquipment'
 import { IDeployableData } from '../Deployable'
+import { CompendiumItem } from '../CompendiumItem'
 
 interface ICoreData {
   name: string
@@ -26,6 +27,7 @@ interface ICoreData {
   deployables?: IDeployableData[]
   counters?: ICounterData[]
   integrated?: string[]
+  special_equipment?: string[]
   tags: ITagData[]
 }
 
@@ -50,6 +52,7 @@ class CoreSystem {
   public readonly DeployActions: Action[]
   public readonly Counters: ICounterData[]
   private _integrated: string[]
+  private _special_equipment: string[]
   private _tags: ITagData[]
   private _used: boolean
 
@@ -92,6 +95,7 @@ class CoreSystem {
       this.DeployActions = this.Deployables.map(x => Action.CreateDeployAction(x, this.Name))
     this.Counters = data.counters ? data.counters : []
     this._integrated = data.integrated ? data.integrated : []
+    this._special_equipment = data.special_equipment || []
     this._tags = data.tags
     this.ActivateAction = this.generateActivateAction()
   }
@@ -110,6 +114,22 @@ class CoreSystem {
 
   public Undo(): void {
     this._used = false
+  }
+
+  public get SpecialEquipment(): CompendiumItem[] {
+    if (!this._special_equipment) return []
+    const res = this._special_equipment.map(x => {
+      const w = store.getters.referenceByID('MechWeapons', x)
+      if (w && !w.err) return w
+      const s = store.getters.referenceByID('MechSystems', x)
+      if (s && !s.err) return s
+      const wm = store.getters.referenceByID('WeaponMods', x)
+      if (wm && !wm.err) return wm
+      const pg = store.getters.referenceByID('PilotGear', x)
+      if (pg && !pg.err) return pg
+      return false
+    })
+    return res.filter(x => x)
   }
 
   public get IntegratedEquipment(): MechEquipment[] {
