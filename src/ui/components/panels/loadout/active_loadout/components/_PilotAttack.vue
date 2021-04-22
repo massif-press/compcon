@@ -658,7 +658,6 @@ export default Vue.extend({
       this.init()
       this.$emit('reset')
     },
-    hide() {},
     init(): void {
       this.accuracy = this.minAccuracy
       this.difficulty = this.minDifficulty

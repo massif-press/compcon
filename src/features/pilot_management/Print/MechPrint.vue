@@ -29,37 +29,29 @@
     <v-row dense align="center" justify="space-around" class="mt-n5 mb-1">
       <v-col cols="auto">
         <span class="font-weight-bold overline pr-3">HULL</span>
-        <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
-          <v-icon x-large style="margin-right: -3px!important">
-            mdi-hexagon-outline
-          </v-icon>
+        <div class="ml-4 mt-n3" style="position: relative; width: max-content">
+          <v-icon x-large style="margin-right: -3px !important">mdi-hexagon-outline</v-icon>
           <div class="heading h2 icon-overlap" v-html="mech.Hull" />
         </div>
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline  pr-3">AGI</span>
-        <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
-          <v-icon x-large style="margin-right: -3px!important">
-            mdi-hexagon-outline
-          </v-icon>
+        <span class="font-weight-bold overline pr-3">AGI</span>
+        <div class="ml-4 mt-n3" style="position: relative; width: max-content">
+          <v-icon x-large style="margin-right: -3px !important">mdi-hexagon-outline</v-icon>
           <div class="heading h2 icon-overlap" v-html="mech.Agi" />
         </div>
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline  pr-3">SYS</span>
-        <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
-          <v-icon x-large style="margin-right: -3px!important">
-            mdi-hexagon-outline
-          </v-icon>
+        <span class="font-weight-bold overline pr-3">SYS</span>
+        <div class="ml-4 mt-n3" style="position: relative; width: max-content">
+          <v-icon x-large style="margin-right: -3px !important">mdi-hexagon-outline</v-icon>
           <div class="heading h2 icon-overlap" v-html="mech.Sys" />
         </div>
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline  pr-3">ENG</span>
-        <div class="ml-4 mt-n3" style="position: relative; width: max-content;">
-          <v-icon x-large style="margin-right: -3px!important">
-            mdi-hexagon-outline
-          </v-icon>
+        <span class="font-weight-bold overline pr-3">ENG</span>
+        <div class="ml-4 mt-n3" style="position: relative; width: max-content">
+          <v-icon x-large style="margin-right: -3px !important">mdi-hexagon-outline</v-icon>
           <div class="heading h2 icon-overlap" v-html="mech.Eng" />
         </div>
       </v-col>
@@ -86,7 +78,7 @@
 
     <v-row dense justify="space-between" align="start" class="mt-n4">
       <v-col class="text-center">
-        <div style="line-height:0" class="overline mb-4">STRUCTURE</div>
+        <div style="line-height: 0" class="overline mb-4">STRUCTURE</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">cci-structure</v-icon>
           <b
@@ -98,7 +90,7 @@
       <v-col cols="auto">
         <v-row dense no-gutters justify="center">
           <v-col cols="auto" class="text-center">
-            <div style="line-height:0" class="overline mb-4 mr-6">HP</div>
+            <div style="line-height: 0" class="overline mb-4 mr-6">HP</div>
             <div>
               <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">
                 mdi-hexagon-outline
@@ -110,7 +102,7 @@
             </div>
           </v-col>
           <v-col v-if="mech.Armor" cols="auto" class="text-center mb-1" align-self="end">
-            <div style="line-height:0" class="overline mb-4 ml-2">ARMOR</div>
+            <div style="line-height: 0" class="overline mb-4 ml-2">ARMOR</div>
             <div class="heading h2 mt-n4 mr-n2">
               <v-icon class="mt-n1 mr-n1">mdi-shield</v-icon>
               {{ mech.Armor }}
@@ -120,7 +112,7 @@
       </v-col>
       <v-spacer />
       <v-col class="text-center">
-        <div style="line-height:0" class="overline mb-4 mr-2">STRESS</div>
+        <div style="line-height: 0" class="overline mb-4 mr-2">STRESS</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">cci-reactor</v-icon>
           <b
@@ -130,7 +122,7 @@
         </div>
       </v-col>
       <v-col class="text-center">
-        <div style="line-height:0" class="overline mb-4 mr-6">HEAT</div>
+        <div style="line-height: 0" class="overline mb-4 mr-6">HEAT</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">mdi-fire</v-icon>
           <b
@@ -249,7 +241,7 @@
     <fieldset
       v-for="(m, i) in mounts"
       :key="`mmt_${i}`"
-      style="position: relative; page-break-inside: avoid;"
+      style="position: relative; page-break-inside: avoid"
     >
       <legend class="heading ml-1 px-2 mb-n2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked" class="text-center flavor-text">
@@ -277,7 +269,7 @@
         <div v-for="p in w.Profiles" :key="`${w.ID}_${p.Name}`">
           <div class="caption">
             <b v-for="(r, k) in p.Range" :key="`mmwr_${i}_${j}_${k}`">{{ r.Text }}&nbsp;</b>
-            <span v-if="p.Damage.length">|</span>
+            <span v-if="p.Damage && p.Damage.length">|</span>
             <b v-for="(d, k) in p.Damage" :key="`mmwd_${i}_${j}_${k}`">{{ d.Text }}&nbsp;</b>
             <p v-if="p.Effect" :v-html-safe="p.Effect" print />
             <p v-if="p.OnAttack" :v-html-safe="`<b>ON ATTACK:</b> ${p.OnAttack}`" print />
@@ -286,7 +278,7 @@
             <print-action :actions="p.Actions" />
             <print-deployable :deployables="p.Deployables" />
           </div>
-          <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0;">
+          <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0">
             <cc-tags :tags="p.Tags" :bonus="mech.Pilot.LimitedBonus" print />
           </div>
         </div>
@@ -321,7 +313,7 @@
         <p v-if="s.Effect" class="caption mb-n1" v-html="s.Effect" />
         <print-action :actions="s.Actions" />
         <print-deployable :deployables="s.Deployables" />
-        <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0;">
+        <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0">
           <cc-tags :tags="s.Tags" :bonus="mech.Pilot.LimitedBonus" print />
         </div>
       </div>
