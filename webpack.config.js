@@ -62,12 +62,10 @@ const baseConfig = {
     publicPath: '',
   },
   devServer: {
-    host: '0.0.0.0',
     port: 8080,
     hot: true,
     open: true,
     historyApiFallback: true,
-    disableHostCheck: true,
   },
   module: {
     rules: [
@@ -221,6 +219,12 @@ module.exports = function(env, argv) {
     requireIfExists(`./webpack_config/webpack.${env.platform}.${target}.config`),
     { mode: env.prod ? 'production' : 'development' }
   )
+
+  if (target == 'dev' && env.public_dev) {
+    out = merge(out,
+      requireIfExists(`./webpack_config/webpack.${target}-public.config`),
+    )
+  }
 
   if (argv['analyze']) {
     out = merge(out, {
