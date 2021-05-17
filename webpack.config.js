@@ -62,10 +62,12 @@ const baseConfig = {
     publicPath: '',
   },
   devServer: {
+    host: '0.0.0.0',
     port: 8080,
     hot: true,
     open: true,
     historyApiFallback: true,
+    disableHostCheck: true,
   },
   module: {
     rules: [
