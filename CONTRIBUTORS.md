@@ -22,6 +22,14 @@ yarn dev
 
 Which will open a browser window pointed to `localhost:8080`. Hot Module Reload is enabled, which means that the app should refresh as you save code. Occasionally (especially after certain syntax errors) this can start to fall off, in part or completely. If this is the case, a refresh will either get HMR working again or find your error.
 
+If you need access to your development output on a different machine than you are building on ( a headless server, for example ), there is another target that you can use:
+
+```bash
+yarn dev-public
+```
+
+Please note that this allows access to any computer that can reach the build machine, so this is less safe than your standard development build.
+
 ## App Conventions
 
 WIP
