@@ -108,7 +108,7 @@ class D20RollResult implements Id20RollResult {
 class DamageRollResult implements IDamageRollResult {
   private _total: number
   private _rawDieRolls: number[]
-  private _lowDieRolls: number[]
+  private _rollClassifications: string[]
   private _overkillRerolls: number
   private _staticBonus: number
   private _parseError: boolean
@@ -118,7 +118,7 @@ class DamageRollResult implements IDamageRollResult {
     diceString: string,
     total: number,
     rawRolls: number[],
-    lowRolls: number[],
+    rollClass: string[],
     staticBonus: number,
     overkillRerolls: number,
     parseError?: boolean
@@ -126,7 +126,7 @@ class DamageRollResult implements IDamageRollResult {
     this._diceString = diceString
     this._total = total || 0
     this._rawDieRolls = rawRolls || [0]
-    this._lowDieRolls = lowRolls || [0]
+    this._rollClassifications = rollClass || ['']
     this._overkillRerolls = overkillRerolls || 0
     this._staticBonus = staticBonus || 0
     this._parseError = parseError || false
@@ -144,8 +144,8 @@ class DamageRollResult implements IDamageRollResult {
     return this._rawDieRolls
   }
 
-  public get lowDieRolls(): number[] {
-    return this._lowDieRolls
+  public get rollClassifications(): string[] {
+    return this._rollClassifications
   }
 
 
@@ -206,7 +206,7 @@ class DiceRoller {
     } else {
       let total = 0
       const rawRolls: number[] = []
-      const lowRolls: number[] = []
+      const rollClass: string[] = []
       let okRerolls = 0
       let staticBonus = 0
 
@@ -214,31 +214,47 @@ class DiceRoller {
       total = staticBonus
 
       parsedRoll.dice.forEach(dieSet => {
-        if (critical) {
-          let x, y
-          x = DiceRoller.rollDieSet(dieSet, overkill)
-          y = DiceRoller.rollDieSet(dieSet, overkill)
-          if (x.result > y.result) {
-            rawRolls.push(...x.rolls)
-            lowRolls.push(...y.rolls)
-          }
-          else {
-            rawRolls.push(...y.rolls)
-            lowRolls.push(...x.rolls)
-          }
-          okRerolls += x.result > y.result ? x.rerolls : y.rerolls
-          total += x.result > y.result ? x.result : y.result
-        } else {
-          let x
-          x = DiceRoller.rollDieSet(dieSet, overkill)
-          rawRolls.push(...x.rolls)
-          okRerolls += x.rerolls
-          total += x.result
-        }
+        let x
+        x = DiceRoller.rollDieSet(dieSet, overkill, critical)
+        rawRolls.push(...x.rolls)
+        rollClass.push(...this.classifyDamageRolls(dieSet,x.rolls,overkill))
+        okRerolls += x.rerolls
+        total += x.result
       })
 
-      return new DamageRollResult(diceString, total, rawRolls, lowRolls, staticBonus, okRerolls, false)
+      return new DamageRollResult(diceString, total, rawRolls, rollClass, staticBonus, okRerolls, false)
     }
+  }
+
+  public static classifyDamageRolls(dieSet: DieSet, rolls: number[], overkill?: boolean): string[] {
+    if (dieSet.quantity <= 0 || rolls.length <= 0) return []
+    
+    const rollClass: string[] = []
+    //Set initial 'overkill' and 'low' values
+    rolls.forEach((value, index) => {
+      if (overkill && (value === 1)) {
+        rollClass.push('overkill')
+      } else {
+        rollClass.push('low')
+      }
+    })
+
+    //Find high values and mark them
+    for (let x = 0; x < dieSet.quantity; x++) {
+      let highValue = 0
+      let highIndex = 0;
+      rolls.forEach((value, index) => {
+        if(value > highValue && rollClass[index] != 'high') {
+          highValue = value
+          highIndex = index
+        }
+      })
+      if(highValue > 0) {
+        rollClass[highIndex] = 'high'
+      }
+    }
+    
+    return rollClass
   }
 
   public static parseDiceString(diceString: string): ParsedDieString {
@@ -270,14 +286,15 @@ class DiceRoller {
     }
   }
 
-  public static rollDieSet(dieSet: DieSet, overkill?: boolean): { result: number; rolls: number[]; rerolls: number } {
+  public static rollDieSet(dieSet: DieSet, overkill?: boolean, critical?: boolean): { result: number; rolls: number[]; rerolls: number } {
     if (dieSet.quantity <= 0 || dieSet.type <= 0) return { result: 0, rolls: [], rerolls: 0 }
 
     let total = 0
     let rerolls = 0
+    let quantity = critical ? dieSet.quantity * 2 : dieSet.quantity
     const rolls: number[] = []
 
-    for (let x = 0; x < dieSet.quantity; x++) {
+    for (let x = 0; x < quantity; x++) {
       const result = DiceRoller.rollDie(dieSet.type)
       if (overkill && result === 1) {
         rerolls += 1
