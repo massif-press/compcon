@@ -155,16 +155,13 @@
               <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
               <v-row no-gutters>
                 <v-col v-for="(val, i) in r.rolls" :key="`roll_${r.sides}_${i}_${val}`" cols="auto">
-                  <v-chip v-if="r.lowRolls[i]" x-small label style="opacity: 0.4">
-                    {{ r.lowRolls[i] }}
-                  </v-chip>
-                  <v-chip x-small label :color="overkill && val === 1 ? 'heat' : ''">
+                  <v-chip x-small label :style="r.class[i] === 'low' ? 'opacity: 0.4' : ''" :color="r.class[i] === 'overkill' ? 'heat' : ''">
                     {{ val }}
                   </v-chip>
                   <v-icon v-if="i + 1 < r.rolls.length" small>mdi-plus</v-icon>
                 </v-col>
                 <v-col cols="auto" class="ml-auto stark--text">
-                  <b>= {{ r.rolls.reduce((a, b) => a + b, 0) - overkillRolls }}</b>
+                  <b>= {{ r.rolls.map((x,i) => { return r.class[i] === 'high' ? x : 0 }).reduce((a, b) => a + b, 0)}}</b>
                 </v-col>
               </v-row>
             </div>
@@ -278,10 +275,9 @@ export default Vue.extend({
     },
     total() {
       return (
-        this.result.flatMap(x => x.rolls).reduce((a, b) => a + b, 0) +
+        this.result.flatMap(x => x.rolls.map((y,i) => { return x.class[i] === 'high' ? y : 0 })).reduce((a, b) => a + b, 0) +
         parseInt(this.flat) +
-        parseInt(this.accTotal) -
-        this.overkillRolls
+        parseInt(this.accTotal)
       )
     },
   },
@@ -309,7 +305,7 @@ export default Vue.extend({
         return {
           sides: x.sides,
           rolls: dRoll.rawDieRolls,
-          lowRolls: dRoll.lowDieRolls,
+          class: dRoll.rollClassifications,
           overkill: dRoll.overkillRerolls,
         }
       })
