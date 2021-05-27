@@ -633,7 +633,9 @@ export default Vue.extend({
       }
     },
     overkill() {
-      return this.item.Tags.some(x => x.IsOverkill)
+      if (this.item.Tags.some(x => x.IsOverkill)) return true
+      if (this.item.Mod && this.item.Mod.AddedTags.some(x => x.IsOverkill)) return true
+      return false
     },
     crit() {
       return this.attackRoll && this.attackRoll >= 20
