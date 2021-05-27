@@ -219,7 +219,7 @@ export default class CCStressTable extends Vue {
       case 2:
         return 2
       case 1:
-        return 3
+        return this.mech.CurrentStress <= 1 ? 4 : 3
     }
     return 4
   }
