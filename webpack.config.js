@@ -220,6 +220,12 @@ module.exports = function(env, argv) {
     { mode: env.prod ? 'production' : 'development' }
   )
 
+  if (target == 'dev' && env.public_dev) {
+    out = merge(out,
+      requireIfExists(`./webpack_config/webpack.${target}-public.config`),
+    )
+  }
+
   if (argv['analyze']) {
     out = merge(out, {
       plugins: [new BundleAnalyzerPlugin()],

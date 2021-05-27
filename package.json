@@ -7,6 +7,7 @@
   "scripts": {
     "build": "webpack --env.platform=web --env.prod",
     "dev": "webpack-dev-server --progress --env.platform=web",
+    "dev-public": "webpack-dev-server --progress --env.platform=web --env.public_dev",
     "gen-schema": "node ./build_scripts/build-content-schema.js",
     "int-test": "jest int",
     "unit-test": "jest unit",
