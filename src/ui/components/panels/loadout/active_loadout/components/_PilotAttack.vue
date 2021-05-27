@@ -323,8 +323,9 @@ each source of damage is used.`"
                 <v-col cols="auto">
                   <cc-dice-menu
                     title="BONUS DAMAGE"
+                    :overkill="overkill"
                     :critical="crit"
-                    @commit="bonusDamage = $event.total"
+                    @commit="setBonusDamage($event)"
                   />
                 </v-col>
                 <v-col cols="auto" class="ml-n2">
@@ -635,6 +636,10 @@ export default Vue.extend({
     setDamage(index, damage) {
       Vue.set(this.damageRolls, index, damage.total)
       this.overkillHeat = damage.overkill
+    },
+    setBonusDamage(damage) {
+      this.bonusDamage = damage.total
+      this.overkillHeat += damage.overkill
     },
     confirm(): void {
       this.confirmed = true
