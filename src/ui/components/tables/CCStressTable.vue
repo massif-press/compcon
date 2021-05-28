@@ -182,7 +182,6 @@ export default class CCStressTable extends Vue {
   dialog = false
   show(): void {
     this.dialog = true
-    if (this.mech.CurrentStress === 0) this.window = 4
   }
   close(): void {
     this.window = 0
