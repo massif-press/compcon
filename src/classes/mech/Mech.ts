@@ -615,6 +615,7 @@ class Mech implements IActor {
     if (stress > this.MaxStress) this._current_stress = this.MaxStress
     else if (stress < 0) this._current_stress = 0
     else this._current_stress = stress
+    if (this._current_stress === 0 ) this._pilot.State.ReactorCriticalDestruct()
     this.save()
   }
 
