@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-card-text v-if="mech.Pilot.State.IsMounted" class="pt-3">
+      <cc-active-synergy :locations="['overwatch']" :mech="mech" />
       <action-detail-expander :action="action" />
       <v-divider class="my-3" />
       <v-container style="max-width: 800px">
