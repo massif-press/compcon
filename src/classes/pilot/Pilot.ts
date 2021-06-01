@@ -1112,7 +1112,9 @@ class Pilot implements ICloudSyncable {
   }
 
   public get Counters(): ICounterData[] {
-    return this.features('Counters')
+    let counters:ICounterData[] = this.features('Counters')
+    if (this.ActiveMech) counters = counters.concat(this.ActiveMech.CountersOnlyMech)
+    return counters
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
