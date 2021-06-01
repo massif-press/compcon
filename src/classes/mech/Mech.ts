@@ -997,8 +997,9 @@ class Mech implements IActor {
   }
 
   // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
-  private features<T>(p: string): T[] {
-    let output = this.Pilot[p]
+  private features<T>(p: string, i: boolean=true): T[] {
+    let output:T[] = []
+    if (i) output = this.Pilot[p] 
 
     if (this.ActiveLoadout) {
       const activeBonuses = this.ActiveLoadout.Equipment.filter(
@@ -1044,6 +1045,10 @@ class Mech implements IActor {
 
   public get Counters(): ICounterData[] {
     return this.features('Counters')
+  }
+
+  public get CountersOnlyMech(): ICounterData[] {
+    return this.features('Counters',false)
   }
 
   public get CounterData(): ICounterData[] {
