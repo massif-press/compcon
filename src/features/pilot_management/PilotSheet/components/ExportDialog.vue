@@ -10,8 +10,7 @@
       <div v-if="pilot.CloudID" class="flavor-text">
         <span class="font-weight-bold accent--text">Pilot Share Code:&nbsp;</span>
         <span>
-          {{ pilot.CloudID }}
-          {{ pilot.CloudOwner }}
+          {{ pilot.ShareCode }}
           <cc-tooltip simple inline content="Copy Share Code to clipboard">
             <v-icon :color="copyConfirm ? 'success' : 'grey'" @click="copyCode()">
               {{ copyConfirm ? 'mdi-check-outline' : 'mdi-clipboard-text-outline' }}
@@ -101,7 +100,7 @@ export default Vue.extend({
     },
     async copyCode() {
       this.copyConfirm = true
-      navigator.clipboard.writeText(this.pilot.CloudID).then(
+      navigator.clipboard.writeText(this.pilot.ShareCode).then(
         function() {
           Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
         },
