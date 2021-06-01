@@ -77,7 +77,7 @@ export class UserStore extends VuexModule {
   }
 
   @Action
-  public setUserProfile(payload: any): void {
+  public async setUserProfile(payload: any): Promise<void> {
     this.context.commit(SET_USER_PROFILE, payload)
   }
 
@@ -93,10 +93,14 @@ export class UserStore extends VuexModule {
   @Action({ rawError: true })
   public async setAws(payload: any, condition?: string): Promise<void> {
     let sync = true
-    await Sync.GetSync(payload.username)
+    Sync.GetSync(payload.username)
       .then(res => {
-        this.context.commit(SET_LOGGED_IN, true)
         this.setUserProfile(res)
+      })
+      .then(() => {
+        this.context.commit(SET_LOGGED_IN, true)
+      })
+      .then(() => {
         this.UserProfile.Username = payload.attributes.email
         if (condition === 'appLoad' && !this.UserProfile.SyncFrequency.onAppLoad) sync = false
         if (condition === 'logIn' && !this.UserProfile.SyncFrequency.onLogIn) sync = false

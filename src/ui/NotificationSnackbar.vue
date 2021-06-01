@@ -136,7 +136,7 @@ export default class NotificationSnackbar extends Vue {
 }
 
 .notificationContainer >>> .v-snack {
-  pointer-events: all;
+  /* pointer-events: all; */
   position: static;
   /* need to unset all relative pos. values as v-ripple sets position to relative temporarily */
   bottom: unset;
