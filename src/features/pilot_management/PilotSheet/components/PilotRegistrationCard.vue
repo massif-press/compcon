@@ -56,7 +56,7 @@
             FRAME CONFIGURATION OPTIONS
             <span class="subtle--text">("H.A.S.E" OMNINET VAULT REMIT)</span>
           </div>
-          <v-row>
+          <v-row class="my-1">
             <span class="flavor-text ml-3" style="font-size: 22px; line-height: 15px">
               [ HULL:
               <span class="stat-text accent--text" style="font-size: 24px">
