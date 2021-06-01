@@ -1,14 +1,14 @@
 <template>
   <div>
     <div v-if="!!authedUser && !!authedUser.attributes">
-      <div class="text-center heading h3 mt-3">
+      <div v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
         CONNECTED
         <cc-slashes />
         <b class="accent--text">
           {{ userProfile.Username }}
         </b>
       </div>
-      <v-row dense>
+      <!-- <v-row dense>
         <v-col>
           <v-btn tile small block color="patreon" depressed class="my-1">
             <v-icon left>mdi-check</v-icon>
@@ -20,7 +20,7 @@
             Link itch.io Account
           </v-btn>
         </v-col>
-      </v-row>
+      </v-row> -->
       <v-row dense class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">
           ACCOUNT INFORMATION
@@ -33,7 +33,7 @@
             <cc-slashes />
             {{ authedUser.attributes.sub }}
           </div>
-          <p class="body-text ml-3">
+          <p v-if="userProfile" class="body-text ml-3">
             <b class="accent--text">{{ userProfile.Pilots.length }}</b>
             Pilots
             <cc-slashes />
@@ -82,7 +82,7 @@
           </v-col>
           <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical class="mx-3" />
           <v-col>
-            <v-row dense>
+            <v-row v-if="userProfile" dense>
               <v-col lg="4" cols="6">
                 <v-switch
                   v-model="userProfile.SyncFrequency.onAppLoad"

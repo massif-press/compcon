@@ -88,8 +88,11 @@ export default Vue.extend({
       this.email = this.email.trim()
       this.loading = true
       const userstore = getModule(UserStore, this.$store)
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const self = this
       Auth.signIn(this.email, this.password)
         .then(user => {
+          localStorage.removeItem('user.config')
           userstore.setUser(user)
         })
         .then(() => {
@@ -99,6 +102,9 @@ export default Vue.extend({
           this.$notify('Cloud Data Synchronized', 'success')
           this.loading = false
           this.showError = false
+        })
+        .then(() => self.$nextTick())
+        .then(() => {
           this.$emit('set-state', 'signed-in')
         })
         .catch(error => {

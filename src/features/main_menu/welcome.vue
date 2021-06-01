@@ -34,10 +34,12 @@ export default Vue.extend({
   },
   watch: {
     noshow(newval) {
+      if (!this.profile) return
       if (newval) this.profile.WelcomeHash = this.hash
       else this.profile.WelcomeHash = ''
     },
     profile(newval) {
+      if (!this.profile) return
       if (newval.WelcomeHash !== undefined)
         fetch(this.welcomeMessageUrl, {
           method: 'GET',

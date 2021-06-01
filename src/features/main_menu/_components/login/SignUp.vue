@@ -1,16 +1,7 @@
 <template>
   <v-container>
     <v-alert outlined prominent icon="mdi-information-outline" class="my-2">
-      {{ test }}
       <div><b>Cloud Account</b></div>
-      <!-- <div>
-        COMP/CON cloud storage accounts are an upcoming feature that is currently in development.
-        They allow for storage and syncing of COMP/CON data across multiple devices with minimal
-        hassle. For the time being, they are restricted to
-        <a href="https://www.patreon.com/compcon" target="_blank">Patreon supporters</a>
-        while we try to determine storage requirements and get an idea of what operating costs might
-        look like.
-      </div> -->
       <div>
         The e-mail address input below will be used to send you a confirmation code to finalize the
         creation of your account. From there, your e-mail will only be used to log in to your
@@ -23,7 +14,7 @@
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">CREATE ACCOUNT</v-col>
     </v-row>
-    <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
+    <!-- <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
       <v-icon large color="success">mdi-patreon</v-icon>
       Patreon Account Connected: {{ patreonAuthCode }}
       <v-icon large color="success">mdi-check</v-icon>
@@ -41,8 +32,8 @@
           register a new COMP/CON cloud account.
         </i>
       </div>
-    </div>
-    <div>
+    </div> -->
+    <div class="mt-2">
       <v-row justify="center" align="center">
         <v-col lg="4" cols="12">
           <v-text-field
@@ -70,7 +61,7 @@
             large
             color="secondary"
             :loading="loading"
-            :disabled="!email || !password || !isPatron"
+            :disabled="!submitOk"
             @click="createAccount"
           >
             submit
@@ -106,7 +97,7 @@ import { Auth } from '@aws-amplify/auth'
 // import { loginUrl } from '@/cloud/patreon'
 import { UserStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
-import popupOauth from '@/cloud/oauth2-popup'
+// import popupOauth from '@/cloud/oauth2-popup'
 
 export default Vue.extend({
   name: 'sign-up',
@@ -118,7 +109,7 @@ export default Vue.extend({
     show: false,
     email: '',
     password: '',
-    patreonAuthCode: '',
+    // patreonAuthCode: '',
     rules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 6 || 'Min 6 characters',
@@ -127,8 +118,13 @@ export default Vue.extend({
     },
   }),
   computed: {
-    isPatron() {
-      return !!this.patreonAuthCode
+    // isPatron() {
+    //   return !!this.patreonAuthCode
+    // },
+    submitOk() {
+      return (
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(this.email) && this.password.length >= 6
+      )
     },
     test() {
       return process.env.VUE_APP_SOMEKEY
@@ -148,8 +144,8 @@ export default Vue.extend({
         this.loading = false
         this.showError = false
         this.$emit('success', this.email)
-        const userstore = getModule(UserStore, this.$store)
-        userstore.clearOauth()
+        // const userstore = getModule(UserStore, this.$store)
+        // userstore.clearOauth()
       } catch (error) {
         console.log('error signing up:', error)
         this.loading = false
@@ -157,16 +153,16 @@ export default Vue.extend({
         this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`
       }
     },
-    async verifyPatreon() {
-      const authorizationCode = await popupOauth(
-        'https://www.patreon.com/oauth2/authorize',
-        '_1O6Z4dBszp3Q9ERr93RVNCwM1VUveu9xI5vq1DqJUXEK47FC7MkTtF1lwT5_ko3',
-        'https://compcon.app/patreon-callback',
-        '',
-        'code'
-      )
-      this.patreonAuthCode = authorizationCode
-    },
+    // async verifyPatreon() {
+    //   const authorizationCode = await popupOauth(
+    //     'https://www.patreon.com/oauth2/authorize',
+    //     '_1O6Z4dBszp3Q9ERr93RVNCwM1VUveu9xI5vq1DqJUXEK47FC7MkTtF1lwT5_ko3',
+    //     'https://compcon.app/patreon-callback',
+    //     '',
+    //     'code'
+    //   )
+    //   this.patreonAuthCode = authorizationCode
+    // },
   },
 })
 </script>
