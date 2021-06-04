@@ -154,7 +154,7 @@ export default Vue.extend({
       this.freeAction = false
       this.succeeded = false
       this.failed = false
-      this.attackRoll = 0
+      this.attackRoll = ''
     },
     registerTechRoll(roll) {
       Vue.set(this, 'attackRoll', roll)
@@ -163,14 +163,7 @@ export default Vue.extend({
     complete(success) {
         this.succeeded = success
         this.failed = !success
-
-        let l = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.']
-        if (this.succeeded) {
-          l.push('SYSTEM ACCESS OBTAINED.')
-          l = l.concat(this.action.Confirm)
-        } else l.push('ACCESS DENIED. SYSTEM FAILURE.')
-
-        this.$emit('log', l )
+        this.$emit('techAttackComplete', this.succeeded )
     },
   }
 })
