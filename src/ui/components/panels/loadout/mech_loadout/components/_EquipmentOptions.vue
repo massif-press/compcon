@@ -50,10 +50,7 @@
             <v-list-item-title>Set Max Uses</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-if="!item.Destroyed && !readonly && !item.IsIndestructible"
-          @click="item.Destroy()"
-        >
+        <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="error">mdi-image-broken-variant</v-icon>
           </v-list-item-icon>
