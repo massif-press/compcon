@@ -12,7 +12,7 @@
         <v-icon>mdi-dice-multiple</v-icon>
       </v-btn>
     </template>
-    <v-card min-width="400px">
+    <v-card min-width="400px" height="400px" style="overflow-y: scroll">
       <v-toolbar
         v-if="title"
         tile
@@ -25,224 +25,243 @@
         <span v-if="critical" class="flavor-text white--text text--secondary">// CRITICAL</span>
         <span v-if="overkill" class="flavor-text white--text text--secondary">// OVERKILL</span>
       </v-toolbar>
-      <v-card-text>
-        <v-row
-          dense
-          justify="center"
-          style="border: 1px solid var(--v-primary-base); border-radius: 2px"
-        >
-          <v-col v-show="moreDice" cols="auto">
-            <cc-tooltip content="Add coin flip (d2)">
-              <v-btn icon color="accent" @click="addDice(2)">
-                <v-icon large>mdi-numeric-2-circle-outline</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-          <v-col v-show="moreDice" cols="auto">
-            <cc-tooltip content="Add d4 roll">
-              <v-btn icon color="accent" @click="addDice(4)">
-                <v-icon large>mdi-dice-d4-outline</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-          <v-col cols="auto">
-            <cc-tooltip content="Add d6 roll">
-              <v-btn icon color="accent" @click="addDice(6)">
-                <v-icon large>mdi-dice-d6-outline</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-          <v-col v-show="moreDice" cols="auto">
-            <cc-tooltip content="Add d8 roll">
-              <v-btn icon color="accent" @click="addDice(8)">
-                <v-icon large>mdi-dice-d8-outline</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-          <v-col v-show="moreDice" cols="auto">
-            <cc-tooltip content="Add d10 roll">
-              <v-btn icon color="accent" @click="addDice(10)">
-                <v-icon large>mdi-dice-d10-outline</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-          <v-col v-show="moreDice" cols="auto">
-            <cc-tooltip content="Add d12 roll">
-              <v-btn icon color="accent" @click="addDice(12)">
-                <v-icon large>mdi-dice-d12-outline</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-          <v-col cols="auto">
-            <cc-tooltip content="Add d20 roll">
-              <v-btn icon color="accent" @click="addDice(20)">
-                <v-icon large>mdi-dice-d20-outline</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-          <v-col cols="auto">
-            <v-btn icon class="fadeSelect" @click="moreDice = !moreDice">
-              <v-icon v-if="moreDice">mdi-chevron-double-left</v-icon>
-              <v-icon v-else>mdi-chevron-double-right</v-icon>
-            </v-btn>
-          </v-col>
-          <v-col cols="auto">
-            <cc-tooltip content="Add Accuracy">
-              <v-btn icon color="accent" @click="accuracy++">
-                <v-icon large>cci-accuracy</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-          <v-col cols="auto">
-            <cc-tooltip content="Add Difficulty">
-              <v-btn icon color="accent" @click="accuracy--">
-                <v-icon large>cci-difficulty</v-icon>
-              </v-btn>
-            </cc-tooltip>
-          </v-col>
-        </v-row>
-        <v-row dense align="center" justify="center">
-          <v-col cols="auto">
-            <v-chip v-if="!dice.length" outlined style="opacity: 0.5">No Roll</v-chip>
-          </v-col>
-          <v-col v-for="(d, i) in dice" :key="`${i}_dice_${d.sides}`" cols="auto">
-            <v-chip
-              outlined
-              class="mx-1"
-              close
-              close-icon="mdi-close"
-              @click:close="removeDice(d.sides)"
-            >
-              {{ d.count }}d{{ d.sides }}
-            </v-chip>
-            <v-icon>mdi-plus</v-icon>
-          </v-col>
-
-          <v-col cols="auto">
-            <v-text-field
-              v-model="flat"
+      <v-row no-gutters align="center" justify="center">
+        <v-col>
+          <v-card-text>
+            <v-row
               dense
-              hide-details
-              outlined
-              :prepend-icon="!dice.length ? 'mdi-plus' : ''"
-              type="number"
-              style="width: 100px"
-            />
-          </v-col>
-        </v-row>
-        <v-slide-y-reverse-transition>
-          <v-row v-if="accuracy" dense justify="center" align="center">
-            <v-col cols="auto">
-              <v-chip
-                v-if="accuracy"
-                color="primary"
-                dark
-                small
-                close
-                close-icon="mdi-close"
-                @click:close="removeMod()"
-              >
-                <span v-html="accString" />
-              </v-chip>
-            </v-col>
-          </v-row>
-        </v-slide-y-reverse-transition>
-        <v-btn block outlined color="secondary" class="my-3" @click="roll">Roll</v-btn>
-        <v-divider v-if="result" />
-        <div style="min-height: 20px">
-          <div v-if="result">
-            <div v-for="(r, j) in result" :key="`${j}_res_${r.sides}`">
-              <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
-              <v-row no-gutters>
-                <v-col v-for="(val, i) in r.rolls" :key="`roll_${r.sides}_${i}_${val}`" cols="auto">
-                  <v-chip
-                    x-small
-                    label
-                    :style="r.class[i] === 'low' ? 'opacity: 0.4' : ''"
-                    :color="r.class[i] === 'overkill' ? 'heat' : ''"
-                  >
-                    {{ val }}
-                  </v-chip>
-                  <v-icon v-if="i + 1 < r.rolls.length" small>mdi-plus</v-icon>
-                </v-col>
-                <v-col cols="auto" class="ml-auto stark--text">
-                  <b>
-                    =
-                    {{
-                      r.rolls
-                        .map((x, i) => {
-                          return r.class[i] === 'high' ? x : 0
-                        })
-                        .reduce((a, b) => a + b, 0)
-                    }}
-                  </b>
-                </v-col>
-              </v-row>
-            </div>
-            <div v-if="flat">
-              <div class="caption">FLAT MODIFIER</div>
-              <v-row no-gutters>
-                <v-col cols="auto">
-                  <v-chip x-small label>
-                    {{ flat }}
-                  </v-chip>
-                </v-col>
-                <v-col cols="auto" class="ml-auto stark--text">
-                  <b>= {{ flat }}</b>
-                </v-col>
-              </v-row>
-            </div>
-            <div v-if="accuracy">
-              <div class="caption">{{ accuracy > 0 ? 'ACCURACY' : 'DIFFICULTY' }}</div>
-              <v-row no-gutters>
-                <v-col v-for="(a, i) in accRolls" :key="`acc_${a}_${i}`" cols="auto">
-                  <v-chip x-small label :color="a === Math.abs(accTotal) ? 'primary' : 'grey'" dark>
-                    {{ a }}
-                  </v-chip>
-                  <cc-slashes v-if="i + 1 < accRolls.length" small />
-                </v-col>
-                <v-col cols="auto" class="ml-auto stark--text">
-                  <b>{{ accuracy > 0 ? '+' : '-' }}{{ Math.abs(accTotal) }}</b>
-                </v-col>
-              </v-row>
-            </div>
-            <v-row
-              no-gutters
-              class="pa-1 ma-1"
-              style="border: 1px solid var(--v-secondary-base); border-radius: 2px"
+              justify="center"
+              style="border: 1px solid var(--v-primary-base); border-radius: 2px"
             >
-              <v-col cols="auto" class="ml-auto stark--text text-right">
-                <div class="caption">TOTAL</div>
-                <div class="heading h2">{{ total }}</div>
+              <v-col v-show="moreDice" cols="auto">
+                <cc-tooltip content="Add coin flip (d2)">
+                  <v-btn icon color="accent" @click="addDice(2)">
+                    <v-icon large>mdi-numeric-2-circle-outline</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+              </v-col>
+              <v-col v-show="moreDice" cols="auto">
+                <cc-tooltip content="Add d4 roll">
+                  <v-btn icon color="accent" @click="addDice(4)">
+                    <v-icon large>mdi-dice-d4-outline</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+              </v-col>
+              <v-col cols="auto">
+                <cc-tooltip content="Add d6 roll">
+                  <v-btn icon color="accent" @click="addDice(6)">
+                    <v-icon large>mdi-dice-d6-outline</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+              </v-col>
+              <v-col v-show="moreDice" cols="auto">
+                <cc-tooltip content="Add d8 roll">
+                  <v-btn icon color="accent" @click="addDice(8)">
+                    <v-icon large>mdi-dice-d8-outline</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+              </v-col>
+              <v-col v-show="moreDice" cols="auto">
+                <cc-tooltip content="Add d10 roll">
+                  <v-btn icon color="accent" @click="addDice(10)">
+                    <v-icon large>mdi-dice-d10-outline</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+              </v-col>
+              <v-col v-show="moreDice" cols="auto">
+                <cc-tooltip content="Add d12 roll">
+                  <v-btn icon color="accent" @click="addDice(12)">
+                    <v-icon large>mdi-dice-d12-outline</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+              </v-col>
+              <v-col cols="auto">
+                <cc-tooltip content="Add d20 roll">
+                  <v-btn icon color="accent" @click="addDice(20)">
+                    <v-icon large>mdi-dice-d20-outline</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+              </v-col>
+              <v-col cols="auto">
+                <v-btn icon class="fadeSelect" @click="moreDice = !moreDice">
+                  <v-icon v-if="moreDice">mdi-chevron-double-left</v-icon>
+                  <v-icon v-else>mdi-chevron-double-right</v-icon>
+                </v-btn>
+              </v-col>
+              <v-col cols="auto">
+                <cc-tooltip content="Add Accuracy">
+                  <v-btn icon color="accent" @click="accuracy++">
+                    <v-icon large>cci-accuracy</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+              </v-col>
+              <v-col cols="auto">
+                <cc-tooltip content="Add Difficulty">
+                  <v-btn icon color="accent" @click="accuracy--">
+                    <v-icon large>cci-difficulty</v-icon>
+                  </v-btn>
+                </cc-tooltip>
               </v-col>
             </v-row>
-            <v-row
-              v-if="overkill && overkillRolls"
-              no-gutters
-              class="pa-1 ma-1"
-              style="border: 1px solid var(--v-heat-base); border-radius: 2px"
-            >
-              <v-col cols="auto" class="ml-auto stark--text text-right">
-                <div class="caption">// OVERKILL //</div>
-                <v-chip v-for="n in overkillRolls" :key="`overkill_${n}`" x-small color="heat">
-                  <v-icon small>cci-heat</v-icon>
+            <v-row dense align="center" justify="center">
+              <v-col cols="auto">
+                <v-chip v-if="!dice.length" outlined style="opacity: 0.5">No Roll</v-chip>
+              </v-col>
+              <v-col v-for="(d, i) in dice" :key="`${i}_dice_${d.sides}`" cols="auto">
+                <v-chip
+                  outlined
+                  class="mx-1"
+                  close
+                  close-icon="mdi-close"
+                  @click:close="removeDice(d.sides)"
+                >
+                  {{ d.count }}d{{ d.sides }}
                 </v-chip>
+                <v-icon>mdi-plus</v-icon>
+              </v-col>
+
+              <v-col cols="auto">
+                <v-text-field
+                  v-model="flat"
+                  dense
+                  hide-details
+                  outlined
+                  :prepend-icon="!dice.length ? 'mdi-plus' : ''"
+                  type="number"
+                  style="width: 100px"
+                />
               </v-col>
             </v-row>
-          </div>
-        </div>
-        <v-divider />
-        <v-card-actions>
-          <v-btn small text class="mr-3" @click="menu = false">Cancel</v-btn>
-          <v-spacer />
-          <v-btn small outlined color="accent" @click="clear">Clear All</v-btn>
-          <v-btn small outlined color="accent" @click="reset">Reset All</v-btn>
-          <v-spacer />
-          <v-btn small class="ml-3" color="secondary" :disabled="!result && !flat" @click="commit">
-            Commit Result
-          </v-btn>
-        </v-card-actions>
-      </v-card-text>
+            <v-slide-y-reverse-transition>
+              <v-row v-if="accuracy" dense justify="center" align="center">
+                <v-col cols="auto">
+                  <v-chip
+                    v-if="accuracy"
+                    color="primary"
+                    dark
+                    small
+                    close
+                    close-icon="mdi-close"
+                    @click:close="removeMod()"
+                  >
+                    <span v-html="accString" />
+                  </v-chip>
+                </v-col>
+              </v-row>
+            </v-slide-y-reverse-transition>
+            <v-btn block outlined color="secondary" class="my-3" @click="roll">Roll</v-btn>
+            <v-divider v-if="result" />
+            <div style="min-height: 20px">
+              <div v-if="result">
+                <div v-for="(r, j) in result" :key="`${j}_res_${r.sides}`">
+                  <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
+                  <v-row no-gutters>
+                    <v-col
+                      v-for="(val, i) in r.rolls"
+                      :key="`roll_${r.sides}_${i}_${val}`"
+                      cols="auto"
+                    >
+                      <v-chip
+                        x-small
+                        label
+                        :style="r.class[i] === 'low' ? 'opacity: 0.4' : ''"
+                        :color="r.class[i] === 'overkill' ? 'heat' : ''"
+                      >
+                        {{ val }}
+                      </v-chip>
+                      <v-icon v-if="i + 1 < r.rolls.length" small>mdi-plus</v-icon>
+                    </v-col>
+                    <v-col cols="auto" class="ml-auto stark--text">
+                      <b>
+                        =
+                        {{
+                          r.rolls
+                            .map((x, i) => {
+                              return r.class[i] === 'high' ? x : 0
+                            })
+                            .reduce((a, b) => a + b, 0)
+                        }}
+                      </b>
+                    </v-col>
+                  </v-row>
+                </div>
+                <div v-if="flat">
+                  <div class="caption">FLAT MODIFIER</div>
+                  <v-row no-gutters>
+                    <v-col cols="auto">
+                      <v-chip x-small label>
+                        {{ flat }}
+                      </v-chip>
+                    </v-col>
+                    <v-col cols="auto" class="ml-auto stark--text">
+                      <b>= {{ flat }}</b>
+                    </v-col>
+                  </v-row>
+                </div>
+                <div v-if="accuracy">
+                  <div class="caption">{{ accuracy > 0 ? 'ACCURACY' : 'DIFFICULTY' }}</div>
+                  <v-row no-gutters>
+                    <v-col v-for="(a, i) in accRolls" :key="`acc_${a}_${i}`" cols="auto">
+                      <v-chip
+                        x-small
+                        label
+                        :color="a === Math.abs(accTotal) ? 'primary' : 'grey'"
+                        dark
+                      >
+                        {{ a }}
+                      </v-chip>
+                      <cc-slashes v-if="i + 1 < accRolls.length" small />
+                    </v-col>
+                    <v-col cols="auto" class="ml-auto stark--text">
+                      <b>{{ accuracy > 0 ? '+' : '-' }}{{ Math.abs(accTotal) }}</b>
+                    </v-col>
+                  </v-row>
+                </div>
+                <v-row
+                  no-gutters
+                  class="pa-1 ma-1"
+                  style="border: 1px solid var(--v-secondary-base); border-radius: 2px"
+                >
+                  <v-col cols="auto" class="ml-auto stark--text text-right">
+                    <div class="caption">TOTAL</div>
+                    <div class="heading h2">{{ total }}</div>
+                  </v-col>
+                </v-row>
+                <v-row
+                  v-if="overkill && overkillRolls"
+                  no-gutters
+                  class="pa-1 ma-1"
+                  style="border: 1px solid var(--v-heat-base); border-radius: 2px"
+                >
+                  <v-col cols="auto" class="ml-auto stark--text text-right">
+                    <div class="caption">// OVERKILL //</div>
+                    <v-chip v-for="n in overkillRolls" :key="`overkill_${n}`" x-small color="heat">
+                      <v-icon small>cci-heat</v-icon>
+                    </v-chip>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+            <v-divider />
+            <v-card-actions>
+              <v-btn small text class="mr-3" @click="menu = false">Cancel</v-btn>
+              <v-spacer />
+              <v-btn small outlined color="accent" @click="clear">Clear All</v-btn>
+              <v-btn small outlined color="accent" @click="reset">Reset All</v-btn>
+              <v-spacer />
+              <v-btn
+                small
+                class="ml-3"
+                color="secondary"
+                :disabled="!result && !flat"
+                @click="commit"
+              >
+                Commit Result
+              </v-btn>
+            </v-card-actions>
+          </v-card-text>
+        </v-col>
+      </v-row>
     </v-card>
   </v-menu>
 </template>
