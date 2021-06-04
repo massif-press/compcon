@@ -15,39 +15,13 @@
           <v-col>
             <action-detail-expander :action="action" />
           </v-col>
-          <v-col cols="auto">
-            <v-btn
-              large
-              tile
-              dark
-              block
-              :disabled="actionFree"
-              :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
-              @click="actionCost = !actionCost"
-            >
-              <v-icon left>{{ action.Icon }}</v-icon>
-              {{ action.Name }}
-            </v-btn>
-            <v-btn
-              v-if="!fulltech && action.Activation !== 'Free'"
-              small
-              tile
-              dark
-              block
-              :disabled="actionCost"
-              :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
-              @click="actionFree = !actionFree"
-            >
-              <v-icon left small>cci-free-action</v-icon>
-              Free Action
-              <cc-tooltip
-                inline
-                :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a Quick Action this turn`"
-              >
-                <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
-              </cc-tooltip>
-            </v-btn>
-          </v-col>
+          <action-activation-buttons
+            :fulltech="fulltech"
+            :used="action.Used"
+            :action="action"
+            :mech="mech"
+            @use="use($event)"
+          />
         </v-row>
         <tech-attack
           :used="actionFree || actionCost"
@@ -147,10 +121,11 @@ import Vue from 'vue'
 import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
 import ActionTitlebar from '../../components/_ActionTitlebar.vue'
 import TechAttack from '../../components/_TechAttack.vue'
+import ActionActivationButtons from '../../components/_ActionActivationButtons.vue'
 
 export default Vue.extend({
   name: 'invade-dialog',
-  components: { ActionDetailExpander, ActionTitlebar, TechAttack },
+  components: { ActionDetailExpander, ActionTitlebar, TechAttack, ActionActivationButtons },
   props: {
     mech: {
       type: Object,
@@ -202,6 +177,10 @@ export default Vue.extend({
     },
   },
   methods: {
+    use(free) {
+      this.actionFree = free
+      this.actionCost = !free
+    },
     runTimeout() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this

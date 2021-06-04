@@ -19,6 +19,7 @@
           :is="component"
           v-if="component"
           ref="c"
+          :fulltech="fulltech"
           :used="action.Used"
           :mech="mech"
           :action="action"
@@ -74,6 +75,7 @@ export default Vue.extend({
       required: true,
     },
     noAction: { type: Boolean },
+    fulltech: { type: Boolean, default: false },
   },
   data() {
     return {
@@ -132,12 +134,21 @@ export default Vue.extend({
       Vue.nextTick().then(() => self.$forceUpdate())
     },
     techAttackComplete(success) {
-      this.logOverride = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.']
-      if (success) {
-        this.logOverride.push('SYSTEM ACCESS OBTAINED.')
-        this.logOverride = this.logOverride.concat(this.action.Confirm)
-      } else this.logOverride.push('ACCESS DENIED. SYSTEM FAILURE.')
-      this.displayLog = true
+      if ( this.fulltech ) {
+        this.techAttack = false
+
+        if ( success ) this.$emit('add-invade', this.action)
+        else this.$emit('add-fail', this.action.Name)
+
+        this.hide()
+      } else {
+        this.logOverride = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.']
+        if (success) {
+          this.logOverride.push('SYSTEM ACCESS OBTAINED.')
+          this.logOverride = this.logOverride.concat(this.action.Confirm)
+        } else this.logOverride.push('ACCESS DENIED. SYSTEM FAILURE.')
+        this.displayLog = true
+      }
 
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
@@ -159,3 +170,5 @@ export default Vue.extend({
   },
 })
 </script>
+        this.techAttack = false
+        this.displayLog = false

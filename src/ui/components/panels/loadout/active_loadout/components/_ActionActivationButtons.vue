@@ -13,7 +13,7 @@
       {{ action.Name }}
     </v-btn>
     <v-btn
-      v-if="action.Activation !== 'Free' && action.Activation !== 'Protocol'"
+      v-if="!fulltech && action.Activation !== 'Free' && action.Activation !== 'Protocol'"
       small
       tile
       block
@@ -45,6 +45,7 @@ export default Vue.extend({
   name: 'action-activation-buttons',
   props: {
     used: { type: Boolean },
+    fulltech: { type: Boolean, default: false },
     action: {
       type: Object,
       required: true,
@@ -56,7 +57,7 @@ export default Vue.extend({
   },
   computed: {
     disableCostActivate() {
-      if (this.used) return true
+      if (this.used && !this.fulltech) return true
       if (this.action.Activation === ActivationType.Protocol)
         return !this.mech.Pilot.State.IsProtocolAvailable
       let activationCost = 0

@@ -12,6 +12,17 @@
           :disabled="quick.length === 2"
           @click="addQuick(a)"
         />
+        <cc-combat-dialog
+          v-for="(a, j) in quickActions[k]"
+          v-if="a.IsTechAttack"
+          fulltech
+          :key="`action_dialog_${j}`"
+          :ref="`dialog_${a.ID}`"
+          :action="a"
+          :mech="mech"
+          @add-invade="quick.push($event)"
+          @add-fail="quick.push('attack-fail-'+$event)"
+        />
         <item-selector-row
           v-if="i === 0"
           :item="invadeAction"
@@ -53,6 +64,9 @@
           <v-col>
             <v-alert v-if="q === 'invade-fail'" dense outlined color="white" class="text-center">
               <span class="heading h3 text-disabled">INVASION ATTEMPT FAILED</span>
+            </v-alert>
+            <v-alert v-else-if="typeof(q) === 'string' && q.startsWith('attack-fail-')" dense outlined color="white" class="text-center">
+              <span class="heading h3 text-disabled">{{ systemFromFailure(q) }} FAILED</span>
             </v-alert>
             <cc-action v-else panel :action="q" />
           </v-col>
@@ -147,7 +161,8 @@ export default Vue.extend({
       this.quick = this.quick.splice(0, this.quick.length)
     },
     addQuick(action) {
-      if (this.quick.length < 2) this.quick.push(action)
+      if (action.IsTechAttack) this.fulltech(action)
+      else if (this.quick.length < 2) this.quick.push(action)
     },
     removeQuick(idx) {
       this.quick.splice(idx, 1)
@@ -155,6 +170,9 @@ export default Vue.extend({
     openInvade() {
       this.$refs.inv_dialog.init()
       this.$refs.inv_dialog.show()
+    },
+    systemFromFailure(failureString) {
+        return failureString.split('-')[2].toUpperCase()
     },
   },
 })
