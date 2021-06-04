@@ -82,7 +82,7 @@
                 / / AI IN CASCADE / /
               </v-alert>
               <div v-if="item && item.Effect">
-                <div class="overline">
+                <div class="overline mt-2">
                   <v-icon>cci-system</v-icon>
                   EQUIPMENT EFFECT
                 </div>

@@ -13,7 +13,7 @@
     <slot name="statblock" />
 
     <div v-if="item.Effect">
-      <div class="overline ml-n2 subtle--text">EQUIPMENT EFFECT</div>
+      <div class="overline ml-n2 mt-2 subtle--text">EQUIPMENT EFFECT</div>
       <p class="text--text body-text mb-1" v-html-safe="item.Effect" />
     </div>
     <slot name="other_effects" />
