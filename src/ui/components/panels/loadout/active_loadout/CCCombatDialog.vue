@@ -31,7 +31,7 @@
         :used="techAttack"
         :action="action"
         :mech="mech"
-        @log="log($event)"
+        @techAttackComplete="techAttackComplete($event)"
       />
       <action-confirm-log
         ref="log"
@@ -131,9 +131,14 @@ export default Vue.extend({
       const self = this
       Vue.nextTick().then(() => self.$forceUpdate())
     },
-    log(logOverride) {
-      this.logOverride = logOverride
+    techAttackComplete(success) {
+      this.logOverride = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.']
+      if (success) {
+        this.logOverride.push('SYSTEM ACCESS OBTAINED.')
+        this.logOverride = this.logOverride.concat(this.action.Confirm)
+      } else this.logOverride.push('ACCESS DENIED. SYSTEM FAILURE.')
       this.displayLog = true
+
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
       this.$emit('use')

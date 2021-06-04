@@ -49,124 +49,12 @@
             </v-btn>
           </v-col>
         </v-row>
-
-        <v-slide-x-reverse-transition>
-          <v-row v-if="actionFree || actionCost" justify="center" align="center">
-            <v-col lg="auto" md="12" class="mt-n5">
-              <v-row dense class="text-center mb-n3" justify="start" align="start">
-                <v-col cols="auto" class="mx-8">
-                  <div class="overline">Tech Attack Roll</div>
-                  <div class="heading text--text" style="font-size: 24pt">
-                    <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
-                    {{ `${mech.TechAttack >= 0 ? '+' : ''}${mech.TechAttack}` }}
-                  </div>
-                </v-col>
-                <v-col cols="auto" class="mx-8">
-                  <div class="overline">vs. Target</div>
-                  <v-icon x-large v-html="'cci-edef'" />
-                  <div class="overline font-weight-bold mt-n2" v-html="'E-Defense'" />
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="auto" class="ml-auto">
-              <v-row dense justify="end">
-                <v-col
-                  cols="auto"
-                  class="ml-auto px-12 mr-n10 panel dual-sliced"
-                  style="height: 70px"
-                >
-                  <div class="overline pl-1">Accuracy</div>
-                  <v-text-field
-                    v-model="accuracy"
-                    type="number"
-                    append-outer-icon="mdi-plus-circle-outline"
-                    append-icon="cci-accuracy"
-                    prepend-icon="mdi-minus-circle-outline"
-                    style="width: 115px"
-                    class="hide-input-spinners"
-                    color="accent"
-                    dense
-                    hide-details
-                    @click:append-outer="accuracy += 1"
-                    @click:prepend="accuracy > 0 ? (accuracy -= 1) : ''"
-                    @change="accuracy = parseInt($event)"
-                  />
-                </v-col>
-                <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
-                  <div class="overline pl-1">Difficulty</div>
-                  <v-text-field
-                    v-model="difficulty"
-                    type="number"
-                    append-outer-icon="mdi-plus-circle-outline"
-                    append-icon="cci-difficulty"
-                    prepend-icon="mdi-minus-circle-outline"
-                    style="width: 115px"
-                    class="hide-input-spinners"
-                    color="accent"
-                    dense
-                    hide-details
-                    @click:append-outer="difficulty += 1"
-                    @click:prepend="difficulty > 0 ? (difficulty -= 1) : ''"
-                    @change="difficulty = parseInt($event)"
-                  />
-                </v-col>
-                <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
-                  <div class="overline mr-n6 pl-3">Tech Attack Roll</div>
-                  <v-row no-gutters>
-                    <v-col class="mr-n2 ml-n2">
-                      <cc-dice-menu
-                        :preset="`1d20+${mech.TechAttack}`"
-                        :preset-accuracy="accuracy - difficulty"
-                        title="Tech Attack"
-                        @commit="registerTechRoll($event.total)"
-                      />
-                    </v-col>
-                    <v-col>
-                      <v-text-field
-                        v-model="attackRoll"
-                        type="number"
-                        class="hide-input-spinners ml-n3"
-                        style="max-width: 60px; margin-top: -0.5px"
-                        color="accent"
-                        dense
-                        hide-details
-                      />
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-slide-x-reverse-transition>
-
-        <v-slide-x-reverse-transition>
-          <v-row v-if="!!attackRoll" dense class="mt-n2">
-            <v-col md="6" lg="3" xl="2" class="ml-auto">
-              <v-btn
-                tile
-                block
-                class="primary"
-                :color="`primary ${succeeded ? 'lighten-1' : ''}`"
-                :disabled="failed"
-                @click="succeeded = !succeeded"
-              >
-                SUCCESS
-              </v-btn>
-            </v-col>
-            <v-col md="6" lg="3" xl="2">
-              <v-btn
-                tile
-                block
-                :disabled="succeeded"
-                :color="failed ? 'error' : ''"
-                @click="fail()"
-              >
-                FAILURE
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-slide-x-reverse-transition>
-
+        <tech-attack
+          :used="actionFree || actionCost"
+          :action="action"
+          :mech="mech"
+          @techAttackComplete="techAttackComplete($event)"
+        />
         <v-slide-x-reverse-transition>
           <div v-if="succeeded">
             <v-row no-gutters justify="center" class="mt-4 mb-n2">
@@ -258,10 +146,11 @@ import { ActivationType, DiceRoller } from '@/class'
 import Vue from 'vue'
 import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
 import ActionTitlebar from '../../components/_ActionTitlebar.vue'
+import TechAttack from '../../components/_TechAttack.vue'
 
 export default Vue.extend({
   name: 'invade-dialog',
-  components: { ActionDetailExpander, ActionTitlebar },
+  components: { ActionDetailExpander, ActionTitlebar, TechAttack },
   props: {
     mech: {
       type: Object,
@@ -276,9 +165,6 @@ export default Vue.extend({
   data: () => ({
     dialog: false,
     selected: null,
-    accuracy: 0,
-    difficulty: 0,
-    attackRoll: '',
     succeeded: false,
     failed: false,
     complete: false,
@@ -339,20 +225,20 @@ export default Vue.extend({
       this.selected = a
       this.runTimeout()
     },
-    fail() {
-      if (this.fulltech) {
-        this.$emit('add-fail')
-        this.init()
-        this.hide()
+    techAttackComplete(success) {
+      if ( success ) {
+        this.succeeded = true
+      } else {
+        if (this.fulltech) {
+          this.$emit('add-fail')
+          this.init()
+          this.hide()
+        }
+        this.failed = true
+        this.state.CommitAction(this.action, this.actionFree)
+        this.$emit('use')
+        this.runTimeout()
       }
-      this.failed = true
-      this.state.CommitAction(this.action, this.actionFree)
-      this.$emit('use')
-      this.runTimeout()
-    },
-    registerTechRoll(roll) {
-      Vue.set(this, 'attackRoll', roll)
-      Vue.nextTick().then(() => this.$forceUpdate())
     },
     undo() {
       this.state.Undo(this.action, this.actionFree)
@@ -363,12 +249,6 @@ export default Vue.extend({
       this.init()
     },
     init() {
-      this.accuracy = 0
-      this.difficulty = 0
-      this.attackRoll = ''
-      this.attackRollString = ''
-      this.rollResultString = ''
-      this.rollAccuracyResults = '[]'
       this.succeeded = false
       this.failed = false
       this.complete = false
