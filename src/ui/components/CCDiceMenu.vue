@@ -155,13 +155,27 @@
               <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
               <v-row no-gutters>
                 <v-col v-for="(val, i) in r.rolls" :key="`roll_${r.sides}_${i}_${val}`" cols="auto">
-                  <v-chip x-small label :style="r.class[i] === 'low' ? 'opacity: 0.4' : ''" :color="r.class[i] === 'overkill' ? 'heat' : ''">
+                  <v-chip
+                    x-small
+                    label
+                    :style="r.class[i] === 'low' ? 'opacity: 0.4' : ''"
+                    :color="r.class[i] === 'overkill' ? 'heat' : ''"
+                  >
                     {{ val }}
                   </v-chip>
                   <v-icon v-if="i + 1 < r.rolls.length" small>mdi-plus</v-icon>
                 </v-col>
                 <v-col cols="auto" class="ml-auto stark--text">
-                  <b>= {{ r.rolls.map((x,i) => { return r.class[i] === 'high' ? x : 0 }).reduce((a, b) => a + b, 0)}}</b>
+                  <b>
+                    =
+                    {{
+                      r.rolls
+                        .map((x, i) => {
+                          return r.class[i] === 'high' ? x : 0
+                        })
+                        .reduce((a, b) => a + b, 0)
+                    }}
+                  </b>
                 </v-col>
               </v-row>
             </div>
@@ -224,7 +238,7 @@
           <v-btn small outlined color="accent" @click="clear">Clear All</v-btn>
           <v-btn small outlined color="accent" @click="reset">Reset All</v-btn>
           <v-spacer />
-          <v-btn small class="ml-3" color="secondary" :disabled="!result" @click="commit">
+          <v-btn small class="ml-3" color="secondary" :disabled="!result && !flat" @click="commit">
             Commit Result
           </v-btn>
         </v-card-actions>
@@ -274,8 +288,15 @@ export default Vue.extend({
       return this.result.map(x => x.overkill).reduce((a, b) => a + b, 0)
     },
     total() {
+      if (!this.result) return parseInt(this.flat)
       return (
-        this.result.flatMap(x => x.rolls.map((y,i) => { return x.class[i] === 'high' ? y : 0 })).reduce((a, b) => a + b, 0) +
+        this.result
+          .flatMap(x =>
+            x.rolls.map((y, i) => {
+              return x.class[i] === 'high' ? y : 0
+            })
+          )
+          .reduce((a, b) => a + b, 0) +
         parseInt(this.flat) +
         parseInt(this.accTotal)
       )
