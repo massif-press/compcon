@@ -321,7 +321,7 @@
                     {{ mech.Frame.CoreSystem.PassiveName }}
                     <span class="pt-2 ml-2 caption subtle--text">(PASSIVE)</span>
                   </span>
-                  <p class="mb-1" v-html-safe="mech.Frame.CoreSystem.PassiveEffect" />
+                  <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="mb-1" />
                   <cc-action
                     v-for="(a, i) in mech.Frame.CoreSystem.PassiveActions"
                     :key="`core_passive_action_${i}`"
@@ -353,11 +353,16 @@
                   <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
                 </span>
                 <p
-                  class="mb-1 text--text body-text"
                   v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
+                  class="mb-1 text--text body-text"
                 />
                 <div class="my-1 px-6">
-                  <cc-action v-if="mech.CurrentCoreEnergy > 0" active :action="coreActivator" @use="mech.CurrentCoreEnergy --" />
+                  <cc-action
+                    v-if="mech.CurrentCoreEnergy > 0"
+                    active
+                    :action="coreActivator"
+                    @use="mech.CurrentCoreEnergy--"
+                  />
                   <div
                     v-else
                     class="heading h3 text-center"
