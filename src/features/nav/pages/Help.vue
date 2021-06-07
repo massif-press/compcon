@@ -1,8 +1,15 @@
 <template>
   <div>
-    <v-row>
+    <v-row class="my-2">
       <v-col>
-        <v-btn target="_blank" href="https://forms.gle/rb3ZBFYbZ6kFWhBz7" large block color="error">
+        <v-btn
+          target="_blank"
+          href="https://forms.gle/pj6o8BzxCe4xGQ5M7"
+          large
+          block
+          color="error"
+          class="white--text"
+        >
           report a bug
         </v-btn>
       </v-col>
@@ -14,6 +21,7 @@
           large
           block
           color="secondary"
+          class="white--text"
         >
           request a feature
         </v-btn>
