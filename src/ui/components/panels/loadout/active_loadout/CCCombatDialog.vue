@@ -170,5 +170,3 @@ export default Vue.extend({
   },
 })
 </script>
-        this.techAttack = false
-        this.displayLog = false
