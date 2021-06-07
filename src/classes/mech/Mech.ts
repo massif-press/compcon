@@ -615,7 +615,7 @@ class Mech implements IActor {
     if (stress > this.MaxStress) this._current_stress = this.MaxStress
     else if (stress < 0) this._current_stress = 0
     else this._current_stress = stress
-    if (this._current_stress === 0 ) this._pilot.State.ReactorCriticalDestruct()
+    if (this._current_stress === 0) this._pilot.State.ReactorCriticalDestruct()
     this.save()
   }
 
@@ -997,12 +997,12 @@ class Mech implements IActor {
   }
 
   // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
-  private features<T>(p: string, i: boolean=true): T[] {
-    let output:T[] = []
-    if (i) output = this.Pilot[p] 
+  private features<T>(p: string, i = true): T[] {
+    let output: T[] = []
+    if (i) output = this.Pilot[p]
 
     if (this.ActiveLoadout) {
-      const activeBonuses = this.ActiveLoadout.Equipment.filter(
+      const activeBonuses = this.ActiveLoadout.Systems.filter(
         x => x && !x.Destroyed && !x.IsCascading
       ).flatMap(x => x[p])
 
@@ -1048,7 +1048,7 @@ class Mech implements IActor {
   }
 
   public get CountersOnlyMech(): ICounterData[] {
-    return this.features('Counters',false)
+    return this.features('Counters', false)
   }
 
   public get CounterData(): ICounterData[] {
