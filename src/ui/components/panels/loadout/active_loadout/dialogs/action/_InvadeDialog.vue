@@ -198,8 +198,9 @@ export default Vue.extend({
         this.$emit('add-invade', a)
         this.init()
         this.hide()
+      } else {
+        this.state.CommitAction(this.action, this.actionFree)
       }
-      this.state.CommitAction(this.action, this.actionFree)
       this.$emit('use')
       this.selected = a
       this.runTimeout()
@@ -212,9 +213,10 @@ export default Vue.extend({
           this.$emit('add-fail')
           this.init()
           this.hide()
+        } else {
+          this.state.CommitAction(this.action, this.actionFree)
         }
         this.failed = true
-        this.state.CommitAction(this.action, this.actionFree)
         this.$emit('use')
         this.runTimeout()
       }
