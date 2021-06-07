@@ -168,13 +168,14 @@
                 <v-col cols="auto">
                   <cc-tags
                     small
-                    :tags="item.Tags"
+                    :tags="item.ProfileTags"
                     :color="color"
                     :bonus="mech.Pilot.LimitedBonus"
                   />
                   <cc-tags
+                    v-if="item.Tags && !item.ProfileTags"
                     small
-                    :tags="item.ProfileTags"
+                    :tags="item.Tags"
                     :color="color"
                     :bonus="mech.Pilot.LimitedBonus"
                   />
