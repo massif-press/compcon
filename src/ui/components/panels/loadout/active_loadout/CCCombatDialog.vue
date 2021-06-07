@@ -113,7 +113,7 @@ export default Vue.extend({
   },
   methods: {
     use(free) {
-      this.mech.Pilot.State.CommitAction(this.action, free)
+      if (!this.fulltech) this.mech.Pilot.State.CommitAction(this.action, free)
       if (this.action.IsTechAttack) {
           this.techAttack = true
       } else {
