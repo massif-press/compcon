@@ -56,7 +56,7 @@
             <div class="underline-slide">
               <v-row no-gutters>
                 <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
-                  <div class="overline mb-n2">WEAPON PROFILES</div>
+                  <div class="overline">WEAPON PROFILES</div>
                   <v-tabs v-model="tab" grow height="30px">
                     <v-tab v-for="p in item.Profiles" :key="p.ID">
                       <span class="accent--text font-weight-bold">{{ p.Name }}</span>
@@ -166,6 +166,12 @@
               </v-row>
               <v-row no-gutters class="mr-3 mt-n2" align="start">
                 <v-col cols="auto">
+                  <cc-tags
+                    small
+                    :tags="item.Tags"
+                    :color="color"
+                    :bonus="mech.Pilot.LimitedBonus"
+                  />
                   <cc-tags
                     small
                     :tags="item.ProfileTags"
