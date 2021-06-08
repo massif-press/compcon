@@ -519,6 +519,7 @@ class ActiveState {
       }
     }
 
+    if (action.ID === 'act_boost') this.AddBoost()
     if (action.ID === 'act_overcharge') this.CommitOvercharge()
     if (action.ID === 'act_stabilize') this.CommitStabilize()
     if (action.ID === 'act_jockey') this.IsJockeying = true
@@ -866,6 +867,14 @@ class ActiveState {
 
   public TakeBurn() {
     this._mech.AddDamage(this._mech.Burn)
+  }
+
+  public AddBoost() {
+    this._mech.Boost = this._mech.MaxMove
+  }
+
+  public SetBoost(val) {
+    this._mech.Boost = val
   }
 
   public CommitOvercharge() {

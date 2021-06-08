@@ -18,6 +18,27 @@
           </span>
         </cc-tick-bar>
       </v-col>
+      <v-col cols="auto">
+        <v-fade-transition>
+          <cc-tick-bar
+            v-if="mech.Boost"
+            :key="mech.Boost"
+            :current="mech.Boost"
+            :max="mech.MaxMove"
+            large
+            color="secondary"
+            full-icon="mdi-arrow-right-bold-hexagon-outline"
+            :number-only="$vuetify.breakpoint.mdAndDown"
+            clearable
+            no-input
+            @update="state.SetBoost($event)"
+          >
+            <span class="heading h3">
+              Boost
+            </span>
+          </cc-tick-bar>
+        </v-fade-transition>
+      </v-col>
       <v-col cols="auto" align-self="end">
         <cc-synergy-display large location="move" :mech="mech" class="d-inline" />
       </v-col>
