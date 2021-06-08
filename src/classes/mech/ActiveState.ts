@@ -8,6 +8,7 @@ import { Mech, Deployable, Pilot, MechEquipment, MechWeapon, Mount, ActivationTy
 import { Action } from '@/interface'
 import { IDeployableData, IDeployedData } from '../Deployable'
 import { mission } from '@/io/Generators'
+import { Duration } from '../enums'
 
 enum Stage {
   Narrative = 'Narrative',
@@ -113,6 +114,10 @@ class ActiveState {
   private _prepare: boolean
   private _bracedCooldown: boolean
   private _redundant: boolean
+
+  private _stageNextTurnCoreEnd: boolean
+  private _stageNextRoundCoreEnd: boolean
+
   private _stats: ICombatStats
 
   public constructor(pilot: Pilot) {
@@ -270,6 +275,13 @@ class ActiveState {
   public EndTurn(burnHp: number, burnStr: number): void {
     this._cachedBurnDamage = burnHp
     this._cachedBurnStructure = burnStr
+    if (this._mech.Frame.CoreSystem.Duration === Duration.Turn) this._mech.IsCoreActive = false
+    if (this._mech.Frame.CoreSystem.Duration === Duration.NextTurn) {
+      if (this._stageNextTurnCoreEnd) {
+        this._mech.IsCoreActive = false
+        this._stageNextTurnCoreEnd = false
+      } else this._stageNextTurnCoreEnd = true
+    }
     this.InTurn = false
   }
 
@@ -296,6 +308,13 @@ class ActiveState {
       event: 'LOG.ROUND',
       detail: 'ROUND START',
     })
+    if (this._mech.Frame.CoreSystem.Duration === Duration.Round) this._mech.IsCoreActive = false
+    if (this._mech.Frame.CoreSystem.Duration === Duration.NextRound) {
+      if (this._stageNextRoundCoreEnd) {
+        this._mech.IsCoreActive = false
+        this._stageNextRoundCoreEnd = false
+      } else this._stageNextRoundCoreEnd = true
+    }
     this.InTurn = true
     this.save()
   }
@@ -314,6 +333,7 @@ class ActiveState {
       event: 'LOG.END',
       detail: 'ENCOUNTER COMPLETE. COMBAT MODE DEACTIVATED.',
     })
+    if (this._mech.Frame.CoreSystem.Duration === Duration.Encounter) this._mech.IsCoreActive = false
     this.InTurn = true
     this.save()
   }
@@ -334,6 +354,7 @@ class ActiveState {
   }
 
   public EndMission(): void {
+    this._mech.IsCoreActive = false
     this._pilot.UpdateCombatStats(this._stats)
     this.SetLog({
       id: 'end_mission',
@@ -519,7 +540,10 @@ class ActiveState {
       }
     }
 
+    console.log(action.ID)
+
     if (action.ID === 'act_boost') this.AddBoost()
+    if (action.ID === 'core_active_activate') this.SetCorePower(0)
     if (action.ID === 'act_overcharge') this.CommitOvercharge()
     if (action.ID === 'act_stabilize') this.CommitStabilize()
     if (action.ID === 'act_jockey') this.IsJockeying = true
@@ -771,6 +795,8 @@ class ActiveState {
   }
 
   public SetCorePower(val: number) {
+    console.log('in set core power', this._mech.CurrentCoreEnergy, val)
+    if (this._mech.CurrentCoreEnergy > 0 && val === 0) this._mech.IsCoreActive = true
     this._stats.core_uses += this._mech.CurrentCoreEnergy - val
     this._mech.CurrentCoreEnergy = val
     this.SetLog({
