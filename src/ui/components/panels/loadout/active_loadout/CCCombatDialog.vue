@@ -4,8 +4,9 @@
     :fullscreen="$vuetify.breakpoint.mdAndDown"
     :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
     width="85vw"
+    class="suppress-horiz"
   >
-    <v-card tile class="background">
+    <v-card tile class="background suppress-horiz" style="min-height: 175px">
       <action-titlebar
         :used="action.Used"
         :no-action="noAction"
@@ -13,7 +14,7 @@
         :mech="mech"
         @hide="hide()"
       />
-      <v-card-text class="pt-5 pb-0">
+      <v-card-text class="pt-1 pb-0">
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
         <component
           :is="component"
@@ -64,7 +65,7 @@ function toTitleCase(str): string {
 
 export default Vue.extend({
   name: 'cc-combat-dialog',
-  components: { ActionTitlebar, ActionConfirmLog, TechAttack},
+  components: { ActionTitlebar, ActionConfirmLog, TechAttack },
   props: {
     action: {
       type: Object,
@@ -83,7 +84,7 @@ export default Vue.extend({
       component: null,
       techAttack: false,
       displayLog: false,
-      logOverride: []
+      logOverride: [],
     }
   },
   computed: {
@@ -115,7 +116,7 @@ export default Vue.extend({
     use(free) {
       if (!this.fulltech) this.mech.Pilot.State.CommitAction(this.action, free)
       if (this.action.IsTechAttack) {
-          this.techAttack = true
+        this.techAttack = true
       } else {
         this.displayLog = this.action.AnyUsed
         // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -134,10 +135,10 @@ export default Vue.extend({
       Vue.nextTick().then(() => self.$forceUpdate())
     },
     techAttackComplete(success) {
-      if ( this.fulltech ) {
+      if (this.fulltech) {
         this.techAttack = false
 
-        if ( success ) this.$emit('add-invade', this.action)
+        if (success) this.$emit('add-invade', this.action)
         else this.$emit('add-fail', this.action.Name)
 
         this.hide()
@@ -170,3 +171,10 @@ export default Vue.extend({
   },
 })
 </script>
+
+<style scoped>
+.suppress-horiz {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+</style>

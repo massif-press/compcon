@@ -20,11 +20,7 @@
         </v-col>
         <v-col cols="auto" class="ml-auto">
           <v-row dense justify="end">
-            <v-col
-              cols="auto"
-              class="ml-auto px-12 mr-n10 panel dual-sliced"
-              style="height: 70px"
-            >
+            <v-col cols="auto" class="ml-auto px-12 mr-n10 panel dual-sliced" style="height: 70px">
               <div class="overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
@@ -135,7 +131,7 @@ export default Vue.extend({
     difficulty: 0,
     attackRoll: '',
     succeeded: false,
-    failed: false
+    failed: false,
   }),
   watch: {
     used: {
@@ -144,7 +140,7 @@ export default Vue.extend({
       handler: function() {
         this.init()
       },
-    }
+    },
   },
   methods: {
     init() {
@@ -161,10 +157,10 @@ export default Vue.extend({
       Vue.nextTick().then(() => this.$forceUpdate())
     },
     complete(success) {
-        this.succeeded = success
-        this.failed = !success
-        this.$emit('techAttackComplete', this.succeeded )
+      this.succeeded = success
+      this.failed = !success
+      this.$emit('techAttackComplete', this.succeeded)
     },
-  }
+  },
 })
 </script>
