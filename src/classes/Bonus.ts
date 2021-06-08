@@ -157,7 +157,7 @@ class Bonus {
         })
     })
 
-    if (m.CoreActive) {
+    if (m.IsCoreActive) {
       m.Frame.CoreSystem.ActiveBonuses.forEach(b => {
         if (b.ID === id)
           output.push({

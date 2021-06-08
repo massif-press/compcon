@@ -675,7 +675,7 @@ class Mech implements IActor {
     return this._core_active
   }
 
-  public set CoreActive(val: boolean) {
+  public set IsCoreActive(val: boolean) {
     this._core_active = val
     this.save()
   }
@@ -921,6 +921,7 @@ class Mech implements IActor {
     this._resistances = []
     this.Burn = 0
     this._defeat = ''
+    this.IsCoreActive = false
     this.save()
   }
 
@@ -1034,7 +1035,7 @@ class Mech implements IActor {
       .concat(this.Frame[p] || [])
       // .concat(this.Frame.CoreSystem[p] || [])
       .concat(this.Frame.CoreSystem[`Passive${p}`] || [])
-      .concat(this.CoreActive ? this.Frame.CoreSystem[`Active${p}`] || [] : [])
+      .concat(this.IsCoreActive ? this.Frame.CoreSystem[`Active${p}`] || [] : [])
 
     return output.filter(x => !!x)
   }
