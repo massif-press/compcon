@@ -25,6 +25,7 @@ interface IActionData {
   log?: string
   ignore_used?: boolean
   heat_cost?: number
+  tech_attack?: boolean
 }
 
 enum ActivePeriod {
@@ -106,6 +107,7 @@ class Action {
   public readonly IsItemAction: boolean
   public readonly IsDowntimeAction: boolean
   public readonly IsActiveHidden: boolean
+  public readonly IsTechAttack: boolean
   public readonly SynergyLocations: string[]
   public readonly Confirm: string[]
   public readonly Log: string
@@ -145,6 +147,7 @@ class Action {
     if (data.damage) this.Damage = data.damage.map(x => new Damage(x))
     if (data.range) this.Range = data.range.map(x => new Range(x))
     this.IsPilotAction = data.pilot
+    this.IsTechAttack = data.tech_attack
     this.IsMechAction = data.mech || !data.pilot
     this.IsActiveHidden = data.hide_active
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime'

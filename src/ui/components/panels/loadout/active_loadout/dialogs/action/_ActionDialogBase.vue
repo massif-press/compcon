@@ -4,6 +4,7 @@
       <action-detail-expander :action="action" />
     </v-col>
     <action-activation-buttons
+      :fulltech="fulltech"
       :used="used"
       :action="action"
       :mech="mech"
@@ -22,6 +23,7 @@ export default Vue.extend({
   components: { ActionDetailExpander, ActionActivationButtons },
   props: {
     used: { type: Boolean },
+    fulltech: { type: Boolean, default: false },
     mech: {
       type: Object,
       required: true,
