@@ -59,6 +59,7 @@
               <v-row no-gutters class="mr-3 mt-n2">
                 <v-col cols="auto">
                   <cc-tags
+                    v-if="item.Tags && !item.ProfileTags"
                     small
                     :tags="item.Tags"
                     :color="color"
