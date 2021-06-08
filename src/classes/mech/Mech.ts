@@ -30,6 +30,7 @@ interface IMechData {
   active: boolean
   current_structure: number
   current_move: number
+  boost: number
   current_hp: number
   overshield: number
   current_stress: number
@@ -87,6 +88,7 @@ class Mech implements IActor {
   private _burn: number
   private _turn_actions: number
   private _currentMove: number
+  private _boost: number
   private _core_active: boolean
 
   public constructor(frame: Frame, pilot: Pilot) {
@@ -119,6 +121,7 @@ class Mech implements IActor {
     this._current_stress = frame.HeatStress
     this._current_repairs = frame.RepCap
     this._currentMove = frame.Speed
+    this._boost = 0
     this._activations = 1
     this._turn_actions = 2
     this._core_active = false
@@ -713,6 +716,16 @@ class Mech implements IActor {
     this.save()
   }
 
+  public get Boost(): number {
+    if (this.IsStunned || this.Destroyed) return 0
+    return this._boost
+  }
+
+  public set Boost(val: number) {
+    this._boost = val < 0 ? 0 : val
+    this.save()
+  }
+
   public get CurrentMove(): number {
     if (this.IsStunned || this.Destroyed) return 0
     return this._currentMove
@@ -896,6 +909,7 @@ class Mech implements IActor {
     this.CurrentRepairs = this.RepairCapacity
     this.CurrentCoreEnergy = 1
     this.CurrentOvercharge = 0
+    this.Boost = 0
     this._loadouts.forEach(x => {
       x.Equipment.forEach(y => {
         if (y.Destroyed) y.Repair()
@@ -1075,6 +1089,7 @@ class Mech implements IActor {
       active: m._active,
       current_structure: m._current_structure,
       current_move: m._currentMove,
+      boost: m._boost,
       current_hp: m._current_hp,
       overshield: m._overshield,
       current_stress: m._current_stress,
@@ -1124,6 +1139,7 @@ class Mech implements IActor {
     }
     m._current_structure = data.current_structure
     m._currentMove = data.current_move || 0
+    m._boost = data.boost || 0
     m._current_hp = data.current_hp
     m._overshield = data.overshield || 0
     m._current_stress = data.current_stress
