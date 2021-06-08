@@ -115,6 +115,7 @@ const theme: any = {
 
         background: '#EDEDED',
         panel: '#ccc',
+        tooltip: '#e8e8e8',
         'light-panel': '#dbdbdb',
         'panel-border': '#8a949e',
         'stark-panel': '#EDEDED',
