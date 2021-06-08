@@ -4,6 +4,7 @@
     :used="used"
     :action="action"
     :mech="mech"
+    :fulltech="fulltech"
     @use="$emit('use', $event)"
     @undo="$emit('undo')"
   />
@@ -18,6 +19,7 @@ export default Vue.extend({
   components: { ActionDialogBase },
   props: {
     used: { type: Boolean },
+    fulltech: { type: Boolean, default: false },
     mech: {
       type: Object,
       required: true,
