@@ -20,12 +20,13 @@
       />
       <pilot-weapon-card
         v-for="(w, i) in extendedWeapons"
-        :key="`pgwi_${i}`"
+        :key="`pgewi_${i}`"
         :item="w"
         :readonly="readonly"
+        :extended="true"
         :exotics="exotics('PilotWeapon')"
-        @equip="setWeapon($event, i)"
-        @remove="setWeapon(null, i)"
+        @equip="setWeapon($event, i, true)"
+        @remove="setWeapon(null, i, true)"
       />
     </v-row>
     <v-row dense>
@@ -40,12 +41,13 @@
       />
       <pilot-gear-card
         v-for="(g, i) in extendedGear"
-        :key="`pgi_${i}`"
+        :key="`pegi_${i}`"
         :item="g"
         :readonly="readonly"
+        :extended="true"
         :exotics="exotics('PilotGear')"
-        @equip="$set(pilot.Loadout.ExtendedGear, i, $event)"
-        @remove="$set(pilot.Loadout.ExtendedGear, i, null)"
+        @equip="setGear($event, i, true)"
+        @remove="setGear(null, i, true)"
       />
     </v-row>
   </div>
@@ -75,14 +77,14 @@ export default Vue.extend({
       return this.pilot.Loadout.Gear
     },
     extendedGear() {
-      if (this.pilot.has('reserve', 'extendedharness')) return this.pilot.Loadout.ExtendedGear
+      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedGear
       return []
     },
     weapons() {
       return this.pilot.Loadout.Weapons
     },
     extendedWeapons() {
-      if (this.pilot.has('reserve', 'extendedharness')) return this.pilot.Loadout.ExtendedWeapons
+      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedWeapons
       return []
     },
   },
@@ -94,12 +96,14 @@ export default Vue.extend({
       this.$set(this.pilot.Loadout.Armor, 0, a)
       this.pilot.Heal()
     },
-    setWeapon(w: PilotWeapon | null, idx: number) {
-      this.$set(this.pilot.Loadout.Weapons, idx, w)
+    setWeapon(w: PilotWeapon | null, idx: number, extended: boolean) {
+      const weaponArray = extended ? this.pilot.Loadout.ExtendedWeapons : this.pilot.Loadout.Weapons
+      this.$set(weaponArray, idx, w)
       this.pilot.Heal()
     },
-    setGear(g: PilotGear | null, idx: number) {
-      this.$set(this.pilot.Loadout.Gear, idx, g)
+    setGear(g: PilotGear | null, idx: number, extended: boolean) {
+      const gearArray = extended ? this.pilot.Loadout.ExtendedGear : this.pilot.Loadout.Gear
+      this.$set(gearArray, idx, g)
       this.pilot.Heal()
     },
   },
