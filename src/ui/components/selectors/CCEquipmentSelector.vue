@@ -17,7 +17,7 @@ import _ from 'lodash'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { CompendiumItem } from '@/classes/CompendiumItem'
-import { License, PilotLicense, LicensedItem } from '@/class'
+import { PilotLicense } from '@/class'
 
 export default Vue.extend({
   name: 'equipment-selector',
@@ -39,7 +39,9 @@ export default Vue.extend({
   }),
   computed: {
     availableItems(): CompendiumItem[] {
-      let pilotLicensedItems = this.pilot.Licenses.flatMap((x: PilotLicense) => x.License.UnlocksByTotalRank(x.Rank)).map(x => x.ID)
+      let pilotLicensedItems = this.pilot.Licenses.flatMap((x: PilotLicense) =>
+        x.License.UnlocksByTotalRank(x.Rank)
+      ).map(x => x.ID)
 
       pilotLicensedItems = pilotLicensedItems.concat(this.pilot.SpecialEquipment.map(x => x.ID))
 

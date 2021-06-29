@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <h1  class="heading">PILOT EQUIPMENT</h1>
+    <h1 class="heading">PILOT EQUIPMENT</h1>
     <v-tabs
       :vertical="$vuetify.breakpoint.mdAndUp"
       background-color="primary"
