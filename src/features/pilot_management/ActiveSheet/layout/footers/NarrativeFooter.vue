@@ -1,6 +1,6 @@
 <template>
   <v-footer fixed style="padding-bottom: 2px; border-top: 2px solid var(--v-primary-base)">
-    <v-dialog v-model="scDialog" width="80vw">
+    <v-dialog v-model="scDialog" :fullscreen="$vuetify.breakpoint.smAndDown" width="80vw">
       <template v-slot:activator="{ on }">
         <v-btn
           outlined
@@ -16,6 +16,8 @@
       <v-card>
         <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
           START MISSION
+          <v-spacer />
+          <v-btn large dark icon @click="scDialog = false"><v-icon>mdi-close</v-icon></v-btn>
         </v-toolbar>
         <v-card-text>
           <p class="flavor-text mt-2 mb-0 mx-6">
@@ -41,7 +43,7 @@
             <v-row justify="start" no-gutters>
               <v-col>
                 <div class="overline text--text">ACTIVE MECH</div>
-                <div class="heading h1">
+                <div :class="$vuetify.breakpoint.mdAndDown ? 'heading h3' : 'heading h1'">
                   <cc-logo
                     v-if="pilot.ActiveMech"
                     :source="pilot.ActiveMech.Frame.Manufacturer"
@@ -115,7 +117,7 @@
       </v-card>
     </v-dialog>
 
-    <span class="flavor-text">
+    <span v-if="$vuetify.breakpoint.mdAndUp" class="flavor-text">
       >//[
       <span class="accent--text">COMP/CON</span>
       :

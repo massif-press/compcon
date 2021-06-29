@@ -11,11 +11,7 @@
         v-on="on"
       >
         <slot name="icon" />
-        <span
-          v-if="$vuetify.breakpoint.mdAndDown"
-          class="pl-2"
-          v-html="title.replace(' ACTIONS', '')"
-        />
+        <span v-if="$vuetify.breakpoint.md" class="pl-2" v-html="title.replace(' ACTIONS', '')" />
       </v-btn>
     </template>
     <div>

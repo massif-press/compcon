@@ -10,7 +10,7 @@
           <div class="heading h2 mt-n4">
             <span class="accent--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span>
             <cc-slashes />
-            <span class="stark--text">{{ mech.Name }}</span>
+            <span v-if="$vuetify.breakpoint.mdAndUp" class="stark--text">{{ mech.Name }}</span>
           </div>
         </v-col>
         <v-col cols="auto" class="ml-auto mr-2 mt-n3">
@@ -18,6 +18,13 @@
           <div class="heading h2 mt-n3 subtle--text">{{ pilot.Callsign }}</div>
         </v-col>
       </v-row>
+
+      <div
+        v-if="$vuetify.breakpoint.smAndDown"
+        class="heading h2 stark--text mt-n4 mb-2 text-center"
+      >
+        {{ mech.Name }}
+      </div>
 
       <v-row v-if="state.SelfDestructCounter > 0" dense justify="center" class="text-center">
         <v-col cols="auto">
@@ -100,7 +107,7 @@
 
       <div v-if="!mech.ReactorDestroyed">
         <v-row justify="space-between" align="center" dense class="mt-n3">
-          <v-col cols="3" :style="mech.Destroyed ? 'opacity: 0.5' : ''">
+          <v-col cols="6" md="3" :style="mech.Destroyed ? 'opacity: 0.5' : ''">
             <cc-status-select
               label="Statuses"
               :items="statuses"
@@ -110,7 +117,7 @@
               @set="state.SetStatusCondition($event, true)"
             />
           </v-col>
-          <v-col cols="3">
+          <v-col cols="6" md="3">
             <cc-status-select
               label="Conditions"
               :items="conditions"
@@ -120,7 +127,7 @@
               @set="state.SetStatusCondition($event)"
             />
           </v-col>
-          <v-col cols="3">
+          <v-col cols="6" md="3">
             <cc-status-select
               label="Resistances"
               :items="resistances"
@@ -131,7 +138,12 @@
             />
           </v-col>
 
-          <v-col cols="auto" class="ml-auto mr-auto" :style="mech.Destroyed ? 'opacity: 0.5' : ''">
+          <v-col
+            cols="6"
+            md="auto"
+            class="ml-auto mr-auto"
+            :style="mech.Destroyed ? 'opacity: 0.5' : ''"
+          >
             <v-text-field
               v-model="mech.Burn"
               type="number"
@@ -184,29 +196,29 @@
           </pip-layout>
 
           <v-row dense align="center" class="mt-n3">
-            <v-col cols="auto" class="ml-2 mt-n2 mr-2">
-              <div class="mb-n2">
+            <v-col cols="12" md="auto" class="ml-2 mt-n2 mr-2">
+              <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
                   {{ pilot.MechSkills.Hull }}
                   <span class="flavor-text subtle--text">//HULL</span>
                   <cc-synergy-display location="hull" :mech="mech" class="d-inline" />
                 </span>
               </div>
-              <div class="mb-n2">
+              <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
                   {{ pilot.MechSkills.Agi }}
                   <span class="flavor-text subtle--text">//AGI</span>
                   <cc-synergy-display location="agility" :mech="mech" class="d-inline" />
                 </span>
               </div>
-              <div class="mb-n2">
+              <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
                   {{ pilot.MechSkills.Sys }}
                   <span class="flavor-text subtle--text">//SYS</span>
                   <cc-synergy-display location="systems" :mech="mech" class="d-inline" />
                 </span>
               </div>
-              <div class="mb-n2">
+              <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
                   {{ pilot.MechSkills.Eng }}
                   <span class="flavor-text subtle--text">//ENG</span>
@@ -220,22 +232,30 @@
                   prominent
                   class="my-1"
                   color="frame"
-                  header="Speed"
+                  header="SPEED"
                   :content="mech.Speed"
                 />
                 <cc-active-card
                   prominent
                   class="my-1"
                   color="frame"
-                  :header="$vuetify.breakpoint.lgAndUp ? 'Attack Bonus' : 'Atk Bonus'"
+                  :header="$vuetify.breakpoint.lgAndUp ? 'Attack Bonus' : 'ATK'"
                   :content="`${mech.AttackBonus > 0 ? '+' : ''}${mech.AttackBonus}`"
                 />
                 <cc-active-card
                   prominent
                   class="my-1"
                   color="frame"
-                  :header="$vuetify.breakpoint.lgAndUp ? 'Tech Attack' : 'Tech Atk'"
+                  :header="$vuetify.breakpoint.lgAndUp ? 'Tech Attack' : 'T.ATK'"
                   :content="`${mech.TechAttack > 0 ? '+' : ''}${mech.TechAttack}`"
+                />
+                <cc-active-card
+                  v-if="$vuetify.breakpoint.smAndDown"
+                  prominent
+                  class="my-1"
+                  color="frame"
+                  header="SIZE"
+                  :content="mech.Size"
                 />
               </v-row>
               <v-row>
@@ -244,33 +264,33 @@
                   prominent
                   class="my-1"
                   color="frame"
-                  header="Evasion"
+                  header="EVAS."
                   :content="mech.Evasion"
                 />
                 <cc-active-card
                   prominent
                   class="my-1"
                   color="frame"
-                  :header="$vuetify.breakpoint.lgAndUp ? 'E-Defense' : 'E-Def'"
+                  :header="$vuetify.breakpoint.lgAndUp ? 'E-Defense' : 'E-DEF'"
                   :content="mech.EDefense"
                 />
                 <cc-active-card
                   prominent
                   class="my-1"
                   color="frame"
-                  :header="$vuetify.breakpoint.lgAndUp ? 'Save Target' : 'Save'"
+                  :header="$vuetify.breakpoint.lgAndUp ? 'Save Target' : 'SAVE'"
                   :content="mech.SaveTarget"
                 />
                 <cc-active-card
                   prominent
                   class="my-1"
                   color="frame"
-                  :header="$vuetify.breakpoint.lgAndUp ? 'Sensor Range' : 'Sensors'"
+                  :header="$vuetify.breakpoint.lgAndUp ? 'Sensor Range' : 'SENS.'"
                   :content="mech.SensorRange"
                 />
               </v-row>
             </v-col>
-            <v-col cols="auto">
+            <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto">
               <div style="position:relative">
                 <v-icon size="120" color="frame" style="z-index:2">{{ mech.SizeIcon }}</v-icon>
                 <div
@@ -282,7 +302,7 @@
           </v-row>
 
           <v-row dense>
-            <v-col cols="4">
+            <v-col cols="12" md="4">
               <cc-active-card
                 v-for="(trait, i) in mech.Frame.Traits"
                 :key="`tr_${i}`"
@@ -309,7 +329,7 @@
                 </v-row>
               </cc-active-card>
             </v-col>
-            <v-col cols="8" align-self="center">
+            <v-col cols="12" md="8" align-self="center">
               <cc-active-card
                 color="corepower"
                 :header="mech.Frame.CoreSystem.Name"
