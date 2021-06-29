@@ -137,16 +137,16 @@
       ref="cName"
       :placeholder="item.Name"
       label="Custom Item Name"
-      @save="item.Name = $event"
-      @reset="item.Name = ''"
+      @save="save('Name', $event)"
+      @reset="save('Name', '')"
     />
     <cc-string-edit-dialog
       v-if="item"
       ref="cDesc"
       :placeholder="item.Description"
       label="Custom Item Description"
-      @save="item.Description = $event"
-      @reset="item.Description = ''"
+      @save="save('Description', $event)"
+      @reset="save('Description', '')"
     />
     <cc-damage-type-picker
       v-if="item"
@@ -176,6 +176,11 @@ export default Vue.extend({
     },
     readonly: Boolean,
     active: Boolean,
+  },
+  methods: {
+    save(prop, newName) {
+      this.$set(this.item, prop, newName)
+    },
   },
 })
 </script>
