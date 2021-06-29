@@ -1,8 +1,7 @@
 <template>
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
-      <v-btn v-if="big" large block color="primary" v-on="on">Change Mech</v-btn>
-      <v-btn v-else outlined small class="fadeSelect" v-on="on">Change Mech</v-btn>
+      <v-btn outlined small color="secondary" v-on="on">Change Mech</v-btn>
     </template>
     <v-list two-line subheader>
       <v-subheader class="heading h2 white--text primary py-0 px-2">
@@ -37,9 +36,6 @@ export default Vue.extend({
     mechs: {
       type: Array,
       required: true,
-    },
-    big: {
-      type: Boolean,
     },
   },
 })
