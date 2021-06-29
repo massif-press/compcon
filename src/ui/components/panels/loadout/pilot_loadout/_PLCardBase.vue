@@ -78,19 +78,6 @@
           <div class="underline-slide" style="height: 100%">
             <div v-if="item">
               <slot @click="$refs.detailDialog.show()" />
-              <!-- <div v-if="item.Actions.length">
-                <div class="overline ml-n2 subtle--text">EQUIPMENT ACTIONS</div>
-                <v-row no-gutters justify="center">
-                  <v-col
-                    v-for="(a, i) in item.Actions"
-                    :key="`${item.Name}_action_${i}`"
-                    cols="auto"
-                  >
-                    <cc-action :action="a" :panel="false" class="ma-2" />
-                  </v-col>
-                </v-row>
-              </div> -->
-
               <div v-if="item.Deployables.length">
                 <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
                 <v-row no-gutters justify="center">
@@ -151,16 +138,16 @@
       ref="cName"
       :placeholder="item.Name"
       label="Custom Item Name"
-      @save="item.Name = $event"
-      @reset="item.Name = ''"
+      @save="save('Name', $event)"
+      @reset="save('Name', '')"
     />
     <cc-string-edit-dialog
       v-if="item"
       ref="cDesc"
       :placeholder="item.Description"
       label="Custom Item Description"
-      @save="item.Description = $event"
-      @reset="item.Description = ''"
+      @save="save('Description', $event)"
+      @reset="save('Description', '')"
     />
     <cc-damage-type-picker
       v-if="item"
@@ -198,6 +185,9 @@ export default Vue.extend({
     },
     openDetail() {
       this.$refs.detailDialog.show()
+    },
+    save(prop, newName) {
+      this.$set(this.item, prop, newName)
     },
   },
 })

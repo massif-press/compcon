@@ -54,15 +54,15 @@
       ref="cName"
       :placeholder="item.Feature.Name"
       label="Custom Item Name"
-      @save="item.Name = $event"
-      @reset="item.Name = item.Feature.Name"
+      @save="save('Name', $event)"
+      @reset="save('Name', '')"
     />
     <cc-string-edit-dialog
       ref="cDesc"
       :placeholder="item.Feature.Description"
       label="Custom Item Description"
-      @save="item.Description = $event"
-      @reset="item.Description = ''"
+      @save="save('Description', $event)"
+      @reset="save('Description', '')"
     />
   </span>
 </template>
@@ -82,6 +82,9 @@ export default Vue.extend({
     downgradeTier() {
       this.item.Tier--
       this.$emit('recalc')
+    },
+    save(prop, newName) {
+      this.$set(this.item.Feature, prop, newName)
     },
   },
 })
