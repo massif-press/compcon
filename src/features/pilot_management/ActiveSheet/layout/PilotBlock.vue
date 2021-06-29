@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row align="start" class="mb-n3">
+    <v-row :justify="$vuetify.breakpoint.mdAndUp ? 'start' : 'center'" align="start" class="mb-n3">
       <v-col>
         <span class="heading mech" style="line-height: 5px">{{ pilot.Callsign }}</span>
         <div class="flavor-text subtle--text">{{ pilot.Name }}</div>
@@ -19,20 +19,48 @@
         </b>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 accent--text">Armor</div>
-        <div class="font-weight-bold">{{ pilot.Armor }}</div>
+        <component
+          :is="$vuetify.breakpoint.mdAndUp ? 'div' : 'span'"
+          class="heading h3 accent--text"
+        >
+          Armor
+        </component>
+        <component :is="$vuetify.breakpoint.mdAndUp ? 'div' : 'span'" class="font-weight-bold">
+          {{ pilot.Armor }}
+        </component>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 accent--text">E-Defense</div>
-        <div class="font-weight-bold">{{ pilot.EDefense }}</div>
+        <component
+          :is="$vuetify.breakpoint.mdAndUp ? 'div' : 'span'"
+          class="heading h3 accent--text"
+        >
+          {{ $vuetify.breakpoint.mdAndUp ? 'E-DEFENSE' : 'E-DEF' }}
+        </component>
+        <component :is="$vuetify.breakpoint.mdAndUp ? 'div' : 'span'" class="font-weight-bold">
+          {{ pilot.EDefense }}
+        </component>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 accent--text">Evasion</div>
-        <div class="font-weight-bold">{{ pilot.Evasion }}</div>
+        <component
+          :is="$vuetify.breakpoint.mdAndUp ? 'div' : 'span'"
+          class="heading h3 accent--text"
+        >
+          Evasion
+        </component>
+        <component :is="$vuetify.breakpoint.mdAndUp ? 'div' : 'span'" class="font-weight-bold">
+          {{ pilot.Evasion }}
+        </component>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 accent--text">Grit</div>
-        <div class="font-weight-bold">+{{ pilot.Grit }}</div>
+        <component
+          :is="$vuetify.breakpoint.mdAndUp ? 'div' : 'span'"
+          class="heading h3 accent--text"
+        >
+          Grit
+        </component>
+        <component :is="$vuetify.breakpoint.mdAndUp ? 'div' : 'span'" class="font-weight-bold">
+          +{{ pilot.Grit }}
+        </component>
       </v-col>
     </v-row>
 
@@ -95,7 +123,7 @@
       <div style="position: relative">
         <v-btn
           small
-          absolute
+          :absolute="$vuetify.breakpoint.mdAndUp"
           color="error"
           class="fadeSelect"
           style="bottom: 0; right: 0"
@@ -142,7 +170,7 @@
             v-for="(s, i) in pilot.Skills"
             :key="`sk_${i}`"
             :ref="`sk_${i}`"
-            :cols="$vuetify.breakpoint.lgAndUp ? 4 : 6"
+            :cols="$vuetify.breakpoint.smAndDown ? 12 : $vuetify.breakpoint.lgAndUp ? 4 : 6"
             color="secondary"
             collapsible
             start-closed

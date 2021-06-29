@@ -2,9 +2,17 @@
   <div>
     <v-alert v-if="pilot.Status === 'KIA' || pilot.IsDead" prominent dense outlined color="error">
       <v-icon slot="prepend" size="80" class="mr-2">mdi-skull</v-icon>
-      <div class="heading h1 pb-2 text-center">KILLED IN ACTION</div>
+      <div :class="`heading ${$vuetify.breakpoint.mdAndUp ? 'h1' : 'h3'} pb-2 text-center`">
+        KILLED IN ACTION
+      </div>
       <div style="position: relative">
-        <div style="position: absolute; bottom: -3px; right: -3px">
+        <div
+          :style="
+            $vuetify.breakpoint.mdAndUp
+              ? 'position: absolute; bottom: -3px; right: -3px'
+              : 'text-align: center'
+          "
+        >
           <v-menu offset-y offset-x>
             <template v-slot:activator="{ on }">
               <v-btn color="secondary" x-small outlined v-on="on">

@@ -7,12 +7,16 @@
       v-html="coreSystem.Description"
     />
 
-    <div v-if="coreSystem.PassiveEffect">
+    <div v-if="coreSystem.PassiveName">
       <span class="heading sub">
         PASSIVE {{ coreSystem.PassiveName ? ` - ${coreSystem.PassiveName}` : '' }}
       </span>
       <div class="light-panel pa-2 clipped mb-2 mx-3">
-        <p class="body-text mb-1 px-3" v-html-safe="coreSystem.PassiveEffect" />
+        <p
+          v-if="coreSystem.PassiveEffect"
+          v-html-safe="coreSystem.PassiveEffect"
+          class="body-text mb-1 px-3"
+        />
         <v-row no-gutters justify="center">
           <v-col cols="auto">
             <cc-action
@@ -23,12 +27,6 @@
             />
           </v-col>
         </v-row>
-        <!-- <cc-bonus v-for="(b, i) in coreSystem.PassiveBonuses" :key="`${coreSystem.Name}_bonus_${i}`" :bonus="b" />
-        <cc-synergy
-          v-for="(s, i) in coreSystem.PassiveSynergies"
-          :key="`${coreSystem.Name}_synergy_${i}`"
-          :synergy="s"
-        /> -->
       </div>
     </div>
 
@@ -65,58 +63,7 @@
         :panel="$vuetify.breakpoint.lgAndUp"
         class="ma-2"
       />
-      <!-- <cc-bonus
-        v-for="(b, i) in coreSystem.ActiveBonuses"
-        :key="`${coreSystem.Name}_bonus_${i}`"
-        :bonus="b"
-        :panel="$vuetify.breakpoint.lgAndUp"
-      />
-      <cc-synergy
-        v-for="(s, i) in coreSystem.ActiveSynergies"
-        :key="`${coreSystem.Name}_synergy_${i}`"
-        :synergy="s"
-        :panel="$vuetify.breakpoint.lgAndUp"
-      /> -->
     </div>
-
-    <div v-if="coreSystem.PassiveName">
-      <span class="heading sub">
-        PASSIVE {{ coreSystem.PassiveName ? ` - ${coreSystem.PassiveName}` : '' }}
-      </span>
-      <div class="light-panel pa-2 clipped mb-2 mx-3">
-        <p
-          v-if="coreSystem.PassiveEffect"
-          v-html-safe="coreSystem.PassiveEffect"
-          class="body-text mb-1 px-3"
-        />
-        <v-row no-gutters justify="center">
-          <v-col cols="auto">
-            <cc-action
-              v-for="(a, i) in coreSystem.PassiveActions"
-              :key="`${coreSystem.Name}_action_${i}`"
-              :action="a"
-              :panel="$vuetify.breakpoint.lgAndUp"
-            />
-          </v-col>
-        </v-row>
-      </div>
-    </div>
-
-    <!-- <span
-      v-if="coreSystem.IntegratedEquipment.length || coreSystem.Deployables.length"
-      class="heading sub"
-    >
-      CORE INTEGRATED EQUIPMENT
-    </span>
-    <v-row v-if="coreSystem.IntegratedEquipment.length" no-gutters justify="center">
-      <v-col
-        v-for="(x, i) in coreSystem.IntegratedEquipment"
-        :key="`${coreSystem.Name}_integrated_${i}`"
-        cols="auto"
-      >
-        <cc-integrated-info :item="x" :panel="$vuetify.breakpoint.lgAndUp" />
-      </v-col>
-    </v-row> -->
 
     <v-row v-if="coreSystem.Deployables.length" no-gutters justify="center">
       <v-col
