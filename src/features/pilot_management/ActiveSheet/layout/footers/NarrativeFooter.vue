@@ -42,7 +42,7 @@
           >
             <v-row justify="start" no-gutters>
               <v-col>
-                <div class="overline text--text">ACTIVE MECH</div>
+                <div class="overline text--text pb-1">ACTIVE MECH</div>
                 <div :class="$vuetify.breakpoint.mdAndDown ? 'heading h3' : 'heading h1'">
                   <cc-logo
                     v-if="pilot.ActiveMech"
