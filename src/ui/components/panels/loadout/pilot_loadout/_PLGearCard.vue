@@ -113,6 +113,7 @@ export default Vue.extend({
       { text: 'Item', align: 'left', value: 'Name' },
       { text: 'Uses', align: 'center', value: 'MaxUses' },
       { text: 'Detail', align: 'center', value: 'Detail' },
+      { text: '', align: 'center', value: 'Equip' },
     ],
   }),
   methods: {
