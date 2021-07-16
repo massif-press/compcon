@@ -121,7 +121,7 @@ class Action {
   public constructor(data: IActionData, origin?: string, heat?: number) {
     if (data.name) this.Name = data.name
     else this.Name = `Activate ${origin}` || 'Unknown Action'
-    this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}`
+    this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${uuid()}`
     this.Origin = origin || ''
     this.IsItemAction = !!origin
     if (data.synergy_locations)
@@ -230,7 +230,7 @@ class Action {
   public static CreateDeployAction(d: IDeployableData, origin?: string): Action {
     const a = new Action(
       {
-        id: `deploy_${d.name}`,
+        id: `deploy_${d.name}_${uuid()}`,
         name: `Deploy ${d.name}`,
         activation: d.activation,
         cost: d.cost || 1,

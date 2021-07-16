@@ -40,7 +40,7 @@
         :used="displayLog"
         :action="action"
         :mech="mech"
-        :logOverride="logOverride"
+        :log-override="logOverride"
         :hide-log="action && action.ID === 'act_self_destruct'"
         @undo="undo()"
         @hide="hide()"

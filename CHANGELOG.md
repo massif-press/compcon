@@ -4,9 +4,9 @@
 
 ### Bug Fixes
 
-* **Cloud Storage:** Fix syncing issues with COMP/CON Account Vault contents
-
+* **Changelog:** Rebuilt COMP/CON Changelog. Old log can be found at CHANGELOG_old.md, closes [#1511](https://github.com/massif-press/compcon/issues/1488)
+* **Cloud Storage:** Fix syncing issues with COMP/CON Account Vault contents, closes [#1488](https://github.com/massif-press/compcon/issues/1488) [#1503](https://github.com/massif-press/compcon/issues/1503)
 
 ### Features
 
-* **Pilot Roster:** Rework Vault interface UI
+* **Pilot Roster:** Rework Vault interface UI, closes [#1456](https://github.com/massif-press/compcon/issues/1456)
