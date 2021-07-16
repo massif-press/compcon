@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-row no-gutters align="start" :justify="justify">
+    <v-row
+      no-gutters
+      align="start"
+      :justify="justify"
+      :class="`${$vuetify.breakpoint.smAndDown ? 'my-n1' : ''}`"
+    >
       <v-col v-if="!flipInput" cols="auto">
         <slot />
       </v-col>
@@ -53,7 +58,7 @@
         <v-rating
           :key="current"
           v-model="model"
-          class="d-inline-block"
+          :class="`d-inline-block ${$vuetify.breakpoint.smAndDown ? 'my-n1' : ''}`"
           dense
           hover
           :length="max"

@@ -1,7 +1,20 @@
 <template>
   <div>
     <v-row align="start" dense justify="space-between">
-      <v-col cols="auto">
+      <v-col
+        v-if="$vuetify.breakpoint.smAndDown"
+        cols="12"
+        align-self="center"
+        class="ml-auto text-center"
+      >
+        <fieldset class="ma-0 py-0 px-3" style="height: 100%;">
+          <legend class="overline px-1 mb-n1" style="line-height: 0">
+            Active Effects
+          </legend>
+          <cc-synergy-display large location="active_effects" :mech="mech" show-none />
+        </fieldset>
+      </v-col>
+      <v-col cols="" md="auto">
         <cc-tick-bar
           :key="mech.CurrentMove"
           :current="mech.CurrentMove"
@@ -9,16 +22,15 @@
           large
           color="action--move"
           full-icon="mdi-arrow-right-bold-hexagon-outline"
-          :number-only="$vuetify.breakpoint.mdAndDown"
           clearable
           @update="state.SetMove($event)"
         >
-          <span class="heading h3">
+          <div :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
             Movement
-          </span>
+          </div>
         </cc-tick-bar>
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="" md="auto">
         <v-fade-transition>
           <cc-tick-bar
             v-if="mech.Boost"
@@ -28,21 +40,25 @@
             large
             color="secondary"
             full-icon="mdi-arrow-right-bold-hexagon-outline"
-            :number-only="$vuetify.breakpoint.mdAndDown"
             clearable
             no-input
             @update="state.SetBoost($event)"
           >
-            <span class="heading h3">
+            <div :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
               Boost
-            </span>
+            </div>
           </cc-tick-bar>
         </v-fade-transition>
       </v-col>
       <v-col cols="auto" align-self="end">
         <cc-synergy-display large location="move" :mech="mech" class="d-inline" />
       </v-col>
-      <v-col cols="auto" align-self="center" class="ml-auto text-center">
+      <v-col
+        v-if="$vuetify.breakpoint.mdAndUp"
+        cols="auto"
+        align-self="center"
+        class="ml-auto text-center"
+      >
         <fieldset class="ma-0 py-0 px-3" style="height: 100%;">
           <legend class="overline px-1 mb-n1" style="line-height: 0">
             Active Effects
@@ -50,7 +66,7 @@
           <cc-synergy-display large location="active_effects" :mech="mech" show-none />
         </fieldset>
       </v-col>
-      <v-col cols="auto" align-self="center">
+      <v-col v-if="!$vuetify.breakpoint.smAndDown" cols="auto" align-self="center">
         <slot name="repair" />
       </v-col>
     </v-row>
@@ -71,9 +87,9 @@
               :class="{ rolledOver: structRollover }"
               @update="state.SetStructure($event)"
             >
-              <span class="heading h3">
+              <div :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
                 Structure
-              </span>
+              </div>
             </cc-tick-bar>
           </v-col>
         </v-row>
@@ -96,7 +112,9 @@
               readonly
               justify="center"
             >
-              <span class="heading h3">Armor: {{ mech.Armor }}</span>
+              <div :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
+                Armor: {{ mech.Armor }}
+              </div>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto" align-self="end" class="ma-0 pa-0">
@@ -111,11 +129,10 @@
               color="hp"
               :full-icon="hpResistance ? 'mdi-octagram' : 'mdi-hexagon'"
               :max-length="$vuetify.breakpoint.xl ? 35 : 20"
-              :number-only="$vuetify.breakpoint.mdAndDown"
               justify="start"
               @update="state.SetHp($event)"
             >
-              <span class="heading h3">HP</span>
+              <div :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">HP</div>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto">
@@ -135,7 +152,9 @@
               clearable
               @update="state.SetOvershield($event)"
             >
-              <span class="heading h3">OVERSHIELD: {{ mech.Overshield }}</span>
+              <div :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
+                OVERSHIELD: {{ mech.Overshield }}
+              </div>
             </cc-tick-bar>
           </v-col>
         </v-row>
@@ -159,7 +178,7 @@
               :class="{ rolledOver: stressRollover }"
               @update="state.SetStress($event)"
             >
-              <span class="heading h3">Stress</span>
+              <div :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">Stress</div>
             </cc-tick-bar>
           </v-col>
         </v-row>
@@ -177,14 +196,13 @@
               large
               :color="mech.IsInDangerZone ? 'dangerzone' : 'heatcap'"
               :full-icon="mech.IsInDangerZone ? 'mdi-fire' : 'mdi-circle'"
-              :number-only="$vuetify.breakpoint.mdAndDown"
               clearable
               @update="state.SetHeat($event)"
             >
               <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
                 HEAT
               </span>
-              <span v-else class="heading h3">
+              <span v-else :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
                 HEAT
               </span>
             </cc-tick-bar>
@@ -208,14 +226,16 @@
               :max="mech.RepairCapacity"
               large
               color="repcap"
-              :number-only="$vuetify.breakpoint.mdAndDown"
               full-icon="cci-repair"
               @update="state.SetRepCap($event)"
             >
-              <span v-if="$vuetify.breakpoint.mdAndDown" class="heading h3">
+              <span
+                v-if="$vuetify.breakpoint.mdAndDown"
+                :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`"
+              >
                 REPAIR
               </span>
-              <span v-else class="heading h3">
+              <span v-else :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
                 REPAIR CAPACITY
               </span>
             </cc-tick-bar>
@@ -237,9 +257,9 @@
               hide-values
               @update="state.SetOvercharge($event)"
             >
-              <span class="heading h3">
+              <div :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
                 Overcharge
-              </span>
+              </div>
             </cc-tick-bar>
             <div class="text-center caption overcharge--text font-weight-bold">
               +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
@@ -264,10 +284,13 @@
               hide-buttons
               @update="state.SetCorePower($event)"
             >
-              <span v-if="$vuetify.breakpoint.mdAndDown" class="heading h3">
+              <span
+                v-if="$vuetify.breakpoint.mdAndDown"
+                :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`"
+              >
                 CP
               </span>
-              <span v-else class="heading h3">
+              <span v-else :class="`heading ${$vuetify.breakpoint.smAndDown ? 'h4' : 'h3'}`">
                 CORE POWER
               </span>
             </cc-tick-bar>
@@ -280,6 +303,9 @@
             <div v-else class="text-center caption subtle--text">
               EXHAUSTED
             </div>
+          </v-col>
+          <v-col v-if="$vuetify.breakpoint.smAndDown" cols="auto" align-self="center">
+            <slot name="repair" />
           </v-col>
         </v-row>
       </v-col>

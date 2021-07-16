@@ -16,7 +16,7 @@
       {{ t.GetName(bonus) }}
     </v-chip>
   </div>
-  <div v-else>
+  <div v-else class="text-center">
     <cc-tag
       v-for="(t, i) in tags"
       :key="`${t.ID}_${i}`"

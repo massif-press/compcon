@@ -3,26 +3,30 @@
     <template v-slot:activator="{ on }">
       <v-btn
         class="mx-1"
-        small
+        :small="$vuetify.breakpoint.lgAndUp"
+        :x-small="$vuetify.breakpoint.smAndDown"
         dark
-        :fab="$vuetify.breakpoint.lgAndUp"
+        :fab="$vuetify.breakpoint.lgAndUp || $vuetify.breakpoint.smAndDown"
         elevation="0"
         :color="available && (baseActions.length || itemActions.length) ? color : 'grey darken-2'"
         v-on="on"
       >
         <slot name="icon" />
-        <span
-          v-if="$vuetify.breakpoint.mdAndDown"
-          class="pl-2"
-          v-html="title.replace(' ACTIONS', '')"
-        />
+        <span v-if="$vuetify.breakpoint.md" class="pl-2" v-html="title.replace(' ACTIONS', '')" />
       </v-btn>
     </template>
     <div>
       <v-toolbar dense flat class="heading h3" style="min-width: 80px">
         {{ title }}
         <v-spacer />
-        <v-btn small icon color="accent" class="ml-4" @click="$emit('open-menu')">
+        <v-btn
+          :small="$vuetify.breakpoint.lgAndUp"
+          :x-small="$vuetify.breakpoint.smAndDown"
+          icon
+          color="accent"
+          class="ml-4"
+          @click="$emit('open-menu')"
+        >
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
       </v-toolbar>

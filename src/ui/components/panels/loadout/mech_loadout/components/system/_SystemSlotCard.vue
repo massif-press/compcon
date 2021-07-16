@@ -29,37 +29,52 @@
       :readonly="readonly"
     >
       <div slot="header">
-        <span v-if="item">
-          <equipment-options :item="item" :readonly="readonly" />
-          <span v-if="!item.Destroyed" :key="item.Name" class="ml-n2">
-            {{ item.Name }}
-            <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-          </span>
-          <span v-else :key="item.Name + '_dest'" class="py-1 error" style="letter-spacing: 3px">
-            &nbsp;//
-            <strike>{{ item.Name }}</strike>
-            //&nbsp;
-          </span>
-        </span>
+        <v-row v-if="item" no-gutters>
+          <v-col cols="auto">
+            <equipment-options :item="item" :readonly="readonly" />
+          </v-col>
+          <v-col cols="auto">
+            <span
+              v-if="!item.Destroyed"
+              :key="item.Name"
+              :class="`ml-n2 ${small ? 'white--text effect-text' : ''}`"
+            >
+              {{ item.Name }}
+              <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+            </span>
+            <span v-else :key="item.Name + '_dest'" class="py-1 error" style="letter-spacing: 3px">
+              &nbsp;//
+              <strike>{{ item.Name }}</strike>
+              //&nbsp;
+            </span>
+          </v-col>
+        </v-row>
         <span v-else>System</span>
       </div>
-      <div v-if="!readonly" slot="header-items" class="text-right d-inline">
-        <div v-if="item" style="display: inline-block">
-          <span class="heading h2">{{ item.SP }}</span>
-          <span class="heading h3">SP</span>
+      <v-row v-if="item" slot="header-items" justify="end" no-gutters>
+        <div v-if="item" class="heading" style="display: inline-block">
+          <span :class="small ? 'h3' : 'h2'">{{ item.SP }}</span>
+          <span class="h3">SP</span>
         </div>
         <div v-if="!readonly" class="d-inline pl-3 ml-3" style=" border-left: 1px solid #616161;">
-          <v-icon v-if="item" dark class="fadeSelect mt-n1" @click.stop="remove(item)">
+          <v-icon
+            v-if="item"
+            dark
+            class="fadeSelect mt-n1"
+            :small="small"
+            @click.stop="remove(item)"
+          >
             delete
           </v-icon>
           <v-icon
             class="fadeSelect mt-n1"
+            :small="small"
             dark
             @click.stop="$refs.base.$refs.selectorDialog.show()"
             v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
           />
         </div>
-      </div>
+      </v-row>
       <div v-if="item">
         <v-alert
           v-if="item.IsCascading"
@@ -130,6 +145,11 @@ export default Vue.extend({
     },
     empty: {
       type: Boolean,
+    },
+  },
+  computed: {
+    small() {
+      return this.$vuetify.breakpoint.smAndDown
     },
   },
   methods: {

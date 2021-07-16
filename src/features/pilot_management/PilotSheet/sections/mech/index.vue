@@ -14,9 +14,15 @@
           </cc-title>
         </cc-short-string-editor>
         <div :class="`mt-n${small ? '3' : '6'}`">
-          <cc-logo v-show="!small" size="large" :source="mech.Frame.Manufacturer" />
+          <cc-logo
+            :size="small ? '' : 'large'"
+            :source="mech.Frame.Manufacturer"
+            :class="small ? 'mt-n5' : ''"
+          />
           <span :class="small ? 'heading h3' : 'heading h2'" style="position: relative; top: -11px">
-            <span :style="`color: ${color}`" class="pt-n3">{{ mech.Frame.Manufacturer.Name }}</span>
+            <span v-if="!small" :style="`color: ${color}`" class="pt-n3">
+              {{ mech.Frame.Manufacturer.Name }}
+            </span>
             <span class="text--text">{{ mech.Frame.Name }}</span>
             <v-icon right class="fadeSelect mt-n1" @click="$refs.frameInfoDialog.show()">
               mdi-information-outline
@@ -30,8 +36,8 @@
               :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
             >
               <p
-                class="flavor-text mt-3 mb-1 px-1 text--text"
                 v-html-safe="mech.Frame.Description"
+                class="flavor-text mt-3 mb-1 px-1 text--text"
               />
             </cc-solo-dialog>
           </span>

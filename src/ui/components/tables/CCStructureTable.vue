@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="60vw" persistent>
+  <v-dialog v-model="dialog" :fullscreen="$vuetify.breakpoint.mdAndDown" width="60vw" persistent>
     <v-card flat tile>
       <v-toolbar color="title-bg clipped-large" dark flat>
         <v-toolbar-title class="heading h1">STRUCTURE DAMAGE</v-toolbar-title>
@@ -114,7 +114,7 @@
           :title="resultData[1].name"
           :disabled="
             (systemTraumaRoll <= 3 && destroyedMount === null) ||
-            (systemTraumaRoll > 3 && !destroyedSystem)
+              (systemTraumaRoll > 3 && !destroyedSystem)
           "
           @dismiss="close()"
           @previous="window = 0"
