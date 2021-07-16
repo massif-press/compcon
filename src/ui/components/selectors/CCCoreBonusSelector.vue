@@ -120,6 +120,7 @@ import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Pilot, CoreBonus, Manufacturer } from '@/class'
+import { Bonus } from '@/classes/Bonus'
 
 @Component({
   components: { Selector, CoreBonusSelectItem, MissingItem },
@@ -180,7 +181,8 @@ export default class CCCoreBonusSelector extends Vue {
   }
   availableCount(m: string): number {
     if (m.toUpperCase() === 'GMS') return Infinity
-    return Math.floor(this.pilot.LicenseLevel(m) / 3) - this.selectedCount(m)
+    const extraLicenses = Bonus.IntPilot(0, 'cb_point', this.pilot)
+    return Math.floor(this.pilot.LicenseLevel(m) / 3) + extraLicenses - this.selectedCount(m)
   }
   isSelectable(b: CoreBonus): boolean {
     return this.availableCount(b.Source) > 0 && this.pilot.IsMissingCBs
