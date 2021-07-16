@@ -102,7 +102,9 @@ const PullRemoteData = async (): Promise<void> => {
     if (!data) return
     try {
       console.info('Syncing remote pilot// ', p.Callsign)
+      data.isLocal = false
       p.Update(data, true)
+      p.SetRemoteResource()
     } catch (err) {
       throw new Error(`Malformed Pilot data returned from S3`)
     }
@@ -243,7 +245,6 @@ async function Push(
     if (cloudURIs.includes(p.ResourceURI)) return
     if (!p.IsLocallyOwned) return
     // this is a local resource that does not exist in the cloud
-    console.log(`new ${typePrefix} found`, p.IsLocallyOwned)
     p.SetOwnedResource(ccid)
     let data = {} as any
     if (storageKey === 'Pilots') data = Pilot.Serialize(p)
@@ -306,8 +307,6 @@ const AwsImport = async (code: string): Promise<any> => {
   const arr = code.split('//')
   const userID = 'us-east-1:' + arr[0]
   const resource = 'pilot/' + arr[1]
-
-  console.log(userID, resource)
 
   const url = await Storage.get(resource, {
     level: 'protected',
