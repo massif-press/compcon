@@ -26,8 +26,8 @@
           <v-divider v-if="action.Detail" />
           <v-card-text
             v-if="action.Detail"
-            class="body-text text--text mt-0 pt-1"
             v-html-safe="action.Detail"
+            class="body-text text--text mt-0 pt-1"
           />
         </v-card>
       </v-menu>

@@ -3,7 +3,6 @@
     <v-dialog v-model="scDialog" :fullscreen="$vuetify.breakpoint.smAndDown" width="80vw">
       <template v-slot:activator="{ on }">
         <v-btn
-          outlined
           small
           class="mr-5"
           style="border-color: var(--v-warning-base)"

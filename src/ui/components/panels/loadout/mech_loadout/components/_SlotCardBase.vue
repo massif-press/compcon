@@ -66,6 +66,7 @@
                     :bonus="mech.Pilot.LimitedBonus"
                   />
                   <cc-tags
+                    v-if="item.ProfileTags"
                     small
                     :tags="item.ProfileTags"
                     :color="color"

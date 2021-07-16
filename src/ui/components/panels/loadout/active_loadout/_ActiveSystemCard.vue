@@ -171,9 +171,10 @@ export default Vue.extend({
     actionDisabled(action) {
       if (!this.item) return true
       if (this.item.MaxUses && this.item.Uses === 0) return true
-      if (!this.item.MaxUses && action.Deployable) {
-        return this.mech.Pilot.State.Deployed.map(x => x.Name).includes(action.Deployable.name)
-      }
+      if (this.item.Used) return true
+      // if (!this.item.MaxUses && action.Deployable) {
+      //   return this.mech.Pilot.State.Deployed.map(x => x.Name).includes(action.Deployable.name)
+      // }
       return this.item.Destroyed || this.mech.IsStunned
     },
   },

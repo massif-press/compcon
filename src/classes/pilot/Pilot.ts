@@ -230,7 +230,6 @@ class Pilot implements ICloudSyncable {
   }
 
   public get ResourceURI(): string {
-    console.log('from pilot, is locally owned:', this.IsLocallyOwned)
     return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
   }
 

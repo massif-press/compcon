@@ -12,18 +12,28 @@
       @cancel="cancelImport"
       @confirm="confirmImport"
     >
-      <v-text-field
-        v-model="importID"
-        dark
-        autofocus
-        label="UND IDENT ID"
-        placeholder="Input Pilot Share ID"
-        outlined
-        append-outer-icon="mdi-cloud-search"
-        :loading="cloudLoading"
-        @click:append-outer="cloudImport"
-        @keypress.enter="cloudImport"
-      />
+      <v-row dense align="center">
+        <v-col>
+          <v-text-field
+            v-model="importID"
+            dark
+            autofocus
+            dense
+            hide-details
+            label="Pilot Share ID"
+            placeholder="Input Pilot Share ID"
+            outlined
+            :loading="cloudLoading"
+            @keypress.enter="cloudImport"
+          />
+        </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <v-btn large color="primary" @click="cloudImport">
+            <v-icon left>mdi-cloud-search</v-icon>
+            Link Pilot
+          </v-btn>
+        </v-col>
+      </v-row>
     </import-dialog>
     <v-dialog v-model="missingContentWarning">
       <v-card>
