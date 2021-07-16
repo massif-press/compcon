@@ -338,10 +338,10 @@ class Npc implements IActor, ICloudSyncable {
     })
   }
 
-  public RecalcBonuses(): void {
+  public RecalcBonuses(save = true): void {
     this.setStatBonuses()
     this.ResetStats()
-    this.save()
+    if (save) this.save()
   }
 
   public AddFeature(feat: NpcFeature, skipRecalc?: boolean): void {
@@ -698,7 +698,7 @@ class Npc implements IActor, ICloudSyncable {
       }
     }
 
-    this.Active = data.active
+    this._active = data.active
     this._id = data.id
     this.IsLocallyOwned = data.isLocal || true
     this.CloudID = data.cloudID || ''
@@ -714,7 +714,7 @@ class Npc implements IActor, ICloudSyncable {
     this._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplates', x))
     this._items = data.items.map(x => NpcItem.Deserialize(x))
     this._stats = NpcStats.Deserialize(data.stats)
-    this.RecalcBonuses()
+    this.RecalcBonuses(false)
     this._note = data.note
     this._cloud_image = data.cloudImage
     this._local_image = data.localImage

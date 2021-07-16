@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "2.2.24",
+  "version": "2.2.25",
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
   "author": "Massif Press",
@@ -81,6 +81,7 @@
     "sass-loader": "^8.0.0",
     "source-map-support": "^0.5.10",
     "standard-changelog": "^2.0.21",
+    "standard-version": "^9.3.1",
     "ts-jest": "^25.0.0",
     "ts-loader": "^6.2.1",
     "tslib": "^2.2.0",

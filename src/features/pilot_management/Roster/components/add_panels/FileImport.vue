@@ -1,11 +1,9 @@
 <template>
-  <cc-major-btn
-    icon="mdi-download"
-    color="secondary"
-    name="File Import"
-    small
-    @clicked="dialog = true"
-  >
+  <v-col>
+    <v-btn x-large tile block color="secondary" class="white--text" @click="dialog = true">
+      <v-icon large left class="pr-2">mdi-download</v-icon>
+      <b>File Import</b>
+    </v-btn>
     <import-dialog
       v-model="dialog"
       :pilot="importPilot"
@@ -46,7 +44,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </cc-major-btn>
+  </v-col>
 </template>
 
 <script lang="ts">

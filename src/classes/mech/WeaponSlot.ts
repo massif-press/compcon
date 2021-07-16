@@ -29,10 +29,10 @@ class WeaponSlot {
     return this.Weapon && this.Weapon.Mod
   }
 
-  public EquipWeapon(weapon: MechWeapon): void {
+  public EquipWeapon(weapon: MechWeapon, save = true): void {
     const w = _.cloneDeep(weapon)
     Vue.set(this, '_weapon', w)
-    this.save()
+    if (save) this.save()
   }
 
   public UnequipWeapon(): void {
@@ -50,8 +50,8 @@ class WeaponSlot {
   public static Deserialize(slotData: IWeaponSlotData): WeaponSlot {
     const ws = new WeaponSlot(slotData.size as FittingSize)
     if (slotData.weapon) {
-      const ew = MechWeapon.Deserialize(slotData.weapon)
-      if (ew) ws.EquipWeapon(ew)
+      const w = MechWeapon.Deserialize(slotData.weapon)
+      if (w) ws.EquipWeapon(w, false)
     }
     return ws
   }

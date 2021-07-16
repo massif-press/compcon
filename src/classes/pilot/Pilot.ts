@@ -159,7 +159,7 @@ class Pilot implements ICloudSyncable {
     this._licenses = []
     this._skills = []
     this._talents = []
-    this._mechSkills = new MechSkills()
+    this._mechSkills = new MechSkills(this)
     this._core_bonuses = []
     this._mechs = []
     this._reserves = []
@@ -177,7 +177,8 @@ class Pilot implements ICloudSyncable {
   }
 
   // -- Utility -----------------------------------------------------------------------------------
-  public save(): void {
+  public save(skip = false): void {
+    if (skip) return
     if (this.IsLocallyOwned) this.IsDirty = true
     store.dispatch('saveData')
   }
@@ -233,7 +234,8 @@ class Pilot implements ICloudSyncable {
   }
 
   public get ShareCode(): string {
-    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
+    if (!this.ResourceURI || !this.CloudOwnerID) return 'ERR'
+    return `${this.CloudOwnerID.split(':')[1]}//${this.ResourceURI.split('/')[1]}`
   }
 
   public RenewID(): void {
@@ -685,7 +687,7 @@ class Pilot implements ICloudSyncable {
   }
 
   private talentSort(): void {
-    this._talents = this._talents.sort(function (a, b) {
+    this._talents = this._talents.sort(function(a, b) {
       return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
     })
   }
@@ -927,17 +929,16 @@ class Pilot implements ICloudSyncable {
     this._special_equipment = data
   }
 
-  public AddSpecialEquipment(data: CompendiumItem) {
+  public AddSpecialEquipment(data: CompendiumItem): void {
     this._special_equipment.push(data)
     this.save()
   }
 
-  public RemoveSpecialEquipment(data: CompendiumItem) {
+  public RemoveSpecialEquipment(data: CompendiumItem): void {
     const idx = this._special_equipment.findIndex(x => x.ID === data.ID)
     if (idx > -1) this._special_equipment.splice(idx, 1)
     this.save()
   }
-
 
   // -- Mechs -------------------------------------------------------------------------------------
   public get Mechs(): Mech[] {
@@ -1112,7 +1113,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public get Counters(): ICounterData[] {
-    let counters:ICounterData[] = this.features('Counters')
+    let counters: ICounterData[] = this.features('Counters')
     if (this.ActiveMech) counters = counters.concat(this.ActiveMech.CountersOnlyMech)
     return counters
   }
@@ -1217,8 +1218,8 @@ class Pilot implements ICloudSyncable {
     if (!ignoreProps) this._group = data.group || ''
     if (!ignoreProps) this._sortIndex = data.sort_index || 0
 
-    this.GistCode = data.gistCode || ''
-    this.GistOwner = data.gistOwner || ''
+    this._gistCode = data.gistCode || ''
+    this._gistOwner = data.gistOwner || ''
     this.IsLocallyOwned = data.isLocal || true
     this.CloudID = data.cloudID || ''
     this.CloudOwnerID = data.cloudOwnerID || ''
@@ -1241,7 +1242,7 @@ class Pilot implements ICloudSyncable {
     this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : []
     this._current_hp = data.current_hp
     this._background = data.background
-    this._mechSkills = MechSkills.Deserialize(data.mechSkills)
+    this._mechSkills = MechSkills.Deserialize(this, data.mechSkills)
     this._licenses = data.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
     this._skills = data.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
     this._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))

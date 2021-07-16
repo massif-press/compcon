@@ -8,7 +8,7 @@
     />
     <cc-solo-dialog
       ref="dialog"
-      icon="mdi-cloud-outline"
+      icon="mdi-database"
       large
       no-confirm
       title="Cloud Download Settings"
@@ -26,23 +26,8 @@
             <br />
             If you have a COMP/CON account and want to sync pilot data with users who do not have
             accounts, you can use this service to do so.
-            <br />
-            <br />
-            Cloud Download will be deprecated and, eventually, removed after COMP/CON account
-            creation exits the Patreon-only phase and Vault Import becomes available to everyone.
           </div>
         </v-alert>
-
-        <!-- <p class="flavor-text">
-          // UNI OMNINET VAULT REMIT INTERFACE v.7.3.1 rev. 3 //
-          <br />
-          <span class="caption">
-            PLEASE NOTE THAT ALL TRANSMIT RECORDS OF DATA SENT OR RECEIVED THROUGH THIS REMIT
-            INTERFACE BY UNION PERSONNEL MAY BE AUTOMATICALLY LOGGED, MONITORED AND/OR RECORDED BY
-            UNION NAVAL INTELLIGENCE NHP PERSONNEL PERSUANT TO 5014 OMNINET (TRANSMIT NODE
-            PROTOCOLS) (PARACAUSAL) REGULATIONS.
-          </span>
-        </p> -->
         <v-slide-x-transition group mode="in-out" />
         <div v-if="!syncing" key="nosync" class="flavor-text">
           <span class="heading h3 accent--text">Pilot status:&nbsp;</span>

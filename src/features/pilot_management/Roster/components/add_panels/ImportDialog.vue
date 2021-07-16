@@ -1,20 +1,18 @@
 <template>
-  <v-dialog width="50vw" :value="value" @input="$emit('input', $event)">
+  <v-dialog width="70vw" :value="value" @input="$emit('input', $event)">
     <v-card
       id="panel"
       tile
       color="black"
       style="border: 6px double var(--v-panel-border-base) !important; border-radius: 2px !important;"
     >
-      <v-row>
-        <v-col cols="7" class="ml-auto mr-auto">
-          <slot />
-        </v-col>
-      </v-row>
-
-      <v-card-text class="subtle--text stat-text" style="min-height:50vh">
+      <v-card-text class="subtle--text stat-text mt-2" style="min-height:50vh">
         <span ref="preambleLog"></span>
         <span ref="infoLog"></span>
+      </v-card-text>
+
+      <v-card-text>
+        <slot />
       </v-card-text>
 
       <v-divider dark />

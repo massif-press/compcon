@@ -33,7 +33,6 @@ abstract class Loadout {
 
   public set ID(id: string) {
     this._id = id
-    this.save()
   }
 
   public RenewID(): void {
