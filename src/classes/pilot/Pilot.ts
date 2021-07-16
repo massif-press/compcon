@@ -230,6 +230,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public get ResourceURI(): string {
+    console.log('from pilot, is locally owned:', this.IsLocallyOwned)
     return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
   }
 
@@ -240,7 +241,6 @@ class Pilot implements ICloudSyncable {
 
   public RenewID(): void {
     this._id = uuid()
-    this.save()
   }
 
   public get Level(): number {
@@ -405,12 +405,14 @@ class Pilot implements ICloudSyncable {
   }
 
   public SetRemoteResource(): void {
-    this.CloudID = this.ID
+    console.log('pilot call, set remote resource')
+    this.CloudID = this._id
     this.IsLocallyOwned = false
     this.RenewID()
   }
 
   public SetOwnedResource(userCognitoId: string): void {
+    console.log('pilot call, set owned resource')
     this.CloudID = this.ID
     this.CloudOwnerID = userCognitoId
     this.IsLocallyOwned = true

@@ -13,7 +13,7 @@
     "unit-test": "jest unit",
     "commit": "git-cz",
     "release": "./build_scripts/release.sh",
-    "push": "npx standard-changelog && git add package.json CHANGELOG.md && git commit -m\"update changelog\" && git push"
+    "push": "npm version patch && npx standard-changelog && git add package.json CHANGELOG_old.md && git commit -m\"update changelog\" && git push"
   },
   "dependencies": {
     "@aws-amplify/datastore": "^2.9.3",
