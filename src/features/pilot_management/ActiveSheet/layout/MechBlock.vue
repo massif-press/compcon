@@ -196,32 +196,48 @@
           </pip-layout>
 
           <v-row dense align="center" class="mt-n3">
-            <v-col cols="12" md="auto" class="ml-2 mt-n2 mr-2">
-              <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
+            <v-col
+              cols="12"
+              md="auto"
+              :class="`ml-2 mt-n2 mr-2 ${$vuetify.breakpoint.smAndDown ? 'text-center' : ''}`"
+            >
+              <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline ' : 'mb-n2'">
                 <span class="heading h2 accent--text">
                   {{ pilot.MechSkills.Hull }}
-                  <span class="flavor-text subtle--text">//HULL</span>
+                  <span v-if="$vuetify.breakpoint.smAndDown" class="heading h3 subtle--text">
+                    H
+                  </span>
+                  <span v-else class="flavor-text subtle--text">//HULL</span>
                   <cc-synergy-display location="hull" :mech="mech" class="d-inline" />
                 </span>
               </div>
               <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
                   {{ pilot.MechSkills.Agi }}
-                  <span class="flavor-text subtle--text">//AGI</span>
+                  <span v-if="$vuetify.breakpoint.smAndDown" class="heading h3 subtle--text">
+                    A
+                  </span>
+                  <span v-else class="flavor-text subtle--text">//AGI</span>
                   <cc-synergy-display location="agility" :mech="mech" class="d-inline" />
                 </span>
               </div>
               <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
                   {{ pilot.MechSkills.Sys }}
-                  <span class="flavor-text subtle--text">//SYS</span>
+                  <span v-if="$vuetify.breakpoint.smAndDown" class="heading h3 subtle--text">
+                    S
+                  </span>
+                  <span v-else class="flavor-text subtle--text">//SYS</span>
                   <cc-synergy-display location="systems" :mech="mech" class="d-inline" />
                 </span>
               </div>
               <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
                   {{ pilot.MechSkills.Eng }}
-                  <span class="flavor-text subtle--text">//ENG</span>
+                  <span v-if="$vuetify.breakpoint.smAndDown" class="heading h3 subtle--text">
+                    E
+                  </span>
+                  <span v-else class="flavor-text subtle--text">//ENG</span>
                   <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
                 </span>
               </div>

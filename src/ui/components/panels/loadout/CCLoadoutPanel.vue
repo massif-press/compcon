@@ -10,7 +10,7 @@
       class="sliced"
       max-height="30px"
     >
-      <v-toolbar-title style="max-height: 30px" class="mt-n3">
+      <v-toolbar-title style="max-height: 30px" class="mt-n4">
         <v-menu offset-y top>
           <template v-slot:activator="{ on }">
             <v-icon left class="fadeSelect mt-n2" v-on="on">mdi-menu</v-icon>

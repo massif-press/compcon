@@ -1,8 +1,11 @@
 <template>
-  <div v-if="!tag.IsHidden" :class="`d-inline-block ${dense ? '' : 'my-2'}`">
+  <div
+    v-if="!tag.IsHidden"
+    :class="`text-center d-inline-block ${dense || $vuetify.breakpoint.mdAndDown ? '' : 'my-2'}`"
+  >
     <cc-tooltip :err="tag.err" :title="tag.GetName(bonus)" :content="tag.GetDescription(bonus)">
       <v-chip
-        class="px-2 py-2 mx-1"
+        :class="$vuetify.breakpoint.mdAndUp ? 'px-2 py-2 mx-1' : 'ma-1'"
         :color="tag.err ? 'error' : tag.IsExotic ? 'exotic' : color"
         dark
         label

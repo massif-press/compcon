@@ -5,10 +5,9 @@
         <v-dialog v-model="ecDialog" width="80vw">
           <template v-slot:activator="{ on }">
             <v-btn
-              outlined
-              small
-              class="mr-5"
-              style="border-color: var(--v-warning-base)"
+              :small="$vuetify.breakpoint.mdAndUp"
+              :x-small="$vuetify.breakpoint.smAndDown"
+              color="warning darken-2"
               v-on="on"
             >
               END COMBAT
@@ -54,7 +53,8 @@
             <v-menu v-if="state.InTurn" v-model="turnConfirm" close-on-content-click offset-y>
               <v-btn
                 slot="activator"
-                small
+                :small="$vuetify.breakpoint.mdAndUp"
+                :x-small="$vuetify.breakpoint.smAndDown"
                 color="secondary"
                 dark
                 elevation="0"
@@ -73,7 +73,8 @@
             <v-menu v-model="roundConfirm" close-on-content-click offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn
-                  small
+                  :small="$vuetify.breakpoint.mdAndUp"
+                  :x-small="$vuetify.breakpoint.smAndDown"
                   color="accent"
                   class="white--text"
                   elevation="0"
@@ -89,8 +90,12 @@
         </v-row>
       </v-col>
 
-      <v-col lg="auto" cols="auto">
-        <v-row no-gutters class="text-center" justify="space-around">
+      <v-col md="auto" cols="12">
+        <v-row
+          no-gutters
+          :class="`text-center ${$vuetify.breakpoint.smAndDown ? 'mt-1' : ''}`"
+          justify="space-around"
+        >
           <v-col v-if="!mech.Pilot.IsDownAndOut" cols="auto">
             <cc-tooltip inline content="Protocol Actions" delayed>
               <action-menu-button
@@ -186,14 +191,16 @@
             <cc-tooltip inline content="Combat Log" delayed>
               <v-btn
                 class="mx-1"
-                small
-                :fab="$vuetify.breakpoint.lgAndUp"
+                :small="$vuetify.breakpoint.lgAndUp"
+                :x-small="$vuetify.breakpoint.smAndDown"
+                dark
+                :fab="$vuetify.breakpoint.lgAndUp || $vuetify.breakpoint.smAndDown"
                 elevation="0"
                 color="primary"
                 @click="openMenu(5)"
               >
                 <v-icon color="white" size="25">mdi-notebook</v-icon>
-                <span v-if="$vuetify.breakpoint.mdAndDown" class="pl-2">COMBAT LOG</span>
+                <span v-if="$vuetify.breakpoint.md" class="pl-2">COMBAT LOG</span>
               </v-btn>
             </cc-tooltip>
           </v-col>
@@ -201,14 +208,16 @@
             <cc-tooltip inline content="Other" delayed cols="auto">
               <v-btn
                 class="mx-1"
-                small
-                :fab="$vuetify.breakpoint.lgAndUp"
+                :small="$vuetify.breakpoint.lgAndUp"
+                :x-small="$vuetify.breakpoint.smAndDown"
+                dark
+                :fab="$vuetify.breakpoint.lgAndUp || $vuetify.breakpoint.smAndDown"
                 elevation="0"
                 color="primary"
                 @click="openMenu(6)"
               >
                 <v-icon color="white" size="25">mdi-dots-vertical</v-icon>
-                <span v-if="$vuetify.breakpoint.mdAndDown" class="pl-2">OTHER</span>
+                <span v-if="$vuetify.breakpoint.md" class="pl-2">OTHER</span>
               </v-btn>
             </cc-tooltip>
           </v-col>

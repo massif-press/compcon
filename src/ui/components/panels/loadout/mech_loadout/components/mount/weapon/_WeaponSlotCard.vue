@@ -9,66 +9,68 @@
       :empty="!item"
     >
       <div slot="header">
-        <span v-if="item">
-          <equipment-options
-            :item="item"
-            :readonly="readonly"
-            @swap="$refs.base.$refs.selectorDialog.show()"
-            @remove="remove()"
-          />
-          <span v-if="!item.Destroyed" class="ml-n2">
-            <cc-tooltip v-if="item.Mod" inline :content="`Weapon Modification Equipped`">
-              <v-icon style="margin-top: -2px" dark>cci-weaponmod</v-icon>
-            </cc-tooltip>
-            {{ item.Name }}
-            <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-            <span class="caption subtle--text ml-1">
-              <b>{{ item.Size }}</b>
-              {{ item.WeaponType }}
-            </span>
-          </span>
-          <span v-else class="py-1 error" style="letter-spacing: 3px">
-            &nbsp;//
-            <strike>{{ item.Name }}</strike>
-            //&nbsp;
-          </span>
-        </span>
-        <span v-else>{{ weaponSlot.Size }} Weapon</span>
+        <v-row v-if="item" no-gutters>
+          <v-col cols="auto">
+            <equipment-options
+              :item="item"
+              :readonly="readonly"
+              @swap="$refs.base.$refs.selectorDialog.show()"
+              @remove="remove()"
+            />
+          </v-col>
+          <v-col cols="auto">
+            <div v-if="!item.Destroyed" :class="`ml-n2 ${small ? 'white--text effect-text' : ''}`">
+              <cc-tooltip v-if="item.Mod" inline :content="`Weapon Modification Equipped`">
+                <v-icon style="margin-top: -2px" dark>cci-weaponmod</v-icon>
+              </cc-tooltip>
+              {{ item.Name }}
+              <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+              <component :is="small ? 'div' : 'span'" class="caption subtle--text ml-1 my-n1">
+                <b>{{ item.Size }}</b>
+                {{ item.WeaponType }}
+              </component>
+            </div>
+            <div v-else class="py-1 error" style="letter-spacing: 3px">
+              &nbsp;//
+              <strike>{{ item.Name }}</strike>
+              //&nbsp;
+            </div>
+          </v-col>
+        </v-row>
+        <div v-else>{{ weaponSlot.Size }} Weapon</div>
       </div>
-      <div v-if="item" slot="header-items" class="text-right">
-        <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
-
-        <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
-        <cc-damage-element
-          v-if="item.Damage"
-          small
-          :damage="getDamage"
-          :type-override="item.DamageTypeOverride"
-          class="d-inline"
-        />
-        <div
-          v-if="item && item.SP"
-          class="d-inline pl-3 ml-3"
-          style=" border-left: 1px solid #616161;"
-        >
-          <span>{{ item.SP }}SP</span>
-        </div>
-        <div
-          v-if="!intWeapon && !readonly"
-          class="d-inline pl-3 ml-3"
-          style=" border-left: 1px solid #616161;"
-        >
-          <v-icon v-if="item" dark class="fadeSelect mt-n1" @click.stop="remove()">
-            delete
-          </v-icon>
-          <v-icon
-            class="fadeSelect mt-n1"
-            dark
-            @click.stop="$refs.base.$refs.selectorDialog.show()"
-            v-html="item ? 'mdi-swap-vertical-variant' : 'mdi-add'"
+      <v-row v-if="item" slot="header-items" justify="end" no-gutters>
+        <v-col cols="auto">
+          <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
+          <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
+          <cc-damage-element
+            v-if="item.Damage"
+            small
+            :damage="getDamage"
+            :type-override="item.DamageTypeOverride"
+            class="d-inline"
           />
-        </div>
-      </div>
+        </v-col>
+        <v-col v-if="item && item.SP" cols="auto">
+          <div class="pl-3 ml-3" style=" border-left: 1px solid #616161;">
+            <span>{{ item.SP }}SP</span>
+          </div>
+        </v-col>
+        <v-col v-if="!intWeapon && !readonly" cols="auto">
+          <div class="pl-3 ml-3" style=" border-left: 1px solid #616161;">
+            <v-icon v-if="item" :small="small" dark class="fadeSelect mt-n1" @click.stop="remove()">
+              delete
+            </v-icon>
+            <v-icon
+              class="fadeSelect mt-n1"
+              :small="small"
+              dark
+              @click.stop="$refs.base.$refs.selectorDialog.show()"
+              v-html="item ? 'mdi-swap-vertical-variant' : 'mdi-add'"
+            />
+          </div>
+        </v-col>
+      </v-row>
       <div v-if="item" class="mt-1">
         <equipment-header
           :item="item"
@@ -93,7 +95,7 @@
         <div class="mt-n1">
           <div v-if="item.ProfileEffect">
             <div class="mb-n2">
-              <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileEffect" />
+              <p v-html-safe="item.ProfileEffect" class="text--text body-text mb-1 mx-3" />
             </div>
           </div>
           <div v-if="item.ProfileOnAttack">
@@ -101,8 +103,8 @@
               <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON ATTACK</span>
               <p
-                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                 v-html-safe="item.ProfileOnAttack"
+                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
               />
             </div>
           </div>
@@ -111,8 +113,8 @@
               <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON HIT</span>
               <p
-                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                 v-html-safe="item.ProfileOnHit"
+                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
               />
             </div>
           </div>
@@ -121,8 +123,8 @@
               <v-icon class="mt-n1">cci-weapon</v-icon>
               <span class="overline stark--text">ON CRITICAL HIT</span>
               <p
-                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                 v-html-safe="item.ProfileOnCrit"
+                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
               />
             </div>
           </div>
@@ -215,6 +217,9 @@ export default Vue.extend({
     stagedSH: null,
   }),
   computed: {
+    small() {
+      return this.$vuetify.breakpoint.smAndDown
+    },
     item() {
       return this.weaponSlot.Weapon
     },

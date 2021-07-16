@@ -61,6 +61,13 @@
   font-weight: 100;
 }
 
+.heading h4 {
+  font-family: 'Helvetica Bold', sans-serif;
+  font-size: 12pt;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
 .heading h3 {
   font-family: 'Helvetica Bold', sans-serif;
   font-size: 14pt;

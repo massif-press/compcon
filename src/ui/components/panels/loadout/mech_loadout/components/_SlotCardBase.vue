@@ -1,17 +1,20 @@
 <template>
-  <v-col class="pa-2">
+  <v-col :class="`pa-${small ? '1' : '2'}`">
     <div style="height: 100%">
-      <v-card flat tile class="clipped-large panel" style="height: 100%">
+      <v-card flat tile :class="small ? 'panel' : 'clipped-large panel'" style="height: 100%">
         <v-card-title
-          class="white--text py-0 heading h3 hover-item"
+          :class="`white--text py-0 ${small ? 'effect-text' : 'heading h3'} hover-item`"
           style="cursor: pointer;"
           @click="empty ? '' : $refs.detailDialog.show()"
         >
-          <span style="display: flex; width: 100%">
-            <slot name="header" />
-            <v-spacer />
-            <slot name="header-items" />
-          </span>
+          <v-row no-gutters>
+            <v-col cols="auto">
+              <slot name="header" />
+            </v-col>
+            <v-col cols="auto" class="ml-auto">
+              <slot name="header-items" />
+            </v-col>
+          </v-row>
         </v-card-title>
         <v-card-text :id="item ? 'underline-parent' : ''" class="`px-2 py-0 text-center`">
           <div class="underline-slide">
@@ -150,6 +153,9 @@ export default Vue.extend({
     },
   },
   computed: {
+    small() {
+      return this.$vuetify.breakpoint.smAndDown
+    },
     synergyLocation() {
       if (!this.item) return 'none'
       return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
