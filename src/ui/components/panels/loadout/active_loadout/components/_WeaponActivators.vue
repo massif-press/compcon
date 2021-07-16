@@ -1,6 +1,40 @@
 <template>
   <div v-show="!item.NoAttack" class="mb-1">
     <v-row v-if="item.Size === 'Superheavy'" justify="center">
+      <v-col v-if="item.CanSkirmish">
+        <v-btn
+          tile
+          block
+          dark
+          :disabled="mech.IsStunned"
+          :color="canSkirmish ? `action--quick` : 'grey darken-2'"
+          @click="$refs.sk_dialog.show()"
+        >
+          <v-icon left>mdi-hexagon-slice-3</v-icon>
+          skirmish
+          <v-menu offset-y max-width="700px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn style="position:absolute; right: 0" icon v-bind="attrs" v-on="on">
+                <v-icon class="fadeSelect">
+                  mdi-information-outline
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <div class="heading h3 ma-1 pl-3">SKIRMISH &mdash; QUICK ACTION</div>
+              <v-divider />
+              <v-card-text class="body-text text--text mt-0 pt-1" v-html="skirmishHelp" />
+            </v-card>
+          </v-menu>
+        </v-btn>
+        <skirmish-dialog
+          ref="sk_dialog"
+          :item="item"
+          :mech="mech"
+          :mount="mount"
+          @confirm="completeSkirmish($event)"
+        />
+      </v-col>
       <v-col>
         <v-btn
           tile
