@@ -84,7 +84,6 @@ class WeaponProfile extends CompendiumItem {
     super(data)
     this.Cost = pData.cost || 1
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
-    console.log(pData.skirmish)
     this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish
     if (pData.damage) this.Damage = pData.damage.map(x => new Damage(x))
     if (pData.range) this.Range = pData.range.map(x => new Range(x))
