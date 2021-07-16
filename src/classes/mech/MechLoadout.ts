@@ -43,14 +43,14 @@ class MechLoadout extends Loadout {
     this._integratedWeapon = new EquippableMount(MountType.Aux)
   }
 
-  public UpdateIntegrated(mech: Mech): void {
+  public UpdateIntegrated(mech: Mech, save = true): void {
     Vue.set(this, '_integratedSystems', mech.IntegratedSystems)
     Vue.set(
       this,
       '_integratedMounts',
       mech.IntegratedWeapons.map(x => new IntegratedMount(x))
     )
-    this.save()
+    if (save) this.save()
   }
 
   public get IntegratedMounts(): IntegratedMount[] {
@@ -275,7 +275,7 @@ class MechLoadout extends Loadout {
     ml._integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon)
-    if (!loadoutData.integratedSystems) ml.UpdateIntegrated(mech)
+    if (!loadoutData.integratedSystems) ml.UpdateIntegrated(mech, false)
     return ml
   }
 }

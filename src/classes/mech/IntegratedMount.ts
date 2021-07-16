@@ -3,7 +3,7 @@ import { Mount, MechWeapon, MountType } from '@/class'
 class IntegratedMount extends Mount {
   public constructor(intWeapon: MechWeapon) {
     super(MountType.Integrated)
-    this.slots[0].EquipWeapon(intWeapon)
+    this.slots[0].EquipWeapon(intWeapon, false)
   }
 
   public get Weapon(): MechWeapon | null {

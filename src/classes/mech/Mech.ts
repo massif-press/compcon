@@ -115,7 +115,7 @@ class Mech implements IActor {
     this._reactor_destroyed = false
     this._meltdown_imminent = false
     this._loadouts = [new MechLoadout(this)]
-    this.ActiveLoadout = this._loadouts[0]
+    this._active_loadout = this._loadouts[0]
     this._current_structure = frame.Structure
     this._current_hp = frame.HP
     this._current_stress = frame.HeatStress

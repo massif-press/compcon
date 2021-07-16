@@ -303,9 +303,11 @@ const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any>
 }
 
 const AwsImport = async (code: string): Promise<any> => {
-  const arr = JSON.parse(code)
-  const userID = arr[0]
-  const resource = arr[1]
+  const arr = code.split('//')
+  const userID = 'us-east-1:' + arr[0]
+  const resource = 'pilot/' + arr[1]
+
+  console.log(userID, resource)
 
   const url = await Storage.get(resource, {
     level: 'protected',

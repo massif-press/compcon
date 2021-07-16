@@ -36,10 +36,10 @@
           <span v-show="$vuetify.breakpoint.mdAndUp">OMNINET</span>
           VAULT
         </div>
-        <span v-if="(pilot.CloudOwnerID && pilot.IsLocallyOwned) || pilot.IsUserOwned">
+        <span v-if="pilot.CloudOwnerID && pilot.IsLocallyOwned">
           Current User
         </span>
-        <span v-else-if="!pilot.IsLocallyOwned || (!pilot.IsUserOwned && pilot.GistOwner)">
+        <span v-else-if="!pilot.IsLocallyOwned">
           Remote Sync
         </span>
         <span v-else class="stat-text error--text">
@@ -52,22 +52,6 @@
           :content="`Last Sync at:<br>${pilot.LastSync}`"
         >
           <v-icon small class="fadeSelect" @click="copyVault()">mdi-qrcode-scan</v-icon>
-        </cc-tooltip>
-        <cc-tooltip
-          v-if="pilot.IsUserOwned && pilot.GistCode"
-          inline
-          title="Copy Share Code"
-          :content="`Public Share Code<br>Last Sync at:<br>${pilot.LastSync}`"
-        >
-          <v-icon small class="fadeSelect" @click="copyCode()">mdi-barcode-scan</v-icon>
-        </cc-tooltip>
-        <cc-tooltip
-          v-if="pilot.GistOwner && pilot.GistCode"
-          inline
-          title="Sync"
-          :content="`Public Cloud Save<br>Last Sync at:<br>${pilot.LastSync}`"
-        >
-          <v-icon small class="fadeSelect" @click="sync()">mdi-reload</v-icon>
         </cc-tooltip>
       </v-col>
       <v-col cols="6" md="4" xl="3">

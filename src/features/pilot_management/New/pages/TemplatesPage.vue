@@ -98,7 +98,7 @@ export default Vue.extend({
     },
     setTemplate() {
       const t = this.selected.build
-      this.pilot.MechSkills = MechSkills.Deserialize(t.mechSkills)
+      this.pilot.MechSkills = MechSkills.Deserialize(this.pilot, t.mechSkills)
       this.pilot.ClearSkills()
       t.skills.forEach(s => {
         this.pilot.AddSkill(this.item('Skills', s))

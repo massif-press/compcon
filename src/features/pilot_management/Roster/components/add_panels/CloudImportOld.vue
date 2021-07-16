@@ -1,11 +1,9 @@
 <template>
-  <cc-major-btn
-    icon="mdi-cloud-download"
-    color="success"
-    name="Cloud Download"
-    small
-    @clicked="dialog = true"
-  >
+  <v-col cols="6">
+    <v-btn large block tile color="success darken-1" class="white--text" @click="dialog = true">
+      <v-icon left class="pr-2">mdi-cloud-download</v-icon>
+      <b>Cloud Download (deprecated)</b>
+    </v-btn>
     <import-dialog
       v-model="dialog"
       :pilot="importPilot"
@@ -48,7 +46,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </cc-major-btn>
+  </v-col>
 </template>
 
 <script lang="ts">
