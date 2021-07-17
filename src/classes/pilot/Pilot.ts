@@ -88,7 +88,7 @@ interface IPilotData {
 
 class Pilot implements ICloudSyncable {
   public readonly TypePrefix: string = 'pilot'
-  public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public readonly SyncIgnore: string[] = ['group', 'sortIndex']
   public IsLocallyOwned: boolean
   public LastSync: string
   public CloudID: string
@@ -1221,7 +1221,7 @@ class Pilot implements ICloudSyncable {
 
     this._gistCode = data.gistCode || ''
     this._gistOwner = data.gistOwner || ''
-    this.IsLocallyOwned = data.isLocal || true
+    this.IsLocallyOwned = data.isLocal
     this.CloudID = data.cloudID || ''
     this.CloudOwnerID = data.cloudOwnerID || ''
     this.LastSync = data.lastSync || ''
