@@ -86,6 +86,8 @@ const ContentPull = async (): Promise<any> => {
 const PullRemoteData = async (): Promise<void> => {
   const external: Pilot[] = store.getters.getPilots.filter((x: Pilot) => !x.IsLocallyOwned)
 
+  console.log('external:', external)
+
   external.forEach(async p => {
     const url = await Storage.get(p.ResourceURI, { level: 'protected', identityId: p.CloudOwnerID })
     if (typeof url === 'object') {
