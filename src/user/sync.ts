@@ -7,6 +7,8 @@ import { ActiveMission, Encounter, Mission, Pilot } from '@/class'
 import { IPilotData } from '@/classes/pilot/Pilot'
 import { Npc } from '@/classes/npc/Npc'
 
+const region = 'us-east-1'
+
 const currentCognitoIdentity = async (): Promise<any> =>
   Auth.currentUserCredentials()
     .then(res => res.identityId)
@@ -86,27 +88,33 @@ const ContentPull = async (): Promise<any> => {
 const PullRemoteData = async (): Promise<void> => {
   const external: Pilot[] = store.getters.getPilots.filter((x: Pilot) => !x.IsLocallyOwned)
 
-  console.log('external:', external)
-
   external.forEach(async p => {
-    const url = await Storage.get(p.ResourceURI, { level: 'protected', identityId: p.CloudOwnerID })
+    const iid = p.CloudOwnerID.includes(region) ? p.CloudOwnerID : `${region}:${p.CloudOwnerID}`
+    console.log(iid);
+    const url = await Storage.get(p.ResourceURI, { level: 'protected', identityId: iid })
     if (typeof url === 'object') {
       console.error('Unsupported S3 return type')
       return
     }
 
+    console.log(p.ResourceURI, p.CloudOwnerID);
+
+    console.log(url);
+
     const data: IPilotData = await fetch(url)
       .then(res => {
+        console.log(res);
         return res.json()
       })
-      .catch(() => null)
+      .catch(err => console.error(err))
+
 
     if (!data) return
     try {
       console.info('Syncing remote pilot// ', p.Callsign)
       data.isLocal = false
       p.Update(data, true)
-      p.SetRemoteResource()
+      // p.SetRemoteResource()
     } catch (err) {
       throw new Error(`Malformed Pilot data returned from S3`)
     }
@@ -155,7 +163,9 @@ async function Pull(
         else if (storageKey === 'ActiveMissions') dl = ActiveMission.Deserialize(data)
         else return
 
-        dl.SetOwnedResource(ccid)
+        console.log('new item is:', dl.IsLocallyOwned ? 'locally owned' : 'remote resource');
+        if (dl.IsLocallyOwned) dl.SetOwnedResource(ccid)
+        // else dl.SetRemoteResource()
         dl.MarkSync()
         callback(dl)
       }
@@ -210,7 +220,7 @@ async function Push(
     const match = store.getters[`get${storageKey}`].find(
       (x: ICloudSyncable) => x.ResourceURI === uri
     )
-    if (match) {
+    if (match && match.IsLocallyOwned) {
       // we found a local version of the cloud ID, so upload them
       match.SetOwnedResource(ccid)
       let data = {} as any
@@ -229,6 +239,8 @@ async function Push(
           console.error(err)
           if (callback) callback('error', `Unable to upload ${typePrefix} data`)
         })
+    } else if (match && !match.IsLocallyOwned) {
+      console.info('this is an external match, not locally owned')
     } else {
       // there is no local match for this cloud pilot, delete them
       await DeleteS3(uri)
@@ -245,9 +257,12 @@ async function Push(
   // find new items
   store.getters[`get${storageKey}`].forEach(async (p: any) => {
     if (cloudURIs.includes(p.ResourceURI)) return
-    if (!p.IsLocallyOwned) return
-    // this is a local resource that does not exist in the cloud
-    p.SetOwnedResource(ccid)
+    if (p.IsLocallyOwned) p.SetOwnedResource(ccid)
+    // else (p.SetRemoteResource())
+    // this is a resource that does not exist in the cloud
+
+    console.log('item that does not exist in the cloud found: ', p);
+
     let data = {} as any
     if (storageKey === 'Pilots') data = Pilot.Serialize(p)
     else if (storageKey === 'Npcs') data = Npc.Serialize(p)

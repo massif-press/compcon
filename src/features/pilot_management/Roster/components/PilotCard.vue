@@ -13,20 +13,19 @@
           <div
             v-show="!(small && mobile)"
             class="clipped-large"
-            :style="
-              `
+            :style="`
               z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: ${
                 small || mobile ? '25' : '32'
               }px; ${
-                small && hover ? 'opacity: 1' : 'opacity: 0.6'
-              }; background-color: var(--v-primary-base); transition: opacity 0.2s;`
-            "
+              small && hover ? 'opacity: 1' : 'opacity: 0.6'
+            }; background-color: var(--v-primary-base); transition: opacity 0.2s;`"
           >
             <div
               :class="`heading ${small || mobile ? 'h3' : 'h2'} white--text flavor-text ml-2`"
-              style="letter-spacing: 3px; text-overflow: ellipsis;"
+              style="letter-spacing: 3px; text-overflow: ellipsis"
             >
               {{ pilot.Callsign }}
+              <v-icon v-if="!pilot.IsLocallyOwned" right dark>mdi-cloud-check-outline</v-icon>
             </div>
           </div>
           <div v-show="!(small && mobile)" :class="small ? 'small-triangle' : 'triangle'" />
@@ -66,14 +65,19 @@
                     </span>
                   </div>
                   <div v-if="pilot.ActiveMech">
-                    <v-divider />
-                    <div class="flavor-text anti--text mb-0">
+                    <v-divider class="my-2 mb-1" />
+                    <div class="flavor-text mb-0">
                       {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
                     </div>
                     <b class="pl-2">
                       <cc-slashes />
                       {{ pilot.ActiveMech.Name }}
                     </b>
+                  </div>
+                  <div v-if="!pilot.IsLocallyOwned" class="caption">
+                    <v-divider class="mt-2 mb-1" />
+                    <v-icon small>mdi-cloud-check-outline</v-icon>
+                    This pilot is registered to another user
                   </div>
                 </v-card-text>
               </v-card>

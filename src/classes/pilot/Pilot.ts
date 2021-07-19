@@ -403,9 +403,10 @@ class Pilot implements ICloudSyncable {
     this.IsDirty = false
   }
 
-  public SetRemoteResource(): void {
+  public SetRemoteResource(userCognitoId: string, itemCloudId: string): void {
     console.log('pilot call, set remote resource')
-    this.CloudID = this._id
+    this.CloudID = itemCloudId
+    this.CloudOwnerID = userCognitoId
     this.IsLocallyOwned = false
     this.RenewID()
   }
@@ -688,7 +689,7 @@ class Pilot implements ICloudSyncable {
   }
 
   private talentSort(): void {
-    this._talents = this._talents.sort(function(a, b) {
+    this._talents = this._talents.sort(function (a, b) {
       return a.Rank === b.Rank ? 0 : a.Rank > b.Rank ? -1 : 1
     })
   }
