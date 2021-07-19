@@ -49,8 +49,7 @@
               COMP/CON account
             </div>
             <div>
-              Changes you make to this pilot will be transmitted to other users when they sync their
-              accounts or their copy of this pilot.
+              Changes they have made to this pilot will overwrite your local data whenever you sync.
             </div>
           </v-alert>
           <p class="body--text">
@@ -96,10 +95,10 @@ export default Vue.extend({
       this.copyConfirm = true
 
       navigator.clipboard.writeText(this.pilot.ShareCode).then(
-        function() {
+        function () {
           Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
         },
-        function() {
+        function () {
           Vue.prototype.$notifyError('Unable to copy Cloud ID')
         }
       )

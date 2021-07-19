@@ -121,7 +121,8 @@ export default Vue.extend({
         }
         this.importPilot = Pilot.Deserialize(pilotData)
         this.importPilot.brews = pilotData.brews
-        this.importPilot.SetRemoteResource()
+        const arr = this.importID.split('//')
+        this.importPilot.SetRemoteResource(arr[0], arr[1])
       } catch (e) {
         this.error = e.message
       }

@@ -3,7 +3,7 @@
     <v-card
       tile
       color="primary"
-      style="position: absolute; z-index:5"
+      style="position: absolute; z-index: 5"
       class="overlay clipped-square-invert"
       :min-width="mobile ? '75px' : '108px'"
       :min-height="mobile ? '75px' : '108px'"
@@ -14,7 +14,7 @@
     </v-card>
     <div id="banner" style="width: 100%">
       <div
-        style="width: 100%;display: flex;justify-content: space-between;align-content:center"
+        style="width: 100%; display: flex; justify-content: space-between; align-content: center"
         class="overlay primary"
       >
         <div
@@ -22,8 +22,16 @@
           :style="`margin-left: ${mobile ? '75px' : '108px'}; display: inline-block;`"
         >
           {{ pilot.Callsign }}
+          <cc-tooltip
+            v-if="!pilot.IsLocallyOwned"
+            inline
+            title="Remote Pilot"
+            content="This pilot is registered to another user, changes made locally will be overwritten by remote changes on sync"
+          >
+            <v-icon right dark small class="fadeSelect">mdi-cloud-check-outline</v-icon>
+          </cc-tooltip>
         </div>
-        <edit-menu style="display: inline-block; padding-right: 10px;" dense :pilot="pilot" />
+        <edit-menu style="display: inline-block; padding-right: 10px" dense :pilot="pilot" />
       </div>
       <div
         :style="`border-top: 0!important;  min-height: ${mobile ? '44px' : '72px'};`"

@@ -19,7 +19,7 @@ declare interface ICloudSyncable {
   ShareCode: string
 
   // On import, set CloudID, renew Local ID, and set remote flag
-  SetRemoteResource: (id: string) => void
+  SetRemoteResource: (userId: string, id: string) => void
 
   // Sets object owner ID for S3 recovery and clear the remote flag
   SetOwnedResource: (id: string) => void
