@@ -146,7 +146,7 @@ async function Pull(
     const data = await fetch(url).then(res => res.json())
 
     try {
-      const match = store.getters[`get${storageKey}`].find(x => x.ID === data.id)
+      const match = store.getters[`get${storageKey}`].find(x => x.ID === data.id || x.CloudID === data.cloudID || x.ID === data.cloudID)
       if (match) {
         // if the incoming data has a later sync time than our last recorded sync, update
         if (new Date(data.lastSync) > new Date(match.LastSync)) {
