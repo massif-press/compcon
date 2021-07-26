@@ -4,7 +4,14 @@
 
 ### Features
 
-* **Mobile View v1** The remainder of the pilot-side app has been adapted to mobile view [#300](https://github.com/massif-press/compcon/issues/300)
+* **Mobile View** The remainder of the pilot-side app has been adapted to mobile view v1, closes [#300](https://github.com/massif-press/compcon/issues/300)
+* **Mech Sheet** Add weapon size tooltips to mech mounts (thank you to tmncx0! First PR! 🎉)
+
+### Bug Fixes
+
+* **Pilot Roster:** Fixes a bug where cloned or duplicated pilots were incorrectly preserving their Vault links to other users, closes [#1546](https://github.com/massif-press/compcon/issues/1546)
+* **Pilot Roster:** fix editing NPC Feature Names & Descriptions (thank you to Valkyrion! First PR! 🎉)
+* **Pilot Roster:** fix missing pilot weapon equip button in list mode (also Valkyrion!)
 
 ## [2.2.26](https://github.com/massif-press/compcon/compare/2.2.25...v2.2.26) (2021-07-16)
 
