@@ -4,12 +4,14 @@
     tile
     outlined
     color="primary"
-    width="225px"
-    min-width="225px"
-    height="100%"
+    :width="$vuetify.breakpoint.mdAndUp ? '225px' : '100%'"
+    :min-width="$vuetify.breakpoint.mdAndUp ? '225px' : '100%'"
+    :height="$vuetify.breakpoint.mdAndUp ? '100%' : ''"
   >
-    <v-card-title class="primary white--text py-2">
-      <span class="text-button">{{ counter.Name }}</span>
+    <v-toolbar dense flat color="primary" class="white--text">
+      <div :class="$vuetify.breakpoint.mdAndUp ? 'heading h3' : 'heading h4'">
+        {{ counter.Name }}
+      </div>
       <v-spacer />
       <cc-tooltip simple content="Reset Counter">
         <v-btn class="fadeSelect" dark icon x-small @click="counter.Reset()">
@@ -22,8 +24,8 @@
           <v-icon small>delete</v-icon>
         </v-btn>
       </cc-tooltip>
-    </v-card-title>
-    <v-card-text class="background pb-0">
+    </v-toolbar>
+    <v-card-text class="background py-1">
       <v-row justify="center" align="center" class="counterContent">
         <v-col cols="auto">
           <v-btn
@@ -128,7 +130,7 @@ export default class CounterComponent extends Vue {
 }
 
 .counterValue >>> input {
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-align: center;
   -moz-appearance: textfield;
 }

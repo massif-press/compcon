@@ -1,6 +1,14 @@
 <template>
   <cc-solo-dialog ref="dialog" icon="mdi-dna" large no-confirm title="Clone Pilot">
     <v-card-text>
+      <v-row>
+        <v-col>
+          <div class="text-center body-text light-panel pa-2" style="border-radius: 3px">
+            Duplicating or Cloning a pilot will remove any Vault links, saving the copied Pilot as a
+            new character on your account
+          </div>
+        </v-col>
+      </v-row>
       <v-row dense justify="space-around">
         <v-col cols="5" class="text-center">
           <cc-tooltip

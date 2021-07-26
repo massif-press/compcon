@@ -4,7 +4,7 @@
       <v-card
         flat
         tile
-        :class="hide ? 'panel' : 'clipped-large panel'"
+        :class="hide ? 'panel' : `${$vuetify.breakpoint.mdAndUp ? 'clipped-large' : ''} panel`"
         :style="!hide && !rest ? 'height: 100%; min-height: 100px' : ''"
       >
         <v-card-title
@@ -12,16 +12,24 @@
           style="cursor: pointer"
           @click="$refs.detailDialog.show()"
         >
-          <span style="display: flex; width: 100%">
-            <span v-if="item">
+          <v-row no-gutters>
+            <v-col v-if="item" cols="auto">
               <equipment-options :item="item" readonly active />
               <span v-if="!item.Destroyed" class="ml-n2" :style="item.Used ? 'opacity: 0.6' : ''">
                 <cc-tooltip v-if="item.Used" inline content="Equipment has been marked as 'Used'">
                   <v-icon color="success">mdi-check</v-icon>
                 </cc-tooltip>
-                {{ item.Name }}
+                <span
+                  :class="
+                    $vuetify.breakpoint.mdAndUp
+                      ? 'white--text heading h3'
+                      : 'white--text body-text font-weight-bold'
+                  "
+                >
+                  {{ item.Name }}
+                </span>
                 <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-                <span class="caption subtle--text ml-1">
+                <span v-show="$vuetify.breakpoint.mdAndUp" class="caption subtle--text ml-1">
                   <b>{{ item.Size }}</b>
                   {{ item.Type }}
                 </span>
@@ -31,17 +39,13 @@
                 <strike>{{ item.Name }}</strike>
                 //&nbsp;
               </span>
-            </span>
-            <v-spacer />
-            <div style="display: inline-block">
-              <span class="heading h2">{{ item.SP }}</span>
-              <span class="heading h3">SP</span>
-            </div>
-            <v-btn v-if="!rest" right dark icon class="fadeSelect" @click.stop="hide = !hide">
-              <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
-            </v-btn>
-            <div v-else class="mr-4" />
-          </span>
+            </v-col>
+            <v-col cols="auto" class="ml-auto heading">
+              <v-btn v-if="!rest" right dark icon class="fadeSelect" @click.stop="hide = !hide">
+                <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-card-title>
         <v-slide-y-transition>
           <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
@@ -51,7 +55,8 @@
                   v-for="(a, i) in item.Actions"
                   :key="`${item.Name}_action_${i}`"
                   style="min-width: 40%"
-                  cols="auto"
+                  cols="12"
+                  md="auto"
                   class="mb-n1"
                 >
                   <cc-action

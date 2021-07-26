@@ -4,7 +4,7 @@
       <v-col>
         <action-detail-expander :action="action" />
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="12" md="auto">
         <v-btn
           large
           tile
@@ -42,7 +42,11 @@
     <v-slide-x-reverse-transition>
       <v-row v-if="actionFree || actionCost" justify="center" align="center" class="py-2">
         <v-col class="mt-n2">
-          <v-row dense justify="space-around" class="text-center">
+          <v-row
+            dense
+            justify="space-between"
+            :class="'text-center ' + $vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+          >
             <v-col cols="auto">
               <div class="heading h3">hull</div>
               <div class="heading h2 accent--text">
@@ -77,8 +81,16 @@
           </v-row>
         </v-col>
         <v-col cols="auto">
-          <v-row dense justify="end">
-            <v-col cols="auto" class="ml-auto px-12 mr-n10 panel dual-sliced" style="height: 70px">
+          <v-row
+            dense
+            :justify="$vuetify.breakpoint.mdAndUp ? 'end' : 'space-between'"
+            :class="$vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+          >
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
@@ -96,7 +108,11 @@
                 @change="accuracy = parseInt($event)"
               />
             </v-col>
-            <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Difficulty</div>
               <v-text-field
                 v-model="difficulty"
@@ -114,7 +130,11 @@
                 @change="difficulty = parseInt($event)"
               />
             </v-col>
-            <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Skill Roll</div>
               <v-row no-gutters>
                 <v-col class="mr-n2 ml-n2">

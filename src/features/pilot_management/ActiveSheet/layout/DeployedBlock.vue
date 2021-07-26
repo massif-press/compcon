@@ -15,7 +15,7 @@
           v-else
           flat
           tile
-          class="clipped-large light-panel"
+          :class="`${$vuetify.breakpoint.mdAndUp ? 'clipped-large' : ''} light-panel`"
           style="height: calc(100% - 20px)"
         >
           <v-row class="text-center" style="height: 100%" justify="center" align="center">

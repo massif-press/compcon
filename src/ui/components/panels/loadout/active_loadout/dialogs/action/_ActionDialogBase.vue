@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col v-if="action.Detail">
+    <v-col v-if="action.Detail" cols="12" md="">
       <action-detail-expander :action="action" />
     </v-col>
     <action-activation-buttons

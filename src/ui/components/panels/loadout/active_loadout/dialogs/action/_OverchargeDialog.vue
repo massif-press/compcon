@@ -22,7 +22,7 @@
           />
         </cc-tooltip>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="8" lg="3">
         <v-text-field
           v-model="overcharge_heat"
           type="number"

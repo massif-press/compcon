@@ -8,7 +8,7 @@
         @update="updateCounter($event)"
       />
     </v-col>
-    <v-col key="NewCounter" cols="auto">
+    <v-col key="NewCounter" cols="12" md="auto">
       <new-counter @create="onCustomCounterCreate" />
     </v-col>
   </transition-group>

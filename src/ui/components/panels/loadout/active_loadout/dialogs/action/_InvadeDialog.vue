@@ -12,7 +12,7 @@
         <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
 
         <v-row justify="center" align="center">
-          <v-col>
+          <v-col cols="12" md="">
             <action-detail-expander :action="action" />
           </v-col>
           <action-activation-buttons
@@ -32,7 +32,7 @@
         <v-slide-x-reverse-transition>
           <div v-if="succeeded">
             <v-row no-gutters justify="center" class="mt-4 mb-n2">
-              <v-col cols="auto" class="ml-auto" align="end" style="max-width: 800px">
+              <v-col cols="auto" class="ml-auto" align="end">
                 <div class="body-text stark--text text-left">
                   <b>Invasion Success</b>
                   <p>
@@ -206,7 +206,7 @@ export default Vue.extend({
       this.runTimeout()
     },
     techAttackComplete(success) {
-      if ( success ) {
+      if (success) {
         this.succeeded = true
       } else {
         if (this.fulltech) {

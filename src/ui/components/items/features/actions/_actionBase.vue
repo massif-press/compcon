@@ -1,5 +1,5 @@
 <template>
-  <v-card-text :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''">
+  <v-card-text style="height: 100%" :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''">
     <div>
       <div v-if="action.Damage || action.Range" class="my-2">
         <v-row dense justify="space-around" align="center">

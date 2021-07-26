@@ -1,7 +1,7 @@
 <template>
   <div class="pt-2">
     <v-row justify="center" align="center">
-      <v-col>
+      <v-col cols="12" md="">
         <action-detail-expander :action="action" />
       </v-col>
       <v-col cols="auto">
@@ -42,14 +42,26 @@
     <v-slide-x-reverse-transition>
       <v-row v-if="actionFree || actionCost" justify="center" align="center">
         <v-col cols="12" md="auto" class="mt-n5">
-          <v-row dense class="text-center mb-n3" justify="start" align="start">
-            <v-col cols="auto" class="ml-auto px-12 panel dual-sliced" style="height: 70px">
+          <v-row
+            dense
+            class="text-center mb-n3"
+            :justify="$vuetify.breakpoint.mdAndUp ? 'start' : 'space-around'"
+            align="start"
+            :class="$vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+          >
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-4 mr-n4">Contested SYS</div>
               <v-text-field
                 v-model="sys"
                 type="number"
                 style="width: 60px"
-                class="hide-input-spinners mt-n1 ml-10"
+                :class="`hide-input-spinners mt-n1 ${
+                  $vuetify.breakpoint.mdAndUp ? 'ml-10' : 'ml-n8'
+                }`"
                 color="accent"
                 dense
                 hide-details
@@ -59,8 +71,16 @@
           </v-row>
         </v-col>
         <v-col cols="auto" class="ml-auto">
-          <v-row dense justify="end">
-            <v-col cols="auto" class="ml-auto px-12 mr-n10 panel dual-sliced" style="height: 70px">
+          <v-row
+            dense
+            :justify="$vuetify.breakpoint.mdAndUp ? 'end' : 'space-around'"
+            :class="$vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+          >
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
@@ -78,7 +98,11 @@
                 @change="accuracy = parseInt($event)"
               />
             </v-col>
-            <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Difficulty</div>
               <v-text-field
                 v-model="difficulty"
@@ -96,7 +120,11 @@
                 @change="difficulty = parseInt($event)"
               />
             </v-col>
-            <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">SYS Roll</div>
               <v-row dense>
                 <v-col class="ml-n2">

@@ -1,9 +1,13 @@
 <template>
   <div
-    :class="`px-2 pt-2 pb-1 ml-n3 clipped${size}`"
+    :class="this.$vuetify.breakpoint.smAndDown ? 'pt-1' : `px-2 pt-2 pb-1 ml-n3 clipped${size}`"
     :style="`width: max-content; background-color: ${getColor()};`"
   >
-    <span :class="`ctitle${size} ${dark ? 'white--text' : 'stark--text'}`" class="pl-5 pr-5 pb-1">
+    <span
+      :class="`${this.$vuetify.breakpoint.smAndDown ? 'px-2' : 'pl-5 pr-5 pb-1'} ctitle${size} ${
+        dark ? 'white--text' : 'stark--text'
+      }`"
+    >
       <slot />
     </span>
   </div>
@@ -28,6 +32,7 @@ export default class CCTitle extends Mixins(GetColorMixin) {
   readonly color: string
 
   get size() {
+    if (this.$vuetify.breakpoint.smAndDown) return '-small'
     return this.large ? '-large' : this.small ? '-small' : ''
   }
 }

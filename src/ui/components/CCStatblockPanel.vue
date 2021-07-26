@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="auto">
+  <v-col :cols="cols ? cols : auto">
     <v-card
       flat
       tile
@@ -7,7 +7,7 @@
       class="text-center"
       height="100%"
       width="100%"
-      :style="inline ? 'min-width: 15vw; max-width: 20vw' : 'min-width: 20vw'"
+      :style="cols ? '' : inline ? 'min-width: 15vw; max-width: 20vw' : 'min-width: 20vw'"
     >
       <v-card-title class="heading h3 primary px-3 py-0 ma-0 white--text">
         <v-spacer v-if="!inline && $vuetify.breakpoint.mdAndDown" />
@@ -39,6 +39,9 @@ export default class CCStatblockPanel extends Vue {
 
   @Prop({ type: [String, Number], required: true })
   readonly value!: string | number
+
+  @Prop({ type: [String, Number], required: false })
+  readonly cols!: string | number
 
   @Prop({ type: Boolean })
   readonly inline: boolean

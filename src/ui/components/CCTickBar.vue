@@ -22,11 +22,9 @@
               ref="pipinput"
               type="text"
               class="pipinput mx-2"
-              :style="
-                `text-align: ${
-                  flipInput ? 'right' : 'left; position: absolute;'
-                }; color: var(--v-stark-base)`
-              "
+              :style="`text-align: ${
+                flipInput ? 'right' : 'left; position: absolute;'
+              }; color: var(--v-stark-base)`"
               :value="myInput"
               @input="onInputChange"
               @keyup.enter="sendInput"
@@ -48,13 +46,13 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row v-if="!noPips && !maxExceeded" no-gutters align="center" :justify="justify" class="mt-0">
+    <v-row no-gutters align="center" :justify="justify" class="mt-0">
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
         <v-btn icon small class="fadeSelect" @click="$emit('update', model - 1)">
           <v-icon :color="color">mdi-minus</v-icon>
         </v-btn>
       </v-col>
-      <v-col cols="auto">
+      <v-col v-if="!noPips && !maxExceeded" cols="auto">
         <v-rating
           :key="current"
           v-model="model"
@@ -71,17 +69,17 @@
           :background-color="bgColor"
         />
       </v-col>
+      <div v-else-if="maxExceeded">
+        <v-icon :large="large" :small="small" :color="color" v-html="fullIcon" />
+        <span class="flavor-text subtle--text">x</span>
+        <span class="heading h3">{{ current }}</span>
+      </div>
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
         <v-btn icon small class="fadeSelect" @click="$emit('update', model + 1)">
           <v-icon :color="color">mdi-plus</v-icon>
         </v-btn>
       </v-col>
     </v-row>
-    <div v-else-if="maxExceeded">
-      <v-icon :large="large" :small="small" :color="color" v-html="fullIcon" />
-      <span class="flavor-text subtle--text">x</span>
-      <span class="heading h3">{{ current }}</span>
-    </div>
   </div>
 </template>
 

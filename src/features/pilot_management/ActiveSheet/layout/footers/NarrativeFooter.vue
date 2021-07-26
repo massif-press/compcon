@@ -5,7 +5,7 @@
         <v-btn
           small
           class="mr-5"
-          style="border-color: var(--v-warning-base)"
+          color="accent"
           :disabled="pilot.IsDead || pilot.IsDownAndOut"
           v-on="on"
         >

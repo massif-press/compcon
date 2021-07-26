@@ -50,7 +50,7 @@
         <v-stepper-step editable step="5">Confirm</v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
-        <v-stepper-content step="1">
+        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="1">
           <identification-page
             :pilot="pilot"
             @next="step++"
@@ -58,19 +58,19 @@
             @set="pilot[$event.attr] = $event.val"
           />
         </v-stepper-content>
-        <v-stepper-content step="2">
+        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="2">
           <skills-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
-        <v-stepper-content step="3">
+        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="3">
           <talents-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
-        <v-stepper-content step="4">
+        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="4">
           <mech-skills-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
-        <v-stepper-content step="5">
+        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="5">
           <confirm-page :pilot="pilot" @next="step++" @back="step--" @done="onDone" />
         </v-stepper-content>
-        <v-stepper-content step="6">
+        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="6">
           <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />
         </v-stepper-content>
       </v-stepper-items>
