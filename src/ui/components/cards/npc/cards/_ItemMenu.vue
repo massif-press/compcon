@@ -52,14 +52,14 @@
     </v-menu>
     <cc-string-edit-dialog
       ref="cName"
-      :placeholder="item.Feature.Name"
+      :placeholder="item.Name"
       label="Custom Item Name"
       @save="save('Name', $event)"
       @reset="save('Name', '')"
     />
     <cc-string-edit-dialog
       ref="cDesc"
-      :placeholder="item.Feature.Description"
+      :placeholder="item.Description"
       label="Custom Item Description"
       @save="save('Description', $event)"
       @reset="save('Description', '')"
@@ -84,7 +84,7 @@ export default Vue.extend({
       this.$emit('recalc')
     },
     save(prop, newName) {
-      this.$set(this.item.Feature, prop, newName)
+      this.$set(this.item, prop, newName)
     },
   },
 })
