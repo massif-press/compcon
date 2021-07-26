@@ -4,10 +4,12 @@
     :cols="$vuetify.breakpoint.mdAndDown ? '12' : ''"
   >
     <fieldset class="ma-0 py-0" style="height: 100%">
-      <legend :style="`color: ${color}`" class="heading h3">
-        {{ mount.Name }}
-        <span v-if="impArm">(IMPROVED ARMAMENT)</span>
-      </legend>
+      <cc-tooltip title="Available Mount Fittings" :content="`${mount.AvailableFittings}`">
+        <legend :style="`color: ${color}`" class="heading h3">
+          {{ mount.Name }}
+          <span v-if="impArm">(IMPROVED ARMAMENT)</span>
+        </legend>
+      </cc-tooltip>
       <cb-mount-menu
         v-if="!intWeapon && !integrated && !readonly"
         :key="mech.AvailableBonuses.length"

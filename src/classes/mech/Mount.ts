@@ -78,6 +78,36 @@ abstract class Mount {
     this.slots = slots
   }
 
+  public get AvailableFittings(): string {
+    let result = ''
+
+    switch (this.Type) {
+      case MountType.Aux:
+        result = 'Auxiliary'
+        break
+      case MountType.AuxAux:
+        result = 'Auxiliary & Auxiliary'
+        break
+      case MountType.Flex:
+        result = 'Main | Auxiliary & Auxiliary'
+        break
+      case MountType.Heavy:
+        result = 'Superheavy | Heavy | Main | Aux'
+        break
+      case MountType.Integrated:
+        result = 'Integrated'
+        break
+      case MountType.Main:
+        result = 'Main | Auxiliary'
+        break
+      case MountType.MainAux:
+        result = 'Main & Auxiliary | Auxiliary & Auxiliary'
+        break
+    }
+
+    return result
+  }
+
   public get Weapons(): MechWeapon[] {
     return this.Slots.map(x => x.Weapon).filter(y => y !== null) as MechWeapon[]
   }
