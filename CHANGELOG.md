@@ -1,5 +1,11 @@
 # COMP/CON Changelog
 
+## [2.2.27](https://github.com/massif-press/compcon/compare/2.2.25...v2.2.26) (2021-07-16)
+
+### Features
+
+* **Mobile View v1** The remainder of the pilot-side app has been adapted to mobile view [#300](https://github.com/massif-press/compcon/issues/300)
+
 ## [2.2.26](https://github.com/massif-press/compcon/compare/2.2.25...v2.2.26) (2021-07-16)
 
 ### Hotfix (7/19/21)

@@ -94,6 +94,7 @@ export default Vue.extend({
     clonePilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot))
       newPilot.RenewID()
+      newPilot.IsLocallyOwned = true
       if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※'
       if (!this.pilot.Callsign.includes('※')) this.pilot.Name += '※'
       this.pilot.Heal()
@@ -107,6 +108,7 @@ export default Vue.extend({
     copyPilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot))
       newPilot.RenewID()
+      newPilot.IsLocallyOwned = true
       newPilot.Callsign += '″'
       newPilot.Name += ' (COPY)'
       newPilot.Status = 'ACTIVE'
