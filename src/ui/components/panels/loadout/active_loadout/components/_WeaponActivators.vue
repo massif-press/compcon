@@ -1,7 +1,7 @@
 <template>
-  <div v-show="!item.NoAttack" class="mb-1">
+  <div v-show="!item.NoAttack" class="mb-1 pb-1">
     <v-row v-if="item.Size === 'Superheavy'" justify="center">
-      <v-col v-if="item.CanSkirmish">
+      <v-col cols="12" md="" v-if="item.CanSkirmish">
         <v-btn
           tile
           block
@@ -14,10 +14,8 @@
           skirmish
           <v-menu offset-y max-width="700px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn style="position:absolute; right: 0" icon v-bind="attrs" v-on="on">
-                <v-icon class="fadeSelect">
-                  mdi-information-outline
-                </v-icon>
+              <v-btn style="position: absolute; right: 0" icon v-bind="attrs" v-on="on">
+                <v-icon class="fadeSelect">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -35,7 +33,7 @@
           @confirm="completeSkirmish($event)"
         />
       </v-col>
-      <v-col>
+      <v-col cols="12" md="6">
         <v-btn
           tile
           block
@@ -48,10 +46,8 @@
           barrage
           <v-menu offset-y max-width="700px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn style="position:absolute; right: 0" icon v-bind="attrs" v-on="on">
-                <v-icon class="fadeSelect">
-                  mdi-information-outline
-                </v-icon>
+              <v-btn style="position: absolute; right: 0" icon v-bind="attrs" v-on="on">
+                <v-icon class="fadeSelect">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -62,12 +58,12 @@
           </v-menu>
         </v-btn>
       </v-col>
-      <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`">
+      <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`" cols="12" md="">
         <cc-action :action="a" active />
       </v-col>
     </v-row>
     <v-row v-else dense justify="center">
-      <v-col>
+      <v-col cols="12" md="">
         <v-btn
           tile
           block
@@ -80,10 +76,8 @@
           skirmish
           <v-menu offset-y max-width="700px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn style="position:absolute; right: 0" icon v-bind="attrs" v-on="on">
-                <v-icon class="fadeSelect">
-                  mdi-information-outline
-                </v-icon>
+              <v-btn style="position: absolute; right: 0" icon v-bind="attrs" v-on="on">
+                <v-icon class="fadeSelect">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -101,7 +95,7 @@
           @confirm="completeSkirmish($event)"
         />
       </v-col>
-      <v-col>
+      <v-col cols="12" md="">
         <v-btn
           tile
           block
@@ -115,10 +109,8 @@
           <span v-if="barrageToggle">({{ barrageCount }}/2)</span>
           <v-menu offset-y max-width="700px">
             <template v-slot:activator="{ on, attrs }">
-              <v-btn style="position:absolute; right: 0" icon v-bind="attrs" v-on="on">
-                <v-icon class="fadeSelect">
-                  mdi-information-outline
-                </v-icon>
+              <v-btn style="position: absolute; right: 0" icon v-bind="attrs" v-on="on">
+                <v-icon class="fadeSelect">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -129,7 +121,7 @@
           </v-menu>
         </v-btn>
       </v-col>
-      <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`">
+      <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`" cols="12" md="">
         <cc-action :action="a" active />
       </v-col>
       <barrage-dialog

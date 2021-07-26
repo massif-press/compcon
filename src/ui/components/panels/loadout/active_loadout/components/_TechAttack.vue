@@ -1,17 +1,22 @@
 <template>
   <div>
     <v-slide-x-reverse-transition>
-      <v-row v-if="used" justify="center" align="center">
-        <v-col lg="auto" md="12" class="mt-n5">
+      <v-row
+        v-if="used"
+        justify="center"
+        align="center"
+        :class="$vuetify.breakpoint.smAndDown ? 'mt-4' : ''"
+      >
+        <v-col lg="auto" cols="12" class="mt-n5">
           <v-row dense class="text-center mb-n3" justify="start" align="start">
-            <v-col cols="auto" class="mx-8">
+            <v-col cols="auto" :class="$vuetify.breakpoint.smAndDown ? '' : 'mx-8'">
               <div class="overline">Tech Attack Roll</div>
               <div class="heading text--text" style="font-size: 24pt">
                 <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                 {{ `${mech.TechAttack >= 0 ? '+' : ''}${mech.TechAttack}` }}
               </div>
             </v-col>
-            <v-col cols="auto" class="mx-8">
+            <v-col cols="auto" :class="$vuetify.breakpoint.smAndDown ? '' : 'mx-8'">
               <div class="overline">vs. Target</div>
               <v-icon x-large v-html="'cci-edef'" />
               <div class="overline font-weight-bold mt-n2" v-html="'E-Defense'" />
@@ -19,8 +24,16 @@
           </v-row>
         </v-col>
         <v-col cols="auto" class="ml-auto">
-          <v-row dense justify="end">
-            <v-col cols="auto" class="ml-auto px-12 mr-n10 panel dual-sliced" style="height: 70px">
+          <v-row
+            dense
+            :justify="$vuetify.breakpoint.smAndDown ? 'space-around' : 'end'"
+            :class="$vuetify.breakpoint.smAndDown ? 'panel' : ''"
+          >
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
@@ -38,7 +51,11 @@
                 @change="accuracy = parseInt($event)"
               />
             </v-col>
-            <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'px-12 mr-n10 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Difficulty</div>
               <v-text-field
                 v-model="difficulty"
@@ -56,7 +73,11 @@
                 @change="difficulty = parseInt($event)"
               />
             </v-col>
-            <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'px-12 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline mr-n6 pl-3">Tech Attack Roll</div>
               <v-row no-gutters>
                 <v-col class="mr-n2 ml-n2">
@@ -137,7 +158,7 @@ export default Vue.extend({
     used: {
       immediate: true,
       deep: true,
-      handler: function() {
+      handler: function () {
         this.init()
       },
     },

@@ -20,15 +20,15 @@
         </v-row>
         <v-divider class="my-3" />
         <v-row dense align="center">
-          <v-col cols="6">
+          <v-col cols="12" md="6">
             <v-alert prominent dense icon="mdi-alert" colored-border color="panel" class="mb-n2">
               <div class="heading h3"><b>Cloud Service Update</b></div>
-              <div>
-                Saved cloud data made prior to v. 2.2.6 must be re-synced
-              </div>
+              <div>Saved cloud data made prior to v. 2.2.6 must be re-synced</div>
             </v-alert>
           </v-col>
-          <cloud-import-old @done="$refs.dialog.hide()" />
+          <v-col class="text-center">
+            <cloud-import-old @done="$refs.dialog.hide()" />
+          </v-col>
         </v-row>
       </v-container>
     </cc-solo-dialog>

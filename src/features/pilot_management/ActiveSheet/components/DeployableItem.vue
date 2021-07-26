@@ -5,14 +5,16 @@
         <v-toolbar-title>
           <v-row no-gutters>
             <v-col cols="auto">
-              <v-icon left>{{ deployable.Icon }}</v-icon>
+              <v-icon v-if="$vuetify.breakpoint.mdAndUp" left>{{ deployable.Icon }}</v-icon>
             </v-col>
-            <v-col class="heading h3">
+            <v-col
+              :class="$vuetify.breakpoint.mdAndUp ? 'heading h3' : 'body-text font-weight-bold'"
+            >
               <cc-short-string-editor inline @set="deployable.Name = $event">
                 {{ deployable.Name }}
               </cc-short-string-editor>
             </v-col>
-            <v-col>
+            <v-col v-if="$vuetify.breakpoint.mdAndUp">
               <span class="pl-3 flavor-text subtle--text">//{{ deployable.BaseName }}</span>
             </v-col>
           </v-row>
@@ -58,7 +60,7 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-card-text v-if="deployable.Destroyed">
-        <div class="heading h2 error--text text-center">EQUIPMENT DESTROYED</div>
+        <div class="heading h3 error--text text-center">EQUIPMENT DESTROYED</div>
         <div class="text-right mr-3 mb-n3">
           <v-btn x-small color="primary" class="fadeSelect" @click="deployable.Repair()">
             <cc-tooltip
@@ -71,7 +73,7 @@
         </div>
       </v-card-text>
       <v-card-text v-else-if="recallState">
-        <div class="heading h2 subtle--text text-center">EQUIPMENT RECALLED</div>
+        <div class="heading h3 subtle--text text-center">EQUIPMENT RECALLED</div>
         <div class="text-right mr-3 mb-n3">
           <v-btn x-small color="primary" class="fadeSelect" @click="freeRecall()">
             <cc-tooltip
@@ -86,7 +88,7 @@
 
       <v-card-text v-else class="py-1">
         <v-row dense>
-          <v-col v-if="deployable.Armor" cols="auto">
+          <v-col v-if="deployable.Armor" cols="12" md="auto">
             <cc-tick-bar
               :key="deployable.Armor"
               :current="deployable.Armor"
@@ -99,7 +101,7 @@
               <span class="heading">Armor: {{ deployable.Armor }}</span>
             </cc-tick-bar>
           </v-col>
-          <v-col v-if="deployable.MaxHP" cols="auto">
+          <v-col v-if="deployable.MaxHP" cols="12" md="auto">
             <cc-tick-bar
               :key="deployable.CurrentHP"
               :current="deployable.CurrentHP"
@@ -112,7 +114,7 @@
               <span class="heading">HP</span>
             </cc-tick-bar>
           </v-col>
-          <v-col v-if="deployable.MaxHP" cols="auto">
+          <v-col v-if="deployable.MaxHP" cols="12" md="auto">
             <cc-tick-bar
               :key="deployable.Overshield"
               :current="deployable.Overshield"
@@ -126,7 +128,7 @@
               <span class="heading">OVERSHIELD: {{ deployable.Overshield }}</span>
             </cc-tick-bar>
           </v-col>
-          <v-col v-if="deployable.Heatcap" cols="auto">
+          <v-col v-if="deployable.Heatcap" cols="12" md="auto">
             <cc-tick-bar
               :key="deployable.CurrentHeat"
               :current="deployable.CurrentHeat"
@@ -139,7 +141,7 @@
               <span class="heading">HEAT</span>
             </cc-tick-bar>
           </v-col>
-          <v-col v-if="deployable.Repcap" cols="auto">
+          <v-col v-if="deployable.Repcap" cols="12" md="auto">
             <cc-tick-bar
               :key="deployable.CurrentRepairs"
               :current="deployable.CurrentRepairs"
@@ -152,78 +154,91 @@
             </cc-tick-bar>
           </v-col>
         </v-row>
-        <v-row justify="center" dense class="mx-8">
+        <v-row justify="center" dense :class="$vuetify.breakpoint.smAndDown ? '' : 'mx-8'">
           <cc-statblock-panel
             v-if="deployable.Size"
             inline
             class="mx-1"
-            :icon="`cci-size-${deployable.Size === 0.5 ? 'half' : deployable.Size}`"
+            :icon="
+              $vuetify.breakpoint.smAndDown
+                ? ''
+                : `cci-size-${deployable.Size === 0.5 ? 'half' : deployable.Size}`
+            "
             name="Size"
             :value="`${deployable.Size === 0.5 ? '½' : deployable.Size}`"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
           <cc-statblock-panel
             v-if="deployable.Size"
-            icon="$vuetify.icons.evasion"
+            :icon="$vuetify.breakpoint.smAndDown ? '' : '$vuetify.icons.evasion'"
             inline
             class="mx-1"
             name="Evasion"
             :value="deployable.Evasion"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
           <cc-statblock-panel
             v-if="deployable.EDefense"
             inline
             class="mx-1"
-            icon="$vuetify.icons.edef"
+            :icon="$vuetify.breakpoint.smAndDown ? '' : '$vuetify.icons.edef'"
             name="E-Defense"
             :value="deployable.EDefense"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
           <cc-statblock-panel
             v-if="deployable.Heatcap"
             inline
             class="mx-1"
-            icon="$vuetify.icons.heat"
+            :icon="$vuetify.breakpoint.smAndDown ? '' : '$vuetify.icons.heat'"
             name="Heat Capacity"
             :value="deployable.Heatcap"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
           <cc-statblock-panel
             v-if="deployable.Sensor"
             inline
             class="mx-1"
-            icon="$vuetify.icons.sensor"
+            :icon="$vuetify.breakpoint.smAndDown ? '' : '$vuetify.icons.sensor'"
             name="Sensor Range"
             :value="deployable.Sensor"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
           <cc-statblock-panel
             v-if="deployable.TechAttack"
             inline
             class="mx-1"
-            icon="$vuetify.icons.tech"
+            :icon="$vuetify.breakpoint.smAndDown ? '' : '$vuetify.icons.tech'"
             name="Tech Attack"
             :value="deployable.TechAttack"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
           <cc-statblock-panel
             v-if="deployable.Repcap"
             inline
             class="mx-1"
-            icon="$vuetify.icons.repair"
+            :icon="$vuetify.breakpoint.smAndDown ? '' : '$vuetify.icons.repair'"
             name="Repair Capacity"
             :value="deployable.Repcap"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
           <cc-statblock-panel
             v-if="deployable.Save"
             inline
             class="mx-1"
-            icon="$vuetify.icons.save"
+            :icon="$vuetify.breakpoint.smAndDown ? '' : '$vuetify.icons.save'"
             name="Save Target"
             :value="deployable.Save"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
           <cc-statblock-panel
             v-if="deployable.Speed"
             inline
             class="mx-1"
-            icon="$vuetify.icons.speed"
+            :icon="$vuetify.breakpoint.smAndDown ? '' : '$vuetify.icons.speed'"
             name="Speed"
             :value="deployable.Speed"
+            :cols="$vuetify.breakpoint.smAndDown ? 'auto' : ''"
           />
         </v-row>
         <v-row justify="center" dense>
@@ -235,7 +250,8 @@
           <v-col
             v-for="(a, i) in deployable.Actions"
             :key="`${deployable.Name}_action_${i}`"
-            cols="auto"
+            cols="12"
+            md="auto"
             style="min-width: 25%"
           >
             <cc-action

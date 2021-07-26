@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="mt-4 mx-2">
+  <v-container fluid :class="`mt-4 ${$vuetify.breakpoint.mdAndUp ? 'mx-2' : ''} `">
     <div style="height: 40px" />
     <div v-if="pilot && pilot.State">
       <v-fade-transition group leave-absolute>

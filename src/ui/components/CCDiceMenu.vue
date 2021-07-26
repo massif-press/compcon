@@ -12,7 +12,7 @@
         <v-icon>mdi-dice-multiple</v-icon>
       </v-btn>
     </template>
-    <v-card min-width="400px" height="400px" style="overflow-y: scroll">
+    <v-card height="400px" style="overflow-y: scroll">
       <v-toolbar
         v-if="title"
         tile
@@ -244,20 +244,27 @@
             </div>
             <v-divider />
             <v-card-actions>
-              <v-btn small text class="mr-3" @click="menu = false">Cancel</v-btn>
-              <v-spacer />
-              <v-btn small outlined color="accent" @click="clear">Clear All</v-btn>
-              <v-btn small outlined color="accent" @click="reset">Reset All</v-btn>
-              <v-spacer />
-              <v-btn
-                small
-                class="ml-3"
-                color="secondary"
-                :disabled="!result && !flat"
-                @click="commit"
-              >
-                Commit Result
-              </v-btn>
+              <v-row dense justify="center" align="center" class="text-center">
+                <v-col cols="12" md="auto">
+                  <v-btn small text class="mr-3" @click="menu = false">Cancel</v-btn>
+                </v-col>
+                <v-col cols="12" md="auto">
+                  <v-btn small outlined color="accent" @click="clear">Clear All</v-btn>
+                  <v-btn small outlined color="accent" @click="reset">Reset All</v-btn>
+                </v-col>
+
+                <v-col cols="12" md="auto">
+                  <v-btn
+                    small
+                    class="ml-3"
+                    color="secondary"
+                    :disabled="!result && !flat"
+                    @click="commit"
+                  >
+                    Commit Result
+                  </v-btn>
+                </v-col>
+              </v-row>
             </v-card-actions>
           </v-card-text>
         </v-col>

@@ -21,7 +21,7 @@
       <v-col cols="auto">
         <slot name="other" />
       </v-col>
-      <v-col cols="auto">
+      <v-col cols="auto" class="ml-auto">
         <v-btn
           v-if="!noConfirm"
           color="success"

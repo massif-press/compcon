@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div :class="$vuetify.breakpoint.smAndDown ? 'mt-5' : ''">
     <action-detail-expander :action="action" />
     <v-row justify="center" align="center">
-      <v-col>
+      <v-col cols="12" lg="">
         <v-row dense justify="space-around">
           <v-col cols="12" lg="auto">
             <div class="heading h3 text-center">Choose one of the following:</div>
-            <v-radio-group v-model="state.StabilizeMajor" dense hide-details colum>
+            <v-radio-group v-model="state.StabilizeMajor" dense hide-details column>
               <v-radio
                 label="Cool Mech, resetting the heat gauge and ending the EXPOSED status"
                 value="cool"
@@ -22,7 +22,7 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col cols="auto">
+          <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto">
             <v-divider vertical />
           </v-col>
           <v-col cols="12" lg="auto">

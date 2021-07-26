@@ -1,11 +1,11 @@
 <template>
   <v-row dense class="mb-1">
-    <v-col cols="auto">
+    <!-- <v-col cols="auto">
       <cc-tooltip simple inline content="Feature In Development">
         <v-icon color="panel" class="mt-2">mdi-dice-multiple</v-icon>
       </cc-tooltip>
-    </v-col>
-    <v-col cols="11" class="pr-6">
+    </v-col> -->
+    <v-col :class="$vuetify.breakpoint.mdAndUp ? 'pr-6' : ''">
       <v-btn outlined large block color="secondary" @click="$refs.dialog.show()">
         <slot />
       </v-btn>

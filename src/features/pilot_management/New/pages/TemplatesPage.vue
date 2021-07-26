@@ -7,13 +7,13 @@
     @complete="setTemplate()"
   >
     <cc-title large>New Pilot Registration&emsp;</cc-title>
-    <h2 class="heading">
+    <h2 v-show="$vuetify.breakpoint.mdAndUp" class="heading">
       UAD IDENT Service
       <cc-slashes />
       &nbsp;PRM-ALT QUICK ACCESS SELECTION
     </h2>
     <v-row dense justify="start" align="center">
-      <v-col>
+      <v-col v-show="$vuetify.breakpoint.mdAndUp">
         <div class="flavor-text mt-n2" style="font-size: 14px">
           Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT registration service
           provides a Quick Access Selection module, created and curated by UAD Armored Cavalary
@@ -34,10 +34,8 @@
           </div>
         </v-alert>
       </v-col>
-      <v-col cols="4">
-        <b class="caption accent--text mt-n2">
-          MECH ART COURTESY OF
-        </b>
+      <v-col cols="12" md="4">
+        <b class="caption accent--text mt-n2">MECH ART COURTESY OF</b>
         <v-img
           target="_blank"
           href="https://www.retrogrademinis.com/"
@@ -49,7 +47,7 @@
         />
       </v-col>
     </v-row>
-    <v-row class="mx-6">
+    <v-row :class="$vuetify.breakpoint.mdAndUp ? 'mx-6' : 'mx-2'">
       <template-item
         v-for="t in templates"
         :key="t.name"

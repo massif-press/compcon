@@ -76,8 +76,8 @@
         />
         <mobile-btn
           icon="mdi-flask-empty-plus-outline"
-          title="Content Packs"
-          text="Manage Content"
+          title="Content"
+          text="Manage LCP Data"
           @clicked="$refs.contentModal.show()"
         />
         <mobile-btn

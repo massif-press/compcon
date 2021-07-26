@@ -1,21 +1,8 @@
 <template>
   <v-card flat tile color="transparent">
     <fieldset>
-      <legend :style="`color: ${color}`" class="heading h3">
-        Systems
-      </legend>
-      <div style="position: relative">
-        <div class="side-legend">
-          <span
-            :class="`heading h3 ${mech.FreeSP < 0 ? 'error--text' : 'subtle--text text--darken-3'}`"
-          >
-            <v-icon v-if="mech.FreeSP < 0" color="error" left>mdi-alert</v-icon>
-            {{ mech.FreeSP }} / {{ mech.MaxSP }}
-            <span class="overline">SP</span>
-          </span>
-        </div>
-      </div>
-      <v-row dense class="mx-2">
+      <legend :style="`color: ${color}`" class="heading h3">Systems</legend>
+      <v-row dense :class="$vuetify.breakpoint.mdAndUp ? 'mx-2' : 'my-2'">
         <active-system-card
           v-for="(s, i) in mech.ActiveLoadout.IntegratedSystems"
           :key="`${s.ID}-${i}-intg`"

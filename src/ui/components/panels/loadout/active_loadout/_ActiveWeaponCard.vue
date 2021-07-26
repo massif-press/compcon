@@ -1,27 +1,35 @@
 <template>
-  <v-col class="pa-2">
+  <v-col :class="$vuetify.breakpoint.mdAndUp ? 'pa-2' : 'px-2'">
     <div v-if="item" style="height: 100%">
       <v-card
         flat
         tile
-        :class="hide ? 'panel' : 'clipped-large panel'"
+        :class="hide ? 'panel' : `${$vuetify.breakpoint.mdAndUp ? 'clipped-large' : ''} panel`"
         :style="!hide ? 'height: 100%' : ''"
       >
         <v-card-title
-          class="white--text py-0 heading h3 hover-item"
-          style="cursor: pointer"
+          class="white--text py-0 hover-item"
+          style="cursor: pointer; word-break: break-word"
           @click="$refs.detailDialog.show()"
         >
-          <span style="display: flex; width: 100%">
-            <span v-if="item">
+          <v-row no-gutters>
+            <v-col v-if="item" cols="auto">
               <equipment-options :item="item" readonly active />
               <span v-if="!item.Destroyed" class="ml-n2" :style="item.Used ? 'opacity: 0.6' : ''">
                 <cc-tooltip v-if="item.Used" inline content="Equipment has been marked as 'Used'">
                   <v-icon color="success">mdi-check</v-icon>
                 </cc-tooltip>
-                {{ item.Name }}
+                <span
+                  :class="
+                    $vuetify.breakpoint.mdAndUp
+                      ? 'white--text heading h3'
+                      : 'white--text body-text font-weight-bold'
+                  "
+                >
+                  {{ item.Name }}
+                </span>
                 <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-                <span class="caption subtle--text ml-1">
+                <span v-show="$vuetify.breakpoint.mdAndUp" class="caption subtle--text ml-1">
                   <b>{{ item.Size }}</b>
                   {{ item.WeaponType }}
                 </span>
@@ -31,10 +39,9 @@
                 <strike>{{ item.Name }}</strike>
                 //&nbsp;
               </span>
-            </span>
-            <span v-else>{{ weaponSlot.Size }} Weapon</span>
-            <v-spacer />
-            <span>
+            </v-col>
+            <v-col v-else cols="auto">{{ weaponSlot.Size }} Weapon</v-col>
+            <v-col cols="auto" class="ml-auto heading h3">
               <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
               <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
               <cc-damage-element
@@ -44,12 +51,13 @@
                 :type-override="item.DamageTypeOverride"
                 class="d-inline"
               />
-            </span>
-            <v-btn v-if="!rest" right icon class="fadeSelect" dark @click.stop="hide = !hide">
-              <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
-            </v-btn>
-            <div v-else class="mr-4" />
-          </span>
+            </v-col>
+            <v-col cols="auto">
+              <v-btn v-if="!rest" right icon class="fadeSelect" dark @click.stop="hide = !hide">
+                <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-card-title>
         <v-slide-y-transition>
           <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
@@ -87,6 +95,8 @@
                   :key="`${item.Name}_action_${i}`"
                   style="min-width: 40%"
                   class="mb-n1"
+                  cols="12"
+                  md=""
                 >
                   <cc-action
                     :action="a"
@@ -150,7 +160,8 @@
                         <v-col
                           v-for="(d, i) in item.Deployables"
                           :key="`${item.Name}_deployable_${i}`"
-                          cols="auto"
+                          cols="12"
+                          md="auto"
                         >
                           <cc-deployable-info
                             :deployable="d"
@@ -165,7 +176,7 @@
                 </v-col>
               </v-row>
               <v-row no-gutters class="mr-3 mt-n2" align="start">
-                <v-col cols="auto">
+                <v-col cols="12" md="auto">
                   <cc-tags
                     small
                     :tags="item.ProfileTags"

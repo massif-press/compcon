@@ -1,18 +1,28 @@
 <template>
-  <v-row no-gutters class="mb-4">
-    <v-col cols="auto" class="mr-2">
-      <v-img :src="frameImage" max-width="152px" max-height="206px" contain />
+  <v-row no-gutters class="mb-4" :justify="$vuetify.breakpoint.mdAndUp ? 'start' : 'center'">
+    <v-col cols="12" md="auto" class="mr-2 text-center">
+      <v-img
+        :src="frameImage"
+        max-width="152px"
+        max-height="206px"
+        contain
+        class="ml-auto mr-auto"
+      />
     </v-col>
-    <v-col>
+    <v-col cols="12" md="">
       <v-row dense :class="`pl-2 ${isSelected ? 'selected-gradient' : 'gradient'}`">
-        <v-col cols="auto" class="white--text">
-          <div class="overline mt-n1">{{ template.code }}</div>
-          <div class="heading h1 mt-n6 mb-0 pb-0">{{ template.name }}</div>
+        <v-col cols="12" md="auto" class="white--text">
+          <div v-show="$vuetify.breakpoint.mdAndUp" class="overline mt-n1">{{ template.code }}</div>
+          <div :class="$vuetify.breakpoint.mdAndUp ? 'heading h1 mt-n6 mb-0 pb-0' : 'heading h2'">
+            {{ template.name }}
+          </div>
         </v-col>
-        <v-col cols="auto" class="ml-auto">
+        <v-col cols="12" md="auto" :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto' : 'mt-n3'">
           <v-btn
             tile
-            outlined
+            :outlined="$vuetify.breakpoint.mdAndUp"
+            :block="$vuetify.breakpoint.mdAndUp"
+            :small="$vuetify.breakpoint.mdAndUp"
             :color="isSelected ? 'accent' : 'secondary'"
             class="mt-1"
             @click="$emit('select')"
@@ -30,7 +40,7 @@
         </div>
         <div class="panel clipped py-1 px-2 my-2">
           <v-row dense>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <div class="caption accent--text mt-1">
                 PILOT//
                 <b>SKILLS</b>
@@ -61,7 +71,8 @@
                 <v-col
                   v-for="t in template.build.talents"
                   :key="template.name + t"
-                  cols="auto"
+                  cols="12"
+                  md="auto"
                   class="mx-1"
                 >
                   <cc-tooltip

@@ -40,13 +40,9 @@
       <v-row v-if="mech.Destroyed" dense justify="center" class="text-center mb-n5">
         <v-col cols="auto">
           <v-alert dense outlined color="error" prominent>
-            <v-icon slot="prepend" color="error" size="70" class="mr-3">
-              cci-eclipse
-            </v-icon>
+            <v-icon slot="prepend" color="error" size="70" class="mr-3">cci-eclipse</v-icon>
             <span class="heading h1">MECH DESTROYED</span>
-            <div class="heading mt-n4 subtle--text">
-              FRAME.CRITICAL//: CATASTROPHIC DAMAGE
-            </div>
+            <div class="heading mt-n4 subtle--text">FRAME.CRITICAL//: CATASTROPHIC DAMAGE</div>
           </v-alert>
         </v-col>
       </v-row>
@@ -55,7 +51,7 @@
           This mech cannot be repaired and must be reprinted.
         </p>
       </div>
-      <div v-else class="ma-3 panel clipped pt-3 px-6 text-center ">
+      <div v-else class="ma-3 panel clipped pt-3 px-6 text-center">
         <v-alert color="warning" outlined border="bottom" class="mb-2">
           <div class="body-text text--text">
             This mech can be repaired to working order by spending
@@ -69,9 +65,7 @@
           <b class="accent--text">{{ mech.CurrentRepairs }}</b>
         </div>
         <div>
-          <v-icon v-for="n in mech.CurrentRepairs" :key="'rep_' + n" large>
-            control_point
-          </v-icon>
+          <v-icon v-for="n in mech.CurrentRepairs" :key="'rep_' + n" large>control_point</v-icon>
           <v-icon
             v-for="n in mech.RepairCapacity - mech.CurrentRepairs"
             :key="'repcap_' + n"
@@ -133,7 +127,7 @@
         class="panel clipped mb-6 mt-n1"
       >
         <v-row dense class="px-3">
-          <v-col>
+          <v-col v-if="$vuetify.breakpoint.mdAndUp">
             <p class="caption flavor-text subtle--text pb-0 mb-0">
               //[COMP/CON: COMBAT OPERATIONS COMPLETE
               <br />
@@ -263,9 +257,7 @@
 
         <v-row class="px-5">
           <v-col class="text-center flavor-text background">
-            <span v-if="!destroyedWeapons.length" class="stark--text">
-              > ARMAMENT NOMINAL
-            </span>
+            <span v-if="!destroyedWeapons.length" class="stark--text">> ARMAMENT NOMINAL</span>
             <b v-else class="warning--text">WARNING: ARMAMENT DAMAGED</b>
             <br />
             <v-btn
@@ -286,9 +278,7 @@
           </v-col>
 
           <v-col class="text-center flavor-text background">
-            <span v-if="!destroyedSystems.length" class="stark--text">
-              > SYSTEMS NOMINAL
-            </span>
+            <span v-if="!destroyedSystems.length" class="stark--text">> SYSTEMS NOMINAL</span>
             <b v-else class="warning--text">WARNING: SYSTEMS DAMAGED</b>
             <br />
             <v-btn
@@ -318,13 +308,14 @@
               :current="mech.CurrentStructure"
               :max="mech.MaxStructure"
               large
+              :number-only="$vuetify.breakpoint.smAndDown"
+              :no-input="$vuetify.breakpoint.smAndDown"
+              :show-buttons="$vuetify.breakpoint.smAndDown"
               color="structure"
               full-icon="cci-structure"
               @update="mech.CurrentStructure = $event"
             >
-              <span class="heading h3">
-                Structure
-              </span>
+              <span class="heading h3">Structure</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto">
@@ -333,6 +324,9 @@
               :current="mech.CurrentStress"
               :max="mech.MaxStress"
               large
+              :number-only="$vuetify.breakpoint.smAndDown"
+              :no-input="$vuetify.breakpoint.smAndDown"
+              :show-buttons="$vuetify.breakpoint.smAndDown"
               color="stress"
               full-icon="cci-reactor"
               @update="mech.CurrentStress = $event"
@@ -346,6 +340,9 @@
               :current="mech.CurrentHP"
               :max="mech.MaxHP"
               large
+              :number-only="$vuetify.breakpoint.smAndDown"
+              :no-input="$vuetify.breakpoint.smAndDown"
+              :show-buttons="$vuetify.breakpoint.smAndDown"
               color="hp"
               full-icon="mdi-hexagon"
               max-length="25"
@@ -360,13 +357,15 @@
               :current="mech.CurrentRepairs"
               :max="mech.RepairCapacity"
               large
+              :number-only="$vuetify.breakpoint.smAndDown"
+              :no-input="$vuetify.breakpoint.smAndDown"
+              :show-buttons="$vuetify.breakpoint.smAndDown"
               color="repcap"
               full-icon="cci-repair"
               @update="mech.CurrentRepairs = $event"
             >
-              <span class="heading h3">
-                REPAIR CAPACITY
-              </span>
+              <span v-if="$vuetify.breakpoint.mdAndUp" class="heading h3">REPAIR CAPACITY</span>
+              <span v-else class="heading h3">REP. CAP.</span>
             </cc-tick-bar>
           </v-col>
         </v-row>
@@ -384,7 +383,7 @@
             <v-col cols="auto">
               <span class="overline">SKILL TRIGGERS</span>
             </v-col>
-            <v-col cols="auto" class="ml-auto">
+            <v-col cols="12" md="auto" class="ml-auto">
               <v-btn
                 x-small
                 outlined
@@ -410,7 +409,7 @@
               v-for="(s, i) in pilot.Skills"
               :key="`sk_${i}`"
               :ref="`sk_${i}`"
-              :cols="$vuetify.breakpoint.lgAndUp ? 4 : 6"
+              :cols="$vuetify.breakpoint.lgAndUp ? 4 : $vuetify.breakpoint.smAndDown ? 12 : 6"
               color="secondary"
               collapsible
               start-closed

@@ -64,7 +64,14 @@
               </v-btn>
               <cc-confirmation no-cc :content="endTurnConfirm" @confirm="stageEndTurn()" />
             </v-menu>
-            <v-btn v-else outlined small color="secondary" @click="undoEndTurn">
+            <v-btn
+              v-else
+              outlined
+              :small="$vuetify.breakpoint.mdAndUp"
+              :x-small="$vuetify.breakpoint.smAndDown"
+              color="secondary"
+              @click="undoEndTurn"
+            >
               UNDO END TURN
             </v-btn>
           </v-col>

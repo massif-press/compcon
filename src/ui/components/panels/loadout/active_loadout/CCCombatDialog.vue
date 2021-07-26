@@ -6,7 +6,7 @@
     width="85vw"
     class="suppress-horiz"
   >
-    <v-card tile class="background suppress-horiz" style="min-height: 175px">
+    <v-card tile class="background suppress-horiz" style="min-height: 175px; height: 100%">
       <action-titlebar
         :used="action.Used"
         :no-action="noAction"

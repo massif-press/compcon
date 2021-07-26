@@ -1,7 +1,7 @@
 <template>
   <div class="pt-2">
     <v-row justify="center" align="center">
-      <v-col>
+      <v-col cols="12" md="">
         <action-detail-expander :action="action" />
       </v-col>
       <v-col cols="auto">
@@ -41,15 +41,20 @@
     <v-slide-x-reverse-transition>
       <v-row v-if="actionFree || actionCost" justify="center" align="center">
         <v-col lg="auto" md="12" class="mt-n5">
-          <v-row dense class="text-center mb-n3" justify="start" align="start">
-            <v-col cols="auto" class="mx-8">
+          <v-row
+            dense
+            class="text-center mb-n3"
+            :justify="$vuetify.breakpoint.mdAndUp ? 'start' : 'space-around'"
+            align="start"
+          >
+            <v-col cols="auto" :class="$vuetify.breakpoint.mdAndUp ? 'mx-8' : ''">
               <div class="overline mb-n2">Attack Roll</div>
               <div class="heading text--text" style="font-size: 24pt">
                 <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                 + {{ mech.AttackBonus }}
               </div>
             </v-col>
-            <v-col cols="auto" class="mx-8">
+            <v-col cols="auto" :class="$vuetify.breakpoint.mdAndUp ? 'mx-8' : ''">
               <div class="overline mb-n3">vs. Target</div>
               <v-icon x-large v-html="'cci-evasion'" />
               <div class="overline font-weight-bold mt-n2" v-html="'Evasion'" />
@@ -57,8 +62,16 @@
           </v-row>
         </v-col>
         <v-col cols="auto" class="ml-auto">
-          <v-row dense justify="end">
-            <v-col cols="auto" class="ml-auto px-12 mr-n10 panel dual-sliced" style="height: 70px">
+          <v-row
+            dense
+            :justify="$vuetify.breakpoint.mdAndUp ? 'end' : 'space-around'"
+            :class="$vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+          >
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
@@ -76,7 +89,11 @@
                 @change="accuracy = parseInt($event)"
               />
             </v-col>
-            <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Difficulty</div>
               <v-text-field
                 v-model="difficulty"
@@ -94,7 +111,11 @@
                 @change="difficulty = parseInt($event)"
               />
             </v-col>
-            <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
+            <v-col
+              cols="auto"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
+              style="height: 70px"
+            >
               <div class="overline pl-1">Melee Attack Roll</div>
               <v-row no-gutters>
                 <v-col class="mr-n2 ml-n2">
@@ -153,7 +174,7 @@
     </v-slide-x-reverse-transition>
     <v-slide-x-reverse-transition>
       <v-row v-if="succeeded" no-gutters justify="center" class="mt-2">
-        <v-col cols="auto" class="ml-auto" align="end" style="max-width: 800px">
+        <v-col cols="auto" class="ml-auto" align="end">
           <div class="body-text stark--text text-left">
             <b>Grapple Success</b>
             <ul>

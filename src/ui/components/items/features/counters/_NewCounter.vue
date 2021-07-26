@@ -4,15 +4,16 @@
     color="primary"
     style="position: relative"
     :elevation="creating ? 12 : 0"
-    class="clipped-large text-center"
-    width="215px"
-    height="118px"
+    :class="$vuetify.breakpoint.mdAndUp ? 'clipped-large text-center' : 'text-center'"
+    :height="$vuetify.breakpoint.mdAndUp ? '118px' : '100%'"
+    :width="$vuetify.breakpoint.mdAndUp ? '225px' : '100%'"
+    :min-width="$vuetify.breakpoint.mdAndUp ? '225px' : '100%'"
   >
     <transition name="fade">
       <v-card-text
         v-if="creating"
         class="background"
-        style="height: 100%; display: flex; flex-direction: column;"
+        style="height: 100%; display: flex; flex-direction: column"
       >
         <v-text-field
           ref="nameField"
@@ -52,9 +53,9 @@
         style="height: 100%"
         @click="startCreating"
       >
-        <div>
+        <div class="py-1">
           <div>Add Custom Counter</div>
-          <v-icon class="mt-2">add</v-icon>
+          <v-icon :v-if="$vuetify.breakpoint.mdAndUp">add</v-icon>
         </div>
       </v-btn>
     </transition>

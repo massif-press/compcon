@@ -2,37 +2,32 @@
   <div>
     <cc-stress-table ref="stressTable" :mech="mech" />
     <cc-structure-table ref="structureTable" :mech="mech" />
-
     <div>
       <v-row dense>
         <v-col class="mt-n5">
-          <div class="overline subtle--text">MOUNTED::</div>
-          <div class="heading h2 mt-n4">
+          <div v-show="$vuetify.breakpoint.mdAndUp" class="overline subtle--text">MOUNTED::</div>
+          <div :class="$vuetify.breakpoint.mdAndUp ? 'heading h2 mt-n4' : 'font-weight-bold'">
             <span class="accent--text">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span>
             <cc-slashes />
-            <span v-if="$vuetify.breakpoint.mdAndUp" class="stark--text">{{ mech.Name }}</span>
+            <span class="stark--text">{{ mech.Name }}</span>
           </div>
         </v-col>
-        <v-col cols="auto" class="ml-auto mr-2 mt-n3">
+        <v-col v-show="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-auto mr-2 mt-n3">
           <div class="overline subtle--text mt-n2">PILOT::</div>
           <div class="heading h2 mt-n3 subtle--text">{{ pilot.Callsign }}</div>
         </v-col>
       </v-row>
 
-      <div
-        v-if="$vuetify.breakpoint.smAndDown"
-        class="heading h2 stark--text mt-n4 mb-2 text-center"
-      >
-        {{ mech.Name }}
-      </div>
+      <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-2" />
 
       <v-row v-if="state.SelfDestructCounter > 0" dense justify="center" class="text-center">
         <v-col cols="auto">
           <v-alert dense outlined color="error" prominent>
-            <v-icon slot="prepend" color="error" size="90" class="mr-3">
-              cci-reactor
-            </v-icon>
-            <span v-if="state.SelfDestructCounter > 1" class="heading h1">
+            <v-icon slot="prepend" color="error" size="90" class="mr-3">cci-reactor</v-icon>
+            <span
+              v-if="state.SelfDestructCounter > 1"
+              :class="$vuetify.breakpoint.mdAndUp ? 'heading h1' : 'heading h3'"
+            >
               SELF DESTRUCT IN {{ state.SelfDestructCounter }} ROUNDS
             </span>
             <span v-else class="heading h1">SELF DESTRUCT IMMINENT</span>
@@ -64,7 +59,9 @@
         color="error"
       >
         <v-icon slot="prepend" size="80" class="mr-2">mdi-skull</v-icon>
-        <div class="heading h1 pb-2 text-center">KILLED IN ACTION</div>
+        <div :class="`heading ${$vuetify.breakpoint.mdAndUp ? 'h1' : 'h3'} pb-2 text-center`">
+          KILLED IN ACTION
+        </div>
         <div style="position: relative">
           <v-menu offset-y offset-x>
             <template v-slot:activator="{ on }">
@@ -97,10 +94,10 @@
             <v-icon slot="prepend" color="warning" size="70" class="mr-3">
               cci-status-shut-down
             </v-icon>
-            <span class="heading h1">MECH SHUT DOWN</span>
-            <div class="heading mt-n4 subtle--text">
-              FRAME.STATUS//ERR: NO RESPONSE
-            </div>
+            <span :class="$vuetify.breakpoint.mdAndUp ? 'heading h1' : 'heading h3'">
+              MECH SHUT DOWN
+            </span>
+            <div class="heading mt-n4 subtle--text">FRAME.STATUS//ERR: NO RESPONSE</div>
           </v-alert>
         </v-col>
       </v-row>
@@ -150,7 +147,7 @@
               append-outer-icon="mdi-plus-circle-outline"
               append-icon="mdi-fire"
               prepend-icon="mdi-minus-circle-outline"
-              style="width: 115px"
+              :style="$vuetify.breakpoint.mdAndUp ? 'width: 115px' : ''"
               class="hide-input-spinners"
               hint="BURN"
               persistent-hint
@@ -307,11 +304,20 @@
               </v-row>
             </v-col>
             <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto">
-              <div style="position:relative">
-                <v-icon size="120" color="frame" style="z-index:2">{{ mech.SizeIcon }}</v-icon>
+              <div style="position: relative">
+                <v-icon size="120" color="frame" style="z-index: 2">{{ mech.SizeIcon }}</v-icon>
                 <div
                   v-if="mech.Size > 0.5"
-                  style="background-color: white; position: absolute; bottom: 21px; top: 21px; left:21px;right:21px; border-radius:50%; z-index:1"
+                  style="
+                    background-color: white;
+                    position: absolute;
+                    bottom: 21px;
+                    top: 21px;
+                    left: 21px;
+                    right: 21px;
+                    border-radius: 50%;
+                    z-index: 1;
+                  "
                 />
               </div>
             </v-col>
@@ -463,7 +469,7 @@
               color="corepower"
               collapsible
               :header="bonus.Name"
-              style="min-width: 400px"
+              :style="$vuetify.breakpoint.smAndDown ? '' : 'min-width: 400px'"
             >
               <p class="pa-1 ma-0" v-html-safe="bonus.Effect" />
             </cc-active-card>
@@ -509,7 +515,7 @@
               collapsible
               start-closed
               color="primary"
-              :cols="$vuetify.breakpoint.lgAndUp ? 4 : 6"
+              :cols="$vuetify.breakpoint.lgAndUp ? 4 : $vuetify.breakpoint.smAndDown ? 12 : 6"
               :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
             >
               <ul v-for="n in 3" :key="'t_' + n">
@@ -534,9 +540,7 @@
 
         <v-row dense>
           <v-col cols="12">
-            <span class="overline">
-              COUNTERS
-            </span>
+            <span class="overline">COUNTERS</span>
             <v-btn small right icon class="fadeSelect" @click="showCounters = !showCounters">
               <v-icon small v-html="showCounters ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>

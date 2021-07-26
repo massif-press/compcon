@@ -6,7 +6,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'item-action-dialog',
+  name: 'downtime-dialog',
   props: {
     used: { type: Boolean },
     mech: {

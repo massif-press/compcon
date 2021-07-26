@@ -111,20 +111,29 @@
     <v-slide-y-reverse-transition>
       <v-container v-if="!confirmed" fluid>
         <v-row align="center">
-          <v-col lg="auto" md="12" class="mt-n5">
-            <v-row dense class="text-center mb-n3" justify="start" align="start">
-              <v-col v-if="item.Range" cols="auto" class="mr-8">
+          <v-col lg="auto" cols="12" class="mt-n5">
+            <v-row
+              dense
+              class="text-center mb-n3"
+              :justify="$vuetify.breakpoint.mdAndUp ? 'start' : 'space-between'"
+              align="start"
+            >
+              <v-col
+                v-if="item.Range"
+                cols="auto"
+                :class="$vuetify.breakpoint.mdAndUp ? 'mr-8' : ''"
+              >
                 <div class="overline">Range</div>
                 <cc-range-element :range="getRange" class="d-inline" />
               </v-col>
-              <v-col cols="auto" class="mx-8">
+              <v-col cols="auto" :class="$vuetify.breakpoint.mdAndUp ? 'mx-8' : ''">
                 <div class="overline mb-n2">Attack Roll</div>
                 <div class="heading text--text" style="font-size: 24pt">
                   <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                   + {{ mech.AttackBonus }}
                 </div>
               </v-col>
-              <v-col cols="auto" class="mx-8">
+              <v-col cols="auto" :class="$vuetify.breakpoint.mdAndUp ? 'mx-8' : ''">
                 <div class="overline mb-n3">vs. Target</div>
                 <v-icon x-large v-html="isSmart ? 'cci-edef' : 'cci-evasion'" />
                 <div
@@ -132,7 +141,12 @@
                   v-html="isSmart ? 'E-Defense' : 'Evasion'"
                 />
               </v-col>
-              <v-col v-if="!noDamageItem" cols="auto" class="ml-8">
+              <v-col
+                v-if="!noDamageItem"
+                cols="12"
+                md="auto"
+                :class="$vuetify.breakpoint.mdAndUp ? 'ml-8' : ''"
+              >
                 <div class="overline">Damage</div>
                 <cc-damage-element
                   :damage="getDamage"
@@ -143,10 +157,14 @@
             </v-row>
           </v-col>
           <v-col lg="auto" md="12" class="ml-auto">
-            <v-row dense justify="end">
+            <v-row
+              dense
+              :justify="$vuetify.breakpoint.mdAndUp ? 'end' : 'space-around'"
+              :class="$vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+            >
               <v-col
                 cols="auto"
-                class="ml-auto px-12 mr-n10 panel dual-sliced"
+                :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
                 style="height: 70px"
               >
                 <div class="overline pl-1">Accuracy</div>
@@ -166,7 +184,11 @@
                   @change="accuracy = parseInt($event)"
                 />
               </v-col>
-              <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
+              <v-col
+                cols="auto"
+                :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+                style="height: 70px"
+              >
                 <div class="overline pl-1">Difficulty</div>
                 <v-text-field
                   v-model="difficulty"
@@ -184,7 +206,11 @@
                   @change="difficulty = parseInt($event)"
                 />
               </v-col>
-              <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
+              <v-col
+                cols="auto"
+                :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
+                style="height: 70px"
+              >
                 <div class="overline pl-1">Attack Roll</div>
                 <v-row no-gutters>
                   <v-col class="mr-n2 ml-n2">
@@ -230,9 +256,9 @@
                   tile
                   block
                   :disabled="!attackRoll"
-                  :color="
-                    `${crit ? 'secondary' : 'action--reaction'} ${attackFree ? 'lighten-1' : ''}`
-                  "
+                  :color="`${crit ? 'secondary' : 'action--reaction'} ${
+                    attackFree ? 'lighten-1' : ''
+                  }`"
                   @click="attackFree = !attackFree"
                 >
                   <v-icon left>cci-reaction</v-icon>
@@ -246,11 +272,9 @@
                   block
                   class="white--text"
                   :disabled="attackFree || !attackRoll || (!improv && !state.IsSkirmishAvailable)"
-                  :color="
-                    `${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
-                      attackQuick ? 'lighten-1' : ''
-                    }`
-                  "
+                  :color="`${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
+                    attackQuick ? 'lighten-1' : ''
+                  }`"
                   @click="attackQuick = !attackQuick"
                 >
                   <v-icon v-if="improv" left>mdi-hexagon-slice-6</v-icon>
@@ -311,15 +335,17 @@
         </v-slide-x-reverse-transition>
         <br />
         <v-slide-x-reverse-transition>
-          <v-row v-if="hit || missed" align="center" class="mt-1">
+          <v-row
+            v-if="hit || missed"
+            align="center"
+            :class="`mt-1 ${$vuetify.breakpoint.smAndDown ? 'panel' : ''}`"
+          >
             <v-col cols="auto" class="ml-auto" />
             <v-col v-if="hit && crit" cols="auto" class="text-center">
               <cc-tooltip
-                :content="
-                  `On a critical hit, all damage dice are rolled twice
+                :content="`On a critical hit, all damage dice are rolled twice
 (including bonus damage) and the highest result from
-each source of damage is used.`
-                "
+each source of damage is used.`"
               >
                 <v-icon x-large color="secondary">mdi-progress-alert</v-icon>
                 <div class="secondary--text">CRITICAL HIT</div>
@@ -328,7 +354,7 @@ each source of damage is used.`
             <v-col
               v-if="hit && !noDamageItem"
               cols="auto"
-              class="px-12 mr-n10 panel dual-sliced mt-n2"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="overline mt-n2 pl-1">
@@ -365,7 +391,7 @@ each source of damage is used.`
             <v-col
               v-if="hit && !aux && !noDamageItem"
               cols="auto"
-              class="px-12 mr-n10 panel dual-sliced mt-n2"
+              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="overline mt-n2 pl-1">Bonus Damage</div>
@@ -396,7 +422,7 @@ each source of damage is used.`
               <v-col
                 v-if="hit && !noDamageItem"
                 cols="auto"
-                class="px-12 panel dual-sliced mt-n2"
+                :class="$vuetify.breakpoint.mdAndUp ? 'px-12 panel dual-sliced' : ''"
                 style="height: 70px"
               >
                 <div class="overline mt-n2 pl-1">Total Damage</div>
@@ -451,9 +477,7 @@ each source of damage is used.`
                 <v-row no-gutters justify="end" align="center">
                   <v-col cols="auto">
                     <cc-tooltip
-                      :content="
-                        `When rolling for damage with this weapon, any damage dice that land on a 1 cause the attacker to take 1 Heat, and are then rerolled. Additional 1s continue to trigger this effect. ${autoOverkillString}`
-                      "
+                      :content="`When rolling for damage with this weapon, any damage dice that land on a 1 cause the attacker to take 1 Heat, and are then rerolled. Additional 1s continue to trigger this effect. ${autoOverkillString}`"
                     >
                       <v-icon x-large>mdi-progress-alert</v-icon>
                     </cc-tooltip>

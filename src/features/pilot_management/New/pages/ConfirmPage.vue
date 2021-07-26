@@ -8,7 +8,7 @@
   >
     <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
     <v-btn
-      x-large
+      :x-large="$vuetify.breakpoint.mdAndUp"
       block
       :disabled="!pilotReady"
       color="secondary"
@@ -16,9 +16,12 @@
       class="mx-2 my-8"
       @click="savePilot()"
     >
-      Register New Pilot // {{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }} ({{
-        pilot.Name || 'ERR NAME NOT FOUND'
-      }})
+      <span v-if="$vuetify.breakpoint.mdAndUp">
+        Register New Pilot // {{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }} ({{
+          pilot.Name || 'ERR NAME NOT FOUND'
+        }})
+      </span>
+      <span v-else>Register Pilot</span>
     </v-btn>
     <v-alert type="error" outlined :value="!pilotReady">
       <span class="stat-text accent--text">

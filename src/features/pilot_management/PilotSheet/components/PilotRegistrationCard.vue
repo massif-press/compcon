@@ -2,22 +2,24 @@
   <div class="bordered-primary">
     <v-row class="primary white--text mt-n3 px-2" dense>
       <v-col>
-        <span class="heading h1">{{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}</span>
-        <span class="heading h2 mt-7">&nbsp;({{ pilot.Name || 'ERR NAME NOT FOUND' }})</span>
+        <div :class="`heading h${$vuetify.breakpoint.mdAndUp ? '1' : '3'}`">
+          {{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}
+        </div>
+        <div :class="`heading h${$vuetify.breakpoint.mdAndUp ? '2' : '4'}`">
+          &nbsp;({{ pilot.Name || 'ERR NAME NOT FOUND' }})
+        </div>
       </v-col>
-      <v-col cols="auto" class="ml-auto mt-4">
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto" class="ml-auto mt-4">
         <v-icon size="70" dark>cci-orbital</v-icon>
       </v-col>
     </v-row>
 
-    <v-row class="primary mt-n6" dense>
-      <span class="flavor-text white--text ml-6">
-        Union Administrative RM-4 Pilot Identification Protocol (IDENT) Record {{ pilot.ID }}
-      </span>
-    </v-row>
+    <div v-if="$vuetify.breakpoint.mdAndUp" class="flavor-text ml-2">
+      Union Administrative RM-4 Pilot Identification Protocol (IDENT) Record {{ pilot.ID }}
+    </div>
 
     <div class="ml-2 py-1 px-2">
-      <v-row dense>
+      <v-row v-if="$vuetify.breakpoint.mdAndUp" dense>
         <span v-if="!pilot.Name" class="flavor-text">
           ERR NAME NOT FOUND UNABLE TO GENERATE UUID
         </span>
@@ -26,9 +28,9 @@
         </span>
       </v-row>
       <v-row dense>
-        <v-col cols="8">
+        <v-col cols="12" md="8">
           <v-row dense>
-            <v-col cols="8">
+            <v-col cols="12" md="8">
               <span class="flavor-text">
                 Callsign:
                 <b class="accent--text">{{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}</b>
@@ -42,7 +44,7 @@
                 </b>
               </span>
             </v-col>
-            <v-col>
+            <v-col v-if="$vuetify.breakpoint.mdAndUp">
               <span class="flavor-text subtle--text">
                 {{ pilot.Callsign ? 'CALLSIGN AVAILABLE' : '--' }}
                 <br />
@@ -78,7 +80,7 @@
             </span>
           </v-row>
           <v-row class="mt-2">
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <span class="flavor-text">PILOT SKILL TRIGGER AUDIT</span>
               <br />
               <span v-if="!pilot.Skills.length" class="stat-text accent--text">
@@ -98,7 +100,7 @@
                 {{ s.Skill.Trigger }}
               </v-chip>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" md="6">
               <span class="flavor-text">PILOT TALENT AUDIT</span>
               <br />
               <span v-if="!pilot.Talents.length" class="stat-text accent--text">
@@ -127,7 +129,7 @@
           </v-row>
         </v-col>
         <v-col>
-          <div class="border ml-auto mr-auto" style="width: 300px; height: 300px">
+          <div class="border ml-auto mr-auto text-center" style="width: 300px; height: 300px">
             <v-img
               v-if="pilot.Portrait"
               :src="pilot.Portrait"
@@ -137,8 +139,8 @@
           </div>
         </v-col>
       </v-row>
-      <v-divider class="ma-2" />
-      <v-row dense>
+      <v-divider v-show="$vuetify.breakpoint.mdAndUp" class="ma-2" />
+      <v-row v-show="$vuetify.breakpoint.mdAndUp" dense>
         <span class="overline" style="line-height: 13px !important; opacity: 0.4">
           Improper use of this IDENT record and/or its constituent data by the record holder or any
           other persons is punishable under the DoJ/HR A-645-c. This record is the property of the

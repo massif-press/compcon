@@ -14,14 +14,14 @@
         />
         <cc-combat-dialog
           v-for="(a, j) in quickActions[k]"
-          v-if="a.IsTechAttack"
+          v-show="a.IsTechAttack"
           fulltech
           :key="`action_dialog_${j}`"
           :ref="`dialog_${a.ID}`"
           :action="a"
           :mech="mech"
           @add-invade="quick.push($event)"
-          @add-fail="quick.push('attack-fail-'+$event)"
+          @add-fail="quick.push('attack-fail-' + $event)"
         />
         <item-selector-row
           v-if="i === 0"
@@ -61,17 +61,29 @@
           justify="center"
           align="center"
         >
-          <v-col>
+          <v-col cols="12" md="">
             <v-alert v-if="q === 'invade-fail'" dense outlined color="white" class="text-center">
               <span class="heading h3 text-disabled">INVASION ATTEMPT FAILED</span>
             </v-alert>
-            <v-alert v-else-if="typeof(q) === 'string' && q.startsWith('attack-fail-')" dense outlined color="white" class="text-center">
+            <v-alert
+              v-else-if="typeof q === 'string' && q.startsWith('attack-fail-')"
+              dense
+              outlined
+              color="white"
+              class="text-center"
+            >
               <span class="heading h3 text-disabled">{{ systemFromFailure(q) }} FAILED</span>
             </v-alert>
             <cc-action v-else panel :action="q" />
           </v-col>
           <v-col cols="auto">
-            <v-btn x-large icon @click="removeQuick(i)"><v-icon x-large>mdi-close</v-icon></v-btn>
+            <v-btn v-if="$vuetify.breakpoint.mdAndUp" x-large icon @click="removeQuick(i)">
+              <v-icon x-large>mdi-close</v-icon>
+            </v-btn>
+            <v-btn v-else small block @click="removeQuick(i)">
+              <v-icon small left>mdi-close</v-icon>
+              Cancel {{ q.Name }}
+            </v-btn>
           </v-col>
         </v-row>
       </v-slide-x-reverse-transition>
@@ -147,7 +159,7 @@ export default Vue.extend({
     used: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
+      handler: function (newval) {
         if (!newval) this.quick = []
       },
     },
@@ -172,7 +184,7 @@ export default Vue.extend({
       this.$refs.inv_dialog.show()
     },
     systemFromFailure(failureString) {
-        return failureString.split('-')[2].toUpperCase()
+      return failureString.split('-')[2].toUpperCase()
     },
   },
 })
