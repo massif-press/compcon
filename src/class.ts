@@ -62,7 +62,6 @@ import { Deployable } from './classes/Deployable'
 import Project from './classes/pilot/reserves/Project'
 import Organization from './classes/pilot/reserves/Organization'
 import { Manufacturer } from './classes/Manufacturer'
-import { Faction } from './classes/Faction'
 import Statblock from './classes/Statblock'
 import {
   DiceRoller,
@@ -147,7 +146,6 @@ export {
   WeaponMod,
   WeaponSlot,
   Manufacturer,
-  Faction,
   Statblock,
   DiceRoller,
   D20RollResult,

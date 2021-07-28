@@ -20,13 +20,21 @@
         >
           Pilot Roster
         </main-btn>
-        <main-btn
+        <!-- <main-btn
           icon="cci-encounter"
           :to="'/gm'"
           help="Manage NPCs/Encounters/Missions"
           @hover="ccLog('gm')"
         >
           Encounter Toolkit
+        </main-btn> -->
+        <main-btn
+          icon="cci-encounter"
+          :to="'/gm'"
+          help="Manage Campaigns, Encounters, and NPCs"
+          @hover="ccLog('gm')"
+        >
+          GM Toolkit
         </main-btn>
         <main-btn
           icon="cci-content-manager"

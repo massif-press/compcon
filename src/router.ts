@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import encounterRoutes from './features/encounters/routes'
+import gmRoutes from './features/gm/routes'
 import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'
 
@@ -39,7 +40,11 @@ const r = new Router({
       ...route,
       path: route.path = '/pilot_management/' + route.path,
     })),
-    ...encounterRoutes.map(route => ({
+    // ...encounterRoutes.map(route => ({
+    //   ...route,
+    //   path: route.path = '/gm/' + route.path,
+    // })),
+    ...gmRoutes.map(route => ({
       ...route,
       path: route.path = '/gm/' + route.path,
     })),

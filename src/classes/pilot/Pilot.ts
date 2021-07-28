@@ -58,7 +58,6 @@ interface IPilotData {
   name: string
   player_name: string
   status: string
-  factionID: string
   text_appearance: string
   notes: string
   history: string
@@ -104,7 +103,6 @@ class Pilot implements ICloudSyncable {
   private _name: string
   private _player_name: string
   private _status: string
-  private _factionID: string
   private _text_appearance: string
   private _notes: string
   private _quirks: string[]
@@ -316,16 +314,6 @@ class Pilot implements ICloudSyncable {
 
   public set Status(newVal: string) {
     this._status = newVal
-    this.save()
-  }
-
-  public get Faction(): Faction {
-    const factions = store.getters.getItemCollection('Factions')
-    return factions.find((x: Faction) => x.id === this._factionID)
-  }
-
-  public set Faction(faction: Faction) {
-    this._factionID = faction.id
     this.save()
   }
 
@@ -1172,7 +1160,6 @@ class Pilot implements ICloudSyncable {
       player_name: p.PlayerName,
       status: p.Status,
       dead: p.IsDead,
-      factionID: p._factionID,
       text_appearance: p.TextAppearance,
       notes: p.Notes,
       history: p.History,
@@ -1235,7 +1222,6 @@ class Pilot implements ICloudSyncable {
     this._dead = data.dead || false
     this._player_name = data.player_name
     this._status = data.status || 'ACTIVE'
-    this._factionID = data.factionID
     this._text_appearance = data.text_appearance
     this._notes = data.notes
     this._history = data.history
