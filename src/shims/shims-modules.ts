@@ -23,7 +23,6 @@ declare module 'lancer-data' {
   const frames: any
   const info: any
   const manufacturers: any
-  const factions: any
   const mods: any
   const pilot_gear: any
   const tables: any

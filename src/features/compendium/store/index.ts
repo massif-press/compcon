@@ -17,7 +17,6 @@ import {
   Talent,
   Reserve,
   Manufacturer,
-  Faction,
   NpcClass,
   NpcTemplate,
   NpcFeature,
@@ -36,7 +35,6 @@ import {
   IWeaponModData,
   IMechSystemData,
   IManufacturerData,
-  IFactionData,
   IContentPack,
   ITagCompendiumData,
   IPilotEquipmentData,
@@ -103,8 +101,6 @@ export class CompendiumStore extends VuexModule {
   Frames: Frame[]
   @Brewable(() => lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x)))
   Manufacturers: Manufacturer[]
-  @Brewable(() => lancerData.factions.map((x: IFactionData) => new Faction(x)))
-  Factions: Faction[]
   @Brewable(() => lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x)))
   MechWeapons: MechWeapon[]
   @Brewable(() => lancerData.mods.map((x: IWeaponModData) => new WeaponMod(x)))

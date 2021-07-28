@@ -16,7 +16,6 @@ console.log('Done.')
 const schemasWanted = [
   'manifest',
   'manufacturers',
-  'factions',
   'environments',
   'core_bonus',
   'frames',
