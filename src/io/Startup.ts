@@ -12,7 +12,7 @@ import {
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
 
-export default async function(lancerVer: string, ccVer: string, store: any): Promise<void> {
+export default async function (lancerVer: string, ccVer: string, store: any): Promise<void> {
   const dataStore = getModule(CompendiumStore, store)
   const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
@@ -36,6 +36,10 @@ export default async function(lancerVer: string, ccVer: string, store: any): Pro
   await encounterStore.loadEncounters()
   await missionStore.loadMissions()
   await missionStore.loadActiveMissions()
+  await store.dispatch('character/loadCharacters')
+  await store.dispatch('location/loadLocations')
+  await store.dispatch('faction/loadFactions')
+
 
   console.info('loading complete')
 }
