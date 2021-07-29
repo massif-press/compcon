@@ -3,9 +3,11 @@
     <v-menu
       open-on-hover
       :close-on-content-click="false"
-      bottom
+      top
+      nudge-top="10px"
       offset-y
       open-delay="100"
+      close-delay="50"
       max-width="80vw"
       min-width="50vw"
     >
