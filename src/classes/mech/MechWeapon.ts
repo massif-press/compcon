@@ -75,13 +75,14 @@ class WeaponProfile extends CompendiumItem {
 
   public constructor(
     pData: IWeaponProfileData | IMechWeaponData,
+    packTags?: ITagCompendiumData[],
     container: MechWeapon,
     idx?: number
   ) {
     const data = Object.assign({}, pData) as ICompendiumItemData
     if (!data.id) data.id = container.ID
     data.id += `_profile_${idx || 0}`
-    super(data)
+    super(data,packTags)
     this.Cost = pData.cost || 1
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
     this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish
@@ -116,9 +117,9 @@ class MechWeapon extends MechEquipment {
     this.NoAttack = data.no_attack
     this.NoCoreBonus = data.no_core_bonus
     if (data.profiles) {
-      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, i))
+      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, packTags, this, i))
     } else {
-      this.Profiles = [new WeaponProfile(data, this)]
+      this.Profiles = [new WeaponProfile(data, packTags, this)]
     }
     this._selected_profile = 0
     this._mod = null
