@@ -543,7 +543,14 @@ class Pilot implements ICloudSyncable {
 
   public set Skills(skills: PilotSkill[]) {
     this._skills = skills
+    this.skillSort()
     this.save()
+  }
+
+  private skillSort(): void {
+    this._skills = this._skills.sort(function (a, b) {
+      return a.Title > b.Title ? 1 : -1
+    })
   }
 
   public get CurrentSkillPoints(): number {
@@ -584,6 +591,7 @@ class Pilot implements ICloudSyncable {
     } else {
       this._skills[index].Increment()
     }
+    this.skillSort()
     this.save()
   }
 
@@ -606,6 +614,7 @@ class Pilot implements ICloudSyncable {
         this._skills.splice(index, 1)
       }
     }
+    this.skillSort()
     this.save()
   }
 
@@ -624,6 +633,7 @@ class Pilot implements ICloudSyncable {
 
   public set Talents(talents: PilotTalent[]) {
     this._talents = talents
+    this.talentSort()
     this.save()
   }
 
