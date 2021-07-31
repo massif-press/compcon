@@ -93,7 +93,7 @@
               </v-col>
               <v-col lg="4" cols="6">
                 <v-switch
-                  v-model="userProfile.SyncFrequency.onSignIn"
+                  v-model="userProfile.SyncFrequency.onLogIn"
                   hide-details
                   color="accent"
                   label="On User Sign In"

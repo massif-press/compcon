@@ -159,9 +159,9 @@ export class UserStore extends VuexModule {
       sync = false
     if (payload.condition === 'mechDelete' && !this.UserProfile.SyncFrequency.onMechDelete)
       sync = false
-    if (payload.condition === 'mechDelete' && !this.UserProfile.SyncFrequency.onNpcCreate)
+    if (payload.condition === 'npcCreate' && !this.UserProfile.SyncFrequency.onNpcCreate)
       sync = false
-    if (payload.condition === 'mechDelete' && !this.UserProfile.SyncFrequency.onNpcDelete)
+    if (payload.condition === 'npcDelete' && !this.UserProfile.SyncFrequency.onNpcDelete)
       sync = false
     if (
       payload.condition === 'encounterCreate' &&
