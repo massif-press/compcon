@@ -102,6 +102,14 @@
               <!-- <v-col lg="4" cols="6"><v-switch v-model="userProfile.SyncFrequency.onAppLoad" hide-details color="accent" label="On App Exit" /></v-col> -->
               <v-col lg="4" cols="6">
                 <v-switch
+                  v-model="userProfile.SyncFrequency.onThemeChange"
+                  hide-details
+                  color="accent"
+                  label="On Theme Change"
+                />
+              </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
                   v-model="userProfile.SyncFrequency.onPilotLevel"
                   hide-details
                   color="accent"

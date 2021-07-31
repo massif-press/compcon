@@ -147,6 +147,8 @@ export class UserStore extends VuexModule {
     }
 
     let sync = true
+    if (payload.condition === 'themeChange' && !this.UserProfile.SyncFrequency.onThemeChange)
+      sync = false
     if (payload.condition === 'pilotLevel' && !this.UserProfile.SyncFrequency.onPilotLevel)
       sync = false
     if (payload.condition === 'pilotCreate' && !this.UserProfile.SyncFrequency.onPilotCreate)
