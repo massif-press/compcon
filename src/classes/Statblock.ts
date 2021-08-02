@@ -143,6 +143,11 @@ class Statblock {
               if (idx + 1 < mount.Weapons.length) output += ' / '
             })
           }
+
+          if (mount.Bonuses.length > 0) {
+            output += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
+          }
+
           output += '\n'
         }
 
