@@ -23,7 +23,7 @@
     "aws-amplify-vue": "^2.1.4",
     "axios": "^0.19.0",
     "jszip": "^3.2.2",
-    "lancer-data": "^3.0.35",
+    "lancer-data": "^3.0.36",
     "lodash": "^4.17.11",
     "material-icons": "^0.3.1",
     "patreon": "^0.4.1",
