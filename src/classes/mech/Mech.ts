@@ -66,7 +66,7 @@ class Mech implements IActor {
   private _loadouts: MechLoadout[]
   private _active_loadout: MechLoadout
   private _current_structure: number
-  private _current_hp: number
+  private _missing_hp: number
   private _overshield: number
   private _current_stress: number
   private _current_heat: number
@@ -117,7 +117,7 @@ class Mech implements IActor {
     this._loadouts = [new MechLoadout(this)]
     this._active_loadout = this._loadouts[0]
     this._current_structure = frame.Structure
-    this._current_hp = frame.HP
+    this._missing_hp = 0
     this._current_stress = frame.HeatStress
     this._current_repairs = frame.RepCap
     this._currentMove = frame.Speed
@@ -494,16 +494,16 @@ class Mech implements IActor {
   }
 
   public get CurrentHP(): number {
-    if (this._current_hp > this.MaxHP) this.CurrentHP = this.MaxHP
-    return this._current_hp
+    if (this._missing_hp < 0) this.CurrentHP = this.MaxHP
+    return this.MaxHP - this._missing_hp
   }
 
   public set CurrentHP(hp: number) {
-    if (hp > this.MaxHP) this._current_hp = this.MaxHP
+    if (hp > this.MaxHP) this._missing_hp = 0
     else if (hp <= 0) {
       this.CurrentStructure -= 1
       this.CurrentHP = this.MaxHP + hp
-    } else this._current_hp = hp
+    } else this._missing_hp = this.MaxHP - hp
     this.save()
   }
 
@@ -1091,7 +1091,7 @@ class Mech implements IActor {
       current_structure: m._current_structure,
       current_move: m._currentMove,
       boost: m._boost,
-      current_hp: m._current_hp,
+      current_hp: m.CurrentHP,
       overshield: m._overshield,
       current_stress: m._current_stress,
       current_heat: m._current_heat,
@@ -1141,7 +1141,7 @@ class Mech implements IActor {
     m._current_structure = data.current_structure
     m._currentMove = data.current_move || 0
     m._boost = data.boost || 0
-    m._current_hp = data.current_hp
+    m.CurrentHP = data.current_hp
     m._overshield = data.overshield || 0
     m._current_stress = data.current_stress
     m._current_heat = data.current_heat

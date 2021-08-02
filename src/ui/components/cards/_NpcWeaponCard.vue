@@ -68,6 +68,7 @@
     <v-col cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.WeaponType }}</div>
       <span class="flavor-text subtle--text">// {{ item.Origin }}</span>
+      <div v-if="item.LcpName" class="flavor-text subtle--text">{{ item.LcpName }}</div>
     </v-col>
     <p
       v-if="item.OnHit"
