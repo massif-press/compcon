@@ -916,8 +916,8 @@ class Mech implements IActor {
         if (y.IsLimited) y.Uses = y.getTotalUses(this.LimitedBonus)
       })
     })
-    this.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset())
-    this.Frame.CoreSystem.DeployActions.forEach(a => a.Reset())
+    if (this.Frame.CoreSystem.PassiveActions) this.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset())
+    if (this.Frame.CoreSystem.DeployActions) this.Frame.CoreSystem.DeployActions.forEach(a => a.Reset())
     this._statuses = []
     this._conditions = []
     this._resistances = []

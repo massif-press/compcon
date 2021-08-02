@@ -326,8 +326,8 @@ class ActiveState {
     this._mech.Conditions.splice(0, this._mech.Conditions.length)
     this._mech.Statuses.splice(0, this._mech.Statuses.length)
     this._deployed.splice(0, this._deployed.length)
-    this._mech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset())
-    this._mech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset())
+    if (this._mech.Frame.CoreSystem.PassiveActions) this._mech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset())
+    if (this._mech.Frame.CoreSystem.DeployActions) this._mech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset())
     if (this._mech.Pilot.IsDownAndOut)
       this._mech.Pilot.CurrentHP = Math.ceil(this._mech.Pilot.MaxHP / 2)
     this.SetLog({
