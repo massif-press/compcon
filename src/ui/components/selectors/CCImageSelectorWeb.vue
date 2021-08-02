@@ -121,7 +121,10 @@ export default Vue.extend({
       reader.readAsBinaryString(file)
     },
     async saveImage() {
-      if (this.selectedImage) {
+      if (this.selectedImage && this.validURL(this.selectedImage)) {
+        this.item.SetCloudImage(this.selectedImage)
+        this.close()
+      } else if (this.selectedImage) {
         this.item.SetCloudImage(null)
         this.item.SetLocalImage(path.basename(this.selectedImage))
         this.close()
@@ -140,6 +143,16 @@ export default Vue.extend({
         this.loading = false
         this.imageData = null
       }
+    },
+    // Pulled from Stackoverflow: https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
+    validURL(str: string): boolean {
+      const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+      return !!pattern.test(str);
     },
     open() {
       this.$refs.dialog.show()
