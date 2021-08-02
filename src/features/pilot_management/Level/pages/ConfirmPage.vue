@@ -67,6 +67,7 @@ export default Vue.extend({
     savePilot() {
       this.original.ApplyLevel(Pilot.Serialize(this.pilot))
       this.$router.push({ name: 'pilot_sheet', params: { id: this.pilot.ID } })
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'pilotLevel' })
     },
     canContinue() {
       return (
