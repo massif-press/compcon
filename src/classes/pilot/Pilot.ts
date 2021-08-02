@@ -116,7 +116,7 @@ class Pilot implements ICloudSyncable {
   private _id: string
   private _level: number
   private _portrait: string
-  private _current_hp: number
+  private _missing_hp: number
   private _background: string
 
   private _special_equipment: CompendiumItem[]
@@ -152,7 +152,7 @@ class Pilot implements ICloudSyncable {
     this._portrait = ''
     this._cloud_portrait = ''
     this._quirks = []
-    this._current_hp = Rules.BasePilotHP
+    this._missing_hp = 0
     this._loadout = new PilotLoadout(0)
     this._background = ''
     this._special_equipment = []
@@ -500,13 +500,13 @@ class Pilot implements ICloudSyncable {
   }
 
   public get CurrentHP(): number {
-    return this._current_hp
+    return this.MaxHP - this._missing_hp
   }
 
   public set CurrentHP(hp: number) {
-    if (hp > this.MaxHP) this._current_hp = this.MaxHP
-    else if (hp < 0) this._current_hp = 0
-    else this._current_hp = hp
+    if (hp > this.MaxHP) this._missing_hp = 0
+    else if (hp < 0) this._missing_hp = this.MaxHP
+    else this._missing_hp = this.MaxHP - hp
     this.save()
   }
 
@@ -543,7 +543,14 @@ class Pilot implements ICloudSyncable {
 
   public set Skills(skills: PilotSkill[]) {
     this._skills = skills
+    this.skillSort()
     this.save()
+  }
+
+  private skillSort(): void {
+    this._skills = this._skills.sort(function (a, b) {
+      return a.Title > b.Title ? 1 : -1
+    })
   }
 
   public get CurrentSkillPoints(): number {
@@ -551,7 +558,8 @@ class Pilot implements ICloudSyncable {
   }
 
   public get MaxSkillPoints(): number {
-    return Bonus.IntPilot(Rules.MinimumPilotSkills + this._level, 'skill_point', this)
+    const bonus = this.Reserves.filter(x => x.ID === 'reserve_skill').length
+    return Bonus.IntPilot(Rules.MinimumPilotSkills + this._level + bonus, 'skill_point', this)
   }
 
   public get IsMissingSkills(): boolean {
@@ -584,6 +592,7 @@ class Pilot implements ICloudSyncable {
     } else {
       this._skills[index].Increment()
     }
+    this.skillSort()
     this.save()
   }
 
@@ -606,6 +615,7 @@ class Pilot implements ICloudSyncable {
         this._skills.splice(index, 1)
       }
     }
+    this.skillSort()
     this.save()
   }
 
@@ -624,6 +634,7 @@ class Pilot implements ICloudSyncable {
 
   public set Talents(talents: PilotTalent[]) {
     this._talents = talents
+    this.talentSort()
     this.save()
   }
 
@@ -1242,7 +1253,7 @@ class Pilot implements ICloudSyncable {
     this._portrait = data.portrait
     this._cloud_portrait = data.cloud_portrait
     this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : []
-    this._current_hp = data.current_hp
+    this.CurrentHP = data.current_hp
     this._background = data.background
     this._mechSkills = MechSkills.Deserialize(this, data.mechSkills)
     this._licenses = data.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))

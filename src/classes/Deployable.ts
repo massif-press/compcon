@@ -66,7 +66,7 @@ class Deployable extends CompendiumItem {
   public readonly Recall: ActivationType | null
   public readonly Redeploy: ActivationType | null
   public readonly Instances: number
-  private _current_hp: number
+  private _missing_hp: number
   private _current_heat: number
   private _current_repairs: number
   private _overshield: number
@@ -86,7 +86,7 @@ class Deployable extends CompendiumItem {
     this.Redeploy = data.redeploy || null
     this.Size = this.collect(data.size, owner, 'size')
     this.MaxHP = this.collect(data.hp, owner, 'hp')
-    this._current_hp = this.MaxHP
+    this._missing_hp = 0
     this.Armor = this.collect(data.armor, owner, 'armor')
     this.Evasion = this.collect(
       data.evasion,
@@ -136,15 +136,15 @@ class Deployable extends CompendiumItem {
   }
 
   public get CurrentHP(): number {
-    if (this._current_hp > this.MaxHP) this.CurrentHP = this.MaxHP
-    return this._current_hp
+    if (this._missing_hp < 0) this.CurrentHP = this.MaxHP
+    return this.MaxHP - this._missing_hp
   }
 
   public set CurrentHP(hp: number) {
-    if (hp > this.MaxHP) this._current_hp = this.MaxHP
+    if (hp > this.MaxHP) this._missing_hp = 0
     else if (hp <= 0) {
       this.Destroyed = true
-    } else this._current_hp = hp
+    } else this._missing_hp = this.MaxHP - hp
     this.save()
   }
 
