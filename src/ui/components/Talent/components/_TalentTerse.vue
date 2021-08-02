@@ -34,7 +34,7 @@
             v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
             :key="`rank-btn-${n}`"
           >
-            <v-menu open-on-hover bottom offset-y open-delay="100">
+            <v-menu open-on-hover top offset-y open-delay="100">
               <template v-slot:activator="{ on }">
                 <v-btn :block="$vuetify.breakpoint.smAndDown" tile :color="rankColor(n)" v-on="on">
                   <v-icon v-if="!rank || (rank && parseInt(rank) >= n)" left>
