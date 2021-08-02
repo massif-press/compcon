@@ -2,6 +2,7 @@
   <equipment-card-base :item="item">
     <v-col cols="auto" class="ml-auto text-right">
       <span class="flavor-text subtle--text">// {{ item.Origin }}</span>
+      <div v-if="item.LcpName" class="flavor-text subtle--text">{{ item.LcpName }}</div>
     </v-col>
   </equipment-card-base>
 </template>
