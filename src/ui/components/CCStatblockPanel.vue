@@ -1,5 +1,5 @@
 <template>
-  <v-col :cols="cols ? cols : auto">
+  <v-col :cols="cols">
     <v-card
       flat
       tile

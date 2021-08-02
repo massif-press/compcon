@@ -24,6 +24,7 @@ A massive thanks to Valkyrion for the massively helpful bug squashing this week!
 * **Pilot Sheet** Correctly display Overpower Caliber in the export text block, closes [#1483](https://github.com/massif-press/compcon/issues/1483)
 * **Pilot Sheet** Re-orients Talent tooltips, closes [#1560](https://github.com/massif-press/compcon/issues/1560)
 * **Compendium** Remove 'Loading' from Barbarossa's Direct Fire, closes [#1565](https://github.com/massif-press/compcon/issues/1565)
+* **Active Mode** Correctly reset Orochi drones on Rest or Full Repair (beef), closes [#1577](https://github.com/massif-press/compcon/issues/1577)
 
 ## [2.2.27](https://github.com/massif-press/compcon/compare/2.2.26...v2.2.27) (2021-07-16)
 
