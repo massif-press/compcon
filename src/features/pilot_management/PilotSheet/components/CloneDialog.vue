@@ -69,7 +69,7 @@ import _ from 'lodash'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
-  name: 'cloud-dialog',
+  name: 'clone-dialog',
   props: {
     pilot: {
       type: Object,
