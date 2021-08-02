@@ -27,6 +27,8 @@ export default class Systems extends Vue {
 
   private compendium = getModule(CompendiumStore, this.$store)
   private user = getModule(UserStore, this.$store).UserProfile
+  private sourceIds = this.compendium.Manufacturers.map(x => x.ID)
+
   public get systems(): MechEquipment[] {
     let sys = this.compendium.MechSystems.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
     let mod = this.compendium.WeaponMods.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
@@ -35,7 +37,10 @@ export default class Systems extends Vue {
       mod = mod.filter(x => !x.IsExotic)
     }
 
-    return _.orderBy((sys as MechEquipment[]).concat(mod as MechEquipment[]), ['Source', 'Name'])
+    return _.orderBy((sys as MechEquipment[]).concat(mod as MechEquipment[]), [
+      item => this.sourceIds.indexOf(item.Source), 
+      'Name'
+    ])
   }
 }
 </script>
