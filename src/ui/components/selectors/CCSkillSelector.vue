@@ -5,7 +5,11 @@
     :success="!pilot.IsMissingSkills && enoughSelections"
   >
     <template v-slot:left-column>
-      <div v-for="(pSkill, i) in pilot.Skills" :key="`summary_${pSkill.Skill.ID}_${i}`">
+      <div 
+        v-for="(pSkill, i) in pilot.Skills" 
+        :key="`summary_${pSkill.Skill.ID}_${i}`"
+        @click="scroll(pSkill.Skill.ID)"
+      >
         <missing-item v-if="pSkill.Skill.err" @remove="pilot.RemoveSkill(pSkill)" />
         <v-chip v-else label color="panel" style="width: 100%" class="my-1 pa-1">
           <v-chip dark color="accent" small>
@@ -72,6 +76,7 @@
         </div>
         <skill-select-item
           v-for="(s, i) in skills[h.attr]"
+          :id="`skill_${s.ID}`"
           :key="`skill_${h.attr}_${i}`"
           :skill="s"
           :can-add="pilot.CanAddSkill(s)"
@@ -80,7 +85,10 @@
           @remove="pilot.RemoveSkill(s)"
         />
       </div>
-      <add-custom-skill :pilot="pilot" @add-custom="pilot.AddCustomSkill($event)" />
+      <add-custom-skill 
+        :pilot="pilot"
+        :can-add="pilot.IsMissingSkills"
+        @add-custom="pilot.AddCustomSkill($event)" />
     </template>
   </selector>
 </template>
@@ -135,6 +143,23 @@ export default Vue.extend({
     const compendium = getModule(CompendiumStore, this.$store)
     this.staticSkills = this.$_.groupBy(compendium.Skills, 'Family')
     this.headers = rules.skill_headers
+  },
+  methods: {
+    scroll(id) {
+      if (this.newPilot || this.levelUp)
+        this.$vuetify.goTo(`#skill_${id}`, {
+          duration: 150,
+          easing: 'easeInOutQuad',
+          offset: 25,
+        })
+      else
+        this.$vuetify.goTo(`#skill_${id}`, {
+          duration: 150,
+          easing: 'easeInOutQuad',
+          offset: 25,
+          container: '.v-dialog--active',
+        })
+    }
   },
 })
 </script>
