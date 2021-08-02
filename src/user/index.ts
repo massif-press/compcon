@@ -17,6 +17,7 @@ interface ISyncFrequency {
   onAppLoad: boolean
   onLogIn: boolean
   onAppExit: boolean
+  onThemeChange: boolean
   onPilotLevel: boolean
   onPilotCreate: boolean
   onPilotDelete: boolean
@@ -70,6 +71,7 @@ const defaultSyncFrequency = (): ISyncFrequency => ({
   onAppLoad: true,
   onLogIn: true,
   onAppExit: true,
+  onThemeChange: true,
   onPilotLevel: true,
   onPilotCreate: true,
   onPilotDelete: true,
