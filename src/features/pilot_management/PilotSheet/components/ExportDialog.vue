@@ -65,7 +65,7 @@ import { saveFile } from '@/io/Dialog'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
-  name: 'cloud-dialog',
+  name: 'export-dialog',
   props: {
     pilot: {
       type: Object,

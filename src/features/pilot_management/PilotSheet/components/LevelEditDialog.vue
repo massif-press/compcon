@@ -75,7 +75,7 @@ import Vue from 'vue'
 import { Rules } from '@/class'
 
 export default Vue.extend({
-  name: 'cloud-dialog',
+  name: 'level-edit-dialog',
   props: {
     pilot: {
       type: Object,
@@ -105,6 +105,7 @@ export default Vue.extend({
       let lvl = parseInt(this.newLevel) || 0
       if (lvl > Rules.MaxPilotLevel) lvl = Rules.MaxPilotLevel
       this.pilot.Level = lvl
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'pilotLevel' })
       this.hide()
     },
   },
