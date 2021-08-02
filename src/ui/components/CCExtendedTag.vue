@@ -16,7 +16,7 @@
     >
       label
     </v-icon>
-    <span v-if="tag.err">ERR: MISSING DATA</span>
+    <span v-if="tag.err">ERR: {{ tag.err.toUpperCase() }}</span>
     <div v-else>
       <h3 :class="`heading ${tag.IsExotic ? 'exotic' : 'accent'}--text`">
         <v-icon

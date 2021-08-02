@@ -85,7 +85,10 @@
           @remove="pilot.RemoveSkill(s)"
         />
       </div>
-      <add-custom-skill :pilot="pilot" @add-custom="pilot.AddCustomSkill($event)" />
+      <add-custom-skill 
+        :pilot="pilot"
+        :can-add="pilot.IsMissingSkills"
+        @add-custom="pilot.AddCustomSkill($event)" />
     </template>
   </selector>
 </template>
