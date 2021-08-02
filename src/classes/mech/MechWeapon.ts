@@ -124,6 +124,8 @@ class MechWeapon extends MechEquipment {
     this._selected_profile = 0
     this._mod = null
     this.ItemType = ItemType.MechWeapon
+    this.max_use_override = 0
+    this._custom_damage_type = null
   }
 
   public get TotalSP(): number {
@@ -232,9 +234,17 @@ class MechWeapon extends MechEquipment {
   }
 
   public set MaxUseOverride(val: number) {
-    this.max_use_override = val
-    this._uses = val
+    const safeVal = MechWeapon.SanitizeUsesInput(val)
+    this.max_use_override = safeVal
+    this._uses = safeVal
     this.save()
+  }
+
+  public static SanitizeUsesInput(val: number): number {
+    // Prevent Uses icon overflow - set reasonable limit on maximum uses
+    const absoluteMax = 25
+    const absoluteMin = 0
+    return Math.max(Math.min(val, absoluteMax), absoluteMin)
   }
 
   public get DamageType(): DamageType[] {
@@ -272,7 +282,7 @@ class MechWeapon extends MechEquipment {
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
     return {
       id: item.ID,
-      uses: item.Uses || 0,
+      uses: MechWeapon.SanitizeUsesInput(item.Uses) || 0,
       destroyed: item.Destroyed,
       cascading: item.IsCascading,
       loaded: item.Loaded,
@@ -281,14 +291,14 @@ class MechWeapon extends MechEquipment {
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || null,
-      maxUseOverride: item.max_use_override || 0,
+      maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
       selectedProfile: item._selected_profile || 0,
     }
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
     const item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
-    item._uses = data.uses || 0
+    item._uses = MechWeapon.SanitizeUsesInput(data.uses) || 0
     item._destroyed = data.destroyed || false
     item._cascading = data.cascading || false
     item._loaded = data.loaded || true
@@ -297,7 +307,7 @@ class MechWeapon extends MechEquipment {
     item._flavor_name = data.flavorName
     item._flavor_description = data.flavorDescription
     item._custom_damage_type = data.customDamageType || null
-    item.max_use_override = data.maxUseOverride || 0
+    item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride) || 0
     item._selected_profile = data.selectedProfile || 0
     return item
   }
