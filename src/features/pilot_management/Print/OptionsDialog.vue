@@ -62,7 +62,7 @@ import Vue from 'vue'
 import PrintOptionSelect from './PrintOptionSelect.vue'
 
 export default Vue.extend({
-  name: 'print-dialog',
+  name: 'print-options-dialog',
   components: { PrintOptionSelect },
   data: () => ({
     options: null,
