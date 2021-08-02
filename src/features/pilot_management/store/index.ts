@@ -117,7 +117,7 @@ export class PilotManagementStore extends VuexModule {
   public addPilot(payload: { pilot: Pilot; update: boolean }): void {
     this.context.commit(ADD_PILOT, payload.pilot)
     if (payload.update)
-      this.context.dispatch('cloudSync', { callback: null, condition: 'pilotAdd' })
+      this.context.dispatch('cloudSync', { callback: null, condition: 'pilotCreate' })
   }
 
   @Action

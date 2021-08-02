@@ -224,6 +224,7 @@ export default Vue.extend({
         this.$vuetify.theme.themes.light = allThemes[this.theme].colors
         this.$vuetify.theme.dark = false
       }
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'themeChange' })
     },
     showMessage() {
       const store = getModule(UserStore, this.$store)
