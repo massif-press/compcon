@@ -558,8 +558,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public get MaxSkillPoints(): number {
-    const bonus = this.Reserves.filter(x => x.ID === 'reserve_skill').length
-    return Bonus.IntPilot(Rules.MinimumPilotSkills + this._level + bonus, 'skill_point', this)
+    return Bonus.IntPilot(Rules.MinimumPilotSkills + this._level, 'skill_point', this)
   }
 
   public get IsMissingSkills(): boolean {
