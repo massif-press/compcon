@@ -236,7 +236,7 @@ class MechWeapon extends MechEquipment {
   public set MaxUseOverride(val: number) {
     const safeVal = MechWeapon.SanitizeUsesInput(val)
     this.max_use_override = safeVal
-    this._uses = safeVal
+    this._missing_uses = 0
     this.save()
   }
 
@@ -298,7 +298,7 @@ class MechWeapon extends MechEquipment {
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
     const item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
-    item._uses = MechWeapon.SanitizeUsesInput(data.uses) || 0
+    item.Uses = MechWeapon.SanitizeUsesInput(data.uses) || 0
     item._destroyed = data.destroyed || false
     item._cascading = data.cascading || false
     item._loaded = data.loaded || true
