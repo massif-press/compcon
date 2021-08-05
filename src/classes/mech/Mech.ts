@@ -65,12 +65,12 @@ class Mech implements IActor {
   private _frame: Frame
   private _loadouts: MechLoadout[]
   private _active_loadout: MechLoadout
-  private _current_structure: number
+  private _missing_structure: number
   private _missing_hp: number
   private _overshield: number
-  private _current_stress: number
+  private _missing_stress: number
+  private _missing_repairs: number
   private _current_heat: number
-  private _current_repairs: number
   private _current_core_energy: number
   private _current_overcharge: number
   private _activations: number
@@ -116,10 +116,10 @@ class Mech implements IActor {
     this._meltdown_imminent = false
     this._loadouts = [new MechLoadout(this)]
     this._active_loadout = this._loadouts[0]
-    this._current_structure = frame.Structure
+    this._missing_structure = 0
     this._missing_hp = 0
-    this._current_stress = frame.HeatStress
-    this._current_repairs = frame.RepCap
+    this._missing_stress = 0
+    this._missing_repairs = 0
     this._currentMove = frame.Speed
     this._boost = 0
     this._activations = 1
@@ -460,17 +460,15 @@ class Mech implements IActor {
 
   // -- Stats -------------------------------------------------------------------------------------
   public get CurrentStructure(): number {
-    return this._current_structure
+    return this.MaxStructure - this._missing_structure
   }
 
   public set CurrentStructure(structure: number) {
-    if (structure > this.MaxStructure) this._current_structure = this.MaxStructure
-    else if (structure < 0) this._current_structure = 0
-    else this._current_structure = structure
-    if (this._current_structure === 0) this.Destroy()
+    this._missing_structure = Math.min(Math.max(this.MaxStructure - structure, 0), this.MaxStructure)
+    if (this._missing_structure === this.MaxStructure) this.Destroy()
     this.save()
   }
-
+  
   public get MaxStructure(): number {
     return Bonus.Int(this._frame.Structure, 'structure', this)
   }
@@ -611,14 +609,12 @@ class Mech implements IActor {
   }
 
   public get CurrentStress(): number {
-    return this._current_stress
+    return this.MaxStress - this._missing_stress
   }
 
   public set CurrentStress(stress: number) {
-    if (stress > this.MaxStress) this._current_stress = this.MaxStress
-    else if (stress < 0) this._current_stress = 0
-    else this._current_stress = stress
-    if (this._current_stress === 0) this._pilot.State.ReactorCriticalDestruct()
+    this._missing_stress = Math.min(Math.max(this.MaxStress - stress, 0), this.MaxStress)
+    if (this._missing_stress === this.MaxStress) this._pilot.State.ReactorCriticalDestruct()
     this.save()
   }
 
@@ -636,13 +632,11 @@ class Mech implements IActor {
   }
 
   public get CurrentRepairs(): number {
-    return this._current_repairs
+    return this.RepairCapacity - this._missing_repairs
   }
 
   public set CurrentRepairs(rep: number) {
-    if (rep > this.RepairCapacity) this._current_repairs = this.RepairCapacity
-    else if (rep < 0) this._current_repairs = 0
-    else this._current_repairs = rep
+    this._missing_repairs = Math.min(Math.max(this.RepairCapacity - rep, 0), this.RepairCapacity)
     this.save()
   }
 
@@ -1090,14 +1084,14 @@ class Mech implements IActor {
       cloud_portrait: m._cloud_portrait,
       frame: m.Frame.ID,
       active: m._active,
-      current_structure: m._current_structure,
+      current_structure: m.CurrentStructure,
       current_move: m._currentMove,
       boost: m._boost,
       current_hp: m.CurrentHP,
       overshield: m._overshield,
-      current_stress: m._current_stress,
+      current_stress: m.CurrentStress,
       current_heat: m._current_heat,
-      current_repairs: m._current_repairs,
+      current_repairs: m.CurrentRepairs,
       current_overcharge: m._current_overcharge,
       current_core_energy: m._current_core_energy,
       loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
@@ -1140,14 +1134,14 @@ class Mech implements IActor {
         ? m._loadouts[data.active_loadout_index]
         : m._loadouts[0]
     }
-    m._current_structure = data.current_structure
+    m.CurrentStructure = data.current_structure
     m._currentMove = data.current_move || 0
     m._boost = data.boost || 0
     m.CurrentHP = data.current_hp
     m._overshield = data.overshield || 0
-    m._current_stress = data.current_stress
+    m.CurrentStress = data.current_stress
     m._current_heat = data.current_heat
-    m._current_repairs = data.current_repairs
+    m.CurrentRepairs = data.current_repairs
     m._current_overcharge = data.current_overcharge || 0
     m._current_core_energy = data.current_core_energy != null ? data.current_core_energy : 1
     m._statuses = data.statuses || []
