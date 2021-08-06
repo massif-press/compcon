@@ -29,10 +29,20 @@
               v-if="$vuetify.breakpoint.lgAndUp"
               style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"
             >
+              <img
+                v-if="m.LogoIsExternal"
+                :src="m.Logo"
+                :alt="m.Name"
+                :style="{
+                  maxWidth: '22vw',
+                  height: '22vw',
+                }"
+              />
               <svg
+                v-else
+                :data-src="m.Logo + '#Content'"
                 :style="`width:22vw; height:22vw; fill:${m.Color}; stroke:#fff; stroke-width: 8px;`"
               >
-                <use :href="m.Logo + '#Content'"></use>
               </svg>
             </div>
             <blockquote class="quote-block fluff-text text--text" v-html-safe="m.Quote" />

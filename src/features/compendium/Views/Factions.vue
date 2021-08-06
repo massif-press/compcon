@@ -29,10 +29,20 @@
               v-if="$vuetify.breakpoint.lgAndUp"
               style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"
             >
+              <img
+                v-if="f.LogoIsExternal"
+                :src="f.Logo"
+                :alt="f.Name"
+                :style="{
+                  maxWidth: '22vw',
+                  height: '22vw',
+                }"
+              />
               <svg
+                v-else
+                :data-src="f.Logo + '#Content'"
                 :style="`width:22vw; height:22vw; fill:${f.Color}; stroke:#fff; stroke-width: 8px;`"
               >
-                <use :href="f.Logo + '#Content'"></use>
               </svg>
             </div>
             <v-divider class="ma-2" style="width: 800px" />
@@ -53,13 +63,14 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import { Faction } from '@/classes/Faction'
 
 @Component
 export default class Factions extends Vue {
   public tabModel = 0
 
   private compendiumStore = getModule(CompendiumStore, this.$store)
-  get factions() {
+  get factions(): Faction[] {
     return this.compendiumStore.Factions
   }
 }
