@@ -173,6 +173,13 @@ class Reserve {
       resource_cost: reserve.ResourceCost,
       consumable: reserve.Consumable,
       used: reserve.Used,
+      bonuses: reserve.Bonuses.map(x => Bonus.Serialize(x)),
+      actions: reserve.Actions.map(x => Action.Serialize(x)),
+      synergies: reserve.Synergies.map(x => Synergy.Serialize(x)),
+      deployables: reserve.Deployables,
+      counters: reserve.Counters,
+      integrated: reserve._integrated,
+      special_equipment: reserve._special_equipment
     }
   }
 
@@ -185,6 +192,12 @@ class Reserve {
         name: rData.name,
         label: rData.label,
         description: rData.description,
+        bonuses: rData.bonuses,
+        actions: rData.actions,
+        deployables: rData.deployables,
+        counters: rData.counters,
+        integrated: rData.integrated,
+        special_equipment: rData.special_equipment
       }
     const r = new Reserve(data)
     r._resource_name = rData.resource_name

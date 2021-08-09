@@ -39,9 +39,11 @@ enum ActivePeriod {
 class Frequency {
   public readonly Uses: number
   public readonly Duration: ActivePeriod
+  public readonly FreqText: string
   private _unlimited: boolean
 
   public constructor(frq: string) {
+    this.FreqText = frq
     if (!frq || !frq.includes('/')) {
       this.Uses = 1
       this.Duration = ActivePeriod.Unlimited
@@ -244,6 +246,31 @@ class Action {
     )
     a.Deployable = d
     return a
+  }
+
+  public static Serialize(action: Action): IActionData {
+    return {
+      id: action.ID,
+      name: action.Name,
+      activation: action.Activation,
+      cost: action.Cost,
+      frequency: action.Frequency.FreqText,
+      init: action.Init,
+      trigger: action.Trigger,
+      terse: action.Terse,
+      detail: action.Detail,
+      pilot: action.IsPilotAction,
+      mech: action.IsMechAction,
+      damage: action.Damage.map(x => Damage.Serialize(x)),
+      range: action.Range.map(x => Range.Serialize(x)),
+      hide_active: action.IsActiveHidden,
+      synergy_locations: action.SynergyLocations,
+      confirm: action.Confirm,
+      log: action.Log,
+      ignore_used: action._ignore_used,
+      heat_cost: action.HeatCost,
+      tech_attack: action.IsTechAttack
+    }
   }
 }
 
