@@ -16,8 +16,10 @@
       <v-col cols="auto">
         <cc-tooltip content="Roll Overcharge">
           <cc-dice-menu
+            v-if="resetRoll"
             :preset="mech.OverchargeTrack[mech.CurrentOvercharge]"
             title="OVERCHARGE"
+            autoroll=true
             @commit="registerOverchargeRoll($event.total)"
           />
         </cc-tooltip>
@@ -78,6 +80,7 @@ export default Vue.extend({
   data: () => ({
     finished: false,
     overcharge_heat: null,
+    resetRoll: true,
   }),
   methods: {
     registerOverchargeRoll(roll) {
@@ -96,6 +99,10 @@ export default Vue.extend({
     init(): void {
       this.finished = false
       this.overcharge_heat = null
+      this.resetRoll = false
+      this.$nextTick(function () {
+        this.resetRoll = true
+      })
     },
   },
 })
