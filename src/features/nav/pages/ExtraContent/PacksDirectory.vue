@@ -56,9 +56,6 @@ export default class PacksDirectory extends Vue {
     fetch(this.massifPacksUrl, {
       method: 'GET',
       mode: 'cors',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
     })
       .then(res => res.json())
       .then(list => (this.massifPacks = list))
@@ -70,9 +67,6 @@ export default class PacksDirectory extends Vue {
     fetch(this.communityPacksUrl, {
       method: 'GET',
       mode: 'cors',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
     })
       .then(res => res.json())
       .then(list => (this.communityPacks = list))
