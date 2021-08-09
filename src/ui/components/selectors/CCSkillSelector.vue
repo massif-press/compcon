@@ -145,7 +145,7 @@ export default Vue.extend({
   },
   methods: {
     scroll(id) {
-      if (this.newPilot || this.levelUp)
+      if (this.levelUp)
         this.$vuetify.goTo(`#skill_${id}`, {
           duration: 150,
           easing: 'easeInOutQuad',
