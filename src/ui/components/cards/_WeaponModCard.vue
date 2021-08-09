@@ -29,7 +29,7 @@
     </v-col>
     <v-col cols="auto" class="ml-auto text-right">
       <span class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
-      <div v-if="item.LcpName" class="flavor-text subtle--text">{{ item.LcpName }}</div>
+      <div v-if="item.InLcp" class="flavor-text subtle--text">{{ item.LcpName }}</div>
       <div v-if="item.Restricted">
         <span class="stat-text error--text">
           RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS
