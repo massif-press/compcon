@@ -29,6 +29,7 @@
               clickable
               @click="choose(e.Name)"
             >
+              <h3 class="heading mb-2" v-html-safe="e.LcpName" />
               <p class="flavor-text" v-html-safe="e.Description" />
             </cc-titled-panel>
           </v-col>
