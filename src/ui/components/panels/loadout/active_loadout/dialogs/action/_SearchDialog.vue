@@ -54,7 +54,7 @@
               :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
               style="height: 70px"
             >
-              <div class="overline pl-4 mr-n4">Contested SYS</div>
+              <div class="overline pl-4 mr-n4">Contested AGI</div>
               <v-text-field
                 v-model="sys"
                 type="number"
@@ -132,6 +132,7 @@
                     :preset="`1d20+${mech.Sys}`"
                     :preset-accuracy="accuracy - difficulty"
                     title="SKILL CHECK"
+                    autoroll=true
                     @commit="registerSysRoll($event.total)"
                   />
                 </v-col>

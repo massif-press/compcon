@@ -52,6 +52,16 @@ class Synergy {
 
     return _.uniq(sArr)
   }
+
+  public static Serialize(synergy: Synergy): ISynergyData {
+    return {
+      locations: synergy.Locations,
+      detail: synergy.Detail,
+      weapon_types: synergy.WeaponTypes,
+      system_types: synergy.SystemTypes,
+      weapon_sizes: synergy.WeaponSizes
+    }
+  }
 }
 
 export { Synergy, ISynergyData }

@@ -3,7 +3,7 @@ import dict from '@/assets/bonus_dictionary.json'
 
 interface IBonusData {
   id: string
-  val: string | number
+  val: string | number | string[]
   damage_types?: DamageType[]
   range_types?: RangeType[]
   weapon_types?: WeaponType[]
@@ -212,6 +212,19 @@ class Bonus {
       })
     })
     return output
+  }
+
+  public static Serialize(bonus: Bonus): IBonusData {
+    return {
+      id: bonus.ID,
+      val: bonus.Value,
+      damage_types: bonus.DamageTypes,
+      range_types: bonus.RangeTypes,
+      weapon_types: bonus.WeaponTypes,
+      weapon_sizes: bonus.WeaponSizes,
+      overwrite: bonus.Overwrite,
+      replace: bonus.Replace
+    }
   }
 }
 
