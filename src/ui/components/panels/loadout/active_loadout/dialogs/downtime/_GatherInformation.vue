@@ -146,7 +146,7 @@ export default Vue.extend({
       if (this.skillRoll < 10)
         nr.ResourceCost = 'Gathering this information has gotten you into immediate trouble'
       else if (this.skillRoll < 20) nr.ResourceCost = this.choices[this.choice]
-      this.pilot.Reserves.push(nr)
+      this.pilot.AddReserve(nr)
       this.close()
     },
     close() {
