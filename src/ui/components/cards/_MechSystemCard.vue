@@ -12,7 +12,7 @@
     <v-col v-if="item.LicenseString" cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.Type }}</div>
       <span class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
-      <div v-if="item.LcpName" class="flavor-text subtle--text">{{ item.LcpName }}</div>
+      <div v-if="item.InLcp" class="flavor-text subtle--text">{{ item.LcpName }}</div>
     </v-col>
   </equipment-card-base>
 </template>

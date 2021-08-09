@@ -6,6 +6,7 @@
     name-key="Name"
     description-key="Description"
     sub-key="LcpName"
+    sub-conditional="InLcp"
   />
 </template>
 
