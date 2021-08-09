@@ -10,13 +10,13 @@
   />
   <svg
     v-else
+    :data-src="source.Logo + '#Content'"
     :style="
       `width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
         stroke ? 'stroke-width: 25px;' : ''
       }`
     "
   >
-    <use :href="source.Logo + '#Content'"></use>
   </svg>
 </template>
 

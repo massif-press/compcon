@@ -558,8 +558,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public get MaxSkillPoints(): number {
-    const bonus = this.Reserves.filter(x => x.ID === 'reserve_skill').length
-    return Bonus.IntPilot(Rules.MinimumPilotSkills + this._level + bonus, 'skill_point', this)
+    return Bonus.IntPilot(Rules.MinimumPilotSkills + this._level, 'skill_point', this)
   }
 
   public get IsMissingSkills(): boolean {
@@ -575,14 +574,13 @@ class Pilot implements ICloudSyncable {
   }
 
   public CanAddSkill(skill: Skill | CustomSkill): boolean {
-    if (this._level === 0) {
-      return this._skills.length < Rules.MinimumPilotSkills && !this.has('Skill', skill.ID)
-    } else {
-      const underLimit = this.CurrentSkillPoints < this.MaxSkillPoints
-      if (!this.has('Skill', skill.ID) && underLimit) return true
-      const pSkill = this._skills.find(x => x.Skill.ID === skill.ID)
-      return underLimit && pSkill && pSkill.Rank < Rules.MaxTriggerRank
-    }
+    const hasMinSkills = this._skills.length >= Rules.MinimumPilotSkills
+    return this.IsMissingSkills && (
+      !this.has('Skill', skill.ID) || (
+        hasMinSkills && 
+        this._skills.find(x => x.Skill.ID === skill.ID).Rank < Rules.MaxTriggerRank
+      )
+    )
   }
 
   public AddSkill(skill: Skill | CustomSkill): void {
