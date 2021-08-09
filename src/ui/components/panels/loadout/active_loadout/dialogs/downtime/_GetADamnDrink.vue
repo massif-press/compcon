@@ -199,7 +199,7 @@ export default Vue.extend({
           1
         )
         nr.ResourceCost = `You've lost ${lossArr[0].toLowerCase()}, as well as ${lossArr[1].toLowerCase()}`
-        this.pilot.Reserves.push(nr)
+        this.pilot.AddReserve(nr)
       } else if (this.skillRoll < 20) {
         const nr = new Reserve({
           id: 'reserve_damndrink',
@@ -215,7 +215,7 @@ export default Vue.extend({
         })
         nr.Note = this.details1
         nr.ResourceCost = `You've lost ${this.loss.toLowerCase()}`
-        this.pilot.Reserves.push(nr)
+        this.pilot.AddReserve(nr)
       } else {
         const nr = new Reserve({
           id: 'reserve_damndrink',
@@ -230,7 +230,7 @@ export default Vue.extend({
           used: false,
         })
         nr.Note = this.details1
-        this.pilot.Reserves.push(nr)
+        this.pilot.AddReserve(nr)
 
         const nr2 = new Reserve({
           id: 'reserve_damndrink',
@@ -245,7 +245,7 @@ export default Vue.extend({
           used: false,
         })
         nr2.Note = this.details2
-        this.pilot.Reserves.push(nr2)
+        this.pilot.AddReserve(nr2)
       }
       this.close()
     },
