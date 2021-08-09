@@ -109,6 +109,15 @@ class Damage {
     if (this.Override) return this.Value
     return `${this.Value} ${this.Type} Damage`
   }
+
+  public static Serialize(damage: Damage): IDamageData {
+    return {
+      type: damage.Type,
+      val: damage.Value,
+      override: damage.Override,
+      bonus: damage.Bonus
+    }
+  }
 }
 
 export { Damage, IDamageData }

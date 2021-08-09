@@ -104,6 +104,15 @@ class Range {
   private static ci(a: string, b: string): boolean {
     return a.toLowerCase() === b.toLowerCase()
   }
+
+  public static Serialize(range: Range): IRangeData {
+    return {
+      type: range._range_type,
+      val: range._value,
+      override: range._override,
+      bonus: range._bonus
+    }
+  }
 }
 
 export { Range, IRangeData }
