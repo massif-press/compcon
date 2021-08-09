@@ -139,9 +139,10 @@
               <v-row no-gutters>
                 <v-col class="mr-n2 ml-n2">
                   <cc-dice-menu
-                    :preset="`1d20+${mech.AttackBonus}`"
+                    :preset="`1d20`"
                     :preset-accuracy="accuracy - difficulty"
                     title="SKILL CHECK"
+                    autoroll=true
                     @commit="registerSkillRoll($event.total)"
                   />
                 </v-col>
