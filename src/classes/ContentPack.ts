@@ -264,7 +264,7 @@ export class ContentPack {
           return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name)
         return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name)
       }) || []
-    self._Talents = self._data.talents?.map(x => new Talent(x)) || []
+    self._Talents = self._data.talents?.map(x => new Talent(x, self._data.tags, self._manifest.name)) || []
 
     self._NpcFeatures =
       self._data.npcFeatures?.map(function(x) {
