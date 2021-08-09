@@ -87,7 +87,6 @@
       </div>
       <add-custom-skill 
         :pilot="pilot"
-        :can-add="pilot.IsMissingSkills"
         @add-custom="pilot.AddCustomSkill($event)" />
     </template>
   </selector>

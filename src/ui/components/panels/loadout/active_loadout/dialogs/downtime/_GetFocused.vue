@@ -47,12 +47,16 @@ export default Vue.extend({
   },
   methods: {
     addSkill() {
-      this.pilot.Reserves.push(
+      this.pilot.AddReserve(
         new Reserve({
-          id: 'reserve_skill',
+          id: 'reserve_skillfocus',
           type: 'Bonus',
           name: 'Skill Focus',
           description: 'Added via the "Get Focused" Downtime Action',
+          bonuses: [{
+            "id": "skill_point",
+            "val": 1
+          }],
           resource_name: 'Skill Focus',
           resource_cost: '',
           resource_note: '',

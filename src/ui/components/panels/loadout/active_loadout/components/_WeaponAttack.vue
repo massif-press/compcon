@@ -215,8 +215,10 @@
                 <v-row no-gutters>
                   <v-col class="mr-n2 ml-n2">
                     <cc-dice-menu
+                      v-if="resetAttackRoll"
                       :preset="`1d20+${mech.AttackBonus}`"
                       :preset-accuracy="accuracy - difficulty"
+                      autoroll=true
                       title="ATTACK ROLL"
                       @commit="attackRoll = $event.total"
                     />
@@ -369,6 +371,7 @@ each source of damage is used.`"
                         :title="`${d.Type} DAMAGE ROLL`"
                         :overkill="overkill"
                         :critical="crit"
+                        autoroll=true
                         @commit="setDamage(i, $event)"
                       />
                     </v-col>
@@ -645,6 +648,7 @@ export default Vue.extend({
     bonusDamage: null,
     kill: false,
     confirmed: false,
+    resetAttackRoll: false,
   }),
   computed: {
     state() {
@@ -758,7 +762,7 @@ export default Vue.extend({
     },
     setDamage(index, damage) {
       Vue.set(this.damageRolls, index, damage.total)
-      this.overkillHeat = damage.overkill
+      this.overkillHeat += damage.overkill
     },
     setBonusDamage(damage) {
       this.bonusDamage = damage.total
@@ -815,6 +819,10 @@ export default Vue.extend({
       this.kill = false
       this.confirmed = false
       this.overkillHeat = 0
+      this.resetAttackRoll = false
+      this.$nextTick(function () {
+        this.resetAttackRoll = true
+      })
     },
   },
 })

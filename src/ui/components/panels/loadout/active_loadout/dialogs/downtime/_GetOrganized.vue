@@ -407,16 +407,15 @@ export default Vue.extend({
       }
     },
     addOrg() {
-      this.pilot.Organizations.push(
-        new Organization({
-          name: this.name,
-          purpose: this.purpose,
-          efficiency: this.start === 'efficiency' ? 2 : 0,
-          influence: this.start === 'influence' ? 2 : 0,
-          description: this.details,
-          actions: '',
-        })
-      )
+      const org = new Organization({
+        name: this.name,
+        purpose: this.purpose,
+        efficiency: this.start === 'efficiency' ? 2 : 0,
+        influence: this.start === 'influence' ? 2 : 0,
+        description: this.details,
+        actions: '',
+      })
+      this.pilot.AddOrganization(org)
       this.close()
     },
     improveOrg() {

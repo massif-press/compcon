@@ -109,6 +109,7 @@ export default Vue.extend({
       this.reset()
       this.cloudLoading = true
       try {
+        this.importID = this.importID.toLowerCase()
         const pilotData = await AwsImport(this.importID)
         if (!pilotData.brews) pilotData.brews = []
         const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(

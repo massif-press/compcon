@@ -38,7 +38,7 @@
             :small="$vuetify.breakpoint.smAndDown"
             icon
             color="secondary"
-            :disabled="!canAdd || newSkill === ''"
+            :disabled="newSkill === '' || !canAdd"
             @click="addSkill"
           >
             <v-icon x-large>cci-accuracy</v-icon>
@@ -52,20 +52,23 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Pilot } from '@/class'
+import { CustomSkill } from '@/class'
 export default Vue.extend({
   name: 'add-custom-skill',
   props: {
-    pilot: Pilot,
-    canAdd: {
-      type: Boolean,
-      required: true,
-    },
+    pilot: Pilot
   },
   data: () => ({
     newSkill: '',
     newDesc: '',
     newDetail: '',
   }),
+  computed: {
+    canAdd(): boolean {
+      const custSkill = new CustomSkill(this.newSkill, this.newDesc, this.newDetail)
+      return this.pilot.CanAddSkill(custSkill)
+    }
+  },
   methods: {
     addSkill() {
       this.$emit('add-custom', {
