@@ -403,7 +403,7 @@ class ActiveState {
 
   public set ActiveMech(mech: Mech | null) {
     if (this._pilot.IsLocallyOwned) {
-      this.ActiveMech = mech
+      this._mech = mech
     } else {
       this._remoteMech = mech
     }
