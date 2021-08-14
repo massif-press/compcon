@@ -299,7 +299,7 @@ export default Vue.extend({
         requirements: [],
       })
       if (this.cost) p.ResourceCost = `Requires: ${this.cost.toString()}`
-      this.pilot.Reserves.push(p)
+      this.pilot.AddReserve(p)
       this.close()
     },
     improveProject() {
