@@ -38,7 +38,7 @@
         </v-alert>
       </v-container>
     </div>
-    <cc-talent-selector :pilot="pilot" />
+    <cc-talent-selector level-up :pilot="pilot" />
   </cc-stepper-content>
 </template>
 

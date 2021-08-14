@@ -42,6 +42,7 @@ interface ICombatStats {
 
 interface IActiveStateData {
   active_mech_id: string
+  remote_mech_id: string
   stage: string
   mission: number
   turn: number
@@ -57,6 +58,7 @@ interface IActiveStateData {
 }
 
 class ActiveState {
+  public readonly SyncIgnore: string[] = ['remoteMech']
   private _deployed: Deployable[]
   public _stage: Stage
   public InTurn: boolean
@@ -68,6 +70,7 @@ class ActiveState {
 
   private _pilot: Pilot
   private _mech: Mech | null
+  private _remoteMech: Mech | null
 
   private _round: number
   private _encounter: number
@@ -123,6 +126,7 @@ class ActiveState {
   public constructor(pilot: Pilot) {
     this._pilot = pilot
     this._mech = null
+    this._remoteMech = null
     this._stage = Stage.Narrative
     this._self_destruct_counter = -1
     this._round = 1
@@ -168,13 +172,13 @@ class ActiveState {
   }
 
   public get Move(): number {
-    if (this._pilot_mounted && this._mech.IsShutDown) return 0
-    return !this._pilot_mounted ? this._pilot_move : this._mech.CurrentMove
+    if (this._pilot_mounted && this.ActiveMech.IsShutDown) return 0
+    return !this._pilot_mounted ? this._pilot_move : this.ActiveMech.CurrentMove
   }
 
   public get MaxMove(): number {
-    if (this._pilot_mounted && this._mech.IsShutDown) return 0
-    return !this._pilot_mounted ? this._pilot.Speed : this._mech.Speed
+    if (this._pilot_mounted && this.ActiveMech.IsShutDown) return 0
+    return !this._pilot_mounted ? this._pilot.Speed : this.ActiveMech.Speed
   }
 
   public get Actions(): number {
@@ -223,13 +227,13 @@ class ActiveState {
   }
 
   public SelfDestruct(): void {
-    this._mech.CurrentHP = 0
-    this._mech.CurrentStructure = 0
-    this._mech.CurrentStress = 0
-    this._mech.Destroyed = true
-    this._mech.ReactorDestroyed = true
+    this.ActiveMech.CurrentHP = 0
+    this.ActiveMech.CurrentStructure = 0
+    this.ActiveMech.CurrentStress = 0
+    this.ActiveMech.Destroyed = true
+    this.ActiveMech.ReactorDestroyed = true
     this._self_destruct_counter = 0
-    if (this._pilot_mounted) this._mech.Pilot.Kill()
+    if (this._pilot_mounted) this.ActiveMech.Pilot.Kill()
   }
 
   public get Stage(): Stage {
@@ -265,20 +269,20 @@ class ActiveState {
 
   public UndoEndTurn(): void {
     if (this._cachedBurnDamage) {
-      this._mech.Burn = this._cachedBurnDamage
-      this._mech.CurrentHP += this._cachedBurnDamage
+      this.ActiveMech.Burn = this._cachedBurnDamage
+      this.ActiveMech.CurrentHP += this._cachedBurnDamage
     }
-    if (this._cachedBurnStructure) this._mech.CurrentStructure += this._cachedBurnStructure
+    if (this._cachedBurnStructure) this.ActiveMech.CurrentStructure += this._cachedBurnStructure
     this.InTurn = true
   }
 
   public EndTurn(burnHp: number, burnStr: number): void {
     this._cachedBurnDamage = burnHp
     this._cachedBurnStructure = burnStr
-    if (this._mech.Frame.CoreSystem.Duration === Duration.Turn) this._mech.IsCoreActive = false
-    if (this._mech.Frame.CoreSystem.Duration === Duration.NextTurn) {
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Turn) this.ActiveMech.IsCoreActive = false
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.NextTurn) {
       if (this._stageNextTurnCoreEnd) {
-        this._mech.IsCoreActive = false
+        this.ActiveMech.IsCoreActive = false
         this._stageNextTurnCoreEnd = false
       } else this._stageNextTurnCoreEnd = true
     }
@@ -298,20 +302,20 @@ class ActiveState {
     // TODO: base on freq
     this.AllActions.forEach(a => a.Reset())
     this.AllBaseTechActions.forEach(a => a.Reset())
-    this._mech.ActiveLoadout.Equipment.forEach(e => e.Reset())
-    this._mech.Pilot.Loadout.Equipment.forEach(e => e.Reset())
+    this.ActiveMech.ActiveLoadout.Equipment.forEach(e => e.Reset())
+    this.ActiveMech.Pilot.Loadout.Equipment.forEach(e => e.Reset())
     this.Deployed.forEach(d => d.Actions.forEach(a => a.Reset()))
-    this._mech.CurrentMove = this._braced ? 0 : this._mech.MaxMove
+    this.ActiveMech.CurrentMove = this._braced ? 0 : this.ActiveMech.MaxMove
     this._braced = false
     this.SetLog({
       id: 'start_combat',
       event: 'LOG.ROUND',
       detail: 'ROUND START',
     })
-    if (this._mech.Frame.CoreSystem.Duration === Duration.Round) this._mech.IsCoreActive = false
-    if (this._mech.Frame.CoreSystem.Duration === Duration.NextRound) {
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Round) this.ActiveMech.IsCoreActive = false
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.NextRound) {
       if (this._stageNextRoundCoreEnd) {
-        this._mech.IsCoreActive = false
+        this.ActiveMech.IsCoreActive = false
         this._stageNextRoundCoreEnd = false
       } else this._stageNextRoundCoreEnd = true
     }
@@ -322,20 +326,20 @@ class ActiveState {
   public StartRest(): void {
     this._stage = Stage.Rest
     this._pilot.CurrentHP += Math.ceil(this._pilot.MaxHP / 2)
-    this._mech.CurrentHeat = 0
-    this._mech.Conditions.splice(0, this._mech.Conditions.length)
-    this._mech.Statuses.splice(0, this._mech.Statuses.length)
+    this.ActiveMech.CurrentHeat = 0
+    this.ActiveMech.Conditions.splice(0, this.ActiveMech.Conditions.length)
+    this.ActiveMech.Statuses.splice(0, this.ActiveMech.Statuses.length)
     this._deployed.splice(0, this._deployed.length)
-    if (this._mech.Frame.CoreSystem.PassiveActions) this._mech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset())
-    if (this._mech.Frame.CoreSystem.DeployActions) this._mech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset())
-    if (this._mech.Pilot.IsDownAndOut)
-      this._mech.Pilot.CurrentHP = Math.ceil(this._mech.Pilot.MaxHP / 2)
+    if (this.ActiveMech.Frame.CoreSystem.PassiveActions) this.ActiveMech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset())
+    if (this.ActiveMech.Frame.CoreSystem.DeployActions) this.ActiveMech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset())
+    if (this.ActiveMech.Pilot.IsDownAndOut)
+      this.ActiveMech.Pilot.CurrentHP = Math.ceil(this.ActiveMech.Pilot.MaxHP / 2)
     this.SetLog({
       id: 'start_combat',
       event: 'LOG.END',
       detail: 'ENCOUNTER COMPLETE. COMBAT MODE DEACTIVATED.',
     })
-    if (this._mech.Frame.CoreSystem.Duration === Duration.Encounter) this._mech.IsCoreActive = false
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Encounter) this.ActiveMech.IsCoreActive = false
     this.InTurn = true
     this.save()
   }
@@ -344,7 +348,7 @@ class ActiveState {
     this._mission += 1
     this._stats = ActiveState.NewCombatStats()
     this._pilot.FullRestore()
-    this._mech.FullRepair()
+    this.ActiveMech.FullRepair()
     this.SetLog({
       id: 'start_mission',
       event: 'MISSION.START',
@@ -356,7 +360,7 @@ class ActiveState {
   }
 
   public EndMission(): void {
-    this._mech.IsCoreActive = false
+    this.ActiveMech.IsCoreActive = false
     this._pilot.UpdateCombatStats(this._stats)
     this.SetLog({
       id: 'end_mission',
@@ -369,40 +373,44 @@ class ActiveState {
   }
 
   RepairHP(): void {
-    this._mech.CurrentHP = this._mech.MaxHP
-    this._mech.CurrentRepairs -= 1
+    this.ActiveMech.CurrentHP = this.ActiveMech.MaxHP
+    this.ActiveMech.CurrentRepairs -= 1
   }
 
   RepairStructure(): void {
-    this._mech.CurrentStructure += 1
-    const cheap = this._mech.Bonuses.some(x => x.ID === 'cheap_struct')
-    this._mech.CurrentRepairs -= cheap ? 1 : 2
+    this.ActiveMech.CurrentStructure += 1
+    const cheap = this.ActiveMech.Bonuses.some(x => x.ID === 'cheap_struct')
+    this.ActiveMech.CurrentRepairs -= cheap ? 1 : 2
   }
 
   RepairStress(): void {
-    this._mech.CurrentStress += 1
-    if (this._mech.CurrentStress > this._mech.MaxStress)
-      this._mech.CurrentStress = this._mech.MaxStress
-    const cheap = this._mech.Bonuses.some(x => x.ID === 'cheap_stress')
-    this._mech.CurrentRepairs -= cheap ? 1 : 2
+    this.ActiveMech.CurrentStress += 1
+    if (this.ActiveMech.CurrentStress > this.ActiveMech.MaxStress)
+      this.ActiveMech.CurrentStress = this.ActiveMech.MaxStress
+    const cheap = this.ActiveMech.Bonuses.some(x => x.ID === 'cheap_stress')
+    this.ActiveMech.CurrentRepairs -= cheap ? 1 : 2
   }
 
   RepairSystem(w: MechEquipment): void {
     w.Repair()
-    this._mech.CurrentRepairs -= 1
+    this.ActiveMech.CurrentRepairs -= 1
   }
 
   RepairDestroyed(selfRepairPts: number): void {
-    this._mech.CurrentRepairs -= selfRepairPts
-    this._mech.Repair()
+    this.ActiveMech.CurrentRepairs -= selfRepairPts
+    this.ActiveMech.Repair()
   }
 
   public set ActiveMech(mech: Mech | null) {
-    this._mech = mech
+    if (this._pilot.IsLocallyOwned) {
+      this._mech = mech
+    } else {
+      this._remoteMech = mech
+    }
   }
 
   public get ActiveMech(): Mech | null {
-    return this._mech || null
+    return this._mech != null ? this._mech : this._remoteMech
   }
 
   public get IsMounted() {
@@ -474,18 +482,18 @@ class ActiveState {
   }
 
   public get AvailableAmmoUses(): number {
-    const ac = this._mech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    const ac = this.ActiveMech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
     if (!ac) return 0
     else return ac.Uses
   }
 
   public SpendAmmoCost(cost: number) {
-    const ac = this._mech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    const ac = this.ActiveMech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
     if (ac) ac.Uses -= cost
   }
 
   public RefundAmmoCost(cost: number) {
-    const ac = this._mech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    const ac = this.ActiveMech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
     if (ac) ac.Uses += cost
   }
 
@@ -533,7 +541,7 @@ class ActiveState {
     free ? action.UseFree() : action.Use()
 
     this.Actions -= activationCost
-    if (action.HeatCost) this._mech.CurrentHeat += action.HeatCost
+    if (action.HeatCost) this.ActiveMech.CurrentHeat += action.HeatCost
 
     if (action.Deployable) {
       const instances = action.Deployable.instances || 1
@@ -556,9 +564,9 @@ class ActiveState {
     if (action.ID === 'act_brace') this._braced = true
     if (action.ID === 'act_dismount') this._pilot_mounted = false
     if (action.ID === 'act_mount') this._pilot_mounted = true
-    if (action.ID === 'act_hide') this._mech.AddStatus('HIDDEN')
+    if (action.ID === 'act_hide') this.ActiveMech.AddStatus('HIDDEN')
     if (action.ID === 'act_eject') {
-      this._mech.AddCondition('IMPAIRED')
+      this.ActiveMech.AddCondition('IMPAIRED')
       this._pilot_mounted = false
     }
 
@@ -579,7 +587,7 @@ class ActiveState {
 
     action.Undo()
 
-    if (action.HeatCost) this._mech.CurrentHeat -= action.HeatCost
+    if (action.HeatCost) this.ActiveMech.CurrentHeat -= action.HeatCost
 
     const idx = this._log.map(x => x.id === action.LogID).lastIndexOf(true)
     if (idx > -1) this._log.splice(idx, 1)
@@ -593,17 +601,17 @@ class ActiveState {
     if (action.ID === 'act_brace') this._braced = false
     if (action.ID === 'act_dismount') this._pilot_mounted = true
     if (action.ID === 'act_mount') this._pilot_mounted = false
-    if (action.ID === 'act_hide') this._mech.RemoveStatus('HIDDEN')
+    if (action.ID === 'act_hide') this.ActiveMech.RemoveStatus('HIDDEN')
     if (action.ID === 'act_eject') {
-      this._mech.RemoveCondition('IMPAIRED')
+      this.ActiveMech.RemoveCondition('IMPAIRED')
       this._pilot_mounted = true
     }
   }
 
   public SetMove(val: number) {
-    this._stats.moves += this._mech.CurrentMove - val
-    this._mech.CurrentMove = val
-    if (this._mech.CurrentMove > this._mech.MaxMove) this._mech.CurrentMove = this._mech.MaxMove
+    this._stats.moves += this.ActiveMech.CurrentMove - val
+    this.ActiveMech.CurrentMove = val
+    if (this.ActiveMech.CurrentMove > this.ActiveMech.MaxMove) this.ActiveMech.CurrentMove = this.ActiveMech.MaxMove
     this.SetLog({
       id: `set_move`,
       event: 'MOVE',
@@ -615,7 +623,7 @@ class ActiveState {
   public SetStatusCondition(statuses: string[], isStatus?: boolean) {
     const scType = isStatus ? 'Statuses' : 'Conditions'
     if (!statuses.length) {
-      this._mech[scType] = statuses
+      this.ActiveMech[scType] = statuses
       this.SetLog({
         id: `clear_status`,
         event: 'STATUS',
@@ -623,10 +631,10 @@ class ActiveState {
       })
       return
     }
-    const added = statuses.find(x => !this._mech[scType].includes(x))
-    const removed = this._mech[scType].find(x => !statuses.includes(x))
+    const added = statuses.find(x => !this.ActiveMech[scType].includes(x))
+    const removed = this.ActiveMech[scType].find(x => !statuses.includes(x))
     const sstr = added ? added : removed
-    this._mech[scType] = statuses
+    this.ActiveMech[scType] = statuses
     this.SetLog({
       id: `set_status`,
       event: 'STATUS',
@@ -637,7 +645,7 @@ class ActiveState {
 
   public SetResistance(resistances: string[]) {
     if (!resistances.length) {
-      this._mech.Resistances = resistances
+      this.ActiveMech.Resistances = resistances
       this.SetLog({
         id: `clear_resist`,
         event: 'RESISTANCE',
@@ -645,10 +653,10 @@ class ActiveState {
       })
       return
     }
-    const added = resistances.find(x => !this._mech.Resistances.includes(x))
-    const removed = this._mech.Resistances.find(x => !resistances.includes(x))
+    const added = resistances.find(x => !this.ActiveMech.Resistances.includes(x))
+    const removed = this.ActiveMech.Resistances.find(x => !resistances.includes(x))
     const sstr = added ? added : removed
-    this._mech.Resistances = resistances
+    this.ActiveMech.Resistances = resistances
     this.SetLog({
       id: `set_res`,
       event: 'RESISTANCE',
@@ -657,20 +665,20 @@ class ActiveState {
   }
 
   public SetBurn(val: number) {
-    this._mech.Burn = val
+    this.ActiveMech.Burn = val
     this.SetLog({
       id: `set_burn`,
       event: 'BURN',
       detail: `${val > 0
         ? `!ALERT! FRAME/DMG.ONGOING: ${val} ++ALARM.ON++`
-        : `FRAME/DMG.MITIGATE: ${Math.abs(val)} ${this._mech.Burn > 0 ? '++ALARM.ON++' : '++ALARM.OFF++'
+        : `FRAME/DMG.MITIGATE: ${Math.abs(val)} ${this.ActiveMech.Burn > 0 ? '++ALARM.ON++' : '++ALARM.OFF++'
         }`
         }`,
     })
   }
 
   public CommitFullRepair() {
-    this._mech.FullRepair()
+    this.ActiveMech.FullRepair()
     this.SetLog({
       id: `full_repair`,
       event: 'FULL REPAIR',
@@ -679,9 +687,9 @@ class ActiveState {
   }
 
   public SetStructure(val: number) {
-    this._stats.structure_damage += this._mech.CurrentStructure - val
-    this._mech.CurrentStructure = val
-    const pct = (this._mech.CurrentStructure / this._mech.MaxStructure).toFixed(2)
+    this._stats.structure_damage += this.ActiveMech.CurrentStructure - val
+    this.ActiveMech.CurrentStructure = val
+    const pct = (this.ActiveMech.CurrentStructure / this.ActiveMech.MaxStructure).toFixed(2)
     this.SetLog({
       id: `set_str`,
       event: 'STRUCTURE DAMAGE',
@@ -690,9 +698,9 @@ class ActiveState {
   }
 
   public SetStress(val: number) {
-    this._stats.reactor_damage += this._mech.CurrentStress - val
-    this._mech.CurrentStress = val
-    const pct = (this._mech.CurrentStress / this._mech.MaxStress).toFixed(2)
+    this._stats.reactor_damage += this.ActiveMech.CurrentStress - val
+    this.ActiveMech.CurrentStress = val
+    const pct = (this.ActiveMech.CurrentStress / this.ActiveMech.MaxStress).toFixed(2)
     this.SetLog({
       id: `set_stress`,
       event: 'REACTOR STRESS',
@@ -701,8 +709,8 @@ class ActiveState {
   }
 
   public SetOvershield(val: number) {
-    this._stats.overshield += this._mech.Overshield - val
-    this._mech.Overshield = val
+    this._stats.overshield += this.ActiveMech.Overshield - val
+    this.ActiveMech.Overshield = val
     this.SetLog({
       id: `set_overshield`,
       event: 'OVERSHIELD',
@@ -711,24 +719,24 @@ class ActiveState {
   }
 
   public SetHp(val: number) {
-    this._stats.hp_damage += this._mech.CurrentHP - val
-    if (val > this._mech.CurrentHP) {
-      this._mech.CurrentHP = val
+    this._stats.hp_damage += this.ActiveMech.CurrentHP - val
+    if (val > this.ActiveMech.CurrentHP) {
+      this.ActiveMech.CurrentHP = val
       this.SetLog({
         id: `rep_dmg`,
         event: 'REPAIR',
         detail: `FRAME/REP.PROCESS:: ${val} HP RESTORED`,
       })
     } else {
-      const str = this._mech.CurrentStructure
-      this._mech.CurrentHP = val
+      const str = this.ActiveMech.CurrentStructure
+      this.ActiveMech.CurrentHP = val
       this.SetLog({
         id: `add_dmg`,
         event: 'DAMAGE',
         detail: `!WARN! INC:: ${val} HP DAMAGE`,
       })
-      if (this._mech.CurrentStructure < str) {
-        const pct = (this._mech.CurrentStructure / this._mech.MaxStructure).toFixed(2)
+      if (this.ActiveMech.CurrentStructure < str) {
+        const pct = (this.ActiveMech.CurrentStructure / this.ActiveMech.MaxStructure).toFixed(2)
         this.SetLog({
           id: `set_str`,
           event: 'STRUCTURE DAMAGE',
@@ -740,15 +748,15 @@ class ActiveState {
 
   public SetHeat(val: number) {
     this._stats.heat_damage += val
-    if (val < this._mech.CurrentHeat) {
-      const dz = this._mech.IsInDangerZone
-      this._mech.CurrentHeat = val
+    if (val < this.ActiveMech.CurrentHeat) {
+      const dz = this.ActiveMech.IsInDangerZone
+      this.ActiveMech.CurrentHeat = val
       this.SetLog({
         id: `clear_heat`,
         event: 'CLEAR HEAT',
         detail: `FRAME/REACTOR.VENT:: ${val} HEAT CLEARED`,
       })
-      if (dz && !this._mech.IsInDangerZone) {
+      if (dz && !this.ActiveMech.IsInDangerZone) {
         this.SetLog({
           id: `out_dangerzone`,
           event: 'HEAT LEVELS NOMINAL',
@@ -756,22 +764,22 @@ class ActiveState {
         })
       }
     } else {
-      const str = this._mech.CurrentStress
-      this._mech.CurrentHeat = val
+      const str = this.ActiveMech.CurrentStress
+      this.ActiveMech.CurrentHeat = val
       this.SetLog({
         id: `add_heat`,
         event: 'HEAT',
         detail: `!WARN! FRAME/REACTOR.HEAT_LVL:: ${val} HEAT`,
       })
-      if (this._mech.IsInDangerZone) {
+      if (this.ActiveMech.IsInDangerZone) {
         this.SetLog({
           id: `dangerzone`,
           event: 'HEAT ALERT',
           detail: `!ALERT! FRAME/REACTOR:: ++TEMP.CRITICAL++`,
         })
       }
-      if (this._mech.CurrentStress < str) {
-        const pct = (this._mech.CurrentStress / this._mech.MaxStress).toFixed(2)
+      if (this.ActiveMech.CurrentStress < str) {
+        const pct = (this.ActiveMech.CurrentStress / this.ActiveMech.MaxStress).toFixed(2)
         this.SetLog({
           id: `set_stress`,
           event: 'REACTOR STRESS',
@@ -782,7 +790,7 @@ class ActiveState {
   }
 
   public SetRepCap(val: number) {
-    this._mech.CurrentRepairs = val
+    this.ActiveMech.CurrentRepairs = val
     this.SetLog({
       id: `set_rep`,
       event: 'REPAIR CAPACITY',
@@ -792,10 +800,10 @@ class ActiveState {
   }
 
   public SetCorePower(val: number) {
-    console.log('in set core power', this._mech.CurrentCoreEnergy, val)
-    if (this._mech.CurrentCoreEnergy > 0 && val === 0) this._mech.IsCoreActive = true
-    this._stats.core_uses += this._mech.CurrentCoreEnergy - val
-    this._mech.CurrentCoreEnergy = val
+    console.log('in set core power', this.ActiveMech.CurrentCoreEnergy, val)
+    if (this.ActiveMech.CurrentCoreEnergy > 0 && val === 0) this.ActiveMech.IsCoreActive = true
+    this._stats.core_uses += this.ActiveMech.CurrentCoreEnergy - val
+    this.ActiveMech.CurrentCoreEnergy = val
     this.SetLog({
       id: `set_core`,
       event: 'CORE POWER',
@@ -805,8 +813,8 @@ class ActiveState {
   }
 
   public SetOvercharge(val: number) {
-    const inc = this._mech.CurrentOvercharge < val
-    this._mech.CurrentOvercharge = val
+    const inc = this.ActiveMech.CurrentOvercharge < val
+    this.ActiveMech.CurrentOvercharge = val
     this.SetLog({
       id: `set_oc`,
       event: 'OVERCHARGE',
@@ -819,34 +827,34 @@ class ActiveState {
 
   public CommitStabilize() {
     this._stabilizeUndo = {
-      heat: this._mech.CurrentHeat,
-      hp: this._mech.CurrentHP,
-      reloads: this._mech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).map(
+      heat: this.ActiveMech.CurrentHeat,
+      hp: this.ActiveMech.CurrentHP,
+      reloads: this.ActiveMech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).map(
         w => w.ID
       ),
-      burn: this._mech.Burn,
-      exposed: this._mech.Statuses.includes('EXPOSED'),
+      burn: this.ActiveMech.Burn,
+      exposed: this.ActiveMech.Statuses.includes('EXPOSED'),
     }
     let str = 'FRAME.ROOT.DEF//STABILIZE'
     if (this.StabilizeMajor === 'cool') {
       str += ' ::REACTOR_VENT'
-      this._mech.CurrentHeat = 0
-      const expIdx = this._mech.Statuses.indexOf('EXPOSED')
-      if (expIdx > -1) this._mech.Statuses.splice(expIdx, 1)
+      this.ActiveMech.CurrentHeat = 0
+      const expIdx = this.ActiveMech.Statuses.indexOf('EXPOSED')
+      if (expIdx > -1) this.ActiveMech.Statuses.splice(expIdx, 1)
     } else if (this.StabilizeMajor === 'repair') {
       str += ' ::REPAIR'
-      this._mech.CurrentRepairs -= 1
-      this._mech.CurrentHP = this._mech.MaxHP
+      this.ActiveMech.CurrentRepairs -= 1
+      this.ActiveMech.CurrentHP = this.ActiveMech.MaxHP
     }
 
     if (this.StabilizeMinor === 'reload') {
       str += ' ::RELOAD'
-      this._mech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).forEach(
+      this.ActiveMech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).forEach(
         w => (w.Loaded = true)
       )
     } else if (this.StabilizeMinor === 'end_burn') {
       str += ' ::END.BURN'
-      this._mech.Burn = 0
+      this.ActiveMech.Burn = 0
     } else if (this.StabilizeMinor === 'end_self_condition') str += ' ::SYS.RESTORE'
     else if (this.StabilizeMinor === 'end_ally_condition') str += ' ::REMOTE.ASSIST'
 
@@ -866,36 +874,36 @@ class ActiveState {
     const idx = this._log.map(x => x.id === 'stabilize').lastIndexOf(true)
     if (idx > -1) this._log.splice(idx, 1)
     if (this._last_stabilize_major === 'cool') {
-      this._mech.CurrentHeat = this._stabilizeUndo.heat
-      if (this._stabilizeUndo.exposed) this._mech.Statuses.push('EXPOSED')
+      this.ActiveMech.CurrentHeat = this._stabilizeUndo.heat
+      if (this._stabilizeUndo.exposed) this.ActiveMech.Statuses.push('EXPOSED')
     } else if (this._last_stabilize_major === 'repair') {
-      this._mech.CurrentRepairs += 1
-      this._mech.CurrentHP = this._stabilizeUndo.hp
+      this.ActiveMech.CurrentRepairs += 1
+      this.ActiveMech.CurrentHP = this._stabilizeUndo.hp
     }
 
     if (this._last_stabilize_minor === 'reload') {
       this._stabilizeUndo.reloads.forEach(
-        x => (this._mech.ActiveLoadout.Weapons.find(w => w.ID === x).Loaded = false)
+        x => (this.ActiveMech.ActiveLoadout.Weapons.find(w => w.ID === x).Loaded = false)
       )
     } else if (this._last_stabilize_minor === 'end_burn') {
-      this._mech.Burn = this._stabilizeUndo.burn
+      this.ActiveMech.Burn = this._stabilizeUndo.burn
     }
   }
 
   public ClearBurn() {
-    this._mech.Burn = 0
+    this.ActiveMech.Burn = 0
   }
 
   public TakeBurn() {
-    this._mech.AddDamage(this._mech.Burn)
+    this.ActiveMech.AddDamage(this.ActiveMech.Burn)
   }
 
   public AddBoost() {
-    this._mech.Boost = this._mech.MaxMove
+    this.ActiveMech.Boost = this.ActiveMech.MaxMove
   }
 
   public SetBoost(val) {
-    this._mech.Boost = val
+    this.ActiveMech.Boost = val
   }
 
   public CommitOvercharge() {
@@ -905,9 +913,9 @@ class ActiveState {
       a.Reset()
     })
     this.Actions += 1
-    this._mech.AddHeat(this.OverchargeHeat)
-    if (this._mech.CurrentOvercharge < this._mech.OverchargeTrack.length)
-      this._mech.CurrentOvercharge += 1
+    this.ActiveMech.AddHeat(this.OverchargeHeat)
+    if (this.ActiveMech.CurrentOvercharge < this.ActiveMech.OverchargeTrack.length)
+      this.ActiveMech.CurrentOvercharge += 1
     this.AllActions.find(x => x.ID === 'act_overcharge').Use()
   }
 
@@ -920,46 +928,46 @@ class ActiveState {
     })
     this._overchargeUndo = []
     this.Actions -= 1
-    this._mech.ReduceHeat(this.OverchargeHeat)
-    if (this._mech.CurrentOvercharge > 0) this._mech.CurrentOvercharge -= 1
+    this.ActiveMech.ReduceHeat(this.OverchargeHeat)
+    if (this.ActiveMech.CurrentOvercharge > 0) this.ActiveMech.CurrentOvercharge -= 1
     this.OverchargeHeat = 0
   }
 
   public CommitShutDown() {
     this._shutDownUndo = {
-      heat: this._mech.CurrentHeat,
-      cascade: this._mech.ActiveLoadout.Equipment.filter(x => x.IsCascading).map(e => e.ID),
-      statuses: this._mech.Statuses,
-      conditions: this._mech.Conditions,
+      heat: this.ActiveMech.CurrentHeat,
+      cascade: this.ActiveMech.ActiveLoadout.Equipment.filter(x => x.IsCascading).map(e => e.ID),
+      statuses: this.ActiveMech.Statuses,
+      conditions: this.ActiveMech.Conditions,
     }
-    this._mech.CurrentHeat = 0
-    this._mech.RemoveStatus('EXPOSED')
-    this._mech.RemoveCondition('JAMMED')
-    this._mech.RemoveCondition('LOCK ON')
-    this._mech.ActiveLoadout.Equipment.filter(x => x.IsCascading).forEach(e => {
+    this.ActiveMech.CurrentHeat = 0
+    this.ActiveMech.RemoveStatus('EXPOSED')
+    this.ActiveMech.RemoveCondition('JAMMED')
+    this.ActiveMech.RemoveCondition('LOCK ON')
+    this.ActiveMech.ActiveLoadout.Equipment.filter(x => x.IsCascading).forEach(e => {
       e.IsCascading = false
     })
-    this._mech.AddStatus('SHUT DOWN')
-    this._mech.AddStatus('STUNNED')
+    this.ActiveMech.AddStatus('SHUT DOWN')
+    this.ActiveMech.AddStatus('STUNNED')
   }
 
   public UndoShutDown() {
-    this._mech.CurrentHeat = this._shutDownUndo.heat
-    this._mech.ActiveLoadout.Equipment.forEach(e => {
+    this.ActiveMech.CurrentHeat = this._shutDownUndo.heat
+    this.ActiveMech.ActiveLoadout.Equipment.forEach(e => {
       if (this._shutDownUndo.cascade.includes(e.ID)) e.IsCascading = true
     })
-    this._mech.Statuses = this._shutDownUndo.statuses
-    this._mech.Conditions = this._shutDownUndo.conditions
+    this.ActiveMech.Statuses = this._shutDownUndo.statuses
+    this.ActiveMech.Conditions = this._shutDownUndo.conditions
   }
 
   public CommitBootUp() {
-    this._mech.RemoveStatus('SHUT DOWN')
-    this._mech.RemoveCondition('STUNNED')
+    this.ActiveMech.RemoveStatus('SHUT DOWN')
+    this.ActiveMech.RemoveCondition('STUNNED')
   }
 
   public UndoBootUp() {
-    this._mech.AddStatus('SHUT DOWN')
-    this._mech.AddCondition('STUNNED')
+    this.ActiveMech.AddStatus('SHUT DOWN')
+    this.ActiveMech.AddCondition('STUNNED')
   }
 
   public LogAttackAction(action: string, weapon: string, damage: number, kill?: boolean) {
@@ -985,7 +993,7 @@ class ActiveState {
   public Deploy(d: IDeployableData) {
     const n = this._deployed.filter(x => x.BaseName.toLowerCase().includes(d.name.toLowerCase()))
       .length
-    this._deployed.push(new Deployable(d, this._mech, n))
+    this._deployed.push(new Deployable(d, this.ActiveMech, n))
     this.SetLog({
       id: `deploy`,
       event: 'DEPLOY EQUIPMENT',
@@ -1055,7 +1063,7 @@ class ActiveState {
   }
 
   public ItemActions(type: string): Action[] {
-    return this._mech.Actions.filter(x => x.Activation === type)
+    return this.ActiveMech.Actions.filter(x => x.Activation === type)
   }
 
   public ActionsByType(type: string): Action[] {
@@ -1107,23 +1115,23 @@ class ActiveState {
       const pilotActions = this.AllActions.filter(x => x.IsPilotAction && !x.IsActiveHidden).map(
         x => x.ID
       )
-      if (!this._mech.ReactorDestroyed) return pilotActions
+      if (!this.ActiveMech.ReactorDestroyed) return pilotActions
       return pilotActions.filter(x => x !== 'act_mount')
     } else {
-      if (this._mech.IsShutDown) {
+      if (this.ActiveMech.IsShutDown) {
         return ['act_boot_up', 'act_dismount', 'act_eject']
       }
-      if (this._mech.IsStunned) {
+      if (this.ActiveMech.IsStunned) {
         return ['act_dismount', 'act_eject']
       }
-      if (this._mech.ReactorDestroyed) {
+      if (this.ActiveMech.ReactorDestroyed) {
         return []
       }
-      if (this._mech.Destroyed) {
+      if (this.ActiveMech.Destroyed) {
         return ['act_dismount']
       }
       const out = this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
-      if (!this._mech.IsShutDown) out.splice(out.indexOf('act_boot_up'), 1)
+      if (!this.ActiveMech.IsShutDown) out.splice(out.indexOf('act_boot_up'), 1)
       return out
     }
   }
@@ -1148,6 +1156,7 @@ class ActiveState {
   public static Serialize(s: ActiveState): IActiveStateData {
     return {
       active_mech_id: s._mech ? s._mech.ID : '',
+      remote_mech_id: s._remoteMech ? s._remoteMech.ID : '',
       stage: s._stage,
       turn: s._round,
       mission: s._mission,
@@ -1164,23 +1173,35 @@ class ActiveState {
   }
 
   public static Deserialize(pilot: Pilot, data: IActiveStateData): ActiveState {
-    const mech = pilot.Mechs.find(x => x.ID === data.active_mech_id)
-    if (!mech) return new ActiveState(pilot)
     const s = new ActiveState(pilot)
-    s._mech = mech
-    s._stage = (data.stage as Stage) || Stage.Narrative
-    s._round = data.turn || 1
-    s._mission = data.mission || 0
-    s._actions = data.actions || 2
-    s._braced = data.braced
-    s._overcharged = data.overcharged
-    s._prepare = data.prepare
-    s._bracedCooldown = data.bracedCooldown
-    s._redundant = data.redundant
-    s._pilot_mounted = data.mounted
-    s._stats = data.stats ? data.stats : ActiveState.NewCombatStats()
-    s._deployed = data.deployed ? data.deployed.map(x => Deployable.Deserialize(x, s._mech)) : []
+    s.Update(pilot, data)
     return s
+  }
+
+  public Update(pilot: Pilot, data: IActiveStateData, sync?: boolean): void {
+    if (sync) {
+      for (const key in data) {
+        if (this.SyncIgnore.includes(key)) data[key] = null
+      }
+    }
+    else {
+      this._remoteMech = pilot.Mechs.find(x => x.ID === data.remote_mech_id)
+    }
+
+    this._mech = pilot.Mechs.find(x => x.ID === data.active_mech_id)
+    if (!this.ActiveMech) return
+    this._stage = (data.stage as Stage) || Stage.Narrative
+    this._round = data.turn || 1
+    this._mission = data.mission || 0
+    this._actions = data.actions || 2
+    this._braced = data.braced
+    this._overcharged = data.overcharged
+    this._prepare = data.prepare
+    this._bracedCooldown = data.bracedCooldown
+    this._redundant = data.redundant
+    this._pilot_mounted = data.mounted
+    this._stats = data.stats ? data.stats : ActiveState.NewCombatStats()
+    this._deployed = data.deployed ? data.deployed.map(x => Deployable.Deserialize(x, this.ActiveMech)) : []
   }
 }
 
