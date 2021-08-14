@@ -18,13 +18,13 @@
         />
       </template>
       <!-- Name -->
-      <template v-slot:[`item.name`]="{ item }">
-        <span class="title" :class="item.Active ? 'accent--text' : 'subtle--text font-italic'">
+      <template v-slot:[`item.Name`]="{ item }">
+        <span class="heading h3" :class="item.Active ? 'accent--text' : 'subtle--text font-italic'">
           {{ item.Name }}
         </span>
       </template>
       <!-- Version -->
-      <template v-slot:[`item.version`]="{ item }">
+      <template v-slot:[`item.Version`]="{ item }">
         <span class="packVersion">
           {{ item.Version }}
         </span>
@@ -119,9 +119,9 @@ export default class PacksList extends Vue {
 
   public headers = [
     { text: 'Active', value: 'toggleActive', sortable: false },
-    { text: 'Name', value: 'name' },
+    { text: 'Name', value: 'Name' },
     { text: 'Author', value: 'Author' },
-    { text: 'Version', value: 'version' },
+    { text: 'Version', value: 'Version' },
     { text: '', value: 'deleteAction', sortable: false },
   ]
 }

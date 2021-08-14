@@ -1,6 +1,24 @@
 # COMP/CON Changelog
 
-## [2.2.28](https://github.com/massif-press/compcon/compare/2.2.27...v2.2.28) (2021-08-02)
+## [2.2.29] (2021-08-02)
+
+### Features
+
+* **Active Mode** Auto-roll some dice in Active Mode (thanks TranslucentSabre!), closes [#1551](https://github.com/massif-press/compcon/issues/1551)
+
+### Bug Fixes
+
+* **Mech Sheet** Add tooltips to the Mech Sheet Nav bar buttons (thanks Macrophaje! First PR! 🎉), closes [#1615](https://github.com/massif-press/compcon/issues/1615)
+* **Mission Runner** Allow for overwriting active mech on a synced pilot (thanks TranslucentSabre!), closes [#1612](https://github.com/massif-press/compcon/issues/1612)
+* **Vault** Correctly handle case in vault codes (thanks TranslucentSabre!), closes [#1606](https://github.com/massif-press/compcon/issues/1606)
+* **Compendium** Load static images for homebrew manufacturers (thanks msprijatelj!), closes [#1598](https://github.com/massif-press/compcon/issues/1598)
+* **Pilot Sheet** Allow LL0 Pilots to select bonus skill triggers (thanks msprijatelj!), closes [#1602](https://github.com/massif-press/compcon/issues/1602)
+* **Pilot Sheet** Allow scroll-on-click behavior for LL0 Pilot selectors (thanks msprijatelj!), closes [#1608](https://github.com/massif-press/compcon/issues/1608)
+* **Pilot Sheet** Fix Skill Focus (thanks msprijatelj!), closes [#1589](https://github.com/massif-press/compcon/issues/1589)
+* **Mech Sheet** Correct stat scaling when max stat increases via Bonuses (thanks msprijatelj!), closes [#1586](https://github.com/massif-press/compcon/issues/1586)
+
+
+## [2.2.28](2021-08-02)
 
 A massive thanks to Valkyrion for the massively helpful bug squashing this week! All features and fixes this update are theirs unless otherwise noted.
 
@@ -26,7 +44,7 @@ A massive thanks to Valkyrion for the massively helpful bug squashing this week!
 * **Compendium** Remove 'Loading' from Barbarossa's Direct Fire, closes [#1565](https://github.com/massif-press/compcon/issues/1565)
 * **Active Mode** Correctly reset Orochi drones on Rest or Full Repair (beef), closes [#1577](https://github.com/massif-press/compcon/issues/1577)
 
-## [2.2.27](https://github.com/massif-press/compcon/compare/2.2.26...v2.2.27) (2021-07-16)
+## [2.2.27] (2021-07-16)
 
 ### Features
 
@@ -39,7 +57,7 @@ A massive thanks to Valkyrion for the massively helpful bug squashing this week!
 * **Pilot Roster:** fix editing NPC Feature Names & Descriptions (thank you to Valkyrion! First PR! 🎉)
 * **Pilot Roster:** fix missing pilot weapon equip button in list mode (also Valkyrion!)
 
-## [2.2.26](https://github.com/massif-press/compcon/compare/2.2.25...v2.2.26) (2021-07-16)
+## [2.2.26] (2021-07-16)
 
 ### Hotfix (7/19/21)
 
