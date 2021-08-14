@@ -1219,15 +1219,16 @@ class Pilot implements ICloudSyncable {
     }
   }
 
-  public Update(data: IPilotData, ignoreProps?: boolean): void {
-    if (ignoreProps) {
+  public Update(data: IPilotData, sync?: boolean): void {
+    if (sync) {
       for (const key in data) {
         if (this.SyncIgnore.includes(key)) data[key] = null
       }
     }
-
-    if (!ignoreProps) this._group = data.group || ''
-    if (!ignoreProps) this._sortIndex = data.sort_index || 0
+    else {
+      this._group = data.group || ''
+      this._sortIndex = data.sort_index || 0
+    }
 
     this._gistCode = data.gistCode || ''
     this._gistOwner = data.gistOwner || ''
@@ -1270,7 +1271,11 @@ class Pilot implements ICloudSyncable {
     this._special_equipment = data.special_equipment
       ? Pilot.deserializeSE(data.special_equipment)
       : []
-    this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
+    if (sync && data.state) {
+      this._state.Update(this, data.state, sync)
+    } else {
+      this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
+    }
     this.cc_ver = data.cc_ver || ''
     this._counterSaveData = data.counter_data || []
     this._customCounters = (data.custom_counters as ICounterData[]) || []
