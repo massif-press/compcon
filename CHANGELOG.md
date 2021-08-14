@@ -2,12 +2,16 @@
 
 ## [2.2.29] (2021-08-02)
 
+Huge thanks to TranslucentSabre and msprijatelj!
+
 ### Features
 
 * **Active Mode** Auto-roll some dice in Active Mode (thanks TranslucentSabre!), closes [#1551](https://github.com/massif-press/compcon/issues/1551)
 
 ### Bug Fixes
 
+* **Active Mode** Fix Pilot HP setting UI, closes [#1616](https://github.com/massif-press/compcon/issues/1616)
+* **Content Manager** Fix name and version sorting in the Content Manager, closes [#1596](https://github.com/massif-press/compcon/issues/1596)
 * **Mech Sheet** Add tooltips to the Mech Sheet Nav bar buttons (thanks Macrophaje! First PR! 🎉), closes [#1615](https://github.com/massif-press/compcon/issues/1615)
 * **Mission Runner** Allow for overwriting active mech on a synced pilot (thanks TranslucentSabre!), closes [#1612](https://github.com/massif-press/compcon/issues/1612)
 * **Vault** Correctly handle case in vault codes (thanks TranslucentSabre!), closes [#1606](https://github.com/massif-press/compcon/issues/1606)

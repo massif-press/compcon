@@ -6,17 +6,16 @@
         <div class="flavor-text subtle--text">{{ pilot.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-right mr-2 mt-n2">
-        <span class="heading h3 accent--text">HP</span>
-        <b>
-          <cc-tick-bar
-            small
-            no-pips
-            flip-input
-            :current="pilot.CurrentHP"
-            :max="pilot.MaxHP"
-            @update="pilot.CurrentHP = $event"
-          ></cc-tick-bar>
-        </b>
+        <div class="heading h3 accent--text">HP</div>
+        <div class="font-weight-bold mr-n5">
+          <v-btn icon x-small class="fadeSelect" @click="pilot.CurrentHP -= 1">
+            <v-icon small color="primary">mdi-minus</v-icon>
+          </v-btn>
+          {{ pilot.CurrentHP }}/{{ pilot.MaxHP }}
+          <v-btn icon x-small class="fadeSelect" @click="pilot.CurrentHP += 1">
+            <v-icon small color="primary">mdi-plus</v-icon>
+          </v-btn>
+        </div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
         <component
