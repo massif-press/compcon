@@ -46,7 +46,7 @@
     <v-col cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.Size }} {{ item.WeaponType }}</div>
       <span v-if="item.Source" class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
-      <div v-if="item.LcpName" class="flavor-text subtle--text">{{ item.LcpName }}</div>
+      <div v-if="item.InLcp" class="flavor-text subtle--text">{{ item.LcpName }}</div>
     </v-col>
     <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
       <div v-if="item.ProfileEffect" class="panel clipped pa-2">

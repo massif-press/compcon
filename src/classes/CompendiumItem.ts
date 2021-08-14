@@ -26,6 +26,7 @@ abstract class CompendiumItem {
   public ItemType: ItemType
   public readonly Brew: string
   public readonly LcpName: string
+  public readonly InLcp: boolean
   public readonly ID: string
   public readonly Actions: Action[]
   public readonly Bonuses: Bonus[]
@@ -60,6 +61,7 @@ abstract class CompendiumItem {
       this._description = data.description || ''
       this.Brew = data.brew || 'Core'
       this.LcpName = packName || 'LANCER Core Book'
+      this.InLcp = packName ? true : false
       this._baseTags = Tag.Deserialize(data.tags, packTags)
       this.IsExotic = this._baseTags.some(x => x.IsExotic)
       const heatTag = this.Tags.find(x => x.IsHeatCost)

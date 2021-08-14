@@ -28,6 +28,7 @@
         <v-toolbar flat dense tile color="primary">
           <span class="heading h3 white--text">{{ talent.Name }}</span>
           <v-spacer />
+          <span v-if="talent.InLcp" class="heading h3 white--text mr-3">{{ talent.LcpName }}</span>
           <cc-tooltip v-if="hideLocked" :content="`${showAll ? 'Hide' : 'Show'} All`">
             <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
               <v-icon small>mdi-eye</v-icon>
