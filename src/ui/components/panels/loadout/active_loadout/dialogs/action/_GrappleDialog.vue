@@ -123,6 +123,7 @@
                     :preset="`1d20+${mech.AttackBonus}`"
                     :preset-accuracy="accuracy - difficulty"
                     title="SKILL CHECK"
+                    autoroll=true
                     @commit="registerAttackRoll($event.total)"
                   />
                 </v-col>
