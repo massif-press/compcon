@@ -2,26 +2,26 @@
   <div class="nav-body elevation-10">
     <div id="cap" />
     <div v-if="$vuetify.breakpoint.mdAndUp" class="d-inline">
-      <cc-nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
-        <cc-tooltip inlinde delayed content="Active Mech Configuration">
+      <cc-tooltip inline delayed content="Active Mech Configuration">
+        <cc-nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
           MECH CONFIGURATION
-        </cc-tooltip>
-      </cc-nav-item>
+        </cc-nav-item>
+      </cc-tooltip>
       <cc-tooltip simple inline content="Feature In Development">
         <cc-nav-item disabled :selected="selected === 1" @click="$emit('set-page', 1)">
           COMBAT ANALYTICS
         </cc-nav-item>
       </cc-tooltip>
-      <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
-        <cc-tooltip inline delayed content="Player Profile">
+      <cc-tooltip inline delayed content="Player Profile">
+        <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
           <v-icon large>cci-pilot</v-icon>
-        </cc-tooltip>
-      </v-btn>
-      <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
-        <cc-tooltip inline delayed content="Active Mode">
+        </v-btn>
+      </cc-tooltip>
+      <cc-tooltip inline delayed content="Active Mode">
+        <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
           <v-icon large color="white">cci-activate</v-icon>
-        </cc-tooltip>
-      </v-btn>
+        </v-btn>
+      </cc-tooltip>
     </div>
     <v-menu v-else open-on-hover>
       <template v-slot:activator="{ on }">
