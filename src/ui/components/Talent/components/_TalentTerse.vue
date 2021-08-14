@@ -18,7 +18,8 @@
               RANK {{ 'I'.repeat(rank) }}
             </span>
           </v-col>
-          <v-col cols="auto" class="ml-auto mr-8 mt-n1">
+          <v-col v-if="talent.InLcp" cols="auto" align-self="center" class="heading h3 ml-auto mr-3 mt-n1">{{ talent.LcpName }}</v-col>
+          <v-col cols="auto" class="mr-8 mt-n1">
             <v-btn icon color="white" class="fadeSelect" @click="$emit('expand', 'full')">
               <v-icon>mdi-arrow-expand</v-icon>
             </v-btn>

@@ -245,7 +245,7 @@ export class ContentPack {
 
     self._Manufacturers = self._data.manufacturers?.map(x => new Manufacturer(x)) || []
     self._Factions = self._data.factions?.map(x => new Faction(x)) || []
-    self._Backgrounds = self._data.backgrounds?.map(x => new Background(x)) || []
+    self._Backgrounds = self._data.backgrounds?.map(x => new Background(x, self._manifest.name)) || []
     self._CoreBonuses =
       self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags, self._manifest.name)) || []
     self._Frames =
@@ -264,7 +264,7 @@ export class ContentPack {
           return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name)
         return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name)
       }) || []
-    self._Talents = self._data.talents?.map(x => new Talent(x)) || []
+    self._Talents = self._data.talents?.map(x => new Talent(x, self._data.tags, self._manifest.name)) || []
 
     self._NpcFeatures =
       self._data.npcFeatures?.map(function(x) {

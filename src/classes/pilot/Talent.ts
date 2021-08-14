@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import { CompendiumItem } from '@/class'
-import { ICompendiumItemData } from '@/interface'
+import { ICompendiumItemData, ITagCompendiumData } from '@/interface'
 
 interface ITalentRankData extends ICompendiumItemData {
   exclusive: boolean
@@ -26,8 +26,8 @@ class Talent extends CompendiumItem {
   private _ranks: TalentRank[]
   private _icon_url: string
 
-  public constructor(data: any) {
-    super(data)
+  public constructor(data: any, packTags?: ITagCompendiumData[], packName?: string) {
+    super(data, packTags, packName)
     this.Terse = data.terse || ''
     this._icon_url = data.icon_url || ''
     this._ranks = data.ranks.map(x => new TalentRank(x))

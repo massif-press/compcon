@@ -15,6 +15,7 @@
               RANK {{ 'I'.repeat(parseInt(rank)) }}
             </span>
           </span>
+          <span v-if="talent.InLcp" class="heading h3 white--text ml-3">{{ talent.LcpName }}</span>
         </v-toolbar>
       </v-card>
     </v-menu>

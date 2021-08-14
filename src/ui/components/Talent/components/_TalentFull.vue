@@ -11,6 +11,9 @@
         <v-col v-if="rank" cols="auto" class="ml-auto mr-3">
           <v-icon size="45" color="white">cci-rank-{{ rank }}</v-icon>
         </v-col>
+        <v-col v-if="talent.InLcp" cols="auto" class="mr-3">
+          <div class="white--text heading h3">{{ talent.LcpName }}</div>
+        </v-col>
         <v-col cols="auto" align-self="center">
           <v-icon color="white" class="fadeSelect mr-n2" @click="$emit('expand', 'terse')">
             mdi-arrow-collapse
