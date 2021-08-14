@@ -164,7 +164,7 @@ export default Vue.extend({
       return this.pilot.IsMissingTalents
     },
     scroll(id) {
-      if (this.newPilot || this.levelUp)
+      if (this.levelUp)
         this.$vuetify.goTo(`#e_${id}`, {
           duration: 150,
           easing: 'easeInOutQuad',
