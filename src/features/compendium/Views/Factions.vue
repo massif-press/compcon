@@ -64,6 +64,7 @@ import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Faction } from '@/classes/Faction'
+import "external-svg-loader"
 
 @Component
 export default class Factions extends Vue {
