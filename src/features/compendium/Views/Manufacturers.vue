@@ -65,6 +65,7 @@ import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Manufacturer } from '@/class'
+import "external-svg-loader"
 
 @Component
 export default class Manufacturers extends Vue {
