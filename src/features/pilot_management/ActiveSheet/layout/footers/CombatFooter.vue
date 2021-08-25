@@ -303,10 +303,12 @@ export default vueMixins(activePilot).extend({
     },
     nextRound() {
       this.state.NextRound()
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'turnEnd' })
       this.roundConfirm = false
     },
     endTurn(burn) {
       this.state.EndTurn(burn?.hp || 0, burn?.str || 0)
+      this.$store.dispatch('cloudSync', { callback: null, condition: 'turnEnd' })
       this.turnConfirm = false
     },
     undoEndTurn() {
