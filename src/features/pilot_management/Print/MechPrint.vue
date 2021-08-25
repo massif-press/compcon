@@ -253,7 +253,7 @@
         <v-row no-gutters class="stat-text">
           {{ w.Name }}
           <div class="d-inline-block overline ml-2 my-n1">
-            {{ w.Source }} {{ w.Size }} {{ w.Type }}
+            {{ w.Source }} {{ w.Size }} {{ w.WeaponType }}
           </div>
           <v-spacer />
           <span v-if="w.Uses">
