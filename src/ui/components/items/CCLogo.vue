@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-
+import "external-svg-loader"
 enum sizeMap {
   xSmall = '16px',
   small = '20px',
