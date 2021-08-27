@@ -12,7 +12,7 @@
           COMBAT ANALYTICS
         </cc-nav-item>
       </cc-tooltip>
-      <cc-tooltip inline delayed content="Player Profile">
+      <cc-tooltip inline delayed content="Pilot Sheet">
         <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
           <v-icon large>cci-pilot</v-icon>
         </v-btn>
@@ -33,6 +33,9 @@
       <v-list dense class="heading h3">
         <v-list-item @click="$emit('set-page', 0)">
           MECH CONFIGURATION
+        </v-list-item>
+        <v-list-item @click="toPilotSheet()">
+          PILOT SHEET
         </v-list-item>
         <v-list-item tile depressed :selected="selected === 0" :to="`/active/${pilot.ID}`">
           ACTIVE MODE
