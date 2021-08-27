@@ -16,9 +16,11 @@ export const ADD_GROUP = 'ADD_GROUP'
 export const UPDATE_PILOT = 'UPDATE_PILOT'
 export const LOAD_PILOTS = 'LOAD_PILOTS'
 export const ADD_PILOT = 'ADD_PILOT'
+export const MOVE_PILOT = 'MOVE_PILOT'
 export const CLONE_PILOT = 'CLONE_PILOT'
 export const DELETE_PILOT = 'DELETE_PILOT'
 export const DELETE_GROUP = 'DELETE_GROUP'
+export const SET_GROUP_NAME = 'SET_GROUP_NAME'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 
@@ -41,11 +43,32 @@ export class PilotManagementStore extends VuexModule {
   private [LOAD_PILOTS](payload: IPilotData[]): void {
     const allPilots = [...payload.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
+    this.PilotGroups = _.uniq(this.PilotGroups.concat(this.Pilots.map(x => x.Group)).concat(['']))
+    const cmp = function(a, b) {
+      if (a > b) return +1;
+      if (a < b) return -1;
+      return 0;
+    }
+    this.Pilots.sort((a, b) => {
+      return cmp(this.PilotGroups.indexOf(a.Group), this.PilotGroups.indexOf(b.Group)) || cmp(a.SortIndex, b.SortIndex)
+    })
+    this.Pilots.forEach((p, i) => p.SortIndex = i)
   }
 
   @Mutation
   private [ADD_PILOT](payload: Pilot): void {
     this.Pilots.push(payload)
+    savePilots(this.Pilots)
+  }
+
+  @Mutation
+  private [MOVE_PILOT](payload: { fromIndex: number, toIndex: number, g: string }): void {
+    const splicePilot = this.Pilots.splice(payload.fromIndex, 1)[0]
+    splicePilot.Group = payload.g
+    const groupIndex = this.Pilots.findIndex( p => p.Group === payload.g )
+    const toIndex = groupIndex + payload.toIndex
+    this.Pilots.splice(toIndex, 0, splicePilot)
+    this.Pilots.forEach((p, i) => p.SortIndex = i)
     savePilots(this.Pilots)
   }
 
@@ -72,6 +95,33 @@ export class PilotManagementStore extends VuexModule {
       throw console.error('Pilot not loaded!')
     }
     savePilots(this.Pilots)
+  }
+
+  @Mutation
+  private [ADD_GROUP](payload: string): void {
+    this.PilotGroups.indexOf(payload) === -1 ? this.PilotGroups.push(payload) : null
+  }
+
+  @Mutation
+  private [DELETE_GROUP](payload: string): void {
+    this.Pilots.forEach((p: Pilot) => {
+      if (p.Group === payload) p.Group = ''
+    })
+    const idx = this.PilotGroups.indexOf(payload)
+    if (idx === -1) return
+    this.PilotGroups.splice(idx, 1)
+  }
+
+  @Mutation
+  private [SET_GROUP_NAME](payload: {oldName: string; newName: string}): void {
+    const oldName = payload.oldName
+    const newName = payload.newName
+    this.Pilots.forEach((p: Pilot) => {
+      if (p.Group === oldName) p.Group = newName
+    })
+    const idx = this.PilotGroups.indexOf(oldName)
+    if (idx === -1) return
+    this.PilotGroups.splice(idx, 1, newName)
   }
 
   @Mutation
@@ -121,6 +171,11 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
+  public movePilot(payload: {fromIndex: number; toIndex: number; g: string}): void {
+    this.context.commit(MOVE_PILOT, payload)
+  }
+
+  @Action
   public addGroup(payload: string): void {
     this.context.commit(ADD_GROUP, payload)
   }
@@ -135,6 +190,11 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public deleteGroup(payload: string): void {
     this.context.commit(DELETE_GROUP, payload)
+  }
+
+  @Action
+  public setGroupName(payload: {oldName: string; newName: string}): void {
+    this.context.commit(SET_GROUP_NAME, payload)
   }
 
   @Action

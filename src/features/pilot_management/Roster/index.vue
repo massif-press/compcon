@@ -194,7 +194,7 @@ export default Vue.extend({
       return store.UserProfile
     },
     groups() {
-      return _.uniq(this.pilots.map(x => x.Group).concat(this.tempGroups))
+      return this.pilotStore.PilotGroups
     },
     pilots() {
       return this.pilotStore.Pilots
@@ -219,9 +219,9 @@ export default Vue.extend({
     this.preventDnd = this.isTouch
   },
   methods: {
-    toggleShown(group: string) {
-      const idx = this.shown.indexOf(group)
-      if (idx === -1) this.shown.push(group)
+    toggleShown(g: string) {
+      const idx = this.shown.indexOf(g)
+      if (idx === -1) this.shown.push(g)
       else this.shown.splice(idx, 1)
     },
     showAll() {
@@ -234,7 +234,7 @@ export default Vue.extend({
       this.sortParams = sortParams
     },
     addNewGroup() {
-      this.tempGroups.push(this.newGroupName)
+      this.pilotStore.addGroup(this.newGroupName)
       this.shown.push(this.newGroupName)
       this.newGroupName = ''
       this.newGroupMenu = false
@@ -242,31 +242,20 @@ export default Vue.extend({
     moved(e, g) {
       if (e.moved && e.moved.element) {
         const p = e.moved.element as Pilot
-        p.SortIndex = e.moved.newIndex
+        this.pilotStore.movePilot({ fromIndex: p.SortIndex, toIndex: e.moved.newIndex, g: g })
       }
       if (e.added && e.added.element) {
         const p = e.added.element as Pilot
-        p.SortIndex = e.added.newIndex
-        p.Group = g
+        this.pilotStore.movePilot({ fromIndex: p.SortIndex, toIndex: e.added.newIndex, g: g })
         // if (this.tempGroups.includes(g))
       }
     },
     deleteGroup(g) {
-      this.pilots.forEach((p: Pilot) => {
-        if (p.Group === g) p.Group = ''
-      })
-      const idx = this.tempGroups.indexOf(g)
-      if (idx === -1) return
-      this.tempGroups.splice(idx, 1)
+      this.pilotStore.deleteGroup(g)
     },
     setGroupName(oldName, newName) {
-      this.tempGroups.push(newName)
-      this.pilots.forEach((p: Pilot) => {
-        if (p.Group === oldName) p.Group = newName
-      })
-      const idx = this.tempGroups.indexOf(oldName)
-      if (idx === -1) return
-      this.tempGroups.splice(idx, 1)
+      this.pilotStore.setGroupName({oldName: oldName, newName: newName})
+      this.shown.push(newName)
     },
     randomName() {
       this.newGroupName = teamName()
