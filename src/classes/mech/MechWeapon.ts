@@ -199,7 +199,7 @@ class MechWeapon extends MechEquipment {
 
   public get ProfileHeatCost(): number {
     const selfHeatTag = this.ProfileTags.find(x => x.IsHeatCost)
-    return selfHeatTag ? (selfHeatTag.Value as number) : 0
+    return Number(selfHeatTag ? selfHeatTag.Value : 0)
   }
 
   public get ProfileActions(): Action[] {
