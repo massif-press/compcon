@@ -193,9 +193,9 @@
             class="pa-1 mt-n2"
             v-html="
               `+${a.Armor || 0} Armor / E-Def: ${a.EDefense || 'N/A'} / Evasion: ${a.Evasion ||
-                'N/A'}${a.HPBonus ? ` HP Bonus: +${a.HPBonus}` : ''}${
-                a.Speed ? ` Speed: ${a.Speed}` : ''
-              }${a.SpeedBonus ? ` Speed Bonus: +${a.SpeedBonus}` : ''}`
+                'N/A'}<br>${a.HPBonus ? `HP Bonus: +${a.HPBonus}` : ''}${
+                a.Speed ? ` / Speed: ${a.Speed}` : ''
+              }`
             "
           />
         </fieldset>
