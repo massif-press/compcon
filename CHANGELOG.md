@@ -1,4 +1,16 @@
 # COMP/CON Changelog
+## [2.2.30] (2021-08-27)
+
+### Bug Fixes
+
+* **Pilot Roster** Clarify version mismatch import errors, closes [#1646](https://github.com/massif-press/compcon/issues/1646)
+* **Compendium** Corrected display of LCP SVG graphics (thanks msprijatelj!), closes [#1618](https://github.com/massif-press/compcon/issues/1618)
+* **Active Mode** Sync data at the end of each turn (thanks TranslucentSabre!), closes [#1621](https://github.com/massif-press/compcon/issues/1621) [#1622](https://github.com/massif-press/compcon/issues/1622)
+* **Mech Sheet** Fixes a typo which prevented the weapon types from being displayed when printing a character's mech. (thanks TranslucentSabre!), closes [#1617](https://github.com/massif-press/compcon/issues/1617) 
+* **Pilot Sheet** Adds Damage and Range to the Bombardment Reserve (thanks msprijatelj!), closes [#1629](https://github.com/massif-press/compcon/issues/1629) 
+* **Mech Sheet** Enable icons on the Integrated Weapon mount for Remove/Change Item, since Integrated Weapon allows for weapon selection unlike other integrated mounts. (thanks msprijatelj!), closes [#1638](https://github.com/massif-press/compcon/issues/1638) 
+* **Mech Sheet** Adds a Pilot Sheet option from the mech sheet in the nav options on mobile, bringing it in line with the desktop version. (thanks msprijatelj!), closes [#1645](https://github.com/massif-press/compcon/issues/1645) 
+* **Pilot Sheet** Enable Pilot Roster reordering within groups (thanks msprijatelj!), closes [#1625](https://github.com/massif-press/compcon/issues/1625) 
 
 ## [2.2.29] (2021-08-02)
 
