@@ -29,12 +29,12 @@
           <br />
           <p class="heading h3 accent--text">
             WARNING: The imported Pilot requires the following content packs that are not currently
-            installed:
+            installed or have mismatching versions:
           </p>
           <p class="effect-text text-center" v-html="missingContent" />
           <p class="text--text">
             This Pilot cannot be imported until the missing content packs are installed and
-            activated.
+            activated, or the content pack versions are synchronized.
           </p>
         </v-card-text>
         <v-divider />
