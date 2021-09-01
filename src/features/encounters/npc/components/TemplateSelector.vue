@@ -24,6 +24,7 @@
     <v-row v-for="(e, i) in availableTemplates" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`">
       <v-col>
         <cc-titled-panel dense icon="cci-trait" :title="e.Name" color="primary">
+          <div v-if="e.InLcp" class="heading h3 text--text">{{ e.LcpName }}</div>
           <p class="flavor-text mb-0" v-html-safe="e.Description" />
           <v-divider class="my-2" />
           <span class="heading">
