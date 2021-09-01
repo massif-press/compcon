@@ -1,5 +1,9 @@
 <template>
-  <equipment-card-base :item="item" />
+  <equipment-card-base :item="item">
+    <v-row v-if="item.InLcp">
+      <div class="heading h3 text-text" >{{ item.LcpName }}</div>
+    </v-row>
+  </equipment-card-base>
 </template>
 
 <script lang="ts">
