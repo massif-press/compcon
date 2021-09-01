@@ -14,8 +14,8 @@ export class NpcTech extends NpcFeature {
   private _accuracy: number[]
   private _attack_bonus: number[]
 
-  public constructor(data: INpcTechData) {
-    super(data)
+  public constructor(data: INpcTechData, packName?: string) {
+    super(data, packName)
     this._tech_type = data.tech_type
     this._accuracy = data.accuracy || [0, 0, 0]
     this._attack_bonus = data.attack_bonus || [0, 0, 0]

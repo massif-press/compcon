@@ -19,8 +19,10 @@ export class NpcTemplate {
   private _optional_features: string[]
   private _power: number
   private _brew: string
+  public readonly LcpName: string
+  public readonly InLcp: boolean
 
-  public constructor(data: INpcTemplateData) {
+  public constructor(data: INpcTemplateData, packName?: string) {
     this._id = data.id
     this._name = data.name
     this._description = data.description
@@ -28,6 +30,8 @@ export class NpcTemplate {
     this._optional_features = data.optional_features
     this._power = data.power
     this._brew = data.brew || 'CORE'
+    this.LcpName = packName || 'Lancer CORE NPCs'
+    this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false
   }
 
   public get ID(): string {

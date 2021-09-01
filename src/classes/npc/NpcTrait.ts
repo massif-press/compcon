@@ -2,8 +2,8 @@ import { NpcFeature, NpcFeatureType } from './'
 import { INpcFeatureData } from './interfaces'
 
 export class NpcTrait extends NpcFeature {
-  public constructor(data: INpcFeatureData) {
-    super(data)
+  public constructor(data: INpcFeatureData, packName?: string) {
+    super(data, packName)
     this.type = NpcFeatureType.Trait
   }
 
