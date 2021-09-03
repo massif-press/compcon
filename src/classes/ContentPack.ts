@@ -272,7 +272,7 @@ export class ContentPack {
         else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData,self._manifest.name)
         else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x,self._manifest.name)
         else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData,self._manifest.name)
-        return new NpcTech(x as INpcTechData)
+        return new NpcTech(x as INpcTechData,self._manifest.name)
       }) || []
     self._NpcClasses = self._data.npcClasses?.map(x => new NpcClass(x,self._manifest.name)) || []
     self._NpcTemplates = self._data.npcTemplates?.map(x => new NpcTemplate(x,self._manifest.name)) || []
