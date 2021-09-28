@@ -1,4 +1,17 @@
 # COMP/CON Changelog
+## [2.2.31] (2021-08-27)
+
+### Features
+* **Global** Add additional LCP indicators (thanks, TranslucentSabre!) [#1649](https://github.com/massif-press/compcon/issues/1649)
+* **Pilot Sheet** Add more Mech names (thanks ArcanErasmus ! First PR! 🎉) [#1649](https://github.com/massif-press/compcon/issues/1649)
+
+### Bug Fixes
+
+* **Pilot Roster** Upgrade pilot importing when pilots are in groups (thanks, msprijatelj!) [#1651](https://github.com/massif-press/compcon/issues/1651)
+* **Pilot Sheet** Correct serialization of WeaponUses (thanks, msprijatelj!) [#1649](https://github.com/massif-press/compcon/issues/1649)
+* **Pilot Sheet** cast Tag vals as numbers, use profile tags (thanks, msprijatelj!) [#1655](https://github.com/massif-press/compcon/issues/1655)
+
+
 ## [2.2.30] (2021-08-27)
 
 ### Bug Fixes
