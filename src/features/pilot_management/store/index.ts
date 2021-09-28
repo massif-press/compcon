@@ -10,6 +10,21 @@ async function savePilots(pilots: Pilot[]) {
   await saveData('pilots_v2.json', serialized)
 }
 
+function sortPilotsByGroup(pilots: Pilot[], pilotGroups: string[]) {
+  const cmp = function(a, b) {
+    if (a > b) return +1;
+    if (a < b) return -1;
+    return 0;
+  }
+  pilots.sort((a, b) => {
+    return cmp(pilotGroups.indexOf(a.Group), pilotGroups.indexOf(b.Group)) || cmp(a.SortIndex, b.SortIndex)
+  })
+}
+
+function reindexPilots(pilots: Pilot[]) {
+  pilots.forEach((p, i) => p.SortIndex = i)
+}
+
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_PILOT = 'SET_PILOT'
 export const ADD_GROUP = 'ADD_GROUP'
@@ -44,20 +59,16 @@ export class PilotManagementStore extends VuexModule {
     const allPilots = [...payload.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
     this.PilotGroups = _.uniq(this.PilotGroups.concat(this.Pilots.map(x => x.Group)).concat(['']))
-    const cmp = function(a, b) {
-      if (a > b) return +1;
-      if (a < b) return -1;
-      return 0;
-    }
-    this.Pilots.sort((a, b) => {
-      return cmp(this.PilotGroups.indexOf(a.Group), this.PilotGroups.indexOf(b.Group)) || cmp(a.SortIndex, b.SortIndex)
-    })
-    this.Pilots.forEach((p, i) => p.SortIndex = i)
+    sortPilotsByGroup(this.Pilots, this.PilotGroups)
+    reindexPilots(this.Pilots)
   }
 
   @Mutation
   private [ADD_PILOT](payload: Pilot): void {
+    payload.SortIndex = this.Pilots.length
     this.Pilots.push(payload)
+    sortPilotsByGroup(this.Pilots, this.PilotGroups)
+    reindexPilots(this.Pilots)
     savePilots(this.Pilots)
   }
 
@@ -68,7 +79,7 @@ export class PilotManagementStore extends VuexModule {
     const groupIndex = this.Pilots.findIndex( p => p.Group === payload.g )
     const toIndex = groupIndex + payload.toIndex
     this.Pilots.splice(toIndex, 0, splicePilot)
-    this.Pilots.forEach((p, i) => p.SortIndex = i)
+    reindexPilots(this.Pilots)
     savePilots(this.Pilots)
   }
 
@@ -83,6 +94,8 @@ export class PilotManagementStore extends VuexModule {
       mech.RenewID()
     }
     this.Pilots.push(newPilot)
+    sortPilotsByGroup(this.Pilots, this.PilotGroups)
+    reindexPilots(this.Pilots)
     savePilots(this.Pilots)
   }
 
@@ -94,6 +107,7 @@ export class PilotManagementStore extends VuexModule {
     } else {
       throw console.error('Pilot not loaded!')
     }
+    reindexPilots(this.Pilots)
     savePilots(this.Pilots)
   }
 
@@ -104,12 +118,17 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [DELETE_GROUP](payload: string): void {
-    this.Pilots.forEach((p: Pilot) => {
-      if (p.Group === payload) p.Group = ''
+    this.Pilots.forEach((p: Pilot, i) => {
+      if (p.Group === payload) {
+        p.Group = ''
+        p.SortIndex = this.Pilots.length + i
+      }
     })
     const idx = this.PilotGroups.indexOf(payload)
     if (idx === -1) return
     this.PilotGroups.splice(idx, 1)
+    sortPilotsByGroup(this.Pilots, this.PilotGroups)
+    reindexPilots(this.Pilots)
   }
 
   @Mutation
