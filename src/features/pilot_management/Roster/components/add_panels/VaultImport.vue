@@ -134,6 +134,7 @@ export default Vue.extend({
       if (!importPilot.CloudID) {
         importPilot.CloudID = this.importID
       }
+      importPilot.Group = ''
       getModule(PilotManagementStore, this.$store).addPilot({ pilot: importPilot, update: true })
       this.reset()
       this.dialog = false
