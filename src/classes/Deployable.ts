@@ -123,7 +123,7 @@ class Deployable extends CompendiumItem {
       out = owner.Pilot.SpecialEval(out)
       out += Bonus.get(`${prefix}_${bonusID}`, owner)
     }
-    return out as number
+    return Number(out)
   }
 
   public get Name(): string {

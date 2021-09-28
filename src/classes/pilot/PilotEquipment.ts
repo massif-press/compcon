@@ -151,8 +151,7 @@ abstract class PilotEquipment extends CompendiumItem {
   }
 
   public get MaxUses(): number {
-    if (this.max_use_override) return this.max_use_override
-    return this._max_uses
+    return this.max_use_override ? this.max_use_override : this._max_uses
   }
 
   public getTotalUses(bonus?: number): number {
