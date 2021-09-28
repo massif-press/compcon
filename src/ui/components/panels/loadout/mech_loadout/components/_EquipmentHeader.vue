@@ -9,7 +9,7 @@
     </v-col>
     <v-col v-if="item.IsLimited" cols="auto" class="mx-2">
       <cc-item-uses :item="item" :bonus="useBonus" :color="color" class="d-inline" />
-      <span class="overline">({{ item.MaxUses + useBonus - item.MissingUses }}/{{ item.MaxUses + useBonus }}) USES</span>
+      <span class="overline">({{ item.getTotalUses(useBonus) - item.MissingUses }}/{{ item.getTotalUses(useBonus) }}) USES</span>
     </v-col>
     <v-col v-if="item.IsLoading && readonly" cols="auto" class="ma-1">
       <v-btn

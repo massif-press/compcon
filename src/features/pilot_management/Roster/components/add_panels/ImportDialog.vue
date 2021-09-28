@@ -23,7 +23,7 @@
       </v-card-actions>
       <v-card-actions v-else-if="pilot">
         <span class="white--text flavor-text">
-          Import
+          Import pilot
           <b>{{ pilot.Callsign.toUpperCase() }}</b>
           //
           <b>{{ pilot.Name }}</b>
