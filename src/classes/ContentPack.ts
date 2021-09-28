@@ -268,14 +268,14 @@ export class ContentPack {
 
     self._NpcFeatures =
       self._data.npcFeatures?.map(function(x) {
-        if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData)
-        else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData)
-        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x)
-        else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData)
-        return new NpcTech(x as INpcTechData)
+        if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData,self._manifest.name)
+        else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData,self._manifest.name)
+        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x,self._manifest.name)
+        else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData,self._manifest.name)
+        return new NpcTech(x as INpcTechData,self._manifest.name)
       }) || []
-    self._NpcClasses = self._data.npcClasses?.map(x => new NpcClass(x)) || []
-    self._NpcTemplates = self._data.npcTemplates?.map(x => new NpcTemplate(x)) || []
+    self._NpcClasses = self._data.npcClasses?.map(x => new NpcClass(x,self._manifest.name)) || []
+    self._NpcTemplates = self._data.npcTemplates?.map(x => new NpcTemplate(x,self._manifest.name)) || []
 
     self._PlayerActions = self._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)

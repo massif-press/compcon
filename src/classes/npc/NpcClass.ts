@@ -15,6 +15,8 @@ export interface INpcClassData {
 }
 
 export class NpcClass {
+  public readonly LcpName: string
+  public readonly InLcp: boolean
   private _id: string
   private _name: string
   private _role: string
@@ -28,7 +30,7 @@ export class NpcClass {
   private _power: number
   private _brew: string
 
-  public constructor(data: INpcClassData) {
+  public constructor(data: INpcClassData, packName?: string) {
     this._id = data.id
     this._name = data.name
     this._role = data.role
@@ -38,6 +40,8 @@ export class NpcClass {
     this._base_features = data.base_features
     this._optional_features = data.optional_features
     this._brew = data.brew || 'CORE'
+    this.LcpName = packName || 'Lancer CORE NPCs'
+    this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false
   }
 
   public get ID(): string {
