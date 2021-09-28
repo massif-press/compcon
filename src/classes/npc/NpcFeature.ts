@@ -41,8 +41,10 @@ export abstract class NpcFeature {
   private _hide_active: boolean
   protected type: NpcFeatureType
   public IsHidden: boolean
+  public readonly LcpName: string
+  public readonly InLcp: boolean
 
-  public constructor(data: INpcFeatureData) {
+  public constructor(data: INpcFeatureData, packName?: string) {
     this._id = data.id
     this._name = data.name
     this._origin = data.origin
@@ -53,6 +55,8 @@ export abstract class NpcFeature {
     this._tags = data.tags
     this._brew = data.brew || 'CORE'
     this._hide_active = data.hide_active || false
+    this.LcpName = packName || 'Lancer CORE NPCs'
+    this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false
   }
 
   public get ID(): string {

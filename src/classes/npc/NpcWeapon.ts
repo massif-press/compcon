@@ -28,8 +28,8 @@ export class NpcWeapon extends NpcFeature {
   private _attack_bonus: number[]
   private _on_hit?: string
 
-  public constructor(data: INpcWeaponData) {
-    super(data)
+  public constructor(data: INpcWeaponData, packName?: string) {
+    super(data, packName)
     this._on_hit = data.on_hit || ''
     this._weapon_type = data.weapon_type
     this._damage_data = data.damage

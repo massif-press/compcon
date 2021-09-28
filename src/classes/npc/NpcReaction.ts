@@ -9,8 +9,8 @@ export interface INpcReactionData extends INpcFeatureData {
 export class NpcReaction extends NpcFeature {
   private _trigger: string
 
-  public constructor(data: INpcReactionData) {
-    super(data)
+  public constructor(data: INpcReactionData, packName?: string) {
+    super(data, packName)
     this._trigger = data.trigger || ''
     this.type = NpcFeatureType.Reaction
   }
