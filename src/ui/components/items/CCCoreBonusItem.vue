@@ -1,6 +1,11 @@
 <template>
   <cc-titled-panel :title="bonus.Name" dense>
     <p
+      v-if="bonus.InLcp"
+      class="stat--text heading h3"
+      v-html-safe="bonus.LcpName"
+    />
+    <p
       v-show="$vuetify.breakpoint.mdAndUp"
       class="flavor-text pb-0 mb-2 mt-0"
       v-html-safe="bonus.Description"

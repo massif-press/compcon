@@ -1,14 +1,19 @@
 <template>
   <equipment-card-base :item="item">
-    <v-container slot="statblock" grid-list-md class="mt-0 pt-1">
-      <v-row dense justify="center">
-        <cc-statblock-panel icon="$vuetify.icons.armor" name="Armor" :value="armor" />
-        <cc-statblock-panel icon="$vuetify.icons.hp" name="HP Bonus" :value="`+${hp}`" />
-        <cc-statblock-panel icon="$vuetify.icons.edef" name="E-Defense" :value="edef" />
-        <cc-statblock-panel icon="$vuetify.icons.evasion" name="Evasion" :value="evasion" />
-        <cc-statblock-panel icon="$vuetify.icons.speed" name="Speed" :value="speed" />
-      </v-row>
-    </v-container>
+    <v-row v-if="item.InLcp">
+      <div class="heading h3 text-text" >{{ item.LcpName }}</div>
+    </v-row>
+    <v-row>
+      <v-container slot="statblock" grid-list-md class="mt-0 pt-1">
+        <v-row dense justify="center">
+          <cc-statblock-panel icon="$vuetify.icons.armor" name="Armor" :value="armor" />
+          <cc-statblock-panel icon="$vuetify.icons.hp" name="HP Bonus" :value="`+${hp}`" />
+          <cc-statblock-panel icon="$vuetify.icons.edef" name="E-Defense" :value="edef" />
+          <cc-statblock-panel icon="$vuetify.icons.evasion" name="Evasion" :value="evasion" />
+          <cc-statblock-panel icon="$vuetify.icons.speed" name="Speed" :value="speed" />
+        </v-row>
+      </v-container>
+    </v-row>
   </equipment-card-base>
 </template>
 
