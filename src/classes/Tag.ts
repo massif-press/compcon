@@ -81,7 +81,7 @@ class Tag {
           } + ${bonus} bonus)</span>`
       return this._description.replace(/{VAL}/g, r)
     } else {
-      const str = this._val as string
+      const str = String(this._val)
       if (str.includes('+')) {
         const split = str.split('+')
         const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`
@@ -102,7 +102,7 @@ class Tag {
     if (typeof this._val === 'number') {
       return this._name.replace(/{VAL}/g, (this._val + bonus).toString())
     } else {
-      const str = this._val as string
+      const str = String(this._val)
       if (str.includes('+')) {
         const split = str.split('+')
         const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`

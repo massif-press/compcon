@@ -668,7 +668,7 @@ export default Vue.extend({
       }
     },
     overkill() {
-      if (this.item.Tags.some(x => x.IsOverkill)) return true
+      if (this.item.ProfileTags.some(x => x.IsOverkill)) return true
       if (this.item.Mod && this.item.Mod.AddedTags.some(x => x.IsOverkill)) return true
       return false
     },
@@ -713,23 +713,23 @@ export default Vue.extend({
       return Damage.CalculateDamage(this.item, this.mech)
     },
     isSmart() {
-      if (this.item.Tags.some(x => x.IsSmart)) return true
+      if (this.item.ProfileTags.some(x => x.IsSmart)) return true
       if (this.item.Mod && this.item.Mod.AddedTags.some(x => x.IsSmart)) return true
       return false
     },
     reliable() {
-      const r = this.item.Tags.find(x => x.ID === 'tg_reliable')
-      return r ? r.Value : 0
+      const r = this.item.ProfileTags.find(x => x.ID === 'tg_reliable')
+      return Number(r ? r.Value : 0)
     },
     minAccuracy() {
       let bonus = 0
-      if (this.item.Tags.some(x => x.ID === 'tg_accurate')) bonus += 1
+      if (this.item.ProfileTags.some(x => x.ID === 'tg_accurate')) bonus += 1
       if (this.item.Mod && this.item.Mod.AddedTags.some(x => x.ID === 'tg_accurate')) bonus += 1
       if (this.hardpoints) bonus += 1
       return bonus
     },
     minDifficulty() {
-      if (this.item.Tags.some(x => x.ID === 'tg_inaccurate')) return 1
+      if (this.item.ProfileTags.some(x => x.ID === 'tg_inaccurate')) return 1
       if (this.item.Mod && this.item.Mod.AddedTags.some(x => x.ID === 'tg_inaccurate')) return 1
       return 0
     },

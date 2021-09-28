@@ -65,9 +65,9 @@ abstract class CompendiumItem {
       this._baseTags = Tag.Deserialize(data.tags, packTags)
       this.IsExotic = this._baseTags.some(x => x.IsExotic)
       const heatTag = this.Tags.find(x => x.IsHeatCost)
-      const heatCost = heatTag ? heatTag.Value : 0
+      const heatCost = Number(heatTag ? heatTag.Value : 0)
       this.Actions = data.actions
-        ? data.actions.map(x => new Action(x, data.name, heatCost as number))
+        ? data.actions.map(x => new Action(x, data.name, heatCost))
         : []
       this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
       this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x, data.name)) : []
