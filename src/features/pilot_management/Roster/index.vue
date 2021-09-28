@@ -51,8 +51,8 @@
         <div v-for="g in groups" :key="`pg_${g}`">
           <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
             <v-col cols="auto">
-              <v-btn small dark icon class="mt-n1" @click="toggleShown(g)">
-                <v-icon v-html="shown.includes(g) ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
+              <v-btn small dark icon class="mt-n1" @click="toggleHidden(g)">
+                <v-icon v-html="!hidden.includes(g) ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
               </v-btn>
               {{ g ? g : 'Ungrouped' }}
               <span class="overline">({{ pilots.filter(x => x.Group === g).length }})</span>
@@ -83,7 +83,7 @@
             </v-col>
           </v-row>
           <div
-            v-if="shown.includes(g)"
+            v-if="!hidden.includes(g)"
             :style="profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
           >
             <v-expand-transition>
@@ -171,7 +171,7 @@ export default Vue.extend({
     drag: false,
     newGroupMenu: false,
     tempGroups: [],
-    shown: [],
+    hidden: [],
     newGroupName: '',
     preventDnd: true,
   }),
@@ -215,27 +215,26 @@ export default Vue.extend({
     },
   },
   created() {
-    this.shown = [...this.groups]
+    this.hidden = []
     this.preventDnd = this.isTouch
   },
   methods: {
-    toggleShown(g: string) {
-      const idx = this.shown.indexOf(g)
-      if (idx === -1) this.shown.push(g)
-      else this.shown.splice(idx, 1)
+    toggleHidden(g: string) {
+      const idx = this.hidden.indexOf(g)
+      if (idx === -1) this.hidden.push(g)
+      else this.hidden.splice(idx, 1)
     },
     showAll() {
-      Vue.set(this, 'shown', [...this.groups])
+      Vue.set(this, 'hidden', [])
     },
     hideAll() {
-      Vue.set(this, 'shown', [])
+      Vue.set(this, 'hidden', [...this.groups])
     },
     onSort(sortParams: any[]) {
       this.sortParams = sortParams
     },
     addNewGroup() {
       this.pilotStore.addGroup(this.newGroupName)
-      this.shown.push(this.newGroupName)
       this.newGroupName = ''
       this.newGroupMenu = false
     },
@@ -255,7 +254,6 @@ export default Vue.extend({
     },
     setGroupName(oldName, newName) {
       this.pilotStore.setGroupName({oldName: oldName, newName: newName})
-      this.shown.push(newName)
     },
     randomName() {
       this.newGroupName = teamName()
