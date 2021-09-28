@@ -199,7 +199,7 @@ class MechWeapon extends MechEquipment {
 
   public get ProfileHeatCost(): number {
     const selfHeatTag = this.ProfileTags.find(x => x.IsHeatCost)
-    return selfHeatTag ? (selfHeatTag.Value as number) : 0
+    return Number(selfHeatTag ? selfHeatTag.Value : 0)
   }
 
   public get ProfileActions(): Action[] {
@@ -282,7 +282,6 @@ class MechWeapon extends MechEquipment {
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
     return {
       id: item.ID,
-      uses: MechWeapon.SanitizeUsesInput(item.Uses) || 0,
       destroyed: item.Destroyed,
       cascading: item.IsCascading,
       loaded: item.Loaded,
@@ -292,13 +291,13 @@ class MechWeapon extends MechEquipment {
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || null,
       maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
+      uses: MechWeapon.SanitizeUsesInput(item.Uses) || 0,
       selectedProfile: item._selected_profile || 0,
     }
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
     const item = store.getters.instantiate('MechWeapons', data.id) as MechWeapon
-    item.Uses = MechWeapon.SanitizeUsesInput(data.uses) || 0
     item._destroyed = data.destroyed || false
     item._cascading = data.cascading || false
     item._loaded = data.loaded || true
@@ -308,6 +307,7 @@ class MechWeapon extends MechEquipment {
     item._flavor_description = data.flavorDescription
     item._custom_damage_type = data.customDamageType || null
     item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride) || 0
+    item.Uses = MechWeapon.SanitizeUsesInput(data.uses) || 0
     item._selected_profile = data.selectedProfile || 0
     return item
   }

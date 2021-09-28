@@ -6,8 +6,8 @@ export interface INpcSystemData extends INpcFeatureData {
 }
 
 export class NpcSystem extends NpcFeature {
-  public constructor(data: INpcSystemData) {
-    super(data)
+  public constructor(data: INpcSystemData, packName?: string) {
+    super(data, packName)
     this.type = NpcFeatureType.System
   }
 
