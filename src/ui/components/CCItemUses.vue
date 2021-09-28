@@ -2,7 +2,7 @@
   <div class="mt-n2">
     <v-btn
       v-for="n in max"
-      :key="`chk_${item.ID}-${n}_of_${item.MaxUses}`"
+      :key="`chk_${item.ID}-${n}_of_${max}`"
       class="d-inline my-0 mx-n1 pa-0"
       icon
       :small="small"

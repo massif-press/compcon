@@ -5,7 +5,6 @@ import { Bonus } from '../Bonus'
 interface IPilotArmorData extends IPilotEquipmentData {
   hp_bonus?: number
   speed?: number
-  speed_bonus?: number
   armor?: number
   edef?: number
   edef_bonus?: number
@@ -16,7 +15,6 @@ interface IPilotArmorData extends IPilotEquipmentData {
 class PilotArmor extends PilotEquipment {
   public readonly HPBonus: string
   public readonly Speed: string
-  public readonly SpeedBonus: string
   public readonly Armor: string
   public readonly EDefense: string
   public readonly Evasion: string
@@ -25,7 +23,6 @@ class PilotArmor extends PilotEquipment {
     super(data, packTags, packName)
     this.HPBonus = Bonus.SumStatic(data, 'pilot_hp')
     this.Speed = Bonus.SumStatic(data, 'pilot_speed')
-    this.SpeedBonus = Bonus.SumStatic(data, 'pilot_evasion')
     this.Armor = Bonus.SumStatic(data, 'pilot_armor')
     this.EDefense = Bonus.SumStatic(data, 'pilot_edef')
     this.Evasion = Bonus.SumStatic(data, 'pilot_evasion')
