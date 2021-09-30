@@ -47,7 +47,7 @@
                 :id="$vuetify.breakpoint.mdAndDown ? 'img-mobile' : 'img-hover'"
                 :src="frame(l.FrameID).DefaultImage"
                 max-height="100%"
-                :position="`top ${frame(l.FrameID).YPosition}% left 20vw`"
+                :position="`top ${frame(l.FrameID).YPosition}% left 80px`"
                 style="position:absolute; top: 0; right: 0;"
               />
             </v-expansion-panel-header>
