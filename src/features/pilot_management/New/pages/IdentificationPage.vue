@@ -169,7 +169,6 @@
       <v-btn
         color="accent"
         class="mx-2"
-        :disabled="!pilot.HasIdent"
         large
         @click="$emit('templates')"
       >

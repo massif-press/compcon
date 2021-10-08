@@ -24,13 +24,14 @@
       <v-col cols="auto" class="ml-auto">
         <v-btn
           v-if="!noConfirm"
-          color="success"
-          :disabled="!complete"
+          :color="complete || mandatory ? 'success' : 'primary'"
           large
-          tile
+          :disabled="mandatory && !complete"
+          :text="!(complete || mandatory)"
+          :tile="complete || mandatory"
           @click="$emit('complete')"
         >
-          CONTINUE
+          {{ complete || mandatory ? 'CONTINUE' : 'SKIP STEP' }}
         </v-btn>
       </v-col>
     </v-row>
@@ -46,6 +47,8 @@ export default class CCStepperContent extends Vue {
   readonly noConfirm?: boolean
   @Prop({ type: Boolean, required: false })
   readonly back?: boolean
+  @Prop({ type: Boolean, required: false })
+  readonly mandatory?: boolean
 
   @Prop({ type: Boolean, required: true })
   readonly complete!: boolean
