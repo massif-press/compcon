@@ -91,9 +91,9 @@ export class UserStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async setAws(payload: any, condition?: string): Promise<void> {
-    let sync = true
-    Sync.GetSync(payload.username)
+  public async setAws(payload: {user: any, condition?: string, noSync?: boolean}): Promise<void> {
+    let sync = !payload.noSync
+    Sync.GetSync(payload.user.username)
       .then(res => {
         this.setUserProfile(res)
       })
@@ -101,9 +101,9 @@ export class UserStore extends VuexModule {
         this.context.commit(SET_LOGGED_IN, true)
       })
       .then(() => {
-        this.UserProfile.Username = payload.attributes.email
-        if (condition === 'appLoad' && !this.UserProfile.SyncFrequency.onAppLoad) sync = false
-        if (condition === 'logIn' && !this.UserProfile.SyncFrequency.onLogIn) sync = false
+        this.UserProfile.Username = payload.user.attributes.email
+        if (payload.condition === 'appLoad' && !this.UserProfile.SyncFrequency.onAppLoad) sync = false
+        if (payload.condition === 'logIn' && !this.UserProfile.SyncFrequency.onLogIn) sync = false
       })
       .then(() => {
         if (sync) {
@@ -147,6 +147,12 @@ export class UserStore extends VuexModule {
     }
 
     let sync = true
+    if (payload.condition === 'appLoad' && !this.UserProfile.SyncFrequency.onAppLoad)
+      sync = false
+    if (payload.condition === 'logIn' && !this.UserProfile.SyncFrequency.onLogIn)
+      sync = false
+    if (payload.condition === 'bulkDelete' && !this.UserProfile.SyncFrequency.onBulkDelete)
+      sync = false
     if (payload.condition === 'themeChange' && !this.UserProfile.SyncFrequency.onThemeChange)
       sync = false
     if (payload.condition === 'pilotLevel' && !this.UserProfile.SyncFrequency.onPilotLevel)
