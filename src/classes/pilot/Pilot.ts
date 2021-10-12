@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import _ from 'lodash'
 import uuid from 'uuid/v4'
 import {
@@ -234,7 +235,7 @@ class Pilot implements ICloudSyncable {
   }
 
   public get ShareCode(): string {
-    if (!this.ResourceURI || !this.CloudOwnerID) return 'ERR'
+    if (!this.ResourceURI || !this.CloudOwnerID) return 'ERR: PERFORM MANUAL SYNC AND RETRY'
     return `${this.CloudOwnerID.split(':')[1]}//${this.ResourceURI.split('/')[1]}`
   }
 
@@ -413,9 +414,10 @@ class Pilot implements ICloudSyncable {
 
   public SetOwnedResource(userCognitoId: string): void {
     console.log('pilot call, set owned resource')
-    this.CloudID = this.ID
-    this.CloudOwnerID = userCognitoId
+    Vue.set(this, 'CloudID', this.ID)
+    Vue.set(this, 'CloudOwnerID', userCognitoId)
     this.IsLocallyOwned = true
+    this.save()
   }
 
   public get CloudImage(): string {
