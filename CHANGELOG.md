@@ -1,5 +1,23 @@
 # COMP/CON Changelog
-## [2.2.31] (2021-08-27)
+## [2.2.32] (2021-10-12)
+
+Massive thanks to **msprijatelj**, who is responsible for all of the following updates, as well as a slew of LCP data 
+
+### Features
+* **Pilot Sheet** Quick pilot creation mode (enable in Options) [#1707](https://github.com/massif-press/compcon/issues/1707)
+* **Pilot Sheet** Improve Vault Code UX [#1696](https://github.com/massif-press/compcon/issues/1696)
+
+### Bug Fixes
+
+* **Global** Better manage login status [#1694](https://github.com/massif-press/compcon/issues/1694)
+* **Global** Overwrite cloud data on data wipe/bulk import [#1712](https://github.com/massif-press/compcon/issues/1712)
+* **Mech Hangar** Correct missing ActiveMech errors [#1699](https://github.com/massif-press/compcon/issues/1699)
+* **Mech Sheet** Clean up Aux equipment handling [#1693](https://github.com/massif-press/compcon/issues/1693)
+* **Mech Sheet** Fix overcropped Frame art [#1693](https://github.com/massif-press/compcon/issues/1693)
+* **Mech Sheet** Handle increased Mech sizes [#1688](https://github.com/massif-press/compcon/issues/1688)
+
+
+## [2.2.31] (2021-09-28)
 
 ### Features
 * **Global** Add additional LCP indicators (thanks, TranslucentSabre!) [#1649](https://github.com/massif-press/compcon/issues/1649)
