@@ -7,20 +7,10 @@
     @back="$emit('back')"
   >
     <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
-    <v-btn
-      x-large
-      block
-      :disabled="!pilotReady"
-      color="secondary"
-      tile
-      class="mx-2 my-8"
-      @click="savePilot()"
-    >
-      Update Pilot Record // {{ pilot.Callsign }} ({{ pilot.Name }})
-    </v-btn>
+    <br />
     <v-alert type="error" outlined :value="!pilotReady">
       <span class="stat-text accent--text">
-        WARNING: IDENT record {{ pilot.ID }} cannot be updated due to the following reason(s):
+        WARNING: Submission for IDENT record {{ pilot.ID }} has the following issue(s):
       </span>
       <ul class="flavor-text error--text">
         <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
@@ -32,6 +22,16 @@
         <li v-if="!pilot.HasCBs">PILOT CORE BONUSES incomplete or invalid</li>
       </ul>
     </v-alert>
+    <v-btn
+      x-large
+      block
+      color="secondary"
+      tile
+      class="mx-2 my-8"
+      @click="savePilot()"
+    >
+      Update Pilot Record // {{ pilot.Callsign }} ({{ pilot.Name }})
+    </v-btn>
   </cc-stepper-content>
 </template>
 
