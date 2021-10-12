@@ -99,6 +99,14 @@
                   label="On User Sign In"
                 />
               </v-col>
+              <v-col lg="4" cols="6">
+                <v-switch
+                  v-model="userProfile.SyncFrequency.onBulkDelete"
+                  hide-details
+                  color="accent"
+                  label="On Bulk Data Overwrite"
+                />
+              </v-col>
               <!-- <v-col lg="4" cols="6"><v-switch v-model="userProfile.SyncFrequency.onAppLoad" hide-details color="accent" label="On App Exit" /></v-col> -->
               <v-col lg="4" cols="6">
                 <v-switch
