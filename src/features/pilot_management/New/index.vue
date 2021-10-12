@@ -53,19 +53,20 @@
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="1">
           <identification-page
             :pilot="pilot"
+            :quickstart="quickstart"
             @next="step++"
             @templates="step = 6"
             @set="pilot[$event.attr] = $event.val"
           />
         </v-stepper-content>
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="2">
-          <skills-page :pilot="pilot" @next="step++" @back="step--" />
+          <skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="3">
-          <talents-page :pilot="pilot" @next="step++" @back="step--" />
+          <talents-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="4">
-          <mech-skills-page :pilot="pilot" @next="step++" @back="step--" />
+          <mech-skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="5">
           <confirm-page :pilot="pilot" @next="step++" @back="step--" @done="onDone" />
@@ -87,6 +88,8 @@ import MechSkillsPage from './pages/MechSkillsPage.vue'
 import ConfirmPage from './pages/ConfirmPage.vue'
 import TemplatesPage from './pages/TemplatesPage.vue'
 import { Pilot } from '@/class'
+import { getModule } from 'vuex-module-decorators'
+import { UserStore } from '@/store'
 
 export default Vue.extend({
   name: 'new-pilot-wizard',
@@ -110,6 +113,11 @@ export default Vue.extend({
   },
   created() {
     this.pilot = new Pilot()
+  },
+  computed: {
+    quickstart() {
+      return !!getModule(UserStore, this.$store).UserProfile.GetView('quickstart')
+    },
   },
   methods: {
     onDone() {

@@ -121,10 +121,10 @@
         </div>
       </v-col>
       <v-col>
-        <h3 class="heading accent--text mb-n2">Compendium</h3>
+        <h3 class="heading accent--text mb-n2">Advanced Options</h3>
         <v-switch v-model="userViewExotics" color="exotic" inset dense hide-details>
           <span slot="label">
-            Show Exotic Items
+            Show Exotic items in the Compendium
             <cc-tooltip
               title="SPOILER ALERT"
               content="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED
@@ -133,6 +133,11 @@
             >
               <v-icon color="warning">mdi-alert</v-icon>
             </cc-tooltip>
+          </span>
+        </v-switch>
+        <v-switch v-model="userAllowQuickstart" color="exotic" inset dense hide-details>
+          <span slot="label">
+            Enable quick pilot creation and level-up
           </span>
         </v-switch>
         <h3 class="heading accent--text mt-2">Theme</h3>
@@ -185,11 +190,19 @@ export default Vue.extend({
       return store.UserProfile
     },
     userViewExotics: {
-      get: function () {
+      get: function() {
         return this.user.GetView('showExotics')
       },
-      set: function (newval) {
+      set: function(newval) {
         this.user.SetView('showExotics', newval)
+      },
+    },
+    userAllowQuickstart: {
+      get: function() {
+        return this.user.GetView('quickstart')
+      },
+      set: function(newval) {
+        this.user.SetView('quickstart', newval)
       },
     },
     userID() {

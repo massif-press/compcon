@@ -1,6 +1,7 @@
 <template>
   <cc-stepper-content
     :complete="canContinue"
+    :mandatory="!quickstart"
     exit="pilot_management"
     back
     @back="$emit('back')"
@@ -51,6 +52,7 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    quickstart: { type: Boolean },
   },
   computed: {
     canContinue(): boolean {
