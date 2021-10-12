@@ -11,6 +11,7 @@ interface IViewOptions {
   hangar: string
   pilotSheet: string
   showExotics: boolean
+  quickstart: boolean
 }
 
 interface ISyncFrequency {
@@ -66,6 +67,7 @@ const defaultViewOptions = (): IViewOptions => ({
   hangar: 'cards',
   pilotSheet: 'tabbed',
   showExotics: false,
+  quickstart: false,
 })
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
