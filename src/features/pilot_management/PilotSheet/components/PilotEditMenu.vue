@@ -43,14 +43,14 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.vaultDialog.show()">
+        <v-list-item :disabled="!currentAuthedUser" @click="$refs.vaultDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-database</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>COMP/CON Vault Record</v-list-item-title>
             <v-list-item-subtitle>
-              Share this pilot's synced data with other users via your COMP/CON account.
+              Share this pilot's synced data with other users. Requires COMP/CON account.
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -127,6 +127,8 @@ import DeleteDialog from './DeletePilotDialog.vue'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore } from '@/store'
 
+import { Auth } from 'aws-amplify'
+
 export default Vue.extend({
   name: 'edit-menu',
   components: {
@@ -151,6 +153,14 @@ export default Vue.extend({
     dense: {
       type: Boolean,
     },
+  },
+  data: () => ({
+    currentAuthedUser: null
+  }),
+  async mounted() {
+    await Auth.currentAuthenticatedUser().then(res => {
+      this.currentAuthedUser = !!res.username
+    })
   },
   methods: {
     deletePilot() {

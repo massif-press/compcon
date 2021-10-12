@@ -407,6 +407,7 @@ class ActiveState {
     } else {
       this._remoteMech = mech
     }
+    this.save()
   }
 
   public get ActiveMech(): Mech | null {
