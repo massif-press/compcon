@@ -62,13 +62,13 @@
     </div>
 
     <v-divider
-      v-if="$vuetify.breakpoint.mdAndUp && currentAuthedUser"
+      v-if="$vuetify.breakpoint.mdAndUp && isAuthed"
       vertical
       dark
       class="ml-2 mr-2"
     />
 
-    <cc-tooltip v-if="currentAuthedUser" bottom :content="syncTooltip">
+    <cc-tooltip v-if="isAuthed" bottom :content="syncTooltip">
       <v-btn icon dark :style="`opacity: ${unsaved.length ? '1' : '0.4'}`" @click="sync()">
         <v-icon>mdi-cloud-sync-outline</v-icon>
       </v-btn>
@@ -180,6 +180,9 @@ export default vueMixins(activePilot).extend({
     },
     unsaved() {
       return getModule(PilotManagementStore, this.$store).unsavedCloudPilots
+    },
+    isAuthed() {
+      return getModule(UserStore, this.$store).IsLoggedIn
     },
     syncTooltip(): string {
       if (!this.unsaved.length) return 'Pilot data synced'
