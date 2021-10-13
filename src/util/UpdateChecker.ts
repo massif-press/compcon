@@ -52,7 +52,7 @@ export class UpdateChecker extends EventEmitter {
   }
 
   getUpdate(): void {
-    window.location.reload(true)
+    window.location.reload()
   }
 }
 
