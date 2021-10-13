@@ -212,7 +212,6 @@ export default Vue.extend({
     deleteActiveMission(m: ActiveMission) {
       const store = getModule(MissionStore, this.$store)
       store.deleteActiveMission(m)
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionDelete' })
     },
   },
 })
