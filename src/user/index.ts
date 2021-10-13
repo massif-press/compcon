@@ -11,11 +11,13 @@ interface IViewOptions {
   hangar: string
   pilotSheet: string
   showExotics: boolean
+  quickstart: boolean
 }
 
 interface ISyncFrequency {
   onAppLoad: boolean
   onLogIn: boolean
+  onBulkDelete: boolean
   onAppExit: boolean
   onThemeChange: boolean
   onPilotLevel: boolean
@@ -65,11 +67,13 @@ const defaultViewOptions = (): IViewOptions => ({
   hangar: 'cards',
   pilotSheet: 'tabbed',
   showExotics: false,
+  quickstart: false,
 })
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
   onAppLoad: true,
   onLogIn: true,
+  onBulkDelete: true,
   onAppExit: true,
   onThemeChange: true,
   onPilotLevel: true,

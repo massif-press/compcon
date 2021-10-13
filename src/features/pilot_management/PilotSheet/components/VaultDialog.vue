@@ -24,7 +24,7 @@
           <div class="text-center">
             <div class="overline">THIS PILOT'S VAULT CODE IS</div>
             <div class="heading h3 primary--text">
-              {{ pilot.ShareCode }}
+              {{ getShareCode }}
               <cc-tooltip simple inline content="Copy Vault Code to clipboard">
                 <v-icon :color="copyConfirm ? 'success' : 'grey'" @click="copyCode()">
                   {{ copyConfirm ? 'mdi-check-outline' : 'mdi-clipboard-text-outline' }}
@@ -84,6 +84,11 @@ export default Vue.extend({
     syncing: false,
     copyConfirm: false,
   }),
+  computed: {
+    getShareCode() {
+      return this.pilot.ShareCode
+    }
+  },
   methods: {
     show() {
       this.$refs.dialog.show()
@@ -94,7 +99,7 @@ export default Vue.extend({
     async copyCode() {
       this.copyConfirm = true
 
-      navigator.clipboard.writeText(this.pilot.ShareCode).then(
+      navigator.clipboard.writeText(this.getShareCode).then(
         function () {
           Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
         },
