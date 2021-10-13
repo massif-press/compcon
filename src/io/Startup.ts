@@ -12,7 +12,7 @@ import {
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
 
-export default async function(lancerVer: string, ccVer: string, store: any, noSync?: boolean): Promise<void> {
+export default async function(lancerVer: string, ccVer: string, store: any): Promise<void> {
   const dataStore = getModule(CompendiumStore, store)
   const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
@@ -24,13 +24,13 @@ export default async function(lancerVer: string, ccVer: string, store: any, noSy
 
   await Auth.currentAuthenticatedUser()
     .then(user => {
-      userstore.setAws({user: user, condition: 'appLoad', noSync: noSync})
+      userstore.setAws(user, 'appLoad')
     })
     .catch(() => {
       userstore.loadUser()
     })
 
-  await dataStore.refreshExtraContent()
+  await dataStore.loadExtraContent()
   await pilotStore.loadPilots()
   await npcStore.loadNpcs()
   await encounterStore.loadEncounters()
