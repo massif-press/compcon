@@ -5,7 +5,7 @@
   "license": "GPL-3.0-or-later",
   "author": "Massif Press",
   "scripts": {
-    "build": "webpack --env.platform=web --env.prod",
+    "build": "webpack --env.platform=web --env.prod --max_old_space_size=4096",
     "dev": "webpack-dev-server --progress --env.platform=web",
     "dev-public": "webpack-dev-server --progress --env.platform=web --env.public_dev",
     "gen-schema": "node ./build_scripts/build-content-schema.js",
