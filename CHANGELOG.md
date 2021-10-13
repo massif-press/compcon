@@ -1,5 +1,5 @@
 # COMP/CON Changelog
-## [2.2.32] (2021-10-12)
+## [2.2.32] (2021-10-13)
 
 Massive thanks to **msprijatelj**, who is responsible for all of the following updates, as well as a slew of LCP data 
 
@@ -12,7 +12,6 @@ Massive thanks to **msprijatelj**, who is responsible for all of the following u
 * **Global** Better manage login status [#1694](https://github.com/massif-press/compcon/issues/1694)
 * **Global** Overwrite cloud data on data wipe/bulk import [#1712](https://github.com/massif-press/compcon/issues/1712)
 * **Mech Hangar** Correct missing ActiveMech errors [#1699](https://github.com/massif-press/compcon/issues/1699)
-* **Mech Sheet** Clean up Aux equipment handling [#1693](https://github.com/massif-press/compcon/issues/1693)
 * **Mech Sheet** Fix overcropped Frame art [#1693](https://github.com/massif-press/compcon/issues/1693)
 * **Mech Sheet** Handle increased Mech sizes [#1688](https://github.com/massif-press/compcon/issues/1688)
 
