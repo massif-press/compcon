@@ -1,5 +1,10 @@
 <template>
-  <cc-stepper-content :complete="pilot.HasIdent" exit="pilot_management" @complete="$emit('next')">
+  <cc-stepper-content
+    :complete="pilot.HasIdent"
+    :mandatory="!quickstart"
+    exit="pilot_management"
+    @complete="$emit('next')"
+  >
     <cc-title large>New Pilot Registration&emsp;</cc-title>
     <div v-show="$vuetify.breakpoint.mdAndUp">
       <h2 class="heading">
@@ -166,13 +171,7 @@
       </v-col>
     </v-row>
     <div slot="other" class="text-center">
-      <v-btn
-        color="accent"
-        class="mx-2"
-        :disabled="!pilot.HasIdent"
-        large
-        @click="$emit('templates')"
-      >
+      <v-btn color="accent" class="mx-2" large @click="$emit('templates')">
         Select Character Template
       </v-btn>
       <div class="overline stark--text">Recommended for New Players</div>
@@ -193,7 +192,9 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    quickstart: { type: Boolean },
   },
+
   methods: {
     randomCallsign() {
       this.$emit('set', { attr: 'Callsign', val: callsign() })
