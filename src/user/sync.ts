@@ -284,14 +284,6 @@ async function Push(
   userProfile[storageKey] = storageURIs
 }
 
-const UploadLcps = async (): Promise<any> => {
-  const lcps = localStorage.getItem('extra_content.json')
-  Storage.put(`extra_content.json`, lcps, {
-    level: 'private',
-    contentType: 'text/plain',
-  }).catch(err => console.error(err))
-}
-
 const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any> => {
   const ccid = await currentCognitoIdentity()
 
@@ -302,7 +294,13 @@ const CloudPush = async (user: Client.UserProfile, callback?: any): Promise<any>
   Push('ActiveMissions', user, ccid, callback)
 
   // upload lcps
-  await UploadLcps()
+  const lcps = localStorage.getItem('extra_content.json')
+  if (lcps) {
+    await Storage.put(`extra_content.json`, lcps, {
+      level: 'private',
+      contentType: 'text/plain',
+    }).catch(err => console.error(err))
+  }
 
   await PullRemoteData()
 
@@ -337,4 +335,4 @@ const AwsImport = async (code: string): Promise<any> => {
   return fetch(url).then(res => res.json())
 }
 
-export { GetSync, ContentPull, CloudPull, CloudPush, AwsImport, UploadLcps }
+export { GetSync, ContentPull, CloudPull, CloudPush, AwsImport }

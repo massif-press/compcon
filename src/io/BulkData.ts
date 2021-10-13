@@ -38,19 +38,16 @@ const importAll = async function(file): Promise<void> {
   console.info('Loading import data...')
   const promises = arr.map(o => writeFile(o.filename, o.data))
   await Promise.all(promises)
-  await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
   console.info('Import data loaded! Running startup...')
-  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, true)
+  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
 const clearAllData = async function(): Promise<void> {
   console.info('Erasing all COMP/CON data...')
   const promises = files.map(file => writeFile(file, ''))
-  await Promise.all(promises)
-  await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
-  
+  await promises
   console.info('All data erased! Running startup...')
-  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, true)
+  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
 export { exportV1Pilots, exportAll, importAll, clearAllData }

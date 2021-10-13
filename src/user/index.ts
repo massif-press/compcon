@@ -17,7 +17,6 @@ interface IViewOptions {
 interface ISyncFrequency {
   onAppLoad: boolean
   onLogIn: boolean
-  onBulkDelete: boolean
   onAppExit: boolean
   onThemeChange: boolean
   onPilotLevel: boolean
@@ -73,7 +72,6 @@ const defaultViewOptions = (): IViewOptions => ({
 const defaultSyncFrequency = (): ISyncFrequency => ({
   onAppLoad: true,
   onLogIn: true,
-  onBulkDelete: true,
   onAppExit: true,
   onThemeChange: true,
   onPilotLevel: true,
