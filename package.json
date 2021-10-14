@@ -4,9 +4,6 @@
   "description": "A digital toolkit for the LANCER TTRPG",
   "license": "GPL-3.0-or-later",
   "author": "Massif Press",
-  "engines": {
-    "node": "10.15.0"
-  },
   "scripts": {
     "build": "webpack --env.platform=web --env.prod --max_old_space_size=4096",
     "dev": "webpack-dev-server --progress --env.platform=web",
