@@ -13,7 +13,7 @@ class EquippableMount extends Mount {
   public Lock(target?: Mount): void {
     this.lock = true
     this._lock_target = target
-    this.save()
+    this.Clear()
   }
 
   public Unlock(): void {
