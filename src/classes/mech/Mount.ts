@@ -64,13 +64,21 @@ abstract class Mount {
 
   public get Slots(): WeaponSlot[] {
     if (!this.slots[0]) this.generateSlots(this.Type)
-    if (
-      this.Type == MountType.Flex &&
-      this.slots[0].Weapon &&
-      this.slots[0].Weapon.Size === WeaponSize.Aux &&
-      this._name_override !== 'Retrofitted Mount'
-    )
-      return this.slots.concat(this.extra)
+    const isFlex = this.Type == MountType.Flex && this._name_override !== 'Retrofitted Mount'
+
+    if (isFlex) {
+      if (
+        this.slots[0].Weapon?.Size === WeaponSize.Aux ||
+        (!this.slots[0].Weapon && this.extra[0].Weapon)
+      ) {
+        return this.slots.concat(this.extra)
+      } else if (
+        this.slots[0].Weapon?.Size === WeaponSize.Main && 
+        this.extra[0].Weapon
+      ) {
+        this.extra[0].UnequipWeapon()
+      }
+    }
     return this.slots
   }
 
