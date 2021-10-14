@@ -262,6 +262,8 @@ export default Vue.extend({
       this.$refs.lockDialog.show()
     },
     finalizeSuperheavy(lockTarget: EquippableMount) {
+      if (this.item && this.item.Size === WeaponSize.Superheavy)
+        this.mech.ActiveLoadout.UnequipSuperheavy()
       lockTarget.Lock(this.mount)
       this.weaponSlot.EquipWeapon(this.stagedSH, this.mech.Pilot)
       this.$refs.lockDialog.hide()
