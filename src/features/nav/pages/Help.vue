@@ -1,29 +1,16 @@
 <template>
   <div>
-    <v-row class="my-2">
-      <v-col>
+    <v-row class="my-2" justify="center">
+      <v-col cols="8">
         <v-btn
           target="_blank"
           href="https://forms.gle/pj6o8BzxCe4xGQ5M7"
-          large
-          block
-          color="error"
-          class="white--text"
-        >
-          report a bug
-        </v-btn>
-      </v-col>
-      <v-col cols="1" />
-      <v-col>
-        <v-btn
-          target="_blank"
-          href="https://forms.gle/Gxsu3vaPX1Zs9CX29"
-          large
+          x-large
           block
           color="secondary"
           class="white--text"
         >
-          request a feature
+          request a feature / report a bug
         </v-btn>
       </v-col>
     </v-row>

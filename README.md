@@ -47,9 +47,7 @@ COMP/CON is built with [Vue.js](https://vuejs.org/).
 
 ## Got a problem?
 
-- [**Have a feature request?**](https://goo.gl/forms/uBTHEwWpwO6NtSbh1)
-- [**Found a bug with the app's functionality?**](https://goo.gl/forms/PCHR8AJWOBLdMgE32)
-- [**Found a discrepancy between the LANCER data in the app and in the book?**](https://forms.gle/RoHSbei6HE3Z581k8)
+- [**Request a feature/Report a bug**](https://forms.gle/pj6o8BzxCe4xGQ5M7)
 
 You can also just [create an issue](https://github.com/massif-press/compcon/issues/new) if you know what you're doing.
 
