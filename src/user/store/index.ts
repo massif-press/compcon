@@ -4,6 +4,7 @@ import * as Sync from '../sync'
 import * as Client from '../index'
 import { ActiveMission, Encounter, Mission, Npc, Pilot } from '@/class'
 import { Auth } from 'aws-amplify'
+import _ from 'lodash'
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
@@ -13,6 +14,8 @@ export const LOAD_USER = 'LOAD_USER'
 export const SET_USER = 'SET_USER'
 export const SET_AWS_DATA = 'SET_AWS_DATA'
 export const SET_USER_PROFILE = 'SET_USER_PROFILE'
+
+let localUpdateTime = null
 
 @Module({
   name: 'cloud',
@@ -91,7 +94,7 @@ export class UserStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async setAws(payload: {user: any, condition?: string, noSync?: boolean}): Promise<void> {
+  public async setAws(payload: { user: any, condition?: string, noSync?: boolean }): Promise<void> {
     let sync = !payload.noSync
     Sync.GetSync(payload.user.username)
       .then(res => {
@@ -187,10 +190,18 @@ export class UserStore extends VuexModule {
       sync = false
     if (payload.condition === 'turnEnd' && !this.UserProfile.SyncFrequency.onTurnEnd) sync = false
 
-    console.log('sync: ', sync)
+    if (localUpdateTime) {
+      const diff = (new Date().getTime() - localUpdateTime.getTime()) / 1000
+      if (diff < 3) {
+        console.info(`Sync rate exceeded, please wait ${(3 - diff).toFixed(2)} seconds before syncing again`)
+        sync = false
+      }
+    }
 
-    if (sync)
+    if (sync) {
+      localUpdateTime = new Date()
       Sync.CloudPush(this.UserProfile, payload.callback).then(() => this.UserProfile.MarkSync())
+    }
   }
 
   @Action

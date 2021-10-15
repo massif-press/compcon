@@ -395,7 +395,7 @@ export default Vue.extend({
         }
       }
     },
-    sync() {
+    async sync() {
       this.loading = true
       const userstore = getModule(UserStore, this.$store)
       userstore
