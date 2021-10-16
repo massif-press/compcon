@@ -244,7 +244,7 @@ class Statblock {
 [ SYSTEMS ]
   ${mechLoadout.Systems.map(sys => {
     let out = sys.TrueName
-    if (sys.IsLimited) out += ` x${sys.MaxUses + mech.LimitedBonus}`
+    if (sys.IsLimited) out += ` x${sys.getTotalUses(mech.LimitedBonus)}`
     return out
   }).join(', ')}`
   }
