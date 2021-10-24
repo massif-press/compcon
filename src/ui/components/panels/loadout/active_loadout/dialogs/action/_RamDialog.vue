@@ -122,7 +122,7 @@
                   <cc-dice-menu
                     :preset="`1d20+${mech.AttackBonus}`"
                     :preset-accuracy="accuracy - difficulty"
-                    title="SKILL CHECK"
+                    title="ATTACK ROLL"
                     autoroll=true
                     @commit="registerAttackRoll($event.total)"
                   />
@@ -132,14 +132,17 @@
                     v-model="attackRoll"
                     :key="`input_${attackRoll}`"
                     type="number"
-                    class="hide-input-spinners ml-n3"
+                    :class="`hide-input-spinners ml-n3 ${crit ? 'font-weight-bold' : ''}`"
                     style="max-width: 60px; margin-top: -0.5px"
-                    color="accent"
+                    :color="crit ? 'secondary' : 'accent'"
                     dense
                     hide-details
                   />
                 </v-col>
               </v-row>
+              <div v-if="crit" class="caption secondary--text font-weight-bold ml-8 my-n1">
+                CRITICAL
+              </div>
             </v-col>
           </v-row>
         </v-col>
@@ -175,6 +178,17 @@
     </v-slide-x-reverse-transition>
     <v-slide-x-reverse-transition>
       <v-row v-if="succeeded" no-gutters class="mt-2">
+        <v-col cols="auto" class="ml-auto" />
+        <v-col v-if="crit" cols="auto" class="text-center">
+          <cc-tooltip
+            :content="`On a critical hit, all damage dice are rolled twice
+  (including bonus damage) and the highest result from
+  each source of damage is used.`"
+          >
+            <v-icon x-large color="secondary">mdi-progress-alert</v-icon>
+            <div class="secondary--text">CRITICAL HIT</div>
+          </cc-tooltip>
+        </v-col>
         <v-col cols="auto" class="ml-auto" align="end">
           <div class="body-text stark--text font-weight-bold">
             Your target is knocked PRONE and you may also choose to knock them back by one space,
@@ -215,6 +229,11 @@ export default Vue.extend({
     actionCost: false,
     actionFree: false,
   }),
+  computed: {
+    crit() {
+      return this.attackRoll && this.attackRoll >= 20
+    },
+  },
   watch: {
     used: {
       immediate: true,

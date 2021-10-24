@@ -122,7 +122,7 @@
                   <cc-dice-menu
                     :preset="`1d20+${mech.AttackBonus}`"
                     :preset-accuracy="accuracy - difficulty"
-                    title="SKILL CHECK"
+                    title="ATTACK ROLL"
                     autoroll=true
                     @commit="registerAttackRoll($event.total)"
                   />
