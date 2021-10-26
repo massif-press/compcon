@@ -52,7 +52,7 @@ class Frequency {
       const fArr = frq.split('/')
       const num = parseInt(fArr[0])
 
-      if (!Number.isNaN && Number.isInteger(num)) {
+      if (!Number.isNaN(num) && Number.isInteger(num)) {
         this.Uses = num
       } else {
         this.Uses = 1
@@ -86,6 +86,23 @@ class Frequency {
   public ToString(): string {
     if (this._unlimited) return this.Duration
     return `${this.Uses}/${this.Duration}`
+  }
+
+  public RegainUsesOnEvent(event: ActivePeriod): boolean {
+    //Nothing takes an unlimited time to regain uses
+    if ( event == ActivePeriod.Unlimited ) return false
+
+    let order:Record<ActivePeriod, number> = {
+      Unlimited : 0,
+      Turn : 1,
+      Round : 2,
+      Encounter : 3,
+      Mission : 4
+    }
+    //This action is free to regain uses if the given event
+    //meets the duration threshold
+    return (order[this.Duration] <= order[event])
+
   }
 }
 
@@ -161,7 +178,7 @@ class Action {
   }
 
   public get Used(): boolean {
-    return this._used
+    return this._used || (this._uses == 0)
   }
 
   public get Uses(): number {
@@ -201,8 +218,10 @@ class Action {
     this.LastUse = null
   }
 
-  public Reset(): void {
-    this._uses = this.Frequency.Uses
+  public Reset(event: ActivePeriod = ActivePeriod.Mission): void {
+    if (this.Frequency.RegainUsesOnEvent(event)) {
+      this._uses = this.Frequency.Uses
+    }
     this._used = false
     this._free_used = false
     this.LastUse = null
@@ -274,4 +293,4 @@ class Action {
   }
 }
 
-export { IActionData, Action }
+export { IActionData, Action, ActivePeriod }
