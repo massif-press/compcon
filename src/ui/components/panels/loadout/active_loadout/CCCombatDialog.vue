@@ -121,7 +121,7 @@ export default Vue.extend({
         this.displayLog = this.action.AnyUsed
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const self = this
-        this.$emit('use')
+        this.$emit('use', free)
         Vue.nextTick().then(() => self.$forceUpdate())
       }
     },

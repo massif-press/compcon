@@ -158,7 +158,7 @@
                         icon
                         class="fadeSelect"
                         :disabled="mech.Pilot.ActiveMech === mech"
-                        @click.stop="mech.Pilot.State.ActiveMech = mech"
+                        @click.stop="mech.Pilot.ActiveMech = mech"
                       >
                         <v-icon>cci-activate</v-icon>
                       </v-btn>
