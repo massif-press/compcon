@@ -139,7 +139,11 @@
         >
           <span class="heading h3">CORE POWER</span>
         </cc-tick-bar>
-        <div v-if="mech.CurrentCoreEnergy" class="caption font-weight-bold corepower--text">
+        <div
+          v-if="mech.CurrentCoreEnergy > 0"
+          :key="mech.CurrentCoreEnergy"
+          class="caption font-weight-bold corepower--text"
+        >
           AVAILABLE
         </div>
         <div v-else class="caption subtle--text">
