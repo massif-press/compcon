@@ -96,6 +96,16 @@ export class UserStore extends VuexModule {
   @Action({ rawError: true })
   public async setAws(payload: { user: any, condition?: string, noSync?: boolean }): Promise<void> {
     let sync = !payload.noSync
+    if (localUpdateTime) {
+      const diff = (new Date().getTime() - localUpdateTime.getTime()) / 1000
+      if (diff < 3) {
+        console.info(`Sync rate exceeded, please wait ${(3 - diff).toFixed(2)} seconds before syncing again`)
+        sync = false
+        return
+      }
+    }
+    localUpdateTime = new Date()
+
     Sync.GetSync(payload.user.username)
       .then(res => {
         this.setUserProfile(res)
@@ -131,7 +141,7 @@ export class UserStore extends VuexModule {
       })
       .catch(err => {
         console.error(err)
-        throw new Error(`Unable to sync userdata\n${err}`)
+        throw new Error(`Unable to sync userdata\n${JSON.stringify(err)}`)
       })
   }
 
@@ -150,10 +160,6 @@ export class UserStore extends VuexModule {
     }
 
     let sync = true
-    if (payload.condition === 'appLoad' && !this.UserProfile.SyncFrequency.onAppLoad)
-      sync = false
-    if (payload.condition === 'logIn' && !this.UserProfile.SyncFrequency.onLogIn)
-      sync = false
     if (payload.condition === 'bulkDelete' && !this.UserProfile.SyncFrequency.onBulkDelete)
       sync = false
     if (payload.condition === 'themeChange' && !this.UserProfile.SyncFrequency.onThemeChange)
