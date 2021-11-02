@@ -8,7 +8,7 @@
           :min-width="minWidth"
           tile
           flat
-          @click="$router.push(`pilot/${pilot.ID}`)"
+          @click="!dragging ? toPilotSheet() : null"
         >
           <div
             v-show="!(small && mobile)"
@@ -102,6 +102,9 @@ export default Vue.extend({
     small: {
       type: Boolean,
     },
+    dragging: {
+      type: Boolean,
+    },
   },
   computed: {
     mobile() {
@@ -114,6 +117,11 @@ export default Vue.extend({
       return this.small ? '10vw' : '20vw'
     },
   },
+  methods: {
+    toPilotSheet() {
+      this.$router.push(`pilot/${this.pilot.ID}`)
+    },
+  }
 })
 </script>
 
