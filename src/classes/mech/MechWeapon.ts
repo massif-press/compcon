@@ -75,15 +75,15 @@ class WeaponProfile extends CompendiumItem {
 
   public constructor(
     pData: IWeaponProfileData | IMechWeaponData,
-    packTags?: ITagCompendiumData[],
     container: MechWeapon,
+    packTags?: ITagCompendiumData[],
     idx?: number
   ) {
     const data = Object.assign({}, pData) as ICompendiumItemData
     if (!data.id) data.id = container.ID
     data.id += `_profile_${idx || 0}`
-    super(data,packTags)
-    this.Cost = pData.cost || 1
+    super(data, packTags)
+    this.Cost = parseInt(pData.cost as any) || 1
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
     this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish
     if (pData.damage) this.Damage = pData.damage.map(x => new Damage(x))
@@ -116,14 +116,15 @@ class MechWeapon extends MechEquipment {
     this.Barrage = data.barrage != undefined ? data.skirmish : true
     this.NoAttack = data.no_attack
     this.NoCoreBonus = data.no_core_bonus
-    if (data.profiles) {
-      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, packTags, this, i))
+    if (data.profiles && data.profiles.length) {
+      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, packTags, i))
     } else {
-      this.Profiles = [new WeaponProfile(data, packTags, this)]
+      this.Profiles = [new WeaponProfile(data, this, packTags)]
     }
     this._selected_profile = 0
     this._mod = null
     this.ItemType = ItemType.MechWeapon
+    this.max_use_override = 0
     this._custom_damage_type = null
   }
 
@@ -289,7 +290,7 @@ class MechWeapon extends MechEquipment {
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || null,
-      maxUseOverride: item.max_use_override !== null ? MechWeapon.SanitizeUsesInput(item.max_use_override) : null,
+      maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
       uses: MechWeapon.SanitizeUsesInput(item.Uses) || 0,
       selectedProfile: item._selected_profile || 0,
     }
@@ -305,7 +306,7 @@ class MechWeapon extends MechEquipment {
     item._flavor_name = data.flavorName
     item._flavor_description = data.flavorDescription
     item._custom_damage_type = data.customDamageType || null
-    item.max_use_override = data.maxUseOverride !== null ? MechWeapon.SanitizeUsesInput(data.maxUseOverride) : null
+    item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride) || 0
     item.Uses = MechWeapon.SanitizeUsesInput(data.uses) || 0
     item._selected_profile = data.selectedProfile || 0
     return item

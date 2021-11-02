@@ -53,9 +53,10 @@ export default class CCRangeElement extends Vue {
   readonly added?: boolean
 
   Help(name: string): string {
-    return `<div class="overline subtle--text mb-n2 mt-n2">${name}:</div><div>${
-      glossary.find(x => x.name.toLowerCase() === name.toLowerCase()).description
-    }</div>`
+    const g = glossary.find(x => x.name.toLowerCase() === name.toLowerCase())
+    if (g)
+      return `<div class="overline subtle--text mb-n2 mt-n2">${name}:</div><div>${g.description}</div>`
+    return ''
   }
 }
 </script>

@@ -42,7 +42,7 @@ abstract class MechEquipment extends LicensedItem {
 
   public constructor(data: IMechEquipmentData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName)
-    this.SP = data.sp || 0
+    this.SP = parseInt(data.sp as any) || 0
     this.Effect = data.effect
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated')
     this._destroyed = false
@@ -52,7 +52,7 @@ abstract class MechEquipment extends LicensedItem {
     if (data.tags) {
       const ltd = data.tags.find(x => x.id === 'tg_limited')
       this.IsLimited = !!ltd
-      this._max_uses = ltd && typeof ltd.val === 'number' ? ltd.val : 0
+      this._max_uses = ltd && typeof ltd.val === 'number' ? parseInt(ltd.val as any) : 0
       this.IsUnique = data.tags.some(x => x.id === 'tg_unique')
       this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
       this.IsAI = data.tags.some(x => x.id === 'tg_ai')
@@ -61,10 +61,8 @@ abstract class MechEquipment extends LicensedItem {
       this.IsOrdnance = data.tags.some(x => x.id === 'tg_ordnance')
       this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
       this.CanSetUses = data.tags.some(x => x.id === 'tg_set_max_uses')
-      this.max_use_override = this.CanSetUses ? 0 : null
     } else {
       this._max_uses = 0
-      this.max_use_override = null
     }
     this._missing_uses = 0
     this.Ammo = data.ammo || []
@@ -74,8 +72,10 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public Use(cost?: number, free?: boolean): void {
-    if (!this.CheckUsable(cost)) return
-    if (!free) this._used = true
+    if (!free) {
+      if (!this.CheckUsable(cost)) return
+      this._used = true
+    }
     if (this.IsLoading) this._loaded = false
     if (this.IsLimited && cost) this.Uses -= cost
   }
@@ -167,12 +167,12 @@ abstract class MechEquipment extends LicensedItem {
   }
 
   public get MaxUses(): number {
-    return this.max_use_override !== null ? this.max_use_override : this._max_uses
+    return this.max_use_override ? this.max_use_override : this._max_uses
   }
 
   public getTotalUses(bonus?: number): number {
     const b = bonus ? bonus : 0
-    return this.max_use_override !== null ? this.max_use_override : this._max_uses + b
+    return this.MaxUses + b
   }
 }
 

@@ -1,9 +1,23 @@
 # COMP/CON Changelog
+## [2.2.33] (2021-11-02)
+
+### Features
+* **Cloud** Update and add manual data pull from cloud, improve cloud UI (thanks, msprijatelj!)[#1745](https://github.com/massif-press/compcon/issues/1745)
+* **Global** Adds some background changes for the experimental LCP editor
+
+### Bug Fixes
+
+* **Compendium** correct overheating table text[#1748](https://github.com/massif-press/compcon/issues/1748)
+* **Active Mode** actually repect action refresh in active mode (thanks, msprijatelj!)[#1744](https://github.com/massif-press/compcon/issues/1744)
+* **Active Mode** limited uses initialize to correct maximum (thanks, msprijatelj!)[#1729](https://github.com/massif-press/compcon/issues/1729)
+* **Active Mode** reset self-destruct counter on repair, mech change (thanks, msprijatelj!)[#1730](https://github.com/massif-press/compcon/issues/1730)
+
 ## [2.2.32] (2021-10-13)
 
 Massive thanks to **msprijatelj**, who is responsible for all of the following updates, as well as a slew of LCP data 
 
 ### Features
+
 * **Pilot Sheet** Quick pilot creation mode (enable in Options) [#1707](https://github.com/massif-press/compcon/issues/1707)
 * **Pilot Sheet** Improve Vault Code UX [#1696](https://github.com/massif-press/compcon/issues/1696)
 

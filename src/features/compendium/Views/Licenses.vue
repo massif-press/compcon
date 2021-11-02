@@ -1,8 +1,8 @@
 <template>
   <v-container px-5>
-    <h1  class="heading">LICENSES</h1>
+    <h1 class="heading">LICENSES</h1>
     <v-row v-for="m in Object.keys(licenses)" :key="m">
-      <v-col class="text-center pa-3">
+      <v-col v-if="manufacturer(m)" class="text-center pa-3">
         <div>
           <cc-logo
             :source="manufacturer(m)"
@@ -78,6 +78,7 @@ export default Vue.extend({
   methods: {
     manufacturer(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
+      console.log(compendium.Manufacturers)
       return compendium.Manufacturers.find(x => x.ID === id)
     },
     frame(id: string) {
