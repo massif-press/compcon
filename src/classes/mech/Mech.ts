@@ -15,7 +15,7 @@ import {
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { Bonus } from '../Bonus'
 import { ICounterData } from '../Counter'
-import { Action } from '../Action'
+import { Action, ActivePeriod } from '../Action'
 import { IDeployableData } from '../Deployable'
 import { IMechLoadoutData } from './MechLoadout'
 
@@ -910,8 +910,8 @@ class Mech implements IActor {
         if (y.IsLimited) y.Uses = y.getTotalUses(this.LimitedBonus)
       })
     })
-    if (this.Frame.CoreSystem.PassiveActions) this.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset())
-    if (this.Frame.CoreSystem.DeployActions) this.Frame.CoreSystem.DeployActions.forEach(a => a.Reset())
+    if (this.Frame.CoreSystem.PassiveActions) this.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(ActivePeriod.Mission))
+    if (this.Frame.CoreSystem.DeployActions) this.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(ActivePeriod.Mission))
     this._statuses = []
     this._conditions = []
     this._resistances = []

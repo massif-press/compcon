@@ -124,7 +124,6 @@ class MechWeapon extends MechEquipment {
     this._selected_profile = 0
     this._mod = null
     this.ItemType = ItemType.MechWeapon
-    this.max_use_override = 0
     this._custom_damage_type = null
   }
 
@@ -290,7 +289,7 @@ class MechWeapon extends MechEquipment {
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || null,
-      maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
+      maxUseOverride: item.max_use_override !== null ? MechWeapon.SanitizeUsesInput(item.max_use_override) : null,
       uses: MechWeapon.SanitizeUsesInput(item.Uses) || 0,
       selectedProfile: item._selected_profile || 0,
     }
@@ -306,7 +305,7 @@ class MechWeapon extends MechEquipment {
     item._flavor_name = data.flavorName
     item._flavor_description = data.flavorDescription
     item._custom_damage_type = data.customDamageType || null
-    item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride) || 0
+    item.max_use_override = data.maxUseOverride !== null ? MechWeapon.SanitizeUsesInput(data.maxUseOverride) : null
     item.Uses = MechWeapon.SanitizeUsesInput(data.uses) || 0
     item._selected_profile = data.selectedProfile || 0
     return item
