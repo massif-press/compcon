@@ -348,7 +348,7 @@ class ActiveState {
     this._mission += 1
     this._stats = ActiveState.NewCombatStats()
     this._pilot.FullRestore()
-    this.ActiveMech.FullRepair()
+    this.RepairMech('full')
     this.SetLog({
       id: 'start_mission',
       event: 'MISSION.START',
@@ -398,7 +398,25 @@ class ActiveState {
 
   RepairDestroyed(selfRepairPts: number): void {
     this.ActiveMech.CurrentRepairs -= selfRepairPts
-    this.ActiveMech.Repair()
+    this.RepairMech()
+  }
+
+  RepairMech(repairType?: string): void {
+    this.CancelSelfDestruct()
+    switch (repairType) {
+      case 'full':
+        this.ActiveMech.FullRepair()
+        break
+      case 'basic_w_reactor':
+        this.ActiveMech.BasicRepair(true)
+        break
+      case 'basic_wo_reactor':
+        this.ActiveMech.BasicRepair(false)
+        break
+      default:
+        this.ActiveMech.Repair()
+        break
+    }
   }
 
   public set ActiveMech(mech: Mech | null) {
@@ -679,7 +697,7 @@ class ActiveState {
   }
 
   public CommitFullRepair() {
-    this.ActiveMech.FullRepair()
+    this.RepairMech('full')
     this.SetLog({
       id: `full_repair`,
       event: 'FULL REPAIR',
