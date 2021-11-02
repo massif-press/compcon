@@ -12,6 +12,10 @@
       <v-divider v-if="action.Init || action.Trigger || action.Detail" class="my-1" />
     </div>
     <div v-if="action.Init" class="body-text stark--text mt-2" v-html-safe="action.Init" />
+    <div v-if="action.Frequency.ToString() !== 'Unlimited'">
+      <div class="subtle--text overline mb-n2">Frequency</div>
+      <div class="body-text stark--text" v-html-safe="action.Frequency.ToString()" />
+    </div>
     <div v-if="action.Trigger">
       <div class="subtle--text overline mb-n2">Trigger</div>
       <div class="body-text stark--text" v-html-safe="action.Trigger" />
