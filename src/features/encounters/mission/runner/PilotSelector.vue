@@ -31,7 +31,7 @@
                 <v-list-item
                   v-for="mech in p.Mechs"
                   :key="`mech-select-${mech.ID}`"
-                  @click="p.State.ActiveMech = mech"
+                  @click="p.ActiveMech = mech"
                 >
                   <v-list-item-icon class="ma-0 mr-2 mt-3">
                     <cc-logo size="large" :source="mech.Frame.Manufacturer" />

@@ -143,7 +143,7 @@ export default Vue.extend({
         this.pilot.RemoveMech(m)
       })
       this.pilot.AddMech(mech)
-      this.pilot.State.ActiveMech = mech
+      this.pilot.ActiveMech = mech
 
       this.$emit('next')
     },
