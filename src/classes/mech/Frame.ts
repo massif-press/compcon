@@ -71,7 +71,7 @@ class Frame extends LicensedItem {
   }
 
   public get Size(): number {
-    return this._stats.size
+    return Number(this._stats.size)
   }
 
   public get SizeIcon(): string {
@@ -79,55 +79,55 @@ class Frame extends LicensedItem {
   }
 
   public get Armor(): number {
-    return this._stats.armor
+    return Number(this._stats.armor)
   }
 
   public get Structure(): number {
-    return this._stats.structure
+    return Number(this._stats.structure)
   }
 
   public get HP(): number {
-    return this._stats.hp
+    return Number(this._stats.hp)
   }
 
   public get Evasion(): number {
-    return this._stats.evasion
+    return Number(this._stats.evasion)
   }
 
   public get EDefense(): number {
-    return this._stats.edef
+    return Number(this._stats.edef)
   }
 
   public get HeatStress(): number {
-    return this._stats.stress
+    return Number(this._stats.stress)
   }
 
   public get HeatCap(): number {
-    return this._stats.heatcap
+    return Number(this._stats.heatcap)
   }
 
   public get RepCap(): number {
-    return this._stats.repcap
+    return Number(this._stats.repcap)
   }
 
   public get SensorRange(): number {
-    return this._stats.sensor_range
+    return Number(this._stats.sensor_range)
   }
 
   public get TechAttack(): number {
-    return this._stats.tech_attack
+    return Number(this._stats.tech_attack)
   }
 
   public get SaveTarget(): number {
-    return this._stats.save
+    return Number(this._stats.save)
   }
 
   public get Speed(): number {
-    return this._stats.speed
+    return Number(this._stats.speed)
   }
 
   public get SP(): number {
-    return this._stats.sp
+    return Number(this._stats.sp)
   }
 
   public get DefaultImage(): string {

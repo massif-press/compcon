@@ -23,7 +23,12 @@
           <div class="heading h3 ma-1 pl-3">
             {{ action.Name.toUpperCase() }} &mdash; {{ action.Activation.toUpperCase() }} ACTION
           </div>
-          <v-divider v-if="action.Detail" />
+          <v-divider v-if="action.Detail || displayFreq" />
+          <v-card-text
+            v-if="displayFreq"
+            v-html-safe="action.Frequency.ToString()"
+            class="body-text text--text mt-0 pt-1"
+          />
           <v-card-text
             v-if="action.Detail"
             v-html-safe="action.Detail"
@@ -75,6 +80,9 @@ export default vueMixins(activePilot).extend({
     usable() {
       return this.unusable || this.action.Used || this.activations < this.cost
     },
+    displayFreq() {
+      return this.action.Frequency.ToString() !== 'Unlimited'
+    }
   },
 })
 </script>

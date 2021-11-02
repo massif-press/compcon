@@ -258,7 +258,7 @@
           <v-spacer />
           <span v-if="w.Uses">
             <v-icon
-              v-for="n in w.MaxUses + mech.Pilot.LimitedBonus"
+              v-for="n in w.getTotalUses(mech.Pilot.LimitedBonus)"
               :key="`use_${w.ID}_${n}`"
               small
             >
@@ -302,7 +302,7 @@
           <v-spacer />
           <span v-if="s.Uses">
             <v-icon
-              v-for="n in s.MaxUses + mech.Pilot.LimitedBonus"
+              v-for="n in s.getTotalUses(mech.Pilot.LimitedBonus)"
               :key="`use_${s.ID}_${n}`"
               small
             >

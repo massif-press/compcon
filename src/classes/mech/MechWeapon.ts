@@ -75,15 +75,15 @@ class WeaponProfile extends CompendiumItem {
 
   public constructor(
     pData: IWeaponProfileData | IMechWeaponData,
-    packTags?: ITagCompendiumData[],
     container: MechWeapon,
+    packTags?: ITagCompendiumData[],
     idx?: number
   ) {
     const data = Object.assign({}, pData) as ICompendiumItemData
     if (!data.id) data.id = container.ID
     data.id += `_profile_${idx || 0}`
-    super(data,packTags)
-    this.Cost = pData.cost || 1
+    super(data, packTags)
+    this.Cost = parseInt(pData.cost as any) || 1
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage
     this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish
     if (pData.damage) this.Damage = pData.damage.map(x => new Damage(x))
@@ -116,10 +116,10 @@ class MechWeapon extends MechEquipment {
     this.Barrage = data.barrage != undefined ? data.skirmish : true
     this.NoAttack = data.no_attack
     this.NoCoreBonus = data.no_core_bonus
-    if (data.profiles) {
-      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, packTags, this, i))
+    if (data.profiles && data.profiles.length) {
+      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, packTags, i))
     } else {
-      this.Profiles = [new WeaponProfile(data, packTags, this)]
+      this.Profiles = [new WeaponProfile(data, this, packTags)]
     }
     this._selected_profile = 0
     this._mod = null

@@ -65,7 +65,7 @@
                 <mech-select-button
                   v-if="pilot.Mechs.length"
                   :mechs="pilot.Mechs"
-                  @select="pilot.State.ActiveMech = $event"
+                  @select="pilot.ActiveMech = $event"
                 />
               </v-col>
             </v-row>

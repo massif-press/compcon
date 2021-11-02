@@ -31,7 +31,7 @@
         v-if="!mech.ReactorDestroyed"
         content="Certain actions and equipment allow for battlefield repairs. Clicking here will restore your mech to 1 Structure Point and 1 HP."
       >
-        <v-btn x-small color="primary" class="fadeSelect" @click="$emit('restore', false)">
+        <v-btn x-small color="primary" class="fadeSelect" @click="restore(false)">
           <v-icon small left>cci-repair</v-icon>
           REPAIR
         </v-btn>
@@ -40,7 +40,7 @@
         v-else-if="mech.ReactorDestroyed"
         content="Revert this state and restore your mech to 1 Structure Point and 1 HP."
       >
-        <v-btn x-small color="primary" class="fadeSelect" @click="$emit('restore', true)">
+        <v-btn x-small color="primary" class="fadeSelect" @click="restore(true)">
           <v-icon small left>mdi-reload</v-icon>
           RESTORE
         </v-btn>
@@ -59,5 +59,11 @@ export default Vue.extend({
       required: true,
     },
   },
+  methods: {
+    restore(restoreReactor: boolean): void {
+      this.mech.Pilot.State.CancelSelfDestruct()
+      this.$emit('restore', restoreReactor)
+    }
+  }
 })
 </script>
