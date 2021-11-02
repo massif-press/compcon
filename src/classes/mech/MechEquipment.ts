@@ -42,7 +42,7 @@ abstract class MechEquipment extends LicensedItem {
 
   public constructor(data: IMechEquipmentData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName)
-    this.SP = data.sp || 0
+    this.SP = parseInt(data.sp as any) || 0
     this.Effect = data.effect
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated')
     this._destroyed = false
@@ -52,7 +52,7 @@ abstract class MechEquipment extends LicensedItem {
     if (data.tags) {
       const ltd = data.tags.find(x => x.id === 'tg_limited')
       this.IsLimited = !!ltd
-      this._max_uses = ltd && typeof ltd.val === 'number' ? ltd.val : 0
+      this._max_uses = ltd && typeof ltd.val === 'number' ? parseInt(ltd.val as any) : 0
       this.IsUnique = data.tags.some(x => x.id === 'tg_unique')
       this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
       this.IsAI = data.tags.some(x => x.id === 'tg_ai')

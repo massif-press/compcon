@@ -23,7 +23,7 @@ class Manufacturer {
   private _logo_url?: string
 
   public constructor(data: IManufacturerData) {
-    this.ID = data.id
+    this.ID = data.id.toUpperCase()
     this.Name = data.name
     this.Description = data.description
     this.Quote = data.quote
@@ -34,7 +34,7 @@ class Manufacturer {
   }
 
   public get Color(): string {
-    return this.Light
+    return this.Light ? this.Light : 'grey'
   }
 
   public GetColor(dark?: boolean): string {

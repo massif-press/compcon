@@ -180,16 +180,12 @@
                     This result has different outcomes depending on how much reactor stress your
                     mech has remaining.
                     <br />
-                    3+ - Your mech immediately suffers from the
-                    <b>exposed</b>
-                    condition until it takes action to remove it.
+                    3+ - Your mech becomes EXPOSED
                     <br />
-                    2 - Your mech must pass a engineering check or suffer a reactor meltdown at the
-                    end of 1d6 turns after this one (rolled by the GM). You can reverse it by taking
-                    a full action and repeating this check. Even on a successful check, your mech
-                    suffers from the
-                    <b>exposed</b>
-                    condition until it takes action to remove it.
+                    2 - Roll an ENGINEERING check. On a success, your mech is EXPOSED; on a failure,
+                    it suffers a reactor meltdown after 1d6 of your turns (rolled by the GM). A
+                    reactor meltdown can be prevented by retrying the ENGINEERING check as a free
+                    action
                     <br />
                     1 or lower - Your mech suffers a reactor meltdown at the end of your next turn.
                   </span>

@@ -17,7 +17,7 @@ abstract class LicensedItem extends CompendiumItem {
     super(data, packTags, packName)
     this.Source = data.source ? data.source.toUpperCase() : ''
     this._license = data.license || ''
-    this.LicenseLevel = data.license_level || 0
+    this.LicenseLevel = parseInt(data.license_level as any) || 0
   }
 
   public get Manufacturer(): Manufacturer {

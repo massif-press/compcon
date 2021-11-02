@@ -9,6 +9,7 @@ import { Action } from '@/interface'
 import { IDeployableData, IDeployedData } from '../Deployable'
 import { mission } from '@/io/Generators'
 import { Duration } from '../enums'
+import { ActivePeriod } from '../Action'
 
 enum Stage {
   Narrative = 'Narrative',
@@ -289,6 +290,17 @@ class ActiveState {
     this.InTurn = false
   }
 
+  public ResetActions(event: ActivePeriod): void {
+    this.AllActions.forEach(a => a.Reset(event))
+    this.AllBaseTechActions.forEach(a => a.Reset(event))
+    this.Deployed.forEach(d => d.Actions.forEach(a => a.Reset(event)))
+  
+    if (event == ActivePeriod.Encounter || event == ActivePeriod.Mission) {
+      if (this.ActiveMech.Frame.CoreSystem.PassiveActions) this.ActiveMech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(event))
+      if (this.ActiveMech.Frame.CoreSystem.DeployActions) this.ActiveMech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(event))
+    }
+  }
+
   public NextRound(): void {
     this._round++
     if (this.SelfDestructCounter > 0) this._self_destruct_counter -= 1
@@ -299,12 +311,9 @@ class ActiveState {
     this._pilot_move = this._pilot.Speed
     this._barrageSelections = []
     this._barrageMounts = []
-    // TODO: base on freq
-    this.AllActions.forEach(a => a.Reset())
-    this.AllBaseTechActions.forEach(a => a.Reset())
+    this.ResetActions(ActivePeriod.Round)
     this.ActiveMech.ActiveLoadout.Equipment.forEach(e => e.Reset())
     this.ActiveMech.Pilot.Loadout.Equipment.forEach(e => e.Reset())
-    this.Deployed.forEach(d => d.Actions.forEach(a => a.Reset()))
     this.ActiveMech.CurrentMove = this._braced ? 0 : this.ActiveMech.MaxMove
     this._braced = false
     this.SetLog({
@@ -330,8 +339,7 @@ class ActiveState {
     this.ActiveMech.Conditions.splice(0, this.ActiveMech.Conditions.length)
     this.ActiveMech.Statuses.splice(0, this.ActiveMech.Statuses.length)
     this._deployed.splice(0, this._deployed.length)
-    if (this.ActiveMech.Frame.CoreSystem.PassiveActions) this.ActiveMech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset())
-    if (this.ActiveMech.Frame.CoreSystem.DeployActions) this.ActiveMech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset())
+    this.ResetActions(ActivePeriod.Encounter)
     if (this.ActiveMech.Pilot.IsDownAndOut)
       this.ActiveMech.Pilot.CurrentHP = Math.ceil(this.ActiveMech.Pilot.MaxHP / 2)
     this.SetLog({
@@ -348,7 +356,7 @@ class ActiveState {
     this._mission += 1
     this._stats = ActiveState.NewCombatStats()
     this._pilot.FullRestore()
-    this.ActiveMech.FullRepair()
+    this.RepairMech('full')
     this.SetLog({
       id: 'start_mission',
       event: 'MISSION.START',
@@ -362,6 +370,7 @@ class ActiveState {
   public EndMission(): void {
     this.ActiveMech.IsCoreActive = false
     this._pilot.UpdateCombatStats(this._stats)
+    this.ResetActions(ActivePeriod.Mission)
     this.SetLog({
       id: 'end_mission',
       event: 'MISSION.COMPLETE',
@@ -398,7 +407,25 @@ class ActiveState {
 
   RepairDestroyed(selfRepairPts: number): void {
     this.ActiveMech.CurrentRepairs -= selfRepairPts
-    this.ActiveMech.Repair()
+    this.RepairMech()
+  }
+
+  RepairMech(repairType?: string): void {
+    this.CancelSelfDestruct()
+    switch (repairType) {
+      case 'full':
+        this.ActiveMech.FullRepair()
+        break
+      case 'basic_w_reactor':
+        this.ActiveMech.BasicRepair(true)
+        break
+      case 'basic_wo_reactor':
+        this.ActiveMech.BasicRepair(false)
+        break
+      default:
+        this.ActiveMech.Repair()
+        break
+    }
   }
 
   public set ActiveMech(mech: Mech | null) {
@@ -679,7 +706,7 @@ class ActiveState {
   }
 
   public CommitFullRepair() {
-    this.ActiveMech.FullRepair()
+    this.RepairMech('full')
     this.SetLog({
       id: `full_repair`,
       event: 'FULL REPAIR',

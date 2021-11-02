@@ -995,6 +995,11 @@ class Pilot implements ICloudSyncable {
     return this._state.ActiveMech
   }
 
+  public set ActiveMech(mech: Mech | null) {
+    this._state = new ActiveState(this)
+    this._state.ActiveMech = mech
+  }
+
   // -- COUNTERS ----------------------------------------------------------------------------------
 
   private _counterSaveData = []

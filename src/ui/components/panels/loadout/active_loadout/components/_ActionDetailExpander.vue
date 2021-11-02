@@ -6,7 +6,11 @@
       v-html-safe="action.Terse ? action.Terse : action.Detail"
     />
     <div v-else>
-      <div class="overline my-n3">Trigger</div>
+      <div v-if="action.Frequency.ToString() !== 'Unlimited'">
+        <div class="overline mb-n3">Frequency</div>
+        <div class="ml-3 body-text stark--text" v-html-safe="action.Frequency.ToString()" />
+      </div>
+      <div class="overline mb-n3">Trigger</div>
       <div class="ml-3 body-text stark--text" v-html-safe="action.Trigger" />
       <div class="overline mb-n3">Effect</div>
       <div class="ml-3 body-text stark--text" v-html-safe="action.Detail" />
