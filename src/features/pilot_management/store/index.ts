@@ -10,24 +10,54 @@ async function savePilots(pilots: Pilot[]) {
   await saveData('pilots_v2.json', serialized)
 }
 
-function sortPilotsByGroup(pilots: Pilot[], pilotGroups: string[]) {
-  const cmp = function(a, b) {
-    if (a > b) return +1;
-    if (a < b) return -1;
-    return 0;
-  }
-  pilots.sort((a, b) => {
-    return cmp(pilotGroups.indexOf(a.Group), pilotGroups.indexOf(b.Group)) || cmp(a.SortIndex, b.SortIndex)
-  })
+async function savePilotGroups(pilotGroups: PilotGroup[]) {
+  await saveData('pilot_groups.json', pilotGroups)
 }
 
-function reindexPilots(pilots: Pilot[]) {
-  pilots.forEach((p, i) => p.SortIndex = i)
+export interface PilotGroup {
+  name: string
+  pilotIDs: string[]
+  hidden: boolean
+}
+
+function createPilotGroups(pilots: Pilot[]): PilotGroup[] {
+  const pilotGroups: PilotGroup[] = []
+  pilotGroups.push({"name": '', "pilotIDs": [], "hidden": false})
+  console.info("Creating pilot groups from existing pilots")
+  pilots.forEach(p => {
+    const group = pilotGroups.filter(g => g.name === p.Group)[0]
+    if (group) {
+      group.pilotIDs.push(p.ID)
+    } else {
+      pilotGroups.push({"name": p.Group, "pilotIDs": [p.ID], "hidden": false})
+    }
+  })
+  savePilotGroups(pilotGroups)
+  return pilotGroups
+}
+
+function getPilotGroup(groupName: string, groups: PilotGroup[]): PilotGroup {
+  const groupNames = groups.map(x => x.name)
+  const idx = groupNames.indexOf(groupName)
+  return groups[idx]
+}
+
+function addPilotIdToGroups(pilot: Pilot, groups: PilotGroup[]): void {
+  const pilotGroup = getPilotGroup(pilot.Group, groups)
+  pilotGroup.pilotIDs.push(pilot.ID)
+}
+
+function deletePilotIdFromGroups(pilot: Pilot, groups: PilotGroup[]): void {
+  const pilotGroup = getPilotGroup(pilot.Group, groups)
+  const idx = pilotGroup.pilotIDs.indexOf(pilot.ID)
+  if (idx === -1) return
+  pilotGroup.pilotIDs.splice(idx, 1)
 }
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_PILOT = 'SET_PILOT'
 export const ADD_GROUP = 'ADD_GROUP'
+export const REORDER_GROUPS = 'REORDER_GROUPS'
 export const UPDATE_PILOT = 'UPDATE_PILOT'
 export const LOAD_PILOTS = 'LOAD_PILOTS'
 export const ADD_PILOT = 'ADD_PILOT'
@@ -44,7 +74,7 @@ export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 })
 export class PilotManagementStore extends VuexModule {
   public Pilots: Pilot[] = []
-  public PilotGroups: string[] = []
+  public PilotGroups: PilotGroup[] = []
   public LoadedMechID = ''
   public ActivePilot: Pilot = null
   public printOptions: PrintOptions = null
@@ -55,21 +85,20 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [LOAD_PILOTS](payload: IPilotData[]): void {
-    const allPilots = [...payload.map(x => Pilot.Deserialize(x)).filter(x => x)]
+  private [LOAD_PILOTS](payload: {pilotData: IPilotData[], pilotGroupData: PilotGroup[]}): void {
+    const allPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
-    this.PilotGroups = _.uniq(this.PilotGroups.concat(this.Pilots.map(x => x.Group)).concat(['']))
-    sortPilotsByGroup(this.Pilots, this.PilotGroups)
-    reindexPilots(this.Pilots)
+    this.PilotGroups = payload.pilotGroupData.length ? payload.pilotGroupData : createPilotGroups(this.Pilots)
   }
 
   @Mutation
   private [ADD_PILOT](payload: Pilot): void {
     payload.SortIndex = this.Pilots.length
     this.Pilots.push(payload)
-    sortPilotsByGroup(this.Pilots, this.PilotGroups)
-    reindexPilots(this.Pilots)
     savePilots(this.Pilots)
+
+    addPilotIdToGroups(payload, this.PilotGroups)
+    savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
@@ -79,7 +108,6 @@ export class PilotManagementStore extends VuexModule {
     const groupIndex = this.Pilots.findIndex( p => p.Group === payload.g )
     const toIndex = groupIndex + payload.toIndex
     this.Pilots.splice(toIndex, 0, splicePilot)
-    reindexPilots(this.Pilots)
     savePilots(this.Pilots)
   }
 
@@ -94,9 +122,9 @@ export class PilotManagementStore extends VuexModule {
       mech.RenewID()
     }
     this.Pilots.push(newPilot)
-    sortPilotsByGroup(this.Pilots, this.PilotGroups)
-    reindexPilots(this.Pilots)
+    addPilotIdToGroups(newPilot, this.PilotGroups)
     savePilots(this.Pilots)
+    savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
@@ -107,40 +135,58 @@ export class PilotManagementStore extends VuexModule {
     } else {
       throw console.error('Pilot not loaded!')
     }
-    reindexPilots(this.Pilots)
+
+    deletePilotIdFromGroups(payload, this.PilotGroups)
     savePilots(this.Pilots)
+    savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
   private [ADD_GROUP](payload: string): void {
-    this.PilotGroups.indexOf(payload) === -1 ? this.PilotGroups.push(payload) : null
+    if (this.PilotGroups.map(x => x.name).indexOf(payload) === -1) {
+      const newGroup: PilotGroup = {
+        "name": payload,
+        "pilotIDs": [],
+        "hidden": false
+      }
+      this.PilotGroups.push(newGroup)
+      savePilotGroups(this.PilotGroups)
+    }
   }
 
   @Mutation
-  private [DELETE_GROUP](payload: string): void {
-    this.Pilots.forEach((p: Pilot, i) => {
-      if (p.Group === payload) {
+  private [REORDER_GROUPS](payload: PilotGroup[]): void {
+    this.PilotGroups = payload
+    savePilotGroups(this.PilotGroups)
+  }
+
+  @Mutation
+  private [DELETE_GROUP](payload: PilotGroup): void {
+    const ungroupedGroup = getPilotGroup("", this.PilotGroups)
+    this.Pilots.forEach((p: Pilot) => {
+      if (p.Group === payload.name) {
         p.Group = ''
-        p.SortIndex = this.Pilots.length + i
+        ungroupedGroup.pilotIDs.push(p.ID)
       }
     })
+    savePilots(this.Pilots)
+
     const idx = this.PilotGroups.indexOf(payload)
     if (idx === -1) return
     this.PilotGroups.splice(idx, 1)
-    sortPilotsByGroup(this.Pilots, this.PilotGroups)
-    reindexPilots(this.Pilots)
+    savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
-  private [SET_GROUP_NAME](payload: {oldName: string; newName: string}): void {
-    const oldName = payload.oldName
+  private [SET_GROUP_NAME](payload: {g: PilotGroup; newName: string}): void {
+    const oldName = payload.g.name
     const newName = payload.newName
     this.Pilots.forEach((p: Pilot) => {
       if (p.Group === oldName) p.Group = newName
     })
-    const idx = this.PilotGroups.indexOf(oldName)
-    if (idx === -1) return
-    this.PilotGroups.splice(idx, 1, newName)
+
+    payload.g.name = newName
+    savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
@@ -168,8 +214,9 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
+    const pilotGroupData = await loadData<PilotGroup>('pilot_groups.json')
     const pilotData = await loadData<IPilotData>('pilots_v2.json')
-    this.context.commit(LOAD_PILOTS, pilotData)
+    this.context.commit(LOAD_PILOTS, {'pilotData': pilotData, 'pilotGroupData': pilotGroupData})
   }
 
   @Action({ rawError: true })
@@ -200,6 +247,11 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
+  public reorderGroups(payload: PilotGroup[]): void {
+    this.context.commit(REORDER_GROUPS, payload)
+  }
+
+  @Action
   public deletePilot(payload: { pilot: Pilot; update: boolean }): void {
     this.context.commit(DELETE_PILOT, payload.pilot)
     if (payload.update)
@@ -207,12 +259,12 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public deleteGroup(payload: string): void {
+  public deleteGroup(payload: PilotGroup): void {
     this.context.commit(DELETE_GROUP, payload)
   }
 
   @Action
-  public setGroupName(payload: {oldName: string; newName: string}): void {
+  public setGroupName(payload: {g: PilotGroup; newName: string}): void {
     this.context.commit(SET_GROUP_NAME, payload)
   }
 
