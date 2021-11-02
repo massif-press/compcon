@@ -44,7 +44,7 @@ export default class CCItemUses extends Vue {
     return this.item.getTotalUses(this.bonus)
   }
   get current(): number {
-    return this.max - this.item.MissingUses
+    return this.item.Uses
   }
 
   set(val): void {
