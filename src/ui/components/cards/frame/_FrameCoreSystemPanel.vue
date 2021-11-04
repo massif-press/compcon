@@ -26,7 +26,7 @@
         <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-chip
+        <!-- <v-chip
           v-if="
             cs.Duration !== 'Mission' || cs.Duration !== 'Unlimited' || cs.Duration !== 'Mission'
           "
@@ -35,7 +35,7 @@
           outlined
         >
           {{ cs.Duration.toUpperCase() }}
-        </v-chip>
+        </v-chip> -->
         <v-chip small label dark :color="`action--${cs.Activation.toLowerCase()}`">
           {{ cs.Activation.toUpperCase() }}
         </v-chip>
