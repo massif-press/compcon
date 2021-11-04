@@ -161,7 +161,7 @@
                       :preset="`1d20+${pilot.Grit}`"
                       :preset-accuracy="accuracy - difficulty"
                       title="ATTACK ROLL"
-                      autoroll=true
+                      autoroll
                       @commit="attackRoll = $event.total"
                     />
                   </v-col>
@@ -297,7 +297,7 @@ each source of damage is used.`
                         :title="`${d.Type} DAMAGE ROLL`"
                         :overkill="overkill"
                         :critical="crit"
-                        autoroll=true
+                        autoroll
                         @commit="setDamage(i, $event)"
                       />
                     </v-col>
@@ -687,7 +687,7 @@ export default Vue.extend({
       this.kill = false
       this.confirmed = false
       this.overkillHeat = 0
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         this.resetAttackRoll = true
       })
     },

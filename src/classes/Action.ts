@@ -90,14 +90,14 @@ class Frequency {
 
   public RegainUsesOnEvent(event: ActivePeriod): boolean {
     //Nothing takes an unlimited time to regain uses
-    if ( event == ActivePeriod.Unlimited ) return false
+    if (event == ActivePeriod.Unlimited) return false
 
-    let order:Record<ActivePeriod, number> = {
-      Unlimited : 0,
-      Turn : 1,
-      Round : 2,
-      Encounter : 3,
-      Mission : 4
+    let order: Record<ActivePeriod, number> = {
+      Unlimited: 0,
+      Turn: 1,
+      Round: 2,
+      Encounter: 3,
+      Mission: 4
     }
     //This action is free to regain uses if the given event
     //meets the duration threshold
