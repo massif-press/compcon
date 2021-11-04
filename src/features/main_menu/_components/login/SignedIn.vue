@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="!!authedUser && !!authedUser.attributes">
+    <div v-if="!!authedUser && !!authedUser.attributes && userProfile.Username">
       <div v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
         CONNECTED
         <cc-slashes />
@@ -415,7 +415,6 @@ export default Vue.extend({
   mounted() {
     Auth.currentAuthenticatedUser()
       .then(user => {
-        console.log(user)
         this.authedUser = user
       })
       .catch(() => {
@@ -463,7 +462,7 @@ export default Vue.extend({
       const userstore = getModule(UserStore, this.$store)
       Auth.currentAuthenticatedUser()
         .then(user => {
-          userstore.setAws({'user': user})
+          userstore.setAws({ user: user })
         })
         .then(() => {
           this.loading = false

@@ -80,7 +80,7 @@ export class UserStore extends VuexModule {
   }
 
   @Action
-  public async setUserProfile(payload: any): Promise<void> {
+  public setUserProfile(payload: any): void {
     this.context.commit(SET_USER_PROFILE, payload)
   }
 
@@ -106,43 +106,35 @@ export class UserStore extends VuexModule {
     }
     localUpdateTime = new Date()
 
-    Sync.GetSync(payload.user.username)
-      .then(res => {
-        this.setUserProfile(res)
-      })
-      .then(() => {
-        this.context.commit(SET_LOGGED_IN, true)
-      })
-      .then(() => {
-        this.UserProfile.Username = payload.user.attributes.email
-        if (payload.condition === 'appLoad' && !this.UserProfile.SyncFrequency.onAppLoad) sync = false
-        if (payload.condition === 'logIn' && !this.UserProfile.SyncFrequency.onLogIn) sync = false
-      })
-      .then(() => {
-        if (sync) {
-          Sync.ContentPull()
-            .then(() => {
-              this.context.dispatch('refreshExtraContent')
-            })
-            .then(() => {
-              Sync.CloudPull(this.UserProfile, e => {
-                if (e instanceof Pilot)
-                  this.context.dispatch('addPilot', { pilot: e, update: false })
-                if (e instanceof Npc) this.context.dispatch('addNpc', e)
-                if (e instanceof Encounter) this.context.dispatch('addEncounter', e)
-                if (e instanceof Mission) this.context.dispatch('addMission', e)
-                if (e instanceof ActiveMission) this.context.dispatch('addActiveMission', e)
-              })
-            })
-            .then(() => {
-              this.UserProfile.MarkSync()
-            })
-        }
-      })
-      .catch(err => {
-        console.error(err)
-        throw new Error(`Unable to sync userdata\n${JSON.stringify(err)}`)
-      })
+    const syncedUser = await Sync.GetSync(payload.user.username)
+
+    this.setUserProfile(syncedUser)
+    this.setLoggedIn(true)
+    this.UserProfile.Username = payload.user.attributes.email
+    if (payload.condition === 'appLoad' && !this.UserProfile.SyncFrequency.onAppLoad) sync = false
+    if (payload.condition === 'logIn' && !this.UserProfile.SyncFrequency.onLogIn) sync = false
+    if (sync) {
+      Sync.ContentPull()
+        .then(() => {
+          this.context.dispatch('refreshExtraContent')
+        })
+        .then(() => {
+          Sync.CloudPull(this.UserProfile, e => {
+            if (e instanceof Pilot)
+              this.context.dispatch('addPilot', { pilot: e, update: false })
+            if (e instanceof Npc) this.context.dispatch('addNpc', e)
+            if (e instanceof Encounter) this.context.dispatch('addEncounter', e)
+            if (e instanceof Mission) this.context.dispatch('addMission', e)
+            if (e instanceof ActiveMission) this.context.dispatch('addActiveMission', e)
+          })
+        })
+        .then(() => {
+          this.UserProfile.MarkSync()
+        })
+        .catch(err => {
+          console.error('unable to sync extra content: ', err)
+        })
+    }
   }
 
   @Action({ rawError: true })

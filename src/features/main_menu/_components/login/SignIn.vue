@@ -96,7 +96,7 @@ export default Vue.extend({
           userstore.setUser(user)
         })
         .then(() => {
-          userstore.setAws({user: userstore.User, condition: 'logIn'})
+          userstore.setAws({ user: userstore.User, condition: 'logIn' })
         })
         .then(() => {
           this.$notify('Cloud Data Synchronized', 'success')

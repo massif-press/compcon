@@ -7,9 +7,11 @@
 
 ### Bug Fixes
 
+* **Cloud** corrects a set of annoying (but ultimately harmless) errors when a new cloud user logs in for the first time[#1642](https://github.com/massif-press/compcon/issues/1642)
 * **Mech Sheet** temporarily hide duration chips for Core Systems  (thanks, msprijatelj!)[#1756](https://github.com/massif-press/compcon/issues/1756)
 * **Active Mode** fix pilot HP ticker during ActiveRest (thanks, msprijatelj!)[#1753](https://github.com/massif-press/compcon/issues/1753)
 * **Active Mode** fix typos in Structure and Stress references (thanks, msprijatelj!)[#1752](https://github.com/massif-press/compcon/issues/1752)
+* **Active Mode** fix Full Tech Action availability[#1755](https://github.com/massif-press/compcon/issues/1755)
 
 ## [2.2.33] (2021-11-02)
 
