@@ -56,6 +56,7 @@ enum WeaponType {
   CQB = 'CQB',
   Nexus = 'Nexus',
   Melee = 'Melee',
+  All = '???'
 }
 
 enum ItemType {
