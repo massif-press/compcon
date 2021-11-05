@@ -1,6 +1,7 @@
 <template>
   <cc-stepper-content
     :complete="pilotReady"
+    :mandatory="!quickstart"
     exit="pilot_management"
     back
     no-confirm
@@ -23,6 +24,7 @@
     <v-btn
       :x-large="$vuetify.breakpoint.mdAndUp"
       block
+      :disabled="!pilotReady && !quickstart"
       color="secondary"
       tile
       class="mx-2 my-8"
@@ -52,6 +54,7 @@ export default Vue.extend({
       type: Object,
       required: true,
     },
+    quickstart: { type: Boolean },
   },
   data: () => ({
     default_callsign: "[NEW CALLSIGN]",
