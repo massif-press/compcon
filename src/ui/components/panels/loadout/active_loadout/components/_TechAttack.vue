@@ -86,7 +86,7 @@
                     :preset="`1d20+${mech.TechAttack}`"
                     :preset-accuracy="accuracy - difficulty"
                     title="Tech Attack"
-                    autoroll=true
+                    autoroll
                     @commit="registerTechRoll($event.total)"
                   />
                 </v-col>
@@ -140,7 +140,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { DiceRoller } from '@/class'
 
 export default Vue.extend({
   name: 'tech-attack',
@@ -161,8 +160,8 @@ export default Vue.extend({
     used: {
       immediate: true,
       deep: true,
-      handler: function () {
-        this.init()
+      handler: function(newval) {
+        if (!newval) this.init()
       },
     },
   },
@@ -176,7 +175,7 @@ export default Vue.extend({
       this.failed = false
       this.attackRoll = ''
       this.resetAttackRoll = false
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         this.resetAttackRoll = true
       })
     },

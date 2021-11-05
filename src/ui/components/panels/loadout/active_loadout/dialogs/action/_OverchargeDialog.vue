@@ -19,7 +19,7 @@
             v-if="resetRoll"
             :preset="mech.OverchargeTrack[mech.CurrentOvercharge]"
             title="OVERCHARGE"
-            autoroll=true
+            autoroll
             @commit="registerOverchargeRoll($event.total)"
           />
         </cc-tooltip>
@@ -100,7 +100,7 @@ export default Vue.extend({
       this.finished = false
       this.overcharge_heat = null
       this.resetRoll = false
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         this.resetRoll = true
       })
     },

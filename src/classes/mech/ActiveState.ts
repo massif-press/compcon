@@ -292,9 +292,10 @@ class ActiveState {
 
   public ResetActions(event: ActivePeriod): void {
     this.AllActions.forEach(a => a.Reset(event))
+    this.AllItemTechActions.forEach(a => a.Reset(event))
     this.AllBaseTechActions.forEach(a => a.Reset(event))
     this.Deployed.forEach(d => d.Actions.forEach(a => a.Reset(event)))
-  
+
     if (event == ActivePeriod.Encounter || event == ActivePeriod.Mission) {
       if (this.ActiveMech.Frame.CoreSystem.PassiveActions) this.ActiveMech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(event))
       if (this.ActiveMech.Frame.CoreSystem.DeployActions) this.ActiveMech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(event))

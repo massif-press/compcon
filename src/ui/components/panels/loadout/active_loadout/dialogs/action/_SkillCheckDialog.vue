@@ -31,7 +31,9 @@
           Free Action
           <cc-tooltip
             inline
-            :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
+            :content="
+              `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
+            "
           >
             <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
           </cc-tooltip>
@@ -142,7 +144,7 @@
                     :preset="`1d20`"
                     :preset-accuracy="accuracy - difficulty"
                     title="SKILL CHECK"
-                    autoroll=true
+                    autoroll
                     @commit="registerSkillRoll($event.total)"
                   />
                 </v-col>
@@ -229,7 +231,7 @@ export default Vue.extend({
     used: {
       immediate: true,
       deep: true,
-      handler: function (newval) {
+      handler: function(newval) {
         if (!newval) this.reset()
       },
     },
