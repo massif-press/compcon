@@ -102,8 +102,8 @@
                 <v-col cols="7">
                   <span class="body-text text--text">
                     Your mech is damaged beyond repair and is
-                    <b>destroyed</b>
-                    . You can still exit it as normal.
+                    <b>destroyed.</b>
+                    You can still exit it as normal.
                   </span>
                 </v-col>
               </v-row>
@@ -184,8 +184,8 @@
                     <br />
                     2 - Roll an ENGINEERING check. On a success, your mech is EXPOSED; on a failure,
                     it suffers a reactor meltdown after 1d6 of your turns (rolled by the GM). A
-                    reactor meltdown can be prevented by retrying the ENGINEERING check as a free
-                    action
+                    reactor meltdown can be prevented by retrying the ENGINEERING check as a full
+                    action.
                     <br />
                     1 or lower - Your mech suffers a reactor meltdown at the end of your next turn.
                   </span>
@@ -215,7 +215,7 @@
                 pilot inside immediately dies, the mech is immediately vaporized in a catastrophic
                 eruption, annihilating the wreck, and any characters inside a burst 2 area centered
                 on the mech must pass an agility save or take 4d6 explosive damage, and half on a
-                successful save
+                successful save.
               </p>
             </v-card-text>
           </v-card>

@@ -1,4 +1,4 @@
-import { store } from '@/store'
+import { store, UserStore } from '@/store'
 import * as Client from '@/user'
 import { Auth, API, Storage } from 'aws-amplify'
 import { createUserData, updateUserData } from '@/graphql/mutations'
@@ -6,6 +6,9 @@ import { syncUserData } from '@/graphql/queries'
 import { ActiveMission, Encounter, Mission, Pilot } from '@/class'
 import { IPilotData } from '@/classes/pilot/Pilot'
 import { Npc } from '@/classes/npc/Npc'
+import { getModule } from 'vuex-module-decorators'
+import Startup from '@/io/Startup'
+import Vue from 'vue'
 
 const region = 'us-east-1'
 
@@ -32,7 +35,7 @@ const PutNewUserData = async (
     variables: { input: newUser },
   })
 
-  console.log('Cloud user data creation successful')
+  console.info('Cloud user data creation successful')
 
   return newUser
 }
@@ -63,7 +66,9 @@ const GetSync = async (uid?: string): Promise<Client.UserProfile> => {
     }
   } else {
     // create new userdata
-    PutNewUserData(username, uid, localUserData).then(res => Client.UserProfile.Deserialize(res))
+    const res = await PutNewUserData(username, uid, localUserData)
+    console.info('new user data created')
+    return Client.UserProfile.Deserialize(res)
   }
 }
 
@@ -90,20 +95,14 @@ const PullRemoteData = async (): Promise<void> => {
 
   external.forEach(async p => {
     const iid = p.CloudOwnerID.includes(region) ? p.CloudOwnerID : `${region}:${p.CloudOwnerID}`
-    console.log(iid);
     const url = await Storage.get(p.ResourceURI, { level: 'protected', identityId: iid })
     if (typeof url === 'object') {
       console.error('Unsupported S3 return type')
       return
     }
 
-    console.log(p.ResourceURI, p.CloudOwnerID);
-
-    console.log(url);
-
     const data: IPilotData = await fetch(url)
       .then(res => {
-        console.log(res);
         return res.json()
       })
       .catch(err => console.error(err))
@@ -131,7 +130,7 @@ async function Pull(
 
   const cloudURIs = await Storage.list(typePrefix, { level: 'protected' })
     .then(result => result.map(k => k.key))
-    .catch(err => console.log(err))
+    .catch(err => console.error(err))
 
   userProfile[storageKey] = cloudURIs
 
@@ -163,7 +162,7 @@ async function Pull(
         else if (storageKey === 'ActiveMissions') dl = ActiveMission.Deserialize(data)
         else return
 
-        console.log('new item is:', dl.IsLocallyOwned ? 'locally owned' : 'remote resource');
+        console.info('new item is:', dl.IsLocallyOwned ? 'locally owned' : 'remote resource');
         if (dl.IsLocallyOwned) dl.SetOwnedResource(ccid)
         // else dl.SetRemoteResource()
         dl.MarkSync()
@@ -212,7 +211,7 @@ async function Push(
     .then(result => {
       return result.map(i => i.key)
     })
-    .catch(err => console.log(err))
+    .catch(err => console.error(err))
 
   const storageURIs = []
 
@@ -261,7 +260,7 @@ async function Push(
     // else (p.SetRemoteResource())
     // this is a resource that does not exist in the cloud
 
-    console.log('item that does not exist in the cloud found: ', p);
+    console.info('item that does not exist in the cloud found: ', p);
 
     let data = {} as any
     if (storageKey === 'Pilots') data = Pilot.Serialize(p)
