@@ -20,44 +20,37 @@ export interface PilotGroup {
   hidden: boolean
 }
 
-function createPilotGroups(pilots: Pilot[]): PilotGroup[] {
-  const pilotGroups: PilotGroup[] = []
-  pilotGroups.push({"name": '', "pilotIDs": [], "hidden": false})
-  console.info("Creating pilot groups from existing pilots")
-  pilots.forEach(p => {
-    const group = pilotGroups.filter(g => g.name === p.Group)[0]
-    if (group) {
-      group.pilotIDs.push(p.ID)
-    } else {
-      pilotGroups.push({"name": p.Group, "pilotIDs": [p.ID], "hidden": false})
-    }
-  })
-  savePilotGroups(pilotGroups)
-  return pilotGroups
-}
-
-function getPilotGroup(groupName: string, groups: PilotGroup[]): PilotGroup {
-  const groupNames = groups.map(x => x.name)
-  const idx = groupNames.indexOf(groupName)
-  return groups[idx]
-}
-
 function addPilotIdToGroups(pilot: Pilot, groups: PilotGroup[]): void {
-  const pilotGroup = getPilotGroup(pilot.Group, groups)
-  pilotGroup.pilotIDs.push(pilot.ID)
+  const pilotGroup = groups.find(g => g.name === pilot.Group)
+  if (pilotGroup) {
+    pilotGroup.pilotIDs.push(pilot.ID)
+  } else {
+    groups.push({"name": pilot.Group, "pilotIDs": [pilot.ID], "hidden": false})
+  }
 }
 
 function deletePilotIdFromGroups(pilot: Pilot, groups: PilotGroup[]): void {
-  const pilotGroup = getPilotGroup(pilot.Group, groups)
+  const pilotGroup = groups.find(g => g.name === pilot.Group)
   const idx = pilotGroup.pilotIDs.indexOf(pilot.ID)
   if (idx === -1) return
   pilotGroup.pilotIDs.splice(idx, 1)
 }
 
+function createPilotGroups(pilots: Pilot[]): PilotGroup[] {
+  const pilotGroups: PilotGroup[] = []
+  pilotGroups.push({"name": '', "pilotIDs": [], "hidden": false})
+  console.info("Creating pilot groups from existing pilots")
+  pilots.forEach(p => {
+    addPilotIdToGroups(p, pilotGroups)
+  })
+  savePilotGroups(pilotGroups)
+  return pilotGroups
+}
+
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_PILOT = 'SET_PILOT'
 export const ADD_GROUP = 'ADD_GROUP'
-export const REORDER_GROUPS = 'REORDER_GROUPS'
+export const MOVE_GROUP = 'MOVE_GROUP'
 export const UPDATE_PILOT = 'UPDATE_PILOT'
 export const LOAD_PILOTS = 'LOAD_PILOTS'
 export const ADD_PILOT = 'ADD_PILOT'
@@ -82,13 +75,24 @@ export class PilotManagementStore extends VuexModule {
   @Mutation
   private [SAVE_DATA](): void {
     if (this.Pilots.length) _.debounce(savePilots, 1000)(this.Pilots)
+    if (this.PilotGroups.length) _.debounce(savePilotGroups, 1000)(this.PilotGroups)
   }
 
   @Mutation
-  private [LOAD_PILOTS](payload: {pilotData: IPilotData[], pilotGroupData: PilotGroup[]}): void {
+  private [LOAD_PILOTS](payload: {pilotData: IPilotData[], groupData: PilotGroup[]}): void {
     const allPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
-    this.PilotGroups = payload.pilotGroupData.length ? payload.pilotGroupData : createPilotGroups(this.Pilots)
+    const groupDataEmpty = payload.groupData.length === 0
+    const ungroupedOnly = payload.groupData.length === 1 && payload.groupData[0].name === ""
+    const ungroupedEmpty = payload.groupData.find(g => g.name === "")?.pilotIDs.length === 0
+
+    if (groupDataEmpty || (ungroupedOnly && ungroupedEmpty)) {
+      console.info("Recreating groups")
+      this.PilotGroups = createPilotGroups(this.Pilots)
+    } else {
+      console.info("Using existing groups")
+      this.PilotGroups = payload.groupData
+    }
   }
 
   @Mutation
@@ -102,13 +106,9 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [MOVE_PILOT](payload: { fromIndex: number, toIndex: number, g: string }): void {
-    const splicePilot = this.Pilots.splice(payload.fromIndex, 1)[0]
-    splicePilot.Group = payload.g
-    const groupIndex = this.Pilots.findIndex( p => p.Group === payload.g )
-    const toIndex = groupIndex + payload.toIndex
-    this.Pilots.splice(toIndex, 0, splicePilot)
+  private [MOVE_PILOT](): void {
     savePilots(this.Pilots)
+    savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
@@ -122,8 +122,9 @@ export class PilotManagementStore extends VuexModule {
       mech.RenewID()
     }
     this.Pilots.push(newPilot)
-    addPilotIdToGroups(newPilot, this.PilotGroups)
     savePilots(this.Pilots)
+
+    addPilotIdToGroups(newPilot, this.PilotGroups)
     savePilotGroups(this.PilotGroups)
   }
 
@@ -135,9 +136,9 @@ export class PilotManagementStore extends VuexModule {
     } else {
       throw console.error('Pilot not loaded!')
     }
+    savePilots(this.Pilots)
 
     deletePilotIdFromGroups(payload, this.PilotGroups)
-    savePilots(this.Pilots)
     savePilotGroups(this.PilotGroups)
   }
 
@@ -155,25 +156,21 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [REORDER_GROUPS](payload: PilotGroup[]): void {
-    this.PilotGroups = payload
+  private [MOVE_GROUP](): void {
     savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
   private [DELETE_GROUP](payload: PilotGroup): void {
-    const ungroupedGroup = getPilotGroup("", this.PilotGroups)
     this.Pilots.forEach((p: Pilot) => {
-      if (p.Group === payload.name) {
-        p.Group = ''
-        ungroupedGroup.pilotIDs.push(p.ID)
-      }
+      if (p.Group === payload.name) p.Group = ''
     })
     savePilots(this.Pilots)
 
+    const ungroupedGroup = this.PilotGroups.find(g => g.name === "")
+    payload.pilotIDs.forEach(id => ungroupedGroup.pilotIDs.push(id))
     const idx = this.PilotGroups.indexOf(payload)
-    if (idx === -1) return
-    this.PilotGroups.splice(idx, 1)
+    if (idx !== -1) this.PilotGroups.splice(idx, 1)
     savePilotGroups(this.PilotGroups)
   }
 
@@ -184,6 +181,7 @@ export class PilotManagementStore extends VuexModule {
     this.Pilots.forEach((p: Pilot) => {
       if (p.Group === oldName) p.Group = newName
     })
+    savePilots(this.Pilots)
 
     payload.g.name = newName
     savePilotGroups(this.PilotGroups)
@@ -214,9 +212,9 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
-    const pilotGroupData = await loadData<PilotGroup>('pilot_groups.json')
     const pilotData = await loadData<IPilotData>('pilots_v2.json')
-    this.context.commit(LOAD_PILOTS, {'pilotData': pilotData, 'pilotGroupData': pilotGroupData})
+    const pilotGroupData = await loadData<PilotGroup>('pilot_groups.json')
+    this.context.commit(LOAD_PILOTS, {'pilotData': pilotData, 'groupData': pilotGroupData})
   }
 
   @Action({ rawError: true })
@@ -237,8 +235,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public movePilot(payload: {fromIndex: number; toIndex: number; g: string}): void {
-    this.context.commit(MOVE_PILOT, payload)
+  public movePilot(): void {
+    this.context.commit(MOVE_PILOT)
   }
 
   @Action
@@ -247,8 +245,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public reorderGroups(payload: PilotGroup[]): void {
-    this.context.commit(REORDER_GROUPS, payload)
+  public moveGroup(): void {
+    this.context.commit(MOVE_GROUP)
   }
 
   @Action

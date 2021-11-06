@@ -48,83 +48,23 @@
     </v-row>
     <v-slide-x-transition mode="out-in">
       <v-container fluid :class="$vuetify.breakpoint.mdAndUp ? 'mx-1' : 'mx-n4 pa-0'">
-        <!-- <div v-for="g in groups" :key="`pg_${g}`">
-          <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
-            <v-col cols="auto">
-              <v-btn small dark icon class="mt-n1" @click="toggleHidden(g)">
-                <v-icon v-html="!hidden.includes(g) ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
-              </v-btn>
-              {{ g ? g : 'Ungrouped' }}
-              <span class="overline">({{ pilots.filter(x => x.Group === g).length }})</span>
-            </v-col>
-            <v-col v-if="g" cols="auto" class="ml-auto mr-8">
-              <v-menu offset-x left :close-on-content-click="false">
-                <template v-slot:activator="{ on }">
-                  <v-btn dark small icon class="fadeSelect" v-on="on">
-                    <v-icon>mdi-circle-edit-outline</v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text>
-                    <v-text-field
-                      :value="g"
-                      autofocus
-                      outlined
-                      hide-details
-                      label="Group Name"
-                      @change="setGroupName(g, $event)"
-                    />
-                  </v-card-text>
-                </v-card>
-              </v-menu>
-              <v-btn dark small icon class="fadeSelect" @click="deleteGroup(g)">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-          <div
-            v-if="!hidden.includes(g)"
-            :style="profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
-          >
-            <v-expand-transition>
-              <draggable
-                :key="`draggable${g}`"
-                :list="pilots.filter(x => x.Group === g)"
-                :disabled="preventDnd"
-                group="pilots"
-                v-bind="dragOptions"
-                @start="drag = true"
-                @end="drag = false"
-                @change="moved($event, g)"
-              >
-                <component
-                  :is="pilotCardType"
-                  v-for="(p, i) in pilots.filter(x => x.Group === g)"
-                  :key="`${pilotCardType}_${i}`"
-                  :pilot="p"
-                  :small="profile.GetView('roster') === 'small-cards'"
-                />
-              </draggable>
-            </v-expand-transition>
-          </div>
-        </div> -->
-
         <draggable
-          v-model="pilotGroups"
+          :list="groups"
           :disabled="preventDnd"
           v-bind="dragOptions"
+          @change="pilotStore.moveGroup"
         >
           <div
-            v-for="(g, i) in pilotGroups"
+            v-for="(g, i) in groups"
             :key="`pg_${g.name}_${i}`"
           >
             <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
               <v-col cols="auto">
-                <v-btn small dark icon class="mt-n1" @click="toggleHidden(g.name)">
-                  <v-icon v-html="!hidden.includes(g.name) ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
+                <v-btn small dark icon class="mt-n1" @click="toggleHidden(g)">
+                  <v-icon v-html="!g.hidden ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
                 </v-btn>
                 {{ g.name ? g.name : 'Ungrouped' }}
-                <span class="overline">({{ pilots.filter(x => x.Group === g.name).length }})</span>
+                <span class="overline">({{ g.pilotIDs.length }})</span>
               </v-col>
               <v-col v-if="g.name" cols="auto" class="ml-auto mr-8">
                 <v-menu offset-x left :close-on-content-click="false">
@@ -152,23 +92,24 @@
               </v-col>
             </v-row>
             <div
-              v-if="!hidden.includes(g.name)"
+              v-if="!g.hidden"
               :style="profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
             >
               <v-expand-transition>
                 <draggable
-                  :v-model="pilots.filter(x => g.pilotIDs.includes(x.ID))"
+                  :list="g.pilotIDs"
                   :group="{ name: 'group' }"
                   :disabled="preventDnd"
                   v-bind="dragOptions"
                   @start="drag = true"
                   @end="dragOff()"
+                  @change="movePilot(g.name, $event)"
                 >
                   <component
                     :is="pilotCardType"
-                    v-for="(p, j) in pilots.filter(x => g.pilotIDs.includes(x.ID))"
+                    v-for="(id, j) in g.pilotIDs"
                     :key="`${pilotCardType}_${j}`"
-                    :pilot="p"
+                    :pilot="getPilotFromId(id)"
                     :small="profile.GetView('roster') === 'small-cards'"
                     :dragging="drag"
                   />
@@ -220,7 +161,6 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash'
 import Vue from 'vue'
 import PilotCard from './components/PilotCard.vue'
 import PilotListItem from './components/PilotListItem.vue'
@@ -231,6 +171,7 @@ import { Pilot } from '@/class'
 import { UserProfile } from '@/user'
 import draggable from 'vuedraggable'
 import { teamName } from '@/io/Generators'
+import { PilotGroup } from '../store'
 
 export default Vue.extend({
   name: 'roster-view',
@@ -239,11 +180,8 @@ export default Vue.extend({
     sortParams: null,
     drag: false,
     newGroupMenu: false,
-    tempGroups: [],
-    hidden: [],
     newGroupName: '',
     preventDnd: true,
-    pilotGroups: []
   }),
   computed: {
     pilotStore() {
@@ -264,14 +202,8 @@ export default Vue.extend({
       const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
-    groups: {
-      get() {
-        return this.pilotStore.PilotGroups
-      },
-      set(pGroups) {
-        console.log(pGroups)
-        this.pilotStore.reorderGroups(pGroups)
-      }
+    groups() {
+      return this.pilotStore.PilotGroups
     },
     pilots() {
       return this.pilotStore.Pilots
@@ -282,7 +214,8 @@ export default Vue.extend({
         disabled: false,
         ghostClass: 'ghost',
         scrollSensitivity: 200,
-        forceFallback: true
+        forceFallback: true,
+        fallbackTolerance: 3,
       }
     },
     dragClick() {
@@ -296,27 +229,18 @@ export default Vue.extend({
       }
     },
   },
-  watch: {
-    pilotGroups(newGroups) {
-      this.groups = newGroups
-    }
-  },
   created() {
-    this.hidden = []
     this.preventDnd = this.isTouch
-    this.pilotGroups = _.cloneDeep(this.groups)
   },
   methods: {
-    toggleHidden(g: string) {
-      const idx = this.hidden.indexOf(g)
-      if (idx === -1) this.hidden.push(g)
-      else this.hidden.splice(idx, 1)
+    toggleHidden(g: PilotGroup) {
+      g.hidden = !g.hidden
     },
     showAll() {
-      Vue.set(this, 'hidden', [])
+      this.groups.forEach(g => g.hidden = false)
     },
     hideAll() {
-      Vue.set(this, 'hidden', [...this.groups])
+      this.groups.forEach(g => g.hidden = true)
     },
     onSort(sortParams: any[]) {
       this.sortParams = sortParams
@@ -329,16 +253,16 @@ export default Vue.extend({
       this.newGroupName = ''
       this.newGroupMenu = false
     },
-    moved(e, g) {
-      if (e.moved && e.moved.element) {
-        const p = e.moved.element as Pilot
-        this.pilotStore.movePilot({ fromIndex: p.SortIndex, toIndex: e.moved.newIndex, g: g })
+    getPilotFromId(id: string): Pilot {
+      return this.pilots.find(p => p.ID === id)
+    },
+    movePilot(groupName, event) {
+      if (event.added) {
+        const pilotId = event.added.element
+        const p = this.getPilotFromId(pilotId)
+        p.Group = groupName
       }
-      if (e.added && e.added.element) {
-        const p = e.added.element as Pilot
-        this.pilotStore.movePilot({ fromIndex: p.SortIndex, toIndex: e.added.newIndex, g: g })
-        // if (this.tempGroups.includes(g))
-      }
+      this.pilotStore.movePilot()
     },
     deleteGroup(g) {
       this.pilotStore.deleteGroup(g)
