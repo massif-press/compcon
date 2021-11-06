@@ -37,7 +37,7 @@
           </div>
           <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" />
           <v-fade-transition>
-            <v-overlay v-if="hover && !small" absolute color="grey darken-3" opacity="0.8">
+            <v-overlay v-if="hover && !small" absolute color="grey darken-3" opacity="0.8" style="pointer-events: none">
               <v-card flat tile class="flavor-text" light>
                 <v-card-text>
                   {{ pilot.Name }}
