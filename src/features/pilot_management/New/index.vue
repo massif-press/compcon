@@ -69,7 +69,7 @@
           <mech-skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="5">
-          <confirm-page :pilot="pilot" @next="step++" @back="step--" @done="onDone" />
+          <confirm-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" @done="onDone" />
         </v-stepper-content>
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="6">
           <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />
