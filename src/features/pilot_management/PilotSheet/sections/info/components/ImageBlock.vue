@@ -25,6 +25,6 @@ import activePilot from '@/features/pilot_management/mixins/activePilot'
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
-  name: 'history-block',
+  name: 'image-block',
 })
 </script>
