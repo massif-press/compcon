@@ -155,7 +155,9 @@ export default Vue.extend({
   position: absolute;
   top: -5px;
   left: 1px;
+  width: 100%;
   width: -webkit-fill-available;
+  width: -moz-available;
   text-align: center;
 }
 

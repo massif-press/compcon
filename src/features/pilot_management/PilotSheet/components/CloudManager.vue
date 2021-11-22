@@ -8,7 +8,7 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  name: 'ident-block',
+  name: 'cloud-manager',
   props: {
     pilot: {
       type: Object,
