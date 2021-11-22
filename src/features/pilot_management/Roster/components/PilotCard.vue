@@ -8,7 +8,7 @@
           :min-width="minWidth"
           tile
           flat
-          @click="$router.push(`pilot/${pilot.ID}`)"
+          @click="!dragging ? toPilotSheet() : null"
         >
           <div
             v-show="!(small && mobile)"
@@ -37,7 +37,7 @@
           </div>
           <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" />
           <v-fade-transition>
-            <v-overlay v-if="hover && !small" absolute color="grey darken-3" opacity="0.8">
+            <v-overlay v-if="hover && !small" absolute color="grey darken-3" opacity="0.8" style="pointer-events: none">
               <v-card flat tile class="flavor-text" light>
                 <v-card-text>
                   {{ pilot.Name }}
@@ -102,6 +102,9 @@ export default Vue.extend({
     small: {
       type: Boolean,
     },
+    dragging: {
+      type: Boolean,
+    },
   },
   computed: {
     mobile() {
@@ -114,6 +117,11 @@ export default Vue.extend({
       return this.small ? '10vw' : '20vw'
     },
   },
+  methods: {
+    toPilotSheet() {
+      this.$router.push(`pilot/${this.pilot.ID}`)
+    },
+  }
 })
 </script>
 
