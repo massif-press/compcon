@@ -1086,6 +1086,10 @@ class Pilot implements ICloudSyncable {
     }
   }
 
+  public get CombatHistory(): ICombatStats {
+    return this._combat_history
+  }
+
   public Kill(): void {
     this._status = 'KIA'
     this.IsDead = true
@@ -1210,7 +1214,7 @@ class Pilot implements ICloudSyncable {
       counter_data: p.CounterSaveData,
       custom_counters: p.CustomCounterData,
       special_equipment: this.serializeSE(p._special_equipment),
-      combat_history: p.State.Stats,
+      combat_history: p._combat_history,
       state: ActiveState.Serialize(p.State),
       brews: p._brews || [],
     }
