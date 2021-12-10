@@ -1,4 +1,18 @@
 # COMP/CON Changelog
+## [2.2.35] (2021-12-10)
+
+Thanks to msprijatelj for these updates!
+
+### Features
+* **Pilot Sheet** add basic pilot stats to Dossier [#1765](https://github.com/massif-press/compcon/issues/1765)
+
+### Bug Fixes
+
+* **Pilot Sheet** fix number spacing over icons in Print mode [#1768](https://github.com/massif-press/compcon/issues/1768)
+* **Pilot Sheet** block pilot registration when quickstart is off [#1762](https://github.com/massif-press/compcon/issues/1762)
+* **Pilot Sheet** Refactor Pilot groups for performance & roster improvements [#1713](https://github.com/massif-press/compcon/issues/1713)[#1709](https://github.com/massif-press/compcon/issues/1709)[#1611](https://github.com/massif-press/compcon/issues/1611)
+
+
 ## [2.2.34] (2021-11-04)
 
 ### Features
