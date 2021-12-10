@@ -264,7 +264,9 @@ export default Vue.extend({
   position: absolute;
   top: -2px;
   left: 1px;
+  width: 100%;
   width: -webkit-fill-available;
+  width: -moz-available;
   text-align: center;
 }
 
