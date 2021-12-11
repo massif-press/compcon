@@ -1,5 +1,5 @@
 <template>
-  <div id="pc-wrapper" class="my-1" @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null">
+  <div id="pc-wrapper" class="my-1" @click="selectable ? $emit('select', pilot) : toPilotSheet()">
     <v-card
       tile
       color="primary"
@@ -95,9 +95,6 @@ export default Vue.extend({
       required: true,
     },
     selectable: {
-      type: Boolean,
-    },
-    dragging: {
       type: Boolean,
     },
   },
