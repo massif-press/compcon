@@ -326,6 +326,9 @@ const AwsImport = async (code: string): Promise<any> => {
   const userID = 'us-east-1:' + arr[0]
   const resource = 'pilot/' + arr[1]
 
+  const ccid = await currentCognitoIdentity()
+  if (userID === ccid) throw new Error('Entity belongs to current account.')
+
   const url = await Storage.get(resource, {
     level: 'protected',
     identityId: userID,
@@ -333,7 +336,10 @@ const AwsImport = async (code: string): Promise<any> => {
 
   if (typeof url === 'object') throw new Error('Unsupported S3 return type')
 
-  return fetch(url).then(res => res.json())
+  return fetch(url).then(res => {
+    if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+    return res.json()
+  })
 }
 
 export { GetSync, ContentPull, CloudPull, CloudPush, AwsImport, UploadLcps }

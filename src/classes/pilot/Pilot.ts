@@ -409,7 +409,7 @@ class Pilot implements ICloudSyncable {
     this.CloudID = itemCloudId
     this.CloudOwnerID = userCognitoId
     this.IsLocallyOwned = false
-    this.RenewID()
+    // this.RenewID()
   }
 
   public SetOwnedResource(userCognitoId: string): void {
