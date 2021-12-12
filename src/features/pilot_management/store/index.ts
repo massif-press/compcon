@@ -11,7 +11,7 @@ async function savePilots(pilots: Pilot[]) {
 }
 
 async function savePilotGroups(pilotGroups: PilotGroup[]) {
-  await saveData('pilot_groups.json', pilotGroups)
+  await saveData('pilot_groups_v2.json', pilotGroups)
 }
 
 export interface PilotGroup {
@@ -83,10 +83,11 @@ export class PilotManagementStore extends VuexModule {
     const allPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
     const groupDataEmpty = payload.groupData.length === 0
-    const ungroupedOnly = payload.groupData.length === 1 && payload.groupData[0].name === ""
-    const ungroupedEmpty = payload.groupData.find(g => g.name === "")?.pilotIDs.length === 0
+    const ungroupedOnlyEmpty = payload.groupData.length === 1 && 
+                               payload.groupData[0].name === "" && 
+                               payload.groupData[0].pilotIDs.length === 0
 
-    if (groupDataEmpty || (ungroupedOnly && ungroupedEmpty)) {
+    if (groupDataEmpty || ungroupedOnlyEmpty) {
       console.info("Recreating groups")
       this.PilotGroups = createPilotGroups(this.Pilots)
     } else {
@@ -213,7 +214,7 @@ export class PilotManagementStore extends VuexModule {
   @Action({ rawError: true })
   public async loadPilots() {
     const pilotData = await loadData<IPilotData>('pilots_v2.json')
-    const pilotGroupData = await loadData<PilotGroup>('pilot_groups.json')
+    const pilotGroupData = await loadData<PilotGroup>('pilot_groups_v2.json')
     this.context.commit(LOAD_PILOTS, {'pilotData': pilotData, 'groupData': pilotGroupData})
   }
 
