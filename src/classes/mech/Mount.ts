@@ -43,7 +43,7 @@ abstract class Mount {
   }
 
   protected save(): void {
-    store.dispatch('saveData')
+    store.dispatch('setPilotsDirty')
   }
 
   protected getID(): void {
@@ -73,7 +73,7 @@ abstract class Mount {
       ) {
         return this.slots.concat(this.extra)
       } else if (
-        this.slots[0].Weapon?.Size === WeaponSize.Main && 
+        this.slots[0].Weapon?.Size === WeaponSize.Main &&
         this.extra[0].Weapon
       ) {
         this.extra[0].UnequipWeapon()

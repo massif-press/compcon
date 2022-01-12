@@ -181,7 +181,7 @@ class Pilot implements ICloudSyncable {
   public save(skip = false): void {
     if (skip) return
     if (this.IsLocallyOwned) this.IsDirty = true
-    store.dispatch('saveData')
+    store.dispatch('setPilotsDirty')
   }
 
   public SetBrewData(): void {
@@ -579,7 +579,7 @@ class Pilot implements ICloudSyncable {
     const hasMinSkills = this._skills.length >= Rules.MinimumPilotSkills
     return this.IsMissingSkills && (
       !this.has('Skill', skill.ID) || (
-        hasMinSkills && 
+        hasMinSkills &&
         this._skills.find(x => x.Skill.ID === skill.ID).Rank < Rules.MaxTriggerRank
       )
     )
