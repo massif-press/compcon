@@ -29,8 +29,8 @@
               clickable
               @click="choose(e.Name)"
             >
-              <h3 v-if="e.InLcp" class="heading mb-2" v-html-safe="e.LcpName" />
-              <p class="flavor-text" v-html-safe="e.Description" />
+              <h3 v-if="e.InLcp" v-html-safe="e.LcpName" class="heading mb-2" />
+              <p v-html-safe="e.Description" class="flavor-text" />
             </cc-titled-panel>
           </v-col>
         </v-row>

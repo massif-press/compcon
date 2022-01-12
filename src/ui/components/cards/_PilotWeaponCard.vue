@@ -8,7 +8,7 @@
       <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" />
     </v-col>
     <v-col v-if="item.InLcp" cols="auto" class="ml-auto text-right">
-        <div class="heading h3 text-text" >{{ item.LcpName }}</div>
+      <div class="heading h3 text-text">{{ item.LcpName }}</div>
     </v-col>
   </equipment-card-base>
 </template>

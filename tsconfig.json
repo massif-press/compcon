@@ -1,20 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2018",
     "module": "esnext",
-    "resolveJsonModule": true,
-    "strict": false,
+    "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "noEmit": false,
     "types": [
-      "vuetify",
-      "jest"
+      "webpack-env",
     ],
     "baseUrl": ".",
     "paths": {
@@ -27,8 +25,6 @@
     "src/**/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
     "src/main.js",
     "src/main/index.js",
     "src/main/index.dev.js",

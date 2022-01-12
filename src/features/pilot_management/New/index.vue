@@ -106,6 +106,11 @@ export default Vue.extend({
     pilot: {},
     done: false,
   }),
+  computed: {
+    quickstart() {
+      return !!getModule(UserStore, this.$store).UserProfile.GetView('quickstart')
+    },
+  },
   watch: {
     step() {
       window.scrollTo(0, 0)
@@ -113,11 +118,6 @@ export default Vue.extend({
   },
   created() {
     this.pilot = new Pilot()
-  },
-  computed: {
-    quickstart() {
-      return !!getModule(UserStore, this.$store).UserProfile.GetView('quickstart')
-    },
   },
   methods: {
     onDone() {

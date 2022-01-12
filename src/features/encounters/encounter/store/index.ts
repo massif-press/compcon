@@ -23,7 +23,7 @@ async function saveEncounterData(encounters: Encounter[]) {
 })
 export class EncounterStore extends VuexModule {
   Encounters: Encounter[] = []
-  Dirty: boolean
+  Dirty = false
 
   @Mutation
   private [LOAD_ENCOUNTERS](payload: IEncounterData[]): void {

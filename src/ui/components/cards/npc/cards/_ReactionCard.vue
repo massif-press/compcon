@@ -7,10 +7,10 @@
     @recalc="$emit('recalc')"
   >
     <span v-if="item.Feature.Trigger" class="overline">TRIGGER</span>
-    <p class="panel body-1 mb-0" v-html-safe="item.Feature.Trigger" />
+    <p v-html-safe="item.Feature.Trigger" class="panel body-1 mb-0" />
     <span class="overline">EFFECT</span>
-    <p v-if="item.Tier" class="body-1 mb-0" v-html-safe="item.Feature.EffectByTier(item.Tier)" />
-    <p v-else class="body-1 mb-0" v-html-safe="item.Feature.Effect" />
+    <p v-if="item.Tier" v-html-safe="item.Feature.EffectByTier(item.Tier)" class="body-1 mb-0" />
+    <p v-else v-html-safe="item.Feature.Effect" class="body-1 mb-0" />
     <v-col slot="extra-action" cols="auto" class="mx-2">
       <cc-tooltip simple :content="`Stage Reaction: ${item.Name}`">
         <v-btn outlined small color="action--reaction" @click="$emit('add-reaction', item.Name)">

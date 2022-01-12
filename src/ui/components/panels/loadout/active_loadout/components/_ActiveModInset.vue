@@ -39,7 +39,7 @@
             <v-icon>cci-system</v-icon>
             EQUIPMENT EFFECT
           </div>
-          <p class="text--text body-text mb-1 mr-3 ml-7" v-html-safe="mod.Effect" />
+          <p v-html-safe="mod.Effect" class="text--text body-text mb-1 mr-3 ml-7" />
         </div>
         <v-row v-if="!action" class="text-left" dense align="end">
           <v-col>

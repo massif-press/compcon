@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid  >
+  <v-container fluid>
     <v-row dense align="start">
       <v-col cols="auto" class="mr-4">
         <div class="overline mt-n2 mb-n4">CALLSIGN</div>

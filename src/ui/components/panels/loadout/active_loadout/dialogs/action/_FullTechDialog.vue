@@ -15,9 +15,9 @@
         <cc-combat-dialog
           v-for="(a, j) in quickActions[k]"
           v-show="a.IsTechAttack"
-          fulltech
           :key="`action_dialog_${j}`"
           :ref="`dialog_${a.ID}`"
+          fulltech
           :action="a"
           :mech="mech"
           @add-invade="quick.push($event)"

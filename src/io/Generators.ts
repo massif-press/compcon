@@ -8,33 +8,33 @@ function pullRandom(data: string, count: number): string[] {
 }
 
 function callsign(): string {
-  const callsigns = require('@/assets/generators/callsigns.txt').concat(
+  const callsigns = require('raw-loader!@/assets/generators/callsigns.txt').default.concat(
     store.getters.Tables?.callsigns || []
   )
   return pullRandom(callsigns, 1)[0]
 }
 
 function mechname(): string {
-  const mechnames = require('@/assets/generators/mechnames.txt').concat(
+  const mechnames = require('raw-loader!@/assets/generators/mechnames.txt').default.concat(
     store.getters.Tables?.mech_names || []
   )
   return pullRandom(mechnames, 1)[0]
 }
 
 function teamName(): string {
-  const teamnames = require('@/assets/generators/teamnames.txt').concat(
+  const teamnames = require('raw-loader!@/assets/generators/teamnames.txt').default.concat(
     store.getters.Tables?.team_names || []
   )
   return pullRandom(teamnames, 1)[0]
 }
 
 function tracert(jumps: number): string[] {
-  return pullRandom(require('@/assets/generators/traces.txt'), jumps || 1)
+  return pullRandom(require('raw-loader!@/assets/generators/traces.txt').default, jumps || 1)
 }
 
 async function name(): Promise<string> {
-  const firstNamesList = require('@/assets/generators/firstnames.txt')
-  const lastNamesList = require('@/assets/generators/lastnames.txt')
+  const firstNamesList = require('raw-loader!@/assets/generators/firstnames.txt').default
+  const lastNamesList = require('raw-loader!@/assets/generators/lastnames.txt').default
 
   const prob: any = require('@/assets/generators/name_mods.json')
   const firstnames = pullRandom(firstNamesList, 2)

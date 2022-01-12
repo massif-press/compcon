@@ -23,7 +23,7 @@ async function saveNpcData(npcs: Npc[]) {
 })
 export class NpcStore extends VuexModule {
   Npcs: Npc[] = []
-  Dirty: boolean
+  Dirty = false
 
   @Mutation
   private [LOAD_NPCS](payload: INpcData[]): void {

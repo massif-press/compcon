@@ -57,7 +57,7 @@
                 </v-toolbar>
                 <v-card-text>
                   <talent-rank-contents
-                    :talentRank="talent.Rank(n)"
+                    :talent-rank="talent.Rank(n)"
                     :unlocked="!rank || parseInt(rank) >= (selectable ? n - 1 : n)"
                   />
                 </v-card-text>
