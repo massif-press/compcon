@@ -14,7 +14,7 @@ class WeaponSlot {
   }
 
   private save(): void {
-    store.dispatch('saveData')
+    store.dispatch('setPilotsDirty')
   }
 
   public get Size(): FittingSize {
