@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/class-name-casing */
-/* eslint-disable @typescript-eslint/camelcase */
 import { IReserveData } from './classes/pilot/reserves/Reserve'
 import { ISkillData } from './classes/pilot/Skill'
 import {

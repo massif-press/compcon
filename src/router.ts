@@ -51,19 +51,18 @@ const r = new Router({
 })
 
 r.beforeEach((to, from, next) => {
-  const p = to.path
   const ns = getModule(NavStore, store)
 
-  if (p.includes('/compendium')) ns.setNavMode('compendium')
-  else if (p.includes('/pilot') || p.includes('/active') || p.includes('/new'))
+  if (to.path.includes('/compendium')) ns.setNavMode('compendium')
+  else if (to.path.includes('/pilot') || to.path.includes('/active') || to.path.includes('/new'))
     ns.setNavMode('pilot')
-  else if (p.includes('/gm')) ns.setNavMode('encounter')
+  else if (to.path.includes('/gm')) ns.setNavMode('encounter')
   else ns.setNavMode('')
 
   next()
 })
 
-r.afterEach(() => {
+r.afterEach((to, from) => {
   updateChecker.checkUpdates()
 })
 

@@ -131,8 +131,8 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    v-model="attackRoll"
                     :key="`input_${attackRoll}`"
+                    v-model="attackRoll"
                     type="number"
                     class="hide-input-spinners ml-n3"
                     style="max-width: 60px; margin-top: -0.5px"

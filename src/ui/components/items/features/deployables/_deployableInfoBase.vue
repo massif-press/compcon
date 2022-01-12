@@ -96,7 +96,7 @@
     </v-row>
     <v-row justify="center" dense>
       <v-col cols="auto">
-        <p class="light-panel mb-0 clipped body-text px-4 py-2" v-html-safe="deployable.detail" />
+        <p v-html-safe="deployable.detail" class="light-panel mb-0 clipped body-text px-4 py-2" />
       </v-col>
     </v-row>
     <div v-if="actions.length">

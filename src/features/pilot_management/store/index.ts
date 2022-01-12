@@ -74,7 +74,7 @@ export class PilotManagementStore extends VuexModule {
   public LoadedMechID = ''
   public ActivePilot: Pilot = null
   public printOptions: PrintOptions = null
-  public Dirty: boolean
+  public Dirty = false
 
   @Mutation
   private [SAVE_DATA](): void {

@@ -33,7 +33,7 @@ async function saveActiveMissionData(activeMissions: ActiveMission[]) {
 export class MissionStore extends VuexModule {
   Missions: Mission[] = []
   ActiveMissions: ActiveMission[] = []
-  Dirty: boolean
+  Dirty = false
 
   @Mutation
   private [LOAD_MISSIONS](payload: IMissionData[]): void {

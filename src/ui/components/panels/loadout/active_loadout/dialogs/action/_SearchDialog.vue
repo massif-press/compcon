@@ -140,8 +140,8 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    v-model="sysRoll"
                     :key="`input_${sysRoll}`"
+                    v-model="sysRoll"
                     type="number"
                     class="hide-input-spinners ml-n3"
                     style="max-width: 60px; margin-top: -0.5px"

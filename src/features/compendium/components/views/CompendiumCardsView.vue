@@ -57,10 +57,10 @@ export default Vue.extend({
       if (!this.items.some(x => !x.Source)) {
         const sources = _.uniq(this.items.map(x => x.Source))
         return sources.map((x: string) =>
-          {
-            const s = this.compendium.Manufacturers.find(y => y.ID === x.toUpperCase())
-            return s || x
-          }
+        {
+          const s = this.compendium.Manufacturers.find(y => y.ID === x.toUpperCase())
+          return s || x
+        }
         )
       }
       return ['']

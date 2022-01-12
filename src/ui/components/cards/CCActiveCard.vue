@@ -16,8 +16,8 @@
               $vuetify.breakpoint.smAndDown
                 ? 'body-text font-weight-bold'
                 : $vuetify.breakpoint.lgAndUp
-                ? 'heading h3'
-                : 'heading h2'
+                  ? 'heading h3'
+                  : 'heading h2'
             } white--text`
           "
         >

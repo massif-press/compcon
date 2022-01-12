@@ -22,7 +22,7 @@
           </template>
           <v-card>
             <v-card-text>
-              <p class="body-text ma-0 pa-1" v-html-safe="item.effects" />
+              <p v-html-safe="item.effects" class="body-text ma-0 pa-1" />
             </v-card-text>
           </v-card>
         </v-menu>

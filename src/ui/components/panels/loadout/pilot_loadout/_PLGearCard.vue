@@ -36,7 +36,7 @@
           `max-height: ${$vuetify.breakpoint.smAndDown ? '125' : '200'}px; overflow-y: scroll`
         "
       >
-        <p class="text--text" v-html-safe="item.Description" />
+        <p v-html-safe="item.Description" class="text--text" />
       </v-row>
       <v-row no-gutters>
         <v-col cols="auto" class="ml-auto mr-4 mt-n2">

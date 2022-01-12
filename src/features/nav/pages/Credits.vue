@@ -37,10 +37,10 @@
           <cc-title small class="mb-n4">{{ t.toUpperCase() }} TIER</cc-title>
         </v-col>
         <v-col
-          dense
           v-for="p in patrons[t]"
-          :cols="isActive(p) ? cols[i] : 3"
           :key="`tier_${t}_patron_${p.Name}`"
+          dense
+          :cols="isActive(p) ? cols[i] : 3"
         >
           <v-row align="center">
             <v-col cols="auto">

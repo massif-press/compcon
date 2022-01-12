@@ -1,0 +1,295 @@
+[{
+    "artist": "Tom Parkinson-Morgan",
+    "website": "http://www.massifpress.com",
+    "twitter": "Orbitaldropkick",
+    "images": [{
+        "name": "SSC ATLAS",
+        "img": "mf_atlas.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS BALOR",
+        "img": "mf_balor.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA BARBAROSSA",
+        "img": "mf_barbarossa.png",
+        "tag": "frame"
+      },
+      {
+        "name": "SSC BLACK WITCH",
+        "img": "mf_black_witch.png",
+        "tag": "frame"
+      },
+      {
+        "name": "IPS-N BLACKBEARD",
+        "img": "mf_blackbeard.png",
+        "tag": "frame"
+      },
+      {
+        "name": "SSC DEATH'S HEAD",
+        "img": "mf_deaths_head.png",
+        "tag": "frame"
+      },
+      {
+        "name": "IPS-N DRAKE",
+        "img": "mf_drake.png",
+        "tag": "frame"
+      },
+      {
+        "name": "SSC DUSK WING",
+        "img": "mf_dusk_wing.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA GENGHIS",
+        "img": "mf_genghis.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS GOBLIN",
+        "img": "mf_goblin.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS GORGON",
+        "img": "mf_gorgon.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS HYDRA",
+        "img": "mf_hydra.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA ISKANDER",
+        "img": "mf_iskander.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS KOBOLD",
+        "img": "mf_kobold.png",
+        "tag": "frame"
+      },
+      {
+        "name": "IPS-N LANCASTER",
+        "img": "mf_lancaaster.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS LICH",
+        "img": "mf_lich.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS MANTICORE",
+        "img": "mf_manticore.png",
+        "tag": "frame"
+      },
+      {
+        "name": "SSC METALMARK",
+        "img": "mf_metalmark.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS MINOTAUR",
+        "img": "mf_minotaur.png",
+        "tag": "frame"
+      },
+      {
+        "name": "SSC MONARCH",
+        "img": "mf_monarch.png",
+        "tag": "frame"
+      },
+      {
+        "name": "SSC MOURNING CLOAK",
+        "img": "mf_mourning_cloak.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA NAPOLEON",
+        "img": "mf_napoleon.png",
+        "tag": "frame"
+      },
+      {
+        "name": "IPS-N NELSON",
+        "img": "mf_nelson.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HORUS PEGASUS",
+        "img": "mf_pegasus.png",
+        "tag": "frame"
+      },
+      {
+        "name": "IPS-N RALEIGH",
+        "img": "mf_raleigh.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA SALADIN",
+        "img": "mf_saladin.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA SHERMAN MK.II",
+        "img": "mf_sherman.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA SHERMAN MK.I",
+        "img": "alt_sherman_old.png",
+        "tag": "frame"
+      },
+      {
+        "name": "SSC SWALLOWTAIL",
+        "img": "mf_swallowtail.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA SUNZI",
+        "img": "mf_sunzi.png",
+        "tag": "frame"
+      },
+      {
+        "name": "HA TOKUGAWA",
+        "img": "mf_tokugawa.png",
+        "tag": "frame"
+      },
+      {
+        "name": "IPS-N TORTUGA",
+        "img": "mf_tortuga.png",
+        "tag": "frame"
+      },
+      {
+        "name": "IPS-N VLAD",
+        "img": "mf_vlad.png",
+        "tag": "frame"
+      },
+      {
+        "name": "IPS-N ZHENG",
+        "img": "mf_zheng.png",
+        "tag": "frame"
+      }
+    ]
+  },
+  {
+    "artist": "Retrograde Minis",
+    "logo": "retrograde_logo.png",
+    "website": "https://www.retrogrademinis.com",
+    "twitter": "MinisRetrograde",
+    "images": [{
+        "name": "GMS EVEREST (Assault Pattern)",
+        "img": "pre_assault_pixel.png",
+        "tag": "frame"
+      },
+      {
+        "name": "GMS EVEREST (Sniper Pattern)",
+        "img": "pre_sniper_pixel.png",
+        "tag": "frame"
+      },
+      {
+        "name": "GMS EVEREST (Vanguard Pattern)",
+        "img": "pre_vanguard_pixel.png",
+        "tag": "frame"
+      },
+      {
+        "name": "GMS EVEREST (Hacker Pattern)",
+        "img": "pre_hacker_pixel.png",
+        "tag": "frame"
+      },
+      {
+        "name": "GMS EVEREST (Support Pattern)",
+        "img": "pre_support_pixel.png",
+        "tag": "frame"
+      }
+    ]
+  },
+  {
+    "artist": "Tan Juan Gee",
+    "twitter": "juangeedraws",
+    "images": [{
+        "name": "H0rTUGA",
+        "img": "alt_hortuga.png",
+        "tag": "mech"
+      },
+      {
+        "name": "IPS-N VLAD (Agonist Pattern)",
+        "img": "alt_agonist.png",
+        "tag": "mech"
+      },
+      {
+        "name": "SSC DEATH'S HEAD (Hercules Pattern)",
+        "img": "alt_hercules.png",
+        "tag": "mech"
+      }
+    ]
+  },
+  {
+    "artist": "WampyreKeli",
+    "twitter": "WampyreKeli",
+    "website": "https://www.wampyrekeli.com/",
+    "images": [{
+        "name": "Thunderhead",
+        "img": "thunderhead.png",
+        "tag": "mech"
+      },
+      {
+        "name": "Criminal",
+        "img": "wampire_1.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Hacker",
+        "img": "wampire_2.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Mechanic",
+        "img": "wampire_3.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Mercenary α",
+        "img": "wampire_4.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Mercenary β",
+        "img": "wampire_5.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "NHP Specialist",
+        "img": "wampire_6.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Outlaw",
+        "img": "wampire_7.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Priest",
+        "img": "wampire_8.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Spaceborn",
+        "img": "wampire_9.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Spec Ops",
+        "img": "wampire_10.png",
+        "tag": "pilot"
+      },
+      {
+        "name": "Supersoldier",
+        "img": "wampire_11.png",
+        "tag": "pilot"
+      }
+    ]
+  }
+]

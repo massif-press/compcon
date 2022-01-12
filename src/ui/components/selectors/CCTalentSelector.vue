@@ -97,8 +97,8 @@
       <v-row id="talent-list" dense justify="center">
         <cc-talent
           v-for="(t, i) in talents"
-          :key="`t_${i}`"
           :id="`e_${t.ID}`"
+          :key="`t_${i}`"
           :talent="t"
           :rank="pilot.getTalentRank(t.ID)"
           :terse="ctype === 'terse'"
@@ -156,6 +156,11 @@ export default Vue.extend({
       return talents
     },
   },
+  watch: {
+    selectionComplete(bool) {
+      if (bool) window.scrollTo(0, document.body.scrollHeight)
+    },
+  },
   methods: {
     canAdd(id) {
       if (this.newPilot) {
@@ -177,11 +182,6 @@ export default Vue.extend({
           offset: 25,
           container: '.v-dialog--active',
         })
-    },
-  },
-  watch: {
-    selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight)
     },
   },
 })
