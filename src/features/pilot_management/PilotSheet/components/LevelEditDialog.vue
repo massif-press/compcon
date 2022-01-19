@@ -20,35 +20,33 @@
         <v-col cols="auto">
           <span class="overline">Current Level:</span>
           <br />
-          <v-text-field
-            v-model="pilot.Level"
-            readonly
-            type="number"
-            hide-details
-            dense
-            outlined
-            background-color="panel"
+          <span
+            style="display:inline-block"
             class="level-input"
-          />
+          >
+            {{ pilot.Level }}
+          </span>
         </v-col>
 
         <v-col cols="auto" class="mx-3">
+          <span class="overline"></span>
+          <br />
           <v-icon x-large>arrow_forward</v-icon>
         </v-col>
 
         <v-col cols="auto">
           <span class="overline">New Level:</span>
           <br />
-          <v-text-field
+          <v-select
             v-model="newLevel"
+            :items="levels"
             type="number"
-            maxlength="2"
             hide-details
+            hide-spin-buttons
             dense
             outlined
             background-color="panel"
             class="level-input"
-            @change="checkNewLevel()"
           />
         </v-col>
       </v-row>
@@ -85,6 +83,7 @@ export default Vue.extend({
   data: () => ({
     alert: true,
     newLevel: 0,
+    levels: Array.from(Array(Rules.MaxPilotLevel + 1).keys())
   }),
   methods: {
     show() {
@@ -95,16 +94,8 @@ export default Vue.extend({
     hide() {
       this.$refs.dialog.hide()
     },
-    checkNewLevel() {
-      if (this.newLevel.length > 2) this.newLevel = this.newLevel.substring(0, 2)
-      const lvl = parseInt(this.newLevel) || 0
-      if (lvl < 0) this.newLevel = 0
-      if (lvl > Rules.MaxPilotLevel) this.newLevel = Rules.MaxPilotLevel
-    },
     setLevel() {
-      let lvl = parseInt(this.newLevel) || 0
-      if (lvl > Rules.MaxPilotLevel) lvl = Rules.MaxPilotLevel
-      this.pilot.Level = lvl
+      this.pilot.Level = parseInt(this.newLevel) || 0
       this.$store.dispatch('cloudSync', { callback: null, condition: 'pilotLevel' })
       this.hide()
     },
@@ -115,15 +106,20 @@ export default Vue.extend({
 <style>
 .level-input {
   font-size: 55px;
-  width: 90px !important;
+  width: 120px !important;
   height: 65px !important;
+  line-height: 65px !important;
 }
 
-.level-input input {
+.level-input .v-select__selection {
   font-size: 55px;
   width: 90px !important;
   height: 65px !important;
-  max-height: 65px !important;
+  line-height: 65px !important;
+}
+
+.level-input input {
+  display: none;
 }
 
 .level-input .v-input__control,
@@ -133,9 +129,9 @@ export default Vue.extend({
   text-align: center !important;
 }
 
-.level-input input::-webkit-outer-spin-button,
-.level-input input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.level-input .v-input__append-inner {
+  align-self: center !important;
+  margin: 0 !important;
 }
+
 </style>
