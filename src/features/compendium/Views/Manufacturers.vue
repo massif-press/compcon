@@ -42,7 +42,7 @@
               />
               <img
                 v-else
-                :src="`img/logo//${m.Logo}.svg`"
+                :src="`/static/img/logo/${m.Logo}.svg`"
                 :style="`width:22vw; height:22vw; filter: invert(${$vuetify.theme.dark ? 1 : 0});`"
               />
             </div>

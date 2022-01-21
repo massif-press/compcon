@@ -78,7 +78,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getImagePath, ImageTag, getAllImageData } from '@/io/ImageManagement'
-import map from '@/assets/img/artistmap.json'
+import map from '@/assets/artistmap.json'
 import path from 'path'
 
 export default Vue.extend({
