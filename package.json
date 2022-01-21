@@ -6,9 +6,7 @@
   "author": "Massif Press",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "lint:quiet": "eslint --quiet \"{src}/**/*.{js,vue}\""
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "@aws-amplify/datastore": "^2.9.3",
@@ -18,9 +16,6 @@
     "aws-amplify-vue": "^2.1.4",
     "axios": "^0.19.0",
     "core-js": "^3.6.5",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^6.2.2",
-    "eslint-plugin-vuetify": "^1.1.0",
     "jszip": "^3.7.1",
     "lancer-data": "^3.0.40",
     "lodash": "^4.17.21",
@@ -45,17 +40,11 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.175",
-    "@typescript-eslint/eslint-plugin": "^4.18.0",
-    "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/eslint-config-typescript": "^7.0.0",
-    "eslint": "6.7.2",
     "prettier": "^2.2.1",
     "sass": "~1.32.0",
     "source-map-support": "^0.5.10",
