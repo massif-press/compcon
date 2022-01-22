@@ -17,7 +17,7 @@
     "axios": "^0.19.0",
     "core-js": "^3.6.5",
     "jszip": "^3.7.1",
-    "lancer-data": "^3.0.40",
+    "lancer-data": "^3.0.42",
     "lodash": "^4.17.21",
     "material-icons": "^0.3.1",
     "promisify-file-reader": "^4.1.0",
