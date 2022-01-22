@@ -7458,10 +7458,10 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
 
-lancer-data@^3.0.40:
-  version "3.0.41"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.41.tgz#2a3d1d81219c9ebe812ea577f744ac4927f04f85"
-  integrity sha512-McwUhPgSOGrD6kmauA4uUGQxeTQMB1l8TIE1JYwc9YG+14VU62/Or4XiCknf2Rgb/qA8uMrVB4NW+TLfsxXKgA==
+lancer-data@^3.0.42:
+  version "3.0.42"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.42.tgz#4721c4fb99d23977d7e8a5816d875e37f5625ea5"
+  integrity sha512-ARii7p8oJxWETA7lOnOs4ya9XMa5gl4uhmrWkZ2aksk1GooyubCpb1QejhpLCVPngfIpapXR2kwD1zYhc83e+Q==
 
 launch-editor-middleware@^2.2.1:
   version "2.3.0"
