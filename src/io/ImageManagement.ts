@@ -1,5 +1,5 @@
 import path from 'path'
-import artistmap from '../../static/img/artistmap.json'
+import artistmap from './assets/artistmap.json'
 
 // const webImageTypes = ['.jpeg', '.jpg', '.png', '.gif', '.svg', '.bmp']
 

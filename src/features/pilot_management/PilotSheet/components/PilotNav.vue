@@ -121,8 +121,8 @@ export default Vue.extend({
       return this.pilot.Mechs.some(x => x.ID === store.LoadedMechID)
         ? store.LoadedMechID
         : this.pilot.ActiveMech
-        ? this.pilot.ActiveMech.ID
-        : null
+          ? this.pilot.ActiveMech.ID
+          : null
     },
   },
   methods: {

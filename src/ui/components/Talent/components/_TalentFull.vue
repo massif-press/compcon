@@ -22,7 +22,7 @@
       </v-row>
     </v-toolbar>
     <v-card-text v-show="showFull" class="mb-0 pb-0">
-      <div class="flavor-text" v-html-safe="talent.Description" />
+      <div v-html-safe="talent.Description" class="flavor-text" />
     </v-card-text>
     <v-card-text>
       <v-row
@@ -71,7 +71,7 @@
             </v-col>
           </v-row>
           <talent-rank-contents
-            :talentRank="talent.Rank(n)"
+            :talent-rank="talent.Rank(n)"
             :unlocked="!rank || parseInt(rank) >= (selectable ? n - 1 : n)"
           />
         </v-col>
@@ -97,6 +97,13 @@ import TalentRankContents from './_TalentRankContents.vue'
 export default Vue.extend({
   name: 'talent-full',
   components: { TalentEmblem, TalentRankContents },
+  props: {
+    hideLocked: { type: Boolean },
+    talent: { type: Object, required: true },
+    selectable: { type: Boolean },
+    canAdd: { type: Boolean },
+    rank: { type: [Number, String], required: false, default: null },
+  },
   data: () => ({
     showAll: false,
   }),
@@ -105,13 +112,6 @@ export default Vue.extend({
       if (this.hideLocked) return this.showAll
       return true
     },
-  },
-  props: {
-    hideLocked: { type: Boolean },
-    talent: { type: Object, required: true },
-    selectable: { type: Boolean },
-    canAdd: { type: Boolean },
-    rank: { type: [Number, String], required: false, default: null },
   },
 })
 </script>

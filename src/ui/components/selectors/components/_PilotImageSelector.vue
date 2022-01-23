@@ -28,7 +28,7 @@
             target="_blank"
             :href="`${artist.website}`"
             class="ml-3"
-            style="text-decoration: none;"
+            style="text-decoration: none"
           >
             <v-icon color="primary">mdi-web</v-icon>
             <span>Website</span>
@@ -40,7 +40,7 @@
             target="_blank"
             :href="`https://twitter.com/${artist.twitter}`"
             class="ml-3"
-            style="text-decoration: none;"
+            style="text-decoration: none"
           >
             <v-icon color="primary">mdi-twitter</v-icon>
             <span>@{{ artist.twitter }}</span>
@@ -57,7 +57,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getImagePath, ImageTag, getAllImageData } from '@/io/ImageManagement'
-import map from '../../../../../static/img/artistmap.json'
+import map from '@/assets/artistmap.json'
 import path from 'path'
 
 export default Vue.extend({

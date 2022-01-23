@@ -2,20 +2,20 @@
   <cc-titled-panel :title="bonus.Name" dense>
     <p
       v-if="bonus.InLcp"
-      class="stat--text heading h3"
       v-html-safe="bonus.LcpName"
+      class="stat--text heading h3"
     />
     <p
       v-show="$vuetify.breakpoint.mdAndUp"
-      class="flavor-text pb-0 mb-2 mt-0"
       v-html-safe="bonus.Description"
+      class="flavor-text pb-0 mb-2 mt-0"
     />
     <p
       v-if="$vuetify.breakpoint.mdAndUp"
-      class="effect-text pa-2 mx-2 mb-2 light-panel clipped"
       v-html-safe="bonus.Effect"
+      class="effect-text pa-2 mx-2 mb-2 light-panel clipped"
     />
-    <div v-else class="body-text mt-n1 pb-1" v-html-safe="bonus.Effect" />
+    <div v-else v-html-safe="bonus.Effect" class="body-text mt-n1 pb-1" />
     <div v-if="bonus.Actions.length">
       <div class="overline ml-n2 mb-n2 subtle--text">CORE BONUS ACTIONS</div>
       <v-row no-gutters justify="center">

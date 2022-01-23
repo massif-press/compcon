@@ -7,7 +7,7 @@
           <cc-slashes />
           <span class="text--text">{{ s.Origin }}</span>
         </div>
-        <div class="body-text text--text" v-html-safe="s.Detail" />
+        <div v-html-safe="s.Detail" class="body-text text--text" />
       </v-alert>
     </v-col>
   </v-row>

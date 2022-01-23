@@ -6,12 +6,14 @@ import { loadData, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 export const SAVE_DATA = 'SAVE_DATA'
+export const SET_DIRTY = 'SET_DIRTY'
 export const ADD_NPC = 'ADD_NPC'
 export const DELETE_NPC = 'DELETE_NPC'
 export const CLONE_NPC = 'CLONE_NPC'
 export const LOAD_NPCS = 'LOAD_NPCS'
 
 async function saveNpcData(npcs: Npc[]) {
+  console.log('saving npcs')
   const serialized = npcs.map(x => Npc.Serialize(x))
   await saveData('npcs_v2.json', serialized)
 }
@@ -21,6 +23,7 @@ async function saveNpcData(npcs: Npc[]) {
 })
 export class NpcStore extends VuexModule {
   Npcs: Npc[] = []
+  Dirty = false
 
   @Mutation
   private [LOAD_NPCS](payload: INpcData[]): void {
@@ -32,14 +35,22 @@ export class NpcStore extends VuexModule {
   }
 
   @Mutation
+  private [SET_DIRTY](): void {
+    if (this.Npcs.length) this.Dirty = true
+  }
+
+  @Mutation
   private [SAVE_DATA](): void {
-    if (this.Npcs.length) _.debounce(saveNpcData, 1000)(this.Npcs)
+    if (this.Dirty) {
+      saveNpcData(this.Npcs)
+      this.Dirty = false
+    }
   }
 
   @Mutation
   private [ADD_NPC](payload: Npc): void {
     this.Npcs.push(payload)
-    saveNpcData(this.Npcs)
+    this.Dirty = true
   }
 
   @Mutation
@@ -49,7 +60,7 @@ export class NpcStore extends VuexModule {
     newNpc.RenewID()
     newNpc.Name += ' (COPY)'
     this.Npcs.push(newNpc)
-    saveNpcData(this.Npcs)
+    this.Dirty = true
   }
 
   @Mutation
@@ -60,7 +71,7 @@ export class NpcStore extends VuexModule {
     } else {
       throw console.error('NPC not loaded!')
     }
-    saveNpcData(this.Npcs)
+    this.Dirty = true
   }
 
   get getNpcs(): Npc[] {
@@ -71,6 +82,11 @@ export class NpcStore extends VuexModule {
     return (id: string) => {
       return this.Npcs.find(x => x.ID === id)
     }
+  }
+
+  @Action
+  public setNpcsDirty(): void {
+    this.context.commit(SET_DIRTY)
   }
 
   @Action

@@ -80,13 +80,13 @@
         </v-row>
       </v-tab-item>
       <v-tab-item>
-        <custom-reserve-panel @add="add($event)" class="mt-2"/>
+        <custom-reserve-panel class="mt-2" @add="add($event)" />
       </v-tab-item>
       <v-tab-item>
-        <downtime-project-panel @add="add($event)" class="mt-2"/>
+        <downtime-project-panel class="mt-2" @add="add($event)" />
       </v-tab-item>
       <v-tab-item>
-        <organization-panel @add="addOrg($event)" class="mt-2"/>
+        <organization-panel class="mt-2" @add="addOrg($event)" />
       </v-tab-item>
     </v-tabs>
   </div>

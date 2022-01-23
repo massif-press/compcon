@@ -471,7 +471,7 @@
               :header="bonus.Name"
               :style="$vuetify.breakpoint.smAndDown ? '' : 'min-width: 400px'"
             >
-              <p class="pa-1 ma-0" v-html-safe="bonus.Effect" />
+              <p v-html-safe="bonus.Effect" class="pa-1 ma-0" />
             </cc-active-card>
           </v-row>
         </v-scroll-y-reverse-transition>

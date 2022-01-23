@@ -9,14 +9,14 @@
         </span>
       </div>
       <div class="ml-3">
-        <div v-if="a.Init" class="caption" v-html-safe="a.Init" />
+        <div v-if="a.Init" v-html-safe="a.Init" class="caption" />
         <div v-if="a.Trigger">
           <div class=" overline my-n2">Trigger</div>
-          <div class="caption " v-html-safe="a.Trigger" />
+          <div v-html-safe="a.Trigger" class="caption " />
         </div>
         <div v-if="a.Detail">
           <div class="overline my-n2">Effect</div>
-          <div class="caption " v-html-safe="a.Detail" />
+          <div v-html-safe="a.Detail" class="caption " />
         </div>
       </div>
     </div>

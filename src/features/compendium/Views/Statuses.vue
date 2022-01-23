@@ -32,7 +32,7 @@
               cci-{{ e.type.toLowerCase() }}-{{ e.icon.toLowerCase() }}
             </v-icon>
           </v-col>
-          <v-col><p class="mb-0 stark--text body-text" v-html-safe="e.effects" /></v-col>
+          <v-col><p v-html-safe="e.effects" class="mb-0 stark--text body-text" /></v-col>
         </v-row>
       </cc-titled-panel>
     </v-container>

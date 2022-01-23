@@ -9,7 +9,7 @@
       @click="$refs.dialog.show()"
     >
       <v-card-text class="text-left py-1">
-        <p class="body-text mb-1 pa-2" v-html-safe="action.Terse" />
+        <p v-html-safe="action.Terse" class="body-text mb-1 pa-2" />
       </v-card-text>
     </cc-titled-panel>
     <cc-solo-dialog
@@ -21,7 +21,7 @@
       width="80vw"
     >
       <v-container>
-        <p class="body-text text--text mb-1 mt-2" v-html-safe="action.Detail" />
+        <p v-html-safe="action.Detail" class="body-text text--text mb-1 mt-2" />
         <div class="overline subtle--text">OPTIONS</div>
         <v-row no-gutters justify="center">
           <v-col

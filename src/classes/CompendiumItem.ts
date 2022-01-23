@@ -92,7 +92,7 @@ abstract class CompendiumItem {
   }
 
   protected save(): void {
-    store.dispatch('saveData')
+    store.dispatch('setPilotsDirty')
   }
 
   public get Name(): string {

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1  class="heading ml-5">ACTION ECONOMY</h1>
+    <h1 class="heading ml-5">ACTION ECONOMY</h1>
     <v-container>
-      <h2  class="heading mech">Per Turn</h2>
+      <h2 class="heading mech">Per Turn</h2>
       <v-card color="panel" elevation-10>
         <v-card-text>
           <v-row justify="center" dense>
