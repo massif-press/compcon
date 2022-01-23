@@ -1,4 +1,11 @@
 # COMP/CON Changelog
+
+## [2.2.36] (2021-12-10)
+
+### Features
+* **Global** Performance-centric overhaul of some of COMP/CON's internals. Should be a much lighter (and faster!) app now
+* **Pilot Sheet** Prevented setting negative LLs (thanks msprijatelj!) [#1826](https://github.com/massif-press/compcon/issues/1826)
+
 ## [2.2.35] (2021-12-10)
 
 Thanks to msprijatelj for these updates!
