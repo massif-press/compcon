@@ -243,7 +243,7 @@
         </v-row>
         <v-row justify="center" dense>
           <v-col cols="auto">
-            <p class="light-panel mb-0 clipped body-text px-4" v-html-safe="deployable.Detail" />
+            <p v-html-safe="deployable.Detail" class="light-panel mb-0 clipped body-text px-4" />
           </v-col>
         </v-row>
         <v-row dense justify="center">

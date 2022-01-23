@@ -11,7 +11,6 @@
   </a>
   <br>
   <a href="https://app.netlify.com/sites/compcon/deploys"><img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status"></a>
-  <a href="https://travis-ci.com/massif-press/compcon"><img src="https://travis-ci.com/massif-press/compcon.svg?branch=dev" alt="Build Status"></a>
   <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
   <a href="https://discord.gg/rwcpzsU"><img src="https://img.shields.io/badge/discord-%23compcon-7289DA?logo=discord&logoColor=white" alt="Join the LANCER discord"></a>
   <br>
@@ -40,7 +39,7 @@ COMP/CON is built with [Vue.js](https://vuejs.org/).
 # Install dependencies
   yarn
 # Run in dev mode in the browser, with hot reloading
-  yarn dev
+  yarn serve
 # Build
   yarn build
 ```

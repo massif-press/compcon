@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 interface ICounterData {
   id: string
   name: string

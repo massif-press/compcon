@@ -41,14 +41,6 @@ export default Vue.extend({
   data: () => ({
     expand: '',
   }),
-  watch: {
-    small() {
-      this.expand = ''
-    },
-    terse() {
-      this.expand = ''
-    },
-  },
   computed: {
     type() {
       if (this.expand === 'full') return TalentFull
@@ -57,6 +49,14 @@ export default Vue.extend({
       if (this.small) return TalentSmall
       if (this.terse) return TalentTerse
       return TalentFull
+    },
+  },
+  watch: {
+    small() {
+      this.expand = ''
+    },
+    terse() {
+      this.expand = ''
     },
   },
 })

@@ -1,18 +1,8 @@
-[build]
-  publish = "dist"
-  command = "webpack --env.platform=web --env.prod --max_old_space_size=4096"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
 [[headers]]
-  for = "/sw.js"
-  
+  for = "/*"
   [headers.values]
-    cache-control = '''
-    max-age=0,
-    no-cache,
-    no-store,
-    must-revalidate'''
+	cache-control = '''
+	max-age=0,
+	no-cache,
+	no-store,
+	must-revalidate'''

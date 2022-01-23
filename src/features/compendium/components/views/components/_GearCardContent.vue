@@ -40,15 +40,15 @@
       </v-row>
       <p
         v-if="item.Description"
+        v-html-safe="item.Description"
         class="card-effect pa-2 mb-1"
         style="font-size: 15px"
-        v-html-safe="item.Description"
       />
       <p
         v-if="item.Detail"
+        v-html-safe="item.Detail"
         class="card-effect pa-2 mb-1"
         style="font-size: 15px"
-        v-html-safe="item.Detail"
       />
       <div>
         <v-row

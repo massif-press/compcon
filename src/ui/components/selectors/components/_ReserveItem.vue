@@ -25,7 +25,7 @@
         </cc-tooltip>
       </v-col>
       <v-col class="pl-0 ml-2">
-        <p class="flavor-text text--text" v-html-safe="reserve.Description" />
+        <p v-html-safe="reserve.Description" class="flavor-text text--text" />
       </v-col>
     </v-row>
   </cc-titled-panel>

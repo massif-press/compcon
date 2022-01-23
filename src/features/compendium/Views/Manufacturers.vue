@@ -20,11 +20,12 @@
             :class="`heading ${$vuetify.breakpoint.lgAndUp ? 'mech pb-3' : 'h2'}`"
             :style="`color: ${m.Color}; word-break: break-word!important`"
           >
-            <span style="overflow-wrap: normal!important;">
+            <span style="overflow-wrap: normal !important">
               {{ m.Name }}
             </span>
           </v-card-title>
           <v-card-text class="mt-1 pr-4 pt-0">
+            <!-- <img :src="`https://compcon-image-assets.s3.amazonaws.com/icons/gms.svg`" /> -->
             <div
               v-if="$vuetify.breakpoint.lgAndUp"
               style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"
@@ -36,21 +37,21 @@
                 :style="{
                   maxWidth: '22vw',
                   height: '22vw',
+                  filter: `invert(${$vuetify.theme.dark ? 1 : 0})`,
                 }"
               />
-              <svg
+              <img
                 v-else
-                :data-src="m.Logo + '#Content'"
-                :style="`width:22vw; height:22vw; fill:${m.Color}; stroke:#fff; stroke-width: 8px;`"
-              >
-              </svg>
+                :src="`/static/img/logo/${m.Logo}.svg`"
+                :style="`width:22vw; height:22vw; filter: invert(${$vuetify.theme.dark ? 1 : 0});`"
+              />
             </div>
-            <blockquote class="quote-block fluff-text text--text" v-html-safe="m.Quote" />
+            <blockquote v-html-safe="m.Quote" class="quote-block fluff-text text--text" />
             <v-divider class="ma-2" style="width: 800px" />
             <p
-              class="body-text stark-text--text mb-2"
-              style="min-height: 400px;"
               v-html-safe="m.Description"
+              class="body-text stark-text--text mb-2"
+              style="min-height: 400px"
             />
           </v-card-text>
         </v-card>
@@ -60,22 +61,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { Manufacturer } from '@/class'
-import "external-svg-loader"
+import Vue from 'vue'
 
-@Component
-export default class Manufacturers extends Vue {
-  public tabModel = 0
-
-  private compendiumStore = getModule(CompendiumStore, this.$store)
-  get manufacturers(): Manufacturer[] {
-    return this.compendiumStore.Manufacturers.filter(x => !x.IsHidden)
-  }
-}
+export default Vue.extend({
+  name: 'manufacturers',
+  data: () => ({
+    tabModel: 0,
+  }),
+  computed: {
+    manufacturers() {
+      return getModule(CompendiumStore, this.$store).Manufacturers.filter(x => !x.IsHidden)
+    },
+  },
+})
 </script>
 
 <style scoped>

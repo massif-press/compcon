@@ -39,7 +39,7 @@
       rows="2"
       class="mt-3"
     />
-    <p v-else-if="npc.Note" class="flavor-text mb-0" v-html-safe="npc.Note" />
+    <p v-else-if="npc.Note" v-html-safe="npc.Note" class="flavor-text mb-0" />
 
     <v-row dense class="text-center" align="center">
       <v-col cols="7">

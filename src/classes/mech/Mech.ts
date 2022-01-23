@@ -129,7 +129,7 @@ class Mech implements IActor {
   }
   // -- Utility -----------------------------------------------------------------------------------
   private save(): void {
-    store.dispatch('saveData')
+    store.dispatch('setPilotsDirty')
   }
 
   // -- Info --------------------------------------------------------------------------------------
@@ -468,7 +468,7 @@ class Mech implements IActor {
     if (this._missing_structure === this.MaxStructure) this.Destroy()
     this.save()
   }
-  
+
   public get MaxStructure(): number {
     return Bonus.Int(this._frame.Structure, 'structure', this)
   }

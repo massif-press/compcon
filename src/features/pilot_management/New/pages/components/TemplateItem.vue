@@ -32,11 +32,11 @@
           </v-btn>
         </v-col>
       </v-row>
-      <div class="mt-1 py-1 pl-2" v-html-safe="template.description" />
+      <div v-html-safe="template.description" class="mt-1 py-1 pl-2" />
       <div class="sidebar-box ml-2" :style="`max-height:${expanded ? '100%' : '80px;'}`">
         <div class="panel clipped py-1 px-2">
           <div class="caption accent--text mt-1"><b>TACTICS</b></div>
-          <p class="pb-1 mb-0" v-html-safe="template.tactics" />
+          <p v-html-safe="template.tactics" class="pb-1 mb-0" />
         </div>
         <div class="panel clipped py-1 px-2 my-2">
           <v-row dense>

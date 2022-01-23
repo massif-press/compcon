@@ -2,18 +2,18 @@
   <div>
     <p
       v-if="!action.Trigger"
-      class="text--text body-text mb-2"
       v-html-safe="action.Terse ? action.Terse : action.Detail"
+      class="text--text body-text mb-2"
     />
     <div v-else>
       <div v-if="action.Frequency.ToString() !== 'Unlimited'">
         <div class="overline mb-n3">Frequency</div>
-        <div class="ml-3 body-text stark--text" v-html-safe="action.Frequency.ToString()" />
+        <div v-html-safe="action.Frequency.ToString()" class="ml-3 body-text stark--text" />
       </div>
       <div class="overline mb-n3">Trigger</div>
-      <div class="ml-3 body-text stark--text" v-html-safe="action.Trigger" />
+      <div v-html-safe="action.Trigger" class="ml-3 body-text stark--text" />
       <div class="overline mb-n3">Effect</div>
-      <div class="ml-3 body-text stark--text" v-html-safe="action.Detail" />
+      <div v-html-safe="action.Detail" class="ml-3 body-text stark--text" />
     </div>
     <div
       v-if="action.Terse"
@@ -26,7 +26,7 @@
           <cc-slashes />
           <b>{{ action.Name }}</b>
         </div>
-        <p class="pb-1 mb-0" v-html-safe="action.Detail" />
+        <p v-html-safe="action.Detail" class="pb-1 mb-0" />
       </div>
       <p class="read-more">
         <v-btn
