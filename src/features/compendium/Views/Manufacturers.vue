@@ -29,8 +29,14 @@
               v-if="$vuetify.breakpoint.lgAndUp"
               style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"
             >
+              <svg
+                v-if="isSvg(m.Logo) && isValidUrl(m.Logo)"
+                :data-src="m.Logo + '#Content'"
+                :style="`width:22vw; height:22vw; fill:${m.Color}; stroke:#fff; stroke-width: 8px;`"
+              >
+              </svg>
               <img
-                v-if="m.LogoIsExternal"
+                v-else
                 :src="m.Logo"
                 :alt="m.Name"
                 :style="{
@@ -38,12 +44,6 @@
                   height: '22vw',
                 }"
               />
-              <svg
-                v-else
-                :data-src="m.Logo + '#Content'"
-                :style="`width:22vw; height:22vw; fill:${m.Color}; stroke:#fff; stroke-width: 8px;`"
-              >
-              </svg>
             </div>
             <blockquote class="quote-block fluff-text text--text" v-html-safe="m.Quote" />
             <v-divider class="ma-2" style="width: 800px" />
@@ -72,6 +72,23 @@ export default class Manufacturers extends Vue {
   public tabModel = 0
 
   private compendiumStore = getModule(CompendiumStore, this.$store)
+
+  // FIXME - Consider putting the Logo checking in Manufacturer.ts/Faction.ts
+  isSvg(logoUrl: string): boolean {
+    const filenameQuery = logoUrl.split("/").slice(-1)[0]
+    const filename = filenameQuery.split("?")[0]
+    const isSvg = filename.endsWith(".svg")
+    return isSvg
+  }
+
+  async isValidUrl(logoUrl: string): Promise<boolean> {
+    return await fetch(logoUrl).then(r => {
+      return r.ok
+    }).catch(e => {
+      return false
+    })
+  }
+
   get manufacturers(): Manufacturer[] {
     return this.compendiumStore.Manufacturers.filter(x => !x.IsHidden)
   }
