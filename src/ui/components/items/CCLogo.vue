@@ -1,6 +1,15 @@
 <template>
+  <svg
+    v-if="isSvg && corsSafe"
+    :data-src="source.Logo + '#Content'"
+    :style="
+      `width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
+        stroke ? 'stroke-width: 25px;' : ''
+      }`
+    "
+  ></svg>
   <img
-    v-if="isExternal"
+    v-else
     :src="source.Logo"
     :alt="source.Name"
     :style="{
@@ -9,15 +18,6 @@
       filter: getFilter,
     }"
   />
-  <svg
-    v-else
-    :data-src="source.Logo + '#Content'"
-    :style="
-      `width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
-        stroke ? 'stroke-width: 25px;' : ''
-      }`
-    "
-  ></svg>
 </template>
 
 <script lang="ts">
@@ -55,6 +55,9 @@ export default Vue.extend({
       default: '',
     },
   },
+  data: () => ({
+    corsSafe: false
+  }),
   computed: {
     iconSize(): string {
       return sizeMap[this.size] ? sizeMap[this.size] : sizeMap.default
@@ -65,10 +68,24 @@ export default Vue.extend({
     isExternal(): string {
       return this.source.LogoIsExternal
     },
+    isSvg(): boolean {
+      const filenameQuery = this.source.Logo.split("/").slice(-1)[0]
+      const filename = filenameQuery.split("?")[0]
+      const isSvg = filename.endsWith(".svg")
+      return isSvg
+    },
     getFilter(): string {
       if (this.$vuetify.theme.dark) return 'brightness(0) invert(1)'
       return 'brightness(0)'
     },
+  },
+  mounted: async function() {
+    try {
+      const response = await fetch(this.source.Logo)
+      this.corsSafe = response.ok
+    } catch (e) {
+      this.corsSafe = false
+    }
   },
 })
 </script>
