@@ -161,8 +161,8 @@ class NpcStats {
   }
 
   private save(): void {
-    if (this.Active) store.dispatch('saveActiveMissionData')
-    else store.dispatch('saveNpcData')
+    if (this.Active) store.dispatch('setMissionsDirty')
+    else store.dispatch('setNpcsDirty')
   }
 
   public get Stats(): INpcStats {

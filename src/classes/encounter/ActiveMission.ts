@@ -59,7 +59,7 @@ class ActiveMission implements ICloudSyncable {
   }
 
   private save(): void {
-    store.dispatch('saveActiveMissionData')
+    store.dispatch('setMissionsDirty')
   }
 
   public get ID(): string {

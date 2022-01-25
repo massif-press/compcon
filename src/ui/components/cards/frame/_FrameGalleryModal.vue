@@ -13,9 +13,9 @@
             <v-col cols="auto" class="ml-auto mr-auto">
               <v-img
                 :src="selected"
-                :style="
-                  `max-height: 1080px; image-rendering: ${isPixel ? 'pixelated' : 'crisp-edges'};`
-                "
+                :style="`max-height: 1080px; image-rendering: ${
+                  isPixel ? 'pixelated' : 'crisp-edges'
+                };`"
                 max-width="60vw"
                 min-width="30vw"
                 contain
@@ -35,7 +35,7 @@
                       target="_blank"
                       :href="`${artist.website}`"
                       class="ml-3"
-                      style="text-decoration: none;"
+                      style="text-decoration: none"
                     >
                       <v-icon color="primary">mdi-web</v-icon>
                       <span>Website</span>
@@ -47,7 +47,7 @@
                       target="_blank"
                       :href="`https://twitter.com/${artist.twitter}`"
                       class="ml-3"
-                      style="text-decoration: none;"
+                      style="text-decoration: none"
                     >
                       <v-icon color="primary">mdi-twitter</v-icon>
                       <span>@{{ artist.twitter }}</span>
@@ -68,11 +68,9 @@
                   >
                     <v-img
                       :src="frame.DefaultImage"
-                      :style="
-                        `max-height: 200px; image-rendering: ${
-                          isPixel ? 'pixelated' : 'crisp-edges'
-                        };`
-                      "
+                      :style="`max-height: 200px; image-rendering: ${
+                        isPixel ? 'pixelated' : 'crisp-edges'
+                      };`"
                       contain
                     />
                   </div>
@@ -89,11 +87,9 @@
                   >
                     <v-img
                       :src="imgPath(a.tag, a.src)"
-                      :style="
-                        `max-height: 200px; image-rendering: ${
-                          isPixel ? 'pixelated' : 'crisp-edges'
-                        };`
-                      "
+                      :style="`max-height: 200px; image-rendering: ${
+                        isPixel ? 'pixelated' : 'crisp-edges'
+                      };`"
                       contain
                     />
                   </div>
@@ -110,7 +106,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import map from '../../../../../static/img/artistmap.json'
+import map from '@/assets/artistmap.json'
 import path from 'path'
 
 export default Vue.extend({

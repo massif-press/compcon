@@ -1,7 +1,7 @@
 <template>
   <equipment-card-base :item="item">
     <v-row v-if="item.InLcp">
-      <div class="heading h3 text-text" >{{ item.LcpName }}</div>
+      <div class="heading h3 text-text">{{ item.LcpName }}</div>
     </v-row>
     <v-row>
       <v-container slot="statblock" grid-list-md class="mt-0 pt-1">

@@ -15,8 +15,8 @@
             class="clipped-large"
             :style="`
               z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: ${
-                small || mobile ? '25' : '32'
-              }px; ${
+              small || mobile ? '25' : '32'
+            }px; ${
               small && hover ? 'opacity: 1' : 'opacity: 0.6'
             }; background-color: var(--v-primary-base); transition: opacity 0.2s;`"
           >

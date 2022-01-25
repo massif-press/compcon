@@ -1,20 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2018",
     "module": "esnext",
-    "resolveJsonModule": true,
-    "strict": false,
+    "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false,
+    "noUncheckedIndexedAccess": false,
     "sourceMap": true,
-    "noEmit": false,
     "types": [
-      "vuetify",
-      "jest"
+      "webpack-env",
     ],
     "baseUrl": ".",
     "paths": {
@@ -23,21 +25,7 @@
     "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise"]
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "src/main.js",
-    "src/main/index.js",
-    "src/main/index.dev.js",
-    "src/store/modules/print.ts",
-    "src/store/modules/pilots.js",
-    "src/store/modules/index.ts",
-    "src/store/modules/datastore.ts",
-    "src/store/modules/configs.ts",
-    "src/store/modules/compendium.js"
+    "src/assets/*.ts",
   ],
   "exclude": ["node_modules"],
   "allowJs": true,

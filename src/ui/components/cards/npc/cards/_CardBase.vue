@@ -26,8 +26,8 @@
     >
       <p
         v-if="item.Description"
-        class="flavor-text px-2 light-panel stark--text mb-1"
         v-html-safe="item.Description"
+        class="flavor-text px-2 light-panel stark--text mb-1"
       />
       <slot />
       <div v-if="active">

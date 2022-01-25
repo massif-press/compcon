@@ -5,14 +5,19 @@ declare module '*.vue' {
 }
 
 declare module 'gist-client'
-
 declare module 'imgur'
-
 declare module 'vuedraggable'
+declare module 'tiptap-vuetify'
+declare module 'vue-html-secure'
 
 declare module '*.txt' {
   const content: string
   export default content
+}
+
+declare module "*.svg" {
+  const content: any;
+  export default content;
 }
 
 declare module 'lancer-data' {

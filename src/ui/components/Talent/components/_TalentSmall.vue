@@ -74,7 +74,7 @@
               </v-toolbar>
               <v-card-text style="min-height: 100%">
                 <talent-rank-contents
-                  :talentRank="talent.Rank(n)"
+                  :talent-rank="talent.Rank(n)"
                   :unlocked="!rank || parseInt(rank) >= (selectable ? n - 1 : n)"
                 />
               </v-card-text>
@@ -123,8 +123,8 @@ import Vue from 'vue'
 import TalentRankContents from './_TalentRankContents.vue'
 import TalentEmblem from './_TalentEmblem.vue'
 export default Vue.extend({
-  components: { TalentRankContents, TalentEmblem },
   name: 'talent-small',
+  components: { TalentRankContents, TalentEmblem },
   props: {
     hideLocked: { type: Boolean },
     talent: { type: Object, required: true },

@@ -298,8 +298,7 @@ export default vueMixins(activePilot).extend({
       else this.endTurn()
     },
     stageNextRound() {
-      if (this.mech.Burn) this.$refs.burnDialog.show()
-      else this.nextRound()
+      this.nextRound()
     },
     nextRound() {
       this.state.NextRound()

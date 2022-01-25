@@ -6,7 +6,7 @@ import { loadData, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 export const SAVE_DATA = 'SAVE_DATA'
-export const SAVE_ACTIVE_DATA = 'SAVE_ACTIVE_DATA'
+export const SET_DIRTY = 'SET_DIRTY'
 export const ADD_MISSION = 'ADD_MISSION'
 export const ADD_ACTIVE_MISSION = 'ADD_ACTIVE_MISSION'
 export const DELETE_MISSION = 'DELETE_MISSION'
@@ -16,11 +16,13 @@ export const LOAD_MISSIONS = 'LOAD_MISSIONS'
 export const LOAD_ACTIVE_MISSIONS = 'LOAD_ACTIVE_MISSIONS'
 
 async function saveMissionData(missions: Mission[]) {
+  console.log('saving missions')
   const serialized = missions.map(x => Mission.Serialize(x))
   await saveData('missions_v2.json', serialized)
 }
 
 async function saveActiveMissionData(activeMissions: ActiveMission[]) {
+  console.log('saving mission data')
   const serialized = activeMissions.map(x => ActiveMission.Serialize(x))
   await saveData('active_missions_v2.json', serialized)
 }
@@ -31,39 +33,42 @@ async function saveActiveMissionData(activeMissions: ActiveMission[]) {
 export class MissionStore extends VuexModule {
   Missions: Mission[] = []
   ActiveMissions: ActiveMission[] = []
+  Dirty = false
 
   @Mutation
   private [LOAD_MISSIONS](payload: IMissionData[]): void {
     this.Missions = [...payload.map(x => Mission.Deserialize(x))]
-    saveMissionData(this.Missions)
   }
 
   @Mutation
   private [LOAD_ACTIVE_MISSIONS](payload: IActiveMissionData[]): void {
     this.ActiveMissions = [...payload.map(x => ActiveMission.Deserialize(x))]
-    saveActiveMissionData(this.ActiveMissions)
+  }
+
+  @Mutation
+  private [SET_DIRTY](): void {
+    if (this.Missions.length || this.ActiveMissions.length) this.Dirty = true
   }
 
   @Mutation
   private [SAVE_DATA](): void {
-    if (this.Missions.length) _.debounce(saveMissionData, 1000)(this.Missions)
-  }
-
-  @Mutation
-  private [SAVE_ACTIVE_DATA](): void {
-    if (this.ActiveMissions.length) _.debounce(saveActiveMissionData, 1000)(this.ActiveMissions)
+    if (this.Dirty) {
+      saveMissionData(this.Missions)
+      saveActiveMissionData(this.ActiveMissions)
+      this.Dirty = false
+    }
   }
 
   @Mutation
   private [ADD_MISSION](payload: Mission): void {
     this.Missions.push(payload)
-    saveMissionData(this.Missions)
+    this.Dirty = true
   }
 
   @Mutation
   private [ADD_ACTIVE_MISSION](payload: ActiveMission): void {
     this.ActiveMissions.push(payload)
-    saveActiveMissionData(this.ActiveMissions)
+    this.Dirty = true
   }
 
   @Mutation
@@ -73,7 +78,7 @@ export class MissionStore extends VuexModule {
     newMission.RenewID()
     newMission.Name += ' (COPY)'
     this.Missions.push(newMission)
-    saveMissionData(this.Missions)
+    this.Dirty = true
   }
 
   @Mutation
@@ -84,7 +89,7 @@ export class MissionStore extends VuexModule {
     } else {
       throw console.error('MISSION not loaded!')
     }
-    saveMissionData(this.Missions)
+    this.Dirty = true
   }
 
   @Mutation
@@ -95,17 +100,17 @@ export class MissionStore extends VuexModule {
     } else {
       throw console.error('ACTIVE MISSION not loaded!')
     }
-    saveActiveMissionData(this.ActiveMissions)
+    this.Dirty = true
+  }
+
+  @Action
+  public setMissionsDirty(): void {
+    this.context.commit(SET_DIRTY)
   }
 
   @Action
   public saveMissionData(): void {
     this.context.commit(SAVE_DATA)
-  }
-
-  @Action
-  public saveActiveMissionData(): void {
-    this.context.commit(SAVE_ACTIVE_DATA)
   }
 
   @Action

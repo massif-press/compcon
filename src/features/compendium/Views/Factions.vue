@@ -1,6 +1,6 @@
 <template>
   <v-container fluid px-5>
-    <h1  class="heading">FACTIONS</h1>
+    <h1 class="heading">FACTIONS</h1>
     <v-tabs
       v-model="tabModel"
       :vertical="$vuetify.breakpoint.lgAndUp"
@@ -40,16 +40,15 @@
               />
               <svg
                 v-else
-                :data-src="f.Logo + '#Content'"
+                :data-src="f.Logo"
                 :style="`width:22vw; height:22vw; fill:${f.Color}; stroke:#fff; stroke-width: 8px;`"
-              >
-              </svg>
+              ></svg>
             </div>
             <v-divider class="ma-2" style="width: 800px" />
             <p
+              v-html-safe="f.Description"
               class="body-text stark-text--text mb-2"
               style="min-height: 400px;"
-              v-html-safe="f.Description"
             />
           </v-card-text>
         </v-card>
@@ -64,7 +63,6 @@ import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Faction } from '@/classes/Faction'
-import "external-svg-loader"
 
 @Component
 export default class Factions extends Vue {

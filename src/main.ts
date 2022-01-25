@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import '@mdi/font/css/materialdesignicons.css'
 import 'material-icons/iconfont/material-icons.css'
 import './assets/css/global.css'
@@ -75,6 +74,8 @@ mixins.forEach(m => {
   Vue.mixin(m)
 })
 
+
+
 Vue.config.errorHandler = (error, vm) => {
   console.error(error)
   Vue.prototype.$notifyError(error, vm)
@@ -84,7 +85,7 @@ window.onerror = error => {
   Vue.prototype.$notifyError(error)
 }
 
-new Vue({
+const v = new Vue({
   components: { App },
   vuetify,
   router,
@@ -94,3 +95,28 @@ new Vue({
   },
   render: h => h(App),
 }).$mount('#app')
+
+// constrain our writes to unload and nav. This will work on tab close and navigation outside the app.
+window.onbeforeunload = () => {
+  v.$store.dispatch('savePilotData')
+  v.$store.dispatch('saveNpcData')
+  v.$store.dispatch('saveMissionData')
+  v.$store.dispatch('saveEncounterData')
+}
+
+Vue.mixin({
+  beforeRouteLeave(to, from, next) {
+
+    if (from.path.includes('pilot'))
+      v.$store.dispatch('savePilotData')
+    else if (from.path.includes('npc'))
+      v.$store.dispatch('saveNpcData')
+    else if (from.path.includes('encounter'))
+      v.$store.dispatch('saveEncounterData')
+    else if (from.path.includes('mission'))
+      v.$store.dispatch('saveMissionData')
+
+    next()
+  },
+})
+

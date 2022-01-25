@@ -40,7 +40,7 @@ export class NpcItem {
   }
 
   private save(): void {
-    store.dispatch('saveNpcData')
+    store.dispatch('setNpcsDirty')
   }
 
   public get Feature(): NpcFeature {

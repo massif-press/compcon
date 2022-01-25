@@ -50,7 +50,7 @@ class Mission implements ICloudSyncable {
   }
 
   private save(): void {
-    store.dispatch('saveMissionData')
+    store.dispatch('setMissionsDirty')
   }
 
   public get ID(): string {
