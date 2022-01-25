@@ -7,7 +7,13 @@
       :width="size"
       min-height="100%"
       contain
-      :class="white ? 'white-emblem' : $vuetify.theme.dark ? 'white-emblem' : 'black-emblem'"
+      :class="
+        white
+          ? 'white-emblem'
+          : $vuetify.theme.dark
+          ? 'white-emblem'
+          : 'black-emblem'
+      "
       @error="imageLoadFailed()"
     />
     <div
@@ -47,7 +53,7 @@ export default Vue.extend({
   },
   methods: {
     imageLoadFailed() {
-      this.src = "/assets/img/talent/GENERIC TALENT.svg";
+      this.src = "/static/img/talent/GENERIC TALENT.svg";
       this.backup = this.name;
     },
   },
