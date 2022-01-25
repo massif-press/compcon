@@ -5,6 +5,7 @@ import { IEncounterData } from '@/interface'
 import { loadData, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
+export const SET_DIRTY = 'SET_DIRTY'
 export const SAVE_DATA = 'SAVE_DATA'
 export const ADD_ENCOUNTER = 'ADD_ENCOUNTER'
 export const DELETE_ENCOUNTER = 'DELETE_ENCOUNTER'
@@ -12,6 +13,7 @@ export const CLONE_ENCOUNTER = 'CLONE_ENCOUNTER'
 export const LOAD_ENCOUNTERS = 'LOAD_ENCOUNTERS'
 
 async function saveEncounterData(encounters: Encounter[]) {
+  console.log('saving encounters')
   const serialized = encounters.map(x => Encounter.Serialize(x))
   await saveData('encounters_v2.json', serialized)
 }
@@ -21,6 +23,7 @@ async function saveEncounterData(encounters: Encounter[]) {
 })
 export class EncounterStore extends VuexModule {
   Encounters: Encounter[] = []
+  Dirty = false
 
   @Mutation
   private [LOAD_ENCOUNTERS](payload: IEncounterData[]): void {
@@ -29,8 +32,16 @@ export class EncounterStore extends VuexModule {
   }
 
   @Mutation
+  private [SET_DIRTY](): void {
+    if (this.Encounters.length) this.Dirty = true
+  }
+
+  @Mutation
   private [SAVE_DATA](): void {
-    if (this.Encounters.length) _.debounce(saveEncounterData, 1000)(this.Encounters)
+    if (this.Dirty) {
+      saveEncounterData(this.Encounters)
+      this.Dirty = false
+    }
   }
 
   @Mutation
@@ -62,6 +73,11 @@ export class EncounterStore extends VuexModule {
 
   get getEncounters(): Encounter[] {
     return this.Encounters
+  }
+
+  @Action
+  public setEncountersDirty(): void {
+    this.context.commit(SET_DIRTY)
   }
 
   @Action

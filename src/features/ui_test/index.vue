@@ -16,7 +16,7 @@
     </v-row>
     <v-row dense>
       <cc-talent :talent="exampleTalents[0]" small rank="2" selectable />
-      <cc-talent :talent="exampleTalents[1]" small rank="1" hideLocked />
+      <cc-talent :talent="exampleTalents[1]" small rank="1" hide-locked />
       <cc-talent :talent="exampleTalents[2]" small />
     </v-row>
     <cc-talent :talent="exampleTalents[0]" terse rank="1" selectable />

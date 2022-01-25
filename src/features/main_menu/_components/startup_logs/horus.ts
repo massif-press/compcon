@@ -2,11 +2,11 @@ import _ from 'lodash'
 import { tracert } from '@/io/Generators'
 
 function motd(): string {
-  return _.sample(require('./horus_chat/motd.txt').split('\n'))
+  return _.sample(require('raw-loader!./horus_chat/motd.txt').split('\n'))
 }
 
 const HorusStart = typer => {
-  const nfo = require('./horus_chat/nfo.txt')
+  const nfo = require('raw-loader!./horus_chat/nfo.txt')
 
   typer
     .type('<br>')
@@ -107,14 +107,12 @@ function formatAdmin(input: string): string {
 }
 
 function formatBan(input: string[]): string {
-  return `<span class="warning--text">// USER: ${input[0]} ${_.sample(banTypes)} | REASON: ${
-    input[1]
-  } --ADMIN //</span>`
+  return `<span class="warning--text">// USER: ${input[0]} ${_.sample(banTypes)} | REASON: ${input[1]} --ADMIN //</span>`
 }
 
 function randomNoRepeat(arr) {
   let copy = arr.slice(0)
-  return function() {
+  return function () {
     if (copy.length < 1) {
       copy = arr.slice(0)
     }
@@ -126,10 +124,10 @@ function randomNoRepeat(arr) {
 }
 
 const HorusChat = output => {
-  const chat = require('./horus_chat/chat.txt').split('\n')
-  const mods = require('./horus_chat/mods.txt').split('\n')
-  const admin = require('./horus_chat/admin.txt').split('\n')
-  const bans = require('./horus_chat/bans.txt').split('\n')
+  const chat = require('raw-loader!./horus_chat/chat.txt').split('\n')
+  const mods = require('raw-loader!./horus_chat/mods.txt').split('\n')
+  const admin = require('raw-loader!./horus_chat/admin.txt').split('\n')
+  const bans = require('raw-loader!./horus_chat/bans.txt').split('\n')
 
   const allLines = []
 
@@ -159,7 +157,7 @@ const HorusChat = output => {
 
   function loop(): void {
     const rand = _.random(10, 2500)
-    setTimeout(function() {
+    setTimeout(function () {
       callback()
       loop()
     }, rand)

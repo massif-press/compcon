@@ -78,7 +78,7 @@ class Tag {
       let r = this._val.toString()
       if (bonus)
         r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${this._val
-          } + ${bonus} bonus)</span>`
+        } + ${bonus} bonus)</span>`
       return this._description.replace(/{VAL}/g, r)
     } else {
       const str = String(this._val)

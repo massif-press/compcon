@@ -41,13 +41,13 @@
                   >
                     <div v-if="mech.Frame.CoreSystem.Passive">
                       <span class="heading h2">Passive</span>
-                      <p class="mb-1" v-html-safe="mech.Frame.CoreSystem.Passive" />
+                      <p v-html-safe="mech.Frame.CoreSystem.Passive" class="mb-1" />
                     </div>
                     <span class="heading h2">
                       {{ mech.Frame.CoreSystem.ActiveName }}
                       <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
                     </span>
-                    <p class="mb-1" v-html-safe="mech.Frame.CoreSystem.ActiveEffect" />
+                    <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="mb-1" />
                     <cc-tags :tags="mech.Frame.CoreSystem.Tags" color="corepower" />
                   </cc-active-card>
                 </v-col>

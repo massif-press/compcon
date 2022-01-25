@@ -297,21 +297,6 @@ export default Vue.extend({
     accuracy: 0,
     accTotal: 0,
   }),
-  mounted() {
-    this.reset()
-    if (this.autoroll) this.$nextTick(this.autoRoll)
-  },
-  watch: {
-    menu() {
-      if (!this.menu || !this.autoroll) this.reset()
-    },
-    presetAccuracy() {
-      if (this.autoroll) {
-        this.accuracy=this.presetAccuracy
-        this.autoRoll()
-      }
-    },
-  },
   computed: {
     accString() {
       if (this.accuracy > 0) return `<b>${this.accuracy}</b>&nbsp;&nbsp;ACCURACY`
@@ -335,6 +320,21 @@ export default Vue.extend({
         parseInt(this.accTotal)
       )
     },
+  },
+  watch: {
+    menu() {
+      if (!this.menu || !this.autoroll) this.reset()
+    },
+    presetAccuracy() {
+      if (this.autoroll) {
+        this.accuracy=this.presetAccuracy
+        this.autoRoll()
+      }
+    },
+  },
+  mounted() {
+    this.reset()
+    if (this.autoroll) this.$nextTick(this.autoRoll)
   },
   methods: {
     addDice(sides) {

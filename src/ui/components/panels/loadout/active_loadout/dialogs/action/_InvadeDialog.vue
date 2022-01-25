@@ -62,8 +62,8 @@
                     </v-toolbar-title>
                   </v-toolbar>
                   <v-card-text>
-                    <div class="body-text text--text" v-html-safe="a.Terse" />
-                    <div class="flavor-text mt-1 mx-3" v-html-safe="a.Detail" />
+                    <div v-html-safe="a.Terse" class="body-text text--text" />
+                    <div v-html-safe="a.Detail" class="flavor-text mt-1 mx-3" />
                   </v-card-text>
                 </v-card>
               </v-col>

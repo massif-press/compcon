@@ -73,9 +73,9 @@
     <p
       v-if="item.OnHit"
       slot="statblock"
+      v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
       class="panel text--text"
       style="font-size: 20px"
-      v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
     />
   </equipment-card-base>
 </template>

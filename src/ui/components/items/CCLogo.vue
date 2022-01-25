@@ -18,11 +18,28 @@
       filter: getFilter,
     }"
   />
+  
+  <!-- <img
+    v-if="!(isSvg && corsSafe)"
+    :src="`https://compcon-image-assets.s3.amazonaws.com/icons/${source.Logo}.svg`"
+    :style="`width:${iconSize}; height:${iconSize}; filter: invert(${
+      $vuetify.theme.dark ? 1 : 0
+    });`"
+  />
+  <svg
+    v-else
+    :data-src="source.Logo"
+    :style="
+      `width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
+        stroke ? 'stroke-width: 25px;' : ''
+      }`
+    "
+  ></svg> -->
+
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import 'external-svg-loader'
 enum sizeMap {
   xSmall = '16px',
   small = '20px',

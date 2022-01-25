@@ -92,7 +92,7 @@ class Frequency {
     //Nothing takes an unlimited time to regain uses
     if (event == ActivePeriod.Unlimited) return false
 
-    let order: Record<ActivePeriod, number> = {
+    const order: Record<ActivePeriod, number> = {
       Unlimited: 0,
       Turn: 1,
       Round: 2,

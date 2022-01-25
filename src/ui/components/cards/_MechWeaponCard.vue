@@ -13,17 +13,17 @@
       <div v-if="item.ProfileOnAttack" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
         <span class="overline stark--text">ON ATTACK</span>
-        <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileOnAttack" />
+        <p v-html-safe="item.ProfileOnAttack" class="text--text body-text mb-1 mx-3" />
       </div>
       <div v-if="item.ProfileOnHit" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
         <span class="overline stark--text">ON HIT</span>
-        <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileOnHit" />
+        <p v-html-safe="item.ProfileOnHit" class="text--text body-text mb-1 mx-3" />
       </div>
       <div v-if="item.ProfileOnCrit" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
         <span class="overline stark--text">ON CRITICAL HIT</span>
-        <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileOnCrit" />
+        <p v-html-safe="item.ProfileOnCrit" class="text--text body-text mb-1 mx-3" />
       </div>
     </div>
     <v-col cols="auto">
@@ -55,7 +55,7 @@
           <span class="stark--text">EQUIPMENT EFFECT</span>
           ::{{ item.SelectedProfile.Name }}
         </span>
-        <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileEffect" />
+        <p v-html-safe="item.ProfileEffect" class="text--text body-text mb-1 mx-3" />
       </div>
       <div v-if="item.ProfileOnAttack" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
@@ -63,7 +63,7 @@
           <span class="stark--text">ON ATTACK</span>
           ::{{ item.SelectedProfile.Name }}
         </span>
-        <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileOnAttack" />
+        <p v-html-safe="item.ProfileOnAttack" class="text--text body-text mb-1 mx-3" />
       </div>
       <div v-if="item.ProfileOnHit" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
@@ -71,7 +71,7 @@
           <span class="stark--text">ON HIT</span>
           ::{{ item.SelectedProfile.Name }}
         </span>
-        <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileOnHit" />
+        <p v-html-safe="item.ProfileOnHit" class="text--text body-text mb-1 mx-3" />
       </div>
       <div v-if="item.ProfileOnCrit" class="panel clipped pa-2">
         <v-icon>cci-weapon</v-icon>
@@ -79,7 +79,7 @@
           <span class="stark--text">ON CRITICAL HIT</span>
           ::{{ item.SelectedProfile.Name }}
         </span>
-        <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileOnCrit" />
+        <p v-html-safe="item.ProfileOnCrit" class="text--text body-text mb-1 mx-3" />
       </div>
     </v-col>
 

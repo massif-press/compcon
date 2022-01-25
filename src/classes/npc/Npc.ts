@@ -120,8 +120,8 @@ class Npc implements IActor, ICloudSyncable {
 
   private save(): void {
     if (this.IsLocallyOwned) this.IsDirty = true
-    if (this.Active) store.dispatch('saveActiveMissionData')
-    else store.dispatch('saveNpcData')
+    if (this.Active) store.dispatch('setMissionsDirty')
+    else store.dispatch('setNpcsDirty')
   }
 
   public get ID(): string {

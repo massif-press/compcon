@@ -21,9 +21,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 export default Vue.extend({
-  name: 'talent-emblem',
+  name: "talent-emblem",
   props: {
     url: { type: String, required: true },
     name: { type: String, required: true },
@@ -32,26 +32,26 @@ export default Vue.extend({
     white: { type: Boolean },
   },
   data: () => ({
-    backup: '',
-    src: '',
+    backup: "",
+    src: "",
   }),
   computed: {
     size() {
-      if (this.large) return '100px'
-      if (this.small) return '50px'
-      return '45px'
+      if (this.large) return "100px";
+      if (this.small) return "50px";
+      return "45px";
     },
   },
   mounted() {
-    this.src = this.url
+    this.src = this.url;
   },
   methods: {
     imageLoadFailed() {
-      this.src = '/static/img/talent/GENERIC TALENT.svg'
-      this.backup = this.name
+      this.src = "/assets/img/talent/GENERIC TALENT.svg";
+      this.backup = this.name;
     },
   },
-})
+});
 </script>
 
 <style scoped>

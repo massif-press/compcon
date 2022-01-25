@@ -189,7 +189,7 @@
       <v-col v-for="(t, i) in mech.Frame.Traits" :key="`mt_${i}`" class="mt-n1">
         <fieldset>
           <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
-          <p class="ml-6 mb-0" v-html-safe="t.Description" />
+          <p v-html-safe="t.Description" class="ml-6 mb-0" />
         </fieldset>
       </v-col>
     </v-row>
@@ -206,7 +206,7 @@
           }}
         </span>
         <br />
-        <p class="caption ml-6 mb-1" v-html-safe="mech.Frame.CoreSystem.PassiveEffect" />
+        <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="caption ml-6 mb-1" />
       </div>
       <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
         {{
@@ -215,7 +215,7 @@
             : 'CORE ACTIVE'
         }}
       </div>
-      <p class="caption ml-6 mb-1" v-html-safe="mech.Frame.CoreSystem.ActiveEffect" />
+      <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
       <div v-if="mech.Frame.CoreSystem.Tag" class="text-right">
         <span v-for="(t, i) in mech.Frame.CoreSystem.Tags" :key="`mcst_${i}`" class="mx-1">
           {{ t.Name() }}

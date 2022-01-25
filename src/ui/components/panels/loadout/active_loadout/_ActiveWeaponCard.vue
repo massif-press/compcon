@@ -113,7 +113,7 @@
               <div>
                 <div v-if="item.ProfileEffect" class="py-1">
                   <div class="mb-n2">
-                    <p class="text--text body-text mb-1 mx-3" v-html-safe="item.ProfileEffect" />
+                    <p v-html-safe="item.ProfileEffect" class="text--text body-text mb-1 mx-3" />
                   </div>
                 </div>
                 <div v-if="item.ProfileOnAttack">
@@ -121,8 +121,8 @@
                     <v-icon class="mt-n1">cci-weapon</v-icon>
                     <span class="overline stark--text">ON ATTACK</span>
                     <p
-                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                       v-html-safe="item.ProfileOnAttack"
+                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                     />
                   </div>
                 </div>
@@ -131,8 +131,8 @@
                     <v-icon class="mt-n1">cci-weapon</v-icon>
                     <span class="overline stark--text">ON HIT</span>
                     <p
-                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                       v-html-safe="item.ProfileOnHit"
+                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                     />
                   </div>
                 </div>
@@ -141,8 +141,8 @@
                     <v-icon class="mt-n1">cci-weapon</v-icon>
                     <span class="overline stark--text">ON CRITICAL HIT</span>
                     <p
-                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                       v-html-safe="item.ProfileOnCrit"
+                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
                     />
                   </div>
                 </div>

@@ -165,7 +165,7 @@ class ActiveState {
   }
 
   private save(): void {
-    store.dispatch('saveData')
+    store.dispatch('setPilotsDirty')
   }
 
   public get Stats(): ICombatStats {

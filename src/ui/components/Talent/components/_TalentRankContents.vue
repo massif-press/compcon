@@ -1,6 +1,6 @@
 <template>
   <div :style="unlocked ? '' : 'opacity: 0.6'">
-    <div class="text--text" v-html-safe="talentRank.Description" />
+    <div v-html-safe="talentRank.Description" class="text--text" />
     <div v-if="talentRank.Actions.length">
       <v-row dense justify="center">
         <v-col

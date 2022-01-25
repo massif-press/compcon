@@ -12,7 +12,7 @@ const files = [
   'pilots_v2.json',
   'npcs_v2.json',
   'extra_content.json',
-  'pilot_groups.json',
+  'pilot_groups_v2.json',
 ]
 
 const exportV1Pilots = async function(): Promise<string> {

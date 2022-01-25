@@ -286,7 +286,7 @@
               </v-btn>
             </template>
             <cc-titled-panel :title="t.Name">
-              <p class="text--text" v-html-safe="t.Description" />
+              <p v-html-safe="t.Description" class="text--text" />
               <v-divider class="my-2" />
               <v-btn block outlined color="error" class="mb-2" @click="npc.RemoveTemplate(t)">
                 REMOVE TEMPLATE
@@ -361,7 +361,7 @@
             {{ npc.Class.Name }}//Flavor
           </v-card-title>
           <v-card-text>
-            <p class="ma-0 pt-2 flavor-text text--text" v-html-safe="npc.Class.Flavor" />
+            <p v-html-safe="npc.Class.Flavor" class="ma-0 pt-2 flavor-text text--text" />
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -371,7 +371,7 @@
             {{ npc.Class.Name }}//Tactics
           </v-card-title>
           <v-card-text>
-            <p class="ma-0 pt-2 flavor-text text--text" v-html-safe="npc.Class.Tactics" />
+            <p v-html-safe="npc.Class.Tactics" class="ma-0 pt-2 flavor-text text--text" />
           </v-card-text>
         </v-card>
       </v-dialog>

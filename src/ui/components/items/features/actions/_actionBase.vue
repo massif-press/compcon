@@ -11,18 +11,18 @@
       </v-row>
       <v-divider v-if="action.Init || action.Trigger || action.Detail" class="my-1" />
     </div>
-    <div v-if="action.Init" class="body-text stark--text mt-2" v-html-safe="action.Init" />
+    <div v-if="action.Init" v-html-safe="action.Init" class="body-text stark--text mt-2" />
     <div v-if="action.Frequency.ToString() !== 'Unlimited'">
       <div class="subtle--text overline mb-n2">Frequency</div>
-      <div class="body-text stark--text" v-html-safe="action.Frequency.ToString()" />
+      <div v-html-safe="action.Frequency.ToString()" class="body-text stark--text" />
     </div>
     <div v-if="action.Trigger">
       <div class="subtle--text overline mb-n2">Trigger</div>
-      <div class="body-text stark--text" v-html-safe="action.Trigger" />
+      <div v-html-safe="action.Trigger" class="body-text stark--text" />
     </div>
     <div v-if="action.Detail">
       <div class="subtle--text overline mb-n2">Effect</div>
-      <div class="body-text stark--text" v-html-safe="action.Detail" />
+      <div v-html-safe="action.Detail" class="body-text stark--text" />
     </div>
   </v-card-text>
 </template>
