@@ -19,7 +19,9 @@
     <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"
+      ><help-page
+    /></cc-solo-dialog>
     <cc-solo-dialog
       ref="contentModal"
       no-title-clip
@@ -57,9 +59,9 @@
             <span>v.{{ $appVersion }}</span>
           </div>
         </v-col>
-        <v-col cols="auto ml-auto">
+        <!-- <v-col cols="auto ml-auto">
           <update-checker small />
-        </v-col>
+        </v-col> -->
       </v-row>
       <v-row dense justify="space-around">
         <mobile-btn
@@ -81,7 +83,11 @@
           @clicked="$refs.contentModal.show()"
         />
         <mobile-btn
-          :icon="userstore.IsLoggedIn ? 'mdi-account-check' : 'mdi-account-off-outline'"
+          :icon="
+            userstore.IsLoggedIn
+              ? 'mdi-account-check'
+              : 'mdi-account-off-outline'
+          "
           :title="userstore.IsLoggedIn ? 'Connected' : 'Log In'"
           text="COMP/CON Account"
           @clicked="$refs.loginModal.show()"
@@ -90,12 +96,20 @@
       <div style="height: 40px" />
 
       <v-footer color="primary" fixed>
-        <v-btn x-small dark outlined @click="$refs.optionsModal.show()">Options</v-btn>
+        <v-btn x-small dark outlined @click="$refs.optionsModal.show()"
+          >Options</v-btn
+        >
         <v-spacer />
-        <v-btn x-small dark outlined @click="$refs.aboutModal.show()">About</v-btn>
-        <v-btn x-small dark outlined @click="$refs.creditsModal.show()">Credits</v-btn>
+        <v-btn x-small dark outlined @click="$refs.aboutModal.show()"
+          >About</v-btn
+        >
+        <v-btn x-small dark outlined @click="$refs.creditsModal.show()"
+          >Credits</v-btn
+        >
         <v-spacer />
-        <v-btn x-small dark outlined @click="$refs.helpModal.show()">Help</v-btn>
+        <v-btn x-small dark outlined @click="$refs.helpModal.show()"
+          >Help</v-btn
+        >
         <v-spacer />
         <v-btn
           target="_blank"
@@ -113,22 +127,22 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import UpdateChecker from './_components/UpdateChecker.vue'
-import MobileBtn from './_components/MobileBtn.vue'
-import ContentPage from '../nav/pages/ExtraContent/index.vue'
-import CreditsPage from '../nav/pages/Credits.vue'
-import AboutPage from '../nav/pages/About.vue'
-import HelpPage from '../nav/pages/Help.vue'
-import OptionsPage from '../nav/pages/Options/index.vue'
-import { UserStore } from '@/store'
-import { getModule } from 'vuex-module-decorators'
-import SignIn from './_components/login/index.vue'
+import Vue from "vue";
+// import UpdateChecker from './_components/UpdateChecker.vue'
+import MobileBtn from "./_components/MobileBtn.vue";
+import ContentPage from "../nav/pages/ExtraContent/index.vue";
+import CreditsPage from "../nav/pages/Credits.vue";
+import AboutPage from "../nav/pages/About.vue";
+import HelpPage from "../nav/pages/Help.vue";
+import OptionsPage from "../nav/pages/Options/index.vue";
+import { UserStore } from "@/store";
+import { getModule } from "vuex-module-decorators";
+import SignIn from "./_components/login/index.vue";
 
 export default Vue.extend({
-  name: 'landing-page-mobile',
+  name: "landing-page-mobile",
   components: {
-    UpdateChecker,
+    // UpdateChecker,
     MobileBtn,
     ContentPage,
     AboutPage,
@@ -139,8 +153,8 @@ export default Vue.extend({
   },
   computed: {
     userstore() {
-      return getModule(UserStore, this.$store)
+      return getModule(UserStore, this.$store);
     },
   },
-})
+});
 </script>

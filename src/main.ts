@@ -15,7 +15,7 @@ import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
 import lancerData from 'lancer-data'
 
-import './registerServiceWorker'
+// import './registerServiceWorker'
 
 import theme from './ui/theme'
 import themes from '@/ui/style/themes'
