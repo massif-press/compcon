@@ -36,7 +36,7 @@ Amplify.configure(aws_exports)
 
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
-Vue.prototype.$appVersion = process.env.VERSION_STRING
+Vue.prototype.$appVersion = process.env.VUE_APP_VERSION_STRING
 Vue.prototype.$lancerVersion = `${lancerData.info.version}`
 
 // Preload theme
