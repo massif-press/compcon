@@ -24,7 +24,7 @@ abstract class Loadout {
   }
 
   protected save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   public get ID(): string {

@@ -1,5 +1,5 @@
 import { Pilot } from '@/class'
-import { IPilotData } from '@/interface'
+import { PilotData } from '@/interface'
 import axios from 'axios'
 
 // this token is scoped to only allow for the creation of gists on a burner account
@@ -40,7 +40,7 @@ const getCommunityPacks = function (): any {
 }
 
 const newPilot = async function (pilot: Pilot): Promise<any> {
-  const pData: IPilotData = Pilot.Serialize(pilot)
+  const pData: PilotData = Pilot.Serialize(pilot)
   return gistApi
     .post('', {
       files: {
@@ -67,9 +67,9 @@ const savePilot = async function (pilot: Pilot): Promise<void> {
     .then(res => res.data)
 }
 
-const loadPilot = async function (id: string): Promise<IPilotData> {
+const loadPilot = async function (id: string): Promise<PilotData> {
   const gistData = await gistApi.get(id).then(res => res.data.files['pilot.txt'].content)
-  const pilotData = JSON.parse(gistData) as IPilotData
+  const pilotData = JSON.parse(gistData) as PilotData
   return pilotData
 }
 

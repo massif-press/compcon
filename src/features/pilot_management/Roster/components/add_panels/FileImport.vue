@@ -53,7 +53,7 @@ import { Pilot } from '@/class'
 import { importData } from '@/io/Data'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
-import { IPilotData } from '@/interface'
+import { PilotData } from '@/interface'
 import ImportDialog from './ImportDialog.vue'
 
 export default Vue.extend({
@@ -84,7 +84,7 @@ export default Vue.extend({
       this.reset()
       if (!file) return
       try {
-        const pilotData = await importData<IPilotData>(file)
+        const pilotData = await importData<PilotData>(file)
         if (!pilotData.brews) pilotData.brews = []
         const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
           x => `${x.Name} @ ${x.Version}`

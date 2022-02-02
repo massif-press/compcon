@@ -1,6 +1,9 @@
-import { store } from '@/store'
 import _ from 'lodash'
-import { LicensedItem, Frame, Manufacturer, Pilot } from '@/class'
+import { store } from '../../../../store'
+import { Manufacturer } from '../../../Manufacturer'
+import { Frame } from '../../../mech/Frame'
+import { Pilot } from '../../Pilot'
+import { LicensedItem } from './LicensedItem'
 
 class License {
   public readonly Name: string
@@ -52,15 +55,15 @@ class License {
   }
 
   public CanSelect(pilot: Pilot): boolean {
-    if (!pilot.IsMissingLicenses) return false
+    if (!pilot.LicenseController.IsMissingLicenses) return false
     if (!this.Specialty || !this.Prerequisite) return true
     if (this.Prerequisite.cumulative) {
-      const rankTotal = pilot.Licenses.filter(
+      const rankTotal = pilot.LicenseController.Licenses.filter(
         x => x.License.Source === this.Prerequisite.source && x.Rank
       ).reduce((a, b) => +a + +b.Rank, 0)
       return rankTotal >= this.Prerequisite.min_rank
     }
-    return pilot.Licenses.some(
+    return pilot.LicenseController.Licenses.some(
       x => x.License.Source === this.Prerequisite.source && x.Rank >= this.Prerequisite.min_rank
     )
   }

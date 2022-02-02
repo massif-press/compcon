@@ -1,10 +1,10 @@
-import { CompendiumItem, ItemType, Manufacturer } from '@/class'
-import { store } from '@/store'
-import { ICompendiumItemData, ICounterData, ITagCompendiumData } from '@/interface'
-import { IActionData } from '../Action'
-import { IBonusData } from '../Bonus'
-import { ISynergyData } from '../Synergy'
-import { IDeployableData } from '../Deployable'
+import { CompendiumItem, ItemType, Manufacturer } from '../../../../class'
+import { store } from '../../../../store'
+import { ICompendiumItemData, ICounterData, ITagCompendiumData } from '../../../../interface'
+import { IActionData } from '../../../Action'
+import { IBonusData } from '../../../Bonus'
+import { ISynergyData } from '../../../Synergy'
+import { IDeployableData } from '../../../Deployable'
 
 interface ICoreBonusData extends ICompendiumItemData {
   source: string

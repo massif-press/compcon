@@ -15,7 +15,7 @@ const files = [
   'pilot_groups_v2.json',
 ]
 
-const exportV1Pilots = async function(): Promise<string> {
+const exportV1Pilots = async function (): Promise<string> {
   return readFile('pilots.json')
 }
 
@@ -24,7 +24,7 @@ interface IBulkExport {
   data: string
 }
 
-const exportAll = async function(): Promise<IBulkExport[]> {
+const exportAll = async function (): Promise<IBulkExport[]> {
   const promises = files.map(file => readFile(file))
 
   const res = await Promise.all(promises)
@@ -32,23 +32,23 @@ const exportAll = async function(): Promise<IBulkExport[]> {
   return res.map((data, i) => ({ filename: files[i], data }))
 }
 
-const importAll = async function(file): Promise<void> {
+const importAll = async function (file): Promise<void> {
   const text = await PromisifyFileReader.readAsText(file)
   const arr = JSON.parse(text)
   console.info('Loading import data...')
   const promises = arr.map(o => writeFile(o.filename, o.data))
   await Promise.all(promises)
-  await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
+  // await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
   console.info('Import data loaded! Running startup...')
   await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, true)
 }
 
-const clearAllData = async function(): Promise<void> {
+const clearAllData = async function (): Promise<void> {
   console.info('Erasing all COMP/CON data...')
   const promises = files.map(file => writeFile(file, ''))
   await Promise.all(promises)
-  await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
-  
+  // await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
+
   console.info('All data erased! Running startup...')
   await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, true)
 }

@@ -22,28 +22,28 @@
           </v-col>
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3 ml-n7">ARMOR</div>
-            <div style="position: relative; width: max-content;">
+            <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3">mdi-shield-outline</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Armor" />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3 ml-n6">E-DEF</div>
-            <div style="position: relative; width: max-content;">
+            <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3">cci-marker</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.EDefense" />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3 ml-n8">EVASION</div>
-            <div style="position: relative; width: max-content;">
+            <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3">cci-evasion</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Evasion" />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3 ml-n6">SPEED</div>
-            <div style="position: relative; width: max-content;">
+            <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3">$vuetify.icons.move</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Speed" />
             </div>
@@ -51,7 +51,7 @@
         </v-row>
       </v-col>
       <v-col cols="auto" class="text-right mt-n1 ml-4">
-        <div class="overline  mr-9">GRIT</div>
+        <div class="overline mr-9">GRIT</div>
         <div class="heading mt-n5" style="font-size: 65px; line-height: 60px">
           +{{ pilot.Grit }}
         </div>
@@ -63,7 +63,7 @@
         <div class="overline">SKILL TRIGGERS</div>
         <div class="text-left">
           <v-chip
-            v-for="(s, i) in pilot.Skills"
+            v-for="(s, i) in pilot.SkillsController.Skills"
             :key="`psk_${i}`"
             label
             outlined
@@ -80,50 +80,73 @@
       <v-col cols="4">
         <v-row dense justify="space-between" class="mt-n5 pl-3">
           <v-col>
-            <span class="font-weight-bold overline  pr-4">HULL</span>
-            <div class="ml-3 mt-n3" style="position: relative; width: max-content;">
-              <v-icon x-large color="grey lighten-1" style="margin-right: -3px!important">
+            <span class="font-weight-bold overline pr-4">HULL</span>
+            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
+              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
                 mdi-hexagon-outline
               </v-icon>
-              <div class="heading h2 icon-overlap mt-1" v-html="pilot.MechSkills.Hull" />
+              <div
+                class="heading h2 icon-overlap mt-1"
+                v-html="pilot.MechSkillsController.MechSkills.Hull"
+              />
             </div>
           </v-col>
           <v-col>
-            <span class="font-weight-bold overline  pr-3">AGI</span>
-            <div class="ml-3 mt-n3" style="position: relative; width: max-content;">
-              <v-icon x-large color="grey lighten-1" style="margin-right: -3px!important">
+            <span class="font-weight-bold overline pr-3">AGI</span>
+            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
+              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
                 mdi-hexagon-outline
               </v-icon>
-              <div class="heading h2 icon-overlap mt-1" v-html="pilot.MechSkills.Agi" />
+              <div
+                class="heading h2 icon-overlap mt-1"
+                v-html="pilot.MechSkillsController.MechSkills.Agi"
+              />
             </div>
           </v-col>
           <v-col>
-            <span class="font-weight-bold overline  pr-3">SYS</span>
-            <div class="ml-3 mt-n3" style="position: relative; width: max-content;">
-              <v-icon x-large color="grey lighten-1" style="margin-right: -3px!important">
+            <span class="font-weight-bold overline pr-3">SYS</span>
+            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
+              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
                 mdi-hexagon-outline
               </v-icon>
-              <div class="heading h2 icon-overlap mt-1" v-html="pilot.MechSkills.Sys" />
+              <div
+                class="heading h2 icon-overlap mt-1"
+                v-html="pilot.MechSkillsController.MechSkills.Sys"
+              />
             </div>
           </v-col>
           <v-col>
-            <span class="font-weight-bold overline  pr-3">ENG</span>
-            <div class="ml-3 mt-n3" style="position: relative; width: max-content;">
-              <v-icon x-large color="grey lighten-1" style="margin-right: -3px!important">
+            <span class="font-weight-bold overline pr-3">ENG</span>
+            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
+              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
                 mdi-hexagon-outline
               </v-icon>
-              <div class="heading h2 icon-overlap mt-1" v-html="pilot.MechSkills.Eng" />
+              <div
+                class="heading h2 icon-overlap mt-1"
+                v-html="pilot.MechSkillsController.MechSkills.Eng"
+              />
             </div>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
 
-    <v-row v-if="pilot.Licenses.length" dense align="start" justify="space-between" class="mt-n2">
+    <v-row
+      v-if="pilot.LicenseController.Licenses.length"
+      dense
+      align="start"
+      justify="space-between"
+      class="mt-n2"
+    >
       <v-col>
         <div class="overline mb-n2 mt-n1">LICENSES</div>
         <div class="text-left">
-          <v-chip v-for="(l, i) in pilot.Licenses" :key="`plr_${i}`" small outlined>
+          <v-chip
+            v-for="(l, i) in pilot.LicenseController.Licenses"
+            :key="`plr_${i}`"
+            small
+            outlined
+          >
             <v-icon left>cci-rank-{{ l.Rank }}</v-icon>
             <span
               class="flavor-text black--text"
@@ -139,12 +162,12 @@
 
     <div class="overline mb-n3 mt-n1">TALENTS</div>
     <v-row
-      v-for="(t, i) in pilot.Talents"
+      v-for="(t, i) in pilot.TalentsController.Talents"
       :key="`pt_${i}`"
       dense
       justify="space-between"
       class="mt-n1 caption"
-      style="position: relative; page-break-inside: avoid;"
+      style="position: relative; page-break-inside: avoid"
     >
       <v-col>
         <fieldset>
@@ -161,9 +184,11 @@
       </v-col>
     </v-row>
 
-    <div v-if="pilot.CoreBonuses.length" class="overline mb-n3 mt-n1">CORE BONUSES</div>
+    <div v-if="pilot.CoreBonusController.CoreBonuses.length" class="overline mb-n3 mt-n1">
+      CORE BONUSES
+    </div>
     <v-row
-      v-for="(b, i) in pilot.CoreBonuses"
+      v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
       :key="`pb_${i}`"
       dense
       justify="space-between"
@@ -182,7 +207,7 @@
       <v-col
         v-for="(a, i) in pilot.Loadout.Armor.filter(x => x)"
         :key="`pla_${i}`"
-        style="position: relative; page-break-inside: avoid;"
+        style="position: relative; page-break-inside: avoid"
       >
         <fieldset v-if="a">
           <legend class="heading ml-1 px-2">
@@ -192,8 +217,9 @@
           <div
             class="pa-1 mt-n2"
             v-html="
-              `+${a.Armor || 0} Armor / E-Def: ${a.EDefense || 'N/A'} / Evasion: ${a.Evasion ||
-                'N/A'}<br>${a.HPBonus ? `HP Bonus: +${a.HPBonus}` : ''}${
+              `+${a.Armor || 0} Armor / E-Def: ${a.EDefense || 'N/A'} / Evasion: ${
+                a.Evasion || 'N/A'
+              }<br>${a.HPBonus ? `HP Bonus: +${a.HPBonus}` : ''}${
                 a.Speed ? ` / Speed: ${a.Speed}` : ''
               }`
             "

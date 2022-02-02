@@ -1,6 +1,6 @@
-import { store } from '@/store'
-import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '@/class'
-import { ICounterData, ITagCompendiumData } from '@/interface'
+import { store } from '../store'
+import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '../class'
+import { ICounterData, ITagCompendiumData, ITagData } from '../interface'
 import _ from 'lodash'
 import { IActionData, Action } from './Action'
 import { IBonusData, Bonus } from './Bonus'
@@ -92,7 +92,7 @@ abstract class CompendiumItem {
   }
 
   protected save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   public get Name(): string {

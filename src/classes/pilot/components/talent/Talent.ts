@@ -1,6 +1,6 @@
-import { store } from '@/store'
-import { CompendiumItem } from '@/class'
-import { ICompendiumItemData, ITagCompendiumData } from '@/interface'
+import { store } from '../../../../store'
+import { CompendiumItem } from '../../../../class'
+import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface'
 
 interface ITalentRankData extends ICompendiumItemData {
   exclusive: boolean

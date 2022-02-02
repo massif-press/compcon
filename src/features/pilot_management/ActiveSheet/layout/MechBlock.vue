@@ -200,7 +200,7 @@
             >
               <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline ' : 'mb-n2'">
                 <span class="heading h2 accent--text">
-                  {{ pilot.MechSkills.Hull }}
+                  {{ pilot.MechSkillsController.MechSkills.Hull }}
                   <span v-if="$vuetify.breakpoint.smAndDown" class="heading h3 subtle--text">
                     H
                   </span>
@@ -210,7 +210,7 @@
               </div>
               <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
-                  {{ pilot.MechSkills.Agi }}
+                  {{ pilot.MechSkillsController.MechSkills.Agi }}
                   <span v-if="$vuetify.breakpoint.smAndDown" class="heading h3 subtle--text">
                     A
                   </span>
@@ -220,7 +220,7 @@
               </div>
               <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
-                  {{ pilot.MechSkills.Sys }}
+                  {{ pilot.MechSkillsController.MechSkills.Sys }}
                   <span v-if="$vuetify.breakpoint.smAndDown" class="heading h3 subtle--text">
                     S
                   </span>
@@ -230,7 +230,7 @@
               </div>
               <div :class="$vuetify.breakpoint.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 accent--text">
-                  {{ pilot.MechSkills.Eng }}
+                  {{ pilot.MechSkillsController.MechSkills.Eng }}
                   <span v-if="$vuetify.breakpoint.smAndDown" class="heading h3 subtle--text">
                     E
                   </span>
@@ -429,7 +429,7 @@
           </v-row>
         </div>
 
-        <v-row v-if="pilot.CoreBonuses" dense>
+        <v-row v-if="pilot.CoreBonusController.CoreBonuses" dense>
           <v-col cols="auto" class="mb-n2">
             <span class="overline">CORE BONUSES</span>
             <v-btn small right icon class="fadeSelect" @click="showCBs = !showCBs">
@@ -442,7 +442,7 @@
                 x-small
                 outlined
                 class="fadeSelect"
-                @click="expandAll(pilot.CoreBonuses.length, 'cb_', true)"
+                @click="expandAll(pilot.CoreBonusController.CoreBonuses.length, 'cb_', true)"
               >
                 <v-icon small left>mdi-chevron-up</v-icon>
                 All
@@ -451,7 +451,7 @@
                 x-small
                 outlined
                 class="fadeSelect"
-                @click="expandAll(pilot.CoreBonuses.length, 'cb_', false)"
+                @click="expandAll(pilot.CoreBonusController.CoreBonuses.length, 'cb_', false)"
               >
                 <v-icon small left>mdi-chevron-down</v-icon>
                 All
@@ -460,12 +460,12 @@
           </v-scroll-x-transition>
         </v-row>
         <v-scroll-y-reverse-transition mode="out-in" leave-absolute>
-          <v-row v-if="pilot.CoreBonuses && showCBs">
+          <v-row v-if="pilot.CoreBonusController.CoreBonuses && showCBs">
             <cc-active-card
-              v-for="(bonus, i) in pilot.CoreBonuses"
+              v-for="(bonus, i) in pilot.CoreBonusController.CoreBonuses"
               :key="`cb_${i}`"
               :ref="`cb_${i}`"
-              :cols="12 / pilot.CoreBonuses.length"
+              :cols="12 / pilot.CoreBonusController.CoreBonuses.length"
               color="corepower"
               collapsible
               :header="bonus.Name"
@@ -489,7 +489,7 @@
                 x-small
                 outlined
                 class="fadeSelect"
-                @click="expandAll(pilot.Talents.length, 'tal_', true)"
+                @click="expandAll(pilot.TalentsController.Talents.length, 'tal_', true)"
               >
                 <v-icon small left>mdi-chevron-up</v-icon>
                 All
@@ -498,7 +498,7 @@
                 x-small
                 outlined
                 class="fadeSelect"
-                @click="expandAll(pilot.Talents.length, 'tal_', false)"
+                @click="expandAll(pilot.TalentsController.Talents.length, 'tal_', false)"
               >
                 <v-icon small left>mdi-chevron-down</v-icon>
                 All
@@ -509,7 +509,7 @@
         <v-scroll-y-reverse-transition mode="out-in" leave-absolute>
           <v-row v-if="showTalents" justify="center">
             <cc-active-card
-              v-for="(t, i) in pilot.Talents"
+              v-for="(t, i) in pilot.TalentsController.Talents"
               :key="`tal_${i}`"
               :ref="`tal_${i}`"
               collapsible

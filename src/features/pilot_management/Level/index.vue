@@ -14,8 +14,8 @@
         <v-divider />
         <v-stepper-step
           editable
-          :complete="pilot.HasFullSkills"
-          :color="pilot.HasFullSkills ? 'success' : 'primary'"
+          :complete="pilot.SkillsController.HasFullSkills"
+          :color="pilot.SkillsController.HasFullSkills ? 'success' : 'primary'"
           edit-icon="mdi-check"
           step="2"
         >
@@ -24,8 +24,8 @@
         <v-divider />
         <v-stepper-step
           editable
-          :complete="pilot.HasFullTalents"
-          :color="pilot.HasFullTalents ? 'success' : 'primary'"
+          :complete="pilot.TalentsController.HasFullTalents"
+          :color="pilot.TalentsController.HasFullTalents ? 'success' : 'primary'"
           edit-icon="mdi-check"
           step="3"
         >
@@ -34,8 +34,8 @@
         <v-divider />
         <v-stepper-step
           editable
-          :complete="pilot.HasFullHASE"
-          :color="pilot.HasFullHASE ? 'success' : 'primary'"
+          :complete="pilot.MechSkillsController.HasFullHASE"
+          :color="pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'"
           edit-icon="mdi-check"
           step="4"
         >
@@ -46,8 +46,8 @@
         <v-divider />
         <v-stepper-step
           editable
-          :complete="pilot.HasLicenses"
-          :color="pilot.HasLicenses ? 'success' : 'primary'"
+          :complete="pilot.LicenseController.HasLicenses"
+          :color="pilot.LicenseController.HasLicenses ? 'success' : 'primary'"
           edit-icon="mdi-check"
           step="5"
         >
@@ -140,7 +140,7 @@ export default Vue.extend({
   created() {
     this.pilot = Pilot.Deserialize(Pilot.Serialize(this.currentPilot))
     this.pilot.Level++
-    this.cbEligible = this.pilot.IsMissingCBs
+    this.cbEligible = this.pilot.CoreBonusController.IsMissingCBs
   },
 })
 </script>

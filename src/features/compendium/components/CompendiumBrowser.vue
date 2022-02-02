@@ -5,7 +5,7 @@
         <h1 class="ml-n2 heading accent--text"><slot /></h1>
       </v-col>
       <v-col cols="auto" class="ml-4 mr-2">
-        <v-btn-toggle :value="profile.GetView('selector')" mandatory>
+        <v-btn-toggle :value="getView" mandatory>
           <v-btn
             v-show="!lockView"
             small
@@ -15,10 +15,20 @@
           >
             <v-icon color="accent">mdi-view-split-vertical</v-icon>
           </v-btn>
-          <v-btn small icon value="list" @click="profile.SetView('selector', 'list')">
+          <v-btn
+            small
+            icon
+            value="list"
+            @click="profile.SetView('selector', 'list')"
+          >
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn small icon value="cards" @click="profile.SetView('selector', 'cards')">
+          <v-btn
+            small
+            icon
+            value="cards"
+            @click="profile.SetView('selector', 'cards')"
+          >
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
@@ -41,34 +51,37 @@
       <cc-filter-panel :item-type="itemType" @set-filters="setFilters" />
     </v-row>
     <div>
-      <div v-if="profile.GetView('selector') === 'split' || lockView">
-        <compendium-mobile-view v-if="$vuetify.breakpoint.smAndDown" :items="fItems" />
+      <div v-if="getView === 'split' || lockView">
+        <compendium-mobile-view
+          v-if="$vuetify.breakpoint.smAndDown"
+          :items="fItems"
+        />
         <compendium-split-view v-else :items="fItems" />
       </div>
       <compendium-table-view
-        v-else-if="profile.GetView('selector') === 'list'"
+        v-else-if="getView === 'list'"
         :items="fItems"
         :headers="headers"
       />
-      <compendium-cards-view v-else-if="profile.GetView('selector') === 'cards'" :items="fItems" />
+      <compendium-cards-view v-else-if="getView === 'cards'" :items="fItems" />
     </div>
   </v-container>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ItemFilter from '@/classes/utility/ItemFilter'
-import { accentInclude } from '@/classes/utility/accent_fold'
-import CompendiumMobileView from './views/CompendiumMobileView.vue'
-import CompendiumSplitView from './views/CompendiumSplitView.vue'
-import CompendiumCardsView from './views/CompendiumCardsView.vue'
-import CompendiumTableView from './views/CompendiumTableView.vue'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
-import { UserProfile } from '@/user'
+import Vue from "vue";
+import ItemFilter from "@/classes/utility/ItemFilter";
+import { accentInclude } from "@/classes/utility/accent_fold";
+import CompendiumMobileView from "./views/CompendiumMobileView.vue";
+import CompendiumSplitView from "./views/CompendiumSplitView.vue";
+import CompendiumCardsView from "./views/CompendiumCardsView.vue";
+import CompendiumTableView from "./views/CompendiumTableView.vue";
+import { getModule } from "vuex-module-decorators";
+import { UserStore } from "@/store";
+import { UserProfile } from "@/user";
 
 export default Vue.extend({
-  name: 'compendium-browser',
+  name: "compendium-browser",
   components: {
     CompendiumMobileView,
     CompendiumTableView,
@@ -94,35 +107,40 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    search: '',
+    search: "",
     filters: {},
-    itemType: '',
+    itemType: "",
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(UserStore, this.$store)
-      return store.UserProfile
+      const store = getModule(UserStore, this.$store);
+      return store.UserProfile;
+    },
+    getView() {
+      if (this.profile) return this.profile.GetView("selector");
+      return "split";
     },
     fItems() {
-      const vm = this as any
-      let i = vm.items
+      const vm = this as any;
+      let i = vm.items;
 
-      if (vm.search) i = i.filter(x => accentInclude(x.Name, vm.search))
+      if (vm.search) i = i.filter((x) => accentInclude(x.Name, vm.search));
 
       if (Object.keys(vm.filters).length) {
-        i = ItemFilter.Filter(i, vm.filters)
+        i = ItemFilter.Filter(i, vm.filters);
       }
 
-      return i
+      return i;
     },
   },
   created() {
-    this.itemType = this.items && this.items.length ? this.items[0].ItemType : ''
+    this.itemType =
+      this.items && this.items.length ? this.items[0].ItemType : "";
   },
   methods: {
     setFilters(newFilter) {
-      this.filters = newFilter
+      this.filters = newFilter;
     },
   },
-})
+});
 </script>

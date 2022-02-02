@@ -10,6 +10,7 @@ interface IEncounterData {
   cloudOwnerID: string
   isLocal: boolean
   lastSync: string
+  lastModified: string
   name: string
   location: string
   npcs: { id: string; side: EncounterSide }[]
@@ -33,6 +34,8 @@ class Encounter implements IMissionStep, ICloudSyncable {
   public CloudID: string
   public CloudOwnerID: string
   public IsDirty: boolean
+  public LastModified: string
+  private _isLoaded: boolean
 
   private _id: string
   private _name: string
@@ -69,6 +72,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   private save(): void {
     if (this.IsLocallyOwned) this.IsDirty = true
+    this.LastModified = new Date().toString()
     store.dispatch('saveEncounterData')
   }
 
@@ -290,6 +294,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
       cloudID: enc.CloudID,
       cloudOwnerID: enc.CloudOwnerID,
       lastSync: enc.LastSync,
+      lastModified: enc.LastModified || '',
       name: enc.Name,
       npcs: enc._npcs,
       reinforcements: enc._reinforcements,
@@ -318,6 +323,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
     this.CloudID = data.cloudID || ''
     this.CloudOwnerID = data.cloudOwnerID || ''
     this.LastSync = data.lastSync || ''
+    this.LastModified = data.lastModified || ''
 
     this._name = data.name
     this._location = data.location

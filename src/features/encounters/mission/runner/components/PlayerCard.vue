@@ -148,9 +148,7 @@
               :class="{ rolledOver: structRolledOver }"
               @update="mech.CurrentStructure = $event"
             >
-              <span class="heading h3">
-                Struct
-              </span>
+              <span class="heading h3">Struct</span>
             </cc-tick-bar>
           </v-col>
           <v-col v-if="mech.Armor" cols="auto">
@@ -229,12 +227,8 @@
               @update="mech.CurrentHeat = $event"
               @rollover="onHeatRollover"
             >
-              <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
-                HEAT
-              </span>
-              <span v-else class="heading h3">
-                HEAT
-              </span>
+              <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">HEAT</span>
+              <span v-else class="heading h3">HEAT</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto">
@@ -247,9 +241,7 @@
               full-icon="control_point"
               @update="mech.CurrentRepairs = $event"
             >
-              <span class="heading h3">
-                REPAIR CAP
-              </span>
+              <span class="heading h3">REPAIR CAP</span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto">
@@ -373,7 +365,7 @@
           x-small
           outlined
           class="fadeSelect"
-          @click="expandAll(mech.Pilot.Talents.length, 'tal_', true)"
+          @click="expandAll(mech.pilot.TalentsController.Talents.length, 'tal_', true)"
         >
           <v-icon small left>mdi-chevron-up</v-icon>
           All
@@ -382,7 +374,7 @@
           x-small
           outlined
           class="fadeSelect"
-          @click="expandAll(mech.Pilot.Talents.length, 'tal_', false)"
+          @click="expandAll(mech.pilot.TalentsController.Talents.length, 'tal_', false)"
         >
           <v-icon small left>mdi-chevron-down</v-icon>
           All
@@ -391,7 +383,7 @@
     </v-row>
     <v-row dense>
       <cc-active-card
-        v-for="(t, i) in mech.Pilot.Talents"
+        v-for="(t, i) in mech.pilot.TalentsController.Talents"
         :key="`tal_${i}`"
         :ref="`tal_${i}`"
         collapsible

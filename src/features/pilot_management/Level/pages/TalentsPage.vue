@@ -54,7 +54,7 @@ export default Vue.extend({
   },
   computed: {
     canContinue(): boolean {
-      return !this.pilot.IsMissingTalents
+      return !this.pilot.TalentsController.IsMissingTalents
     },
   },
 })

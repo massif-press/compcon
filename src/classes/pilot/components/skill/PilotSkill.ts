@@ -1,4 +1,5 @@
-import { Rules, Skill, CustomSkill } from '@/class'
+import { Rules, Skill, CustomSkill } from '../../../../class'
+import { IRankedData } from '../../../../interface'
 
 class PilotSkill {
   public readonly Skill: Skill | CustomSkill

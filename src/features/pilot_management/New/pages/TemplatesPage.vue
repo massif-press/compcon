@@ -91,7 +91,7 @@ export default Vue.extend({
     },
     selectionComplete(): boolean {
       return this.selected !== null
-    }
+    },
   },
   watch: {
     selectionComplete(bool) {
@@ -105,14 +105,14 @@ export default Vue.extend({
     },
     setTemplate() {
       const t = this.selected.build
-      this.pilot.MechSkills = MechSkills.Deserialize(this.pilot, t.mechSkills)
-      this.pilot.ClearSkills()
+      this.pilot.MechSkillsController.MechSkills = MechSkills.Deserialize(this.pilot, t.mechSkills)
+      this.pilot.SkillsController.ClearSkills()
       t.skills.forEach(s => {
-        this.pilot.AddSkill(this.item('Skills', s))
+        this.pilot.SkillsController.AddSkill(this.item('Skills', s))
       })
-      this.pilot.ClearTalents()
+      this.pilot.TalentsController.ClearTalents()
       t.talents.forEach(t => {
-        this.pilot.AddTalent(this.item('Talents', t))
+        this.pilot.TalentsController.AddTalent(this.item('Talents', t))
       })
       this.pilot.Loadout.Armor = [this.item('PilotGear', t.gear.armor)]
       this.pilot.Loadout.Weapons = t.gear.weapons.map(x => this.item('PilotGear', x))

@@ -1,4 +1,5 @@
-import { Talent } from '@/class'
+import { Talent } from '../../../../class'
+import { IRankedData } from '../../../../interface'
 import { TalentRank } from './Talent'
 
 class PilotTalent {

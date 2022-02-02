@@ -3,11 +3,11 @@
 // defines the pilot's relationship to the mech for actvive mode. does not hold active mech info (eg heat, destroyed status)
 // but associated logic should be handled by this class (eg. ride-along conditions)
 
-import { store } from '@/store'
-import { Mech, Deployable, Pilot, MechEquipment, MechWeapon, Mount, ActivationType } from '@/class'
-import { Action } from '@/interface'
+import { store } from '../../store'
+import { Mech, Deployable, Pilot, MechEquipment, MechWeapon, Mount, ActivationType } from '../../class'
+import { Action } from '../../interface'
 import { IDeployableData, IDeployedData } from '../Deployable'
-import { mission } from '@/io/Generators'
+import { mission } from '../../io/Generators'
 import { Duration } from '../enums'
 import { ActivePeriod } from '../Action'
 
@@ -165,7 +165,7 @@ class ActiveState {
   }
 
   private save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   public get Stats(): ICombatStats {
@@ -430,16 +430,12 @@ class ActiveState {
   }
 
   public set ActiveMech(mech: Mech | null) {
-    if (this._pilot.IsLocallyOwned) {
-      this._mech = mech
-    } else {
-      this._remoteMech = mech
-    }
+    this._mech = mech
     this.save()
   }
 
   public get ActiveMech(): Mech | null {
-    return this._mech != null ? this._mech : this._remoteMech
+    return this._mech
   }
 
   public get IsMounted() {

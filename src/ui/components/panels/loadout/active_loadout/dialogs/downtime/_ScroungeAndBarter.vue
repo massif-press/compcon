@@ -121,8 +121,10 @@ export default Vue.extend({
       })
       if (this.skillRoll < 10) nr.ResourceCost = this.choices[this.choice]
       else if (this.skillRoll < 20)
-        nr.ResourceCost = `Acquiring this has cost you your ${this.trades[this.trade].toLowerCase()}`
-      this.pilot.AddReserve(nr)
+        nr.ResourceCost = `Acquiring this has cost you your ${this.trades[
+          this.trade
+        ].toLowerCase()}`
+      this.pilot.ReservesController.AddReserve(nr)
       this.close()
     },
     close() {

@@ -39,7 +39,7 @@ export default Vue.extend({
   }),
   computed: {
     availableItems(): CompendiumItem[] {
-      let pilotLicensedItems = this.pilot.Licenses.flatMap((x: PilotLicense) =>
+      let pilotLicensedItems = this.pilot.LicenseController.Licenses.flatMap((x: PilotLicense) =>
         x.License.UnlocksByTotalRank(x.Rank)
       ).map(x => x.ID)
 

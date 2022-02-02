@@ -1,5 +1,5 @@
-import { DamageType, Mech, Pilot, RangeType, WeaponSize, WeaponType } from '@/class'
-import dict from '@/assets/bonus_dictionary.json'
+import { DamageType, Mech, Pilot, RangeType, WeaponSize, WeaponType } from '../class'
+import dict from '../assets/bonus_dictionary.json'
 
 interface IBonusData {
   id: string
@@ -93,7 +93,9 @@ class Bonus {
     if (Array.isArray(bonus.Value)) return
     if (typeof bonus.Value === 'number') return Math.ceil(bonus.Value)
     let valStr = bonus.Value
+    // @ts-ignore
     valStr = valStr.replaceAll(`{ll}`, pilot.Level.toString())
+    // @ts-ignore
     valStr = valStr.replaceAll(`{grit}`, pilot.Grit.toString())
     valStr = valStr.replace(/[^-()\d/*+.]/g, '')
     return Math.ceil(eval(valStr))
@@ -182,7 +184,7 @@ class Bonus {
       })
     })
 
-    m.Pilot.CoreBonuses.forEach(cb => {
+    m.Pilot.CoreBonusController.CoreBonuses.forEach(cb => {
       cb.Bonuses.forEach(b => {
         if (b.ID === id)
           output.push({
@@ -202,7 +204,7 @@ class Bonus {
       })
     })
 
-    m.Pilot.Talents.flatMap(x => x.UnlockedRanks).forEach(t => {
+    m.Pilot.TalentsController.Talents.flatMap(x => x.UnlockedRanks).forEach(t => {
       t.Bonuses.forEach(b => {
         if (b.ID === id)
           output.push({

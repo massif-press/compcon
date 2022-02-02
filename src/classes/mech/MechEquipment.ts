@@ -1,5 +1,5 @@
-import { LicensedItem } from '@/class'
-import { ILicensedItemData, ITagCompendiumData } from '@/interface'
+import { LicensedItem } from '../../class'
+import { ILicensedItemData, ITagCompendiumData, ITagData } from '../../interface'
 
 interface IMechEquipmentData extends ILicensedItemData {
   sp: number

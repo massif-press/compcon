@@ -124,7 +124,7 @@ export default Vue.extend({
           'You’ve got to do a favor or make good on a promise for your connection right away'
       else if (this.skillRoll < 20)
         nr.ResourceCost = 'You’ve got to do a favor or make good on a promise after they help you'
-      this.pilot.AddReserve(nr)
+      this.pilot.ReservesController.AddReserve(nr)
       this.close()
     },
     close() {

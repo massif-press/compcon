@@ -17,7 +17,7 @@
           <encounter-group @set="grouping = $event" />
         </v-col>
       </v-row>
-      <v-divider class="my-2 " />
+      <v-divider class="my-2" />
       <v-row dense>
         <v-data-table
           dense
@@ -36,15 +36,24 @@
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
               <v-icon dark left>mdi-chevron-right</v-icon>
-              <span v-if="h.group && h.group !== 'null'" class="heading white--text text-uppercase">
-                <span v-if="Array.isArray(h.group)" v-html="h.group.join(', ')" />
+              <span
+                v-if="h.group && h.group !== 'null'"
+                class="heading white--text text-uppercase"
+              >
+                <span
+                  v-if="Array.isArray(h.group)"
+                  v-html="h.group.join(', ')"
+                />
                 <span v-else v-html="h.group" />
               </span>
               <span v-else>NONE</span>
             </div>
           </template>
           <template v-slot:item.Name="{ item }">
-            <span class="accent--text heading clickable ml-n2" @click="selectedEncounter = item">
+            <span
+              class="accent--text heading clickable ml-n2"
+              @click="selectedEncounter = item"
+            >
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
@@ -57,7 +66,9 @@
                       <v-icon>mdi-content-copy</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                      <v-list-item-title>Copy {{ item.Name }}</v-list-item-title>
+                      <v-list-item-title
+                        >Copy {{ item.Name }}</v-list-item-title
+                      >
                     </v-list-item-content>
                   </v-list-item>
                   <v-list-item disabled>
@@ -65,7 +76,9 @@
                       <v-icon>mdi-printer</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                      <v-list-item-title>Print Encounter Sheets</v-list-item-title>
+                      <v-list-item-title
+                        >Print Encounter Sheets</v-list-item-title
+                      >
                     </v-list-item-content>
                   </v-list-item>
                   <v-divider />
@@ -94,7 +107,7 @@
           </template>
         </v-data-table>
       </v-row>
-      <v-divider class="my-2 " />
+      <v-divider class="my-2" />
       <v-row justify="center" dense no-gutters>
         <v-col cols="8">
           <v-btn block tile color="primary" large @click="addNew()">
@@ -115,56 +128,53 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PanelView from '../components/PanelView.vue'
-import EncounterGroup from './components/EncounterGroup.vue'
-import EncounterCard from './components/EncounterCard.vue'
-import { getModule } from 'vuex-module-decorators'
-import { EncounterStore } from '@/store'
-import { Encounter } from '@/class'
+import Vue from "vue";
+import PanelView from "../components/PanelView.vue";
+import EncounterGroup from "./components/EncounterGroup.vue";
+import EncounterCard from "./components/EncounterCard.vue";
+import { getModule } from "vuex-module-decorators";
+import { EncounterStore } from "@/store";
+import { Encounter } from "@/class";
 
 export default Vue.extend({
-  name: 'encounter-manager',
+  name: "encounter-manager",
   components: { PanelView, EncounterCard, EncounterGroup },
   data: () => ({
-    search: '',
+    search: "",
     selectedEncounter: null,
     grouping: null,
     headers: [
-      { text: 'Name', value: 'Name', align: 'left' },
-      { text: 'PR', value: 'Power', width: '50' },
+      { text: "Name", value: "Name", align: "left" },
+      { text: "PR", value: "Power", width: "50" },
     ],
     encounters: [],
   }),
   watch: {
     selectedEncounter() {
-      this.$refs.view.resetScroll()
+      this.$refs.view.resetScroll();
     },
   },
   created() {
-    const store = getModule(EncounterStore, this.$store)
-    this.encounters = store.Encounters
+    const store = getModule(EncounterStore, this.$store);
+    this.encounters = store.Encounters;
   },
   methods: {
     deleteEncounter(encounter: Encounter) {
-      const store = getModule(EncounterStore, this.$store)
-      store.deleteEncounter(encounter)
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'encounterDelete' })
+      const store = getModule(EncounterStore, this.$store);
+      store.deleteEncounter(encounter);
     },
     copyEncounter(encounter: Encounter) {
-      const store = getModule(EncounterStore, this.$store)
-      store.cloneEncounter(encounter)
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'encounterCreate' })
+      const store = getModule(EncounterStore, this.$store);
+      store.cloneEncounter(encounter);
     },
     addNew() {
-      const store = getModule(EncounterStore, this.$store)
-      store.addEncounter(new Encounter())
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'encounterCreate' })
-      const enc = this.encounters[this.encounters.length - 1].ID
-      this.$router.push({ name: 'encounter', params: { id: enc } })
+      const store = getModule(EncounterStore, this.$store);
+      store.addEncounter(new Encounter());
+      const enc = this.encounters[this.encounters.length - 1].ID;
+      this.$router.push({ name: "encounter", params: { id: enc } });
     },
   },
-})
+});
 </script>
 
 <style>

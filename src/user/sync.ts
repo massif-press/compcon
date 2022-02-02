@@ -4,7 +4,7 @@ import { Auth, API, Storage } from 'aws-amplify'
 import { createUserData, updateUserData } from '@/graphql/mutations'
 import { syncUserData } from '@/graphql/queries'
 import { ActiveMission, Encounter, Mission, Pilot } from '@/class'
-import { IPilotData } from '@/classes/pilot/Pilot'
+import { PilotData } from '@/classes/pilot/Pilot'
 import { Npc } from '@/classes/npc/Npc'
 import { getModule } from 'vuex-module-decorators'
 import Startup from '@/io/Startup'
@@ -101,7 +101,7 @@ const PullRemoteData = async (): Promise<void> => {
       return
     }
 
-    const data: IPilotData = await fetch(url)
+    const data: PilotData = await fetch(url)
       .then(res => {
         return res.json()
       })

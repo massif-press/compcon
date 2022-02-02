@@ -13,6 +13,7 @@ interface INpcData {
   cloudOwnerID: string
   isLocal: boolean
   lastSync: string
+  lastModified: string
   class: string
   tier: number | string
   name: string
@@ -49,6 +50,8 @@ class Npc implements IActor, ICloudSyncable {
   public CloudID: string
   public CloudOwnerID: string
   public IsDirty: boolean
+  public LastModified: string
+  private _isLoaded: boolean
 
   private _active: boolean
   private _id: string
@@ -121,7 +124,10 @@ class Npc implements IActor, ICloudSyncable {
   private save(): void {
     if (this.IsLocallyOwned) this.IsDirty = true
     if (this.Active) store.dispatch('setMissionsDirty')
-    else store.dispatch('setNpcsDirty')
+    else {
+      this.LastModified = new Date().toString()
+      store.dispatch('setNpcsDirty')
+    }
   }
 
   public get ID(): string {
@@ -662,6 +668,7 @@ class Npc implements IActor, ICloudSyncable {
       cloudID: npc.CloudID,
       cloudOwnerID: npc.CloudOwnerID,
       lastSync: npc.LastSync,
+      lastModified: npc.LastModified || '',
       class: npc.Class.ID,
       tier: npc._tier,
       name: npc._name,
@@ -704,6 +711,8 @@ class Npc implements IActor, ICloudSyncable {
     this.CloudID = data.cloudID || ''
     this.CloudOwnerID = data.cloudOwnerID || ''
     this.LastSync = data.lastSync || ''
+    this.LastModified = data.lastModified || ''
+
     this._tier = data.tier
     this._name = data.name
     this._subtitle = data.subtitle || ''

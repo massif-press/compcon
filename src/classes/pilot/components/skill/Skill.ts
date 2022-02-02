@@ -1,6 +1,6 @@
-import { store } from '@/store'
-import { CompendiumItem, SkillFamily, ItemType } from '@/class'
-import { ICompendiumItemData } from '@/interface'
+import { store } from '../../../../store'
+import { CompendiumItem, SkillFamily, ItemType } from '../../../../class'
+import { ICompendiumItemData } from '../../../../interface'
 
 interface ISkillData extends ICompendiumItemData {
   detail: string

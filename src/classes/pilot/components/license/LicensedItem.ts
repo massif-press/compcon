@@ -1,6 +1,14 @@
-import { store } from '@/store'
-import { CompendiumItem, Frame, ItemType, Manufacturer } from '@/class'
-import { ICompendiumItemData, ITagCompendiumData } from '@/interface'
+import { store } from '../../../../store'
+import { CompendiumItem, Frame, ItemType, Manufacturer } from '../../../../class'
+import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface'
+
+interface ILicenseRequirement {
+  source: string
+  name: string
+  rank: number
+  items: string[]
+  missing?: boolean
+}
 
 interface ILicensedItemData extends ICompendiumItemData {
   source: string

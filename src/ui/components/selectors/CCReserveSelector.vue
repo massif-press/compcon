@@ -2,7 +2,7 @@
   <div>
     <div
       v-show="$vuetify.breakpoint.mdAndUp"
-      style="position: absolute; top: 0; right: 0; height:108px; width:100px; overflow-x: hidden"
+      style="position: absolute; top: 0; right: 0; height: 108px; width: 100px; overflow-x: hidden"
       class="primary"
     />
     <v-tabs background-color="primary" hide-slider grow>
@@ -116,11 +116,11 @@ export default class ReserveSelector extends Vue {
     return _.groupBy(this.compendium.Reserves, 'Type')
   }
   add(reserve: Reserve): void {
-    this.pilot.AddReserve(_.clone(reserve))
+    this.pilot.ReservesController.AddReserve(_.clone(reserve))
     this.$emit('close')
   }
   addOrg(org: Organization): void {
-    this.pilot.AddOrganization(_.clone(org))
+    this.pilot.ReservesController.AddOrganization(_.clone(org))
     this.$emit('close')
   }
 }
