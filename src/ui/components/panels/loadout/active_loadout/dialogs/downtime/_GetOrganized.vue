@@ -192,9 +192,7 @@
                                   <v-btn text large value="Prove Worthiness">
                                     Prove Worthiness
                                   </v-btn>
-                                  <v-btn text large value="Get Bailed Out">
-                                    Get Bailed Out
-                                  </v-btn>
+                                  <v-btn text large value="Get Bailed Out">Get Bailed Out</v-btn>
                                   <v-btn text large value="Make an Aggressive Move">
                                     Make an Aggressive Move
                                   </v-btn>
@@ -206,7 +204,7 @@
                             <v-row
                               v-if="
                                 parseInt(selected.Influence) === 6 &&
-                                  parseInt(selected.Efficiency) === 6
+                                parseInt(selected.Efficiency) === 6
                               "
                               row
                               wrap
@@ -240,7 +238,7 @@
                                         +
                                         {{
                                           selected.Efficiency +
-                                            (improvement === 'efficiency' ? 2 : 0)
+                                          (improvement === 'efficiency' ? 2 : 0)
                                         }}
                                         Efficiency
                                       </span>
@@ -300,7 +298,7 @@
                             <span
                               v-if="
                                 parseInt(selected.Influence) < 6 &&
-                                  parseInt(selected.Efficiency) < 6
+                                parseInt(selected.Efficiency) < 6
                               "
                               class="heading h3 accent--text"
                             >
@@ -380,7 +378,7 @@ export default Vue.extend({
         .sort() as OrgType[]
     },
     organizations() {
-      return this.pilot.Organizations
+      return this.pilot.ReservesController.Organizations
     },
     confirmDisabled() {
       if (this.tabs === 0) return !this.name || !this.type || !this.start
@@ -415,14 +413,16 @@ export default Vue.extend({
         description: this.details,
         actions: '',
       })
-      this.pilot.AddOrganization(org)
+      this.pilot.ReservesController.AddOrganization(org)
       this.close()
     },
     improveOrg() {
       if (parseInt(this.improveRoll) < 10) {
         if (this.badChoice === 'fold') {
-          this.pilot.Organizations.splice(
-            this.pilot.Organizations.findIndex(x => x.Name === this.selected.Name),
+          this.pilot.ReservesController.Organizations.splice(
+            this.pilot.ReservesController.Organizations.findIndex(
+              x => x.Name === this.selected.Name
+            ),
             1
           )
         } else if (this.badChoice === 'efficiency') {

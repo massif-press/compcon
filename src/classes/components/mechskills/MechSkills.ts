@@ -1,19 +1,17 @@
-import { Rules, HASE } from '@/class'
-import { Pilot } from './Pilot'
+import { Rules, HASE } from '../../../class'
 
 class MechSkills {
-  private owner: Pilot
   private hull: number
   private agi: number
   private sys: number
   private eng: number
 
-  public constructor(owner: Pilot, h?: number, a?: number, s?: number, e?: number) {
-    this.owner = owner
-    this.hull = h || 0
-    this.agi = a || 0
-    this.sys = s || 0
-    this.eng = e || 0
+  public constructor(arr?: number[]) {
+    const d = !arr || arr.length < 4
+    this.hull = d ? 0 : arr[0]
+    this.agi = d ? 0 : arr[1]
+    this.sys = d ? 0 : arr[2]
+    this.eng = d ? 0 : arr[3]
   }
 
   public get Hull(): number {
@@ -50,12 +48,10 @@ class MechSkills {
 
   public Increment(field: HASE): void {
     if (this[field] < Rules.MaxHase) this[field] += 1
-    this.owner.save()
   }
 
   public Decrement(field: HASE): void {
     if (this[field] > 0) this[field] -= 1
-    this.owner.save()
   }
 
   public Reset(): void {
@@ -63,7 +59,6 @@ class MechSkills {
     this.agi = 0
     this.sys = 0
     this.eng = 0
-    this.owner.save()
   }
 
   public get Sum(): number {
@@ -74,8 +69,8 @@ class MechSkills {
     return [item.Hull, item.Agi, item.Sys, item.Eng]
   }
 
-  public static Deserialize(p: Pilot, itemData: number[]): MechSkills {
-    return new MechSkills(p, itemData[0], itemData[1], itemData[2], itemData[3])
+  public static Deserialize(itemData: number[]): MechSkills {
+    return new MechSkills(itemData)
   }
 }
 

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px!important">
+    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
       <section-edit-chip
-        :highlight="!pilot.HasCBs"
-        :current="pilot.CurrentCBPoints"
-        :max="pilot.MaxCBPoints"
-        :label="`Edit Pilot CORE Bonuses (${pilot.CurrentCBPoints}/${pilot.MaxCBPoints})`"
+        :highlight="!pilot.CoreBonusController.HasCBs"
+        :current="pilot.CoreBonusController.CurrentCBPoints"
+        :max="pilot.CoreBonusController.MaxCBPoints"
+        :label="`Edit Pilot CORE Bonuses (${pilot.CoreBonusController.CurrentCBPoints}/${pilot.CoreBonusController.MaxCBPoints})`"
         @open-selector="$refs.bonusSelector.show()"
       />
       CORE Bonuses
@@ -20,10 +20,10 @@
       <cc-core-bonus-selector :pilot="pilot" />
     </cc-solo-dialog>
     <v-container class="px-0">
-      <no-data-block v-if="!pilot.CoreBonuses.length" />
+      <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
       <v-row v-else dense justify="center">
         <v-col
-          v-for="(b, i) in pilot.CoreBonuses"
+          v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
           :key="`b_${i}`"
           cols="12"
           md=""

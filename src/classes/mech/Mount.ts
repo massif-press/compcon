@@ -43,7 +43,7 @@ abstract class Mount {
   }
 
   protected save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   protected getID(): void {

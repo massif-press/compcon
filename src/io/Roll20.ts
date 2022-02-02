@@ -118,12 +118,12 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       background: pilot.Background,
       hp: pilot.MaxHP,
       //
-      hull: pilot.MechSkills.Hull,
-      agility: pilot.MechSkills.Agi,
-      systems: pilot.MechSkills.Sys,
-      engineering: pilot.MechSkills.Eng,
+      hull: pilot.MechSkillsController.MechSkills.Hull,
+      agility: pilot.MechSkillsController.MechSkills.Agi,
+      systems: pilot.MechSkillsController.MechSkills.Sys,
+      engineering: pilot.MechSkillsController.MechSkills.Eng,
       //
-      triggers: pilot.Skills.map(skill => ({
+      triggers: pilot.SkillsController.Skills.map(skill => ({
         name: skill.Title,
         bonus: skill.Bonus,
       })),
@@ -137,36 +137,36 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       armor: pilot.Loadout.Armor.map(armor =>
         armor
           ? {
-              name: armor.Name,
-              armor: parseInt(armor.Armor),
-              evade: parseInt(armor.Evasion),
-              edef: parseInt(armor.EDefense),
-              speed: parseInt(armor.Speed),
-              bonusHP: parseInt(armor.HPBonus),
-            }
+            name: armor.Name,
+            armor: parseInt(armor.Armor),
+            evade: parseInt(armor.Evasion),
+            edef: parseInt(armor.EDefense),
+            speed: parseInt(armor.Speed),
+            bonusHP: parseInt(armor.HPBonus),
+          }
           : null
       )[0],
       weapons: pilot.Loadout.Weapons.map(weapon =>
         weapon
           ? {
-              name: weapon.Name,
-              // filter out blast since it's never used as the only "range" really
-              range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
-              damage: weapon.Damage.map(dmg => dmg.Value).join('+'),
-              type: weapon.DefaultDamageType,
-              tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
-            }
+            name: weapon.Name,
+            // filter out blast since it's never used as the only "range" really
+            range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
+            damage: weapon.Damage.map(dmg => dmg.Value).join('+'),
+            type: weapon.DefaultDamageType,
+            tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
+          }
           : null
       ).slice(0, 2),
-      licenses: pilot.Licenses.map(l => ({
+      licenses: pilot.LicenseController.Licenses.map(l => ({
         name: `${l.License.Source} ${l.License.Name}`,
         rank: l.Rank,
       })),
-      coreBonuses: pilot.CoreBonuses.map(cb => cb.Name + '\n' + cb.Description).join('\n'),
+      coreBonuses: pilot.CoreBonusController.CoreBonuses.map(cb => cb.Name + '\n' + cb.Description).join('\n'),
     },
     //
     //
-    talents: pilot.Talents.map(talent => ({
+    talents: pilot.TalentsController.Talents.map(talent => ({
       name: talent.Talent.Name,
       ranks: talent.Talent.Ranks.map(rank => ({
         name: rank.Name,

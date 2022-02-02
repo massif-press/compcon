@@ -19,7 +19,7 @@ class Organization {
   }
 
   private save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   public get Type(): string {

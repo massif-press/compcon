@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2021",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise", "es2021"]
   },
   "include": [
     "src/assets/*.ts",

@@ -1,4 +1,4 @@
-import { ItemType } from '@/class'
+import { ItemType } from '../../../../class'
 
 class CustomSkill {
   public readonly ItemType: ItemType

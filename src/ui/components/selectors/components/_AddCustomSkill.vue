@@ -56,7 +56,7 @@ import { CustomSkill } from '@/class'
 export default Vue.extend({
   name: 'add-custom-skill',
   props: {
-    pilot: Pilot
+    pilot: Pilot,
   },
   data: () => ({
     newSkill: '',
@@ -66,8 +66,8 @@ export default Vue.extend({
   computed: {
     canAdd(): boolean {
       const custSkill = new CustomSkill(this.newSkill, this.newDesc, this.newDetail)
-      return this.pilot.CanAddSkill(custSkill)
-    }
+      return this.pilot.SkillsController.CanAddSkill(custSkill)
+    },
   },
   methods: {
     addSkill() {

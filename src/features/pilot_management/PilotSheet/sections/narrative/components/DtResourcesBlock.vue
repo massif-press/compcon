@@ -1,6 +1,6 @@
 <template>
   <div class="my-3">
-    <cc-title small color="pilot" style="margin-left: -70px!important">
+    <cc-title small color="pilot" style="margin-left: -70px !important">
       <section-edit-icon
         label="Add Reserves and Bonuses"
         @open-selector="$refs.dtSelector.show()"
@@ -18,19 +18,24 @@
       <cc-reserve-selector :pilot="pilot" @close="$refs.dtSelector.hide()" />
     </cc-solo-dialog>
     <v-container>
-      <no-data-block v-if="!pilot.Reserves.length && !pilot.Organizations.length" />
+      <no-data-block
+        v-if="
+          !pilot.ReservesController.Reserves.length &&
+          !pilot.ReservesController.Organizations.length
+        "
+      />
       <v-row v-else dense>
         <cc-reserve-item
-          v-for="(r, i) in pilot.Reserves"
+          v-for="(r, i) in pilot.ReservesController.Reserves"
           :key="`r_${i}`"
           :reserve="r"
-          @remove="pilot.RemoveReserve(i)"
+          @remove="pilot.ReservesController.RemoveReserve(i)"
         />
         <cc-org-item
-          v-for="(o, i) in pilot.Organizations"
+          v-for="(o, i) in pilot.ReservesController.Organizations"
           :key="`o_${i}`"
           :org="o"
-          @remove="pilot.RemoveOrganization(i)"
+          @remove="pilot.ReservesController.RemoveOrganization(i)"
         />
       </v-row>
     </v-container>

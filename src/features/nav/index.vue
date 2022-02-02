@@ -69,12 +69,22 @@
     />
 
     <cc-tooltip v-if="isAuthed" bottom :content="syncTooltip">
-      <v-btn icon dark :style="`opacity: ${unsaved.length ? '1' : '0.4'}`" @click="sync()">
+      <v-btn
+        icon
+        dark
+        :style="`opacity: ${unsaved.length ? '1' : '0.4'}`"
+        @click="sync()"
+      >
         <v-icon>mdi-cloud-sync-outline</v-icon>
       </v-btn>
     </cc-tooltip>
 
-    <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="ml-2 mr-2" />
+    <v-divider
+      v-if="$vuetify.breakpoint.mdAndUp"
+      vertical
+      dark
+      class="ml-2 mr-2"
+    />
 
     <v-menu nudge-bottom="40px">
       <template v-slot:activator="{ on }">
@@ -84,7 +94,9 @@
       </template>
 
       <v-list dense>
-        <v-list-item @click="$refs.contentModal.show()">Manage Content</v-list-item>
+        <v-list-item @click="$refs.contentModal.show()"
+          >Manage Content</v-list-item
+        >
         <v-list-item @click="$refs.optionsModal.show()">Options</v-list-item>
         <v-list-item @click="$refs.aboutModal.show()">About</v-list-item>
         <v-list-item @click="$refs.creditsModal.show()">Credits</v-list-item>
@@ -119,11 +131,15 @@
     >
       <options-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"
+      ><about-page
+    /></cc-solo-dialog>
     <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"
+      ><help-page
+    /></cc-solo-dialog>
     <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
@@ -131,24 +147,24 @@
 </template>
 
 <script lang="ts">
-import HelpPage from './pages/Help.vue'
-import AboutPage from './pages/About.vue'
-import CreditsPage from './pages/Credits.vue'
-import OptionsPage from './pages/Options/index.vue'
-import ContentPage from './pages/ExtraContent/index.vue'
-import activePilot from '../pilot_management/mixins/activePilot'
+import HelpPage from "./pages/Help.vue";
+import AboutPage from "./pages/About.vue";
+import CreditsPage from "./pages/Credits.vue";
+import OptionsPage from "./pages/Options/index.vue";
+import ContentPage from "./pages/ExtraContent/index.vue";
+import activePilot from "../pilot_management/mixins/activePilot";
 
-import PilotMode from './modes/pilot.vue'
-import EncounterMode from './modes/encounter.vue'
-import CompendiumMode from './modes/compendium.vue'
+import PilotMode from "./modes/pilot.vue";
+import EncounterMode from "./modes/encounter.vue";
+import CompendiumMode from "./modes/compendium.vue";
 
-import vueMixins from '@/util/vueMixins'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore, UserStore, NavStore } from '@/store'
-import { Auth } from 'aws-amplify'
+import vueMixins from "@/util/vueMixins";
+import { getModule } from "vuex-module-decorators";
+import { PilotManagementStore, UserStore, NavStore } from "@/store";
+import { Auth } from "aws-amplify";
 
 export default vueMixins(activePilot).extend({
-  name: 'cc-nav',
+  name: "cc-nav",
   components: {
     HelpPage,
     AboutPage,
@@ -170,41 +186,41 @@ export default vueMixins(activePilot).extend({
     currentAuthedUser: null,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser().then(res => {
-      this.currentAuthedUser = res.username
-    })
+    await Auth.currentAuthenticatedUser().then((res) => {
+      this.currentAuthedUser = res.username;
+    });
   },
   computed: {
     mode(): string {
-      return getModule(NavStore, this.$store).NavMode
+      return getModule(NavStore, this.$store).NavMode;
     },
     unsaved() {
-      return getModule(PilotManagementStore, this.$store).unsavedCloudPilots
+      return getModule(PilotManagementStore, this.$store).unsavedCloudPilots;
     },
     isAuthed() {
-      return getModule(UserStore, this.$store).IsLoggedIn
+      return getModule(UserStore, this.$store).IsLoggedIn;
     },
     syncTooltip(): string {
-      if (!this.unsaved.length) return 'Pilot data synced'
+      if (!this.unsaved.length) return "Pilot data synced";
       return (
         '<div class="text-center"><b>LOCAL CHANGES<br></b>' +
-        this.unsaved.map(p => `Pilot::${p.Callsign}`).join('<br>') +
+        this.unsaved.map((p) => `Pilot::${p.Callsign}`).join("<br>") +
         '<br><span class="caption">Click to save changes to your cloud account</span></div>'
-      )
+      );
     },
   },
   methods: {
     sync() {
-      getModule(UserStore, this.$store).cloudSync({
-        callback: (status, message) => this.$notify(status, message),
-      })
+      // getModule(UserStore, this.$store).cloudSync({
+      //   callback: (status, message) => this.$notify(status, message),
+      // })
     },
     home() {
-      this.$router.push('/')
+      this.$router.push("/");
     },
     historyNav(dir: number) {
-      this.$router.go(dir)
+      this.$router.go(dir);
     },
   },
-})
+});
 </script>

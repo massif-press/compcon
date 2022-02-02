@@ -14,7 +14,7 @@ import {
 } from '@/class'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { Bonus } from '../Bonus'
-import { ICounterData } from '../Counter'
+import { ICounterData } from '../components/counters/Counter'
 import { Action, ActivePeriod } from '../Action'
 import { IDeployableData } from '../Deployable'
 import { IMechLoadoutData } from './MechLoadout'
@@ -129,7 +129,7 @@ class Mech implements IActor {
   }
   // -- Utility -----------------------------------------------------------------------------------
   private save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   // -- Info --------------------------------------------------------------------------------------
@@ -443,19 +443,19 @@ class Mech implements IActor {
 
   // -- HASE --------------------------------------------------------------------------------------
   public get Hull(): number {
-    return this._pilot.MechSkills.Hull
+    return this._pilot.MechSkillsController.MechSkills.Hull
   }
 
   public get Agi(): number {
-    return this._pilot.MechSkills.Agi
+    return this._pilot.MechSkillsController.MechSkills.Agi
   }
 
   public get Sys(): number {
-    return this._pilot.MechSkills.Sys
+    return this._pilot.MechSkillsController.MechSkills.Sys
   }
 
   public get Eng(): number {
-    return this._pilot.MechSkills.Eng
+    return this._pilot.MechSkillsController.MechSkills.Eng
   }
 
   // -- Stats -------------------------------------------------------------------------------------
@@ -996,7 +996,7 @@ class Mech implements IActor {
 
   // -- Mountable CORE Bonuses --------------------------------------------------------------------
   public get PilotBonuses(): CoreBonus[] {
-    return this.Pilot.CoreBonuses.filter(x => x.IsMountable)
+    return this.pilot.CoreBonusController.CoreBonuses.filter(x => x.IsMountable)
   }
 
   public get AppliedBonuses(): CoreBonus[] {

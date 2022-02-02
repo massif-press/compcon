@@ -1,20 +1,24 @@
 <template>
-  <selector title="Pilot CORE Bonuses" height="60vh" :success="!pilot.IsMissingCBs">
+  <selector
+    title="Pilot CORE Bonuses"
+    height="60vh"
+    :success="!pilot.CoreBonusController.IsMissingCBs"
+  >
     <template v-slot:left-column>
       <v-row
-        v-for="b in pilot.CoreBonuses"
+        v-for="b in pilot.CoreBonusController.CoreBonuses"
         :key="`summary_${b.ID}`"
         class="my-2"
         style="width: 98%"
       >
-        <!-- <missing-item v-if="b.err" @remove="pilot.RemoveCoreBonus(b)" /> -->
+        <!-- <missing-item v-if="b.err" @remove="pilot.CoreBonusController.RemoveCoreBonus(b)" /> -->
         <div>
           <v-icon small color="accent">cci-corebonus</v-icon>
           <strong>{{ b.Name }}</strong>
           <span class="overline">{{ b.Source }}</span>
         </div>
       </v-row>
-      <v-divider v-if="pilot.CoreBonuses.length" class="ma-2 ml-4 mr-4" />
+      <v-divider v-if="pilot.CoreBonusController.CoreBonuses.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-alert
           outlined
@@ -22,7 +26,7 @@
           icon="check_circle"
           class="stat-text"
           style="width: 95%"
-          :value="!pilot.IsMissingCBs"
+          :value="!pilot.CoreBonusController.IsMissingCBs"
         >
           CORE Bonus Selection Complete
         </v-alert>
@@ -31,16 +35,17 @@
           color="accent"
           icon="warning"
           class="stat-text"
-          :value="pilot.IsMissingCBs"
+          :value="pilot.CoreBonusController.IsMissingCBs"
         >
-          {{ pilot.CurrentCBPoints }} / {{ pilot.MaxCBPoints }} CORE Bonuses selected
+          {{ pilot.CoreBonusController.CurrentCBPoints }} /
+          {{ pilot.CoreBonusController.MaxCBPoints }} CORE Bonuses selected
         </v-alert>
         <div class="my-2">
           <v-btn
             block
             text
             small
-            :disabled="!pilot.CoreBonuses.length"
+            :disabled="!pilot.CoreBonusController.CoreBonuses.length"
             @click="pilot.ClearCoreBonuses()"
           >
             Reset
@@ -98,8 +103,8 @@
               :is-selectable="isSelectable(b)"
               :is-selected="isSelected(b)"
               :color="manufacturer.GetColor($vuetify.theme.dark)"
-              @add="pilot.AddCoreBonus(b)"
-              @remove="pilot.RemoveCoreBonus(b)"
+              @add="pilot.CoreBonusController.AddCoreBonus(b)"
+              @remove="pilot.CoreBonusController.RemoveCoreBonus(b)"
             />
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -148,7 +153,7 @@ export default class CCCoreBonusSelector extends Vue {
   }
 
   get selectionComplete(): boolean {
-    return this.levelUp && !this.pilot.IsMissingCBs
+    return this.levelUp && !this.pilot.CoreBonusController.IsMissingCBs
   }
 
   @Watch('selectionComplete') onSelectionComplete(): void {
@@ -163,9 +168,9 @@ export default class CCCoreBonusSelector extends Vue {
       return `<b>${this.selectedCount(
         m.ID
       )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`
-    const lvl = `<b>${this.pilot.LicenseLevel(m.ID)}</b>`
+    const lvl = `<b>${this.pilot.LicenseController.LicenseLevel(m.ID)}</b>`
     let output = `${lvl} ${abbr} Licenses Acquired ${br} `
-    let remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseLevel(m.ID)
+    let remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseController.LicenseLevel(m.ID)
     if (remain < 1) remain += 3
     output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available ${br} `
     output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`
@@ -177,15 +182,20 @@ export default class CCCoreBonusSelector extends Vue {
   }
 
   selectedCount(m: string): number {
-    return this.pilot.CoreBonuses.filter((x: CoreBonus) => x.Source === m).length
+    return this.pilot.CoreBonusController.CoreBonuses.filter((x: CoreBonus) => x.Source === m)
+      .length
   }
   availableCount(m: string): number {
     if (m.toUpperCase() === 'GMS') return Infinity
     const extraLicenses = Bonus.IntPilot(0, 'cb_point', this.pilot)
-    return Math.floor(this.pilot.LicenseLevel(m) / 3) + extraLicenses - this.selectedCount(m)
+    return (
+      Math.floor(this.pilot.LicenseController.LicenseLevel(m) / 3) +
+      extraLicenses -
+      this.selectedCount(m)
+    )
   }
   isSelectable(b: CoreBonus): boolean {
-    return this.availableCount(b.Source) > 0 && this.pilot.IsMissingCBs
+    return this.availableCount(b.Source) > 0 && this.pilot.CoreBonusController.IsMissingCBs
   }
   isSelected(b: CoreBonus): boolean {
     return this.pilot.has('CoreBonus', b.ID)

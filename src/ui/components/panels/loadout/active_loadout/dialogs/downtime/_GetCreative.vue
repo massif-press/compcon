@@ -137,9 +137,7 @@
                     <br />
                     <p class="pt-2 pb-0 mb-0">{{ improveSelection.ResourceCost }}</p>
                     <div class="text-right">
-                      <v-btn tile color="success" @click="completeProject()">
-                        Complete
-                      </v-btn>
+                      <v-btn tile color="success" @click="completeProject()">Complete</v-btn>
                     </div>
                   </v-alert>
                 </v-col>
@@ -276,7 +274,9 @@ export default Vue.extend({
   }),
   computed: {
     projects() {
-      return this.pilot.Reserves.filter(x => x.Type === 'Project' && !x.IsFinished)
+      return this.pilot.ReservesController.Reserves.filter(
+        x => x.Type === 'Project' && !x.IsFinished
+      )
     },
   },
   methods: {
@@ -299,7 +299,7 @@ export default Vue.extend({
         requirements: [],
       })
       if (this.cost) p.ResourceCost = `Requires: ${this.cost.toString()}`
-      this.pilot.AddReserve(p)
+      this.pilot.ReservesController.AddReserve(p)
       this.close()
     },
     improveProject() {

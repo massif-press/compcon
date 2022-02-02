@@ -55,14 +55,14 @@ export const CLEAR_PACKS = 'CLEAR_PACKS'
 export const SET_PACK_ACTIVE = 'SET_PACK_ACTIVE'
 
 function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
-  return function(self: CompendiumStore, name: string) {
+  return function (self: CompendiumStore, name: string) {
     const baseName = `__Base_${name}`
 
     Object.defineProperty(self, baseName, {
       get: base,
     })
     Object.defineProperty(self, name, {
-      get: function() {
+      get: function () {
         return [...this[baseName], ...this.ContentPacks.flatMap(pack => pack[name])]
       },
     })
@@ -112,7 +112,7 @@ export class CompendiumStore extends VuexModule {
   @Brewable(() => lancerData.systems.map((x: IMechSystemData) => new MechSystem(x)))
   MechSystems: MechSystem[]
   @Brewable(() =>
-    lancerData.pilot_gear.map(function(x: any) {
+    lancerData.pilot_gear.map(function (x: any) {
       if (x.type.toLowerCase() === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
       else if (x.type.toLowerCase() === 'armor') return new PilotArmor(x as IPilotArmorData)
       return new PilotGear(x as IPilotEquipmentData)
@@ -202,7 +202,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    this.context.dispatch('cloudSync', { callback: null, condition: null })
+    // this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -216,7 +216,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    this.context.dispatch('cloudSync', { callback: null, condition: null })
+    // this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -226,7 +226,7 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    this.context.dispatch('cloudSync', { callback: null, condition: null })
+    // this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action

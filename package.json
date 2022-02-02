@@ -48,7 +48,7 @@
     "prettier": "^2.2.1",
     "sass": "~1.32.0",
     "source-map-support": "^0.5.10",
-    "typescript": "~4.1.5",
+    "typescript": "^4.5.5",
     "typescript-json-schema": "^0.42.0",
     "vue-cli-plugin-svg": "~0.2.1",
     "vue-template-compiler": "^2.6.11"

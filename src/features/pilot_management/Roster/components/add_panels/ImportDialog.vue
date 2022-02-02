@@ -4,9 +4,12 @@
       id="panel"
       tile
       color="black"
-      style="border: 6px double var(--v-panel-border-base) !important; border-radius: 2px !important;"
+      style="
+        border: 6px double var(--v-panel-border-base) !important;
+        border-radius: 2px !important;
+      "
     >
-      <v-card-text class="subtle--text stat-text mt-2" style="min-height:50vh">
+      <v-card-text class="subtle--text stat-text mt-2" style="min-height: 50vh">
         <span ref="preambleLog"></span>
         <span ref="infoLog"></span>
       </v-card-text>
@@ -190,7 +193,7 @@ export default class ImportDialog extends Vue {
         )
         .break()
 
-      const licenseCount = pilot.Licenses.reduce((counter, pilotLicense) => {
+      const licenseCount = pilot.LicenseController.Licenses.reduce((counter, pilotLicense) => {
         counter[pilotLicense.License.Source] =
           (counter[pilotLicense.License.Source] || 0) + pilotLicense.Rank
         return counter

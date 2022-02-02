@@ -1,4 +1,5 @@
-import { License } from '@/class'
+import { IRankedData } from '../../../../interface'
+import License from './License'
 
 class PilotLicense {
   public readonly License: License
@@ -42,4 +43,4 @@ class PilotLicense {
   }
 }
 
-export default PilotLicense
+export { PilotLicense }

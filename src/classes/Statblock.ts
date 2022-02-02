@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
-import { Pilot, Mech, Npc, PilotWeapon, MechWeapon } from '@/class'
+import { Pilot, Mech, Npc, PilotWeapon, MechWeapon } from '../class'
 
 function linebreak(i: number, length: number): string {
   if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
@@ -39,35 +39,35 @@ class Statblock {
     if (pilot) {
       output += `» ${pilot.Callsign.toUpperCase()} «\n`
       output += `${pilot.Name}\n${pilot.Background}, LL${pilot.Level}\n`
-      output += `GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${pilot.MechSkills.Sys} E:${pilot.MechSkills.Eng}\n`
+      output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
       output += `[ SKILL TRIGGERS ]\n  `
-      for (let i = 0; i < pilot.Skills.length; i++) {
-        const s = pilot.Skills[i]
-        output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(i, pilot.Skills.length)}`
+      for (let i = 0; i < pilot.SkillsController.Skills.length; i++) {
+        const s = pilot.SkillsController.Skills[i]
+        output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(i, pilot.SkillsController.Skills.length)}`
       }
 
       output += '[ TALENTS ]\n  '
-      for (let i = 0; i < pilot.Talents.length; i++) {
-        const t = pilot.Talents[i]
-        output += `${t.Talent.Name} ${t.Rank}${linebreak(i, pilot.Talents.length)}`
+      for (let i = 0; i < pilot.TalentsController.Talents.length; i++) {
+        const t = pilot.TalentsController.Talents[i]
+        output += `${t.Talent.Name} ${t.Rank}${linebreak(i, pilot.TalentsController.Talents.length)}`
       }
 
-      if (pilot.Licenses.length) {
+      if (pilot.LicenseController.Licenses.length) {
         output += '[ LICENSES ]\n  '
-        for (let i = 0; i < pilot.Licenses.length; i++) {
-          const l = pilot.Licenses[i]
+        for (let i = 0; i < pilot.LicenseController.Licenses.length; i++) {
+          const l = pilot.LicenseController.Licenses[i]
           output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
             i,
-            pilot.Licenses.length
+            pilot.LicenseController.Licenses.length
           )}`
         }
       }
 
-      if (pilot.CoreBonuses.length) {
+      if (pilot.CoreBonusController.CoreBonuses.length) {
         output += '[ CORE BONUSES ]\n  '
-        for (let i = 0; i < pilot.CoreBonuses.length; i++) {
-          const cb = pilot.CoreBonuses[i]
-          output += `${cb.Name}${linebreak(i, pilot.CoreBonuses.length)}`
+        for (let i = 0; i < pilot.CoreBonusController.CoreBonuses.length; i++) {
+          const cb = pilot.CoreBonusController.CoreBonuses[i]
+          output += `${cb.Name}${linebreak(i, pilot.CoreBonusController.CoreBonuses.length)}`
         }
       }
 
@@ -110,9 +110,8 @@ class Statblock {
       output += `« ${mech.Name.toUpperCase()} »\n[ ${mech.Frame.Source} ${mech.Frame.Name} ]\n`
       if (!pilot)
         output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
-      output += `  STRUCTURE:${mech.CurrentStructure}${
-        mech.IsActive ? '/' + mech.MaxStructure : ''
-      }`
+      output += `  STRUCTURE:${mech.CurrentStructure}${mech.IsActive ? '/' + mech.MaxStructure : ''
+        }`
       output += ` HP:${mech.CurrentHP}${mech.IsActive ? '/' + mech.MaxHP : ''}`
       output += ` ARMOR:${mech.Armor}\n`
       output += `  STRESS:${mech.CurrentStress}${mech.IsActive ? '/' + mech.MaxStress : ''}`
@@ -166,87 +165,79 @@ class Statblock {
     const mechLoadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
     return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
 [ LICENSES ]
-  ${
-    pilot.Licenses.length
-      ? `${pilot.Licenses.map(l => `${l.License.Source} ${l.License.Name} ${l.Rank}`).join(', ')}`
-      : 'N/A'
-  }
+  ${pilot.LicenseController.Licenses.length
+        ? `${pilot.LicenseController.Licenses.map(l => `${l.License.Source} ${l.License.Name} ${l.Rank}`).join(', ')}`
+        : 'N/A'
+      }
 [ CORE BONUSES ]
-  ${pilot.CoreBonuses.length ? `${pilot.CoreBonuses.map(cb => cb.Name).join(', ')}` : 'N/A'}
+  ${pilot.CoreBonusController.CoreBonuses.length ? `${pilot.CoreBonusController.CoreBonuses.map(cb => cb.Name).join(', ')}` : 'N/A'}
 [ TALENTS ]
-  ${pilot.Talents.map(t => `${t.Talent.Name} ${t.Rank}`).join(', ')}
+  ${pilot.TalentsController.Talents.map(t => `${t.Talent.Name} ${t.Rank}`).join(', ')}
 [ STATS ]
-  HULL:${pilot.MechSkills.Hull} AGI:${pilot.MechSkills.Agi} SYS:${pilot.MechSkills.Sys} ENGI:${
-      pilot.MechSkills.Eng
-    }
+  HULL:${pilot.MechSkillsController.MechSkills.Hull} AGI:${pilot.MechSkillsController.MechSkills.Agi} SYS:${pilot.MechSkillsController.MechSkills.Sys} ENGI:${pilot.MechSkillsController.MechSkills.Eng
+      }
   STRUCTURE:${mech.MaxStructure} HP:${mech.MaxHP} ARMOR:${mech.Armor}
   STRESS:${mech.MaxStress} HEATCAP:${mech.HeatCapacity} REPAIR:${mech.RepairCapacity}
-  TECH ATK:${mech.TechAttack > 0 ? `+${mech.TechAttack}` : mech.TechAttack} LIMITED:+${
-      mech.LimitedBonus
-    }
-  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENSE:${mech.SensorRange} SAVE:${
-      mech.SaveTarget
-    }
+  TECH ATK:${mech.TechAttack > 0 ? `+${mech.TechAttack}` : mech.TechAttack} LIMITED:+${mech.LimitedBonus
+      }
+  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENSE:${mech.SensorRange} SAVE:${mech.SaveTarget
+      }
 [ WEAPONS ]
   ${mech.IntegratedWeapons.map(
-    weapon =>
-      `Integrated: ${weapon ? weapon.TrueName : 'N/A  '}${
-        discordEmoji && weapon && weapon.Range
-          ? ' ' +
+        weapon =>
+          `Integrated: ${weapon ? weapon.TrueName : 'N/A  '}${discordEmoji && weapon && weapon.Range
+            ? ' ' +
             weapon.Range.filter(Boolean)
               .map(r => `${r.DiscordEmoji}${r.Value}`)
               .join(' ')
-          : ''
-      }${
-        discordEmoji && weapon && weapon.Damage
-          ? ' ' +
+            : ''
+          }${discordEmoji && weapon && weapon.Damage
+            ? ' ' +
             weapon.Damage.filter(Boolean)
               .map(d => `${d.DiscordEmoji}${d.Value}`)
               .join(' ')
-          : ''
-      }\n  `
-  )}${mechLoadout
-      .AllEquippableMounts(
-        pilot.has('CoreBonus', 'cb_improved_armament'),
-        pilot.has('CoreBonus', 'cb_integrated_weapon')
-      )
-      .map(mount => {
-        let out = `${mount.Name}: `
-        if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
-        else
-          out += mount.Weapons.filter(Boolean)
-            .map(
-              weapon =>
-                `${weapon.TrueName}${
-                  discordEmoji && weapon.Range
+            : ''
+          }\n  `
+      )}${mechLoadout
+        .AllEquippableMounts(
+          pilot.has('CoreBonus', 'cb_improved_armament'),
+          pilot.has('CoreBonus', 'cb_integrated_weapon')
+        )
+        .map(mount => {
+          let out = `${mount.Name}: `
+          if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
+          else
+            out += mount.Weapons.filter(Boolean)
+              .map(
+                weapon =>
+                  `${weapon.TrueName}${discordEmoji && weapon.Range
                     ? ' ' +
-                      weapon.Range.filter(Boolean)
-                        .map(r => `${r.DiscordEmoji}${r.Value}`)
-                        .join(' ')
+                    weapon.Range.filter(Boolean)
+                      .map(r => `${r.DiscordEmoji}${r.Value}`)
+                      .join(' ')
                     : ''
-                }${
-                  discordEmoji && weapon.Damage
+                  }${discordEmoji && weapon.Damage
                     ? ' ' +
-                      weapon.Damage.filter(Boolean)
-                        .map(d => `${d.DiscordEmoji}${d.Value}`)
-                        .join(' ')
+                    weapon.Damage.filter(Boolean)
+                      .map(d => `${d.DiscordEmoji}${d.Value}`)
+                      .join(' ')
                     : ''
-                }${weapon.Mod ? ` (${weapon.Mod.TrueName})` : ''}`
-            )
-            .join(' / ')
+                  }${weapon.Mod ? ` (${weapon.Mod.TrueName})` : ''}`
+              )
+              .join(' / ')
 
-        if (mount.Bonuses.length > 0)
-          out += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
+          if (mount.Bonuses.length > 0)
+            out += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
 
-        return out
-      })
-      .join('\n  ')}
+          return out
+        })
+        .join('\n  ')}
 [ SYSTEMS ]
   ${mechLoadout.Systems.map(sys => {
-    let out = sys.TrueName
-    if (sys.IsLimited) out += ` x${sys.getTotalUses(mech.LimitedBonus)}`
-    return out
-  }).join(', ')}`
+          let out = sys.TrueName
+          if (sys.IsLimited) out += ` x${sys.getTotalUses(mech.LimitedBonus)}`
+          return out
+        }).join(', ')}`
   }
 
   public static GenerateNPC(npc: Npc): string {

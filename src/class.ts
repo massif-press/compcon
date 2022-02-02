@@ -25,24 +25,24 @@ import {
 } from './classes/enums'
 import Tag from './classes/Tag'
 import { CompendiumItem } from './classes/CompendiumItem'
-import { LicensedItem } from './classes/LicensedItem'
-import { CoreBonus } from './classes/pilot/CoreBonus'
+import { LicensedItem } from './classes/pilot/components/license/LicensedItem'
+import { CoreBonus } from './classes/pilot/components/corebonus/CoreBonus'
 import { Damage } from './classes/Damage'
 import Loadout from './classes/Loadout'
 import { Range } from './classes/Range'
-import { Skill } from './classes/pilot/Skill'
-import CustomSkill from './classes/pilot/CustomSkill'
-import { Talent, TalentRank } from './classes/pilot/Talent'
-import License from './classes/License'
-import MechSkills from './classes/pilot/MechSkills'
+import { Skill } from './classes/pilot/components/skill/Skill'
+import CustomSkill from './classes/pilot/components/skill/CustomSkill'
+import { Talent, TalentRank } from './classes/pilot/components/talent/Talent'
+import License from './classes/pilot/components/license/License'
+import MechSkills from './classes/components/mechskills/MechSkills'
 import { PilotEquipment } from './classes/pilot/PilotEquipment'
 import { PilotArmor } from './classes/pilot/PilotArmor'
 import { PilotWeapon } from './classes/pilot/PilotWeapon'
 import { PilotGear } from './classes/pilot/PilotGear'
-import PilotLicense from './classes/pilot/PilotLicense'
+import { PilotLicense } from './classes/pilot/components/license/PilotLicense'
 import PilotLoadout from './classes/pilot/PilotLoadout'
-import PilotSkill from './classes/pilot/PilotSkill'
-import PilotTalent from './classes/pilot/PilotTalent'
+import PilotSkill from './classes/pilot/components/skill/PilotSkill'
+import PilotTalent from './classes/pilot/components/talent/PilotTalent'
 import { Synergy } from './classes/Synergy'
 import { Pilot } from './classes/pilot/Pilot'
 import { CoreSystem } from './classes/mech/CoreSystem'
@@ -62,7 +62,6 @@ import { Deployable } from './classes/Deployable'
 import Project from './classes/pilot/reserves/Project'
 import Organization from './classes/pilot/reserves/Organization'
 import { Manufacturer } from './classes/Manufacturer'
-import { Faction } from './classes/Faction'
 import Statblock from './classes/Statblock'
 import {
   DiceRoller,
@@ -88,7 +87,7 @@ import {
 } from './classes/npc'
 import { Encounter, Rest, Mission, ActiveMission, MissionStepType } from './classes/encounter'
 import { ContentPack } from './classes/ContentPack'
-import { Counter } from './classes/Counter'
+import { Counter } from './classes/components/counters/Counter'
 
 export {
   Rules,
@@ -147,7 +146,6 @@ export {
   WeaponMod,
   WeaponSlot,
   Manufacturer,
-  Faction,
   Statblock,
   DiceRoller,
   D20RollResult,

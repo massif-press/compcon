@@ -1,3 +1,5 @@
+import { ICounterSaveData } from "./CounterController"
+
 interface ICounterData {
   id: string
   name: string

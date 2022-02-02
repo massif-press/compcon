@@ -11,6 +11,7 @@ interface IActiveMissionData {
   cloudOwnerID: string
   isLocal: boolean
   lastSync: string
+  lastModified: string
   mission: IMissionData
   pilotIDs: string[]
   activeNpcs: INpcData[]
@@ -31,6 +32,9 @@ class ActiveMission implements ICloudSyncable {
   public CloudID: string
   public CloudOwnerID: string
   public IsDirty: boolean
+  public IsDeleted: boolean
+  public LastModified: string
+  private _isLoaded: boolean
 
   private _id: string
   private _mission: Mission
@@ -59,6 +63,7 @@ class ActiveMission implements ICloudSyncable {
   }
 
   private save(): void {
+    this.LastModified = new Date().toString()
     store.dispatch('setMissionsDirty')
   }
 
@@ -272,6 +277,10 @@ class ActiveMission implements ICloudSyncable {
     this.IsDirty = false
   }
 
+  public MarkDeleted(): void {
+    this.IsDeleted = true
+  }
+
   public SetRemoteResource(): void {
     this.CloudID = this.ID
     this.IsLocallyOwned = false
@@ -292,6 +301,7 @@ class ActiveMission implements ICloudSyncable {
       cloudID: m.CloudID,
       cloudOwnerID: m.CloudOwnerID,
       lastSync: m.LastSync,
+      lastModified: m.LastModified || '',
       pilotIDs: m.Pilots.map(x => x.ID),
       step: m.Step,
       round: m.Round,
@@ -315,6 +325,7 @@ class ActiveMission implements ICloudSyncable {
     this.CloudID = data.cloudID || ''
     this.CloudOwnerID = data.cloudOwnerID || ''
     this.LastSync = data.lastSync || ''
+    this.LastModified = data.lastModified || ''
 
     this.Round = data.round
     this.Step = data.step

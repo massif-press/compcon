@@ -2,15 +2,18 @@
   <selector
     title="Pilot Skill Triggers"
     height="60vh"
-    :success="!pilot.IsMissingSkills && enoughSelections"
+    :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
   >
     <template v-slot:left-column>
-      <div 
-        v-for="(pSkill, i) in pilot.Skills" 
+      <div
+        v-for="(pSkill, i) in pilot.SkillsController.Skills"
         :key="`summary_${pSkill.Skill.ID}_${i}`"
         @click="scroll(pSkill.Skill.ID)"
       >
-        <missing-item v-if="pSkill.Skill.err" @remove="pilot.RemoveSkill(pSkill)" />
+        <missing-item
+          v-if="pSkill.Skill.err"
+          @remove="pilot.SkillsController.RemoveSkill(pSkill)"
+        />
         <v-chip v-else label color="panel" style="width: 100%" class="my-1 pa-1">
           <v-chip dark color="accent" small>
             +
@@ -20,7 +23,7 @@
           <strong>{{ pSkill.Skill.Trigger }}</strong>
         </v-chip>
       </div>
-      <v-divider v-if="pilot.Skills.length" class="ma-2 ml-4 mr-4" />
+      <v-divider v-if="pilot.SkillsController.Skills.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-col>
           <v-alert
@@ -31,7 +34,7 @@
             color="success"
             icon="check_circle"
             class="stat-text"
-            :value="!pilot.IsMissingSkills && enoughSelections"
+            :value="!pilot.SkillsController.IsMissingSkills && enoughSelections"
           >
             Skill Selection Complete
           </v-alert>
@@ -43,9 +46,12 @@
             color="accent"
             icon="warning"
             class="stat-text"
-            :value="pilot.MaxSkillPoints > pilot.CurrentSkillPoints"
+            :value="
+              pilot.SkillsController.MaxSkillPoints > pilot.SkillsController.CurrentSkillPoints
+            "
           >
-            {{ pilot.MaxSkillPoints - pilot.CurrentSkillPoints }} Skill Points remaining
+            {{ pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints }}
+            Skill Points remaining
           </v-alert>
           <v-alert
             outlined
@@ -59,7 +65,13 @@
           >
             Must select a minimum of {{ selectedMin }} skills
           </v-alert>
-          <v-btn block text small :disabled="!pilot.Skills.length" @click="pilot.ClearSkills()">
+          <v-btn
+            block
+            text
+            small
+            :disabled="!pilot.SkillsController.Skills.length"
+            @click="pilot.SkillsController.ClearSkills()"
+          >
             Reset
           </v-btn>
         </v-col>
@@ -79,15 +91,16 @@
           :id="`skill_${s.ID}`"
           :key="`skill_${h.attr}_${i}`"
           :skill="s"
-          :can-add="pilot.CanAddSkill(s)"
-          :can-remove="pilot.CanRemoveSkill(s)"
-          @add="pilot.AddSkill(s)"
-          @remove="pilot.RemoveSkill(s)"
+          :can-add="pilot.SkillsController.CanAddSkill(s)"
+          :can-remove="pilot.SkillsController.CanRemoveSkill(s)"
+          @add="pilot.SkillsController.AddSkill(s)"
+          @remove="pilot.SkillsController.RemoveSkill(s)"
         />
       </div>
-      <add-custom-skill 
+      <add-custom-skill
         :pilot="pilot"
-        @add-custom="pilot.AddCustomSkill($event)" />
+        @add-custom="pilot.SkillsController.AddCustomSkill($event)"
+      />
     </template>
   </selector>
 </template>
@@ -116,7 +129,7 @@ export default Vue.extend({
   }),
   computed: {
     skills() {
-      const cs = this.pilot.Skills.filter(x => x.IsCustom)
+      const cs = this.pilot.SkillsController.Skills.filter(x => x.IsCustom)
       if (cs.length) return { ...this.staticSkills, Custom: cs.map(x => x.Skill) }
       return this.staticSkills
     },
@@ -127,10 +140,10 @@ export default Vue.extend({
       return Rules.MinimumPilotSkills
     },
     enoughSelections(): boolean {
-      return !(this.pilot.Skills.length < this.selectedMin)
+      return !(this.pilot.SkillsController.Skills.length < this.selectedMin)
     },
     selectionComplete(): boolean {
-      return (this.newPilot || this.levelUp) && !this.pilot.IsMissingSkills
+      return (this.newPilot || this.levelUp) && !this.pilot.SkillsController.IsMissingSkills
     },
   },
   watch: {
@@ -158,7 +171,7 @@ export default Vue.extend({
           offset: 25,
           container: '.v-dialog--active',
         })
-    }
+    },
   },
 })
 </script>

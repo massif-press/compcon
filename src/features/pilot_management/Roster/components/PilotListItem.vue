@@ -1,5 +1,9 @@
 <template>
-  <div id="pc-wrapper" class="my-1" @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null">
+  <div
+    id="pc-wrapper"
+    class="my-1"
+    @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
+  >
     <v-card
       tile
       color="primary"
@@ -53,10 +57,13 @@
             <b class="success--text">LL: {{ pilot.Level }}</b>
             <cc-slashes v-show="$vuetify.breakpoint.mdAndUp" />
             <span class="text--text">
-              [ H:{{ pilot.MechSkills.Hull }} A:{{ pilot.MechSkills.Agi }} S:{{
-                pilot.MechSkills.Sys
+              [ H:{{ pilot.MechSkillsController.MechSkills.Hull }} A:{{
+                pilot.MechSkillsController.MechSkills.Agi
               }}
-              E:{{ pilot.MechSkills.Eng }} ]
+              S:{{ pilot.MechSkillsController.MechSkills.Sys }} E:{{
+                pilot.MechSkillsController.MechSkills.Eng
+              }}
+              ]
             </span>
           </p>
           <p v-if="pilot.ActiveMech && !mobile" class="flavor-text mb-0 pb-2 mt-n1">

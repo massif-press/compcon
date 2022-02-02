@@ -1,6 +1,9 @@
-import { LicensedItem, MountType, ItemType, MechType, CoreSystem } from '@/class'
-import { ILicensedItemData, ICoreData, ITagCompendiumData } from '@/interface'
-import { getImagePath, ImageTag } from '@/io/ImageManagement'
+import { LicensedItem } from '../../class'
+import { ILicensedItemData } from '../../interface'
+import { ImageTag, getImagePath } from '../../io/ImageManagement'
+import { MechType, MountType, ItemType } from '../enums'
+import { ITagCompendiumData } from '../Tag'
+import { ICoreData, CoreSystem } from './CoreSystem'
 import { FrameTrait, IFrameTraitData } from './FrameTrait'
 
 interface IFrameStats {

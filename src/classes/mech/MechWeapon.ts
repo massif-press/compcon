@@ -1,4 +1,4 @@
-import { store } from '@/store'
+import { store } from '../../store'
 import _ from 'lodash'
 import {
   Damage,
@@ -11,7 +11,7 @@ import {
   WeaponMod,
   WeaponSize,
   WeaponType,
-} from '@/class'
+} from '../../class'
 import {
   IDamageData,
   IMechEquipmentData,
@@ -19,7 +19,8 @@ import {
   ISynergyData,
   ICounterData,
   ITagCompendiumData,
-} from '@/interface'
+  IMechWeaponSaveData,
+} from '../../interface'
 import { Action, IActionData } from '../Action'
 import { IBonusData } from '../Bonus'
 import { CompendiumItem, ICompendiumItemData } from '../CompendiumItem'

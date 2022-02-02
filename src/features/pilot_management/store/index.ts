@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import { saveData, loadData } from '@/io/Data'
 import { Pilot } from '@/class'
-import { IPilotData } from '@/interface'
+import { PilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 
 async function savePilots(pilots: Pilot[]) {
@@ -91,7 +91,7 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [LOAD_PILOTS](payload: { pilotData: IPilotData[], groupData: PilotGroup[] }): void {
+  private [LOAD_PILOTS](payload: { pilotData: PilotData[], groupData: PilotGroup[] }): void {
     const allPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
     const groupDataEmpty = payload.groupData.length === 0
@@ -213,7 +213,7 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public setPilotsDirty(): void {
+  public set_pilot_dirty(): void {
     this.context.commit(SET_DIRTY)
   }
 
@@ -224,7 +224,7 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
-    const pilotData = await loadData<IPilotData>('pilots_v2.json')
+    const pilotData = await loadData<PilotData>('pilots_v2.json')
     const pilotGroupData = await loadData<PilotGroup>('pilot_groups_v2.json')
     this.context.commit(LOAD_PILOTS, { 'pilotData': pilotData, 'groupData': pilotGroupData })
   }
@@ -242,8 +242,6 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public addPilot(payload: { pilot: Pilot; update: boolean }): void {
     this.context.commit(ADD_PILOT, payload.pilot)
-    if (payload.update)
-      this.context.dispatch('cloudSync', { callback: null, condition: 'pilotCreate' })
   }
 
   @Action
@@ -264,8 +262,6 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public deletePilot(payload: { pilot: Pilot; update: boolean }): void {
     this.context.commit(DELETE_PILOT, payload.pilot)
-    if (payload.update)
-      this.context.dispatch('cloudSync', { callback: null, condition: 'pilotDelete' })
   }
 
   @Action

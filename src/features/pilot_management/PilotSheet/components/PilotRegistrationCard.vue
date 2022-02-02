@@ -62,19 +62,19 @@
             <span class="flavor-text ml-3" style="font-size: 22px; line-height: 15px">
               [ HULL:
               <span class="stat-text accent--text" style="font-size: 24px">
-                {{ pilot.MechSkills.Hull }}&emsp;
+                {{ pilot.MechSkillsController.MechSkills.Hull }}&emsp;
               </span>
               AGI:
               <span class="stat-text accent--text" style="font-size: 24px">
-                {{ pilot.MechSkills.Agi }}&emsp;
+                {{ pilot.MechSkillsController.MechSkills.Agi }}&emsp;
               </span>
               SYS:
               <span class="stat-text accent--text" style="font-size: 24px">
-                {{ pilot.MechSkills.Sys }}&emsp;
+                {{ pilot.MechSkillsController.MechSkills.Sys }}&emsp;
               </span>
               ENG:
               <span class="stat-text accent--text" style="font-size: 24px">
-                {{ pilot.MechSkills.Eng }}
+                {{ pilot.MechSkillsController.MechSkills.Eng }}
               </span>
               ]
             </span>
@@ -83,11 +83,11 @@
             <v-col cols="12" md="6">
               <span class="flavor-text">PILOT SKILL TRIGGER AUDIT</span>
               <br />
-              <span v-if="!pilot.Skills.length" class="stat-text accent--text">
+              <span v-if="!pilot.SkillsController.Skills.length" class="stat-text accent--text">
                 &nbsp;ERR SKILL AUDIT INCOMPLETE
               </span>
               <v-chip
-                v-for="s in pilot.Skills"
+                v-for="s in pilot.SkillsController.Skills"
                 v-else
                 :key="s.Skill.ID"
                 color="accent"
@@ -103,11 +103,11 @@
             <v-col cols="12" md="6">
               <span class="flavor-text">PILOT TALENT AUDIT</span>
               <br />
-              <span v-if="!pilot.Talents.length" class="stat-text accent--text">
+              <span v-if="!pilot.TalentsController.Talents.length" class="stat-text accent--text">
                 &nbsp;ERR TALENT AUDIT INCOMPLETE
               </span>
               <v-chip
-                v-for="t in pilot.Talents"
+                v-for="t in pilot.TalentsController.Talents"
                 v-else
                 :key="t.Talent.ID"
                 color="accent"

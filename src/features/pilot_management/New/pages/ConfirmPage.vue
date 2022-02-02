@@ -16,9 +16,13 @@
       <ul class="flavor-text error--text">
         <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
         <li v-if="!pilot.Name">PILOT NAME blank or invalid</li>
-        <li v-if="!pilot.HasFullSkills">PILOT SKILL TRIGGERS missing or incomplete</li>
-        <li v-if="!pilot.HasFullTalents">PILOT TALENTS missing or incomplete</li>
-        <li v-if="!pilot.HasFullHASE">PILOT MECH SKILLS missing or incomplete</li>
+        <li v-if="!pilot.SkillsController.HasFullSkills">
+          PILOT SKILL TRIGGERS missing or incomplete
+        </li>
+        <li v-if="!pilot.TalentsController.HasFullTalents">PILOT TALENTS missing or incomplete</li>
+        <li v-if="!pilot.MechSkillsController.HasFullHASE">
+          PILOT MECH SKILLS missing or incomplete
+        </li>
       </ul>
     </v-alert>
     <v-btn
@@ -57,16 +61,16 @@ export default Vue.extend({
     quickstart: { type: Boolean },
   },
   data: () => ({
-    default_callsign: "[NEW CALLSIGN]",
-    default_name: "New Pilot"
+    default_callsign: '[NEW CALLSIGN]',
+    default_name: 'New Pilot',
   }),
   computed: {
     pilotReady(): boolean {
       return (
         this.pilot.HasIdent &&
-        this.pilot.HasFullSkills &&
-        this.pilot.HasFullTalents &&
-        this.pilot.HasFullHASE
+        this.pilot.SkillsController.HasFullSkills &&
+        this.pilot.TalentsController.HasFullTalents &&
+        this.pilot.MechSkillsController.HasFullHASE
       )
     },
   },

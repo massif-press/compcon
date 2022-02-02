@@ -52,12 +52,12 @@
           />
         </v-col>
         <v-col v-if="item && item.SP" cols="auto">
-          <div class="pl-3 ml-3" style=" border-left: 1px solid #616161;">
+          <div class="pl-3 ml-3" style="border-left: 1px solid #616161">
             <span>{{ item.SP }}SP</span>
           </div>
         </v-col>
         <v-col v-if="!readonly" cols="auto">
-          <div class="pl-3 ml-3" style=" border-left: 1px solid #616161;">
+          <div class="pl-3 ml-3" style="border-left: 1px solid #616161">
             <v-icon v-if="item" :small="small" dark class="fadeSelect mt-n1" @click.stop="remove()">
               delete
             </v-icon>
@@ -229,7 +229,7 @@ export default Vue.extend({
     armoryLevel() {
       if (!this.item) return 0
       if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0
-      const tal = this.mech.Pilot.Talents.find(
+      const tal = this.mech.pilot.TalentsController.Talents.find(
         (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
       )
       if (!tal) return 0

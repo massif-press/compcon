@@ -1,6 +1,11 @@
 <template>
   <panel-view ref="view">
-    <cc-gm-header slot="title" flip color="secondary" title="NEW NPC // SELECT CLASS" />
+    <cc-gm-header
+      slot="title"
+      flip
+      color="secondary"
+      title="NEW NPC // SELECT CLASS"
+    />
     <template slot="left">
       <v-row dense>
         <v-col>
@@ -14,7 +19,7 @@
           />
         </v-col>
       </v-row>
-      <v-divider class="my-2 " />
+      <v-divider class="my-2" />
       <v-row dense style="max-height: calc(100% - 145px); overflow-y: scroll">
         <v-data-table
           dense
@@ -31,10 +36,18 @@
         >
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
-              <span v-if="h.group" class="heading white--text ml-2 text-uppercase">
-                <v-icon v-if="h.group.toLowerCase() === 'biological'" dark>mdi-heart-pulse</v-icon>
+              <span
+                v-if="h.group"
+                class="heading white--text ml-2 text-uppercase"
+              >
+                <v-icon v-if="h.group.toLowerCase() === 'biological'" dark
+                  >mdi-heart-pulse</v-icon
+                >
                 <v-icon v-else dark>cci-role-{{ h.group }}</v-icon>
-                <span v-if="Array.isArray(h.group)" v-html="h.group.join(', ')" />
+                <span
+                  v-if="Array.isArray(h.group)"
+                  v-html="h.group.join(', ')"
+                />
                 <span v-else v-html="h.group" />
               </span>
             </div>
@@ -62,7 +75,13 @@
       <v-divider class="mt-2" />
       <v-row justify="center" dense class="mb-n10">
         <v-col cols="10">
-          <v-btn large block color="primary" :disabled="!selectedClass" @click="AddNpc()">
+          <v-btn
+            large
+            block
+            color="primary"
+            :disabled="!selectedClass"
+            @click="AddNpc()"
+          >
             <v-icon left>mdi-plus</v-icon>
             <span v-if="selectedClass">Add New {{ selectedClass.Name }}</span>
             <span v-else>Select NPC Class</span>
@@ -77,9 +96,16 @@
     <template slot="right">
       <router-view />
       <class-card v-if="selectedClass" ref="card" :npcc="selectedClass" />
-      <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
+      <v-row
+        v-else
+        align="center"
+        justify="center"
+        style="width: 100%; height: 100%"
+      >
         <v-col cols="auto">
-          <span class="heading h1 subtle--text text--lighten-2">select npc class</span>
+          <span class="heading h1 subtle--text text--lighten-2"
+            >select npc class</span
+          >
         </v-col>
       </v-row>
     </template>
@@ -87,41 +113,40 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PanelView from '../../components/PanelView.vue'
-import ClassCard from './ClassCard.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, NpcStore } from '@/store'
-import { Npc } from '@/class'
+import Vue from "vue";
+import PanelView from "../../components/PanelView.vue";
+import ClassCard from "./ClassCard.vue";
+import { getModule } from "vuex-module-decorators";
+import { CompendiumStore, NpcStore } from "@/store";
+import { Npc } from "@/class";
 
 export default Vue.extend({
-  name: 'npc-manager',
+  name: "npc-manager",
   components: { PanelView, ClassCard },
   data: () => ({
-    search: '',
+    search: "",
     selectedClass: null,
     grouping: null,
-    headers: [{ text: 'Name', value: 'Name', align: 'left' }],
+    headers: [{ text: "Name", value: "Name", align: "left" }],
     classes: [],
   }),
   watch: {
     selectedClass() {
-      this.$refs.view.resetScroll()
+      this.$refs.view.resetScroll();
     },
   },
   created() {
-    const store = getModule(CompendiumStore, this.$store)
-    this.classes = store.NpcClasses
+    const store = getModule(CompendiumStore, this.$store);
+    this.classes = store.NpcClasses;
   },
   methods: {
     AddNpc() {
-      const store = getModule(NpcStore, this.$store)
-      store.addNpc(new Npc(this.selectedClass, this.$refs.card.tierPreview))
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'npcCreate' })
-      this.$router.push('./npc-roster')
+      const store = getModule(NpcStore, this.$store);
+      store.addNpc(new Npc(this.selectedClass, this.$refs.card.tierPreview));
+      this.$router.push("./npc-roster");
     },
   },
-})
+});
 </script>
 
 <style>

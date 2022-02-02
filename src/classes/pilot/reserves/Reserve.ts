@@ -68,7 +68,7 @@ class Reserve {
   }
 
   protected save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   public get Icon(): string {
