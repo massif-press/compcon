@@ -39,7 +39,7 @@ class Talent extends CompendiumItem {
 
   public get Image(): string {
     if (this._icon_url) return this._icon_url
-    return `/img/talent/${this.Name.toUpperCase()}.svg`
+    return `/static/img/talent/${this.Name.toUpperCase()}.svg`
   }
 
   public Rank(rank: number): TalentRank {
