@@ -101,9 +101,17 @@ export class CompendiumStore extends VuexModule {
   CoreBonuses: CoreBonus[]
   @Brewable(() => lancerData.frames.map((x: IFrameData) => new Frame(x)))
   Frames: Frame[]
-  @Brewable(() => lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x)))
+  @Brewable(() => lancerData.manufacturers.map((x: IManufacturerData) => {
+    const m = new Manufacturer(x)
+    m.setCorsSafe()
+    return m
+  }))
   Manufacturers: Manufacturer[]
-  @Brewable(() => lancerData.factions.map((x: IFactionData) => new Faction(x)))
+  @Brewable(() => lancerData.factions.map((x: IFactionData) => {
+    const f = new Faction(x)
+    f.setCorsSafe()
+    return f
+  }))
   Factions: Faction[]
   @Brewable(() => lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x)))
   MechWeapons: MechWeapon[]

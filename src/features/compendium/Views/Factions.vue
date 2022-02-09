@@ -25,25 +25,11 @@
             </span>
           </v-card-title>
           <v-card-text class="mt-1 pr-4 pt-0">
-            <div
+            <cc-logo-splash
               v-if="$vuetify.breakpoint.lgAndUp"
+              :source="f"
               style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"
-            >
-              <img
-                v-if="f.LogoIsExternal"
-                :src="f.Logo"
-                :alt="f.Name"
-                :style="{
-                  maxWidth: '22vw',
-                  height: '22vw',
-                }"
-              />
-              <svg
-                v-else
-                :data-src="f.Logo"
-                :style="`width:22vw; height:22vw; fill:${f.Color}; stroke:#fff; stroke-width: 8px;`"
-              ></svg>
-            </div>
+            />
             <v-divider class="ma-2" style="width: 800px" />
             <p
               v-html-safe="f.Description"
