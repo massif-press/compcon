@@ -15,7 +15,7 @@ import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
 import lancerData from 'lancer-data'
 
-import './registerServiceWorker'
+// import './registerServiceWorker'
 
 import theme from './ui/theme'
 import themes from '@/ui/style/themes'
@@ -36,7 +36,7 @@ Amplify.configure(aws_exports)
 
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
-Vue.prototype.$appVersion = process.env.VERSION_STRING
+Vue.prototype.$appVersion = process.env.VUE_APP_VERSION_TAG
 Vue.prototype.$lancerVersion = `${lancerData.info.version}`
 
 // Preload theme

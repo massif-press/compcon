@@ -11,17 +11,28 @@
           >
             <v-col cols="auto">
               <div
-                :class="
-                  `heading ${
-                    $vuetify.breakpoint.lgAndUp ? 'h1' : $vuetify.breakpoint.mdAndUp ? 'h2' : 'h3'
-                  }`
+                :class="`heading ${
+                  $vuetify.breakpoint.lgAndUp
+                    ? 'h1'
+                    : $vuetify.breakpoint.mdAndUp
+                    ? 'h2'
+                    : 'h3'
+                }`"
+                style="
+                  letter-spacing: 10px;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
                 "
-                style="letter-spacing: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
               >
                 {{ pilot.Callsign }}
               </div>
             </v-col>
-            <v-col v-if="$vuetify.breakpoint.smAndDown" cols="auto" class="ml-auto">
+            <v-col
+              v-if="$vuetify.breakpoint.smAndDown"
+              cols="auto"
+              class="ml-auto"
+            >
               <cc-tooltip
                 v-if="!isLevelingUp"
                 delayed
@@ -30,7 +41,12 @@
                 bottom
                 content="Edit License Level"
               >
-                <v-icon small dark class="fadeSelect" @click="$refs.levelEdit.show()">
+                <v-icon
+                  small
+                  dark
+                  class="fadeSelect"
+                  @click="$refs.levelEdit.show()"
+                >
                   mdi-circle-edit-outline
                 </v-icon>
               </cc-tooltip>
@@ -43,7 +59,9 @@
                 x-small
                 right
                 dark
-                @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
+                @click="
+                  $router.push({ name: 'level-up', params: { id: pilot.ID } })
+                "
               >
                 Level Up
               </v-btn>
@@ -64,12 +82,19 @@
                   bottom
                   content="Edit License Level"
                 >
-                  <v-icon small dark class="fadeSelect" @click="$refs.levelEdit.show()">
+                  <v-icon
+                    small
+                    dark
+                    class="fadeSelect"
+                    @click="$refs.levelEdit.show()"
+                  >
                     mdi-circle-edit-outline
                   </v-icon>
                 </cc-tooltip>
               </div>
-              <div class="heading h1 mt-n6 mb-n2" style="font-size: 80px">{{ pilot.Level }}</div>
+              <div class="heading h1 mt-n6 mb-n2" style="font-size: 80px">
+                {{ pilot.Level }}
+              </div>
               <v-btn
                 v-if="!isLevelingUp && pilot.Level < 12"
                 tile
@@ -77,12 +102,12 @@
                 small
                 class="fadeSelect mt-n4"
                 color="grey lighten-3"
-                @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
+                @click="
+                  $router.push({ name: 'level-up', params: { id: pilot.ID } })
+                "
               >
                 Level Up
-                <v-icon right>
-                  mdi-arrow-up-bold-hexagon-outline
-                </v-icon>
+                <v-icon right> mdi-arrow-up-bold-hexagon-outline </v-icon>
               </v-btn>
             </v-col>
             <v-col v-show="$vuetify.breakpoint.lgAndUp" cols="auto">
@@ -99,7 +124,10 @@
                     />
                     <v-fade-transition>
                       <v-overlay v-if="hover" absolute color="secondary">
-                        <cc-btn color="secondary" @click="$refs.imageSelector.open()">
+                        <cc-btn
+                          color="secondary"
+                          @click="$refs.imageSelector.open()"
+                        >
                           Set Pilot Portrait
                         </cc-btn>
                       </v-overlay>
@@ -133,7 +161,9 @@
               <div class="stat-text white--text mt-n3">
                 <v-dialog max-width="1200px">
                   <template v-slot:activator="{ on }">
-                    <v-icon dark class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
+                    <v-icon dark class="fadeSelect" v-on="on"
+                      >mdi-card-bulleted-outline</v-icon
+                    >
                   </template>
                   <v-sheet class="transparent">
                     <pilot-registration-card :pilot="pilot" pilot-ready />
@@ -155,16 +185,23 @@
             <v-icon>cci-structure</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentStructure }}</span>
-          <span class="flavor-text subtle--text" style="font-size:14px">
+          <span class="flavor-text subtle--text" style="font-size: 14px">
             /{{ mech.MaxStructure }}
           </span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip simple inline delay :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`">
+          <cc-tooltip
+            simple
+            inline
+            delay
+            :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`"
+          >
             <v-icon>mdi-heart-outline</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentHP }}</span>
-          <span class="flavor-text subtle--text" style="font-size:14px">/{{ mech.MaxHP }}</span>
+          <span class="flavor-text subtle--text" style="font-size: 14px"
+            >/{{ mech.MaxHP }}</span
+          >
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip
@@ -176,7 +213,9 @@
             <v-icon>cci-reactor</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentStress }}</span>
-          <span class="flavor-text subtle--text" style="font-size:14px">/{{ mech.MaxStress }}</span>
+          <span class="flavor-text subtle--text" style="font-size: 14px"
+            >/{{ mech.MaxStress }}</span
+          >
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip
@@ -188,7 +227,7 @@
             <v-icon>mdi-fire</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentHeat }}</span>
-          <span class="flavor-text subtle--text" style="font-size:14px">
+          <span class="flavor-text subtle--text" style="font-size: 14px">
             /{{ mech.HeatCapacity }}
           </span>
         </v-col>
@@ -202,18 +241,25 @@
             <v-icon>cci-repair</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentRepairs }}</span>
-          <span class="flavor-text subtle--text" style="font-size:14px">
+          <span class="flavor-text subtle--text" style="font-size: 14px">
             /{{ mech.RepairCapacity }}
           </span>
         </v-col>
       </v-row>
       <v-row v-else-if="$vuetify.breakpoint.mdAndUp" id="stat-row" dense>
         <v-col cols="2" offset="1" class="unskew">
-          <cc-tooltip simple inline delay :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`">
+          <cc-tooltip
+            simple
+            inline
+            delay
+            :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`"
+          >
             <v-icon>mdi-heart-outline</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.CurrentHP }}</span>
-          <span class="flavor-text subtle--text" style="font-size:14px">/{{ pilot.MaxHP }}</span>
+          <span class="flavor-text subtle--text" style="font-size: 14px"
+            >/{{ pilot.MaxHP }}</span
+          >
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Armor: ${pilot.Armor}`">
@@ -222,13 +268,23 @@
           <span class="stat-text">{{ pilot.Armor }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip simple inline delay :content="`Electronic Defense: ${pilot.EDefense}`">
+          <cc-tooltip
+            simple
+            inline
+            delay
+            :content="`Electronic Defense: ${pilot.EDefense}`"
+          >
             <v-icon>cci-edef</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.EDefense }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip simple inline delay :content="`Evasion: ${pilot.Evasion}`">
+          <cc-tooltip
+            simple
+            inline
+            delay
+            :content="`Evasion: ${pilot.Evasion}`"
+          >
             <v-icon>cci-evasion</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.Evasion }}</span>
@@ -247,28 +303,30 @@
 </template>
 
 <script lang="ts">
-import PilotRegistrationCard from './PilotRegistrationCard.vue'
-import LevelEditDialog from './LevelEditDialog.vue'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
+import PilotRegistrationCard from "./PilotRegistrationCard.vue";
+import LevelEditDialog from "./LevelEditDialog.vue";
+import activePilot from "@/features/pilot_management/mixins/activePilot";
 
-import vueMixins from '@/util/vueMixins'
-import { Mech } from '@/class'
+import vueMixins from "@/util/vueMixins";
+import { Mech } from "@/class";
 
 export default vueMixins(activePilot).extend({
-  name: 'pilot-header',
+  name: "pilot-header",
   components: { LevelEditDialog, PilotRegistrationCard },
 
   computed: {
     isLevelingUp(): boolean {
-      return this.$route.name === 'pilot-level-wizard'
+      return this.$route.name === "pilot-level-wizard";
     },
     mech(): Mech {
-      if (this.$route.name === 'mech-sheet')
-        return this.pilot.Mechs.find((m: Mech) => m.ID === this.$route.params.mechID)
-      return null
+      if (this.$route.name === "mech-sheet")
+        return this.pilot.Mechs.find(
+          (m: Mech) => m.ID === this.$route.params.mechID
+        );
+      return null;
     },
   },
-})
+});
 </script>
 
 <style scoped>
