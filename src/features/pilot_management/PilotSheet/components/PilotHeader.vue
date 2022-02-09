@@ -90,7 +90,6 @@
               <v-hover>
                 <template v-slot:default="{ hover }">
                   <div id="image" class="border">
-                    {{pilot.Image}}
                     <v-img
                       v-if="pilot.Portrait"
                       :key="pilot.Image"

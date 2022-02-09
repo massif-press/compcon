@@ -25,33 +25,11 @@
             </span>
           </v-card-title>
           <v-card-text class="mt-1 pr-4 pt-0">
-            <!-- <img :src="`https://compcon-image-assets.s3.amazonaws.com/icons/gms.svg`" /> -->
-            <div
+            <cc-logo-splash
               v-if="$vuetify.breakpoint.lgAndUp"
+              :source="m"
               style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"
-            >
-              <svg
-                v-if="isSvg(m.Logo) && isValidUrl(m.Logo)"
-                :data-src="m.Logo + '#Content'"
-                :style="`width:22vw; height:22vw; fill:${m.Color}; stroke:#fff; stroke-width: 8px;`"
-              >
-              </svg>
-              <img
-                v-else
-                :src="m.Logo"
-                :alt="m.Name"
-                :style="{
-                  maxWidth: '22vw',
-                  height: '22vw',
-                  filter: `invert(${$vuetify.theme.dark ? 1 : 0})`,
-                }"
-              />
-              <!-- <img
-                v-else
-                :src="`/static/img/logo/${m.Logo}.svg`"
-                :style="`width:22vw; height:22vw; filter: invert(${$vuetify.theme.dark ? 1 : 0});`"
-              /> -->
-            </div>
+            />
             <blockquote v-html-safe="m.Quote" class="quote-block fluff-text text--text" />
             <v-divider class="ma-2" style="width: 800px" />
             <p
@@ -80,21 +58,6 @@ export default Vue.extend({
     manufacturers() {
       return getModule(CompendiumStore, this.$store).Manufacturers.filter(x => !x.IsHidden)
     },
-  },
-  methods: {
-    isSvg(logoUrl: string): boolean {
-      const filenameQuery = logoUrl.split("/").slice(-1)[0]
-      const filename = filenameQuery.split("?")[0]
-      const isSvg = filename.endsWith(".svg")
-      return isSvg
-    },
-    async isValidUrl(logoUrl: string): Promise<boolean> {
-      return await fetch(logoUrl).then(r => {
-        return r.ok
-      }).catch(e => {
-        return false
-      })
-    }
   },
 })
 </script>

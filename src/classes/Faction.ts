@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 interface IFactionData {
@@ -16,6 +17,7 @@ class Faction {
   public readonly Color: string
   private _logo: string
   private _logo_url?: string
+  private _is_cors_safe: boolean
 
   public constructor(data: IFactionData) {
     this.ID = data.id
@@ -24,6 +26,7 @@ class Faction {
     this.Color = data.color
     this._logo = data.logo
     this._logo_url = data.logo_url
+    this._is_cors_safe = false
   }
 
   public get LogoIsExternal(): boolean {
@@ -34,6 +37,29 @@ class Faction {
     if (this._logo_url) return this._logo_url
     else if (this._logo) return getImagePath(ImageTag.Logo, `${this._logo}.svg`)
     else return '' // TODO: placeholder logo?
+  }
+
+  public get isSvg(): boolean {
+    const filenameQuery = this.Logo.split("/").slice(-1)[0]
+    const filename = filenameQuery.split("?")[0]
+    const isSvg = filename.endsWith(".svg")
+    return isSvg
+  }
+
+  public get isCorsSafe(): boolean {
+    return this._is_cors_safe
+  }
+
+  async setCorsSafe() {
+    let corsSafe = false
+    try {
+      const response = await fetch(this.Logo)
+      corsSafe = response.ok
+    } catch (e) {
+      corsSafe = false
+    }
+    Vue.set(this, '_is_cors_safe', corsSafe)
+    return corsSafe
   }
 }
 
