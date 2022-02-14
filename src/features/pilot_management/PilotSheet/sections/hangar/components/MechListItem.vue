@@ -3,7 +3,7 @@
     <v-card
       tile
       :color="mech.IsActive ? 'success' : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)"
-      style="position: absolute; z-index:5"
+      style="position: absolute; z-index: 5"
       class="overlay clipped-square-invert"
       min-width="138px"
       min-height="100%"
@@ -16,16 +16,14 @@
       <div
         style="width: 100%"
         class="overlay"
-        :style="
-          `background-color: ${
-            mech.IsActive
-              ? 'var(--v-success-base)'
-              : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
-          }`
-        "
+        :style="`background-color: ${
+          mech.IsActive
+            ? 'var(--v-success-base)'
+            : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
+        }`"
       >
         <v-row no-gutters>
-          <span class="heading h2 callsign" style="margin-left: 138px;">{{ mech.Name }}</span>
+          <span class="heading h2 callsign" style="margin-left: 138px">{{ mech.Name }}</span>
           <v-fade-transition>
             <span
               v-if="mech.IsActive"
@@ -37,7 +35,7 @@
           </v-fade-transition>
         </v-row>
       </div>
-      <div style="border-top: 0!important" class="light-panel clipped">
+      <div style="border-top: 0 !important" class="light-panel clipped">
         <div style="margin-left: 138px; padding-left: 8px; min-height: 100px">
           <p class="flavor-text mb-0">
             <v-row no-gutters>
@@ -83,9 +81,13 @@
               <v-col cols="auto">
                 <fieldset class="px-3">
                   <legend class="px-2">
-                    Loadout//{{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
+                    Loadout//{{
+                      mech.MechLoadoutController.ActiveLoadout
+                        ? mech.MechLoadoutController.ActiveLoadout.Name
+                        : 'ERR'
+                    }}
                   </legend>
-                  <div v-if="mech.ActiveLoadout">
+                  <div v-if="mech.MechLoadoutController.ActiveLoadout">
                     <span v-for="(item, i) in loadoutWeapons" :key="`${mech.ID}_lw_${i}`">
                       {{ item }}
                     </span>
@@ -173,7 +175,7 @@ export default Vue.extend({
   computed: {
     loadoutWeapons() {
       const output = []
-      for (const mount of this.mech.ActiveLoadout.AllEquippableMounts(
+      for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
         this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
       )) {
@@ -193,7 +195,7 @@ export default Vue.extend({
       return output
     },
     loadoutSystems() {
-      return this.mech.ActiveLoadout.AllActiveSystems.map(x => x.Name)
+      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map(x => x.Name)
     },
   },
 })

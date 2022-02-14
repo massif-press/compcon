@@ -1,7 +1,7 @@
 declare interface IActor {
   ID: string
   EncounterName: string
-  Image: string
+  PortraitController: PortraitController
   Conditions: string[]
   Statuses: string[]
   Resistances: string[]

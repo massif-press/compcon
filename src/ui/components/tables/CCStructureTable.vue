@@ -114,7 +114,7 @@
           :title="resultData[1].name"
           :disabled="
             (systemTraumaRoll <= 3 && destroyedMount === null) ||
-              (systemTraumaRoll > 3 && !destroyedSystem)
+            (systemTraumaRoll > 3 && !destroyedSystem)
           "
           @dismiss="close()"
           @previous="window = 0"
@@ -259,7 +259,7 @@ export default class CCSidebarView extends Vue {
   ]
 
   get loadout(): MechLoadout {
-    return this.mech.ActiveLoadout
+    return this.mech.MechLoadoutController.ActiveLoadout
   }
   get totalRolls(): number {
     return (this.mech.CurrentStructure - this.mech.MaxStructure) * -1

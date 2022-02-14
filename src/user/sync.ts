@@ -91,33 +91,33 @@ const ContentPull = async (): Promise<any> => {
 }
 
 const PullRemoteData = async (): Promise<void> => {
-  const external: Pilot[] = store.getters.getPilots.filter((x: Pilot) => !x.IsLocallyOwned)
+  return Promise.resolve()
+  // const external: Pilot[] = store.getters.getPilots.filter((x: Pilot) => !x.IsLocallyOwned)
 
-  external.forEach(async p => {
-    const iid = p.CloudOwnerID.includes(region) ? p.CloudOwnerID : `${region}:${p.CloudOwnerID}`
-    const url = await Storage.get(p.ResourceURI, { level: 'protected', identityId: iid })
-    if (typeof url === 'object') {
-      console.error('Unsupported S3 return type')
-      return
-    }
+  // external.forEach(async p => {
+  //   const iid = p.CloudOwnerID.includes(region) ? p.CloudOwnerID : `${region}:${p.CloudOwnerID}`
+  //   const url = await Storage.get(p.ResourceURI, { level: 'protected', identityId: iid })
+  //   if (typeof url === 'object') {
+  //     console.error('Unsupported S3 return type')
+  //     return
+  //   }
 
-    const data: PilotData = await fetch(url)
-      .then(res => {
-        return res.json()
-      })
-      .catch(err => console.error(err))
+  //   const data: PilotData = await fetch(url)
+  //     .then(res => {
+  //       return res.json()
+  //     })
+  //     .catch(err => console.error(err))
 
-
-    if (!data) return
-    try {
-      console.info('Syncing remote pilot// ', p.Callsign)
-      data.isLocal = false
-      p.Update(data, true)
-      // p.SetRemoteResource()
-    } catch (err) {
-      throw new Error(`Malformed Pilot data returned from S3`)
-    }
-  })
+  //   if (!data) return
+  //   try {
+  //     console.info('Syncing remote pilot// ', p.Callsign)
+  //     data.isLocal = false
+  //     p.Update(data, true)
+  //     // p.SetRemoteResource()
+  //   } catch (err) {
+  //     throw new Error(`Malformed Pilot data returned from S3`)
+  //   }
+  // })
 }
 
 async function Pull(
@@ -126,52 +126,53 @@ async function Pull(
   ccid: string,
   callback: any
 ): Promise<any> {
-  const typePrefix = storageKey.substring(storageKey.length - 1, 0).toLowerCase()
+  return Promise.resolve()
+  // const typePrefix = storageKey.substring(storageKey.length - 1, 0).toLowerCase()
 
-  const cloudURIs = await Storage.list(typePrefix, { level: 'protected' })
-    .then(result => result.map(k => k.key))
-    .catch(err => console.error(err))
+  // const cloudURIs = await Storage.list(typePrefix, { level: 'protected' })
+  //   .then(result => result.map(k => k.key))
+  //   .catch(err => console.error(err))
 
-  userProfile[storageKey] = cloudURIs
+  // userProfile[storageKey] = cloudURIs
 
-  cloudURIs.forEach(async k => {
-    const url = await Storage.get(k, { level: 'protected' })
+  // cloudURIs.forEach(async k => {
+  //   const url = await Storage.get(k, { level: 'protected' })
 
-    if (typeof url === 'object') {
-      console.error('Unsupported S3 return type')
-      return
-    }
+  //   if (typeof url === 'object') {
+  //     console.error('Unsupported S3 return type')
+  //     return
+  //   }
 
-    const data = await fetch(url).then(res => res.json())
+  //   const data = await fetch(url).then(res => res.json())
 
-    try {
-      const match = store.getters[`get${storageKey}`].find(x => x.ID === data.id || x.CloudID === data.cloudID || x.ID === data.cloudID)
-      if (match) {
-        // if the incoming data has a later sync time than our last recorded sync, update
-        if (new Date(data.lastSync) > new Date(match.LastSync)) {
-          match.Update(data)
-          match.MarkSync()
-        }
-      } else {
-        console.info(`Adding New ${typePrefix}`)
-        let dl = {} as ICloudSyncable
-        if (storageKey === 'Pilots') dl = Pilot.Deserialize(data)
-        else if (storageKey === 'Npcs') dl = Npc.Deserialize(data)
-        else if (storageKey === 'Encounters') dl = Encounter.Deserialize(data)
-        else if (storageKey === 'Missions' && data.id) dl = Mission.Deserialize(data)
-        else if (storageKey === 'ActiveMissions') dl = ActiveMission.Deserialize(data)
-        else return
+  //   try {
+  //     const match = store.getters[`get${storageKey}`].find(x => x.ID === data.id || x.CloudID === data.cloudID || x.ID === data.cloudID)
+  //     if (match) {
+  //       // if the incoming data has a later sync time than our last recorded sync, update
+  //       if (new Date(data.lastSync) > new Date(match.LastSync)) {
+  //         match.Update(data)
+  //         match.MarkSync()
+  //       }
+  //     } else {
+  //       console.info(`Adding New ${typePrefix}`)
+  //       let dl = {} as ICloudSyncable
+  //       if (storageKey === 'Pilots') dl = Pilot.Deserialize(data)
+  //       else if (storageKey === 'Npcs') dl = Npc.Deserialize(data)
+  //       else if (storageKey === 'Encounters') dl = Encounter.Deserialize(data)
+  //       else if (storageKey === 'Missions' && data.id) dl = Mission.Deserialize(data)
+  //       else if (storageKey === 'ActiveMissions') dl = ActiveMission.Deserialize(data)
+  //       else return
 
-        console.info('new item is:', dl.IsLocallyOwned ? 'locally owned' : 'remote resource');
-        if (dl.IsLocallyOwned) dl.SetOwnedResource(ccid)
-        // else dl.SetRemoteResource()
-        dl.MarkSync()
-        callback(dl)
-      }
-    } catch (err) {
-      throw new Error(`Malformed data returned from S3`)
-    }
-  })
+  //       console.info('new item is:', dl.IsLocallyOwned ? 'locally owned' : 'remote resource');
+  //       if (dl.IsLocallyOwned) dl.SetOwnedResource(ccid)
+  //       // else dl.SetRemoteResource()
+  //       dl.MarkSync()
+  //       callback(dl)
+  //     }
+  //   } catch (err) {
+  //     throw new Error(`Malformed data returned from S3`)
+  //   }
+  // })
 }
 
 const CloudPull = async (userProfile: Client.UserProfile, callback: any): Promise<any> => {
@@ -203,84 +204,85 @@ async function Push(
   ccid: string,
   callback: any
 ): Promise<any> {
-  const typePrefix = storageKey.substring(storageKey.length - 1, 0).toLowerCase()
+  return Promise.resolve()
+  // const typePrefix = storageKey.substring(storageKey.length - 1, 0).toLowerCase()
 
-  const cloudURIs = await Storage.list(`${typePrefix}/`, {
-    level: 'protected',
-  })
-    .then(result => {
-      return result.map(i => i.key)
-    })
-    .catch(err => console.error(err))
+  // const cloudURIs = await Storage.list(`${typePrefix}/`, {
+  //   level: 'protected',
+  // })
+  //   .then(result => {
+  //     return result.map(i => i.key)
+  //   })
+  //   .catch(err => console.error(err))
 
-  const storageURIs = []
+  // const storageURIs = []
 
-  cloudURIs.forEach(async uri => {
-    const match = store.getters[`get${storageKey}`].find(
-      (x: ICloudSyncable) => x.ResourceURI === uri
-    )
-    if (match && match.IsLocallyOwned) {
-      // we found a local version of the cloud ID, so upload them
-      match.SetOwnedResource(ccid)
-      let data = {} as any
-      if (storageKey === 'Pilots') data = Pilot.Serialize(match)
-      else if (storageKey === 'Npcs') data = Npc.Serialize(match)
-      else if (storageKey === 'Encounters') data = Encounter.Serialize(match)
-      else if (storageKey === 'Missions') data = Mission.Serialize(match)
-      else if (storageKey === 'ActiveMissions') data = ActiveMission.Serialize(match)
+  // cloudURIs.forEach(async uri => {
+  //   const match = store.getters[`get${storageKey}`].find(
+  //     (x: ICloudSyncable) => x.ResourceURI === uri
+  //   )
+  //   if (match && match.IsLocallyOwned) {
+  //     // we found a local version of the cloud ID, so upload them
+  //     match.SetOwnedResource(ccid)
+  //     let data = {} as any
+  //     if (storageKey === 'Pilots') data = Pilot.Serialize(match)
+  //     else if (storageKey === 'Npcs') data = Npc.Serialize(match)
+  //     else if (storageKey === 'Encounters') data = Encounter.Serialize(match)
+  //     else if (storageKey === 'Missions') data = Mission.Serialize(match)
+  //     else if (storageKey === 'ActiveMissions') data = ActiveMission.Serialize(match)
 
-      await UploadS3(match.ResourceURI, data)
-        .then(() => {
-          storageURIs.push(match.ResourceURI)
-          match.IsDirty = false
-        })
-        .catch(err => {
-          console.error(err)
-          if (callback) callback('error', `Unable to upload ${typePrefix} data`)
-        })
-    } else if (match && !match.IsLocallyOwned) {
-      console.info('this is an external match, not locally owned')
-    } else {
-      // there is no local match for this cloud pilot, delete them
-      await DeleteS3(uri)
-        .then(() => {
-          console.info(`Removed locally-deleted ${typePrefix}`)
-        })
-        .catch(err => {
-          console.error(err)
-          if (callback) callback('error', `Unable to delete ${typePrefix} data`)
-        })
-    }
-  })
+  //     await UploadS3(match.ResourceURI, data)
+  //       .then(() => {
+  //         storageURIs.push(match.ResourceURI)
+  //         match.IsDirty = false
+  //       })
+  //       .catch(err => {
+  //         console.error(err)
+  //         if (callback) callback('error', `Unable to upload ${typePrefix} data`)
+  //       })
+  //   } else if (match && !match.IsLocallyOwned) {
+  //     console.info('this is an external match, not locally owned')
+  //   } else {
+  //     // there is no local match for this cloud pilot, delete them
+  //     await DeleteS3(uri)
+  //       .then(() => {
+  //         console.info(`Removed locally-deleted ${typePrefix}`)
+  //       })
+  //       .catch(err => {
+  //         console.error(err)
+  //         if (callback) callback('error', `Unable to delete ${typePrefix} data`)
+  //       })
+  //   }
+  // })
 
-  // find new items
-  store.getters[`get${storageKey}`].forEach(async (p: any) => {
-    if (cloudURIs.includes(p.ResourceURI)) return
-    if (p.IsLocallyOwned) p.SetOwnedResource(ccid)
-    // else (p.SetRemoteResource())
-    // this is a resource that does not exist in the cloud
+  // // find new items
+  // store.getters[`get${storageKey}`].forEach(async (p: any) => {
+  //   if (cloudURIs.includes(p.ResourceURI)) return
+  //   if (p.IsLocallyOwned) p.SetOwnedResource(ccid)
+  //   // else (p.SetRemoteResource())
+  //   // this is a resource that does not exist in the cloud
 
-    console.info('item that does not exist in the cloud found: ', p);
+  //   console.info('item that does not exist in the cloud found: ', p);
 
-    let data = {} as any
-    if (storageKey === 'Pilots') data = Pilot.Serialize(p)
-    else if (storageKey === 'Npcs') data = Npc.Serialize(p)
-    else if (storageKey === 'Encounters') data = Encounter.Serialize(p)
-    else if (storageKey === 'Missions') data = Mission.Serialize(p)
-    else if (storageKey === 'ActiveMissions') data = ActiveMission.Serialize(p)
+  //   let data = {} as any
+  //   if (storageKey === 'Pilots') data = Pilot.Serialize(p)
+  //   else if (storageKey === 'Npcs') data = Npc.Serialize(p)
+  //   else if (storageKey === 'Encounters') data = Encounter.Serialize(p)
+  //   else if (storageKey === 'Missions') data = Mission.Serialize(p)
+  //   else if (storageKey === 'ActiveMissions') data = ActiveMission.Serialize(p)
 
-    await UploadS3(p.ResourceURI, data)
-      .then(() => {
-        storageURIs.push(p.ResourceURI)
-        p.MarkSync()
-      })
-      .catch(err => {
-        console.error(err)
-        if (callback) callback('error', `Unable to upload pilot data`)
-      })
-  })
+  //   await UploadS3(p.ResourceURI, data)
+  //     .then(() => {
+  //       storageURIs.push(p.ResourceURI)
+  //       p.MarkSync()
+  //     })
+  //     .catch(err => {
+  //       console.error(err)
+  //       if (callback) callback('error', `Unable to upload pilot data`)
+  //     })
+  // })
 
-  userProfile[storageKey] = storageURIs
+  // userProfile[storageKey] = storageURIs
 }
 
 const UploadLcps = async (): Promise<any> => {

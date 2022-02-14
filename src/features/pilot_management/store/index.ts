@@ -23,16 +23,16 @@ export interface PilotGroup {
 }
 
 function addPilotIdToGroups(pilot: Pilot, groups: PilotGroup[]): void {
-  const pilotGroup = groups.find(g => g.name === pilot.Group)
+  const pilotGroup = groups.find(g => g.name === pilot.GroupController.Group)
   if (pilotGroup) {
     pilotGroup.pilotIDs.push(pilot.ID)
   } else {
-    groups.push({ "name": pilot.Group, "pilotIDs": [pilot.ID], "hidden": false })
+    groups.push({ name: pilot.GroupController.Group, pilotIDs: [pilot.ID], hidden: false })
   }
 }
 
 function deletePilotIdFromGroups(pilot: Pilot, groups: PilotGroup[]): void {
-  const pilotGroup = groups.find(g => g.name === pilot.Group)
+  const pilotGroup = groups.find(g => g.name === pilot.GroupController.Group)
   const idx = pilotGroup.pilotIDs.indexOf(pilot.ID)
   if (idx === -1) return
   pilotGroup.pilotIDs.splice(idx, 1)
@@ -40,8 +40,8 @@ function deletePilotIdFromGroups(pilot: Pilot, groups: PilotGroup[]): void {
 
 function createPilotGroups(pilots: Pilot[]): PilotGroup[] {
   const pilotGroups: PilotGroup[] = []
-  pilotGroups.push({ "name": '', "pilotIDs": [], "hidden": false })
-  console.info("Creating pilot groups from existing pilots")
+  pilotGroups.push({ name: '', pilotIDs: [], hidden: false })
+  console.info('Creating pilot groups from existing pilots')
   pilots.forEach(p => {
     addPilotIdToGroups(p, pilotGroups)
   })
@@ -91,26 +91,27 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [LOAD_PILOTS](payload: { pilotData: PilotData[], groupData: PilotGroup[] }): void {
+  private [LOAD_PILOTS](payload: { pilotData: PilotData[]; groupData: PilotGroup[] }): void {
     const allPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = allPilots
     const groupDataEmpty = payload.groupData.length === 0
-    const ungroupedOnlyEmpty = payload.groupData.length === 1 &&
-      payload.groupData[0].name === "" &&
+    const ungroupedOnlyEmpty =
+      payload.groupData.length === 1 &&
+      payload.groupData[0].name === '' &&
       payload.groupData[0].pilotIDs.length === 0
 
     if (groupDataEmpty || ungroupedOnlyEmpty) {
-      console.info("Recreating groups")
+      console.info('Recreating groups')
       this.PilotGroups = createPilotGroups(this.Pilots)
     } else {
-      console.info("Using existing groups")
+      console.info('Using existing groups')
       this.PilotGroups = payload.groupData
     }
   }
 
   @Mutation
   private [ADD_PILOT](payload: Pilot): void {
-    payload.SortIndex = this.Pilots.length
+    payload.GroupController.SortIndex = this.Pilots.length
     this.Pilots.push(payload)
     addPilotIdToGroups(payload, this.PilotGroups)
     this.Dirty = true
@@ -153,9 +154,9 @@ export class PilotManagementStore extends VuexModule {
   private [ADD_GROUP](payload: string): void {
     if (this.PilotGroups.map(x => x.name).indexOf(payload) === -1) {
       const newGroup: PilotGroup = {
-        "name": payload,
-        "pilotIDs": [],
-        "hidden": false
+        name: payload,
+        pilotIDs: [],
+        hidden: false,
       }
       this.PilotGroups.push(newGroup)
       savePilotGroups(this.PilotGroups)
@@ -170,11 +171,11 @@ export class PilotManagementStore extends VuexModule {
   @Mutation
   private [DELETE_GROUP](payload: PilotGroup): void {
     this.Pilots.forEach((p: Pilot) => {
-      if (p.Group === payload.name) p.Group = ''
+      if (p.GroupController.Group === payload.name) p.GroupController.Group = ''
     })
     this.Dirty = true
 
-    const ungroupedGroup = this.PilotGroups.find(g => g.name === "")
+    const ungroupedGroup = this.PilotGroups.find(g => g.name === '')
     payload.pilotIDs.forEach(id => ungroupedGroup.pilotIDs.push(id))
     const idx = this.PilotGroups.indexOf(payload)
     if (idx !== -1) this.PilotGroups.splice(idx, 1)
@@ -186,7 +187,7 @@ export class PilotManagementStore extends VuexModule {
     const oldName = payload.g.name
     const newName = payload.newName
     this.Pilots.forEach((p: Pilot) => {
-      if (p.Group === oldName) p.Group = newName
+      if (p.GroupController.Group === oldName) p.GroupController.Group = newName
     })
     this.Dirty = true
 
@@ -204,7 +205,7 @@ export class PilotManagementStore extends VuexModule {
   }
 
   get unsavedCloudPilots(): Pilot[] {
-    return this.Pilots.filter(x => x.IsDirty)
+    return this.Pilots.filter(x => x.SaveController.IsDirty)
   }
 
   @Action
@@ -218,6 +219,11 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
+  public set_mech_dirty(): void {
+    this.context.commit(SET_DIRTY)
+  }
+
+  @Action
   public savePilotData(): void {
     this.context.commit(SAVE_DATA)
   }
@@ -226,7 +232,7 @@ export class PilotManagementStore extends VuexModule {
   public async loadPilots() {
     const pilotData = await loadData<PilotData>('pilots_v2.json')
     const pilotGroupData = await loadData<PilotGroup>('pilot_groups_v2.json')
-    this.context.commit(LOAD_PILOTS, { 'pilotData': pilotData, 'groupData': pilotGroupData })
+    this.context.commit(LOAD_PILOTS, { pilotData: pilotData, groupData: pilotGroupData })
   }
 
   @Action({ rawError: true })

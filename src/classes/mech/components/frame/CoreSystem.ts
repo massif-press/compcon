@@ -1,12 +1,12 @@
 import { store } from '@/store'
 import { MechWeapon, Tag, ActivationType, Duration, MechSystem } from '@/class'
-import { IActionData, Action } from '../Action'
-import { IBonusData, Bonus } from '../Bonus'
-import { ISynergyData, Synergy } from '../Synergy'
-import { ICounterData } from '../components/counters/Counter'
-import { MechEquipment } from './MechEquipment'
-import { IDeployableData } from '../Deployable'
-import { CompendiumItem } from '../CompendiumItem'
+import { IActionData, Action } from '../../../Action'
+import { IBonusData, Bonus } from '../../../components/feature/bonus/Bonus'
+import { ISynergyData, Synergy } from '../../../components/feature/synergy/Synergy'
+import { ICounterData } from '../../../components/counters/Counter'
+import { MechEquipment } from '../equipment/MechEquipment'
+import { IDeployableData } from '../../../components/feature/deployable/Deployable'
+import { CompendiumItem } from '../../../CompendiumItem'
 
 interface ICoreData {
   name: string
@@ -51,6 +51,10 @@ class CoreSystem {
   public readonly Deployables: IDeployableData[]
   public readonly DeployActions: Action[]
   public readonly Counters: ICounterData[]
+
+  public IsActive: boolean
+  public Energy: number
+
   private _integrated: string[]
   private _special_equipment: string[]
   private _tags: ITagData[]
@@ -77,7 +81,9 @@ class CoreSystem {
     this.ActiveEffect = data.active_effect
     this.Activation = data.activation
     this.ActiveActions = data.active_actions ? data.active_actions.map(x => new Action(x)) : []
-    this.ActiveBonuses = data.active_bonuses ? data.active_bonuses.map(x => new Bonus(x)) : []
+    this.ActiveBonuses = data.active_bonuses
+      ? data.active_bonuses.map(x => new Bonus(x, `${this.Name} (ACTIVE)`))
+      : []
     this.ActiveSynergies = data.active_synergies
       ? data.active_synergies.map(x => new Synergy(x, 'Frame CORE System (Active)'))
       : []
@@ -86,7 +92,9 @@ class CoreSystem {
     this.PassiveName = data.passive_name || ''
     this.PassiveEffect = data.passive_effect || ''
     this.PassiveActions = data.passive_actions ? data.passive_actions.map(x => new Action(x)) : []
-    this.PassiveBonuses = data.passive_bonuses ? data.passive_bonuses.map(x => new Bonus(x)) : []
+    this.PassiveBonuses = data.passive_bonuses
+      ? data.passive_bonuses.map(x => new Bonus(x, `${this.Name} (PASSIVE)`))
+      : []
     this.PassiveSynergies = data.passive_synergies
       ? data.passive_synergies.map(x => new Synergy(x, 'Frame CORE System (Passive)'))
       : []
@@ -98,6 +106,26 @@ class CoreSystem {
     this._special_equipment = data.special_equipment || []
     this._tags = data.tags
     this.ActivateAction = this.generateActivateAction()
+
+    this.Energy = 1
+  }
+
+  private activeFeatures(type: string): any[] {
+    return this[`Passive${type}`].concat(this.IsActive ? this[`Active${type}`] : [])
+  }
+
+  public get Bonuses(): Bonus[] {
+    return this.activeFeatures('Bonuses')
+  }
+
+  public get Synergies(): Synergy[] {
+    return this.activeFeatures('Synergies')
+  }
+
+  public get Actions(): Action[] {
+    const arr = this.activeFeatures('Actions')
+    if (this.Energy) arr.push(this.ActivateAction)
+    return arr
   }
 
   public get Used(): boolean {

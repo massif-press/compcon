@@ -1,10 +1,17 @@
 import { store } from '@/store'
-import { ReserveType, Synergy, MechEquipment, MechWeapon, MechSystem, CompendiumItem } from '@/class'
+import {
+  ReserveType,
+  Synergy,
+  MechEquipment,
+  MechWeapon,
+  MechSystem,
+  CompendiumItem,
+} from '@/class'
 import { reserves } from 'lancer-data'
 import { IActionData, Action } from '@/classes/Action'
-import { IBonusData, Bonus } from '@/classes/Bonus'
+import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus'
 import { ISynergyData, ICounterData } from '@/interface'
-import { IDeployableData } from '@/classes/Deployable'
+import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 
 declare interface IReserveData {
   id: string
@@ -56,7 +63,9 @@ class Reserve {
     this._resource_cost = data.resource_cost || ''
     this._description = data.description || ''
     this.Actions = data.actions ? data.actions.map(x => new Action(x)) : []
-    this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
+    this.Bonuses = data.bonuses
+      ? data.bonuses.map(x => new Bonus(x, `${this._name} (${this.Type} Reserve)`))
+      : []
     this.Synergies = data.synergies
       ? data.synergies.map(x => new Synergy(x, `Reserve: ${data.name}`))
       : []
@@ -179,7 +188,7 @@ class Reserve {
       deployables: reserve.Deployables,
       counters: reserve.Counters,
       integrated: reserve._integrated,
-      special_equipment: reserve._special_equipment
+      special_equipment: reserve._special_equipment,
     }
   }
 
@@ -197,7 +206,7 @@ class Reserve {
         deployables: rData.deployables,
         counters: rData.counters,
         integrated: rData.integrated,
-        special_equipment: rData.special_equipment
+        special_equipment: rData.special_equipment,
       }
     const r = new Reserve(data)
     r._resource_name = rData.resource_name

@@ -5,7 +5,6 @@ import Search from './Views/SearchResults.vue'
 
 import Licenses from './Views/Licenses.vue'
 import Manufacturers from './Views/Manufacturers.vue'
-import Factions from './Views/Factions.vue'
 import Frames from './Views/Frames.vue'
 import Weapons from './Views/Weapons.vue'
 import Systems from './Views/Systems.vue'
@@ -46,10 +45,6 @@ const routes: RouteConfig[] = [
       {
         path: '/compendium/manufacturers',
         component: Manufacturers,
-      },
-      {
-        path: '/compendium/factions',
-        component: Factions,
       },
       {
         path: '/compendium/frames',

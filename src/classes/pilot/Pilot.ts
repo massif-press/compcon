@@ -1,39 +1,54 @@
 import _ from 'lodash'
 import uuid from 'uuid/v4'
+import { Rules, Mech, CompendiumItem, ContentPack } from '../../class'
 import {
-  Rules,
-  PilotLoadout,
-  Mech,
-  CompendiumItem,
-  ContentPack,
-  Synergy,
-  MechWeapon,
-} from '../../class'
-import { ISaveable } from '../components/save/ISaveable'
-import { SaveController, ISaveData } from '../components/save/SaveController'
-import { getImagePath, ImageTag } from '../../io/ImageManagement'
-import { ICounterData, Action, IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface'
+  ICounterData,
+  Action,
+  IOrganizationData,
+  IPilotLoadoutData,
+  IRankedData,
+} from '../../interface'
 import { ActiveState, IActiveStateData, ICombatStats } from '../mech/ActiveState'
-import { Bonus } from '../Bonus'
-import { IReserveData } from './reserves/Reserve'
-import { MechSystem } from '../mech/MechSystem'
+import { Bonus } from '../components/feature/bonus/Bonus'
+import {
+  CoreBonusController,
+  ILicenseSaveData,
+  IReserveData,
+  ISkillsData,
+  ITalentsData,
+  LicenseController,
+  ReservesController,
+  SkillsController,
+  TalentsController,
+  ICoreBonusSaveData,
+} from './components/'
 import { IMechData } from '../mech/Mech'
-import { IDeployableData } from '../Deployable'
 import { ItemType } from '../enums'
 import { store } from '../../store'
-import { ISkillsData, SkillsController } from './components/skill/SkillsController'
-import { CloudController, ICloudData } from '../components/cloud/CloudController'
-import { ICloudSyncable } from '../components/cloud/ICloudSyncable'
-import { ITalentsData, TalentsController } from './components/talent/TalentsController'
-import { IMechSkillsData, MechSkillsController } from '../components/mechskills/MechSkillsController'
-import { IHASEContainer } from '../components/mechskills/IHASEContainer'
-import { CounterController, ICounterCollection, ICounterSaveData } from '../components/counters/CounterController'
-import { ICounterContainer } from '../components/counters/ICounterContiner'
-import { CoreBonusController, ICoreBonusSaveData } from './components/corebonus/CoreBonusController'
-import { ILicenseSaveData, LicenseController } from './components/license/LicenseController'
-import { ReservesController } from './reserves/ReservesController'
-import { GroupController, IGroupData } from '../components/group/GroupController'
-import { ICollectionGroupable } from '../components/group/ICollectionGroupable'
+import {
+  CloudController,
+  CounterController,
+  GroupController,
+  ICloudData,
+  ICloudSyncable,
+  ICollectionGroupable,
+  ICounterCollection,
+  ICounterContainer,
+  IGroupData,
+  IHASEContainer,
+  IMechSkillsData,
+  IPortraitContainer,
+  IPortraitData,
+  ISaveable,
+  ISaveData,
+  MechSkillsController,
+  PortraitController,
+  SaveController,
+} from '../components/'
+import { ImageTag } from '@/io/ImageManagement'
+import { IFeatureController } from '../components/feature/IFeatureController'
+import { FeatureController } from '../components/feature/FeatureController'
+import { PilotLoadoutController } from './components/Loadout/PilotLoadoutController'
 
 interface IUnlockData {
   PilotArmor: string[]
@@ -46,7 +61,19 @@ interface IUnlockData {
   SystemMods: string[]
 }
 
-class PilotData implements ISaveData, ICloudData, ISkillsData, ITalentsData, IMechSkillsData, ICounterCollection, ICoreBonusSaveData, ILicenseSaveData, IGroupData {
+class PilotData
+  implements
+    ISaveData,
+    ICloudData,
+    ISkillsData,
+    ITalentsData,
+    IMechSkillsData,
+    ICounterCollection,
+    ICoreBonusSaveData,
+    ILicenseSaveData,
+    IGroupData,
+    IPortraitData
+{
   id: string
   level: number
   callsign: string
@@ -56,13 +83,10 @@ class PilotData implements ISaveData, ICloudData, ISkillsData, ITalentsData, IMe
   text_appearance: string
   notes: string
   history: string
-  portrait: string
-  cloud_portrait: string
   quirks: string[]
   current_hp: number
   background: string
   special_equipment: IUnlockData
-  loadout: IPilotLoadoutData
   mechs: IMechData[]
   cc_ver: string
   brews: string[]
@@ -74,9 +98,13 @@ class PilotData implements ISaveData, ICloudData, ISkillsData, ITalentsData, IMe
   lastModified: string
   isDeleted: boolean
 
+  // PortraitController
+  portrait: string
+  cloud_portrait: string
+
   // CloudController
-  lastUpdate_cloud: string;
-  resourceUri: string;
+  lastUpdate_cloud: string
+  resourceUri: string
   lastSync: string
 
   // SkillsController
@@ -105,9 +133,21 @@ class PilotData implements ISaveData, ICloudData, ISkillsData, ITalentsData, IMe
   // GroupConteroller
   group: string
   sort_index: number
+
+  // PilotLoadoutController
+  loadout: IPilotLoadoutData
 }
 
-class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContainer, ICollectionGroupable {
+class Pilot
+  implements
+    ICloudSyncable,
+    ISaveable,
+    IHASEContainer,
+    ICounterContainer,
+    ICollectionGroupable,
+    IPortraitContainer,
+    IFeatureController
+{
   public readonly ItemType: string = 'pilot'
 
   public SaveController: SaveController
@@ -120,6 +160,10 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
   public LicenseController: LicenseController
   public ReservesController: ReservesController
   public GroupController: GroupController
+  public PortraitController: PortraitController
+  public ImageTag = ImageTag.Pilot
+  public FeatureController: FeatureController
+  public PilotLoadoutController: PilotLoadoutController
 
   private _callsign: string
   private _name: string
@@ -130,19 +174,12 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
   private _quirks: string[]
   private _history: string
 
-  private _group: string
-  private _sortIndex: number
-
   private _id: string
   private _level: number
-  private _cloud_portrait: string
-  private _portrait: string
   private _missing_hp: number
   private _background: string
 
   private _special_equipment: CompendiumItem[]
-
-  private _loadout: PilotLoadout
 
   private _mechs: Mech[]
   private _state: ActiveState
@@ -156,6 +193,7 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
     this._id = uuid()
     this.SaveController = new SaveController(this)
     this.CloudController = new CloudController(this)
+    this.PortraitController = new PortraitController(this)
     this.SkillsController = new SkillsController(this)
     this.TalentsController = new TalentsController(this)
     this.MechSkillsController = new MechSkillsController(this)
@@ -164,6 +202,15 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
     this.LicenseController = new LicenseController(this)
     this.ReservesController = new ReservesController(this)
     this.GroupController = new GroupController(this)
+    this.FeatureController = new FeatureController(this)
+    this.PilotLoadoutController = new PilotLoadoutController(this)
+
+    this.FeatureController.Register(
+      this.TalentsController,
+      this.CoreBonusController,
+      this.ReservesController,
+      this.PilotLoadoutController
+    )
 
     this._level = 0
     this._callsign = ''
@@ -173,17 +220,12 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
     this._text_appearance = ''
     this._notes = ''
     this._history = ''
-    this._portrait = ''
-    this._cloud_portrait = ''
     this._quirks = []
     this._missing_hp = 0
-    this._loadout = new PilotLoadout(0)
     this._background = ''
     this._special_equipment = []
     this._mechs = []
     this._brews = []
-    this._group = ''
-    this._sortIndex = 0
     this._dead = false
     this._state = new ActiveState(this)
     this._combat_history = ActiveState.NewCombatStats()
@@ -201,10 +243,10 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
         .filter(x => x.toLowerCase() !== 'core')
     }
 
-    let brews = collectBrewGroup(this._loadout.Items)
+    let brews = collectBrewGroup(this.PilotLoadoutController.Loadout.Items)
     this._mechs.forEach(m => {
       brews = _.union(brews, collectBrewGroup([m.Frame]))
-      m.Loadouts.forEach(ml => {
+      m.MechLoadoutController.Loadouts.forEach(ml => {
         brews = _.union(brews, collectBrewGroup(ml.Weapons))
         brews = _.union(brews, collectBrewGroup(ml.Systems))
       })
@@ -216,7 +258,9 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
   //TODO: don't extract id or type at call, just pass object and deal with it w/ instanceof/typeof
   public has(typeName: string, id: string, rank?: number): boolean {
     if (typeName.toLowerCase() === 'skill') {
-      return this.SkillsController.Skills.findIndex(x => x.Skill.Name === id || x.Skill.ID === id) > -1
+      return (
+        this.SkillsController.Skills.findIndex(x => x.Skill.Name === id || x.Skill.ID === id) > -1
+      )
     } else if (typeName.toLowerCase() === 'corebonus') {
       return this.CoreBonusController.CoreBonuses.findIndex(x => x.ID === id) > -1
     } else if (typeName.toLowerCase() === 'license') {
@@ -362,46 +406,13 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
     this.SaveController.save()
   }
 
-  public SetLocalImage(src: string): void {
-    this._portrait = src
-    this.SaveController.save()
-  }
-
-  public get LocalImage(): string {
-    return this._portrait
-  }
-
-  public get Image(): string {
-    return this.Portrait
-  }
-
-  public get Portrait(): string {
-    if (this._cloud_portrait) return this._cloud_portrait
-    else if (this._portrait) return getImagePath(ImageTag.Pilot, this._portrait)
-    else return getImagePath(ImageTag.Pilot, 'nodata.png')
-  }
-
-  public get CloudImage(): string {
-    return this._cloud_portrait
-  }
-
-  public set CloudImage(src: string) {
-    this._cloud_portrait = src
-    this.SaveController.save()
-  }
-
-  public SetCloudImage(src: string): void {
-    this._cloud_portrait = src
-    this.SaveController.save()
-  }
-
   // -- Stats -------------------------------------------------------------------------------------
   public get Grit(): number {
     return Math.ceil(this._level / 2)
   }
 
   public get MaxHP(): number {
-    return Bonus.IntPilot(Rules.BasePilotHP + this.Grit, 'pilot_hp', this)
+    return Bonus.Int(Rules.BasePilotHP + this.Grit, 'pilot_hp', this)
   }
 
   public get CurrentHP(): number {
@@ -416,38 +427,32 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
   }
 
   public get Armor(): number {
-    return Bonus.IntPilot(0, 'pilot_armor', this)
+    return Bonus.Int(0, 'pilot_armor', this)
   }
 
   public get Speed(): number {
-    return Bonus.IntPilot(Rules.BasePilotSpeed, 'pilot_speed', this)
+    return Bonus.Int(Rules.BasePilotSpeed, 'pilot_speed', this)
   }
 
   public get Evasion(): number {
-    return Bonus.IntPilot(Rules.BasePilotEvasion, 'pilot_evasion', this)
+    return Bonus.Int(Rules.BasePilotEvasion, 'pilot_evasion', this)
   }
 
   public get EDefense(): number {
-    return Bonus.IntPilot(Rules.BasePilotEdef, 'pilot_edef', this)
+    return Bonus.Int(Rules.BasePilotEdef, 'pilot_edef', this)
   }
 
   public get LimitedBonus(): number {
-    return Bonus.IntPilot(Math.floor(this.MechSkillsController.MechSkills.Eng / 2), 'limited_bonus', this)
-  }
-
-  // -- Loadouts ----------------------------------------------------------------------------------
-  public get Loadout(): PilotLoadout {
-    return this._loadout
-  }
-
-  public set Loadout(l: PilotLoadout) {
-    this._loadout = l
-    this.SaveController.save()
+    return Bonus.Int(
+      Math.floor(this.MechSkillsController.MechSkills.Eng / 2),
+      'limited_bonus',
+      this
+    )
   }
 
   // -- Exotics and Other Equipment ---------------------------------------------------------------
   public get SpecialEquipment(): CompendiumItem[] {
-    return this.IntegratedSpecialEquipment.concat(this._special_equipment)
+    return this.FeatureController.IntegratedSpecialEquipment.concat(this._special_equipment)
   }
 
   public set SpecialEquipment(data: CompendiumItem[]) {
@@ -559,51 +564,6 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
     this.CurrentHP = this.MaxHP
   }
 
-  // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
-  private features<T>(p: string): T[] {
-    if (!this.Loadout) return []
-
-    return this._loadout.Items.filter(i => !!i)
-      .flatMap(x => x[p])
-      .concat(this.CoreBonusController.CoreBonuses.flatMap(x => x[p]))
-      .concat(this.ReservesController.Reserves.filter(x => !x.Used).flatMap(y => y[p]))
-      .concat(this.TalentsController.Talents.flatMap(x => x.UnlockedRanks.flatMap(y => y[p])))
-  }
-
-  public get Bonuses(): Bonus[] {
-    return this.features('Bonuses')
-  }
-
-  public get Synergies(): Synergy[] {
-    return this.features('Synergies')
-  }
-
-  public get Actions(): Action[] {
-    return this.features('Actions')
-  }
-
-  public get Deployables(): IDeployableData[] {
-    return this.features('Deployables')
-  }
-
-  public get Counters(): ICounterData[] {
-    let counters: ICounterData[] = this.features('Counters')
-    if (this.ActiveMech) counters = counters.concat(this.ActiveMech.CountersOnlyMech)
-    return counters
-  }
-
-  public get IntegratedWeapons(): MechWeapon[] {
-    return this.features('IntegratedWeapons')
-  }
-
-  public get IntegratedSystems(): MechSystem[] {
-    return this.features('IntegratedSystems')
-  }
-
-  public get IntegratedSpecialEquipment(): CompendiumItem[] {
-    return this.features('SpecialEquipment')
-  }
-
   // -- I/O ---------------------------------------------------------------------------------------
   private static serializeSE(equipment: CompendiumItem[]): IUnlockData {
     return {
@@ -639,12 +599,9 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
       text_appearance: p.TextAppearance,
       notes: p.Notes,
       history: p.History,
-      portrait: p._portrait,
-      cloud_portrait: p._cloud_portrait,
       quirks: p.Quirks,
       current_hp: p.CurrentHP,
       background: p.Background,
-      loadout: PilotLoadout.Serialize(p.Loadout),
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       cc_ver: p.cc_ver,
       special_equipment: this.serializeSE(p._special_equipment),
@@ -662,6 +619,8 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
     LicenseController.Serialize(p, data)
     ReservesController.Serialize(p, data)
     GroupController.Serialize(p, data)
+    PortraitController.Serialize(p, data)
+    PilotLoadoutController.Serialize(p, data)
 
     return data as PilotData
   }
@@ -678,9 +637,7 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
   }
 
   public Update(data: PilotData, sync?: boolean): void {
-
     this._id = data.id
-    this._loadout = data.loadout ? PilotLoadout.Deserialize(data.loadout) : new PilotLoadout(0)
     this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats()
     this._level = data.level
     this._callsign = data.callsign
@@ -691,8 +648,6 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
     this._text_appearance = data.text_appearance
     this._notes = data.notes
     this._history = data.history
-    this._portrait = data.portrait
-    this._cloud_portrait = data.cloud_portrait
     this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : []
     this.CurrentHP = data.current_hp
     this._background = data.background
@@ -715,6 +670,8 @@ class Pilot implements ICloudSyncable, ISaveable, IHASEContainer, ICounterContai
     CoreBonusController.Deserialize(this, data)
     LicenseController.Deserialize(this, data)
     GroupController.Deserialize(this, data)
+    PortraitController.Deserialize(this, data)
+    PilotLoadoutController.Deserialize(this, data)
 
     if (sync && data.state) {
       this._state.Update(this, data.state, sync)

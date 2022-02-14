@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import { Mech, WeaponType } from '@/class'
-import { CompendiumItem } from './CompendiumItem'
-import { ItemType } from './enums'
-import { MechSystem } from './mech/MechSystem'
-import { MechWeapon } from './mech/MechWeapon'
+import { CompendiumItem } from '../../../CompendiumItem'
+import { ItemType } from '../../../enums'
+import { MechSystem } from '../../../mech/MechSystem'
+import { MechWeapon } from '../../../mech/MechWeapon'
 
 interface ISynergyData {
   locations: string[]
@@ -60,7 +60,7 @@ class Synergy {
       detail: synergy.Detail,
       weapon_types: synergy.WeaponTypes,
       system_types: synergy.SystemTypes,
-      weapon_sizes: synergy.WeaponSizes
+      weapon_sizes: synergy.WeaponSizes,
     }
   }
 }

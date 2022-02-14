@@ -15,7 +15,7 @@ class PilotLoadout extends Loadout {
   private _extendedWeapons: (PilotWeapon | null)[]
   private _extendedGear: (PilotGear | null)[]
 
-  public constructor(count: number, id?: string) {
+  public constructor(count?: number, id?: string) {
     super(count, id)
     this._armor = Array(Rules.MaxPilotArmor).fill(null)
     this._gear = Array(Rules.MaxPilotGear).fill(null)

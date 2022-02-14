@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4'
 import { ICounterData } from "./Counter"
-import { ICounterContainer } from "./ICounterContiner"
+import { ICounterContainer } from "./ICounterContainer"
 
 interface ICounterCollection {
   counter_data: ICounterSaveData[]

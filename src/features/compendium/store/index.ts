@@ -17,7 +17,6 @@ import {
   Talent,
   Reserve,
   Manufacturer,
-  Faction,
   NpcClass,
   NpcTemplate,
   NpcFeature,
@@ -36,13 +35,12 @@ import {
   IWeaponModData,
   IMechSystemData,
   IManufacturerData,
-  IFactionData,
   IContentPack,
   ITagCompendiumData,
   IPilotEquipmentData,
 } from '@/interface'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
-import { IReserveData } from '@/classes/pilot/reserves/Reserve'
+import { IReserveData } from '@/classes/pilot/components/reserves/Reserve'
 import * as PlayerAction from '@/classes/Action'
 import { Background, IBackgroundData } from '@/classes/Background'
 
@@ -88,7 +86,9 @@ export class CompendiumStore extends VuexModule {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
   }
   public get Backgrounds(): Background[] {
-    return lancerData.backgrounds.map(((x: IBackgroundData) => new Background(x))).concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
+    return lancerData.backgrounds
+      .map((x: IBackgroundData) => new Background(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
   }
   @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
   @Brewable(() =>
@@ -103,8 +103,6 @@ export class CompendiumStore extends VuexModule {
   Frames: Frame[]
   @Brewable(() => lancerData.manufacturers.map((x: IManufacturerData) => new Manufacturer(x)))
   Manufacturers: Manufacturer[]
-  @Brewable(() => lancerData.factions.map((x: IFactionData) => new Faction(x)))
-  Factions: Faction[]
   @Brewable(() => lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x)))
   MechWeapons: MechWeapon[]
   @Brewable(() => lancerData.mods.map((x: IWeaponModData) => new WeaponMod(x)))

@@ -100,7 +100,7 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Rules, MechWeapon } from '@/class'
 import { flavorID } from '@/io/Generators'
-import { Bonus } from '@/classes/Bonus'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
 export default Vue.extend({
   name: 'weapon-selector',
@@ -145,7 +145,10 @@ export default Vue.extend({
       if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
 
       // filter ai
-      if (this.mech.ActiveLoadout.AICount >= 1 + Bonus.get('ai_cap', this.mech)) {
+      if (
+        this.mech.MechLoadoutController.ActiveLoadout.AICount >=
+        1 + Bonus.get('ai_cap', this.mech)
+      ) {
         i = i.filter(x => !x.IsAI)
       }
 
@@ -162,7 +165,10 @@ export default Vue.extend({
       )
 
       // filter unique
-      i = i.filter(x => !this.mech.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(x.ID))
+      i = i.filter(
+        x =>
+          !this.mech.MechLoadoutController.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(x.ID)
+      )
 
       return _.sortBy(i, ['Source', 'Name'])
     },

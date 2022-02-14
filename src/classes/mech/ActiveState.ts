@@ -4,9 +4,17 @@
 // but associated logic should be handled by this class (eg. ride-along conditions)
 
 import { store } from '../../store'
-import { Mech, Deployable, Pilot, MechEquipment, MechWeapon, Mount, ActivationType } from '../../class'
+import {
+  Mech,
+  Deployable,
+  Pilot,
+  MechEquipment,
+  MechWeapon,
+  Mount,
+  ActivationType,
+} from '../../class'
 import { Action } from '../../interface'
-import { IDeployableData, IDeployedData } from '../Deployable'
+import { IDeployableData, IDeployedData } from '../components/feature/deployable/Deployable'
 import { mission } from '../../io/Generators'
 import { Duration } from '../enums'
 import { ActivePeriod } from '../Action'
@@ -280,7 +288,8 @@ class ActiveState {
   public EndTurn(burnHp: number, burnStr: number): void {
     this._cachedBurnDamage = burnHp
     this._cachedBurnStructure = burnStr
-    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Turn) this.ActiveMech.IsCoreActive = false
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Turn)
+      this.ActiveMech.IsCoreActive = false
     if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.NextTurn) {
       if (this._stageNextTurnCoreEnd) {
         this.ActiveMech.IsCoreActive = false
@@ -297,8 +306,10 @@ class ActiveState {
     this.Deployed.forEach(d => d.Actions.forEach(a => a.Reset(event)))
 
     if (event == ActivePeriod.Encounter || event == ActivePeriod.Mission) {
-      if (this.ActiveMech.Frame.CoreSystem.PassiveActions) this.ActiveMech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(event))
-      if (this.ActiveMech.Frame.CoreSystem.DeployActions) this.ActiveMech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(event))
+      if (this.ActiveMech.Frame.CoreSystem.PassiveActions)
+        this.ActiveMech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(event))
+      if (this.ActiveMech.Frame.CoreSystem.DeployActions)
+        this.ActiveMech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(event))
     }
   }
 
@@ -313,8 +324,8 @@ class ActiveState {
     this._barrageSelections = []
     this._barrageMounts = []
     this.ResetActions(ActivePeriod.Round)
-    this.ActiveMech.ActiveLoadout.Equipment.forEach(e => e.Reset())
-    this.ActiveMech.Pilot.Loadout.Equipment.forEach(e => e.Reset())
+    this.ActiveMech.MechLoadoutController.ActiveLoadout.Equipment.forEach(e => e.Reset())
+    this.ActiveMech.Pilot.PilotLoadoutController.Loadout.Equipment.forEach(e => e.Reset())
     this.ActiveMech.CurrentMove = this._braced ? 0 : this.ActiveMech.MaxMove
     this._braced = false
     this.SetLog({
@@ -322,7 +333,8 @@ class ActiveState {
       event: 'LOG.ROUND',
       detail: 'ROUND START',
     })
-    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Round) this.ActiveMech.IsCoreActive = false
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Round)
+      this.ActiveMech.IsCoreActive = false
     if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.NextRound) {
       if (this._stageNextRoundCoreEnd) {
         this.ActiveMech.IsCoreActive = false
@@ -348,7 +360,8 @@ class ActiveState {
       event: 'LOG.END',
       detail: 'ENCOUNTER COMPLETE. COMBAT MODE DEACTIVATED.',
     })
-    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Encounter) this.ActiveMech.IsCoreActive = false
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Encounter)
+      this.ActiveMech.IsCoreActive = false
     this.InTurn = true
     this.save()
   }
@@ -507,18 +520,24 @@ class ActiveState {
   }
 
   public get AvailableAmmoUses(): number {
-    const ac = this.ActiveMech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    const ac = this.ActiveMech.MechLoadoutController.ActiveLoadout.IntegratedSystems.find(x =>
+      x.ID.includes('walking_armory')
+    )
     if (!ac) return 0
     else return ac.Uses
   }
 
   public SpendAmmoCost(cost: number) {
-    const ac = this.ActiveMech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    const ac = this.ActiveMech.MechLoadoutController.ActiveLoadout.IntegratedSystems.find(x =>
+      x.ID.includes('walking_armory')
+    )
     if (ac) ac.Uses -= cost
   }
 
   public RefundAmmoCost(cost: number) {
-    const ac = this.ActiveMech.ActiveLoadout.IntegratedSystems.find(x => x.ID.includes('walking_armory'))
+    const ac = this.ActiveMech.MechLoadoutController.ActiveLoadout.IntegratedSystems.find(x =>
+      x.ID.includes('walking_armory')
+    )
     if (ac) ac.Uses += cost
   }
 
@@ -528,16 +547,10 @@ class ActiveState {
     return `${d.getFullYear() + 3000}.${d.getMonth() + 1}.${d
       .getDate()
       .toString()
-      .padStart(2, '0')}//${d
-        .getHours()
-        .toString()
-        .padStart(2, '0')}:${d
-          .getMinutes()
-          .toString()
-          .padStart(2, '0')}:${d
-            .getMilliseconds()
-            .toString()
-            .padStart(2, '0')}`
+      .padStart(2, '0')}//${d.getHours().toString().padStart(2, '0')}:${d
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}:${d.getMilliseconds().toString().padStart(2, '0')}`
   }
 
   public SetLog(entry: { id: string; event: string; detail: string }, action?: Action) {
@@ -636,12 +649,14 @@ class ActiveState {
   public SetMove(val: number) {
     this._stats.moves += this.ActiveMech.CurrentMove - val
     this.ActiveMech.CurrentMove = val
-    if (this.ActiveMech.CurrentMove > this.ActiveMech.MaxMove) this.ActiveMech.CurrentMove = this.ActiveMech.MaxMove
+    if (this.ActiveMech.CurrentMove > this.ActiveMech.MaxMove)
+      this.ActiveMech.CurrentMove = this.ActiveMech.MaxMove
     this.SetLog({
       id: `set_move`,
       event: 'MOVE',
-      detail: `${val > 0 ? `FRAME/COMMIT.TAC: ${val} SPACES` : `FRAME/RESCIND.TAC: ${Math.abs(val)} SPACES`
-        }`,
+      detail: `${
+        val > 0 ? `FRAME/COMMIT.TAC: ${val} SPACES` : `FRAME/RESCIND.TAC: ${Math.abs(val)} SPACES`
+      }`,
     })
   }
 
@@ -663,8 +678,9 @@ class ActiveState {
     this.SetLog({
       id: `set_status`,
       event: 'STATUS',
-      detail: `${added ? '' : '!ALERT! '}FRAME/STATUS.${sstr.toUpperCase()} ++ALARM.${removed ? 'OFF' : 'ON'
-        }++`,
+      detail: `${added ? '' : '!ALERT! '}FRAME/STATUS.${sstr.toUpperCase()} ++ALARM.${
+        removed ? 'OFF' : 'ON'
+      }++`,
     })
   }
 
@@ -694,11 +710,13 @@ class ActiveState {
     this.SetLog({
       id: `set_burn`,
       event: 'BURN',
-      detail: `${val > 0
-        ? `!ALERT! FRAME/DMG.ONGOING: ${val} ++ALARM.ON++`
-        : `FRAME/DMG.MITIGATE: ${Math.abs(val)} ${this.ActiveMech.Burn > 0 ? '++ALARM.ON++' : '++ALARM.OFF++'
-        }`
-        }`,
+      detail: `${
+        val > 0
+          ? `!ALERT! FRAME/DMG.ONGOING: ${val} ++ALARM.ON++`
+          : `FRAME/DMG.MITIGATE: ${Math.abs(val)} ${
+              this.ActiveMech.Burn > 0 ? '++ALARM.ON++' : '++ALARM.OFF++'
+            }`
+      }`,
     })
   }
 
@@ -819,8 +837,9 @@ class ActiveState {
     this.SetLog({
       id: `set_rep`,
       event: 'REPAIR CAPACITY',
-      detail: `${val < 0 ? `FRAME/COMMIT.REPAIR: ${val}` : `FRAME/RECOVER.REPAIR: ${Math.abs(val)}`
-        }`,
+      detail: `${
+        val < 0 ? `FRAME/COMMIT.REPAIR: ${val}` : `FRAME/RECOVER.REPAIR: ${Math.abs(val)}`
+      }`,
     })
   }
 
@@ -832,8 +851,9 @@ class ActiveState {
     this.SetLog({
       id: `set_core`,
       event: 'CORE POWER',
-      detail: `${val > 0 ? `FRAME/CORE:: CAPACITY RESTORED` : `!ALERT! FRAME CORE ACTIVATION !ALERT!`
-        }`,
+      detail: `${
+        val > 0 ? `FRAME/CORE:: CAPACITY RESTORED` : `!ALERT! FRAME CORE ACTIVATION !ALERT!`
+      }`,
     })
   }
 
@@ -843,10 +863,11 @@ class ActiveState {
     this.SetLog({
       id: `set_oc`,
       event: 'OVERCHARGE',
-      detail: `${inc
-        ? `!WARN! FRAME/REACTOR.SYS::POWER REROUTE CONFIRM ++HEAT.ALARM.ON++`
-        : `FRAME/REACTOR.SYS::CHARGE PROTOCOL RECOVERY`
-        }`,
+      detail: `${
+        inc
+          ? `!WARN! FRAME/REACTOR.SYS::POWER REROUTE CONFIRM ++HEAT.ALARM.ON++`
+          : `FRAME/REACTOR.SYS::CHARGE PROTOCOL RECOVERY`
+      }`,
     })
   }
 
@@ -854,9 +875,9 @@ class ActiveState {
     this._stabilizeUndo = {
       heat: this.ActiveMech.CurrentHeat,
       hp: this.ActiveMech.CurrentHP,
-      reloads: this.ActiveMech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).map(
-        w => w.ID
-      ),
+      reloads: this.ActiveMech.MechLoadoutController.ActiveLoadout.Weapons.filter(
+        x => x.IsLoading && !x.Loaded
+      ).map(w => w.ID),
       burn: this.ActiveMech.Burn,
       exposed: this.ActiveMech.Statuses.includes('EXPOSED'),
     }
@@ -874,9 +895,9 @@ class ActiveState {
 
     if (this.StabilizeMinor === 'reload') {
       str += ' ::RELOAD'
-      this.ActiveMech.ActiveLoadout.Weapons.filter(x => x.IsLoading && !x.Loaded).forEach(
-        w => (w.Loaded = true)
-      )
+      this.ActiveMech.MechLoadoutController.ActiveLoadout.Weapons.filter(
+        x => x.IsLoading && !x.Loaded
+      ).forEach(w => (w.Loaded = true))
     } else if (this.StabilizeMinor === 'end_burn') {
       str += ' ::END.BURN'
       this.ActiveMech.Burn = 0
@@ -908,7 +929,10 @@ class ActiveState {
 
     if (this._last_stabilize_minor === 'reload') {
       this._stabilizeUndo.reloads.forEach(
-        x => (this.ActiveMech.ActiveLoadout.Weapons.find(w => w.ID === x).Loaded = false)
+        x =>
+          (this.ActiveMech.MechLoadoutController.ActiveLoadout.Weapons.find(
+            w => w.ID === x
+          ).Loaded = false)
       )
     } else if (this._last_stabilize_minor === 'end_burn') {
       this.ActiveMech.Burn = this._stabilizeUndo.burn
@@ -961,7 +985,9 @@ class ActiveState {
   public CommitShutDown() {
     this._shutDownUndo = {
       heat: this.ActiveMech.CurrentHeat,
-      cascade: this.ActiveMech.ActiveLoadout.Equipment.filter(x => x.IsCascading).map(e => e.ID),
+      cascade: this.ActiveMech.MechLoadoutController.ActiveLoadout.Equipment.filter(
+        x => x.IsCascading
+      ).map(e => e.ID),
       statuses: this.ActiveMech.Statuses,
       conditions: this.ActiveMech.Conditions,
     }
@@ -969,7 +995,9 @@ class ActiveState {
     this.ActiveMech.RemoveStatus('EXPOSED')
     this.ActiveMech.RemoveCondition('JAMMED')
     this.ActiveMech.RemoveCondition('LOCK ON')
-    this.ActiveMech.ActiveLoadout.Equipment.filter(x => x.IsCascading).forEach(e => {
+    this.ActiveMech.MechLoadoutController.ActiveLoadout.Equipment.filter(
+      x => x.IsCascading
+    ).forEach(e => {
       e.IsCascading = false
     })
     this.ActiveMech.AddStatus('SHUT DOWN')
@@ -978,7 +1006,7 @@ class ActiveState {
 
   public UndoShutDown() {
     this.ActiveMech.CurrentHeat = this._shutDownUndo.heat
-    this.ActiveMech.ActiveLoadout.Equipment.forEach(e => {
+    this.ActiveMech.MechLoadoutController.ActiveLoadout.Equipment.forEach(e => {
       if (this._shutDownUndo.cascade.includes(e.ID)) e.IsCascading = true
     })
     this.ActiveMech.Statuses = this._shutDownUndo.statuses
@@ -1001,8 +1029,9 @@ class ActiveState {
     this.SetLog({
       id: action,
       event: weapon.toUpperCase(),
-      detail: `${action.toUpperCase()}//${weapon.toUpperCase()}::${damage} DMG ${kill ? '++KILL CONFIRM++' : ''
-        }`,
+      detail: `${action.toUpperCase()}//${weapon.toUpperCase()}::${damage} DMG ${
+        kill ? '++KILL CONFIRM++' : ''
+      }`,
     })
   }
 
@@ -1016,8 +1045,9 @@ class ActiveState {
   }
 
   public Deploy(d: IDeployableData) {
-    const n = this._deployed.filter(x => x.BaseName.toLowerCase().includes(d.name.toLowerCase()))
-      .length
+    const n = this._deployed.filter(x =>
+      x.BaseName.toLowerCase().includes(d.name.toLowerCase())
+    ).length
     this._deployed.push(new Deployable(d, this.ActiveMech, n))
     this.SetLog({
       id: `deploy`,
@@ -1208,8 +1238,7 @@ class ActiveState {
       for (const key in data) {
         if (this.SyncIgnore.includes(key)) data[key] = null
       }
-    }
-    else {
+    } else {
       this._remoteMech = pilot.Mechs.find(x => x.ID === data.remote_mech_id)
     }
 
@@ -1226,7 +1255,9 @@ class ActiveState {
     this._redundant = data.redundant
     this._pilot_mounted = data.mounted
     this._stats = data.stats ? data.stats : ActiveState.NewCombatStats()
-    this._deployed = data.deployed ? data.deployed.map(x => Deployable.Deserialize(x, this.ActiveMech)) : []
+    this._deployed = data.deployed
+      ? data.deployed.map(x => Deployable.Deserialize(x, this.ActiveMech))
+      : []
   }
 }
 

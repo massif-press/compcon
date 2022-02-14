@@ -1,9 +1,9 @@
-import { Bonus } from "../../Bonus"
-import { HASE } from "../../enums"
-import { Pilot } from "../../pilot/Pilot"
-import { Rules } from "../../utility/Rules"
-import { IHASEContainer } from "./IHASEContainer"
-import MechSkills from "./MechSkills"
+import { Bonus } from '../feature/bonus/Bonus'
+import { HASE } from '../../enums'
+import { Pilot } from '../../pilot/Pilot'
+import { Rules } from '../../utility/Rules'
+import { IHASEContainer } from './IHASEContainer'
+import MechSkills from './MechSkills'
 
 interface IMechSkillsData {
   mechSkills: number[]
@@ -50,7 +50,7 @@ class MechSkillsController {
   public get MaxHASEPoints(): number {
     const p = this.Parent as any
     if (!p.Level) return 0
-    return Bonus.IntPilot(Rules.MinimumMechSkills + p.Level, 'mech_skill_point', this.Parent as Pilot)
+    return Bonus.Int(Rules.MinimumMechSkills + p.Level, 'mech_skill_point', this.Parent as Pilot)
   }
 
   public get IsMissingHASE(): boolean {
@@ -66,7 +66,10 @@ class MechSkillsController {
   }
 
   public static Deserialize(parent: IHASEContainer, data: IMechSkillsData) {
-    if (!parent.MechSkillsController) throw new Error(`MechSkillsController not found on parent (${typeof parent}). New MechSkillsControllers must be instantiated in the parent's constructor method.`);
+    if (!parent.MechSkillsController)
+      throw new Error(
+        `MechSkillsController not found on parent (${typeof parent}). New MechSkillsControllers must be instantiated in the parent's constructor method.`
+      )
 
     parent.MechSkillsController._mechSkills = MechSkills.Deserialize(data.mechSkills)
   }

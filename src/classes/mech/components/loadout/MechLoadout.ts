@@ -34,7 +34,7 @@ class MechLoadout extends Loadout {
   private _integratedSystems: MechSystem[]
 
   public constructor(mech: Mech) {
-    super(mech.Loadouts ? mech.Loadouts.length : 0)
+    super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
     this._integratedMounts = mech.IntegratedWeapons.map(x => new IntegratedMount(x))
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this._systems = []
@@ -214,11 +214,11 @@ class MechLoadout extends Loadout {
   public get TotalSP(): number {
     const mountSP = [...this._equippableMounts, this._improvedArmament, this._integratedWeapon]
       .flatMap(x => x.Weapons)
-      .reduce(function(a, b) {
+      .reduce(function (a, b) {
         return a + (b ? b.TotalSP : 0)
       }, 0)
 
-    const systemSP = this._systems.reduce(function(a, b) {
+    const systemSP = this._systems.reduce(function (a, b) {
       return a + b.SP
     }, 0)
     return mountSP + systemSP
