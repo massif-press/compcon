@@ -2,7 +2,6 @@
   "name": "compcon",
   "version": "2.2.36",
   "description": "A digital toolkit for the LANCER TTRPG",
-  "license": "GPL-3.0-or-later",
   "author": "Massif Press",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -41,6 +40,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.175",
     "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
@@ -53,12 +53,13 @@
     "vue-cli-plugin-svg": "~0.2.1",
     "vue-template-compiler": "^2.6.11"
   },
-  "resolutions": {
-    "prosemirror-model": "1.8.2"
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "license": "GPL-3.0-or-later",
+  "resolutions": {
+    "prosemirror-model": "1.8.2"
+  }
 }
