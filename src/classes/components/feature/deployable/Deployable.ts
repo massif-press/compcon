@@ -1,9 +1,9 @@
 import { ActivationType, Mech, Pilot } from '@/class'
 import { ICounterData, ISynergyData } from '@/interface'
 import uuid from 'uuid/v4'
-import { IActionData } from './Action'
-import { Bonus, IBonusData } from './Bonus'
-import { ICompendiumItemData, CompendiumItem } from './CompendiumItem'
+import { IActionData } from '../../../Action'
+import { Bonus, IBonusData } from '../bonus/Bonus'
+import { ICompendiumItemData, CompendiumItem } from '../../../CompendiumItem'
 
 interface IDeployableData extends ICompendiumItemData {
   name: string

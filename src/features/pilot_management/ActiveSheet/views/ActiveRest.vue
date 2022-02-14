@@ -480,7 +480,7 @@ export default vueMixins(activePilot).extend({
       return this.pilot.ActiveMech
     },
     loadout() {
-      return this.mech.ActiveLoadout
+      return this.mech.MechLoadoutController.ActiveLoadout
     },
     destroyedWeapons() {
       return this.loadout.Weapons.filter(x => x.Destroyed)

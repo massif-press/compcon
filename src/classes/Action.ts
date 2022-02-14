@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4'
 import { ActivationType, Damage, Range } from '@/class'
-import { IDeployableData } from './Deployable'
+import { IDeployableData } from './components/feature/deployable/Deployable'
 import { isNumber } from 'lodash'
 import { IDamageData } from './Damage'
 import { IRangeData } from './Range'
@@ -97,12 +97,11 @@ class Frequency {
       Turn: 1,
       Round: 2,
       Encounter: 3,
-      Mission: 4
+      Mission: 4,
     }
     //This action is free to regain uses if the given event
     //meets the duration threshold
-    return (order[this.Duration] <= order[event])
-
+    return order[this.Duration] <= order[event]
   }
 }
 
@@ -178,7 +177,7 @@ class Action {
   }
 
   public get Used(): boolean {
-    return this._used || (this._uses == 0)
+    return this._used || this._uses == 0
   }
 
   public get Uses(): number {
@@ -288,7 +287,7 @@ class Action {
       log: action.Log,
       ignore_used: action._ignore_used,
       heat_cost: action.HeatCost,
-      tech_attack: action.IsTechAttack
+      tech_attack: action.IsTechAttack,
     }
   }
 }

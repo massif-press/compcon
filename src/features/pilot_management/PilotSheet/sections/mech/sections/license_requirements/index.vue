@@ -7,7 +7,7 @@
       <v-col>
         <requirement-item
           v-for="(l, index) in mech.RequiredLicenses"
-          :key="'req_' + index + mech.ActiveLoadout.ID"
+          :key="'req_' + index + mech.MechLoadoutController.ActiveLoadout.ID"
           :license="l"
         />
       </v-col>

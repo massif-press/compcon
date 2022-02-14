@@ -229,7 +229,7 @@
       </v-col>
       <v-col cols="auto">
         <span class="heading h3">
-          {{ mech.ActiveLoadout.Name }}
+          {{ mech.MechLoadoutController.ActiveLoadout.Name }}
           <span class="overline">//LOADOUT</span>
         </span>
       </v-col>
@@ -295,7 +295,11 @@
 
     <fieldset>
       <legend class="heading ml-1 px-2">Systems</legend>
-      <div v-for="(s, i) in mech.ActiveLoadout.Systems" :key="`mms_${i}`" class="bordered-block">
+      <div
+        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
+        :key="`mms_${i}`"
+        class="bordered-block"
+      >
         <v-row no-gutters class="stat-text mt-n1">
           {{ s.Name }}
           <div class="d-inline-block overline ml-2 my-n1">{{ s.Source }} {{ s.Type }}</div>
@@ -337,7 +341,7 @@ export default Vue.extend({
   },
   computed: {
     mounts() {
-      return this.mech.ActiveLoadout.AllMounts(
+      return this.mech.MechLoadoutController.ActiveLoadout.AllMounts(
         this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
         this.mech.Pilot.has('corebonus', 'cb_integrated_weapon')
       )

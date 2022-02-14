@@ -611,7 +611,7 @@ export default vueMixins(activePilot).extend({
       return this.mech.Actions.find(x => x.ID === 'core_active_activate')
     },
     loadout(): MechLoadout {
-      return this.mech.ActiveLoadout
+      return this.mech.MechLoadoutController.ActiveLoadout
     },
     statuses(): string[] {
       return this.$store.getters.getItemCollection('Statuses').filter(x => x.type === 'Status')

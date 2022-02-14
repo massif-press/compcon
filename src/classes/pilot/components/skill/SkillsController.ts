@@ -1,10 +1,10 @@
-import { IRankedData } from "../../../../interface"
-import { Bonus } from "../../../Bonus"
-import { Rules } from "../../../utility/Rules"
-import CustomSkill from "./CustomSkill"
-import { Pilot } from "../../Pilot"
-import PilotSkill from "./PilotSkill"
-import { Skill } from "./Skill"
+import { IRankedData } from '../../../../interface'
+import { Bonus } from '../../../components/feature/bonus/Bonus'
+import { Rules } from '../../../utility/Rules'
+import CustomSkill from './CustomSkill'
+import { Pilot } from '../../Pilot'
+import PilotSkill from './PilotSkill'
+import { Skill } from './Skill'
 
 interface ISkillsData {
   skills: IRankedData[]
@@ -40,7 +40,7 @@ class SkillsController {
   }
 
   public get MaxSkillPoints(): number {
-    return Bonus.IntPilot(Rules.MinimumPilotSkills + this.Parent.Level, 'skill_point', this.Parent)
+    return Bonus.Int(Rules.MinimumPilotSkills + this.Parent.Level, 'skill_point', this.Parent)
   }
 
   public get IsMissingSkills(): boolean {
@@ -53,11 +53,11 @@ class SkillsController {
 
   public CanAddSkill(skill: Skill | CustomSkill): boolean {
     const hasMinSkills = this._skills.length >= Rules.MinimumPilotSkills
-    return this.IsMissingSkills && (
-      !this.Parent.has('Skill', skill.ID) || (
-        hasMinSkills &&
-        this._skills.find(x => x.Skill.ID === skill.ID).Rank < Rules.MaxTriggerRank
-      )
+    return (
+      this.IsMissingSkills &&
+      (!this.Parent.has('Skill', skill.ID) ||
+        (hasMinSkills &&
+          this._skills.find(x => x.Skill.ID === skill.ID).Rank < Rules.MaxTriggerRank))
     )
   }
 
@@ -108,13 +108,13 @@ class SkillsController {
   }
 
   public static Deserialize(parent: Pilot, data: ISkillsData) {
-    if (!parent.SkillsController) throw new Error(`SkillsController not found on parent (${typeof parent}). New SkillsControllers must be instantiated in the parent's constructor method.`);
+    if (!parent.SkillsController)
+      throw new Error(
+        `SkillsController not found on parent (${typeof parent}). New SkillsControllers must be instantiated in the parent's constructor method.`
+      )
 
     parent.SkillsController._skills = data.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
   }
 }
 
-export {
-  SkillsController,
-  ISkillsData
-}
+export { SkillsController, ISkillsData }

@@ -1,8 +1,9 @@
-import { LicensedItem } from '../../class'
-import { ILicensedItemData } from '../../interface'
-import { ImageTag, getImagePath } from '../../io/ImageManagement'
-import { MechType, MountType, ItemType } from '../enums'
-import { ITagCompendiumData } from '../Tag'
+import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
+import { LicensedItem } from '../../../../class'
+import { ILicensedItemData } from '../../../../interface'
+import { ImageTag, getImagePath } from '../../../../io/ImageManagement'
+import { MechType, MountType, ItemType } from '../../../enums'
+import { ITagCompendiumData } from '../../../Tag'
 import { ICoreData, CoreSystem } from './CoreSystem'
 import { FrameTrait, IFrameTraitData } from './FrameTrait'
 
@@ -37,7 +38,7 @@ interface IFrameData extends ILicensedItemData {
   other_art?: { tag?: ImageTag; src?: string; url?: string }[]
 }
 
-class Frame extends LicensedItem {
+class Frame extends LicensedItem implements IFeatureContainer {
   public readonly MechType: MechType[]
   public readonly YPosition: number
   public readonly Mounts: MountType[]
@@ -62,6 +63,10 @@ class Frame extends LicensedItem {
     this.OtherArt = frameData.other_art
     this.Specialty = frameData.specialty || false
     this.Variant = frameData.variant || ''
+  }
+
+  get FeatureSource(): any[] {
+    return [this as any, this.CoreSystem].concat(this.Traits.flatMap(x => x as any))
   }
 
   public get IsVariantFrame(): boolean {

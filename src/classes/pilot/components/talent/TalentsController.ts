@@ -1,21 +1,26 @@
-import { IRankedData } from "../../../../interface"
-import { Bonus } from "../../../Bonus"
-import { Rules } from "../../../utility/Rules"
-import { Pilot } from "../../Pilot"
-import PilotTalent from "./PilotTalent"
-import { Talent } from "./Talent"
+import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
+import { IRankedData } from '../../../../interface'
+import { Bonus } from '../../../components/feature/bonus/Bonus'
+import { Rules } from '../../../utility/Rules'
+import { Pilot } from '../../Pilot'
+import PilotTalent from './PilotTalent'
+import { Talent } from './Talent'
 
 interface ITalentsData {
   talents: IRankedData[]
 }
 
-class TalentsController {
+class TalentsController implements IFeatureContainer {
   public readonly Parent: Pilot
   private _talents: PilotTalent[]
 
   public constructor(parent: Pilot) {
     this.Parent = parent
     this._talents = []
+  }
+
+  get FeatureSource(): any[] {
+    return this.Talents.map(t => t.Talent)
   }
 
   public get Talents(): PilotTalent[] {
@@ -33,7 +38,7 @@ class TalentsController {
   }
 
   public get MaxTalentPoints(): number {
-    return Bonus.IntPilot(Rules.MinimumPilotTalents + this.Parent.Level, 'talent_point', this.Parent)
+    return Bonus.Int(Rules.MinimumPilotTalents + this.Parent.Level, 'talent_point', this.Parent)
   }
 
   public get IsMissingTalents(): boolean {
@@ -102,13 +107,15 @@ class TalentsController {
   }
 
   public static Deserialize(parent: Pilot, data: ITalentsData) {
-    if (!parent.TalentsController) throw new Error(`TalentsController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`);
+    if (!parent.TalentsController)
+      throw new Error(
+        `TalentsController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`
+      )
 
-    parent.TalentsController._talents = data.talents.map((x: IRankedData) => PilotTalent.Deserialize(x))
+    parent.TalentsController._talents = data.talents.map((x: IRankedData) =>
+      PilotTalent.Deserialize(x)
+    )
   }
 }
 
-export {
-  TalentsController,
-  ITalentsData
-}
+export { TalentsController, ITalentsData }

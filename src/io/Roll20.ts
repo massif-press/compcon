@@ -137,32 +137,34 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       armor: pilot.Loadout.Armor.map(armor =>
         armor
           ? {
-            name: armor.Name,
-            armor: parseInt(armor.Armor),
-            evade: parseInt(armor.Evasion),
-            edef: parseInt(armor.EDefense),
-            speed: parseInt(armor.Speed),
-            bonusHP: parseInt(armor.HPBonus),
-          }
+              name: armor.Name,
+              armor: parseInt(armor.Armor),
+              evade: parseInt(armor.Evasion),
+              edef: parseInt(armor.EDefense),
+              speed: parseInt(armor.Speed),
+              bonusHP: parseInt(armor.HPBonus),
+            }
           : null
       )[0],
       weapons: pilot.Loadout.Weapons.map(weapon =>
         weapon
           ? {
-            name: weapon.Name,
-            // filter out blast since it's never used as the only "range" really
-            range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
-            damage: weapon.Damage.map(dmg => dmg.Value).join('+'),
-            type: weapon.DefaultDamageType,
-            tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
-          }
+              name: weapon.Name,
+              // filter out blast since it's never used as the only "range" really
+              range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
+              damage: weapon.Damage.map(dmg => dmg.Value).join('+'),
+              type: weapon.DefaultDamageType,
+              tags: weapon.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
+            }
           : null
       ).slice(0, 2),
       licenses: pilot.LicenseController.Licenses.map(l => ({
         name: `${l.License.Source} ${l.License.Name}`,
         rank: l.Rank,
       })),
-      coreBonuses: pilot.CoreBonusController.CoreBonuses.map(cb => cb.Name + '\n' + cb.Description).join('\n'),
+      coreBonuses: pilot.CoreBonusController.CoreBonuses.map(
+        cb => cb.Name + '\n' + cb.Description
+      ).join('\n'),
     },
     //
     //
@@ -188,7 +190,7 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       sensors: mech.SensorRange,
       techAttack: mech.TechAttack,
       mounts: [mech.Frame.Mounts[0], mech.Frame.Mounts[1], mech.Frame.Mounts[2]],
-      weapons: mech.ActiveLoadout.Weapons.map(weapon => ({
+      weapons: mech.MechLoadoutController.ActiveLoadout.Weapons.map(weapon => ({
         name: weapon.Name,
         type: `${weapon.Size} ${weapon.ItemType}`,
         range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
@@ -206,7 +208,7 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
         name: rank.Name,
         description: strip(rank.Description),
       })),
-      systems: mech.ActiveLoadout.Systems.map(system => ({
+      systems: mech.MechLoadoutController.ActiveLoadout.Systems.map(system => ({
         name: system.Name,
         tags: system.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
         sp: system.SP,

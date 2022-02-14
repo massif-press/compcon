@@ -407,7 +407,7 @@
     <div class="overline mb-n1 mt-2">LOADOUT</div>
     <v-row dense>
       <player-equipment-item
-        v-for="(i, idx) in mech.ActiveLoadout.Equipment"
+        v-for="(i, idx) in mech.MechLoadoutController.ActiveLoadout.Equipment"
         :key="i.ID + idx"
         :limited-bonus="mech.Pilot.LimitedBonus"
         :item="i"

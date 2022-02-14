@@ -122,18 +122,20 @@ export default Vue.extend({
       const mech = new Mech(this.item('Frames', 'mf_standard_pattern_i_everest'), this.pilot)
 
       mech.Name = mechname()
-      mech.ActiveLoadout.Systems = m.systems.map(x => this.item('MechSystems', x))
+      mech.MechLoadoutController.ActiveLoadout.Systems = m.systems.map(x =>
+        this.item('MechSystems', x)
+      )
 
-      mech.ActiveLoadout.AllMounts()
+      mech.MechLoadoutController.ActiveLoadout.AllMounts()
         .find(m => m.Type === 'Main')
         .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[0].slots[0]))
-      mech.ActiveLoadout.AllMounts()
+      mech.MechLoadoutController.ActiveLoadout.AllMounts()
         .find(m => m.Type === 'Flex')
         .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[1].slots[0]))
-      mech.ActiveLoadout.AllMounts()
+      mech.MechLoadoutController.ActiveLoadout.AllMounts()
         .find(m => m.Type === 'Flex')
         .Slots[1].EquipWeapon(this.item('MechWeapons', m.mounts[1].slots[1]))
-      mech.ActiveLoadout.AllMounts()
+      mech.MechLoadoutController.ActiveLoadout.AllMounts()
         .find(m => m.Type === 'Heavy')
         .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[2].slots[0]))
 

@@ -1,18 +1,18 @@
 <template>
   <div>
     <cc-loadout-panel
-      :loadouts="mech.Loadouts"
-      :active-loadout="mech.ActiveLoadout"
+      :loadouts="mech.MechLoadoutController.Loadouts"
+      :active-loadout="mech.MechLoadoutController.ActiveLoadout"
       :color="color"
       :readonly="readonly"
-      @set-active="mech.ActiveLoadout = $event"
+      @set-active="mech.MechLoadoutController.ActiveLoadout = $event"
       @add-loadout="mech.AddLoadout()"
       @clone-loadout="mech.CloneLoadout()"
       @remove-loadout="mech.RemoveLoadout()"
     >
       <v-row dense>
         <mount-block
-          v-for="(im, j) in mech.ActiveLoadout.IntegratedMounts"
+          v-for="(im, j) in mech.MechLoadoutController.ActiveLoadout.IntegratedMounts"
           :key="`int_${j}`"
           integrated
           :mount="im"
@@ -24,7 +24,7 @@
           v-if="mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')"
           int-weapon
           :readonly="readonly"
-          :mount="mech.ActiveLoadout.IntegratedWeaponMount"
+          :mount="mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount"
           :mech="mech"
           :color="color"
         />
@@ -32,17 +32,17 @@
         <mount-block
           v-if="
             mech.Pilot.has('CoreBonus', 'cb_improved_armament') &&
-              mech.ActiveLoadout.EquippableMounts.length < 3
+            mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3
           "
           imp-arm
           :readonly="readonly"
-          :mount="mech.ActiveLoadout.ImprovedArmamentMount"
+          :mount="mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount"
           :mech="mech"
           :color="color"
         />
 
         <mount-block
-          v-for="(m, k) in mech.ActiveLoadout.EquippableMounts"
+          v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout.EquippableMounts"
           :key="`m_${k}`"
           :readonly="readonly"
           :mount="m"

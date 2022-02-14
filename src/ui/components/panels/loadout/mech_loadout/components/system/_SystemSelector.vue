@@ -99,7 +99,7 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { MechSystem } from '@/class'
 import { flavorID } from '@/io/Generators'
-import { Bonus } from '@/classes/Bonus'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
 export default Vue.extend({
   name: 'system-selector',
@@ -135,7 +135,10 @@ export default Vue.extend({
       let i = this.systems.filter(x => !x.IsHidden && !x.IsExotic)
 
       // filter ai
-      if (this.mech.ActiveLoadout.AICount >= 1 + Bonus.get('ai_cap', this.mech)) {
+      if (
+        this.mech.MechLoadoutController.ActiveLoadout.AICount >=
+        1 + Bonus.get('ai_cap', this.mech)
+      ) {
         i = i.filter(x => !x.IsAI)
       }
 
@@ -151,7 +154,12 @@ export default Vue.extend({
 
       i = i
         .concat(this.mech.Pilot.SpecialEquipment.filter(x => x.ItemType === 'MechSystem'))
-        .filter(x => !this.mech.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(x.ID))
+        .filter(
+          x =>
+            !this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.map(y => y.ID).includes(
+              x.ID
+            )
+        )
 
       return _.sortBy(i, ['Source', 'Name'])
     },

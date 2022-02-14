@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { store } from '../../../../store'
 import { Manufacturer } from '../../../Manufacturer'
-import { Frame } from '../../../mech/Frame'
+import { Frame } from '../../../mech/components/frame/Frame'
 import { Pilot } from '../../Pilot'
 import { LicensedItem } from './LicensedItem'
 

@@ -6,19 +6,19 @@
 
 import { ICompendiumItemData } from './classes/CompendiumItem'
 import { ILicensedItemData } from './classes/pilot/components/license/LicensedItem'
-import { ISynergyData } from './classes/Synergy'
+import { ISynergyData } from './classes/components/feature/synergy/Synergy'
 import { Action } from './classes/Action'
-import { ICoreData } from './classes/mech/CoreSystem'
-import { IFrameData, IFrameStats } from './classes/mech/Frame'
-import { IMechEquipmentData } from './classes/mech/MechEquipment'
+import { ICoreData } from './classes/mech/components/frame/CoreSystem'
+import { IFrameData, IFrameStats } from './classes/mech/components/frame/Frame'
+import { IMechEquipmentData } from './classes/mech/components/equipment/MechEquipment'
 import { IDamageData } from './classes/Damage'
 import { IRangeData } from './classes/Range'
 import { IMechSystemData } from './classes/mech/MechSystem'
 import { IWeaponModData } from './classes/mech/WeaponMod'
 import { ICoreBonusData } from './classes/pilot/components/corebonus/CoreBonus'
-import { IPilotEquipmentData } from './classes/pilot/PilotEquipment'
-import { IPilotArmorData } from './classes/pilot/PilotArmor'
-import { IPilotWeaponData } from './classes/pilot/PilotWeapon'
+import { IPilotEquipmentData } from './classes/pilot/components/Loadout/equipment/PilotEquipment'
+import { IPilotArmorData } from './classes/pilot/components/Loadout/equipment/PilotArmor'
+import { IPilotWeaponData } from './classes/pilot/components/Loadout/equipment/PilotWeapon'
 import { IManufacturerData } from './classes/Manufacturer'
 import { ITalentData } from './classes/pilot/components/talent/Talent'
 import { ISkillData } from './classes/pilot/components/skill/Skill'
@@ -96,7 +96,6 @@ interface IMechWeaponSaveData extends IEquipmentData {
   selectedProfile: number
 }
 
-
 interface IOrganizationData {
   name: string
   purpose: string
@@ -158,14 +157,6 @@ interface PrintOptions {
   combo: boolean
 }
 
-interface Faction {
-  id: string
-  name: string
-  description: string
-  logo: string
-  color: string
-}
-
 interface Status {
   name: string
   type: string
@@ -191,7 +182,6 @@ interface Sitrep {
   controlZone?: string
   extraction?: string
 }
-
 
 export {
   ICompendiumItemData,
@@ -249,7 +239,6 @@ export {
   ISnackbarSettings,
   Brew,
   PrintOptions,
-  Faction,
   Status,
   Environment,
   Sitrep,

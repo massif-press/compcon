@@ -18,9 +18,10 @@ abstract class Loadout {
   private _id: string
   protected _name: string
 
-  public constructor(count: number, id?: string) {
+  public constructor(count?: number, id?: string) {
     this._id = id ? id : uuid()
-    this._name = ordArr[count]
+    if (!count) this._name = 'Primary'
+    else this._name = ordArr[count]
   }
 
   protected save(): void {

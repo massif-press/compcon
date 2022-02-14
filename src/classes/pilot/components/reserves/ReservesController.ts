@@ -1,6 +1,7 @@
+import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import _ from 'lodash'
-import { IOrganizationData } from '../../../interface'
-import { Pilot } from '../Pilot'
+import { IOrganizationData } from '../../../../interface'
+import { Pilot } from '../../Pilot'
 import Organization from './Organization'
 import { IReserveData, Reserve } from './Reserve'
 
@@ -9,7 +10,7 @@ interface IReservesSaveData {
   orgs: IOrganizationData[]
 }
 
-class ReservesController {
+class ReservesController implements IFeatureContainer {
   public readonly Parent: Pilot
 
   private _reserves: Reserve[]
@@ -19,6 +20,10 @@ class ReservesController {
     this.Parent = parent
     this._reserves = []
     this._orgs = []
+  }
+
+  get FeatureSource(): any[] {
+    return this.Reserves
   }
 
   public get Reserves(): Reserve[] {

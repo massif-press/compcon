@@ -1,5 +1,5 @@
 import { DamageType, Mech, MechWeapon } from '@/class'
-import { Bonus } from './Bonus'
+import { Bonus } from './components/feature/bonus/Bonus'
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -115,7 +115,7 @@ class Damage {
       type: damage.Type,
       val: damage.Value,
       override: damage.Override,
-      bonus: damage.Bonus
+      bonus: damage.Bonus,
     }
   }
 }

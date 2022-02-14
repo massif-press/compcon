@@ -1,5 +1,5 @@
-import { Reserve, ReserveType } from '@/class'
-import { IReserveData } from './Reserve'
+import { ReserveType } from '@/classes/enums'
+import { IReserveData, Reserve } from './Reserve'
 
 declare interface IProjectData extends IReserveData {
   complicated: boolean

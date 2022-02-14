@@ -1,5 +1,5 @@
 import { Mech, MechWeapon, RangeType } from '@/class'
-import { Bonus } from './Bonus'
+import { Bonus } from './components/feature/bonus/Bonus'
 
 //TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -110,7 +110,7 @@ class Range {
       type: range._range_type,
       val: range._value,
       override: range._override,
-      bonus: range._bonus
+      bonus: range._bonus,
     }
   }
 }

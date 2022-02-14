@@ -2,9 +2,9 @@ import { CompendiumItem, ItemType, Manufacturer } from '../../../../class'
 import { store } from '../../../../store'
 import { ICompendiumItemData, ICounterData, ITagCompendiumData } from '../../../../interface'
 import { IActionData } from '../../../Action'
-import { IBonusData } from '../../../Bonus'
-import { ISynergyData } from '../../../Synergy'
-import { IDeployableData } from '../../../Deployable'
+import { IBonusData } from '../../../components/feature/bonus/Bonus'
+import { ISynergyData } from '../../../components/feature/synergy/Synergy'
+import { IDeployableData } from '../../../components/feature/deployable/Deployable'
 
 interface ICoreBonusData extends ICompendiumItemData {
   source: string

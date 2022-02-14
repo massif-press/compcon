@@ -253,7 +253,7 @@ export default Vue.extend({
         this.equipSuperheavy(item)
       } else {
         if (this.item && this.item.Size === WeaponSize.Superheavy)
-          this.mech.ActiveLoadout.UnequipSuperheavy()
+          this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
         this.weaponSlot.EquipWeapon(item, this.mech.Pilot)
       }
     },
@@ -263,7 +263,7 @@ export default Vue.extend({
     },
     finalizeSuperheavy(lockTarget: EquippableMount) {
       if (this.item && this.item.Size === WeaponSize.Superheavy)
-        this.mech.ActiveLoadout.UnequipSuperheavy()
+        this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
       lockTarget.Lock(this.mount)
       this.weaponSlot.EquipWeapon(this.stagedSH, this.mech.Pilot)
       this.$refs.lockDialog.hide()
@@ -278,7 +278,7 @@ export default Vue.extend({
     },
     remove() {
       if (this.item.Size === WeaponSize.Superheavy) {
-        this.mech.ActiveLoadout.UnequipSuperheavy()
+        this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
       }
       this.weaponSlot.UnequipWeapon()
     },

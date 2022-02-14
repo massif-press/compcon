@@ -1,11 +1,11 @@
 import { store } from '@/store'
 import { MechWeapon, Duration, MechSystem, CompendiumItem } from '@/class'
-import { IActionData, Action } from '../Action'
-import { IBonusData, Bonus } from '../Bonus'
-import { ISynergyData, Synergy } from '../Synergy'
-import { ICounterData } from '../components/counters/Counter'
-import { MechEquipment } from './MechEquipment'
-import { IDeployableData } from '../Deployable'
+import { IActionData, Action } from '../../../Action'
+import { IBonusData, Bonus } from '../../../components/feature/bonus/Bonus'
+import { ISynergyData, Synergy } from '../../../components/feature/synergy/Synergy'
+import { ICounterData } from '../../../components/counters/Counter'
+import { MechEquipment } from '../equipment/MechEquipment'
+import { IDeployableData } from '../../../components/feature/deployable/Deployable'
 
 interface IFrameTraitData {
   name: string
@@ -37,7 +37,9 @@ class FrameTrait {
     this.Description = data.description || ''
     this.Use = data.use ? (data.use as Duration) : Duration.Mission
     this.Actions = data.actions ? data.actions.map(x => new Action(x)) : []
-    this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
+    this.Bonuses = data.bonuses
+      ? data.bonuses.map(x => new Bonus(x, `${this.Name} (Frame Trait)`))
+      : []
     this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x, 'Frame Trait')) : []
     this.Deployables = data.deployables ? data.deployables : []
     this.Counters = data.counters ? data.counters : []

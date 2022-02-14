@@ -16,7 +16,6 @@ console.log('Done.')
 const schemasWanted = [
   'manifest',
   'manufacturers',
-  'factions',
   'environments',
   'core_bonus',
   'frames',
@@ -37,7 +36,7 @@ const schemasWanted = [
 
 console.log('Generating schemas...')
 
-const schemaMap = schemasWanted.reduce(function(map, schemaName) {
+const schemaMap = schemasWanted.reduce(function (map, schemaName) {
   map[schemaName] = TJS.generateSchema(program, `SCHEMA__${schemaName}`, settings)
   return map
 }, {})
