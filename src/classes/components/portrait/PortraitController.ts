@@ -1,3 +1,4 @@
+import { Mech } from '@/class'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { IPortraitContainer } from '..'
 
@@ -33,8 +34,10 @@ class PortraitController {
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
-    else if (this._portrait) return getImagePath(ImageTag.Pilot, this._portrait)
-    else return getImagePath(ImageTag.Pilot, 'nodata.png')
+    else if (this._portrait) return getImagePath(this.Parent.ImageTag, this._portrait)
+    else if (this.Parent.ImageTag === ImageTag.Mech) {
+      return (this.Parent as Mech).Frame.DefaultImage
+    } else return getImagePath(this.Parent.ImageTag, 'nodata.png')
   }
 
   public get CloudImage(): string {

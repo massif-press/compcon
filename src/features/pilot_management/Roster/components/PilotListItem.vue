@@ -1,6 +1,7 @@
 <template>
   <div
     id="pc-wrapper"
+    v-show="pilot"
     class="my-1"
     @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
   >

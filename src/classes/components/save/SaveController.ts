@@ -10,7 +10,8 @@ class SaveController {
   public readonly Parent: ISaveable
 
   public LastModified: string
-  public IsDeleted: boolean
+  public _isDeleted: boolean
+  public DeleteTime: string
 
   public IsDirty = false
   private _isLoaded = false
@@ -20,10 +21,30 @@ class SaveController {
   }
 
   public save(skip?: boolean) {
-    if (skip) return
+    if (skip || !this._isLoaded) return
     this.IsDirty = true
     this.LastModified = new Date().toString()
     store.dispatch(`set_${this.Parent.ItemType}_dirty`)
+  }
+
+  public delete() {
+    this.IsDeleted = true
+  }
+
+  public restore() {
+    this.IsDeleted = false
+  }
+
+  public get IsDeleted(): boolean {
+    return this._isDeleted
+  }
+
+  public set IsDeleted(val: boolean) {
+    this._isDeleted = val
+    this.DeleteTime = val
+      ? new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toString()
+      : ''
+    this.save()
   }
 
   public SetLoaded(): void {
@@ -40,14 +61,14 @@ class SaveController {
   }
 
   public static Deserialize(parent: ISaveable, data: ISaveData) {
-    if (!parent.SaveController) throw new Error(`SaveController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`);
+    if (!parent.SaveController)
+      throw new Error(
+        `SaveController not found on parent (${typeof parent}). New SaveControllers must be instantiated in the parent's constructor method.`
+      )
 
     parent.SaveController.LastModified = data.lastModified
     parent.SaveController.IsDeleted = data.isDeleted
   }
 }
 
-export {
-  ISaveData,
-  SaveController
-}
+export { ISaveData, SaveController }

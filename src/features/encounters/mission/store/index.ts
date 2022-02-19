@@ -109,6 +109,11 @@ export class MissionStore extends VuexModule {
   }
 
   @Action
+  public set_mission_dirty(): void {
+    this.context.commit(SET_DIRTY)
+  }
+
+  @Action
   public saveMissionData(): void {
     this.context.commit(SAVE_DATA)
   }

@@ -5,7 +5,8 @@ abstract class FeatureCollector {
     let property = collection
     // override for profiled weapons
     if (element.hasOwnProperty(`Profile${collection}`)) property = `Profile${collection}`
-    if (!element.hasOwnProperty(property)) return
+
+    if (!element.hasOwnProperty(property)) return out
 
     element[property].forEach(candidate => {
       if (candidate.hasOwnProperty('Destroyed') && (candidate as any).Destroyed) return

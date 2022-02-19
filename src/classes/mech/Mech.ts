@@ -1,7 +1,7 @@
 import { store } from '@/store'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
-import { Rules, Pilot, Frame, MechSystem, CoreBonus, Synergy, MechWeapon, Mount } from '@/class'
+import { Rules, Pilot, Frame, CoreBonus, Mount } from '@/class'
 import { ImageTag } from '@/io/ImageManagement'
 import { Bonus } from '../components/feature/bonus/Bonus'
 import { ActivePeriod } from '../Action'
@@ -136,6 +136,11 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     this._cc_ver = store.getters.getVersion || 'N/A'
 
     this.FeatureController.Register(this.Frame, this.MechLoadoutController)
+  }
+
+  // -- Passthroughs ------------------------------------------------------------------------------
+  public get Portrait(): string {
+    return this.PortraitController.Portrait
   }
 
   // -- Info --------------------------------------------------------------------------------------

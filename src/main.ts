@@ -13,6 +13,7 @@ import router from './router'
 import { store } from './store'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
+import Ripple from 'vuetify/lib/directives/ripple'
 import lancerData from 'lancer-data'
 
 import './registerServiceWorker'
@@ -61,7 +62,11 @@ theme.theme.themes.light = activeTheme.colors
 const vuetify = new Vuetify(theme)
 
 Vue.use(VueSecureHTML)
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  directives: {
+    Ripple,
+  },
+})
 Vue.use(TiptapVuetifyPlugin, {
   vuetify,
   iconsGroup: 'md',
@@ -73,8 +78,6 @@ Vue.config.devtools = process.env.NODE_ENV === 'development'
 mixins.forEach(m => {
   Vue.mixin(m)
 })
-
-
 
 Vue.config.errorHandler = (error, vm) => {
   console.error(error)
@@ -106,17 +109,11 @@ window.onbeforeunload = () => {
 
 Vue.mixin({
   beforeRouteLeave(to, from, next) {
-
-    if (from.path.includes('pilot'))
-      v.$store.dispatch('savePilotData')
-    else if (from.path.includes('npc'))
-      v.$store.dispatch('saveNpcData')
-    else if (from.path.includes('encounter'))
-      v.$store.dispatch('saveEncounterData')
-    else if (from.path.includes('mission'))
-      v.$store.dispatch('saveMissionData')
+    if (from.path.includes('pilot')) v.$store.dispatch('savePilotData')
+    else if (from.path.includes('npc')) v.$store.dispatch('saveNpcData')
+    else if (from.path.includes('encounter')) v.$store.dispatch('saveEncounterData')
+    else if (from.path.includes('mission')) v.$store.dispatch('saveMissionData')
 
     next()
   },
 })
-

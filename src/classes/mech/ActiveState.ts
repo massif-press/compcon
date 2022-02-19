@@ -402,7 +402,7 @@ class ActiveState {
 
   RepairStructure(): void {
     this.ActiveMech.CurrentStructure += 1
-    const cheap = this.ActiveMech.Bonuses.some(x => x.ID === 'cheap_struct')
+    const cheap = this.ActiveMech.FeatureController.Bonuses.some(x => x.ID === 'cheap_struct')
     this.ActiveMech.CurrentRepairs -= cheap ? 1 : 2
   }
 
@@ -410,7 +410,7 @@ class ActiveState {
     this.ActiveMech.CurrentStress += 1
     if (this.ActiveMech.CurrentStress > this.ActiveMech.MaxStress)
       this.ActiveMech.CurrentStress = this.ActiveMech.MaxStress
-    const cheap = this.ActiveMech.Bonuses.some(x => x.ID === 'cheap_stress')
+    const cheap = this.ActiveMech.FeatureController.Bonuses.some(x => x.ID === 'cheap_stress')
     this.ActiveMech.CurrentRepairs -= cheap ? 1 : 2
   }
 
@@ -1118,7 +1118,7 @@ class ActiveState {
   }
 
   public ItemActions(type: string): Action[] {
-    return this.ActiveMech.Actions.filter(x => x.Activation === type)
+    return this.ActiveMech.FeatureController.Actions.filter(x => x.Activation === type)
   }
 
   public ActionsByType(type: string): Action[] {

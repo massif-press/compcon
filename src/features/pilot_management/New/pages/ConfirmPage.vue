@@ -80,7 +80,7 @@ export default Vue.extend({
       const store = getModule(PilotManagementStore, this.$store)
       this.pilot.Callsign = this.pilot.Callsign ? this.pilot.Callsign : this.default_callsign
       this.pilot.Name = this.pilot.Name ? this.pilot.Name : this.default_name
-      store.addPilot({ pilot: this.pilot, update: true })
+      store.addPilot(this.pilot)
       this.$emit('done')
     },
   },

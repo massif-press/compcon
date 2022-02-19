@@ -1,4 +1,4 @@
-import { store } from '../../store'
+import { store } from '@/store'
 import {
   Tag,
   WeaponType,
@@ -8,8 +8,15 @@ import {
   Range,
   MechEquipment,
   SystemType,
-} from '../../class'
-import { IDamageData, IRangeData, IMechEquipmentData, ITagCompendiumData, ITagData, IEquipmentData } from '../../interface'
+} from '@/class'
+import {
+  IDamageData,
+  IRangeData,
+  IMechEquipmentData,
+  ITagCompendiumData,
+  ITagData,
+  IEquipmentData,
+} from '@/interface'
 
 interface IWeaponModData extends IMechEquipmentData {
   allowed_types?: WeaponType[]
@@ -31,7 +38,7 @@ class WeaponMod extends MechEquipment {
   public readonly AddedRange: Range[]
 
   public constructor(data: IWeaponModData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName)
+    super(data as IMechEquipmentData, packTags, packName)
     this.AllowedTypes =
       data.allowed_types || Object.keys(WeaponType).map(k => WeaponType[k as string])
     this.AllowedSizes =

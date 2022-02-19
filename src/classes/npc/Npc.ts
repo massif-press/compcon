@@ -5,13 +5,25 @@ import { NpcStats, NpcClass, NpcTemplate, NpcFeature, NpcItem } from './'
 import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
 import { ICounterData } from '@/interface'
+import {
+  CloudController,
+  ICloudData,
+  ICloudSyncable,
+  IPortraitData,
+  ISaveable,
+  ISaveData,
+  PortraitController,
+  SaveController,
+} from '../components'
 
-interface INpcData {
+class INpcData implements ISaveData, ICloudData, IPortraitData {
+  isDeleted: boolean
+  lastUpdate_cloud: string
+  resourceUri: string
+  portrait: string
+  cloud_portrait: string
   active: boolean
   id: string
-  cloudID: string
-  cloudOwnerID: string
-  isLocal: boolean
   lastSync: string
   lastModified: string
   class: string
@@ -42,16 +54,21 @@ interface INpcData {
   cc_ver: string
 }
 
-class Npc implements IActor, ICloudSyncable {
+class Npc implements IActor, ICloudSyncable, ISaveable {
+  public readonly ItemType: string = 'npc'
   public readonly TypePrefix: string = 'npc'
+  public ImageTag: ImageTag.NPC
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public CloudController: CloudController
+  public SaveController: SaveController
+  public PortraitController: PortraitController
+
   public IsLocallyOwned: boolean
   public LastSync: string
   public CloudID: string
   public CloudOwnerID: string
   public IsDirty: boolean
   public LastModified: string
-  private _isLoaded: boolean
 
   private _active: boolean
   private _id: string
@@ -84,6 +101,9 @@ class Npc implements IActor, ICloudSyncable {
     const t = tier || 1
     this._active = false
     this._id = uuid()
+    this.SaveController = new SaveController(this)
+    this.PortraitController = new PortraitController(this)
+    this.CloudController = new CloudController(this)
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
     this._subtitle = ''
     this._tier = t
@@ -111,6 +131,7 @@ class Npc implements IActor, ICloudSyncable {
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
     this.LastSync = new Date('1-1-1000').toJSON()
   }
+  Bonuses?: any[]
 
   public get Active(): boolean {
     return this._active
@@ -661,12 +682,9 @@ class Npc implements IActor, ICloudSyncable {
   }
 
   public static Serialize(npc: Npc): INpcData {
-    return {
+    const data = {
       active: npc.Active,
       id: npc.ID,
-      isLocal: npc.IsLocallyOwned,
-      cloudID: npc.CloudID,
-      cloudOwnerID: npc.CloudOwnerID,
       lastSync: npc.LastSync,
       lastModified: npc.LastModified || '',
       class: npc.Class.ID,
@@ -696,6 +714,12 @@ class Npc implements IActor, ICloudSyncable {
       custom_counters: npc.CustomCounterData,
       cc_ver: npc.cc_ver,
     }
+
+    SaveController.Serialize(npc, data)
+    CloudController.Serialize(npc, data)
+    PortraitController.Serialize(npc, data)
+
+    return data as INpcData
   }
 
   public Update(data: INpcData, ignoreProps?: boolean): void {
@@ -707,12 +731,8 @@ class Npc implements IActor, ICloudSyncable {
 
     this._active = data.active
     this._id = data.id
-    this.IsLocallyOwned = data.isLocal || true
-    this.CloudID = data.cloudID || ''
-    this.CloudOwnerID = data.cloudOwnerID || ''
     this.LastSync = data.lastSync || ''
     this.LastModified = data.lastModified || ''
-
     this._tier = data.tier
     this._name = data.name
     this._subtitle = data.subtitle || ''
@@ -748,6 +768,8 @@ class Npc implements IActor, ICloudSyncable {
     const npc = new Npc(c)
     try {
       npc.Update(data)
+      SaveController.Deserialize(npc, data)
+      PortraitController.Deserialize(npc, data)
       return npc
     } catch (err) {
       console.error(err)

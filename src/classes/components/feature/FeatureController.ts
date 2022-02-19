@@ -6,9 +6,8 @@ import { Synergy } from '@/classes/components/feature/synergy/Synergy'
 import { Action } from '@/classes/Action'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 import { ICounterData } from '../counters/Counter'
-import { MechWeapon } from '@/classes/mech/MechWeapon'
-import { MechSystem } from '@/classes/mech/MechSystem'
 import { CompendiumItem } from '@/classes/CompendiumItem'
+import { MechWeapon, MechSystem } from '@/class'
 
 class FeatureController {
   public readonly Parent: IFeatureController
@@ -44,7 +43,6 @@ class FeatureController {
   }
 
   public get Bonuses(): Bonus[] {
-    // console.log(this.BonusController.Bonuses)
     return this.collectAll('Bonuses')
   }
 

@@ -3,12 +3,14 @@ import { Npc, EncounterSide, MissionStepType } from '@/class'
 import { store } from '@/store'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { IMissionStep } from './IMissionStep'
+import { ICloudSyncable } from '../components/cloud/ICloudSyncable'
+import { CloudController, ICloudData, ISaveData, SaveController } from '../components'
 
-interface IEncounterData {
+class IEncounterData implements ICloudData, ISaveData {
+  lastUpdate_cloud: string
+  resourceUri: string
+  isDeleted: boolean
   id: string
-  cloudID: string
-  cloudOwnerID: string
-  isLocal: boolean
   lastSync: string
   lastModified: string
   name: string
@@ -27,15 +29,17 @@ interface IEncounterData {
 }
 
 class Encounter implements IMissionStep, ICloudSyncable {
+  public readonly ItemType: string = 'encounter'
   public readonly TypePrefix: string = 'encounter'
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public CloudController: CloudController
+  public SaveController: SaveController
   public IsLocallyOwned: boolean
   public LastSync: string
   public CloudID: string
   public CloudOwnerID: string
   public IsDirty: boolean
   public LastModified: string
-  private _isLoaded: boolean
 
   private _id: string
   private _name: string
@@ -54,6 +58,8 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public constructor() {
     this._id = uuid()
+    this.SaveController = new SaveController(this)
+    this.CloudController = new CloudController(this)
     this._name = 'New Encounter'
     this._location = ''
     this._labels = []
@@ -70,12 +76,6 @@ class Encounter implements IMissionStep, ICloudSyncable {
     this.LastSync = new Date('1-1-1000').toJSON()
   }
 
-  private save(): void {
-    if (this.IsLocallyOwned) this.IsDirty = true
-    this.LastModified = new Date().toString()
-    store.dispatch('saveEncounterData')
-  }
-
   public get ID(): string {
     return this._id
   }
@@ -90,7 +90,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public RenewID(): void {
     this._id = uuid()
-    this.save()
+    this.SaveController.save()
   }
 
   public get StepType(): MissionStepType {
@@ -103,7 +103,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set Name(val: string) {
     this._name = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Sitrep(): Sitrep {
@@ -112,7 +112,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set Sitrep(val: Sitrep) {
     this._sitrep = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Location(): string {
@@ -121,7 +121,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set Location(val: string) {
     this._location = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Environment(): string {
@@ -130,7 +130,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set Environment(val: string) {
     this._environment = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get EnvironmentDetails(): string {
@@ -139,7 +139,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set EnvironmentDetails(val: string) {
     this._environment_details = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Note(): string {
@@ -148,7 +148,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set Note(val: string) {
     this._gm_notes = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Labels(): string[] {
@@ -157,7 +157,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set Labels(val: string[]) {
     this._labels = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Campaign(): string {
@@ -166,7 +166,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set Campaign(val: string) {
     this._campaign = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get NarrativeNotes(): string {
@@ -175,7 +175,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public set NarrativeNotes(val: string) {
     this._narrative_notes = val
-    this.save()
+    this.SaveController.save()
   }
 
   public Npcs(side: EncounterSide): Npc[] {
@@ -193,13 +193,13 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public AddNpc(npc: Npc, side: EncounterSide): void {
     this._npcs.push({ id: npc.ID, side: side })
-    this.save()
+    this.SaveController.save()
   }
 
   public RemoveNpc(npc: Npc, side: EncounterSide): void {
     const idx = this._npcs.findIndex(x => x.id === npc.ID && x.side === side)
     if (idx > -1) this._npcs.splice(idx, 1)
-    this.save()
+    this.SaveController.save()
   }
 
   public get Power(): number {
@@ -227,13 +227,13 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public AddReinforcement(n: Npc, side: EncounterSide): void {
     this._reinforcements.push({ id: n.ID, side: side })
-    this.save()
+    this.SaveController.save()
   }
 
   public RemoveReinforcement(n: Npc, side: EncounterSide): void {
     const idx = this._reinforcements.findIndex(x => x.id === n.ID && x.side === side)
     if (idx > -1) this._reinforcements.splice(idx, 1)
-    this.save()
+    this.SaveController.save()
   }
 
   public MoveReinforcement(n: Npc): void {
@@ -247,7 +247,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public SetCloudImage(src: string): void {
     this._cloud_map = src
-    this.save()
+    this.SaveController.save()
   }
 
   public get CloudImage(): string {
@@ -256,7 +256,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public SetLocalImage(src: string): void {
     this._local_map = src
-    this.save()
+    this.SaveController.save()
   }
 
   public get LocalImage(): string {
@@ -288,11 +288,8 @@ class Encounter implements IMissionStep, ICloudSyncable {
   }
 
   public static Serialize(enc: Encounter): IEncounterData {
-    return {
+    const data = {
       id: enc.ID,
-      isLocal: enc.IsLocallyOwned,
-      cloudID: enc.CloudID,
-      cloudOwnerID: enc.CloudOwnerID,
       lastSync: enc.LastSync,
       lastModified: enc.LastModified || '',
       name: enc.Name,
@@ -309,6 +306,9 @@ class Encounter implements IMissionStep, ICloudSyncable {
       cloud_map: enc.CloudImage,
       local_map: enc.LocalImage,
     }
+    SaveController.Serialize(enc, data)
+    CloudController.Serialize(enc, data)
+    return data as IEncounterData
   }
 
   public Update(data: IEncounterData, ignoreProps?: boolean): void {
@@ -319,9 +319,6 @@ class Encounter implements IMissionStep, ICloudSyncable {
     }
 
     this._id = data.id
-    this.IsLocallyOwned = data.isLocal || true
-    this.CloudID = data.cloudID || ''
-    this.CloudOwnerID = data.cloudOwnerID || ''
     this.LastSync = data.lastSync || ''
     this.LastModified = data.lastModified || ''
 
@@ -344,6 +341,8 @@ class Encounter implements IMissionStep, ICloudSyncable {
     const e = new Encounter()
     try {
       e.Update(data)
+      SaveController.Deserialize(e, data)
+      CloudController.Deserialize(e, data)
       return e
     } catch (err) {
       console.error(err)

@@ -7,6 +7,7 @@ interface IPortraitContainer {
   PortraitController: PortraitController
 
   ImageTag: ImageTag
+  Portrait: string
 }
 
 export { IPortraitContainer }

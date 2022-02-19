@@ -8,7 +8,7 @@ if (process.env.VUE_APP_NODE_ENV === 'production') {
       console.log(process.env.BASE_URL)
       console.log(
         'App is being served from cache by a service worker.\n' +
-        'For more details, visit https://goo.gl/AFskqB'
+          'For more details, visit https://goo.gl/AFskqB'
       )
     },
     registered() {
@@ -28,20 +28,6 @@ if (process.env.VUE_APP_NODE_ENV === 'production') {
     },
     error(error) {
       console.error('Error during service worker registration:', error)
-    }
+    },
   })
-
-
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('/sw.js')
-        .then(registration => {
-          console.log('SW registered: ', registration)
-        })
-        .catch(registrationError => {
-          console.log('SW registration failed: ', registrationError)
-        })
-    })
-  }
 }

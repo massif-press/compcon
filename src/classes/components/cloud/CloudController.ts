@@ -1,9 +1,17 @@
-import { ICloudSyncable } from "./ICloudSyncable"
+import { ICloudSyncable } from './ICloudSyncable'
 
 interface ICloudData {
   lastUpdate_cloud: string
   lastSync: string
   resourceUri: string
+}
+
+enum CloudItemTypeMap {
+  activemission = 'Active Mission',
+  mission = 'Mission',
+  encounter = 'Encounter',
+  npc = 'NPC',
+  pilot = 'Pilot',
 }
 
 class CloudController {
@@ -15,7 +23,15 @@ class CloudController {
 
   public constructor(parent: ICloudSyncable) {
     this.Parent = parent
-    this.LastSync = new Date('1-1-1000').toString()
+    this.LastSync = ''
+    this.LastUpdateCloud = ''
+  }
+
+  public get s3Key(): string {
+    const sanitizedName = this.Parent.Name.replace(/[^a-zA-Z\d\s:]/g, ' ')
+    return `${this.Parent.ItemType}/${sanitizedName}--${this.Parent.ID}--${
+      this.Parent.SaveController.IsDeleted ? 'deleted' : 'active'
+    }`
   }
 
   public get ShareCode(): string {
@@ -24,10 +40,18 @@ class CloudController {
 
   public MarkSync() {
     this.LastSync = new Date().toString()
+    this.LastUpdateCloud = this.LastSync
+    this.Parent.SaveController.save()
   }
 
   public get LastUpdateLocal(): string {
     return this.Parent.SaveController.LastModified
+  }
+
+  // test against legacy saves, which were just IDs
+  public static ValidateName(name: string) {
+    // looking for name--id--status
+    return (name.match(/--/g) || []).length === 2
   }
 
   public static Serialize(parent: ICloudSyncable, target: any) {
@@ -37,14 +61,14 @@ class CloudController {
   }
 
   public static Deserialize(parent: ICloudSyncable, data: ICloudData) {
-    if (!parent.CloudController) throw new Error(`CloudController not found on parent (${typeof parent}). New CloudControllers must be instantiated in the parent's constructor method.`);
+    if (!parent.CloudController)
+      throw new Error(
+        `CloudController not found on parent (${typeof parent}). New CloudControllers must be instantiated in the parent's constructor method.`
+      )
 
     parent.CloudController.LastUpdateCloud = data.lastUpdate_cloud
     parent.CloudController.LastSync = data.lastSync
     parent.CloudController.ResourceURI = data.resourceUri
   }
 }
-export {
-  ICloudData,
-  CloudController,
-}
+export { ICloudData, CloudController, CloudItemTypeMap }

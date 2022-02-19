@@ -1,3 +1,11 @@
+/* TODO:
+  - new username that is email - special chars
+    -- only alphanumeric + dashses
+  - find which cloud-savable data needs to be updated based on existance/latest update time
+  - add all cloud-savable data in one batch
+  - pull down new data
+*/
+
 import {
   store,
   UserStore,
@@ -6,14 +14,17 @@ import {
   EncounterStore,
   MissionStore,
 } from '../store'
-// import * as Client from '@/user'
+import * as Client from '@/user'
 import { Auth, API, Storage } from 'aws-amplify'
-// import { createUserData, updateUserData } from '@/graphql/mutations'
-// import { syncUserData } from '@/graphql/queries'
+import { createUserData, updateUserData } from '@/graphql/mutations'
+import { syncUserData } from '@/graphql/queries'
 // import { ActiveMission, Encounter, Mission, Pilot } from '@/class'
 // import { PilotData } from '@/classes/pilot/Pilot'
 // import { Npc } from '@/classes/npc/Npc'
 import { getModule } from 'vuex-module-decorators'
+import { ICloudSyncable } from '@/classes/components'
+import { CloudController, CloudItemTypeMap } from '@/classes/components/cloud/CloudController'
+import { Pilot } from '@/class'
 
 const region = 'us-east-1'
 
@@ -22,60 +33,68 @@ const currentCognitoIdentity = async (): Promise<any> =>
     .then(res => res.identityId)
     .catch(() => '')
 
-// const PutNewUserData = async (
-//   username: string,
-//   uid: string,
-//   data: Client.UserProfile
-// ): Promise<any> => {
-//   console.info('Creating new cloud user')
-//   const newUser = Client.UserProfile.Serialize(data)
-//   newUser.user_id = username
-//   newUser.id = uid
+let CognitoIdentity
 
-//   delete newUser.last_sync
-//   delete newUser.username
+async function getCognitoIdentity() {
+  if (CognitoIdentity) return CognitoIdentity
+  CognitoIdentity = await currentCognitoIdentity()
+  return CognitoIdentity
+}
 
-//   await API.graphql({
-//     query: createUserData,
-//     variables: { input: newUser },
-//   })
+const PutNewUserData = async (
+  user_id: string,
+  uid: string,
+  data: Client.UserProfile
+): Promise<any> => {
+  console.info('Creating new cloud user')
+  const newUser = Client.UserProfile.Serialize(data)
+  newUser.user_id = user_id
+  newUser.id = uid
 
-//   console.info('Cloud user data creation successful')
+  delete newUser.last_sync
+  delete newUser.username
 
-//   return newUser
-// }
+  await API.graphql({
+    query: createUserData,
+    variables: { input: newUser },
+  })
 
-// const GetUserData = async (username: string): Promise<any> => {
-//   const res: any = await API.graphql({
-//     query: syncUserData,
-//     variables: { filter: { user_id: { eq: username } } },
-//   })
+  console.info('Cloud user data creation successful')
 
-//   return res.data.syncUserData.items[0]
-// }
+  return newUser
+}
 
-// const GetSync = async (uid?: string): Promise<Client.UserProfile> => {
-//   const localUserData = await Client.getUser()
-//   const username = uid || localUserData.UserID
+const GetUserData = async (user_id: string): Promise<any> => {
+  const res: any = await API.graphql({
+    query: syncUserData,
+    variables: { filter: { user_id: { eq: user_id } } },
+  })
 
-//   const userData = await GetUserData(username)
+  return res.data.syncUserData.items[0]
+}
 
-//   if (userData) {
-//     try {
-//       const CloudUser = Client.UserProfile.Deserialize(userData)
-//       return CloudUser
-//     } catch (err) {
-//       throw new Error(
-//         `Unable to deserialize userdata, resorting to last locally saved data\n${err}`
-//       )
-//     }
-//   } else {
-//     // create new userdata
-//     const res = await PutNewUserData(username, uid, localUserData)
-//     console.info('new user data created')
-//     return Client.UserProfile.Deserialize(res)
-//   }
-// }
+const GetCloudProfile = async (uid?: string): Promise<Client.UserProfile> => {
+  const localUserData = Client.getLocalProfile()
+  const user_id = uid || localUserData.UserID
+
+  const userData = await GetUserData(user_id)
+
+  if (userData) {
+    try {
+      const CloudUser = Client.UserProfile.Deserialize(userData)
+      return CloudUser
+    } catch (err) {
+      throw new Error(
+        `Unable to deserialize userdata, resorting to last locally saved data\n${err}`
+      )
+    }
+  } else {
+    // create new userdata
+    const res = await PutNewUserData(user_id, uid, localUserData)
+    console.info('new user data created')
+    return Client.UserProfile.Deserialize(res)
+  }
+}
 
 // const ContentPull = async (): Promise<any> => {
 //   const url = await Storage.get('extra_content.json', { level: 'private' })
@@ -352,42 +371,54 @@ const ListCloudItems = async (): Promise<any> => {
     .catch(err => console.error(err))
 }
 
-enum CloudItemTypeMap {
-  activemission = 'Active Mission',
-  mission = 'Mission',
-  encounter = 'Encounter',
-  npc = 'NPC',
-  pilot = 'Pilot',
-}
-
 type CollectionItem = {
+  key: string
   id: string
   itemType: CloudItemTypeMap
   name: string
   lastModifiedLocal: string
   lastModifiedCloud: string
+  lastUploadCloud: string
   deleted: boolean
+  latest: string
+  selected: false
+}
+
+function determineLatest(cloudItem: CollectionItem, localItem: CollectionItem): string {
+  if (cloudItem.lastModifiedCloud === localItem.lastModifiedLocal) return 'synced'
+  if (Date.parse(cloudItem.lastModifiedCloud) > Date.parse(localItem.lastModifiedLocal)) {
+    return 'cloud'
+  } else {
+    return 'local'
+  }
 }
 
 const ProcessItemsList = (cloudList): CollectionItem[] => {
+  console.log(cloudList)
   const localCollection = {
     activemission: getModule(MissionStore, store).ActiveMissions,
     mission: getModule(MissionStore, store).Missions,
     encounter: getModule(EncounterStore, store).Encounters,
     npc: getModule(NpcStore, store).Npcs,
-    pilot: getModule(PilotManagementStore, store).Pilots,
+    pilot: getModule(PilotManagementStore, store).AllPilots,
   }
+
+  console.log(getModule(PilotManagementStore, store).DeletedPilots)
 
   const localMap = []
   Object.keys(localCollection).forEach((key: string) =>
-    localCollection[key].forEach((x: ICloudSyncable) => localMap.push({
-      id: x.ID,
-      itemType: CloudItemTypeMap[key],
-      name: x.Name,
-      lastModifiedLocal: x.LastModified,
-      lastModifiedCloud: '',
-      deleted: x.IsDeleted
-    }))
+    localCollection[key].forEach((x: ICloudSyncable) =>
+      localMap.push({
+        key: x.CloudController.s3Key,
+        id: x.ID,
+        itemType: CloudItemTypeMap[key],
+        name: x.Name,
+        lastModifiedLocal: x.CloudController.LastUpdateLocal,
+        lastModifiedCloud: x.CloudController.LastUpdateCloud,
+        deleted: x.SaveController.IsDeleted,
+        delete_time: x.SaveController.DeleteTime,
+      })
+    )
   )
 
   const output = cloudList.map((x: any) => {
@@ -395,43 +426,207 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
       const folderArr = x.key.split('/')
       const nameArr = folderArr[1].split('--')
       const name = nameArr[0]
-      // TODO: after savename change
-      // const id = nameArr[1]
-      const id = nameArr[0]
-      // const deleted = nameArr[2].toLowerCase() === 'delete'
-      const deleted = false
+      const id = nameArr.length > 1 ? nameArr[1] : nameArr[0]
+      const deleted = nameArr.length > 2 ? nameArr[2].toLowerCase() === 'deleted' : false
 
       return {
         id,
+        key: x.key,
         itemType: CloudItemTypeMap[folderArr[0]],
         name,
-        lastModifiedCloud: x.lastModified,
+        lastUploadCloud: x.lastModified.toString(),
+        lastModifiedCloud: x.lastModified.toString(),
         lastModifiedLocal: '',
+        latest: 'cloud',
         deleted,
       }
     }
   })
 
-  output.forEach((cloudItem: CollectionItem) => {
-    const match = localMap.find((localItem: CollectionItem) => localItem.id === cloudItem.id)
-    if (match) {
-      cloudItem.lastModifiedLocal = match.lastModifiedLocal
-    }
-  });
+  console.log(output)
 
   // collect all items that are local-only
   localMap.forEach((localItem: CollectionItem) => {
-    const match = output.find((cloudItem: CollectionItem) => localItem.id === cloudItem.id)
+    let matchIndex = -1
+    const match = output.find((cloudItem: CollectionItem, index: number) => {
+      if (localItem.id === cloudItem.id || localItem.id === cloudItem.name) {
+        if (localItem.deleted) console.log('localitem deleted', localItem)
+        matchIndex = index
+        return cloudItem
+      }
+    })
     if (!match) {
       output.push(localItem)
+    } else if (match && matchIndex > -1) {
+      output[matchIndex].name = localItem.name
+      output[matchIndex].lastModifiedLocal = localItem.lastModifiedLocal
+      output[matchIndex].lastModifiedCloud = localItem.lastModifiedCloud
+      const latest = determineLatest(output[matchIndex], localItem)
+      if (latest === 'local') {
+        output[matchIndex].deleted = localItem.deleted
+        output[matchIndex].latest = 'local'
+      }
     }
-  });
+  })
+
+  output.forEach((cloudItem: CollectionItem) => {
+    const match = localMap.find(
+      (localItem: CollectionItem) =>
+        localItem.id === cloudItem.id || localItem.id === cloudItem.name
+    )
+    if (match) {
+      cloudItem.lastModifiedLocal = match.lastModifiedLocal
+    }
+  })
 
   return output
+}
+
+function getLocalItem(item: CollectionItem): any {
+  switch (item.itemType) {
+    case CloudItemTypeMap.activemission:
+      return getModule(MissionStore, store).ActiveMissions.find(x => x.ID === item.id)
+    case CloudItemTypeMap.mission:
+      return getModule(MissionStore, store).Missions.find(x => x.ID === item.id)
+    case CloudItemTypeMap.encounter:
+      return getModule(EncounterStore, store).Encounters.find(x => x.ID === item.id)
+    case CloudItemTypeMap.npc:
+      return getModule(NpcStore, store).Npcs.find(x => x.ID === item.id)
+    case CloudItemTypeMap.pilot:
+      return getModule(PilotManagementStore, store).Pilots.find(x => x.ID === item.id)
+    default:
+      break
+  }
+}
+
+// syncs a single item based on latest update
+const SyncItem = async (item: CollectionItem): Promise<any> => {
+  const localItem = getLocalItem(item) as ICloudSyncable
+  if (
+    !localItem ||
+    (localItem && !item.lastModifiedLocal && item.lastModifiedCloud) ||
+    Date.parse(item.lastModifiedCloud) > Date.parse(item.lastModifiedLocal)
+  ) {
+    console.log('cloud has latest data')
+    const data = await GetSingleByKey(item.key)
+    // TODO: check brews and throw error. might need callback fn
+    if (localItem) {
+      // local copy exists, update local
+      console.log('update local item')
+      localItem.Update(data)
+      localItem.CloudController.MarkSync()
+    } else {
+      // no local copy exists, create new
+      switch (item.itemType) {
+        case CloudItemTypeMap.activemission:
+          console.log('is activemission')
+          console.error('NYI')
+          break
+        case CloudItemTypeMap.mission:
+          console.log('is mission')
+          console.error('NYI')
+          break
+        case CloudItemTypeMap.encounter:
+          console.log('is encounter')
+          console.error('NYI')
+          break
+        case CloudItemTypeMap.npc:
+          console.log('is npc')
+          console.error('NYI')
+          break
+        case CloudItemTypeMap.pilot:
+          Pilot.AddNew(data, true)
+          break
+        default:
+          break
+      }
+    }
+
+    // clean up old-style save
+    if (!CloudController.ValidateName(item.key)) {
+      console.log('saved under old path')
+      // item is saved under the old path, remove it
+      Storage.remove(item.key, {
+        level: 'protected',
+      })
+    }
+  } else {
+    console.log('local has latest data')
+    console.log(item.key)
+    // local has the latest data, upload it to the cloud
+    if (!CloudController.ValidateName(item.key)) {
+      console.log('saved under old path')
+      // item is saved under the old path, remove it
+      Storage.remove(item.key, {
+        level: 'protected',
+      })
+    }
+    // upload the local file
+    localItem.CloudController.MarkSync()
+    PushSingle(localItem)
+
+    // save local sync updates
+    switch (item.itemType) {
+      case CloudItemTypeMap.mission:
+      case CloudItemTypeMap.activemission:
+        store.dispatch('saveMissionData')
+        break
+      case CloudItemTypeMap.encounter:
+        store.dispatch('saveEncounterData')
+        break
+      case CloudItemTypeMap.npc:
+        store.dispatch('saveNpcData')
+        break
+      case CloudItemTypeMap.pilot:
+        store.dispatch('savePilotData')
+        break
+      default:
+        break
+    }
+  }
+}
+
+const PushSingle = async (item: ICloudSyncable): Promise<any> => {
+  console.log(item.CloudController.s3Key)
+  return Storage.put(item.CloudController.s3Key, item.Serialize(item), {
+    level: 'protected',
+    contentType: 'text/plain',
+  })
+}
+
+const GetSingle = async (item: ICloudSyncable): Promise<any> => {
+  const identityId = await getCognitoIdentity()
+  Storage.get(item.CloudController.s3Key, {
+    level: 'protected',
+    identityId,
+  }).then(url => {
+    if (typeof url === 'string') {
+      return fetch(url).then(res => res.json())
+    } else {
+      console.error('Malformed S3 Result from GetSingle')
+    }
+  })
+}
+
+const GetSingleByKey = async (key: string): Promise<any> => {
+  const identityId = await getCognitoIdentity()
+  const url = await Storage.get(key, {
+    level: 'protected',
+    identityId,
+  })
+  if (typeof url === 'string') {
+    return await fetch(url).then(res => res.json())
+  } else {
+    console.error('Malformed S3 Result from GetSingleByKey')
+  }
 }
 
 export {
   // GetSync, ContentPull, CloudPull, CloudPush, AwsImport, UploadLcps,
   ListCloudItems,
   ProcessItemsList,
+  GetCloudProfile,
+  SyncItem,
+  GetSingle,
+  GetSingleByKey,
 }

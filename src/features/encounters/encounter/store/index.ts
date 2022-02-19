@@ -80,6 +80,10 @@ export class EncounterStore extends VuexModule {
     this.context.commit(SET_DIRTY)
   }
 
+  public set_encounter_dirty(): void {
+    this.context.commit(SET_DIRTY)
+  }
+
   @Action
   public saveEncounterData(): void {
     this.context.commit(SAVE_DATA)

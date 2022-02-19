@@ -1,9 +1,7 @@
 import _ from 'lodash'
-import { Mech, WeaponType } from '@/class'
+import { Mech, MechSystem, MechWeapon, WeaponType } from '@/class'
 import { CompendiumItem } from '../../../CompendiumItem'
 import { ItemType } from '../../../enums'
-import { MechSystem } from '../../../mech/MechSystem'
-import { MechWeapon } from '../../../mech/MechWeapon'
 
 interface ISynergyData {
   locations: string[]
@@ -31,7 +29,9 @@ class Synergy {
   }
 
   public static Collect(location: string, mech: Mech, item?: CompendiumItem): Synergy[] {
-    let sArr = mech.Synergies.filter(s => s.Locations.includes(location.toLowerCase()))
+    let sArr = mech.FeatureController.Synergies.filter(s =>
+      s.Locations.includes(location.toLowerCase())
+    )
 
     if (!item) return sArr
     if (item.ItemType === ItemType.MechWeapon) {
