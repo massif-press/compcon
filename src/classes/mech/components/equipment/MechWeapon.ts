@@ -1,6 +1,7 @@
-import { store } from '../../store'
+import { store } from '@/store'
 import _ from 'lodash'
 import {
+  CompendiumItem,
   Damage,
   DamageType,
   ItemType,
@@ -11,7 +12,7 @@ import {
   WeaponMod,
   WeaponSize,
   WeaponType,
-} from '../../class'
+} from '@/class'
 import {
   IDamageData,
   IMechEquipmentData,
@@ -20,11 +21,12 @@ import {
   ICounterData,
   ITagCompendiumData,
   IMechWeaponSaveData,
-} from '../../interface'
-import { Action, IActionData } from '../Action'
-import { IBonusData } from '../components/feature/bonus/Bonus'
-import { CompendiumItem, ICompendiumItemData } from '../CompendiumItem'
-import { IDeployableData } from '../components/feature/deployable/Deployable'
+  Action,
+  ICompendiumItemData,
+} from '@/interface'
+import { IActionData } from '@/classes/Action'
+import { IBonusData } from '@/classes/components'
+import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
 
 interface IMechWeaponData extends IMechEquipmentData {
   mount: WeaponSize

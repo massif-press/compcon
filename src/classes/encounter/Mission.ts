@@ -2,13 +2,18 @@ import uuid from 'uuid/v4'
 import { store } from '@/store'
 import { Encounter, Rest } from '@/class'
 import { IMissionStep } from './IMissionStep'
+import { ICloudSyncable } from '../components/cloud/ICloudSyncable'
+import { CloudController, ICloudData, ISaveData, SaveController } from '../components'
 
 enum MissionStepType {
   Encounter = 'Encounter',
   Rest = 'Rest',
 }
 
-interface IMissionData {
+class IMissionData implements ICloudData, ISaveData {
+  lastUpdate_cloud: string
+  resourceUri: string
+  isDeleted: boolean
   id?: string
   cloudID: string
   cloudOwnerID: string
@@ -24,15 +29,17 @@ interface IMissionData {
 }
 
 class Mission implements ICloudSyncable {
+  public readonly ItemType: string = 'mission'
   public readonly TypePrefix: string = 'mission'
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public CloudController: CloudController
+  public SaveController: SaveController
   public IsLocallyOwned: boolean
   public LastSync: string
   public CloudID: string
   public CloudOwnerID: string
   public IsDirty: boolean
   public LastModified: string
-  private _isLoaded: boolean
 
   private _id: string
   private _name: string
@@ -44,6 +51,8 @@ class Mission implements ICloudSyncable {
 
   public constructor() {
     this._id = uuid()
+    this.SaveController = new SaveController(this)
+    this.CloudController = new CloudController(this)
     this._name = 'New Mission'
     this._note = ''
     this._campaign = ''
@@ -201,7 +210,7 @@ class Mission implements ICloudSyncable {
   }
 
   public static Serialize(mission: Mission): IMissionData {
-    return {
+    const data = {
       id: mission.ID,
       isLocal: mission.IsLocallyOwned,
       cloudID: mission.CloudID,
@@ -215,6 +224,9 @@ class Mission implements ICloudSyncable {
       step_ids: mission._step_ids,
       rests: mission.Rests.map(x => ({ id: x.ID, note: x.Note })),
     }
+    SaveController.Serialize(mission, data)
+    CloudController.Serialize(mission, data)
+    return data as IMissionData
   }
 
   public Update(data: IMissionData, ignoreProps?: boolean): void {
@@ -243,6 +255,8 @@ class Mission implements ICloudSyncable {
     const m = new Mission()
     try {
       m.Update(data)
+      SaveController.Deserialize(m, data)
+      CloudController.Deserialize(m, data)
       return m
     } catch (err) {
       console.error(err)

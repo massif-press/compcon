@@ -22,9 +22,7 @@
         </v-col>
       </v-row> -->
       <v-row dense class="panel" justify="center" align="center">
-        <v-col cols="auto" style="letter-spacing: 5px">
-          ACCOUNT INFORMATION
-        </v-col>
+        <v-col cols="auto" style="letter-spacing: 5px">ACCOUNT INFORMATION</v-col>
       </v-row>
       <v-row dense justify="space-between" align="center">
         <v-col>
@@ -53,20 +51,14 @@
           </p>
         </v-col>
         <v-col cols="auto">
-          <v-btn
-            x-large
-            tile
-            color="warning darken-1"
-            :loading="loading"
-            @click="signOut"
-          >
+          <v-btn x-large tile color="warning darken-1" :loading="loading" @click="signOut">
             Sign Out
           </v-btn>
         </v-col>
       </v-row>
 
       <v-row dense class="panel" justify="center" align="center">
-        <v-col cols="auto" style="letter-spacing: 5px"> CHANGE PASSWORD </v-col>
+        <v-col cols="auto" style="letter-spacing: 5px">CHANGE PASSWORD</v-col>
       </v-row>
       <v-row dense class="my-2">
         <v-col lg="6" cols="12">
@@ -107,19 +99,15 @@
         </v-col>
       </v-row>
       <v-row dense class="panel" justify="center" align="center">
-        <v-col cols="auto" style="letter-spacing: 5px"> ACCOUNT DATA </v-col>
+        <v-col cols="auto" style="letter-spacing: 5px">ACCOUNT DATA</v-col>
       </v-row>
-      <v-alert
-        class="my-3"
-        prominent
-        icon="mdi-alert"
-        color="warning darken-2"
-        outlined
-      >
-        <b>Cloud Sync functionality has changed</b><br />
-        Cloud auto-syncing has been <b>disabled</b>, manual saving or loading
-        to/from the cloud can be done here, or through the options in the nav
-        bar.
+      <v-alert class="my-3" prominent icon="mdi-alert" color="warning darken-2" outlined>
+        <b>Cloud Sync functionality has changed</b>
+        <br />
+        Cloud auto-syncing has been
+        <b>disabled</b>
+        , manual saving or loading to/from the cloud can be done here, or through the options in the
+        nav bar.
       </v-alert>
 
       <sync-manager />
@@ -151,25 +139,25 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import SyncManager from "@/ui/syncManager/SyncManager.vue";
-import { Auth } from "@aws-amplify/auth";
-import { getModule } from "vuex-module-decorators";
-import { UserStore } from "@/store";
+import Vue from 'vue'
+import SyncManager from '@/ui/syncManager/SyncManager.vue'
+import { Auth } from '@aws-amplify/auth'
+import { getModule } from 'vuex-module-decorators'
+import { UserStore } from '@/store'
 
 export default Vue.extend({
-  name: "auth-signed-in",
+  name: 'auth-signed-in',
   components: { SyncManager },
   data: () => ({
     loading: false,
     showError: false,
-    error: "",
+    error: '',
     oldpass: null,
     showOld: false,
     newpass: null,
     showNew: false,
     rules: {
-      passLength: (v) => (v && v.length >= 6) || "Minimum 6 characters",
+      passLength: v => (v && v.length >= 6) || 'Minimum 6 characters',
     },
     authedUser: null,
   }),
@@ -177,89 +165,87 @@ export default Vue.extend({
     passMatch() {
       return () =>
         (this.oldpass && this.newpass && this.oldpass !== this.newpass) ||
-        "Password must be different";
+        'Password must be different'
     },
     userProfile() {
-      return getModule(UserStore, this.$store).UserProfile;
+      return getModule(UserStore, this.$store).UserProfile
     },
   },
   mounted() {
     Auth.currentAuthenticatedUser()
-      .then((user) => {
-        this.authedUser = user;
+      .then(user => {
+        this.authedUser = user
       })
       .catch(() => {
-        this.$emit("set-state", "sign-in");
-      });
+        this.$emit('set-state', 'sign-in')
+      })
   },
   methods: {
     async save() {
-      this.loading = true;
-      const userstore = getModule(UserStore, this.$store);
+      this.loading = true
+      const userstore = getModule(UserStore, this.$store)
       userstore
         .cloudSave({
-          callback: (status: string, message: string) =>
-            this.$notify(message, status),
-          condition: null,
+          callback: (status: string, message: string) => this.$notify(message, status),
         })
         .then(() => {
-          this.loading = false;
-          this.$notify("Cloud Save Complete", "success");
+          this.loading = false
+          this.$notify('Cloud Save Complete', 'success')
         })
-        .catch((err) => {
-          console.error(err);
-          this.loading = false;
-        });
+        .catch(err => {
+          console.error(err)
+          this.loading = false
+        })
     },
     async load() {
-      this.loading = true;
-      const userstore = getModule(UserStore, this.$store);
+      this.loading = true
+      const userstore = getModule(UserStore, this.$store)
       Auth.currentAuthenticatedUser()
-        .then((user) => {
-          userstore.setAws({ user: user });
+        .then(cognitoUser => {
+          userstore.setAws({ cognitoUser })
         })
         .then(() => {
-          this.loading = false;
-          this.$notify("Cloud Load Complete", "success");
+          this.loading = false
+          this.$notify('Cloud Load Complete', 'success')
         })
-        .catch((err) => {
-          console.error(err);
-          this.loading = false;
-        });
+        .catch(err => {
+          console.error(err)
+          this.loading = false
+        })
     },
     changePass() {
-      this.loading = true;
+      this.loading = true
       Auth.currentAuthenticatedUser()
-        .then((user) => {
-          return Auth.changePassword(user, this.oldpass, this.newpass);
+        .then(user => {
+          return Auth.changePassword(user, this.oldpass, this.newpass)
         })
         .then(() => {
-          this.loading = false;
-          this.showError = false;
-          this.$notify("Password Changed");
-          this.oldpass = null;
-          this.newpass = null;
+          this.loading = false
+          this.showError = false
+          this.$notify('Password Changed')
+          this.oldpass = null
+          this.newpass = null
         })
-        .catch((err) => {
-          this.loading = false;
-          this.showError = true;
-          this.error = `${err.message}<br><div class='text-right'>${err.name}</div>`;
-        });
+        .catch(err => {
+          this.loading = false
+          this.showError = true
+          this.error = `${err.message}<br><div class='text-right'>${err.name}</div>`
+        })
     },
     signOut() {
       Auth.signOut()
         .then(() => {
-          this.$notify("Sign Out Complete");
-          const store = getModule(UserStore, this.$store);
-          store.setLoggedIn(false);
-          this.$emit("set-state", "sign-in");
+          this.$notify('Sign Out Complete')
+          const store = getModule(UserStore, this.$store)
+          store.setLoggedIn(false)
+          this.$emit('set-state', 'sign-in')
         })
-        .catch((err) => {
-          console.error(err);
-        });
+        .catch(err => {
+          console.error(err)
+        })
     },
   },
-});
+})
 </script>
 
 <style scoped>

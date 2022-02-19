@@ -69,7 +69,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { AwsImport } from '@/user/sync'
+import { AwsImport } from '@/cloud/sync'
 import { Pilot } from '@/class'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore, CompendiumStore } from '@/store'
@@ -135,7 +135,7 @@ export default Vue.extend({
         importPilot.CloudID = this.importID
       }
       importPilot.Group = ''
-      getModule(PilotManagementStore, this.$store).addPilot({ pilot: importPilot, update: true })
+      getModule(PilotManagementStore, this.$store).addPilot(importPilot)
       this.reset()
       this.dialog = false
       this.importID = ''

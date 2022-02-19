@@ -75,8 +75,9 @@ class Bonus {
     return str
   }
 
-  public static Int(base: number, id: string, source: IFeatureController): number {
+  public static Int(base: number, id: string, source?: IFeatureController): number {
     let val = base
+    if (!source) return base
     const replace = source.FeatureController.Bonuses.filter(x => x.ID === id && x.Replace)
     if (replace.length) val = replace.reduce((sum, bonus) => sum + this.Evaluate(bonus, source), 0)
     return val + this.get(id, source)

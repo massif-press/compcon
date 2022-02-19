@@ -1,6 +1,8 @@
+//TODO: ensure counters working
+
 import uuid from 'uuid/v4'
-import { ICounterData } from "./Counter"
-import { ICounterContainer } from "./ICounterContainer"
+import { ICounterData } from './Counter'
+import { ICounterContainer } from './ICounterContainer'
 
 interface ICounterCollection {
   counter_data: ICounterSaveData[]
@@ -63,7 +65,9 @@ class CounterController {
   }
 
   public get CounterData(): ICounterData[] {
-    return [...this.Parent.Counters, ...this.CustomCounterData].flat().filter(x => x)
+    return [...this.Parent.FeatureController.Counters, ...this.CustomCounterData]
+      .flat()
+      .filter(x => x)
   }
 
   public static Serialize(parent: ICounterContainer, target: any) {
@@ -72,12 +76,14 @@ class CounterController {
   }
 
   public static Deserialize(parent: ICounterContainer, data: ICounterCollection) {
-    if (!parent.CounterController) throw new Error(`CounterController not found on parent (${typeof parent}). New CounterControllers must be instantiated in the parent's constructor method.`);
+    if (!parent.CounterController)
+      throw new Error(
+        `CounterController not found on parent (${typeof parent}). New CounterControllers must be instantiated in the parent's constructor method.`
+      )
 
     parent.CounterController._counterSaveData = data.counter_data || []
-    parent.CounterController._customCounters = data.custom_counters as ICounterData[] || []
+    parent.CounterController._customCounters = (data.custom_counters as ICounterData[]) || []
   }
-
 }
 
 export { ICounterSaveData, ICounterCollection, CounterController }

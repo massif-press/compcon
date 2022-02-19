@@ -92,11 +92,12 @@ export default Vue.extend({
       const self = this
       Auth.signIn(this.email, this.password)
         .then(user => {
+          console.log(user)
           localStorage.removeItem('user.config')
-          userstore.setUser(user)
+          userstore.setCognitoUser(user)
         })
         .then(() => {
-          userstore.setAws({ user: userstore.User, condition: 'logIn' })
+          userstore.setAws({ cognitoUser: userstore.CognitoUser })
         })
         .then(() => {
           this.$notify('Cloud Data Synchronized', 'success')

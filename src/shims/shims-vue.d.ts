@@ -1,10 +1,4 @@
-import Vue from 'vue'
-
 declare module 'modules'
-
-declare module '*.vue' {
-  export default Vue
-}
 
 declare module 'gist-client'
 declare module 'imgur'

@@ -1,13 +1,7 @@
 import _ from 'lodash'
 import uuid from 'uuid/v4'
-import { Rules, Mech, CompendiumItem, ContentPack } from '../../class'
-import {
-  ICounterData,
-  Action,
-  IOrganizationData,
-  IPilotLoadoutData,
-  IRankedData,
-} from '../../interface'
+import { Rules, Mech, CompendiumItem, ContentPack, PilotLoadout } from '../../class'
+import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface'
 import { ActiveState, IActiveStateData, ICombatStats } from '../mech/ActiveState'
 import { Bonus } from '../components/feature/bonus/Bonus'
 import {
@@ -24,7 +18,7 @@ import {
 } from './components/'
 import { IMechData } from '../mech/Mech'
 import { ItemType } from '../enums'
-import { store } from '../../store'
+import { PilotManagementStore, store } from '../../store'
 import {
   CloudController,
   CounterController,
@@ -49,6 +43,7 @@ import { ImageTag } from '@/io/ImageManagement'
 import { IFeatureController } from '../components/feature/IFeatureController'
 import { FeatureController } from '../components/feature/FeatureController'
 import { PilotLoadoutController } from './components/Loadout/PilotLoadoutController'
+import { getModule } from 'vuex-module-decorators'
 
 interface IUnlockData {
   PilotArmor: string[]
@@ -274,6 +269,16 @@ class Pilot
       return e && !e.Used
     }
     return false
+  }
+
+  // -- Passthroughs ----------------------------------------------------------------------
+
+  public get Loadout(): PilotLoadout {
+    return this.PilotLoadoutController.Loadout
+  }
+
+  public get Portrait(): string {
+    return this.PortraitController.Portrait
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -588,6 +593,8 @@ class Pilot
   }
 
   public static Serialize(p: Pilot): PilotData {
+    p.SetBrewData()
+
     const data = {
       id: p.ID,
       level: p.Level,
@@ -611,6 +618,7 @@ class Pilot
     }
 
     SaveController.Serialize(p, data)
+    CloudController.Serialize(p, data)
     SkillsController.Serialize(p, data)
     TalentsController.Serialize(p, data)
     MechSkillsController.Serialize(p, data)
@@ -623,6 +631,16 @@ class Pilot
     PilotLoadoutController.Serialize(p, data)
 
     return data as PilotData
+  }
+
+  public Serialize(): PilotData {
+    return Pilot.Serialize(this)
+  }
+
+  public static AddNew(data: PilotData, sync?: boolean): void {
+    const p = Pilot.Deserialize(data)
+    if (sync) p.CloudController.MarkSync()
+    getModule(PilotManagementStore, store).addPilot(p)
   }
 
   public static Deserialize(pilotData: PilotData): Pilot {
@@ -664,6 +682,7 @@ class Pilot
 
     MechSkillsController.Deserialize(this, data)
     SaveController.Deserialize(this, data)
+    CloudController.Deserialize(this, data)
     SkillsController.Deserialize(this, data)
     TalentsController.Deserialize(this, data)
     CounterController.Deserialize(this, data)
@@ -681,4 +700,4 @@ class Pilot
   }
 }
 
-export { Pilot, PilotData }
+export { Pilot, PilotData, IUnlockData }

@@ -27,9 +27,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Clone</v-list-item-title>
-            <v-list-item-subtitle>
-              Duplicate or Flash Clone this character
-            </v-list-item-subtitle>
+            <v-list-item-subtitle>Duplicate or Flash Clone this character</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
@@ -155,7 +153,7 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    currentAuthedUser: null
+    currentAuthedUser: null,
   }),
   async mounted() {
     await Auth.currentAuthenticatedUser().then(res => {
@@ -166,7 +164,7 @@ export default Vue.extend({
     deletePilot() {
       this.$router.push('/pilot_management')
       const store = getModule(PilotManagementStore, this.$store)
-      store.deletePilot({ pilot: this.pilot, update: true })
+      store.deletePilot(this.pilot)
     },
   },
 })

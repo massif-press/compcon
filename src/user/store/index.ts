@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import * as Sync from '../sync'
+import * as Sync from '@/cloud/sync'
 import * as Client from '../index'
 import { Auth } from 'aws-amplify'
 import _ from 'lodash'
@@ -9,8 +9,8 @@ export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
 export const SET_PATRON = 'SET_PATRON'
 export const SET_PATREON_TOKEN = 'SET_PATREON_TOKEN'
-export const LOAD_USER = 'LOAD_USER'
-export const SET_USER = 'SET_USER'
+export const LOAD_USER_PROFILE = 'LOAD_USER_PROFILE'
+export const SET_COGNITO_USER = 'SET_USER'
 export const SET_AWS_DATA = 'SET_AWS_DATA'
 export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 
@@ -22,14 +22,14 @@ let localUpdateTime = null
 export class UserStore extends VuexModule {
   public AuthStatus = 'No User'
   public IsLoggedIn = false
-  public User = ''
+  public CognitoUser = ''
   public UserProfile: Client.UserProfile = {} as any
   public PatreonToken = {}
   public AwsData = {}
   public IsPatron = false
 
   @Mutation
-  private [LOAD_USER](payload: Client.UserProfile): void {
+  private [LOAD_USER_PROFILE](payload: Client.UserProfile): void {
     this.UserProfile = payload
   }
 
@@ -49,8 +49,8 @@ export class UserStore extends VuexModule {
   }
 
   @Mutation
-  private [SET_USER](data: any): void {
-    this.User = data
+  private [SET_COGNITO_USER](data: any): void {
+    this.CognitoUser = data
   }
 
   @Mutation
@@ -74,8 +74,8 @@ export class UserStore extends VuexModule {
   // }
 
   @Action
-  public setUser(payload: any): void {
-    this.context.commit(SET_USER, payload)
+  public setCognitoUser(payload: any): void {
+    this.context.commit(SET_COGNITO_USER, payload)
   }
 
   @Action
@@ -93,29 +93,20 @@ export class UserStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async setAws(payload: { user: any, condition?: string, noSync?: boolean }): Promise<void> {
-    let sync = !payload.noSync
-    if (localUpdateTime) {
-      const diff = (new Date().getTime() - localUpdateTime.getTime()) / 1000
-      if (diff < 3) {
-        console.info(`Sync rate exceeded, please wait ${(3 - diff).toFixed(2)} seconds before syncing again`)
-        sync = false
-        return
-      }
-    }
-    localUpdateTime = new Date()
+  public async setAws(payload: { cognitoUser: any }): Promise<void> {
+    const syncedUser = await Sync.GetCloudProfile(payload.cognitoUser.user_id)
 
-    const syncedUser = await Sync.GetSync(payload.user.username)
+    console.log(syncedUser)
 
     this.setUserProfile(syncedUser)
     this.setLoggedIn(true)
-    this.UserProfile.Username = payload.user.attributes.email
+    this.UserProfile.Username = payload.cognitoUser.attributes.email
   }
 
   @Action({ rawError: true })
   public async loadUser(): Promise<void> {
-    const localdata = await Client.getUser().then(data => data)
-    this.context.commit(LOAD_USER, localdata)
+    const localdata = await Client.getLocalProfile()
+    this.context.commit(LOAD_USER_PROFILE, localdata)
   }
 
   @Action({ rawError: true })
@@ -127,7 +118,9 @@ export class UserStore extends VuexModule {
     }
 
     localUpdateTime = new Date()
-    Sync.CloudPush(this.UserProfile, payload.callback).then(() => this.UserProfile.MarkSync())
+    // TODO
+    console.error('NYI')
+    // Sync.CloudPush(this.UserProfile, payload.callback).then(() => this.UserProfile.MarkSync())
   }
 
   // @Action

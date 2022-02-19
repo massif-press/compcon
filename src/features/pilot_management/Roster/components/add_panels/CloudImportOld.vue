@@ -120,7 +120,7 @@ export default Vue.extend({
         importPilot.GistCode = this.importID
       }
       importPilot.Group = ''
-      getModule(PilotManagementStore, this.$store).addPilot({ pilot: importPilot, update: true })
+      getModule(PilotManagementStore, this.$store).addPilot(importPilot)
       this.reset()
       this.dialog = false
       this.importID = ''

@@ -35,20 +35,20 @@ class MechLoadout extends Loadout {
 
   public constructor(mech: Mech) {
     super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
-    this._integratedMounts = mech.IntegratedWeapons.map(x => new IntegratedMount(x))
+    this._integratedMounts = mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x))
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this._systems = []
-    this._integratedSystems = mech.IntegratedSystems
+    this._integratedSystems = mech.Frame.IntegratedSystems
     this._improvedArmament = new EquippableMount(MountType.Flex)
     this._integratedWeapon = new EquippableMount(MountType.Aux)
   }
 
   public UpdateIntegrated(mech: Mech, save = true): void {
-    Vue.set(this, '_integratedSystems', mech.IntegratedSystems)
+    Vue.set(this, '_integratedSystems', mech.Frame.IntegratedSystems)
     Vue.set(
       this,
       '_integratedMounts',
-      mech.IntegratedWeapons.map(x => new IntegratedMount(x))
+      mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x))
     )
     if (save) this.save()
   }
@@ -265,11 +265,11 @@ class MechLoadout extends Loadout {
     ml._name = loadoutData.name
     ml._systems = loadoutData.systems.map(x => MechSystem.Deserialize(x))
     ml._integratedSystems = !loadoutData.integratedSystems
-      ? mech.IntegratedSystems
+      ? mech.Frame.IntegratedSystems
       : loadoutData.integratedSystems.map(x => MechSystem.Deserialize(x))
     ml._equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
     ml._integratedMounts = !loadoutData.integratedMounts
-      ? mech.IntegratedWeapons.map(x => new IntegratedMount(x))
+      ? mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x))
       : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x))
     ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
     ml._integratedWeapon = !loadoutData.integratedWeapon

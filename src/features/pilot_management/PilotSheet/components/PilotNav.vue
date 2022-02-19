@@ -31,18 +31,10 @@
         </v-btn>
       </template>
       <v-list dense class="heading h3">
-        <v-list-item to="../sheet/0">
-          DOSSIER
-        </v-list-item>
-        <v-list-item to="../sheet/1">
-          NARRATIVE PROFILE
-        </v-list-item>
-        <v-list-item to="../sheet/2">
-          TACTICAL PROFILE
-        </v-list-item>
-        <v-list-item to="../sheet/3">
-          MECH HANGAR
-        </v-list-item>
+        <v-list-item to="../sheet/0">DOSSIER</v-list-item>
+        <v-list-item to="../sheet/1">NARRATIVE PROFILE</v-list-item>
+        <v-list-item to="../sheet/2">TACTICAL PROFILE</v-list-item>
+        <v-list-item to="../sheet/3">MECH HANGAR</v-list-item>
       </v-list>
     </v-menu>
 
@@ -121,8 +113,8 @@ export default Vue.extend({
       return this.pilot.Mechs.some(x => x.ID === store.LoadedMechID)
         ? store.LoadedMechID
         : this.pilot.ActiveMech
-          ? this.pilot.ActiveMech.ID
-          : null
+        ? this.pilot.ActiveMech.ID
+        : null
     },
   },
   methods: {
@@ -132,7 +124,7 @@ export default Vue.extend({
     deletePilot() {
       this.$router.push('/pilot_management')
       const store = getModule(PilotManagementStore, this.$store)
-      store.deletePilot({ pilot: this.pilot, update: true })
+      store.deletePilot(this.pilot)
     },
   },
 })
