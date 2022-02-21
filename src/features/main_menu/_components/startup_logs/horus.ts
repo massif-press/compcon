@@ -2,11 +2,11 @@ import _ from 'lodash'
 import { tracert } from '@/io/Generators'
 
 function motd(): string {
-  return _.sample(require('raw-loader!./horus_chat/motd.txt').split('\n'))
+  return _.sample(require('raw-loader!./horus_chat/motd.txt').default.split('\n'))
 }
 
 const HorusStart = typer => {
-  const nfo = require('raw-loader!./horus_chat/nfo.txt')
+  const nfo = require('raw-loader!./horus_chat/nfo.txt').default
 
   typer
     .type('<br>')
@@ -124,10 +124,10 @@ function randomNoRepeat(arr) {
 }
 
 const HorusChat = output => {
-  const chat = require('raw-loader!./horus_chat/chat.txt').split('\n')
-  const mods = require('raw-loader!./horus_chat/mods.txt').split('\n')
-  const admin = require('raw-loader!./horus_chat/admin.txt').split('\n')
-  const bans = require('raw-loader!./horus_chat/bans.txt').split('\n')
+  const chat = require('raw-loader!./horus_chat/chat.txt').default.split('\n')
+  const mods = require('raw-loader!./horus_chat/mods.txt').default.split('\n')
+  const admin = require('raw-loader!./horus_chat/admin.txt').default.split('\n')
+  const bans = require('raw-loader!./horus_chat/bans.txt').default.split('\n')
 
   const allLines = []
 
