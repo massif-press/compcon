@@ -7,7 +7,7 @@
     </cc-tooltip>
     <cc-synergy-display :location="attr" :mech="mech" class="d-inline" />
     <div v-if="$vuetify.breakpoint.lgAndUp" class="mt-n2 ml-1">
-      <span class="no-height ml-n1">
+      <span class="no-height">
         <v-icon
           v-for="n in val"
           :key="`hase_${attr}-${n}`"
@@ -16,7 +16,7 @@
           v-html="'mdi-hexagon'"
         />
       </span>
-      <span :class="`no-height ${val ? 'ml-n1' : ''}`">
+      <span class="no-height">
         <v-icon
           v-for="n in 6 - val"
           :key="`hase_${attr}-n${n}`"

@@ -4,7 +4,7 @@
     :style="`width: max-content; background-color: ${getColor()};`"
   >
     <span
-      :class="`${this.$vuetify.breakpoint.smAndDown ? 'px-2' : 'pl-5 pr-5 pb-1'} ctitle${size} ${
+      :class="`${this.$vuetify.breakpoint.smAndDown ? 'px-2' : 'pr-5 pb-1'} pl-5 ctitle${size} ${
         dark ? 'white--text' : 'stark--text'
       }`"
     >
