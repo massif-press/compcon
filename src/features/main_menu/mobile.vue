@@ -103,6 +103,7 @@
         <v-btn x-small dark outlined @click="$refs.aboutModal.show()"
           >About</v-btn
         >
+        <v-spacer />
         <v-btn x-small dark outlined @click="$refs.creditsModal.show()"
           >Credits</v-btn
         >
