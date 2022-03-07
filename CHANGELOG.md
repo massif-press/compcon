@@ -1,6 +1,4 @@
 # COMP/CON Changelog
-## [2.2.36a] (2021-12-10)
-* **Global** Re-integrate serviceworker, which will re-enable C/C's use as a PWA [#1851](https://github.com/massif-press/compcon/issues/1851), [#1853](https://github.com/massif-press/compcon/issues/1853)
 
 ## [2.2.37] (2021-2-21)
 
