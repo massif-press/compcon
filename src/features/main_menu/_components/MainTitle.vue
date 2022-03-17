@@ -84,11 +84,11 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import UpdateChecker from './UpdateChecker.vue'
+import Vue from 'vue';
+import UpdateChecker from './UpdateChecker.vue';
 
 export default Vue.extend({
-  name: "cci-banner",
+  name: 'cci-banner',
   components: { UpdateChecker },
 });
 </script>
@@ -117,7 +117,7 @@ export default Vue.extend({
 }
 
 #title {
-  font-family: "Helvetica Bold", sans-serif;
+  font-family: 'Helvetica Bold', sans-serif;
   color: white;
   font-weight: 900;
   /* letter-spacing: 10px; */
@@ -127,7 +127,7 @@ export default Vue.extend({
 }
 
 #subtitle {
-  font-family: "Consolas", monospace;
+  font-family: 'Consolas', monospace;
   color: white;
   font-size: 12pt;
   padding-left: 8px;
