@@ -243,8 +243,16 @@ export class ContentPack {
     self._id = id
     self._Tags = self._data.tags?.map(x => new Tag(x)) || []
 
-    self._Manufacturers = self._data.manufacturers?.map(x => new Manufacturer(x)) || []
-    self._Factions = self._data.factions?.map(x => new Faction(x)) || []
+    self._Manufacturers = self._data.manufacturers?.map(x => {
+      const m = new Manufacturer(x)
+      m.setCorsSafe()
+      return m
+    }) || []
+    self._Factions = self._data.factions?.map(x => {
+      const f = new Faction(x)
+      f.setCorsSafe()
+      return f
+    }) || []
     self._Backgrounds = self._data.backgrounds?.map(x => new Background(x, self._manifest.name)) || []
     self._CoreBonuses =
       self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags, self._manifest.name)) || []
