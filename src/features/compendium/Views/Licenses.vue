@@ -78,7 +78,6 @@ export default Vue.extend({
   methods: {
     manufacturer(id: string) {
       const compendium = getModule(CompendiumStore, this.$store)
-      console.log(compendium.Manufacturers)
       return compendium.Manufacturers.find(x => x.ID === id)
     },
     frame(id: string) {
