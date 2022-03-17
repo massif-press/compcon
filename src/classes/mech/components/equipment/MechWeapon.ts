@@ -251,7 +251,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public get DamageType(): DamageType[] {
-    return this.SelectedProfile.Damage.map(x => x.Type)
+    return this.SelectedProfile.Damage ? this.SelectedProfile.Damage.map(x => x.Type) : []
   }
 
   public get DefaultDamageType(): DamageType {
@@ -267,7 +267,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public get RangeType(): RangeType[] {
-    return this.SelectedProfile.Range.map(x => x.Type)
+    return this.SelectedProfile.Range ? this.SelectedProfile.Range.map(x => x.Type) : []
   }
 
   public set Mod(_mod: WeaponMod | null) {

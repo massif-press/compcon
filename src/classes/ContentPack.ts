@@ -236,8 +236,14 @@ export class ContentPack {
     self._id = id
     self._Tags = self._data.tags?.map(x => new Tag(x)) || []
 
-    self._Manufacturers = self._data.manufacturers?.map(x => new Manufacturer(x)) || []
-    self._Backgrounds = self._data.backgrounds?.map(x => new Background(x, self._manifest.name)) || []
+    self._Manufacturers =
+      self._data.manufacturers?.map(x => {
+        const m = new Manufacturer(x)
+        m.setCorsSafe()
+        return m
+      }) || []
+    self._Backgrounds =
+      self._data.backgrounds?.map(x => new Background(x, self._manifest.name)) || []
     self._CoreBonuses =
       self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags, self._manifest.name)) || []
     self._Frames =
@@ -249,25 +255,30 @@ export class ContentPack {
     self._WeaponMods =
       self._data.mods?.map(x => new WeaponMod(x, self._data.tags, self._manifest.name)) || []
     self._PilotGear =
-      self._data.pilotGear?.map(function(x) {
+      self._data.pilotGear?.map(function (x) {
         if (x.type.toLowerCase() === 'weapon')
           return new PilotWeapon(x as IPilotWeaponData, self._data.tags, self._manifest.name)
         else if (x.type.toLowerCase() === 'armor')
           return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name)
         return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name)
       }) || []
-    self._Talents = self._data.talents?.map(x => new Talent(x, self._data.tags, self._manifest.name)) || []
+    self._Talents =
+      self._data.talents?.map(x => new Talent(x, self._data.tags, self._manifest.name)) || []
 
     self._NpcFeatures =
-      self._data.npcFeatures?.map(function(x) {
-        if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData,self._manifest.name)
-        else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData,self._manifest.name)
-        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x,self._manifest.name)
-        else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData,self._manifest.name)
-        return new NpcTech(x as INpcTechData,self._manifest.name)
+      self._data.npcFeatures?.map(function (x) {
+        if (x.type.toLowerCase() === 'weapon')
+          return new NpcWeapon(x as INpcWeaponData, self._manifest.name)
+        else if (x.type.toLowerCase() === 'reaction')
+          return new NpcReaction(x as INpcReactionData, self._manifest.name)
+        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x, self._manifest.name)
+        else if (x.type.toLowerCase() === 'system')
+          return new NpcSystem(x as INpcSystemData, self._manifest.name)
+        return new NpcTech(x as INpcTechData, self._manifest.name)
       }) || []
-    self._NpcClasses = self._data.npcClasses?.map(x => new NpcClass(x,self._manifest.name)) || []
-    self._NpcTemplates = self._data.npcTemplates?.map(x => new NpcTemplate(x,self._manifest.name)) || []
+    self._NpcClasses = self._data.npcClasses?.map(x => new NpcClass(x, self._manifest.name)) || []
+    self._NpcTemplates =
+      self._data.npcTemplates?.map(x => new NpcTemplate(x, self._manifest.name)) || []
 
     self._PlayerActions = self._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)

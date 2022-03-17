@@ -5970,6 +5970,13 @@ extend@~3.0.2:
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
 
+external-svg-loader@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/external-svg-loader/-/external-svg-loader-1.4.0.tgz#1fd3bfeadae14009b797fe7d66f867472818a4ef"
+  integrity sha512-uSMh01U2R8+qxWzTNkS2gwN/bEtRc6bZuaXj8anYdauvJ0fTmk7c4dy/QN6hFTg4MvhIujBU0Aawt5su/HVTLQ==
+  dependencies:
+    idb-keyval "^3.2.0"
+
 extglob@^2.0.2, extglob@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/extglob/-/extglob-2.0.4.tgz#ad00fe4dc612a9232e8718711dc5cb5ab0285543"
@@ -6804,6 +6811,11 @@ icss-utils@^4.0.0, icss-utils@^4.1.1:
   dependencies:
     postcss "^7.0.14"
 
+idb-keyval@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/idb-keyval/-/idb-keyval-3.2.0.tgz#cbbf354deb5684b6cdc84376294fc05932845bd6"
+  integrity sha512-slx8Q6oywCCSfKgPgL0sEsXtPVnSbTLWpyiDcu6msHOyKOLari1TD1qocXVCft80umnkk3/Qqh3lwoFt8T/BPQ==
+
 idb@5.0.6:
   version "5.0.6"
   resolved "https://registry.yarnpkg.com/idb/-/idb-5.0.6.tgz#8c94624f5a8a026abe3bef3c7166a5febd1cadc1"
@@ -7541,10 +7553,10 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
 
-lancer-data@^3.0.42:
-  version "3.0.42"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.42.tgz#4721c4fb99d23977d7e8a5816d875e37f5625ea5"
-  integrity sha512-ARii7p8oJxWETA7lOnOs4ya9XMa5gl4uhmrWkZ2aksk1GooyubCpb1QejhpLCVPngfIpapXR2kwD1zYhc83e+Q==
+lancer-data@^3.0.43:
+  version "3.0.43"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.43.tgz#d3b400aca7ecba22e18f08dfff2060abcd7176ef"
+  integrity sha512-DLbF+V3WuoNg5GvrA3A+cQCGwKmRE8qKINBqdegVF61eO6sswIwmWoHzkQhU/PEMQ99wNuFnfao0UUpCz6P0Fw==
 
 launch-editor-middleware@^2.2.1:
   version "2.3.0"
@@ -11245,10 +11257,10 @@ vuetify-loader@^1.7.0:
     file-loader "^6.2.0"
     loader-utils "^2.0.0"
 
-vuetify@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.4.0.tgz#6aa2616b0fecb0614cf85052b0ffbb5cad80bf92"
-  integrity sha512-FBFAtg1ZnNwDBhMzENCzgh0hBV+HMjXejrxeRQqTfKPojKQSQFswtdHatUPmlkArDulZC73GRs2F/IwdF48o5g==
+vuetify@^2.4.0:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.6.3.tgz#b33ede2da958a40c6ced0ad1f4eda737984b3967"
+  integrity sha512-Zfiz2DZnp1DvxqGaSCGqGjv4mPNAurJJ5Xwy7bzNzIySGLlRdlO8UH6aNWnSgfaAsLP3voxadSGDm6tKM8Ys7w==
 
 vuex-module-decorators@^0.10.1:
   version "0.10.1"

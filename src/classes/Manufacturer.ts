@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 
 interface IManufacturerData {
@@ -21,6 +22,7 @@ class Manufacturer {
   public IsHidden: boolean
   private _logo: string
   private _logo_url?: string
+  private _is_cors_safe: boolean
 
   public constructor(data: IManufacturerData) {
     this.ID = data.id.toUpperCase()
@@ -31,6 +33,7 @@ class Manufacturer {
     this.Dark = data.dark
     this._logo = data.logo
     this._logo_url = data.logo_url
+    this._is_cors_safe = false
   }
 
   public get Color(): string {
@@ -47,9 +50,32 @@ class Manufacturer {
 
   public get Logo(): string {
     if (this._logo_url) return this._logo_url
-    // else if (this._logo) return getImagePath(ImageTag.Logo, `${this._logo}.svg`)
-    else if (this._logo) return this._logo
+    else if (this._logo) return getImagePath(ImageTag.Logo, `${this._logo}.svg`)
+    // else if (this._logo) return this._logo
     return '' // TODO: placeholder logo?
+  }
+
+  public get isSvg(): boolean {
+    const filenameQuery = this.Logo.split("/").slice(-1)[0]
+    const filename = filenameQuery.split("?")[0]
+    const isSvg = filename.endsWith(".svg")
+    return isSvg
+  }
+
+  public get isCorsSafe(): boolean {
+    return this._is_cors_safe
+  }
+
+  async setCorsSafe() {
+    let corsSafe = false
+    try {
+      const response = await fetch(this.Logo)
+      corsSafe = response.ok
+    } catch (e) {
+      corsSafe = false
+    }
+    Vue.set(this, '_is_cors_safe', corsSafe)
+    return corsSafe
   }
 }
 
