@@ -13,7 +13,7 @@
         text-align: right;
       "
     >
-      <!-- <update-checker class="mt-2 mr-2" @mouseenter="$emit('logupdate')" /> -->
+      <update-checker class="mt-2 mr-2" @mouseenter="$emit('logupdate')" />
       <div
         style="
           display: inline-block;
@@ -85,11 +85,11 @@
 
 <script lang="ts">
 import Vue from "vue";
-// import UpdateChecker from './UpdateChecker.vue'
+import UpdateChecker from './UpdateChecker.vue'
 
 export default Vue.extend({
   name: "cci-banner",
-  // components: { UpdateChecker },
+  components: { UpdateChecker },
 });
 </script>
 
