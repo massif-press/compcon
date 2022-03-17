@@ -95,7 +95,7 @@
       </v-row>
       <div style="height: 40px" />
 
-      <v-footer color="primary" fixed>
+      <v-footer color="primary" fixed style="padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px))">
         <v-btn x-small dark outlined @click="$refs.optionsModal.show()"
           >Options</v-btn
         >
@@ -103,6 +103,7 @@
         <v-btn x-small dark outlined @click="$refs.aboutModal.show()"
           >About</v-btn
         >
+        <v-spacer />
         <v-btn x-small dark outlined @click="$refs.creditsModal.show()"
           >Credits</v-btn
         >
