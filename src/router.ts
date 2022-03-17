@@ -7,7 +7,7 @@ import compendiumRoutes from './features/compendium/routes'
 import { getModule } from 'vuex-module-decorators'
 import { NavStore, store } from '@/store'
 
-// import updateChecker from '@/util/UpdateChecker'
+import updateChecker from '@/util/UpdateChecker'
 
 Vue.use(Router)
 
@@ -62,8 +62,8 @@ r.beforeEach((to, from, next) => {
   next()
 })
 
-// r.afterEach((to, from) => {
-//   updateChecker.checkUpdates()
-// })
+r.afterEach((to, from) => {
+  updateChecker.checkUpdates()
+})
 
 export default r
