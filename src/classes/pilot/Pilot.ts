@@ -68,6 +68,7 @@ interface IPilotData {
   quirks: string[]
   current_hp: number
   background: string
+  resistances: string[]
   mechSkills: number[]
   special_equipment: IUnlockData
   licenses: IRankedData[]
@@ -119,6 +120,7 @@ class Pilot implements ICloudSyncable {
   private _portrait: string
   private _missing_hp: number
   private _background: string
+  private _resistances: string[]
 
   private _special_equipment: CompendiumItem[]
   private _licenses: PilotLicense[]
@@ -156,6 +158,7 @@ class Pilot implements ICloudSyncable {
     this._missing_hp = 0
     this._loadout = new PilotLoadout(0)
     this._background = ''
+    this._resistances = []
     this._special_equipment = []
     this._licenses = []
     this._skills = []
@@ -317,6 +320,15 @@ class Pilot implements ICloudSyncable {
 
   public set Status(newVal: string) {
     this._status = newVal
+    this.save()
+  }
+
+  public get Resistances(): string[] {
+    return this._resistances
+  }
+
+  public set Resistances(resistances: string[]) {
+    this._resistances = resistances
     this.save()
   }
 
@@ -1203,6 +1215,7 @@ class Pilot implements ICloudSyncable {
       reserves: p.Reserves.length ? p.Reserves.map(x => Reserve.Serialize(x)) : [],
       orgs: p.Organizations.length ? p.Organizations.map(x => Organization.Serialize(x)) : [],
       background: p.Background,
+      resistances: p.Resistances,
       mechSkills: MechSkills.Serialize(p.MechSkills),
       licenses: p.Licenses.map(x => PilotLicense.Serialize(x)),
       skills: p.Skills.map(x => PilotSkill.Serialize(x)),
@@ -1265,6 +1278,7 @@ class Pilot implements ICloudSyncable {
     this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : []
     this.CurrentHP = data.current_hp
     this._background = data.background
+    this._resistances = data.resistances || []
     this._mechSkills = MechSkills.Deserialize(this, data.mechSkills)
     this._licenses = data.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
     this._skills = data.skills.map((x: IRankedData) => PilotSkill.Deserialize(x))
