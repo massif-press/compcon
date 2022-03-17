@@ -1,13 +1,15 @@
 import uuid from 'uuid/v4'
-import { store } from '@/store'
+import { MissionStore, store } from '@/store'
 import { Mission, Pilot, Npc, MissionStepType, Encounter } from '@/class'
 import { IMissionData, INpcData } from '@/interface'
 import { IMissionStep } from './IMissionStep'
 import { EncounterSide } from '../enums'
 import { ICloudSyncable } from '../components/cloud/ICloudSyncable'
 import { CloudController, ICloudData, ISaveData, SaveController } from '../components'
+import { getModule } from 'vuex-module-decorators'
 
 class IActiveMissionData implements ICloudData, ISaveData {
+  deleteTime: string
   isDeleted: boolean
   lastUpdate_cloud: string
   resourceUri: string
@@ -74,14 +76,6 @@ class ActiveMission implements ICloudSyncable {
 
   public get Name(): string {
     return this.Mission.Name
-  }
-
-  public get ResourceURI(): string {
-    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
-  }
-
-  public get ShareCode(): string {
-    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
   }
 
   public RenewID(): void {
@@ -279,8 +273,6 @@ class ActiveMission implements ICloudSyncable {
     const data = {
       id: m.ID,
       mission: Mission.Serialize(m._mission),
-      lastSync: m.LastSync,
-      lastModified: m.LastModified || '',
       pilotIDs: m.Pilots.map(x => x.ID),
       step: m.Step,
       round: m.Round,
@@ -296,6 +288,17 @@ class ActiveMission implements ICloudSyncable {
     return data as IActiveMissionData
   }
 
+  public Serialize(): IActiveMissionData {
+    return ActiveMission.Serialize(this)
+  }
+
+  public static AddNew(data: IActiveMissionData, sync?: boolean): ActiveMission {
+    const m = ActiveMission.Deserialize(data)
+    if (sync) m.CloudController.MarkSync()
+    getModule(MissionStore, store).addActiveMission(m)
+    return m
+  }
+
   public Update(data: IActiveMissionData, ignoreProps?: boolean): void {
     if (ignoreProps) {
       for (const key in data) {
@@ -303,9 +306,6 @@ class ActiveMission implements ICloudSyncable {
       }
     }
     this._id = data.id || uuid()
-    this.LastSync = data.lastSync || ''
-    this.LastModified = data.lastModified || ''
-
     this.Round = data.round
     this.Step = data.step
     this.ActiveNpcs = data.activeNpcs.map(x => Npc.Deserialize(x))
@@ -329,6 +329,7 @@ class ActiveMission implements ICloudSyncable {
       m.Update(data)
       SaveController.Deserialize(m, data)
       CloudController.Deserialize(m, data)
+      m.SaveController.SetLoaded()
       return m
     } catch (err) {
       console.error(err)

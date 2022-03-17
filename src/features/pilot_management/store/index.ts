@@ -1,19 +1,24 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import _ from 'lodash'
-import { saveData, loadData } from '@/io/Data'
+import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
 import { Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 
 async function savePilots(pilots: Pilot[]) {
   console.log('saving pilots')
-  const serialized = pilots.map(x => Pilot.Serialize(x))
-  await saveData('pilots_v2.json', serialized)
+  const serialized = pilots.filter(x => x.SaveController.IsDirty).map(x => Pilot.Serialize(x))
+  await saveDelta('pilots_v2.json', serialized)
 }
 
 async function savePilotGroups(pilotGroups: PilotGroup[]) {
   console.log('saving pilot groups')
   await saveData('pilot_groups_v2.json', pilotGroups)
+}
+
+async function deletePilot(pilot: Pilot) {
+  console.log('deleting pilot permanently: ', pilot.Name)
+  await deleteDataById('pilots_v2.json', [pilot.ID])
 }
 
 export interface PilotGroup {
@@ -60,16 +65,17 @@ export const ADD_PILOT = 'ADD_PILOT'
 export const MOVE_PILOT = 'MOVE_PILOT'
 export const CLONE_PILOT = 'CLONE_PILOT'
 export const DELETE_PILOT = 'DELETE_PILOT'
+export const RESTORE_PILOT = 'RESTORE_PILOT'
 export const DELETE_GROUP = 'DELETE_GROUP'
 export const SET_GROUP_NAME = 'SET_GROUP_NAME'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
+export const DELETE_PILOT_PERMANENT = 'DELETE_PILOT_PERMANENT'
 
 @Module({
   name: 'management',
 })
 export class PilotManagementStore extends VuexModule {
-  public AllPilots: Pilot[] = []
   public Pilots: Pilot[] = []
   public DeletedPilots: Pilot[] = []
   public PilotGroups: PilotGroup[] = []
@@ -78,10 +84,14 @@ export class PilotManagementStore extends VuexModule {
   public printOptions: PrintOptions = null
   public Dirty = false
 
+  public get AllPilots(): Pilot[] {
+    return this.Pilots.concat(this.DeletedPilots)
+  }
+
   @Mutation
   private [SAVE_DATA](): void {
     if (this.Dirty) {
-      savePilots(this.Pilots)
+      savePilots(this.Pilots.concat(this.DeletedPilots))
       savePilotGroups(this.PilotGroups)
       this.Dirty = false
     }
@@ -94,9 +104,9 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [LOAD_PILOTS](payload: { pilotData: PilotData[]; groupData: PilotGroup[] }): void {
-    this.AllPilots = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
-    this.Pilots = this.AllPilots.filter(x => !x.SaveController.IsDeleted)
-    this.DeletedPilots = this.AllPilots.filter(x => x.SaveController.IsDeleted)
+    const all = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
+    this.Pilots = all.filter(x => !x.SaveController.IsDeleted)
+    this.DeletedPilots = all.filter(x => x.SaveController.IsDeleted)
     const groupDataEmpty = payload.groupData.length === 0
     const ungroupedOnlyEmpty =
       payload.groupData.length === 1 &&
@@ -118,20 +128,15 @@ export class PilotManagementStore extends VuexModule {
     })
     if (del.length) {
       console.info(`Cleaning up ${del.length} pilots marked for deletion`)
-      del.forEach(p => {
-        const dpIdx = this.AllPilots.findIndex(x => x.ID === p.ID)
-        if (dpIdx > -1) {
-          deletePilotIdFromGroups(p, this.PilotGroups)
-          this.AllPilots.splice(dpIdx, 1)
-        }
-      })
-      savePilots(this.AllPilots)
+      del.forEach(p => {})
+      savePilots(this.Pilots.concat(this.DeletedPilots))
       savePilotGroups(this.PilotGroups)
     }
   }
 
   @Mutation
   private [ADD_PILOT](payload: Pilot): void {
+    payload.SaveController.IsDirty = true
     payload.GroupController.SortIndex = this.Pilots.length
     this.Pilots.push(payload)
     addPilotIdToGroups(payload, this.PilotGroups)
@@ -140,7 +145,7 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [MOVE_PILOT](): void {
-    savePilots(this.Pilots)
+    savePilots(this.Pilots.concat(this.DeletedPilots))
     savePilotGroups(this.PilotGroups)
   }
 
@@ -166,6 +171,29 @@ export class PilotManagementStore extends VuexModule {
     if (pilotIndex > -1) {
       this.Pilots.splice(pilotIndex, 1)
       this.DeletedPilots.push(payload)
+    } else {
+      throw console.error('Pilot not loaded!')
+    }
+    this.Dirty = true
+  }
+
+  @Mutation
+  private [DELETE_PILOT_PERMANENT](payload: Pilot): void {
+    const dpIdx = this.DeletedPilots.findIndex(x => x.ID === payload.ID)
+    if (dpIdx > -1) {
+      this.DeletedPilots.splice(dpIdx, 1)
+      deletePilot(payload)
+    }
+    this.Dirty = true
+  }
+
+  @Mutation
+  private [RESTORE_PILOT](payload: Pilot): void {
+    const pilotIndex = this.DeletedPilots.findIndex(x => x.ID === payload.ID)
+    if (pilotIndex > -1) {
+      this.DeletedPilots[pilotIndex].SaveController.restore()
+      this.DeletedPilots.splice(pilotIndex, 1)
+      this.Pilots.push(payload)
     } else {
       throw console.error('Pilot not loaded!')
     }
@@ -291,6 +319,18 @@ export class PilotManagementStore extends VuexModule {
   public deletePilot(payload: Pilot): void {
     payload.SaveController.delete()
     this.context.commit(DELETE_PILOT, payload)
+  }
+
+  @Action
+  public deletePilotPermanent(payload: Pilot): void {
+    if (!payload.SaveController.IsDeleted) this.context.commit(DELETE_PILOT)
+    this.context.commit(DELETE_PILOT_PERMANENT, payload)
+  }
+
+  @Action
+  public restorePilot(payload: Pilot): void {
+    payload.SaveController.restore()
+    this.context.commit(RESTORE_PILOT, payload)
   }
 
   @Action

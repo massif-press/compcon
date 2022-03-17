@@ -1,12 +1,14 @@
 import uuid from 'uuid/v4'
 import { Npc, EncounterSide, MissionStepType } from '@/class'
-import { store } from '@/store'
+import { EncounterStore, store } from '@/store'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { IMissionStep } from './IMissionStep'
 import { ICloudSyncable } from '../components/cloud/ICloudSyncable'
 import { CloudController, ICloudData, ISaveData, SaveController } from '../components'
+import { getModule } from 'vuex-module-decorators'
 
 class IEncounterData implements ICloudData, ISaveData {
+  deleteTime: string
   lastUpdate_cloud: string
   resourceUri: string
   isDeleted: boolean
@@ -78,14 +80,6 @@ class Encounter implements IMissionStep, ICloudSyncable {
 
   public get ID(): string {
     return this._id
-  }
-
-  public get ResourceURI(): string {
-    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
-  }
-
-  public get ShareCode(): string {
-    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
   }
 
   public RenewID(): void {
@@ -268,30 +262,9 @@ class Encounter implements IMissionStep, ICloudSyncable {
     else return getImagePath(ImageTag.Map, 'nodata.png')
   }
 
-  // -- Cloud -------------------------------------------------------------------------------------
-
-  public MarkSync(): void {
-    this.LastSync = new Date().toJSON()
-    this.IsDirty = false
-  }
-
-  public SetRemoteResource(): void {
-    this.CloudID = this.ID
-    this.IsLocallyOwned = false
-    this.RenewID()
-  }
-
-  public SetOwnedResource(userCognitoId: string): void {
-    this.CloudID = this.ID
-    this.CloudOwnerID = userCognitoId
-    this.IsLocallyOwned = true
-  }
-
   public static Serialize(enc: Encounter): IEncounterData {
     const data = {
       id: enc.ID,
-      lastSync: enc.LastSync,
-      lastModified: enc.LastModified || '',
       name: enc.Name,
       npcs: enc._npcs,
       reinforcements: enc._reinforcements,
@@ -311,6 +284,17 @@ class Encounter implements IMissionStep, ICloudSyncable {
     return data as IEncounterData
   }
 
+  public Serialize(): IEncounterData {
+    return Encounter.Serialize(this)
+  }
+
+  public static AddNew(data: IEncounterData, sync?: boolean): Encounter {
+    const e = Encounter.Deserialize(data)
+    if (sync) e.CloudController.MarkSync()
+    getModule(EncounterStore, store).addEncounter(e)
+    return e
+  }
+
   public Update(data: IEncounterData, ignoreProps?: boolean): void {
     if (ignoreProps) {
       for (const key in data) {
@@ -319,9 +303,6 @@ class Encounter implements IMissionStep, ICloudSyncable {
     }
 
     this._id = data.id
-    this.LastSync = data.lastSync || ''
-    this.LastModified = data.lastModified || ''
-
     this._name = data.name
     this._location = data.location
     this._labels = data.labels
@@ -343,6 +324,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
       e.Update(data)
       SaveController.Deserialize(e, data)
       CloudController.Deserialize(e, data)
+      e.SaveController.SetLoaded()
       return e
     } catch (err) {
       console.error(err)

@@ -6,7 +6,7 @@
     <v-card-text>
       <v-row dense justify="end">
         <v-col cols="auto">
-          <v-btn @click="fetch()" color="primary" small>
+          <v-btn @click="fetch()" color="primary" small class="mb-3">
             <v-icon left>mdi-reload</v-icon>
             Refresh Table
           </v-btn>
@@ -15,7 +15,15 @@
 
       <v-expansion-panels>
         <v-expansion-panel v-for="k in cloudItemTypes" :key="k">
-          <v-expansion-panel-header>{{ k }} ({{ itemsByType(k).length }})</v-expansion-panel-header>
+          <v-expansion-panel-header>
+            <span>
+              <v-chip dark color="primary" outlined x-small class="mt-n1 mr-2">
+                <b>{{ itemsByType(k).length.toString().padStart(3, '0') }}</b>
+              </v-chip>
+              <span class="heading h3">{{ k }}</span>
+            </span>
+            <v-spacer />
+          </v-expansion-panel-header>
           <v-expansion-panel-content>
             <div>
               <v-simple-table class="text-center">
@@ -35,6 +43,7 @@
                 <tbody>
                   <tr v-for="item in itemsByType(k)" :key="`item_${item.id}`">
                     <td><v-simple-checkbox v-model="item.selected" /></td>
+                    <!-- {{ item.key }} -->
                     <td class="text-left">{{ item.name }}</td>
                     <td v-if="isAtLatest(item)" colspan="2">
                       <v-row no-gutters align="center">
@@ -52,6 +61,7 @@
                       >
                         {{ item.lastModifiedLocal.split('GMT')[0] }}
                       </span>
+                      <span v-else class="text--disabled"><i>No Data</i></span>
                     </td>
                     <td v-if="!isAtLatest(item)">
                       <span
@@ -60,13 +70,14 @@
                       >
                         {{ item.lastModifiedCloud.split('GMT')[0] }}
                       </span>
+                      <span v-else class="text--disabled"><i>No Data</i></span>
                     </td>
                     <td>
                       <cc-tooltip
                         inline
                         v-if="item.deleted"
                         title="Marked for Deletion"
-                        :content="`This item has been marked for deletion. It can be undeleted at any time using the 'Undelete' option, or deleted permanently using the 'Delete Permanently' option. If no action is taken, this item will automatically be deleted after ${item.delete_time}`"
+                        :content="`This item has been marked for deletion. It can be restored at any time using the 'Restore' option, or deleted permanently using the 'Delete Permanently' option. If no action is taken, this item will automatically be deleted after ${item.delete_time}`"
                       >
                         <v-icon color="error">mdi-delete-alert</v-icon>
                       </cc-tooltip>
@@ -100,11 +111,15 @@
                       </cc-tooltip>
                     </td>
                     <td>
-                      <cc-tooltip inline content="Sync to Latest">
-                        <v-btn icon color="accent" @click="syncSingle(item)">
-                          <v-icon>mdi-sync</v-icon>
-                        </v-btn>
-                      </cc-tooltip>
+                      <sync-item-menu
+                        :item="item"
+                        @sync="syncSingle(item)"
+                        @delete="flagDelete(item)"
+                        @delete-forever="deleteForever(item)"
+                        @undelete="undelete(item)"
+                        @overwite-local="overwriteSingle('cloud', 'local')"
+                        @overwite-cloud="overwriteSingle('local', 'cloud')"
+                      />
                     </td>
                   </tr>
                 </tbody>
@@ -112,20 +127,50 @@
                   <th class="py-2">{{ selectedItems.length }} Selected</th>
                   <th class="py-2"></th>
                   <th class="py-2">
-                    <v-btn small color="primary" :disabled="!selectedItems.length">
-                      Overwrite Selected (Cloud)
-                    </v-btn>
+                    <cc-tooltip
+                      inline
+                      content="Overwrites the local data of the selected items with the versions stored in the cloud."
+                    >
+                      <v-btn
+                        small
+                        color="primary"
+                        :disabled="!selectedItems.length"
+                        @click="overwriteSelected('cloud', 'local')"
+                      >
+                        Overwrite Local
+                      </v-btn>
+                    </cc-tooltip>
                   </th>
                   <th class="py-2">
-                    <v-btn small color="primary" :disabled="!selectedItems.length">
-                      Overwrite Selected (Local)
-                    </v-btn>
+                    <cc-tooltip
+                      inline
+                      content="Removes the cloud data for the selected items and replaces them with copies of the current local data."
+                    >
+                      <v-btn
+                        small
+                        color="primary"
+                        :disabled="!selectedItems.length"
+                        @click="overwriteSelected('local', 'cloud')"
+                      >
+                        Overwrite Cloud
+                      </v-btn>
+                    </cc-tooltip>
                   </th>
                   <th class="py-2"></th>
                   <th class="py-2">
-                    <v-btn small color="primary" :disabled="!selectedItems.length">
-                      Sync to Latest
-                    </v-btn>
+                    <cc-tooltip
+                      inline
+                      content="Syncs all selected items to the most recently updated data."
+                    >
+                      <v-btn
+                        small
+                        color="primary"
+                        :disabled="!selectedItems.length"
+                        @click="syncSelected()"
+                      >
+                        Sync to Latest
+                      </v-btn>
+                    </cc-tooltip>
                   </th>
                 </tfoot>
               </v-simple-table>
@@ -133,81 +178,42 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
-      <!-- 
-      <v-data-table
-        :items="items"
-        :headers="headers"
-        group-by="itemType"
-        disable-pagination
-        hide-default-footer
-      ></v-data-table> -->
-
+    </v-card-text>
+    <v-divider />
+    <v-card-actions>
       <v-row justify="center" align="center">
         <v-col cols="8">
           <cc-tooltip
             title="Sync Data"
             content="COMP/CON will compare local and cloud data, updating all items to the latest version found. All items that have been marked for deletion for longer than 30 days will be permanently removed."
           >
-            <v-btn @click="fetch()" color="primary" block x-large>
+            <v-btn @click="syncAll()" color="primary" block x-large>
               <v-icon large class="mr-2">mdi-cloud-sync</v-icon>
-              Sync All Data
+              Smart Sync All
             </v-btn>
           </cc-tooltip>
         </v-col>
       </v-row>
-
-      <v-row align="center" justify="space-around">
-        <v-col>
-          <cc-tooltip
-            content="Update any outdated local data with newer data currently stored in your cloud account. All items that have been marked for deletion for longer than 30 days will be permanently removed."
-          >
-            <v-btn large block color="accent" :loading="loading">
-              <v-icon left>mdi-cloud-upload-outline</v-icon>
-              Update Local Data
-            </v-btn>
-          </cc-tooltip>
-          <cc-tooltip
-            content="<b>Replace</b> all local data with the content of your cloud account. This will
-        <b>permanently overwrite</b> all of your local data."
-          >
-            <v-btn small block outlined color="error" :loading="loading" class="my-1">
-              <v-icon left>mdi-cloud-upload-outline</v-icon>
-              Overwrite Local Data
-            </v-btn>
-          </cc-tooltip>
-        </v-col>
-
-        <v-col>
-          <cc-tooltip
-            content="Save only the latest locally created and updated data to the cloud.
-        Cloud data that does not exist locally will not be deleted.  All items that have been marked for deletion for longer than 30 days will be permanently removed."
-          >
-            <v-btn large block color="accent" :loading="loading">
-              <v-icon left>mdi-cloud-upload-outline</v-icon>
-              Update Cloud Data
-            </v-btn>
-          </cc-tooltip>
-          <cc-tooltip
-            content="<b>Replace</b> all cloud data with your current local data. This will
-        <b>permanently overwrite</b> all of your cloud data."
-          >
-            <v-btn small block outlined color="error" :loading="loading" class="my-1">
-              <v-icon left>mdi-cloud-upload-outline</v-icon>
-              Overwrite Cloud Data
-            </v-btn>
-          </cc-tooltip>
-        </v-col>
-      </v-row>
-    </v-card-text>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { ListCloudItems, ProcessItemsList, SyncItem } from '@/cloud/sync'
+import SyncItemMenu from './SyncItemMenu.vue'
+import {
+  ListCloudItems,
+  ProcessItemsList,
+  SyncItem,
+  DeleteForever,
+  GetLocalItem,
+  Overwrite,
+} from '@/cloud/sync'
+import { ICloudSyncable } from '@/classes/components'
 
 export default Vue.extend({
   name: 'sync-manager',
+  components: { SyncItemMenu },
   data: () => ({
     loading: false,
     overwriteCloud: false,
@@ -249,11 +255,16 @@ export default Vue.extend({
     fetch() {
       this.loading = true
       ListCloudItems()
-        .then(res => (this.items = ProcessItemsList(res)))
+        .then(res => {
+          console.log(res)
+          this.items = ProcessItemsList(res)
+        })
         .finally(() => (this.loading = false))
     },
     async syncSingle(item) {
+      this.loading = true
       SyncItem(item)
+        .then(() => this.fetch())
         .then(() => this.$notify('Sync successful', 'success'))
         .catch(() =>
           this.$notify(
@@ -262,10 +273,61 @@ export default Vue.extend({
           )
         )
     },
-    updateAll() {},
-    updateItem() {},
-    overwriteLocalItems() {},
-    overwriteCloudItems() {},
+    async syncSelected() {
+      this.loading = true
+      Promise.all(this.selectedItems.map(item => SyncItem(item)))
+        .then(() => this.fetch())
+        .then(() =>
+          this.$notify(`Synced ${this.selectedItems.length} items successfully`, 'success')
+        )
+        .catch(() =>
+          this.$notify(
+            'An error occured while syncing. You may be missing one or more required LCPs.',
+            'error'
+          )
+        )
+    },
+    async overwriteSingle(item, source, dest) {
+      this.loading = true
+      Overwrite(item, source, dest)
+        .then(() => this.fetch())
+        .then(() => this.$notify('Overwrite successful', 'success'))
+        .catch(() => this.$notify('An error occured while overwriting.', 'error'))
+    },
+    async overwriteSelected(source, dest) {
+      this.loading = true
+      Promise.all(this.selectedItems.map(item => Overwrite(item, source, dest)))
+        .then(() => this.fetch())
+        .then(() =>
+          this.$notify(`Replaced ${this.selectedItems.length} items successfully`, 'success')
+        )
+        .catch(() => this.$notify('An error occured while overwriting.', 'error'))
+    },
+    undelete(item) {
+      const local = GetLocalItem(item) as ICloudSyncable
+      local.SaveController.restore()
+      this.fetch()
+    },
+    flagDelete(item) {
+      const local = GetLocalItem(item) as ICloudSyncable
+      local.SaveController.delete()
+      this.fetch()
+    },
+    deleteForever(item) {
+      DeleteForever(item)
+        .then(() => this.fetch())
+        .then(() => this.$notify('Delete successful', 'success'))
+        .catch(() =>
+          this.$notify('An error occured while attempting to delete this record.', 'error')
+        )
+    },
+    syncAll() {
+      this.loading = true
+      Promise.all(this.items.map(item => SyncItem(item)))
+        .then(() => this.fetch())
+        .then(() => this.$notify(`Synced ${this.items.length} items successfully`, 'success'))
+        .catch(() => this.$notify('An error occured while syncing.', 'error'))
+    },
   },
 })
 </script>

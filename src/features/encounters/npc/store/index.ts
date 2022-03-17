@@ -2,20 +2,26 @@
 import _ from 'lodash'
 import { Npc } from '@/class'
 import { INpcData } from '@/interface'
-import { loadData, saveData } from '@/io/Data'
+import { loadData, saveDelta, deleteDataById } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_DIRTY = 'SET_DIRTY'
 export const ADD_NPC = 'ADD_NPC'
 export const DELETE_NPC = 'DELETE_NPC'
+export const RESTORE_NPC = 'RESTORE_NPC'
 export const CLONE_NPC = 'CLONE_NPC'
 export const LOAD_NPCS = 'LOAD_NPCS'
+export const DELETE_NPC_PERMANENT = 'DELETE_NPC_PERMANENT'
 
 async function saveNpcData(npcs: Npc[]) {
-  console.log('saving npcs')
-  const serialized = npcs.map(x => Npc.Serialize(x))
-  await saveData('npcs_v2.json', serialized)
+  const serialized = npcs.filter(x => x.SaveController.IsDirty).map(x => Npc.Serialize(x))
+  await saveDelta('npcs_v2.json', serialized)
+}
+
+async function deleteNpc(npc: Npc) {
+  console.log('deleting npc permanently: ', npc.Name)
+  await deleteDataById('npcs_v2.json', [npc.ID])
 }
 
 @Module({
@@ -23,15 +29,39 @@ async function saveNpcData(npcs: Npc[]) {
 })
 export class NpcStore extends VuexModule {
   Npcs: Npc[] = []
+  DeletedNpcs: Npc[] = []
   Dirty = false
+
+  public get AllNpcs(): Npc[] {
+    return this.Npcs.concat(this.DeletedNpcs)
+  }
 
   @Mutation
   private [LOAD_NPCS](payload: INpcData[]): void {
     const newNpcs: Npc[] = [...payload.map(x => Npc.Deserialize(x))]
     this.Npcs.splice(0, this.Npcs.length)
+    const all = []
     newNpcs.forEach((npc: Npc) => {
-      this.Npcs.push(npc)
+      all.push(npc)
     })
+    this.Npcs = all.filter(x => !x.SaveController.IsDeleted)
+    this.DeletedNpcs = all.filter(x => x.SaveController.IsDeleted)
+
+    //clean up deleted
+    const del = []
+    this.DeletedNpcs.forEach(dp => {
+      if (new Date().getTime() > Date.parse(dp.SaveController.DeleteTime)) del.push(dp)
+    })
+    if (del.length) {
+      console.info(`Cleaning up ${del.length} Npcs marked for deletion`)
+      del.forEach(p => {
+        const dpIdx = this.DeletedNpcs.findIndex(x => x.ID === p.ID)
+        if (dpIdx > -1) {
+          this.DeletedNpcs.splice(dpIdx, 1)
+        }
+      })
+      saveNpcData(this.Npcs.concat(this.DeletedNpcs))
+    }
   }
 
   @Mutation
@@ -42,13 +72,14 @@ export class NpcStore extends VuexModule {
   @Mutation
   private [SAVE_DATA](): void {
     if (this.Dirty) {
-      saveNpcData(this.Npcs)
+      saveNpcData(this.Npcs.concat(this.DeletedNpcs))
       this.Dirty = false
     }
   }
 
   @Mutation
   private [ADD_NPC](payload: Npc): void {
+    payload.SaveController.IsDirty = true
     this.Npcs.push(payload)
     this.Dirty = true
   }
@@ -68,6 +99,30 @@ export class NpcStore extends VuexModule {
     const idx = this.Npcs.findIndex(x => x.ID === payload.ID)
     if (idx > -1) {
       this.Npcs.splice(idx, 1)
+      this.DeletedNpcs.push(payload)
+    } else {
+      throw console.error('NPC not loaded!')
+    }
+    this.Dirty = true
+  }
+
+  @Mutation
+  private [DELETE_NPC_PERMANENT](payload: Npc): void {
+    const dpIdx = this.DeletedNpcs.findIndex(x => x.ID === payload.ID)
+    if (dpIdx > -1) {
+      this.DeletedNpcs.splice(dpIdx, 1)
+      deleteNpc(payload)
+    }
+    this.Dirty = true
+  }
+
+  @Mutation
+  private [RESTORE_NPC](payload: Npc): void {
+    const NpcIndex = this.DeletedNpcs.findIndex(x => x.ID === payload.ID)
+    if (NpcIndex > -1) {
+      this.DeletedNpcs[NpcIndex].SaveController.restore()
+      this.DeletedNpcs.splice(NpcIndex, 1)
+      this.Npcs.push(payload)
     } else {
       throw console.error('NPC not loaded!')
     }
@@ -85,7 +140,7 @@ export class NpcStore extends VuexModule {
   }
 
   @Action
-  public setNpcsDirty(): void {
+  public set_npc_dirty(): void {
     this.context.commit(SET_DIRTY)
   }
 
@@ -106,7 +161,20 @@ export class NpcStore extends VuexModule {
 
   @Action
   public deleteNpc(payload: Npc): void {
+    payload.SaveController.delete()
     this.context.commit(DELETE_NPC, payload)
+  }
+
+  @Action
+  public restoreNpc(payload: Npc): void {
+    payload.SaveController.restore()
+    this.context.commit(RESTORE_NPC, payload)
+  }
+
+  @Action
+  public deleteNpcPermanent(payload: Npc): void {
+    if (!payload.SaveController.IsDeleted) this.context.commit(DELETE_NPC)
+    this.context.commit(DELETE_NPC_PERMANENT, payload)
   }
 
   @Action({ rawError: true })

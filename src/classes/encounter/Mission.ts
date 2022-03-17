@@ -1,9 +1,10 @@
 import uuid from 'uuid/v4'
-import { store } from '@/store'
+import { MissionStore, store } from '@/store'
 import { Encounter, Rest } from '@/class'
 import { IMissionStep } from './IMissionStep'
 import { ICloudSyncable } from '../components/cloud/ICloudSyncable'
 import { CloudController, ICloudData, ISaveData, SaveController } from '../components'
+import { getModule } from 'vuex-module-decorators'
 
 enum MissionStepType {
   Encounter = 'Encounter',
@@ -11,6 +12,7 @@ enum MissionStepType {
 }
 
 class IMissionData implements ICloudData, ISaveData {
+  deleteTime: string
   lastUpdate_cloud: string
   resourceUri: string
   isDeleted: boolean
@@ -61,11 +63,6 @@ class Mission implements ICloudSyncable {
     this._step_ids = []
   }
 
-  private save(): void {
-    this.LastModified = new Date().toString()
-    store.dispatch('setMissionsDirty')
-  }
-
   public get ID(): string {
     return this._id
   }
@@ -80,7 +77,7 @@ class Mission implements ICloudSyncable {
 
   public RenewID(): void {
     this._id = uuid()
-    this.save()
+    this.SaveController.save()
   }
 
   public get Campaign(): string {
@@ -89,7 +86,7 @@ class Mission implements ICloudSyncable {
 
   public set Campaign(val: string) {
     this._campaign = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Note(): string {
@@ -98,7 +95,7 @@ class Mission implements ICloudSyncable {
 
   public set Note(val: string) {
     this._note = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Name(): string {
@@ -107,7 +104,7 @@ class Mission implements ICloudSyncable {
 
   public set Name(val: string) {
     this._name = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Labels(): string[] {
@@ -116,7 +113,7 @@ class Mission implements ICloudSyncable {
 
   public set Labels(val: string[]) {
     this._labels = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get averagePower(): number {
@@ -162,7 +159,7 @@ class Mission implements ICloudSyncable {
     const up = this._step_ids[idx - 1]
     this._step_ids.splice(idx, 1, up)
     this._step_ids.splice(idx - 1, 1, e)
-    this.save()
+    this.SaveController.save()
   }
 
   public MoveStepDown(idx): void {
@@ -170,43 +167,24 @@ class Mission implements ICloudSyncable {
     const down = this._step_ids[idx + 1]
     this._step_ids.splice(idx, 1, down)
     this._step_ids.splice(idx + 1, 1, e)
-    this.save()
+    this.SaveController.save()
   }
 
   public AddEncounter(e: Encounter): void {
     this._step_ids.push(e.ID)
-    this.save()
+    this.SaveController.save()
   }
 
   public AddRest(): void {
     const r = new Rest()
     this._rests.push(r)
     this._step_ids.push(r.ID)
-    this.save()
+    this.SaveController.save()
   }
 
   public RemoveStep(index: number): void {
     this._step_ids.splice(index, 1)
-    this.save()
-  }
-
-  // -- Cloud -------------------------------------------------------------------------------------
-
-  public MarkSync(): void {
-    this.LastSync = new Date().toJSON()
-    this.IsDirty = false
-  }
-
-  public SetRemoteResource(): void {
-    this.CloudID = this.ID
-    this.IsLocallyOwned = false
-    this.RenewID()
-  }
-
-  public SetOwnedResource(userCognitoId: string): void {
-    this.CloudID = this.ID
-    this.CloudOwnerID = userCognitoId
-    this.IsLocallyOwned = true
+    this.SaveController.save()
   }
 
   public static Serialize(mission: Mission): IMissionData {
@@ -227,6 +205,17 @@ class Mission implements ICloudSyncable {
     SaveController.Serialize(mission, data)
     CloudController.Serialize(mission, data)
     return data as IMissionData
+  }
+
+  public Serialize(): IMissionData {
+    return Mission.Serialize(this)
+  }
+
+  public static AddNew(data: IMissionData, sync?: boolean): Mission {
+    const m = Mission.Deserialize(data)
+    if (sync) m.CloudController.MarkSync()
+    getModule(MissionStore, store).addMission(m)
+    return m
   }
 
   public Update(data: IMissionData, ignoreProps?: boolean): void {
@@ -257,6 +246,7 @@ class Mission implements ICloudSyncable {
       m.Update(data)
       SaveController.Deserialize(m, data)
       CloudController.Deserialize(m, data)
+      m.SaveController.SetLoaded()
       return m
     } catch (err) {
       console.error(err)

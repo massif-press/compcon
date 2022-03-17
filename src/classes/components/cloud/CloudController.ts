@@ -44,6 +44,12 @@ class CloudController {
     this.Parent.SaveController.save()
   }
 
+  public ForceSync() {
+    this.Parent.SaveController.save()
+    this.LastSync = this.Parent.SaveController.LastModified
+    this.LastUpdateCloud = this.Parent.SaveController.LastModified
+  }
+
   public get LastUpdateLocal(): string {
     return this.Parent.SaveController.LastModified
   }
@@ -52,6 +58,11 @@ class CloudController {
   public static ValidateName(name: string) {
     // looking for name--id--status
     return (name.match(/--/g) || []).length === 2
+  }
+
+  // catch if the s3 key must be changed due to name or status changes
+  public static IsKeyChange(oldKey: string, newItem: ICloudSyncable): Boolean {
+    return oldKey === newItem.CloudController.s3Key
   }
 
   public static Serialize(parent: ICloudSyncable, target: any) {

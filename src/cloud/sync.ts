@@ -1,11 +1,3 @@
-/* TODO:
-  - new username that is email - special chars
-    -- only alphanumeric + dashses
-  - find which cloud-savable data needs to be updated based on existance/latest update time
-  - add all cloud-savable data in one batch
-  - pull down new data
-*/
-
 import {
   store,
   UserStore,
@@ -24,7 +16,7 @@ import { syncUserData } from '@/graphql/queries'
 import { getModule } from 'vuex-module-decorators'
 import { ICloudSyncable } from '@/classes/components'
 import { CloudController, CloudItemTypeMap } from '@/classes/components/cloud/CloudController'
-import { Pilot } from '@/class'
+import { ActiveMission, Encounter, Mission, Npc, Pilot } from '@/class'
 
 const region = 'us-east-1'
 
@@ -366,8 +358,13 @@ const GetCloudProfile = async (uid?: string): Promise<Client.UserProfile> => {
 // }
 
 const ListCloudItems = async (): Promise<any> => {
+  const id = await currentCognitoIdentity()
+  console.info(id)
   return Storage.list('', { level: 'protected' })
-    .then(result => result)
+    .then(result => {
+      console.log(result)
+      return result
+    })
     .catch(err => console.error(err))
 }
 
@@ -380,6 +377,7 @@ type CollectionItem = {
   lastModifiedCloud: string
   lastUploadCloud: string
   deleted: boolean
+  delete_time: string
   latest: string
   selected: false
 }
@@ -394,16 +392,16 @@ function determineLatest(cloudItem: CollectionItem, localItem: CollectionItem): 
 }
 
 const ProcessItemsList = (cloudList): CollectionItem[] => {
-  console.log(cloudList)
   const localCollection = {
-    activemission: getModule(MissionStore, store).ActiveMissions,
-    mission: getModule(MissionStore, store).Missions,
-    encounter: getModule(EncounterStore, store).Encounters,
-    npc: getModule(NpcStore, store).Npcs,
+    activemission: getModule(MissionStore, store).AllActiveMissions,
+    mission: getModule(MissionStore, store).AllMissions,
+    encounter: getModule(EncounterStore, store).AllEncounters,
+    npc: getModule(NpcStore, store).AllNpcs,
     pilot: getModule(PilotManagementStore, store).AllPilots,
   }
 
-  console.log(getModule(PilotManagementStore, store).DeletedPilots)
+  console.log(getModule(PilotManagementStore, store).DeletedPilots.map(x => x.Name))
+  console.log(getModule(PilotManagementStore, store).Pilots.map(x => x.Name))
 
   const localMap = []
   Object.keys(localCollection).forEach((key: string) =>
@@ -439,13 +437,11 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
         lastModifiedLocal: '',
         latest: 'cloud',
         deleted,
+        delete_time: '',
       }
     }
   })
 
-  console.log(output)
-
-  // collect all items that are local-only
   localMap.forEach((localItem: CollectionItem) => {
     let matchIndex = -1
     const match = output.find((cloudItem: CollectionItem, index: number) => {
@@ -461,9 +457,11 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
       output[matchIndex].name = localItem.name
       output[matchIndex].lastModifiedLocal = localItem.lastModifiedLocal
       output[matchIndex].lastModifiedCloud = localItem.lastModifiedCloud
+      output[matchIndex].delete_time = localItem.delete_time
       const latest = determineLatest(output[matchIndex], localItem)
       if (latest === 'local') {
         output[matchIndex].deleted = localItem.deleted
+        output[matchIndex].delete_time = localItem.delete_time
         output[matchIndex].latest = 'local'
       }
     }
@@ -482,7 +480,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
   return output
 }
 
-function getLocalItem(item: CollectionItem): any {
+function GetLocalItem(item: CollectionItem): any {
   switch (item.itemType) {
     case CloudItemTypeMap.activemission:
       return getModule(MissionStore, store).ActiveMissions.find(x => x.ID === item.id)
@@ -493,7 +491,34 @@ function getLocalItem(item: CollectionItem): any {
     case CloudItemTypeMap.npc:
       return getModule(NpcStore, store).Npcs.find(x => x.ID === item.id)
     case CloudItemTypeMap.pilot:
-      return getModule(PilotManagementStore, store).Pilots.find(x => x.ID === item.id)
+      return getModule(PilotManagementStore, store).AllPilots.find(x => x.ID === item.id)
+    default:
+      break
+  }
+}
+
+function PermanentlyDeleteLocalItem(item: CollectionItem): any {
+  switch (item.itemType) {
+    case CloudItemTypeMap.activemission:
+      const ms = getModule(MissionStore, store)
+      ms.deleteMissionPermanent(ms.Missions.find(x => x.ID === item.id))
+      break
+    case CloudItemTypeMap.mission:
+      const ams = getModule(MissionStore, store)
+      ams.deleteActiveMissionPermanent(ams.ActiveMissions.find(x => x.ID === item.id))
+      break
+    case CloudItemTypeMap.encounter:
+      const es = getModule(EncounterStore, store)
+      es.deleteEncounterPermanent(es.Encounters.find(x => x.ID === item.id))
+      break
+    case CloudItemTypeMap.npc:
+      const ns = getModule(NpcStore, store)
+      ns.deleteNpcPermanent(ns.Npcs.find(x => x.ID === item.id))
+      break
+    case CloudItemTypeMap.pilot:
+      const ps = getModule(PilotManagementStore, store)
+      ps.deletePilotPermanent(ps.AllPilots.find(x => x.ID === item.id))
+      break
     default:
       break
   }
@@ -501,93 +526,134 @@ function getLocalItem(item: CollectionItem): any {
 
 // syncs a single item based on latest update
 const SyncItem = async (item: CollectionItem): Promise<any> => {
-  const localItem = getLocalItem(item) as ICloudSyncable
+  const localItem = GetLocalItem(item) as ICloudSyncable
   if (
     !localItem ||
     (localItem && !item.lastModifiedLocal && item.lastModifiedCloud) ||
     Date.parse(item.lastModifiedCloud) > Date.parse(item.lastModifiedLocal)
   ) {
-    console.log('cloud has latest data')
-    const data = await GetSingleByKey(item.key)
-    // TODO: check brews and throw error. might need callback fn
-    if (localItem) {
-      // local copy exists, update local
-      console.log('update local item')
-      localItem.Update(data)
-      localItem.CloudController.MarkSync()
-    } else {
-      // no local copy exists, create new
-      switch (item.itemType) {
-        case CloudItemTypeMap.activemission:
-          console.log('is activemission')
-          console.error('NYI')
-          break
-        case CloudItemTypeMap.mission:
-          console.log('is mission')
-          console.error('NYI')
-          break
-        case CloudItemTypeMap.encounter:
-          console.log('is encounter')
-          console.error('NYI')
-          break
-        case CloudItemTypeMap.npc:
-          console.log('is npc')
-          console.error('NYI')
-          break
-        case CloudItemTypeMap.pilot:
-          Pilot.AddNew(data, true)
-          break
-        default:
-          break
-      }
-    }
-
-    // clean up old-style save
-    if (!CloudController.ValidateName(item.key)) {
-      console.log('saved under old path')
-      // item is saved under the old path, remove it
-      Storage.remove(item.key, {
-        level: 'protected',
-      })
-    }
+    await UpdateLocalFromCloud(item, localItem)
   } else {
-    console.log('local has latest data')
-    console.log(item.key)
-    // local has the latest data, upload it to the cloud
-    if (!CloudController.ValidateName(item.key)) {
-      console.log('saved under old path')
-      // item is saved under the old path, remove it
-      Storage.remove(item.key, {
-        level: 'protected',
-      })
-    }
-    // upload the local file
-    localItem.CloudController.MarkSync()
-    PushSingle(localItem)
+    await UpdateCloudFromLocal(item, localItem)
+  }
+}
 
-    // save local sync updates
+const UpdateLocalFromCloud = async (item: CollectionItem, localItem?: ICloudSyncable) => {
+  const data = await GetSingleByKey(item.key)
+  let instance
+  // TODO: check brews and throw error. might need callback fn
+  if (localItem) {
+    // local copy exists, update local
+    localItem.Update(data)
+    localItem.CloudController.MarkSync()
+    instance = localItem
+  } else {
+    // no local copy exists, create new
     switch (item.itemType) {
-      case CloudItemTypeMap.mission:
       case CloudItemTypeMap.activemission:
-        store.dispatch('saveMissionData')
+        console.log('is activemission')
+        instance = ActiveMission.AddNew(data, true)
+        break
+      case CloudItemTypeMap.mission:
+        console.log('is mission')
+        instance = Mission.AddNew(data, true)
         break
       case CloudItemTypeMap.encounter:
-        store.dispatch('saveEncounterData')
+        console.log('is encounter')
+        instance = Encounter.AddNew(data, true)
         break
       case CloudItemTypeMap.npc:
-        store.dispatch('saveNpcData')
+        console.log('is npc')
+        instance = Npc.AddNew(data, true)
         break
       case CloudItemTypeMap.pilot:
-        store.dispatch('savePilotData')
+        instance = Pilot.AddNew(data, true)
         break
       default:
         break
     }
   }
+
+  console.log(instance)
+
+  // clean up old-style save
+  if (!CloudController.ValidateName(item.key)) {
+    console.log('saved under old path')
+    // item is saved under the old path, remove it
+    Storage.remove(item.key, {
+      level: 'protected',
+    }).then(() => {
+      PushSingle(instance)
+    })
+  }
+
+  // save local sync updates
+  SaveLocalUpdates(item)
+}
+
+const UpdateCloudFromLocal = (item: CollectionItem, localItem: ICloudSyncable) => {
+  console.log('local has latest data')
+  console.log(item.key)
+  // local has the latest data, upload it to the cloud
+  if (!CloudController.ValidateName(item.key)) {
+    console.log('saved under old path')
+    // item is saved under the old path, remove it
+    Storage.remove(item.key, {
+      level: 'protected',
+    })
+  }
+  if (!CloudController.IsKeyChange(item.key, localItem)) {
+    console.log('key has changed')
+    // item being marked for deletion or includes name change, remove old record
+    Storage.remove(item.key, {
+      level: 'protected',
+    })
+  }
+  // upload the local file
+  localItem.CloudController.MarkSync()
+  PushSingle(localItem)
+
+  // save local sync updates
+  SaveLocalUpdates(item)
+}
+
+const SaveLocalUpdates = (item: CollectionItem) => {
+  switch (item.itemType) {
+    case CloudItemTypeMap.mission:
+    case CloudItemTypeMap.activemission:
+      store.dispatch('saveMissionData')
+      break
+    case CloudItemTypeMap.encounter:
+      store.dispatch('saveEncounterData')
+      break
+    case CloudItemTypeMap.npc:
+      store.dispatch('saveNpcData')
+      break
+    case CloudItemTypeMap.pilot:
+      store.dispatch('savePilotData')
+      break
+    default:
+      break
+  }
+}
+
+// overwrite local data with cloud data
+const Overwrite = async (
+  item: CollectionItem,
+  source: 'cloud' | 'local',
+  dest: 'cloud' | 'local'
+): Promise<any> => {
+  const localItem = GetLocalItem(item) as ICloudSyncable
+  if (source === 'cloud' && dest === 'local') {
+    UpdateLocalFromCloud(item, localItem)
+  } else if (source === 'local' && dest === 'cloud') {
+    UpdateCloudFromLocal(item, localItem)
+  } else {
+    throw new Error('Invalid parameters passed to Sync/Overwrite')
+  }
 }
 
 const PushSingle = async (item: ICloudSyncable): Promise<any> => {
-  console.log(item.CloudController.s3Key)
   return Storage.put(item.CloudController.s3Key, item.Serialize(item), {
     level: 'protected',
     contentType: 'text/plain',
@@ -621,12 +687,22 @@ const GetSingleByKey = async (key: string): Promise<any> => {
   }
 }
 
+const DeleteForever = async (item: CollectionItem): Promise<any> => {
+  PermanentlyDeleteLocalItem(item)
+  Storage.remove(item.key, {
+    level: 'protected',
+  }).catch(err => console.error(err))
+  SaveLocalUpdates(item)
+}
+
 export {
-  // GetSync, ContentPull, CloudPull, CloudPush, AwsImport, UploadLcps,
   ListCloudItems,
   ProcessItemsList,
   GetCloudProfile,
   SyncItem,
   GetSingle,
   GetSingleByKey,
+  DeleteForever,
+  GetLocalItem,
+  Overwrite,
 }
