@@ -1,6 +1,6 @@
 # COMP/CON Changelog
 
-## [2.2.38] (2021-2-21)
+## [2.2.38] (2022-3-17)
 
 - **Global** Implemented new image hosting strategy to save on bandwidth costs
 - **Compendium** Various changes and fixes, thanks to msprijatelj, perijove, and lenaleciel
@@ -10,18 +10,18 @@
 - **Mobile UI** Correct mobile view padding (thanks, wilt00!)[#1869](https://github.com/massif-press/compcon/issues/1869)
 - **Mobile UI** Fix PWA settings (thanks, wilt00!)[#1867](https://github.com/massif-press/compcon/issues/1867)
 
-## [2.2.37] (2021-2-21)
+## [2.2.37] (2022-2-21)
 
 - **Compendium** Change tag search logic to AND (thanks, msprijatelj!)[#1860](https://github.com/massif-press/compcon/issues/1860)
 - **Homepage** Fix bug with HORUS homepage theme (thanks, msprijatelj!)[#1829](https://github.com/massif-press/compcon/issues/1829)
 - **LCP** Enable LCP Background import humanized info text (thanks, msprijatelj!)[#1858](https://github.com/massif-press/compcon/issues/1858)
 - **LCP** Enable new LCP metadata hosting method
 
-## [2.2.36a] (2021-2-10)
+## [2.2.36a] (2022-2-10)
 
 - **Global** Re-integrate serviceworker, which will re-enable C/C's use as a PWA [#1851](https://github.com/massif-press/compcon/issues/1851), [#1853](https://github.com/massif-press/compcon/issues/1853)
 
-## [2.2.36] (2021-1-19)
+## [2.2.36] (2022-1-19)
 
 ### Features
 
