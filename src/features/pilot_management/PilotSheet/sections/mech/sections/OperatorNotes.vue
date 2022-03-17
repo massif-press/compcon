@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small :color="color" style="margin-left: -60px!important">
+    <cc-title small :color="color" style="margin-left: -70px!important">
       <section-edit-icon label="Edit Operator Notes" @open-selector="show()" />
       Operator Notes
     </cc-title>
