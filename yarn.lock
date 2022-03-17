@@ -5970,7 +5970,7 @@ extend@~3.0.2:
   resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
   integrity sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==
 
-external-svg-loader@^1.3.4:
+external-svg-loader@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/external-svg-loader/-/external-svg-loader-1.4.0.tgz#1fd3bfeadae14009b797fe7d66f867472818a4ef"
   integrity sha512-uSMh01U2R8+qxWzTNkS2gwN/bEtRc6bZuaXj8anYdauvJ0fTmk7c4dy/QN6hFTg4MvhIujBU0Aawt5su/HVTLQ==
