@@ -59,9 +59,9 @@
             <span>v.{{ $appVersion }}</span>
           </div>
         </v-col>
-        <!-- <v-col cols="auto ml-auto">
+        <v-col cols="auto ml-auto">
           <update-checker small />
-        </v-col> -->
+        </v-col>
       </v-row>
       <v-row dense justify="space-around">
         <mobile-btn
@@ -129,7 +129,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-// import UpdateChecker from './_components/UpdateChecker.vue'
+import UpdateChecker from './_components/UpdateChecker.vue'
 import MobileBtn from "./_components/MobileBtn.vue";
 import ContentPage from "../nav/pages/ExtraContent/index.vue";
 import CreditsPage from "../nav/pages/Credits.vue";
@@ -143,7 +143,7 @@ import SignIn from "./_components/login/index.vue";
 export default Vue.extend({
   name: "landing-page-mobile",
   components: {
-    // UpdateChecker,
+    UpdateChecker,
     MobileBtn,
     ContentPage,
     AboutPage,
