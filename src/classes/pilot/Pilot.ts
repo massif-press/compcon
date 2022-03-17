@@ -92,6 +92,7 @@ class PilotData
   // SaveController
   lastModified: string
   isDeleted: boolean
+  deleteTime: string
 
   // PortraitController
   portrait: string
@@ -637,10 +638,11 @@ class Pilot
     return Pilot.Serialize(this)
   }
 
-  public static AddNew(data: PilotData, sync?: boolean): void {
+  public static AddNew(data: PilotData, sync?: boolean): Pilot {
     const p = Pilot.Deserialize(data)
     if (sync) p.CloudController.MarkSync()
     getModule(PilotManagementStore, store).addPilot(p)
+    return p
   }
 
   public static Deserialize(pilotData: PilotData): Pilot {

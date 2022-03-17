@@ -4,6 +4,7 @@ import { ISaveable } from './ISaveable'
 interface ISaveData {
   lastModified: string
   isDeleted: boolean
+  deleteTime: string
 }
 
 class SaveController {
@@ -24,10 +25,12 @@ class SaveController {
     if (skip || !this._isLoaded) return
     this.IsDirty = true
     this.LastModified = new Date().toString()
+    console.log(store)
     store.dispatch(`set_${this.Parent.ItemType}_dirty`)
   }
 
   public delete() {
+    console.log('delete npc 2')
     this.IsDeleted = true
   }
 
@@ -58,6 +61,7 @@ class SaveController {
   public static Serialize(parent: ISaveable, target: any) {
     target.lastModified = parent.SaveController.LastModified
     target.isDeleted = parent.SaveController.IsDeleted
+    target.deleteTime = parent.SaveController.DeleteTime
   }
 
   public static Deserialize(parent: ISaveable, data: ISaveData) {
@@ -67,7 +71,8 @@ class SaveController {
       )
 
     parent.SaveController.LastModified = data.lastModified
-    parent.SaveController.IsDeleted = data.isDeleted
+    parent.SaveController._isDeleted = data.isDeleted
+    parent.SaveController.DeleteTime = data.deleteTime
   }
 }
 

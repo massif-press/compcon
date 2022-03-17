@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import { Mission, ActiveMission } from '@/class'
 import { IMissionData, IActiveMissionData } from '@/interface'
-import { loadData, saveData } from '@/io/Data'
+import { loadData, saveDelta, deleteDataById } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 export const SAVE_DATA = 'SAVE_DATA'
@@ -10,21 +10,37 @@ export const SET_DIRTY = 'SET_DIRTY'
 export const ADD_MISSION = 'ADD_MISSION'
 export const ADD_ACTIVE_MISSION = 'ADD_ACTIVE_MISSION'
 export const DELETE_MISSION = 'DELETE_MISSION'
+export const RESTORE_MISSION = 'RESTORE_MISSION'
 export const DELETE_ACTIVE_MISSION = 'DELETE_ACTIVE_MISSION'
+export const RESTORE_ACTIVE_MISSION = 'RESTORE_ACTIVE_MISSION'
 export const CLONE_MISSION = 'CLONE_MISSION'
 export const LOAD_MISSIONS = 'LOAD_MISSIONS'
 export const LOAD_ACTIVE_MISSIONS = 'LOAD_ACTIVE_MISSIONS'
+export const DELETE_ACTIVE_MISSION_PERMANENT = 'DELETE_ACTIVE_MISSION_PERMANENT'
+export const DELETE_MISSION_PERMANENT = 'DELETE_MISSION_PERMANENT'
 
 async function saveMissionData(missions: Mission[]) {
   console.log('saving missions')
-  const serialized = missions.map(x => Mission.Serialize(x))
-  await saveData('missions_v2.json', serialized)
+  const serialized = missions.filter(x => x.SaveController.IsDirty).map(x => Mission.Serialize(x))
+  await saveDelta('missions_v2.json', serialized)
 }
 
 async function saveActiveMissionData(activeMissions: ActiveMission[]) {
   console.log('saving mission data')
-  const serialized = activeMissions.map(x => ActiveMission.Serialize(x))
-  await saveData('active_missions_v2.json', serialized)
+  const serialized = activeMissions
+    .filter(x => x.SaveController.IsDirty)
+    .map(x => ActiveMission.Serialize(x))
+  await saveDelta('active_missions_v2.json', serialized)
+}
+
+async function deleteMission(mission: Mission) {
+  console.log('deleting mission permanently: ', mission.Name)
+  await deleteDataById('missions_v2.json', [mission.ID])
+}
+
+async function deleteActiveMission(activemission: ActiveMission) {
+  console.log('deleting activemission permanently: ', activemission.Name)
+  await deleteDataById('active_missions_v2.json', [activemission.ID])
 }
 
 @Module({
@@ -33,16 +49,62 @@ async function saveActiveMissionData(activeMissions: ActiveMission[]) {
 export class MissionStore extends VuexModule {
   Missions: Mission[] = []
   ActiveMissions: ActiveMission[] = []
+  DeletedMissions: Mission[] = []
+  DeletedActiveMissions: ActiveMission[] = []
   Dirty = false
+
+  public get AllMissions(): Mission[] {
+    return this.Missions.concat(this.DeletedMissions)
+  }
+
+  public get AllActiveMissions(): ActiveMission[] {
+    return this.ActiveMissions.concat(this.DeletedActiveMissions)
+  }
 
   @Mutation
   private [LOAD_MISSIONS](payload: IMissionData[]): void {
-    this.Missions = [...payload.map(x => Mission.Deserialize(x))]
+    const all = [...payload.map(x => Mission.Deserialize(x))]
+    this.Missions = all.filter(x => !x.SaveController.IsDeleted)
+    this.DeletedMissions = all.filter(x => x.SaveController.IsDeleted)
+
+    //clean up deleted
+    const del = []
+    this.DeletedMissions.forEach(dp => {
+      if (new Date().getTime() > Date.parse(dp.SaveController.DeleteTime)) del.push(dp)
+    })
+    if (del.length) {
+      console.info(`Cleaning up ${del.length} Missions marked for deletion`)
+      del.forEach(p => {
+        const dpIdx = this.DeletedMissions.findIndex(x => x.ID === p.ID)
+        if (dpIdx > -1) {
+          this.DeletedMissions.splice(dpIdx, 1)
+        }
+      })
+      saveMissionData(this.Missions.concat(this.DeletedMissions))
+    }
   }
 
   @Mutation
   private [LOAD_ACTIVE_MISSIONS](payload: IActiveMissionData[]): void {
-    this.ActiveMissions = [...payload.map(x => ActiveMission.Deserialize(x))]
+    const all = [...payload.map(x => ActiveMission.Deserialize(x))]
+    this.ActiveMissions = all.filter(x => !x.SaveController.IsDeleted)
+    this.DeletedActiveMissions = all.filter(x => x.SaveController.IsDeleted)
+
+    //clean up deleted
+    const del = []
+    this.DeletedActiveMissions.forEach(dp => {
+      if (new Date().getTime() > Date.parse(dp.SaveController.DeleteTime)) del.push(dp)
+    })
+    if (del.length) {
+      console.info(`Cleaning up ${del.length} ActiveMissions marked for deletion`)
+      del.forEach(p => {
+        const dpIdx = this.DeletedActiveMissions.findIndex(x => x.ID === p.ID)
+        if (dpIdx > -1) {
+          this.DeletedActiveMissions.splice(dpIdx, 1)
+        }
+      })
+      saveActiveMissionData(this.ActiveMissions.concat(this.DeletedActiveMissions))
+    }
   }
 
   @Mutation
@@ -53,20 +115,22 @@ export class MissionStore extends VuexModule {
   @Mutation
   private [SAVE_DATA](): void {
     if (this.Dirty) {
-      saveMissionData(this.Missions)
-      saveActiveMissionData(this.ActiveMissions)
+      saveMissionData(this.Missions.concat(this.DeletedMissions))
+      saveActiveMissionData(this.ActiveMissions.concat(this.DeletedActiveMissions))
       this.Dirty = false
     }
   }
 
   @Mutation
   private [ADD_MISSION](payload: Mission): void {
+    payload.SaveController.IsDirty = true
     this.Missions.push(payload)
     this.Dirty = true
   }
 
   @Mutation
   private [ADD_ACTIVE_MISSION](payload: ActiveMission): void {
+    payload.SaveController.IsDirty = true
     this.ActiveMissions.push(payload)
     this.Dirty = true
   }
@@ -86,6 +150,7 @@ export class MissionStore extends VuexModule {
     const idx = this.Missions.findIndex(x => x.ID === payload.ID)
     if (idx > -1) {
       this.Missions.splice(idx, 1)
+      this.DeletedMissions.push(payload)
     } else {
       throw console.error('MISSION not loaded!')
     }
@@ -93,12 +158,59 @@ export class MissionStore extends VuexModule {
   }
 
   @Mutation
-  private [DELETE_ACTIVE_MISSION](payload: Mission): void {
+  private [DELETE_MISSION_PERMANENT](payload: Mission): void {
+    const dpIdx = this.DeletedMissions.findIndex(x => x.ID === payload.ID)
+    if (dpIdx > -1) {
+      this.DeletedMissions.splice(dpIdx, 1)
+      deleteMission(payload)
+    }
+    this.Dirty = true
+  }
+
+  @Mutation
+  private [DELETE_ACTIVE_MISSION_PERMANENT](payload: ActiveMission): void {
+    const dpIdx = this.DeletedActiveMissions.findIndex(x => x.ID === payload.ID)
+    if (dpIdx > -1) {
+      this.DeletedActiveMissions.splice(dpIdx, 1)
+      deleteActiveMission(payload)
+    }
+    this.Dirty = true
+  }
+
+  @Mutation
+  private [RESTORE_MISSION](payload: Mission): void {
+    const MissionIndex = this.DeletedMissions.findIndex(x => x.ID === payload.ID)
+    if (MissionIndex > -1) {
+      this.DeletedMissions[MissionIndex].SaveController.restore()
+      this.DeletedMissions.splice(MissionIndex, 1)
+      this.Missions.push(payload)
+    } else {
+      throw console.error('Mission not loaded!')
+    }
+    this.Dirty = true
+  }
+
+  @Mutation
+  private [DELETE_ACTIVE_MISSION](payload: ActiveMission): void {
     const idx = this.ActiveMissions.findIndex(x => x.ID === payload.ID)
     if (idx > -1) {
       this.ActiveMissions.splice(idx, 1)
+      this.DeletedActiveMissions.push(payload)
     } else {
       throw console.error('ACTIVE MISSION not loaded!')
+    }
+    this.Dirty = true
+  }
+
+  @Mutation
+  private [RESTORE_ACTIVE_MISSION](payload: ActiveMission): void {
+    const ActiveMissionIndex = this.DeletedActiveMissions.findIndex(x => x.ID === payload.ID)
+    if (ActiveMissionIndex > -1) {
+      this.DeletedActiveMissions[ActiveMissionIndex].SaveController.restore()
+      this.DeletedActiveMissions.splice(ActiveMissionIndex, 1)
+      this.ActiveMissions.push(payload)
+    } else {
+      throw console.error('ActiveMission not loaded!')
     }
     this.Dirty = true
   }
@@ -135,12 +247,38 @@ export class MissionStore extends VuexModule {
 
   @Action
   public deleteMission(payload: Mission): void {
+    payload.SaveController.delete()
     this.context.commit(DELETE_MISSION, payload)
   }
 
   @Action
+  public restoreMission(payload: Mission): void {
+    payload.SaveController.restore()
+    this.context.commit(RESTORE_MISSION, payload)
+  }
+
+  @Action
+  public deleteMissionPermanent(payload: Mission): void {
+    if (!payload.SaveController.IsDeleted) this.context.commit(DELETE_MISSION)
+    this.context.commit(DELETE_MISSION_PERMANENT, payload)
+  }
+
+  @Action
   public deleteActiveMission(payload: ActiveMission): void {
+    payload.SaveController.delete()
     this.context.commit(DELETE_ACTIVE_MISSION, payload)
+  }
+
+  @Action
+  public restoreActiveMission(payload: Mission): void {
+    payload.SaveController.restore()
+    this.context.commit(RESTORE_ACTIVE_MISSION, payload)
+  }
+
+  @Action
+  public deleteActiveMissionPermanent(payload: ActiveMission): void {
+    if (!payload.SaveController.IsDeleted) this.context.commit(DELETE_ACTIVE_MISSION)
+    this.context.commit(DELETE_ACTIVE_MISSION_PERMANENT, payload)
   }
 
   @Action({ rawError: true })
