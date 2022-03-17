@@ -81,6 +81,8 @@ class PilotData
   quirks: string[]
   current_hp: number
   background: string
+
+  resistances: string[]
   special_equipment: IUnlockData
   mechs: IMechData[]
   cc_ver: string
@@ -174,6 +176,7 @@ class Pilot
   private _level: number
   private _missing_hp: number
   private _background: string
+  private _resistances: string[]
 
   private _special_equipment: CompendiumItem[]
 
@@ -219,6 +222,7 @@ class Pilot
     this._quirks = []
     this._missing_hp = 0
     this._background = ''
+    this._resistances = []
     this._special_equipment = []
     this._mechs = []
     this._brews = []
@@ -361,6 +365,15 @@ class Pilot
 
   public set Status(newVal: string) {
     this._status = newVal
+    this.SaveController.save()
+  }
+
+  public get Resistances(): string[] {
+    return this._resistances
+  }
+
+  public set Resistances(resistances: string[]) {
+    this._resistances = resistances
     this.SaveController.save()
   }
 
@@ -610,6 +623,7 @@ class Pilot
       quirks: p.Quirks,
       current_hp: p.CurrentHP,
       background: p.Background,
+      resistances: p.Resistances,
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       cc_ver: p.cc_ver,
       special_equipment: this.serializeSE(p._special_equipment),
@@ -671,7 +685,7 @@ class Pilot
     this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : []
     this.CurrentHP = data.current_hp
     this._background = data.background
-
+    this._resistances = data.resistances || []
     this._mechs = data.mechs.length
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []

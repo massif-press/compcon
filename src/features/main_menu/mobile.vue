@@ -59,9 +59,9 @@
             <span>v.{{ $appVersion }}</span>
           </div>
         </v-col>
-        <!-- <v-col cols="auto ml-auto">
+        <v-col cols="auto ml-auto">
           <update-checker small />
-        </v-col> -->
+        </v-col>
       </v-row>
       <v-row dense justify="space-around">
         <mobile-btn
@@ -95,7 +95,7 @@
       </v-row>
       <div style="height: 40px" />
 
-      <v-footer color="primary" fixed>
+      <v-footer color="primary" fixed style="padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px))">
         <v-btn x-small dark outlined @click="$refs.optionsModal.show()"
           >Options</v-btn
         >
@@ -103,6 +103,7 @@
         <v-btn x-small dark outlined @click="$refs.aboutModal.show()"
           >About</v-btn
         >
+        <v-spacer />
         <v-btn x-small dark outlined @click="$refs.creditsModal.show()"
           >Credits</v-btn
         >
@@ -128,7 +129,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-// import UpdateChecker from './_components/UpdateChecker.vue'
+import UpdateChecker from './_components/UpdateChecker.vue'
 import MobileBtn from "./_components/MobileBtn.vue";
 import ContentPage from "../nav/pages/ExtraContent/index.vue";
 import CreditsPage from "../nav/pages/Credits.vue";
@@ -142,7 +143,7 @@ import SignIn from "./_components/login/index.vue";
 export default Vue.extend({
   name: "landing-page-mobile",
   components: {
-    // UpdateChecker,
+    UpdateChecker,
     MobileBtn,
     ContentPage,
     AboutPage,

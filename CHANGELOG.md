@@ -1,5 +1,15 @@
 # COMP/CON Changelog
 
+## [2.2.38] (2021-2-21)
+
+- **Global** Implemented new image hosting strategy to save on bandwidth costs
+- **Compendium** Various changes and fixes, thanks to msprijatelj, perijove, and lenaleciel
+- **Global** Provide Alternative Display option for CORS-compliant SVGs (thanks, msprijatelj!)[#1852](https://github.com/massif-press/compcon/issues/1852)
+- **Mech** Cover optional damage/range cases (thanks, msprijatelj!)[#1876](https://github.com/massif-press/compcon/issues/1876)
+- **Mech** Fix serviceworker and UI issues (thanks, msprijatelj!)[#1865](https://github.com/massif-press/compcon/issues/1865)
+- **Mobile UI** Correct mobile view padding (thanks, wilt00!)[#1869](https://github.com/massif-press/compcon/issues/1869)
+- **Mobile UI** Fix PWA settings (thanks, wilt00!)[#1867](https://github.com/massif-press/compcon/issues/1867)
+
 ## [2.2.37] (2021-2-21)
 
 - **Compendium** Change tag search logic to AND (thanks, msprijatelj!)[#1860](https://github.com/massif-press/compcon/issues/1860)

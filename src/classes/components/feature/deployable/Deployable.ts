@@ -10,6 +10,7 @@ interface IDeployableData extends ICompendiumItemData {
   detail: string
   type: string // this is for UI furnishing only
   activation: ActivationType
+  resistances?: string[]
   instances?: number
   deactivation?: ActivationType
   recall?: ActivationType
@@ -72,6 +73,7 @@ class Deployable extends CompendiumItem {
   private _overshield: number
   private _destroyed: boolean
   private _recalled: boolean
+  private _resistances: string[]
   private _data: IDeployableData
 
   public constructor(data: IDeployableData, owner: Mech, n?: number) {
@@ -111,6 +113,7 @@ class Deployable extends CompendiumItem {
     this._current_heat = 0
     this._current_repairs = 0
     this._destroyed = false
+    this._resistances = data.resistances || []
     this.IsPilotDeployable = data.pilot
     this.IsMechDeployable = data.mech || !data.pilot
   }
@@ -193,6 +196,15 @@ class Deployable extends CompendiumItem {
 
   public set IsRecalled(val: boolean) {
     this._recalled = val
+  }
+
+  public get Resistances(): string[] {
+    return this._resistances
+  }
+
+  public set Resistances(resistances: string[]) {
+    this._resistances = resistances
+    this.save()
   }
 
   public Repair(): void {

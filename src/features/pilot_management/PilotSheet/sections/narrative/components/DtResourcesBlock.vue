@@ -1,6 +1,6 @@
 <template>
   <div class="my-3">
-    <cc-title small color="pilot" style="margin-left: -70px !important">
+    <cc-title small color="pilot" class="pl-3" style="margin-left: -70px !important">
       <section-edit-icon
         label="Add Reserves and Bonuses"
         @open-selector="$refs.dtSelector.show()"
