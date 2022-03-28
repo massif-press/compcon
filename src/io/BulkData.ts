@@ -3,6 +3,7 @@ import PromisifyFileReader from 'promisify-file-reader'
 import Startup from './Startup'
 import Vue from 'vue'
 import { store } from '@/store'
+import { DeleteAll } from '@/cloud/item_sync'
 
 const files = [
   'user.config',
@@ -43,11 +44,15 @@ const importAll = async function (file): Promise<void> {
   await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, true)
 }
 
-const clearAllData = async function (): Promise<void> {
+const clearAllData = async function (clear_cloud: boolean): Promise<void> {
   console.info('Erasing all COMP/CON data...')
-  const promises = files.map(file => writeFile(file, ''))
-  await Promise.all(promises)
-  // await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
+  for (const file of files) {
+    localStorage.removeItem(file)
+  }
+
+  if (clear_cloud) {
+    await DeleteAll()
+  }
 
   console.info('All data erased! Running startup...')
   await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, true)

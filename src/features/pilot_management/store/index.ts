@@ -5,6 +5,13 @@ import { Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 
+async function saveOverwrite(pilots: Pilot[], pilotGroups: PilotGroup[]) {
+  console.log('saving pilots')
+  const serialized = pilots.map(x => Pilot.Serialize(x))
+  await saveData('pilots_v2.json', serialized)
+  await savePilotGroups(pilotGroups)
+}
+
 async function savePilots(pilots: Pilot[]) {
   console.log('saving pilots')
   const serialized = pilots.filter(x => x.SaveController.IsDirty).map(x => Pilot.Serialize(x))
@@ -71,6 +78,7 @@ export const SET_GROUP_NAME = 'SET_GROUP_NAME'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 export const DELETE_PILOT_PERMANENT = 'DELETE_PILOT_PERMANENT'
+export const SAVE_ALL = 'SAVE_ALL'
 
 @Module({
   name: 'management',
@@ -95,6 +103,12 @@ export class PilotManagementStore extends VuexModule {
       savePilotGroups(this.PilotGroups)
       this.Dirty = false
     }
+  }
+
+  @Mutation
+  private [SAVE_ALL](): void {
+    saveOverwrite(this.Pilots.concat(this.DeletedPilots), this.PilotGroups)
+    this.Dirty = false
   }
 
   @Mutation
@@ -276,6 +290,11 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public savePilotData(): void {
     this.context.commit(SAVE_DATA)
+  }
+
+  @Action
+  public saveAllPilotData(): void {
+    this.context.commit(SAVE_ALL)
   }
 
   @Action({ rawError: true })

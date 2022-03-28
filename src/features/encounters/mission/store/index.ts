@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import { Mission, ActiveMission } from '@/class'
 import { IMissionData, IActiveMissionData } from '@/interface'
-import { loadData, saveDelta, deleteDataById } from '@/io/Data'
+import { loadData, saveDelta, deleteDataById, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 export const SAVE_DATA = 'SAVE_DATA'
@@ -18,6 +18,14 @@ export const LOAD_MISSIONS = 'LOAD_MISSIONS'
 export const LOAD_ACTIVE_MISSIONS = 'LOAD_ACTIVE_MISSIONS'
 export const DELETE_ACTIVE_MISSION_PERMANENT = 'DELETE_ACTIVE_MISSION_PERMANENT'
 export const DELETE_MISSION_PERMANENT = 'DELETE_MISSION_PERMANENT'
+export const SAVE_ALL = 'SAVE_ALL'
+
+async function saveOverwrite(missions: Mission[], activeMissions: ActiveMission[]) {
+  const sm = missions.map(x => Mission.Serialize(x))
+  const sam = activeMissions.map(x => ActiveMission.Serialize(x))
+  await saveData('missions_v2.json', sm)
+  await saveData('active_missions_v2.json', sam)
+}
 
 async function saveMissionData(missions: Mission[]) {
   console.log('saving missions')
@@ -119,6 +127,15 @@ export class MissionStore extends VuexModule {
       saveActiveMissionData(this.ActiveMissions.concat(this.DeletedActiveMissions))
       this.Dirty = false
     }
+  }
+
+  @Mutation
+  private [SAVE_ALL](): void {
+    saveOverwrite(
+      this.Missions.concat(this.DeletedMissions),
+      this.ActiveMissions.concat(this.DeletedActiveMissions)
+    )
+    this.Dirty = false
   }
 
   @Mutation
@@ -228,6 +245,11 @@ export class MissionStore extends VuexModule {
   @Action
   public saveMissionData(): void {
     this.context.commit(SAVE_DATA)
+  }
+
+  @Action
+  public saveAllMissionData(): void {
+    this.context.commit(SAVE_ALL)
   }
 
   @Action

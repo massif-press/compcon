@@ -208,7 +208,10 @@ import {
   DeleteForever,
   GetLocalItem,
   Overwrite,
-} from '@/cloud/sync'
+  FlagCloudDelete,
+  FlagCloudRestore,
+  SaveAllLocalUpdates,
+} from '@/cloud/item_sync'
 import { ICloudSyncable } from '@/classes/components'
 
 export default Vue.extend({
@@ -246,13 +249,14 @@ export default Vue.extend({
       return this.items.filter(x => x.itemType === type)
     },
     isAtLatest(item) {
-      return (
-        item.lastModifiedCloud &&
-        item.lastModifiedLocal &&
-        item.lastModifiedCloud === item.lastModifiedLocal
-      )
+      if (!item.lastModifiedCloud || !item.lastModifiedLocal) return false
+      const sDiff =
+        Math.abs(
+          new Date(item.lastModifiedCloud).valueOf() - new Date(item.lastModifiedLocal).valueOf()
+        ) / 1000
+      return sDiff < 15
     },
-    fetch() {
+    async fetch() {
       this.loading = true
       ListCloudItems()
         .then(res => {
@@ -275,7 +279,8 @@ export default Vue.extend({
     },
     async syncSelected() {
       this.loading = true
-      Promise.all(this.selectedItems.map(item => SyncItem(item)))
+      Promise.all(this.selectedItems.map(item => SyncItem(item, true)))
+        .then(() => SaveAllLocalUpdates())
         .then(() => this.fetch())
         .then(() =>
           this.$notify(`Synced ${this.selectedItems.length} items successfully`, 'success')
@@ -296,22 +301,27 @@ export default Vue.extend({
     },
     async overwriteSelected(source, dest) {
       this.loading = true
-      Promise.all(this.selectedItems.map(item => Overwrite(item, source, dest)))
+      Promise.all(this.selectedItems.map(item => Overwrite(item, source, dest, true)))
+        .then(() => SaveAllLocalUpdates())
         .then(() => this.fetch())
         .then(() =>
           this.$notify(`Replaced ${this.selectedItems.length} items successfully`, 'success')
         )
         .catch(() => this.$notify('An error occured while overwriting.', 'error'))
     },
-    undelete(item) {
+    async undelete(item) {
       const local = GetLocalItem(item) as ICloudSyncable
-      local.SaveController.restore()
-      this.fetch()
+      if (local) {
+        local.SaveController.restore()
+        this.fetch()
+      } else FlagCloudRestore(item).then(() => this.fetch())
     },
-    flagDelete(item) {
+    async flagDelete(item) {
       const local = GetLocalItem(item) as ICloudSyncable
-      local.SaveController.delete()
-      this.fetch()
+      if (local) {
+        local.SaveController.delete()
+        this.fetch()
+      } else FlagCloudDelete(item).then(() => this.fetch())
     },
     deleteForever(item) {
       DeleteForever(item)
@@ -323,7 +333,8 @@ export default Vue.extend({
     },
     syncAll() {
       this.loading = true
-      Promise.all(this.items.map(item => SyncItem(item)))
+      Promise.all(this.items.map(item => SyncItem(item, true)))
+        .then(() => SaveAllLocalUpdates())
         .then(() => this.fetch())
         .then(() => this.$notify(`Synced ${this.items.length} items successfully`, 'success'))
         .catch(() => this.$notify('An error occured while syncing.', 'error'))

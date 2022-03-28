@@ -1,57 +1,17 @@
 <template>
   <div>
     <div v-if="!!authedUser && !!authedUser.attributes && userProfile.Username">
-      <div v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
-        CONNECTED
-        <cc-slashes />
-        <b class="accent--text">
-          {{ userProfile.Username }}
-        </b>
-      </div>
-      <!-- <v-row dense>
-        <v-col>
-          <v-btn tile small block color="patreon" depressed class="my-1">
-            <v-icon left>mdi-check</v-icon>
-            Patreon Account Linked
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-btn tile small block color="secondary" disabled class="my-1">
-            Link itch.io Account
-          </v-btn>
-        </v-col>
-      </v-row> -->
-      <v-row dense class="panel" justify="center" align="center">
-        <v-col cols="auto" style="letter-spacing: 5px">ACCOUNT INFORMATION</v-col>
-      </v-row>
       <v-row dense justify="space-between" align="center">
-        <v-col>
-          <div class="overline font-weight-bold my-0">
-            VAULT CONTENTS
-            <cc-slashes />
-            {{ authedUser.attributes.sub }}
-          </div>
-          <p v-if="userProfile" class="body-text ml-3">
-            <b class="accent--text">{{ userProfile.Pilots.length }}</b>
-            Pilots
-            <cc-slashes />
-            <b class="accent--text">{{ userProfile.Npcs.length }}</b>
-            NPCs
-            <cc-slashes />
-            <b class="accent--text">{{ userProfile.Encounters.length }}</b>
-            Encounters
-            <cc-slashes />
-            <b class="accent--text">{{ userProfile.Missions.length }}</b>
-            Missions
-            <cc-slashes />
-            <b class="accent--text">{{ userProfile.ActiveMissions.length }}</b>
-            Active Missions
-            <br />
-            Last Sync: {{ userProfile.LastSync }}
-          </p>
+        <v-col v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
+          CONNECTED
+          <cc-slashes />
+          <b class="accent--text">
+            {{ userProfile.Username }}
+          </b>
         </v-col>
+
         <v-col cols="auto">
-          <v-btn x-large tile color="warning darken-1" :loading="loading" @click="signOut">
+          <v-btn small tile color="warning darken-1" :loading="loading" @click="signOut">
             Sign Out
           </v-btn>
         </v-col>
@@ -110,7 +70,16 @@
         nav bar.
       </v-alert>
 
-      <sync-manager />
+      <sync-manager ref="sync" />
+      <v-divider class="my-6" />
+      <cloud-content-manager ref="lcps" />
+      <v-divider class="my-6" />
+      <backup-manager
+        :username="userProfile.Username"
+        @change="$refs.sync.fetch()"
+        @del-local="$refs.lcps.deleteAllLocal"
+        @del-cloud="$refs.lcps.deleteAllCloud"
+      />
 
       <v-scroll-y-transition leave-absolute hide-on-leave>
         <v-alert
@@ -141,13 +110,15 @@
 <script lang="ts">
 import Vue from 'vue'
 import SyncManager from '@/ui/syncManager/SyncManager.vue'
+import CloudContentManager from '@/ui/syncManager/CloudContentManager.vue'
+import BackupManager from '@/ui/syncManager/BackupManager.vue'
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
 
 export default Vue.extend({
   name: 'auth-signed-in',
-  components: { SyncManager },
+  components: { SyncManager, BackupManager, CloudContentManager },
   data: () => ({
     loading: false,
     showError: false,
