@@ -25,7 +25,6 @@ class SaveController {
     if (skip || !this._isLoaded) return
     this.IsDirty = true
     this.LastModified = new Date().toString()
-    console.log(store)
     store.dispatch(`set_${this.Parent.ItemType}_dirty`)
   }
 

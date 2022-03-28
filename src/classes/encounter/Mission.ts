@@ -236,7 +236,7 @@ class Mission implements ICloudSyncable {
     this._note = data.note
     this._labels = data.labels
     this._campaign = data.campaign || ''
-    this._rests = data.rests.map(x => Rest.Deserialize(x))
+    this._rests = data.rests ? data.rests.map(x => Rest.Deserialize(x)) : []
     this._step_ids = data.step_ids
   }
 

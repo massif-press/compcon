@@ -69,7 +69,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { AwsImport } from '@/cloud/sync'
 import { Pilot } from '@/class'
 import { getModule } from 'vuex-module-decorators'
 import { PilotManagementStore, CompendiumStore } from '@/store'
@@ -109,21 +108,7 @@ export default Vue.extend({
       this.reset()
       this.cloudLoading = true
       try {
-        this.importID = this.importID.toLowerCase()
-        const pilotData = await AwsImport(this.importID)
-        if (!pilotData.brews) pilotData.brews = []
-        const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
-          x => `${x.Name} @ ${x.Version}`
-        )
-        const missingPacks = this.$_.pullAll(pilotData.brews, installedPacks)
-        if (missingPacks.length) {
-          this.missingContent = missingPacks.join('<br />')
-          this.missingContentWarning = true
-        }
-        this.importPilot = Pilot.Deserialize(pilotData)
-        this.importPilot.brews = pilotData.brews
-        const arr = this.importID.split('//')
-        this.importPilot.SetRemoteResource(arr[0], arr[1])
+        return ''
       } catch (e) {
         this.error = e.message
       }

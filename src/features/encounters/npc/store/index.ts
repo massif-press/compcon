@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import { Npc } from '@/class'
 import { INpcData } from '@/interface'
-import { loadData, saveDelta, deleteDataById } from '@/io/Data'
+import { loadData, saveDelta, deleteDataById, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 export const SAVE_DATA = 'SAVE_DATA'
@@ -13,6 +13,12 @@ export const RESTORE_NPC = 'RESTORE_NPC'
 export const CLONE_NPC = 'CLONE_NPC'
 export const LOAD_NPCS = 'LOAD_NPCS'
 export const DELETE_NPC_PERMANENT = 'DELETE_NPC_PERMANENT'
+export const SAVE_ALL = 'SAVE_ALL'
+
+async function saveOverwrite(npcs: Npc[]) {
+  const serialized = npcs.map(x => Npc.Serialize(x))
+  await saveData('npcs_v2.json', serialized)
+}
 
 async function saveNpcData(npcs: Npc[]) {
   const serialized = npcs.filter(x => x.SaveController.IsDirty).map(x => Npc.Serialize(x))
@@ -75,6 +81,12 @@ export class NpcStore extends VuexModule {
       saveNpcData(this.Npcs.concat(this.DeletedNpcs))
       this.Dirty = false
     }
+  }
+
+  @Mutation
+  private [SAVE_ALL](): void {
+    saveOverwrite(this.Npcs.concat(this.DeletedNpcs))
+    this.Dirty = false
   }
 
   @Mutation
@@ -147,6 +159,11 @@ export class NpcStore extends VuexModule {
   @Action
   public saveNpcData(): void {
     this.context.commit(SAVE_DATA)
+  }
+
+  @Action
+  public saveAllNpcData(): void {
+    this.context.commit(SAVE_ALL)
   }
 
   @Action

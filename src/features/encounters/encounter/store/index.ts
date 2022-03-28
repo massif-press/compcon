@@ -2,7 +2,7 @@
 import _ from 'lodash'
 import { Encounter } from '@/class'
 import { IEncounterData } from '@/interface'
-import { loadData, saveDelta, deleteDataById } from '@/io/Data'
+import { loadData, saveDelta, deleteDataById, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 export const SET_DIRTY = 'SET_DIRTY'
@@ -13,6 +13,13 @@ export const RESTORE_ENCOUNTER = 'RESTORE_ENCOUNTER'
 export const CLONE_ENCOUNTER = 'CLONE_ENCOUNTER'
 export const LOAD_ENCOUNTERS = 'LOAD_ENCOUNTERS'
 export const DELETE_ENCOUNTER_PERMANENT = 'DELETE_ENCOUNTER_PERMANENT'
+export const SAVE_ALL = 'SAVE_ALL'
+
+async function saveOverwrite(encounters: Encounter[]) {
+  console.log('saving encounters')
+  const serialized = encounters.map(x => Encounter.Serialize(x))
+  await saveData('encounters_v2.json', serialized)
+}
 
 async function saveEncounterData(encounters: Encounter[]) {
   console.log('saving encounters')
@@ -73,6 +80,12 @@ export class EncounterStore extends VuexModule {
       saveEncounterData(this.Encounters.concat(this.DeletedEncounters))
       this.Dirty = false
     }
+  }
+
+  @Mutation
+  private [SAVE_ALL](): void {
+    saveOverwrite(this.Encounters.concat(this.DeletedEncounters))
+    this.Dirty = false
   }
 
   @Mutation
@@ -144,6 +157,11 @@ export class EncounterStore extends VuexModule {
   @Action
   public saveEncounterData(): void {
     this.context.commit(SAVE_DATA)
+  }
+
+  @Action
+  public saveAllEncounterData(): void {
+    this.context.commit(SAVE_ALL)
   }
 
   @Action

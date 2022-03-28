@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import * as Sync from '@/cloud/sync'
+import * as Sync from '@/cloud/user_sync'
 import * as Client from '../index'
 import { Auth } from 'aws-amplify'
 import _ from 'lodash'
