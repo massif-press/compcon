@@ -29,7 +29,6 @@ class SaveController {
   }
 
   public delete() {
-    console.log('delete npc 2')
     this.IsDeleted = true
   }
 

@@ -48,8 +48,12 @@
         <v-icon large color="white">cci-activate</v-icon>
       </cc-tooltip>
     </v-btn>
-    <v-divider vertical class="mx-2" />
     <div id="divider" />
+    <cc-tooltip inline delayed content="Share Pilot Data">
+      <v-btn icon class="unskew ml-6" disabled>
+        <v-icon color="white">mdi-share</v-icon>
+      </v-btn>
+    </cc-tooltip>
     <cc-tooltip inline delayed content="Pilot Options">
       <edit-menu :pilot="pilot" class="unskew" style="display: inline-block" />
     </cc-tooltip>
@@ -157,7 +161,7 @@ export default Vue.extend({
   width: 2px;
   min-width: 2px;
   height: 47px;
-  right: 115px;
+  right: 150px;
   top: 0;
   z-index: 11;
   background-color: white;

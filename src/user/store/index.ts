@@ -98,8 +98,6 @@ export class UserStore extends VuexModule {
   public async setAws(payload: { cognitoUser: any }): Promise<void> {
     const syncedUser = await Sync.GetCloudProfile(payload.cognitoUser.user_id)
 
-    console.log(syncedUser)
-
     this.setUserProfile(syncedUser)
     this.setLoggedIn(true)
     this.UserProfile.Username = payload.cognitoUser.attributes.email
@@ -122,32 +120,8 @@ export class UserStore extends VuexModule {
   }
 
   @Action({ rawError: true })
-  public async cloudSave(payload: { callback?: any; overwrite?: boolean }): Promise<void> {
-    const user = await Auth.currentAuthenticatedUser().then(res => res.username)
-    if (!user) {
-      console.error('cannot cloud save: no user')
-      return
-    }
-
-    localUpdateTime = new Date()
-    // TODO
-    console.error('NYI')
-    // Sync.CloudPush(this.UserProfile, payload.callback).then(() => this.UserProfile.MarkSync())
-  }
-
-  @Action({ rawError: true })
   public async updateUserData(): Promise<void> {
     console.info('Updating User Info before unload event')
     Sync.UpdateUserData(this.UserProfile)
   }
-
-  // @Action
-  // public setPatron(payload: any): void {
-  //   this.context.commit(SET_PATRON, payload)
-  // }
-
-  // @Action
-  // public setPatreonToken(payload: any): void {
-  //   this.context.commit(SET_PATREON_TOKEN, payload)
-  // }
 }

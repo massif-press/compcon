@@ -27,14 +27,6 @@
           :style="`margin-left: ${mobile ? '75px' : '108px'}; display: inline-block;`"
         >
           {{ pilot.Callsign }}
-          <cc-tooltip
-            v-if="!pilot.IsLocallyOwned"
-            inline
-            title="Remote Pilot"
-            content="This pilot is registered to another user, changes made locally will be overwritten by remote changes on sync"
-          >
-            <v-icon right dark small class="fadeSelect">mdi-cloud-check-outline</v-icon>
-          </cc-tooltip>
         </div>
         <edit-menu style="display: inline-block; padding-right: 10px" dense :pilot="pilot" />
       </div>

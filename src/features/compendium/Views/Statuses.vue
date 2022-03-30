@@ -52,7 +52,6 @@ export default Vue.extend({
   created() {
     const compendium = getModule(CompendiumStore, this.$store)
     this.statuses = compendium.Statuses
-    console.log(this.statuses)
   },
 })
 </script>

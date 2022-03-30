@@ -103,7 +103,6 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
     let matchIndex = -1
     const match = output.find((cloudItem: CollectionItem, index: number) => {
       if (localItem.id === cloudItem.id || localItem.id === cloudItem.name) {
-        if (localItem.deleted) console.log('localitem deleted', localItem)
         matchIndex = index
         return cloudItem
       }
@@ -212,19 +211,15 @@ const UpdateLocalFromCloud = async (
     // no local copy exists, create new
     switch (item.itemType) {
       case CloudItemTypeMap.activemission:
-        console.log('is activemission')
         instance = ActiveMission.AddNew(data, true)
         break
       case CloudItemTypeMap.mission:
-        console.log('is mission')
         instance = Mission.AddNew(data, true)
         break
       case CloudItemTypeMap.encounter:
-        console.log('is encounter')
         instance = Encounter.AddNew(data, true)
         break
       case CloudItemTypeMap.npc:
-        console.log('is npc')
         instance = Npc.AddNew(data, true)
         break
       case CloudItemTypeMap.pilot:
@@ -237,7 +232,6 @@ const UpdateLocalFromCloud = async (
 
   // clean up old-style save
   if (!CloudController.ValidateName(item.key)) {
-    console.log('saved under old path')
     // item is saved under the old path, remove it
     Storage.remove(item.key, {
       level: 'protected',
@@ -255,18 +249,14 @@ const UpdateCloudFromLocal = (
   localItem: ICloudSyncable,
   skipSave?: boolean
 ) => {
-  console.log('local has latest data')
-  console.log(item.key)
   // local has the latest data, upload it to the cloud
   if (!CloudController.ValidateName(item.key)) {
-    console.log('saved under old path')
     // item is saved under the old path, remove it
     Storage.remove(item.key, {
       level: 'protected',
     })
   }
   if (!CloudController.IsKeyChange(item.key, localItem)) {
-    console.log('key has changed')
     // item being marked for deletion or includes name change, remove old record
     Storage.remove(item.key, {
       level: 'protected',
