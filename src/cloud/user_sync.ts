@@ -1,7 +1,8 @@
 import * as Client from '@/user'
 import { API } from 'aws-amplify'
-import { createUserData } from '@/graphql/mutations'
+import { createUserData, updateUserData } from '@/graphql/mutations'
 import { syncUserData } from '@/graphql/queries'
+import _ from 'lodash'
 
 const PutNewUserData = async (
   user_id: string,
@@ -58,4 +59,25 @@ const GetCloudProfile = async (uid?: string): Promise<Client.UserProfile> => {
   }
 }
 
-export { PutNewUserData, GetUserData, GetCloudProfile }
+const UpdateUserData = async (user: Client.UserProfile, v2Update?: boolean): Promise<any> => {
+  if (v2Update && !_.has(user.SyncFrequency, 'cloudSync_v2')) {
+    user.SyncFrequency = { cloudSync_v2: false }
+  }
+
+  const input = Client.UserProfile.Serialize(user)
+
+  //TODO: update the model to include these
+  delete input.last_sync
+  delete input.username
+
+  for (const key in input) {
+    if (Array.isArray(input[key]) && input[key].length === 0) input[key] = null
+  }
+
+  return API.graphql({
+    query: updateUserData,
+    variables: { input },
+  })
+}
+
+export { PutNewUserData, GetUserData, GetCloudProfile, UpdateUserData }

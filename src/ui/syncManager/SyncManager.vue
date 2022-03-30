@@ -211,6 +211,7 @@ import {
   FlagCloudDelete,
   FlagCloudRestore,
   SaveAllLocalUpdates,
+  AutoSyncAll,
 } from '@/cloud/item_sync'
 import { ICloudSyncable } from '@/classes/components'
 
@@ -331,13 +332,16 @@ export default Vue.extend({
           this.$notify('An error occured while attempting to delete this record.', 'error')
         )
     },
-    syncAll() {
+    syncAll(hideAlert) {
       this.loading = true
-      Promise.all(this.items.map(item => SyncItem(item, true)))
-        .then(() => SaveAllLocalUpdates())
+      AutoSyncAll()
         .then(() => this.fetch())
-        .then(() => this.$notify(`Synced ${this.items.length} items successfully`, 'success'))
-        .catch(() => this.$notify('An error occured while syncing.', 'error'))
+        .then(() => {
+          if (!hideAlert) this.$notify(`Synced ${this.items.length} items successfully`, 'success')
+        })
+        .catch(() => {
+          if (!hideAlert) this.$notify('An error occured while syncing.', 'error')
+        })
     },
   },
 })

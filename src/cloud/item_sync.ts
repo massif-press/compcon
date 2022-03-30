@@ -393,6 +393,12 @@ const Rename = async (start: string, dest: string): Promise<any> => {
   }).catch(err => console.error(err))
 }
 
+const AutoSyncAll = async (): Promise<any> => {
+  const cloud = await ListCloudItems()
+  const items = ProcessItemsList(cloud)
+  Promise.all(items.map(item => SyncItem(item, true))).then(() => SaveAllLocalUpdates())
+}
+
 export {
   ListCloudItems,
   ProcessItemsList,
@@ -406,4 +412,5 @@ export {
   FlagCloudDelete,
   FlagCloudRestore,
   SaveAllLocalUpdates,
+  AutoSyncAll,
 }

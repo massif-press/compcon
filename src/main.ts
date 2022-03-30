@@ -105,6 +105,7 @@ window.onbeforeunload = () => {
   v.$store.dispatch('saveNpcData')
   v.$store.dispatch('saveMissionData')
   v.$store.dispatch('saveEncounterData')
+  v.$store.dispatch('updateUserData')
 }
 
 Vue.mixin({

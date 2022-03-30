@@ -80,12 +80,12 @@ const GetItemsList = async (): Promise<LCPItem[]> => {
   )
 
   cloud.forEach((item: ContentPack) => {
-    console.log(item)
     const idx = output.findIndex(
       x => x.localData && (x.localData.ID === item.ID || x.localData.Name === item.Name)
     )
     if (idx > -1) {
       output[idx].cloudData = item
+      output[idx].cloudVersion = item.Version
     } else {
       output.push({
         localData: null,
