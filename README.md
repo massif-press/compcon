@@ -1,6 +1,7 @@
 <h1 align="center">COMP/CON</h1>
+ 
 <p align="center" style="font-style: italic; font-weight: bold">
-  <img width="250" src="/icons/192x192.png">
+  <img width="250" src="public/img/icons/192x192.png">
 </p>
 <p align="center"><b><i>The companion app for <a href="https://massif-press.itch.io/corebook-pdf">Massif Press's LANCER Tabletop RPG</a></b></i></p>
 <p align="center">
@@ -11,7 +12,7 @@
   </a>
   <br>
   <a href="https://app.netlify.com/sites/compcon/deploys"><img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status"></a>
-  <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
+  <!-- <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a> -->
   <a href="https://discord.gg/rwcpzsU"><img src="https://img.shields.io/badge/discord-%23compcon-7289DA?logo=discord&logoColor=white" alt="Join the LANCER discord"></a>
   <br>
   <a href="https://patreon.com/compcon"><img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fcompcon" alt="Support COMP/CON on Patreon"></a>
@@ -29,7 +30,7 @@
 
 ## Contributing
 
-See [CONTRIBUTING](/.github/CONTRIBUTING).
+See [CONTRIBUTORS](CONTRIBUTORS.md).
 
 ## Building
 
