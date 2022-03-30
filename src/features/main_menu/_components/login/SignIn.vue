@@ -91,6 +91,12 @@ export default Vue.extend({
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
       Auth.signIn(this.email, this.password)
+        .catch(error => {
+          if (error.name === "UserNotFoundException") {
+            return Auth.signIn(this.email.toLowerCase(), this.password)
+          }
+          throw error
+        })
         .then(user => {
           localStorage.removeItem('user.config')
           userstore.setUser(user)

@@ -134,6 +134,7 @@ export default Vue.extend({
     async createAccount() {
       this.loading = true
       try {
+        this.email = this.email.toLowerCase()
         const { user } = await Auth.signUp({
           username: this.email,
           password: this.password,
