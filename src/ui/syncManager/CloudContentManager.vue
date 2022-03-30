@@ -189,24 +189,23 @@ export default Vue.extend({
       return this.items.filter(x => x.itemType === type)
     },
     isAtLatest(item) {
-      if (!item.lastModifiedCloud || !item.lastModifiedLocal) return false
-      const sDiff =
-        Math.abs(
-          new Date(item.lastModifiedCloud).valueOf() - new Date(item.lastModifiedLocal).valueOf()
-        ) / 1000
-      return sDiff < 15
+      return item.localVersion === item.cloudVersion
     },
     async fetch() {
       this.loading = true
       this.items = await GetItemsList()
       this.loading = false
     },
-    syncAll() {
+    syncAll(hideAlert) {
       this.loading = true
       SyncLCPs()
         .then(() => this.fetch())
-        .then(() => this.$notify(`Synced ${this.items.length} items successfully`, 'success'))
-        .catch(() => this.$notify('An error occured while syncing.', 'error'))
+        .then(() => {
+          if (!hideAlert) this.$notify(`Synced ${this.items.length} items successfully`, 'success')
+        })
+        .catch(() => {
+          if (!hideAlert) this.$notify('An error occured while syncing.', 'error')
+        })
     },
     deleteItem(item) {
       this.loading = true

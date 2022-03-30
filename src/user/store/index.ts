@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import * as Sync from '@/cloud/user_sync'
+import { AutoSyncAll } from '@/cloud/item_sync'
+import { SyncLCPs } from '@/cloud/lcp_sync'
 import * as Client from '../index'
 import { Auth } from 'aws-amplify'
 import _ from 'lodash'
@@ -101,6 +103,16 @@ export class UserStore extends VuexModule {
     this.setUserProfile(syncedUser)
     this.setLoggedIn(true)
     this.UserProfile.Username = payload.cognitoUser.attributes.email
+
+    if (this.UserProfile.SyncFrequency.cloudSync_v2) {
+      console.info('auto-sync ON')
+      try {
+        await SyncLCPs()
+        await AutoSyncAll()
+      } catch (error) {
+        console.error('error in auto-sync:', error)
+      }
+    }
   }
 
   @Action({ rawError: true })
@@ -121,6 +133,12 @@ export class UserStore extends VuexModule {
     // TODO
     console.error('NYI')
     // Sync.CloudPush(this.UserProfile, payload.callback).then(() => this.UserProfile.MarkSync())
+  }
+
+  @Action({ rawError: true })
+  public async updateUserData(): Promise<void> {
+    console.info('Updating User Info before unload event')
+    Sync.UpdateUserData(this.UserProfile)
   }
 
   // @Action

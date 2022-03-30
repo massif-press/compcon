@@ -14,24 +14,7 @@ interface IViewOptions {
 }
 
 interface ISyncFrequency {
-  onAppLoad: boolean
-  onLogIn: boolean
-  onBulkDelete: boolean
-  onAppExit: boolean
-  onThemeChange: boolean
-  onPilotLevel: boolean
-  onPilotCreate: boolean
-  onPilotDelete: boolean
-  onMechCreate: boolean
-  onMechDelete: boolean
-  onNpcCreate: boolean
-  onNpcDelete: boolean
-  onEncounterCreate: boolean
-  onEncounterDelete: boolean
-  onMissionCreate: boolean
-  onMissionDelete: boolean
-  onMissionStart: boolean
-  onTurnEnd: boolean
+  cloudSync_v2: boolean
 }
 
 interface ISyncOptions {
@@ -70,24 +53,7 @@ const defaultViewOptions = (): IViewOptions => ({
 })
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
-  onAppLoad: true,
-  onLogIn: true,
-  onBulkDelete: true,
-  onAppExit: true,
-  onThemeChange: true,
-  onPilotLevel: true,
-  onPilotCreate: true,
-  onPilotDelete: true,
-  onMechCreate: true,
-  onMechDelete: true,
-  onNpcCreate: true,
-  onNpcDelete: true,
-  onEncounterCreate: true,
-  onEncounterDelete: true,
-  onMissionCreate: true,
-  onMissionDelete: true,
-  onMissionStart: true,
-  onTurnEnd: false,
+  cloudSync_v2: true,
 })
 
 const defaultSyncOptions = (): ISyncOptions => ({
@@ -131,7 +97,7 @@ class UserProfile {
     this._missions = []
     this._active_missions = []
     this.LastSync = 'Never'
-    this._load_options = ['onAppLoad', 'onLogIn']
+    this._load_options = ['cloudSync_v2', 'onLogIn']
   }
 
   private save(): void {
