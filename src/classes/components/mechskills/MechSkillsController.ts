@@ -49,7 +49,7 @@ class MechSkillsController {
   //TODO: requires target change as part of bonus rework
   public get MaxHASEPoints(): number {
     const p = this.Parent as any
-    if (!p.Level) return 0
+    if (!p.Level) return Rules.MinimumMechSkills
     return Bonus.Int(Rules.MinimumMechSkills + p.Level, 'mech_skill_point', this.Parent as Pilot)
   }
 

@@ -49,7 +49,6 @@ if (ls && ls.theme) {
 }
 
 if (!activeTheme) {
-  console.log(`there's no active theme`)
   activeTheme = themes.gms
 }
 

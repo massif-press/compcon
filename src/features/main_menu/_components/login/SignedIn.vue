@@ -208,22 +208,6 @@ export default Vue.extend({
       })
   },
   methods: {
-    async save() {
-      this.loading = true
-      const userstore = getModule(UserStore, this.$store)
-      userstore
-        .cloudSave({
-          callback: (status: string, message: string) => this.$notify(message, status),
-        })
-        .then(() => {
-          this.loading = false
-          this.$notify('Cloud Save Complete', 'success')
-        })
-        .catch(err => {
-          console.error(err)
-          this.loading = false
-        })
-    },
     async load() {
       this.loading = true
       const userstore = getModule(UserStore, this.$store)

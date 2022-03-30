@@ -588,8 +588,6 @@ class ActiveState {
       }
     }
 
-    console.log(action.ID)
-
     if (action.ID === 'act_boost') this.AddBoost()
     if (action.ID === 'core_active_activate') this.SetCorePower(0)
     if (action.ID === 'act_overcharge') this.CommitOvercharge()
@@ -844,7 +842,6 @@ class ActiveState {
   }
 
   public SetCorePower(val: number) {
-    console.log('in set core power', this.ActiveMech.CurrentCoreEnergy, val)
     if (this.ActiveMech.CurrentCoreEnergy > 0 && val === 0) this.ActiveMech.IsCoreActive = true
     this._stats.core_uses += this.ActiveMech.CurrentCoreEnergy - val
     this.ActiveMech.CurrentCoreEnergy = val
