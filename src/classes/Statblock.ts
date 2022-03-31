@@ -128,7 +128,7 @@ class Statblock {
       output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
 
       output += '[ WEAPONS ]\n'
-      for (const im of mech.IntegratedWeapons) {
+      for (const im of mech.FeatureController.IntegratedWeapons) {
         output += '  INTEGRATED MOUNT: '
         output = addWeaponToOutput(output, discordEmoji, im)
         output += '\n'
@@ -160,7 +160,9 @@ class Statblock {
         }
 
         output += '[ SYSTEMS ]\n  '
-        const allsys = mech.IntegratedSystems.concat(loadout.Systems)
+        const allsys = mech.MechLoadoutController.ActiveLoadout.IntegratedSystems.concat(
+          loadout.Systems
+        )
         allsys.forEach((sys, i) => {
           output += `${sys.TrueName}${linebreak(i, allsys.length)}`
         })
@@ -206,7 +208,7 @@ class Statblock {
       mech.SaveTarget
     }
 [ WEAPONS ]
-  ${mech.IntegratedWeapons.map(
+  ${mech.FeatureController.IntegratedWeapons.map(
     weapon =>
       `Integrated: ${weapon ? weapon.TrueName : 'N/A  '}${
         discordEmoji && weapon && weapon.Range

@@ -85,7 +85,7 @@ class Range {
     })
 
     if (!Bonus.get('range', mech) || item.NoCoreBonus) return output
-    const bonuses = mech.Bonuses.filter(x => x.ID === 'range')
+    const bonuses = mech.FeatureController.Bonuses.filter(x => x.ID === 'range')
     output.forEach(r => {
       if (r.Override) return
       bonuses.forEach(b => {

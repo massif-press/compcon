@@ -98,7 +98,7 @@ class TalentsController implements IFeatureContainer {
 
   private updateIntegratedTalents(): void {
     this.Parent.Mechs.forEach(mech => {
-      mech.UpdateLoadouts()
+      mech.MechLoadoutController.UpdateLoadouts()
     })
   }
 

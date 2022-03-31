@@ -1,7 +1,7 @@
-const saveFile = function(filename, data, label = 'Save') {
+const saveFile = function (filename, data, label = 'Save') {
   const blob = new Blob([data])
-  if (window.navigator.msSaveOrOpenBlob) {
-    window.navigator.msSaveBlob(blob, filename)
+  if ((window.navigator as any).msSaveOrOpenBlob) {
+    ;(window.navigator as any).msSaveBlob(blob, filename)
   } else {
     const elem = window.document.createElement('a')
     elem.href = window.URL.createObjectURL(blob)

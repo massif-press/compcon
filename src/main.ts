@@ -19,7 +19,7 @@ import lancerData from 'lancer-data'
 import './registerServiceWorker'
 
 import theme from './ui/theme'
-import themes from '@/ui/style/themes'
+import themes from './ui/style/themes'
 
 import mixins from './mixins'
 
