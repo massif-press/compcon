@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    "target": "es2018",
     "module": "esnext",
     "jsx": "preserve",
     "importHelpers": true,
@@ -14,15 +14,15 @@
     "strictPropertyInitialization": false,
     "noUncheckedIndexedAccess": false,
     "sourceMap": true,
-    "types": ["webpack-env"],
+    "declaration": false,    
+    "types": [
+      "webpack-env",
+    ],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise", "es2019"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise"]
   },
-  "include": ["src/**/*.ts", "src/**/**/*.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "exclude": ["node_modules"],
-  "allowJs": true,
-  "declaration": false
+  "exclude": ["node_modules", "amplify"],
 }

@@ -1,4 +1,6 @@
-declare interface IActor {
+import { PortraitController } from '../components'
+
+interface IActor {
   ID: string
   EncounterName: string
   PortraitController: PortraitController
@@ -28,3 +30,5 @@ declare interface IActor {
   FullRepair: () => void
   Bonuses?: any[]
 }
+
+export { IActor }

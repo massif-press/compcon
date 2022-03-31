@@ -1,5 +1,5 @@
 import { IReserveData } from './classes/pilot/components/reserves/Reserve'
-import { ISkillData } from './classes/pilot/Skill'
+import { ISkillData } from './classes/pilot/components/skill/Skill'
 import {
   IManufacturerData,
   ICoreBonusData,
@@ -20,6 +20,9 @@ import {
   INpcTemplateData,
   ITagCompendiumData,
   IPilotEquipmentData,
+  Environment,
+  Sitrep,
+  Status,
 } from './interface'
 
 type IFrameData_Fixed = Omit<IFrameData, 'license' | 'license_level'>

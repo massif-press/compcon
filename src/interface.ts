@@ -13,8 +13,8 @@ import { IFrameData, IFrameStats } from './classes/mech/components/frame/Frame'
 import { IMechEquipmentData } from './classes/mech/components/equipment/MechEquipment'
 import { IDamageData } from './classes/Damage'
 import { IRangeData } from './classes/Range'
-import { IMechSystemData } from './classes/mech/MechSystem'
-import { IWeaponModData } from './classes/mech/WeaponMod'
+import { IMechSystemData } from './classes/mech/components/equipment/MechSystem'
+import { IWeaponModData } from './classes/mech/components/equipment/WeaponMod'
 import { ICoreBonusData } from './classes/pilot/components/corebonus/CoreBonus'
 import { IPilotEquipmentData } from './classes/pilot/components/Loadout/equipment/PilotEquipment'
 import { IPilotArmorData } from './classes/pilot/components/Loadout/equipment/PilotArmor'
@@ -22,7 +22,7 @@ import { IPilotWeaponData } from './classes/pilot/components/Loadout/equipment/P
 import { IManufacturerData } from './classes/Manufacturer'
 import { ITalentData } from './classes/pilot/components/talent/Talent'
 import { ISkillData } from './classes/pilot/components/skill/Skill'
-import { IMechWeaponData } from './classes/mech/MechWeapon'
+import { IMechWeaponData } from './classes/mech/components/equipment/MechWeapon'
 import {
   INpcFeatureData,
   INpcReactionData,

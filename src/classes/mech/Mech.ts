@@ -20,8 +20,10 @@ import {
   IMechLoadoutSaveData,
   MechLoadoutController,
 } from './components/loadout/MechLoadoutController'
+import { IActor } from '../encounter/IActor'
 
 class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
+  deleteTime: string
   lastModified: string
   isDeleted: boolean
   id: string

@@ -16,6 +16,7 @@ import {
   SaveController,
 } from '../components'
 import { getModule } from 'vuex-module-decorators'
+import { IActor } from '../encounter/IActor'
 
 class INpcData implements ISaveData, ICloudData, IPortraitData {
   isDeleted: boolean
