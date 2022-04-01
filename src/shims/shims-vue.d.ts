@@ -1,5 +1,10 @@
+declare module '*.vue' {
+  import Vue from 'vue'
+  export default Vue
+}
 declare module 'modules'
 
+declare module 'vuetify'
 declare module 'gist-client'
 declare module 'imgur'
 declare module 'vuedraggable'
@@ -46,13 +51,13 @@ declare module 'lancer-data' {
   const sitreps: any
 }
 
-declare module 'vue/types/vue' {
-  interface Vue {
-    $appVersion: string
-    $lancerVersion: string
-    $notify: (text: string, type?: string, onClick?: () => void) => void
-  }
-}
+// declare module 'vue/types/vue' {
+//   interface Vue {
+//     $appVersion: string
+//     $lancerVersion: string
+//     $notify: (text: string, type?: string, onClick?: () => void) => void
+//   }
+// }
 
 declare module 'promisify-file-reader'
 declare module 'file-saver'

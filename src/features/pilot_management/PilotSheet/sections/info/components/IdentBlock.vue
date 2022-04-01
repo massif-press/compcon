@@ -37,20 +37,16 @@
         <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />
       </v-col>
     </v-row>
-    <cloud-manager ref="cloud" :pilot="pilot" @end-sync="syncing = false" />
   </v-container>
 </template>
 
 <script lang="ts">
-import CloudManager from '../../../components/CloudManager.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import { Auth } from 'aws-amplify'
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
   name: 'ident-block',
-  components: { CloudManager },
-
   data: () => ({
     pilotStatuses: [
       { text: 'Active', value: 'ACTIVE' },

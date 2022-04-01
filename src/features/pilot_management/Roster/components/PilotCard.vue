@@ -25,7 +25,6 @@
               style="letter-spacing: 3px; text-overflow: ellipsis"
             >
               {{ pilot.Callsign }}
-              <v-icon v-if="!pilot.IsLocallyOwned" right dark>mdi-cloud-check-outline</v-icon>
             </div>
           </div>
           <div v-show="!(small && mobile)" :class="small ? 'small-triangle' : 'triangle'" />
@@ -87,11 +86,6 @@
                       <cc-slashes />
                       {{ pilot.ActiveMech.Name }}
                     </b>
-                  </div>
-                  <div v-if="!pilot.IsLocallyOwned" class="caption">
-                    <v-divider class="mt-2 mb-1" />
-                    <v-icon small>mdi-cloud-check-outline</v-icon>
-                    This pilot is registered to another user
                   </div>
                 </v-card-text>
               </v-card>

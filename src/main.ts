@@ -31,9 +31,9 @@ import 'tiptap-vuetify/dist/main.css'
 
 import Amplify from 'aws-amplify'
 import '@aws-amplify/ui-vue'
-import aws_exports from './aws-exports'
+import { awsmobile } from './aws-exports'
 
-Amplify.configure(aws_exports)
+Amplify.configure(awsmobile)
 
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
@@ -87,7 +87,7 @@ window.onerror = error => {
   Vue.prototype.$notifyError(error)
 }
 
-const v = new Vue({
+const v: any = new Vue({
   components: { App },
   vuetify,
   router,
