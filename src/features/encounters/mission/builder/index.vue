@@ -33,24 +33,15 @@
           <template v-slot:group.header="h" class="transparent">
             <div class="primary sliced">
               <v-icon dark left>mdi-chevron-right</v-icon>
-              <span
-                v-if="h.group && h.group !== 'null'"
-                class="heading white--text text-uppercase"
-              >
-                <span
-                  v-if="Array.isArray(h.group)"
-                  v-html="h.group.join(', ')"
-                />
+              <span v-if="h.group && h.group !== 'null'" class="heading white--text text-uppercase">
+                <span v-if="Array.isArray(h.group)" v-html="h.group.join(', ')" />
                 <span v-else v-html="h.group" />
               </span>
               <span v-else>NONE</span>
             </div>
           </template>
           <template v-slot:item.Name="{ item }">
-            <span
-              class="accent--text heading clickable ml-n2"
-              @click="toMission(item.ID)"
-            >
+            <span class="accent--text heading clickable ml-n2" @click="toMission(item.ID)">
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
@@ -63,9 +54,7 @@
                       <v-icon>mdi-content-copy</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                      <v-list-item-title
-                        >Copy {{ item.Name }}</v-list-item-title
-                      >
+                      <v-list-item-title>Copy {{ item.Name }}</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                   <v-list-item disabled>
@@ -73,13 +62,11 @@
                       <v-icon>mdi-printer</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
-                      <v-list-item-title
-                        >Print Mission Sheets</v-list-item-title
-                      >
+                      <v-list-item-title>Print Mission Sheets</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                   <v-divider />
-                  <v-list-item @click="deleteMission(item)">
+                  <v-list-item @click="delete_mission(item)">
                     <v-list-item-icon class="ma-0 mr-2 mt-2">
                       <v-icon color="error">mdi-delete</v-icon>
                     </v-list-item-icon>
@@ -121,63 +108,59 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import PanelView from "../../components/PanelView.vue";
-import { getModule } from "vuex-module-decorators";
-import { MissionStore } from "@/store";
-import { Mission } from "@/class";
+import Vue from 'vue'
+import PanelView from '../../components/PanelView.vue'
+import { getModule } from 'vuex-module-decorators'
+import { MissionStore } from '@/store'
+import { Mission } from '@/class'
 
 export default Vue.extend({
-  name: "mission-manager",
+  name: 'mission-manager',
   components: { PanelView },
   data: () => ({
-    search: "",
+    search: '',
     selectedMission: null,
     grouping: null,
-    headers: [{ text: "Name", value: "Name", align: "left" }],
+    headers: [{ text: 'Name', value: 'Name', align: 'left' }],
     missions: [],
   }),
   computed: {
     labels() {
-      return this.Missions.flatMap((x) => x.Labels).filter(
-        (x) => x != null && x != ""
-      );
+      return this.Missions.flatMap(x => x.Labels).filter(x => x != null && x != '')
     },
     campaigns() {
-      return this.Missions.map((x) => x.Campaign).filter(
-        (x) => x != null && x != ""
-      );
+      return this.Missions.map(x => x.Campaign).filter(x => x != null && x != '')
     },
   },
   watch: {
     selectedMission() {
-      this.$refs.view.resetScroll();
+      this.$refs.view.resetScroll()
     },
   },
   created() {
-    const store = getModule(MissionStore, this.$store);
-    this.missions = store.Missions;
+    const store = getModule(MissionStore, this.$store)
+    this.missions = store.Missions
   },
   methods: {
     toMission(id: string) {
-      this.$router.push({ name: "edit-mission", params: { id } });
+      this.$router.push({ name: 'edit-mission', params: { id } })
     },
-    deleteMission(Mission: Mission) {
-      const store = getModule(MissionStore, this.$store);
-      store.deleteMission(Mission);
+    delete_mission(Mission: Mission) {
+      const store = getModule(MissionStore, this.$store)
+      store.delete_mission(Mission)
     },
     copyMission(Mission: Mission) {
-      const store = getModule(MissionStore, this.$store);
-      store.cloneMission(Mission);
+      const store = getModule(MissionStore, this.$store)
+      store.cloneMission(Mission)
     },
     addNew() {
-      const store = getModule(MissionStore, this.$store);
-      store.addMission(new Mission());
-      const m = this.missions[this.missions.length - 1].ID;
-      this.$router.push({ name: "edit-mission", params: { id: m } });
+      const store = getModule(MissionStore, this.$store)
+      store.addMission(new Mission())
+      const m = this.missions[this.missions.length - 1].ID
+      this.$router.push({ name: 'edit-mission', params: { id: m } })
     },
   },
-});
+})
 </script>
 
 <style>

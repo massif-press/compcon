@@ -30,10 +30,12 @@ class SaveController {
 
   public delete() {
     this.IsDeleted = true
+    store.dispatch(`delete_${this.Parent.ItemType}`, this.Parent)
   }
 
   public restore() {
     this.IsDeleted = false
+    store.dispatch(`restore_${this.Parent.ItemType}`, this.Parent)
   }
 
   public get IsDeleted(): boolean {

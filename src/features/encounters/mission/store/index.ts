@@ -41,7 +41,7 @@ async function saveActiveMissionData(activeMissions: ActiveMission[]) {
   await saveDelta('active_missions_v2.json', serialized)
 }
 
-async function deleteMission(mission: Mission) {
+async function delete_mission(mission: Mission) {
   console.log('deleting mission permanently: ', mission.Name)
   await deleteDataById('missions_v2.json', [mission.ID])
 }
@@ -179,7 +179,7 @@ export class MissionStore extends VuexModule {
     const dpIdx = this.DeletedMissions.findIndex(x => x.ID === payload.ID)
     if (dpIdx > -1) {
       this.DeletedMissions.splice(dpIdx, 1)
-      deleteMission(payload)
+      delete_mission(payload)
     }
     this.Dirty = true
   }
@@ -198,7 +198,6 @@ export class MissionStore extends VuexModule {
   private [RESTORE_MISSION](payload: Mission): void {
     const MissionIndex = this.DeletedMissions.findIndex(x => x.ID === payload.ID)
     if (MissionIndex > -1) {
-      this.DeletedMissions[MissionIndex].SaveController.restore()
       this.DeletedMissions.splice(MissionIndex, 1)
       this.Missions.push(payload)
     } else {
@@ -268,14 +267,12 @@ export class MissionStore extends VuexModule {
   }
 
   @Action
-  public deleteMission(payload: Mission): void {
-    payload.SaveController.delete()
+  public delete_mission(payload: Mission): void {
     this.context.commit(DELETE_MISSION, payload)
   }
 
   @Action
-  public restoreMission(payload: Mission): void {
-    payload.SaveController.restore()
+  public restore_mission(payload: Mission): void {
     this.context.commit(RESTORE_MISSION, payload)
   }
 
@@ -286,14 +283,12 @@ export class MissionStore extends VuexModule {
   }
 
   @Action
-  public deleteActiveMission(payload: ActiveMission): void {
-    payload.SaveController.delete()
+  public delete_activemission(payload: ActiveMission): void {
     this.context.commit(DELETE_ACTIVE_MISSION, payload)
   }
 
   @Action
-  public restoreActiveMission(payload: Mission): void {
-    payload.SaveController.restore()
+  public restore_activemission(payload: Mission): void {
     this.context.commit(RESTORE_ACTIVE_MISSION, payload)
   }
 

@@ -44,7 +44,10 @@
                   <tr v-for="item in itemsByType(k)" :key="`item_${item.id}`">
                     <td><v-simple-checkbox v-model="item.selected" /></td>
                     <!-- {{ item.key }} -->
-                    <td class="text-left">{{ item.name }}</td>
+                    <td class="text-left">
+                      {{ callsign(item) }}
+                      {{ item.name }}
+                    </td>
                     <td v-if="isAtLatest(item)" colspan="2">
                       <v-row no-gutters align="center">
                         <v-col><v-divider /></v-col>
@@ -84,7 +87,7 @@
                       <cc-tooltip
                         inline
                         v-if="isAtLatest(item)"
-                        title="Item Syned"
+                        title="Item Synced"
                         :content="`The latest version of this item is stored both locally and in your cloud account. This item was last modifed at: ${item.lastModifiedLocal}`"
                       >
                         <v-icon color="success darken-1">mdi-check-bold</v-icon>
@@ -117,8 +120,8 @@
                         @delete="flagDelete(item)"
                         @delete-forever="deleteForever(item)"
                         @undelete="undelete(item)"
-                        @overwite-local="overwriteSingle('cloud', 'local')"
-                        @overwite-cloud="overwriteSingle('local', 'cloud')"
+                        @overwite-local="overwriteSingle(item, 'cloud', 'local')"
+                        @overwite-cloud="overwriteSingle(item, 'local', 'cloud')"
                       />
                     </td>
                   </tr>
@@ -214,6 +217,7 @@ import {
   AutoSyncAll,
 } from '@/cloud/item_sync'
 import { ICloudSyncable } from '@/classes/components'
+import { Pilot } from '@/classes/pilot/Pilot'
 
 export default Vue.extend({
   name: 'sync-manager',
@@ -248,6 +252,11 @@ export default Vue.extend({
     },
     itemsByType(type) {
       return this.items.filter(x => x.itemType === type)
+    },
+    callsign(item) {
+      if (item.itemType !== 'Pilot') return ''
+      const p = GetLocalItem(item) as Pilot
+      if (p && p.Callsign) return `${p.Callsign} //`
     },
     isAtLatest(item) {
       if (!item.lastModifiedCloud || !item.lastModifiedLocal) return false
@@ -332,7 +341,7 @@ export default Vue.extend({
           this.$notify('An error occured while attempting to delete this record.', 'error')
         )
     },
-    syncAll(hideAlert) {
+    syncAll(hideAlert?: boolean) {
       this.loading = true
       AutoSyncAll()
         .then(() => this.fetch())

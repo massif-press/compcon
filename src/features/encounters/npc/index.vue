@@ -85,7 +85,7 @@
                     </v-list-item-content>
                   </v-list-item>
                   <v-divider />
-                  <v-list-item @click="deleteNpc(item)">
+                  <v-list-item @click="delete_npc(item)">
                     <v-list-item-icon class="ma-0 mr-2 mt-2">
                       <v-icon color="error">mdi-delete</v-icon>
                     </v-list-item-icon>
@@ -243,10 +243,10 @@ export default class NpcManager extends Vue {
     return Statblock.GenerateNPC(this.statblockNpc)
   }
 
-  deleteNpc(npc: Npc) {
+  delete_npc(npc: Npc) {
     this.selectedNpc = null
     const store = getModule(NpcStore, this.$store)
-    store.deleteNpc(npc)
+    store.delete_npc(npc)
   }
 
   copyNpc(npc: Npc) {

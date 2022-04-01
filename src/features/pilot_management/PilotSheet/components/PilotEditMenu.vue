@@ -79,7 +79,7 @@
     <export-dialog ref="exportDialog" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" :pilot="pilot" />
     <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
-    <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="deletePilot()" />
+    <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="delete_pilot()" />
     <clone-dialog ref="cloneDialog" :pilot="pilot" />
   </div>
 </template>
@@ -120,10 +120,10 @@ export default Vue.extend({
     },
   },
   methods: {
-    deletePilot() {
+    delete_pilot() {
       this.$router.push('/pilot_management')
       const store = getModule(PilotManagementStore, this.$store)
-      store.deletePilot(this.pilot)
+      store.delete_pilot(this.pilot)
     },
   },
 })
