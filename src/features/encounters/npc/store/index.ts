@@ -25,7 +25,7 @@ async function saveNpcData(npcs: Npc[]) {
   await saveDelta('npcs_v2.json', serialized)
 }
 
-async function deleteNpc(npc: Npc) {
+async function delete_npc(npc: Npc) {
   console.log('deleting npc permanently: ', npc.Name)
   await deleteDataById('npcs_v2.json', [npc.ID])
 }
@@ -123,7 +123,7 @@ export class NpcStore extends VuexModule {
     const dpIdx = this.DeletedNpcs.findIndex(x => x.ID === payload.ID)
     if (dpIdx > -1) {
       this.DeletedNpcs.splice(dpIdx, 1)
-      deleteNpc(payload)
+      delete_npc(payload)
     }
     this.Dirty = true
   }
@@ -132,7 +132,6 @@ export class NpcStore extends VuexModule {
   private [RESTORE_NPC](payload: Npc): void {
     const NpcIndex = this.DeletedNpcs.findIndex(x => x.ID === payload.ID)
     if (NpcIndex > -1) {
-      this.DeletedNpcs[NpcIndex].SaveController.restore()
       this.DeletedNpcs.splice(NpcIndex, 1)
       this.Npcs.push(payload)
     } else {
@@ -177,14 +176,12 @@ export class NpcStore extends VuexModule {
   }
 
   @Action
-  public deleteNpc(payload: Npc): void {
-    payload.SaveController.delete()
+  public delete_npc(payload: Npc): void {
     this.context.commit(DELETE_NPC, payload)
   }
 
   @Action
-  public restoreNpc(payload: Npc): void {
-    payload.SaveController.restore()
+  public restore_npc(payload: Npc): void {
     this.context.commit(RESTORE_NPC, payload)
   }
 

@@ -54,10 +54,7 @@
           v-bind="dragOptions"
           @change="pilotStore.moveGroup"
         >
-          <div
-            v-for="(g, i) in groups"
-            :key="`pg_${g.name}_${i}`"
-          >
+          <div v-for="(g, i) in groups" :key="`pg_${g.name}_${i}`">
             <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
               <v-col cols="auto">
                 <v-btn small dark icon class="mt-n1" @click="toggleHidden(g)">
@@ -93,7 +90,9 @@
             </v-row>
             <div
               v-if="!g.hidden"
-              :style="profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
+              :style="
+                profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''
+              "
             >
               <v-expand-transition>
                 <draggable
@@ -219,7 +218,7 @@ export default Vue.extend({
       }
     },
     dragClick() {
-      return this.drag ? 'click' : null;
+      return this.drag ? 'click' : null
     },
     isTouch() {
       if ('ontouchstart' in document.documentElement) {
@@ -237,16 +236,18 @@ export default Vue.extend({
       g.hidden = !g.hidden
     },
     showAll() {
-      this.groups.forEach(g => g.hidden = false)
+      this.groups.forEach(g => (g.hidden = false))
     },
     hideAll() {
-      this.groups.forEach(g => g.hidden = true)
+      this.groups.forEach(g => (g.hidden = true))
     },
     onSort(sortParams: any[]) {
       this.sortParams = sortParams
     },
     dragOff() {
-      setTimeout(() => {this.drag = false}, 50)
+      setTimeout(() => {
+        this.drag = false
+      }, 50)
     },
     addNewGroup() {
       this.pilotStore.addGroup(this.newGroupName)
@@ -268,7 +269,7 @@ export default Vue.extend({
       this.pilotStore.deleteGroup(g)
     },
     setGroupName(g, newName) {
-      this.pilotStore.setGroupName({g: g, newName: newName})
+      this.pilotStore.setGroupName({ g: g, newName: newName })
     },
     randomName() {
       this.newGroupName = teamName()

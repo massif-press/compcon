@@ -71,7 +71,7 @@
                       <cc-tooltip
                         inline
                         v-if="isAtLatest(item)"
-                        title="Item Syned"
+                        title="Item Synced"
                         :content="`The same version of this content pack is stored both locally and in your cloud account.`"
                       >
                         <v-icon color="success darken-1">mdi-check-bold</v-icon>

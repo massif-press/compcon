@@ -23,7 +23,7 @@ async function savePilotGroups(pilotGroups: PilotGroup[]) {
   await saveData('pilot_groups_v2.json', pilotGroups)
 }
 
-async function deletePilot(pilot: Pilot) {
+async function delete_pilot(pilot: Pilot) {
   console.log('deleting pilot permanently: ', pilot.Name)
   await deleteDataById('pilots_v2.json', [pilot.ID])
 }
@@ -43,17 +43,9 @@ function addPilotIdToGroups(pilot: Pilot, groups: PilotGroup[]): void {
   }
 }
 
-function deletePilotIdFromGroups(pilot: Pilot, groups: PilotGroup[]): void {
-  const pilotGroup = groups.find(g => g.name === pilot.GroupController.Group)
-  const idx = pilotGroup.pilotIDs.indexOf(pilot.ID)
-  if (idx === -1) return
-  pilotGroup.pilotIDs.splice(idx, 1)
-}
-
 function createPilotGroups(pilots: Pilot[]): PilotGroup[] {
   const pilotGroups: PilotGroup[] = []
   pilotGroups.push({ name: '', pilotIDs: [], hidden: false })
-  console.info('Creating pilot groups from existing pilots')
   pilots.forEach(p => {
     addPilotIdToGroups(p, pilotGroups)
   })
@@ -181,7 +173,13 @@ export class PilotManagementStore extends VuexModule {
   @Mutation
   private [DELETE_PILOT](payload: Pilot): void {
     const pilotIndex = this.Pilots.findIndex(x => x.ID === payload.ID)
-    deletePilotIdFromGroups(payload, this.PilotGroups)
+    const pgi = this.PilotGroups.findIndex(g => g.name === payload.GroupController.Group)
+    const pi = this.PilotGroups[pgi].pilotIDs.indexOf(payload.ID)
+
+    if (pgi > -1 && pi > -1) {
+      console.log(pgi, pi)
+      this.PilotGroups[pgi].pilotIDs.splice(pi, 1)
+    }
     if (pilotIndex > -1) {
       this.Pilots.splice(pilotIndex, 1)
       this.DeletedPilots.push(payload)
@@ -189,6 +187,7 @@ export class PilotManagementStore extends VuexModule {
       throw console.error('Pilot not loaded!')
     }
     this.Dirty = true
+    console.log(this.PilotGroups)
   }
 
   @Mutation
@@ -196,7 +195,7 @@ export class PilotManagementStore extends VuexModule {
     const dpIdx = this.DeletedPilots.findIndex(x => x.ID === payload.ID)
     if (dpIdx > -1) {
       this.DeletedPilots.splice(dpIdx, 1)
-      deletePilot(payload)
+      delete_pilot(payload)
     }
     this.Dirty = true
   }
@@ -205,9 +204,9 @@ export class PilotManagementStore extends VuexModule {
   private [RESTORE_PILOT](payload: Pilot): void {
     const pilotIndex = this.DeletedPilots.findIndex(x => x.ID === payload.ID)
     if (pilotIndex > -1) {
-      this.DeletedPilots[pilotIndex].SaveController.restore()
       this.DeletedPilots.splice(pilotIndex, 1)
       this.Pilots.push(payload)
+      addPilotIdToGroups(payload, this.PilotGroups)
     } else {
       throw console.error('Pilot not loaded!')
     }
@@ -335,8 +334,7 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public deletePilot(payload: Pilot): void {
-    payload.SaveController.delete()
+  public delete_pilot(payload: Pilot): void {
     this.context.commit(DELETE_PILOT, payload)
   }
 
@@ -347,8 +345,7 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public restorePilot(payload: Pilot): void {
-    payload.SaveController.restore()
+  public restore_pilot(payload: Pilot): void {
     this.context.commit(RESTORE_PILOT, payload)
   }
 

@@ -29,7 +29,7 @@ async function saveEncounterData(encounters: Encounter[]) {
   await saveDelta('encounters_v2.json', serialized)
 }
 
-async function deleteEncounter(encounter: Encounter) {
+async function delete_encounter(encounter: Encounter) {
   console.log('deleting encounter permanently: ', encounter.Name)
   await deleteDataById('encounters_v2.json', [encounter.ID])
 }
@@ -122,7 +122,7 @@ export class EncounterStore extends VuexModule {
     const dpIdx = this.DeletedEncounters.findIndex(x => x.ID === payload.ID)
     if (dpIdx > -1) {
       this.DeletedEncounters.splice(dpIdx, 1)
-      deleteEncounter(payload)
+      delete_encounter(payload)
     }
     this.Dirty = true
   }
@@ -131,7 +131,6 @@ export class EncounterStore extends VuexModule {
   private [RESTORE_ENCOUNTER](payload: Encounter): void {
     const EncounterIndex = this.DeletedEncounters.findIndex(x => x.ID === payload.ID)
     if (EncounterIndex > -1) {
-      this.DeletedEncounters[EncounterIndex].SaveController.restore()
       this.DeletedEncounters.splice(EncounterIndex, 1)
       this.Encounters.push(payload)
     } else {
@@ -175,8 +174,7 @@ export class EncounterStore extends VuexModule {
   }
 
   @Action
-  public deleteEncounter(payload: Encounter): void {
-    payload.SaveController.delete()
+  public delete_encounter(payload: Encounter): void {
     this.context.commit(DELETE_ENCOUNTER, payload)
   }
 
@@ -187,8 +185,7 @@ export class EncounterStore extends VuexModule {
   }
 
   @Action
-  public restoreEncounter(payload: Encounter): void {
-    payload.SaveController.restore()
+  public restore_encounter(payload: Encounter): void {
     this.context.commit(RESTORE_ENCOUNTER, payload)
   }
 

@@ -17,7 +17,6 @@ const saveData = async function <T>(fileName: string, data: T): Promise<void> {
 }
 
 const saveDelta = async function <T>(filename: string, data: T[]): Promise<void> {
-  console.log('in savedelta', data)
   if (!data.length) return
   const mem = JSON.parse(localStorage.getItem(filename))
   data.forEach((e: any) => {

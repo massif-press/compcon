@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { ICloudSyncable } from './ICloudSyncable'
 
 interface ICloudData {
