@@ -602,8 +602,7 @@ each source of damage is used.`"
 import Vue from 'vue'
 import ActiveModInset from '../components/_ActiveModInset.vue'
 import AmmoCaseInset from '../../mech_loadout/components/mount/weapon/_AmmoCaseInset.vue'
-import PilotTalent from '@/classes/pilot/PilotTalent'
-import { ActivationType, Damage, DiceRoller, Range, WeaponSize, WeaponType } from '@/class'
+import { ActivationType, Damage, PilotTalent, Range, WeaponSize, WeaponType } from '@/class'
 import CbCard from '../../mech_loadout/components/mount/_CbCard.vue'
 
 export default Vue.extend({

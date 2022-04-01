@@ -14,15 +14,22 @@
     "strictPropertyInitialization": false,
     "noUncheckedIndexedAccess": false,
     "sourceMap": true,
-    "declaration": false,    
+    "allowJs": true,
+    "declaration": true,    
     "types": [
-      "webpack-env",
+      "webpack-env"
     ],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
     },
-    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise"]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost", "es2018.promise"],
   },
-  "exclude": ["node_modules", "amplify"],
+    "include": [
+    "src/**/*.ts",
+    "src/**/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+  ],
+  "exclude": ["node_modules", "amplify", "src/models"],
 }
