@@ -31,18 +31,12 @@
         </v-btn>
       </template>
       <v-list dense class="heading h3">
-        <v-list-item @click="$emit('set-page', 0)">
-          MECH CONFIGURATION
-        </v-list-item>
-        <v-list-item @click="toPilotSheet()">
-          PILOT SHEET
-        </v-list-item>
+        <v-list-item @click="$emit('set-page', 0)">MECH CONFIGURATION</v-list-item>
+        <v-list-item @click="toPilotSheet()">PILOT SHEET</v-list-item>
         <v-list-item tile depressed :selected="selected === 0" :to="`/active/${pilot.ID}`">
           ACTIVE MODE
         </v-list-item>
-        <v-list-item disabled @click="$emit('set-page', 1)">
-          COMBAT ANALYTICS
-        </v-list-item>
+        <v-list-item disabled @click="$emit('set-page', 1)">COMBAT ANALYTICS</v-list-item>
       </v-list>
     </v-menu>
 
@@ -52,7 +46,7 @@
       <template v-slot:activator="{ on: menu }">
         <v-btn class="unskew ml-2" icon dark v-on="menu">
           <cc-tooltip inline delayed content="Mech Options">
-            <v-icon>mdi-settings</v-icon>
+            <v-icon>mdi-cog</v-icon>
           </cc-tooltip>
         </v-btn>
       </template>
