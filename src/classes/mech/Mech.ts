@@ -21,6 +21,7 @@ import {
   MechLoadoutController,
 } from './components/loadout/MechLoadoutController'
 import { IActor } from '../encounter/IActor'
+import { CompendiumItem } from '../CompendiumItem'
 
 class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
   deleteTime: string
@@ -143,6 +144,13 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   // -- Passthroughs ------------------------------------------------------------------------------
   public get Portrait(): string {
     return this.PortraitController.Portrait
+  }
+
+  public get BrewableItems(): CompendiumItem[] {
+    return [
+      this.Frame,
+      ...this.MechLoadoutController.Loadouts.flatMap(l => l.Equipment),
+    ] as CompendiumItem[]
   }
 
   // -- Info --------------------------------------------------------------------------------------

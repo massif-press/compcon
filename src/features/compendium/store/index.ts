@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import lancerData from 'lancer-data'
-// import { getUser, UserProfile } from '@/user'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import {
   License,
@@ -43,6 +42,7 @@ import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
 import { IReserveData } from '@/classes/pilot/components/reserves/Reserve'
 import * as PlayerAction from '@/classes/Action'
 import { Background, IBackgroundData } from '@/classes/Background'
+import Vue from 'vue'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -51,6 +51,8 @@ export const LOAD_PACK = 'LOAD_PACK'
 export const DELETE_PACK = 'DELETE_PACK'
 export const CLEAR_PACKS = 'CLEAR_PACKS'
 export const SET_PACK_ACTIVE = 'SET_PACK_ACTIVE'
+
+export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
 
 function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
   return function (self: CompendiumStore, name: string) {
@@ -75,6 +77,8 @@ export class CompendiumStore extends VuexModule {
   public CCVersion = ''
 
   public ContentPacks: ContentPack[] = []
+
+  public MissingContent: any = { pilots: [], npcs: [] }
 
   public get NpcClasses(): NpcClass[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcClasses)
@@ -177,6 +181,11 @@ export class CompendiumStore extends VuexModule {
   // }
 
   @Mutation
+  private [SET_MISSING_CONTENT](payload: any): void {
+    this.MissingContent = payload
+  }
+
+  @Mutation
   private [CLEAR_PACKS](): void {
     this.ContentPacks.splice(0, this.ContentPacks.length)
   }
@@ -206,7 +215,6 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    // this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -220,7 +228,6 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    // this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -230,7 +237,6 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    // this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -298,13 +304,13 @@ export class CompendiumStore extends VuexModule {
     return this.CCVersion
   }
 
-  // @Action
-  // public loadData(): void {
-  //   this.context.commit(LOAD_DATA)
-  // }
-
   @Action
   public setVersions(lancerVer: string, ccVer: string): void {
     this.context.commit(SET_VERSIONS, { lancerVer, ccVer })
+  }
+
+  @Action
+  public setMissingContent(payload: any): void {
+    this.context.commit(SET_MISSING_CONTENT, payload)
   }
 }

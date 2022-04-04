@@ -4,6 +4,7 @@ import { Npc } from '@/class'
 import { INpcData } from '@/interface'
 import { loadData, saveDelta, deleteDataById, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator'
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_DIRTY = 'SET_DIRTY'
@@ -14,6 +15,7 @@ export const CLONE_NPC = 'CLONE_NPC'
 export const LOAD_NPCS = 'LOAD_NPCS'
 export const DELETE_NPC_PERMANENT = 'DELETE_NPC_PERMANENT'
 export const SAVE_ALL = 'SAVE_ALL'
+export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
 
 async function saveOverwrite(npcs: Npc[]) {
   const serialized = npcs.map(x => Npc.Serialize(x))
@@ -36,6 +38,7 @@ async function delete_npc(npc: Npc) {
 export class NpcStore extends VuexModule {
   Npcs: Npc[] = []
   DeletedNpcs: Npc[] = []
+  MissingContent: INpcData[] = []
   Dirty = false
 
   public get AllNpcs(): Npc[] {
@@ -140,6 +143,10 @@ export class NpcStore extends VuexModule {
     this.Dirty = true
   }
 
+  @Mutation [SET_MISSING_CONTENT](payload: INpcData[]): void {
+    this.MissingContent = payload
+  }
+
   get getNpcs(): Npc[] {
     return this.Npcs
   }
@@ -194,6 +201,7 @@ export class NpcStore extends VuexModule {
   @Action({ rawError: true })
   public async loadNpcs() {
     const npcData = await loadData<INpcData>('npcs_v2.json')
-    this.context.commit(LOAD_NPCS, npcData)
+    this.context.commit(LOAD_NPCS, ItemsWithLcp(npcData))
+    this.context.commit(SET_MISSING_CONTENT, ItemsMissingLcp(npcData))
   }
 }

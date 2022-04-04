@@ -31,9 +31,7 @@
           <cc-tooltip
             simple
             inline
-            :content="
-              `This will create a pilot data file on your system that can then be imported into another COMP/CON user's Pilot Roster via the \'Add New Pilot\' > \'Import from File\' option. If this pilot has a cloud save record, that connection will be preserved. `
-            "
+            :content="`This will create a pilot data file on your system that can then be imported into another COMP/CON user's Pilot Roster via the \'Add New Pilot\' > \'Import from File\' option. If this pilot has a cloud save record, that connection will be preserved. `"
           >
             <v-icon class="mt-2 ml-n3">mdi-information-outline</v-icon>
           </cc-tooltip>
@@ -84,7 +82,7 @@ export default Vue.extend({
       this.$refs.dialog.hide()
     },
     exportPilot() {
-      this.pilot.SetBrewData()
+      this.pilot.BrewController.SetBrewData()
       saveFile(
         this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
         JSON.stringify(Pilot.Serialize(this.pilot)),
@@ -93,7 +91,7 @@ export default Vue.extend({
       this.hide()
     },
     copyPilot() {
-      this.pilot.SetBrewData()
+      this.pilot.BrewController.SetBrewData()
       navigator.clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot)))
       Vue.prototype.$notify('Roll20 data copied to clipboard')
       this.hide()
@@ -101,10 +99,10 @@ export default Vue.extend({
     async copyCode() {
       this.copyConfirm = true
       navigator.clipboard.writeText(this.pilot.ShareCode).then(
-        function() {
+        function () {
           Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
         },
-        function() {
+        function () {
           Vue.prototype.$notifyError('Unable to copy Cloud ID')
         }
       )

@@ -12,12 +12,7 @@ import {
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
 
-export default async function (
-  lancerVer: string,
-  ccVer: string,
-  store: any,
-  noSync?: boolean
-): Promise<void> {
+export default async function (lancerVer: string, ccVer: string, store: any): Promise<void> {
   const dataStore = getModule(CompendiumStore, store)
   const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
@@ -36,8 +31,14 @@ export default async function (
     })
 
   await dataStore.refreshExtraContent()
+  const missing = { pilots: [], npcs: [] }
   await pilotStore.loadPilots()
+  missing.pilots = pilotStore.MissingContent
   await npcStore.loadNpcs()
+  missing.npcs = npcStore.MissingContent
+  await dataStore.setMissingContent(missing)
+  console.log(dataStore.MissingContent)
+
   await encounterStore.loadEncounters()
   await missionStore.loadMissions()
   await missionStore.loadActiveMissions()

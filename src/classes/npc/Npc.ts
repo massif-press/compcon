@@ -17,8 +17,12 @@ import {
 } from '../components'
 import { getModule } from 'vuex-module-decorators'
 import { IActor } from '../encounter/IActor'
+import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
+import { IBrewable } from '../components/brew/IBrewable'
+import { CompendiumItem } from '../CompendiumItem'
 
-class INpcData implements ISaveData, ICloudData, IPortraitData {
+class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
+  brews: BrewInfo[]
   isDeleted: boolean
   deleteTime: string
   lastUpdate_cloud: string
@@ -57,7 +61,7 @@ class INpcData implements ISaveData, ICloudData, IPortraitData {
   cc_ver: string
 }
 
-class Npc implements IActor, ICloudSyncable, ISaveable {
+class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
   public readonly ItemType: string = 'npc'
   public readonly TypePrefix: string = 'npc'
   public ImageTag: ImageTag.NPC
@@ -65,6 +69,7 @@ class Npc implements IActor, ICloudSyncable, ISaveable {
   public CloudController: CloudController
   public SaveController: SaveController
   public PortraitController: PortraitController
+  public BrewController: BrewController
 
   private _active: boolean
   private _id: string
@@ -100,6 +105,7 @@ class Npc implements IActor, ICloudSyncable, ISaveable {
     this.SaveController = new SaveController(this)
     this.PortraitController = new PortraitController(this)
     this.CloudController = new CloudController(this)
+    this.BrewController = new BrewController(this)
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
     this._subtitle = ''
     this._tier = t
@@ -126,7 +132,16 @@ class Npc implements IActor, ICloudSyncable, ISaveable {
     this._resistances = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
+
   Bonuses?: any[]
+
+  public get BrewableCollection(): CompendiumItem[] {
+    // TODO / NB: temporary casting to CI prior to GM changes where they will become fully featured
+    return [
+      this.Class as unknown as CompendiumItem,
+      ...(this.Features as unknown[] as CompendiumItem[]),
+    ]
+  }
 
   public get Active(): boolean {
     return this._active
@@ -647,7 +662,7 @@ class Npc implements IActor, ICloudSyncable, ISaveable {
   }
 
   public static Serialize(npc: Npc): INpcData {
-    const data = {
+    let data = {
       active: npc.Active,
       id: npc.ID,
       class: npc.Class.ID,
@@ -681,6 +696,7 @@ class Npc implements IActor, ICloudSyncable, ISaveable {
     SaveController.Serialize(npc, data)
     CloudController.Serialize(npc, data)
     PortraitController.Serialize(npc, data)
+    BrewController.Serialize(npc, data)
 
     return data as INpcData
   }
@@ -742,6 +758,7 @@ class Npc implements IActor, ICloudSyncable, ISaveable {
       npc.Update(data)
       SaveController.Deserialize(npc, data)
       PortraitController.Deserialize(npc, data)
+      BrewController.Deserialize(npc, data)
       npc.SaveController.SetLoaded()
       return npc
     } catch (err) {

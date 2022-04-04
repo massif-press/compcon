@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import uuid from 'uuid/v4'
-import { Rules, Mech, CompendiumItem, ContentPack, PilotLoadout } from '../../class'
+import { Rules, Mech, CompendiumItem, PilotLoadout } from '../../class'
 import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface'
 import { ActiveState, IActiveStateData, ICombatStats } from '../mech/ActiveState'
 import { Bonus } from '../components/feature/bonus/Bonus'
@@ -44,6 +44,8 @@ import { IFeatureController } from '../components/feature/IFeatureController'
 import { FeatureController } from '../components/feature/FeatureController'
 import { PilotLoadoutController } from './components/Loadout/PilotLoadoutController'
 import { getModule } from 'vuex-module-decorators'
+import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
+import { IBrewable } from '../components/brew/IBrewable'
 
 interface IUnlockData {
   PilotArmor: string[]
@@ -67,7 +69,8 @@ class PilotData
     ICoreBonusSaveData,
     ILicenseSaveData,
     IGroupData,
-    IPortraitData
+    IPortraitData,
+    IBrewData
 {
   id: string
   level: number
@@ -86,7 +89,7 @@ class PilotData
   special_equipment: IUnlockData
   mechs: IMechData[]
   cc_ver: string
-  brews: string[]
+  brews: BrewInfo[]
   state: IActiveStateData
   combat_history: ICombatStats
   dead: boolean
@@ -144,7 +147,8 @@ class Pilot
     ICounterContainer,
     ICollectionGroupable,
     IPortraitContainer,
-    IFeatureController
+    IFeatureController,
+    IBrewable
 {
   public readonly ItemType: string = 'pilot'
 
@@ -162,6 +166,7 @@ class Pilot
   public ImageTag = ImageTag.Pilot
   public FeatureController: FeatureController
   public PilotLoadoutController: PilotLoadoutController
+  public BrewController: BrewController
 
   private _callsign: string
   private _name: string
@@ -203,6 +208,7 @@ class Pilot
     this.GroupController = new GroupController(this)
     this.FeatureController = new FeatureController(this)
     this.PilotLoadoutController = new PilotLoadoutController(this)
+    this.BrewController = new BrewController(this)
 
     this.FeatureController.Register(
       this.TalentsController,
@@ -233,27 +239,6 @@ class Pilot
   }
 
   // -- Utility -----------------------------------------------------------------------------------
-  public SetBrewData(): void {
-    const packs = store.getters.getItemCollection('ContentPacks') as ContentPack[]
-
-    function collectBrewGroup(items: CompendiumItem[]): string[] {
-      return items
-        .filter(x => x != null)
-        .map(i => i.Brew)
-        .filter(x => x.toLowerCase() !== 'core')
-    }
-
-    let brews = collectBrewGroup(this.PilotLoadoutController.Loadout.Items)
-    this._mechs.forEach(m => {
-      brews = _.union(brews, collectBrewGroup([m.Frame]))
-      m.MechLoadoutController.Loadouts.forEach(ml => {
-        brews = _.union(brews, collectBrewGroup(ml.Weapons))
-        brews = _.union(brews, collectBrewGroup(ml.Systems))
-      })
-    })
-    brews = brews.map(x => packs.find(y => y.ID === x)).map(z => `${z.Name} @ ${z.Version}`)
-    this._brews = brews
-  }
 
   //TODO: don't extract id or type at call, just pass object and deal with it w/ instanceof/typeof
   public has(typeName: string, id: string, rank?: number): boolean {
@@ -284,6 +269,13 @@ class Pilot
 
   public get Portrait(): string {
     return this.PortraitController.Portrait
+  }
+
+  public get BrewableCollection(): CompendiumItem[] {
+    return [
+      ...this.Mechs.flatMap(m => m.BrewableItems),
+      this.PilotLoadoutController.Loadout.Items,
+    ] as CompendiumItem[]
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -607,8 +599,6 @@ class Pilot
   }
 
   public static Serialize(p: Pilot): PilotData {
-    p.SetBrewData()
-
     const data = {
       id: p.ID,
       level: p.Level,
@@ -629,7 +619,6 @@ class Pilot
       special_equipment: this.serializeSE(p._special_equipment),
       combat_history: p._combat_history,
       state: ActiveState.Serialize(p.State),
-      brews: p._brews || [],
     }
 
     SaveController.Serialize(p, data)
@@ -644,6 +633,7 @@ class Pilot
     GroupController.Serialize(p, data)
     PortraitController.Serialize(p, data)
     PilotLoadoutController.Serialize(p, data)
+    BrewController.Serialize(p, data)
 
     return data as PilotData
   }
@@ -694,7 +684,6 @@ class Pilot
       : []
 
     this.cc_ver = data.cc_ver || ''
-    this._brews = data.brews || []
 
     MechSkillsController.Deserialize(this, data)
     SaveController.Deserialize(this, data)
@@ -707,6 +696,7 @@ class Pilot
     GroupController.Deserialize(this, data)
     PortraitController.Deserialize(this, data)
     PilotLoadoutController.Deserialize(this, data)
+    BrewController.Deserialize(this, data)
 
     if (sync && data.state) {
       this._state.Update(this, data.state, sync)

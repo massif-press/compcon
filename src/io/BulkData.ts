@@ -41,7 +41,7 @@ const importAll = async function (file): Promise<void> {
   await Promise.all(promises)
   // await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
   console.info('Import data loaded! Running startup...')
-  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, true)
+  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
 const clearAllData = async function (clear_cloud: boolean): Promise<void> {
@@ -55,7 +55,7 @@ const clearAllData = async function (clear_cloud: boolean): Promise<void> {
   }
 
   console.info('All data erased! Running startup...')
-  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, true)
+  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
 export { exportV1Pilots, exportAll, importAll, clearAllData }
