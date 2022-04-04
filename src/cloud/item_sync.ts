@@ -4,6 +4,7 @@ import { getModule } from 'vuex-module-decorators'
 import { ICloudSyncable } from '@/classes/components'
 import { CloudController, CloudItemTypeMap } from '@/classes/components/cloud/CloudController'
 import { ActiveMission, Encounter, Mission, Npc, Pilot } from '@/class'
+import { MissingItemIds } from '@/io/ContentEvaluator'
 
 const currentCognitoIdentity = async (): Promise<any> =>
   Auth.currentUserCredentials()
@@ -40,6 +41,7 @@ type CollectionItem = {
   delete_time: string
   latest: string
   selected: false
+  missingContent: false
 }
 
 function determineLatest(cloudItem: CollectionItem, localItem: CollectionItem): string {
@@ -60,6 +62,9 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
     pilot: getModule(PilotManagementStore, store).AllPilots,
   }
 
+  const missingIds = MissingItemIds()
+  console.log(missingIds)
+
   const localMap = []
   Object.keys(localCollection).forEach((key: string) =>
     localCollection[key].forEach((x: ICloudSyncable) =>
@@ -72,6 +77,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
         lastModifiedCloud: x.CloudController.LastUpdateCloud,
         deleted: x.SaveController.IsDeleted,
         delete_time: x.SaveController.DeleteTime,
+        missingContent: missingIds.includes(x.ID),
       })
     )
   )
@@ -95,6 +101,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
         latest: 'cloud',
         deleted,
         delete_time: '',
+        missingContent: missingIds.includes(id),
       }
     }
   })
@@ -114,6 +121,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
       output[matchIndex].lastModifiedLocal = localItem.lastModifiedLocal
       // output[matchIndex].lastModifiedCloud = localItem.lastModifiedCloud
       output[matchIndex].delete_time = localItem.delete_time
+      // output[matchIndex].missingContent = localItem.missingContent
       const latest = determineLatest(output[matchIndex], localItem)
       if (latest === 'local') {
         output[matchIndex].deleted = localItem.deleted
@@ -291,10 +299,10 @@ const SaveLocalUpdates = (item: CollectionItem) => {
 }
 
 const SaveAllLocalUpdates = () => {
-  store.dispatch('saveAllMissionData')
-  store.dispatch('saveAllEncounterData')
-  store.dispatch('saveAllNpcData')
-  store.dispatch('saveAllPilotData')
+  store.dispatch('saveMissionData')
+  store.dispatch('saveEncounterData')
+  store.dispatch('saveNpcData')
+  store.dispatch('savePilotData')
 }
 
 // overwrite local data with cloud data
@@ -385,7 +393,7 @@ const Rename = async (start: string, dest: string): Promise<any> => {
 
 const AutoSyncAll = async (): Promise<any> => {
   const cloud = await ListCloudItems()
-  const items = ProcessItemsList(cloud)
+  const items = ProcessItemsList(cloud).filter(i => !i.missingContent)
   Promise.all(items.map(item => SyncItem(item, true))).then(() => SaveAllLocalUpdates())
 }
 

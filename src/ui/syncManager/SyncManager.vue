@@ -64,6 +64,7 @@
                       >
                         {{ item.lastModifiedLocal.split('GMT')[0] }}
                       </span>
+                      <span v-else-if="item.missingContent"><i class="text--disabled">ERR</i></span>
                       <span v-else class="text--disabled"><i>No Data</i></span>
                     </td>
                     <td v-if="!isAtLatest(item)">
@@ -86,32 +87,42 @@
                       </cc-tooltip>
                       <cc-tooltip
                         inline
-                        v-if="isAtLatest(item)"
-                        title="Item Synced"
-                        :content="`The latest version of this item is stored both locally and in your cloud account. This item was last modifed at: ${item.lastModifiedLocal}`"
+                        v-if="item.missingContent"
+                        title="Missing Required LCP"
+                        content="This item requires one or more Lancer Content Packages not currently installed and/or activated"
                       >
-                        <v-icon color="success darken-1">mdi-check-bold</v-icon>
+                        <v-icon color="error">mdi-folder-off</v-icon>
                       </cc-tooltip>
-                      <cc-tooltip
-                        inline
-                        v-else-if="item.latest === 'local'"
-                        title="Local Changes Detected"
-                        :content="`No cloud data found, or the local version of this item is the latest. This item was last modifed at: ${
-                          item.lastModifiedLocal || '???'
-                        }. Syncing now will overwrite this item's cloud data with the local version.`"
-                      >
-                        <v-icon color="panel">mdi-check</v-icon>
-                      </cc-tooltip>
-                      <cc-tooltip
-                        inline
-                        v-else
-                        title="Cloud Changes Detected"
-                        :content="`No local data found, or the cloud version of this item is the latest. This item was last modifed at: ${
-                          item.lastModifiedCloud || '???'
-                        }. Syncing now will overwrite this item's local data with the version stored in the cloud.`"
-                      >
-                        <v-icon color="panel">mdi-check</v-icon>
-                      </cc-tooltip>
+                      <span v-if="!item.missingContent">
+                        <cc-tooltip
+                          inline
+                          v-if="isAtLatest(item)"
+                          title="Item Synced"
+                          :content="`The latest version of this item is stored both locally and in your cloud account. This item was last modifed at: ${item.lastModifiedLocal}`"
+                        >
+                          <v-icon color="success darken-1">mdi-check-bold</v-icon>
+                        </cc-tooltip>
+                        <cc-tooltip
+                          inline
+                          v-else-if="item.latest === 'local'"
+                          title="Local Changes Detected"
+                          :content="`No cloud data found, or the local version of this item is the latest. This item was last modifed at: ${
+                            item.lastModifiedLocal || '???'
+                          }. Syncing now will overwrite this item's cloud data with the local version.`"
+                        >
+                          <v-icon color="panel">mdi-check</v-icon>
+                        </cc-tooltip>
+                        <cc-tooltip
+                          inline
+                          v-else
+                          title="Cloud Changes Detected"
+                          :content="`No local data found, or the cloud version of this item is the latest. This item was last modifed at: ${
+                            item.lastModifiedCloud || '???'
+                          }. Syncing now will overwrite this item's local data with the version stored in the cloud.`"
+                        >
+                          <v-icon color="panel">mdi-check</v-icon>
+                        </cc-tooltip>
+                      </span>
                     </td>
                     <td>
                       <sync-item-menu

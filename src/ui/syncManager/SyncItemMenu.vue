@@ -67,7 +67,7 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item two-line v-else @click="$emit('delete')">
+      <v-list-item two-line v-else-if="!item.missingContent" @click="$emit('delete')">
         <v-list-item-avatar>
           <v-icon color="accent">mdi-delete</v-icon>
         </v-list-item-avatar>
@@ -75,6 +75,19 @@
           <v-list-item-title class="font-weight-bold" v-text="'Delete'" />
           <v-list-item-subtitle
             v-text="`Delete this item. Deleted items are permanently erased after 60 days.`"
+          />
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item two-line v-else @click="$emit('delete-forever')">
+        <v-list-item-avatar>
+          <v-icon color="accent">mdi-cloud-off-outline</v-icon>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title class="font-weight-bold" v-text="'Delete Cloud Record'" />
+          <v-list-item-subtitle
+            v-text="
+              `Erase cloud data for this item. Local unloadable data can be erased in the Content Manager`
+            "
           />
         </v-list-item-content>
       </v-list-item>

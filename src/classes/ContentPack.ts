@@ -232,8 +232,10 @@ export class ContentPack {
 
     self._active = active
     self._manifest = manifest
-    self._data = mapValues(data, (items: any) => items.map(item => ({ ...item, brew: id })))
+    self._data = data
+    Object.keys(self._data).forEach(key => self._data[key].forEach(item => (item.brew = id)))
     self._id = id
+
     self._Tags = self._data.tags?.map(x => new Tag(x)) || []
 
     self._Manufacturers =

@@ -10,7 +10,7 @@
   "dependencies": {
     "@aws-amplify/datastore": "^2.9.3",
     "@aws-amplify/ui-vue": "^0.2.33",
-    "@mdi/font": "^4.8.95",
+    "@mdi/font": "^6.6.96",
     "aws-amplify": "^4.3.17",
     "aws-amplify-vue": "^2.1.5",
     "axios": "^0.19.0",

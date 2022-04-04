@@ -1,25 +1,23 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import _ from 'lodash'
 import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
+import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator'
 import { Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 
 async function saveOverwrite(pilots: Pilot[], pilotGroups: PilotGroup[]) {
-  console.log('saving pilots')
   const serialized = pilots.map(x => Pilot.Serialize(x))
   await saveData('pilots_v2.json', serialized)
   await savePilotGroups(pilotGroups)
 }
 
 async function savePilots(pilots: Pilot[]) {
-  console.log('saving pilots')
   const serialized = pilots.filter(x => x.SaveController.IsDirty).map(x => Pilot.Serialize(x))
   await saveDelta('pilots_v2.json', serialized)
 }
 
 async function savePilotGroups(pilotGroups: PilotGroup[]) {
-  console.log('saving pilot groups')
   await saveData('pilot_groups_v2.json', pilotGroups)
 }
 
@@ -71,6 +69,7 @@ export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 export const DELETE_PILOT_PERMANENT = 'DELETE_PILOT_PERMANENT'
 export const SAVE_ALL = 'SAVE_ALL'
+export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
 
 @Module({
   name: 'management',
@@ -79,6 +78,7 @@ export class PilotManagementStore extends VuexModule {
   public Pilots: Pilot[] = []
   public DeletedPilots: Pilot[] = []
   public PilotGroups: PilotGroup[] = []
+  public MissingContent: PilotData[] = []
   public LoadedMechID = ''
   public ActivePilot: Pilot = null
   public printOptions: PrintOptions = null
@@ -177,7 +177,6 @@ export class PilotManagementStore extends VuexModule {
     const pi = this.PilotGroups[pgi].pilotIDs.indexOf(payload.ID)
 
     if (pgi > -1 && pi > -1) {
-      console.log(pgi, pi)
       this.PilotGroups[pgi].pilotIDs.splice(pi, 1)
     }
     if (pilotIndex > -1) {
@@ -187,7 +186,6 @@ export class PilotManagementStore extends VuexModule {
       throw console.error('Pilot not loaded!')
     }
     this.Dirty = true
-    console.log(this.PilotGroups)
   }
 
   @Mutation
@@ -263,6 +261,10 @@ export class PilotManagementStore extends VuexModule {
     this.LoadedMechID = payload
   }
 
+  @Mutation [SET_MISSING_CONTENT](payload: PilotData[]): void {
+    this.MissingContent = payload
+  }
+
   get getPilots(): Pilot[] {
     return this.Pilots
   }
@@ -300,7 +302,11 @@ export class PilotManagementStore extends VuexModule {
   public async loadPilots() {
     const pilotData = await loadData<PilotData>('pilots_v2.json')
     const pilotGroupData = await loadData<PilotGroup>('pilot_groups_v2.json')
-    this.context.commit(LOAD_PILOTS, { pilotData: pilotData, groupData: pilotGroupData })
+    this.context.commit(LOAD_PILOTS, {
+      pilotData: ItemsWithLcp(pilotData),
+      groupData: pilotGroupData,
+    })
+    this.context.commit(SET_MISSING_CONTENT, ItemsMissingLcp(pilotData))
   }
 
   @Action({ rawError: true })

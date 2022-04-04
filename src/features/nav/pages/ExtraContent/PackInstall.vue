@@ -1,6 +1,6 @@
 <template>
-  <v-row class="packInstaller" style="min-height: 300px;">
-    <v-col style="height: 100%;" cols="12" md="3" class="px-3 py-4">
+  <v-row class="packInstaller" style="min-height: 300px">
+    <v-col style="height: 100%" cols="12" md="3" class="px-3 py-4">
       <v-file-input
         v-model="value"
         placeholder="Select an .LCP file"
@@ -56,7 +56,13 @@
         <div
           v-else
           key="nopack"
-          style="display: col; width: 100%; height: 200px; align-items: center; justify-content: center;"
+          style="
+            display: col;
+            width: 100%;
+            height: 200px;
+            align-items: center;
+            justify-content: center;
+          "
         >
           <div class="heading h3 font-italic subtle--text text--darken-1">
             No content pack selected.
@@ -113,6 +119,7 @@ export default class PackInstall extends Vue {
 
   async install(): Promise<void> {
     if (this.done || this.installing) return
+    this.$emit('start-load')
     this.installing = true
     this.contentPack.active = true
     await this.dataStore.installContentPack(this.contentPack)
@@ -125,6 +132,7 @@ export default class PackInstall extends Vue {
       this.error = null
       this.value = null
       this.done = false
+      this.$emit('end-load')
     }, 500)
   }
 }
