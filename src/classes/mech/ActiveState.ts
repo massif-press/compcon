@@ -296,7 +296,7 @@ class ActiveState {
     this.AllBaseTechActions.forEach(a => a.Reset(event))
     this.Deployed.forEach(d => d.Actions.forEach(a => a.Reset(event)))
 
-    if (event == ActivePeriod.Encounter || event == ActivePeriod.Mission) {
+    if (event == ActivePeriod.Scene || event == ActivePeriod.Mission) {
       if (this.ActiveMech.Frame.CoreSystem.PassiveActions) this.ActiveMech.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(event))
       if (this.ActiveMech.Frame.CoreSystem.DeployActions) this.ActiveMech.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(event))
     }
@@ -340,7 +340,7 @@ class ActiveState {
     this.ActiveMech.Conditions.splice(0, this.ActiveMech.Conditions.length)
     this.ActiveMech.Statuses.splice(0, this.ActiveMech.Statuses.length)
     this._deployed.splice(0, this._deployed.length)
-    this.ResetActions(ActivePeriod.Encounter)
+    this.ResetActions(ActivePeriod.Scene)
     if (this.ActiveMech.Pilot.IsDownAndOut)
       this.ActiveMech.Pilot.CurrentHP = Math.ceil(this.ActiveMech.Pilot.MaxHP / 2)
     this.SetLog({
@@ -348,7 +348,7 @@ class ActiveState {
       event: 'LOG.END',
       detail: 'ENCOUNTER COMPLETE. COMBAT MODE DEACTIVATED.',
     })
-    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Encounter) this.ActiveMech.IsCoreActive = false
+    if (this.ActiveMech.Frame.CoreSystem.Duration === Duration.Scene) this.ActiveMech.IsCoreActive = false
     this.InTurn = true
     this.save()
   }

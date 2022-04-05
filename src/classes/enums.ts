@@ -4,6 +4,7 @@ enum Duration {
   NextTurn = 'Next Turn',
   Round = 'Round',
   NextRound = 'Next Round',
+  Scene = 'Scene',
   Encounter = 'Encounter',
   Mission = 'Mission',
 }
