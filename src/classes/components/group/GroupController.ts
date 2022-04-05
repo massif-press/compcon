@@ -42,7 +42,7 @@ class GroupController {
     if (!parent.GroupController) throw new Error(`GroupController not found on parent (${typeof parent}). New GroupControllers must be instantiated in the parent's constructor method.`);
 
     parent.GroupController._group = data.group || ''
-    parent.GroupController._sortIndex = data.sort_index || 0
+    parent.GroupController._sortIndex = data.sort_index || -1
   }
 }
 export {
