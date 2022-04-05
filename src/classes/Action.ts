@@ -31,7 +31,7 @@ interface IActionData {
 enum ActivePeriod {
   Turn = 'Turn',
   Round = 'Round',
-  Encounter = 'Encounter',
+  Scene = 'Scene',
   Mission = 'Mission',
   Unlimited = 'Unlimited',
 }
@@ -69,7 +69,7 @@ class Frequency {
           break
         case 'scene':
         case 'encounter':
-          this.Duration = ActivePeriod.Encounter
+          this.Duration = ActivePeriod.Scene
           break
         case 'mission':
           this.Duration = ActivePeriod.Mission
@@ -96,7 +96,7 @@ class Frequency {
       Unlimited: 0,
       Turn: 1,
       Round: 2,
-      Encounter: 3,
+      Scene: 3,
       Mission: 4
     }
     //This action is free to regain uses if the given event
