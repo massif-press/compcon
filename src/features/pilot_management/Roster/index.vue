@@ -202,7 +202,13 @@ export default Vue.extend({
       return store.UserProfile
     },
     groups() {
-      return this.pilotStore.PilotGroups
+      const groups = this.pilotStore.PilotGroups
+      groups.forEach(g => {
+        g.pilotIDs = this.pilots.filter(p => p.GroupController.Group === g.name)
+                                .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
+                                .map(p => p.ID)
+      })
+      return groups
     },
     pilots() {
       return this.pilotStore.Pilots
@@ -258,11 +264,19 @@ export default Vue.extend({
       return this.pilots.find(p => p.ID === id)
     },
     movePilot(groupName, event) {
-      if (event.added) {
-        const pilotId = event.added.element
-        const p = this.getPilotFromId(pilotId)
-        p.Group = groupName
+      if (event.added || event.moved) {
+        const pilotId = event.added ? event.added.element : event.moved.element
+        const pilot = this.getPilotFromId(pilotId)
+        pilot.GroupController.Group = groupName
+
+        this.groups.forEach(g => {
+          g.pilotIDs.forEach((id, i) =>{
+            const p = this.getPilotFromId(id)
+            p.GroupController.SortIndex = i
+          })
+        })
       }
+      
       this.pilotStore.movePilot()
     },
     deleteGroup(g) {
