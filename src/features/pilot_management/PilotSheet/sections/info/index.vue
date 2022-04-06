@@ -12,13 +12,20 @@
       </v-col>
       <v-col cols="12" md="8" dense>
         <clone-block />
+        <skill-block :pilot="pilot" />
+        <dt-resources-block :pilot="pilot" />
+      </v-col>
+      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="4" dense>
+        <image-block />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <pilot-loadout-block :pilot="pilot" />
         <history-block />
         <appearance-block />
         <notes-block />
         <combat-history-block />
-      </v-col>
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="4" dense>
-        <image-block />
       </v-col>
     </v-row>
   </div>
@@ -27,6 +34,9 @@
 <script lang="ts">
 import Vue from 'vue'
 import IdentBlock from './components/IdentBlock.vue'
+import SkillBlock from './components/SkillBlock.vue'
+import DtResourcesBlock from './components/DtResourcesBlock.vue'
+import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue'
 import HistoryBlock from './components/HistoryBlock.vue'
 import AppearanceBlock from './components/AppearanceBlock.vue'
 import ImageBlock from './components/ImageBlock.vue'
@@ -36,6 +46,12 @@ import CombatHistoryBlock from './components/CombatHistoryBlock.vue'
 
 export default Vue.extend({
   name: 'info-view',
-  components: { IdentBlock, HistoryBlock, AppearanceBlock, ImageBlock, NotesBlock, CloneBlock, CombatHistoryBlock },
+  components: { IdentBlock, SkillBlock, DtResourcesBlock, PilotLoadoutBlock, HistoryBlock, AppearanceBlock, ImageBlock, NotesBlock, CloneBlock, CombatHistoryBlock },
+  props: {
+    pilot: {
+      type: Object,
+      required: true,
+    },
+  },
 })
 </script>
