@@ -101,6 +101,7 @@ export default Vue.extend({
       for (const mech of newPilot.Mechs) {
         mech.RenewID()
       }
+      newPilot.GroupController.SortIndex = -1
       this.$store.dispatch('addPilot', newPilot)
       this.hide()
     },
@@ -113,6 +114,7 @@ export default Vue.extend({
       for (const mech of newPilot.Mechs) {
         mech.RenewID()
       }
+      newPilot.GroupController.SortIndex = -1
       this.$store.dispatch('addPilot', newPilot)
       this.hide()
     },
