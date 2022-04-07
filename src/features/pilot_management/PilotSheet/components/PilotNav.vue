@@ -126,9 +126,8 @@ export default Vue.extend({
       this.$router.push(`../mech/${this.lastLoaded}`)
     },
     delete_pilot() {
+      this.pilot.SaveController.delete()
       this.$router.push('/pilot_management')
-      const store = getModule(PilotManagementStore, this.$store)
-      store.delete_pilot(this.pilot)
     },
   },
 })

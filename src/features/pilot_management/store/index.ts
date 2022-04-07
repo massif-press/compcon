@@ -18,7 +18,10 @@ async function savePilots(pilots: Pilot[]) {
 }
 
 async function savePilotGroups(pilotGroups: PilotGroup[]) {
-  await saveData('pilot_groups_v2.json', pilotGroups)
+  await saveData(
+    'pilot_groups_v2.json',
+    pilotGroups.filter(x => x.name !== '')
+  )
 }
 
 async function delete_pilot(pilot: Pilot) {
@@ -30,13 +33,6 @@ export interface PilotGroup {
   name: string
   pilotIDs: string[]
   hidden: boolean
-}
-
-function createPilotGroups(pilots: Pilot[]): PilotGroup[] {
-  const pilotGroups: PilotGroup[] = []
-  pilotGroups.push({ name: '', pilotIDs: [], hidden: false })
-  savePilotGroups(pilotGroups)
-  return pilotGroups
 }
 
 export const SAVE_DATA = 'SAVE_DATA'
@@ -101,18 +97,7 @@ export class PilotManagementStore extends VuexModule {
     const all = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
     this.Pilots = all.filter(x => !x.SaveController.IsDeleted)
     this.DeletedPilots = all.filter(x => x.SaveController.IsDeleted)
-    const groupDataEmpty = payload.groupData.length === 0
-    const ungroupedOnlyEmpty =
-      payload.groupData.length === 1 &&
-      payload.groupData[0].name === ''
-
-    if (groupDataEmpty || ungroupedOnlyEmpty) {
-      console.info('Recreating groups')
-      this.PilotGroups = createPilotGroups(this.Pilots)
-    } else {
-      console.info('Using existing groups')
-      this.PilotGroups = payload.groupData
-    }
+    this.PilotGroups = payload.groupData
 
     //clean up deleted
     const del = []
@@ -121,18 +106,17 @@ export class PilotManagementStore extends VuexModule {
     })
     if (del.length) {
       console.info(`Cleaning up ${del.length} pilots marked for deletion`)
-      del.forEach(p => {})
-      savePilots(this.Pilots.concat(this.DeletedPilots))
+
+      Promise.all(del.map(p => delete_pilot(p)))
+        .then(() => savePilots(this.Pilots.concat(this.DeletedPilots)))
+        .then(() => console.info('Done'))
+        .catch(err => console.error('Error in permanently deleting pilots:', err))
     }
   }
 
   @Mutation
   private [ADD_PILOT](payload: Pilot): void {
     payload.SaveController.IsDirty = true
-    const index = payload.GroupController.SortIndex
-    if (index === null || index === undefined || index < 0) {
-      payload.GroupController.SortIndex = this.Pilots.filter(p => p.GroupController.Group === payload.GroupController.Group).length
-    }
     this.Pilots.push(payload)
     this.Dirty = true
   }
@@ -302,6 +286,7 @@ export class PilotManagementStore extends VuexModule {
   public addPilot(payload: Pilot): void {
     this.context.commit(ADD_PILOT, payload)
     this.context.commit(ADD_GROUP, payload.GroupController.Group)
+    this.context.commit(SAVE_DATA)
   }
 
   @Action

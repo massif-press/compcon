@@ -61,7 +61,7 @@
                         is missing.
                       </span>
                       <div v-if="brew.Website">
-                        It may be possible to download this pack at the following site:
+                        It may be possible to download this pack at:
                         <a target="_blank" :href="brew.Website" v-text="brew.Website" />
                       </div>
                     </div>

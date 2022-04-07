@@ -202,11 +202,19 @@ export default Vue.extend({
       return store.UserProfile
     },
     groups() {
-      const groups = this.pilotStore.PilotGroups
+      const groups = [...this.pilotStore.PilotGroups.filter(x => x.name !== '')]
       groups.forEach(g => {
-        g.pilotIDs = this.pilots.filter(p => p.GroupController.Group === g.name)
-                                .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
-                                .map(p => p.ID)
+        g.pilotIDs = this.pilots
+          .filter(p => p.GroupController.Group === g.name)
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
+          .map(p => p.ID)
+      })
+      groups.push({
+        name: '',
+        pilotIDs: this.pilots
+          .map(p => p.ID)
+          .filter(id => !groups.flatMap(g => g.pilotIDs).includes(id)),
+        hidden: false,
       })
       return groups
     },
@@ -237,6 +245,7 @@ export default Vue.extend({
   created() {
     this.preventDnd = this.isTouch
   },
+  mounted() {},
   methods: {
     toggleHidden(g: PilotGroup) {
       g.hidden = !g.hidden
@@ -270,13 +279,13 @@ export default Vue.extend({
         pilot.GroupController.Group = groupName
 
         this.groups.forEach(g => {
-          g.pilotIDs.forEach((id, i) =>{
+          g.pilotIDs.forEach((id, i) => {
             const p = this.getPilotFromId(id)
             p.GroupController.SortIndex = i
           })
         })
       }
-      
+
       this.pilotStore.movePilot()
     },
     deleteGroup(g) {
