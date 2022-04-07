@@ -24,6 +24,7 @@ import { IActor } from '../encounter/IActor'
 import { CompendiumItem } from '../CompendiumItem'
 
 class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
+  deleteTime: string
   expireTime: string
   lastModified: string
   isDeleted: boolean
