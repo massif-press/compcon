@@ -121,9 +121,9 @@ export default class PacksList extends Vue {
     const npcStore = getModule(NpcStore, this.$store)
     const missing = { pilots: [], npcs: [] }
     await pilotStore.loadPilots()
-    missing.pilots = pilotStore.MissingContent
+    missing.pilots = pilotStore.MissingPilots
     await npcStore.loadNpcs()
-    missing.npcs = npcStore.MissingContent
+    missing.npcs = npcStore.MissingNpcs
     await this.compendiumStore.setMissingContent(missing)
     this.$emit('end-load')
   }
