@@ -32,7 +32,7 @@
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-file-document-box</v-icon>
+            <v-icon>mdi-file-document-outline</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Generate Statblock</v-list-item-title>
@@ -121,9 +121,8 @@ export default Vue.extend({
   },
   methods: {
     delete_pilot() {
-      this.$router.push('/pilot_management')
-      const store = getModule(PilotManagementStore, this.$store)
-      store.delete_pilot(this.pilot)
+      this.pilot.SaveController.delete()
+      if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
     },
   },
 })

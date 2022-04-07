@@ -37,7 +37,6 @@ export default async function (lancerVer: string, ccVer: string, store: any): Pr
   await npcStore.loadNpcs()
   missing.npcs = npcStore.MissingContent
   await dataStore.setMissingContent(missing)
-  console.log(dataStore.MissingContent)
 
   await encounterStore.loadEncounters()
   await missionStore.loadMissions()

@@ -78,7 +78,7 @@
                   </v-list-item>
                   <v-list-item @click="setStatblock(item)">
                     <v-list-item-icon class="ma-0 mr-2 mt-2">
-                      <v-icon>mdi-file-document-box</v-icon>
+                      <v-icon>mdi-file-document-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                       <v-list-item-title>Generate NPC Statblock</v-list-item-title>
