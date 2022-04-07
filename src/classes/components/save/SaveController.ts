@@ -4,6 +4,7 @@ import { ISaveable } from './ISaveable'
 interface ISaveData {
   lastModified: string
   isDeleted: boolean
+  expireTime: string
   deleteTime: string
 }
 
@@ -13,6 +14,7 @@ class SaveController {
   public LastModified: string
   public _isDeleted: boolean
   public DeleteTime: string
+  public ExpireTime: string
 
   public IsDirty = false
   private _isLoaded = false
@@ -29,6 +31,8 @@ class SaveController {
   }
 
   public delete() {
+    this.DeleteTime = new Date().toString()
+    this.ExpireTime = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toString()
     this.IsDeleted = true
     store.dispatch(`delete_${this.Parent.ItemType}`, this.Parent)
   }
@@ -44,9 +48,6 @@ class SaveController {
 
   public set IsDeleted(val: boolean) {
     this._isDeleted = val
-    this.DeleteTime = val
-      ? new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toString()
-      : ''
     this.save()
   }
 
@@ -61,6 +62,7 @@ class SaveController {
   public static Serialize(parent: ISaveable, target: any) {
     target.lastModified = parent.SaveController.LastModified
     target.isDeleted = parent.SaveController.IsDeleted
+    target.expireTime = parent.SaveController.ExpireTime
     target.deleteTime = parent.SaveController.DeleteTime
   }
 
@@ -72,6 +74,7 @@ class SaveController {
 
     parent.SaveController.LastModified = data.lastModified
     parent.SaveController._isDeleted = data.isDeleted
+    parent.SaveController.ExpireTime = data.expireTime
     parent.SaveController.DeleteTime = data.deleteTime
   }
 }

@@ -34,6 +34,7 @@ class PortraitController {
 
   public get Portrait(): string {
     if (this._cloud_portrait) return this._cloud_portrait
+    if (!this.Parent.ImageTag) return getImagePath(ImageTag.Frame, 'nodata.png')
     else if (this._portrait) return getImagePath(this.Parent.ImageTag, this._portrait)
     else if (this.Parent.ImageTag === ImageTag.Mech) {
       return (this.Parent as Mech).Frame.DefaultImage

@@ -365,7 +365,7 @@
           x-small
           outlined
           class="fadeSelect"
-          @click="expandAll(mech.pilot.TalentsController.Talents.length, 'tal_', true)"
+          @click="expandAll(mech.Pilot.TalentsController.Talents.length, 'tal_', true)"
         >
           <v-icon small left>mdi-chevron-up</v-icon>
           All
@@ -374,7 +374,7 @@
           x-small
           outlined
           class="fadeSelect"
-          @click="expandAll(mech.pilot.TalentsController.Talents.length, 'tal_', false)"
+          @click="expandAll(mech.Pilot.TalentsController.Talents.length, 'tal_', false)"
         >
           <v-icon small left>mdi-chevron-down</v-icon>
           All
@@ -383,7 +383,7 @@
     </v-row>
     <v-row dense>
       <cc-active-card
-        v-for="(t, i) in mech.pilot.TalentsController.Talents"
+        v-for="(t, i) in mech.Pilot.TalentsController.Talents"
         :key="`tal_${i}`"
         :ref="`tal_${i}`"
         collapsible

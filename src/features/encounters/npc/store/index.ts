@@ -14,13 +14,7 @@ export const RESTORE_NPC = 'RESTORE_NPC'
 export const CLONE_NPC = 'CLONE_NPC'
 export const LOAD_NPCS = 'LOAD_NPCS'
 export const DELETE_NPC_PERMANENT = 'DELETE_NPC_PERMANENT'
-export const SAVE_ALL = 'SAVE_ALL'
 export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
-
-async function saveOverwrite(npcs: Npc[]) {
-  const serialized = npcs.map(x => Npc.Serialize(x))
-  await saveData('npcs_v2.json', serialized)
-}
 
 async function saveNpcData(npcs: Npc[]) {
   const serialized = npcs.filter(x => x.SaveController.IsDirty).map(x => Npc.Serialize(x))
@@ -38,7 +32,7 @@ async function delete_npc(npc: Npc) {
 export class NpcStore extends VuexModule {
   Npcs: Npc[] = []
   DeletedNpcs: Npc[] = []
-  MissingContent: INpcData[] = []
+  MissingNpcs: INpcData[] = []
   Dirty = false
 
   public get AllNpcs(): Npc[] {
@@ -59,7 +53,7 @@ export class NpcStore extends VuexModule {
     //clean up deleted
     const del = []
     this.DeletedNpcs.forEach(dp => {
-      if (new Date().getTime() > Date.parse(dp.SaveController.DeleteTime)) del.push(dp)
+      if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp)
     })
     if (del.length) {
       console.info(`Cleaning up ${del.length} Npcs marked for deletion`)
@@ -84,12 +78,6 @@ export class NpcStore extends VuexModule {
       saveNpcData(this.Npcs.concat(this.DeletedNpcs))
       this.Dirty = false
     }
-  }
-
-  @Mutation
-  private [SAVE_ALL](): void {
-    saveOverwrite(this.Npcs.concat(this.DeletedNpcs))
-    this.Dirty = false
   }
 
   @Mutation
@@ -144,7 +132,7 @@ export class NpcStore extends VuexModule {
   }
 
   @Mutation [SET_MISSING_CONTENT](payload: INpcData[]): void {
-    this.MissingContent = payload
+    this.MissingNpcs = payload
   }
 
   get getNpcs(): Npc[] {
@@ -165,11 +153,6 @@ export class NpcStore extends VuexModule {
   @Action
   public saveNpcData(): void {
     this.context.commit(SAVE_DATA)
-  }
-
-  @Action
-  public saveAllNpcData(): void {
-    this.context.commit(SAVE_ALL)
   }
 
   @Action

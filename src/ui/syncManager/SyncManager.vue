@@ -229,6 +229,7 @@ import {
 } from '@/cloud/item_sync'
 import { ICloudSyncable } from '@/classes/components'
 import { Pilot } from '@/classes/pilot/Pilot'
+import sleep from '@/util/sleep'
 
 export default Vue.extend({
   name: 'sync-manager',
@@ -355,6 +356,7 @@ export default Vue.extend({
     syncAll(hideAlert?: boolean) {
       this.loading = true
       AutoSyncAll()
+        .then(() => sleep(500))
         .then(() => this.fetch())
         .then(() => {
           if (!hideAlert) this.$notify(`Synced ${this.items.length} items successfully`, 'success')

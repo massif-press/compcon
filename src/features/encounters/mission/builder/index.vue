@@ -86,9 +86,6 @@
               </v-icon>
             </v-scroll-x-transition>
           </template>
-          <template v-slot:item.Power="{ item }">
-            <span class="caption text-uppercase">{{ item.Power }}</span>
-          </template>
         </v-data-table>
       </v-row>
       <v-divider class="my-2" />
@@ -146,8 +143,7 @@ export default Vue.extend({
       this.$router.push({ name: 'edit-mission', params: { id } })
     },
     delete_mission(Mission: Mission) {
-      const store = getModule(MissionStore, this.$store)
-      store.delete_mission(Mission)
+      Mission.SaveController.delete()
     },
     copyMission(Mission: Mission) {
       const store = getModule(MissionStore, this.$store)

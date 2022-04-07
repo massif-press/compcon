@@ -13,16 +13,8 @@ export const RESTORE_ENCOUNTER = 'RESTORE_ENCOUNTER'
 export const CLONE_ENCOUNTER = 'CLONE_ENCOUNTER'
 export const LOAD_ENCOUNTERS = 'LOAD_ENCOUNTERS'
 export const DELETE_ENCOUNTER_PERMANENT = 'DELETE_ENCOUNTER_PERMANENT'
-export const SAVE_ALL = 'SAVE_ALL'
-
-async function saveOverwrite(encounters: Encounter[]) {
-  console.log('saving encounters')
-  const serialized = encounters.map(x => Encounter.Serialize(x))
-  await saveData('encounters_v2.json', serialized)
-}
 
 async function saveEncounterData(encounters: Encounter[]) {
-  console.log('saving encounters')
   const serialized = encounters
     .filter(x => x.SaveController.IsDirty)
     .map(x => Encounter.Serialize(x))
@@ -55,7 +47,7 @@ export class EncounterStore extends VuexModule {
     //clean up deleted
     const del = []
     this.DeletedEncounters.forEach(dp => {
-      if (new Date().getTime() > Date.parse(dp.SaveController.DeleteTime)) del.push(dp)
+      if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp)
     })
     if (del.length) {
       console.info(`Cleaning up ${del.length} Encounters marked for deletion`)
@@ -80,12 +72,6 @@ export class EncounterStore extends VuexModule {
       saveEncounterData(this.Encounters.concat(this.DeletedEncounters))
       this.Dirty = false
     }
-  }
-
-  @Mutation
-  private [SAVE_ALL](): void {
-    saveOverwrite(this.Encounters.concat(this.DeletedEncounters))
-    this.Dirty = false
   }
 
   @Mutation
@@ -156,11 +142,6 @@ export class EncounterStore extends VuexModule {
   @Action
   public saveEncounterData(): void {
     this.context.commit(SAVE_DATA)
-  }
-
-  @Action
-  public saveAllEncounterData(): void {
-    this.context.commit(SAVE_ALL)
   }
 
   @Action

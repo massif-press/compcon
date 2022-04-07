@@ -89,9 +89,6 @@
               </v-icon>
             </v-scroll-x-transition>
           </template>
-          <template v-slot:item.Power="{ item }">
-            <span class="caption text-uppercase">{{ item.Power }}</span>
-          </template>
         </v-data-table>
       </v-row>
       <v-divider class="my-2" />
@@ -130,10 +127,7 @@ export default Vue.extend({
     search: '',
     selectedEncounter: null,
     grouping: null,
-    headers: [
-      { text: 'Name', value: 'Name', align: 'left' },
-      { text: 'PR', value: 'Power', width: '50' },
-    ],
+    headers: [{ text: 'Name', value: 'Name', align: 'left' }],
     encounters: [],
   }),
   watch: {
@@ -147,8 +141,7 @@ export default Vue.extend({
   },
   methods: {
     delete_encounter(encounter: Encounter) {
-      const store = getModule(EncounterStore, this.$store)
-      store.delete_encounter(encounter)
+      encounter.SaveController.delete()
     },
     copyEncounter(encounter: Encounter) {
       const store = getModule(EncounterStore, this.$store)
