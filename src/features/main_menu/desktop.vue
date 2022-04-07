@@ -236,6 +236,7 @@ export default Vue.extend({
     missingContent() {
       const mc = getModule(CompendiumStore, this.$store).MissingContent
       let b = false
+      if (!mc || !mc.pilots || !mc.npcs) return b
       for (const key in mc) {
         if (mc[key].length) b = true
       }

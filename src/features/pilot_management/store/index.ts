@@ -6,12 +6,6 @@ import { Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 
-async function saveOverwrite(pilots: Pilot[], pilotGroups: PilotGroup[]) {
-  const serialized = pilots.map(x => Pilot.Serialize(x))
-  await saveData('pilots_v2.json', serialized)
-  await savePilotGroups(pilotGroups)
-}
-
 async function savePilots(pilots: Pilot[]) {
   const serialized = pilots.filter(x => x.SaveController.IsDirty).map(x => Pilot.Serialize(x))
   await saveDelta('pilots_v2.json', serialized)
@@ -25,7 +19,7 @@ async function savePilotGroups(pilotGroups: PilotGroup[]) {
 }
 
 async function delete_pilot(pilot: Pilot) {
-  console.log('deleting pilot permanently: ', pilot.Name)
+  console.log('deleting pilot permanently: ', pilot.Name ? pilot.Name : 'Unknown')
   await deleteDataById('pilots_v2.json', [pilot.ID])
 }
 
@@ -52,8 +46,8 @@ export const SET_GROUP_NAME = 'SET_GROUP_NAME'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 export const DELETE_PILOT_PERMANENT = 'DELETE_PILOT_PERMANENT'
-export const SAVE_ALL = 'SAVE_ALL'
-export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
+export const SET_MISSING_Pilots = 'SET_MISSING_Pilots'
+export const DELETE_MISSING = 'DELETE_MISSING'
 
 @Module({
   name: 'management',
@@ -62,7 +56,7 @@ export class PilotManagementStore extends VuexModule {
   public Pilots: Pilot[] = []
   public DeletedPilots: Pilot[] = []
   public PilotGroups: PilotGroup[] = []
-  public MissingContent: PilotData[] = []
+  public MissingPilots: PilotData[] = []
   public LoadedMechID = ''
   public ActivePilot: Pilot = null
   public printOptions: PrintOptions = null
@@ -82,12 +76,6 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [SAVE_ALL](): void {
-    saveOverwrite(this.Pilots.concat(this.DeletedPilots), this.PilotGroups)
-    this.Dirty = false
-  }
-
-  @Mutation
   private [SET_DIRTY](): void {
     if (this.Pilots.length) this.Dirty = true
   }
@@ -102,7 +90,7 @@ export class PilotManagementStore extends VuexModule {
     //clean up deleted
     const del = []
     this.DeletedPilots.forEach(dp => {
-      if (new Date().getTime() > Date.parse(dp.SaveController.DeleteTime)) del.push(dp)
+      if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp)
     })
     if (del.length) {
       console.info(`Cleaning up ${del.length} pilots marked for deletion`)
@@ -161,6 +149,16 @@ export class PilotManagementStore extends VuexModule {
       delete_pilot(payload)
     }
     this.Dirty = true
+  }
+
+  @Mutation
+  private [DELETE_MISSING](payload: any): void {
+    console.log(this.MissingPilots)
+    const idx = this.MissingPilots.findIndex(x => x.id === payload.id)
+    if (idx > -1) {
+      this.MissingPilots.splice(idx, 1)
+      delete_pilot(payload)
+    }
   }
 
   @Mutation
@@ -224,8 +222,8 @@ export class PilotManagementStore extends VuexModule {
     this.LoadedMechID = payload
   }
 
-  @Mutation [SET_MISSING_CONTENT](payload: PilotData[]): void {
-    this.MissingContent = payload
+  @Mutation [SET_MISSING_Pilots](payload: PilotData[]): void {
+    this.MissingPilots = payload
   }
 
   get getPilots(): Pilot[] {
@@ -256,11 +254,6 @@ export class PilotManagementStore extends VuexModule {
     this.context.commit(SAVE_DATA)
   }
 
-  @Action
-  public saveAllPilotData(): void {
-    this.context.commit(SAVE_ALL)
-  }
-
   @Action({ rawError: true })
   public async loadPilots() {
     const pilotData = await loadData<PilotData>('pilots_v2.json')
@@ -269,7 +262,7 @@ export class PilotManagementStore extends VuexModule {
       pilotData: ItemsWithLcp(pilotData),
       groupData: pilotGroupData,
     })
-    this.context.commit(SET_MISSING_CONTENT, ItemsMissingLcp(pilotData))
+    this.context.commit(SET_MISSING_Pilots, ItemsMissingLcp(pilotData))
   }
 
   @Action({ rawError: true })
@@ -307,6 +300,11 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public delete_pilot(payload: Pilot): void {
     this.context.commit(DELETE_PILOT, payload)
+  }
+
+  @Action
+  public deleteMissing(payload: any): void {
+    this.context.commit(DELETE_MISSING, payload)
   }
 
   @Action

@@ -152,6 +152,11 @@
 
     <v-divider class="my-4" />
 
+    <h3 class="heading accent--text">Deleted Items (local data only)</h3>
+    <deleted-items />
+
+    <v-divider class="my-4" />
+
     <h3 class="heading accent--text">Achievements</h3>
     <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
@@ -170,11 +175,13 @@ import Vue from 'vue'
 import allThemes from '@/ui/style/themes'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
-import { exportAll, importAll, exportV1Pilots, clearAllData } from '@/io/BulkData'
+import { exportAll, importAll, clearAllData } from '@/io/BulkData'
 import { saveFile } from '@/io/Dialog'
+import DeletedItems from './DeletedItems.vue'
 
 export default Vue.extend({
   name: 'options-settings',
+  components: { DeletedItems },
   data: () => ({
     theme: 'gms',
     themes: [],

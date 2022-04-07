@@ -9,6 +9,7 @@ import { getModule } from 'vuex-module-decorators'
 
 class IEncounterData implements ICloudData, ISaveData {
   deleteTime: string
+  expireTime: string
   lastUpdate_cloud: string
   resourceUri: string
   isDeleted: boolean
@@ -32,7 +33,6 @@ class IEncounterData implements ICloudData, ISaveData {
 
 class Encounter implements IMissionStep, ICloudSyncable {
   public readonly ItemType: string = 'encounter'
-  public readonly TypePrefix: string = 'encounter'
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
   public CloudController: CloudController
   public SaveController: SaveController
@@ -194,16 +194,6 @@ class Encounter implements IMissionStep, ICloudSyncable {
     const idx = this._npcs.findIndex(x => x.id === npc.ID && x.side === side)
     if (idx > -1) this._npcs.splice(idx, 1)
     this.SaveController.save()
-  }
-
-  public get Power(): number {
-    const enemy = this.Npcs(EncounterSide.Enemy)
-      .concat(this.Reinforcements(EncounterSide.Enemy))
-      .reduce((a, b) => +a + +b.Power, 0)
-    const ally = this.Npcs(EncounterSide.Ally)
-      .concat(this.Reinforcements(EncounterSide.Ally))
-      .reduce((a, b) => +a + +b.Power, 0)
-    return enemy - ally
   }
 
   public Reinforcements(side: EncounterSide): Npc[] {

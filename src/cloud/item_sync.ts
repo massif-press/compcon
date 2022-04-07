@@ -63,7 +63,6 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
   }
 
   const missingIds = MissingItemIds()
-  console.log(missingIds)
 
   const localMap = []
   Object.keys(localCollection).forEach((key: string) =>
@@ -76,7 +75,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
         lastModifiedLocal: x.CloudController.LastUpdateLocal,
         lastModifiedCloud: x.CloudController.LastUpdateCloud,
         deleted: x.SaveController.IsDeleted,
-        delete_time: x.SaveController.DeleteTime,
+        delete_time: x.SaveController.ExpireTime,
         missingContent: missingIds.includes(x.ID),
       })
     )
@@ -165,19 +164,19 @@ function PermanentlyDeleteLocalItem(item: CollectionItem): any {
   switch (item.itemType) {
     case CloudItemTypeMap.activemission:
       const ms = getModule(MissionStore, store)
-      ms.deleteMissionPermanent(ms.Missions.find(x => x.ID === item.id))
+      ms.deleteActiveMissionPermanent(ms.AllActiveMissions.find(x => x.ID === item.id))
       break
     case CloudItemTypeMap.mission:
       const ams = getModule(MissionStore, store)
-      ams.deleteActiveMissionPermanent(ams.ActiveMissions.find(x => x.ID === item.id))
+      ams.deleteMissionPermanent(ams.AllMissions.find(x => x.ID === item.id))
       break
     case CloudItemTypeMap.encounter:
       const es = getModule(EncounterStore, store)
-      es.deleteEncounterPermanent(es.Encounters.find(x => x.ID === item.id))
+      es.deleteEncounterPermanent(es.AllEncounters.find(x => x.ID === item.id))
       break
     case CloudItemTypeMap.npc:
       const ns = getModule(NpcStore, store)
-      ns.deleteNpcPermanent(ns.Npcs.find(x => x.ID === item.id))
+      ns.deleteNpcPermanent(ns.AllNpcs.find(x => x.ID === item.id))
       break
     case CloudItemTypeMap.pilot:
       const ps = getModule(PilotManagementStore, store)

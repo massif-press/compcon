@@ -33,9 +33,9 @@ export default async function (lancerVer: string, ccVer: string, store: any): Pr
   await dataStore.refreshExtraContent()
   const missing = { pilots: [], npcs: [] }
   await pilotStore.loadPilots()
-  missing.pilots = pilotStore.MissingContent
+  missing.pilots = pilotStore.MissingPilots
   await npcStore.loadNpcs()
-  missing.npcs = npcStore.MissingContent
+  missing.npcs = npcStore.MissingNpcs
   await dataStore.setMissingContent(missing)
 
   await encounterStore.loadEncounters()

@@ -204,8 +204,7 @@ export default Vue.extend({
   },
   methods: {
     deleteActiveMission(m: ActiveMission) {
-      const store = getModule(MissionStore, this.$store)
-      store.delete_activemission(m)
+      m.SaveController.delete()
     },
   },
 })

@@ -22,9 +22,10 @@ import { IBrewable } from '../components/brew/IBrewable'
 import { CompendiumItem } from '../CompendiumItem'
 
 class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
+  deleteTime: string
   brews: BrewInfo[]
   isDeleted: boolean
-  deleteTime: string
+  expireTime: string
   lastUpdate_cloud: string
   resourceUri: string
   portrait: string
@@ -63,7 +64,6 @@ class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
 
 class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
   public readonly ItemType: string = 'npc'
-  public readonly TypePrefix: string = 'npc'
   public ImageTag: ImageTag.NPC
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
   public CloudController: CloudController
@@ -158,16 +158,6 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
 
   public RenewID(): void {
     this._id = uuid()
-  }
-
-  public get Power(): number {
-    // TODO: calc stat power for custom
-    const multiplier = typeof this.Tier === 'number' ? this.Tier : 3.5
-    return (this.Class.Power + this.Templates.reduce((a, b) => +a + +b.Power, 0)) * multiplier
-  }
-
-  public get PowerTier(): number {
-    return Math.ceil(this.Power / 100) * 100
   }
 
   public get Stats(): NpcStats {

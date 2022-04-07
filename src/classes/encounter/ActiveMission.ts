@@ -10,6 +10,7 @@ import { getModule } from 'vuex-module-decorators'
 
 class IActiveMissionData implements ICloudData, ISaveData {
   deleteTime: string
+  expireTime: string
   isDeleted: boolean
   lastUpdate_cloud: string
   resourceUri: string
@@ -29,8 +30,7 @@ class IActiveMissionData implements ICloudData, ISaveData {
 }
 
 class ActiveMission implements ICloudSyncable {
-  public readonly ItemType: string = 'mission'
-  public readonly TypePrefix: string = 'activemission'
+  public readonly ItemType: string = 'activemission'
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
   public SaveController: SaveController
   public CloudController: CloudController

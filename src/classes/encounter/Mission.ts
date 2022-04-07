@@ -13,6 +13,7 @@ enum MissionStepType {
 
 class IMissionData implements ICloudData, ISaveData {
   deleteTime: string
+  expireTime: string
   lastUpdate_cloud: string
   resourceUri: string
   isDeleted: boolean
@@ -32,7 +33,6 @@ class IMissionData implements ICloudData, ISaveData {
 
 class Mission implements ICloudSyncable {
   public readonly ItemType: string = 'mission'
-  public readonly TypePrefix: string = 'mission'
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
   public CloudController: CloudController
   public SaveController: SaveController
@@ -65,14 +65,6 @@ class Mission implements ICloudSyncable {
 
   public get ID(): string {
     return this._id
-  }
-
-  public get ResourceURI(): string {
-    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
-  }
-
-  public get ShareCode(): string {
-    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
   }
 
   public RenewID(): void {
@@ -114,14 +106,6 @@ class Mission implements ICloudSyncable {
   public set Labels(val: string[]) {
     this._labels = val
     this.SaveController.save()
-  }
-
-  public get averagePower(): number {
-    return this.Encounters.reduce((a, b) => +a + +b.Power, 0) / this.Encounters.length
-  }
-
-  public get maxPower(): number {
-    return Math.max(...this.Encounters.map(x => x.Power))
   }
 
   public get Encounters(): Encounter[] {

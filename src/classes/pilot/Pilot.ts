@@ -72,6 +72,7 @@ class PilotData
     IPortraitData,
     IBrewData
 {
+  deleteTime: string
   id: string
   level: number
   callsign: string
@@ -97,7 +98,7 @@ class PilotData
   // SaveController
   lastModified: string
   isDeleted: boolean
-  deleteTime: string
+  expireTime: string
 
   // PortraitController
   portrait: string

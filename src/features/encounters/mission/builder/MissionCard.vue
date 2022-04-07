@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-row v-if="!mission" align="center" justify="center" style="width: 100%; height: 100%;">
+    <v-row v-if="!mission" align="center" justify="center" style="width: 100%; height: 100%">
       <v-col cols="auto">
         <span class="heading h1 subtle--text text--lighten-2">no mission selected</span>
       </v-col>
@@ -16,7 +16,13 @@
           <span class="heading mech">
             <cc-short-string-editor large @set="mission.Name = $event">
               <span
-                style="display:inline-block;  max-width: 90%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+                style="
+                  display: inline-block;
+                  max-width: 90%;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                "
               >
                 {{ mission.Name }}
               </span>
@@ -54,9 +60,7 @@
         />
       </cc-title>
       <p v-html="mission.Note" />
-      <cc-title small class="mt-3">
-        ENCOUNTER STRUCTURE
-      </cc-title>
+      <cc-title small class="mt-3">ENCOUNTER STRUCTURE</cc-title>
       <v-row dense>
         <v-col>
           <v-fade-transition>
@@ -83,19 +87,12 @@
                     >
                       <div slot="title" class="accent--text">
                         {{ step.Name }}
-                        <cc-slashes />
-                        <span class="caption text--text">PR</span>
-                        <span class="heading h3 accent--text">
-                          {{ step.Power.toString().padStart(4, '0') }}
-                        </span>
                       </div>
                       <div slot="items">
                         <v-dialog width="70vw">
                           <template v-slot:activator="{ on }">
                             <v-btn icon color="primary" v-on="on">
-                              <v-icon>
-                                mdi-information-outline
-                              </v-icon>
+                              <v-icon>mdi-information-outline</v-icon>
                             </v-btn>
                           </template>
                           <encounter-panel :encounter="step" readonly />
@@ -145,12 +142,8 @@
                           borderless
                           class="mt-n1"
                         >
-                          <v-btn small text :value="false">
-                            Short
-                          </v-btn>
-                          <v-btn small text :value="true">
-                            Full
-                          </v-btn>
+                          <v-btn small text :value="false">Short</v-btn>
+                          <v-btn small text :value="true">Full</v-btn>
                         </v-btn-toggle>
                       </div>
                     </mission-step-element>

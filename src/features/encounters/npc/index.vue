@@ -245,8 +245,7 @@ export default class NpcManager extends Vue {
 
   delete_npc(npc: Npc) {
     this.selectedNpc = null
-    const store = getModule(NpcStore, this.$store)
-    store.delete_npc(npc)
+    npc.SaveController.delete()
   }
 
   copyNpc(npc: Npc) {

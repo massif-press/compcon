@@ -38,7 +38,6 @@ export default Vue.extend({
       { name: 'Labels', val: 'LabelString', icon: 'mdi-label-outline' },
       { name: 'Campaign', val: 'Campaign', icon: 'mdi-map' },
       { name: 'Tier', val: 'Tier', icon: 'cci-rank-3' },
-      { name: 'Power Rating', val: 'PowerTier', icon: 'mdi-battery-80' },
     ],
   }),
   methods: {

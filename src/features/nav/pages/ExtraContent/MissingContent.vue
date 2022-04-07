@@ -19,7 +19,7 @@
             </span>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <p class="body-text">
+            <p class="body-text" v-if="missingLength > 1">
               COMP/CON has determined the following items cannot be loaded, and require Lancer
               Content Packs that are not installed or not activated:
             </p>
@@ -42,30 +42,45 @@
                   </span>
                 </v-card-title>
                 <v-card-text>
-                  <div v-if="notActive(item.brews).length">
-                    <div class="caption">DEACTIVATED LCPS</div>
-                    <div v-for="pack in notActive(item.brews)" :key="pack" class="ml-2">
-                      <span class="body-text">
-                        LCP
-                        <b v-text="pack" />
-                        is installed but deactivated.
-                      </span>
-                    </div>
-                  </div>
-                  <div v-if="notInstalled(item.brews).length">
-                    <div class="caption mt-2">MISSING LCPS</div>
-                    <div v-for="brew in notInstalled(item.brews)" :key="brew.LcpId" class="ml-2">
-                      <span class="body-text">
-                        LCP
-                        <b v-text="`${brew.LcpName} @ ${brew.LcpVersion}`" />
-                        is missing.
-                      </span>
-                      <div v-if="brew.Website">
-                        It may be possible to download this pack at:
-                        <a target="_blank" :href="brew.Website" v-text="brew.Website" />
+                  <v-row>
+                    <v-col>
+                      <div v-if="notActive(item.brews).length">
+                        <div class="caption">DEACTIVATED LCPS</div>
+                        <div v-for="pack in notActive(item.brews)" :key="pack" class="ml-2">
+                          <span class="body-text">
+                            LCP
+                            <b v-text="pack" />
+                            is installed but deactivated.
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                      <div v-if="notInstalled(item.brews).length">
+                        <div class="caption mt-2">MISSING LCPS</div>
+                        <div
+                          v-for="brew in notInstalled(item.brews)"
+                          :key="brew.LcpId"
+                          class="ml-2"
+                        >
+                          <span class="body-text">
+                            LCP
+                            <b v-text="`${brew.LcpName} @ ${brew.LcpVersion}`" />
+                            is missing.
+                          </span>
+                          <div v-if="brew.Website">
+                            It may be possible to download this pack at:
+                            <a target="_blank" :href="brew.Website" v-text="brew.Website" />
+                          </div>
+                        </div>
+                      </div>
+                    </v-col>
+                    <v-col cols="auto" align-self="center">
+                      <cc-tooltip title="Delete Item" content="Delete this item from local data">
+                        <v-btn icon color="error" @click="deleteItem(item, key)">
+                          <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </cc-tooltip>
+                    </v-col>
+                  </v-row>
                 </v-card-text>
               </v-card>
             </div>
@@ -79,7 +94,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore, PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'missing-content-pane',
@@ -91,6 +106,8 @@ export default Vue.extend({
       return getModule(CompendiumStore, this.$store).MissingContent
     },
     missingLength() {
+      if (!this.missing || !this.missing.pilots || !this.missing.npcs) return 0
+      console.log(this.missing)
       return this.missing.pilots.length + this.missing.npcs.length
     },
   },
@@ -104,6 +121,12 @@ export default Vue.extend({
       return itemBrews.filter(
         x => !getModule(CompendiumStore, this.$store).ContentPacks.some(y => y.ID === x.LcpId)
       )
+    },
+    deleteItem(item, key) {
+      if (key === 'pilots') {
+        getModule(PilotManagementStore, this.$store).deleteMissing(item)
+      } else if (key === 'npcs') {
+      }
     },
   },
 })
