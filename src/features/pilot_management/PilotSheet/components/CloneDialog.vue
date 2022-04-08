@@ -93,6 +93,8 @@ export default Vue.extend({
     },
     clonePilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot))
+      newPilot.GroupController.reset()
+      newPilot.CloudController.reset()
       newPilot.RenewID()
       if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※'
       if (!this.pilot.Callsign.includes('※')) this.pilot.Name += '※'
@@ -107,6 +109,8 @@ export default Vue.extend({
     },
     copyPilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot))
+      newPilot.GroupController.reset()
+      newPilot.CloudController.reset()
       newPilot.RenewID()
       newPilot.Callsign += '″'
       newPilot.Name += ' (COPY)'

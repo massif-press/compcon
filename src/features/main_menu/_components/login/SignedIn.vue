@@ -91,7 +91,7 @@
       <v-card v-if="isOnV2" class="mt-3 mb-6">
         <v-card-title class="heading h3">Auto-sync settings</v-card-title>
         <v-card-text class="px-10">
-          <v-row>
+          <v-row dense align="center">
             <v-col>
               <span class="heading h3">
                 On Login
@@ -114,6 +114,31 @@
               />
             </v-col>
             <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"><b>ON</b></v-col>
+            <v-col v-else cols="auto"><i>OFF</i></v-col>
+          </v-row>
+          <v-row dense align="center">
+            <v-col>
+              <span class="heading h3">
+                Sync Remote Resources
+                <cc-tooltip
+                  inline
+                  content="This will automatically attempt to sync all remote resources with the latest versions in their authors' cloud accounts. "
+                >
+                  <v-icon left>mdi-information-outline</v-icon>
+                </cc-tooltip>
+              </span>
+            </v-col>
+            <v-col cols="auto" class="mr-n3">
+              <v-switch
+                v-model="userProfile.SyncFrequency.remotes"
+                dense
+                hide-details
+                inset
+                color="accent"
+                @change="userUpdate()"
+              />
+            </v-col>
+            <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"><b>ON</b></v-col>
             <v-col v-else cols="auto"><i>OFF</i></v-col>
           </v-row>
         </v-card-text>

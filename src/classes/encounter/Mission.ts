@@ -12,6 +12,11 @@ enum MissionStepType {
 }
 
 class IMissionData implements ICloudData, ISaveData {
+  remoteIID: string
+  remoteKey: string
+  shareCodeExpiry: string
+  shareCode: string
+  isRemoteResource: boolean
   deleteTime: string
   expireTime: string
   lastUpdate_cloud: string

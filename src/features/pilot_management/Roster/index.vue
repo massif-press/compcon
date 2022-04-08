@@ -121,11 +121,24 @@
     </v-slide-x-transition>
     <v-divider class="my-3" />
     <v-row dense justify="center">
-      <v-col cols="12" md="6" lg="3">
-        <add-pilot />
+      <v-col cols="auto" class="mx-4">
+        <v-btn x-large tile color="accent" @click="$router.push('new')">
+          <v-icon left large>cci-accuracy</v-icon>
+          Create New Pilot
+        </v-btn>
+      </v-col>
+      <v-col cols="auto" class="mx-4">
+        <v-btn x-large tile color="accent" @click="$refs.import.show()">
+          <v-icon large left class="pr-2">mdi-import</v-icon>
+          Import Pilot
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row dense justify="center">
+      <v-col cols="auto">
         <v-menu v-model="newGroupMenu" top :close-on-content-click="false">
           <template v-slot:activator="{ on }">
-            <v-btn small block outlined color="accent" class="mt-1" v-on="on">
+            <v-btn outlined color="accent" class="mt-1" v-on="on">
               <v-icon left>mdi-folder</v-icon>
               Add Group
             </v-btn>
@@ -156,6 +169,9 @@
         </v-menu>
       </v-col>
     </v-row>
+    <cc-solo-dialog ref="import" icon="cci-pilot" no-confirm large title="Import Pilot">
+      <import-dialog />
+    </cc-solo-dialog>
   </v-container>
 </template>
 
@@ -163,7 +179,7 @@
 import Vue from 'vue'
 import PilotCard from './components/PilotCard.vue'
 import PilotListItem from './components/PilotListItem.vue'
-import AddPilot from './components/AddPilot.vue'
+import ImportDialog from './components/ImportDialog.vue'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore, PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
@@ -174,7 +190,7 @@ import { PilotGroup } from '../store'
 
 export default Vue.extend({
   name: 'roster-view',
-  components: { AddPilot, PilotListItem, PilotCard, draggable },
+  components: { ImportDialog, PilotListItem, PilotCard, draggable },
   data: () => ({
     sortParams: null,
     drag: false,

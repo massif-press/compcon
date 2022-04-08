@@ -1,50 +1,55 @@
 <template>
-  <v-col>
-    <v-btn x-large tile block color="secondary" class="white--text" @click="dialog = true">
-      <v-icon large left class="pr-2">mdi-download</v-icon>
-      <b>File Import</b>
-    </v-btn>
-    <import-dialog
-      v-model="dialog"
-      :pilot="importPilot"
-      :error="error"
-      @cancel="cancelImport"
-      @confirm="stageImport"
-    >
-      <v-file-input
-        v-model="fileValue"
-        accept="text/json"
-        dark
-        outlined
-        autofocus
-        placeholder="Select Pilot Data File"
-        label="UND IDENT RECORD"
-        prepend-icon="mdi-paperclip"
-        @change="importFile"
-      />
-    </import-dialog>
-    <v-dialog v-model="missingContentWarning">
-      <v-card>
-        <v-card-text class="text-center">
-          <br />
-          <p class="heading h3 accent--text">
-            WARNING: The imported Pilot requires the following content packs that are not currently
-            installed or have mismatching versions:
-          </p>
-          <p class="effect-text text-center" v-html="missingContent" />
-          <p class="text--text">
-            This Pilot cannot be imported until the missing content packs are installed and
-            activated, or the content pack versions are synchronized.
-          </p>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text color="primary" @click="reset">Abort Import</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-col>
+  <v-container>
+    <v-file-input
+      v-model="fileValue"
+      accept="text/json"
+      outlined
+      label="Select Pilot Data File"
+      prepend-icon="mdi-paperclip"
+      @change="stageImport"
+      @click:clear="reset"
+    />
+    <v-card v-if="missingContent.length">
+      <p v-if="oldBrewsWarning" class="heading h3 accent--text">
+        WARNING: The imported Pilot was created using an older version of COMP/CON. Lancer Content
+        Pack analysis may not be comprehensive and there is a chance COMP/CON will be unable to
+        correctly load this data. Export the original file in the latest version of COMP/CON to
+        guarantee LCP validation.
+      </p>
+      <v-card-text class="text-center">
+        <p class="heading h4 accent--text">
+          The imported Pilot requires the following content packs that are not currently
+          installed/active, or have mismatching versions:
+        </p>
+        <p class="effect-text text-center" v-html="missingContent" />
+        <p class="text--text">
+          This Pilot cannot be imported until the missing content packs are installed and activated,
+          or the content pack versions are synchronized.
+        </p>
+      </v-card-text>
+      <v-divider />
+      <v-card-actions>
+        <v-spacer />
+        <v-btn text color="primary" @click="reset">Abort Import</v-btn>
+      </v-card-actions>
+    </v-card>
+    <div class="mt-2">
+      <p v-if="alreadyPresent" class="accent--text text-center">
+        A Pilot with this ID already exists in the roster. Importing will create a unique copy of
+        this pilot.
+      </p>
+      <v-slide-x-reverse-transition>
+        <v-row v-if="stagedData" align="center" justify="center">
+          <v-col cols="auto">
+            <v-btn large color="secondary" :disabled="missingContent.length">
+              <v-icon large left>cci-accuracy</v-icon>
+              Import {{ stagedData.callsign }} ({{ stagedData.name }})
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-slide-x-reverse-transition>
+    </div>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -52,76 +57,82 @@ import Vue from 'vue'
 import { Pilot } from '@/class'
 import { importData } from '@/io/Data'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore, PilotManagementStore } from '@/store'
 import { PilotData } from '@/interface'
-import ImportDialog from './ImportDialog.vue'
 
 export default Vue.extend({
   name: 'file-import',
-  components: { ImportDialog },
   data: () => ({
-    dialog: false,
     // fileValue is just used to clear the file input
     fileValue: null,
-    importPilot: null,
-    error: null,
-    missingContentWarning: false,
+    oldBrewsWarning: false,
     missingContent: '',
+    stagedData: null,
+    alreadyPresent: false,
   }),
-  watch: {
-    dialog(dialogOpen) {
-      if (!dialogOpen) this.reset()
-    },
-  },
   methods: {
     reset() {
       this.fileValue = null
-      this.importPilot = null
-      this.error = null
-      this.missingContentWarning = false
+      this.oldBrewsWarning = false
+      this.missingContent = ''
+      this.stagedData = null
+      this.alreadyPresent = false
     },
-    async importFile(file) {
-      this.reset()
+    async stageImport(file) {
       if (!file) return
-      try {
-        const pilotData = await importData<PilotData>(file)
-        if (!pilotData.brews) pilotData.brews = []
-        const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(
-          x => `${x.Name} @ ${x.Version}`
-        )
+      const pilotData = await importData<PilotData>(file)
+      if (!pilotData.brews) pilotData.brews = []
+      // catch old style brews
+      if (pilotData.brews.length && !pilotData.brews[0].LcpId) {
+        this.oldBrewsWarning = true
+
+        const installedPacks = getModule(CompendiumStore, this.$store)
+          .ContentPacks.filter(x => x.Active)
+          .map(x => `${x.Name} @ ${x.Version}`)
         const missingPacks = this.$_.pullAll(pilotData.brews, installedPacks)
-        if (missingPacks.length) {
-          this.missingContent = missingPacks.join('<br />')
-          this.missingContentWarning = true
-        }
-        this.importPilot = Pilot.Deserialize(pilotData)
-        this.importPilot.brews = pilotData.brews
-        this.importPilot.RenewID()
-      } catch (e) {
-        this.error = e.message
-        return
+        if (missingPacks.length) this.missingContent = missingPacks.join('<br />')
+      } else {
+        const installedPacks = getModule(CompendiumStore, this.$store)
+          .ContentPacks.filter(x => x.Active)
+          .map(x => x.ID)
+        let missing = []
+        pilotData.brews.forEach(b => {
+          if (!installedPacks.includes(b.LcpId)) {
+            missing.push(`${b.LcpName} @ ${b.LcpVersion}`)
+          }
+        })
+        if (missing.length) this.missingContent = missing.join('<br />')
       }
-    },
-    stageImport() {
-      const installedPacks = getModule(CompendiumStore, this.$store).ContentPacks.map(x => x.Name)
-      const missingPacks = this.$_.without(this.importPilot.brews, installedPacks)
-      if (!missingPacks.length) this.confirmImport()
-      else {
-        this.missingContent = missingPacks.join('<br />')
-        this.missingContentWarning = true
+      if (
+        getModule(PilotManagementStore)
+          .Pilots.map(x => x.ID)
+          .includes(pilotData.id)
+      ) {
+        this.alreadyPresent = true
+        pilotData.name += '※'
+        pilotData.callsign += '※'
       }
+      this.stagedData = pilotData
     },
-    confirmImport() {
-      this.importPilot.RenewID()
-      this.importPilot.Group = ''
-      this.$store.dispatch('addPilot', this.importPilot)
-      this.reset()
-      this.dialog = false
-      this.$emit('done')
+    importFile() {
+      try {
+        const importPilot = Pilot.Deserialize(this.stagedData)
+        importPilot.GroupController.reset()
+        importPilot.CloudController.reset()
+        importPilot.RenewID()
+        this.$store.dispatch('addPilot', importPilot)
+        this.reset()
+        this.$emit('done')
+        this.$notify('Pilot successfully imported', 'success')
+      } catch (error) {
+        this.$notify(
+          'An error occured during the import attempt. Please check the console log.',
+          'error'
+        )
+      }
     },
     cancelImport() {
       this.reset()
-      this.dialog = false
     },
   },
 })

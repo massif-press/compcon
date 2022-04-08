@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import * as Sync from '@/cloud/user_sync'
-import { AutoSyncAll } from '@/cloud/item_sync'
+import { AutoSyncAll, AutoSyncRemotes } from '@/cloud/item_sync'
 import { SyncLCPs } from '@/cloud/lcp_sync'
 import * as Client from '../index'
-import { Auth } from 'aws-amplify'
 import _ from 'lodash'
 
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
@@ -107,6 +106,7 @@ export class UserStore extends VuexModule {
       try {
         await SyncLCPs()
         await AutoSyncAll()
+        await AutoSyncRemotes()
       } catch (error) {
         console.error('error in auto-sync:', error)
       }

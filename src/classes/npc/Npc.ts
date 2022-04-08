@@ -22,6 +22,11 @@ import { IBrewable } from '../components/brew/IBrewable'
 import { CompendiumItem } from '../CompendiumItem'
 
 class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
+  remoteIID: string
+  remoteKey: string
+  shareCodeExpiry: string
+  shareCode: string
+  isRemoteResource: boolean
   deleteTime: string
   brews: BrewInfo[]
   isDeleted: boolean

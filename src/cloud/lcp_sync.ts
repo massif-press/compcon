@@ -18,7 +18,7 @@ const GetLCPCloudData = async (): Promise<ContentPack[]> => {
     return res.ok ? res.text() : null
   })
 
-  const packs = JSON.parse(data).map(d => new ContentPack(d))
+  const packs = data ? JSON.parse(data).map(d => new ContentPack(d)) : []
 
   return packs
 }

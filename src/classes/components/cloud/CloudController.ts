@@ -4,7 +4,11 @@ import { ICloudSyncable } from './ICloudSyncable'
 interface ICloudData {
   lastUpdate_cloud: string
   lastSync: string
-  resourceUri: string
+  shareCode: string
+  shareCodeExpiry: string
+  isRemoteResource: boolean
+  remoteIID: string
+  remoteKey: string
 }
 
 enum CloudItemTypeMap {
@@ -18,14 +22,27 @@ enum CloudItemTypeMap {
 class CloudController {
   public readonly Parent: ICloudSyncable
 
-  LastUpdateCloud: string
-  LastSync: string
-  ResourceURI: string
+  public LastUpdateCloud: string
+  public LastSync: string
+  public ShareCode: string
+  public ShareCodeExpiry: string
+
+  private _isRemoteResource: boolean
+  public RemoteIID: string
+  public RemoteKey: string
 
   public constructor(parent: ICloudSyncable) {
     this.Parent = parent
     this.LastSync = ''
     this.LastUpdateCloud = ''
+  }
+
+  public reset() {
+    this.LastUpdateCloud = ''
+    this.LastSync = ''
+    this.ShareCode = ''
+    this.ShareCodeExpiry = ''
+    this._isRemoteResource = false
   }
 
   public get s3Key(): string {
@@ -35,8 +52,40 @@ class CloudController {
     }`
   }
 
-  public get ShareCode(): string {
-    return 'TODO'
+  public get ShareCodeExpiration(): string {
+    if (!this.ShareCodeExpiry) return ''
+    return new Date(this.ShareCodeExpiry).toLocaleDateString(undefined, {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  }
+
+  public SetShareCode(code: string) {
+    this.ShareCode = code
+
+    const d = new Date()
+    d.setDate(d.getDate() + 90)
+    this.ShareCodeExpiry = d.toString()
+    this.Parent.SaveController.save()
+  }
+
+  public get IsShareExpired(): boolean {
+    if (!this.ShareCodeExpiry) return false
+    return new Date(this.ShareCodeExpiry) < new Date()
+  }
+
+  public SetRemoteResource(iid: string, key: string) {
+    this.ShareCode = ''
+    this.ShareCodeExpiry = ''
+    this.RemoteIID = iid
+    this.RemoteKey = key
+    this._isRemoteResource = true
+  }
+
+  public get IsRemoteResource(): boolean {
+    return this._isRemoteResource
   }
 
   public MarkSync() {
@@ -69,7 +118,11 @@ class CloudController {
   public static Serialize(parent: ICloudSyncable, target: any) {
     target.lastUpdate_cloud = parent.CloudController.LastUpdateCloud
     target.lastSync = parent.CloudController.LastSync
-    target.resourceUri = parent.CloudController.ResourceURI
+    target.shareCode = parent.CloudController.ShareCode
+    target.shareCodeExpiry = parent.CloudController.ShareCodeExpiry
+    target.isRemoteResource = parent.CloudController.IsRemoteResource
+    target.remoteIID = parent.CloudController.RemoteIID
+    target.remoteKey = parent.CloudController.RemoteKey
   }
 
   public static Deserialize(parent: ICloudSyncable, data: ICloudData) {
@@ -80,7 +133,11 @@ class CloudController {
 
     parent.CloudController.LastUpdateCloud = data.lastUpdate_cloud
     parent.CloudController.LastSync = data.lastSync
-    parent.CloudController.ResourceURI = data.resourceUri
+    parent.CloudController.ShareCode = data.shareCode
+    parent.CloudController.ShareCodeExpiry = data.shareCodeExpiry
+    parent.CloudController._isRemoteResource = data.isRemoteResource
+    parent.CloudController.RemoteIID = data.remoteIID
+    parent.CloudController.RemoteKey = data.remoteKey
   }
 }
 export { ICloudData, CloudController, CloudItemTypeMap }

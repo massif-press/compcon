@@ -46,7 +46,7 @@ export const SET_GROUP_NAME = 'SET_GROUP_NAME'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 export const DELETE_PILOT_PERMANENT = 'DELETE_PILOT_PERMANENT'
-export const SET_MISSING_Pilots = 'SET_MISSING_Pilots'
+export const SET_MISSING_PILOTS = 'SET_MISSING_PILOTS'
 export const DELETE_MISSING = 'DELETE_MISSING'
 
 @Module({
@@ -222,7 +222,7 @@ export class PilotManagementStore extends VuexModule {
     this.LoadedMechID = payload
   }
 
-  @Mutation [SET_MISSING_Pilots](payload: PilotData[]): void {
+  @Mutation [SET_MISSING_PILOTS](payload: PilotData[]): void {
     this.MissingPilots = payload
   }
 
@@ -262,7 +262,7 @@ export class PilotManagementStore extends VuexModule {
       pilotData: ItemsWithLcp(pilotData),
       groupData: pilotGroupData,
     })
-    this.context.commit(SET_MISSING_Pilots, ItemsMissingLcp(pilotData))
+    this.context.commit(SET_MISSING_PILOTS, ItemsMissingLcp(pilotData))
   }
 
   @Action({ rawError: true })

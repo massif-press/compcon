@@ -15,6 +15,7 @@ interface IViewOptions {
 
 interface ISyncFrequency {
   cloudSync_v2: boolean
+  remotes: boolean
 }
 
 interface ISyncOptions {
@@ -54,6 +55,7 @@ const defaultViewOptions = (): IViewOptions => ({
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
   cloudSync_v2: true,
+  remotes: false,
 })
 
 const defaultSyncOptions = (): ISyncOptions => ({
