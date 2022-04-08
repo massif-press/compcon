@@ -167,12 +167,9 @@ export default vueMixins(activePilot).extend({
     aboutDialog: false,
     helpDialog: false,
     optionsDialog: false,
-    currentAuthedUser: null,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser().then(res => {
-      this.currentAuthedUser = res.username
-    })
+    await Auth.currentAuthenticatedUser()
   },
   computed: {
     mode(): string {

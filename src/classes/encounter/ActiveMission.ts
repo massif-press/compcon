@@ -9,6 +9,11 @@ import { CloudController, ICloudData, ISaveData, SaveController } from '../compo
 import { getModule } from 'vuex-module-decorators'
 
 class IActiveMissionData implements ICloudData, ISaveData {
+  remoteIID: string
+  remoteKey: string
+  shareCodeExpiry: string
+  shareCode: string
+  isRemoteResource: boolean
   deleteTime: string
   expireTime: string
   isDeleted: boolean

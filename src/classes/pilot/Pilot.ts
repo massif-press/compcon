@@ -72,6 +72,11 @@ class PilotData
     IPortraitData,
     IBrewData
 {
+  remoteIID: string
+  remoteKey: string
+  shareCodeExpiry: string
+  shareCode: string
+  isRemoteResource: boolean
   deleteTime: string
   id: string
   level: number
@@ -286,6 +291,7 @@ class Pilot
 
   public RenewID(): void {
     this._id = uuid()
+    this.SaveController.save()
   }
 
   public get Level(): number {

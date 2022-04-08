@@ -1,4 +1,4 @@
-import { ICollectionGroupable } from "./ICollectionGroupable"
+import { ICollectionGroupable } from './ICollectionGroupable'
 
 interface IGroupData {
   group: string
@@ -13,6 +13,11 @@ class GroupController {
 
   public constructor(parent: ICollectionGroupable) {
     this.Parent = parent
+  }
+
+  public reset() {
+    this._group = ''
+    this._sortIndex = -1
   }
 
   public get Group(): string {
@@ -39,13 +44,13 @@ class GroupController {
   }
 
   public static Deserialize(parent: ICollectionGroupable, data: IGroupData) {
-    if (!parent.GroupController) throw new Error(`GroupController not found on parent (${typeof parent}). New GroupControllers must be instantiated in the parent's constructor method.`);
+    if (!parent.GroupController)
+      throw new Error(
+        `GroupController not found on parent (${typeof parent}). New GroupControllers must be instantiated in the parent's constructor method.`
+      )
 
     parent.GroupController._group = data.group || ''
     parent.GroupController._sortIndex = data.sort_index || -1
   }
 }
-export {
-  IGroupData,
-  GroupController,
-}
+export { IGroupData, GroupController }

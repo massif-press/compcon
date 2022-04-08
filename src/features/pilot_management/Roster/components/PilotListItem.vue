@@ -27,6 +27,14 @@
           :style="`margin-left: ${mobile ? '75px' : '108px'}; display: inline-block;`"
         >
           {{ pilot.Callsign }}
+          <cc-tooltip
+            inline
+            v-if="pilot.CloudController.IsRemoteResource"
+            title="Remote Resource"
+            :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.`"
+          >
+            <v-icon dark right>mdi-cloud-braces</v-icon>
+          </cc-tooltip>
         </div>
         <edit-menu style="display: inline-block; padding-right: 10px" dense :pilot="pilot" />
       </div>

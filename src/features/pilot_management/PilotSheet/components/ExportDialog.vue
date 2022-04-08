@@ -7,20 +7,6 @@
     title="Export Pilot Data"
   >
     <v-card-text>
-      <div v-if="pilot.CloudID" class="flavor-text">
-        <span class="font-weight-bold accent--text">Pilot Share Code:&nbsp;</span>
-        <span>
-          {{ pilot.ShareCode }}
-          <cc-tooltip simple inline content="Copy Share Code to clipboard">
-            <v-icon :color="copyConfirm ? 'success' : 'grey'" @click="copyCode()">
-              {{ copyConfirm ? 'mdi-check-outline' : 'mdi-clipboard-text-outline' }}
-            </v-icon>
-          </cc-tooltip>
-          <v-fade-transition>
-            <span v-if="copyConfirm" class="subtle--text">Copied!</span>
-          </v-fade-transition>
-        </span>
-      </div>
       <v-row>
         <v-col>
           <v-btn large block tile outlined color="accent" @click="exportPilot()">

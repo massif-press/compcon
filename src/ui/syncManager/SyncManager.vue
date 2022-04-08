@@ -43,21 +43,21 @@
                 <tbody>
                   <tr v-for="item in itemsByType(k)" :key="`item_${item.id}`">
                     <td><v-simple-checkbox v-model="item.selected" /></td>
-                    <!-- {{ item.key }} -->
                     <td class="text-left">
                       {{ callsign(item) }}
                       {{ item.name }}
                     </td>
-                    <td v-if="isAtLatest(item)" colspan="2">
+                    <td v-if="item.remote || isAtLatest(item)" colspan="2">
                       <v-row no-gutters align="center">
                         <v-col><v-divider /></v-col>
                         <v-col cols="auto" class="px-2">
-                          <b class="success--text text--darken-1">Synced</b>
+                          <b v-if="item.remote" class="primary--text text--darken-1">Remote</b>
+                          <b v-else class="success--text text--darken-1">Synced</b>
                         </v-col>
                         <v-col><v-divider /></v-col>
                       </v-row>
                     </td>
-                    <td v-if="!isAtLatest(item)">
+                    <td v-else-if="!isAtLatest(item)">
                       <span
                         v-if="item.lastModifiedLocal"
                         :class="item.latest === 'local' ? 'font-weight-bold' : 'text--disabled'"
@@ -79,6 +79,14 @@
                     <td>
                       <cc-tooltip
                         inline
+                        v-if="item.remote"
+                        title="Remote Resource"
+                        :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and this item will be updated to the latest version of the data published to the author's cloud account.`"
+                      >
+                        <v-icon color="primary">mdi-cloud-braces</v-icon>
+                      </cc-tooltip>
+                      <cc-tooltip
+                        inline
                         v-if="item.deleted"
                         title="Marked for Deletion"
                         :content="`This item has been marked for deletion. It can be restored at any time using the 'Restore' option, or deleted permanently using the 'Delete Permanently' option. If no action is taken, this item will automatically be deleted after ${item.delete_time}`"
@@ -93,7 +101,7 @@
                       >
                         <v-icon color="error">mdi-folder-off</v-icon>
                       </cc-tooltip>
-                      <span v-if="!item.missingContent">
+                      <span v-if="!item.remote && !item.missingContent">
                         <cc-tooltip
                           inline
                           v-if="isAtLatest(item)"
@@ -126,6 +134,7 @@
                     </td>
                     <td>
                       <sync-item-menu
+                        v-if="!item.remote"
                         :item="item"
                         @sync="syncSingle(item)"
                         @delete="flagDelete(item)"
@@ -134,6 +143,11 @@
                         @overwite-local="overwriteSingle(item, 'cloud', 'local')"
                         @overwite-cloud="overwriteSingle(item, 'local', 'cloud')"
                       />
+                      <cc-tooltip v-else inline content="Sync local data to latest remote data">
+                        <v-btn icon @click="remoteUpdate(item)">
+                          <v-icon color="primary">mdi-cloud-sync</v-icon>
+                        </v-btn>
+                      </cc-tooltip>
                     </td>
                   </tr>
                 </tbody>
@@ -199,7 +213,7 @@
         <v-col cols="8">
           <cc-tooltip
             title="Sync Data"
-            content="COMP/CON will compare local and cloud data, updating all items to the latest version found. All items that have been marked for deletion for longer than 30 days will be permanently removed."
+            content="COMP/CON will compare local and cloud data, updating all items (including remote resources) to the latest version found. All items that have been marked for deletion for longer than 30 days will be permanently removed."
           >
             <v-btn @click="syncAll()" color="primary" block x-large>
               <v-icon large class="mr-2">mdi-cloud-sync</v-icon>
@@ -226,6 +240,8 @@ import {
   FlagCloudRestore,
   SaveAllLocalUpdates,
   AutoSyncAll,
+  AutoSyncRemotes,
+  RemoteSyncItem,
 } from '@/cloud/item_sync'
 import { ICloudSyncable } from '@/classes/components'
 import { Pilot } from '@/classes/pilot/Pilot'
@@ -282,7 +298,6 @@ export default Vue.extend({
       this.loading = true
       ListCloudItems()
         .then(res => {
-          console.log(res)
           this.items = ProcessItemsList(res)
         })
         .finally(() => (this.loading = false))
@@ -356,6 +371,7 @@ export default Vue.extend({
     syncAll(hideAlert?: boolean) {
       this.loading = true
       AutoSyncAll()
+        .then(() => AutoSyncRemotes())
         .then(() => sleep(500))
         .then(() => this.fetch())
         .then(() => {
@@ -364,6 +380,17 @@ export default Vue.extend({
         .catch(() => {
           if (!hideAlert) this.$notify('An error occured while syncing.', 'error')
         })
+    },
+    async remoteUpdate(item) {
+      const local = GetLocalItem(item) as ICloudSyncable
+      try {
+        RemoteSyncItem(local)
+        this.$notify('Pilot synced to remote', 'success')
+        this.fetch()
+      } catch (error) {
+        console.error(error)
+        this.$notify('An error occurred while attempting to download remote data', 'error')
+      }
     },
   },
 })

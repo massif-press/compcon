@@ -49,8 +49,34 @@
       </cc-tooltip>
     </v-btn>
     <div id="divider" />
-    <cc-tooltip inline delayed content="Share Pilot Data">
-      <v-btn icon class="unskew ml-6" disabled>
+    <cc-tooltip
+      v-if="pilot.CloudController.IsRemoteResource"
+      inline
+      delayed
+      title="Download Latest Data"
+      :content="
+        isAuthed
+          ? 'Download all remote changes to this pilot, overwriting local data.'
+          : 'Requires Cloud Account'
+      "
+    >
+      <v-btn
+        icon
+        class="unskew ml-6"
+        :disabled="!isAuthed"
+        :loading="loading"
+        @click="remoteUpdate()"
+      >
+        <v-icon color="white">mdi-cloud-sync</v-icon>
+      </v-btn>
+    </cc-tooltip>
+    <cc-tooltip
+      v-else
+      inline
+      delayed
+      :content="isAuthed ? 'Download Latest Data' : 'Requires Cloud Account'"
+    >
+      <v-btn icon class="unskew ml-6" :disabled="!isAuthed" @click="$refs.share.show()">
         <v-icon color="white">mdi-share</v-icon>
       </v-btn>
     </cc-tooltip>
@@ -87,19 +113,26 @@
         </v-list-item-group>
       </v-list>
     </v-menu>
+    <cc-solo-dialog title="Share Code Management" ref="share" no-confirm>
+      <share-dialog :pilot="pilot" />
+    </cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
 import EditMenu from './PilotEditMenu.vue'
+import ShareDialog from './ShareDialog.vue'
 import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
+import { PilotManagementStore, UserStore } from '@/store'
+import { Auth } from 'aws-amplify'
+import { RemoteSyncItem } from '@/cloud/item_sync'
 
 export default Vue.extend({
   name: 'pilot-nav',
   components: {
     EditMenu,
+    ShareDialog,
   },
   props: {
     pilot: {
@@ -111,6 +144,12 @@ export default Vue.extend({
       required: true,
     },
   },
+  data: () => ({
+    loading: false,
+  }),
+  async mounted() {
+    await Auth.currentAuthenticatedUser()
+  },
   computed: {
     lastLoaded() {
       const store = getModule(PilotManagementStore, this.$store)
@@ -120,6 +159,9 @@ export default Vue.extend({
         ? this.pilot.ActiveMech.ID
         : null
     },
+    isAuthed() {
+      return getModule(UserStore, this.$store).IsLoggedIn
+    },
   },
   methods: {
     toMech() {
@@ -128,6 +170,16 @@ export default Vue.extend({
     delete_pilot() {
       this.pilot.SaveController.delete()
       this.$router.push('/pilot_management')
+    },
+    async remoteUpdate() {
+      this.loading = true
+      try {
+        await RemoteSyncItem(this.pilot)
+        this.$notify('Pilot synced to remote', 'success')
+      } catch (error) {
+        console.error(error)
+        this.$notify('An error occurred while attempting to download remote data', 'error')
+      }
     },
   },
 })

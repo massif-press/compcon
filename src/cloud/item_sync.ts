@@ -42,6 +42,7 @@ type CollectionItem = {
   latest: string
   selected: false
   missingContent: false
+  remote: false
 }
 
 function determineLatest(cloudItem: CollectionItem, localItem: CollectionItem): string {
@@ -77,6 +78,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
         deleted: x.SaveController.IsDeleted,
         delete_time: x.SaveController.ExpireTime,
         missingContent: missingIds.includes(x.ID),
+        remote: x.CloudController.IsRemoteResource,
       })
     )
   )
@@ -101,6 +103,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
         deleted,
         delete_time: '',
         missingContent: missingIds.includes(id),
+        remote: false,
       }
     }
   })
@@ -113,7 +116,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
         return cloudItem
       }
     })
-    if (!match) {
+    if (!match || localItem.remote) {
       output.push(localItem)
     } else if (match && matchIndex > -1) {
       output[matchIndex].name = localItem.name
@@ -189,6 +192,7 @@ function PermanentlyDeleteLocalItem(item: CollectionItem): any {
 
 // syncs a single item based on latest update
 const SyncItem = async (item: CollectionItem, skipSave?: boolean): Promise<any> => {
+  if (item.remote) return
   const localItem = GetLocalItem(item) as ICloudSyncable
   if (
     !localItem ||
@@ -206,6 +210,7 @@ const UpdateLocalFromCloud = async (
   localItem?: ICloudSyncable,
   skipSave?: boolean
 ) => {
+  if (item.remote) return
   const data = await GetSingleByKey(item.key)
   let instance
   // TODO: check brews and throw error. might need callback fn
@@ -256,6 +261,7 @@ const UpdateCloudFromLocal = (
   localItem: ICloudSyncable,
   skipSave?: boolean
 ) => {
+  if (item.remote) return
   // local has the latest data, upload it to the cloud
   if (!CloudController.ValidateName(item.key)) {
     // item is saved under the old path, remove it
@@ -322,6 +328,7 @@ const Overwrite = async (
 }
 
 const PushSingle = async (item: ICloudSyncable): Promise<any> => {
+  if (item.CloudController.IsRemoteResource) return
   return Storage.put(item.CloudController.s3Key, item.Serialize(item), {
     level: 'protected',
     contentType: 'text/plain',
@@ -347,6 +354,18 @@ const GetSingleByKey = async (key: string): Promise<any> => {
   const url = await Storage.get(key, {
     level: 'protected',
     identityId,
+  })
+  if (typeof url === 'string') {
+    return await fetch(url).then(res => res.json())
+  } else {
+    console.error('Malformed S3 Result from GetSingleByKey')
+  }
+}
+
+const GetSingleRemote = async (key: string, iid: string): Promise<any> => {
+  const url = await Storage.get(key, {
+    level: 'protected',
+    identityId: iid,
   })
   if (typeof url === 'string') {
     return await fetch(url).then(res => res.json())
@@ -392,11 +411,34 @@ const Rename = async (start: string, dest: string): Promise<any> => {
 
 const AutoSyncAll = async (): Promise<any> => {
   const cloud = await ListCloudItems()
-  const items = ProcessItemsList(cloud).filter(i => !i.missingContent)
+  const items = ProcessItemsList(cloud).filter(i => !i.missingContent && !i.remote)
   Promise.all(items.map(item => SyncItem(item, true))).then(() => SaveAllLocalUpdates())
 }
 
+const RemoteSyncItem = async (localItem: ICloudSyncable): Promise<any> => {
+  if (!localItem || !localItem.CloudController.IsRemoteResource) return
+
+  const key = localItem.CloudController.RemoteKey
+  const iid = localItem.CloudController.RemoteIID
+  GetSingleRemote(key, iid)
+    .then(res => {
+      localItem.Update(res)
+      localItem.CloudController.SetRemoteResource(iid, key)
+      localItem.SaveController.SetLoaded()
+    })
+    .catch(err => console.error(err))
+}
+
+const AutoSyncRemotes = async (): Promise<any> => {
+  const items = ProcessItemsList([])
+  console.log(items)
+  Promise.all(items.map(item => RemoteSyncItem(GetLocalItem(item) as ICloudSyncable))).then(() =>
+    SaveAllLocalUpdates()
+  )
+}
+
 export {
+  getCognitoIdentity,
   ListCloudItems,
   ProcessItemsList,
   SyncItem,
@@ -410,4 +452,7 @@ export {
   FlagCloudRestore,
   SaveAllLocalUpdates,
   AutoSyncAll,
+  GetSingleRemote,
+  RemoteSyncItem,
+  AutoSyncRemotes,
 }
