@@ -61,7 +61,7 @@ const GetCloudProfile = async (uid?: string): Promise<Client.UserProfile> => {
 
 const UpdateUserData = async (user: Client.UserProfile, v2Update?: boolean): Promise<any> => {
   if (v2Update && !_.has(user.SyncFrequency, 'cloudSync_v2')) {
-    user.SyncFrequency = { cloudSync_v2: false }
+    user.SyncFrequency = { cloudSync_v2: false, remotes: false }
   }
 
   const input = Client.UserProfile.Serialize(user)
