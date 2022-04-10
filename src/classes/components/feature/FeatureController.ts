@@ -60,7 +60,6 @@ class FeatureController {
 
   public get Counters(): ICounterData[] {
     let counters: ICounterData[] = this.collectAll('Counters')
-    // if (this.ActiveMech) counters = counters.concat(this.ActiveMech.CountersOnlyMech)
     return counters
   }
 

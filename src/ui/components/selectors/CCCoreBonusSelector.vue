@@ -46,7 +46,7 @@
             text
             small
             :disabled="!pilot.CoreBonusController.CoreBonuses.length"
-            @click="pilot.ClearCoreBonuses()"
+            @click="pilot.CoreBonusController.ClearCoreBonuses()"
           >
             Reset
           </v-btn>

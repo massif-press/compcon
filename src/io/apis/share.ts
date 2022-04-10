@@ -1,7 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import { ICloudSyncable } from '@/classes/components'
+import { CloudItemTypeMap } from '@/classes/components/cloud/CloudController'
 import { SyncItem, getCognitoIdentity } from '@/cloud/item_sync'
+import sleep from '@/util/sleep'
 import axios from 'axios'
 
 const lcp_meta_key = process.env.VUE_APP_LCP_META_KEY
@@ -23,8 +25,11 @@ const processCloudItem = async (item: ICloudSyncable) => {
   const collectionItem = {
     id: item.ID,
     key: item.CloudController.s3Key,
+    lastModifiedLocal: new Date().toString(),
+    itemType: CloudItemTypeMap.pilot,
   }
   await SyncItem(collectionItem)
+  await sleep(6000)
   const iid = await getCognitoIdentity()
   return { key: item.CloudController.s3Key, iid }
 }

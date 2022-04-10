@@ -238,7 +238,6 @@ import {
   Overwrite,
   FlagCloudDelete,
   FlagCloudRestore,
-  SaveAllLocalUpdates,
   AutoSyncAll,
   AutoSyncRemotes,
   RemoteSyncItem,
@@ -246,6 +245,7 @@ import {
 import { ICloudSyncable } from '@/classes/components'
 import { Pilot } from '@/classes/pilot/Pilot'
 import sleep from '@/util/sleep'
+import { SaveAllLocalUpdates } from '@/io/BulkData'
 
 export default Vue.extend({
   name: 'sync-manager',

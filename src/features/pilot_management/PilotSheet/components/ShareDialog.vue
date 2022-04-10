@@ -64,7 +64,8 @@
             Generate Pilot Share Code
           </v-btn>
           <div v-show="!pilot.CloudController.LastUpdateCloud" class="overline text-disabled">
-            Generating a Share Code will upload this pilot to your cloud account
+            Generating a Share Code will upload this pilot to your cloud account. This process may
+            take several seconds.
           </div>
         </v-col>
       </v-row>

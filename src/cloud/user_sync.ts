@@ -59,7 +59,7 @@ const GetCloudProfile = async (uid?: string): Promise<Client.UserProfile> => {
   }
 }
 
-const UpdateUserData = async (user: Client.UserProfile, v2Update?: boolean): Promise<any> => {
+const _updateUserData = async (user: Client.UserProfile, v2Update?: boolean): Promise<any> => {
   if (v2Update && !_.has(user.SyncFrequency, 'cloudSync_v2')) {
     user.SyncFrequency = { cloudSync_v2: false, remotes: false }
   }
@@ -79,5 +79,12 @@ const UpdateUserData = async (user: Client.UserProfile, v2Update?: boolean): Pro
     variables: { input },
   })
 }
+
+const UpdateUserData = async (user: Client.UserProfile, v2Update?: boolean): Promise<any> => {
+  if (v2Update) _updateUserData(user, true)
+  else debounced(user, false)
+}
+
+const debounced = _.debounce(_updateUserData, 500, { maxWait: 3000, trailing: true })
 
 export { PutNewUserData, GetUserData, GetCloudProfile, UpdateUserData }

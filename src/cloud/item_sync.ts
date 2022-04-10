@@ -5,6 +5,7 @@ import { ICloudSyncable } from '@/classes/components'
 import { CloudController, CloudItemTypeMap } from '@/classes/components/cloud/CloudController'
 import { ActiveMission, Encounter, Mission, Npc, Pilot } from '@/class'
 import { MissingItemIds } from '@/io/ContentEvaluator'
+import { SaveAllLocalUpdates } from '@/io/BulkData'
 
 const currentCognitoIdentity = async (): Promise<any> =>
   Auth.currentUserCredentials()
@@ -303,13 +304,6 @@ const SaveLocalUpdates = (item: CollectionItem) => {
   }
 }
 
-const SaveAllLocalUpdates = () => {
-  store.dispatch('saveMissionData')
-  store.dispatch('saveEncounterData')
-  store.dispatch('saveNpcData')
-  store.dispatch('savePilotData')
-}
-
 // overwrite local data with cloud data
 const Overwrite = async (
   item: CollectionItem,
@@ -431,7 +425,6 @@ const RemoteSyncItem = async (localItem: ICloudSyncable): Promise<any> => {
 
 const AutoSyncRemotes = async (): Promise<any> => {
   const items = ProcessItemsList([])
-  console.log(items)
   Promise.all(items.map(item => RemoteSyncItem(GetLocalItem(item) as ICloudSyncable))).then(() =>
     SaveAllLocalUpdates()
   )

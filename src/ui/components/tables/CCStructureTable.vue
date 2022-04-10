@@ -318,8 +318,6 @@ export default class CCSidebarView extends Vue {
 
   applySystemTrauma(): void {
     if (this.systemTraumaRoll > 3) {
-      console.log(this.mech)
-      console.log(this.destroyedSystem)
       let s = this.loadout.Systems.find(x => x.ID === this.destroyedSystem)
       if (!s) {
         s = this.loadout.IntegratedSystems.find(x => x.ID === this.destroyedSystem)

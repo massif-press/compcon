@@ -105,7 +105,7 @@
               will create a
               <b>read-only</b>
               version of this pilot in your roster that can be updated when the owner of this data
-              publishes changes to their cloud account. An editable local copy of a remote resource pilot can be made by duplicating the pilot (Pilot Options > Clone > Duplicate)"
+              publishes changes to their cloud account. Remote data cannot be saved to your own cloud account. An editable local copy of a remote resource pilot can be made by duplicating the pilot (Pilot Options > Clone > Duplicate)"
               >
                 <v-icon right>mdi-information-outline</v-icon>
               </cc-tooltip>

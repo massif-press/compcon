@@ -15,8 +15,6 @@ export const SET_COGNITO_USER = 'SET_USER'
 export const SET_AWS_DATA = 'SET_AWS_DATA'
 export const SET_USER_PROFILE = 'SET_USER_PROFILE'
 
-let localUpdateTime = null
-
 @Module({
   name: 'cloud',
 })
@@ -33,11 +31,6 @@ export class UserStore extends VuexModule {
   private [LOAD_USER_PROFILE](payload: Client.UserProfile): void {
     this.UserProfile = payload
   }
-
-  // @Mutation
-  // private [SET_PATRON](state: boolean): void {
-  //   this.IsPatron = state
-  // }
 
   @Mutation
   private [SET_LOGGED_IN](state: boolean): void {
@@ -63,16 +56,6 @@ export class UserStore extends VuexModule {
   private [SET_AWS_DATA](data: any): void {
     this.AwsData = data
   }
-
-  // @Mutation
-  // private [SET_PATREON_TOKEN](data: any): void {
-  //   this.PatreonToken = data
-  // }
-
-  // @Action
-  // public clearOauth(): void {
-  //   this.context.commit(SET_PATRON, false)
-  // }
 
   @Action
   public setCognitoUser(payload: any): void {
@@ -121,7 +104,7 @@ export class UserStore extends VuexModule {
 
   @Action({ rawError: true })
   public async updateUserData(): Promise<void> {
-    console.info('Updating User Info before unload event')
+    console.info('Updating User Info')
     Sync.UpdateUserData(this.UserProfile)
   }
 }

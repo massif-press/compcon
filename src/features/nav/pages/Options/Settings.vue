@@ -122,6 +122,18 @@
       </v-col>
       <v-col>
         <h3 class="heading accent--text mb-n2">Advanced Options</h3>
+        <v-switch v-model="userSaveStrategy" color="secondary" inset dense hide-details>
+          <span slot="label">
+            Enable Performant Saving
+            <cc-tooltip
+              title="Save Strategy"
+              :content="`COMP/CON tries to write changes to your save data every time a value changes. On some systems this can cause poor app performance. Enabling Performant Saving restricts saving data to page navigation and browser exit events, increasing performance at a cost of save reliablity. This option works best on Chrome browsers.`"
+              inline
+            >
+              <v-icon>mdi-information-outline</v-icon>
+            </cc-tooltip>
+          </span>
+        </v-switch>
         <v-switch v-model="userViewExotics" color="exotic" inset dense hide-details>
           <span slot="label">
             Show Exotic items in the Compendium
@@ -178,6 +190,7 @@ import { UserStore } from '@/store'
 import { exportAll, importAll, clearAllData } from '@/io/BulkData'
 import { saveFile } from '@/io/Dialog'
 import DeletedItems from './DeletedItems.vue'
+import { SetTheme } from '@/classes/utility/ThemeManager'
 
 export default Vue.extend({
   name: 'options-settings',
@@ -210,6 +223,14 @@ export default Vue.extend({
         this.user.SetView('quickstart', newval)
       },
     },
+    userSaveStrategy: {
+      get: function () {
+        return this.user.GetView('savePerformant')
+      },
+      set: function (newval) {
+        this.user.SetView('savePerformant', newval)
+      },
+    },
     userID() {
       return this.user.id
     },
@@ -231,17 +252,8 @@ export default Vue.extend({
       location.reload()
     },
     setTheme() {
-      const profile = getModule(UserStore, this.$store).UserProfile
-      Vue.set(profile, 'Theme', this.theme)
-      const isDark = allThemes[this.theme].type === 'dark'
-
-      if (isDark) {
-        this.$vuetify.theme.themes.dark = allThemes[this.theme].colors
-        this.$vuetify.theme.dark = true
-      } else {
-        this.$vuetify.theme.themes.light = allThemes[this.theme].colors
-        this.$vuetify.theme.dark = false
-      }
+      getModule(UserStore, this.$store).UserProfile.Theme = this.theme
+      SetTheme(this.theme, this.$vuetify)
     },
     showMessage() {
       const store = getModule(UserStore, this.$store)

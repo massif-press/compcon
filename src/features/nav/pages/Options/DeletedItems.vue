@@ -69,7 +69,6 @@ export default Vue.extend({
   },
   methods: {
     permanentlyDelete(item) {
-      console.log(item.ItemType)
       switch (item.ItemType) {
         case 'mission':
           const ms = getModule(MissionStore, this.$store)

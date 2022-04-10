@@ -122,7 +122,7 @@
                 Sync Remote Resources
                 <cc-tooltip
                   inline
-                  content="This will automatically attempt to sync all remote resources with the latest versions in their authors' cloud accounts. "
+                  content="This will automatically attempt to sync all remote resources with the latest versions in their authors' cloud accounts. Remote data cannot be saved to your own cloud account."
                 >
                   <v-icon left>mdi-information-outline</v-icon>
                 </cc-tooltip>
@@ -287,8 +287,8 @@ export default Vue.extend({
       this.upgradeLoading = true
       try {
         await this.$refs.backup.dataExport()
-        await this.$refs.sync.syncAll(true)
         await this.$refs.lcps.syncAll(true)
+        await this.$refs.sync.syncAll(true)
         await UpdateUserData(this.userProfile, true)
         this.$notify('Data successfully updated. Reloading.', 'success')
         setTimeout(() => {

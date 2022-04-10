@@ -1,5 +1,8 @@
 import uuid from 'uuid/v4'
 import _ from 'lodash'
+import { UpdateUserData } from '@/cloud/user_sync'
+import { getModule } from 'vuex-module-decorators'
+import { UserStore, store } from '@/store'
 
 const CONFIG_FILE_NAME = 'user.config'
 
@@ -11,6 +14,7 @@ interface IViewOptions {
   pilotSheet: string
   showExotics: boolean
   quickstart: boolean
+  savePerformant: boolean
 }
 
 interface ISyncFrequency {
@@ -51,6 +55,7 @@ const defaultViewOptions = (): IViewOptions => ({
   pilotSheet: 'tabbed',
   showExotics: false,
   quickstart: false,
+  savePerformant: true,
 })
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
@@ -124,6 +129,11 @@ class UserProfile {
     }
 
     localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(data))
+    if (getModule(UserStore, store).IsLoggedIn) UpdateUserData(this, false)
+  }
+
+  public get IsSavePerformant(): boolean {
+    return this._viewOptions.savePerformant
   }
 
   public get SyncFrequency(): ISyncFrequency {

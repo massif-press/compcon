@@ -51,6 +51,7 @@ class CoreSystem {
   public readonly Deployables: IDeployableData[]
   public readonly DeployActions: Action[]
   public readonly Counters: ICounterData[]
+  public readonly Actions: Action[]
 
   public IsActive: boolean
   public Energy: number
@@ -106,6 +107,7 @@ class CoreSystem {
     this._special_equipment = data.special_equipment || []
     this._tags = data.tags
     this.ActivateAction = this.generateActivateAction()
+    this.Actions = this.getActions()
 
     this.Energy = 1
   }
@@ -122,9 +124,9 @@ class CoreSystem {
     return this.activeFeatures('Synergies')
   }
 
-  public get Actions(): Action[] {
+  public getActions(): Action[] {
     const arr = this.activeFeatures('Actions')
-    if (this.Energy) arr.push(this.ActivateAction)
+    arr.push(this.ActivateAction)
     return arr
   }
 

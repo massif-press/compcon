@@ -1,6 +1,7 @@
 // This should be called every app load to manage all housekeeping stuff.
 // To the extent possible, the actual work should be kept in the relevant
 // class/module, this should be mostly for organization's sake.
+import { SetTheme } from '@/classes/utility/ThemeManager'
 import {
   CompendiumStore,
   PilotManagementStore,
@@ -12,7 +13,12 @@ import {
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
 
-export default async function (lancerVer: string, ccVer: string, store: any): Promise<void> {
+export default async function (
+  lancerVer: string,
+  ccVer: string,
+  store: any,
+  vuetify?: any
+): Promise<void> {
   const dataStore = getModule(CompendiumStore, store)
   const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
@@ -22,12 +28,16 @@ export default async function (lancerVer: string, ccVer: string, store: any): Pr
 
   await dataStore.setVersions(lancerVer, ccVer)
 
-  await Auth.currentAuthenticatedUser()
+  Auth.currentAuthenticatedUser()
     .then(cognitoUser => {
-      userstore.setAws({ cognitoUser })
+      userstore.setAws({ cognitoUser }).then(() => {
+        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework)
+      })
     })
     .catch(() => {
-      userstore.loadUser()
+      userstore.loadUser().then(() => {
+        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework)
+      })
     })
 
   await dataStore.refreshExtraContent()
