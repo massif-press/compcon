@@ -36,12 +36,12 @@ const routes: RouteConfig[] = [
           {
             name: 'pilot_sheet',
             path: '',
-            redirect: 'sheet/1',
+            redirect: 'sheet/0',
           },
           {
-            name: 'mech_hangar',
+            name: 'tactical_profile',
             path: '',
-            redirect: 'sheet/3',
+            redirect: 'sheet/1',
           },
           {
             path: 'sheet/:tab',
