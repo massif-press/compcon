@@ -1,11 +1,12 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
+const forceVersBump = 1
 
 if (process.env.VUE_APP_NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
-      console.log(process.env.BASE_URL)
+      console.log(process.env.BASE_URL, forceVersBump)
       console.log(
         'App is being served from cache by a service worker.\n' +
           'For more details, visit https://goo.gl/AFskqB'

@@ -22,7 +22,6 @@ class TalentRank extends CompendiumItem {
 
 class Talent extends CompendiumItem {
   public readonly Terse: string
-  // public readonly Icon: string
   private _ranks: TalentRank[]
   private _icon_url: string
 

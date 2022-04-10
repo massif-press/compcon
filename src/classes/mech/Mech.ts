@@ -139,7 +139,11 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     this._core_active = false
     this._cc_ver = store.getters.getVersion || 'N/A'
 
-    this.FeatureController.Register(this.Frame, this.MechLoadoutController)
+    this.FeatureController.Register(
+      this.Frame,
+      this.MechLoadoutController,
+      this.Parent.CoreBonusController
+    )
   }
 
   // -- Passthroughs ------------------------------------------------------------------------------

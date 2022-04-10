@@ -31,7 +31,7 @@
             inline
             v-if="pilot.CloudController.IsRemoteResource"
             title="Remote Resource"
-            :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.`"
+            :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account. Remote data cannot be saved to your own cloud account.`"
           >
             <v-icon dark right>mdi-cloud-braces</v-icon>
           </cc-tooltip>

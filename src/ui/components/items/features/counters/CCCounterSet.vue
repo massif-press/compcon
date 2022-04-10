@@ -1,9 +1,13 @@
 <template>
   <transition-group name="fade-transition" :duration="250" tag="div" class="row justify-start pr-4">
-    <v-col v-for="cd in actors.flatMap(x => x.CounterData)" :key="cd.id" cols="auto">
+    <v-col
+      v-for="cd in actors.flatMap(x => x.CounterController.CounterData)"
+      :key="cd.id"
+      cols="auto"
+    >
       <counter-component
         :counter-data="cd"
-        :save-data="actors[0].CounterSaveData"
+        :save-data="actors[0].CounterController.CounterSaveData"
         @delete="deleteCustom(cd.id)"
         @update="updateCounter($event)"
       />
@@ -37,13 +41,13 @@ export default Vue.extend({
   },
   methods: {
     onCustomCounterCreate(name: string) {
-      this.actors[0].createCustomCounter(name)
+      this.actors[0].CounterController.createCustomCounter(name)
     },
     updateCounter(val: Counter) {
-      this.actors[0].saveCounter(val.Serialize())
+      this.actors[0].CounterController.saveCounter(val.Serialize())
     },
     deleteCustom(id: string) {
-      this.actors[0].deleteCustomCounter(id)
+      this.actors[0].CounterController.deleteCustomCounter(id)
     },
   },
 })

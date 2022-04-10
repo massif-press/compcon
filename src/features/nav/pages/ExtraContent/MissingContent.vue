@@ -107,7 +107,6 @@ export default Vue.extend({
     },
     missingLength() {
       if (!this.missing || !this.missing.pilots || !this.missing.npcs) return 0
-      console.log(this.missing)
       return this.missing.pilots.length + this.missing.npcs.length
     },
   },

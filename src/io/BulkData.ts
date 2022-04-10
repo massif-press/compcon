@@ -2,8 +2,9 @@ import { readFile, writeFile } from './Data'
 import PromisifyFileReader from 'promisify-file-reader'
 import Startup from './Startup'
 import Vue from 'vue'
-import { store } from '@/store'
 import { DeleteAll } from '@/cloud/item_sync'
+import _ from 'lodash'
+import { store } from '@/store'
 
 const files = [
   'user.config',
@@ -58,4 +59,17 @@ const clearAllData = async function (clear_cloud: boolean): Promise<void> {
   await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
 }
 
-export { exportV1Pilots, exportAll, importAll, clearAllData }
+const SaveAllLocalUpdates = () => {
+  debounced()
+}
+
+const globalSave = () => {
+  store.dispatch('saveMissionData')
+  store.dispatch('saveEncounterData')
+  store.dispatch('saveNpcData')
+  store.dispatch('savePilotData')
+}
+
+const debounced = _.debounce(globalSave, 500, { maxWait: 3000, trailing: true })
+
+export { exportV1Pilots, exportAll, importAll, clearAllData, SaveAllLocalUpdates }

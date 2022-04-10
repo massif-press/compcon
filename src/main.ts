@@ -18,9 +18,6 @@ import lancerData from 'lancer-data'
 
 import './registerServiceWorker'
 
-import theme from './ui/theme'
-import themes from './ui/style/themes'
-
 import mixins from './mixins'
 
 import _ from 'lodash'
@@ -32,6 +29,7 @@ import 'tiptap-vuetify/dist/main.css'
 import Amplify from 'aws-amplify'
 import '@aws-amplify/ui-vue'
 import { awsmobile } from './aws-exports'
+import { getThemePreload } from './classes/utility/ThemeManager'
 
 Amplify.configure(awsmobile)
 
@@ -40,24 +38,7 @@ Object.defineProperty(Vue.prototype, '$_', { value: _ })
 Vue.prototype.$appVersion = process.env.VUE_APP_VERSION_TAG || 'dev'
 Vue.prototype.$lancerVersion = `${lancerData.info.version}`
 
-// Preload theme
-const ls = JSON.parse(localStorage.getItem('user.config'))
-let activeTheme = null
-
-if (ls && ls.theme) {
-  activeTheme = themes[ls.theme]
-}
-
-if (!activeTheme) {
-  activeTheme = themes.gms
-}
-
-theme.theme.dark = activeTheme.type === 'dark'
-theme.dark = activeTheme.type === 'dark'
-
-theme.theme.themes.dark = activeTheme.colors
-theme.theme.themes.light = activeTheme.colors
-
+const theme = getThemePreload()
 const vuetify = new Vuetify(theme)
 
 Vue.use(VueSecureHTML)
@@ -70,7 +51,6 @@ Vue.use(TiptapVuetifyPlugin, {
   vuetify,
   iconsGroup: 'md',
 })
-// Vue.use(Amplify)
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
@@ -93,7 +73,7 @@ const v: any = new Vue({
   router,
   store,
   async created() {
-    await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
+    await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, vuetify)
   },
   render: h => h(App),
 }).$mount('#app')

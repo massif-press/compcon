@@ -608,7 +608,7 @@ export default vueMixins(activePilot).extend({
       ]
     },
     coreActivator() {
-      return this.mech.Actions.find(x => x.ID === 'core_active_activate')
+      return this.mech.FeatureController.Actions.find(x => x.ID === 'core_active_activate')
     },
     loadout(): MechLoadout {
       return this.mech.MechLoadoutController.ActiveLoadout
