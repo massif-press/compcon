@@ -60,7 +60,7 @@ export default vueMixins(activePilot).extend({
       this.$router.push({ name: 'pilot_sheet' })
     },
     mechHangar() {
-      this.$router.push({ name: 'mech_hangar' })
+      this.$router.push({ name: 'tactical_profile' })
     },
   },
 })
