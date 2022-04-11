@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid class="px-3 mt-4">
+  <v-container fluid class="px-3" style="margin-top: 20px">
     <v-row dense align="end" class="mt-2">
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
-        <v-btn-toggle :value="profile.GetView('roster')" mandatory dense class="mt-n4">
+        <v-btn-toggle :value="getRosterView()" mandatory dense class="mt-n4">
           <v-btn small icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
@@ -90,9 +90,7 @@
             </v-row>
             <div
               v-if="!g.hidden"
-              :style="
-                profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''
-              "
+              :style="getRosterView() !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
             >
               <v-expand-transition>
                 <draggable
@@ -109,7 +107,7 @@
                     v-for="(id, j) in g.pilotIDs"
                     :key="`${pilotCardType}_${j}`"
                     :pilot="getPilotFromId(id)"
-                    :small="profile.GetView('roster') === 'small-cards'"
+                    :small="getRosterView() === 'small-cards'"
                     :dragging="drag"
                   />
                 </draggable>
@@ -204,7 +202,7 @@ export default Vue.extend({
       return mod
     },
     pilotCardType(): string {
-      switch (this.profile.GetView('roster')) {
+      switch (this.getRosterView()) {
         case 'cards':
         case 'small-cards':
           return 'pilot-card'
@@ -263,6 +261,10 @@ export default Vue.extend({
   },
   mounted() {},
   methods: {
+    getRosterView() {
+      if (this.profile) return 'list'
+      return this.profile.GetView('roster')
+    },
     toggleHidden(g: PilotGroup) {
       g.hidden = !g.hidden
     },
