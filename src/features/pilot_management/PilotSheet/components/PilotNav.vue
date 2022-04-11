@@ -12,6 +12,9 @@
           NARRATIVE PROFILE
         </cc-tooltip>
       </cc-nav-item>
+      <cc-nav-item v-show="hasBondData" :selected="selected === '4'" to="../sheet/4">
+        <cc-tooltip inline delayed content="Pilot Bonds">BONDS</cc-tooltip>
+      </cc-nav-item>
       <cc-nav-item :selected="selected === '2'" to="../sheet/2">
         <cc-tooltip inline delayed content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
           TACTICAL PROFILE
@@ -33,6 +36,7 @@
       <v-list dense class="heading h3">
         <v-list-item to="../sheet/0">DOSSIER</v-list-item>
         <v-list-item to="../sheet/1">NARRATIVE PROFILE</v-list-item>
+        <v-list-item v-show="hasBondData" to="../sheet/4">BONDS</v-list-item>
         <v-list-item to="../sheet/2">TACTICAL PROFILE</v-list-item>
         <v-list-item to="../sheet/3">MECH HANGAR</v-list-item>
       </v-list>
@@ -124,7 +128,7 @@ import Vue from 'vue'
 import EditMenu from './PilotEditMenu.vue'
 import ShareDialog from './ShareDialog.vue'
 import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore, UserStore } from '@/store'
+import { PilotManagementStore, CompendiumStore, UserStore } from '@/store'
 import { Auth } from 'aws-amplify'
 import { RemoteSyncItem } from '@/cloud/item_sync'
 
@@ -161,6 +165,9 @@ export default Vue.extend({
     },
     isAuthed() {
       return getModule(UserStore, this.$store).IsLoggedIn
+    },
+    hasBondData() {
+      return getModule(CompendiumStore, this.$store).Bonds.length
     },
   },
   methods: {

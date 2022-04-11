@@ -147,9 +147,7 @@
           RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
         </span>
         <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
-          <!-- TODO: no data image -->
           <v-img v-if="pilot.Portrait" :key="pilot.Image" :src="pilot.Portrait" aspect-ratio="1" />
-          <v-img v-else src="https://via.placeholder.com/550" />
         </div>
         <div class="mr-8 mt-3">
           <v-btn outlined large block color="secondary" @click="$refs.imageSelector.open()">

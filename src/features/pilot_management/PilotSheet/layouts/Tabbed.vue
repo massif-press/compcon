@@ -4,6 +4,7 @@
     <narrative-view v-show="page === '1'" key="v1" :pilot="pilot" />
     <tactical-view v-show="page === '2'" key="v2" :pilot="pilot" />
     <mech-hangar-view v-show="page === '3'" key="v3" :pilot="pilot" />
+    <bonds-view v-show="page === '4'" key="v4" :pilot="pilot" />
   </div>
 </template>
 
@@ -13,10 +14,11 @@ import NarrativeView from '../sections/narrative/index.vue'
 import InfoView from '../sections/info/index.vue'
 import TacticalView from '../sections/tactical/index.vue'
 import MechHangarView from '../sections/hangar/index.vue'
+import BondsView from '../sections/bonds/index.vue'
 
 export default Vue.extend({
   name: 'tabbed',
-  components: { NarrativeView, InfoView, TacticalView, MechHangarView },
+  components: { NarrativeView, InfoView, TacticalView, MechHangarView, BondsView },
   props: {
     pilot: {
       type: Object,
