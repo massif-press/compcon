@@ -88,4 +88,14 @@ export class Rules {
   public static get Overcharge(): string[] {
     return rules.overcharge
   }
+
+  public static get MaxPilotStress(): number {
+    // return rules.maxPilotStress
+    return 8
+  }
+
+  public static get MaxPilotXP(): number {
+    // return rules.maxPilotXP
+    return 8
+  }
 }

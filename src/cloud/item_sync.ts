@@ -214,7 +214,6 @@ const UpdateLocalFromCloud = async (
   if (item.remote) return
   const data = await GetSingleByKey(item.key)
   let instance
-  // TODO: check brews and throw error. might need callback fn
   if (localItem) {
     // local copy exists, update local
     localItem.Update(data)
