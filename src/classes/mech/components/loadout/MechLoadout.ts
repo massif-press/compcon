@@ -37,13 +37,10 @@ class MechLoadout extends Loadout {
   public constructor(mech: Mech) {
     super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
     this.Parent = mech
-    this._integratedMounts = mech.FeatureController.IntegratedWeapons.map(
-      x => new IntegratedMount(x)
-    )
-    console.log(mech.Frame.IntegratedWeapons)
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
+    this._integratedMounts = []
     this._systems = []
-    this._integratedSystems = mech.FeatureController.IntegratedSystems
+    this._integratedSystems = []
     this._improvedArmament = new EquippableMount(MountType.Flex)
     this._integratedWeapon = new EquippableMount(MountType.Aux)
   }

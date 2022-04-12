@@ -95,7 +95,7 @@
         <div class="mt-n1">
           <div v-if="item.ProfileEffect">
             <div class="mb-n2">
-              <p v-html-safe="item.ProfileEffect" class="text--text body-text mb-1 mx-3" />
+              <p v-html-safe="item.ProfileEffect" class="text--text body-text mb-1 mx-3 py-2" />
             </div>
           </div>
           <div v-if="item.ProfileOnAttack">

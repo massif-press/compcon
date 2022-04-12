@@ -1,4 +1,8 @@
 # COMP/CON Changelog
+## [2.3.1] (2022-4-12)
+
+- **Various** A handful of hotfixes to correct bugs in the Pilot Roster, with integrated equipment, and with LCP parsing. 
+
 ## [2.3.0] (2022-4-12)
 
 - **Global** Rebuilt Cloud Account interface and management system [#1891](https://github.com/massif-press/compcon/issues/1891) [#1870](https://github.com/massif-press/compcon/issues/1856) [#1823](https://github.com/massif-press/compcon/issues/1823) [#1804](https://github.com/massif-press/compcon/issues/1804) [#1763](https://github.com/massif-press/compcon/issues/1763) [#1776](https://github.com/massif-press/compcon/issues/1776) [#1725](https://github.com/massif-press/compcon/issues/1725) [#1724](https://github.com/massif-press/compcon/issues/1724) [#1701](https://github.com/massif-press/compcon/issues/1701)
