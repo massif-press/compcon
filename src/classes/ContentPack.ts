@@ -300,7 +300,7 @@ export class ContentPack {
 
     self._Tables = self._data.tables || {}
 
-    self._Bonds = self._data.bonds?.map(x => new Bond(x)) || []
+    self._Bonds = self._data.bonds?.map(x => new Bond(x, self._manifest.name)) || []
   }
 
   public Serialize(): IContentPack {
