@@ -41,7 +41,12 @@
       <v-slide-x-reverse-transition>
         <v-row v-if="stagedData" align="center" justify="center">
           <v-col cols="auto">
-            <v-btn large color="secondary" :disabled="missingContent.length">
+            <v-btn
+              large
+              color="secondary"
+              :disabled="missingContent.length > 0"
+              @click="importFile()"
+            >
               <v-icon large left>cci-accuracy</v-icon>
               Import {{ stagedData.callsign }} ({{ stagedData.name }})
             </v-btn>
