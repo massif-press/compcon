@@ -26,6 +26,7 @@ interface IMechLoadoutData {
 }
 
 class MechLoadout extends Loadout {
+  private Parent: Mech
   private _integratedMounts: IntegratedMount[]
   private _equippableMounts: EquippableMount[]
   private _improvedArmament: EquippableMount
@@ -35,6 +36,7 @@ class MechLoadout extends Loadout {
 
   public constructor(mech: Mech) {
     super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
+    this.Parent = mech
     this._integratedMounts = mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x))
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this._systems = []
@@ -43,14 +45,20 @@ class MechLoadout extends Loadout {
     this._integratedWeapon = new EquippableMount(MountType.Aux)
   }
 
-  public UpdateIntegrated(mech: Mech, save = true): void {
-    Vue.set(this, '_integratedSystems', mech.Frame.IntegratedSystems)
-    Vue.set(
-      this,
-      '_integratedMounts',
-      mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x))
-    )
+  public SetAllIntegrated(save?: boolean) {
+    const im = [
+      ...this.Parent.Frame.IntegratedWeapons.map(x => new IntegratedMount(x)),
+      ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x)),
+    ]
+    const is = [
+      ...this.Parent.Frame.IntegratedSystems,
+      ...this.Parent.Pilot.FeatureController.IntegratedSystems,
+    ]
+    console.log(im, is)
+    Vue.set(this, '_integratedSystems', is)
+    Vue.set(this, '_integratedMounts', im)
     if (save) this.save()
+    console.log(this.IntegratedMounts)
   }
 
   public get IntegratedMounts(): IntegratedMount[] {
@@ -275,7 +283,7 @@ class MechLoadout extends Loadout {
     ml._integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon)
-    if (!loadoutData.integratedSystems) ml.UpdateIntegrated(mech, false)
+    if (!loadoutData.integratedSystems) ml.SetAllIntegrated()
     return ml
   }
 }

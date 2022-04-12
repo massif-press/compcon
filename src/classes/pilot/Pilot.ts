@@ -721,6 +721,10 @@ class Pilot
     PilotLoadoutController.Deserialize(this, data)
     BrewController.Deserialize(this, data)
 
+    this._mechs.forEach(mech => {
+      mech.MechLoadoutController.UpdateLoadouts()
+    })
+
     if (sync && data.state) {
       this._state.Update(this, data.state, sync)
     } else {

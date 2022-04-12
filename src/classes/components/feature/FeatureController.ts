@@ -26,9 +26,9 @@ class FeatureController {
     if (!this.Containers.length) {
       throw new Error('FeatureControllers not registered!')
     }
-    return this.Containers.flatMap(container => {
-      return FeatureCollector.Collect(collection, container.FeatureSource)
-    })
+    return this.Containers.flatMap(container =>
+      FeatureCollector.Collect(collection, container.FeatureSource)
+    )
   }
 
   private getRootEntity(node: object): object {
@@ -59,8 +59,7 @@ class FeatureController {
   }
 
   public get Counters(): ICounterData[] {
-    let counters: ICounterData[] = this.collectAll('Counters')
-    return counters
+    return this.collectAll('Counters')
   }
 
   public get IntegratedWeapons(): MechWeapon[] {

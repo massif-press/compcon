@@ -6,7 +6,7 @@ abstract class FeatureCollector {
     // override for profiled weapons
     if (element.hasOwnProperty(`Profile${collection}`)) property = `Profile${collection}`
 
-    if (!element.hasOwnProperty(property)) return out
+    if (element[property] === undefined) return out
 
     element[property].forEach(candidate => {
       if (candidate.hasOwnProperty('Destroyed') && (candidate as any).Destroyed) return
@@ -18,9 +18,7 @@ abstract class FeatureCollector {
   }
 
   public static Collect<T>(collection: string, arr: object[]): T[] {
-    return arr.flatMap(x => {
-      return this.extract(collection, x)
-    })
+    return arr.flatMap(x => this.extract(collection, x))
   }
 }
 
