@@ -5,6 +5,7 @@ import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator'
 import { Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
+import Vue from 'vue'
 
 async function savePilots(pilots: Pilot[]) {
   const serialized = pilots.filter(x => x.SaveController.IsDirty).map(x => Pilot.Serialize(x))
@@ -110,8 +111,9 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [MOVE_PILOT](): void {
-    savePilots(this.Pilots.concat(this.DeletedPilots))
+  private [MOVE_PILOT](payload: PilotGroup[]): void {
+    // Vue.set(this, 'PilotGroups', payload)
+    // savePilots(this.Pilots.concat(this.DeletedPilots))
   }
 
   @Mutation
@@ -188,7 +190,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [MOVE_GROUP](): void {
+  private [MOVE_GROUP](payload): void {
+    Vue.set(this, 'PilotGroups', payload)
     savePilotGroups(this.PilotGroups)
   }
 
@@ -283,8 +286,9 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public movePilot(): void {
-    this.context.commit(MOVE_PILOT)
+  public movePilot(payload: PilotGroup[]): void {
+    console.log(payload)
+    this.context.commit(MOVE_PILOT, payload)
   }
 
   @Action
@@ -293,8 +297,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public moveGroup(): void {
-    this.context.commit(MOVE_GROUP)
+  public moveGroup(payload: PilotGroup[]): void {
+    this.context.commit(MOVE_GROUP, payload)
   }
 
   @Action

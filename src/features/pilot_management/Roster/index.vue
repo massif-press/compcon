@@ -52,7 +52,7 @@
           :list="groups"
           :disabled="preventDnd"
           v-bind="dragOptions"
-          @change="pilotStore.moveGroup"
+          @change="pilotStore.moveGroup(groups)"
         >
           <div v-for="(g, i) in groups" :key="`pg_${g.name}_${i}`">
             <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
@@ -195,7 +195,13 @@ export default Vue.extend({
     newGroupMenu: false,
     newGroupName: '',
     preventDnd: true,
+    groups: [],
   }),
+  watch: {
+    pilots() {
+      // this.buildGroups()
+    },
+  },
   computed: {
     pilotStore() {
       const mod = getModule(PilotManagementStore, this.$store)
@@ -215,25 +221,11 @@ export default Vue.extend({
       const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
-    groups() {
-      const groups = [...this.pilotStore.PilotGroups.filter(x => x.name !== '')]
-      groups.forEach(g => {
-        g.pilotIDs = this.pilots
-          .filter(p => p.GroupController.Group === g.name)
-          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
-          .map(p => p.ID)
-      })
-      groups.push({
-        name: '',
-        pilotIDs: this.pilots
-          .map(p => p.ID)
-          .filter(id => !groups.flatMap(g => g.pilotIDs).includes(id)),
-        hidden: false,
-      })
-      return groups
-    },
     pilots() {
       return this.pilotStore.Pilots
+    },
+    pilotGroups() {
+      return this.pilotStore.pilotGroups
     },
     dragOptions() {
       return {
@@ -259,8 +251,28 @@ export default Vue.extend({
   created() {
     this.preventDnd = this.isTouch
   },
-  mounted() {},
+  mounted() {
+    this.buildGroups()
+  },
   methods: {
+    buildGroups() {
+      const groups = [...this.pilotStore.PilotGroups.filter(x => x.name !== '')]
+      groups.forEach(g => {
+        g.pilotIDs = this.pilots
+          .filter(p => p.GroupController.Group === g.name)
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
+          .map(p => p.ID)
+      })
+      groups.push({
+        name: '',
+        pilotIDs: this.pilots
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
+          .map(p => p.ID)
+          .filter(id => !groups.flatMap(g => g.pilotIDs).includes(id)),
+        hidden: false,
+      })
+      this.groups = groups
+    },
     getRosterView() {
       if (this.profile) return 'list'
       return this.profile.GetView('roster')
@@ -303,8 +315,7 @@ export default Vue.extend({
           })
         })
       }
-
-      this.pilotStore.movePilot()
+      this.pilotStore.moveGroup(this.groups)
     },
     deleteGroup(g) {
       this.pilotStore.deleteGroup(g)

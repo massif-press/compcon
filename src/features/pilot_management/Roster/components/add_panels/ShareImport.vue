@@ -9,7 +9,9 @@
           style="width: 200px"
           hide-details
           clearable
+          color="accent"
           @click:clear="reset"
+          @keyup="sanitizeShareCode()"
           :readonly="!!searchResults"
         />
       </v-col>
@@ -268,6 +270,10 @@ export default Vue.extend({
     },
     cancelImport() {
       this.reset()
+    },
+    sanitizeShareCode() {
+      if (!this.shareCode) this.shareCode = ''
+      this.shareCode = this.shareCode.replaceAll(' ', '')
     },
   },
 })
