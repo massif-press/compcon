@@ -19,7 +19,7 @@
     >
       <cc-skill-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-row :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''" dense class="mt-2">
+    <v-row :style="$vuetify.breakpoint.lgAndUp ? `width: 100%` : ''" dense class="mt-2">
       <v-col cols="12" md="auto" class="mr-2 text-center">
         <div class="stat-text">PILOT GRIT</div>
         <div
