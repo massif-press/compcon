@@ -21,10 +21,11 @@ class TalentsController implements IFeatureContainer {
 
   get FeatureSource(): any[] {
     const talents = this.Talents.map(t => t.Talent)
+
     let trData = []
-    talents.forEach(t => {
+    this.Talents.forEach(t => {
       let rankData = []
-      t.Ranks.forEach(r => {
+      t.UnlockedRanks.forEach(r => {
         if (r.Exclusive) rankData = [r]
         else rankData.push(r)
       })
