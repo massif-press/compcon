@@ -19,7 +19,7 @@ import {
 import { IActionData } from '@/classes/Action'
 import { IBackgroundData } from '@/classes/Background'
 
-const isValidManifest = function(obj: any): obj is IContentPackManifest {
+const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
     'name' in obj &&
     typeof obj.name === 'string' &&
@@ -30,14 +30,14 @@ const isValidManifest = function(obj: any): obj is IContentPackManifest {
   )
 }
 
-const readZipJSON = async function<T>(zip: JSZip, filename: string): Promise<T | null> {
+const readZipJSON = async function <T>(zip: JSZip, filename: string): Promise<T | null> {
   const file: JSZipObject | null = zip.file(filename)
   if (!file) return null
   const text = await file.async('text')
   return JSON.parse(text)
 }
 
-const getPackID = async function(manifest: IContentPackManifest): Promise<string> {
+const getPackID = async function (manifest: IContentPackManifest): Promise<string> {
   const enc = new TextEncoder()
   const signature = `${manifest.author}/${manifest.name}`
   const hash = await crypto.subtle.digest('SHA-1', enc.encode(signature))
@@ -56,7 +56,7 @@ async function getZipData<T>(zip: JSZip, filename: string): Promise<T[]> {
   return readResult || []
 }
 
-const parseContentPack = async function(binString: string): Promise<IContentPack> {
+const parseContentPack = async function (binString: string): Promise<IContentPack> {
   const zip = await JSZip.loadAsync(binString)
 
   const manifest = await readZipJSON<IContentPackManifest>(zip, 'lcp_manifest.json')
@@ -95,6 +95,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
   const environments = (await readZipJSON<Environment[]>(zip, 'environments.json')) || []
   const sitreps = (await readZipJSON<Sitrep[]>(zip, 'sitreps.json')) || []
   const tables = (await readZipJSON<any[]>(zip, 'tables.json')) || []
+  const bonds = (await readZipJSON<any[]>(zip, 'bonds.json')) || []
 
   const id = await getPackID(manifest)
 
@@ -121,6 +122,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
       environments,
       sitreps,
       tables,
+      bonds,
     },
   }
 }

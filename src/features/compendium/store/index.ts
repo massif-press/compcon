@@ -43,6 +43,7 @@ import { IReserveData } from '@/classes/pilot/components/reserves/Reserve'
 import * as PlayerAction from '@/classes/Action'
 import { Background, IBackgroundData } from '@/classes/Background'
 import Vue from 'vue'
+import { Bond } from '@/classes/pilot/components/bond/Bond'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -88,6 +89,9 @@ export class CompendiumStore extends VuexModule {
   }
   public get NpcFeatures(): NpcFeature[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
+  }
+  public get Bonds(): Bond[] {
+    return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Bonds)
   }
   public get Backgrounds(): Background[] {
     return lancerData.backgrounds

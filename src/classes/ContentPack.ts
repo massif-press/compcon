@@ -46,6 +46,7 @@ import {
 } from '@/interface'
 import { Action } from './Action'
 import { Background, IBackgroundData } from './Background'
+import { Bond, IBondData } from './pilot/components/bond/Bond'
 
 export interface IContentPackManifest {
   name: string
@@ -71,6 +72,8 @@ interface IContentPackData {
   npcClasses: INpcClassData[]
   npcFeatures: INpcFeatureData[]
   npcTemplates: INpcTemplateData[]
+
+  bonds: IBondData[]
 
   actions: PlayerAction.IActionData[]
 
@@ -216,6 +219,11 @@ export class ContentPack {
     return this._Tables
   }
 
+  private _Bonds: any = []
+  public get Bonds(): any {
+    return this._Bonds
+  }
+
   private _active: boolean
   public get Active(): boolean {
     return this._active
@@ -291,6 +299,8 @@ export class ContentPack {
     self._Sitreps = self._data.sitreps || []
 
     self._Tables = self._data.tables || {}
+
+    self._Bonds = self._data.bonds?.map(x => new Bond(x, self._manifest.name)) || []
   }
 
   public Serialize(): IContentPack {
