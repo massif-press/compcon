@@ -18,7 +18,14 @@
               RANK {{ 'I'.repeat(rank) }}
             </span>
           </v-col>
-          <v-col v-if="talent.InLcp" cols="auto" align-self="center" class="heading h3 ml-auto mr-3 mt-n1">{{ talent.LcpName }}</v-col>
+          <v-col
+            v-if="talent.InLcp"
+            cols="auto"
+            align-self="center"
+            class="heading h3 ml-auto mr-3 mt-n1"
+          >
+            {{ talent.LcpName }}
+          </v-col>
           <v-col cols="auto" class="mr-8 mt-n1">
             <v-btn icon color="white" class="fadeSelect" @click="$emit('expand', 'full')">
               <v-icon>mdi-arrow-expand</v-icon>
@@ -117,6 +124,7 @@
 import Vue from 'vue'
 import TalentEmblem from './_TalentEmblem.vue'
 import TalentRankContents from './_TalentRankContents.vue'
+
 export default Vue.extend({
   name: 'talent-terse',
   components: { TalentEmblem, TalentRankContents },
@@ -137,7 +145,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    rankColor(n) {
+    rankColor(n): string {
       if (!this.rank) return 'primary'
       const rank = parseInt(this.rank)
       if (n <= rank) return 'primary'

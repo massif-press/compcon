@@ -2,11 +2,11 @@
   <selector
     title="Pilot Talents"
     height="60vh"
-    :success="!pilot.IsMissingTalents && enoughSelections"
+    :success="!pilot.TalentsController.IsMissingTalents && enoughSelections"
   >
     <template v-slot:left-column>
       <v-row
-        v-for="(pTalent, i) in pilot.Talents"
+        v-for="(pTalent, i) in pilot.TalentsController.Talents"
         :key="`summary_${pTalent.Talent.ID}_${i}`"
         class="my-2"
       >
@@ -19,7 +19,7 @@
           </v-icon>
         </span>
       </v-row>
-      <v-divider v-if="pilot.Talents.length" class="ma-2 ml-4 mr-4" />
+      <v-divider v-if="pilot.TalentsController.Talents.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-col>
           <v-alert
@@ -31,7 +31,7 @@
             icon="check_circle"
             class="stat-text"
             style="width: 95%"
-            :value="!pilot.IsMissingTalents && enoughSelections"
+            :value="!pilot.TalentsController.IsMissingTalents && enoughSelections"
           >
             Talent Selection Complete
           </v-alert>
@@ -44,9 +44,14 @@
             icon="warning"
             class="stat-text"
             style="width: 95%"
-            :value="pilot.MaxTalentPoints > pilot.CurrentTalentPoints"
+            :value="
+              pilot.TalentsController.MaxTalentPoints > pilot.TalentsController.CurrentTalentPoints
+            "
           >
-            {{ pilot.MaxTalentPoints - pilot.CurrentTalentPoints }} Talent selections remaining
+            {{
+              pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints
+            }}
+            Talent selections remaining
           </v-alert>
           <v-alert
             outlined
@@ -62,7 +67,13 @@
             Must select a minimum of {{ selectedMin }} talents
           </v-alert>
           <div class="my-2">
-            <v-btn block text small :disabled="!talents.length" @click="pilot.ClearTalents()">
+            <v-btn
+              block
+              text
+              small
+              :disabled="!talents.length"
+              @click="pilot.TalentsController.ClearTalents()"
+            >
               Reset
             </v-btn>
           </div>
@@ -100,13 +111,13 @@
           :id="`e_${t.ID}`"
           :key="`t_${i}`"
           :talent="t"
-          :rank="pilot.getTalentRank(t.ID)"
+          :rank="pilot.TalentsController.getTalentRank(t.ID)"
           :terse="ctype === 'terse'"
           :small="ctype === 'small'"
           :can-add="canAdd(t.ID)"
           selectable
-          @add="pilot.AddTalent(t)"
-          @remove="pilot.RemoveTalent(t)"
+          @add="pilot.TalentsController.AddTalent(t)"
+          @remove="pilot.TalentsController.RemoveTalent(t)"
         />
       </v-row>
     </template>
@@ -143,10 +154,12 @@ export default Vue.extend({
     },
     enoughSelections(): boolean {
       // we should only care about the minimum pilot talents in non-levelup (creation)
-      return this.pilot.Level === 0 || !(this.pilot.Talents.length < this.selectedMin)
+      return (
+        this.pilot.Level === 0 || !(this.pilot.TalentsController.Talents.length < this.selectedMin)
+      )
     },
     selectionComplete(): boolean {
-      return (this.newPilot || this.levelUp) && !this.pilot.IsMissingTalents
+      return (this.newPilot || this.levelUp) && !this.pilot.TalentsController.IsMissingTalents
     },
     talents(): Talent[] {
       const compendium = getModule(CompendiumStore, this.$store)
@@ -164,9 +177,12 @@ export default Vue.extend({
   methods: {
     canAdd(id) {
       if (this.newPilot) {
-        return this.pilot.getTalentRank(id) === 0 && this.pilot.IsMissingTalents
+        return (
+          this.pilot.TalentsController.getTalentRank(id) === 0 &&
+          this.pilot.TalentsController.IsMissingTalents
+        )
       }
-      return this.pilot.IsMissingTalents
+      return this.pilot.TalentsController.IsMissingTalents
     },
     scroll(id) {
       if (this.levelUp)

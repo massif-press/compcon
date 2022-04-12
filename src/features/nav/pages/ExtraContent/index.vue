@@ -17,7 +17,12 @@
     <v-tabs-items v-model="tabs">
       <v-tab-item>
         <v-container>
-          <packs-list />
+          <packs-list
+            ref="pl"
+            @start-load="$refs.mc.loading = true"
+            @end-load="$refs.mc.loading = false"
+          />
+          <missing-content ref="mc" />
         </v-container>
       </v-tab-item>
       <v-tab-item>
@@ -39,16 +44,18 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 
 import PacksList from './PacksList.vue'
+import MissingContent from './MissingContent.vue'
 import PackInstall from './PackInstall.vue'
 import PacksDirectory from './PacksDirectory.vue'
 
 @Component({
-  components: { PacksList, PackInstall, PacksDirectory },
+  components: { PacksList, PackInstall, PacksDirectory, MissingContent },
 })
 export default class ExtraContent extends Vue {
   public tabs = null
 
   public onInstalled(): void {
+    ;(this.$refs.pl as any).reload()
     this.tabs = 0
   }
 }

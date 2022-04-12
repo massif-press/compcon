@@ -1,6 +1,6 @@
+import { ImageTag } from '@/classes/enums'
 import path from 'path'
-import artistmap from './assets/artistmap.json'
-
+import artistmap from '@/io/assets/artistmap.json'
 // const webImageTypes = ['.jpeg', '.jpg', '.png', '.gif', '.svg', '.bmp']
 
 declare interface IImageInfo {
@@ -9,19 +9,6 @@ declare interface IImageInfo {
   contact?: string
   site?: string
   notes?: string
-}
-
-enum ImageTag {
-  Pilot = 'pilot',
-  NPC = 'npc',
-  Enemy = 'enemy',
-  Frame = 'frame',
-  Mech = 'mech',
-  Map = 'map',
-  Location = 'location',
-  Object = 'object',
-  Logo = 'logo',
-  Misc = 'misc',
 }
 
 function getImageDir(subdir: ImageTag): string {

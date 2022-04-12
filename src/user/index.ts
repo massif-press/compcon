@@ -1,7 +1,8 @@
-import path from 'path'
 import uuid from 'uuid/v4'
-import { writeFile, readFile, exists, USER_DATA_PATH } from '../io/Data'
 import _ from 'lodash'
+import { UpdateUserData } from '@/cloud/user_sync'
+import { getModule } from 'vuex-module-decorators'
+import { UserStore, store } from '@/store'
 
 const CONFIG_FILE_NAME = 'user.config'
 
@@ -13,27 +14,12 @@ interface IViewOptions {
   pilotSheet: string
   showExotics: boolean
   quickstart: boolean
+  savePerformant: boolean
 }
 
 interface ISyncFrequency {
-  onAppLoad: boolean
-  onLogIn: boolean
-  onBulkDelete: boolean
-  onAppExit: boolean
-  onThemeChange: boolean
-  onPilotLevel: boolean
-  onPilotCreate: boolean
-  onPilotDelete: boolean
-  onMechCreate: boolean
-  onMechDelete: boolean
-  onNpcCreate: boolean
-  onNpcDelete: boolean
-  onEncounterCreate: boolean
-  onEncounterDelete: boolean
-  onMissionCreate: boolean
-  onMissionDelete: boolean
-  onMissionStart: boolean
-  onTurnEnd: boolean
+  cloudSync_v2: boolean
+  remotes: boolean
 }
 
 interface ISyncOptions {
@@ -69,27 +55,12 @@ const defaultViewOptions = (): IViewOptions => ({
   pilotSheet: 'tabbed',
   showExotics: false,
   quickstart: false,
+  savePerformant: false,
 })
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
-  onAppLoad: true,
-  onLogIn: true,
-  onBulkDelete: true,
-  onAppExit: true,
-  onThemeChange: true,
-  onPilotLevel: true,
-  onPilotCreate: true,
-  onPilotDelete: true,
-  onMechCreate: true,
-  onMechDelete: true,
-  onNpcCreate: true,
-  onNpcDelete: true,
-  onEncounterCreate: true,
-  onEncounterDelete: true,
-  onMissionCreate: true,
-  onMissionDelete: true,
-  onMissionStart: true,
-  onTurnEnd: false,
+  cloudSync_v2: true,
+  remotes: false,
 })
 
 const defaultSyncOptions = (): ISyncOptions => ({
@@ -98,8 +69,6 @@ const defaultSyncOptions = (): ISyncOptions => ({
 })
 
 class UserProfile {
-  private _user_id: string
-  private _username: string
   private _welcome_hash: string
   private _theme: string
   private _viewOptions: IViewOptions
@@ -112,15 +81,16 @@ class UserProfile {
   private _encounters: string[]
   private _missions: string[]
   private _active_missions: string[]
-  private _load_options: string []
+  private _load_options: string[]
   public id: string
   public _version: number
   public LastSync: string
   public Username: string
+  public UserID: string
 
   public constructor(id: string) {
-    this._user_id = id
-    this._username = 'No Cloud Account'
+    this.UserID = id
+    this.Username = 'No Cloud Account'
     this._theme = 'gms'
     this._welcome_hash = 'none'
     this._viewOptions = defaultViewOptions()
@@ -134,7 +104,7 @@ class UserProfile {
     this._missions = []
     this._active_missions = []
     this.LastSync = 'Never'
-    this._load_options = ['onAppLoad', 'onLogIn']
+    this._load_options = ['cloudSync_v2', 'onLogIn']
   }
 
   private save(): void {
@@ -158,16 +128,12 @@ class UserProfile {
       last_sync: this.LastSync,
     }
 
-    writeFile(CONFIG_FILE_NAME, JSON.stringify(data, null, 2))
+    localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(data))
+    if (getModule(UserStore, store).IsLoggedIn) UpdateUserData(this, false)
   }
 
-  public get UserID(): string {
-    return this._user_id
-  }
-
-  public set UserID(id: string) {
-    this._user_id = id
-    this.save()
+  public get IsSavePerformant(): boolean {
+    return this._viewOptions.savePerformant
   }
 
   public get SyncFrequency(): ISyncFrequency {
@@ -279,7 +245,7 @@ class UserProfile {
 
   public async MarkSync(): Promise<void> {
     const now = new Date()
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' } as const
 
     this.LastSync = `${now.toLocaleTimeString()}, ${now.toLocaleDateString(undefined, options)}`
   }
@@ -309,7 +275,7 @@ class UserProfile {
   public static Deserialize(data: IUserProfile): UserProfile {
     const profile = new UserProfile(data.user_id)
     profile.id = data.id || ''
-    profile._user_id = data.user_id || uuid()
+    profile.UserID = data.user_id || uuid()
     profile.WelcomeHash = data.welcome_hash || 'none'
     profile.Theme = data.theme || 'gms'
     profile.Achievements = data.achievements || []
@@ -330,24 +296,21 @@ class UserProfile {
   }
 }
 
-async function getUser(): Promise<UserProfile> {
-  const configFileExists = await exists(CONFIG_FILE_NAME)
-  if (!configFileExists) {
+function getLocalProfile(): UserProfile {
+  let config = localStorage.getItem(CONFIG_FILE_NAME)
+
+  if (!config) {
     try {
-      await writeFile(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
+      localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
+      config = localStorage.getItem(CONFIG_FILE_NAME)
       console.info('Created user profile')
     } catch (err) {
-      console.error(
-        `Critical Error: COMP/CON unable to create user profile at ${path.join(
-          USER_DATA_PATH,
-          CONFIG_FILE_NAME
-        )}: \n ${err}`
-      )
+      console.error('Critical Error: COMP/CON unable to create user profile', err)
     }
   }
 
-  const data = JSON.parse(await readFile(CONFIG_FILE_NAME)) as IUserProfile
+  const data = JSON.parse(config) as IUserProfile
   return UserProfile.Deserialize(data)
 }
 
-export { getUser, UserProfile, IUserProfile }
+export { getLocalProfile, UserProfile, IUserProfile }

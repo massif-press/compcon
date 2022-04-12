@@ -32,7 +32,6 @@ A World of Fear
 A World Without Fear
 Absolute Value
 Abundance of Caution
-Accidental Caps Lock
 Act of Hospitality
 Act of Mercy
 Action and Doctrine
@@ -52,9 +51,6 @@ Ain't Nothin
 Alcatraz Charcoal
 Algorithmic Governance
 All Might Be Well
-All of My Dreams
-All of the Above 
-All This is Burning Fire
 All You Never Imagined
 Always a Way
 Amen to Nothingness
@@ -129,10 +125,8 @@ Cavalier Approach
 Ceremonial Sympathy
 Chair Of Shame
 Chance Encounter
-Chance Encounter
 Charm, Charm, Charm
 Chase the Sun
-Chasing Dreams
 Chief Opponent
 Circumference of Heaven
 Circumstantial Evidence
@@ -148,7 +142,6 @@ Cold World
 Collateral Damage
 Colorless Life
 Come Closer
-Come On, Everybody's Doing It
 Communist Wokery
 Complaint Department
 Concerning Syncretism
@@ -192,6 +185,7 @@ Degree of Freedom
 Delays In Processing
 Democratic Dialogue
 Departure Song
+Desperate Measure
 Desperate Measurements
 Devastating Revelation
 Devil's Caravan
@@ -200,7 +194,6 @@ Dialectical Materialism
 Die Like You Mean It
 Difference of Opinion
 Different Definitions Of Irony
-Dinner With Her Parents
 Diplomacy
 Diplomat
 Direct Application of Force
@@ -224,7 +217,6 @@ Don't Worry, This Will Only Hurt Briefly
 Doomed to Think
 Drake Equation
 Dreadfully Close to Normal
-Driven to Win
 Drives Night from Heaven
 Drown in the Sea of Poetry
 Drowned In Love
@@ -375,7 +367,6 @@ Henceforth Inconvenient
 Her Shadow
 Here Open the Gates of Hell
 Heretofore Unconnected Events
-Hero (Derogatory)
 Hey There
 Hidden Conspiracy
 Hiding Place
@@ -400,7 +391,6 @@ Huge if True
 Humanity, Tested
 I Abhor Violence, But
 I Am Just So Proud
-I Am Not a Demon
 I Come in Peace
 I Don't Need Your Love
 I Don't Want You So Much
@@ -446,7 +436,6 @@ Into Dust Descend
 Investment Management
 Invisible Menace
 Irreconcilable Difference
-Irreconcilable Difference
 Irresistible Object
 It Doesn't Matter
 It Is Not Always Love
@@ -480,7 +469,6 @@ Last to the Party
 Last Train Home
 Laugh While You Can
 Lazy Questioning
-Le Révolté
 Le Révolté
 Legitimate Anger
 Less, but No Lesser
@@ -622,7 +610,6 @@ Open and Honest Promise
 Opening Tally
 Operation Shutout
 Ophidian
-Ophidian
 Opiate Overtones
 Orderly Disappearance
 Orderly Transfer of Power
@@ -636,7 +623,6 @@ Out of the Blue
 Outlived Mantra
 Outside Context Problem
 Over Powered
-Over-Seasoned And Under-Cooked
 Pace of Nature
 Pain in the Ass
 Pale, Stupid, and Dumb
@@ -736,7 +722,6 @@ Rotten Grapeshot
 Rough and Confused
 Running on Empty
 Saint and Sage
-Saktiṣeva's Law
 Same Time Tomorrow
 Sappy But Bittersweet
 Savage Messiah

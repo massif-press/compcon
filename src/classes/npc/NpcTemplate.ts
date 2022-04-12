@@ -7,7 +7,6 @@ export interface INpcTemplateData {
   description: string
   base_features: string[]
   optional_features: string[]
-  power: number
   brew: string
 }
 
@@ -17,7 +16,6 @@ export class NpcTemplate {
   private _description: string
   private _base_features: string[]
   private _optional_features: string[]
-  private _power: number
   private _brew: string
   public readonly LcpName: string
   public readonly InLcp: boolean
@@ -28,7 +26,6 @@ export class NpcTemplate {
     this._description = data.description
     this._base_features = data.base_features
     this._optional_features = data.optional_features
-    this._power = data.power
     this._brew = data.brew || 'CORE'
     this.LcpName = packName || 'Lancer CORE NPCs'
     this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false
@@ -42,8 +39,8 @@ export class NpcTemplate {
     return this._name
   }
 
-  public get Power(): number {
-    return this._power
+  public get Brew(): string {
+    return this._brew
   }
 
   public get Description(): string {

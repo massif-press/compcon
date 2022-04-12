@@ -32,48 +32,21 @@
         </cc-short-string-editor>
       </v-col>
       <v-col cols="6" md="4" xl="3">
-        <div class="overline mb-n3 subtle--text">
-          <span v-show="$vuetify.breakpoint.mdAndUp">OMNINET</span>
-          VAULT
-        </div>
-        <span v-if="pilot.CloudOwnerID && pilot.IsLocallyOwned">
-          Current User
-        </span>
-        <span v-else-if="!pilot.IsLocallyOwned">
-          Remote Sync
-        </span>
-        <span v-else class="stat-text error--text">
-          // NOT SYNCED //
-        </span>
-        <cc-tooltip
-          v-if="currentAuthedUser"
-          inline
-          title="Copy Vault Sync (COMP/CON Account) Code"
-          :content="`Last Sync at:<br>${pilot.LastSync}`"
-        >
-          <v-icon small class="fadeSelect" @click="copyVault()">mdi-qrcode-scan</v-icon>
-        </cc-tooltip>
-      </v-col>
-      <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">STATUS</div>
         <span :class="`stat-text ${statusColor()}--text`">{{ pilot.Status }}</span>
         <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />
       </v-col>
     </v-row>
-    <cloud-manager ref="cloud" :pilot="pilot" @end-sync="syncing = false" />
   </v-container>
 </template>
 
 <script lang="ts">
-import CloudManager from '../../../components/CloudManager.vue'
 import activePilot from '@/features/pilot_management/mixins/activePilot'
 import { Auth } from 'aws-amplify'
 import vueMixins from '@/util/vueMixins'
 
 export default vueMixins(activePilot).extend({
   name: 'ident-block',
-  components: { CloudManager },
-
   data: () => ({
     pilotStatuses: [
       { text: 'Active', value: 'ACTIVE' },
@@ -106,28 +79,6 @@ export default vueMixins(activePilot).extend({
           return 'text'
           break
       }
-    },
-    async copyCode() {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      this.copyConfirm = true
-      navigator.clipboard
-        .writeText(this.pilot.GistCode)
-        .then(() => self.$notify('Cloud share code copied to clipboard.', 'success'))
-        .catch(() => self.$notify('Unable to copy cloud share code', 'error'))
-    },
-    async copyVault() {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      this.copyConfirm = true
-      navigator.clipboard
-        .writeText(this.pilot.ShareCode)
-        .then(() => self.$notify('Vault sync code copied to clipboard.', 'success'))
-        .catch(() => self.$notify('Unable to copy vault sync code', 'error'))
-    },
-    sync() {
-      this.syncing = true
-      this.$refs.cloud.sync()
     },
   },
 })

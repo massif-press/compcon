@@ -387,7 +387,7 @@
                 x-small
                 outlined
                 class="fadeSelect"
-                @click="expandAll(pilot.Skills.length, 'sk_', true)"
+                @click="expandAll(pilot.SkillsController.Skills.length, 'sk_', true)"
               >
                 <v-icon small left>mdi-chevron-up</v-icon>
                 All
@@ -396,7 +396,7 @@
                 x-small
                 outlined
                 class="fadeSelect"
-                @click="expandAll(pilot.Skills.length, 'sk_', false)"
+                @click="expandAll(pilot.SkillsController.Skills.length, 'sk_', false)"
               >
                 <v-icon small left>mdi-chevron-down</v-icon>
                 All
@@ -405,7 +405,7 @@
           </v-row>
           <v-row dense justify="center">
             <cc-active-card
-              v-for="(s, i) in pilot.Skills"
+              v-for="(s, i) in pilot.SkillsController.Skills"
               :key="`sk_${i}`"
               :ref="`sk_${i}`"
               :cols="$vuetify.breakpoint.lgAndUp ? 4 : $vuetify.breakpoint.smAndDown ? 12 : 6"
@@ -418,25 +418,34 @@
           </v-row>
         </div>
 
-        <span v-if="pilot.Reserves || pilot.Organizations" class="overline">
+        <span
+          v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations"
+          class="overline"
+        >
           RESERVES AND RESOURCES
           <v-btn small right icon class="fadeSelect" @click="showReserves = !showReserves">
             <v-icon small v-html="showReserves ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
           </v-btn>
         </span>
         <v-scroll-y-reverse-transition mode="out-in">
-          <v-row v-if="showReserves && (pilot.Reserves || pilot.Organizations)" class="mt-n3">
+          <v-row
+            v-if="
+              showReserves &&
+              (pilot.ReservesController.Reserves || pilot.ReservesController.Organizations)
+            "
+            class="mt-n3"
+          >
             <cc-reserve-item
-              v-for="(r, i) in pilot.Reserves.filter(r => r.Type !== 'Bonus')"
+              v-for="(r, i) in pilot.ReservesController.Reserves.filter(r => r.Type !== 'Bonus')"
               :key="`r_${i}`"
               :reserve="r"
-              @remove="pilot.RemoveReserve(i)"
+              @remove="pilot.ReservesController.RemoveReserve(i)"
             />
             <cc-org-item
-              v-for="(o, i) in pilot.Organizations"
+              v-for="(o, i) in pilot.ReservesController.Organizations"
               :key="`o_${i}`"
               :org="o"
-              @remove="pilot.RemoveOrganization(i)"
+              @remove="pilot.ReservesController.RemoveOrganization(i)"
             />
           </v-row>
         </v-scroll-y-reverse-transition>
@@ -471,7 +480,7 @@ export default vueMixins(activePilot).extend({
       return this.pilot.ActiveMech
     },
     loadout() {
-      return this.mech.ActiveLoadout
+      return this.mech.MechLoadoutController.ActiveLoadout
     },
     destroyedWeapons() {
       return this.loadout.Weapons.filter(x => x.Destroyed)

@@ -1,11 +1,11 @@
-import { store } from '@/store'
-import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '@/class'
-import { ICounterData, ITagCompendiumData } from '@/interface'
+import { store } from '../store'
+import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '../class'
+import { ICounterData, ITagCompendiumData, ITagData } from '../interface'
 import _ from 'lodash'
 import { IActionData, Action } from './Action'
-import { IBonusData, Bonus } from './Bonus'
-import { ISynergyData, Synergy } from './Synergy'
-import { IDeployableData } from './Deployable'
+import { IBonusData, Bonus } from './components/feature/bonus/Bonus'
+import { ISynergyData, Synergy } from './components/feature/synergy/Synergy'
+import { IDeployableData } from './components/feature/deployable/Deployable'
 
 interface ICompendiumItemData {
   id: string
@@ -66,10 +66,8 @@ abstract class CompendiumItem {
       this.IsExotic = this._baseTags.some(x => x.IsExotic)
       const heatTag = this.Tags.find(x => x.IsHeatCost)
       const heatCost = Number(heatTag ? heatTag.Value : 0)
-      this.Actions = data.actions
-        ? data.actions.map(x => new Action(x, data.name, heatCost))
-        : []
-      this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x)) : []
+      this.Actions = data.actions ? data.actions.map(x => new Action(x, data.name, heatCost)) : []
+      this.Bonuses = data.bonuses ? data.bonuses.map(x => new Bonus(x, this._name)) : []
       this.Synergies = data.synergies ? data.synergies.map(x => new Synergy(x, data.name)) : []
       this.Deployables = data.deployables ? data.deployables : []
       if (data.deployables) {
@@ -82,17 +80,21 @@ abstract class CompendiumItem {
       this._special_equipment = data.special_equipment ? data.special_equipment : []
       this.Err = ''
     } else {
-      this.ID = `err_${Math.random()
-        .toString(36)
-        .substring(2)}`
+      this.ID = `err_${Math.random().toString(36).substring(2)}`
       this._name = this._description = this._note = this.Brew = ''
-      this.Actions = this.Bonuses = this.Synergies = this.Deployables = this.Counters = this._baseTags = []
+      this.Actions =
+        this.Bonuses =
+        this.Synergies =
+        this.Deployables =
+        this.Counters =
+        this._baseTags =
+          []
       this.Err = 'Item data not found!'
     }
   }
 
   protected save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   public get Name(): string {

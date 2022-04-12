@@ -127,14 +127,6 @@ declare interface PrintOptions {
   combo: boolean
 }
 
-declare interface Faction {
-  id: string
-  name: string
-  description: string
-  logo: string
-  color: string
-}
-
 declare interface Status {
   name: string
   type: string

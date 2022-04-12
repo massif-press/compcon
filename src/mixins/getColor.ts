@@ -5,9 +5,9 @@ import { Framework } from 'vuetify'
 export default class GetColorMixin extends Vue {
   color!: string
 
-  getColor(color?: string, vuetifyRef?: Framework): string {
+  getColor(color?: string, vuetifyRef?: any): string {
     color = color ?? this.color
-    if (vuetifyRef === undefined) vuetifyRef = this.$vuetify
+    if (vuetifyRef === undefined) vuetifyRef = (this as any).$vuetify
     if (color?.substring(0, 1) === '#') return color
     if (!vuetifyRef.theme.currentTheme[color]) return 'primary'
     return vuetifyRef.theme.currentTheme[color].toString()

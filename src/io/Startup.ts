@@ -1,6 +1,7 @@
 // This should be called every app load to manage all housekeeping stuff.
 // To the extent possible, the actual work should be kept in the relevant
 // class/module, this should be mostly for organization's sake.
+import { SetTheme } from '@/classes/utility/ThemeManager'
 import {
   CompendiumStore,
   PilotManagementStore,
@@ -12,7 +13,12 @@ import {
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
 
-export default async function(lancerVer: string, ccVer: string, store: any, noSync?: boolean): Promise<void> {
+export default async function (
+  lancerVer: string,
+  ccVer: string,
+  store: any,
+  vuetify?: any
+): Promise<void> {
   const dataStore = getModule(CompendiumStore, store)
   const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
@@ -22,17 +28,26 @@ export default async function(lancerVer: string, ccVer: string, store: any, noSy
 
   await dataStore.setVersions(lancerVer, ccVer)
 
-  await Auth.currentAuthenticatedUser()
-    .then(user => {
-      userstore.setAws({user: user, condition: 'appLoad', noSync: noSync})
+  Auth.currentAuthenticatedUser()
+    .then(cognitoUser => {
+      userstore.setAws({ cognitoUser }).then(() => {
+        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework)
+      })
     })
     .catch(() => {
-      userstore.loadUser()
+      userstore.loadUser().then(() => {
+        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework)
+      })
     })
 
   await dataStore.refreshExtraContent()
+  const missing = { pilots: [], npcs: [] }
   await pilotStore.loadPilots()
+  missing.pilots = pilotStore.MissingPilots
   await npcStore.loadNpcs()
+  missing.npcs = npcStore.MissingNpcs
+  await dataStore.setMissingContent(missing)
+
   await encounterStore.loadEncounters()
   await missionStore.loadMissions()
   await missionStore.loadActiveMissions()

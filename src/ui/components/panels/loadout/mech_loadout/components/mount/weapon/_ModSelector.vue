@@ -12,9 +12,7 @@
       <div v-if="weapon.Mod">
         <span class="overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-          <span class="success--text text--darken-1">
-            [ EQUIPMENT MODIFICATION REGISTERED ]
-          </span>
+          <span class="success--text text--darken-1">[ EQUIPMENT MODIFICATION REGISTERED ]</span>
         </span>
         <br />
         <span class="heading h1 accent--text" style="line-height: 20px">
@@ -98,7 +96,7 @@ import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { MechSystem } from '@/class'
 import { flavorID } from '@/io/Generators'
-import { Bonus } from '@/classes/Bonus'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
 export default Vue.extend({
   name: 'mod-selector',
@@ -143,10 +141,15 @@ export default Vue.extend({
       if (this.weapon.Mod) i = i.filter(x => x.ID !== this.weapon.Mod.ID)
 
       // filter unique
-      i = i.filter(x => !this.mech.ActiveLoadout.UniqueMods.map(y => y.ID).includes(x.ID))
+      i = i.filter(
+        x => !this.mech.MechLoadoutController.ActiveLoadout.UniqueMods.map(y => y.ID).includes(x.ID)
+      )
 
       // filter ai
-      if (this.mech.ActiveLoadout.AICount >= 1 + Bonus.get('ai_cap', this.mech)) {
+      if (
+        this.mech.MechLoadoutController.ActiveLoadout.AICount >=
+        1 + Bonus.get('ai_cap', this.mech)
+      ) {
         i = i.filter(x => !x.IsAI)
       }
 

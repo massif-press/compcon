@@ -25,6 +25,7 @@ import { NavStore } from '@/store'
 import uuid from 'uuid/v4'
 
 import NotificationSnackbar from './NotificationSnackbar.vue'
+import { INotification } from '@/interface'
 
 @Component({
   components: { NotificationSnackbar },
@@ -49,7 +50,8 @@ export default class GlobalNotifier extends Vue {
     if (!error || !error.message) return
     console.error(error.message)
     const vm = this
-    const nm = getModule(NavStore, this.$store)
+    const store = (this as any).$store
+    const nm = getModule(NavStore, store)
     nm.logError({
       time: new Date(),
       message: error.message,

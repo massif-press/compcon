@@ -37,10 +37,10 @@ export abstract class NpcFeature {
   private _override: object
   private _locked: boolean
   private _tags: ITagData[]
-  private _brew: string
   private _hide_active: boolean
   protected type: NpcFeatureType
   public IsHidden: boolean
+  public readonly Brew: string
   public readonly LcpName: string
   public readonly InLcp: boolean
 
@@ -53,7 +53,7 @@ export abstract class NpcFeature {
     this._override = data.override || null
     this._locked = data.locked || false
     this._tags = data.tags
-    this._brew = data.brew || 'CORE'
+    this.Brew = data.brew || 'Core'
     this._hide_active = data.hide_active || false
     this.LcpName = packName || 'Lancer CORE NPCs'
     this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false
@@ -113,10 +113,7 @@ export abstract class NpcFeature {
     const m = this._effect.match(perTier)
     if (m) {
       m.forEach(x => {
-        const tArr = x
-          .replace('{', '')
-          .replace('}', '')
-          .split('/')
+        const tArr = x.replace('{', '').replace('}', '').split('/')
         fmt = fmt.replace(x, `<b class="accent--text">${tArr[tier - 1]}</b>`)
       })
     }

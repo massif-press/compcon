@@ -1,6 +1,6 @@
 <template>
   <cc-stepper-content
-    :complete="!pilot.IsMissingCBs"
+    :complete="!pilot.CoreBonusController.IsMissingCBs"
     :exit="`/pilot/${pilot.ID}`"
     back
     @back="$emit('back')"

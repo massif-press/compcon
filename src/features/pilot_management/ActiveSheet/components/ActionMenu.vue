@@ -134,7 +134,7 @@
             </v-row>
             <v-row dense justify="center">
               <cc-active-card
-                v-for="(s, i) in pilot.Skills"
+                v-for="(s, i) in pilot.SkillsController.Skills"
                 :key="`sk_${i}`"
                 :ref="`sk_${i}`"
                 :cols="12"
@@ -145,23 +145,26 @@
               />
             </v-row>
 
-            <div v-if="pilot.Reserves || pilot.Organizations">
+            <div v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations">
               <v-divider class="my-4" />
-              <span class="overline">
-                RESERVES AND RESOURCES
-              </span>
-              <v-row v-if="pilot.Reserves || pilot.Organizations" class="mt-n3">
+              <span class="overline">RESERVES AND RESOURCES</span>
+              <v-row
+                v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations"
+                class="mt-n3"
+              >
                 <cc-reserve-item
-                  v-for="(r, i) in pilot.Reserves.filter(r => r.Type !== 'Bonus')"
+                  v-for="(r, i) in pilot.ReservesController.Reserves.filter(
+                    r => r.Type !== 'Bonus'
+                  )"
                   :key="`r_${i}`"
                   :reserve="r"
-                  @remove="pilot.RemoveReserve(i)"
+                  @remove="pilot.ReservesController.RemoveReserve(i)"
                 />
                 <cc-org-item
-                  v-for="(o, i) in pilot.Organizations"
+                  v-for="(o, i) in pilot.ReservesController.Organizations"
                   :key="`o_${i}`"
                   :org="o"
-                  @remove="pilot.RemoveOrganization(i)"
+                  @remove="pilot.ReservesController.RemoveOrganization(i)"
                 />
               </v-row>
             </div>

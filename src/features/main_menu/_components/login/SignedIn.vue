@@ -1,309 +1,26 @@
 <template>
   <div>
     <div v-if="!!authedUser && !!authedUser.attributes && userProfile.Username">
-      <div v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
-        CONNECTED
-        <cc-slashes />
-        <b class="accent--text">
-          {{ userProfile.Username }}
-        </b>
-      </div>
-      <!-- <v-row dense>
-        <v-col>
-          <v-btn tile small block color="patreon" depressed class="my-1">
-            <v-icon left>mdi-check</v-icon>
-            Patreon Account Linked
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-btn tile small block color="secondary" disabled class="my-1">
-            Link itch.io Account
-          </v-btn>
-        </v-col>
-      </v-row> -->
-      <v-row dense class="panel" justify="center" align="center">
-        <v-col cols="auto" style="letter-spacing: 5px">
-          ACCOUNT INFORMATION
-        </v-col>
-      </v-row>
       <v-row dense justify="space-between" align="center">
-        <v-col>
-          <div class="overline font-weight-bold my-0">
-            VAULT CONTENTS
-            <cc-slashes />
-            {{ authedUser.attributes.sub }}
-          </div>
-          <p v-if="userProfile" class="body-text ml-3">
-            <b class="accent--text">{{ userProfile.Pilots.length }}</b>
-            Pilots
-            <cc-slashes />
-            <b class="accent--text">{{ userProfile.Npcs.length }}</b>
-            NPCs
-            <cc-slashes />
-            <b class="accent--text">{{ userProfile.Encounters.length }}</b>
-            Encounters
-            <cc-slashes />
-            <b class="accent--text">{{ userProfile.Missions.length }}</b>
-            Missions
-            <cc-slashes />
-            <b class="accent--text">{{ userProfile.ActiveMissions.length }}</b>
-            Active Missions
-            <br />
-            Last Sync: {{ userProfile.LastSync }}
-          </p>
+        <v-col v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
+          CONNECTED
+          <cc-slashes />
+          <b class="accent--text">
+            {{ userProfile.Username }}
+          </b>
         </v-col>
-        <v-col cols="auto" class="mr-6">
-          <cc-tooltip content="Cloud Save">
-            <v-btn fab large elevation="0" color="accent" dark :loading="loading" @click="sync()">
-              <v-icon x-large>mdi-cloud-sync-outline</v-icon>
-            </v-btn>
-          </cc-tooltip>
-        </v-col>
-        <v-col cols="auto" class="mr-6">
-          <cc-tooltip content="Cloud Load">
-            <v-btn fab large elevation="0" color="accent" dark :loading="loading" @click="load()">
-              <v-icon x-large>mdi-cloud-download-outline</v-icon>
-            </v-btn>
-          </cc-tooltip>
+
+        <v-col cols="auto">
+          <v-btn small tile color="warning darken-1" :loading="loading" @click="signOut">
+            Sign Out
+          </v-btn>
         </v-col>
       </v-row>
+
       <v-row dense class="panel" justify="center" align="center">
-        <v-col cols="auto" style="letter-spacing: 5px">
-          ACCOUNT OPTIONS
-        </v-col>
+        <v-col cols="auto" style="letter-spacing: 5px">CHANGE PASSWORD</v-col>
       </v-row>
-      <v-card tile outlined class="my-2">
-        <v-toolbar dense flat tile color="light-panel">
-          <div class="heading h3">SAVE FREQUENCY</div>
-        </v-toolbar>
-        <v-row dense align="center" class="pa-2">
-          <v-col md="auto" cols="12">
-            <v-switch
-              :input-value="isManualSaveOnly"
-              hide-details
-              color="accent"
-              :class="$vuetify.breakpoint.mdAndUp ? 'px-6' : ''"
-              label="Manual Save Only"
-              @change="setManualSaveOnly($event)"
-            />
-          </v-col>
-          <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical class="mx-3" />
-          <v-col>
-            <v-row v-if="userProfile" dense>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onBulkDelete"
-                  hide-details
-                  color="accent"
-                  label="On Bulk Data Overwrite"
-                />
-              </v-col>
-              <!-- <v-col lg="4" cols="6"><v-switch v-model="userProfile.SyncFrequency.onAppLoad" hide-details color="accent" label="On App Exit" /></v-col> -->
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onThemeChange"
-                  hide-details
-                  color="accent"
-                  label="On Theme Change"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onPilotLevel"
-                  hide-details
-                  color="accent"
-                  label="On Pilot Level Up"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onPilotCreate"
-                  hide-details
-                  color="accent"
-                  label="On Pilot Creation"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onPilotDelete"
-                  hide-details
-                  color="accent"
-                  label="On Pilot Deletion"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onMechCreate"
-                  hide-details
-                  color="accent"
-                  label="On Mech Creation"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onMechDelete"
-                  hide-details
-                  color="accent"
-                  label="On Mech Deletion"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onNpcCreate"
-                  hide-details
-                  color="accent"
-                  label="On NPC Creation"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onNpcDelete"
-                  hide-details
-                  color="accent"
-                  label="On NPC Deletion"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onEncounterCreate"
-                  hide-details
-                  color="accent"
-                  label="On Encounter Creation"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onEncounterDelete"
-                  hide-details
-                  color="accent"
-                  label="On Encounter Deletion"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onMissionCreate"
-                  hide-details
-                  color="accent"
-                  label="On Mission Creation"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onMissionDelete"
-                  hide-details
-                  color="accent"
-                  label="On Mission Deletion"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onMissionStart"
-                  hide-details
-                  color="accent"
-                  label="On Mission Start"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onTurnEnd"
-                  hide-details
-                  color="accent"
-                  label="On Turn End"
-                />
-              </v-col>
-            </v-row>
-            <!-- <v-row dense>
-              <v-col lg="4" cols="6">
-                <v-switch hide-details label="On NPC Creation" disabled />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch hide-details label="On Encounter Creation" disabled />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch hide-details label="On Mission Creation" disabled />
-              </v-col>
-            </v-row>
-            <v-row dense>
-              <v-col lg="4" cols="6">
-                <v-switch hide-details label="On Mission Start" disabled />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch dense hide-details label="On Mission End" disabled />
-              </v-col>
-            </v-row> -->
-          </v-col>
-        </v-row>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text color="accent" :loading="loading" @click="sync()">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-      <v-card tile outlined class="my-2">
-        <v-toolbar dense flat tile color="light-panel">
-          <div class="heading h3">LOAD FREQUENCY</div>
-        </v-toolbar>
-        <v-row dense align="center" class="pa-2">
-          <v-col md="auto" cols="12">
-            <v-switch
-              :input-value="isManualLoadOnly"
-              hide-details
-              color="accent"
-              :class="$vuetify.breakpoint.mdAndUp ? 'px-6' : ''"
-              label="Manual Load Only"
-              @change="setManualLoadOnly($event)"
-            />
-          </v-col>
-          <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical class="mx-3" />
-          <v-col>
-            <v-row v-if="userProfile" dense>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onAppLoad"
-                  hide-details
-                  color="accent"
-                  label="On App Load"
-                />
-              </v-col>
-              <v-col lg="4" cols="6">
-                <v-switch
-                  v-model="userProfile.SyncFrequency.onLogIn"
-                  hide-details
-                  color="accent"
-                  label="On User Sign In"
-                />
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text color="accent" :loading="loading" @click="sync()">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-      <!-- <v-card tile outlined class="my-2">
-        <v-toolbar dense flat tile color="light-panel">
-          <div class="heading h3">SYNC OPTIONS</div>
-        </v-toolbar>
-        <v-row dense>
-          <v-col class="ml-4">
-            <v-switch hide-details label="Prompt before overwriting local data." value="radio-2" />
-            <v-switch hide-details label="Prompt before overwriting cloud data." value="radio-2" />
-          </v-col>
-        </v-row>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text color="accent" :loading="loading">Save</v-btn>
-        </v-card-actions>
-      </v-card> -->
-      <v-row dense class="panel" justify="center" align="center">
-        <v-col cols="auto" style="letter-spacing: 5px">
-          CHANGE PASSWORD
-        </v-col>
-      </v-row>
-      <v-row dense>
+      <v-row dense class="my-2">
         <v-col lg="6" cols="12">
           <v-text-field
             v-model="oldpass"
@@ -341,6 +58,104 @@
           </v-btn>
         </v-col>
       </v-row>
+      <v-row dense class="panel" justify="center" align="center">
+        <v-col cols="auto" style="letter-spacing: 5px">ACCOUNT DATA</v-col>
+      </v-row>
+      <v-alert class="my-3" prominent icon="mdi-alert" color="warning darken-2" outlined>
+        <b>Cloud Sync functionality has changed</b>
+        <div class="text--text">
+          Cloud auto-syncing has
+          <b>changed,</b>
+          manual saving or loading to/from the cloud can be done here, or through the options in the
+          nav bar. If auto-sync is enabled, COMP/CON will try to sync all local and cloud data when
+          your account is logged in.
+        </div>
+
+        <div v-show="!isOnV2" class="pa-2">
+          <v-card outlined style="border-color: var(--v-error-base); border-width: 3px">
+            <div class="font-weight-bold text--text pa-2">
+              COMP/CON has determined that your cloud account is not configured for the most recent
+              backend changes. Clicking the upgrade button will save a backup of your current local
+              data and attempt to update your account data. This process should take less than a
+              second and the app will reload itself once complete.
+            </div>
+            <div class="px-12 py-2">
+              <v-btn block class="secondary" :loading="upgradeLoading" @click="v2Upgrade()">
+                UPGRADE
+              </v-btn>
+            </div>
+          </v-card>
+        </div>
+      </v-alert>
+
+      <v-card v-if="isOnV2" class="mt-3 mb-6">
+        <v-card-title class="heading h3">Auto-sync settings</v-card-title>
+        <v-card-text class="px-10">
+          <v-row dense align="center">
+            <v-col>
+              <span class="heading h3">
+                On Login
+                <cc-tooltip
+                  inline
+                  content="This will automatically smart sync all item and LCP data whenever the account login process is successful. If you do not log out, this will occur shortly after the application starts. "
+                >
+                  <v-icon left>mdi-information-outline</v-icon>
+                </cc-tooltip>
+              </span>
+            </v-col>
+            <v-col cols="auto" class="mr-n3">
+              <v-switch
+                v-model="userProfile.SyncFrequency.cloudSync_v2"
+                dense
+                hide-details
+                inset
+                color="accent"
+                @change="userUpdate()"
+              />
+            </v-col>
+            <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"><b>ON</b></v-col>
+            <v-col v-else cols="auto"><i>OFF</i></v-col>
+          </v-row>
+          <v-row dense align="center">
+            <v-col>
+              <span class="heading h3">
+                Sync Remote Resources
+                <cc-tooltip
+                  inline
+                  content="This will automatically attempt to sync all remote resources with the latest versions in their authors' cloud accounts. Remote data cannot be saved to your own cloud account."
+                >
+                  <v-icon left>mdi-information-outline</v-icon>
+                </cc-tooltip>
+              </span>
+            </v-col>
+            <v-col cols="auto" class="mr-n3">
+              <v-switch
+                v-model="userProfile.SyncFrequency.remotes"
+                dense
+                hide-details
+                inset
+                color="accent"
+                @change="userUpdate()"
+              />
+            </v-col>
+            <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"><b>ON</b></v-col>
+            <v-col v-else cols="auto"><i>OFF</i></v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+
+      <sync-manager ref="sync" />
+      <v-divider class="my-6" />
+      <cloud-content-manager ref="lcps" />
+      <v-divider class="my-6" />
+      <backup-manager
+        ref="backup"
+        :username="userProfile.Username"
+        @change="$refs.sync.fetch()"
+        @del-local="$refs.lcps ? $refs.lcps.deleteAllLocal : ''"
+        @del-cloud="$refs.lcps ? $refs.lcps.deleteAllCloud : ''"
+      />
+
       <v-scroll-y-transition leave-absolute hide-on-leave>
         <v-alert
           v-if="error"
@@ -356,14 +171,6 @@
           <div v-html="error" />
         </v-alert>
       </v-scroll-y-transition>
-      <v-divider class="my-2" />
-      <v-row justify="center" align="center">
-        <v-col cols="auto">
-          <v-btn x-large tile color="warning darken-1" :loading="loading" @click="signOut">
-            Sign Out
-          </v-btn>
-        </v-col>
-      </v-row>
     </div>
     <div v-else>
       <v-row no-gutters justify="center" align="center" style="height: 100%">
@@ -377,13 +184,20 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import SyncManager from '@/ui/syncManager/SyncManager.vue'
+import CloudContentManager from '@/ui/syncManager/CloudContentManager.vue'
+import BackupManager from '@/ui/syncManager/BackupManager.vue'
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
+import { UpdateUserData } from '@/cloud/user_sync'
+import _ from 'lodash'
 
 export default Vue.extend({
   name: 'auth-signed-in',
+  components: { SyncManager, BackupManager, CloudContentManager },
   data: () => ({
+    upgradeLoading: false,
     loading: false,
     showError: false,
     error: '',
@@ -405,11 +219,8 @@ export default Vue.extend({
     userProfile() {
       return getModule(UserStore, this.$store).UserProfile
     },
-    isManualSaveOnly() {
-      return !Object.values(this.userProfile.SaveFrequency).some((x: boolean) => x === true)
-    },
-    isManualLoadOnly() {
-      return !Object.values(this.userProfile.LoadFrequency).some((x: boolean) => x === true)
+    isOnV2() {
+      return this.userProfile && _.has(this.userProfile.SyncFrequency, 'cloudSync_v2')
     },
   },
   mounted() {
@@ -422,47 +233,12 @@ export default Vue.extend({
       })
   },
   methods: {
-    setManualSaveOnly(toggle) {
-      if (toggle) {
-        for (const k in this.userProfile.SaveFrequency) {
-          if (Object.prototype.hasOwnProperty.call(this.userProfile.SyncFrequency, k)) {
-            Vue.set(this.userProfile.SyncFrequency, k, false)
-          }
-        }
-      }
-    },
-    setManualLoadOnly(toggle) {
-      if (toggle) {
-        for (const k in this.userProfile.LoadFrequency) {
-          if (Object.prototype.hasOwnProperty.call(this.userProfile.SyncFrequency, k)) {
-            Vue.set(this.userProfile.SyncFrequency, k, false)
-          }
-        }
-      }
-    },
-    async sync() {
-      this.loading = true
-      const userstore = getModule(UserStore, this.$store)
-      userstore
-        .cloudSync({
-          callback: (status: string, message: string) => this.$notify(message, status),
-          condition: null,
-        })
-        .then(() => {
-          this.loading = false
-          this.$notify('Cloud Save Complete', 'success')
-        })
-        .catch(err => {
-          console.error(err)
-          this.loading = false
-        })
-    },
     async load() {
       this.loading = true
       const userstore = getModule(UserStore, this.$store)
       Auth.currentAuthenticatedUser()
-        .then(user => {
-          userstore.setAws({ user: user })
+        .then(cognitoUser => {
+          userstore.setAws({ cognitoUser })
         })
         .then(() => {
           this.loading = false
@@ -503,6 +279,27 @@ export default Vue.extend({
         .catch(err => {
           console.error(err)
         })
+    },
+    userUpdate() {
+      UpdateUserData(this.userProfile).then(res => console.log(res))
+    },
+    async v2Upgrade() {
+      this.upgradeLoading = true
+      try {
+        await this.$refs.backup.dataExport()
+        await this.$refs.lcps.syncAll(true)
+        await this.$refs.sync.syncAll(true)
+        await UpdateUserData(this.userProfile, true)
+        this.$notify('Data successfully updated. Reloading.', 'success')
+        setTimeout(() => {
+          location.reload()
+        }, 2000)
+      } catch (error) {
+        console.error(error)
+        this.$notify('An error occured while syncing.', 'error')
+      } finally {
+        this.upgradeLoading = false
+      }
     },
   },
 })

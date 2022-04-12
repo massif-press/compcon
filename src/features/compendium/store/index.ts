@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import lancerData from 'lancer-data'
-// import { getUser, UserProfile } from '@/user'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import {
   License,
@@ -17,7 +16,6 @@ import {
   Talent,
   Reserve,
   Manufacturer,
-  Faction,
   NpcClass,
   NpcTemplate,
   NpcFeature,
@@ -36,15 +34,16 @@ import {
   IWeaponModData,
   IMechSystemData,
   IManufacturerData,
-  IFactionData,
   IContentPack,
   ITagCompendiumData,
   IPilotEquipmentData,
 } from '@/interface'
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
-import { IReserveData } from '@/classes/pilot/reserves/Reserve'
+import { IReserveData } from '@/classes/pilot/components/reserves/Reserve'
 import * as PlayerAction from '@/classes/Action'
 import { Background, IBackgroundData } from '@/classes/Background'
+import Vue from 'vue'
+import { Bond } from '@/classes/pilot/components/bond/Bond'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -54,15 +53,17 @@ export const DELETE_PACK = 'DELETE_PACK'
 export const CLEAR_PACKS = 'CLEAR_PACKS'
 export const SET_PACK_ACTIVE = 'SET_PACK_ACTIVE'
 
+export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
+
 function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
-  return function(self: CompendiumStore, name: string) {
+  return function (self: CompendiumStore, name: string) {
     const baseName = `__Base_${name}`
 
     Object.defineProperty(self, baseName, {
       get: base,
     })
     Object.defineProperty(self, name, {
-      get: function() {
+      get: function () {
         return [...this[baseName], ...this.ContentPacks.flatMap(pack => pack[name])]
       },
     })
@@ -78,6 +79,8 @@ export class CompendiumStore extends VuexModule {
 
   public ContentPacks: ContentPack[] = []
 
+  public MissingContent: any = { pilots: [], npcs: [] }
+
   public get NpcClasses(): NpcClass[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcClasses)
   }
@@ -87,8 +90,13 @@ export class CompendiumStore extends VuexModule {
   public get NpcFeatures(): NpcFeature[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
   }
+  public get Bonds(): Bond[] {
+    return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Bonds)
+  }
   public get Backgrounds(): Background[] {
-    return lancerData.backgrounds.map(((x: IBackgroundData) => new Background(x))).concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
+    return lancerData.backgrounds
+      .map((x: IBackgroundData) => new Background(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
   }
   @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
   @Brewable(() =>
@@ -101,18 +109,14 @@ export class CompendiumStore extends VuexModule {
   CoreBonuses: CoreBonus[]
   @Brewable(() => lancerData.frames.map((x: IFrameData) => new Frame(x)))
   Frames: Frame[]
-  @Brewable(() => lancerData.manufacturers.map((x: IManufacturerData) => {
-    const m = new Manufacturer(x)
-    m.setCorsSafe()
-    return m
-  }))
+  @Brewable(() =>
+    lancerData.manufacturers.map((x: IManufacturerData) => {
+      const m = new Manufacturer(x)
+      m.setCorsSafe()
+      return m
+    })
+  )
   Manufacturers: Manufacturer[]
-  @Brewable(() => lancerData.factions.map((x: IFactionData) => {
-    const f = new Faction(x)
-    f.setCorsSafe()
-    return f
-  }))
-  Factions: Faction[]
   @Brewable(() => lancerData.weapons.map((x: IMechWeaponData) => new MechWeapon(x)))
   MechWeapons: MechWeapon[]
   @Brewable(() => lancerData.mods.map((x: IWeaponModData) => new WeaponMod(x)))
@@ -120,7 +124,7 @@ export class CompendiumStore extends VuexModule {
   @Brewable(() => lancerData.systems.map((x: IMechSystemData) => new MechSystem(x)))
   MechSystems: MechSystem[]
   @Brewable(() =>
-    lancerData.pilot_gear.map(function(x: any) {
+    lancerData.pilot_gear.map(function (x: any) {
       if (x.type.toLowerCase() === 'weapon') return new PilotWeapon(x as IPilotWeaponData)
       else if (x.type.toLowerCase() === 'armor') return new PilotArmor(x as IPilotArmorData)
       return new PilotGear(x as IPilotEquipmentData)
@@ -181,6 +185,11 @@ export class CompendiumStore extends VuexModule {
   // }
 
   @Mutation
+  private [SET_MISSING_CONTENT](payload: any): void {
+    this.MissingContent = payload
+  }
+
+  @Mutation
   private [CLEAR_PACKS](): void {
     this.ContentPacks.splice(0, this.ContentPacks.length)
   }
@@ -210,7 +219,6 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -224,7 +232,6 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -234,7 +241,6 @@ export class CompendiumStore extends VuexModule {
       'extra_content.json',
       this.ContentPacks.map(pack => pack.Serialize())
     )
-    this.context.dispatch('cloudSync', { callback: null, condition: null })
   }
 
   @Action
@@ -302,13 +308,13 @@ export class CompendiumStore extends VuexModule {
     return this.CCVersion
   }
 
-  // @Action
-  // public loadData(): void {
-  //   this.context.commit(LOAD_DATA)
-  // }
-
   @Action
   public setVersions(lancerVer: string, ccVer: string): void {
     this.context.commit(SET_VERSIONS, { lancerVer, ccVer })
+  }
+
+  @Action
+  public setMissingContent(payload: any): void {
+    this.context.commit(SET_MISSING_CONTENT, payload)
   }
 }

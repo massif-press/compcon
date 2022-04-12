@@ -12,11 +12,7 @@
             <v-col cols="auto">
               <div
                 :class="`heading ${
-                  $vuetify.breakpoint.lgAndUp
-                    ? 'h1'
-                    : $vuetify.breakpoint.mdAndUp
-                    ? 'h2'
-                    : 'h3'
+                  $vuetify.breakpoint.lgAndUp ? 'h1' : $vuetify.breakpoint.mdAndUp ? 'h1' : 'h3'
                 }`"
                 style="
                   letter-spacing: 10px;
@@ -26,13 +22,18 @@
                 "
               >
                 {{ pilot.Callsign }}
+                <cc-tooltip
+                  inline
+                  v-if="pilot.CloudController.IsRemoteResource"
+                  bottom
+                  title="Remote Resource"
+                  :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.`"
+                >
+                  <v-icon dark class="mb-n2 ml-n5 fadeSelect">mdi-cloud-braces</v-icon>
+                </cc-tooltip>
               </div>
             </v-col>
-            <v-col
-              v-if="$vuetify.breakpoint.smAndDown"
-              cols="auto"
-              class="ml-auto"
-            >
+            <v-col v-if="$vuetify.breakpoint.smAndDown" cols="auto" class="ml-auto">
               <cc-tooltip
                 v-if="!isLevelingUp"
                 delayed
@@ -41,12 +42,7 @@
                 bottom
                 content="Edit License Level"
               >
-                <v-icon
-                  small
-                  dark
-                  class="fadeSelect"
-                  @click="$refs.levelEdit.show()"
-                >
+                <v-icon small dark class="fadeSelect" @click="$refs.levelEdit.show()">
                   mdi-circle-edit-outline
                 </v-icon>
               </cc-tooltip>
@@ -59,9 +55,7 @@
                 x-small
                 right
                 dark
-                @click="
-                  $router.push({ name: 'level-up', params: { id: pilot.ID } })
-                "
+                @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
               >
                 Level Up
               </v-btn>
@@ -69,7 +63,7 @@
             <v-col
               v-else
               cols="auto"
-              class="ml-auto text-center mt-2"
+              class="ml-auto text-center mt-4"
               :style="$vuetify.breakpoint.lgAndUp ? `margin-right:200px` : ''"
             >
               <div class="overline mb-n9">
@@ -82,17 +76,12 @@
                   bottom
                   content="Edit License Level"
                 >
-                  <v-icon
-                    small
-                    dark
-                    class="fadeSelect"
-                    @click="$refs.levelEdit.show()"
-                  >
+                  <v-icon small dark class="fadeSelect" @click="$refs.levelEdit.show()">
                     mdi-circle-edit-outline
                   </v-icon>
                 </cc-tooltip>
               </div>
-              <div class="heading h1 mt-n6 mb-n2" style="font-size: 80px">
+              <div class="heading h1 mb-n4 py-1" style="font-size: 75px">
                 {{ pilot.Level }}
               </div>
               <v-btn
@@ -102,12 +91,10 @@
                 small
                 class="fadeSelect mt-n4"
                 color="grey lighten-3"
-                @click="
-                  $router.push({ name: 'level-up', params: { id: pilot.ID } })
-                "
+                @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
               >
                 Level Up
-                <v-icon right> mdi-arrow-up-bold-hexagon-outline </v-icon>
+                <v-icon right>mdi-arrow-up-bold-hexagon-outline</v-icon>
               </v-btn>
             </v-col>
             <v-col v-show="$vuetify.breakpoint.lgAndUp" cols="auto">
@@ -124,10 +111,7 @@
                     />
                     <v-fade-transition>
                       <v-overlay v-if="hover" absolute color="secondary">
-                        <cc-btn
-                          color="secondary"
-                          @click="$refs.imageSelector.open()"
-                        >
+                        <cc-btn color="secondary" @click="$refs.imageSelector.open()">
                           Set Pilot Portrait
                         </cc-btn>
                       </v-overlay>
@@ -140,30 +124,28 @@
           <v-row v-show="$vuetify.breakpoint.mdAndUp" dense>
             <v-col cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">name</div>
-              <div class="stat-text white--text mt-n3">
+              <div class="stat-text white--text mt-n2 mb-n1">
                 {{ pilot.Name }}
               </div>
             </v-col>
             <v-col v-if="pilot.Background" cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">background</div>
-              <div class="stat-text white--text mt-n3">
+              <div class="stat-text white--text mt-n2 mb-n1">
                 {{ pilot.Background }}
               </div>
             </v-col>
             <v-col v-if="pilot.PlayerName" cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">player</div>
-              <div class="stat-text white--text mt-n3">
+              <div class="stat-text white--text mt-n2 mb-n1">
                 {{ pilot.PlayerName }}
               </div>
             </v-col>
             <v-col cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">rm-4://(IDENT)</div>
-              <div class="stat-text white--text mt-n3">
+              <div class="stat-text white--text mt-n2 mb-n1">
                 <v-dialog max-width="1200px">
                   <template v-slot:activator="{ on }">
-                    <v-icon dark class="fadeSelect" v-on="on"
-                      >mdi-card-bulleted-outline</v-icon
-                    >
+                    <v-icon dark class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
                   </template>
                   <v-sheet class="transparent">
                     <pilot-registration-card :pilot="pilot" pilot-ready />
@@ -190,18 +172,11 @@
           </span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip
-            simple
-            inline
-            delay
-            :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`"
-          >
+          <cc-tooltip simple inline delay :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`">
             <v-icon>mdi-heart-outline</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentHP }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px"
-            >/{{ mech.MaxHP }}</span
-          >
+          <span class="flavor-text subtle--text" style="font-size: 14px">/{{ mech.MaxHP }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip
@@ -213,9 +188,9 @@
             <v-icon>cci-reactor</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentStress }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px"
-            >/{{ mech.MaxStress }}</span
-          >
+          <span class="flavor-text subtle--text" style="font-size: 14px">
+            /{{ mech.MaxStress }}
+          </span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip
@@ -248,18 +223,11 @@
       </v-row>
       <v-row v-else-if="$vuetify.breakpoint.mdAndUp" id="stat-row" dense>
         <v-col cols="2" offset="1" class="unskew">
-          <cc-tooltip
-            simple
-            inline
-            delay
-            :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`"
-          >
+          <cc-tooltip simple inline delay :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`">
             <v-icon>mdi-heart-outline</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.CurrentHP }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px"
-            >/{{ pilot.MaxHP }}</span
-          >
+          <span class="flavor-text subtle--text" style="font-size: 14px">/{{ pilot.MaxHP }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Armor: ${pilot.Armor}`">
@@ -268,23 +236,13 @@
           <span class="stat-text">{{ pilot.Armor }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip
-            simple
-            inline
-            delay
-            :content="`Electronic Defense: ${pilot.EDefense}`"
-          >
+          <cc-tooltip simple inline delay :content="`Electronic Defense: ${pilot.EDefense}`">
             <v-icon>cci-edef</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.EDefense }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip
-            simple
-            inline
-            delay
-            :content="`Evasion: ${pilot.Evasion}`"
-          >
+          <cc-tooltip simple inline delay :content="`Evasion: ${pilot.Evasion}`">
             <v-icon>cci-evasion</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ pilot.Evasion }}</span>
@@ -303,30 +261,28 @@
 </template>
 
 <script lang="ts">
-import PilotRegistrationCard from "./PilotRegistrationCard.vue";
-import LevelEditDialog from "./LevelEditDialog.vue";
-import activePilot from "@/features/pilot_management/mixins/activePilot";
+import PilotRegistrationCard from './PilotRegistrationCard.vue'
+import LevelEditDialog from './LevelEditDialog.vue'
+import activePilot from '@/features/pilot_management/mixins/activePilot'
 
-import vueMixins from "@/util/vueMixins";
-import { Mech } from "@/class";
+import vueMixins from '@/util/vueMixins'
+import { Mech } from '@/class'
 
 export default vueMixins(activePilot).extend({
-  name: "pilot-header",
+  name: 'pilot-header',
   components: { LevelEditDialog, PilotRegistrationCard },
 
   computed: {
     isLevelingUp(): boolean {
-      return this.$route.name === "pilot-level-wizard";
+      return this.$route.name === 'pilot-level-wizard'
     },
     mech(): Mech {
-      if (this.$route.name === "mech-sheet")
-        return this.pilot.Mechs.find(
-          (m: Mech) => m.ID === this.$route.params.mechID
-        );
-      return null;
+      if (this.$route.name === 'mech-sheet')
+        return this.pilot.Mechs.find((m: Mech) => m.ID === this.$route.params.mechID)
+      return null
     },
   },
-});
+})
 </script>
 
 <style scoped>

@@ -72,6 +72,7 @@ import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
 import { Auth } from '@aws-amplify/auth'
+import { SetTheme } from '@/classes/utility/ThemeManager'
 
 export default Vue.extend({
   name: 'auth-sign-in',
@@ -92,19 +93,22 @@ export default Vue.extend({
       const self = this
       Auth.signIn(this.email, this.password)
         .catch(error => {
-          if (error.name === "UserNotFoundException") {
+          if (error.name === 'UserNotFoundException') {
             return Auth.signIn(this.email.toLowerCase(), this.password)
           }
           throw error
         })
         .then(user => {
+          console.log(user)
           localStorage.removeItem('user.config')
-          userstore.setUser(user)
+          userstore.setCognitoUser(user)
         })
         .then(() => {
-          userstore.setAws({ user: userstore.User, condition: 'logIn' })
+          userstore.setAws({ cognitoUser: userstore.CognitoUser })
         })
         .then(() => {
+          console.log(userstore.UserProfile.Theme)
+          SetTheme(userstore.UserProfile.Theme, this.$vuetify)
           this.$notify('Cloud Data Synchronized', 'success')
           this.loading = false
           this.showError = false

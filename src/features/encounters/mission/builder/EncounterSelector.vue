@@ -13,7 +13,7 @@
           />
         </v-col>
       </v-row>
-      <v-divider class="my-2 " />
+      <v-divider class="my-2" />
       <v-data-table
         dense
         :items="encounters"
@@ -84,10 +84,7 @@ export default Vue.extend({
   data: () => ({
     encounters: [],
     side: 'Enemy',
-    headers: [
-      { text: 'Name', value: 'Name', align: 'left' },
-      { text: 'PR', value: 'Power', align: 'right' },
-    ],
+    headers: [{ text: 'Name', value: 'Name', align: 'left' }],
     search: '',
   }),
   created() {

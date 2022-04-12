@@ -56,7 +56,7 @@ export default Vue.extend({
   },
   computed: {
     canContinue(): boolean {
-      return !this.pilot.IsMissingHASE
+      return !this.pilot.MechSkillsController.IsMissingHASE
     },
   },
 })

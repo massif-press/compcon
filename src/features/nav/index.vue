@@ -61,15 +61,10 @@
       <encounter-mode v-if="mode === 'encounter'" />
     </div>
 
-    <v-divider
-      v-if="$vuetify.breakpoint.mdAndUp && isAuthed"
-      vertical
-      dark
-      class="ml-2 mr-2"
-    />
+    <v-divider v-if="$vuetify.breakpoint.mdAndUp && isAuthed" vertical dark class="ml-2 mr-2" />
 
-    <cc-tooltip v-if="isAuthed" bottom :content="syncTooltip">
-      <v-btn icon dark :style="`opacity: ${unsaved.length ? '1' : '0.4'}`" @click="sync()">
+    <cc-tooltip v-if="isAuthed" bottom content="Open cloud account menu">
+      <v-btn icon dark @click="$refs.cloudModal.show()">
         <v-icon>mdi-cloud-sync-outline</v-icon>
       </v-btn>
     </cc-tooltip>
@@ -127,6 +122,9 @@
     <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
+    <cc-solo-dialog ref="cloudModal" large no-confirm title="Cloud Account">
+      <cloud-page />
+    </cc-solo-dialog>
   </v-app-bar>
 </template>
 
@@ -136,6 +134,7 @@ import AboutPage from './pages/About.vue'
 import CreditsPage from './pages/Credits.vue'
 import OptionsPage from './pages/Options/index.vue'
 import ContentPage from './pages/ExtraContent/index.vue'
+import CloudPage from './pages/Cloud.vue'
 import activePilot from '../pilot_management/mixins/activePilot'
 
 import PilotMode from './modes/pilot.vue'
@@ -158,6 +157,7 @@ export default vueMixins(activePilot).extend({
     PilotMode,
     EncounterMode,
     CompendiumMode,
+    CloudPage,
   },
   props: {
     pilotManagement: { type: Boolean },
@@ -167,12 +167,9 @@ export default vueMixins(activePilot).extend({
     aboutDialog: false,
     helpDialog: false,
     optionsDialog: false,
-    currentAuthedUser: null,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser().then(res => {
-      this.currentAuthedUser = res.username
-    })
+    await Auth.currentAuthenticatedUser()
   },
   computed: {
     mode(): string {
@@ -195,9 +192,9 @@ export default vueMixins(activePilot).extend({
   },
   methods: {
     sync() {
-      getModule(UserStore, this.$store).cloudSync({
-        callback: (status, message) => this.$notify(status, message),
-      })
+      // getModule(UserStore, this.$store).cloudSync({
+      //   callback: (status, message) => this.$notify(status, message),
+      // })
     },
     home() {
       this.$router.push('/')
