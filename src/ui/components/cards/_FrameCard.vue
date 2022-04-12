@@ -56,7 +56,9 @@
     <v-row justify="space-around" class="mb-3">
       <v-col v-for="(m, i) in item.Mounts" :key="m + i" cols="auto">
         <v-card color="primary" dark class="clipped">
-          <v-card-text class="heading h3 px-8">{{ m }} Mount</v-card-text>
+          <cc-tooltip simple inline :content="get_mount_tooltip(m)">
+            <v-card-text class="heading h3 px-8">{{ m }} Mount</v-card-text>
+          </cc-tooltip>
         </v-card>
       </v-col>
     </v-row>
@@ -83,6 +85,21 @@ export default Vue.extend({
   methods: {
     glossary(name: string) {
       return glossary.find(x => x.name.toLowerCase() === name.toLowerCase()).description
+    },
+
+    get_mount_tooltip(mount_type: string) {
+      const mount_tooltips = {
+        "Heavy": "Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon",
+        "Main": "Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon",
+        "Aux/Aux": "Holds up to two <b>AUXILIARY</b> weapons",
+        "Aux": "Holds one <b>AUXILIARY</b> weapon",
+        "Main/Aux": "Holds one <b>MAIN</b> weapon and one <b>AUXILIARY</b> weapon, or two <b>AUXILIARY</b> weapons",
+        "Flex": "Holds either one <b>MAIN</b> weapon or up to two <b>AUXILIARY</b> weapons",
+      }
+      if (mount_type in mount_tooltips) {
+        return mount_tooltips[mount_type]
+      }
+      return "Error: Unknown Mount Type"
     },
   },
 })
