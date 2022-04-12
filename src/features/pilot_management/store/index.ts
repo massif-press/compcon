@@ -15,7 +15,7 @@ async function savePilots(pilots: Pilot[]) {
 async function savePilotGroups(pilotGroups: PilotGroup[]) {
   await saveData(
     'pilot_groups_v2.json',
-    pilotGroups.filter(x => x.name !== '')
+    pilotGroups.filter(x => x.name && x.name !== '')
   )
 }
 

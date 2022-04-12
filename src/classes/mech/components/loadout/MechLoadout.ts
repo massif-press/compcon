@@ -37,28 +37,29 @@ class MechLoadout extends Loadout {
   public constructor(mech: Mech) {
     super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
     this.Parent = mech
-    this._integratedMounts = mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x))
+    this._integratedMounts = mech.FeatureController.IntegratedWeapons.map(
+      x => new IntegratedMount(x)
+    )
+    console.log(mech.Frame.IntegratedWeapons)
     this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
     this._systems = []
-    this._integratedSystems = mech.Frame.IntegratedSystems
+    this._integratedSystems = mech.FeatureController.IntegratedSystems
     this._improvedArmament = new EquippableMount(MountType.Flex)
     this._integratedWeapon = new EquippableMount(MountType.Aux)
   }
 
   public SetAllIntegrated(save?: boolean) {
     const im = [
-      ...this.Parent.Frame.IntegratedWeapons.map(x => new IntegratedMount(x)),
+      ...this.Parent.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x)),
       ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x)),
     ]
     const is = [
-      ...this.Parent.Frame.IntegratedSystems,
+      ...this.Parent.FeatureController.IntegratedSystems,
       ...this.Parent.Pilot.FeatureController.IntegratedSystems,
     ]
-    console.log(im, is)
     Vue.set(this, '_integratedSystems', is)
     Vue.set(this, '_integratedMounts', im)
     if (save) this.save()
-    console.log(this.IntegratedMounts)
   }
 
   public get IntegratedMounts(): IntegratedMount[] {

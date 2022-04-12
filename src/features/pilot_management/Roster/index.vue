@@ -198,8 +198,8 @@ export default Vue.extend({
     groups: [],
   }),
   watch: {
-    pilots() {
-      // this.buildGroups()
+    plength() {
+      this.buildGroups()
     },
   },
   computed: {
@@ -223,6 +223,9 @@ export default Vue.extend({
     },
     pilots() {
       return this.pilotStore.Pilots
+    },
+    plength() {
+      return this.pilots.length
     },
     pilotGroups() {
       return this.pilotStore.pilotGroups
@@ -256,7 +259,11 @@ export default Vue.extend({
   },
   methods: {
     buildGroups() {
-      const groups = [...this.pilotStore.PilotGroups.filter(x => x.name !== '')]
+      let groups = [
+        ...this.pilotStore.PilotGroups.filter(
+          x => x.name && x.name !== '' && x.name.toLowerCase() !== 'ungrouped'
+        ),
+      ]
       groups.forEach(g => {
         g.pilotIDs = this.pilots
           .filter(p => p.GroupController.Group === g.name)
@@ -295,7 +302,11 @@ export default Vue.extend({
       }, 50)
     },
     addNewGroup() {
-      this.pilotStore.addGroup(this.newGroupName)
+      this.groups.push({
+        name: this.newGroupName,
+        pilotIDs: [],
+        hidden: false,
+      })
       this.newGroupName = ''
       this.newGroupMenu = false
     },
@@ -319,6 +330,7 @@ export default Vue.extend({
     },
     deleteGroup(g) {
       this.pilotStore.deleteGroup(g)
+      this.buildGroups()
     },
     setGroupName(g, newName) {
       this.pilotStore.setGroupName({ g: g, newName: newName })
