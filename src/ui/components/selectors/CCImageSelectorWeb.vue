@@ -52,9 +52,7 @@
               :disabled="!selectedImage && (!imageData || loading)"
               @click="saveImage()"
             >
-              <template v-if="!loading">
-                Set Image
-              </template>
+              <template v-if="!loading">Set Image</template>
               <template v-else>
                 <v-progress-circular size="25" width="3" indeterminate />
               </template>
@@ -122,18 +120,18 @@ export default Vue.extend({
     },
     async saveImage() {
       if (this.selectedImage && this.validURL(this.selectedImage)) {
-        this.item.SetCloudImage(this.selectedImage)
+        this.item.PortraitController.SetCloudImage(this.selectedImage)
         this.close()
       } else if (this.selectedImage) {
-        this.item.SetCloudImage(null)
-        this.item.SetLocalImage(path.basename(this.selectedImage))
+        this.item.PortraitController.SetCloudImage(null)
+        this.item.PortraitController.SetLocalImage(path.basename(this.selectedImage))
         this.close()
       } else {
         this.loading = true
         this.selectedImage = null
         const link = await imgur.uploadImage(this.imageData)
         try {
-          this.item.SetCloudImage(link)
+          this.item.PortraitController.SetCloudImage(link)
           this.$emit('notify', 'Cloud Upload Successful')
         } catch (err) {
           this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
@@ -146,13 +144,16 @@ export default Vue.extend({
     },
     // Pulled from Stackoverflow: https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
     validURL(str: string): boolean {
-      const pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-        '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
-      return !!pattern.test(str);
+      const pattern = new RegExp(
+        '^(https?:\\/\\/)?' + // protocol
+          '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+          '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+          '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+          '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+          '(\\#[-a-z\\d_]*)?$',
+        'i'
+      ) // fragment locator
+      return !!pattern.test(str)
     },
     open() {
       this.$refs.dialog.show()
