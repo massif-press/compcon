@@ -23,7 +23,7 @@
     <v-card
       flat
       outlined
-      :style="`background-color: var(--v-transparent-base); border-color: ${
+      :style="`background-color: var(--v-background-base); border-color: ${
         color ? color : 'var(--v-primary-base)'
       } !important; margin-top: -2px`"
     >
