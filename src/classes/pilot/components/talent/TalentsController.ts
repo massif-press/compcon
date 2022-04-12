@@ -21,7 +21,16 @@ class TalentsController implements IFeatureContainer {
 
   get FeatureSource(): any[] {
     const talents = this.Talents.map(t => t.Talent)
-    return [...talents, ...talents.flatMap(x => x.Ranks)]
+    let trData = []
+    talents.forEach(t => {
+      let rankData = []
+      t.Ranks.forEach(r => {
+        if (r.Exclusive) rankData = [r]
+        else rankData.push(r)
+      })
+      trData = [...trData, ...rankData]
+    })
+    return [...talents, ...trData]
   }
 
   public get Talents(): PilotTalent[] {

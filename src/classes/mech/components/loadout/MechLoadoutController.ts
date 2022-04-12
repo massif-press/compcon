@@ -73,7 +73,7 @@ class MechLoadoutController implements IFeatureContainer {
 
   public UpdateLoadouts(): void {
     this._loadouts.forEach(x => {
-      x.UpdateIntegrated(this.Parent)
+      x.SetAllIntegrated()
     })
   }
 
