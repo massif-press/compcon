@@ -1,11 +1,13 @@
 # COMP/CON Changelog
 ## [2.3.1] (2022-4-12)
 
-- **Various** A handful of hotfixes to correct bugs in the Pilot Roster, with integrated equipment, and with LCP parsing. 
+- **Various** A handful of hotfixes to correct bugs in the Pilot Roster, with integrated equipment, and with LCP parsing.
+- **Compendium** Added tooltips to available mounts within frames Compendium (Thanks ChrstphrHll! First PR! 🎉) [#1897](https://github.com/massif-press/compcon/issues/1897)
+- **Content Manager** Added missing Reserves importer [#1899](https://github.com/massif-press/compcon/issues/1899)
 
 ## [2.3.0] (2022-4-12)
 
-- **Global** Rebuilt Cloud Account interface and management system [#1891](https://github.com/massif-press/compcon/issues/1891) [#1870](https://github.com/massif-press/compcon/issues/1856) [#1823](https://github.com/massif-press/compcon/issues/1823) [#1804](https://github.com/massif-press/compcon/issues/1804) [#1763](https://github.com/massif-press/compcon/issues/1763) [#1776](https://github.com/massif-press/compcon/issues/1776) [#1725](https://github.com/massif-press/compcon/issues/1725) [#1724](https://github.com/massif-press/compcon/issues/1724) [#1701](https://github.com/massif-press/compcon/issues/1701)
+- **Global** Rebuilt Cloud Account interface and management system [#1891](https://github.com/massif-press/compcon/issues/1891) [#1870](https://github.com/massif-press/compcon/issues/1870) [#1823](https://github.com/massif-press/compcon/issues/1823) [#1804](https://github.com/massif-press/compcon/issues/1804) [#1763](https://github.com/massif-press/compcon/issues/1763) [#1776](https://github.com/massif-press/compcon/issues/1776) [#1725](https://github.com/massif-press/compcon/issues/1725) [#1724](https://github.com/massif-press/compcon/issues/1724) [#1701](https://github.com/massif-press/compcon/issues/1701)
 - **Global** Added new Cloud share/share code system [#1879](https://github.com/massif-press/compcon/issues/1879)
 - **Global** Added LCP analyzer to find and isolate unloadable content [#1870](https://github.com/massif-press/compcon/issues/1870) [#1811](https://github.com/massif-press/compcon/issues/1811) [#1666](https://github.com/massif-press/compcon/issues/1666) [#1599](https://github.com/massif-press/compcon/issues/1599) [#1540](https://github.com/massif-press/compcon/issues/1540) [#700](https://github.com/massif-press/compcon/issues/700)
 - **Global** Added data recovery tools

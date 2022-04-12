@@ -155,7 +155,6 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [DELETE_MISSING](payload: any): void {
-    console.log(this.MissingPilots)
     const idx = this.MissingPilots.findIndex(x => x.id === payload.id)
     if (idx > -1) {
       this.MissingPilots.splice(idx, 1)
@@ -287,7 +286,6 @@ export class PilotManagementStore extends VuexModule {
 
   @Action
   public movePilot(payload: PilotGroup[]): void {
-    console.log(payload)
     this.context.commit(MOVE_PILOT, payload)
   }
 
