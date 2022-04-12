@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid class="px-3 mt-4">
+  <v-container fluid class="px-3" style="margin-top: 20px">
     <v-row dense align="end" class="mt-2">
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
-        <v-btn-toggle :value="profile.GetView('roster')" mandatory dense class="mt-n4">
+        <v-btn-toggle :value="getRosterView()" mandatory dense class="mt-n4">
           <v-btn small icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
@@ -52,12 +52,9 @@
           :list="groups"
           :disabled="preventDnd"
           v-bind="dragOptions"
-          @change="pilotStore.moveGroup"
+          @change="pilotStore.moveGroup(groups)"
         >
-          <div
-            v-for="(g, i) in groups"
-            :key="`pg_${g.name}_${i}`"
-          >
+          <div v-for="(g, i) in groups" :key="`pg_${g.name}_${i}`">
             <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
               <v-col cols="auto">
                 <v-btn small dark icon class="mt-n1" @click="toggleHidden(g)">
@@ -93,7 +90,7 @@
             </v-row>
             <div
               v-if="!g.hidden"
-              :style="profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
+              :style="getRosterView() !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
             >
               <v-expand-transition>
                 <draggable
@@ -110,7 +107,7 @@
                     v-for="(id, j) in g.pilotIDs"
                     :key="`${pilotCardType}_${j}`"
                     :pilot="getPilotFromId(id)"
-                    :small="profile.GetView('roster') === 'small-cards'"
+                    :small="getRosterView() === 'small-cards'"
                     :dragging="drag"
                   />
                 </draggable>
@@ -122,11 +119,24 @@
     </v-slide-x-transition>
     <v-divider class="my-3" />
     <v-row dense justify="center">
-      <v-col cols="12" md="6" lg="3">
-        <add-pilot />
+      <v-col cols="auto" class="mx-4">
+        <v-btn x-large tile color="accent" @click="$router.push('new')">
+          <v-icon left large>cci-accuracy</v-icon>
+          Create New Pilot
+        </v-btn>
+      </v-col>
+      <v-col cols="auto" class="mx-4">
+        <v-btn x-large tile color="accent" @click="$refs.import.show()">
+          <v-icon large left class="pr-2">mdi-import</v-icon>
+          Import Pilot
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row dense justify="center">
+      <v-col cols="auto">
         <v-menu v-model="newGroupMenu" top :close-on-content-click="false">
           <template v-slot:activator="{ on }">
-            <v-btn small block outlined color="accent" class="mt-1" v-on="on">
+            <v-btn outlined color="accent" class="mt-1" v-on="on">
               <v-icon left>mdi-folder</v-icon>
               Add Group
             </v-btn>
@@ -157,6 +167,9 @@
         </v-menu>
       </v-col>
     </v-row>
+    <cc-solo-dialog ref="import" icon="cci-pilot" no-confirm large title="Import Pilot">
+      <import-dialog />
+    </cc-solo-dialog>
   </v-container>
 </template>
 
@@ -164,7 +177,7 @@
 import Vue from 'vue'
 import PilotCard from './components/PilotCard.vue'
 import PilotListItem from './components/PilotListItem.vue'
-import AddPilot from './components/AddPilot.vue'
+import ImportDialog from './components/ImportDialog.vue'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore, PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
@@ -175,21 +188,27 @@ import { PilotGroup } from '../store'
 
 export default Vue.extend({
   name: 'roster-view',
-  components: { AddPilot, PilotListItem, PilotCard, draggable },
+  components: { ImportDialog, PilotListItem, PilotCard, draggable },
   data: () => ({
     sortParams: null,
     drag: false,
     newGroupMenu: false,
     newGroupName: '',
     preventDnd: true,
+    groups: [],
   }),
+  watch: {
+    plength() {
+      this.buildGroups()
+    },
+  },
   computed: {
     pilotStore() {
       const mod = getModule(PilotManagementStore, this.$store)
       return mod
     },
     pilotCardType(): string {
-      switch (this.profile.GetView('roster')) {
+      switch (this.getRosterView()) {
         case 'cards':
         case 'small-cards':
           return 'pilot-card'
@@ -202,11 +221,14 @@ export default Vue.extend({
       const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
-    groups() {
-      return this.pilotStore.PilotGroups
-    },
     pilots() {
       return this.pilotStore.Pilots
+    },
+    plength() {
+      return this.pilots.length
+    },
+    pilotGroups() {
+      return this.pilotStore.pilotGroups
     },
     dragOptions() {
       return {
@@ -219,7 +241,7 @@ export default Vue.extend({
       }
     },
     dragClick() {
-      return this.drag ? 'click' : null;
+      return this.drag ? 'click' : null
     },
     isTouch() {
       if ('ontouchstart' in document.documentElement) {
@@ -232,24 +254,59 @@ export default Vue.extend({
   created() {
     this.preventDnd = this.isTouch
   },
+  mounted() {
+    this.buildGroups()
+  },
   methods: {
+    buildGroups() {
+      let groups = [
+        ...this.pilotStore.PilotGroups.filter(
+          x => x.name && x.name !== '' && x.name.toLowerCase() !== 'ungrouped'
+        ),
+      ]
+      groups.forEach(g => {
+        g.pilotIDs = this.pilots
+          .filter(p => p.GroupController.Group === g.name)
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
+          .map(p => p.ID)
+      })
+      groups.push({
+        name: '',
+        pilotIDs: this.pilots
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
+          .map(p => p.ID)
+          .filter(id => !groups.flatMap(g => g.pilotIDs).includes(id)),
+        hidden: false,
+      })
+      this.groups = groups
+    },
+    getRosterView() {
+      if (this.profile) return 'list'
+      return this.profile.GetView('roster')
+    },
     toggleHidden(g: PilotGroup) {
       g.hidden = !g.hidden
     },
     showAll() {
-      this.groups.forEach(g => g.hidden = false)
+      this.groups.forEach(g => (g.hidden = false))
     },
     hideAll() {
-      this.groups.forEach(g => g.hidden = true)
+      this.groups.forEach(g => (g.hidden = true))
     },
     onSort(sortParams: any[]) {
       this.sortParams = sortParams
     },
     dragOff() {
-      setTimeout(() => {this.drag = false}, 50)
+      setTimeout(() => {
+        this.drag = false
+      }, 50)
     },
     addNewGroup() {
-      this.pilotStore.addGroup(this.newGroupName)
+      this.groups.push({
+        name: this.newGroupName,
+        pilotIDs: [],
+        hidden: false,
+      })
       this.newGroupName = ''
       this.newGroupMenu = false
     },
@@ -257,18 +314,26 @@ export default Vue.extend({
       return this.pilots.find(p => p.ID === id)
     },
     movePilot(groupName, event) {
-      if (event.added) {
-        const pilotId = event.added.element
-        const p = this.getPilotFromId(pilotId)
-        p.Group = groupName
+      if (event.added || event.moved) {
+        const pilotId = event.added ? event.added.element : event.moved.element
+        const pilot = this.getPilotFromId(pilotId)
+        pilot.GroupController.Group = groupName
+
+        this.groups.forEach(g => {
+          g.pilotIDs.forEach((id, i) => {
+            const p = this.getPilotFromId(id)
+            p.GroupController.SortIndex = i
+          })
+        })
       }
-      this.pilotStore.movePilot()
+      this.pilotStore.moveGroup(this.groups)
     },
     deleteGroup(g) {
       this.pilotStore.deleteGroup(g)
+      this.buildGroups()
     },
     setGroupName(g, newName) {
-      this.pilotStore.setGroupName({g: g, newName: newName})
+      this.pilotStore.setGroupName({ g: g, newName: newName })
     },
     randomName() {
       this.newGroupName = teamName()

@@ -19,8 +19,8 @@
         <v-divider />
         <v-stepper-step
           editable
-          :complete="pilot.HasFullSkills"
-          :color="pilot.HasFullSkills ? 'success' : 'primary'"
+          :complete="pilot.SkillsController.HasFullSkills"
+          :color="pilot.SkillsController.HasFullSkills ? 'success' : 'primary'"
           edit-icon="mdi-check"
           step="2"
         >
@@ -29,8 +29,8 @@
         <v-divider />
         <v-stepper-step
           editable
-          :complete="pilot.HasFullTalents"
-          :color="pilot.HasFullTalents ? 'success' : 'primary'"
+          :complete="pilot.TalentsController.HasFullTalents"
+          :color="pilot.TalentsController.HasFullTalents ? 'success' : 'primary'"
           edit-icon="mdi-check"
           step="3"
         >
@@ -39,8 +39,8 @@
         <v-divider />
         <v-stepper-step
           editable
-          :complete="pilot.HasFullHASE"
-          :color="pilot.HasFullHASE ? 'success' : 'primary'"
+          :complete="pilot.MechSkillsController.HasFullHASE"
+          :color="pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'"
           edit-icon="mdi-check"
           step="4"
         >
@@ -69,7 +69,13 @@
           <mech-skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="5">
-          <confirm-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" @done="onDone" />
+          <confirm-page
+            :pilot="pilot"
+            :quickstart="quickstart"
+            @next="step++"
+            @back="step--"
+            @done="onDone"
+          />
         </v-stepper-content>
         <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="6">
           <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />

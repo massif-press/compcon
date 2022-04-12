@@ -1,5 +1,10 @@
 <template>
-  <cc-solo-dialog ref="dialog" icon="cci-pilot" no-confirm title="Edit Pilot level">
+  <cc-solo-dialog
+    ref="dialog"
+    icon="cci-pilot"
+    no-confirm
+    title="Edit Pilot level"
+  >
     <v-card-text>
       <v-alert
         v-model="alert"
@@ -11,19 +16,16 @@
         outlined
         prominent
       >
-        This tool skips the level up wizard. Pilot attributes gained through levelling up, such as
-        skill triggers, licenses, talents, mech skills, and CORE bonuses will have to be updated
-        manually
+        This tool skips the level up wizard. Pilot attributes gained through
+        levelling up, such as skill triggers, licenses, talents, mech skills,
+        and CORE bonuses will have to be updated manually
       </v-alert>
 
       <v-row justify="center" align="center" class="text-center">
         <v-col cols="auto">
           <span class="overline">Current Level:</span>
           <br />
-          <span
-            style="display:inline-block"
-            class="level-input"
-          >
+          <span style="display: inline-block" class="level-input">
             {{ pilot.Level }}
           </span>
         </v-col>
@@ -69,11 +71,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Rules } from '@/class'
+import Vue from "vue";
+import { Rules } from "@/class";
 
 export default Vue.extend({
-  name: 'level-edit-dialog',
+  name: "level-edit-dialog",
   props: {
     pilot: {
       type: Object,
@@ -83,24 +85,23 @@ export default Vue.extend({
   data: () => ({
     alert: true,
     newLevel: 0,
-    levels: Array.from(Array(Rules.MaxPilotLevel + 1).keys())
+    levels: Array.from(Array(Rules.MaxPilotLevel + 1).keys()),
   }),
   methods: {
     show() {
-      this.$refs.dialog.show()
-      this.alert = true
-      this.newLevel = this.pilot.Level
+      this.$refs.dialog.show();
+      this.alert = true;
+      this.newLevel = this.pilot.Level;
     },
     hide() {
-      this.$refs.dialog.hide()
+      this.$refs.dialog.hide();
     },
     setLevel() {
-      this.pilot.Level = parseInt(this.newLevel) || 0
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'pilotLevel' })
-      this.hide()
+      this.pilot.Level = parseInt(this.newLevel) || 0;
+      this.hide();
     },
   },
-})
+});
 </script>
 
 <style>
@@ -133,5 +134,4 @@ export default Vue.extend({
   align-self: center !important;
   margin: 0 !important;
 }
-
 </style>

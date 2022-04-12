@@ -46,6 +46,7 @@ export default Vue.extend({
           mode: 'cors',
           headers: {
             'Access-Control-Allow-Origin': '*',
+            'cache-control': 'no-cache',
           },
         })
           .then(res => res.json())

@@ -258,9 +258,9 @@
                   tile
                   block
                   :disabled="!attackRoll"
-                  :color="
-                    `${crit ? 'secondary' : 'action--reaction'} ${attackFree ? 'lighten-1' : ''}`
-                  "
+                  :color="`${crit ? 'secondary' : 'action--reaction'} ${
+                    attackFree ? 'lighten-1' : ''
+                  }`"
                   @click="attackFree = !attackFree"
                 >
                   <v-icon left>cci-reaction</v-icon>
@@ -274,11 +274,9 @@
                   block
                   class="white--text"
                   :disabled="attackFree || !attackRoll || (!improv && !state.IsSkirmishAvailable)"
-                  :color="
-                    `${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
-                      attackQuick ? 'lighten-1' : ''
-                    }`
-                  "
+                  :color="`${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
+                    attackQuick ? 'lighten-1' : ''
+                  }`"
                   @click="attackQuick = !attackQuick"
                 >
                   <v-icon v-if="improv" left>mdi-hexagon-slice-6</v-icon>
@@ -347,11 +345,9 @@
             <v-col cols="auto" class="ml-auto" />
             <v-col v-if="hit && crit" cols="auto" class="text-center">
               <cc-tooltip
-                :content="
-                  `On a critical hit, all damage dice are rolled twice
+                :content="`On a critical hit, all damage dice are rolled twice
 (including bonus damage) and the highest result from
-each source of damage is used.`
-                "
+each source of damage is used.`"
               >
                 <v-icon x-large color="secondary">mdi-progress-alert</v-icon>
                 <div class="secondary--text">CRITICAL HIT</div>
@@ -484,9 +480,7 @@ each source of damage is used.`
                 <v-row no-gutters justify="end" align="center">
                   <v-col cols="auto">
                     <cc-tooltip
-                      :content="
-                        `When rolling for damage with this weapon, any damage dice that land on a 1 cause the attacker to take 1 Heat, and are then rerolled. Additional 1s continue to trigger this effect. ${autoOverkillString}`
-                      "
+                      :content="`When rolling for damage with this weapon, any damage dice that land on a 1 cause the attacker to take 1 Heat, and are then rerolled. Additional 1s continue to trigger this effect. ${autoOverkillString}`"
                     >
                       <v-icon x-large>mdi-progress-alert</v-icon>
                     </cc-tooltip>
@@ -608,8 +602,7 @@ each source of damage is used.`
 import Vue from 'vue'
 import ActiveModInset from '../components/_ActiveModInset.vue'
 import AmmoCaseInset from '../../mech_loadout/components/mount/weapon/_AmmoCaseInset.vue'
-import PilotTalent from '@/classes/pilot/PilotTalent'
-import { ActivationType, Damage, DiceRoller, Range, WeaponSize, WeaponType } from '@/class'
+import { ActivationType, Damage, PilotTalent, Range, WeaponSize, WeaponType } from '@/class'
 import CbCard from '../../mech_loadout/components/mount/_CbCard.vue'
 
 export default Vue.extend({
@@ -704,7 +697,7 @@ export default Vue.extend({
         this.item.WeaponType === WeaponType.Melee
       )
         return 0
-      const tal = this.mech.Pilot.Talents.find(
+      const tal = this.mech.pilot.TalentsController.Talents.find(
         (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
       )
       if (!tal) return 0
@@ -826,7 +819,7 @@ export default Vue.extend({
       this.confirmed = false
       this.overkillHeat = 0
       this.resetAttackRoll = false
-      this.$nextTick(function() {
+      this.$nextTick(function () {
         this.resetAttackRoll = true
       })
     },

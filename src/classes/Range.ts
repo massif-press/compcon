@@ -1,5 +1,5 @@
 import { Mech, MechWeapon, RangeType } from '@/class'
-import { Bonus } from './Bonus'
+import { Bonus } from './components/feature/bonus/Bonus'
 
 //TODO: getRange(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -85,7 +85,7 @@ class Range {
     })
 
     if (!Bonus.get('range', mech) || item.NoCoreBonus) return output
-    const bonuses = mech.Bonuses.filter(x => x.ID === 'range')
+    const bonuses = mech.FeatureController.Bonuses.filter(x => x.ID === 'range')
     output.forEach(r => {
       if (r.Override) return
       bonuses.forEach(b => {
@@ -110,7 +110,7 @@ class Range {
       type: range._range_type,
       val: range._value,
       override: range._override,
-      bonus: range._bonus
+      bonus: range._bonus,
     }
   }
 }

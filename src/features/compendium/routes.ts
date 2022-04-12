@@ -5,7 +5,6 @@ import Search from './Views/SearchResults.vue'
 
 import Licenses from './Views/Licenses.vue'
 import Manufacturers from './Views/Manufacturers.vue'
-import Factions from './Views/Factions.vue'
 import Frames from './Views/Frames.vue'
 import Weapons from './Views/Weapons.vue'
 import Systems from './Views/Systems.vue'
@@ -23,6 +22,7 @@ import Backgrounds from './Views/Backgrounds.vue'
 import ActionEconomy from './Views/ActionEconomy.vue'
 import Glossary from './Views/Glossary.vue'
 import Reserves from './Views/Reserves.vue'
+import Bonds from './Views/Bonds.vue'
 
 import { RouteConfig } from 'vue-router'
 
@@ -46,10 +46,6 @@ const routes: RouteConfig[] = [
       {
         path: '/compendium/manufacturers',
         component: Manufacturers,
-      },
-      {
-        path: '/compendium/factions',
-        component: Factions,
       },
       {
         path: '/compendium/frames',
@@ -118,6 +114,10 @@ const routes: RouteConfig[] = [
       {
         path: '/compendium/reserves',
         component: Reserves,
+      },
+      {
+        path: '/compendium/bonds',
+        component: Bonds,
       },
     ],
   },

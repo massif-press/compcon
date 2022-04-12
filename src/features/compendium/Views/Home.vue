@@ -32,14 +32,6 @@
             name="Manufacturers"
             @clicked="$router.push('compendium/manufacturers')"
           />
-          <!-- <compendium-page-button
-            lg="3"
-            md="6"
-            sm="12"
-            icon="cci-manufacturer"
-            name="Factions"
-            @clicked="$router.push('compendium/factions')"
-          /> -->
           <compendium-page-button
             lg="4"
             md="6"
@@ -85,7 +77,7 @@
             @clicked="$router.push('compendium/systems')"
           />
           <compendium-page-button
-            lg="3"
+            lg="4"
             md="6"
             sm="12"
             color="secondary"
@@ -94,7 +86,7 @@
             @clicked="$router.push('compendium/pilot_gear')"
           />
           <compendium-page-button
-            lg="3"
+            lg="4"
             md="6"
             sm="12"
             color="secondary"
@@ -103,7 +95,7 @@
             @clicked="$router.push('compendium/backgrounds')"
           />
           <compendium-page-button
-            lg="3"
+            lg="4"
             md="6"
             sm="12"
             color="secondary"
@@ -112,13 +104,22 @@
             @clicked="$router.push('compendium/skills')"
           />
           <compendium-page-button
-            lg="3"
+            lg="6"
             md="6"
             sm="12"
             color="secondary"
             icon="cci-rank-3"
             name="Talents"
             @clicked="$router.push('compendium/talents')"
+          />
+          <compendium-page-button
+            lg="6"
+            md="6"
+            sm="12"
+            color="secondary"
+            icon="mdi-vector-link"
+            name="Bonds"
+            @clicked="$router.push('compendium/bonds')"
           />
           <compendium-page-button
             lg="4"

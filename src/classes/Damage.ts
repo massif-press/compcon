@@ -1,5 +1,5 @@
 import { DamageType, Mech, MechWeapon } from '@/class'
-import { Bonus } from './Bonus'
+import { Bonus } from './components/feature/bonus/Bonus'
 
 //TODO: getDamage(mech?: Mech, mount?: Mount) to collect all relevant bonuses
 
@@ -68,7 +68,7 @@ class Damage {
   public static CalculateDamage(item: MechWeapon, mech: Mech): Damage[] {
     if (!item || !mech) return []
     if (!Bonus.get('damage', mech) || item.NoCoreBonus || item.NoBonuses) return item.Damage
-    const bonuses = mech.Bonuses.filter(x => x.ID === 'damage')
+    const bonuses = mech.FeatureController.Bonuses.filter(x => x.ID === 'damage')
     const output = []
     item.Damage.forEach(d => {
       if (d.Override) return
@@ -115,7 +115,7 @@ class Damage {
       type: damage.Type,
       val: damage.Value,
       override: damage.Override,
-      bonus: damage.Bonus
+      bonus: damage.Bonus,
     }
   }
 }

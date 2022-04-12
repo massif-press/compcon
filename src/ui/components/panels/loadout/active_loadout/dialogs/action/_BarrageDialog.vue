@@ -6,7 +6,10 @@
       <div class="text-center heading h3 text--text my-3">
         Select two weapons or one Superheavy weapon
       </div>
-      <div v-for="(m, i) in mech.ActiveLoadout.Mounts.filter(x => !x.IsLocked)" :key="`bar_${i}`">
+      <div
+        v-for="(m, i) in mech.MechLoadoutController.ActiveLoadout.Mounts.filter(x => !x.IsLocked)"
+        :key="`bar_${i}`"
+      >
         <item-selector-row
           v-for="(w, j) in m.Weapons.filter(
             x => x.Size !== 'Superheavy' && !x.Destroyed && !x.NoAttack

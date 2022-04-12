@@ -70,7 +70,7 @@ export default Vue.extend({
       { text: 'Graphic/Portrait', icon: 'mdi-file' },
       { text: 'Graphic/Landscape', icon: 'mdi-note' },
       { text: 'Text-Only/Portrait', icon: 'mdi-file-document-outline' },
-      { text: 'Text-Only/Landscape', icon: 'mdi-file-document-box-outline' },
+      { text: 'Text-Only/Landscape', icon: 'mdi-file-document-outline-outline' },
     ],
     fontSizeOptions: [
       { text: 'Small', icon: 'mdi-format-font-size-decrease' },

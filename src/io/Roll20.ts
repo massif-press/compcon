@@ -118,12 +118,12 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       background: pilot.Background,
       hp: pilot.MaxHP,
       //
-      hull: pilot.MechSkills.Hull,
-      agility: pilot.MechSkills.Agi,
-      systems: pilot.MechSkills.Sys,
-      engineering: pilot.MechSkills.Eng,
+      hull: pilot.MechSkillsController.MechSkills.Hull,
+      agility: pilot.MechSkillsController.MechSkills.Agi,
+      systems: pilot.MechSkillsController.MechSkills.Sys,
+      engineering: pilot.MechSkillsController.MechSkills.Eng,
       //
-      triggers: pilot.Skills.map(skill => ({
+      triggers: pilot.SkillsController.Skills.map(skill => ({
         name: skill.Title,
         bonus: skill.Bonus,
       })),
@@ -158,15 +158,17 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
             }
           : null
       ).slice(0, 2),
-      licenses: pilot.Licenses.map(l => ({
+      licenses: pilot.LicenseController.Licenses.map(l => ({
         name: `${l.License.Source} ${l.License.Name}`,
         rank: l.Rank,
       })),
-      coreBonuses: pilot.CoreBonuses.map(cb => cb.Name + '\n' + cb.Description).join('\n'),
+      coreBonuses: pilot.CoreBonusController.CoreBonuses.map(
+        cb => cb.Name + '\n' + cb.Description
+      ).join('\n'),
     },
     //
     //
-    talents: pilot.Talents.map(talent => ({
+    talents: pilot.TalentsController.Talents.map(talent => ({
       name: talent.Talent.Name,
       ranks: talent.Talent.Ranks.map(rank => ({
         name: rank.Name,
@@ -188,7 +190,7 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
       sensors: mech.SensorRange,
       techAttack: mech.TechAttack,
       mounts: [mech.Frame.Mounts[0], mech.Frame.Mounts[1], mech.Frame.Mounts[2]],
-      weapons: mech.ActiveLoadout.Weapons.map(weapon => ({
+      weapons: mech.MechLoadoutController.ActiveLoadout.Weapons.map(weapon => ({
         name: weapon.Name,
         type: `${weapon.Size} ${weapon.ItemType}`,
         range: weapon.Range.filter(r => r.Type != RangeType.Blast)[0].Max,
@@ -206,7 +208,7 @@ export default function pilotToRoll20(pilot: Pilot, mech: Mech): IRoll20Data {
         name: rank.Name,
         description: strip(rank.Description),
       })),
-      systems: mech.ActiveLoadout.Systems.map(system => ({
+      systems: mech.MechLoadoutController.ActiveLoadout.Systems.map(system => ({
         name: system.Name,
         tags: system.Tags.map(tag => tag.GetName(pilot.LimitedBonus)).join(', '),
         sp: system.SP,

@@ -11,7 +11,7 @@ import Component from 'vue-class-component'
 import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore, UserStore } from '@/store'
-import { MechWeapon } from '../../../classes/mech/MechWeapon'
+import { MechWeapon } from '../../../classes/mech/components/equipment/MechWeapon'
 
 @Component({
   components: { CompendiumBrowser },
@@ -37,10 +37,7 @@ export default class Weapons extends Vue {
       arr = arr.filter(x => !x.IsExotic)
     }
 
-    return _.orderBy(arr, [
-      item => this.sourceIds.indexOf(item.Source), 
-      'Name'
-    ])
+    return _.orderBy(arr, [item => this.sourceIds.indexOf(item.Source), 'Name'])
   }
 }
 </script>

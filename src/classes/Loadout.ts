@@ -18,13 +18,14 @@ abstract class Loadout {
   private _id: string
   protected _name: string
 
-  public constructor(count: number, id?: string) {
+  public constructor(count?: number, id?: string) {
     this._id = id ? id : uuid()
-    this._name = ordArr[count]
+    if (!count) this._name = 'Primary'
+    else this._name = ordArr[count]
   }
 
   protected save(): void {
-    store.dispatch('setPilotsDirty')
+    store.dispatch('set_pilot_dirty')
   }
 
   public get ID(): string {

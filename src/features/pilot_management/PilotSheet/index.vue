@@ -6,20 +6,21 @@
       <v-spacer style="min-height: 80px" />
     </template>
     <template v-else>
-      <!-- TODO: make this look fancy -->
-      <h1 style="margin-top: 50px; text-align: center">ERROR // INVALID PILOT</h1>
+      <h1 style="margin-top: 50px; text-align: center">
+        ERROR // INVALID PILOT
+      </h1>
     </template>
   </v-container>
 </template>
 
 <script lang="ts">
-import PilotHeader from './components/PilotHeader.vue'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
+import PilotHeader from "./components/PilotHeader.vue";
+import activePilot from "@/features/pilot_management/mixins/activePilot";
 
-import vueMixins from '@/util/vueMixins'
+import vueMixins from "@/util/vueMixins";
 
 export default vueMixins(activePilot).extend({
-  name: 'pilot-sheet',
+  name: "pilot-sheet",
   components: { PilotHeader },
   props: {
     pilotID: {
@@ -27,5 +28,5 @@ export default vueMixins(activePilot).extend({
       required: true,
     },
   },
-})
+});
 </script>

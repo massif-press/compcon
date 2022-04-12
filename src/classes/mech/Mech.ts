@@ -1,25 +1,33 @@
 import { store } from '@/store'
 import uuid from 'uuid/v4'
 import _ from 'lodash'
+import { Rules, Pilot, Frame, CoreBonus, Mount } from '@/class'
+import { ImageTag } from '@/io/ImageManagement'
+import { Bonus } from '../components/feature/bonus/Bonus'
+import { ActivePeriod } from '../Action'
+import { IMechLoadoutData } from './components/loadout/MechLoadout'
 import {
-  Rules,
-  Pilot,
-  Frame,
-  MechLoadout,
-  MechSystem,
-  CoreBonus,
-  Synergy,
-  MechWeapon,
-  Mount,
-} from '@/class'
-import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { Bonus } from '../Bonus'
-import { ICounterData } from '../Counter'
-import { Action, ActivePeriod } from '../Action'
-import { IDeployableData } from '../Deployable'
-import { IMechLoadoutData } from './MechLoadout'
+  IPortraitContainer,
+  IPortraitData,
+  ISaveable,
+  ISaveData,
+  PortraitController,
+  SaveController,
+} from '../components'
+import { IFeatureController } from '../components/feature/IFeatureController'
+import { FeatureController } from '../components/feature/FeatureController'
+import {
+  IMechLoadoutSaveData,
+  MechLoadoutController,
+} from './components/loadout/MechLoadoutController'
+import { IActor } from '../encounter/IActor'
+import { CompendiumItem } from '../CompendiumItem'
 
-interface IMechData {
+class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
+  deleteTime: string
+  expireTime: string
+  lastModified: string
+  isDeleted: boolean
   id: string
   name: string
   notes: string
@@ -54,17 +62,20 @@ interface IMechData {
   cc_ver: string
 }
 
-class Mech implements IActor {
+class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController {
+  public readonly ItemType: string = 'mech'
+
+  public SaveController: SaveController
+  public PortraitController: PortraitController
+  public ImageTag = ImageTag.Mech
+  public FeatureController: FeatureController
+  public MechLoadoutController: MechLoadoutController
+
   private _id: string
   private _name: string
   private _notes: string
   private _gm_note: string
-  private _portrait: string
-  private _cloud_portrait: string
-  private _built_in_img: string
   private _frame: Frame
-  private _loadouts: MechLoadout[]
-  private _active_loadout: MechLoadout
   private _missing_structure: number
   private _missing_hp: number
   private _overshield: number
@@ -93,12 +104,15 @@ class Mech implements IActor {
 
   public constructor(frame: Frame, pilot: Pilot) {
     this._id = uuid()
+    this._frame = frame
+    this.SaveController = new SaveController(this)
+    this.PortraitController = new PortraitController(this)
+    this.FeatureController = new FeatureController(this)
+    this.MechLoadoutController = new MechLoadoutController(this)
+
     this._name = ''
     this._notes = ''
     this._gm_note = ''
-    this._portrait = ''
-    this._cloud_portrait = ''
-    this._frame = frame
     this._pilot = pilot
     this._active = false
     this._overshield = 0
@@ -114,8 +128,6 @@ class Mech implements IActor {
     this._defeat = ''
     this._reactor_destroyed = false
     this._meltdown_imminent = false
-    this._loadouts = [new MechLoadout(this)]
-    this._active_loadout = this._loadouts[0]
     this._missing_structure = 0
     this._missing_hp = 0
     this._missing_stress = 0
@@ -126,10 +138,26 @@ class Mech implements IActor {
     this._turn_actions = 2
     this._core_active = false
     this._cc_ver = store.getters.getVersion || 'N/A'
+
+    this.FeatureController.Register(
+      this.Frame,
+      this.MechLoadoutController,
+      this.Parent.CoreBonusController
+    )
+
+    this.MechLoadoutController.UpdateLoadouts()
   }
-  // -- Utility -----------------------------------------------------------------------------------
-  private save(): void {
-    store.dispatch('setPilotsDirty')
+
+  // -- Passthroughs ------------------------------------------------------------------------------
+  public get Portrait(): string {
+    return this.PortraitController.Portrait
+  }
+
+  public get BrewableItems(): CompendiumItem[] {
+    return [
+      this.Frame,
+      ...this.MechLoadoutController.Loadouts.flatMap(l => l.Equipment),
+    ] as CompendiumItem[]
   }
 
   // -- Info --------------------------------------------------------------------------------------
@@ -147,7 +175,7 @@ class Mech implements IActor {
 
   public set Name(name: string) {
     this._name = name
-    this.save()
+    this.SaveController.save()
   }
 
   public get EncounterName(): string {
@@ -164,7 +192,7 @@ class Mech implements IActor {
 
   public set Notes(notes: string) {
     this._notes = notes
-    this.save()
+    this.SaveController.save()
   }
 
   public get GmNote(): string {
@@ -173,7 +201,7 @@ class Mech implements IActor {
 
   public set GmNote(val: string) {
     this._gm_note = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Frame(): Frame {
@@ -184,18 +212,22 @@ class Mech implements IActor {
     return this._pilot
   }
 
+  public get Parent(): Pilot {
+    return this._pilot
+  }
+
   public get IsActive(): boolean {
     return this.Pilot.State.ActiveMech?.ID === this.ID
   }
 
   public get IsCascading(): boolean {
-    if (!this.ActiveLoadout.AICount) return false
-    return !!this.ActiveLoadout.Equipment.filter(x => x.IsCascading).length
+    if (!this.MechLoadoutController.ActiveLoadout.AICount) return false
+    return !!this.MechLoadoutController.ActiveLoadout.Equipment.filter(x => x.IsCascading).length
   }
 
   public get RequiredLicenses(): ILicenseRequirement[] {
-    const requirements = this.ActiveLoadout
-      ? this.ActiveLoadout.RequiredLicenses
+    const requirements = this.MechLoadoutController.ActiveLoadout
+      ? this.MechLoadoutController.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[])
 
     if (this._frame.LicenseLevel === 0) {
@@ -218,41 +250,16 @@ class Mech implements IActor {
     })
   }
 
-  public SetCloudImage(src: string): void {
-    this._cloud_portrait = src
-    this.save()
-  }
-
-  public get CloudImage(): string {
-    return this._cloud_portrait
-  }
-
-  public SetLocalImage(src: string): void {
-    this._portrait = src
-    this.save()
-  }
-
-  public get LocalImage(): string {
-    return this._portrait
-  }
-
-  public get Image(): string {
-    return this.Portrait
-  }
-
-  public get Portrait(): string {
-    if (this._cloud_portrait) return this._cloud_portrait
-    if (this._portrait) return getImagePath(ImageTag.Mech, this._portrait)
-    return this.Frame.DefaultImage
-  }
-
   // -- Attributes --------------------------------------------------------------------------------
   public get SizeIcon(): string {
     return `cci-size-${this.Size === 0.5 ? 'half' : this.Size}`
   }
 
   public get Size(): number {
-    let size = this._frame.Size >= Rules.MaxFrameSize ? this._frame.Size : Bonus.Int(this._frame.Size, 'size', this)
+    let size =
+      this._frame.Size >= Rules.MaxFrameSize
+        ? this._frame.Size
+        : Bonus.Int(this._frame.Size, 'size', this)
     if (size < 0.5) size = 0.5
     if (size > 0.5 && size % 1 !== 0) size = Math.floor(size)
     return size
@@ -441,21 +448,21 @@ class Mech implements IActor {
     return output
   }
 
-  // -- HASE --------------------------------------------------------------------------------------
+  // -- HASE passthroughs -------------------------------------------------------------------------
   public get Hull(): number {
-    return this._pilot.MechSkills.Hull
+    return this._pilot.MechSkillsController.MechSkills.Hull
   }
 
   public get Agi(): number {
-    return this._pilot.MechSkills.Agi
+    return this._pilot.MechSkillsController.MechSkills.Agi
   }
 
   public get Sys(): number {
-    return this._pilot.MechSkills.Sys
+    return this._pilot.MechSkillsController.MechSkills.Sys
   }
 
   public get Eng(): number {
-    return this._pilot.MechSkills.Eng
+    return this._pilot.MechSkillsController.MechSkills.Eng
   }
 
   // -- Stats -------------------------------------------------------------------------------------
@@ -464,9 +471,12 @@ class Mech implements IActor {
   }
 
   public set CurrentStructure(structure: number) {
-    this._missing_structure = Math.min(Math.max(this.MaxStructure - structure, 0), this.MaxStructure)
+    this._missing_structure = Math.min(
+      Math.max(this.MaxStructure - structure, 0),
+      this.MaxStructure
+    )
     if (this._missing_structure === this.MaxStructure) this.Destroy()
-    this.save()
+    this.SaveController.save()
   }
 
   public get MaxStructure(): number {
@@ -488,7 +498,7 @@ class Mech implements IActor {
 
   public set Overshield(val: number) {
     this._overshield = val < 0 ? 0 : val
-    this.save()
+    this.SaveController.save()
   }
 
   public get CurrentHP(): number {
@@ -502,7 +512,7 @@ class Mech implements IActor {
       this.CurrentStructure -= 1
       this.CurrentHP = this.MaxHP + hp
     } else this._missing_hp = this.MaxHP - hp
-    this.save()
+    this.SaveController.save()
   }
 
   public AddDamage(dmg: number, resistance?: string): void {
@@ -530,8 +540,8 @@ class Mech implements IActor {
   }
 
   public get CurrentSP(): number {
-    if (!this.ActiveLoadout) return this.MaxSP
-    return this.ActiveLoadout.TotalSP
+    if (!this.MechLoadoutController.ActiveLoadout) return this.MaxSP
+    return this.MechLoadoutController.ActiveLoadout.TotalSP
   }
 
   public get MaxSP(): number {
@@ -565,7 +575,7 @@ class Mech implements IActor {
       this.CurrentHeat = heat - this.HeatCapacity
     } else if (heat < 0) this._current_heat = 0
     else this._current_heat = heat
-    this.save()
+    this.SaveController.save()
   }
 
   public AddHeat(heat: number): void {
@@ -615,7 +625,7 @@ class Mech implements IActor {
   public set CurrentStress(stress: number) {
     this._missing_stress = Math.min(Math.max(this.MaxStress - stress, 0), this.MaxStress)
     if (this._missing_stress === this.MaxStress) this._pilot.State.ReactorCriticalDestruct()
-    this.save()
+    this.SaveController.save()
   }
 
   public get MaxStress(): number {
@@ -637,7 +647,7 @@ class Mech implements IActor {
 
   public set CurrentRepairs(rep: number) {
     this._missing_repairs = Math.min(Math.max(this.RepairCapacity - rep, 0), this.RepairCapacity)
-    this.save()
+    this.SaveController.save()
   }
 
   public get RepairCapacity(): number {
@@ -657,21 +667,21 @@ class Mech implements IActor {
   }
 
   public get CurrentCoreEnergy(): number {
-    return this._current_core_energy
+    return this.Frame.CoreSystem.Energy
   }
 
   public set CurrentCoreEnergy(energy: number) {
-    this._current_core_energy = energy
-    this.save()
+    this.Frame.CoreSystem.Energy = energy
+    this.SaveController.save()
   }
 
   public get IsCoreActive(): boolean {
-    return this._core_active
+    return this.Frame.CoreSystem.IsActive
   }
 
   public set IsCoreActive(val: boolean) {
-    this._core_active = val
-    this.save()
+    this.Frame.CoreSystem.IsActive = val
+    this.SaveController.save()
   }
 
   public get OverchargeTrack(): string[] {
@@ -688,7 +698,7 @@ class Mech implements IActor {
     if (this._current_overcharge < 0) this._current_overcharge = 0
     if (this._current_overcharge > this.OverchargeTrack.length - 1)
       this._current_overcharge = this.OverchargeTrack.length - 1
-    this.save()
+    this.SaveController.save()
   }
 
   // -- Encounter Management ----------------------------------------------------------------------
@@ -698,7 +708,7 @@ class Mech implements IActor {
 
   public set Activations(val: number) {
     this._activations = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get TurnActions(): number {
@@ -707,7 +717,7 @@ class Mech implements IActor {
 
   public set TurnActions(val: number) {
     this._turn_actions = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Boost(): number {
@@ -717,7 +727,7 @@ class Mech implements IActor {
 
   public set Boost(val: number) {
     this._boost = val < 0 ? 0 : val
-    this.save()
+    this.SaveController.save()
   }
 
   public get CurrentMove(): number {
@@ -727,7 +737,7 @@ class Mech implements IActor {
 
   public set CurrentMove(val: number) {
     this._currentMove = val < 0 ? 0 : val
-    this.save()
+    this.SaveController.save()
   }
 
   public get MaxMove(): number {
@@ -756,17 +766,18 @@ class Mech implements IActor {
     this._activations = 1
     this._turn_actions = 2
     this._currentMove = this.MaxMove
-    this.save()
+    this.SaveController.save()
   }
 
   // -- Statuses and Conditions -------------------------------------------------------------------
   public get StatusString(): string[] {
     const out = []
     if (this.Destroyed) out.push('destroyed')
-    if (this.ActiveLoadout.Systems.filter(x => x.IsCascading).length) out.push('cascading')
+    if (this.MechLoadoutController.ActiveLoadout.Systems.filter(x => x.IsCascading).length)
+      out.push('cascading')
     if (this.FreeSP < 0) out.push('overSP')
     if (this.FreeSP > 0) out.push('underSP')
-    if (this.ActiveLoadout.HasEmptyMounts) out.push('unfinished')
+    if (this.MechLoadoutController.ActiveLoadout.HasEmptyMounts) out.push('unfinished')
     if (this.RequiredLicenses.filter(x => x.missing).length) out.push('unlicensed')
     return out
   }
@@ -777,11 +788,7 @@ class Mech implements IActor {
 
   public set Defeat(val: string) {
     this._defeat = val
-    this.save()
-  }
-
-  public get IsDestroyed(): boolean {
-    return this._destroyed
+    this.SaveController.save()
   }
 
   public get Destroyed(): boolean {
@@ -792,7 +799,7 @@ class Mech implements IActor {
   public set Destroyed(b: boolean) {
     this._destroyed = b
     this._defeat = b ? 'Destroyed' : ''
-    this.save()
+    this.SaveController.save()
   }
 
   public get ReactorDestroyed(): boolean {
@@ -804,13 +811,13 @@ class Mech implements IActor {
     this._destroyed = false
     this._reactor_destroyed = destroyed
     this._defeat = destroyed ? 'Reactor Destroyed' : ''
-    this.save()
+    this.SaveController.save()
   }
 
   public Destroy(): void {
     this._destroyed = true
     this._defeat = 'Destroyed'
-    this.save()
+    this.SaveController.save()
   }
 
   public Repair(): void {
@@ -822,7 +829,7 @@ class Mech implements IActor {
     this.CurrentStress = 1
     this.CurrentStructure = 1
     this.CurrentHP = this.MaxHP
-    this.save()
+    this.SaveController.save()
   }
 
   public get IsShutDown(): boolean {
@@ -840,7 +847,7 @@ class Mech implements IActor {
 
   public set Conditions(conditions: string[]) {
     this._conditions = conditions
-    this.save()
+    this.SaveController.save()
   }
 
   public AddCondition(condition: string): void {
@@ -860,7 +867,7 @@ class Mech implements IActor {
 
   public set Statuses(statuses: string[]) {
     this._statuses = statuses
-    this.save()
+    this.SaveController.save()
   }
 
   public AddStatus(status: string): void {
@@ -879,7 +886,7 @@ class Mech implements IActor {
 
   public set Resistances(resistances: string[]) {
     this._resistances = resistances
-    this.save()
+    this.SaveController.save()
   }
 
   public get Burn(): number {
@@ -889,7 +896,7 @@ class Mech implements IActor {
   public set Burn(burn: number) {
     this._burn = burn
     if (this._burn < 0) this._burn = 0
-    this.save()
+    this.SaveController.save()
   }
 
   // -- Active Mode Utilities ---------------------------------------------------------------------
@@ -904,21 +911,23 @@ class Mech implements IActor {
     this.CurrentCoreEnergy = 1
     this.CurrentOvercharge = 0
     this.Boost = 0
-    this._loadouts.forEach(x => {
+    this.MechLoadoutController.Loadouts.forEach(x => {
       x.Equipment.forEach(y => {
         if (y.Destroyed) y.Repair()
         if (y.IsLimited) y.Uses = y.getTotalUses(this.LimitedBonus)
       })
     })
-    if (this.Frame.CoreSystem.PassiveActions) this.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(ActivePeriod.Mission))
-    if (this.Frame.CoreSystem.DeployActions) this.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(ActivePeriod.Mission))
+    if (this.Frame.CoreSystem.PassiveActions)
+      this.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(ActivePeriod.Mission))
+    if (this.Frame.CoreSystem.DeployActions)
+      this.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(ActivePeriod.Mission))
     this._statuses = []
     this._conditions = []
     this._resistances = []
     this.Burn = 0
     this._defeat = ''
     this.IsCoreActive = false
-    this.save()
+    this.SaveController.save()
   }
 
   public BasicRepair(restoreReactor: boolean): void {
@@ -935,153 +944,36 @@ class Mech implements IActor {
     this._resistances = []
     this.Burn = 0
     this._defeat = ''
-    this.save()
+    this.SaveController.save()
   }
 
   // -- Loadouts ----------------------------------------------------------------------------------
-  public get Loadouts(): MechLoadout[] {
-    return this._loadouts
-  }
-
-  public set Loadouts(loadouts: MechLoadout[]) {
-    this._loadouts = loadouts
-    this.save()
-  }
-
-  public get ActiveLoadout(): MechLoadout {
-    return this._active_loadout
-  }
-
-  public set ActiveLoadout(loadout: MechLoadout) {
-    this._active_loadout = loadout
-    this.save()
-  }
-
   public get ActiveMounts(): Mount[] {
-    return this.ActiveLoadout.AllActiveMounts(this)
-  }
-
-  public AddLoadout(): void {
-    this._loadouts.push(new MechLoadout(this))
-    this.ActiveLoadout = this._loadouts[this._loadouts.length - 1]
-    this.save()
-  }
-
-  public RemoveLoadout(): void {
-    if (this._loadouts.length === 1) {
-      console.error(`Cannot remove last Mech Loadout`)
-    } else {
-      const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
-      this._active_loadout = this._loadouts[index + (index === 0 ? 1 : -1)]
-      this._loadouts.splice(index, 1)
-      this.save()
-    }
-  }
-
-  public CloneLoadout(): void {
-    const index = this._loadouts.findIndex(x => x.ID === this.ActiveLoadout.ID)
-    const newLoadout = MechLoadout.Deserialize(MechLoadout.Serialize(this.ActiveLoadout), this)
-    newLoadout.RenewID()
-    newLoadout.Name += ' (Copy)'
-    this._loadouts.splice(index + 1, 0, newLoadout)
-    this._active_loadout = this._loadouts[index + 1]
-    this.save()
-  }
-
-  public UpdateLoadouts(): void {
-    this._loadouts.forEach(x => {
-      x.UpdateIntegrated(this)
-    })
+    return this.MechLoadoutController.ActiveLoadout.AllActiveMounts(this)
   }
 
   // -- Mountable CORE Bonuses --------------------------------------------------------------------
   public get PilotBonuses(): CoreBonus[] {
-    return this.Pilot.CoreBonuses.filter(x => x.IsMountable)
+    return this.Pilot.CoreBonusController.CoreBonuses.filter(x => x.IsMountable)
   }
 
   public get AppliedBonuses(): CoreBonus[] {
-    return _.flatten(this.ActiveLoadout.AllEquippableMounts(true, true).map(x => x.Bonuses))
+    return _.flatten(
+      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(true, true).map(x => x.Bonuses)
+    )
   }
 
   public get AvailableBonuses(): CoreBonus[] {
     return this.PilotBonuses.filter(x => !this.AppliedBonuses.includes(x))
   }
 
-  // -- Bonuses, Actions, Synergies, etc. ---------------------------------------------------------
-  private features<T>(p: string, i = true): T[] {
-    let output: T[] = []
-    if (i) output = this.Pilot[p]
-
-    if (this.ActiveLoadout) {
-      const activeBonuses = this.ActiveLoadout.Systems.filter(
-        x => x && !x.Destroyed && !x.IsCascading
-      ).flatMap(x => x[p])
-
-      output = output.concat(activeBonuses)
-
-      const profileSelectedBonuses = this.ActiveLoadout.Weapons.filter(
-        x => x && !x.Destroyed && !x.IsCascading
-      ).flatMap(x => x[`Profile${p}`])
-
-      output = output.concat(profileSelectedBonuses)
-    }
-
-    output = output
-      .concat(this.Frame.Traits.flatMap(x => x[p] || []))
-      .concat(this.Frame[p] || [])
-      // .concat(this.Frame.CoreSystem[p] || [])
-      .concat(this.Frame.CoreSystem[`Passive${p}`] || [])
-      .concat(this.IsCoreActive ? this.Frame.CoreSystem[`Active${p}`] || [] : [])
-
-    return output.filter(x => !!x)
-  }
-
-  public get Bonuses(): Bonus[] {
-    return this.features('Bonuses')
-  }
-
-  public get Synergies(): Synergy[] {
-    return this.features('Synergies')
-  }
-
-  public get Actions(): Action[] {
-    const arr = this.features<Action>('Actions')
-    if (this.CurrentCoreEnergy) arr.push(this.Frame.CoreSystem.ActivateAction)
-    return arr
-  }
-
-  public get Deployables(): IDeployableData[] {
-    return this.features('Deployables')
-  }
-
-  public get Counters(): ICounterData[] {
-    return this.features('Counters')
-  }
-
-  public get CountersOnlyMech(): ICounterData[] {
-    return this.features('Counters', false)
-  }
-
-  public get CounterData(): ICounterData[] {
-    return this.Counters
-  }
-
-  public get IntegratedWeapons(): MechWeapon[] {
-    return this.features('IntegratedWeapons')
-  }
-
-  public get IntegratedSystems(): MechSystem[] {
-    return this.features('IntegratedSystems')
-  }
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(m: Mech): IMechData {
-    return {
+    const data = {
       id: m.ID,
       name: m.Name,
       notes: m.Notes,
       gm_note: m.GmNote,
-      portrait: m._portrait,
-      cloud_portrait: m._cloud_portrait,
       frame: m.Frame.ID,
       active: m._active,
       current_structure: m.CurrentStructure,
@@ -1094,8 +986,6 @@ class Mech implements IActor {
       current_repairs: m.CurrentRepairs,
       current_overcharge: m._current_overcharge,
       current_core_energy: m._current_core_energy,
-      loadouts: m.Loadouts.map(x => MechLoadout.Serialize(x)),
-      active_loadout_index: m.Loadouts.findIndex(x => x.ID === m.ActiveLoadout.ID),
       statuses: m._statuses,
       conditions: m._conditions,
       resistances: m._resistances,
@@ -1109,31 +999,24 @@ class Mech implements IActor {
       core_active: m._core_active,
       cc_ver: store.getters.getVersion || 'ERR',
     }
+
+    SaveController.Serialize(m, data)
+    PortraitController.Serialize(m, data)
+    MechLoadoutController.Serialize(m, data)
+
+    return data as IMechData
   }
 
   public static Deserialize(data: IMechData, pilot: Pilot): Mech {
     const f = store.getters.referenceByID('Frames', data.frame)
     const m = new Mech(f, pilot)
     m._id = data.id
+    MechLoadoutController.Deserialize(m, data)
+
     m._name = data.name
     m._notes = data.notes
     m._gm_note = data.gm_note
-    m._portrait = data.portrait
-    m._cloud_portrait = data.cloud_portrait
     m._active = data.active
-    if (
-      data.active_loadout_index === null ||
-      data.active_loadout_index === undefined ||
-      !data.loadouts.length
-    ) {
-      m._loadouts = [new MechLoadout(m)]
-      m._active_loadout = m._loadouts[0]
-    } else {
-      m._loadouts = data.loadouts.map((x: IMechLoadoutData) => MechLoadout.Deserialize(x, m))
-      m._active_loadout = data.active_loadout_index
-        ? m._loadouts[data.active_loadout_index]
-        : m._loadouts[0]
-    }
     m.CurrentStructure = data.current_structure
     m._currentMove = data.current_move || 0
     m._boost = data.boost || 0
@@ -1155,6 +1038,10 @@ class Mech implements IActor {
     m._reactor_destroyed = data.reactor_destroyed || false
     m._core_active = data.core_active || false
     m._cc_ver = data.cc_ver || ''
+
+    SaveController.Deserialize(m, data)
+    PortraitController.Deserialize(m, data)
+
     return m
   }
 }
