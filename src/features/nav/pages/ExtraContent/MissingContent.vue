@@ -106,8 +106,8 @@ export default Vue.extend({
       return getModule(CompendiumStore, this.$store).MissingContent
     },
     missingLength() {
-      if (!this.missing || !this.missing.pilots || !this.missing.npcs) return 0
-      return this.missing.pilots.length + this.missing.npcs.length
+      if (!this.missing) return 0
+      return (this.missing.pilots?.length || 0) + (this.missing.npcs?.length || 0)
     },
   },
   methods: {
