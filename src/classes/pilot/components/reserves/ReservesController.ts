@@ -1,5 +1,5 @@
-import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import _ from 'lodash'
+import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { IOrganizationData } from '../../../../interface'
 import { Pilot } from '../../Pilot'
 import Organization from './Organization'

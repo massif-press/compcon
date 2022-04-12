@@ -47,7 +47,8 @@ export default Vue.extend({
   },
   computed: {
     hasBondData() {
-      return getModule(CompendiumStore, this.$store).Bonds.length
+      return false
+      // return getModule(CompendiumStore, this.$store).Bonds.length
     },
   },
 })
