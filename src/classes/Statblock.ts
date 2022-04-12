@@ -3,7 +3,7 @@ import { Pilot, Mech, Npc, PilotWeapon, MechWeapon } from '@/class'
 
 function linebreak(i: number, length: number): string {
   if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
-    return '\n  '
+    return ',\n  '
   } else if (i + 1 < length) {
     return ', '
   } else {
@@ -38,37 +38,11 @@ class Statblock {
     let output = ''
     if (pilot) {
       output += `» ${pilot.Callsign.toUpperCase()} «\n`
-      output += `${pilot.Name}\n${pilot.Background}, LL${pilot.Level}\n`
-      output += `GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${pilot.MechSkills.Sys} E:${pilot.MechSkills.Eng}\n`
+      output += `${pilot.Name}, LL${pilot.Level}\n${pilot.Background}\n`
       output += `[ SKILL TRIGGERS ]\n  `
       for (let i = 0; i < pilot.Skills.length; i++) {
         const s = pilot.Skills[i]
         output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(i, pilot.Skills.length)}`
-      }
-
-      output += '[ TALENTS ]\n  '
-      for (let i = 0; i < pilot.Talents.length; i++) {
-        const t = pilot.Talents[i]
-        output += `${t.Talent.Name} ${t.Rank}${linebreak(i, pilot.Talents.length)}`
-      }
-
-      if (pilot.Licenses.length) {
-        output += '[ LICENSES ]\n  '
-        for (let i = 0; i < pilot.Licenses.length; i++) {
-          const l = pilot.Licenses[i]
-          output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
-            i,
-            pilot.Licenses.length
-          )}`
-        }
-      }
-
-      if (pilot.CoreBonuses.length) {
-        output += '[ CORE BONUSES ]\n  '
-        for (let i = 0; i < pilot.CoreBonuses.length; i++) {
-          const cb = pilot.CoreBonuses[i]
-          output += `${cb.Name}${linebreak(i, pilot.CoreBonuses.length)}`
-        }
       }
 
       const loadout = pilot.Loadout
@@ -95,16 +69,45 @@ class Statblock {
               }
             }
             if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== loadout.Items.length) {
-              output += '\n  '
+              output += ',\n  '
             } else if (i + 1 < loadout.Items.length) {
               output += ', '
+            } else {
+              output += '\n'
             }
           }
         }
       }
+
+      output += `[ MECH SKILLS ]\n  GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${pilot.MechSkills.Sys} E:${pilot.MechSkills.Eng}\n`
+
+      output += '[ TALENTS ]\n  '
+      for (let i = 0; i < pilot.Talents.length; i++) {
+        const t = pilot.Talents[i]
+        output += `${t.Talent.Name} ${t.Rank}${linebreak(i, pilot.Talents.length)}`
+      }
+
+      if (pilot.Licenses.length) {
+        output += '[ LICENSES ]\n  '
+        for (let i = 0; i < pilot.Licenses.length; i++) {
+          const l = pilot.Licenses[i]
+          output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
+            i,
+            pilot.Licenses.length
+          )}`
+        }
+      }
+
+      if (pilot.CoreBonuses.length) {
+        output += '[ CORE BONUSES ]\n  '
+        for (let i = 0; i < pilot.CoreBonuses.length; i++) {
+          const cb = pilot.CoreBonuses[i]
+          output += `${cb.Name}${linebreak(i, pilot.CoreBonuses.length)}`
+        }
+      }
     }
 
-    if (pilot && mech) output += '\n----------\n'
+    if (pilot && mech) output += '----------\n'
 
     if (mech) {
       output += `« ${mech.Name.toUpperCase()} »\n[ ${mech.Frame.Source} ${mech.Frame.Name} ]\n`
