@@ -22,6 +22,7 @@ import {
   NpcTrait,
   NpcSystem,
   NpcTech,
+  Reserve,
 } from '@/class'
 import * as PlayerAction from '@/classes/Action'
 import {
@@ -47,6 +48,7 @@ import {
 import { Action } from './Action'
 import { Background, IBackgroundData } from './Background'
 import { Bond, IBondData } from './pilot/components/bond/Bond'
+import { IReserveData } from './pilot/components'
 
 export interface IContentPackManifest {
   name: string
@@ -68,6 +70,7 @@ interface IContentPackData {
   pilotGear: IPilotEquipmentData[]
   talents: ITalentData[]
   tags: ITagCompendiumData[]
+  reserves: IReserveData[]
 
   npcClasses: INpcClassData[]
   npcFeatures: INpcFeatureData[]
@@ -224,6 +227,11 @@ export class ContentPack {
     return this._Bonds
   }
 
+  private _Reserves: any = []
+  public get Reserves(): any {
+    return this._Reserves
+  }
+
   private _active: boolean
   public get Active(): boolean {
     return this._active
@@ -301,6 +309,8 @@ export class ContentPack {
     self._Tables = self._data.tables || {}
 
     self._Bonds = self._data.bonds?.map(x => new Bond(x, self._manifest.name)) || []
+
+    self._Reserves = self._data.reserves?.map(x => new Reserve(x, self._manifest.name)) || []
   }
 
   public Serialize(): IContentPack {
