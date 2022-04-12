@@ -34,7 +34,7 @@ function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon 
 }
 
 class Statblock {
-  public static Generate(pilot: Pilot, mech: Mech, discordEmoji: boolean): string {
+  public static Generate(pilot: Pilot, mech: Mech, discordEmoji: boolean, fullStats: boolean): string {
     let output = ''
     if (pilot) {
       output += `» ${pilot.Callsign.toUpperCase()} «\n`
@@ -107,61 +107,63 @@ class Statblock {
       }
     }
 
-    if (pilot && mech) output += '----------\n'
+    if (fullStats == true) {
+      
+      output += '----------\n'
 
-    if (mech) {
-      output += `« ${mech.Name.toUpperCase()} »\n[ ${mech.Frame.Source} ${mech.Frame.Name} ]\n`
-      if (!pilot)
-        output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
-      output += `  STRUCTURE:${mech.CurrentStructure}${
-        mech.IsActive ? '/' + mech.MaxStructure : ''
-      }`
-      output += ` HP:${mech.CurrentHP}${mech.IsActive ? '/' + mech.MaxHP : ''}`
-      output += ` ARMOR:${mech.Armor}\n`
-      output += `  STRESS:${mech.CurrentStress}${mech.IsActive ? '/' + mech.MaxStress : ''}`
-      output += ` HEAT:${mech.CurrentHeat}${mech.IsActive ? '/' + mech.HeatCapacity : ''}`
-      output += ` REPAIR:${mech.CurrentRepairs}${mech.IsActive ? '/' + mech.RepairCapacity : ''}\n`
-      output += `  ATK BONUS:${mech.AttackBonus} TECH ATK:${mech.TechAttack} LTD BONUS:${mech.LimitedBonus}\n`
-      output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
+      if (mech) {
+        output += `« ${mech.Name.toUpperCase()} »\n[ ${mech.Frame.Source} ${mech.Frame.Name} ]\n`
+        if (!pilot)
+          output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
+        output += `  STRUCTURE:${mech.CurrentStructure}${
+          mech.IsActive ? '/' + mech.MaxStructure : ''
+        }`
+        output += ` HP:${mech.CurrentHP}${mech.IsActive ? '/' + mech.MaxHP : ''}`
+        output += ` ARMOR:${mech.Armor}\n`
+        output += `  STRESS:${mech.CurrentStress}${mech.IsActive ? '/' + mech.MaxStress : ''}`
+        output += ` HEAT:${mech.CurrentHeat}${mech.IsActive ? '/' + mech.HeatCapacity : ''}`
+        output += ` REPAIR:${mech.CurrentRepairs}${mech.IsActive ? '/' + mech.RepairCapacity : ''}\n`
+        output += `  ATK BONUS:${mech.AttackBonus} TECH ATK:${mech.TechAttack} LTD BONUS:${mech.LimitedBonus}\n`
+        output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
 
-      output += '[ WEAPONS ]\n'
-      for (const im of mech.IntegratedWeapons) {
-        output += '  INTEGRATED MOUNT: '
-        output = addWeaponToOutput(output, discordEmoji, im)
-        output += '\n'
-      }
-      const loadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
-      if (loadout) {
-        for (const mount of loadout.AllEquippableMounts(
-          pilot && pilot.has('CoreBonus', 'cb_improved_armament'),
-          pilot && pilot.has('CoreBonus', 'cb_integrated_weapon')
-        )) {
-          output += `  ${mount.Name}: `
-          if (mount.IsLocked) {
-            output += 'SUPERHEAVY WEAPON BRACING'
-          } else {
-            mount.Weapons.forEach((w, idx) => {
-              output = addWeaponToOutput(output, discordEmoji, w)
-              if (w.Mod) output += ` (${w.Mod.TrueName})`
-              if (idx + 1 < mount.Weapons.length) output += ' / '
-            })
-          }
-
-          if (mount.Bonuses.length > 0) {
-            output += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
-          }
-
+        output += '[ WEAPONS ]\n'
+        for (const im of mech.IntegratedWeapons) {
+          output += '  INTEGRATED MOUNT: '
+          output = addWeaponToOutput(output, discordEmoji, im)
           output += '\n'
         }
+        const loadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
+        if (loadout) {
+          for (const mount of loadout.AllEquippableMounts(
+            pilot && pilot.has('CoreBonus', 'cb_improved_armament'),
+            pilot && pilot.has('CoreBonus', 'cb_integrated_weapon')
+          )) {
+            output += `  ${mount.Name}: `
+            if (mount.IsLocked) {
+              output += 'SUPERHEAVY WEAPON BRACING'
+            } else {
+              mount.Weapons.forEach((w, idx) => {
+                output = addWeaponToOutput(output, discordEmoji, w)
+                if (w.Mod) output += ` (${w.Mod.TrueName})`
+                if (idx + 1 < mount.Weapons.length) output += ' / '
+              })
+            }
 
-        output += '[ SYSTEMS ]\n  '
-        const allsys = mech.IntegratedSystems.concat(loadout.Systems)
-        allsys.forEach((sys, i) => {
-          output += `${sys.TrueName}${linebreak(i, allsys.length)}`
-        })
+            if (mount.Bonuses.length > 0) {
+              output += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
+            }
+
+            output += '\n'
+          }
+
+          output += '[ SYSTEMS ]\n  '
+          const allsys = mech.IntegratedSystems.concat(loadout.Systems)
+          allsys.forEach((sys, i) => {
+            output += `${sys.TrueName}${linebreak(i, allsys.length)}`
+          })
+        }
       }
     }
-
     return output
   }
 
