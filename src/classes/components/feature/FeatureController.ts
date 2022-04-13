@@ -32,13 +32,13 @@ class FeatureController {
   }
 
   private getRootEntity(node: object): object {
-    if (node.hasOwnProperty('Parent')) return this.getRootEntity((node as any).Parent)
+    if (node['Parent'] !== undefined) return this.getRootEntity((node as any).Parent)
     return node
   }
 
   public getRootProperty<T>(prop: string): T {
     const root = this.getRootEntity(this)
-    if (root.hasOwnProperty(prop)) return (root as any)[prop]
+    if (root[prop] !== undefined) return (root as any)[prop]
     return null
   }
 

@@ -114,7 +114,7 @@ class Bonus {
     id: string,
     controller: IFeatureController
   ): { name: string; val: number }[] {
-    return controller.FeatureController.Bonuses.map(b => ({
+    return controller.FeatureController.Bonuses.filter(x => x.ID === id).map(b => ({
       name: b.Source,
       val: Bonus.Evaluate(b, controller),
     }))
