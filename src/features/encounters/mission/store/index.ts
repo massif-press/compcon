@@ -84,7 +84,7 @@ export class MissionStore extends VuexModule {
 
   @Mutation
   private [LOAD_ACTIVE_MISSIONS](payload: IActiveMissionData[]): void {
-    const all = [...payload.map(x => ActiveMission.Deserialize(x))]
+    const all = [...payload.map(x => ActiveMission.Deserialize(x))].filter(x => !!x)
     this.ActiveMissions = all.filter(x => !x.SaveController.IsDeleted)
     this.DeletedActiveMissions = all.filter(x => x.SaveController.IsDeleted)
 

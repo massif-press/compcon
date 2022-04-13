@@ -78,7 +78,7 @@
       v-else
       inline
       delayed
-      :content="isAuthed ? 'Download Latest Data' : 'Requires Cloud Account'"
+      :content="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'"
     >
       <v-btn icon class="unskew ml-6" :disabled="!isAuthed" @click="$refs.share.show()">
         <v-icon color="white">mdi-share</v-icon>
