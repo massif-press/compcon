@@ -46,6 +46,9 @@ import { PilotLoadoutController } from './components/Loadout/PilotLoadoutControl
 import { getModule } from 'vuex-module-decorators'
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
 import { IBrewable } from '../components/brew/IBrewable'
+import { BondController, Burden, IPilotBondData } from './components/bond/BondController'
+import { IClockData } from '../components/clocks/Clock'
+import { BondPower } from './components/bond/Bond'
 
 interface IUnlockData {
   PilotArmor: string[]
@@ -70,8 +73,17 @@ class PilotData
     ILicenseSaveData,
     IGroupData,
     IPortraitData,
-    IBrewData
+    IBrewData,
+    IPilotBondData
 {
+  bondId?: string
+  xp: number
+  stress: number
+  isBroken: boolean
+  burdens: Burden[]
+  bondPowers: BondPower[]
+  clocks: IClockData[]
+  pilotBond: IPilotBondData
   remoteIID: string
   remoteKey: string
   shareCodeExpiry: string
@@ -167,6 +179,7 @@ class Pilot
   public CoreBonusController: CoreBonusController
   public LicenseController: LicenseController
   public ReservesController: ReservesController
+  public BondController: BondController
   public GroupController: GroupController
   public PortraitController: PortraitController
   public ImageTag = ImageTag.Pilot
@@ -211,6 +224,7 @@ class Pilot
     this.CoreBonusController = new CoreBonusController(this)
     this.LicenseController = new LicenseController(this)
     this.ReservesController = new ReservesController(this)
+    this.BondController = new BondController(this)
     this.GroupController = new GroupController(this)
     this.FeatureController = new FeatureController(this)
     this.PilotLoadoutController = new PilotLoadoutController(this)
@@ -246,7 +260,6 @@ class Pilot
 
   // -- Utility -----------------------------------------------------------------------------------
 
-  //TODO: don't extract id or type at call, just pass object and deal with it w/ instanceof/typeof
   public has(typeName: string, id: string, rank?: number): boolean {
     if (typeName.toLowerCase() === 'skill') {
       return (
@@ -637,6 +650,7 @@ class Pilot
     CoreBonusController.Serialize(p, data)
     LicenseController.Serialize(p, data)
     ReservesController.Serialize(p, data)
+    BondController.Serialize(p, data)
     GroupController.Serialize(p, data)
     PortraitController.Serialize(p, data)
     PilotLoadoutController.Serialize(p, data)
@@ -700,10 +714,16 @@ class Pilot
     CounterController.Deserialize(this, data)
     CoreBonusController.Deserialize(this, data)
     LicenseController.Deserialize(this, data)
+    ReservesController.Deserialize(this, data)
+    BondController.Deserialize(this, data)
     GroupController.Deserialize(this, data)
     PortraitController.Deserialize(this, data)
     PilotLoadoutController.Deserialize(this, data)
     BrewController.Deserialize(this, data)
+
+    this._mechs.forEach(mech => {
+      mech.MechLoadoutController.UpdateLoadouts()
+    })
 
     if (sync && data.state) {
       this._state.Update(this, data.state, sync)

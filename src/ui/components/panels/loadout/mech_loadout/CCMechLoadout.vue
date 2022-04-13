@@ -6,9 +6,9 @@
       :color="color"
       :readonly="readonly"
       @set-active="mech.MechLoadoutController.ActiveLoadout = $event"
-      @add-loadout="mech.AddLoadout()"
-      @clone-loadout="mech.CloneLoadout()"
-      @remove-loadout="mech.RemoveLoadout()"
+      @add-loadout="mech.MechLoadoutController.AddLoadout()"
+      @clone-loadout="mech.MechLoadoutController.CloneLoadout()"
+      @remove-loadout="mech.MechLoadoutController.RemoveLoadout()"
     >
       <v-row dense>
         <mount-block

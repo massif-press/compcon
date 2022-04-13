@@ -55,7 +55,7 @@ const defaultViewOptions = (): IViewOptions => ({
   pilotSheet: 'tabbed',
   showExotics: false,
   quickstart: false,
-  savePerformant: true,
+  savePerformant: false,
 })
 
 const defaultSyncFrequency = (): ISyncFrequency => ({

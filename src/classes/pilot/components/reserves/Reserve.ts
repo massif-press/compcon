@@ -43,6 +43,8 @@ class Reserve {
   public readonly Synergies: Synergy[]
   public readonly Deployables: IDeployableData[]
   public readonly Counters: ICounterData[]
+  public readonly LcpName: string
+  public readonly InLcp: boolean
   private _special_equipment: string[]
   private _name: string
   private _resource_name: string
@@ -52,7 +54,7 @@ class Reserve {
   private _integrated: string[]
   private _used: boolean
 
-  public constructor(data: IReserveData) {
+  public constructor(data: IReserveData, packName?: string) {
     this.ID = data.id
     this.ResourceLabel = data.label || ''
     this.Consumable = data.consumable
@@ -74,6 +76,8 @@ class Reserve {
     this._integrated = data.integrated ? data.integrated : []
     this._special_equipment = data.special_equipment || []
     this._used = false
+    this.LcpName = packName || 'LANCER Core Book'
+    this.InLcp = packName ? true : false
   }
 
   protected save(): void {

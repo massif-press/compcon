@@ -110,10 +110,13 @@
                 </v-col>
               </v-row>
 
-              <div>
+              <div class="py-1">
                 <div v-if="item.ProfileEffect" class="py-1">
                   <div class="mb-n2">
-                    <p v-html-safe="item.ProfileEffect" class="text--text body-text mb-1 mx-3" />
+                    <p
+                      v-html-safe="item.ProfileEffect"
+                      class="text--text body-text mb-1 mx-3 pb-2"
+                    />
                   </div>
                 </div>
                 <div v-if="item.ProfileOnAttack">

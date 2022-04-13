@@ -12,7 +12,7 @@
             <v-col cols="auto">
               <div
                 :class="`heading ${
-                  $vuetify.breakpoint.lgAndUp ? 'h1' : $vuetify.breakpoint.mdAndUp ? 'h2' : 'h3'
+                  $vuetify.breakpoint.lgAndUp ? 'h1' : $vuetify.breakpoint.mdAndUp ? 'h1' : 'h3'
                 }`"
                 style="
                   letter-spacing: 10px;
@@ -63,7 +63,7 @@
             <v-col
               v-else
               cols="auto"
-              class="ml-auto text-center mt-2"
+              class="ml-auto text-center mt-4"
               :style="$vuetify.breakpoint.lgAndUp ? `margin-right:200px` : ''"
             >
               <div class="overline mb-n9">
@@ -81,7 +81,7 @@
                   </v-icon>
                 </cc-tooltip>
               </div>
-              <div class="heading h1 mt-n6 mb-n2" style="font-size: 80px">
+              <div class="heading h1 mb-n4 py-1" style="font-size: 75px">
                 {{ pilot.Level }}
               </div>
               <v-btn
@@ -124,25 +124,25 @@
           <v-row v-show="$vuetify.breakpoint.mdAndUp" dense>
             <v-col cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">name</div>
-              <div class="stat-text white--text mt-n3">
+              <div class="stat-text white--text mt-n2 mb-n1">
                 {{ pilot.Name }}
               </div>
             </v-col>
             <v-col v-if="pilot.Background" cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">background</div>
-              <div class="stat-text white--text mt-n3">
+              <div class="stat-text white--text mt-n2 mb-n1">
                 {{ pilot.Background }}
               </div>
             </v-col>
             <v-col v-if="pilot.PlayerName" cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">player</div>
-              <div class="stat-text white--text mt-n3">
+              <div class="stat-text white--text mt-n2 mb-n1">
                 {{ pilot.PlayerName }}
               </div>
             </v-col>
             <v-col cols="auto" class="mr-5">
               <div class="overline mb-n2 subtle--text">rm-4://(IDENT)</div>
-              <div class="stat-text white--text mt-n3">
+              <div class="stat-text white--text mt-n2 mb-n1">
                 <v-dialog max-width="1200px">
                   <template v-slot:activator="{ on }">
                     <v-icon dark class="fadeSelect" v-on="on">mdi-card-bulleted-outline</v-icon>
