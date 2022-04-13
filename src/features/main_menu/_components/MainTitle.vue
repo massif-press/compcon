@@ -14,13 +14,7 @@
       "
     >
       <update-checker class="mt-2 mr-2" @mouseenter="$emit('logupdate')" />
-      <div
-        style="
-          display: inline-block;
-          position: relative;
-          z-index: 999 !important;
-        "
-      >
+      <div style="display: inline-block; position: relative; z-index: 999 !important">
         <v-btn
           target="_blank"
           href="https://github.com/massif-press/compcon/blob/master/CHANGELOG.md"
@@ -37,16 +31,6 @@
     </div>
     <div class="clipped px-2 pt-1">
       <span id="title">COMP/CON</span>
-      <!-- Shout out Netlify on web for their free open source plan -->
-      <a
-        href="https://www.netlify.com"
-        style="position: relative; top: 1px; left: 5px"
-        class="fadeSelect"
-      >
-        <img
-          src="https://www.netlify.com/img/global/badges/netlify-light.svg"
-        />
-      </a>
       <br />
       <div id="subtitle">
         <span>VERSION: {{ $appVersion }}</span>
@@ -84,13 +68,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import UpdateChecker from './UpdateChecker.vue';
+import Vue from 'vue'
+import UpdateChecker from './UpdateChecker.vue'
 
 export default Vue.extend({
   name: 'cci-banner',
   components: { UpdateChecker },
-});
+})
 </script>
 
 <style scoped>
@@ -98,20 +82,8 @@ export default Vue.extend({
   position: relative;
   background-color: var(--v-primary-base);
   width: 70%;
-  clip-path: polygon(
-    100% 0,
-    100% calc(100% - 50px),
-    calc(100% - 50px) 100%,
-    0 100%,
-    0 0
-  );
-  -webkit-clip-path: polygon(
-    100% 0,
-    100% calc(100% - 50px),
-    calc(100% - 50px) 100%,
-    0 100%,
-    0 0
-  );
+  clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
+  -webkit-clip-path: polygon(100% 0, 100% calc(100% - 50px), calc(100% - 50px) 100%, 0 100%, 0 0);
   opacity: 1;
   z-index: 2;
 }
