@@ -4,10 +4,18 @@ import { register } from 'register-service-worker'
 const forceVersBump = 2
 
 if (navigator && navigator.serviceWorker) {
+  console.log('in there')
   navigator.serviceWorker
     .getRegistration()
     .then(serviceWorker => {
       if (serviceWorker) {
+        console.log(caches)
+        caches.keys().then(cacheNames => {
+          for (let name of cacheNames) {
+            console.log('clearing cache:', name)
+            caches.delete(name)
+          }
+        })
         serviceWorker.unregister()
       }
     })
@@ -16,7 +24,7 @@ if (navigator && navigator.serviceWorker) {
     })
 }
 
-if (process.env.VUE_APP_NODE_ENV === 'production') {
+if (true || process.env.VUE_APP_NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
       console.log(process.env.BASE_URL, forceVersBump)
