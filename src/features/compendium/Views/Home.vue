@@ -113,6 +113,7 @@
             @clicked="$router.push('compendium/talents')"
           />
           <compendium-page-button
+            v-show="hasBonds"
             lg="6"
             md="6"
             sm="12"
@@ -206,9 +207,16 @@
 import Vue from 'vue'
 import SearchBar from '../SearchBar.vue'
 import CompendiumPageButton from '../components/CompendiumPageButton.vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'compendium-home',
   components: { SearchBar, CompendiumPageButton },
+  computed: {
+    hasBonds() {
+      return getModule(CompendiumStore, this.$store).Bonds.length
+    },
+  },
 })
 </script>
