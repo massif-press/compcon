@@ -4,14 +4,14 @@ abstract class FeatureCollector {
 
     let property = collection
     // override for profiled weapons
-    if (element.hasOwnProperty(`Profile${collection}`)) property = `Profile${collection}`
+    if (element[`Profile${collection}`] !== undefined) property = `Profile${collection}`
 
     if (element[property] === undefined) return out
 
     element[property].forEach(candidate => {
-      if (candidate.hasOwnProperty('Destroyed') && (candidate as any).Destroyed) return
-      if (candidate.hasOwnProperty('IsCascading') && (candidate as any).IsCascading) return
-      if (candidate.hasOwnProperty('Used') && (candidate as any).Used) return
+      if (candidate['Destroyed'] !== undefined && (candidate as any).Destroyed) return
+      if (candidate['IsCascading'] !== undefined && (candidate as any).IsCascading) return
+      if (candidate['Used'] !== undefined && (candidate as any).Used) return
       out.push(candidate as T)
     })
     return out
