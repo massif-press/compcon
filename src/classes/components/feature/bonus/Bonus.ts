@@ -102,8 +102,8 @@ class Bonus {
     if (Array.isArray(bonus.Value)) return
     if (typeof bonus.Value === 'number') return Math.ceil(bonus.Value)
     let valStr = bonus.Value
-    const ll = source.FeatureController.getRootProperty('Level').toString() || '0'
-    const grit = source.FeatureController.getRootProperty('Grit').toString() || '0'
+    const ll = source.FeatureController.getRootProperty('Level')?.toString() || '0'
+    const grit = source.FeatureController.getRootProperty('Grit')?.toString() || '0'
     valStr = valStr.replace(/{ll}/g, ll)
     valStr = valStr.replace(/{grit}/g, grit)
     valStr = valStr.replace(/[^-()\d/*+.]/g, '')

@@ -1,6 +1,13 @@
 <template>
   <div>
-    <div v-if="!!authedUser && !!authedUser.attributes && userProfile.Username">
+    <div
+      v-if="
+        !!authedUser &&
+        !!authedUser.attributes &&
+        userProfile.Username &&
+        userProfile.Username !== 'No Cloud Account'
+      "
+    >
       <v-row dense justify="space-between" align="center">
         <v-col v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
           CONNECTED

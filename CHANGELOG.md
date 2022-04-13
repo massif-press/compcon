@@ -1,4 +1,10 @@
 # COMP/CON Changelog
+## [2.3.2] (2022-4-13)
+
+- **Various** A handful of hotfixes to correct bugs.
+- **Mech Sheet** Corrected an error in the Bonus controller that was preventing some mechs from being saved  [#1910](https://github.com/massif-press/compcon/issues/1910)
+- **Pilot Roster** Added mass pilot delete button at the bottom of the page
+
 ## [2.3.1] (2022-4-12)
 
 - **Various** A handful of hotfixes to correct bugs in the Pilot Roster, with integrated equipment, and with LCP parsing.

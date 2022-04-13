@@ -151,14 +151,7 @@
           <span slot="label">Enable quick pilot creation and level-up</span>
         </v-switch>
         <h3 class="heading accent--text mt-2">Theme</h3>
-        <v-select
-          v-model="theme"
-          dense
-          outlined
-          :items="themes"
-          item-text="name"
-          @change="setTheme"
-        />
+        <v-select v-model="theme" dense outlined :items="themes" item-text="name" />
       </v-col>
     </v-row>
 
@@ -196,7 +189,6 @@ export default Vue.extend({
   name: 'options-settings',
   components: { DeletedItems },
   data: () => ({
-    theme: 'gms',
     themes: [],
     importDialog: false,
     fileValue: null,
@@ -231,6 +223,15 @@ export default Vue.extend({
         this.user.SetView('savePerformant', newval)
       },
     },
+    theme: {
+      get: function () {
+        return this.user.Theme
+      },
+      set: function (newval) {
+        this.user.Theme = newval
+        SetTheme(this.theme, this.$vuetify)
+      },
+    },
     userID() {
       return this.user.id
     },
@@ -239,7 +240,6 @@ export default Vue.extend({
     },
   },
   created() {
-    this.theme = this.userTheme
     for (const k in allThemes) {
       if (allThemes.hasOwnProperty(k)) {
         const e = allThemes[k]
@@ -250,10 +250,6 @@ export default Vue.extend({
   methods: {
     reload() {
       location.reload()
-    },
-    setTheme() {
-      getModule(UserStore, this.$store).UserProfile.Theme = this.theme
-      SetTheme(this.theme, this.$vuetify)
     },
     showMessage() {
       const store = getModule(UserStore, this.$store)

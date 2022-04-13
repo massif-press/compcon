@@ -112,11 +112,19 @@ export class NpcStore extends VuexModule {
 
   @Mutation
   private [DELETE_MISSING_NPC](payload: any): void {
-    console.log(this.MissingNpcs)
-    const idx = this.MissingNpcs.findIndex(x => x.id === payload.id)
-    if (idx > -1) {
-      this.MissingNpcs.splice(idx, 1)
-      delete_npc(payload)
+    // for some reason missingnpcs is being set to the compendium missing property. Not sure why this is happening.
+    if (Array.isArray(this.MissingNpcs)) {
+      const idx = this.MissingNpcs.findIndex(x => x.id === payload.id)
+      if (idx > -1) {
+        this.MissingNpcs.splice(idx, 1)
+        delete_npc(payload)
+      }
+    } else {
+      const idx = (this.MissingNpcs as any).npcs.findIndex(x => x.id === payload.id)
+      if (idx > -1) {
+        ;(this.MissingNpcs as any).npcs.splice(idx, 1)
+        delete_npc(payload)
+      }
     }
   }
 
