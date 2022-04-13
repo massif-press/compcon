@@ -21,7 +21,7 @@ if (navigator && navigator.serviceWorker) {
     })
 }
 
-if (true || process.env.VUE_APP_NODE_ENV === 'production') {
+if (process.env.VUE_APP_NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
       console.log(process.env.VUE_APP_NODE_ENV, forceVersBump)
