@@ -241,10 +241,8 @@ export default Vue.extend({
   },
   created() {
     for (const k in allThemes) {
-      if (allThemes.hasOwnProperty(k)) {
-        const e = allThemes[k]
-        this.themes.push({ name: e.name, value: e.id })
-      }
+      const e = allThemes[k]
+      this.themes.push({ name: e.name, value: e.id })
     }
   },
   methods: {

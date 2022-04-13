@@ -104,7 +104,7 @@
             @clicked="$router.push('compendium/skills')"
           />
           <compendium-page-button
-            lg="6"
+            :lg="hasBonds ? 6 : 4"
             md="6"
             sm="12"
             color="secondary"
