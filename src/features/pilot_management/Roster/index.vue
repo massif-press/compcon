@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid class="px-3 mt-4">
+  <v-container fluid class="px-3" style="margin-top: 20px">
     <v-row dense align="end" class="mt-2">
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
-        <v-btn-toggle :value="profile.GetView('roster')" mandatory dense class="mt-n4">
+        <v-btn-toggle :value="getRosterView()" mandatory dense class="mt-n4">
           <v-btn small icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
@@ -52,7 +52,7 @@
           :list="groups"
           :disabled="preventDnd"
           v-bind="dragOptions"
-          @change="pilotStore.moveGroup"
+          @change="pilotStore.moveGroup(groups)"
         >
           <div v-for="(g, i) in groups" :key="`pg_${g.name}_${i}`">
             <v-row no-gutters class="pl-10 ml-n12 heading h3 white--text primary sliced">
@@ -90,9 +90,7 @@
             </v-row>
             <div
               v-if="!g.hidden"
-              :style="
-                profile.GetView('roster') !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''
-              "
+              :style="getRosterView() !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
             >
               <v-expand-transition>
                 <draggable
@@ -109,7 +107,7 @@
                     v-for="(id, j) in g.pilotIDs"
                     :key="`${pilotCardType}_${j}`"
                     :pilot="getPilotFromId(id)"
-                    :small="profile.GetView('roster') === 'small-cards'"
+                    :small="getRosterView() === 'small-cards'"
                     :dragging="drag"
                   />
                 </draggable>
@@ -197,14 +195,20 @@ export default Vue.extend({
     newGroupMenu: false,
     newGroupName: '',
     preventDnd: true,
+    groups: [],
   }),
+  watch: {
+    plength() {
+      this.buildGroups()
+    },
+  },
   computed: {
     pilotStore() {
       const mod = getModule(PilotManagementStore, this.$store)
       return mod
     },
     pilotCardType(): string {
-      switch (this.profile.GetView('roster')) {
+      switch (this.getRosterView()) {
         case 'cards':
         case 'small-cards':
           return 'pilot-card'
@@ -217,25 +221,14 @@ export default Vue.extend({
       const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
-    groups() {
-      const groups = [...this.pilotStore.PilotGroups.filter(x => x.name !== '')]
-      groups.forEach(g => {
-        g.pilotIDs = this.pilots
-          .filter(p => p.GroupController.Group === g.name)
-          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
-          .map(p => p.ID)
-      })
-      groups.push({
-        name: '',
-        pilotIDs: this.pilots
-          .map(p => p.ID)
-          .filter(id => !groups.flatMap(g => g.pilotIDs).includes(id)),
-        hidden: false,
-      })
-      return groups
-    },
     pilots() {
       return this.pilotStore.Pilots
+    },
+    plength() {
+      return this.pilots.length
+    },
+    pilotGroups() {
+      return this.pilotStore.pilotGroups
     },
     dragOptions() {
       return {
@@ -261,8 +254,36 @@ export default Vue.extend({
   created() {
     this.preventDnd = this.isTouch
   },
-  mounted() {},
+  mounted() {
+    this.buildGroups()
+  },
   methods: {
+    buildGroups() {
+      let groups = [
+        ...this.pilotStore.PilotGroups.filter(
+          x => x.name && x.name !== '' && x.name.toLowerCase() !== 'ungrouped'
+        ),
+      ]
+      groups.forEach(g => {
+        g.pilotIDs = this.pilots
+          .filter(p => p.GroupController.Group === g.name)
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
+          .map(p => p.ID)
+      })
+      groups.push({
+        name: '',
+        pilotIDs: this.pilots
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
+          .map(p => p.ID)
+          .filter(id => !groups.flatMap(g => g.pilotIDs).includes(id)),
+        hidden: false,
+      })
+      this.groups = groups
+    },
+    getRosterView() {
+      if (this.profile) return 'list'
+      return this.profile.GetView('roster')
+    },
     toggleHidden(g: PilotGroup) {
       g.hidden = !g.hidden
     },
@@ -281,7 +302,11 @@ export default Vue.extend({
       }, 50)
     },
     addNewGroup() {
-      this.pilotStore.addGroup(this.newGroupName)
+      this.groups.push({
+        name: this.newGroupName,
+        pilotIDs: [],
+        hidden: false,
+      })
       this.newGroupName = ''
       this.newGroupMenu = false
     },
@@ -301,11 +326,11 @@ export default Vue.extend({
           })
         })
       }
-
-      this.pilotStore.movePilot()
+      this.pilotStore.moveGroup(this.groups)
     },
     deleteGroup(g) {
       this.pilotStore.deleteGroup(g)
+      this.buildGroups()
     },
     setGroupName(g, newName) {
       this.pilotStore.setGroupName({ g: g, newName: newName })

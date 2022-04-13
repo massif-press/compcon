@@ -89,10 +89,10 @@ window.onbeforeunload = () => {
 
 Vue.mixin({
   beforeRouteLeave(to, from, next) {
-    if (from.path.includes('pilot')) v.$store.dispatch('savePilotData')
-    else if (from.path.includes('npc')) v.$store.dispatch('saveNpcData')
-    else if (from.path.includes('encounter')) v.$store.dispatch('saveEncounterData')
-    else if (from.path.includes('mission')) v.$store.dispatch('saveMissionData')
+    v.$store.dispatch('savePilotData')
+    v.$store.dispatch('saveNpcData')
+    v.$store.dispatch('saveEncounterData')
+    v.$store.dispatch('saveMissionData')
 
     next()
   },

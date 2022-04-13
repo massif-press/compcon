@@ -15,6 +15,7 @@ export const CLONE_NPC = 'CLONE_NPC'
 export const LOAD_NPCS = 'LOAD_NPCS'
 export const DELETE_NPC_PERMANENT = 'DELETE_NPC_PERMANENT'
 export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
+export const DELETE_MISSING_NPC = 'DELETE_MISSING_NPC'
 
 async function saveNpcData(npcs: Npc[]) {
   const serialized = npcs.filter(x => x.SaveController.IsDirty).map(x => Npc.Serialize(x))
@@ -110,6 +111,16 @@ export class NpcStore extends VuexModule {
   }
 
   @Mutation
+  private [DELETE_MISSING_NPC](payload: any): void {
+    console.log(this.MissingNpcs)
+    const idx = this.MissingNpcs.findIndex(x => x.id === payload.id)
+    if (idx > -1) {
+      this.MissingNpcs.splice(idx, 1)
+      delete_npc(payload)
+    }
+  }
+
+  @Mutation
   private [DELETE_NPC_PERMANENT](payload: Npc): void {
     const dpIdx = this.DeletedNpcs.findIndex(x => x.ID === payload.ID)
     if (dpIdx > -1) {
@@ -168,6 +179,11 @@ export class NpcStore extends VuexModule {
   @Action
   public delete_npc(payload: Npc): void {
     this.context.commit(DELETE_NPC, payload)
+  }
+
+  @Action
+  public deleteMissingNpc(payload: any): void {
+    this.context.commit(DELETE_MISSING_NPC, payload)
   }
 
   @Action

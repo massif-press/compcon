@@ -5,6 +5,7 @@ import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator'
 import { Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
+import Vue from 'vue'
 
 async function savePilots(pilots: Pilot[]) {
   const serialized = pilots.filter(x => x.SaveController.IsDirty).map(x => Pilot.Serialize(x))
@@ -14,7 +15,7 @@ async function savePilots(pilots: Pilot[]) {
 async function savePilotGroups(pilotGroups: PilotGroup[]) {
   await saveData(
     'pilot_groups_v2.json',
-    pilotGroups.filter(x => x.name !== '')
+    pilotGroups.filter(x => x.name && x.name !== '')
   )
 }
 
@@ -47,7 +48,7 @@ export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 export const DELETE_PILOT_PERMANENT = 'DELETE_PILOT_PERMANENT'
 export const SET_MISSING_PILOTS = 'SET_MISSING_PILOTS'
-export const DELETE_MISSING = 'DELETE_MISSING'
+export const DELETE_MISSING_PILOT = 'DELETE_MISSING_PILOT'
 
 @Module({
   name: 'management',
@@ -110,8 +111,9 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [MOVE_PILOT](): void {
-    savePilots(this.Pilots.concat(this.DeletedPilots))
+  private [MOVE_PILOT](payload: PilotGroup[]): void {
+    // Vue.set(this, 'PilotGroups', payload)
+    // savePilots(this.Pilots.concat(this.DeletedPilots))
   }
 
   @Mutation
@@ -152,8 +154,7 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [DELETE_MISSING](payload: any): void {
-    console.log(this.MissingPilots)
+  private [DELETE_MISSING_PILOT](payload: any): void {
     const idx = this.MissingPilots.findIndex(x => x.id === payload.id)
     if (idx > -1) {
       this.MissingPilots.splice(idx, 1)
@@ -188,7 +189,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [MOVE_GROUP](): void {
+  private [MOVE_GROUP](payload): void {
+    Vue.set(this, 'PilotGroups', payload)
     savePilotGroups(this.PilotGroups)
   }
 
@@ -283,8 +285,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public movePilot(): void {
-    this.context.commit(MOVE_PILOT)
+  public movePilot(payload: PilotGroup[]): void {
+    this.context.commit(MOVE_PILOT, payload)
   }
 
   @Action
@@ -293,8 +295,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public moveGroup(): void {
-    this.context.commit(MOVE_GROUP)
+  public moveGroup(payload: PilotGroup[]): void {
+    this.context.commit(MOVE_GROUP, payload)
   }
 
   @Action
@@ -303,8 +305,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public deleteMissing(payload: any): void {
-    this.context.commit(DELETE_MISSING, payload)
+  public deleteMissingPilot(payload: any): void {
+    this.context.commit(DELETE_MISSING_PILOT, payload)
   }
 
   @Action

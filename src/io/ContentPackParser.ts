@@ -18,6 +18,7 @@ import {
 } from '@/interface'
 import { IActionData } from '@/classes/Action'
 import { IBackgroundData } from '@/classes/Background'
+import { IReserveData } from '@/classes/pilot/components'
 
 const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
@@ -96,6 +97,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const sitreps = (await readZipJSON<Sitrep[]>(zip, 'sitreps.json')) || []
   const tables = (await readZipJSON<any[]>(zip, 'tables.json')) || []
   const bonds = (await readZipJSON<any[]>(zip, 'bonds.json')) || []
+  const reserves = (await readZipJSON<IReserveData[]>(zip, 'reserves.json')) || []
 
   const id = await getPackID(manifest)
 
@@ -123,6 +125,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
       sitreps,
       tables,
       bonds,
+      reserves,
     },
   }
 }

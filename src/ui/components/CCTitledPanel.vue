@@ -23,11 +23,9 @@
     <v-card
       flat
       outlined
-      :style="
-        `background-color: var(--v-panel-base); border-color: ${
-          color ? color : 'var(--v-primary-base)'
-        } !important; margin-top: -2px`
-      "
+      :style="`background-color: var(--v-background-base); border-color: ${
+        color ? color : 'var(--v-primary-base)'
+      } !important; margin-top: -2px`"
     >
       <v-card-text class="pt-2 pb-0 px-4">
         <slot />
