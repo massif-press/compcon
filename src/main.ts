@@ -13,12 +13,10 @@ import router from './router'
 import { store } from './store'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
+import Ripple from 'vuetify/lib/directives/ripple'
 import lancerData from 'lancer-data'
 
 import './registerServiceWorker'
-
-import theme from './ui/theme'
-import themes from '@/ui/style/themes'
 
 import mixins from './mixins'
 
@@ -30,51 +28,35 @@ import 'tiptap-vuetify/dist/main.css'
 
 import Amplify from 'aws-amplify'
 import '@aws-amplify/ui-vue'
-import aws_exports from './aws-exports'
+import { awsmobile } from './aws-exports'
+import { getThemePreload } from './classes/utility/ThemeManager'
 
-Amplify.configure(aws_exports)
+Amplify.configure(awsmobile)
 
 Object.defineProperty(Vue.prototype, '$_', { value: _ })
 
 Vue.prototype.$appVersion = process.env.VUE_APP_VERSION_TAG || 'dev'
 Vue.prototype.$lancerVersion = `${lancerData.info.version}`
 
-// Preload theme
-const ls = JSON.parse(localStorage.getItem('user.config'))
-let activeTheme = null
-
-if (ls && ls.theme) {
-  activeTheme = themes[ls.theme]
-}
-
-if (!activeTheme) {
-  console.log(`there's no active theme`)
-  activeTheme = themes.gms
-}
-
-theme.theme.dark = activeTheme.type === 'dark'
-theme.dark = activeTheme.type === 'dark'
-
-theme.theme.themes.dark = activeTheme.colors
-theme.theme.themes.light = activeTheme.colors
-
+const theme = getThemePreload()
 const vuetify = new Vuetify(theme)
 
 Vue.use(VueSecureHTML)
-Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  directives: {
+    Ripple,
+  },
+})
 Vue.use(TiptapVuetifyPlugin, {
   vuetify,
   iconsGroup: 'md',
 })
-// Vue.use(Amplify)
 
 Vue.config.devtools = process.env.NODE_ENV === 'development'
 
 mixins.forEach(m => {
   Vue.mixin(m)
 })
-
-
 
 Vue.config.errorHandler = (error, vm) => {
   console.error(error)
@@ -85,13 +67,13 @@ window.onerror = error => {
   Vue.prototype.$notifyError(error)
 }
 
-const v = new Vue({
+const v: any = new Vue({
   components: { App },
   vuetify,
   router,
   store,
   async created() {
-    await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store)
+    await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, vuetify)
   },
   render: h => h(App),
 }).$mount('#app')
@@ -102,21 +84,16 @@ window.onbeforeunload = () => {
   v.$store.dispatch('saveNpcData')
   v.$store.dispatch('saveMissionData')
   v.$store.dispatch('saveEncounterData')
+  v.$store.dispatch('updateUserData')
 }
 
 Vue.mixin({
   beforeRouteLeave(to, from, next) {
-
-    if (from.path.includes('pilot'))
-      v.$store.dispatch('savePilotData')
-    else if (from.path.includes('npc'))
-      v.$store.dispatch('saveNpcData')
-    else if (from.path.includes('encounter'))
-      v.$store.dispatch('saveEncounterData')
-    else if (from.path.includes('mission'))
-      v.$store.dispatch('saveMissionData')
+    v.$store.dispatch('savePilotData')
+    v.$store.dispatch('saveNpcData')
+    v.$store.dispatch('saveEncounterData')
+    v.$store.dispatch('saveMissionData')
 
     next()
   },
 })
-

@@ -6,35 +6,29 @@
   >
     <div
       v-if="mech"
-      :style="
-        `border: 2px solid ${
-          mech.IsActive
-            ? 'var(--v-success-base)'
-            : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
-        }`
-      "
+      :style="`border: 2px solid ${
+        mech.IsActive
+          ? 'var(--v-success-base)'
+          : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
+      }`"
     >
       <v-hover>
         <template v-slot:default="{ hover }">
           <v-card height="300px" tile flat @click="$emit('go', mech)">
             <div
               class="clipped-large"
-              :style="
-                `z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${
-                  mech.IsActive
-                    ? 'var(--v-success-base)'
-                    : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
-                }`
-              "
+              :style="`z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${
+                mech.IsActive
+                  ? 'var(--v-success-base)'
+                  : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
+              }`"
             >
               <span class="heading h2 white--text flavor-text ml-2" style="letter-spacing: 3px">
                 {{ mech.Name }}
               </span>
             </div>
             <div
-              :style="
-                `z-index: 3; position: absolute; top: -5px; right: 20px; height: 32px; width:32px`
-              "
+              :style="`z-index: 3; position: absolute; top: -5px; right: 20px; height: 32px; width:32px`"
             >
               <cc-logo
                 size="xLarge"
@@ -61,9 +55,13 @@
                     <br />
                     <fieldset>
                       <legend class="px-2">
-                        Loadout//{{ mech.ActiveLoadout ? mech.ActiveLoadout.Name : 'ERR' }}
+                        Loadout//{{
+                          mech.MechLoadoutController.ActiveLoadout
+                            ? mech.MechLoadoutController.ActiveLoadout.Name
+                            : 'ERR'
+                        }}
                       </legend>
-                      <div v-if="mech && mech.ActiveLoadout">
+                      <div v-if="mech && mech.MechLoadoutController.ActiveLoadout">
                         <span v-for="(item, i) in loadoutWeapons" :key="`${mech.ID}_lw_${i}`">
                           {{ item }}
                         </span>
@@ -195,7 +193,7 @@ export default Vue.extend({
   computed: {
     loadoutWeapons() {
       const output = []
-      for (const mount of this.mech.ActiveLoadout.AllEquippableMounts(
+      for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
         this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
       )) {
@@ -215,7 +213,7 @@ export default Vue.extend({
       return output
     },
     loadoutSystems() {
-      return this.mech.ActiveLoadout.AllActiveSystems.map(x => x.Name)
+      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map(x => x.Name)
     },
   },
 })

@@ -2,6 +2,7 @@
 
 import { NpcFeature } from './'
 import { store } from '@/store'
+import { Npc } from './Npc'
 
 export interface INpcItemSaveData {
   itemID: string
@@ -14,6 +15,7 @@ export interface INpcItemSaveData {
 }
 
 export class NpcItem {
+  public readonly Parent: Npc
   private _feature: NpcFeature
   private _tier: number
   private _flavor_name: string
@@ -23,7 +25,8 @@ export class NpcItem {
   private _uses: number
   private _max_uses: number
 
-  public constructor(feature: NpcFeature, tier: number) {
+  public constructor(feature: NpcFeature, tier: number, parent: Npc) {
+    this.Parent = parent
     this._feature = feature
     this._tier = tier
     this._flavor_name = this._flavor_description = ''
@@ -40,7 +43,7 @@ export class NpcItem {
   }
 
   private save(): void {
-    store.dispatch('setNpcsDirty')
+    this.Parent.SaveController.save()
   }
 
   public get Feature(): NpcFeature {
@@ -131,8 +134,8 @@ export class NpcItem {
     }
   }
 
-  public static Deserialize(data: INpcItemSaveData): NpcItem {
-    const item = new NpcItem(store.getters.referenceByID('NpcFeatures', data.itemID), data.tier)
+  public static Deserialize(data: INpcItemSaveData, parent: Npc): NpcItem {
+    const item = new NpcItem(store.getters.referenceByID('NpcFeatures', data.itemID), data.tier, parent)
     item._flavor_description = data.description
     item._flavor_name = data.flavorName
     item._destroyed = data.destroyed

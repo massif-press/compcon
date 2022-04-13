@@ -118,6 +118,7 @@ import SlideItem from '../components/SlideItem.vue'
 import PlayerCard from '../components/PlayerCard.vue'
 import NpcCard from '../components/NpcCard.vue'
 import EncounterNav from '../components/EncounterNav.vue'
+import { IActor } from '@/classes/encounter/IActor'
 
 export default Vue.extend({
   name: 'encounter-view',
@@ -169,7 +170,6 @@ export default Vue.extend({
       } else this.commitRoundEnd()
     },
     commitRoundEnd() {
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'turnEnd' })
       this.finished.forEach((a: IActor) => {
         a.NewTurn()
       })

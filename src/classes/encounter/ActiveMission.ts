@@ -1,16 +1,27 @@
 import uuid from 'uuid/v4'
-import { store } from '@/store'
+import { MissionStore, store } from '@/store'
 import { Mission, Pilot, Npc, MissionStepType, Encounter } from '@/class'
 import { IMissionData, INpcData } from '@/interface'
 import { IMissionStep } from './IMissionStep'
 import { EncounterSide } from '../enums'
+import { ICloudSyncable } from '../components/cloud/ICloudSyncable'
+import { CloudController, ICloudData, ISaveData, SaveController } from '../components'
+import { getModule } from 'vuex-module-decorators'
 
-interface IActiveMissionData {
+class IActiveMissionData implements ICloudData, ISaveData {
+  remoteIID: string
+  remoteKey: string
+  shareCodeExpiry: string
+  shareCode: string
+  isRemoteResource: boolean
+  deleteTime: string
+  expireTime: string
+  isDeleted: boolean
+  lastUpdate_cloud: string
+  resourceUri: string
   id: string
-  cloudID: string
-  cloudOwnerID: string
-  isLocal: boolean
   lastSync: string
+  lastModified: string
   mission: IMissionData
   pilotIDs: string[]
   activeNpcs: INpcData[]
@@ -24,13 +35,17 @@ interface IActiveMissionData {
 }
 
 class ActiveMission implements ICloudSyncable {
-  public readonly TypePrefix: string = 'activemission'
+  public readonly ItemType: string = 'activemission'
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
+  public SaveController: SaveController
+  public CloudController: CloudController
   public IsLocallyOwned: boolean
   public LastSync: string
   public CloudID: string
   public CloudOwnerID: string
   public IsDirty: boolean
+  public IsDeleted: boolean
+  public LastModified: string
 
   private _id: string
   private _mission: Mission
@@ -46,6 +61,8 @@ class ActiveMission implements ICloudSyncable {
 
   public constructor(m: Mission, pilots: Pilot[]) {
     this._id = uuid()
+    this.SaveController = new SaveController(this)
+    this.CloudController = new CloudController(this)
     this._mission = m
     this._pilotIDs = pilots.map(x => x.ID)
     this._activeNpcs = []
@@ -58,25 +75,17 @@ class ActiveMission implements ICloudSyncable {
     this.spawnNpcs()
   }
 
-  private save(): void {
-    store.dispatch('setMissionsDirty')
-  }
-
   public get ID(): string {
     return this._id
   }
 
-  public get ResourceURI(): string {
-    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
-  }
-
-  public get ShareCode(): string {
-    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
+  public get Name(): string {
+    return this.Mission.Name
   }
 
   public RenewID(): void {
     this._id = uuid()
-    this.save()
+    this.SaveController.save()
   }
 
   public get IsComplete(): boolean {
@@ -105,7 +114,7 @@ class ActiveMission implements ICloudSyncable {
 
   public set Step(val: number) {
     this._step = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Encounter(): IMissionStep {
@@ -118,7 +127,7 @@ class ActiveMission implements ICloudSyncable {
 
   public set ActiveNpcs(npcs: Npc[]) {
     this._activeNpcs = npcs
-    this.save()
+    this.SaveController.save()
   }
 
   private instantiateNpc(n: Npc, s: EncounterSide): Npc {
@@ -149,7 +158,7 @@ class ActiveMission implements ICloudSyncable {
         this._activeReinforcements.push(this.instantiateNpc(n, s))
       })
     })
-    this.save()
+    this.SaveController.save()
   }
 
   public AddActiveNpc(n: Npc): void {
@@ -174,7 +183,7 @@ class ActiveMission implements ICloudSyncable {
 
   public set ActiveReinforcements(npcs: Npc[]) {
     this._activeReinforcements = npcs
-    this.save()
+    this.SaveController.save()
   }
 
   public AddActiveReinforcement(n: Npc, s: EncounterSide): void {
@@ -205,7 +214,7 @@ class ActiveMission implements ICloudSyncable {
 
   public set Round(val: number) {
     this._round = val
-    this.save()
+    this.SaveController.save()
   }
 
   public EndStep(): void {
@@ -221,7 +230,7 @@ class ActiveMission implements ICloudSyncable {
   public Complete(): void {
     this._end_date = new Date().toISOString().slice(0, 10)
     this._result = 'Victory'
-    this.save()
+    this.SaveController.save()
   }
 
   public get Pilots(): Pilot[] {
@@ -230,12 +239,12 @@ class ActiveMission implements ICloudSyncable {
 
   public set Pilots(val: Pilot[]) {
     this._pilotIDs = val.map(x => x.ID)
-    this.save()
+    this.SaveController.save()
   }
 
   public AddPilot(p: Pilot): void {
     this._pilotIDs.push(p.ID)
-    this.save()
+    this.SaveController.save()
   }
 
   public RemovePilot(p: Pilot): void {
@@ -249,7 +258,7 @@ class ActiveMission implements ICloudSyncable {
 
   public set Note(val: string) {
     this._note = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Result(): string {
@@ -258,40 +267,17 @@ class ActiveMission implements ICloudSyncable {
 
   public set Result(val: string) {
     this._result = val
-    this.save()
+    this.SaveController.save()
   }
 
   public CurrentStep(): IMissionStep {
     return this._mission.Steps[this._step]
   }
 
-  // -- Cloud -------------------------------------------------------------------------------------
-
-  public MarkSync(): void {
-    this.LastSync = new Date().toJSON()
-    this.IsDirty = false
-  }
-
-  public SetRemoteResource(): void {
-    this.CloudID = this.ID
-    this.IsLocallyOwned = false
-    this.RenewID()
-  }
-
-  public SetOwnedResource(userCognitoId: string): void {
-    this.CloudID = this.ID
-    this.CloudOwnerID = userCognitoId
-    this.IsLocallyOwned = true
-  }
-
   public static Serialize(m: ActiveMission): IActiveMissionData {
-    return {
+    const data = {
       id: m.ID,
       mission: Mission.Serialize(m._mission),
-      isLocal: m.IsLocallyOwned,
-      cloudID: m.CloudID,
-      cloudOwnerID: m.CloudOwnerID,
-      lastSync: m.LastSync,
       pilotIDs: m.Pilots.map(x => x.ID),
       step: m.Step,
       round: m.Round,
@@ -302,6 +288,20 @@ class ActiveMission implements ICloudSyncable {
       note: m.Note,
       result: m.Result,
     }
+    SaveController.Serialize(m, data)
+    CloudController.Serialize(m, data)
+    return data as IActiveMissionData
+  }
+
+  public Serialize(): IActiveMissionData {
+    return ActiveMission.Serialize(this)
+  }
+
+  public static AddNew(data: IActiveMissionData, sync?: boolean): ActiveMission {
+    const m = ActiveMission.Deserialize(data)
+    if (sync) m.CloudController.MarkSync()
+    getModule(MissionStore, store).addActiveMission(m)
+    return m
   }
 
   public Update(data: IActiveMissionData, ignoreProps?: boolean): void {
@@ -311,11 +311,6 @@ class ActiveMission implements ICloudSyncable {
       }
     }
     this._id = data.id || uuid()
-    this.IsLocallyOwned = data.isLocal || true
-    this.CloudID = data.cloudID || ''
-    this.CloudOwnerID = data.cloudOwnerID || ''
-    this.LastSync = data.lastSync || ''
-
     this.Round = data.round
     this.Step = data.step
     this.ActiveNpcs = data.activeNpcs.map(x => Npc.Deserialize(x))
@@ -337,6 +332,9 @@ class ActiveMission implements ICloudSyncable {
     const m = new ActiveMission(Mission.Deserialize(data.mission), [])
     try {
       m.Update(data)
+      SaveController.Deserialize(m, data)
+      CloudController.Deserialize(m, data)
+      m.SaveController.SetLoaded()
       return m
     } catch (err) {
       console.error(err)

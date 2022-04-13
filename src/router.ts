@@ -3,11 +3,9 @@ import Router from 'vue-router'
 import encounterRoutes from './features/encounters/routes'
 import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'
-
 import { getModule } from 'vuex-module-decorators'
-import { NavStore, store } from '@/store'
-
-import updateChecker from '@/util/UpdateChecker'
+import { NavStore, store } from './store'
+import updateChecker from './util/UpdateChecker'
 
 Vue.use(Router)
 
@@ -33,15 +31,15 @@ const r = new Router({
     },
     ...compendiumRoutes.map(route => ({
       ...route,
-      path: route.path = '/compendium/' + route.path,
+      path: (route.path = '/compendium/' + route.path),
     })),
     ...pilotRoutes.map(route => ({
       ...route,
-      path: route.path = '/pilot_management/' + route.path,
+      path: (route.path = '/pilot_management/' + route.path),
     })),
     ...encounterRoutes.map(route => ({
       ...route,
-      path: route.path = '/gm/' + route.path,
+      path: (route.path = '/gm/' + route.path),
     })),
     {
       path: '*',

@@ -1,18 +1,44 @@
 import uuid from 'uuid/v4'
-import { store } from '@/store'
+import { NpcStore, store } from '@/store'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { NpcStats, NpcClass, NpcTemplate, NpcFeature, NpcItem } from './'
 import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
 import { ICounterData } from '@/interface'
+import {
+  CloudController,
+  ICloudData,
+  ICloudSyncable,
+  IPortraitData,
+  ISaveable,
+  ISaveData,
+  PortraitController,
+  SaveController,
+} from '../components'
+import { getModule } from 'vuex-module-decorators'
+import { IActor } from '../encounter/IActor'
+import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
+import { IBrewable } from '../components/brew/IBrewable'
+import { CompendiumItem } from '../CompendiumItem'
 
-interface INpcData {
+class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
+  remoteIID: string
+  remoteKey: string
+  shareCodeExpiry: string
+  shareCode: string
+  isRemoteResource: boolean
+  deleteTime: string
+  brews: BrewInfo[]
+  isDeleted: boolean
+  expireTime: string
+  lastUpdate_cloud: string
+  resourceUri: string
+  portrait: string
+  cloud_portrait: string
   active: boolean
   id: string
-  cloudID: string
-  cloudOwnerID: string
-  isLocal: boolean
   lastSync: string
+  lastModified: string
   class: string
   tier: number | string
   name: string
@@ -41,14 +67,14 @@ interface INpcData {
   cc_ver: string
 }
 
-class Npc implements IActor, ICloudSyncable {
-  public readonly TypePrefix: string = 'npc'
+class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
+  public readonly ItemType: string = 'npc'
+  public ImageTag: ImageTag.NPC
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
-  public IsLocallyOwned: boolean
-  public LastSync: string
-  public CloudID: string
-  public CloudOwnerID: string
-  public IsDirty: boolean
+  public CloudController: CloudController
+  public SaveController: SaveController
+  public PortraitController: PortraitController
+  public BrewController: BrewController
 
   private _active: boolean
   private _id: string
@@ -81,6 +107,10 @@ class Npc implements IActor, ICloudSyncable {
     const t = tier || 1
     this._active = false
     this._id = uuid()
+    this.SaveController = new SaveController(this)
+    this.PortraitController = new PortraitController(this)
+    this.CloudController = new CloudController(this)
+    this.BrewController = new BrewController(this)
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
     this._subtitle = ''
     this._tier = t
@@ -95,7 +125,7 @@ class Npc implements IActor, ICloudSyncable {
     this._current_stats = NpcStats.FromMax(this._stats)
     this._items = []
     npcClass.BaseFeatures.forEach(f => {
-      this._items.push(new NpcItem(f, t))
+      this._items.push(new NpcItem(f, t, this))
     })
     this._burn = 0
     this._overshield = 0
@@ -106,7 +136,16 @@ class Npc implements IActor, ICloudSyncable {
     this._conditions = []
     this._resistances = []
     this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
-    this.LastSync = new Date('1-1-1000').toJSON()
+  }
+
+  Bonuses?: any[]
+
+  public get BrewableCollection(): CompendiumItem[] {
+    // TODO / NB: temporary casting to CI prior to GM changes where they will become fully featured
+    return [
+      this.Class as unknown as CompendiumItem,
+      ...(this.Features as unknown[] as CompendiumItem[]),
+    ]
   }
 
   public get Active(): boolean {
@@ -118,36 +157,12 @@ class Npc implements IActor, ICloudSyncable {
     this._current_stats.Active = val
   }
 
-  private save(): void {
-    if (this.IsLocallyOwned) this.IsDirty = true
-    if (this.Active) store.dispatch('setMissionsDirty')
-    else store.dispatch('setNpcsDirty')
-  }
-
   public get ID(): string {
     return this._id
   }
 
-  public get ResourceURI(): string {
-    return `${this.TypePrefix}/${this.IsLocallyOwned ? this._id : this.CloudID}`
-  }
-
-  public get ShareCode(): string {
-    return JSON.stringify([this.CloudOwnerID, this.ResourceURI])
-  }
-
   public RenewID(): void {
     this._id = uuid()
-  }
-
-  public get Power(): number {
-    // TODO: calc stat power for custom
-    const multiplier = typeof this.Tier === 'number' ? this.Tier : 3.5
-    return (this.Class.Power + this.Templates.reduce((a, b) => +a + +b.Power, 0)) * multiplier
-  }
-
-  public get PowerTier(): number {
-    return Math.ceil(this.Power / 100) * 100
   }
 
   public get Stats(): NpcStats {
@@ -176,7 +191,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Name(val: string) {
     this._name = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Subtitle(): string {
@@ -185,7 +200,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Subtitle(val: string) {
     this._subtitle = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Side(): EncounterSide {
@@ -194,7 +209,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Side(val: EncounterSide) {
     this._side = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Campaign(): string {
@@ -203,7 +218,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Campaign(val: string) {
     this._campaign = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Note(): string {
@@ -212,7 +227,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Note(val: string) {
     this._note = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get IsBiological(): boolean {
@@ -234,7 +249,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Labels(val: string[]) {
     this._user_labels = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get LabelString(): string {
@@ -254,7 +269,7 @@ class Npc implements IActor, ICloudSyncable {
       })
       this.RecalcBonuses()
     }
-    this.save()
+    this.SaveController.save()
   }
 
   public get IsCustomTier(): boolean {
@@ -341,12 +356,12 @@ class Npc implements IActor, ICloudSyncable {
   public RecalcBonuses(save = true): void {
     this.setStatBonuses()
     this.ResetStats()
-    if (save) this.save()
+    if (save) this.SaveController.save()
   }
 
   public AddFeature(feat: NpcFeature, skipRecalc?: boolean): void {
     const t = typeof this.Tier === 'number' ? this.Tier : 1
-    const item = new NpcItem(feat, t)
+    const item = new NpcItem(feat, t, this)
     this._items.push(item)
     if (!skipRecalc) this.RecalcBonuses()
   }
@@ -365,7 +380,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public SetCloudImage(src: string): void {
     this._cloud_image = src
-    this.save()
+    this.SaveController.save()
   }
 
   public get CloudImage(): string {
@@ -374,7 +389,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public SetLocalImage(src: string): void {
     this._local_image = src
-    this.save()
+    this.SaveController.save()
   }
 
   public get LocalImage(): string {
@@ -404,7 +419,7 @@ class Npc implements IActor, ICloudSyncable {
       this._counterSaveData[index] = inputData
       this._counterSaveData = [...this._counterSaveData]
     }
-    this.save()
+    this.SaveController.save()
   }
 
   private _customCounters: ICounterData[] = []
@@ -419,7 +434,7 @@ class Npc implements IActor, ICloudSyncable {
       custom: true,
     }
     this._customCounters = [...this._customCounters, counter]
-    this.save()
+    this.SaveController.save()
   }
 
   public deleteCustomCounter(id: string): void {
@@ -428,7 +443,7 @@ class Npc implements IActor, ICloudSyncable {
       this._customCounters.splice(index, 1)
       this._customCounters = [...this._customCounters]
     }
-    this.save()
+    this.SaveController.save()
   }
 
   public get CounterData(): ICounterData[] {
@@ -506,7 +521,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Conditions(conditions: string[]) {
     this._conditions = conditions
-    this.save()
+    this.SaveController.save()
   }
 
   public get Statuses(): string[] {
@@ -515,7 +530,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Statuses(statuses: string[]) {
     this._statuses = statuses
-    this.save()
+    this.SaveController.save()
   }
 
   public get Resistances(): string[] {
@@ -524,7 +539,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Resistances(resistances: string[]) {
     this._resistances = resistances
-    this.save()
+    this.SaveController.save()
   }
 
   public get Burn(): number {
@@ -534,7 +549,7 @@ class Npc implements IActor, ICloudSyncable {
   public set Burn(burn: number) {
     this._burn = burn
     if (this._burn < 0) this._burn = 0
-    this.save()
+    this.SaveController.save()
   }
 
   public get Overshield(): number {
@@ -543,7 +558,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Overshield(val: number) {
     this._overshield = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Destroyed(): boolean {
@@ -553,7 +568,7 @@ class Npc implements IActor, ICloudSyncable {
   public set Destroyed(val: boolean) {
     this._destroyed = val
     this._defeat = val ? 'Destroyed' : ''
-    this.save()
+    this.SaveController.save()
   }
 
   public get Defeat(): string {
@@ -562,7 +577,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Defeat(val: string) {
     this._defeat = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get Activations(): number {
@@ -571,7 +586,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set Activations(val: number) {
     this.CurrentStats.Activations = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get TurnActions(): number {
@@ -580,7 +595,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set TurnActions(val: number) {
     this._turn_actions = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get CurrentMove(): number {
@@ -589,7 +604,7 @@ class Npc implements IActor, ICloudSyncable {
 
   public set CurrentMove(val: number) {
     this.CurrentStats.Speed = val
-    this.save()
+    this.SaveController.save()
   }
 
   public get MaxMove(): number {
@@ -628,7 +643,7 @@ class Npc implements IActor, ICloudSyncable {
     this._turn_actions = 2
     this.CurrentStats.Speed = 0
     this.CurrentStats.AddReaction('Overwatch')
-    this.save()
+    this.SaveController.save()
   }
 
   public get SizeIcon(): string {
@@ -637,31 +652,14 @@ class Npc implements IActor, ICloudSyncable {
 
   // -- Cloud -------------------------------------------------------------------------------------
 
-  public MarkSync(): void {
-    this.LastSync = new Date().toJSON()
-    this.IsDirty = false
-  }
-
-  public SetRemoteResource(): void {
-    this.CloudID = this.ID
-    this.IsLocallyOwned = false
-    this.RenewID()
-  }
-
-  public SetOwnedResource(userCognitoId: string): void {
-    this.CloudID = this.ID
-    this.CloudOwnerID = userCognitoId
-    this.IsLocallyOwned = true
+  public get Portrait(): string {
+    return this.PortraitController.Portrait
   }
 
   public static Serialize(npc: Npc): INpcData {
-    return {
+    let data = {
       active: npc.Active,
       id: npc.ID,
-      isLocal: npc.IsLocallyOwned,
-      cloudID: npc.CloudID,
-      cloudOwnerID: npc.CloudOwnerID,
-      lastSync: npc.LastSync,
       class: npc.Class.ID,
       tier: npc._tier,
       name: npc._name,
@@ -689,6 +687,24 @@ class Npc implements IActor, ICloudSyncable {
       custom_counters: npc.CustomCounterData,
       cc_ver: npc.cc_ver,
     }
+
+    SaveController.Serialize(npc, data)
+    CloudController.Serialize(npc, data)
+    PortraitController.Serialize(npc, data)
+    BrewController.Serialize(npc, data)
+
+    return data as INpcData
+  }
+
+  public Serialize(): INpcData {
+    return Npc.Serialize(this)
+  }
+
+  public static AddNew(data: INpcData, sync?: boolean): Npc {
+    const n = Npc.Deserialize(data)
+    if (sync) n.CloudController.MarkSync()
+    getModule(NpcStore, store).addNpc(n)
+    return n
   }
 
   public Update(data: INpcData, ignoreProps?: boolean): void {
@@ -700,10 +716,6 @@ class Npc implements IActor, ICloudSyncable {
 
     this._active = data.active
     this._id = data.id
-    this.IsLocallyOwned = data.isLocal || true
-    this.CloudID = data.cloudID || ''
-    this.CloudOwnerID = data.cloudOwnerID || ''
-    this.LastSync = data.lastSync || ''
     this._tier = data.tier
     this._name = data.name
     this._subtitle = data.subtitle || ''
@@ -712,7 +724,7 @@ class Npc implements IActor, ICloudSyncable {
     this._user_labels = data.labels || []
     this._tag = data.tag
     this._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplates', x))
-    this._items = data.items.map(x => NpcItem.Deserialize(x))
+    this._items = data.items.map(x => NpcItem.Deserialize(x, this))
     this._stats = NpcStats.Deserialize(data.stats)
     this.RecalcBonuses(false)
     this._note = data.note
@@ -739,6 +751,10 @@ class Npc implements IActor, ICloudSyncable {
     const npc = new Npc(c)
     try {
       npc.Update(data)
+      SaveController.Deserialize(npc, data)
+      PortraitController.Deserialize(npc, data)
+      BrewController.Deserialize(npc, data)
+      npc.SaveController.SetLoaded()
       return npc
     } catch (err) {
       console.error(err)

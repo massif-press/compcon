@@ -50,7 +50,9 @@ export default Vue.extend({
   }),
   computed: {
     AiSystems() {
-      return this.mech.ActiveLoadout.Equipment.filter(x => x.IsAI && !x.NoCascade && !x.Destroyed)
+      return this.mech.MechLoadoutController.ActiveLoadout.Equipment.filter(
+        x => x.IsAI && !x.NoCascade && !x.Destroyed
+      )
     },
   },
   methods: {

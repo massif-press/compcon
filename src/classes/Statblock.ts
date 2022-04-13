@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
-import { Pilot, Mech, Npc, PilotWeapon, MechWeapon } from '@/class'
+import { Pilot, Mech, Npc, PilotWeapon, MechWeapon } from '../class'
 
 function linebreak(i: number, length: number): string {
   if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
@@ -39,39 +39,45 @@ class Statblock {
     if (pilot) {
       output += `» ${pilot.Callsign.toUpperCase()} «\n`
       output += `${pilot.Name}\n${pilot.Background}, LL${pilot.Level}\n`
-      output += `GRIT:${pilot.Grit} // H:${pilot.MechSkills.Hull} A:${pilot.MechSkills.Agi} S:${pilot.MechSkills.Sys} E:${pilot.MechSkills.Eng}\n`
+      output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
       output += `[ SKILL TRIGGERS ]\n  `
-      for (let i = 0; i < pilot.Skills.length; i++) {
-        const s = pilot.Skills[i]
-        output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(i, pilot.Skills.length)}`
+      for (let i = 0; i < pilot.SkillsController.Skills.length; i++) {
+        const s = pilot.SkillsController.Skills[i]
+        output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(
+          i,
+          pilot.SkillsController.Skills.length
+        )}`
       }
 
       output += '[ TALENTS ]\n  '
-      for (let i = 0; i < pilot.Talents.length; i++) {
-        const t = pilot.Talents[i]
-        output += `${t.Talent.Name} ${t.Rank}${linebreak(i, pilot.Talents.length)}`
+      for (let i = 0; i < pilot.TalentsController.Talents.length; i++) {
+        const t = pilot.TalentsController.Talents[i]
+        output += `${t.Talent.Name} ${t.Rank}${linebreak(
+          i,
+          pilot.TalentsController.Talents.length
+        )}`
       }
 
-      if (pilot.Licenses.length) {
+      if (pilot.LicenseController.Licenses.length) {
         output += '[ LICENSES ]\n  '
-        for (let i = 0; i < pilot.Licenses.length; i++) {
-          const l = pilot.Licenses[i]
+        for (let i = 0; i < pilot.LicenseController.Licenses.length; i++) {
+          const l = pilot.LicenseController.Licenses[i]
           output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
             i,
-            pilot.Licenses.length
+            pilot.LicenseController.Licenses.length
           )}`
         }
       }
 
-      if (pilot.CoreBonuses.length) {
+      if (pilot.CoreBonusController.CoreBonuses.length) {
         output += '[ CORE BONUSES ]\n  '
-        for (let i = 0; i < pilot.CoreBonuses.length; i++) {
-          const cb = pilot.CoreBonuses[i]
-          output += `${cb.Name}${linebreak(i, pilot.CoreBonuses.length)}`
+        for (let i = 0; i < pilot.CoreBonusController.CoreBonuses.length; i++) {
+          const cb = pilot.CoreBonusController.CoreBonuses[i]
+          output += `${cb.Name}${linebreak(i, pilot.CoreBonusController.CoreBonuses.length)}`
         }
       }
 
-      const loadout = pilot.Loadout
+      const loadout = pilot.PilotLoadoutController.Loadout
       if (loadout) {
         output += '[ GEAR ]\n  '
         for (let i = 0; i < loadout.Items.length; i++) {
@@ -122,12 +128,14 @@ class Statblock {
       output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
 
       output += '[ WEAPONS ]\n'
-      for (const im of mech.IntegratedWeapons) {
+      for (const im of mech.FeatureController.IntegratedWeapons) {
         output += '  INTEGRATED MOUNT: '
         output = addWeaponToOutput(output, discordEmoji, im)
         output += '\n'
       }
-      const loadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
+      const loadout = mech.MechLoadoutController.ActiveLoadout
+        ? mech.MechLoadoutController.ActiveLoadout
+        : mech.MechLoadoutController.Loadouts[0]
       if (loadout) {
         for (const mount of loadout.AllEquippableMounts(
           pilot && pilot.has('CoreBonus', 'cb_improved_armament'),
@@ -152,7 +160,9 @@ class Statblock {
         }
 
         output += '[ SYSTEMS ]\n  '
-        const allsys = mech.IntegratedSystems.concat(loadout.Systems)
+        const allsys = mech.MechLoadoutController.ActiveLoadout.IntegratedSystems.concat(
+          loadout.Systems
+        )
         allsys.forEach((sys, i) => {
           output += `${sys.TrueName}${linebreak(i, allsys.length)}`
         })
@@ -163,21 +173,31 @@ class Statblock {
   }
 
   public static GenerateBuildSummary(pilot: Pilot, mech: Mech, discordEmoji: boolean): string {
-    const mechLoadout = mech.ActiveLoadout ? mech.ActiveLoadout : mech.Loadouts[0]
+    const mechLoadout = mech.MechLoadoutController.ActiveLoadout
+      ? mech.MechLoadoutController.ActiveLoadout
+      : mech.MechLoadoutController.Loadouts[0]
     return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
 [ LICENSES ]
   ${
-    pilot.Licenses.length
-      ? `${pilot.Licenses.map(l => `${l.License.Source} ${l.License.Name} ${l.Rank}`).join(', ')}`
+    pilot.LicenseController.Licenses.length
+      ? `${pilot.LicenseController.Licenses.map(
+          l => `${l.License.Source} ${l.License.Name} ${l.Rank}`
+        ).join(', ')}`
       : 'N/A'
   }
 [ CORE BONUSES ]
-  ${pilot.CoreBonuses.length ? `${pilot.CoreBonuses.map(cb => cb.Name).join(', ')}` : 'N/A'}
+  ${
+    pilot.CoreBonusController.CoreBonuses.length
+      ? `${pilot.CoreBonusController.CoreBonuses.map(cb => cb.Name).join(', ')}`
+      : 'N/A'
+  }
 [ TALENTS ]
-  ${pilot.Talents.map(t => `${t.Talent.Name} ${t.Rank}`).join(', ')}
+  ${pilot.TalentsController.Talents.map(t => `${t.Talent.Name} ${t.Rank}`).join(', ')}
 [ STATS ]
-  HULL:${pilot.MechSkills.Hull} AGI:${pilot.MechSkills.Agi} SYS:${pilot.MechSkills.Sys} ENGI:${
-      pilot.MechSkills.Eng
+  HULL:${pilot.MechSkillsController.MechSkills.Hull} AGI:${
+      pilot.MechSkillsController.MechSkills.Agi
+    } SYS:${pilot.MechSkillsController.MechSkills.Sys} ENGI:${
+      pilot.MechSkillsController.MechSkills.Eng
     }
   STRUCTURE:${mech.MaxStructure} HP:${mech.MaxHP} ARMOR:${mech.Armor}
   STRESS:${mech.MaxStress} HEATCAP:${mech.HeatCapacity} REPAIR:${mech.RepairCapacity}
@@ -188,7 +208,7 @@ class Statblock {
       mech.SaveTarget
     }
 [ WEAPONS ]
-  ${mech.IntegratedWeapons.map(
+  ${mech.FeatureController.IntegratedWeapons.map(
     weapon =>
       `Integrated: ${weapon ? weapon.TrueName : 'N/A  '}${
         discordEmoji && weapon && weapon.Range

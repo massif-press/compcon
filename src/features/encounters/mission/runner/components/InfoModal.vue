@@ -9,11 +9,9 @@
           <v-col v-for="(s, i) in mission.Steps" :key="`step_${i}`" :cols="s.Name ? 3 : 1">
             <v-card outlined height="100%">
               <div
-                :class="
-                  `caption white--text ${
-                    i > step ? 'grey' : i === step ? 'success' : s.Name ? 'primary' : 'secondary'
-                  }`
-                "
+                :class="`caption white--text ${
+                  i > step ? 'grey' : i === step ? 'success' : s.Name ? 'primary' : 'secondary'
+                }`"
               >
                 &nbsp;//{{ i + 1 }}
               </div>
@@ -22,13 +20,10 @@
                   <div v-if="i >= step">
                     <span class="heading h3">{{ s.Name }}</span>
                     <v-divider />
-                    <div>PR: {{ s.Power }} // COMBATANTS: {{ s.Npcs('Enemy').length }}</div>
                     <div>ENV: {{ s.Environment }}</div>
                     <div>SITREP: {{ s.Sitrep.name }}</div>
                   </div>
-                  <div v-else>
-                    COMPLETE
-                  </div>
+                  <div v-else>COMPLETE</div>
                 </div>
                 <div v-else style="margin-top: 25%; margin-bottom: 25%" class="text-center">
                   <v-icon color="secondary" large>mdi-restore</v-icon>
@@ -73,9 +68,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <cc-title small class="mb-3">
-      SITREP
-    </cc-title>
+    <cc-title small class="mb-3">SITREP</cc-title>
     <div class="heading h3" v-html="encounter.Sitrep.Name" />
     <p class="flavor-text" v-html="encounter.Sitrep.description" />
     <v-divider class="mt-2" />

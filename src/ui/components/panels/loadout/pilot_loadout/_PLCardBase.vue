@@ -5,9 +5,7 @@
         <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
           <v-menu v-if="item" offset-x left>
             <template v-slot:activator="{ on }">
-              <v-icon icon small dark class="fadeSelect mt-n1 ml-n2 mr-1" v-on="on">
-                mdi-settings
-              </v-icon>
+              <v-icon icon small dark class="fadeSelect mt-n1 ml-n2 mr-1" v-on="on">mdi-cog</v-icon>
             </template>
             <v-list dense>
               <v-list-item @click="$refs.selectorDialog.show()">
@@ -103,9 +101,7 @@
               @click="$refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
-                <span class="heading h2 subtle--text my-auto" style="width: 100%; ">
-                  // EMPTY //
-                </span>
+                <span class="heading h2 subtle--text my-auto" style="width: 100%">// EMPTY //</span>
               </v-row>
             </div>
           </div>

@@ -1,11 +1,11 @@
 <template>
   <div>
-    <cc-title small color="pilot" style="margin-left: -40px!important">
+    <cc-title small color="pilot" style="margin-left: -40px !important">
       <section-edit-chip
-        :highlight="!pilot.HasFullSkills"
-        :current="pilot.CurrentSkillPoints"
-        :max="pilot.MaxSkillPoints"
-        :label="`Edit Pilot Skill Triggers (${pilot.CurrentSkillPoints}/${pilot.MaxSkillPoints})`"
+        :highlight="!pilot.SkillsController.HasFullSkills"
+        :current="pilot.SkillsController.CurrentSkillPoints"
+        :max="pilot.SkillsController.MaxSkillPoints"
+        :label="`Edit Pilot Skill Triggers (${pilot.SkillsController.CurrentSkillPoints}/${pilot.SkillsController.MaxSkillPoints})`"
         @open-selector="$refs.skillSelector.show()"
       />
       Skill Triggers
@@ -19,7 +19,11 @@
     >
       <cc-skill-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-row :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''" dense class="mt-2">
+    <v-row
+      :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''"
+      dense
+      class="mt-2"
+    >
       <v-col cols="12" md="auto" class="mr-2 text-center">
         <div class="stat-text">PILOT GRIT</div>
         <div
@@ -32,9 +36,9 @@
         </div>
       </v-col>
       <v-col>
-        <no-data-block v-if="!pilot.Skills.length" />
+        <no-data-block v-if="!pilot.SkillsController.Skills.length" />
         <cc-skill-item
-          v-for="(s, i) in pilot.Skills"
+          v-for="(s, i) in pilot.SkillsController.Skills"
           v-else
           :key="`s_${i}`"
           :bonus="s.Bonus"

@@ -14,7 +14,7 @@
           />
         </v-col>
       </v-row>
-      <v-divider class="my-2 " />
+      <v-divider class="my-2" />
       <v-row dense>
         <v-data-table
           dense
@@ -45,7 +45,7 @@
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
-                    <v-icon small class="fadeSelect">mdi-settings</v-icon>
+                    <v-icon small class="fadeSelect">mdi-cog</v-icon>
                   </v-btn>
                 </template>
                 <v-list dense>
@@ -66,7 +66,7 @@
                     </v-list-item-content>
                   </v-list-item>
                   <v-divider />
-                  <v-list-item @click="deleteMission(item)">
+                  <v-list-item @click="delete_mission(item)">
                     <v-list-item-icon class="ma-0 mr-2 mt-2">
                       <v-icon color="error">mdi-delete</v-icon>
                     </v-list-item-icon>
@@ -86,12 +86,9 @@
               </v-icon>
             </v-scroll-x-transition>
           </template>
-          <template v-slot:item.Power="{ item }">
-            <span class="caption text-uppercase">{{ item.Power }}</span>
-          </template>
         </v-data-table>
       </v-row>
-      <v-divider class="my-2 " />
+      <v-divider class="my-2" />
       <v-row justify="center" dense no-gutters>
         <v-col cols="8">
           <v-btn block tile color="primary" large @click="addNew()">
@@ -145,20 +142,16 @@ export default Vue.extend({
     toMission(id: string) {
       this.$router.push({ name: 'edit-mission', params: { id } })
     },
-    deleteMission(Mission: Mission) {
-      const store = getModule(MissionStore, this.$store)
-      store.deleteMission(Mission)
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionDelete' })
+    delete_mission(Mission: Mission) {
+      Mission.SaveController.delete()
     },
     copyMission(Mission: Mission) {
       const store = getModule(MissionStore, this.$store)
       store.cloneMission(Mission)
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionCreate' })
     },
     addNew() {
       const store = getModule(MissionStore, this.$store)
       store.addMission(new Mission())
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionCreate' })
       const m = this.missions[this.missions.length - 1].ID
       this.$router.push({ name: 'edit-mission', params: { id: m } })
     },

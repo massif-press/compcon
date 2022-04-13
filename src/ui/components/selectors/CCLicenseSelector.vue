@@ -1,8 +1,12 @@
 <template>
-  <selector title="Pilot Licenses" height="60vh" :success="!pilot.IsMissingLicenses">
+  <selector
+    title="Pilot Licenses"
+    height="60vh"
+    :success="!pilot.LicenseController.IsMissingLicenses"
+  >
     <template v-slot:left-column>
       <v-row
-        v-for="pl in pilot.Licenses"
+        v-for="pl in pilot.LicenseController.Licenses"
         :key="`summary_${pl.License.Name}`"
         class="my-2"
         style="width: 98%"
@@ -16,7 +20,7 @@
           </v-icon>
         </div>
       </v-row>
-      <v-divider v-if="pilot.Licenses.length" class="ma-2 ml-4 mr-4" />
+      <v-divider v-if="pilot.LicenseController.Licenses.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-alert
           outlined
@@ -24,7 +28,7 @@
           icon="check_circle"
           class="stat-text"
           style="width: 95%"
-          :value="!pilot.IsMissingLicenses"
+          :value="!pilot.LicenseController.IsMissingLicenses"
         >
           License Selection Complete
         </v-alert>
@@ -33,12 +37,19 @@
           color="accent"
           icon="warning"
           class="stat-text"
-          :value="pilot.IsMissingLicenses"
+          :value="pilot.LicenseController.IsMissingLicenses"
         >
-          {{ pilot.CurrentLicensePoints }} / {{ pilot.MaxLicensePoints }} Licenses selected
+          {{ pilot.LicenseController.CurrentLicensePoints }} /
+          {{ pilot.LicenseController.MaxLicensePoints }} Licenses selected
         </v-alert>
         <div class="my-2">
-          <v-btn block text small :disabled="!pilot.Licenses.length" @click="pilot.ClearLicenses()">
+          <v-btn
+            block
+            text
+            small
+            :disabled="!pilot.LicenseController.Licenses.length"
+            @click="pilot.LicenseController.ClearLicenses()"
+          >
             Reset
           </v-btn>
         </div>
@@ -62,9 +73,9 @@
               :key="l.FrameID"
               :license="l"
               :is-selectable="l.CanSelect(pilot)"
-              :rank="pilot.getLicenseRank(l.Name)"
-              @add="pilot.AddLicense(l)"
-              @remove="pilot.RemoveLicense(l)"
+              :rank="pilot.LicenseController.getLicenseRank(l.Name)"
+              @add="pilot.LicenseController.AddLicense(l)"
+              @remove="pilot.LicenseController.RemoveLicense(l)"
             />
           </v-expansion-panels>
           <v-divider class="mt-5 mb-0" />
@@ -95,7 +106,7 @@ export default Vue.extend({
   }),
   computed: {
     selectionComplete(): boolean {
-      return this.levelUp && !this.pilot.IsMissingLicenses
+      return this.levelUp && !this.pilot.LicenseController.IsMissingLicenses
     },
   },
   watch: {

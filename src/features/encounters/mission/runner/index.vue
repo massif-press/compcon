@@ -2,9 +2,7 @@
   <v-container fluid style="margin-top: 50px; min-height: calc(100vh - 50px)">
     <v-row justify="center">
       <v-col>
-        <cc-title class="mt-3 ml-n12" color="primary">
-          &emsp;ACTIVE MISSIONS
-        </cc-title>
+        <cc-title class="mt-3 ml-n12" color="primary">&emsp;ACTIVE MISSIONS</cc-title>
         <v-data-table
           :items="activeMissions"
           :headers="headers"
@@ -64,9 +62,7 @@
     </v-row>
     <v-row justify="center">
       <v-col>
-        <cc-title class="mt-3 ml-n12" color="secondary">
-          &emsp;AVAILABLE MISSIONS
-        </cc-title>
+        <cc-title class="mt-3 ml-n12" color="secondary">&emsp;AVAILABLE MISSIONS</cc-title>
         <v-data-table
           :items="availableMissions"
           :headers="availableHeaders"
@@ -109,9 +105,7 @@
     </v-row>
     <v-row justify="center">
       <v-col>
-        <cc-title class="mt-3 ml-n12" color="pilot">
-          &emsp;COMPLETED MISSIONS
-        </cc-title>
+        <cc-title class="mt-3 ml-n12" color="pilot">&emsp;COMPLETED MISSIONS</cc-title>
         <v-data-table
           :items="completedMissions"
           :headers="completedHeaders"
@@ -210,9 +204,7 @@ export default Vue.extend({
   },
   methods: {
     deleteActiveMission(m: ActiveMission) {
-      const store = getModule(MissionStore, this.$store)
-      store.deleteActiveMission(m)
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionDelete' })
+      m.SaveController.delete()
     },
   },
 })

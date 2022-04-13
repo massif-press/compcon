@@ -17,7 +17,7 @@
           <roster-group @set="grouping = $event" />
         </v-col>
       </v-row>
-      <v-divider class="my-2 " />
+      <v-divider class="my-2" />
       <v-row dense>
         <v-data-table
           dense
@@ -48,7 +48,7 @@
               <v-menu offset-x left>
                 <template v-slot:activator="{ on }">
                   <v-btn icon small class="mt-n1 mr-n2" @click.stop v-on="on">
-                    <v-icon small class="fadeSelect">mdi-settings</v-icon>
+                    <v-icon small class="fadeSelect">mdi-cog</v-icon>
                   </v-btn>
                 </template>
                 <v-list dense>
@@ -78,14 +78,14 @@
                   </v-list-item>
                   <v-list-item @click="setStatblock(item)">
                     <v-list-item-icon class="ma-0 mr-2 mt-2">
-                      <v-icon>mdi-file-document-box</v-icon>
+                      <v-icon>mdi-file-document-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                       <v-list-item-title>Generate NPC Statblock</v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
                   <v-divider />
-                  <v-list-item @click="deleteNpc(item)">
+                  <v-list-item @click="delete_npc(item)">
                     <v-list-item-icon class="ma-0 mr-2 mt-2">
                       <v-icon color="error">mdi-delete</v-icon>
                     </v-list-item-icon>
@@ -130,7 +130,7 @@
           </template>
         </v-data-table>
       </v-row>
-      <v-divider class="my-2 " />
+      <v-divider class="my-2" />
       <v-row justify="center" dense no-gutters>
         <v-col cols="8">
           <v-btn block tile color="primary" large @click="$router.push({ name: 'new-npc' })">
@@ -216,7 +216,6 @@ export default class NpcManager extends Vue {
     { text: 'Role', value: 'Role' },
     { text: 'Tier', value: 'Tier' },
   ]
-  npcs = []
   importDialog = false
   statblockDialog = false
   npcImportFile: File = null
@@ -233,6 +232,8 @@ export default class NpcManager extends Vue {
     this.npcs = store.Npcs
   }
 
+  npcs = getModule(NpcStore, this.$store).Npcs
+
   setStatblock(npc: Npc) {
     this.statblockNpc = npc
     this.statblockDialog = true
@@ -242,11 +243,9 @@ export default class NpcManager extends Vue {
     return Statblock.GenerateNPC(this.statblockNpc)
   }
 
-  deleteNpc(npc: Npc) {
+  delete_npc(npc: Npc) {
     this.selectedNpc = null
-    const store = getModule(NpcStore, this.$store)
-    store.deleteNpc(npc)
-    this.$store.dispatch('cloudSync', { callback: null, condition: 'npcDelete' })
+    npc.SaveController.delete()
   }
 
   copyNpc(npc: Npc) {

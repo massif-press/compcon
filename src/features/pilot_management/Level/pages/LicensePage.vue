@@ -1,6 +1,6 @@
 <template>
   <cc-stepper-content
-    :complete="!pilot.IsMissingLicenses"
+    :complete="!pilot.LicenseController.IsMissingLicenses"
     :exit="`/pilot/${pilot.ID}`"
     back
     @back="$emit('back')"

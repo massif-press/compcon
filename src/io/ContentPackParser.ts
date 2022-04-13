@@ -2,7 +2,6 @@ import JSZip, { JSZipObject } from 'jszip'
 import {
   IMechWeaponData,
   IManufacturerData,
-  IFactionData,
   ICoreBonusData,
   IFrameData,
   IMechSystemData,
@@ -18,8 +17,10 @@ import {
   ICompendiumItemData,
 } from '@/interface'
 import { IActionData } from '@/classes/Action'
+import { IBackgroundData } from '@/classes/Background'
+import { IReserveData } from '@/classes/pilot/components'
 
-const isValidManifest = function(obj: any): obj is IContentPackManifest {
+const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
     'name' in obj &&
     typeof obj.name === 'string' &&
@@ -30,14 +31,14 @@ const isValidManifest = function(obj: any): obj is IContentPackManifest {
   )
 }
 
-const readZipJSON = async function<T>(zip: JSZip, filename: string): Promise<T | null> {
+const readZipJSON = async function <T>(zip: JSZip, filename: string): Promise<T | null> {
   const file: JSZipObject | null = zip.file(filename)
   if (!file) return null
   const text = await file.async('text')
   return JSON.parse(text)
 }
 
-const getPackID = async function(manifest: IContentPackManifest): Promise<string> {
+const getPackID = async function (manifest: IContentPackManifest): Promise<string> {
   const enc = new TextEncoder()
   const signature = `${manifest.author}/${manifest.name}`
   const hash = await crypto.subtle.digest('SHA-1', enc.encode(signature))
@@ -56,7 +57,7 @@ async function getZipData<T>(zip: JSZip, filename: string): Promise<T[]> {
   return readResult || []
 }
 
-const parseContentPack = async function(binString: string): Promise<IContentPack> {
+const parseContentPack = async function (binString: string): Promise<IContentPack> {
   const zip = await JSZip.loadAsync(binString)
 
   const manifest = await readZipJSON<IContentPackManifest>(zip, 'lcp_manifest.json')
@@ -76,8 +77,7 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
   }
 
   const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json')
-  const factions = await getZipData<IFactionData>(zip, 'factions.json')
-  const backgrounds = await getZipData<IFactionData>(zip, 'backgrounds.json')
+  const backgrounds = await getZipData<IBackgroundData>(zip, 'backgrounds.json')
   const coreBonuses = generateIDs(await getZipData<ICoreBonusData>(zip, 'core_bonuses.json'), 'cb')
   const frames = generateIDs(await getZipData<IFrameData>(zip, 'frames.json'), 'mf')
   const weapons = generateIDs(await getZipData<IMechWeaponData>(zip, 'weapons.json'), 'mw')
@@ -96,6 +96,8 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
   const environments = (await readZipJSON<Environment[]>(zip, 'environments.json')) || []
   const sitreps = (await readZipJSON<Sitrep[]>(zip, 'sitreps.json')) || []
   const tables = (await readZipJSON<any[]>(zip, 'tables.json')) || []
+  const bonds = (await readZipJSON<any[]>(zip, 'bonds.json')) || []
+  const reserves = (await readZipJSON<IReserveData[]>(zip, 'reserves.json')) || []
 
   const id = await getPackID(manifest)
 
@@ -105,7 +107,6 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
     manifest,
     data: {
       manufacturers,
-      factions,
       backgrounds,
       coreBonuses,
       frames,
@@ -123,6 +124,8 @@ const parseContentPack = async function(binString: string): Promise<IContentPack
       environments,
       sitreps,
       tables,
+      bonds,
+      reserves,
     },
   }
 }
