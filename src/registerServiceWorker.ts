@@ -1,7 +1,18 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
-const forceVersBump = 1
+const forceVersBump = 2
+
+navigator.serviceWorker
+  .getRegistration()
+  .then(serviceWorker => {
+    if (serviceWorker) {
+      serviceWorker.unregister()
+    }
+  })
+  .catch(error => {
+    console.error('There was an error: ', error)
+  })
 
 if (process.env.VUE_APP_NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {

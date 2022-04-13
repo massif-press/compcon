@@ -48,7 +48,7 @@ export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 export const DELETE_PILOT_PERMANENT = 'DELETE_PILOT_PERMANENT'
 export const SET_MISSING_PILOTS = 'SET_MISSING_PILOTS'
-export const DELETE_MISSING = 'DELETE_MISSING'
+export const DELETE_MISSING_PILOT = 'DELETE_MISSING_PILOT'
 
 @Module({
   name: 'management',
@@ -154,7 +154,7 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [DELETE_MISSING](payload: any): void {
+  private [DELETE_MISSING_PILOT](payload: any): void {
     const idx = this.MissingPilots.findIndex(x => x.id === payload.id)
     if (idx > -1) {
       this.MissingPilots.splice(idx, 1)
@@ -305,8 +305,8 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Action
-  public deleteMissing(payload: any): void {
-    this.context.commit(DELETE_MISSING, payload)
+  public deleteMissingPilot(payload: any): void {
+    this.context.commit(DELETE_MISSING_PILOT, payload)
   }
 
   @Action
