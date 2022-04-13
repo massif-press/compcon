@@ -9,11 +9,8 @@ if (navigator && navigator.serviceWorker) {
     .getRegistration()
     .then(serviceWorker => {
       if (serviceWorker) {
-        console.log(caches)
         caches.keys().then(cacheNames => {
           for (let name of cacheNames) {
-            console.log('minor test')
-            console.log('clearing cache:', name)
             if (name !== 'images') caches.delete(name)
           }
         })
