@@ -3,7 +3,6 @@ import uuid from 'uuid/v4'
 
 import {
   Manufacturer,
-  Faction,
   CoreBonus,
   Frame,
   MechWeapon,
@@ -23,11 +22,11 @@ import {
   NpcTrait,
   NpcSystem,
   NpcTech,
+  Reserve,
 } from '@/class'
 import * as PlayerAction from '@/classes/Action'
 import {
   IManufacturerData,
-  IFactionData,
   ICoreBonusData,
   IFrameData,
   IMechWeaponData,
@@ -48,6 +47,8 @@ import {
 } from '@/interface'
 import { Action } from './Action'
 import { Background, IBackgroundData } from './Background'
+import { Bond, IBondData } from './pilot/components/bond/Bond'
+import { IReserveData } from './pilot/components'
 
 export interface IContentPackManifest {
   name: string
@@ -60,7 +61,6 @@ export interface IContentPackManifest {
 }
 interface IContentPackData {
   manufacturers: IManufacturerData[]
-  factions: IFactionData[]
   backgrounds: IBackgroundData[]
   coreBonuses: ICoreBonusData[]
   frames: IFrameData[]
@@ -70,10 +70,13 @@ interface IContentPackData {
   pilotGear: IPilotEquipmentData[]
   talents: ITalentData[]
   tags: ITagCompendiumData[]
+  reserves: IReserveData[]
 
   npcClasses: INpcClassData[]
   npcFeatures: INpcFeatureData[]
   npcTemplates: INpcTemplateData[]
+
+  bonds: IBondData[]
 
   actions: PlayerAction.IActionData[]
 
@@ -124,10 +127,6 @@ export class ContentPack {
   public get Manufacturers(): Manufacturer[] {
     this._Manufacturers.forEach(x => (x.IsHidden = !this.Active))
     return this._Manufacturers
-  }
-  private _Factions: Faction[] = []
-  public get Factions(): Faction[] {
-    return this._Factions
   }
 
   private _Backgrounds: Background[] = []
@@ -223,6 +222,16 @@ export class ContentPack {
     return this._Tables
   }
 
+  private _Bonds: any = []
+  public get Bonds(): any {
+    return this._Bonds
+  }
+
+  private _Reserves: any = []
+  public get Reserves(): any {
+    return this._Reserves
+  }
+
   private _active: boolean
   public get Active(): boolean {
     return this._active
@@ -239,21 +248,20 @@ export class ContentPack {
 
     self._active = active
     self._manifest = manifest
-    self._data = mapValues(data, (items: any) => items.map(item => ({ ...item, brew: id })))
+    self._data = data
+    Object.keys(self._data).forEach(key => self._data[key].forEach(item => (item.brew = id)))
     self._id = id
+
     self._Tags = self._data.tags?.map(x => new Tag(x)) || []
 
-    self._Manufacturers = self._data.manufacturers?.map(x => {
-      const m = new Manufacturer(x)
-      m.setCorsSafe()
-      return m
-    }) || []
-    self._Factions = self._data.factions?.map(x => {
-      const f = new Faction(x)
-      f.setCorsSafe()
-      return f
-    }) || []
-    self._Backgrounds = self._data.backgrounds?.map(x => new Background(x, self._manifest.name)) || []
+    self._Manufacturers =
+      self._data.manufacturers?.map(x => {
+        const m = new Manufacturer(x)
+        m.setCorsSafe()
+        return m
+      }) || []
+    self._Backgrounds =
+      self._data.backgrounds?.map(x => new Background(x, self._manifest.name)) || []
     self._CoreBonuses =
       self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags, self._manifest.name)) || []
     self._Frames =
@@ -265,25 +273,30 @@ export class ContentPack {
     self._WeaponMods =
       self._data.mods?.map(x => new WeaponMod(x, self._data.tags, self._manifest.name)) || []
     self._PilotGear =
-      self._data.pilotGear?.map(function(x) {
+      self._data.pilotGear?.map(function (x) {
         if (x.type.toLowerCase() === 'weapon')
           return new PilotWeapon(x as IPilotWeaponData, self._data.tags, self._manifest.name)
         else if (x.type.toLowerCase() === 'armor')
           return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name)
         return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name)
       }) || []
-    self._Talents = self._data.talents?.map(x => new Talent(x, self._data.tags, self._manifest.name)) || []
+    self._Talents =
+      self._data.talents?.map(x => new Talent(x, self._data.tags, self._manifest.name)) || []
 
     self._NpcFeatures =
-      self._data.npcFeatures?.map(function(x) {
-        if (x.type.toLowerCase() === 'weapon') return new NpcWeapon(x as INpcWeaponData,self._manifest.name)
-        else if (x.type.toLowerCase() === 'reaction') return new NpcReaction(x as INpcReactionData,self._manifest.name)
-        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x,self._manifest.name)
-        else if (x.type.toLowerCase() === 'system') return new NpcSystem(x as INpcSystemData,self._manifest.name)
-        return new NpcTech(x as INpcTechData,self._manifest.name)
+      self._data.npcFeatures?.map(function (x) {
+        if (x.type.toLowerCase() === 'weapon')
+          return new NpcWeapon(x as INpcWeaponData, self._manifest.name)
+        else if (x.type.toLowerCase() === 'reaction')
+          return new NpcReaction(x as INpcReactionData, self._manifest.name)
+        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x, self._manifest.name)
+        else if (x.type.toLowerCase() === 'system')
+          return new NpcSystem(x as INpcSystemData, self._manifest.name)
+        return new NpcTech(x as INpcTechData, self._manifest.name)
       }) || []
-    self._NpcClasses = self._data.npcClasses?.map(x => new NpcClass(x,self._manifest.name)) || []
-    self._NpcTemplates = self._data.npcTemplates?.map(x => new NpcTemplate(x,self._manifest.name)) || []
+    self._NpcClasses = self._data.npcClasses?.map(x => new NpcClass(x, self._manifest.name)) || []
+    self._NpcTemplates =
+      self._data.npcTemplates?.map(x => new NpcTemplate(x, self._manifest.name)) || []
 
     self._PlayerActions = self._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
@@ -294,6 +307,10 @@ export class ContentPack {
     self._Sitreps = self._data.sitreps || []
 
     self._Tables = self._data.tables || {}
+
+    self._Bonds = self._data.bonds?.map(x => new Bond(x, self._manifest.name)) || []
+
+    self._Reserves = self._data.reserves?.map(x => new Reserve(x, self._manifest.name)) || []
   }
 
   public Serialize(): IContentPack {

@@ -1,8 +1,7 @@
-import { IReserveData } from './classes/pilot/reserves/Reserve'
-import { ISkillData } from './classes/pilot/Skill'
+import { IReserveData } from './classes/pilot/components/reserves/Reserve'
+import { ISkillData } from './classes/pilot/components/skill/Skill'
 import {
   IManufacturerData,
-  IFactionData,
   ICoreBonusData,
   IFrameData,
   IMechWeaponData,
@@ -21,6 +20,9 @@ import {
   INpcTemplateData,
   ITagCompendiumData,
   IPilotEquipmentData,
+  Environment,
+  Sitrep,
+  Status,
 } from './interface'
 
 type IFrameData_Fixed = Omit<IFrameData, 'license' | 'license_level'>
@@ -29,7 +31,6 @@ type NoBrew<T> = Omit<T, 'brew' | 'id'>
 
 export type SCHEMA__manifest = IContentPackManifest
 export type SCHEMA__manufacturers = Omit<IManufacturerData, 'logo'>[]
-export type SCHEMA__factions = Omit<IFactionData, 'logo'>[]
 export type SCHEMA__environments = NoBrew<Environment>[]
 export type SCHEMA__core_bonus = NoBrew<ICoreBonusData>[]
 export type SCHEMA__frames = NoBrew<IFrameData_Fixed>[]

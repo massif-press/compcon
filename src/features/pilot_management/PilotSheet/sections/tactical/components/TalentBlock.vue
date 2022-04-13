@@ -4,10 +4,10 @@
       <v-col cols="auto">
         <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
           <section-edit-chip
-            :highlight="!pilot.HasFullTalents"
-            :current="pilot.CurrentTalentPoints"
-            :max="pilot.MaxTalentPoints"
-            :label="`Edit Pilot Talents (${pilot.CurrentTalentPoints}/${pilot.MaxTalentPoints})`"
+            :highlight="!pilot.TalentsController.HasFullTalents"
+            :current="pilot.TalentsController.CurrentTalentPoints"
+            :max="pilot.TalentsController.MaxTalentPoints"
+            :label="`Edit Pilot Talents (${pilot.TalentsController.CurrentTalentPoints}/${pilot.TalentsController.MaxTalentPoints})`"
             @open-selector="$refs.talentSelector.show()"
           />
           Talents
@@ -23,10 +23,10 @@
     </v-row>
 
     <v-container class="px-0">
-      <no-data-block v-if="!pilot.Talents.length" />
+      <no-data-block v-if="!pilot.TalentsController.Talents.length" />
       <v-row v-else dense justify="center">
         <cc-talent
-          v-for="(t, i) in pilot.Talents"
+          v-for="(t, i) in pilot.TalentsController.Talents"
           :key="`t_${i}`"
           hide-locked
           :talent="t.Talent"

@@ -16,7 +16,10 @@
                 <div v-if="s.Name">
                   <span class="heading h3">{{ s.Name }}</span>
                   <v-divider />
-                  <div>PR: {{ s.Power }} // COMBATANTS: {{ s.Npcs('Enemy').length }}</div>
+                  <div>
+                    COMBATANTS:
+                    {{ s.Npcs('Enemy').length }}
+                  </div>
                   <div>ENV: {{ s.Environment }}</div>
                   <div>SITREP: {{ s.Sitrep.name }}</div>
                 </div>
@@ -28,9 +31,11 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-divider class="my-2 " />
+        <v-divider class="my-2" />
         <fieldset style="border-radius: 5px" class="px-3">
-          <legend><span class="px-2 heading h3 accent--text">PILOTS</span></legend>
+          <legend>
+            <span class="px-2 heading h3 accent--text">PILOTS</span>
+          </legend>
           <v-card v-if="!pilots.length" color="panel" flat tile>
             <v-card-text class="text-center subtle--text text--darken-2">
               <span class="heading h3">// WARNING: NO ASSIGNED PILOTS //</span>
@@ -49,7 +54,8 @@
                   <span class="heading h3 accent--text">{{ p.ActiveMech.Name }}</span>
                   <cc-slashes />
                   <span class="flavor-text">
-                    {{ p.ActiveMech.Frame.Source }} {{ p.ActiveMech.Frame.Name }}
+                    {{ p.ActiveMech.Frame.Source }}
+                    {{ p.ActiveMech.Frame.Name }}
                   </span>
                 </v-col>
                 <v-col cols="auto" class="ml-auto mr-2">
@@ -67,39 +73,9 @@
             </v-btn>
           </div>
         </fieldset>
-        <div v-if="pilots.length">
-          <cc-tooltip
-            title="Power Rating"
-            content="The Power Rating is an attempt to calculate the relative strength of an NPC (or encounters’ worth of NPCs) based on tier and applied templates, compared to mission’s Pilot and their current level. It should, generally, produce results more or less in line with the Balancing Combat section on pp. 283 of the LANCER Core Book.<br> That said, this is an experimental feature that is still very heavily in development, and does not (yet) always produce reliable results. Moreover, this tool doesn’t consider NPC or player team composition, synergies, strengths, and weaknesses. Nor does this tool consider map layout, mission objectives, or reinforcement schedules.<br>While we will continue to work on this tool to produce more accurate, actionable results, please use it only as a general indicator of relative NPC strength."
-          >
-            <div class="overline mt-2 mb-n4">//POWER RATING</div>
-            <v-row dense class="flavor-text text-center">
-              <v-col>
-                TOTAL PILOT:
-                <span class="heading h3">{{ pilotPower }}</span>
-              </v-col>
-              <v-col>
-                AVERAGE ENCOUNTER:
-                <span class="heading h3">{{ avgPower }}</span>
-              </v-col>
-              <v-col>
-                MAXIMUM ENCOUNTER:
-                <span class="heading h3">{{ maxPower }}</span>
-              </v-col>
-            </v-row>
-            <v-row dense class="heading h3 text-center">
-              <v-col>
-                CALCULATED MISSION RATING:
-                <span :class="`${diffColor}--text`">{{ difficulty }}</span>
-              </v-col>
-            </v-row>
-          </cc-tooltip>
-        </div>
         <v-row justify="center">
           <v-col cols="10">
-            <v-btn x-large block color="primary" @click="startMission()">
-              start
-            </v-btn>
+            <v-btn x-large block color="primary" @click="startMission()">start</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -134,34 +110,6 @@ export default Vue.extend({
       const store = getModule(MissionStore, this.$store)
       return store.Missions.find(x => x.ID === this.id)
     },
-    pilotPower() {
-      return this.pilots
-        .reduce((a, b) => +a + +b.Power, 0)
-        .toString()
-        .padStart(4, '0')
-    },
-    avgPower() {
-      return this.mission.averagePower.toString().padStart(4, '0')
-    },
-    maxPower() {
-      return this.mission.maxPower.toString().padStart(4, '0')
-    },
-    difficulty() {
-      const diff = this.maxPower - this.pilotPower
-      if (diff < -600) return 'Trivial'
-      if (diff < -300) return 'Easy'
-      if (diff > -300 && diff < 300) return 'Balanced'
-      if (diff < 600) return 'Difficult'
-      return 'Impossible'
-    },
-    diffColor() {
-      const diff = this.maxPower - this.pilotPower
-      if (diff < -600) return 'green'
-      if (diff < -300) return 'teal'
-      if (diff > -300 && diff < 300) return 'indigo'
-      if (diff < 600) return 'deep-orange'
-      return 'error'
-    },
   },
   methods: {
     addPilot(pilot: Pilot) {
@@ -176,7 +124,6 @@ export default Vue.extend({
       const m = new ActiveMission(this.mission, this.pilots)
       const store = getModule(MissionStore, this.$store)
       store.addActiveMission(m)
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'missionStart' })
       this.$router.push({ name: 'mission-runner', params: { id: m.ID } })
     },
   },

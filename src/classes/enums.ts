@@ -57,7 +57,7 @@ enum WeaponType {
   CQB = 'CQB',
   Nexus = 'Nexus',
   Melee = 'Melee',
-  All = '???'
+  All = '???',
 }
 
 enum ItemType {
@@ -158,6 +158,19 @@ enum EncounterSide {
   Neutral = 'Neutral',
 }
 
+enum ImageTag {
+  Pilot = 'pilot',
+  NPC = 'npc',
+  Enemy = 'enemy',
+  Frame = 'frame',
+  Mech = 'mech',
+  Map = 'map',
+  Location = 'location',
+  Object = 'object',
+  Logo = 'logo',
+  Misc = 'misc',
+}
+
 export {
   Duration,
   ActivationType,
@@ -175,4 +188,5 @@ export {
   ReserveType,
   OrgType,
   EncounterSide,
+  ImageTag,
 }

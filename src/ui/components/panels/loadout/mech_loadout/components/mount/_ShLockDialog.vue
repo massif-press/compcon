@@ -64,7 +64,7 @@ export default Vue.extend({
     availableMounts: [],
   }),
   mounted() {
-    const candidates = this.mech.ActiveLoadout.AllEquippableMounts(
+    const candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
       this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
       false
     ) as EquippableMount[]

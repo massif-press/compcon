@@ -56,7 +56,7 @@
           <span :class="small ? 'h3' : 'h2'">{{ item.SP }}</span>
           <span class="h3">SP</span>
         </div>
-        <div v-if="!readonly" class="d-inline pl-3 ml-3" style=" border-left: 1px solid #616161;">
+        <div v-if="!readonly" class="d-inline pl-3 ml-3" style="border-left: 1px solid #616161">
           <v-icon
             v-if="item"
             dark
@@ -82,7 +82,7 @@
           tile
           color="error"
           class="text-center white--text stat-text"
-          style="letter-spacing: 3px;"
+          style="letter-spacing: 3px"
         >
           / / AI IN CASCADE / /
         </v-alert>
@@ -154,19 +154,19 @@ export default Vue.extend({
   },
   methods: {
     equipExtra(sys: MechSystem) {
-      this.mech.ActiveLoadout.AddSystem(sys)
+      this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys)
       this.$refs.selectorDialog.hide()
     },
     equip(sys: MechSystem) {
       if (this.item) {
-        this.mech.ActiveLoadout.ChangeSystem(this.index, sys)
+        this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(this.index, sys)
       } else {
-        this.mech.ActiveLoadout.AddSystem(sys)
+        this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys)
       }
       this.$refs.base.$refs.selectorDialog.hide()
     },
     remove(sys: MechSystem) {
-      this.mech.ActiveLoadout.RemoveSystem(sys)
+      this.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys)
     },
   },
 })

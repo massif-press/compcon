@@ -110,10 +110,13 @@
                 </v-col>
               </v-row>
 
-              <div>
+              <div class="py-1">
                 <div v-if="item.ProfileEffect" class="py-1">
                   <div class="mb-n2">
-                    <p v-html-safe="item.ProfileEffect" class="text--text body-text mb-1 mx-3" />
+                    <p
+                      v-html-safe="item.ProfileEffect"
+                      class="text--text body-text mb-1 mx-3 pb-2"
+                    />
                   </div>
                 </div>
                 <div v-if="item.ProfileOnAttack">
@@ -263,7 +266,7 @@ export default Vue.extend({
     },
     armoryLevel() {
       if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0
-      const tal = this.mech.Pilot.Talents.find(
+      const tal = this.mech.pilot.TalentsController.Talents.find(
         (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
       )
       if (!tal) return 0

@@ -89,7 +89,6 @@ export default Vue.extend({
   },
   methods: {
     use(free) {
-      console.log(free)
       // this.mech.Pilot.State.CommitAction(this.action, free)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this

@@ -2,7 +2,7 @@
   <div>
     <v-row dense>
       <v-col cols="12" class="mt-2">
-        <span class="overline">{{ mech.ActiveLoadout.Name }} Loadout</span>
+        <span class="overline">{{ mech.MechLoadoutController.ActiveLoadout.Name }} Loadout</span>
         <v-btn small right icon class="fadeSelect" @click="showLoadout = !showLoadout">
           <v-icon small v-html="showLoadout ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>

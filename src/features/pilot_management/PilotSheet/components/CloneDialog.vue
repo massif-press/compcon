@@ -93,8 +93,9 @@ export default Vue.extend({
     },
     clonePilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot))
+      newPilot.GroupController.reset()
+      newPilot.CloudController.reset()
       newPilot.RenewID()
-      newPilot.IsLocallyOwned = true
       if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※'
       if (!this.pilot.Callsign.includes('※')) this.pilot.Name += '※'
       this.pilot.Heal()
@@ -102,20 +103,23 @@ export default Vue.extend({
       for (const mech of newPilot.Mechs) {
         mech.RenewID()
       }
-      this.$store.dispatch('addPilot', { pilot: newPilot, update: true })
+      newPilot.GroupController.SortIndex = -1
+      this.$store.dispatch('addPilot', newPilot)
       this.hide()
     },
     copyPilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot))
+      newPilot.GroupController.reset()
+      newPilot.CloudController.reset()
       newPilot.RenewID()
-      newPilot.IsLocallyOwned = true
       newPilot.Callsign += '″'
       newPilot.Name += ' (COPY)'
       newPilot.Status = 'ACTIVE'
       for (const mech of newPilot.Mechs) {
         mech.RenewID()
       }
-      this.$store.dispatch('addPilot', { pilot: newPilot, update: true })
+      newPilot.GroupController.SortIndex = -1
+      this.$store.dispatch('addPilot', newPilot)
       this.hide()
     },
   },

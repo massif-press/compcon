@@ -4,7 +4,7 @@
       <legend :style="`color: ${color}`" class="heading h3">Systems</legend>
       <v-row dense :class="$vuetify.breakpoint.mdAndUp ? 'mx-2' : 'my-2'">
         <active-system-card
-          v-for="(s, i) in mech.ActiveLoadout.IntegratedSystems"
+          v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
           :key="`${s.ID}-${i}-intg`"
           :mech="mech"
           :item="s"
@@ -26,7 +26,7 @@
         </v-col>
 
         <active-system-card
-          v-for="(s, i) in mech.ActiveLoadout.Systems"
+          v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
           :key="`${s.ID}-${i}`"
           :mech="mech"
           :item="s"
@@ -66,7 +66,7 @@ export default Vue.extend({
   },
   computed: {
     moddedWeapons() {
-      return this.mech.ActiveLoadout.Weapons.filter(x => x.Mod)
+      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
     },
   },
 })

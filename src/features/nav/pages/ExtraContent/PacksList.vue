@@ -1,5 +1,5 @@
 <template>
-  <div class="packsList" style="min-height: 300px;">
+  <div class="packsList">
     <v-data-table
       hide-default-footer
       disable-pagination
@@ -34,9 +34,7 @@
         <v-menu offset-y offset-x top nudge-left="30px">
           <template v-slot:activator="{ on }">
             <v-btn icon color="primary" class="fadeSelect" v-on="on">
-              <v-icon>
-                delete
-              </v-icon>
+              <v-icon>delete</v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -66,9 +64,7 @@
                 <span v-if="item.Description">
                   {{ item.Description }}
                 </span>
-                <span v-else>
-                  No description given.
-                </span>
+                <span v-else>No description given.</span>
               </p>
 
               <div v-if="item.Website" class="mt-2">
@@ -93,7 +89,7 @@
 import Vue from 'vue'
 import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store'
 
 import { ContentPack } from '@/class'
 
@@ -107,14 +103,29 @@ export default class PacksList extends Vue {
       packID,
       active,
     })
+    await this.reload()
   }
 
   public async deletePack(id: string): Promise<void> {
     await this.compendiumStore.deleteContentPack(id)
+    await this.reload()
   }
 
   public get contentPacks(): ContentPack[] {
     return this.compendiumStore.ContentPacks
+  }
+
+  public async reload() {
+    this.$emit('start-load')
+    const pilotStore = getModule(PilotManagementStore, this.$store)
+    const npcStore = getModule(NpcStore, this.$store)
+    const missing = { pilots: [], npcs: [] }
+    await pilotStore.loadPilots()
+    missing.pilots = pilotStore.MissingPilots
+    await npcStore.loadNpcs()
+    missing.npcs = npcStore.MissingNpcs
+    await this.compendiumStore.setMissingContent(missing)
+    this.$emit('end-load')
   }
 
   public headers = [

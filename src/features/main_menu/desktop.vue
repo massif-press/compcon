@@ -35,6 +35,14 @@
           @clicked="$refs.contentModal.show()"
         >
           Content Manager
+          <cc-tooltip
+            v-if="missingContent"
+            inline
+            title="Unloadble Content Detected"
+            content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager."
+          >
+            <v-avatar color="white"><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar>
+          </cc-tooltip>
         </main-btn>
       </v-row>
     </v-container>
@@ -201,7 +209,7 @@ import AboutPage from '../nav/pages/About.vue'
 import CreditsPage from '../nav/pages/Credits.vue'
 import HelpPage from '../nav/pages/Help.vue'
 import OptionsPage from '../nav/pages/Options/index.vue'
-import { UserStore } from '@/store'
+import { UserStore, CompendiumStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
 
 export default Vue.extend({
@@ -224,6 +232,15 @@ export default Vue.extend({
   computed: {
     userstore() {
       return getModule(UserStore, this.$store)
+    },
+    missingContent() {
+      const mc = getModule(CompendiumStore, this.$store).MissingContent
+      let b = false
+      if (!mc || !mc.pilots || !mc.npcs) return b
+      for (const key in mc) {
+        if (mc[key].length) b = true
+      }
+      return b
     },
   },
   methods: {

@@ -4,11 +4,14 @@
       <v-col cols="12" md="5" class="ml-auto mr-auto">
         <v-alert
           :value="true"
-          :type="pilot.IsMissingHASE ? 'info' : 'success'"
+          :type="pilot.MechSkillsController.IsMissingHASE ? 'info' : 'success'"
           outlined
           class="stat-text mt-6"
         >
-          {{ pilot.CurrentHASEPoints }}/{{ pilot.MaxHASEPoints }} Mech Skills selected
+          {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
+            pilot.MechSkillsController.MaxHASEPoints
+          }}
+          Mech Skills selected
         </v-alert>
         <div class="text-center mt-n2">
           <v-btn small class="fadeSelect" color="info" outlined @click="pilot.resetHASE()">
@@ -29,7 +32,7 @@
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
-              :disabled="!pilot.MechSkills.Hull"
+              :disabled="!pilot.MechSkillsController.MechSkills.Hull"
               fab
               x-small
               left
@@ -39,9 +42,12 @@
             >
               <v-icon>remove</v-icon>
             </v-btn>
-            <cc-rating :dense="$vuetify.breakpoint.mdAndDown" :model="pilot.MechSkills.Hull" />
+            <cc-rating
+              :dense="$vuetify.breakpoint.mdAndDown"
+              :model="pilot.MechSkillsController.MechSkills.Hull"
+            />
             <v-btn
-              :disabled="!pilot.IsMissingHASE"
+              :disabled="!pilot.MechSkillsController.IsMissingHASE"
               color="secondary"
               fab
               x-small
@@ -58,12 +64,16 @@
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">
               MECH HP
-              <span class="accent--text">+{{ pilot.MechSkills.Hull * 2 }}</span>
+              <span class="accent--text">
+                +{{ pilot.MechSkillsController.MechSkills.Hull * 2 }}
+              </span>
             </span>
             <cc-slashes class="ml-1 mr-1" />
             <span class="heading h3">
               REPAIR CAPACITY
-              <span class="accent--text">+{{ Math.floor(pilot.MechSkills.Hull / 2) }}</span>
+              <span class="accent--text">
+                +{{ Math.floor(pilot.MechSkillsController.MechSkills.Hull / 2) }}
+              </span>
             </span>
           </v-col>
         </v-row>
@@ -78,7 +88,7 @@
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
-              :disabled="!pilot.MechSkills.Agi"
+              :disabled="!pilot.MechSkillsController.MechSkills.Agi"
               fab
               x-small
               left
@@ -88,9 +98,12 @@
             >
               <v-icon>remove</v-icon>
             </v-btn>
-            <cc-rating :dense="$vuetify.breakpoint.mdAndDown" :model="pilot.MechSkills.Agi" />
+            <cc-rating
+              :dense="$vuetify.breakpoint.mdAndDown"
+              :model="pilot.MechSkillsController.MechSkills.Agi"
+            />
             <v-btn
-              :disabled="!pilot.IsMissingHASE"
+              :disabled="!pilot.MechSkillsController.IsMissingHASE"
               color="secondary"
               class="d-inline elevation-0"
               fab
@@ -107,10 +120,14 @@
         <v-row dense class="mt-n3 mb-6">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">EVASION</span>
-            <span class="heading h3 accent--text">+{{ pilot.MechSkills.Agi }}</span>
+            <span class="heading h3 accent--text">
+              +{{ pilot.MechSkillsController.MechSkills.Agi }}
+            </span>
             <cc-slashes class="ml-1 mr-1" />
             <span class="heading h3">SPEED</span>
-            <span class="heading h3 accent--text">+{{ Math.floor(pilot.MechSkills.Agi / 2) }}</span>
+            <span class="heading h3 accent--text">
+              +{{ Math.floor(pilot.MechSkillsController.MechSkills.Agi / 2) }}
+            </span>
           </v-col>
         </v-row>
       </v-col>
@@ -125,7 +142,7 @@
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
-              :disabled="!pilot.MechSkills.Sys"
+              :disabled="!pilot.MechSkillsController.MechSkills.Sys"
               fab
               x-small
               left
@@ -135,11 +152,14 @@
             >
               <v-icon>remove</v-icon>
             </v-btn>
-            <cc-rating :dense="$vuetify.breakpoint.mdAndDown" :model="pilot.MechSkills.Sys" />
+            <cc-rating
+              :dense="$vuetify.breakpoint.mdAndDown"
+              :model="pilot.MechSkillsController.MechSkills.Sys"
+            />
             <v-btn
               class="d-inline elevation-0"
               color="secondary"
-              :disabled="!pilot.IsMissingHASE"
+              :disabled="!pilot.MechSkillsController.IsMissingHASE"
               fab
               x-small
               right
@@ -154,13 +174,19 @@
         <v-row dense class="mt-n3 mb-6">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">ELECTRONIC DEFENSE</span>
-            <span class="heading h3 accent--text">+{{ pilot.MechSkills.Sys }}</span>
+            <span class="heading h3 accent--text">
+              +{{ pilot.MechSkillsController.MechSkills.Sys }}
+            </span>
             <cc-slashes class="ml-1 mr-1" />
             <span class="heading h3">TECH ATTACK</span>
-            <span class="heading h3 accent--text">+{{ pilot.MechSkills.Sys }}</span>
+            <span class="heading h3 accent--text">
+              +{{ pilot.MechSkillsController.MechSkills.Sys }}
+            </span>
             <cc-slashes class="ml-1 mr-1" />
             <span class="heading h3">SP</span>
-            <span class="heading h3 accent--text">+{{ Math.floor(pilot.MechSkills.Sys / 2) }}</span>
+            <span class="heading h3 accent--text">
+              +{{ Math.floor(pilot.MechSkillsController.MechSkills.Sys / 2) }}
+            </span>
           </v-col>
         </v-row>
       </v-col>
@@ -175,7 +201,7 @@
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
-              :disabled="!pilot.MechSkills.Eng"
+              :disabled="!pilot.MechSkillsController.MechSkills.Eng"
               fab
               x-small
               left
@@ -185,11 +211,14 @@
             >
               <v-icon>remove</v-icon>
             </v-btn>
-            <cc-rating :dense="$vuetify.breakpoint.mdAndDown" :model="pilot.MechSkills.Eng" />
+            <cc-rating
+              :dense="$vuetify.breakpoint.mdAndDown"
+              :model="pilot.MechSkillsController.MechSkills.Eng"
+            />
             <v-btn
               class="d-inline elevation-0"
               color="secondary"
-              :disabled="!pilot.IsMissingHASE"
+              :disabled="!pilot.MechSkillsController.IsMissingHASE"
               fab
               x-small
               right
@@ -204,12 +233,16 @@
         <v-row dense class="mt-n3 mb-6">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">HEAT CAPACITY</span>
-            <span class="heading h3 accent--text">+{{ pilot.MechSkills.Eng }}</span>
+            <span class="heading h3 accent--text">
+              +{{ pilot.MechSkillsController.MechSkills.Eng }}
+            </span>
 
             <cc-slashes class="ml-1 mr-1" />
 
             <span class="heading h3">LIMITED SYSTEMS BONUS</span>
-            <span class="heading h3 accent--text">+{{ Math.floor(pilot.MechSkills.Eng / 2) }}</span>
+            <span class="heading h3 accent--text">
+              +{{ Math.floor(pilot.MechSkillsController.MechSkills.Eng / 2) }}
+            </span>
           </v-col>
         </v-row>
       </v-col>
@@ -227,16 +260,16 @@ export default Vue.extend({
     pilot: Pilot,
   },
   watch: {
-    'pilot.IsMissingHASE': function(newVal) {
+    'pilot.MechSkillsController.IsMissingHASE': function (newVal) {
       if (newVal === false) window.scrollTo(0, document.body.scrollHeight)
     },
   },
   methods: {
     add(field: HASE) {
-      this.pilot.MechSkills.Increment(field)
+      this.pilot.MechSkillsController.MechSkills.Increment(field)
     },
     remove(field: HASE) {
-      this.pilot.MechSkills.Decrement(field)
+      this.pilot.MechSkillsController.MechSkills.Decrement(field)
     },
     close() {
       this.$emit('close')

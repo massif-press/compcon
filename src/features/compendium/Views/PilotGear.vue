@@ -31,7 +31,7 @@ import CompendiumBrowser from '../components/CompendiumBrowser.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore, UserStore } from '@/store'
 import { ItemType, PilotArmor, PilotGear } from '@/class'
-import { PilotWeapon } from '@/classes/pilot/PilotWeapon'
+import { PilotWeapon } from '@/class'
 
 @Component({
   components: { CompendiumBrowser },

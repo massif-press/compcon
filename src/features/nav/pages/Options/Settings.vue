@@ -122,6 +122,18 @@
       </v-col>
       <v-col>
         <h3 class="heading accent--text mb-n2">Advanced Options</h3>
+        <v-switch v-model="userSaveStrategy" color="secondary" inset dense hide-details>
+          <span slot="label">
+            Enable Performant Saving
+            <cc-tooltip
+              title="Save Strategy"
+              :content="`COMP/CON tries to write changes to your save data every time a value changes. On some systems this can cause poor app performance. Enabling Performant Saving restricts saving data to page navigation and browser exit events, increasing performance at a cost of save reliablity. This option works best on Chrome browsers.`"
+              inline
+            >
+              <v-icon>mdi-information-outline</v-icon>
+            </cc-tooltip>
+          </span>
+        </v-switch>
         <v-switch v-model="userViewExotics" color="exotic" inset dense hide-details>
           <span slot="label">
             Show Exotic items in the Compendium
@@ -136,21 +148,17 @@
           </span>
         </v-switch>
         <v-switch v-model="userAllowQuickstart" color="exotic" inset dense hide-details>
-          <span slot="label">
-            Enable quick pilot creation and level-up
-          </span>
+          <span slot="label">Enable quick pilot creation and level-up</span>
         </v-switch>
         <h3 class="heading accent--text mt-2">Theme</h3>
-        <v-select
-          v-model="theme"
-          dense
-          outlined
-          :items="themes"
-          item-text="name"
-          @change="setTheme"
-        />
+        <v-select v-model="theme" dense outlined :items="themes" item-text="name" />
       </v-col>
     </v-row>
+
+    <v-divider class="my-4" />
+
+    <h3 class="heading accent--text">Deleted Items (local data only)</h3>
+    <deleted-items />
 
     <v-divider class="my-4" />
 
@@ -172,13 +180,15 @@ import Vue from 'vue'
 import allThemes from '@/ui/style/themes'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
-import { exportAll, importAll, exportV1Pilots, clearAllData } from '@/io/BulkData'
+import { exportAll, importAll, clearAllData } from '@/io/BulkData'
 import { saveFile } from '@/io/Dialog'
+import DeletedItems from './DeletedItems.vue'
+import { SetTheme } from '@/classes/utility/ThemeManager'
 
 export default Vue.extend({
   name: 'options-settings',
+  components: { DeletedItems },
   data: () => ({
-    theme: 'gms',
     themes: [],
     importDialog: false,
     fileValue: null,
@@ -190,19 +200,36 @@ export default Vue.extend({
       return store.UserProfile
     },
     userViewExotics: {
-      get: function() {
+      get: function () {
         return this.user.GetView('showExotics')
       },
-      set: function(newval) {
+      set: function (newval) {
         this.user.SetView('showExotics', newval)
       },
     },
     userAllowQuickstart: {
-      get: function() {
+      get: function () {
         return this.user.GetView('quickstart')
       },
-      set: function(newval) {
+      set: function (newval) {
         this.user.SetView('quickstart', newval)
+      },
+    },
+    userSaveStrategy: {
+      get: function () {
+        return this.user.GetView('savePerformant')
+      },
+      set: function (newval) {
+        this.user.SetView('savePerformant', newval)
+      },
+    },
+    theme: {
+      get: function () {
+        return this.user.Theme
+      },
+      set: function (newval) {
+        this.user.Theme = newval
+        SetTheme(this.theme, this.$vuetify)
       },
     },
     userID() {
@@ -213,31 +240,14 @@ export default Vue.extend({
     },
   },
   created() {
-    this.theme = this.userTheme
     for (const k in allThemes) {
-      if (allThemes.hasOwnProperty(k)) {
-        const e = allThemes[k]
-        this.themes.push({ name: e.name, value: e.id })
-      }
+      const e = allThemes[k]
+      this.themes.push({ name: e.name, value: e.id })
     }
   },
   methods: {
     reload() {
-      location.reload(true)
-    },
-    setTheme() {
-      const profile = getModule(UserStore, this.$store).UserProfile
-      Vue.set(profile, 'Theme', this.theme)
-      const isDark = allThemes[this.theme].type === 'dark'
-
-      if (isDark) {
-        this.$vuetify.theme.themes.dark = allThemes[this.theme].colors
-        this.$vuetify.theme.dark = true
-      } else {
-        this.$vuetify.theme.themes.light = allThemes[this.theme].colors
-        this.$vuetify.theme.dark = false
-      }
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'themeChange' })
+      location.reload()
     },
     showMessage() {
       const store = getModule(UserStore, this.$store)
@@ -260,7 +270,7 @@ export default Vue.extend({
       this.importDialog = false
     },
     async deleteAll() {
-      await clearAllData()
+      await clearAllData(false)
       this.deleteDialog = false
     },
   },

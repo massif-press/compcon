@@ -10,7 +10,6 @@ export interface INpcClassData {
   stats: INpcClassStats
   base_features: string[]
   optional_features: string[]
-  power: number
   brew: string
 }
 
@@ -27,7 +26,6 @@ export class NpcClass {
   private _stats: NpcClassStats
   private _base_features: string[]
   private _optional_features: string[]
-  private _power: number
   private _brew: string
 
   public constructor(data: INpcClassData, packName?: string) {
@@ -36,7 +34,6 @@ export class NpcClass {
     this._role = data.role
     this._info = data.info
     this._stats = new NpcClassStats(data.stats)
-    this._power = data.power
     this._base_features = data.base_features
     this._optional_features = data.optional_features
     this._brew = data.brew || 'CORE'
@@ -50,10 +47,6 @@ export class NpcClass {
 
   public get Name(): string {
     return this._name
-  }
-
-  public get Power(): number {
-    return this._power
   }
 
   public get Role(): string {
@@ -91,5 +84,9 @@ export class NpcClass {
 
   public get ItemType(): string {
     return 'NPC Class'
+  }
+
+  public get Brew(): string {
+    return this._brew
   }
 }

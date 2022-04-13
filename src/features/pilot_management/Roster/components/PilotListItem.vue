@@ -1,5 +1,10 @@
 <template>
-  <div id="pc-wrapper" class="my-1" @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null">
+  <div
+    id="pc-wrapper"
+    v-show="pilot"
+    class="my-1"
+    @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
+  >
     <v-card
       tile
       color="primary"
@@ -23,12 +28,12 @@
         >
           {{ pilot.Callsign }}
           <cc-tooltip
-            v-if="!pilot.IsLocallyOwned"
             inline
-            title="Remote Pilot"
-            content="This pilot is registered to another user, changes made locally will be overwritten by remote changes on sync"
+            v-if="pilot.CloudController.IsRemoteResource"
+            title="Remote Resource"
+            :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account. Remote data cannot be saved to your own cloud account.`"
           >
-            <v-icon right dark small class="fadeSelect">mdi-cloud-check-outline</v-icon>
+            <v-icon dark right>mdi-cloud-braces</v-icon>
           </cc-tooltip>
         </div>
         <edit-menu style="display: inline-block; padding-right: 10px" dense :pilot="pilot" />
@@ -53,10 +58,13 @@
             <b class="success--text">LL: {{ pilot.Level }}</b>
             <cc-slashes v-show="$vuetify.breakpoint.mdAndUp" />
             <span class="text--text">
-              [ H:{{ pilot.MechSkills.Hull }} A:{{ pilot.MechSkills.Agi }} S:{{
-                pilot.MechSkills.Sys
+              [ H:{{ pilot.MechSkillsController.MechSkills.Hull }} A:{{
+                pilot.MechSkillsController.MechSkills.Agi
               }}
-              E:{{ pilot.MechSkills.Eng }} ]
+              S:{{ pilot.MechSkillsController.MechSkills.Sys }} E:{{
+                pilot.MechSkillsController.MechSkills.Eng
+              }}
+              ]
             </span>
           </p>
           <p v-if="pilot.ActiveMech && !mobile" class="flavor-text mb-0 pb-2 mt-n1">

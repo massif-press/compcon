@@ -1,30 +1,33 @@
 <template>
   <v-col>
     <div class="ml-n3">
-      <cc-title small :color="color" class="pl-3 ml-n6">
-        Mech Attributes
-      </cc-title>
+      <cc-title small :color="color" class="pl-3 ml-n6">Mech Attributes</cc-title>
     </div>
     <v-row no-gutters>
       <v-col cols="12" md="1" class="mr-3">
         <v-row no-gutters justify="space-between">
-          <hase-pips :mech="mech" attr="hull" :val="pilot.MechSkills.Hull" :color="color" />
+          <hase-pips
+            :mech="mech"
+            attr="hull"
+            :val="pilot.MechSkillsController.MechSkills.Hull"
+            :color="color"
+          />
           <hase-pips
             :mech="mech"
             :attr="small ? 'agi' : 'agility'"
-            :val="pilot.MechSkills.Agi"
+            :val="pilot.MechSkillsController.MechSkills.Agi"
             :color="color"
           />
           <hase-pips
             :mech="mech"
             :attr="small ? 'sys' : 'systems'"
-            :val="pilot.MechSkills.Sys"
+            :val="pilot.MechSkillsController.MechSkills.Sys"
             :color="color"
           />
           <hase-pips
             :mech="mech"
             :attr="small ? 'eng' : 'engineering'"
-            :val="pilot.MechSkills.Eng"
+            :val="pilot.MechSkillsController.MechSkills.Eng"
             :color="color"
           />
           <v-col cols="auto" md="12">

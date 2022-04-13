@@ -11,6 +11,7 @@ schema_out/
 yarn-error.log
 .idea/
 .env
+.env.local
 
 #amplify
 amplify/\#current-cloud-backend

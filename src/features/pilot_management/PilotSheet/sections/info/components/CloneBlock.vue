@@ -15,9 +15,7 @@
         >
           <v-menu offset-y offset-x>
             <template v-slot:activator="{ on }">
-              <v-btn color="secondary" x-small outlined v-on="on">
-                Flash Clone Pilot
-              </v-btn>
+              <v-btn color="secondary" x-small outlined v-on="on">Flash Clone Pilot</v-btn>
             </template>
             <cc-confirmation
               content="This will clone the selected pilot. Cloned characters can’t join a mission in progress, and cloned characters receive a random quirk. Additional cloning and subjectivity imprinting adds further quirks."
@@ -53,7 +51,7 @@
               class="body-text"
               :readonly="readonly"
               @change="updateQuirk(i, $event)"
-              @blur="pilot.save()"
+              @blur="pilot.SaveController.save()"
             />
           </v-alert>
         </v-col>

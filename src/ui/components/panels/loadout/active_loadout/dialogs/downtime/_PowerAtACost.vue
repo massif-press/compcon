@@ -98,7 +98,7 @@ export default Vue.extend({
         used: false,
       })
       if (this.complication2 !== 'None') nr.ResourceCost += `\n${this.complication2}`
-      this.pilot.AddReserve(nr)
+      this.pilot.ReservesController.AddReserve(nr)
       this.close()
     },
     close() {

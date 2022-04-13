@@ -52,45 +52,61 @@ export default Vue.extend({
       const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
+    theme(): string {
+      return this.profile.Theme
+    },
+  },
+  watch: {
+    theme(newval, oldval) {
+      if (newval !== oldval) this.restart()
+    },
   },
   async mounted() {
     this.lock = true
-    await Vue.nextTick()
-    this.typer = new TypeIt(this.$refs.output, {
-      speed: 2,
-      nextStringDelay: 5,
-      lifeLike: false,
-      cursor: false,
-      startDelete: false,
-      beforeString: () => {
-        this.$refs.output?.scrollIntoView({ block: 'end' })
-      },
-      afterString: () => {
-        this.$refs.output?.scrollIntoView({ block: 'end' })
-      },
-      afterComplete: () => {
-        if (this.profile.Theme === 'horus') {
-          HorusChat(this.$refs.output)
-        } else {
-          this.lock = false
-        }
-      },
-    })
-
-    switch (this.profile.Theme) {
-      case 'horus':
-        // this.typer.go()
-        HorusStart(this.typer)
-        // HorusChat(this.typer)
-        break
-      case 'msmc':
-        MsmcStart(this.typer)
-      default:
-        GmsStart(this.typer)
-        break
-    }
   },
   methods: {
+    restart() {
+      if (this.typer.hasOwnProperty('destroy')) this.typer.destroy(true)
+      if (this.$refs.completed.innerHTML) this.$refs.completed.innerHTML = ''
+      if (this.$refs.output.innerHTML) this.$refs.output.innerHTML = ''
+      this.start()
+    },
+    async start() {
+      await Vue.nextTick()
+      this.typer = new TypeIt(this.$refs.output, {
+        speed: 2,
+        nextStringDelay: 5,
+        lifeLike: false,
+        cursor: false,
+        startDelete: false,
+        beforeString: () => {
+          this.$refs.output?.scrollIntoView({ block: 'end' })
+        },
+        afterString: () => {
+          this.$refs.output?.scrollIntoView({ block: 'end' })
+        },
+        afterComplete: () => {
+          if (this.profile.Theme === 'horus') {
+            HorusChat(this.$refs.output)
+          } else {
+            this.lock = false
+          }
+        },
+      })
+
+      switch (this.profile.Theme) {
+        case 'horus':
+          // this.typer.go()
+          HorusStart(this.typer)
+          // HorusChat(this.typer)
+          break
+        case 'msmc':
+          MsmcStart(this.typer)
+        default:
+          GmsStart(this.typer)
+          break
+      }
+    },
     print(user: string, response: string) {
       if (this.lock) return
       this.lock = true

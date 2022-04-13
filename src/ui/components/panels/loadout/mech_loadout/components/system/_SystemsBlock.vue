@@ -1,9 +1,7 @@
 <template>
   <v-card flat tile color="transparent">
     <fieldset>
-      <legend :style="`color: ${color}`" class="heading h3">
-        Systems
-      </legend>
+      <legend :style="`color: ${color}`" class="heading h3">Systems</legend>
       <div style="position: relative">
         <div class="side-legend">
           <span
@@ -17,7 +15,7 @@
       </div>
 
       <system-slot-card
-        v-for="(s, i) in mech.ActiveLoadout.IntegratedSystems"
+        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
         :key="`${s.ID}-${i}-intg`"
         :mech="mech"
         :item="s"
@@ -37,7 +35,7 @@
       />
 
       <system-slot-card
-        v-for="(s, i) in mech.ActiveLoadout.Systems"
+        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
         :key="`${s.ID}-${i}`"
         :mech="mech"
         :item="s"
@@ -74,7 +72,7 @@ export default Vue.extend({
   },
   computed: {
     moddedWeapons() {
-      return this.mech.ActiveLoadout.Weapons.filter(x => x.Mod)
+      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
     },
   },
 })

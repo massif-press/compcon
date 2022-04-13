@@ -15,21 +15,18 @@
       <ul class="flavor-text error--text">
         <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
         <li v-if="!pilot.Name">PILOT NAME blank or invalid</li>
-        <li v-if="!pilot.HasFullSkills">PILOT SKILL TRIGGERS incomplete or invalid</li>
-        <li v-if="!pilot.HasFullTalents">PILOT TALENTS incomplete or invalid</li>
-        <li v-if="!pilot.HasFullHASE">PILOT MECH SKILLS incomplete or invalid</li>
-        <li v-if="!pilot.HasLicenses">PILOT LICENSES incomplete or invalid</li>
-        <li v-if="!pilot.HasCBs">PILOT CORE BONUSES incomplete or invalid</li>
+        <li v-if="!pilot.SkillsController.HasFullSkills">
+          PILOT SKILL TRIGGERS incomplete or invalid
+        </li>
+        <li v-if="!pilot.TalentsController.HasFullTalents">PILOT TALENTS incomplete or invalid</li>
+        <li v-if="!pilot.MechSkillsController.HasFullHASE">
+          PILOT MECH SKILLS incomplete or invalid
+        </li>
+        <li v-if="!pilot.LicenseController.HasLicenses">PILOT LICENSES incomplete or invalid</li>
+        <li v-if="!pilot.CoreBonusController.HasCBs">PILOT CORE BONUSES incomplete or invalid</li>
       </ul>
     </v-alert>
-    <v-btn
-      x-large
-      block
-      color="secondary"
-      tile
-      class="mx-2 my-8"
-      @click="savePilot()"
-    >
+    <v-btn x-large block color="secondary" tile class="mx-2 my-8" @click="savePilot()">
       Update Pilot Record // {{ pilot.Callsign }} ({{ pilot.Name }})
     </v-btn>
   </cc-stepper-content>
@@ -57,9 +54,9 @@ export default Vue.extend({
     pilotReady(): boolean {
       return (
         this.pilot.HasIdent &&
-        this.pilot.HasFullSkills &&
-        this.pilot.HasFullTalents &&
-        this.pilot.HasFullHASE
+        this.pilot.SkillsController.HasFullSkills &&
+        this.pilot.TalentsController.HasFullTalents &&
+        this.pilot.MechSkillsController.HasFullHASE
       )
     },
   },
@@ -67,17 +64,16 @@ export default Vue.extend({
     savePilot() {
       this.original.ApplyLevel(Pilot.Serialize(this.pilot))
       this.$router.push({ name: 'pilot_sheet', params: { id: this.pilot.ID } })
-      this.$store.dispatch('cloudSync', { callback: null, condition: 'pilotLevel' })
     },
     canContinue() {
       return (
         this.pilot.Callsign &&
         this.pilot.Name &&
-        this.pilot.HasFullSkills &&
-        this.pilot.HasFullTalents &&
-        this.pilot.HasFullHASE &&
-        this.pilot.HasLicenses &&
-        this.pilot.HasCBs
+        this.pilot.SkillsController.HasFullSkills &&
+        this.pilot.TalentsController.HasFullTalents &&
+        this.pilot.MechSkillsController.HasFullHASE &&
+        this.pilot.LicenseController.HasLicenses &&
+        this.pilot.CoreBonusController.HasCBs
       )
     },
   },
