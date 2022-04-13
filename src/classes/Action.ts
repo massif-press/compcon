@@ -32,6 +32,7 @@ enum ActivePeriod {
   Turn = 'Turn',
   Round = 'Round',
   Scene = 'Scene',
+  Encounter = 'Encounter',
   Mission = 'Mission',
   Unlimited = 'Unlimited',
 }
