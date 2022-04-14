@@ -43,6 +43,7 @@ class BondController {
     this._bondPowers = []
     this._burdens = []
     this._clocks = []
+    this._bond = null
   }
 
   public get Bond(): Bond {
@@ -54,6 +55,10 @@ class BondController {
     this._bond = bond
     this._answers = new Array(bond.Questions.length)
     this.Parent.SaveController.save()
+  }
+
+  public ClearBond() {
+    this._bond = null
   }
 
   public get XP(): number {

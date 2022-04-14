@@ -310,7 +310,7 @@
         </v-row>
       </v-container>
 
-      <bond-power-selector :pilot="pilot" @set="setBond($event)" />
+      <bond-power-selector v-if="hasBond" :key="bid" :pilot="pilot" @set="setBond($event)" />
 
       <cc-solo-dialog ref="choosebond" fullscreen no-confirm title="Select Pilot Bond">
         <bond-selector @set="setBond($event)" />
@@ -343,6 +343,12 @@ export default Vue.extend({
     bonds() {
       return getModule(CompendiumStore, this.$store).Bonds
     },
+    hasBond() {
+      return !!this.pilot.BondController.Bond
+    },
+    bid() {
+      return this.pilot.BondController.Bond ? this.pilot.BondController.Bond.ID : 'none'
+    },
     underlevel() {
       return this.pilot.Level < 1
     },
@@ -350,6 +356,7 @@ export default Vue.extend({
   methods: {
     async setBond(bond) {
       this.$set(this.pilot.BondController, 'Bond', bond)
+      console.log(this.pilot.BondController.Bond)
       await this.$forceUpdate()
       this.$refs.choosebond.hide()
     },

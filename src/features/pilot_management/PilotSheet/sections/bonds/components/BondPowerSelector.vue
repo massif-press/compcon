@@ -1,5 +1,5 @@
 <template>
-  <div v-if="pilot.BondController.Bond">
+  <div>
     <div class="px-12">
       <v-btn block color="primary" @click="dialog = true">Select Bond Powers</v-btn>
       <v-row no-gutters justify="end">
