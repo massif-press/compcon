@@ -2,7 +2,7 @@ import { store } from '../../../../store'
 
 type prompt = {
   question: string
-  answers: string[]
+  options: string[]
 }
 
 type BondPower = {
@@ -41,6 +41,13 @@ class Bond {
     this.Powers = data.powers
     this.LcpName = packName || 'LANCER Core Book'
     this.InLcp = packName ? true : false
+  }
+
+  public RandomOption(qIdx: number): string {
+    if (!this.Questions[qIdx]) return ''
+    return this.Questions[qIdx].options[
+      Math.floor(Math.random() * this.Questions[qIdx].options.length)
+    ]
   }
 
   public static Deserialize(id: string): Bond {

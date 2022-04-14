@@ -264,14 +264,14 @@ export default Vue.extend({
     color() {
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
     },
-    armoryLevel() {
-      if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0
-      const tal = this.mech.pilot.TalentsController.Talents.find(
-        (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
-      )
-      if (!tal) return 0
-      return tal.Rank
-    },
+    // armoryLevel() {
+    //   if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0
+    //   const tal = this.mech.pilot.TalentsController.Talents.find(
+    //     (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
+    //   )
+    //   if (!tal) return 0
+    //   return tal.Rank
+    // },
     getRange() {
       if (!this.item) return []
       return Range.CalculateRange(this.item, this.mech)
