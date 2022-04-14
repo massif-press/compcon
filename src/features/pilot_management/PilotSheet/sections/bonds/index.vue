@@ -356,7 +356,6 @@ export default Vue.extend({
   methods: {
     async setBond(bond) {
       this.$set(this.pilot.BondController, 'Bond', bond)
-      console.log(this.pilot.BondController.Bond)
       await this.$forceUpdate()
       this.$refs.choosebond.hide()
     },
