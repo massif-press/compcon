@@ -46,7 +46,7 @@ import { PilotLoadoutController } from './components/Loadout/PilotLoadoutControl
 import { getModule } from 'vuex-module-decorators'
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
 import { IBrewable } from '../components/brew/IBrewable'
-import { BondController, Burden, IPilotBondData } from './components/bond/BondController'
+import { BondController, IPilotBondData } from './components/bond/BondController'
 import { IClockData } from '../components/clocks/Clock'
 import { BondPower } from './components/bond/Bond'
 
@@ -76,11 +76,14 @@ class PilotData
     IBrewData,
     IPilotBondData
 {
+  bondAnswers: string[]
+  maxStress: number
+  powerSelections: number
   bondId?: string
   xp: number
   stress: number
   isBroken: boolean
-  burdens: Burden[]
+  burdens: IClockData[]
   bondPowers: BondPower[]
   clocks: IClockData[]
   pilotBond: IPilotBondData

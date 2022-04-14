@@ -216,6 +216,7 @@ class UserProfile {
   }
 
   public SetView(view: string, setting: string | boolean): void {
+    console.log('in set view')
     this._viewOptions[view] = setting
     this.save()
   }

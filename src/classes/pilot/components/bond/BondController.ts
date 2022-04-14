@@ -6,25 +6,25 @@ interface IPilotBondData {
   bondId?: string
   xp: number
   stress: number
+  maxStress: number
+  powerSelections: number
   isBroken: boolean
-  burdens: Burden[]
+  burdens: IClockData[]
   bondPowers: BondPower[]
   clocks: IClockData[]
-}
-
-type Burden = {
-  burden: string
-  major: boolean
-  marked: boolean
+  bondAnswers: string[]
 }
 
 class BondController {
   public readonly Parent: Pilot
+  private _powerSelections: number
+  private _maxStress: number
   private _bond: Bond
   private _xp: number
   private _stress: number
   private _isBroken: boolean
-  private _burdens: Burden[]
+  private _answers: string[]
+  private _burdens: Clock[]
   private _bondPowers: BondPower[]
   private _clocks: Clock[]
 
@@ -32,7 +32,10 @@ class BondController {
     this.Parent = parent
     this._xp = 0
     this._stress = 0
+    this._maxStress = 8
+    this._powerSelections = 0
     this._isBroken = false
+    this._answers = []
     this._bondPowers = []
     this._burdens = []
     this._clocks = []
@@ -43,7 +46,9 @@ class BondController {
   }
 
   public set Bond(bond: Bond) {
+    if (!bond) return
     this._bond = bond
+    this._answers = new Array(bond.Questions.length)
     this.Parent.SaveController.save()
   }
 
@@ -52,8 +57,36 @@ class BondController {
   }
 
   public set XP(val: number) {
-    this._xp = val
+    if (val < 0) this._xp = 0
+    else if (val > 8) this._xp = 8
+    else this._xp = val
     this.Parent.SaveController.save()
+  }
+
+  public get Stress(): number {
+    return this._stress
+  }
+
+  public set Stress(val: number) {
+    if (val < 0) this._stress = 0
+    else if (val > this._maxStress) this._stress = this._maxStress
+    else this._stress = val
+    this.Parent.SaveController.save()
+  }
+
+  public get MaxStress(): number {
+    return this._maxStress
+  }
+
+  public set MaxStress(val: number) {
+    if (val < this.Stress) this._maxStress = this.Stress
+    else if (val > 20) this._maxStress = 20
+    else this._maxStress = val
+    this.Parent.SaveController.save()
+  }
+
+  public get AtMaxStress(): boolean {
+    return this.Stress === this.MaxStress
   }
 
   public get IsBroken(): boolean {
@@ -65,13 +98,38 @@ class BondController {
     this.Parent.SaveController.save()
   }
 
-  public get Burdens(): Burden[] {
+  public get Burdens(): Clock[] {
     return this._burdens
   }
 
-  public set Burdens(burdens: Burden[]) {
+  public set Burdens(burdens: Clock[]) {
     this._burdens = burdens
     this.Parent.SaveController.save()
+  }
+
+  public AddNewBurden() {
+    this._stress = 0
+    this._burdens.push(
+      new Clock({
+        title: 'New Burden',
+        segments: 8,
+      })
+    )
+    this.Parent.SaveController.save()
+  }
+
+  public AddClock() {
+    this._clocks.push(
+      new Clock({
+        title: 'New Clock',
+        segments: 6,
+      })
+    )
+    this.Parent.SaveController.save()
+  }
+
+  public get AtMaxBurdens() {
+    return this.Burdens.length === 3
   }
 
   public get BondPowers(): BondPower[] {
@@ -83,6 +141,27 @@ class BondController {
     this.Parent.SaveController.save()
   }
 
+  public get PowerSelections(): number {
+    return this._powerSelections
+  }
+
+  public set PowerSelections(val: number) {
+    this._powerSelections = val
+    this.Parent.SaveController.save()
+  }
+
+  public get TotalPowerSelections(): number {
+    return this.PowerSelections + this.MinPowerSelections - this.BondPowers.length
+  }
+
+  public get MinPowerSelections(): number {
+    const l = this.Parent.Level
+    if (!l) return 0
+    if (l < 5) return 1
+    if (l < 10) return 3
+    return 5
+  }
+
   public get Clocks(): Clock[] {
     return this._clocks
   }
@@ -92,8 +171,20 @@ class BondController {
     this.Parent.SaveController.save()
   }
 
-  public get MajorBurdenCount(): number {
-    return this.Burdens.filter(x => x.major).length
+  public get Answers(): string[] {
+    return this._answers
+  }
+
+  public SetAnswer(answers: string[]) {
+    this._answers = answers
+    this.Parent.SaveController.save()
+  }
+
+  public LevelUp() {
+    if (this.XP < 8) return
+    this._xp = 0
+    this._powerSelections++
+    this.Parent.SaveController.save()
   }
 
   public static Serialize(parent: Pilot, target: any) {
@@ -101,8 +192,11 @@ class BondController {
     target.xp = parent.BondController._xp
     target.stress = parent.BondController._stress
     target.isBroken = parent.BondController._isBroken
-    target.burdens = parent.BondController._burdens
+    target.burdens = parent.BondController._burdens.map(x => Clock.Serialize(x))
     target.bondPowers = parent.BondController._bondPowers
+    target.powerSelections = parent.BondController._powerSelections
+    target.maxStress = parent.BondController._maxStress
+    target.bondAnswers = parent.BondController._answers
     target.clocks = parent.BondController._clocks.map(x => Clock.Serialize(x))
   }
 
@@ -115,11 +209,14 @@ class BondController {
     parent.BondController.Bond = data.bondId ? Bond.Deserialize(data.bondId) : null
     parent.BondController._xp = data.xp || 0
     parent.BondController._stress = data.stress || 0
+    parent.BondController._maxStress = data.maxStress || 8
+    parent.BondController._powerSelections = data.powerSelections || 0
     parent.BondController._isBroken = data.isBroken
     parent.BondController._bondPowers = data.bondPowers || []
-    parent.BondController._burdens = data.burdens || []
+    parent.BondController._burdens = data.burdens.map(x => Clock.Deserialize(x)) || []
     parent.BondController._clocks = data.clocks ? data.clocks.map(x => Clock.Deserialize(x)) : []
+    parent.BondController._answers = data.bondAnswers || []
   }
 }
 
-export { BondController, IPilotBondData, Burden }
+export { BondController, IPilotBondData }
