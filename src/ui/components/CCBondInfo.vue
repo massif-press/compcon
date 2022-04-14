@@ -1,6 +1,7 @@
 <template>
   <cc-titled-panel :title="bond.Name" dense>
     <span slot="items" class="flavor-text white--text" v-html="bond.LcpName" />
+    <slot name="button" />
     <v-row class="text--text">
       <v-col>
         <div class="overline mb-n1 font-weight-bold">MAJOR IDEALS</div>

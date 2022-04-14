@@ -23,7 +23,13 @@
         :key="`${e.ID}_${i}`"
         :bond="e"
         class="my-4"
-      />
+      >
+        <div slot="button" class="px-8">
+          <v-btn color="accent" x-large block class="mt-2 mb-4" @click="$emit('set', e)">
+            <b>Select {{ e.Name }}</b>
+          </v-btn>
+        </div>
+      </cc-bond-info>
     </v-container>
   </cc-sidebar-view>
 </template>
