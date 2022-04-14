@@ -27,14 +27,72 @@
           Select Bond
         </v-btn>
       </div>
-      <v-row v-if="pilot.BondController.Bond" dense class="flavor-text mr-3">
+      <v-row
+        v-if="pilot.BondController.Bond"
+        class="flavor-text mr-3"
+        :style="$vuetify.breakpoint.lgAndUp ? 'width: calc(100vw - 250px)' : ''"
+      >
+        <v-col md="6" sm="12">
+          Major Ideal
+          <v-textarea
+            v-model="pilot.BondController.MajorIdeal"
+            dense
+            hide-details
+            rows="2"
+            filled
+            auto-grow
+          >
+            <v-btn
+              slot="prepend"
+              small
+              icon
+              class="fadeSelect"
+              @click="
+                pilot.BondController.MajorIdeal = pilot.BondController.Bond.RandomIdeal('Major')
+              "
+            >
+              <v-icon>mdi-dice-multiple-outline</v-icon>
+            </v-btn>
+          </v-textarea>
+        </v-col>
+        <v-col md="6" sm="12">
+          Minor Ideal
+          <v-textarea
+            v-model="pilot.BondController.MinorIdeal"
+            dense
+            hide-details
+            rows="2"
+            filled
+            auto-grow
+          >
+            <v-btn
+              slot="prepend"
+              small
+              icon
+              class="fadeSelect"
+              @click="
+                pilot.BondController.MinorIdeal = pilot.BondController.Bond.RandomIdeal('Minor')
+              "
+            >
+              <v-icon>mdi-dice-multiple-outline</v-icon>
+            </v-btn>
+          </v-textarea>
+        </v-col>
         <v-col
-          cols="12"
+          md="6"
+          sm="12"
           v-for="(q, i) in pilot.BondController.Bond.Questions"
           :key="`question_${i}`"
         >
           {{ q.question }}
-          <v-text-field v-model="pilot.BondController.Answers[i]" dense hide-details class="mt-n2">
+          <v-textarea
+            v-model="pilot.BondController.Answers[i]"
+            dense
+            hide-details
+            rows="2"
+            filled
+            auto-grow
+          >
             <v-btn
               slot="prepend"
               small
@@ -46,9 +104,10 @@
             >
               <v-icon>mdi-dice-multiple-outline</v-icon>
             </v-btn>
-          </v-text-field>
+          </v-textarea>
         </v-col>
       </v-row>
+      <v-divider class="mb-3 mt-6" />
       <v-row align="center" justify="space-around" class="mt-2">
         <v-col cols="auto">
           <v-row dense>
@@ -206,6 +265,7 @@
           class="mx-1 my-2"
           color="overcharge"
           @delete="pilot.BondController.Burdens.splice(i, 1)"
+          @change="pilot.SaveController.save()"
         />
       </div>
       <v-row justify="end">
@@ -222,16 +282,35 @@
           class="mx-1 my-2"
           color="overcharge"
           @delete="pilot.BondController.Clocks.splice(i, 1)"
+          @change="pilot.SaveController.save()"
         />
       </div>
-      <v-row justify="end">
+      <v-row class="mt-1 mb-3">
         <v-col cols="auto">
-          <v-btn text x-small class="fadeSelect" @click="pilot.BondController.AddClock()">
+          <v-btn outlined small class="fadeSelect" @click="pilot.BondController.AddClock()">
             Add New Clock
           </v-btn>
         </v-col>
       </v-row>
+
+      <v-divider class="my-3" />
+
       <div class="caption">BOND POWERS</div>
+      <v-container>
+        <v-row justify="center">
+          <v-col
+            v-for="(p, i) in pilot.BondController.BondPowers"
+            :key="`${p.name}_sheet_${i}`"
+            xl="6"
+            lg="6"
+            cols="12"
+          >
+            <cc-bond-power-card :power="p" flex-height />
+          </v-col>
+        </v-row>
+      </v-container>
+
+      <bond-power-selector :pilot="pilot" @set="setBond($event)" />
 
       <cc-solo-dialog ref="choosebond" fullscreen no-confirm title="Select Pilot Bond">
         <bond-selector @set="setBond($event)" />
@@ -243,12 +322,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import BondSelector from './components/BondSelector.vue'
+import BondPowerSelector from './components/BondPowerSelector.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'bonds-view',
-  components: { BondSelector },
+  components: { BondSelector, BondPowerSelector },
   props: {
     pilot: {
       type: Object,

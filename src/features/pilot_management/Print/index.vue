@@ -1,12 +1,21 @@
 <template>
-  <v-card tile flat light class="printable" style="margin-left:auto; margin-right: auto;">
-    <blank-pilot-print v-if="blank" />
-    <pilot-print v-else-if="pilot" :pilot="pilot" />
-    <div style="page-break-before: always;" />
-    <blank-mech-print v-if="blank" />
-    <mech-print v-else-if="mech" :mech="mech" />
+  <v-card tile flat light class="printable" style="margin-left: auto; margin-right: auto">
+    <div v-if="blank">
+      <blank-pilot-print />
+      <div v-if="hasBondData" style="page-break-before: always" />
+      <blank-bonds-print v-if="hasBondData" />
+      <div style="page-break-before: always" />
+      <blank-mech-print />
+    </div>
+    <div v-else>
+      <pilot-print v-if="pilot" :pilot="pilot" />
+      <div v-if="hasBondData" style="page-break-before: always" />
+      <bonds-print v-if="hasBondData && pilot.BondController.Bond" :bc="pilot.BondController" />
+      <div style="page-break-before: always" />
+      <mech-print v-if="mech" :mech="mech" />
+    </div>
     <print-footer />
-    <div class="no-print" style="min-height: 60px!important" />
+    <div class="no-print" style="min-height: 60px !important" />
   </v-card>
 </template>
 
@@ -14,16 +23,26 @@
 import Vue from 'vue'
 import BlankPilotPrint from './BlankPilotPrint.vue'
 import PilotPrint from './PilotPrint.vue'
+import BlankBondsPrint from './BlankBondsPrint.vue'
+import BondsPrint from './BondsPrint.vue'
 import BlankMechPrint from './BlankMechPrint.vue'
 import MechPrint from './MechPrint.vue'
 import PrintFooter from './PrintFooter.vue'
 import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
+import { PilotManagementStore, CompendiumStore } from '@/store'
 import { Pilot } from '@/class'
 
 export default Vue.extend({
   name: 'combined-print',
-  components: { BlankPilotPrint, PilotPrint, BlankMechPrint, MechPrint, PrintFooter },
+  components: {
+    BlankPilotPrint,
+    PilotPrint,
+    BlankBondsPrint,
+    BondsPrint,
+    BlankMechPrint,
+    MechPrint,
+    PrintFooter,
+  },
   props: {
     pilotID: {
       type: String,
@@ -45,7 +64,15 @@ export default Vue.extend({
     this.pilot = getModule(PilotManagementStore, this.$store).Pilots.find(
       p => p.ID === this.pilotID
     )
-    this.mech = !this.mechID ? null : (this.pilot as Pilot).Mechs.find(m => m.ID === this.mechID)
+    this.mech =
+      !this.mechID || this.mechID === 'blank'
+        ? null
+        : (this.pilot as Pilot).Mechs.find(m => m.ID === this.mechID)
+  },
+  computed: {
+    hasBondData() {
+      return getModule(CompendiumStore, this.$store).Bonds.length
+    },
   },
 })
 </script>

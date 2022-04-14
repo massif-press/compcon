@@ -50,6 +50,10 @@ class Bond {
     ]
   }
 
+  public RandomIdeal(selection: 'Major' | 'Minor'): string {
+    return this[`${selection}Ideals`][Math.floor(Math.random() * this[`${selection}Ideals`].length)]
+  }
+
   public static Deserialize(id: string): Bond {
     return store.getters.referenceByID('Bonds', id)
   }

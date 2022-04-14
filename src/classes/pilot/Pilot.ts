@@ -76,6 +76,8 @@ class PilotData
     IBrewData,
     IPilotBondData
 {
+  majorIdeal: string
+  minorIdeal: string
   bondAnswers: string[]
   maxStress: number
   powerSelections: number
