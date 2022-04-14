@@ -29,9 +29,12 @@ class Synergy {
   }
 
   public static Collect(location: string, mech: Mech, item?: CompendiumItem): Synergy[] {
-    let sArr = mech.FeatureController.Synergies.filter(s =>
-      s.Locations.includes(location.toLowerCase())
-    )
+    let sArr = [
+      ...mech.FeatureController.Synergies.filter(s => s.Locations.includes(location.toLowerCase())),
+      ...mech.Parent.FeatureController.Synergies.filter(s =>
+        s.Locations.includes(location.toLowerCase())
+      ),
+    ]
 
     if (!item) return sArr
     if (item.ItemType === ItemType.MechWeapon) {
