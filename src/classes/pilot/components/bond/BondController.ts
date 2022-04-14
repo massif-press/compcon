@@ -251,7 +251,7 @@ class BondController {
     parent.BondController._powerSelections = data.powerSelections || 0
     parent.BondController._isBroken = data.isBroken
     parent.BondController._bondPowers = data.bondPowers || []
-    parent.BondController._burdens = data.burdens.map(x => Clock.Deserialize(x)) || []
+    parent.BondController._burdens = data.burdens ? data.burdens.map(x => Clock.Deserialize(x)) : []
     parent.BondController._clocks = data.clocks ? data.clocks.map(x => Clock.Deserialize(x)) : []
     parent.BondController._answers = data.bondAnswers || []
     parent.BondController._majorIdeal = data.majorIdeal || ''
