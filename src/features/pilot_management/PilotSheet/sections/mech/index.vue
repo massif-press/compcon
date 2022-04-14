@@ -59,11 +59,9 @@
         <img
           :key="mech.Image"
           :src="mech.Portrait"
-          :style="
-            `object-fit: contain; max-height: 200px; width: 100%; image-rendering: ${
-              isPixel ? 'pixelated' : 'crisp-edges'
-            };`
-          "
+          :style="`object-fit: contain; width: 100%; image-rendering: ${
+            isPixel ? 'pixelated' : 'crisp-edges'
+          };`"
           position="top center"
         />
         <v-btn
@@ -95,17 +93,15 @@
           <trait-block :mech="mech" :color="color" />
         </v-row>
       </v-col>
-      <v-col v-if="!small" cols="4" style="max-height: inherit;">
-        <div class="text-center mt-n10" style="max-height: inherit;">
-          <div style="position:relative; max-height: inherit;">
+      <v-col v-if="!small" cols="4" style="max-height: inherit">
+        <div class="text-center mt-n10" style="max-height: inherit">
+          <div style="position: relative; max-height: inherit">
             <img
               :key="mech.Image"
               :src="mech.Portrait"
-              :style="
-                `object-fit: contain; max-width: 20vw; width: 100%; image-rendering: ${
-                  isPixel ? 'pixelated' : 'crisp-edges'
-                };`
-              "
+              :style="`object-fit: contain; width: 100%; image-rendering: ${
+                isPixel ? 'pixelated' : 'crisp-edges'
+              };`"
               position="top center"
             />
             <v-btn
