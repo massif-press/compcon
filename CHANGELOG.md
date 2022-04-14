@@ -1,4 +1,12 @@
 # COMP/CON Changelog
+## [2.3.2] (2022-4-14)
+
+- **Pilot Sheet** Added Bonds UI
+- **Various** A handful of hotfixes to correct bugs.
+- **Mech Sheet** Corrected a bug that prevented most synergies from being displayed  [#1919](https://github.com/massif-press/compcon/issues/1919)
+- **Mech Sheet** Corrected a bug with the TalentController in Active Mode  [#1916](https://github.com/massif-press/compcon/issues/1916)
+- **Pilot Roster** Corrected a bug that was preventing the Pilot Roster view from being changed [#1917](https://github.com/massif-press/compcon/issues/1917)
+
 ## [2.3.2] (2022-4-13)
 
 - **Various** A handful of hotfixes to correct bugs.
