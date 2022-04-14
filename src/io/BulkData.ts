@@ -70,6 +70,6 @@ const globalSave = () => {
   store.dispatch('savePilotData')
 }
 
-const debounced = _.debounce(globalSave, 500, { maxWait: 3000, trailing: true })
+const debounced = _.debounce(globalSave, 500, { maxWait: 1000, trailing: true })
 
 export { exportV1Pilots, exportAll, importAll, clearAllData, SaveAllLocalUpdates }

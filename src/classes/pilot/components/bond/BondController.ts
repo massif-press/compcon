@@ -12,6 +12,8 @@ interface IPilotBondData {
   burdens: IClockData[]
   bondPowers: BondPower[]
   clocks: IClockData[]
+  majorIdeal: string
+  minorIdeal: string
   bondAnswers: string[]
 }
 
@@ -24,6 +26,8 @@ class BondController {
   private _stress: number
   private _isBroken: boolean
   private _answers: string[]
+  private _majorIdeal: string
+  private _minorIdeal: string
   private _burdens: Clock[]
   private _bondPowers: BondPower[]
   private _clocks: Clock[]
@@ -141,6 +145,15 @@ class BondController {
     this.Parent.SaveController.save()
   }
 
+  public AddPower(p: BondPower) {
+    this.BondPowers.push(p)
+  }
+
+  public RemovePower(p: BondPower) {
+    const idx = this._bondPowers.findIndex(x => x.name === p.name)
+    if (idx > -1) this.BondPowers.splice(idx, 1)
+  }
+
   public get PowerSelections(): number {
     return this._powerSelections
   }
@@ -151,7 +164,7 @@ class BondController {
   }
 
   public get TotalPowerSelections(): number {
-    return this.PowerSelections + this.MinPowerSelections - this.BondPowers.length
+    return Math.max(this.PowerSelections + this.MinPowerSelections - this.BondPowers.length, 0)
   }
 
   public get MinPowerSelections(): number {
@@ -180,6 +193,24 @@ class BondController {
     this.Parent.SaveController.save()
   }
 
+  public get MajorIdeal(): string {
+    return this._majorIdeal
+  }
+
+  public set MajorIdeal(majorIdeal: string) {
+    this._majorIdeal = majorIdeal
+    this.Parent.SaveController.save()
+  }
+
+  public get MinorIdeal(): string {
+    return this._minorIdeal
+  }
+
+  public set MinorIdeal(minorIdeal: string) {
+    this._minorIdeal = minorIdeal
+    this.Parent.SaveController.save()
+  }
+
   public LevelUp() {
     if (this.XP < 8) return
     this._xp = 0
@@ -197,6 +228,8 @@ class BondController {
     target.powerSelections = parent.BondController._powerSelections
     target.maxStress = parent.BondController._maxStress
     target.bondAnswers = parent.BondController._answers
+    target.majorIdeal = parent.BondController._majorIdeal
+    target.minorIdeal = parent.BondController._minorIdeal
     target.clocks = parent.BondController._clocks.map(x => Clock.Serialize(x))
   }
 
@@ -216,6 +249,8 @@ class BondController {
     parent.BondController._burdens = data.burdens.map(x => Clock.Deserialize(x)) || []
     parent.BondController._clocks = data.clocks ? data.clocks.map(x => Clock.Deserialize(x)) : []
     parent.BondController._answers = data.bondAnswers || []
+    parent.BondController._majorIdeal = data.majorIdeal || ''
+    parent.BondController._minorIdeal = data.minorIdeal || ''
   }
 }
 

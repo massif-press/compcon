@@ -110,11 +110,23 @@
           </div>
         </v-col>
         <v-col v-if="!print" cols="auto">
-          <v-btn icon @click="clock.Increment()">
+          <v-btn
+            icon
+            @click="
+              clock.Increment()
+              $emit('change')
+            "
+          >
             <v-icon large color="accent">cci-accuracy</v-icon>
           </v-btn>
           <br />
-          <v-btn icon @click="clock.Decrement()">
+          <v-btn
+            icon
+            @click="
+              clock.Decrement()
+              $emit('change')
+            "
+          >
             <v-icon large color="accent">cci-difficulty</v-icon>
           </v-btn>
         </v-col>
@@ -148,12 +160,24 @@
             </div>
           </div>
           <v-row>
-            <v-col><v-text-field v-model="clock.Title" label="Title" /></v-col>
+            <v-col>
+              <v-text-field v-model="clock.Title" label="Title" @change="$emit('change')" />
+            </v-col>
             <v-col cols="2">
-              <v-text-field v-model="clock.Segments" label="Segments" number />
+              <v-text-field
+                v-model="clock.Segments"
+                label="Segments"
+                number
+                @change="$emit('change')"
+              />
             </v-col>
             <v-col cols="auto">
-              <v-switch v-model="clock.Linear" label="Linear" hide-details />
+              <v-switch
+                v-model="clock.Linear"
+                label="Linear"
+                hide-details
+                @change="$emit('change')"
+              />
             </v-col>
           </v-row>
           <v-textarea
@@ -164,6 +188,7 @@
             label="Description"
             class="mx-1 my-2"
             hide-details
+            @change="$emit('change')"
           />
           <v-textarea
             v-model="clock.Resolution"
@@ -173,6 +198,7 @@
             label="Resolution"
             class="ma-1"
             hide-details
+            @change="$emit('change')"
           />
         </v-card-text>
       </v-card>
