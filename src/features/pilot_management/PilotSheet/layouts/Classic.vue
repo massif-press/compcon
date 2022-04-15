@@ -47,8 +47,7 @@ export default Vue.extend({
   },
   computed: {
     hasBondData() {
-      return false
-      // return getModule(CompendiumStore, this.$store).Bonds.length
+      return this.pilot.Level >= 1 && getModule(CompendiumStore, this.$store).Bonds.length
     },
   },
 })

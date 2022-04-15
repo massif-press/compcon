@@ -167,8 +167,7 @@ export default Vue.extend({
       return getModule(UserStore, this.$store).IsLoggedIn
     },
     hasBondData() {
-      return false
-      // return getModule(CompendiumStore, this.$store).Bonds.length
+      return getModule(CompendiumStore, this.$store).Bonds.length
     },
   },
   methods: {

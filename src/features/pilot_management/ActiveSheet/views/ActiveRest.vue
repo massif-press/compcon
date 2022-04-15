@@ -489,10 +489,10 @@ export default vueMixins(activePilot).extend({
       return this.loadout.Systems.filter(x => x.Destroyed)
     },
     cheapStruct() {
-      return this.mech.Bonuses.some(x => x.ID === 'cheap_struct')
+      return this.mech.FeatureController.Bonuses.some(x => x.ID === 'cheap_struct')
     },
     cheapStress() {
-      return this.mech.Bonuses.some(x => x.ID === 'cheap_stress')
+      return this.mech.FeatureController.Bonuses.some(x => x.ID === 'cheap_stress')
     },
     issues() {
       return (

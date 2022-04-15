@@ -52,6 +52,8 @@
 import Vue from 'vue'
 import SectionEditChip from '../../components/SectionEditChip.vue'
 import NoDataBlock from '../../components/NoDataBlock.vue'
+import { getModule } from 'vuex-module-decorators'
+import { UserStore } from '@/store'
 
 export default Vue.extend({
   name: 'skill-block',
@@ -62,8 +64,18 @@ export default Vue.extend({
       required: true,
     },
   },
-  data: () => ({
-    ctype: 'small',
-  }),
+  computed: {
+    profile() {
+      return getModule(UserStore, this.$store).UserProfile
+    },
+    ctype: {
+      get: function (): string {
+        return this.profile.GetView('talents')
+      },
+      set: function (newval: string) {
+        this.profile.SetView('talents', newval)
+      },
+    },
+  },
 })
 </script>
