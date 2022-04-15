@@ -1,12 +1,11 @@
 <template>
+  <span v-if="!source || !source.Logo || source.Logo === 'undefined'" />
   <svg
-    v-if="isSvg && isCorsSafe"
+    v-else-if="isSvg && isCorsSafe"
     :data-src="source.Logo + '#Content'"
-    :style="
-      `width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
-        stroke ? 'stroke-width: 25px;' : ''
-      }`
-    "
+    :style="`width:${iconSize}; height:${iconSize}; fill:${iconColor}; stroke:${stroke}; ${
+      stroke ? 'stroke-width: 25px;' : ''
+    }`"
   ></svg>
   <img
     v-else
@@ -21,8 +20,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import "external-svg-loader";
+import Vue from 'vue'
+import 'external-svg-loader'
 enum sizeMap {
   xSmall = '16px',
   small = '20px',
@@ -56,7 +55,7 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    corsSafe: false
+    corsSafe: false,
   }),
   computed: {
     iconSize(): string {
@@ -74,7 +73,7 @@ export default Vue.extend({
     },
     isCorsSafe(): boolean {
       return this.source.isCorsSafe
-    }
+    },
   },
 })
 </script>
