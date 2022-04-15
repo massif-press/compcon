@@ -88,7 +88,7 @@ import { PilotGear, CompendiumItem, ItemType } from '@/class'
 import { flavorID } from '@/io/Generators'
 
 export default Vue.extend({
-  name: 'pl-pilot-weapon-card',
+  name: 'pl-pilot-gear-card',
   components: { PlCardBase },
   props: {
     item: {
