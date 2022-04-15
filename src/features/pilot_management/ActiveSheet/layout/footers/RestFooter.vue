@@ -51,7 +51,10 @@
               <v-btn icon @click="emDialog = false"><v-icon>mdi-close</v-icon></v-btn>
             </v-toolbar>
             <v-card-text>
-              <p class="flavor-text stark--text mt-2 mb-0 mx-6">
+              <div>
+                <v-checkbox v-model="saveCheckbox" dense hide-details label="Save Mission Data" />
+              </div>
+              <p v-show="saveCheckbox" class="flavor-text stark--text mt-2 mb-0 mx-6">
                 >//[
                 <span class="accent--text">COMP/CON</span>
                 :
@@ -66,7 +69,7 @@
                 :color="pilot.ActiveMech.Frame.Manufacturer.Color"
                 class="mt-4"
               >
-                <span class="text--text">
+                <span v-show="saveCheckbox" class="text--text">
                   The following mission data will be added to the Pilot Combat Telemetry Record:
                 </span>
                 <div class="pl-2 pr-4 flavor-text">
@@ -108,7 +111,7 @@
                     color="warning darken-3"
                     @click="
                       emDialog = false
-                      pilot.State.EndMission()
+                      pilot.State.EndMission(!saveCheckbox)
                     "
                   >
                     &nbsp;Complete Mission
@@ -157,6 +160,7 @@ export default vueMixins(activePilot).extend({
   data: () => ({
     emDialog: false,
     rcDialog: false,
+    saveCheckbox: true,
   }),
   methods: {
     openMenu(idx: number) {

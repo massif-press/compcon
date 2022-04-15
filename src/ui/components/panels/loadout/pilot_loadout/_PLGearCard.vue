@@ -6,11 +6,12 @@
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove')"
+    @save="$emit('save')"
   >
     <div
       v-if="item"
       class="text-left"
-      style="cursor: pointer!important; height: 100%"
+      style="cursor: pointer !important; height: 100%"
       @click="$refs.base.openDetail()"
     >
       <v-row dense>
@@ -32,9 +33,9 @@
         v-if="!readonly"
         dense
         class="mt-2"
-        :style="
-          `max-height: ${$vuetify.breakpoint.smAndDown ? '125' : '200'}px; overflow-y: scroll`
-        "
+        :style="`max-height: ${
+          $vuetify.breakpoint.smAndDown ? '125' : '200'
+        }px; overflow-y: scroll`"
       >
         <p v-html-safe="item.Description" class="text--text" />
       </v-row>
