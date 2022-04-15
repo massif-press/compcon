@@ -7,10 +7,9 @@ class ItemFilter {
         items = items.filter(i => filter[p][0].includes(i.LcpName))
       } else if (p === 'Tags') {
         items = items.filter((e: MechEquipment) => {
-          const item_tags = (e instanceof MechWeapon && e.ProfileTags) ? e.ProfileTags : e.Tags
+          const item_tags = e instanceof MechWeapon ? e.AllTags : e.Tags
           return filter.Tags.every(x => item_tags.map(t => t.ID).includes(x))
-        }
-        )
+        })
       } else if (p === 'SP_greater') {
         items = items.filter((x: MechEquipment) => x.SP > filter[p])
       } else if (p === 'SP_less') {
