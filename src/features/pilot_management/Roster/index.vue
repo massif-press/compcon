@@ -5,7 +5,7 @@
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
-        <v-btn-toggle :value="getRosterView()" mandatory dense class="mt-n4">
+        <v-btn-toggle :value="getRosterView" mandatory dense class="mt-n4">
           <v-btn small icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
@@ -90,7 +90,7 @@
             </v-row>
             <div
               v-if="!g.hidden"
-              :style="getRosterView() !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
+              :style="getRosterView !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
             >
               <v-expand-transition>
                 <draggable
@@ -107,7 +107,7 @@
                     v-for="(id, j) in g.pilotIDs"
                     :key="`${pilotCardType}_${j}`"
                     :pilot="getPilotFromId(id)"
-                    :small="getRosterView() === 'small-cards'"
+                    :small="getRosterView === 'small-cards'"
                     :dragging="drag"
                   />
                 </draggable>
@@ -217,7 +217,7 @@ export default Vue.extend({
       return mod
     },
     pilotCardType(): string {
-      switch (this.getRosterView()) {
+      switch (this.getRosterView) {
         case 'cards':
         case 'small-cards':
           return 'pilot-card'
@@ -259,6 +259,10 @@ export default Vue.extend({
         return false
       }
     },
+    getRosterView() {
+      if (!this.profile) return 'list'
+      return this.profile.GetView('roster')
+    },
   },
   created() {
     this.preventDnd = this.isTouch
@@ -289,10 +293,7 @@ export default Vue.extend({
       })
       this.groups = groups
     },
-    getRosterView() {
-      if (this.profile) return 'list'
-      return this.profile.GetView('roster')
-    },
+
     toggleHidden(g: PilotGroup) {
       g.hidden = !g.hidden
     },

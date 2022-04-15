@@ -14,7 +14,13 @@
           Mech Skills selected
         </v-alert>
         <div class="text-center mt-n2">
-          <v-btn small class="fadeSelect" color="info" outlined @click="pilot.resetHASE()">
+          <v-btn
+            small
+            class="fadeSelect"
+            color="info"
+            outlined
+            @click="pilot.MechSkillsController.Reset()"
+          >
             Reset Mech Skills
           </v-btn>
         </div>

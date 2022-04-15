@@ -6,42 +6,45 @@
       :key="`${i}_sidebar'`"
       link
       @click="
-        $vuetify.goTo(`#e_${e.Name.replace(/\W/g, '')}`, {
+        $vuetify.goTo(`#e_${e.ID}`, {
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
+          container: '.v-dialog--active',
         })
       "
     >
       <v-list-item-title class="heading h3 ml-2">{{ e.Name }}</v-list-item-title>
     </v-list-item>
-    <h1 class="heading mt-3 mb-n3">Pilot Bonds</h1>
     <v-container>
       <cc-bond-info
         v-for="(e, i) in bonds"
-        :id="`e_${e.Name.replace(/\W/g, '')}`"
-        :key="`${e.Name.replace(/\W/g, '')}_${i}`"
+        :id="`e_${e.ID}`"
+        :key="`${e.ID}_${i}`"
         :bond="e"
         class="my-4"
-      />
+      >
+        <div slot="button" class="px-8">
+          <v-btn color="accent" x-large block class="mt-2 mb-4" @click="$emit('set', e)">
+            <b>Select {{ e.Name }}</b>
+          </v-btn>
+        </div>
+      </cc-bond-info>
     </v-container>
   </cc-sidebar-view>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import SidebarArrayView from '../components/SidebarArrayView.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
-  name: 'bonds',
-  components: { SidebarArrayView },
-  data: () => ({
-    bonds: [],
-  }),
-  created() {
-    this.bonds = getModule(CompendiumStore, this.$store).Bonds
+  name: 'bond-selector',
+  computed: {
+    bonds() {
+      return getModule(CompendiumStore, this.$store).Bonds
+    },
   },
 })
 </script>

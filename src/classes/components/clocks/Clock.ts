@@ -27,7 +27,7 @@ class Clock {
     this.Title = data?.title || 'New Clock'
     this.Description = data?.description || ''
     this.Resolution = data?.resolution || ''
-    this.Linear = data.linear
+    this.Linear = data?.linear || false
   }
 
   public get Segments(): number {

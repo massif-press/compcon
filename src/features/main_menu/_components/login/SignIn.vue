@@ -9,7 +9,7 @@
         <div>
           <v-fade-transition>
             <div @click="$emit('reverify', email)">
-              <a v-if="email" class="fadeSelect">
+              <a>
                 <i>Have a validation code? Click here.</i>
               </a>
             </div>
@@ -28,7 +28,7 @@
           @click:append="show = !show"
         />
         <div class="text-right" @click="$emit('set-state', 'reset')">
-          <a class="fadeSelect"><i>Forgot Password?</i></a>
+          <a><i>Forgot Password?</i></a>
         </div>
       </v-col>
     </v-row>

@@ -381,9 +381,9 @@ class ActiveState {
     this.StartCombat()
   }
 
-  public EndMission(): void {
+  public EndMission(skipSave?: boolean): void {
     this.ActiveMech.IsCoreActive = false
-    this._pilot.UpdateCombatStats(this._stats)
+    if (!skipSave) this._pilot.UpdateCombatStats(this._stats)
     this.ResetActions(ActivePeriod.Mission)
     this.SetLog({
       id: 'end_mission',

@@ -697,7 +697,7 @@ export default Vue.extend({
         this.item.WeaponType === WeaponType.Melee
       )
         return 0
-      const tal = this.mech.pilot.TalentsController.Talents.find(
+      const tal = this.mech.Pilot.TalentsController.Talents.find(
         (x: PilotTalent) => x.Talent.ID === 't_walking_armory'
       )
       if (!tal) return 0
