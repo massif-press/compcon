@@ -39,6 +39,7 @@ abstract class PilotEquipment extends CompendiumItem {
     this._destroyed = false
     this._cascading = false
     this._loaded = true
+    this._custom_damage_type = null
     if (data.tags) {
       const ltd = data.tags.find(x => x.id === 'tg_limited')
       this.IsLimited = !!ltd
