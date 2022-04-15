@@ -14,6 +14,8 @@
 - **Pilot Sheet** Fix missing HASE reset method [#1924](https://github.com/massif-press/compcon/issues/1924)
 - **Pilot Sheet** Initialize Bond ideal and answer fields [#1923](https://github.com/massif-press/compcon/issues/1923)
 - **Pilot Sheet** Fix LL0 Bond warning from blocking classic sheet view [#1922](https://github.com/massif-press/compcon/issues/1922)
+- **Pilot Sheet** Talent view setting now saves [#1921](https://github.com/massif-press/compcon/issues/1921)
+- **Log-In Process** Make Verification/Lost Password more visible [#1864](https://github.com/massif-press/compcon/issues/1864)
 
 ## [2.3.2] (2022-4-14)
 
