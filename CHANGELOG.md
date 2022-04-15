@@ -6,6 +6,7 @@
 - **Pilot Sheet** Pilot gear custom data changes should now correctly save in all cases [#1840](https://github.com/massif-press/compcon/issues/1840)
 - **Active Mode** Add option to complete mission without saving combat telemetry [#1825](https://github.com/massif-press/compcon/issues/1825)
 - **Compendium** Item filters now respect weapon profile tags [#1821](https://github.com/massif-press/compcon/issues/1821)
+- **Pilot Sheet** Fix missing HASE reset method [#1924](https://github.com/massif-press/compcon/issues/1924)
 
 ## [2.3.2] (2022-4-14)
 
