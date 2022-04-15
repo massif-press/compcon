@@ -1,5 +1,5 @@
 # COMP/CON Changelog
-## [2.3.3] (2022-4-15)
+## [2.3.4] (2022-4-15)
 
 ### Features
 
@@ -16,8 +16,12 @@
 - **Pilot Sheet** Fix LL0 Bond warning from blocking classic sheet view [#1922](https://github.com/massif-press/compcon/issues/1922)
 - **Pilot Sheet** Talent view setting now saves [#1921](https://github.com/massif-press/compcon/issues/1921)
 - **Log-In Process** Make Verification/Lost Password more visible [#1864](https://github.com/massif-press/compcon/issues/1864)
+- **Pilot Roster** Preserve Pilot Group status (thanks TranslucentSabre!)
+- **Encounters** Correctly display sitrep (thanks TranslucentSabre!) [#1843](https://github.com/massif-press/compcon/issues/1843) [#1886](https://github.com/massif-press/compcon/issues/1886)
+- **Global** Change "Encounter" durations to "Scene" (thanks msprijatelj!) [#1894](https://github.com/massif-press/compcon/issues/1894)
+- **Global** Fix missing NPC CounterController (thanks msprijatelj!)
 
-## [2.3.2] (2022-4-14)
+## [2.3.3] (2022-4-14)
 
 ### Features
 
