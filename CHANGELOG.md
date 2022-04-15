@@ -13,6 +13,7 @@
 - **Compendium** Item filters now respect weapon profile tags [#1821](https://github.com/massif-press/compcon/issues/1821)
 - **Pilot Sheet** Fix missing HASE reset method [#1924](https://github.com/massif-press/compcon/issues/1924)
 - **Pilot Sheet** Initialize Bond ideal and answer fields [#1923](https://github.com/massif-press/compcon/issues/1923)
+- **Pilot Sheet** Fix LL0 Bond warning from blocking classic sheet view [#1922](https://github.com/massif-press/compcon/issues/1922)
 
 ## [2.3.2] (2022-4-14)
 
