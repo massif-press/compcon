@@ -48,7 +48,7 @@
               icon
               class="fadeSelect"
               @click="
-                pilot.BondController.MajorIdeal = pilot.BondController.Bond.RandomIdeal('Major')
+                $set(pilot.BondController, 'MajorIdeal', pilot.BondController.Bond.RandomIdeal('Major'))
               "
             >
               <v-icon>mdi-dice-multiple-outline</v-icon>
@@ -71,7 +71,7 @@
               icon
               class="fadeSelect"
               @click="
-                pilot.BondController.MinorIdeal = pilot.BondController.Bond.RandomIdeal('Minor')
+                $set(pilot.BondController, 'MinorIdeal', pilot.BondController.Bond.RandomIdeal('Minor'))
               "
             >
               <v-icon>mdi-dice-multiple-outline</v-icon>
