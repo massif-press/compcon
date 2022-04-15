@@ -39,7 +39,9 @@ class BondController {
     this._maxStress = 8
     this._powerSelections = 0
     this._isBroken = false
-    this._answers = []
+    this._answers = ['', '']
+    this._majorIdeal = ''
+    this._minorIdeal = ''
     this._bondPowers = []
     this._burdens = []
     this._clocks = []
