@@ -370,6 +370,9 @@ export default Vue.extend({
     selRep: 'Standard Combat',
     ctest: ['a', 'b', 'c'],
   }),
+  mounted() {
+    this.selRep = this.encounter.Sitrep.name;
+  },
   computed: {
     labels() {
       const store = getModule(EncounterStore, this.$store)
