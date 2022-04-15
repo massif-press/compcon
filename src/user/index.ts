@@ -12,6 +12,7 @@ interface IViewOptions {
   roster: string
   hangar: string
   pilotSheet: string
+  talents: string
   showExotics: boolean
   quickstart: boolean
   savePerformant: boolean
@@ -52,6 +53,7 @@ const defaultViewOptions = (): IViewOptions => ({
   npc: 'list',
   roster: 'list',
   hangar: 'cards',
+  talents: 'full',
   pilotSheet: 'tabbed',
   showExotics: false,
   quickstart: false,
@@ -222,7 +224,7 @@ class UserProfile {
 
   public GetView(view: string): string | boolean {
     if (this._viewOptions[view]) return this._viewOptions[view]
-    return ''
+    return defaultViewOptions()[view]
   }
 
   public get Theme(): string {
