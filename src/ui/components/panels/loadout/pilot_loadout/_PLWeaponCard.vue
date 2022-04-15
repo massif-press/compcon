@@ -6,11 +6,12 @@
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove')"
+    @save="$emit('save')"
   >
     <div
       v-if="item"
       class="text-left"
-      style="cursor: pointer!important"
+      style="cursor: pointer !important"
       @click="$refs.base.openDetail()"
     >
       <span :key="item.Name" class="h2 heading text--text" style="line-height: 35px">
