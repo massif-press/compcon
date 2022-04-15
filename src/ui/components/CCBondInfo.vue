@@ -39,7 +39,7 @@
               <div
                 v-else-if="p.master"
                 class="heading h4 exotic--text"
-                v-text="`${p.name} (Master Power`"
+                v-text="`${p.name} (Master Power)`"
               />
               <div v-else class="heading h4" v-text="p.name" />
             </v-col>

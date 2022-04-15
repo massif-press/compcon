@@ -65,7 +65,8 @@ class CounterController {
   }
 
   public get CounterData(): ICounterData[] {
-    return [...this.Parent.FeatureController.Counters, ...this.CustomCounterData]
+    const parent_counters = this.Parent.FeatureController.Containers.length ? this.Parent.FeatureController.Counters : []
+    return [...parent_counters, ...this.CustomCounterData]
       .flat()
       .filter(x => x)
   }

@@ -184,6 +184,7 @@ export default Vue.extend({
     },
     save(prop, newName) {
       this.$set(this.item, prop, newName)
+      this.$emit('save')
     },
   },
 })
