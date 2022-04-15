@@ -1,16 +1,27 @@
 # COMP/CON Changelog
 ## [2.3.3] (2022-4-15)
 
+### Features
+
+- **Active Mode** Add option to complete mission without saving combat telemetry [#1825](https://github.com/massif-press/compcon/issues/1825)
+
+### Bug Fixes
+
 - **Various** A handful of hotfixes to correct bugs.
 - **Mech Sheet** "Sourceless" logos should no longer display a broken image [#1842](https://github.com/massif-press/compcon/issues/1842)
 - **Pilot Sheet** Pilot gear custom data changes should now correctly save in all cases [#1840](https://github.com/massif-press/compcon/issues/1840)
-- **Active Mode** Add option to complete mission without saving combat telemetry [#1825](https://github.com/massif-press/compcon/issues/1825)
 - **Compendium** Item filters now respect weapon profile tags [#1821](https://github.com/massif-press/compcon/issues/1821)
 - **Pilot Sheet** Fix missing HASE reset method [#1924](https://github.com/massif-press/compcon/issues/1924)
+- **Pilot Sheet** Initialize Bond ideal and answer fields [#1923](https://github.com/massif-press/compcon/issues/1923)
 
 ## [2.3.2] (2022-4-14)
 
+### Features
+
 - **Pilot Sheet** Added Bonds UI
+
+### Bug Fixes
+
 - **Various** A handful of hotfixes to correct bugs.
 - **Mech Sheet** Corrected a bug that prevented most synergies from being displayed  [#1919](https://github.com/massif-press/compcon/issues/1919)
 - **Mech Sheet** Corrected a bug with the TalentController in Active Mode  [#1916](https://github.com/massif-press/compcon/issues/1916)
@@ -18,17 +29,29 @@
 
 ## [2.3.2] (2022-4-13)
 
+### Features
+
+- **Pilot Roster** Added mass pilot delete button at the bottom of the page
+
+### Bug Fixes
+
 - **Various** A handful of hotfixes to correct bugs.
 - **Mech Sheet** Corrected an error in the Bonus controller that was preventing some mechs from being saved  [#1910](https://github.com/massif-press/compcon/issues/1910)
-- **Pilot Roster** Added mass pilot delete button at the bottom of the page
 
 ## [2.3.1] (2022-4-12)
 
-- **Various** A handful of hotfixes to correct bugs in the Pilot Roster, with integrated equipment, and with LCP parsing.
+### Features
+
 - **Compendium** Added tooltips to available mounts within frames Compendium (Thanks ChrstphrHll! First PR! 🎉) [#1897](https://github.com/massif-press/compcon/issues/1897)
+
+### Bug Fixes
+
+- **Various** A handful of hotfixes to correct bugs in the Pilot Roster, with integrated equipment, and with LCP parsing.
 - **Content Manager** Added missing Reserves importer [#1899](https://github.com/massif-press/compcon/issues/1899)
 
 ## [2.3.0] (2022-4-12)
+
+### Features
 
 - **Global** Rebuilt Cloud Account interface and management system [#1891](https://github.com/massif-press/compcon/issues/1891) [#1870](https://github.com/massif-press/compcon/issues/1870) [#1823](https://github.com/massif-press/compcon/issues/1823) [#1804](https://github.com/massif-press/compcon/issues/1804) [#1763](https://github.com/massif-press/compcon/issues/1763) [#1776](https://github.com/massif-press/compcon/issues/1776) [#1725](https://github.com/massif-press/compcon/issues/1725) [#1724](https://github.com/massif-press/compcon/issues/1724) [#1701](https://github.com/massif-press/compcon/issues/1701)
 - **Global** Added new Cloud share/share code system [#1879](https://github.com/massif-press/compcon/issues/1879)
@@ -37,13 +60,21 @@
 - **Global** Implemented delta save scheme
 - **Global** Implemented component-controller pattern in preparation for GM changes
 - **Compendium** Bonds data as part of a LCP will load to the Compendium. Bonds UI is coming soon.
+
+### Bug Fixes
+
 - **Main Menu** Fixed bad loading cascade when dealing with theme changes [#1861](https://github.com/massif-press/compcon/issues/1861)
 
 ## [2.2.38] (2022-3-17)
 
+### Features
+
 - **Global** Implemented new image hosting strategy to save on bandwidth costs
-- **Compendium** Various changes and fixes, thanks to msprijatelj, perijove, and lenaleciel
 - **Global** Provide Alternative Display option for CORS-compliant SVGs (thanks, msprijatelj!)[#1852](https://github.com/massif-press/compcon/issues/1852)
+
+### Bug Fixes
+
+- **Compendium** Various changes and fixes, thanks to msprijatelj, perijove, and lenaleciel
 - **Mech** Cover optional damage/range cases (thanks, msprijatelj!)[#1876](https://github.com/massif-press/compcon/issues/1876)
 - **Mech** Fix serviceworker and UI issues (thanks, msprijatelj!)[#1865](https://github.com/massif-press/compcon/issues/1865)
 - **Mobile UI** Correct mobile view padding (thanks, wilt00!)[#1869](https://github.com/massif-press/compcon/issues/1869)
@@ -51,10 +82,14 @@
 
 ## [2.2.37] (2022-2-21)
 
-- **Compendium** Change tag search logic to AND (thanks, msprijatelj!)[#1860](https://github.com/massif-press/compcon/issues/1860)
-- **Homepage** Fix bug with HORUS homepage theme (thanks, msprijatelj!)[#1829](https://github.com/massif-press/compcon/issues/1829)
-- **LCP** Enable LCP Background import humanized info text (thanks, msprijatelj!)[#1858](https://github.com/massif-press/compcon/issues/1858)
+### Features
 - **LCP** Enable new LCP metadata hosting method
+- **LCP** Enable LCP Background import humanized info text (thanks, msprijatelj!)[#1858](https://github.com/massif-press/compcon/issues/1858)
+- **Compendium** Change tag search logic to AND (thanks, msprijatelj!)[#1860](https://github.com/massif-press/compcon/issues/1860)
+
+### Bug Fixes
+
+- **Homepage** Fix bug with HORUS homepage theme (thanks, msprijatelj!)[#1829](https://github.com/massif-press/compcon/issues/1829)
 
 ## [2.2.36a] (2022-2-10)
 
