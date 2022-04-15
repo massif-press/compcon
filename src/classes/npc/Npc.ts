@@ -14,7 +14,11 @@ import {
   ISaveData,
   PortraitController,
   SaveController,
+  CounterController,
+  ICounterContainer,
 } from '../components'
+import { IFeatureController } from '../components/feature/IFeatureController'
+import { FeatureController } from '../components/feature/FeatureController'
 import { getModule } from 'vuex-module-decorators'
 import { IActor } from '../encounter/IActor'
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
@@ -67,7 +71,7 @@ class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
   cc_ver: string
 }
 
-class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
+class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IFeatureController {
   public readonly ItemType: string = 'npc'
   public ImageTag: ImageTag.NPC
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
@@ -75,6 +79,8 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
   public SaveController: SaveController
   public PortraitController: PortraitController
   public BrewController: BrewController
+  public CounterController: CounterController
+  public FeatureController: FeatureController
 
   private _active: boolean
   private _id: string
@@ -111,6 +117,12 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
     this.PortraitController = new PortraitController(this)
     this.CloudController = new CloudController(this)
     this.BrewController = new BrewController(this)
+    this.CounterController = new CounterController(this)
+    this.FeatureController = new FeatureController(this)
+
+    this.FeatureController.Register(
+    )
+
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
     this._subtitle = ''
     this._tier = t
@@ -405,51 +417,6 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
     else return getImagePath(ImageTag.Frame, 'nodata.png')
   }
 
-  // -- COUNTERS ----------------------------------------------------------------------------------
-
-  private _counterSaveData = []
-  public get CounterSaveData(): ICounterSaveData[] {
-    return this._counterSaveData
-  }
-  public saveCounter(inputData: ICounterSaveData): void {
-    const index = this._counterSaveData.findIndex(datum => datum.id === inputData.id)
-    if (index < 0) {
-      this._counterSaveData = [...this._counterSaveData, inputData]
-    } else {
-      this._counterSaveData[index] = inputData
-      this._counterSaveData = [...this._counterSaveData]
-    }
-    this.SaveController.save()
-  }
-
-  private _customCounters: ICounterData[] = []
-  public get CustomCounterData(): ICounterData[] {
-    return this._customCounters || []
-  }
-
-  public createCustomCounter(name: string): void {
-    const counter = {
-      name,
-      id: uuid(),
-      custom: true,
-    }
-    this._customCounters = [...this._customCounters, counter]
-    this.SaveController.save()
-  }
-
-  public deleteCustomCounter(id: string): void {
-    const index = this._customCounters.findIndex(c => c.custom && c.id === id)
-    if (index > -1) {
-      this._customCounters.splice(index, 1)
-      this._customCounters = [...this._customCounters]
-    }
-    this.SaveController.save()
-  }
-
-  public get CounterData(): ICounterData[] {
-    // TODO: handle features that require a counter
-    return [this.CustomCounterData].flat().filter(x => x)
-  }
 
   // -- Encounter Management ----------------------------------------------------------------------
 
@@ -683,8 +650,6 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
       destroyed: npc._destroyed,
       defeat: npc._defeat,
       actions: npc._turn_actions,
-      counter_data: npc.CounterSaveData,
-      custom_counters: npc.CustomCounterData,
       cc_ver: npc.cc_ver,
     }
 
@@ -692,6 +657,7 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
     CloudController.Serialize(npc, data)
     PortraitController.Serialize(npc, data)
     BrewController.Serialize(npc, data)
+    CounterController.Serialize(npc, data)
 
     return data as INpcData
   }
@@ -741,8 +707,6 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
     this._turn_actions = data.actions || 1
     this._destroyed = data.destroyed || false
     this._defeat = data.defeat || ''
-    this._counterSaveData = data.counter_data || []
-    this._customCounters = (data.custom_counters as ICounterData[]) || []
     this.cc_ver = data.cc_ver
   }
 
@@ -754,6 +718,7 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable {
       SaveController.Deserialize(npc, data)
       PortraitController.Deserialize(npc, data)
       BrewController.Deserialize(npc, data)
+      CounterController.Deserialize(npc, data)
       npc.SaveController.SetLoaded()
       return npc
     } catch (err) {

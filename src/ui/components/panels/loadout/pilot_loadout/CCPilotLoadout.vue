@@ -7,6 +7,7 @@
         :exotics="exotics('PilotArmor')"
         @equip="setArmor($event)"
         @remove="setArmor(null)"
+        @save="pilot.SaveController.save()"
       />
       <v-divider :vertical="$vuetify.breakpoint.mdAndUp" class="mx-4 my-1" />
       <pilot-weapon-card
@@ -17,6 +18,7 @@
         :exotics="exotics('PilotWeapon')"
         @equip="setWeapon($event, i)"
         @remove="setWeapon(null, i)"
+        @save="pilot.SaveController.save()"
       />
       <pilot-weapon-card
         v-for="(w, i) in extendedWeapons"
@@ -27,6 +29,7 @@
         :exotics="exotics('PilotWeapon')"
         @equip="setWeapon($event, i, true)"
         @remove="setWeapon(null, i, true)"
+        @save="pilot.SaveController.save()"
       />
     </v-row>
     <v-row dense>
@@ -38,6 +41,7 @@
         :exotics="exotics('PilotGear')"
         @equip="setGear($event, i)"
         @remove="setGear(null, i)"
+        @save="pilot.SaveController.save()"
       />
       <pilot-gear-card
         v-for="(g, i) in extendedGear"
@@ -48,6 +52,7 @@
         :exotics="exotics('PilotGear')"
         @equip="setGear($event, i, true)"
         @remove="setGear(null, i, true)"
+        @save="pilot.SaveController.save()"
       />
     </v-row>
   </div>

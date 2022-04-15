@@ -200,6 +200,10 @@ class MechWeapon extends MechEquipment {
     return this.SelectedProfile.Tags || []
   }
 
+  public get AllTags(): Tag[] {
+    return [...this.Tags, ...this.Profiles.flatMap(p => p.Tags)]
+  }
+
   public get ProfileHeatCost(): number {
     const selfHeatTag = this.ProfileTags.find(x => x.IsHeatCost)
     return Number(selfHeatTag ? selfHeatTag.Value : 0)
