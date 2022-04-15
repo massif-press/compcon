@@ -678,7 +678,7 @@ class Pilot
   public static Deserialize(pilotData: PilotData): Pilot {
     const p = new Pilot()
     try {
-      p.Update(pilotData)
+      p.Update(pilotData,true)
       p.SaveController.SetLoaded()
       return p
     } catch (err) {
@@ -686,7 +686,7 @@ class Pilot
     }
   }
 
-  public Update(data: PilotData, sync?: boolean): void {
+  public Update(data: PilotData, deserialize?: boolean): void {
     this._id = data.id
     this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats()
     this._level = data.level
@@ -721,7 +721,7 @@ class Pilot
     LicenseController.Deserialize(this, data)
     ReservesController.Deserialize(this, data)
     BondController.Deserialize(this, data)
-    GroupController.Deserialize(this, data)
+    if (deserialize) GroupController.Deserialize(this, data)
     PortraitController.Deserialize(this, data)
     PilotLoadoutController.Deserialize(this, data)
     BrewController.Deserialize(this, data)
@@ -730,11 +730,12 @@ class Pilot
       mech.MechLoadoutController.UpdateLoadouts()
     })
 
-    if (sync && data.state) {
-      this._state.Update(this, data.state, sync)
-    } else {
+    // Updating active state will need to be revisited
+    //if (sync && data.state) {
+    //  this._state.Update(this, data.state, sync)
+    //} else {
       this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
-    }
+    //}
   }
 }
 
