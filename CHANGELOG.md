@@ -1,4 +1,11 @@
 # COMP/CON Changelog
+## [2.3.3] (2022-4-15)
+
+- **Various** A handful of hotfixes to correct bugs.
+- **Mech Sheet** "Sourceless" logos should no longer display a broken image [#1842](https://github.com/massif-press/compcon/issues/1842)
+- **Pilot Sheet** Pilot gear custom data changes should now correctly save in all cases [#1840](https://github.com/massif-press/compcon/issues/1840)
+- **Active Mode** Add option to complete mission without saving combat telemetry [#1825](https://github.com/massif-press/compcon/issues/1825)
+
 ## [2.3.2] (2022-4-14)
 
 - **Pilot Sheet** Added Bonds UI
