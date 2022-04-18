@@ -1,7 +1,12 @@
 <template>
   <div class="text-center">
     <div class="border">
-      <v-img v-if="pilot.Portrait" :key="pilot.Image" :src="pilot.Portrait" max-width="100%" />
+      <v-img
+        v-if="pilot.Portrait"
+        :key="pilot.PortraitController.Image"
+        :src="pilot.Portrait"
+        max-width="100%"
+      />
     </div>
     <v-btn
       outlined

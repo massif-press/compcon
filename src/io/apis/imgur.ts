@@ -14,7 +14,7 @@ const imgurApi = axios.create({
  *
  * @param {string} imgData Image data as a base64 string.
  */
-const uploadImage = async function(imgData: string /*base64*/): Promise<string> {
+const uploadImage = async function (imgData: string /*base64*/): Promise<string> {
   const res = await imgurApi.post('image', {
     image: imgData,
     type: 'base64',

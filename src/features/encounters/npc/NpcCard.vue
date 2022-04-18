@@ -240,15 +240,15 @@
           <v-card flat outlined>
             <v-card-text class="pa-1">
               <v-img
-                v-if="npc.Image"
-                :key="npc.Image"
-                :src="npc.Image"
+                v-if="npc.PortraitController.Image"
+                :key="npc.PortraitController.Image"
+                :src="npc.PortraitController.Image"
                 max-width="30vw"
                 max-height="30vh"
                 aspect-ratio="1"
               />
               <v-btn outlined small block color="secondary" @click="$refs.imageSelector.open()">
-                <span v-if="!npc.Image">
+                <span v-if="!npc.PortraitController.Image">
                   <v-icon left>mdi-plus</v-icon>
                   Add NPC Image
                 </span>

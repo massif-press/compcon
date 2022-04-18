@@ -104,7 +104,7 @@
                   <div id="image" class="border">
                     <v-img
                       v-if="pilot.Portrait"
-                      :key="pilot.Image"
+                      :key="pilot.PortraitController.Image"
                       :src="pilot.Portrait"
                       aspect-ratio="1"
                       position="top center"

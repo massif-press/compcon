@@ -96,7 +96,12 @@
       </v-col>
       <v-divider vertical />
       <v-col cols="3">
-        <v-img v-if="npc.Image" :key="npc.Image" :src="npc.Image" aspect-ratio="1" />
+        <v-img
+          v-if="npc.PortraitController.Image"
+          :key="npc.PortraitController.Image"
+          :src="npc.PortraitController.Image"
+          aspect-ratio="1"
+        />
       </v-col>
     </v-row>
     <v-row dense no-gutters class="my-2">

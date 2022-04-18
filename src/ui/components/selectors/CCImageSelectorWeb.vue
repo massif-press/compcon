@@ -135,6 +135,8 @@ export default Vue.extend({
           this.$emit('notify', 'Cloud Upload Successful')
         } catch (err) {
           this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
+          this.loading = true
+          this.selectedImage = null
         }
         this.close()
         this.$refs.fileInput.value = null

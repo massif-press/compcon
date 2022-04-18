@@ -71,7 +71,9 @@ class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
   cc_ver: string
 }
 
-class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IFeatureController {
+class Npc
+  implements IActor, ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IFeatureController
+{
   public readonly ItemType: string = 'npc'
   public ImageTag: ImageTag.NPC
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
@@ -120,8 +122,7 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable, ICounterConta
     this.CounterController = new CounterController(this)
     this.FeatureController = new FeatureController(this)
 
-    this.FeatureController.Register(
-    )
+    this.FeatureController.Register()
 
     this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
     this._subtitle = ''
@@ -389,34 +390,6 @@ class Npc implements IActor, ICloudSyncable, ISaveable, IBrewable, ICounterConta
   public get Items(): NpcItem[] {
     return this._items
   }
-
-  public SetCloudImage(src: string): void {
-    this._cloud_image = src
-    this.SaveController.save()
-  }
-
-  public get CloudImage(): string {
-    return this._cloud_image
-  }
-
-  public SetLocalImage(src: string): void {
-    this._local_image = src
-    this.SaveController.save()
-  }
-
-  public get LocalImage(): string {
-    return this._local_image
-  }
-
-  public get HasImage(): boolean {
-    return !!this._cloud_image || !!this._local_image
-  }
-
-  public get Image(): string {
-    if (this._cloud_image) return this._cloud_image
-    else return getImagePath(ImageTag.Frame, 'nodata.png')
-  }
-
 
   // -- Encounter Management ----------------------------------------------------------------------
 
