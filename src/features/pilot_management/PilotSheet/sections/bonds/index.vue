@@ -34,6 +34,14 @@
       >
         <v-col md="6" sm="12">
           Major Ideal
+          <v-list>
+            <v-list-item
+              v-for="(e, i) in pilot.BondController.Bond.MajorIdeals"
+              :key="`${i}_majorideal'`"
+            >
+              {{ e }}
+            </v-list-item>
+          </v-list>
           <v-textarea
             v-model="pilot.BondController.MajorIdeal"
             dense
@@ -42,21 +50,19 @@
             filled
             auto-grow
           >
-            <v-btn
-              slot="prepend"
-              small
-              icon
-              class="fadeSelect"
-              @click="
-                pilot.BondController.MajorIdeal = pilot.BondController.Bond.RandomIdeal('Major')
-              "
-            >
-              <v-icon>mdi-dice-multiple-outline</v-icon>
-            </v-btn>
           </v-textarea>
         </v-col>
         <v-col md="6" sm="12">
           Minor Ideal
+          <v-select
+            v-model="pilot.BondController.MinorIdeal"
+            value="ALL"
+            :items="pilot.BondController.Bond.MinorIdeals"
+            outlined
+            dense
+            hide-details
+            height="2px"
+          />
           <v-textarea
             v-model="pilot.BondController.MinorIdeal"
             dense
@@ -65,17 +71,6 @@
             filled
             auto-grow
           >
-            <v-btn
-              slot="prepend"
-              small
-              icon
-              class="fadeSelect"
-              @click="
-                pilot.BondController.MinorIdeal = pilot.BondController.Bond.RandomIdeal('Minor')
-              "
-            >
-              <v-icon>mdi-dice-multiple-outline</v-icon>
-            </v-btn>
           </v-textarea>
         </v-col>
         <v-col
@@ -85,6 +80,15 @@
           :key="`question_${i}`"
         >
           {{ q.question }}
+          <v-select
+            v-model="pilot.BondController.Answers[i]"
+            value="ALL"
+            :items="pilot.BondController.Bond.Questions[i].options"
+            outlined
+            dense
+            hide-details
+            height="2px"
+          />
           <v-textarea
             v-model="pilot.BondController.Answers[i]"
             dense
@@ -93,17 +97,6 @@
             filled
             auto-grow
           >
-            <v-btn
-              slot="prepend"
-              small
-              icon
-              class="fadeSelect"
-              @click="
-                $set(pilot.BondController.Answers, i, pilot.BondController.Bond.RandomOption(i))
-              "
-            >
-              <v-icon>mdi-dice-multiple-outline</v-icon>
-            </v-btn>
           </v-textarea>
         </v-col>
       </v-row>
