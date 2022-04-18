@@ -142,7 +142,8 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     this.FeatureController.Register(
       this.Frame,
       this.MechLoadoutController,
-      this.Parent.CoreBonusController
+      this.Parent.CoreBonusController,
+      this.Parent.ReservesController
     )
 
     this.MechLoadoutController.UpdateLoadouts()
