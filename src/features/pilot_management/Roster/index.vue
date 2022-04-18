@@ -260,7 +260,7 @@ export default Vue.extend({
       }
     },
     getRosterView() {
-      if (!this.profile) return 'list'
+      if (!this.profile || !this.profile.GetView) return 'list'
       return this.profile.GetView('roster')
     },
   },

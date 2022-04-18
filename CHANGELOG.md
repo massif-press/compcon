@@ -1,4 +1,12 @@
 # COMP/CON Changelog
+## [2.3.5] (2022-4-18)
+
+### Bug Fixes
+
+- **Pilot/Mech Sheet** Fix reserve bonuses not being added correctly (thanks msprijatelj!) [#1938](https://github.com/massif-press/compcon/issues/1938)
+- **Pilot Sheet** Initialize Pilot Gear correctly (thanks msprijatelj!) [#1840](https://github.com/massif-press/compcon/issues/1840)
+- **LCP Importer** Add Bonds to human-readable map (thanks msprijatelj!)
+
 ## [2.3.4] (2022-4-15)
 
 ### Features

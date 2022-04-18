@@ -102,9 +102,7 @@
               :class="{ rolledOver: structRolledOver }"
               @update="npc.CurrentStructure = $event"
             >
-              <span class="heading h3">
-                Structure
-              </span>
+              <span class="heading h3">Structure</span>
             </cc-tick-bar>
           </v-col>
           <v-col v-if="npc.Stats.Armor" cols="auto" class="mx-1">
@@ -272,11 +270,11 @@
         <v-card flat outlined>
           <v-card-text class="pa-1">
             <v-img
-              v-if="npc.Image"
-              :key="npc.Image"
+              v-if="npc.PortraitController.Image"
+              :key="npc.PortraitController.Image"
               max-width="30vw"
               max-height="30vh"
-              :src="npc.Image"
+              :src="npc.PortraitController.Image"
               aspect-ratio="1"
             />
           </v-card-text>
