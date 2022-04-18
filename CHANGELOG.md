@@ -6,6 +6,8 @@
 - **Pilot/Mech Sheet** Fix reserve bonuses not being added correctly (thanks msprijatelj!) [#1938](https://github.com/massif-press/compcon/issues/1938)
 - **Pilot Sheet** Initialize Pilot Gear correctly (thanks msprijatelj!) [#1840](https://github.com/massif-press/compcon/issues/1840)
 - **LCP Importer** Add Bonds to human-readable map (thanks msprijatelj!)
+- **NPC Sheet** Fix NPC Images [#1945](https://github.com/massif-press/compcon/issues/1945)
+- **Mech Sheet** Fix Integrated equipment losing state [#1915](https://github.com/massif-press/compcon/issues/1915)
 
 ## [2.3.4] (2022-4-15)
 
