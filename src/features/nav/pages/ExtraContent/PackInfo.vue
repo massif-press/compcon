@@ -81,6 +81,7 @@ export default class PackInfo extends Vue {
     mods: ['weapon mod', 'weapon mods'],
     pilotGear: ['pilot gear item', 'pilot gear items'],
     backgrounds: ['background', 'backgrounds'],
+    bonds: ['bond', 'bonds'],
     talents: ['pilot talent', 'pilot talents'],
     tags: ['equipment tag', 'equipment tags'],
     npcClasses: ['NPC class', 'NPC classes'],
