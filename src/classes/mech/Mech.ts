@@ -145,8 +145,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
       this.Parent.CoreBonusController,
       this.Parent.ReservesController
     )
-
-    this.MechLoadoutController.UpdateLoadouts()
   }
 
   // -- Passthroughs ------------------------------------------------------------------------------

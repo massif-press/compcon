@@ -678,7 +678,7 @@ class Pilot
   public static Deserialize(pilotData: PilotData): Pilot {
     const p = new Pilot()
     try {
-      p.Update(pilotData,true)
+      p.Update(pilotData, true)
       p.SaveController.SetLoaded()
       return p
     } catch (err) {
@@ -726,16 +726,8 @@ class Pilot
     PilotLoadoutController.Deserialize(this, data)
     BrewController.Deserialize(this, data)
 
-    this._mechs.forEach(mech => {
-      mech.MechLoadoutController.UpdateLoadouts()
-    })
-
     // Updating active state will need to be revisited
-    //if (sync && data.state) {
-    //  this._state.Update(this, data.state, sync)
-    //} else {
-      this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
-    //}
+    this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
   }
 }
 

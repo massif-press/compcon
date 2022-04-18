@@ -98,7 +98,8 @@ class Frequency {
       Turn: 1,
       Round: 2,
       Scene: 3,
-      Mission: 4
+      Encounter: 3,
+      Mission: 4,
     }
     //This action is free to regain uses if the given event
     //meets the duration threshold
