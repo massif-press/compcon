@@ -60,6 +60,7 @@ abstract class CompendiumItem {
       this._name = data.name
       this._flavor_name = data.name
       this._description = data.description || ''
+      this._flavor_description = data.description || ''
       this.Brew = data.brew || 'Core'
       this.LcpName = packName || 'LANCER Core Book'
       this.InLcp = packName ? true : false
