@@ -149,7 +149,7 @@
       v-if="item"
       ref="damageTypeDialog"
       :allowed-types="['Explosive', 'Energy', 'Kinetic']"
-      @select="item.DamageTypeOverride = $event"
+      @select="save('DamageTypeOverride', $event)"
     />
   </v-col>
 </template>
