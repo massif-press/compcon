@@ -22,6 +22,12 @@ yarn serve
 
 Which will open a browser window pointed to `localhost:8080`. Hot Module Reload is enabled, which means that the app should refresh as you save code. Occasionally (especially after certain syntax errors) this can start to fall off, in part or completely. If this is the case, a refresh will either get HMR working again or find your error.
 
+If you need https support for your developer server, which is the case when you need to debug and develop on a machine other than your build machine, you can use the following command instead:
+```bash
+yarn serve-https
+```
+
+Please note this will cause your browser to display a warning about certificate validation, as the VUE developement certificate is self signed.
 ## App Conventions
 
 WIP

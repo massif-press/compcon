@@ -4,7 +4,8 @@
   "description": "A digital toolkit for the LANCER TTRPG",
   "author": "Massif Press",
   "scripts": {
-    "serve": "vue-cli-service serve --https",
+    "serve": "vue-cli-service serve",
+    "serve-https": "vue-cli-service serve --https",
     "build": "vue-cli-service build"
   },
   "dependencies": {
