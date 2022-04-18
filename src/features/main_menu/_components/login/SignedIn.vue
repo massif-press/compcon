@@ -23,7 +23,6 @@
           </v-btn>
         </v-col>
       </v-row>
-
       <v-row dense class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">CHANGE PASSWORD</v-col>
       </v-row>
@@ -68,6 +67,15 @@
       <v-row dense class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">ACCOUNT DATA</v-col>
       </v-row>
+      <div v-if="iid" class="caption text-center mt-1 mb-n3">
+        COMP/CON USER IDENTITYID: {{ iid }}
+        <cc-tooltip simple inline content="Copy IID to clipboard">
+          <v-btn icon small right @click="copyIid()">
+            <v-icon small>mdi-clipboard-text-outline</v-icon>
+          </v-btn>
+        </cc-tooltip>
+      </div>
+
       <v-alert class="my-3" prominent icon="mdi-alert" color="warning darken-2" outlined>
         <b>Cloud Sync functionality has changed</b>
         <div class="text--text">
@@ -208,6 +216,7 @@ export default Vue.extend({
     loading: false,
     showError: false,
     error: '',
+    iid: '',
     oldpass: null,
     showOld: false,
     newpass: null,
@@ -235,6 +244,7 @@ export default Vue.extend({
       .then(user => {
         this.authedUser = user
       })
+      .then(() => Auth.currentUserCredentials().then(res => (this.iid = res.identityId)))
       .catch(() => {
         this.$emit('set-state', 'sign-in')
       })
@@ -289,6 +299,12 @@ export default Vue.extend({
     },
     userUpdate() {
       UpdateUserData(this.userProfile).then(res => console.log(res))
+    },
+    copyIid() {
+      navigator.clipboard
+        .writeText(this.iid)
+        .then(() => Vue.prototype.$notify('Cloud Identity ID copied to clipboard.', 'confirmation'))
+        .catch(() => Vue.prototype.$notifyError('Unable to copy Cloud Identity ID '))
     },
     async v2Upgrade() {
       this.upgradeLoading = true
