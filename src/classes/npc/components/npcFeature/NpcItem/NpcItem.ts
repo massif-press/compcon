@@ -1,8 +1,7 @@
 // Wrapper class for items assigned to an NPC
 
-import { NpcFeature } from './'
+import { NpcFeature, NpcTemplate } from '../../..'
 import { store } from '@/store'
-import { Npc } from './Npc'
 
 export interface INpcItemSaveData {
   itemID: string
@@ -15,7 +14,6 @@ export interface INpcItemSaveData {
 }
 
 export class NpcItem {
-  public readonly Parent: Npc
   private _feature: NpcFeature
   private _tier: number
   private _flavor_name: string
@@ -24,15 +22,17 @@ export class NpcItem {
   private _charged: boolean
   private _uses: number
   private _max_uses: number
+  public readonly Caveat: string
+  public IsVisible: boolean
 
-  public constructor(feature: NpcFeature, tier: number, parent: Npc) {
-    this.Parent = parent
+  public constructor(feature: NpcFeature, tier: number, caveatTemplate?: NpcTemplate) {
     this._feature = feature
     this._tier = tier
     this._flavor_name = this._flavor_description = ''
     this._destroyed = false
     this._charged = true
     this._uses = 0
+    if (caveatTemplate && caveatTemplate.Caveat) this.Caveat = caveatTemplate.Caveat
     const f = feature as any
     if (f.IsLimited) {
       const ltd = f.Tags.find(x => x.IsLimited)
@@ -40,10 +40,11 @@ export class NpcItem {
     } else {
       this._max_uses = 0
     }
+    this.IsVisible = !feature.HideActive
   }
 
   private save(): void {
-    this.Parent.SaveController.save()
+    store.dispatch('saveNpcData')
   }
 
   public get Feature(): NpcFeature {
@@ -134,8 +135,8 @@ export class NpcItem {
     }
   }
 
-  public static Deserialize(data: INpcItemSaveData, parent: Npc): NpcItem {
-    const item = new NpcItem(store.getters.referenceByID('NpcFeatures', data.itemID), data.tier, parent)
+  public static Deserialize(data: INpcItemSaveData): NpcItem {
+    const item = new NpcItem(store.getters.referenceByID('NpcFeatures', data.itemID), data.tier)
     item._flavor_description = data.description
     item._flavor_name = data.flavorName
     item._destroyed = data.destroyed

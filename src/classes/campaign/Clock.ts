@@ -1,12 +1,12 @@
 import uuid from 'uuid/v4'
 
 interface IClockData {
-  id: string,
-  title: string,
-  description: string,
-  resolution: string
-  segments: number,
-  progress: number,
+  id?: string
+  title?: string
+  description?: string
+  resolution?: string
+  segments?: number
+  progress?: number
 }
 
 class Clock {

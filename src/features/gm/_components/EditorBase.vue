@@ -115,20 +115,6 @@
           </v-col>
         </v-row>
         <v-divider class="my-2" />
-        <v-row class="text-center">
-          <v-col>
-            <div class="caption">ASSOCIATED CHARACTERS</div>
-          </v-col>
-          <v-col cols="auto"><v-divider vertical /></v-col>
-          <v-col>
-            <div class="caption">ASSOCIATED LOCATIONS</div>
-          </v-col>
-          <v-col cols="auto"><v-divider vertical /></v-col>
-          <v-col>
-            <div class="caption">ASSOCIATED FACTIONS</div>
-          </v-col>
-        </v-row>
-        <v-divider class="my-2" />
         <div class="caption">{{ typeText }} CLOCKS</div>
         <v-row justify="end">
           <v-col cols="auto">

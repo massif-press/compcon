@@ -76,6 +76,9 @@ enum ItemType {
   WeaponMod = 'WeaponMod',
   SystemMod = 'SystemMod',
   NpcFeature = 'NpcFeature',
+  Character = 'Character',
+  Location = 'Location',
+  Faction = 'Faction',
 }
 
 enum SystemType {

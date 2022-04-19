@@ -1,8 +1,6 @@
-import { Range, Damage } from '@/class'
+import { Range, Damage, DamageType } from '@/class'
 import { IRangeData } from '@/interface'
-import { NpcFeature, NpcFeatureType } from '.'
-import { INpcFeatureData } from './interfaces'
-import { DamageType } from '../enums'
+import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature'
 
 export interface INpcDamageData {
   type: string

@@ -24,8 +24,12 @@ import { IActor } from '../encounter/IActor'
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
 import { IBrewable } from '../components/brew/IBrewable'
 import { CompendiumItem } from '../CompendiumItem'
+import { CombatController } from '../components/combat/CombatController'
+import { INpcClassSaveData, NpcClassController } from './components/npcClass/NpcClassController'
+import { NpcFeatureController } from './components/npcFeature/NpcFeatureController'
+import { NpcTemplateController } from './components/npcTemplate/NpcTemplateController'
 
-class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
+class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData, INpcClassSaveData {
   remoteIID: string
   remoteKey: string
   shareCodeExpiry: string
@@ -44,7 +48,7 @@ class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
   lastSync: string
   lastModified: string
   class: string
-  tier: number | string
+  tier: number
   name: string
   subtitle: string
   campaign: string
@@ -68,33 +72,32 @@ class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
   actions: number
   counter_data: ICounterSaveData[]
   custom_counters: object[]
-  cc_ver: string
 }
 
-class Npc
-  implements IActor, ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IFeatureController
-{
+class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IFeatureController {
   public readonly ItemType: string = 'npc'
   public ImageTag: ImageTag.NPC
-  public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
   public CloudController: CloudController
   public SaveController: SaveController
   public PortraitController: PortraitController
   public BrewController: BrewController
   public CounterController: CounterController
   public FeatureController: FeatureController
+  public NpcFeatureController: NpcFeatureController
+  public NpcTemplateController: NpcTemplateController
+  public NpcClassController: NpcClassController
+  public CombatController: CombatController
+
+  public Stats: NpcStats
 
   private _active: boolean
   private _id: string
   private _name: string
   private _subtitle: string
   private _campaign: string
-  private _tier: string | number
-  private _class: NpcClass
+  private _tier: number
   private _side: EncounterSide
-  private _templates: NpcTemplate[]
   private _items: NpcItem[]
-  private _stats: NpcStats
   private _current_stats: NpcStats
   private _note: string
   private _cloud_image: string
@@ -109,9 +112,8 @@ class Npc
   private _turn_actions: number
   private _destroyed: boolean
   private _defeat: string
-  private cc_ver: string
 
-  public constructor(npcClass: NpcClass, tier?: number) {
+  public constructor(npcClass?: NpcClass, tier?: number) {
     const t = tier || 1
     this._active = false
     this._id = uuid()
@@ -121,43 +123,37 @@ class Npc
     this.BrewController = new BrewController(this)
     this.CounterController = new CounterController(this)
     this.FeatureController = new FeatureController(this)
+    this.NpcClassController = new NpcClassController(this)
+    this.NpcFeatureController = new NpcFeatureController(this)
+    this.NpcTemplateController = new NpcTemplateController(this)
+    this.CombatController = new CombatController(this)
 
     this.FeatureController.Register()
 
-    this._name = `New ${npcClass.Name[0].toUpperCase()}${npcClass.Name.slice(1)}`
+    this._name = `New NPC`
     this._subtitle = ''
     this._tier = t
-    this._templates = []
     this._user_labels = []
     this._side = EncounterSide.Enemy
     this._note = this._cloud_image = this._local_image = ''
     this._campaign = ''
-    this._class = npcClass
-    this._tag = this.Class.Role.toLowerCase() === 'biological' ? 'Biological' : 'Mech'
-    this._stats = NpcStats.FromClass(npcClass, t)
-    this._current_stats = NpcStats.FromMax(this._stats)
-    this._items = []
-    npcClass.BaseFeatures.forEach(f => {
-      this._items.push(new NpcItem(f, t, this))
-    })
     this._burn = 0
     this._overshield = 0
     this._turn_actions = 2
     this._destroyed = false
     this._defeat = ''
+    this._items = []
     this._statuses = []
     this._conditions = []
     this._resistances = []
-    this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
+    if (npcClass) this.NpcClassController.SetClass(npcClass, t)
   }
-
-  Bonuses?: any[]
 
   public get BrewableCollection(): CompendiumItem[] {
     // TODO / NB: temporary casting to CI prior to GM changes where they will become fully featured
     return [
-      this.Class as unknown as CompendiumItem,
-      ...(this.Features as unknown[] as CompendiumItem[]),
+      this.NpcClassController.Class as unknown as CompendiumItem,
+      ...(this.NpcFeatureController.Features as unknown[] as CompendiumItem[]),
     ]
   }
 
@@ -178,16 +174,12 @@ class Npc
     this._id = uuid()
   }
 
-  public get Stats(): NpcStats {
-    return this._stats
-  }
-
   public get CurrentStats(): NpcStats {
     return this._current_stats
   }
 
   public ResetStats(): void {
-    this._current_stats = NpcStats.FromMax(this._stats)
+    this._current_stats = NpcStats.FromMax(this.Stats)
   }
 
   public get EncounterName(): string {
@@ -195,7 +187,7 @@ class Npc
   }
 
   public get Icon(): string {
-    return this.Class.RoleIcon
+    return this.NpcClassController.Class.RoleIcon
   }
 
   public get Name(): string {
@@ -269,89 +261,15 @@ class Npc
     return this._user_labels.join(', ')
   }
 
-  public get Tier(): number | string {
-    return this._tier
-  }
-
-  public set Tier(newTier: number | string) {
-    this._tier = newTier
-    if (typeof newTier === 'number') {
-      this._stats = NpcStats.FromClass(this.Class, newTier)
-      this._items.forEach(i => {
-        i.Tier = newTier
-      })
-      this.RecalcBonuses()
-    }
-    this.SaveController.save()
-  }
-
-  public get IsCustomTier(): boolean {
-    return this._tier === 'custom'
-  }
-
-  public get Class(): NpcClass {
-    return this._class
-  }
-
-  public get BaseClassFeatures(): NpcFeature[] {
-    return this.Class.BaseFeatures
-  }
-
-  public get BaseTemplateFeatures(): NpcFeature[] {
-    return this._templates.flatMap(x => x.BaseFeatures)
-  }
-
-  public get BaseFeatures(): NpcFeature[] {
-    return this.BaseClassFeatures.concat(this.BaseTemplateFeatures)
-  }
-
-  public get SelectedFeatures(): NpcFeature[] {
-    return this.Items.map(x => x.Feature)
-  }
-
-  public get Features(): NpcFeature[] {
-    return this.BaseFeatures.concat(this.SelectedFeatures)
-  }
-
-  public get AvailableFeatures(): NpcFeature[] {
-    return this.Class.OptionalFeatures.concat(
-      this._templates.flatMap(x => x.OptionalFeatures)
-    ).filter(x => !this.SelectedFeatures.some(y => y.ID === x.ID))
-  }
-
-  public get Templates(): NpcTemplate[] {
-    return this._templates
-  }
-
-  public set Templates(temps: NpcTemplate[]) {
-    this._templates = temps
-  }
-
-  public AddTemplate(temp: NpcTemplate): void {
-    this._templates.push(temp)
-    temp.BaseFeatures.forEach(f => this.AddFeature(f, true))
-    this.RecalcBonuses()
-  }
-
-  public RemoveTemplate(temp: NpcTemplate): void {
-    const idx = this._templates.findIndex(x => x.ID === temp.ID)
-    if (idx > -1) {
-      this._templates.splice(idx, 1)
-      temp.BaseFeatures.forEach(f => this.RemoveFeature(f, true))
-      temp.OptionalFeatures.forEach(f => this.RemoveFeature(f, true))
-      this.RecalcBonuses()
-    }
-  }
-
   setStatBonuses(): void {
-    this._stats.ClearBonuses()
+    this.Stats.ClearBonuses()
     this._items.forEach(item => {
       if (item.Feature.Override) {
         for (const key in item.Feature.Override) {
           const o = Array.isArray(item.Feature.Override[key])
             ? item.Feature.Override[key][item.Tier - 1]
             : item.Feature.Override[key]
-          this._stats.Overrides[key] = o
+          this.Stats.Overrides[key] = o
         }
       } else {
         if (item.Feature.Bonus) {
@@ -359,7 +277,7 @@ class Npc
             const b = Array.isArray(item.Feature.Bonus[key])
               ? item.Feature.Bonus[key][item.Tier - 1]
               : item.Feature.Bonus[key]
-            this._stats.Bonuses[key] += parseInt(b)
+            this.Stats.Bonuses[key] += parseInt(b)
           }
         }
       }
@@ -372,72 +290,11 @@ class Npc
     if (save) this.SaveController.save()
   }
 
-  public AddFeature(feat: NpcFeature, skipRecalc?: boolean): void {
-    const t = typeof this.Tier === 'number' ? this.Tier : 1
-    const item = new NpcItem(feat, t, this)
-    this._items.push(item)
-    if (!skipRecalc) this.RecalcBonuses()
-  }
-
-  public RemoveFeature(feat: NpcFeature, skipRecalc?: boolean): void {
-    const j = this._items.findIndex(x => x.Feature.ID === feat.ID)
-    if (j > -1) {
-      this._items.splice(j, 1)
-      if (!skipRecalc) this.RecalcBonuses()
-    }
-  }
-
   public get Items(): NpcItem[] {
     return this._items
   }
 
   // -- Encounter Management ----------------------------------------------------------------------
-
-  public get CurrentStructure(): number {
-    return this.CurrentStats.Structure
-  }
-
-  public set CurrentStructure(val: number) {
-    this.CurrentStats.Structure = val
-    if (this.Active && this.CurrentStats.Structure === 0) {
-      this.CurrentStats.HP = 0
-      this.Destroyed = true
-    }
-  }
-
-  public get CurrentHP(): number {
-    return this.CurrentStats.HP
-  }
-
-  public set CurrentHP(val: number) {
-    if (val > this.MaxHP) this.CurrentStats.HP = this.MaxHP
-    else if (val <= 0) {
-      this.CurrentStats.HP = this.MaxHP + val
-      this.CurrentStructure -= 1
-    } else this.CurrentStats.HP = val
-  }
-
-  public get CurrentStress(): number {
-    return this.CurrentStats.Stress
-  }
-
-  public set CurrentStress(val: number) {
-    this.CurrentStats.Stress = val
-    if (this.Active && this.CurrentStats.Stress === 0 && !this.Statuses.includes('EXPOSED')) {
-      this.Statuses.push('EXPOSED')
-    }
-  }
-
-  public get CurrentHeat(): number {
-    return this.CurrentStats.HeatCapacity
-  }
-
-  public set CurrentHeat(val: number) {
-    if (val > this.HeatCapacity) {
-      this.CurrentStress -= 1
-      this.CurrentStats.HeatCapacity = val - this.HeatCapacity
-    } else this.CurrentStats.HeatCapacity = val
-  }
 
   public get MaxStructure(): number {
     return this.Stats.Structure
@@ -455,135 +312,12 @@ class Npc
     return this.Stats.HeatCapacity
   }
 
-  public get Conditions(): string[] {
-    return this._conditions
-  }
-
-  public set Conditions(conditions: string[]) {
-    this._conditions = conditions
-    this.SaveController.save()
-  }
-
-  public get Statuses(): string[] {
-    return this._statuses
-  }
-
-  public set Statuses(statuses: string[]) {
-    this._statuses = statuses
-    this.SaveController.save()
-  }
-
-  public get Resistances(): string[] {
-    return this._resistances
-  }
-
-  public set Resistances(resistances: string[]) {
-    this._resistances = resistances
-    this.SaveController.save()
-  }
-
-  public get Burn(): number {
-    return this._burn
-  }
-
-  public set Burn(burn: number) {
-    this._burn = burn
-    if (this._burn < 0) this._burn = 0
-    this.SaveController.save()
-  }
-
-  public get Overshield(): number {
-    return this._overshield
-  }
-
-  public set Overshield(val: number) {
-    this._overshield = val
-    this.SaveController.save()
-  }
-
-  public get Destroyed(): boolean {
-    return this._destroyed
-  }
-
-  public set Destroyed(val: boolean) {
-    this._destroyed = val
-    this._defeat = val ? 'Destroyed' : ''
-    this.SaveController.save()
-  }
-
-  public get Defeat(): string {
-    return this._defeat
-  }
-
-  public set Defeat(val: string) {
-    this._defeat = val
-    this.SaveController.save()
-  }
-
-  public get Activations(): number {
-    return this.CurrentStats.Activations
-  }
-
-  public set Activations(val: number) {
-    this.CurrentStats.Activations = val
-    this.SaveController.save()
-  }
-
-  public get TurnActions(): number {
-    return this._turn_actions
-  }
-
-  public set TurnActions(val: number) {
-    this._turn_actions = val
-    this.SaveController.save()
-  }
-
-  public get CurrentMove(): number {
-    return this.CurrentStats.Speed
-  }
-
-  public set CurrentMove(val: number) {
-    this.CurrentStats.Speed = val
-    this.SaveController.save()
-  }
-
-  public get MaxMove(): number {
-    return this.Stats.Speed
-  }
-
   public get Evasion(): number {
     return this.Stats.Evade
   }
 
   public get EDefense(): number {
     return this.Stats.EDefense
-  }
-
-  public get Reactions(): string[] {
-    return this.CurrentStats.Reactions
-  }
-
-  public AddReaction(r: string): void {
-    this.CurrentStats.AddReaction(r)
-  }
-
-  public RemoveReaction(r: string): void {
-    this.CurrentStats.RemoveReaction(r)
-  }
-
-  public FullRepair(): void {
-    this.CurrentStats.Reset(this.Stats)
-    this.Items.forEach(e => e.Repair())
-    this._defeat = ''
-    this._destroyed = false
-  }
-
-  public NewTurn(): void {
-    this.CurrentStats.Activations = this.Stats.Activations
-    this._turn_actions = 2
-    this.CurrentStats.Speed = 0
-    this.CurrentStats.AddReaction('Overwatch')
-    this.SaveController.save()
   }
 
   public get SizeIcon(): string {
@@ -600,16 +334,13 @@ class Npc
     let data = {
       active: npc.Active,
       id: npc.ID,
-      class: npc.Class.ID,
-      tier: npc._tier,
       name: npc._name,
       subtitle: npc._subtitle,
       campaign: npc._campaign,
       labels: npc._user_labels,
       tag: npc._tag,
-      templates: npc.Templates.map(x => x.ID),
       items: npc._items.map(x => NpcItem.Serialize(x)),
-      stats: NpcStats.Serialize(npc._stats),
+      stats: NpcStats.Serialize(npc.Stats),
       currentStats: NpcStats.Serialize(npc._current_stats),
       note: npc._note,
       side: npc.Side,
@@ -623,13 +354,14 @@ class Npc
       destroyed: npc._destroyed,
       defeat: npc._defeat,
       actions: npc._turn_actions,
-      cc_ver: npc.cc_ver,
     }
 
     SaveController.Serialize(npc, data)
     CloudController.Serialize(npc, data)
     PortraitController.Serialize(npc, data)
     BrewController.Serialize(npc, data)
+    NpcClassController.Serialize(npc, data)
+    NpcTemplateController.Serialize(npc, data)
     CounterController.Serialize(npc, data)
 
     return data as INpcData
@@ -647,31 +379,23 @@ class Npc
   }
 
   public Update(data: INpcData, ignoreProps?: boolean): void {
-    if (ignoreProps) {
-      for (const key in data) {
-        if (this.SyncIgnore.includes(key)) data[key] = null
-      }
-    }
-
     this._active = data.active
     this._id = data.id
-    this._tier = data.tier
     this._name = data.name
     this._subtitle = data.subtitle || ''
     this._side = data.side as EncounterSide
     this._campaign = data.campaign || ''
     this._user_labels = data.labels || []
     this._tag = data.tag
-    this._templates = data.templates.map(x => store.getters.referenceByID('NpcTemplates', x))
-    this._items = data.items.map(x => NpcItem.Deserialize(x, this))
-    this._stats = NpcStats.Deserialize(data.stats)
+    this._items = data.items.map(x => NpcItem.Deserialize(x))
+    this.Stats = NpcStats.Deserialize(data.stats)
     this.RecalcBonuses(false)
     this._note = data.note
     this._cloud_image = data.cloudImage
     this._local_image = data.localImage
     this._current_stats = data.currentStats
       ? NpcStats.Deserialize(data.currentStats)
-      : NpcStats.FromMax(this._stats)
+      : NpcStats.FromMax(this.Stats)
     this._statuses = data.statuses || []
     this._conditions = data.conditions || []
     this._resistances = data.resistances || []
@@ -680,17 +404,17 @@ class Npc
     this._turn_actions = data.actions || 1
     this._destroyed = data.destroyed || false
     this._defeat = data.defeat || ''
-    this.cc_ver = data.cc_ver
   }
 
   public static Deserialize(data: INpcData): Npc {
-    const c = store.getters.referenceByID('NpcClasses', data.class)
-    const npc = new Npc(c)
+    const npc = new Npc()
     try {
       npc.Update(data)
       SaveController.Deserialize(npc, data)
       PortraitController.Deserialize(npc, data)
       BrewController.Deserialize(npc, data)
+      NpcClassController.Deserialize(npc, data)
+      NpcTemplateController.Deserialize(npc, data)
       CounterController.Deserialize(npc, data)
       npc.SaveController.SetLoaded()
       return npc

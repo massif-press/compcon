@@ -28,6 +28,11 @@ export class NpcClassStats {
     return this._stats[key] ? this._stats[key][tier - 1] : 1
   }
 
+  public StatArr(key: string): number[] {
+    const s = this._stats[key.toLowerCase()]
+    return s ? s : []
+  }
+
   public Activations(tier: number): number {
     return this._stats.activations[tier - 1]
   }

@@ -190,7 +190,7 @@ export default Vue.extend({
     },
     deleteNpc() {
       const store = getModule(NpcStore, this.$store)
-      store.deleteNpc(this.npc)
+      store.delete_npc(this.npc)
       this.$emit('exit')
     },
     dupeNpc() {

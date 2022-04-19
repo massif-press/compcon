@@ -1,14 +1,14 @@
-import { NpcFeatureType, NpcFeature } from './NpcFeature'
-import { NpcReaction } from './NpcReaction'
-import { NpcSystem } from './NpcSystem'
-import { NpcTech } from './NpcTech'
-import NpcTrait from './NpcTrait'
-import { NpcItem } from './NpcItem'
-import { NpcWeapon } from './NpcWeapon'
+import { NpcFeatureType, NpcFeature } from './components/npcFeature/NpcFeature'
+import { NpcItem } from './components/npcFeature/NpcItem/NpcItem'
 import { NpcStats } from './NpcStats'
-import { NpcClass } from './NpcClass'
-import { NpcTemplate } from './NpcTemplate'
+import { NpcClass } from './components/npcClass/NpcClass'
+import { NpcTemplate } from './components/npcTemplate/NpcTemplate'
 import { Npc } from './Npc'
+import { NpcReaction } from './components/npcFeature/NpcItem/NpcReaction'
+import { NpcSystem } from './components/npcFeature/NpcItem/NpcSystem'
+import { NpcTech } from './components/npcFeature/NpcItem/NpcTech'
+import NpcTrait from './components/npcFeature/NpcItem/NpcTrait'
+import { NpcWeapon } from './components/npcFeature/NpcItem/NpcWeapon'
 
 export {
   NpcFeatureType,

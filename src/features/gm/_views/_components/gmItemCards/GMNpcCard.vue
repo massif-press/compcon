@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
     <v-card :elevation="hover ? 12 : 0" :outlined="!hover">
-      <v-img :aspect-ratio="1" src="../../../../static/img/misc/combat.jpg">
+      <v-img :aspect-ratio="1" src="public/static/img/misc/combat.jpg">
         <v-fade-transition>
           <div
             v-if="hover"

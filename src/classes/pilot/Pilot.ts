@@ -76,6 +76,24 @@ class PilotData
     IBrewData,
     IPilotBondData
 {
+  id: string
+
+  // pilot
+  level: number
+  callsign: string
+  name: string
+  player_name: string
+  status: string
+  text_appearance: string
+  notes: string
+  history: string
+  quirks: string[]
+  background: string
+  special_equipment: IUnlockData
+  mechs: IMechData[]
+  dead: boolean
+
+  // bonds
   majorIdeal: string
   minorIdeal: string
   bondAnswers: string[]
@@ -89,33 +107,22 @@ class PilotData
   bondPowers: BondPower[]
   clocks: IClockData[]
   pilotBond: IPilotBondData
+
+  // brewable
+  brews: BrewInfo[]
+
+  // cloud
   remoteIID: string
   remoteKey: string
   shareCodeExpiry: string
   shareCode: string
   isRemoteResource: boolean
   deleteTime: string
-  id: string
-  level: number
-  callsign: string
-  name: string
-  player_name: string
-  status: string
-  text_appearance: string
-  notes: string
-  history: string
-  quirks: string[]
-  current_hp: number
-  background: string
 
+  current_hp: number
   resistances: string[]
-  special_equipment: IUnlockData
-  mechs: IMechData[]
-  cc_ver: string
-  brews: BrewInfo[]
-  state: IActiveStateData
   combat_history: ICombatStats
-  dead: boolean
+  state: IActiveStateData
 
   // SaveController
   lastModified: string
@@ -192,6 +199,7 @@ class Pilot
   public PilotLoadoutController: PilotLoadoutController
   public BrewController: BrewController
 
+  private _id: string
   private _callsign: string
   private _name: string
   private _player_name: string
@@ -200,22 +208,16 @@ class Pilot
   private _notes: string
   private _quirks: string[]
   private _history: string
-
-  private _id: string
   private _level: number
   private _missing_hp: number
   private _background: string
-  private _resistances: string[]
-
   private _special_equipment: CompendiumItem[]
-
   private _mechs: Mech[]
-  private _state: ActiveState
-  private _combat_history: ICombatStats
   private _dead: boolean
 
-  private cc_ver: string
-  private _brews: string[]
+  private _resistances: string[]
+  private _state: ActiveState
+  private _combat_history: ICombatStats
 
   public constructor() {
     this._id = uuid()
@@ -256,11 +258,9 @@ class Pilot
     this._resistances = []
     this._special_equipment = []
     this._mechs = []
-    this._brews = []
     this._dead = false
     this._state = new ActiveState(this)
     this._combat_history = ActiveState.NewCombatStats()
-    this.cc_ver = process.env.npm_package_version || 'UNKNOWN'
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -300,6 +300,10 @@ class Pilot
       ...this.Mechs.flatMap(m => m.BrewableItems),
       this.PilotLoadoutController.Loadout.Items,
     ] as CompendiumItem[]
+  }
+
+  public get Items(): any[] {
+    return this.ActiveMech.MechLoadoutController.ActiveLoadout.Equipment
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -640,7 +644,6 @@ class Pilot
       background: p.Background,
       resistances: p.Resistances,
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
-      cc_ver: p.cc_ver,
       special_equipment: this.serializeSE(p._special_equipment),
       combat_history: p._combat_history,
       state: ActiveState.Serialize(p.State),
@@ -708,8 +711,6 @@ class Pilot
     this._special_equipment = data.special_equipment
       ? Pilot.deserializeSE(data.special_equipment)
       : []
-
-    this.cc_ver = data.cc_ver || ''
 
     MechSkillsController.Deserialize(this, data)
     SaveController.Deserialize(this, data)

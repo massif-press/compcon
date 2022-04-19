@@ -51,6 +51,9 @@ export default async function (
   await encounterStore.loadEncounters()
   await missionStore.loadMissions()
   await missionStore.loadActiveMissions()
+  await store.dispatch('character/loadCharacters')
+  await store.dispatch('location/loadLocations')
+  await store.dispatch('faction/loadFactions')
 
   console.info('loading complete')
 }

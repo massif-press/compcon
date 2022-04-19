@@ -1,6 +1,6 @@
 import { store } from '@/store'
 import { INpcClassStats, NpcClassStats } from './NpcClassStats'
-import { NpcFeature } from './'
+import { NpcFeature } from '../..'
 
 export interface INpcClassData {
   id: string
@@ -10,6 +10,7 @@ export interface INpcClassData {
   stats: INpcClassStats
   base_features: string[]
   optional_features: string[]
+  power: number
   brew: string
 }
 
@@ -24,8 +25,7 @@ export class NpcClass {
     tactics: string
   }
   private _stats: NpcClassStats
-  private _base_features: string[]
-  private _optional_features: string[]
+  private _power: number
   private _brew: string
 
   public constructor(data: INpcClassData, packName?: string) {
@@ -34,8 +34,7 @@ export class NpcClass {
     this._role = data.role
     this._info = data.info
     this._stats = new NpcClassStats(data.stats)
-    this._base_features = data.base_features
-    this._optional_features = data.optional_features
+    this._power = data.power
     this._brew = data.brew || 'CORE'
     this.LcpName = packName || 'Lancer CORE NPCs'
     this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false
@@ -49,8 +48,12 @@ export class NpcClass {
     return this._name
   }
 
+  public get Power(): number {
+    return this._power
+  }
+
   public get Role(): string {
-    return this._role
+    return this._role.toUpperCase()
   }
 
   public get RoleIcon(): string {
@@ -70,12 +73,16 @@ export class NpcClass {
     return this._info.tactics
   }
 
+  private get _features(): NpcFeature[] {
+    return store.getters.NpcFeatures.filter(x => x.Origin.ID === this.ID)
+  }
+
   public get BaseFeatures(): NpcFeature[] {
-    return this._base_features.map(x => store.getters.referenceByID('NpcFeatures', x))
+    return this._features.filter(x => !x.Origin.Optional)
   }
 
   public get OptionalFeatures(): NpcFeature[] {
-    return this._optional_features.map(x => store.getters.referenceByID('NpcFeatures', x))
+    return this._features.filter(x => x.Origin.Optional)
   }
 
   public get Stats(): NpcClassStats {
@@ -84,9 +91,5 @@ export class NpcClass {
 
   public get ItemType(): string {
     return 'NPC Class'
-  }
-
-  public get Brew(): string {
-    return this._brew
   }
 }

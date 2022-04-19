@@ -30,7 +30,7 @@ const ListCloudItems = async (): Promise<any> => {
     .catch(err => console.error(err))
 }
 
-type CollectionItem = {
+type CloudCollectionItem = {
   key: string
   id: string
   itemType: CloudItemTypeMap
@@ -46,7 +46,7 @@ type CollectionItem = {
   remote: false
 }
 
-function determineLatest(cloudItem: CollectionItem, localItem: CollectionItem): string {
+function determineLatest(cloudItem: CloudCollectionItem, localItem: CloudCollectionItem): string {
   if (cloudItem.lastModifiedCloud === localItem.lastModifiedLocal) return 'synced'
   if (Date.parse(cloudItem.lastModifiedCloud) > Date.parse(localItem.lastModifiedLocal)) {
     return 'cloud'
@@ -55,7 +55,7 @@ function determineLatest(cloudItem: CollectionItem, localItem: CollectionItem): 
   }
 }
 
-const ProcessItemsList = (cloudList): CollectionItem[] => {
+const ProcessItemsList = (cloudList): CloudCollectionItem[] => {
   const localCollection = {
     activemission: getModule(MissionStore, store).AllActiveMissions,
     mission: getModule(MissionStore, store).AllMissions,
@@ -109,9 +109,9 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
     }
   })
 
-  localMap.forEach((localItem: CollectionItem) => {
+  localMap.forEach((localItem: CloudCollectionItem) => {
     let matchIndex = -1
-    const match = output.find((cloudItem: CollectionItem, index: number) => {
+    const match = output.find((cloudItem: CloudCollectionItem, index: number) => {
       if (localItem.id === cloudItem.id || localItem.id === cloudItem.name) {
         matchIndex = index
         return cloudItem
@@ -134,9 +134,9 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
     }
   })
 
-  output.forEach((cloudItem: CollectionItem) => {
+  output.forEach((cloudItem: CloudCollectionItem) => {
     const match = localMap.find(
-      (localItem: CollectionItem) =>
+      (localItem: CloudCollectionItem) =>
         localItem.id === cloudItem.id || localItem.id === cloudItem.name
     )
     if (match) {
@@ -147,7 +147,7 @@ const ProcessItemsList = (cloudList): CollectionItem[] => {
   return output
 }
 
-function GetLocalItem(item: CollectionItem): any {
+function GetLocalItem(item: CloudCollectionItem): any {
   switch (item.itemType) {
     case CloudItemTypeMap.activemission:
       return getModule(MissionStore, store).ActiveMissions.find(x => x.ID === item.id)
@@ -164,7 +164,7 @@ function GetLocalItem(item: CollectionItem): any {
   }
 }
 
-function PermanentlyDeleteLocalItem(item: CollectionItem): any {
+function PermanentlyDeleteLocalItem(item: CloudCollectionItem): any {
   switch (item.itemType) {
     case CloudItemTypeMap.activemission:
       const ms = getModule(MissionStore, store)
@@ -192,7 +192,7 @@ function PermanentlyDeleteLocalItem(item: CollectionItem): any {
 }
 
 // syncs a single item based on latest update
-const SyncItem = async (item: CollectionItem, skipSave?: boolean): Promise<any> => {
+const SyncItem = async (item: CloudCollectionItem, skipSave?: boolean): Promise<any> => {
   if (item.remote) return
   const localItem = GetLocalItem(item) as ICloudSyncable
   if (
@@ -207,7 +207,7 @@ const SyncItem = async (item: CollectionItem, skipSave?: boolean): Promise<any> 
 }
 
 const UpdateLocalFromCloud = async (
-  item: CollectionItem,
+  item: CloudCollectionItem,
   localItem?: ICloudSyncable,
   skipSave?: boolean
 ) => {
@@ -257,7 +257,7 @@ const UpdateLocalFromCloud = async (
 }
 
 const UpdateCloudFromLocal = (
-  item: CollectionItem,
+  item: CloudCollectionItem,
   localItem: ICloudSyncable,
   skipSave?: boolean
 ) => {
@@ -283,7 +283,7 @@ const UpdateCloudFromLocal = (
   if (!skipSave) SaveLocalUpdates(item)
 }
 
-const SaveLocalUpdates = (item: CollectionItem) => {
+const SaveLocalUpdates = (item: CloudCollectionItem) => {
   switch (item.itemType) {
     case CloudItemTypeMap.mission:
     case CloudItemTypeMap.activemission:
@@ -305,7 +305,7 @@ const SaveLocalUpdates = (item: CollectionItem) => {
 
 // overwrite local data with cloud data
 const Overwrite = async (
-  item: CollectionItem,
+  item: CloudCollectionItem,
   source: 'cloud' | 'local',
   dest: 'cloud' | 'local',
   skipSave?: boolean
@@ -367,7 +367,7 @@ const GetSingleRemote = async (key: string, iid: string): Promise<any> => {
   }
 }
 
-const DeleteForever = async (item: CollectionItem, skipSave?: boolean): Promise<any> => {
+const DeleteForever = async (item: CloudCollectionItem, skipSave?: boolean): Promise<any> => {
   PermanentlyDeleteLocalItem(item)
   Storage.remove(item.key, {
     level: 'protected',

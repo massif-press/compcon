@@ -1,13 +1,13 @@
-import { INpcFeatureData } from './NpcFeature'
-import { INpcReactionData } from './NpcReaction'
-import { INpcSystemData } from './NpcSystem'
-import { INpcTechData } from './NpcTech'
-import { INpcItemSaveData } from './NpcItem'
-import { INpcDamageData, INpcWeaponData } from './NpcWeapon'
+import { INpcFeatureData } from './components/npcFeature/NpcFeature'
+import { INpcItemSaveData } from './components/npcFeature/NpcItem/NpcItem'
 import { INpcStats } from './NpcStats'
-import { INpcClassData } from './NpcClass'
-import { INpcTemplateData } from './NpcTemplate'
+import { INpcClassData } from './components/npcClass/NpcClass'
+import { INpcTemplateData } from './components/npcTemplate/NpcTemplate'
 import { INpcData } from './Npc'
+import { INpcReactionData } from './components/npcFeature/NpcItem/NpcReaction'
+import { INpcSystemData } from './components/npcFeature/NpcItem/NpcSystem'
+import { INpcTechData } from './components/npcFeature/NpcItem/NpcTech'
+import { INpcDamageData, INpcWeaponData } from './components/npcFeature/NpcItem/NpcWeapon'
 
 export {
   INpcFeatureData,
