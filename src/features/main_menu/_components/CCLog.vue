@@ -15,9 +15,6 @@
           class="flavor-text subtle--text text--darken-1 py-0 my-0"
         ></p>
         <p id="output" ref="output" class="flavor-text subtle--text text--darken-1 py-0 my-0">
-          <br />
-          <br />
-          <br />
         </p>
       </v-col>
       <v-col cols="auto" class="ml-2">
@@ -63,6 +60,7 @@ export default Vue.extend({
   },
   async mounted() {
     this.lock = true
+    this.restart()
   },
   methods: {
     restart() {
@@ -152,11 +150,11 @@ export default Vue.extend({
 <style scoped>
 #output-container {
   position: absolute;
-  height: 85vh;
+  height: 90vh;
   overflow-y: scroll;
   overflow-x: hidden;
   width: calc(100vw - 665px);
-  top: 66px;
+  top: 0;
   right: 0;
   margin-right: 8px;
   z-index: 1;
