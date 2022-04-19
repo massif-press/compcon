@@ -152,11 +152,11 @@ export default Vue.extend({
 <style scoped>
 #output-container {
   position: absolute;
-  height: 90vh;
+  height: 85vh;
   overflow-y: scroll;
   overflow-x: hidden;
   width: calc(100vw - 665px);
-  top: 0;
+  top: 66px;
   right: 0;
   margin-right: 8px;
   z-index: 1;
@@ -166,8 +166,8 @@ export default Vue.extend({
   align-self: stretch;
   display: inline-flex;
   height: inherit;
-  min-height: 95%;
-  max-height: 95%;
+  min-height: calc(100% - 24px);
+  max-height: calc(100% - 24px);
   max-width: 16px;
   width: 16px;
   background: url(../../../assets/ui/scale_1.png);
