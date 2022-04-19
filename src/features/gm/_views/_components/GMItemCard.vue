@@ -1,7 +1,23 @@
 <template>
   <div>
-    <component v-if="list" :is="listComponent" :item="item" :big="big" :list="list" />
-    <component v-else :is="cardComponent" :item="item" :big="big" :list="list" />
+    <component
+      v-if="list"
+      :is="listComponent"
+      :item="item"
+      :big="big"
+      :list="list"
+      :odd="odd"
+      @open="$emit('open', $event)"
+    />
+    <component
+      v-else
+      :is="cardComponent"
+      :item="item"
+      :big="big"
+      :odd="odd"
+      :list="list"
+      @open="$emit('open', $event)"
+    />
   </div>
 </template>
 
@@ -14,17 +30,21 @@ export default Vue.extend({
     item: { type: Object, required: true },
     big: { type: Boolean },
     list: { type: Boolean },
+    odd: { type: Boolean },
   },
   computed: {
+    type() {
+      return this.item.ItemType.charAt(0).toUpperCase() + this.item.ItemType.slice(1)
+    },
     cardComponent() {
       if (!this.item) {
         return null
       }
       return () => {
         try {
-          return import(`./gmItemCards/GM${this.item.ItemType}Card.vue`)
+          return import(`./gmItemCards/GM${this.type}Card.vue`)
         } catch (error) {
-          console.error(`Unable to load component ${this.item.ItemType}`)
+          console.error(`Unable to load component ${this.type}`)
           return null
         }
       }
@@ -35,9 +55,9 @@ export default Vue.extend({
       }
       return () => {
         try {
-          return import(`./gmItemCards/GM${this.item.ItemType}ListItem.vue`)
+          return import(`./gmItemCards/GM${this.type}ListItem.vue`)
         } catch (error) {
-          console.error(`Unable to load component ${this.item.ItemType}`)
+          console.error(`Unable to load component ${this.type}`)
           return null
         }
       }

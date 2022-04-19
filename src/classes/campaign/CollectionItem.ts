@@ -1,8 +1,8 @@
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import uuid from 'uuid/v4'
-import { ItemType } from "../enums"
-import { Clock, IClockData } from './Clock'
-import { IRollableTableData, RollableTable } from './RollableTable'
+import { ItemType } from '../enums'
+import { IRollableTableData, RollableTable } from '../components/narrative/elements/RollableTable'
+import { Clock, IClockData } from '../components/narrative/elements/Clock'
 
 interface ISectionData {
   header: string
@@ -71,7 +71,4 @@ abstract class CollectionItem {
   }
 }
 
-export {
-  ICollectionItemData,
-  CollectionItem
-}
+export { ICollectionItemData, CollectionItem }

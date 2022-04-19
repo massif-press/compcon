@@ -148,6 +148,8 @@
 <script lang="ts">
 import * as Components from './pages'
 import SidebarButton from './_components/SidebarButton.vue'
+import { getModule } from 'vuex-module-decorators'
+import { CampaignStore } from '@/store'
 
 import Vue from 'vue'
 export default Vue.extend({
@@ -166,7 +168,7 @@ export default Vue.extend({
       return Components[this.componentType]
     },
     campaign() {
-      return this.$store.getters['campaign/getCampaign']
+      return getModule(CampaignStore, this.$store).Campaign
     },
   },
   methods: {

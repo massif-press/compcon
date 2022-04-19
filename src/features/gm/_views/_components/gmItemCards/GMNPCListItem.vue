@@ -3,16 +3,14 @@
     <v-row
       dense
       :class="`elevation-${hover ? '12' : '0'}`"
-      :style="
-        `border-radius: 2px; border: ${
-          hover ? '1px solid var(--v-primary-base)' : ''
-        }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`
-      "
-      @click="$emit('open')"
+      :style="`border-radius: 2px; border: ${
+        hover ? '1px solid var(--v-primary-base)' : ''
+      }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
+      @click="$emit('open', item.ID)"
     >
       <v-col cols="1">
         <v-card>
-          <v-img :aspect-ratio="1" :src="item.Image" />
+          <v-img :aspect-ratio="1" :src="item.PortraitController.Image" />
         </v-card>
       </v-col>
       <v-col>
@@ -20,13 +18,20 @@
           <v-col cols="auto">
             <div :class="`heading h3 ${hover ? 'accent--text' : ''}`">
               {{ item.Name }}
-              <v-chip outlined label small>
-                <b>{{ `T${item.Tier}` }} {{ item.Class.Name }} {{ item.Tag }}</b>
+              <v-chip v-if="item.NpcClassController.Class" outlined label small>
+                <b>
+                  {{ `T${item.NpcClassController.Tier}` }} {{ item.NpcClassController.Class.Name }}
+                  {{ item.Tag }}
+                </b>
               </v-chip>
             </div>
           </v-col>
           <v-spacer />
-          <v-col cols="auto" v-for="(t, i) in item.Templates" :key="`${item.ID}_template_${i}`">
+          <v-col
+            cols="auto"
+            v-for="(t, i) in item.NpcTemplateController.Templates"
+            :key="`${item.ID}_template_${i}`"
+          >
             <v-chip label small :color="hover ? 'accent' : 'primary'" class="ma-1">
               <v-icon>cci-npc-template</v-icon>
               {{ t.Name }}
@@ -34,7 +39,7 @@
           </v-col>
         </v-row>
         <div>{{ item.Subtitle }}</div>
-        <v-row dense>
+        <v-row v-if="item.NpcClassController.Class" dense>
           <v-col v-for="(e, i) in hase" :key="`haseitem_${i}`" cols="auto" class="pr-2">
             <span class="heading h3" style="opacity: 0.5">{{ e.text }}</span>
             <b v-text="item.Stats[e.val]" />
@@ -50,7 +55,8 @@
             <b v-text="item.Stats[e.val]" />
           </v-col>
         </v-row>
-        <v-row dense>
+        <v-divider class="my-2" />
+        <v-row dense justify="center" align="center" class="text-center">
           <v-col>
             <v-chip
               v-for="(e, i) in item.Items"
@@ -58,7 +64,7 @@
               small
               label
               outlined
-              dark
+              class="mx-1"
               v-text="e.Name"
             />
           </v-col>
@@ -98,22 +104,5 @@ export default Vue.extend({
       { text: 'cci-activate', val: 'Activations' },
     ],
   }),
-  computed: {
-    allFactions() {
-      if (!this.$store.getters['faction/getFactions']) return []
-      return this.$store.getters['faction/getFactions'].filter(x => x.Name !== this.item.Name)
-    },
-  },
-  methods: {
-    isLink(name) {
-      return this.allFactions.some(x => x.Name === name)
-    },
-    goTo(name) {
-      const e = this.allFactions.find(x => x.Name === name)
-      if (!e) return
-      this.item.save()
-      this.$router.push({ name: `gm-factions-edit`, params: { id: e.ID } })
-    },
-  },
 })
 </script>

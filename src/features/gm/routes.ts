@@ -3,6 +3,10 @@ import Main from './index.vue'
 import Home from './landing.vue'
 
 import Campaigns from './campaigns/index.vue'
+import CampaignEditor from './campaigns/editor.vue'
+import CampaignOverviewPage from './campaigns/pages/overview.vue'
+import CampaignSectionPage from './campaigns/pages/section.vue'
+
 import NPCs from './npcs/index.vue'
 import Encounters from './encounters/index.vue'
 import Characters from './characters/index.vue'
@@ -28,22 +32,41 @@ const routes: RouteConfig[] = [
       {
         path: 'campaigns',
         name: 'gm-campaigns',
-        component: Campaigns
+        component: Campaigns,
+      },
+      {
+        path: 'campaigns/edit',
+        name: 'gm-campaigns',
+        component: CampaignEditor,
+        children: [
+          {
+            path: 'overview',
+            name: 'campaign-edit-overview',
+            component: CampaignOverviewPage,
+            props: true,
+          },
+          {
+            path: 'section/',
+            name: 'campaign-edit-section',
+            component: CampaignSectionPage,
+            props: true,
+          },
+        ],
       },
       {
         path: 'npcs',
         name: 'gm-npcs',
-        component: NPCs
+        component: NPCs,
       },
       {
         path: 'encounters',
         name: 'gm-encounters',
-        component: Encounters
+        component: Encounters,
       },
       {
         path: 'characters',
         name: 'gm-characters',
-        component: Characters
+        component: Characters,
       },
       {
         path: 'characters/edit/:id',
@@ -54,7 +77,7 @@ const routes: RouteConfig[] = [
       {
         path: 'locations',
         name: 'gm-locations',
-        component: Locations
+        component: Locations,
       },
       {
         path: 'locations/edit/:id',
@@ -65,7 +88,7 @@ const routes: RouteConfig[] = [
       {
         path: 'factions',
         name: 'gm-faction',
-        component: Factions
+        component: Factions,
       },
       {
         path: 'factions/edit/:id',
@@ -76,7 +99,7 @@ const routes: RouteConfig[] = [
       {
         path: 'runner',
         name: 'gm-runner',
-        component: Runner
+        component: Runner,
       },
     ],
   },

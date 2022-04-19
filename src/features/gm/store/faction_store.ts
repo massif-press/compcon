@@ -17,7 +17,7 @@ async function saveFactionData(factions: Faction[]) {
 }
 
 @Module({
-  namespaced: true,
+  name: 'faction',
 })
 export class FactionStore extends VuexModule {
   Factions: Faction[] = []

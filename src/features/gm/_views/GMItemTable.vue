@@ -32,13 +32,21 @@
           {{ l }}
         </v-chip>
       </template>
-      <template v-slot:[`item.ItemType`]="{ item }">
-        <v-btn
+      <template v-slot:[`item.NpcTemplateController.Templates`]="{ item }">
+        <v-chip
+          v-for="(t, i) in item.NpcTemplateController.Templates"
+          :key="`${item.ID}_template_${i}`"
           small
           color="primary"
-          class="white--text"
-          :to="`${itemType.toLowerCase()}s/edit/${item.ID}`"
+          label
+          class="mr-1"
         >
+          <v-icon small>cci-npc-template</v-icon>
+          {{ t.Name }}
+        </v-chip>
+      </template>
+      <template v-slot:[`item.ItemType`]="{ item }">
+        <v-btn small color="primary" class="white--text" @click="$emit('open', item.ID)">
           <v-icon left>mdi-open-in-new</v-icon>
           Open
         </v-btn>

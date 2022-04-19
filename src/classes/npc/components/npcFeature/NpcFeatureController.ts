@@ -1,5 +1,10 @@
 import { Npc, NpcItem } from '../..'
 import { NpcFeature } from './NpcFeature'
+import { INpcItemSaveData } from './NpcItem/NpcItem'
+
+interface INpcFeatureSaveData {
+  items: INpcItemSaveData[]
+}
 
 class NpcFeatureController {
   public readonly Parent: Npc
@@ -8,6 +13,15 @@ class NpcFeatureController {
   public constructor(parent: Npc) {
     this.Parent = parent
     this._items = []
+  }
+
+  public get Items(): NpcItem[] {
+    return this._items
+  }
+
+  public set Items(val: NpcItem[]) {
+    this._items = val
+    this.Parent.SaveController.save()
   }
 
   public get BaseClassFeatures(): NpcFeature[] {
@@ -51,6 +65,7 @@ class NpcFeatureController {
     )
     this._items.push(item)
     if (!skipRecalc) this.Parent.RecalcBonuses()
+    this.Parent.SaveController.save()
   }
 
   public RemoveFeature(feat: NpcFeature, skipRecalc?: boolean): void {
@@ -59,6 +74,7 @@ class NpcFeatureController {
       this._items.splice(j, 1)
       if (!skipRecalc) this.Parent.RecalcBonuses()
     }
+    this.Parent.SaveController.save()
   }
 
   public ResetFeatures() {
@@ -75,6 +91,19 @@ class NpcFeatureController {
       })
     this.Parent.SaveController.save()
   }
+
+  public static Serialize(parent: Npc, target: any) {
+    target.items = parent.NpcFeatureController._items.map(x => NpcItem.Serialize(x))
+  }
+
+  public static Deserialize(parent: Npc, data: INpcFeatureSaveData) {
+    if (!parent.NpcFeatureController)
+      throw new Error(
+        `NpcClassController not found on parent (${typeof parent}). New NpcFeatureController must be instantiated in the parent's constructor method.`
+      )
+
+    parent.NpcFeatureController._items = data.items.map(x => NpcItem.Deserialize(x))
+  }
 }
 
-export { NpcFeatureController }
+export { NpcFeatureController, INpcFeatureSaveData }

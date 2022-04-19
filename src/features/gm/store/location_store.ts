@@ -17,7 +17,7 @@ async function saveLocationData(locations: Location[]) {
 }
 
 @Module({
-  namespaced: true,
+  name: 'location',
 })
 export class LocationStore extends VuexModule {
   Locations: Location[] = []

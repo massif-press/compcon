@@ -19,7 +19,7 @@ async function saveCampaignData(campaigns: Campaign[]) {
 }
 
 @Module({
-  namespaced: true,
+  name: 'campaign',
 })
 export class CampaignStore extends VuexModule {
   EditCampaign: Campaign
@@ -77,6 +77,7 @@ export class CampaignStore extends VuexModule {
 
   @Action
   public setEditCampaign(payload: Campaign): void {
+    console.log('in set edit campaign')
     this.context.commit(SET_EDIT_CAMPAIGN, payload)
   }
 
@@ -106,19 +107,15 @@ export class CampaignStore extends VuexModule {
     this.context.commit(LOAD_CAMPAIGNS, campaignData)
   }
 
-  get getCampaigns(): Campaign[] {
-    return this.Campaigns
-  }
-
-  get getUnpublished(): Campaign[] {
+  get Unpublished(): Campaign[] {
     return this.Campaigns.filter(x => x.Status === CampaignStatus.Unpublished)
   }
 
-  get getActive(): Campaign[] {
+  get Active(): Campaign[] {
     return this.Campaigns.filter(x => x.Status === CampaignStatus.Active)
   }
 
-  get getCampaign() {
+  get Campaign() {
     return this.EditCampaign
   }
 }

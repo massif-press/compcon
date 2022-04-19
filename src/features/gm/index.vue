@@ -26,7 +26,6 @@ body {
 }
 
 .wrapper {
-  display: flex;
   width: 100%;
   margin-top: 48px;
 }

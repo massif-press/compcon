@@ -1,14 +1,19 @@
 <template>
   <div class="pt-3">
     <div class="caption mb-1">TEMPLATES</div>
-    <v-chip v-for="t in item.Templates" :key="t.Name" cols="auto" outlined label class="mr-2">
+    <v-chip
+      v-for="t in item.NpcTemplateController.Templates"
+      :key="t.Name"
+      cols="auto"
+      outlined
+      label
+      class="mr-2"
+    >
       <cc-tooltip :content="t.Description">
         {{ t.Name }}
       </cc-tooltip>
     </v-chip>
-    <v-btn small color="accent" tile outlined @click="dialog = true">
-      Set NPC Templates
-    </v-btn>
+    <v-btn small color="accent" tile outlined @click="dialog = true">Set NPC Templates</v-btn>
 
     <v-dialog v-model="dialog">
       <v-card>
@@ -32,7 +37,7 @@
                 />
               </v-col>
             </v-row>
-            <v-divider class="my-2 " />
+            <v-divider class="my-2" />
             <v-row dense style="max-height: calc(100% - 145px); overflow-y: scroll">
               <v-data-table
                 dense
@@ -55,14 +60,10 @@
                     class="my-1"
                     @click="selected = item"
                   >
-                    <v-icon v-if="isAssigned(item)" left>
-                      mdi-check
-                    </v-icon>
+                    <v-icon v-if="isAssigned(item)" left>mdi-check</v-icon>
                     {{ item.Name }}
                     <v-scroll-x-transition leave-absolute>
-                      <v-icon v-if="selected === item" right>
-                        mdi-chevron-triple-right
-                      </v-icon>
+                      <v-icon v-if="selected === item" right>mdi-chevron-triple-right</v-icon>
                     </v-scroll-x-transition>
                   </v-btn>
                 </template>
@@ -77,12 +78,12 @@
                   <v-btn
                     v-if="isAssigned(selected)"
                     outlined
-                    @click="item.RemoveTemplate(selected)"
+                    @click="item.NpcTemplateController.RemoveTemplate(selected)"
                   >
                     <v-icon left>mdi-minus</v-icon>
                     Remove Template
                   </v-btn>
-                  <v-btn v-else outlined @click="item.AddTemplate(selected)">
+                  <v-btn v-else outlined @click="item.NpcTemplateController.AddTemplate(selected)">
                     <v-icon left>mdi-plus</v-icon>
                     Assign Template
                   </v-btn>
@@ -159,7 +160,7 @@
                 </v-expansion-panel>
               </v-expansion-panels>
             </v-container>
-            <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
+            <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
               <v-col cols="auto">
                 <span class="heading h1 subtle--text text--lighten-2">select npc template</span>
               </v-col>
@@ -198,7 +199,7 @@ export default Vue.extend({
   },
   methods: {
     isAssigned(t) {
-      return this.item.Templates.some(x => x.ID === t.ID)
+      return this.item.NpcTemplateController.Templates.some(x => x.ID === t.ID)
     },
   },
 })

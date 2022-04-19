@@ -7,6 +7,7 @@
       :grouping="grouping"
       :sorting="sorting"
       :sort-dir="sortDir"
+      @open="$emit('open', $event)"
     />
     <div v-else>
       <v-row v-for="(group, i) in groupings" :key="`${group}_${i}`" dense>
@@ -18,7 +19,7 @@
           :key="`grid_item_${j}`"
           :cols="list ? 12 : big ? 3 : 2"
         >
-          <item-card :item="item" :big="big" :list="list" />
+          <item-card :item="item" :big="big" :list="list" @open="$emit('open', $event)" />
         </v-col>
       </v-row>
     </div>

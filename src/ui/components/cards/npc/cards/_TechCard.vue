@@ -9,12 +9,12 @@
     <v-row class="heading h3 text-center" dense no-gutters>
       <v-col cols="auto">
         <span v-if="item.Tier" class="heading h3">
-          <v-icon>cci-reticle</v-icon>
+          <v-icon>cci-reticule</v-icon>
           +{{ item.Feature.AttackBonus(item.Tier) }}
           Attack Bonus
         </span>
         <span v-else class="heading h3">
-          <v-icon>cci-reticle</v-icon>
+          <v-icon>cci-reticule</v-icon>
           +{{ item.Feature.AttackBonus(1) }} / +{{ item.Feature.AttackBonus(2) }} / +{{
             item.Feature.AttackBonus(3)
           }}

@@ -1,10 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-row
-      dense
-      :class="`elevation-${hover ? '12' : '0'}`"
-      @click="$router.push(`characters/edit/${item.ID}`)"
-    >
+    <v-row dense :class="`elevation-${hover ? '12' : '0'}`" @click="$emit('open')">
       <v-col cols="1">
         <v-card>
           <v-img :aspect-ratio="1" :src="item.Image" />

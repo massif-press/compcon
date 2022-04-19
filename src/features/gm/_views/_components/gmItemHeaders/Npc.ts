@@ -8,13 +8,13 @@ export default [
   {
     text: 'Class',
     align: 'start',
-    value: 'Class.Name',
+    value: 'NpcClassController.Class.Name',
     groupable: true,
   },
   {
     text: 'Tier',
     align: 'start',
-    value: 'Tier',
+    value: 'NpcClassController.Tier',
     groupable: true,
   },
   {
@@ -26,7 +26,7 @@ export default [
   {
     text: 'Templates',
     align: 'start',
-    value: 'Templates',
+    value: 'NpcTemplateController.Templates',
     groupable: true,
   },
   {

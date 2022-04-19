@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div v-if="item.Sections.length">
-      <v-row v-for="(s, i) in item.Sections" :key="`section_${i}`" dense>
+    <div v-if="item.NarrativeElementController.TextItems.length">
+      <v-row
+        v-for="(s, i) in item.NarrativeElementController.TextItems"
+        :key="`textItem_${i}`"
+        dense
+      >
         <v-col>
           <v-row no-gutters justify="space-between">
             <v-col cols="auto">
@@ -20,15 +24,13 @@
                 </template>
                 <v-card>
                   <v-card-text>
-                    Do you want to delete the section titled "{{ s.header }}"? This action cannot be
-                    undone.
+                    Do you want to delete the textItem titled "{{ s.header }}"? This action cannot
+                    be undone.
                   </v-card-text>
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn small color="error" @click="deleteSection(s)">
-                      Confirm Deletion
-                    </v-btn>
+                    <v-btn small color="error" @click="deleteTextItem(s)">Confirm Deletion</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-menu>
@@ -45,19 +47,10 @@
         </v-col>
       </v-row>
     </div>
-    <v-row v-else justify="center" align="center">
-      <v-col cols="auto">
-        <div class="text--disabled">
-          <cc-slashes />
-          NO SECTION DATA
-          <cc-slashes />
-        </div>
-      </v-col>
-    </v-row>
     <v-row justify="end">
       <v-col cols="auto">
         <v-menu
-          v-model="sectionMenu"
+          v-model="textItemMenu"
           offset-x
           left
           :close-on-click="false"
@@ -66,21 +59,21 @@
           <template v-slot:activator="{ on }">
             <v-btn color="accent" outlined small v-on="on">
               <v-icon left>mdi-plus</v-icon>
-              Add New Section
+              Add New Text Section
             </v-btn>
           </template>
           <v-card>
             <v-card-text>
               <v-combobox
-                v-if="item.SectionSuggestions"
-                v-model="newSectionHeader"
-                label="New Section Header"
-                :items="item.SectionSuggestions"
+                v-if="item.NarrativeElementController.TextItemSuggestions"
+                v-model="newTextItemHeader"
+                label="Title"
+                :items="item.NarrativeElementController.TextItemSuggestions"
               />
               <v-text-field
                 v-else
-                v-model="newSectionHeader"
-                label="New Section Header"
+                v-model="newTextItemHeader"
+                label="New Title"
                 dense
                 hide-details
                 outlined
@@ -88,9 +81,9 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn text @click="sectionMenu = false">Cancel</v-btn>
+              <v-btn text @click="textItemMenu = false">Cancel</v-btn>
               <v-spacer />
-              <v-btn color="secondary" @click="addSection">Add</v-btn>
+              <v-btn color="secondary" @click="addTextItem">Add</v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -119,14 +112,14 @@ import {
 } from 'tiptap-vuetify'
 
 export default Vue.extend({
-  name: 'campaign-item-section-editor',
+  name: 'campaign-item-textItem-editor',
   components: { TiptapVuetify },
   props: {
     item: { type: Object, required: true },
   },
   data: () => ({
-    sectionMenu: false,
-    newSectionHeader: '',
+    textItemMenu: false,
+    newTextItemHeader: '',
     extensions: [
       History,
       Blockquote,
@@ -151,16 +144,17 @@ export default Vue.extend({
     ],
   }),
   methods: {
-    addSection() {
-      console.log(this.newSectionHeader)
-      this.item.AddSection({ header: this.newSectionHeader, body: '' })
-      this.newSectionHeader = ''
-      this.sectionMenu = false
+    addTextItem() {
+      this.item.NarrativeElementController.AddTextItem({ header: this.newTextItemHeader, body: '' })
+      this.newTextItemHeader = ''
+      this.textItemMenu = false
     },
-    deleteSection(s) {
-      const idx = this.item.Sections.findIndex(x => x.header === s.header && x.body === s.body)
+    deleteTextItem(s) {
+      const idx = this.item.NarrativeElementController.TextItems.findIndex(
+        x => x.header === s.header && x.body === s.body
+      )
       if (idx === -1) return
-      this.item.Sections.splice(idx, 1)
+      this.item.NarrativeElementController.TextItems.splice(idx, 1)
     },
   },
 })

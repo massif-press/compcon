@@ -26,10 +26,31 @@ import { IBrewable } from '../components/brew/IBrewable'
 import { CompendiumItem } from '../CompendiumItem'
 import { CombatController } from '../components/combat/CombatController'
 import { INpcClassSaveData, NpcClassController } from './components/npcClass/NpcClassController'
-import { NpcFeatureController } from './components/npcFeature/NpcFeatureController'
+import {
+  INpcFeatureSaveData,
+  NpcFeatureController,
+} from './components/npcFeature/NpcFeatureController'
 import { NpcTemplateController } from './components/npcTemplate/NpcTemplateController'
+import { ISectionData, Section } from '../campaign/campaign_elements/Section'
+import { IRollableTableData, RollableTable } from '../components/narrative/elements/RollableTable'
+import {
+  NarrativeElementController,
+  NarrativeElementData,
+} from '../components/narrative/NarrativeElementController'
+import { INarrativeElement } from '../components/narrative/INarrativeElement'
+import { IClockData } from '../components/narrative/elements/Clock'
 
-class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData, INpcClassSaveData {
+class INpcData
+  implements
+    ISaveData,
+    ICloudData,
+    IPortraitData,
+    IBrewData,
+    INpcClassSaveData,
+    NarrativeElementData,
+    INpcFeatureSaveData
+{
+  textItems: { title: string; body: string }[]
   remoteIID: string
   remoteKey: string
   shareCodeExpiry: string
@@ -72,9 +93,20 @@ class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData, INpcC
   actions: number
   counter_data: ICounterSaveData[]
   custom_counters: object[]
+  sections: ISectionData[]
+  clocks: IClockData[]
+  tables: IRollableTableData[]
 }
 
-class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IFeatureController {
+class Npc
+  implements
+    ICloudSyncable,
+    ISaveable,
+    IBrewable,
+    ICounterContainer,
+    IFeatureController,
+    INarrativeElement
+{
   public readonly ItemType: string = 'npc'
   public ImageTag: ImageTag.NPC
   public CloudController: CloudController
@@ -87,6 +119,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
   public NpcTemplateController: NpcTemplateController
   public NpcClassController: NpcClassController
   public CombatController: CombatController
+  public NarrativeElementController: NarrativeElementController
 
   public Stats: NpcStats
 
@@ -95,9 +128,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
   private _name: string
   private _subtitle: string
   private _campaign: string
-  private _tier: number
   private _side: EncounterSide
-  private _items: NpcItem[]
   private _current_stats: NpcStats
   private _note: string
   private _cloud_image: string
@@ -127,12 +158,12 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
     this.NpcFeatureController = new NpcFeatureController(this)
     this.NpcTemplateController = new NpcTemplateController(this)
     this.CombatController = new CombatController(this)
+    this.NarrativeElementController = new NarrativeElementController(this)
 
     this.FeatureController.Register()
 
     this._name = `New NPC`
     this._subtitle = ''
-    this._tier = t
     this._user_labels = []
     this._side = EncounterSide.Enemy
     this._note = this._cloud_image = this._local_image = ''
@@ -142,11 +173,17 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
     this._turn_actions = 2
     this._destroyed = false
     this._defeat = ''
-    this._items = []
     this._statuses = []
     this._conditions = []
     this._resistances = []
+    this._tag = 'Mech'
     if (npcClass) this.NpcClassController.SetClass(npcClass, t)
+  }
+
+  // -- Passthroughs ------------------------------------------------------------------------------
+
+  public get Items(): NpcItem[] {
+    return this.NpcFeatureController.Items
   }
 
   public get BrewableCollection(): CompendiumItem[] {
@@ -187,6 +224,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
   }
 
   public get Icon(): string {
+    if (!this.NpcClassController.Class) return ''
     return this.NpcClassController.Class.RoleIcon
   }
 
@@ -263,7 +301,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
 
   setStatBonuses(): void {
     this.Stats.ClearBonuses()
-    this._items.forEach(item => {
+    this.Items.forEach(item => {
       if (item.Feature.Override) {
         for (const key in item.Feature.Override) {
           const o = Array.isArray(item.Feature.Override[key])
@@ -288,10 +326,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
     this.setStatBonuses()
     this.ResetStats()
     if (save) this.SaveController.save()
-  }
-
-  public get Items(): NpcItem[] {
-    return this._items
   }
 
   // -- Encounter Management ----------------------------------------------------------------------
@@ -339,7 +373,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
       campaign: npc._campaign,
       labels: npc._user_labels,
       tag: npc._tag,
-      items: npc._items.map(x => NpcItem.Serialize(x)),
       stats: NpcStats.Serialize(npc.Stats),
       currentStats: NpcStats.Serialize(npc._current_stats),
       note: npc._note,
@@ -362,7 +395,9 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
     BrewController.Serialize(npc, data)
     NpcClassController.Serialize(npc, data)
     NpcTemplateController.Serialize(npc, data)
+    NpcFeatureController.Serialize(npc, data)
     CounterController.Serialize(npc, data)
+    NarrativeElementController.Serialize(npc, data)
 
     return data as INpcData
   }
@@ -378,7 +413,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
     return n
   }
 
-  public Update(data: INpcData, ignoreProps?: boolean): void {
+  public Update(data: INpcData): void {
     this._active = data.active
     this._id = data.id
     this._name = data.name
@@ -387,7 +422,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
     this._campaign = data.campaign || ''
     this._user_labels = data.labels || []
     this._tag = data.tag
-    this._items = data.items.map(x => NpcItem.Deserialize(x))
     this.Stats = NpcStats.Deserialize(data.stats)
     this.RecalcBonuses(false)
     this._note = data.note
@@ -415,7 +449,9 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, ICounterContainer, IF
       BrewController.Deserialize(npc, data)
       NpcClassController.Deserialize(npc, data)
       NpcTemplateController.Deserialize(npc, data)
+      NpcFeatureController.Deserialize(npc, data)
       CounterController.Deserialize(npc, data)
+      NarrativeElementController.Deserialize(npc, data)
       npc.SaveController.SetLoaded()
       return npc
     } catch (err) {

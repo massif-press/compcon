@@ -28,13 +28,13 @@
       <v-divider vertical class="mx-4" />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
-          <v-icon>cci-reticle</v-icon>
+          <v-icon>cci-reticule</v-icon>
           <span v-if="item.Feature.AttackBonus(item.Tier) > 0">+</span>
           {{ item.Feature.AttackBonus(item.Tier) }}
           Attack Bonus
         </span>
         <span v-else>
-          <v-icon>cci-reticle</v-icon>
+          <v-icon>cci-reticule</v-icon>
           <span v-if="item.Feature.AttackBonus(1) > 0">+</span>
           {{ item.Feature.AttackBonus(1) }} /
           <span v-if="item.Feature.AttackBonus(2) > 0">+</span>

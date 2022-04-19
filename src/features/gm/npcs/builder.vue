@@ -13,18 +13,18 @@
           </cc-short-string-editor>
         </div>
         <div class="flavor-text mt-2">
-          <cc-short-string-editor large :placeholder="item.Subtitle" @set="item.Subtitle = $event">
-            <b v-if="item.Subtitle" class="heading-block stark--text" v-html="item.Subtitle" />
-            <i v-else class="heading-block subtle--text" v-html="'Add GM Summary'" />
+          <i v-if="!item.Subtitle" class="text--disabled">Add GM Summary</i>
+          <cc-short-string-editor large inline @set="item.Subtitle = $event">
+            {{ item.Subtitle }}
           </cc-short-string-editor>
         </div>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row dense align="end">
       <npc-class-selector :item="item" />
       <npc-tag-selector :item="item" />
     </v-row>
-    <div v-if="item.Class">
+    <div v-if="item.NpcClassController.Class">
       <npc-template-selector :item="item" />
       <v-divider class="my-3" />
       <npc-tier-selector :item="item" />

@@ -1,5 +1,11 @@
 <template>
-  <component :is="componentLoader" v-if="componentLoader" :item="item" :notes="notes" />
+  <component
+    :is="componentLoader"
+    v-if="componentLoader"
+    :item="item"
+    :notes="notes"
+    :smallTags="smallTags"
+  />
 </template>
 
 <script lang="ts">
@@ -11,6 +17,9 @@ export default class CCItemCard extends Vue {
 
   @Prop({ type: Boolean })
   readonly notes
+
+  @Prop({ type: Boolean })
+  readonly smallTags
 
   get componentLoader(): any {
     if (!this.item) {

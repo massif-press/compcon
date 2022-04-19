@@ -1,4 +1,4 @@
-import { IClockData, Clock } from '@/classes/components/clocks/Clock'
+import { IClockData, Clock } from '@/classes/components/narrative/elements/Clock'
 import { Pilot } from '../../Pilot'
 import { BondPower, Bond } from './Bond'
 

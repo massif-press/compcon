@@ -10,6 +10,7 @@ import { MissionStore } from './features/encounters/mission/store'
 import { CharacterStore } from './features/gm/store/character_store'
 import { LocationStore } from './features/gm/store/location_store'
 import { FactionStore } from './features/gm/store/faction_store'
+import { CampaignStore } from './features/gm/store'
 
 // import gmToolkitModules from './features/encounters/store'
 
@@ -22,6 +23,7 @@ const store = new Vuex.Store({
     datastore: CompendiumStore,
     management: PilotManagementStore,
     npc: NpcStore,
+    campaign: CampaignStore,
     encounter: EncounterStore,
     mission: MissionStore,
     character: CharacterStore,
@@ -35,6 +37,7 @@ export {
   UserStore,
   NavStore,
   CompendiumStore,
+  CampaignStore,
   EncounterStore,
   PilotManagementStore,
   NpcStore,
