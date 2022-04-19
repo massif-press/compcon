@@ -1,8 +1,8 @@
 import { store } from '@/store'
 import { ItemType } from '../enums'
-import { Clock } from './Clock'
 import { CollectionItem, ICollectionItemData } from './CollectionItem'
-import { RollableTable } from './RollableTable'
+import { RollableTable } from '../components/narrative/elements/RollableTable'
+import { Clock } from '../components/narrative/elements/Clock'
 
 interface IFactionData extends ICollectionItemData {
   core_mission?: string[]

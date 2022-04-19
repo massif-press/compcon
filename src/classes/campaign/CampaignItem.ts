@@ -1,6 +1,5 @@
-import { ItemType } from "../enums"
-import { Clock, IClockData } from './Clock'
-import { IRollableTableData, RollableTable } from './RollableTable'
+import { IClockData, Clock } from '../components/narrative/elements/Clock'
+import { IRollableTableData, RollableTable } from '../components/narrative/elements/RollableTable'
 
 interface ISectionData {
   header: string
@@ -8,8 +7,8 @@ interface ISectionData {
 }
 
 interface IRelationshipData {
-  link_id: string,
-  name: string,
+  link_id: string
+  name: string
   relationship: string
 }
 
@@ -98,10 +97,6 @@ abstract class CampaignItem {
       tables: item.Tables.map(x => RollableTable.Serialize(x)),
     }
   }
-
 }
 
-export {
-  ICampaignItemData,
-  CampaignItem
-}
+export { ICampaignItemData, CampaignItem }

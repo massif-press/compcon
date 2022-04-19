@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-card :elevation="hover ? 12 : 0" :outlined="!hover" :to="`factions/edit/${item.ID}`">
+    <v-card :elevation="hover ? 12 : 0" :outlined="!hover" @click="$emit('open')">
       <v-img :aspect-ratio="1" :src="item.Image" />
       <v-card-text class="py-2 text-center" style="position: relative">
         <div

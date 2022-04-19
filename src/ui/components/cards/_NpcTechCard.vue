@@ -1,16 +1,14 @@
 <template>
-  <equipment-card-base :item="item">
+  <equipment-card-base :item="item" small-tags>
     <v-col cols="auto">
       <div class="text-center ml-auto mr-auto" style="display: inline-block">
         <div class="clip-icon">
-          <v-icon x-large>cci-reticle</v-icon>
+          <v-icon x-large>cci-reticule</v-icon>
         </div>
         <span>
           +{{ item.AttackBonus(1) }}/+{{ item.AttackBonus(2) }}/+{{ item.AttackBonus(3) }}
           <br />
-          <div class="overline mt-n1">
-            Attack Bonus
-          </div>
+          <div class="overline mt-n1">Attack Bonus</div>
         </span>
       </div>
       <div
@@ -24,9 +22,7 @@
         <span>
           +{{ item.Accuracy(1) }}/+{{ item.Accuracy(2) }}/+{{ item.Accuracy(3) }}
           <br />
-          <div class="overline mt-n1">
-            Accuracy
-          </div>
+          <div class="overline mt-n1">Accuracy</div>
         </span>
       </div>
       <div v-else-if="item.Accuracy(1) < 0">
@@ -38,15 +34,12 @@
             Math.abs(item.Accuracy(3))
           }}
           <br />
-          <div class="overline mt-n1">
-            Difficulty
-          </div>
+          <div class="overline mt-n1">Difficulty</div>
         </span>
       </div>
     </v-col>
     <v-col cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.TechType }} Tech</div>
-      <span class="flavor-text subtle--text">// {{ item.Origin }}</span>
       <div v-if="item.InLcp" class="flavor-text subtle--text">{{ item.LcpName }}</div>
     </v-col>
   </equipment-card-base>

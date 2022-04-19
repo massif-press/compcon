@@ -1,7 +1,7 @@
 <template>
   <v-col>
     <v-btn large block color="primary" class="white--text" @click="dialog = true">
-      {{ item.Class ? item.Class.Name : 'Set NPC Class' }}
+      {{ item.NpcClassController.Class ? item.NpcClassController.Class.Name : 'Set NPC Class' }}
     </v-btn>
 
     <v-dialog v-model="dialog">
@@ -25,7 +25,7 @@
                 />
               </v-col>
             </v-row>
-            <v-divider class="my-2 " />
+            <v-divider class="my-2" />
             <v-row dense style="max-height: calc(100% - 145px); overflow-y: scroll">
               <v-data-table
                 dense
@@ -118,11 +118,7 @@
                   <div class="caption">SIZE</div>
                   <div
                     class="heading h3 primary--text"
-                    v-html="
-                      selected.Stats.Sizes(tierPreview)
-                        .join(' or ')
-                        .replace('0.5', '½')
-                    "
+                    v-html="selected.Stats.Sizes(tierPreview).join(' or ').replace('0.5', '½')"
                   />
                 </v-col>
                 <tiered-attribute
@@ -179,7 +175,7 @@
               </v-expansion-panels>
             </v-container>
 
-            <v-row v-else align="center" justify="center" style="width: 100%; height: 100%;">
+            <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
               <v-col cols="auto">
                 <span class="heading h1 subtle--text text--lighten-2">select npc class</span>
               </v-col>
@@ -228,7 +224,7 @@ export default Vue.extend({
   },
   methods: {
     AddNpc() {
-      this.item.SetClass(this.selected, this.item.Tier)
+      this.item.NpcClassController.SetClass(this.selected, this.item.NpcClassController.Tier)
       this.dialog = false
       // const store = getModule(NpcStore, this.$store)
       // store.addNpc(new Npc(this.selectedClass, this.$refs.card.tierPreview))

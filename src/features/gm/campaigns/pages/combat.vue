@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import PageBase from './_components.vue/PageBase.vue'
+import PageBase from './_components/PageBase.vue'
 
 export default Vue.extend({
   name: 'campaign-beat-page',

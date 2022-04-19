@@ -47,7 +47,7 @@ import { getModule } from 'vuex-module-decorators'
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
 import { IBrewable } from '../components/brew/IBrewable'
 import { BondController, IPilotBondData } from './components/bond/BondController'
-import { IClockData } from '../components/clocks/Clock'
+import { IClockData } from '../components/narrative/elements/Clock'
 import { BondPower } from './components/bond/Bond'
 
 interface IUnlockData {

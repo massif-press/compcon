@@ -1,7 +1,13 @@
 <template>
   <v-row dense justify="end" align="center">
     <v-col cols="auto">
-      <v-btn-toggle v-model="item.Tier" dense mandatory active-class="accent--text" class="mb-2">
+      <v-btn-toggle
+        v-model="item.NpcClassController.Tier"
+        dense
+        mandatory
+        active-class="accent--text"
+        class="mb-2"
+      >
         <v-btn :value="1">
           <v-icon left>cci-rank-1</v-icon>
           Tier 1

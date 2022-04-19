@@ -10,7 +10,7 @@
         <v-col>
           <builder :item="npc" />
         </v-col>
-        <v-col cols="3" class="text-center">
+        <v-col cols="3" class="text-center" align-self="center">
           <v-combobox
             v-model="npc.Labels"
             small-chips
@@ -19,14 +19,14 @@
             hide-details
             label="GM Labels"
           />
-          <v-img :src="npc.Image" />
+          <v-img :src="npc.PortraitController.Image" />
           <v-btn small outlined block color="accent" @click="$refs.imageSelector.open()">
             Change Image
           </v-btn>
           <cc-simple-image-selector ref="imageSelector" @set="npc.Image = $event" />
         </v-col>
       </v-row>
-      <div v-if="npc.Class"><features :item="npc" /></div>
+      <div v-if="npc.NpcClassController.Class"><features :item="npc" /></div>
       <v-divider class="my-2" />
       <section-editor :item="npc" />
       <v-divider class="my-2" />
@@ -40,7 +40,7 @@
       />
       <v-row justify="end">
         <v-col cols="auto">
-          <v-btn color="accent" outlined small @click="npc.AddClock()">
+          <v-btn color="accent" outlined small @click="npc.NarrativeElementController.AddClock()">
             <v-icon left>mdi-plus</v-icon>
             Add New Clock
           </v-btn>
@@ -57,7 +57,7 @@
       />
       <v-row justify="end">
         <v-col cols="auto">
-          <v-btn color="accent" outlined small @click="npc.AddTable()">
+          <v-btn color="accent" outlined small @click="npc.NarrativeElementController.AddTable()">
             <v-icon left>mdi-plus</v-icon>
             Add New Table
           </v-btn>

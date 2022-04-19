@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-alert
-      v-for="(alert, i) in item.TemplateFeatureAlerts"
+      v-for="(alert, i) in item.NpcTemplateController.TemplateFeatureAlerts"
       :key="`${alert}_${i}`"
       dense
       prominent

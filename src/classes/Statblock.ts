@@ -271,9 +271,13 @@ class Statblock {
 
   public static GenerateNPC(npc: Npc): string {
     let output = `// ${npc.Name} //\n`
-    output += `${npc.Class.Name.toUpperCase()}`
-    if (npc.Templates) output += ` ${npc.Templates.map(t => t.Name).join(' ')}`
-    output += typeof npc.Tier === 'number' ? `, Tier ${npc.Tier} ` : ', Custom '
+    output += `${npc.NpcClassController.Class.Name.toUpperCase()}`
+    if (npc.NpcTemplateController.Templates)
+      output += ` ${npc.NpcTemplateController.Templates.map(t => t.Name).join(' ')}`
+    output +=
+      typeof npc.NpcClassController.Tier === 'number'
+        ? `, Tier ${npc.NpcClassController.Tier} `
+        : ', Custom '
     output += `${npc.Tag}\n`
     output += '[ STATS ]\n'
     output += `  H: ${npc.Stats.Hull} | A: ${npc.Stats.Agility} | S: ${npc.Stats.Systems} | E: ${npc.Stats.Engineering}\n`

@@ -6,9 +6,9 @@ import { ILocationData, Location } from './Location'
 import { store } from '@/store'
 
 enum CampaignStatus {
-  Active = "Active",
-  Unpublished = "Unpublished",
-  Catalog = "Catalog"
+  Active = 'Active',
+  Unpublished = 'Unpublished',
+  Catalog = 'Catalog',
 }
 
 interface ICampaignData {
@@ -56,38 +56,40 @@ class Campaign {
   }
 
   public save() {
-    store.dispatch('campaign/saveCampaignData')
+    store.dispatch('saveCampaignData')
   }
 
   public load() {
-    store.dispatch('campaign/setEditCampaign', this)
+    store.dispatch('setEditCampaign', this)
   }
 
   public copy() {
-    store.dispatch('campaign/cloneCampaign', this)
+    store.dispatch('cloneCampaign', this)
   }
 
   public delete() {
-    store.dispatch('campaign/deleteCampaign', this)
+    store.dispatch('deleteCampaign', this)
   }
 
   public addNew() {
-    store.dispatch('campaign/addCampaign', this)
+    store.dispatch('addCampaign', this)
   }
 
   public AddSection() {
-    this.Sections.push(new Section({
-      id: uuid(),
-      title: 'New Section',
-      item_number: (this.Sections.length + 1).toString(),
-      content: [],
-      children: [],
-      item_type: 'Section'
-    }))
+    this.Sections.push(
+      new Section({
+        id: uuid(),
+        title: 'New Section',
+        item_number: (this.Sections.length + 1).toString(),
+        content: [],
+        children: [],
+        item_type: 'Section',
+      })
+    )
   }
 
   public MoveSection(from: number, to: number) {
-    this.Sections = this.Sections.splice(to, 0, this.Sections.splice(from, 1)[0]);
+    this.Sections = this.Sections.splice(to, 0, this.Sections.splice(from, 1)[0])
   }
 
   public DeleteSection(s: Section) {
@@ -124,7 +126,7 @@ class Campaign {
       characters: c.Characters.map(s => Character.Serialize(s)),
       locations: c.Locations.map(s => Location.Serialize(s)),
       factions: c.Factions.map(s => Faction.Serialize(s)),
-      status: c.Status
+      status: c.Status,
     }
   }
 

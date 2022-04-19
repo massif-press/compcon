@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    hello world
     <npc-feature-alerts :item="item" />
     <npc-feature-selector :npc="item" />
   </v-container>

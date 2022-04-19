@@ -67,6 +67,7 @@
           :table="view === 'table'"
           :grouping="grouping"
           :sorting="sorting"
+          @open="$emit('open', $event)"
         />
       </v-card-text>
     </v-card>

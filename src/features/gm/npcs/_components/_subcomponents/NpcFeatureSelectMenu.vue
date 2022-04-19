@@ -3,7 +3,12 @@
     <v-btn x-large block color="primary" @click="dialog = true">Set NPC Features</v-btn>
     <v-row no-gutters justify="end">
       <v-col cols="auto">
-        <v-btn small outlined color="warning" class="fadeSelect mt-1" @click="npc.ResetFeatures()">
+        <v-btn
+          x-small
+          outlined
+          class="fadeSelect mt-1"
+          @click="npc.NpcFeatureController.ResetFeatures()"
+        >
           Reset Features
         </v-btn>
       </v-col>
@@ -14,7 +19,7 @@
           Set NPC Features
           <v-spacer />
           <cc-tooltip
-            v-for="(alert, i) in npc.TemplateFeatureAlerts"
+            v-for="(alert, i) in npc.NpcTemplateController.TemplateFeatureAlerts"
             :key="`${alert}_menu_${i}`"
             :title="alert.severity"
             :content="alert.message"
@@ -25,7 +30,7 @@
           <v-btn icon dark @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
         </v-toolbar>
         <v-row no-gutters>
-          <v-col cols="3" style="max-width: 325px!important">
+          <v-col cols="3" style="max-width: 325px !important">
             <v-list dense nav class="side-fixed mt-n1" color="panel">
               <v-list-item color="accent" selectable @click="featureSet = 'all'">
                 <v-list-item-icon>
@@ -48,13 +53,13 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider />
-              <v-list-item color="accent" @click="featureSet = npc.Class.ID">
+              <v-list-item color="accent" @click="featureSet = npc.NpcClassController.Class.ID">
                 <v-list-item-icon>
-                  <v-icon v-text="npc.Class.RoleIcon" />
+                  <v-icon v-text="npc.NpcClassController.Class.RoleIcon" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
-                    <b>{{ npc.Class.Name }}</b>
+                    <b>{{ npc.NpcClassController.Class.Name }}</b>
                     Features
                   </v-list-item-title>
                 </v-list-item-content>
@@ -70,7 +75,7 @@
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
-                    <b>{{ t.Name }}</b>
+                    <b class="pr-1">{{ t.Name }}</b>
                     <span class="text--secondary">Features</span>
                   </v-list-item-title>
                 </v-list-item-content>
@@ -80,9 +85,7 @@
               <v-list-group no-action color="accent">
                 <template v-slot:activator>
                   <v-list-item-content>
-                    <v-list-item-title class="heading h6">
-                      Classes
-                    </v-list-item-title>
+                    <v-list-item-title class="heading h6">Classes</v-list-item-title>
                   </v-list-item-content>
                 </template>
 
@@ -98,7 +101,7 @@
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title class="text-button">
-                      <b>{{ c.Name }}</b>
+                      <b class="pr-1">{{ c.Name }}</b>
                       <span class="text--secondary">Features</span>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -108,9 +111,7 @@
               <v-list-group no-action color="accent">
                 <template v-slot:activator>
                   <v-list-item-content>
-                    <v-list-item-title class="heading h6">
-                      Templates
-                    </v-list-item-title>
+                    <v-list-item-title class="heading h6">Templates</v-list-item-title>
                   </v-list-item-content>
                 </template>
 
@@ -126,7 +127,7 @@
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title class="text-button">
-                      <b>{{ t.Name }}</b>
+                      <b class="pr-1">{{ t.Name }}</b>
                       <span class="text--secondary">Features</span>
                     </v-list-item-title>
                   </v-list-item-content>
@@ -137,7 +138,7 @@
           </v-col>
 
           <v-col class="pl-6 pr-8">
-            <v-container style="height: calc(100vh - 35px)!important; overflow-y: scroll">
+            <v-container style="height: calc(100vh - 35px) !important; overflow-y: scroll">
               <v-row dense align="start" class="mt-n3">
                 <v-col>
                   <span class="heading h3">{{ currentSelection }} Features</span>
@@ -174,9 +175,9 @@
                 >
                   <cc-dense-card
                     :item="f"
-                    :style="
-                      `height: calc(100% - ${allowDupes && hasItem(f) ? '70' : '35'}px)!important`
-                    "
+                    :style="`height: calc(100% - ${
+                      allowDupes && hasItem(f) ? '70' : '35'
+                    }px)!important`"
                   />
                   <v-btn
                     v-if="!hasItem(f) || allowDupes"
@@ -184,7 +185,7 @@
                     block
                     outlined
                     tile
-                    @click="npc.AddFeature(f)"
+                    @click="npc.NpcFeatureController.AddFeature(f)"
                   >
                     <v-icon left>mdi-plus</v-icon>
                     Add {{ f.Name }}
@@ -196,7 +197,7 @@
                     block
                     outlined
                     tile
-                    @click="npc.RemoveFeature(f)"
+                    @click="npc.NpcFeatureController.RemoveFeature(f)"
                   >
                     <v-icon left>mdi-minus</v-icon>
                     Remove {{ f.Name }}
@@ -259,8 +260,8 @@ export default Vue.extend({
     },
     shownFeatures() {
       if (this.featureSet === 'all') {
-        if (this.npc.TemplateFeatureAlerts.length || this.ignoreLimit)
-          return this.npc.AvailableFeatures
+        if (this.npc.NpcTemplateController.TemplateFeatureAlerts.length || this.ignoreLimit)
+          return this.npc.NpcFeatureController.AvailableFeatures
         else return []
       }
 
@@ -286,7 +287,7 @@ export default Vue.extend({
   },
   methods: {
     hasItem(feature) {
-      return this.npc.SelectedFeatures.some(y => y.ID === feature.ID)
+      return this.npc.NpcFeatureController.SelectedFeatures.some(y => y.ID === feature.ID)
     },
   },
 })

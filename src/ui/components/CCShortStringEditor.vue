@@ -25,32 +25,39 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-short-string-editor' })
-export default class CCShortStringEditor extends Vue {
-  @Prop({ type: String, required: false })
-  readonly placeholder?: string
-  @Prop({ type: Boolean, required: false })
-  readonly inline?: boolean
-  @Prop({ type: Boolean })
-  readonly large?: boolean
-  @Prop({ type: Boolean })
-  readonly before?: boolean
-
-  newStr = ''
-  editing = false
-
-  edit(): void {
-    this.editing = true
-    this.newStr = this.$slots.default[0].text ? this.$slots.default[0].text.trim() : ''
-  }
-  submit(): void {
-    if (this.newStr.length) this.$emit('set', this.newStr)
-    this.newStr = ''
-    this.editing = false
-  }
-}
+import Vue from 'vue'
+export default Vue.extend({
+  name: 'cc-short-string-editor',
+  props: {
+    placeholder: { type: String, required: false },
+    inline: { type: Boolean },
+    large: { type: Boolean },
+    before: { type: Boolean },
+  },
+  data: () => ({
+    newStr: '',
+    editing: false,
+  }),
+  mounted() {
+    if (this.placeholder) this.newStr = this.placeholder
+  },
+  methods: {
+    edit(): void {
+      this.editing = true
+      if (this.$slots.default && this.$slots.default[0]) {
+        let prev = ''
+        if (this.$slots.default[0].text) prev = this.$slots.default[0].text.trim()
+        else if (this.$slots.default[0].children[0].text)
+          prev = this.$slots.default[0].children[0].text.trim()
+        this.newStr = prev
+      }
+    },
+    submit(): void {
+      this.$emit('set', this.newStr)
+      this.editing = false
+    },
+  },
+})
 </script>
 
 <style scoped>

@@ -2,7 +2,8 @@
   <v-col>
     <v-menu offset-y>
       <template v-slot:activator="{ on }">
-        <v-btn large block color="protocol" class="white--text" v-on="on">
+        <v-btn small outlined color="protocol" v-on="on">
+          <v-icon small class="mr-1">mdi-tag-outline</v-icon>
           {{ item.Tag ? item.Tag : 'Set NPC Tag' }}
         </v-btn>
       </template>

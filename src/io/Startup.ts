@@ -9,6 +9,9 @@ import {
   EncounterStore,
   MissionStore,
   UserStore,
+  CharacterStore,
+  LocationStore,
+  FactionStore,
 } from '@/store'
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
@@ -25,6 +28,9 @@ export default async function (
   const npcStore = getModule(NpcStore, store)
   const encounterStore = getModule(EncounterStore, store)
   const missionStore = getModule(MissionStore, store)
+  const characterStore = getModule(CharacterStore, store)
+  const locationStore = getModule(LocationStore, store)
+  const factionStore = getModule(FactionStore, store)
 
   await dataStore.setVersions(lancerVer, ccVer)
 
@@ -51,9 +57,9 @@ export default async function (
   await encounterStore.loadEncounters()
   await missionStore.loadMissions()
   await missionStore.loadActiveMissions()
-  await store.dispatch('character/loadCharacters')
-  await store.dispatch('location/loadLocations')
-  await store.dispatch('faction/loadFactions')
+  await characterStore.loadCharacters()
+  await locationStore.loadLocations()
+  await factionStore.loadFactions()
 
   console.info('loading complete')
 }

@@ -47,14 +47,14 @@
             cols="2"
             to="gm/locations"
             name="Locations"
-            description="Manage narrative locations and settings"
+            description="Manage locations and settings"
             img="location.jpg"
           />
           <landing-card
             cols="2"
             to="gm/factions"
             name="Factions"
-            description="Manage narrative factions and organizations"
+            description="Manage factions and organizations"
             img="faction.jpg"
           />
         </v-row>

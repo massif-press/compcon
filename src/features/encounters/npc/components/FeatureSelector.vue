@@ -72,10 +72,13 @@ export default Vue.extend({
       let i = []
       if (this.showAll) i = this.features
       else {
-        const templateFeatures = this.npc.Templates.flatMap(x => x.OptionalFeatures)
-        i = templateFeatures.concat(this.npc.Class.OptionalFeatures)
+        const templateFeatures = this.npc.NpcTemplateController.Templates.flatMap(
+          x => x.OptionalFeatures
+        )
+        i = templateFeatures.concat(this.npc.NpcClassController.Class.OptionalFeatures)
       }
-      if (!this.showDupe) i = i.filter(x => !this.npc.SelectedFeatures.some(y => y.ID === x.ID))
+      if (!this.showDupe)
+        i = i.filter(x => !this.npc.NpcFeatureController.SelectedFeatures.some(y => y.ID === x.ID))
       else {
         const tempBaseFeats = this.npc.Templates.flatMap(x => x.BaseFeatures)
         i = i.concat(this.npc.Class.BaseFeatures).concat(tempBaseFeats)

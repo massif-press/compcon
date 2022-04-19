@@ -1,14 +1,12 @@
-import { store } from "@/store"
-import { ItemType } from "../enums"
-import { Clock } from "./Clock"
-import { CollectionItem, ICollectionItemData } from "./CollectionItem"
-import { RollableTable } from "./RollableTable"
+import { store } from '@/store'
+import { ItemType } from '../enums'
+import { CollectionItem, ICollectionItemData } from './CollectionItem'
+import { RollableTable } from '../components/narrative/elements/RollableTable'
+import { Clock } from '../components/narrative/elements/Clock'
 
-interface ILocationData extends ICollectionItemData {
-}
+interface ILocationData extends ICollectionItemData {}
 
 class Location extends CollectionItem {
-
   public constructor(data?: ILocationData) {
     super(data)
     this.ItemType = ItemType.Location

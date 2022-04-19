@@ -1,10 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-row
-      dense
-      :class="`elevation-${hover ? '12' : '0'}`"
-      @click="$router.push(`factions/edit/${item.ID}`)"
-    >
+    <v-row dense :class="`elevation-${hover ? '12' : '0'}`" @click="$emit('open')">
       <v-col cols="1">
         <v-card>
           <v-img :aspect-ratio="1" :src="item.Image" />
@@ -17,13 +13,15 @@
         <v-row no-gutters justify="space-between">
           <v-col cols="auto">
             <v-btn
-              v-for="(loc, i) in item.Factions"
+              v-for="(f, i) in item.Factions"
               small
-              text
-              :key="`${loc.Name}_${i}`"
+              outlined
+              :key="`${f.name}_${i}`"
               class="mr-2"
+              :disabled="!isLink(f.name)"
+              @click.stop="goTo(f.name)"
             >
-              {{ loc.Name }}
+              {{ f.name }}
             </v-btn>
           </v-col>
           <v-col cols="auto">
@@ -52,6 +50,23 @@ export default Vue.extend({
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
+  },
+  computed: {
+    allFactions() {
+      if (!this.$store.getters['faction/getFactions']) return []
+      return this.$store.getters['faction/getFactions'].filter(x => x.Name !== this.item.Name)
+    },
+  },
+  methods: {
+    isLink(name) {
+      return this.allFactions.some(x => x.Name === name)
+    },
+    goTo(name) {
+      const e = this.allFactions.find(x => x.Name === name)
+      if (!e) return
+      this.item.save()
+      this.$router.push({ name: `gm-factions-edit`, params: { id: e.ID } })
+    },
   },
 })
 </script>

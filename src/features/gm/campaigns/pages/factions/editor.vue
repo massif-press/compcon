@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import EditorBase from '../../../../encounters/components/EditorBase.vue'
+import EditorBase from '../../../_components/EditorBase.vue'
 
 export default Vue.extend({
   name: 'faction-editor',
