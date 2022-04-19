@@ -76,7 +76,6 @@ export default Vue.extend({
   },
   methods: {
     savePilot() {
-      this.pilot.cc_ver = Vue.prototype.version
       const store = getModule(PilotManagementStore, this.$store)
       this.pilot.Callsign = this.pilot.Callsign ? this.pilot.Callsign : this.default_callsign
       this.pilot.Name = this.pilot.Name ? this.pilot.Name : this.default_name

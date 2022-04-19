@@ -1,17 +1,17 @@
 import uuid from 'uuid/v4'
 
 interface ITableRoll {
-  min: number,
-  max: number,
+  min: number
+  max: number
   result: string
 }
 
 interface IRollableTableData {
-  id: string,
-  title: string,
-  description: string,
-  dice: string,
-  results: ITableRoll[]
+  id?: string
+  title?: string
+  description?: string
+  dice?: string
+  results?: ITableRoll[]
 }
 
 class RollableTable {

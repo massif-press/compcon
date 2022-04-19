@@ -17,7 +17,6 @@ async function saveCharacterData(characters: Character[]) {
 }
 
 @Module({
-  store: store,
   namespaced: true,
 })
 export class CharacterStore extends VuexModule {

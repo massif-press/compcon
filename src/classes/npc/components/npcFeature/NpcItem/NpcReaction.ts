@@ -1,5 +1,4 @@
-import { NpcFeature, NpcFeatureType } from './'
-import { INpcFeatureData } from './interfaces'
+import { INpcFeatureData, NpcFeature, NpcFeatureType } from '../NpcFeature'
 
 export interface INpcReactionData extends INpcFeatureData {
   trigger: string

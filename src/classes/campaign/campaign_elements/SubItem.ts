@@ -1,5 +1,5 @@
 import uuid from 'uuid/v4'
-import { Clock } from '../Clock'
+import { Clock, IClockData } from '../Clock'
 import { RollableTable } from '../RollableTable'
 
 interface ISubItemData {
@@ -32,7 +32,7 @@ abstract class SubItem {
 
   public AddTextArea() {
     this.Content.push({
-      title: 'New Text Area'
+      title: 'New Text Area',
     })
   }
 
@@ -49,13 +49,12 @@ abstract class SubItem {
   }
 
   public MoveItem(from: number, to: number) {
-    this.Content.splice(to, 0, this.Content.splice(from, 1)[0]);
+    this.Content.splice(to, 0, this.Content.splice(from, 1)[0])
   }
 
   public DeleteItem(index: number) {
     this.Content.splice(index, 1)
   }
-
 }
 
 export { ISubItemData, SubItem }

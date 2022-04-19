@@ -1,5 +1,4 @@
-import { NpcFeature, NpcFeatureType } from './'
-import { INpcFeatureData } from './interfaces'
+import { NpcFeature, INpcFeatureData, NpcFeatureType } from '../NpcFeature'
 
 export class NpcTrait extends NpcFeature {
   public constructor(data: INpcFeatureData, packName?: string) {
@@ -22,7 +21,6 @@ export class NpcTrait extends NpcFeature {
   public get ChargeRoll(): string {
     return this.Tags.find(x => x.IsRecharging).Value.toString()
   }
-
 }
 
 export default NpcTrait

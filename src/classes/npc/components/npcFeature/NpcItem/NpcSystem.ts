@@ -1,5 +1,4 @@
-import { NpcFeature, NpcFeatureType } from './'
-import { INpcFeatureData } from './interfaces'
+import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature'
 
 export interface INpcSystemData extends INpcFeatureData {
   type: NpcFeatureType.System

@@ -19,7 +19,6 @@ async function saveCampaignData(campaigns: Campaign[]) {
 }
 
 @Module({
-  store: store,
   namespaced: true,
 })
 export class CampaignStore extends VuexModule {

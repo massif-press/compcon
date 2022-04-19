@@ -165,4 +165,18 @@ RANGED -- Damage dealt, not melee -- rounded down
 
   throwable weapons have ranged damage / 2.5
 
+  ----
   
+  from discord:
+-Encounters: Objects/Buildings (with simple stat tracker)
+-Characters: a small expandable section for writing down important dialog that might be said by an NPC, NPC relations with players [maybe per player, maybe the party overall, if per player, it would link to the player list for whatever campaigns the character is linked to], an option to mark NPC as enemy, neutral, friendly, or dead. 
+-Locations: was going to say faction list, but that's there in Factions; ideally locations will display factions. GM only information, so you can share it with players and toggle a GM sharing mode and a Player sharing mode, in the latter, it can be synched and you can toggle the GM only status to reveal NPCs as they become relevant for the players.
+Being able to link a narrative NPC to a combat NPC (1+?)
+
+Maybe you could also have descriptive data for encounter stakes? Sometimes multiple encounters might feed into the same thing, for example how many fights there are in Wallflower that are “this clock goes up/down” (plus some flavor)
+
+1. A column-oriented design for readability.  e.g. Have all acting characters in a turn tracker on the lefthand side of the screen on a scrollable column. 
+Talents/features of selected character organized vertically instead of horizontally, like v2.2.27's NPC Builder's features list (in List mode).
+2. Make the acting character's statblock visible upon selection, similar to v2.2.27's mission runner, but probably condense a lot of the stats into scrollable number selectors to save screen real estate.
+3. Separate PC Talents, Loadout, Triggers/Skills(?), etc. into separate tabs, similar to how D&D Beyond handles Actions/Features/Equipment/Spells.
+

@@ -59,7 +59,6 @@ class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
   meltdown_imminent: boolean
   reactor_destroyed: boolean
   core_active: boolean
-  cc_ver: string
 }
 
 class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController {
@@ -87,7 +86,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   private _activations: number
   private _active: boolean
   private _pilot: Pilot
-  private _cc_ver: string
   private _statuses: string[]
   private _conditions: string[]
   private _resistances: string[]
@@ -137,7 +135,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     this._activations = 1
     this._turn_actions = 2
     this._core_active = false
-    this._cc_ver = store.getters.getVersion || 'N/A'
 
     this.FeatureController.Register(
       this.Frame,
@@ -996,7 +993,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
       meltdown_imminent: m._meltdown_imminent,
       reactor_destroyed: m._reactor_destroyed,
       core_active: m._core_active,
-      cc_ver: store.getters.getVersion || 'ERR',
     }
 
     SaveController.Serialize(m, data)
@@ -1036,7 +1032,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     m._activations = data.activations || 1
     m._reactor_destroyed = data.reactor_destroyed || false
     m._core_active = data.core_active || false
-    m._cc_ver = data.cc_ver || ''
 
     SaveController.Deserialize(m, data)
     PortraitController.Deserialize(m, data)

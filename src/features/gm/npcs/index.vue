@@ -40,20 +40,11 @@
           <v-col v-for="n in 16" :key="`ex_${n}`" cols="2">
             <v-hover v-slot="{ hover }" style="cursor: pointer">
               <v-card :elevation="hover ? 12 : 0" :outlined="!hover">
-                <v-img :aspect-ratio="1" src="../../../../static/img/misc/combat.jpg">
+                <v-img :aspect-ratio="1" src="public/static/img/misc/combat.jpg">
                   <v-fade-transition>
                     <div
                       v-if="hover"
-                      class="
-                        d-flex
-                        text-center
-                        primary
-                        darken-2
-                        v-card--reveal
-                        heading
-                        h2
-                        white--text
-                      "
+                      class="d-flex text-center primary darken-2 v-card--reveal heading h2 white--text"
                       style="height: 100%"
                     >
                       stats

@@ -1,12 +1,12 @@
-import { ItemType } from "../enums"
-import { Clock } from "./Clock"
-import { CollectionItem, ICollectionItemData } from "./CollectionItem"
-import { RollableTable } from "./RollableTable"
+import { ItemType } from '../enums'
+import { Clock } from './Clock'
+import { CollectionItem, ICollectionItemData } from './CollectionItem'
+import { RollableTable } from './RollableTable'
 import { store } from '@/store'
 
 interface ICharacterData extends ICollectionItemData {
-  alias: string
-  title: string
+  alias?: string
+  title?: string
 }
 
 class Character extends CollectionItem {
@@ -64,6 +64,5 @@ class Character extends CollectionItem {
     return new Character(data)
   }
 }
-
 
 export { Character, ICharacterData }
