@@ -51,8 +51,6 @@ import { IClockData } from '../components/clocks/Clock'
 import { BondPower } from './components/bond/Bond'
 
 interface IUnlockData {
-  PilotArmor: string[]
-  PilotWeapons: string[]
   PilotGear: string[]
   Frames: string[]
   MechWeapons: string[]
@@ -603,9 +601,9 @@ class Pilot
   // -- I/O ---------------------------------------------------------------------------------------
   private static serializeSE(equipment: CompendiumItem[]): IUnlockData {
     return {
-      PilotArmor: equipment.filter(x => x.ItemType === ItemType.PilotArmor).map(i => i.ID),
-      PilotWeapons: equipment.filter(x => x.ItemType === ItemType.PilotWeapon).map(i => i.ID),
-      PilotGear: equipment.filter(x => x.ItemType === ItemType.PilotGear).map(i => i.ID),
+      PilotGear: equipment.filter(x => x.ItemType === ItemType.PilotGear || 
+                                       x.ItemType === ItemType.PilotWeapon || 
+                                       x.ItemType === ItemType.PilotArmor).map(i => i.ID),
       Frames: equipment.filter(x => x.ItemType === ItemType.Frame).map(i => i.ID),
       MechWeapons: equipment.filter(x => x.ItemType === ItemType.MechWeapon).map(i => i.ID),
       WeaponMods: equipment.filter(x => x.ItemType === ItemType.WeaponMod).map(i => i.ID),
