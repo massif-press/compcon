@@ -10,6 +10,9 @@
 - **Pilot Roster** Add Share Dialog to pilot options menu [#1955](https://github.com/massif-press/compcon/issues/1955)
 - **Active Mode** Fix Bonuses not being applied to Deployables [#1953](https://github.com/massif-press/compcon/issues/1953)
 - **Cloud Account** Enforce lowercase e-mails, retry failed calls with enforced lowercase [#1960](https://github.com/massif-press/compcon/issues/1960) [#1951](https://github.com/massif-press/compcon/issues/1951)
+- **Mech Sheet** Fix Integrated Equipment loading and serialization [#1952](https://github.com/massif-press/compcon/issues/1952) [#1915](https://github.com/massif-press/compcon/issues/1915)
+
+
 ## [2.3.5] (2022-4-18)
 
 ### Bug Fixes
