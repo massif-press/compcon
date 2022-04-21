@@ -69,7 +69,7 @@ export default Vue.extend({
     confirm() {
       this.loading = true
       // After retrieveing the confirmation code from the user
-      Auth.confirmSignUp(this.email, this.verify, {
+      Auth.confirmSignUp(this.email.toLowerCase(), this.verify, {
         // Optional. Force user confirmation irrespective of existing alias. By default set to True.
         forceAliasCreation: true,
       })
@@ -88,7 +88,7 @@ export default Vue.extend({
     resend() {
       Auth.resendSignUp(this.email).then(res => {
         console.log(res)
-        this.$notify(`New verification e-mail sent to ${this.email}`).catch(err => {
+        this.$notify(`New verification e-mail sent to ${this.email.toLowerCase()}`).catch(err => {
           console.error(err)
           this.$notify(`Error sending verification e-mail: ${err}`)
         })
