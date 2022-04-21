@@ -1,4 +1,12 @@
 # COMP/CON Changelog
+## [2.3.6] (2022-4-20)
+
+### Bug Fixes
+
+- **Active Mode** Fix reserve bonuses not being added correctly (thanks TranslucentSabre!) [#1819](https://github.com/massif-press/compcon/issues/1819)
+- **Pilot Sheet** Serialize Pilot Gear correctly (thanks msprijatelj!) [#1948](https://github.com/massif-press/compcon/issues/1948)
+- **Main Menu** Fix Main Menu log spacing (thanks msprijatelj!)
+
 ## [2.3.5] (2022-4-18)
 
 ### Bug Fixes
