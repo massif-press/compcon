@@ -323,12 +323,13 @@ export default Vue.extend({
   },
   watch: {
     menu() {
-      if (!this.menu || !this.autoroll) this.reset()
+      if (!this.autoroll) this.reset()
     },
     presetAccuracy() {
       if (this.autoroll) {
         this.accuracy=this.presetAccuracy
-        this.autoRoll()
+        this.rollAccuracy()
+        this.commit()
       }
     },
   },
@@ -368,7 +369,10 @@ export default Vue.extend({
           overkill: dRoll.overkillRerolls,
         }
       })
-
+      this.rollAccuracy()
+    },
+    rollAccuracy() {
+      this.accTotal=0
       if (this.accuracy) {
         this.accRolls = DiceRoller.rollDamage(
           `${Math.abs(this.accuracy)}d${6}`,
@@ -377,6 +381,7 @@ export default Vue.extend({
         ).rawDieRolls
         this.accTotal = Math.max(...this.accRolls) * (this.accuracy > 0 ? 1 : -1)
       }
+
     },
     reset() {
       this.clear()
