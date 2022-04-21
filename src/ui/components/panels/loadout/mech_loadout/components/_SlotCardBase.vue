@@ -4,7 +4,7 @@
       <v-card flat tile :class="small ? 'panel' : 'clipped-large panel'" style="height: 100%">
         <v-card-title
           :class="`white--text py-0 ${small ? 'effect-text' : 'heading h3'} hover-item`"
-          style="cursor: pointer;"
+          style="cursor: pointer"
           @click="empty ? '' : $refs.detailDialog.show()"
         >
           <v-row no-gutters>
@@ -61,8 +61,9 @@
               </v-row>
               <v-row no-gutters class="mr-3 mt-n2">
                 <v-col cols="auto">
+                  {{ item.Tags }}
                   <cc-tags
-                    v-if="item.Tags && !item.ProfileTags"
+                    v-if="(item.Tags && !item.ProfileTags) || (item.Tags && item.ProfileTags)"
                     small
                     :tags="item.Tags"
                     :color="color"
@@ -102,7 +103,7 @@
               @click="if (!readonly) $refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
-                <div class="heading h2 subtle--text my-auto py-3" style="width: 100%; ">
+                <div class="heading h2 subtle--text my-auto py-3" style="width: 100%">
                   // EMPTY //
                 </div>
               </v-row>
