@@ -41,6 +41,18 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item :disabled="!isAuthed" @click="$refs.shareDialog.show()">
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
+            <v-icon>mdi-code-json</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Get Share Code</v-list-item-title>
+            <v-list-item-subtitle>
+              Generate a share code that other users can use to import and sync this character.
+              <b v-show="!isAuthed">Requires a COMP/CON cloud account</b>
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
         <!-- <v-list-item @click="$refs.roll20Dialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-dice-d20</v-icon>
@@ -81,6 +93,9 @@
     <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="delete_pilot()" />
     <clone-dialog ref="cloneDialog" :pilot="pilot" />
+    <cc-solo-dialog title="Share Code Management" ref="shareDialog" no-confirm>
+      <share-dialog :pilot="pilot" />
+    </cc-solo-dialog>
   </div>
 </template>
 
@@ -91,11 +106,12 @@ import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
 import Roll20Dialog from './Roll20Dialog.vue'
 import ExportDialog from './ExportDialog.vue'
+import ShareDialog from './ShareDialog.vue'
 import PrintDialog from './PrintDialog.vue'
 import DeleteDialog from './DeletePilotDialog.vue'
 
 import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
+import { UserStore } from '@/store'
 
 export default Vue.extend({
   name: 'edit-menu',
@@ -106,6 +122,7 @@ export default Vue.extend({
     PrintDialog,
     DeleteDialog,
     CloneDialog,
+    ShareDialog,
   },
   props: {
     pilot: {
@@ -117,6 +134,11 @@ export default Vue.extend({
     },
     dense: {
       type: Boolean,
+    },
+  },
+  computed: {
+    isAuthed() {
+      return getModule(UserStore, this.$store).IsLoggedIn
     },
   },
   methods: {
