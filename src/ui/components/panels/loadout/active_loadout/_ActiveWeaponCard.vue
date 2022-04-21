@@ -178,16 +178,17 @@
                   </v-row>
                 </v-col>
               </v-row>
-              <v-row no-gutters class="mr-3 mt-n2" align="start">
+              <v-row no-gutters class="mr-3 mt-n1 pb-1" align="start">
                 <v-col cols="12" md="auto">
                   <cc-tags
+                    v-if="item.Profiles.length > 1"
                     small
                     :tags="item.ProfileTags"
                     :color="color"
                     :bonus="mech.Pilot.LimitedBonus"
                   />
                   <cc-tags
-                    v-if="item.Tags && !item.ProfileTags"
+                    v-if="item.Tags"
                     small
                     :tags="item.Tags"
                     :color="color"

@@ -1,4 +1,22 @@
 # COMP/CON Changelog
+## [2.3.6] (2022-4-21)
+
+### Features
+
+- **Mech Sheet** Better Tag display for multi-profile weapons [#1959](https://github.com/massif-press/compcon/issues/1959)
+
+### Bug Fixes
+
+- **Active Mode** Fix reserve bonuses not being added correctly (thanks TranslucentSabre!) [#1819](https://github.com/massif-press/compcon/issues/1819)
+- **Pilot Sheet** Serialize Pilot Gear correctly (thanks msprijatelj!) [#1948](https://github.com/massif-press/compcon/issues/1948)
+- **Main Menu** Fix Main Menu log spacing (thanks msprijatelj!)
+- **Pilot Sheet** Change Share icon to get around some aggressive adblockers
+- **Pilot Roster** Add Share Dialog to pilot options menu [#1955](https://github.com/massif-press/compcon/issues/1955)
+- **Active Mode** Fix Bonuses not being applied to Deployables [#1953](https://github.com/massif-press/compcon/issues/1953)
+- **Cloud Account** Enforce lowercase e-mails, retry failed calls with enforced lowercase [#1960](https://github.com/massif-press/compcon/issues/1960) [#1951](https://github.com/massif-press/compcon/issues/1951)
+- **Mech Sheet** Fix Integrated Equipment loading and serialization [#1952](https://github.com/massif-press/compcon/issues/1952) [#1915](https://github.com/massif-press/compcon/issues/1915)
+
+
 ## [2.3.5] (2022-4-18)
 
 ### Bug Fixes

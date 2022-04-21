@@ -15,9 +15,6 @@
           class="flavor-text subtle--text text--darken-1 py-0 my-0"
         ></p>
         <p id="output" ref="output" class="flavor-text subtle--text text--darken-1 py-0 my-0">
-          <br />
-          <br />
-          <br />
         </p>
       </v-col>
       <v-col cols="auto" class="ml-2">
@@ -63,6 +60,7 @@ export default Vue.extend({
   },
   async mounted() {
     this.lock = true
+    this.restart()
   },
   methods: {
     restart() {
@@ -166,8 +164,8 @@ export default Vue.extend({
   align-self: stretch;
   display: inline-flex;
   height: inherit;
-  min-height: 95%;
-  max-height: 95%;
+  min-height: calc(100% - 24px);
+  max-height: calc(100% - 24px);
   max-width: 16px;
   width: 16px;
   background: url(../../../assets/ui/scale_1.png);

@@ -23,6 +23,10 @@ class SaveController {
 
   public constructor(parent: ISaveable) {
     this.Parent = parent
+    this.LastModified = new Date().toString()
+    this._isDeleted = false
+    this.ExpireTime = ''
+    this.DeleteTime = ''
   }
 
   public save(skip?: boolean) {

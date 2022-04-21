@@ -142,6 +142,8 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
       this.Parent.CoreBonusController,
       this.Parent.ReservesController
     )
+
+    this.MechLoadoutController.UpdateLoadouts()
   }
 
   // -- Passthroughs ------------------------------------------------------------------------------
@@ -1005,6 +1007,8 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   public static Deserialize(data: IMechData, pilot: Pilot): Mech {
     const f = store.getters.referenceByID('Frames', data.frame)
     const m = new Mech(f, pilot)
+    // m.MechLoadoutController.UpdateLoadouts()
+
     m._id = data.id
     MechLoadoutController.Deserialize(m, data)
 
