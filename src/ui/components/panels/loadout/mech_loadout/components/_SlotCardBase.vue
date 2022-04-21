@@ -59,23 +59,35 @@
                   </v-row>
                 </v-col>
               </v-row>
-              <v-row no-gutters class="mr-3 mt-n2">
+              <v-row no-gutters class="mr-3 mt-n1 pb-1">
                 <v-col cols="auto">
-                  {{ item.Tags }}
                   <cc-tags
-                    v-if="(item.Tags && !item.ProfileTags) || (item.Tags && item.ProfileTags)"
+                    v-if="item.Tags"
                     small
                     :tags="item.Tags"
                     :color="color"
                     :bonus="mech.Pilot.LimitedBonus"
                   />
-                  <cc-tags
-                    v-if="item.ProfileTags"
-                    small
-                    :tags="item.ProfileTags"
-                    :color="color"
-                    :bonus="mech.Pilot.LimitedBonus"
-                  />
+                </v-col>
+                <v-col
+                  v-show="item.Profiles.length > 1"
+                  v-for="(p, i) in item.Profiles"
+                  :key="`profile_tags_${i}`"
+                  class="mr-4"
+                  cols="auto"
+                >
+                  <div v-if="p.Tags.length">
+                    <div class="overline my-n1" v-text="p.Name" />
+                    <cc-tags
+                      v-if="p.Tags"
+                      small
+                      :tags="p.Tags"
+                      :color="color"
+                      :bonus="mech.Pilot.LimitedBonus"
+                    />
+                  </div>
+                </v-col>
+                <v-col cols="auto">
                   <cc-tags
                     v-if="item.Mod"
                     small
