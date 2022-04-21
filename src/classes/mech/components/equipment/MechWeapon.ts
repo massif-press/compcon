@@ -201,7 +201,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public get AllTags(): Tag[] {
-    return [...this.Tags, ...this.Profiles.flatMap(p => p.Tags)]
+    return _.uniqBy([...this.Tags, ...this.Profiles.flatMap(p => p.Tags)], 'ID')
   }
 
   public get ProfileHeatCost(): number {

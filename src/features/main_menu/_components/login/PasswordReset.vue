@@ -89,10 +89,19 @@ export default Vue.extend({
           this.sent = true
         })
         .catch(err => {
-          console.error(err)
-          this.loading = false
-          this.sent = false
-          this.$notify(`Unable to send reset e-mail: ${err.message}`, 'error')
+          console.log('err at first catch:', err)
+          Auth.forgotPassword(this.email.toLowerCase())
+            .then(data => {
+              console.log(data)
+              this.loading = false
+              this.sent = true
+            })
+            .catch(err => {
+              console.error(err)
+              this.loading = false
+              this.sent = false
+              this.$notify(`Unable to send reset e-mail: ${err.message}`, 'error')
+            })
         })
     },
     setNewPassword() {

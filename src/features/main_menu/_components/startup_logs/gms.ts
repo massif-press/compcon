@@ -3,6 +3,9 @@ import { encryption } from '@/io/Generators'
 const plog = typer => {
   typer
     .type('<br>')
+    .type('<br>')
+    .type('<br>')
+    .type('<br>')
     .type('COMPANION/CONCIERGE UNIT INITIALIZING')
     .break()
     .type('GMS COMP/CON Unit Mk XI Rev 11.4.1c')
