@@ -1,5 +1,9 @@
 # COMP/CON Changelog
-## [2.3.6] (2022-4-20)
+## [2.3.6] (2022-4-21)
+
+### Features
+
+- **Mech Sheet** Better Tag display for multi-profile weapons [#1959](https://github.com/massif-press/compcon/issues/1959)
 
 ### Bug Fixes
 
