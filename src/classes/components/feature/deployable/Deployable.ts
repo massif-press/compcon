@@ -125,6 +125,7 @@ class Deployable extends CompendiumItem {
     if (owner && owner.Pilot) {
       out = owner.Pilot.SpecialEval(out)
       out += Bonus.get(`${prefix}_${bonusID}`, owner)
+      out += Bonus.get(`${prefix}_${bonusID}`, owner.Pilot)
     }
     return Number(out)
   }
