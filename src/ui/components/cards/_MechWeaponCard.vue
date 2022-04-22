@@ -114,9 +114,6 @@
           </v-col>
         </v-row>
       </div>
-
-      hello world
-
       <div v-if="item.Profiles.length > 1 && item.ProfileTags && item.ProfileTags.length">
         <div class="overline ml-n2 mb-n1 subtle--text">PROFILE TAGS</div>
         <cc-tags :tags="item.ProfileTags" extended />
