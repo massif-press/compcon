@@ -1,4 +1,4 @@
-import { MechEquipment, CompendiumItem, MechWeapon } from '@/class'
+import { MechEquipment, CompendiumItem, MechWeapon, Frame } from '@/class'
 
 class ItemFilter {
   public static Filter(items: CompendiumItem[], filter: any): CompendiumItem[] {
@@ -16,6 +16,10 @@ class ItemFilter {
         items = items.filter((x: MechEquipment) => x.SP < filter[p])
       } else if (p === 'SP_eq') {
         items = items.filter((x: MechEquipment) => x.SP === filter[p])
+      } else if (p === 'MechType') {
+        items = items.filter((f: Frame) => filter[p].every(t => f.MechType.includes(t)))
+      } else if (p === 'Mounts') {
+        items = items.filter((f: Frame) => filter[p].every(m => f.Mounts.includes(m)))
       } else if (filter[p].length) items = items.filter(x => filter[p].some(e => x[p].includes(e)))
     })
     return items
