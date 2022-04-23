@@ -32,7 +32,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="mechHangar()">
+        <v-list-item @click="tacticalProfile()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon large>cci-frame</v-icon>
           </v-list-item-icon>
@@ -59,7 +59,7 @@ export default vueMixins(activePilot).extend({
     pilotSheet() {
       this.$router.push({ name: 'pilot_sheet' })
     },
-    mechHangar() {
+    tacticalProfile() {
       this.$router.push({ name: 'tactical_profile' })
     },
   },
