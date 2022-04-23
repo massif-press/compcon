@@ -109,17 +109,19 @@ export default Vue.extend({
   methods: {
     async generate() {
       this.loading = true
-      const res = await generateCode(this.pilot)
-      this.pilot.CloudController.SetShareCode(res)
-      this.$notify('Share Code generated', 'success')
+      await generateCode(this.pilot)
+        .then(res => this.pilot.CloudController.SetShareCode(res))
+        .then(() => this.$notify('Share Code generated', 'success'))
+        .catch(() => this.$notify('An error occurred while attempting to generate a share code', 'error'))
       this.loading = false
     },
     async refresh() {
       this.loading = true
       const c = this.pilot.CloudController.ShareCode
       await refreshItem(c)
-      this.pilot.CloudController.SetShareCode(c)
-      this.$notify('Share Code refreshed', 'success')
+        .then(() => this.pilot.CloudController.SetShareCode(c))
+        .then(() => this.$notify('Share Code refreshed', 'success'))
+        .catch(() => this.$notify('An error occurred while attempting to refresh the share code', 'error'))
       this.loading = false
     },
     copy() {
