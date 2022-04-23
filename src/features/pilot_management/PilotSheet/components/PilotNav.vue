@@ -10,8 +10,6 @@
       <cc-nav-item v-show="hasBondData" :selected="selected === '4'" to="../sheet/4">
         <cc-tooltip inline delayed content="Pilot Bonds">BONDS</cc-tooltip>
       </cc-nav-item>
-      <cc-nav-item :selected="selected === '2'" to="../sheet/2">
-        <cc-tooltip inline delayed content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
       <cc-nav-item :selected="selected === '1'" to="../sheet/1">
         <cc-tooltip inline delayed content="Licenses, Mech Skills, CORE Bonuses, Talents and Mech Hangar">
           TACTICAL PROFILE
@@ -26,13 +24,9 @@
         </v-btn>
       </template>
       <v-list dense class="heading h3">
+        <v-list-item to="../sheet/0">NARRATIVE PROFILE</v-list-item>
         <v-list-item v-show="hasBondData" to="../sheet/4">BONDS</v-list-item>
-        <v-list-item to="../sheet/0">
-          NARRATIVE PROFILE
-        </v-list-item>
-        <v-list-item to="../sheet/1">
-          TACTICAL PROFILE
-        </v-list-item>
+        <v-list-item to="../sheet/1">TACTICAL PROFILE</v-list-item>
       </v-list>
     </v-menu>
 

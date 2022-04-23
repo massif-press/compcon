@@ -7,18 +7,29 @@
     <talent-block :pilot="pilot" class="mt-4" />
 
     <cc-title large color="pilot" class="ml-n10 pl-3 mb-2">Hangar&emsp;</cc-title>
-    <v-btn-toggle id="viewtoggle" :value="profile.GetView('hangar')" mandatory>
-      <v-btn small icon value="cards" @click="profile.SetView('hangar', 'cards')">
+
+    <v-btn-toggle id="viewtoggle" :value="getView" mandatory>
+      <v-btn
+        small
+        icon
+        value="cards"
+        @click="profile.SetView('hangar', 'cards')"
+      >
         <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
       <v-btn small icon value="list" @click="profile.SetView('hangar', 'list')">
         <v-icon color="accent">mdi-view-list</v-icon>
       </v-btn>
-      <v-btn small icon value="table" @click="profile.SetView('hangar', 'table')">
+      <v-btn
+        small
+        icon
+        value="table"
+        @click="profile.SetView('hangar', 'table')"
+      >
         <v-icon color="accent">mdi-format-align-justify</v-icon>
       </v-btn>
     </v-btn-toggle>
-    <v-container v-if="profile.GetView('hangar') === 'cards'" fluid>
+    <v-container v-if="getView === 'cards'" fluid>
       <v-row justify="center">
         <mech-card
           v-for="m in pilot.Mechs"
@@ -30,7 +41,7 @@
         />
       </v-row>
     </v-container>
-    <v-container v-else-if="profile.GetView('hangar') === 'list'" class="mt-2 px-0" fluid>
+    <v-container v-else-if="getView === 'list'" class="mt-2 px-0" fluid>
       <mech-list-item
         v-for="m in pilot.Mechs"
         :key="`${m.ID}_mc`"
@@ -51,7 +62,13 @@
         </cc-btn>
       </v-col>
     </v-row>
-    <cc-solo-dialog ref="dialog" icon="cci-frame" no-confirm title="Add New Mech" fullscreen>
+    <cc-solo-dialog
+      ref="dialog"
+      icon="cci-frame"
+      no-confirm
+      title="Add New Mech"
+      fullscreen
+    >
       <new-mech-menu :pilot="pilot" @close="$refs.dialog.hide()" />
     </cc-solo-dialog>
   </div>
@@ -78,7 +95,7 @@ export default Vue.extend({
   components: { MechSkillsBlock, SpecialBlock, LicenseBlock, CoreBonusBlock, TalentBlock, MechCard, MechListItem, MechTable, NewMechMenu },
   props: {
     pilot: {
-      type: Object,
+      type: Pilot,
       required: true,
     },
   },
@@ -93,6 +110,10 @@ export default Vue.extend({
       const store = getModule(PilotManagementStore, this.$store)
       store.setLoadedMech(mech.ID)
       this.$router.push(`../mech/${mech.ID}`)
+    },
+    getView() {
+      if (this.profile) return this.profile.GetView("hangar");
+      return "cards";
     },
   },
 })

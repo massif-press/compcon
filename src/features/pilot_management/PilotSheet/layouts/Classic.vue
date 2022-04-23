@@ -16,7 +16,7 @@ import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'classic',
-  components: { NarrativeView, InfoView, TacticalView, MechHangarView, BondsView },
+  components: { InfoView, TacticalView, BondsView },
   props: {
     pilot: {
       type: Object,

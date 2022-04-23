@@ -14,7 +14,7 @@ import BondsView from '../sections/bonds/index.vue'
 
 export default Vue.extend({
   name: 'tabbed',
-  components: { NarrativeView, InfoView, TacticalView, MechHangarView, BondsView },
+  components: { InfoView, TacticalView, BondsView },
   props: {
     pilot: {
       type: Object,
