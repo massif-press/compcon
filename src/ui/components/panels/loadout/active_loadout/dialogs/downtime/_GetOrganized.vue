@@ -167,25 +167,24 @@
                                 >
                                   <v-radio label="Folds Immediately" value="fold" color="error" />
                                   <v-radio
-                                    :label="`Loses Efficiency (${selected.Efficiency} available)`"
-                                    :disabled="selected.Efficiency === 0"
-                                    value="efficiency"
+                                    :label="`Loses 2 Efficiency (${selected.Efficiency} available) and 2 Influence (${selected.Influence} available)`"
+                                    :disabled="selected.Influence === 0 && selected.Efficiency === 0"
+                                    value="efficiencyInfluence"
                                     color="warning"
                                   />
                                   <v-radio
-                                    :label="`Loses Influence (${selected.Influence} available)`"
-                                    :disabled="selected.Influence === 0"
-                                    value="influence"
+                                    :label="`Needs to Take Action`"
+                                    value="takeAction"
                                     color="warning"
-                                  />
+                                  />     
                                 </v-radio-group>
                               </v-col>
                             </v-row>
                             <v-slide-x-reverse-transition>
-                              <div v-show="badChoice !== '' && badChoice !== 'fold'">
+                              <div v-show="badChoice === 'takeAction'">
                                 <br />
                                 <span>
-                                  Additionally, the organization takes one of the following actions:
+                                  The organization takes one of the following actions:
                                 </span>
                                 <v-btn-toggle v-model="action" mandatory>
                                   <v-btn text large value="Pay Debts">Pay Debts</v-btn>
@@ -425,13 +424,13 @@ export default Vue.extend({
             ),
             1
           )
-        } else if (this.badChoice === 'efficiency') {
-          this.selected.Efficiency -= 2
+        } else if (this.badChoice === 'efficiencyInfluence') {
+          if(this.selected.Efficiency > 0)
+            this.selected.Efficiency -= 2
+          if(this.selected.Influence > 0)
+            this.selected.Influence -= 2
           this.selected.Actions = this.action
-        } else if (this.badChoice === 'influence') {
-          this.selected.Influence -= 2
-          this.selected.Actions = this.action
-        }
+          }
       } else if (parseInt(this.improveRoll) < 20) {
         if (this.improvement === 'efficiency') {
           this.selected.Efficiency += 2
