@@ -1,4 +1,14 @@
 # COMP/CON Changelog
+## [2.3.7] (2022-4-25)
+
+### Bug Fixes
+
+- **Pilot Sheet** Prevent remote pilots from regenerating share codes (thanks msprijatelj!) [#1970](https://github.com/massif-press/compcon/issues/1970)
+- **Mech Sheet** Fix equipment from taking a default custom name [#1973](https://github.com/massif-press/compcon/issues/1973)
+- **Mech Sheet** Mech nav returns to Tactical Profile instead of Narrative (thanks karidyas! First PR! 🎉 ) [#1973](https://github.com/massif-press/compcon/issues/1973)
+- **Active Mode** Fix GetOrganized behavior (thanks super-salad! First PR! 🎉 ) [#1973](https://github.com/massif-press/compcon/issues/1973)
+- **Pilot Roster** Fix Remote pilots getting incorrectly flagged for deletion [#1961](https://github.com/massif-press/compcon/issues/1961)
+
 ## [2.3.6] (2022-4-21)
 
 ### Features
