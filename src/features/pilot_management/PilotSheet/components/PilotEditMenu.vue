@@ -41,7 +41,20 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item :disabled="!isAuthed" @click="$refs.shareDialog.show()">
+        <v-list-item v-if="pilot.CloudController.IsRemoteResource" :disabled="!isAuthed" :loading="loading" @click="remoteUpdate()">
+          <v-list-item-icon class="ma-0 mr-2 mt-3">
+            <v-icon>mdi-cloud-sync</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Download Latest Data</v-list-item-title>
+            <v-list-item-subtitle>
+              Download all remote changes to this pilot, overwriting local data.
+              <br/>
+              <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-else :disabled="!isAuthed" @click="$refs.shareDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-code-json</v-icon>
           </v-list-item-icon>
@@ -49,7 +62,8 @@
             <v-list-item-title>Get Share Code</v-list-item-title>
             <v-list-item-subtitle>
               Generate a share code that other users can use to import and sync this character.
-              <b v-show="!isAuthed">Requires a COMP/CON cloud account</b>
+              <br/>
+              <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -112,6 +126,7 @@ import DeleteDialog from './DeletePilotDialog.vue'
 
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
+import { RemoteSyncItem } from '@/cloud/item_sync'
 
 export default Vue.extend({
   name: 'edit-menu',
@@ -136,6 +151,9 @@ export default Vue.extend({
       type: Boolean,
     },
   },
+  data: () => ({
+    loading: false,
+  }),
   computed: {
     isAuthed() {
       return getModule(UserStore, this.$store).IsLoggedIn
@@ -145,6 +163,17 @@ export default Vue.extend({
     delete_pilot() {
       this.pilot.SaveController.delete()
       if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
+    },
+    async remoteUpdate() {
+      this.loading = true
+      try {
+        await RemoteSyncItem(this.pilot)
+        this.$notify('Pilot synced to remote', 'success')
+      } catch (error) {
+        console.error(error)
+        this.$notify('An error occurred while attempting to download remote data', 'error')
+      }
+      this.loading = false
     },
   },
 })
