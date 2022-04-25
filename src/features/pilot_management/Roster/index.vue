@@ -121,7 +121,7 @@
       <v-col cols="auto">
         <v-btn x-small color="primary" @click="$refs.delete.show()">Delete Multiple</v-btn>
         <cc-solo-dialog ref="delete" icon="mdi-delete" no-confirm large title="Delete Multiple">
-          <mass-delete :pilots="pilots" />
+          <cc-mass-delete :items="pilots" />
         </cc-solo-dialog>
       </v-col>
     </v-row>
@@ -186,7 +186,6 @@ import Vue from 'vue'
 import PilotCard from './components/PilotCard.vue'
 import PilotListItem from './components/PilotListItem.vue'
 import ImportDialog from './components/ImportDialog.vue'
-import MassDelete from './components/MassDelete.vue'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore, PilotManagementStore } from '@/store'
 import { Pilot } from '@/class'
@@ -197,7 +196,7 @@ import { PilotGroup } from '../store'
 
 export default Vue.extend({
   name: 'roster-view',
-  components: { ImportDialog, PilotListItem, PilotCard, MassDelete, draggable },
+  components: { ImportDialog, PilotListItem, PilotCard, draggable },
   data: () => ({
     sortParams: null,
     drag: false,

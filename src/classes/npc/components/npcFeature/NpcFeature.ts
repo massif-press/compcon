@@ -1,4 +1,5 @@
-import { Tag } from '@/class'
+import { CompendiumItem, Tag } from '@/class'
+import { ICompendiumItemData } from '@/interface'
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -15,7 +16,7 @@ export interface IOriginData {
   origin_id: string
 }
 
-export interface INpcFeatureData {
+export interface INpcFeatureData extends ICompendiumItemData {
   id: string
   name: string
   origin: IOriginData
@@ -29,16 +30,11 @@ export interface INpcFeatureData {
   type: NpcFeatureType
 }
 
-export abstract class NpcFeature {
-  private _id: string
-  private _name: string
+export abstract class NpcFeature extends CompendiumItem {
   private _origin: IOriginData
   private _effect: string
-  private _bonus: object
-  private _override: object
   private _locked: boolean
   private _tags: ITagData[]
-  private _brew: string
   private _hide_active: boolean
   protected type: NpcFeatureType
   public IsHidden: boolean
@@ -46,22 +42,14 @@ export abstract class NpcFeature {
   public readonly InLcp: boolean
 
   public constructor(data: INpcFeatureData, packName?: string) {
-    this._id = data.id
-    this._name = data.name
+    super(data)
     this._origin = data.origin
     this._effect = data.effect || ''
-    this._bonus = data.bonus || null
-    this._override = data.override || null
     this._locked = data.locked || false
     this._tags = data.tags
-    this._brew = data.brew || 'CORE'
     this._hide_active = data.hide_active || false
     this.LcpName = packName || 'Lancer CORE NPCs'
     this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false
-  }
-
-  public get ID(): string {
-    return this._id
   }
 
   public get Name(): string {
@@ -73,7 +61,7 @@ export abstract class NpcFeature {
       ID: this._origin.origin_id,
       Type: this._origin.type,
       Name: this._origin.name,
-      Optional: this._origin.optional
+      Optional: this._origin.optional,
     }
   }
 
@@ -99,14 +87,6 @@ export abstract class NpcFeature {
     return !this._origin.optional
   }
 
-  public get Bonus(): object {
-    return this._bonus
-  }
-
-  public get Override(): object {
-    return this._override
-  }
-
   public get Effect(): string {
     if (!this._effect) return ''
     const perTier = /(\{.*?\})/
@@ -127,10 +107,7 @@ export abstract class NpcFeature {
     const m = this._effect.match(perTier)
     if (m) {
       m.forEach(x => {
-        const tArr = x
-          .replace('{', '')
-          .replace('}', '')
-          .split('/')
+        const tArr = x.replace('{', '').replace('}', '').split('/')
         fmt = fmt.replace(x, `<b class="accent--text">${tArr[tier - 1]}</b>`)
       })
     }
@@ -151,11 +128,6 @@ export abstract class NpcFeature {
 
   public get FeatureType(): NpcFeatureType {
     return this.type
-  }
-
-  // Used for cc-item-card subcomponent selection
-  public get ItemType(): string {
-    return `Npc${this.type}`
   }
 
   public get Source(): string {

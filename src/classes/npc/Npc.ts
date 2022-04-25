@@ -1,10 +1,9 @@
 import uuid from 'uuid/v4'
 import { NpcStore, store } from '@/store'
-import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { NpcStats, NpcClass, NpcTemplate, NpcFeature, NpcItem } from './'
+import { ImageTag } from '@/io/ImageManagement'
+import { NpcStats, NpcClass, NpcItem } from './'
 import { INpcStats, INpcItemSaveData } from './interfaces'
 import { EncounterSide } from '@/class'
-import { ICounterData } from '@/interface'
 import {
   CloudController,
   ICloudData,
@@ -20,7 +19,6 @@ import {
 import { IFeatureController } from '../components/feature/IFeatureController'
 import { FeatureController } from '../components/feature/FeatureController'
 import { getModule } from 'vuex-module-decorators'
-import { IActor } from '../encounter/IActor'
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
 import { IBrewable } from '../components/brew/IBrewable'
 import { CompendiumItem } from '../CompendiumItem'
@@ -31,8 +29,8 @@ import {
   NpcFeatureController,
 } from './components/npcFeature/NpcFeatureController'
 import { NpcTemplateController } from './components/npcTemplate/NpcTemplateController'
-import { ISectionData, Section } from '../campaign/campaign_elements/Section'
-import { IRollableTableData, RollableTable } from '../components/narrative/elements/RollableTable'
+import { ISectionData } from '../campaign/campaign_elements/Section'
+import { IRollableTableData } from '../components/narrative/elements/RollableTable'
 import {
   NarrativeElementController,
   NarrativeElementData,
@@ -128,13 +126,12 @@ class Npc
   private _name: string
   private _subtitle: string
   private _campaign: string
+  private _note: string
+  private _user_labels: string[]
+  private _tag: string
+
   private _side: EncounterSide
   private _current_stats: NpcStats
-  private _note: string
-  private _cloud_image: string
-  private _local_image: string
-  private _tag: string
-  private _user_labels: string[]
   private _statuses: string[]
   private _conditions: string[]
   private _resistances: string[]
@@ -166,7 +163,7 @@ class Npc
     this._subtitle = ''
     this._user_labels = []
     this._side = EncounterSide.Enemy
-    this._note = this._cloud_image = this._local_image = ''
+    this._note = ''
     this._campaign = ''
     this._burn = 0
     this._overshield = 0
@@ -300,26 +297,28 @@ class Npc
   }
 
   setStatBonuses(): void {
-    this.Stats.ClearBonuses()
-    this.Items.forEach(item => {
-      if (item.Feature.Override) {
-        for (const key in item.Feature.Override) {
-          const o = Array.isArray(item.Feature.Override[key])
-            ? item.Feature.Override[key][item.Tier - 1]
-            : item.Feature.Override[key]
-          this.Stats.Overrides[key] = o
-        }
-      } else {
-        if (item.Feature.Bonus) {
-          for (const key in item.Feature.Bonus) {
-            const b = Array.isArray(item.Feature.Bonus[key])
-              ? item.Feature.Bonus[key][item.Tier - 1]
-              : item.Feature.Bonus[key]
-            this.Stats.Bonuses[key] += parseInt(b)
-          }
-        }
-      }
-    })
+    // TODO
+    console.error('Not yet implemented')
+    // this.Stats.ClearBonuses()
+    // this.Items.forEach(item => {
+    //   if (item.Feature.Override) {
+    //     for (const key in item.Feature.Override) {
+    //       const o = Array.isArray(item.Feature.Override[key])
+    //         ? item.Feature.Override[key][item.Tier - 1]
+    //         : item.Feature.Override[key]
+    //       this.Stats.Overrides[key] = o
+    //     }
+    //   } else {
+    //     if (item.Feature.Bonus) {
+    //       for (const key in item.Feature.Bonus) {
+    //         const b = Array.isArray(item.Feature.Bonus[key])
+    //           ? item.Feature.Bonus[key][item.Tier - 1]
+    //           : item.Feature.Bonus[key]
+    //         this.Stats.Bonuses[key] += parseInt(b)
+    //       }
+    //     }
+    //   }
+    // })
   }
 
   public RecalcBonuses(save = true): void {
@@ -377,8 +376,6 @@ class Npc
       currentStats: NpcStats.Serialize(npc._current_stats),
       note: npc._note,
       side: npc.Side,
-      cloudImage: npc._cloud_image,
-      localImage: npc._local_image,
       statuses: npc._statuses,
       conditions: npc._conditions,
       resistances: npc._resistances,
@@ -425,8 +422,6 @@ class Npc
     this.Stats = NpcStats.Deserialize(data.stats)
     this.RecalcBonuses(false)
     this._note = data.note
-    this._cloud_image = data.cloudImage
-    this._local_image = data.localImage
     this._current_stats = data.currentStats
       ? NpcStats.Deserialize(data.currentStats)
       : NpcStats.FromMax(this.Stats)

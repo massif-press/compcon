@@ -40,7 +40,7 @@
           </v-col>
         </v-row>
       </v-toolbar>
-      <v-row>
+      <v-row justify="space-between">
         <v-col cols="auto">
           <v-btn-toggle v-model="view" mandatory tile>
             <v-btn small icon value="big-grid">
@@ -56,6 +56,12 @@
               <v-icon color="accent">mdi-table</v-icon>
             </v-btn>
           </v-btn-toggle>
+        </v-col>
+        <v-col cols="auto" align-self="end" class="mr-3">
+          <v-btn x-small color="primary" @click="$refs.delete.show()">Delete Multiple</v-btn>
+          <cc-solo-dialog ref="delete" icon="mdi-delete" no-confirm large title="Delete Multiple">
+            <cc-mass-delete :items="items" />
+          </cc-solo-dialog>
         </v-col>
       </v-row>
       <v-card-text>
