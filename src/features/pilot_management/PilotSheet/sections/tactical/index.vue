@@ -9,23 +9,13 @@
     <cc-title large color="pilot" class="ml-n10 pl-3 mb-2">Hangar&emsp;</cc-title>
 
     <v-btn-toggle id="viewtoggle" :value="getView" mandatory>
-      <v-btn
-        small
-        icon
-        value="cards"
-        @click="profile.SetView('hangar', 'cards')"
-      >
+      <v-btn small icon value="cards" @click="profile.SetView('hangar', 'cards')">
         <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
       <v-btn small icon value="list" @click="profile.SetView('hangar', 'list')">
         <v-icon color="accent">mdi-view-list</v-icon>
       </v-btn>
-      <v-btn
-        small
-        icon
-        value="table"
-        @click="profile.SetView('hangar', 'table')"
-      >
+      <v-btn small icon value="table" @click="profile.SetView('hangar', 'table')">
         <v-icon color="accent">mdi-format-align-justify</v-icon>
       </v-btn>
     </v-btn-toggle>
@@ -104,16 +94,16 @@ export default Vue.extend({
       const store = getModule(UserStore, this.$store)
       return store.UserProfile
     },
+    getView() {
+      if (this.profile) return this.profile.GetView("hangar");
+      return "cards";
+    },
   },
   methods: {
     toMechSheet(mech) {
       const store = getModule(PilotManagementStore, this.$store)
       store.setLoadedMech(mech.ID)
       this.$router.push(`../mech/${mech.ID}`)
-    },
-    getView() {
-      if (this.profile) return this.profile.GetView("hangar");
-      return "cards";
     },
   },
 })
