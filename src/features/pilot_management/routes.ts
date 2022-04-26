@@ -39,6 +39,11 @@ const routes: RouteConfig[] = [
             redirect: 'sheet/1',
           },
           {
+            name: 'tactical_profile',
+            path: '',
+            redirect: 'sheet/2',
+          },
+          {
             name: 'mech_hangar',
             path: '',
             redirect: 'sheet/3',
