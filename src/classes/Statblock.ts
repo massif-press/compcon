@@ -35,98 +35,98 @@ function addWeaponToOutput(output: string, discordEmoji: boolean, w: MechWeapon 
 }
 
 class Statblock {
-  public static Generate(pilot: Pilot, mech: Mech, discordEmoji: boolean): string {
+  public static Generate(pilot: Pilot, mech: Mech, discordEmoji: boolean, fullView: boolean): string {
     let output = ''
-    if (pilot) {
-      output += `» ${pilot.Name} // ${pilot.Callsign.toUpperCase()} «\n  `
-      if (pilot.Background) {
-        output += `${pilot.Background}, `
-      }
-      output += `LL${pilot.Level}\n`
-      output += `[ SKILL TRIGGERS ]\n  `
-      for (let i = 0; i < pilot.SkillsController.Skills.length; i++) {
-        const s = pilot.SkillsController.Skills[i]
-        output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(
-          i,
-          pilot.SkillsController.Skills.length
-        )}`
-      }
 
-      const loadout = pilot.PilotLoadoutController.Loadout
-      if (loadout) {
-        output += '[ GEAR ]\n  '
-        for (let i = 0; i < loadout.Items.length; i++) {
-          if (loadout.Items[i]) {
-            output += `${loadout.Items[i].TrueName}${linebreak(i, loadout.Items.length)}`
-            if (discordEmoji) {
-              const weapon = loadout.Items[i] as PilotWeapon
-              if ('Range' in weapon) {
-                const ranges: string[] = []
-                weapon.Range.forEach(r => {
-                  ranges.push(`${r.DiscordEmoji} ${r.Value}`)
-                })
-                output += ` ${ranges.join(' ')}`
-              }
-              if ('Damage' in weapon) {
-                const damages: string[] = []
-                weapon.Damage.forEach(d => {
-                  damages.push(`${d.DiscordEmoji} ${d.Value}`)
-                })
-                output += ` ${damages.join(' ')}`
-              }
+    output += `» ${pilot.Name} // ${pilot.Callsign.toUpperCase()} «\n  `
+    if (pilot.Background) {
+      output += `${pilot.Background}, `
+    }
+    output += `LL${pilot.Level}\n`
+    output += `[ SKILL TRIGGERS ]\n  `
+    for (let i = 0; i < pilot.SkillsController.Skills.length; i++) {
+      const s = pilot.SkillsController.Skills[i]
+      output += `${s.Skill.Trigger} (+${s.Bonus})${linebreak(
+        i,
+        pilot.SkillsController.Skills.length
+      )}`
+    }
+
+    const loadout = pilot.PilotLoadoutController.Loadout
+    if (loadout) {
+      output += '[ GEAR ]\n  '
+      for (let i = 0; i < loadout.Items.length; i++) {
+        if (loadout.Items[i]) {
+          output += `${loadout.Items[i].TrueName}${linebreak(i, loadout.Items.length)}`
+          if (discordEmoji) {
+            const weapon = loadout.Items[i] as PilotWeapon
+            if ('Range' in weapon) {
+              const ranges: string[] = []
+              weapon.Range.forEach(r => {
+                ranges.push(`${r.DiscordEmoji} ${r.Value}`)
+              })
+              output += ` ${ranges.join(' ')}`
+            }
+            if ('Damage' in weapon) {
+              const damages: string[] = []
+              weapon.Damage.forEach(d => {
+                damages.push(`${d.DiscordEmoji} ${d.Value}`)
+              })
+              output += ` ${damages.join(' ')}`
             }
           }
         }
       }
+    }
 
-      const bond = pilot.BondController
-      if (bond.Bond) {
-        output += '[ BOND ]\n  '
-        output += `${bond.Bond.Name.toUpperCase()}\n`
-        if (bond.BondPowers) {
-          output += '  Powers: '
-          for (let i = 0; i < bond.BondPowers.length; i++) {
-            output += `${bond.BondPowers[i].name.toUpperCase()}${linebreak(i, bond.BondPowers.length)}`
-          }
-        }
-      }
-      output += '---\n'
-
-      output += '[ MECH SKILLS]\n  '
-      output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
-
-      output += '[ TALENTS ]\n  '
-      for (let i = 0; i < pilot.TalentsController.Talents.length; i++) {
-        const t = pilot.TalentsController.Talents[i]
-        output += `${t.Talent.Name} ${t.Rank}${linebreak(
-          i,
-          pilot.TalentsController.Talents.length
-        )}`
-      }
-
-      if (pilot.LicenseController.Licenses.length) {
-        output += '[ LICENSES ]\n  '
-        for (let i = 0; i < pilot.LicenseController.Licenses.length; i++) {
-          const l = pilot.LicenseController.Licenses[i]
-          output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
-            i,
-            pilot.LicenseController.Licenses.length
-          )}`
-        }
-      }
-
-      if (pilot.CoreBonusController.CoreBonuses.length) {
-        output += '[ CORE BONUSES ]\n  '
-        for (let i = 0; i < pilot.CoreBonusController.CoreBonuses.length; i++) {
-          const cb = pilot.CoreBonusController.CoreBonuses[i]
-          output += `${cb.Name}${linebreak(i, pilot.CoreBonusController.CoreBonuses.length)}`
+    const bond = pilot.BondController
+    if (bond.Bond) {
+      output += '[ BOND ]\n  '
+      output += `${bond.Bond.Name.toUpperCase()}\n`
+      if (bond.BondPowers) {
+        output += '  Powers: '
+        for (let i = 0; i < bond.BondPowers.length; i++) {
+          output += `${bond.BondPowers[i].name.toUpperCase()}${linebreak(i, bond.BondPowers.length)}`
         }
       }
     }
+    output += '**\n'
 
-    if (pilot && mech) output += '----------\n'
+    output += '[ MECH SKILLS]\n  '
+    output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
 
-    if (mech) {
+    output += '[ TALENTS ]\n  '
+    for (let i = 0; i < pilot.TalentsController.Talents.length; i++) {
+      const t = pilot.TalentsController.Talents[i]
+      output += `${t.Talent.Name} ${t.Rank}${linebreak(
+        i,
+        pilot.TalentsController.Talents.length
+      )}`
+    }
+
+    if (pilot.LicenseController.Licenses.length) {
+      output += '[ LICENSES ]\n  '
+      for (let i = 0; i < pilot.LicenseController.Licenses.length; i++) {
+        const l = pilot.LicenseController.Licenses[i]
+        output += `${l.License.Source} ${l.License.Name} ${l.Rank}${linebreak(
+          i,
+          pilot.LicenseController.Licenses.length
+        )}`
+      }
+    }
+
+    if (pilot.CoreBonusController.CoreBonuses.length) {
+      output += '[ CORE BONUSES ]\n  '
+      for (let i = 0; i < pilot.CoreBonusController.CoreBonuses.length; i++) {
+        const cb = pilot.CoreBonusController.CoreBonuses[i]
+        output += `${cb.Name}${linebreak(i, pilot.CoreBonusController.CoreBonuses.length)}`
+      }
+    }
+
+
+    if (fullView == true) {
+      output += '----------\n'
+
       output += `« ${mech.Name.toUpperCase()} »\n[ ${mech.Frame.Source} ${mech.Frame.Name} ]\n`
       if (!pilot)
         output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
@@ -182,6 +182,7 @@ class Statblock {
         })
       }
     }
+    
 
     return output
   }
