@@ -38,18 +38,19 @@ export default class StatblockDialog extends Vue {
   @Prop({type: Object, required: true})
   readonly pilot: Pilot
 
-  mechSelect = ""
+  mechSelect = ''
   discordEmoji = false
   genRadios = 'mechBuild'
 
   mounted() {
     this.mechSelect = this.pilot.ActiveMech?.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1]?.ID ?? ''
+    if (this.mechSelect == '') {this.genRadios='pilotBuild'} 
   }
 
   get statblock(): string {
     const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
     
-    if (this.genRadios != "mechBuild") {
+    if (this.genRadios != 'mechBuild') {
       return Statblock.Generate(this.pilot, mech, this.discordEmoji, this.genRadios)
     }
     else return Statblock.GenerateBuildSummary(this.pilot, mech, this.discordEmoji)  
