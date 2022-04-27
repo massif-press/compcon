@@ -12,8 +12,8 @@
         hide-details
       />
       <v-radio-group v-model="genRadios" row mandatory label="Generate:">
-        <v-radio label="Mech Build" value="mech"></v-radio>
-        <v-radio label="Pilot" value="pilot"></v-radio>
+        <v-radio label="Mech Build" value="mechBuild"></v-radio>
+        <v-radio label="Pilot" value="pilotBuild"></v-radio>
         <v-radio label="Both" value="full"></v-radio>
       </v-radio-group>
       <v-checkbox v-model="discordEmoji" label="Include Pilot NET Discord damage type Emoji (Doesn't work in code block format)" />
@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop} from 'vue-property-decorator'
-import { Pilot, Statblock } from '@/class'
+import { Mech, Pilot, Statblock } from '@/class'
 import CCSoloDialog from '@/ui/components/CCSoloDialog.vue'
 
 @Component({ name: 'statblock-dialog' })
@@ -32,14 +32,18 @@ export default class StatblockDialog extends Vue {
   @Prop({type: Object, required: true})
   readonly pilot: Pilot
 
-  mechSelect =  this.pilot.ActiveMech.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1].ID ?? ''
+  mechSelect = ""
   discordEmoji = false
   codeBlock = false
-  genRadios = 'mech'
+  genRadios = 'mechBuild'
 
   get statblock(): string {
+    if (this.mechSelect == "") {
+      this.mechSelect = this.pilot.ActiveMech.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1].ID ?? ''
+    }
     const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
-    if (this.genRadios == "mech") {
+    
+    if (this.genRadios == "mechBuild") {
       return Statblock.GenerateBuildSummary(this.pilot, mech, this.discordEmoji)
     }
     else if (this.genRadios == "full") {
