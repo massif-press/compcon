@@ -36,10 +36,11 @@ export default class StatblockDialog extends Vue {
   discordEmoji = false
   genRadios = 'mechBuild'
 
+  mounted() {
+    this.mechSelect = this.pilot.ActiveMech?.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1]?.ID ?? ''
+  }
+
   get statblock(): string {
-    if (this.pilot.Mechs.length > 0) {
-      this.mechSelect = this.pilot.ActiveMech.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1].ID ?? ''
-    }
     const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
     
     if (this.genRadios != "mechBuild") {

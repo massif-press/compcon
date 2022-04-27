@@ -96,7 +96,7 @@ class Statblock {
       if (view == "full") {output += '***\n'}
 
       if (view == "pilotBuild"){ 
-        output += '[ MECH SKILLS]\n  '
+        output += '[ MECH SKILLS ]\n  '
         output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
       }
       output += '[ TALENTS ]\n  '
