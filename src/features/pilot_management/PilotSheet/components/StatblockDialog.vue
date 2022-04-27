@@ -18,7 +18,7 @@
       </v-radio-group>
       <v-checkbox v-model="discordEmoji" label="Include Pilot NET Discord damage type Emoji (Doesn't work in code block format)" />
       <v-textarea :value="statblock" auto-grow readonly outlined filled class="flavor-text" />
-      <cc-tooltip simple inline content="Copy share code to clipboard">
+      <cc-tooltip simple inline content="Copy stat block to clipboard">
             <v-btn class="ml-n3" @click="copy()">
               <v-icon>mdi-clipboard-text-outline</v-icon>
               Copy to Clipboard
