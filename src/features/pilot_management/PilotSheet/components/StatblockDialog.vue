@@ -14,7 +14,7 @@
       <v-radio-group v-model="genRadios" row mandatory label="Generate:">
         <v-radio label="Mech Build" value="mechBuild"></v-radio>
         <v-radio label="Pilot" value="pilotBuild"></v-radio>
-        <v-radio label="Both" value="full"></v-radio>
+        <v-radio label="Full" value="full"></v-radio>
       </v-radio-group>
       <v-checkbox v-model="discordEmoji" label="Include Pilot NET Discord damage type Emoji (Doesn't work in code block format)" />
       <v-textarea :value="statblock" auto-grow readonly outlined filled class="flavor-text" />
