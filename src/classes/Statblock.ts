@@ -95,9 +95,10 @@ class Statblock {
 
       if (view == "full") {output += '***\n'}
 
-      output += '[ MECH SKILLS]\n  '
-      output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
-
+      if (view == "pilotBuild"){ 
+        output += '[ MECH SKILLS]\n  '
+        output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
+      }
       output += '[ TALENTS ]\n  '
       for (let i = 0; i < pilot.TalentsController.Talents.length; i++) {
         const t = pilot.TalentsController.Talents[i]
@@ -132,7 +133,7 @@ class Statblock {
       if (view == "full") {
     
         output += `[ MECH ]\n  « ${mech.Name.toUpperCase()} »\n  ${mech.Frame.Source} ${mech.Frame.Name}\n`
-          output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
+          output += `  H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
         output += `  STRUCTURE:${mech.CurrentStructure}${
           mech.IsActive ? '/' + mech.MaxStructure : ''
         }`
@@ -185,9 +186,8 @@ class Statblock {
           })
         }
       }
-      else { output += "\n> ERR: NO MECHS FOUND"}
     }  
-    
+    else if (view == "full") { output += "\n>> NO MECHS FOUND <<"}
     return output
   }
 
@@ -288,7 +288,7 @@ class Statblock {
     return out
   }).join(', ')}`
 }
-    else return "No Mechs? o.0"
+    else return ">> NO MECHS FOUND <<"
   }
 
   public static GenerateNPC(npc: Npc): string {
