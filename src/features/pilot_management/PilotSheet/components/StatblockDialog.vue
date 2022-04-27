@@ -34,7 +34,6 @@ export default class StatblockDialog extends Vue {
 
   mechSelect = ""
   discordEmoji = false
-  codeBlock = false
   genRadios = 'mechBuild'
 
   get statblock(): string {
