@@ -124,9 +124,9 @@ class Statblock {
     }
 
 
-    if (fullView == true) {
+    if (mech && fullView == true) {
       output += '----------\n'
-
+    
       output += `« ${mech.Name.toUpperCase()} »\n[ ${mech.Frame.Source} ${mech.Frame.Name} ]\n`
       if (!pilot)
         output += `H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
@@ -182,7 +182,6 @@ class Statblock {
         })
       }
     }
-    
 
     return output
   }
