@@ -38,18 +38,15 @@ export default class StatblockDialog extends Vue {
   genRadios = 'mechBuild'
 
   get statblock(): string {
-    if (this.mechSelect == "") {
+    if (this.pilot.Mechs.length > 0) {
       this.mechSelect = this.pilot.ActiveMech.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1].ID ?? ''
     }
     const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
     
-    if (this.genRadios == "mechBuild") {
-      return Statblock.GenerateBuildSummary(this.pilot, mech, this.discordEmoji)
+    if (this.genRadios != "mechBuild") {
+      return Statblock.Generate(this.pilot, mech, this.discordEmoji, this.genRadios)
     }
-    else if (this.genRadios == "full") {
-      return Statblock.Generate(this.pilot, mech, this.discordEmoji, true)
-    }
-    else return Statblock.Generate(this.pilot, mech, this.discordEmoji, false)
+    else return Statblock.GenerateBuildSummary(this.pilot, mech, this.discordEmoji)  
   }
 
   $refs!: {
