@@ -18,6 +18,12 @@
       </v-radio-group>
       <v-checkbox v-model="discordEmoji" label="Include Pilot NET Discord damage type Emoji (Doesn't work in code block format)" />
       <v-textarea :value="statblock" auto-grow readonly outlined filled class="flavor-text" />
+      <cc-tooltip simple inline content="Copy share code to clipboard">
+            <v-btn class="ml-n3" @click="copy()">
+              <v-icon>mdi-clipboard-text-outline</v-icon>
+              Copy to Clipboard
+            </v-btn>
+          </cc-tooltip>
     </v-card-text>
   </cc-solo-dialog>
 </template>
@@ -56,9 +62,14 @@ export default class StatblockDialog extends Vue {
   show() {
     this.$refs.dialog.show()
   }
-
   hide() {
     this.$refs.dialog.hide() 
+  }
+  copy() {
+    navigator.clipboard
+      .writeText(this.statblock)
+      .then(() => Vue.prototype.$notify('Stat block copied to clipboard.', 'confirmation'))
+      .catch(() => Vue.prototype.$notifyError('Unable to copy stat block'))
   }
 }
 </script>
