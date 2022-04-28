@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-dialog ref="dialog" icon="mdi-text-subject" large no-confirm title="Generate Statblock">
+  <cc-solo-dialog ref="dialog" icon="mdi-text-subject" large no-confirm title="Generate Statblock" @close="clearSelected()">
     <v-card-text>
       <v-select
         v-model="mechSelect"
@@ -32,25 +32,39 @@ export default class StatblockDialog extends Vue {
   @Prop({type: Object, required: true})
   readonly pilot: Pilot
 
-  mechSelect = ""
+  selected_mech = null
   discordEmoji = false
-  genRadios = 'mechBuild'
+  genRadios = 'mechBuild'  
 
-  mounted() {
-    this.mechSelect = this.pilot.ActiveMech?.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1]?.ID ?? ''
+  get activeMechID(): string {
+    return this.pilot.ActiveMech?.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1]?.ID ?? ''
   }
 
-  get statblock(): string {
-    const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
-    
+  get mechSelect(): string {
+    return this.selected_mech ?? this.activeMechID
+  }
+
+  set mechSelect(mech_id: string) {
+    this.selected_mech = mech_id
+  }
+
+  get mech(): Mech {
+    return this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
+  }
+
+  get statblock(): string {    
     if (this.genRadios != "mechBuild") {
-      return Statblock.Generate(this.pilot, mech, this.discordEmoji, this.genRadios)
+      return Statblock.Generate(this.pilot, this.mech, this.discordEmoji, this.genRadios)
     }
-    else return Statblock.GenerateBuildSummary(this.pilot, mech, this.discordEmoji)  
+    else return Statblock.GenerateBuildSummary(this.pilot, this.mech, this.discordEmoji)  
   }
 
   $refs!: {
     dialog: CCSoloDialog
+  }
+
+  clearSelected() {
+    this.selected_mech = null
   }
 
   show() {
