@@ -132,7 +132,7 @@
       </v-list>
     </v-menu>
     <print-dialog ref="printDialog" class="unskew" :pilot="pilot" />
-    <statblock-dialog ref="statblockDialog" class="unskew" :pilot="pilot" />
+    <statblock-dialog ref="statblockDialog" class="unskew" :pilot="pilot" :mechID="mechID"/>
   </div>
 </template>
 
@@ -153,6 +153,10 @@ export default Vue.extend({
     selected: {
       type: Number,
       required: true,
+    },
+    mechID: {
+      type: String,
+      required: false,
     },
   },
   methods: {

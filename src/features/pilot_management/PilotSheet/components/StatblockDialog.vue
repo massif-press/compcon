@@ -37,6 +37,8 @@ import CCSoloDialog from '@/ui/components/CCSoloDialog.vue'
 export default class StatblockDialog extends Vue {
   @Prop({type: Object, required: true})
   readonly pilot: Pilot
+  @Prop({type: Object, required: false})
+  readonly mechID: string
 
   selected_mech = null
   discordEmoji = false
@@ -46,12 +48,15 @@ export default class StatblockDialog extends Vue {
     if (this.mechSelect == null) {this.genRadios='pilotBuild'} 
   }
 
-  get activeMechID(): string {
-    return this.pilot.ActiveMech?.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1]?.ID ?? ''
+  get defaultMechID(): string {
+    if (this.$route.name=="mech-sheet") {
+      return this.mechID
+    }
+    else return this.pilot.ActiveMech?.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1]?.ID ?? ''
   }
 
   get mechSelect(): string {
-    return this.selected_mech ?? this.activeMechID
+    return this.selected_mech ?? this.defaultMechID
   }
 
   set mechSelect(mech_id: string) {

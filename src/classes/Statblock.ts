@@ -187,7 +187,7 @@ class Statblock {
         }
       }
     }  
-    else if (view == "full") { output += "\n>> NO MECHS FOUND <<"}
+    else if (view == "full") { output += "\n>> NO MECH SELECTED <<"}
     return output
   }
 
@@ -288,7 +288,7 @@ class Statblock {
     return out
   }).join(', ')}`
 }
-    else return ">> NO MECHS FOUND <<"
+    else return ">> NO MECH SELECTED <<"
   }
 
   public static GenerateNPC(npc: Npc): string {
