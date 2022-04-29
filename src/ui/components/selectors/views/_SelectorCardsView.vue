@@ -39,7 +39,7 @@ import { CompendiumStore } from '@/store'
 import CompendiumCard from './components/CompendiumCard.vue'
 
 export default Vue.extend({
-  name: 'compendium-cards-view',
+  name: 'selector-cards-view',
   components: { CompendiumCard },
   props: {
     items: {
