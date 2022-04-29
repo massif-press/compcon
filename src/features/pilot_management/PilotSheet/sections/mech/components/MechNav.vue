@@ -157,7 +157,7 @@ export default Vue.extend({
   },
   methods: {
     toPilotSheet() {
-      this.$router.push({ name: 'pilot_sheet' })
+      this.$router.push({ name: 'tactical_profile' })
     },
   },
 })
