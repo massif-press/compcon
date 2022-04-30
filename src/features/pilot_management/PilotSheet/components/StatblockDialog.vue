@@ -19,11 +19,11 @@
       <v-checkbox v-model="discordEmoji" label="Include Pilot NET Discord damage type Emoji (Doesn't work in code block format)" />
       <v-textarea :value="statblock" auto-grow readonly outlined filled class="flavor-text" />
       <cc-tooltip simple inline content="Copy stat block to clipboard">
-            <v-btn class="ml-n3" @click="copy()">
-              <v-icon>mdi-clipboard-text-outline</v-icon>
-              Copy to Clipboard
-            </v-btn>
-          </cc-tooltip>
+        <v-btn class="mt-n4" color="accent" @click="copy()">
+          <v-icon>mdi-clipboard-text-outline</v-icon>
+          Copy to Clipboard
+        </v-btn>
+      </cc-tooltip>
     </v-card-text>
   </cc-solo-dialog>
 </template>
@@ -37,7 +37,7 @@ import CCSoloDialog from '@/ui/components/CCSoloDialog.vue'
 export default class StatblockDialog extends Vue {
   @Prop({type: Object, required: true})
   readonly pilot: Pilot
-  @Prop({type: Object, required: false})
+  @Prop({type: String, required: false})
   readonly mechID: string
 
   selected_mech = null
