@@ -1,5 +1,6 @@
 import { store } from '@/store'
 import uuid from 'uuid/v4'
+import { ISaveable } from './components'
 
 const ordArr = [
   'Primary',
@@ -16,16 +17,18 @@ const ordArr = [
 
 abstract class Loadout {
   private _id: string
+  protected Parent: ISaveable
   protected _name: string
 
-  public constructor(count?: number, id?: string) {
+  public constructor(parent: ISaveable, count?: number, id?: string) {
+    this.Parent = parent
     this._id = id ? id : uuid()
     if (!count) this._name = 'Primary'
     else this._name = ordArr[count]
   }
 
   protected save(): void {
-    store.dispatch('set_pilot_dirty')
+    this.Parent.SaveController.save()
   }
 
   public get ID(): string {

@@ -26,7 +26,7 @@ interface IMechLoadoutData {
 }
 
 class MechLoadout extends Loadout {
-  private Parent: Mech
+  protected Parent: Mech
   private _integratedMounts: IntegratedMount[]
   private _equippableMounts: EquippableMount[]
   private _improvedArmament: EquippableMount
@@ -35,20 +35,19 @@ class MechLoadout extends Loadout {
   private _integratedSystems: MechSystem[]
 
   public constructor(mech: Mech) {
-    super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
-    this.Parent = mech
-    this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
+    super(mech, mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
+    this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(this.Parent, x))
     this._integratedMounts = []
     this._systems = []
     this._integratedSystems = []
-    this._improvedArmament = new EquippableMount(MountType.Flex)
-    this._integratedWeapon = new EquippableMount(MountType.Aux)
+    this._improvedArmament = new EquippableMount(this.Parent, MountType.Flex)
+    this._integratedWeapon = new EquippableMount(this.Parent, MountType.Aux)
   }
 
   public SetAllIntegrated(save?: boolean) {
     const im = [
-      ...this.Parent.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x)),
-      ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x)),
+      ...this.Parent.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(this.Parent, x)),
+      ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(this.Parent, x)),
     ]
     const is = [
       ...this.Parent.FeatureController.IntegratedSystems,
@@ -273,14 +272,14 @@ class MechLoadout extends Loadout {
     ml._integratedSystems = !loadoutData.integratedSystems
       ? mech.Frame.IntegratedSystems
       : loadoutData.integratedSystems.map(x => MechSystem.Deserialize(x))
-    ml._equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
+    ml._equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(mech, x))
     ml._integratedMounts = !loadoutData.integratedMounts
-      ? mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x))
-      : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x))
-    ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
+      ? mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(mech, x))
+      : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(mech, x))
+    ml._improvedArmament = EquippableMount.Deserialize(mech, loadoutData.improved_armament)
     ml._integratedWeapon = !loadoutData.integratedWeapon
-      ? new EquippableMount(MountType.Aux)
-      : EquippableMount.Deserialize(loadoutData.integratedWeapon)
+      ? new EquippableMount(mech, MountType.Aux)
+      : EquippableMount.Deserialize(mech, loadoutData.integratedWeapon)
     if (!loadoutData.integratedSystems) ml.SetAllIntegrated()
     return ml
   }

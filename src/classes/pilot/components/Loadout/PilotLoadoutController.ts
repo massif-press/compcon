@@ -12,7 +12,7 @@ class PilotLoadoutController implements IFeatureContainer {
 
   constructor(parent: Pilot) {
     this.Parent = parent
-    this._loadout = new PilotLoadout()
+    this._loadout = new PilotLoadout(parent)
   }
 
   public get FeatureSource(): any[] {
@@ -39,8 +39,8 @@ class PilotLoadoutController implements IFeatureContainer {
       )
 
     parent.PilotLoadoutController._loadout = data.loadout
-      ? PilotLoadout.Deserialize(data.loadout)
-      : new PilotLoadout()
+      ? PilotLoadout.Deserialize(parent, data.loadout)
+      : new PilotLoadout(parent)
   }
 }
 

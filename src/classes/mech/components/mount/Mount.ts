@@ -1,17 +1,19 @@
 import uuid from 'uuid/v4'
 import { store } from '@/store'
-import { MechWeapon, WeaponSlot, MountType, FittingSize, WeaponSize } from '@/class'
+import { Mech, MechWeapon, WeaponSlot, MountType, FittingSize, WeaponSize } from '@/class'
 
 abstract class Mount {
   private _mount_type: MountType
   private _id: string
+  protected Parent: Mech
   protected lock: boolean
   protected slots: WeaponSlot[]
   protected extra: WeaponSlot[]
   protected _name_override: string
 
-  public constructor(mountType: MountType) {
+  public constructor(parent: Mech, mountType: MountType) {
     this._id = uuid()
+    this.Parent = parent
     this._mount_type = mountType
     this.lock = false
     this.extra = []
@@ -22,28 +24,28 @@ abstract class Mount {
 
   protected generateSlots(mountType: MountType): void {
     if (mountType === MountType.Integrated) {
-      this.slots = [new WeaponSlot(FittingSize.Integrated)]
+      this.slots = [new WeaponSlot(this.Parent, FittingSize.Integrated)]
     } else {
       if (mountType === MountType.AuxAux) {
-        this.slots = [new WeaponSlot(FittingSize.Auxiliary), new WeaponSlot(FittingSize.Auxiliary)]
+        this.slots = [new WeaponSlot(this.Parent, FittingSize.Auxiliary), new WeaponSlot(this.Parent, FittingSize.Auxiliary)]
       } else if (mountType === MountType.Aux) {
-        this.slots = [new WeaponSlot(FittingSize.Auxiliary)]
+        this.slots = [new WeaponSlot(this.Parent, FittingSize.Auxiliary)]
         this._name_override = 'Integrated Weapon'
       } else if (mountType === MountType.MainAux) {
-        this.slots = [new WeaponSlot(FittingSize.Main), new WeaponSlot(FittingSize.Auxiliary)]
+        this.slots = [new WeaponSlot(this.Parent, FittingSize.Main), new WeaponSlot(this.Parent, FittingSize.Auxiliary)]
       } else if (mountType === MountType.Flex) {
-        this.slots = [new WeaponSlot(FittingSize.Flex)]
-        this.extra = [new WeaponSlot(FittingSize.Auxiliary)]
+        this.slots = [new WeaponSlot(this.Parent, FittingSize.Flex)]
+        this.extra = [new WeaponSlot(this.Parent, FittingSize.Auxiliary)]
       } else if (mountType === MountType.Main) {
-        this.slots = [new WeaponSlot(FittingSize.Main)]
+        this.slots = [new WeaponSlot(this.Parent, FittingSize.Main)]
       } else {
-        this.slots = [new WeaponSlot(FittingSize.Heavy)]
+        this.slots = [new WeaponSlot(this.Parent, FittingSize.Heavy)]
       }
     }
   }
 
   protected save(): void {
-    store.dispatch('set_pilot_dirty')
+    this.Parent.SaveController.save()
   }
 
   protected getID(): void {

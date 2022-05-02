@@ -18,7 +18,7 @@ class SaveController {
   public DeleteTime: string
   public ExpireTime: string
 
-  public IsDirty = false
+  public _isDirty = false
   private _isLoaded = false
 
   public constructor(parent: ISaveable) {
@@ -50,6 +50,17 @@ class SaveController {
   public restore() {
     this.IsDeleted = false
     store.dispatch(`restore_${this.Parent.ItemType}`, this.Parent)
+  }
+
+  public get IsDirty(): boolean {
+    return this._isDirty
+  }
+
+  public set IsDirty(dirty: boolean) {
+    this._isDirty = dirty
+    if (dirty && !!this.Parent.Parent) {
+      this.Parent.Parent.SaveController.IsDirty = dirty
+    }
   }
 
   public get IsDeleted(): boolean {

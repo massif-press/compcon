@@ -1,5 +1,6 @@
 import {
   Rules,
+  Pilot,
   PilotEquipment,
   PilotArmor,
   PilotWeapon,
@@ -9,14 +10,15 @@ import {
 } from '@/class'
 
 class PilotLoadout extends Loadout {
+  protected Parent: Pilot
   private _armor: (PilotArmor | null)[]
   private _gear: (PilotGear | null)[]
   private _weapons: (PilotWeapon | null)[]
   private _extendedWeapons: (PilotWeapon | null)[]
   private _extendedGear: (PilotGear | null)[]
 
-  public constructor(count?: number, id?: string) {
-    super(count, id)
+  public constructor(pilot: Pilot, count?: number, id?: string) {
+    super(pilot, count, id)
     this._armor = Array(Rules.MaxPilotArmor).fill(null)
     this._gear = Array(Rules.MaxPilotGear).fill(null)
     this._weapons = Array(Rules.MaxPilotWeapons).fill(null)
@@ -131,8 +133,8 @@ class PilotLoadout extends Loadout {
     }
   }
 
-  public static Deserialize(loadoutData: IPilotLoadoutData): PilotLoadout {
-    const loadout = new PilotLoadout(0, loadoutData.id)
+  public static Deserialize(parent: Pilot, loadoutData: IPilotLoadoutData): PilotLoadout {
+    const loadout = new PilotLoadout(parent, 0, loadoutData.id)
     loadout.ID = loadoutData.id
     loadout._name = loadoutData.name
     loadout._armor = loadoutData.armor.map(x => PilotEquipment.Deserialize(x) as PilotArmor)

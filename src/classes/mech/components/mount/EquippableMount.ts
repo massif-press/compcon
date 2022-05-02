@@ -1,12 +1,12 @@
 import _ from 'lodash'
-import { Mount, WeaponSlot, CoreBonus, MountType, FittingSize } from '@/class'
+import { Mech, Mount, WeaponSlot, CoreBonus, MountType, FittingSize } from '@/class'
 
 class EquippableMount extends Mount {
   private _bonuses: CoreBonus[]
   private _lock_target?: Mount
 
-  public constructor(mtype: MountType) {
-    super(mtype)
+  public constructor(parent: Mech, mtype: MountType) {
+    super(parent, mtype)
     this._bonuses = []
   }
 
@@ -37,7 +37,7 @@ class EquippableMount extends Mount {
     this._bonuses.push(cb)
     if (cb.ID === 'cb_mount_retrofitting') {
       this._name_override = 'Retrofitted Mount'
-      this.slots = [new WeaponSlot(FittingSize.Main), new WeaponSlot(FittingSize.Auxiliary)]
+      this.slots = [new WeaponSlot(this.Parent, FittingSize.Main), new WeaponSlot(this.Parent, FittingSize.Auxiliary)]
     }
     this.save()
   }
@@ -74,10 +74,10 @@ class EquippableMount extends Mount {
     }
   }
 
-  public static Deserialize(mountData: IMountData): EquippableMount {
-    const m = new EquippableMount(mountData.mount_type as MountType)
-    m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(x))
-    m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x))
+  public static Deserialize(parent: Mech, mountData: IMountData): EquippableMount {
+    const m = new EquippableMount(parent, mountData.mount_type as MountType)
+    m.slots = mountData.slots.map(x => WeaponSlot.Deserialize(parent, x))
+    m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(parent, x))
     m._bonuses = mountData.bonus_effects.map(x => CoreBonus.Deserialize(x))
     m.lock = mountData.lock
     m.getID()

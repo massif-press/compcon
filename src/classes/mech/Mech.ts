@@ -1044,7 +1044,8 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
 
     SaveController.Deserialize(m, data)
     PortraitController.Deserialize(m, data)
-
+    
+    m.SaveController.SetLoaded()
     return m
   }
 }
