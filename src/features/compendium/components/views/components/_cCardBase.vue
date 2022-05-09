@@ -18,7 +18,7 @@
     <v-toolbar dense :color="hover ? 'primary lighten-1' : 'primary'" dark>
       <div>
         <div class="overline mb-n2">
-          <span v-if="item.Source">{{ item.Source }}</span>
+          <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
           <slot name="overline" />
         </div>
         <div

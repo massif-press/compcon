@@ -14,7 +14,7 @@
         </cc-nav-item>
       </cc-tooltip> -->
       <cc-tooltip inline delayed content="Pilot Sheet">
-        <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
+        <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toTacticalProfile()">
           <v-icon large>cci-pilot</v-icon>
         </v-btn>
       </cc-tooltip>
@@ -26,7 +26,7 @@
     </div>
     <!-- Remove this div and uncomment below if/when pilot analytics are done -->
     <div v-else class="d-inline">
-      <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
+      <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toTacticalProfile()">
         <v-icon large>cci-pilot</v-icon>
       </v-btn>
       <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
@@ -43,7 +43,7 @@
       </template>
       <v-list dense class="heading h3">
         <v-list-item @click="$emit('set-page', 0)">MECH CONFIGURATION</v-list-item>
-        <v-list-item @click="toPilotSheet()">PILOT SHEET</v-list-item>
+        <v-list-item @click="toTacticalProfile()">PILOT SHEET</v-list-item>
         <v-list-item tile depressed :selected="selected === 0" :to="`/active/${pilot.ID}`">
           ACTIVE MODE
         </v-list-item>
@@ -156,8 +156,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    toPilotSheet() {
-      this.$router.push({ name: 'pilot_sheet' })
+    toTacticalProfile() {
+      this.$router.push({ name: 'tactical_profile' })
     },
   },
 })
