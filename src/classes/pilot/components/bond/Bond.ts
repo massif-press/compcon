@@ -28,7 +28,7 @@ class Bond {
   public readonly MajorIdeals: string[]
   public readonly MinorIdeals: string[]
   public readonly Questions: prompt[]
-  public readonly Powers: BondPower[]
+  public readonly _powers: BondPower[]
   public readonly LcpName: string
   public readonly InLcp: boolean
 
@@ -38,9 +38,19 @@ class Bond {
     this.MajorIdeals = data.major_ideals
     this.MinorIdeals = data.minor_ideals
     this.Questions = data.questions
-    this.Powers = data.powers
+    this._powers = data.powers
     this.LcpName = packName || 'LANCER Core Book'
     this.InLcp = packName ? true : false
+  }
+
+  public get Powers() {
+    // filter veteran powers including "boon" -- preserve KTB mechanics while also allowing for homebrew veteran powers that don't follow format.
+    // return this._powers.filter(x => !x.veteran && !x.name.includes('boon'))
+    return this._powers
+  }
+
+  public get Boon() {
+    return this._powers.find(x => x.veteran)
   }
 
   public RandomOption(qIdx: number): string {
