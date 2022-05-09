@@ -21,6 +21,13 @@ if (navigator && navigator.serviceWorker) {
     })
 }
 
+navigator.serviceWorker.getRegistrations().then(registrations => {
+  for (const registration of registrations) {
+    console.log(registration)
+    // await registration.unregister()
+  }
+})
+
 if (process.env.VUE_APP_NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
