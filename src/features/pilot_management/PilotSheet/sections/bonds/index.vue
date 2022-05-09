@@ -33,50 +33,24 @@
         :style="$vuetify.breakpoint.lgAndUp ? 'width: calc(100vw - 250px)' : ''"
       >
         <v-col md="6" sm="12">
-          Major Ideal
-          <v-textarea
-            v-model="pilot.BondController.MajorIdeal"
-            dense
-            hide-details
-            rows="2"
-            filled
-            auto-grow
-          >
-            <v-btn
-              slot="prepend"
-              small
-              icon
-              class="fadeSelect"
-              @click="
-                pilot.BondController.MajorIdeal = pilot.BondController.Bond.RandomIdeal('Major')
-              "
-            >
-              <v-icon>mdi-dice-multiple-outline</v-icon>
-            </v-btn>
-          </v-textarea>
+          Major Ideals
+          <ul>
+            <li
+              v-for="(m, n) in pilot.BondController.Bond.MajorIdeals"
+              :key="`mi_${n}`"
+              v-text="m"
+            />
+          </ul>
         </v-col>
         <v-col md="6" sm="12">
           Minor Ideal
-          <v-textarea
+          <v-combobox
             v-model="pilot.BondController.MinorIdeal"
+            :items="pilot.BondController.Bond.MinorIdeals"
             dense
             hide-details
-            rows="2"
             filled
-            auto-grow
-          >
-            <v-btn
-              slot="prepend"
-              small
-              icon
-              class="fadeSelect"
-              @click="
-                pilot.BondController.MinorIdeal = pilot.BondController.Bond.RandomIdeal('Minor')
-              "
-            >
-              <v-icon>mdi-dice-multiple-outline</v-icon>
-            </v-btn>
-          </v-textarea>
+          />
         </v-col>
         <v-col
           md="6"
@@ -85,26 +59,13 @@
           :key="`question_${i}`"
         >
           {{ q.question }}
-          <v-textarea
+          <v-combobox
             v-model="pilot.BondController.Answers[i]"
+            :items="pilot.BondController.Bond.Questions[i].options"
             dense
             hide-details
-            rows="2"
             filled
-            auto-grow
-          >
-            <v-btn
-              slot="prepend"
-              small
-              icon
-              class="fadeSelect"
-              @click="
-                $set(pilot.BondController.Answers, i, pilot.BondController.Bond.RandomOption(i))
-              "
-            >
-              <v-icon>mdi-dice-multiple-outline</v-icon>
-            </v-btn>
-          </v-textarea>
+          />
         </v-col>
       </v-row>
       <v-divider class="mb-3 mt-6" />
@@ -296,16 +257,31 @@
       <v-divider class="my-3" />
 
       <div class="caption">BOND POWERS</div>
-      <v-container>
+      <v-container v-if="hasBond">
         <v-row justify="center">
           <v-col
             v-for="(p, i) in pilot.BondController.BondPowers"
             :key="`${p.name}_sheet_${i}`"
             xl="6"
             lg="6"
-            cols="12"
+            sm="12"
           >
             <cc-bond-power-card :power="p" flex-height />
+          </v-col>
+
+          <v-col v-if="boon" cols="12">
+            <v-card outlined :style="!pilot.BondController.HasVeteranPower ? 'opacity: 0.4' : ''">
+              <v-row no-gutters class="deep-purple darken-3 white--text heading h4 py-1 px-3">
+                <v-col>{{ boon.name }}</v-col>
+                <v-col v-if="boon.frequency" cols="auto">
+                  <v-chip small v-text="boon.frequency" />
+                </v-col>
+              </v-row>
+              <v-card-text v-html="boon.description" class="px-4 pt-1" />
+            </v-card>
+            <div v-if="!pilot.BondController.HasVeteranPower" class="caption text-right">
+              <i v-text="'Requires Veteran Power'" />
+            </div>
           </v-col>
         </v-row>
       </v-container>
@@ -351,6 +327,9 @@ export default Vue.extend({
     },
     underlevel() {
       return this.pilot.Level < 1
+    },
+    boon() {
+      return this.pilot.BondController.Bond.Boon
     },
   },
   methods: {
