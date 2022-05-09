@@ -26,7 +26,7 @@ class License {
         store.getters.getItemCollection('WeaponMods'),
         store.getters.getItemCollection('MechSystems')
       )
-      .filter((x: LicensedItem) => x.License.toUpperCase() === frame.Name.toUpperCase())
+      .filter((x: LicensedItem) => (x.License.toUpperCase() === frame.Name.toUpperCase()) && x.Source.toUpperCase() === frame.Source.toUpperCase())
 
     const lls = [...items].map(i => i.LicenseLevel)
 
