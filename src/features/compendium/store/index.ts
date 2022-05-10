@@ -167,7 +167,7 @@ export class CompendiumStore extends VuexModule {
 
   get Licenses(): License[] {
     return this.Frames.filter(x => x.Source !== 'GMS' && !x.IsHidden).map(frame => {
-      const variants = this.Frames.filter(f => f.Variant.toUpperCase() === frame.Name.toUpperCase())
+      const variants = this.Frames.filter(f => (f.Variant.toUpperCase() === frame.Name.toUpperCase()) && (f.Source.toUpperCase() === frame.Source.toUpperCase()))
       return new License(frame, variants)
     })
   }

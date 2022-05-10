@@ -8338,10 +8338,10 @@ klona@^2.0.4:
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
 
-lancer-data@^3.0.43:
-  version "3.0.43"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.43.tgz#d3b400aca7ecba22e18f08dfff2060abcd7176ef"
-  integrity sha512-DLbF+V3WuoNg5GvrA3A+cQCGwKmRE8qKINBqdegVF61eO6sswIwmWoHzkQhU/PEMQ99wNuFnfao0UUpCz6P0Fw==
+lancer-data@^3.0.44:
+  version "3.0.44"
+  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.44.tgz#17b36d483dd28d0b9bb5f82789f15b70054417c0"
+  integrity sha512-VP9SxC2ChKQeigFIMMS9OMOp4bovYyPnN6WEizS3U0gxXa11YlFzHmWDPqog1KI16okBYZxox+nmIlxmEx/KtA==
 
 launch-editor-middleware@^2.2.1:
   version "2.3.0"
@@ -12053,9 +12053,9 @@ vuetify-loader@^1.7.0:
     loader-utils "^2.0.0"
 
 vuetify@^2.4.0:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.6.3.tgz#b33ede2da958a40c6ced0ad1f4eda737984b3967"
-  integrity sha512-Zfiz2DZnp1DvxqGaSCGqGjv4mPNAurJJ5Xwy7bzNzIySGLlRdlO8UH6aNWnSgfaAsLP3voxadSGDm6tKM8Ys7w==
+  version "2.6.4"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.6.4.tgz#18052f77492d32856fea35c910755075ff32acc9"
+  integrity sha512-2wEzU/Gz39gQCxK93xoiWPKCHQUnyUKWd81wB7Q7hfYJWu5QOWQXYlF0X/BgUZzf8IOyHWKiSNEAfEe9OE3b4w==
 
 vuex-module-decorators@^0.10.1:
   version "0.10.1"

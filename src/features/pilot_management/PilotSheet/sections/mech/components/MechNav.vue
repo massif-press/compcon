@@ -2,7 +2,8 @@
   <div class="nav-body elevation-10">
     <div id="cap" />
     <div v-if="$vuetify.breakpoint.mdAndUp" class="d-inline">
-      <cc-tooltip inline delayed content="Active Mech Configuration">
+      <!-- Uncomment if/when pilot analytics are done -->
+      <!-- <cc-tooltip inline delayed content="Active Mech Configuration">
         <cc-nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
           MECH CONFIGURATION
         </cc-nav-item>
@@ -11,9 +12,9 @@
         <cc-nav-item disabled :selected="selected === 1" @click="$emit('set-page', 1)">
           COMBAT ANALYTICS
         </cc-nav-item>
-      </cc-tooltip>
+      </cc-tooltip> -->
       <cc-tooltip inline delayed content="Pilot Sheet">
-        <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toPilotSheet()">
+        <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toTacticalProfile()">
           <v-icon large>cci-pilot</v-icon>
         </v-btn>
       </cc-tooltip>
@@ -23,8 +24,18 @@
         </v-btn>
       </cc-tooltip>
     </div>
-    <v-menu v-else open-on-hover>
-      <template v-slot:activator="{ on }">
+    <!-- Remove this div and uncomment below if/when pilot analytics are done -->
+    <div v-else class="d-inline">
+      <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toTacticalProfile()">
+        <v-icon large>cci-pilot</v-icon>
+      </v-btn>
+      <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
+        <v-icon large color="white">cci-activate</v-icon>
+      </v-btn>
+    </div>
+
+    <!-- <v-menu v-else open-on-hover>
+        <template v-slot:activator="{ on }">
         <v-btn light icon color="white" style="z-index: 9" class="unskew pl-2 pr-0" v-on="on">
           <v-icon large>mdi-book-open-page-variant</v-icon>
           <v-icon>arrow_drop_up</v-icon>
@@ -32,13 +43,13 @@
       </template>
       <v-list dense class="heading h3">
         <v-list-item @click="$emit('set-page', 0)">MECH CONFIGURATION</v-list-item>
-        <v-list-item @click="toPilotSheet()">PILOT SHEET</v-list-item>
+        <v-list-item @click="toTacticalProfile()">PILOT SHEET</v-list-item>
         <v-list-item tile depressed :selected="selected === 0" :to="`/active/${pilot.ID}`">
           ACTIVE MODE
         </v-list-item>
         <v-list-item disabled @click="$emit('set-page', 1)">COMBAT ANALYTICS</v-list-item>
       </v-list>
-    </v-menu>
+    </v-menu> -->
 
     <v-divider vertical class="mx-2" />
     <div id="divider" />
@@ -145,8 +156,8 @@ export default Vue.extend({
     },
   },
   methods: {
-    toPilotSheet() {
-      this.$router.push({ name: 'pilot_sheet' })
+    toTacticalProfile() {
+      this.$router.push({ name: 'tactical_profile' })
     },
   },
 })
