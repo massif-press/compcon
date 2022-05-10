@@ -1,7 +1,21 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker'
-const forceVersBump = 3
+
+// find and unregister old serviceworker
+const unregister = async () => {
+  const registrations = await navigator.serviceWorker.getRegistrations()
+  const matchingRegistrations = registrations.filter(registration => {
+    return registration.active.scriptURL.includes('sw.js')
+  })
+
+  for (const registration of matchingRegistrations) {
+    await registration.unregister()
+    console.log('Unregistered old sw:', registration)
+  }
+}
+
+unregister()
 
 if (navigator && navigator.serviceWorker) {
   navigator.serviceWorker
@@ -24,7 +38,6 @@ if (navigator && navigator.serviceWorker) {
 if (process.env.VUE_APP_NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
-      console.log(process.env.VUE_APP_NODE_ENV, forceVersBump)
       console.log(
         'App is being served from cache by a service worker.\n' +
           'For more details, visit https://goo.gl/AFskqB'
