@@ -3,15 +3,19 @@
 import { register } from 'register-service-worker'
 
 // find and unregister old serviceworker
-const registrations = await navigator.serviceWorker.getRegistrations()
-const matchingRegistrations = registrations.filter(registration => {
-  return registration.active.scriptURL.includes('sw.js')
-})
+const unregister = async () => {
+  const registrations = await navigator.serviceWorker.getRegistrations()
+  const matchingRegistrations = registrations.filter(registration => {
+    return registration.active.scriptURL.includes('sw.js')
+  })
 
-for (const registration of matchingRegistrations) {
-  await registration.unregister()
-  console.log('Unregistered old sw:', registration)
+  for (const registration of matchingRegistrations) {
+    await registration.unregister()
+    console.log('Unregistered old sw:', registration)
+  }
 }
+
+unregister()
 
 if (navigator && navigator.serviceWorker) {
   navigator.serviceWorker
