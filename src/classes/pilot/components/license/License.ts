@@ -21,12 +21,20 @@ class License {
     this.FrameID = frame.ID
     this.Brew = frame.Brew || 'Core'
 
+    function licenseMatch(licenseItem: LicensedItem, licenseFrame: Frame): boolean {
+      if (!!licenseItem.LicenseID) {
+        return licenseItem.LicenseID === licenseFrame.ID
+      } else {
+        return (licenseItem.License.toUpperCase() === licenseFrame.Name.toUpperCase()) && (licenseItem.Source.toUpperCase() === licenseFrame.Source.toUpperCase())
+      }
+    }
+
     const items: LicensedItem[] = _.cloneDeep(store.getters.getItemCollection('MechWeapons'))
       .concat(
         store.getters.getItemCollection('WeaponMods'),
         store.getters.getItemCollection('MechSystems')
       )
-      .filter((x: LicensedItem) => (x.License.toUpperCase() === frame.Name.toUpperCase()) && x.Source.toUpperCase() === frame.Source.toUpperCase())
+      .filter((x: LicensedItem) => licenseMatch(x, frame))
 
     const lls = [...items].map(i => i.LicenseLevel)
 
