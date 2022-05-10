@@ -99,7 +99,7 @@
                 >
                   <cc-bond-power-card :power="p" />
                   <v-btn
-                    v-if="!hasPower(p) || allowDupes"
+                    v-if="!p.veteran && (!hasPower(p) || allowDupes)"
                     color="primary"
                     block
                     tile

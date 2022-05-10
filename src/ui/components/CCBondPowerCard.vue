@@ -5,7 +5,11 @@
     }px)!important`"
     outlined
   > -->
-  <v-card :style="flexHeight ? '' : 'height: calc(100% - 35px) !important'" outlined>
+  <v-card
+    :style="flexHeight ? '' : 'height: calc(100% - 35px) !important'"
+    outlined
+    :disabled="disabled"
+  >
     <v-row no-gutters :class="`${headerColor} white--text heading h4 py-1 px-3`">
       <v-col>{{ power.name }}</v-col>
       <v-col v-if="power.veteran" cols="auto">
@@ -30,12 +34,16 @@ import Vue from 'vue'
 
 export default Vue.extend({
   name: 'cc-bond-info',
-  props: { power: { type: Object, required: true }, flexHeight: { type: Boolean } },
+  props: {
+    power: { type: Object, required: true },
+    flexHeight: { type: Boolean },
+    disabled: { type: Boolean },
+  },
   computed: {
     headerColor() {
       if (this.power.veteran) return 'indigo lighten-1'
       if (this.power.master) return 'deep-purple darken-3'
-      return 'panel'
+      return 'panel darken-2'
     },
   },
 })

@@ -58,7 +58,7 @@ abstract class CompendiumItem {
         this.IsHidden = true
       }
       this._name = data.name
-      this._flavor_name = data.name
+      this._flavor_name = ''
       this._description = data.description || ''
       this._flavor_description = data.description || ''
       this.Brew = data.brew || 'Core'

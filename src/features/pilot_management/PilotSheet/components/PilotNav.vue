@@ -187,6 +187,7 @@ export default Vue.extend({
         console.error(error)
         this.$notify('An error occurred while attempting to download remote data', 'error')
       }
+      this.loading = false
     },
   },
 })

@@ -92,7 +92,6 @@ class PilotData
   dead: boolean
 
   // bonds
-  majorIdeal: string
   minorIdeal: string
   bondAnswers: string[]
   maxStress: number
@@ -605,9 +604,14 @@ class Pilot
   // -- I/O ---------------------------------------------------------------------------------------
   private static serializeSE(equipment: CompendiumItem[]): IUnlockData {
     return {
-      PilotGear: equipment.filter(x => x.ItemType === ItemType.PilotGear || 
-                                       x.ItemType === ItemType.PilotWeapon || 
-                                       x.ItemType === ItemType.PilotArmor).map(i => i.ID),
+      PilotGear: equipment
+        .filter(
+          x =>
+            x.ItemType === ItemType.PilotGear ||
+            x.ItemType === ItemType.PilotWeapon ||
+            x.ItemType === ItemType.PilotArmor
+        )
+        .map(i => i.ID),
       Frames: equipment.filter(x => x.ItemType === ItemType.Frame).map(i => i.ID),
       MechWeapons: equipment.filter(x => x.ItemType === ItemType.MechWeapon).map(i => i.ID),
       WeaponMods: equipment.filter(x => x.ItemType === ItemType.WeaponMod).map(i => i.ID),

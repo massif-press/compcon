@@ -69,9 +69,12 @@
       </v-card-actions>
     </v-card>
     <div class="mt-2">
-      <p v-if="alreadyPresent" class="accent--text text-center">
+      <p v-if="alreadyPresentItem" class="accent--text text-center">
         A Pilot with this ID already exists in the roster. Unable to set this pilot as a remote
-        resource.
+        resource. You may
+        <b class="accent--text">permanently delete</b>
+        the existing pilot to continue this import.
+        <v-btn x-small color="error" @click="deleteAP()">Permanenty delete local item</v-btn>
       </p>
       <p v-if="isSameUser" class="accent--text text-center">
         The cloud account ID associated with this item is the same as the currently logged-in user.
@@ -95,7 +98,7 @@
             <v-btn
               large
               color="secondary"
-              :disabled="missingContent.length > 0 || alreadyPresent || isSameUser"
+              :disabled="missingContent.length > 0 || alreadyPresentItem || isSameUser"
               @click="importAsRemote()"
             >
               <v-icon large left>cci-accuracy</v-icon>
@@ -138,7 +141,7 @@ export default Vue.extend({
     oldBrewsWarning: false,
     missingContent: '',
     stagedData: null,
-    alreadyPresent: false,
+    alreadyPresentItem: null,
     isSameUser: false,
     searchResults: null,
   }),
@@ -165,7 +168,7 @@ export default Vue.extend({
       this.oldBrewsWarning = false
       this.missingContent = ''
       this.stagedData = null
-      this.alreadyPresent = false
+      this.alreadyPresentItem = null
       this.searchResults = null
       this.isSameUser = false
     },
@@ -221,20 +224,17 @@ export default Vue.extend({
         })
         if (missing.length) this.missingContent = missing.join('<br />')
       }
-      if (
-        getModule(PilotManagementStore)
-          .Pilots.map(x => x.ID)
-          .includes(this.pilotData.id)
-      ) {
-        this.alreadyPresent = true
-        this.pilotData.name += '※'
-        this.pilotData.callsign += '※'
+      const ap = getModule(PilotManagementStore).AllPilots.find(x => x.ID === this.pilotData.id)
+      if (ap) {
+        this.alreadyPresentItem = ap
       }
       this.stagedData = this.pilotData
     },
     importAsCopy() {
       console.log('importing as copy')
       try {
+        this.pilotData.name += '※'
+        this.pilotData.callsign += '※'
         const importPilot = Pilot.Deserialize(this.stagedData)
         importPilot.GroupController.reset()
         importPilot.CloudController.reset()
@@ -274,6 +274,11 @@ export default Vue.extend({
     sanitizeShareCode() {
       if (!this.shareCode) this.shareCode = ''
       this.shareCode = this.shareCode.replaceAll(' ', '')
+    },
+    deleteAP() {
+      const ps = getModule(PilotManagementStore, this.$store)
+      ps.deletePilotPermanent(ps.AllPilots.find(x => x.ID === this.alreadyPresentItem.ID))
+      this.alreadyPresentItem = null
     },
   },
 })
