@@ -18,7 +18,7 @@
     "core-js": "^3.6.5",
     "external-svg-loader": "^1.4.0",
     "jszip": "^3.7.1",
-    "lancer-data": "^3.0.43",
+    "lancer-data": "^3.0.44",
     "lodash": "^4.17.21",
     "material-icons": "^0.3.1",
     "promisify-file-reader": "^4.1.0",
