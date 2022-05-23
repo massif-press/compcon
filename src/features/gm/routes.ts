@@ -2,12 +2,16 @@ import Main from './index.vue'
 
 import Home from './landing.vue'
 
+import GmMassPrintable from './_components/GMMassPrintable.vue'
+import GmPrint from './_components/PrintWrapper.vue'
+
 import Campaigns from './campaigns/index.vue'
 import CampaignEditor from './campaigns/editor.vue'
 import CampaignOverviewPage from './campaigns/pages/overview.vue'
 import CampaignSectionPage from './campaigns/pages/section.vue'
 
 import NPCs from './npcs/index.vue'
+import NpcPrint from './npcs/printable.vue'
 import Encounters from './encounters/index.vue'
 import Characters from './characters/index.vue'
 import CharacterEditor from './characters/editor.vue'
@@ -58,6 +62,7 @@ const routes: RouteConfig[] = [
         name: 'gm-npcs',
         component: NPCs,
       },
+
       {
         path: 'encounters',
         name: 'gm-encounters',
@@ -100,6 +105,18 @@ const routes: RouteConfig[] = [
         path: 'runner',
         name: 'gm-runner',
         component: Runner,
+      },
+      {
+        path: '/gm/print/:type/:id',
+        name: 'gm-npc-print',
+        component: GmPrint,
+        props: true,
+      },
+      {
+        path: 'mass-print/:type/:ids',
+        name: 'gm-mass-print',
+        component: GmMassPrintable,
+        props: true,
       },
     ],
   },

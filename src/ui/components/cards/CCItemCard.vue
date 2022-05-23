@@ -27,7 +27,8 @@ export default class CCItemCard extends Vue {
     }
     return () => {
       try {
-        return import(`./_${this.item.ItemType}Card.vue`)
+        const t = this.item.ItemType ? this.item.ItemType : `Npc${this.item.type}`
+        return import(`./_${t}Card.vue`)
       } catch (error) {
         console.error(`Unable to load component ${this.item.ItemType}`)
         return null

@@ -3,6 +3,8 @@
     title="Locations"
     item-type="Location"
     :items="locations"
+    :groupings="['Campaign', 'Labels']"
+    :sortings="['Name']"
     @add-new="$router.push('locations/edit/new')"
   />
 </template>

@@ -156,7 +156,6 @@ export default Vue.extend({
   name: 'campaign-editor',
   components: { SidebarButton },
   data: () => ({
-    campaigndata: null,
     selected: null,
     componentType: 'Overview',
   }),
@@ -168,7 +167,8 @@ export default Vue.extend({
       return Components[this.componentType]
     },
     campaign() {
-      return getModule(CampaignStore, this.$store).Campaign
+      console.log(getModule(CampaignStore, this.$store).Campaigns)
+      return getModule(CampaignStore, this.$store).EditCampaign
     },
   },
   methods: {

@@ -1,9 +1,9 @@
 import uuid from 'uuid/v4'
+import { ISaveable, ISaveData, SaveController } from '../components'
 import { ISectionData, Section } from './campaign_elements/Section'
 import { Character, ICharacterData } from './Character'
 import { Faction, IFactionData } from './Faction'
 import { ILocationData, Location } from './Location'
-import { store } from '@/store'
 
 enum CampaignStatus {
   Active = 'Active',
@@ -11,22 +11,26 @@ enum CampaignStatus {
   Catalog = 'Catalog',
 }
 
-interface ICampaignData {
-  id?: string
-  name?: string
-  image?: string
-  author?: string
-  description?: string
-  contributors?: string
-  license?: string
+class ICampaignData implements ISaveData {
+  id: string
+  name: string
+  image: string
+  author: string
+  description: string
+  contributors: string
+  license: string
   sections: ISectionData[]
   characters: ICharacterData[]
   factions: IFactionData[]
   locations: ILocationData[]
-  status?: CampaignStatus
+  status: CampaignStatus
+  lastModified: string
+  isDeleted: boolean
+  expireTime: string
+  deleteTime: string
 }
 
-class Campaign {
+class Campaign implements ISaveable {
   public readonly ID: string
   public Name: string
   public Image: string
@@ -39,40 +43,25 @@ class Campaign {
   public Locations: Location[]
   public Factions: Faction[]
   public Status: CampaignStatus
+  public ItemType: string
+  public SaveController: SaveController
 
-  constructor(data?: ICampaignData) {
-    this.ID = data.id || uuid()
-    this.Name = data.name || 'New Campaign'
-    this.Image = data.image || ''
-    this.Author = data.author || ''
-    this.Description = data.description || ''
-    this.Contributors = data.contributors || ''
-    this.License = data.license || ''
-    this.Sections = data.sections.map(s => Section.Deserialize(s))
-    this.Characters = data.characters.map(c => Character.Deserialize(c))
-    this.Locations = data.locations.map(l => Location.Deserialize(l))
-    this.Factions = data.factions.map(f => Faction.Deserialize(f))
-    this.Status = data.status || CampaignStatus.Unpublished
-  }
+  constructor() {
+    this.ID = uuid()
+    this.Name = 'New Campaign'
+    this.Image = ''
+    this.Author = ''
+    this.Description = ''
+    this.Contributors = ''
+    this.License = ''
+    this.Sections = []
+    this.Characters = []
+    this.Locations = []
+    this.Factions = []
+    this.Status = CampaignStatus.Unpublished
+    this.ItemType = 'Campaign'
 
-  public save() {
-    store.dispatch('saveCampaignData')
-  }
-
-  public load() {
-    store.dispatch('setEditCampaign', this)
-  }
-
-  public copy() {
-    store.dispatch('cloneCampaign', this)
-  }
-
-  public delete() {
-    store.dispatch('deleteCampaign', this)
-  }
-
-  public addNew() {
-    store.dispatch('addCampaign', this)
+    this.SaveController = new SaveController(this)
   }
 
   public AddSection() {
@@ -86,52 +75,85 @@ class Campaign {
         item_type: 'Section',
       })
     )
+    this.SaveController.save()
   }
 
   public MoveSection(from: number, to: number) {
     this.Sections = this.Sections.splice(to, 0, this.Sections.splice(from, 1)[0])
+    this.SaveController.save()
   }
 
   public DeleteSection(s: Section) {
     const idx = this.Sections.findIndex(x => x.ID === s.ID)
     if (idx === -1) return
     this.Sections.splice(idx, 1)
+    this.SaveController.save()
   }
 
-  public AddCharacter() {
-    this.Characters.push(new Character({ name: 'New Character' }))
-  }
+  // public AddCharacter() {
+  //   this.Characters.push(new Character({ name: 'New Character' }))
+  // }
 
-  public AddFaction() {
-    this.Factions.push(new Faction({ name: 'New Faction' }))
-  }
+  // public AddFaction() {
+  //   this.Factions.push(new Faction({ name: 'New Faction' }))
+  // }
 
-  public AddLocation() {
-    this.Locations.push(new Location({ name: 'New Location' }))
-  }
+  // public AddLocation() {
+  //   this.Locations.push(new Location({ name: 'New Location' }))
+  // }
 
   public Count(type: string): number {
     return this.Sections.flatMap(x => x.Children.map(y => y.ItemType === type)).length
   }
 
   public static Serialize(c: Campaign): ICampaignData {
-    return {
+    const data = {
       id: c.ID,
       name: c.Name,
+      image: c.Image,
       author: c.Author,
       description: c.Description,
       contributors: c.Contributors,
       license: c.License,
       sections: c.Sections.map(s => Section.Serialize(s)),
       characters: c.Characters.map(s => Character.Serialize(s)),
-      locations: c.Locations.map(s => Location.Serialize(s)),
       factions: c.Factions.map(s => Faction.Serialize(s)),
+      locations: c.Locations.map(s => Location.Serialize(s)),
       status: c.Status,
     }
+
+    SaveController.Serialize(c, data)
+    return data as ICampaignData
+  }
+
+  Serialize(): ICampaignData {
+    return Campaign.Serialize(this)
+  }
+
+  Update(data: ICampaignData) {
+    this.Name = data.name
+    this.Image = data.image
+    this.Author = data.author
+    this.Description = data.description
+    this.Contributors = data.contributors
+    this.License = data.license
+    this.Sections = data.sections.map(s => Section.Deserialize(s))
+    this.Characters = data.characters.map(s => Character.Deserialize(s))
+    this.Locations = data.locations.map(s => Location.Deserialize(s))
+    this.Factions = data.factions.map(s => Faction.Deserialize(s))
+    this.Status = data.status
+    SaveController.Deserialize(this, data)
   }
 
   public static Deserialize(data: ICampaignData): Campaign {
-    return new Campaign(data)
+    const c = new Campaign()
+    try {
+      c.Update(data)
+      c.SaveController.SetLoaded()
+      return c
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 

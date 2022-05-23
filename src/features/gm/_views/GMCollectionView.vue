@@ -21,7 +21,7 @@
           <v-col cols="3" class="ml-auto">
             <v-select
               v-model="grouping"
-              :items="['None', 'Campaigns', 'Labels']"
+              :items="groupings"
               label="Group By"
               hide-details
               outlined
@@ -31,7 +31,7 @@
           <v-col cols="3">
             <v-select
               v-model="sorting"
-              :items="['Name']"
+              :items="sortings"
               label="Sort By"
               hide-details
               outlined
@@ -57,8 +57,14 @@
             </v-btn>
           </v-btn-toggle>
         </v-col>
+        <v-col cols="auto" align-self="end">
+          <v-btn small color="primary" @click="$refs.print.show()">Print Multiple</v-btn>
+          <cc-solo-dialog ref="print" icon="mdi-print" no-confirm large title="Print Multiple">
+            <cc-mass-print :items="items" />
+          </cc-solo-dialog>
+        </v-col>
         <v-col cols="auto" align-self="end" class="mr-3">
-          <v-btn x-small color="primary" @click="$refs.delete.show()">Delete Multiple</v-btn>
+          <v-btn small color="error" @click="$refs.delete.show()">Delete Multiple</v-btn>
           <cc-solo-dialog ref="delete" icon="mdi-delete" no-confirm large title="Delete Multiple">
             <cc-mass-delete :items="items" />
           </cc-solo-dialog>
@@ -85,12 +91,6 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-footer fixed>
-      <v-btn small to="/gm">
-        <v-icon left>mdi-chevron-left</v-icon>
-        Return to GM Menu
-      </v-btn>
-    </v-footer>
   </v-container>
 </template>
 
@@ -105,6 +105,8 @@ export default Vue.extend({
     items: { type: Array, required: true },
     itemType: { type: String, required: true },
     title: { type: String, required: true },
+    groupings: { type: Array, required: true, default: ['None'] },
+    sortings: { type: Array, required: true, default: ['Name'] },
   },
   computed: {
     searchedItems() {

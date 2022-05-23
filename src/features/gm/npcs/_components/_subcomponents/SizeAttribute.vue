@@ -3,7 +3,7 @@
     <v-card tile outlined class="text-center">
       <v-card-title
         :class="`${color} white--text caption pa-1`"
-        style="font-weight: bold; max-height: 28px; font-size: 18px!important"
+        style="font-weight: bold; max-height: 28px; font-size: 18px !important"
       >
         <v-menu
           v-model="menu"
@@ -13,9 +13,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-btn icon dark x-small class="fadeSelect" absolute v-on="on">
-              <v-icon>
-                mdi-circle-edit-outline
-              </v-icon>
+              <v-icon>mdi-circle-edit-outline</v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -26,7 +24,7 @@
                 style="width: 80px; height: 80px"
                 class="ma-3"
                 icon
-                color="primary"
+                color="accent"
                 @click="stats.Size = i"
               >
                 <v-icon v-if="i === 0.5" size="80">cci-size-half</v-icon>
@@ -59,7 +57,7 @@ export default Vue.extend({
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'accent',
     },
     cols: {
       type: [String, Number],

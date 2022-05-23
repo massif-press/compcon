@@ -69,7 +69,7 @@ import Vue from 'vue'
 import CardBase from './_CardBase.vue'
 
 export default Vue.extend({
-  name: 'npc-trait-card',
+  name: 'npc-tech-card',
   components: { CardBase },
   props: {
     item: {

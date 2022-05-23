@@ -1,9 +1,9 @@
 import { SaveController } from '../save/SaveController'
-import { NarrativeElementController } from './NarrativeElementController'
+import { NarrativeController } from './NarrativeController'
 
 interface INarrativeElement {
   SaveController: SaveController
-  NarrativeElementController: NarrativeElementController
+  NarrativeController: NarrativeController
 }
 
 export { INarrativeElement }

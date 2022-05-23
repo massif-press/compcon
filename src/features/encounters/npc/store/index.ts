@@ -182,6 +182,7 @@ export class NpcStore extends VuexModule {
   @Action
   public addNpc(payload: Npc): void {
     this.context.commit(ADD_NPC, payload)
+    this.context.commit(SAVE_DATA)
   }
 
   @Action

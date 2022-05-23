@@ -34,7 +34,6 @@ export abstract class NpcFeature extends CompendiumItem {
   private _origin: IOriginData
   private _effect: string
   private _locked: boolean
-  private _tags: ITagData[]
   private _hide_active: boolean
   protected type: NpcFeatureType
   public IsHidden: boolean
@@ -46,7 +45,6 @@ export abstract class NpcFeature extends CompendiumItem {
     this._origin = data.origin
     this._effect = data.effect || ''
     this._locked = data.locked || false
-    this._tags = data.tags
     this._hide_active = data.hide_active || false
     this.LcpName = packName || 'Lancer CORE NPCs'
     this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false
@@ -116,10 +114,6 @@ export abstract class NpcFeature extends CompendiumItem {
 
   public get IsLocked(): boolean {
     return this._locked
-  }
-
-  public get Tags(): Tag[] {
-    return Tag.Deserialize(this._tags)
   }
 
   public get HideActive(): boolean {

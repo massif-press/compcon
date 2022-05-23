@@ -7,9 +7,11 @@
     <v-col cols="auto">
       <div class="text-center ml-auto mr-auto" style="display: inline-block">
         <span>
-          <cc-damage-element :damage="item.Damage(1)" />
-          <cc-damage-element :damage="item.Damage(2)" />
-          <cc-damage-element :damage="item.Damage(3)" />
+          <cc-damage-element :damage="item.Damage(1)" inline />
+          <cc-slashes class="heading h1 px-1" />
+          <cc-damage-element :damage="item.Damage(2)" inline />
+          <cc-slashes class="heading h1 px-1" />
+          <cc-damage-element :damage="item.Damage(3)" inline />
         </span>
       </div>
     </v-col>

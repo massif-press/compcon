@@ -1,6 +1,9 @@
 <template>
-  <div v-if="npc">
-    <npc-print-content :item="npc" />
+  <div>
+    <div v-for="(i, n) in items" :key="`item_${n}`" class="print-main">
+      <component :is="component" :item="i" />
+      <v-divider style="page-break-before: avoid" />
+    </div>
     <v-bottom-navigation fixed grow horizontal color="primary" class="no-print">
       <v-btn @click="$router.go(-1)">
         <span>Close Preview</span>
@@ -23,31 +26,37 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { NpcStore } from '@/store'
-import NpcPrintContent from './_components/NpcPrintContent.vue'
+import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue'
 
 export default Vue.extend({
-  name: 'npc-print-base',
-  components: { NpcPrintContent },
-  props: {
-    id: { type: String, required: true },
-  },
+  name: 'gm-mass-print',
+  props: { type: { type: String, required: true }, ids: { type: String, required: true } },
   data: () => ({
     printWindow: false,
   }),
+  computed: {
+    items() {
+      const arr = this.ids.split(',')
+      console.log(arr)
+      switch (this.type.toLowerCase()) {
+        case 'npc':
+          return getModule(NpcStore, this.$store).Npcs.filter(x => arr.includes(x.ID))
+        default:
+          return []
+      }
+    },
+    component() {
+      switch (this.type.toLowerCase()) {
+        case 'npc':
+          return NpcPrintContent
+        default:
+          return null
+      }
+    },
+  },
   methods: {
     print() {
       window.print()
-    },
-  },
-  computed: {
-    npc() {
-      return getModule(NpcStore, this.$store).Npcs.find(x => x.ID === this.id)
-    },
-    options() {
-      return {
-        margin: [1, 10],
-        filename: `${this.npc.Name}.pdf`,
-      }
     },
   },
 })
@@ -61,7 +70,8 @@ export default Vue.extend({
   }
 
   .print-main {
-    margin-top: -60px !important;
+    margin: 0;
+    margin-top: -80px !important;
   }
 
   .print-main * {

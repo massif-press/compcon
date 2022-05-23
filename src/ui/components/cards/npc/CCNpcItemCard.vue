@@ -4,6 +4,7 @@
     v-if="component"
     :item="item"
     :active="active"
+    :printable="printable"
     @remove-feature="$emit('remove-feature', $event)"
     @add-reaction="$emit('add-reaction', $event)"
     @recalc="$emit('recalc')"
@@ -21,6 +22,9 @@ export default {
     active: {
       type: Boolean,
     },
+    printable: {
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -32,6 +36,8 @@ export default {
       if (!this.item) {
         return null
       }
+      if (this.printable)
+        return () => import(`./cards/_${this.item.Feature.FeatureType}PrintCard.vue`)
       return () => import(`./cards/_${this.item.Feature.FeatureType}Card.vue`)
     },
   },

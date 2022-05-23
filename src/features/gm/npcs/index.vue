@@ -4,6 +4,8 @@
       title="NPCs"
       item-type="Npc"
       :items="npcs"
+      :groupings="groupings"
+      :sortings="sortings"
       @add-new="addNew()"
       @open="openItem($event)"
     />
@@ -40,11 +42,12 @@ export default Vue.extend({
   data: () => ({
     dialog: false,
     selected: null,
+    groupings: ['None', 'Labels', 'Size', 'Tag', 'Role', 'Tier', 'Campaign'],
+    sortings: ['Name', 'Size', 'Tier'],
   }),
   computed: {
     npcs() {
-      const store = getModule(NpcStore, this.$store)
-      return store.Npcs
+      return getModule(NpcStore, this.$store).Npcs
     },
   },
   methods: {
@@ -53,8 +56,6 @@ export default Vue.extend({
       this.dialog = true
     },
     addNew() {
-      // const store = getModule(CompendiumStore, this.$store)
-      // this.selected = new Npc()
       this.selected = 'new'
       this.dialog = true
     },
