@@ -1,3 +1,4 @@
+import localForage from 'localforage'
 import { store, CompendiumStore } from '../store'
 import { Auth, Storage } from 'aws-amplify'
 import { getModule } from 'vuex-module-decorators'
@@ -119,7 +120,7 @@ const SyncLCPs = async (): Promise<any> => {
 }
 
 const setLocalLCPs = async (lcps: IContentPack[]): Promise<any> => {
-  localStorage.setItem(`extra_content.json`, JSON.stringify(lcps))
+  localForage.setItem(`extra_content.json`, JSON.stringify(lcps))
   const cs = getModule(CompendiumStore, store)
   cs.refreshExtraContent()
 }

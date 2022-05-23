@@ -83,7 +83,7 @@
         />
       </v-card-text>
     </v-card>
-    <v-row justify="center" align="center" class="my-4">
+    <v-row justify="center" align="center" class="my-4" dense>
       <v-col cols="8">
         <v-btn x-large block color="primary" @click="$emit('add-new')">
           <v-icon large left>mdi-plus</v-icon>
@@ -91,6 +91,20 @@
         </v-btn>
       </v-col>
     </v-row>
+    <v-row justify="center" align="center" class="my-4" dense>
+      <v-col cols="8">
+        <v-btn x-large block color="primary" @click="$emit('add-new')">
+          <v-icon large left>mdi-plus</v-icon>
+          Import {{ itemType }}
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-footer fixed>
+      <v-btn small to="/gm">
+        <v-icon left>mdi-chevron-left</v-icon>
+        Return to GM Menu
+      </v-btn>
+    </v-footer>
   </v-container>
 </template>
 

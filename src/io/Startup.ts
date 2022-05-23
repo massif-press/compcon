@@ -22,6 +22,13 @@ export default async function (
   store: any,
   vuetify?: any
 ): Promise<void> {
+  navigator.storage.estimate().then(res => console.log(res))
+  const hasPersist = await navigator.storage.persist()
+  // TODO: throw toast
+  if (!hasPersist) console.error('No storage persistance!')
+
+  // TODO: if c/c items exist in localstorage, move them into localforage
+
   const dataStore = getModule(CompendiumStore, store)
   const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
