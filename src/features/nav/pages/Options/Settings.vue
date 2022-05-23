@@ -72,52 +72,6 @@
               </v-card>
             </v-dialog>
           </div>
-          <v-divider class="my-3" />
-          <v-dialog v-model="deleteDialog" width="80%">
-            <template v-slot:activator="{ on }">
-              <v-btn small block color="error" class="my-1" v-on="on">
-                <v-icon left v-html="'mdi-alert'" />
-                Delete All User Data
-                <v-icon right v-html="'mdi-alert'" />
-              </v-btn>
-            </template>
-            <v-card flat tile>
-              <v-card-text>
-                <v-alert
-                  prominent
-                  dark
-                  color="error"
-                  icon="mdi-alert-circle"
-                  border="bottom"
-                  class="my-3"
-                >
-                  <span class="heading h2">WARNING // WARNING // WARNING</span>
-                </v-alert>
-                <p class="text-center heading h2 text--text">
-                  This will delete
-                  <b class="accent--text">ALL</b>
-                  local COMP/CON data.
-                  <br />
-                  This
-                  <b class="accent--text">cannot</b>
-                  be undone.
-                  <br />
-                  <br />
-                  <b class="accent--text">Are you sure you want to continue?</b>
-                </p>
-              </v-card-text>
-              <v-divider />
-              <v-card-actions>
-                <v-btn color="secondary" text large @click="deleteDialog = false">Dismiss</v-btn>
-                <v-spacer />
-                <v-btn color="error" text @click="deleteAll">
-                  <v-icon left v-html="'mdi-alert'" />
-                  Delete All User Data
-                  <v-icon right v-html="'mdi-alert'" />
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
         </div>
       </v-col>
       <v-col>
@@ -154,11 +108,6 @@
         <v-select v-model="theme" dense outlined :items="themes" item-text="name" />
       </v-col>
     </v-row>
-
-    <v-divider class="my-4" />
-
-    <h3 class="heading accent--text">Deleted Items (local data only)</h3>
-    <deleted-items />
 
     <v-divider class="my-4" />
 

@@ -5,6 +5,7 @@ import Vue from 'vue'
 import { DeleteAll } from '@/cloud/item_sync'
 import _ from 'lodash'
 import { store } from '@/store'
+import localForage from 'localforage'
 
 const files = [
   'user.config',
@@ -48,7 +49,7 @@ const importAll = async function (file): Promise<void> {
 const clearAllData = async function (clear_cloud: boolean): Promise<void> {
   console.info('Erasing all COMP/CON data...')
   for (const file of files) {
-    localStorage.removeItem(file)
+    await localForage.removeItem(file)
   }
 
   if (clear_cloud) {

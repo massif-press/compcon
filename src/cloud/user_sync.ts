@@ -37,7 +37,7 @@ const GetUserData = async (user_id: string): Promise<any> => {
 }
 
 const GetCloudProfile = async (uid?: string): Promise<Client.UserProfile> => {
-  const localUserData = Client.getLocalProfile()
+  const localUserData = await Client.getLocalProfile()
   const user_id = uid || localUserData.UserID
 
   const userData = await GetUserData(user_id)
