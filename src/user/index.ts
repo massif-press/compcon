@@ -3,6 +3,7 @@ import _ from 'lodash'
 import { UpdateUserData } from '@/cloud/user_sync'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore, store } from '@/store'
+import localForage from 'localforage'
 
 const CONFIG_FILE_NAME = 'user.config'
 
@@ -130,7 +131,7 @@ class UserProfile {
       last_sync: this.LastSync,
     }
 
-    localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(data))
+    localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(data))
     if (getModule(UserStore, store).IsLoggedIn) UpdateUserData(this, false)
   }
 
@@ -298,20 +299,21 @@ class UserProfile {
   }
 }
 
-function getLocalProfile(): UserProfile {
-  let config = localStorage.getItem(CONFIG_FILE_NAME)
+async function getLocalProfile(): Promise<UserProfile> {
+  let config = await localForage.getItem(CONFIG_FILE_NAME)
 
   if (!config) {
     try {
-      localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
-      config = localStorage.getItem(CONFIG_FILE_NAME)
+      localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
+      config = localForage.getItem(CONFIG_FILE_NAME)
       console.info('Created user profile')
     } catch (err) {
       console.error('Critical Error: COMP/CON unable to create user profile', err)
     }
   }
 
-  const data = JSON.parse(config) as IUserProfile
+  console.log(config)
+  const data = JSON.parse(config as string) as IUserProfile
   return UserProfile.Deserialize(data)
 }
 

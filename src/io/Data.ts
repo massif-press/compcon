@@ -1,15 +1,16 @@
 import PromisifyFileReader from 'promisify-file-reader'
+import localForage from 'localforage'
 
 const writeFile = async function (name: string, data: string): Promise<void> {
-  localStorage.setItem(name, data)
+  localForage.setItem(name, data)
 }
 
 const readFile = async function (name: string): Promise<string> {
-  return localStorage.getItem(name)
+  return localForage.getItem(name)
 }
 
 const exists = async function (name: string): Promise<boolean> {
-  return Boolean(localStorage.getItem(name))
+  return Boolean(localForage.getItem(name))
 }
 
 const saveData = async function <T>(fileName: string, data: T): Promise<void> {
@@ -18,8 +19,8 @@ const saveData = async function <T>(fileName: string, data: T): Promise<void> {
 
 const saveDelta = async function <T>(filename: string, data: T[]): Promise<void> {
   if (!data.length) return
-  const ls = localStorage.getItem(filename)
-  const mem = ls ? JSON.parse(localStorage.getItem(filename)) : []
+  const ls = await localForage.getItem(filename)
+  const mem = ls ? JSON.parse(ls as string) : []
   data.forEach((e: any) => {
     const idx = mem.findIndex((x: any) => x.id === e.id)
     if (idx > -1) mem[idx] = e
@@ -30,7 +31,8 @@ const saveDelta = async function <T>(filename: string, data: T[]): Promise<void>
 
 const deleteDataById = async function (filename: string, ids: string[]): Promise<void> {
   if (!ids.length) return
-  const mem = JSON.parse(localStorage.getItem(filename))
+  const item = await localForage.getItem(filename)
+  const mem = JSON.parse(item as string)
   ids.forEach((e: any) => {
     const idx = mem.findIndex((x: any) => x.id === e)
     if (idx > -1) mem.splice(idx, 1)
@@ -57,7 +59,7 @@ const importData = async function <T>(file: File): Promise<T> {
   return JSON.parse(text) as T
 }
 
-const USER_DATA_PATH = 'localStorage'
+const USER_DATA_PATH = 'localForage'
 
 export {
   writeFile,

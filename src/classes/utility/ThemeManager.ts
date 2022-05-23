@@ -1,9 +1,10 @@
+import localForage from 'localforage'
 import theme from '@/ui/theme'
 import themes from '@/ui/style/themes'
 
 const getThemePreload = () => {
   // Preload theme
-  const ls = JSON.parse(localStorage.getItem('user.config'))
+  const ls = localForage.getItem('user.config').then(res => JSON.parse(res as string)) as any
   let activeTheme = null
 
   if (ls && ls.theme) {
