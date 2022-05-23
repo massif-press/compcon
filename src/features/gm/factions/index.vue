@@ -3,6 +3,8 @@
     title="Factions"
     item-type="Faction"
     :items="factions"
+    :groupings="['Campaign', 'Labels']"
+    :sortings="['Name']"
     @add-new="$router.push('factions/edit/new')"
   />
 </template>

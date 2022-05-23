@@ -11,19 +11,47 @@ interface NarrativeElementData {
   textItems: TextItem[]
   clocks: IClockData[]
   tables: IRollableTableData[]
+  labels: string[]
+  campaign: string
 }
 
-class NarrativeElementController {
+class NarrativeController {
   public readonly Parent: INarrativeElement
   private _textItems: TextItem[]
   private _clocks: Clock[]
   private _tables: RollableTable[]
+  private _labels: string[]
+  private _campaign: string
 
   public constructor(parent: INarrativeElement) {
     this.Parent = parent
     this._textItems = []
     this._clocks = []
     this._tables = []
+    this._labels = []
+    this._campaign = ''
+  }
+
+  public get Campaign(): string {
+    return this._campaign
+  }
+
+  public set Campaign(val: string) {
+    this._campaign = val
+    this.Parent.SaveController.save()
+  }
+
+  public get Labels(): string[] {
+    return this._labels
+  }
+
+  public set Labels(val: string[]) {
+    this._labels = val
+    this.Parent.SaveController.save()
+  }
+
+  public get LabelString(): string {
+    return this._labels.join(', ')
   }
 
   public get TextItems(): TextItem[] {
@@ -84,21 +112,21 @@ class NarrativeElementController {
   }
 
   public static Serialize(parent: INarrativeElement, target: any) {
-    target.textItems = parent.NarrativeElementController.TextItems
-    target.clocks = parent.NarrativeElementController.Clocks.map(x => Clock.Serialize(x))
-    target.tables = parent.NarrativeElementController.Tables.map(x => RollableTable.Serialize(x))
+    target.textItems = parent.NarrativeController.TextItems
+    target.clocks = parent.NarrativeController.Clocks.map(x => Clock.Serialize(x))
+    target.tables = parent.NarrativeController.Tables.map(x => RollableTable.Serialize(x))
   }
 
   public static Deserialize(parent: INarrativeElement, data: NarrativeElementData) {
-    if (!parent.NarrativeElementController)
+    if (!parent.NarrativeController)
       throw new Error(
-        `NarrativeElementController not found on parent (${typeof parent}). New NarrativeElementControllers must be instantiated in the parent's constructor method.`
+        `NarrativeController not found on parent (${typeof parent}). New NarrativeControllers must be instantiated in the parent's constructor method.`
       )
 
-    parent.NarrativeElementController.TextItems = data.textItems
-    parent.NarrativeElementController.Clocks = data.clocks.map(x => Clock.Deserialize(x))
-    parent.NarrativeElementController.Tables = data.tables.map(x => RollableTable.Deserialize(x))
+    parent.NarrativeController.TextItems = data.textItems
+    parent.NarrativeController.Clocks = data.clocks.map(x => Clock.Deserialize(x))
+    parent.NarrativeController.Tables = data.tables.map(x => RollableTable.Deserialize(x))
   }
 }
 
-export { NarrativeElementData, NarrativeElementController }
+export { NarrativeElementData, NarrativeController }

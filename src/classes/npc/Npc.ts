@@ -29,12 +29,11 @@ import {
   NpcFeatureController,
 } from './components/npcFeature/NpcFeatureController'
 import { NpcTemplateController } from './components/npcTemplate/NpcTemplateController'
-import { ISectionData } from '../campaign/campaign_elements/Section'
 import { IRollableTableData } from '../components/narrative/elements/RollableTable'
 import {
-  NarrativeElementController,
+  NarrativeController,
   NarrativeElementData,
-} from '../components/narrative/NarrativeElementController'
+} from '../components/narrative/NarrativeController'
 import { INarrativeElement } from '../components/narrative/INarrativeElement'
 import { IClockData } from '../components/narrative/elements/Clock'
 
@@ -91,7 +90,6 @@ class INpcData
   actions: number
   counter_data: ICounterSaveData[]
   custom_counters: object[]
-  sections: ISectionData[]
   clocks: IClockData[]
   tables: IRollableTableData[]
 }
@@ -117,7 +115,7 @@ class Npc
   public NpcTemplateController: NpcTemplateController
   public NpcClassController: NpcClassController
   public CombatController: CombatController
-  public NarrativeElementController: NarrativeElementController
+  public NarrativeController: NarrativeController
 
   public Stats: NpcStats
 
@@ -125,9 +123,7 @@ class Npc
   private _id: string
   private _name: string
   private _subtitle: string
-  private _campaign: string
   private _note: string
-  private _user_labels: string[]
   private _tag: string
 
   private _side: EncounterSide
@@ -155,16 +151,14 @@ class Npc
     this.NpcFeatureController = new NpcFeatureController(this)
     this.NpcTemplateController = new NpcTemplateController(this)
     this.CombatController = new CombatController(this)
-    this.NarrativeElementController = new NarrativeElementController(this)
+    this.NarrativeController = new NarrativeController(this)
 
     this.FeatureController.Register()
 
     this._name = `New NPC`
     this._subtitle = ''
-    this._user_labels = []
     this._side = EncounterSide.Enemy
     this._note = ''
-    this._campaign = ''
     this._burn = 0
     this._overshield = 0
     this._turn_actions = 2
@@ -252,15 +246,6 @@ class Npc
     this.SaveController.save()
   }
 
-  public get Campaign(): string {
-    return this._campaign
-  }
-
-  public set Campaign(val: string) {
-    this._campaign = val
-    this.SaveController.save()
-  }
-
   public get Note(): string {
     return this._note
   }
@@ -281,19 +266,6 @@ class Npc
 
   public set Tag(val: string) {
     this._tag = val
-  }
-
-  public get Labels(): string[] {
-    return this._user_labels
-  }
-
-  public set Labels(val: string[]) {
-    this._user_labels = val
-    this.SaveController.save()
-  }
-
-  public get LabelString(): string {
-    return this._user_labels.join(', ')
   }
 
   setStatBonuses(): void {
@@ -369,8 +341,6 @@ class Npc
       id: npc.ID,
       name: npc._name,
       subtitle: npc._subtitle,
-      campaign: npc._campaign,
-      labels: npc._user_labels,
       tag: npc._tag,
       stats: NpcStats.Serialize(npc.Stats),
       currentStats: NpcStats.Serialize(npc._current_stats),
@@ -394,7 +364,7 @@ class Npc
     NpcTemplateController.Serialize(npc, data)
     NpcFeatureController.Serialize(npc, data)
     CounterController.Serialize(npc, data)
-    NarrativeElementController.Serialize(npc, data)
+    NarrativeController.Serialize(npc, data)
 
     return data as INpcData
   }
@@ -416,8 +386,6 @@ class Npc
     this._name = data.name
     this._subtitle = data.subtitle || ''
     this._side = data.side as EncounterSide
-    this._campaign = data.campaign || ''
-    this._user_labels = data.labels || []
     this._tag = data.tag
     this.Stats = NpcStats.Deserialize(data.stats)
     this.RecalcBonuses(false)
@@ -446,7 +414,7 @@ class Npc
       NpcTemplateController.Deserialize(npc, data)
       NpcFeatureController.Deserialize(npc, data)
       CounterController.Deserialize(npc, data)
-      NarrativeElementController.Deserialize(npc, data)
+      NarrativeController.Deserialize(npc, data)
       npc.SaveController.SetLoaded()
       return npc
     } catch (err) {

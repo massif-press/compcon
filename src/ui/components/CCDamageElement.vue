@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="inline ? 'd-inline' : ''">
     <div
       v-for="(d, i) in damage"
       :key="`dmg_${i}`"
@@ -27,7 +27,7 @@
           >
             {{ typeOverride ? `cci-${typeOverride.toLowerCase()}` : d.Icon }}
           </v-icon>
-          <span class="heading text--text" style="font-size: 24pt;">
+          <span class="heading text--text" style="font-size: 24pt">
             {{ `${added ? '+' : ''}${d.Value}` }}
           </span>
         </div>
@@ -62,6 +62,9 @@ export default class CCDamageElement extends Vue {
 
   @Prop({ type: Boolean, required: false })
   readonly added: boolean
+
+  @Prop({ type: Boolean, required: false })
+  readonly inline: boolean
 
   Help(d: Damage): string {
     switch (d.Type.toLowerCase()) {

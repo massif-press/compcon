@@ -1,19 +1,18 @@
-import { store } from '@/store'
+import { SaveController } from '../components'
+import { NarrativeController } from '../components/narrative/NarrativeController'
 import { ItemType } from '../enums'
 import { CollectionItem, ICollectionItemData } from './CollectionItem'
-import { RollableTable } from '../components/narrative/elements/RollableTable'
-import { Clock } from '../components/narrative/elements/Clock'
 
 interface IFactionData extends ICollectionItemData {
-  core_mission?: string[]
+  core_mission: string[]
 }
 
 class Faction extends CollectionItem {
   public CoreMission: string[]
 
-  public constructor(data?: IFactionData) {
-    super(data)
-    this.CoreMission = data?.core_mission || []
+  public constructor() {
+    super()
+    this.CoreMission = []
     this.ItemType = ItemType.Faction
   }
 
@@ -21,43 +20,44 @@ class Faction extends CollectionItem {
     return ['History', 'Goals']
   }
 
-  public save() {
-    store.dispatch('faction/saveFactionData')
-  }
-
-  public copy() {
-    store.dispatch('faction/cloneFaction', this)
-  }
-
-  public delete() {
-    store.dispatch('faction/deleteFaction', this)
-  }
-
-  public addNew() {
-    store.dispatch('faction/addFaction', this)
-  }
-
-  public static Serialize(f: Faction): IFactionData {
-    return {
-      id: f.ID,
-      core_mission: f.CoreMission,
-      name: f.Name,
-      description: f.Description,
-      notes: f.Notes,
-      image: f.img,
-      sections: f.Sections,
-      campaigns: f.Campaigns,
-      locations: f.Locations,
-      factions: f.Factions,
-      npcs: f.NPCs,
-      labels: f.Labels,
-      clocks: f.Clocks.length ? f.Clocks.map(x => Clock.Serialize(x)) : [],
-      tables: f.Tables.length ? f.Tables.map(x => RollableTable.Serialize(x)) : [],
+  public static Serialize(c: Faction): IFactionData {
+    const data = {
+      id: c.ID,
+      name: c.Name,
+      description: c.Description,
+      notes: c.Notes,
+      core_mission: c.CoreMission,
     }
+
+    SaveController.Serialize(c, data)
+    NarrativeController.Serialize(c, data)
+
+    return data as IFactionData
+  }
+
+  Serialize(): IFactionData {
+    return Faction.Serialize(this)
+  }
+
+  Update(data: IFactionData) {
+    this.ID = data.id
+    this.Name = data.name
+    this.Description = data.description
+    this.Notes = data.notes
+    this.CoreMission = data.core_mission
+    NarrativeController.Deserialize(this, data)
+    SaveController.Deserialize(this, data)
   }
 
   public static Deserialize(data: IFactionData): Faction {
-    return new Faction(data)
+    const c = new Faction()
+    try {
+      c.Update(data)
+      c.SaveController.SetLoaded()
+      return c
+    } catch (err) {
+      console.error(err)
+    }
   }
 }
 

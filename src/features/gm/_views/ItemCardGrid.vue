@@ -55,10 +55,6 @@ export default Vue.extend({
     groupedItems(group) {
       if (this.grouping === 'None') return this.items
       return this.items.filter(x => x[this.grouping].some(y => y === group))
-      // return _.orderBy(
-      //   this.sorting,
-      //   this.sortDir
-      // )
     },
   },
 })

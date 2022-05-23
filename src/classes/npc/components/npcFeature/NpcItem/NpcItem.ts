@@ -11,6 +11,7 @@ export interface INpcItemSaveData {
   destroyed: boolean
   charged: boolean
   uses: number
+  hideOnPrint: boolean
 }
 
 export class NpcItem {
@@ -24,6 +25,7 @@ export class NpcItem {
   private _max_uses: number
   public readonly Caveat: string
   public IsVisible: boolean
+  public _hideOnPrint: boolean
 
   public constructor(feature: NpcFeature, tier: number, caveatTemplate?: NpcTemplate) {
     this._feature = feature
@@ -41,6 +43,7 @@ export class NpcItem {
       this._max_uses = 0
     }
     this.IsVisible = !feature.HideActive
+    this._hideOnPrint = feature.HideActive
   }
 
   private save(): void {
@@ -123,6 +126,15 @@ export class NpcItem {
     this.Uses = 0
   }
 
+  public get HideOnPrint(): boolean {
+    return this._hideOnPrint
+  }
+
+  public set HideOnPrint(val: boolean) {
+    this._hideOnPrint = val
+    this.save()
+  }
+
   public static Serialize(item: NpcItem): INpcItemSaveData {
     return {
       itemID: item._feature.ID,
@@ -132,6 +144,7 @@ export class NpcItem {
       destroyed: item.Destroyed,
       charged: item.IsCharged,
       uses: item.Uses,
+      hideOnPrint: item.HideOnPrint,
     }
   }
 
@@ -142,6 +155,7 @@ export class NpcItem {
     item._destroyed = data.destroyed
     item._charged = data.charged
     item._uses = data.uses || 0
+    item._hideOnPrint = data.hideOnPrint
     return item
   }
 }

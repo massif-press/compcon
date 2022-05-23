@@ -130,28 +130,25 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'campaign-landing',
   computed: {
+    cstore() {
+      return getModule(CampaignStore, this.$store)
+    },
     unpublished() {
-      return getModule(CampaignStore, this.$store).Unpublished
+      return this.cstore.Unpublished
     },
     active() {
-      return getModule(CampaignStore, this.$store).Active
+      return this.cstore.Active
     },
   },
   methods: {
     openNewCampaign() {
-      const c = new Campaign({
-        name: 'New Campaign',
-        sections: [],
-        characters: [],
-        locations: [],
-        factions: [],
-      })
-      c.addNew()
-      c.load()
-      this.$router.push('campaigns/edit')
+      const c = new Campaign()
+      this.cstore.addCampaign(c)
+      this.openEditCampaign(c)
     },
-    openEditCampaign(c) {
-      c.load()
+    async openEditCampaign(c) {
+      this.cstore.setEditCampaign(c.ID)
+      await this.$nextTick()
       this.$router.push('campaigns/edit')
     },
     openRunCampaign(c) {

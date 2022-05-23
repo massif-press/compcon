@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import _ from 'lodash'
-import { loadData, saveData } from '@/io/Data'
+import { loadData, saveDelta } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Campaign, CampaignStatus, ICampaignData } from '@/classes/campaign/Campaign'
-import { store } from '@/store'
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const ADD_CAMPAIGN = 'ADD_CAMPAIGN'
@@ -14,15 +13,15 @@ export const LOAD_CAMPAIGNS = 'LOAD_CAMPAIGNS'
 export const SET_EDIT_CAMPAIGN = 'SET_EDIT_CAMPAIGN'
 
 async function saveCampaignData(campaigns: Campaign[]) {
-  const serialized = campaigns.map(x => Campaign.Serialize(x))
-  await saveData('campaigns.json', serialized)
+  const serialized = campaigns.filter(x => x.SaveController.IsDirty).map(x => Campaign.Serialize(x))
+  await saveDelta('pilots_v2.json', serialized)
 }
 
 @Module({
   name: 'campaign',
 })
 export class CampaignStore extends VuexModule {
-  EditCampaign: Campaign
+  EditCampaign: Campaign = null
   Campaigns: Campaign[] = []
 
   @Mutation
@@ -33,17 +32,14 @@ export class CampaignStore extends VuexModule {
 
   @Mutation
   private [SET_EDIT_CAMPAIGN](payload: Campaign): void {
+    console.log(payload)
     this.EditCampaign = payload
-    // saveCampaignData(this.Campaigns)
+    console.log(this.EditCampaign)
   }
 
   @Mutation
   private [SAVE_DATA](): void {
     console.log('saving all campaign data')
-    if (this.EditCampaign) {
-      const editIndex = this.Campaigns.findIndex(x => x.ID === this.EditCampaign.ID)
-      if (editIndex > -1) this.Campaigns[editIndex] = this.EditCampaign
-    }
     if (this.Campaigns.length) _.debounce(saveCampaignData, 1000)(this.Campaigns)
   }
 
@@ -76,9 +72,15 @@ export class CampaignStore extends VuexModule {
   }
 
   @Action
-  public setEditCampaign(payload: Campaign): void {
-    console.log('in set edit campaign')
-    this.context.commit(SET_EDIT_CAMPAIGN, payload)
+  public setEditCampaign(id: string): void {
+    console.log(
+      id,
+      this.Campaigns.find(x => x.ID === id)
+    )
+    this.context.commit(
+      SET_EDIT_CAMPAIGN,
+      this.Campaigns.find(x => x.ID === id)
+    )
   }
 
   @Action({ rawError: true })
@@ -113,9 +115,5 @@ export class CampaignStore extends VuexModule {
 
   get Active(): Campaign[] {
     return this.Campaigns.filter(x => x.Status === CampaignStatus.Active)
-  }
-
-  get Campaign() {
-    return this.EditCampaign
   }
 }

@@ -1,11 +1,7 @@
 <template>
   <div>
-    <div v-if="item.NarrativeElementController.TextItems.length">
-      <v-row
-        v-for="(s, i) in item.NarrativeElementController.TextItems"
-        :key="`textItem_${i}`"
-        dense
-      >
+    <div v-if="item.NarrativeController.TextItems.length">
+      <v-row v-for="(s, i) in item.NarrativeController.TextItems" :key="`textItem_${i}`" dense>
         <v-col>
           <v-row no-gutters justify="space-between">
             <v-col cols="auto">
@@ -65,10 +61,10 @@
           <v-card>
             <v-card-text>
               <v-combobox
-                v-if="item.NarrativeElementController.TextItemSuggestions"
+                v-if="item.NarrativeController.TextItemSuggestions"
                 v-model="newTextItemHeader"
                 label="Title"
-                :items="item.NarrativeElementController.TextItemSuggestions"
+                :items="item.NarrativeController.TextItemSuggestions"
               />
               <v-text-field
                 v-else
@@ -145,16 +141,16 @@ export default Vue.extend({
   }),
   methods: {
     addTextItem() {
-      this.item.NarrativeElementController.AddTextItem({ header: this.newTextItemHeader, body: '' })
+      this.item.NarrativeController.AddTextItem({ header: this.newTextItemHeader, body: '' })
       this.newTextItemHeader = ''
       this.textItemMenu = false
     },
     deleteTextItem(s) {
-      const idx = this.item.NarrativeElementController.TextItems.findIndex(
+      const idx = this.item.NarrativeController.TextItems.findIndex(
         x => x.header === s.header && x.body === s.body
       )
       if (idx === -1) return
-      this.item.NarrativeElementController.TextItems.splice(idx, 1)
+      this.item.NarrativeController.TextItems.splice(idx, 1)
     },
   },
 })

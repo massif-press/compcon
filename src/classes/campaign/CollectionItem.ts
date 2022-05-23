@@ -3,71 +3,72 @@ import uuid from 'uuid/v4'
 import { ItemType } from '../enums'
 import { IRollableTableData, RollableTable } from '../components/narrative/elements/RollableTable'
 import { Clock, IClockData } from '../components/narrative/elements/Clock'
+import {
+  IPortraitContainer,
+  IPortraitData,
+  ISaveable,
+  ISaveData,
+  PortraitController,
+  SaveController,
+} from '../components'
+import {
+  NarrativeController,
+  NarrativeElementData,
+} from '../components/narrative/NarrativeController'
+import { INarrativeElement } from '../components/narrative/INarrativeElement'
 
 interface ISectionData {
   header: string
   body: string
 }
 
-interface ICollectionItemData {
-  id?: string
-  name?: string
-  description?: string
-  notes?: string
-  image?: string
-  sections?: ISectionData[]
-  campaigns?: string[]
-  locations?: string[]
-  factions?: string[]
-  npcs?: string[]
-  labels?: string[]
-  clocks?: IClockData[]
-  tables?: IRollableTableData[]
+class ICollectionItemData implements ISaveData, NarrativeElementData, IPortraitData {
+  campaign: string
+  portrait: string
+  cloud_portrait: string
+  clocks: IClockData[]
+  tables: IRollableTableData[]
+  lastModified: string
+  isDeleted: boolean
+  expireTime: string
+  deleteTime: string
+  textItems: { title: string; body: string }[]
+  id: string
+  name: string
+  description: string
+  notes: string
+  image: string
+  campaigns: string[]
+  labels: string[]
 }
 
-abstract class CollectionItem {
+abstract class CollectionItem implements ISaveable, INarrativeElement, IPortraitContainer {
   public ID: string
-  protected img: string
   public Name: string
   public Description: string
   public Notes: string
-  public Sections: ISectionData[]
-  public Campaigns: string[]
-  public Locations: string[]
-  public Factions: string[]
-  public NPCs: string[]
-  public Labels: string[]
-  public Clocks: Clock[]
-  public Tables: RollableTable[]
   public ItemType: ItemType
+  public SaveController: SaveController
+  public ImageTag: ImageTag
+  public NarrativeController: NarrativeController
+  public PortraitController: PortraitController
 
-  public constructor(data?: ICollectionItemData) {
-    this.ID = data?.id || uuid()
-    this.img = data?.image || ''
-    this.Name = data?.name || ''
-    this.Description = data?.description || ''
-    this.Notes = data?.notes || ''
-    this.Sections = data?.sections || []
-    this.Campaigns = data?.campaigns || []
-    this.Locations = data?.locations || []
-    this.Factions = data?.factions || []
-    this.NPCs = data?.npcs || []
-    this.Labels = data?.labels || []
-    this.Clocks = data?.clocks ? data.clocks.map(c => new Clock(c)) : []
-    this.Tables = data?.tables ? data.tables.map(t => new RollableTable(t)) : []
+  public constructor() {
+    this.ID = uuid()
+    this.Name = ''
+    this.Description = ''
+    this.Notes = ''
+    this.SaveController = new SaveController(this)
+    this.NarrativeController = new NarrativeController(this)
+    this.PortraitController = new PortraitController(this)
   }
 
   public RenewID() {
     this.ID = uuid()
   }
 
-  public get Image(): string {
-    if (this.img) return this.img
-    else return getImagePath(ImageTag.Pilot, 'nodata.png')
-  }
-
-  public set Image(src: string) {
-    this.img = src
+  public get Portrait(): string {
+    return this.PortraitController.Portrait
   }
 }
 

@@ -10,7 +10,8 @@ interface IRollableTableData {
   id?: string
   title?: string
   description?: string
-  dice?: string
+  die?: number
+  mult?: number
   results?: ITableRoll[]
 }
 
@@ -18,24 +19,37 @@ class RollableTable {
   public readonly ID: string
   public Title: string
   public Description: string
-  public Dice: string
+  public Die: number
+  public Mult: number
   public Results: ITableRoll[]
+  public ItemType: string = 'RollableTable'
 
-  public constructor(data: IRollableTableData) {
+  public constructor(data?: IRollableTableData) {
     this.ID = data.id || uuid()
     this.Title = data.title || ''
     this.Description = data.description || ''
-    this.Dice = data.dice || '1d20'
+    this.Mult = data.mult || 1
+    this.Die = data.die || 6
     this.Results = data.results || []
+    if (!this.Results.length) this.setArray(2)
   }
 
   public get Min(): number {
-    return parseInt(this.Dice.split('d')[0])
+    return this.Mult
   }
 
   public get Max(): number {
-    const dArr = this.Dice.split('d')
-    return parseInt(dArr[0]) * parseInt(dArr[1])
+    return this.Mult * this.Die
+  }
+
+  public setArray(step) {
+    if (this.Results.length) this.Results.splice(0, this.Results.length)
+    for (let i = 1; i <= this.Max; i += step) {
+      if (i < this.Min && i + step - 1 < this.Min) continue
+      if (i < this.Min) this.Results.push({ min: this.Min, max: i + step - 1, result: '' })
+      else if (i + step - 1 >= this.Max) this.Results.push({ min: i, max: this.Max, result: '' })
+      else this.Results.push({ min: i, max: i + step - 1, result: '' })
+    }
   }
 
   public static Serialize(c: RollableTable): IRollableTableData {
@@ -43,7 +57,8 @@ class RollableTable {
       id: c.ID,
       title: c.Title,
       description: c.Description,
-      dice: c.Dice,
+      die: c.Die,
+      mult: c.Mult,
       results: c.Results,
     }
   }

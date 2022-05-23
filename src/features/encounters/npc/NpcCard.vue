@@ -406,11 +406,11 @@ export default Vue.extend({
   computed: {
     labels() {
       const store = getModule(NpcStore, this.$store)
-      return store.Npcs.flatMap(x => x.Labels).filter(x => x)
+      return store.Npcs.flatMap(x => x.NarrativeController.Labels).filter(x => x)
     },
     campaigns() {
       const store = getModule(NpcStore, this.$store)
-      return store.Npcs.map(x => x.Campaign).filter(x => x)
+      return store.Npcs.map(x => x.NarrativeController.Campaign).filter(x => x)
     },
     profile(): UserProfile {
       const store = getModule(UserStore, this.$store)

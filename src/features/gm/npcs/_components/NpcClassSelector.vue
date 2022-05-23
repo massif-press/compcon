@@ -7,7 +7,7 @@
     <v-dialog v-model="dialog">
       <v-card>
         <v-toolbar dense color="primary">
-          <span class="heading h6 white--text">Select Template</span>
+          <span class="heading h6 white--text">Select Class</span>
           <v-spacer />
           <v-btn icon color="white" @click="dialog = false"><v-icon large>mdi-close</v-icon></v-btn>
         </v-toolbar>
