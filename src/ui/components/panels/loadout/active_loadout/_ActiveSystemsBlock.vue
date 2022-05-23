@@ -25,16 +25,23 @@
           />
         </v-col>
 
-        <active-system-card
-          v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
-          :key="`${s.ID}-${i}`"
-          :mech="mech"
-          :item="s"
-          :color="color"
-          :index="i"
-          :rest="rest"
-          :readonly="readonly"
-        />
+        <draggable
+          :list="systems"
+          @start="drag=true"
+          @end="drag=false"
+          @change="moveSystem($event)"
+        >
+          <active-system-card
+            v-for="(s, i) in systems"
+            :key="`${s.ID}-${i}`"
+            :mech="mech"
+            :item="s"
+            :color="color"
+            :index="i"
+            :rest="rest"
+            :readonly="readonly"
+          />
+      </draggable>
       </v-row>
     </fieldset>
   </v-card>
@@ -44,10 +51,11 @@
 import Vue from 'vue'
 import ActiveSystemCard from './_ActiveSystemCard.vue'
 import ModEquippedCard from '../mech_loadout/components/system/_ModEquippedCard.vue'
+import draggable from 'vuedraggable'
 
 export default Vue.extend({
   name: 'systems-block',
-  components: { ActiveSystemCard, ModEquippedCard },
+  components: { ActiveSystemCard, ModEquippedCard, draggable },
   props: {
     mech: {
       type: Object,
@@ -67,6 +75,18 @@ export default Vue.extend({
   computed: {
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
+    },
+    systems(){
+      return this.mech.MechLoadoutController.ActiveLoadout.Systems
+    },
+  },  
+  methods:{
+    moveSystem(event){
+      if(event.moved){
+          this.systems.forEach((s, i) => {
+            s.SortIndex = i
+          })
+      }
     },
   },
 })
