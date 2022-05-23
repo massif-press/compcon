@@ -43,6 +43,7 @@ declare interface IEquipmentData {
   flavorName?: string
   flavorDescription?: string
   customDamageType?: string
+  sortIndex?: number
 }
 
 declare interface IMechWeaponSaveData extends IEquipmentData {
