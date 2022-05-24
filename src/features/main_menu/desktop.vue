@@ -157,6 +157,7 @@
                 dark
                 text
                 href="https://www.patreon.com/compcon"
+                tabindex="0"
               >
                 Support This Project
               </v-btn>
