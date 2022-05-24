@@ -52,7 +52,7 @@ class BondController {
   public set Bond(bond: Bond) {
     if (!bond) return
     this._bond = bond
-    this._answers = new Array(bond.Questions.length)
+    this._answers = bond.Questions ? new Array(bond.Questions.length) : ['', '']
     this.Parent.SaveController.save()
   }
 

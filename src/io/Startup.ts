@@ -15,6 +15,7 @@ import {
 } from '@/store'
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
+import { Initialize, SetItem, GetItem, RemoveItem } from './Storage'
 
 export default async function (
   lancerVer: string,
@@ -22,11 +23,14 @@ export default async function (
   store: any,
   vuetify?: any
 ): Promise<void> {
-  navigator.storage.estimate().then(res => console.log(res))
-  const hasPersist = await navigator.storage.persist()
-  // TODO: throw toast
-  if (!hasPersist) console.error('No storage persistance!')
+  Initialize()
 
+  const p = await GetItem('pilots', '1f1bc4a8-bdad-4bfd-8ade-7e65497ab1df')
+  console.log(JSON.stringify(p))
+
+  navigator.storage.estimate().then(res => console.log(res))
+
+  // if we have persistance:
   // TODO: if c/c items exist in localstorage, move them into localforage
 
   const dataStore = getModule(CompendiumStore, store)
