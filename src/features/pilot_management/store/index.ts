@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import _ from 'lodash'
 import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
+import { SetItem, RemoveItem, GetAll } from '@/io/Storage'
 import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator'
 import { Pilot } from '@/class'
 import { PilotData } from '@/interface'
@@ -8,20 +9,24 @@ import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import Vue from 'vue'
 
 async function savePilots(pilots: Pilot[]) {
-  const serialized = pilots.filter(x => x.SaveController.IsDirty).map(x => Pilot.Serialize(x))
-  await saveDelta('pilots_v2.json', serialized)
+  const dirty = pilots.filter(x => x.SaveController.IsDirty)
+  Promise.all(dirty.map(x => SetItem('pilots', Pilot.Serialize(x))))
+    .then(() => console.info('Pilot data saved'))
+    .catch(err => console.error('Error while saving Pilot data', err))
+  // await saveDelta('pilots_v2.json', serialized)
 }
 
 async function savePilotGroups(pilotGroups: PilotGroup[]) {
-  await saveData(
-    'pilot_groups_v2.json',
-    pilotGroups.filter(x => x.name && x.name !== '')
-  )
+  // await saveData(
+  //   'pilot_groups_v2.json',
+  //   pilotGroups.filter(x => x.name && x.name !== '')
+  // )
 }
 
 async function delete_pilot(pilot: Pilot) {
-  console.log('deleting pilot permanently: ', pilot.Name ? pilot.Name : 'Unknown')
-  await deleteDataById('pilots_v2.json', [pilot.ID])
+  RemoveItem('pilots', pilot.ID)
+    .then(() => console.info('Pilot permenently deleted'))
+    .catch(err => console.error('Error while deleting Pilot data', err))
 }
 
 export interface PilotGroup {
@@ -69,11 +74,8 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [SAVE_DATA](): void {
-    if (this.Dirty) {
-      savePilots(this.Pilots.concat(this.DeletedPilots))
-      savePilotGroups(this.PilotGroups)
-      this.Dirty = false
-    }
+    savePilots(this.Pilots.concat(this.DeletedPilots))
+    // savePilotGroups(this.PilotGroups)
   }
 
   @Mutation
@@ -82,11 +84,11 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [LOAD_PILOTS](payload: { pilotData: PilotData[]; groupData: PilotGroup[] }): void {
-    const all = [...payload.pilotData.map(x => Pilot.Deserialize(x)).filter(x => x)]
+  private [LOAD_PILOTS](payload: { pilots: PilotData[]; groupData: PilotGroup[] }): void {
+    const all = payload.pilots.map(x => Pilot.Deserialize(x))
     this.Pilots = all.filter(x => !x.SaveController.IsDeleted)
     this.DeletedPilots = all.filter(x => x.SaveController.IsDeleted)
-    this.PilotGroups = payload.groupData
+    // this.PilotGroups = payload.groupData
 
     //clean up deleted
     const del = []
@@ -107,7 +109,6 @@ export class PilotManagementStore extends VuexModule {
   private [ADD_PILOT](payload: Pilot): void {
     payload.SaveController.IsDirty = true
     this.Pilots.push(payload)
-    this.Dirty = true
   }
 
   @Mutation
@@ -258,13 +259,12 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
-    const pilotData = await loadData<PilotData>('pilots_v2.json')
-    const pilotGroupData = await loadData<PilotGroup>('pilot_groups_v2.json')
+    const pilots = await GetAll('pilots')
+    const groupData = await loadData<PilotGroup>('pilot_groups_v2.json')
     this.context.commit(LOAD_PILOTS, {
-      pilotData: ItemsWithLcp(pilotData),
-      groupData: pilotGroupData,
+      pilots,
+      groupData,
     })
-    this.context.commit(SET_MISSING_PILOTS, ItemsMissingLcp(pilotData))
   }
 
   @Action({ rawError: true })
