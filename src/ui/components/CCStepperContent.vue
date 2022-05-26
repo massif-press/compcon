@@ -4,7 +4,9 @@
     <v-divider class="ma-3" />
     <v-row dense class="mx-3">
       <v-col cols="auto">
-        <v-btn large text :to="exit">EXIT</v-btn>
+        <router-link to="exit">
+          <v-btn large text>EXIT</v-btn>
+        </router-link>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-btn
