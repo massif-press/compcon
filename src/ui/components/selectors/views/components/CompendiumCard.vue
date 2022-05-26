@@ -8,6 +8,7 @@
             :color="hover ? 'panel lighten-1' : 'panel'"
             tile
             @click="$refs.dialog.show()"
+            @keydown.enter="$refs.dialog.show()"
           >
             <frame-card-content
               v-if="item.ItemType === 'Frame'"
