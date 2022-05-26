@@ -39,9 +39,12 @@
 
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
-        <v-btn text icon to="/compendium" v-on="on">
-          <v-icon color="white">mdi-book</v-icon>
-        </v-btn>
+        <!-- Using <a> around the button lets it link properly without breaking the button styling like `to` does.-->
+        <a href="/#/compendium">
+          <v-btn text icon v-on="on">
+            <v-icon dark>mdi-book</v-icon>
+          </v-btn>
+        </a>
       </template>
       <span>Compendium</span>
     </v-tooltip>
