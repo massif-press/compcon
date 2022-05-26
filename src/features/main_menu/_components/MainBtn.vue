@@ -6,7 +6,10 @@
         @mouseenter="$emit('hover')"
         @mouseover="mouseOver = true"
         @mouseleave="mouseOver = false"
+        @focusin="mouseOver = true"
+        @focusout="mouseOver = false"
         @click="to ? $router.push(to) : $emit('clicked')"
+        tabindex="0"
       >
         <div class="unskew heading pb-1">
           <v-icon dark size="50" class="ml-n4 mt-n3">{{ icon }}</v-icon>
@@ -90,8 +93,10 @@ export default Vue.extend({
   background: var(--v-primary-base);
   z-index: 5;
   transition: all ease-in-out 0.45s;
+  outline: none;
 }
-.btn-main:not(.disabled):hover {
+.btn-main:not(.disabled):hover,
+.btn-main:not(.disabled):focus {
   background-color: var(--v-active-base);
   transition: all ease-in-out 0.45s;
 }
@@ -105,7 +110,8 @@ export default Vue.extend({
   transition: all ease-in-out 0.45s;
   z-index: 4;
 }
-.btn-main:not(.disabled):hover::after {
+.btn-main:not(.disabled):hover::after,
+.btn-main:not(.disabled):focus::after {
   left: 625px;
   background: var(--v-active-base);
   transition: all ease-in-out 0.45s;
@@ -120,7 +126,8 @@ export default Vue.extend({
   transition: all ease-in-out 0.45s;
   z-index: 4;
 }
-.btn-main:not(.disabled):hover::before {
+.btn-main:not(.disabled):hover::before,
+.btn-main:not(.disabled):focus::before {
   left: 650px;
   background: var(--v-active-base);
   transition: all ease-in-out 0.45s;
