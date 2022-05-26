@@ -9,6 +9,7 @@
         @focusin="mouseOver = true"
         @focusout="mouseOver = false"
         @click="to ? $router.push(to) : $emit('clicked')"
+        @keydown.enter="to ? $router.push(to) : $emit('clicked')"
         tabindex="0"
       >
         <div class="unskew heading pb-1">
