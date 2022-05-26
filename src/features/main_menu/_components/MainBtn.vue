@@ -8,8 +8,8 @@
         @mouseleave="mouseOver = false"
         @focusin="mouseOver = true"
         @focusout="mouseOver = false"
-        @click="to ? $router.push(to) : $emit('clicked')"
-        @keydown.enter="to ? $router.push(to) : $emit('clicked')"
+        @click="doAction"
+        @keydown.enter="doAction"
         tabindex="0"
       >
         <div class="unskew heading pb-1">
@@ -53,6 +53,15 @@ export default Vue.extend({
   data: () => ({
     mouseOver: false,
   }),
+  methods: {
+    doAction() {
+      if(this.to) {
+        this.$router.push(this.to)
+      } else {
+        this.$emit('clicked')
+      }
+    },
+  },
 })
 </script>
 
