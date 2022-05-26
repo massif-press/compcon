@@ -14,8 +14,8 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-@Component({ name: 'cc-major-btn' })
-export default class CCMajorButton extends Vue {
+@Component({ name: 'cc-compendium-page-btn' })
+export default class CompendiumPageButton extends Vue {
   @Prop({ type: String, required: true })
   readonly name!: string
 
