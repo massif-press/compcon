@@ -86,10 +86,12 @@
             <span v-if="selectedClass">Add New {{ selectedClass.Name }}</span>
             <span v-else>Select NPC Class</span>
           </v-btn>
-          <v-btn outlined block small class="mt-1" to="/gm/npc-roster">
-            <v-icon left>mdi-chevron-left</v-icon>
-            Return to NPC Roster
-          </v-btn>
+          <router-link to="/gm/npc-roster">
+            <v-btn outlined block small class="mt-1">
+              <v-icon left>mdi-chevron-left</v-icon>
+              Return to NPC Roster
+            </v-btn>
+          </router-link>
         </v-col>
       </v-row>
     </template>

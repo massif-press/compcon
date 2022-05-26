@@ -19,9 +19,11 @@
         </v-btn>
       </cc-tooltip>
       <cc-tooltip inline delayed content="Active Mode">
-        <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
-          <v-icon large color="white">cci-activate</v-icon>
-        </v-btn>
+        <router-link :to="`/active/${pilot.ID}`">
+          <v-btn icon fab x-small outlined class="mr-4 unskew" dark>
+            <v-icon large color="white">cci-activate</v-icon>
+          </v-btn>
+        </router-link>
       </cc-tooltip>
     </div>
     <!-- Remove this div and uncomment below if/when pilot analytics are done -->
