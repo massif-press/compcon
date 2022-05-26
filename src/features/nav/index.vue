@@ -40,11 +40,11 @@
     <v-tooltip bottom open-delay="500ms">
       <template v-slot:activator="{ on }">
         <!-- Using <a> around the button lets it link properly without breaking the button styling like `to` does.-->
-        <a href="/#/compendium">
+        <router-link to="/compendium">
           <v-btn text icon v-on="on">
             <v-icon dark>mdi-book</v-icon>
           </v-btn>
-        </a>
+        </router-link>
       </template>
       <span>Compendium</span>
     </v-tooltip>
