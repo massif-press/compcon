@@ -23,7 +23,7 @@ export default async function (
   store: any,
   vuetify?: any
 ): Promise<void> {
-  Initialize()
+  await Initialize()
 
   const p = await GetItem('pilots', '1f1bc4a8-bdad-4bfd-8ade-7e65497ab1df')
   console.log(JSON.stringify(p))

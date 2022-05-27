@@ -66,7 +66,6 @@ export class PilotManagementStore extends VuexModule {
   public LoadedMechID = ''
   public ActivePilot: Pilot = null
   public printOptions: PrintOptions = null
-  public Dirty = false
 
   public get AllPilots(): Pilot[] {
     return this.Pilots.concat(this.DeletedPilots)
@@ -79,16 +78,14 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [SET_DIRTY](): void {
-    if (this.Pilots.length) this.Dirty = true
-  }
+  private [SET_DIRTY](): void {}
 
   @Mutation
-  private [LOAD_PILOTS](payload: { pilots: PilotData[]; groupData: PilotGroup[] }): void {
-    const all = payload.pilots.map(x => Pilot.Deserialize(x))
+  private [LOAD_PILOTS](payload: { pilotData: PilotData[]; groupData: PilotGroup[] }): void {
+    const all = payload.pilotData.map(x => Pilot.Deserialize(x))
     this.Pilots = all.filter(x => !x.SaveController.IsDeleted)
     this.DeletedPilots = all.filter(x => x.SaveController.IsDeleted)
-    // this.PilotGroups = payload.groupData
+    this.PilotGroups = payload.groupData
 
     //clean up deleted
     const del = []
@@ -128,7 +125,6 @@ export class PilotManagementStore extends VuexModule {
       mech.RenewID()
     }
     this.Pilots.push(newPilot)
-    this.Dirty = true
   }
 
   @Mutation
@@ -141,7 +137,6 @@ export class PilotManagementStore extends VuexModule {
     } else {
       throw console.error('Pilot not loaded!')
     }
-    this.Dirty = true
   }
 
   @Mutation
@@ -151,7 +146,6 @@ export class PilotManagementStore extends VuexModule {
       this.DeletedPilots.splice(dpIdx, 1)
       delete_pilot(payload)
     }
-    this.Dirty = true
   }
 
   @Mutation
@@ -172,7 +166,6 @@ export class PilotManagementStore extends VuexModule {
     } else {
       throw console.error('Pilot not loaded!')
     }
-    this.Dirty = true
   }
 
   @Mutation
@@ -200,7 +193,6 @@ export class PilotManagementStore extends VuexModule {
     this.Pilots.forEach((p: Pilot) => {
       if (p.GroupController.Group === payload.name) p.GroupController.Group = ''
     })
-    this.Dirty = true
 
     const idx = this.PilotGroups.indexOf(payload)
     if (idx !== -1) this.PilotGroups.splice(idx, 1)
@@ -214,7 +206,6 @@ export class PilotManagementStore extends VuexModule {
     this.Pilots.forEach((p: Pilot) => {
       if (p.GroupController.Group === oldName) p.GroupController.Group = newName
     })
-    this.Dirty = true
 
     payload.g.name = newName
     savePilotGroups(this.PilotGroups)
@@ -259,12 +250,14 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
-    const pilots = await GetAll('pilots')
-    const groupData = await loadData<PilotGroup>('pilot_groups_v2.json')
+    const pilotData = await GetAll('pilots')
+    // const pilotGroupData = await loadData<PilotGroup>('pilot_groups_v2.json')
+    const pilotGroupData = []
     this.context.commit(LOAD_PILOTS, {
-      pilots,
-      groupData,
+      pilotData: ItemsWithLcp(pilotData),
+      groupData: pilotGroupData,
     })
+    this.context.commit(SET_MISSING_PILOTS, ItemsMissingLcp(pilotData))
   }
 
   @Action({ rawError: true })
