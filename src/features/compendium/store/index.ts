@@ -42,7 +42,6 @@ import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
 import { IReserveData } from '@/classes/pilot/components/reserves/Reserve'
 import * as PlayerAction from '@/classes/Action'
 import { Background, IBackgroundData } from '@/classes/Background'
-import Vue from 'vue'
 import { Bond } from '@/classes/pilot/components/bond/Bond'
 
 export const SET_VERSIONS = 'SET_VERSIONS'

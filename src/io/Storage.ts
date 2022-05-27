@@ -85,8 +85,8 @@ const GetAll = async function (collection: string) {
 const convertLocalstorage = async function (): Promise<void> {
   // TODO
   const pv2 = localStorage.getItem('pilots_v2.json')
-  console.log(pv2)
-  if (pv2.length) {
+  // console.log(pv2)
+  if (pv2 && pv2.length) {
     const pilots = JSON.parse(pv2)
     await Promise.all(pilots.map(x => SetItem('pilots', x)))
     localStorage.removeItem('pilots_v2.json')

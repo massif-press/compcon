@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { loadData, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Character, ICharacterData } from '@/classes/campaign/Character'
-import { store } from '@/store'
+import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const ADD_CHARACTER = 'ADD_CHARACTER'
@@ -12,8 +12,16 @@ export const CLONE_CHARACTER = 'CLONE_CHARACTER'
 export const LOAD_CHARACTERS = 'LOAD_CHARACTERS'
 
 async function saveCharacterData(characters: Character[]) {
-  const serialized = characters.map(x => Character.Serialize(x))
-  await saveData('characters.json', serialized)
+  const dirty = characters.filter(x => x.SaveController.IsDirty)
+  Promise.all(dirty.map(x => SetItem('characters', Character.Serialize(x))))
+    .then(() => console.info('Character data saved'))
+    .catch(err => console.error('Error while saving Character data', err))
+}
+
+async function delete_character(character: Character) {
+  RemoveItem('characters', character.ID)
+    .then(() => console.info('NPC permenently deleted'))
+    .catch(err => console.error('Error while deleting NPC data', err))
 }
 
 @Module({
@@ -85,7 +93,7 @@ export class CharacterStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadCharacters() {
-    const characterData = await loadData<ICharacterData>('characters.json')
+    const characterData = await GetAll('characters')
     this.context.commit(LOAD_CHARACTERS, characterData)
   }
 

@@ -2,7 +2,6 @@
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import * as Sync from '@/cloud/user_sync'
 import { AutoSyncAll, AutoSyncRemotes } from '@/cloud/item_sync'
-import { SyncLCPs } from '@/cloud/lcp_sync'
 import * as Client from '../index'
 import _ from 'lodash'
 
@@ -87,7 +86,6 @@ export class UserStore extends VuexModule {
     if (this.UserProfile.SyncFrequency.cloudSync_v2) {
       console.info('auto-sync ON')
       try {
-        await SyncLCPs()
         await AutoSyncAll()
         await AutoSyncRemotes()
       } catch (error) {
