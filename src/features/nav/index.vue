@@ -46,7 +46,7 @@
       <span>Compendium</span>
     </v-tooltip>
 
-    <v-divider vertical dark class="ml-2 mr-2" />
+    <v-divider vertical dark class="mx-2" />
 
     <v-toolbar-title v-if="$vuetify.breakpoint.mdAndUp">
       <span class="heading">COMP/CON</span>
@@ -61,15 +61,23 @@
       <encounter-mode v-if="mode === 'encounter'" />
     </div>
 
-    <v-divider v-if="$vuetify.breakpoint.mdAndUp && isAuthed" vertical dark class="ml-2 mr-2" />
+    <v-divider v-if="$vuetify.breakpoint.mdAndUp && isAuthed" vertical dark class="mx-2" />
 
-    <cc-tooltip v-if="isAuthed" bottom content="Open cloud account menu">
+    <cc-tooltip v-if="$vuetify.breakpoint.mdAndUp && isAuthed" bottom content="Open cloud account menu">
       <v-btn icon dark @click="$refs.cloudModal.show()">
         <v-icon>mdi-cloud-sync-outline</v-icon>
       </v-btn>
     </cc-tooltip>
 
-    <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="ml-2 mr-2" />
+    <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="mx-2" />
+
+    <cc-tooltip bottom content="Help &amp; FAQ">
+      <v-btn icon dark @click="$refs.helpModal.show()">
+        <v-icon>mdi-help-circle-outline</v-icon>
+      </v-btn>
+    </cc-tooltip>
+
+    <v-divider vertical dark class="mx-2" />
 
     <v-menu nudge-bottom="40px">
       <template v-slot:activator="{ on }">

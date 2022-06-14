@@ -19,7 +19,7 @@
         </v-btn>
       </cc-tooltip>
       <cc-tooltip inline delayed content="Active Mode">
-        <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
+        <v-btn icon fab x-small outlined class="mr-4 unskew" dark @click="toActive()">
           <v-icon large color="white">cci-activate</v-icon>
         </v-btn>
       </cc-tooltip>
@@ -29,7 +29,7 @@
       <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toTacticalProfile()">
         <v-icon large>cci-pilot</v-icon>
       </v-btn>
-      <v-btn icon fab x-small outlined class="mr-4 unskew" dark :to="`/active/${pilot.ID}`">
+      <v-btn icon fab x-small class="mr-4 unskew" dark @click="toActive()">
         <v-icon large color="white">cci-activate</v-icon>
       </v-btn>
     </div>
@@ -158,6 +158,9 @@ export default Vue.extend({
   methods: {
     toTacticalProfile() {
       this.$router.push({ name: 'tactical_profile' })
+    },
+    toActive() {
+      this.$router.push(`/active/${this.pilot.ID}`)
     },
   },
 })
