@@ -34,44 +34,46 @@
       </div>
     </div> -->
     <div class="mt-2">
-      <v-row justify="center" align="center">
-        <v-col lg="4" cols="12">
-          <v-text-field
-            v-model="email"
-            label="E-Mail Address"
-            :rules="[rules.required, rules.emailMatch]"
-            solo
-          />
-        </v-col>
-        <v-col lg="4" cols="12">
-          <v-text-field
-            v-model="password"
-            label="Password"
-            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="show ? 'text' : 'password'"
-            solo
-            :rules="[rules.required, rules.min]"
-            @click:append="show = !show"
-          />
-        </v-col>
-      </v-row>
-      <v-row no-gutters justify="center">
-        <v-col cols="auto">
-          <v-btn
-            large
-            color="secondary"
-            :loading="loading"
-            :disabled="!submitOk"
-            @click="createAccount"
-          >
-            submit
-          </v-btn>
-          <br />
-          <v-btn text color="accent" class="mt-1" @click="$emit('set-state', 'sign-in')">
-            Cancel
-          </v-btn>
-        </v-col>
-      </v-row>
+      <v-form @submit="createAccount">
+        <v-row justify="center" align="center">
+          <v-col lg="4" cols="12">
+            <v-text-field
+              v-model="email"
+              label="E-Mail Address"
+              :rules="[rules.required, rules.emailMatch]"
+              solo
+            />
+          </v-col>
+          <v-col lg="4" cols="12">
+            <v-text-field
+              v-model="password"
+              label="Password"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show ? 'text' : 'password'"
+              solo
+              :rules="[rules.required, rules.min]"
+              @click:append="show = !show"
+            />
+          </v-col>
+        </v-row>
+        <v-row no-gutters justify="center">
+          <v-col cols="auto">
+            <v-btn
+              large
+              color="secondary"
+              type="submit"
+              :loading="loading"
+              :disabled="!submitOk"
+            >
+              submit
+            </v-btn>
+            <br />
+            <v-btn text color="accent" class="mt-1" @click="$emit('set-state', 'sign-in')">
+              Cancel
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
     </div>
     <v-scroll-y-transition leave-absolute hide-on-leave>
       <v-alert
@@ -132,19 +134,21 @@ export default Vue.extend({
   },
   methods: {
     async createAccount() {
+      if (this.loading) return // debounce if already loading
       this.loading = true
       try {
-        this.email = this.email.toLowerCase()
+        const userEmail = this.email.toLowerCase() // use safe const for auth
+        this.email = userEmail
         const { user } = await Auth.signUp({
-          username: this.email,
+          username: userEmail,
           password: this.password,
           attributes: {
-            email: this.email,
+            email: userEmail,
           },
         })
         this.loading = false
         this.showError = false
-        this.$emit('success', this.email)
+        this.$emit('success', userEmail)
         // const userstore = getModule(UserStore, this.$store)
         // userstore.clearOauth()
       } catch (error) {
