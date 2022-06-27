@@ -14,17 +14,20 @@ interface ILicensedItemData extends ICompendiumItemData {
   source: string
   license: string
   license_level: number
+  license_id?: string
 }
 
 abstract class LicensedItem extends CompendiumItem {
   public readonly Source: string
   public readonly LicenseLevel: number
   private _license: string
+  private _license_id: string
 
   public constructor(data: ILicensedItemData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName)
     this.Source = data.source ? data.source.toUpperCase() : ''
     this._license = data.license || ''
+    this._license_id = data.license_id || ''
     this.LicenseLevel = parseInt(data.license_level as any) || 0
   }
 
@@ -39,6 +42,10 @@ abstract class LicensedItem extends CompendiumItem {
   public get LicenseString(): string {
     if (this._license) return `${this._license} ${this.LicenseLevel}`
     return this.Source
+  }
+
+  public get LicenseID(): string {
+    return this._license_id
   }
 
   public get RequiredLicense(): ILicenseRequirement {
