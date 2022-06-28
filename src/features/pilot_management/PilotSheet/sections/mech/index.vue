@@ -1,6 +1,6 @@
 <template>
   <div :class="small ? 'mt-n3' : ''">
-    <mech-nav :selected="0" :pilot="pilot" :mech="mech" @delete="$refs.deleteDialog.show()" />
+    <mech-nav :selected="0" :pilot="pilot" :mech="mech" :mechID="mech.ID" @delete="$refs.deleteDialog.show()" />
     <v-row no-gutters>
       <v-col cols="auto">
         <cc-short-string-editor large before @set="mech.Name = $event">

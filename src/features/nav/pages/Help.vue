@@ -1,16 +1,43 @@
 <template>
   <div>
     <v-row class="my-2" justify="center">
-      <v-col cols="8">
+      <v-col cols="4">
         <v-btn
           target="_blank"
-          href="https://forms.gle/pj6o8BzxCe4xGQ5M7"
+          href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
           x-large
           block
           color="secondary"
           class="white--text"
         >
-          request a feature / report a bug
+          Frequently Asked Questions
+        </v-btn>
+      </v-col>
+      <v-col cols="4">
+        <v-btn
+          target="_blank"
+          href="https://github.com/massif-press/compcon/wiki/FAQ%3A-Troubleshooting"
+          x-large
+          block
+          color="secondary"
+          class="white--text"
+        >
+          Troubleshooting FAQ
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-divider horizontal class="mx-2" />
+    <v-row class="my-2" justify="center">
+      <v-col cols="4">
+        <v-btn
+          target="_blank"
+          href="https://forms.gle/pj6o8BzxCe4xGQ5M7"
+          x-large
+          block
+          color="error"
+          class="white--text"
+        >
+          Report a Bug
         </v-btn>
       </v-col>
     </v-row>
@@ -20,7 +47,7 @@
       <br />
       // FEATURE IN DEVELOPMENT //
     </p>
-    <h3 class="heading accent--text">FAQ</h3>
+    <h3 class="heading accent--text">Quick FAQ</h3>
     <div class="body-text text--text">
       <b>Where are the NPCs?</b>
       <p>
@@ -31,7 +58,7 @@
         and selecting the Core Book item from the LCP Directory tab. You can use the Content
         Manager's Install LCP tab to import the package and start building and running encounters.
       </p>
-      <b>I see a Roll20 import function, how do I use it?</b>
+      <b>I see a Roll20 import function; how do I use it?</b>
       <p>The importer on Roll20's side is not available yet.</p>
     </div>
 

@@ -42,7 +42,7 @@
       </v-list>
     </v-menu>
 
-    <v-btn icon fab x-small outlined :disabled="!lastLoaded" class="mx-4 unskew" @click="toMech()">
+    <v-btn icon fab x-small outlined :disabled="!lastLoaded" class="mx-4 unskew" dark @click="toMech()">
       <cc-tooltip inline delayed content="Active Mech Sheet">
         <v-icon large color="white">cci-frame</v-icon>
       </cc-tooltip>
@@ -175,6 +175,9 @@ export default Vue.extend({
   methods: {
     toMech() {
       this.$router.push(`../mech/${this.lastLoaded}`)
+    },
+    toActive() {
+      this.$router.push(`/active/${this.pilot.ID}`)
     },
     delete_pilot() {
       this.pilot.SaveController.delete()

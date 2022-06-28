@@ -155,7 +155,7 @@
         <cc-tick-bar
           :key="mech.CurrentOvercharge"
           :current="mech.CurrentOvercharge"
-          :max="3"
+          :max="mech.OverchargeTrack.length-1"
           large
           no-input
           clearable
@@ -169,7 +169,7 @@
           </span>
         </cc-tick-bar>
         <div class="caption overcharge--text font-weight-bold">
-          {{ overcharge[mech.CurrentOvercharge] }}
+          +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
         </div>
       </v-col>
     </v-row>
@@ -189,13 +189,6 @@ export default Vue.extend({
     structRollover: { type: Boolean },
     stressRollover: { type: Boolean },
     hpResistance: { type: Boolean },
-  },
-  computed: {
-    overcharge(): string[] {
-      return this.mech.Pilot.has('corebonus', 'cb_heatfall_coolant_system')
-        ? [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6']
-        : [' +1 ', ' +1d3 ', ' +1d6 ', '+1d6+4']
-    },
   },
 })
 </script>
