@@ -31,11 +31,9 @@
       <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toTacticalProfile()">
         <v-icon large>cci-pilot</v-icon>
       </v-btn>
-      <router-link :to="`/active/${pilot.ID}`">
-        <v-btn icon fab x-small class="mr-4 unskew" dark>
-          <v-icon large color="white">cci-activate</v-icon>
-        </v-btn>
-      </router-link>
+      <v-btn icon fab x-small class="mr-4 unskew" dark @click="toActive()">
+        <v-icon large color="white">cci-activate</v-icon>
+      </v-btn>
     </div>
 
     <!-- <v-menu v-else open-on-hover>
@@ -136,7 +134,7 @@
       </v-list>
     </v-menu>
     <print-dialog ref="printDialog" class="unskew" :pilot="pilot" />
-    <statblock-dialog ref="statblockDialog" class="unskew" :pilot="pilot" :mechID="mechID"/>
+    <statblock-dialog ref="statblockDialog" class="unskew" :pilot="pilot" :mechID="mechID" />
   </div>
 </template>
 
