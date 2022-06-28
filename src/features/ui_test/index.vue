@@ -169,8 +169,9 @@
         </v-col>
       </v-row>
     </v-container>
-
-    <v-btn text x-large to="/">back</v-btn>
+    <router-link to="/">
+      <v-btn text x-large>back</v-btn>
+    </router-link>
   </v-container>
 </template>
 
