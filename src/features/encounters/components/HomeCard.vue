@@ -1,5 +1,5 @@
 <template>
-  <v-card ripple :to="to" outlined tile class="text-center">
+  <v-card ripple :to="to" outlined tile class="card text-center">
     <div class="primary fade pt-10 pb-10">
       <v-icon dark size="180">
         {{ icon }}
@@ -32,7 +32,8 @@ export default {
   transition: all ease-in-out 0.2s;
 }
 
-.fade:hover {
+.fade:hover,
+.card:focus .fade {
   background-color: var(--v-active-base) !important;
 }
 </style>
