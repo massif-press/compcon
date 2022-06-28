@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { MechWeapon, FittingSize } from '@/class'
+import { MechWeapon, FittingSize, Mount } from '@/class'
 import _ from 'lodash'
 import { store } from '@/store'
 import { WeaponMod } from '@/class'
@@ -7,14 +7,16 @@ import { WeaponMod } from '@/class'
 class WeaponSlot {
   private _size: FittingSize
   private _weapon: MechWeapon | null
+  private _parent: Mount
 
-  public constructor(size: FittingSize) {
+  public constructor(size: FittingSize, parent: Mount) {
     this._size = size
     this._weapon = null
+    this._parent = parent
   }
 
   private save(): void {
-    store.dispatch('set_pilot_dirty')
+    this._parent.save()
   }
 
   public get Size(): FittingSize {
@@ -47,8 +49,8 @@ class WeaponSlot {
     }
   }
 
-  public static Deserialize(slotData: IWeaponSlotData): WeaponSlot {
-    const ws = new WeaponSlot(slotData.size as FittingSize)
+  public static Deserialize(slotData: IWeaponSlotData, parent: Mount): WeaponSlot {
+    const ws = new WeaponSlot(slotData.size as FittingSize, parent)
     if (slotData.weapon) {
       const w = MechWeapon.Deserialize(slotData.weapon)
       if (w) ws.EquipWeapon(w, false)
