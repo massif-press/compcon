@@ -1,5 +1,5 @@
 <template>
-  <cc-solo-dialog ref="dialog" icon="mdi-text-subject" large no-confirm title="Pilot Statblock">
+  <cc-solo-dialog ref="dialog" icon="mdi-text-subject" large no-confirm title="Generate Statblock" @close="clearSelected()">
     <v-card-text>
       <v-select
         v-model="mechSelect"
@@ -7,16 +7,23 @@
         placeholder="N/A"
         item-text="Name"
         item-value="ID"
-        label="Include Mech (optional)"
+        label="Select Mech"
         outlined
-        clearable
         hide-details
       />
-      <div v-if="!!mechSelect">
-        <v-checkbox v-model="buildSummary" label="Compact / Build Summary" />
-      </div>
-      <v-checkbox v-model="discordEmoji" label="Enhance with Pilot NET Discord Emoji" />
+      <v-radio-group v-model="genRadios" row mandatory label="Generate:">
+        <v-radio label="Mech Build" value="mechBuild"></v-radio>
+        <v-radio label="Pilot" value="pilotBuild"></v-radio>
+        <v-radio label="Full" value="full"></v-radio>
+      </v-radio-group>
+      <v-checkbox v-model="discordEmoji" label="Include Pilot NET Discord damage type Emoji (Doesn't work in code block format)" />
       <v-textarea :value="statblock" auto-grow readonly outlined filled class="flavor-text" />
+      <cc-tooltip simple inline content="Copy stat block to clipboard">
+        <v-btn class="mt-n4" color="accent" @click="copy()">
+          <v-icon>mdi-clipboard-text-outline</v-icon>
+          Copy to Clipboard
+        </v-btn>
+      </cc-tooltip>
     </v-card-text>
   </cc-solo-dialog>
 </template>
@@ -30,29 +37,62 @@ import CCSoloDialog from '@/ui/components/CCSoloDialog.vue'
 export default class StatblockDialog extends Vue {
   @Prop({type: Object, required: true})
   readonly pilot: Pilot
+  @Prop({type: String, required: false})
+  readonly mechID: string
 
-  mechSelect = ""
-  buildSummary = false
+  selected_mech = null
   discordEmoji = false
+  genRadios = 'mechBuild'
 
-  get statblock(): string {
-    const mech = this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
-    if (this.buildSummary) {
-      return Statblock.GenerateBuildSummary(this.pilot, mech, this.discordEmoji)
+  mounted() {
+    if (this.mechSelect == null) {this.genRadios='pilotBuild'} 
+  }
+
+  get defaultMechID(): string {
+    if (this.$route.name=="mech-sheet") {
+      return this.mechID
     }
-    else return Statblock.Generate(this.pilot, mech, this.discordEmoji)
+    else return this.pilot.ActiveMech?.ID ?? this.pilot.Mechs[this.pilot.Mechs.length-1]?.ID ?? ''
+  }
+
+  get mechSelect(): string {
+    return this.selected_mech ?? this.defaultMechID
+  }
+
+  set mechSelect(mech_id: string) {
+    this.selected_mech = mech_id
+  }
+
+  get mech(): Mech {
+    return this.mechSelect ? this.pilot.Mechs.find(x => x.ID === this.mechSelect) : null
+  }
+
+  get statblock(): string {    
+    if (this.genRadios != "mechBuild") {
+      return Statblock.Generate(this.pilot, this.mech, this.discordEmoji, this.genRadios)
+    }
+    else return Statblock.GenerateBuildSummary(this.pilot, this.mech, this.discordEmoji)  
   }
 
   $refs!: {
     dialog: CCSoloDialog
   }
 
+  clearSelected() {
+    this.selected_mech = null
+  }
+
   show() {
     this.$refs.dialog.show()
   }
-
   hide() {
-    this.$refs.dialog.hide()
+    this.$refs.dialog.hide() 
+  }
+  copy() {
+    navigator.clipboard
+      .writeText(this.statblock)
+      .then(() => Vue.prototype.$notify('Stat block copied to clipboard.', 'confirmation'))
+      .catch(() => Vue.prototype.$notifyError('Unable to copy stat block'))
   }
 }
 </script>

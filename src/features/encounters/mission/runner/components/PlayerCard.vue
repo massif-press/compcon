@@ -266,7 +266,7 @@
             <cc-tick-bar
               :key="mech.CurrentOvercharge"
               :current="mech.CurrentOvercharge"
-              :max="3"
+              :max="mech.OverchargeTrack.length-1"
               large
               no-input
               clearable
