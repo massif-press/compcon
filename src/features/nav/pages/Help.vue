@@ -9,6 +9,7 @@
           block
           color="secondary"
           class="white--text"
+          tabindex="0"
         >
           Frequently Asked Questions
         </v-btn>
@@ -21,6 +22,7 @@
           block
           color="secondary"
           class="white--text"
+          tabindex="0"
         >
           Troubleshooting FAQ
         </v-btn>
@@ -35,6 +37,7 @@
           block
           color="error"
           class="white--text"
+          tabindex="0"
         >
           Report a Bug / Suggest a Feature
         </v-btn>
@@ -101,6 +104,7 @@
         target="_blank"
         href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
         v-html="`COMP/CON FAQ`"
+        tabindex="0"
       />
       may have an answer to your question! If you still can't find what you're looking for, please
       stop by
@@ -108,6 +112,7 @@
         target="_blank"
         href="https://discord.gg/rwcpzsU"
         v-html="`the unofficial LANCER discord`"
+        tabindex="0"
       />
       (and specifically the #comp-con channel) with your questions or comments for the developers.
     </p>

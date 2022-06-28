@@ -170,7 +170,9 @@
     </p>
 
     <div class="text-right">
-      <v-btn small text to="./ui-test">UI Test</v-btn>
+      <router-link to="./ui-test">
+        <v-btn small text>UI Test</v-btn>
+      </router-link>
     </div>
   </div>
 </template>
