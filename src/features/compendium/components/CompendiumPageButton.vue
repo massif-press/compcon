@@ -1,6 +1,6 @@
 <template>
   <v-col :cols="cols" :lg="lg" :md="md" :sm="sm">
-    <div class="mx-2" @click="$emit('clicked')">
+    <div class="mx-2" @click="$emit('clicked')" @keydown.enter="$emit('clicked')" tabindex="0">
       <v-alert outlined :color="color" prominent dense border="left">
         <v-icon slot="prepend" class="icn" x-large :color="`${color} lighten-1`" left>
           {{ icon }}
@@ -14,8 +14,8 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
-@Component({ name: 'cc-major-btn' })
-export default class CCMajorButton extends Vue {
+@Component({ name: 'cc-compendium-page-btn' })
+export default class CompendiumPageButton extends Vue {
   @Prop({ type: String, required: true })
   readonly name!: string
 

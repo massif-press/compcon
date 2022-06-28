@@ -2,29 +2,47 @@
   <div class="nav-body elevation-10">
     <div id="cap" />
     <div v-if="$vuetify.breakpoint.mdAndUp" class="d-inline">
-      <cc-nav-item :selected="selected === '0'" to="../sheet/0">
-        <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
-          DOSSIER
-        </cc-tooltip>
-      </cc-nav-item>
-      <cc-nav-item :selected="selected === '1'" to="../sheet/1">
-        <cc-tooltip inline delayed content="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
-          NARRATIVE PROFILE
-        </cc-tooltip>
-      </cc-nav-item>
-      <cc-nav-item v-show="hasBondData" :selected="selected === '4'" to="../sheet/4">
-        <cc-tooltip inline delayed content="Pilot Bonds">BONDS</cc-tooltip>
-      </cc-nav-item>
-      <cc-nav-item :selected="selected === '2'" to="../sheet/2">
-        <cc-tooltip inline delayed content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
-          TACTICAL PROFILE
-        </cc-tooltip>
-      </cc-nav-item>
-      <cc-nav-item :selected="selected === '3'" to="../sheet/3">
-        <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
-          MECH HANGAR
-        </cc-tooltip>
-      </cc-nav-item>
+      <router-link to="../sheet/0">
+        <cc-nav-item :selected="selected === '0'">
+          <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
+            DOSSIER
+          </cc-tooltip>
+        </cc-nav-item>
+      </router-link>
+      <router-link to="../sheet/1">
+        <cc-nav-item :selected="selected === '1'">
+          <cc-tooltip
+            inline
+            delayed
+            content="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout"
+          >
+            NARRATIVE PROFILE
+          </cc-tooltip>
+        </cc-nav-item>
+      </router-link>
+      <router-link to="../sheet/4">
+        <cc-nav-item v-show="hasBondData" :selected="selected === '4'">
+          <cc-tooltip inline delayed content="Pilot Bonds">BONDS</cc-tooltip>
+        </cc-nav-item>
+      </router-link>
+      <router-link to="../sheet/2">
+        <cc-nav-item :selected="selected === '2'">
+          <cc-tooltip
+            inline
+            delayed
+            content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents"
+          >
+            TACTICAL PROFILE
+          </cc-tooltip>
+        </cc-nav-item>
+      </router-link>
+      <router-link to="../sheet/3">
+        <cc-nav-item :selected="selected === '3'">
+          <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
+            MECH HANGAR
+          </cc-tooltip>
+        </cc-nav-item>
+      </router-link>
     </div>
     <v-menu v-else open-on-hover>
       <template v-slot:activator="{ on }">
@@ -42,16 +60,27 @@
       </v-list>
     </v-menu>
 
-    <v-btn icon fab x-small outlined :disabled="!lastLoaded" class="mx-4 unskew" dark @click="toMech()">
+    <v-btn
+      icon
+      fab
+      x-small
+      outlined
+      :disabled="!lastLoaded"
+      class="mx-4 unskew"
+      dark
+      @click="toMech()"
+    >
       <cc-tooltip inline delayed content="Active Mech Sheet">
         <v-icon large color="white">cci-frame</v-icon>
       </cc-tooltip>
     </v-btn>
-    <v-btn icon fab x-small class="mr-4 unskew" dark @click="toActive()">
-      <cc-tooltip inline delayed content="Active Mode">
-        <v-icon large color="white">cci-activate</v-icon>
-      </cc-tooltip>
-    </v-btn>
+    <router-link :to="`/active/${pilot.ID}`">
+      <v-btn icon fab x-small outlined class="mr-4 unskew" dark>
+        <cc-tooltip inline delayed content="Active Mode">
+          <v-icon large color="white">cci-activate</v-icon>
+        </cc-tooltip>
+      </v-btn>
+    </router-link>
     <div id="divider" />
     <cc-tooltip
       v-if="pilot.CloudController.IsRemoteResource"
