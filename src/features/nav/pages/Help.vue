@@ -26,28 +26,60 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-divider horizontal class="mx-2" />
-    <v-row class="my-2" justify="center">
-      <v-col cols="4">
+    <v-row justify="space-around">
+      <v-col>
         <v-btn
           target="_blank"
-          href="https://forms.gle/pj6o8BzxCe4xGQ5M7"
+          href="https://github.com/massif-press/compcon/issues/new/choose"
           x-large
           block
           color="error"
           class="white--text"
         >
-          Report a Bug
+          Report a Bug / Suggest a Feature
+        </v-btn>
+      </v-col>
+      <v-col>
+        <v-btn
+          target="_blank"
+          href="https://github.com/massif-press/compcon/discussions"
+          x-large
+          block
+          color="error"
+          class="white--text"
+        >
+          Discussion Forum
+        </v-btn>
+      </v-col>
+      <v-col>
+        <v-btn
+          target="_blank"
+          href="https://github.com/massif-press/compcon/wiki"
+          x-large
+          block
+          color="error"
+          class="white--text"
+        >
+          Project Wiki
         </v-btn>
       </v-col>
     </v-row>
-    <h3 class="heading accent--text">Tutorial Mode</h3>
+    <v-row>
+      <v-col cols="auto" class="text-center">
+        Adding an issue directly to the GitHub repository is strongly encouraged to allow us to ask
+        questions and for you to be able to track issue progress. However, if this isn't possible,
+        the old bug reporting form (which does not require a GitHub account) can be found
+        <a target="_blank" href="https://forms.gle/pj6o8BzxCe4xGQ5M7">here</a>
+        .
+      </v-col>
+    </v-row>
+    <!-- <h3 class="heading accent--text">Tutorial Mode</h3>
     <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
-    </p>
-    <h3 class="heading accent--text">Quick FAQ</h3>
+    </p> -->
+    <h3 class="heading accent--text mt-4">Quick FAQ</h3>
     <div class="body-text text--text">
       <b>Where are the NPCs?</b>
       <p>
@@ -80,12 +112,12 @@
       (and specifically the #comp-con channel) with your questions or comments for the developers.
     </p>
 
-    <h3 class="heading accent--text">Video Guide</h3>
+    <!-- <h3 class="heading accent--text">Video Guide</h3>
     <p class="panel py-3 text-center subtle--text">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
-    </p>
+    </p> -->
   </div>
 </template>
 

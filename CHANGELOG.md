@@ -1,4 +1,17 @@
 # COMP/CON Changelog
+## [2.3.9] (2022-6-27)
+
+### Bug Fixes
+- **Help Menu** Update help menu options [#2001](https://github.com/massif-press/compcon/issues/2001)
+- **Active Mode** Improve Overcharge Pip determination (thanks msprijatelj!)
+- **Cloud** Improve sign-up/in reliability (thanks msprijatelj!)
+
+### Features
+- **Pilot Sheet** Revised Statblock Generator (thanks karidyas!) [#1887](https://github.com/massif-press/compcon/issues/1887)
+- **LCP Importer** Humanize Reserves/Factions (thanks msprijatelj!) [#1557](https://github.com/massif-press/compcon/issues/1557)
+- **Nav** Add Help Icon, FAQ links, style fixes (thanks msprijatelj!) [#2033](https://github.com/massif-press/compcon/issues/2033)
+
+
 ## [2.3.8] (2022-5-9)
 
 ### Bug Fixes
