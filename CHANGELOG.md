@@ -5,6 +5,7 @@
 - **Help Menu** Update help menu options [#2001](https://github.com/massif-press/compcon/issues/2001)
 - **Active Mode** Improve Overcharge Pip determination (thanks msprijatelj!)
 - **Cloud** Improve sign-up/in reliability (thanks msprijatelj!)
+- **Pilot Sheet** Fixed failing import for Pilots with Bond data being imported into environments without the KTB LCP installed [#2007](https://github.com/massif-press/compcon/issues/2007)
 
 ### Features
 - **Pilot Sheet** Revised Statblock Generator (thanks karidyas!) [#1887](https://github.com/massif-press/compcon/issues/1887)
