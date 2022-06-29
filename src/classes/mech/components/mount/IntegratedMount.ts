@@ -1,8 +1,8 @@
-import { Mount, MechWeapon, MountType } from '@/class'
+import { Mount, MechWeapon, MountType, MechLoadout } from '@/class'
 
 class IntegratedMount extends Mount {
-  public constructor(intWeapon: MechWeapon) {
-    super(MountType.Integrated)
+  public constructor(intWeapon: MechWeapon, parent: MechLoadout) {
+    super(MountType.Integrated, parent)
     this.slots[0].EquipWeapon(intWeapon, false)
   }
 
@@ -16,8 +16,8 @@ class IntegratedMount extends Mount {
     }
   }
 
-  public static Deserialize(mountData: any): IntegratedMount {
-    const im = new IntegratedMount(MechWeapon.Deserialize(mountData.weapon))
+  public static Deserialize(mountData: any, parent: MechLoadout): IntegratedMount {
+    const im = new IntegratedMount(MechWeapon.Deserialize(mountData.weapon), parent)
     im.getID()
     return im
   }

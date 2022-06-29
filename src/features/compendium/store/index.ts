@@ -166,8 +166,15 @@ export class CompendiumStore extends VuexModule {
   }
 
   get Licenses(): License[] {
+    function variantLicenseMatch(variantFrame: Frame, licenseFrame: Frame): boolean {
+      if (!!variantFrame.Variant && !!variantFrame.LicenseID) {
+        return variantFrame.LicenseID === licenseFrame.ID
+      } else {
+        return (variantFrame.Variant.toUpperCase() === licenseFrame.Name.toUpperCase()) && (variantFrame.Source.toUpperCase() === licenseFrame.Source.toUpperCase())
+      }
+    }
     return this.Frames.filter(x => x.Source !== 'GMS' && !x.IsHidden).map(frame => {
-      const variants = this.Frames.filter(f => (f.Variant.toUpperCase() === frame.Name.toUpperCase()) && (f.Source.toUpperCase() === frame.Source.toUpperCase()))
+      const variants = this.Frames.filter(f => variantLicenseMatch(f, frame))
       return new License(frame, variants)
     })
   }
