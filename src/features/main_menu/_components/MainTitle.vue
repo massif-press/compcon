@@ -24,6 +24,7 @@
           style="z-index: 999 !important"
           class="mt-2 mr-2"
           @mouseenter="$emit('logupdate')"
+          tabindex="0"
         >
           View Changelog
         </v-btn>

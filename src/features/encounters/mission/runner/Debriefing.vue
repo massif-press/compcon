@@ -30,10 +30,12 @@
       <br />
       // FEATURE IN DEVELOPMENT //
     </p>
-    <v-btn text color="primary" to="/gm/mission/selector">
-      <v-icon left>mdi-chevron-triple-left</v-icon>
-      Return to Mission Menu
-    </v-btn>
+    <router-link to="/gm/mission/selector">
+      <v-btn text color="primary">
+        <v-icon left>mdi-chevron-triple-left</v-icon>
+        Return to Mission Menu
+      </v-btn>
+    </router-link>
   </v-container>
 </template>
 

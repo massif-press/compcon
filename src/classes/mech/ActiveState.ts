@@ -1115,7 +1115,10 @@ class ActiveState {
   }
 
   public ItemActions(type: string): Action[] {
-    return this.ActiveMech.FeatureController.Actions.filter(x => x.Activation === type)
+    return [
+      ...this.ActiveMech.FeatureController.Actions,
+      ...this._pilot.FeatureController.Actions,
+    ].filter(x => x.Activation === type)
   }
 
   public ActionsByType(type: string): Action[] {
@@ -1182,6 +1185,9 @@ class ActiveState {
       if (this.ActiveMech.Destroyed) {
         return ['act_dismount']
       }
+
+      console.log(this.AllActions.map(x => x.Name))
+
       const out = this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
       if (!this.ActiveMech.IsShutDown) out.splice(out.indexOf('act_boot_up'), 1)
       return out

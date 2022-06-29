@@ -5,6 +5,7 @@
     :item="item"
     :notes="notes"
     :smallTags="smallTags"
+    tabindex="0"
   />
 </template>
 
