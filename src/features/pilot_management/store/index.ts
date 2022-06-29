@@ -246,13 +246,12 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public set_pilot_dirty(): void {
     this.context.commit(SET_DIRTY)
-    this.context.commit(SAVE_DATA)
   }
 
   @Action
   public set_mech_dirty(): void {
+    console.log('in smd')
     this.context.commit(SET_DIRTY)
-    this.context.commit(SAVE_DATA)
   }
 
   @Action
