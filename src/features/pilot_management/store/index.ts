@@ -6,24 +6,13 @@ import { Pilot } from '@/class'
 import { PilotData } from '@/interface'
 import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import Vue from 'vue'
-
-async function savePilots(pilots: Pilot[]) {
-  const serialized = pilots
-    .filter(x => x.SaveController.IsDirty || x.Mechs.some(m => m.SaveController.IsDirty))
-    .map(x => Pilot.Serialize(x))
-  await saveDelta('pilots_v2.json', serialized)
-}
+import { deletePermanent, storeSaveDelta } from '@/util/storeUtils'
 
 async function savePilotGroups(pilotGroups: PilotGroup[]) {
   await saveData(
-    'pilot_groups_v2.json',
+    'pilot_groups',
     pilotGroups.filter(x => x.name && x.name !== '')
   )
-}
-
-async function delete_pilot(pilot: Pilot) {
-  console.log('deleting pilot permanently: ', pilot.Name ? pilot.Name : 'Unknown')
-  await deleteDataById('pilots_v2.json', [pilot.ID])
 }
 
 export interface PilotGroup {
@@ -72,7 +61,7 @@ export class PilotManagementStore extends VuexModule {
   @Mutation
   private [SAVE_DATA](): void {
     if (this.Dirty) {
-      savePilots(this.Pilots.concat(this.DeletedPilots))
+      storeSaveDelta(this.Pilots.concat(this.DeletedPilots))
       savePilotGroups(this.PilotGroups)
       this.Dirty = false
     }
@@ -98,8 +87,8 @@ export class PilotManagementStore extends VuexModule {
     if (del.length) {
       console.info(`Cleaning up ${del.length} pilots marked for deletion`)
 
-      Promise.all(del.map(p => delete_pilot(p)))
-        .then(() => savePilots(this.Pilots.concat(this.DeletedPilots)))
+      Promise.all(del.map(p => deletePermanent(p)))
+        .then(() => storeSaveDelta(this.Pilots.concat(this.DeletedPilots)))
         .then(() => console.info('Done'))
         .catch(err => console.error('Error in permanently deleting pilots:', err))
     }
@@ -150,7 +139,7 @@ export class PilotManagementStore extends VuexModule {
     const dpIdx = this.DeletedPilots.findIndex(x => x.ID === payload.ID)
     if (dpIdx > -1) {
       this.DeletedPilots.splice(dpIdx, 1)
-      delete_pilot(payload)
+      deletePermanent(payload)
     }
     this.Dirty = true
   }
@@ -160,7 +149,7 @@ export class PilotManagementStore extends VuexModule {
     const idx = this.MissingPilots.findIndex(x => x.id === payload.id)
     if (idx > -1) {
       this.MissingPilots.splice(idx, 1)
-      delete_pilot(payload)
+      deletePermanent(payload)
     }
   }
 
@@ -260,8 +249,8 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
-    const pilotData = await loadData<PilotData>('pilots_v2.json')
-    const pilotGroupData = await loadData<PilotGroup>('pilot_groups_v2.json')
+    const pilotData = await loadData<PilotData>('pilots')
+    const pilotGroupData = await loadData<PilotGroup>('pilot_groups')
     this.context.commit(LOAD_PILOTS, {
       pilotData: ItemsWithLcp(pilotData),
       groupData: pilotGroupData,

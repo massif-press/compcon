@@ -48,6 +48,14 @@ class Location extends CollectionItem {
       console.error(err)
     }
   }
+
+  public Clone(): Location {
+    const itemData = Location.Serialize(this)
+    const newItem = Location.Deserialize(itemData)
+    newItem.RenewID()
+    newItem.Name += ' (COPY)'
+    return newItem
+  }
 }
 
 export { Location, ILocationData }

@@ -11,6 +11,7 @@ import CampaignOverviewPage from './campaigns/pages/overview.vue'
 import CampaignSectionPage from './campaigns/pages/section.vue'
 
 import NPCs from './npcs/index.vue'
+import Eidolons from './eidolons/index.vue'
 import NpcPrint from './npcs/printable.vue'
 import Encounters from './encounters/index.vue'
 import Characters from './characters/index.vue'
@@ -62,7 +63,11 @@ const routes: RouteConfig[] = [
         name: 'gm-npcs',
         component: NPCs,
       },
-
+      {
+        path: 'eidolons',
+        name: 'gm-eidolons',
+        component: Eidolons,
+      },
       {
         path: 'encounters',
         name: 'gm-encounters',

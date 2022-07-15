@@ -5,6 +5,7 @@ import { INpcData } from '@/interface'
 import { loadData, saveDelta, deleteDataById, saveData } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator'
+import { deletePermanent, storeSaveDelta } from '@/util/storeUtils'
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_DIRTY = 'SET_DIRTY'
@@ -17,16 +18,6 @@ export const DELETE_NPC_PERMANENT = 'DELETE_NPC_PERMANENT'
 export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
 export const DELETE_MISSING_NPC = 'DELETE_MISSING_NPC'
 
-async function saveNpcData(npcs: Npc[]) {
-  const serialized = npcs.filter(x => x.SaveController.IsDirty).map(x => Npc.Serialize(x))
-  await saveDelta('npcs_v2.json', serialized)
-}
-
-async function delete_npc(npc: Npc) {
-  console.log('deleting npc permanently: ', npc.Name)
-  await deleteDataById('npcs_v2.json', [npc.ID])
-}
-
 @Module({
   name: 'npc',
 })
@@ -34,7 +25,7 @@ export class NpcStore extends VuexModule {
   Npcs: Npc[] = []
   DeletedNpcs: Npc[] = []
   MissingNpcs: INpcData[] = []
-  Dirty = false
+  public Dirty = false
 
   public get AllNpcs(): Npc[] {
     return this.Npcs.concat(this.DeletedNpcs)
@@ -64,21 +55,21 @@ export class NpcStore extends VuexModule {
           this.DeletedNpcs.splice(dpIdx, 1)
         }
       })
-      saveNpcData(this.Npcs.concat(this.DeletedNpcs))
+      storeSaveDelta(this.Npcs.concat(this.DeletedNpcs))
+    }
+  }
+
+  @Mutation
+  private [SAVE_DATA](): void {
+    if (this.Dirty) {
+      storeSaveDelta(this.Npcs)
+      this.Dirty = false
     }
   }
 
   @Mutation
   private [SET_DIRTY](): void {
     if (this.Npcs.length) this.Dirty = true
-  }
-
-  @Mutation
-  private [SAVE_DATA](): void {
-    if (this.Dirty) {
-      saveNpcData(this.Npcs.concat(this.DeletedNpcs))
-      this.Dirty = false
-    }
   }
 
   @Mutation
@@ -90,11 +81,7 @@ export class NpcStore extends VuexModule {
 
   @Mutation
   private [CLONE_NPC](payload: Npc): void {
-    const npcData = Npc.Serialize(payload)
-    const newNpc = Npc.Deserialize(npcData)
-    newNpc.RenewID()
-    newNpc.Name += ' (COPY)'
-    this.Npcs.push(newNpc)
+    this.Npcs.push(payload.Clone())
     this.Dirty = true
   }
 
@@ -117,13 +104,13 @@ export class NpcStore extends VuexModule {
       const idx = this.MissingNpcs.findIndex(x => x.id === payload.id)
       if (idx > -1) {
         this.MissingNpcs.splice(idx, 1)
-        delete_npc(payload)
+        deletePermanent(payload)
       }
     } else {
       const idx = (this.MissingNpcs as any).npcs.findIndex(x => x.id === payload.id)
       if (idx > -1) {
         ;(this.MissingNpcs as any).npcs.splice(idx, 1)
-        delete_npc(payload)
+        deletePermanent(payload)
       }
     }
   }
@@ -133,7 +120,7 @@ export class NpcStore extends VuexModule {
     const dpIdx = this.DeletedNpcs.findIndex(x => x.ID === payload.ID)
     if (dpIdx > -1) {
       this.DeletedNpcs.splice(dpIdx, 1)
-      delete_npc(payload)
+      deletePermanent(payload)
     }
     this.Dirty = true
   }
@@ -208,7 +195,7 @@ export class NpcStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadNpcs() {
-    const npcData = await loadData<INpcData>('npcs_v2.json')
+    const npcData = await loadData<INpcData>('npcs')
     this.context.commit(LOAD_NPCS, ItemsWithLcp(npcData))
     this.context.commit(SET_MISSING_CONTENT, ItemsMissingLcp(npcData))
   }

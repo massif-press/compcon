@@ -1,52 +1,81 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import _ from 'lodash'
-import { loadData, saveData } from '@/io/Data'
+import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Faction, IFactionData } from '@/classes/campaign/Faction'
-import { store } from '@/store'
+import { storeSaveDelta } from '@/util/storeUtils'
 
 export const SAVE_DATA = 'SAVE_DATA'
+export const SET_DIRTY = 'SET_DIRTY'
 export const ADD_FACTION = 'ADD_FACTION'
 export const DELETE_FACTION = 'DELETE_FACTION'
 export const CLONE_FACTION = 'CLONE_FACTION'
 export const LOAD_FACTIONS = 'LOAD_FACTIONS'
-
-async function saveFactionData(factions: Faction[]) {
-  const serialized = factions.map(x => Faction.Serialize(x))
-  await saveData('factions.json', serialized)
-}
 
 @Module({
   name: 'faction',
 })
 export class FactionStore extends VuexModule {
   Factions: Faction[] = []
+  DeletedFactions: Faction[] = []
+  public Dirty = false
+
+  public get AllFactions(): Faction[] {
+    return this.Factions.concat(this.DeletedFactions)
+  }
 
   @Mutation
   private [LOAD_FACTIONS](payload: IFactionData[]): void {
-    this.Factions = [...payload.map(x => Faction.Deserialize(x))]
-    saveFactionData(this.Factions)
+    const newFactions: Faction[] = [...payload.map(x => Faction.Deserialize(x))]
+    this.Factions.splice(0, this.Factions.length)
+    const all = []
+    newFactions.forEach((Faction: Faction) => {
+      all.push(Faction)
+    })
+    this.Factions = all.filter(x => !x.SaveController.IsDeleted)
+    this.DeletedFactions = all.filter(x => x.SaveController.IsDeleted)
+
+    //clean up deleted
+    const del = []
+    this.DeletedFactions.forEach(dp => {
+      if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp)
+    })
+    if (del.length) {
+      console.info(`Cleaning up ${del.length} Factions marked for deletion`)
+      del.forEach(p => {
+        const dpIdx = this.DeletedFactions.findIndex(x => x.ID === p.ID)
+        if (dpIdx > -1) {
+          this.DeletedFactions.splice(dpIdx, 1)
+        }
+      })
+      storeSaveDelta(this.Factions.concat(this.DeletedFactions))
+    }
   }
 
   @Mutation
   private [SAVE_DATA](): void {
-    if (this.Factions.length) _.debounce(saveFactionData, 1000)(this.Factions)
+    if (this.Dirty) {
+      storeSaveDelta(this.Factions)
+      this.Dirty = false
+    }
+  }
+
+  @Mutation
+  private [SET_DIRTY](): void {
+    if (this.Factions.length) this.Dirty = true
   }
 
   @Mutation
   private [ADD_FACTION](payload: Faction): void {
+    payload.SaveController.IsDirty = true
     this.Factions.push(payload)
-    saveFactionData(this.Factions)
+    this.Dirty = true
   }
 
   @Mutation
   private [CLONE_FACTION](payload: Faction): void {
-    const factionData = Faction.Serialize(payload)
-    const newFaction = Faction.Deserialize(factionData)
-    newFaction.RenewID()
-    newFaction.Name += ' (COPY)'
-    this.Factions.push(newFaction)
-    saveFactionData(this.Factions)
+    this.Factions.push(payload.Clone())
+    this.Dirty = true
   }
 
   @Mutation
@@ -57,7 +86,7 @@ export class FactionStore extends VuexModule {
     } else {
       throw console.error('FACTION not loaded!')
     }
-    saveFactionData(this.Factions)
+    this.Dirty = true
   }
 
   @Action
@@ -82,7 +111,7 @@ export class FactionStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadFactions() {
-    const factionData = await loadData<IFactionData>('factions.json')
+    const factionData = await loadData<IFactionData>('factions')
     this.context.commit(LOAD_FACTIONS, factionData)
   }
 

@@ -9,13 +9,13 @@ import localForage from 'localforage'
 
 const files = [
   'user.config',
-  'active_missions_v2.json',
-  'missions_v2.json',
-  'encounters_v2.json',
-  'pilots_v2.json',
-  'npcs_v2.json',
-  'extra_content.json',
-  'pilot_groups_v2.json',
+  'active_missions',
+  'missions',
+  'encounters',
+  'pilots',
+  'npcs',
+  'extra_content',
+  'pilot_groups',
 ]
 
 const exportV1Pilots = async function (): Promise<string> {

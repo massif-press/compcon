@@ -11,6 +11,7 @@ import { CharacterStore } from './features/gm/store/character_store'
 import { LocationStore } from './features/gm/store/location_store'
 import { FactionStore } from './features/gm/store/faction_store'
 import { CampaignStore } from './features/gm/store'
+import { EidolonStore } from './features/gm/store/eidolon_store'
 
 // import gmToolkitModules from './features/encounters/store'
 
@@ -29,6 +30,7 @@ const store = new Vuex.Store({
     character: CharacterStore,
     location: LocationStore,
     faction: FactionStore,
+    eidolon: EidolonStore,
   },
 })
 
@@ -45,4 +47,5 @@ export {
   CharacterStore,
   FactionStore,
   LocationStore,
+  EidolonStore,
 }

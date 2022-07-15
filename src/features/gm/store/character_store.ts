@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import _ from 'lodash'
-import { loadData, saveData } from '@/io/Data'
+import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { Character, ICharacterData } from '@/classes/campaign/Character'
-import { store } from '@/store'
+import { Character, ICharacterData } from '@/classes//campaign/Character'
+import { storeSaveDelta } from '@/util/storeUtils'
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const ADD_CHARACTER = 'ADD_CHARACTER'
@@ -11,44 +11,65 @@ export const DELETE_CHARACTER = 'DELETE_CHARACTER'
 export const CLONE_CHARACTER = 'CLONE_CHARACTER'
 export const LOAD_CHARACTERS = 'LOAD_CHARACTERS'
 
-async function saveCharacterData(characters: Character[]) {
-  const serialized = characters.map(x => Character.Serialize(x))
-  await saveData('characters.json', serialized)
-}
-
 @Module({
   name: 'character',
 })
 export class CharacterStore extends VuexModule {
   Characters: Character[] = []
+  DeletedCharacters: Character[] = []
+  public Dirty = false
+
+  public get AllCharacters(): Character[] {
+    return this.Characters.concat(this.DeletedCharacters)
+  }
 
   @Mutation
   private [LOAD_CHARACTERS](payload: ICharacterData[]): void {
-    this.Characters = [...payload.map(x => Character.Deserialize(x))]
-    saveCharacterData(this.Characters)
+    const newCharacters: Character[] = [...payload.map(x => Character.Deserialize(x))]
+    this.Characters.splice(0, this.Characters.length)
+    const all = []
+    newCharacters.forEach((Character: Character) => {
+      all.push(Character)
+    })
+    this.Characters = all.filter(x => !x.SaveController.IsDeleted)
+    this.DeletedCharacters = all.filter(x => x.SaveController.IsDeleted)
+
+    //clean up deleted
+    const del = []
+    this.DeletedCharacters.forEach(dp => {
+      if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp)
+    })
+    if (del.length) {
+      console.info(`Cleaning up ${del.length} Characters marked for deletion`)
+      del.forEach(p => {
+        const dpIdx = this.DeletedCharacters.findIndex(x => x.ID === p.ID)
+        if (dpIdx > -1) {
+          this.DeletedCharacters.splice(dpIdx, 1)
+        }
+      })
+      storeSaveDelta(this.Characters.concat(this.DeletedCharacters))
+    }
   }
 
   @Mutation
   private [SAVE_DATA](): void {
-    console.log('saving character data')
-    if (this.Characters.length) _.debounce(saveCharacterData, 1000)(this.Characters)
+    if (this.Dirty) {
+      storeSaveDelta(this.Characters)
+      this.Dirty = false
+    }
   }
 
   @Mutation
   private [ADD_CHARACTER](payload: Character): void {
-    console.log('adding character to store')
+    payload.SaveController.IsDirty = true
     this.Characters.push(payload)
-    saveCharacterData(this.Characters)
+    this.Dirty = true
   }
 
   @Mutation
   private [CLONE_CHARACTER](payload: Character): void {
-    const characterData = Character.Serialize(payload)
-    const newCharacter = Character.Deserialize(characterData)
-    newCharacter.RenewID()
-    newCharacter.Name += ' (COPY)'
-    this.Characters.push(newCharacter)
-    saveCharacterData(this.Characters)
+    this.Characters.push(payload.Clone())
+    this.Dirty = true
   }
 
   @Mutation
@@ -59,7 +80,7 @@ export class CharacterStore extends VuexModule {
     } else {
       throw console.error('CHARACTER not loaded!')
     }
-    saveCharacterData(this.Characters)
+    this.Dirty = true
   }
 
   @Action({ rawError: true })
@@ -74,7 +95,6 @@ export class CharacterStore extends VuexModule {
 
   @Action
   public addCharacter(payload: Character): void {
-    console.log('add new store')
     this.context.commit(ADD_CHARACTER, payload)
   }
 
@@ -85,7 +105,7 @@ export class CharacterStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadCharacters() {
-    const characterData = await loadData<ICharacterData>('characters.json')
+    const characterData = await loadData<ICharacterData>('characters')
     this.context.commit(LOAD_CHARACTERS, characterData)
   }
 
