@@ -2,7 +2,14 @@
   <v-fade-transition leave-absolute>
     <div v-if="!editing" key="str" :class="{ 'd-inline': inline }">
       <slot />
-      <v-icon :dark="before" small :class="`fadeSelect ${before ? 'mt-n12' : ''}`" @click="edit()">
+      <v-icon
+        :dark="before || dark"
+        small
+        :right="right"
+        :lefft="left"
+        :class="`fadeSelect ${before ? 'mt-n12' : ''}`"
+        @click="edit()"
+      >
         mdi-circle-edit-outline
       </v-icon>
     </div>
@@ -33,6 +40,9 @@ export default Vue.extend({
     inline: { type: Boolean },
     large: { type: Boolean },
     before: { type: Boolean },
+    dark: { type: Boolean },
+    right: { type: Boolean },
+    left: { type: Boolean },
   },
   data: () => ({
     newStr: '',

@@ -732,6 +732,14 @@ class Pilot
     // Updating active state will need to be revisited
     this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
   }
+
+  public Clone(): Pilot {
+    const itemData = Pilot.Serialize(this)
+    const newItem = Pilot.Deserialize(itemData)
+    newItem.RenewID()
+    newItem.Name += ' (COPY)'
+    return newItem
+  }
 }
 
 export { Pilot, PilotData, IUnlockData }

@@ -422,6 +422,14 @@ class Npc
     }
     return npc
   }
+
+  public Clone(): Npc {
+    const itemData = Npc.Serialize(this)
+    const newItem = Npc.Deserialize(itemData)
+    newItem.RenewID()
+    newItem.Name += ' (COPY)'
+    return newItem
+  }
 }
 
 export { INpcData, Npc }

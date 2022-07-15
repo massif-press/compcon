@@ -62,6 +62,14 @@ class Character extends CollectionItem {
       console.error(err)
     }
   }
+
+  public Clone(): Character {
+    const itemData = Character.Serialize(this)
+    const newItem = Character.Deserialize(itemData)
+    newItem.RenewID()
+    newItem.Name += ' (COPY)'
+    return newItem
+  }
 }
 
 export { Character, ICharacterData }

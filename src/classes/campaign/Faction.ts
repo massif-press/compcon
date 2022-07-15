@@ -59,6 +59,14 @@ class Faction extends CollectionItem {
       console.error(err)
     }
   }
+
+  public Clone(): Faction {
+    const itemData = Faction.Serialize(this)
+    const newItem = Faction.Deserialize(itemData)
+    newItem.RenewID()
+    newItem.Name += ' (COPY)'
+    return newItem
+  }
 }
 
 export { Faction, IFactionData }

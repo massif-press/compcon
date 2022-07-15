@@ -21,24 +21,24 @@ export const DELETE_MISSION_PERMANENT = 'DELETE_MISSION_PERMANENT'
 
 async function saveMissionData(missions: Mission[]) {
   const serialized = missions.filter(x => x.SaveController.IsDirty).map(x => Mission.Serialize(x))
-  await saveDelta('missions_v2.json', serialized)
+  await saveDelta('missions', serialized)
 }
 
 async function saveActiveMissionData(activeMissions: ActiveMission[]) {
   const serialized = activeMissions
     .filter(x => x.SaveController.IsDirty)
     .map(x => ActiveMission.Serialize(x))
-  await saveDelta('active_missions_v2.json', serialized)
+  await saveDelta('active_missions', serialized)
 }
 
 async function delete_mission(mission: Mission) {
   console.log('deleting mission permanently: ', mission.Name)
-  await deleteDataById('missions_v2.json', [mission.ID])
+  await deleteDataById('missions', [mission.ID])
 }
 
 async function deleteActiveMission(activemission: ActiveMission) {
   console.log('deleting activemission permanently: ', activemission.Name)
-  await deleteDataById('active_missions_v2.json', [activemission.ID])
+  await deleteDataById('active_missions', [activemission.ID])
 }
 
 @Module({
@@ -280,13 +280,13 @@ export class MissionStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadMissions() {
-    const missionData = await loadData<IMissionData>('missions_v2.json')
+    const missionData = await loadData<IMissionData>('missions')
     this.context.commit(LOAD_MISSIONS, missionData)
   }
 
   @Action({ rawError: true })
   public async loadActiveMissions() {
-    const missionData = await loadData<IActiveMissionData>('active_missions_v2.json')
+    const missionData = await loadData<IActiveMissionData>('active_missions')
     this.context.commit(LOAD_ACTIVE_MISSIONS, missionData)
   }
 

@@ -90,6 +90,9 @@ export class CompendiumStore extends VuexModule {
   public get NpcFeatures(): NpcFeature[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.NpcFeatures)
   }
+  public get EidolonFeatures(): NpcFeature[] {
+    return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.EidolonFeatures)
+  }
   public get Bonds(): Bond[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Bonds)
   }
@@ -170,7 +173,10 @@ export class CompendiumStore extends VuexModule {
       if (!!variantFrame.Variant && !!variantFrame.LicenseID) {
         return variantFrame.LicenseID === licenseFrame.ID
       } else {
-        return (variantFrame.Variant.toUpperCase() === licenseFrame.Name.toUpperCase()) && (variantFrame.Source.toUpperCase() === licenseFrame.Source.toUpperCase())
+        return (
+          variantFrame.Variant.toUpperCase() === licenseFrame.Name.toUpperCase() &&
+          variantFrame.Source.toUpperCase() === licenseFrame.Source.toUpperCase()
+        )
       }
     }
     return this.Frames.filter(x => x.Source !== 'GMS' && !x.IsHidden).map(frame => {
@@ -223,7 +229,7 @@ export class CompendiumStore extends VuexModule {
   public async setPackActive(payload: { packID: string; active: boolean }): Promise<void> {
     this.context.commit(SET_PACK_ACTIVE, payload)
     await saveUserData(
-      'extra_content.json',
+      'extra_content',
       this.ContentPacks.map(pack => pack.Serialize())
     )
   }
@@ -236,7 +242,7 @@ export class CompendiumStore extends VuexModule {
     }
     this.context.commit(LOAD_PACK, pack)
     await saveUserData(
-      'extra_content.json',
+      'extra_content',
       this.ContentPacks.map(pack => pack.Serialize())
     )
   }
@@ -245,14 +251,14 @@ export class CompendiumStore extends VuexModule {
   public async deleteContentPack(packID: string): Promise<void> {
     this.context.commit(DELETE_PACK, packID)
     await saveUserData(
-      'extra_content.json',
+      'extra_content',
       this.ContentPacks.map(pack => pack.Serialize())
     )
   }
 
   @Action
   public async loadExtraContent(): Promise<void> {
-    const content = await loadUserData('extra_content.json')
+    const content = await loadUserData('extra_content')
     try {
       content.forEach(c => this.context.commit(LOAD_PACK, c))
     } catch (err) {
@@ -263,7 +269,7 @@ export class CompendiumStore extends VuexModule {
   @Action
   public async refreshExtraContent(): Promise<void> {
     await this.context.commit(CLEAR_PACKS)
-    const content = await loadUserData('extra_content.json')
+    const content = await loadUserData('extra_content')
     try {
       content.forEach(c => this.context.commit(LOAD_PACK, c))
     } catch (err) {

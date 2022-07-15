@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import _ from 'lodash'
-import { loadData, saveDelta } from '@/io/Data'
+import { deleteDataById, loadData, saveDelta } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Campaign, CampaignStatus, ICampaignData } from '@/classes/campaign/Campaign'
+import { storeSaveDelta } from '@/util/storeUtils'
 
 export const SAVE_DATA = 'SAVE_DATA'
+export const SET_DIRTY = 'SET_DIRTY'
 export const ADD_CAMPAIGN = 'ADD_CAMPAIGN'
 export const DELETE_CAMPAIGN = 'DELETE_CAMPAIGN'
 export const CLONE_CAMPAIGN = 'CLONE_CAMPAIGN'
@@ -12,22 +14,17 @@ export const LOAD_CAMPAIGNS = 'LOAD_CAMPAIGNS'
 
 export const SET_EDIT_CAMPAIGN = 'SET_EDIT_CAMPAIGN'
 
-async function saveCampaignData(campaigns: Campaign[]) {
-  const serialized = campaigns.filter(x => x.SaveController.IsDirty).map(x => Campaign.Serialize(x))
-  await saveDelta('pilots_v2.json', serialized)
-}
-
 @Module({
   name: 'campaign',
 })
 export class CampaignStore extends VuexModule {
   EditCampaign: Campaign = null
   Campaigns: Campaign[] = []
+  public Dirty = false
 
   @Mutation
   private [LOAD_CAMPAIGNS](payload: ICampaignData[]): void {
     this.Campaigns = [...payload.map(x => Campaign.Deserialize(x))]
-    saveCampaignData(this.Campaigns)
   }
 
   @Mutation
@@ -39,25 +36,28 @@ export class CampaignStore extends VuexModule {
 
   @Mutation
   private [SAVE_DATA](): void {
-    console.log('saving all campaign data')
-    if (this.Campaigns.length) _.debounce(saveCampaignData, 1000)(this.Campaigns)
+    if (this.Dirty) {
+      storeSaveDelta(this.Campaigns)
+      this.Dirty = false
+    }
+  }
+
+  @Mutation
+  private [SET_DIRTY](): void {
+    this.Dirty = true
   }
 
   @Mutation
   private [ADD_CAMPAIGN](payload: Campaign): void {
-    console.log('adding campaign to store')
+    payload.SaveController.IsDirty = true
     this.Campaigns.push(payload)
-    saveCampaignData(this.Campaigns)
+    this.Dirty = true
   }
 
   @Mutation
   private [CLONE_CAMPAIGN](payload: Campaign): void {
-    const campaignData = Campaign.Serialize(payload)
-    campaignData.id = ''
-    const newCampaign = Campaign.Deserialize(campaignData)
-    newCampaign.Name += ' (COPY)'
-    this.Campaigns.push(newCampaign)
-    saveCampaignData(this.Campaigns)
+    this.Campaigns.push(payload.Clone())
+    this.Dirty = true
   }
 
   @Mutation
@@ -68,15 +68,11 @@ export class CampaignStore extends VuexModule {
     } else {
       throw console.error('CAMPAIGN not loaded!')
     }
-    saveCampaignData(this.Campaigns)
+    this.Dirty = true
   }
 
   @Action
   public setEditCampaign(id: string): void {
-    console.log(
-      id,
-      this.Campaigns.find(x => x.ID === id)
-    )
     this.context.commit(
       SET_EDIT_CAMPAIGN,
       this.Campaigns.find(x => x.ID === id)
@@ -105,7 +101,7 @@ export class CampaignStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadCampaigns() {
-    const campaignData = await loadData<ICampaignData>('campaigns.json')
+    const campaignData = await loadData<ICampaignData>('campaigns')
     this.context.commit(LOAD_CAMPAIGNS, campaignData)
   }
 

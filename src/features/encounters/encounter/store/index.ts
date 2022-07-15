@@ -18,12 +18,12 @@ async function saveEncounterData(encounters: Encounter[]) {
   const serialized = encounters
     .filter(x => x.SaveController.IsDirty)
     .map(x => Encounter.Serialize(x))
-  await saveDelta('encounters_v2.json', serialized)
+  await saveDelta('encounters', serialized)
 }
 
 async function delete_encounter(encounter: Encounter) {
   console.log('deleting encounter permanently: ', encounter.Name)
-  await deleteDataById('encounters_v2.json', [encounter.ID])
+  await deleteDataById('encounters', [encounter.ID])
 }
 
 @Module({
@@ -172,7 +172,7 @@ export class EncounterStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadEncounters() {
-    const data = await loadData<IEncounterData>('encounters_v2.json')
+    const data = await loadData<IEncounterData>('encounters')
     this.context.commit(LOAD_ENCOUNTERS, data)
   }
 }

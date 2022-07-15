@@ -7,6 +7,7 @@ interface ISaveable {
   ID: string
   ItemType: string
 
+  Clone(): ISaveable
 }
 
 export { ISaveable }

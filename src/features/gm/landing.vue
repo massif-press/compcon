@@ -31,6 +31,13 @@
           />
           <landing-card
             cols="2"
+            to="gm/eidolons"
+            name="EIDOLONS"
+            description="Create and manage eidolons for combat encoutners"
+            img="npc.jpg"
+          />
+          <landing-card
+            cols="2"
             to="gm/encounters"
             name="Encounters"
             description="Create and run combat encounters"

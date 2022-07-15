@@ -197,6 +197,12 @@ export class ContentPack {
     return this._NpcFeatures
   }
 
+  private _EidolonFeatures: NpcFeature[] = []
+  public get EidolonFeatures(): NpcFeature[] {
+    this._EidolonFeatures.forEach(x => (x.IsHidden = !this.Active))
+    return this._EidolonFeatures
+  }
+
   private _Statuses: Status[] = []
   public get Statuses(): Status[] {
     return this._Statuses

@@ -31,7 +31,7 @@ class ICampaignData implements ISaveData {
 }
 
 class Campaign implements ISaveable {
-  public readonly ID: string
+  private _id: string
   public Name: string
   public Image: string
   public Author: string
@@ -47,7 +47,7 @@ class Campaign implements ISaveable {
   public SaveController: SaveController
 
   constructor() {
-    this.ID = uuid()
+    this._id = uuid()
     this.Name = 'New Campaign'
     this.Image = ''
     this.Author = ''
@@ -62,6 +62,15 @@ class Campaign implements ISaveable {
     this.ItemType = 'Campaign'
 
     this.SaveController = new SaveController(this)
+  }
+
+  public get ID(): string {
+    return this._id
+  }
+
+  public RenewID(): void {
+    this._id = uuid()
+    this.SaveController.save()
   }
 
   public AddSection() {
@@ -154,6 +163,14 @@ class Campaign implements ISaveable {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  public Clone(): Campaign {
+    const itemData = Campaign.Serialize(this)
+    const newItem = Campaign.Deserialize(itemData)
+    newItem.RenewID()
+    newItem.Name += ' (COPY)'
+    return newItem
   }
 }
 
