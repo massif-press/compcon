@@ -140,6 +140,10 @@ class MechLoadout extends Loadout {
       .filter(x => x != null)
   }
 
+  public get WeaponMods(): WeaponMod[] {
+    return this.Weapons.map(x => x.Mod).filter(x => x != null)
+  }
+
   public ReloadAll(): void {
     this.Weapons.forEach(w => {
       if (w.IsLoading) w.Loaded = true
@@ -165,6 +169,12 @@ class MechLoadout extends Loadout {
 
   public get AllActiveSystems(): MechSystem[] {
     return this.IntegratedSystems.concat(this.Systems)
+  }
+
+  public get AllActiveSystemsMods(): MechEquipment[] {
+    const systems = this.AllActiveSystems as MechEquipment[]
+    const mods = this.WeaponMods as MechEquipment[]
+    return systems.concat(mods)
   }
 
   public HasSystem(systemID: string): boolean {

@@ -220,7 +220,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import TableWindowItem from './_TableWindowItem.vue'
 import CascadeCheck from './_CascadeCheck.vue'
 import ResultData from './_structure_results.json'
-import { Mech, MechLoadout, MechSystem } from '@/class'
+import { Mech, MechLoadout, MechSystem, MechEquipment } from '@/class'
 
 @Component({
   name: 'structure-table',
@@ -291,10 +291,10 @@ export default class CCSidebarView extends Vue {
       .map((m, i) => ({ name: m.Name, index: i }))
   }
 
-  get destroyableSystems(): MechSystem[] {
-    return this.loadout.AllActiveSystems.filter(
+  get destroyableSystems(): MechEquipment[] {
+    return this.loadout.AllActiveSystemsMods.filter(
       x => !x.IsIndestructible && !x.Destroyed && !(x.IsLimited && x.Uses === 0)
-    )
+    )   
   }
 
   rollRandom(): number {
@@ -318,10 +318,7 @@ export default class CCSidebarView extends Vue {
 
   applySystemTrauma(): void {
     if (this.systemTraumaRoll > 3) {
-      let s = this.loadout.Systems.find(x => x.ID === this.destroyedSystem)
-      if (!s) {
-        s = this.loadout.IntegratedSystems.find(x => x.ID === this.destroyedSystem)
-      }
+      let s = this.loadout.AllActiveSystemsMods.find(x => x.ID === this.destroyedSystem)
       s.Destroy()
     } else {
       const m = this.loadout.AllMounts(
