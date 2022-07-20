@@ -6,7 +6,7 @@
         style="height: 24px!important"
       >
         <v-row class="mt-n1" no-gutters>
-          <equipment-options slot="options" :item="mod" />
+          <equipment-options slot="options" :item="mod" @remove="$emit('remove-mod')"/>
           <span v-if="mod.Destroyed" class="error" style="text-decoration: line-through">
             DESTROYED
           </span>

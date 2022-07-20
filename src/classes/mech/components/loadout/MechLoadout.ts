@@ -125,7 +125,7 @@ class MechLoadout extends Loadout {
   }
 
   public get Equipment(): MechEquipment[] {
-    const mods = this.Weapons.map(x => x.Mod).filter(x => x != null)
+    const mods = this.WeaponMods
     const equip = (this.Weapons as MechEquipment[])
       .concat(this.Systems as MechEquipment[])
       .concat(this.IntegratedSystems as MechEquipment[])
@@ -141,7 +141,7 @@ class MechLoadout extends Loadout {
   }
 
   public get WeaponMods(): WeaponMod[] {
-    return this.Weapons.map(x => x.Mod).filter(x => x != null)
+    return this.Weapons.map(x => x.Mod).filter(x => x !== null)
   }
 
   public ReloadAll(): void {
@@ -205,7 +205,7 @@ class MechLoadout extends Loadout {
   public get RequiredLicenses(): ILicenseRequirement[] {
     const requirements = [] as ILicenseRequirement[]
     const equippedWeapons = (this.Weapons as LicensedItem[]).concat(
-      this.Weapons.map(x => x.Mod).filter(x => x !== null) as LicensedItem[]
+      this.WeaponMods as LicensedItem[]
     )
     const equippedSystems = this._systems as LicensedItem[]
 
@@ -256,7 +256,7 @@ class MechLoadout extends Loadout {
   }
 
   public get UniqueMods(): WeaponMod[] {
-    return this.Weapons.map(x => x.Mod).filter(y => y && y.IsUnique)
+    return this.WeaponMods.filter(y => y && y.IsUnique)
   }
 
   public get UniqueItems(): MechEquipment[] {

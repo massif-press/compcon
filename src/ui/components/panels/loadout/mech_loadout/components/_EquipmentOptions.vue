@@ -121,7 +121,7 @@
         </v-list-item>
         <div v-if="!item.IsIntegrated && !readonly">
           <v-divider />
-          <v-list-item @click="$emit('remove')">
+          <v-list-item @click="removeItem()">
             <v-list-item-icon class="ma-0 mr-2 mt-2">
               <v-icon color="error">mdi-delete</v-icon>
             </v-list-item-icon>
@@ -181,6 +181,9 @@ export default Vue.extend({
     save(prop, newName) {
       this.$set(this.item, prop, newName)
     },
+    removeItem() {
+      this.$emit('remove')
+    }
   },
 })
 </script>

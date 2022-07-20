@@ -31,7 +31,7 @@
       <div slot="header">
         <v-row v-if="item" no-gutters>
           <v-col cols="auto">
-            <equipment-options :item="item" :readonly="readonly" />
+            <equipment-options :item="item" :readonly="readonly" @remove="remove(item)" />
           </v-col>
           <v-col cols="auto">
             <span

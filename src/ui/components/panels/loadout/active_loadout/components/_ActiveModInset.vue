@@ -6,7 +6,7 @@
         style="height: 24px!important"
       >
         <v-row class="mt-n1" no-gutters>
-          <equipment-options v-if="!action" slot="options" :item="mod" />
+          <equipment-options v-if="!action" readonly active slot="options" :item="mod" />
           <span v-if="mod.Destroyed" class="error" style="text-decoration: line-through">
             DESTROYED
           </span>

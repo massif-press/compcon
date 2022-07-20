@@ -3,7 +3,7 @@
     <slot-card-base ref="base" :item="mod" :mech="mech" :readonly="readonly" style="height: 100%">
       <div slot="header">
         <span v-if="mod">
-          <equipment-options :item="mod" :readonly="readonly" :active="readonly" />
+          <equipment-options :item="mod" :readonly="readonly" :active="readonly" @remove="$emit('remove')" />
           <span v-if="!mod.Destroyed" class="ml-n2">
             {{ mod.Name }}
             <span v-if="mod.FlavorName" class="caption ml-2 my-n1">//{{ mod.TrueName }}</span>
