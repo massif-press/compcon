@@ -10,10 +10,10 @@ interface IMechSkillsData {
 }
 
 class MechSkillsController {
-  public readonly Parent: IHASEContainer
+  public readonly Parent: Pilot
   private _mechSkills: MechSkills
 
-  public constructor(parent: IHASEContainer) {
+  public constructor(parent: Pilot) {
     this.Parent = parent
     this._mechSkills = new MechSkills()
   }
@@ -48,9 +48,7 @@ class MechSkillsController {
 
   //TODO: requires target change as part of bonus rework
   public get MaxHASEPoints(): number {
-    const p = this.Parent as any
-    if (!p.Level) return Rules.MinimumMechSkills
-    return Bonus.Int(Rules.MinimumMechSkills + p.Level, 'mech_skill_point', this.Parent as Pilot)
+    return Bonus.Int(Rules.MinimumMechSkills + this.Parent.Level, 'mech_skill_point', this.Parent)
   }
 
   public get IsMissingHASE(): boolean {
@@ -61,11 +59,11 @@ class MechSkillsController {
     return this.CurrentHASEPoints === this.MaxHASEPoints
   }
 
-  public static Serialize(parent: IHASEContainer, target: any) {
+  public static Serialize(parent: Pilot, target: any) {
     target.mechSkills = MechSkills.Serialize(parent.MechSkillsController.MechSkills)
   }
 
-  public static Deserialize(parent: IHASEContainer, data: IMechSkillsData) {
+  public static Deserialize(parent: Pilot, data: IMechSkillsData) {
     if (!parent.MechSkillsController)
       throw new Error(
         `MechSkillsController not found on parent (${typeof parent}). New MechSkillsControllers must be instantiated in the parent's constructor method.`
