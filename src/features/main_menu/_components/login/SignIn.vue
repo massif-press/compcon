@@ -3,52 +3,54 @@
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">SIGN IN</v-col>
     </v-row>
-    <v-row class="mt-2">
-      <v-col lg="6" cols="12">
-        <v-text-field v-model="email" label="E-Mail Address" dense outlined hide-details />
-        <div>
-          <v-fade-transition>
-            <div @click="$emit('reverify', email)">
-              <a>
-                <i>Have a validation code? Click here.</i>
-              </a>
-            </div>
-          </v-fade-transition>
-        </div>
-      </v-col>
-      <v-col lg="6" cols="12">
-        <v-text-field
-          v-model="password"
-          label="Password"
-          dense
-          outlined
-          hide-details
-          :type="show ? 'text' : 'password'"
-          :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append="show = !show"
-        />
-        <div class="text-right" @click="$emit('set-state', 'reset')">
-          <a><i>Forgot Password?</i></a>
-        </div>
-      </v-col>
-    </v-row>
-    <v-row no-gutters justify="center" align="start" class="mt-n2 text-center">
-      <v-col cols="auto">
-        <v-btn
-          large
-          color="secondary"
-          :loading="loading"
-          :disabled="!email || !password"
-          @click="signIn()"
-        >
-          Sign In
-        </v-btn>
-        <br />
-        <v-btn small color="accent" class="mt-1" outlined @click="$emit('set-state', 'sign-up')">
-          Create Account
-        </v-btn>
-      </v-col>
-    </v-row>
+    <v-form @submit="signIn()">
+      <v-row class="mt-2">
+        <v-col lg="6" cols="12">
+          <v-text-field v-model="email" label="E-Mail Address" dense outlined hide-details />
+          <div>
+            <v-fade-transition>
+              <div @click="$emit('reverify', email)">
+                <a>
+                  <i>Have a validation code? Click here.</i>
+                </a>
+              </div>
+            </v-fade-transition>
+          </div>
+        </v-col>
+        <v-col lg="6" cols="12">
+          <v-text-field
+            v-model="password"
+            label="Password"
+            dense
+            outlined
+            hide-details
+            :type="show ? 'text' : 'password'"
+            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="show = !show"
+          />
+          <div class="text-right" @click="$emit('set-state', 'reset')">
+            <a><i>Forgot Password?</i></a>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row no-gutters justify="center" align="start" class="mt-n2 text-center">
+        <v-col cols="auto">
+          <v-btn
+            large
+            color="secondary"
+            type="submit"
+            :loading="loading"
+            :disabled="loading || !email || !password"
+          >
+            Sign In
+          </v-btn>
+          <br />
+          <v-btn small color="accent" class="mt-1" outlined @click="$emit('set-state', 'sign-up')">
+            Create Account
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
     <v-scroll-y-transition leave-absolute hide-on-leave>
       <v-alert
         v-if="error"
@@ -86,15 +88,17 @@ export default Vue.extend({
   }),
   methods: {
     async signIn() {
-      this.email = this.email.trim()
+      if (this.loading) return // debounce if already loading
       this.loading = true
+      const userEmail = this.email.trim() // use safe const for auth
+      this.email = userEmail
       const userstore = getModule(UserStore, this.$store)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const self = this
-      Auth.signIn(this.email, this.password)
+      Auth.signIn(userEmail, this.password)
         .catch(error => {
           if (error.name === 'UserNotFoundException') {
-            return Auth.signIn(this.email.toLowerCase(), this.password)
+            return Auth.signIn(userEmail.toLowerCase(), this.password)
           }
           throw error
         })

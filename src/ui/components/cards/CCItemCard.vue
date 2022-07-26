@@ -1,5 +1,5 @@
 <template>
-  <component :is="componentLoader" v-if="componentLoader" :item="item" :notes="notes" />
+  <component :is="componentLoader" v-if="componentLoader" :item="item" :notes="notes" tabindex="0"/>
 </template>
 
 <script lang="ts">

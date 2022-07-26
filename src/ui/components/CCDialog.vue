@@ -1,29 +1,14 @@
 <template>
   <div>
-    <v-btn
-      v-if="flat"
-      :small="smallBtn || $vuetify.breakpoint.smAndDown"
-      :color="color"
-      text
-      :dark="dark"
-      @click="dialog = true"
-    >
+    <v-btn v-if="flat" :small="smallBtn || $vuetify.breakpoint.smAndDown" :color="color" text :dark="dark"
+      @click="dialog = true">
       <slot name="button" />
     </v-btn>
-    <v-btn
-      v-else
-      tile
-      :small="smallBtn || $vuetify.breakpoint.smAndDown"
-      :color="color"
-      @click="dialog = true"
-    >
+    <v-btn v-else tile :small="smallBtn || $vuetify.breakpoint.smAndDown" :color="color" @click="dialog = true">
       <slot name="button" />
     </v-btn>
-    <v-dialog
-      v-model="dialog"
-      :fullscreen="fullscreen || $vuetify.breakpoint.mdAndDown"
-      :width="small ? '30vw' : large ? '80vw' : '50vw'"
-    >
+    <v-dialog v-model="dialog" :fullscreen="fullscreen || $vuetify.breakpoint.mdAndDown"
+      :width="small ? '30vw' : large ? '80vw' : '50vw'">
       <v-card tile class="background">
         <cc-titlebar :color="color">
           <slot name="title" />
@@ -36,9 +21,7 @@
 
         <v-divider></v-divider>
 
-        <v-card-actions
-          v-if="fullscreen || $vuetify.breakpoint.mdAndDown || (noConfirm && !noDismiss)"
-        >
+        <v-card-actions v-if="fullscreen || $vuetify.breakpoint.mdAndDown || (noConfirm && !noDismiss)">
           <v-spacer />
           <v-btn text @click="dialog = false">dismiss</v-btn>
         </v-card-actions>
@@ -86,3 +69,9 @@ export default class CCDialog extends Vue {
   }
 }
 </script>
+
+<style scoped>
+.v-btn:focus {
+  outline: rgba(0, 0, 0, 0.202) solid 5px;
+}
+</style>

@@ -1,4 +1,21 @@
 # COMP/CON Changelog
+## [2.3.9] (2022-6-27)
+
+### Bug Fixes
+- **Mech Sheet** Mechs should now correctly save changed equipment on reload/when logged out. Thanks to msprijatelj for the help! [#1989](https://github.com/massif-press/compcon/issues/1989)
+- **Active Mode** Correct a bug that was preventing all actions from being populated and not respecting their correct use state [#2005](https://github.com/massif-press/compcon/issues/2005) [#2037](https://github.com/massif-press/compcon/issues/2037)
+- **Help Menu** Update help menu options [#2001](https://github.com/massif-press/compcon/issues/2001)
+- **Active Mode** Improve Overcharge Pip determination (thanks msprijatelj!)
+- **Cloud** Improve sign-up/in reliability (thanks msprijatelj!)
+- **Pilot Sheet** Fixed failing import for Pilots with Bond data being imported into environments without the KTB LCP installed [#2007](https://github.com/massif-press/compcon/issues/2007)
+
+### Features
+- **Global** Improved Keyboard accesibility ((thanks Qazzquimby! First PR! 🎉) [#1557](https://github.com/massif-press/compcon/issues/1557)
+- **Pilot Sheet** Revised Statblock Generator (thanks karidyas!) [#1887](https://github.com/massif-press/compcon/issues/1887)
+- **LCP Importer** Humanize Reserves/Factions (thanks msprijatelj!) [#1557](https://github.com/massif-press/compcon/issues/1557)
+- **Nav** Add Help Icon, FAQ links, style fixes (thanks msprijatelj!) [#2033](https://github.com/massif-press/compcon/issues/2033)
+
+
 ## [2.3.8] (2022-5-9)
 
 ### Bug Fixes

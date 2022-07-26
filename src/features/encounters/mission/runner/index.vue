@@ -52,10 +52,12 @@
                 </v-card-text>
               </v-card>
             </v-menu>
-            <v-btn small tile color="primary" class="white--text" :to="`runner/${item.ID}`">
-              CONTINUE MISSION
-              <v-icon right>mdi-chevron-double-right</v-icon>
-            </v-btn>
+            <router-link :to="`runner/${item.ID}`">
+              <v-btn small tile color="primary" class="white--text">
+                CONTINUE MISSION
+                <v-icon right>mdi-chevron-double-right</v-icon>
+              </v-btn>
+            </router-link>
           </template>
         </v-data-table>
       </v-col>
