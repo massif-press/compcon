@@ -8,13 +8,11 @@ interface IMechSystemData extends IMechEquipmentData {
 
 class MechSystem extends MechEquipment {
   private _system_type: SystemType
-  private _sort_index: number
 
   public constructor(data: IMechSystemData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName)
     this._system_type = data.type || SystemType.System
     this.ItemType = ItemType.MechSystem
-    
   }
 
   public get Type(): SystemType {
@@ -23,15 +21,6 @@ class MechSystem extends MechEquipment {
 
   public get Color(): string {
     return 'mech-system'
-  }
-
-  public get SortIndex(): number{
-    return this._sort_index
-  }
-
-  public set SortIndex(val: number){
-    this._sort_index = val
-    this.save()
   }
 
   public static Serialize(item: MechSystem): IEquipmentData {
@@ -43,7 +32,6 @@ class MechSystem extends MechEquipment {
       note: item.Note,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
-      sortIndex: item._sort_index
     }
   }
 
@@ -55,7 +43,6 @@ class MechSystem extends MechEquipment {
     item._note = data.note
     item._flavor_name = data.flavorName
     item._flavor_description = data.flavorDescription
-    item._sort_index = data.sortIndex || 0
 
     return item
   }

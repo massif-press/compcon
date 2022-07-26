@@ -78,9 +78,6 @@ export default Vue.extend({
     },
   },
   computed: {
-    systems(){
-      return this.mech.MechLoadoutController.ActiveLoadout.Systems
-    },
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
     },
@@ -88,11 +85,17 @@ export default Vue.extend({
   methods:{
     moveSystem(event){
       if(event.moved){
-          this.systems.forEach((s, i) => {
-            s.SortIndex = i
-          })
+        this.mech.SaveController.save()
       }
     },
+  },  
+  data: () => {
+    return {
+      systems: null
+    } 
+  },
+  mounted() {
+      this.systems = this.mech.MechLoadoutController.ActiveLoadout.Systems
   },
 })
 </script>
