@@ -65,7 +65,8 @@ class Bond {
   }
 
   public static Deserialize(id: string): Bond {
-    return store.getters.referenceByID('Bonds', id)
+    const res = store.getters.referenceByID('Bonds', id)
+    return res.err ? null : res
   }
 }
 

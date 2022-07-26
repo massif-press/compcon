@@ -10,9 +10,7 @@
         @click.stop="$emit('click')"
       >
         <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
-          &nbsp;
           <slot></slot>
-          &nbsp;&nbsp;
         </span>
       </v-btn>
     </div>
@@ -86,11 +84,13 @@ export default class CCBtn extends Mixins(GetColorMixin) {
   z-index: 1;
   transition: all 0.2s ease-in-out, background-color 1ms;
 }
-.wings:not(.disabled):hover::before {
+.wings:not(.disabled):hover::before,
+.wings:not(.disabled):focus-within::before{
   transform: translate(-6px, 0px);
 }
 
-.wings:not(.disabled):hover::after {
+.wings:not(.disabled):hover::after,
+.wings:not(.disabled):focus-within::after{
   transform: translate(6px, 0px);
 }
 

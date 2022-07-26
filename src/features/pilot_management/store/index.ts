@@ -8,7 +8,9 @@ import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
 import Vue from 'vue'
 
 async function savePilots(pilots: Pilot[]) {
-  const serialized = pilots.filter(x => x.SaveController.IsDirty).map(x => Pilot.Serialize(x))
+  const serialized = pilots
+    .filter(x => x.SaveController.IsDirty || x.Mechs.some(m => m.SaveController.IsDirty))
+    .map(x => Pilot.Serialize(x))
   await saveDelta('pilots_v2.json', serialized)
 }
 
@@ -248,6 +250,7 @@ export class PilotManagementStore extends VuexModule {
 
   @Action
   public set_mech_dirty(): void {
+    console.log('in smd')
     this.context.commit(SET_DIRTY)
   }
 

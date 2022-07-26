@@ -82,6 +82,7 @@ export default class PackInfo extends Vue {
     pilotGear: ['pilot gear item', 'pilot gear items'],
     backgrounds: ['background', 'backgrounds'],
     bonds: ['bond', 'bonds'],
+    reserves: ['reserve', 'reserves'],
     talents: ['pilot talent', 'pilot talents'],
     tags: ['equipment tag', 'equipment tags'],
     npcClasses: ['NPC class', 'NPC classes'],
@@ -90,6 +91,7 @@ export default class PackInfo extends Vue {
     actions: ['Player action', 'Player actions'],
     statuses: ['Status/Condition', 'Statuses/Conditions'],
     environments: ['Combat Environment', 'Combat Environments'],
+    factions: ['faction', 'factions'],
     sitreps: ['SITREP', 'SITREPs'],
     tables: ['Data Table', 'Data Tables'],
   }

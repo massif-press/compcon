@@ -29,6 +29,7 @@ class BrewController {
       item => item.Brew && item.Brew.toLowerCase() !== 'core'
     )
       .map(item => packs.find(p => p.ID === item.Brew))
+      .filter(p => !!p)
       .map(pack => ({
         LcpId: pack.ID,
         LcpName: pack.Name || 'ERR',

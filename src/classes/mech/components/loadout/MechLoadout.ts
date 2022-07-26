@@ -37,18 +37,25 @@ class MechLoadout extends Loadout {
   public constructor(mech: Mech) {
     super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
     this.Parent = mech
-    this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x))
+    this._equippableMounts = mech.Frame.Mounts.map(x => new EquippableMount(x, this))
     this._integratedMounts = []
     this._systems = []
     this._integratedSystems = []
-    this._improvedArmament = new EquippableMount(MountType.Flex)
-    this._integratedWeapon = new EquippableMount(MountType.Aux)
+    this._improvedArmament = new EquippableMount(MountType.Flex, this)
+    this._integratedWeapon = new EquippableMount(MountType.Aux, this)
+  }
+
+  public saveMechLoadout() {
+    this.save()
+    this.Parent.SaveController.save()
   }
 
   public SetAllIntegrated(save?: boolean) {
     const im = [
-      ...this.Parent.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x)),
-      ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x)),
+      ...this.Parent.FeatureController.IntegratedWeapons.map(x => new IntegratedMount(x, this)),
+      ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(
+        x => new IntegratedMount(x, this)
+      ),
     ]
     const is = [
       ...this.Parent.FeatureController.IntegratedSystems,
@@ -56,7 +63,7 @@ class MechLoadout extends Loadout {
     ]
     Vue.set(this, '_integratedSystems', is)
     Vue.set(this, '_integratedMounts', im)
-    if (save) this.save()
+    if (save) this.saveMechLoadout()
   }
 
   public get IntegratedMounts(): IntegratedMount[] {
@@ -153,7 +160,7 @@ class MechLoadout extends Loadout {
 
   public set Systems(systems: MechSystem[]) {
     this._systems = systems
-    this.save()
+    this.saveMechLoadout()
   }
 
   public get AllActiveSystems(): MechSystem[] {
@@ -171,18 +178,18 @@ class MechLoadout extends Loadout {
   public AddSystem(system: MechSystem): void {
     const sys = _.cloneDeep(system)
     this._systems.push(sys)
-    this.save()
+    this.saveMechLoadout()
   }
 
   public ChangeSystem(index: number, system: MechSystem): void {
     this._systems.splice(index, 1, _.cloneDeep(system))
-    this.save()
+    this.saveMechLoadout()
   }
 
   public RemoveSystem(system: MechSystem): void {
     const index = this._systems.findIndex(x => _.isEqual(x, system))
     if (index > -1) this._systems.splice(index, 1)
-    this.save()
+    this.saveMechLoadout()
   }
 
   public get RequiredLicenses(): ILicenseRequirement[] {
@@ -273,14 +280,14 @@ class MechLoadout extends Loadout {
     ml._integratedSystems = !loadoutData.integratedSystems
       ? mech.Frame.IntegratedSystems
       : loadoutData.integratedSystems.map(x => MechSystem.Deserialize(x))
-    ml._equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x))
+    ml._equippableMounts = loadoutData.mounts.map(x => EquippableMount.Deserialize(x, ml))
     ml._integratedMounts = !loadoutData.integratedMounts
-      ? mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x))
-      : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x))
-    ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament)
+      ? mech.Frame.IntegratedWeapons.map(x => new IntegratedMount(x, ml))
+      : loadoutData.integratedMounts.map(x => IntegratedMount.Deserialize(x, ml))
+    ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament, ml)
     ml._integratedWeapon = !loadoutData.integratedWeapon
-      ? new EquippableMount(MountType.Aux)
-      : EquippableMount.Deserialize(loadoutData.integratedWeapon)
+      ? new EquippableMount(MountType.Aux, ml)
+      : EquippableMount.Deserialize(loadoutData.integratedWeapon, ml)
     if (!loadoutData.integratedSystems) ml.SetAllIntegrated()
     return ml
   }
