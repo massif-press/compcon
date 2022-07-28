@@ -98,11 +98,14 @@ export class CompendiumStore extends VuexModule {
       .map((x: IBackgroundData) => new Background(x))
       .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
   }
-  @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
-  @Brewable(() =>
-    lancerData.actions.map((x: PlayerAction.IActionData) => new PlayerAction.Action(x))
-  )
-  Actions: PlayerAction.Action[]
+  public get Actions(): PlayerAction.Action[] {
+    return lancerData.actions
+      .map((x: PlayerAction.IActionData) => new PlayerAction.Action(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Actions))
+  }
+
+  @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) 
+  Tags: Tag[]
   @Brewable(() => lancerData.talents.map((x: ITalentData) => new Talent(x)))
   Talents: Talent[]
   @Brewable(() => lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x)))
