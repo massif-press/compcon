@@ -4,7 +4,7 @@
       <v-col cols="auto" style="letter-spacing: 5px">VERIFY E-MAIL ADDRESS</v-col>
     </v-row>
     <p class="body-text text-center mt-2">
-      An authorization code has been sent to
+      A verification code was sent to
       <b>{{ email }}</b>
       . Input the code below to finalize your account
     </p>
