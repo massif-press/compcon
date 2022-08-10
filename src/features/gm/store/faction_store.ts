@@ -4,6 +4,7 @@ import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Faction, IFactionData } from '@/classes/campaign/Faction'
 import { storeSaveDelta } from '@/util/storeUtils'
+import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_DIRTY = 'SET_DIRTY'
@@ -12,6 +13,20 @@ export const DELETE_FACTION = 'DELETE_FACTION'
 export const CLONE_FACTION = 'CLONE_FACTION'
 export const LOAD_FACTIONS = 'LOAD_FACTIONS'
 
+async function saveFactionData(factions: Faction[]) {
+  const dirty = factions.filter(x => x.SaveController.IsDirty)
+  Promise.all(dirty.map(x => SetItem('factions', Faction.Serialize(x))))
+    .then(() => console.info('faction data saved'))
+    .catch(err => console.error('Error while saving faction data', err))
+}
+
+async function delete_faction(faction: Faction) {
+  RemoveItem('factions', faction.ID)
+    .then(() => console.info('NPC permenently deleted'))
+    .catch(err => console.error('Error while deleting NPC data', err))
+}
+
+>>>>>>> storage-rework
 @Module({
   name: 'faction',
 })
@@ -111,7 +126,11 @@ export class FactionStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadFactions() {
+<<<<<<< HEAD
     const factionData = await loadData<IFactionData>('factions')
+=======
+    const factionData = await GetAll('factions')
+>>>>>>> storage-rework
     this.context.commit(LOAD_FACTIONS, factionData)
   }
 
