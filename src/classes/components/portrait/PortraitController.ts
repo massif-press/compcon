@@ -56,8 +56,9 @@ class PortraitController {
   }
 
   public static Serialize(parent: IPortraitContainer, target: any) {
-    target.portrait = parent.PortraitController._portrait
-    target.cloud_portrait = parent.PortraitController._cloud_portrait
+    if (!target.img) target.img = {}
+    target.img.portrait = parent.PortraitController._portrait
+    target.img.cloud_portrait = parent.PortraitController._cloud_portrait
   }
 
   public static Deserialize(parent: IPortraitContainer, data: IPortraitData) {

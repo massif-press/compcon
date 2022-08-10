@@ -155,12 +155,6 @@ enum OrgType {
   Political = 'Political',
 }
 
-enum EncounterSide {
-  Enemy = 'Enemy',
-  Ally = 'Ally',
-  Neutral = 'Neutral',
-}
-
 enum ImageTag {
   Pilot = 'pilot',
   NPC = 'npc',
@@ -190,6 +184,5 @@ export {
   MechType,
   ReserveType,
   OrgType,
-  EncounterSide,
   ImageTag,
 }

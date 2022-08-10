@@ -26,21 +26,14 @@
             cols="2"
             to="gm/npcs"
             name="NPCS"
-            description="Create and manage non-player characters for combat encoutners"
-            img="npc.jpg"
-          />
-          <landing-card
-            cols="2"
-            to="gm/eidolons"
-            name="EIDOLONS"
-            description="Create and manage eidolons for combat encoutners"
+            description="Create and manage non-player characters"
             img="npc.jpg"
           />
           <landing-card
             cols="2"
             to="gm/encounters"
             name="Encounters"
-            description="Create and run combat encounters"
+            description="Create combat encounters"
             img="combat.jpg"
           />
           <landing-card

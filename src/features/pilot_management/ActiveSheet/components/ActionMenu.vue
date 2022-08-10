@@ -115,17 +115,6 @@
       <v-tab-item>
         <v-card flat color="background">
           <v-card-text>
-            <!-- <v-row justify="center" no-gutters class="mt-n2">
-              <v-col cols="auto">
-                <v-checkbox
-                  color="accent"
-                  label="Enable Active Mode Tutorial"
-                  dense
-                  hide-details
-                  disabled
-                />
-              </v-col>
-            </v-row> -->
             <v-divider class="my-4" />
             <v-row dense>
               <v-col cols="auto">

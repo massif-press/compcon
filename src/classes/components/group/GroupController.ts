@@ -13,10 +13,11 @@ class GroupController {
 
   public constructor(parent: ICollectionGroupable) {
     this.Parent = parent
+    this._group = 'No Collection'
   }
 
   public reset() {
-    this._group = ''
+    this._group = 'No Collection'
     this._sortIndex = -1
   }
 
@@ -39,8 +40,9 @@ class GroupController {
   }
 
   public static Serialize(parent: ICollectionGroupable, target: any) {
-    target.group = parent.GroupController.Group
-    target.sort_index = parent.GroupController.SortIndex
+    if (!target.group) target.group = {}
+    target.group.group = parent.GroupController.Group
+    target.group.sort_index = parent.GroupController.SortIndex
   }
 
   public static Deserialize(parent: ICollectionGroupable, data: IGroupData) {
@@ -49,7 +51,7 @@ class GroupController {
         `GroupController not found on parent (${typeof parent}). New GroupControllers must be instantiated in the parent's constructor method.`
       )
 
-    parent.GroupController._group = data.group || ''
+    parent.GroupController._group = data.group || 'No Collection'
     parent.GroupController._sortIndex = data.sort_index || -1
   }
 }

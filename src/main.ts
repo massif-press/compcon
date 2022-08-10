@@ -82,8 +82,6 @@ const v: any = new Vue({
 window.onbeforeunload = () => {
   v.$store.dispatch('savePilotData')
   v.$store.dispatch('saveNpcData')
-  v.$store.dispatch('saveMissionData')
-  v.$store.dispatch('saveEncounterData')
   v.$store.dispatch('updateUserData')
 }
 
@@ -91,8 +89,6 @@ Vue.mixin({
   beforeRouteLeave(to, from, next) {
     v.$store.dispatch('savePilotData')
     v.$store.dispatch('saveNpcData')
-    v.$store.dispatch('saveEncounterData')
-    v.$store.dispatch('saveMissionData')
 
     next()
   },

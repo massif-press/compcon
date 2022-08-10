@@ -22,16 +22,12 @@ interface ISectionData {
   body: string
 }
 
-class ICollectionItemData implements ISaveData, NarrativeElementData, IPortraitData {
+class ICollectionItemData implements NarrativeElementData, IPortraitData {
   campaign: string
   portrait: string
   cloud_portrait: string
   clocks: IClockData[]
   tables: IRollableTableData[]
-  lastModified: string
-  isDeleted: boolean
-  expireTime: string
-  deleteTime: string
   textItems: { title: string; body: string }[]
   id: string
   name: string
@@ -40,6 +36,7 @@ class ICollectionItemData implements ISaveData, NarrativeElementData, IPortraitD
   image: string
   campaigns: string[]
   labels: string[]
+  save: ISaveData
 }
 
 abstract class CollectionItem implements ISaveable, INarrativeElement, IPortraitContainer {
@@ -69,6 +66,10 @@ abstract class CollectionItem implements ISaveable, INarrativeElement, IPortrait
 
   public get Portrait(): string {
     return this.PortraitController.Portrait
+  }
+
+  public Clone(): ISaveable {
+    return null
   }
 }
 

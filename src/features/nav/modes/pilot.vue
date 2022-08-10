@@ -12,17 +12,6 @@
         </v-btn>
       </template>
       <v-list two-line subheader>
-        <v-list-item :to="`/active/${pilot.ID}`">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon large>cci-activate</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Active Mode</v-list-item-title>
-            <v-list-item-subtitle>
-              Gameplay manager for running a pilot in LANCER sessions
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item @click="pilotSheet()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon large>cci-pilot</v-icon>

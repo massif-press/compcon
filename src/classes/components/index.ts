@@ -3,13 +3,13 @@ import { CloudController, ICloudData } from './cloud/CloudController'
 import { ICloudSyncable } from './cloud/ICloudSyncable'
 import { IPortraitContainer } from './portrait/IPortraitContainer'
 import { PortraitController, IPortraitData } from './portrait/PortraitController'
-import { ICounterData, Counter } from './counters/Counter'
+import { ICounterData, Counter } from './combat/counters/Counter'
 import {
   ICounterSaveData,
   ICounterCollection,
   CounterController,
-} from './counters/CounterController'
-import { ICounterContainer } from './counters/ICounterContainer'
+} from './combat/counters/CounterController'
+import { ICounterContainer } from './combat/counters/ICounterContainer'
 import { GroupController, IGroupData } from './group/GroupController'
 import { ICollectionGroupable } from './group/ICollectionGroupable'
 import { IHASEContainer } from './mechskills/IHASEContainer'

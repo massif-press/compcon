@@ -52,6 +52,14 @@
             <v-avatar color="white"><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar>
           </cc-tooltip>
         </main-btn>
+        <main-btn
+          icon="cci-encounter"
+          :to="'/active-mode'"
+          help="Run an Encounter or Active Character Sheet"
+          @hover="ccLog('encounter')"
+        >
+          Active Mode
+        </main-btn>
       </v-row>
     </v-container>
 
@@ -292,6 +300,12 @@ export default Vue.extend({
           break
         case 'content':
           this.$refs['log'].print('man homebrew', 'Manage and create COMP/CON expansion data')
+          break
+        case 'encounter':
+          this.$refs['log'].print(
+            'man activemode',
+            'GM an Encounter, open or continue an Active Character Sheet, or create or join a cloud-based Table (coming soon!)'
+          )
           break
         case 'options':
           this.$refs['log'].print('compcon -settings --verbose', 'Open the options manager')

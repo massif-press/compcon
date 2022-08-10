@@ -46,7 +46,7 @@ class Faction extends CollectionItem {
     this.Notes = data.notes
     this.CoreMission = data.core_mission
     NarrativeController.Deserialize(this, data)
-    SaveController.Deserialize(this, data)
+    SaveController.Deserialize(this, data.save)
   }
 
   public static Deserialize(data: IFactionData): Faction {

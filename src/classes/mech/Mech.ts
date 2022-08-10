@@ -4,7 +4,6 @@ import _ from 'lodash'
 import { Rules, Pilot, Frame, CoreBonus, Mount } from '@/class'
 import { ImageTag } from '@/io/ImageManagement'
 import { Bonus } from '../components/feature/bonus/Bonus'
-import { ActivePeriod } from '../Action'
 import { IMechLoadoutData } from './components/loadout/MechLoadout'
 import {
   IPortraitContainer,
@@ -20,14 +19,10 @@ import {
   IMechLoadoutSaveData,
   MechLoadoutController,
 } from './components/loadout/MechLoadoutController'
-import { IActor } from '../encounter/IActor'
 import { CompendiumItem } from '../CompendiumItem'
 
 class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
-  deleteTime: string
-  expireTime: string
-  lastModified: string
-  isDeleted: boolean
+  save: ISaveData
   id: string
   name: string
   notes: string
@@ -35,33 +30,15 @@ class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
   portrait: string
   cloud_portrait: string
   frame: string
-  active: boolean
-  current_structure: number
-  current_move: number
-  boost: number
-  current_hp: number
-  overshield: number
-  current_stress: number
-  current_heat: number
-  current_repairs: number
-  current_overcharge: number
-  current_core_energy: number
   loadouts: IMechLoadoutData[]
   active_loadout_index: number
-  statuses: string[]
-  conditions: string[]
-  resistances: string[]
-  reactions: string[]
-  burn: number
   destroyed: boolean
   defeat: string
-  activations: number
-  meltdown_imminent: boolean
   reactor_destroyed: boolean
   core_active: boolean
 }
 
-class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController {
+class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   public readonly ItemType: string = 'mech'
 
   public SaveController: SaveController
@@ -75,29 +52,10 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   private _notes: string
   private _gm_note: string
   private _frame: Frame
-  private _missing_structure: number
-  private _missing_hp: number
-  private _overshield: number
-  private _missing_stress: number
-  private _missing_repairs: number
-  private _current_heat: number
-  private _current_core_energy: number
-  private _current_overcharge: number
-  private _activations: number
-  private _active: boolean
   private _pilot: Pilot
-  private _statuses: string[]
-  private _conditions: string[]
-  private _resistances: string[]
-  private _reactions: string[]
   private _destroyed: boolean
   private _defeat: string
   private _reactor_destroyed: boolean
-  private _meltdown_imminent: boolean
-  private _burn: number
-  private _turn_actions: number
-  private _currentMove: number
-  private _boost: number
   private _core_active: boolean
 
   public constructor(frame: Frame, pilot: Pilot) {
@@ -112,29 +70,9 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     this._notes = ''
     this._gm_note = ''
     this._pilot = pilot
-    this._active = false
-    this._overshield = 0
-    this._current_heat = 0
-    this._current_core_energy = 1
-    this._current_overcharge = 0
-    this._statuses = []
-    this._conditions = []
-    this._resistances = []
-    this._reactions = []
-    this._burn = 0
     this._destroyed = false
     this._defeat = ''
     this._reactor_destroyed = false
-    this._meltdown_imminent = false
-    this._missing_structure = 0
-    this._missing_hp = 0
-    this._missing_stress = 0
-    this._missing_repairs = 0
-    this._currentMove = frame.Speed
-    this._boost = 0
-    this._activations = 1
-    this._turn_actions = 2
-    this._core_active = false
 
     this.FeatureController.Register(
       this.Frame,
@@ -212,10 +150,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
 
   public get Parent(): Pilot {
     return this._pilot
-  }
-
-  public get IsActive(): boolean {
-    return this.Pilot.State.ActiveMech?.ID === this.ID
   }
 
   public get IsCascading(): boolean {
@@ -303,12 +237,11 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   }
 
   public get Evasion(): number {
-    if (this.IsStunned) return 5
+    // if (this.IsStunned) return 5
     return Bonus.Int(this._frame.Evasion + this.Agi, 'evasion', this)
   }
 
   public get EvasionContributors(): string[] {
-    if (this.IsStunned) return ['STUNNED']
     const output = [
       `FRAME Base Evasion: ${this.Frame.Evasion}`,
       `Pilot AGILITY Bonus: +${this.Agi}`,
@@ -464,19 +397,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   }
 
   // -- Stats -------------------------------------------------------------------------------------
-  public get CurrentStructure(): number {
-    return this.MaxStructure - this._missing_structure
-  }
-
-  public set CurrentStructure(structure: number) {
-    this._missing_structure = Math.min(
-      Math.max(this.MaxStructure - structure, 0),
-      this.MaxStructure
-    )
-    if (this._missing_structure === this.MaxStructure) this.Destroy()
-    this.SaveController.save()
-  }
-
   public get MaxStructure(): number {
     return Bonus.Int(this._frame.Structure, 'structure', this)
   }
@@ -488,36 +408,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
-  }
-
-  public get Overshield(): number {
-    return this._overshield
-  }
-
-  public set Overshield(val: number) {
-    this._overshield = val < 0 ? 0 : val
-    this.SaveController.save()
-  }
-
-  public get CurrentHP(): number {
-    if (this._missing_hp < 0) this.CurrentHP = this.MaxHP
-    return this.MaxHP - this._missing_hp
-  }
-
-  public set CurrentHP(hp: number) {
-    if (hp > this.MaxHP) this._missing_hp = 0
-    else if (hp <= 0) {
-      this.CurrentStructure -= 1
-      this.CurrentHP = this.MaxHP + hp
-    } else this._missing_hp = this.MaxHP - hp
-    this.SaveController.save()
-  }
-
-  public AddDamage(dmg: number, resistance?: string): void {
-    if (resistance && this._resistances.includes(resistance)) {
-      dmg = Math.ceil(dmg / 2)
-    }
-    this.CurrentHP -= dmg
   }
 
   public get MaxHP(): number {
@@ -563,43 +453,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     return output
   }
 
-  public get CurrentHeat(): number {
-    return this._current_heat
-  }
-
-  public set CurrentHeat(heat: number) {
-    if (heat > this.HeatCapacity) {
-      this.CurrentStress = this.CurrentStress - 1
-      this.CurrentHeat = heat - this.HeatCapacity
-    } else if (heat < 0) this._current_heat = 0
-    else this._current_heat = heat
-    this.SaveController.save()
-  }
-
-  public AddHeat(heat: number): void {
-    heat = this._resistances.includes('Heat') ? Math.ceil(heat / 2) : heat
-    let newHeat = this._current_heat + heat
-    while (newHeat > this.HeatCapacity) {
-      this.CurrentStress -= 1
-      newHeat -= this.HeatCapacity
-    }
-    this.CurrentHeat = newHeat
-  }
-
-  public ReduceHeat(heat: number, resist?: boolean): void {
-    if (resist) heat = this._resistances.includes('Heat') ? Math.ceil(heat / 2) : heat
-    while (heat > this.CurrentHeat) {
-      heat -= this.CurrentHeat
-      this.CurrentStress += 1
-      this._current_heat = this.HeatCapacity
-    }
-    this.CurrentHeat -= heat
-  }
-
-  public get IsInDangerZone(): boolean {
-    return this._current_heat >= Math.ceil(this.HeatCapacity / 2)
-  }
-
   public get HeatCapacity(): number {
     return Bonus.Int(this._frame.HeatCap + this.Eng, 'heatcap', this)
   }
@@ -616,16 +469,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     return output
   }
 
-  public get CurrentStress(): number {
-    return this.MaxStress - this._missing_stress
-  }
-
-  public set CurrentStress(stress: number) {
-    this._missing_stress = Math.min(Math.max(this.MaxStress - stress, 0), this.MaxStress)
-    if (this._missing_stress === this.MaxStress) this._pilot.State.ReactorCriticalDestruct()
-    this.SaveController.save()
-  }
-
   public get MaxStress(): number {
     return Bonus.Int(this._frame.HeatStress, 'stress', this)
   }
@@ -637,15 +480,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
       output.push(`${b.name}: ${sign}${b.val}`)
     })
     return output
-  }
-
-  public get CurrentRepairs(): number {
-    return this.RepairCapacity - this._missing_repairs
-  }
-
-  public set CurrentRepairs(rep: number) {
-    this._missing_repairs = Math.min(Math.max(this.RepairCapacity - rep, 0), this.RepairCapacity)
-    this.SaveController.save()
   }
 
   public get RepairCapacity(): number {
@@ -664,15 +498,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     return output
   }
 
-  public get CurrentCoreEnergy(): number {
-    return this.Frame.CoreSystem.Energy
-  }
-
-  public set CurrentCoreEnergy(energy: number) {
-    this.Frame.CoreSystem.Energy = energy
-    this.SaveController.save()
-  }
-
   public get IsCoreActive(): boolean {
     return this.Frame.CoreSystem.IsActive
   }
@@ -685,264 +510,6 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   public get OverchargeTrack(): string[] {
     const b = Bonus.getUneval('overcharge', this)
     return b.length ? b[0].Value : Rules.Overcharge
-  }
-
-  public get CurrentOvercharge(): number {
-    return this._current_overcharge
-  }
-
-  public set CurrentOvercharge(overcharge: number) {
-    this._current_overcharge = overcharge
-    if (this._current_overcharge < 0) this._current_overcharge = 0
-    if (this._current_overcharge > this.OverchargeTrack.length - 1)
-      this._current_overcharge = this.OverchargeTrack.length - 1
-    this.SaveController.save()
-  }
-
-  // -- Encounter Management ----------------------------------------------------------------------
-  public get Activations(): number {
-    return this._activations
-  }
-
-  public set Activations(val: number) {
-    this._activations = val
-    this.SaveController.save()
-  }
-
-  public get TurnActions(): number {
-    return this._turn_actions
-  }
-
-  public set TurnActions(val: number) {
-    this._turn_actions = val
-    this.SaveController.save()
-  }
-
-  public get Boost(): number {
-    if (this.IsStunned || this.Destroyed) return 0
-    return this._boost
-  }
-
-  public set Boost(val: number) {
-    this._boost = val < 0 ? 0 : val
-    this.SaveController.save()
-  }
-
-  public get CurrentMove(): number {
-    if (this.IsStunned || this.Destroyed) return 0
-    return this._currentMove
-  }
-
-  public set CurrentMove(val: number) {
-    this._currentMove = val < 0 ? 0 : val
-    this.SaveController.save()
-  }
-
-  public get MaxMove(): number {
-    if (this.IsStunned || this.Destroyed) return 0
-    return this.Speed
-  }
-
-  public get Reactions(): string[] {
-    return this._reactions
-  }
-
-  public set Reactions(val: string[]) {
-    this._reactions = val
-  }
-
-  public AddReaction(r: string): void {
-    if (!this.Reactions.some(x => x === r)) this.Reactions.push(r)
-  }
-
-  public RemoveReaction(r: string): void {
-    const idx = this.Reactions.findIndex(x => x === r)
-    if (idx > -1) this.Reactions.splice(idx, 1)
-  }
-
-  public NewTurn(): void {
-    this._activations = 1
-    this._turn_actions = 2
-    this._currentMove = this.MaxMove
-    this.SaveController.save()
-  }
-
-  // -- Statuses and Conditions -------------------------------------------------------------------
-  public get StatusString(): string[] {
-    const out = []
-    if (this.Destroyed) out.push('destroyed')
-    if (this.MechLoadoutController.ActiveLoadout.Systems.filter(x => x.IsCascading).length)
-      out.push('cascading')
-    if (this.FreeSP < 0) out.push('overSP')
-    if (this.FreeSP > 0) out.push('underSP')
-    if (this.MechLoadoutController.ActiveLoadout.HasEmptyMounts) out.push('unfinished')
-    if (this.RequiredLicenses.filter(x => x.missing).length) out.push('unlicensed')
-    return out
-  }
-
-  public get Defeat(): string {
-    return this._defeat
-  }
-
-  public set Defeat(val: string) {
-    this._defeat = val
-    this.SaveController.save()
-  }
-
-  public get Destroyed(): boolean {
-    if (this._reactor_destroyed) return true
-    return this._destroyed
-  }
-
-  public set Destroyed(b: boolean) {
-    this._destroyed = b
-    this._defeat = b ? 'Destroyed' : ''
-    this.SaveController.save()
-  }
-
-  public get ReactorDestroyed(): boolean {
-    return this._reactor_destroyed
-  }
-
-  public set ReactorDestroyed(destroyed: boolean) {
-    this._meltdown_imminent = false
-    this._destroyed = false
-    this._reactor_destroyed = destroyed
-    this._defeat = destroyed ? 'Reactor Destroyed' : ''
-    this.SaveController.save()
-  }
-
-  public Destroy(): void {
-    this._destroyed = true
-    this._defeat = 'Destroyed'
-    this.SaveController.save()
-  }
-
-  public Repair(): void {
-    this._destroyed = false
-    this._reactor_destroyed = false
-    this._meltdown_imminent = false
-    this._statuses = []
-    this._conditions = []
-    this.CurrentStress = 1
-    this.CurrentStructure = 1
-    this.CurrentHP = this.MaxHP
-    this.SaveController.save()
-  }
-
-  public get IsShutDown(): boolean {
-    return this.Statuses.includes('SHUT DOWN')
-  }
-
-  public get IsStunned(): boolean {
-    return this._conditions.includes('STUNNED')
-  }
-
-  public get Conditions(): string[] {
-    if (this.IsShutDown && !this.IsStunned) this._conditions.push('STUNNED')
-    return this._conditions
-  }
-
-  public set Conditions(conditions: string[]) {
-    this._conditions = conditions
-    this.SaveController.save()
-  }
-
-  public AddCondition(condition: string): void {
-    const stidx = this.Conditions.findIndex(x => x === condition)
-    if (stidx === -1) this.Conditions.push(condition)
-  }
-
-  public RemoveCondition(condition: string): void {
-    if (condition.toLowerCase() === 'stunned' && this.IsShutDown) return
-    const stidx = this.Conditions.findIndex(x => x === condition)
-    if (stidx > -1) this.Conditions.splice(stidx, 1)
-  }
-
-  public get Statuses(): string[] {
-    return this._statuses
-  }
-
-  public set Statuses(statuses: string[]) {
-    this._statuses = statuses
-    this.SaveController.save()
-  }
-
-  public AddStatus(status: string): void {
-    const stidx = this.Statuses.findIndex(x => x === status)
-    if (stidx === -1) this.Statuses.push(status)
-  }
-
-  public RemoveStatus(status: string): void {
-    const stidx = this.Statuses.findIndex(x => x === status)
-    if (stidx > -1) this.Statuses.splice(stidx, 1)
-  }
-
-  public get Resistances(): string[] {
-    return this._resistances
-  }
-
-  public set Resistances(resistances: string[]) {
-    this._resistances = resistances
-    this.SaveController.save()
-  }
-
-  public get Burn(): number {
-    return this._burn
-  }
-
-  public set Burn(burn: number) {
-    this._burn = burn
-    if (this._burn < 0) this._burn = 0
-    this.SaveController.save()
-  }
-
-  // -- Active Mode Utilities ---------------------------------------------------------------------
-  public FullRepair(): void {
-    this._destroyed = false
-    this._reactor_destroyed = false
-    this.CurrentStructure = this.MaxStructure
-    this.CurrentHP = this.MaxHP
-    this.CurrentStress = this.MaxStress
-    this.CurrentHeat = 0
-    this.CurrentRepairs = this.RepairCapacity
-    this.CurrentCoreEnergy = 1
-    this.CurrentOvercharge = 0
-    this.Boost = 0
-    this.MechLoadoutController.Loadouts.forEach(x => {
-      x.Equipment.forEach(y => {
-        if (y.Destroyed) y.Repair()
-        if (y.IsLimited) y.Uses = y.getTotalUses(this.LimitedBonus)
-      })
-    })
-    if (this.Frame.CoreSystem.PassiveActions)
-      this.Frame.CoreSystem.PassiveActions.forEach(a => a.Reset(ActivePeriod.Mission))
-    if (this.Frame.CoreSystem.DeployActions)
-      this.Frame.CoreSystem.DeployActions.forEach(a => a.Reset(ActivePeriod.Mission))
-    this._statuses = []
-    this._conditions = []
-    this._resistances = []
-    this.Burn = 0
-    this._defeat = ''
-    this.IsCoreActive = false
-    this.SaveController.save()
-  }
-
-  public BasicRepair(restoreReactor: boolean): void {
-    this._destroyed = false
-    if (restoreReactor) {
-      this._reactor_destroyed = false
-      this.CurrentStress = 1
-    }
-    this.CurrentStructure = 1
-    this.CurrentHP = 1
-    this.CurrentHeat = 0
-    this._statuses = []
-    this._conditions = []
-    this._resistances = []
-    this.Burn = 0
-    this._defeat = ''
-    this.SaveController.save()
   }
 
   // -- Loadouts ----------------------------------------------------------------------------------
@@ -973,26 +540,8 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
       notes: m.Notes,
       gm_note: m.GmNote,
       frame: m.Frame.ID,
-      active: m._active,
-      current_structure: m.CurrentStructure,
-      current_move: m._currentMove,
-      boost: m._boost,
-      current_hp: m.CurrentHP,
-      overshield: m._overshield,
-      current_stress: m.CurrentStress,
-      current_heat: m._current_heat,
-      current_repairs: m.CurrentRepairs,
-      current_overcharge: m._current_overcharge,
-      current_core_energy: m._current_core_energy,
-      statuses: m._statuses,
-      conditions: m._conditions,
-      resistances: m._resistances,
-      reactions: m._reactions,
-      burn: m._burn,
       destroyed: m._destroyed,
       defeat: m._defeat,
-      activations: m._activations,
-      meltdown_imminent: m._meltdown_imminent,
       reactor_destroyed: m._reactor_destroyed,
       core_active: m._core_active,
     }
@@ -1002,6 +551,14 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     MechLoadoutController.Serialize(m, data)
 
     return data as IMechData
+  }
+
+  Clone(): ISaveable {
+    const itemData = Mech.Serialize(this)
+    const newItem = Mech.Deserialize(itemData, this.Pilot)
+    newItem.RenewID()
+    newItem.Name += ' (COPY)'
+    return newItem
   }
 
   public static Deserialize(data: IMechData, pilot: Pilot): Mech {
@@ -1015,25 +572,8 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     m._name = data.name
     m._notes = data.notes
     m._gm_note = data.gm_note
-    m._active = data.active
-    m.CurrentStructure = data.current_structure
-    m._currentMove = data.current_move || 0
-    m._boost = data.boost || 0
-    m.CurrentHP = data.current_hp
-    m._overshield = data.overshield || 0
-    m.CurrentStress = data.current_stress
-    m._current_heat = data.current_heat
-    m.CurrentRepairs = data.current_repairs
-    m._current_overcharge = data.current_overcharge || 0
-    m._current_core_energy = data.current_core_energy != null ? data.current_core_energy : 1
-    m._statuses = data.statuses || []
-    m._conditions = data.conditions || []
-    m._resistances = data.resistances || []
-    m._reactions = data.reactions || []
-    m._burn = data.burn || 0
     m._destroyed = data.destroyed || false
     m._defeat = data.defeat || ''
-    m._activations = data.activations || 1
     m._reactor_destroyed = data.reactor_destroyed || false
     m._core_active = data.core_active || false
 

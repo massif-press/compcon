@@ -1,4 +1,4 @@
-import { CompendiumItem, EncounterSide } from '@/class'
+import { CompendiumItem } from '@/class'
 import {
   ISaveData,
   ICloudData,
@@ -29,18 +29,7 @@ import { EidolonStore } from '@/features/gm/store/eidolon_store'
 import { store } from '@/store'
 import { getModule } from 'vuex-module-decorators'
 
-class EidolonData implements ISaveData, ICloudData, IPortraitData, IBrewData, NarrativeElementData {
-  lastModified: string
-  isDeleted: boolean
-  expireTime: string
-  deleteTime: string
-  lastUpdate_cloud: string
-  lastSync: string
-  shareCode: string
-  shareCodeExpiry: string
-  isRemoteResource: boolean
-  remoteIID: string
-  remoteKey: string
+class EidolonData implements IPortraitData, IBrewData, NarrativeElementData {
   portrait: string
   cloud_portrait: string
   brews: BrewInfo[]
@@ -55,7 +44,6 @@ class EidolonData implements ISaveData, ICloudData, IPortraitData, IBrewData, Na
   tag: string
   active: boolean
   note: string
-  side: string
   cloudImage: string
   localImage: string
   statuses: string[]
@@ -68,6 +56,9 @@ class EidolonData implements ISaveData, ICloudData, IPortraitData, IBrewData, Na
   actions: number
   counter_data: ICounterSaveData[]
   custom_counters: object[]
+
+  save: ISaveData
+  cloud: ICloudData
 }
 
 class Eidolon
@@ -99,7 +90,6 @@ class Eidolon
   private _subtitle: string
   private _note: string
 
-  private _side: EncounterSide
   private _destroyed: boolean
   private _defeat: string
 
@@ -118,7 +108,6 @@ class Eidolon
 
     this._name = `New Eidolon`
     this._subtitle = ''
-    this._side = EncounterSide.Enemy
     this._note = ''
     this._destroyed = false
     this._defeat = ''
@@ -166,15 +155,6 @@ class Eidolon
     this.SaveController.save()
   }
 
-  public get Side(): EncounterSide {
-    return this._side
-  }
-
-  public set Side(val: EncounterSide) {
-    this._side = val
-    this.SaveController.save()
-  }
-
   public get Note(): string {
     return this._note
   }
@@ -195,7 +175,6 @@ class Eidolon
       name: e._name,
       subtitle: e._subtitle,
       note: e._note,
-      side: e.Side,
       destroyed: e._destroyed,
       defeat: e._defeat,
     }
@@ -226,7 +205,6 @@ class Eidolon
     this._id = data.id
     this._name = data.name
     this._subtitle = data.subtitle || ''
-    this._side = data.side as EncounterSide
     this._note = data.note
     this._destroyed = data.destroyed || false
     this._defeat = data.defeat || ''
