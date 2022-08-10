@@ -2,7 +2,7 @@ import _ from 'lodash'
 import uuid from 'uuid/v4'
 import { Rules, Mech, CompendiumItem, PilotLoadout } from '../../class'
 import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface'
-import { ActiveState, IActiveStateData, ICombatStats } from '../mech/ActiveState'
+import { ActiveState, ICombatStats } from '../components/combat/ActiveState'
 import { Bonus } from '../components/feature/bonus/Bonus'
 import {
   CoreBonusController,
@@ -21,13 +21,10 @@ import { ItemType } from '../enums'
 import { PilotManagementStore, store } from '../../store'
 import {
   CloudController,
-  CounterController,
   GroupController,
   ICloudData,
   ICloudSyncable,
   ICollectionGroupable,
-  ICounterCollection,
-  ICounterContainer,
   IGroupData,
   IHASEContainer,
   IMechSkillsData,
@@ -47,8 +44,6 @@ import { getModule } from 'vuex-module-decorators'
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
 import { IBrewable } from '../components/brew/IBrewable'
 import { BondController, IPilotBondData } from './components/bond/BondController'
-import { IClockData } from '../components/narrative/elements/Clock'
-import { BondPower } from './components/bond/Bond'
 
 interface IUnlockData {
   PilotGear: string[]
@@ -61,20 +56,20 @@ interface IUnlockData {
 
 class PilotData
   implements
-    ISaveData,
-    ICloudData,
     ISkillsData,
     ITalentsData,
     IMechSkillsData,
-    ICounterCollection,
     ICoreBonusSaveData,
     ILicenseSaveData,
-    IGroupData,
-    IPortraitData,
-    IBrewData,
-    IPilotBondData
+    IBrewData
 {
   id: string
+
+  save: ISaveData
+  cloud: ICloudData
+  brews: BrewInfo[]
+  img: IPortraitData
+  group: IGroupData
 
   // pilot
   level: number
@@ -89,81 +84,17 @@ class PilotData
   background: string
   special_equipment: IUnlockData
   mechs: IMechData[]
-  dead: boolean
-
-  // bonds
-  minorIdeal: string
-  bondAnswers: string[]
-  maxStress: number
-  powerSelections: number
-  bondId?: string
-  xp: number
-  stress: number
-  isBroken: boolean
-  burdens: IClockData[]
-  bondPowers: BondPower[]
-  clocks: IClockData[]
-  pilotBond: IPilotBondData
-
-  // brewable
-  brews: BrewInfo[]
-
-  // cloud
-  remoteIID: string
-  remoteKey: string
-  shareCodeExpiry: string
-  shareCode: string
-  isRemoteResource: boolean
-  deleteTime: string
-
-  current_hp: number
-  resistances: string[]
   combat_history: ICombatStats
-  state: IActiveStateData
+  loadout: IPilotLoadoutData
 
-  // SaveController
-  lastModified: string
-  isDeleted: boolean
-  expireTime: string
-
-  // PortraitController
-  portrait: string
-  cloud_portrait: string
-
-  // CloudController
-  lastUpdate_cloud: string
-  resourceUri: string
-  lastSync: string
-
-  // SkillsController
+  bond: IPilotBondData
   skills: IRankedData[]
-
-  // TalentsController
   talents: IRankedData[]
-
-  // MechSkillsController
   mechSkills: number[]
-
-  // CounterController
-  custom_counters: any[]
-  counter_data: ICounterSaveData[]
-
-  // CoreBonusController
   core_bonuses: string[]
-
-  // LicenseController
   licenses: IRankedData[]
-
-  // ReservesController
   reserves: IReserveData[]
   orgs: IOrganizationData[]
-
-  // GroupConteroller
-  group: string
-  sort_index: number
-
-  // PilotLoadoutController
-  loadout: IPilotLoadoutData
 }
 
 class Pilot
@@ -171,7 +102,6 @@ class Pilot
     ICloudSyncable,
     ISaveable,
     IHASEContainer,
-    ICounterContainer,
     ICollectionGroupable,
     IPortraitContainer,
     IFeatureController,
@@ -184,7 +114,6 @@ class Pilot
   public SkillsController: SkillsController
   public TalentsController: TalentsController
   public MechSkillsController: MechSkillsController
-  public CounterController: CounterController
   public CoreBonusController: CoreBonusController
   public LicenseController: LicenseController
   public ReservesController: ReservesController
@@ -206,14 +135,10 @@ class Pilot
   private _quirks: string[]
   private _history: string
   private _level: number
-  private _missing_hp: number
   private _background: string
   private _special_equipment: CompendiumItem[]
   private _mechs: Mech[]
-  private _dead: boolean
 
-  private _resistances: string[]
-  private _state: ActiveState
   private _combat_history: ICombatStats
 
   public constructor() {
@@ -224,7 +149,6 @@ class Pilot
     this.SkillsController = new SkillsController(this)
     this.TalentsController = new TalentsController(this)
     this.MechSkillsController = new MechSkillsController(this)
-    this.CounterController = new CounterController(this)
     this.CoreBonusController = new CoreBonusController(this)
     this.LicenseController = new LicenseController(this)
     this.ReservesController = new ReservesController(this)
@@ -250,13 +174,9 @@ class Pilot
     this._notes = ''
     this._history = ''
     this._quirks = []
-    this._missing_hp = 0
     this._background = ''
-    this._resistances = []
     this._special_equipment = []
     this._mechs = []
-    this._dead = false
-    this._state = new ActiveState(this)
     this._combat_history = ActiveState.NewCombatStats()
   }
 
@@ -299,10 +219,6 @@ class Pilot
     ] as CompendiumItem[]
   }
 
-  public get Items(): any[] {
-    return this.ActiveMech.MechLoadoutController.ActiveLoadout.Equipment
-  }
-
   // -- Attributes --------------------------------------------------------------------------------
   public get ID(): string {
     return this._id
@@ -324,7 +240,6 @@ class Pilot
 
   public ApplyLevel(update: PilotData): void {
     this.Update(update)
-    this.CurrentHP = this.MaxHP
     this.SaveController.save()
   }
 
@@ -364,34 +279,12 @@ class Pilot
     this.SaveController.save()
   }
 
-  public get IsDownAndOut(): boolean {
-    return this.CurrentHP === 0
-  }
-
-  public get IsDead(): boolean {
-    return this._dead
-  }
-
-  public set IsDead(val: boolean) {
-    this._dead = val
-    this.SaveController.save()
-  }
-
   public get Status(): string {
     return this._status
   }
 
   public set Status(newVal: string) {
     this._status = newVal
-    this.SaveController.save()
-  }
-
-  public get Resistances(): string[] {
-    return this._resistances
-  }
-
-  public set Resistances(resistances: string[]) {
-    this._resistances = resistances
     this.SaveController.save()
   }
 
@@ -450,17 +343,6 @@ class Pilot
 
   public get MaxHP(): number {
     return Bonus.Int(Rules.BasePilotHP + this.Grit, 'pilot_hp', this)
-  }
-
-  public get CurrentHP(): number {
-    return this.MaxHP - this._missing_hp
-  }
-
-  public set CurrentHP(hp: number) {
-    if (hp > this.MaxHP) this._missing_hp = 0
-    else if (hp < 0) this._missing_hp = this.MaxHP
-    else this._missing_hp = this.MaxHP - hp
-    this.SaveController.save()
   }
 
   public get Armor(): number {
@@ -522,13 +404,6 @@ class Pilot
     if (index === -1) {
       console.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`)
     } else {
-      if (
-        !this.State.ActiveMech ||
-        !this.State.ActiveMech.ID ||
-        (this.State.ActiveMech && this.State.ActiveMech.ID === mech.ID)
-      ) {
-        this._state = new ActiveState(this)
-      }
       this._mechs.splice(index, 1)
     }
     this.SaveController.save()
@@ -543,31 +418,6 @@ class Pilot
     this.SaveController.save()
   }
 
-  public get ActiveMech(): Mech | null {
-    return this._state.ActiveMech
-  }
-
-  public set ActiveMech(mech: Mech | null) {
-    this._state = new ActiveState(this)
-    this._state.ActiveMech = mech
-  }
-
-  // -- Active Mode -------------------------------------------------------------------------------
-  public SpecialEval(val: number | string): number {
-    if (typeof val === 'number') return val
-    let valStr = val as string
-    // @ts-ignore
-    valStr = valStr.replaceAll(`{ll}`, this.Level.toString())
-    // @ts-ignore
-    valStr = valStr.replaceAll(`{grit}`, this.Grit.toString())
-    valStr = valStr.replace(/[^-()\d/*+.]/g, '')
-    return Math.ceil(eval(valStr))
-  }
-
-  public get State(): ActiveState {
-    return this._state
-  }
-
   public UpdateCombatStats(ms: ICombatStats): void {
     for (const k in this._combat_history) {
       if (ms[k]) this._combat_history[k] += ms[k]
@@ -576,29 +426,6 @@ class Pilot
 
   public get CombatHistory(): ICombatStats {
     return this._combat_history
-  }
-
-  public Kill(): void {
-    this._status = 'KIA'
-    this.IsDead = true
-    this.CurrentHP = 0
-  }
-
-  public Restore(): void {
-    this.CurrentHP = 1
-    this._dead = false
-    this._status = 'Active'
-  }
-
-  public Heal(): void {
-    this._dead = false
-    this.CurrentHP = this.MaxHP
-    this.Status = 'Active'
-  }
-
-  public FullRestore(): void {
-    this.Restore()
-    this.CurrentHP = this.MaxHP
   }
 
   // -- I/O ---------------------------------------------------------------------------------------
@@ -637,18 +464,14 @@ class Pilot
       name: p.Name,
       player_name: p.PlayerName,
       status: p.Status,
-      dead: p.IsDead,
       text_appearance: p.TextAppearance,
       notes: p.Notes,
       history: p.History,
       quirks: p.Quirks,
-      current_hp: p.CurrentHP,
       background: p.Background,
-      resistances: p.Resistances,
       mechs: p.Mechs.length ? p.Mechs.map(x => Mech.Serialize(x)) : [],
       special_equipment: this.serializeSE(p._special_equipment),
       combat_history: p._combat_history,
-      state: ActiveState.Serialize(p.State),
     }
 
     SaveController.Serialize(p, data)
@@ -656,7 +479,6 @@ class Pilot
     SkillsController.Serialize(p, data)
     TalentsController.Serialize(p, data)
     MechSkillsController.Serialize(p, data)
-    CounterController.Serialize(p, data)
     CoreBonusController.Serialize(p, data)
     LicenseController.Serialize(p, data)
     ReservesController.Serialize(p, data)
@@ -683,7 +505,7 @@ class Pilot
   public static Deserialize(pilotData: PilotData): Pilot {
     const p = new Pilot()
     try {
-      p.Update(pilotData, true)
+      p.Update(pilotData)
       p.SaveController.SetLoaded()
       return p
     } catch (err) {
@@ -691,22 +513,19 @@ class Pilot
     }
   }
 
-  public Update(data: PilotData, deserialize?: boolean): void {
+  public Update(data: PilotData): void {
     this._id = data.id
     this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats()
     this._level = data.level
     this._callsign = data.callsign
     this._name = data.name
-    this._dead = data.dead || false
     this._player_name = data.player_name
     this._status = data.status || 'ACTIVE'
     this._text_appearance = data.text_appearance
     this._notes = data.notes
     this._history = data.history
     this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : []
-    this.CurrentHP = data.current_hp
     this._background = data.background
-    this._resistances = data.resistances || []
     this._mechs = data.mechs.length
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
       : []
@@ -715,22 +534,18 @@ class Pilot
       : []
 
     MechSkillsController.Deserialize(this, data)
-    SaveController.Deserialize(this, data)
-    CloudController.Deserialize(this, data)
+    SaveController.Deserialize(this, data.save)
+    CloudController.Deserialize(this, data.cloud)
     SkillsController.Deserialize(this, data)
     TalentsController.Deserialize(this, data)
-    CounterController.Deserialize(this, data)
     CoreBonusController.Deserialize(this, data)
     LicenseController.Deserialize(this, data)
     ReservesController.Deserialize(this, data)
-    BondController.Deserialize(this, data)
-    if (deserialize) GroupController.Deserialize(this, data)
-    PortraitController.Deserialize(this, data)
+    BondController.Deserialize(this, data.bond)
+    GroupController.Deserialize(this, data.group)
+    PortraitController.Deserialize(this, data.img)
     PilotLoadoutController.Deserialize(this, data)
     BrewController.Deserialize(this, data)
-
-    // Updating active state will need to be revisited
-    this._state = data.state ? ActiveState.Deserialize(this, data.state) : new ActiveState(this)
   }
 
   public Clone(): Pilot {

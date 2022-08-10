@@ -185,6 +185,15 @@ export class CompendiumStore extends VuexModule {
     })
   }
 
+  public get AllowBonds(): boolean {
+    return this.Bonds.length > 0
+  }
+
+  public get AllowEidolons(): boolean {
+    // TODO: check for eidolon data
+    return true
+  }
+
   // TODO: just set as part of the data loader
   @Mutation
   private [SET_VERSIONS](lancer: string, cc: string): void {

@@ -5,7 +5,6 @@ import { Bonus } from './bonus/Bonus'
 import { Synergy } from '@/classes/components/feature/synergy/Synergy'
 import { Action } from '@/classes/Action'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
-import { ICounterData } from '../counters/Counter'
 import { CompendiumItem } from '@/classes/CompendiumItem'
 import { MechWeapon, MechSystem } from '@/class'
 
@@ -56,10 +55,6 @@ class FeatureController {
 
   public get Deployables(): IDeployableData[] {
     return this.collectAll('Deployables')
-  }
-
-  public get Counters(): ICounterData[] {
-    return this.collectAll('Counters')
   }
 
   public get IntegratedWeapons(): MechWeapon[] {

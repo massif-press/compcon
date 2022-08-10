@@ -35,7 +35,7 @@ class Location extends CollectionItem {
     this.Description = data.description
     this.Notes = data.notes
     NarrativeController.Deserialize(this, data)
-    SaveController.Deserialize(this, data)
+    SaveController.Deserialize(this, data.save)
   }
 
   public static Deserialize(data: ILocationData): Location {

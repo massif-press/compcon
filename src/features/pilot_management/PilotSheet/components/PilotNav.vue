@@ -74,13 +74,6 @@
         <v-icon large color="white">cci-frame</v-icon>
       </cc-tooltip>
     </v-btn>
-    <router-link :to="`/active/${pilot.ID}`">
-      <v-btn icon fab x-small outlined class="mr-4 unskew" dark>
-        <cc-tooltip inline delayed content="Active Mode">
-          <v-icon large color="white">cci-activate</v-icon>
-        </cc-tooltip>
-      </v-btn>
-    </router-link>
     <div id="divider" />
     <cc-tooltip
       v-if="pilot.CloudController.IsRemoteResource"

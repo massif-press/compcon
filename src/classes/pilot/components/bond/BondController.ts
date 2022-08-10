@@ -220,17 +220,18 @@ class BondController {
   }
 
   public static Serialize(parent: Pilot, target: any) {
-    target.bondId = parent.BondController.Bond ? parent.BondController.Bond.ID : ''
-    target.xp = parent.BondController._xp
-    target.stress = parent.BondController._stress
-    target.isBroken = parent.BondController._isBroken
-    target.burdens = parent.BondController._burdens.map(x => Clock.Serialize(x))
-    target.bondPowers = parent.BondController._bondPowers
-    target.powerSelections = parent.BondController._powerSelections
-    target.maxStress = parent.BondController._maxStress
-    target.bondAnswers = parent.BondController._answers
-    target.minorIdeal = parent.BondController._minorIdeal
-    target.clocks = parent.BondController._clocks.map(x => Clock.Serialize(x))
+    if (!target.bond) target.bond = {}
+    target.bond.bondId = parent.BondController.Bond ? parent.BondController.Bond.ID : ''
+    target.bond.xp = parent.BondController._xp
+    target.bond.stress = parent.BondController._stress
+    target.bond.isBroken = parent.BondController._isBroken
+    target.bond.burdens = parent.BondController._burdens.map(x => Clock.Serialize(x))
+    target.bond.bondPowers = parent.BondController._bondPowers
+    target.bond.powerSelections = parent.BondController._powerSelections
+    target.bond.maxStress = parent.BondController._maxStress
+    target.bond.bondAnswers = parent.BondController._answers
+    target.bond.minorIdeal = parent.BondController._minorIdeal
+    target.bond.clocks = parent.BondController._clocks.map(x => Clock.Serialize(x))
   }
 
   public static Deserialize(parent: Pilot, data: IPilotBondData) {

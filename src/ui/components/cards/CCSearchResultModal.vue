@@ -7,7 +7,7 @@
       >
         {{ item.Source }} {{ item.Name }}
       </cc-titlebar>
-      <v-card-text>
+      <!-- <v-card-text>
         <class-card
           v-if="item.ItemType === 'NPC Class'"
           :ref="`modal_${item.ID}`"
@@ -16,7 +16,7 @@
         />
 
         <cc-item-card v-else :item="item" />
-      </v-card-text>
+      </v-card-text> -->
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer />
@@ -28,11 +28,14 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import ClassCard from '@/features/encounters/npc/new/ClassCard.vue'
+// import ClassCard from '@/features/encounters/npc/new/ClassCard.vue'
 
-@Component({name: 'cc-search-result-modal', components: { ClassCard }})
+@Component({
+  name: 'cc-search-result-modal',
+  // components: { ClassCard }
+})
 export default class CCSearchResultModal extends Vue {
-  @Prop({type: Object, required: true})
+  @Prop({ type: Object, required: true })
   readonly item
 
   dialog = false

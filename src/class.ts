@@ -21,7 +21,6 @@ import {
   MechType,
   ReserveType,
   OrgType,
-  EncounterSide,
 } from './classes/enums'
 import Tag from './classes/Tag'
 import { CompendiumItem } from './classes/CompendiumItem'
@@ -85,9 +84,8 @@ import {
   NpcItem,
   Npc,
 } from './classes/npc'
-import { Encounter, Rest, Mission, ActiveMission, MissionStepType } from './classes/encounter'
 import { ContentPack } from './classes/ContentPack'
-import { Counter } from './classes/components/counters/Counter'
+import { Counter } from './classes/components/combat/counters/Counter'
 
 export {
   Rules,
@@ -166,12 +164,6 @@ export {
   NpcItem,
   NpcTech,
   Npc,
-  Encounter,
-  EncounterSide,
-  Rest,
-  Mission,
-  MissionStepType,
-  ActiveMission,
   ContentPack,
   Counter,
 }

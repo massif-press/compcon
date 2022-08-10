@@ -87,9 +87,8 @@
           <v-card outlined>
             <v-card-text>
               <v-alert dense icon="mdi-alert" class="ma-0">
-                COMP/CON stores its data in your browser's LocalStorage, which may become filled or
-                erased by other browser apps or plugins. It is strongly recommended to regularly
-                create campaign data backups.
+                COMP/CON stores its data locally, which may be erased by other browser functions or
+                plugins. It is strongly recommended to regularly create campaign data backups.
               </v-alert>
               <v-row dense justify="center" align="center">
                 <v-col>

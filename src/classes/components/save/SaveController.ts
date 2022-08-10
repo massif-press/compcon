@@ -1,6 +1,5 @@
 import { ISaveable } from './ISaveable'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore, store } from '@/store'
+import { store } from '@/store'
 import { SaveAllLocalUpdates } from '@/io/BulkData'
 
 interface ISaveData {
@@ -70,10 +69,11 @@ class SaveController {
   }
 
   public static Serialize(parent: ISaveable, target: any) {
-    target.lastModified = parent.SaveController.LastModified
-    target.isDeleted = parent.SaveController.IsDeleted
-    target.expireTime = parent.SaveController.ExpireTime
-    target.deleteTime = parent.SaveController.DeleteTime
+    if (!target.save) target.save = {}
+    target.save.lastModified = parent.SaveController.LastModified
+    target.save.isDeleted = parent.SaveController.IsDeleted
+    target.save.expireTime = parent.SaveController.ExpireTime
+    target.save.deleteTime = parent.SaveController.DeleteTime
   }
 
   public static Deserialize(parent: ISaveable, data: ISaveData) {

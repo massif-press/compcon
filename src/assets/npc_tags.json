@@ -17,5 +17,9 @@
   {
     "name": "Squad",
     "description": "These NPCs aren’t individual people – instead, they are a large squad of smaller enemies that act together."
+  },
+  {
+    "name": "Other",
+    "description": "Non-NPC entities that can be tracked in combat encounters, such as complex obstacles or terrain objects with special rules."
   }
 ]

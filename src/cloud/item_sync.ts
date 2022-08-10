@@ -1,9 +1,9 @@
-import { store, PilotManagementStore, NpcStore, EncounterStore, MissionStore } from '../store'
+import { store, PilotManagementStore, NpcStore } from '../store'
 import { Auth, Storage } from 'aws-amplify'
 import { getModule } from 'vuex-module-decorators'
 import { ICloudSyncable } from '@/classes/components'
 import { CloudController, CloudItemTypeMap } from '@/classes/components/cloud/CloudController'
-import { ActiveMission, Encounter, Mission, Npc, Pilot } from '@/class'
+import { Npc, Pilot } from '@/class'
 import { MissingItemIds } from '@/io/ContentEvaluator'
 import { SaveAllLocalUpdates } from '@/io/BulkData'
 
@@ -57,9 +57,6 @@ function determineLatest(cloudItem: CloudCollectionItem, localItem: CloudCollect
 
 const ProcessItemsList = (cloudList): CloudCollectionItem[] => {
   const localCollection = {
-    activemission: getModule(MissionStore, store).AllActiveMissions,
-    mission: getModule(MissionStore, store).AllMissions,
-    encounter: getModule(EncounterStore, store).AllEncounters,
     npc: getModule(NpcStore, store).AllNpcs,
     pilot: getModule(PilotManagementStore, store).AllPilots,
   }
@@ -149,12 +146,6 @@ const ProcessItemsList = (cloudList): CloudCollectionItem[] => {
 
 function GetLocalItem(item: CloudCollectionItem): any {
   switch (item.itemType) {
-    case CloudItemTypeMap.activemission:
-      return getModule(MissionStore, store).ActiveMissions.find(x => x.ID === item.id)
-    case CloudItemTypeMap.mission:
-      return getModule(MissionStore, store).Missions.find(x => x.ID === item.id)
-    case CloudItemTypeMap.encounter:
-      return getModule(EncounterStore, store).Encounters.find(x => x.ID === item.id)
     case CloudItemTypeMap.npc:
       return getModule(NpcStore, store).Npcs.find(x => x.ID === item.id)
     case CloudItemTypeMap.pilot:
@@ -166,18 +157,6 @@ function GetLocalItem(item: CloudCollectionItem): any {
 
 function PermanentlyDeleteLocalItem(item: CloudCollectionItem): any {
   switch (item.itemType) {
-    case CloudItemTypeMap.activemission:
-      const ms = getModule(MissionStore, store)
-      ms.deleteActiveMissionPermanent(ms.AllActiveMissions.find(x => x.ID === item.id))
-      break
-    case CloudItemTypeMap.mission:
-      const ams = getModule(MissionStore, store)
-      ams.deleteMissionPermanent(ams.AllMissions.find(x => x.ID === item.id))
-      break
-    case CloudItemTypeMap.encounter:
-      const es = getModule(EncounterStore, store)
-      es.deleteEncounterPermanent(es.AllEncounters.find(x => x.ID === item.id))
-      break
     case CloudItemTypeMap.npc:
       const ns = getModule(NpcStore, store)
       ns.deleteNpcPermanent(ns.AllNpcs.find(x => x.ID === item.id))
@@ -222,15 +201,6 @@ const UpdateLocalFromCloud = async (
   } else {
     // no local copy exists, create new
     switch (item.itemType) {
-      case CloudItemTypeMap.activemission:
-        instance = ActiveMission.AddNew(data, true)
-        break
-      case CloudItemTypeMap.mission:
-        instance = Mission.AddNew(data, true)
-        break
-      case CloudItemTypeMap.encounter:
-        instance = Encounter.AddNew(data, true)
-        break
       case CloudItemTypeMap.npc:
         instance = Npc.AddNew(data, true)
         break
@@ -285,13 +255,6 @@ const UpdateCloudFromLocal = (
 
 const SaveLocalUpdates = (item: CloudCollectionItem) => {
   switch (item.itemType) {
-    case CloudItemTypeMap.mission:
-    case CloudItemTypeMap.activemission:
-      store.dispatch('saveMissionData')
-      break
-    case CloudItemTypeMap.encounter:
-      store.dispatch('saveEncounterData')
-      break
     case CloudItemTypeMap.npc:
       store.dispatch('saveNpcData')
       break

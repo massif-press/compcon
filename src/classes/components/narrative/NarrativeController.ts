@@ -112,9 +112,10 @@ class NarrativeController {
   }
 
   public static Serialize(parent: INarrativeElement, target: any) {
-    target.textItems = parent.NarrativeController.TextItems
-    target.clocks = parent.NarrativeController.Clocks.map(x => Clock.Serialize(x))
-    target.tables = parent.NarrativeController.Tables.map(x => RollableTable.Serialize(x))
+    if (!target.narrative) target.narrative = {}
+    target.narrative.textItems = parent.NarrativeController.TextItems
+    target.narrative.clocks = parent.NarrativeController.Clocks.map(x => Clock.Serialize(x))
+    target.narrative.tables = parent.NarrativeController.Tables.map(x => RollableTable.Serialize(x))
   }
 
   public static Deserialize(parent: INarrativeElement, data: NarrativeElementData) {

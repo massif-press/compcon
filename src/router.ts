@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import gmRoutes from './features/gm/routes'
 import pilotRoutes from './features/pilot_management/routes'
 import compendiumRoutes from './features/compendium/routes'
+import activeModeRoutes from './features/active_mode/routes'
 import { getModule } from 'vuex-module-decorators'
 import { NavStore, store } from './store'
 import updateChecker from './util/UpdateChecker'
@@ -38,10 +39,10 @@ const r = new Router({
       ...route,
       path: (route.path = '/pilot_management/' + route.path),
     })),
-    // ...encounterRoutes.map(route => ({
-    //   ...route,
-    //   path: route.path = '/gm/' + route.path,
-    // })),
+    ...activeModeRoutes.map(route => ({
+      ...route,
+      path: (route.path = '/active-mode/' + route.path),
+    })),
     ...gmRoutes.map(route => ({
       ...route,
       path: (route.path = '/gm/' + route.path),

@@ -11,7 +11,7 @@ enum CampaignStatus {
   Catalog = 'Catalog',
 }
 
-class ICampaignData implements ISaveData {
+class ICampaignData {
   id: string
   name: string
   image: string
@@ -24,10 +24,7 @@ class ICampaignData implements ISaveData {
   factions: IFactionData[]
   locations: ILocationData[]
   status: CampaignStatus
-  lastModified: string
-  isDeleted: boolean
-  expireTime: string
-  deleteTime: string
+  save: ISaveData
 }
 
 class Campaign implements ISaveable {
@@ -151,7 +148,7 @@ class Campaign implements ISaveable {
     this.Locations = data.locations.map(s => Location.Deserialize(s))
     this.Factions = data.factions.map(s => Faction.Deserialize(s))
     this.Status = data.status
-    SaveController.Deserialize(this, data)
+    SaveController.Deserialize(this, data.save)
   }
 
   public static Deserialize(data: ICampaignData): Campaign {

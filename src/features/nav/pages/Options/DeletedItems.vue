@@ -46,20 +46,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
-import { MissionStore, EncounterStore, NpcStore, PilotManagementStore } from '@/store'
+import { NpcStore, PilotManagementStore } from '@/store'
 
 export default Vue.extend({
   name: 'deleted-items',
   computed: {
     items() {
       return [
-        ...getModule(MissionStore, this.$store).AllActiveMissions.filter(
-          x => x.SaveController.IsDeleted
-        ),
-        ...getModule(MissionStore, this.$store).AllMissions.filter(x => x.SaveController.IsDeleted),
-        ...getModule(EncounterStore, this.$store).AllEncounters.filter(
-          x => x.SaveController.IsDeleted
-        ),
         ...getModule(NpcStore, this.$store).AllNpcs.filter(x => x.SaveController.IsDeleted),
         ...getModule(PilotManagementStore, this.$store).AllPilots.filter(
           x => x.SaveController.IsDeleted
@@ -70,18 +63,6 @@ export default Vue.extend({
   methods: {
     permanentlyDelete(item) {
       switch (item.ItemType) {
-        case 'mission':
-          const ms = getModule(MissionStore, this.$store)
-          ms.deleteMissionPermanent(ms.AllMissions.find(x => x.ID === item.ID))
-          break
-        case 'activemission':
-          const ams = getModule(MissionStore, this.$store)
-          ams.deleteActiveMissionPermanent(ams.AllActiveMissions.find(x => x.ID === item.ID))
-          break
-        case 'encounter':
-          const es = getModule(EncounterStore, this.$store)
-          es.deleteEncounterPermanent(es.AllEncounters.find(x => x.ID === item.ID))
-          break
         case 'npc':
           const ns = getModule(NpcStore, this.$store)
           ns.deleteNpcPermanent(ns.AllNpcs.find(x => x.ID === item.ID))

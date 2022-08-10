@@ -4,9 +4,7 @@ import { UserStore } from './user/store'
 import { NavStore } from './features/nav/store'
 import { CompendiumStore } from './features/compendium/store'
 import { PilotManagementStore } from './features/pilot_management/store/'
-import { NpcStore } from './features/encounters/npc/store'
-import { EncounterStore } from './features/encounters/encounter/store'
-import { MissionStore } from './features/encounters/mission/store'
+import { NpcStore } from './features/gm/store/npc_store'
 import { CharacterStore } from './features/gm/store/character_store'
 import { LocationStore } from './features/gm/store/location_store'
 import { FactionStore } from './features/gm/store/faction_store'
@@ -25,8 +23,6 @@ const store = new Vuex.Store({
     management: PilotManagementStore,
     npc: NpcStore,
     campaign: CampaignStore,
-    encounter: EncounterStore,
-    mission: MissionStore,
     character: CharacterStore,
     location: LocationStore,
     faction: FactionStore,
@@ -40,10 +36,8 @@ export {
   NavStore,
   CompendiumStore,
   CampaignStore,
-  EncounterStore,
   PilotManagementStore,
   NpcStore,
-  MissionStore,
   CharacterStore,
   FactionStore,
   LocationStore,

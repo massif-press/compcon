@@ -36,9 +36,8 @@ import {
   INpcTechData,
   INpcData,
 } from './classes/npc/interfaces'
-import { IEncounterData, IMissionData, IActiveMissionData } from './classes/encounter/interfaces'
 import { IContentPackManifest, IContentPack } from './classes/ContentPack'
-import { ICounterData } from './classes/components/counters/Counter'
+import { ICounterData } from './classes/components/combat/counters/Counter'
 import { ITagCompendiumData } from './classes/Tag'
 import { PilotData } from './classes/pilot/Pilot'
 
@@ -215,9 +214,6 @@ export {
   INpcTemplateData,
   INpcData,
   INpcItemSaveData,
-  IEncounterData,
-  IMissionData,
-  IActiveMissionData,
   IContentPackManifest,
   IContentPack,
   ICounterData,

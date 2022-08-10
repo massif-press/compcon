@@ -65,8 +65,6 @@ const SaveAllLocalUpdates = () => {
 }
 
 const globalSave = () => {
-  store.dispatch('saveMissionData')
-  store.dispatch('saveEncounterData')
   store.dispatch('saveNpcData')
   store.dispatch('savePilotData')
 }

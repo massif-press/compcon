@@ -6,8 +6,6 @@ import {
   CompendiumStore,
   PilotManagementStore,
   NpcStore,
-  EncounterStore,
-  MissionStore,
   UserStore,
   CharacterStore,
   LocationStore,
@@ -33,8 +31,6 @@ export default async function (
   const userstore = getModule(UserStore, store)
   const pilotStore = getModule(PilotManagementStore, store)
   const npcStore = getModule(NpcStore, store)
-  const encounterStore = getModule(EncounterStore, store)
-  const missionStore = getModule(MissionStore, store)
   const characterStore = getModule(CharacterStore, store)
   const locationStore = getModule(LocationStore, store)
   const factionStore = getModule(FactionStore, store)
@@ -61,9 +57,6 @@ export default async function (
   missing.npcs = npcStore.MissingNpcs
   await dataStore.setMissingContent(missing)
 
-  await encounterStore.loadEncounters()
-  await missionStore.loadMissions()
-  await missionStore.loadActiveMissions()
   await characterStore.loadCharacters()
   await locationStore.loadLocations()
   await factionStore.loadFactions()

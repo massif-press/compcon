@@ -116,13 +116,14 @@ class CloudController {
   }
 
   public static Serialize(parent: ICloudSyncable, target: any) {
-    target.lastUpdate_cloud = parent.CloudController.LastUpdateCloud
-    target.lastSync = parent.CloudController.LastSync
-    target.shareCode = parent.CloudController.ShareCode
-    target.shareCodeExpiry = parent.CloudController.ShareCodeExpiry
-    target.isRemoteResource = parent.CloudController.IsRemoteResource
-    target.remoteIID = parent.CloudController.RemoteIID
-    target.remoteKey = parent.CloudController.RemoteKey
+    if (!target.cloud) target.cloud = {}
+    target.cloud.lastUpdate_cloud = parent.CloudController.LastUpdateCloud
+    target.cloud.lastSync = parent.CloudController.LastSync
+    target.cloud.shareCode = parent.CloudController.ShareCode
+    target.cloud.shareCodeExpiry = parent.CloudController.ShareCodeExpiry
+    target.cloud.isRemoteResource = parent.CloudController.IsRemoteResource
+    target.cloud.remoteIID = parent.CloudController.RemoteIID
+    target.cloud.remoteKey = parent.CloudController.RemoteKey
   }
 
   public static Deserialize(parent: ICloudSyncable, data: ICloudData) {

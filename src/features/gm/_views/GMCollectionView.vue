@@ -93,8 +93,8 @@
     </v-row>
     <v-row justify="center" align="center" class="my-4" dense>
       <v-col cols="8">
-        <v-btn x-large block color="primary" @click="$emit('add-new')">
-          <v-icon large left>mdi-plus</v-icon>
+        <v-btn outlined block color="primary" @click="$emit('import-item')">
+          <v-icon left>mdi-plus</v-icon>
           Import {{ itemType }}
         </v-btn>
       </v-col>
