@@ -161,15 +161,8 @@
 
       <sync-manager ref="sync" />
       <v-divider class="my-6" />
-      <cloud-content-manager ref="lcps" />
       <v-divider class="my-6" />
-      <backup-manager
-        ref="backup"
-        :username="userProfile.Username"
-        @change="$refs.sync.fetch()"
-        @del-local="$refs.lcps ? $refs.lcps.deleteAllLocal : ''"
-        @del-cloud="$refs.lcps ? $refs.lcps.deleteAllCloud : ''"
-      />
+      <backup-manager ref="backup" :username="userProfile.Username" @change="$refs.sync.fetch()" />
 
       <v-scroll-y-transition leave-absolute hide-on-leave>
         <v-alert
@@ -200,7 +193,6 @@
 <script lang="ts">
 import Vue from 'vue'
 import SyncManager from '@/ui/syncManager/SyncManager.vue'
-import CloudContentManager from '@/ui/syncManager/CloudContentManager.vue'
 import BackupManager from '@/ui/syncManager/BackupManager.vue'
 import { Auth } from '@aws-amplify/auth'
 import { getModule } from 'vuex-module-decorators'
@@ -210,7 +202,7 @@ import _ from 'lodash'
 
 export default Vue.extend({
   name: 'auth-signed-in',
-  components: { SyncManager, BackupManager, CloudContentManager },
+  components: { SyncManager, BackupManager },
   data: () => ({
     upgradeLoading: false,
     loading: false,
@@ -310,7 +302,6 @@ export default Vue.extend({
       this.upgradeLoading = true
       try {
         await this.$refs.backup.dataExport()
-        await this.$refs.lcps.syncAll(true)
         await this.$refs.sync.syncAll(true)
         await UpdateUserData(this.userProfile, true)
         this.$notify('Data successfully updated. Reloading.', 'success')

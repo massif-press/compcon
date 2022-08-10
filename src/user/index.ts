@@ -312,7 +312,6 @@ async function getLocalProfile(): Promise<UserProfile> {
     }
   }
 
-  console.log(config)
   const data = JSON.parse(config as string) as IUserProfile
   return UserProfile.Deserialize(data)
 }

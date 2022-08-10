@@ -5,6 +5,7 @@ import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Location, ILocationData } from '@/classes/campaign/Location'
 import { store } from '@/store'
 import { storeSaveDelta } from '@/util/storeUtils'
+import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
 
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_DIRTY = 'SET_DIRTY'
@@ -13,6 +14,20 @@ export const DELETE_LOCATION = 'DELETE_LOCATION'
 export const CLONE_LOCATION = 'CLONE_LOCATION'
 export const LOAD_LOCATIONS = 'LOAD_LOCATIONS'
 
+async function saveLocationData(locations: Location[]) {
+  const dirty = locations.filter(x => x.SaveController.IsDirty)
+  Promise.all(dirty.map(x => SetItem('locations', Location.Serialize(x))))
+    .then(() => console.info('location data saved'))
+    .catch(err => console.error('Error while saving location data', err))
+}
+
+async function delete_location(location: Location) {
+  RemoveItem('locations', location.ID)
+    .then(() => console.info('NPC permenently deleted'))
+    .catch(err => console.error('Error while deleting NPC data', err))
+}
+
+>>>>>>> storage-rework
 @Module({
   name: 'location',
 })
@@ -112,7 +127,11 @@ export class LocationStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadLocations() {
+<<<<<<< HEAD
     const locationData = await loadData<ILocationData>('locations')
+=======
+    const locationData = await GetAll('locations')
+>>>>>>> storage-rework
     this.context.commit(LOAD_LOCATIONS, locationData)
   }
 

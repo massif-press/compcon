@@ -1,7 +1,15 @@
 import PromisifyFileReader from 'promisify-file-reader'
 import localForage from 'localforage'
 
-const writeFile = async function (name: string, data: string): Promise<void> {
+const canPersistData = async function (): Promise<boolean> {
+  const capable = await navigator.storage.persist()
+  const q = await navigator.permissions.query({ name: 'persistent-storage' })
+  const allowed = q.state === 'granted'
+
+  return capable && allowed
+}
+
+const writeFile = async function (name: string, data: any): Promise<void> {
   localForage.setItem(name, data)
 }
 
@@ -13,38 +21,46 @@ const exists = async function (name: string): Promise<boolean> {
   return Boolean(localForage.getItem(name))
 }
 
-const saveData = async function <T>(fileName: string, data: T): Promise<void> {
-  return writeFile(fileName, JSON.stringify(data))
+const saveData = async function <T>(collection: string, data: T): Promise<void> {
+  const p = await canPersistData()
+  return writeFile(collection, p ? data : JSON.stringify(data))
 }
 
-const saveDelta = async function <T>(filename: string, data: T[]): Promise<void> {
+const saveDelta = async function <T>(collection: string, data: T[]): Promise<void> {
   if (!data.length) return
-  const ls = await localForage.getItem(filename)
+  const ls = await localForage.getItem(collection)
   const mem = ls ? JSON.parse(ls as string) : []
   data.forEach((e: any) => {
     const idx = mem.findIndex((x: any) => x.id === e.id)
     if (idx > -1) mem[idx] = e
     else mem.push(e)
   })
-  writeFile(filename, JSON.stringify(mem))
+  writeFile(collection, JSON.stringify(mem))
 }
 
-const deleteDataById = async function (filename: string, ids: string[]): Promise<void> {
+// const saveDeltaPersistent = async function <T>(collection: string, data: T[]): Promise<void> {
+
+// }
+
+// const saveDeltaLocal = async function <T>(collection: string, data: T[]): Promise<void> {
+// }
+
+const deleteDataById = async function (collection: string, ids: string[]): Promise<void> {
   if (!ids.length) return
-  const item = await localForage.getItem(filename)
+  const item = await localForage.getItem(collection)
   const mem = JSON.parse(item as string)
   ids.forEach((e: any) => {
     const idx = mem.findIndex((x: any) => x.id === e)
     if (idx > -1) mem.splice(idx, 1)
   })
-  writeFile(filename, JSON.stringify(mem))
+  writeFile(collection, JSON.stringify(mem))
 }
 
-const loadData = async function <T>(fileName: string): Promise<T[]> {
-  const fileExists = await exists(fileName)
+const loadData = async function <T>(collection: string): Promise<T[]> {
+  const fileExists = await exists(collection)
   if (fileExists) {
     try {
-      const dataText = await readFile(fileName)
+      const dataText = await readFile(collection)
       return (JSON.parse(dataText) || []) as T[]
     } catch (err) {
       console.error(err)
@@ -59,16 +75,4 @@ const importData = async function <T>(file: File): Promise<T> {
   return JSON.parse(text) as T
 }
 
-const USER_DATA_PATH = 'localForage'
-
-export {
-  writeFile,
-  readFile,
-  saveData,
-  saveDelta,
-  deleteDataById,
-  loadData,
-  importData,
-  exists,
-  USER_DATA_PATH,
-}
+export { writeFile, readFile, saveData, saveDelta, deleteDataById, loadData, importData, exists }
