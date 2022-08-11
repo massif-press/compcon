@@ -26,14 +26,14 @@
       <v-row>
         <v-col>
           <v-btn large block tile outlined color="accent" @click="copyPilot()">
-            Copy Pilot Data to Clipboard (Roll20 Import)
+            Copy Pilot Data to Clipboard
           </v-btn>
         </v-col>
         <v-col cols="auto" class="ml-n1">
           <cc-tooltip
             simple
             inline
-            content="This will copy your pilot's data into your computer's clipboard, suitable for importing into the LANCER Character Sheet on Roll20"
+            content="This will copy your pilot's data into your computer's clipboard."
           >
             <v-icon class="mt-2 ml-n3">mdi-information-outline</v-icon>
           </cc-tooltip>
@@ -79,7 +79,7 @@ export default Vue.extend({
     copyPilot() {
       this.pilot.BrewController.SetBrewData()
       navigator.clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot)))
-      Vue.prototype.$notify('Roll20 data copied to clipboard')
+      Vue.prototype.$notify('Pilot data copied to clipboard')
       this.hide()
     },
     async copyCode() {
