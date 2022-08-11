@@ -25,7 +25,8 @@ const ListCloudItems = async (): Promise<any> => {
   console.info(id)
   return Storage.list('', { level: 'protected' })
     .then(result => {
-      return result
+      console.log(result)
+      return result.filter(x => !x.key.includes('s3-remove-flag'))
     })
     .catch(err => console.error(err))
 }
@@ -332,9 +333,13 @@ const GetSingleRemote = async (key: string, iid: string): Promise<any> => {
 
 const DeleteForever = async (item: CloudCollectionItem, skipSave?: boolean): Promise<any> => {
   PermanentlyDeleteLocalItem(item)
-  Storage.remove(item.key, {
-    level: 'protected',
-  }).catch(err => console.error(err))
+  if (item.key.includes('active')) {
+    Rename(item.key, item.key.replace('active', 's3-remove-flag'))
+  }
+  if (item.key.includes('deleted')) {
+    Rename(item.key, item.key.replace('deleted', 's3-remove-flag'))
+  }
+  await new Promise(s => setTimeout(s, 600))
   if (!skipSave) SaveLocalUpdates(item)
 }
 
@@ -342,17 +347,20 @@ const DeleteAll = async (): Promise<any> => {
   const items = await ListCloudItems()
   const promises = items.map(i => DeleteForever(i, true))
   Promise.all(promises)
+  await new Promise(s => setTimeout(s, 600))
 }
 
 const FlagCloudDelete = async (item: any): Promise<any> => {
   if (item.key.includes('active')) {
     Rename(item.key, item.key.replace('active', 'deleted'))
+    await new Promise(s => setTimeout(s, 600))
   } else console.error('Item key does not contain "active"')
 }
 
 const FlagCloudRestore = async (item: any): Promise<any> => {
   if (item.key.includes('deleted')) {
     Rename(item.key, item.key.replace('deleted', 'active'))
+    await new Promise(s => setTimeout(s, 600))
   } else console.error('Item key does not contain "deleted"')
 }
 
@@ -363,6 +371,7 @@ const Rename = async (start: string, dest: string): Promise<any> => {
   await Storage.remove(start, {
     level: 'protected',
   }).catch(err => console.error(err))
+  await new Promise(s => setTimeout(s, 600))
 }
 
 const AutoSyncAll = async (): Promise<any> => {
