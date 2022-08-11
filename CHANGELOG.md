@@ -1,4 +1,19 @@
 # COMP/CON Changelog
+## [2.3.10] (2022-8-11)
+
+### Bug Fixes
+- **Sign In** require e-mail for verification code functions (thanks super-salad!) [#2061](https://github.com/massif-press/compcon/issues/2061)
+- **UI** Remove references to Roll20 (thanks msprijatelj!)
+- **Active Mode** Filter actions based on LCP Active status (thanks super-salad!) [#2025](https://github.com/massif-press/compcon/issues/2025) [#2076](https://github.com/massif-press/compcon/issues/2076)
+- **Pilot Mode** use Pilot as MechSkillController.Parent (thanks msprijatelj!) [#2070](https://github.com/massif-press/compcon/issues/2070)
+- **Active Mode** fix indestructible tag typo (thanks msprijatelj!) [#2066](https://github.com/massif-press/compcon/issues/2066)
+- **Cloud Syncing** fix permanent deletion function [#2074](https://github.com/massif-press/compcon/issues/2074) [#1977](https://github.com/massif-press/compcon/issues/1977) [#1976](https://github.com/massif-press/compcon/issues/1976)
+
+### Features
+- **Mech Hangar** Add editable system order (thanks super-salad!) [#1828](https://github.com/massif-press/compcon/issues/1828)
+- **Mech Hangar** Add "redeploy" action to deployables (thanks msprijatelj!)
+
+
 ## [2.3.9] (2022-6-27)
 
 ### Bug Fixes
