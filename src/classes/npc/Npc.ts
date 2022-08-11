@@ -1,8 +1,8 @@
 import uuid from 'uuid/v4'
 import { NpcStore, store } from '@/store'
 import { ImageTag } from '@/io/ImageManagement'
-import { NpcStats, NpcClass, NpcItem } from './'
-import { INpcStats, INpcItemSaveData } from './interfaces'
+import { NpcClass, NpcItem } from './'
+import { INpcItemSaveData } from './interfaces'
 import {
   CloudController,
   GroupController,
@@ -32,6 +32,7 @@ import {
   NarrativeElementData,
 } from '../components/narrative/NarrativeController'
 import { INarrativeElement } from '../components/narrative/INarrativeElement'
+import { IStatData, StatController } from '../components/combat/stats/StatController'
 
 class INpcData implements INpcClassSaveData, INpcFeatureSaveData {
   id: string
@@ -41,6 +42,7 @@ class INpcData implements INpcClassSaveData, INpcFeatureSaveData {
   img: IPortraitData
   group: IGroupData
   narrative: NarrativeElementData
+  stats: IStatData
 
   name: string
   class: string
@@ -51,7 +53,6 @@ class INpcData implements INpcClassSaveData, INpcFeatureSaveData {
   note: string
   templates: string[]
   items: INpcItemSaveData[]
-  stats: INpcStats
 }
 
 class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, INarrativeElement {
@@ -67,8 +68,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
   public NpcClassController: NpcClassController
   public NarrativeController: NarrativeController
   public GroupController: GroupController
-
-  public Stats: NpcStats
+  public StatController: StatController
 
   private _id: string
   private _name: string
@@ -76,8 +76,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
   private _note: string
   private _tag: string
   private _labels: string[]
-
-  private _current_stats: NpcStats
 
   public constructor(npcClass?: NpcClass, tier?: number) {
     const t = tier || 1
@@ -92,13 +90,14 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
     this.NpcTemplateController = new NpcTemplateController(this)
     this.NarrativeController = new NarrativeController(this)
     this.GroupController = new GroupController(this)
+    this.StatController = new StatController(this)
 
     this.FeatureController.Register()
 
     this._name = `New NPC`
     this._subtitle = ''
     this._note = ''
-    this._tag = 'Mech'
+    this._tag = 'Other'
     if (npcClass) this.NpcClassController.SetClass(npcClass, t)
   }
 
@@ -109,6 +108,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
   }
 
   public get BrewableCollection(): CompendiumItem[] {
+    if (!this.NpcClassController.HasClass) return []
     // TODO / NB: temporary casting to CI prior to GM changes where they will become fully featured
     return [
       this.NpcClassController.Class as unknown as CompendiumItem,
@@ -121,9 +121,8 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
   }
 
   public get Size(): string {
-    if (!this.Stats) return 'None'
-    if (this.Stats.Size === 0.5) return '½'
-    return this.Stats.Size.toString()
+    if (this.StatController.Size === 0.5) return '½'
+    return this.StatController.Size.toString()
   }
 
   public get Role(): string {
@@ -152,14 +151,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
 
   public RenewID(): void {
     this._id = uuid()
-  }
-
-  public get CurrentStats(): NpcStats {
-    return this._current_stats
-  }
-
-  public ResetStats(): void {
-    this._current_stats = NpcStats.FromMax(this.Stats)
   }
 
   public get Name(): string {
@@ -237,12 +228,8 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
 
   public RecalcBonuses(save = true): void {
     this.setStatBonuses()
-    this.ResetStats()
+    // this.ResetStats()
     if (save) this.SaveController.save()
-  }
-
-  public get SizeIcon(): string {
-    return `cci-size-${this.Stats.Size === 0.5 ? 'half' : this.Stats.Size}`
   }
 
   public get Portrait(): string {
@@ -255,7 +242,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
       name: npc._name,
       subtitle: npc._subtitle,
       tag: npc._tag,
-      stats: NpcStats.Serialize(npc.Stats),
       note: npc._note,
     }
 
@@ -267,6 +253,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
     NpcTemplateController.Serialize(npc, data)
     NpcFeatureController.Serialize(npc, data)
     NarrativeController.Serialize(npc, data)
+    StatController.Serialize(npc, data)
     GroupController.Serialize(npc, data)
 
     return data as INpcData
@@ -288,7 +275,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
     this._name = data.name
     this._subtitle = data.subtitle || ''
     this._tag = data.tag
-    this.Stats = NpcStats.Deserialize(data.stats)
     this.RecalcBonuses(false)
     this._note = data.note
   }
@@ -304,6 +290,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
       NpcTemplateController.Deserialize(npc, data)
       NpcFeatureController.Deserialize(npc, data)
       NarrativeController.Deserialize(npc, data.narrative)
+      StatController.Deserialize(npc, data.stats)
       GroupController.Deserialize(npc, data.group)
       npc.SaveController.SetLoaded()
       return npc

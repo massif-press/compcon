@@ -13,27 +13,27 @@
             class="d-flex text-center primary darken-2 v-card--reveal heading h2 white--text"
             style="height: 100%"
           >
-            <v-container v-if="item.NpcClassController.Class">
+            <v-container v-if="item.NpcClassController.HasClass">
               <v-row dense justify="space-around">
                 <v-col cols="auto">
-                  <v-icon size="80" color="white">cci-size-{{ item.Stats.Size }}</v-icon>
+                  <v-icon size="80" color="white">cci-size-{{ item.StatController.Size }}</v-icon>
                 </v-col>
               </v-row>
               <v-row dense justify="space-around">
                 <v-col v-for="(e, i) in hase" :key="`haseitem_${i}`">
                   <span style="opacity: 0.5">{{ e.text }}</span>
-                  <b v-text="item.Stats[e.val]" />
+                  <b v-text="item.StatController[e.val]" />
                 </v-col>
               </v-row>
               <v-row dense justify="space-around">
                 <v-col
                   v-for="(e, i) in stats"
                   :key="`statsitem_${i}`"
-                  v-show="item.Stats[e.val]"
+                  v-show="item.StatController[e.val]"
                   cols="3"
                 >
                   <v-icon style="opacity: 0.5" color="white">{{ e.text }}</v-icon>
-                  <b v-text="item.Stats[e.val]" />
+                  <b v-text="item.StatController[e.val]" />
                 </v-col>
               </v-row>
               <div v-show="big">
@@ -108,21 +108,21 @@ export default Vue.extend({
   data: () => ({
     hase: [
       { text: 'H', val: 'Hull' },
-      { text: 'A', val: 'Agility' },
-      { text: 'S', val: 'Systems' },
-      { text: 'E', val: 'Engineering' },
+      { text: 'A', val: 'Agi' },
+      { text: 'S', val: 'Sys' },
+      { text: 'E', val: 'Eng' },
     ],
     stats: [
-      { text: 'cci-structure', val: 'Structure' },
+      { text: 'cci-structure', val: 'MaxStructure' },
       { text: 'mdi-shield', val: 'Armor' },
-      { text: 'mdi-heart', val: 'HP' },
+      { text: 'mdi-heart', val: 'MaxHP' },
       { text: 'cci-reactor', val: 'Stress' },
-      { text: 'cci-heat', val: 'Heatcap' },
+      { text: 'cci-heat', val: 'HeatCapacity' },
       { text: 'mdi-arrow-right-bold-hexagon-outline', val: 'Speed' },
-      { text: 'cci-save', val: 'Save' },
+      { text: 'cci-save', val: 'SaveTarget' },
       { text: 'cci-evasion', val: 'Evasion' },
       { text: 'cci-edef', val: 'EDefense' },
-      { text: 'cci-sensor', val: 'Sensors' },
+      { text: 'cci-sensor', val: 'SensorRange' },
       { text: 'cci-activate', val: 'Activations' },
     ],
   }),

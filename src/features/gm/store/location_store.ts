@@ -27,7 +27,6 @@ async function delete_location(location: Location) {
     .catch(err => console.error('Error while deleting NPC data', err))
 }
 
->>>>>>> storage-rework
 @Module({
   name: 'location',
 })
@@ -127,11 +126,7 @@ export class LocationStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadLocations() {
-<<<<<<< HEAD
-    const locationData = await loadData<ILocationData>('locations')
-=======
     const locationData = await GetAll('locations')
->>>>>>> storage-rework
     this.context.commit(LOAD_LOCATIONS, locationData)
   }
 

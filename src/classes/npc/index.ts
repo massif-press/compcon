@@ -1,6 +1,5 @@
 import { NpcFeatureType, NpcFeature } from './components/npcFeature/NpcFeature'
 import { NpcItem } from './components/npcFeature/NpcItem/NpcItem'
-import { NpcStats } from './NpcStats'
 import { NpcClass } from './components/npcClass/NpcClass'
 import { NpcTemplate } from './components/npcTemplate/NpcTemplate'
 import { Npc } from './Npc'
@@ -17,7 +16,6 @@ export {
   NpcSystem,
   NpcTrait,
   NpcWeapon,
-  NpcStats,
   NpcClass,
   NpcTemplate,
   NpcItem,

@@ -38,11 +38,11 @@ import {
   ITagCompendiumData,
   IPilotEquipmentData,
 } from '@/interface'
-import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data'
 import { IReserveData } from '@/classes/pilot/components/reserves/Reserve'
 import * as PlayerAction from '@/classes/Action'
 import { Background, IBackgroundData } from '@/classes/Background'
 import { Bond } from '@/classes/pilot/components/bond/Bond'
+import { SetItem, GetAll } from '@/io/Storage'
 
 export const SET_VERSIONS = 'SET_VERSIONS'
 export const LOAD_DATA = 'LOAD_DATA'
@@ -53,6 +53,12 @@ export const CLEAR_PACKS = 'CLEAR_PACKS'
 export const SET_PACK_ACTIVE = 'SET_PACK_ACTIVE'
 
 export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
+
+async function SaveContent(packs) {
+  console.log('in save content')
+  const promises = packs.map(pack => SetItem('content', pack.Serialize()))
+  Promise.all(promises).then(() => console.info('Content updated'))
+}
 
 function Brewable<T extends CompendiumItem>(base: () => T[]): Function {
   return function (self: CompendiumStore, name: string) {
@@ -219,11 +225,13 @@ export class CompendiumStore extends VuexModule {
   private [LOAD_PACK](packData: IContentPack): void {
     const pack = new ContentPack(packData)
     this.ContentPacks = [...this.ContentPacks, pack]
+    SaveContent(this.ContentPacks)
   }
 
   @Mutation
   private [DELETE_PACK](packID: string): void {
     this.ContentPacks = this.ContentPacks.filter(pack => pack.ID !== packID)
+    SaveContent(this.ContentPacks)
   }
 
   @Mutation
@@ -231,15 +239,13 @@ export class CompendiumStore extends VuexModule {
     const { packID, active } = payload
     this.ContentPacks.find(pack => pack.ID === packID).SetActive(active)
     this.ContentPacks = [...this.ContentPacks]
+    SaveContent(this.ContentPacks)
   }
 
   @Action
   public async setPackActive(payload: { packID: string; active: boolean }): Promise<void> {
     this.context.commit(SET_PACK_ACTIVE, payload)
-    await saveUserData(
-      'extra_content',
-      this.ContentPacks.map(pack => pack.Serialize())
-    )
+    SaveContent(this.ContentPacks)
   }
 
   @Action
@@ -249,24 +255,17 @@ export class CompendiumStore extends VuexModule {
       await this.deleteContentPack(pack.id)
     }
     this.context.commit(LOAD_PACK, pack)
-    await saveUserData(
-      'extra_content',
-      this.ContentPacks.map(pack => pack.Serialize())
-    )
   }
 
   @Action
   public async deleteContentPack(packID: string): Promise<void> {
     this.context.commit(DELETE_PACK, packID)
-    await saveUserData(
-      'extra_content',
-      this.ContentPacks.map(pack => pack.Serialize())
-    )
+    SaveContent(this.ContentPacks)
   }
 
   @Action
   public async loadExtraContent(): Promise<void> {
-    const content = await loadUserData('extra_content')
+    const content = await GetAll('content')
     try {
       content.forEach(c => this.context.commit(LOAD_PACK, c))
     } catch (err) {
@@ -277,7 +276,7 @@ export class CompendiumStore extends VuexModule {
   @Action
   public async refreshExtraContent(): Promise<void> {
     await this.context.commit(CLEAR_PACKS)
-    const content = await loadUserData('extra_content')
+    const content = await GetAll('content')
     try {
       content.forEach(c => this.context.commit(LOAD_PACK, c))
     } catch (err) {

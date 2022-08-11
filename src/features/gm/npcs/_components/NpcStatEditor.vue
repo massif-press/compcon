@@ -3,97 +3,102 @@
     <v-row dense>
       <editable-attribute
         attr="HULL"
-        :val="item.Stats.Hull"
+        :val="item.StatController.Hull || 0"
         editable
-        @set="item.Stats.Hull = $event"
+        @set="item.StatController.Hull = $event"
       />
       <editable-attribute
         attr="AGI"
-        :val="item.Stats.Agility"
+        :val="item.StatController.Agi || 0"
         editable
-        @set="item.Stats.Agility = $event"
+        @set="item.StatController.Agi = $event"
       />
       <editable-attribute
         attr="SYS"
-        :val="item.Stats.Systems"
+        :val="item.StatController.Sys || 0"
         editable
-        @set="item.Stats.Systems = $event"
+        @set="item.StatController.Sys = $event"
       />
       <editable-attribute
         attr="ENG"
-        :val="item.Stats.Engineering"
+        :val="item.StatController.Eng || 0"
         editable
-        @set="item.Stats.Engineering = $event"
+        @set="item.StatController.Eng = $event"
       />
     </v-row>
     <v-row dense>
       <editable-attribute
         attr="STRUCTURE"
-        :val="item.Stats.Structure"
+        :val="item.StatController.MaxStructure || 0"
         editable
-        @set="item.Stats.Structure = $event"
+        @set="item.StatController.MaxStructure = $event"
       />
       <editable-attribute
         attr="ARMOR"
-        :val="item.Stats.Armor"
+        :val="item.StatController.Armor || 0"
         editable
-        @set="item.Stats.Armor = $event"
+        @set="item.StatController.Armor = $event"
       />
-      <editable-attribute attr="HP" :val="item.Stats.HP" editable @set="item.Stats.HP = $event" />
+      <editable-attribute
+        attr="HP"
+        :val="item.StatController.MaxHP || 0"
+        editable
+        @set="item.StatController.MaxHP = $event"
+      />
       <editable-attribute
         attr="REACTOR"
-        :val="item.Stats.Stress"
+        :val="item.StatController.MaxStress || 0"
         editable
-        @set="item.Stats.Stress = $event"
+        @set="item.StatController.MaxStress = $event"
       />
       <editable-attribute
         v-if="!item.IsBiological"
         attr="HEAT CAPACITY"
-        :val="item.Stats.HeatCapacity"
+        :val="item.StatController.HeatCapacity || 0"
         editable
-        @set="item.Stats.HeatCapacity = $event"
+        @set="item.StatController.HeatCapacity = $event"
       />
     </v-row>
     <v-row dense>
       <editable-attribute
         attr="SPEED"
-        :val="item.Stats.Speed"
+        :val="item.StatController.Speed || 0"
         editable
-        @set="item.Stats.Speed = $event"
+        @set="item.StatController.Speed = $event"
       />
       <editable-attribute
         attr="SAVE"
-        :val="item.Stats.Save"
+        :val="item.StatController.SaveTarget || 0"
         editable
-        @set="item.Stats.Save = $event"
+        @set="item.StatController.SaveTarget = $event"
       />
       <editable-attribute
         attr="EVASION"
-        :val="item.Stats.Evade"
+        :val="item.StatController.Evasion || 0"
         editable
-        @set="item.Stats.Evade = $event"
+        @set="item.StatController.Evasion = $event"
       />
       <editable-attribute
         attr="E-DEFENSE"
-        :val="item.Stats.EDefense"
+        :val="item.StatController.EDefense || 0"
         editable
-        @set="item.Stats.EDefense = $event"
+        @set="item.StatController.EDefense = $event"
       />
       <editable-attribute
         attr="SENSORS"
-        :val="item.Stats.Sensor"
+        :val="item.StatController.SensorRange || 0"
         editable
-        @set="item.Stats.Sensor = $event"
+        @set="item.StatController.SensorRange = $event"
       />
     </v-row>
     <v-row no-gutters class="mt-2">
       <editable-attribute
         attr="ACTIVATIONS PER ROUND"
-        :val="item.Stats.Activations"
+        :val="item.StatController.Activations || 0"
         editable
-        @set="item.Stats.Activations = $event"
+        @set="item.StatController.Activations = $event"
       />
-      <size-attribute :stats="item.Stats" editable selectable />
+      <size-attribute :stat-controller="item.StatController" editable selectable />
     </v-row>
   </div>
 </template>

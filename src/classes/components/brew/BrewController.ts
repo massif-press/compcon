@@ -20,9 +20,12 @@ class BrewController {
 
   public constructor(parent: IBrewable) {
     this.Parent = parent
+    this.Brews = []
   }
 
   public SetBrewData(): void {
+    if (!this.Parent.BrewableCollection.length) return
+
     const packs = store.getters.getItemCollection('ContentPacks') as ContentPack[]
 
     this.Brews = this.Parent.BrewableCollection.filter(

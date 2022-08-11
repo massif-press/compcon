@@ -57,8 +57,7 @@ export default Vue.extend({
       this.$emit('exit')
     },
     deleteItem() {
-      const store = getModule(NpcStore, this.$store)
-      store.delete_npc(this.npc)
+      this.npc.SaveController.delete()
       this.$emit('exit')
     },
     dupe() {

@@ -79,7 +79,11 @@ export default Vue.extend({
     importItem() {
       console.error('NOT YET IMPLEMENTED')
     },
+    deleteItem() {
+      console.error('NOT YET IMPLEMENTED')
+    },
     SaveAndClose() {
+      console.log('index on saveandclose')
       const store = getModule(NpcStore, this.$store)
       // TODO: check for and ask to update instances on save
       store.addNpc(this.selected)

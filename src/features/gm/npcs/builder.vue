@@ -24,12 +24,13 @@
       <npc-class-selector :item="item" />
       <npc-tag-selector :item="item" />
     </v-row>
-    <div v-if="item.NpcClassController.Class">
+    <div v-if="item.NpcClassController.HasClass">
+      {{ item.NpcClassController.HasClass }}
       <npc-template-selector :item="item" />
       <v-divider class="my-3" />
       <npc-tier-selector :item="item" />
-      <npc-stat-editor :item="item" />
     </div>
+    <npc-stat-editor :item="item" />
   </v-container>
 </template>
 
