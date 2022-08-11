@@ -57,7 +57,7 @@ abstract class MechEquipment extends LicensedItem {
       this.IsLoading = data.tags.some(x => x.id === 'tg_loading')
       this.IsAI = data.tags.some(x => x.id === 'tg_ai')
       this.NoCascade = data.tags.some(x => x.id === 'tg_no_cascade')
-      this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructable')
+      this.IsIndestructible = data.tags.some(x => x.id === 'tg_indestructible')
       this.IsOrdnance = data.tags.some(x => x.id === 'tg_ordnance')
       this.CanSetDamage = data.tags.some(x => x.id === 'tg_set_damage_type')
       this.CanSetUses = data.tags.some(x => x.id === 'tg_set_max_uses')
