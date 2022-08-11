@@ -152,11 +152,13 @@ class BondController {
 
   public AddPower(p: BondPower) {
     this.BondPowers.push(p)
+    this.Parent.SaveController.save()
   }
 
   public RemovePower(p: BondPower) {
     const idx = this._bondPowers.findIndex(x => x.name === p.name)
     if (idx > -1) this.BondPowers.splice(idx, 1)
+    this.Parent.SaveController.save()
   }
 
   public get PowerSelections(): number {

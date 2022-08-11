@@ -86,6 +86,7 @@ class SaveController {
     parent.SaveController._isDeleted = data.isDeleted
     parent.SaveController.ExpireTime = data.expireTime
     parent.SaveController.DeleteTime = data.deleteTime
+    parent.SaveController._isLoaded = false
   }
 }
 
