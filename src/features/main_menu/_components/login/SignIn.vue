@@ -9,10 +9,12 @@
           <v-text-field v-model="email" label="E-Mail Address" dense outlined hide-details />
           <div>
             <v-fade-transition>
-              <div @click="$emit('reverify', email)">
-                <a>
-                  <i>Have a validation code? Click here.</i>
+              <div>
+                <a v-if="email && emailValid()" @click="$emit('reverify', email)">
+                  <i>Click here to use a verification code.</i>
                 </a>
+                <i v-else-if="!email">Have a verification code? Enter your email to use it.</i>
+                <i v-else>Please enter a valid email address</i>
               </div>
             </v-fade-transition>
           </div>
@@ -127,6 +129,9 @@ export default Vue.extend({
           this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`
         })
     },
+    emailValid(){
+      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)
+    }
   },
 })
 </script>
