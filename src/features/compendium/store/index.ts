@@ -93,16 +93,7 @@ export class CompendiumStore extends VuexModule {
   public get Bonds(): Bond[] {
     return this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Bonds)
   }
-  public get Backgrounds(): Background[] {
-    return lancerData.backgrounds
-      .map((x: IBackgroundData) => new Background(x))
-      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
-  }
-  @Brewable(() => lancerData.tags.map((x: ITagCompendiumData) => new Tag(x))) Tags: Tag[]
-  @Brewable(() =>
-    lancerData.actions.map((x: PlayerAction.IActionData) => new PlayerAction.Action(x))
-  )
-  Actions: PlayerAction.Action[]
+
   @Brewable(() => lancerData.talents.map((x: ITalentData) => new Talent(x)))
   Talents: Talent[]
   @Brewable(() => lancerData.core_bonuses.map((x: ICoreBonusData) => new CoreBonus(x)))
@@ -131,10 +122,31 @@ export class CompendiumStore extends VuexModule {
     })
   )
   PilotGear: PilotEquipment[]
-  @Brewable(() => lancerData.reserves.map((x: IReserveData) => new Reserve(x)))
-  Reserves: Reserve[]
   @Brewable(() => lancerData.skills.map((x: ISkillData) => new Skill(x)))
   Skills: Skill[]
+
+  public get Backgrounds(): Background[] {
+    return lancerData.backgrounds
+      .map((x: IBackgroundData) => new Background(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
+  }
+  public get Actions(): PlayerAction.Action[] {
+    return lancerData.actions
+      .map((x: PlayerAction.IActionData) => new PlayerAction.Action(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Actions))
+  }
+
+  public get Tags(): Tag[]{
+    return lancerData.tags
+    .map((x: ITagCompendiumData) => new Tag(x))
+    .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Tags))
+  }
+
+  public get Reserves(): Reserve[]{
+    return lancerData.reserves
+    .map((x: IReserveData) => new Reserve(x))
+    .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Reserves))
+  }
 
   public get Statuses(): Status[] {
     return lancerData.statuses.concat(
@@ -174,7 +186,7 @@ export class CompendiumStore extends VuexModule {
       }
     }
     return this.Frames.filter(x => x.Source !== 'GMS' && !x.IsHidden).map(frame => {
-      const variants = this.Frames.filter(f => variantLicenseMatch(f, frame))
+      const variants = this.Frames.filter(f => !f.IsHidden && variantLicenseMatch(f, frame))
       return new License(frame, variants)
     })
   }
