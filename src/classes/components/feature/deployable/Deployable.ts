@@ -1,7 +1,7 @@
 import { ActivationType, Mech, Pilot } from '@/class'
 import { ICounterData, ISynergyData } from '@/interface'
 import uuid from 'uuid/v4'
-import { IActionData } from '../../../Action'
+import { IActionData, Action } from '../../../Action'
 import { Bonus, IBonusData } from '../bonus/Bonus'
 import { ICompendiumItemData, CompendiumItem } from '../../../CompendiumItem'
 
@@ -86,6 +86,17 @@ class Deployable extends CompendiumItem {
     this.Detail = data.detail
     this.Recall = data.recall || null
     this.Redeploy = data.redeploy || null
+    if (this.Redeploy) {
+      this.Actions.push(
+        new Action(
+          {
+            name: "Redeploy",
+            activation: this.Redeploy,
+            detail: `Redeploy this ${this.Type}.`
+          }
+        )
+      )
+    }
     this.Size = this.collect(data.size, owner, 'size')
     this.MaxHP = this.collect(data.hp, owner, 'hp')
     this._missing_hp = 0

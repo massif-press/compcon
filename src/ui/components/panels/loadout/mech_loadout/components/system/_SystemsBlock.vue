@@ -34,16 +34,22 @@
         @remove="w.Mod = null"
       />
 
-      <system-slot-card
-        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
-        :key="`${s.ID}-${i}`"
-        :mech="mech"
-        :item="s"
-        :color="color"
-        :index="i"
-        :readonly="readonly"
-      />
-
+      <draggable
+        :list="systems"
+        @start="drag=true"
+        @end="drag=false"
+        @change="moveSystem($event)"
+      >
+        <system-slot-card
+          v-for="(s, i) in systems"
+          :key="`${s.ID}-${i}`"
+          :mech="mech"
+          :item="s"
+          :color="color"
+          :index="i"
+          :readonly="readonly"
+        />
+      </draggable>
       <system-slot-card v-if="!readonly" :mech="mech" empty />
     </fieldset>
   </v-card>
@@ -53,10 +59,11 @@
 import Vue from 'vue'
 import SystemSlotCard from './_SystemSlotCard.vue'
 import ModEquippedCard from './_ModEquippedCard.vue'
+import draggable from 'vuedraggable'
 
 export default Vue.extend({
   name: 'systems-block',
-  components: { SystemSlotCard, ModEquippedCard },
+  components: { SystemSlotCard, ModEquippedCard, draggable },
   props: {
     mech: {
       type: Object,
@@ -74,6 +81,21 @@ export default Vue.extend({
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
     },
+  },
+  methods:{
+    moveSystem(event){
+      if(event.moved){
+        this.mech.SaveController.save()
+      }
+    },
+  },  
+  data: () => {
+    return {
+      systems: null
+    } 
+  },
+  mounted() {
+      this.systems = this.mech.MechLoadoutController.ActiveLoadout.Systems
   },
 })
 </script>

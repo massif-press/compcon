@@ -93,8 +93,8 @@
         and selecting the Core Book item from the LCP Directory tab. You can use the Content
         Manager's Install LCP tab to import the package and start building and running encounters.
       </p>
-      <b>I see a Roll20 import function; how do I use it?</b>
-      <p>The importer on Roll20's side is not available yet.</p>
+      <b>Can I import my COMP/CON pilot to Roll20?</b>
+      <p>Roll20 does not support imports from COMP/CON at this time.</p>
     </div>
 
     <h3 class="heading accent--text">Additional Help</h3>

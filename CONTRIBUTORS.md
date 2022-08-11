@@ -104,6 +104,65 @@ Split views into collections of components wherever possible for easy reordering
 - Fluff/flavor is important for the pilot management tools. No flavor (for now) for gm/encounter/campaign tools.
 - Compendium may get flavor later.
 
+## Accessibility
+
+COMP/CON aims to be keyboard accessible. All buttons should be focusable with the tab key, 
+respond to the enter key, and should have a noticeable highlight when tab-selected.
+
+Often this happens automatically, but there are several ways to accidentally break accessibility, so it's important to check.
+
+```vue
+<!--Won't respond to enter key. Not tab selectable.-->
+<div class="mx-2" @click="$emit('clicked')">
+<!--Fix with response on @keydown.enter and added tabindex-->
+<div class="mx-2" @click="$emit('clicked')" @keydown.enter="$emit('clicked')" tabindex="0">
+```
+
+```vue
+<!--v-btns with `to` are turned into `a` elements without keyboard support.-->
+<!--It might be nice to extend v-btn to fix that.-->
+<v-btn to="/gm/mission/selector">
+  <v-icon left>mdi-chevron-triple-left</v-icon>
+  Return to Mission Menu
+</v-btn>
+
+<!--Fixed by moving `to` to a wrapper router-link-->
+<router-link to="/gm/mission/selector">
+  <v-btn text color="primary">
+    <v-icon left>mdi-chevron-triple-left</v-icon>
+    Return to Mission Menu
+  </v-btn>
+</router-link>
+
+<!--Fixed with click event navigation instead of `to`-->
+<v-btn text color="primary" @click="toMissions()>
+  <v-icon left>mdi-chevron-triple-left</v-icon>
+  Return to Mission Menu
+</v-btn>
+// ... later
+methods: {
+    toMissions() {
+      this.$router.push('/gm/mission/selector')
+    },
+}
+```
+
+```vue
+<!--Doesn't style keyboard focus, sometimes leaving keyboard focus invisible-->
+.btn-main:hover {
+  background-color: var(--v-active-base);
+}
+<!--Fix-->
+.btn-main:hover,
+.btn-main:focus {
+  background-color: var(--v-active-base);
+}
+```
+
+Usually these issues are trivial to fix, but easy to miss.
+
+Please run through any new UI you create with keyboard only before pushing your work. 
+
 ## Additional Notes
 
 Chores left:
