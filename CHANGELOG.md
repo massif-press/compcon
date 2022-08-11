@@ -8,6 +8,7 @@
 - **Pilot Mode** use Pilot as MechSkillController.Parent (thanks msprijatelj!) [#2070](https://github.com/massif-press/compcon/issues/2070)
 - **Active Mode** fix indestructible tag typo (thanks msprijatelj!) [#2066](https://github.com/massif-press/compcon/issues/2066)
 - **Cloud Syncing** fix permanent deletion function [#2074](https://github.com/massif-press/compcon/issues/2074) [#1977](https://github.com/massif-press/compcon/issues/1977) [#1976](https://github.com/massif-press/compcon/issues/1976)
+- **Pilot Mode** improve Bond saving reliability [#2055](https://github.com/massif-press/compcon/issues/2055)
 
 ### Features
 - **Mech Hangar** Add editable system order (thanks super-salad!) [#1828](https://github.com/massif-press/compcon/issues/1828)
