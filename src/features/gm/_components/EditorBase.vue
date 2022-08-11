@@ -24,7 +24,7 @@
           </v-col>
           <v-col cols="3" class="text-center">
             <v-combobox
-              v-model="item.Labels"
+              v-model="item.GmLabels"
               small-chips
               multiple
               outlined
@@ -110,7 +110,7 @@
           </template>
           <cc-confirmation
             content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
-            @confirm="deleteNpc()"
+            @confirm="deleteItem()"
           />
         </v-menu>
         <v-btn color="secondary" @click="saveExit()">Save and Exit</v-btn>

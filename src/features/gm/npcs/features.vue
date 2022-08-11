@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="item.NpcClassController.HasClass">
     <npc-feature-alerts :item="item" />
     <npc-feature-selector :npc="item" />
   </v-container>

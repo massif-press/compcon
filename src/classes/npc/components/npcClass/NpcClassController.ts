@@ -1,7 +1,7 @@
 import { Npc } from '../../Npc'
-import { NpcStats } from '../../NpcStats'
 import { NpcClass } from './NpcClass'
-import { NpcStore, store } from '@/store'
+import { store } from '@/store'
+import { StatController } from '@/classes/components/combat/stats/StatController'
 
 interface INpcClassSaveData {
   class: string
@@ -19,7 +19,12 @@ class NpcClassController {
     this._tier = 1
   }
 
+  public get HasClass(): boolean {
+    return !!this.Class?.ID
+  }
+
   public get Class(): NpcClass {
+    if (!this._class) return null
     return this._class
   }
 
@@ -27,9 +32,31 @@ class NpcClassController {
     return this._tier
   }
 
+  public ClassStats(tier: number): object {
+    return {
+      Activations: this.Class.Stats.Activations(tier),
+      Structure: this.Class.Stats.Structure(tier),
+      Stress: this.Class.Stats.Stress(tier),
+      Armor: this.Class.Stats.Armor(tier),
+      MaxHP: this.Class.Stats.HP(tier),
+      Evasion: this.Class.Stats.Evade(tier),
+      EDefense: this.Class.Stats.EDefense(tier),
+      HeatCapacity: this.Class.Stats.HeatCapacity(tier),
+      Speed: this.Class.Stats.Speed(tier),
+      Sensor: this.Class.Stats.Sensor(tier),
+      SaveTarget: this.Class.Stats.Save(tier),
+      Hull: this.Class.Stats.Hull(tier),
+      Agi: this.Class.Stats.Agility(tier),
+      Sys: this.Class.Stats.Systems(tier),
+      Eng: this.Class.Stats.Engineering(tier),
+      Sizes: this.Class.Stats.Sizes(tier),
+      Size: this.Class.Stats.Sizes(tier)[0],
+    }
+  }
+
   public set Tier(newTier: number) {
     this._tier = newTier
-    this.Parent.Stats = NpcStats.FromClass(this.Class, newTier)
+    this.Parent.StatController = new StatController(this.Parent, this.ClassStats(newTier))
     this.Parent.Items.forEach(i => {
       i.Tier = newTier
     })
@@ -37,15 +64,21 @@ class NpcClassController {
     this.Parent.SaveController.save()
   }
 
+  public ResetStats(tier: number) {
+    if (!this.HasClass) return
+    this.Parent.StatController = new StatController(this.Parent, this.ClassStats(tier))
+  }
+
   public SetClass(npcClass: NpcClass, tier: number) {
+    if (!this.HasClass) this.Parent.Tag = 'Mech'
+    if (npcClass.Role.toLowerCase() === 'biological') this.Parent.Tag = 'Biological'
     this._class = npcClass
-    this.Parent.Stats = NpcStats.FromClass(npcClass, tier)
-    this.Parent.ResetStats()
+    this.ResetStats(tier)
     this.Parent.NpcFeatureController.ResetFeatures()
   }
 
   public static Serialize(parent: Npc, target: any) {
-    target.class = parent.NpcClassController.Class.ID
+    target.class = parent.NpcClassController.Class?.ID || ''
     target.tier = parent.NpcClassController.Tier
   }
 

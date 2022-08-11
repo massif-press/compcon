@@ -26,7 +26,6 @@ async function delete_faction(faction: Faction) {
     .catch(err => console.error('Error while deleting NPC data', err))
 }
 
->>>>>>> storage-rework
 @Module({
   name: 'faction',
 })
@@ -126,11 +125,7 @@ export class FactionStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadFactions() {
-<<<<<<< HEAD
-    const factionData = await loadData<IFactionData>('factions')
-=======
     const factionData = await GetAll('factions')
->>>>>>> storage-rework
     this.context.commit(LOAD_FACTIONS, factionData)
   }
 

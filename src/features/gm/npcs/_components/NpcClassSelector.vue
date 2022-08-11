@@ -1,7 +1,7 @@
 <template>
   <v-col>
     <v-btn large block color="primary" class="white--text" @click="dialog = true">
-      {{ item.NpcClassController.Class ? item.NpcClassController.Class.Name : 'Set NPC Class' }}
+      {{ item.NpcClassController.HasClass ? item.NpcClassController.Class.Name : 'Set NPC Class' }}
     </v-btn>
 
     <v-dialog v-model="dialog">

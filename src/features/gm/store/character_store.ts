@@ -4,7 +4,6 @@ import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import { Character, ICharacterData } from '@/classes//campaign/Character'
 import { storeSaveDelta } from '@/util/storeUtils'
-import { Character, ICharacterData } from '@/classes/campaign/Character'
 import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
 
 export const SAVE_DATA = 'SAVE_DATA'
@@ -12,7 +11,6 @@ export const ADD_CHARACTER = 'ADD_CHARACTER'
 export const DELETE_CHARACTER = 'DELETE_CHARACTER'
 export const CLONE_CHARACTER = 'CLONE_CHARACTER'
 export const LOAD_CHARACTERS = 'LOAD_CHARACTERS'
-
 
 async function saveCharacterData(characters: Character[]) {
   const dirty = characters.filter(x => x.SaveController.IsDirty)
@@ -27,7 +25,6 @@ async function delete_character(character: Character) {
     .catch(err => console.error('Error while deleting NPC data', err))
 }
 
->>>>>>> storage-rework
 @Module({
   name: 'character',
 })
@@ -122,11 +119,7 @@ export class CharacterStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadCharacters() {
-<<<<<<< HEAD
-    const characterData = await loadData<ICharacterData>('characters')
-=======
     const characterData = await GetAll('characters')
->>>>>>> storage-rework
     this.context.commit(LOAD_CHARACTERS, characterData)
   }
 

@@ -24,6 +24,14 @@ export class NpcClassStats {
     this._stats = data
   }
 
+  public StatsByTier(tier: number): any {
+    let out = {}
+    for (const key in this._stats) {
+      out[key] = this.Stat(key, tier)
+    }
+    return out
+  }
+
   public Stat(key: string, tier: number): number {
     return this._stats[key] ? this._stats[key][tier - 1] : 1
   }

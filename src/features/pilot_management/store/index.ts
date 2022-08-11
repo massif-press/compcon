@@ -17,7 +17,6 @@ async function savePilots(pilots: Pilot[]) {
   // await saveDelta('pilots_v2.json', serialized)
 }
 
-
 async function delete_pilot(pilot: Pilot) {
   RemoveItem('pilots', pilot.ID)
     .then(() => console.info('Pilot permenently deleted'))
@@ -33,17 +32,12 @@ export interface PilotGroup {
 export const SAVE_DATA = 'SAVE_DATA'
 export const SET_DIRTY = 'SET_DIRTY'
 export const SET_PILOT = 'SET_PILOT'
-export const ADD_GROUP = 'ADD_GROUP'
-export const MOVE_GROUP = 'MOVE_GROUP'
 export const UPDATE_PILOT = 'UPDATE_PILOT'
 export const LOAD_PILOTS = 'LOAD_PILOTS'
 export const ADD_PILOT = 'ADD_PILOT'
-export const MOVE_PILOT = 'MOVE_PILOT'
 export const CLONE_PILOT = 'CLONE_PILOT'
 export const DELETE_PILOT = 'DELETE_PILOT'
 export const RESTORE_PILOT = 'RESTORE_PILOT'
-export const DELETE_GROUP = 'DELETE_GROUP'
-export const SET_GROUP_NAME = 'SET_GROUP_NAME'
 export const SET_PRINT_OPTIONS = 'SET_PRINT_OPTIONS'
 export const SET_LOADED_MECH = 'SET_LOADED_MECH'
 export const DELETE_PILOT_PERMANENT = 'DELETE_PILOT_PERMANENT'
@@ -68,16 +62,7 @@ export class PilotManagementStore extends VuexModule {
 
   @Mutation
   private [SAVE_DATA](): void {
-<<<<<<< HEAD
-    if (this.Dirty) {
-      storeSaveDelta(this.Pilots.concat(this.DeletedPilots))
-      savePilotGroups(this.PilotGroups)
-      this.Dirty = false
-    }
-=======
     savePilots(this.Pilots.concat(this.DeletedPilots))
-    // savePilotGroups(this.PilotGroups)
->>>>>>> storage-rework
   }
 
   @Mutation
@@ -88,7 +73,6 @@ export class PilotManagementStore extends VuexModule {
     const all = payload.pilotData.map(x => Pilot.Deserialize(x))
     this.Pilots = all.filter(x => !x.SaveController.IsDeleted)
     this.DeletedPilots = all.filter(x => x.SaveController.IsDeleted)
-    this.PilotGroups = payload.groupData
 
     //clean up deleted
     const del = []
@@ -109,12 +93,6 @@ export class PilotManagementStore extends VuexModule {
   private [ADD_PILOT](payload: Pilot): void {
     payload.SaveController.IsDirty = true
     this.Pilots.push(payload)
-  }
-
-  @Mutation
-  private [MOVE_PILOT](payload: PilotGroup[]): void {
-    // Vue.set(this, 'PilotGroups', payload)
-    // savePilots(this.Pilots.concat(this.DeletedPilots))
   }
 
   @Mutation
@@ -172,49 +150,6 @@ export class PilotManagementStore extends VuexModule {
   }
 
   @Mutation
-  private [ADD_GROUP](payload: string): void {
-    payload = payload ? payload : ''
-    if (this.PilotGroups.map(x => x.name).indexOf(payload) === -1) {
-      const newGroup: PilotGroup = {
-        name: payload,
-        pilotIDs: [],
-        hidden: false,
-      }
-      this.PilotGroups.push(newGroup)
-      savePilotGroups(this.PilotGroups)
-    }
-  }
-
-  @Mutation
-  private [MOVE_GROUP](payload): void {
-    Vue.set(this, 'PilotGroups', payload)
-    savePilotGroups(this.PilotGroups)
-  }
-
-  @Mutation
-  private [DELETE_GROUP](payload: PilotGroup): void {
-    this.Pilots.forEach((p: Pilot) => {
-      if (p.GroupController.Group === payload.name) p.GroupController.Group = ''
-    })
-
-    const idx = this.PilotGroups.indexOf(payload)
-    if (idx !== -1) this.PilotGroups.splice(idx, 1)
-    savePilotGroups(this.PilotGroups)
-  }
-
-  @Mutation
-  private [SET_GROUP_NAME](payload: { g: PilotGroup; newName: string }): void {
-    const oldName = payload.g.name
-    const newName = payload.newName
-    this.Pilots.forEach((p: Pilot) => {
-      if (p.GroupController.Group === oldName) p.GroupController.Group = newName
-    })
-
-    payload.g.name = newName
-    savePilotGroups(this.PilotGroups)
-  }
-
-  @Mutation
   private [SET_LOADED_MECH](payload: string): void {
     this.LoadedMechID = payload
   }
@@ -253,17 +188,9 @@ export class PilotManagementStore extends VuexModule {
 
   @Action({ rawError: true })
   public async loadPilots() {
-<<<<<<< HEAD
-    const pilotData = await loadData<PilotData>('pilots')
-    const pilotGroupData = await loadData<PilotGroup>('pilot_groups')
-=======
     const pilotData = await GetAll('pilots')
-    // const pilotGroupData = await loadData<PilotGroup>('pilot_groups_v2.json')
-    const pilotGroupData = []
->>>>>>> storage-rework
     this.context.commit(LOAD_PILOTS, {
       pilotData: ItemsWithLcp(pilotData),
-      groupData: pilotGroupData,
     })
     this.context.commit(SET_MISSING_PILOTS, ItemsMissingLcp(pilotData))
   }
@@ -281,23 +208,7 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public addPilot(payload: Pilot): void {
     this.context.commit(ADD_PILOT, payload)
-    this.context.commit(ADD_GROUP, payload.GroupController.Group)
     this.context.commit(SAVE_DATA)
-  }
-
-  @Action
-  public movePilot(payload: PilotGroup[]): void {
-    this.context.commit(MOVE_PILOT, payload)
-  }
-
-  @Action
-  public addGroup(payload: string): void {
-    this.context.commit(ADD_GROUP, payload)
-  }
-
-  @Action
-  public moveGroup(payload: PilotGroup[]): void {
-    this.context.commit(MOVE_GROUP, payload)
   }
 
   @Action
@@ -319,16 +230,6 @@ export class PilotManagementStore extends VuexModule {
   @Action
   public restore_pilot(payload: Pilot): void {
     this.context.commit(RESTORE_PILOT, payload)
-  }
-
-  @Action
-  public deleteGroup(payload: PilotGroup): void {
-    this.context.commit(DELETE_GROUP, payload)
-  }
-
-  @Action
-  public setGroupName(payload: { g: PilotGroup; newName: string }): void {
-    this.context.commit(SET_GROUP_NAME, payload)
   }
 
   @Action

@@ -7,7 +7,7 @@
       >
         <v-menu
           v-model="menu"
-          :value="editable || (selectable && stats.Sizes.length > 1)"
+          :value="editable || (selectable && statController.Sizes.length > 1)"
           right
           offset-y
         >
@@ -19,13 +19,13 @@
           <v-card>
             <v-card-text class="pa-2">
               <v-btn
-                v-for="i in editable ? allSizes : stats.Sizes"
+                v-for="i in editable ? allSizes : statController.Sizes"
                 :key="`size_${i}`"
                 style="width: 80px; height: 80px"
                 class="ma-3"
                 icon
                 color="accent"
-                @click="stats.Size = i"
+                @click="statController.Size = i"
               >
                 <v-icon v-if="i === 0.5" size="80">cci-size-half</v-icon>
                 <v-icon v-else size="80">cci-size-{{ i }}</v-icon>
@@ -38,7 +38,9 @@
         <v-spacer />
       </v-card-title>
       <v-card-text class="pa-1 text--text">
-        <span class="heading h2">{{ parseFloat(stats.Size) === 0.5 ? '½' : stats.Size }}</span>
+        <span class="heading h2">
+          {{ parseFloat(statController.Size) === 0.5 ? '½' : statController.Size }}
+        </span>
       </v-card-text>
     </v-card>
   </v-col>
@@ -50,7 +52,7 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'size-attribute',
   props: {
-    stats: {
+    statController: {
       type: Object,
       required: true,
     },
