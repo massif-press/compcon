@@ -13,7 +13,24 @@
           </span>
         </div>
       </div>
+      <div v-if="isTouch" class="dndToggle">
+        <v-switch v-model="preventDnd" dense inset hide-details color="accent" class="mr-3">
+          <cc-tooltip
+            slot="label"
+            simple
+            inline
+            :content="preventDnd ? 'System Reordering: OFF' : 'System Reordering: ON'"
+          >
+            <v-icon
+              class="ml-n2"
+              :color="preventDnd ? 'primary' : 'accent'"
+              v-html="preventDnd ? 'mdi-lock' : 'mdi-cursor-move'"
+            />
+          </cc-tooltip>
+        </v-switch>
+      </div>
 
+      
       <system-slot-card
         v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
         :key="`${s.ID}-${i}-intg`"
@@ -36,6 +53,7 @@
 
       <draggable
         :list="systems"
+        :disabled="preventDnd"
         @start="drag=true"
         @end="drag=false"
         @change="moveSystem($event)"
@@ -81,6 +99,13 @@ export default Vue.extend({
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
     },
+    isTouch() {
+      if ('ontouchstart' in document.documentElement) {
+        return true
+      } else {
+        return false
+      }
+    },
   },
   methods:{
     moveSystem(event){
@@ -91,8 +116,12 @@ export default Vue.extend({
   },  
   data: () => {
     return {
-      systems: null
+      systems: null,
+      preventDnd: true
     } 
+  },
+  created() {
+    this.preventDnd = this.isTouch
   },
   mounted() {
       this.systems = this.mech.MechLoadoutController.ActiveLoadout.Systems
@@ -121,5 +150,10 @@ legend {
   height: 28px;
   border: 1px solid grey;
   border-radius: 5px;
+}
+
+.dndToggle{
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
