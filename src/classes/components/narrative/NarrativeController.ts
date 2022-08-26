@@ -65,12 +65,14 @@ class NarrativeController {
 
   public AddTextItem(s: TextItem) {
     this.TextItems.push(s)
+    this.Parent.SaveController.save()
   }
 
   public DeleteTextItem(s: TextItem) {
     const idx = this.TextItems.findIndex(x => x.body === s.body && x.title === s.title)
     if (idx === -1) return
     this.TextItems.splice(idx, 1)
+    this.Parent.SaveController.save()
   }
 
   public get Clocks(): Clock[] {
@@ -84,12 +86,14 @@ class NarrativeController {
 
   public AddClock(c?: IClockData) {
     this.Clocks.push(new Clock(c ? c : { title: 'New Clock' }))
+    this.Parent.SaveController.save()
   }
 
   public DeleteClock(c: Clock) {
     const idx = this.Clocks.findIndex(x => x.ID === c.ID)
     if (idx === -1) return
     this.Clocks.splice(idx, 1)
+    this.Parent.SaveController.save()
   }
 
   public get Tables(): RollableTable[] {
@@ -103,17 +107,21 @@ class NarrativeController {
 
   public AddTable(t?: IRollableTableData) {
     this.Tables.push(new RollableTable(t ? t : { title: 'New Table' }))
+    this.Parent.SaveController.save()
   }
 
   public DeleteTable(t: RollableTable) {
     const idx = this.Tables.findIndex(x => x.ID === t.ID)
     if (idx === -1) return
     this.Tables.splice(idx, 1)
+    this.Parent.SaveController.save()
   }
 
   public static Serialize(parent: INarrativeElement, target: any) {
     if (!target.narrative) target.narrative = {}
     target.narrative.textItems = parent.NarrativeController.TextItems
+    target.narrative.campaign = parent.NarrativeController.Campaign
+    target.narrative.labels = parent.NarrativeController.Labels
     target.narrative.clocks = parent.NarrativeController.Clocks.map(x => Clock.Serialize(x))
     target.narrative.tables = parent.NarrativeController.Tables.map(x => RollableTable.Serialize(x))
   }
@@ -124,9 +132,11 @@ class NarrativeController {
         `NarrativeController not found on parent (${typeof parent}). New NarrativeControllers must be instantiated in the parent's constructor method.`
       )
 
-    parent.NarrativeController.TextItems = data.textItems
-    parent.NarrativeController.Clocks = data.clocks.map(x => Clock.Deserialize(x))
-    parent.NarrativeController.Tables = data.tables.map(x => RollableTable.Deserialize(x))
+    parent.NarrativeController._textItems = data.textItems
+    parent.NarrativeController._labels = data.labels
+    parent.NarrativeController._campaign = data.campaign
+    parent.NarrativeController._clocks = data.clocks.map(x => Clock.Deserialize(x))
+    parent.NarrativeController._tables = data.tables.map(x => RollableTable.Deserialize(x))
   }
 }
 

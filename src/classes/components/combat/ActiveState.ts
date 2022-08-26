@@ -1168,8 +1168,6 @@ class ActiveState {
         return ['act_dismount']
       }
 
-      console.log(this.AllActions.map(x => x.Name))
-
       const out = this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
       if (!this.ActiveMech.IsShutDown) out.splice(out.indexOf('act_boot_up'), 1)
       return out

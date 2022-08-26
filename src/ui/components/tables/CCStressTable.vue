@@ -172,7 +172,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import TableWindowItem from './_TableWindowItem.vue'
 import ResultData from './_stress_results.json'
 import CascadeCheck from './_CascadeCheck.vue'
-import { Mech } from '@/class'
+import { MechInstance } from '@/classes/components/combat/MechInstance'
 
 @Component({
   name: 'stress-table',
@@ -191,7 +191,7 @@ export default class CCStressTable extends Vue {
   window = 0
 
   @Prop({ type: Object, required: true })
-  mech!: Mech
+  mech!: MechInstance
 
   rolls = []
   resultData = ResultData
@@ -205,7 +205,7 @@ export default class CCStressTable extends Vue {
   ]
 
   get totalRolls(): number {
-    return (this.mech.CurrentStress - this.mech.MaxStress) * -1
+    return (this.mech.ActiveStatController.CurrentStress - this.mech.StatController.MaxStress) * -1
   }
   get resultWindow(): number {
     if (this.rolls.filter(x => x === 1).length > 1) return 4
@@ -218,7 +218,7 @@ export default class CCStressTable extends Vue {
       case 2:
         return 2
       case 1:
-        return this.mech.CurrentStress <= 1 ? 4 : 3
+        return this.mech.ActiveStatController.CurrentStress <= 1 ? 4 : 3
     }
     return 4
   }
@@ -228,15 +228,17 @@ export default class CCStressTable extends Vue {
   }
 
   applyES(): void {
-    this.mech.AddCondition('IMPAIRED')
+    if (!this.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
+      this.mech.ActiveStatController.Conditions.push('IMPAIRED')
     this.close()
   }
   applyPPD(): void {
-    this.mech.AddCondition('EXPOSED')
+    if (!this.mech.ActiveStatController.Conditions.includes('EXPOSED'))
+      this.mech.ActiveStatController.Conditions.push('EXPOSED')
     this.close()
   }
   applyMeltdown(): void {
-    this.mech.Pilot.State.ReactorCriticalDestruct()
+    // this.mech.Pilot.State.ReactorCriticalDestruct()
     this.close()
   }
 }

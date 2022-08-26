@@ -21,7 +21,7 @@ class NpcFeatureController {
 
   public set Items(val: NpcItem[]) {
     this._items = val
-    this.Parent.SaveController.save()
+    // this.Parent.SaveController.save()
   }
 
   public get BaseClassFeatures(): NpcFeature[] {

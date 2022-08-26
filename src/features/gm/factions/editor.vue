@@ -2,27 +2,42 @@
   <editor-base
     :item="faction"
     show-description
-    :isNew="!!newNpc"
+    :isNew="!!newFaction"
     @exit="$emit('exit')"
-    @add-new="SaveAsNew($event)"
-    @save="Save()"
-    @delete="deleteNpc()"
-    @copy="dupeNpc()"
+    @add-new="saveAsNew($event)"
+    @save="save()"
+    @delete="deleteItem()"
+    @copy="dupe()"
   >
     <v-container slot="builder">
+      TODO: generator w/description, clocks, etc etc
+
       <v-row dense align="center">
+        <v-col cols="auto">
+          <v-menu offset-y right>
+            <template v-slot:activator="{ on }">
+              <v-btn icon color="secondary" class="fadeSelect" v-on="on">
+                <v-icon>mdi-dice-multiple</v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-list dense>
+                <v-list-item @click="''">Interstellar Corporation</v-list-item>
+                <v-list-item @click="''">Regional Power</v-list-item>
+                <v-list-item @click="''">Local Power</v-list-item>
+                <v-list-item @click="''">Political Group</v-list-item>
+                <v-list-item @click="''">HORUS Cell</v-list-item>
+                <v-list-item @click="''">Union Branch</v-list-item>
+                <v-list-item @click="''">Lancer Fireteam</v-list-item>
+                <v-list-item @click="''">Secret Society</v-list-item>
+                <v-list-item @click="''">Criminal Syndicate</v-list-item>
+                <v-list-item @click="''">Resistance Movement</v-list-item>
+              </v-list>
+            </v-card>
+          </v-menu>
+        </v-col>
         <v-col>
           <v-text-field v-model="faction.Name" label="Name" />
-          <v-combobox
-            v-model="faction.CoreMission"
-            chips
-            deletable-chips
-            multiple
-            filled
-            labels
-            label="Core Mission"
-            color="accent"
-          />
         </v-col>
       </v-row>
     </v-container>
@@ -34,6 +49,8 @@ import Vue from 'vue'
 import EditorBase from '../_components/EditorBase.vue'
 import { getModule } from 'vuex-module-decorators'
 import { FactionStore } from '@/store'
+import { Faction } from '@/classes/campaign/Faction'
+// import { faction } from '@/io/Generators'
 
 export default Vue.extend({
   name: 'faction-editor',
@@ -42,42 +59,45 @@ export default Vue.extend({
     id: { type: String, required: true },
   },
   data: () => ({
-    faction: null,
+    newFaction: null,
   }),
-  created() {
-    this.mountFaction()
-  },
-  watch: {
-    id() {
-      this.mountFaction()
+  computed: {
+    faction() {
+      if (this.id === 'new') {
+        if (!this.newFaction) this.newFaction = new Faction()
+        return this.newFaction
+      }
+      return getModule(FactionStore, this.$store).Factions.find(x => x.ID === this.id)
     },
   },
   methods: {
+    randomName() {
+      // return faction()
+    },
     exit() {
-      this.$set(this, 'newNpc', null)
+      this.$set(this, 'newFaction', null)
       this.$emit('exit')
     },
     saveAsNew() {
-      const store = getModule(NpcStore, this.$store)
-      store.addNpc(this.npc)
+      const store = getModule(FactionStore, this.$store)
+      store.addFaction(this.faction)
       this.exit()
     },
     save() {
-      const store = getModule(NpcStore, this.$store)
+      const store = getModule(FactionStore, this.$store)
       // TODO: check for and ask to update instances on save
-      store.saveNpcData()
+      store.saveFactionData()
       this.$emit('exit')
     },
     deleteItem() {
-      const store = getModule(NpcStore, this.$store)
-      store.delete_npc(this.npc)
+      this.faction.SaveController.delete()
       this.$emit('exit')
     },
     dupe() {
-      const store = getModule(NpcStore, this.$store)
-      const dupe = Npc.Deserialize(Npc.Serialize(this.npc))
+      const store = getModule(FactionStore, this.$store)
+      const dupe = Faction.Deserialize(Faction.Serialize(this.faction))
       dupe.RenewID()
-      store.addNpc(dupe)
+      store.addFaction(dupe)
       this.$emit('exit')
     },
   },

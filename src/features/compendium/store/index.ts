@@ -55,7 +55,6 @@ export const SET_PACK_ACTIVE = 'SET_PACK_ACTIVE'
 export const SET_MISSING_CONTENT = 'SET_MISSING_CONTENT'
 
 async function SaveContent(packs) {
-  console.log('in save content')
   const promises = packs.map(pack => SetItem('content', pack.Serialize()))
   Promise.all(promises).then(() => console.info('Content updated'))
 }
@@ -144,16 +143,16 @@ export class CompendiumStore extends VuexModule {
       .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Actions))
   }
 
-  public get Tags(): Tag[]{
+  public get Tags(): Tag[] {
     return lancerData.tags
-    .map((x: ITagCompendiumData) => new Tag(x))
-    .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Tags))
+      .map((x: ITagCompendiumData) => new Tag(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Tags))
   }
 
-  public get Reserves(): Reserve[]{
+  public get Reserves(): Reserve[] {
     return lancerData.reserves
-    .map((x: IReserveData) => new Reserve(x))
-    .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Reserves))
+      .map((x: IReserveData) => new Reserve(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Reserves))
   }
 
   public get Statuses(): Status[] {

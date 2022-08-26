@@ -167,7 +167,6 @@ export default Vue.extend({
       return Components[this.componentType]
     },
     campaign() {
-      console.log(getModule(CampaignStore, this.$store).Campaigns)
       return getModule(CampaignStore, this.$store).EditCampaign
     },
   },

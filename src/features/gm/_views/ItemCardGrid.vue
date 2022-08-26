@@ -54,7 +54,6 @@ export default Vue.extend({
   methods: {
     groupedItems(group) {
       if (this.grouping === 'None') return this.items
-      console.log(this.grouping)
       return this.items.filter(x => x[this.grouping].some(y => y === group))
     },
   },

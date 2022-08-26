@@ -11,6 +11,8 @@
           </v-col>
         </v-row>
 
+        <div v-if="item.Description" class="mx-2 my-n1" v-html-safe="item.Description" />
+
         <div v-if="item.NarrativeController.TextItems.length">
           <v-row v-for="(s, i) in item.Sections" :key="`section_${i}`" dense>
             <v-col>

@@ -32,7 +32,7 @@ class SaveController {
     if (skip || !this._isLoaded) return
     this.IsDirty = true
     this.LastModified = new Date().toString()
-    store.dispatch(`set_${this.Parent.ItemType}_dirty`)
+    store.dispatch(`set_${this.Parent.ItemType.toLowerCase()}_dirty`)
     // const sp = getModule(UserStore, store).UserProfile.IsSavePerformant
     // if (!sp) {
     SaveAllLocalUpdates()

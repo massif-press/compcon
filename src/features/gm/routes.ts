@@ -12,7 +12,6 @@ import CampaignSectionPage from './campaigns/pages/section.vue'
 
 import NPCs from './npcs/index.vue'
 import Eidolons from './eidolons/index.vue'
-import NpcPrint from './npcs/printable.vue'
 import Encounters from './encounters/index.vue'
 import Characters from './characters/index.vue'
 import CharacterEditor from './characters/editor.vue'
@@ -113,7 +112,7 @@ const routes: RouteConfig[] = [
       },
       {
         path: '/gm/print/:type/:id',
-        name: 'gm-npc-print',
+        name: 'gm-print',
         component: GmPrint,
         props: true,
       },

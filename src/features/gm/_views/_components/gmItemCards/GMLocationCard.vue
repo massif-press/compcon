@@ -1,12 +1,12 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-card :elevation="hover ? 12 : 0" :outlined="!hover" @click="$emit('open')">
+    <v-card :elevation="hover ? 12 : 0" :outlined="!hover" @click="$emit('open', item.ID)">
       <v-img :aspect-ratio="1" :src="item.Image" />
       <v-card-text class="py-2 text-center" style="position: relative">
         <div
-          :class="
-            `${big ? 'heading h2' : 'body-text font-weight-bold'} ${hover ? 'primary--text' : ''}`
-          "
+          :class="`${big ? 'heading h2' : 'body-text font-weight-bold'} ${
+            hover ? 'primary--text' : ''
+          }`"
         >
           {{ item.Name }}
         </div>

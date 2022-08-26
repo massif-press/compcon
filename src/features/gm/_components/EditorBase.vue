@@ -15,7 +15,7 @@
             <div v-if="showDescription">
               <div class="overline">{{ typeText }} DESCRIPTION</div>
               <tiptap-vuetify
-                v-model="item.description"
+                v-model="item.Description"
                 :extensions="extensions"
                 :card-props="{ flat: true, outlined: true, 'min-height': '200px' }"
                 :toolbar-attributes="$vuetify.theme.dark ? { color: 'black', dark: true } : {}"
@@ -24,7 +24,7 @@
           </v-col>
           <v-col cols="3" class="text-center">
             <v-combobox
-              v-model="item.GmLabels"
+              v-model="item.Labels"
               small-chips
               multiple
               outlined
@@ -32,7 +32,7 @@
               label="GM Labels"
               class="mb-2"
             />
-            <v-combobox v-model="item.Campaigns" outlined hide-details label="Campaign" />
+            <v-combobox v-model="item.Campaign" outlined hide-details label="Campaign" />
             <v-img :src="item.PortraitController.Image" />
             <v-btn small outlined block color="accent" @click="$refs.imageSelector.open()">
               Change Image

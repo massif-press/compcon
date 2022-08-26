@@ -220,7 +220,8 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import TableWindowItem from './_TableWindowItem.vue'
 import CascadeCheck from './_CascadeCheck.vue'
 import ResultData from './_structure_results.json'
-import { Mech, MechLoadout, MechSystem } from '@/class'
+import { MechLoadout, MechSystem } from '@/class'
+import { MechInstance } from '@/classes/components/combat/MechInstance'
 
 @Component({
   name: 'structure-table',
@@ -242,7 +243,7 @@ export default class CCSidebarView extends Vue {
   window = 0
 
   @Prop({ type: Object, required: true })
-  mech!: Mech
+  mech!: MechInstance
 
   rolls = []
   resultData = ResultData
@@ -259,10 +260,12 @@ export default class CCSidebarView extends Vue {
   ]
 
   get loadout(): MechLoadout {
-    return this.mech.MechLoadoutController.ActiveLoadout
+    return this.mech.Loadout
   }
   get totalRolls(): number {
-    return (this.mech.CurrentStructure - this.mech.MaxStructure) * -1
+    return (
+      (this.mech.ActiveStatController.CurrentStructure - this.mech.StatController.MaxStructure) * -1
+    )
   }
   get resultWindow(): number {
     if (this.rolls.filter(x => x === 1).length > 1) return 4
@@ -276,17 +279,17 @@ export default class CCSidebarView extends Vue {
         if (!this.destroyableMounts.length && !this.destroyableSystems.length) return 3
         return 2
       case 1:
-        return this.mech.CurrentStructure <= 1 ? 4 : 3
+        return this.mech.ActiveStatController.CurrentStructure <= 1 ? 4 : 3
     }
     return 4
   }
 
   get destroyableMounts(): { name: string; index: number }[] {
     return this.loadout
-      .AllMounts(
-        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
-      )
+      .AllMounts
+      // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+      // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+      ()
       .filter(x => x.Weapons.some(w => !w.Destroyed && !(w.IsLimited && w.Uses === 0)))
       .map((m, i) => ({ name: m.Name, index: i }))
   }
@@ -302,17 +305,19 @@ export default class CCSidebarView extends Vue {
   }
 
   applyGlancingBlow(): void {
-    if (!this.mech.Conditions.includes('IMPAIRED')) this.mech.Conditions.push('IMPAIRED')
+    if (!this.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
+      this.mech.ActiveStatController.Conditions.push('IMPAIRED')
     this.close()
   }
 
   applyDirectHit(): void {
-    if (!this.mech.Conditions.includes('STUNNED')) this.mech.Conditions.push('STUNNED')
+    if (!this.mech.ActiveStatController.Conditions.includes('STUNNED'))
+      this.mech.ActiveStatController.Conditions.push('STUNNED')
     this.close()
   }
 
   applyDestroyed(): void {
-    this.mech.Destroy()
+    // this.mech.Destroy()
     this.close()
   }
 
@@ -324,10 +329,11 @@ export default class CCSidebarView extends Vue {
       }
       s.Destroy()
     } else {
-      const m = this.loadout.AllMounts(
-        this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
-      )[this.destroyedMount]
+      const m = this.loadout
+        .AllMounts
+        // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+        // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+        ()[this.destroyedMount]
       m.Weapons.forEach(w => {
         w.Destroy()
       })
