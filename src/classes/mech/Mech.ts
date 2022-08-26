@@ -21,14 +21,13 @@ import {
 } from './components/loadout/MechLoadoutController'
 import { CompendiumItem } from '../CompendiumItem'
 
-class IMechData implements IPortraitData, ISaveData, IMechLoadoutSaveData {
+class IMechData implements IMechLoadoutSaveData {
   save: ISaveData
+  img: IPortraitData
   id: string
   name: string
   notes: string
   gm_note: string
-  portrait: string
-  cloud_portrait: string
   frame: string
   loadouts: IMechLoadoutData[]
   active_loadout_index: number
@@ -577,8 +576,8 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     m._reactor_destroyed = data.reactor_destroyed || false
     m._core_active = data.core_active || false
 
-    SaveController.Deserialize(m, data)
-    PortraitController.Deserialize(m, data)
+    SaveController.Deserialize(m, data.save)
+    PortraitController.Deserialize(m, data.img)
 
     m.SaveController.SetLoaded()
 

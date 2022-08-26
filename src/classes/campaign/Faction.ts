@@ -8,11 +8,8 @@ interface IFactionData extends ICollectionItemData {
 }
 
 class Faction extends CollectionItem {
-  public CoreMission: string[]
-
   public constructor() {
     super()
-    this.CoreMission = []
     this.ItemType = ItemType.Faction
   }
 
@@ -26,7 +23,6 @@ class Faction extends CollectionItem {
       name: c.Name,
       description: c.Description,
       notes: c.Notes,
-      core_mission: c.CoreMission,
     }
 
     SaveController.Serialize(c, data)
@@ -44,8 +40,7 @@ class Faction extends CollectionItem {
     this.Name = data.name
     this.Description = data.description
     this.Notes = data.notes
-    this.CoreMission = data.core_mission
-    NarrativeController.Deserialize(this, data)
+    NarrativeController.Deserialize(this, data.narrative)
     SaveController.Deserialize(this, data.save)
   }
 

@@ -1,5 +1,5 @@
 // Wrapper class for items assigned to an NPC
-
+import uuid from 'uuid/v4'
 import { NpcFeature, NpcTemplate } from '../../..'
 import { store } from '@/store'
 
@@ -15,6 +15,7 @@ export interface INpcItemSaveData {
 }
 
 export class NpcItem {
+  public readonly ID: string
   private _feature: NpcFeature
   private _tier: number
   private _flavor_name: string
@@ -28,6 +29,7 @@ export class NpcItem {
   public _hideOnPrint: boolean
 
   public constructor(feature: NpcFeature, tier: number, caveatTemplate?: NpcTemplate) {
+    this.ID = uuid()
     this._feature = feature
     this._tier = tier
     this._flavor_name = this._flavor_description = ''

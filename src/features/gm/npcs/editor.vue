@@ -23,7 +23,7 @@ import Builder from './builder.vue'
 import { Npc } from '@/class'
 
 export default Vue.extend({
-  name: 'gm-editor-base',
+  name: 'gm-editor-npc',
   components: { Builder, Features, EditorBase },
   props: {
     id: { type: String, required: true },

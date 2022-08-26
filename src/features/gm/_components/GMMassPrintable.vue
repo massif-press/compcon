@@ -25,8 +25,11 @@
 <script lang="ts">
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
-import { NpcStore } from '@/store'
+import { NpcStore, CharacterStore, LocationStore, FactionStore } from '@/store'
 import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue'
+import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue'
+import LocationPrintContent from '../locations/_components/LocationPrintContent.vue'
+import FactionPrintContent from '../factions/_components/FactionPrintContent.vue'
 
 export default Vue.extend({
   name: 'gm-mass-print',
@@ -37,10 +40,15 @@ export default Vue.extend({
   computed: {
     items() {
       const arr = this.ids.split(',')
-      console.log(arr)
       switch (this.type.toLowerCase()) {
         case 'npc':
           return getModule(NpcStore, this.$store).Npcs.filter(x => arr.includes(x.ID))
+        case 'character':
+          return getModule(CharacterStore, this.$store).Characters.filter(x => arr.includes(x.ID))
+        case 'location':
+          return getModule(LocationStore, this.$store).Locations.filter(x => arr.includes(x.ID))
+        case 'faction':
+          return getModule(FactionStore, this.$store).Factions.filter(x => arr.includes(x.ID))
         default:
           return []
       }
@@ -49,6 +57,12 @@ export default Vue.extend({
       switch (this.type.toLowerCase()) {
         case 'npc':
           return NpcPrintContent
+        case 'character':
+          return CharacterPrintContent
+        case 'location':
+          return LocationPrintContent
+        case 'faction':
+          return FactionPrintContent
         default:
           return null
       }

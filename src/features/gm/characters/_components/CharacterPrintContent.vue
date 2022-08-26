@@ -2,14 +2,35 @@
   <div>
     <div>
       <v-card flat light tile class="print-main px-6 py-3">
-        <v-row dense justify="space-between" align="start">
-          <v-col>
-            <span class="heading h3">{{ item.Name }}</span>
-          </v-col>
+        <v-row no-gutters justify="space-between" align="center">
           <v-col cols="auto">
-            <v-chip v-for="(l, i) in item.Labels" :key="l + i" small outlined label v-html="l" />
+            <div class="heading h3">{{ item.Name }}</div>
+          </v-col>
+          <v-col v-if="item.Alias"><v-divider /></v-col>
+          <v-col v-if="item.Alias" cols="auto">
+            <span class="heading h3">{{ item.Alias }}</span>
+          </v-col>
+          <v-col v-if="item.Title"><v-divider /></v-col>
+          <v-col v-if="item.Title" cols="auto">
+            <span class="heading h3">{{ item.Title }}</span>
           </v-col>
         </v-row>
+
+        <v-row no-gutters>
+          <v-col v-if="item.Pronouns" class="overline mt-n2">({{ item.Pronouns }})</v-col>
+          <v-col v-if="item.Labels" cols="auto">
+            <v-chip
+              v-for="(l, i) in item.Labels"
+              :key="l + i"
+              small
+              outlined
+              class="ml-1"
+              v-html="l"
+            />
+          </v-col>
+        </v-row>
+
+        <div v-if="item.Description" class="mx-2 my-n1" v-html-safe="item.Description" />
 
         <div v-if="item.NarrativeController.TextItems.length">
           <v-row v-for="(s, i) in item.Sections" :key="`section_${i}`" dense>

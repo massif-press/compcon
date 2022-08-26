@@ -58,10 +58,15 @@ function mission(): string {
   return `${_.sample(m.a)} ${_.sample(m.b)}`
 }
 
+function faction(): string {
+  const factions = require('raw-loader!@/assets/generators/factions.txt').default.concat(
+    store.getters.Tables?.team_names || []
+  )
+  return pullRandom(factions, 1)[0]
+}
+
 function encryption(): string {
-  return `${Math.random()
-    .toString()
-    .substring(2, 4)}::${mission()}`.toUpperCase()
+  return `${Math.random().toString().substring(2, 4)}::${mission()}`.toUpperCase()
 }
 
 function flavorID(template: string): string {

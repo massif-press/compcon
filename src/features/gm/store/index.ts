@@ -29,9 +29,7 @@ export class CampaignStore extends VuexModule {
 
   @Mutation
   private [SET_EDIT_CAMPAIGN](payload: Campaign): void {
-    console.log(payload)
     this.EditCampaign = payload
-    console.log(this.EditCampaign)
   }
 
   @Mutation

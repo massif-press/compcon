@@ -27,6 +27,16 @@
 <script lang="ts">
 import Vue from 'vue'
 
+const characterHeaders = [
+  { text: 'Name', value: 'Name' },
+  {
+    text: 'Alias',
+    value: 'Alias',
+  },
+  { text: 'Title', value: 'Title' },
+  { text: 'Campaign', value: 'Campaign' },
+]
+
 const pilotHeaders = [
   {
     text: 'Callsign',
@@ -35,7 +45,6 @@ const pilotHeaders = [
   },
   { text: 'LL', value: 'Level' },
   { text: 'Name', value: 'Name' },
-  { text: 'Active Mech', value: 'State.ActiveMech.Name' },
   { text: 'Group', value: 'GroupController.Group' },
 ]
 
@@ -62,12 +71,26 @@ export default Vue.extend({
   }),
   mounted() {
     if (!this.items) return
-    if (this.items[0].Callsign) this.headers = pilotHeaders
-    else this.headers = npcHeaders
+    const type = this.items[0].ItemType.toLowerCase()
+    switch (type) {
+      case 'pilot':
+        this.headers = pilotHeaders
+        break
+      case 'npc':
+        this.headers = npcHeaders
+        break
+      case 'character':
+        this.headers = characterHeaders
+        break
+      default:
+        console.error('no headers for', type)
+        break
+    }
   },
   methods: {
     commit() {
-      const type = this.items[0].Callsign ? 'pilot' : 'npc'
+      const type = this.items[0].ItemType.toLowerCase()
+      console.log(type)
       const ids = this.selected.map(x => x.ID).join(',')
       this.$router.push(`mass-print/${type}/${ids}`)
     },

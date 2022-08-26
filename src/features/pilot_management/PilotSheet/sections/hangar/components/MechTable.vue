@@ -34,9 +34,9 @@ export default Vue.extend({
   },
   methods: {
     getMechStatus(m: Mech) {
-      if (m.Destroyed) return ['DESTROYED', 'red--text text--darken-2']
-      if (m.ReactorDestroyed) return ['REACTOR DESTROYED', 'error--text']
-      if (m.IsActive) return ['ACTIVE', 'success--text']
+      // if (m.Destroyed) return ['DESTROYED', 'red--text text--darken-2']
+      // if (m.ReactorDestroyed) return ['REACTOR DESTROYED', 'error--text']
+      // if (m.IsActive) return ['ACTIVE', 'success--text']
       return ['STANDBY', 'subtle--text text--darken-2']
     },
   },

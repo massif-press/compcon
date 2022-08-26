@@ -2,12 +2,12 @@
   <editor-base
     :item="character"
     show-description
-    :isNew="!!newNpc"
+    :isNew="!!newCharacter"
     @exit="$emit('exit')"
-    @add-new="SaveAsNew($event)"
-    @save="Save()"
-    @delete="deleteNpc()"
-    @copy="dupeNpc()"
+    @add-new="saveAsNew($event)"
+    @save="save()"
+    @delete="deleteCharacter()"
+    @copy="dupeCharacter()"
   >
     <v-container slot="builder">
       <v-row dense align="center">
@@ -39,6 +39,17 @@
           />
         </v-col>
       </v-row>
+      <v-row no-gutters class="mt-n6">
+        <v-col cols="auto" style="margin-left: 45px">
+          <v-combobox
+            v-model="character.Pronouns"
+            :items="character.PronounSuggestions"
+            dense
+            hide-details
+            class="small"
+          />
+        </v-col>
+      </v-row>
     </v-container>
   </editor-base>
 </template>
@@ -49,56 +60,57 @@ import Vue from 'vue'
 import EditorBase from '../_components/EditorBase.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CharacterStore } from '@/store'
+import { Character } from '@/classes/campaign/Character'
 
 export default Vue.extend({
-  name: 'character-editor',
+  name: 'gm-editor-character',
   components: { EditorBase },
   props: {
     id: { type: String, required: true },
   },
   data: () => ({
-    character: null,
+    newCharacter: null,
   }),
-  created() {
-    this.mountCharacter()
-  },
-  watch: {
-    id() {
-      this.mountCharacter()
+  computed: {
+    character() {
+      if (this.id === 'new') {
+        if (!this.newCharacter) this.newCharacter = new Character()
+        return this.newCharacter
+      }
+      return getModule(CharacterStore, this.$store).Characters.find(x => x.ID === this.id)
     },
   },
   methods: {
-    randomAlias() {
-      this.character.Alias = callsign()
-    },
     async randomName() {
       this.character.Name = await name()
     },
+    async randomAlias() {
+      this.character.Alias = await callsign()
+    },
     exit() {
-      this.$set(this, 'newNpc', null)
+      this.$set(this, 'newCharacter', null)
       this.$emit('exit')
     },
     saveAsNew() {
-      const store = getModule(NpcStore, this.$store)
-      store.addNpc(this.npc)
+      const store = getModule(CharacterStore, this.$store)
+      store.addCharacter(this.character)
       this.exit()
     },
     save() {
-      const store = getModule(NpcStore, this.$store)
+      const store = getModule(CharacterStore, this.$store)
       // TODO: check for and ask to update instances on save
-      store.saveNpcData()
+      store.saveCharacterData()
       this.$emit('exit')
     },
     deleteItem() {
-      const store = getModule(NpcStore, this.$store)
-      store.delete_npc(this.npc)
+      this.character.SaveController.delete()
       this.$emit('exit')
     },
     dupe() {
-      const store = getModule(NpcStore, this.$store)
-      const dupe = Npc.Deserialize(Npc.Serialize(this.npc))
+      const store = getModule(CharacterStore, this.$store)
+      const dupe = Character.Deserialize(Character.Serialize(this.character))
       dupe.RenewID()
-      store.addNpc(dupe)
+      store.addCharacter(dupe)
       this.$emit('exit')
     },
   },

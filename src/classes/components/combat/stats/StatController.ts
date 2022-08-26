@@ -63,10 +63,7 @@ class StatController {
   }
 
   public Update(source: any) {
-    console.log('in statcontroller update')
-    console.log(source)
     for (const key in this) {
-      console.log(key, source[key])
       if (source[key]) this[key] = source[key]
     }
   }

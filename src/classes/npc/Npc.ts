@@ -48,7 +48,6 @@ class INpcData implements INpcClassSaveData, INpcFeatureSaveData {
   class: string
   tier: number
   subtitle: string
-  labels: string[]
   tag: string
   note: string
   templates: string[]
@@ -75,7 +74,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
   private _subtitle: string
   private _note: string
   private _tag: string
-  private _labels: string[]
 
   public constructor(npcClass?: NpcClass, tier?: number) {
     const t = tier || 1
@@ -117,7 +115,7 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
   }
 
   public get Labels(): string {
-    return this._labels.join(', ')
+    return this.NarrativeController.LabelString
   }
 
   public get Size(): string {
@@ -182,14 +180,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
 
   public get IsBiological(): boolean {
     return this._tag.toLowerCase() === 'biological'
-  }
-
-  public get GmLabels(): string[] {
-    return this._labels
-  }
-
-  public set GmLabels(val: string[]) {
-    this._labels = val
   }
 
   public get Tag(): string {

@@ -22,28 +22,25 @@ interface ISectionData {
   body: string
 }
 
-class ICollectionItemData implements NarrativeElementData, IPortraitData {
+class ICollectionItemData {
+  save: ISaveData
+  img: IPortraitData
+  narrative: NarrativeElementData
+
   campaign: string
-  portrait: string
-  cloud_portrait: string
-  clocks: IClockData[]
-  tables: IRollableTableData[]
-  textItems: { title: string; body: string }[]
   id: string
   name: string
   description: string
   notes: string
-  image: string
   campaigns: string[]
   labels: string[]
-  save: ISaveData
 }
 
 abstract class CollectionItem implements ISaveable, INarrativeElement, IPortraitContainer {
   public ID: string
-  public Name: string
-  public Description: string
-  public Notes: string
+  private _name: string
+  private _description: string
+  private _notes: string
   public ItemType: ItemType
   public SaveController: SaveController
   public ImageTag: ImageTag
@@ -52,12 +49,39 @@ abstract class CollectionItem implements ISaveable, INarrativeElement, IPortrait
 
   public constructor() {
     this.ID = uuid()
-    this.Name = ''
-    this.Description = ''
-    this.Notes = ''
+    this._name = ''
+    this._description = ''
+    this._notes = ''
     this.SaveController = new SaveController(this)
     this.NarrativeController = new NarrativeController(this)
     this.PortraitController = new PortraitController(this)
+  }
+
+  public get Name(): string {
+    return this._name
+  }
+
+  public set Name(val: string) {
+    this._name = val
+    this.SaveController.save()
+  }
+
+  public get Description(): string {
+    return this._description
+  }
+
+  public set Description(val: string) {
+    this._description = val
+    this.SaveController.save()
+  }
+
+  public get Notes(): string {
+    return this._notes
+  }
+
+  public set Notes(val: string) {
+    this._notes = val
+    this.SaveController.save()
   }
 
   public RenewID() {
