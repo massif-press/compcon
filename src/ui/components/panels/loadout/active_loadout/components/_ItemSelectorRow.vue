@@ -1,7 +1,7 @@
 <template>
   <v-row no-gutters class="my-1">
     <v-col>
-      <v-btn x-large block dark tile :color="btnColor" :disabled="disabled" @click="$emit('click')">
+      <v-btn x-large block tile :color="btnColor" :disabled="disabled" @click="$emit('click')" class="white--text">
         <span style="position: absolute; left: 0">
           <v-icon large left>{{ item.Icon }}</v-icon>
           {{ item.Name }}
