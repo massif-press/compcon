@@ -30,7 +30,7 @@
       </v-card-text>
       <tech-attack
         v-if="action.IsTechAttack"
-        :used="action.IsItemAction ? action.Used : techAttack"
+        :used="techAttack"
         :action="action"
         :mech="mech"
         @techAttackComplete="techAttackComplete($event)"
