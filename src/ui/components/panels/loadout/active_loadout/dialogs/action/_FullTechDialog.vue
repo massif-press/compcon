@@ -9,7 +9,8 @@
           v-for="(a, j) in quickActions[k]"
           :key="`action_${j}`"
           :item="a"
-          :disabled="quick.length === 2 || full.length > 0"
+          :disabled="quick.length === MAX_QUICK || full.length > 0"
+          color="action--quick"
           @click="addQuick(a)"
         />
         <cc-combat-dialog
@@ -26,12 +27,15 @@
         <item-selector-row
           v-if="i === 0"
           :item="invadeAction"
-          :disabled="quick.length === 2 || full.length > 0"
+          :disabled="quick.length === MAX_QUICK || full.length > 0"
+          color="action--quick"
           @click="openInvade()"
         />
       </div>
     </v-container>
+
     <v-divider v-if="Object.keys(fullActions).length" class="my-3" />
+
     <v-container v-if="Object.keys(fullActions).length" style="max-width: 800px">
       <div v-for="(k, i) in Object.keys(fullActions)" :key="`sys_act_${i}`">
         <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
@@ -40,6 +44,7 @@
           :key="`action_${j}`"
           :item="a"
           :disabled="quick.length > 0 || full.length > 0"
+          color="action--full"
           @click="doFullTech(a)"
         />
         <cc-combat-dialog
@@ -65,14 +70,13 @@
           align="center"
         >
           <v-col cols="12" md="">
-            <v-alert v-if="q === 'invade-fail'" dense outlined color="white" class="text-center">
+            <v-alert v-if="q === 'invade-fail'" dense outlined class="text-center">
               <span class="heading h3 text-disabled">INVASION ATTEMPT FAILED</span>
             </v-alert>
             <v-alert
               v-else-if="typeof q === 'string' && q.startsWith('attack-fail-')"
               dense
               outlined
-              color="white"
               class="text-center"
             >
               <span class="heading h3 text-disabled">{{ systemFromFailure(q) }} FAILED</span>
@@ -101,7 +105,7 @@
         >
           <v-col cols="12" md="">
             <v-alert
-              v-if="typeof f === 'string' && q.startsWith('attack-fail-')"
+              v-if="typeof f === 'string' && f.startsWith('attack-fail-')"
               dense
               outlined
               class="text-center"
@@ -123,7 +127,7 @@
       </v-slide-x-reverse-transition>
 
       <v-slide-x-reverse-transition>
-        <v-row v-if="quick.length === 2 || full.length > 0" dense justify="center">
+        <v-row v-if="quick.length === MAX_QUICK || full.length > 0" dense justify="center">
           <v-col lg="6" md="10" xs="12">
             <v-btn block x-large color="primary" :disabled="used" @click="$emit('use')">
               {{ !used ? 'CONFIRM' : 'ACTION CONFIRMED' }}
@@ -169,6 +173,7 @@ export default Vue.extend({
   data: () => ({
     quick: [],
     full: [],
+    MAX_QUICK: 2,
   }),
   computed: {
     state() {
@@ -209,7 +214,7 @@ export default Vue.extend({
     },
     addQuick(action) {
       if (action.IsTechAttack) this.doFullTech(action)
-      else if (this.quick.length < 2) this.quick.push(action)
+      else if (this.quick.length < this.MAX_QUICK) this.quick.push(action)
     },
     removeQuick(idx) {
       this.quick.splice(idx, 1)
