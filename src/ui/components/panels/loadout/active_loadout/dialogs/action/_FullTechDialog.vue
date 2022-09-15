@@ -54,8 +54,9 @@
           :action="a"
           :mech="mech"
           fulltech
-          @add-invade="full.push($event)"
-          @add-fail="full.push('attack-fail-' + $event)"
+          @fulltech-used="addFull($event)"
+          @add-invade="addFull($event)"
+          @add-fail="addFull('attack-fail-' + $event)"
         />
       </div>
     </v-container>
@@ -218,6 +219,10 @@ export default Vue.extend({
     },
     removeQuick(idx) {
       this.quick.splice(idx, 1)
+    },
+    addFull(action){
+      if(this.full.length === 0)
+        this.full.push(action)
     },
     removeFull(){
       this.full = []
