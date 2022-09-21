@@ -5,7 +5,7 @@
     :rank="rank"
     :can-add="canAdd"
     :hide-locked="hideLocked"
-    :talent="talent"
+    :item="talent"
     @expand="expand = $event"
     @clicked="$emit('clicked')"
     @add="$emit('add')"
@@ -15,10 +15,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import TalentMicro from './components/_TalentMicro.vue'
-import TalentSmall from './components/_TalentSmall.vue'
-import TalentTerse from './components/_TalentTerse.vue'
-import TalentFull from './components/_TalentFull.vue'
+import TalentMicro from './cards/talent/_TalentMicro.vue'
+import TalentSmall from './cards/talent/_TalentSmall.vue'
+import TalentTerse from './cards/talent/_TalentTerse.vue'
+import TalentCard from './cards/_TalentCard.vue'
 
 export default Vue.extend({
   name: 'talent',
@@ -26,7 +26,7 @@ export default Vue.extend({
     TalentMicro,
     TalentSmall,
     TalentTerse,
-    TalentFull,
+    TalentCard,
   },
   props: {
     talent: { type: Object, required: true },
@@ -43,12 +43,12 @@ export default Vue.extend({
   }),
   computed: {
     type() {
-      if (this.expand === 'full') return TalentFull
+      if (this.expand === 'full') return TalentCard
       if (this.expand === 'terse') return TalentTerse
       if (this.micro) return TalentMicro
       if (this.small) return TalentSmall
       if (this.terse) return TalentTerse
-      return TalentFull
+      return TalentCard
     },
   },
   watch: {

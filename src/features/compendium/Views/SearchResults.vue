@@ -28,7 +28,7 @@
                 :icon="'cci-' + $_.kebabCase(item.ItemType)"
                 :color="$_.kebabCase(item.ItemType)"
                 clickable
-                @click="$refs[`modal_${item.ID}`][0].show()"
+                @click="onClick(item)"
               >
                 <span
                   v-html-safe="item.Description || item.Effect || `${item.Source} ${item.ItemType}`"
@@ -66,12 +66,18 @@ export default Vue.extend({
 
       return this.$_.flatten(
         this.$_.values(
-          this.$_.pick(compendium, ['Frames', 'MechSystems', 'MechWeapons', 'WeaponMods'])
+          this.$_.pick(compendium, 
+            ['Frames', 
+            'MechSystems', 
+            'MechWeapons', 
+            'WeaponMods', 
+            'Talents',
+            ])
         )
       )
     },
     searchResults(): CompendiumItem[] {
-      if (!this.searchText) {
+      if (!this.searchText || this.searchText.length < 3) {
         return []
       }
       const results = this.validResults.filter(
@@ -96,9 +102,8 @@ export default Vue.extend({
     forceInput() {
       this.setSearch((this.$refs.input as HTMLInputElement).value)
     },
-
     onClick(item: CompendiumItem) {
-      alert(item.Name)
+      this.$refs[`modal_${item.ID}`][0].show()
     },
   },
 })

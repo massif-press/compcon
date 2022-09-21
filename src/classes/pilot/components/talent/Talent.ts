@@ -1,6 +1,7 @@
 import { store } from '../../../../store'
 import { CompendiumItem } from '../../../../class'
 import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface'
+import { ItemType } from '../../../enums'
 
 interface ITalentRankData extends ICompendiumItemData {
   exclusive: boolean
@@ -30,6 +31,7 @@ class Talent extends CompendiumItem {
     this.Terse = data.terse || ''
     this._icon_url = data.icon_url || ''
     this._ranks = data.ranks.map(x => new TalentRank(x))
+    this.ItemType = ItemType.Talent
   }
 
   public get Ranks(): TalentRank[] {

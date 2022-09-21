@@ -5,26 +5,26 @@
         style="position: relative; border: 1px solid var(--v-primary-base); border-radius: 1px"
         class="pa-2"
       >
-        <talent-emblem :url="talent.Image" :name="talent.Name" large />
+        <talent-emblem :url="item.Image" :name="item.Name" large />
       </div>
     </v-col>
     <v-col>
       <div class="sliced primary white--text pl-3 ml-n2 heading h2">
         <v-row no-gutters>
           <v-col cols="auto">
-            {{ talent.Name }}
+            {{ item.Name }}
             <span v-if="rank" class="flavor-text white--text">
               <cc-slashes />
               RANK {{ 'I'.repeat(rank) }}
             </span>
           </v-col>
           <v-col
-            v-if="talent.InLcp"
+            v-if="item.InLcp"
             cols="auto"
             align-self="center"
             class="heading h3 ml-auto mr-3 mt-n1"
           >
-            {{ talent.LcpName }}
+            {{ item.LcpName }}
           </v-col>
           <v-col cols="auto" class="mr-8 mt-n1">
             <v-btn icon color="white" class="fadeSelect" @click="$emit('expand', 'full')">
@@ -34,7 +34,7 @@
         </v-row>
       </div>
       <div :class="$vuetify.breakpoint.mdAndUp ? 'box-outline px-2 py-1' : 'px-2'">
-        <div v-if="showFull" class="flavor-text mb-2">{{ talent.Terse }}</div>
+        <div v-if="showFull" class="flavor-text mb-2">{{ item.Terse }}</div>
         <div v-else style="height: 30px" />
         <v-row align="center" justify="space-around" class="text-center" dense>
           <v-col
@@ -52,19 +52,19 @@
                     mdi-lock-open
                   </v-icon>
                   <v-icon v-else left>mdi-lock</v-icon>
-                  {{ talent.Rank(n).Name }}
+                  {{ item.Rank(n).Name }}
                 </v-btn>
               </template>
               <v-card>
                 <v-toolbar flat dense tile color="pilot">
                   <span class="heading h3 white--text">
                     <v-icon left large color="white">cci-rank-{{ n }}</v-icon>
-                    {{ talent.Rank(n).Name }}
+                    {{ item.Rank(n).Name }}
                   </span>
                 </v-toolbar>
                 <v-card-text>
                   <talent-rank-contents
-                    :talent-rank="talent.Rank(n)"
+                    :talent-rank="item.Rank(n)"
                     :unlocked="!rank || parseInt(rank) >= (selectable ? n - 1 : n)"
                   />
                 </v-card-text>
@@ -79,7 +79,7 @@
                     @click="$emit('add')"
                   >
                     <v-icon left>mdi-lock-open</v-icon>
-                    Unlock {{ talent.Rank(n).Name }}
+                    Unlock {{ item.Rank(n).Name }}
                   </v-btn>
                   <v-btn v-else-if="n > parseInt(rank)" small disabled>
                     <v-icon left>mdi-lock</v-icon>
@@ -130,7 +130,7 @@ export default Vue.extend({
   components: { TalentEmblem, TalentRankContents },
   props: {
     hideLocked: { type: Boolean },
-    talent: { type: Object, required: true },
+    item: { type: Object, required: true },
     canAdd: { type: Boolean },
     selectable: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
