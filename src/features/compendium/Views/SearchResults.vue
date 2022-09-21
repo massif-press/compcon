@@ -72,6 +72,7 @@ export default Vue.extend({
             'MechWeapons', 
             'WeaponMods', 
             'Talents',
+            'PilotGear'
             ])
         )
       )
