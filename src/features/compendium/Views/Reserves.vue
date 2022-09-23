@@ -15,12 +15,7 @@
         <v-container>
           <v-row justify="center">
             <v-col v-for="reserve in reserves[k]" :key="reserve.ID" lg="4" md="6" sm="12">
-              <cc-titled-panel :title="reserve.Name" :icon="reserve.Icon" :color="reserve.Color">
-                <v-card-text class="text-xs-left mt-0 pt-0" style="height: 115px">
-                  <div class="overline subtle--text mt-n2 mb-n1">{{ reserve.Type }}</div>
-                  <p v-html-safe="reserve.Description" class="flavor-text mb-0" />
-                </v-card-text>
-              </cc-titled-panel>
+              <reserve-card :item="reserve"/>
             </v-col>
           </v-row>
         </v-container>
@@ -33,10 +28,12 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+import ReserveCard from '@/ui/components/cards/_ReserveCard.vue'
 import _ from 'lodash'
 
 export default Vue.extend({
   name: 'reserves',
+  components: { ReserveCard },
   data: () => ({
     tabModel: 0,
   }),
