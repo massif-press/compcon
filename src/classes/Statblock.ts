@@ -159,7 +159,7 @@ class Statblock {
             pilot && pilot.has('CoreBonus', 'cb_improved_armament'),
             pilot && pilot.has('CoreBonus', 'cb_integrated_weapon')
           )) {
-            output += `  ${mount.Name}: `
+            output += `  ${mount.Name.toUpperCase()}: `
             if (mount.IsLocked) {
               output += 'SUPERHEAVY WEAPON BRACING'
             } else {
@@ -251,7 +251,7 @@ class Statblock {
         pilot.has('CoreBonus', 'cb_integrated_weapon')
       )
       .map(mount => {
-        let out = `${mount.Name}: `
+        let out = `${mount.Name.toUpperCase()}: `
         if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
         else
           out += mount.Weapons.filter(Boolean)

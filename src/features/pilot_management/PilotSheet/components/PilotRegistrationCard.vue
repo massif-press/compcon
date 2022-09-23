@@ -97,7 +97,7 @@
                 small
               >
                 <v-icon left>cci-skill</v-icon>
-                {{ s.Skill.Trigger }}
+                {{ s.Skill.Trigger.toUpperCase() }}
               </v-chip>
             </v-col>
             <v-col cols="12" md="6">
@@ -117,7 +117,7 @@
                 small
               >
                 <v-icon left>cci-talent</v-icon>
-                {{ t.Talent.Name }} {{ 'I'.repeat(t.Rank) }}
+                {{ t.Talent.Name.toUpperCase() }} {{ 'I'.repeat(t.Rank) }}
               </v-chip>
             </v-col>
           </v-row>
