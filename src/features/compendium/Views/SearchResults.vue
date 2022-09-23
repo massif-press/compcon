@@ -25,7 +25,7 @@
             <v-col v-for="(item, index) in searchResults" :key="index">
               <cc-titled-panel
                 :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
-                :icon="'cci-' + $_.kebabCase(item.ItemType)"
+                :icon="item.Icon"
                 :color="$_.kebabCase(item.ItemType)"
                 clickable
                 @click="onClick(item)"
@@ -72,7 +72,8 @@ export default Vue.extend({
             'MechWeapons', 
             'WeaponMods', 
             'Talents',
-            'PilotGear'
+            'PilotGear',
+            'Reserves'
             ])
         )
       )

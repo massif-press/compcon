@@ -37,8 +37,8 @@ abstract class CompendiumItem {
   public readonly Err: string
   public IsHidden: boolean
   public IsExotic: boolean
-  private _integrated: string[]
-  private _special_equipment: string[]
+  protected _integrated: string[]
+  protected _special_equipment: string[]
   private _baseTags: Tag[]
   protected _name: string
   protected _description: string
