@@ -26,7 +26,7 @@
               <cc-titled-panel
                 :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
                 :icon="item.Icon"
-                :color="$_.kebabCase(item.ItemType)"
+                :color="item.Color"
                 clickable
                 @click="onClick(item)"
               >
