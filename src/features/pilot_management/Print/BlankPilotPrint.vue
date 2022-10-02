@@ -84,7 +84,7 @@
     </v-row>
     <v-divider class="my-2" />
     <div style="page-break-before: always;" />
-    <span class="overline">PILOT EQUIPMENT</span>
+    <span class="overline">PILOT GEAR</span>
     <v-row dense justify="space-between" class="mt-n2">
       <v-col>
         <v-row dense>
