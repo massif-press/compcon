@@ -154,7 +154,7 @@
             md="6"
             sm="12"
             icon="cci-status-exposed"
-            name="Statuses & Conditions"
+            name="Statuses &amp; Conditions"
             @clicked="$router.push('compendium/statuses')"
           />
           <compendium-page-button
