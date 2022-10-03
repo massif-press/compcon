@@ -3,7 +3,7 @@
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">SIGN IN</v-col>
     </v-row>
-    <v-form @submit="signIn()">
+    <v-form @submit="signIn()" @submit.prevent>
       <v-row class="mt-2">
         <v-col lg="6" cols="12">
           <v-text-field v-model="email" label="E-Mail Address" dense outlined hide-details />
