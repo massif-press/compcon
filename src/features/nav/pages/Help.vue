@@ -17,14 +17,14 @@
       <v-col cols="4">
         <v-btn
           target="_blank"
-          href="https://github.com/massif-press/compcon/wiki/FAQ%3A-Troubleshooting"
+          href="https://github.com/massif-press/compcon/wiki/Troubleshooting-Issues"
           x-large
           block
           color="secondary"
           class="white--text"
           tabindex="0"
         >
-          Troubleshooting FAQ
+          Troubleshooting
         </v-btn>
       </v-col>
     </v-row>

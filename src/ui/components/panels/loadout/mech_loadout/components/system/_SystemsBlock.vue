@@ -95,6 +95,11 @@ export default Vue.extend({
       type: Boolean,
     },
   },
+  watch: {
+    activeSystems() {
+      this.systems = this.activeSystems
+    },
+  },
   computed: {
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
@@ -106,6 +111,9 @@ export default Vue.extend({
         return false
       }
     },
+    activeSystems() {
+      return this.mech.MechLoadoutController.ActiveLoadout.Systems
+    }
   },
   methods:{
     moveSystem(event){

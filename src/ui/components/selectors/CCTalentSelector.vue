@@ -13,7 +13,7 @@
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
           <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>
-          <strong>{{ pTalent.Talent.Name }}</strong>
+          <strong>{{ pTalent.Talent.Name.toUpperCase() }}</strong>
           <v-icon right class="fadeSelect" @click="scroll(pTalent.Talent.ID)">
             mdi-chevron-right
           </v-icon>
