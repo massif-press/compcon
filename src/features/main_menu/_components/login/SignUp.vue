@@ -34,7 +34,7 @@
       </div>
     </div> -->
     <div class="mt-2">
-      <v-form @submit="createAccount">
+      <v-form @submit="createAccount" @submit.prevent>
         <v-row justify="center" align="center">
           <v-col lg="4" cols="12">
             <v-text-field

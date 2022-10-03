@@ -212,7 +212,7 @@ export default class NpcManager extends Vue {
   grouping = null
   headers = [
     { text: 'Name', value: 'Name', align: 'left' },
-    { text: 'Class', value: 'Class' },
+    { text: 'Class', value: 'Class.Name' },
     { text: 'Role', value: 'Role' },
     { text: 'Tier', value: 'Tier' },
   ]
