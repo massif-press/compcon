@@ -9,7 +9,8 @@
           v-for="(a, j) in quickActions[k]"
           :key="`action_${j}`"
           :item="a"
-          :disabled="quick.length === 2"
+          :disabled="quick.length === MAX_QUICK || full.length > 0"
+          color="action--quick"
           @click="addQuick(a)"
         />
         <cc-combat-dialog
@@ -26,12 +27,15 @@
         <item-selector-row
           v-if="i === 0"
           :item="invadeAction"
-          :disabled="quick.length === 2"
+          :disabled="quick.length === MAX_QUICK || full.length > 0"
+          color="action--quick"
           @click="openInvade()"
         />
       </div>
     </v-container>
+
     <v-divider v-if="Object.keys(fullActions).length" class="my-3" />
+
     <v-container v-if="Object.keys(fullActions).length" style="max-width: 800px">
       <div v-for="(k, i) in Object.keys(fullActions)" :key="`sys_act_${i}`">
         <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
@@ -39,8 +43,9 @@
           v-for="(a, j) in fullActions[k]"
           :key="`action_${j}`"
           :item="a"
-          :disabled="quick.length > 0"
-          @click="fulltech(a)"
+          :disabled="quick.length > 0 || full.length > 0"
+          color="action--full"
+          @click="doFullTech(a)"
         />
         <cc-combat-dialog
           v-for="(a, j) in fullActions[k]"
@@ -48,6 +53,10 @@
           :ref="`dialog_${a.ID}`"
           :action="a"
           :mech="mech"
+          fulltech
+          @fulltech-used="addFull($event)"
+          @add-invade="addFull($event)"
+          @add-fail="addFull('attack-fail-' + $event)"
         />
       </div>
     </v-container>
@@ -62,14 +71,13 @@
           align="center"
         >
           <v-col cols="12" md="">
-            <v-alert v-if="q === 'invade-fail'" dense outlined color="white" class="text-center">
+            <v-alert v-if="q === 'invade-fail'" dense outlined class="text-center">
               <span class="heading h3 text-disabled">INVASION ATTEMPT FAILED</span>
             </v-alert>
             <v-alert
               v-else-if="typeof q === 'string' && q.startsWith('attack-fail-')"
               dense
               outlined
-              color="white"
               class="text-center"
             >
               <span class="heading h3 text-disabled">{{ systemFromFailure(q) }} FAILED</span>
@@ -88,8 +96,39 @@
         </v-row>
       </v-slide-x-reverse-transition>
 
+      <v-slide-x-reverse-transition group>
+        <v-row
+          v-for="(f, i) in full"
+          :key="`full_sel_${i}`"
+          dense
+          justify="center"
+          align="center"
+        >
+          <v-col cols="12" md="">
+            <v-alert
+              v-if="typeof f === 'string' && f.startsWith('attack-fail-')"
+              dense
+              outlined
+              class="text-center"
+            >
+              <span class="heading h3 text-disabled">{{ systemFromFailure(f) }} FAILED</span>
+            </v-alert>
+            <cc-action v-else panel :action="f" />
+          </v-col>
+          <v-col cols="auto">
+            <v-btn v-if="$vuetify.breakpoint.mdAndUp" x-large icon @click="removeFull()">
+              <v-icon x-large>mdi-close</v-icon>
+            </v-btn>
+            <v-btn v-else small block @click="removeFull()">
+              <v-icon small left>mdi-close</v-icon>
+              Cancel {{ f.Name }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-slide-x-reverse-transition>
+
       <v-slide-x-reverse-transition>
-        <v-row v-if="quick.length === 2" dense justify="center">
+        <v-row v-if="quick.length === MAX_QUICK || full.length > 0" dense justify="center">
           <v-col lg="6" md="10" xs="12">
             <v-btn block x-large color="primary" :disabled="used" @click="$emit('use')">
               {{ !used ? 'CONFIRM' : 'ACTION CONFIRMED' }}
@@ -134,6 +173,8 @@ export default Vue.extend({
   },
   data: () => ({
     quick: [],
+    full: [],
+    MAX_QUICK: 2,
   }),
   computed: {
     state() {
@@ -165,7 +206,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    fulltech(action) {
+    doFullTech(action) {
       const ref = `dialog_${action.ID}`
       this.$refs[ref][0].show()
     },
@@ -173,11 +214,18 @@ export default Vue.extend({
       this.quick = this.quick.splice(0, this.quick.length)
     },
     addQuick(action) {
-      if (action.IsTechAttack) this.fulltech(action)
-      else if (this.quick.length < 2) this.quick.push(action)
+      if (action.IsTechAttack) this.doFullTech(action)
+      else if (this.quick.length < this.MAX_QUICK) this.quick.push(action)
     },
     removeQuick(idx) {
       this.quick.splice(idx, 1)
+    },
+    addFull(action){
+      if(this.full.length === 0)
+        this.full.push(action)
+    },
+    removeFull(){
+      this.full = []
     },
     openInvade() {
       this.$refs.inv_dialog.init()
