@@ -130,7 +130,8 @@ export default Vue.extend({
         })
     },
     emailValid(){
-      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)
+      return this.email.indexOf('.') > -1 
+        && this.email.indexOf('@') > -1;
     }
   },
 })
