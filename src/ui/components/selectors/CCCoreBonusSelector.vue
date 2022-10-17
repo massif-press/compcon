@@ -14,7 +14,7 @@
         <!-- <missing-item v-if="b.err" @remove="pilot.CoreBonusController.RemoveCoreBonus(b)" /> -->
         <div>
           <v-icon small color="accent">cci-corebonus</v-icon>
-          <strong>{{ b.Name }}</strong>
+          <strong>{{ b.Name.toUpperCase() }}</strong>
           <span class="overline">{{ b.Source }}</span>
         </div>
       </v-row>

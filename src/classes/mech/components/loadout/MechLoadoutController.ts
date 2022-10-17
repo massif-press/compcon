@@ -1,4 +1,5 @@
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
+import Vue from 'vue'
 import { Mech } from '../../Mech'
 import { MechLoadout } from './MechLoadout'
 import { IMechLoadoutData } from './MechLoadout'
@@ -37,13 +38,14 @@ class MechLoadoutController implements IFeatureContainer {
   }
 
   public set ActiveLoadout(loadout: MechLoadout) {
-    this._active_loadout = loadout
+    Vue.set(this, '_active_loadout', loadout)
     this.Parent.SaveController.save()
   }
 
   public AddLoadout(): void {
-    this._loadouts.push(new MechLoadout(this.Parent))
-    this.ActiveLoadout = this._loadouts[this._loadouts.length - 1]
+    const newLoadout = new MechLoadout(this.Parent)
+    this._loadouts.push(newLoadout)
+    this.ActiveLoadout = newLoadout
     this.Parent.SaveController.save()
   }
 
@@ -67,7 +69,7 @@ class MechLoadoutController implements IFeatureContainer {
     newLoadout.RenewID()
     newLoadout.Name += ' (Copy)'
     this._loadouts.splice(index + 1, 0, newLoadout)
-    this._active_loadout = this._loadouts[index + 1]
+    this._active_loadout = newLoadout
     this.Parent.SaveController.save()
   }
 
