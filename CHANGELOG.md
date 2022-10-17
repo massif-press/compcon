@@ -1,4 +1,21 @@
 # COMP/CON Changelog
+## [2.3.11] (2022-10-3)
+
+### Bug Fixes
+- **Data** Various fixes and corrections (thanks lenaleciel, msprijatelj)
+- **Mech Hangar** Corrects buggy loadout saving (thanks msprijatelj!) [#2138](https://github.com/massif-press/compcon/issues/2138)
+- **Compendium** Updates Pilot Gear headers (thanks msprijatelj!) [#2141](https://github.com/massif-press/compcon/issues/2141)
+- **Compendium** Enable NPC search by class (thanks super-salad!) [#2102](https://github.com/massif-press/compcon/issues/2102)
+- **Compendium** Improve email validation regex (thanks super-salad!) [#2119](https://github.com/massif-press/compcon/issues/2119) [#2128](https://github.com/massif-press/compcon/issues/2128)
+- **Active Mode** Fix Full Tech usage (thanks super-salad!) [#2088](https://github.com/massif-press/compcon/issues/2088) [#2093](https://github.com/massif-press/compcon/issues/2093) [#2094](https://github.com/massif-press/compcon/issues/2094)
+- **Misc** Redirect help page to new Wiki troubleshooter (thanks msprijatelj!) [#2110](https://github.com/massif-press/compcon/issues/2110)
+- **Misc** Prevent refresh on v-form submit(thanks msprijatelj!) [#2122](https://github.com/massif-press/compcon/issues/2122)
+- **Mech Hangar** Add toggle for system reorder (thanks super-salad!) [#2095](https://github.com/massif-press/compcon/issues/2095)
+
+### Features
+- **Statblock** Improve output capitalization (thanks msprijatelj!)
+
+
 ## [2.3.10] (2022-8-11)
 
 ### Bug Fixes
