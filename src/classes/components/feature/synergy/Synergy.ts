@@ -36,22 +36,23 @@ class Synergy {
       ),
     ]
 
-    if (!item) return sArr
-    if (item.ItemType === ItemType.MechWeapon) {
-      sArr = sArr.filter(s => {
-        if (s.WeaponTypes.includes('any')) return true
-        if ((item as MechWeapon).WeaponType === WeaponType.All) return true
-        return s.WeaponTypes.includes((item as MechWeapon).WeaponType)
-      })
-      sArr = sArr.filter(s => {
-        if (s.WeaponSizes.includes('any')) return true
-        return s.WeaponSizes.includes((item as MechWeapon).Size)
-      })
-    } else if (item.ItemType === ItemType.MechSystem || item.ItemType === ItemType.WeaponMod) {
-      sArr = sArr.filter(s => {
-        if (s.SystemTypes.includes('any')) return true
-        return s.SystemTypes.includes((item as MechSystem).Type)
-      })
+    if (item) {
+      if (item.ItemType === ItemType.MechWeapon) {
+        sArr = sArr.filter(s => {
+          if (s.WeaponTypes.includes('any')) return true
+          if ((item as MechWeapon).WeaponType === WeaponType.All) return true
+          return s.WeaponTypes.includes((item as MechWeapon).WeaponType)
+        })
+        sArr = sArr.filter(s => {
+          if (s.WeaponSizes.includes('any')) return true
+          return s.WeaponSizes.includes((item as MechWeapon).Size)
+        })
+      } else if (item.ItemType === ItemType.MechSystem || item.ItemType === ItemType.WeaponMod) {
+        sArr = sArr.filter(s => {
+          if (s.SystemTypes.includes('any')) return true
+          return s.SystemTypes.includes((item as MechSystem).Type)
+        })
+      }
     }
 
     return _.uniq(sArr)
