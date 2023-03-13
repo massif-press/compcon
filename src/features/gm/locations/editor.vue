@@ -10,31 +10,7 @@
     @copy="dupe()"
   >
     <v-container slot="builder">
-      TODO: generator w/description, clocks, etc etc
       <v-row dense align="center">
-        <v-col cols="auto">
-          <v-menu offset-y right>
-            <template v-slot:activator="{ on }">
-              <v-btn icon color="secondary" class="fadeSelect" v-on="on">
-                <v-icon>mdi-dice-multiple</v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-list dense>
-                <v-list-item @click="''">Line</v-list-item>
-                <v-list-item @click="''">System</v-list-item>
-                <v-list-item @click="''">Planet</v-list-item>
-                <v-list-item @click="''">Area</v-list-item>
-                <v-list-item @click="''">Large Settlement</v-list-item>
-                <v-list-item @click="''">Small Settlement</v-list-item>
-                <v-list-item @click="''">Small Settlement</v-list-item>
-                <v-list-item @click="''">Station</v-list-item>
-                <v-list-item @click="''">Gate</v-list-item>
-                <v-list-item @click="''">Gate</v-list-item>
-              </v-list>
-            </v-card>
-          </v-menu>
-        </v-col>
         <v-col>
           <v-text-field v-model="location.Name" label="Name" />
         </v-col>

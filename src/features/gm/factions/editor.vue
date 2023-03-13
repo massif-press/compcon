@@ -10,32 +10,7 @@
     @copy="dupe()"
   >
     <v-container slot="builder">
-      TODO: generator w/description, clocks, etc etc
-
       <v-row dense align="center">
-        <v-col cols="auto">
-          <v-menu offset-y right>
-            <template v-slot:activator="{ on }">
-              <v-btn icon color="secondary" class="fadeSelect" v-on="on">
-                <v-icon>mdi-dice-multiple</v-icon>
-              </v-btn>
-            </template>
-            <v-card>
-              <v-list dense>
-                <v-list-item @click="''">Interstellar Corporation</v-list-item>
-                <v-list-item @click="''">Regional Power</v-list-item>
-                <v-list-item @click="''">Local Power</v-list-item>
-                <v-list-item @click="''">Political Group</v-list-item>
-                <v-list-item @click="''">HORUS Cell</v-list-item>
-                <v-list-item @click="''">Union Branch</v-list-item>
-                <v-list-item @click="''">Lancer Fireteam</v-list-item>
-                <v-list-item @click="''">Secret Society</v-list-item>
-                <v-list-item @click="''">Criminal Syndicate</v-list-item>
-                <v-list-item @click="''">Resistance Movement</v-list-item>
-              </v-list>
-            </v-card>
-          </v-menu>
-        </v-col>
         <v-col>
           <v-text-field v-model="faction.Name" label="Name" />
         </v-col>

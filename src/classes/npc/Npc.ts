@@ -133,9 +133,9 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
     return this.NpcClassController.Tier.toString()
   }
 
-  public get Campaign(): string {
-    return this.Campaign || 'None'
-  }
+  // public get Campaign(): string {
+  //   return this.Campaign || 'None'
+  // }
 
   public get Collection(): string {
     return this.GroupController.Group

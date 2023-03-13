@@ -12,8 +12,8 @@
       </v-col>
       <v-col><v-divider /></v-col>
     </v-row>
-    <v-row style="height: 100%" class="mt-1" justify="space-around">
-      <v-col cols="5">
+    <v-row style="height: 100%" class="mt-1 px-5" justify="space-around">
+      <v-col>
         <v-list>
           <v-list-item>
             <v-list-item-avatar tile width="100px" height="100px">
@@ -70,7 +70,7 @@
           </v-list-item>
         </v-list>
       </v-col>
-      <v-col cols="5">
+      <v-col>
         <v-list>
           <v-list-item>
             <v-list-item-avatar tile width="100px" height="100px">
@@ -128,6 +128,45 @@
           </v-list-item>
         </v-list>
       </v-col>
+      <v-col>
+        <v-list>
+          <v-list-item>
+            <v-list-item-avatar tile width="100px" height="100px">
+              <v-img :src="specImg" />
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title class="heading mech" v-text="'DISPLAY'" />
+            </v-list-item-content>
+          </v-list-item>
+          <v-divider />
+
+          <v-list-item three-line disabled>
+            <v-list-item-avatar tile>
+              <v-icon size="40" v-text="'mdi-monitor-share'" />
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title class="heading h3" v-text="'Spectator Mode'" />
+              <v-list-item-subtitle>
+                Run a non-interactive spectator display for a realtime LANCER game (in development!)
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item three-line disabled>
+            <v-list-item-avatar tile>
+              <v-icon size="40" v-text="'mdi-monitor-dashboard'" />
+            </v-list-item-avatar>
+
+            <v-list-item-content>
+              <v-list-item-title class="heading h3" v-text="'Campaign Display'" />
+              <v-list-item-subtitle>
+                Run an interactive GM display for a loaded LANCER campaign (in development!)
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -145,6 +184,9 @@ export default Vue.extend({
     },
     gmImg() {
       return getImagePath(ImageTag.Misc, 'patreon_tiers\\nhp.svg')
+    },
+    specImg() {
+      return getImagePath(ImageTag.Misc, 'patreon_tiers\\diasporan.svg')
     },
   },
 })
