@@ -1,6 +1,5 @@
 <template>
   <div>
-    <v-btn @click="testGen()">test gen</v-btn>
     <gm-collection-view
       title="Characters"
       item-type="Character"
@@ -35,7 +34,6 @@ import GmCollectionView from '../_views/GMCollectionView.vue'
 import Editor from './editor.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CharacterStore } from '@/store'
-import { exampleCharGen } from '@/classes/campaign/generators/CharacterGenerator'
 
 export default Vue.extend({
   name: 'characters-roster',
@@ -72,12 +70,6 @@ export default Vue.extend({
       store.addCharacter(this.selected)
       this.$set(this, 'selected', null)
       this.dialog = false
-    },
-    testGen() {
-      console.log(
-        `%c${new exampleCharGen().Generate()}`,
-        'border: 1px solid; border-radius: 2px; padding: 4px; font-family:sans-serif; font-size: 15px'
-      )
     },
   },
 })

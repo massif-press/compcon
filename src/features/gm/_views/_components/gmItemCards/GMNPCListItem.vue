@@ -42,17 +42,17 @@
         <v-row v-if="item.NpcClassController.Class" dense>
           <v-col v-for="(e, i) in hase" :key="`haseitem_${i}`" cols="auto" class="pr-2">
             <span class="heading h3" style="opacity: 0.5">{{ e.text }}</span>
-            <b v-text="item.Stats[e.val]" />
+            <b v-text="item.StatController[e.val]" />
           </v-col>
           <v-col
             v-for="(e, i) in stats"
             :key="`statsitem_${i}`"
-            v-show="item.Stats[e.val]"
+            v-show="item.StatController[e.val]"
             cols="auto"
             class="pr-2"
           >
             <v-icon style="opacity: 0.5">{{ e.text }}</v-icon>
-            <b v-text="item.Stats[e.val]" />
+            <b v-text="item.StatController[e.val]" />
           </v-col>
         </v-row>
         <v-divider class="my-2" />

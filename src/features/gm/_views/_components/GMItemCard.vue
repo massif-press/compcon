@@ -32,6 +32,9 @@ export default Vue.extend({
     list: { type: Boolean },
     odd: { type: Boolean },
   },
+  mounted() {
+    console.log(this.item.ItemType)
+  },
   computed: {
     type() {
       return this.item.ItemType.charAt(0).toUpperCase() + this.item.ItemType.slice(1)

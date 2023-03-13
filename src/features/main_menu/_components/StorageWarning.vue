@@ -68,11 +68,12 @@ export default Vue.extend({
   },
   methods: {
     async hasPermanentStorage() {
+      console.log(navigator.storage)
       return await navigator.storage.persist()
     },
     async hasPermanentStoragePermission() {
       const res = await navigator.permissions.query({ name: 'persistent-storage' })
-
+      console.log(res)
       return res.state
     },
   },
