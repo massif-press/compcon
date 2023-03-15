@@ -8,7 +8,7 @@
       <span v-else-if="type === 'unfinished'">WARNING: EMPTY MOUNTS DETECTED</span>
       <span v-else-if="type === 'underSP'">WARNING: SYSTEM CAPACITY REMAINING</span>
       <span v-else-if="type === 'unlicensed'">WARNING: UNLICENSED EQUIPMENT DETECTED</span>
-      <span v-else-if="type === 'incompatiblemod'">WARNING: WEAPON MOD COMPATIBILITY ERROR</span>
+      <span v-else-if="type === 'incompatiblemod'">WARNING: INCOMPATIBLE WEAPON MOD</span>
     </div>
     <div v-if="!small && !hideClear" class="mt-1">
       <v-btn v-if="type === 'destroyed'" block small outlined dark @click="$emit('reprint')">
@@ -31,7 +31,7 @@
         configuration
       </span>
       <span v-else-if="type === 'incompatiblemod'" class="white--text flavor-text">
-        A weapon mod has been installed to an incompatible weapon.
+        One or more weapon mods are installed to incompatible weapons
       </span>
     </div>
   </v-alert>
