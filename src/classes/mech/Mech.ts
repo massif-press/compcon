@@ -251,6 +251,16 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     })
   }
 
+  public HasCompatibleMods(): boolean {
+    for(const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod != null)){
+      if (!w.Mod.AllowedTypes.includes(w.WeaponType) || !w.Mod.AllowedSizes.includes(w.Size) ||
+          w.Mod.RestrictedTypes.includes(w.WeaponType) || w.Mod.RestrictedSizes.includes(w.Size)) {
+        return false
+      }
+    }
+    return true
+  }
+
   // -- Attributes --------------------------------------------------------------------------------
   public get SizeIcon(): string {
     return `cci-size-${this.Size === 0.5 ? 'half' : this.Size}`
@@ -780,6 +790,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     if (this.FreeSP > 0) out.push('underSP')
     if (this.MechLoadoutController.ActiveLoadout.HasEmptyMounts) out.push('unfinished')
     if (this.RequiredLicenses.filter(x => x.missing).length) out.push('unlicensed')
+    if (!this.HasCompatibleMods()) out.push('incompatiblemod')
     return out
   }
 
