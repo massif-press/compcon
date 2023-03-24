@@ -9,7 +9,7 @@
           v-model="location.Description"
           label="Description"
           hint="A brief description of this location"
-          outlined
+          variant="outlined"
           auto-grow
           rows="3"
         />
@@ -19,14 +19,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditorBase from '../../../_components/EditorBase.vue'
+import EditorBase from '../../../_components/EditorBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'location-editor',
   components: { EditorBase },
   props: {
     location: { type: Object, required: true },
   },
-})
+};
 </script>

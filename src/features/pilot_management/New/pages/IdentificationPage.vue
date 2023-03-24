@@ -6,7 +6,7 @@
     @complete="$emit('next')"
   >
     <cc-title large>New Pilot Registration&emsp;</cc-title>
-    <div v-show="$vuetify.breakpoint.mdAndUp">
+    <div v-show="$vuetify.display.mdAndUp">
       <h2 class="heading">
         UAD IDENT Service
         <cc-slashes />
@@ -14,35 +14,44 @@
       </h2>
       <v-container class="flavor-text" style="font-size: 14px">
         <div class="mt-n2">
-          Welcome to the Union Administrative Department's IDENT registration service. IDENT is the
-          omninet-based certification system that guides the user through the UAD's pilot
-          registration process. IDENT helps ensure pilots meet regulatory and policy requirements
-          through the use of NHP-directed data validation protocols. Union Regulars that have
-          already been issued an RM-4 IDENT fingerprint should not complete this form unless
-          instructed to by their commanding officer.
+          Welcome to the Union Administrative Department's IDENT registration
+          service. IDENT is the omninet-based certification system that guides
+          the user through the UAD's pilot registration process. IDENT helps
+          ensure pilots meet regulatory and policy requirements through the use
+          of NHP-directed data validation protocols. Union Regulars that have
+          already been issued an RM-4 IDENT fingerprint should not complete this
+          form unless instructed to by their commanding officer.
         </div>
-        <v-alert type="warning" color="accent" outlined class="mt-2" dense prominent>
+        <v-alert
+          type="warning"
+          color="accent"
+          variant="outlined"
+          class="mt-2"
+          dense
+          prominent
+        >
           <b>
             All fields marked with the
             <v-icon color="error">mdi-alert</v-icon>
             glyph must be populated.
           </b>
           <div class="overline" style="line-height: 13px">
-            By submitting this form you attest that your responses are truthful and accurate to the
-            best of your knowledge. Knowingly providing false or or incomplete information is
-            punishable under DoJ/HR AR 303-J.
+            By submitting this form you attest that your responses are truthful
+            and accurate to the best of your knowledge. Knowingly providing
+            false or or incomplete information is punishable under DoJ/HR AR
+            303-J.
           </div>
         </v-alert>
       </v-container>
     </div>
-    <v-row :class="$vuetify.breakpoint.mdAndUp ? 'mx-6' : ''">
+    <v-row :class="$vuetify.display.mdAndUp ? 'mx-6' : ''">
       <v-col cols="12" md="5" class="mr-auto">
-        <span v-if="$vuetify.breakpoint.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="overline">
           RM-4-01 // FULL NAME OR PRIMARY ALIAS
         </span>
         <v-text-field
           v-model="pilot.Name"
-          outlined
+          variant="outlined"
           label="Name"
           hide-details
           class="my-1"
@@ -50,7 +59,9 @@
         >
           <template v-slot:prepend>
             <cc-tooltip simple content="Generate Random Name">
-              <v-icon color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
+              <v-icon color="secondary" @click="randomName()"
+                >mdi-dice-multiple</v-icon
+              >
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
@@ -59,13 +70,21 @@
           </template>
         </v-text-field>
 
-        <span v-if="$vuetify.breakpoint.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="overline">
           RM-4-02 // APPROVED CALLSIGN (OR CADET DESIGNATION, IF APPLICABLE)
         </span>
-        <v-text-field v-model="pilot.Callsign" outlined label="Callsign" hide-details class="my-1">
+        <v-text-field
+          v-model="pilot.Callsign"
+          variant="outlined"
+          label="Callsign"
+          hide-details
+          class="my-1"
+        >
           <template v-slot:prepend>
             <cc-tooltip simple content="Generate Random Callsign">
-              <v-icon color="secondary" @click="randomCallsign()">mdi-dice-multiple</v-icon>
+              <v-icon color="secondary" @click="randomCallsign()"
+                >mdi-dice-multiple</v-icon
+              >
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
@@ -74,28 +93,32 @@
           </template>
         </v-text-field>
 
-        <span v-if="$vuetify.breakpoint.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="overline">
           RM-4-03 // PRIOR OCCUPATION OR POSITION (ANSWER 17b ON RM-2-C)
         </span>
         <v-text-field
           v-model="pilot.Background"
-          outlined
+          variant="outlined"
           label="Background"
           hide-details
           class="my-1"
         >
           <template v-slot:prepend>
             <cc-tooltip simple content="Select Predefined Background">
-              <cc-background-selector @select="$emit('set', { attr: 'Background', val: $event })" />
+              <cc-background-selector
+                @select="$emit('set', { attr: 'Background', val: $event })"
+              />
             </cc-tooltip>
           </template>
           <template v-slot:append-outer>
-            <v-icon v-if="!pilot.Background" color="grey">mdi-circle-outline</v-icon>
+            <v-icon v-if="!pilot.Background" color="grey"
+              >mdi-circle-outline</v-icon
+            >
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
         </v-text-field>
 
-        <span v-if="$vuetify.breakpoint.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="overline">
           RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER RM-4b SUPPLEMENTAL
         </span>
         <text-entry-popup
@@ -104,20 +127,22 @@
           @save="$emit('set', { attr: 'History', val: $event })"
         >
           <span v-if="!pilot.History">
-            <v-icon left>mdi-plus</v-icon>
+            <v-icon start>mdi-plus</v-icon>
             Add Pilot Biography
           </span>
           <span v-else>
-            <v-icon left>mdi-circle-edit-outline</v-icon>
+            <v-icon start>mdi-circle-edit-outline</v-icon>
             Edit Pilot Biography
           </span>
           <div style="position: absolute; right: -53px">
-            <v-icon v-if="!pilot.History" color="grey">mdi-circle-outline</v-icon>
+            <v-icon v-if="!pilot.History" color="grey"
+              >mdi-circle-outline</v-icon
+            >
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </div>
         </text-entry-popup>
 
-        <span v-if="$vuetify.breakpoint.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="overline">
           RM-4-05 // ATTACHED OHM HEALTH EXAMINATION RESULTS
         </span>
         <text-entry-popup
@@ -126,27 +151,36 @@
           @save="$emit('set', { attr: 'TextAppearance', val: $event })"
         >
           <span v-if="!pilot.TextAppearance">
-            <v-icon left>mdi-plus</v-icon>
+            <v-icon start>mdi-plus</v-icon>
             Add Pilot Description
           </span>
           <span v-else>
-            <v-icon left>mdi-circle-edit-outline</v-icon>
+            <v-icon start>mdi-circle-edit-outline</v-icon>
             Edit Pilot Description
           </span>
           <div style="position: absolute; right: -53px">
-            <v-icon v-if="!pilot.TextAppearance" color="grey">mdi-circle-outline</v-icon>
+            <v-icon v-if="!pilot.TextAppearance" color="grey"
+              >mdi-circle-outline</v-icon
+            >
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </div>
         </text-entry-popup>
       </v-col>
-      <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="1" class="ml-auto mr-auto text-center">
+      <v-col
+        v-if="$vuetify.display.mdAndUp"
+        cols="1"
+        class="ml-auto mr-auto text-center"
+      >
         <v-divider vertical />
       </v-col>
       <v-col cols="12" md="5" class="ml-auto">
-        <span v-if="$vuetify.breakpoint.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="overline">
           RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
         </span>
-        <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
+        <div
+          class="border mr-8 ml-auto mr-auto"
+          style="width: 300px; height: 300px"
+        >
           <v-img
             v-if="pilot.Portrait"
             :key="pilot.PortraitController.Image"
@@ -155,21 +189,33 @@
           />
         </div>
         <div class="mr-8 mt-3">
-          <v-btn outlined large block color="secondary" @click="$refs.imageSelector.open()">
+          <v-btn
+            variant="outlined"
+            large
+            block
+            color="secondary"
+            @click="$refs.imageSelector.open()"
+          >
             <span v-if="!pilot.Portrait">
-              <v-icon left>mdi-plus</v-icon>
+              <v-icon start>mdi-plus</v-icon>
               Add Pilot Image
             </span>
             <span v-else>
-              <v-icon left>mdi-circle-edit-outline</v-icon>
+              <v-icon start>mdi-circle-edit-outline</v-icon>
               Edit Pilot Image
             </span>
             <div style="position: absolute; right: -53px">
-              <v-icon v-if="!pilot.Portrait" color="grey">mdi-circle-outline</v-icon>
+              <v-icon v-if="!pilot.Portrait" color="grey"
+                >mdi-circle-outline</v-icon
+              >
               <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
             </div>
           </v-btn>
-          <cc-image-selector-web ref="imageSelector" :item="pilot" type="pilot" />
+          <cc-image-selector-web
+            ref="imageSelector"
+            :item="pilot"
+            type="pilot"
+          />
         </div>
       </v-col>
     </v-row>
@@ -183,11 +229,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { name, callsign } from '@/io/Generators'
-import TextEntryPopup from './components/TextEntryPopup.vue'
+import { name, callsign } from '@/io/Generators';
+import TextEntryPopup from './components/TextEntryPopup.vue';
 
-export default Vue.extend({
+export default {
   name: 'identification-page',
   components: { TextEntryPopup },
   props: {
@@ -200,14 +245,14 @@ export default Vue.extend({
 
   methods: {
     randomCallsign() {
-      this.$emit('set', { attr: 'Callsign', val: callsign() })
-      this.$forceUpdate()
+      this.$emit('set', { attr: 'Callsign', val: callsign() });
+      this.$forceUpdate();
     },
     async randomName() {
-      const generatedName = await name()
-      this.$emit('set', { attr: 'Name', val: generatedName })
-      this.$forceUpdate()
+      const generatedName = await name();
+      this.$emit('set', { attr: 'Name', val: generatedName });
+      this.$forceUpdate();
     },
   },
-})
+};
 </script>

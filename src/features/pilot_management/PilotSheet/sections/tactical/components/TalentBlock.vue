@@ -2,7 +2,12 @@
   <div class="mb-4">
     <v-row no-gutters>
       <v-col cols="auto">
-        <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
+        <cc-title
+          small
+          color="pilot"
+          class="pl-3"
+          style="margin-left: -50px !important"
+        >
           <section-edit-chip
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
@@ -38,7 +43,7 @@
     </v-container>
     <cc-solo-dialog
       ref="talentSelector"
-      icon="cci-trait"
+      icon="cc:trait"
       no-confirm
       title="Set Pilot Talents"
       fullscreen
@@ -49,13 +54,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SectionEditChip from '../../components/SectionEditChip.vue'
-import NoDataBlock from '../../components/NoDataBlock.vue'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
+import SectionEditChip from '../../components/SectionEditChip.vue';
+import NoDataBlock from '../../components/NoDataBlock.vue';
 
-export default Vue.extend({
+import { UserStore } from '@/store';
+
+export default {
   name: 'skill-block',
   components: { SectionEditChip, NoDataBlock },
   props: {
@@ -66,16 +70,16 @@ export default Vue.extend({
   },
   computed: {
     profile() {
-      return getModule(UserStore, this.$store).UserProfile
+      return this.getModule(UserStore).UserProfile;
     },
     ctype: {
       get: function (): string {
-        return this.profile.GetView('talents')
+        return this.profile.GetView('talents');
       },
       set: function (newval: string) {
-        this.profile.SetView('talents', newval)
+        this.profile.SetView('talents', newval);
       },
     },
   },
-})
+};
 </script>

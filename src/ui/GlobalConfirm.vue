@@ -20,50 +20,47 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-
-@Component
-export default class CCConfirmDialog extends Vue {
-  private dialog = false
-  private resolve = null
-  private reject = null
-  private message = null
-  private title = null
-
-  private options = {
-    color: 'primary',
-    width: 500,
-    zIndex: 200,
-  }
-
-  open(
-    title: string,
-    message: string,
+export default {
+  name: 'GlobalConfirm',
+  data: () => ({
+    dialog: false,
+    resolve: null,
+    reject: null,
+    message: null,
+    title: null,
     options: {
-      color?: string
-      width?: number
-      zIndex?: number
-    } = {}
-  ) {
-    this.dialog = true
-    this.title = title
-    this.message = message
-    this.options = Object.assign({}, this.options, options)
-    return new Promise((resolve, reject) => {
-      this.resolve = resolve
-      this.reject = reject
-    })
-  }
-
-  agree() {
-    this.resolve(true)
-    this.dialog = false
-  }
-
-  cancel() {
-    this.resolve(false)
-    this.dialog = false
-  }
-}
+      color: 'primary',
+      width: 500,
+      zIndex: 200,
+    },
+  }),
+  methods: {
+    open(
+      title: string,
+      message: string,
+      options: {
+        color?: string;
+        width?: number;
+        zIndex?: number;
+      } = {}
+    ) {
+      this.dialog = true;
+      this.title = title;
+      this.message = message;
+      this.options = Object.assign({}, this.options, options);
+      return new Promise((resolve, reject) => {
+        this.resolve = resolve;
+        this.reject = reject;
+      });
+    },
+    agree() {
+      this.resolve(true);
+      this.dialog = false;
+    },
+    cancel() {
+      this.resolve(false);
+      this.dialog = false;
+    },
+  },
+};
 </script>

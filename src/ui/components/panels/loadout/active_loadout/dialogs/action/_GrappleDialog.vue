@@ -14,7 +14,7 @@
           :color="action.Color"
           @click="actionCost = !actionCost"
         >
-          <v-icon left>{{ action.Icon }}</v-icon>
+          <v-icon start>{{ action.Icon }}</v-icon>
           {{ action.Name }}
         </v-btn>
         <v-btn
@@ -26,15 +26,15 @@
           color="action--free"
           @click="actionFree = !actionFree"
         >
-          <v-icon left small>cci-free-action</v-icon>
+          <v-icon start small>cc:free-action</v-icon>
           Free Action
           <cc-tooltip
             inline
-            :content="
-              `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
-            "
+            :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
+            <v-icon end small class="fadeSelect"
+              >mdi-information-outline</v-icon
+            >
           </cc-tooltip>
         </v-btn>
       </v-col>
@@ -46,19 +46,19 @@
           <v-row
             dense
             class="text-center mb-n3"
-            :justify="$vuetify.breakpoint.mdAndUp ? 'start' : 'space-around'"
+            :justify="$vuetify.display.mdAndUp ? 'start' : 'space-around'"
             align="start"
           >
-            <v-col cols="auto" :class="$vuetify.breakpoint.mdAndUp ? 'mx-8' : ''">
+            <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
               <div class="overline mb-n2">Attack Roll</div>
               <div class="heading text--text" style="font-size: 24pt">
                 <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                 + {{ mech.AttackBonus }}
               </div>
             </v-col>
-            <v-col cols="auto" :class="$vuetify.breakpoint.mdAndUp ? 'mx-8' : ''">
+            <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
               <div class="overline mb-n3">vs. Target</div>
-              <v-icon x-large v-html="'cci-evasion'" />
+              <v-icon x-large v-html="'cc:evasion'" />
               <div class="overline font-weight-bold mt-n2" v-html="'Evasion'" />
             </v-col>
           </v-row>
@@ -66,12 +66,16 @@
         <v-col cols="auto" class="ml-auto">
           <v-row
             dense
-            :justify="$vuetify.breakpoint.mdAndUp ? 'end' : 'space-around'"
-            :class="$vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+            :justify="$vuetify.display.mdAndUp ? 'end' : 'space-around'"
+            :class="$vuetify.display.mdAndUp ? '' : 'panel'"
           >
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              :class="
+                $vuetify.display.mdAndUp
+                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
+                  : ''
+              "
               style="height: 70px"
             >
               <div class="overline pl-1">Accuracy</div>
@@ -79,7 +83,7 @@
                 v-model="accuracy"
                 type="number"
                 append-outer-icon="mdi-plus-circle-outline"
-                append-icon="cci-accuracy"
+                append-icon="cc:accuracy"
                 prepend-icon="mdi-minus-circle-outline"
                 style="width: 115px"
                 class="hide-input-spinners"
@@ -93,7 +97,11 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              :class="
+                $vuetify.display.mdAndUp
+                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
+                  : ''
+              "
               style="height: 70px"
             >
               <div class="overline pl-1">Difficulty</div>
@@ -101,7 +109,7 @@
                 v-model="difficulty"
                 type="number"
                 append-outer-icon="mdi-plus-circle-outline"
-                append-icon="cci-difficulty"
+                append-icon="cc:difficulty"
                 prepend-icon="mdi-minus-circle-outline"
                 style="width: 115px"
                 class="hide-input-spinners"
@@ -115,7 +123,11 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
+              :class="
+                $vuetify.display.mdAndUp
+                  ? 'ml-auto px-12 panel dual-sliced'
+                  : ''
+              "
               style="height: 70px"
             >
               <div class="overline pl-1">Melee Attack Roll</div>
@@ -183,14 +195,15 @@
             <ul>
               <li>You and your target are ENGAGED</li>
               <li>
-                Neither you nor your target can BOOST or take reactions for the duration of the
-                grapple
+                Neither you nor your target can BOOST or take reactions for the
+                duration of the grapple
               </li>
               <li>
-                The smaller character becomes IMMOBILIZED but moves when the larger party moves,
-                mirroring their movement. If both parties are the same SIZE, either can make
-                contested HULL checks at the start of their turn: the winner counts as larger than
-                the loser until this contest is repeated.
+                The smaller character becomes IMMOBILIZED but moves when the
+                larger party moves, mirroring their movement. If both parties
+                are the same SIZE, either can make contested HULL checks at the
+                start of their turn: the winner counts as larger than the loser
+                until this contest is repeated.
               </li>
             </ul>
           </div>
@@ -201,11 +214,11 @@
 </template>
 
 <script lang="ts">
-import { DiceRoller } from '@/class'
-import Vue from 'vue'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import { DiceRoller } from '@/class';
 
-export default Vue.extend({
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
+
+export default {
   name: 'grapple-dialog',
   components: { ActionDetailExpander },
   props: {
@@ -232,32 +245,32 @@ export default Vue.extend({
     used: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
-        if (!newval) this.init()
+      handler: function (newval) {
+        if (!newval) this.init();
       },
     },
   },
   methods: {
     select(action) {
-      this.$emit('use', this.actionFree)
-      return !action
+      this.$emit('use', this.actionFree);
+      return !action;
     },
     registerAttackRoll(roll) {
-      Vue.set(this, 'attackRoll', roll)
-      Vue.nextTick().then(() => this.$forceUpdate())
+      Vue.set(this, 'attackRoll', roll);
+      Vue.nextTick().then(() => this.$forceUpdate());
     },
     init() {
-      this.accuracy = 0
-      this.difficulty = 0
-      this.attackRoll = ''
-      this.attackRollString = ''
-      this.rollResultString = ''
-      this.rollAccuracyResults = '[]'
-      this.succeeded = false
-      this.failed = false
-      this.actionCost = false
-      this.actionFree = false
+      this.accuracy = 0;
+      this.difficulty = 0;
+      this.attackRoll = '';
+      this.attackRollString = '';
+      this.rollResultString = '';
+      this.rollAccuracyResults = '[]';
+      this.succeeded = false;
+      this.failed = false;
+      this.actionCost = false;
+      this.actionFree = false;
     },
   },
-})
+};
 </script>

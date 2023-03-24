@@ -7,9 +7,7 @@
             <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
               <span>
                 >//[
-                <span class="accent--text">
-                  COMP/CON:
-                </span>
+                <span class="accent--text">COMP/CON:</span>
                 ] :
                 <span>{{ s }}</span>
               </span>
@@ -20,7 +18,9 @@
       <v-slide-x-reverse-transition>
         <div v-if="finished" class="text-right">
           <v-btn x-small color="primary" class="fadeSelect" @click="undo()">
-            <cc-tooltip content="Undo this action, refunding any cost it may have had">
+            <cc-tooltip
+              content="Undo this action, refunding any cost it may have had"
+            >
               <v-icon small left>mdi-reload</v-icon>
               UNDO
             </cc-tooltip>
@@ -41,8 +41,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'action-confirm-log',
   props: {
     used: { type: Boolean },
@@ -72,43 +71,46 @@ export default Vue.extend({
   computed: {
     finalLog() {
       const out =
-        this.logOverride && this.logOverride.length ? this.logOverride : this.action.Confirm
-      if (this.action.HeatCost) out.push('ALERT: REACTOR HEAT LEVELS INCREASING')
-      return out
+        this.logOverride && this.logOverride.length
+          ? this.logOverride
+          : this.action.Confirm;
+      if (this.action.HeatCost)
+        out.push('ALERT: REACTOR HEAT LEVELS INCREASING');
+      return out;
     },
     finished() {
-      return this.completeCondition && this.used
+      return this.completeCondition && this.used;
     },
   },
   watch: {
     used: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
-        if (newval) this.runTimeout()
-        else this.init()
+      handler: function (newval) {
+        if (newval) this.runTimeout();
+        else this.init();
       },
     },
   },
   methods: {
     runTimeout() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      const timer = setInterval(function() {
-        self.timer++
+      const self = this;
+      const timer = setInterval(function () {
+        self.timer++;
 
         if (self.timer > self.action.Confirm.length * 10) {
-          clearInterval(timer)
+          clearInterval(timer);
         }
-      }, 80)
+      }, 80);
     },
     init() {
-      this.timer = 0
+      this.timer = 0;
     },
     undo() {
-      this.$emit('undo')
-      this.init()
+      this.$emit('undo');
+      this.init();
     },
   },
-})
+};
 </script>

@@ -8,15 +8,24 @@
             <span v-if="item.Class" class="pl-4">
               <span class="heading h6">
                 Tier {{ item.Tier }}
-                <span v-if="hasClass">{{ item.NpcClassController.Class.Name }}</span>
-                {{ item.Templates.map(x => x.Name).join('/') }}
+                <span v-if="hasClass">{{
+                  item.NpcClassController.Class.Name
+                }}</span>
+                {{ item.Templates.map((x) => x.Name).join('/') }}
               </span>
             </span>
           </v-col>
           <v-col cols="auto">
-            <v-chip small outlined v-html="item.Tag" />
+            <v-chip small variant="outlined" v-html="item.Tag" />
             <cc-divider v-if="item.NarrativeController.Labels.length" />
-            <v-chip v-for="(l, i) in item.Labels" :key="l + i" small outlined label v-html="l" />
+            <v-chip
+              v-for="(l, i) in item.Labels"
+              :key="l + i"
+              small
+              variant="outlined"
+              label
+              v-html="l"
+            />
           </v-col>
           <v-col v-if="hasClass" cols="auto" class="mt-n4">
             <v-icon size="50">{{ item.SizeIcon }}</v-icon>
@@ -43,11 +52,18 @@
 
           <v-spacer />
 
-          <v-col v-show="item.Stats.Structure > 1" cols="auto" class="text-center">
+          <v-col
+            v-show="item.Stats.Structure > 1"
+            cols="auto"
+            class="text-center"
+          >
             <div class="small-header overline">STRUCTURE</div>
             <div>
-              <v-chip outlined label class="px-7" />
-              <b class="d-inline-block mb-n2" v-html="`/${item.Stats.Structure}`" />
+              <v-chip variant="outlined" label class="px-7" />
+              <b
+                class="d-inline-block mb-n2"
+                v-html="`/${item.Stats.Structure}`"
+              />
             </div>
           </v-col>
           <v-col cols="auto">
@@ -55,11 +71,18 @@
               <v-col cols="auto" class="text-center">
                 <div class="small-header overline">HP</div>
                 <div>
-                  <v-chip outlined label class="px-7" />
-                  <b class="d-inline-block mb-n2" v-html="`/${item.Stats.HP}`" />
+                  <v-chip variant="outlined" label class="px-7" />
+                  <b
+                    class="d-inline-block mb-n2"
+                    v-html="`/${item.Stats.HP}`"
+                  />
                 </div>
               </v-col>
-              <v-col v-if="item.Stats.Armor" cols="auto" class="text-center pl-3">
+              <v-col
+                v-if="item.Stats.Armor"
+                cols="auto"
+                class="text-center pl-3"
+              >
                 <div class="small-header overline">ARMOR</div>
                 <div class="heading h3">
                   <v-icon>mdi-shield</v-icon>
@@ -68,10 +91,14 @@
               </v-col>
             </v-row>
           </v-col>
-          <v-col v-show="item.Stats.Structure > 1" cols="auto" class="text-center">
+          <v-col
+            v-show="item.Stats.Structure > 1"
+            cols="auto"
+            class="text-center"
+          >
             <div class="small-header overline">STRESS</div>
             <div>
-              <v-chip outlined label class="px-7" />
+              <v-chip variant="outlined" label class="px-7" />
               <b
                 class="d-inline-block flavor-text font-weight-bold mb-n2"
                 v-html="`/${item.Stats.Stress}`"
@@ -81,7 +108,7 @@
           <v-col cols="auto" class="text-center">
             <div class="small-header overline">HEAT</div>
             <div>
-              <v-chip outlined label class="px-7" />
+              <v-chip variant="outlined" label class="px-7" />
               <b
                 class="d-inline-block flavor-text font-weight-bold mb-n2"
                 v-html="`/${item.Stats.HeatCapacity}`"
@@ -94,37 +121,51 @@
           <v-col>
             <fieldset>
               <legend class="caption font-weight-bold px-1">SAVE</legend>
-              <div class="heading h3 text-center pb-2">{{ item.Stats.Save }}</div>
+              <div class="heading h3 text-center pb-2">
+                {{ item.Stats.Save }}
+              </div>
             </fieldset>
           </v-col>
           <v-col>
             <fieldset>
               <legend class="caption font-weight-bold px-1">SPEED</legend>
-              <div class="heading h3 text-center pb-2">{{ item.Stats.Speed }}</div>
+              <div class="heading h3 text-center pb-2">
+                {{ item.Stats.Speed }}
+              </div>
             </fieldset>
           </v-col>
           <v-col>
             <fieldset>
               <legend class="caption font-weight-bold px-1">E-DEF</legend>
-              <div class="heading h3 text-center pb-2">{{ item.Stats.EDefense }}</div>
+              <div class="heading h3 text-center pb-2">
+                {{ item.Stats.EDefense }}
+              </div>
             </fieldset>
           </v-col>
           <v-col>
             <fieldset>
               <legend class="caption font-weight-bold px-1">EVASION</legend>
-              <div class="heading h3 text-center pb-2">{{ item.Stats.Evade }}</div>
+              <div class="heading h3 text-center pb-2">
+                {{ item.Stats.Evade }}
+              </div>
             </fieldset>
           </v-col>
           <v-col>
             <fieldset>
               <legend class="caption font-weight-bold px-1">SENSORS</legend>
-              <div class="heading h3 text-center pb-2">{{ item.Stats.Sensor }}</div>
+              <div class="heading h3 text-center pb-2">
+                {{ item.Stats.Sensor }}
+              </div>
             </fieldset>
           </v-col>
           <v-col>
             <fieldset>
-              <legend class="caption font-weight-bold px-1">ACTIVATIONS/ROUND</legend>
-              <div class="heading h3 text-center pb-2">{{ item.Stats.Activations }}</div>
+              <legend class="caption font-weight-bold px-1">
+                ACTIVATIONS/ROUND
+              </legend>
+              <div class="heading h3 text-center pb-2">
+                {{ item.Stats.Activations }}
+              </div>
             </fieldset>
           </v-col>
         </v-row>
@@ -184,25 +225,24 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'npc-print-content',
   props: { item: { type: Object, required: true } },
   methods: {
     signed(val: number) {
-      return val > -1 ? `+${val}` : `${val}`
+      return val > -1 ? `+${val}` : `${val}`;
     },
   },
   computed: {
     hasClass() {
-      return !!this.item && !!this.item.NpcClassController.Class
+      return !!this.item && !!this.item.NpcClassController.Class;
     },
 
     items() {
-      return this.item.Items.sort(x => x.IsVisible)
+      return this.item.Items.sort((x) => x.IsVisible);
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -220,7 +260,7 @@ fieldset {
   padding: 0 4px;
   height: 100%;
   border-radius: 3px;
-  border-color: var(--v-grey-lighten2);
+  border-color: rgb(var(--v-theme-grey-lighten2));
 }
 
 @media print {

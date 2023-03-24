@@ -98,21 +98,24 @@
         editable
         @set="item.StatController.Activations = $event"
       />
-      <size-attribute :stat-controller="item.StatController" editable selectable />
+      <size-attribute
+        :stat-controller="item.StatController"
+        editable
+        selectable
+      />
     </v-row>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditableAttribute from './_subcomponents/EditableAttribute.vue'
-import SizeAttribute from './_subcomponents/SizeAttribute.vue'
+import EditableAttribute from './_subcomponents/EditableAttribute.vue';
+import SizeAttribute from './_subcomponents/SizeAttribute.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-stat-editor',
   components: { EditableAttribute, SizeAttribute },
   props: {
     item: { type: Object, required: true },
   },
-})
+};
 </script>

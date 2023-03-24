@@ -1,18 +1,20 @@
 <template>
   <v-menu offset-y top :close-on-content-click="false">
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ props }">
       <v-btn
         class="mx-1"
-        :small="$vuetify.breakpoint.lgAndUp"
-        :x-small="$vuetify.breakpoint.smAndDown"
+        :small="$vuetify.display.lgAndUp"
+        :x-small="$vuetify.display.smAndDown"
         dark
-        :fab="$vuetify.breakpoint.lgAndUp || $vuetify.breakpoint.smAndDown"
+        :fab="$vuetify.display.lgAndUp || $vuetify.display.smAndDown"
         elevation="0"
         :color="state.Move < 1 ? 'grey darken-1' : 'action--move'"
-        v-on="on"
+        v-bind="props"
       >
-        <v-icon color="white" size="30">mdi-arrow-right-bold-hexagon-outline</v-icon>
-        <span v-if="$vuetify.breakpoint.md" class="pl-2" v-html="'MOVEMENT'" />
+        <v-icon color="white" size="30"
+          >mdi-arrow-right-bold-hexagon-outline</v-icon
+        >
+        <span v-if="$vuetify.display.md" class="pl-2" v-html="'MOVEMENT'" />
       </v-btn>
     </template>
     <div>
@@ -39,14 +41,12 @@
             large
             color="secondary"
             full-icon="mdi-arrow-right-bold-hexagon-outline"
-            :number-only="$vuetify.breakpoint.mdAndDown"
+            :number-only="$vuetify.display.mdAndDown"
             clearable
             no-input
             @update="state.SetBoost($event)"
           >
-            <span class="heading h3">
-              Boost
-            </span>
+            <span class="heading h3">Boost</span>
           </cc-tick-bar>
         </v-fade-transition>
       </v-card>
@@ -55,8 +55,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'action-menu-button',
   props: {
     mech: {
@@ -66,8 +65,8 @@ export default Vue.extend({
   },
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
   },
-})
+};
 </script>

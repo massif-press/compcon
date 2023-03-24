@@ -1,17 +1,22 @@
 <template>
   <component
-    :is="hover ? 'deployableInfoHover' : panel ? 'deployableInfoPanel' : 'deployableInfoPopup'"
+    :is="
+      hover
+        ? 'deployableInfoHover'
+        : panel
+        ? 'deployableInfoPanel'
+        : 'deployableInfoPopup'
+    "
     :deployable="deployable"
   />
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import deployableInfoHover from './_deployableInfoHover.vue'
-import deployableInfoPanel from './_deployableInfoPanel.vue'
-import deployableInfoPopup from './_deployableInfoPopup.vue'
+import deployableInfoHover from './_deployableInfoHover.vue';
+import deployableInfoPanel from './_deployableInfoPanel.vue';
+import deployableInfoPopup from './_deployableInfoPopup.vue';
 
-export default Vue.extend({
+export default {
   name: 'cc-deployable-info',
   components: { deployableInfoHover, deployableInfoPanel, deployableInfoPopup },
   props: {
@@ -30,5 +35,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>

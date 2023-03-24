@@ -9,18 +9,23 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import NarrativeView from '../sections/narrative/index.vue'
-import InfoView from '../sections/info/index.vue'
-import TacticalView from '../sections/tactical/index.vue'
-import MechHangarView from '../sections/hangar/index.vue'
-import BondsView from '../sections/bonds/index.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import NarrativeView from '../sections/narrative/index.vue';
+import InfoView from '../sections/info/index.vue';
+import TacticalView from '../sections/tactical/index.vue';
+import MechHangarView from '../sections/hangar/index.vue';
+import BondsView from '../sections/bonds/index.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+
+export default {
   name: 'classic',
-  components: { NarrativeView, InfoView, TacticalView, MechHangarView, BondsView },
+  components: {
+    NarrativeView,
+    InfoView,
+    TacticalView,
+    MechHangarView,
+    BondsView,
+  },
   props: {
     pilot: {
       type: Object,
@@ -37,18 +42,20 @@ export default Vue.extend({
         duration: 15,
         easing: 'easeInOutCubic',
         offset: 10,
-      })
+      });
     },
   },
   mounted() {
     this.$vuetify.goTo(0, {
       duration: 0,
-    })
+    });
   },
   computed: {
     hasBondData() {
-      return this.pilot.Level >= 1 && getModule(CompendiumStore, this.$store).Bonds.length
+      return (
+        this.pilot.Level >= 1 && this.getModule(CompendiumStore).Bonds.length
+      );
     },
   },
-})
+};
 </script>

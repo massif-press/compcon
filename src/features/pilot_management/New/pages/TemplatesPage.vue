@@ -8,28 +8,30 @@
     @complete="setTemplate()"
   >
     <cc-title large>New Pilot Registration&emsp;</cc-title>
-    <h2 v-show="$vuetify.breakpoint.mdAndUp" class="heading">
+    <h2 v-show="$vuetify.display.mdAndUp" class="heading">
       UAD IDENT Service
       <cc-slashes />
       &nbsp;PRM-ALT QUICK ACCESS SELECTION
     </h2>
     <v-row dense justify="start" align="center">
-      <v-col v-show="$vuetify.breakpoint.mdAndUp">
+      <v-col v-show="$vuetify.display.mdAndUp">
         <div class="flavor-text mt-n2" style="font-size: 14px">
-          Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT registration service
-          provides a Quick Access Selection module, created and curated by UAD Armored Cavalary
-          Support. The UAD-ACS NHP staff have generated a selection of Combat Doctrine Templates
-          based on the results of your OHM Health Examination//CR-2 Brain Activity Scan. Each of
-          these templates will populate the remainder of your IDENT Combat Registration with a
-          tailored set of combat-role-optimal responses.
+          Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT
+          registration service provides a Quick Access Selection module, created
+          and curated by UAD Armored Cavalary Support. The UAD-ACS NHP staff
+          have generated a selection of Combat Doctrine Templates based on the
+          results of your OHM Health Examination//CR-2 Brain Activity Scan. Each
+          of these templates will populate the remainder of your IDENT Combat
+          Registration with a tailored set of combat-role-optimal responses.
         </div>
         <br />
-        <v-alert dense outlined color="accent" class="mt-n1">
+        <v-alert dense variant="outlined" color="accent" class="mt-n1">
           <div class="text-center stark--text">
-            Selecting a template will complete the New Pilot interface and start your Pilot with a
-            curated set of skills and talents and an outfitted GMS EVEREST mech, tailored to the
-            combat role selected below. All of these selections may be edited at any time through
-            the Pilot and Mech Sheet loadout sections, as well as section headings with the
+            Selecting a template will complete the New Pilot interface and start
+            your Pilot with a curated set of skills and talents and an outfitted
+            GMS EVEREST mech, tailored to the combat role selected below. All of
+            these selections may be edited at any time through the Pilot and
+            Mech Sheet loadout sections, as well as section headings with the
             <v-icon color="accent">mdi-circle-edit-outline</v-icon>
             icon
           </div>
@@ -48,7 +50,7 @@
         />
       </v-col>
     </v-row>
-    <v-row :class="$vuetify.breakpoint.mdAndUp ? 'mx-6' : 'mx-2'">
+    <v-row :class="$vuetify.display.mdAndUp ? 'mx-6' : 'mx-2'">
       <template-item
         v-for="t in templates"
         :key="t.name"
@@ -61,16 +63,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import TemplateItem from './components/TemplateItem.vue'
-import Templates from '../pregens.json'
-import { MechSkills, Mech } from '@/class'
-import { mechname } from '@/io/Generators'
+import { getImagePath, ImageTag } from '@/io/ImageManagement';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import TemplateItem from './components/TemplateItem.vue';
+import Templates from '../pregens.json';
+import { MechSkills, Mech } from '@/class';
+import { mechname } from '@/io/Generators';
+
+export default {
   name: 'templates-page',
   components: { TemplateItem },
   props: {
@@ -84,73 +85,82 @@ export default Vue.extend({
   }),
   computed: {
     templates() {
-      return Templates
+      return Templates;
     },
     retrogradeLogo() {
-      return getImagePath(ImageTag.Misc, 'retrograde_logo.png')
+      return getImagePath(ImageTag.Misc, 'retrograde_logo.png');
     },
     selectionComplete(): boolean {
-      return this.selected !== null
+      return this.selected !== null;
     },
   },
   watch: {
     selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight)
+      if (bool) window.scrollTo(0, document.body.scrollHeight);
     },
   },
   methods: {
     item(type: string, id: string) {
-      const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.referenceByID(type, id)
+      const compendium = this.getModule(CompendiumStore);
+      return compendium.referenceByID(type, id);
     },
     setTemplate() {
-      const t = this.selected.build
-      this.pilot.MechSkillsController.MechSkills = MechSkills.Deserialize(t.mechSkills)
-      this.pilot.SkillsController.ClearSkills()
-      t.skills.forEach(s => {
-        this.pilot.SkillsController.AddSkill(this.item('Skills', s))
-      })
-      this.pilot.TalentsController.ClearTalents()
-      t.talents.forEach(t => {
-        this.pilot.TalentsController.AddTalent(this.item('Talents', t))
-      })
-      this.pilot.Loadout.Armor = [this.item('PilotGear', t.gear.armor)]
-      this.pilot.Loadout.Weapons = t.gear.weapons.map(x => this.item('PilotGear', x))
-      this.pilot.Loadout.Gear = t.gear.gear.map(x => this.item('PilotGear', x))
+      const t = this.selected.build;
+      this.pilot.MechSkillsController.MechSkills = MechSkills.Deserialize(
+        t.mechSkills
+      );
+      this.pilot.SkillsController.ClearSkills();
+      t.skills.forEach((s) => {
+        this.pilot.SkillsController.AddSkill(this.item('Skills', s));
+      });
+      this.pilot.TalentsController.ClearTalents();
+      t.talents.forEach((t) => {
+        this.pilot.TalentsController.AddTalent(this.item('Talents', t));
+      });
+      this.pilot.Loadout.Armor = [this.item('PilotGear', t.gear.armor)];
+      this.pilot.Loadout.Weapons = t.gear.weapons.map((x) =>
+        this.item('PilotGear', x)
+      );
+      this.pilot.Loadout.Gear = t.gear.gear.map((x) =>
+        this.item('PilotGear', x)
+      );
 
-      const m = t.mech
-      const mech = new Mech(this.item('Frames', 'mf_standard_pattern_i_everest'), this.pilot)
+      const m = t.mech;
+      const mech = new Mech(
+        this.item('Frames', 'mf_standard_pattern_i_everest'),
+        this.pilot
+      );
 
-      mech.Name = mechname()
-      mech.MechLoadoutController.ActiveLoadout.Systems = m.systems.map(x =>
+      mech.Name = mechname();
+      mech.MechLoadoutController.ActiveLoadout.Systems = m.systems.map((x) =>
         this.item('MechSystems', x)
-      )
+      );
 
       mech.MechLoadoutController.ActiveLoadout.AllMounts()
-        .find(m => m.Type === 'Main')
-        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[0].slots[0]))
+        .find((m) => m.Type === 'Main')
+        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[0].slots[0]));
       mech.MechLoadoutController.ActiveLoadout.AllMounts()
-        .find(m => m.Type === 'Flex')
-        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[1].slots[0]))
+        .find((m) => m.Type === 'Flex')
+        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[1].slots[0]));
       mech.MechLoadoutController.ActiveLoadout.AllMounts()
-        .find(m => m.Type === 'Flex')
-        .Slots[1].EquipWeapon(this.item('MechWeapons', m.mounts[1].slots[1]))
+        .find((m) => m.Type === 'Flex')
+        .Slots[1].EquipWeapon(this.item('MechWeapons', m.mounts[1].slots[1]));
       mech.MechLoadoutController.ActiveLoadout.AllMounts()
-        .find(m => m.Type === 'Heavy')
-        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[2].slots[0]))
+        .find((m) => m.Type === 'Heavy')
+        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[2].slots[0]));
 
-      mech.PortraitController.SetLocalImage(this.selected.image)
+      mech.PortraitController.SetLocalImage(this.selected.image);
 
-      this.pilot.Mechs.forEach(m => {
-        this.pilot.RemoveMech(m)
-      })
-      this.pilot.AddMech(mech)
-      this.pilot.ActiveMech = mech
+      this.pilot.Mechs.forEach((m) => {
+        this.pilot.RemoveMech(m);
+      });
+      this.pilot.AddMech(mech);
+      this.pilot.ActiveMech = mech;
 
-      this.$emit('next')
+      this.$emit('next');
     },
   },
-})
+};
 </script>
 
 <style scoped>

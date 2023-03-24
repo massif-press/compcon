@@ -1,10 +1,15 @@
 <template>
   <div>
-    <v-row v-if="state.SelfDestructCounter > 0" dense justify="center" class="text-center">
+    <v-row
+      v-if="state.SelfDestructCounter > 0"
+      dense
+      justify="center"
+      class="text-center"
+    >
       <v-col cols="auto">
-        <v-alert dense outlined color="error" prominent>
+        <v-alert dense variant="outlined" color="error" prominent>
           <v-icon slot="prepend" color="error" size="90" class="mr-3">
-            cci-reactor
+            cc:reactor
           </v-icon>
           <span v-if="state.SelfDestructCounter > 1" class="heading h1 pt-2">
             SELF DESTRUCT IN {{ state.SelfDestructCounter }} ROUNDS
@@ -15,9 +20,9 @@
           </div>
           <div class="px-5 my-1">
             <v-btn small block color="error" @click="selfDestruct()">
-              <v-icon left>mdi-skull</v-icon>
+              <v-icon start>mdi-skull</v-icon>
               DETONATE REACTOR
-              <v-icon right>mdi-skull</v-icon>
+              <v-icon end>mdi-skull</v-icon>
             </v-btn>
           </div>
         </v-alert>
@@ -66,7 +71,7 @@
               :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
               @click="actionCost = select(actionCost)"
             >
-              <v-icon left>{{ action.Icon }}</v-icon>
+              <v-icon start>{{ action.Icon }}</v-icon>
               {{ action.Name }}
             </v-btn>
             <v-btn
@@ -79,15 +84,15 @@
               :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
               @click="actionFree = select(actionFree)"
             >
-              <v-icon left small>cci-free-action</v-icon>
+              <v-icon start small>cc:free-action</v-icon>
               Free Action
               <cc-tooltip
                 inline
-                :content="
-                  `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
-                "
+                :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
               >
-                <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
+                <v-icon end small class="fadeSelect"
+                  >mdi-information-outline</v-icon
+                >
               </cc-tooltip>
             </v-btn>
           </v-col>
@@ -99,9 +104,7 @@
           <p class="flavor-text stark--text ma-0 text-center">
             <span>
               >//[
-              <span class="accent--text">
-                COMP/CON:
-              </span>
+              <span class="accent--text"> COMP/CON: </span>
               ] :
               <span>MANUAL OVERRIDE REQUIRED</span>
             </span>
@@ -115,7 +118,9 @@
                 :color="or1 ? 'error' : 'primary'"
                 @click="or1 = true"
                 v-html="
-                  or1 ? 'REACTOR SAFETY PROTOCOLS DISABLED' : 'DISABLE REACTOR SAFETY PROTOCOLS'
+                  or1
+                    ? 'REACTOR SAFETY PROTOCOLS DISABLED'
+                    : 'DISABLE REACTOR SAFETY PROTOCOLS'
                 "
               />
             </v-col>
@@ -127,7 +132,11 @@
                 :disabled="!or1"
                 :color="or2 ? 'error' : 'primary'"
                 @click="or2 = true"
-                v-html="or2 ? 'CORE EMERGENCY VENTS LOCKED' : 'LOCK CORE EMERGENCY VENTS'"
+                v-html="
+                  or2
+                    ? 'CORE EMERGENCY VENTS LOCKED'
+                    : 'LOCK CORE EMERGENCY VENTS'
+                "
               />
             </v-col>
             <v-col cols="auto">
@@ -138,7 +147,11 @@
                 :disabled="!or2"
                 :color="or3 ? 'error' : 'primary'"
                 @click="or3 = true"
-                v-html="or3 ? 'COOLANT RESERVOIR EMPTY' : 'DISCHARGE COOLANT RESERVOIR'"
+                v-html="
+                  or3
+                    ? 'COOLANT RESERVOIR EMPTY'
+                    : 'DISCHARGE COOLANT RESERVOIR'
+                "
               />
             </v-col>
           </v-row>
@@ -151,8 +164,14 @@
                 :color="finished ? 'error' : `error darken-2`"
                 @click="start()"
               >
-                <v-icon style="position: absolute; left: 0" large>mdi-alert-rhombus-outline</v-icon>
-                {{ finished ? 'CRITICAL ALERT: REACTOR MELTDOWN IMMINENT' : 'OVERLOAD REACTOR' }}
+                <v-icon style="position: absolute; left: 0" large
+                  >mdi-alert-rhombus-outline</v-icon
+                >
+                {{
+                  finished
+                    ? 'CRITICAL ALERT: REACTOR MELTDOWN IMMINENT'
+                    : 'OVERLOAD REACTOR'
+                }}
                 <v-icon style="position: absolute; right: 0" large>
                   mdi-alert-rhombus-outline
                 </v-icon>
@@ -165,7 +184,9 @@
       <v-slide-x-reverse-transition>
         <v-row v-if="finished" no-gutters>
           <v-col cols="auto" class="ml-auto">
-            <cc-tooltip content="Undo this action, refunding any cost it may have had">
+            <cc-tooltip
+              content="Undo this action, refunding any cost it may have had"
+            >
               <v-btn x-small color="primary" class="fadeSelect" @click="reset">
                 <v-icon small left>mdi-reload</v-icon>
                 UNDO
@@ -189,14 +210,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
 
-export default Vue.extend({
+export default {
   name: 'self-destruct-dialog',
   components: { ActionDetailExpander },
   props: {
-    synergyLocation: { type: [String, Array], required: false, default: () => [] },
+    synergyLocation: {
+      type: [String, Array],
+      required: false,
+      default: () => [],
+    },
     log: { type: Array, required: false, default: () => [] },
     mech: {
       type: Object,
@@ -218,36 +242,36 @@ export default Vue.extend({
   }),
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
   },
   methods: {
     select(action) {
-      return !action
+      return !action;
     },
     start() {
-      this.finished = true
-      this.state.CommitAction(this.action, this.actionFree)
+      this.finished = true;
+      this.state.CommitAction(this.action, this.actionFree);
     },
     reset() {
-      this.state.UndoAction(this.action)
-      this.init()
+      this.state.UndoAction(this.action);
+      this.init();
     },
     init() {
-      this.actionCost = false
-      this.actionFree = false
-      this.finished = false
-      this.or1 = false
-      this.or2 = false
-      this.or3 = false
-      this.timer = 0
+      this.actionCost = false;
+      this.actionFree = false;
+      this.finished = false;
+      this.or1 = false;
+      this.or2 = false;
+      this.or3 = false;
+      this.timer = 0;
     },
     selfDestruct() {
-      this.state.SelfDestruct()
-      this.$emit('hide')
+      this.state.SelfDestruct();
+      this.$emit('hide');
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -256,8 +280,8 @@ export default Vue.extend({
   margin: 8px 0 8px 0px;
   padding-top: 4px;
   padding-bottom: 4px;
-  background-color: var(--v-panel-darken2);
-  color: var(--v-warning-base);
+  background-color: rgb(var(--v-theme-panel-darken2));
+  color: rgb(var(--v-theme-warning));
   white-space: nowrap;
   overflow: hidden;
   box-sizing: border-box;

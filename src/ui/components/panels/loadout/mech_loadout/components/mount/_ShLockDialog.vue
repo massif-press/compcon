@@ -1,21 +1,23 @@
 <template>
   <v-dialog v-model="dialog" width="50vw">
     <v-card tile>
-      <cc-titlebar large icon="cci-role-striker" color="primary">
+      <cc-titlebar large icon="cc:role-striker" color="primary">
         Select Bracing Mount
         <v-btn slot="items" dark icon @click="dialog = false">
           <v-icon large left>close</v-icon>
         </v-btn>
       </cc-titlebar>
       <v-card-text class="text-center flavor-text mt-2">
-        <span class="overline">// PROCESS INTERRUPT: PILOT INPUT REQUIRED //</span>
+        <span class="overline"
+          >// PROCESS INTERRUPT: PILOT INPUT REQUIRED //</span
+        >
         <br />
         //[COMP/CON:
         <b class="stark--text">
           Lancer, Superheavy-class armament requires two mounts. Please select a
           <span class="accent--text">bracing mount.</span>
-          This bracing mount will be not be able to field armament until the Superheavy weapon is
-          removed.
+          This bracing mount will be not be able to field armament until the
+          Superheavy weapon is removed.
         </b>
         ]
         <br />
@@ -24,7 +26,7 @@
           :key="m.Name"
           x-large
           block
-          outlined
+          variant="outlined"
           color="accent"
           class="my-2"
           @click="$emit('select', m)"
@@ -44,10 +46,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { EquippableMount } from '@/class'
+import { EquippableMount } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'sh-lock-dialog',
   props: {
     mech: {
@@ -64,20 +65,21 @@ export default Vue.extend({
     availableMounts: [],
   }),
   mounted() {
-    const candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-      this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
-      false
-    ) as EquippableMount[]
+    const candidates =
+      this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+        this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
+        false
+      ) as EquippableMount[];
 
-    this.availableMounts = candidates.filter(x => x.Name !== this.mount.Name)
+    this.availableMounts = candidates.filter((x) => x.Name !== this.mount.Name);
   },
   methods: {
     show() {
-      this.dialog = true
+      this.dialog = true;
     },
     hide() {
-      this.dialog = false
+      this.dialog = false;
     },
   },
-})
+};
 </script>

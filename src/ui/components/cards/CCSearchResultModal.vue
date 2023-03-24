@@ -2,21 +2,12 @@
   <v-dialog v-model="dialog" width="90vw">
     <v-card tile>
       <cc-titlebar
-        :icon="'cci-' + $_.kebabCase(item.ItemType)"
+        :icon="'cc:' + $_.kebabCase(item.ItemType)"
         :color="$_.kebabCase(item.ItemType)"
       >
         {{ item.Source }} {{ item.Name }}
       </cc-titlebar>
-      <!-- <v-card-text>
-        <class-card
-          v-if="item.ItemType === 'NPC Class'"
-          :ref="`modal_${item.ID}`"
-          :npcc="item"
-          no-confirm
-        />
 
-        <cc-item-card v-else :item="item" />
-      </v-card-text> -->
       <v-divider></v-divider>
       <v-card-actions>
         <v-spacer />
@@ -27,21 +18,23 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-// import ClassCard from '@/features/encounters/npc/new/ClassCard.vue'
-
-@Component({
-  name: 'cc-search-result-modal',
-  // components: { ClassCard }
-})
-export default class CCSearchResultModal extends Vue {
-  @Prop({ type: Object, required: true })
-  readonly item
-
-  dialog = false
-
-  show() {
-    this.dialog = true
-  }
-}
+export default {
+  name: 'CCSearchResultModal',
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      dialog: false,
+    };
+  },
+  methods: {
+    show() {
+      this.dialog = true;
+    },
+  },
+};
 </script>

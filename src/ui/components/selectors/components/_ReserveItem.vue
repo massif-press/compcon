@@ -3,7 +3,7 @@
     <v-row dense style="min-height: 70px">
       <v-col cols="12" md="auto" dense class="pr-0">
         <v-btn
-          v-if="$vuetify.breakpoint.smAndDown"
+          v-if="$vuetify.display.smAndDown"
           :color="color"
           dark
           block
@@ -20,7 +20,7 @@
             :color="color"
             @click="$emit('click')"
           >
-            <v-icon size="80">cci-accuracy</v-icon>
+            <v-icon size="80">cc:accuracy</v-icon>
           </v-btn>
         </cc-tooltip>
       </v-col>
@@ -32,8 +32,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'reserve-item',
   props: {
     reserve: {
@@ -48,8 +47,8 @@ export default Vue.extend({
     icon: {
       type: String,
       required: false,
-      default: 'cci-barrage',
+      default: 'cc:barrage',
     },
   },
-})
+};
 </script>

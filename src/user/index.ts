@@ -1,52 +1,52 @@
-import uuid from 'uuid/v4'
-import _ from 'lodash'
-import { UpdateUserData } from '@/cloud/user_sync'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore, store } from '@/store'
-import localForage from 'localforage'
+import { v4 as uuid } from 'uuid';
+import _ from 'lodash';
+import { UpdateUserData } from '@/cloud/user_sync';
 
-const CONFIG_FILE_NAME = 'user.config'
+import { UserStore, store } from '@/store';
+import localForage from 'localforage';
+
+const CONFIG_FILE_NAME = 'user.config';
 
 interface IViewOptions {
-  selector: string
-  npc: string
-  roster: string
-  hangar: string
-  pilotSheet: string
-  talents: string
-  showExotics: boolean
-  quickstart: boolean
-  savePerformant: boolean
+  selector: string;
+  npc: string;
+  roster: string;
+  hangar: string;
+  pilotSheet: string;
+  talents: string;
+  showExotics: boolean;
+  quickstart: boolean;
+  savePerformant: boolean;
 }
 
 interface ISyncFrequency {
-  cloudSync_v2: boolean
-  remotes: boolean
+  cloudSync_v2: boolean;
+  remotes: boolean;
 }
 
 interface ISyncOptions {
-  promptLocal: boolean
-  promptCloud: boolean
+  promptLocal: boolean;
+  promptCloud: boolean;
 }
 
 interface IUserProfile {
-  id: string
-  user_id: string
-  welcome_hash: string
-  theme: string
-  view_options: string
-  sync_frequency: string
-  sync_options: string
-  achievements: string[]
-  pilots: string[]
-  lcp_data: string
-  npcs: string[]
-  encounters: string[]
-  missions: string[]
-  active_missions: string[]
-  _version: number
-  last_sync: string
-  username: string
+  id: string;
+  user_id: string;
+  welcome_hash: string;
+  theme: string;
+  view_options: string;
+  sync_frequency: string;
+  sync_options: string;
+  achievements: string[];
+  pilots: string[];
+  lcp_data: string;
+  npcs: string[];
+  encounters: string[];
+  missions: string[];
+  active_missions: string[];
+  _version: number;
+  last_sync: string;
+  username: string;
 }
 
 const defaultViewOptions = (): IViewOptions => ({
@@ -59,55 +59,55 @@ const defaultViewOptions = (): IViewOptions => ({
   showExotics: false,
   quickstart: false,
   savePerformant: false,
-})
+});
 
 const defaultSyncFrequency = (): ISyncFrequency => ({
   cloudSync_v2: true,
   remotes: false,
-})
+});
 
 const defaultSyncOptions = (): ISyncOptions => ({
   promptLocal: true,
   promptCloud: false,
-})
+});
 
 class UserProfile {
-  private _welcome_hash: string
-  private _theme: string
-  private _viewOptions: IViewOptions
-  private _syncFrequency: ISyncFrequency
-  private _syncOptions: ISyncOptions
-  private _achievements: string[]
-  private _pilots: string[]
-  private _lcp_data: string
-  private _npcs: string[]
-  private _encounters: string[]
-  private _missions: string[]
-  private _active_missions: string[]
-  private _load_options: string[]
-  public id: string
-  public _version: number
-  public LastSync: string
-  public Username: string
-  public UserID: string
+  private _welcome_hash: string;
+  private _theme: string;
+  private _viewOptions: IViewOptions;
+  private _syncFrequency: ISyncFrequency;
+  private _syncOptions: ISyncOptions;
+  private _achievements: string[];
+  private _pilots: string[];
+  private _lcp_data: string;
+  private _npcs: string[];
+  private _encounters: string[];
+  private _missions: string[];
+  private _active_missions: string[];
+  private _load_options: string[];
+  public id: string;
+  public _version: number;
+  public LastSync: string;
+  public Username: string;
+  public UserID: string;
 
   public constructor(id: string) {
-    this.UserID = id
-    this.Username = 'No Cloud Account'
-    this._theme = 'gms'
-    this._welcome_hash = 'none'
-    this._viewOptions = defaultViewOptions()
-    this._syncFrequency = defaultSyncFrequency()
-    this._syncOptions = defaultSyncOptions()
-    this._achievements = []
-    this._pilots = []
-    this._lcp_data = ''
-    this._npcs = []
-    this._encounters = []
-    this._missions = []
-    this._active_missions = []
-    this.LastSync = 'Never'
-    this._load_options = ['cloudSync_v2', 'onLogIn']
+    this.UserID = id;
+    this.Username = 'No Cloud Account';
+    this._theme = 'gms';
+    this._welcome_hash = 'none';
+    this._viewOptions = defaultViewOptions();
+    this._syncFrequency = defaultSyncFrequency();
+    this._syncOptions = defaultSyncOptions();
+    this._achievements = [];
+    this._pilots = [];
+    this._lcp_data = '';
+    this._npcs = [];
+    this._encounters = [];
+    this._missions = [];
+    this._active_missions = [];
+    this.LastSync = 'Never';
+    this._load_options = ['cloudSync_v2', 'onLogIn'];
   }
 
   private save(): void {
@@ -129,128 +129,138 @@ class UserProfile {
       active_missions: this._active_missions,
       _version: this._version,
       last_sync: this.LastSync,
-    }
+    };
 
-    localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(data))
-    if (getModule(UserStore, store).IsLoggedIn) UpdateUserData(this, false)
+    localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(data));
+    if (getModule(UserStore, store).IsLoggedIn) UpdateUserData(this, false);
   }
 
   public get IsSavePerformant(): boolean {
-    return this._viewOptions.savePerformant
+    return this._viewOptions.savePerformant;
   }
 
   public get SyncFrequency(): ISyncFrequency {
-    return this._syncFrequency
+    return this._syncFrequency;
   }
 
   public set SyncFrequency(data: ISyncFrequency) {
-    this._syncFrequency = data
-    this.save()
+    this._syncFrequency = data;
+    this.save();
   }
 
   public get SaveOptions(): string[] {
-    return Object.keys(this.SyncFrequency).filter(x => !this.LoadOptions.includes(x))
+    return Object.keys(this.SyncFrequency).filter(
+      (x) => !this.LoadOptions.includes(x)
+    );
   }
 
   public get LoadOptions(): string[] {
-    return this._load_options
+    return this._load_options;
   }
 
   public get SaveFrequency(): Partial<ISyncFrequency> {
-    return _.pick(this.SyncFrequency, this.SaveOptions)
+    return _.pick(this.SyncFrequency, this.SaveOptions);
   }
 
   public get LoadFrequency(): Partial<ISyncFrequency> {
-    return _.pick(this.SyncFrequency, this.LoadOptions)
+    return _.pick(this.SyncFrequency, this.LoadOptions);
   }
 
   public get Achievements(): string[] {
-    return this._achievements
+    return this._achievements;
   }
 
   public set Achievements(data: string[]) {
-    this._achievements = data
-    this.save()
+    this._achievements = data;
+    this.save();
   }
 
   public get Pilots(): string[] {
-    return this._pilots
+    return this._pilots;
   }
 
   public set Pilots(data: string[]) {
-    this._pilots = data
-    this.save()
+    this._pilots = data;
+    this.save();
   }
 
   public get Npcs(): string[] {
-    return this._npcs
+    return this._npcs;
   }
 
   public set Npcs(data: string[]) {
-    this._npcs = data
-    this.save()
+    this._npcs = data;
+    this.save();
   }
 
   public get Encounters(): string[] {
-    return this._encounters
+    return this._encounters;
   }
 
   public set Encounters(data: string[]) {
-    this._encounters = data
-    this.save()
+    this._encounters = data;
+    this.save();
   }
 
   public get Missions(): string[] {
-    return this._missions
+    return this._missions;
   }
 
   public set Missions(data: string[]) {
-    this._missions = data
-    this.save()
+    this._missions = data;
+    this.save();
   }
 
   public get ActiveMissions(): string[] {
-    return this._active_missions
+    return this._active_missions;
   }
 
   public set ActiveMissions(data: string[]) {
-    this._active_missions = data
-    this.save()
+    this._active_missions = data;
+    this.save();
   }
 
   public SetView(view: string, setting: string | boolean): void {
-    this._viewOptions[view] = setting
-    this.save()
+    this._viewOptions[view] = setting;
+    this.save();
   }
 
   public GetView(view: string): string | boolean {
-    if (this._viewOptions[view]) return this._viewOptions[view]
-    return defaultViewOptions()[view]
+    if (this._viewOptions[view]) return this._viewOptions[view];
+    return defaultViewOptions()[view];
   }
 
   public get Theme(): string {
-    return this._theme
+    return this._theme;
   }
 
   public set Theme(t: string) {
-    this._theme = t
-    this.save()
+    this._theme = t;
+    this.save();
   }
 
   public get WelcomeHash(): string {
-    return this._welcome_hash || 'none'
+    return this._welcome_hash || 'none';
   }
 
   public set WelcomeHash(id: string) {
-    this._welcome_hash = id
-    this.save()
+    this._welcome_hash = id;
+    this.save();
   }
 
   public async MarkSync(): Promise<void> {
-    const now = new Date()
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' } as const
+    const now = new Date();
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    } as const;
 
-    this.LastSync = `${now.toLocaleTimeString()}, ${now.toLocaleDateString(undefined, options)}`
+    this.LastSync = `${now.toLocaleTimeString()}, ${now.toLocaleDateString(
+      undefined,
+      options
+    )}`;
   }
 
   public static Serialize(data: UserProfile): IUserProfile {
@@ -272,48 +282,58 @@ class UserProfile {
       _version: data._version,
       last_sync: data.LastSync,
       username: data.Username,
-    }
+    };
   }
 
   public static Deserialize(data: IUserProfile): UserProfile {
-    const profile = new UserProfile(data.user_id)
-    profile.id = data.id || ''
-    profile.UserID = data.user_id || uuid()
-    profile.WelcomeHash = data.welcome_hash || 'none'
-    profile.Theme = data.theme || 'gms'
-    profile.Achievements = data.achievements || []
-    profile._viewOptions = data.view_options ? JSON.parse(data.view_options) : defaultViewOptions()
+    const profile = new UserProfile(data.user_id);
+    profile.id = data.id || '';
+    profile.UserID = data.user_id || uuid();
+    profile.WelcomeHash = data.welcome_hash || 'none';
+    profile.Theme = data.theme || 'gms';
+    profile.Achievements = data.achievements || [];
+    profile._viewOptions = data.view_options
+      ? JSON.parse(data.view_options)
+      : defaultViewOptions();
     profile._syncFrequency = data.sync_frequency
       ? JSON.parse(data.sync_frequency)
-      : defaultSyncFrequency()
-    profile._syncOptions = data.sync_options ? JSON.parse(data.sync_options) : defaultSyncOptions()
-    profile._pilots = data.pilots || []
-    profile._lcp_data = data.lcp_data || ''
-    profile._npcs = data.npcs || []
-    profile._encounters = data.encounters || []
-    profile._missions = data.missions || []
-    profile._active_missions = data.active_missions || []
-    profile._version = data._version || 0
-    profile.LastSync = data.last_sync
-    return profile
+      : defaultSyncFrequency();
+    profile._syncOptions = data.sync_options
+      ? JSON.parse(data.sync_options)
+      : defaultSyncOptions();
+    profile._pilots = data.pilots || [];
+    profile._lcp_data = data.lcp_data || '';
+    profile._npcs = data.npcs || [];
+    profile._encounters = data.encounters || [];
+    profile._missions = data.missions || [];
+    profile._active_missions = data.active_missions || [];
+    profile._version = data._version || 0;
+    profile.LastSync = data.last_sync;
+    return profile;
   }
 }
 
 async function getLocalProfile(): Promise<UserProfile> {
-  let config = await localForage.getItem(CONFIG_FILE_NAME)
+  let config = await localForage.getItem(CONFIG_FILE_NAME);
 
   if (!config) {
     try {
-      localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())))
-      config = localForage.getItem(CONFIG_FILE_NAME)
-      console.info('Created user profile')
+      localForage.setItem(
+        CONFIG_FILE_NAME,
+        JSON.stringify(new UserProfile(uuid()))
+      );
+      config = localForage.getItem(CONFIG_FILE_NAME);
+      console.info('Created user profile');
     } catch (err) {
-      console.error('Critical Error: COMP/CON unable to create user profile', err)
+      console.error(
+        'Critical Error: COMP/CON unable to create user profile',
+        err
+      );
     }
   }
 
-  const data = JSON.parse(config as string) as IUserProfile
-  return UserProfile.Deserialize(data)
+  const data = JSON.parse(config as string) as IUserProfile;
+  return UserProfile.Deserialize(data);
 }
 
-export { getLocalProfile, UserProfile, IUserProfile }
+export { getLocalProfile, UserProfile, IUserProfile };

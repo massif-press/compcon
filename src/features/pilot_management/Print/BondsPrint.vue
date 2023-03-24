@@ -10,7 +10,9 @@
       <v-col cols="auto" class="mx-12">
         <div class="overline mt-n2 mb-n3">XP</div>
         <div>
-          <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+          <v-icon size="50" color="grey lighten-3" class="mr-n1"
+            >mdi-hexagon-outline</v-icon
+          >
           <b class="flavor-text pt-3" v-html="`/8`" />
         </div>
       </v-col>
@@ -65,7 +67,10 @@
       >
         <fieldset>
           <legend class="heading ml-1 px-2">
-            {{ p.name }} {{ p.veteran ? '(VETERAN POWER)' : p.master ? '(MASTER POWER)' : '' }}
+            {{ p.name }}
+            {{
+              p.veteran ? '(VETERAN POWER)' : p.master ? '(MASTER POWER)' : ''
+            }}
           </legend>
           <div class="pa-1 mt-n1" v-html-safe="p.description" />
         </fieldset>
@@ -75,9 +80,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'bonds-print',
   props: {
     bc: {
@@ -85,7 +88,7 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -111,6 +114,6 @@ fieldset {
   padding: 0 4px;
   height: 100%;
   border-radius: 3px;
-  border-color: var(--v-grey-lighten2);
+  border-color: rgb(var(--v-theme-grey-lighten2));
 }
 </style>

@@ -1,13 +1,23 @@
 <template>
-  <v-footer fixed style="padding-bottom: 2px; border-top: 2px solid var(--v-primary-base)">
-    <v-dialog v-model="scDialog" :fullscreen="$vuetify.breakpoint.smAndDown" width="80vw">
-      <template v-slot:activator="{ on }">
+  <v-footer
+    fixed
+    style="
+      padding-bottom: 2px;
+      border-top: 2px solid rgb(var(--v-theme-primary));
+    "
+  >
+    <v-dialog
+      v-model="scDialog"
+      :fullscreen="$vuetify.display.smAndDown"
+      width="80vw"
+    >
+      <template v-slot:activator="{ props }">
         <v-btn
           small
           class="mr-5"
           color="accent"
           :disabled="pilot.IsDead || pilot.IsDownAndOut"
-          v-on="on"
+          v-bind="props"
         >
           START MISSION
         </v-btn>
@@ -16,7 +26,9 @@
         <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
           START MISSION
           <v-spacer />
-          <v-btn large dark icon @click="scDialog = false"><v-icon>mdi-close</v-icon></v-btn>
+          <v-btn large dark icon @click="scDialog = false"
+            ><v-icon>mdi-close</v-icon></v-btn
+          >
         </v-toolbar>
         <v-card-text>
           <p class="flavor-text mt-2 mb-0 mx-6">
@@ -24,8 +36,8 @@
             <span class="accent--text">COMP/CON</span>
             :
             <span class="stark--text">Active Protocols Standing By</span>
-            ] Pilot, proceeding will engage COMP/CON ACTIVE MODE, which will assist with running
-            LANCER Missions and Encounters.
+            ] Pilot, proceeding will engage COMP/CON ACTIVE MODE, which will
+            assist with running LANCER Missions and Encounters.
             <!-- First-time users are encouraged to enable the Active Mode Tutorial. -->
           </p>
           <!-- <v-row justify="center" no-gutters class="mt-n2">
@@ -35,14 +47,22 @@
           </v-row> -->
           <v-alert
             dense
-            outlined
-            :color="pilot.ActiveMech ? pilot.ActiveMech.Frame.Manufacturer.Color : 'primary'"
+            variant="outlined"
+            :color="
+              pilot.ActiveMech
+                ? pilot.ActiveMech.Frame.Manufacturer.Color
+                : 'primary'
+            "
             class="mt-4"
           >
             <v-row justify="start" no-gutters>
               <v-col>
                 <div class="overline text--text pb-1">ACTIVE MECH</div>
-                <div :class="$vuetify.breakpoint.mdAndDown ? 'heading h3' : 'heading h1'">
+                <div
+                  :class="
+                    $vuetify.display.mdAndDown ? 'heading h3' : 'heading h1'
+                  "
+                >
                   <cc-logo
                     v-if="pilot.ActiveMech"
                     :source="pilot.ActiveMech.Frame.Manufacturer"
@@ -51,14 +71,19 @@
                   />
                   <span
                     v-if="pilot.ActiveMech"
-                    :class="pilot.ActiveMech.Destroyed ? 'text-decoration-line-through' : ''"
+                    :class="
+                      pilot.ActiveMech.Destroyed
+                        ? 'text-decoration-line-through'
+                        : ''
+                    "
                   >
                     {{ pilot.ActiveMech.Name }}
                   </span>
                   <div v-else class="pb-3">NO ACTIVE MECH</div>
                 </div>
                 <div v-if="pilot.ActiveMech" class="overline text--text ml-4">
-                  {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
+                  {{ pilot.ActiveMech.Frame.Source }}
+                  {{ pilot.ActiveMech.Frame.Name }}
                 </div>
               </v-col>
               <v-col cols="auto">
@@ -79,12 +104,16 @@
               <span class="accent--text">COMP/CON</span>
               :
               <span class="stark--text">Frame Issues Detected</span>
-              ] Pilot, COMP/CON has detected one ore more issues with the selected mech. If these
-              issues are not addressed, your mech may operate at reduced combat efficacy. Caution is
-              advised.
+              ] Pilot, COMP/CON has detected one ore more issues with the
+              selected mech. If these issues are not addressed, your mech may
+              operate at reduced combat efficacy. Caution is advised.
             </p>
             <v-row dense justify="center">
-              <v-col v-for="s in pilot.ActiveMech.StatusString" :key="`status-${s}`" cols="12">
+              <v-col
+                v-for="s in pilot.ActiveMech.StatusString"
+                :key="`status-${s}`"
+                cols="12"
+              >
                 <div class="px-10">
                   <cc-mech-status-alert
                     :type="s"
@@ -102,11 +131,11 @@
                   color="primary"
                   :disabled="startDisabled"
                   @click="
-                    scDialog = false
-                    pilot.State.StartMission()
+                    scDialog = false;
+                    pilot.State.StartMission();
                   "
                 >
-                  <v-icon large left>cci-activate</v-icon>
+                  <v-icon large left>cc:activate</v-icon>
                   &nbsp;Engage Combat Mode
                 </v-btn>
               </v-col>
@@ -116,7 +145,7 @@
       </v-card>
     </v-dialog>
 
-    <span v-if="$vuetify.breakpoint.mdAndUp" class="flavor-text">
+    <span v-if="$vuetify.display.mdAndUp" class="flavor-text">
       >//[
       <span class="accent--text">COMP/CON</span>
       :
@@ -136,7 +165,7 @@
         @open-menu="$refs.dialog.show()"
         @open-dialog="openDialog($event)"
       >
-        <v-icon slot="icon" color="white" size="35">cci-downtime</v-icon>
+        <v-icon slot="icon" color="white" size="35">cc:downtime</v-icon>
       </downtime-menu-button>
     </cc-tooltip>
 
@@ -151,7 +180,7 @@
     <cc-solo-dialog
       ref="dialog"
       title="Downtime Actions"
-      icon="cci-downtime"
+      icon="cc:downtime"
       color="action--downtime"
       no-actions
       fullscreen
@@ -162,13 +191,12 @@
 </template>
 
 <script lang="ts">
-import MechSelectButton from '../../components/MechSelectButton.vue'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import vueMixins from '@/util/vueMixins'
-import DowntimeMenuButton from '../../components/DowntimeMenuButton.vue'
-import DowntimeMenu from '../../components/DowntimeMenu.vue'
+import MechSelectButton from '../../components/MechSelectButton.vue';
 
-export default vueMixins(activePilot).extend({
+import DowntimeMenuButton from '../../components/DowntimeMenuButton.vue';
+import DowntimeMenu from '../../components/DowntimeMenu.vue';
+
+export default {
   name: 'narrative-footer',
   components: {
     DowntimeMenuButton,
@@ -178,15 +206,15 @@ export default vueMixins(activePilot).extend({
   data: () => ({ scDialog: false }),
   computed: {
     startDisabled() {
-      const m = this.pilot.ActiveMech
-      return m.Destroyed || m.ReactorDestroyed
+      const m = this.pilot.ActiveMech;
+      return m.Destroyed || m.ReactorDestroyed;
     },
   },
   methods: {
     openDialog(action) {
-      const r = this.$refs[`dialog_${action.ID}`]
-      if (r && r[0]) r[0].show()
+      const r = this.$refs[`dialog_${action.ID}`];
+      if (r && r[0]) r[0].show();
     },
   },
-})
+};
 </script>

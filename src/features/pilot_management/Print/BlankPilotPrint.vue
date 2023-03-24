@@ -25,13 +25,21 @@
             <div class="overline mb-n1">HP</div>
             <v-row dense no-gutters align="center">
               <v-col cols="auto">
-                <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+                <v-icon size="60" color="grey lighten-3" class="mr-n1"
+                  >mdi-hexagon-outline</v-icon
+                >
               </v-col>
               <v-col cols="auto" class="mt-6 mr-n2">
-                <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
+                <span
+                  class="subtle--text text--lighten-1 display-2"
+                  style="line-height: 0"
+                  >/</span
+                >
               </v-col>
               <v-col cols="auto" class="mb-n2">
-                <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+                <v-icon size="50" color="grey lighten-3" class="mr-n1"
+                  >mdi-hexagon-outline</v-icon
+                >
               </v-col>
             </v-row>
           </v-col>
@@ -41,15 +49,17 @@
           </v-col>
           <v-col cols="auto">
             <div class="overline mb-n1">EDEF</div>
-            <v-icon size="60" color="grey lighten-3">cci-marker</v-icon>
+            <v-icon size="60" color="grey lighten-3">cc:marker</v-icon>
           </v-col>
           <v-col cols="auto">
             <div class="overline mb-n1">EVASION</div>
-            <v-icon size="60" color="grey lighten-3">cci-evasion</v-icon>
+            <v-icon size="60" color="grey lighten-3">cc:evasion</v-icon>
           </v-col>
           <v-col cols="auto">
             <div class="overline mb-n1">SPEED</div>
-            <v-icon size="60" color="grey lighten-3">$vuetify.icons.move</v-icon>
+            <v-icon size="60" color="grey lighten-3"
+              >$vuetify.icons.move</v-icon
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -73,7 +83,13 @@
     </v-row>
     <v-divider />
     <span class="overline">TALENTS</span>
-    <v-row v-for="n in 2" :key="`talent_${n}`" dense justify="space-between" no-gutters>
+    <v-row
+      v-for="n in 2"
+      :key="`talent_${n}`"
+      dense
+      justify="space-between"
+      no-gutters
+    >
       <v-col v-for="x in 2" :key="`talent_${n}_${x}`">
         <v-row dense>
           <single cols="7" label="TALENT" height="20" />
@@ -83,7 +99,7 @@
       </v-col>
     </v-row>
     <v-divider class="my-2" />
-    <div style="page-break-before: always;" />
+    <div style="page-break-before: always" />
     <span class="overline">PILOT EQUIPMENT</span>
     <v-row dense justify="space-between" class="mt-n2">
       <v-col>
@@ -126,7 +142,7 @@
         </v-row>
       </v-col>
     </v-row>
-    <div style="page-break-before: always;" />
+    <div style="page-break-before: always" />
     <v-row dense>
       <single cols="12" label="NOTES" height="225" class="mt-n2" />
       <single cols="12" label="RESOURCES" height="225" />
@@ -137,13 +153,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Single from './blanks/Single.vue'
+import Single from './blanks/Single.vue';
 
-export default Vue.extend({
+export default {
   name: 'pilot-blank-view',
   components: { Single },
-})
+};
 </script>
 
 <style scoped>
@@ -169,6 +184,6 @@ fieldset {
   padding: 0 4px;
   height: 100%;
   border-radius: 3px;
-  border-color: var(--v-grey-lighten2);
+  border-color: rgb(var(--v-theme-grey-lighten2));
 }
 </style>

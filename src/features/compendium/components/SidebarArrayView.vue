@@ -13,7 +13,9 @@
         })
       "
     >
-      <v-list-item-title class="heading h3 ml-2">{{ e[nameKey] }}</v-list-item-title>
+      <v-list-item-title class="heading h3 ml-2">{{
+        e[nameKey]
+      }}</v-list-item-title>
     </v-list-item>
     <h1 class="heading mb-3 mt-2">{{ title }}</h1>
     <cc-titled-panel
@@ -25,16 +27,18 @@
       class="my-6"
       dense
     >
-      <h3 v-if="subKey && ( ! subConditional || e[subConditional] )" v-html-safe="e[subKey]" class="heading mb-2" />
+      <h3
+        v-if="subKey && (!subConditional || e[subConditional])"
+        v-html-safe="e[subKey]"
+        class="heading mb-2"
+      />
       <p v-html-safe="e[descriptionKey]" class="body-text mb-1" />
     </cc-titled-panel>
   </cc-sidebar-view>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'sidebar-array-view',
   props: {
     title: {
@@ -71,5 +75,5 @@ export default Vue.extend({
       default: '',
     },
   },
-})
+};
 </script>

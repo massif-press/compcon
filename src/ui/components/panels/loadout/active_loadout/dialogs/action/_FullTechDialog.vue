@@ -32,7 +32,10 @@
       </div>
     </v-container>
     <v-divider v-if="Object.keys(fullActions).length" class="my-3" />
-    <v-container v-if="Object.keys(fullActions).length" style="max-width: 800px">
+    <v-container
+      v-if="Object.keys(fullActions).length"
+      style="max-width: 800px"
+    >
       <div v-for="(k, i) in Object.keys(fullActions)" :key="`sys_act_${i}`">
         <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
         <item-selector-row
@@ -62,22 +65,37 @@
           align="center"
         >
           <v-col cols="12" md="">
-            <v-alert v-if="q === 'invade-fail'" dense outlined color="white" class="text-center">
-              <span class="heading h3 text-disabled">INVASION ATTEMPT FAILED</span>
+            <v-alert
+              v-if="q === 'invade-fail'"
+              dense
+              variant="outlined"
+              color="white"
+              class="text-center"
+            >
+              <span class="heading h3 text-disabled"
+                >INVASION ATTEMPT FAILED</span
+              >
             </v-alert>
             <v-alert
               v-else-if="typeof q === 'string' && q.startsWith('attack-fail-')"
               dense
-              outlined
+              variant="outlined"
               color="white"
               class="text-center"
             >
-              <span class="heading h3 text-disabled">{{ systemFromFailure(q) }} FAILED</span>
+              <span class="heading h3 text-disabled"
+                >{{ systemFromFailure(q) }} FAILED</span
+              >
             </v-alert>
             <cc-action v-else panel :action="q" />
           </v-col>
           <v-col cols="auto">
-            <v-btn v-if="$vuetify.breakpoint.mdAndUp" x-large icon @click="removeQuick(i)">
+            <v-btn
+              v-if="$vuetify.display.mdAndUp"
+              x-large
+              icon
+              @click="removeQuick(i)"
+            >
               <v-icon x-large>mdi-close</v-icon>
             </v-btn>
             <v-btn v-else small block @click="removeQuick(i)">
@@ -91,7 +109,13 @@
       <v-slide-x-reverse-transition>
         <v-row v-if="quick.length === 2" dense justify="center">
           <v-col lg="6" md="10" xs="12">
-            <v-btn block x-large color="primary" :disabled="used" @click="$emit('use')">
+            <v-btn
+              block
+              x-large
+              color="primary"
+              :disabled="used"
+              @click="$emit('use')"
+            >
               {{ !used ? 'CONFIRM' : 'ACTION CONFIRMED' }}
             </v-btn>
           </v-col>
@@ -110,15 +134,14 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
-import InvadeDialog from './_InvadeDialog.vue'
+import _ from 'lodash';
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue';
+import InvadeDialog from './_InvadeDialog.vue';
 
-import Vue from 'vue'
-import { ActivationType } from '@/classes/enums'
+import { ActivationType } from '@/classes/enums';
 
-export default Vue.extend({
+export default {
   name: 'full-tech-dialog',
   components: { ActionDetailExpander, ItemSelectorRow, InvadeDialog },
   props: {
@@ -137,22 +160,25 @@ export default Vue.extend({
   }),
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
     invadeAction() {
-      return this.state.TechActions.find(x => x.ID === 'act_invade')
+      return this.state.TechActions.find((x) => x.ID === 'act_invade');
     },
     quickActions() {
       const qtArr = this.state.TechActions.filter(
-        x => x.Activation === ActivationType.QuickTech && x.ID !== 'act_invade'
-      )
-      return _.groupBy(qtArr, 'Origin')
+        (x) =>
+          x.Activation === ActivationType.QuickTech && x.ID !== 'act_invade'
+      );
+      return _.groupBy(qtArr, 'Origin');
     },
     fullActions() {
       return _.groupBy(
-        this.state.TechActions.filter(x => x.Activation === ActivationType.FullTech),
+        this.state.TechActions.filter(
+          (x) => x.Activation === ActivationType.FullTech
+        ),
         'Origin'
-      )
+      );
     },
   },
   watch: {
@@ -160,32 +186,32 @@ export default Vue.extend({
       immediate: true,
       deep: true,
       handler: function (newval) {
-        if (!newval) this.quick = []
+        if (!newval) this.quick = [];
       },
     },
   },
   methods: {
     fulltech(action) {
-      const ref = `dialog_${action.ID}`
-      this.$refs[ref][0].show()
+      const ref = `dialog_${action.ID}`;
+      this.$refs[ref][0].show();
     },
     init() {
-      this.quick = this.quick.splice(0, this.quick.length)
+      this.quick = this.quick.splice(0, this.quick.length);
     },
     addQuick(action) {
-      if (action.IsTechAttack) this.fulltech(action)
-      else if (this.quick.length < 2) this.quick.push(action)
+      if (action.IsTechAttack) this.fulltech(action);
+      else if (this.quick.length < 2) this.quick.push(action);
     },
     removeQuick(idx) {
-      this.quick.splice(idx, 1)
+      this.quick.splice(idx, 1);
     },
     openInvade() {
-      this.$refs.inv_dialog.init()
-      this.$refs.inv_dialog.show()
+      (this.$refs.inv_dialog as any).init();
+      (this.$refs.inv_dialog as any).show();
     },
     systemFromFailure(failureString) {
-      return failureString.split('-')[2].toUpperCase()
+      return failureString.split('-')[2].toUpperCase();
     },
   },
-})
+};
 </script>

@@ -110,17 +110,17 @@
 }
 .heading.mech {
   font-size: 36pt;
-  color: var(--v-accent-base);
+  color: rgb(var(--v-theme-accent));
 }
 .heading.sub {
   font-size: 16pt;
-  color: var(--v-accent-base);
+  color: rgb(var(--v-theme-accent));
 }
 
 .body-text {
   font-family: 'Helvetica Regular', sans-serif;
   font-size: 12pt;
-  color: var(--v-text-base);
+  color: rgb(var(--v-theme-text));
 }
 
 @media only screen and (max-width: 600px) {
@@ -154,27 +154,27 @@
 .flavor-text {
   font-family: 'Consolas', monospace;
   font-size: 12pt;
-  color: var(--v-light-text-base);
+  color: rgb(var(--v-theme-light-text));
 }
 
 .fluff-text {
   font-family: 'Helvetica Oblique', sans-serif;
   font-style: italic;
   font-size: 13pt;
-  color: var(--v-light-text-base);
+  color: rgb(var(--v-theme-light-text));
 }
 
 .effect-text {
   font-family: 'Helvetica Bold', sans-serif;
   font-size: 12pt;
-  color: var(--v-text-base);
+  color: rgb(var(--v-theme-text));
 }
 
 .stat-text {
   font-family: 'Consolas', monospace;
   font-size: 12pt;
   font-weight: bolder;
-  color: var(--v-text-stark-base);
+  color: rgb(var(--v-theme-text-stark));
 }
 
 .large-text {

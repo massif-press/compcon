@@ -3,13 +3,13 @@
     <v-row dense>
       <v-select
         v-model="selectedItem"
-        outlined
+        variant="outlined"
         dense
         hide-details
         :items="items"
         :item-text="
-          item => {
-            return `${item.Source ? item.Source + ' ' : ''}${item.Name}`
+          (item) => {
+            return `${item.Source ? item.Source + ' ' : ''}${item.Name}`;
           }
         "
         class="my-2"
@@ -21,7 +21,7 @@
         <div
           v-if="!selectedItem"
           class="heading h2 light-panel--text text-center"
-          style="margin-top:calc(50vh - 150px);"
+          style="margin-top: calc(50vh - 150px)"
         >
           NO SELECTION
         </div>
@@ -57,9 +57,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'compendium-split-view',
   props: {
     items: {
@@ -74,5 +72,5 @@ export default Vue.extend({
   data: () => ({
     selectedItem: null,
   }),
-})
+};
 </script>

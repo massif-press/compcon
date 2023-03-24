@@ -1,95 +1,40 @@
-import '@mdi/font/css/materialdesignicons.css'
-import 'material-icons/iconfont/material-icons.css'
-import './assets/css/global.css'
-import './ui/style/_style.css'
-import './assets/glyphs/glyphs.css'
-import './ui/globals'
+import { version } from '../package.json';
+import lancerData from 'lancer-data';
+import _ from 'lodash';
+import { createApp } from 'vue';
 
-import Vue from 'vue'
-import VueSecureHTML from 'vue-html-secure'
+import './assets/css/global.css';
+import './ui/style/_style.css';
 
-import App from './App.vue'
-import router from './router'
-import { store } from './store'
-import 'vuetify/dist/vuetify.min.css'
-import Vuetify from 'vuetify/lib'
-import Ripple from 'vuetify/lib/directives/ripple'
-import lancerData from 'lancer-data'
+import App from './App.vue';
 
-import './registerServiceWorker'
+import { store } from './store';
+import router from './router';
+import vuetify from './ui/style';
+import * as globals from './ui/globals';
 
-import mixins from './mixins'
+import { getModule } from './util/storeUtils';
+import VueSecureHTML from 'vue-html-secure';
 
-import _ from 'lodash'
-import Startup from './io/Startup'
+const compcon = createApp(App);
 
-import { TiptapVuetifyPlugin } from 'tiptap-vuetify'
-import 'tiptap-vuetify/dist/main.css'
+compcon.use(store);
+compcon.use(vuetify);
+compcon.use(router);
+compcon.use(VueSecureHTML);
 
-import Amplify from 'aws-amplify'
-import '@aws-amplify/ui-vue'
-import { awsmobile } from './aws-exports'
-import { getThemePreload } from './classes/utility/ThemeManager'
+// Install the component with Vue, using its appropriate name and configuration.
+// This will add it as a globally available component for use within templates.
+Object.keys(globals).forEach((key: string) => {
+  const componentConfig = globals[key as keyof typeof globals];
+  compcon.component(
+    _.kebabCase(key),
+    componentConfig.default || componentConfig
+  );
+});
 
-Amplify.configure(awsmobile)
+compcon.config.globalProperties.$appVersion = version;
+compcon.config.globalProperties.$lancerVersion = lancerData.info.version;
+compcon.config.globalProperties.getModule = getModule;
 
-Object.defineProperty(Vue.prototype, '$_', { value: _ })
-
-Vue.prototype.$appVersion = process.env.VUE_APP_VERSION_TAG || 'dev'
-Vue.prototype.$lancerVersion = `${lancerData.info.version}`
-
-const theme = getThemePreload()
-const vuetify = new Vuetify(theme)
-
-Vue.use(VueSecureHTML)
-Vue.use(Vuetify, {
-  directives: {
-    Ripple,
-  },
-})
-Vue.use(TiptapVuetifyPlugin, {
-  vuetify,
-  iconsGroup: 'md',
-})
-
-Vue.config.devtools = process.env.NODE_ENV === 'development'
-
-mixins.forEach(m => {
-  Vue.mixin(m)
-})
-
-Vue.config.errorHandler = (error, vm) => {
-  console.error(error)
-  Vue.prototype.$notifyError(error, vm)
-}
-window.onerror = error => {
-  console.error(error)
-  Vue.prototype.$notifyError(error)
-}
-
-const v: any = new Vue({
-  components: { App },
-  vuetify,
-  router,
-  store,
-  async created() {
-    await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store, vuetify)
-  },
-  render: h => h(App),
-}).$mount('#app')
-
-// constrain our writes to unload and nav. This will work on tab close and navigation outside the app.
-window.onbeforeunload = () => {
-  v.$store.dispatch('savePilotData')
-  v.$store.dispatch('saveNpcData')
-  v.$store.dispatch('updateUserData')
-}
-
-Vue.mixin({
-  beforeRouteLeave(to, from, next) {
-    v.$store.dispatch('savePilotData')
-    v.$store.dispatch('saveNpcData')
-
-    next()
-  },
-})
+compcon.mount('#app');

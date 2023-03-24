@@ -14,13 +14,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import TalentMicro from './components/_TalentMicro.vue'
-import TalentSmall from './components/_TalentSmall.vue'
-import TalentTerse from './components/_TalentTerse.vue'
-import TalentFull from './components/_TalentFull.vue'
+import TalentMicro from './components/_TalentMicro.vue';
+import TalentSmall from './components/_TalentSmall.vue';
+import TalentTerse from './components/_TalentTerse.vue';
+import TalentFull from './components/_TalentFull.vue';
 
-export default Vue.extend({
+export default {
   name: 'talent',
   components: {
     TalentMicro,
@@ -43,21 +42,21 @@ export default Vue.extend({
   }),
   computed: {
     type() {
-      if (this.expand === 'full') return TalentFull
-      if (this.expand === 'terse') return TalentTerse
-      if (this.micro) return TalentMicro
-      if (this.small) return TalentSmall
-      if (this.terse) return TalentTerse
-      return TalentFull
+      if (this.expand === 'full') return TalentFull;
+      if (this.expand === 'terse') return TalentTerse;
+      if (this.micro) return TalentMicro;
+      if (this.small) return TalentSmall;
+      if (this.terse) return TalentTerse;
+      return TalentFull;
     },
   },
   watch: {
     small() {
-      this.expand = ''
+      this.expand = '';
     },
     terse() {
-      this.expand = ''
+      this.expand = '';
     },
   },
-})
+};
 </script>

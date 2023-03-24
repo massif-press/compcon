@@ -13,13 +13,20 @@
               :title="`Size ${item.Size === 0.5 ? '½' : item.Size}`"
               :content="glossary('size')"
             >
-              <v-icon size="60" color="accent" class="mt-n2" style="line-height: 40px">
+              <v-icon
+                size="60"
+                color="accent"
+                class="mt-n2"
+                style="line-height: 40px"
+              >
                 {{ item.SizeIcon }}
               </v-icon>
             </cc-tooltip>
           </v-col>
         </v-row>
-        <div v-if="item.InLcp" class="heading h4 text--text">{{ item.LcpName }}</div>
+        <div v-if="item.InLcp" class="heading h4 text--text">
+          {{ item.LcpName }}
+        </div>
         <div v-if="item.Description">
           <div class="overline ml-n2 my-1 text--text">COMPENDIUM ENTRY</div>
           <p v-html-safe="item.Description" class="flavor-text" />
@@ -33,7 +40,7 @@
           </p>
         </div>
       </v-col>
-      <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="5">
+      <v-col v-if="$vuetify.display.lgAndUp" cols="5">
         <v-img :src="item.DefaultImage" max-width="35vw" />
         <cc-tooltip simple content="Feature In Development">
           <frame-gallery-modal :frame="item" />
@@ -69,11 +76,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { FrameGalleryModal, FrameStatblock, FrameCoreSystemPanel } from './frame'
-import { glossary } from 'lancer-data'
+import {
+  FrameGalleryModal,
+  FrameStatblock,
+  FrameCoreSystemPanel,
+} from './frame';
+import { glossary } from 'lancer-data';
 
-export default Vue.extend({
+export default {
   name: 'cc-frame-card',
   components: { FrameGalleryModal, FrameStatblock, FrameCoreSystemPanel },
   props: {
@@ -84,23 +94,26 @@ export default Vue.extend({
   },
   methods: {
     glossary(name: string) {
-      return glossary.find(x => x.name.toLowerCase() === name.toLowerCase()).description
+      return glossary.find((x) => x.name.toLowerCase() === name.toLowerCase())
+        .description;
     },
 
     get_mount_tooltip(mount_type: string) {
       const mount_tooltips = {
-        "Heavy": "Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon",
-        "Main": "Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon",
-        "Aux/Aux": "Holds up to two <b>AUXILIARY</b> weapons",
-        "Aux": "Holds one <b>AUXILIARY</b> weapon",
-        "Main/Aux": "Holds one <b>MAIN</b> weapon and one <b>AUXILIARY</b> weapon, or two <b>AUXILIARY</b> weapons",
-        "Flex": "Holds either one <b>MAIN</b> weapon or up to two <b>AUXILIARY</b> weapons",
-      }
+        Heavy:
+          'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
+        Main: 'Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon',
+        'Aux/Aux': 'Holds up to two <b>AUXILIARY</b> weapons',
+        Aux: 'Holds one <b>AUXILIARY</b> weapon',
+        'Main/Aux':
+          'Holds one <b>MAIN</b> weapon and one <b>AUXILIARY</b> weapon, or two <b>AUXILIARY</b> weapons',
+        Flex: 'Holds either one <b>MAIN</b> weapon or up to two <b>AUXILIARY</b> weapons',
+      };
       if (mount_type in mount_tooltips) {
-        return mount_tooltips[mount_type]
+        return mount_tooltips[mount_type];
       }
-      return "Error: Unknown Mount Type"
+      return 'Error: Unknown Mount Type';
     },
   },
-})
+};
 </script>

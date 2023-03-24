@@ -7,21 +7,33 @@
     </v-card>
     <v-expansion-panels v-else focusable accordion style="border-radius: 0px">
       <v-expansion-panel
-        :class="`text-center no-shadow ${noBorder ? '' : 'border-thin-primary '}`"
-        :style="pilot ? 'border-color: var(--v-pilot-base)' : ''"
+        :class="`text-center no-shadow ${
+          noBorder ? '' : 'border-thin-primary '
+        }`"
+        :style="pilot ? 'border-color: rgb(var(--v-theme-pilot))' : ''"
       >
-        <v-expansion-panel-header :class="$vuetify.breakpoint.mdAndUp ? 'px-2' : 'py-1 px-2'">
+        <v-expansion-panel-header
+          :class="$vuetify.display.mdAndUp ? 'px-2' : 'py-1 px-2'"
+        >
           <v-row no-gutters>
             <v-col cols="12" md="3">
               <div class="centered text-left pl-2">
                 <span class="stat-text">{{ skill.Trigger }}</span>
-                <div v-if="bonus && $vuetify.breakpoint.mdAndUp">
-                  <v-icon v-for="n in bonus" :key="skill.ID + n" color="secondary" small>
+                <div v-if="bonus && $vuetify.display.mdAndUp">
+                  <v-icon
+                    v-for="n in bonus"
+                    :key="skill.ID + n"
+                    color="secondary"
+                    small
+                  >
                     mdi-hexagon
                   </v-icon>
                   <span class="flavor-text subtle--text">(+{{ bonus }})</span>
                 </div>
-                <span v-else-if="bonus" class="font-weight-bold accent--text pl-2">
+                <span
+                  v-else-if="bonus"
+                  class="font-weight-bold accent--text pl-2"
+                >
                   +{{ bonus }}
                 </span>
               </div>
@@ -44,8 +56,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'skill-item',
   props: {
     bonus: {
@@ -66,5 +77,5 @@ export default Vue.extend({
       required: false,
     },
   },
-})
+};
 </script>

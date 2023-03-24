@@ -4,7 +4,7 @@
       <v-row v-if="s.Name" no-gutters align="center" justify="center">
         <v-col cols="auto">
           <cc-logo
-            :size="$vuetify.breakpoint.mdAndUp ? 'xLarge' : 'large'"
+            :size="$vuetify.display.mdAndUp ? 'xLarge' : 'large'"
             :source="s"
             class="mb-n2"
           />
@@ -12,7 +12,7 @@
       </v-row>
       <v-row v-else-if="!!s" align="center" justify="center">
         <v-col cols="auto">
-          <div :class="`heading ${$vuetify.breakpoint.mdAndDown ? 'h3' : 'h1'}`">
+          <div :class="`heading ${$vuetify.display.mdAndDown ? 'h3' : 'h1'}`">
             {{ s.match(/[A-Z]*[^A-Z]+/g).join(' ') }}
           </div>
         </v-col>
@@ -22,7 +22,7 @@
           v-for="item in itemsBySource(s.ID)"
           :key="`card_${item.ID}`"
           :item="item"
-          :small="$vuetify.breakpoint.smAndDown"
+          :small="$vuetify.display.smAndDown"
           :equipment-add="equipmentAdd"
           @equip="$emit('equip', $event)"
         />
@@ -32,13 +32,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import CompendiumCard from './components/CompendiumCard.vue'
+import _ from 'lodash';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import CompendiumCard from './components/CompendiumCard.vue';
+
+export default {
   name: 'selector-cards-view',
   components: { CompendiumCard },
   props: {
@@ -53,27 +52,27 @@ export default Vue.extend({
   }),
   computed: {
     compendium() {
-      return getModule(CompendiumStore, this.$store)
+      return this.getModule(CompendiumStore);
     },
     sources() {
       if (this.equipmentAdd) {
-        return ['']
+        return [''];
       }
-      if (!this.items.some(x => !x.Source)) {
-        const sources = _.uniq(this.items.map(x => x.Source))
+      if (!this.items.some((x) => !x.Source)) {
+        const sources = _.uniq(this.items.map((x) => x.Source));
         return sources.map((x: string) =>
-          this.compendium.Manufacturers.find(y => y.ID === x.toUpperCase())
-        )
+          this.compendium.Manufacturers.find((y) => y.ID === x.toUpperCase())
+        );
       }
-      return ['']
+      return [''];
     },
   },
   methods: {
     itemsBySource(s) {
-      if (!s) return this.items
-      if (this.equipmentAdd) return this.items.filter(x => x.ItemType === s)
-      return this.items.filter(x => x.Source === s)
+      if (!s) return this.items;
+      if (this.equipmentAdd) return this.items.filter((x) => x.ItemType === s);
+      return this.items.filter((x) => x.Source === s);
     },
   },
-})
+};
 </script>

@@ -9,14 +9,14 @@
       />
     </div>
     <v-btn
-      outlined
+      variant="outlined"
       color="secondary"
       small
       block
       class="fadeSelect"
       @click="$refs.imageSelector.open()"
     >
-      <v-icon left>mdi-circle-edit-outline</v-icon>
+      <v-icon start>mdi-circle-edit-outline</v-icon>
       Set Pilot Portrait
     </v-btn>
 
@@ -25,11 +25,7 @@
 </template>
 
 <script lang="ts">
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-
-import vueMixins from '@/util/vueMixins'
-
-export default vueMixins(activePilot).extend({
+export default {
   name: 'image-block',
-})
+};
 </script>

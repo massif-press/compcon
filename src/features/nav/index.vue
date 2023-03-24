@@ -11,8 +11,8 @@
     style="z-index: 50"
   >
     <v-tooltip bottom open-delay="500ms">
-      <template v-slot:activator="{ on }">
-        <v-btn text icon v-on="on" @click="historyNav(-1)">
+      <template v-slot:activator="{ props }">
+        <v-btn text icon v-bind="props" @click="historyNav(-1)">
           <v-icon dark>mdi-arrow-left</v-icon>
         </v-btn>
       </template>
@@ -20,8 +20,8 @@
     </v-tooltip>
 
     <v-tooltip bottom open-delay="500ms">
-      <template v-slot:activator="{ on }">
-        <v-btn text icon v-on="on" @click="historyNav(1)">
+      <template v-slot:activator="{ props }">
+        <v-btn text icon v-bind="props" @click="historyNav(1)">
           <v-icon dark>mdi-arrow-right</v-icon>
         </v-btn>
       </template>
@@ -29,8 +29,8 @@
     </v-tooltip>
 
     <v-tooltip bottom open-delay="500ms">
-      <template v-slot:activator="{ on }">
-        <v-btn text icon v-on="on" @click="home()">
+      <template v-slot:activator="{ props }">
+        <v-btn text icon v-bind="props" @click="home()">
           <v-icon dark>mdi-home</v-icon>
         </v-btn>
       </template>
@@ -38,10 +38,10 @@
     </v-tooltip>
 
     <v-tooltip bottom open-delay="500ms">
-      <template v-slot:activator="{ on }">
+      <template v-slot:activator="{ props }">
         <!-- Using <a> around the button lets it link properly without breaking the button styling like `to` does.-->
         <router-link to="/compendium">
-          <v-btn text icon v-on="on">
+          <v-btn text icon v-bind="props">
             <v-icon dark>mdi-book</v-icon>
           </v-btn>
         </router-link>
@@ -51,28 +51,37 @@
 
     <v-divider vertical dark class="mx-2" />
 
-    <v-toolbar-title v-if="$vuetify.breakpoint.mdAndUp">
+    <v-toolbar-title v-if="$vuetify.display.mdAndUp">
       <span class="heading">COMP/CON</span>
       <span class="flavor-text white--text">{{ $appVersion }}</span>
     </v-toolbar-title>
 
     <v-spacer />
 
-    <div v-if="$vuetify.breakpoint.mdAndUp">
+    <div v-if="$vuetify.display.mdAndUp">
       <pilot-mode v-if="mode === 'pilot'" />
       <compendium-mode v-if="mode === 'compendium'" />
       <encounter-mode v-if="mode === 'encounter'" />
     </div>
 
-    <v-divider v-if="$vuetify.breakpoint.mdAndUp && isAuthed" vertical dark class="mx-2" />
+    <v-divider
+      v-if="$vuetify.display.mdAndUp && isAuthed"
+      vertical
+      dark
+      class="mx-2"
+    />
 
-    <cc-tooltip v-if="$vuetify.breakpoint.mdAndUp && isAuthed" bottom content="Open cloud account menu">
+    <cc-tooltip
+      v-if="$vuetify.display.mdAndUp && isAuthed"
+      bottom
+      content="Open cloud account menu"
+    >
       <v-btn icon dark @click="$refs.cloudModal.show()">
         <v-icon>mdi-cloud-sync-outline</v-icon>
       </v-btn>
     </cc-tooltip>
 
-    <v-divider v-if="$vuetify.breakpoint.mdAndUp" vertical dark class="mx-2" />
+    <v-divider v-if="$vuetify.display.mdAndUp" vertical dark class="mx-2" />
 
     <cc-tooltip bottom content="Help &amp; FAQ">
       <v-btn icon dark @click="$refs.helpModal.show()">
@@ -83,14 +92,16 @@
     <v-divider vertical dark class="mx-2" />
 
     <v-menu nudge-bottom="40px">
-      <template v-slot:activator="{ on }">
-        <v-btn text icon v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn text icon v-bind="props">
           <v-icon dark>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
 
       <v-list dense>
-        <v-list-item @click="$refs.contentModal.show()">Manage Content</v-list-item>
+        <v-list-item @click="$refs.contentModal.show()"
+          >Manage Content</v-list-item
+        >
         <v-list-item @click="$refs.optionsModal.show()">Options</v-list-item>
         <v-list-item @click="$refs.aboutModal.show()">About</v-list-item>
         <v-list-item @click="$refs.creditsModal.show()">Credits</v-list-item>
@@ -125,11 +136,15 @@
     >
       <options-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"
+      ><about-page
+    /></cc-solo-dialog>
     <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"
+      ><help-page
+    /></cc-solo-dialog>
     <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
@@ -140,24 +155,21 @@
 </template>
 
 <script lang="ts">
-import HelpPage from './pages/Help.vue'
-import AboutPage from './pages/About.vue'
-import CreditsPage from './pages/Credits.vue'
-import OptionsPage from './pages/Options/index.vue'
-import ContentPage from './pages/ExtraContent/index.vue'
-import CloudPage from './pages/Cloud.vue'
-import activePilot from '../pilot_management/mixins/activePilot'
+import HelpPage from './pages/Help.vue';
+import AboutPage from './pages/About.vue';
+import CreditsPage from './pages/Credits.vue';
+import OptionsPage from './pages/Options/index.vue';
+import ContentPage from './pages/ExtraContent/index.vue';
+import CloudPage from './pages/Cloud.vue';
 
-import PilotMode from './modes/pilot.vue'
-import EncounterMode from './modes/encounter.vue'
-import CompendiumMode from './modes/compendium.vue'
+import PilotMode from './modes/pilot.vue';
+import EncounterMode from './modes/encounter.vue';
+import CompendiumMode from './modes/compendium.vue';
 
-import vueMixins from '@/util/vueMixins'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore, UserStore, NavStore } from '@/store'
-import { Auth } from 'aws-amplify'
+import { PilotManagementStore, UserStore, NavStore } from '@/store';
+import { Auth } from 'aws-amplify';
 
-export default vueMixins(activePilot).extend({
+export default {
   name: 'cc-nav',
   components: {
     HelpPage,
@@ -180,39 +192,39 @@ export default vueMixins(activePilot).extend({
     optionsDialog: false,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser()
+    await Auth.currentAuthenticatedUser();
   },
   computed: {
     mode(): string {
-      return getModule(NavStore, this.$store).NavMode
+      return this.getModule(NavStore).NavMode;
     },
     unsaved() {
-      return getModule(PilotManagementStore, this.$store).unsavedCloudPilots
+      return this.getModule(PilotManagementStore).unsavedCloudPilots;
     },
     isAuthed() {
-      return getModule(UserStore, this.$store).IsLoggedIn
+      return this.getModule(UserStore).IsLoggedIn;
     },
     syncTooltip(): string {
-      if (!this.unsaved.length) return 'Pilot data synced'
+      if (!this.unsaved.length) return 'Pilot data synced';
       return (
         '<div class="text-center"><b>LOCAL CHANGES<br></b>' +
-        this.unsaved.map(p => `Pilot::${p.Callsign}`).join('<br>') +
+        this.unsaved.map((p) => `Pilot::${p.Callsign}`).join('<br>') +
         '<br><span class="caption">Click to save changes to your cloud account</span></div>'
-      )
+      );
     },
   },
   methods: {
     sync() {
-      // getModule(UserStore, this.$store).cloudSync({
+      //this.getModule(UserStore).cloudSync({
       //   callback: (status, message) => this.$notify(status, message),
       // })
     },
     home() {
-      this.$router.push('/')
+      this.$router.push('/');
     },
     historyNav(dir: number) {
-      this.$router.go(dir)
+      this.$router.go(dir);
     },
   },
-})
+};
 </script>

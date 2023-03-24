@@ -21,7 +21,13 @@
     <v-divider />
     <span class="overline">BOND POWERS</span>
     <v-row no-gutters align="start">
-      <single v-for="n in 8" :key="`power_${n}`" cols="6" label="POWER" height="100" />
+      <single
+        v-for="n in 8"
+        :key="`power_${n}`"
+        cols="6"
+        label="POWER"
+        height="100"
+      />
       <single cols="6" label="VETERAN POWER" height="100" />
       <single cols="6" label="MASTER POWER" height="100" />
     </v-row>
@@ -29,13 +35,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Single from './blanks/Single.vue'
+import Single from './blanks/Single.vue';
 
-export default Vue.extend({
+export default {
   name: 'bonds-blank-view',
   components: { Single },
-})
+};
 </script>
 
 <style scoped>
@@ -61,6 +66,6 @@ fieldset {
   padding: 0 4px;
   height: 100%;
   border-radius: 3px;
-  border-color: var(--v-grey-lighten2);
+  border-color: rgb(var(--v-theme-grey-lighten2));
 }
 </style>

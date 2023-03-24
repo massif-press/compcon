@@ -1,9 +1,9 @@
 <template>
   <v-col :cols="cols">
-    <v-card tile outlined class="text-center">
+    <v-card tile variant="outlined" class="text-center">
       <v-card-title
         :class="`${color} white--text caption py-1`"
-        style="font-weight: bold; max-height: 28px; font-size: 18px!important"
+        style="font-weight: bold; max-height: 28px; font-size: 18px !important"
       >
         <v-btn
           v-if="editable && !editMode"
@@ -14,9 +14,7 @@
           absolute
           @click="editMode = true"
         >
-          <v-icon>
-            mdi-circle-edit-outline
-          </v-icon>
+          <v-icon>mdi-circle-edit-outline</v-icon>
         </v-btn>
         <v-spacer />
         {{ attr }}
@@ -27,7 +25,7 @@
           v-if="editMode"
           v-model="model"
           solo
-          outlined
+          variant="outlined"
           filled
           dense
           hide-details
@@ -45,9 +43,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'editable-attribute',
   props: {
     attr: {
@@ -77,12 +73,12 @@ export default Vue.extend({
     editMode: false,
   }),
   mounted() {
-    this.model = this.val
+    this.model = this.val;
   },
   watch: {
     val() {
-      this.model = this.val
+      this.model = this.val;
     },
   },
-})
+};
 </script>

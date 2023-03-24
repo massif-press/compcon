@@ -29,13 +29,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import GmCollectionView from '../_views/GMCollectionView.vue'
-import Editor from './editor.vue'
-import { getModule } from 'vuex-module-decorators'
-import { FactionStore } from '@/store'
+import GmCollectionView from '../_views/GMCollectionView.vue';
+import Editor from './editor.vue';
 
-export default Vue.extend({
+import { FactionStore } from '@/store';
+
+export default {
   name: 'factions-roster',
   components: { GmCollectionView, Editor },
   data: () => ({
@@ -46,31 +45,31 @@ export default Vue.extend({
   }),
   computed: {
     factions() {
-      return getModule(FactionStore, this.$store).Factions
+      return this.getModule(FactionStore).Factions;
     },
   },
   methods: {
     openItem(id) {
-      this.selected = id
-      this.dialog = true
+      this.selected = id;
+      this.dialog = true;
     },
     addNew() {
-      this.selected = 'new'
-      this.dialog = true
+      this.selected = 'new';
+      this.dialog = true;
     },
     importItem() {
-      console.error('NOT YET IMPLEMENTED')
+      console.error('NOT YET IMPLEMENTED');
     },
     deleteItem() {
-      console.error('NOT YET IMPLEMENTED')
+      console.error('NOT YET IMPLEMENTED');
     },
     SaveAndClose() {
-      const store = getModule(FactionStore, this.$store)
+      // const store =this.getModule(FactionStore);
       // TODO: check for and ask to update instances on save
-      store.addFaction(this.selected)
-      this.$set(this, 'selected', null)
-      this.dialog = false
+      // store.addFaction(this.selected);
+      this.$set(this, 'selected', null);
+      this.dialog = false;
     },
   },
-})
+};
 </script>

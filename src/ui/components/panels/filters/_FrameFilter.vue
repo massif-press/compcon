@@ -7,7 +7,7 @@
         hide-details
         dense
         prepend-icon="mdi-factory"
-        outlined
+        variant="outlined"
         label="From Manufacturer"
         :items="manufacturers"
         chips
@@ -22,10 +22,10 @@
         class="px-2"
         hide-details
         dense
-        prepend-icon="cci-frame"
+        prepend-icon="cc:frame"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="Role"
         :items="mechTypes"
         multiple
@@ -39,10 +39,10 @@
         class="px-2"
         hide-details
         dense
-        prepend-icon="cci-weapon"
+        prepend-icon="cc:weapon"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="Has Mount"
         :items="mountTypes"
         multiple
@@ -56,10 +56,10 @@
         class="px-2"
         hide-details
         dense
-        prepend-icon="cci-compendium"
+        prepend-icon="cc:compendium"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="From Content Pack"
         :items="lcps"
         multiple
@@ -71,18 +71,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { MechType, MountType, Manufacturer } from '@/class'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { MechType, MountType, Manufacturer } from '@/class';
 
-const nameSort = function(a, b): number {
-  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
-  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
-  return 0
-}
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+const nameSort = function (a, b): number {
+  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+  return 0;
+};
+
+export default {
   name: 'frame-filter',
   data: () => ({
     sourceFilter: '',
@@ -94,39 +93,42 @@ export default Vue.extend({
     manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
-        .map(x => ({ text: x.Name, value: x.ID }))
-        .sort(nameSort)
+        .map((x) => ({ text: x.Name, value: x.ID }))
+        .sort(nameSort);
     },
     mechTypes(): MechType[] {
       return Object.keys(MechType)
-        .map(k => MechType[k as any])
-        .sort() as MechType[]
+        .map((k) => MechType[k as any])
+        .sort() as MechType[];
     },
     mountTypes(): MountType[] {
       return Object.keys(MountType)
-        .map(k => MountType[k as any])
-        .filter(x => x !== 'Integrated')
-        .sort() as MountType[]
+        .map((k) => MountType[k as any])
+        .filter((x) => x !== 'Integrated')
+        .sort() as MountType[];
     },
     lcps(): string[] {
-      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+      return this.getModule(CompendiumStore).Frames.map((x) => x.LcpName);
     },
   },
   methods: {
     clear() {
-      this.sourceFilter = []
-      this.typeFilter = []
-      this.mountFilter = []
-      this.lcpFilter = []
+      this.sourceFilter = [];
+      this.typeFilter = [];
+      this.mountFilter = [];
+      this.lcpFilter = [];
     },
     updateFilters() {
-      const fObj = {} as any
-      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter]
-      if (this.sourceFilter) fObj.Source = [this.sourceFilter]
-      if (this.typeFilter && this.typeFilter.length) fObj.MechType = this.typeFilter
-      if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter
-      this.$emit('set-filters', fObj)
+      const fObj = {} as any;
+      if (this.lcpFilter && this.lcpFilter.length)
+        fObj.LcpName = [this.lcpFilter];
+      if (this.sourceFilter) fObj.Source = [this.sourceFilter];
+      if (this.typeFilter && this.typeFilter.length)
+        fObj.MechType = this.typeFilter;
+      if (this.mountFilter && this.mountFilter.length)
+        fObj.Mounts = this.mountFilter;
+      this.$emit('set-filters', fObj);
     },
   },
-})
+};
 </script>

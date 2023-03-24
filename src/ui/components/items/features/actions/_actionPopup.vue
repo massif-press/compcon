@@ -6,10 +6,16 @@
     </span>
 
     <span slot="title">
-      <v-icon left large dark>{{ action.Icon }}</v-icon>
+      <v-icon start large dark>{{ action.Icon }}</v-icon>
       {{ action.Name }}
     </span>
-    <v-chip slot="title-items" color="white" class="stat-text mt-4 mr-6" outlined label>
+    <v-chip
+      slot="title-items"
+      color="white"
+      class="stat-text mt-4 mr-6"
+      variant="outlined"
+      label
+    >
       {{ action.Frequency.ToString() }}
     </v-chip>
 
@@ -18,10 +24,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActionBase from './_actionBase.vue'
+import ActionBase from './_actionBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'action-popup',
   components: { ActionBase },
   props: {
@@ -30,5 +35,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

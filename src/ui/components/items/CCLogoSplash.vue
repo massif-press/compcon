@@ -3,8 +3,7 @@
     v-if="isSvg && isCorsSafe"
     :data-src="source.Logo + '#Content'"
     :style="`width:22vw; height:22vw; fill:${iconColor}; stroke:#fff; stroke-width: 8px;`"
-  >
-  </svg>
+  ></svg>
   <img
     v-else
     :src="source.Logo"
@@ -18,10 +17,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
-import "external-svg-loader";
+// import 'external-svg-loader';
 
-export default Vue.extend({
+export default {
   name: 'cc-logo-splash',
   props: {
     source: {
@@ -35,18 +33,18 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    corsSafe: false
+    corsSafe: false,
   }),
   computed: {
     iconColor(): string {
-      return this.color || this.source.Color
+      return this.color || this.source.Color;
     },
     isSvg(): boolean {
-      return this.source.isSvg
+      return this.source.isSvg;
     },
     isCorsSafe(): boolean {
-      return this.source.isCorsSafe
-    }
+      return this.source.isCorsSafe;
+    },
   },
-})
+};
 </script>

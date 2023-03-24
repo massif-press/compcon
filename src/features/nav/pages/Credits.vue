@@ -1,5 +1,5 @@
 <template>
-  <div :class="`mt-4 ${$vuetify.breakpoint.mdAndDown ? 'text-center' : ''}`">
+  <div :class="`mt-4 ${$vuetify.display.mdAndDown ? 'text-center' : ''}`">
     <div v-if="loading" class="text-center">
       <v-progress-circular
         :size="80"
@@ -125,30 +125,29 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import csvConverter from "./csvConverter";
-import _ from "lodash";
-import credits from "./credits.json";
-import DevBadge from "./SupporterBadges/Dev.vue";
-import SpecialThanks from "./SupporterBadges/SpecialThanks.vue";
+import csvConverter from './csvConverter';
+import _ from 'lodash';
+import credits from './credits.json';
+import DevBadge from './SupporterBadges/Dev.vue';
+import SpecialThanks from './SupporterBadges/SpecialThanks.vue';
 
-export default Vue.extend({
-  name: "credits",
+export default {
+  name: 'credits',
   components: { DevBadge, SpecialThanks },
   data: () => ({
-    patronsUrl: "https://compcon-text-assets.s3.amazonaws.com/patrons.csv",
+    patronsUrl: 'https://compcon-text-assets.s3.amazonaws.com/patrons.csv',
     credits: credits,
     patrons: [],
-    tiers: ["MONIST", "NHP", "Lancer", "Cosmopolitan", "Diasporan"],
+    tiers: ['MONIST', 'NHP', 'Lancer', 'Cosmopolitan', 'Diasporan'],
     cols: [12, 6, 4, 4, 4],
     loading: true,
   }),
   async mounted() {
     await fetch(this.patronsUrl, {
-      method: "GET",
-      mode: "cors",
+      method: 'GET',
+      mode: 'cors',
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Origin': '*',
       },
     })
       .then((res) => res.text())
@@ -156,13 +155,13 @@ export default Vue.extend({
         const patrons = csvConverter.toJson(content);
 
         this.patrons = _.groupBy(
-          _.orderBy(patrons, "Patron Status", "asc"),
-          "Tier"
+          _.orderBy(patrons, 'Patron Status', 'asc'),
+          'Tier'
         );
       })
       .catch((err) => {
         console.error(
-          "There was an issue downloading the latest welcome message.",
+          'There was an issue downloading the latest welcome message.',
           err
         );
       });
@@ -171,10 +170,10 @@ export default Vue.extend({
   },
   methods: {
     isActive(p) {
-      return p["Patron Status"].toLowerCase() === "active patron";
+      return p['Patron Status'].toLowerCase() === 'active patron';
     },
   },
-});
+};
 </script>
 
 <style scoped></style>

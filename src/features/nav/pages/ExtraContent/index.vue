@@ -1,6 +1,11 @@
 <template>
   <v-card flat tile class="containerCard">
-    <v-tabs v-model="tabs" background-color="panel" color="accent" icons-and-text>
+    <v-tabs
+      v-model="tabs"
+      background-color="panel"
+      color="accent"
+      icons-and-text
+    >
       <v-tab>
         Content Packs
         <v-icon>list_alt</v-icon>
@@ -40,25 +45,27 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import PacksList from './PacksList.vue';
+import MissingContent from './MissingContent.vue';
+import PackInstall from './PackInstall.vue';
+import PacksDirectory from './PacksDirectory.vue';
 
-import PacksList from './PacksList.vue'
-import MissingContent from './MissingContent.vue'
-import PackInstall from './PackInstall.vue'
-import PacksDirectory from './PacksDirectory.vue'
-
-@Component({
+export default {
+  name: 'ExtraContent',
   components: { PacksList, PackInstall, PacksDirectory, MissingContent },
-})
-export default class ExtraContent extends Vue {
-  public tabs = null
+  data: () => {
+    return {
+      tabs: null,
+    };
+  },
 
-  public onInstalled(): void {
-    ;(this.$refs.pl as any).reload()
-    this.tabs = 0
-  }
-}
+  methods: {
+    onInstalled(): void {
+      (this.$refs.pl as any as any).reload();
+      this.tabs = 0;
+    },
+  },
+};
 </script>
 
 <style scoped>

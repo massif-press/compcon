@@ -3,11 +3,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import synergyPanel from './_synergyPanel.vue'
-import synergyPopup from './_synergyPopup.vue'
+import synergyPanel from './_synergyPanel.vue';
+import synergyPopup from './_synergyPopup.vue';
 
-export default Vue.extend({
+export default {
   name: 'cc-synergy',
   components: { synergyPanel, synergyPopup },
   props: {
@@ -23,5 +22,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>

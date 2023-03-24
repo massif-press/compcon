@@ -8,18 +8,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SidebarArrayView from '../components/SidebarArrayView.vue'
-import { glossary } from 'lancer-data'
+import SidebarArrayView from '../components/SidebarArrayView.vue';
+import { glossary } from 'lancer-data';
 
-export default Vue.extend({
+export default {
   name: 'glossary',
   components: { SidebarArrayView },
   data: () => ({
     glossary: [],
   }),
   created() {
-    this.glossary = this.$_.sortBy(glossary, [x => x.name])
+    this.glossary = this.$_.sortBy(glossary, [(x) => x.name]);
   },
-})
+};
 </script>

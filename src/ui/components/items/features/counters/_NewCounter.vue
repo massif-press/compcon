@@ -4,10 +4,12 @@
     color="primary"
     style="position: relative"
     :elevation="creating ? 12 : 0"
-    :class="$vuetify.breakpoint.mdAndUp ? 'clipped-large text-center' : 'text-center'"
-    :height="$vuetify.breakpoint.mdAndUp ? '118px' : '100%'"
-    :width="$vuetify.breakpoint.mdAndUp ? '225px' : '100%'"
-    :min-width="$vuetify.breakpoint.mdAndUp ? '225px' : '100%'"
+    :class="
+      $vuetify.display.mdAndUp ? 'clipped-large text-center' : 'text-center'
+    "
+    :height="$vuetify.display.mdAndUp ? '118px' : '100%'"
+    :width="$vuetify.display.mdAndUp ? '225px' : '100%'"
+    :min-width="$vuetify.display.mdAndUp ? '225px' : '100%'"
   >
     <transition name="fade">
       <v-card-text
@@ -25,7 +27,14 @@
         ></v-text-field>
         <v-row class="mt-auto">
           <v-col class="py-0">
-            <v-btn color="secondary" style="height: 100%" block tile elevation="0" @click="cancel">
+            <v-btn
+              color="secondary"
+              style="height: 100%"
+              block
+              tile
+              elevation="0"
+              @click="cancel"
+            >
               CANCEL
             </v-btn>
           </v-col>
@@ -55,7 +64,7 @@
       >
         <div class="py-1">
           <div>Add Custom Counter</div>
-          <v-icon :v-if="$vuetify.breakpoint.mdAndUp">add</v-icon>
+          <v-icon :v-if="$vuetify.display.mdAndUp">add</v-icon>
         </div>
       </v-btn>
     </transition>
@@ -63,33 +72,32 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+export default {
+  name: 'NewCounter',
+  data: () => ({
+    creating: false,
+    name: '',
+  }),
+  methods: {
+    async startCreating(): Promise<void> {
+      this.creating = true;
+      await Vue.nextTick();
+      (this.$refs.nameField as any as any).focus();
+    },
 
-@Component
-export default class NewCounter extends Vue {
-  creating = false
+    cancel(): void {
+      this.name = '';
+      this.creating = false;
+    },
 
-  name = ''
-
-  async startCreating(): Promise<void> {
-    this.creating = true
-    await Vue.nextTick()
-    ;(this.$refs.nameField as any).focus()
-  }
-
-  cancel(): void {
-    this.name = ''
-    this.creating = false
-  }
-
-  create(): void {
-    if (!this.name) return
-    this.$emit('create', this.name)
-    this.name = ''
-    this.creating = false
-  }
-}
+    create(): void {
+      if (!this.name) return;
+      this.$emit('create', this.name);
+      this.name = '';
+      this.creating = false;
+    },
+  },
+};
 </script>
 
 <style scoped>

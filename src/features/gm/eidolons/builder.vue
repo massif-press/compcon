@@ -3,7 +3,11 @@
     <v-row align="start">
       <v-col>
         <div class="heading mech">
-          <cc-short-string-editor large :placeholder="item.Name" @set="item.Name = $event">
+          <cc-short-string-editor
+            large
+            :placeholder="item.Name"
+            @set="item.Name = $event"
+          >
             <span class="heading-block">
               {{ item.Name }}
             </span>
@@ -22,14 +26,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EidolonLayers from './_components/EidolonLayers.vue'
+import EidolonLayers from './_components/EidolonLayers.vue';
 
-export default Vue.extend({
+export default {
   name: 'eidolon-builder-content',
   components: { EidolonLayers },
   props: {
     item: { type: Object, required: true },
   },
-})
+};
 </script>

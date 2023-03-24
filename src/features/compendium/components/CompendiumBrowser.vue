@@ -53,7 +53,7 @@
     <div>
       <div v-if="getView === 'split' || lockView">
         <compendium-mobile-view
-          v-if="$vuetify.breakpoint.smAndDown"
+          v-if="$vuetify.display.smAndDown"
           :items="fItems"
         />
         <compendium-split-view v-else :items="fItems" />
@@ -69,19 +69,17 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import ItemFilter from "@/classes/utility/ItemFilter";
-import { accentInclude } from "@/classes/utility/accent_fold";
-import CompendiumMobileView from "./views/CompendiumMobileView.vue";
-import CompendiumSplitView from "./views/CompendiumSplitView.vue";
-import CompendiumCardsView from "./views/CompendiumCardsView.vue";
-import CompendiumTableView from "./views/CompendiumTableView.vue";
-import { getModule } from "vuex-module-decorators";
-import { UserStore } from "@/store";
-import { UserProfile } from "@/user";
+import ItemFilter from '@/classes/utility/ItemFilter';
+import { accentInclude } from '@/classes/utility/accent_fold';
+import CompendiumMobileView from './views/CompendiumMobileView.vue';
+import CompendiumSplitView from './views/CompendiumSplitView.vue';
+import CompendiumCardsView from './views/CompendiumCardsView.vue';
+import CompendiumTableView from './views/CompendiumTableView.vue';
+import { UserStore } from '@/store';
+import { UserProfile } from '@/user';
 
-export default Vue.extend({
-  name: "compendium-browser",
+export default {
+  name: 'compendium-browser',
   components: {
     CompendiumMobileView,
     CompendiumTableView,
@@ -107,18 +105,17 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    search: "",
+    search: '',
     filters: {},
-    itemType: "",
+    itemType: '',
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(UserStore, this.$store);
-      return store.UserProfile;
+      return this.$store.UserProfile;
     },
     getView() {
-      if (this.profile) return this.profile.GetView("selector");
-      return "split";
+      if (this.profile) return this.profile.GetView('selector');
+      return 'split';
     },
     fItems() {
       const vm = this as any;
@@ -135,12 +132,12 @@ export default Vue.extend({
   },
   created() {
     this.itemType =
-      this.items && this.items.length ? this.items[0].ItemType : "";
+      this.items && this.items.length ? this.items[0].ItemType : '';
   },
   methods: {
     setFilters(newFilter) {
       this.filters = newFilter;
     },
   },
-});
+};
 </script>

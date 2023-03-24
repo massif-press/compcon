@@ -2,7 +2,11 @@
   <div id="pc-wrapper" @click="$emit('go', mech)">
     <v-card
       tile
-      :color="mech.IsActive ? 'success' : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)"
+      :color="
+        mech.IsActive
+          ? 'success'
+          : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
+      "
       style="position: absolute; z-index: 5"
       class="overlay clipped-square-invert"
       min-width="138px"
@@ -18,16 +22,18 @@
         class="overlay"
         :style="`background-color: ${
           mech.IsActive
-            ? 'var(--v-success-base)'
+            ? 'rgb(var(--v-theme-success))'
             : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
         }`"
       >
         <v-row no-gutters>
-          <span class="heading h2 callsign" style="margin-left: 138px">{{ mech.Name }}</span>
+          <span class="heading h2 callsign" style="margin-left: 138px">{{
+            mech.Name
+          }}</span>
           <v-fade-transition>
             <span
               v-if="mech.IsActive"
-              v-show="$vuetify.breakpoint.mdAndUp"
+              v-show="$vuetify.display.mdAndUp"
               class="heading h2 callsign ml-auto pr-10"
             >
               / / ACTIVE / /&nbsp;
@@ -55,12 +61,22 @@
                   </v-btn>
                 </cc-tooltip>
                 <cc-tooltip simple inline content="Duplicate Mech">
-                  <v-btn small icon class="fadeSelect" @click.stop="$refs.copy.show()">
+                  <v-btn
+                    small
+                    icon
+                    class="fadeSelect"
+                    @click.stop="$refs.copy.show()"
+                  >
                     <v-icon small>mdi-content-copy</v-icon>
                   </v-btn>
                 </cc-tooltip>
                 <cc-tooltip simple inline content="Print Mech Sheet">
-                  <v-btn small icon class="fadeSelect" @click.stop="$refs.print.show()">
+                  <v-btn
+                    small
+                    icon
+                    class="fadeSelect"
+                    @click.stop="$refs.print.show()"
+                  >
                     <v-icon small>mdi-printer</v-icon>
                   </v-btn>
                 </cc-tooltip>
@@ -72,7 +88,7 @@
                     :disabled="mech.Pilot.ActiveMech === mech"
                     @click.stop="mech.Pilot.ActiveMech = mech"
                   >
-                    <v-icon>cci-activate</v-icon>
+                    <v-icon>cc:activate</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
@@ -88,17 +104,27 @@
                     }}
                   </legend>
                   <div v-if="mech.MechLoadoutController.ActiveLoadout">
-                    <span v-for="(item, i) in loadoutWeapons" :key="`${mech.ID}_lw_${i}`">
+                    <span
+                      v-for="(item, i) in loadoutWeapons"
+                      :key="`${mech.ID}_lw_${i}`"
+                    >
                       {{ item }}
                     </span>
                     <br />
-                    <span v-for="(item, i) in loadoutSystems" :key="`${mech.ID}_ls_${i}`">
+                    <span
+                      v-for="(item, i) in loadoutSystems"
+                      :key="`${mech.ID}_ls_${i}`"
+                    >
                       {{ i > 0 ? ' - ' : '' }}{{ item }}
                     </span>
                   </div>
                 </fieldset>
                 <!-- TODO: add charts -->
-                <v-row v-show="$vuetify.breakpoint.mdAndUp" no-gutters justify="space-around">
+                <v-row
+                  v-show="$vuetify.display.mdAndUp"
+                  no-gutters
+                  justify="space-around"
+                >
                   <v-col cols="auto">
                     <span class="overline">
                       STR
@@ -136,14 +162,36 @@
                 </v-row>
               </v-col>
               <v-col cols="auto" class="white--text flavor-text">
-                <v-alert v-if="mech.Destroyed" color="error" dense tile class="text-center">
+                <v-alert
+                  v-if="mech.Destroyed"
+                  color="error"
+                  dense
+                  tile
+                  class="text-center"
+                >
                   <span style="letter-spacing: 5px">// DESTROYED //</span>
                 </v-alert>
-                <v-alert v-if="mech.MeltdownImminent" color="orange" dense tile class="text-center">
-                  <span style="letter-spacing: 5px">// REACTOR CRITICAL //</span>
+                <v-alert
+                  v-if="mech.MeltdownImminent"
+                  color="orange"
+                  dense
+                  tile
+                  class="text-center"
+                >
+                  <span style="letter-spacing: 5px"
+                    >// REACTOR CRITICAL //</span
+                  >
                 </v-alert>
-                <v-alert v-if="mech.ReactorDestroyed" color="accent" dense tile class="text-center">
-                  <span style="letter-spacing: 5px">// REACTOR DESTROYED //</span>
+                <v-alert
+                  v-if="mech.ReactorDestroyed"
+                  color="accent"
+                  dense
+                  tile
+                  class="text-center"
+                >
+                  <span style="letter-spacing: 5px"
+                    >// REACTOR DESTROYED //</span
+                  >
                 </v-alert>
               </v-col>
             </v-row>
@@ -152,18 +200,21 @@
       </div>
     </div>
     <copy-mech-dialog ref="copy" :mech="mech" @copy="$emit('copy', mech)" />
-    <delete-mech-dialog ref="delete" :mech="mech" @delete="$emit('delete', mech)" />
+    <delete-mech-dialog
+      ref="delete"
+      :mech="mech"
+      @delete="$emit('delete', mech)"
+    />
     <print-dialog ref="print" :pilot="mech.Pilot" />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CopyMechDialog from './CopyMechDialog.vue'
-import DeleteMechDialog from './DeleteMechDialog.vue'
-import PrintDialog from '../../../components/PrintDialog.vue'
+import CopyMechDialog from './CopyMechDialog.vue';
+import DeleteMechDialog from './DeleteMechDialog.vue';
+import PrintDialog from '../../../components/PrintDialog.vue';
 
-export default Vue.extend({
+export default {
   name: 'mech-list-item',
   components: { CopyMechDialog, DeleteMechDialog, PrintDialog },
   props: {
@@ -174,31 +225,33 @@ export default Vue.extend({
   },
   computed: {
     loadoutWeapons() {
-      const output = []
+      const output = [];
       for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
         this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
       )) {
         if (!mount.IsLocked) {
-          let str = `${mount.Name}:`
-          if (!mount.Weapons.length) str += ' EMPTY'
+          let str = `${mount.Name}:`;
+          if (!mount.Weapons.length) str += ' EMPTY';
           else {
             mount.Weapons.forEach((w, i) => {
-              str += ` ${w.Name}`
-              if (w.Mod) str += ` (${w.Mod.Name})`
-              if (i + 1 < mount.Weapons.length) str += '/'
-            })
+              str += ` ${w.Name}`;
+              if (w.Mod) str += ` (${w.Mod.Name})`;
+              if (i + 1 < mount.Weapons.length) str += '/';
+            });
           }
-          output.push(str)
+          output.push(str);
         }
       }
-      return output
+      return output;
     },
     loadoutSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map(x => x.Name)
+      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map(
+        (x) => x.Name
+      );
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -223,7 +276,7 @@ export default Vue.extend({
   left: 2px;
   bottom: 2px;
   right: 2px;
-  background-color: var(--v-light-panel-base);
+  background-color: rgb(var(--v-theme-light-panel));
 }
 
 .overlay {

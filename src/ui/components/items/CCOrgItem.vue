@@ -1,8 +1,8 @@
 <template>
   <v-col cols="auto" class="mx-2">
     <v-dialog v-model="dialog" width="70vw">
-      <template v-slot:activator="{ on }">
-        <v-btn large outlined color="stark" block v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn large variant="outlined" color="stark" block v-bind="props">
           <v-icon small left color="stark">mdi-account-multiple</v-icon>
           {{ org.Name }}
         </v-btn>
@@ -25,14 +25,19 @@
         </div>
         <v-row>
           <v-col cols="6">
-            <v-text-field v-model="org.Name" label="Organization Name" outlined hide-details />
+            <v-text-field
+              v-model="org.Name"
+              label="Organization Name"
+              variant="outlined"
+              hide-details
+            />
           </v-col>
           <v-col cols="6">
             <v-select
               v-model="org.Purpose"
               label="Organization Type"
               :items="orgTypes"
-              outlined
+              variant="outlined"
               hide-details
             />
           </v-col>
@@ -48,13 +53,20 @@
         <br />
         <v-row dense justify="center" class="mx-12">
           <v-col cols="auto">
-            <v-btn icon large :disabled="org.Efficiency === 0" @click="org.Efficiency -= 2">
+            <v-btn
+              icon
+              large
+              :disabled="org.Efficiency === 0"
+              @click="org.Efficiency -= 2"
+            >
               <v-icon large color="accent">remove</v-icon>
             </v-btn>
           </v-col>
           <v-col class="text-center" cols="auto">
             <div>
-              <span class="heading h2 accent--text">+ {{ org.Efficiency }}</span>
+              <span class="heading h2 accent--text"
+                >+ {{ org.Efficiency }}</span
+              >
               <br />
               <span>
                 Organization Efficiency
@@ -73,13 +85,23 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-btn icon large :disabled="org.Efficiency === 6" @click="org.Efficiency += 2">
+            <v-btn
+              icon
+              large
+              :disabled="org.Efficiency === 6"
+              @click="org.Efficiency += 2"
+            >
               <v-icon large color="accent">add</v-icon>
             </v-btn>
           </v-col>
           <v-spacer />
           <v-col cols="auto">
-            <v-btn icon large :disabled="org.Influence === 0" @click="org.Influence -= 2">
+            <v-btn
+              icon
+              large
+              :disabled="org.Influence === 0"
+              @click="org.Influence -= 2"
+            >
               <v-icon large color="accent">remove</v-icon>
             </v-btn>
           </v-col>
@@ -102,7 +124,12 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-btn icon large :disabled="org.Influence === 6" @click="org.Influence += 2">
+            <v-btn
+              icon
+              large
+              :disabled="org.Influence === 6"
+              @click="org.Influence += 2"
+            >
               <v-icon large color="accent">add</v-icon>
             </v-btn>
           </v-col>
@@ -119,10 +146,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { OrgType } from '@/class'
+import { OrgType } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'cc-org-item',
   props: {
     org: {
@@ -136,15 +162,15 @@ export default Vue.extend({
   computed: {
     orgTypes() {
       return Object.keys(OrgType)
-        .map(k => OrgType[k as string])
-        .sort() as OrgType[]
+        .map((k) => OrgType[k as string])
+        .sort() as OrgType[];
     },
   },
   methods: {
     remove() {
-      this.$emit('remove')
-      this.dialog = false
+      this.$emit('remove');
+      this.dialog = false;
     },
   },
-})
+};
 </script>

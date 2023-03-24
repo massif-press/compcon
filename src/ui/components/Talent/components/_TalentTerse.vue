@@ -1,8 +1,16 @@
 <template>
-  <v-row dense style="min-width: 100%" :class="$vuetify.breakpoint.smAndDown ? 'mb-3' : ''">
-    <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto">
+  <v-row
+    dense
+    style="min-width: 100%"
+    :class="$vuetify.display.smAndDown ? 'mb-3' : ''"
+  >
+    <v-col v-if="$vuetify.display.mdAndUp" cols="auto">
       <div
-        style="position: relative; border: 1px solid var(--v-primary-base); border-radius: 1px"
+        style="
+          position: relative;
+          border: 1px solid rgb(var(--v-theme-primary));
+          border-radius: 1px;
+        "
         class="pa-2"
       >
         <talent-emblem :url="talent.Image" :name="talent.Name" large />
@@ -27,13 +35,18 @@
             {{ talent.LcpName }}
           </v-col>
           <v-col cols="auto" class="mr-8 mt-n1">
-            <v-btn icon color="white" class="fadeSelect" @click="$emit('expand', 'full')">
+            <v-btn
+              icon
+              color="white"
+              class="fadeSelect"
+              @click="$emit('expand', 'full')"
+            >
               <v-icon>mdi-arrow-expand</v-icon>
             </v-btn>
           </v-col>
         </v-row>
       </div>
-      <div :class="$vuetify.breakpoint.mdAndUp ? 'box-outline px-2 py-1' : 'px-2'">
+      <div :class="$vuetify.display.mdAndUp ? 'box-outline px-2 py-1' : 'px-2'">
         <div v-if="showFull" class="flavor-text mb-2">{{ talent.Terse }}</div>
         <div v-else style="height: 30px" />
         <v-row align="center" justify="space-around" class="text-center" dense>
@@ -43,12 +56,20 @@
             :key="`rank-btn-${n}`"
           >
             <v-menu open-on-hover top offset-y open-delay="100">
-              <template v-slot:activator="{ on }">
-                <v-btn :block="$vuetify.breakpoint.smAndDown" tile :color="rankColor(n)" v-on="on">
+              <template v-slot:activator="{ props }">
+                <v-btn
+                  :block="$vuetify.display.smAndDown"
+                  tile
+                  :color="rankColor(n)"
+                  v-bind="props"
+                >
                   <v-icon v-if="!rank || (rank && parseInt(rank) >= n)" left>
-                    cci-rank-{{ n }}
+                    cc:rank-{{ n }}
                   </v-icon>
-                  <v-icon v-else-if="!rank || (rank && parseInt(rank) + 1 === n)" left>
+                  <v-icon
+                    v-else-if="!rank || (rank && parseInt(rank) + 1 === n)"
+                    left
+                  >
                     mdi-lock-open
                   </v-icon>
                   <v-icon v-else left>mdi-lock</v-icon>
@@ -58,14 +79,16 @@
               <v-card>
                 <v-toolbar flat dense tile color="pilot">
                   <span class="heading h3 white--text">
-                    <v-icon left large color="white">cci-rank-{{ n }}</v-icon>
+                    <v-icon start large color="white">cc:rank-{{ n }}</v-icon>
                     {{ talent.Rank(n).Name }}
                   </span>
                 </v-toolbar>
                 <v-card-text>
                   <talent-rank-contents
                     :talent-rank="talent.Rank(n)"
-                    :unlocked="!rank || parseInt(rank) >= (selectable ? n - 1 : n)"
+                    :unlocked="
+                      !rank || parseInt(rank) >= (selectable ? n - 1 : n)
+                    "
                   />
                 </v-card-text>
                 <v-divider v-if="selectable" />
@@ -78,25 +101,25 @@
                     :disabled="!canAdd"
                     @click="$emit('add')"
                   >
-                    <v-icon left>mdi-lock-open</v-icon>
+                    <v-icon start>mdi-lock-open</v-icon>
                     Unlock {{ talent.Rank(n).Name }}
                   </v-btn>
                   <v-btn v-else-if="n > parseInt(rank)" small disabled>
-                    <v-icon left>mdi-lock</v-icon>
+                    <v-icon start>mdi-lock</v-icon>
                     TALENT RANK LOCKED
                   </v-btn>
                   <v-btn
                     v-else-if="selectable && parseInt(rank) === n"
                     color="error"
-                    outlined
+                    variant="outlined"
                     class="fadeSelect"
                     @click="$emit('remove')"
                   >
-                    <v-icon left>mdi-close</v-icon>
+                    <v-icon start>mdi-close</v-icon>
                     Remove
                   </v-btn>
                   <div v-else class="text-center">
-                    <v-icon left>cci-rank-{{ n }}</v-icon>
+                    <v-icon start>cc:rank-{{ n }}</v-icon>
                     UNLOCKED
                   </div>
                 </v-card-actions>
@@ -121,11 +144,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import TalentEmblem from './_TalentEmblem.vue'
-import TalentRankContents from './_TalentRankContents.vue'
+import TalentEmblem from './_TalentEmblem.vue';
+import TalentRankContents from './_TalentRankContents.vue';
 
-export default Vue.extend({
+export default {
   name: 'talent-terse',
   components: { TalentEmblem, TalentRankContents },
   props: {
@@ -140,27 +162,27 @@ export default Vue.extend({
   }),
   computed: {
     showFull() {
-      if (this.hideLocked) return this.showAll
-      return true
+      if (this.hideLocked) return this.showAll;
+      return true;
     },
   },
   methods: {
     rankColor(n): string {
-      if (!this.rank) return 'primary'
-      const rank = parseInt(this.rank)
-      if (n <= rank) return 'primary'
-      if (this.selectable && n === rank + 1) return 'secondary'
-      return 'grey'
+      if (!this.rank) return 'primary';
+      const rank = parseInt(this.rank);
+      if (n <= rank) return 'primary';
+      if (this.selectable && n === rank + 1) return 'secondary';
+      return 'grey';
     },
   },
-})
+};
 </script>
 
 <style scoped>
 .box-outline {
   min-height: 95px;
-  border-bottom: 1px solid var(--v-primary-base);
-  border-right: 1px solid var(--v-primary-base);
+  border-bottom: 1px solid rgb(var(--v-theme-primary));
+  border-right: 1px solid rgb(var(--v-theme-primary));
   margin-left: -8px !important;
 }
 </style>

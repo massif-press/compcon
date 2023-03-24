@@ -10,12 +10,12 @@
 </template>
 
 <script lang="ts">
-import { RangeType, WeaponType, MechWeapon, WeaponSize } from '@/class'
-import { DamageType } from '@/classes/enums'
-import Vue from 'vue'
-import WeaponAttack from '../../components/_WeaponAttack.vue'
+import { RangeType, WeaponType, MechWeapon, WeaponSize } from '@/class';
+import { DamageType } from '@/classes/enums';
 
-export default Vue.extend({
+import WeaponAttack from '../../components/_WeaponAttack.vue';
+
+export default {
   name: 'improvised-attack-dialog',
   components: { WeaponAttack },
   props: {
@@ -67,7 +67,7 @@ export default Vue.extend({
             },
           ],
           effect: '',
-        })
+        });
       } else
         return new MechWeapon({
           id: 'improv_attack',
@@ -94,29 +94,29 @@ export default Vue.extend({
           sp: 0,
           tags: [],
           effect: '',
-        })
+        });
     },
   },
   watch: {
     used: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
+      handler: function (newval) {
         if (!this.$refs.main)
           Vue.nextTick().then(() => {
-            if (!newval) this.$refs.main.init()
-          })
-        else if (!newval) this.$refs.main.init()
+            if (!newval) (this.$refs.main as any).init();
+          });
+        else if (!newval) (this.$refs.main as any).init();
       },
     },
   },
   methods: {
     attackConfirm(atk: any) {
-      this.$emit('use', atk)
+      this.$emit('use', atk);
     },
     attackUndo() {
-      this.$emit('undo')
+      this.$emit('undo');
     },
   },
-})
+};
 </script>

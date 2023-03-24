@@ -14,24 +14,26 @@
     </h2>
     <div style="position: absolute; right: 16px; top: 16px">
       <cc-tooltip simple content="Feature In Development">
-        <v-btn small outlined disabled>Suggest Mech Skills</v-btn>
+        <v-btn small variant="outlined" disabled>Suggest Mech Skills</v-btn>
       </cc-tooltip>
     </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>
-        On acceptance of the MV-2//c Frame Configuration Update the Union IDENT//eng subsystem will
-        automatically update the frame configuration protocols stored in the Omninet Vault address
-        registered to your IDENT profile (V.node::/{{ pilot.ID }}). To ensure configuration data is
-        remitted to the correct address, any changes in Vault node data must be submitted to the
-        IDENT service using form RM-09-E IDENT Supplemental (e)
+        On acceptance of the MV-2//c Frame Configuration Update the Union
+        IDENT//eng subsystem will automatically update the frame configuration
+        protocols stored in the Omninet Vault address registered to your IDENT
+        profile (V.node::/{{ pilot.ID }}). To ensure configuration data is
+        remitted to the correct address, any changes in Vault node data must be
+        submitted to the IDENT service using form RM-09-E IDENT Supplemental (e)
       </span>
-      <v-alert color="accent" outlined dense border="left" class="mt-2">
+      <v-alert color="accent" variant="outlined" dense class="mt-2">
         <b>Improve a Mech Skill.</b>
         <br />
         <span class="overline">
-          Union and its representatives are not liable for problems arising from FRAME configuration
-          options that exceed manufacturer specifications. Consult the official FRAME datastore
-          provided by the manufacturer prior to implementing any nonstandard CORE configuration.
+          Union and its representatives are not liable for problems arising from
+          FRAME configuration options that exceed manufacturer specifications.
+          Consult the official FRAME datastore provided by the manufacturer
+          prior to implementing any nonstandard CORE configuration.
         </span>
       </v-alert>
     </v-container>
@@ -40,9 +42,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'mech-skills-page',
   props: {
     pilot: {
@@ -52,8 +52,8 @@ export default Vue.extend({
   },
   computed: {
     canContinue(): boolean {
-      return !this.pilot.MechSkillsController.IsMissingHASE
+      return !this.pilot.MechSkillsController.IsMissingHASE;
     },
   },
-})
+};
 </script>

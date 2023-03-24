@@ -3,15 +3,17 @@
     <v-row slot="top" no-gutters justify="space-between">
       <v-col cols="auto" class="heading h4" v-text="item.Name" />
     </v-row>
-    <div v-html-safe="item.Feature.EffectByTier(item.Tier)" class="pb-1 caption" />
+    <div
+      v-html-safe="item.Feature.EffectByTier(item.Tier)"
+      class="pb-1 caption"
+    />
   </print-card-base>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PrintCardBase from './_PrintCardBase.vue'
+import PrintCardBase from './_PrintCardBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-trait-print-card',
   components: { PrintCardBase },
   props: {
@@ -20,5 +22,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

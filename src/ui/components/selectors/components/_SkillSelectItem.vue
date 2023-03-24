@@ -4,29 +4,29 @@
       <cc-skill-item :bonus="bonus" :skill="skill" />
     </v-col>
     <v-col cols="auto">
-      <div :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto mr-auto' : ''">
+      <div :class="$vuetify.display.mdAndUp ? 'ml-auto mr-auto' : ''">
         <cc-tooltip simple content="Increase Skill Bonus" inline>
           <v-btn
-            :large="$vuetify.breakpoint.mdAndUp"
-            :small="$vuetify.breakpoint.smAndDown"
+            :large="$vuetify.display.mdAndUp"
+            :small="$vuetify.display.smAndDown"
             color="secondary"
             icon
             :disabled="!canAdd"
             @click="$emit('add')"
           >
-            <v-icon x-large>cci-accuracy</v-icon>
+            <v-icon x-large>cc:accuracy</v-icon>
           </v-btn>
         </cc-tooltip>
         <cc-tooltip simple content="Decrease Skill Bonus" inline>
           <v-btn
-            :large="$vuetify.breakpoint.mdAndUp"
-            :small="$vuetify.breakpoint.smAndDown"
+            :large="$vuetify.display.mdAndUp"
+            :small="$vuetify.display.smAndDown"
             color="error"
             icon
             :disabled="!canRemove"
             @click="$emit('remove')"
           >
-            <v-icon x-large>cci-difficulty</v-icon>
+            <v-icon x-large>cc:difficulty</v-icon>
           </v-btn>
         </cc-tooltip>
       </div>
@@ -35,9 +35,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'skill-select-item',
   props: {
     skill: {
@@ -58,5 +56,5 @@ export default Vue.extend({
       default: 0,
     },
   },
-})
+};
 </script>

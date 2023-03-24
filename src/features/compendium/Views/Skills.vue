@@ -2,27 +2,26 @@
   <sidebar-array-view
     title="PILOT SKILL TRIGGERS"
     :array="skills"
-    icon="cci-accuracy"
+    icon="cc:accuracy"
     name-key="Trigger"
     description-key="Detail"
   />
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SidebarArrayView from '../components/SidebarArrayView.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import SidebarArrayView from '../components/SidebarArrayView.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+
+export default {
   name: 'skills',
   components: { SidebarArrayView },
   data: () => ({
     skills: [],
   }),
   async created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.skills = await compendium.Skills.filter(x => x)
+    // const compendium =this.getModule(CompendiumStore);
+    // this.skills = await compendium.Skills.filter((x) => x);
   },
-})
+};
 </script>

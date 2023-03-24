@@ -10,8 +10,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'single-blank',
   props: {
     label: {
@@ -29,7 +28,7 @@ export default Vue.extend({
       default: false,
     },
   },
-})
+};
 </script>
 
 <style scoped>

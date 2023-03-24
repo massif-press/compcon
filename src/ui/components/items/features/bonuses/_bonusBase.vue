@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'bonus-base',
   props: {
     bonus: {
@@ -14,5 +13,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

@@ -15,15 +15,13 @@
 </template>
 
 <script lang="ts">
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import vueMixins from '@/util/vueMixins'
-import DowntimeMenuItem from './DowntimeMenuItem.vue'
+import DowntimeMenuItem from './DowntimeMenuItem.vue';
 
-export default vueMixins(activePilot).extend({
+export default {
   name: 'downtime-action-menu',
   components: { DowntimeMenuItem },
   props: {
     tab: { type: Number, required: true, default: 1 },
   },
-})
+};
 </script>

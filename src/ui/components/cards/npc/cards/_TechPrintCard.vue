@@ -10,7 +10,7 @@
       <v-col cols="auto" class="heading h4" v-text="item.Name" />
       <v-col cols="auto">
         <span class="heading h4">
-          <v-icon>cci-reticule</v-icon>
+          <v-icon>cc:reticule</v-icon>
           <span v-if="item.Feature.AttackBonus(item.Tier) > 0">+</span>
           {{ item.Feature.AttackBonus(item.Tier) }}
           ATK
@@ -19,12 +19,12 @@
       <v-col cols="auto">
         <span class="heading h4">
           <div v-if="item.Feature.Accuracy(item.Tier) > 0">
-            <v-icon>cci-accuracy</v-icon>
+            <v-icon>cc:accuracy</v-icon>
             +{{ item.Feature.Accuracy(item.Tier) }}
             ACC
           </div>
           <div v-else-if="item.Feature.Accuracy(item.Tier) < 0">
-            <v-icon>cci-difficulty</v-icon>
+            <v-icon>cc:difficulty</v-icon>
             +{{ Math.abs(item.Feature.Accuracy(item.Tier)) }}
             DIFF
           </div>
@@ -36,10 +36,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PrintCardBase from './_PrintCardBase.vue'
+import PrintCardBase from './_PrintCardBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-tech-print-card',
   components: { PrintCardBase },
   props: {
@@ -54,5 +53,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>

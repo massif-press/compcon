@@ -1,7 +1,12 @@
 <template>
   <div>
-    <v-icon :small="small" color="secondary" @click="open()">cci-orbit</v-icon>
-    <cc-solo-dialog ref="dialog" fullscreen no-confirm title="Select Pilot Background">
+    <v-icon :small="small" color="secondary" @click="open()">cc:orbit</v-icon>
+    <cc-solo-dialog
+      ref="dialog"
+      fullscreen
+      no-confirm
+      title="Select Pilot Background"
+    >
       <cc-sidebar-view>
         <v-list-item
           v-for="(e, i) in backgrounds"
@@ -17,13 +22,20 @@
             })
           "
         >
-          <v-list-item-title class="heading h3 ml-2">{{ e.Name }}</v-list-item-title>
+          <v-list-item-title class="heading h3 ml-2">{{
+            e.Name
+          }}</v-list-item-title>
         </v-list-item>
         <br />
-        <v-row v-for="(e, i) in backgrounds" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`" dense>
+        <v-row
+          v-for="(e, i) in backgrounds"
+          :id="`e_${e.ID}`"
+          :key="`${e.ID}_${i}`"
+          dense
+        >
           <v-col>
             <cc-titled-panel
-              icon="cci-orbit"
+              icon="cc:orbit"
               :title="e.Name"
               class="ma-3 ml-5"
               clickable
@@ -40,11 +52,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+export default {
   name: 'cc-background-selector',
   props: {
     small: {
@@ -57,13 +67,16 @@ export default Vue.extend({
   }),
   methods: {
     open() {
-      this.$refs.dialog.show()
-      this.backgrounds = getModule(CompendiumStore, this.$store).Backgrounds
+      (this.$refs.dialog as any).show();
+      this.backgrounds = this.getModule(
+        CompendiumStore,
+        this.$store
+      ).Backgrounds;
     },
     choose(background: string) {
-      this.$emit('select', background)
-      this.$refs.dialog.hide()
+      this.$emit('select', background);
+      (this.$refs.dialog as any).hide();
     },
   },
-})
+};
 </script>

@@ -9,15 +9,15 @@
         class="mb-2"
       >
         <v-btn :value="1">
-          <v-icon left>cci-rank-1</v-icon>
+          <v-icon start>cc:rank-1</v-icon>
           Tier 1
         </v-btn>
         <v-btn :value="2">
-          <v-icon left>cci-rank-2</v-icon>
+          <v-icon start>cc:rank-2</v-icon>
           Tier 2
         </v-btn>
         <v-btn :value="3">
-          <v-icon left>cci-rank-3</v-icon>
+          <v-icon start>cc:rank-3</v-icon>
           Tier 3
         </v-btn>
       </v-btn-toggle>
@@ -26,10 +26,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'npc-tier-selector',
   props: { item: { type: Object, required: true } },
-})
+};
 </script>

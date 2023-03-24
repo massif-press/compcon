@@ -18,20 +18,29 @@
     <v-row class="mx-3">
       <v-col>
         <v-subheader>
-          {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
+          {{ searchResults.length }} result{{
+            searchResults.length === 1 ? '' : 's'
+          }}
         </v-subheader>
         <v-slide-y-reverse-transition mode="out-in">
           <v-row :key="searchText" fill-height>
             <v-col v-for="(item, index) in searchResults" :key="index">
               <cc-titled-panel
-                :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
-                :icon="'cci-' + $_.kebabCase(item.ItemType)"
+                :title="
+                  (item.ItemType === 'Frame' ? `${item.Source} ` : '') +
+                  item.Name
+                "
+                :icon="'cc:' + $_.kebabCase(item.ItemType)"
                 :color="$_.kebabCase(item.ItemType)"
                 clickable
                 @click="$refs[`modal_${item.ID}`][0].show()"
               >
                 <span
-                  v-html-safe="item.Description || item.Effect || `${item.Source} ${item.ItemType}`"
+                  v-html-safe="
+                    item.Description ||
+                    item.Effect ||
+                    `${item.Source} ${item.ItemType}`
+                  "
                   class="item-description"
                 />
               </cc-titled-panel>
@@ -48,13 +57,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { CompendiumItem } from '@/class'
-import { accentInclude } from '@/classes/utility/accent_fold'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumItem } from '@/class';
+import { accentInclude } from '@/classes/utility/accent_fold';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+
+export default {
   name: 'search-results',
   data: () => ({
     searchText: '',
@@ -62,46 +70,50 @@ export default Vue.extend({
   }),
   computed: {
     validResults(): CompendiumItem[] {
-      const compendium = getModule(CompendiumStore, this.$store)
-
-      return this.$_.flatten(
-        this.$_.values(
-          this.$_.pick(compendium, ['Frames', 'MechSystems', 'MechWeapons', 'WeaponMods'])
-        )
-      )
+      // const compendium =this.getModule(CompendiumStore);
+      // return this.$_.flatten(
+      //   this.$_.values(
+      //     this.$_.pick(compendium, [
+      //       'Frames',
+      //       'MechSystems',
+      //       'MechWeapons',
+      //       'WeaponMods',
+      //     ])
+      //   )
+      // );
     },
     searchResults(): CompendiumItem[] {
       if (!this.searchText) {
-        return []
+        return [];
       }
       const results = this.validResults.filter(
-        r => !r.IsHidden && accentInclude(r.Name, this.searchText)
-      )
-      return results
+        (r) => !r.IsHidden && accentInclude(r.Name, this.searchText)
+      );
+      return results;
     },
   },
   mounted() {
-    this.searchText = this.$route.query.search as string
-    const input = this.$refs.input as HTMLInputElement
-    input.focus()
+    this.searchText = this.$route.query.search as string;
+    const input = this.$refs.input as HTMLInputElement;
+    input.focus();
   },
   methods: {
     setSearch(value: string) {
       if (value === this.searchText) {
-        return
+        return;
       }
-      this.searchText = value
-      this.$router.replace(`/compendium/search?search=${value}`)
+      this.searchText = value;
+      this.$router.replace(`/compendium/search?search=${value}`);
     },
     forceInput() {
-      this.setSearch((this.$refs.input as HTMLInputElement).value)
+      this.setSearch((this.$refs.input as HTMLInputElement as any).value);
     },
 
     onClick(item: CompendiumItem) {
-      alert(item.Name)
+      alert(item.Name);
     },
   },
-})
+};
 </script>
 
 <style scoped>

@@ -12,7 +12,7 @@
     </cc-title>
     <cc-solo-dialog
       ref="skillSelector"
-      icon="cci-skill"
+      icon="cc:skill"
       no-confirm
       title="Set Pilot Skill Triggers"
       fullscreen
@@ -20,7 +20,7 @@
       <cc-skill-selector :pilot="pilot" />
     </cc-solo-dialog>
     <v-row
-      :style="$vuetify.breakpoint.lgAndUp ? `width: calc(100vw - 250px)` : ''"
+      :style="$vuetify.display.lgAndUp ? `width: calc(100vw - 250px)` : ''"
       dense
       class="mt-2"
     >
@@ -29,7 +29,9 @@
         <div
           class="heading h1 secondary--text"
           :style="
-            $vuetify.breakpoint.lgAndUp ? 'font-size: 80px; line-height: 50px' : 'line-height: 30px'
+            $vuetify.display.lgAndUp
+              ? 'font-size: 80px; line-height: 50px'
+              : 'line-height: 30px'
           "
         >
           +{{ pilot.Grit }}
@@ -51,11 +53,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SectionEditChip from '../../components/SectionEditChip.vue'
-import NoDataBlock from '../../components/NoDataBlock.vue'
+import SectionEditChip from '../../components/SectionEditChip.vue';
+import NoDataBlock from '../../components/NoDataBlock.vue';
 
-export default Vue.extend({
+export default {
   name: 'skill-block',
   components: { SectionEditChip, NoDataBlock },
   props: {
@@ -64,5 +65,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

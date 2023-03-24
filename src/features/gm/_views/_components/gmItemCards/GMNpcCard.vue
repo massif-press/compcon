@@ -16,7 +16,9 @@
             <v-container v-if="item.NpcClassController.HasClass">
               <v-row dense justify="space-around">
                 <v-col cols="auto">
-                  <v-icon size="80" color="white">cci-size-{{ item.StatController.Size }}</v-icon>
+                  <v-icon size="80" color="white"
+                    >cc:size-{{ item.StatController.Size }}</v-icon
+                  >
                 </v-col>
               </v-row>
               <v-row dense justify="space-around">
@@ -32,27 +34,37 @@
                   v-show="item.StatController[e.val]"
                   cols="3"
                 >
-                  <v-icon style="opacity: 0.5" color="white">{{ e.text }}</v-icon>
+                  <v-icon style="opacity: 0.5" color="white">{{
+                    e.text
+                  }}</v-icon>
                   <b v-text="item.StatController[e.val]" />
                 </v-col>
               </v-row>
               <div v-show="big">
                 <v-divider dark class="my-2" />
-                <v-row dense justify="center" align="center" class="text-center">
+                <v-row
+                  dense
+                  justify="center"
+                  align="center"
+                  class="text-center"
+                >
                   <v-col>
                     <v-chip
                       v-for="(e, i) in item.Items"
                       :key="`npc_item_${i}`"
                       small
                       label
-                      outlined
+                      variant="outlined"
                       dark
                       v-text="e.Name"
                     />
                   </v-col>
                 </v-row>
                 <v-row v-if="item.Subtitle" justify="center" align="end">
-                  <v-col class="white--text flavor-text" v-text="item.Subtitle" />
+                  <v-col
+                    class="white--text flavor-text"
+                    v-text="item.Subtitle"
+                  />
                 </v-row>
               </div>
             </v-container>
@@ -68,7 +80,7 @@
           v-for="(t, i) in item.NpcTemplateController.Templates"
           :key="`${item.ID}_template_${i}`"
         >
-          <v-icon small>cci-npc-template</v-icon>
+          <v-icon small>cc:npc-template</v-icon>
           {{ t.Name }}
         </v-chip>
       </div>
@@ -82,7 +94,9 @@
           </b>
           <span v-if="item.Tag">{{ item.Tag }}</span>
         </div>
-        <div class="heading h2" :class="hover ? 'accent--text' : ''">{{ item.Name }}</div>
+        <div class="heading h2" :class="hover ? 'accent--text' : ''">
+          {{ item.Name }}
+        </div>
 
         <!-- <v-divider /> -->
         <!-- <v-chip
@@ -98,8 +112,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'gm-npc-card',
   props: {
     item: { type: Object, required: true },
@@ -113,18 +126,18 @@ export default Vue.extend({
       { text: 'E', val: 'Eng' },
     ],
     stats: [
-      { text: 'cci-structure', val: 'MaxStructure' },
+      { text: 'cc:structure', val: 'MaxStructure' },
       { text: 'mdi-shield', val: 'Armor' },
       { text: 'mdi-heart', val: 'MaxHP' },
-      { text: 'cci-reactor', val: 'Stress' },
-      { text: 'cci-heat', val: 'HeatCapacity' },
+      { text: 'cc:reactor', val: 'Stress' },
+      { text: 'cc:heat', val: 'HeatCapacity' },
       { text: 'mdi-arrow-right-bold-hexagon-outline', val: 'Speed' },
-      { text: 'cci-save', val: 'SaveTarget' },
-      { text: 'cci-evasion', val: 'Evasion' },
-      { text: 'cci-edef', val: 'EDefense' },
-      { text: 'cci-sensor', val: 'SensorRange' },
-      { text: 'cci-activate', val: 'Activations' },
+      { text: 'cc:save', val: 'SaveTarget' },
+      { text: 'cc:evasion', val: 'Evasion' },
+      { text: 'cc:edef', val: 'EDefense' },
+      { text: 'cc:sensor', val: 'SensorRange' },
+      { text: 'cc:activate', val: 'Activations' },
     ],
   }),
-})
+};
 </script>

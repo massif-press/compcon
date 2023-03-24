@@ -7,14 +7,12 @@
 </template>
 
 <script lang="ts">
-import PilotBlock from '../layout/PilotBlock.vue'
-import MechBlock from '../layout/MechBlock.vue'
-import DeployedBlock from '../layout/DeployedBlock.vue'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import vueMixins from '@/util/vueMixins'
+import PilotBlock from '../layout/PilotBlock.vue';
+import MechBlock from '../layout/MechBlock.vue';
+import DeployedBlock from '../layout/DeployedBlock.vue';
 
-export default vueMixins(activePilot).extend({
+export default {
   name: 'active-combat',
   components: { PilotBlock, MechBlock, DeployedBlock },
-})
+};
 </script>

@@ -1,5 +1,11 @@
 <template>
-  <cc-solo-dialog ref="dialog" icon="mdi-printer" large no-confirm title="Print Character Sheets">
+  <cc-solo-dialog
+    ref="dialog"
+    icon="mdi-printer"
+    large
+    no-confirm
+    title="Print Character Sheets"
+  >
     <v-card-text>
       <v-select
         v-model="selectedMechID"
@@ -7,18 +13,28 @@
         item-text="Name"
         item-value="ID"
         label="Include Mech (optional)"
-        outlined
+        variant="outlined"
         clearable
       />
 
-      <v-btn class="my-2" color="primary" large block tile @click="print()">Print</v-btn>
-      <v-btn class="my-2" small color="accent" outlined block tile @click="printBlank()">
+      <v-btn class="my-2" color="primary" large block tile @click="print()"
+        >Print</v-btn
+      >
+      <v-btn
+        class="my-2"
+        small
+        color="accent"
+        variant="outlined"
+        block
+        tile
+        @click="printBlank()"
+      >
         Print Blank Character Sheets
       </v-btn>
       <cc-tooltip simple content="Feature In Development">
         <v-btn class="my-2" small text block tile disabled>
           Print Character Campaign Portfolio
-          <v-icon right small>mdi-information-outline</v-icon>
+          <v-icon end small>mdi-information-outline</v-icon>
         </v-btn>
       </cc-tooltip>
     </v-card-text>
@@ -26,9 +42,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'print-dialog',
   props: {
     pilot: {
@@ -40,35 +54,35 @@ export default Vue.extend({
     selectedMechID: null,
   }),
   created() {
-    if (this.pilot.ActiveMech) this.selectedMechID = this.pilot.ActiveMech.ID
+    if (this.pilot.ActiveMech) this.selectedMechID = this.pilot.ActiveMech.ID;
   },
   methods: {
     show() {
-      this.$refs.dialog.show()
+      (this.$refs.dialog as any).show();
     },
     hide() {
-      this.$refs.dialog.hide()
+      (this.$refs.dialog as any).hide();
     },
     print() {
-      this.$router.push(`/print/${this.pilot.ID}/${this.selectedMechID}`)
+      this.$router.push(`/print/${this.pilot.ID}/${this.selectedMechID}`);
     },
     printBlank() {
-      this.$router.push(`/print/blank/blank`)
+      this.$router.push(`/print/blank/blank`);
     },
   },
-})
+};
 </script>
 
 <style scoped>
 fieldset {
-  border-color: var(--v-primary-base);
+  border-color: rgb(var(--v-theme-primary));
   border-radius: 2px;
   margin-bottom: 12px;
   padding: 4px;
 }
 
 legend {
-  background-color: var(--v-primary-base);
+  background-color: rgb(var(--v-theme-primary));
   color: #fff;
   padding: 3px 6px;
 }

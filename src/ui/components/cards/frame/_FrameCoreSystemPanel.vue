@@ -5,16 +5,22 @@
     <p v-html-safe="cs.Description" class="flavor-text px-3" />
 
     <div v-if="cs.PassiveName">
-      <span class="heading sub">PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span>
+      <span class="heading sub"
+        >PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span
+      >
       <div class="light-panel pa-2 clipped mb-2 mx-3">
-        <p v-if="cs.PassiveEffect" v-html-safe="cs.PassiveEffect" class="body-text mb-1 px-3" />
+        <p
+          v-if="cs.PassiveEffect"
+          v-html-safe="cs.PassiveEffect"
+          class="body-text mb-1 px-3"
+        />
         <v-row no-gutters justify="center">
           <v-col cols="auto">
             <cc-action
               v-for="(a, i) in cs.PassiveActions"
               :key="`${cs.Name}_action_${i}`"
               :action="a"
-              :panel="$vuetify.breakpoint.lgAndUp"
+              :panel="$vuetify.display.lgAndUp"
             />
           </v-col>
         </v-row>
@@ -23,7 +29,9 @@
 
     <v-row no-gutters>
       <v-col cols="auto">
-        <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
+        <span class="heading sub"
+          >ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span
+        >
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <!-- <v-chip
@@ -32,11 +40,15 @@
           "
           small
           label
-          outlined
-        >
+          variant="outlined"         >
           {{ cs.Duration.toUpperCase() }}
         </v-chip> -->
-        <v-chip small label dark :color="`action--${cs.Activation.toLowerCase()}`">
+        <v-chip
+          small
+          label
+          dark
+          :color="`action--${cs.Activation.toLowerCase()}`"
+        >
           {{ cs.Activation.toUpperCase() }}
         </v-chip>
       </v-col>
@@ -47,12 +59,15 @@
         v-for="(a, i) in cs.ActiveActions"
         :key="`${cs.Name}_action_${i}`"
         :action="a"
-        :panel="$vuetify.breakpoint.lgAndUp"
+        :panel="$vuetify.display.lgAndUp"
         class="ma-2"
       />
     </div>
 
-    <span v-if="cs.IntegratedEquipment.length || cs.Deployables.length" class="heading sub">
+    <span
+      v-if="cs.IntegratedEquipment.length || cs.Deployables.length"
+      class="heading sub"
+    >
       CORE INTEGRATED EQUIPMENT
     </span>
     <v-row v-if="cs.IntegratedEquipment.length" no-gutters justify="center">
@@ -61,13 +76,21 @@
         :key="`${cs.Name}_integrated_${i}`"
         cols="auto"
       >
-        <cc-integrated-info :item="x" :panel="$vuetify.breakpoint.lgAndUp" />
+        <cc-integrated-info :item="x" :panel="$vuetify.display.lgAndUp" />
       </v-col>
     </v-row>
 
     <v-row v-if="cs.Deployables.length" no-gutters justify="center">
-      <v-col v-for="(d, i) in cs.Deployables" :key="`${cs.Name}_deployable_${i}`" cols="auto">
-        <cc-deployable-info :deployable="d" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+      <v-col
+        v-for="(d, i) in cs.Deployables"
+        :key="`${cs.Name}_deployable_${i}`"
+        cols="auto"
+      >
+        <cc-deployable-info
+          :deployable="d"
+          :panel="$vuetify.display.lgAndUp"
+          class="ma-2"
+        />
       </v-col>
     </v-row>
 
@@ -76,9 +99,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'frame-core-system-panel',
   props: {
     cs: {
@@ -86,5 +107,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

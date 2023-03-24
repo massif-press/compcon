@@ -1,5 +1,10 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover" @equip="$emit('equip', $event)">
+  <c-card-base
+    :item="item"
+    :small="small"
+    :hover="hover"
+    @equip="$emit('equip', $event)"
+  >
     <v-row slot="top" no-gutters justify="space-around" align="center">
       <v-col v-if="item.Damage && item.Damage[0]" cols="auto">
         <cc-damage-element :damage="item.Damage" />
@@ -13,9 +18,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CCardBase from './_cCardBase.vue'
-export default Vue.extend({
+import CCardBase from './_cCardBase.vue';
+export default {
   name: 'weapon-card-content',
   components: { CCardBase },
   props: {
@@ -23,5 +27,5 @@ export default Vue.extend({
     small: { type: Boolean },
     hover: { type: Boolean },
   },
-})
+};
 </script>

@@ -1,8 +1,10 @@
 <template>
   <div class="d-inline-block">
     <v-menu offset-x left>
-      <template v-slot:activator="{ on }">
-        <v-icon icon dark class="fadeSelect mt-n1" v-on="on">mdi-cog</v-icon>
+      <template v-slot:activator="{ props }">
+        <v-icon icon dark class="fadeSelect mt-n1" v-bind="props"
+          >mdi-cog</v-icon
+        >
       </template>
       <v-list dense>
         <v-list-item :disabled="item.Tier === 3" @click="upgradeTier()">
@@ -44,7 +46,9 @@
               <v-icon color="error">mdi-delete</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title>Remove {{ item.Feature.FeatureType }}</v-list-item-title>
+              <v-list-item-title
+                >Remove {{ item.Feature.FeatureType }}</v-list-item-title
+              >
             </v-list-item-content>
           </v-list-item>
         </div>
@@ -68,24 +72,23 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'npc-item-menu',
   props: {
     item: { type: Object, required: true },
   },
   methods: {
     upgradeTier() {
-      this.item.Tier++
-      this.$emit('recalc')
+      this.item.Tier++;
+      this.$emit('recalc');
     },
     downgradeTier() {
-      this.item.Tier--
-      this.$emit('recalc')
+      this.item.Tier--;
+      this.$emit('recalc');
     },
     save(prop, newName) {
-      this.$set(this.item, prop, newName)
+      this.$set(this.item, prop, newName);
     },
   },
-})
+};
 </script>

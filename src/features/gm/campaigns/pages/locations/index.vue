@@ -16,11 +16,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import GmCollectionView from '../../../_views/GMCollectionView.vue'
-import Editor from './editor.vue'
+import GmCollectionView from '../../../_views/GMCollectionView.vue';
+import Editor from './editor.vue';
 
-export default Vue.extend({
+export default {
   name: 'locations-roster',
   components: { GmCollectionView, Editor },
   props: {
@@ -32,19 +31,19 @@ export default Vue.extend({
   }),
   computed: {
     location() {
-      if (!this.id) return null
-      return this.item.Locations.find(x => x.ID === this.id)
+      if (!this.id) return null;
+      return this.item.Locations.find((x) => x.ID === this.id);
     },
   },
   methods: {
     openItem(id) {
-      this.id = id
-      this.dialog = true
+      this.id = id;
+      this.dialog = true;
     },
     saveAndClose() {
-      console.error('Save not implemented!!')
-      this.dialog = false
+      console.error('Save not implemented!!');
+      this.dialog = false;
     },
   },
-})
+};
 </script>

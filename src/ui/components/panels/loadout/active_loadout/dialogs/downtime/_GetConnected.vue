@@ -19,7 +19,7 @@
             v-model="skillRoll"
             type="number"
             label="Roll Result"
-            outlined
+            variant="outlined"
             dense
             hide-details
             append-outer-icon="mdi-plus-circle-outline"
@@ -30,7 +30,12 @@
         </v-col>
       </v-row>
       <v-slide-y-transition>
-        <v-row v-show="skillRoll" dense justify="center" class="text-center flavor-text">
+        <v-row
+          v-show="skillRoll"
+          dense
+          justify="center"
+          class="text-center flavor-text"
+        >
           <v-col cols="10">
             <p
               v-if="skillRoll < 10"
@@ -66,11 +71,16 @@
                   <v-text-field
                     v-model="custom_name"
                     label="Contact or Organization Name"
-                    outlined
+                    variant="outlined"
                     dense
                     hide-details
                   />
-                  <v-textarea v-model="details" auto-grow rows="1" label="Details" />
+                  <v-textarea
+                    v-model="details"
+                    auto-grow
+                    rows="1"
+                    label="Details"
+                  />
                 </v-card-text>
               </v-card>
             </v-col>
@@ -82,7 +92,13 @@
     <v-card-actions>
       <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
-      <v-btn large tile color="primary" :disabled="!skillRoll || !custom_name" @click="addReserve">
+      <v-btn
+        large
+        tile
+        color="primary"
+        :disabled="!skillRoll || !custom_name"
+        @click="addReserve"
+      >
         add reserve
       </v-btn>
     </v-card-actions>
@@ -90,9 +106,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Reserve } from '@/class'
-export default Vue.extend({
+import { Reserve } from '@/class';
+export default {
   name: 'get-connected',
   props: {
     pilot: {
@@ -118,21 +133,22 @@ export default Vue.extend({
         resource_cost: '',
         used: false,
         consumable: true,
-      })
+      });
       if (this.skillRoll < 10)
         nr.ResourceCost =
-          'You’ve got to do a favor or make good on a promise for your connection right away'
+          'You’ve got to do a favor or make good on a promise for your connection right away';
       else if (this.skillRoll < 20)
-        nr.ResourceCost = 'You’ve got to do a favor or make good on a promise after they help you'
-      this.pilot.ReservesController.AddReserve(nr)
-      this.close()
+        nr.ResourceCost =
+          'You’ve got to do a favor or make good on a promise after they help you';
+      this.pilot.ReservesController.AddReserve(nr);
+      this.close();
     },
     close() {
-      this.skillRoll = ''
-      this.custom_name = ''
-      this.details = ''
-      this.$emit('close')
+      this.skillRoll = '';
+      this.custom_name = '';
+      this.details = '';
+      this.$emit('close');
     },
   },
-})
+};
 </script>

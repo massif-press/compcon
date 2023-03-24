@@ -1,9 +1,15 @@
 <template>
   <v-expansion-panel class="border-highlight">
-    <v-expansion-panel-header id="hover-parent" style="height:65px;" hide-actions>
-      <v-row style="position:absolute; z-index: 10" class="py-2">
+    <v-expansion-panel-header
+      id="hover-parent"
+      style="height: 65px"
+      hide-actions
+    >
+      <v-row style="position: absolute; z-index: 10" class="py-2">
         <v-col cols="1" class="ml-n3 mr-4">
-          <v-icon v-if="rank" size="50" color="accent" class="d-inline">cci-rank-{{ rank }}</v-icon>
+          <v-icon v-if="rank" size="50" color="accent" class="d-inline"
+            >cc:rank-{{ rank }}</v-icon
+          >
           <cc-logo
             v-else
             size="xLarge"
@@ -14,13 +20,15 @@
         </v-col>
         <v-col class="ml-2">
           <div class="caption">{{ frame(license.FrameID).Source }}</div>
-          <span class="heading h2 font-weight-bold pop">{{ license.Name }}</span>
+          <span class="heading h2 font-weight-bold pop">{{
+            license.Name
+          }}</span>
           <v-chip
             v-for="f in frame(license.FrameID).Mechtype"
             :key="f"
             small
             dark
-            outlined
+            variant="outlined"
             color="accent"
             class="mr-2 pop"
           >
@@ -33,23 +41,25 @@
         :src="frame(license.FrameID).DefaultImage"
         max-height="100%"
         :position="`top ${frame(license.FrameID).YPosition}% left 100px`"
-        style="position:absolute; top: 0; right: 0; z-index: 9"
+        style="position: absolute; top: 0; right: 0; z-index: 9"
       />
     </v-expansion-panel-header>
     <v-expansion-panel-content color="panel">
       <v-alert
         v-if="!!prereq(license)"
-        outlined
+        variant="outlined"
         dense
         class="text-center mx-10 mt-2 mb-n1"
         color="warning"
       >
         <div v-if="prereq(license).cumulative">
-          This License requires at least {{ prereq(license).min_rank }} cumulative Ranks of
+          This License requires at least
+          {{ prereq(license).min_rank }} cumulative Ranks of
           {{ prereq(license).source }} licenses
         </div>
         <div v-else>
-          This License requires at least one other {{ prereq(license).source }} License at Rank
+          This License requires at least one other
+          {{ prereq(license).source }} License at Rank
           {{ prereq(license).min_rank }} or above
         </div>
       </v-alert>
@@ -57,15 +67,21 @@
       <v-btn
         v-if="rank < license.Unlocks.length && isSelectable"
         block
-        outlined
+        variant="outlined"
         color="secondary"
         @click="$emit('add')"
       >
-        <v-icon left>cci-accuracy</v-icon>
+        <v-icon start>cc:accuracy</v-icon>
         Unlock {{ license.Name }} {{ 'I'.repeat(rank + 1) }}
       </v-btn>
-      <v-btn v-if="rank" block outlined color="error" @click="$emit('remove')">
-        <v-icon left>cci-difficulty</v-icon>
+      <v-btn
+        v-if="rank"
+        block
+        variant="outlined"
+        color="error"
+        @click="$emit('remove')"
+      >
+        <v-icon start>cc:difficulty</v-icon>
         Remove {{ license.Name }} {{ 'I'.repeat(rank) }}
       </v-btn>
     </v-expansion-panel-content>
@@ -73,12 +89,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { License } from '@/class'
+import { CompendiumStore } from '@/store';
+import { License } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'license-select-item',
   props: {
     license: {
@@ -96,14 +110,14 @@ export default Vue.extend({
   },
   methods: {
     frame(id: string) {
-      const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.referenceByID('Frames', id)
+      const compendium = this.getModule(CompendiumStore);
+      return compendium.referenceByID('Frames', id);
     },
     prereq(l: License) {
-      return l.Prerequisite
+      return l.Prerequisite;
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -121,7 +135,7 @@ export default Vue.extend({
 }
 
 .pop {
-  text-shadow: -1px -1px 0 var(--v-anti-base), 1px -1px 0 var(--v-anti-base),
-    -1px 1px 0 var(--v-anti-base), 1px 1px 0 var(--v-anti-base);
+  text-shadow: -1px -1px 0 rgb(var(--v-theme-anti), 1px -1px 0 var(--v-anti)),
+    -1px 1px 0 rgb(var(--v-theme-anti), 1px 1px 0 var(--v-anti));
 }
 </style>

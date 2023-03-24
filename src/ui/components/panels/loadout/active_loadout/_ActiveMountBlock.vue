@@ -4,7 +4,11 @@
       <legend :style="`color: ${color}`" class="heading h3">
         {{ mount.Name }}
       </legend>
-      <cb-card v-for="b in mount.Bonuses" :key="`${mount.ID}_bonus-${b.ID}`" :bonus="b" />
+      <cb-card
+        v-for="b in mount.Bonuses"
+        :key="`${mount.ID}_bonus-${b.ID}`"
+        :bonus="b"
+      />
       <sh-lock-card v-if="mount.IsLocked" />
       <v-row v-else no-gutters align="center">
         <v-col cols="12" md="">
@@ -23,12 +27,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActiveWeaponCard from './_ActiveWeaponCard.vue'
-import CbCard from '../mech_loadout/components/mount/_CbCard.vue'
-import ShLockCard from '../mech_loadout/components/mount/_ShLockCard.vue'
+import ActiveWeaponCard from './_ActiveWeaponCard.vue';
+import CbCard from '../mech_loadout/components/mount/_CbCard.vue';
+import ShLockCard from '../mech_loadout/components/mount/_ShLockCard.vue';
 
-export default Vue.extend({
+export default {
   name: 'mount-block',
   components: { ActiveWeaponCard, CbCard, ShLockCard },
   props: {
@@ -49,12 +52,12 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>
 
 <style scoped>
 fieldset {
-  border-color: var(--v-subtle-base);
+  border-color: rgb(var(--v-theme-subtle));
   border-radius: 5px;
   /* margin-bottom: 12px; */
   padding-left: 4px;

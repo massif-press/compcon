@@ -13,9 +13,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CCardBase from './_cCardBase.vue'
-export default Vue.extend({
+import CCardBase from './_cCardBase.vue';
+export default {
   name: 'weapon-card-content',
   components: { CCardBase },
   props: {
@@ -23,5 +22,5 @@ export default Vue.extend({
     small: { type: Boolean },
     hover: { type: Boolean },
   },
-})
+};
 </script>

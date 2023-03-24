@@ -18,53 +18,48 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { getModule } from 'vuex-module-decorators'
-import { NavStore } from '@/store'
-import uuid from 'uuid/v4'
+import { NavStore } from '@/store';
+import { v4 as uuid } from 'uuid';
 
-import NotificationSnackbar from './NotificationSnackbar.vue'
-import { INotification } from '@/interface'
+import NotificationSnackbar from './NotificationSnackbar.vue';
+import { INotification } from '@/interface';
 
-@Component({
+export default {
+  name: 'GlobalNotifier',
   components: { NotificationSnackbar },
-})
-export default class GlobalNotifier extends Vue {
-  // TODO: move this to the store
-  public notifications: INotification[] = []
+  data: () => ({
+    notifications: [] as INotification[],
+    shownNotifications: [] as INotification[],
+  }),
+  methods: {
+    notify(text: string, variant: string, onClick?: () => void): void {
+      const notification = { id: uuid(), variant, text, onClick };
 
-  // notifications currently being shown to the user
-  private shownNotifications: INotification[] = []
-
-  // public method to create a notification, will be assigned to the global Vue when app starts
-  public notify(text: string, variant: string, onClick?: () => void): void {
-    const notification = { id: uuid(), variant, text, onClick }
-
-    this.notifications = [...this.notifications, notification]
-    this.shownNotifications = [...this.shownNotifications, notification]
-    this.$forceUpdate()
-  }
-
-  public notifyError(error: Error): void {
-    if (!error || !error.message) return
-    console.error(error.message)
-    const vm = this
-    const store = (this as any).$store
-    const nm = getModule(NavStore, store)
-    nm.logError({
-      time: new Date(),
-      message: error.message,
-      component: vm?.$options?.name ?? undefined,
-      stack: error.stack,
-    })
-    this.notify(error.message, 'error')
-  }
-
-  private hideNotification(id: string): void {
-    this.shownNotifications = this.shownNotifications.filter(notif => notif.id !== id)
-  }
-}
+      this.notifications = [...this.notifications, notification];
+      this.shownNotifications = [...this.shownNotifications, notification];
+      this.$forceUpdate();
+    },
+    notifyError(error: Error): void {
+      if (!error || !error.message) return;
+      console.error(error.message);
+      const vm = this;
+      const store = (this as any).$store;
+      const nm = this.getModule(NavStore, store);
+      nm.logError({
+        time: new Date(),
+        message: error.message,
+        component: vm?.$options?.name ?? undefined,
+        stack: error.stack,
+      });
+      this.notify(error.message, 'error');
+    },
+    hideNotification(id: string): void {
+      this.shownNotifications = this.shownNotifications.filter(
+        (notif) => notif.id !== id
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>

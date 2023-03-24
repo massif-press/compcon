@@ -20,17 +20,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { NpcStore, CharacterStore, LocationStore, FactionStore } from '@/store'
-import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue'
-import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue'
-import FactionPrintContent from '../factions/_components/FactionPrintContent.vue'
-import LocationPrintContent from '../locations/_components/LocationPrintContent.vue'
+import { NpcStore, CharacterStore, LocationStore, FactionStore } from '@/store';
+import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue';
+import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue';
+import FactionPrintContent from '../factions/_components/FactionPrintContent.vue';
+import LocationPrintContent from '../locations/_components/LocationPrintContent.vue';
 
-export default Vue.extend({
+export default {
   name: 'item-print-wrapper',
-  components: { NpcPrintContent, CharacterPrintContent, FactionPrintContent, LocationPrintContent },
+  components: {
+    NpcPrintContent,
+    CharacterPrintContent,
+    FactionPrintContent,
+    LocationPrintContent,
+  },
   props: {
     type: { type: String, required: true },
     id: { type: String, required: true },
@@ -40,44 +43,50 @@ export default Vue.extend({
   }),
   computed: {
     item() {
-      if (!this.id) return null
+      if (!this.id) return null;
       switch (this.type.toLowerCase()) {
         case 'character':
-          return getModule(CharacterStore, this.$store).Characters.find(x => x.ID === this.id)
+          return this.getModule(CharacterStore).Characters.find(
+            (x) => x.ID === this.id
+          );
         case 'location':
-          return getModule(LocationStore, this.$store).Locations.find(x => x.ID === this.id)
+          return this.getModule(LocationStore).Locations.find(
+            (x) => x.ID === this.id
+          );
         case 'faction':
-          return getModule(FactionStore, this.$store).Factions.find(x => x.ID === this.id)
+          return this.getModule(FactionStore).Factions.find(
+            (x) => x.ID === this.id
+          );
         default:
-          return getModule(NpcStore, this.$store).Npcs.find(x => x.ID === this.id)
+          return this.getModule(NpcStore).Npcs.find((x) => x.ID === this.id);
       }
     },
     component() {
-      if (!this.item) return null
+      if (!this.item) return null;
       switch (this.type.toLowerCase()) {
         case 'character':
-          return CharacterPrintContent
+          return CharacterPrintContent;
         case 'location':
-          return LocationPrintContent
+          return LocationPrintContent;
         case 'faction':
-          return FactionPrintContent
+          return FactionPrintContent;
         default:
-          return NpcPrintContent
+          return NpcPrintContent;
       }
     },
     options() {
       return {
         margin: [1, 10],
         filename: `${this.item.Name}.pdf`,
-      }
+      };
     },
   },
   methods: {
     print() {
-      window.print()
+      window.print();
     },
   },
-})
+};
 </script>
 
 <style scoped>

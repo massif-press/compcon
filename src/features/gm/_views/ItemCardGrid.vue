@@ -12,14 +12,21 @@
     <div v-else>
       <v-row v-for="(group, i) in groupings" :key="`${group}_${i}`" dense>
         <v-col cols="12">
-          <div class="primary white--text heading h3 pa-1 pl-2">{{ group }}</div>
+          <div class="primary white--text heading h3 pa-1 pl-2">
+            {{ group }}
+          </div>
         </v-col>
         <v-col
           v-for="(item, j) in groupedItems(group)"
           :key="`grid_item_${j}`"
           :cols="list ? 12 : big ? 3 : 2"
         >
-          <item-card :item="item" :big="big" :list="list" @open="$emit('open', $event)" />
+          <item-card
+            :item="item"
+            :big="big"
+            :list="list"
+            @open="$emit('open', $event)"
+          />
         </v-col>
       </v-row>
     </div>
@@ -27,12 +34,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ItemCard from './_components/GMItemCard.vue'
-import GmItemTable from './GMItemTable.vue'
-import _ from 'lodash'
+import ItemCard from './_components/GMItemCard.vue';
+import GmItemTable from './GMItemTable.vue';
+import _ from 'lodash';
 
-export default Vue.extend({
+export default {
   name: 'item-card-grid',
   components: { ItemCard, GmItemTable },
   props: {
@@ -47,15 +53,17 @@ export default Vue.extend({
   },
   computed: {
     groupings() {
-      if (this.grouping === 'None') return [`All`]
-      return _.uniq(this.items.flatMap(x => x[this.grouping]))
+      if (this.grouping === 'None') return [`All`];
+      return _.uniq(this.items.flatMap((x) => x[this.grouping]));
     },
   },
   methods: {
     groupedItems(group) {
-      if (this.grouping === 'None') return this.items
-      return this.items.filter(x => x[this.grouping].some(y => y === group))
+      if (this.grouping === 'None') return this.items;
+      return this.items.filter((x) =>
+        x[this.grouping].some((y) => y === group)
+      );
     },
   },
-})
+};
 </script>

@@ -20,12 +20,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { NpcStore } from '@/store'
-import NpcPrintContent from './_components/NpcPrintContent.vue'
+import { NpcStore } from '@/store';
+import NpcPrintContent from './_components/NpcPrintContent.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-print-base',
   components: { NpcPrintContent },
   props: {
@@ -36,21 +34,23 @@ export default Vue.extend({
   }),
   methods: {
     print() {
-      window.print()
+      window.print();
     },
   },
   computed: {
     npc() {
-      return getModule(NpcStore, this.$store).Npcs.find(x => x.ID === this.id)
+      return this.getModule(NpcStore).Npcs.find(
+      //   (x) => x.ID === this.id
+      // );
     },
     options() {
       return {
         margin: [1, 10],
         filename: `${this.npc.Name}.pdf`,
-      }
+      };
     },
   },
-})
+};
 </script>
 
 <style scoped>

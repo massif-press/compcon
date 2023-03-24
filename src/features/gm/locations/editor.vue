@@ -20,13 +20,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditorBase from '../_components/EditorBase.vue'
-import { getModule } from 'vuex-module-decorators'
-import { LocationStore } from '@/store'
-import { Location } from '@/classes/campaign/Location'
+import EditorBase from '../_components/EditorBase.vue';
 
-export default Vue.extend({
+import { LocationStore } from '@/store';
+import { Location } from '@/classes/campaign/Location';
+
+export default {
   name: 'location-editor',
   components: { EditorBase },
   props: {
@@ -38,39 +37,41 @@ export default Vue.extend({
   computed: {
     location() {
       if (this.id === 'new') {
-        if (!this.newLocation) this.newLocation = new Location()
-        return this.newLocation
+        if (!this.newLocation) this.newLocation = new Location();
+        return this.newLocation;
       }
-      return getModule(LocationStore, this.$store).Locations.find(x => x.ID === this.id)
+      return this.getModule(LocationStore).Locations.find(
+        (x) => x.ID === this.id
+      );
     },
   },
   methods: {
     exit() {
-      this.$set(this, 'newLocation', null)
-      this.$emit('exit')
+      this.$set(this, 'newLocation', null);
+      this.$emit('exit');
     },
     saveAsNew() {
-      const store = getModule(LocationStore, this.$store)
-      store.addLocation(this.location)
-      this.exit()
+      const store = this.getModule(LocationStore);
+      store.addLocation(this.location);
+      this.exit();
     },
     save() {
-      const store = getModule(LocationStore, this.$store)
+      const store = this.getModule(LocationStore);
       // TODO: check for and ask to update instances on save
-      store.saveLocationData()
-      this.$emit('exit')
+      store.saveLocationData();
+      this.$emit('exit');
     },
     deleteItem() {
-      this.location.SaveController.delete()
-      this.$emit('exit')
+      this.location.SaveController.delete();
+      this.$emit('exit');
     },
     dupe() {
-      const store = getModule(LocationStore, this.$store)
-      const dupe = Location.Deserialize(Location.Serialize(this.location))
-      dupe.RenewID()
-      store.addLocation(dupe)
-      this.$emit('exit')
+      const store = this.getModule(LocationStore);
+      const dupe = Location.Deserialize(Location.Serialize(this.location));
+      dupe.RenewID();
+      store.addLocation(dupe);
+      this.$emit('exit');
     },
   },
-})
+};
 </script>

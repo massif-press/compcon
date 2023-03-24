@@ -11,12 +11,12 @@
       <div class="ml-3">
         <div v-if="a.Init" v-html-safe="a.Init" class="caption" />
         <div v-if="a.Trigger">
-          <div class=" overline my-n2">Trigger</div>
-          <div v-html-safe="a.Trigger" class="caption " />
+          <div class="overline my-n2">Trigger</div>
+          <div v-html-safe="a.Trigger" class="caption" />
         </div>
         <div v-if="a.Detail">
           <div class="overline my-n2">Effect</div>
-          <div v-html-safe="a.Detail" class="caption " />
+          <div v-html-safe="a.Detail" class="caption" />
         </div>
       </div>
     </div>
@@ -24,8 +24,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'print-action',
   props: {
     actions: {
@@ -33,5 +32,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

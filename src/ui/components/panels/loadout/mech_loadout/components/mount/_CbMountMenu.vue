@@ -1,19 +1,22 @@
 <template>
   <v-menu top>
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ props }">
       <div v-if="visible" style="position: relative">
         <div class="side-legend">
-          <v-btn small outlined :color="color" v-on="on">
-            <v-icon :left="!hasEffect">cci-corebonus</v-icon>
+          <v-btn small variant="outlined" :color="color" v-bind="props">
+            <v-icon :left="!hasEffect">cc:corebonus</v-icon>
             <span v-if="!hasEffect">Core Bonus Available</span>
           </v-btn>
         </div>
       </div>
     </template>
-    <v-card outlined elevation="10">
-      <v-card-title :style="`background-color: ${color}; height: 32px`" class="white--text">
+    <v-card variant="outlined" elevation="10">
+      <v-card-title
+        :style="`background-color: ${color}; height: 32px`"
+        class="white--text"
+      >
         <div class="mt-n4">
-          <v-icon large left dark class="mt-n2">cci-corebonus</v-icon>
+          <v-icon large left dark class="mt-n2">cc:corebonus</v-icon>
           <span class="heading h2">Mount CORE Bonuses</span>
         </div>
       </v-card-title>
@@ -37,7 +40,7 @@
             block
             color="secondary"
             class="my-1"
-            outlined
+            variant="outlined"
             large
             @click="mount.RemoveCoreBonus(b)"
           >
@@ -50,9 +53,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cb-mount-menu',
   props: {
     mech: {
@@ -66,16 +67,16 @@ export default Vue.extend({
   },
   computed: {
     hasEffect(): boolean {
-      return this.mount.Bonuses.length
+      return this.mount.Bonuses.length;
     },
     color(): string {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
     },
     visible(): boolean {
-      return this.mech.AvailableBonuses.length || this.mount.Bonuses.length
+      return this.mech.AvailableBonuses.length || this.mount.Bonuses.length;
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -83,10 +84,10 @@ export default Vue.extend({
   position: absolute;
   right: 20px;
   top: -40px;
-  background-color: var(--v-background-base);
+  background-color: rgb(var(--v-theme-background));
   height: 30px;
   border: 2px;
-  border-color: var(--v-stark-base);
+  border-color: rgb(var(--v-theme-stark));
   border-radius: 5px;
 }
 </style>

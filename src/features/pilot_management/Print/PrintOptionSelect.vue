@@ -17,9 +17,14 @@
               <v-card-text>
                 <v-scroll-y-transition>
                   <div>
-                    <v-icon v-if="i.icon" :size="multiple ? 40 : 60">{{ i.icon }}</v-icon>
+                    <v-icon v-if="i.icon" :size="multiple ? 40 : 60">{{
+                      i.icon
+                    }}</v-icon>
                     <br v-if="i.icon" />
-                    <span :class="`font-weight-bold ${active && 'white--text'}`">{{ i.text }}</span>
+                    <span
+                      :class="`font-weight-bold ${active && 'white--text'}`"
+                      >{{ i.text }}</span
+                    >
                   </div>
                 </v-scroll-y-transition>
               </v-card-text>
@@ -32,8 +37,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'print-option-select',
   props: {
     title: {
@@ -53,5 +57,5 @@ export default Vue.extend({
       required: false,
     },
   },
-})
+};
 </script>

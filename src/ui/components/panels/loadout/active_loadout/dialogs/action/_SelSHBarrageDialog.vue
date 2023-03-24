@@ -1,8 +1,8 @@
 <template>
   <v-dialog
     v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
+    :fullscreen="$vuetify.display.mdAndDown"
+    :style="$vuetify.display.mdAndDown ? `x-overflow: hidden` : ''"
     width="90vw"
   >
     <v-card tile class="background">
@@ -14,7 +14,7 @@
         </v-btn>
       </cc-titlebar>
 
-      <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
+      <v-spacer v-if="$vuetify.display.mdAndDown" class="titlebar-margin" />
 
       <v-card-text v-if="item" class="mb-0 pb-2">
         <weapon-attack
@@ -26,7 +26,7 @@
           @confirm="$emit('confirm')"
         >
           <div class="heading h2 mt-3 mb-n3">
-            <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
+            <v-icon x-large class="mt-n2 mr-n1">cc:mech-weapon</v-icon>
             {{ item.Name }}
           </div>
         </weapon-attack>
@@ -36,10 +36,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import WeaponAttack from '../../components/_WeaponAttack.vue'
+import WeaponAttack from '../../components/_WeaponAttack.vue';
 
-export default Vue.extend({
+export default {
   name: 'superheavy-barrage-dialog',
   components: { WeaponAttack },
   props: {
@@ -58,33 +57,33 @@ export default Vue.extend({
   }),
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
     item() {
-      if (!this.state.SHBarrageSelection) return this.cached
-      return this.state.SHBarrageSelection
+      if (!this.state.SHBarrageSelection) return this.cached;
+      return this.state.SHBarrageSelection;
     },
     mount() {
-      return this.state.SHBarrageMount
+      return this.state.SHBarrageMount;
     },
   },
   methods: {
     reset() {
-      this.$refs.main.reset()
+      (this.$refs.main as any).reset();
     },
     confirm(): void {
-      this.dialog = false
-      this.$emit('confirm')
-      this.$refs.main.init()
+      this.dialog = false;
+      this.$emit('confirm');
+      (this.$refs.main as any).init();
     },
     show(): void {
-      this.dialog = true
+      this.dialog = true;
     },
     hide(): void {
-      this.dialog = false
-      this.$emit('close')
-      this.$refs.main.init()
+      this.dialog = false;
+      this.$emit('close');
+      (this.$refs.main as any).init();
     },
   },
-})
+};
 </script>

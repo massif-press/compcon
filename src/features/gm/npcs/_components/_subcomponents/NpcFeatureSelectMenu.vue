@@ -1,11 +1,13 @@
 <template>
   <div>
-    <v-btn x-large block color="primary" @click="dialog = true">Set NPC Features</v-btn>
+    <v-btn x-large block color="primary" @click="dialog = true"
+      >Set NPC Features</v-btn
+    >
     <v-row no-gutters justify="end">
       <v-col cols="auto">
         <v-btn
           x-small
-          outlined
+          variant="outlined"
           class="fadeSelect mt-1"
           @click="npc.NpcFeatureController.ResetFeatures()"
         >
@@ -15,26 +17,39 @@
     </v-row>
     <v-dialog v-model="dialog" fullscreen style="overflow-y: hidden">
       <v-card>
-        <v-toolbar flat tile dense color="blue-grey darken-4" class="white--text">
+        <v-toolbar
+          flat
+          tile
+          dense
+          color="blue-grey darken-4"
+          class="white--text"
+        >
           Set NPC Features
           <v-spacer />
           <cc-tooltip
-            v-for="(alert, i) in npc.NpcTemplateController.TemplateFeatureAlerts"
+            v-for="(alert, i) in npc.NpcTemplateController
+              .TemplateFeatureAlerts"
             :key="`${alert}_menu_${i}`"
             :title="alert.severity"
             :content="alert.message"
           >
-            <v-icon right :color="alert.severity">mdi-alert</v-icon>
+            <v-icon end :color="alert.severity">mdi-alert</v-icon>
           </cc-tooltip>
           <v-spacer />
-          <v-btn icon dark @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
+          <v-btn icon dark @click="dialog = false"
+            ><v-icon>mdi-close</v-icon></v-btn
+          >
         </v-toolbar>
         <v-row no-gutters>
           <v-col cols="3" style="max-width: 325px !important">
             <v-list dense nav class="side-fixed mt-n1" color="panel">
-              <v-list-item color="accent" selectable @click="featureSet = 'all'">
+              <v-list-item
+                color="accent"
+                selectable
+                @click="featureSet = 'all'"
+              >
                 <v-list-item-icon>
-                  <v-icon>cci-npc-feature</v-icon>
+                  <v-icon>cc:npc-feature</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
@@ -42,9 +57,13 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item color="accent" selectable @click="featureSet = 'assigned'">
+              <v-list-item
+                color="accent"
+                selectable
+                @click="featureSet = 'assigned'"
+              >
                 <v-list-item-icon>
-                  <v-icon>cci-npc-feature</v-icon>
+                  <v-icon>cc:npc-feature</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
@@ -53,7 +72,10 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider />
-              <v-list-item color="accent" @click="featureSet = npc.NpcClassController.Class.ID">
+              <v-list-item
+                color="accent"
+                @click="featureSet = npc.NpcClassController.Class.ID"
+              >
                 <v-list-item-icon>
                   <v-icon v-text="npc.NpcClassController.Class.RoleIcon" />
                 </v-list-item-icon>
@@ -71,7 +93,7 @@
                 @click="featureSet = t.ID"
               >
                 <v-list-item-icon>
-                  <v-icon v-text="'cci-npc-template'" />
+                  <v-icon v-text="'cc:npc-template'" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
@@ -85,7 +107,9 @@
               <v-list-group no-action color="accent">
                 <template v-slot:activator>
                   <v-list-item-content>
-                    <v-list-item-title class="heading h6">Classes</v-list-item-title>
+                    <v-list-item-title class="heading h6"
+                      >Classes</v-list-item-title
+                    >
                   </v-list-item-content>
                 </template>
 
@@ -111,7 +135,9 @@
               <v-list-group no-action color="accent">
                 <template v-slot:activator>
                   <v-list-item-content>
-                    <v-list-item-title class="heading h6">Templates</v-list-item-title>
+                    <v-list-item-title class="heading h6"
+                      >Templates</v-list-item-title
+                    >
                   </v-list-item-content>
                 </template>
 
@@ -123,7 +149,7 @@
                   @click="featureSet = t.ID"
                 >
                   <v-list-item-icon>
-                    <v-icon v-text="'cci-npc-template'" />
+                    <v-icon v-text="'cc:npc-template'" />
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title class="text-button">
@@ -138,10 +164,14 @@
           </v-col>
 
           <v-col class="pl-6 pr-8">
-            <v-container style="height: calc(100vh - 35px) !important; overflow-y: scroll">
+            <v-container
+              style="height: calc(100vh - 35px) !important; overflow-y: scroll"
+            >
               <v-row dense align="start" class="mt-n3">
                 <v-col>
-                  <span class="heading h3">{{ currentSelection }} Features</span>
+                  <span class="heading h3"
+                    >{{ currentSelection }} Features</span
+                  >
                 </v-col>
                 <v-col cols="auto">
                   <v-switch
@@ -183,11 +213,11 @@
                     v-if="!hasItem(f) || allowDupes"
                     color="accent"
                     block
-                    outlined
+                    variant="outlined"
                     tile
                     @click="npc.NpcFeatureController.AddFeature(f)"
                   >
-                    <v-icon left>mdi-plus</v-icon>
+                    <v-icon start>mdi-plus</v-icon>
                     Add {{ f.Name }}
                   </v-btn>
                   <v-btn
@@ -195,27 +225,35 @@
                     color="warning darken-1"
                     class="white--text"
                     block
-                    outlined
+                    variant="outlined"
                     tile
                     @click="npc.NpcFeatureController.RemoveFeature(f)"
                   >
-                    <v-icon left>mdi-minus</v-icon>
+                    <v-icon start>mdi-minus</v-icon>
                     Remove {{ f.Name }}
                   </v-btn>
                 </v-col>
                 <v-col v-if="!shownFeatures.length" cols="12">
-                  <v-alert v-if="featureSet === 'all'" outlined class="text-center">
+                  <v-alert
+                    v-if="featureSet === 'all'"
+                    variant="outlined"
+                    class="text-center"
+                  >
                     No NPC Feature selections remaining
                     <br />
                     <span class="caption text--secondary">
-                      Additional features beyond the reccommended guidelines can be added by
-                      toggling the "Ignore Limit" option above
+                      Additional features beyond the reccommended guidelines can
+                      be added by toggling the "Ignore Limit" option above
                     </span>
                   </v-alert>
-                  <v-alert v-else-if="featureSet === 'assigned'" outlined class="text-center">
+                  <v-alert
+                    v-else-if="featureSet === 'assigned'"
+                    variant="outlined"
+                    class="text-center"
+                  >
                     No NPC Features assigned
                   </v-alert>
-                  <v-alert v-else outlined class="text-center">
+                  <v-alert v-else variant="outlined" class="text-center">
                     No NPC Features could be found for this selection
                   </v-alert>
                 </v-col>
@@ -230,11 +268,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+export default {
   name: 'npc-feature-select-menu',
   props: {
     npc: { type: Object, required: true },
@@ -249,48 +285,58 @@ export default Vue.extend({
     currentSelection() {
       switch (this.featureSet) {
         case 'all':
-          return 'All Available'
+          return 'All Available';
         case 'assigned':
-          return 'All Assigned'
+          return 'All Assigned';
         default:
-          const selClass = this.allClasses.find(x => x.ID === this.featureSet)
-          const selTemp = this.allTemplates.find(x => x.ID === this.featureSet)
-          return selClass ? selClass.Name : selTemp.Name
+          const selClass = this.allClasses.find(
+            (x) => x.ID === this.featureSet
+          );
+          const selTemp = this.allTemplates.find(
+            (x) => x.ID === this.featureSet
+          );
+          return selClass ? selClass.Name : selTemp.Name;
       }
     },
     shownFeatures() {
       if (this.featureSet === 'all') {
-        if (this.npc.NpcTemplateController.TemplateFeatureAlerts.length || this.ignoreLimit)
-          return this.npc.NpcFeatureController.AvailableFeatures
-        else return []
+        if (
+          this.npc.NpcTemplateController.TemplateFeatureAlerts.length ||
+          this.ignoreLimit
+        )
+          return this.npc.NpcFeatureController.AvailableFeatures;
+        else return [];
       }
 
-      if (this.featureSet === 'assigned') return this.npc.Items.map(x => x.Feature)
+      if (this.featureSet === 'assigned')
+        return this.npc.Items.map((x) => x.Feature);
 
-      return getModule(CompendiumStore, this.$store).NpcFeatures.filter(
-        x => x.Origin.ID === this.featureSet
-      )
+      return this.getModule(CompendiumStore).NpcFeatures.filter(
+        (x) => x.Origin.ID === this.featureSet
+      );
     },
     allClasses() {
-      return getModule(CompendiumStore, this.$store).NpcClasses.map(x => ({
+      return this.getModule(CompendiumStore).NpcClasses.map((x) => ({
         Name: x.Name,
         ID: x.ID,
         Icon: x.RoleIcon,
-      }))
+      }));
     },
     allTemplates() {
-      return getModule(CompendiumStore, this.$store).NpcTemplates.map(x => ({
+      return this.getModule(CompendiumStore).NpcTemplates.map((x) => ({
         Name: x.Name,
         ID: x.ID,
-      }))
+      }));
     },
   },
   methods: {
     hasItem(feature) {
-      return this.npc.NpcFeatureController.SelectedFeatures.some(y => y.ID === feature.ID)
+      return this.npc.NpcFeatureController.SelectedFeatures.some(
+        (y) => y.ID === feature.ID
+      );
     },
   },
-})
+};
 </script>
 
 <style scoped>

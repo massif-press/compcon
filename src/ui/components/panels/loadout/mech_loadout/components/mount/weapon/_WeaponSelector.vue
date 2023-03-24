@@ -20,18 +20,28 @@
         <span class="heading h1 accent--text" style="line-height: 20px">
           {{ weaponSlot.Weapon.Name }}
         </span>
-        <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
+        <span class="flavor-text overline mt-n1" style="display: block"
+          >CURRENTLY EQUIPPED</span
+        >
       </div>
       <div v-else>
         <span class="overline">
-          UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//ARMAMENT::{{ weaponSlot.Size }}
+          UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//ARMAMENT::{{
+            weaponSlot.Size
+          }}
           MOUNT
         </span>
         <br />
-        <span class="heading h1 subtle--text text--lighten-1" style="line-height: 20px">
+        <span
+          class="heading h1 subtle--text text--lighten-1"
+          style="line-height: 20px"
+        >
           NO SELECTION
         </span>
-        <span class="flavor-text overline mt-n1 error--text" style="display: block">
+        <span
+          class="flavor-text overline mt-n1 error--text"
+          style="display: block"
+        >
           [ EQUIPMENT ID INVALID OR MISSING ]
         </span>
       </div>
@@ -50,7 +60,9 @@
               simple
               inline
               :content="
-                showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
+                showUnlicensed
+                  ? 'Unlicensed equipment: SHOWN'
+                  : 'Unlicensed equipment: HIDDEN'
               "
             >
               <v-icon
@@ -83,7 +95,7 @@
               <v-icon
                 class="ml-n2"
                 :color="showOverSP ? 'warning' : 'success'"
-                v-html="'cci-system-point'"
+                v-html="'cc:system-point'"
               />
             </cc-tooltip>
           </v-switch>
@@ -94,15 +106,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { Rules, MechWeapon } from '@/class'
-import { flavorID } from '@/io/Generators'
-import { Bonus } from '@/classes/components/feature/bonus/Bonus'
+import _ from 'lodash';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { Rules, MechWeapon } from '@/class';
+import { flavorID } from '@/io/Generators';
+import { Bonus } from '@/classes/components/feature/bonus/Bonus';
+
+export default {
   name: 'weapon-selector',
   props: {
     weaponSlot: {
@@ -134,53 +145,60 @@ export default Vue.extend({
     freeSP(): number {
       return this.weaponSlot.Weapon
         ? this.mech.FreeSP + this.weaponSlot.Weapon.SP
-        : this.mech.FreeSP
+        : this.mech.FreeSP;
     },
     availableWeapons(): MechWeapon[] {
-      const fittings = Rules.MountFittings[this.weaponSlot.Size]
+      const fittings = Rules.MountFittings[this.weaponSlot.Size];
       // filter by fitting size
-      let i = this.weapons.filter(x => fittings.includes(x.Size) && !x.IsHidden && !x.IsExotic)
+      let i = this.weapons.filter(
+        (x) => fittings.includes(x.Size) && !x.IsHidden && !x.IsExotic
+      );
 
       // filter already equipped
-      if (this.weaponSlot.Weapon) i = i.filter(x => x.ID !== this.weaponSlot.Weapon.ID)
+      if (this.weaponSlot.Weapon)
+        i = i.filter((x) => x.ID !== this.weaponSlot.Weapon.ID);
 
       // filter ai
       if (
         this.mech.MechLoadoutController.ActiveLoadout.AICount >=
         1 + Bonus.get('ai_cap', this.mech)
       ) {
-        i = i.filter(x => !x.IsAI)
+        i = i.filter((x) => !x.IsAI);
       }
 
       if (!this.showUnlicensed) {
         i = i.filter(
-          x => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
-        )
+          (x) =>
+            !x.LicenseLevel ||
+            this.mech.Pilot.has('License', x.License, x.LicenseLevel)
+        );
       }
 
       i = i.concat(
         this.mech.Pilot.SpecialEquipment.filter(
-          x => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
+          (x) => x.ItemType === 'MechWeapon' && fittings.includes(x.Size)
         )
-      )
+      );
 
       // filter unique
       i = i.filter(
-        x =>
-          !this.mech.MechLoadoutController.ActiveLoadout.UniqueWeapons.map(y => y.ID).includes(x.ID)
-      )
+        (x) =>
+          !this.mech.MechLoadoutController.ActiveLoadout.UniqueWeapons.map(
+            (y) => y.ID
+          ).includes(x.ID)
+      );
 
-      return _.sortBy(i, ['Source', 'Name'])
+      return _.sortBy(i, ['Source', 'Name']);
     },
   },
   created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.weapons = compendium.MechWeapons.filter(x => x.Source)
+    const compendium = this.getModule(CompendiumStore);
+    this.weapons = compendium.MechWeapons.filter((x) => x.Source);
   },
   methods: {
     fID(template: string): string {
-      return flavorID(template)
+      return flavorID(template);
     },
   },
-})
+};
 </script>

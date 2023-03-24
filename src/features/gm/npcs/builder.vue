@@ -6,7 +6,11 @@
       </v-col>
       <v-col>
         <div class="heading mech">
-          <cc-short-string-editor large :placeholder="item.Name" @set="item.Name = $event">
+          <cc-short-string-editor
+            large
+            :placeholder="item.Name"
+            @set="item.Name = $event"
+          >
             <span class="heading-block">
               {{ item.Name }}
             </span>
@@ -35,16 +39,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import {
   NpcClassSelector,
   NpcStatEditor,
   NpcTemplateSelector,
   NpcTierSelector,
   NpcTagSelector,
-} from './_components'
+} from './_components';
 
-export default Vue.extend({
+export default {
   name: 'npc-builder-content',
   components: {
     NpcClassSelector,
@@ -56,5 +59,5 @@ export default Vue.extend({
   props: {
     item: { type: Object, required: true },
   },
-})
+};
 </script>

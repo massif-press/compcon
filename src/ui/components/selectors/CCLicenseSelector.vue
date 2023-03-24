@@ -13,17 +13,22 @@
       >
         <missing-item v-if="pl.License.err" @remove="remove(pl)" />
         <div v-else>
-          <v-icon :color="manufacturer(pl.License.Source).Color">cci-rank-{{ pl.Rank }}</v-icon>
+          <v-icon :color="manufacturer(pl.License.Source).Color"
+            >cc:rank-{{ pl.Rank }}</v-icon
+          >
           <strong>{{ pl.License.Name }}</strong>
-          <v-icon right class="fadeSelect" @click="scroll(pl.License.FrameID)">
+          <v-icon end class="fadeSelect" @click="scroll(pl.License.FrameID)">
             mdi-chevron-right
           </v-icon>
         </div>
       </v-row>
-      <v-divider v-if="pilot.LicenseController.Licenses.length" class="ma-2 ml-4 mr-4" />
+      <v-divider
+        v-if="pilot.LicenseController.Licenses.length"
+        class="ma-2 ml-4 mr-4"
+      />
       <v-row>
         <v-alert
-          outlined
+          variant="outlined"
           color="success"
           icon="check_circle"
           class="stat-text"
@@ -33,7 +38,7 @@
           License Selection Complete
         </v-alert>
         <v-alert
-          outlined
+          variant="outlined"
           color="accent"
           icon="warning"
           class="stat-text"
@@ -86,15 +91,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Selector from './components/_SelectorBase.vue'
-import MissingItem from './components/_MissingItem.vue'
-import LicenseSelectItem from './components/_LicenseSelectItem.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { Pilot } from '@/class'
+import Selector from './components/_SelectorBase.vue';
+import MissingItem from './components/_MissingItem.vue';
+import LicenseSelectItem from './components/_LicenseSelectItem.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { Pilot } from '@/class';
+
+export default {
   name: 'cc-license-selector',
   components: { Selector, LicenseSelectItem, MissingItem },
   props: {
@@ -106,20 +110,20 @@ export default Vue.extend({
   }),
   computed: {
     selectionComplete(): boolean {
-      return this.levelUp && !this.pilot.LicenseController.IsMissingLicenses
+      return this.levelUp && !this.pilot.LicenseController.IsMissingLicenses;
     },
   },
   watch: {
     selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight)
+      if (bool) window.scrollTo(0, document.body.scrollHeight);
     },
   },
   created() {
-    const compendium = getModule(CompendiumStore, this.$store)
+    const compendium = this.getModule(CompendiumStore);
     this.licenses = this.$_.groupBy(
-      compendium.Licenses.filter(x => !x.Hidden),
+      compendium.Licenses.filter((x) => !x.Hidden),
       'Source'
-    )
+    );
   },
   methods: {
     scroll(id) {
@@ -128,19 +132,19 @@ export default Vue.extend({
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
-        })
+        });
       else
         this.$vuetify.goTo(`#e_${id}`, {
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
           container: '.v-dialog--active',
-        })
+        });
     },
     manufacturer(id: string) {
-      const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.referenceByID('Manufacturers', id.toUpperCase())
+      const compendium = this.getModule(CompendiumStore);
+      return compendium.referenceByID('Manufacturers', id.toUpperCase());
     },
   },
-})
+};
 </script>

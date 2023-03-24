@@ -4,7 +4,11 @@
     <v-tab ripple class="heading h3" :disabled="!isAuthed">
       <span>
         <div>Import from Share Code</div>
-        <div v-if="!isAuthed" class="overline" v-text="`Requires COMP/CON cloud account`" />
+        <div
+          v-if="!isAuthed"
+          class="overline"
+          v-text="`Requires COMP/CON cloud account`"
+        />
       </span>
     </v-tab>
     <v-tab-item>
@@ -17,19 +21,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import FileImport from './add_panels/FileImport.vue'
-import ShareImport from './add_panels/ShareImport.vue'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
+import FileImport from './add_panels/FileImport.vue';
+import ShareImport from './add_panels/ShareImport.vue';
 
-export default Vue.extend({
+import { UserStore } from '@/store';
+
+export default {
   name: 'import-dialog',
   components: { FileImport, ShareImport },
   computed: {
     isAuthed() {
-      return getModule(UserStore, this.$store).IsLoggedIn
+      return this.getModule(UserStore).IsLoggedIn;
     },
   },
-})
+};
 </script>

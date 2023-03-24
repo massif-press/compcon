@@ -4,7 +4,7 @@
       v-model="step"
       non-linear
       class="elevation-0"
-      style="background-color: var(--v-background-base)"
+      style="background-color: rgb(var(--v-theme-background))"
     >
       <v-stepper-header class="elevation-0" style="height: 40px">
         <v-stepper-step
@@ -30,7 +30,9 @@
         <v-stepper-step
           editable
           :complete="pilot.TalentsController.HasFullTalents"
-          :color="pilot.TalentsController.HasFullTalents ? 'success' : 'primary'"
+          :color="
+            pilot.TalentsController.HasFullTalents ? 'success' : 'primary'
+          "
           edit-icon="mdi-check"
           step="3"
         >
@@ -40,7 +42,9 @@
         <v-stepper-step
           editable
           :complete="pilot.MechSkillsController.HasFullHASE"
-          :color="pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'"
+          :color="
+            pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'
+          "
           edit-icon="mdi-check"
           step="4"
         >
@@ -50,7 +54,10 @@
         <v-stepper-step editable step="5">Confirm</v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
-        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="1">
+        <v-stepper-content
+          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
+          step="1"
+        >
           <identification-page
             :pilot="pilot"
             :quickstart="quickstart"
@@ -59,16 +66,43 @@
             @set="pilot[$event.attr] = $event.val"
           />
         </v-stepper-content>
-        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="2">
-          <skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
+        <v-stepper-content
+          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
+          step="2"
+        >
+          <skills-page
+            :pilot="pilot"
+            :quickstart="quickstart"
+            @next="step++"
+            @back="step--"
+          />
         </v-stepper-content>
-        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="3">
-          <talents-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
+        <v-stepper-content
+          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
+          step="3"
+        >
+          <talents-page
+            :pilot="pilot"
+            :quickstart="quickstart"
+            @next="step++"
+            @back="step--"
+          />
         </v-stepper-content>
-        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="4">
-          <mech-skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
+        <v-stepper-content
+          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
+          step="4"
+        >
+          <mech-skills-page
+            :pilot="pilot"
+            :quickstart="quickstart"
+            @next="step++"
+            @back="step--"
+          />
         </v-stepper-content>
-        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="5">
+        <v-stepper-content
+          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
+          step="5"
+        >
           <confirm-page
             :pilot="pilot"
             :quickstart="quickstart"
@@ -77,7 +111,10 @@
             @done="onDone"
           />
         </v-stepper-content>
-        <v-stepper-content :class="$vuetify.breakpoint.smAndDown ? 'px-0' : ''" step="6">
+        <v-stepper-content
+          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
+          step="6"
+        >
           <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />
         </v-stepper-content>
       </v-stepper-items>
@@ -86,18 +123,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import IdentificationPage from './pages/IdentificationPage.vue'
-import SkillsPage from './pages/SkillsPage.vue'
-import TalentsPage from './pages/TalentsPage.vue'
-import MechSkillsPage from './pages/MechSkillsPage.vue'
-import ConfirmPage from './pages/ConfirmPage.vue'
-import TemplatesPage from './pages/TemplatesPage.vue'
-import { Pilot } from '@/class'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
+import IdentificationPage from './pages/IdentificationPage.vue';
+import SkillsPage from './pages/SkillsPage.vue';
+import TalentsPage from './pages/TalentsPage.vue';
+import MechSkillsPage from './pages/MechSkillsPage.vue';
+import ConfirmPage from './pages/ConfirmPage.vue';
+import TemplatesPage from './pages/TemplatesPage.vue';
+import { Pilot } from '@/class';
 
-export default Vue.extend({
+import { UserStore } from '@/store';
+
+export default {
   name: 'new-pilot-wizard',
   components: {
     IdentificationPage,
@@ -114,35 +150,37 @@ export default Vue.extend({
   }),
   computed: {
     quickstart() {
-      return !!getModule(UserStore, this.$store).UserProfile.GetView('quickstart')
+      return !!getModule(UserStore, this.$store).UserProfile.GetView(
+        'quickstart'
+      );
     },
   },
   watch: {
     step() {
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     },
   },
   created() {
-    this.pilot = new Pilot()
+    this.pilot = new Pilot();
   },
   methods: {
     onDone() {
-      this.done = true
-      this.$router.push('./pilot_management')
+      this.done = true;
+      this.$router.push('./pilot_management');
     },
   },
   async beforeRouteLeave(to, from, next) {
     if (this.done) {
-      next()
+      next();
     } else {
       const confirmLeave = await this.$confirm(
         'Exit wizard?',
         'Are you sure you want to exit the wizard? Your pilot will be discarded.'
-      )
+      );
 
-      if (confirmLeave) next()
-      else next(false)
+      if (confirmLeave) next();
+      else next(false);
     }
   },
-})
+};
 </script>

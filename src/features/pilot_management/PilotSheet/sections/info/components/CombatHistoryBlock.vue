@@ -1,6 +1,11 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -70px!important">
+    <cc-title
+      small
+      color="pilot"
+      class="pl-3"
+      style="margin-left: -70px !important"
+    >
       <span class="ml-9">&emsp;</span>
       Pilot Combat Telemetry Record
     </cc-title>
@@ -40,11 +45,7 @@
 </template>
 
 <script lang="ts">
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import vueMixins from '@/util/vueMixins'
-
-export default vueMixins(activePilot).extend({
+export default {
   name: 'combat-history-block',
-
-})
+};
 </script>

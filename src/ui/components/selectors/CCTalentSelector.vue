@@ -12,52 +12,56 @@
       >
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
-          <v-icon color="accent">cci-rank-{{ pTalent.Rank }}</v-icon>
+          <v-icon color="accent">cc:rank-{{ pTalent.Rank }}</v-icon>
           <strong>{{ pTalent.Talent.Name }}</strong>
-          <v-icon right class="fadeSelect" @click="scroll(pTalent.Talent.ID)">
+          <v-icon end class="fadeSelect" @click="scroll(pTalent.Talent.ID)">
             mdi-chevron-right
           </v-icon>
         </span>
       </v-row>
-      <v-divider v-if="pilot.TalentsController.Talents.length" class="ma-2 ml-4 mr-4" />
+      <v-divider
+        v-if="pilot.TalentsController.Talents.length"
+        class="ma-2 ml-4 mr-4"
+      />
       <v-row>
         <v-col>
           <v-alert
-            outlined
+            variant="outlined"
             prominent
             dense
-            border="left"
             color="success"
             icon="check_circle"
             class="stat-text"
             style="width: 95%"
-            :value="!pilot.TalentsController.IsMissingTalents && enoughSelections"
+            :value="
+              !pilot.TalentsController.IsMissingTalents && enoughSelections
+            "
           >
             Talent Selection Complete
           </v-alert>
           <v-alert
-            outlined
+            variant="outlined"
             prominent
             dense
-            border="left"
             color="accent"
             icon="warning"
             class="stat-text"
             style="width: 95%"
             :value="
-              pilot.TalentsController.MaxTalentPoints > pilot.TalentsController.CurrentTalentPoints
+              pilot.TalentsController.MaxTalentPoints >
+              pilot.TalentsController.CurrentTalentPoints
             "
           >
             {{
-              pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints
+              pilot.TalentsController.MaxTalentPoints -
+              pilot.TalentsController.CurrentTalentPoints
             }}
             Talent selections remaining
           </v-alert>
           <v-alert
-            outlined
+            variant="outlined"
             prominent
             dense
-            border="left"
             color="accent"
             icon="warning"
             class="stat-text"
@@ -92,7 +96,7 @@
             dense
             hide-details
             class="mb-2"
-            outlined
+            variant="outlined"
             clearable
           />
         </v-col>
@@ -125,16 +129,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import Selector from './components/_SelectorBase.vue'
-import MissingItem from './components/_MissingItem.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { Rules, Pilot, Talent } from '@/class'
-import { accentInclude } from '@/classes/utility/accent_fold'
+import _ from 'lodash';
+import Selector from './components/_SelectorBase.vue';
+import MissingItem from './components/_MissingItem.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { Rules, Pilot, Talent } from '@/class';
+import { accentInclude } from '@/classes/utility/accent_fold';
+
+export default {
   name: 'talent-selector',
   components: { Selector, MissingItem },
   props: {
@@ -147,31 +150,36 @@ export default Vue.extend({
   }),
   computed: {
     newPilot(): boolean {
-      return this.pilot.Level === 0
+      return this.pilot.Level === 0;
     },
     selectedMin(): number {
-      return Rules.MinimumPilotTalents
+      return Rules.MinimumPilotTalents;
     },
     enoughSelections(): boolean {
       // we should only care about the minimum pilot talents in non-levelup (creation)
       return (
-        this.pilot.Level === 0 || !(this.pilot.TalentsController.Talents.length < this.selectedMin)
-      )
+        this.pilot.Level === 0 ||
+        !(this.pilot.TalentsController.Talents.length < this.selectedMin)
+      );
     },
     selectionComplete(): boolean {
-      return (this.newPilot || this.levelUp) && !this.pilot.TalentsController.IsMissingTalents
+      return (
+        (this.newPilot || this.levelUp) &&
+        !this.pilot.TalentsController.IsMissingTalents
+      );
     },
     talents(): Talent[] {
-      const compendium = getModule(CompendiumStore, this.$store)
-      const talents = compendium.Talents.filter(x => !x.IsHidden)
-      if (this.search) return talents.filter(x => accentInclude(x.Name, this.search))
+      const compendium = this.getModule(CompendiumStore);
+      const talents = compendium.Talents.filter((x) => !x.IsHidden);
+      if (this.search)
+        return talents.filter((x) => accentInclude(x.Name, this.search));
 
-      return talents
+      return talents;
     },
   },
   watch: {
     selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight)
+      if (bool) window.scrollTo(0, document.body.scrollHeight);
     },
   },
   methods: {
@@ -180,9 +188,9 @@ export default Vue.extend({
         return (
           this.pilot.TalentsController.getTalentRank(id) === 0 &&
           this.pilot.TalentsController.IsMissingTalents
-        )
+        );
       }
-      return this.pilot.TalentsController.IsMissingTalents
+      return this.pilot.TalentsController.IsMissingTalents;
     },
     scroll(id) {
       if (this.levelUp)
@@ -190,15 +198,15 @@ export default Vue.extend({
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
-        })
+        });
       else
         this.$vuetify.goTo(`#e_${id}`, {
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
           container: '.v-dialog--active',
-        })
+        });
     },
   },
-})
+};
 </script>

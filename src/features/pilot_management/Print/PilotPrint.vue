@@ -8,7 +8,9 @@
         </div>
         <div class="my-n2">
           <div>{{ pilot.Name }}, LL {{ pilot.Level }}</div>
-          <div v-if="pilot.Background" class="caption my-n1 grey--text">{{ pilot.Background }}</div>
+          <div v-if="pilot.Background" class="caption my-n1 grey--text">
+            {{ pilot.Background }}
+          </div>
         </div>
       </v-col>
       <v-col class="ml-auto mr-auto">
@@ -16,35 +18,44 @@
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3">HP</div>
             <div>
-              <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+              <v-icon size="50" color="grey lighten-3" class="mr-n1"
+                >mdi-hexagon-outline</v-icon
+              >
               <b class="flavor-text pt-3" v-html="`/${pilot.MaxHP}`" />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3 ml-n7">ARMOR</div>
             <div style="position: relative; width: max-content">
-              <v-icon size="50" color="grey lighten-3">mdi-shield-outline</v-icon>
+              <v-icon size="50" color="grey lighten-3"
+                >mdi-shield-outline</v-icon
+              >
               <div class="heading p-stat icon-overlap" v-html="pilot.Armor" />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3 ml-n6">E-DEF</div>
             <div style="position: relative; width: max-content">
-              <v-icon size="50" color="grey lighten-3">cci-marker</v-icon>
-              <div class="heading p-stat icon-overlap" v-html="pilot.EDefense" />
+              <v-icon size="50" color="grey lighten-3">cc:marker</v-icon>
+              <div
+                class="heading p-stat icon-overlap"
+                v-html="pilot.EDefense"
+              />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3 ml-n8">EVASION</div>
             <div style="position: relative; width: max-content">
-              <v-icon size="50" color="grey lighten-3">cci-evasion</v-icon>
+              <v-icon size="50" color="grey lighten-3">cc:evasion</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Evasion" />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="overline mt-n2 mb-n3 ml-n6">SPEED</div>
             <div style="position: relative; width: max-content">
-              <v-icon size="50" color="grey lighten-3">$vuetify.icons.move</v-icon>
+              <v-icon size="50" color="grey lighten-3"
+                >$vuetify.icons.move</v-icon
+              >
               <div class="heading p-stat icon-overlap" v-html="pilot.Speed" />
             </div>
           </v-col>
@@ -66,11 +77,14 @@
             v-for="(s, i) in pilot.SkillsController.Skills"
             :key="`psk_${i}`"
             label
-            outlined
+            variant="outlined"
             small
             class="mx-1 mb-1"
           >
-            <span style="background-color: var(--v-gray-lighten2)" class="stat-text ml-n2 mr-2">
+            <span
+              style="background-color: rgb(var(--v-theme-gray-lighten2))"
+              class="stat-text ml-n2 mr-2"
+            >
               +{{ s.Bonus }}
             </span>
             <span>{{ s.Skill.Trigger }}</span>
@@ -81,8 +95,15 @@
         <v-row dense justify="space-between" class="mt-n5 pl-3">
           <v-col>
             <span class="font-weight-bold overline pr-4">HULL</span>
-            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
-              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
+            <div
+              class="ml-3 mt-n3"
+              style="position: relative; width: max-content"
+            >
+              <v-icon
+                x-large
+                color="grey lighten-1"
+                style="margin-right: -3px !important"
+              >
                 mdi-hexagon-outline
               </v-icon>
               <div
@@ -93,8 +114,15 @@
           </v-col>
           <v-col>
             <span class="font-weight-bold overline pr-3">AGI</span>
-            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
-              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
+            <div
+              class="ml-3 mt-n3"
+              style="position: relative; width: max-content"
+            >
+              <v-icon
+                x-large
+                color="grey lighten-1"
+                style="margin-right: -3px !important"
+              >
                 mdi-hexagon-outline
               </v-icon>
               <div
@@ -105,8 +133,15 @@
           </v-col>
           <v-col>
             <span class="font-weight-bold overline pr-3">SYS</span>
-            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
-              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
+            <div
+              class="ml-3 mt-n3"
+              style="position: relative; width: max-content"
+            >
+              <v-icon
+                x-large
+                color="grey lighten-1"
+                style="margin-right: -3px !important"
+              >
                 mdi-hexagon-outline
               </v-icon>
               <div
@@ -117,8 +152,15 @@
           </v-col>
           <v-col>
             <span class="font-weight-bold overline pr-3">ENG</span>
-            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
-              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
+            <div
+              class="ml-3 mt-n3"
+              style="position: relative; width: max-content"
+            >
+              <v-icon
+                x-large
+                color="grey lighten-1"
+                style="margin-right: -3px !important"
+              >
                 mdi-hexagon-outline
               </v-icon>
               <div
@@ -145,9 +187,9 @@
             v-for="(l, i) in pilot.LicenseController.Licenses"
             :key="`plr_${i}`"
             small
-            outlined
+            variant="outlined"
           >
-            <v-icon left>cci-rank-{{ l.Rank }}</v-icon>
+            <v-icon start>cc:rank-{{ l.Rank }}</v-icon>
             <span
               class="flavor-text black--text"
               v-html="
@@ -172,9 +214,15 @@
       <v-col>
         <fieldset>
           <legend class="heading ml-1 px-2">{{ t.Talent.Name }}</legend>
-          <v-row v-for="n in t.Rank" :key="`ptr_${i}_${n}`" align="center" dense no-gutters>
+          <v-row
+            v-for="n in t.Rank"
+            :key="`ptr_${i}_${n}`"
+            align="center"
+            dense
+            no-gutters
+          >
             <v-col cols="auto" class="mr-1">
-              <v-icon>cci-rank-{{ n }}</v-icon>
+              <v-icon>cc:rank-{{ n }}</v-icon>
             </v-col>
             <v-col>
               <span v-html-safe="t.Talent.Ranks[n - 1].Description" />
@@ -184,7 +232,10 @@
       </v-col>
     </v-row>
 
-    <div v-if="pilot.CoreBonusController.CoreBonuses.length" class="overline mb-n3 mt-n1">
+    <div
+      v-if="pilot.CoreBonusController.CoreBonuses.length"
+      class="overline mb-n3 mt-n1"
+    >
       CORE BONUSES
     </div>
     <v-row
@@ -205,7 +256,7 @@
     <div class="overline mb-n3 mt-n1">PILOT LOADOUT</div>
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
-        v-for="(a, i) in pilot.Loadout.Armor.filter(x => x)"
+        v-for="(a, i) in pilot.Loadout.Armor.filter((x) => x)"
         :key="`pla_${i}`"
         style="position: relative; page-break-inside: avoid"
       >
@@ -217,28 +268,39 @@
           <div
             class="pa-1 mt-n2"
             v-html="
-              `+${a.Armor || 0} Armor / E-Def: ${a.EDefense || 'N/A'} / Evasion: ${
-                a.Evasion || 'N/A'
-              }<br>${a.HPBonus ? `HP Bonus: +${a.HPBonus}` : ''}${
-                a.Speed ? ` / Speed: ${a.Speed}` : ''
-              }`
+              `+${a.Armor || 0} Armor / E-Def: ${
+                a.EDefense || 'N/A'
+              } / Evasion: ${a.Evasion || 'N/A'}<br>${
+                a.HPBonus ? `HP Bonus: +${a.HPBonus}` : ''
+              }${a.Speed ? ` / Speed: ${a.Speed}` : ''}`
             "
           />
         </fieldset>
       </v-col>
-      <v-col v-for="(w, i) in pilot.Loadout.Weapons.filter(x => x)" :key="`plw_${i}`">
+      <v-col
+        v-for="(w, i) in pilot.Loadout.Weapons.filter((x) => x)"
+        :key="`plw_${i}`"
+      >
         <fieldset v-if="w">
           <legend class="heading ml-1 px-2">
             {{ w.Name }}
             <span class="overline flavor-text">//WEAPON</span>
           </legend>
           <div class="pa-1 mt-n2">
-            <b v-for="(r, j) in w.Range" :key="`plwr_${i}_${j}`">{{ r.Text }}</b>
+            <b v-for="(r, j) in w.Range" :key="`plwr_${i}_${j}`">{{
+              r.Text
+            }}</b>
             |
-            <b v-for="(d, j) in w.Damage" :key="`plwd_${i}_${j}`">{{ d.Text }}</b>
+            <b v-for="(d, j) in w.Damage" :key="`plwd_${i}_${j}`">{{
+              d.Text
+            }}</b>
             <div v-if="w.Effect" v-html-safe="w.Effect" />
             <div class="text-right">
-              <span v-for="(t, j) in i.Tags" :key="`plwt_${i}_${j}`" class="mx-1">
+              <span
+                v-for="(t, j) in i.Tags"
+                :key="`plwt_${i}_${j}`"
+                class="mx-1"
+              >
                 {{ t.Name() }}
               </span>
             </div>
@@ -247,7 +309,10 @@
       </v-col>
     </v-row>
     <v-row dense justify="space-between" class="mt-n1 caption">
-      <v-col v-for="(g, i) in pilot.Loadout.Gear.filter(x => x)" :key="`plg_${i}`">
+      <v-col
+        v-for="(g, i) in pilot.Loadout.Gear.filter((x) => x)"
+        :key="`plg_${i}`"
+      >
         <fieldset v-if="g">
           <legend class="heading ml-1 px-2">
             {{ g.Name }}
@@ -256,7 +321,11 @@
           <div class="pa-1 my-n2">
             <div v-if="g.Description" v-html-safe="g.Description" />
             <div class="text-right">
-              <span v-for="(t, j) in i.Tags" :key="`plgt_${i}_${j}`" class="mx-1">
+              <span
+                v-for="(t, j) in i.Tags"
+                :key="`plgt_${i}_${j}`"
+                class="mx-1"
+              >
                 {{ t.Name() }}
               </span>
             </div>
@@ -268,9 +337,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'pilot-print',
   props: {
     pilot: {
@@ -278,7 +345,7 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -304,6 +371,6 @@ fieldset {
   padding: 0 4px;
   height: 100%;
   border-radius: 3px;
-  border-color: var(--v-grey-lighten2);
+  border-color: rgb(var(--v-theme-grey-lighten2));
 }
 </style>

@@ -7,7 +7,7 @@
         hide-details
         class="px-2"
         prepend-icon="mdi-factory"
-        outlined
+        variant="outlined"
         label="From Manufacturer"
         :items="manufacturers"
         chips
@@ -26,7 +26,7 @@
         chips
         deletable-chips
         small-chips
-        outlined
+        variant="outlined"
         label="Tags"
         :items="tags"
         item-value="ID"
@@ -41,11 +41,11 @@
         dense
         hide-details
         class="px-2"
-        prepend-icon="cci-weapon"
+        prepend-icon="cc:weapon"
         chips
         deletable-chips
         small-chips
-        outlined
+        variant="outlined"
         label="Weapon Type"
         :items="weaponTypes"
         @change="updateFilters()"
@@ -61,7 +61,7 @@
         chips
         deletable-chips
         small-chips
-        outlined
+        variant="outlined"
         label="Required Mount"
         :items="weaponSizes"
         @change="updateFilters()"
@@ -73,10 +73,10 @@
         dense
         hide-details
         class="px-2"
-        prepend-icon="cci-range"
+        prepend-icon="cc:range"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="Attack Type"
         :items="attackTypes"
         multiple
@@ -90,10 +90,10 @@
         dense
         hide-details
         class="px-2"
-        prepend-icon="cci-kinetic"
+        prepend-icon="cc:kinetic"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="Damage Type"
         :items="damageTypes"
         multiple
@@ -107,10 +107,10 @@
         class="px-2"
         hide-details
         dense
-        prepend-icon="cci-compendium"
+        prepend-icon="cc:compendium"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="From Content Pack"
         :items="lcps"
         multiple
@@ -119,9 +119,14 @@
       />
     </v-col>
     <v-col cols="12" md="4" class="text-center">
-      <v-icon>cci-system-point</v-icon>
+      <v-icon>cc:system-point</v-icon>
       <span class="text-button">SP Cost</span>
-      <v-btn-toggle v-model="spType" color="accent" class="ml-1 py-1" @change="updateFilters()">
+      <v-btn-toggle
+        v-model="spType"
+        color="accent"
+        class="ml-1 py-1"
+        @change="updateFilters()"
+      >
         <v-btn value="less" small text>Less Than</v-btn>
         <v-btn value="eq" small text>Equal To</v-btn>
         <v-btn value="greater" small text>Greater Than</v-btn>
@@ -131,20 +136,20 @@
           <v-text-field
             v-model="sp"
             type="number"
-            outlined
-            style="width: 150px;"
+            variant="outlined"
+            style="width: 150px"
             dense
             hide-details
             class="hide-input-spinners"
             prepend-icon="mdi-minus"
             append-outer-icon="mdi-plus"
             @click:prepend="
-              sp > 0 ? sp-- : sp
-              updateFilters()
+              sp > 0 ? sp-- : sp;
+              updateFilters();
             "
             @click:append-outer="
-              sp++
-              updateFilters()
+              sp++;
+              updateFilters();
             "
             @change="updateFilters()"
           />
@@ -155,18 +160,24 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Tag, WeaponType, WeaponSize, RangeType, DamageType, Manufacturer } from '@/class'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import {
+  Tag,
+  WeaponType,
+  WeaponSize,
+  RangeType,
+  DamageType,
+  Manufacturer,
+} from '@/class';
 
-const nameSort = function(a, b): number {
-  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
-  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
-  return 0
-}
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+const nameSort = function (a, b): number {
+  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+  return 0;
+};
+
+export default {
   name: 'frame-filter',
   data: () => ({
     sourceFilter: [],
@@ -183,72 +194,76 @@ export default Vue.extend({
     manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
-        .map(x => ({ text: x.Name, value: x.ID }))
-        .sort(nameSort)
+        .map((x) => ({ text: x.Name, value: x.ID }))
+        .sort(nameSort);
     },
     weaponTypes(): WeaponType[] {
       return Object.keys(WeaponType)
-        .map(k => WeaponType[k as any])
-        .filter(k => k !== 'Integrated')
-        .sort() as WeaponType[]
+        .map((k) => WeaponType[k as any])
+        .filter((k) => k !== 'Integrated')
+        .sort() as WeaponType[];
     },
     weaponSizes(): WeaponSize[] {
       return Object.keys(WeaponSize)
-        .map(k => WeaponSize[k as any])
-        .sort() as WeaponSize[]
+        .map((k) => WeaponSize[k as any])
+        .sort() as WeaponSize[];
     },
     attackTypes(): RangeType[] {
       return Object.keys(RangeType)
-        .map(k => RangeType[k as any])
-        .sort() as RangeType[]
+        .map((k) => RangeType[k as any])
+        .sort() as RangeType[];
     },
     damageTypes(): DamageType[] {
       return Object.keys(DamageType)
-        .map(k => DamageType[k as any])
-        .sort() as DamageType[]
+        .map((k) => DamageType[k as any])
+        .sort() as DamageType[];
     },
     tags(): Tag[] {
       return this.$_.uniqBy(
         [].concat(
           this.$store.getters
             .getItemCollection('MechWeapons')
-            .flatMap(x => x.Tags)
-            .filter(x => !x.FilterIgnore && !x.IsHidden)
+            .flatMap((x) => x.Tags)
+            .filter((x) => !x.FilterIgnore && !x.IsHidden)
         ),
         'ID'
-      )
+      );
     },
     lcps(): string[] {
-      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+      return this.getModule(CompendiumStore).Frames.map((x) => x.LcpName);
     },
   },
   methods: {
     clear() {
-      this.sourceFilter = []
-      this.tagFilter = []
-      this.weaponTypeFilter = []
-      this.weaponSizeFilter = []
-      this.attackTypeFilter = []
-      this.damageTypeFilter = []
-      this.sp = ''
-      this.spType = ''
-      this.lcpFilter = []
+      this.sourceFilter = [];
+      this.tagFilter = [];
+      this.weaponTypeFilter = [];
+      this.weaponSizeFilter = [];
+      this.attackTypeFilter = [];
+      this.damageTypeFilter = [];
+      this.sp = '';
+      this.spType = '';
+      this.lcpFilter = [];
     },
     updateFilters() {
-      const fObj = {} as any
-      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter]
-      if (this.spType && parseInt(this.sp) !== NaN) fObj[`SP_${this.spType}`] = parseInt(this.sp)
-      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
-      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
+      const fObj = {} as any;
+      if (this.lcpFilter && this.lcpFilter.length)
+        fObj.LcpName = [this.lcpFilter];
+      if (this.spType && parseInt(this.sp) !== NaN)
+        fObj[`SP_${this.spType}`] = parseInt(this.sp);
+      if (this.sourceFilter && this.sourceFilter.length)
+        fObj.Source = [this.sourceFilter];
+      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
       if (this.weaponTypeFilter && this.weaponTypeFilter.length)
-        fObj.WeaponType = [this.weaponTypeFilter]
-      if (this.weaponSizeFilter && this.weaponSizeFilter.length) fObj.Size = [this.weaponSizeFilter]
+        fObj.WeaponType = [this.weaponTypeFilter];
+      if (this.weaponSizeFilter && this.weaponSizeFilter.length)
+        fObj.Size = [this.weaponSizeFilter];
       if (this.attackTypeFilter && this.attackTypeFilter.length)
-        fObj.RangeType = this.attackTypeFilter
+        fObj.RangeType = this.attackTypeFilter;
       if (this.damageTypeFilter && this.damageTypeFilter.length)
-        fObj.DamageType = this.damageTypeFilter
-      this.$emit('set-filters', fObj)
+        fObj.DamageType = this.damageTypeFilter;
+      this.$emit('set-filters', fObj);
     },
   },
-})
+};
 </script>

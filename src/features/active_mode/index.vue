@@ -1,17 +1,13 @@
 <template>
   <div class="wrapper">
-    <v-fade-transition leave-absolute>
-      <router-view />
-    </v-fade-transition>
+    <router-view />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'encounter-toolkit',
-})
+};
 </script>
 
 <style scoped>

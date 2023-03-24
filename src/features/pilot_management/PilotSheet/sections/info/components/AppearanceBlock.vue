@@ -1,7 +1,15 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -70px!important">
-      <section-edit-icon label="Edit Pilot Appearance" @open-selector="show()" />
+    <cc-title
+      small
+      color="pilot"
+      class="pl-3"
+      style="margin-left: -70px !important"
+    >
+      <section-edit-icon
+        label="Edit Pilot Appearance"
+        @open-selector="show()"
+      />
       Pilot Appearance
     </cc-title>
     <div class="my-2">
@@ -20,78 +28,31 @@
       title="Pilot Appearance"
       @confirm="pilot.TextAppearance = appearance"
     >
-      <tiptap-vuetify
-        v-model="appearance"
-        :extensions="extensions"
-        :card-props="{ flat: true, tile: true, elevation: 0 }"
-        class="mt-4"
-        :toolbar-attributes="$vuetify.theme.dark ? { color: 'black', dark: true } : {}"
-      />
+      <cc-rte v-model="appearance" />
     </cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import SectionEditIcon from '../../components/SectionEditIcon.vue'
-import NoDataBlock from '../../components/NoDataBlock.vue'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import {
-  TiptapVuetify,
-  Heading,
-  Bold,
-  Italic,
-  Strike,
-  Underline,
-  Code,
-  BulletList,
-  OrderedList,
-  ListItem,
-  Blockquote,
-  HardBreak,
-  HorizontalRule,
-  History,
-} from 'tiptap-vuetify'
+import SectionEditIcon from '../../components/SectionEditIcon.vue';
+import NoDataBlock from '../../components/NoDataBlock.vue';
 
-import vueMixins from '@/util/vueMixins'
-
-export default vueMixins(activePilot).extend({
+export default {
   name: 'appearance-block',
-  components: { SectionEditIcon, NoDataBlock, TiptapVuetify },
+  components: { SectionEditIcon, NoDataBlock },
   data: () => ({
     appearance: '',
-    extensions: [
-      History,
-      Blockquote,
-      Underline,
-      Strike,
-      Italic,
-      ListItem,
-      BulletList,
-      OrderedList,
-      [
-        Heading,
-        {
-          options: {
-            levels: [1, 2, 3],
-          },
-        },
-      ],
-      Bold,
-      Code,
-      HorizontalRule,
-      HardBreak,
-    ],
   }),
 
   created() {
     // this.$vuetify.lang.current = 'en'
-    this.appearance = this.pilot.TextAppearance || ''
+    this.appearance = this.pilot.TextAppearance || '';
   },
   methods: {
     show() {
-      this.appearance = this.pilot.TextAppearance || ''
-      this.$refs.dialog.show()
+      this.appearance = this.pilot.TextAppearance || '';
+      (this.$refs.dialog as any).show();
     },
   },
-})
+};
 </script>

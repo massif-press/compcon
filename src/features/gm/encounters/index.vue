@@ -19,14 +19,14 @@
     <v-row justify="center" align="center">
       <v-col cols="8">
         <v-btn color="primary" block large>
-          <v-icon left v-html="'mdi-plus'" />
+          <v-icon start v-html="'mdi-plus'" />
           Create New Encounter
         </v-btn>
       </v-col>
     </v-row>
     <v-footer fixed>
       <v-btn small to="/gm">
-        <v-icon left>mdi-chevron-left</v-icon>
+        <v-icon start>mdi-chevron-left</v-icon>
         Return to GM Menu
       </v-btn>
     </v-footer>
@@ -34,11 +34,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EncounterTable from './_components/EncounterTable.vue'
+import EncounterTable from './_components/EncounterTable.vue';
 
-export default Vue.extend({
+export default {
   name: 'encounter-landing',
   components: { EncounterTable },
-})
+};
 </script>

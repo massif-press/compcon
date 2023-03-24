@@ -12,13 +12,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { CompendiumItem } from '@/classes/CompendiumItem'
+import _ from 'lodash';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { CompendiumItem } from '@/classes/CompendiumItem';
+
+export default {
   name: 'equipment-selector',
   props: {
     pilot: {
@@ -38,23 +37,31 @@ export default Vue.extend({
   }),
   computed: {
     availableItems(): CompendiumItem[] {
-      const pilotLicensedItems = this.pilot.SpecialEquipment.map(x => x.ID)
+      const pilotLicensedItems = this.pilot.SpecialEquipment.map((x) => x.ID);
 
       return _.sortBy(
-        this.items.filter(x => !pilotLicensedItems.some(y => y === x.ID)),
+        this.items.filter((x) => !pilotLicensedItems.some((y) => y === x.ID)),
         ['Name']
-      )
+      );
     },
   },
   created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    const items = (compendium.MechWeapons.filter(x => x.IsExotic) as CompendiumItem[])
-      .concat(compendium.WeaponMods.filter(x => x.IsExotic) as CompendiumItem[])
-      .concat(compendium.MechSystems.filter(x => x.IsExotic) as CompendiumItem[])
-      .concat(compendium.Frames.filter(x => x.IsExotic) as CompendiumItem[])
-      .concat(compendium.PilotGear.filter(x => x.IsExotic) as CompendiumItem[])
+    const compendium = this.getModule(CompendiumStore);
+    const items = (
+      compendium.MechWeapons.filter((x) => x.IsExotic) as CompendiumItem[]
+    )
+      .concat(
+        compendium.WeaponMods.filter((x) => x.IsExotic) as CompendiumItem[]
+      )
+      .concat(
+        compendium.MechSystems.filter((x) => x.IsExotic) as CompendiumItem[]
+      )
+      .concat(compendium.Frames.filter((x) => x.IsExotic) as CompendiumItem[])
+      .concat(
+        compendium.PilotGear.filter((x) => x.IsExotic) as CompendiumItem[]
+      );
 
-    this.items = items.filter(x => !x.IsHidden)
+    this.items = items.filter((x) => !x.IsHidden);
   },
-})
+};
 </script>

@@ -6,7 +6,9 @@
           <v-col cols="auto" class="mr-2 ml-2">
             <v-avatar color="orange" size="80px">
               <v-img v-if="info.image" :src="info.image" />
-              <span v-else class="white--text headline">{{ info.name.substring(0, 1) }}</span>
+              <span v-else class="white--text headline">{{
+                info.name.substring(0, 1)
+              }}</span>
             </v-avatar>
           </v-col>
           <v-col>
@@ -18,11 +20,19 @@
               <span>Website</span>
             </a>
             <span v-if="info.website" class="mx-3">|</span>
-            <a v-if="info.twitter" target="_blank" :href="`https://twitter.com/${info.twitter}`">
+            <a
+              v-if="info.twitter"
+              target="_blank"
+              :href="`https://twitter.com/${info.twitter}`"
+            >
               <v-icon color="primary">mdi-twitter</v-icon>
               <span>@{{ info.twitter }}</span>
             </a>
-            <a v-if="info.github" target="_blank" :href="`https://github.com/${info.github}`">
+            <a
+              v-if="info.github"
+              target="_blank"
+              :href="`https://github.com/${info.github}`"
+            >
               <v-icon color="primary">mdi-github-circle</v-icon>
               <span>{{ info.github }}</span>
             </a>
@@ -34,8 +44,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'dev-badge',
   props: {
     info: {
@@ -44,7 +53,7 @@ export default Vue.extend({
     },
     cols: { type: Number, default: 6 },
   },
-})
+};
 </script>
 
 <style scoped>

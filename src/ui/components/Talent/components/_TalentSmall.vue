@@ -11,8 +11,8 @@
       max-width="80vw"
       min-width="50vw"
     >
-      <template v-slot:activator="{ on }">
-        <div style="position: relative" v-on="on">
+      <template v-slot:activator="{ props }">
+        <div style="position: relative" v-bind="props">
           <talent-emblem :url="talent.Image" :name="talent.Name" large />
           <div v-if="rank" class="triangle" />
           <div
@@ -20,7 +20,7 @@
             class="white--text"
             style="position: absolute; bottom: 0px; right: 0px; z-index: 3"
           >
-            <v-icon color="white" size="30">cci-rank-{{ rank }}</v-icon>
+            <v-icon color="white" size="30">cc:rank-{{ rank }}</v-icon>
           </div>
         </div>
       </template>
@@ -28,8 +28,13 @@
         <v-toolbar flat dense tile color="primary">
           <span class="heading h3 white--text">{{ talent.Name }}</span>
           <v-spacer />
-          <span v-if="talent.InLcp" class="heading h3 white--text mr-3">{{ talent.LcpName }}</span>
-          <cc-tooltip v-if="hideLocked" :content="`${showAll ? 'Hide' : 'Show'} All`">
+          <span v-if="talent.InLcp" class="heading h3 white--text mr-3">{{
+            talent.LcpName
+          }}</span>
+          <cc-tooltip
+            v-if="hideLocked"
+            :content="`${showAll ? 'Hide' : 'Show'} All`"
+          >
             <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
               <v-icon small>mdi-eye</v-icon>
             </v-btn>
@@ -44,12 +49,14 @@
             md=""
             style="min-height: 100%"
           >
-            <v-card flat tile outlined min-height="100%">
+            <v-card flat tile variant="outlined" min-height="100%">
               <v-toolbar
                 flat
                 dense
                 tile
-                :color="selectable && parseInt(rank) + 1 === n ? 'secondary' : 'pilot'"
+                :color="
+                  selectable && parseInt(rank) + 1 === n ? 'secondary' : 'pilot'
+                "
               >
                 <span
                   :class="`heading h3 ${
@@ -67,7 +74,7 @@
                         : 'pilot lighten-2'
                     "
                   >
-                    cci-rank-{{ n }}
+                    cc:rank-{{ n }}
                   </v-icon>
                   {{ talent.Rank(n).Name }}
                 </span>
@@ -75,7 +82,9 @@
               <v-card-text style="min-height: 100%">
                 <talent-rank-contents
                   :talent-rank="talent.Rank(n)"
-                  :unlocked="!rank || parseInt(rank) >= (selectable ? n - 1 : n)"
+                  :unlocked="
+                    !rank || parseInt(rank) >= (selectable ? n - 1 : n)
+                  "
                 />
               </v-card-text>
               <v-divider v-if="selectable" class="mt-auto" />
@@ -88,25 +97,25 @@
                   :disabled="!canAdd"
                   @click="$emit('add')"
                 >
-                  <v-icon left>mdi-lock-open</v-icon>
+                  <v-icon start>mdi-lock-open</v-icon>
                   Unlock {{ talent.Rank(n).Name }}
                 </v-btn>
                 <v-btn v-else-if="n > parseInt(rank)" small disabled>
-                  <v-icon left>mdi-lock</v-icon>
+                  <v-icon start>mdi-lock</v-icon>
                   TALENT RANK LOCKED
                 </v-btn>
                 <v-btn
                   v-else-if="selectable && parseInt(rank) === n"
                   color="error"
-                  outlined
+                  variant="outlined"
                   class="fadeSelect"
                   @click="$emit('remove')"
                 >
-                  <v-icon left>mdi-close</v-icon>
+                  <v-icon start>mdi-close</v-icon>
                   Remove
                 </v-btn>
                 <div v-else class="text-center">
-                  <v-icon left>cci-rank-{{ n }}</v-icon>
+                  <v-icon start>cc:rank-{{ n }}</v-icon>
                   UNLOCKED
                 </div>
               </v-card-actions>
@@ -119,10 +128,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import TalentRankContents from './_TalentRankContents.vue'
-import TalentEmblem from './_TalentEmblem.vue'
-export default Vue.extend({
+import TalentRankContents from './_TalentRankContents.vue';
+import TalentEmblem from './_TalentEmblem.vue';
+export default {
   name: 'talent-small',
   components: { TalentRankContents, TalentEmblem },
   props: {
@@ -137,11 +145,11 @@ export default Vue.extend({
   }),
   computed: {
     showFull() {
-      if (this.hideLocked) return this.showAll
-      return true
+      if (this.hideLocked) return this.showAll;
+      return true;
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -154,6 +162,6 @@ export default Vue.extend({
   border-style: solid;
   border-width: 0 0 55px 55px;
   z-index: 2;
-  border-color: transparent transparent var(--v-primary-base) transparent;
+  border-color: transparent transparent rgb(var(--v-theme-primary)) transparent;
 }
 </style>

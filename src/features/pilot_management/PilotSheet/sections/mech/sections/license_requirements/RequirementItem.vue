@@ -1,6 +1,6 @@
 <template>
   <v-menu open-on-hover offset-y>
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ props }">
       <v-chip
         slot="activator"
         label
@@ -8,15 +8,18 @@
         :dark="license.missing"
         :color="license.missing ? 'deep-orange darken-4' : 'success darken-2'"
         class="ma-1"
-        v-on="on"
+        v-bind="props"
       >
-        <v-icon left>cci-rank-{{ license.rank }}</v-icon>
+        <v-icon start>cc:rank-{{ license.rank }}</v-icon>
         {{ license.source }} {{ license.name }} {{ 'I'.repeat(license.rank) }}
       </v-chip>
     </template>
 
     <v-card tile>
-      <v-card-title v-if="license.missing" class="error white--text font-weight-bolder py-1 my-0">
+      <v-card-title
+        v-if="license.missing"
+        class="error white--text font-weight-bolder py-1 my-0"
+      >
         WARNING: LICENSE MISSING&emsp;
       </v-card-title>
       <v-card-text class="pa-2 text--text">
@@ -30,8 +33,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'requirement-item',
   props: {
     license: {
@@ -39,5 +41,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

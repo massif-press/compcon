@@ -1,6 +1,6 @@
 <template>
   <v-container fluid v-show="item">
-    <v-card flat outlined class="mb-8">
+    <v-card flat variant="outlined" class="mb-8">
       <v-toolbar dense color="primary">
         <div class="heading h3 pa-1 white--text">{{ typeText }} EDITOR</div>
         <v-spacer />
@@ -14,12 +14,7 @@
             <slot name="builder" />
             <div v-if="showDescription">
               <div class="overline">{{ typeText }} DESCRIPTION</div>
-              <tiptap-vuetify
-                v-model="item.Description"
-                :extensions="extensions"
-                :card-props="{ flat: true, outlined: true, 'min-height': '200px' }"
-                :toolbar-attributes="$vuetify.theme.dark ? { color: 'black', dark: true } : {}"
-              />
+              <cc-rte v-model="item.Description" />
             </div>
           </v-col>
           <v-col cols="3" class="text-center">
@@ -27,14 +22,25 @@
               v-model="item.Labels"
               small-chips
               multiple
-              outlined
+              variant="outlined"
               hide-details
               label="GM Labels"
               class="mb-2"
             />
-            <v-combobox v-model="item.Campaign" outlined hide-details label="Campaign" />
+            <v-combobox
+              v-model="item.Campaign"
+              variant="outlined"
+              hide-details
+              label="Campaign"
+            />
             <v-img :src="item.PortraitController.Image" />
-            <v-btn small outlined block color="accent" @click="$refs.imageSelector.open()">
+            <v-btn
+              small
+              variant="outlined"
+              block
+              color="accent"
+              @click="$refs.imageSelector.open()"
+            >
               Change Image
             </v-btn>
             <cc-simple-image-selector
@@ -57,8 +63,13 @@
         />
         <v-row justify="end">
           <v-col cols="auto">
-            <v-btn color="accent" outlined small @click="item.NarrativeController.AddClock()">
-              <v-icon left>mdi-plus</v-icon>
+            <v-btn
+              color="accent"
+              variant="outlined"
+              small
+              @click="item.NarrativeController.AddClock()"
+            >
+              <v-icon start>mdi-plus</v-icon>
               Add New Clock
             </v-btn>
           </v-col>
@@ -74,20 +85,20 @@
         />
         <v-row justify="end">
           <v-col cols="auto">
-            <v-btn color="accent" outlined small @click="item.NarrativeController.AddTable()">
-              <v-icon left>mdi-plus</v-icon>
+            <v-btn
+              color="accent"
+              variant="outlined"
+              small
+              @click="item.NarrativeController.AddTable()"
+            >
+              <v-icon start>mdi-plus</v-icon>
               Add New Table
             </v-btn>
           </v-col>
         </v-row>
         <v-divider class="my-2" />
         <div class="caption">GM NOTES</div>
-        <tiptap-vuetify
-          v-model="item.Notes"
-          :extensions="extensions"
-          :card-props="{ flat: true, outlined: true }"
-          :toolbar-attributes="$vuetify.theme.dark ? { color: 'black', dark: true } : {}"
-        />
+        <cc-rte v-model="item.Notes" />
       </v-card-text>
       <v-divider />
       <v-card-actions v-if="isNew">
@@ -96,17 +107,22 @@
         <v-btn color="secondary" @click="saveExit()">Save and Exit</v-btn>
       </v-card-actions>
       <v-card-actions v-else>
-        <v-btn :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">Print</v-btn>
+        <v-btn :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
+          >Print</v-btn
+        >
         <v-spacer />
         <v-menu v-model="dupeMenu" offset-y offset-x top left>
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" class="mx-3" v-on="on">Duplicate</v-btn>
+          <template v-slot:activator="{ props }">
+            <v-btn color="primary" class="mx-3" v-bind="props">Duplicate</v-btn>
           </template>
-          <cc-confirmation content="Confirm duplication of this NPC" @confirm="dupeNpc()" />
+          <cc-confirmation
+            content="Confirm duplication of this NPC"
+            @confirm="dupeNpc()"
+          />
         </v-menu>
         <v-menu v-model="deleteMenu" offset-y offset-x top left>
-          <template v-slot:activator="{ on }">
-            <v-btn color="error" v-on="on">Delete</v-btn>
+          <template v-slot:activator="{ props }">
+            <v-btn color="error" v-bind="props">Delete</v-btn>
           </template>
           <cc-confirmation
             content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
@@ -118,7 +134,7 @@
     </v-card>
     <v-footer fixed>
       <v-btn small @click="$emit('exit')">
-        <v-icon left>mdi-chevron-left</v-icon>
+        <v-icon start>mdi-chevron-left</v-icon>
         Return to Collection
       </v-btn>
     </v-footer>
@@ -126,28 +142,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import {
-  TiptapVuetify,
-  Heading,
-  Bold,
-  Italic,
-  Strike,
-  Underline,
-  Code,
-  BulletList,
-  OrderedList,
-  ListItem,
-  Blockquote,
-  HardBreak,
-  HorizontalRule,
-  History,
-} from 'tiptap-vuetify'
-import SectionEditor from './SectionEditor.vue'
+import SectionEditor from './SectionEditor.vue';
 
-export default Vue.extend({
+export default {
   name: 'gm-editor-base',
-  components: { TiptapVuetify, SectionEditor },
+  components: { SectionEditor },
   props: {
     isNew: { type: Boolean },
     showDescription: { type: Boolean },
@@ -158,47 +157,25 @@ export default Vue.extend({
     printDialog: false,
     dupeMenu: false,
     deleteMenu: false,
-    extensions: [
-      History,
-      Blockquote,
-      Underline,
-      Strike,
-      Italic,
-      ListItem,
-      BulletList,
-      OrderedList,
-      [
-        Heading,
-        {
-          options: {
-            levels: [1, 2, 3],
-          },
-        },
-      ],
-      Bold,
-      Code,
-      HorizontalRule,
-      HardBreak,
-    ],
   }),
   computed: {
     typeText() {
-      if (!this.item) return 'ERR'
-      return this.item.ItemType.toUpperCase()
+      if (!this.item) return 'ERR';
+      return this.item.ItemType.toUpperCase();
     },
   },
   methods: {
     deleteItem() {
-      if (!this.isNew) this.$emit('delete')
+      if (!this.isNew) this.$emit('delete');
     },
     copy() {
-      if (!this.isNew) this.$emit('copy')
-      this.$emit('exit')
+      if (!this.isNew) this.$emit('copy');
+      this.$emit('exit');
     },
     saveExit() {
-      if (this.isNew) this.$emit('add-new', this.item)
-      else this.$emit('save')
+      if (this.isNew) this.$emit('add-new', this.item);
+      else this.$emit('save');
     },
   },
-})
+};
 </script>

@@ -11,7 +11,7 @@
       item-key="ID"
     >
       <template v-slot:[`item.NpcTemplateController.Templates`]="{ item }">
-        {{ item.NpcTemplateController.Templates.map(x => x.Name).join(', ') }}
+        {{ item.NpcTemplateController.Templates.map((x) => x.Name).join(', ') }}
       </template>
     </v-data-table>
     <v-divider class="my-4" />
@@ -25,8 +25,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
 const characterHeaders = [
   { text: 'Name', value: 'Name' },
   {
@@ -35,7 +33,7 @@ const characterHeaders = [
   },
   { text: 'Title', value: 'Title' },
   { text: 'Campaign', value: 'Campaign' },
-]
+];
 
 const pilotHeaders = [
   {
@@ -46,7 +44,7 @@ const pilotHeaders = [
   { text: 'LL', value: 'Level' },
   { text: 'Name', value: 'Name' },
   { text: 'Group', value: 'GroupController.Group' },
-]
+];
 
 const npcHeaders = [
   {
@@ -58,9 +56,9 @@ const npcHeaders = [
   { text: 'Class', value: 'NpcClassController.Class.Name' },
   { text: 'Templates', value: 'NpcTemplateController.Templates' },
   { text: 'Campaign', value: 'Campaign' },
-]
+];
 
-export default Vue.extend({
+export default {
   name: 'mass-delete',
   props: {
     items: { type: Array, required: true },
@@ -70,30 +68,30 @@ export default Vue.extend({
     headers: [],
   }),
   mounted() {
-    if (!this.items) return
-    const type = this.items[0].ItemType.toLowerCase()
+    if (!this.items) return;
+    const type = this.items[0].ItemType.toLowerCase();
     switch (type) {
       case 'pilot':
-        this.headers = pilotHeaders
-        break
+        this.headers = pilotHeaders;
+        break;
       case 'npc':
-        this.headers = npcHeaders
-        break
+        this.headers = npcHeaders;
+        break;
       case 'character':
-        this.headers = characterHeaders
-        break
+        this.headers = characterHeaders;
+        break;
       default:
-        console.error('no headers for', type)
-        break
+        console.error('no headers for', type);
+        break;
     }
   },
   methods: {
     commit() {
-      const type = this.items[0].ItemType.toLowerCase()
-      console.log(type)
-      const ids = this.selected.map(x => x.ID).join(',')
-      this.$router.push(`mass-print/${type}/${ids}`)
+      const type = this.items[0].ItemType.toLowerCase();
+      console.log(type);
+      const ids = this.selected.map((x) => x.ID).join(',');
+      this.$router.push(`mass-print/${type}/${ids}`);
     },
   },
-})
+};
 </script>

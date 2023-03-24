@@ -9,21 +9,26 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import MechSkillsBlock from './components/MechSkillsBlock.vue'
-import LicenseBlock from './components/LicenseBlock.vue'
-import SpecialBlock from './components/SpecialBlock.vue'
-import CoreBonusBlock from './components/CoreBonusBlock.vue'
-import TalentBlock from './components/TalentBlock.vue'
+import MechSkillsBlock from './components/MechSkillsBlock.vue';
+import LicenseBlock from './components/LicenseBlock.vue';
+import SpecialBlock from './components/SpecialBlock.vue';
+import CoreBonusBlock from './components/CoreBonusBlock.vue';
+import TalentBlock from './components/TalentBlock.vue';
 
-export default Vue.extend({
+export default {
   name: 'tactical-view',
-  components: { MechSkillsBlock, SpecialBlock, LicenseBlock, CoreBonusBlock, TalentBlock },
+  components: {
+    MechSkillsBlock,
+    SpecialBlock,
+    LicenseBlock,
+    CoreBonusBlock,
+    TalentBlock,
+  },
   props: {
     pilot: {
       type: Object,
       required: true,
     },
   },
-})
+};
 </script>

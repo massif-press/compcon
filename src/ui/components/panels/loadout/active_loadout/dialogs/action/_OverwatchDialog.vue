@@ -5,10 +5,13 @@
       <action-detail-expander :action="action" />
       <v-divider class="my-3" />
       <v-container style="max-width: 800px">
-        <div v-for="(m, i) in mech.MechLoadoutController.ActiveLoadout.Mounts" :key="`bar_${i}`">
+        <div
+          v-for="(m, i) in mech.MechLoadoutController.ActiveLoadout.Mounts"
+          :key="`bar_${i}`"
+        >
           <item-selector-row
             v-for="(w, j) in m.Weapons.filter(
-              x => x.Size !== 'Superheavy' && !x.Destroyed && !x.NoAttack
+              (x) => x.Size !== 'Superheavy' && !x.Destroyed && !x.NoAttack
             )"
             :key="`weap_${j}`"
             :item="w"
@@ -53,14 +56,12 @@
 </template>
 
 <script lang="ts">
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
-import WSkirmishDialog from './_SelSkirmishDialog.vue'
-import SelFightDialog from './_SelFightDialog.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue';
+import WSkirmishDialog from './_SelSkirmishDialog.vue';
+import SelFightDialog from './_SelFightDialog.vue';
 
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'overwatch-dialog',
   components: {
     ActionDetailExpander,
@@ -85,22 +86,22 @@ export default Vue.extend({
   }),
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
   },
   methods: {
     completeOverwatch(free) {
-      this.state.CommitAction(this.action, free)
+      this.state.CommitAction(this.action, free);
     },
     pilotOverwatch(item) {
-      this.selected = item
-      this.$refs.f_dialog.show()
+      this.selected = item;
+      (this.$refs.f_dialog as any).show();
     },
     overwatch(item, mount) {
-      this.selected = item
-      this.selectedMount = mount
-      this.$refs.s_dialog.show()
+      this.selected = item;
+      this.selectedMount = mount;
+      (this.$refs.s_dialog as any).show();
     },
   },
-})
+};
 </script>

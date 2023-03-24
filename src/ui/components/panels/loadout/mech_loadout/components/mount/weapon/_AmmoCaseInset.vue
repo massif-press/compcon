@@ -10,8 +10,8 @@
           v-model="selected"
           color="accent"
           item-color="accent"
-          :item-disabled="item => !readonly && item.cost > uses"
-          outlined
+          :item-disabled="(item) => !readonly && item.cost > uses"
+          variant="outlined"
           dense
           hide-details
           :items="ammoItems"
@@ -24,7 +24,10 @@
       <v-col v-if="selected.cost" class="ml-auto pl-4 pr-3 text-left">
         <div class="overline my-n2">COST::AMMO CASE</div>
         <div>
-          <v-icon v-for="n in selected.cost" :key="selected.name + '_ammo_' + n">
+          <v-icon
+            v-for="n in selected.cost"
+            :key="selected.name + '_ammo_' + n"
+          >
             mdi-hexagon-slice-6
           </v-icon>
         </div>
@@ -38,8 +41,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'ammo-case-inset',
   props: {
     level: { type: Number, required: true, default: 0 },
@@ -78,7 +80,8 @@ export default Vue.extend({
         name: 'Hellfire',
         cost: 2,
         damage: 'energy',
-        effect: 'This weapon deals Energy damage and deals any bonus damage as Burn.',
+        effect:
+          'This weapon deals Energy damage and deals any bonus damage as Burn.',
       },
       {
         name: 'Jager',
@@ -97,18 +100,18 @@ export default Vue.extend({
   }),
   computed: {
     ammoItems() {
-      if (this.level < 2) return this.allAmmo.slice(0, 4)
-      return this.allAmmo
+      if (this.level < 2) return this.allAmmo.slice(0, 4);
+      return this.allAmmo;
     },
   },
   created() {
-    this.selected = this.allAmmo[0]
+    this.selected = this.allAmmo[0];
   },
   methods: {
     setSelection(ammo) {
-      this.$emit('set-cost', ammo.cost)
-      this.$emit('set-damage', ammo.damage)
+      this.$emit('set-cost', ammo.cost);
+      this.$emit('set-damage', ammo.damage);
     },
   },
-})
+};
 </script>

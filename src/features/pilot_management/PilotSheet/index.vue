@@ -14,13 +14,13 @@
 </template>
 
 <script lang="ts">
-import PilotHeader from "./components/PilotHeader.vue";
-import activePilot from "@/features/pilot_management/mixins/activePilot";
+import PilotHeader from './components/PilotHeader.vue';
+import activePilot from '@/features/pilot_management/mixins/activePilot';
 
-import vueMixins from "@/util/vueMixins";
+import vueMixins from '@/util/vueMixins';
 
-export default vueMixins(activePilot).extend({
-  name: "pilot-sheet",
+export default {
+  name: 'pilot-sheet',
   components: { PilotHeader },
   props: {
     pilotID: {
@@ -28,5 +28,5 @@ export default vueMixins(activePilot).extend({
       required: true,
     },
   },
-});
+};
 </script>

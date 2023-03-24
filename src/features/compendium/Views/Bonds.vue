@@ -13,7 +13,9 @@
         })
       "
     >
-      <v-list-item-title class="heading h3 ml-2">{{ e.Name }}</v-list-item-title>
+      <v-list-item-title class="heading h3 ml-2">{{
+        e.Name
+      }}</v-list-item-title>
     </v-list-item>
     <h1 class="heading mt-3 mb-n3">Pilot Bonds</h1>
     <v-container>
@@ -29,19 +31,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SidebarArrayView from '../components/SidebarArrayView.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import SidebarArrayView from '../components/SidebarArrayView.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+
+export default {
   name: 'bonds',
   components: { SidebarArrayView },
   data: () => ({
     bonds: [],
   }),
   created() {
-    this.bonds = getModule(CompendiumStore, this.$store).Bonds
+    this.bonds = this.getModule(CompendiumStore).Bonds;
   },
-})
+};
 </script>

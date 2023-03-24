@@ -1,113 +1,108 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import _ from 'lodash'
-import { deleteDataById, loadData, saveDelta } from '@/io/Data'
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { Campaign, CampaignStatus, ICampaignData } from '@/classes/campaign/Campaign'
-import { storeSaveDelta } from '@/util/storeUtils'
+import { loadData } from '@/io/Data';
 
-export const SAVE_DATA = 'SAVE_DATA'
-export const SET_DIRTY = 'SET_DIRTY'
-export const ADD_CAMPAIGN = 'ADD_CAMPAIGN'
-export const DELETE_CAMPAIGN = 'DELETE_CAMPAIGN'
-export const CLONE_CAMPAIGN = 'CLONE_CAMPAIGN'
-export const LOAD_CAMPAIGNS = 'LOAD_CAMPAIGNS'
+import {
+  Campaign,
+  CampaignStatus,
+  ICampaignData,
+} from '@/classes/campaign/Campaign';
+import { storeSaveDelta } from '@/util/storeUtils';
 
-export const SET_EDIT_CAMPAIGN = 'SET_EDIT_CAMPAIGN'
+export default {
+  state: () => ({
+    EditCampaign: null as unknown as Campaign,
+    Campaigns: [] as Campaign[],
+    Dirty: false,
+  }),
+  getters: {
+    getCampaigns: (state: any) => state.Campaigns,
+    getEditCampaign: (state: any) => state.EditCampaign,
+    getUnpublishedCampaigns: (state: any) =>
+      state.Campaigns.filter(
+        (x: Campaign) => x.Status === CampaignStatus.Unpublished
+      ),
+    getActiveCampaigns: (state: any) =>
+      state.Campaigns.filter(
+        (x: Campaign) => x.Status === CampaignStatus.Active
+      ),
+    getPublishedCampaigns: (state: any) =>
+      state.Campaigns.filter(
+        (x: Campaign) => x.Status === CampaignStatus.Published
+      ),
+    getArchivedCampaigns: (state: any) =>
+      state.Campaigns.filter(
+        (x: Campaign) => x.Status === CampaignStatus.Archived
+      ),
+  },
+  mutations: {
+    LOAD_CAMPAIGNS(state: any, payload: ICampaignData[]): void {
+      state.Campaigns = [...payload.map((x) => Campaign.Deserialize(x))];
+    },
 
-@Module({
-  name: 'campaign',
-})
-export class CampaignStore extends VuexModule {
-  EditCampaign: Campaign = null
-  Campaigns: Campaign[] = []
-  public Dirty = false
+    SET_EDIT_CAMPAIGN(state: any, payload: Campaign): void {
+      state.EditCampaign = payload;
+    },
 
-  @Mutation
-  private [LOAD_CAMPAIGNS](payload: ICampaignData[]): void {
-    this.Campaigns = [...payload.map(x => Campaign.Deserialize(x))]
-  }
+    SAVE_DATA(state: any): void {
+      if (state.Dirty) {
+        storeSaveDelta(state.Campaigns);
+        state.Dirty = false;
+      }
+    },
 
-  @Mutation
-  private [SET_EDIT_CAMPAIGN](payload: Campaign): void {
-    this.EditCampaign = payload
-  }
+    SET_DIRTY(state: any): void {
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [SAVE_DATA](): void {
-    if (this.Dirty) {
-      storeSaveDelta(this.Campaigns)
-      this.Dirty = false
-    }
-  }
+    ADD_CAMPAIGN(state: any, payload: Campaign): void {
+      payload.SaveController.IsDirty = true;
+      state.Campaigns.push(payload);
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [SET_DIRTY](): void {
-    this.Dirty = true
-  }
+    CLONE_CAMPAIGN(state: any, payload: Campaign): void {
+      state.Campaigns.push(payload.Clone());
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [ADD_CAMPAIGN](payload: Campaign): void {
-    payload.SaveController.IsDirty = true
-    this.Campaigns.push(payload)
-    this.Dirty = true
-  }
+    DELETE_CAMPAIGN(state: any, payload: Campaign): void {
+      const idx = state.Campaigns.findIndex(
+        (x: Campaign) => x.ID === payload.ID
+      );
+      if (idx > -1) {
+        state.Campaigns.splice(idx, 1);
+      } else {
+        throw console.error('CAMPAIGN not loaded!');
+      }
+      state.Dirty = true;
+    },
+  },
+  actions: {
+    setEditCampaign({ state, commit }: any, id: string): void {
+      commit(
+        'SET_EDIT_CAMPAIGN',
+        state.Campaigns.find((x: Campaign) => x.ID === id)
+      );
+    },
 
-  @Mutation
-  private [CLONE_CAMPAIGN](payload: Campaign): void {
-    this.Campaigns.push(payload.Clone())
-    this.Dirty = true
-  }
+    saveCampaignData({ commit }: any): void {
+      commit('SAVE_DATA');
+    },
 
-  @Mutation
-  private [DELETE_CAMPAIGN](payload: Campaign): void {
-    const idx = this.Campaigns.findIndex(x => x.ID === payload.ID)
-    if (idx > -1) {
-      this.Campaigns.splice(idx, 1)
-    } else {
-      throw console.error('CAMPAIGN not loaded!')
-    }
-    this.Dirty = true
-  }
+    cloneCampaign({ commit }: any, payload: Campaign): void {
+      commit('CLONE_CAMPAIGN', payload);
+    },
 
-  @Action
-  public setEditCampaign(id: string): void {
-    this.context.commit(
-      SET_EDIT_CAMPAIGN,
-      this.Campaigns.find(x => x.ID === id)
-    )
-  }
+    addCampaign({ commit }: any, payload: Campaign): void {
+      commit('ADD_CAMPAIGN', payload);
+    },
 
-  @Action({ rawError: true })
-  public saveCampaignData(): void {
-    this.context.commit(SAVE_DATA)
-  }
+    deleteCampaign({ commit }: any, payload: Campaign): void {
+      commit('DELETE_CAMPAIGN', payload);
+    },
 
-  @Action
-  public cloneCampaign(payload: Campaign): void {
-    this.context.commit(CLONE_CAMPAIGN, payload)
-  }
-
-  @Action
-  public addCampaign(payload: Campaign): void {
-    this.context.commit(ADD_CAMPAIGN, payload)
-  }
-
-  @Action
-  public deleteCampaign(payload: Campaign): void {
-    this.context.commit(DELETE_CAMPAIGN, payload)
-  }
-
-  @Action({ rawError: true })
-  public async loadCampaigns() {
-    const campaignData = await loadData<ICampaignData>('campaigns')
-    this.context.commit(LOAD_CAMPAIGNS, campaignData)
-  }
-
-  get Unpublished(): Campaign[] {
-    return this.Campaigns.filter(x => x.Status === CampaignStatus.Unpublished)
-  }
-
-  get Active(): Campaign[] {
-    return this.Campaigns.filter(x => x.Status === CampaignStatus.Active)
-  }
-}
+    async loadCampaigns({ commit }: any) {
+      const campaignData = await loadData<ICampaignData>('campaigns');
+      commit('LOAD_CAMPAIGNS', campaignData);
+    },
+  },
+};

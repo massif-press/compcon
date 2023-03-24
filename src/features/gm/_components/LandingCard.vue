@@ -1,8 +1,11 @@
 <template>
   <v-col :cols="cols">
     <v-hover v-slot="{ hover }" style="cursor: pointer">
-      <v-card flat outlined class="mx-auto" :to="to">
-        <v-img :aspect-ratio="ratio" :src="`../../../../static/img/misc/${img}`">
+      <v-card flat variant="outlined" class="mx-auto" :to="to">
+        <v-img
+          :aspect-ratio="ratio"
+          :src="`../../../../static/img/misc/${img}`"
+        >
           <v-fade-transition>
             <div
               v-if="hover"
@@ -13,7 +16,10 @@
             </div>
           </v-fade-transition>
         </v-img>
-        <v-card-text class="py-2 text-center heading h2" style="position: relative">
+        <v-card-text
+          class="py-2 text-center heading h2"
+          style="position: relative"
+        >
           <span :class="hover ? 'primary--text' : ''">{{ name }}</span>
         </v-card-text>
       </v-card>
@@ -22,8 +28,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'gm-landing-card',
   props: {
     to: { type: String, required: true },
@@ -34,7 +39,7 @@ export default Vue.extend({
     ratio: { type: Number, required: false, default: 1 },
     // dark: { type: Boolean },
   },
-})
+};
 </script>
 
 <style>

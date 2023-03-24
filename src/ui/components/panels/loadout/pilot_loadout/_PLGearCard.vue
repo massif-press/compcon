@@ -16,16 +16,28 @@
     >
       <v-row dense>
         <v-col>
-          <span :key="item.Name" class="h2 heading text--text" style="line-height: 35px">
+          <span
+            :key="item.Name"
+            class="h2 heading text--text"
+            style="line-height: 35px"
+          >
             {{ item.Name }}
-            <cc-tooltip v-if="item.Note" :key="item.Note.length" simple inline :content="item.Note">
+            <cc-tooltip
+              v-if="item.Note"
+              :key="item.Note.length"
+              simple
+              inline
+              :content="item.Note"
+            >
               <v-icon small color="active">mdi-note</v-icon>
             </cc-tooltip>
           </span>
         </v-col>
         <v-col cols="auto" class="ml-auto text-right mt-n2 mb-n2">
           <div class="overline">ITEM USES</div>
-          <v-icon v-if="!item.MaxUses" color="secondary" class="mt-n3 mr-2">mdi-infinity</v-icon>
+          <v-icon v-if="!item.MaxUses" color="secondary" class="mt-n3 mr-2"
+            >mdi-infinity</v-icon
+          >
           <cc-item-uses v-else :item="item" color="secondary" class="mt-n3" />
         </v-col>
       </v-row>
@@ -34,7 +46,7 @@
         dense
         class="mt-2"
         :style="`max-height: ${
-          $vuetify.breakpoint.smAndDown ? '125' : '200'
+          $vuetify.display.smAndDown ? '125' : '200'
         }px; overflow-y: scroll`"
       >
         <p v-html-safe="item.Description" class="text--text" />
@@ -55,22 +67,35 @@
       >
         <div v-if="item">
           <span class="overline">
-            GMS EQUIPMENT CATALOG PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+            GMS EQUIPMENT CATALOG PRINTID:
+            {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
             <span class="success--text text--darken-1">
               [ PILOT EQUIPMENT REGISTRATION VERIFIED ]
             </span>
           </span>
           <br />
-          <span class="heading h1 accent--text" style="line-height: 20px">{{ item.Name }}</span>
-          <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
+          <span class="heading h1 accent--text" style="line-height: 20px">{{
+            item.Name
+          }}</span>
+          <span class="flavor-text overline mt-n1" style="display: block"
+            >CURRENTLY EQUIPPED</span
+          >
         </div>
         <div v-else>
-          <span class="overline">GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)</span>
+          <span class="overline"
+            >GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)</span
+          >
           <br />
-          <span class="heading h1 subtle--text text--lighten-1" style="line-height: 20px">
+          <span
+            class="heading h1 subtle--text text--lighten-1"
+            style="line-height: 20px"
+          >
             NO SELECTION
           </span>
-          <span class="flavor-text overline mt-n1 error--text" style="display: block">
+          <span
+            class="flavor-text overline mt-n1 error--text"
+            style="display: block"
+          >
             [ EQUIPMENT ID INVALID OR MISSING ]
           </span>
         </div>
@@ -80,14 +105,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PlCardBase from './_PLCardBase.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { PilotGear, CompendiumItem, ItemType } from '@/class'
-import { flavorID } from '@/io/Generators'
+import PlCardBase from './_PLCardBase.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { PilotGear, CompendiumItem, ItemType } from '@/class';
+import { flavorID } from '@/io/Generators';
+
+export default {
   name: 'pl-pilot-gear-card',
   components: { PlCardBase },
   props: {
@@ -119,22 +143,23 @@ export default Vue.extend({
   }),
   methods: {
     equip(item: PilotGear) {
-      this.$emit('equip', this.$_.clone(item))
-      this.$refs.base.closeSelector()
+      this.$emit('equip', { ...item });
+      (this.$refs.base as any).closeSelector();
     },
     getGear() {
-      const compendium = getModule(CompendiumStore, this.$store)
+      const compendium = this.getModule(CompendiumStore);
       let gear = compendium.PilotGear.filter(
-        (x: CompendiumItem) => !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotGear
-      )
+        (x: CompendiumItem) =>
+          !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotGear
+      );
       if (this.exotics.length) {
-        gear = gear.concat(this.exotics)
+        gear = gear.concat(this.exotics);
       }
-      return gear
+      return gear;
     },
     fID(template: string): string {
-      return flavorID(template)
+      return flavorID(template);
     },
   },
-})
+};
 </script>

@@ -6,7 +6,7 @@
 
     <v-row v-if="item.LicenseString" class="mb-2 mt-n1">
       <v-divider class="mt-3" />
-      <v-icon color="panel-border">cci-{{ $_.kebabCase(item.ItemType) }}</v-icon>
+      <v-icon color="panel-border">cc:{{ $_.kebabCase(item.ItemType) }}</v-icon>
       <v-divider class="mt-3" />
     </v-row>
 
@@ -21,14 +21,26 @@
     <div v-if="item.Actions && item.Actions.length">
       <div class="overline ml-n2 subtle--text">EQUIPMENT ACTIONS</div>
       <v-row no-gutters justify="center">
-        <v-col v-for="(a, i) in item.Actions" :key="`${item.Name}_action_${i}`" cols="auto">
-          <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+        <v-col
+          v-for="(a, i) in item.Actions"
+          :key="`${item.Name}_action_${i}`"
+          cols="auto"
+        >
+          <cc-action
+            :action="a"
+            :panel="$vuetify.display.lgAndUp"
+            class="ma-2"
+          />
         </v-col>
       </v-row>
     </div>
 
     <div v-if="item && item.Ammo && item.Ammo.length">
-      <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
+      <div
+        v-for="(a, i) in item.Ammo"
+        :key="`${item.Name}_ammo_${i}`"
+        class="body-text"
+      >
         <b>{{ a.name }}</b>
         :
         <span v-html-safe="a.detail" />
@@ -38,10 +50,14 @@
     <div v-if="item.Deployables && item.Deployables.length">
       <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
       <v-row no-gutters justify="center">
-        <v-col v-for="(d, i) in item.Deployables" :key="`${item.Name}_deployable_${i}`" cols="auto">
+        <v-col
+          v-for="(d, i) in item.Deployables"
+          :key="`${item.Name}_deployable_${i}`"
+          cols="auto"
+        >
           <cc-deployable-info
             :deployable="d"
-            :panel="$vuetify.breakpoint.lgAndUp"
+            :panel="$vuetify.display.lgAndUp"
             :name-override="item.Name"
             class="ma-2"
           />
@@ -57,7 +73,7 @@
           :key="`${item.Name}_integrated_${i}`"
           cols="auto"
         >
-          <cc-integrated-info :item="x" :panel="$vuetify.breakpoint.lgAndUp" />
+          <cc-integrated-info :item="x" :panel="$vuetify.display.lgAndUp" />
         </v-col>
       </v-row>
     </div>
@@ -80,7 +96,7 @@
     <div v-if="notes">
       <v-textarea
         v-model="item.Note"
-        outlined
+        variant="outlined"
         auto-grow
         rows="2"
         filled
@@ -95,8 +111,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'equipment-card-base',
   props: {
     item: {
@@ -106,5 +121,5 @@ export default Vue.extend({
     notes: { type: Boolean },
     smallTags: { type: Boolean },
   },
-})
+};
 </script>

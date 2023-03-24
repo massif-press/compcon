@@ -32,8 +32,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'cc-short-string-editor',
   props: {
     placeholder: { type: String, required: false },
@@ -49,25 +48,26 @@ export default Vue.extend({
     editing: false,
   }),
   mounted() {
-    if (this.placeholder) this.newStr = this.placeholder
+    if (this.placeholder) this.newStr = this.placeholder;
   },
   methods: {
     edit(): void {
-      this.editing = true
+      this.editing = true;
       if (this.$slots.default && this.$slots.default[0]) {
-        let prev = ''
-        if (this.$slots.default[0].text) prev = this.$slots.default[0].text.trim()
+        let prev = '';
+        if (this.$slots.default[0].text)
+          prev = this.$slots.default[0].text.trim();
         else if (this.$slots.default[0].children[0].text)
-          prev = this.$slots.default[0].children[0].text.trim()
-        this.newStr = prev
+          prev = this.$slots.default[0].children[0].text.trim();
+        this.newStr = prev;
       }
     },
     submit(): void {
-      this.$emit('set', this.newStr)
-      this.editing = false
+      this.$emit('set', this.newStr);
+      this.editing = false;
     },
   },
-})
+};
 </script>
 
 <style scoped>

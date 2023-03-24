@@ -1,7 +1,10 @@
 <template>
-  <v-container fluid :class="$vuetify.breakpoint.smAndDown ? 'px-1 mt-n4 mb-12' : ''">
+  <v-container
+    fluid
+    :class="$vuetify.display.smAndDown ? 'px-1 mt-n4 mb-12' : ''"
+  >
     <v-row dense class="mx-2 mt-n2 mb-2" no-gutters align="center">
-      <v-col v-if="$vuetify.breakpoint.mdAndUp">
+      <v-col v-if="$vuetify.display.mdAndUp">
         <slot />
       </v-col>
       <v-col v-show="!noExtra" cols="auto" class="ml-auto mr-5">
@@ -20,7 +23,7 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-divider v-show="$vuetify.breakpoint.mdAndUp" vertical class="mx-2" />
+      <v-divider v-show="$vuetify.display.mdAndUp" vertical class="mx-2" />
       <v-col cols="12" md="3" class="ml-auto mr-5">
         <v-text-field
           v-model="search"
@@ -36,7 +39,11 @@
           :hint="`${fItems.length} Items`"
         />
       </v-col>
-      <cc-filter-panel v-if="!noFilter" :item-type="itemType" @set-filters="setFilters" />
+      <cc-filter-panel
+        v-if="!noFilter"
+        :item-type="itemType"
+        @set-filters="setFilters"
+      />
     </v-row>
     <selector-table-view
       v-if="profile.SelectorView === 'list'"
@@ -49,7 +56,7 @@
       @equip="$emit('equip', $event)"
     />
     <selector-split-view
-      v-else-if="profile.SelectorView === 'split' && $vuetify.breakpoint.mdAndUp"
+      v-else-if="profile.SelectorView === 'split' && $vuetify.display.mdAndUp"
       :headers="headers"
       :items="fItems"
       sp-disable
@@ -83,20 +90,24 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ItemFilter from '@/classes/utility/ItemFilter'
-import SelectorTableView from './views/_SelectorTableView.vue'
-import SelectorSplitView from './views/_SelectorSplitView.vue'
-import SelectorMobileView from './views/_SelectorMobileView.vue'
-import SelectorCardsView from './views/_SelectorCardsView.vue'
-import { accentInclude } from '@/classes/utility/accent_fold'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
-import { UserProfile } from '@/user'
+import ItemFilter from '@/classes/utility/ItemFilter';
+import SelectorTableView from './views/_SelectorTableView.vue';
+import SelectorSplitView from './views/_SelectorSplitView.vue';
+import SelectorMobileView from './views/_SelectorMobileView.vue';
+import SelectorCardsView from './views/_SelectorCardsView.vue';
+import { accentInclude } from '@/classes/utility/accent_fold';
 
-export default Vue.extend({
+import { UserStore } from '@/store';
+import { UserProfile } from '@/user';
+
+export default {
   name: 'cc-selector-table',
-  components: { SelectorTableView, SelectorSplitView, SelectorMobileView, SelectorCardsView },
+  components: {
+    SelectorTableView,
+    SelectorSplitView,
+    SelectorMobileView,
+    SelectorCardsView,
+  },
   props: {
     headers: {
       type: Array,
@@ -131,31 +142,31 @@ export default Vue.extend({
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(UserStore, this.$store)
-      return store.UserProfile
+      const store = this.getModule(UserStore);
+      return store.UserProfile;
     },
     fItems() {
-      const vm = this as any
-      let i = vm.items
+      const vm = this as any;
+      let i = vm.items;
 
-      if (vm.search) i = i.filter(x => accentInclude(x.Name, vm.search))
+      if (vm.search) i = i.filter((x) => accentInclude(x.Name, vm.search));
 
       if (Object.keys(vm.filters).length) {
-        i = ItemFilter.Filter(i, vm.filters)
+        i = ItemFilter.Filter(i, vm.filters);
       }
 
-      return i
+      return i;
     },
   },
   created() {
-    if (!this.itemType) this.itemType = this.itemTypeFallback
+    if (!this.itemType) this.itemType = this.itemTypeFallback;
   },
   methods: {
     setFilters(newFilter) {
-      this.filters = newFilter
+      this.filters = newFilter;
     },
   },
-})
+};
 </script>
 
 <style scoped>

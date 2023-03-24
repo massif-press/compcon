@@ -13,15 +13,19 @@
         })
       "
     >
-      <v-list-item-title class="heading h2 ml-2">{{ e.Name }}</v-list-item-title>
+      <v-list-item-title class="heading h2 ml-2">{{
+        e.Name
+      }}</v-list-item-title>
     </v-list-item>
     <div v-if="!templates.length" class="subtle--text heading h2 text-center">
       // NO TEMPLATES AVAILABLE //
     </div>
     <v-row v-for="(e, i) in templates" :id="`e_${e.ID}`" :key="`${e.ID}_${i}`">
       <v-col class="pl-0">
-        <cc-titled-panel dense icon="cci-trait" :title="e.Name" color="primary">
-          <div v-if="e.InLcp" class="heading h3 text--text">{{ e.LcpName }}</div>
+        <cc-titled-panel dense icon="cc:trait" :title="e.Name" color="primary">
+          <div v-if="e.InLcp" class="heading h3 text--text">
+            {{ e.LcpName }}
+          </div>
           <p v-html-safe="e.Description" class="flavor-text mb-0" />
           <v-divider class="my-2" />
           <span class="heading">
@@ -49,18 +53,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+export default {
   name: 'npc-templates',
   data: () => ({
     templates: [],
   }),
   created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.templates = compendium.NpcTemplates
+    // const compendium =this.getModule(CompendiumStore);
+    // this.templates = compendium.NpcTemplates;
   },
-})
+};
 </script>

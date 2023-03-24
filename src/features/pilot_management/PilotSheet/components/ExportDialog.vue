@@ -9,7 +9,14 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <v-btn large block tile outlined color="accent" @click="exportPilot()">
+          <v-btn
+            large
+            block
+            tile
+            variant="outlined"
+            color="accent"
+            @click="exportPilot()"
+          >
             Export Pilot Data File
           </v-btn>
         </v-col>
@@ -25,7 +32,14 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-btn large block tile outlined color="accent" @click="copyPilot()">
+          <v-btn
+            large
+            block
+            tile
+            variant="outlined"
+            color="accent"
+            @click="copyPilot()"
+          >
             Copy Pilot Data to Clipboard
           </v-btn>
         </v-col>
@@ -44,11 +58,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { saveFile } from '@/io/Dialog'
-import { Pilot } from '@/class'
+import { saveFile } from '@/io/Dialog';
+import { Pilot } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'export-dialog',
   props: {
     pilot: {
@@ -62,40 +75,45 @@ export default Vue.extend({
   }),
   methods: {
     show() {
-      this.$refs.dialog.show()
+      (this.$refs.dialog as any).show();
     },
     hide() {
-      this.$refs.dialog.hide()
+      (this.$refs.dialog as any).hide();
     },
     exportPilot() {
-      this.pilot.BrewController.SetBrewData()
+      this.pilot.BrewController.SetBrewData();
       saveFile(
         this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
         JSON.stringify(Pilot.Serialize(this.pilot)),
         'Save Pilot'
-      )
-      this.hide()
+      );
+      this.hide();
     },
     copyPilot() {
-      this.pilot.BrewController.SetBrewData()
-      navigator.clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot)))
-      Vue.prototype.$notify('Pilot data copied to clipboard')
-      this.hide()
+      this.pilot.BrewController.SetBrewData();
+      navigator.clipboard.writeText(
+        JSON.stringify(Pilot.Serialize(this.pilot))
+      );
+      Vue.prototype.$notify('Pilot data copied to clipboard');
+      this.hide();
     },
     async copyCode() {
-      this.copyConfirm = true
+      this.copyConfirm = true;
       navigator.clipboard.writeText(this.pilot.ShareCode).then(
         function () {
-          Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
+          Vue.prototype.$notify(
+            'Cloud ID copied to clipboard.',
+            'confirmation'
+          );
         },
         function () {
-          Vue.prototype.$notifyError('Unable to copy Cloud ID')
+          Vue.prototype.$notifyError('Unable to copy Cloud ID');
         }
-      )
+      );
       setTimeout(() => {
-        this.copyConfirm = false
-      }, 1200)
+        this.copyConfirm = false;
+      }, 1200);
     },
   },
-})
+};
 </script>

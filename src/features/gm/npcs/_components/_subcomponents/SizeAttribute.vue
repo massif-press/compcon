@@ -1,6 +1,6 @@
 <template>
   <v-col :cols="cols">
-    <v-card tile outlined class="text-center">
+    <v-card tile variant="outlined" class="text-center">
       <v-card-title
         :class="`${color} white--text caption pa-1`"
         style="font-weight: bold; max-height: 28px; font-size: 18px !important"
@@ -11,8 +11,8 @@
           right
           offset-y
         >
-          <template v-slot:activator="{ on }">
-            <v-btn icon dark x-small class="fadeSelect" absolute v-on="on">
+          <template v-slot:activator="{ props }">
+            <v-btn icon dark x-small class="fadeSelect" absolute v-bind="props">
               <v-icon>mdi-circle-edit-outline</v-icon>
             </v-btn>
           </template>
@@ -27,8 +27,8 @@
                 color="accent"
                 @click="statController.Size = i"
               >
-                <v-icon v-if="i === 0.5" size="80">cci-size-half</v-icon>
-                <v-icon v-else size="80">cci-size-{{ i }}</v-icon>
+                <v-icon v-if="i === 0.5" size="80">cc:size-half</v-icon>
+                <v-icon v-else size="80">cc:size-{{ i }}</v-icon>
               </v-btn>
             </v-card-text>
           </v-card>
@@ -39,7 +39,9 @@
       </v-card-title>
       <v-card-text class="pa-1 text--text">
         <span class="heading h2">
-          {{ parseFloat(statController.Size) === 0.5 ? '½' : statController.Size }}
+          {{
+            parseFloat(statController.Size) === 0.5 ? '½' : statController.Size
+          }}
         </span>
       </v-card-text>
     </v-card>
@@ -47,9 +49,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'size-attribute',
   props: {
     statController: {
@@ -78,5 +78,5 @@ export default Vue.extend({
     model: 0,
     menu: false,
   }),
-})
+};
 </script>

@@ -1,21 +1,17 @@
 <template>
   <v-dialog v-model="dialog" width="75vw">
     <cc-confirmation
-      :content="
-        `Lancer, please confirm deletion of Mech Configuration:
+      :content="`Lancer, please confirm deletion of Mech Configuration:
           <span class='accent--text'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
-          </span>`
-      "
+          </span>`"
       @confirm="remove()"
     />
   </v-dialog>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'delete-mech-dialog',
   props: {
     mech: {
@@ -28,15 +24,15 @@ export default Vue.extend({
   }),
   methods: {
     show() {
-      this.dialog = true
+      this.dialog = true;
     },
     hide() {
-      this.dialog = false
+      this.dialog = false;
     },
     remove() {
-      this.$emit('delete')
-      this.hide()
+      this.$emit('delete');
+      this.hide();
     },
   },
-})
+};
 </script>

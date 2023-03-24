@@ -7,15 +7,16 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import EquipmentCardBase from './_EquipmentCardBase.vue'
-import { PilotGear } from '@/class'
+import EquipmentCardBase from './_EquipmentCardBase.vue';
 
-@Component({
+export default {
+  name: 'PilotGearCard',
   components: { EquipmentCardBase },
-})
-export default class PilotGearCard extends Vue {
-  @Prop({ type: Object, required: true })
-  readonly item: PilotGear
-}
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
+};
 </script>

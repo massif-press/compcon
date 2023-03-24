@@ -7,8 +7,8 @@
     offset-x
     nudge-bottom="-200px"
   >
-    <template v-slot:activator="{ on }">
-      <v-btn icon @click.stop="menu = true" v-on="on">
+    <template v-slot:activator="{ props }">
+      <v-btn icon @click.stop="menu = true" v-bind="props">
         <v-icon>mdi-dice-multiple</v-icon>
       </v-btn>
     </template>
@@ -22,8 +22,12 @@
         class="white--text heading h3"
       >
         {{ title }}
-        <span v-if="critical" class="flavor-text white--text text--secondary">// CRITICAL</span>
-        <span v-if="overkill" class="flavor-text white--text text--secondary">// OVERKILL</span>
+        <span v-if="critical" class="flavor-text white--text text--secondary"
+          >// CRITICAL</span
+        >
+        <span v-if="overkill" class="flavor-text white--text text--secondary"
+          >// OVERKILL</span
+        >
       </v-toolbar>
       <v-row no-gutters align="center" justify="center">
         <v-col>
@@ -31,7 +35,10 @@
             <v-row
               dense
               justify="center"
-              style="border: 1px solid var(--v-primary-base); border-radius: 2px"
+              style="
+                border: 1px solid rgb(var(--v-theme-primary));
+                border-radius: 2px;
+              "
             >
               <v-col v-show="moreDice" cols="auto">
                 <cc-tooltip content="Add coin flip (d2)">
@@ -91,25 +98,34 @@
               <v-col cols="auto">
                 <cc-tooltip content="Add Accuracy">
                   <v-btn icon color="accent" @click="accuracy++">
-                    <v-icon large>cci-accuracy</v-icon>
+                    <v-icon large>cc:accuracy</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
                 <cc-tooltip content="Add Difficulty">
                   <v-btn icon color="accent" @click="accuracy--">
-                    <v-icon large>cci-difficulty</v-icon>
+                    <v-icon large>cc:difficulty</v-icon>
                   </v-btn>
                 </cc-tooltip>
               </v-col>
             </v-row>
             <v-row dense align="center" justify="center">
               <v-col cols="auto">
-                <v-chip v-if="!dice.length" outlined style="opacity: 0.5">No Roll</v-chip>
-              </v-col>
-              <v-col v-for="(d, i) in dice" :key="`${i}_dice_${d.sides}`" cols="auto">
                 <v-chip
-                  outlined
+                  v-if="!dice.length"
+                  variant="outlined"
+                  style="opacity: 0.5"
+                  >No Roll</v-chip
+                >
+              </v-col>
+              <v-col
+                v-for="(d, i) in dice"
+                :key="`${i}_dice_${d.sides}`"
+                cols="auto"
+              >
+                <v-chip
+                  variant="outlined"
                   class="mx-1"
                   close
                   close-icon="mdi-close"
@@ -125,7 +141,7 @@
                   v-model="flat"
                   dense
                   hide-details
-                  outlined
+                  variant="outlined"
                   :prepend-icon="!dice.length ? 'mdi-plus' : ''"
                   type="number"
                   style="width: 100px"
@@ -149,12 +165,21 @@
                 </v-col>
               </v-row>
             </v-slide-y-reverse-transition>
-            <v-btn block outlined color="secondary" class="my-3" @click="roll">Roll</v-btn>
+            <v-btn
+              block
+              variant="outlined"
+              color="secondary"
+              class="my-3"
+              @click="roll"
+              >Roll</v-btn
+            >
             <v-divider v-if="result" />
             <div style="min-height: 20px">
               <div v-if="result">
                 <div v-for="(r, j) in result" :key="`${j}_res_${r.sides}`">
-                  <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
+                  <div class="caption">
+                    ROLLING {{ r.rolls.length }}D{{ r.sides }}
+                  </div>
                   <v-row no-gutters>
                     <v-col
                       v-for="(val, i) in r.rolls"
@@ -169,7 +194,9 @@
                       >
                         {{ val }}
                       </v-chip>
-                      <v-icon v-if="i + 1 < r.rolls.length" small>mdi-plus</v-icon>
+                      <v-icon v-if="i + 1 < r.rolls.length" small
+                        >mdi-plus</v-icon
+                      >
                     </v-col>
                     <v-col cols="auto" class="ml-auto stark--text">
                       <b>
@@ -177,7 +204,7 @@
                         {{
                           r.rolls
                             .map((x, i) => {
-                              return r.class[i] === 'high' ? x : 0
+                              return r.class[i] === 'high' ? x : 0;
                             })
                             .reduce((a, b) => a + b, 0)
                         }}
@@ -199,9 +226,15 @@
                   </v-row>
                 </div>
                 <div v-if="accuracy">
-                  <div class="caption">{{ accuracy > 0 ? 'ACCURACY' : 'DIFFICULTY' }}</div>
+                  <div class="caption">
+                    {{ accuracy > 0 ? 'ACCURACY' : 'DIFFICULTY' }}
+                  </div>
                   <v-row no-gutters>
-                    <v-col v-for="(a, i) in accRolls" :key="`acc_${a}_${i}`" cols="auto">
+                    <v-col
+                      v-for="(a, i) in accRolls"
+                      :key="`acc_${a}_${i}`"
+                      cols="auto"
+                    >
                       <v-chip
                         x-small
                         label
@@ -213,14 +246,20 @@
                       <cc-slashes v-if="i + 1 < accRolls.length" small />
                     </v-col>
                     <v-col cols="auto" class="ml-auto stark--text">
-                      <b>{{ accuracy > 0 ? '+' : '-' }}{{ Math.abs(accTotal) }}</b>
+                      <b
+                        >{{ accuracy > 0 ? '+' : '-'
+                        }}{{ Math.abs(accTotal) }}</b
+                      >
                     </v-col>
                   </v-row>
                 </div>
                 <v-row
                   no-gutters
                   class="pa-1 ma-1"
-                  style="border: 1px solid var(--v-secondary-base); border-radius: 2px"
+                  style="
+                    border: 1px solid rgb(var(--v-theme-secondary));
+                    border-radius: 2px;
+                  "
                 >
                   <v-col cols="auto" class="ml-auto stark--text text-right">
                     <div class="caption">TOTAL</div>
@@ -231,12 +270,20 @@
                   v-if="overkill && overkillRolls"
                   no-gutters
                   class="pa-1 ma-1"
-                  style="border: 1px solid var(--v-heat-base); border-radius: 2px"
+                  style="
+                    border: 1px solid rgb(var(--v-theme-heat));
+                    border-radius: 2px;
+                  "
                 >
                   <v-col cols="auto" class="ml-auto stark--text text-right">
                     <div class="caption">// OVERKILL //</div>
-                    <v-chip v-for="n in overkillRolls" :key="`overkill_${n}`" x-small color="heat">
-                      <v-icon small>cci-heat</v-icon>
+                    <v-chip
+                      v-for="n in overkillRolls"
+                      :key="`overkill_${n}`"
+                      x-small
+                      color="heat"
+                    >
+                      <v-icon small>cc:heat</v-icon>
                     </v-chip>
                   </v-col>
                 </v-row>
@@ -246,11 +293,17 @@
             <v-card-actions>
               <v-row dense justify="center" align="center" class="text-center">
                 <v-col cols="12" md="auto">
-                  <v-btn small text class="mr-3" @click="menu = false">Cancel</v-btn>
+                  <v-btn small text class="mr-3" @click="menu = false"
+                    >Cancel</v-btn
+                  >
                 </v-col>
                 <v-col cols="12" md="auto">
-                  <v-btn small outlined color="accent" @click="clear">Clear All</v-btn>
-                  <v-btn small outlined color="accent" @click="reset">Reset All</v-btn>
+                  <v-btn small variant="outlined" color="accent" @click="clear"
+                    >Clear All</v-btn
+                  >
+                  <v-btn small variant="outlined" color="accent" @click="reset"
+                    >Reset All</v-btn
+                  >
                 </v-col>
 
                 <v-col cols="12" md="auto">
@@ -274,10 +327,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { DiceRoller } from '@/classes/dice/DiceRoller'
+import { DiceRoller } from '@/classes/dice/DiceRoller';
 
-export default Vue.extend({
+export default {
   name: 'cc-dice-menu',
   props: {
     title: { type: String, required: false },
@@ -299,118 +351,123 @@ export default Vue.extend({
   }),
   computed: {
     accString() {
-      if (this.accuracy > 0) return `<b>${this.accuracy}</b>&nbsp;&nbsp;ACCURACY`
-      else return `<b>${Math.abs(this.accuracy)}</b>&nbsp;&nbsp;DIFFICULTY`
+      if (this.accuracy > 0)
+        return `<b>${this.accuracy}</b>&nbsp;&nbsp;ACCURACY`;
+      else return `<b>${Math.abs(this.accuracy)}</b>&nbsp;&nbsp;DIFFICULTY`;
     },
     overkillRolls() {
-      if (!this.result) return 0
-      return this.result.map(x => x.overkill).reduce((a, b) => a + b, 0)
+      if (!this.result) return 0;
+      return this.result.map((x) => x.overkill).reduce((a, b) => a + b, 0);
     },
     total() {
-      if (!this.result) return parseInt(this.flat)
+      if (!this.result) return parseInt(this.flat);
       return (
         this.result
-          .flatMap(x =>
+          .flatMap((x) =>
             x.rolls.map((y, i) => {
-              return x.class[i] === 'high' ? y : 0
+              return x.class[i] === 'high' ? y : 0;
             })
           )
           .reduce((a, b) => a + b, 0) +
         parseInt(this.flat) +
         parseInt(this.accTotal)
-      )
+      );
     },
   },
   watch: {
     menu() {
-      if (!this.autoroll) this.reset()
+      if (!this.autoroll) this.reset();
     },
     presetAccuracy() {
       if (this.autoroll) {
-        this.accuracy=this.presetAccuracy
-        this.rollAccuracy()
-        this.commit()
+        this.accuracy = this.presetAccuracy;
+        this.rollAccuracy();
+        this.commit();
       }
     },
   },
   mounted() {
-    this.reset()
-    if (this.autoroll) this.$nextTick(this.autoRoll)
+    this.reset();
+    if (this.autoroll) this.$nextTick(this.autoRoll);
   },
   methods: {
     addDice(sides) {
-      this.result = null
-      const idx = this.dice.findIndex(x => x.sides === sides)
-      if (idx > -1) this.dice[idx].count++
-      else this.dice.push({ sides, count: 1 })
+      this.result = null;
+      const idx = this.dice.findIndex((x) => x.sides === sides);
+      if (idx > -1) this.dice[idx].count++;
+      else this.dice.push({ sides, count: 1 });
     },
     removeDice(sides) {
-      this.result = null
-      const idx = this.dice.findIndex(x => x.sides === sides)
-      this.dice[idx].count--
-      if (this.dice[idx].count < 1) this.dice.splice(idx, 1)
+      this.result = null;
+      const idx = this.dice.findIndex((x) => x.sides === sides);
+      this.dice[idx].count--;
+      if (this.dice[idx].count < 1) this.dice.splice(idx, 1);
     },
     removeMod() {
-      this.result = null
-      if (this.accuracy > 0) this.accuracy--
-      else this.accuracy++
+      this.result = null;
+      if (this.accuracy > 0) this.accuracy--;
+      else this.accuracy++;
     },
     autoRoll() {
-      this.roll()
-      this.commit()
+      this.roll();
+      this.commit();
     },
     roll() {
-      this.result = this.dice.map(x => {
-        const dRoll = DiceRoller.rollDamage(`${x.count}d${x.sides}`, this.critical, this.overkill)
+      this.result = this.dice.map((x) => {
+        const dRoll = DiceRoller.rollDamage(
+          `${x.count}d${x.sides}`,
+          this.critical,
+          this.overkill
+        );
         return {
           sides: x.sides,
           rolls: dRoll.rawDieRolls,
           class: dRoll.rollClassifications,
           overkill: dRoll.overkillRerolls,
-        }
-      })
-      this.rollAccuracy()
+        };
+      });
+      this.rollAccuracy();
     },
     rollAccuracy() {
-      this.accTotal=0
+      this.accTotal = 0;
       if (this.accuracy) {
         this.accRolls = DiceRoller.rollDamage(
           `${Math.abs(this.accuracy)}d${6}`,
           false,
           false
-        ).rawDieRolls
-        this.accTotal = Math.max(...this.accRolls) * (this.accuracy > 0 ? 1 : -1)
+        ).rawDieRolls;
+        this.accTotal =
+          Math.max(...this.accRolls) * (this.accuracy > 0 ? 1 : -1);
       }
-
     },
     reset() {
-      this.clear()
+      this.clear();
       if (this.preset) {
-        const arr = this.preset.split(/\+|\-/)
-        arr.forEach(e => {
+        const arr = this.preset.split(/\+|\-/);
+        arr.forEach((e) => {
           if (e.includes('d')) {
-            const dice = e.split('d')
-            this.dice.push({ sides: dice[1], count: dice[0] })
-          } else this.flat += parseInt(e)
-        })
+            const dice = e.split('d');
+            this.dice.push({ sides: dice[1], count: dice[0] });
+          } else this.flat += parseInt(e);
+        });
       }
-      this.accuracy = this.presetAccuracy
+      this.accuracy = this.presetAccuracy;
     },
     clear() {
-      this.dice.splice(0, this.dice.length)
-      this.accRolls.splice(0, this.dice.length)
-      this.flat = 0
-      this.result = null
-      this.accuracy = 0
-      this.accTotal = 0
+      this.dice.splice(0, this.dice.length);
+      this.accRolls.splice(0, this.dice.length);
+      this.flat = 0;
+      this.result = null;
+      this.accuracy = 0;
+      this.accTotal = 0;
     },
     commit() {
       this.$emit('commit', {
         total: this.total,
         overkill: this.overkillRolls,
-      })
-      this.menu = false
+      });
+      this.menu = false;
     },
   },
-})
+};
 </script>

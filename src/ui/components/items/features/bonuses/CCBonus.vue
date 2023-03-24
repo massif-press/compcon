@@ -3,11 +3,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import bonusPanel from './_bonusPanel.vue'
-import bonusPopup from './_bonusPopup.vue'
+import bonusPanel from './_bonusPanel.vue';
+import bonusPopup from './_bonusPopup.vue';
 
-export default Vue.extend({
+export default {
   name: 'cc-bonus',
   components: { bonusPanel, bonusPopup },
   props: {
@@ -23,5 +22,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>

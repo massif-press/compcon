@@ -14,7 +14,7 @@
           :color="`${action.Color} ${actionCost ? 'lighten-1' : ''}`"
           @click="actionCost = !actionCost"
         >
-          <v-icon left>{{ action.Icon }}</v-icon>
+          <v-icon start>{{ action.Icon }}</v-icon>
           {{ action.Name }}
         </v-btn>
         <v-btn
@@ -27,27 +27,32 @@
           :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
           @click="actionFree = !actionFree"
         >
-          <v-icon left small>cci-free-action</v-icon>
+          <v-icon start small>cc:free-action</v-icon>
           Free Action
           <cc-tooltip
             inline
-            :content="
-              `Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`
-            "
+            :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
+            <v-icon end small class="fadeSelect"
+              >mdi-information-outline</v-icon
+            >
           </cc-tooltip>
         </v-btn>
       </v-col>
     </v-row>
 
     <v-slide-x-reverse-transition>
-      <v-row v-if="actionFree || actionCost" justify="center" align="center" class="py-2">
+      <v-row
+        v-if="actionFree || actionCost"
+        justify="center"
+        align="center"
+        class="py-2"
+      >
         <v-col class="mt-n2">
           <v-row
             dense
             justify="space-between"
-            :class="'text-center ' + $vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+            :class="'text-center ' + $vuetify.display.mdAndUp ? '' : 'panel'"
           >
             <v-col cols="auto">
               <div class="heading h3">hull</div>
@@ -77,7 +82,11 @@
               <div class="heading h3">engineering</div>
               <div class="heading h2 accent--text">
                 {{ mech.Eng }}
-                <cc-synergy-display inline :mech="mech" location="engineering" />
+                <cc-synergy-display
+                  inline
+                  :mech="mech"
+                  location="engineering"
+                />
               </div>
             </v-col>
           </v-row>
@@ -85,12 +94,16 @@
         <v-col cols="auto">
           <v-row
             dense
-            :justify="$vuetify.breakpoint.mdAndUp ? 'end' : 'space-between'"
-            :class="$vuetify.breakpoint.mdAndUp ? '' : 'panel'"
+            :justify="$vuetify.display.mdAndUp ? 'end' : 'space-between'"
+            :class="$vuetify.display.mdAndUp ? '' : 'panel'"
           >
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              :class="
+                $vuetify.display.mdAndUp
+                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
+                  : ''
+              "
               style="height: 70px"
             >
               <div class="overline pl-1">Accuracy</div>
@@ -98,7 +111,7 @@
                 v-model="accuracy"
                 type="number"
                 append-outer-icon="mdi-plus-circle-outline"
-                append-icon="cci-accuracy"
+                append-icon="cc:accuracy"
                 prepend-icon="mdi-minus-circle-outline"
                 style="width: 115px"
                 class="hide-input-spinners"
@@ -112,7 +125,11 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              :class="
+                $vuetify.display.mdAndUp
+                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
+                  : ''
+              "
               style="height: 70px"
             >
               <div class="overline pl-1">Difficulty</div>
@@ -120,7 +137,7 @@
                 v-model="difficulty"
                 type="number"
                 append-outer-icon="mdi-plus-circle-outline"
-                append-icon="cci-difficulty"
+                append-icon="cc:difficulty"
                 prepend-icon="mdi-minus-circle-outline"
                 style="width: 115px"
                 class="hide-input-spinners"
@@ -134,7 +151,11 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
+              :class="
+                $vuetify.display.mdAndUp
+                  ? 'ml-auto px-12 panel dual-sliced'
+                  : ''
+              "
               style="height: 70px"
             >
               <div class="overline pl-1">Skill Roll</div>
@@ -198,10 +219,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
 
-export default Vue.extend({
+export default {
   name: 'skill-check-dialog',
   components: { ActionDetailExpander },
   props: {
@@ -231,28 +251,28 @@ export default Vue.extend({
     used: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
-        if (!newval) this.reset()
+      handler: function (newval) {
+        if (!newval) this.reset();
       },
     },
   },
   methods: {
     registerSkillRoll(roll) {
-      Vue.set(this, 'skillRoll', roll)
-      Vue.nextTick().then(() => this.$forceUpdate())
+      Vue.set(this, 'skillRoll', roll);
+      Vue.nextTick().then(() => this.$forceUpdate());
     },
     reset() {
-      this.accuracy = 0
-      this.difficulty = 0
-      this.skillRoll = ''
-      this.succeeded = false
-      this.failed = false
-      this.complete = false
-      this.actionCost = false
-      this.actionFree = false
-      this.timer = 0
-      this.finished = false
+      this.accuracy = 0;
+      this.difficulty = 0;
+      this.skillRoll = '';
+      this.succeeded = false;
+      this.failed = false;
+      this.complete = false;
+      this.actionCost = false;
+      this.actionFree = false;
+      this.timer = 0;
+      this.finished = false;
     },
   },
-})
+};
 </script>

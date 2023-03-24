@@ -47,7 +47,7 @@
           href="https://www.netlify.com"
           class="fadeSelect mt-n2"
           x-small
-          outlined
+          variant="outlined"
           block
         >
           deploys by netlify
@@ -71,7 +71,7 @@
           :to="'/compendium'"
         />
         <mobile-btn
-          icon="cci-pilot"
+          icon="cc:pilot"
           title="Roster"
           text="Manage Pilots"
           :to="'/pilot_management'"
@@ -95,20 +95,32 @@
       </v-row>
       <div style="height: 40px" />
 
-      <v-footer color="primary" fixed style="padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px))">
-        <v-btn x-small dark outlined @click="$refs.optionsModal.show()"
+      <v-footer
+        color="primary"
+        fixed
+        style="padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px))"
+      >
+        <v-btn
+          x-small
+          dark
+          variant="outlined"
+          @click="$refs.optionsModal.show()"
           >Options</v-btn
         >
         <v-spacer />
-        <v-btn x-small dark outlined @click="$refs.aboutModal.show()"
+        <v-btn x-small dark variant="outlined" @click="$refs.aboutModal.show()"
           >About</v-btn
         >
         <v-spacer />
-        <v-btn x-small dark outlined @click="$refs.creditsModal.show()"
+        <v-btn
+          x-small
+          dark
+          variant="outlined"
+          @click="$refs.creditsModal.show()"
           >Credits</v-btn
         >
         <v-spacer />
-        <v-btn x-small dark outlined @click="$refs.helpModal.show()"
+        <v-btn x-small dark variant="outlined" @click="$refs.helpModal.show()"
           >Help</v-btn
         >
         <v-spacer />
@@ -118,7 +130,7 @@
           color="warning"
           x-small
           dark
-          outlined
+          variant="outlined"
         >
           Support
         </v-btn>
@@ -128,20 +140,18 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import UpdateChecker from './_components/UpdateChecker.vue'
-import MobileBtn from "./_components/MobileBtn.vue";
-import ContentPage from "../nav/pages/ExtraContent/index.vue";
-import CreditsPage from "../nav/pages/Credits.vue";
-import AboutPage from "../nav/pages/About.vue";
-import HelpPage from "../nav/pages/Help.vue";
-import OptionsPage from "../nav/pages/Options/index.vue";
-import { UserStore } from "@/store";
-import { getModule } from "vuex-module-decorators";
-import SignIn from "./_components/login/index.vue";
+import UpdateChecker from './_components/UpdateChecker.vue';
+import MobileBtn from './_components/MobileBtn.vue';
+import ContentPage from '../nav/pages/ExtraContent/index.vue';
+import CreditsPage from '../nav/pages/Credits.vue';
+import AboutPage from '../nav/pages/About.vue';
+import HelpPage from '../nav/pages/Help.vue';
+import OptionsPage from '../nav/pages/Options/index.vue';
+import { UserStore } from '@/store';
+import SignIn from './_components/login/index.vue';
 
-export default Vue.extend({
-  name: "landing-page-mobile",
+export default {
+  name: 'landing-page-mobile',
   components: {
     UpdateChecker,
     MobileBtn,
@@ -154,8 +164,8 @@ export default Vue.extend({
   },
   computed: {
     userstore() {
-      return getModule(UserStore, this.$store);
+      return this.getModule(UserStore);
     },
   },
-});
+};
 </script>

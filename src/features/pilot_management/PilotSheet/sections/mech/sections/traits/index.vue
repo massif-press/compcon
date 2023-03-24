@@ -15,9 +15,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'license-requirements-block',
   props: {
     mech: {
@@ -30,5 +28,5 @@ export default Vue.extend({
       default: 'primary',
     },
   },
-})
+};
 </script>

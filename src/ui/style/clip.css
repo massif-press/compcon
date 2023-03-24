@@ -93,7 +93,7 @@
       calc(100% - 5px) 100%,
       0 100%,
       0 5px);
-  background-color: var(--v-light-panel-base);
-  border: 3px double var(--v-panel-border-base);
+  background-color: rgb(var(--v-theme-light-panel));
+  border: 3px double rgb(var(--v-theme-panel-border));
   margin: auto;
 }

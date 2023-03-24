@@ -1,5 +1,11 @@
 <template>
-  <v-card tile flat light class="printable" style="margin-left: auto; margin-right: auto">
+  <v-card
+    tile
+    flat
+    light
+    class="printable"
+    style="margin-left: auto; margin-right: auto"
+  >
     <div v-if="blank">
       <blank-pilot-print />
       <div v-if="hasBondData" style="page-break-before: always" />
@@ -10,7 +16,10 @@
     <div v-else>
       <pilot-print v-if="pilot" :pilot="pilot" />
       <div v-if="hasBondData" style="page-break-before: always" />
-      <bonds-print v-if="hasBondData && pilot.BondController.Bond" :bc="pilot.BondController" />
+      <bonds-print
+        v-if="hasBondData && pilot.BondController.Bond"
+        :bc="pilot.BondController"
+      />
       <div style="page-break-before: always" />
       <mech-print v-if="mech" :mech="mech" />
     </div>
@@ -20,19 +29,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import BlankPilotPrint from './BlankPilotPrint.vue'
-import PilotPrint from './PilotPrint.vue'
-import BlankBondsPrint from './BlankBondsPrint.vue'
-import BondsPrint from './BondsPrint.vue'
-import BlankMechPrint from './BlankMechPrint.vue'
-import MechPrint from './MechPrint.vue'
-import PrintFooter from './PrintFooter.vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore, CompendiumStore } from '@/store'
-import { Pilot } from '@/class'
+import BlankPilotPrint from './BlankPilotPrint.vue';
+import PilotPrint from './PilotPrint.vue';
+import BlankBondsPrint from './BlankBondsPrint.vue';
+import BondsPrint from './BondsPrint.vue';
+import BlankMechPrint from './BlankMechPrint.vue';
+import MechPrint from './MechPrint.vue';
+import PrintFooter from './PrintFooter.vue';
 
-export default Vue.extend({
+import { PilotManagementStore, CompendiumStore } from '@/store';
+import { Pilot } from '@/class';
+
+export default {
   name: 'combined-print',
   components: {
     BlankPilotPrint,
@@ -60,21 +68,21 @@ export default Vue.extend({
     blank: false,
   }),
   created() {
-    if (this.pilotID === 'blank') this.blank = true
-    this.pilot = getModule(PilotManagementStore, this.$store).Pilots.find(
-      p => p.ID === this.pilotID
-    )
+    if (this.pilotID === 'blank') this.blank = true;
+    this.pilot = this.getModule(PilotManagementStore).Pilots.find(
+      (p) => p.ID === this.pilotID
+    );
     this.mech =
       !this.mechID || this.mechID === 'blank'
         ? null
-        : (this.pilot as Pilot).Mechs.find(m => m.ID === this.mechID)
+        : (this.pilot as Pilot).Mechs.find((m) => m.ID === this.mechID);
   },
   computed: {
     hasBondData() {
-      return getModule(CompendiumStore, this.$store).Bonds.length
+      return this.getModule(CompendiumStore).Bonds.length;
     },
   },
-})
+};
 </script>
 
 <style>

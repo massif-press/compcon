@@ -6,7 +6,7 @@
     <td>GAUNTLET</td>
     <td>
       <v-menu bottom offset-y offset-x open-on-hover>
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ props }">
           <v-btn
             text
             color="primary"
@@ -14,7 +14,7 @@
             class="px-1 py-1"
             x-large
             @click.stop
-            v-on="on"
+            v-bind="props"
           >
             <b>5</b>
           </v-btn>
@@ -30,7 +30,7 @@
       <span v-if="active">
         (
         <v-menu bottom offset-y offset-x open-on-hover>
-          <template v-slot:activator="{ on }">
+          <template v-slot:activator="{ props }">
             <v-btn
               text
               color="primary"
@@ -38,7 +38,7 @@
               class="px-1 py-1"
               x-large
               @click.stop
-              v-on="on"
+              v-bind="props"
             >
               <b>2</b>
             </v-btn>
@@ -54,7 +54,7 @@
     </td>
     <td v-if="active">
       <v-menu bottom offset-y offset-x open-on-hover>
-        <template v-slot:activator="{ on }">
+        <template v-slot:activator="{ props }">
           <v-btn
             text
             color="primary"
@@ -62,7 +62,7 @@
             class="px-1 py-1"
             x-large
             @click.stop
-            v-on="on"
+            v-bind="props"
           >
             <b>3</b>
           </v-btn>
@@ -82,10 +82,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'encounter-row-item',
   // props: {encounter: {type: Object, required: true}}
   props: ['active'],
-})
+};
 </script>

@@ -4,7 +4,7 @@
       <v-file-input
         v-model="value"
         placeholder="Select an .LCP file"
-        outlined
+        variant="outlined"
         mr2
         accept=".lcp"
         prepend-inner-icon="mdi-package"
@@ -34,7 +34,9 @@
             />
           </svg>
         </v-fade-transition>
-        <span v-show="!done">{{ packAlreadyInstalled ? 'Replace' : 'Install' }}</span>
+        <span v-show="!done">{{
+          packAlreadyInstalled ? 'Replace' : 'Install'
+        }}</span>
       </v-btn>
       <p v-if="error" style="color: red">{{ error }}</p>
       <v-alert
@@ -43,8 +45,8 @@
         class="transition-swing"
         transition="slide-y-reverse-transition"
       >
-        A pack with this same name and author is already installed. It will be replaced by this
-        copy.
+        A pack with this same name and author is already installed. It will be
+        replaced by this copy.
       </v-alert>
     </v-col>
     <v-divider vertical class="mx-3" />
@@ -74,68 +76,68 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
+import PromisifyFileReader from 'promisify-file-reader';
+import { parseContentPack } from '@/io/ContentPackParser';
 
-import PromisifyFileReader from 'promisify-file-reader'
-import { parseContentPack } from '@/io/ContentPackParser'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore } from '@/store';
 
-import { IContentPack } from '@/interface'
+import { IContentPack } from '@/interface';
 
-import PackInfo from './PackInfo.vue'
+import PackInfo from './PackInfo.vue';
 
-@Component({
+export default {
+  name: 'PackInstall',
   components: { PackInfo },
-})
-export default class PackInstall extends Vue {
-  private dataStore = getModule(CompendiumStore, this.$store)
+  data: () => ({
+    value: null,
+    installing: false,
+    done: false,
+    // dataStore:this.getModule(CompendiumStore, (this as any).$store),
+    contentPack: null as IContentPack,
+    error: null as string,
+  }),
+  computed: {
+    packAlreadyInstalled() {
+      // return (
+      //   !!this.contentPack &&
+      //   this.dataStore.packAlreadyInstalled(this.contentPack.id)
+      // );
+    },
+  },
+  methods: {
+    async fileChange(file: HTMLInputElement) {
+      this.contentPack = null;
+      this.error = null;
 
-  contentPack: IContentPack = null
-  error: string = null
+      if (!file) return;
 
-  async fileChange(file: HTMLInputElement) {
-    this.contentPack = null
-    this.error = null
+      const fileData = await PromisifyFileReader.readAsBinaryString(file);
+      try {
+        this.contentPack = await parseContentPack(fileData);
+      } catch (e) {
+        this.error = e.message;
+      }
+    },
+    async install(): Promise<void> {
+      if (this.done || this.installing) return;
+      this.$emit('start-load');
+      this.installing = true;
+      this.contentPack.active = true;
+      await this.dataStore.installContentPack(this.contentPack);
+      this.installing = false;
 
-    if (!file) return
-
-    const fileData = await PromisifyFileReader.readAsBinaryString(file)
-    try {
-      this.contentPack = await parseContentPack(fileData)
-    } catch (e) {
-      this.error = e.message
-    }
-  }
-
-  get packAlreadyInstalled() {
-    return !!this.contentPack && this.dataStore.packAlreadyInstalled(this.contentPack.id)
-  }
-
-  public value = null
-  public installing = false
-  public done = false
-
-  async install(): Promise<void> {
-    if (this.done || this.installing) return
-    this.$emit('start-load')
-    this.installing = true
-    this.contentPack.active = true
-    await this.dataStore.installContentPack(this.contentPack)
-    this.installing = false
-
-    this.done = true
-    setTimeout(() => {
-      this.$emit('installed')
-      this.contentPack = null
-      this.error = null
-      this.value = null
-      this.done = false
-      this.$emit('end-load')
-    }, 500)
-  }
-}
+      this.done = true;
+      setTimeout(() => {
+        this.$emit('installed');
+        this.contentPack = null;
+        this.error = null;
+        this.value = null;
+        this.done = false;
+        this.$emit('end-load');
+      }, 500);
+    },
+  },
+};
 </script>
 
 <style scoped>

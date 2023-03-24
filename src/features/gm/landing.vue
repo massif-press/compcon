@@ -13,10 +13,14 @@
             dark
           />
           <v-col cols="8">
-            <v-btn block small outlined color="secondary" disabled>Continue Campaign</v-btn>
+            <v-btn block small variant="outlined" color="secondary" disabled
+              >Continue Campaign</v-btn
+            >
           </v-col>
           <v-col cols="8">
-            <v-btn block small outlined color="secondary" disabled>Continue Encounter</v-btn>
+            <v-btn block small variant="outlined" color="secondary" disabled
+              >Continue Encounter</v-btn
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -64,11 +68,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import LandingCard from './_components/LandingCard.vue'
+import LandingCard from './_components/LandingCard.vue';
 
-export default Vue.extend({
+export default {
   name: 'home',
   components: { LandingCard },
-})
+};
 </script>

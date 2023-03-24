@@ -12,7 +12,9 @@
         </v-col>
       </v-row>
     </div>
-    <v-row style="border: 1px solid var(--v-primary-base); border-radius: 2px">
+    <v-row
+      style="border: 1px solid rgb(var(--v-theme-primary)); border-radius: 2px"
+    >
       <v-col>
         <div class="light-panel pa-2 my-2 stark--text">layer stats</div>
         <v-row>
@@ -29,8 +31,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'eidolon-layer-overview',
-})
+};
 </script>

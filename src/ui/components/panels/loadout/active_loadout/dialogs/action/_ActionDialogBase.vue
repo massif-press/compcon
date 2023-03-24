@@ -14,11 +14,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActionActivationButtons from '../../components/_ActionActivationButtons.vue'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ActionActivationButtons from '../../components/_ActionActivationButtons.vue';
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
 
-export default Vue.extend({
+export default {
   name: 'action-dialog-base',
   components: { ActionDetailExpander, ActionActivationButtons },
   props: {
@@ -33,5 +32,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

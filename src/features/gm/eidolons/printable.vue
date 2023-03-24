@@ -20,12 +20,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { EidolonStore } from '@/store'
-import EidolonPrintContent from './_components/NpcPrintContent.vue'
+// import { EidolonStore } from '@/store';
+import EidolonPrintContent from './_components/NpcPrintContent.vue';
 
-export default Vue.extend({
+export default {
   name: 'eidolon-print-base',
   components: { EidolonPrintContent },
   props: {
@@ -36,21 +34,23 @@ export default Vue.extend({
   }),
   methods: {
     print() {
-      window.print()
+      window.print();
     },
   },
   computed: {
     eidolon() {
-      return getModule(EidolonStore, this.$store).Eidolons.find(x => x.ID === this.id)
+      return this.getModule(EidolonStore).Eidolons.find(
+        (x) => x.ID === this.id
+      );
     },
     options() {
       return {
         margin: [1, 10],
         filename: `${this.eidolon.Name}.pdf`,
-      }
+      };
     },
   },
-})
+};
 </script>
 
 <style scoped>

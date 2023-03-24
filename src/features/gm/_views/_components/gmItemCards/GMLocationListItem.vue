@@ -1,13 +1,19 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-row dense :class="`elevation-${hover ? '12' : '0'}`" @click="$emit('open')">
+    <v-row
+      dense
+      :class="`elevation-${hover ? '12' : '0'}`"
+      @click="$emit('open')"
+    >
       <v-col cols="1">
         <v-card>
           <v-img :aspect-ratio="1" :src="item.Image" />
         </v-card>
       </v-col>
       <v-col>
-        <div :class="`heading h3 ${hover ? 'accent--text' : ''}`">{{ item.Name }}</div>
+        <div :class="`heading h3 ${hover ? 'accent--text' : ''}`">
+          {{ item.Name }}
+        </div>
         <div>{{ item.Description }}</div>
         <div v-if="item.Locations.length" class="overline">SUB-LOCATIONS</div>
         <v-row no-gutters justify="space-between">
@@ -15,7 +21,7 @@
             <v-btn
               v-for="(loc, i) in item.Locations"
               small
-              outlined
+              variant="outlined"
               :key="`${loc.name}_${i}`"
               class="mr-2"
               :disabled="!isLink(loc.name)"
@@ -44,8 +50,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'gm-location-list-item',
   props: {
     item: { type: Object, required: true },
@@ -53,20 +58,22 @@ export default Vue.extend({
   },
   computed: {
     allLocations() {
-      if (!this.$store.getters['location/getLocations']) return []
-      return this.$store.getters['location/getLocations'].filter(x => x.Name !== this.item.Name)
+      if (!this.$store.getters['location/getLocations']) return [];
+      return this.$store.getters['location/getLocations'].filter(
+        (x) => x.Name !== this.item.Name
+      );
     },
   },
   methods: {
     isLink(name) {
-      return this.allLocations.some(x => x.Name === name)
+      return this.allLocations.some((x) => x.Name === name);
     },
     goTo(name) {
-      const e = this.allLocations.find(x => x.Name === name)
-      if (!e) return
-      this.item.save()
-      this.$router.push({ name: `gm-locations-edit`, params: { id: e.ID } })
+      const e = this.allLocations.find((x) => x.Name === name);
+      if (!e) return;
+      this.item.save();
+      this.$router.push({ name: `gm-locations-edit`, params: { id: e.ID } });
     },
   },
-})
+};
 </script>

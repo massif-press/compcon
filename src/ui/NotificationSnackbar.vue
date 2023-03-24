@@ -1,6 +1,9 @@
 <template>
   <div class="notificationContainer">
-    <div class="v-menu__content--active" style="display:none; z-index:1000;"></div>
+    <div
+      class="v-menu__content--active"
+      style="display: none; z-index: 1000"
+    ></div>
     <v-snackbar
       ref="snackbar"
       v-ripple="false"
@@ -19,9 +22,9 @@
       />
       &nbsp;
       <span v-html="notification.text" />
-      <v-btn class="ml-auto" dark text @click.stop="$emit('dismiss-snackbar')">
-        Dismiss
-      </v-btn>
+      <v-btn class="ml-auto" dark text @click.stop="$emit('dismiss-snackbar')"
+        >Dismiss</v-btn
+      >
       <v-fade-transition>
         <v-progress-linear
           v-if="timeout > 0 && !interacted"
@@ -38,10 +41,6 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Prop, Watch, Ref } from 'vue-property-decorator'
-
 const notificationVariants: { [key: string]: INotificationVariant } = {
   error: {
     color: 'error',
@@ -65,69 +64,75 @@ const notificationVariants: { [key: string]: INotificationVariant } = {
     prefix: '<b>Achivement Unlocked:</b>',
     timeout: 6000,
   },
-}
+};
 
-@Component
-export default class NotificationSnackbar extends Vue {
-  @Prop({ type: Object, required: true }) notification: INotification
+export default {
+  name: 'NotificationSnackbar',
+  props: {
+    notification: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    notificationVariant() {
+      return (
+        notificationVariants[this.notification.variant] ??
+        notificationVariants['confirmation']
+      );
+    },
+    timeout() {
+      return this.notificationVariant.timeout ?? 6000;
+    },
+    isClickable(): boolean {
+      return typeof this.notification.onClick === 'function';
+    },
+  },
+  data: () => ({
+    timeoutValue: 100,
+    timeoutRef: null,
+    interacted: false,
+  }),
+  methods: {
+    async onInteract() {
+      if (this.interacted || this.timeout === 0) return;
+      // stop timeout if interaction detected
+      this.setProgressTransition(500);
+      // wait for next tick so that the transition duration change takes
+      await this.$nextTick();
+      this.interacted = true;
+      clearTimeout(this.timeoutRef);
+    },
+    //
+    isClickable() {
+      return typeof this.notification.onClick === 'function';
+    },
+    onClick() {
+      if (!this.isClickable) return;
+      this.notification.onClick();
+      this.$emit('dismiss-snackbar');
+    },
+    setProgressTransition(duration: number) {
+      const el = (this.$refs.progress as any).$el as HTMLElement;
+      el.style.transitionDuration = `${duration}ms`;
+    },
+    async doTimeoutProgress() {
+      this.setProgressTransition(this.timeout);
+      await this.$nextTick();
+      this.timeoutValue = 0;
+    },
+  },
 
-  // utility function that sets the transition-duration of the progress-linear component
-  @Ref('progress') progress!: Vue
-
-  private setProgressTransition(duration: number) {
-    const el = this.progress.$el as HTMLElement
-    el.style.transitionDuration = `${duration}ms`
-  }
-
-  timeoutValue = 100
-  private async doTimeoutProgress() {
-    this.setProgressTransition(this.timeout)
-    await this.$nextTick()
-    this.timeoutValue = 0
-  }
-
-  private timeoutRef: NodeJS.Timeout
   async mounted() {
-    await this.$nextTick()
+    await this.$nextTick();
     if (this.timeout > 0) {
-      this.doTimeoutProgress()
+      this.doTimeoutProgress();
       this.timeoutRef = setTimeout(() => {
-        this.$emit('dismiss-snackbar')
-      }, this.timeout)
+        this.$emit('dismiss-snackbar');
+      }, this.timeout);
     }
-  }
-
-  get notificationVariant() {
-    return notificationVariants[this.notification.variant] ?? notificationVariants['confirmation']
-  }
-
-  get timeout() {
-    return this.notificationVariant.timeout ?? 6000
-  }
-
-  @Ref('snackbar') snackbar!: { setTimeout: () => void }
-  interacted = false
-  async onInteract() {
-    if (this.interacted || this.timeout === 0) return
-    // stop timeout if interaction detected
-    this.setProgressTransition(500)
-    // wait for next tick so that the transition duration change takes
-    await this.$nextTick()
-    this.interacted = true
-    clearTimeout(this.timeoutRef)
-  }
-
-  //
-  get isClickable() {
-    return typeof this.notification.onClick === 'function'
-  }
-
-  onClick() {
-    if (!this.isClickable) return
-    this.notification.onClick()
-    this.$emit('dismiss-snackbar')
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

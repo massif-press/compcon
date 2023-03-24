@@ -17,7 +17,9 @@
           v-if="i === 0"
           key="invade_action"
           :item="invadeAction"
-          :color="usedArr.includes('invade') ? 'grey darken-2' : 'action--quick'"
+          :color="
+            usedArr.includes('invade') ? 'grey darken-2' : 'action--quick'
+          "
           @click="$refs.inv_dialog.show()"
         />
       </div>
@@ -51,15 +53,14 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
-import InvadeDialog from './_InvadeDialog.vue'
+import _ from 'lodash';
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue';
+import InvadeDialog from './_InvadeDialog.vue';
 
-import Vue from 'vue'
-import { ActivationType } from '@/class'
+import { ActivationType } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'quick-tech-dialog',
   components: { ActionDetailExpander, InvadeDialog, ItemSelectorRow },
   props: {
@@ -80,50 +81,51 @@ export default Vue.extend({
   }),
   computed: {
     invadeAction() {
-      return this.state.TechActions.find(x => x.ID === 'act_invade')
+      return this.state.TechActions.find((x) => x.ID === 'act_invade');
     },
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
     actions() {
       const qtArr = this.state.TechActions.filter(
-        x => x.Activation === ActivationType.QuickTech && x.ID !== 'act_invade'
-      )
-      return _.groupBy(qtArr, 'Origin')
+        (x) =>
+          x.Activation === ActivationType.QuickTech && x.ID !== 'act_invade'
+      );
+      return _.groupBy(qtArr, 'Origin');
     },
   },
   methods: {
     removeIdx() {
-      this.usedArr.splice(this.usedArr.indexOf(this.index), 1)
+      this.usedArr.splice(this.usedArr.indexOf(this.index), 1);
     },
     removeInvade() {
-      this.usedArr.splice(this.usedArr.indexOf('invade'), 1)
+      this.usedArr.splice(this.usedArr.indexOf('invade'), 1);
     },
     commitAction(a) {
-      this.state.CommitAction(this.action, a.Activation)
+      this.state.CommitAction(this.action, a.Activation);
     },
     activate(action, index) {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      this.selected = action
-      this.index = index
+      const self = this;
+      this.selected = action;
+      this.index = index;
       Vue.nextTick()
         .then(() => {
-          self.selected = action
-          this.index = index
+          self.selected = action;
+          this.index = index;
         })
         .then(() =>
           Vue.nextTick().then(() => {
-            if (self.isInvade) self.$refs.inv_dialog.show()
-            else self.$refs.i_dialog.show()
+            if (self.isInvade) self.$refs.inv_dialog.show();
+            else self.$refs.i_dialog.show();
           })
-        )
+        );
     },
     init() {
-      this.selected = null
-      this.index = -1
-      this.usedArr = this.usedArr.splice(0, this.usedArr.length)
+      this.selected = null;
+      this.index = -1;
+      this.usedArr = this.usedArr.splice(0, this.usedArr.length);
     },
   },
-})
+};
 </script>

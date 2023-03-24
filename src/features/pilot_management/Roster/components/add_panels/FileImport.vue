@@ -3,7 +3,7 @@
     <v-file-input
       v-model="fileValue"
       accept="text/json"
-      outlined
+      variant="outlined"
       label="Select Pilot Data File"
       prepend-icon="mdi-paperclip"
       @change="stageImport"
@@ -11,20 +11,22 @@
     />
     <v-card v-if="missingContent.length">
       <p v-if="oldBrewsWarning" class="heading h3 accent--text">
-        WARNING: The imported Pilot was created using an older version of COMP/CON. Lancer Content
-        Pack analysis may not be comprehensive and there is a chance COMP/CON will be unable to
-        correctly load this data. Export the original file in the latest version of COMP/CON to
-        guarantee LCP validation.
+        WARNING: The imported Pilot was created using an older version of
+        COMP/CON. Lancer Content Pack analysis may not be comprehensive and
+        there is a chance COMP/CON will be unable to correctly load this data.
+        Export the original file in the latest version of COMP/CON to guarantee
+        LCP validation.
       </p>
       <v-card-text class="text-center">
         <p class="heading h4 accent--text">
-          The imported Pilot requires the following content packs that are not currently
-          installed/active, or have mismatching versions:
+          The imported Pilot requires the following content packs that are not
+          currently installed/active, or have mismatching versions:
         </p>
         <p class="effect-text text-center" v-html="missingContent" />
         <p class="text--text">
-          This Pilot cannot be imported until the missing content packs are installed and activated,
-          or the content pack versions are synchronized.
+          This Pilot cannot be imported until the missing content packs are
+          installed and activated, or the content pack versions are
+          synchronized.
         </p>
       </v-card-text>
       <v-divider />
@@ -35,8 +37,8 @@
     </v-card>
     <div class="mt-2">
       <p v-if="alreadyPresent" class="accent--text text-center">
-        A Pilot with this ID already exists in the roster. Importing will create a unique copy of
-        this pilot.
+        A Pilot with this ID already exists in the roster. Importing will create
+        a unique copy of this pilot.
       </p>
       <v-slide-x-reverse-transition>
         <v-row v-if="stagedData" align="center" justify="center">
@@ -47,7 +49,7 @@
               :disabled="missingContent.length > 0"
               @click="importFile()"
             >
-              <v-icon large left>cci-accuracy</v-icon>
+              <v-icon large left>cc:accuracy</v-icon>
               Import {{ stagedData.callsign }} ({{ stagedData.name }})
             </v-btn>
           </v-col>
@@ -58,14 +60,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Pilot } from '@/class'
-import { importData } from '@/io/Data'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, PilotManagementStore } from '@/store'
-import { PilotData } from '@/interface'
+import { Pilot } from '@/class';
+import { importData } from '@/io/Data';
 
-export default Vue.extend({
+import { CompendiumStore, PilotManagementStore } from '@/store';
+import { PilotData } from '@/interface';
+
+export default {
   name: 'file-import',
   data: () => ({
     // fileValue is just used to clear the file input
@@ -77,75 +78,76 @@ export default Vue.extend({
   }),
   methods: {
     reset() {
-      this.fileValue = null
-      this.oldBrewsWarning = false
-      this.missingContent = ''
-      this.stagedData = null
-      this.alreadyPresent = false
+      this.fileValue = null;
+      this.oldBrewsWarning = false;
+      this.missingContent = '';
+      this.stagedData = null;
+      this.alreadyPresent = false;
     },
     async stageImport(file) {
-      if (!file) return
-      const pilotData = await importData<PilotData>(file)
-      if (!pilotData.brews) pilotData.brews = []
+      if (!file) return;
+      const pilotData = await importData<PilotData>(file);
+      if (!pilotData.brews) pilotData.brews = [];
       // catch old style brews
       if (pilotData.brews.length && !pilotData.brews[0].LcpId) {
-        this.oldBrewsWarning = true
+        this.oldBrewsWarning = true;
 
-        const installedPacks = getModule(CompendiumStore, this.$store)
-          .ContentPacks.filter(x => x.Active)
-          .map(x => `${x.Name} @ ${x.Version}`)
-        const missingPacks = this.$_.pullAll(pilotData.brews, installedPacks)
-        if (missingPacks.length) this.missingContent = missingPacks.join('<br />')
+        const installedPacks = this.getModule(CompendiumStore)
+          .ContentPacks.filter((x) => x.Active)
+          .map((x) => `${x.Name} @ ${x.Version}`);
+        const missingPacks = this.$_.pullAll(pilotData.brews, installedPacks);
+        if (missingPacks.length)
+          this.missingContent = missingPacks.join('<br />');
       } else {
-        const installedPacks = getModule(CompendiumStore, this.$store)
-          .ContentPacks.filter(x => x.Active)
-          .map(x => x.ID)
-        let missing = []
-        pilotData.brews.forEach(b => {
+        const installedPacks = this.getModule(CompendiumStore)
+          .ContentPacks.filter((x) => x.Active)
+          .map((x) => x.ID);
+        let missing = [];
+        pilotData.brews.forEach((b) => {
           if (!installedPacks.includes(b.LcpId)) {
-            missing.push(`${b.LcpName} @ ${b.LcpVersion}`)
+            missing.push(`${b.LcpName} @ ${b.LcpVersion}`);
           }
-        })
-        if (missing.length) this.missingContent = missing.join('<br />')
+        });
+        if (missing.length) this.missingContent = missing.join('<br />');
       }
       if (
-        getModule(PilotManagementStore)
-          .Pilots.map(x => x.ID)
+        this.getModule(PilotManagementStore)
+          .Pilots.map((x) => x.ID)
           .includes(pilotData.id)
       ) {
-        this.alreadyPresent = true
-        pilotData.name += '※'
-        pilotData.callsign += '※'
+        this.alreadyPresent = true;
+        pilotData.name += '※';
+        pilotData.callsign += '※';
       }
-      this.stagedData = pilotData
+      this.stagedData = pilotData;
     },
     importFile() {
       try {
-        const importPilot = Pilot.Deserialize(this.stagedData)
-        importPilot.GroupController.reset()
-        importPilot.CloudController.reset()
-        importPilot.RenewID()
-        this.$store.dispatch('addPilot', importPilot)
-        this.reset()
-        this.$emit('done')
-        this.$notify('Pilot successfully imported', 'success')
+        const importPilot = Pilot.Deserialize(this.stagedData);
+        importPilot.GroupController.reset();
+        importPilot.CloudController.reset();
+        importPilot.RenewID();
+        this.$store.dispatch('addPilot', importPilot);
+        this.reset();
+        this.$emit('done');
+        this.$notify('Pilot successfully imported', 'success');
       } catch (error) {
         this.$notify(
           'An error occured during the import attempt. Please check the console log.',
           'error'
-        )
+        );
       }
     },
     cancelImport() {
-      this.reset()
+      this.reset();
     },
   },
-})
+};
 </script>
 
 <style scoped>
 #panel {
-  border: 5px double var(--v-panel-border-base) !important;
+  border: 5px double rgb(var(--v-theme-panel-border)) !important;
   border-radius: 2px !important;
 }
 </style>

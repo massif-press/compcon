@@ -1,10 +1,10 @@
 <template>
   <v-row dense>
-    <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="12" md="auto" class="pr-0">
+    <v-col v-if="$vuetify.display.mdAndUp" cols="12" md="auto" class="pr-0">
       <v-btn
         tile
         block
-        outlined
+        variant="outlined"
         min-height="calc(100% - 8px)"
         class="pa-0"
         :color="color"
@@ -12,8 +12,12 @@
         @click="$emit(isSelected ? 'remove' : 'add', bonus)"
       >
         <cc-tooltip simple inline :content="ttContent()">
-          <v-icon v-if="isSelected" size="80" color="error">cci-difficulty</v-icon>
-          <v-icon v-else-if="isSelectable" size="80" color="secondary">cci-accuracy</v-icon>
+          <v-icon v-if="isSelected" size="80" color="error"
+            >cc:difficulty</v-icon
+          >
+          <v-icon v-else-if="isSelectable" size="80" color="secondary"
+            >cc:accuracy</v-icon
+          >
           <v-icon v-else size="80" color="grey">mdi-lock</v-icon>
         </cc-tooltip>
       </v-btn>
@@ -21,7 +25,12 @@
     <v-col cols="12" md="" class="pl-0">
       <cc-core-bonus-item :bonus="bonus" />
     </v-col>
-    <v-col v-if="$vuetify.breakpoint.smAndDown" cols="12" md="auto" class="mb-4 mt-n2">
+    <v-col
+      v-if="$vuetify.display.smAndDown"
+      cols="12"
+      md="auto"
+      class="mb-4 mt-n2"
+    >
       <v-btn
         tile
         block
@@ -32,15 +41,15 @@
       >
         <span>
           <span v-if="isSelected">
-            <v-icon left>cci-difficulty</v-icon>
+            <v-icon start>cc:difficulty</v-icon>
             Remove Bonus
           </span>
           <span v-else-if="isSelectable">
-            <v-icon left>cci-accuracy</v-icon>
+            <v-icon start>cc:accuracy</v-icon>
             Add Bonus
           </span>
           <span v-else>
-            <v-icon left>mdi-lock</v-icon>
+            <v-icon start>mdi-lock</v-icon>
             Unavailable
           </span>
         </span>
@@ -50,9 +59,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cb-item',
   props: {
     bonus: {
@@ -74,10 +81,10 @@ export default Vue.extend({
   },
   methods: {
     ttContent() {
-      if (!this.isSelected && !this.isSelectable) return 'Locked'
-      else if (this.isSelected) return `Remove ${this.bonus.Name}`
-      return `Add ${this.bonus.Name}`
+      if (!this.isSelected && !this.isSelectable) return 'Locked';
+      else if (this.isSelected) return `Remove ${this.bonus.Name}`;
+      return `Add ${this.bonus.Name}`;
     },
   },
-})
+};
 </script>

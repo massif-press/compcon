@@ -5,7 +5,9 @@
       <v-expansion-panel v-for="(error, i) in errors" :key="i">
         <v-expansion-panel-header>
           <div class="flavor-text font-small text--text">
-            <span class="flavor-text error--text font-big">{{ error.message }}</span>
+            <span class="flavor-text error--text font-big">{{
+              error.message
+            }}</span>
             - {{ dateFormat(error.time) }}
             <span v-if="error.component">
               at
@@ -15,9 +17,11 @@
         </v-expansion-panel-header>
         <v-expansion-panel-content>
           <h5 class="error--text">STACK TRACE</h5>
-          <pre class="flavor-text error--text stack" @copy="onCopy($event, error)">{{
-            error.stack
-          }}</pre>
+          <pre
+            class="flavor-text error--text stack"
+            @copy="onCopy($event, error)"
+            >{{ error.stack }}</pre
+          >
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -25,44 +29,39 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { getModule } from 'vuex-module-decorators'
-import { NavStore } from '@/store'
+import { NavStore } from '@/store';
 
-@Component
-export default class OptionsLog extends Vue {
-  get errors() {
-    return getModule(NavStore, this.$store).Errors
-  }
-
-  dateFormat(date: Date) {
-    return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date
-      .getDate()
-      .toString()
-      .padStart(2, '0')} ${date
-      .getHours()
-      .toString()
-      .padStart(2, '0')}:${date
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}:${date
-      .getSeconds()
-      .toString()
-      .padStart(2, '0')}`
-  }
-
-  onCopy(e, error) {
-    console.log('oncopy fired')
-    const text =
-      '```\n' +
-      (error.component ? `Vue error at [${error.component}]\n` : '') +
-      window.getSelection().toString() +
-      '```'
-    e.clipboardData.setData('text/plain', text)
-    e.preventDefault()
-  }
-}
+export default {
+  name: 'Log',
+  computed: {
+    errors() {
+      return this.getModule(NavStore).Errors;
+    },
+  },
+  methods: {
+    dateFormat(date: Date) {
+      return `${date.getFullYear()}/${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date
+        .getHours()
+        .toString()
+        .padStart(2, '0')}:${date
+        .getMinutes()
+        .toString()
+        .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+    },
+    onCopy(e, error) {
+      console.log('oncopy fired');
+      const text =
+        '```\n' +
+        (error.component ? `Vue error at [${error.component}]\n` : '') +
+        window.getSelection().toString() +
+        '```';
+      e.clipboardData.setData('text/plain', text);
+      e.preventDefault();
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -73,7 +72,7 @@ export default class OptionsLog extends Vue {
 .stack {
   font-size: 14px;
   user-select: all;
-  border: 1px solid var(--v-subtle-darken2);
+  border: 1px solid rgb(var(--v-theme-subtle-darken2));
   border-radius: 4px;
   padding: 10px;
   margin: 3px 0;

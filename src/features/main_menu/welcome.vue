@@ -1,5 +1,11 @@
 <template>
-  <cc-solo-dialog ref="dialog" no-confirm large :title="title" @close="setHash()">
+  <cc-solo-dialog
+    ref="dialog"
+    no-confirm
+    large
+    :title="title"
+    @close="setHash()"
+  >
     <div v-html-safe="body" class="mt-2 body-text text--text" />
     <v-row no-gutters align="end" justify="end">
       <v-col cols="auto">
@@ -12,15 +18,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
-import { UserProfile } from '@/user'
+import { UserStore } from '@/store';
+import { UserProfile } from '@/user';
 
-export default Vue.extend({
+export default {
   name: 'welcome-dialog',
   data: () => ({
-    welcomeMessageUrl: 'https://compcon-text-assets.s3.amazonaws.com/welcome.json',
+    welcomeMessageUrl:
+      'https://compcon-text-assets.s3.amazonaws.com/welcome.json',
     title: '',
     body: '',
     hash: '',
@@ -28,18 +33,17 @@ export default Vue.extend({
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(UserStore, this.$store)
-      return store.UserProfile
+      return this.getModule(UserStore).UserProfile;
     },
   },
   watch: {
     noshow(newval) {
-      if (!this.profile) return
-      if (newval) this.profile.WelcomeHash = this.hash
-      else this.profile.WelcomeHash = ''
+      if (!this.profile) return;
+      if (newval) this.profile.WelcomeHash = this.hash;
+      else this.profile.WelcomeHash = '';
     },
     profile(newval) {
-      if (!this.profile) return
+      if (!this.profile) return;
       if (newval.WelcomeHash !== undefined)
         fetch(this.welcomeMessageUrl, {
           method: 'GET',
@@ -49,37 +53,40 @@ export default Vue.extend({
             'cache-control': 'no-cache',
           },
         })
-          .then(res => res.json())
-          .then(content => {
-            this.title = content.title
-            this.body = content.body
+          .then((res) => res.json())
+          .then((content) => {
+            this.title = content.title;
+            this.body = content.body;
             this.hash = content.body
               .split('')
               .reduce((a, b) => ((a << 5) - a + b.charCodeAt(0)) | 0, 0)
-              .toString()
+              .toString();
           })
           .then(() => {
-            if (localStorage.getItem('cc-welcome-hash') === this.hash) return
+            if (localStorage.getItem('cc-welcome-hash') === this.hash) return;
             if (this.hash !== this.profile.WelcomeHash) {
-              this.$refs.dialog.show()
-              this.setHash()
+              (this.$refs.dialog as any).show();
+              this.setHash();
             }
           })
-          .catch(err => {
-            console.error('There was an issue downloading the latest welcome message.', err)
-          })
+          .catch((err) => {
+            console.error(
+              'There was an issue downloading the latest welcome message.',
+              err
+            );
+          });
     },
   },
   methods: {
     setHash() {
       if (this.noshow) {
-        localStorage.setItem('cc-welcome-hash', this.hash)
-        this.profile.WelcomeHash = this.hash
+        localStorage.setItem('cc-welcome-hash', this.hash);
+        this.profile.WelcomeHash = this.hash;
       } else {
-        localStorage.removeItem('cc-welcome-hash')
-        this.profile.WelcomeHash = ''
+        localStorage.removeItem('cc-welcome-hash');
+        this.profile.WelcomeHash = '';
       }
     },
   },
-})
+};
 </script>

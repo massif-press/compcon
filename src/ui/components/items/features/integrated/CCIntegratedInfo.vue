@@ -1,17 +1,22 @@
 <template>
   <component
-    :is="hover ? 'integratedInfoHover' : panel ? 'integratedInfoPanel' : 'integratedInfoPopup'"
+    :is="
+      hover
+        ? 'integratedInfoHover'
+        : panel
+        ? 'integratedInfoPanel'
+        : 'integratedInfoPopup'
+    "
     :item="item"
   />
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import integratedInfoHover from './_integratedInfoHover.vue'
-import integratedInfoPanel from './_integratedInfoPanel.vue'
-import integratedInfoPopup from './_integratedInfoPopup.vue'
+import integratedInfoHover from './_integratedInfoHover.vue';
+import integratedInfoPanel from './_integratedInfoPanel.vue';
+import integratedInfoPopup from './_integratedInfoPopup.vue';
 
-export default Vue.extend({
+export default {
   name: 'cc-integrated-info',
   components: { integratedInfoHover, integratedInfoPanel, integratedInfoPopup },
   props: {
@@ -30,5 +35,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>

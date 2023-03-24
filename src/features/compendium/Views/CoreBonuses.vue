@@ -1,6 +1,10 @@
 <template>
   <cc-sidebar-view>
-    <div v-for="m in Object.keys(bonuses)" :key="`list_block_${m}`" slot="sidebar">
+    <div
+      v-for="m in Object.keys(bonuses)"
+      :key="`list_block_${m}`"
+      slot="sidebar"
+    >
       <v-list-item>
         <v-list-item-title class="ml-n5 mb-n2">
           <cc-logo :source="manufacturer(m)" style="margin-bottom: -6px" />
@@ -25,7 +29,9 @@
           })
         "
       >
-        <v-list-item-title class="heading h3 text--text">{{ cb.Name }}</v-list-item-title>
+        <v-list-item-title class="heading h3 text--text">{{
+          cb.Name
+        }}</v-list-item-title>
       </v-list-item>
     </div>
 
@@ -34,7 +40,7 @@
         <div class="heading h2">CORE BONUSES</div>
       </v-col>
       <v-col
-        v-if="$vuetify.breakpoint.smAndDown"
+        v-if="$vuetify.display.smAndDown"
         cols="auto"
         class="ml-auto"
         style="max-width: 30%"
@@ -43,7 +49,7 @@
           v-model="manFilter"
           value="ALL"
           :items="['ALL', ...sources]"
-          outlined
+          variant="outlined"
           dense
           hide-details
           height="2px"
@@ -57,7 +63,7 @@
       <v-row dense align="center">
         <v-col cols="auto">
           <cc-logo
-            :size="$vuetify.breakpoint.mdAndUp ? 'xLarge' : 'large'"
+            :size="$vuetify.display.mdAndUp ? 'xLarge' : 'large'"
             :source="manufacturer(m)"
             class="mb-n2"
           />
@@ -83,39 +89,44 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import _, { Dictionary } from 'lodash'
-import { CoreBonus } from '@/class'
-import { Manufacturer } from '@/classes/Manufacturer'
+import { CompendiumStore } from '@/store';
+import _, { Dictionary } from 'lodash';
+import { CoreBonus } from '@/class';
+import { Manufacturer } from '@/classes/Manufacturer';
 
-@Component
-export default class CoreBonuses extends Vue {
-  private compendium = getModule(CompendiumStore, this.$store)
-  private manFilter = ''
+export default {
+  name: 'CoreBonuses',
+  data: () => ({
+    manFilter: 'ALL',
+  }),
+  computed: {
+    bonuses(): Dictionary<CoreBonus[]> {
+      let bArr = this.$store.getters['compendium/CoreBonuses'].filter(
+        (x: CoreBonus) => !x.IsHidden
+      );
+      if (this.manFilter && this.manFilter.toLowerCase() !== 'all') {
+        bArr = bArr.filter((x: CoreBonus) => x.Source === this.manFilter);
+      }
 
-  get bonuses(): Dictionary<CoreBonus[]> {
-    let bArr = this.compendium.CoreBonuses.filter(x => !x.IsHidden)
-    if (this.manFilter && this.manFilter.toLowerCase() !== 'all') {
-      bArr = bArr.filter(x => x.Source === this.manFilter)
-    }
-
-    return _.groupBy(bArr, 'Source')
-  }
-
-  get sources(): string[] {
-    return this.compendium.CoreBonuses.filter(x => !x.IsHidden).map(x => x.Source)
-  }
-
-  private mounted(): void {
-    this.manFilter = 'ALL'
-  }
-
-  public manufacturer(id: string): Manufacturer {
-    const compendium = getModule(CompendiumStore, this.$store)
-    return compendium.Manufacturers.find(x => x.ID === id.toUpperCase())
-  }
-}
+      return _.groupBy(bArr, 'Source');
+    },
+    sources(): string[] {
+      return this.$store.getters['compendium/CoreBonuses']
+        .filter((x: CoreBonus) => !x.IsHidden)
+        .map((x: CoreBonus) => x.Source);
+    },
+    compendium(): CompendiumStore {
+      return this.getModule(CompendiumStore);
+    },
+  },
+  mounted(): void {
+    this.manFilter = 'ALL';
+  },
+  methods: {
+    manufacturer(id: string): Manufacturer {
+      const compendium = this.getModule(CompendiumStore);
+      return compendium.Manufacturers.find((x) => x.ID === id.toUpperCase());
+    },
+  },
+};
 </script>

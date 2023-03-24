@@ -7,7 +7,7 @@
 }
 
 a {
-  color: var(--v-accent-base) !important;
+  color: rgb(var(--v-theme-accent)) !important;
 }
 
 .overline {
@@ -103,20 +103,20 @@ a {
 }
 
 .bordered {
-  background: var(--v-stark-panel-base) !important;
-  border: 5px double var(--v-panel-border-base) !important;
+  background: rgb(var(--v-theme-stark-panel)) !important;
+  border: 5px double rgb(var(--v-theme-panel-border)) !important;
   border-radius: 2px !important;
 }
 
 .bordered-primary {
-  background: var(--v-stark-panel-base) !important;
-  border: 5px double var(--v-primary-base) !important;
+  background: rgb(var(--v-theme-stark-panel)) !important;
+  border: 5px double rgb(var(--v-theme-primary)) !important;
   border-radius: 2px !important;
 }
 
 .bordered-success {
-  background: var(--v-stark-panel-base) !important;
-  border: 5px double var(--v-success-base) !important;
+  background: rgb(var(--v-theme-stark-panel)) !important;
+  border: 5px double rgb(var(--v-theme-success)) !important;
   border-radius: 2px !important;
 }
 
@@ -161,23 +161,23 @@ a {
 }
 
 .border {
-  border: 5px double var(--v-panel-border-base);
+  border: 5px double rgb(var(--v-theme-panel-border));
   border-radius: 2px;
 }
 
 .border-primary {
-  border: 5px double var(--v-primary-base);
+  border: 5px double rgb(var(--v-theme-primary));
   border-radius: 2px;
 }
 
 .border-thin-primary {
-  border: 1px solid var(--v-primary-base);
+  border: 1px solid rgb(var(--v-theme-primary));
   margin-bottom: -1px;
 }
 
 .panel-block {
-  background-color: var(--v-panel-base);
-  border: 5px double var(--v-panel-border-base);
+  background-color: rgb(var(--v-theme-panel));
+  border: 5px double rgb(var(--v-theme-panel-border));
   border-radius: 2px;
 }
 
@@ -194,7 +194,7 @@ a {
 .v-light,
 .v-list,
 .v-stepper .v-card {
-  background: var(--v-background-base) !important;
+  background: rgb(var(--v-theme-background)) !important;
 }
 
 .v-tabs-items {
@@ -205,16 +205,14 @@ a {
   white-space: nowrap !important;
 }
 
-.v-overlay.v-overlay--active {
-  color: #000;
-  background-color: #000;
-  opacity: 0.85;
-}
-
 .v-tabs >>> .v-slide-group__prev {
   display: none !important;
 }
 
 .v-slide-group__prev {
   display: none !important;
+}
+
+.v-tooltip .v-overlay__content {
+    background: rgba(var(--v-theme-surface-variant), .93) !important;
 }

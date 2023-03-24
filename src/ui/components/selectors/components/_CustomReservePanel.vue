@@ -3,7 +3,7 @@
     <v-col cols="12" md="7">
       <cc-titled-panel
         title="Custom Reserve"
-        :icon="`cci-reserve-${customType.toLowerCase()}`"
+        :icon="`cc:reserve-${customType.toLowerCase()}`"
         :color="`reserve--${customType.toLowerCase()}`"
       >
         <div class="text-center">
@@ -11,22 +11,35 @@
             v-model="customType"
             tile
             mandatory
-            :group="$vuetify.breakpoint.mdAndUp"
+            :group="$vuetify.display.mdAndUp"
             color="secondary"
           >
-            <v-btn :small="$vuetify.breakpoint.smAndDown" value="Resource">
-              Resource
-            </v-btn>
-            <v-divider v-show="$vuetify.breakpoint.mdAndUp" vertical class="mx-2" />
-            <v-btn :small="$vuetify.breakpoint.smAndDown" value="Mech">Mech</v-btn>
-            <v-divider v-show="$vuetify.breakpoint.mdAndUp" vertical class="mx-2" />
-            <v-btn :small="$vuetify.breakpoint.smAndDown" value="Tactical">
-              Tactical
-            </v-btn>
+            <v-btn :small="$vuetify.display.smAndDown" value="Resource"
+              >Resource</v-btn
+            >
+            <v-divider
+              v-show="$vuetify.display.mdAndUp"
+              vertical
+              class="mx-2"
+            />
+            <v-btn :small="$vuetify.display.smAndDown" value="Mech">Mech</v-btn>
+            <v-divider
+              v-show="$vuetify.display.mdAndUp"
+              vertical
+              class="mx-2"
+            />
+            <v-btn :small="$vuetify.display.smAndDown" value="Tactical"
+              >Tactical</v-btn
+            >
           </v-btn-toggle>
         </div>
         <div class="mx-4 my-2">
-          <v-text-field v-model="customName" outlined label="Resource Name" hide-details />
+          <v-text-field
+            v-model="customName"
+            variant="outlined"
+            label="Resource Name"
+            hide-details
+          />
           <v-textarea
             v-model="details"
             auto-grow
@@ -46,7 +59,7 @@
           :disabled="!customType || !customName"
           @click="add()"
         >
-          <v-icon left>cci-accuracy</v-icon>
+          <v-icon start>cc:accuracy</v-icon>
           Add Reserve
         </v-btn>
       </cc-titled-panel>
@@ -55,10 +68,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Reserve } from '@/class'
+import { Reserve } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'custom-reserve-panel',
   data: () => ({
     customType: 'Resource',
@@ -78,15 +90,15 @@ export default Vue.extend({
         resource_cost: '',
         used: false,
         consumable: true,
-      })
-      this.clear()
-      this.$emit('add', nr)
+      });
+      this.clear();
+      this.$emit('add', nr);
     },
     clear() {
-      this.customType = 'Resources'
-      this.customName = ''
-      this.details = ''
+      this.customType = 'Resources';
+      this.customName = '';
+      this.details = '';
     },
   },
-})
+};
 </script>

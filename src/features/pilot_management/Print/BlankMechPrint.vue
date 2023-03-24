@@ -28,13 +28,21 @@
         <div class="overline mb-n1">STRUCTURE</div>
         <v-row dense no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-structure</v-icon>
+            <v-icon size="60" color="grey lighten-3" class="mr-n1"
+              >cc:structure</v-icon
+            >
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span
+              class="subtle--text text--lighten-1 display-2"
+              style="line-height: 0"
+              >/</span
+            >
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+            <v-icon size="50" color="grey lighten-3" class="mr-n1"
+              >mdi-hexagon-outline</v-icon
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -46,13 +54,21 @@
         <div class="overline mb-n1">HP</div>
         <v-row dense no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+            <v-icon size="60" color="grey lighten-3" class="mr-n1"
+              >mdi-hexagon-outline</v-icon
+            >
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span
+              class="subtle--text text--lighten-1 display-2"
+              style="line-height: 0"
+              >/</span
+            >
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+            <v-icon size="50" color="grey lighten-3" class="mr-n1"
+              >mdi-hexagon-outline</v-icon
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -60,13 +76,21 @@
         <div class="overline mb-n1">STRESS</div>
         <v-row dense no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-reactor</v-icon>
+            <v-icon size="60" color="grey lighten-3" class="mr-n1"
+              >cc:reactor</v-icon
+            >
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span
+              class="subtle--text text--lighten-1 display-2"
+              style="line-height: 0"
+              >/</span
+            >
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+            <v-icon size="50" color="grey lighten-3" class="mr-n1"
+              >mdi-hexagon-outline</v-icon
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -74,13 +98,21 @@
         <div class="overline mb-n1">HEAT</div>
         <v-row dense no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-burn</v-icon>
+            <v-icon size="60" color="grey lighten-3" class="mr-n1"
+              >cc:burn</v-icon
+            >
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span
+              class="subtle--text text--lighten-1 display-2"
+              style="line-height: 0"
+              >/</span
+            >
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+            <v-icon size="50" color="grey lighten-3" class="mr-n1"
+              >mdi-hexagon-outline</v-icon
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -88,13 +120,21 @@
         <div class="overline mb-n1">REPAIR CAPACITY</div>
         <v-row dense no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1">cci-repair</v-icon>
+            <v-icon size="60" color="grey lighten-3" class="mr-n1"
+              >cc:repair</v-icon
+            >
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span class="subtle--text text--lighten-1 display-2" style="line-height: 0">/</span>
+            <span
+              class="subtle--text text--lighten-1 display-2"
+              style="line-height: 0"
+              >/</span
+            >
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
+            <v-icon size="50" color="grey lighten-3" class="mr-n1"
+              >mdi-hexagon-outline</v-icon
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -144,7 +184,7 @@
       <single cols="12" label="ACTIVE ABILITY" height="100" class="mt-n2" />
     </v-row>
 
-    <div style="page-break-before: always;" />
+    <div style="page-break-before: always" />
 
     <span class="overline">ARMAMENT</span>
     <v-row v-for="n in 2" :key="`mr_${n}`">
@@ -153,11 +193,16 @@
           <legend>
             <div
               class="d-inline-block text-right"
-              style="height: 35px; min-width: 300px; border: 2px solid grey; border-radius: 3px"
+              style="
+                height: 35px;
+                min-width: 300px;
+                border: 2px solid grey;
+                border-radius: 3px;
+              "
             >
-              <span class="d-inline-block flavor-text" style="font-size:20px">
-                MOUNT&nbsp;
-              </span>
+              <span class="d-inline-block flavor-text" style="font-size: 20px"
+                >MOUNT&nbsp;</span
+              >
             </div>
           </legend>
           <v-row v-for="y in 2" :key="`mc_${n}_${x}_${y}`" dense class="mt-n1">
@@ -192,13 +237,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Single from './blanks/Single.vue'
+import Single from './blanks/Single.vue';
 
-export default Vue.extend({
+export default {
   name: 'mech-blank-view',
   components: { Single },
-})
+};
 </script>
 
 <style scoped>
@@ -224,6 +268,6 @@ fieldset {
   padding: 0 4px;
   height: 100%;
   border-radius: 3px;
-  border-color: var(--v-grey-lighten2);
+  border-color: rgb(var(--v-theme-grey-lighten2));
 }
 </style>

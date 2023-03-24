@@ -5,7 +5,9 @@
       <div style="position: relative">
         <div class="side-legend">
           <span
-            :class="`heading h3 ${mech.FreeSP < 0 ? 'error--text' : 'subtle--text text--darken-3'}`"
+            :class="`heading h3 ${
+              mech.FreeSP < 0 ? 'error--text' : 'subtle--text text--darken-3'
+            }`"
           >
             <v-icon v-if="mech.FreeSP < 0" color="error" left>mdi-alert</v-icon>
             {{ mech.FreeSP }} / {{ mech.MaxSP }}
@@ -15,7 +17,8 @@
       </div>
 
       <system-slot-card
-        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
+        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout
+          .IntegratedSystems"
         :key="`${s.ID}-${i}-intg`"
         :mech="mech"
         :item="s"
@@ -36,8 +39,8 @@
 
       <draggable
         :list="systems"
-        @start="drag=true"
-        @end="drag=false"
+        @start="drag = true"
+        @end="drag = false"
         @change="moveSystem($event)"
       >
         <system-slot-card
@@ -56,12 +59,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SystemSlotCard from './_SystemSlotCard.vue'
-import ModEquippedCard from './_ModEquippedCard.vue'
-import draggable from 'vuedraggable'
+import SystemSlotCard from './_SystemSlotCard.vue';
+import ModEquippedCard from './_ModEquippedCard.vue';
+import draggable from 'vuedraggable';
 
-export default Vue.extend({
+export default {
   name: 'systems-block',
   components: { SystemSlotCard, ModEquippedCard, draggable },
   props: {
@@ -79,30 +81,32 @@ export default Vue.extend({
   },
   computed: {
     moddedWeapons() {
-      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
+      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
+        (x) => x.Mod
+      );
     },
   },
-  methods:{
-    moveSystem(event){
-      if(event.moved){
-        this.mech.SaveController.save()
+  methods: {
+    moveSystem(event) {
+      if (event.moved) {
+        this.mech.SaveController.save();
       }
     },
-  },  
+  },
   data: () => {
     return {
-      systems: null
-    } 
+      systems: null,
+    };
   },
   mounted() {
-      this.systems = this.mech.MechLoadoutController.ActiveLoadout.Systems
+    this.systems = this.mech.MechLoadoutController.ActiveLoadout.Systems;
   },
-})
+};
 </script>
 
 <style scoped>
 fieldset {
-  border-color: var(--v-grey-darken2);
+  border-color: rgb(var(--v-theme-grey-darken2));
   border-radius: 5px;
   margin-bottom: 12px;
   padding: 4px;

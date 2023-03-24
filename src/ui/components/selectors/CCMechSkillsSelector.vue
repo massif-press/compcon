@@ -5,7 +5,7 @@
         <v-alert
           :value="true"
           :type="pilot.MechSkillsController.IsMissingHASE ? 'info' : 'success'"
-          outlined
+          variant="outlined"
           class="stat-text mt-6"
         >
           {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
@@ -18,7 +18,7 @@
             small
             class="fadeSelect"
             color="info"
-            outlined
+            variant="outlined"
             @click="pilot.MechSkillsController.Reset()"
           >
             Reset Mech Skills
@@ -29,10 +29,10 @@
 
     <v-row dense>
       <v-col cols="12" lg="6">
-        <cc-title :small="$vuetify.breakpoint.smAndDown">HULL</cc-title>
+        <cc-title :small="$vuetify.display.smAndDown">HULL</cc-title>
         <span class="flavor-text">
-          Your HULL skill describes your ability to build and pilot durable, heavy mechs that can
-          take punches and keep going
+          Your HULL skill describes your ability to build and pilot durable,
+          heavy mechs that can take punches and keep going
         </span>
         <v-row dense>
           <v-col cols="auto" class="ml-auto mr-auto text-center">
@@ -49,7 +49,7 @@
               <v-icon>remove</v-icon>
             </v-btn>
             <cc-rating
-              :dense="$vuetify.breakpoint.mdAndDown"
+              :dense="$vuetify.display.mdAndDown"
               :model="pilot.MechSkillsController.MechSkills.Hull"
             />
             <v-btn
@@ -78,7 +78,9 @@
             <span class="heading h3">
               REPAIR CAPACITY
               <span class="accent--text">
-                +{{ Math.floor(pilot.MechSkillsController.MechSkills.Hull / 2) }}
+                +{{
+                  Math.floor(pilot.MechSkillsController.MechSkills.Hull / 2)
+                }}
               </span>
             </span>
           </v-col>
@@ -86,9 +88,10 @@
       </v-col>
 
       <v-col cols="12" lg="6">
-        <cc-title :small="$vuetify.breakpoint.smAndDown">AGILITY</cc-title>
+        <cc-title :small="$vuetify.display.smAndDown">AGILITY</cc-title>
         <span class="flavor-text">
-          Your AGILITY skill describes your ability to build and pilot fast, evasive mechs
+          Your AGILITY skill describes your ability to build and pilot fast,
+          evasive mechs
         </span>
         <v-row dense>
           <v-col cols="auto" class="ml-auto mr-auto text-center">
@@ -105,7 +108,7 @@
               <v-icon>remove</v-icon>
             </v-btn>
             <cc-rating
-              :dense="$vuetify.breakpoint.mdAndDown"
+              :dense="$vuetify.display.mdAndDown"
               :model="pilot.MechSkillsController.MechSkills.Agi"
             />
             <v-btn
@@ -139,10 +142,10 @@
       </v-col>
 
       <v-col cols="12" lg="6">
-        <cc-title :small="$vuetify.breakpoint.smAndDown">SYSTEMS</cc-title>
+        <cc-title :small="$vuetify.display.smAndDown">SYSTEMS</cc-title>
         <span class="flavor-text">
-          Your SYSTEMS skill describes your ability to build and pilot technical mechs with powerful
-          electronic warfare tools
+          Your SYSTEMS skill describes your ability to build and pilot technical
+          mechs with powerful electronic warfare tools
         </span>
         <v-row dense>
           <v-col cols="auto" class="ml-auto mr-auto text-center">
@@ -159,7 +162,7 @@
               <v-icon>remove</v-icon>
             </v-btn>
             <cc-rating
-              :dense="$vuetify.breakpoint.mdAndDown"
+              :dense="$vuetify.display.mdAndDown"
               :model="pilot.MechSkillsController.MechSkills.Sys"
             />
             <v-btn
@@ -198,10 +201,10 @@
       </v-col>
 
       <v-col cols="12" lg="6">
-        <cc-title :small="$vuetify.breakpoint.smAndDown">Engineering</cc-title>
+        <cc-title :small="$vuetify.display.smAndDown">Engineering</cc-title>
         <span class="flavor-text">
-          Your ENGINEERING skill describes your ability to build and pilot mechs with powerful
-          reactors, supplies and support systems
+          Your ENGINEERING skill describes your ability to build and pilot mechs
+          with powerful reactors, supplies and support systems
         </span>
         <v-row dense>
           <v-col cols="auto" class="ml-auto mr-auto text-center">
@@ -218,7 +221,7 @@
               <v-icon>remove</v-icon>
             </v-btn>
             <cc-rating
-              :dense="$vuetify.breakpoint.mdAndDown"
+              :dense="$vuetify.display.mdAndDown"
               :model="pilot.MechSkillsController.MechSkills.Eng"
             />
             <v-btn
@@ -257,31 +260,30 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Pilot, HASE } from '@/class'
+import { Pilot, HASE } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'cc-mech-skills-selector',
   props: {
     pilot: Pilot,
   },
   watch: {
     'pilot.MechSkillsController.IsMissingHASE': function (newVal) {
-      if (newVal === false) window.scrollTo(0, document.body.scrollHeight)
+      if (newVal === false) window.scrollTo(0, document.body.scrollHeight);
     },
   },
   methods: {
     add(field: HASE) {
-      this.pilot.MechSkillsController.MechSkills.Increment(field)
+      this.pilot.MechSkillsController.MechSkills.Increment(field);
     },
     remove(field: HASE) {
-      this.pilot.MechSkillsController.MechSkills.Decrement(field)
+      this.pilot.MechSkillsController.MechSkills.Decrement(field);
     },
     close() {
-      this.$emit('close')
+      this.$emit('close');
     },
   },
-})
+};
 </script>
 
 <style scoped>

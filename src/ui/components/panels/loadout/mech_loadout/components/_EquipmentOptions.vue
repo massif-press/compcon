@@ -2,7 +2,14 @@
   <span v-if="item">
     <v-menu offset-y top @click.stop>
       <template v-slot:activator="{ on: menu }">
-        <v-btn dark small class="ml-n3 mt-n1 mr-2 fadeSelect" icon v-on="menu" @click.stop>
+        <v-btn
+          dark
+          small
+          class="ml-n3 mt-n1 mr-2 fadeSelect"
+          icon
+          v-on="menu"
+          @click.stop
+        >
           <v-icon>settings</v-icon>
         </v-btn>
       </template>
@@ -18,7 +25,10 @@
           </v-list-item>
           <v-divider />
         </div>
-        <v-list-item v-if="!item.Destroyed && !item.Used" @click="item.Used = true">
+        <v-list-item
+          v-if="!item.Destroyed && !item.Used"
+          @click="item.Used = true"
+        >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="success">mdi-check</v-icon>
           </v-list-item-icon>
@@ -34,9 +44,12 @@
             <v-list-item-title>Mark as Unused</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+        <v-list-item
+          v-if="item.CanSetDamage"
+          @click="$refs.damageTypeDialog.show()"
+        >
           <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>cci-variable</v-icon>
+            <v-icon>cc:variable</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Select Damage Type</v-list-item-title>
@@ -50,7 +63,10 @@
             <v-list-item-title>Set Max Uses</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
+        <v-list-item
+          v-if="!item.Destroyed && !item.IsIndestructible"
+          @click="item.Destroy()"
+        >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="error">mdi-image-broken-variant</v-icon>
           </v-list-item-icon>
@@ -165,9 +181,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'equipment-options-menu',
   props: {
     item: {
@@ -179,8 +193,8 @@ export default Vue.extend({
   },
   methods: {
     save(prop, newName) {
-      this.$set(this.item, prop, newName)
+      this.$set(this.item, prop, newName);
     },
   },
-})
+};
 </script>

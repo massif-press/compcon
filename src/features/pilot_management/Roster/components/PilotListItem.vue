@@ -3,7 +3,9 @@
     id="pc-wrapper"
     v-show="pilot"
     class="my-1"
-    @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
+    @click="
+      selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null
+    "
   >
     <v-card
       tile
@@ -14,17 +16,28 @@
       :min-height="mobile ? '75px' : '108px'"
     >
       <div id="interior" class="clipped-square-invert">
-        <v-img :src="pilot.Portrait" position="top" :height="mobile ? '75px' : '108px'" />
+        <v-img
+          :src="pilot.Portrait"
+          position="top"
+          :height="mobile ? '75px' : '108px'"
+        />
       </div>
     </v-card>
     <div id="banner" style="width: 100%">
       <div
-        style="width: 100%; display: flex; justify-content: space-between; align-content: center"
+        style="
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-content: center;
+        "
         class="overlay primary"
       >
         <div
           class="heading callsign"
-          :style="`margin-left: ${mobile ? '75px' : '108px'}; display: inline-block;`"
+          :style="`margin-left: ${
+            mobile ? '75px' : '108px'
+          }; display: inline-block;`"
         >
           {{ pilot.Callsign }}
           <cc-tooltip
@@ -36,27 +49,40 @@
             <v-icon dark right>mdi-cloud-braces</v-icon>
           </cc-tooltip>
         </div>
-        <edit-menu style="display: inline-block; padding-right: 10px" dense :pilot="pilot" />
+        <edit-menu
+          style="display: inline-block; padding-right: 10px"
+          dense
+          :pilot="pilot"
+        />
       </div>
       <div
-        :style="`border-top: 0!important;  min-height: ${mobile ? '44px' : '72px'};`"
+        :style="`border-top: 0!important;  min-height: ${
+          mobile ? '44px' : '72px'
+        };`"
         class="light-panel clipped"
       >
-        <div :style="`margin-left: ${mobile ? '75px' : '108px'}; padding-left: 8px;`" class="mt-n1">
+        <div
+          :style="`margin-left: ${
+            mobile ? '75px' : '108px'
+          }; padding-left: 8px;`"
+          class="mt-n1"
+        >
           <p class="flavor-text">
             <span v-show="!mobile">
               <span class="subtle--text">>[</span>
               <b class="stark--text">{{ pilot.Name }}</b>
               <span class="subtle--text">]</span>
               <span class="subtle--text">STATUS [</span>
-              <span :class="`${statusColor(pilot.Status)}--text`">{{ pilot.Status }}</span>
+              <span :class="`${statusColor(pilot.Status)}--text`">{{
+                pilot.Status
+              }}</span>
               <span class="subtle--text">] -</span>
               <span class="text--text">
                 {{ pilot.Background.Name }}
               </span>
             </span>
             <b class="success--text">LL: {{ pilot.Level }}</b>
-            <cc-slashes v-show="$vuetify.breakpoint.mdAndUp" />
+            <cc-slashes v-show="$vuetify.display.mdAndUp" />
             <span class="text--text">
               [ H:{{ pilot.MechSkillsController.MechSkills.Hull }} A:{{
                 pilot.MechSkillsController.MechSkills.Agi
@@ -67,19 +93,26 @@
               ]
             </span>
           </p>
-          <p v-if="pilot.ActiveMech && !mobile" class="flavor-text mb-0 pb-2 mt-n1">
+          <p
+            v-if="pilot.ActiveMech && !mobile"
+            class="flavor-text mb-0 pb-2 mt-n1"
+          >
             <span class="subtle--text">UNB::CAV (LNCR)</span>
             <cc-slashes />
             <span class="text--text">
-              {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
+              {{ pilot.ActiveMech.Frame.Source }}
+              {{ pilot.ActiveMech.Frame.Name }}
             </span>
             <span class="subtle--text">[</span>
-            <span class="text--text font-weight-bold">{{ pilot.ActiveMech.Name }}</span>
+            <span class="text--text font-weight-bold">{{
+              pilot.ActiveMech.Name
+            }}</span>
             <span class="subtle--text">]</span>
           </p>
           <div v-else-if="pilot.ActiveMech" class="mt-n6">
             <span class="overline">
-              {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
+              {{ pilot.ActiveMech.Frame.Source }}
+              {{ pilot.ActiveMech.Frame.Name }}
             </span>
           </div>
         </div>
@@ -89,10 +122,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue'
+import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue';
 
-export default Vue.extend({
+export default {
   name: 'pilot-list-item',
   components: {
     EditMenu,
@@ -111,28 +143,28 @@ export default Vue.extend({
   },
   computed: {
     mobile() {
-      return this.$vuetify.breakpoint.smAndDown
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {
     toPilotSheet() {
-      this.$router.push(`pilot/${this.pilot.ID}`)
+      this.$router.push(`pilot/${this.pilot.ID}`);
     },
     statusColor(status: string): string {
       switch (status.toLowerCase()) {
         case 'active':
-          return 'success'
-          break
+          return 'success';
+          break;
         case 'mia':
         case 'kia':
-          return 'error'
+          return 'error';
         default:
-          return 'text'
-          break
+          return 'text';
+          break;
       }
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -156,7 +188,7 @@ export default Vue.extend({
   left: 2px;
   bottom: 2px;
   right: 2px;
-  background-color: var(--v-panel-base);
+  background-color: rgb(var(--v-theme-panel));
 }
 
 .overlay {

@@ -1,13 +1,13 @@
 <template>
-  <div :class="`mt-2 ${$vuetify.breakpoint.mdAndDown ? 'text-center' : ''}`">
-    <p class="heading mech mt-2">COMP/CON</p>
-    <div class="mx-2">
+  <div :class="`${$vuetify.display.mdAndDown ? 'text-center' : ''}`">
+    <div class="heading mech">COMP/CON</div>
+    <div class="text-overline mt-n4 ml-1">
       C/C version:
       <b class="accent--text">{{ $appVersion }}</b>
       // LANCER CORE version:
       <b class="accent--text">{{ $lancerVersion }}</b>
     </div>
-    <p align="center" class="my-2">
+    <div align="center" class="my-2">
       <a href="https://app.netlify.com/sites/compcon/deploys">
         <img
           alt="Netlify Status"
@@ -27,21 +27,24 @@
           alt="Support COMP/CON on Patreon"
         />
       </a>
-    </p>
-    <v-divider class="mr-10 my-2" />
-    <p class="body-text text-center">
-      COMP/CON is a free, open-source digital toolkit and gameplay assistant for building and
-      playing LANCER TTRPG games. The LANCER CORE Book, COMP/CON, and associated downloads and
-      expansions can be found at
-      <a target="_blank" href="http://www.massifpress.com">massifpress.com</a>
-    </p>
+    </div>
+    <v-row align="center" justify="center">
+      <v-col xl="8" cols="11">
+        <p class="body-text text-center">
+          COMP/CON is a free, open-source digital toolkit and gameplay assistant
+          for building and playing LANCER TTRPG games. The LANCER CORE Book,
+          COMP/CON, and associated downloads and expansions can be found at
+          <a target="_blank" href="http://www.massifpress.com"
+            >massifpress.com</a
+          >
+        </p>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'about',
-})
+};
 </script>

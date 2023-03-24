@@ -1,7 +1,9 @@
 <template>
   <v-col>
     <div class="ml-n3">
-      <cc-title small :color="color" class="pl-3 ml-n6">Licenses Required</cc-title>
+      <cc-title small :color="color" class="pl-3 ml-n6"
+        >Licenses Required</cc-title
+      >
     </div>
     <v-row>
       <v-col>
@@ -16,10 +18,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import RequirementItem from './RequirementItem.vue'
+import RequirementItem from './RequirementItem.vue';
 
-export default Vue.extend({
+export default {
   name: 'license-requirements-block',
   components: { RequirementItem },
   props: {
@@ -33,5 +34,5 @@ export default Vue.extend({
       default: 'primary',
     },
   },
-})
+};
 </script>

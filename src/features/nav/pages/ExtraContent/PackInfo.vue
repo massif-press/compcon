@@ -1,13 +1,15 @@
 <template>
   <v-card>
-    <v-list-item class="primary" style="flex-grow: 0; flex-basis: auto;">
+    <v-list-item class="primary" style="flex-grow: 0; flex-basis: auto">
       <v-list-item-icon>
         <v-icon dark x-large>mdi-package</v-icon>
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title class="headline white--text">
           {{ pack.manifest.name }}
-          <v-chip outlined dark label>{{ pack.manifest.version }}</v-chip>
+          <v-chip variant="outlined" dark label>{{
+            pack.manifest.version
+          }}</v-chip>
         </v-list-item-title>
         <v-list-item-subtitle class="white--text text--darken-1">
           by {{ pack.manifest.author }}
@@ -18,10 +20,11 @@
       <v-row>
         <v-col>
           <p class="body-text text--text light-panel pa-2 mb-1">
-            <span v-if="pack.manifest.description" v-html-safe="pack.manifest.description" />
-            <span v-else>
-              No description given.
-            </span>
+            <span
+              v-if="pack.manifest.description"
+              v-html-safe="pack.manifest.description"
+            />
+            <span v-else>No description given.</span>
           </p>
           <div>
             <h4>Content</h4>
@@ -29,7 +32,7 @@
               <v-chip
                 v-for="item in packContents"
                 :key="item.name"
-                outlined
+                variant="outlined"
                 color="secondary"
                 class="mr-2 mb-1 caption"
               >
@@ -42,7 +45,12 @@
           </div>
           <div v-if="pack.manifest.website" class="mt-2">
             <v-divider class="ma-1" />
-            <v-btn target="_blank" :href="pack.manifest.website" text color="secondary">
+            <v-btn
+              target="_blank"
+              :href="pack.manifest.website"
+              text
+              color="secondary"
+            >
               <v-icon prepend class="mr-1">open_in_new</v-icon>
               &nbsp;Website
             </v-btn>
@@ -62,55 +70,56 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import _ from 'lodash'
+import _ from 'lodash';
 
-@Component({
+export default {
+  name: 'PackInfo',
   props: {
     pack: { type: Object, required: true },
   },
-})
-export default class PackInfo extends Vue {
-  private humanReadableMap = {
-    manufacturers: ['manufacturer', 'manufacturers'],
-    coreBonuses: ['core bonus', 'core bonuses'],
-    frames: ['frame', 'frames'],
-    weapons: ['weapon', 'weapons'],
-    systems: ['system', 'systems'],
-    mods: ['weapon mod', 'weapon mods'],
-    pilotGear: ['pilot gear item', 'pilot gear items'],
-    backgrounds: ['background', 'backgrounds'],
-    bonds: ['bond', 'bonds'],
-    reserves: ['reserve', 'reserves'],
-    talents: ['pilot talent', 'pilot talents'],
-    tags: ['equipment tag', 'equipment tags'],
-    npcClasses: ['NPC class', 'NPC classes'],
-    npcFeatures: ['NPC feature', 'NPC features'],
-    npcTemplates: ['NPC template', 'NPC templates'],
-    actions: ['Player action', 'Player actions'],
-    statuses: ['Status/Condition', 'Statuses/Conditions'],
-    environments: ['Combat Environment', 'Combat Environments'],
-    factions: ['faction', 'factions'],
-    sitreps: ['SITREP', 'SITREPs'],
-    tables: ['Data Table', 'Data Tables'],
-  }
+  data: () => ({
+    humanReadableMap: {
+      manufacturers: ['manufacturer', 'manufacturers'],
+      coreBonuses: ['core bonus', 'core bonuses'],
+      frames: ['frame', 'frames'],
+      weapons: ['weapon', 'weapons'],
+      systems: ['system', 'systems'],
+      mods: ['weapon mod', 'weapon mods'],
+      pilotGear: ['pilot gear item', 'pilot gear items'],
+      backgrounds: ['background', 'backgrounds'],
+      bonds: ['bond', 'bonds'],
+      reserves: ['reserve', 'reserves'],
+      talents: ['pilot talent', 'pilot talents'],
+      tags: ['equipment tag', 'equipment tags'],
+      npcClasses: ['NPC class', 'NPC classes'],
+      npcFeatures: ['NPC feature', 'NPC features'],
+      npcTemplates: ['NPC template', 'NPC templates'],
+      actions: ['Player action', 'Player actions'],
+      statuses: ['Status/Condition', 'Statuses/Conditions'],
+      environments: ['Combat Environment', 'Combat Environments'],
+      factions: ['faction', 'factions'],
+      sitreps: ['SITREP', 'SITREPs'],
+      tables: ['Data Table', 'Data Tables'],
+    },
+  }),
 
-  get packContents() {
-    return _.toPairs(this.$props.pack.data)
-      .map(([key, value]: [string, object[]]) => {
-        const count = value.length
-        return [key, count]
-      })
-      .filter(([, count]) => count > 0)
-      .map(([key, count]) => {
-        const pair = this.humanReadableMap[key]
-        if (!pair) return { count, name: `${key}--NOT--HUMANIZED` }
-        const [singular, plural]: [string, string] = pair
-        return { count, name: count > 1 ? plural : singular }
-      })
-  }
-}
+  computed: {
+    packContents() {
+      return _.toPairs(this.$props.pack.data)
+        .map(([key, value]: [string, object[]]) => {
+          const count = value.length;
+          return [key, count];
+        })
+        .filter(([, count]) => count > 0)
+        .map(([key, count]) => {
+          const pair = this.humanReadableMap[key];
+          if (!pair) return { count, name: `${key}--NOT--HUMANIZED` };
+          const [singular, plural]: [string, string] = pair;
+          return { count, name: count > 1 ? plural : singular };
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>

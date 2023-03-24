@@ -11,7 +11,7 @@
       item-key="ID"
     >
       <template v-slot:[`item.NpcTemplateController.Templates`]="{ item }">
-        {{ item.NpcTemplateController.Templates.map(x => x.Name).join(', ') }}
+        {{ item.NpcTemplateController.Templates.map((x) => x.Name).join(', ') }}
       </template>
     </v-data-table>
     <v-divider class="my-4" />
@@ -25,8 +25,7 @@
 </template>
 
 <script lang="ts">
-import { ISaveable } from '@/classes/components'
-import Vue from 'vue'
+import { ISaveable } from '@/classes/components';
 
 const pilotHeaders = [
   {
@@ -38,7 +37,7 @@ const pilotHeaders = [
   { text: 'Name', value: 'Name' },
   { text: 'Active Mech', value: 'State.ActiveMech.Name' },
   { text: 'Group', value: 'GroupController.Group' },
-]
+];
 
 const npcHeaders = [
   {
@@ -50,9 +49,9 @@ const npcHeaders = [
   { text: 'Class', value: 'NpcClassController.Class.Name' },
   { text: 'Templates', value: 'NpcTemplateController.Templates' },
   { text: 'Campaign', value: 'Campaign' },
-]
+];
 
-export default Vue.extend({
+export default {
   name: 'mass-delete',
   props: {
     items: { type: Array, required: true },
@@ -62,17 +61,17 @@ export default Vue.extend({
     headers: [],
   }),
   mounted() {
-    if (!this.items) return
-    if (this.items[0].Callsign) this.headers = pilotHeaders
-    else this.headers = npcHeaders
+    if (!this.items) return;
+    if (this.items[0].Callsign) this.headers = pilotHeaders;
+    else this.headers = npcHeaders;
   },
   methods: {
     commit() {
       this.selected.forEach((i: ISaveable) => {
-        i.SaveController.delete()
-      })
-      this.$set(this, 'selected', [])
+        i.SaveController.delete();
+      });
+      this.$set(this, 'selected', []);
     },
   },
-})
+};
 </script>

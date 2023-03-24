@@ -7,7 +7,10 @@
         </v-btn>
       </template>
       <v-list two-line subheader color="panel">
-        <v-subheader v-if="!dense" class="heading h2 white--text primary py-0 px-2">
+        <v-subheader
+          v-if="!dense"
+          class="heading h2 white--text primary py-0 px-2"
+        >
           Pilot Options
         </v-subheader>
         <v-list-item @click="$refs.printDialog.show()">
@@ -27,7 +30,9 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Clone</v-list-item-title>
-            <v-list-item-subtitle>Duplicate or Flash Clone this character</v-list-item-subtitle>
+            <v-list-item-subtitle
+              >Duplicate or Flash Clone this character</v-list-item-subtitle
+            >
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
@@ -41,7 +46,12 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="pilot.CloudController.IsRemoteResource" :disabled="!isAuthed" :loading="loading" @click="remoteUpdate()">
+        <v-list-item
+          v-if="pilot.CloudController.IsRemoteResource"
+          :disabled="!isAuthed"
+          :loading="loading"
+          @click="remoteUpdate()"
+        >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-cloud-sync</v-icon>
           </v-list-item-icon>
@@ -49,20 +59,25 @@
             <v-list-item-title>Download Latest Data</v-list-item-title>
             <v-list-item-subtitle>
               Download all remote changes to this pilot, overwriting local data.
-              <br/>
+              <br />
               <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-else :disabled="!isAuthed" @click="$refs.shareDialog.show()">
+        <v-list-item
+          v-else
+          :disabled="!isAuthed"
+          @click="$refs.shareDialog.show()"
+        >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-code-json</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Get Share Code</v-list-item-title>
             <v-list-item-subtitle>
-              Generate a share code that other users can use to import and sync this character.
-              <br/>
+              Generate a share code that other users can use to import and sync
+              this character.
+              <br />
               <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -84,7 +99,9 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Export Pilot</v-list-item-title>
-            <v-list-item-subtitle>Open the pilot export menu</v-list-item-subtitle>
+            <v-list-item-subtitle
+              >Open the pilot export menu</v-list-item-subtitle
+            >
           </v-list-item-content>
         </v-list-item>
         <v-divider />
@@ -93,7 +110,9 @@
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="error--text">Delete Pilot</v-list-item-title>
+            <v-list-item-title class="error--text"
+              >Delete Pilot</v-list-item-title
+            >
             <v-list-item-subtitle class="error--text">
               Remove this pilot from the roster
             </v-list-item-subtitle>
@@ -114,21 +133,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import CloneDialog from './CloneDialog.vue';
+import StatblockDialog from './StatblockDialog.vue';
+import Roll20Dialog from './Roll20Dialog.vue';
+import ExportDialog from './ExportDialog.vue';
+import ShareDialog from './ShareDialog.vue';
+import PrintDialog from './PrintDialog.vue';
+import DeleteDialog from './DeletePilotDialog.vue';
 
-import CloneDialog from './CloneDialog.vue'
-import StatblockDialog from './StatblockDialog.vue'
-import Roll20Dialog from './Roll20Dialog.vue'
-import ExportDialog from './ExportDialog.vue'
-import ShareDialog from './ShareDialog.vue'
-import PrintDialog from './PrintDialog.vue'
-import DeleteDialog from './DeletePilotDialog.vue'
+import { UserStore } from '@/store';
+import { RemoteSyncItem } from '@/cloud/item_sync';
 
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
-import { RemoteSyncItem } from '@/cloud/item_sync'
-
-export default Vue.extend({
+export default {
   name: 'edit-menu',
   components: {
     StatblockDialog,
@@ -156,25 +172,29 @@ export default Vue.extend({
   }),
   computed: {
     isAuthed() {
-      return getModule(UserStore, this.$store).IsLoggedIn
+      return this.getModule(UserStore).IsLoggedIn;
     },
   },
   methods: {
     delete_pilot() {
-      this.pilot.SaveController.delete()
-      if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management')
+      this.pilot.SaveController.delete();
+      if (this.$route.path !== '/pilot_management')
+        this.$router.push('/pilot_management');
     },
     async remoteUpdate() {
-      this.loading = true
+      this.loading = true;
       try {
-        await RemoteSyncItem(this.pilot)
-        this.$notify('Pilot synced to remote', 'success')
+        await RemoteSyncItem(this.pilot);
+        this.$notify('Pilot synced to remote', 'success');
       } catch (error) {
-        console.error(error)
-        this.$notify('An error occurred while attempting to download remote data', 'error')
+        console.error(error);
+        this.$notify(
+          'An error occurred while attempting to download remote data',
+          'error'
+        );
       }
-      this.loading = false
+      this.loading = false;
     },
   },
-})
+};
 </script>

@@ -3,23 +3,24 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import _ from 'lodash'
-import SidebarArrayView from '../components/SidebarArrayView.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import _ from 'lodash';
+import SidebarArrayView from '../components/SidebarArrayView.vue';
 
-@Component({
+import { CompendiumStore } from '@/store';
+
+export default {
+  name: 'Tags',
   components: { SidebarArrayView },
-})
-export default class Tags extends Vue {
-  private compendium = getModule(CompendiumStore, this.$store)
-  get tags() {
-    return _.sortBy(
-      this.compendium.Tags.filter(x => !x.IsHidden),
-      'Name'
-    )
-  }
-}
+  computed: {
+    compendium(): CompendiumStore {
+      return this.getModule(CompendiumStore);
+    },
+    tags(): string[] {
+      return _.sortBy(
+        this.compendium.Tags.filter((x) => !x.IsHidden),
+        'Name'
+      );
+    },
+  },
+};
 </script>

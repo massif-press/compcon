@@ -1,10 +1,14 @@
 <template>
-  <v-col :class="$vuetify.breakpoint.mdAndUp ? 'pa-2' : 'px-2'">
+  <v-col :class="$vuetify.display.mdAndUp ? 'pa-2' : 'px-2'">
     <div v-if="item" style="height: 100%">
       <v-card
         flat
         tile
-        :class="hide ? 'panel' : `${$vuetify.breakpoint.mdAndUp ? 'clipped-large' : ''} panel`"
+        :class="
+          hide
+            ? 'panel'
+            : `${$vuetify.display.mdAndUp ? 'clipped-large' : ''} panel`
+        "
         :style="!hide ? 'height: 100%' : ''"
       >
         <v-card-title
@@ -15,21 +19,34 @@
           <v-row no-gutters>
             <v-col v-if="item" cols="auto">
               <equipment-options :item="item" readonly active />
-              <span v-if="!item.Destroyed" class="ml-n2" :style="item.Used ? 'opacity: 0.6' : ''">
-                <cc-tooltip v-if="item.Used" inline content="Equipment has been marked as 'Used'">
+              <span
+                v-if="!item.Destroyed"
+                class="ml-n2"
+                :style="item.Used ? 'opacity: 0.6' : ''"
+              >
+                <cc-tooltip
+                  v-if="item.Used"
+                  inline
+                  content="Equipment has been marked as 'Used'"
+                >
                   <v-icon color="success">mdi-check</v-icon>
                 </cc-tooltip>
                 <span
                   :class="
-                    $vuetify.breakpoint.mdAndUp
+                    $vuetify.display.mdAndUp
                       ? 'white--text heading h3'
                       : 'white--text body-text font-weight-bold'
                   "
                 >
                   {{ item.Name }}
                 </span>
-                <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-                <span v-show="$vuetify.breakpoint.mdAndUp" class="caption subtle--text ml-1">
+                <span v-if="item.FlavorName" class="caption ml-2 my-n1"
+                  >//{{ item.TrueName }}</span
+                >
+                <span
+                  v-show="$vuetify.display.mdAndUp"
+                  class="caption subtle--text ml-1"
+                >
                   <b>{{ item.Size }}</b>
                   {{ item.WeaponType }}
                 </span>
@@ -42,7 +59,13 @@
             </v-col>
             <v-col v-else cols="auto">{{ weaponSlot.Size }} Weapon</v-col>
             <v-col cols="auto" class="ml-auto heading h3">
-              <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
+              <cc-range-element
+                v-if="item.Range"
+                small
+                :range="getRange"
+                class="d-inline"
+                dark
+              />
               <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
               <cc-damage-element
                 v-if="item.Damage"
@@ -53,21 +76,39 @@
               />
             </v-col>
             <v-col cols="auto">
-              <v-btn v-if="!rest" right icon class="fadeSelect" dark @click.stop="hide = !hide">
-                <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+              <v-btn
+                v-if="!rest"
+                right
+                icon
+                class="fadeSelect"
+                dark
+                @click.stop="hide = !hide"
+              >
+                <v-icon
+                  small
+                  v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                />
               </v-btn>
             </v-col>
           </v-row>
         </v-card-title>
         <v-slide-y-transition>
-          <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
+          <v-card-text
+            v-if="!rest && !hide"
+            class="underline-parent px-2 py-0 mt-0"
+          >
             <div class="underline-slide">
               <v-row no-gutters>
-                <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
+                <v-col
+                  v-if="item.Profiles && item.Profiles.length > 1"
+                  cols="12"
+                >
                   <div class="overline">WEAPON PROFILES</div>
                   <v-tabs v-model="tab" grow height="30px">
                     <v-tab v-for="p in item.Profiles" :key="p.ID">
-                      <span class="accent--text font-weight-bold">{{ p.Name }}</span>
+                      <span class="accent--text font-weight-bold">{{
+                        p.Name
+                      }}</span>
                     </v-tab>
                   </v-tabs>
                 </v-col>
@@ -103,7 +144,10 @@
                     active
                     :activations="mech.Pilot.State.Actions"
                     :disabled="item.Destroyed || mech.IsStunned"
-                    :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
+                    :unusable="
+                      a.Activation === 'Protocol' &&
+                      !mech.Pilot.State.IsProtocolAvailable
+                    "
                     @use="item.Use(a.Cost, $event)"
                     @undo="item.Undo(a.Cost)"
                   />
@@ -121,7 +165,7 @@
                 </div>
                 <div v-if="item.ProfileOnAttack">
                   <div class="mb-n2 mt-1">
-                    <v-icon class="mt-n1">cci-weapon</v-icon>
+                    <v-icon class="mt-n1">cc:weapon</v-icon>
                     <span class="overline stark--text">ON ATTACK</span>
                     <p
                       v-html-safe="item.ProfileOnAttack"
@@ -131,7 +175,7 @@
                 </div>
                 <div v-if="item.ProfileOnHit">
                   <div class="mb-n2 mt-1">
-                    <v-icon class="mt-n1">cci-weapon</v-icon>
+                    <v-icon class="mt-n1">cc:weapon</v-icon>
                     <span class="overline stark--text">ON HIT</span>
                     <p
                       v-html-safe="item.ProfileOnHit"
@@ -141,7 +185,7 @@
                 </div>
                 <div v-if="item.ProfileOnCrit">
                   <div class="mb-n2 mt-1">
-                    <v-icon class="mt-n1">cci-weapon</v-icon>
+                    <v-icon class="mt-n1">cc:weapon</v-icon>
                     <span class="overline stark--text">ON CRITICAL HIT</span>
                     <p
                       v-html-safe="item.ProfileOnCrit"
@@ -150,7 +194,11 @@
                   </div>
                 </div>
                 <v-row v-if="item.Mod" dense justify="center">
-                  <active-mod-inset :mod="item.Mod" :mech="mech" :color="color" />
+                  <active-mod-inset
+                    :mod="item.Mod"
+                    :mech="mech"
+                    :color="color"
+                  />
                 </v-row>
               </div>
             </div>
@@ -207,7 +255,12 @@
                   <cc-bonus-display :item="item" />
                 </v-col>
                 <v-col cols="auto">
-                  <cc-synergy-display :item="item" location="weapon" :mech="mech" large />
+                  <cc-synergy-display
+                    :item="item"
+                    location="weapon"
+                    :mech="mech"
+                    large
+                  />
                 </v-col>
               </v-row>
             </div>
@@ -215,7 +268,12 @@
         </v-slide-y-transition>
       </v-card>
     </div>
-    <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
+    <cc-solo-dialog
+      ref="detailDialog"
+      no-confirm
+      :title="item ? item.Name : ''"
+      large
+    >
       <cc-item-card :item="item" />
       <slot name="detail" />
     </cc-solo-dialog>
@@ -223,14 +281,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActiveModInset from './components/_ActiveModInset.vue'
-import WeaponActivators from './components/_WeaponActivators.vue'
-import EquipmentOptions from '../mech_loadout/components/_EquipmentOptions.vue'
-import EquipmentHeader from '../mech_loadout/components/_EquipmentHeader.vue'
-import { WeaponSize, PilotTalent, WeaponType, Range, Damage } from '@/class'
+import ActiveModInset from './components/_ActiveModInset.vue';
+import WeaponActivators from './components/_WeaponActivators.vue';
+import EquipmentOptions from '../mech_loadout/components/_EquipmentOptions.vue';
+import EquipmentHeader from '../mech_loadout/components/_EquipmentHeader.vue';
+import { WeaponSize, PilotTalent, WeaponType, Range, Damage } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'active-weapon-card',
   components: {
     WeaponActivators,
@@ -263,7 +320,7 @@ export default Vue.extend({
   }),
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
     },
     // armoryLevel() {
     //   if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0
@@ -274,33 +331,33 @@ export default Vue.extend({
     //   return tal.Rank
     // },
     getRange() {
-      if (!this.item) return []
-      return Range.CalculateRange(this.item, this.mech)
+      if (!this.item) return [];
+      return Range.CalculateRange(this.item, this.mech);
     },
     getDamage() {
-      if (!this.item) return []
-      return Damage.CalculateDamage(this.item, this.mech)
+      if (!this.item) return [];
+      return Damage.CalculateDamage(this.item, this.mech);
     },
   },
   watch: {
     tab(newval: number) {
-      this.item.SetProfileSelection(newval, true)
+      this.item.SetProfileSelection(newval, true);
     },
   },
-})
+};
 </script>
 
 <style scoped>
 #underline-parent {
-  background-color: var(--v-light-panel);
+  background-color: rgb(var(--v-theme-light-panel));
 }
 
 .hover-item {
-  background-color: var(--v-pilot-base);
+  background-color: rgb(var(--v-theme-pilot));
   transition: 0.4s all;
 }
 
 .hover-item:hover {
-  background-color: var(--v-pilot-lighten1);
+  background-color: rgb(var(--v-theme-pilot-lighten1));
 }
 </style>

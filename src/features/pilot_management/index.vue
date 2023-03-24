@@ -1,19 +1,15 @@
 <template>
   <div>
     <div class="ma-3">
-      <v-fade-transition leave-absolute>
-        <router-view />
-      </v-fade-transition>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'pilot-management',
-})
+};
 </script>
 
 <style scoped>

@@ -2,7 +2,12 @@
   <div v-show="AiSystems.length">
     <cc-synergy-display location="cascade" :mech="mech" />
     <v-card tile elevation="0" outlined>
-      <v-toolbar dense elevation="0" color="error" class="text-center white--text heading h3">
+      <v-toolbar
+        dense
+        elevation="0"
+        color="error"
+        class="text-center white--text heading h3"
+      >
         CASCADE ALERT
         <v-spacer />
         <cc-tooltip
@@ -39,8 +44,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'cascade-check',
   props: {
     mech: { type: Object, required: true },
@@ -51,16 +55,16 @@ export default Vue.extend({
   computed: {
     AiSystems() {
       return this.mech.MechLoadoutController.ActiveLoadout.Equipment.filter(
-        x => x.IsAI && !x.NoCascade && !x.Destroyed
-      )
+        (x) => x.IsAI && !x.NoCascade && !x.Destroyed
+      );
     },
   },
   methods: {
     checkCascade(roll, index) {
-      this.checked.push(index)
-      if (roll === 1) this.AiSystems[index].IsCascading = true
-      else this.AiSystems[index].IsCascading = false
+      this.checked.push(index);
+      if (roll === 1) this.AiSystems[index].IsCascading = true;
+      else this.AiSystems[index].IsCascading = false;
     },
   },
-})
+};
 </script>

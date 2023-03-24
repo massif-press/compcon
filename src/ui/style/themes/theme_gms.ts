@@ -1,7 +1,7 @@
-import themeDefaults from './common'
+import themeDefaults from './common';
 
 const theme = {
-  type: 'light',
+  dark: false,
   id: 'gms',
   name: 'GMS Red (Default)',
   colors: {
@@ -40,5 +40,5 @@ const theme = {
     'reserve--organization': '#455A64',
     'action--reaction': '#512DA8',
   },
-}
-export default theme
+};
+export default theme;

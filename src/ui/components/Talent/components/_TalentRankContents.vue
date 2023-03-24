@@ -20,7 +20,12 @@
           :key="`${talentRank.Name}_deployable_${i}`"
           cols="auto"
         >
-          <cc-deployable-info :deployable="d" hover :name-override="talentRank.Name" class="ma-2" />
+          <cc-deployable-info
+            :deployable="d"
+            hover
+            :name-override="talentRank.Name"
+            class="ma-2"
+          />
         </v-col>
       </v-row>
     </div>
@@ -52,12 +57,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'talent-rank-contents',
   props: {
     talentRank: { type: Object, required: true },
     unlocked: { type: Boolean, default: true },
   },
-})
+};
 </script>

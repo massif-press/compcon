@@ -1,5 +1,9 @@
 <template>
-  <v-row no-gutters class="mb-4" :justify="$vuetify.breakpoint.mdAndUp ? 'start' : 'center'">
+  <v-row
+    no-gutters
+    class="mb-4"
+    :justify="$vuetify.display.mdAndUp ? 'start' : 'center'"
+  >
     <v-col cols="12" md="auto" class="mr-2 text-center">
       <v-img
         :src="frameImage"
@@ -10,19 +14,34 @@
       />
     </v-col>
     <v-col cols="12" md="">
-      <v-row dense :class="`pl-2 ${isSelected ? 'selected-gradient' : 'gradient'}`">
+      <v-row
+        dense
+        :class="`pl-2 ${isSelected ? 'selected-gradient' : 'gradient'}`"
+      >
         <v-col cols="12" md="auto" class="white--text">
-          <div v-show="$vuetify.breakpoint.mdAndUp" class="overline mt-n1">{{ template.code }}</div>
-          <div :class="$vuetify.breakpoint.mdAndUp ? 'heading h1 mt-n6 mb-0 pb-0' : 'heading h2'">
+          <div v-show="$vuetify.display.mdAndUp" class="overline mt-n1">
+            {{ template.code }}
+          </div>
+          <div
+            :class="
+              $vuetify.display.mdAndUp
+                ? 'heading h1 mt-n6 mb-0 pb-0'
+                : 'heading h2'
+            "
+          >
             {{ template.name }}
           </div>
         </v-col>
-        <v-col cols="12" md="auto" :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto' : 'mt-n3'">
+        <v-col
+          cols="12"
+          md="auto"
+          :class="$vuetify.display.mdAndUp ? 'ml-auto' : 'mt-n3'"
+        >
           <v-btn
             tile
-            :outlined="$vuetify.breakpoint.mdAndUp"
-            :block="$vuetify.breakpoint.mdAndUp"
-            :small="$vuetify.breakpoint.mdAndUp"
+            :outlined="$vuetify.display.mdAndUp"
+            :block="$vuetify.display.mdAndUp"
+            :small="$vuetify.display.mdAndUp"
             :color="isSelected ? 'accent' : 'secondary'"
             class="mt-1"
             @click="$emit('select')"
@@ -33,7 +52,10 @@
         </v-col>
       </v-row>
       <div v-html-safe="template.description" class="mt-1 py-1 pl-2" />
-      <div class="sidebar-box ml-2" :style="`max-height:${expanded ? '100%' : '80px;'}`">
+      <div
+        class="sidebar-box ml-2"
+        :style="`max-height:${expanded ? '100%' : '80px;'}`"
+      >
         <div class="panel clipped py-1 px-2">
           <div class="caption accent--text mt-1"><b>TACTICS</b></div>
           <p v-html-safe="template.tactics" class="pb-1 mb-0" />
@@ -57,7 +79,9 @@
                     :title="`${item('Skills', s).Name} (+2)`"
                     :content="item('Skills', s).Detail"
                   >
-                    <v-chip outlined color="info" label>{{ item('Skills', s).Name }}</v-chip>
+                    <v-chip variant="outlined" color="info" label>{{
+                      item('Skills', s).Name
+                    }}</v-chip>
                   </cc-tooltip>
                 </v-col>
               </v-row>
@@ -77,11 +101,13 @@
                 >
                   <cc-tooltip
                     delayed
-                    :title="`${item('Talents', t).Name} I: ${item('Talents', t).Rank(1).Name}`"
+                    :title="`${item('Talents', t).Name} I: ${
+                      item('Talents', t).Rank(1).Name
+                    }`"
                     :content="item('Talents', t).Rank(1).Description"
                   >
-                    <v-chip outlined color="accent" label>
-                      <v-icon left>cci-rank-1</v-icon>
+                    <v-chip variant="outlined" color="accent" label>
+                      <v-icon start>cc:rank-1</v-icon>
                       {{ item('Talents', t).Name }}
                     </v-chip>
                   </cc-tooltip>
@@ -96,10 +122,19 @@
             <b>LOADOUT</b>
           </div>
           <v-row dense justify="space-around">
-            <v-col v-for="m in template.build.mech.mounts" :key="template.name + m.mount_type">
-              <div class="flavor-text stark--text text-center">{{ m.mount_type }} Mount</div>
+            <v-col
+              v-for="m in template.build.mech.mounts"
+              :key="template.name + m.mount_type"
+            >
+              <div class="flavor-text stark--text text-center">
+                {{ m.mount_type }} Mount
+              </div>
               <v-row dense>
-                <v-col v-for="(w, i) in m.slots" :key="template.name + w + i" class="text-center">
+                <v-col
+                  v-for="(w, i) in m.slots"
+                  :key="template.name + w + i"
+                  class="text-center"
+                >
                   <cc-item-modal class="mx-1" :item="item('MechWeapons', w)" />
                 </v-col>
               </v-row>
@@ -121,10 +156,12 @@
           <v-btn
             icon
             class="mb-n3"
-            style="background-color: var(--v-stark-panel-base)"
+            style="background-color: rgb(var(--v-theme-stark-panel))"
             @click="expanded = !expanded"
           >
-            <v-icon large color="accent">mdi-chevron-double-{{ expanded ? 'up' : 'down' }}</v-icon>
+            <v-icon large color="accent"
+              >mdi-chevron-double-{{ expanded ? 'up' : 'down' }}</v-icon
+            >
           </v-btn>
         </p>
         <div v-if="expanded" style="min-height: 40px" />
@@ -136,12 +173,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { getImagePath, ImageTag } from '@/io/ImageManagement';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+
+export default {
   name: 'template-item',
   props: {
     template: { type: Object, required: true },
@@ -152,16 +188,16 @@ export default Vue.extend({
   }),
   computed: {
     frameImage() {
-      return getImagePath(ImageTag.Mech, this.template.image)
+      return getImagePath(ImageTag.Mech, this.template.image);
     },
   },
   methods: {
     item(type: string, id: string) {
-      const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.referenceByID(type, id)
+      const compendium = this.getModule(CompendiumStore);
+      return compendium.referenceByID(type, id);
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -169,14 +205,14 @@ export default Vue.extend({
   max-height: 70px;
   background: -webkit-linear-gradient(
     left,
-    var(--v-primary-base) 0%,
-    var(--v-primary-base) 10%,
+    rgb(var(--v-theme-primary)) 0%,
+    rgb(var(--v-theme-primary)) 10%,
     transparent 100%
   );
   background: linear-gradient(
     to right,
-    var(--v-primary-base) 0%,
-    var(--v-primary-base) 10%,
+    rgb(var(--v-theme-primary)) 0%,
+    rgb(var(--v-theme-primary)) 10%,
     transparent 100%
   );
 }
@@ -185,14 +221,14 @@ export default Vue.extend({
   max-height: 70px;
   background: -webkit-linear-gradient(
     left,
-    var(--v-info-base) 0%,
-    var(--v-info-base) 33%,
+    rgb(var(--v-theme-info)) 0%,
+    rgb(var(--v-theme-info)) 33%,
     transparent 100%
   );
   background: linear-gradient(
     to right,
-    var(--v-info-base) 0%,
-    var(--v-info-base) 33%,
+    rgb(var(--v-theme-info)) 0%,
+    rgb(var(--v-theme-info)) 33%,
     transparent 100%
   );
 }
@@ -211,6 +247,10 @@ export default Vue.extend({
   margin: 0;
   padding: 20px 0;
 
-  background-image: linear-gradient(to bottom, transparent, var(--v-background-base));
+  background-image: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--v-theme-background))
+  );
 }
 </style>

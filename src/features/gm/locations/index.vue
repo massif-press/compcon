@@ -29,13 +29,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import GmCollectionView from '../_views/GMCollectionView.vue'
-import Editor from './editor.vue'
-import { getModule } from 'vuex-module-decorators'
-import { LocationStore } from '@/store'
+import GmCollectionView from '../_views/GMCollectionView.vue';
+import Editor from './editor.vue';
 
-export default Vue.extend({
+import { LocationStore } from '@/store';
+
+export default {
   name: 'locations-roster',
   components: { GmCollectionView, Editor },
   data: () => ({
@@ -46,31 +45,31 @@ export default Vue.extend({
   }),
   computed: {
     locations() {
-      return getModule(LocationStore, this.$store).Locations
+      return this.getModule(LocationStore).Locations;
     },
   },
   methods: {
     openItem(id) {
-      this.selected = id
-      this.dialog = true
+      this.selected = id;
+      this.dialog = true;
     },
     addNew() {
-      this.selected = 'new'
-      this.dialog = true
+      this.selected = 'new';
+      this.dialog = true;
     },
     importItem() {
-      console.error('NOT YET IMPLEMENTED')
+      console.error('NOT YET IMPLEMENTED');
     },
     deleteItem() {
-      console.error('NOT YET IMPLEMENTED')
+      console.error('NOT YET IMPLEMENTED');
     },
     SaveAndClose() {
-      const store = getModule(LocationStore, this.$store)
+      // const store =this.getModule(LocationStore);
       // TODO: check for and ask to update instances on save
-      store.addLocation(this.selected)
-      this.$set(this, 'selected', null)
-      this.dialog = false
+      // store.addLocation(this.selected);
+      this.$set(this, 'selected', null);
+      this.dialog = false;
     },
   },
-})
+};
 </script>

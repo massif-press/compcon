@@ -1,7 +1,7 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <div v-if="$vuetify.breakpoint.mdAndUp" class="d-inline">
+    <div v-if="$vuetify.display.mdAndUp" class="d-inline">
       <!-- Uncomment if/when pilot analytics are done -->
       <!-- <cc-tooltip inline delayed content="Active Mech Configuration">
         <cc-nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
@@ -14,24 +14,40 @@
         </cc-nav-item>
       </cc-tooltip> -->
       <cc-tooltip inline delayed content="Pilot Sheet">
-        <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toTacticalProfile()">
-          <v-icon large>cci-pilot</v-icon>
+        <v-btn
+          icon
+          fab
+          x-small
+          variant="outlined"
+          class="mx-4 unskew"
+          dark
+          @click="toTacticalProfile()"
+        >
+          <v-icon large>cc:pilot</v-icon>
         </v-btn>
       </cc-tooltip>
     </div>
     <!-- Remove this div and uncomment below if/when pilot analytics are done -->
     <div v-else class="d-inline">
-      <v-btn icon fab x-small outlined class="mx-4 unskew" dark @click="toTacticalProfile()">
-        <v-icon large>cci-pilot</v-icon>
+      <v-btn
+        icon
+        fab
+        x-small
+        variant="outlined"
+        class="mx-4 unskew"
+        dark
+        @click="toTacticalProfile()"
+      >
+        <v-icon large>cc:pilot</v-icon>
       </v-btn>
       <v-btn icon fab x-small class="mr-4 unskew" dark @click="toActive()">
-        <v-icon large color="white">cci-activate</v-icon>
+        <v-icon large color="white">cc:activate</v-icon>
       </v-btn>
     </div>
 
     <!-- <v-menu v-else open-on-hover>
-        <template v-slot:activator="{ on }">
-        <v-btn light icon color="white" style="z-index: 9" class="unskew pl-2 pr-0" v-on="on">
+        <template v-slot:activator="{ props }">
+        <v-btn light icon color="white" style="z-index: 9" class="unskew pl-2 pr-0" v-bind="props">
           <v-icon large>mdi-book-open-page-variant</v-icon>
           <v-icon>arrow_drop_up</v-icon>
         </v-btn>
@@ -57,14 +73,18 @@
         </v-btn>
       </template>
       <v-list two-line subheader>
-        <v-subheader class="heading h2 white--text primary py-0 px-2">Mech Options</v-subheader>
+        <v-subheader class="heading h2 white--text primary py-0 px-2"
+          >Mech Options</v-subheader
+        >
         <v-list-item @click="$refs.printDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-printer</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Print</v-list-item-title>
-            <v-list-item-subtitle>Print a tabletop-ready mech sheet</v-list-item-subtitle>
+            <v-list-item-subtitle
+              >Print a tabletop-ready mech sheet</v-list-item-subtitle
+            >
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
@@ -84,7 +104,9 @@
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="error--text">Delete Mech</v-list-item-title>
+            <v-list-item-title class="error--text"
+              >Delete Mech</v-list-item-title
+            >
             <v-list-item-subtitle class="error--text">
               Remove mech from the Hangar
             </v-list-item-subtitle>
@@ -102,7 +124,9 @@
         </v-btn>
       </template>
       <v-list subheader>
-        <v-subheader class="heading h2 white--text primary py-0 px-4">Layout Options</v-subheader>
+        <v-subheader class="heading h2 white--text primary py-0 px-4"
+          >Layout Options</v-subheader
+        >
         <v-list-item-group>
           <v-list-item @click.stop>
             <v-list-item-icon class="ma-0 mr-2 mt-3">
@@ -119,7 +143,9 @@
             <v-list-item-content>
               <cc-tooltip simple content="Feature In Development">
                 <v-list-item-title>Manage Custom Views</v-list-item-title>
-                <v-list-item-subtitle>Feature In Development</v-list-item-subtitle>
+                <v-list-item-subtitle
+                  >Feature In Development</v-list-item-subtitle
+                >
               </cc-tooltip>
             </v-list-item-content>
           </v-list-item>
@@ -127,17 +153,20 @@
       </v-list>
     </v-menu>
     <print-dialog ref="printDialog" class="unskew" :pilot="pilot" />
-    <statblock-dialog ref="statblockDialog" class="unskew" :pilot="pilot" :mechID="mechID" />
+    <statblock-dialog
+      ref="statblockDialog"
+      class="unskew"
+      :pilot="pilot"
+      :mechID="mechID"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import StatblockDialog from '../../../components/StatblockDialog.vue';
+import PrintDialog from '../../../components/PrintDialog.vue';
 
-import StatblockDialog from '../../../components/StatblockDialog.vue'
-import PrintDialog from '../../../components/PrintDialog.vue'
-
-export default Vue.extend({
+export default {
   name: 'mech-nav',
   components: { StatblockDialog, PrintDialog },
   props: {
@@ -156,13 +185,13 @@ export default Vue.extend({
   },
   methods: {
     toTacticalProfile() {
-      this.$router.push({ name: 'tactical_profile' })
+      this.$router.push({ name: 'tactical_profile' });
     },
     toActive() {
-      this.$router.push(`/active/${this.pilot.ID}`)
+      this.$router.push(`/active/${this.pilot.ID}`);
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -173,7 +202,7 @@ export default Vue.extend({
   min-height: 40px;
   padding: 5px 80px 5px 20px;
   transform: skew(-0.65rad);
-  background-color: var(--v-primary-base);
+  background-color: rgb(var(--v-theme-primary));
   color: white;
   z-index: 10;
 }

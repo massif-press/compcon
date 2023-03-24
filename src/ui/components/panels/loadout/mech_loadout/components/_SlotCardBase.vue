@@ -1,9 +1,16 @@
 <template>
   <v-col :class="`pa-${small ? '1' : '2'}`">
     <div style="height: 100%">
-      <v-card flat tile :class="small ? 'panel' : 'clipped-large panel'" style="height: 100%">
+      <v-card
+        flat
+        tile
+        :class="small ? 'panel' : 'clipped-large panel'"
+        style="height: 100%"
+      >
         <v-card-title
-          :class="`white--text py-0 ${small ? 'effect-text' : 'heading h3'} hover-item`"
+          :class="`white--text py-0 ${
+            small ? 'effect-text' : 'heading h3'
+          } hover-item`"
           style="cursor: pointer"
           @click="empty ? '' : $refs.detailDialog.show()"
         >
@@ -16,15 +23,23 @@
             </v-col>
           </v-row>
         </v-card-title>
-        <v-card-text :id="item ? 'underline-parent' : ''" class="`px-2 py-0 text-center`">
+        <v-card-text
+          :id="item ? 'underline-parent' : ''"
+          class="`px-2 py-0 text-center`"
+        >
           <div class="underline-slide">
             <slot />
             <div v-if="item">
               <v-row class="text-left" dense align="end">
                 <v-col>
                   <v-row justify="space-around" dense>
-                    <v-col v-if="item.Actions && item.Actions.length" cols="auto">
-                      <div v-if="!readonly" class="overline ml-n2">EQUIPMENT ACTIONS</div>
+                    <v-col
+                      v-if="item.Actions && item.Actions.length"
+                      cols="auto"
+                    >
+                      <div v-if="!readonly" class="overline ml-n2">
+                        EQUIPMENT ACTIONS
+                      </div>
                       <v-row no-gutters justify="center">
                         <v-col
                           v-for="(a, i) in item.Actions"
@@ -33,14 +48,16 @@
                         >
                           <cc-action
                             :action="a"
-                            :panel="!readonly && $vuetify.breakpoint.lgAndUp"
+                            :panel="!readonly && $vuetify.display.lgAndUp"
                             class="ma-2"
                           />
                         </v-col>
                       </v-row>
                     </v-col>
                     <v-col v-if="item.Deployables.length" cols="auto">
-                      <div v-if="!readonly" class="overline ml-n2">EQUIPMENT DEPLOYABLES</div>
+                      <div v-if="!readonly" class="overline ml-n2">
+                        EQUIPMENT DEPLOYABLES
+                      </div>
                       <v-row no-gutters justify="center">
                         <v-col
                           v-for="(d, i) in item.Deployables"
@@ -49,7 +66,7 @@
                         >
                           <cc-deployable-info
                             :deployable="d"
-                            :panel="!readonly && $vuetify.breakpoint.lgAndUp"
+                            :panel="!readonly && $vuetify.display.lgAndUp"
                             :name-override="item.Name"
                             class="ma-2"
                           />
@@ -101,7 +118,12 @@
                   <cc-bonus-display :item="item" />
                 </v-col>
                 <v-col cols="auto">
-                  <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large />
+                  <cc-synergy-display
+                    :item="item"
+                    :location="synergyLocation"
+                    :mech="mech"
+                    large
+                  />
                 </v-col>
               </v-row>
             </div>
@@ -112,10 +134,13 @@
               :style="{
                 cursor: readonly ? 'inherit' : 'pointer',
               }"
-              @click="if (!readonly) $refs.selectorDialog.show()"
+              @click="if (!readonly) $refs.selectorDialog.show();"
             >
               <v-row style="height: 100%">
-                <div class="heading h2 subtle--text my-auto py-3" style="width: 100%">
+                <div
+                  class="heading h2 subtle--text my-auto py-3"
+                  style="width: 100%"
+                >
                   // EMPTY //
                 </div>
               </v-row>
@@ -124,10 +149,21 @@
         </v-card-text>
       </v-card>
     </div>
-    <cc-solo-dialog ref="selectorDialog" no-confirm title="SELECT EQUIPMENT" fullscreen no-pad>
+    <cc-solo-dialog
+      ref="selectorDialog"
+      no-confirm
+      title="SELECT EQUIPMENT"
+      fullscreen
+      no-pad
+    >
       <slot name="selector" />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
+    <cc-solo-dialog
+      ref="detailDialog"
+      no-confirm
+      :title="item ? item.Name : ''"
+      large
+    >
       <cc-item-card :item="item" notes />
       <slot name="detail" />
     </cc-solo-dialog>
@@ -135,10 +171,9 @@
 </template>
 
 <script lang="ts">
-import { ItemType } from '@/class'
-import Vue from 'vue'
+import { ItemType } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'slot-card-base',
   props: {
     item: {
@@ -167,27 +202,27 @@ export default Vue.extend({
   },
   computed: {
     small() {
-      return this.$vuetify.breakpoint.smAndDown
+      return this.$vuetify.display.smAndDown;
     },
     synergyLocation() {
-      if (!this.item) return 'none'
-      return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system'
+      if (!this.item) return 'none';
+      return this.item.ItemType === ItemType.MechWeapon ? 'weapon' : 'system';
     },
   },
-})
+};
 </script>
 
 <style scoped>
 #underline-parent {
-  background-color: var(--v-light-panel);
+  background-color: rgb(var(--v-theme-light-panel));
 }
 
 .hover-item {
-  background-color: var(--v-pilot-base);
+  background-color: rgb(var(--v-theme-pilot));
   transition: 0.4s all;
 }
 
 .hover-item:hover {
-  background-color: var(--v-pilot-lighten1);
+  background-color: rgb(var(--v-theme-pilot-lighten1));
 }
 </style>

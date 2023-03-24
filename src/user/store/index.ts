@@ -1,108 +1,90 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import { Module, VuexModule, Action, Mutation } from 'vuex-module-decorators'
-import * as Sync from '@/cloud/user_sync'
-import { AutoSyncAll, AutoSyncRemotes } from '@/cloud/item_sync'
-import * as Client from '../index'
-import _ from 'lodash'
+import * as Sync from '@/cloud/user_sync';
+import { AutoSyncAll, AutoSyncRemotes } from '@/cloud/item_sync';
+import * as Client from '../index';
 
-export const SET_LOGGED_IN = 'SET_LOGGED_IN'
-export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
-export const SET_PATRON = 'SET_PATRON'
-export const SET_PATREON_TOKEN = 'SET_PATREON_TOKEN'
-export const LOAD_USER_PROFILE = 'LOAD_USER_PROFILE'
-export const SET_COGNITO_USER = 'SET_USER'
-export const SET_AWS_DATA = 'SET_AWS_DATA'
-export const SET_USER_PROFILE = 'SET_USER_PROFILE'
+export default {
+  state: () => ({
+    AuthStatus: 'No User',
+    IsLoggedIn: false,
+    CognitoUser: '',
+    UserProfile: {} as Client.UserProfile,
+    PatreonToken: {},
+    AwsData: {},
+    IsPatron: false,
+  }),
+  mutations: {
+    LOAD_USER_PROFILE(state: any, payload: Client.UserProfile): void {
+      state.UserProfile = payload;
+    },
 
-@Module({
-  name: 'cloud',
-})
-export class UserStore extends VuexModule {
-  public AuthStatus = 'No User'
-  public IsLoggedIn = false
-  public CognitoUser = ''
-  public UserProfile: Client.UserProfile = {} as any
-  public PatreonToken = {}
-  public AwsData = {}
-  public IsPatron = false
+    SET_LOGGED_IN(state: any, payload: boolean): void {
+      state.IsLoggedIn = payload;
+    },
 
-  @Mutation
-  private [LOAD_USER_PROFILE](payload: Client.UserProfile): void {
-    this.UserProfile = payload
-  }
+    SET_AUTH_STATUS(state: any, payload: string): void {
+      state.AuthStatus = payload;
+    },
 
-  @Mutation
-  private [SET_LOGGED_IN](state: boolean): void {
-    this.IsLoggedIn = state
-  }
+    SET_COGNITO_USER(state: any, payload: any): void {
+      state.CognitoUser = payload;
+    },
 
-  @Mutation
-  private [SET_AUTH_STATUS](status: string): void {
-    this.AuthStatus = status
-  }
+    SET_USER_PROFILE(state: any, payload: any): void {
+      state.UserProfile = payload;
+    },
 
-  @Mutation
-  private [SET_COGNITO_USER](data: any): void {
-    this.CognitoUser = data
-  }
+    SET_AWS_DATA(state: any, payload: any): void {
+      state.AwsData = payload;
+    },
+  },
+  actions: {
+    setCognitoUser({ commit }: any, payload: any): void {
+      commit('SET_COGNITO_USER', payload);
+    },
 
-  @Mutation
-  private [SET_USER_PROFILE](data: any): void {
-    this.UserProfile = data
-  }
+    setUserProfile({ commit }: any, payload: any): void {
+      commit('SET_USER_PROFILE', payload);
+    },
 
-  @Mutation
-  private [SET_AWS_DATA](data: any): void {
-    this.AwsData = data
-  }
+    setLoggedIn({ commit }: any, payload: boolean): void {
+      commit('SET_LOGGED_IN', payload);
+    },
 
-  @Action
-  public setCognitoUser(payload: any): void {
-    this.context.commit(SET_COGNITO_USER, payload)
-  }
+    getUserProfile({ state }: any): Client.UserProfile {
+      return state.UserProfile;
+    },
+    async setAws(
+      { state, dispatch, commit }: any,
+      payload: { cognitoUser: any }
+    ): Promise<void> {
+      const syncedUser = await Sync.GetCloudProfile(
+        payload.cognitoUser.user_id
+      );
 
-  @Action
-  public setUserProfile(payload: any): void {
-    this.context.commit(SET_USER_PROFILE, payload)
-  }
+      await dispatch.setUserProfile(syncedUser);
+      await dispatch.setLoggedIn(true);
+      state.UserProfile.Username = payload.cognitoUser.attributes.email;
 
-  @Action
-  public setLoggedIn(payload: boolean): void {
-    this.context.commit(SET_LOGGED_IN, payload)
-  }
-
-  get getUserProfile(): Client.UserProfile {
-    return this.UserProfile
-  }
-
-  @Action({ rawError: true })
-  public async setAws(payload: { cognitoUser: any }): Promise<void> {
-    const syncedUser = await Sync.GetCloudProfile(payload.cognitoUser.user_id)
-
-    this.setUserProfile(syncedUser)
-    this.setLoggedIn(true)
-    this.UserProfile.Username = payload.cognitoUser.attributes.email
-
-    if (this.UserProfile.SyncFrequency.cloudSync_v2) {
-      console.info('auto-sync ON')
-      try {
-        await AutoSyncAll()
-        await AutoSyncRemotes()
-      } catch (error) {
-        console.error('error in auto-sync:', error)
+      if (state.UserProfile.SyncFrequency.cloudSync_v2) {
+        console.info('auto-sync ON');
+        try {
+          await AutoSyncAll();
+          await AutoSyncRemotes();
+        } catch (error) {
+          console.error('error in auto-sync:', error);
+        }
       }
-    }
-  }
+    },
 
-  @Action({ rawError: true })
-  public async loadUser(): Promise<void> {
-    const localdata = await Client.getLocalProfile()
-    this.context.commit(LOAD_USER_PROFILE, localdata)
-  }
+    async loadUser({ commit }: any): Promise<void> {
+      const localdata = await Client.getLocalProfile();
+      commit('LOAD_USER_PROFILE', localdata);
+    },
 
-  @Action({ rawError: true })
-  public async updateUserData(): Promise<void> {
-    console.info('Updating User Info')
-    Sync.UpdateUserData(this.UserProfile)
-  }
-}
+    async updateUserData({ state }: any): Promise<void> {
+      console.info('Updating User Info');
+      Sync.UpdateUserData(state.UserProfile);
+    },
+  },
+};

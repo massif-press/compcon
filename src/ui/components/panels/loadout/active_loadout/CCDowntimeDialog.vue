@@ -1,8 +1,8 @@
 <template>
   <v-dialog
     v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
+    :fullscreen="$vuetify.display.mdAndDown"
+    :style="$vuetify.display.mdAndDown ? `x-overflow: hidden` : ''"
     width="85vw"
   >
     <v-card tile class="background">
@@ -32,18 +32,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import DowntimeTitlebar from './components/_DowntimeTitlebar.vue'
+import DowntimeTitlebar from './components/_DowntimeTitlebar.vue';
 
 function toTitleCase(str): string {
-  str = str.toLowerCase().split(' ')
+  str = str.toLowerCase().split(' ');
   for (let i = 0; i < str.length; i++) {
-    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1)
+    str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
   }
-  return str.join('')
+  return str.join('');
 }
 
-export default Vue.extend({
+export default {
   name: 'cc-downtime-dialog',
   components: { DowntimeTitlebar },
   props: {
@@ -61,39 +60,39 @@ export default Vue.extend({
     return {
       dialog: false,
       component: null,
-    }
+    };
   },
   computed: {
     loader() {
       if (!this.action) {
-        return null
+        return null;
       }
-      const name = toTitleCase(this.action.Name)
-      return () => import(`./dialogs/downtime/_${name}.vue`)
+      const name = toTitleCase(this.action.Name);
+      return () => import(`./dialogs/downtime/_${name}.vue`);
     },
     itemLoader() {
       if (!this.action) {
-        return null
+        return null;
       }
-      return () => import(`./dialogs/downtime/_GenericDowntimeDialog.vue`)
+      return () => import(`./dialogs/downtime/_GenericDowntimeDialog.vue`);
     },
   },
   mounted() {
     this.loader()
       .then(() => {
-        this.component = () => this.loader()
+        this.component = () => this.loader();
       })
       .catch(() => {
-        this.component = () => this.itemLoader()
-      })
+        this.component = () => this.itemLoader();
+      });
   },
   methods: {
     use(free) {
       // this.mech.Pilot.State.CommitAction(this.action, free)
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      this.$emit('use')
-      Vue.nextTick().then(() => self.$forceUpdate())
+      const self = this;
+      this.$emit('use');
+      Vue.nextTick().then(() => self.$forceUpdate());
     },
     undo() {
       // this.mech.Pilot.State.UndoAction(this.action)
@@ -103,11 +102,11 @@ export default Vue.extend({
       // Vue.nextTick().then(() => self.$forceUpdate())
     },
     show() {
-      this.dialog = true
+      this.dialog = true;
     },
     hide() {
-      this.dialog = false
+      this.dialog = false;
     },
   },
-})
+};
 </script>
