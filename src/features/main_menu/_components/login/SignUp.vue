@@ -1,14 +1,20 @@
 <template>
   <v-container>
-    <v-alert outlined prominent icon="mdi-information-outline" class="my-2">
+    <v-alert
+      variant="outlined"
+      prominent
+      icon="mdi-information-outline"
+      class="my-2"
+    >
       <div><b>Cloud Account</b></div>
       <div>
-        The e-mail address input below will be used to send you a confirmation code to finalize the
-        creation of your account. From there, your e-mail will only be used to log in to your
-        COMP/CON account. We are committed to keeping your e-mail address confidential. We do not
-        sell, rent, or lease our contact data or lists to third parties, and we will not provide
-        your personal information to any third party individual, government agency, or company at
-        any time.
+        The e-mail address input below will be used to send you a confirmation
+        code to finalize the creation of your account. From there, your e-mail
+        will only be used to log in to your COMP/CON account. We are committed
+        to keeping your e-mail address confidential. We do not sell, rent, or
+        lease our contact data or lists to third parties, and we will not
+        provide your personal information to any third party individual,
+        government agency, or company at any time.
       </div>
     </v-alert>
     <v-row dense class="panel" justify="center" align="center">
@@ -22,7 +28,7 @@
     <div v-else>
       <v-row no-gutters justify="center" align="center" class="mt-2">
         <v-btn x-large color="patreon" dark @click="verifyPatreon">
-          <v-icon left>mdi-patreon</v-icon>
+          <v-icon start>mdi-patreon</v-icon>
           Link Patreon Account
         </v-btn>
       </v-row>
@@ -68,7 +74,12 @@
               submit
             </v-btn>
             <br />
-            <v-btn text color="accent" class="mt-1" @click="$emit('set-state', 'sign-in')">
+            <v-btn
+              text
+              color="accent"
+              class="mt-1"
+              @click="$emit('set-state', 'sign-in')"
+            >
               Cancel
             </v-btn>
           </v-col>
@@ -94,14 +105,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Auth } from '@aws-amplify/auth'
+import { Auth } from '@aws-amplify/auth';
 // import { loginUrl } from '@/cloud/patreon'
-import { UserStore } from '@/store'
-import { getModule } from 'vuex-module-decorators'
+import { UserStore } from '@/store';
+
 // import popupOauth from '@/cloud/oauth2-popup'
 
-export default Vue.extend({
+export default {
   name: 'sign-up',
   // components: { Auth },
   data: () => ({
@@ -113,10 +123,12 @@ export default Vue.extend({
     password: '',
     // patreonAuthCode: '',
     rules: {
-      required: value => !!value || 'Required.',
-      min: v => v.length >= 6 || 'Min 6 characters',
-      emailMatch: v =>
-        !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(v) || 'E-mail must be valid',
+      required: (value) => !!value || 'Required.',
+      min: (v) => v.length >= 6 || 'Min 6 characters',
+      emailMatch: (v) =>
+        !v ||
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(v) ||
+        'E-mail must be valid',
     },
   }),
   computed: {
@@ -125,37 +137,38 @@ export default Vue.extend({
     // },
     submitOk() {
       return (
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(this.email) && this.password.length >= 6
-      )
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(this.email) &&
+        this.password.length >= 6
+      );
     },
     test() {
-      return process.env.VUE_APP_SOMEKEY
+      return import.meta.env.VUE_APP_SOMEKEY;
     },
   },
   methods: {
     async createAccount() {
-      if (this.loading) return // debounce if already loading
-      this.loading = true
+      if (this.loading) return; // debounce if already loading
+      this.loading = true;
       try {
-        const userEmail = this.email.toLowerCase() // use safe const for auth
-        this.email = userEmail
+        const userEmail = this.email.toLowerCase(); // use safe const for auth
+        this.email = userEmail;
         const { user } = await Auth.signUp({
           username: userEmail,
           password: this.password,
           attributes: {
             email: userEmail,
           },
-        })
-        this.loading = false
-        this.showError = false
-        this.$emit('success', userEmail)
-        // const userstore = getModule(UserStore, this.$store)
+        });
+        this.loading = false;
+        this.showError = false;
+        this.$emit('success', userEmail);
+        // const userstore =this.getModule(UserStore)
         // userstore.clearOauth()
       } catch (error) {
-        console.log('error signing up:', error)
-        this.loading = false
-        this.showError = true
-        this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`
+        console.log('error signing up:', error);
+        this.loading = false;
+        this.showError = true;
+        this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`;
       }
     },
     // async verifyPatreon() {
@@ -169,5 +182,5 @@ export default Vue.extend({
     //   this.patreonAuthCode = authorizationCode
     // },
   },
-})
+};
 </script>

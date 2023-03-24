@@ -14,7 +14,13 @@
           v-if="pSkill.Skill.err"
           @remove="pilot.SkillsController.RemoveSkill(pSkill)"
         />
-        <v-chip v-else label color="panel" style="width: 100%" class="my-1 pa-1">
+        <v-chip
+          v-else
+          label
+          color="panel"
+          style="width: 100%"
+          class="my-1 pa-1"
+        >
           <v-chip dark color="accent" small>
             +
             <b>{{ pSkill.Bonus }}</b>
@@ -23,14 +29,16 @@
           <strong>{{ pSkill.Skill.Trigger }}</strong>
         </v-chip>
       </div>
-      <v-divider v-if="pilot.SkillsController.Skills.length" class="ma-2 ml-4 mr-4" />
+      <v-divider
+        v-if="pilot.SkillsController.Skills.length"
+        class="ma-2 ml-4 mr-4"
+      />
       <v-row>
         <v-col>
           <v-alert
-            outlined
-            :prominent="$vuetify.breakpoint.mdAndUp"
+            variant="outlined"
+            :prominent="$vuetify.display.mdAndUp"
             dense
-            border="left"
             color="success"
             icon="check_circle"
             class="stat-text"
@@ -39,25 +47,27 @@
             Skill Selection Complete
           </v-alert>
           <v-alert
-            outlined
-            :prominent="$vuetify.breakpoint.mdAndUp"
+            variant="outlined"
+            :prominent="$vuetify.display.mdAndUp"
             dense
-            border="left"
             color="accent"
             icon="warning"
             class="stat-text"
             :value="
-              pilot.SkillsController.MaxSkillPoints > pilot.SkillsController.CurrentSkillPoints
+              pilot.SkillsController.MaxSkillPoints >
+              pilot.SkillsController.CurrentSkillPoints
             "
           >
-            {{ pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints }}
+            {{
+              pilot.SkillsController.MaxSkillPoints -
+              pilot.SkillsController.CurrentSkillPoints
+            }}
             Skill Points remaining
           </v-alert>
           <v-alert
-            outlined
-            :prominent="$vuetify.breakpoint.mdAndUp"
+            variant="outlined"
+            :prominent="$vuetify.display.mdAndUp"
             dense
-            border="left"
             color="accent"
             icon="warning"
             class="stat-text"
@@ -80,9 +90,11 @@
 
     <template v-slot:right-column>
       <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
-        <v-divider v-if="$vuetify.breakpoint.smAndDown" class="my-2" />
+        <v-divider v-if="$vuetify.display.smAndDown" class="my-2" />
         <span v-if="h.attr !== 'Custom'" class="overline">Your Ability To</span>
-        <cc-title v-if="$vuetify.breakpoint.mdAndUp" small>{{ h.description }}</cc-title>
+        <cc-title v-if="$vuetify.display.mdAndUp" small>{{
+          h.description
+        }}</cc-title>
         <div v-else class="heading h3 accent--text mb-1">
           {{ h.description }}
         </div>
@@ -106,17 +118,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SkillSelectItem from './components/_SkillSelectItem.vue'
-import AddCustomSkill from './components/_AddCustomSkill.vue'
-import MissingItem from './components/_MissingItem.vue'
-import Selector from './components/_SelectorBase.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { Rules, Pilot } from '@/class'
-import { rules } from 'lancer-data'
+import SkillSelectItem from './components/_SkillSelectItem.vue';
+import AddCustomSkill from './components/_AddCustomSkill.vue';
+import MissingItem from './components/_MissingItem.vue';
+import Selector from './components/_SelectorBase.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { Rules, Pilot } from '@/class';
+import { rules } from 'lancer-data';
+
+export default {
   name: 'skill-selector',
   components: { Selector, SkillSelectItem, AddCustomSkill, MissingItem },
   props: {
@@ -129,32 +140,36 @@ export default Vue.extend({
   }),
   computed: {
     skills() {
-      const cs = this.pilot.SkillsController.Skills.filter(x => x.IsCustom)
-      if (cs.length) return { ...this.staticSkills, Custom: cs.map(x => x.Skill) }
-      return this.staticSkills
+      const cs = this.pilot.SkillsController.Skills.filter((x) => x.IsCustom);
+      if (cs.length)
+        return { ...this.staticSkills, Custom: cs.map((x) => x.Skill) };
+      return this.staticSkills;
     },
     newPilot(): boolean {
-      return this.pilot.Level === 0
+      return this.pilot.Level === 0;
     },
     selectedMin(): number {
-      return Rules.MinimumPilotSkills
+      return Rules.MinimumPilotSkills;
     },
     enoughSelections(): boolean {
-      return !(this.pilot.SkillsController.Skills.length < this.selectedMin)
+      return !(this.pilot.SkillsController.Skills.length < this.selectedMin);
     },
     selectionComplete(): boolean {
-      return (this.newPilot || this.levelUp) && !this.pilot.SkillsController.IsMissingSkills
+      return (
+        (this.newPilot || this.levelUp) &&
+        !this.pilot.SkillsController.IsMissingSkills
+      );
     },
   },
   watch: {
     selectionComplete(bool) {
-      if (bool) window.scrollTo(0, document.body.scrollHeight)
+      if (bool) window.scrollTo(0, document.body.scrollHeight);
     },
   },
   created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.staticSkills = this.$_.groupBy(compendium.Skills, 'Family')
-    this.headers = rules.skill_headers
+    const compendium = this.getModule(CompendiumStore);
+    this.staticSkills = this.$_.groupBy(compendium.Skills, 'Family');
+    this.headers = rules.skill_headers;
   },
   methods: {
     scroll(id) {
@@ -163,17 +178,17 @@ export default Vue.extend({
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
-        })
+        });
       else
         this.$vuetify.goTo(`#skill_${id}`, {
           duration: 150,
           easing: 'easeInOutQuad',
           offset: 25,
           container: '.v-dialog--active',
-        })
+        });
     },
   },
-})
+};
 </script>
 
 <style scoped>

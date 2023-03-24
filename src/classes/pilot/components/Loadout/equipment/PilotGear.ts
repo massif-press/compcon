@@ -1,5 +1,5 @@
-import { PilotEquipment, ItemType } from '@/class'
-import { IPilotEquipmentData, ITagCompendiumData } from '@/interface'
+import { PilotEquipment, ItemType } from '@/class';
+import { IPilotEquipmentData, ITagCompendiumData } from '@/interface';
 
 class PilotGear extends PilotEquipment {
   public constructor(
@@ -7,13 +7,13 @@ class PilotGear extends PilotEquipment {
     packTags?: ITagCompendiumData[],
     packName?: string
   ) {
-    super(data, packTags, packName)
-    this.ItemType = ItemType.PilotGear
+    super(data, packTags, packName);
+    this.ItemType = ItemType.PilotGear;
   }
 
   public get Icon(): string {
-    return 'cci-pilot'
+    return 'cc:pilot';
   }
 }
 
-export { PilotGear }
+export { PilotGear };

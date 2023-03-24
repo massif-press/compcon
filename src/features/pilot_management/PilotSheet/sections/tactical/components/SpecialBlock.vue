@@ -1,6 +1,11 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px!important">
+    <cc-title
+      small
+      color="pilot"
+      class="pl-3"
+      style="margin-left: -50px !important"
+    >
       <span class="pl-12">Special Equipment</span>
     </cc-title>
     <cc-solo-dialog
@@ -24,10 +29,14 @@
     <v-container>
       <v-row dense class="mb-2">
         <v-col>
-          <v-btn tile block @click="$refs.specialSelector.show()">Add Standard Equipment</v-btn>
+          <v-btn tile block @click="$refs.specialSelector.show()"
+            >Add Standard Equipment</v-btn
+          >
         </v-col>
         <v-col>
-          <v-btn tile block @click="$refs.exoticSelector.show()">Add Exotic Equipment</v-btn>
+          <v-btn tile block @click="$refs.exoticSelector.show()"
+            >Add Exotic Equipment</v-btn
+          >
         </v-col>
       </v-row>
       <no-data-block v-if="!pilot.SpecialEquipment.length" />
@@ -40,7 +49,13 @@
           class="text-center"
         >
           <cc-item-modal :item="i" style="display: inline-block" />
-          <v-btn icon small class="fadeSelect" style="display: inline-block" @click="removeItem(i)">
+          <v-btn
+            icon
+            small
+            class="fadeSelect"
+            style="display: inline-block"
+            @click="removeItem(i)"
+          >
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-col>
@@ -50,10 +65,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import NoDataBlock from '../../components/NoDataBlock.vue'
+import NoDataBlock from '../../components/NoDataBlock.vue';
 
-export default Vue.extend({
+export default {
   name: 'special-block',
   components: { NoDataBlock },
   props: {
@@ -64,13 +78,13 @@ export default Vue.extend({
   },
   methods: {
     addItem(item) {
-      this.pilot.AddSpecialEquipment(item)
-      this.$refs.specialSelector.hide()
-      this.$refs.exoticSelector.hide()
+      this.pilot.AddSpecialEquipment(item);
+      (this.$refs.specialSelector as any).hide();
+      (this.$refs.exoticSelector as any).hide();
     },
     removeItem(item) {
-      this.pilot.RemoveSpecialEquipment(item)
+      this.pilot.RemoveSpecialEquipment(item);
     },
   },
-})
+};
 </script>

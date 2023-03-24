@@ -13,7 +13,9 @@
         })
       "
     >
-      <v-list-item-title class="heading h3 ml-2">{{ t.Name }}</v-list-item-title>
+      <v-list-item-title class="heading h3 ml-2">{{
+        t.Name
+      }}</v-list-item-title>
     </v-list-item>
     <v-row dense align="center">
       <v-col cols="auto">
@@ -41,19 +43,21 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { Talent } from '@/class'
+import { CompendiumStore } from '@/store';
+import { Talent } from '@/class';
 
-@Component
-export default class Talents extends Vue {
-  ctype = 'full'
-
-  private compendium = getModule(CompendiumStore, this.$store)
-  get talents(): Talent[] {
-    return this.compendium.Talents.filter(x => !x.IsHidden)
-  }
-}
+export default {
+  name: 'Talents',
+  data: () => ({
+    ctype: 'full',
+  }),
+  computed: {
+    compendium(): CompendiumStore {
+      return this.getModule(CompendiumStore);
+    },
+    talents(): Talent[] {
+      return this.compendium.Talents.filter((x) => !x.IsHidden);
+    },
+  },
+};
 </script>

@@ -22,9 +22,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'gm-item-card',
   props: {
     item: { type: Object, required: true },
@@ -33,38 +31,40 @@ export default Vue.extend({
     odd: { type: Boolean },
   },
   mounted() {
-    console.log(this.item.ItemType)
+    console.log(this.item.ItemType);
   },
   computed: {
     type() {
-      return this.item.ItemType.charAt(0).toUpperCase() + this.item.ItemType.slice(1)
+      return (
+        this.item.ItemType.charAt(0).toUpperCase() + this.item.ItemType.slice(1)
+      );
     },
     cardComponent() {
       if (!this.item) {
-        return null
+        return null;
       }
       return () => {
         try {
-          return import(`./gmItemCards/GM${this.type}Card.vue`)
+          return import(`./gmItemCards/GM${this.type}Card.vue`);
         } catch (error) {
-          console.error(`Unable to load component ${this.type}`)
-          return null
+          console.error(`Unable to load component ${this.type}`);
+          return null;
         }
-      }
+      };
     },
     listComponent() {
       if (!this.item) {
-        return null
+        return null;
       }
       return () => {
         try {
-          return import(`./gmItemCards/GM${this.type}ListItem.vue`)
+          return import(`./gmItemCards/GM${this.type}ListItem.vue`);
         } catch (error) {
-          console.error(`Unable to load component ${this.type}`)
-          return null
+          console.error(`Unable to load component ${this.type}`);
+          return null;
         }
-      }
+      };
     },
   },
-})
+};
 </script>

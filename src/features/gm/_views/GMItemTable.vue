@@ -14,7 +14,7 @@
           :key="`${item.ID}_campaign_${c}`"
           small
           color="accent"
-          outlined
+          variant="outlined"
           class="mr-1"
         >
           {{ c }}
@@ -41,13 +41,18 @@
           label
           class="mr-1"
         >
-          <v-icon small>cci-npc-template</v-icon>
+          <v-icon small>cc:npc-template</v-icon>
           {{ t.Name }}
         </v-chip>
       </template>
       <template v-slot:[`item.ItemType`]="{ item }">
-        <v-btn small color="primary" class="white--text" @click="$emit('open', item.ID)">
-          <v-icon left>mdi-open-in-new</v-icon>
+        <v-btn
+          small
+          color="primary"
+          class="white--text"
+          @click="$emit('open', item.ID)"
+        >
+          <v-icon start>mdi-open-in-new</v-icon>
           Open
         </v-btn>
       </template>
@@ -56,11 +61,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import * as headers from './_components/gmItemHeaders'
+import _ from 'lodash';
+import * as headers from './_components/gmItemHeaders';
 
-export default Vue.extend({
+export default {
   name: 'item-card-grid',
   props: {
     items: { type: Array, required: true },
@@ -71,22 +75,24 @@ export default Vue.extend({
   },
   computed: {
     headers() {
-      return headers[this.itemType]
+      return headers[this.itemType];
     },
     groupings() {
-      if (this.grouping === 'None') return ['All']
-      return _.uniq(this.items.flatMap(x => x[this.grouping]))
+      if (this.grouping === 'None') return ['All'];
+      return _.uniq(this.items.flatMap((x) => x[this.grouping]));
     },
   },
   methods: {
     groupedItems(group) {
-      if (this.grouping === 'None') return this.items
-      return this.items.filter(x => x[this.grouping].some(y => y === group))
+      if (this.grouping === 'None') return this.items;
+      return this.items.filter((x) =>
+        x[this.grouping].some((y) => y === group)
+      );
       // return _.orderBy(
       //   this.sorting,
       //   this.sortDir
       // )
     },
   },
-})
+};
 </script>

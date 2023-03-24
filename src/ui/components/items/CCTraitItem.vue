@@ -1,5 +1,5 @@
 <template>
-  <v-alert dense :color="color" border="left" outlined class="pb-0">
+  <v-alert dense :color="color" variant="outlined" class="pb-0">
     <v-row no-gutters>
       <v-col cols="auto">
         <h3 class="heading" :style="`color: ${color}`">{{ trait.Name }}</h3>
@@ -17,19 +17,19 @@
           v-for="(a, i) in trait.Actions"
           :key="`${trait.ID}_action_${i}`"
           :action="a"
-          :panel="$vuetify.breakpoint.lgAndUp"
+          :panel="$vuetify.display.lgAndUp"
         />
         <cc-deployable-info
           v-for="(d, i) in trait.Deployables"
           :key="`${trait.ID}_deployable_${i}`"
           :deployable="d"
-          :panel="$vuetify.breakpoint.lgAndUp"
+          :panel="$vuetify.display.lgAndUp"
         />
         <cc-integrated-info
           v-for="(x, i) in trait.Integrated"
           :key="`${trait.ID}_integrated_${i}`"
           :item="x"
-          :panel="$vuetify.breakpoint.lgAndUp"
+          :panel="$vuetify.display.lgAndUp"
         />
       </v-col>
     </v-row>
@@ -37,8 +37,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'cc-trait-item',
   props: {
     trait: {
@@ -51,5 +50,5 @@ export default Vue.extend({
       default: 'primary',
     },
   },
-})
+};
 </script>

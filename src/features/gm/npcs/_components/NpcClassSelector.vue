@@ -1,7 +1,17 @@
 <template>
   <v-col>
-    <v-btn large block color="primary" class="white--text" @click="dialog = true">
-      {{ item.NpcClassController.HasClass ? item.NpcClassController.Class.Name : 'Set NPC Class' }}
+    <v-btn
+      large
+      block
+      color="primary"
+      class="white--text"
+      @click="dialog = true"
+    >
+      {{
+        item.NpcClassController.HasClass
+          ? item.NpcClassController.Class.Name
+          : 'Set NPC Class'
+      }}
     </v-btn>
 
     <v-dialog v-model="dialog">
@@ -9,7 +19,9 @@
         <v-toolbar dense color="primary">
           <span class="heading h6 white--text">Select Class</span>
           <v-spacer />
-          <v-btn icon color="white" @click="dialog = false"><v-icon large>mdi-close</v-icon></v-btn>
+          <v-btn icon color="white" @click="dialog = false"
+            ><v-icon large>mdi-close</v-icon></v-btn
+          >
         </v-toolbar>
         <panel-view ref="view">
           <template slot="left">
@@ -20,13 +32,16 @@
                   prepend-inner-icon="mdi-magnify"
                   dense
                   hide-details
-                  outlined
+                  variant="outlined"
                   clearable
                 />
               </v-col>
             </v-row>
             <v-divider class="my-2" />
-            <v-row dense style="max-height: calc(100% - 145px); overflow-y: scroll">
+            <v-row
+              dense
+              style="max-height: calc(100% - 145px); overflow-y: scroll"
+            >
               <v-data-table
                 dense
                 :items="classes"
@@ -42,12 +57,21 @@
               >
                 <template v-slot:group[`header`]`="h" class="transparent">
                   <div class="primary sliced">
-                    <span v-if="h.group" class="heading white--text ml-2 text-uppercase">
-                      <v-icon v-if="h.group.toLowerCase() === 'biological'" dark>
+                    <span
+                      v-if="h.group"
+                      class="heading white--text ml-2 text-uppercase"
+                    >
+                      <v-icon
+                        v-if="h.group.toLowerCase() === 'biological'"
+                        dark
+                      >
                         mdi-heart-pulse
                       </v-icon>
-                      <v-icon v-else dark>cci-role-{{ h.group }}</v-icon>
-                      <span v-if="Array.isArray(h.group)" v-html="h.group.join(', ')" />
+                      <v-icon v-else dark>cc:role-{{ h.group }}</v-icon>
+                      <span
+                        v-if="Array.isArray(h.group)"
+                        v-html="h.group.join(', ')"
+                      />
                       <span v-else v-html="h.group" />
                     </span>
                   </div>
@@ -55,7 +79,7 @@
                 <template v-slot:[`item.Name`]="{ item }">
                   <v-btn
                     block
-                    outlined
+                    variant="outlined"
                     tile
                     small
                     :color="item.RoleColor"
@@ -75,8 +99,14 @@
             <v-divider class="mt-2" />
             <v-row justify="center" dense class="mb-n10">
               <v-col cols="10">
-                <v-btn large block color="primary" :disabled="!selected" @click="AddNpc()">
-                  <v-icon left>mdi-edit</v-icon>
+                <v-btn
+                  large
+                  block
+                  color="primary"
+                  :disabled="!selected"
+                  @click="AddNpc()"
+                >
+                  <v-icon start>mdi-edit</v-icon>
                   <span v-if="selected">Set {{ selected.Name }} Class</span>
                   <span v-else>Select NPC Class</span>
                 </v-btn>
@@ -92,14 +122,19 @@
                   </span>
                 </v-col>
                 <v-col v-if="selected.InLcp" class="ml-auto mt-n4">
-                  <div class="heading h3 text--text">{{ selected.LcpName }}</div>
+                  <div class="heading h3 text--text">
+                    {{ selected.LcpName }}
+                  </div>
                 </v-col>
                 <v-col cols="auto" class="ml-auto text-center mt-n4">
                   <v-icon size="60">{{ selected.RoleIcon }}</v-icon>
                   <div class="overline mt-n1">{{ selected.Role }}</div>
                 </v-col>
               </v-row>
-              <p class="flavor-text panel pa-2 stark--text" v-html-safe="selected.Flavor" />
+              <p
+                class="flavor-text panel pa-2 stark--text"
+                v-html-safe="selected.Flavor"
+              />
               <span class="heading h3 accent--text">Tactics</span>
               <p class="body-1" v-html-safe="selected.Tactics" />
 
@@ -118,7 +153,11 @@
                   <div class="caption">SIZE</div>
                   <div
                     class="heading h3 primary--text"
-                    v-html="selected.Stats.Sizes(tierPreview).join(' or ').replace('0.5', '½')"
+                    v-html="
+                      selected.Stats.Sizes(tierPreview)
+                        .join(' or ')
+                        .replace('0.5', '½')
+                    "
                   />
                 </v-col>
                 <tiered-attribute
@@ -143,7 +182,9 @@
                     <span class="heading h3">
                       <b class="accent--text">Base</b>
                       Features
-                      <span class="caption">({{ selected.BaseFeatures.length }})</span>
+                      <span class="caption"
+                        >({{ selected.BaseFeatures.length }})</span
+                      >
                     </span>
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
@@ -160,7 +201,9 @@
                     <span class="heading h3">
                       <b class="accent--text">Optional</b>
                       Features
-                      <span class="caption">({{ selected.OptionalFeatures.length }})</span>
+                      <span class="caption"
+                        >({{ selected.OptionalFeatures.length }})</span
+                      >
                     </span>
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
@@ -175,9 +218,16 @@
               </v-expansion-panels>
             </v-container>
 
-            <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
+            <v-row
+              v-else
+              align="center"
+              justify="center"
+              style="width: 100%; height: 100%"
+            >
               <v-col cols="auto">
-                <span class="heading h1 subtle--text text--lighten-2">select npc class</span>
+                <span class="heading h1 subtle--text text--lighten-2"
+                  >select npc class</span
+                >
               </v-col>
             </v-row>
           </template>
@@ -188,14 +238,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, NpcStore } from '@/store'
-import { Npc } from '@/class'
-import PanelView from '../../_components/PanelView.vue'
-import TieredAttribute from '../_components/_subcomponents/TieredAttribute.vue'
+import { CompendiumStore, NpcStore } from '@/store';
+import { Npc } from '@/class';
+import PanelView from '../../_components/PanelView.vue';
+import TieredAttribute from '../_components/_subcomponents/TieredAttribute.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-class-selector',
   props: {
     item: { type: Object, required: true },
@@ -215,22 +263,25 @@ export default Vue.extend({
   }),
   watch: {
     selectedClass() {
-      this.$refs.view.resetScroll()
+      (this.$refs.view as any).resetScroll();
     },
   },
   created() {
-    const store = getModule(CompendiumStore, this.$store)
-    this.classes = store.NpcClasses
+    // const store =this.getModule(CompendiumStore);
+    // this.classes = store.NpcClasses;
   },
   methods: {
     AddNpc() {
-      this.item.NpcClassController.SetClass(this.selected, this.item.NpcClassController.Tier)
-      this.dialog = false
-      // const store = getModule(NpcStore, this.$store)
-      // store.addNpc(new Npc(this.selectedClass, this.$refs.card.tierPreview))
+      this.item.NpcClassController.SetClass(
+        this.selected,
+        this.item.NpcClassController.Tier
+      );
+      this.dialog = false;
+      // const store =this.getModule(NpcStore)
+      // store.addNpc(new Npc(this.selectedClass, (this.$refs.card as any).tierPreview))
       // this.$store.dispatch('cloudSync', { callback: null, condition: 'selectedreate' })
       // this.$router.push('./npc-roster')
     },
   },
-})
+};
 </script>

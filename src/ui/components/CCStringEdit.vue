@@ -4,7 +4,7 @@
       v-model="newString"
       :label="label"
       :placeholder="placeholder"
-      outlined
+      variant="outlined"
       hide-details
       autofocus
       @focus="$event.target.select()"
@@ -13,28 +13,34 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import EditButton from './subcomponents/_EditButton.vue'
+import EditButton from './subcomponents/_EditButton.vue';
 
-@Component({
-  name: 'cc-string-edit',
+export default {
+  name: 'CCStringEdit',
   components: { EditButton },
-})
-export default class CCStringEdit extends Vue {
-  @Prop({ type: String, required: false, default: ' ' })
-  readonly label: string
-
-  @Prop({ type: String, required: true })
-  readonly placeholder!: string
-
-  @Prop({ type: Boolean, required: false })
-  readonly dark?: boolean
-
-  newString = ''
-
-  save(): void {
-    if (this.newString) this.$emit(this.newString)
-    this.newString = ''
-  }
-}
+  props: {
+    label: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    placeholder: {
+      type: String,
+      required: true,
+    },
+    dark: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  data: () => ({
+    newString: '',
+  }),
+  methods: {
+    save() {
+      if (this.newString) this.$emit('save', this.newString);
+      this.newString = '';
+    },
+  },
+};
 </script>

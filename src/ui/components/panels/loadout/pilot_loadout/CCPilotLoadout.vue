@@ -9,7 +9,7 @@
         @remove="setArmor(null)"
         @save="pilot.SaveController.save()"
       />
-      <v-divider :vertical="$vuetify.breakpoint.mdAndUp" class="mx-4 my-1" />
+      <v-divider :vertical="$vuetify.display.mdAndUp" class="mx-4 my-1" />
       <pilot-weapon-card
         v-for="(w, i) in weapons"
         :key="`pgwi_${i}`"
@@ -59,13 +59,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PilotArmorCard from './_PLArmorCard.vue'
-import PilotWeaponCard from './_PLWeaponCard.vue'
-import PilotGearCard from './_PLGearCard.vue'
-import { PilotArmor, PilotWeapon, PilotGear } from '@/class'
+import PilotArmorCard from './_PLArmorCard.vue';
+import PilotWeaponCard from './_PLWeaponCard.vue';
+import PilotGearCard from './_PLGearCard.vue';
+import { PilotArmor, PilotWeapon, PilotGear } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'cc-pilot-loadout',
   components: { PilotArmorCard, PilotWeaponCard, PilotGearCard },
   props: {
@@ -79,38 +78,44 @@ export default Vue.extend({
   },
   computed: {
     gear() {
-      return this.pilot.Loadout.Gear
+      return this.pilot.Loadout.Gear;
     },
     extendedGear() {
-      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedGear
-      return []
+      if (this.pilot.has('reserve', 'extended_harness'))
+        return this.pilot.Loadout.ExtendedGear;
+      return [];
     },
     weapons() {
-      return this.pilot.Loadout.Weapons
+      return this.pilot.Loadout.Weapons;
     },
     extendedWeapons() {
-      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedWeapons
-      return []
+      if (this.pilot.has('reserve', 'extended_harness'))
+        return this.pilot.Loadout.ExtendedWeapons;
+      return [];
     },
   },
   methods: {
     exotics(type: string) {
-      return this.pilot.SpecialEquipment.filter(x => x.ItemType === type)
+      return this.pilot.SpecialEquipment.filter((x) => x.ItemType === type);
     },
     setArmor(a: PilotArmor | null) {
-      this.$set(this.pilot.Loadout.Armor, 0, a)
-      this.pilot.Heal()
+      this.$set(this.pilot.Loadout.Armor, 0, a);
+      this.pilot.Heal();
     },
     setWeapon(w: PilotWeapon | null, idx: number, extended: boolean) {
-      const weaponArray = extended ? this.pilot.Loadout.ExtendedWeapons : this.pilot.Loadout.Weapons
-      this.$set(weaponArray, idx, w)
-      this.pilot.Heal()
+      const weaponArray = extended
+        ? this.pilot.Loadout.ExtendedWeapons
+        : this.pilot.Loadout.Weapons;
+      this.$set(weaponArray, idx, w);
+      this.pilot.Heal();
     },
     setGear(g: PilotGear | null, idx: number, extended: boolean) {
-      const gearArray = extended ? this.pilot.Loadout.ExtendedGear : this.pilot.Loadout.Gear
-      this.$set(gearArray, idx, g)
-      this.pilot.Heal()
+      const gearArray = extended
+        ? this.pilot.Loadout.ExtendedGear
+        : this.pilot.Loadout.Gear;
+      this.$set(gearArray, idx, g);
+      this.pilot.Heal();
     },
   },
-})
+};
 </script>

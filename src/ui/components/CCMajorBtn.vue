@@ -7,7 +7,7 @@
         :height="small ? '8em' : '10em'"
         :color="disabled ? 'grey' : color"
         tile
-        outlined
+        variant="outlined"
         :disabled="disabled"
         @click="$emit('clicked')"
       >
@@ -29,7 +29,13 @@
           :style="`display: inline-block; position: absolute; width: 100%; top: 0; left: 0;`"
         >
           <span
-            style="position:absolute; top: 0; right: 0; display: contents; font-size: 22pt"
+            style="
+              position: absolute;
+              top: 0;
+              right: 0;
+              display: contents;
+              font-size: 22pt;
+            "
             class="underline-slide px-4 heading h2"
           >
             {{ name }}
@@ -42,28 +48,38 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-major-btn' })
-export default class CCMajorButton extends Vue {
-  @Prop({ type: String, required: true })
-  readonly name!: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly icon: string
-
-  @Prop({ type: Boolean, required: false })
-  readonly small?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly disabled?: boolean
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly cols?: string
-
-  @Prop({ type: String, required: false, default: 'primary' })
-  readonly color: string
-}
+export default {
+  name: 'CCMajorBtn',
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    small: {
+      type: Boolean,
+      required: false,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+    },
+    cols: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -86,7 +102,7 @@ export default class CCMajorButton extends Vue {
 }
 
 .underline-slide {
-  color: var(--v-stark-text-base);
+  color: rgb(var(--v-theme-stark-text));
 }
 
 .underline-slide::before {
@@ -97,14 +113,14 @@ export default class CCMajorButton extends Vue {
   right: 0;
   height: 5px;
   z-index: 100;
-  background-color: var(--v-stark-text-base);
+  background-color: rgb(var(--v-theme-stark-text));
   transform-origin: bottom left;
   transform: scaleX(0);
   transition: transform 0.45s ease;
 }
 
 #card-actions {
-  background-color: var(--v-background-base);
+  background-color: rgb(var(--v-theme-background));
 }
 
 #underline-parent:hover > #card-actions > .underline-slide::before {

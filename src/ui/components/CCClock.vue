@@ -11,19 +11,28 @@
                   <v-icon>mdi-circle-edit-outline</v-icon>
                 </v-btn>
                 <v-menu v-if="!noDelete" offset-x left>
-                  <template v-slot:activator="{ on }">
-                    <v-btn small icon color="error" class="fadeSelect" v-on="on">
+                  <template v-slot:activator="{ props }">
+                    <v-btn
+                      small
+                      icon
+                      color="error"
+                      class="fadeSelect"
+                      v-bind="props"
+                    >
                       <v-icon>mdi-delete</v-icon>
                     </v-btn>
                   </template>
                   <v-card>
                     <v-card-text>
-                      Do you want to delete this clock? This action cannot be undone.
+                      Do you want to delete this clock? This action cannot be
+                      undone.
                     </v-card-text>
                     <v-divider />
                     <v-card-actions>
                       <v-spacer />
-                      <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
+                      <v-btn small color="error" @click="$emit('delete')"
+                        >Confirm Deletion</v-btn
+                      >
                     </v-card-actions>
                   </v-card>
                 </v-menu>
@@ -38,7 +47,9 @@
               >
                 <div class="background accent--text" style="border-radius: 2px">
                   <b v-if="print">&emsp; / {{ clock.Segments }}&nbsp;</b>
-                  <b v-else>&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b>
+                  <b v-else
+                    >&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b
+                  >
                 </div>
               </v-progress-linear>
             </v-col>
@@ -58,18 +69,23 @@
 
         <v-col v-if="!print" cols="auto">
           <v-btn icon @click="clock.Increment()">
-            <v-icon large color="accent">cci-accuracy</v-icon>
+            <v-icon large color="accent">cc:accuracy</v-icon>
           </v-btn>
           <br />
           <v-btn icon @click="clock.Decrement()">
-            <v-icon large color="accent">cci-difficulty</v-icon>
+            <v-icon large color="accent">cc:difficulty</v-icon>
           </v-btn>
         </v-col>
       </v-row>
 
       <v-row v-else dense align="center">
         <v-col cols="auto">
-          <v-progress-circular :size="size" :width="size / 5" :value="total" :color="color">
+          <v-progress-circular
+            :size="size"
+            :width="size / 5"
+            :value="total"
+            :color="color"
+          >
             <b v-if="print">&emsp;&nbsp; /{{ clock.Segments }}&nbsp;</b>
             <b v-else>{{ progress }} / {{ clock.Segments }}</b>
           </v-progress-circular>
@@ -82,19 +98,28 @@
                 <v-icon>mdi-circle-edit-outline</v-icon>
               </v-btn>
               <v-menu offset-x left>
-                <template v-slot:activator="{ on }">
-                  <v-btn small icon color="error" class="fadeSelect" v-on="on">
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    small
+                    icon
+                    color="error"
+                    class="fadeSelect"
+                    v-bind="props"
+                  >
                     <v-icon>mdi-delete</v-icon>
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-text>
-                    Do you want to delete this clock? This action cannot be undone.
+                    Do you want to delete this clock? This action cannot be
+                    undone.
                   </v-card-text>
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
+                    <v-btn small color="error" @click="$emit('delete')"
+                      >Confirm Deletion</v-btn
+                    >
                   </v-card-actions>
                 </v-card>
               </v-menu>
@@ -113,21 +138,21 @@
           <v-btn
             icon
             @click="
-              clock.Increment()
-              $emit('change')
+              clock.Increment();
+              $emit('change');
             "
           >
-            <v-icon large color="accent">cci-accuracy</v-icon>
+            <v-icon large color="accent">cc:accuracy</v-icon>
           </v-btn>
           <br />
           <v-btn
             icon
             @click="
-              clock.Decrement()
-              $emit('change')
+              clock.Decrement();
+              $emit('change');
             "
           >
-            <v-icon large color="accent">cci-difficulty</v-icon>
+            <v-icon large color="accent">cc:difficulty</v-icon>
           </v-btn>
         </v-col>
       </v-row>
@@ -154,14 +179,23 @@
               </v-progress-linear>
             </div>
             <div v-else dense>
-              <v-progress-circular :size="size" :width="size / 5" :value="total" :color="color">
+              <v-progress-circular
+                :size="size"
+                :width="size / 5"
+                :value="total"
+                :color="color"
+              >
                 <b>{{ progress }} / {{ clock.Segments }}</b>
               </v-progress-circular>
             </div>
           </div>
           <v-row>
             <v-col>
-              <v-text-field v-model="clock.Title" label="Title" @change="$emit('change')" />
+              <v-text-field
+                v-model="clock.Title"
+                label="Title"
+                @change="$emit('change')"
+              />
             </v-col>
             <v-col cols="2">
               <v-text-field
@@ -182,7 +216,7 @@
           </v-row>
           <v-textarea
             v-model="clock.Description"
-            outlined
+            variant="outlined"
             rows="3"
             auto-grow
             label="Description"
@@ -192,7 +226,7 @@
           />
           <v-textarea
             v-model="clock.Resolution"
-            outlined
+            variant="outlined"
             rows="3"
             auto-grow
             label="Resolution"
@@ -207,8 +241,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'cc-clock',
   props: {
     size: { type: Number, required: false, default: 70 },
@@ -222,13 +255,13 @@ export default Vue.extend({
   }),
   computed: {
     progress() {
-      if (this.print) return 0
-      return parseInt(this.clock.Progress)
+      if (this.print) return 0;
+      return parseInt(this.clock.Progress);
     },
     total() {
-      if (this.print) return 0
-      return (parseInt(this.progress) / parseInt(this.clock.Segments)) * 100
+      if (this.print) return 0;
+      return (parseInt(this.progress) / parseInt(this.clock.Segments)) * 100;
     },
   },
-})
+};
 </script>

@@ -23,11 +23,13 @@ yarn serve
 Which will open a browser window pointed to `localhost:8080`. Hot Module Reload is enabled, which means that the app should refresh as you save code. Occasionally (especially after certain syntax errors) this can start to fall off, in part or completely. If this is the case, a refresh will either get HMR working again or find your error.
 
 If you need https support for your developer server, which is the case when you need to debug and develop on a machine other than your build machine, you can use the following command instead:
+
 ```bash
 yarn serve-https
 ```
 
 Please note this will cause your browser to display a warning about certificate validation, as the VUE developement certificate is self signed.
+
 ## App Conventions
 
 WIP
@@ -70,6 +72,7 @@ Folder structure should reflect vue-router to the extent reasonable.
   - `img`: Files should be the onboard/stock images we want to copy over into appdata (see data io startup)
 
 #### Classes
+
 - Maintain types to the extent possible.
 - Provide data interface when necessary (avoid any, in-function definitions).
 - Provide static Serialize and Deserialize functions if something needs to be saved.
@@ -77,11 +80,14 @@ Folder structure should reflect vue-router to the extent reasonable.
 - Import all classes into @/class, get classes from there instead of traversing the directory tree. (Out of date?)
 
 #### Class Structure
+
 - Pilot
 - Mech
 - CompendiumItem
 - LicensedItem
+
 #### Interfaces
+
 - Keep interface in class file when convenient.
 - Declare interface when useful (so, available globally).
 - Import nonglobal interfaces in @/interface. (Out of date?)
@@ -93,6 +99,7 @@ TODO: look into TS import() function in dec file to keep definitions with class,
 UI should contain all reusable components. Everything starting with `CC` will be made available globally as `cc-component-name`.
 
 Global component subcomponents (that don't themselves need to be available globally) should be prefixed by a \_. Try to structure folders like:
+
 - topic/group - component type/set - components
 - \_subcomponent.vue
 - CCMyComponentThatUsesSubcomponent.vue
@@ -100,13 +107,14 @@ Global component subcomponents (that don't themselves need to be available globa
 Split views into collections of components wherever possible for easy reordering. Aim for DRY with components for stylistic consistency's sake (good refactor opportunities). Prefer two components with common subcomponents instead of bimodal components (eg. skillitem and skillselectitem).
 
 ### CSS/Vuetify
+
 - LANCER book style before anything else. Adhere as close to the book as possible.
 - Fluff/flavor is important for the pilot management tools. No flavor (for now) for gm/encounter/campaign tools.
 - Compendium may get flavor later.
 
 ## Accessibility
 
-COMP/CON aims to be keyboard accessible. All buttons should be focusable with the tab key, 
+COMP/CON aims to be keyboard accessible. All buttons should be focusable with the tab key,
 respond to the enter key, and should have a noticeable highlight when tab-selected.
 
 Often this happens automatically, but there are several ways to accidentally break accessibility, so it's important to check.
@@ -122,21 +130,21 @@ Often this happens automatically, but there are several ways to accidentally bre
 <!--v-btns with `to` are turned into `a` elements without keyboard support.-->
 <!--It might be nice to extend v-btn to fix that.-->
 <v-btn to="/gm/mission/selector">
-  <v-icon left>mdi-chevron-triple-left</v-icon>
+  <v-icon start>mdi-chevron-triple-left</v-icon>
   Return to Mission Menu
 </v-btn>
 
 <!--Fixed by moving `to` to a wrapper router-link-->
 <router-link to="/gm/mission/selector">
   <v-btn text color="primary">
-    <v-icon left>mdi-chevron-triple-left</v-icon>
+    <v-icon start>mdi-chevron-triple-left</v-icon>
     Return to Mission Menu
   </v-btn>
 </router-link>
 
 <!--Fixed with click event navigation instead of `to`-->
 <v-btn text color="primary" @click="toMissions()>
-  <v-icon left>mdi-chevron-triple-left</v-icon>
+  <v-icon start>mdi-chevron-triple-left</v-icon>
   Return to Mission Menu
 </v-btn>
 // ... later
@@ -149,26 +157,21 @@ methods: {
 
 ```vue
 <!--Doesn't style keyboard focus, sometimes leaving keyboard focus invisible-->
-.btn-main:hover {
-  background-color: var(--v-active-base);
-}
+.btn-main:hover { background-color: rgb(var(--v-theme-active)); }
 <!--Fix-->
-.btn-main:hover,
-.btn-main:focus {
-  background-color: var(--v-active-base);
+.btn-main:hover, .btn-main:focus { background-color: rgb(var(--v-theme-active));
 }
 ```
 
 Usually these issues are trivial to fix, but easy to miss.
 
-Please run through any new UI you create with keyboard only before pushing your work. 
+Please run through any new UI you create with keyboard only before pushing your work.
 
 ## Additional Notes
 
 Chores left:
-- integrate vue-class-component
-- testing
 
+- testing
 
 [good-first-issue]: https://github.com/massif-press/compcon/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22
 [help-wanted]: https://github.com/massif-press/compcon/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22

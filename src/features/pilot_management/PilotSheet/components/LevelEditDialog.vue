@@ -1,19 +1,18 @@
 <template>
   <cc-solo-dialog
     ref="dialog"
-    icon="cci-pilot"
+    icon="cc:pilot"
     no-confirm
     title="Edit Pilot level"
   >
     <v-card-text>
       <v-alert
         v-model="alert"
-        border="left"
         close-text="Close"
         type="warning"
         color="stark"
         dismissible
-        outlined
+        variant="outlined"
         prominent
       >
         This tool skips the level up wizard. Pilot attributes gained through
@@ -46,7 +45,7 @@
             hide-details
             hide-spin-buttons
             dense
-            outlined
+            variant="outlined"
             background-color="panel"
             class="level-input"
           />
@@ -71,11 +70,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Rules } from "@/class";
+import { Rules } from '@/class';
 
-export default Vue.extend({
-  name: "level-edit-dialog",
+export default {
+  name: 'level-edit-dialog',
   props: {
     pilot: {
       type: Object,
@@ -89,19 +87,19 @@ export default Vue.extend({
   }),
   methods: {
     show() {
-      this.$refs.dialog.show();
+      (this.$refs.dialog as any).show();
       this.alert = true;
       this.newLevel = this.pilot.Level;
     },
     hide() {
-      this.$refs.dialog.hide();
+      (this.$refs.dialog as any).hide();
     },
     setLevel() {
       this.pilot.Level = parseInt(this.newLevel) || 0;
       this.hide();
     },
   },
-});
+};
 </script>
 
 <style>

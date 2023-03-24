@@ -5,7 +5,7 @@
       :key="`${alert}_${i}`"
       dense
       prominent
-      outlined
+      variant="outlined"
       :color="alert.severity"
       icon="mdi-alert"
       class="heading h3"
@@ -16,11 +16,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'npc-feature-alerts',
   props: {
     item: { type: Object, required: true },
   },
-})
+};
 </script>

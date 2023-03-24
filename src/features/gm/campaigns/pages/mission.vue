@@ -12,14 +12,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PageBase from './_components/PageBase.vue'
+import PageBase from './_components/PageBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'campaign-mission-page',
   components: { PageBase },
   props: {
     item: { type: Object, required: true },
   },
-})
+};
 </script>

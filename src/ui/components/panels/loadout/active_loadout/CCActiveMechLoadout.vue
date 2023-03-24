@@ -22,11 +22,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActiveMountBlock from './_ActiveMountBlock.vue'
-import ActiveSystemsBlock from './_ActiveSystemsBlock.vue'
+import ActiveMountBlock from './_ActiveMountBlock.vue';
+import ActiveSystemsBlock from './_ActiveSystemsBlock.vue';
 
-export default Vue.extend({
+export default {
   name: 'active-mech-loadout-block',
   components: { ActiveSystemsBlock, ActiveMountBlock },
   props: {
@@ -40,8 +39,8 @@ export default Vue.extend({
   },
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
     },
   },
-})
+};
 </script>

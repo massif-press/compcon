@@ -1,12 +1,16 @@
 <template>
   <div
-    :class="this.$vuetify.breakpoint.smAndDown ? 'pt-1' : `px-2 pt-2 pb-1 ml-n3 clipped${size}`"
+    :class="
+      this.$vuetify.display.smAndDown
+        ? 'pt-1'
+        : `px-2 pt-2 pb-1 ml-n3 clipped${size}`
+    "
     :style="`width: max-content; background-color: ${getColor()};`"
   >
     <span
-      :class="`${this.$vuetify.breakpoint.smAndDown ? 'px-2' : 'pr-5 pb-1'} pl-5 ctitle${size} ${
-        dark ? 'white--text' : 'stark--text'
-      }`"
+      :class="`${
+        this.$vuetify.display.smAndDown ? 'px-2' : 'pr-5 pb-1'
+      } pl-5 ctitle${size} ${dark ? 'white--text' : 'stark--text'}`"
     >
       <slot />
     </span>
@@ -14,28 +18,42 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator'
-import GetColorMixin from '@/mixins/getColor'
+import GetColorMixin from '@/mixins/getColor';
 
-@Component({ name: 'cc-title' })
-export default class CCTitle extends Mixins(GetColorMixin) {
-  @Prop({ type: Boolean, required: false })
-  readonly large?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly small?: boolean
-
-  @Prop({ type: Boolean, required: false, default: true })
-  readonly dark: boolean
-
-  @Prop({ type: String, required: false, default: 'primary' })
-  readonly color: string
-
-  get size() {
-    if (this.$vuetify.breakpoint.smAndDown) return '-small'
-    return this.large ? '-large' : this.small ? '-small' : ''
-  }
-}
+export default {
+  name: 'CCTitle',
+  props: {
+    large: {
+      type: Boolean,
+      required: false,
+    },
+    small: {
+      type: Boolean,
+      required: false,
+    },
+    dark: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+  },
+  methods: {
+    getColor() {
+      return GetColorMixin;
+    },
+  },
+  computed: {
+    size() {
+      if (this.$vuetify.display.smAndDown) return '-small';
+      return this.large ? '-large' : this.small ? '-small' : '';
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -14,7 +14,9 @@
         })
       "
     >
-      <v-list-item-title class="heading h3 ml-2">{{ e.Name }}</v-list-item-title>
+      <v-list-item-title class="heading h3 ml-2">{{
+        e.Name
+      }}</v-list-item-title>
     </v-list-item>
     <v-container>
       <cc-bond-info
@@ -25,7 +27,13 @@
         class="my-4"
       >
         <div slot="button" class="px-8">
-          <v-btn color="accent" x-large block class="mt-2 mb-4" @click="$emit('set', e)">
+          <v-btn
+            color="accent"
+            x-large
+            block
+            class="mt-2 mb-4"
+            @click="$emit('set', e)"
+          >
             <b>Select {{ e.Name }}</b>
           </v-btn>
         </div>
@@ -35,16 +43,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+export default {
   name: 'bond-selector',
   computed: {
     bonds() {
-      return getModule(CompendiumStore, this.$store).Bonds
+      return this.getModule(CompendiumStore).Bonds;
     },
   },
-})
+};
 </script>

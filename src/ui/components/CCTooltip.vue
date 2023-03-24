@@ -7,14 +7,14 @@
     content-class="cc-tooltip"
     :open-delay="delayed ? 500 : 150"
   >
-    <template v-slot:activator="{ on }">
-      <div :class="{ 'd-inline': inline }" v-on="on">
+    <template v-slot:activator="{ props }">
+      <div :class="{ 'd-inline': inline }" v-bind="props">
         <slot />
       </div>
     </template>
     <span v-if="err">
-      Unable to load tooltip information. This may be due to malformed data or an unloaded content
-      package.
+      Unable to load tooltip information. This may be due to malformed data or
+      an unloaded content package.
     </span>
     <div v-else>
       <div v-if="simple">
@@ -30,54 +30,68 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-tooltip' })
-export default class CCTooltip extends Vue {
-  @Prop({ type: String, required: false, default: '' })
-  readonly err: string
-
-  @Prop({ type: Boolean, required: false })
-  readonly simple?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly top?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly bottom?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly left?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly right?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly inline?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly delayed?: boolean
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly title: string
-
-  @Prop({ type: String, required: true })
-  readonly content!: string
-
-  get isTop(): boolean {
-    if (this.top) return true
-    return !this.bottom && !this.left && !this.right
-  }
-}
+export default {
+  name: 'CCTooltip',
+  props: {
+    err: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    simple: {
+      type: Boolean,
+      required: false,
+    },
+    top: {
+      type: Boolean,
+      required: false,
+    },
+    bottom: {
+      type: Boolean,
+      required: false,
+    },
+    left: {
+      type: Boolean,
+      required: false,
+    },
+    right: {
+      type: Boolean,
+      required: false,
+    },
+    inline: {
+      type: Boolean,
+      required: false,
+    },
+    delayed: {
+      type: Boolean,
+      required: false,
+    },
+    title: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    isTop(): boolean {
+      if (this.top) return true;
+      return !this.bottom && !this.left && !this.right;
+    },
+  },
+};
 </script>
 
 <style scoped>
 .cc-tooltip {
-  background: var(--v-tooltip-base) !important;
-  background-color: var(--v-tooltip-base) !important;
+  background: rgb(var(--v-theme-tooltip)) !important;
+  background-color: rgb(var(--v-theme-tooltip)) !important;
   opacity: 1 !important;
   max-width: 50vw;
-  border: 1px var(--v-active-base) solid;
+  border: 1px rgb(var(--v-theme-active)) solid;
 }
 
 .fade-enter-active,

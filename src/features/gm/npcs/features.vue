@@ -6,10 +6,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { NpcFeatureAlerts, NpcFeatureSelector } from './_components'
+import { NpcFeatureAlerts, NpcFeatureSelector } from './_components';
 
-export default Vue.extend({
+export default {
   name: 'npc-builder-content',
   components: {
     NpcFeatureAlerts,
@@ -18,5 +17,5 @@ export default Vue.extend({
   props: {
     item: { type: Object, required: true },
   },
-})
+};
 </script>

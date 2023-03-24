@@ -1,11 +1,11 @@
 <template>
   <cc-dialog no-dismiss :color="item.Color">
     <span slot="button" class="white--text" style="width: 100%">
-      <v-icon left dark>{{ item.Icon }}</v-icon>
+      <v-icon start dark>{{ item.Icon }}</v-icon>
       {{ item.Name }}
     </span>
     <span slot="title">
-      <v-icon left large dark>{{ item.Icon }}</v-icon>
+      <v-icon start large dark>{{ item.Icon }}</v-icon>
       {{ item.Name }}
     </span>
     <integrated-info-base :item="item" />
@@ -13,10 +13,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import integratedInfoBase from './_integratedInfoBase.vue'
+import integratedInfoBase from './_integratedInfoBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'integrated-info-popup',
   components: { integratedInfoBase },
   props: {
@@ -25,5 +24,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

@@ -6,14 +6,25 @@
     <v-form @submit="signIn()">
       <v-row class="mt-2">
         <v-col lg="6" cols="12">
-          <v-text-field v-model="email" label="E-Mail Address" dense outlined hide-details />
+          <v-text-field
+            v-model="email"
+            label="E-Mail Address"
+            dense
+            variant="outlined"
+            hide-details
+          />
           <div>
             <v-fade-transition>
               <div>
-                <a v-if="email && emailValid()" @click="$emit('reverify', email)">
+                <a
+                  v-if="email && emailValid()"
+                  @click="$emit('reverify', email)"
+                >
                   <i>Click here to use a verification code.</i>
                 </a>
-                <i v-else-if="!email">Have a verification code? Enter your email to use it.</i>
+                <i v-else-if="!email"
+                  >Have a verification code? Enter your email to use it.</i
+                >
                 <i v-else>Please enter a valid email address</i>
               </div>
             </v-fade-transition>
@@ -24,7 +35,7 @@
             v-model="password"
             label="Password"
             dense
-            outlined
+            variant="outlined"
             hide-details
             :type="show ? 'text' : 'password'"
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -35,7 +46,12 @@
           </div>
         </v-col>
       </v-row>
-      <v-row no-gutters justify="center" align="start" class="mt-n2 text-center">
+      <v-row
+        no-gutters
+        justify="center"
+        align="start"
+        class="mt-n2 text-center"
+      >
         <v-col cols="auto">
           <v-btn
             large
@@ -47,7 +63,13 @@
             Sign In
           </v-btn>
           <br />
-          <v-btn small color="accent" class="mt-1" outlined @click="$emit('set-state', 'sign-up')">
+          <v-btn
+            small
+            color="accent"
+            class="mt-1"
+            variant="outlined"
+            @click="$emit('set-state', 'sign-up')"
+          >
             Create Account
           </v-btn>
         </v-col>
@@ -72,13 +94,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
-import { Auth } from '@aws-amplify/auth'
-import { SetTheme } from '@/classes/utility/ThemeManager'
+import { UserStore } from '@/store';
+import { Auth } from '@aws-amplify/auth';
+import { SetTheme } from '@/classes/utility/ThemeManager';
 
-export default Vue.extend({
+export default {
   name: 'auth-sign-in',
   data: () => ({
     email: null,
@@ -90,48 +110,48 @@ export default Vue.extend({
   }),
   methods: {
     async signIn() {
-      if (this.loading) return // debounce if already loading
-      this.loading = true
-      const userEmail = this.email.trim() // use safe const for auth
-      this.email = userEmail
-      const userstore = getModule(UserStore, this.$store)
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      Auth.signIn(userEmail, this.password)
-        .catch(error => {
-          if (error.name === 'UserNotFoundException') {
-            return Auth.signIn(userEmail.toLowerCase(), this.password)
-          }
-          throw error
-        })
-        .then(user => {
-          console.log(user)
-          localStorage.removeItem('user.config')
-          userstore.setCognitoUser(user)
-        })
-        .then(() => {
-          userstore.setAws({ cognitoUser: userstore.CognitoUser })
-        })
-        .then(() => {
-          console.log(userstore.UserProfile.Theme)
-          SetTheme(userstore.UserProfile.Theme, this.$vuetify)
-          this.$notify('Cloud Data Synchronized', 'success')
-          this.loading = false
-          this.showError = false
-        })
-        .then(() => self.$nextTick())
-        .then(() => {
-          this.$emit('set-state', 'signed-in')
-        })
-        .catch(error => {
-          this.loading = false
-          this.showError = true
-          this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`
-        })
+      // if (this.loading) return; // debounce if already loading
+      // this.loading = true;
+      // const userEmail = this.email.trim(); // use safe const for auth
+      // this.email = userEmail;
+      // // const userstore =this.getModule(UserStore);
+      // // eslint-disable-next-line @typescript-eslint/no-this-alias
+      // const self = this;
+      // Auth.signIn(userEmail, this.password)
+      //   .catch((error) => {
+      //     if (error.name === 'UserNotFoundException') {
+      //       return Auth.signIn(userEmail.toLowerCase(), this.password);
+      //     }
+      //     throw error;
+      //   })
+      //   .then((user) => {
+      //     console.log(user);
+      //     localStorage.removeItem('user.config');
+      //     userstore.setCognitoUser(user);
+      //   })
+      //   .then(() => {
+      //     userstore.setAws({ cognitoUser: userstore.CognitoUser });
+      //   })
+      //   .then(() => {
+      //     console.log(userstore.UserProfile.Theme);
+      //     SetTheme(userstore.UserProfile.Theme, this.$vuetify);
+      //     this.$notify('Cloud Data Synchronized', 'success');
+      //     this.loading = false;
+      //     this.showError = false;
+      //   })
+      //   .then(() => self.$nextTick())
+      //   .then(() => {
+      //     this.$emit('set-state', 'signed-in');
+      //   })
+      //   .catch((error) => {
+      //     this.loading = false;
+      //     this.showError = true;
+      //     this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`;
+      //   });
     },
-    emailValid(){
-      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)
-    }
+    emailValid() {
+      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email);
+    },
   },
-})
+};
 </script>

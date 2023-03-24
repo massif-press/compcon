@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'contributor',
   props: {
     label: String,
@@ -16,11 +15,13 @@ export default Vue.extend({
   },
   computed: {
     title(): string {
-      return this.reverse ? `${this.label} ${this.value}` : `${this.value} ${this.label}`
+      return this.reverse
+        ? `${this.label} ${this.value}`
+        : `${this.value} ${this.label}`;
     },
     content(): string {
-      return this.contributors.join('<br />')
+      return this.contributors.join('<br />');
     },
   },
-})
+};
 </script>

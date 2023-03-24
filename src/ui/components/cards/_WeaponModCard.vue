@@ -1,26 +1,42 @@
 <template>
   <equipment-card-base :item="item">
     <v-col cols="auto" class="text-center">
-      <v-icon size="56px" color="stark" class="mt-n3 mb-n2">cci-weapon-mod</v-icon>
-      <div class="overline mb-n1">
-        WEAPON
-      </div>
-      <div class="overline">
-        MODIFICATION
-      </div>
+      <v-icon size="56px" color="stark" class="mt-n3 mb-n2"
+        >cc:weapon-mod</v-icon
+      >
+      <div class="overline mb-n1">WEAPON</div>
+      <div class="overline">MODIFICATION</div>
     </v-col>
     <v-divider vertical class="mx-4" />
-    <v-col v-if="item.AddedRange && item.AddedRange.length" cols="auto" align-self="center">
+    <v-col
+      v-if="item.AddedRange && item.AddedRange.length"
+      cols="auto"
+      align-self="center"
+    >
       <cc-range-element :range="item.AddedRange" added />
     </v-col>
-    <v-divider v-if="item.AddedRange && item.AddedRange.length" vertical class="mx-4" />
-    <v-col v-if="item.AddedDamage && item.AddedDamage.length" cols="auto" align-self="center">
+    <v-divider
+      v-if="item.AddedRange && item.AddedRange.length"
+      vertical
+      class="mx-4"
+    />
+    <v-col
+      v-if="item.AddedDamage && item.AddedDamage.length"
+      cols="auto"
+      align-self="center"
+    >
       <cc-damage-element :damage="item.AddedDamage" added />
     </v-col>
-    <v-divider v-if="item.AddedDamage && item.AddedDamage.length" vertical class="mx-4" />
+    <v-divider
+      v-if="item.AddedDamage && item.AddedDamage.length"
+      vertical
+      class="mx-4"
+    />
     <v-col v-if="item.SP" cols="auto" class="text-center">
       <div class="panel clipped">
-        <v-icon v-for="n in item.SP" :key="`${item.ID}_sp-${n}`" x-large>cci-system-point</v-icon>
+        <v-icon v-for="n in item.SP" :key="`${item.ID}_sp-${n}`" x-large
+          >cc:system-point</v-icon
+        >
       </div>
       <span class="overline">
         <b>{{ item.SP }}</b>
@@ -29,7 +45,9 @@
     </v-col>
     <v-col cols="auto" class="ml-auto text-right">
       <span class="flavor-text subtle--text">// {{ item.LicenseString }}</span>
-      <div v-if="item.InLcp" class="flavor-text subtle--text">{{ item.LcpName }}</div>
+      <div v-if="item.InLcp" class="flavor-text subtle--text">
+        {{ item.LcpName }}
+      </div>
       <div v-if="item.Restricted">
         <span class="stat-text error--text">
           RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS
@@ -44,7 +62,7 @@
           :key="`${item.ID}_allowedtype_${a}`"
           small
           label
-          outlined
+          variant="outlined"
           class="text-uppercase"
         >
           {{ a }}
@@ -67,7 +85,7 @@
             :key="`${item.ID}_restrictedtype_${a}`"
             small
             label
-            outlined
+            variant="outlined"
             color="error"
             class="text-uppercase"
           >
@@ -90,13 +108,16 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import EquipmentCardBase from './_EquipmentCardBase.vue'
-import { WeaponMod } from '@/class'
+import EquipmentCardBase from './_EquipmentCardBase.vue';
 
-@Component({ components: { EquipmentCardBase } })
-export default class WeaponModCard extends Vue {
-  @Prop({ type: Object, required: true })
-  readonly item: WeaponMod
-}
+export default {
+  name: 'WeaponModCard',
+  components: { EquipmentCardBase },
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
+};
 </script>

@@ -32,13 +32,11 @@
 </template>
 
 <script lang="ts">
-import _ from 'lodash'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
+import _ from 'lodash';
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue';
 
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'full-activation-dialog',
   components: { ActionDetailExpander, ItemSelectorRow },
   props: {
@@ -56,27 +54,27 @@ export default Vue.extend({
   }),
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
     actions() {
       const availableActions = this.state
         .ItemActions('Full')
-        .filter(x => this.state.AvailableActions.includes(x.ID))
-      return _.groupBy(availableActions, 'Origin')
+        .filter((x) => this.state.AvailableActions.includes(x.ID));
+      return _.groupBy(availableActions, 'Origin');
     },
   },
   methods: {
     activate(action) {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
-      this.selected = action
+      const self = this;
+      this.selected = action;
       Vue.nextTick()
         .then(() => (self.selected = action))
-        .then(() => Vue.nextTick().then(() => self.$refs.i_dialog.show()))
+        .then(() => Vue.nextTick().then(() => self.$refs.i_dialog.show()));
     },
     init() {
-      this.selected = null
+      this.selected = null;
     },
   },
-})
+};
 </script>

@@ -7,11 +7,22 @@
             <span class="heading h3">{{ item.Name }}</span>
           </v-col>
           <v-col cols="auto">
-            <v-chip v-for="(l, i) in item.Labels" :key="l + i" small outlined label v-html="l" />
+            <v-chip
+              v-for="(l, i) in item.Labels"
+              :key="l + i"
+              small
+              variant="outlined"
+              label
+              v-html="l"
+            />
           </v-col>
         </v-row>
 
-        <div v-if="item.Description" class="mx-2 my-n1" v-html-safe="item.Description" />
+        <div
+          v-if="item.Description"
+          class="mx-2 my-n1"
+          v-html-safe="item.Description"
+        />
 
         <div v-if="item.NarrativeController.TextItems.length">
           <v-row v-for="(s, i) in item.Sections" :key="`section_${i}`" dense>
@@ -57,11 +68,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'npc-print-content',
   props: { item: { type: Object, required: true } },
-})
+};
 </script>
 
 <style scoped>
@@ -79,7 +89,7 @@ fieldset {
   padding: 0 4px;
   height: 100%;
   border-radius: 3px;
-  border-color: var(--v-grey-lighten2);
+  border-color: rgb(var(--v-theme-grey-lighten2));
 }
 
 @media print {

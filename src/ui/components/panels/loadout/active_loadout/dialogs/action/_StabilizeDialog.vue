@@ -1,12 +1,19 @@
 <template>
-  <div :class="$vuetify.breakpoint.smAndDown ? 'mt-5' : ''">
+  <div :class="$vuetify.display.smAndDown ? 'mt-5' : ''">
     <action-detail-expander :action="action" />
     <v-row justify="center" align="center">
       <v-col cols="12" lg="">
         <v-row dense justify="space-around">
           <v-col cols="12" lg="auto">
-            <div class="heading h3 text-center">Choose one of the following:</div>
-            <v-radio-group v-model="state.StabilizeMajor" dense hide-details column>
+            <div class="heading h3 text-center">
+              Choose one of the following:
+            </div>
+            <v-radio-group
+              v-model="state.StabilizeMajor"
+              dense
+              hide-details
+              column
+            >
               <v-radio
                 label="Cool Mech, resetting the heat gauge and ending the EXPOSED status"
                 value="cool"
@@ -22,12 +29,18 @@
               />
             </v-radio-group>
           </v-col>
-          <v-col v-if="$vuetify.breakpoint.mdAndUp" cols="auto">
+          <v-col v-if="$vuetify.display.mdAndUp" cols="auto">
             <v-divider vertical />
           </v-col>
           <v-col cols="12" lg="auto">
             <div class="heading h3 text-center">And one of the following:</div>
-            <v-radio-group v-model="state.StabilizeMinor" color="accent" dense hide-details column>
+            <v-radio-group
+              v-model="state.StabilizeMinor"
+              color="accent"
+              dense
+              hide-details
+              column
+            >
               <v-radio
                 label="Reload all weapons with the LOADING Tag"
                 value="reload"
@@ -64,7 +77,7 @@
           :color="action.Color"
           @click="$emit('use')"
         >
-          <v-icon left>{{ action.Icon }}</v-icon>
+          <v-icon start>{{ action.Icon }}</v-icon>
           {{ action.Name }}
         </v-btn>
         <v-btn
@@ -77,13 +90,15 @@
           color="action--free"
           @click="$emit('use', true)"
         >
-          <v-icon left small>cci-free-action</v-icon>
+          <v-icon start small>cc:free-action</v-icon>
           Free Action
           <cc-tooltip
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon right small class="fadeSelect">mdi-information-outline</v-icon>
+            <v-icon end small class="fadeSelect"
+              >mdi-information-outline</v-icon
+            >
           </cc-tooltip>
         </v-btn>
       </v-col>
@@ -92,10 +107,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
 
-export default Vue.extend({
+export default {
   name: 'stabilize-dialog',
   components: { ActionDetailExpander },
   props: {
@@ -111,11 +125,11 @@ export default Vue.extend({
   },
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
     canUse() {
-      return this.state.StabilizeMajor && this.state.StabilizeMinor
+      return this.state.StabilizeMajor && this.state.StabilizeMinor;
     },
   },
-})
+};
 </script>

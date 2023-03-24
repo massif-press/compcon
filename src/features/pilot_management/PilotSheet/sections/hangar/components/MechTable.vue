@@ -10,7 +10,13 @@
     <tbody>
       <tr v-for="m in mechs" :key="m.ID">
         <td>
-          <v-btn text color="accent" class="heading h3" @click="$emit('go', m)">{{ m.Name }}</v-btn>
+          <v-btn
+            text
+            color="accent"
+            class="heading h3"
+            @click="$emit('go', m)"
+            >{{ m.Name }}</v-btn
+          >
         </td>
         <td>{{ m.Frame.Source }} {{ m.Frame.Name }}</td>
         <td>
@@ -22,9 +28,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Mech } from '@/class'
-export default Vue.extend({
+import { Mech } from '@/class';
+export default {
   name: 'mech-table',
   props: {
     mechs: {
@@ -37,8 +42,8 @@ export default Vue.extend({
       // if (m.Destroyed) return ['DESTROYED', 'red--text text--darken-2']
       // if (m.ReactorDestroyed) return ['REACTOR DESTROYED', 'error--text']
       // if (m.IsActive) return ['ACTIVE', 'success--text']
-      return ['STANDBY', 'subtle--text text--darken-2']
+      return ['STANDBY', 'subtle--text text--darken-2'];
     },
   },
-})
+};
 </script>

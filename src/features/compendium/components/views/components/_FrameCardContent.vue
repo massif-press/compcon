@@ -13,10 +13,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CCardBase from './_cCardBase.vue'
+import CCardBase from './_cCardBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'frame-card-content',
   components: { CCardBase },
   props: {
@@ -24,5 +23,5 @@ export default Vue.extend({
     small: { type: Boolean },
     hover: { type: Boolean },
   },
-})
+};
 </script>

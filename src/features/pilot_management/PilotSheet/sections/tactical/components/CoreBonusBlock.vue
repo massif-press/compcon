@@ -1,6 +1,11 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
+    <cc-title
+      small
+      color="pilot"
+      class="pl-3"
+      style="margin-left: -50px !important"
+    >
       <section-edit-chip
         :highlight="!pilot.CoreBonusController.HasCBs"
         :current="pilot.CoreBonusController.CurrentCBPoints"
@@ -12,7 +17,7 @@
     </cc-title>
     <cc-solo-dialog
       ref="bonusSelector"
-      icon="cci-corebonus"
+      icon="cc:corebonus"
       no-confirm
       title="Set Pilot CORE Bonuses"
       fullscreen
@@ -27,7 +32,7 @@
           :key="`b_${i}`"
           cols="12"
           md=""
-          :style="$vuetify.breakpoint.mdAndUp ? 'min-width: 500px;' : ''"
+          :style="$vuetify.display.mdAndUp ? 'min-width: 500px;' : ''"
         >
           <cc-core-bonus-item :bonus="b" />
         </v-col>
@@ -37,11 +42,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SectionEditChip from '../../components/SectionEditChip.vue'
-import NoDataBlock from '../../components/NoDataBlock.vue'
+import SectionEditChip from '../../components/SectionEditChip.vue';
+import NoDataBlock from '../../components/NoDataBlock.vue';
 
-export default Vue.extend({
+export default {
   name: 'skill-block',
   components: { NoDataBlock, SectionEditChip },
   props: {
@@ -50,5 +54,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

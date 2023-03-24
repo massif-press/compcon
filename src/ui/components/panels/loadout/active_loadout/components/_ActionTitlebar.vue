@@ -1,6 +1,15 @@
 <template>
-  <cc-titlebar large :color="unusable ? '#616161' : action.Color" class="white--text">
-    <v-icon v-if="!noAction" dark x-large v-html="unusable ? 'mdi-cancel' : action.Icon" />
+  <cc-titlebar
+    large
+    :color="unusable ? '#616161' : action.Color"
+    class="white--text"
+  >
+    <v-icon
+      v-if="!noAction"
+      dark
+      x-large
+      v-html="unusable ? 'mdi-cancel' : action.Icon"
+    />
     {{ action.Name }}
     <span v-if="unusable" class="flavor-text">
       <cc-slashes />
@@ -17,9 +26,9 @@
 </template>
 
 <script lang="ts">
-import { ActivationType } from '@/classes/enums'
-import Vue from 'vue'
-export default Vue.extend({
+import { ActivationType } from '@/classes/enums';
+
+export default {
   name: 'action-titlebar',
   props: {
     used: { type: Boolean },
@@ -35,18 +44,18 @@ export default Vue.extend({
   },
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
     cost() {
-      if (this.action.Activation === ActivationType.Full) return 2
-      if (this.action.Activation === ActivationType.Quick) return 1
-      return 0
+      if (this.action.Activation === ActivationType.Full) return 2;
+      if (this.action.Activation === ActivationType.Quick) return 1;
+      return 0;
     },
     unusable() {
       if (this.action.Activation === ActivationType.Protocol)
-        return this.used || !this.mech.Pilot.State.IsProtocolAvailable
-      return this.used || this.state.Actions < this.cost
+        return this.used || !this.mech.Pilot.State.IsProtocolAvailable;
+      return this.used || this.state.Actions < this.cost;
     },
   },
-})
+};
 </script>

@@ -1,15 +1,19 @@
 <template>
   <v-dialog
     v-model="dialog"
-    :fullscreen="$vuetify.breakpoint.mdAndDown"
-    :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
+    :fullscreen="$vuetify.display.mdAndDown"
+    :style="$vuetify.display.mdAndDown ? `x-overflow: hidden` : ''"
     width="90vw"
   >
     <v-card tile class="background">
       <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text class="pt-4">
-        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
+        <cc-active-synergy
+          :locations="action.SynergyLocations"
+          :mech="mech"
+          class="mb-n4"
+        />
 
         <v-row justify="center" align="center">
           <v-col cols="12" md="">
@@ -52,7 +56,7 @@
               >
                 <v-card
                   tile
-                  outlined
+                  variant="outlined"
                   :class="selected === a ? 'optionSelect' : 'optionFade'"
                   @click="select(a)"
                 >
@@ -72,7 +76,11 @@
         </v-slide-x-reverse-transition>
 
         <v-slide-x-reverse-transition>
-          <v-row v-if="failed || (succeeded && selected)" no-gutters class="mt-2">
+          <v-row
+            v-if="failed || (succeeded && selected)"
+            no-gutters
+            class="mt-2"
+          >
             <v-col cols="auto" class="ml-auto" align="end">
               <v-fade-transition v-for="(s, i) in skLog" :key="`skLog_${i}`">
                 <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
@@ -91,8 +99,15 @@
         <v-slide-x-reverse-transition>
           <v-row v-if="finished" no-gutters>
             <v-col cols="auto" class="ml-auto">
-              <cc-tooltip content="Undo this action, refunding any cost it may have had">
-                <v-btn x-small color="primary" class="fadeSelect" @click="reset">
+              <cc-tooltip
+                content="Undo this action, refunding any cost it may have had"
+              >
+                <v-btn
+                  x-small
+                  color="primary"
+                  class="fadeSelect"
+                  @click="reset"
+                >
                   <v-icon small left>mdi-reload</v-icon>
                   UNDO
                 </v-btn>
@@ -116,16 +131,21 @@
 </template>
 
 <script lang="ts">
-import { ActivationType, DiceRoller } from '@/class'
-import Vue from 'vue'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
-import ActionTitlebar from '../../components/_ActionTitlebar.vue'
-import TechAttack from '../../components/_TechAttack.vue'
-import ActionActivationButtons from '../../components/_ActionActivationButtons.vue'
+import { ActivationType, DiceRoller } from '@/class';
 
-export default Vue.extend({
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
+import ActionTitlebar from '../../components/_ActionTitlebar.vue';
+import TechAttack from '../../components/_TechAttack.vue';
+import ActionActivationButtons from '../../components/_ActionActivationButtons.vue';
+
+export default {
   name: 'invade-dialog',
-  components: { ActionDetailExpander, ActionTitlebar, TechAttack, ActionActivationButtons },
+  components: {
+    ActionDetailExpander,
+    ActionTitlebar,
+    TechAttack,
+    ActionActivationButtons,
+  },
   props: {
     mech: {
       type: Object,
@@ -150,21 +170,23 @@ export default Vue.extend({
   }),
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
     actions() {
-      return this.state.TechActions.filter(x => x.Activation === ActivationType.Invade)
+      return this.state.TechActions.filter(
+        (x) => x.Activation === ActivationType.Invade
+      );
     },
     skLog() {
-      let l = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.']
+      let l = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.'];
       if (this.succeeded) {
-        l.push('SYSTEM INVASION SUCCESSFUL.')
-        l = l.concat(this.selected.Log)
-      } else l.push('ACCESS DENIED. INVASION FAILURE RECORDED.')
-      return l
+        l.push('SYSTEM INVASION SUCCESSFUL.');
+        l = l.concat(this.selected.Log);
+      } else l.push('ACCESS DENIED. INVASION FAILURE RECORDED.');
+      return l;
     },
     round() {
-      return this.state.Round
+      return this.state.Round;
     },
   },
   watch: {
@@ -172,87 +194,87 @@ export default Vue.extend({
       immediate: true,
       deep: true,
       handler: function () {
-        this.reset()
+        this.reset();
       },
     },
   },
   methods: {
     use(free) {
-      this.actionFree = free
-      this.actionCost = !free
+      this.actionFree = free;
+      this.actionCost = !free;
     },
     runTimeout() {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const self = this
+      const self = this;
       const timer = setInterval(function () {
-        self.timer++
+        self.timer++;
 
         if (self.timer > self.skLog.length * 10) {
-          clearInterval(timer)
-          self.finished = true
+          clearInterval(timer);
+          self.finished = true;
         }
-      }, 80)
+      }, 80);
     },
     select(a) {
       if (this.fulltech) {
-        this.$emit('add-invade', a)
-        this.init()
-        this.hide()
+        this.$emit('add-invade', a);
+        this.init();
+        this.hide();
       } else {
-        this.state.CommitAction(this.action, this.actionFree)
+        this.state.CommitAction(this.action, this.actionFree);
       }
-      this.$emit('use')
-      this.selected = a
-      this.runTimeout()
+      this.$emit('use');
+      this.selected = a;
+      this.runTimeout();
     },
     techAttackComplete(success) {
       if (success) {
-        this.succeeded = true
+        this.succeeded = true;
       } else {
         if (this.fulltech) {
-          this.$emit('add-fail')
-          this.init()
-          this.hide()
+          this.$emit('add-fail');
+          this.init();
+          this.hide();
         } else {
-          this.state.CommitAction(this.action, this.actionFree)
+          this.state.CommitAction(this.action, this.actionFree);
         }
-        this.failed = true
-        this.$emit('use')
-        this.runTimeout()
+        this.failed = true;
+        this.$emit('use');
+        this.runTimeout();
       }
     },
     undo() {
-      this.state.Undo(this.action, this.actionFree)
-      this.reset()
+      this.state.Undo(this.action, this.actionFree);
+      this.reset();
     },
     reset() {
-      this.$emit('undo')
-      this.init()
+      this.$emit('undo');
+      this.init();
     },
     init() {
-      this.succeeded = false
-      this.failed = false
-      this.complete = false
-      this.actionCost = false
-      this.actionFree = false
-      this.timer = 0
-      this.finished = false
-      this.selected = null
+      this.succeeded = false;
+      this.failed = false;
+      this.complete = false;
+      this.actionCost = false;
+      this.actionFree = false;
+      this.timer = 0;
+      this.finished = false;
+      this.selected = null;
     },
     show(): void {
-      this.dialog = true
+      this.dialog = true;
     },
     hide(): void {
-      this.init()
-      this.dialog = false
+      this.init();
+      this.dialog = false;
     },
   },
-})
+};
 </script>
 
 <style scoped>
 .optionSelect {
-  border-color: var(--v-warning-base);
+  border-color: rgb(var(--v-theme-warning));
   opacity: 1;
 }
 

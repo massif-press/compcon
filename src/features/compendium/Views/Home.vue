@@ -4,7 +4,7 @@
       <div
         class="font-weight-light text-center my-n2"
         :style="
-          $vuetify.breakpoint.mdAndDown
+          $vuetify.display.mdAndDown
             ? 'letter-spacing: 1vw!important; font-size: 7vw!important;'
             : 'letter-spacing: 2vw!important; font-size: 4vw!important;'
         "
@@ -21,14 +21,16 @@
       <v-container fluid grid-list-lg class="mt-0 pt-0">
         <v-row
           dense
-          :justify="$vuetify.breakpoint.smAndDown ? 'space-between' : 'space-around'"
+          :justify="
+            $vuetify.display.smAndDown ? 'space-between' : 'space-around'
+          "
           align="center"
         >
           <compendium-page-button
             lg="4"
             md="6"
             sm="12"
-            icon="cci-manufacturer"
+            icon="cc:manufacturer"
             name="Manufacturers"
             @clicked="$router.push('compendium/manufacturers')"
           />
@@ -37,7 +39,7 @@
             md="6"
             sm="12"
             color="primary"
-            icon="cci-license"
+            icon="cc:license"
             name="Licenses"
             @clicked="$router.push('compendium/licenses')"
           />
@@ -45,7 +47,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="cci-corebonus"
+            icon="cc:corebonus"
             name="CORE Bonuses"
             @clicked="$router.push('compendium/corebonuses')"
           />
@@ -54,7 +56,7 @@
             md="6"
             sm="12"
             color="frame"
-            icon="cci-frame"
+            icon="cc:frame"
             name="Frames"
             @clicked="$router.push('compendium/frames')"
           />
@@ -63,7 +65,7 @@
             md="6"
             sm="12"
             color="weapon"
-            icon="cci-melee"
+            icon="cc:melee"
             name="Mech Weapons"
             @clicked="$router.push('compendium/weapons')"
           />
@@ -81,7 +83,7 @@
             md="6"
             sm="12"
             color="secondary"
-            icon="cci-pilot"
+            icon="cc:pilot"
             name="Pilot Gear"
             @clicked="$router.push('compendium/pilot_gear')"
           />
@@ -99,7 +101,7 @@
             md="6"
             sm="12"
             color="secondary"
-            icon="cci-accuracy"
+            icon="cc:accuracy"
             name="Skill Triggers"
             @clicked="$router.push('compendium/skills')"
           />
@@ -108,7 +110,7 @@
             md="6"
             sm="12"
             color="secondary"
-            icon="cci-rank-3"
+            icon="cc:rank-3"
             name="Talents"
             @clicked="$router.push('compendium/talents')"
           />
@@ -127,7 +129,7 @@
             md="6"
             sm="12"
             color="primary"
-            icon="cci-npc-class"
+            icon="cc:npc-class"
             name="NPC Classes"
             @clicked="$router.push('compendium/npc_classes')"
           />
@@ -136,7 +138,7 @@
             md="6"
             sm="12"
             color="primary"
-            icon="cci-npc-feature"
+            icon="cc:npc-feature"
             name="NPC Features"
             @clicked="$router.push('compendium/npc_features')"
           />
@@ -145,7 +147,7 @@
             md="6"
             sm="12"
             color="primary"
-            icon="cci-npc-template"
+            icon="cc:npc-template"
             name="NPC Templates"
             @clicked="$router.push('compendium/npc_templates')"
           />
@@ -153,7 +155,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="cci-status-exposed"
+            icon="cc:status-exposed"
             name="Statuses & Conditions"
             @clicked="$router.push('compendium/statuses')"
           />
@@ -161,7 +163,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="cci-reserve-mech"
+            icon="cc:reserve-mech"
             name="Reserves"
             @clicked="$router.push('compendium/reserves')"
           />
@@ -169,7 +171,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="cci-activate"
+            icon="cc:activate"
             name="Action Economy"
             @clicked="$router.push('compendium/actions')"
           />
@@ -185,7 +187,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="cci-accuracy"
+            icon="cc:accuracy"
             name="Reference"
             @clicked="$router.push('compendium/reference')"
           />
@@ -193,7 +195,7 @@
             lg="4"
             md="6"
             sm="12"
-            icon="cci-compendium"
+            icon="cc:compendium"
             name="Glossary"
             @clicked="$router.push('compendium/glossary')"
           />
@@ -204,19 +206,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SearchBar from '../SearchBar.vue'
-import CompendiumPageButton from '../components/CompendiumPageButton.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import SearchBar from '../SearchBar.vue';
+import CompendiumPageButton from '../components/CompendiumPageButton.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+
+export default {
   name: 'compendium-home',
   components: { SearchBar, CompendiumPageButton },
   computed: {
     hasBonds() {
-      return getModule(CompendiumStore, this.$store).Bonds.length
+      return this.getModule(CompendiumStore).Bonds.length;
     },
   },
-})
+};
 </script>

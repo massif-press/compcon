@@ -1,11 +1,11 @@
 .diag-stripes {
   background-image: linear-gradient(
     135deg,
-    var(--v-primary-base) 25%,
+    rgb(var(--v-theme-primary)) 25%,
     transparent 25%,
     transparent 50%,
-    var(--v-primary-base) 50%,
-    var(--v-primary-base) 75%,
+    rgb(var(--v-theme-primary)) 50%,
+    rgb(var(--v-theme-primary)) 75%,
     transparent 75%,
     transparent 100%
   );

@@ -22,10 +22,9 @@
 </template>
 
 <script lang="ts">
-import EncounterRowItem from './EncounterRowItem.vue'
+import EncounterRowItem from './EncounterRowItem.vue';
 
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'encounter-table',
   components: { EncounterRowItem },
   // props: {encounters: {type: Array, required: true}}
@@ -33,5 +32,5 @@ export default Vue.extend({
   data: () => ({
     encounters: [1, 2, 3],
   }),
-})
+};
 </script>

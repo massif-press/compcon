@@ -1,56 +1,18 @@
-<h1 align="center">COMP/CON</h1>
- 
-<p align="center" style="font-style: italic; font-weight: bold">
-  <img width="250" src="public/img/icons/192x192.png">
-</p>
-<p align="center"><b><i>The companion app for <a href="https://massif-press.itch.io/corebook-pdf">Massif Press's LANCER Tabletop RPG</a></b></i></p>
-<p align="center">
-  <a href="https://massif-press.itch.io/compcon"><img width="250" src="https://static.itch.io/images/badge-color.svg"></a>
-  <br>
-  <a href="https://compcon.app">
-    <img width="200" src="https://www.netlify.com/img/global/badges/netlify-color-accent.svg"/>
-  </a>
-  <br>
-  <a href="https://app.netlify.com/sites/compcon/deploys"><img alt="Netlify Status" src="https://api.netlify.com/api/v1/badges/8c8ba126-8074-4a99-98f9-9b0529107214/deploy-status"></a>
-  <!-- <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a> -->
-  <a href="https://discord.gg/rwcpzsU"><img src="https://img.shields.io/badge/discord-%23compcon-7289DA?logo=discord&logoColor=white" alt="Join the LANCER discord"></a>
-  <br>
-  <a href="https://patreon.com/compcon"><img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fcompcon" alt="Support COMP/CON on Patreon"></a>
-</p>
+# Vue 3 + TypeScript + Vite
 
-## Features
+This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-- Character & mech creation
-  - Active Play Mode for status tracking during sessions
-- Compendium
-- Encounter Toolkit for GMs
-  - NPC Roster
-  - Encounter Builder & Mission Runner
-- Homebrew Support
+## Recommended IDE Setup
 
-## Contributing
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-See [CONTRIBUTORS](CONTRIBUTORS.md).
+## Type Support For `.vue` Imports in TS
 
-## Building
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
 
-COMP/CON is built with [Vue.js](https://vuejs.org/).
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
 
-```sh
-# Install dependencies
-  yarn
-# Run in dev mode in the browser, with hot reloading
-  yarn serve
-# Build
-  yarn build
-```
-
-## Got a problem?
-
-- [**Request a feature/Report a bug**](https://forms.gle/pj6o8BzxCe4xGQ5M7)
-
-You can also just [create an issue](https://github.com/massif-press/compcon/issues/new) if you know what you're doing.
-
-## License
-
-[GPL](/LICENSE)
+1. Disable the built-in TypeScript Extension
+   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.

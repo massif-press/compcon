@@ -1,7 +1,12 @@
 <template>
-  <transition-group name="fade-transition" :duration="250" tag="div" class="row justify-start pr-4">
+  <transition-group
+    name="fade-transition"
+    :duration="250"
+    tag="div"
+    class="row justify-start pr-4"
+  >
     <v-col
-      v-for="cd in actors.flatMap(x => x.CounterController.CounterData)"
+      v-for="cd in actors.flatMap((x) => x.CounterController.CounterData)"
       :key="cd.id"
       cols="auto"
     >
@@ -19,12 +24,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CounterComponent from './_Counter.vue'
-import NewCounter from './_NewCounter.vue'
-import { Counter } from '@/class'
+import CounterComponent from './_Counter.vue';
+import NewCounter from './_NewCounter.vue';
+import { Counter } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'cc-counter-set',
   components: { CounterComponent, NewCounter },
   props: {
@@ -35,22 +39,22 @@ export default Vue.extend({
   },
   computed: {
     actors() {
-      if (Array.isArray(this.actor)) return this.actor
-      return [this.actor]
+      if (Array.isArray(this.actor)) return this.actor;
+      return [this.actor];
     },
   },
   methods: {
     onCustomCounterCreate(name: string) {
-      this.actors[0].CounterController.createCustomCounter(name)
+      this.actors[0].CounterController.createCustomCounter(name);
     },
     updateCounter(val: Counter) {
-      this.actors[0].CounterController.saveCounter(val.Serialize())
+      this.actors[0].CounterController.saveCounter(val.Serialize());
     },
     deleteCustom(id: string) {
-      this.actors[0].CounterController.deleteCustomCounter(id)
+      this.actors[0].CounterController.deleteCustomCounter(id);
     },
   },
-})
+};
 </script>
 
 <style scoped>

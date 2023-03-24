@@ -4,7 +4,11 @@
     <cc-title class="mb-2">dice menu</cc-title>
     <cc-dice-menu />
     <cc-dice-menu preset="2d6+1" title="preset 1" autoroll />
-    <cc-dice-menu preset="2d6+1d20+3d8-9" :preset-accuracy="-2" title="preset 2" />
+    <cc-dice-menu
+      preset="2d6+1d20+3d8-9"
+      :preset-accuracy="-2"
+      title="preset 2"
+    />
 
     <v-divider />
     <cc-title class="mb-2">new talent ui</cc-title>
@@ -70,7 +74,7 @@
         <v-col v-for="i in allIcons()" :key="i" dense style="min-width: 200px">
           <v-card outlined>
             <v-card-text class="text-center">
-              <v-icon size="70px">cci-{{ i }}</v-icon>
+              <v-icon size="70px">cc:{{ i }}</v-icon>
               <br />
               <span class="caption">{{ i }}</span>
             </v-card-text>
@@ -109,7 +113,9 @@
           <v-btn block color="primary" tile>block button</v-btn>
         </v-col>
         <v-col>
-          <v-btn block color="primary" tile outlined>outlined block button</v-btn>
+          <v-btn block color="primary" tile variant="outlined"
+            >outlined block button</v-btn
+          >
         </v-col>
         <v-col>
           <v-btn block color="primary" text>text block button</v-btn>
@@ -162,7 +168,11 @@
           <v-text-field v-model="notificationText" class="pt-0 mt-0" />
         </v-col>
         <v-col cols="3">
-          <v-select v-model="notificationType" class="pt-0 mt-0" :items="notificationTypes" />
+          <v-select
+            v-model="notificationType"
+            class="pt-0 mt-0"
+            :items="notificationTypes"
+          />
         </v-col>
         <v-col cols="2">
           <v-btn :disabled="!notificationText" @click="doNotify">Notify</v-btn>
@@ -176,9 +186,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore } from '@/store';
 
 const icons = [
   'npc-template',
@@ -299,8 +307,8 @@ const icons = [
   'sword-array',
   'marker',
   'barrage',
-]
-export default Vue.extend({
+];
+export default {
   name: 'ui-test',
   data: () => ({
     notificationText: 'test',
@@ -323,50 +331,60 @@ export default Vue.extend({
   }),
   computed: {
     process() {
-      return process
+      return process;
     },
     env() {
-      return process.env
+      return import.meta.env;
     },
   },
   created() {
-    const s = getModule(CompendiumStore, this.$store)
-    this.genericExample = s.MechSystems.find(x => x.ID === 'ms_eva_module')
-    this.chargeExample = s.MechSystems.find(x => x.ID === 'ms_pattern_a_smoke_charges')
-    this.deployExample = s.MechSystems.find(x => x.ID === 'ms_pattern_a_jericho_deployable_cover')
-    this.droneExample = s.MechSystems.find(x => x.ID === 'ms_turret_drones')
-    this.multipleExample = s.MechSystems.find(x => x.ID === 'ms_reinforced_cabling')
-    this.aiExample = s.MechSystems.find(x => x.ID === 'ms_sekhmet_class_nhp')
-    this.techExample = s.MechSystems.find(x => x.ID === 'ms_neurospike')
-    this.reactionExample = s.MechSystems.find(x => x.ID === 'ms_singularity_motivator')
-    this.profileExample = s.MechWeapons.find(x => x.ID === 'mw_siege_cannon')
-    this.onAttackExample = s.MechWeapons.find(x => x.ID === 'mw_plasma_thrower')
-    this.onHitExample = s.MechWeapons.find(x => x.ID === 'mw_annihilator')
-    this.onCritExample = s.MechWeapons.find(x => x.ID === 'mw_chain_axe')
-    this.asDroneExample = s.MechWeapons.find(x => x.ID === 'mw_ghast_nexus')
-    this.exampleTalents = s.Talents.sort(() => 0.5 - Math.random()).slice(0, 4)
-    console.log(this.exampleTalents)
+    const s = this.getModule(CompendiumStore);
+    this.genericExample = s.MechSystems.find((x) => x.ID === 'ms_eva_module');
+    this.chargeExample = s.MechSystems.find(
+      (x) => x.ID === 'ms_pattern_a_smoke_charges'
+    );
+    this.deployExample = s.MechSystems.find(
+      (x) => x.ID === 'ms_pattern_a_jericho_deployable_cover'
+    );
+    this.droneExample = s.MechSystems.find((x) => x.ID === 'ms_turret_drones');
+    this.multipleExample = s.MechSystems.find(
+      (x) => x.ID === 'ms_reinforced_cabling'
+    );
+    this.aiExample = s.MechSystems.find((x) => x.ID === 'ms_sekhmet_class_nhp');
+    this.techExample = s.MechSystems.find((x) => x.ID === 'ms_neurospike');
+    this.reactionExample = s.MechSystems.find(
+      (x) => x.ID === 'ms_singularity_motivator'
+    );
+    this.profileExample = s.MechWeapons.find((x) => x.ID === 'mw_siege_cannon');
+    this.onAttackExample = s.MechWeapons.find(
+      (x) => x.ID === 'mw_plasma_thrower'
+    );
+    this.onHitExample = s.MechWeapons.find((x) => x.ID === 'mw_annihilator');
+    this.onCritExample = s.MechWeapons.find((x) => x.ID === 'mw_chain_axe');
+    this.asDroneExample = s.MechWeapons.find((x) => x.ID === 'mw_ghast_nexus');
+    this.exampleTalents = s.Talents.sort(() => 0.5 - Math.random()).slice(0, 4);
+    console.log(this.exampleTalents);
   },
   methods: {
     allIcons() {
-      return icons
+      return icons;
     },
     allColors(theme) {
-      const t = this.$vuetify.theme.themes[theme]
-      const output = []
-      Object.keys(t).forEach(e => {
-        output.push({ name: e, color: t[e] })
-      })
-      return output
+      const t = this.$vuetify.theme.themes[theme];
+      const output = [];
+      Object.keys(t).forEach((e) => {
+        output.push({ name: e, color: t[e] });
+      });
+      return output;
     },
     dialog1Confirm() {
-      console.log('dialog 1 confirmed')
+      console.log('dialog 1 confirmed');
     },
     doNotify() {
       this.$notify(this.notificationText, this.notificationType, () =>
         console.log('yup, you clicked the notification!', this)
-      )
+      );
     },
   },
-})
+};
 </script>

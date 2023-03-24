@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" :fullscreen="$vuetify.breakpoint.mdAndDown" width="60vw" persistent>
+  <v-dialog
+    v-model="dialog"
+    :fullscreen="$vuetify.display.mdAndDown"
+    width="60vw"
+    persistent
+  >
     <v-card flat tile>
       <v-toolbar color="title-bg clipped-large" dark flat>
         <v-toolbar-title class="heading h1">OVERHEATING</v-toolbar-title>
@@ -8,7 +13,14 @@
         <v-window-item>
           <v-card-text class="text-center">
             <span class="flavor-text">
-              <v-alert prominent dark dense icon="cci-reactor" color="error" border="left" tile>
+              <v-alert
+                prominent
+                dark
+                dense
+                icon="cc:reactor"
+                color="error"
+                tile
+              >
                 <b class="heading h2">REACTOR STRESS CRITICAL</b>
               </v-alert>
               Roll 1d6 per point of reactor stress
@@ -30,7 +42,11 @@
                 </v-btn>
               </cc-tooltip>
             </div>
-            <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
+            <div
+              v-for="n in totalRolls - rolls.length"
+              :key="`er${n}`"
+              class="d-inline"
+            >
               <v-btn icon x-large disabled>
                 <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
               </v-btn>
@@ -60,13 +76,17 @@
                   icon
                   @click="rolls.push(n)"
                 >
-                  <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
+                  <v-icon
+                    class="die-hover"
+                    size="55px"
+                    v-html="`mdi-dice-${n}`"
+                  />
                 </v-btn>
               </div>
               <div v-else key="tr02">
                 <v-scroll-y-transition group>
                   <span
-                    v-if="rolls.filter(x => x === 1).length > 1"
+                    v-if="rolls.filter((x) => x === 1).length > 1"
                     key="t01"
                     class="heading h3 error--text"
                   >
@@ -78,7 +98,11 @@
                   </span>
                 </v-scroll-y-transition>
               </div>
-              <div v-if="rolls.length === totalRolls" :key="'undo_1'" class="text-right">
+              <div
+                v-if="rolls.length === totalRolls"
+                :key="'undo_1'"
+                class="text-right"
+              >
                 <v-btn
                   x-small
                   color="primary"
@@ -146,7 +170,9 @@
             </div>
             <div v-else>
               <v-btn color="error" large @click="window = 4">fail check</v-btn>
-              <v-btn color="success" large @click="applyPPD">succeed check</v-btn>
+              <v-btn color="success" large @click="applyPPD"
+                >succeed check</v-btn
+              >
             </div>
           </div>
           <cascade-check :mech="mech" />
@@ -168,80 +194,86 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import TableWindowItem from './_TableWindowItem.vue'
-import ResultData from './_stress_results.json'
-import CascadeCheck from './_CascadeCheck.vue'
-import { MechInstance } from '@/classes/components/combat/MechInstance'
+import TableWindowItem from './_TableWindowItem.vue';
+import ResultData from './_stress_results.json';
+import CascadeCheck from './_CascadeCheck.vue';
 
-@Component({
-  name: 'stress-table',
+export default {
+  name: 'StressTable',
   components: { TableWindowItem, CascadeCheck },
-})
-export default class CCStressTable extends Vue {
-  dialog = false
-  show(): void {
-    this.dialog = true
-  }
-  close(): void {
-    this.window = 0
-    this.rolls = []
-    this.dialog = false
-  }
-  window = 0
+  props: {
+    mech: {
+      type: Object,
+      required: true,
+    },
+  },
+  data: () => ({
+    dialog: false,
+    window: 0,
+    rolls: [],
+    resultData: ResultData,
+    results: [
+      'Meltdown',
+      'Power Plant Destabilize',
+      'Power Plant Destabilize',
+      'Power Plant Destabilize',
+      'Emergency Shunt',
+      'Emergency Shunt',
+    ],
+  }),
+  computed: {
+    totalRolls(): number {
+      return (
+        (this.mech.ActiveStatController.CurrentStress -
+          this.mech.StatController.MaxStress) *
+        -1
+      );
+    },
+    resultWindow(): number {
+      if (this.rolls.filter((x) => x === 1).length > 1) return 4;
+      switch (Math.min(...this.rolls)) {
+        case 6:
+        case 5:
+          return 1;
+        case 4:
+        case 3:
+        case 2:
+          return 2;
+        case 1:
+          return this.mech.ActiveStatController.CurrentStress <= 1 ? 4 : 3;
+      }
+      return 4;
+    },
+  },
+  methods: {
+    show(): void {
+      this.dialog = true;
+    },
+    close(): void {
+      this.window = 0;
+      this.rolls = [];
+      this.dialog = false;
+    },
+    rollRandom(): number {
+      return Math.floor(Math.random() * 6) + 1;
+    },
 
-  @Prop({ type: Object, required: true })
-  mech!: MechInstance
-
-  rolls = []
-  resultData = ResultData
-  results = [
-    'Meltdown',
-    'Power Plant Destabilize',
-    'Power Plant Destabilize',
-    'Power Plant Destabilize',
-    'Emergency Shunt',
-    'Emergency Shunt',
-  ]
-
-  get totalRolls(): number {
-    return (this.mech.ActiveStatController.CurrentStress - this.mech.StatController.MaxStress) * -1
-  }
-  get resultWindow(): number {
-    if (this.rolls.filter(x => x === 1).length > 1) return 4
-    switch (Math.min(...this.rolls)) {
-      case 6:
-      case 5:
-        return 1
-      case 4:
-      case 3:
-      case 2:
-        return 2
-      case 1:
-        return this.mech.ActiveStatController.CurrentStress <= 1 ? 4 : 3
-    }
-    return 4
-  }
-
-  rollRandom(): number {
-    return Math.floor(Math.random() * 6) + 1
-  }
-
-  applyES(): void {
-    if (!this.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
-      this.mech.ActiveStatController.Conditions.push('IMPAIRED')
-    this.close()
-  }
-  applyPPD(): void {
-    if (!this.mech.ActiveStatController.Conditions.includes('EXPOSED'))
-      this.mech.ActiveStatController.Conditions.push('EXPOSED')
-    this.close()
-  }
-  applyMeltdown(): void {
-    // this.mech.Pilot.State.ReactorCriticalDestruct()
-    this.close()
-  }
-}
+    applyES(): void {
+      if (!this.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
+        this.mech.ActiveStatController.Conditions.push('IMPAIRED');
+      this.close();
+    },
+    applyPPD(): void {
+      if (!this.mech.ActiveStatController.Conditions.includes('EXPOSED'))
+        this.mech.ActiveStatController.Conditions.push('EXPOSED');
+      this.close();
+    },
+    applyMeltdown(): void {
+      // this.mech.Pilot.State.ReactorCriticalDestruct()
+      this.close();
+    },
+  },
+};
 </script>
 
 <style scoped>

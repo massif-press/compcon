@@ -20,7 +20,7 @@
             v-model="complication1"
             label="Complication"
             :items="complications"
-            outlined
+            variant="outlined"
             dense
             hide-details
           />
@@ -30,7 +30,7 @@
             v-model="complication2"
             label="Complication"
             :items="complications"
-            outlined
+            variant="outlined"
             dense
             hide-details
           />
@@ -55,11 +55,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ReserveSelector from './_ReserveSelector.vue'
-import { Reserve } from '@/class'
+import ReserveSelector from './_ReserveSelector.vue';
+import { Reserve } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'power-at-cost',
   components: { ReserveSelector },
   props: {
@@ -83,8 +82,8 @@ export default Vue.extend({
   }),
   methods: {
     addReserve() {
-      const rs = this.$refs.rs
-      const r = rs.reserveByID(rs.reserve)
+      const rs = this.$refs.rs;
+      const r = rs.reserveByID(rs.reserve);
       const nr = new Reserve({
         id: rs.reserve || 'reserve_custom',
         type: rs.type,
@@ -96,17 +95,18 @@ export default Vue.extend({
         resource_cost: this.complication1,
         consumable: true,
         used: false,
-      })
-      if (this.complication2 !== 'None') nr.ResourceCost += `\n${this.complication2}`
-      this.pilot.ReservesController.AddReserve(nr)
-      this.close()
+      });
+      if (this.complication2 !== 'None')
+        nr.ResourceCost += `\n${this.complication2}`;
+      this.pilot.ReservesController.AddReserve(nr);
+      this.close();
     },
     close() {
-      this.complication1 = 'None'
-      this.complication2 = 'None'
-      this.$refs.rs.reset()
-      this.$emit('close')
+      this.complication1 = 'None';
+      this.complication2 = 'None';
+      (this.$refs.rs as any).reset();
+      this.$emit('close');
     },
   },
-})
+};
 </script>

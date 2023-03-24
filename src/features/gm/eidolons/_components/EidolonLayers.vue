@@ -24,11 +24,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EidolonLayerOverview from './_subcomponents/EidolonLayerOverview.vue'
+import EidolonLayerOverview from './_subcomponents/EidolonLayerOverview.vue';
 
-export default Vue.extend({
+export default {
   name: 'eidolon-layers',
   components: { EidolonLayerOverview },
-})
+};
 </script>

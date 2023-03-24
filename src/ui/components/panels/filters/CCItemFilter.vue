@@ -1,8 +1,13 @@
 <template>
-  <component :is="component" v-if="component" ref="c" @set-filters="$emit('set-filters', $event)" />
+  <component
+    :is="component"
+    v-if="component"
+    ref="c"
+    @set-filters="$emit('set-filters', $event)"
+  />
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'cc-item-filter',
   props: {
@@ -14,29 +19,29 @@ export default {
   data() {
     return {
       component: null,
-    }
+    };
   },
   computed: {
     loader() {
       if (!this.itemType) {
-        return null
+        return null;
       }
-      return () => import(`./_${this.itemType}Filter.vue`)
+      return () => import(`./_${this.itemType}Filter.vue`);
     },
   },
   mounted() {
     this.loader()
       .then(() => {
-        this.component = () => this.loader()
+        this.component = () => this.loader();
       })
       .catch(() => {
-        console.error(`Unable to load component ${this.itemType}`)
-      })
+        console.error(`Unable to load component ${this.itemType}`);
+      });
   },
   methods: {
     clear() {
-      this.$refs.c.clear()
+      (this.$refs.c as any).clear();
     },
   },
-}
+};
 </script>

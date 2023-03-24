@@ -6,14 +6,24 @@
       <v-card color="panel" elevation-10>
         <v-card-text>
           <v-row justify="center" dense>
-            <v-col :cols="$vuetify.breakpoint.smAndDown ? 12 : 4" class="effect-text text-center">
+            <v-col
+              :cols="$vuetify.display.smAndDown ? 12 : 4"
+              class="effect-text text-center"
+            >
               Full Action
               <i class="subtle--text text--darken-1">or</i>
               2 Quick Actions
               <br />
-              <v-card tile color="action--full" width="100%" class="text-center pt-4 pb-4">
+              <v-card
+                tile
+                color="action--full"
+                width="100%"
+                class="text-center pt-4 pb-4"
+              >
                 <v-icon size="100" dark>$vuetify.icons.full</v-icon>
-                <v-icon size="50" color="indigo lighten-3">mdi-swap-horizontal</v-icon>
+                <v-icon size="50" color="indigo lighten-3"
+                  >mdi-swap-horizontal</v-icon
+                >
                 <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
                 <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
               </v-card>
@@ -39,7 +49,7 @@
     <v-container fluid>
       <v-row class="mt-3">
         <v-divider class="mt-5" />
-        <v-icon x-large color="panel-border">cci-frame</v-icon>
+        <v-icon x-large color="panel-border">cc:frame</v-icon>
         <v-divider class="mt-5" />
       </v-row>
       <v-row fill-height justify="center">
@@ -47,7 +57,7 @@
       </v-row>
       <v-row class="mt-3">
         <v-divider class="mt-5" />
-        <v-icon x-large color="panel-border">cci-pilot</v-icon>
+        <v-icon x-large color="panel-border">cc:pilot</v-icon>
         <v-divider class="mt-5" />
       </v-row>
       <v-row fill-height justify="center">
@@ -55,7 +65,7 @@
       </v-row>
       <v-row class="mt-3">
         <v-divider class="mt-5" />
-        <v-icon x-large color="panel-border">cci-downtime</v-icon>
+        <v-icon x-large color="panel-border">cc:downtime</v-icon>
         <v-divider class="mt-5" />
       </v-row>
       <v-row fill-height justify="center">
@@ -66,32 +76,35 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActionCard from '../components/ActionCard.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import ActionCard from '../components/ActionCard.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+
+export default {
   name: 'action-economy',
   components: { ActionCard },
   data: () => ({
     actionTypes: [
       { action: 'move', icon: '$vuetify.icons.move' },
-      { action: 'overcharge', icon: 'cci-overcharge' },
-      { action: 'reaction', icon: 'cci-reaction' },
-      { action: 'free', icon: 'cci-free' },
+      { action: 'overcharge', icon: 'cc:overcharge' },
+      { action: 'reaction', icon: 'cc:reaction' },
+      { action: 'free', icon: 'cc:free' },
     ],
     actions: [],
     pilotActions: [],
     downtimeActions: [],
   }),
   async created() {
-    const compendium = getModule(CompendiumStore, this.$store)
+    const compendium = this.getModule(CompendiumStore);
     this.actions = await compendium.Actions.filter(
-      a => a && !a.IsDowntimeAction && !a.IsPilotAction
-    )
-    this.pilotActions = await compendium.Actions.filter(a => a && a.IsPilotAction)
-    this.downtimeActions = await compendium.Actions.filter(a => a && a.IsDowntimeAction)
+      (a) => a && !a.IsDowntimeAction && !a.IsPilotAction
+    );
+    this.pilotActions = await compendium.Actions.filter(
+      (a) => a && a.IsPilotAction
+    );
+    this.downtimeActions = await compendium.Actions.filter(
+      (a) => a && a.IsDowntimeAction
+    );
   },
-})
+};
 </script>

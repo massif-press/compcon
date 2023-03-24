@@ -1,16 +1,17 @@
 <template>
   <equipment-card-base :item="item" small-tags>
     <v-col cols="auto" class="ml-auto text-right">
-      <div v-if="item.InLcp" class="flavor-text subtle--text">{{ item.LcpName }}</div>
+      <div v-if="item.InLcp" class="flavor-text subtle--text">
+        {{ item.LcpName }}
+      </div>
     </v-col>
   </equipment-card-base>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EquipmentCardBase from './_EquipmentCardBase.vue'
+import EquipmentCardBase from './_EquipmentCardBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'cc-npc-system-card',
   components: { EquipmentCardBase },
   props: {
@@ -19,5 +20,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

@@ -52,14 +52,14 @@
     <v-row justify="center">
       <v-col cols="auto">
         <cc-btn x-large class="ml-auto mr-auto" @click="$refs.dialog.show()">
-          <v-icon left large>cci-accuracy</v-icon>
+          <v-icon start large>cc:accuracy</v-icon>
           &emsp;Add New Mech
         </cc-btn>
       </v-col>
     </v-row>
     <cc-solo-dialog
       ref="dialog"
-      icon="cci-frame"
+      icon="cc:frame"
       no-confirm
       title="Add New Mech"
       fullscreen
@@ -70,18 +70,16 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import MechCard from "./components/MechCard.vue";
-import MechListItem from "./components/MechListItem.vue";
-import MechTable from "./components/MechTable.vue";
-import NewMechMenu from "./components/NewMechMenu.vue";
-import { getModule } from "vuex-module-decorators";
-import { UserStore, PilotManagementStore } from "@/store";
-import { Pilot } from "@/class";
-import { UserProfile } from "@/user";
+import MechCard from './components/MechCard.vue';
+import MechListItem from './components/MechListItem.vue';
+import MechTable from './components/MechTable.vue';
+import NewMechMenu from './components/NewMechMenu.vue';
+import { UserStore, PilotManagementStore } from '@/store';
+import { Pilot } from '@/class';
+import { UserProfile } from '@/user';
 
-export default Vue.extend({
-  name: "mech-hangar-view",
+export default {
+  name: 'mech-hangar-view',
   components: { MechCard, MechListItem, MechTable, NewMechMenu },
   props: {
     pilot: {
@@ -91,22 +89,22 @@ export default Vue.extend({
   },
   computed: {
     profile(): UserProfile {
-      const store = getModule(UserStore, this.$store);
+      const store = this.getModule(UserStore);
       return store.UserProfile;
     },
     getView() {
-      if (this.profile) return this.profile.GetView("hangar");
-      return "cards";
+      if (this.profile) return this.profile.GetView('hangar');
+      return 'cards';
     },
   },
   methods: {
     toMechSheet(mech) {
-      const store = getModule(PilotManagementStore, this.$store);
+      const store = this.getModule(PilotManagementStore);
       store.setLoadedMech(mech.ID);
       this.$router.push(`../mech/${mech.ID}`);
     },
   },
-});
+};
 </script>
 
 <style scoped>

@@ -14,9 +14,19 @@
       style="cursor: pointer !important"
       @click="$refs.base.openDetail()"
     >
-      <span :key="item.Name" class="h2 heading text--text" style="line-height: 35px">
+      <span
+        :key="item.Name"
+        class="h2 heading text--text"
+        style="line-height: 35px"
+      >
         {{ item.Name }}
-        <cc-tooltip v-if="item.Note" :key="item.Note.length" simple inline :content="item.Note">
+        <cc-tooltip
+          v-if="item.Note"
+          :key="item.Note.length"
+          simple
+          inline
+          :content="item.Note"
+        >
           <v-icon small color="active">mdi-note</v-icon>
         </cc-tooltip>
       </span>
@@ -25,7 +35,11 @@
           <cc-range-element small :range="item.Range" />
         </v-col>
         <v-col cols="2">
-          <cc-damage-element small :damage="item.Damage" :type-override="item.DamageTypeOverride" />
+          <cc-damage-element
+            small
+            :damage="item.Damage"
+            :type-override="item.DamageTypeOverride"
+          />
         </v-col>
         <v-col cols="7" class="text-right">
           <cc-tags small :tags="item.Tags" color="secondary" class="mt-n2" />
@@ -55,18 +69,29 @@
             </span>
           </span>
           <br />
-          <span class="heading h1 accent--text" style="line-height: 20px">{{ item.Name }}</span>
-          <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
+          <span class="heading h1 accent--text" style="line-height: 20px">{{
+            item.Name
+          }}</span>
+          <span class="flavor-text overline mt-n1" style="display: block"
+            >CURRENTLY EQUIPPED</span
+          >
         </div>
         <div v-else>
           <span class="overline">
-            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)
+            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 -
+            S3(LTD)
           </span>
           <br />
-          <span class="heading h1 subtle--text text--lighten-1" style="line-height: 20px">
+          <span
+            class="heading h1 subtle--text text--lighten-1"
+            style="line-height: 20px"
+          >
             NO SELECTION
           </span>
-          <span class="flavor-text overline mt-n1 error--text" style="display: block">
+          <span
+            class="flavor-text overline mt-n1 error--text"
+            style="display: block"
+          >
             [ MATERIEL ID INVALID OR MISSING ]
           </span>
         </div>
@@ -76,14 +101,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PlCardBase from './_PLCardBase.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { PilotWeapon, CompendiumItem, ItemType } from '@/class'
-import { flavorID } from '@/io/Generators'
+import PlCardBase from './_PLCardBase.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { PilotWeapon, CompendiumItem, ItemType } from '@/class';
+import { flavorID } from '@/io/Generators';
+
+export default {
   name: 'pl-pilot-weapon-card',
   components: { PlCardBase },
   props: {
@@ -116,22 +140,23 @@ export default Vue.extend({
   }),
   methods: {
     equip(item: PilotWeapon) {
-      this.$emit('equip', this.$_.clone(item))
-      this.$refs.base.closeSelector()
+      this.$emit('equip', { ...item });
+      (this.$refs.base as any).closeSelector();
     },
     getWeapons() {
-      const compendium = getModule(CompendiumStore, this.$store)
+      const compendium = this.getModule(CompendiumStore);
       let gear = compendium.PilotGear.filter(
-        (x: CompendiumItem) => !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotWeapon
-      )
+        (x: CompendiumItem) =>
+          !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotWeapon
+      );
       if (this.exotics.length) {
-        gear = gear.concat(this.exotics)
+        gear = gear.concat(this.exotics);
       }
-      return gear
+      return gear;
     },
     fID(template: string): string {
-      return flavorID(template)
+      return flavorID(template);
     },
   },
-})
+};
 </script>

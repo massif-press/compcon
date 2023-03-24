@@ -1,9 +1,9 @@
 <template>
-  <v-alert outlined dense color="primary" class="pb-0 ma-1">
+  <v-alert variant="outlined" dense color="primary" class="pb-0 ma-1">
     <div class="text--text">
       <v-row no-gutters>
         <v-col cols="auto">
-          <v-icon left large color="stark" class="mt-n2">cci-drone</v-icon>
+          <v-icon start large color="stark" class="mt-n2">cc:drone</v-icon>
           <span class="heading h2">{{ deployable.name }}</span>
           <span v-if="deployable.type" class="heading h3 subtle--text">
             <cc-slashes />
@@ -11,9 +11,22 @@
           </span>
         </v-col>
         <v-col cols="auto" class="ml-auto">
-          <v-chip slot="title-items" color="stark" small class="stat-text mr-2 pr-0" outlined label>
+          <v-chip
+            slot="title-items"
+            color="stark"
+            small
+            class="stat-text mr-2 pr-0"
+            variant="outlined"
+            label
+          >
             DEPLOY&nbsp;
-            <v-chip small label dark :color="`action--${activation}`" class="text-uppercase">
+            <v-chip
+              small
+              label
+              dark
+              :color="`action--${activation}`"
+              class="text-uppercase"
+            >
               {{ activation }}
             </v-chip>
           </v-chip>
@@ -25,10 +38,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import deployableInfoBase from './_deployableInfoBase.vue'
+import deployableInfoBase from './_deployableInfoBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'deployable-info-panel',
   components: { deployableInfoBase },
   props: {
@@ -39,8 +51,10 @@ export default Vue.extend({
   },
   computed: {
     activation() {
-      return this.deployable.activation ? this.deployable.activation.toLowerCase() : 'quick'
+      return this.deployable.activation
+        ? this.deployable.activation.toLowerCase()
+        : 'quick';
     },
   },
-})
+};
 </script>

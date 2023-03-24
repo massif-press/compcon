@@ -27,7 +27,7 @@
           <v-divider />
           <v-list-item three-line :to="'/active-mode/new-character-sheet'">
             <v-list-item-avatar>
-              <v-icon size="60" color="accent" v-text="'cci-pilot'" />
+              <v-icon size="60" color="accent" v-text="'cc:pilot'" />
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -36,8 +36,8 @@
                 v-text="'Start a Character Sheet'"
               />
               <v-list-item-subtitle>
-                Create a new Character Sheet, an instance of a Pilot and their active Mech, for use
-                in a LANCER game
+                Create a new Character Sheet, an instance of a Pilot and their
+                active Mech, for use in a LANCER game
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -52,19 +52,21 @@
                 v-text="'Open a Character Sheet'"
               />
               <v-list-item-subtitle>
-                Open a previously created Character Sheet to continue a LANCER game
+                Open a previously created Character Sheet to continue a LANCER
+                game
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-list-item three-line disabled>
             <v-list-item-avatar tile>
-              <v-icon size="50" v-text="'cci-squad'" />
+              <v-icon size="50" v-text="'cc:squad'" />
             </v-list-item-avatar>
 
             <v-list-item-content>
               <v-list-item-title class="heading h3" v-text="'Join a Table'" />
               <v-list-item-subtitle>
-                Join an realtime LANCER table to play with friends online (in development!)
+                Join an realtime LANCER table to play with friends online (in
+                development!)
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -84,22 +86,36 @@
           <v-divider />
           <v-list-item three-line @click.stop="">
             <v-list-item-avatar tile>
-              <v-icon size="50" color="accent" v-text="'cci-encounter'" />
+              <v-icon size="50" color="accent" v-text="'cc:encounter'" />
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title class="heading h3 accent--text" v-text="'Begin a new Encounter'" />
-              <v-list-item-subtitle>Configure and run an Encounter</v-list-item-subtitle>
+              <v-list-item-title
+                class="heading h3 accent--text"
+                v-text="'Begin a new Encounter'"
+              />
+              <v-list-item-subtitle
+                >Configure and run an Encounter</v-list-item-subtitle
+              >
             </v-list-item-content>
           </v-list-item>
           <v-list-item three-line @click.stop="">
             <v-list-item-avatar tile>
-              <v-icon size="40" color="accent" v-text="'mdi-motion-play-outline'" />
+              <v-icon
+                size="40"
+                color="accent"
+                v-text="'mdi-motion-play-outline'"
+              />
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title class="heading h3 accent--text" v-text="'Resume an Encounter'" />
-              <v-list-item-subtitle>Continue an active Encounter</v-list-item-subtitle>
+              <v-list-item-title
+                class="heading h3 accent--text"
+                v-text="'Resume an Encounter'"
+              />
+              <v-list-item-subtitle
+                >Continue an active Encounter</v-list-item-subtitle
+              >
             </v-list-item-content>
           </v-list-item>
           <v-list-item three-line disabled>
@@ -110,7 +126,8 @@
             <v-list-item-content>
               <v-list-item-title class="heading h3" v-text="'Create a Table'" />
               <v-list-item-subtitle>
-                Create an online LANCER table and invite players to join (in development!)
+                Create an online LANCER table and invite players to join (in
+                development!)
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -149,7 +166,8 @@
             <v-list-item-content>
               <v-list-item-title class="heading h3" v-text="'Spectator Mode'" />
               <v-list-item-subtitle>
-                Run a non-interactive spectator display for a realtime LANCER game (in development!)
+                Run a non-interactive spectator display for a realtime LANCER
+                game (in development!)
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -159,9 +177,13 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title class="heading h3" v-text="'Campaign Display'" />
+              <v-list-item-title
+                class="heading h3"
+                v-text="'Campaign Display'"
+              />
               <v-list-item-subtitle>
-                Run an interactive GM display for a loaded LANCER campaign (in development!)
+                Run an interactive GM display for a loaded LANCER campaign (in
+                development!)
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -172,22 +194,21 @@
 </template>
 
 <script lang="ts">
-import { ImageTag } from '@/classes/enums'
-import { getImagePath } from '@/io/ImageManagement'
-import Vue from 'vue'
+import { ImageTag } from '@/classes/enums';
+import { getImagePath } from '@/io/ImageManagement';
 
-export default Vue.extend({
+export default {
   name: 'home',
   computed: {
     pcImg() {
-      return getImagePath(ImageTag.Misc, 'patreon_tiers\\lancer.svg')
+      return getImagePath(ImageTag.Misc, 'patreon_tiers\\lancer.svg');
     },
     gmImg() {
-      return getImagePath(ImageTag.Misc, 'patreon_tiers\\nhp.svg')
+      return getImagePath(ImageTag.Misc, 'patreon_tiers\\nhp.svg');
     },
     specImg() {
-      return getImagePath(ImageTag.Misc, 'patreon_tiers\\diasporan.svg')
+      return getImagePath(ImageTag.Misc, 'patreon_tiers\\diasporan.svg');
     },
   },
-})
+};
 </script>

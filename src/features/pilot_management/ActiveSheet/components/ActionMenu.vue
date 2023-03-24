@@ -12,7 +12,7 @@
     >
       <v-tab>
         Protocols
-        <v-icon>cci-protocol</v-icon>
+        <v-icon>cc:protocol</v-icon>
       </v-tab>
       <v-tab>
         Full Actions
@@ -24,11 +24,11 @@
       </v-tab>
       <v-tab>
         Reactions
-        <v-icon>cci-reaction</v-icon>
+        <v-icon>cc:reaction</v-icon>
       </v-tab>
       <v-tab>
         Free Actions
-        <v-icon>cci-free-action</v-icon>
+        <v-icon>cc:free-action</v-icon>
       </v-tab>
       <v-tab>
         Combat Log
@@ -134,16 +134,24 @@
               />
             </v-row>
 
-            <div v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations">
+            <div
+              v-if="
+                pilot.ReservesController.Reserves ||
+                pilot.ReservesController.Organizations
+              "
+            >
               <v-divider class="my-4" />
               <span class="overline">RESERVES AND RESOURCES</span>
               <v-row
-                v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations"
+                v-if="
+                  pilot.ReservesController.Reserves ||
+                  pilot.ReservesController.Organizations
+                "
                 class="mt-n3"
               >
                 <cc-reserve-item
                   v-for="(r, i) in pilot.ReservesController.Reserves.filter(
-                    r => r.Type !== 'Bonus'
+                    (r) => r.Type !== 'Bonus'
                   )"
                   :key="`r_${i}`"
                   :reserve="r"
@@ -165,12 +173,10 @@
 </template>
 
 <script lang="ts">
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import vueMixins from '@/util/vueMixins'
-import ActionMenuItem from './ActionMenuItem.vue'
-import CombatLogRenderer from './CombatLogRenderer.vue'
+import ActionMenuItem from './ActionMenuItem.vue';
+import CombatLogRenderer from './CombatLogRenderer.vue';
 
-export default vueMixins(activePilot).extend({
+export default {
   name: 'active-action-menu',
   components: { ActionMenuItem, CombatLogRenderer },
   props: {
@@ -181,8 +187,8 @@ export default vueMixins(activePilot).extend({
   }),
   watch: {
     tab(newVal) {
-      this.selected = newVal
+      this.selected = newVal;
     },
   },
-})
+};
 </script>

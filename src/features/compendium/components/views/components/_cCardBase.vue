@@ -4,13 +4,25 @@
       no-gutters
       align="center"
       justify="center"
-      :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${small ? '75px' : '200px'}`"
+      :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${
+        small ? '75px' : '200px'
+      }`"
     >
       <v-col>
         <div>
           <slot name="top" />
-          <div v-if="item.Tags && item.Tags.length" cols="12" class="text-center pb-2 pt-2 my-1">
-            <cc-tags :tags="item.Tags" small dense outlined color="accent" />
+          <div
+            v-if="item.Tags && item.Tags.length"
+            cols="12"
+            class="text-center pb-2 pt-2 my-1"
+          >
+            <cc-tags
+              :tags="item.Tags"
+              small
+              dense
+              variant="outlined"
+              color="accent"
+            />
           </div>
         </div>
       </v-col>
@@ -23,11 +35,9 @@
         </div>
         <div
           :class="small ? 'font-weight-bold' : 'heading h3'"
-          :style="
-            `overflow: hidden; width: ${
-              small ? '73vw' : '25vw'
-            }; text-overflow: ellipsis; white-space: nowrap;`
-          "
+          :style="`overflow: hidden; width: ${
+            small ? '73vw' : '25vw'
+          }; text-overflow: ellipsis; white-space: nowrap;`"
         >
           {{ item.Name }}
         </div>
@@ -37,15 +47,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'card-content-base',
   props: {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
   },
-})
+};
 </script>
 
 <style scoped>

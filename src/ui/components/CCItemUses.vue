@@ -16,40 +16,57 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import { MechEquipment, PilotGear } from '@/class'
-
-@Component({ name: 'cc-item-uses' })
-export default class CCItemUses extends Vue {
-  @Prop({ type: Boolean })
-  readonly small?: boolean
-  @Prop({ type: Boolean })
-  readonly large?: boolean
-  @Prop({ type: String, required: false, default: 'mdi-hexagon-outline' })
-  readonly emptyIcon: string
-  @Prop({ type: String, required: false, default: 'mdi-hexagon-slice-6' })
-  readonly fullIcon: string
-  @Prop({ type: String, required: false, default: 'primary' })
-  readonly color: string
-
-  @Prop({
-    type: Object,
-    required: true,
-  })
-  readonly item!: MechEquipment | PilotGear
-  @Prop({ type: Number, required: false, default: 0 })
-  readonly bonus: number
-
-  get max(): number {
-    return this.item.getTotalUses(this.bonus)
-  }
-  get current(): number {
-    return this.item.Uses
-  }
-
-  set(val): void {
-    if (val > this.current) Vue.set(this.item, 'Uses', this.item.Uses + 1)
-    else Vue.set(this.item, 'Uses', this.item.Uses - 1)
-  }
-}
+export default {
+  name: 'CCItemUses',
+  props: {
+    small: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    large: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    emptyIcon: {
+      type: String,
+      required: false,
+      default: 'mdi-hexagon-outline',
+    },
+    fullIcon: {
+      type: String,
+      required: false,
+      default: 'mdi-hexagon-slice-6',
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    item: {
+      type: Object,
+      required: true,
+    },
+    bonus: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+  },
+  computed: {
+    max(): number {
+      return this.item.getTotalUses(this.bonus);
+    },
+    current(): number {
+      return this.item.Uses;
+    },
+  },
+  methods: {
+    set(val): void {
+      if (val > this.current) this.item.Uses = this.item.Uses + 1;
+      else this.item.Uses = this.item.Uses - 1;
+    },
+  },
+};
 </script>

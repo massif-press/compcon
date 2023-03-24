@@ -1,10 +1,10 @@
 <template>
   <v-bottom-sheet v-model="dialog">
-    <template v-slot:activator="{ on }">
-      <v-btn v-if="flat" text v-on="on">
+    <template v-slot:activator="{ props }">
+      <v-btn v-if="flat" text v-bind="props">
         <slot name="button"></slot>
       </v-btn>
-      <cc-btn v-else v-on="on">
+      <cc-btn v-else v-bind="props">
         <slot name="button"></slot>
       </cc-btn>
     </template>
@@ -26,19 +26,28 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-popup' })
-export default class CCPopup extends Vue {
-  @Prop({ type: Boolean, required: false, })
-  readonly flat?: boolean
-  @Prop({ type: Boolean, required: false, })
-  readonly icon?: boolean
-
-  dialog = false
-  confirm() {
-    this.dialog = false
-    this.$emit('confirm')
-  }
-}
+export default {
+  name: 'CCPopup',
+  props: {
+    flat: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    icon: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  data: () => ({
+    dialog: false,
+  }),
+  methods: {
+    confirm() {
+      this.dialog = false;
+      this.$emit('confirm');
+    },
+  },
+};
 </script>

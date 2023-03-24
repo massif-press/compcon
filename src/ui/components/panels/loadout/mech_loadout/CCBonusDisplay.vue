@@ -7,17 +7,13 @@
       :title="`Bonus: ${b.Title}`"
       :content="b.Detail"
     >
-      <v-icon large color="accent">
-        cci-accuracy
-      </v-icon>
+      <v-icon large color="accent">cc:accuracy</v-icon>
     </cc-tooltip>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cc-bonus-display',
   props: {
     item: {
@@ -25,5 +21,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

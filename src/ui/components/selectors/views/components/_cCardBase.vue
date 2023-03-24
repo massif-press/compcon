@@ -14,7 +14,13 @@
             cols="12"
             :class="`text-center ${small ? '' : 'pb-2 pt-2 my-1'}`"
           >
-            <cc-tags :tags="item.Tags" small dense outlined color="accent" />
+            <cc-tags
+              :tags="item.Tags"
+              small
+              dense
+              variant="outlined"
+              color="accent"
+            />
           </div>
         </div>
       </v-col>
@@ -26,16 +32,12 @@
           <slot name="overline" />
         </div>
         <div
-          :class="
-            `d-inline ${small ? 'font-weight-bold' : 'heading h3'} ${
-              item.IsExotic ? 'exotic--text' : ''
-            }`
-          "
-          :style="
-            `overflow: hidden; width: ${
-              small ? '73vw' : '25vw'
-            }; text-overflow: ellipsis; white-space: nowrap;`
-          "
+          :class="`d-inline ${small ? 'font-weight-bold' : 'heading h3'} ${
+            item.IsExotic ? 'exotic--text' : ''
+          }`"
+          :style="`overflow: hidden; width: ${
+            small ? '73vw' : '25vw'
+          }; text-overflow: ellipsis; white-space: nowrap;`"
         >
           {{ item.Name }}
         </div>
@@ -49,15 +51,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'card-content-base',
   props: {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
   },
-})
+};
 </script>
 
 <style scoped>

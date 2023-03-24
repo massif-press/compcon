@@ -14,8 +14,11 @@
           ref="completed"
           class="flavor-text subtle--text text--darken-1 py-0 my-0"
         ></p>
-        <p id="output" ref="output" class="flavor-text subtle--text text--darken-1 py-0 my-0">
-        </p>
+        <p
+          id="output"
+          ref="output"
+          class="flavor-text subtle--text text--darken-1 py-0 my-0"
+        ></p>
       </v-col>
       <v-col cols="auto" class="ml-2">
         <div class="sidebar" />
@@ -28,16 +31,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import TypeIt from 'typeit'
-import GmsStart from './startup_logs/gms'
-import MsmcStart from './startup_logs/msmc'
-import { HorusStart, HorusChat } from './startup_logs/horus'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
-import { UserProfile } from '@/user'
+import TypeIt from 'typeit';
+import GmsStart from './startup_logs/gms';
+import MsmcStart from './startup_logs/msmc';
+import { HorusStart, HorusChat } from './startup_logs/horus';
 
-export default Vue.extend({
+import { UserStore } from '@/store';
+import { UserProfile } from '@/user';
+
+export default {
   name: 'cc-log',
   data: () => ({
     typer: {},
@@ -46,31 +48,32 @@ export default Vue.extend({
   }),
   computed: {
     profile(): UserProfile {
-      const store = getModule(UserStore, this.$store)
-      return store.UserProfile
+      const store = this.getModule(UserStore);
+      return store.UserProfile;
     },
     theme(): string {
-      return this.profile.Theme
+      return 'gms';
+      return this.profile.Theme;
     },
   },
   watch: {
     theme(newval, oldval) {
-      if (newval !== oldval) this.restart()
+      if (newval !== oldval) this.restart();
     },
   },
   async mounted() {
-    this.lock = true
-    this.restart()
+    this.lock = true;
+    this.restart();
   },
   methods: {
     restart() {
-      if (this.typer.hasOwnProperty('destroy')) this.typer.destroy(true)
-      if (this.$refs.completed.innerHTML) this.$refs.completed.innerHTML = ''
-      if (this.$refs.output.innerHTML) this.$refs.output.innerHTML = ''
-      this.start()
+      if (this.typer.hasOwnProperty('destroy')) this.typer.destroy(true);
+      if (this.$refs.completed.innerHTML) this.$refs.completed.innerHTML = '';
+      if (this.$refs.output.innerHTML) this.$refs.output.innerHTML = '';
+      this.start();
     },
     async start() {
-      await Vue.nextTick()
+      await this.$nextTick();
       this.typer = new TypeIt(this.$refs.output, {
         speed: 2,
         nextStringDelay: 5,
@@ -78,43 +81,44 @@ export default Vue.extend({
         cursor: false,
         startDelete: false,
         beforeString: () => {
-          this.$refs.output?.scrollIntoView({ block: 'end' })
+          this.$refs.output?.scrollIntoView({ block: 'end' });
         },
         afterString: () => {
-          this.$refs.output?.scrollIntoView({ block: 'end' })
+          this.$refs.output?.scrollIntoView({ block: 'end' });
         },
         afterComplete: () => {
-          if (this.profile.Theme === 'horus') {
-            HorusChat(this.$refs.output)
+          if (this.theme === 'horus') {
+            HorusChat(this.$refs.output);
           } else {
-            this.lock = false
+            this.lock = false;
           }
         },
-      })
+      });
 
-      switch (this.profile.Theme) {
+      switch (this.theme) {
         case 'horus':
           // this.typer.go()
-          HorusStart(this.typer)
+          HorusStart(this.typer);
           // HorusChat(this.typer)
-          break
+          break;
         case 'msmc':
-          MsmcStart(this.typer)
+          MsmcStart(this.typer);
         default:
-          GmsStart(this.typer)
-          break
+          GmsStart(this.typer);
+          break;
       }
     },
     print(user: string, response: string) {
-      if (this.lock) return
-      this.lock = true
+      if (this.lock) return;
+      this.lock = true;
 
-      this.typer.destroy()
+      this.typer.destroy();
 
       //collect written strings so TypeIt doesn't erase them
-      if (this.$refs.completed.innerHTML) this.$refs.completed.innerHTML += '<br>'
-      this.$refs.completed.innerHTML += this.$refs.output.innerHTML
-      this.$refs.output.innerHTML = ''
+      if (this.$refs.completed.innerHTML)
+        this.$refs.completed.innerHTML += '<br>';
+      this.$refs.completed.innerHTML += this.$refs.output.innerHTML;
+      this.$refs.output.innerHTML = '';
 
       this.typer = new TypeIt(this.$refs.output, {
         speed: 32,
@@ -122,13 +126,13 @@ export default Vue.extend({
         nextStringDelay: 7,
         cursor: false,
         beforeString: () => {
-          this.$refs.output?.scrollIntoView({ block: 'end' })
+          this.$refs.output?.scrollIntoView({ block: 'end' });
         },
         afterString: () => {
-          this.$refs.output?.scrollIntoView({ block: 'end' })
+          this.$refs.output?.scrollIntoView({ block: 'end' });
         },
         afterComplete: () => {
-          this.lock = false
+          this.lock = false;
         },
       })
         .type(`$ `)
@@ -141,10 +145,10 @@ export default Vue.extend({
           `//[<span class="accent--text">COMP/CON</span>: <span class="stark--text">${response}</span>]`
         )
         .type(' ')
-        .go()
+        .go();
     },
   },
-})
+};
 </script>
 
 <style scoped>

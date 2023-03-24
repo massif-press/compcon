@@ -2,9 +2,20 @@
   <div>
     <v-row dense>
       <v-col cols="12" class="mt-2">
-        <span class="overline">{{ mech.MechLoadoutController.ActiveLoadout.Name }} Loadout</span>
-        <v-btn small right icon class="fadeSelect" @click="showLoadout = !showLoadout">
-          <v-icon small v-html="showLoadout ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+        <span class="overline"
+          >{{ mech.MechLoadoutController.ActiveLoadout.Name }} Loadout</span
+        >
+        <v-btn
+          small
+          right
+          icon
+          class="fadeSelect"
+          @click="showLoadout = !showLoadout"
+        >
+          <v-icon
+            small
+            v-html="showLoadout ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+          />
         </v-btn>
       </v-col>
       <v-scroll-y-reverse-transition mode="out-in">
@@ -15,8 +26,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'active-mode-loadout',
   props: {
     mech: {
@@ -30,5 +40,5 @@ export default Vue.extend({
   data: () => ({
     showLoadout: true,
   }),
-})
+};
 </script>

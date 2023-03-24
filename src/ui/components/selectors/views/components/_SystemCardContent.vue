@@ -1,5 +1,10 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover" @equip="$emit('equip', $event)">
+  <c-card-base
+    :item="item"
+    :small="small"
+    :hover="hover"
+    @equip="$emit('equip', $event)"
+  >
     <p
       v-if="item.Effect && item.Effect.length"
       slot="top"
@@ -12,9 +17,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CCardBase from './_cCardBase.vue'
-export default Vue.extend({
+import CCardBase from './_cCardBase.vue';
+export default {
   name: 'frame-card-content',
   components: { CCardBase },
   props: {
@@ -22,7 +26,7 @@ export default Vue.extend({
     small: { type: Boolean },
     hover: { type: Boolean },
   },
-})
+};
 </script>
 
 <style scoped>

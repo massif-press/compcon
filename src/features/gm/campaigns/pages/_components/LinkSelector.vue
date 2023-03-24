@@ -1,12 +1,9 @@
 <template>
-  <v-card>
-    test
-  </v-card>
+  <v-card>test</v-card>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'link-select-dialog',
-})
+};
 </script>

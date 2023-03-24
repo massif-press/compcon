@@ -18,23 +18,37 @@
                 small || mobile ? '25' : '32'
               }px; ${
               small && hover ? 'opacity: 1' : 'opacity: 0.6'
-            }; background-color: var(--v-primary-base); transition: opacity 0.2s;`"
+            }; background-color: rgb(var(--v-theme-primary)); transition: opacity 0.2s;`"
           >
             <div
-              :class="`heading ${small || mobile ? 'h3' : 'h2'} white--text flavor-text ml-2`"
+              :class="`heading ${
+                small || mobile ? 'h3' : 'h2'
+              } white--text flavor-text ml-2`"
               style="letter-spacing: 3px; text-overflow: ellipsis"
             >
               {{ pilot.Callsign }}
             </div>
           </div>
-          <div v-show="!(small && mobile)" :class="small ? 'small-triangle' : 'triangle'" />
-          <div v-show="!(small && mobile)" class="ll white--text" style="line-height: 25px">
+          <div
+            v-show="!(small && mobile)"
+            :class="small ? 'small-triangle' : 'triangle'"
+          />
+          <div
+            v-show="!(small && mobile)"
+            class="ll white--text"
+            style="line-height: 25px"
+          >
             <div v-if="!small" class="overline mb-n1 text-right">LL</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
             </div>
           </div>
-          <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" />
+          <v-img
+            :src="pilot.Portrait"
+            position="top center"
+            height="100%"
+            :aspect-ratio="1"
+          />
           <v-fade-transition>
             <v-overlay
               v-if="hover && !small"
@@ -64,7 +78,11 @@
                       :key="pilot.ID + s.Talent.Name"
                     >
                       {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
-                      {{ i + 1 !== pilot.TalentsController.Talents.length ? '-' : '' }}
+                      {{
+                        i + 1 !== pilot.TalentsController.Talents.length
+                          ? '-'
+                          : ''
+                      }}
                     </span>
                   </div>
                   <v-divider />
@@ -74,13 +92,18 @@
                       :key="pilot.ID + b.Name"
                     >
                       {{ b.Name }}
-                      {{ i + 1 !== pilot.CoreBonusController.CoreBonuses.length ? '-' : '' }}
+                      {{
+                        i + 1 !== pilot.CoreBonusController.CoreBonuses.length
+                          ? '-'
+                          : ''
+                      }}
                     </span>
                   </div>
                   <div v-if="pilot.ActiveMech">
                     <v-divider class="my-2 mb-1" />
                     <div class="flavor-text mb-0">
-                      {{ pilot.ActiveMech.Frame.Source }} {{ pilot.ActiveMech.Frame.Name }}
+                      {{ pilot.ActiveMech.Frame.Source }}
+                      {{ pilot.ActiveMech.Frame.Name }}
                     </div>
                     <b class="pl-2">
                       <cc-slashes />
@@ -98,9 +121,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'pilot-card',
   props: {
     pilot: {
@@ -116,27 +137,27 @@ export default Vue.extend({
   },
   computed: {
     mobile() {
-      return this.$vuetify.breakpoint.smAndDown
+      return this.$vuetify.display.smAndDown;
     },
     minWidth() {
       if (this.mobile) {
-        return this.small ? '18vw' : '40vw'
+        return this.small ? '18vw' : '40vw';
       }
-      return this.small ? '10vw' : '20vw'
+      return this.small ? '10vw' : '20vw';
     },
   },
   methods: {
     toPilotSheet() {
-      this.$router.push(`pilot/${this.pilot.ID}`)
+      this.$router.push(`pilot/${this.pilot.ID}`);
     },
   },
-})
+};
 </script>
 
 <style scoped>
 .card-outline {
   border: 1px solid;
-  border-color: var(--v-accent-base);
+  border-color: rgb(var(--v-theme-accent));
 }
 
 .triangle {
@@ -148,7 +169,7 @@ export default Vue.extend({
   border-style: solid;
   border-width: 0 0 65px 65px;
   z-index: 2;
-  border-color: transparent transparent var(--v-primary-base) transparent;
+  border-color: transparent transparent rgb(var(--v-theme-primary)) transparent;
 }
 
 .small-triangle {
@@ -160,7 +181,7 @@ export default Vue.extend({
   border-style: solid;
   border-width: 0 0 45px 45px;
   z-index: 2;
-  border-color: transparent transparent var(--v-primary-base) transparent;
+  border-color: transparent transparent rgb(var(--v-theme-primary)) transparent;
 }
 
 .ll {

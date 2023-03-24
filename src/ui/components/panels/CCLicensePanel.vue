@@ -14,11 +14,13 @@
           <span class="stat-text subtle--text text--darken-1">
             RANK {{ 'I'.repeat(n) }}
             <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
-            <v-icon v-else-if="ranked && rank >= n" right>mdi-lock-open-outline</v-icon>
+            <v-icon v-else-if="ranked && rank >= n" right
+              >mdi-lock-open-outline</v-icon
+            >
           </span>
         </p>
         <div v-for="i in license.Unlocks[n - 1]" :key="i.id" class="my-2">
-          <cc-item-modal :item="i" :small-btn="$vuetify.breakpoint.mdAndDown" />
+          <cc-item-modal :item="i" :small-btn="$vuetify.display.mdAndDown" />
         </div>
       </div>
     </v-col>
@@ -26,9 +28,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cc-license-panel',
   props: {
     license: {
@@ -47,10 +47,10 @@ export default Vue.extend({
   },
   methods: {
     align(n: number): string {
-      return n === 1 ? 'left' : n === 2 ? 'center' : 'right'
+      return n === 1 ? 'left' : n === 2 ? 'center' : 'right';
     },
   },
-})
+};
 </script>
 
 <style scoped>

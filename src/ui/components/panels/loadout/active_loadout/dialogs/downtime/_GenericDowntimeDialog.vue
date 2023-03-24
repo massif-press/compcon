@@ -3,9 +3,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'downtime-dialog',
   props: {
     used: { type: Boolean },
@@ -20,10 +18,10 @@ export default Vue.extend({
   },
   methods: {
     show(): void {
-      this.$refs.base.show()
+      (this.$refs.base as any).show();
     },
   },
-})
+};
 </script>
 
 <style scoped>

@@ -2,7 +2,7 @@
   <v-col cols="6">
     <v-card
       :ripple="!disabled"
-      outlined
+      variant="outlined"
       tile
       class="text-center"
       @click="to ? $router.push(to) : $emit('clicked')"
@@ -23,7 +23,7 @@
   </v-col>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'mobile-btn',
   props: {
@@ -34,7 +34,7 @@ export default {
     disabled: { type: Boolean },
     loading: { type: Boolean },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -43,6 +43,6 @@ export default {
 }
 
 .fade:hover {
-  background-color: var(--v-active-base) !important;
+  background-color: rgb(var(--v-theme-active)) !important;
 }
 </style>

@@ -5,7 +5,7 @@
       :title="`${action.Name}${exclusive}`"
       :icon="action.Icon"
       :color="action.Color"
-      style="height:100%"
+      style="height: 100%"
       @click="$refs.dialog.show()"
     >
       <v-card-text class="text-left py-1">
@@ -38,8 +38,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'action-card',
   props: {
     action: {
@@ -53,9 +52,10 @@ export default Vue.extend({
   },
   computed: {
     exclusive() {
-      if (this.action.IsPilotAction && !this.action.IsMechAction) return ' (Pilot Only)'
-      return ''
+      if (this.action.IsPilotAction && !this.action.IsMechAction)
+        return ' (Pilot Only)';
+      return '';
     },
   },
-})
+};
 </script>

@@ -1,11 +1,17 @@
 <template>
   <div
     v-if="!tag.IsHidden"
-    :class="`text-center d-inline-block ${dense || $vuetify.breakpoint.mdAndDown ? '' : 'my-2'}`"
+    :class="`text-center d-inline-block ${
+      dense || $vuetify.display.mdAndDown ? '' : 'my-2'
+    }`"
   >
-    <cc-tooltip :err="tag.err" :title="tag.GetName(bonus)" :content="tag.GetDescription(bonus)">
+    <cc-tooltip
+      :err="tag.err"
+      :title="tag.GetName(bonus)"
+      :content="tag.GetDescription(bonus)"
+    >
       <v-chip
-        :class="$vuetify.breakpoint.mdAndUp ? 'px-2 py-2 mx-1' : 'ma-1'"
+        :class="$vuetify.display.mdAndUp ? 'px-2 py-2 mx-1' : 'ma-1'"
         :color="tag.err ? 'error' : tag.IsExotic ? 'exotic' : color"
         dark
         label
@@ -24,28 +30,40 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Pilot, Tag } from '@/class'
-
-@Component({ name: 'cc-tag' })
-export default class CCTag extends Vue {
-  @Prop({ type: Boolean, required: false })
-  readonly small?: boolean
-  @Prop({ type: Boolean, required: false })
-  readonly dense?: boolean
-  @Prop({ type: Boolean, required: false })
-  readonly outlined?: boolean
-
-  @Prop({ type: String, required: false, default: 'primary' })
-  readonly color: string
-
-  @Prop({ type: Object, required: true })
-  readonly tag!: Tag
-
-  @Prop({ type: Object, required: false, default: null })
-  readonly pilot?: Pilot
-
-  @Prop({ type: Number, required: false, default: 0 })
-  readonly bonus?: number
-}
+export default {
+  name: 'CCTag',
+  props: {
+    small: {
+      type: Boolean,
+      required: false,
+    },
+    dense: {
+      type: Boolean,
+      required: false,
+    },
+    outlined: {
+      type: Boolean,
+      required: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    tag: {
+      type: Object,
+      required: true,
+    },
+    pilot: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+    bonus: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+  },
+};
 </script>

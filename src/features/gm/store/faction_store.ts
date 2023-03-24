@@ -1,135 +1,167 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import _ from 'lodash'
-import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { Faction, IFactionData } from '@/classes/campaign/Faction'
-import { storeSaveDelta } from '@/util/storeUtils'
-import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
-
-export const SAVE_DATA = 'SAVE_DATA'
-export const SET_DIRTY = 'SET_DIRTY'
-export const ADD_FACTION = 'ADD_FACTION'
-export const DELETE_FACTION = 'DELETE_FACTION'
-export const CLONE_FACTION = 'CLONE_FACTION'
-export const LOAD_FACTIONS = 'LOAD_FACTIONS'
+import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator';
+import { deletePermanent, storeSaveDelta } from '@/util/storeUtils';
+import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
+import { Faction, IFactionData } from '@/classes/campaign/Faction';
 
 async function saveFactionData(factions: Faction[]) {
-  const dirty = factions.filter(x => x.SaveController.IsDirty)
-  Promise.all(dirty.map(x => SetItem('factions', Faction.Serialize(x))))
-    .then(() => console.info('faction data saved'))
-    .catch(err => console.error('Error while saving faction data', err))
+  const dirty = factions.filter((x) => x.SaveController.IsDirty);
+  Promise.all(dirty.map((x) => SetItem('factions', Faction.Serialize(x))))
+    .then(() => console.info('FACTION data saved'))
+    .catch((err) => console.error('Error while saving FACTION data', err));
 }
 
 async function delete_faction(faction: Faction) {
   RemoveItem('factions', faction.ID)
-    .then(() => console.info('NPC permenently deleted'))
-    .catch(err => console.error('Error while deleting NPC data', err))
+    .then(() => console.info('FACTION permanently deleted'))
+    .catch((err) => console.error('Error while deleting FACTION data', err));
 }
 
-@Module({
-  name: 'faction',
-})
-export class FactionStore extends VuexModule {
-  Factions: Faction[] = []
-  DeletedFactions: Faction[] = []
-  public Dirty = false
+export default {
+  state: () => ({
+    Factions: [] as Faction[],
+    DeletedFactions: [] as Faction[],
+    Dirty: false,
+  }),
+  getters: {
+    AllFactions: (state: any) => state.Factions.concat(state.DeletedFactions),
+    getFactions: (state: any) => state.Factions,
+    getFaction: (state: any) => (id: string) => {
+      return state.Factions.find((x: Faction) => x.ID === id);
+    },
+    unsavedCloudFactions: (state: any) =>
+      state.Factions.filter((p: Faction) => p.SaveController.IsDirty),
+  },
+  mutations: {
+    LOAD_FACTIONS(state: any, payload: IFactionData[]): void {
+      const newFactions: Faction[] = [
+        ...payload.map((x) => Faction.Deserialize(x)),
+      ];
+      state.Factions.splice(0, state.Factions.length);
+      const all = [] as Faction[];
+      newFactions.forEach((faction: Faction) => {
+        all.push(faction);
+      });
+      state.Factions = all.filter((x) => !x.SaveController.IsDeleted);
+      state.DeletedFactions = all.filter((x) => x.SaveController.IsDeleted);
 
-  public get AllFactions(): Faction[] {
-    return this.Factions.concat(this.DeletedFactions)
-  }
+      //clean up deleted
+      const del = [] as Faction[];
+      state.DeletedFactions.forEach((dp: Faction) => {
+        if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime))
+          del.push(dp);
+      });
+      if (del.length) {
+        console.info(`Cleaning up ${del.length} Factions marked for deletion`);
+        del.forEach((p) => {
+          const dpIdx = state.DeletedFactions.findIndex(
+            (x: Faction) => x.ID === p.ID
+          );
+          if (dpIdx > -1) {
+            state.DeletedFactions.splice(dpIdx, 1);
+          }
+        });
+        storeSaveDelta(state.Factions.concat(state.DeletedFactions));
+      }
+    },
 
-  @Mutation
-  private [LOAD_FACTIONS](payload: IFactionData[]): void {
-    const newFactions: Faction[] = [...payload.map(x => Faction.Deserialize(x))]
-    this.Factions.splice(0, this.Factions.length)
-    const all = []
-    newFactions.forEach((Faction: Faction) => {
-      all.push(Faction)
-    })
-    this.Factions = all.filter(x => !x.SaveController.IsDeleted)
-    this.DeletedFactions = all.filter(x => x.SaveController.IsDeleted)
+    SAVE_DATA(state: any): void {
+      saveFactionData(state.Factions.concat(state.DeletedFactions));
+    },
 
-    //clean up deleted
-    const del = []
-    this.DeletedFactions.forEach(dp => {
-      if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp)
-    })
-    if (del.length) {
-      console.info(`Cleaning up ${del.length} Factions marked for deletion`)
-      del.forEach(p => {
-        const dpIdx = this.DeletedFactions.findIndex(x => x.ID === p.ID)
-        if (dpIdx > -1) {
-          this.DeletedFactions.splice(dpIdx, 1)
-        }
-      })
-      storeSaveDelta(this.Factions.concat(this.DeletedFactions))
-    }
-  }
+    SET_DIRTY(state: any): void {
+      if (state.Factions.length) state.Dirty = true;
+    },
 
-  @Mutation
-  private [SAVE_DATA](): void {
-    if (this.Dirty) {
-      storeSaveDelta(this.Factions)
-      this.Dirty = false
-    }
-  }
+    ADD_FACTION(state: any, payload: Faction): void {
+      payload.SaveController.IsDirty = true;
+      state.Factions.push(payload);
+      state.Dirty = true;
+      saveFactionData(state.Factions);
+    },
 
-  @Mutation
-  private [SET_DIRTY](): void {
-    if (this.Factions.length) this.Dirty = true
-  }
+    CLONE_FACTION(state: any, payload: Faction): void {
+      state.Factions.push(payload.Clone());
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [ADD_FACTION](payload: Faction): void {
-    payload.SaveController.IsDirty = true
-    this.Factions.push(payload)
-    this.Dirty = true
-  }
+    DELETE_FACTION(state: any, payload: Faction): void {
+      const idx = state.Factions.findIndex((x: Faction) => x.ID === payload.ID);
+      if (idx > -1) {
+        state.Factions.splice(idx, 1);
+        state.DeletedFactions.push(payload);
+      } else {
+        throw console.error('FACTION not loaded!');
+      }
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [CLONE_FACTION](payload: Faction): void {
-    this.Factions.push(payload.Clone())
-    this.Dirty = true
-  }
+    DELETE_FACTION_PERMANENT(state: any, payload: Faction): void {
+      const dpIdx = state.DeletedFactions.findIndex(
+        (x: Faction) => x.ID === payload.ID
+      );
+      if (dpIdx > -1) {
+        state.DeletedFactions.splice(dpIdx, 1);
+        deletePermanent(payload);
+      }
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [DELETE_FACTION](payload: Faction): void {
-    const idx = this.Factions.findIndex(x => x.ID === payload.ID)
-    if (idx > -1) {
-      this.Factions.splice(idx, 1)
-    } else {
-      throw console.error('FACTION not loaded!')
-    }
-    this.Dirty = true
-  }
+    RESTORE_FACTION(state: any, payload: Faction): void {
+      const FactionIndex = state.DeletedFactions.findIndex(
+        (x: Faction) => x.ID === payload.ID
+      );
+      if (FactionIndex > -1) {
+        state.DeletedFactions.splice(FactionIndex, 1);
+        state.Factions.push(payload);
+      } else {
+        throw console.error('FACTION not loaded!');
+      }
+      state.Dirty = true;
+    },
+  },
+  actions: {
+    setFactionOrder({ commit }: any, payload: Faction[]): void {
+      commit('SORT_FACTION', payload);
+    },
 
-  @Action
-  public saveFactionData(): void {
-    this.context.commit(SAVE_DATA)
-  }
+    set_faction_dirty({ commit }: any): void {
+      commit('SET_DIRTY');
+    },
 
-  @Action
-  public cloneFaction(payload: Faction): void {
-    this.context.commit(CLONE_FACTION, payload)
-  }
+    saveFactionData({ commit }: any): void {
+      commit('SAVE_DATA');
+    },
 
-  @Action
-  public addFaction(payload: Faction): void {
-    this.context.commit(ADD_FACTION, payload)
-  }
+    cloneFaction({ commit }: any, payload: Faction): void {
+      commit('CLONE_FACTION', payload);
+    },
 
-  @Action
-  public deleteFaction(payload: Faction): void {
-    this.context.commit(DELETE_FACTION, payload)
-  }
+    addFaction({ commit }: any, payload: Faction): void {
+      commit('ADD_FACTION', payload);
+      commit('SAVE_DATA');
+    },
 
-  @Action({ rawError: true })
-  public async loadFactions() {
-    const factionData = await GetAll('factions')
-    this.context.commit(LOAD_FACTIONS, factionData)
-  }
+    delete_faction({ commit }: any, payload: Faction): void {
+      commit('DELETE_FACTION', payload);
+      commit('SAVE_DATA');
+    },
 
-  get getFactions(): Faction[] {
-    return this.Factions
-  }
-}
+    deleteMissingFaction({ commit }: any, payload: any): void {
+      commit('DELETE_MISSING_FACTION', payload);
+    },
+
+    restore_faction({ commit }: any, payload: Faction): void {
+      commit('RESTORE_FACTION', payload);
+    },
+
+    deleteFactionPermanent({ commit }: any, payload: Faction): void {
+      if (!payload.SaveController.IsDeleted) commit('DELETE_FACTION');
+      commit('DELETE_FACTION_PERMANENT', payload);
+    },
+    async loadFactions({ commit }: any) {
+      const factionData = await GetAll('factions');
+      commit('LOAD_FACTIONS', ItemsWithLcp(factionData));
+      commit('SET_MISSING_CONTENT', ItemsMissingLcp(factionData));
+    },
+  },
+};

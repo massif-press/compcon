@@ -14,9 +14,19 @@
       style="cursor: pointer !important; height: 100%; min-height: 80px"
       @click="$refs.base.openDetail()"
     >
-      <span :key="item.Name" class="h2 heading text--text" style="line-height: 35px">
+      <span
+        :key="item.Name"
+        class="h2 heading text--text"
+        style="line-height: 35px"
+      >
         {{ item.Name }}
-        <cc-tooltip v-if="item.Note" :key="item.Note.length" simple inline :content="item.Note">
+        <cc-tooltip
+          v-if="item.Note"
+          :key="item.Note.length"
+          simple
+          inline
+          :content="item.Note"
+        >
           <v-icon small color="active">mdi-note</v-icon>
         </cc-tooltip>
       </span>
@@ -35,13 +45,13 @@
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Electronic Defense">
-            <v-icon>cci-edef</v-icon>
+            <v-icon>cc:edef</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ edef }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Evasion">
-            <v-icon>cci-evasion</v-icon>
+            <v-icon>cc:evasion</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ evasion }}</span>
         </v-col>
@@ -74,18 +84,29 @@
             </span>
           </span>
           <br />
-          <span class="heading h1 accent--text" style="line-height: 20px">{{ item.Name }}</span>
-          <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
+          <span class="heading h1 accent--text" style="line-height: 20px">{{
+            item.Name
+          }}</span>
+          <span class="flavor-text overline mt-n1" style="display: block"
+            >CURRENTLY EQUIPPED</span
+          >
         </div>
         <div v-else>
           <span class="overline">
-            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMOR::TI - TVII-A
+            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMOR::TI -
+            TVII-A
           </span>
           <br />
-          <span class="heading h1 subtle--text text--lighten-1" style="line-height: 20px">
+          <span
+            class="heading h1 subtle--text text--lighten-1"
+            style="line-height: 20px"
+          >
             NO SELECTION
           </span>
-          <span class="flavor-text overline mt-n1 error--text" style="display: block">
+          <span
+            class="flavor-text overline mt-n1 error--text"
+            style="display: block"
+          >
             [ MATERIEL ID INVALID OR MISSING ]
           </span>
         </div>
@@ -95,14 +116,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PlCardBase from './_PLCardBase.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { PilotArmor, CompendiumItem, ItemType } from '@/class'
-import { flavorID } from '@/io/Generators'
+import PlCardBase from './_PLCardBase.vue';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { PilotArmor, CompendiumItem, ItemType } from '@/class';
+import { flavorID } from '@/io/Generators';
+
+export default {
   name: 'pl-pilot-armor-card',
   components: { PlCardBase },
   props: {
@@ -137,44 +157,45 @@ export default Vue.extend({
   }),
   computed: {
     armor() {
-      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_armor')
-      return attr ? attr.Value : 0
+      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_armor');
+      return attr ? attr.Value : 0;
     },
     hp() {
-      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_hp')
-      return attr ? attr.Value : 0
+      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_hp');
+      return attr ? attr.Value : 0;
     },
     edef() {
-      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_edef')
-      return attr ? attr.Value : 0
+      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_edef');
+      return attr ? attr.Value : 0;
     },
     evasion() {
-      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_evasion')
-      return attr ? attr.Value : 0
+      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_evasion');
+      return attr ? attr.Value : 0;
     },
     speed() {
-      const attr = this.item.Bonuses.find(b => b.ID === 'pilot_speed')
-      return attr ? attr.Value : 0
+      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_speed');
+      return attr ? attr.Value : 0;
     },
   },
   methods: {
     equip(item: PilotArmor) {
-      this.$emit('equip', this.$_.clone(item))
-      this.$refs.base.closeSelector()
+      this.$emit('equip', { ...item });
+      (this.$refs.base as any).closeSelector();
     },
     getArmor() {
-      const compendium = getModule(CompendiumStore, this.$store)
+      const compendium = this.getModule(CompendiumStore);
       let gear = compendium.PilotGear.filter(
-        (x: CompendiumItem) => !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotArmor
-      )
+        (x: CompendiumItem) =>
+          !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotArmor
+      );
       if (this.exotics.length) {
-        gear = gear.concat(this.exotics)
+        gear = gear.concat(this.exotics);
       }
-      return gear
+      return gear;
     },
     fID(template: string): string {
-      return flavorID(template)
+      return flavorID(template);
     },
   },
-})
+};
 </script>

@@ -28,13 +28,13 @@
       <v-divider vertical class="mx-4" />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
-          <v-icon>cci-reticule</v-icon>
+          <v-icon>cc:reticule</v-icon>
           <span v-if="item.Feature.AttackBonus(item.Tier) > 0">+</span>
           {{ item.Feature.AttackBonus(item.Tier) }}
           Attack Bonus
         </span>
         <span v-else>
-          <v-icon>cci-reticule</v-icon>
+          <v-icon>cc:reticule</v-icon>
           <span v-if="item.Feature.AttackBonus(1) > 0">+</span>
           {{ item.Feature.AttackBonus(1) }} /
           <span v-if="item.Feature.AttackBonus(2) > 0">+</span>
@@ -48,35 +48,38 @@
       <v-col>
         <span v-if="item.Tier" class="heading h3">
           <div v-if="item.Feature.Accuracy(item.Tier) > 0">
-            <v-icon>cci-accuracy</v-icon>
+            <v-icon>cc:accuracy</v-icon>
             +{{ item.Feature.Accuracy(item.Tier) }}
             Accuracy
           </div>
           <div v-else-if="item.Feature.Accuracy(item.Tier) < 0">
-            <v-icon>cci-difficulty</v-icon>
+            <v-icon>cc:difficulty</v-icon>
             +{{ Math.abs(item.Feature.Accuracy(item.Tier)) }}
             Difficulty
           </div>
         </span>
         <span v-else>
           <div v-if="item.Feature.Accuracy(1) > 0">
-            <v-icon>cci-accuracy</v-icon>
-            +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} / +{{
-              item.Feature.Accuracy(3)
-            }}
+            <v-icon>cc:accuracy</v-icon>
+            +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} /
+            +{{ item.Feature.Accuracy(3) }}
             Accuracy
           </div>
           <div v-else-if="item.Feature.Accuracy(1) < 0">
-            <v-icon>cci-difficulty</v-icon>
-            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{ Math.abs(item.Feature.Accuracy(2)) }} /
-            +{{ Math.abs(item.Feature.Accuracy(3)) }}
+            <v-icon>cc:difficulty</v-icon>
+            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{
+              Math.abs(item.Feature.Accuracy(2))
+            }}
+            / +{{ Math.abs(item.Feature.Accuracy(3)) }}
             Difficulty
           </div>
         </span>
       </v-col>
       <v-divider vertical />
       <v-col>
-        <span style="float: right" class="heading h3">{{ item.Feature.WeaponType }}</span>
+        <span style="float: right" class="heading h3">{{
+          item.Feature.WeaponType
+        }}</span>
       </v-col>
     </v-row>
     <div v-if="item.Feature.OnHit">
@@ -97,10 +100,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CardBase from './_CardBase.vue'
+import CardBase from './_CardBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-trait-card',
   components: { CardBase },
   props: {
@@ -115,5 +117,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>

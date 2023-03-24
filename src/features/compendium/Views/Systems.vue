@@ -1,46 +1,57 @@
 <template>
   <v-container fluid>
-    <compendium-browser :headers="headers" :items="systems">Mech Systems</compendium-browser>
+    <compendium-browser :headers="headers" :items="systems"
+      >Mech Systems</compendium-browser
+    >
   </v-container>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import Component from 'vue-class-component'
-import CompendiumBrowser from '../components/CompendiumBrowser.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, UserStore } from '@/store'
-import { MechEquipment } from '@/class'
+import _ from 'lodash';
+import CompendiumBrowser from '../components/CompendiumBrowser.vue';
 
-@Component({
+import { CompendiumStore, UserStore } from '@/store';
+import { MechEquipment } from '@/class';
+
+export default {
+  name: 'Systems',
   components: { CompendiumBrowser },
-})
-export default class Systems extends Vue {
-  public headers = [
-    { text: 'Source', align: 'left', value: 'Source' },
-    { text: 'System', align: 'left', value: 'Name' },
-    { text: 'License', align: 'left', value: 'LicenseString' },
-    { text: 'License Level', align: 'left', value: 'LicenseLevel' },
-    { text: 'SP Cost', align: 'left', value: 'SP' },
-  ]
+  data: () => ({
+    headers: [
+      { text: 'Source', align: 'left', value: 'Source' },
+      { text: 'System', align: 'left', value: 'Name' },
+      { text: 'License', align: 'left', value: 'LicenseString' },
+      { text: 'License Level', align: 'left', value: 'LicenseLevel' },
+      { text: 'SP Cost', align: 'left', value: 'SP' },
+    ],
+  }),
+  computed: {
+    compendium(): CompendiumStore {
+      return this.getModule(CompendiumStore);
+    },
+    user(): UserStore {
+      return this.getModule(UserStore).UserProfile;
+    },
+    sourceIds(): string[] {
+      return this.compendium.Manufacturers.map((x) => x.ID);
+    },
+    systems(): MechEquipment[] {
+      let sys = this.compendium.MechSystems.filter(
+        (x) => !x.IsHidden && !(!x.Source && !x.IsExotic)
+      );
+      let mod = this.compendium.WeaponMods.filter(
+        (x) => !x.IsHidden && !(!x.Source && !x.IsExotic)
+      );
+      if (!this.user.GetView('showExotics')) {
+        sys = sys.filter((x) => !x.IsExotic);
+        mod = mod.filter((x) => !x.IsExotic);
+      }
 
-  private compendium = getModule(CompendiumStore, this.$store)
-  private user = getModule(UserStore, this.$store).UserProfile
-  private sourceIds = this.compendium.Manufacturers.map(x => x.ID)
-
-  public get systems(): MechEquipment[] {
-    let sys = this.compendium.MechSystems.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
-    let mod = this.compendium.WeaponMods.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
-    if (!this.user.GetView('showExotics')) {
-      sys = sys.filter(x => !x.IsExotic)
-      mod = mod.filter(x => !x.IsExotic)
-    }
-
-    return _.orderBy((sys as MechEquipment[]).concat(mod as MechEquipment[]), [
-      item => this.sourceIds.indexOf(item.Source), 
-      'Name'
-    ])
-  }
-}
+      return _.orderBy(sys.concat(mod), [
+        (item) => this.sourceIds.indexOf(item.Source),
+        'Name',
+      ]);
+    },
+  },
+};
 </script>

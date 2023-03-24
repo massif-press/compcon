@@ -11,10 +11,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActionDialogBase from './_ActionDialogBase.vue'
+import ActionDialogBase from './_ActionDialogBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'item-action-dialog',
   components: { ActionDialogBase },
   props: {
@@ -31,8 +30,8 @@ export default Vue.extend({
   },
   methods: {
     show(): void {
-      this.$refs.base.show()
+      (this.$refs.base as any).show();
     },
   },
-})
+};
 </script>

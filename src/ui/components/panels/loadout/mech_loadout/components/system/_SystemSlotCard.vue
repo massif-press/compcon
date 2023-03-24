@@ -13,7 +13,13 @@
           <v-icon small>mdi-plus</v-icon>
           Add Additional System
         </v-btn>
-        <cc-solo-dialog ref="selectorDialog" no-confirm title="SELECT EQUIPMENT" fullscreen no-pad>
+        <cc-solo-dialog
+          ref="selectorDialog"
+          no-confirm
+          title="SELECT EQUIPMENT"
+          fullscreen
+          no-pad
+        >
           <system-selector :mech="mech" @equip="equipExtra($event)" />
         </cc-solo-dialog>
       </v-col>
@@ -40,9 +46,16 @@
               :class="`ml-n2 ${small ? 'white--text effect-text' : ''}`"
             >
               {{ item.Name }}
-              <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+              <span v-if="item.FlavorName" class="caption ml-2 my-n1"
+                >//{{ item.TrueName }}</span
+              >
             </span>
-            <span v-else :key="item.Name + '_dest'" class="py-1 error" style="letter-spacing: 3px">
+            <span
+              v-else
+              :key="item.Name + '_dest'"
+              class="py-1 error"
+              style="letter-spacing: 3px"
+            >
               &nbsp;//
               <strike>{{ item.Name }}</strike>
               //&nbsp;
@@ -56,7 +69,11 @@
           <span :class="small ? 'h3' : 'h2'">{{ item.SP }}</span>
           <span class="h3">SP</span>
         </div>
-        <div v-if="!readonly" class="d-inline pl-3 ml-3" style="border-left: 1px solid #616161">
+        <div
+          v-if="!readonly"
+          class="d-inline pl-3 ml-3"
+          style="border-left: 1px solid #616161"
+        >
           <v-icon
             v-if="item"
             dark
@@ -88,32 +105,43 @@
         </v-alert>
         <div v-if="item && item.Effect">
           <div class="overline mt-2">
-            <v-icon>cci-system</v-icon>
+            <v-icon>cc:system</v-icon>
             EQUIPMENT EFFECT
           </div>
-          <p v-html-safe="item.Effect" class="text--text body-text mb-1 mr-3 ml-7" />
+          <p
+            v-html-safe="item.Effect"
+            class="text--text body-text mb-1 mr-3 ml-7"
+          />
         </div>
       </div>
       <div v-if="item && item.Ammo && item.Ammo.length">
-        <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
+        <div
+          v-for="(a, i) in item.Ammo"
+          :key="`${item.Name}_ammo_${i}`"
+          class="body-text"
+        >
           <b>{{ a.name }}</b>
           :
           <span v-html="a.detail" />
         </div>
       </div>
-      <system-selector slot="selector" :mech="mech" :equipped="item" @equip="equip($event)" />
+      <system-selector
+        slot="selector"
+        :mech="mech"
+        :equipped="item"
+        @equip="equip($event)"
+      />
     </slot-card-base>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SlotCardBase from '../_SlotCardBase.vue'
-import SystemSelector from './_SystemSelector.vue'
-import EquipmentOptions from '../_EquipmentOptions.vue'
-import { MechSystem } from '@/class'
+import SlotCardBase from '../_SlotCardBase.vue';
+import SystemSelector from './_SystemSelector.vue';
+import EquipmentOptions from '../_EquipmentOptions.vue';
+import { MechSystem } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'system-slot-card',
   components: {
     SlotCardBase,
@@ -149,25 +177,28 @@ export default Vue.extend({
   },
   computed: {
     small() {
-      return this.$vuetify.breakpoint.smAndDown
+      return this.$vuetify.display.smAndDown;
     },
   },
   methods: {
     equipExtra(sys: MechSystem) {
-      this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys)
-      this.$refs.selectorDialog.hide()
+      this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys);
+      (this.$refs.selectorDialog as any).hide();
     },
     equip(sys: MechSystem) {
       if (this.item) {
-        this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(this.index, sys)
+        this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
+          this.index,
+          sys
+        );
       } else {
-        this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys)
+        this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys);
       }
-      this.$refs.base.$refs.selectorDialog.hide()
+      (this.$refs.base.$refs.selectorDialog as any).hide();
     },
     remove(sys: MechSystem) {
-      this.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys)
+      this.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
     },
   },
-})
+};
 </script>

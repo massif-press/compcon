@@ -9,15 +9,16 @@
     <v-row class="heading h3 text-center" dense no-gutters>
       <v-col cols="auto">
         <span v-if="item.Tier" class="heading h3">
-          <v-icon>cci-reticule</v-icon>
+          <v-icon>cc:reticule</v-icon>
           +{{ item.Feature.AttackBonus(item.Tier) }}
           Attack Bonus
         </span>
         <span v-else class="heading h3">
-          <v-icon>cci-reticule</v-icon>
-          +{{ item.Feature.AttackBonus(1) }} / +{{ item.Feature.AttackBonus(2) }} / +{{
-            item.Feature.AttackBonus(3)
+          <v-icon>cc:reticule</v-icon>
+          +{{ item.Feature.AttackBonus(1) }} / +{{
+            item.Feature.AttackBonus(2)
           }}
+          / +{{ item.Feature.AttackBonus(3) }}
           Attack Bonus
         </span>
       </v-col>
@@ -25,28 +26,29 @@
       <v-col>
         <span v-if="item.Tier" class="heading h3">
           <div v-if="item.Feature.Accuracy(item.Tier) > 0">
-            <v-icon>cci-accuracy</v-icon>
+            <v-icon>cc:accuracy</v-icon>
             +{{ item.Feature.Accuracy(item.Tier) }}
             Accuracy
           </div>
           <div v-else-if="item.Feature.Accuracy(item.Tier) < 0">
-            <v-icon>cci-difficulty</v-icon>
+            <v-icon>cc:difficulty</v-icon>
             +{{ Math.abs(item.Feature.Accuracy(item.Tier)) }}
             Difficulty
           </div>
         </span>
         <span v-else class="heading h3">
           <div v-if="item.Feature.Accuracy(1) > 0">
-            <v-icon>cci-accuracy</v-icon>
-            +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} / +{{
-              item.Feature.Accuracy(3)
-            }}
+            <v-icon>cc:accuracy</v-icon>
+            +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} /
+            +{{ item.Feature.Accuracy(3) }}
             Accuracy
           </div>
           <div v-else-if="item.Feature.Accuracy(1) < 0">
-            <v-icon>cci-difficulty</v-icon>
-            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{ Math.abs(item.Feature.Accuracy(2)) }} /
-            +{{ Math.abs(item.Feature.Accuracy(3)) }}
+            <v-icon>cc:difficulty</v-icon>
+            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{
+              Math.abs(item.Feature.Accuracy(2))
+            }}
+            / +{{ Math.abs(item.Feature.Accuracy(3)) }}
             Difficulty
           </div>
         </span>
@@ -54,21 +56,26 @@
       <v-divider vertical class="mx-4" />
       <v-col>
         <!-- <span v-if="item.AttackBonus" class="mx-3">&nbsp;|&nbsp;</span> -->
-        <span style="float: right" class="heading h3">{{ item.Feature.TechType }} TECH</span>
+        <span style="float: right" class="heading h3"
+          >{{ item.Feature.TechType }} TECH</span
+        >
       </v-col>
     </v-row>
     <span class="overline">EFFECT</span>
-    <p v-if="item.Tier" v-html-safe="item.Feature.EffectByTier(item.Tier)" class="body-1 mb-0" />
+    <p
+      v-if="item.Tier"
+      v-html-safe="item.Feature.EffectByTier(item.Tier)"
+      class="body-1 mb-0"
+    />
     <p v-else v-html-safe="item.Feature.Effect" class="body-1 mb-0" />
     <cc-tags v-if="item.Feature.Tags" :tags="item.Feature.Tags" small />
   </card-base>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CardBase from './_CardBase.vue'
+import CardBase from './_CardBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-tech-card',
   components: { CardBase },
   props: {
@@ -83,5 +90,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>

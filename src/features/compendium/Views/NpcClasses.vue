@@ -2,15 +2,15 @@
   <v-container fluid>
     <v-btn-toggle v-model="tier" dense mandatory active-class="accent--text">
       <v-btn :value="1">
-        <v-icon left>cci-rank-1</v-icon>
+        <v-icon start>cc:rank-1</v-icon>
         Tier 1
       </v-btn>
       <v-btn :value="2">
-        <v-icon left>cci-rank-2</v-icon>
+        <v-icon start>cc:rank-2</v-icon>
         Tier 2
       </v-btn>
       <v-btn :value="3">
-        <v-icon left>cci-rank-3</v-icon>
+        <v-icon start>cc:rank-3</v-icon>
         Tier 3
       </v-btn>
     </v-btn-toggle>
@@ -50,7 +50,13 @@
       single-select
     >
       <template v-slot:item.data-table-select="{ item }">
-        <v-btn x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
+        <v-btn
+          x-small
+          fab
+          color="primary"
+          dark
+          @click="$refs[`modal_${item.ID}`].show()"
+        >
           <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
         <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
@@ -92,61 +98,68 @@
         {{ item.Stats.Save(tier) }}
       </template>
       <template v-slot:item.Hase="{ item }">
-        {{ item.Stats.Hull(tier) }}/{{ item.Stats.Agility(tier) }}/{{ item.Stats.Systems(tier) }}/{{
-          item.Stats.Engineering(tier)
-        }}
+        {{ item.Stats.Hull(tier) }}/{{ item.Stats.Agility(tier) }}/{{
+          item.Stats.Systems(tier)
+        }}/{{ item.Stats.Engineering(tier) }}
       </template>
     </v-data-table>
   </v-container>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import CompendiumBrowser from '../components/CompendiumBrowser.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { NpcClass } from '@/class'
-import { accentInclude } from '@/classes/utility/accent_fold'
+import CompendiumBrowser from '../components/CompendiumBrowser.vue';
 
-@Component({
-  components: { CompendiumBrowser },
-})
-export default class NpcClasses extends Vue {
-  private tier = 1
-  private search = ''
-  private tableHeight = 450
-  public headers = [
-    { text: 'Class', align: 'left', value: 'Name' },
-    { text: 'Role', align: 'left', value: 'Role' },
-    { text: 'HP', align: 'left', value: 'HP' },
-    { text: 'Armor', align: 'left', value: 'Armor' },
-    { text: 'Struct.', align: 'left', value: 'Structure' },
-    { text: 'HeatCap.', align: 'left', value: 'Heatcap' },
-    { text: 'Stress', align: 'left', value: 'Stress' },
-    { text: 'Evade', align: 'left', value: 'Evasion' },
-    { text: 'E-Def', align: 'left', value: 'EDef' },
-    { text: 'Speed', align: 'left', value: 'Speed' },
-    { text: 'Sensor', align: 'left', value: 'Sensor' },
-    { text: 'Save', align: 'left', value: 'Save' },
-    { text: 'H/A/S/E', align: 'left', value: 'Hase', sortable: false },
-  ]
-  private compendium = getModule(CompendiumStore, this.$store)
-  public get classes(): NpcClass[] {
-    return this.compendium.NpcClasses
-  }
+import { CompendiumStore } from '@/store';
+import { NpcClass } from '@/class';
+import { accentInclude } from '@/classes/utility/accent_fold';
 
-  public get fItems(): NpcClass[] {
-    if (this.search) return this.classes.filter(x => accentInclude(x.Name, this.search))
-    return this.classes
-  }
-
-  onResize(): void {
-    this.tableHeight = window.innerHeight - 160
-  }
-
+export default {
+  name: 'NpcClasses',
+  components: {
+    CompendiumBrowser,
+  },
+  data: () => ({
+    tier: 1,
+    search: '',
+    tableHeight: 450,
+    headers: [
+      { text: 'Class', align: 'left', value: 'Name' },
+      { text: 'Role', align: 'left', value: 'Role' },
+      { text: 'HP', align: 'left', value: 'HP' },
+      { text: 'Armor', align: 'left', value: 'Armor' },
+      { text: 'Struct.', align: 'left', value: 'Structure' },
+      { text: 'HeatCap.', align: 'left', value: 'Heatcap' },
+      { text: 'Stress', align: 'left', value: 'Stress' },
+      { text: 'Evade', align: 'left', value: 'Evasion' },
+      { text: 'E-Def', align: 'left', value: 'EDef' },
+      { text: 'Speed', align: 'left', value: 'Speed' },
+      { text: 'Sensor', align: 'left', value: 'Sensor' },
+      { text: 'Save', align: 'left', value: 'Save' },
+      { text: 'H/A/S/E', align: 'left', value: 'Hase', sortable: false },
+    ],
+    // compendium:this.getModule(CompendiumStore),
+  }),
+  computed: {
+    fItems(): NpcClass[] {
+      const search = this.search.toLowerCase();
+      return this.compendium.NpcClasses.filter(
+        (x) =>
+          (search.length === 0 ||
+            x.Name.toLowerCase().includes(search) ||
+            x.Role.toLowerCase().includes(search) ||
+            accentInclude(x.Name, search) ||
+            accentInclude(x.Role, search)) &&
+          x.Tier === this.tier
+      );
+    },
+  },
+  methods: {
+    onResize() {
+      this.tableHeight = window.innerHeight - 300;
+    },
+  },
   mounted(): void {
-    this.onResize()
-  }
-}
+    this.onResize();
+  },
+};
 </script>

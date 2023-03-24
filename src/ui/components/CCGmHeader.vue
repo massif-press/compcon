@@ -13,16 +13,23 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-gm-header' })
-export default class CCGmHeader extends Vue {
-  @Prop({ type: String, required: true })
-  readonly title!: string
-
-  @Prop({ type: String, required: false, default: 'accent' })
-  readonly color: string
-  @Prop({ type: Boolean })
-  readonly flip: boolean
-}
+export default {
+  name: 'CCGmHeader',
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'accent',
+    },
+    flip: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+};
 </script>

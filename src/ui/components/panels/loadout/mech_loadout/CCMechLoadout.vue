@@ -12,7 +12,8 @@
     >
       <v-row dense>
         <mount-block
-          v-for="(im, j) in mech.MechLoadoutController.ActiveLoadout.IntegratedMounts"
+          v-for="(im, j) in mech.MechLoadoutController.ActiveLoadout
+            .IntegratedMounts"
           :key="`int_${j}`"
           integrated
           :mount="im"
@@ -24,7 +25,9 @@
           v-if="mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')"
           int-weapon
           :readonly="readonly"
-          :mount="mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount"
+          :mount="
+            mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount
+          "
           :mech="mech"
           :color="color"
         />
@@ -36,13 +39,16 @@
           "
           imp-arm
           :readonly="readonly"
-          :mount="mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount"
+          :mount="
+            mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount
+          "
           :mech="mech"
           :color="color"
         />
 
         <mount-block
-          v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout.EquippableMounts"
+          v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout
+            .EquippableMounts"
           :key="`m_${k}`"
           :readonly="readonly"
           :mount="m"
@@ -57,11 +63,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import MountBlock from './components/mount/_MountBlock.vue'
-import SystemsBlock from './components/system/_SystemsBlock.vue'
+import MountBlock from './components/mount/_MountBlock.vue';
+import SystemsBlock from './components/system/_SystemsBlock.vue';
 
-export default Vue.extend({
+export default {
   name: 'mech-loadout-block',
   components: { SystemsBlock, MountBlock },
   props: {
@@ -78,8 +83,8 @@ export default Vue.extend({
   },
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
     },
   },
-})
+};
 </script>

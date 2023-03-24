@@ -1,5 +1,5 @@
 <template>
-  <v-card v-show="item" flat outlined class="mb-8">
+  <v-card v-show="item" flat variant="outlined" class="mb-8">
     <v-card-text>
       <v-row justify="space-between" align="start">
         <v-col>
@@ -97,18 +97,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'gm-render-base',
   props: {
     item: { type: Object, required: true },
   },
   computed: {
     typeText() {
-      if (!this.item) return 'ERR'
-      return this.item.ItemType.toUpperCase()
+      if (!this.item) return 'ERR';
+      return this.item.ItemType.toUpperCase();
     },
   },
-})
+};
 </script>

@@ -29,7 +29,7 @@
           v-model="overcharge_heat"
           type="number"
           label="Heat Roll Result"
-          outlined
+          variant="outlined"
           dense
           hide-details
           :disabled="used"
@@ -51,7 +51,7 @@
           :disabled="used || !overcharge_heat"
           @click="select()"
         >
-          <v-icon large left>cci-overcharge</v-icon>
+          <v-icon large left>cc:overcharge</v-icon>
           Confirm
         </v-btn>
       </v-col>
@@ -60,10 +60,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
 
-export default Vue.extend({
+export default {
   name: 'action-dialog-base',
   components: { ActionDetailExpander },
   props: {
@@ -84,26 +83,26 @@ export default Vue.extend({
   }),
   methods: {
     registerOverchargeRoll(roll) {
-      Vue.set(this, 'overcharge_heat', roll)
-      Vue.nextTick().then(() => this.$forceUpdate())
+      Vue.set(this, 'overcharge_heat', roll);
+      Vue.nextTick().then(() => this.$forceUpdate());
     },
     select() {
-      this.mech.Pilot.State.OverchargeHeat = parseInt(this.overcharge_heat)
-      Vue.nextTick().then(() => this.$emit('use'))
+      this.mech.Pilot.State.OverchargeHeat = parseInt(this.overcharge_heat);
+      Vue.nextTick().then(() => this.$emit('use'));
     },
     reset() {
       Vue.nextTick()
         .then(() => this.$emit('undo'))
-        .then(() => this.init())
+        .then(() => this.init());
     },
     init(): void {
-      this.finished = false
-      this.overcharge_heat = null
-      this.resetRoll = false
-      this.$nextTick(function() {
-        this.resetRoll = true
-      })
+      this.finished = false;
+      this.overcharge_heat = null;
+      this.resetRoll = false;
+      this.$nextTick(function () {
+        this.resetRoll = true;
+      });
     },
   },
-})
+};
 </script>

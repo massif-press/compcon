@@ -1,15 +1,24 @@
 <template>
-  <div style="position: relative; max-width: fit-content; display: inline-block">
-    <div :class="disabled ? 'disabled' : ''" class="wings" :style="`background:${bgColor}`">
+  <div
+    style="position: relative; max-width: fit-content; display: inline-block"
+  >
+    <div
+      :class="disabled ? 'disabled' : ''"
+      class="wings"
+      :style="`background:${bgColor}`"
+    >
       <v-btn
         tile
         class="clipped-btn"
         v-bind="$props"
-        style="visibility: visible;"
+        style="visibility: visible"
         :style="`visibility: visible; background-color: ${bgColor} !important`"
         @click.stop="$emit('click')"
       >
-        <span :class="!xLarge ? '' : 'heading h3 align'" style="display: contents">
+        <span
+          :class="!xLarge ? '' : 'heading h3 align'"
+          style="display: contents"
+        >
           <slot></slot>
         </span>
       </v-btn>
@@ -18,39 +27,63 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Mixins } from 'vue-property-decorator'
-import GetColorMixin from '@/mixins/getColor'
-import { Route } from 'vue-router'
+import getColor from '@/mixins/getColor';
 
-@Component({ name: 'cc-btn' })
-export default class CCBtn extends Mixins(GetColorMixin) {
-  @Prop({ type: Boolean, required: false, default: false })
-  readonly large: boolean
-  @Prop({ type: Boolean, required: false, default: false })
-  readonly xLarge: boolean
-  @Prop({ type: Boolean, required: false, default: false })
-  readonly small: boolean
-
-  get bgColor(): string {
-    if (this.disabled) return 'gray'
-    else return this.getColor(this.color, this.$vuetify)
-  }
-  @Prop({ type: String, required: false, default: 'primary' })
-  readonly color: string
-  @Prop({ type: Boolean, required: false, default: true })
-  readonly dark: boolean
-  @Prop({ type: Boolean, required: false, default: false })
-  readonly light: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly outlined?: boolean
-
-  @Prop({ type: Boolean, required: false, default: false })
-  readonly disabled: boolean
-
-  @Prop({ type: [String, Object], required: false, default: '' })
-  readonly to: string | Route
-}
+export default {
+  name: 'CCBtn',
+  props: {
+    large: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    xLarge: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    small: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    dark: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    light: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    outlined: {
+      type: Boolean,
+      required: false,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    to: {
+      type: [String, Object],
+      required: false,
+      default: '',
+    },
+  },
+  computed: {
+    bgColor(): string {
+      if (this.disabled) return 'gray';
+      else return getColor(this.color, this.$vuetify);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -85,12 +118,12 @@ export default class CCBtn extends Mixins(GetColorMixin) {
   transition: all 0.2s ease-in-out, background-color 1ms;
 }
 .wings:not(.disabled):hover::before,
-.wings:not(.disabled):focus-within::before{
+.wings:not(.disabled):focus-within::before {
   transform: translate(-6px, 0px);
 }
 
 .wings:not(.disabled):hover::after,
-.wings:not(.disabled):focus-within::after{
+.wings:not(.disabled):focus-within::after {
   transform: translate(6px, 0px);
 }
 

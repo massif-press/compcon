@@ -8,7 +8,10 @@
     <div v-else>
       <div v-if="action.Frequency.ToString() !== 'Unlimited'">
         <div class="overline mb-n3">Frequency</div>
-        <div v-html-safe="action.Frequency.ToString()" class="ml-3 body-text stark--text" />
+        <div
+          v-html-safe="action.Frequency.ToString()"
+          class="ml-3 body-text stark--text"
+        />
       </div>
       <div class="overline mb-n3">Trigger</div>
       <div v-html-safe="action.Trigger" class="ml-3 body-text stark--text" />
@@ -32,10 +35,12 @@
         <v-btn
           icon
           :class="`fadeSelect ${expanded ? 'mb-n2' : 'mb-n6'}`"
-          style="background-color: var(--v-stark-panel-base)"
+          style="background-color: rgb(var(--v-theme-stark-panel))"
           @click="expanded = !expanded"
         >
-          <v-icon color="accent">mdi-chevron-double-{{ expanded ? 'up' : 'down' }}</v-icon>
+          <v-icon color="accent"
+            >mdi-chevron-double-{{ expanded ? 'up' : 'down' }}</v-icon
+          >
         </v-btn>
       </p>
       <div v-if="expanded" style="min-height: 40px" />
@@ -44,8 +49,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'action-detail-expander',
   props: {
     action: { type: Object, required: true },
@@ -53,7 +57,7 @@ export default Vue.extend({
   data: () => ({
     expanded: false,
   }),
-})
+};
 </script>
 
 <style scoped>
@@ -72,6 +76,10 @@ export default Vue.extend({
   margin: 0;
   padding: 20px 0;
 
-  background-image: linear-gradient(to bottom, transparent, var(--v-background-base));
+  background-image: linear-gradient(
+    to bottom,
+    transparent,
+    rgb(var(--v-theme-background))
+  );
 }
 </style>

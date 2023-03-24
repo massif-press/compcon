@@ -27,9 +27,8 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-export default Vue.extend({
-  name: "talent-emblem",
+export default {
+  name: 'talent-emblem',
   props: {
     url: { type: String, required: true },
     name: { type: String, required: true },
@@ -38,14 +37,14 @@ export default Vue.extend({
     white: { type: Boolean },
   },
   data: () => ({
-    backup: "",
-    src: "",
+    backup: '',
+    src: '',
   }),
   computed: {
     size() {
-      if (this.large) return "100px";
-      if (this.small) return "50px";
-      return "45px";
+      if (this.large) return '100px';
+      if (this.small) return '50px';
+      return '45px';
     },
   },
   mounted() {
@@ -53,11 +52,11 @@ export default Vue.extend({
   },
   methods: {
     imageLoadFailed() {
-      this.src = "/static/img/talent/GENERIC TALENT.svg";
+      this.src = '/static/img/talent/GENERIC TALENT.svg';
       this.backup = this.name;
     },
   },
-});
+};
 </script>
 
 <style scoped>
@@ -70,7 +69,7 @@ export default Vue.extend({
 }
 
 .banner {
-  background-color: var(--v-primary-base);
+  background-color: rgb(var(--v-theme-primary));
   color: white;
   text-align: center;
   position: absolute;

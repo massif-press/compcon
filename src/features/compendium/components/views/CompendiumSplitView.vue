@@ -4,17 +4,20 @@
       <v-col cols="auto" class="pt-2 ml-n6" style="max-width: 25vw">
         <v-list dense class="side-fixed pr-2" color="panel">
           <v-list-item-group v-model="selected" color="accent">
-            <v-list-item v-for="i in items" :key="`${i.ID}_sidebar'`" :value="i.ID" dense>
+            <v-list-item
+              v-for="i in items"
+              :key="`${i.ID}_sidebar'`"
+              :value="i.ID"
+              dense
+            >
               <v-list-item-icon>
-                <v-icon v-if="i.IsExotic" color="exotic">
-                  mdi-star
-                </v-icon>
+                <v-icon v-if="i.IsExotic" color="exotic">mdi-star</v-icon>
                 <cc-logo
                   v-else-if="i.Source && i.Manufacturer"
                   :source="i.Manufacturer"
                   class="mb-n1"
                 />
-                <v-icon v-else>cci-trait</v-icon>
+                <v-icon v-else>cc:trait</v-icon>
               </v-list-item-icon>
               <v-list-item-content class="ml-n6 mb-n1">
                 <v-list-item-title
@@ -32,7 +35,7 @@
         <div
           v-if="!selectedItem"
           class="heading h2 light-panel--text text-center"
-          style="margin-top:calc(50vh - 150px);"
+          style="margin-top: calc(50vh - 150px)"
         >
           NO SELECTION
         </div>
@@ -47,9 +50,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'compendium-split-view',
   props: {
     items: {
@@ -62,10 +63,10 @@ export default Vue.extend({
   }),
   computed: {
     selectedItem() {
-      return this.items.find(x => x.ID === this.selected)
+      return this.items.find((x) => x.ID === this.selected);
     },
   },
-})
+};
 </script>
 
 <style scoped>

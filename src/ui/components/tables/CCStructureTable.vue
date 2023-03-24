@@ -1,5 +1,10 @@
 <template>
-  <v-dialog v-model="dialog" :fullscreen="$vuetify.breakpoint.mdAndDown" width="60vw" persistent>
+  <v-dialog
+    v-model="dialog"
+    :fullscreen="$vuetify.display.mdAndDown"
+    width="60vw"
+    persistent
+  >
     <v-card flat tile>
       <v-toolbar color="title-bg clipped-large" dark flat>
         <v-toolbar-title class="heading h1">STRUCTURE DAMAGE</v-toolbar-title>
@@ -7,7 +12,9 @@
       <v-window v-model="window">
         <v-window-item>
           <v-card-text class="text-center">
-            <span class="flavor-text">Roll 1d6 per point of structure damage</span>
+            <span class="flavor-text"
+              >Roll 1d6 per point of structure damage</span
+            >
             <br />
             <span class="overline">
               <b>{{ totalRolls - rolls.length }}</b>
@@ -25,7 +32,11 @@
                 </v-btn>
               </cc-tooltip>
             </div>
-            <div v-for="n in totalRolls - rolls.length" :key="`er${n}`" class="d-inline">
+            <div
+              v-for="n in totalRolls - rolls.length"
+              :key="`er${n}`"
+              class="d-inline"
+            >
               <v-btn text icon x-large disabled>
                 <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
               </v-btn>
@@ -55,13 +66,17 @@
                   icon
                   @click="rolls.push(n)"
                 >
-                  <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
+                  <v-icon
+                    class="die-hover"
+                    size="55px"
+                    v-html="`mdi-dice-${n}`"
+                  />
                 </v-btn>
               </div>
               <div v-else key="tr02">
                 <v-scroll-y-transition group>
                   <span
-                    v-if="rolls.filter(x => x === 1).length > 1"
+                    v-if="rolls.filter((x) => x === 1).length > 1"
                     key="t01"
                     class="heading h3 error--text"
                   >
@@ -73,7 +88,11 @@
                   </span>
                 </v-scroll-y-transition>
               </div>
-              <div v-if="rolls.length === totalRolls" :key="'undo_1'" class="text-right">
+              <div
+                v-if="rolls.length === totalRolls"
+                :key="'undo_1'"
+                class="text-right"
+              >
                 <v-btn
                   x-small
                   color="primary"
@@ -120,7 +139,9 @@
           @previous="window = 0"
           @confirm="applySystemTrauma()"
         >
-          <p class="fluff-text">Parts of your mech have been torn off by the damage. Roll a d6.</p>
+          <p class="fluff-text">
+            Parts of your mech have been torn off by the damage. Roll a d6.
+          </p>
           <cc-tooltip inline content="Roll Die">
             <v-btn
               icon
@@ -150,21 +171,23 @@
               v-model="destroyedMount"
               style="margin-left: 30%; margin-right: 30%"
               label="Mounts"
-              outlined
+              variant="outlined"
               placeholder="Select Destroyed Mount"
               :items="destroyableMounts"
               item-text="name"
               item-value="index"
               color="accent"
             />
-            <span class="effect-text">All weapons on this mount are destroyed</span>
+            <span class="effect-text"
+              >All weapons on this mount are destroyed</span
+            >
           </div>
           <div v-else-if="systemTraumaRoll && systemTraumaRoll >= 4">
             <v-select
               v-model="destroyedSystem"
               style="margin-left: 30%; margin-right: 30%"
               label="Systems"
-              outlined
+              variant="outlined"
               placeholder="Select Destroyed System"
               :items="destroyableSystems"
               item-text="Name"
@@ -191,11 +214,20 @@
           <cascade-check :mech="mech" />
           <div slot="confirm-button">
             <div v-if="mech.CurrentStructure >= 3">
-              <v-btn color="success" large @click="applyDirectHit">confirm</v-btn>
+              <v-btn color="success" large @click="applyDirectHit"
+                >confirm</v-btn
+              >
             </div>
             <div v-else>
-              <v-btn color="error" tile large @click="window = 4">fail hull check</v-btn>
-              <v-btn color="success darken-1" tile large @click="applyDirectHit()">
+              <v-btn color="error" tile large @click="window = 4"
+                >fail hull check</v-btn
+              >
+              <v-btn
+                color="success darken-1"
+                tile
+                large
+                @click="applyDirectHit()"
+              >
                 pass hull check
               </v-btn>
             </div>
@@ -216,131 +248,144 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import TableWindowItem from './_TableWindowItem.vue'
-import CascadeCheck from './_CascadeCheck.vue'
-import ResultData from './_structure_results.json'
-import { MechLoadout, MechSystem } from '@/class'
-import { MechInstance } from '@/classes/components/combat/MechInstance'
+import TableWindowItem from './_TableWindowItem.vue';
+import CascadeCheck from './_CascadeCheck.vue';
+import { MechLoadout, MechSystem } from '@/class';
+import { MechInstance } from '@/classes/components/combat/MechInstance';
 
-@Component({
-  name: 'structure-table',
+export default {
+  name: 'StructureTable',
   components: { TableWindowItem, CascadeCheck },
-})
-export default class CCSidebarView extends Vue {
-  dialog = false
-  show(): void {
-    this.dialog = true
-  }
-  close(): void {
-    this.window = 0
-    this.rolls = []
-    this.systemTraumaRoll = null
-    this.destroyedSystem = null
-    this.destroyedMount = null
-    this.dialog = false
-  }
-  window = 0
 
-  @Prop({ type: Object, required: true })
-  mech!: MechInstance
-
-  rolls = []
-  resultData = ResultData
-  systemTraumaRoll = null
-  destroyedSystem = null
-  destroyedMount = null
-  results = [
-    'Direct Hit',
-    'System Trauma',
-    'System Trauma',
-    'System Trauma',
-    'Glancing Blow',
-    'Glancing Blow',
-  ]
-
-  get loadout(): MechLoadout {
-    return this.mech.Loadout
-  }
-  get totalRolls(): number {
-    return (
-      (this.mech.ActiveStatController.CurrentStructure - this.mech.StatController.MaxStructure) * -1
-    )
-  }
-  get resultWindow(): number {
-    if (this.rolls.filter(x => x === 1).length > 1) return 4
-    switch (Math.min(...this.rolls)) {
-      case 6:
-      case 5:
-        return 1
-      case 4:
-      case 3:
-      case 2:
-        if (!this.destroyableMounts.length && !this.destroyableSystems.length) return 3
-        return 2
-      case 1:
-        return this.mech.ActiveStatController.CurrentStructure <= 1 ? 4 : 3
-    }
-    return 4
-  }
-
-  get destroyableMounts(): { name: string; index: number }[] {
-    return this.loadout
-      .AllMounts
-      // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-      // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
-      ()
-      .filter(x => x.Weapons.some(w => !w.Destroyed && !(w.IsLimited && w.Uses === 0)))
-      .map((m, i) => ({ name: m.Name, index: i }))
-  }
-
-  get destroyableSystems(): MechSystem[] {
-    return this.loadout.AllActiveSystems.filter(
-      x => !x.IsIndestructible && !x.Destroyed && !(x.IsLimited && x.Uses === 0)
-    )
-  }
-
-  rollRandom(): number {
-    return Math.floor(Math.random() * 6) + 1
-  }
-
-  applyGlancingBlow(): void {
-    if (!this.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
-      this.mech.ActiveStatController.Conditions.push('IMPAIRED')
-    this.close()
-  }
-
-  applyDirectHit(): void {
-    if (!this.mech.ActiveStatController.Conditions.includes('STUNNED'))
-      this.mech.ActiveStatController.Conditions.push('STUNNED')
-    this.close()
-  }
-
-  applyDestroyed(): void {
-    // this.mech.Destroy()
-    this.close()
-  }
-
-  applySystemTrauma(): void {
-    if (this.systemTraumaRoll > 3) {
-      let s = this.loadout.Systems.find(x => x.ID === this.destroyedSystem)
-      if (!s) {
-        s = this.loadout.IntegratedSystems.find(x => x.ID === this.destroyedSystem)
-      }
-      s.Destroy()
-    } else {
-      const m = this.loadout
+  data: () => ({
+    dialog: false,
+    window: 0,
+    rolls: [],
+    resultData: [],
+    systemTraumaRoll: null,
+    destroyedSystem: null,
+    destroyedMount: null,
+    results: [
+      'Direct Hit',
+      'System Trauma',
+      'System Trauma',
+      'System Trauma',
+      'Glancing Blow',
+      'Glancing Blow',
+    ],
+  }),
+  computed: {
+    mech(): MechInstance {
+      return this.$store.getters.activeMech;
+    },
+    destroyableMounts(): { name: string; index: number }[] {
+      return this.loadout
         .AllMounts
         // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
         // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
-        ()[this.destroyedMount]
-      m.Weapons.forEach(w => {
-        w.Destroy()
-      })
-    }
-    this.close()
-  }
-}
+        ()
+        .filter((x) =>
+          x.Weapons.some((w) => !w.Destroyed && !(w.IsLimited && w.Uses === 0))
+        )
+        .map((m, i) => ({ name: m.Name, index: i }));
+    },
+    destroyableSystems(): MechSystem[] {
+      return this.loadout.AllActiveSystems.filter(
+        (x) =>
+          !x.IsIndestructible && !x.Destroyed && !(x.IsLimited && x.Uses === 0)
+      );
+    },
+    loadout(): MechLoadout {
+      return this.mech.Loadout;
+    },
+    totalRolls(): number {
+      return (
+        (this.mech.ActiveStatController.CurrentStructure -
+          this.mech.StatController.MaxStructure) *
+        -1
+      );
+    },
+    result(): string {
+      return this.results[this.totalRolls - 2];
+    },
+    resultDescription(): string {
+      return this.resultData.find((x) => x.name === this.result).description;
+    },
+    resultWindow(): number {
+      if (this.rolls.filter((x) => x === 1).length > 1) return 4;
+      switch (Math.min(...this.rolls)) {
+        case 6:
+        case 5:
+          return 1;
+        case 4:
+        case 3:
+        case 2:
+          if (!this.destroyableMounts.length && !this.destroyableSystems.length)
+            return 3;
+          return 2;
+        case 1:
+          return this.mech.ActiveStatController.CurrentStructure <= 1 ? 4 : 3;
+      }
+      return 4;
+    },
+  },
+  methods: {
+    rollRandom(): number {
+      return Math.floor(Math.random() * 6) + 1;
+    },
+
+    applyGlancingBlow(): void {
+      if (!this.mech.ActiveStatController.Conditions.includes('IMPAIRED'))
+        this.mech.ActiveStatController.Conditions.push('IMPAIRED');
+      this.close();
+    },
+
+    applyDirectHit(): void {
+      if (!this.mech.ActiveStatController.Conditions.includes('STUNNED'))
+        this.mech.ActiveStatController.Conditions.push('STUNNED');
+      this.close();
+    },
+
+    applyDestroyed(): void {
+      // this.mech.Destroy()
+      this.close();
+    },
+
+    applySystemTrauma(): void {
+      if (this.systemTraumaRoll > 3) {
+        let s = this.loadout.Systems.find((x) => x.ID === this.destroyedSystem);
+        if (!s) {
+          s = this.loadout.IntegratedSystems.find(
+            (x) => x.ID === this.destroyedSystem
+          );
+        }
+        s.Destroy();
+      } else {
+        const m = this.loadout
+          .AllMounts
+          // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
+          // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+          ()[this.destroyedMount];
+        m.Weapons.forEach((w) => {
+          w.Destroy();
+        });
+      }
+      this.close();
+    },
+
+    show(): void {
+      this.dialog = true;
+    },
+    close(): void {
+      this.window = 0;
+      this.rolls = [];
+      this.systemTraumaRoll = null;
+      this.destroyedSystem = null;
+      this.destroyedMount = null;
+      this.dialog = false;
+    },
+  },
+};
 </script>
 
 <style scoped>

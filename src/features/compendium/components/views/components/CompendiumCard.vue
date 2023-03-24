@@ -36,15 +36,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import FrameCardContent from './_FrameCardContent.vue'
-import WeaponCardContent from './_WeaponCardContent.vue'
-import GearCardContent from './_GearCardContent.vue'
-import SystemCardContent from './_SystemCardContent.vue'
+import FrameCardContent from './_FrameCardContent.vue';
+import WeaponCardContent from './_WeaponCardContent.vue';
+import GearCardContent from './_GearCardContent.vue';
+import SystemCardContent from './_SystemCardContent.vue';
 
-export default Vue.extend({
+export default {
   name: 'compendium-large-card',
-  components: { FrameCardContent, WeaponCardContent, GearCardContent, SystemCardContent },
+  components: {
+    FrameCardContent,
+    WeaponCardContent,
+    GearCardContent,
+    SystemCardContent,
+  },
   props: {
     item: {
       type: Object,
@@ -54,5 +58,5 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>

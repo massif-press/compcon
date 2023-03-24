@@ -20,11 +20,16 @@
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <p class="body-text" v-if="missingLength > 1">
-              COMP/CON has determined the following items cannot be loaded, and require Lancer
-              Content Packs that are not installed or not activated:
+              COMP/CON has determined the following items cannot be loaded, and
+              require Lancer Content Packs that are not installed or not
+              activated:
             </p>
             <div v-for="key in Object.keys(missing)" :key="key">
-              <v-card outlined v-for="(item, n) in missing[key]" :key="`mp_${n}`">
+              <v-card
+                variant="outlined"
+                v-for="(item, n) in missing[key]"
+                :key="`mp_${n}`"
+              >
                 <v-card-title v-if="key === 'pilots'" class="heading h3 mb-n4">
                   Pilot Data:
                   <span class="primary--text">
@@ -46,7 +51,11 @@
                     <v-col>
                       <div v-if="notActive(item.brews).length">
                         <div class="caption">DEACTIVATED LCPS</div>
-                        <div v-for="pack in notActive(item.brews)" :key="pack" class="ml-2">
+                        <div
+                          v-for="pack in notActive(item.brews)"
+                          :key="pack"
+                          class="ml-2"
+                        >
                           <span class="body-text">
                             LCP
                             <b v-text="pack" />
@@ -64,14 +73,23 @@
                           >
                             <span class="body-text">
                               LCP
-                              <b v-text="`${brew.LcpName} @ ${brew.LcpVersion}`" />
+                              <b
+                                v-text="`${brew.LcpName} @ ${brew.LcpVersion}`"
+                              />
                               is missing.
                             </span>
                             <div v-if="brew.Website">
                               It may be possible to download this pack at:
-                              <a target="_blank" :href="brew.Website" v-text="brew.Website" />
+                              <a
+                                target="_blank"
+                                :href="brew.Website"
+                                v-text="brew.Website"
+                              />
                             </div>
-                            <auto-updater :brew="brew" @update="forceUpdate(item, key)" />
+                            <auto-updater
+                              :brew="brew"
+                              @update="forceUpdate(item, key)"
+                            />
                           </div>
                         </div>
                         <div v-else>
@@ -85,8 +103,14 @@
                               <b v-text="brew" />
                               is missing.
                             </span>
-                            <div>This data was saved with an older version of COMP/CON.</div>
-                            <auto-updater :brew="brew" @update="forceUpdate(item, key)" />
+                            <div>
+                              This data was saved with an older version of
+                              COMP/CON.
+                            </div>
+                            <auto-updater
+                              :brew="brew"
+                              @update="forceUpdate(item, key)"
+                            />
                           </div>
                         </div>
                       </div>
@@ -97,7 +121,11 @@
                         title="Delete Item"
                         content="Delete this item from local data"
                       >
-                        <v-btn icon color="error" @click="deleteItem(item, key)">
+                        <v-btn
+                          icon
+                          color="error"
+                          @click="deleteItem(item, key)"
+                        >
                           <v-icon>mdi-delete</v-icon>
                         </v-btn>
                       </cc-tooltip>
@@ -106,7 +134,11 @@
                         title="Force Load"
                         content="Force COMP/CON to load this data. This is useful if you have outdated (but loadable) data, or COMP/CON has made a mistake in analyzing LCP content."
                       >
-                        <v-btn icon color="secondary" @click="forceItem(item, key)">
+                        <v-btn
+                          icon
+                          color="secondary"
+                          @click="forceItem(item, key)"
+                        >
                           <v-icon>mdi-download-box</v-icon>
                         </v-btn>
                       </cc-tooltip>
@@ -123,13 +155,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store'
-import { Pilot } from '@/classes/pilot/Pilot'
-import AutoUpdater from './components/AutoUpdater.vue'
+import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store';
+import { Pilot } from '@/classes/pilot/Pilot';
+import AutoUpdater from './components/AutoUpdater.vue';
 
-export default Vue.extend({
+export default {
   name: 'missing-content-pane',
   components: { AutoUpdater },
   data: () => ({
@@ -137,44 +167,49 @@ export default Vue.extend({
   }),
   computed: {
     missing() {
-      return getModule(CompendiumStore, this.$store).MissingContent
+      return this.getModule(CompendiumStore).MissingContent;
     },
 
     missingLength() {
-      if (!this.missing) return 0
-      return (this.missing.pilots?.length || 0) + (this.missing.npcs?.length || 0)
+      if (!this.missing) return 0;
+      return (
+        (this.missing.pilots?.length || 0) + (this.missing.npcs?.length || 0)
+      );
     },
   },
   methods: {
     notActive(itemBrews) {
-      return getModule(CompendiumStore, this.$store)
-        .ContentPacks.filter(x => itemBrews.some(y => y.LcpId === x.ID))
-        .map(p => `${p.Name} @ ${p.Version}`)
+      return this.getModule(CompendiumStore);
+      //   .ContentPacks.filter((x) => itemBrews.some((y) => y.LcpId === x.ID))
+      //   .map((p) => `${p.Name} @ ${p.Version}`);
     },
     notInstalled(itemBrews) {
-      return itemBrews.filter(
-        x => !getModule(CompendiumStore, this.$store).ContentPacks.some(y => y.ID === x.LcpId)
-      )
+      // return itemBrews.filter(
+      //   (x) =>
+      //     !getModule(CompendiumStore, this.$store).ContentPacks.some(
+      //       (y) => y.ID === x.LcpId
+      //     )
+      // );
     },
     deleteItem(item, key) {
       if (key === 'pilots') {
-        getModule(PilotManagementStore, this.$store).deleteMissingPilot(item)
+        //this.getModule(PilotManagementStore).deleteMissingPilot(item);
       } else if (key === 'npcs') {
-        getModule(NpcStore, this.$store).deleteMissingNpc(item)
+        //this.getModule(NpcStore).deleteMissingNpc(item);
       }
     },
     forceItem(item, key) {
       if (key === 'pilots') {
-        Pilot.AddNew(item)
-        getModule(PilotManagementStore, this.$store).deleteMissingPilot(item)
+        Pilot.AddNew(item);
+        //this.getModule(PilotManagementStore).deleteMissingPilot(item);
       } else if (key === 'npcs') {
-        getModule(NpcStore, this.$store).deleteMissingNpc(item)
+        //this.getModule(NpcStore).deleteMissingNpc(item);
       }
     },
     forceUpdate(item, key) {
-      item.brews.splice(0, item.brews.length)
-      this.forceItem(item, key)
+      item.brews.splice(0, item.brews.length);
+      this.forceItem(item, key);
     },
   },
-})
+};
 </script>

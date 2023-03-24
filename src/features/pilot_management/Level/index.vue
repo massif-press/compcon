@@ -25,7 +25,9 @@
         <v-stepper-step
           editable
           :complete="pilot.TalentsController.HasFullTalents"
-          :color="pilot.TalentsController.HasFullTalents ? 'success' : 'primary'"
+          :color="
+            pilot.TalentsController.HasFullTalents ? 'success' : 'primary'
+          "
           edit-icon="mdi-check"
           step="3"
         >
@@ -35,7 +37,9 @@
         <v-stepper-step
           editable
           :complete="pilot.MechSkillsController.HasFullHASE"
-          :color="pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'"
+          :color="
+            pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'
+          "
           edit-icon="mdi-check"
           step="4"
         >
@@ -59,7 +63,13 @@
         <v-stepper-step
           editable
           :complete="pilot.HasFullCB"
-          :color="pilot.cbEligible ? (pilot.HasFullCB ? 'success' : 'primary') : 'grey'"
+          :color="
+            pilot.cbEligible
+              ? pilot.HasFullCB
+                ? 'success'
+                : 'primary'
+              : 'grey'
+          "
           edit-icon="mdi-check"
           step="6"
         >
@@ -71,7 +81,11 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
-          <overview-page :pilot="pilot" :cb-eligible="cbEligible" @next="step++" />
+          <overview-page
+            :pilot="pilot"
+            :cb-eligible="cbEligible"
+            @next="step++"
+          />
         </v-stepper-content>
         <v-stepper-content step="2">
           <skills-page :pilot="pilot" @next="step++" @back="step--" />
@@ -86,10 +100,19 @@
           <license-page :pilot="pilot" @next="step++" @back="step--" />
         </v-stepper-content>
         <v-stepper-content step="6">
-          <core-bonus-page :pilot="pilot" :cb-eligible="cbEligible" @next="step++" @back="step--" />
+          <core-bonus-page
+            :pilot="pilot"
+            :cb-eligible="cbEligible"
+            @next="step++"
+            @back="step--"
+          />
         </v-stepper-content>
         <v-stepper-content step="7">
-          <confirm-page :pilot="pilot" :original="currentPilot" @back="step--" />
+          <confirm-page
+            :pilot="pilot"
+            :original="currentPilot"
+            @back="step--"
+          />
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -97,19 +120,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import OverviewPage from './pages/OverviewPage.vue'
-import SkillsPage from './pages/SkillsPage.vue'
-import TalentsPage from './pages/TalentsPage.vue'
-import MechSkillsPage from './pages/MechSkillsPage.vue'
-import LicensePage from './pages/LicensePage.vue'
-import CoreBonusPage from './pages/CoreBonusPage.vue'
-import ConfirmPage from './pages/ConfirmPage.vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore } from '@/store'
-import { Pilot } from '@/class'
+import OverviewPage from './pages/OverviewPage.vue';
+import SkillsPage from './pages/SkillsPage.vue';
+import TalentsPage from './pages/TalentsPage.vue';
+import MechSkillsPage from './pages/MechSkillsPage.vue';
+import LicensePage from './pages/LicensePage.vue';
+import CoreBonusPage from './pages/CoreBonusPage.vue';
+import ConfirmPage from './pages/ConfirmPage.vue';
 
-export default Vue.extend({
+import { PilotManagementStore } from '@/store';
+import { Pilot } from '@/class';
+
+export default {
   name: 'level-wizard',
   components: {
     OverviewPage,
@@ -127,20 +149,20 @@ export default Vue.extend({
   }),
   computed: {
     currentPilot(): Pilot {
-      return getModule(PilotManagementStore, this.$store).Pilots.find(
-        p => p.ID === this.$route.params.pilotID
-      )
+      returnthis
+        .getModule(PilotManagementStore, this.$store)
+        .Pilots.find((p) => p.ID === this.$route.params.pilotID);
     },
   },
   watch: {
     step() {
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     },
   },
   created() {
-    this.pilot = Pilot.Deserialize(Pilot.Serialize(this.currentPilot))
-    this.pilot.Level++
-    this.cbEligible = this.pilot.CoreBonusController.IsMissingCBs
+    this.pilot = Pilot.Deserialize(Pilot.Serialize(this.currentPilot));
+    this.pilot.Level++;
+    this.cbEligible = this.pilot.CoreBonusController.IsMissingCBs;
   },
-})
+};
 </script>

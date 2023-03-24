@@ -19,7 +19,10 @@
       </template>
       <!-- Name -->
       <template v-slot:[`item.Name`]="{ item }">
-        <span class="heading h3" :class="item.Active ? 'accent--text' : 'subtle--text font-italic'">
+        <span
+          class="heading h3"
+          :class="item.Active ? 'accent--text' : 'subtle--text font-italic'"
+        >
           {{ item.Name }}
         </span>
       </template>
@@ -32,22 +35,28 @@
       <!-- Delete action -->
       <template v-slot:[`item.deleteAction`]="{ item }">
         <v-menu offset-y offset-x top nudge-left="30px">
-          <template v-slot:activator="{ on }">
-            <v-btn icon color="primary" class="fadeSelect" v-on="on">
+          <template v-slot:activator="{ props }">
+            <v-btn icon color="primary" class="fadeSelect" v-bind="props">
               <v-icon>delete</v-icon>
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="text-center body-text">
               <p>
-                This will remove this pack and all of its contents from COMP/CON. User data that
-                relies on this content will be unavailable and may cause errors. Are you sure you
-                want to continue?
+                This will remove this pack and all of its contents from
+                COMP/CON. User data that relies on this content will be
+                unavailable and may cause errors. Are you sure you want to
+                continue?
               </p>
               <v-divider class="my-2" />
               <v-row dense>
                 <v-btn small text>CANCEL</v-btn>
-                <v-btn small color="error" class="ml-auto" @click="deletePack(item.ID)">
+                <v-btn
+                  small
+                  color="error"
+                  class="ml-auto"
+                  @click="deletePack(item.ID)"
+                >
                   CONFIRM
                 </v-btn>
               </v-row>
@@ -69,14 +78,24 @@
 
               <div v-if="item.Website" class="mt-2">
                 <v-divider class="ma-1" />
-                <v-btn target="_blank" :href="item.Website" text color="secondary">
+                <v-btn
+                  target="_blank"
+                  :href="item.Website"
+                  text
+                  color="secondary"
+                >
                   <v-icon prepend class="mr-1">open_in_new</v-icon>
                   &nbsp;Website
                 </v-btn>
               </div>
             </v-col>
             <v-col cols="2">
-              <v-img :src="item.ImageURL" alt="Pack image" max-width="200px" max-height="300px" />
+              <v-img
+                :src="item.ImageURL"
+                alt="Pack image"
+                max-width="200px"
+                max-height="300px"
+              />
             </v-col>
           </v-row>
         </td>
@@ -86,56 +105,56 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store'
+import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store';
 
-import { ContentPack } from '@/class'
+import { ContentPack } from '@/class';
 
-@Component
-export default class PacksList extends Vue {
-  private expanded
-  private compendiumStore = getModule(CompendiumStore, this.$store)
-
-  public async toggleActive(packID: string, active: boolean): Promise<void> {
-    await this.compendiumStore.setPackActive({
-      packID,
-      active,
-    })
-    await this.reload()
-  }
-
-  public async deletePack(id: string): Promise<void> {
-    await this.compendiumStore.deleteContentPack(id)
-    await this.reload()
-  }
-
-  public get contentPacks(): ContentPack[] {
-    return this.compendiumStore.ContentPacks
-  }
-
-  public async reload() {
-    this.$emit('start-load')
-    const pilotStore = getModule(PilotManagementStore, this.$store)
-    const npcStore = getModule(NpcStore, this.$store)
-    const missing = { pilots: [], npcs: [] }
-    await pilotStore.loadPilots()
-    missing.pilots = pilotStore.MissingPilots
-    await npcStore.loadNpcs()
-    missing.npcs = npcStore.MissingNpcs
-    await this.compendiumStore.setMissingContent(missing)
-    this.$emit('end-load')
-  }
-
-  public headers = [
-    { text: 'Active', value: 'toggleActive', sortable: false },
-    { text: 'Name', value: 'Name' },
-    { text: 'Author', value: 'Author' },
-    { text: 'Version', value: 'Version' },
-    { text: '', value: 'deleteAction', sortable: false },
-  ]
-}
+export default {
+  name: 'PacksList',
+  data: () => ({
+    expanded: [],
+    headers: [
+      { text: 'Active', value: 'toggleActive', sortable: false },
+      { text: 'Name', value: 'Name' },
+      { text: 'Author', value: 'Author' },
+      { text: 'Version', value: 'Version' },
+      { text: '', value: 'deleteAction', sortable: false },
+    ],
+  }),
+  computed: {
+    contentPacks(): ContentPack[] {
+      // return this.compendiumStore.ContentPacks;
+    },
+    compendiumStore(): CompendiumStore {
+      return this.getModule(CompendiumStore);
+    },
+  },
+  methods: {
+    async toggleActive(packID: string, active: boolean): Promise<void> {
+      await this.compendiumStore.setPackActive({
+        packID,
+        active,
+      });
+      await this.reload();
+    },
+    async deletePack(id: string): Promise<void> {
+      await this.compendiumStore.deleteContentPack(id);
+      await this.reload();
+    },
+    async reload() {
+      // this.$emit('start-load');
+      // const pilotStore =this.getModule(PilotManagementStore);
+      // const npcStore =this.getModule(NpcStore);
+      // const missing = { pilots: [], npcs: [] };
+      // await pilotStore.loadPilots();
+      // missing.pilots = pilotStore.MissingPilots;
+      // await npcStore.loadNpcs();
+      // missing.npcs = npcStore.MissingNpcs;
+      // await this.compendiumStore.setMissingContent(missing);
+      // this.$emit('end-load');
+    },
+  },
+};
 </script>
 
 <style scoped>

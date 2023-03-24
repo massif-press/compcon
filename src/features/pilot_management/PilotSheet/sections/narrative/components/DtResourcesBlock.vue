@@ -1,6 +1,11 @@
 <template>
   <div class="my-3">
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -70px !important">
+    <cc-title
+      small
+      color="pilot"
+      class="pl-3"
+      style="margin-left: -70px !important"
+    >
       <section-edit-icon
         label="Add Reserves and Bonuses"
         @open-selector="$refs.dtSelector.show()"
@@ -9,7 +14,7 @@
     </cc-title>
     <cc-solo-dialog
       ref="dtSelector"
-      icon="cci-barrage"
+      icon="cc:barrage"
       no-confirm
       title="Edit Reserves and Bonuses"
       fullscreen
@@ -43,11 +48,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SectionEditIcon from '../../components/SectionEditIcon.vue'
-import NoDataBlock from '../../components/NoDataBlock.vue'
+import SectionEditIcon from '../../components/SectionEditIcon.vue';
+import NoDataBlock from '../../components/NoDataBlock.vue';
 
-export default Vue.extend({
+export default {
   name: 'dt-resources-block',
   components: { SectionEditIcon, NoDataBlock },
   props: {
@@ -56,5 +60,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

@@ -1,136 +1,170 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import _ from 'lodash'
-import { saveData, saveDelta, loadData, deleteDataById } from '@/io/Data'
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
-import { Location, ILocationData } from '@/classes/campaign/Location'
-import { store } from '@/store'
-import { storeSaveDelta } from '@/util/storeUtils'
-import { GetAll, RemoveItem, SetItem } from '@/io/Storage'
-
-export const SAVE_DATA = 'SAVE_DATA'
-export const SET_DIRTY = 'SET_DIRTY'
-export const ADD_LOCATION = 'ADD_LOCATION'
-export const DELETE_LOCATION = 'DELETE_LOCATION'
-export const CLONE_LOCATION = 'CLONE_LOCATION'
-export const LOAD_LOCATIONS = 'LOAD_LOCATIONS'
+import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator';
+import { deletePermanent, storeSaveDelta } from '@/util/storeUtils';
+import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
+import { Location, ILocationData } from '@/classes/campaign/Location';
 
 async function saveLocationData(locations: Location[]) {
-  const dirty = locations.filter(x => x.SaveController.IsDirty)
-  Promise.all(dirty.map(x => SetItem('locations', Location.Serialize(x))))
-    .then(() => console.info('location data saved'))
-    .catch(err => console.error('Error while saving location data', err))
+  const dirty = locations.filter((x) => x.SaveController.IsDirty);
+  Promise.all(dirty.map((x) => SetItem('locations', Location.Serialize(x))))
+    .then(() => console.info('LOCATION data saved'))
+    .catch((err) => console.error('Error while saving LOCATION data', err));
 }
 
 async function delete_location(location: Location) {
   RemoveItem('locations', location.ID)
-    .then(() => console.info('NPC permenently deleted'))
-    .catch(err => console.error('Error while deleting NPC data', err))
+    .then(() => console.info('LOCATION permanently deleted'))
+    .catch((err) => console.error('Error while deleting LOCATION data', err));
 }
 
-@Module({
-  name: 'location',
-})
-export class LocationStore extends VuexModule {
-  Locations: Location[] = []
-  DeletedLocations: Location[] = []
-  public Dirty = false
+export default {
+  state: () => ({
+    Locations: [] as Location[],
+    DeletedLocations: [] as Location[],
+    Dirty: false,
+  }),
+  getters: {
+    AllLocations: (state: any) =>
+      state.Locations.concat(state.DeletedLocations),
+    getLocations: (state: any) => state.Locations,
+    getLocation: (state: any) => (id: string) => {
+      return state.Locations.find((x: Location) => x.ID === id);
+    },
+    unsavedCloudLocations: (state: any) =>
+      state.Locations.filter((p: Location) => p.SaveController.IsDirty),
+  },
+  mutations: {
+    LOAD_LOCATIONS(state: any, payload: ILocationData[]): void {
+      const newLocations: Location[] = [
+        ...payload.map((x) => Location.Deserialize(x)),
+      ];
+      state.Locations.splice(0, state.Locations.length);
+      const all = [] as Location[];
+      newLocations.forEach((location: Location) => {
+        all.push(location);
+      });
+      state.Locations = all.filter((x) => !x.SaveController.IsDeleted);
+      state.DeletedLocations = all.filter((x) => x.SaveController.IsDeleted);
 
-  public get AllLocations(): Location[] {
-    return this.Locations.concat(this.DeletedLocations)
-  }
+      //clean up deleted
+      const del = [] as Location[];
+      state.DeletedLocations.forEach((dp: Location) => {
+        if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime))
+          del.push(dp);
+      });
+      if (del.length) {
+        console.info(`Cleaning up ${del.length} Locations marked for deletion`);
+        del.forEach((p) => {
+          const dpIdx = state.DeletedLocations.findIndex(
+            (x: Location) => x.ID === p.ID
+          );
+          if (dpIdx > -1) {
+            state.DeletedLocations.splice(dpIdx, 1);
+          }
+        });
+        storeSaveDelta(state.Locations.concat(state.DeletedLocations));
+      }
+    },
 
-  @Mutation
-  private [LOAD_LOCATIONS](payload: ILocationData[]): void {
-    const newLocations: Location[] = [...payload.map(x => Location.Deserialize(x))]
-    this.Locations.splice(0, this.Locations.length)
-    const all = []
-    newLocations.forEach((Location: Location) => {
-      all.push(Location)
-    })
-    this.Locations = all.filter(x => !x.SaveController.IsDeleted)
-    this.DeletedLocations = all.filter(x => x.SaveController.IsDeleted)
+    SAVE_DATA(state: any): void {
+      saveLocationData(state.Locations.concat(state.DeletedLocations));
+    },
 
-    //clean up deleted
-    const del = []
-    this.DeletedLocations.forEach(dp => {
-      if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp)
-    })
-    if (del.length) {
-      console.info(`Cleaning up ${del.length} Locations marked for deletion`)
-      del.forEach(p => {
-        const dpIdx = this.DeletedLocations.findIndex(x => x.ID === p.ID)
-        if (dpIdx > -1) {
-          this.DeletedLocations.splice(dpIdx, 1)
-        }
-      })
-      storeSaveDelta(this.Locations.concat(this.DeletedLocations))
-    }
-  }
+    SET_DIRTY(state: any): void {
+      if (state.Locations.length) state.Dirty = true;
+    },
 
-  @Mutation
-  private [SAVE_DATA](): void {
-    if (this.Dirty) {
-      storeSaveDelta(this.Locations)
-      this.Dirty = false
-    }
-  }
+    ADD_LOCATION(state: any, payload: Location): void {
+      payload.SaveController.IsDirty = true;
+      state.Locations.push(payload);
+      state.Dirty = true;
+      saveLocationData(state.Locations);
+    },
 
-  @Mutation
-  private [SET_DIRTY](): void {
-    if (this.Locations.length) this.Dirty = true
-  }
+    CLONE_LOCATION(state: any, payload: Location): void {
+      state.Locations.push(payload.Clone());
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [ADD_LOCATION](payload: Location): void {
-    payload.SaveController.IsDirty = true
-    this.Locations.push(payload)
-    this.Dirty = true
-  }
+    DELETE_LOCATION(state: any, payload: Location): void {
+      const idx = state.Locations.findIndex(
+        (x: Location) => x.ID === payload.ID
+      );
+      if (idx > -1) {
+        state.Locations.splice(idx, 1);
+        state.DeletedLocations.push(payload);
+      } else {
+        throw console.error('LOCATION not loaded!');
+      }
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [CLONE_LOCATION](payload: Location): void {
-    this.Locations.push(payload.Clone())
-    this.Dirty = true
-  }
+    DELETE_LOCATION_PERMANENT(state: any, payload: Location): void {
+      const dpIdx = state.DeletedLocations.findIndex(
+        (x: Location) => x.ID === payload.ID
+      );
+      if (dpIdx > -1) {
+        state.DeletedLocations.splice(dpIdx, 1);
+        deletePermanent(payload);
+      }
+      state.Dirty = true;
+    },
 
-  @Mutation
-  private [DELETE_LOCATION](payload: Location): void {
-    const idx = this.Locations.findIndex(x => x.ID === payload.ID)
-    if (idx > -1) {
-      this.Locations.splice(idx, 1)
-    } else {
-      throw console.error('LOCATION not loaded!')
-    }
-    this.Dirty = true
-  }
+    RESTORE_LOCATION(state: any, payload: Location): void {
+      const LocationIndex = state.DeletedLocations.findIndex(
+        (x: Location) => x.ID === payload.ID
+      );
+      if (LocationIndex > -1) {
+        state.DeletedLocations.splice(LocationIndex, 1);
+        state.Locations.push(payload);
+      } else {
+        throw console.error('LOCATION not loaded!');
+      }
+      state.Dirty = true;
+    },
+  },
+  actions: {
+    setLocationOrder({ commit }: any, payload: Location[]): void {
+      commit('SORT_LOCATION', payload);
+    },
 
-  @Action
-  public saveLocationData(): void {
-    this.context.commit(SAVE_DATA)
-  }
+    set_location_dirty({ commit }: any): void {
+      commit('SET_DIRTY');
+    },
 
-  @Action
-  public cloneLocation(payload: Location): void {
-    this.context.commit(CLONE_LOCATION, payload)
-  }
+    saveLocationData({ commit }: any): void {
+      commit('SAVE_DATA');
+    },
 
-  @Action
-  public addLocation(payload: Location): void {
-    this.context.commit(ADD_LOCATION, payload)
-  }
+    cloneLocation({ commit }: any, payload: Location): void {
+      commit('CLONE_LOCATION', payload);
+    },
 
-  @Action
-  public deleteLocation(payload: Location): void {
-    this.context.commit(DELETE_LOCATION, payload)
-  }
+    addLocation({ commit }: any, payload: Location): void {
+      commit('ADD_LOCATION', payload);
+      commit('SAVE_DATA');
+    },
 
-  @Action({ rawError: true })
-  public async loadLocations() {
-    const locationData = await GetAll('locations')
-    this.context.commit(LOAD_LOCATIONS, locationData)
-  }
+    delete_location({ commit }: any, payload: Location): void {
+      commit('DELETE_LOCATION', payload);
+      commit('SAVE_DATA');
+    },
 
-  get getLocations(): Location[] {
-    return this.Locations
-  }
-}
+    deleteMissingLocation({ commit }: any, payload: any): void {
+      commit('DELETE_MISSING_LOCATION', payload);
+    },
+
+    restore_location({ commit }: any, payload: Location): void {
+      commit('RESTORE_LOCATION', payload);
+    },
+
+    deleteLocationPermanent({ commit }: any, payload: Location): void {
+      if (!payload.SaveController.IsDeleted) commit('DELETE_LOCATION');
+      commit('DELETE_LOCATION_PERMANENT', payload);
+    },
+    async loadLocations({ commit }: any) {
+      const locationData = await GetAll('locations');
+      commit('LOAD_LOCATIONS', ItemsWithLcp(locationData));
+      commit('SET_MISSING_CONTENT', ItemsMissingLcp(locationData));
+    },
+  },
+};

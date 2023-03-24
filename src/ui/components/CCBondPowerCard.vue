@@ -3,14 +3,16 @@
     :style="`height: calc(100% - ${
       allowDupes && hasPower(f) ? '70' : '35'
     }px)!important`"
-    outlined
-  > -->
+    variant="outlined"   > -->
   <v-card
     :style="flexHeight ? '' : 'height: calc(100% - 35px) !important'"
-    outlined
+    variant="outlined"
     :disabled="disabled"
   >
-    <v-row no-gutters :class="`${headerColor} white--text heading h4 py-1 px-3`">
+    <v-row
+      no-gutters
+      :class="`${headerColor} white--text heading h4 py-1 px-3`"
+    >
       <v-col>{{ power.name }}</v-col>
       <v-col v-if="power.veteran" cols="auto">
         <v-chip small color="primary" v-text="'Veteran Power'" />
@@ -30,9 +32,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cc-bond-info',
   props: {
     power: { type: Object, required: true },
@@ -41,10 +41,10 @@ export default Vue.extend({
   },
   computed: {
     headerColor() {
-      if (this.power.veteran) return 'indigo lighten-1'
-      if (this.power.master) return 'deep-purple darken-3'
-      return 'panel darken-2'
+      if (this.power.veteran) return 'indigo lighten-1';
+      if (this.power.master) return 'deep-purple darken-3';
+      return 'panel darken-2';
     },
   },
-})
+};
 </script>

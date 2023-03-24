@@ -1,16 +1,33 @@
 <template>
-  <v-footer fixed style="padding-bottom: 2px; border-top: 2px solid var(--v-primary-base)">
-    <v-row no-gutters :justify="$vuetify.breakpoint.smAndDown ? 'space-around' : ''">
+  <v-footer
+    fixed
+    style="
+      padding-bottom: 2px;
+      border-top: 2px solid rgb(var(--v-theme-primary));
+    "
+  >
+    <v-row
+      no-gutters
+      :justify="$vuetify.display.smAndDown ? 'space-around' : ''"
+    >
       <v-col cols="auto">
-        <v-dialog v-model="rcDialog" :fullscreen="$vuetify.breakpoint.smAndDown" width="80vw">
-          <template v-slot:activator="{ on }">
-            <v-btn small class="mr-5" color="warning darken-2" v-on="on">NEXT ENCOUNTER</v-btn>
+        <v-dialog
+          v-model="rcDialog"
+          :fullscreen="$vuetify.display.smAndDown"
+          width="80vw"
+        >
+          <template v-slot:activator="{ props }">
+            <v-btn small class="mr-5" color="warning darken-2" v-bind="props"
+              >NEXT ENCOUNTER</v-btn
+            >
           </template>
           <v-card>
             <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
               NEXT ENCOUNTER
               <v-spacer />
-              <v-btn icon @click="rcDialog = false"><v-icon>mdi-close</v-icon></v-btn>
+              <v-btn icon @click="rcDialog = false"
+                ><v-icon>mdi-close</v-icon></v-btn
+              >
             </v-toolbar>
             <v-card-text>
               <p class="flavor-text stark--text mt-2 mb-0 mx-6">
@@ -27,8 +44,8 @@
                     tile
                     color="warning darken-3"
                     @click="
-                      rcDialog = false
-                      pilot.State.StartCombat()
+                      rcDialog = false;
+                      pilot.State.StartCombat();
                     "
                   >
                     &nbsp;Reactivate Combat Mode
@@ -40,37 +57,55 @@
         </v-dialog>
       </v-col>
       <v-col cols="auto">
-        <v-dialog v-model="emDialog" :fullscreen="$vuetify.breakpoint.smAndDown" width="80vw">
-          <template v-slot:activator="{ on }">
-            <v-btn small class="mr-5" color="error darken-2" v-on="on">END MISSION</v-btn>
+        <v-dialog
+          v-model="emDialog"
+          :fullscreen="$vuetify.display.smAndDown"
+          width="80vw"
+        >
+          <template v-slot:activator="{ props }">
+            <v-btn small class="mr-5" color="error darken-2" v-bind="props"
+              >END MISSION</v-btn
+            >
           </template>
           <v-card>
             <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
               END MISSION
               <v-spacer />
-              <v-btn icon @click="emDialog = false"><v-icon>mdi-close</v-icon></v-btn>
+              <v-btn icon @click="emDialog = false"
+                ><v-icon>mdi-close</v-icon></v-btn
+              >
             </v-toolbar>
             <v-card-text>
               <div>
-                <v-checkbox v-model="saveCheckbox" dense hide-details label="Save Mission Data" />
+                <v-checkbox
+                  v-model="saveCheckbox"
+                  dense
+                  hide-details
+                  label="Save Mission Data"
+                />
               </div>
-              <p v-show="saveCheckbox" class="flavor-text stark--text mt-2 mb-0 mx-6">
+              <p
+                v-show="saveCheckbox"
+                class="flavor-text stark--text mt-2 mb-0 mx-6"
+              >
                 >//[
                 <span class="accent--text">COMP/CON</span>
                 :
                 <span class="stark-text--text">Confirmation Required</span>
-                ] Pilot, proceeding will end the current mission and write all combat telemetry data
-                to your record. This cannot be undone. Continue?
+                ] Pilot, proceeding will end the current mission and write all
+                combat telemetry data to your record. This cannot be undone.
+                Continue?
               </p>
               <v-row justify="center" no-gutters class="mt-n2"></v-row>
               <v-alert
                 dense
-                outlined
+                variant="outlined"
                 :color="pilot.ActiveMech.Frame.Manufacturer.Color"
                 class="mt-4"
               >
                 <span v-show="saveCheckbox" class="text--text">
-                  The following mission data will be added to the Pilot Combat Telemetry Record:
+                  The following mission data will be added to the Pilot Combat
+                  Telemetry Record:
                 </span>
                 <div class="pl-2 pr-4 flavor-text">
                   <div>
@@ -91,15 +126,21 @@
                   </div>
                   <div>
                     STRUCTURE LOST:
-                    <b class="stark--text">{{ pilot.State.Stats.structure_damage }}</b>
+                    <b class="stark--text">{{
+                      pilot.State.Stats.structure_damage
+                    }}</b>
                   </div>
                   <div>
                     HEAT TAKEN:
-                    <b class="stark--text">{{ pilot.State.Stats.heat_damage }}</b>
+                    <b class="stark--text">{{
+                      pilot.State.Stats.heat_damage
+                    }}</b>
                   </div>
                   <div>
                     REACTOR STRESS:
-                    <b class="stark--text">{{ pilot.State.Stats.reactor_damage }}</b>
+                    <b class="stark--text">{{
+                      pilot.State.Stats.reactor_damage
+                    }}</b>
                   </div>
                 </div>
               </v-alert>
@@ -110,8 +151,8 @@
                     tile
                     color="warning darken-3"
                     @click="
-                      emDialog = false
-                      pilot.State.EndMission(!saveCheckbox)
+                      emDialog = false;
+                      pilot.State.EndMission(!saveCheckbox);
                     "
                   >
                     &nbsp;Complete Mission
@@ -123,7 +164,7 @@
         </v-dialog>
       </v-col>
 
-      <v-col v-if="$vuetify.breakpoint.mdAndUp">
+      <v-col v-if="$vuetify.display.mdAndUp">
         <span class="flavor-text">
           >//[
           <span class="accent--text">COMP/CON</span>
@@ -150,11 +191,9 @@
 </template>
 
 <script lang="ts">
-import ActionMenuButton from '../../components/ActionMenuButton.vue'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import vueMixins from '@/util/vueMixins'
+import ActionMenuButton from '../../components/ActionMenuButton.vue';
 
-export default vueMixins(activePilot).extend({
+export default {
   name: 'turn-footer',
   components: { ActionMenuButton },
   data: () => ({
@@ -164,8 +203,8 @@ export default vueMixins(activePilot).extend({
   }),
   methods: {
     openMenu(idx: number) {
-      console.log(idx)
+      console.log(idx);
     },
   },
-})
+};
 </script>

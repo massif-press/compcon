@@ -1,14 +1,13 @@
 <template>
-  <v-alert outlined dense>
+  <v-alert variant="outlined" dense>
     <synergy-base :synergy="synergy" />
   </v-alert>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import synergyBase from './_synergyBase.vue'
+import synergyBase from './_synergyBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'synergy-panel',
   components: { synergyBase },
   props: {
@@ -17,5 +16,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

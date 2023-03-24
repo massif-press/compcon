@@ -11,7 +11,7 @@
   />
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'cc-npc-item-card',
   props: {
@@ -29,26 +29,29 @@ export default {
   data() {
     return {
       component: null,
-    }
+    };
   },
   computed: {
     loader() {
       if (!this.item) {
-        return null
+        return null;
       }
       if (this.printable)
-        return () => import(`./cards/_${this.item.Feature.FeatureType}PrintCard.vue`)
-      return () => import(`./cards/_${this.item.Feature.FeatureType}Card.vue`)
+        return () =>
+          import(`./cards/_${this.item.Feature.FeatureType}PrintCard.vue`);
+      return () => import(`./cards/_${this.item.Feature.FeatureType}Card.vue`);
     },
   },
   mounted() {
     this.loader()
       .then(() => {
-        this.component = () => this.loader()
+        this.component = () => this.loader();
       })
       .catch(() => {
-        console.error(`Unable to load component ${this.item.Feature.FeatureType}`)
-      })
+        console.error(
+          `Unable to load component ${this.item.Feature.FeatureType}`
+        );
+      });
   },
-}
+};
 </script>

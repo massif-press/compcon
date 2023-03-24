@@ -4,8 +4,10 @@
       dense
       :class="`elevation-${hover ? '12' : '0'}`"
       :style="`border-radius: 2px; border: ${
-        hover ? '1px solid var(--v-primary-base)' : ''
-      }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
+        hover ? '1px solid rgb(var(--v-theme-primary))' : ''
+      }; background-color: ${
+        odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'
+      }`"
       @click="$emit('open', item.ID)"
     >
       <v-col cols="1">
@@ -18,9 +20,15 @@
           <v-col cols="auto">
             <div :class="`heading h3 ${hover ? 'accent--text' : ''}`">
               {{ item.Name }}
-              <v-chip v-if="item.NpcClassController.Class" outlined label small>
+              <v-chip
+                v-if="item.NpcClassController.Class"
+                variant="outlined"
+                label
+                small
+              >
                 <b>
-                  {{ `T${item.NpcClassController.Tier}` }} {{ item.NpcClassController.Class.Name }}
+                  {{ `T${item.NpcClassController.Tier}` }}
+                  {{ item.NpcClassController.Class.Name }}
                   {{ item.Tag }}
                 </b>
               </v-chip>
@@ -32,15 +40,25 @@
             v-for="(t, i) in item.NpcTemplateController.Templates"
             :key="`${item.ID}_template_${i}`"
           >
-            <v-chip label small :color="hover ? 'accent' : 'primary'" class="ma-1">
-              <v-icon>cci-npc-template</v-icon>
+            <v-chip
+              label
+              small
+              :color="hover ? 'accent' : 'primary'"
+              class="ma-1"
+            >
+              <v-icon>cc:npc-template</v-icon>
               {{ t.Name }}
             </v-chip>
           </v-col>
         </v-row>
         <div>{{ item.Subtitle }}</div>
         <v-row v-if="item.NpcClassController.Class" dense>
-          <v-col v-for="(e, i) in hase" :key="`haseitem_${i}`" cols="auto" class="pr-2">
+          <v-col
+            v-for="(e, i) in hase"
+            :key="`haseitem_${i}`"
+            cols="auto"
+            class="pr-2"
+          >
             <span class="heading h3" style="opacity: 0.5">{{ e.text }}</span>
             <b v-text="item.StatController[e.val]" />
           </v-col>
@@ -63,7 +81,7 @@
               :key="`npc_item_${i}`"
               small
               label
-              outlined
+              variant="outlined"
               class="mx-1"
               v-text="e.Name"
             />
@@ -75,8 +93,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'gm-npc-list-item',
   props: {
     item: { type: Object, required: true },
@@ -91,18 +108,18 @@ export default Vue.extend({
       { text: 'E', val: 'Engineering' },
     ],
     stats: [
-      { text: 'cci-structure', val: 'Structure' },
+      { text: 'cc:structure', val: 'Structure' },
       { text: 'mdi-shield', val: 'Armor' },
       { text: 'mdi-heart', val: 'HP' },
-      { text: 'cci-reactor', val: 'Stress' },
-      { text: 'cci-heat', val: 'Heatcap' },
+      { text: 'cc:reactor', val: 'Stress' },
+      { text: 'cc:heat', val: 'Heatcap' },
       { text: 'mdi-arrow-right-bold-hexagon-outline', val: 'Speed' },
-      { text: 'cci-save', val: 'Save' },
-      { text: 'cci-evasion', val: 'Evasion' },
-      { text: 'cci-edef', val: 'EDefense' },
-      { text: 'cci-sensor', val: 'Sensors' },
-      { text: 'cci-activate', val: 'Activations' },
+      { text: 'cc:save', val: 'Save' },
+      { text: 'cc:evasion', val: 'Evasion' },
+      { text: 'cc:edef', val: 'EDefense' },
+      { text: 'cc:sensor', val: 'Sensors' },
+      { text: 'cc:activate', val: 'Activations' },
     ],
   }),
-})
+};
 </script>

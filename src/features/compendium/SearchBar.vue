@@ -3,7 +3,7 @@
     ref="input"
     v-model="searchText"
     class="search-field"
-    :prepend-icon="$vuetify.breakpoint.lgAndUp ? 'search' : ''"
+    :prepend-icon="$vuetify.display.lgAndUp ? 'search' : ''"
     solo
     hide-details
     single-line
@@ -13,17 +13,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'compendium-search-bar',
   data: () => ({
     searchText: '',
   }),
   methods: {
     search() {
-      this.$router.push(`/compendium/search?search=${this.searchText}`)
+      this.$router.push(`/compendium/search?search=${this.searchText}`);
     },
   },
-})
+};
 </script>

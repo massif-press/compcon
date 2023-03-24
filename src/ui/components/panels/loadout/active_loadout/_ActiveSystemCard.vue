@@ -4,7 +4,11 @@
       <v-card
         flat
         tile
-        :class="hide ? 'panel' : `${$vuetify.breakpoint.mdAndUp ? 'clipped-large' : ''} panel`"
+        :class="
+          hide
+            ? 'panel'
+            : `${$vuetify.display.mdAndUp ? 'clipped-large' : ''} panel`
+        "
         :style="!hide && !rest ? 'height: 100%; min-height: 100px' : ''"
       >
         <v-card-title
@@ -15,21 +19,34 @@
           <v-row no-gutters>
             <v-col v-if="item" cols="auto">
               <equipment-options :item="item" readonly active />
-              <span v-if="!item.Destroyed" class="ml-n2" :style="item.Used ? 'opacity: 0.6' : ''">
-                <cc-tooltip v-if="item.Used" inline content="Equipment has been marked as 'Used'">
+              <span
+                v-if="!item.Destroyed"
+                class="ml-n2"
+                :style="item.Used ? 'opacity: 0.6' : ''"
+              >
+                <cc-tooltip
+                  v-if="item.Used"
+                  inline
+                  content="Equipment has been marked as 'Used'"
+                >
                   <v-icon color="success">mdi-check</v-icon>
                 </cc-tooltip>
                 <span
                   :class="
-                    $vuetify.breakpoint.mdAndUp
+                    $vuetify.display.mdAndUp
                       ? 'white--text heading h3'
                       : 'white--text body-text font-weight-bold'
                   "
                 >
                   {{ item.Name }}
                 </span>
-                <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-                <span v-show="$vuetify.breakpoint.mdAndUp" class="caption subtle--text ml-1">
+                <span v-if="item.FlavorName" class="caption ml-2 my-n1"
+                  >//{{ item.TrueName }}</span
+                >
+                <span
+                  v-show="$vuetify.display.mdAndUp"
+                  class="caption subtle--text ml-1"
+                >
                   <b>{{ item.Size }}</b>
                   {{ item.Type }}
                 </span>
@@ -41,16 +58,34 @@
               </span>
             </v-col>
             <v-col cols="auto" class="ml-auto heading">
-              <v-btn v-if="!rest" right dark icon class="fadeSelect" @click.stop="hide = !hide">
-                <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+              <v-btn
+                v-if="!rest"
+                right
+                dark
+                icon
+                class="fadeSelect"
+                @click.stop="hide = !hide"
+              >
+                <v-icon
+                  small
+                  v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                />
               </v-btn>
             </v-col>
           </v-row>
         </v-card-title>
         <v-slide-y-transition>
-          <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
+          <v-card-text
+            v-if="!rest && !hide"
+            class="underline-parent px-2 py-0 mt-0"
+          >
             <div class="underline-slide">
-              <v-row v-if="item.Actions.length" dense justify="center" class="my-1">
+              <v-row
+                v-if="item.Actions.length"
+                dense
+                justify="center"
+                class="my-1"
+              >
                 <v-col
                   v-for="(a, i) in item.Actions"
                   :key="`${item.Name}_action_${i}`"
@@ -64,7 +99,10 @@
                     active
                     :activations="mech.Pilot.State.Actions"
                     :disabled="actionDisabled(a)"
-                    :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
+                    :unusable="
+                      a.Activation === 'Protocol' &&
+                      !mech.Pilot.State.IsProtocolAvailable
+                    "
                     @use="item.Use(a.Cost, $event)"
                     @undo="item.Undo(a.Cost)"
                   />
@@ -88,15 +126,22 @@
               </v-alert>
               <div v-if="item && item.Effect">
                 <div class="overline mt-2">
-                  <v-icon>cci-system</v-icon>
+                  <v-icon>cc:system</v-icon>
                   EQUIPMENT EFFECT
                 </div>
-                <p v-html-safe="item.Effect" class="text--text body-text mb-1 mr-3 ml-7" />
+                <p
+                  v-html-safe="item.Effect"
+                  class="text--text body-text mb-1 mr-3 ml-7"
+                />
               </div>
             </div>
             <div v-if="item">
               <div v-if="item && item.Ammo && item.Ammo.length">
-                <div v-for="(a, i) in item.Ammo" :key="`${item.Name}_ammo_${i}`" class="body-text">
+                <div
+                  v-for="(a, i) in item.Ammo"
+                  :key="`${item.Name}_ammo_${i}`"
+                  class="body-text"
+                >
                   <b>{{ a.name }}</b>
                   :
                   <span v-html-safe="a.detail" />
@@ -123,7 +168,12 @@
                   <cc-bonus-display :item="item" />
                 </v-col>
                 <v-col cols="auto">
-                  <cc-synergy-display :item="item" location="system" :mech="mech" large />
+                  <cc-synergy-display
+                    :item="item"
+                    location="system"
+                    :mech="mech"
+                    large
+                  />
                 </v-col>
               </v-row>
             </div>
@@ -131,7 +181,12 @@
         </v-slide-y-transition>
       </v-card>
     </div>
-    <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
+    <cc-solo-dialog
+      ref="detailDialog"
+      no-confirm
+      :title="item ? item.Name : ''"
+      large
+    >
       <cc-item-card :item="item" />
       <slot name="detail" />
     </cc-solo-dialog>
@@ -139,11 +194,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EquipmentOptions from '../mech_loadout/components/_EquipmentOptions.vue'
-import EquipmentHeader from '../mech_loadout/components/_EquipmentHeader.vue'
+import EquipmentOptions from '../mech_loadout/components/_EquipmentOptions.vue';
+import EquipmentHeader from '../mech_loadout/components/_EquipmentHeader.vue';
 
-export default Vue.extend({
+export default {
   name: 'active-system-card',
   components: {
     EquipmentOptions,
@@ -169,34 +223,34 @@ export default Vue.extend({
   }),
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
     },
   },
   methods: {
     actionDisabled(action) {
-      if (!this.item) return true
-      if (this.item.MaxUses && this.item.Uses === 0) return true
-      if (this.item.Used) return true
+      if (!this.item) return true;
+      if (this.item.MaxUses && this.item.Uses === 0) return true;
+      if (this.item.Used) return true;
       // if (!this.item.MaxUses && action.Deployable) {
       //   return this.mech.Pilot.State.Deployed.map(x => x.Name).includes(action.Deployable.name)
       // }
-      return this.item.Destroyed || this.mech.IsStunned
+      return this.item.Destroyed || this.mech.IsStunned;
     },
   },
-})
+};
 </script>
 
 <style scoped>
 #underline-parent {
-  background-color: var(--v-light-panel);
+  background-color: rgb(var(--v-theme-light-panel));
 }
 
 .hover-item {
-  background-color: var(--v-pilot-base);
+  background-color: rgb(var(--v-theme-pilot));
   transition: 0.4s all;
 }
 
 .hover-item:hover {
-  background-color: var(--v-pilot-lighten1);
+  background-color: rgb(var(--v-theme-pilot-lighten1));
 }
 </style>

@@ -2,7 +2,10 @@
   <v-list-item color="active" @click.stop="$refs.dialog.show()">
     <v-list-item-content>
       <v-list-item-title class="title">
-        <v-icon class="mt-n1" :style="!available && !action.Used ? 'opacity:0.3' : ''">
+        <v-icon
+          class="mt-n1"
+          :style="!available && !action.Used ? 'opacity:0.3' : ''"
+        >
           {{ action.Used ? 'mdi-check-circle' : action.Icon }}
         </v-icon>
         <span :style="!available && !action.Used ? 'opacity:0.3' : ''">
@@ -15,8 +18,8 @@
       />
     </v-list-item-content>
     <v-menu left width="80vw" offset-x open-on-hover open-delay="100">
-      <template v-slot:activator="{ on }">
-        <v-icon class="fadeSelect ml-4" style="cursor: help;" v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-icon class="fadeSelect ml-4" style="cursor: help" v-bind="props">
           mdi-help-circle-outline
         </v-icon>
       </template>
@@ -32,9 +35,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'action-menu-item',
   props: {
     action: { type: Object, required: true },
@@ -43,9 +44,9 @@ export default Vue.extend({
   },
   computed: {
     terse() {
-      const txt = this.action.Terse || this.action.Detail
-      return txt
+      const txt = this.action.Terse || this.action.Detail;
+      return txt;
     },
   },
-})
+};
 </script>

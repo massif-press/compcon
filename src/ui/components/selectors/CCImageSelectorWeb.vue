@@ -27,14 +27,17 @@
             class="px-6 mt-2"
             accept="image/*"
             dense
-            outlined
+            variant="outlined"
             placeholder="Select Image"
             prepend-icon="mdi-file-upload-outline"
             :disabled="loading"
             @change="onChange"
           />
           <div>
-            <i>10MB maximum file size. PNG files over 5MB will be converted to JPEGs.</i>
+            <i
+              >10MB maximum file size. PNG files over 5MB will be converted to
+              JPEGs.</i
+            >
           </div>
         </v-col>
         <v-col>
@@ -45,7 +48,9 @@
               max-width="500px"
               max-height="500px"
               class="ml-auto mr-auto"
-              :style="`image-rendering: ${isPixel ? 'pixelated' : 'crisp-edges'};`"
+              :style="`image-rendering: ${
+                isPixel ? 'pixelated' : 'crisp-edges'
+              };`"
             />
             <cc-btn
               color="secondary"
@@ -65,13 +70,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import path from 'path'
-import imgur from '../../../io/apis/imgur'
-import MechImageSelector from './components/_MechImageSelector.vue'
-import PilotImageSelector from './components/_PilotImageSelector.vue'
+import imgur from '../../../io/apis/imgur';
+import MechImageSelector from './components/_MechImageSelector.vue';
+import PilotImageSelector from './components/_PilotImageSelector.vue';
 
-export default Vue.extend({
+export default {
   name: 'web-image-selector',
   components: { MechImageSelector, PilotImageSelector },
   props: {
@@ -91,57 +94,62 @@ export default Vue.extend({
   }),
   computed: {
     displayImage() {
-      if (this.selectedImage) return this.selectedImage
-      if (this.imageData) return `data:image/png;base64,${this.imageData}`
-      else if (this.item.Portrait) return this.item.Portrait
-      else return 'https://via.placeholder.com/550'
+      if (this.selectedImage) return this.selectedImage;
+      if (this.imageData) return `data:image/png;base64,${this.imageData}`;
+      else if (this.item.Portrait) return this.item.Portrait;
+      else return 'https://via.placeholder.com/550';
     },
     isPixel() {
-      return this.selectedImage && path.basename(this.selectedImage).includes('_pixel')
+      return (
+        this.selectedImage &&
+        path.basename(this.selectedImage).includes('_pixel')
+      );
     },
   },
   methods: {
     onChange(file: File | null) {
       if (!file) {
-        this.imageData = null
-        return
+        this.imageData = null;
+        return;
       }
-      this.selectedImage = null
-      const reader = new FileReader()
+      this.selectedImage = null;
+      const reader = new FileReader();
       reader.addEventListener(
         'load',
         () => {
           // get base64 without url headers for imgur
-          this.imageData = btoa(reader.result as string)
+          this.imageData = btoa(reader.result as string);
         },
         false
-      )
-      reader.readAsBinaryString(file)
+      );
+      reader.readAsBinaryString(file);
     },
     async saveImage() {
       if (this.selectedImage && this.validURL(this.selectedImage)) {
-        this.item.PortraitController.SetCloudImage(this.selectedImage)
-        this.close()
+        this.item.PortraitController.SetCloudImage(this.selectedImage);
+        this.close();
       } else if (this.selectedImage) {
-        this.item.PortraitController.SetCloudImage(null)
-        this.item.PortraitController.SetLocalImage(path.basename(this.selectedImage))
-        this.close()
+        this.item.PortraitController.SetCloudImage(null);
+        this.item.PortraitController.SetLocalImage(
+          path.basename(this.selectedImage)
+        );
+        this.close();
       } else {
-        this.loading = true
-        this.selectedImage = null
-        const link = await imgur.uploadImage(this.imageData)
+        this.loading = true;
+        this.selectedImage = null;
+        const link = await imgur.uploadImage(this.imageData);
         try {
-          this.item.PortraitController.SetCloudImage(link)
-          this.$emit('notify', 'Cloud Upload Successful')
+          this.item.PortraitController.SetCloudImage(link);
+          this.$emit('notify', 'Cloud Upload Successful');
         } catch (err) {
-          this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`)
-          this.loading = true
-          this.selectedImage = null
+          this.$emit('notify', `Error Uploading to Cloud:<br>${err.message}`);
+          this.loading = true;
+          this.selectedImage = null;
         }
-        this.close()
-        this.$refs.fileInput.value = null
-        this.loading = false
-        this.imageData = null
+        this.close();
+        (this.$refs.fileInput as any).value = null;
+        this.loading = false;
+        this.imageData = null;
       }
     },
     // Pulled from Stackoverflow: https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
@@ -154,15 +162,15 @@ export default Vue.extend({
           '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
           '(\\#[-a-z\\d_]*)?$',
         'i'
-      ) // fragment locator
-      return !!pattern.test(str)
+      ); // fragment locator
+      return !!pattern.test(str);
     },
     open() {
-      this.$refs.dialog.show()
+      (this.$refs.dialog as any).show();
     },
     close() {
-      this.$refs.dialog.hide()
+      (this.$refs.dialog as any).hide();
     },
   },
-})
+};
 </script>

@@ -6,12 +6,14 @@
         <div>
           <cc-logo
             :source="manufacturer(m)"
-            :size="$vuetify.breakpoint.mdAndDown ? 'large' : 'xLarge'"
+            :size="$vuetify.display.mdAndDown ? 'large' : 'xLarge'"
             class="pt-3 mb-n1"
           />
           <span
-            :class="$vuetify.breakpoint.mdAndDown ? 'heading h2' : 'heading mech'"
-            :style="`width: 100%; color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
+            :class="$vuetify.display.mdAndDown ? 'heading h2' : 'heading mech'"
+            :style="`width: 100%; color: ${manufacturer(m).GetColor(
+              $vuetify.theme.dark
+            )}`"
           >
             {{ manufacturer(m).Name }}
           </span>
@@ -27,16 +29,18 @@
                 <span>
                   <span class="caption">{{ frame(l.FrameID).Source }}</span>
                   <br />
-                  <span class="heading h2 font-weight-bold">{{ frame(l.FrameID).Name }}</span>
+                  <span class="heading h2 font-weight-bold">{{
+                    frame(l.FrameID).Name
+                  }}</span>
                 </span>
-                <br v-if="$vuetify.breakpoint.mdAndDown" />
+                <br v-if="$vuetify.display.mdAndDown" />
                 <v-chip
                   v-for="f in frame(l.FrameID).Mechtype"
                   :key="f"
-                  :small="!$vuetify.breakpoint.mdAndDown"
-                  :x-small="$vuetify.breakpoint.mdAndDown"
+                  :small="!$vuetify.display.mdAndDown"
+                  :x-small="$vuetify.display.mdAndDown"
                   dark
-                  outlined
+                  variant="outlined"
                   color="accent"
                   class="mr-2"
                 >
@@ -44,7 +48,7 @@
                 </v-chip>
               </div>
               <v-img
-                :id="$vuetify.breakpoint.mdAndDown ? 'img-mobile' : 'img-hover'"
+                :id="$vuetify.display.mdAndDown ? 'img-mobile' : 'img-hover'"
                 :src="frame(l.FrameID).DefaultImage"
                 max-height="100%"
                 :position="`top ${frame(l.FrameID).YPosition}% left 80px`"
@@ -63,29 +67,30 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+export default {
   name: 'licenses',
   computed: {
     licenses() {
-      const licenseData = getModule(CompendiumStore, this.$store).Licenses.filter(x => !x.Hidden)
-      return this.$_.groupBy(licenseData, 'Source')
+      // const licenseData =this.getModule(
+      //   CompendiumStore,
+      //   this.$store
+      // ).Licenses.filter((x) => !x.Hidden);
+      // return this.$_.groupBy(licenseData, 'Source');
     },
   },
   methods: {
     manufacturer(id: string) {
-      const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.Manufacturers.find(x => x.ID === id)
+      // const compendium =this.getModule(CompendiumStore);
+      // return compendium.Manufacturers.find((x) => x.ID === id);
     },
     frame(id: string) {
-      const compendium = getModule(CompendiumStore, this.$store)
-      return compendium.referenceByID('Frames', id)
+      // const compendium =this.getModule(CompendiumStore);
+      // return compendium.referenceByID('Frames', id);
     },
   },
-})
+};
 </script>
 
 <style scoped>

@@ -6,7 +6,7 @@
       </span>
     </cc-tooltip>
     <cc-synergy-display :location="attr" :mech="mech" class="d-inline" />
-    <div v-if="$vuetify.breakpoint.lgAndUp" class="mt-n2 ml-1">
+    <div v-if="$vuetify.display.lgAndUp" class="mt-n2 ml-1">
       <span class="no-height">
         <v-icon
           v-for="n in val"
@@ -33,8 +33,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'hase-pips',
   props: {
     mech: {
@@ -59,7 +58,7 @@ export default Vue.extend({
     // TODO: get from rules
     maxHASE: 6,
   }),
-})
+};
 </script>
 
 <style scoped>

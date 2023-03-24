@@ -14,15 +14,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditorBase from '../../gm/_components/EditorBase.vue'
-import { getModule } from 'vuex-module-decorators'
-import { EidolonStore } from '@/store'
-import Features from './features.vue'
-import Builder from './builder.vue'
-import { Eidolon } from '@/classes/npc/eidolons/Eidolon'
+import EditorBase from '../../gm/_components/EditorBase.vue';
 
-export default Vue.extend({
+// import { EidolonStore } from '@/store';
+import Features from './features.vue';
+import Builder from './builder.vue';
+import { Eidolon } from '@/classes/npc/eidolons/Eidolon';
+
+export default {
   name: 'gm-eidolon-editor-base',
   components: { Builder, Features, EditorBase },
   props: {
@@ -34,40 +33,42 @@ export default Vue.extend({
   computed: {
     eidolon() {
       if (this.id === 'new') {
-        if (!this.newEidolon) this.newEidolon = new Eidolon()
-        return this.newEidolon
+        if (!this.newEidolon) this.newEidolon = new Eidolon();
+        return this.newEidolon;
       }
-      return getModule(EidolonStore, this.$store).Eidolons.find(x => x.ID === this.id)
+      return this.getModule(EidolonStore).Eidolons.find(
+        (x) => x.ID === this.id
+      );
     },
   },
   methods: {
     exit() {
-      this.$set(this, 'newEidolon', null)
-      this.$emit('exit')
+      this.$set(this, 'newEidolon', null);
+      this.$emit('exit');
     },
     saveAsNew() {
-      const store = getModule(EidolonStore, this.$store)
-      store.addEidolon(this.eidolon)
-      this.exit()
+      const store = this.getModule(EidolonStore);
+      store.addEidolon(this.eidolon);
+      this.exit();
     },
     save() {
-      const store = getModule(EidolonStore, this.$store)
+      const store = this.getModule(EidolonStore);
       // TODO: check for and ask to update instances on save
-      store.saveEidolonData()
-      this.$emit('exit')
+      store.saveEidolonData();
+      this.$emit('exit');
     },
     deleteItem() {
-      const store = getModule(EidolonStore, this.$store)
-      store.deleteEidolon(this.eidolon)
-      this.$emit('exit')
+      const store = this.getModule(EidolonStore);
+      store.deleteEidolon(this.eidolon);
+      this.$emit('exit');
     },
     dupe() {
-      const store = getModule(EidolonStore, this.$store)
-      const dupe = Eidolon.Deserialize(Eidolon.Serialize(this.eidolon))
-      dupe.RenewID()
-      store.addEidolon(dupe)
-      this.$emit('exit')
+      const store = this.getModule(EidolonStore);
+      const dupe = Eidolon.Deserialize(Eidolon.Serialize(this.eidolon));
+      dupe.RenewID();
+      store.addEidolon(dupe);
+      this.$emit('exit');
     },
   },
-})
+};
 </script>

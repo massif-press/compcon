@@ -1,5 +1,0 @@
-{
-    "tableName": "userpatreontokens",
-    "partitionKeyName": "user_id",
-    "partitionKeyType": "S"
-}

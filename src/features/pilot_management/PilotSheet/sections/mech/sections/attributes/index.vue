@@ -1,7 +1,9 @@
 <template>
   <v-col>
     <div class="ml-n3">
-      <cc-title small :color="color" class="pl-3 ml-n6">Mech Attributes</cc-title>
+      <cc-title small :color="color" class="pl-3 ml-n6"
+        >Mech Attributes</cc-title
+      >
     </div>
     <v-row no-gutters>
       <v-col cols="12" md="1" class="mr-3">
@@ -31,8 +33,10 @@
             :color="color"
           />
           <v-col cols="auto" md="12">
-            <v-divider v-if="$vuetify.breakpoint.mdAndUp" class="mt-2" />
-            <span v-if="$vuetify.breakpoint.lgAndUp" class="overline no-height">System Points</span>
+            <v-divider v-if="$vuetify.display.mdAndUp" class="mt-2" />
+            <span v-if="$vuetify.display.lgAndUp" class="overline no-height"
+              >System Points</span
+            >
             <span v-else class="overline no-height">SP</span>
             <cc-tooltip
               :title="`${mech.MaxSP} System Points`"
@@ -77,7 +81,11 @@
               />
               <statblock-item
                 :attr="
-                  small ? 'heatcap' : $vuetify.breakpoint.lgAndUp ? 'Heat Capacity' : 'Heat Cap'
+                  small
+                    ? 'heatcap'
+                    : $vuetify.display.lgAndUp
+                    ? 'Heat Capacity'
+                    : 'Heat Cap'
                 "
                 :val="mech.HeatCapacity"
                 :contributors="mech.HeatCapContributors"
@@ -85,7 +93,11 @@
               />
               <statblock-item
                 :attr="
-                  small ? 'repcap' : $vuetify.breakpoint.lgAndUp ? 'Repair Capacity' : 'Repair Cap'
+                  small
+                    ? 'repcap'
+                    : $vuetify.display.lgAndUp
+                    ? 'Repair Capacity'
+                    : 'Repair Cap'
                 "
                 :val="mech.RepairCapacity"
                 :contributors="mech.RepCapContributors"
@@ -101,21 +113,25 @@
         </v-row>
         <v-row no-gutters>
           <statblock-item
-            :attr="$vuetify.breakpoint.lgAndUp ? 'Attack Bonus' : 'Atk Bonus'"
+            :attr="$vuetify.display.lgAndUp ? 'Attack Bonus' : 'Atk Bonus'"
             signed
             :val="mech.AttackBonus"
             :contributors="mech.AttackBonusContributors"
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lgAndUp ? 'Tech Attack' : 'Tech Atk'"
+            :attr="$vuetify.display.lgAndUp ? 'Tech Attack' : 'Tech Atk'"
             signed
             :val="mech.TechAttack"
             :contributors="mech.TechAttackContributors"
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lgAndUp ? 'Limited System Bonus' : 'Limited Bonus'"
+            :attr="
+              $vuetify.display.lgAndUp
+                ? 'Limited System Bonus'
+                : 'Limited Bonus'
+            "
             signed
             :val="mech.LimitedBonus"
             :contributors="mech.LimitedContributors"
@@ -136,19 +152,25 @@
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lgAndUp ? 'E-Defense' : 'E-Def'"
+            :attr="$vuetify.display.lgAndUp ? 'E-Defense' : 'E-Def'"
             :val="mech.EDefense"
             :contributors="mech.EDefenseContributors"
             :color="color"
           />
           <statblock-item
-            :attr="small ? 'sensor' : $vuetify.breakpoint.lgAndUp ? 'Sensor Range' : 'Sensors'"
+            :attr="
+              small
+                ? 'sensor'
+                : $vuetify.display.lgAndUp
+                ? 'Sensor Range'
+                : 'Sensors'
+            "
             :val="mech.SensorRange"
             :contributors="mech.SensorRangeContributors"
             :color="color"
           />
           <statblock-item
-            :attr="$vuetify.breakpoint.lgAndUp ? 'Save Target' : 'Save'"
+            :attr="$vuetify.display.lgAndUp ? 'Save Target' : 'Save'"
             :val="mech.SaveTarget"
             :contributors="mech.SaveTargetContributors"
             :color="color"
@@ -167,11 +189,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import StatblockItem from './StatblockItem.vue'
-import HasePips from './HasePips.vue'
+import StatblockItem from './StatblockItem.vue';
+import HasePips from './HasePips.vue';
 
-export default Vue.extend({
+export default {
   name: 'attributes-block',
   components: { StatblockItem, HasePips },
   props: {
@@ -191,10 +212,10 @@ export default Vue.extend({
   },
   computed: {
     small() {
-      return this.$vuetify.breakpoint.smAndDown
+      return this.$vuetify.display.smAndDown;
     },
   },
-})
+};
 </script>
 
 <style scoped>

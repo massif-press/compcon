@@ -3,10 +3,13 @@
     <action-detail-expander :action="action" />
     <v-divider class="my-3" />
     <v-container style="max-width: 800px">
-      <div v-for="(m, i) in mech.MechLoadoutController.ActiveLoadout.Mounts" :key="`bar_${i}`">
+      <div
+        v-for="(m, i) in mech.MechLoadoutController.ActiveLoadout.Mounts"
+        :key="`bar_${i}`"
+      >
         <item-selector-row
           v-for="(w, j) in m.Weapons.filter(
-            x => x.Size !== 'Superheavy' && !x.Destroyed && !x.NoAttack
+            (x) => x.Size !== 'Superheavy' && !x.Destroyed && !x.NoAttack
           )"
           :key="`weap_${j}`"
           :item="w"
@@ -28,13 +31,11 @@
 </template>
 
 <script lang="ts">
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
-import WSkirmishDialog from './_SelSkirmishDialog.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue';
+import WSkirmishDialog from './_SelSkirmishDialog.vue';
 
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'skirmish-dialog',
   components: { ActionDetailExpander, ItemSelectorRow, WSkirmishDialog },
   props: {
@@ -53,31 +54,31 @@ export default Vue.extend({
   }),
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
   },
   methods: {
     disableSkirmish(w) {
-      if (w.IsLoading && !w.Loaded) return true
-      if (w.IsOrdnance && !this.state.IsProtocolAvailable) return true
-      if (!w.CanSkirmish) return false
-      return !this.state.IsSkirmishAvailable
+      if (w.IsLoading && !w.Loaded) return true;
+      if (w.IsOrdnance && !this.state.IsProtocolAvailable) return true;
+      if (!w.CanSkirmish) return false;
+      return !this.state.IsSkirmishAvailable;
     },
     skirmish(item, mount) {
       Vue.nextTick().then(() => {
-        this.$refs.s_dialog.init()
-      })
+        (this.$refs.s_dialog as any).init();
+      });
       Vue.nextTick().then(() => {
-        this.selected = item
-        this.selectedMount = mount
-      })
+        this.selected = item;
+        this.selectedMount = mount;
+      });
       Vue.nextTick().then(() => {
-        this.$refs.s_dialog.show()
-      })
+        (this.$refs.s_dialog as any).show();
+      });
     },
     confirmSkirmish(free) {
-      this.state.RegisterSkirmish(free)
+      this.state.RegisterSkirmish(free);
     },
   },
-})
+};
 </script>

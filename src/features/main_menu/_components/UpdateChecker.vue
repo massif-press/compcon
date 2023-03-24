@@ -1,59 +1,59 @@
 <template>
   <v-btn
     v-if="updateFound"
-    small
-    dark
+    size="small"
     color="secondary"
     class="glow-anim"
-    style="z-index:999!important"
+    style="z-index: 999 !important"
     @click="updateClick"
   >
-    <v-icon left small>
-      cloud_download
-    </v-icon>
+    <v-icon start size="small" icon="mdi-cloud-download" />
     {{ updateText }}
   </v-btn>
-  <v-btn v-else dark outlined small :disabled="checking" @click="checkUpdates">
-    <v-icon left small :class="{ 'spin-anim': checking }">
-      sync
-    </v-icon>
+  <v-btn
+    v-else
+    color="white"
+    variant="outlined"
+    size="small"
+    :disabled="checking"
+    @click="checkUpdates"
+    :style="{ opacity: 0.4 }"
+  >
+    <v-icon start small :class="{ 'spin-anim': checking }">sync</v-icon>
     {{ checking ? 'Checking for Updates...' : 'Check for Updates' }}
   </v-btn>
 </template>
 
 <script lang="ts">
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import updateChecker from '@/util/UpdateChecker'
+import updateChecker from '@/util/UpdateChecker';
 
-@Component
-export default class UpdatesTracker extends Vue {
-  updateFound = false
-  checking = false
-  async checkUpdates() {
-    this.checking = true
+export default {
+  name: 'UpdateChecker',
+  data: () => ({
+    updateFound: false,
+    checking: false,
+  }),
+  methods: {
+    async checkUpdates() {
+      this.checking = true;
 
-    await updateChecker.checkUpdates()
+      await updateChecker.checkUpdates();
 
-    this.checking = false
-  }
-
+      this.checking = false;
+    },
+    updateClick() {
+      updateChecker.getUpdate();
+    },
+  },
   created() {
-    updateChecker.on('updatefound', () => (this.updateFound = true))
-  }
-
-  mounted() {
-    if (updateChecker.updateAvailable) this.updateFound = true
-  }
-
-  get updateText(): string {
-    return 'Update and Reload'
-  }
-  updateClick() {
-    updateChecker.getUpdate()
-  }
-}
+    updateChecker.on('updatefound', () => (this.updateFound = true));
+  },
+  computed: {
+    updateText(): string {
+      return 'Update and Reload';
+    },
+  },
+};
 </script>
 
 <style>

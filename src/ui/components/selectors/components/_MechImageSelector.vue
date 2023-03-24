@@ -7,7 +7,11 @@
     <v-row align="center">
       <v-col v-if="mech.Frame.ID !== 'mf_standard_pattern_i_everest'" cols="2">
         <div
-          :class="selected === mech.Frame.DefaultImage ? 'selected-img' : 'unselected-img'"
+          :class="
+            selected === mech.Frame.DefaultImage
+              ? 'selected-img'
+              : 'unselected-img'
+          "
           @click="selectDefault()"
         >
           <v-img :src="mech.Frame.DefaultImage" contain />
@@ -15,7 +19,11 @@
       </v-col>
       <v-col v-for="a in mech.Frame.OtherArt" :key="a.src" cols="2">
         <div
-          :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
+          :class="
+            selected === imgPath(a.tag, a.src)
+              ? 'selected-img'
+              : 'unselected-img'
+          "
           @click="selectImg(a)"
         >
           <v-img :src="imgPath(a.tag, a.src)" contain />
@@ -30,14 +38,24 @@
     <v-row>
       <v-col v-for="a in genericArt" :key="a.img" cols="2">
         <div
-          :class="selected === imgPath(a.tag, a.img) ? 'selected-img' : 'unselected-img'"
+          :class="
+            selected === imgPath(a.tag, a.img)
+              ? 'selected-img'
+              : 'unselected-img'
+          "
           @click="selectImg(a)"
         >
           <v-img :src="imgPath(a.tag, a.img)" contain />
         </div>
       </v-col>
     </v-row>
-    <v-alert v-if="selected && artist" outlined dense color="primary" class="my-2">
+    <v-alert
+      v-if="selected && artist"
+      variant="outlined"
+      dense
+      color="primary"
+      class="my-2"
+    >
       <v-row>
         <v-col>
           <div>
@@ -54,7 +72,9 @@
             <v-icon color="primary">mdi-web</v-icon>
             <span>Website</span>
           </a>
-          <span v-if="artist.website && artist.twitter" class="ml-4 mr-2">|</span>
+          <span v-if="artist.website && artist.twitter" class="ml-4 mr-2"
+            >|</span
+          >
           <a
             v-if="artist.twitter"
             :key="artist.twitter"
@@ -68,7 +88,13 @@
           </a>
         </v-col>
         <v-col v-if="artist.logo" cols="4">
-          <v-img target="_blank" href="artist.website" :src="artist.logo" class="logo" contain />
+          <v-img
+            target="_blank"
+            href="artist.website"
+            :src="artist.logo"
+            class="logo"
+            contain
+          />
         </v-col>
       </v-row>
     </v-alert>
@@ -76,12 +102,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getImagePath, ImageTag, getAllImageData } from '@/io/ImageManagement'
-import map from '@/assets/artistmap.json'
-import path from 'path'
+import { getImagePath, ImageTag, getAllImageData } from '@/io/ImageManagement';
+import map from '@/assets/artistmap.json';
 
-export default Vue.extend({
+export default {
   name: 'mech-image-selector',
   props: {
     mech: {
@@ -94,47 +118,54 @@ export default Vue.extend({
   }),
   computed: {
     artist() {
-      if (!this.selected) return null
-      const basename = path.basename(this.selected, path.extname(this.selected))
-      const artist = map.find(x =>
-        x.images.some(y => y.img === basename || y.img.split('.')[0] === basename)
-      )
-      if (!artist) return null
-      const image = artist.images.find(x => x.img === basename || x.img.split('.')[0] === basename)
+      if (!this.selected) return null;
+      const basename = path.basename(
+        this.selected,
+        path.extname(this.selected)
+      );
+      const artist = map.find((x) =>
+        x.images.some(
+          (y) => y.img === basename || y.img.split('.')[0] === basename
+        )
+      );
+      if (!artist) return null;
+      const image = artist.images.find(
+        (x) => x.img === basename || x.img.split('.')[0] === basename
+      );
       return {
         imgName: image.name,
         name: artist.artist,
         logo: artist.logo ? getImagePath(ImageTag.Misc, artist.logo) : '',
         website: artist.website || null,
         twitter: artist.twitter || null,
-      }
+      };
     },
     genericArt() {
-      return getAllImageData(ImageTag.Mech)
+      return getAllImageData(ImageTag.Mech);
     },
   },
   methods: {
     selectDefault() {
-      this.selected = this.mech.Frame.DefaultImage
-      this.$emit('set-img', this.mech.Frame.DefaultImage)
+      this.selected = this.mech.Frame.DefaultImage;
+      this.$emit('set-img', this.mech.Frame.DefaultImage);
     },
     selectImg(a) {
-      this.selected = this.imgPath(a.tag, a.src || a.img)
-      this.$emit('set-img', this.imgPath(a.tag, a.src || a.img))
+      this.selected = this.imgPath(a.tag, a.src || a.img);
+      this.$emit('set-img', this.imgPath(a.tag, a.src || a.img));
     },
     imgPath(tag: ImageTag, src: string) {
-      return getImagePath(tag, src)
+      return getImagePath(tag, src);
     },
   },
-})
+};
 </script>
 
 <style scoped>
 .selected-img {
   opacity: 1;
-  border: 1px solid var(--v-stark-base);
+  border: 1px solid rgb(var(--v-theme-stark));
   border-radius: 2px;
-  background-color: var(--v-primary-base);
+  background-color: rgb(var(--v-theme-primary));
   cursor: pointer;
 }
 
@@ -145,7 +176,7 @@ export default Vue.extend({
 }
 
 .unselected-img:hover {
-  border: 1px solid var(--v-primary-base);
+  border: 1px solid rgb(var(--v-theme-primary));
   border-radius: 2px;
   opacity: 0.9;
 }

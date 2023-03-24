@@ -1,15 +1,20 @@
 <template>
   <v-dialog width="90vw">
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ props }">
       <v-btn
-        :x-large="$vuetify.breakpoint.lgAndUp"
-        outlined
+        :x-large="$vuetify.display.lgAndUp"
+        variant="outlined"
         :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.dark)"
         block
-        v-on="on"
+        v-bind="props"
       >
-        <v-icon large :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.dark)">
-          cci-rank-{{ pilotLicense.Rank }}
+        <v-icon
+          large
+          :color="
+            pilotLicense.License.Manufacturer.GetColor($vuetify.theme.dark)
+          "
+        >
+          cc:rank-{{ pilotLicense.Rank }}
         </v-icon>
         <v-spacer />
         {{ pilotLicense.License.Source }}
@@ -21,16 +26,18 @@
     </template>
     <v-card>
       <v-card-text>
-        <cc-license-panel :license="pilotLicense.License" ranked :rank="pilotLicense.Rank" />
+        <cc-license-panel
+          :license="pilotLicense.License"
+          ranked
+          :rank="pilotLicense.Rank"
+        />
       </v-card-text>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cc-pilot-license-item',
   props: {
     pilotLicense: {
@@ -41,5 +48,5 @@ export default Vue.extend({
   data: () => ({
     color: 'primary',
   }),
-})
+};
 </script>

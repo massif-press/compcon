@@ -7,7 +7,7 @@
         hide-details
         class="px-2"
         prepend-icon="mdi-factory"
-        outlined
+        variant="outlined"
         label="From Manufacturer"
         :items="manufacturers"
         chips
@@ -22,10 +22,10 @@
         class="px-2"
         hide-details
         dense
-        prepend-icon="cci-compendium"
+        prepend-icon="cc:compendium"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="From Content Pack"
         :items="lcps"
         multiple
@@ -43,7 +43,7 @@
         chips
         deletable-chips
         small-chips
-        outlined
+        variant="outlined"
         label="Tags"
         :items="tags"
         item-value="ID"
@@ -56,18 +56,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Tag, Manufacturer } from '@/class'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { Tag, Manufacturer } from '@/class';
 
-const nameSort = function(a, b): number {
-  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
-  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
-  return 0
-}
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+const nameSort = function (a, b): number {
+  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+  return 0;
+};
+
+export default {
   name: 'frame-filter',
   data: () => ({
     sourceFilter: [],
@@ -78,38 +77,40 @@ export default Vue.extend({
     manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
-        .map(x => ({ text: x.Name, value: x.ID }))
-        .sort(nameSort)
+        .map((x) => ({ text: x.Name, value: x.ID }))
+        .sort(nameSort);
     },
     tags(): Tag[] {
       return this.$_.uniqBy(
         [].concat(
           this.$store.getters
             .getItemCollection('WeaponMods')
-            .flatMap(x => x.Tags)
-            .filter(x => !x.FilterIgnore && !x.IsHidden)
+            .flatMap((x) => x.Tags)
+            .filter((x) => !x.FilterIgnore && !x.IsHidden)
         ),
         'ID'
-      )
+      );
     },
     lcps(): string[] {
-      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+      return this.getModule(CompendiumStore).Frames.map((x) => x.LcpName);
     },
   },
   methods: {
     clear() {
-      this.sourceFilter = []
-      this.tagFilter = []
-      this.weaponTypeFilter = []
-      this.lcpFilter = []
+      this.sourceFilter = [];
+      this.tagFilter = [];
+      this.weaponTypeFilter = [];
+      this.lcpFilter = [];
     },
     updateFilters() {
-      const fObj = {} as any
-      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter]
-      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
-      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
-      this.$emit('set-filters', fObj)
+      const fObj = {} as any;
+      if (this.lcpFilter && this.lcpFilter.length)
+        fObj.LcpName = [this.lcpFilter];
+      if (this.sourceFilter && this.sourceFilter.length)
+        fObj.Source = [this.sourceFilter];
+      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
+      this.$emit('set-filters', fObj);
     },
   },
-})
+};
 </script>

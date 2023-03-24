@@ -19,7 +19,7 @@
         <div class="ma-2">
           <v-btn
             :color="componentType === 'Overview' ? 'accent' : 'secondary'"
-            outlined
+            variant="outlined"
             block
             @click="setPage(campaign, 'Overview')"
           >
@@ -29,10 +29,18 @@
           <v-divider class="my-2" />
 
           <div v-for="(s, i) in campaign.Sections" :key="`section_${i}`">
-            <sidebar-button :selected="s === selected" :idn="s.ItemNumber" @click="setPage(s)">
+            <sidebar-button
+              :selected="s === selected"
+              :idn="s.ItemNumber"
+              @click="setPage(s)"
+            >
               {{ s.Title }}
             </sidebar-button>
-            <div v-for="(c, j) in s.Children" :key="`section_${i}_content_${j}`" class="mt-n1">
+            <div
+              v-for="(c, j) in s.Children"
+              :key="`section_${i}_content_${j}`"
+              class="mt-n1"
+            >
               <sidebar-button
                 :selected="c === selected"
                 text
@@ -77,8 +85,14 @@
             </div>
           </div>
 
-          <v-btn class="my-1" small block color="accent" @click="campaign.AddSection()">
-            <v-icon left>mdi-plus</v-icon>
+          <v-btn
+            class="my-1"
+            small
+            block
+            color="accent"
+            @click="campaign.AddSection()"
+          >
+            <v-icon start>mdi-plus</v-icon>
             Add New Section
           </v-btn>
         </div>
@@ -86,7 +100,7 @@
         <div class="px-2">
           <v-btn
             block
-            outlined
+            variant="outlined"
             class="my-2 pa-2"
             color="accent"
             @click="setPage(campaign, 'Locations')"
@@ -95,7 +109,7 @@
           </v-btn>
           <v-btn
             block
-            outlined
+            variant="outlined"
             class="my-2 pa-2"
             color="accent"
             @click="setPage(campaign, 'Factions')"
@@ -104,7 +118,7 @@
           </v-btn>
           <v-btn
             block
-            outlined
+            variant="outlined"
             class="my-2 pa-2"
             color="accent"
             @click="setPage(campaign, 'Characters')"
@@ -113,7 +127,7 @@
           </v-btn>
           <v-btn
             block
-            outlined
+            variant="outlined"
             class="my-2 pa-2"
             color="accent"
             @click="setPage(campaign, 'Encounters')"
@@ -123,10 +137,17 @@
         </div>
         <v-divider class="my-2" />
         <div class="px-2">
-          <v-btn block class="my-2 pa-2" color="secondary" @click="campaign.save()">
+          <v-btn
+            block
+            class="my-2 pa-2"
+            color="secondary"
+            @click="campaign.save()"
+          >
             Save Campaign
           </v-btn>
-          <v-btn block class="my-2 pa-2" color="accent" disabled>Publish Campaign</v-btn>
+          <v-btn block class="my-2 pa-2" color="accent" disabled
+            >Publish Campaign</v-btn
+          >
         </div>
       </v-navigation-drawer>
       <v-col>
@@ -146,13 +167,12 @@
 </template>
 
 <script lang="ts">
-import * as Components from './pages'
-import SidebarButton from './_components/SidebarButton.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CampaignStore } from '@/store'
+import * as Components from './pages';
+import SidebarButton from './_components/SidebarButton.vue';
 
-import Vue from 'vue'
-export default Vue.extend({
+import { CampaignStore } from '@/store';
+
+export default {
   name: 'campaign-editor',
   components: { SidebarButton },
   data: () => ({
@@ -160,21 +180,21 @@ export default Vue.extend({
     componentType: 'Overview',
   }),
   created() {
-    this.selected = this.campaign
+    this.selected = this.campaign;
   },
   computed: {
     itemComponent() {
-      return Components[this.componentType]
+      return Components[this.componentType];
     },
     campaign() {
-      return getModule(CampaignStore, this.$store).EditCampaign
+      return this.getModule(CampaignStore).EditCampaign;
     },
   },
   methods: {
     async setPage(item, type = false) {
-      this.selected = item
-      this.componentType = type ? type : item.ItemType
+      this.selected = item;
+      this.componentType = type ? type : item.ItemType;
     },
   },
-})
+};
 </script>

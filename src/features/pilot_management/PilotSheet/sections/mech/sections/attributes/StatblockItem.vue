@@ -21,10 +21,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Contributor from './Contributor.vue'
+import Contributor from './Contributor.vue';
 
-export default Vue.extend({
+export default {
   name: 'statblock-item',
   components: { Contributor },
   props: {
@@ -41,5 +40,5 @@ export default Vue.extend({
       default: '#bdbdbd',
     },
   },
-})
+};
 </script>

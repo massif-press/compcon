@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'synergy-base',
   props: {
     synergy: {
@@ -14,5 +13,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

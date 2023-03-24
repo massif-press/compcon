@@ -1,9 +1,16 @@
 <template>
   <div>
-    <v-alert outlined dense prominent icon="mdi-information-outline" class="body-text mt-2">
-      Generating a share code for this pilot will allow other users with COMP/CON cloud accounts to
-      download a copy and subscribe to updates you make to this pilot. Regenerating a share code
-      will prevent subscribers from downloading future updates under the old share code.
+    <v-alert
+      variant="outlined"
+      dense
+      prominent
+      icon="mdi-information-outline"
+      class="body-text mt-2"
+    >
+      Generating a share code for this pilot will allow other users with
+      COMP/CON cloud accounts to download a copy and subscribe to updates you
+      make to this pilot. Regenerating a share code will prevent subscribers
+      from downloading future updates under the old share code.
     </v-alert>
     <div v-if="pilot.CloudController.ShareCode">
       <v-row justify="center">
@@ -23,10 +30,10 @@
       </v-row>
       <div class="text-center px-6">
         <b class="accent--text">
-          Share codes are valid for 90 days, after which the code will expire. This pilot's code
-          will expire on
-          {{ pilot.CloudController.ShareCodeExpiration }}. This can be extended by clicking the
-          button below
+          Share codes are valid for 90 days, after which the code will expire.
+          This pilot's code will expire on
+          {{ pilot.CloudController.ShareCodeExpiration }}. This can be extended
+          by clicking the button below
         </b>
         <br />
         <v-btn
@@ -63,9 +70,12 @@
           <v-btn x-large class="primary" :loading="loading" @click="generate()">
             Generate Pilot Share Code
           </v-btn>
-          <div v-show="!pilot.CloudController.LastUpdateCloud" class="overline text-disabled">
-            Generating a Share Code will upload this pilot to your cloud account. This process may
-            take several seconds.
+          <div
+            v-show="!pilot.CloudController.LastUpdateCloud"
+            class="overline text-disabled"
+          >
+            Generating a Share Code will upload this pilot to your cloud
+            account. This process may take several seconds.
           </div>
         </v-col>
       </v-row>
@@ -74,10 +84,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { generateCode, refreshItem } from '@/io/apis/share'
+import { generateCode, refreshItem } from '@/io/apis/share';
 
-export default Vue.extend({
+export default {
   name: 'share-dialog',
   props: {
     pilot: { type: Object, required: true },
@@ -89,47 +98,60 @@ export default Vue.extend({
     isSameDate() {
       return (
         Math.floor(
-          (new Date().valueOf() - new Date(this.pilot.CloudController.ShareCodeExpiry).valueOf()) /
+          (new Date().valueOf() -
+            new Date(this.pilot.CloudController.ShareCodeExpiry).valueOf()) /
             (1000 * 60 * 60 * 24)
         ) < 1
-      )
+      );
     },
     extendedDate() {
-      const d = new Date()
-      d.setDate(d.getDate() + 90)
+      const d = new Date();
+      d.setDate(d.getDate() + 90);
 
       return d.toLocaleDateString(undefined, {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
         day: 'numeric',
-      })
+      });
     },
   },
   methods: {
     async generate() {
-      this.loading = true
+      this.loading = true;
       await generateCode(this.pilot)
-        .then(res => this.pilot.CloudController.SetShareCode(res))
+        .then((res) => this.pilot.CloudController.SetShareCode(res))
         .then(() => this.$notify('Share Code generated', 'success'))
-        .catch(() => this.$notify('An error occurred while attempting to generate a share code', 'error'))
-      this.loading = false
+        .catch(() =>
+          this.$notify(
+            'An error occurred while attempting to generate a share code',
+            'error'
+          )
+        );
+      this.loading = false;
     },
     async refresh() {
-      this.loading = true
-      const c = this.pilot.CloudController.ShareCode
+      this.loading = true;
+      const c = this.pilot.CloudController.ShareCode;
       await refreshItem(c)
         .then(() => this.pilot.CloudController.SetShareCode(c))
         .then(() => this.$notify('Share Code refreshed', 'success'))
-        .catch(() => this.$notify('An error occurred while attempting to refresh the share code', 'error'))
-      this.loading = false
+        .catch(() =>
+          this.$notify(
+            'An error occurred while attempting to refresh the share code',
+            'error'
+          )
+        );
+      this.loading = false;
     },
     copy() {
       navigator.clipboard
         .writeText(this.pilot.CloudController.ShareCode)
-        .then(() => Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation'))
-        .catch(() => Vue.prototype.$notifyError('Unable to copy Cloud ID'))
+        .then(() =>
+          Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
+        )
+        .catch(() => Vue.prototype.$notifyError('Unable to copy Cloud ID'));
     },
   },
-})
+};
 </script>

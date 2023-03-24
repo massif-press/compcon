@@ -8,13 +8,11 @@
           :max="mech.MaxStructure"
           large
           color="structure"
-          full-icon="cci-structure"
+          full-icon="cc:structure"
           :class="{ rolledOver: structRollover }"
           @update="mech.CurrentStructure = $event"
         >
-          <span class="heading h3">
-            Structure
-          </span>
+          <span class="heading h3">Structure</span>
         </cc-tick-bar>
       </v-col>
       <v-col v-if="mech.Armor" cols="auto">
@@ -71,7 +69,7 @@
           :max="mech.MaxStress"
           large
           color="stress"
-          full-icon="cci-reactor"
+          full-icon="cc:reactor"
           :class="{ rolledOver: stressRollover }"
           @update="mech.CurrentStress = $event"
         >
@@ -90,19 +88,18 @@
           max-length="12"
           @update="mech.CurrentHeat = $event"
         >
-          <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3">
-            HEAT
-          </span>
-          <span v-else class="heading h3">
-            HEAT
-          </span>
+          <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3"
+            >HEAT</span
+          >
+          <span v-else class="heading h3">HEAT</span>
         </cc-tick-bar>
-        <div v-if="mech.IsInDangerZone" class="caption font-weight-bold dangerzone--text">
+        <div
+          v-if="mech.IsInDangerZone"
+          class="caption font-weight-bold dangerzone--text"
+        >
           // HEAT::DANGER ZONE //
         </div>
-        <div v-else class="caption subtle--text">
-          HEAT LEVELS NOMINAL
-        </div>
+        <div v-else class="caption subtle--text">HEAT LEVELS NOMINAL</div>
       </v-col>
       <v-col cols="auto">
         <cc-tick-bar
@@ -114,9 +111,7 @@
           full-icon="control_point"
           @update="mech.CurrentRepairs = $event"
         >
-          <span class="heading h3">
-            REPAIR CAPACITY
-          </span>
+          <span class="heading h3">REPAIR CAPACITY</span>
         </cc-tick-bar>
       </v-col>
     </v-row>
@@ -146,16 +141,14 @@
         >
           AVAILABLE
         </div>
-        <div v-else class="caption subtle--text">
-          EXHAUSTED
-        </div>
+        <div v-else class="caption subtle--text">EXHAUSTED</div>
       </v-col>
 
       <v-col cols="auto">
         <cc-tick-bar
           :key="mech.CurrentOvercharge"
           :current="mech.CurrentOvercharge"
-          :max="mech.OverchargeTrack.length-1"
+          :max="mech.OverchargeTrack.length - 1"
           large
           no-input
           clearable
@@ -164,9 +157,7 @@
           hide-values
           @update="mech.CurrentOvercharge = $event"
         >
-          <span class="heading h3">
-            Overcharge
-          </span>
+          <span class="heading h3">Overcharge</span>
         </cc-tick-bar>
         <div class="caption overcharge--text font-weight-bold">
           +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
@@ -178,8 +169,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'med-pip-layout',
   props: {
     mech: {
@@ -190,5 +180,5 @@ export default Vue.extend({
     stressRollover: { type: Boolean },
     hpResistance: { type: Boolean },
   },
-})
+};
 </script>

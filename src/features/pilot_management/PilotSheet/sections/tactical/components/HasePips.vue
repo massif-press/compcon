@@ -9,8 +9,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'hase-pips',
   props: {
     title: {
@@ -27,25 +26,27 @@ export default Vue.extend({
     tooltip(): string {
       switch (this.title) {
         case 'hull':
-          return `MECH HP <b>+${this.skillPoints * 2}</b><br>REPAIR CAPACITY <b>+${Math.floor(
-            this.skillPoints / 2
-          )}</b>`
+          return `MECH HP <b>+${
+            this.skillPoints * 2
+          }</b><br>REPAIR CAPACITY <b>+${Math.floor(this.skillPoints / 2)}</b>`;
         case 'agility':
           return `EVASION <b>+${this.skillPoints}</b><br>SPEED <b>+${Math.floor(
             this.skillPoints / 2
-          )}</b>`
+          )}</b>`;
         case 'systems':
           return `E-DEFENSE <b>+${this.skillPoints}</b><br>TECH ATTACK <b>+${
             this.skillPoints
-          }</b><br>SP <b>+${Math.floor(this.skillPoints / 2)}</b>`
+          }</b><br>SP <b>+${Math.floor(this.skillPoints / 2)}</b>`;
         case 'engineering':
           return `HEAT CAPACITY <b>+${
             this.skillPoints
-          }</b><br>LIMITED SYSTEMS BONUS <b>+${Math.floor(this.skillPoints / 2)}</b>`
+          }</b><br>LIMITED SYSTEMS BONUS <b>+${Math.floor(
+            this.skillPoints / 2
+          )}</b>`;
         default:
-          return ''
+          return '';
       }
     },
   },
-})
+};
 </script>

@@ -19,13 +19,25 @@
             />
           </v-col>
           <v-col cols="auto">
-            <div v-if="!item.Destroyed" :class="`ml-n2 ${small ? 'white--text effect-text' : ''}`">
-              <cc-tooltip v-if="item.Mod" inline :content="`Weapon Modification Equipped`">
-                <v-icon style="margin-top: -2px" dark>cci-weaponmod</v-icon>
+            <div
+              v-if="!item.Destroyed"
+              :class="`ml-n2 ${small ? 'white--text effect-text' : ''}`"
+            >
+              <cc-tooltip
+                v-if="item.Mod"
+                inline
+                :content="`Weapon Modification Equipped`"
+              >
+                <v-icon style="margin-top: -2px" dark>cc:weaponmod</v-icon>
               </cc-tooltip>
               {{ item.Name }}
-              <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-              <component :is="small ? 'div' : 'span'" class="caption subtle--text ml-1 my-n1">
+              <span v-if="item.FlavorName" class="caption ml-2 my-n1"
+                >//{{ item.TrueName }}</span
+              >
+              <component
+                :is="small ? 'div' : 'span'"
+                class="caption subtle--text ml-1 my-n1"
+              >
                 <b>{{ item.Size }}</b>
                 {{ item.WeaponType }}
               </component>
@@ -41,7 +53,13 @@
       </div>
       <v-row v-if="item" slot="header-items" justify="end" no-gutters>
         <v-col cols="auto">
-          <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
+          <cc-range-element
+            v-if="item.Range"
+            small
+            :range="getRange"
+            class="d-inline"
+            dark
+          />
           <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
           <cc-damage-element
             v-if="item.Damage"
@@ -58,7 +76,13 @@
         </v-col>
         <v-col v-if="!readonly" cols="auto">
           <div class="pl-3 ml-3" style="border-left: 1px solid #616161">
-            <v-icon v-if="item" :small="small" dark class="fadeSelect mt-n1" @click.stop="remove()">
+            <v-icon
+              v-if="item"
+              :small="small"
+              dark
+              class="fadeSelect mt-n1"
+              @click.stop="remove()"
+            >
               delete
             </v-icon>
             <v-icon
@@ -81,13 +105,13 @@
           <div v-if="!intWeapon && !readonly" slot="left">
             <v-btn
               v-if="!item.Mod && !item.NoMods"
-              outlined
+              variant="outlined"
               small
               :color="color"
               class="mb-1"
               @click.stop="$refs.modDialog.show()"
             >
-              <v-icon :color="color" left>cci-weaponmod</v-icon>
+              <v-icon :color="color" left>cc:weaponmod</v-icon>
               <span>NO MOD INSTALLED</span>
             </v-btn>
           </div>
@@ -95,12 +119,15 @@
         <div class="mt-n1">
           <div v-if="item.ProfileEffect">
             <div class="mb-n2">
-              <p v-html-safe="item.ProfileEffect" class="text--text body-text mb-1 mx-3 py-2" />
+              <p
+                v-html-safe="item.ProfileEffect"
+                class="text--text body-text mb-1 mx-3 py-2"
+              />
             </div>
           </div>
           <div v-if="item.ProfileOnAttack">
             <div class="mb-n2 mt-1">
-              <v-icon class="mt-n1">cci-weapon</v-icon>
+              <v-icon class="mt-n1">cc:weapon</v-icon>
               <span class="overline stark--text">ON ATTACK</span>
               <p
                 v-html-safe="item.ProfileOnAttack"
@@ -110,7 +137,7 @@
           </div>
           <div v-if="item.ProfileOnHit">
             <div class="mb-n2 mt-1">
-              <v-icon class="mt-n1">cci-weapon</v-icon>
+              <v-icon class="mt-n1">cc:weapon</v-icon>
               <span class="overline stark--text">ON HIT</span>
               <p
                 v-html-safe="item.ProfileOnHit"
@@ -120,7 +147,7 @@
           </div>
           <div v-if="item.ProfileOnCrit">
             <div class="mb-n2 mt-1">
-              <v-icon class="mt-n1">cci-weapon</v-icon>
+              <v-icon class="mt-n1">cc:weapon</v-icon>
               <span class="overline stark--text">ON CRITICAL HIT</span>
               <p
                 v-html-safe="item.ProfileOnCrit"
@@ -129,7 +156,12 @@
             </div>
           </div>
           <v-row v-if="item.Mod" dense justify="center">
-            <mod-inset :mod="item.Mod" :mech="mech" :color="color" @remove-mod="item.Mod = null" />
+            <mod-inset
+              :mod="item.Mod"
+              :mech="mech"
+              :color="color"
+              @remove-mod="item.Mod = null"
+            />
           </v-row>
           <!-- <ammo-case-inset :level="armoryLevel" /> -->
         </div>
@@ -161,15 +193,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SlotCardBase from '../../_SlotCardBase.vue'
-import WeaponSelector from './_WeaponSelector.vue'
-import ModSelector from './_ModSelector.vue'
-import ModInset from './_ModInset.vue'
+import SlotCardBase from '../../_SlotCardBase.vue';
+import WeaponSelector from './_WeaponSelector.vue';
+import ModSelector from './_ModSelector.vue';
+import ModInset from './_ModInset.vue';
 // import AmmoCaseInset from './_AmmoCaseInset.vue'
-import EquipmentOptions from '../../_EquipmentOptions.vue'
-import EquipmentHeader from '../../_EquipmentHeader.vue'
-import ShLockDialog from '../_ShLockDialog.vue'
+import EquipmentOptions from '../../_EquipmentOptions.vue';
+import EquipmentHeader from '../../_EquipmentHeader.vue';
+import ShLockDialog from '../_ShLockDialog.vue';
 import {
   MechWeapon,
   WeaponMod,
@@ -179,9 +210,9 @@ import {
   WeaponType,
   Range,
   Damage,
-} from '@/class'
+} from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'weapon-slot-card',
   components: {
     SlotCardBase,
@@ -218,13 +249,13 @@ export default Vue.extend({
   }),
   computed: {
     small() {
-      return this.$vuetify.breakpoint.smAndDown
+      return this.$vuetify.display.smAndDown;
     },
     item() {
-      return this.weaponSlot.Weapon
+      return this.weaponSlot.Weapon;
     },
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
     },
     // armoryLevel() {
     //   if (!this.item) return 0
@@ -236,52 +267,52 @@ export default Vue.extend({
     //   return tal.Rank
     // },
     getRange() {
-      if (!this.item) return []
-      const mod = this.weaponSlot.Mod
-      const ar = mod && mod.AddedRange ? mod.AddedRange : null
-      return Range.CalculateRange(this.item, this.mech, ar)
+      if (!this.item) return [];
+      const mod = this.weaponSlot.Mod;
+      const ar = mod && mod.AddedRange ? mod.AddedRange : null;
+      return Range.CalculateRange(this.item, this.mech, ar);
     },
     getDamage() {
-      if (!this.item) return []
-      return Damage.CalculateDamage(this.item, this.mech)
+      if (!this.item) return [];
+      return Damage.CalculateDamage(this.item, this.mech);
     },
   },
   methods: {
     equip(item: MechWeapon) {
-      this.$refs.base.$refs.selectorDialog.hide()
+      (this.$refs.base.$refs.selectorDialog as any).hide();
       if (item.Size === WeaponSize.Superheavy) {
-        this.equipSuperheavy(item)
+        this.equipSuperheavy(item);
       } else {
         if (this.item && this.item.Size === WeaponSize.Superheavy)
-          this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
-        this.weaponSlot.EquipWeapon(item, this.mech.Pilot)
+          this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy();
+        this.weaponSlot.EquipWeapon(item, this.mech.Pilot);
       }
     },
     equipSuperheavy(item: MechWeapon) {
-      this.stagedSH = item
-      this.$refs.lockDialog.show()
+      this.stagedSH = item;
+      (this.$refs.lockDialog as any).show();
     },
     finalizeSuperheavy(lockTarget: EquippableMount) {
       if (this.item && this.item.Size === WeaponSize.Superheavy)
-        this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
-      lockTarget.Lock(this.mount)
-      this.weaponSlot.EquipWeapon(this.stagedSH, this.mech.Pilot)
-      this.$refs.lockDialog.hide()
-      this.stagedSH = null
+        this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy();
+      lockTarget.Lock(this.mount);
+      this.weaponSlot.EquipWeapon(this.stagedSH, this.mech.Pilot);
+      (this.$refs.lockDialog as any).hide();
+      this.stagedSH = null;
     },
     install(mod: WeaponMod) {
-      this.item.Mod = mod
-      this.$refs.modDialog.hide()
+      this.item.Mod = mod;
+      (this.$refs.modDialog as any).hide();
     },
     uninstall() {
-      this.item.Mod = null
+      this.item.Mod = null;
     },
     remove() {
       if (this.item.Size === WeaponSize.Superheavy) {
-        this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy()
+        this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy();
       }
-      this.weaponSlot.UnequipWeapon()
+      this.weaponSlot.UnequipWeapon();
     },
   },
-})
+};
 </script>

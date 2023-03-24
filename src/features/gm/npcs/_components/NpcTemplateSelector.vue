@@ -5,7 +5,7 @@
       v-for="t in item.NpcTemplateController.Templates"
       :key="t.Name"
       cols="auto"
-      outlined
+      variant="outlined"
       label
       class="mr-2"
     >
@@ -13,14 +13,18 @@
         {{ t.Name }}
       </cc-tooltip>
     </v-chip>
-    <v-btn small color="accent" tile outlined @click="dialog = true">Set NPC Templates</v-btn>
+    <v-btn small color="accent" tile variant="outlined" @click="dialog = true"
+      >Set NPC Templates</v-btn
+    >
 
     <v-dialog v-model="dialog">
       <v-card>
         <v-toolbar dense color="primary" flat>
           <span class="heading h6 white--text">Select Template</span>
           <v-spacer />
-          <v-btn icon color="white" @click="dialog = false"><v-icon large>mdi-close</v-icon></v-btn>
+          <v-btn icon color="white" @click="dialog = false"
+            ><v-icon large>mdi-close</v-icon></v-btn
+          >
         </v-toolbar>
 
         <panel-view no-border>
@@ -32,13 +36,16 @@
                   prepend-inner-icon="mdi-magnify"
                   dense
                   hide-details
-                  outlined
+                  variant="outlined"
                   clearable
                 />
               </v-col>
             </v-row>
             <v-divider class="my-2" />
-            <v-row dense style="max-height: calc(100% - 145px); overflow-y: scroll">
+            <v-row
+              dense
+              style="max-height: calc(100% - 145px); overflow-y: scroll"
+            >
               <v-data-table
                 dense
                 :items="templates"
@@ -63,7 +70,9 @@
                     <v-icon v-if="isAssigned(item)" left>mdi-check</v-icon>
                     {{ item.Name }}
                     <v-scroll-x-transition leave-absolute>
-                      <v-icon v-if="selected === item" right>mdi-chevron-triple-right</v-icon>
+                      <v-icon v-if="selected === item" right
+                        >mdi-chevron-triple-right</v-icon
+                      >
                     </v-scroll-x-transition>
                   </v-btn>
                 </template>
@@ -77,14 +86,18 @@
                 <v-col cols="auto">
                   <v-btn
                     v-if="isAssigned(selected)"
-                    outlined
+                    variant="outlined"
                     @click="item.NpcTemplateController.RemoveTemplate(selected)"
                   >
-                    <v-icon left>mdi-minus</v-icon>
+                    <v-icon start>mdi-minus</v-icon>
                     Remove Template
                   </v-btn>
-                  <v-btn v-else outlined @click="item.NpcTemplateController.AddTemplate(selected)">
-                    <v-icon left>mdi-plus</v-icon>
+                  <v-btn
+                    v-else
+                    variant="outlined"
+                    @click="item.NpcTemplateController.AddTemplate(selected)"
+                  >
+                    <v-icon start>mdi-plus</v-icon>
                     Assign Template
                   </v-btn>
                 </v-col>
@@ -109,7 +122,9 @@
                     <span class="heading h3">
                       <b class="accent--text">Base</b>
                       Features
-                      <span class="caption">({{ selected.BaseFeatures.length }})</span>
+                      <span class="caption"
+                        >({{ selected.BaseFeatures.length }})</span
+                      >
                     </span>
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
@@ -128,7 +143,9 @@
                         <div class="heading h3">
                           <b class="accent--text">Optional</b>
                           Features
-                          <span class="caption">({{ selected.OptionalFeatures.length }})</span>
+                          <span class="caption"
+                            >({{ selected.OptionalFeatures.length }})</span
+                          >
                         </div>
                       </v-col>
                       <v-col align-self="center">
@@ -160,9 +177,16 @@
                 </v-expansion-panel>
               </v-expansion-panels>
             </v-container>
-            <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
+            <v-row
+              v-else
+              align="center"
+              justify="center"
+              style="width: 100%; height: 100%"
+            >
               <v-col cols="auto">
-                <span class="heading h1 subtle--text text--lighten-2">select npc template</span>
+                <span class="heading h1 subtle--text text--lighten-2"
+                  >select npc template</span
+                >
               </v-col>
             </v-row>
           </template>
@@ -173,12 +197,10 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store'
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import PanelView from '../../_components/PanelView.vue'
+import { CompendiumStore } from '@/store';
+import PanelView from '../../_components/PanelView.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-template-selector',
   components: { PanelView },
   props: {
@@ -194,13 +216,15 @@ export default Vue.extend({
     classes: [],
   }),
   created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    this.templates = compendium.NpcTemplates
+    // const compendium =this.getModule(CompendiumStore);
+    // this.templates = compendium.NpcTemplates;
   },
   methods: {
     isAssigned(t) {
-      return this.item.NpcTemplateController.Templates.some(x => x.ID === t.ID)
+      return this.item.NpcTemplateController.Templates.some(
+        (x) => x.ID === t.ID
+      );
     },
   },
-})
+};
 </script>

@@ -20,11 +20,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import NpcFeatureSelectMenu from './_subcomponents/NpcFeatureSelectMenu.vue'
-import draggable from 'vuedraggable'
+import NpcFeatureSelectMenu from './_subcomponents/NpcFeatureSelectMenu.vue';
+import draggable from 'vuedraggable';
 
-export default Vue.extend({
+export default {
   name: 'npc-feature-selector',
   components: { NpcFeatureSelectMenu, draggable },
   props: {
@@ -32,12 +31,14 @@ export default Vue.extend({
   },
   methods: {
     moveItem(event) {
-      console.log(event.moved.newIndex, event.moved.oldIndex)
-      console.log(this.npc.NpcFeatureController.Items.map(x => x.Feature.Name))
+      console.log(event.moved.newIndex, event.moved.oldIndex);
+      console.log(
+        this.npc.NpcFeatureController.Items.map((x) => x.Feature.Name)
+      );
       // if (event.moved) {
       //   this.npc.SaveController.save()
       // }
     },
   },
-})
+};
 </script>

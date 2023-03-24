@@ -1,7 +1,7 @@
 // This should be called every app load to manage all housekeeping stuff.
 // To the extent possible, the actual work should be kept in the relevant
 // class/module, this should be mostly for organization's sake.
-import { SetTheme } from '@/classes/utility/ThemeManager'
+import { SetTheme } from '@/classes/utility/ThemeManager';
 import {
   CompendiumStore,
   PilotManagementStore,
@@ -10,10 +10,10 @@ import {
   CharacterStore,
   LocationStore,
   FactionStore,
-} from '@/store'
-import { Auth } from '@aws-amplify/auth'
-import { getModule } from 'vuex-module-decorators'
-import { Initialize, SetItem, GetItem, RemoveItem } from './Storage'
+} from '@/store';
+import { Auth } from '@aws-amplify/auth';
+
+import { Initialize, SetItem, GetItem, RemoveItem } from './Storage';
 
 export default async function (
   lancerVer: string,
@@ -21,43 +21,43 @@ export default async function (
   store: any,
   vuetify?: any
 ): Promise<void> {
-  await Initialize()
+  await Initialize();
 
-  navigator.storage.estimate().then(res => console.log(res))
+  navigator.storage.estimate().then((res) => console.log(res));
 
-  const dataStore = getModule(CompendiumStore, store)
-  const userstore = getModule(UserStore, store)
-  const pilotStore = getModule(PilotManagementStore, store)
-  const npcStore = getModule(NpcStore, store)
-  const characterStore = getModule(CharacterStore, store)
-  const locationStore = getModule(LocationStore, store)
-  const factionStore = getModule(FactionStore, store)
+  const dataStore = getModule(CompendiumStore, store);
+  const userstore = getModule(UserStore, store);
+  const pilotStore = getModule(PilotManagementStore, store);
+  const npcStore = getModule(NpcStore, store);
+  const characterStore = getModule(CharacterStore, store);
+  const locationStore = getModule(LocationStore, store);
+  const factionStore = getModule(FactionStore, store);
 
-  await dataStore.setVersions(lancerVer, ccVer)
+  await dataStore.setVersions(lancerVer, ccVer);
 
   Auth.currentAuthenticatedUser()
-    .then(cognitoUser => {
+    .then((cognitoUser) => {
       userstore.setAws({ cognitoUser }).then(() => {
-        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework)
-      })
+        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework);
+      });
     })
     .catch(() => {
       userstore.loadUser().then(() => {
-        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework)
-      })
-    })
+        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework);
+      });
+    });
 
-  await dataStore.refreshExtraContent()
-  const missing = { pilots: [], npcs: [] }
-  await pilotStore.loadPilots()
-  missing.pilots = pilotStore.MissingPilots
-  await npcStore.loadNpcs()
-  missing.npcs = npcStore.MissingNpcs
-  await dataStore.setMissingContent(missing)
+  await dataStore.refreshExtraContent();
+  const missing = { pilots: [], npcs: [] };
+  await pilotStore.loadPilots();
+  missing.pilots = pilotStore.MissingPilots;
+  await npcStore.loadNpcs();
+  missing.npcs = npcStore.MissingNpcs;
+  await dataStore.setMissingContent(missing);
 
-  await characterStore.loadCharacters()
-  await locationStore.loadLocations()
-  await factionStore.loadFactions()
+  await characterStore.loadCharacters();
+  await locationStore.loadLocations();
+  await factionStore.loadFactions();
 
-  console.info('loading complete')
+  console.info('loading complete');
 }

@@ -5,8 +5,8 @@
     </router-link>
     <v-divider v-if="pilot" vertical dark class="ml-2 mr-2" />
     <v-menu v-if="pilot" nudge-bottom="35px" open-on-hover>
-      <template v-slot:activator="{ on }">
-        <v-btn light tile color="white" elevation="0" v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn light tile color="white" elevation="0" v-bind="props">
           {{ pilot.Callsign }}
           <v-icon light>arrow_drop_down</v-icon>
         </v-btn>
@@ -14,7 +14,7 @@
       <v-list two-line subheader>
         <v-list-item @click="pilotSheet()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon large>cci-pilot</v-icon>
+            <v-icon large>cc:pilot</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Pilot Sheet</v-list-item-title>
@@ -25,7 +25,7 @@
         </v-list-item>
         <v-list-item @click="mechHangar()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon large>cci-frame</v-icon>
+            <v-icon large>cc:frame</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Mech Hangar</v-list-item-title>
@@ -40,19 +40,15 @@
 </template>
 
 <script lang="ts">
-import activePilot from '../../pilot_management/mixins/activePilot'
-
-import vueMixins from '@/util/vueMixins'
-
-export default vueMixins(activePilot).extend({
+export default {
   name: 'pilot-nav-mode',
   methods: {
     pilotSheet() {
-      this.$router.push({ name: 'pilot_sheet' })
+      this.$router.push({ name: 'pilot_sheet' });
     },
     mechHangar() {
-      this.$router.push({ name: 'mech_hangar' })
+      this.$router.push({ name: 'mech_hangar' });
     },
   },
-})
+};
 </script>

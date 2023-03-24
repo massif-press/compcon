@@ -18,19 +18,18 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import OptionsDialog from './OptionsDialog.vue'
+import OptionsDialog from './OptionsDialog.vue';
 
-export default Vue.extend({
+export default {
   name: 'print-footer',
   components: { OptionsDialog },
   methods: {
     print() {
-      window.print()
+      window.print();
     },
     setOptions(options) {
-      console.log(options)
+      console.log(options);
     },
   },
-})
+};
 </script>

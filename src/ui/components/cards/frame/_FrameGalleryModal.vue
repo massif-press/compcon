@@ -1,8 +1,10 @@
 <template>
   <div>
     <v-dialog v-model="dialog" fullscreen>
-      <template v-slot:activator="{ on }">
-        <v-btn small outlined block v-on="on">View {{ frame.Name }} Gallery</v-btn>
+      <template v-slot:activator="{ props }">
+        <v-btn small variant="outlined" block v-bind="props"
+          >View {{ frame.Name }} Gallery</v-btn
+        >
       </template>
       <v-card color="background">
         <v-btn icon fixed top right @click="dialog = false">
@@ -23,11 +25,19 @@
             </v-col>
             <v-col cols="4" class="ml-auto pr-6">
               <div class="heading h1 accent--text">{{ frame.Name }}</div>
-              <v-alert v-if="selected && artist" outlined dense color="primary" class="my-2">
+              <v-alert
+                v-if="selected && artist"
+                variant="outlined"
+                dense
+                color="primary"
+                class="my-2"
+              >
                 <v-row>
                   <v-col>
                     <div>
-                      <div class="heading h3 accent--text">{{ artist.imgName }}</div>
+                      <div class="heading h3 accent--text">
+                        {{ artist.imgName }}
+                      </div>
                       <div class="flavor-text ml-3">by {{ artist.name }}</div>
                     </div>
                     <a
@@ -40,7 +50,11 @@
                       <v-icon color="primary">mdi-web</v-icon>
                       <span>Website</span>
                     </a>
-                    <span v-if="artist.website && artist.twitter" class="ml-4 mr-2">|</span>
+                    <span
+                      v-if="artist.website && artist.twitter"
+                      class="ml-4 mr-2"
+                      >|</span
+                    >
                     <a
                       v-if="artist.twitter"
                       :key="artist.twitter"
@@ -63,7 +77,11 @@
                   style="max-width: 200px"
                 >
                   <div
-                    :class="selected === frame.DefaultImage ? 'selected-img' : 'unselected-img'"
+                    :class="
+                      selected === frame.DefaultImage
+                        ? 'selected-img'
+                        : 'unselected-img'
+                    "
                     @click="selected = frame.DefaultImage"
                   >
                     <v-img
@@ -82,7 +100,11 @@
                   style="max-width: 200px"
                 >
                   <div
-                    :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
+                    :class="
+                      selected === imgPath(a.tag, a.src)
+                        ? 'selected-img'
+                        : 'unselected-img'
+                    "
                     @click="selectImg(a)"
                   >
                     <v-img
@@ -104,12 +126,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getImagePath, ImageTag } from '@/io/ImageManagement'
-import map from '@/assets/artistmap.json'
-import path from 'path'
+import { getImagePath, ImageTag } from '@/io/ImageManagement';
+import map from '@/assets/artistmap.json';
 
-export default Vue.extend({
+export default {
   name: 'frame-gallery-modal',
   props: {
     frame: { type: Object, required: true },
@@ -120,44 +140,47 @@ export default Vue.extend({
   }),
   computed: {
     artist() {
-      if (!this.selected) return null
-      const basename = path.basename(this.selected, path.extname(this.selected))
-      const artist = map.find(x => x.images.some(y => y.img === basename))
-      if (!artist) return null
-      const image = artist.images.find(x => x.img === basename)
+      if (!this.selected) return null;
+      const basename = path.basename(
+        this.selected,
+        path.extname(this.selected)
+      );
+      const artist = map.find((x) => x.images.some((y) => y.img === basename));
+      if (!artist) return null;
+      const image = artist.images.find((x) => x.img === basename);
       return {
         imgName: image.name,
         name: artist.artist,
         logo: artist.logo ? getImagePath(ImageTag.Misc, artist.logo) : '',
         website: artist.website || null,
         twitter: artist.twitter || null,
-      }
+      };
     },
     isPixel() {
-      return this.selected.includes('_pixel')
+      return this.selected.includes('_pixel');
     },
   },
   created() {
-    this.selected = this.frame.DefaultImage
+    this.selected = this.frame.DefaultImage;
   },
   methods: {
     selectImg(a) {
-      this.selected = this.imgPath(a.tag, a.src)
-      this.$emit('set-img', this.imgPath(a.tag, a.src))
+      this.selected = this.imgPath(a.tag, a.src);
+      this.$emit('set-img', this.imgPath(a.tag, a.src));
     },
     imgPath(tag: ImageTag, src: string) {
-      return getImagePath(tag, src)
+      return getImagePath(tag, src);
     },
   },
-})
+};
 </script>
 
 <style scoped>
 .selected-img {
   opacity: 1;
-  border: 1px solid var(--v-stark-base);
+  border: 1px solid rgb(var(--v-theme-stark));
   border-radius: 2px;
-  background-color: var(--v-primary-base);
+  background-color: rgb(var(--v-theme-primary));
   cursor: pointer;
 }
 
@@ -168,7 +191,7 @@ export default Vue.extend({
 }
 
 .unselected-img:hover {
-  border: 1px solid var(--v-primary-base);
+  border: 1px solid rgb(var(--v-theme-primary));
   border-radius: 2px;
   opacity: 0.9;
 }

@@ -8,9 +8,21 @@
     <v-card-actions>
       <v-btn text color="warning" @click="$emit('dismiss')">dismiss</v-btn>
       <v-spacer />
-      <v-btn v-if="!hidePrevious" text color="secondary" @click="$emit('previous')">previous</v-btn>
+      <v-btn
+        v-if="!hidePrevious"
+        text
+        color="secondary"
+        @click="$emit('previous')"
+        >previous</v-btn
+      >
       <slot v-if="otherBtn" name="confirm-button" />
-      <v-btn v-else color="primary" large :disabled="disabled" @click="$emit('confirm')">
+      <v-btn
+        v-else
+        color="primary"
+        large
+        :disabled="disabled"
+        @click="$emit('confirm')"
+      >
         confirm
       </v-btn>
     </v-card-actions>
@@ -18,21 +30,30 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({
-  name: 'table-window-item',
-})
-export default class TableWindowItem extends Vue {
-  @Prop({ type: String, required: true })
-  title!: string
-  @Prop({ type: String, required: false, default: '' })
-  content: string
-  @Prop({ type: Boolean })
-  disabled?: boolean
-  @Prop({ type: Boolean })
-  otherBtn?: boolean
-  @Prop({ type: Boolean })
-  hidePrevious?: boolean
-}
+export default {
+  name: 'TableWindowItem',
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+    },
+    otherBtn: {
+      type: Boolean,
+      required: false,
+    },
+    hidePrevious: {
+      type: Boolean,
+      required: false,
+    },
+  },
+};
 </script>

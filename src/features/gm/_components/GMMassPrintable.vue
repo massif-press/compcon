@@ -23,57 +23,66 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { NpcStore, CharacterStore, LocationStore, FactionStore } from '@/store'
-import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue'
-import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue'
-import LocationPrintContent from '../locations/_components/LocationPrintContent.vue'
-import FactionPrintContent from '../factions/_components/FactionPrintContent.vue'
+import { NpcStore, CharacterStore, LocationStore, FactionStore } from '@/store';
+import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue';
+import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue';
+import LocationPrintContent from '../locations/_components/LocationPrintContent.vue';
+import FactionPrintContent from '../factions/_components/FactionPrintContent.vue';
 
-export default Vue.extend({
+export default {
   name: 'gm-mass-print',
-  props: { type: { type: String, required: true }, ids: { type: String, required: true } },
+  props: {
+    type: { type: String, required: true },
+    ids: { type: String, required: true },
+  },
   data: () => ({
     printWindow: false,
   }),
   computed: {
     items() {
-      const arr = this.ids.split(',')
+      const arr = this.ids.split(',');
       switch (this.type.toLowerCase()) {
         case 'npc':
-          return getModule(NpcStore, this.$store).Npcs.filter(x => arr.includes(x.ID))
+          return this.getModule(NpcStore).Npcs.filter((x) =>
+            arr.includes(x.ID)
+          );
         case 'character':
-          return getModule(CharacterStore, this.$store).Characters.filter(x => arr.includes(x.ID))
+          return this.getModule(CharacterStore).Characters.filter((x) =>
+            arr.includes(x.ID)
+          );
         case 'location':
-          return getModule(LocationStore, this.$store).Locations.filter(x => arr.includes(x.ID))
+          return this.getModule(LocationStore).Locations.filter((x) =>
+            arr.includes(x.ID)
+          );
         case 'faction':
-          return getModule(FactionStore, this.$store).Factions.filter(x => arr.includes(x.ID))
+          return this.getModule(FactionStore).Factions.filter((x) =>
+            arr.includes(x.ID)
+          );
         default:
-          return []
+          return [];
       }
     },
     component() {
       switch (this.type.toLowerCase()) {
         case 'npc':
-          return NpcPrintContent
+          return NpcPrintContent;
         case 'character':
-          return CharacterPrintContent
+          return CharacterPrintContent;
         case 'location':
-          return LocationPrintContent
+          return LocationPrintContent;
         case 'faction':
-          return FactionPrintContent
+          return FactionPrintContent;
         default:
-          return null
+          return null;
       }
     },
   },
   methods: {
     print() {
-      window.print()
+      window.print();
     },
   },
-})
+};
 </script>
 
 <style scoped>

@@ -2,9 +2,10 @@
   <v-card flat tile color="transparent">
     <fieldset>
       <legend :style="`color: ${color}`" class="heading h3">Systems</legend>
-      <v-row dense :class="$vuetify.breakpoint.mdAndUp ? 'mx-2' : 'my-2'">
+      <v-row dense :class="$vuetify.display.mdAndUp ? 'mx-2' : 'my-2'">
         <active-system-card
-          v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
+          v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout
+            .IntegratedSystems"
           :key="`${s.ID}-${i}-intg`"
           :mech="mech"
           :item="s"
@@ -13,7 +14,12 @@
           readonly
         />
 
-        <v-col v-for="(w, i) in moddedWeapons" :key="`${w.ID}-${i}-mod`" cols="12" lg="6">
+        <v-col
+          v-for="(w, i) in moddedWeapons"
+          :key="`${w.ID}-${i}-mod`"
+          cols="12"
+          lg="6"
+        >
           <mod-equipped-card
             :mech="mech"
             :mod="w.Mod"
@@ -41,11 +47,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ActiveSystemCard from './_ActiveSystemCard.vue'
-import ModEquippedCard from '../mech_loadout/components/system/_ModEquippedCard.vue'
+import ActiveSystemCard from './_ActiveSystemCard.vue';
+import ModEquippedCard from '../mech_loadout/components/system/_ModEquippedCard.vue';
 
-export default Vue.extend({
+export default {
   name: 'systems-block',
   components: { ActiveSystemCard, ModEquippedCard },
   props: {
@@ -66,15 +71,17 @@ export default Vue.extend({
   },
   computed: {
     moddedWeapons() {
-      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod)
+      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
+        (x) => x.Mod
+      );
     },
   },
-})
+};
 </script>
 
 <style scoped>
 fieldset {
-  border-color: var(--v-grey-darken2);
+  border-color: rgb(var(--v-theme-grey-darken2));
   border-radius: 5px;
   margin-bottom: 12px;
   padding: 4px;

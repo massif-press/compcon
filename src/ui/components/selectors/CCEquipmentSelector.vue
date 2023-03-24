@@ -12,14 +12,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { CompendiumItem } from '@/classes/CompendiumItem'
-import { PilotLicense } from '@/class'
+import _ from 'lodash';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { CompendiumItem } from '@/classes/CompendiumItem';
+import { PilotLicense } from '@/class';
+
+export default {
   name: 'equipment-selector',
   props: {
     pilot: {
@@ -39,26 +38,42 @@ export default Vue.extend({
   }),
   computed: {
     availableItems(): CompendiumItem[] {
-      let pilotLicensedItems = this.pilot.LicenseController.Licenses.flatMap((x: PilotLicense) =>
-        x.License.UnlocksByTotalRank(x.Rank)
-      ).map(x => x.ID)
+      let pilotLicensedItems = this.pilot.LicenseController.Licenses.flatMap(
+        (x: PilotLicense) => x.License.UnlocksByTotalRank(x.Rank)
+      ).map((x) => x.ID);
 
-      pilotLicensedItems = pilotLicensedItems.concat(this.pilot.SpecialEquipment.map(x => x.ID))
+      pilotLicensedItems = pilotLicensedItems.concat(
+        this.pilot.SpecialEquipment.map((x) => x.ID)
+      );
 
       return _.sortBy(
-        this.items.filter(x => !pilotLicensedItems.some(y => y === x.ID)),
+        this.items.filter((x) => !pilotLicensedItems.some((y) => y === x.ID)),
         ['Source', 'Name']
-      )
+      );
     },
   },
   created() {
-    const compendium = getModule(CompendiumStore, this.$store)
-    const items = (compendium.MechWeapons.filter(x => x.LicenseLevel > 0) as CompendiumItem[])
-      .concat(compendium.WeaponMods.filter(x => x.LicenseLevel > 0) as CompendiumItem[])
-      .concat(compendium.MechSystems.filter(x => x.LicenseLevel > 0) as CompendiumItem[])
-      .concat(compendium.Frames.filter(x => x.LicenseLevel > 0) as CompendiumItem[])
+    const compendium = this.getModule(CompendiumStore);
+    const items = (
+      compendium.MechWeapons.filter(
+        (x) => x.LicenseLevel > 0
+      ) as CompendiumItem[]
+    )
+      .concat(
+        compendium.WeaponMods.filter(
+          (x) => x.LicenseLevel > 0
+        ) as CompendiumItem[]
+      )
+      .concat(
+        compendium.MechSystems.filter(
+          (x) => x.LicenseLevel > 0
+        ) as CompendiumItem[]
+      )
+      .concat(
+        compendium.Frames.filter((x) => x.LicenseLevel > 0) as CompendiumItem[]
+      );
 
-    this.items = items.filter(x => !x.IsExotic && !x.IsHidden)
+    this.items = items.filter((x) => !x.IsExotic && !x.IsHidden);
   },
-})
+};
 </script>

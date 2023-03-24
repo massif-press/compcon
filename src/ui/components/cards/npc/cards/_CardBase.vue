@@ -13,7 +13,10 @@
         <span v-if="readonly">
           {{ item.Feature.Name }}
         </span>
-        <span v-else :style="item.Destroyed ? 'text-decoration: line-through' : ''">
+        <span
+          v-else
+          :style="item.Destroyed ? 'text-decoration: line-through' : ''"
+        >
           {{ item.Name }} (T{{ item.Tier }})
         </span>
       </div>
@@ -25,8 +28,10 @@
     <v-menu-transition>
       <v-card-text
         v-if="expanded"
-        :class="`py-1 mt-n1 px-2 text--text ${item.Destroyed ? 'error lighten-1' : 'stark-panel'}`"
-        :style="`border: 1px solid var(--v-${item.Feature.Color}-base)!important`"
+        :class="`py-1 mt-n1 px-2 text--text ${
+          item.Destroyed ? 'error lighten-1' : 'stark-panel'
+        }`"
+        :style="`border: 1px solid rgb(var(--v-theme-${item.Feature.Color}))!important`"
       >
         <p
           v-if="item.Description"
@@ -41,7 +46,11 @@
             <v-col v-if="item.Feature.IsRecharging" class="ml-2 mt-n1">
               <v-switch
                 v-model="item.IsCharged"
-                :label="item.IsCharged ? 'Charged' : `Recharges on ${item.Feature.ChargeRoll}+`"
+                :label="
+                  item.IsCharged
+                    ? 'Charged'
+                    : `Recharges on ${item.Feature.ChargeRoll}+`
+                "
                 inset
                 dense
                 hide-details
@@ -54,7 +63,10 @@
               <cc-item-uses class="d-inline" :item="item" />
             </v-col>
             <v-col v-if="destructable" cols="auto" class="ml-auto mr-2 mt-n2">
-              <cc-tooltip simple :content="`Mark ${item.Destroyed ? 'Repaired' : 'Destroyed'}`">
+              <cc-tooltip
+                simple
+                :content="`Mark ${item.Destroyed ? 'Repaired' : 'Destroyed'}`"
+              >
                 <v-btn
                   icon
                   :color="item.Destroyed ? 'secondary' : 'error'"
@@ -62,7 +74,9 @@
                   @click="item.Destroyed = !item.Destroyed"
                 >
                   <v-icon>
-                    {{ item.Destroyed ? 'cci-repair' : 'mdi-image-broken-variant' }}
+                    {{
+                      item.Destroyed ? 'cc:repair' : 'mdi-image-broken-variant'
+                    }}
                   </v-icon>
                 </v-btn>
               </cc-tooltip>
@@ -76,10 +90,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import ItemMenu from './_ItemMenu.vue'
+import ItemMenu from './_ItemMenu.vue';
 
-export default Vue.extend({
+export default {
   name: 'npc-item-card-base',
   components: { ItemMenu },
   props: {
@@ -104,8 +117,8 @@ export default Vue.extend({
         (this.item.Feature.FeatureType === 'System' ||
           this.item.Feature.FeatureType === 'Weapon' ||
           this.item.Feature.FeatureType === 'Tech')
-      )
+      );
     },
   },
-})
+};
 </script>

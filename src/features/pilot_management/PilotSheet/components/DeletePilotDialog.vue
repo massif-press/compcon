@@ -1,21 +1,17 @@
 <template>
   <v-dialog v-model="dialog" width="75vw">
     <cc-confirmation
-      :content="
-        `Lancer, please confirm deletion of Pilot Registration Information for:
+      :content="`Lancer, please confirm deletion of Pilot Registration Information for:
           <span class='accent--text'>
             ${pilot.Callsign} (${pilot.Name}, LL${pilot.Level})
-          </span>`
-      "
+          </span>`"
       @confirm="remove()"
     />
   </v-dialog>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'delete-pilot-dialog',
   props: {
     pilot: {
@@ -28,15 +24,15 @@ export default Vue.extend({
   }),
   methods: {
     show() {
-      this.dialog = true
+      this.dialog = true;
     },
     hide() {
-      this.dialog = false
+      this.dialog = false;
     },
     remove() {
-      this.$emit('delete')
-      this.hide()
+      this.$emit('delete');
+      this.hide();
     },
   },
-})
+};
 </script>

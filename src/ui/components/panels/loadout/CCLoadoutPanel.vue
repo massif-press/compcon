@@ -12,17 +12,23 @@
     >
       <v-toolbar-title style="max-height: 30px" class="mt-n4">
         <v-menu offset-y top>
-          <template v-slot:activator="{ on }">
-            <v-icon left class="fadeSelect mt-n2" v-on="on">mdi-menu</v-icon>
+          <template v-slot:activator="{ props }">
+            <v-icon start class="fadeSelect mt-n2" v-bind="props"
+              >mdi-menu</v-icon
+            >
           </template>
           <v-list class="px-2 py-3">
-            <v-list-item-subtitle class="overline">Available Loadouts</v-list-item-subtitle>
+            <v-list-item-subtitle class="overline"
+              >Available Loadouts</v-list-item-subtitle
+            >
             <v-list-item
               v-for="(l, i) in loadouts"
               :key="`pl_${i}`"
               @click="$emit('set-active', l)"
             >
-              <v-list-item-title class="stat-text">{{ l.Name }}</v-list-item-title>
+              <v-list-item-title class="stat-text">{{
+                l.Name
+              }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="!readonly" @click="$emit('add-loadout')">
               <v-list-item-title class="accent--text font-weight-bold">
@@ -33,7 +39,11 @@
           </v-list>
         </v-menu>
         <span class="l-title">
-          <cc-short-string-editor v-if="!readonly" inline @set="activeLoadout.Name = $event">
+          <cc-short-string-editor
+            v-if="!readonly"
+            inline
+            @set="activeLoadout.Name = $event"
+          >
             {{ activeLoadout.Name }}
           </cc-short-string-editor>
           <span v-else>{{ activeLoadout.Name }}</span>
@@ -45,18 +55,22 @@
           <v-icon>mdi-content-duplicate</v-icon>
         </v-btn>
         <v-menu v-model="confirmMenu" offset-y top>
-          <template v-slot:activator="{ on }">
-            <v-btn small icon class="fadeSelect" :disabled="loadouts.length === 1" v-on="on">
+          <template v-slot:activator="{ props }">
+            <v-btn
+              small
+              icon
+              class="fadeSelect"
+              :disabled="loadouts.length === 1"
+              v-bind="props"
+            >
               <v-icon>delete</v-icon>
             </v-btn>
           </template>
           <cc-confirmation
-            :content="
-              `Lancer, please confirm deletion of:
+            :content="`Lancer, please confirm deletion of:
           <span class='accent--text'>
             ${activeLoadout.Name}
-          </span> Loadout`
-            "
+          </span> Loadout`"
             @confirm="removeConfirm"
           />
         </v-menu>
@@ -71,9 +85,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cc-loadout-panel',
   props: {
     loadouts: {
@@ -98,11 +110,11 @@ export default Vue.extend({
   }),
   methods: {
     removeConfirm() {
-      this.confirmMenu = false
-      this.$emit('remove-loadout')
+      this.confirmMenu = false;
+      this.$emit('remove-loadout');
     },
   },
-})
+};
 </script>
 
 <style scoped>

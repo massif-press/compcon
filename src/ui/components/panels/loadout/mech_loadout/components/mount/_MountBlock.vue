@@ -1,11 +1,14 @@
 <template>
   <v-col
-    :style="$vuetify.breakpoint.lgAndUp ? 'min-width: 40vw' : ''"
-    :cols="$vuetify.breakpoint.mdAndDown ? '12' : ''"
+    :style="$vuetify.display.lgAndUp ? 'min-width: 40vw' : ''"
+    :cols="$vuetify.display.mdAndDown ? '12' : ''"
   >
     <fieldset class="ma-0 py-0" style="height: 100%">
       <legend :style="`color: ${color}`" class="heading h3">
-        <cc-tooltip title="Available Mount Fittings" :content="`${mount.AvailableFittings}`">
+        <cc-tooltip
+          title="Available Mount Fittings"
+          :content="`${mount.AvailableFittings}`"
+        >
           {{ mount.Name }}
           <span v-if="impArm">(IMPROVED ARMAMENT)</span>
         </cc-tooltip>
@@ -16,7 +19,11 @@
         :mech="mech"
         :mount="mount"
       />
-      <cb-card v-for="b in mount.Bonuses" :key="`${mount.ID}_bonus-${b.ID}`" :bonus="b" />
+      <cb-card
+        v-for="b in mount.Bonuses"
+        :key="`${mount.ID}_bonus-${b.ID}`"
+        :bonus="b"
+      />
       <sh-lock-card v-if="mount.IsLocked" />
       <v-row v-else no-gutters align="center">
         <v-col>
@@ -36,13 +43,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import WeaponSlotCard from './weapon/_WeaponSlotCard.vue'
-import CbMountMenu from './_CbMountMenu.vue'
-import CbCard from './_CbCard.vue'
-import ShLockCard from './_ShLockCard.vue'
+import WeaponSlotCard from './weapon/_WeaponSlotCard.vue';
+import CbMountMenu from './_CbMountMenu.vue';
+import CbCard from './_CbCard.vue';
+import ShLockCard from './_ShLockCard.vue';
 
-export default Vue.extend({
+export default {
   name: 'mount-block',
   components: { WeaponSlotCard, CbMountMenu, CbCard, ShLockCard },
   props: {
@@ -72,12 +78,12 @@ export default Vue.extend({
       type: Boolean,
     },
   },
-})
+};
 </script>
 
 <style scoped>
 fieldset {
-  border-color: var(--v-subtle-base);
+  border-color: rgb(var(--v-theme-subtle));
   border-radius: 5px;
   /* margin-bottom: 12px; */
   padding-left: 4px;

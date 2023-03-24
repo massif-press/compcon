@@ -7,12 +7,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SkillBlock from './components/SkillBlock.vue'
-import DtResourcesBlock from './components/DtResourcesBlock.vue'
-import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue'
+import SkillBlock from './components/SkillBlock.vue';
+import DtResourcesBlock from './components/DtResourcesBlock.vue';
+import PilotLoadoutBlock from './components/PilotLoadoutBlock.vue';
 
-export default Vue.extend({
+export default {
   name: 'narrative-view',
   components: { SkillBlock, DtResourcesBlock, PilotLoadoutBlock },
   props: {
@@ -21,5 +20,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

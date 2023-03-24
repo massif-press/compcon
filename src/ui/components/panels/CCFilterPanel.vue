@@ -1,9 +1,9 @@
 <template>
   <v-bottom-sheet v-model="panel">
-    <template v-slot:activator="{ on }">
+    <template v-slot:activator="{ props }">
       <div
         :style="
-          $vuetify.breakpoint.smAndDown
+          $vuetify.display.smAndDown
             ? 'z-index:2; position: fixed; bottom: 28px; right: 28px'
             : ''
         "
@@ -13,7 +13,7 @@
             <span class="stat-text white--text">{{ filterCount }}</span>
           </template>
 
-          <v-btn fab color="primary" v-on="on">
+          <v-btn fab color="primary" v-bind="props">
             <v-icon dark>mdi-filter-variant</v-icon>
           </v-btn>
         </v-badge>
@@ -23,22 +23,26 @@
     <v-sheet>
       <cc-titlebar dark icon="mdi-filter-variant">Set Item Filters</cc-titlebar>
       <v-card-text pb-0>
-        <cc-item-filter ref="controls" :item-type="itemType" @set-filters="applyFilters($event)" />
+        <cc-item-filter
+          ref="controls"
+          :item-type="itemType"
+          @set-filters="applyFilters($event)"
+        />
       </v-card-text>
       <v-divider />
       <v-card-actions>
         <v-btn text @click="panel = false">dismiss</v-btn>
         <v-spacer />
-        <cc-btn color="warning" class="mr-3" @click="clearFilters">clear all</cc-btn>
+        <cc-btn color="warning" class="mr-3" @click="clearFilters"
+          >clear all</cc-btn
+        >
       </v-card-actions>
     </v-sheet>
   </v-bottom-sheet>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cc-filter-panel',
 
   props: {
@@ -53,13 +57,13 @@ export default Vue.extend({
   }),
   methods: {
     clearFilters() {
-      this.$refs.controls.clear()
-      this.applyFilters({})
+      (this.$refs.controls as any).clear();
+      this.applyFilters({});
     },
     applyFilters(newFilters) {
-      this.filterCount = Object.keys(newFilters).length
-      this.$emit('set-filters', newFilters)
+      this.filterCount = Object.keys(newFilters).length;
+      this.$emit('set-filters', newFilters);
     },
   },
-})
+};
 </script>

@@ -8,7 +8,13 @@
     />
     <v-divider class="mb-3" />
     <v-card>
-      <v-tabs v-model="tabs" color="white" background-color="primary" slider-color="white" grow>
+      <v-tabs
+        v-model="tabs"
+        color="white"
+        background-color="primary"
+        slider-color="white"
+        grow
+      >
         <v-tab>Start New Project</v-tab>
         <v-tab :disabled="!projects.length">Continue Project</v-tab>
         <v-tab-item>
@@ -19,7 +25,12 @@
             <v-card-text class="pa-4">
               <v-row dense>
                 <v-col cols="7">
-                  <v-text-field v-model="project_name" outlined dense label="Project Name" />
+                  <v-text-field
+                    v-model="project_name"
+                    variant="outlined"
+                    dense
+                    label="Project Name"
+                  />
                 </v-col>
                 <v-col cols="auto" class="ml-auto mt-n4 mr-3">
                   <cc-tooltip
@@ -27,13 +38,24 @@
                     inline
                     content="This project is complex, resource-intensive, or generally difficult to complete"
                   >
-                    <v-switch v-model="complicated" dense inset label="Complicated" />
+                    <v-switch
+                      v-model="complicated"
+                      dense
+                      inset
+                      label="Complicated"
+                    />
                   </cc-tooltip>
                 </v-col>
               </v-row>
               <v-row dense>
                 <v-col class="mx-6">
-                  <v-textarea v-model="details" auto-grow rows="1" label="Details" filled />
+                  <v-textarea
+                    v-model="details"
+                    auto-grow
+                    rows="1"
+                    label="Details"
+                    filled
+                  />
                 </v-col>
               </v-row>
               <v-row justify="center">
@@ -42,7 +64,7 @@
                     v-model="initialRoll"
                     type="number"
                     label="Initial Roll Result"
-                    outlined
+                    variant="outlined"
                     dense
                     append-outer-icon="mdi-plus-circle-outline"
                     prepend-icon="mdi-minus-circle-outline"
@@ -53,17 +75,27 @@
                 </v-col>
               </v-row>
               <v-slide-y-transition>
-                <v-row v-show="initialRoll" justify="center" class="text-center flavor-text">
+                <v-row
+                  v-show="initialRoll"
+                  justify="center"
+                  class="text-center flavor-text"
+                >
                   <v-col cols="10">
                     <p
                       v-if="initialRoll < 10"
                       class="font-weight-bold px-3"
-                      v-html="'You don’t make any progress on this project for now'"
+                      v-html="
+                        'You don’t make any progress on this project for now'
+                      "
                     />
 
-                    <p v-else-if="initialRoll < 20" class="font-weight-bold px-3">
-                      You can make progress on your project, but can’t finish it. You can finish it
-                      next time you have downtime without a roll if you get some things before then:
+                    <p
+                      v-else-if="initialRoll < 20"
+                      class="font-weight-bold px-3"
+                    >
+                      You can make progress on your project, but can’t finish
+                      it. You can finish it next time you have downtime without
+                      a roll if you get some things before then:
                       <v-combobox
                         v-model="cost"
                         class="mr-5 ml-5"
@@ -117,7 +149,7 @@
           <v-slide-x-transition>
             <div v-if="improveSelection">
               <v-btn small text @click="improveSelection = null">
-                <v-icon left>mdi-chevron-left</v-icon>
+                <v-icon start>mdi-chevron-left</v-icon>
                 Select another project
               </v-btn>
               <div class="text-center heading h2">
@@ -129,20 +161,26 @@
                     v-if="improveSelection.ResourceCost"
                     color="primary"
                     dense
-                    outlined
-                    border="left"
+                    variant="outlined"
                     class="mt-2"
                   >
                     <b class="heading h2">COMPLETE IMMEDIATELY</b>
                     <br />
-                    <p class="pt-2 pb-0 mb-0">{{ improveSelection.ResourceCost }}</p>
+                    <p class="pt-2 pb-0 mb-0">
+                      {{ improveSelection.ResourceCost }}
+                    </p>
                     <div class="text-right">
-                      <v-btn tile color="success" @click="completeProject()">Complete</v-btn>
+                      <v-btn tile color="success" @click="completeProject()"
+                        >Complete</v-btn
+                      >
                     </div>
                   </v-alert>
                 </v-col>
               </v-row>
-              <div v-if="improveSelection.ResourceCost" class="text-center heading h2 accent--text">
+              <div
+                v-if="improveSelection.ResourceCost"
+                class="text-center heading h2 accent--text"
+              >
                 OR
               </div>
               <v-row justify="center">
@@ -151,7 +189,7 @@
                     v-model="improveRoll"
                     type="number"
                     label="Progress Roll Result"
-                    outlined
+                    variant="outlined"
                     dense
                     hide-details
                     append-outer-icon="mdi-plus-circle-outline"
@@ -162,17 +200,27 @@
                 </v-col>
               </v-row>
               <v-slide-y-transition>
-                <v-row v-show="improveRoll" justify="center" class="text-center flavor-text">
+                <v-row
+                  v-show="improveRoll"
+                  justify="center"
+                  class="text-center flavor-text"
+                >
                   <v-col cols="10">
                     <p
                       v-if="improveRoll < 10"
                       class="font-weight-bold px-3"
-                      v-html="'You don’t make any progress on this project for now'"
+                      v-html="
+                        'You don’t make any progress on this project for now'
+                      "
                     />
 
-                    <p v-else-if="improveRoll < 20" class="font-weight-bold px-3">
-                      You can make progress on your project, but can’t finish it. You can finish it
-                      next time you have downtime without a roll if you get some things before then:
+                    <p
+                      v-else-if="improveRoll < 20"
+                      class="font-weight-bold px-3"
+                    >
+                      You can make progress on your project, but can’t finish
+                      it. You can finish it next time you have downtime without
+                      a roll if you get some things before then:
                       <v-combobox
                         v-model="cost"
                         class="mr-5 ml-5"
@@ -245,9 +293,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Project } from '@/class'
-export default Vue.extend({
+import { Project } from '@/class';
+export default {
   name: 'get-creative',
   props: {
     pilot: {
@@ -275,8 +322,8 @@ export default Vue.extend({
   computed: {
     projects() {
       return this.pilot.ReservesController.Reserves.filter(
-        x => x.Type === 'Project' && !x.IsFinished
-      )
+        (x) => x.Type === 'Project' && !x.IsFinished
+      );
     },
   },
   methods: {
@@ -297,35 +344,36 @@ export default Vue.extend({
         consumable: false,
         progress: this.initialRoll < 10 || this.improveRoll < 10 ? 1 : 0,
         requirements: [],
-      })
-      if (this.cost) p.ResourceCost = `Requires: ${this.cost.toString()}`
-      this.pilot.ReservesController.AddReserve(p)
-      this.close()
+      });
+      if (this.cost) p.ResourceCost = `Requires: ${this.cost.toString()}`;
+      this.pilot.ReservesController.AddReserve(p);
+      this.close();
     },
     improveProject() {
-      if (this.cost) this.improveSelection.ResourceCost = `Requires: ${this.cost.toString()}`
-      if (this.initialRoll < 10) this.improveSelection.Progress = 1
-      this.close()
+      if (this.cost)
+        this.improveSelection.ResourceCost = `Requires: ${this.cost.toString()}`;
+      if (this.initialRoll < 10) this.improveSelection.Progress = 1;
+      this.close();
     },
     completeProject() {
-      this.improveSelection.Name = this.improveSelection.ResourceLabel
-      this.improveSelection.ResourceName = ''
-      this.improveSelection.ResourceCost = ''
-      this.improveSelection.IsFinished = true
-      this.close()
+      this.improveSelection.Name = this.improveSelection.ResourceLabel;
+      this.improveSelection.ResourceName = '';
+      this.improveSelection.ResourceCost = '';
+      this.improveSelection.IsFinished = true;
+      this.close();
     },
     close() {
-      this.tabs = 0
-      this.project_name = ''
-      this.details = ''
-      this.complicated = false
-      this.initialRoll = ''
-      this.improveRoll = ''
-      this.improve = ''
-      this.cost = ''
-      this.improveSelection = null
-      this.$emit('close')
+      this.tabs = 0;
+      this.project_name = '';
+      this.details = '';
+      this.complicated = false;
+      this.initialRoll = '';
+      this.improveRoll = '';
+      this.improve = '';
+      this.cost = '';
+      this.improveSelection = null;
+      this.$emit('close');
     },
   },
-})
+};
 </script>

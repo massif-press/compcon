@@ -10,13 +10,13 @@
       item-color="accent"
       dense
       hide-details
-      outlined
+      variant="outlined"
       clearable
     >
       <template v-slot:selection="{ item }">
         <v-menu v-if="item.effects" bottom offset-y open-on-hover>
-          <template v-slot:activator="{ on }">
-            <v-chip small :dark="dark" :color="color" v-on="on">
+          <template v-slot:activator="{ props }">
+            <v-chip small :dark="dark" :color="color" v-bind="props">
               <b>{{ item.name }}</b>
             </v-chip>
           </template>
@@ -35,31 +35,42 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'status-select' })
-export default class CCStatusSelect extends Vue {
-  @Prop({ type: Array, required: true })
-  readonly items!: Status[]
-
-  @Prop({ required: true })
-  readonly model!: Status[]
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly color: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly label: string
-
-  @Prop({ type: Boolean })
-  readonly dark?: boolean
-
-  get arr(): any {
-    return this.model
-  }
-  set arr(val) {
-    if (!Array.isArray(val)) val = [val]
-    this.$emit('set', val)
-  }
-}
+export default {
+  name: 'CCStatusSelect',
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+    model: {
+      type: Array,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    label: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    dark: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  computed: {
+    arr: {
+      get() {
+        return this.model;
+      },
+      set(val) {
+        if (!Array.isArray(val)) val = [val];
+        this.$emit('set', val);
+      },
+    },
+  },
+};
 </script>

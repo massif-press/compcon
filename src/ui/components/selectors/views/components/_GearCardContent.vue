@@ -1,5 +1,10 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover" @equip="$emit('equip', $event)">
+  <c-card-base
+    :item="item"
+    :small="small"
+    :hover="hover"
+    @equip="$emit('equip', $event)"
+  >
     <div slot="top">
       <v-row dense justify="space-around" class="mt-2">
         <v-col v-if="item.Armor" cols="auto">
@@ -16,13 +21,13 @@
         </v-col>
         <v-col v-if="item.EDefense" cols="auto">
           <cc-tooltip simple inline content="Electronic Defense">
-            <v-icon>cci-edef</v-icon>
+            <v-icon>cc:edef</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ item.EDefense }}</span>
         </v-col>
         <v-col v-if="item.Evasion" cols="auto">
           <cc-tooltip simple inline content="Evasion">
-            <v-icon>cci-evasion</v-icon>
+            <v-icon>cc:evasion</v-icon>
           </cc-tooltip>
           <span class="stat-text">{{ item.Evasion }}</span>
         </v-col>
@@ -68,7 +73,7 @@
         </v-row>
         <!-- <v-row no-gutters>
           <v-col v-if="item.Tags" cols="12" class="text-center pb-2">
-            <cc-tags :tags="item.Tags" small dense outlined color="accent" />
+            <cc-tags :tags="item.Tags" small dense variant="outlined" color="accent" />
           </v-col>
         </v-row> -->
       </div>
@@ -77,9 +82,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CCardBase from './_cCardBase.vue'
-export default Vue.extend({
+import CCardBase from './_cCardBase.vue';
+export default {
   name: 'gear-card-content',
   components: { CCardBase },
   props: {
@@ -87,7 +91,7 @@ export default Vue.extend({
     small: { type: Boolean },
     hover: { type: Boolean },
   },
-})
+};
 </script>
 
 <style scoped>

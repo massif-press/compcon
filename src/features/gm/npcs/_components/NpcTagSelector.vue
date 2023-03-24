@@ -1,8 +1,8 @@
 <template>
   <v-col>
     <v-menu offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn small outlined color="protocol" v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn small variant="outlined" color="protocol" v-bind="props">
           <v-icon small class="mr-1">mdi-tag-outline</v-icon>
           {{ item.Tag ? item.Tag : 'Set NPC Tag' }}
         </v-btn>
@@ -27,18 +27,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import npcTags from '@/assets/npc_tags.json'
+import npcTags from '@/assets/npc_tags.json';
 
-export default Vue.extend({
+export default {
   name: 'npc-class-selector',
   props: {
     item: { type: Object, required: true },
   },
   computed: {
     tags() {
-      return npcTags
+      return npcTags;
     },
   },
-})
+};
 </script>

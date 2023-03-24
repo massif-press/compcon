@@ -1,11 +1,17 @@
 <template>
-  <div id="panel-wrapper" :class="`mb-2 ${clickable ? 'clickable' : ''}`" @click="$emit('click')">
+  <div
+    id="panel-wrapper"
+    :class="`mb-2 ${clickable ? 'clickable' : ''}`"
+    @click="$emit('click')"
+  >
     <v-toolbar
       :color="color ? color : 'primary'"
       flat
       dense
       dark
-      :class="`${dense ? 'clipped-invert' : 'clipped-large-invert'} ${clickable ? 'titlebar' : ''}`"
+      :class="`${dense ? 'clipped-invert' : 'clipped-large-invert'} ${
+        clickable ? 'titlebar' : ''
+      }`"
       :style="dense ? 'height: 28px' : ''"
     >
       <v-toolbar-title :class="dense ? 'mt-n6' : ''">
@@ -22,9 +28,9 @@
 
     <v-card
       flat
-      outlined
-      :style="`background-color: var(--v-background-base); border-color: ${
-        color ? color : 'var(--v-primary-base)'
+      variant="outlined"
+      :style="`background-color: rgb(var(--v-theme-background)); border-color: ${
+        color ? color : 'rgb(var(--v-theme-primary))'
       } !important; margin-top: -2px`"
     >
       <v-card-text class="pt-2 pb-0 px-4">
@@ -35,25 +41,33 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-titled-panel' })
-export default class CCTitledPanel extends Vue {
-  @Prop({ type: String, required: true })
-  readonly title!: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly icon: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly color: string
-
-  @Prop({ type: Boolean })
-  readonly clickable?: boolean
-
-  @Prop({ type: Boolean })
-  readonly dense?: boolean
-}
+export default {
+  name: 'CCTitledPanel',
+  props: {
+    title: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    clickable: {
+      type: Boolean,
+      required: false,
+    },
+    dense: {
+      type: Boolean,
+      required: false,
+    },
+  },
+};
 </script>
 
 <style scoped>

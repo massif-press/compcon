@@ -59,7 +59,7 @@ const themeDefaults = {
   enemy: '#C62828',
   ally: '#1661b8',
   neutral: '#455A64',
-}
+};
 
 const theme: any = {
   icons: {
@@ -68,21 +68,21 @@ const theme: any = {
       move: 'mdi-arrow-right-bold-hexagon-outline',
       quick: 'mdi-hexagon-slice-3',
       full: 'mdi-hexagon-slice-6',
-      reaction: 'cci-reaction',
-      overcharge: 'cci-overcharge',
-      downtime: 'cci-downtime',
-      free: 'cci-free-action',
+      reaction: 'cc:reaction',
+      overcharge: 'cc:overcharge',
+      downtime: 'cc:downtime',
+      free: 'cc:free-action',
       armor: 'mdi-shield',
       hp: 'mdi-heart',
-      evasion: 'cci-evasion',
-      edef: 'cci-edef',
-      heat: 'cci-heat',
-      sensor: 'cci-sensor',
-      tech: 'cci-tech-full',
-      repair: 'cci-repair',
-      save: 'cci-save',
+      evasion: 'cc:evasion',
+      edef: 'cc:edef',
+      heat: 'cc:heat',
+      sensor: 'cc:sensor',
+      tech: 'cc:tech-full',
+      repair: 'cc:repair',
+      save: 'cc:save',
       speed: 'mdi-arrow-right-bold-hexagon-outline',
-      sp: 'cci-system-point',
+      sp: 'cc:system-point',
     },
   },
   theme: {
@@ -159,6 +159,6 @@ const theme: any = {
       },
     },
   },
-}
+};
 
-export default theme
+export default theme;

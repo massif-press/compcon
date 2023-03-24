@@ -1,11 +1,11 @@
 <template>
   <div id="wrapper">
     <main-title @logupdate="ccLog('update')" />
-    <c-c-log v-show="$vuetify.breakpoint.mdAndUp" ref="log" />
+    <c-c-log v-show="$vuetify.display.mdAndUp" ref="log" />
     <v-container style="height: calc(100vh - 135px)">
       <v-row justify="space-between" style="height: 100%">
         <main-btn
-          icon="cci-compendium"
+          icon="cc:compendium"
           :to="'/compendium'"
           help="Equipment Database"
           @hover="ccLog('compendium')"
@@ -13,7 +13,7 @@
           Compendium
         </main-btn>
         <main-btn
-          icon="cci-pilot"
+          icon="cc:pilot"
           :to="'/pilot_management'"
           help="Manage Pilots"
           @hover="ccLog('pilot')"
@@ -21,7 +21,7 @@
           Pilot Roster
         </main-btn>
         <!-- <main-btn
-          icon="cci-encounter"
+          icon="cc:encounter"
           :to="'/gm'"
           help="Manage NPCs/Encounters/Missions"
           @hover="ccLog('gm')"
@@ -29,7 +29,7 @@
           Encounter Toolkit
         </main-btn> -->
         <main-btn
-          icon="cci-encounter"
+          icon="cc:encounter"
           :to="'/gm'"
           help="Manage Campaigns, Encounters, and NPCs"
           @hover="ccLog('gm')"
@@ -37,10 +37,10 @@
           GM Toolkit
         </main-btn>
         <main-btn
-          icon="cci-content-manager"
+          icon="cc:content_manager"
           help="Import Content Packs"
           @hover="ccLog('content')"
-          @clicked="$refs.contentModal.show()"
+          @clicked="($refs.contentModal as any).show()"
         >
           Content Manager
           <cc-tooltip
@@ -49,11 +49,13 @@
             title="Unloadble Content Detected"
             content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager."
           >
-            <v-avatar color="white"><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar>
+            <v-avatar color="white"
+              ><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar
+            >
           </cc-tooltip>
         </main-btn>
         <main-btn
-          icon="cci-encounter"
+          icon="cc:encounter"
           :to="'/active-mode'"
           help="Run an Encounter or Active Character Sheet"
           @hover="ccLog('encounter')"
@@ -63,41 +65,55 @@
       </v-row>
     </v-container>
 
-    <v-footer color="primary" fixed>
+    <v-footer color="primary" app fixed>
       <v-row no-gutters justify="space-around" align="center">
         <v-col cols="auto" class="text-center mr-3">
-          <v-btn small light elevation="0" class="pulse" @click="$refs.loginModal.show()">
-            <v-icon left>
-              {{ userstore.IsLoggedIn ? 'cci-pilot' : 'mdi-account-off-outline' }}
+          <v-btn
+            size="small"
+            light
+            elevation="0"
+            class="pulse"
+            @click="($refs.loginModal as any).show()"
+          >
+            <v-icon start>
+              {{
+                userstore.IsLoggedIn ? 'cc:pilot' : 'mdi-account-off-outline'
+              }}
             </v-icon>
             <span>{{ userstore.IsLoggedIn ? 'Connected' : 'Log In' }}</span>
           </v-btn>
         </v-col>
-        <v-col cols="auto" class="ml-1 mr-3"><v-divider vertical class="d-inline" /></v-col>
+        <v-col cols="auto" class="ml-1 mr-3"
+          ><v-divider vertical class="d-inline"
+        /></v-col>
         <v-col cols="auto" class="text-center mr-3">
-          <v-btn small dark outlined @click="bulkExport">
-            <v-icon left>mdi-database</v-icon>
+          <v-btn size="small" dark variant="outlined" @click="bulkExport">
+            <v-icon start>mdi-database</v-icon>
             Create Data Backup
             <cc-tooltip
               inline
               content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
             >
-              <v-icon right class="fadeSelect">mdi-help-circle-outline</v-icon>
+              <v-icon end class="fadeSelect">mdi-help-circle-outline</v-icon>
             </cc-tooltip>
           </v-btn>
         </v-col>
         <v-col cols="auto" class="text-center">
           <v-dialog v-model="importDialog" width="50%">
-            <template v-slot:activator="{ on }">
-              <v-btn small dark outlined v-on="on">
-                <v-icon left>mdi-database-refresh</v-icon>
+            <template v-slot:activator="{ props }">
+              <v-btn size="small" dark variant="outlined" v-bind="props">
+                <v-icon start>mdi-database-refresh</v-icon>
                 Load Data Backup
-                <cc-tooltip
-                  inline
-                  content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-                >
-                  <v-icon right class="fadeSelect">mdi-help-circle-outline</v-icon>
-                </cc-tooltip>
+                <v-icon end class="fadeSelect" id="tt2"
+                  >mdi-help-circle-outline
+                </v-icon>
+                <v-tooltip location="top" activator="#tt2" width="300px">
+                  COMP/CON relies on your browser to save and load its data.
+                  Settings, utilities, and other applications can erase your
+                  browser's localStorage cache, resulting in the loss of your
+                  COMP/CON data. IT is <b>strongly</b> recommended to back up
+                  your data often.
+                </v-tooltip>
               </v-btn>
             </template>
             <v-card>
@@ -114,7 +130,7 @@
                 <v-file-input
                   v-model="fileValue"
                   accept=".compcon"
-                  outlined
+                  variant="outlined"
                   dense
                   hide-details
                   autofocus
@@ -131,36 +147,48 @@
           <v-row no-gutters justify="space-between">
             <v-col cols="auto">
               <v-btn
-                small
+                size="small"
                 dark
-                text
+                variant="text"
                 @mouseenter="ccLog('options')"
-                @click="$refs.optionsModal.show()"
+                @click="($refs.optionsModal as any).show()"
               >
                 Options
               </v-btn>
             </v-col>
 
             <v-col cols="auto">
-              <v-btn small dark text @mouseenter="ccLog('about')" @click="$refs.aboutModal.show()">
+              <v-btn
+                size="small"
+                dark
+                variant="text"
+                @mouseenter="ccLog('about')"
+                @click="($refs.aboutModal as any).show()"
+              >
                 About
               </v-btn>
             </v-col>
 
             <v-col cols="auto">
               <v-btn
-                small
+                size="small"
                 dark
-                text
+                variant="text"
                 @mouseenter="ccLog('about')"
-                @click="$refs.creditsModal.show()"
+                @click="($refs.creditsModal as any).show()"
               >
                 Credits
               </v-btn>
             </v-col>
 
             <v-col cols="auto">
-              <v-btn small dark text @mouseenter="ccLog('help')" @click="$refs.helpModal.show()">
+              <v-btn
+                size="small"
+                dark
+                variant="text"
+                @mouseenter="ccLog('help')"
+                @click="($refs.helpModal as any).show()"
+              >
                 Help
               </v-btn>
             </v-col>
@@ -169,9 +197,9 @@
               <v-btn
                 target="_blank"
                 color="warning"
-                small
+                size="small"
                 dark
-                text
+                variant="text"
                 href="https://www.patreon.com/compcon"
                 tabindex="0"
               >
@@ -195,8 +223,12 @@
     >
       <options-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"
+      ><about-page
+    /></cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"
+      ><help-page
+    /></cc-solo-dialog>
     <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
@@ -214,22 +246,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { exportAll, importAll } from '@/io/BulkData'
-import { saveFile } from '@/io/Dialog'
-import MainTitle from './_components/MainTitle.vue'
-import MainBtn from './_components/MainBtn.vue'
-import CCLog from './_components/CCLog.vue'
-import SignIn from './_components/login/index.vue'
-import ContentPage from '../nav/pages/ExtraContent/index.vue'
-import AboutPage from '../nav/pages/About.vue'
-import CreditsPage from '../nav/pages/Credits.vue'
-import HelpPage from '../nav/pages/Help.vue'
-import OptionsPage from '../nav/pages/Options/index.vue'
-import { UserStore, CompendiumStore } from '@/store'
-import { getModule } from 'vuex-module-decorators'
+import { exportAll, importAll } from '@/io/BulkData';
+import { saveFile } from '@/io/Dialog';
+import MainTitle from './_components/MainTitle.vue';
+import MainBtn from './_components/MainBtn.vue';
+import CCLog from './_components/CCLog.vue';
+import SignIn from './_components/login/index.vue';
+import ContentPage from '../nav/pages/ExtraContent/index.vue';
+import AboutPage from '../nav/pages/About.vue';
+import CreditsPage from '../nav/pages/Credits.vue';
+import HelpPage from '../nav/pages/Help.vue';
+import OptionsPage from '../nav/pages/Options/index.vue';
+import { UserStore, CompendiumStore } from '@/store';
 
-export default Vue.extend({
+export default {
   name: 'landing-page',
   components: {
     MainTitle,
@@ -244,89 +274,100 @@ export default Vue.extend({
   },
   data: () => ({
     importDialog: false,
-    fileValue: null,
+    fileValue: undefined,
   }),
   computed: {
     userstore() {
-      return getModule(UserStore, this.$store)
+      return this.getModule(UserStore);
     },
     missingContent() {
-      const mc = getModule(CompendiumStore, this.$store).MissingContent
-      let b = false
-      if (!mc || !mc.pilots || !mc.npcs) return b
+      const mc = this.getModule(CompendiumStore).MissingContent;
+      let b = false;
+      if (!mc || !mc.pilots || !mc.npcs) return b;
       for (const key in mc) {
-        if (mc[key].length) b = true
+        if (mc[key].length) b = true;
       }
-      return b
+      return b;
     },
   },
   methods: {
     async bulkExport() {
-      const result = await exportAll()
+      const result = await exportAll();
       await saveFile(
         `CC_${new Date().toISOString().slice(0, 10)}.compcon`,
         JSON.stringify(result),
         'Save COMP/CON Archive'
-      )
+      );
     },
     async bulkImport(file) {
       await importAll(file)
         .then(() => this.$notify('Data import successful', 'confirmation'))
-        .catch(err => this.$notify(`ERROR: Unable to import: ${err}`, 'error'))
-      this.importDialog = false
+        .catch((err) =>
+          this.$notify(`ERROR: Unable to import: ${err}`, 'error')
+        );
+      this.importDialog = false;
     },
     ccLog(btn: string) {
       switch (btn) {
         case 'compendium':
-          this.$refs['log'].print(
+          (this.$refs['log'] as any).print(
             'man compendium',
             'Browse the database of LANCER frames, equipment, and rules'
-          )
-          break
+          );
+          break;
         case 'pilot':
-          this.$refs['log'].print(
+          (this.$refs['log'] as any).print(
             'man pilot-sheet',
             'Create and manage pilots and their mechs, print character sheets, and enable active play mode'
-          )
-          break
+          );
+          break;
         case 'gm':
-          this.$refs['log'].print(
+          (this.$refs['log'] as any).print(
             'man gm-tools',
             'Build and manage NPCs and encounters, and run missions with NPCs and pilots'
-          )
-          break
+          );
+          break;
         case 'campaign':
-          this.$refs['log'].print('man campaigns', 'work in progress')
-          break
+          (this.$refs['log'] as any).print('man campaigns', 'work in progress');
+          break;
         case 'content':
-          this.$refs['log'].print('man homebrew', 'Manage and create COMP/CON expansion data')
-          break
+          (this.$refs['log'] as any).print(
+            'man homebrew',
+            'Manage and create COMP/CON expansion data'
+          );
+          break;
         case 'encounter':
-          this.$refs['log'].print(
+          (this.$refs['log'] as any).print(
             'man activemode',
             'GM an Encounter, open or continue an Active Character Sheet, or create or join a cloud-based Table (coming soon!)'
-          )
-          break
+          );
+          break;
         case 'options':
-          this.$refs['log'].print('compcon -settings --verbose', 'Open the options manager')
-          break
+          (this.$refs['log'] as any).print(
+            'compcon -settings --verbose',
+            'Open the options manager'
+          );
+          break;
         case 'about':
-          this.$refs['log'].print('compcon --v', 'About COMP/CON')
-          break
+          (this.$refs['log'] as any).print('compcon --v', 'About COMP/CON');
+          break;
         case 'help':
-          this.$refs['log'].print('compcon --h', 'Open the COMP/CON help page')
-          break
+          (this.$refs['log'] as any).print(
+            'compcon --h',
+            'Open the COMP/CON help page'
+          );
+          break;
         case 'update':
-          this.$refs['log'].print(
+          (this.$refs['log'] as any).print(
             'gms-upm compcon changelog -l',
             'View COMP/CON changelog and latest updates'
-          )
+          );
         default:
-          break
+          break;
       }
     },
   },
-})
+};
 </script>
 
 <style scoped>

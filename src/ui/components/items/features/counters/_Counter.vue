@@ -2,14 +2,14 @@
   <v-card
     v-if="counter"
     tile
-    outlined
+    variant="outlined"
     color="primary"
-    :width="$vuetify.breakpoint.mdAndUp ? '225px' : '100%'"
-    :min-width="$vuetify.breakpoint.mdAndUp ? '225px' : '100%'"
-    :height="$vuetify.breakpoint.mdAndUp ? '100%' : ''"
+    :width="$vuetify.display.mdAndUp ? '225px' : '100%'"
+    :min-width="$vuetify.display.mdAndUp ? '225px' : '100%'"
+    :height="$vuetify.display.mdAndUp ? '100%' : ''"
   >
     <v-toolbar dense flat color="primary" class="white--text">
-      <div :class="$vuetify.breakpoint.mdAndUp ? 'heading h3' : 'heading h4'">
+      <div :class="$vuetify.display.mdAndUp ? 'heading h3' : 'heading h4'">
         {{ counter.Name }}
       </div>
       <v-spacer />
@@ -20,7 +20,13 @@
       </cc-tooltip>
 
       <cc-tooltip v-if="counterData.custom" simple content="Delete Counter">
-        <v-btn class="fadeSelect ml-1" dark icon x-small @click="$emit('delete')">
+        <v-btn
+          class="fadeSelect ml-1"
+          dark
+          icon
+          x-small
+          @click="$emit('delete')"
+        >
           <v-icon small>delete</v-icon>
         </v-btn>
       </cc-tooltip>
@@ -42,7 +48,7 @@
         <v-col>
           <v-text-field
             type="number"
-            outlined
+            variant="outlined"
             dense
             class="counterValue"
             :class="{
@@ -73,11 +79,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component'
-import { Counter } from '@/class'
+import { Counter } from '@/class';
 
-@Component({
+export default {
+  name: 'Counter',
   props: {
     counterData: {
       type: Object,
@@ -91,41 +96,43 @@ import { Counter } from '@/class'
   watch: {
     counter: {
       handler(val: Counter) {
-        this.$emit('update', val)
+        this.$emit('update', val);
       },
       deep: true,
     },
   },
-})
-export default class CounterComponent extends Vue {
-  public counter: Counter = null
-
+  data: () => ({
+    counter: null as Counter,
+    dirty: false,
+  }),
   created(): void {
-    this.counter = new Counter(this.$props.counterData)
+    this.counter = new Counter(this.$props.counterData);
 
-    const data = this.$props.saveData.find(data => data.id === this.counter.ID)
-    if (data) this.counter.LoadData(data)
-  }
+    const data = this.$props.saveData.find(
+      (data) => data.id === this.counter.ID
+    );
+    if (data) this.counter.LoadData(data);
+  },
+  methods: {
+    onInput(): void {
+      this.dirty = true;
+    },
 
-  public dirty = false
-  onInput(): void {
-    this.dirty = true
-  }
+    onInputEnterOrLeave(e: FocusEvent | InputEvent): void {
+      const element = e.target as HTMLInputElement;
 
-  onInputEnterOrLeave(e: FocusEvent | InputEvent): void {
-    const element = e.target as HTMLInputElement
-
-    const val = parseInt(element.value)
-    this.counter.Set(val)
-    element.value = this.counter.Value.toString()
-    this.dirty = false
-  }
-}
+      const val = parseInt(element.value);
+      this.counter.Set(val);
+      element.value = this.counter.Value.toString();
+      this.dirty = false;
+    },
+  },
+};
 </script>
 
 <style scoped>
 .counterValue.dirty >>> input {
-  color: var(--v-primary-base) !important;
+  color: rgb(var(--v-theme-primary)) !important;
   transition: color 300ms ease-in-out !important;
 }
 

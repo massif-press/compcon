@@ -1,6 +1,13 @@
 <template>
-  <div v-show="!item || (item && !item.NoSynergies)" :class="inline ? 'd-inline-block' : ''">
-    <div v-if="!synergies.length && showNone" class="text-center" style="opacity: 0.5">
+  <div
+    v-show="!item || (item && !item.NoSynergies)"
+    :class="inline ? 'd-inline-block' : ''"
+  >
+    <div
+      v-if="!synergies.length && showNone"
+      class="text-center"
+      style="opacity: 0.5"
+    >
       <i>None</i>
     </div>
     <cc-tooltip
@@ -10,19 +17,15 @@
       :title="s.Origin"
       :content="s.Detail"
     >
-      <v-icon :small="small" :large="large" color="accent">
-        cci-talent
-      </v-icon>
+      <v-icon :small="small" :large="large" color="accent">cc:talent</v-icon>
     </cc-tooltip>
   </div>
 </template>
 
 <script lang="ts">
-import { Synergy } from '@/class'
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import vueMixins from '@/util/vueMixins'
+import { Synergy } from '@/class';
 
-export default vueMixins(activePilot).extend({
+export default {
   name: 'cc-synergy-display',
   props: {
     item: {
@@ -44,8 +47,8 @@ export default vueMixins(activePilot).extend({
   },
   computed: {
     synergies() {
-      return Synergy.Collect(this.location, this.mech, this.item)
+      return Synergy.Collect(this.location, this.mech, this.item);
     },
   },
-})
+};
 </script>

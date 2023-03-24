@@ -22,14 +22,13 @@
 </template>
 
 <script lang="ts">
-import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
-import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
-import SelFightDialog from './_SelFightDialog.vue'
+import ActionDetailExpander from '../../components/_ActionDetailExpander.vue';
+import ItemSelectorRow from '../../components/_ItemSelectorRow.vue';
+import SelFightDialog from './_SelFightDialog.vue';
 
-import Vue from 'vue'
-import { ActivationType } from '@/classes/enums'
+import { ActivationType } from '@/classes/enums';
 
-export default Vue.extend({
+export default {
   name: 'fight-dialog',
   components: { ActionDetailExpander, ItemSelectorRow, SelFightDialog },
   props: {
@@ -49,19 +48,19 @@ export default Vue.extend({
   }),
   computed: {
     state() {
-      return this.mech.Pilot.State
+      return this.mech.Pilot.State;
     },
   },
   methods: {
     completeFight() {
-      this.$emit('use')
-      this.state.CommitAction(this.action, ActivationType.Full)
-      this.dialog = false
+      this.$emit('use');
+      this.state.CommitAction(this.action, ActivationType.Full);
+      this.dialog = false;
     },
     fight(item) {
-      this.selected = item
-      this.$refs.f_dialog.show()
+      this.selected = item;
+      (this.$refs.f_dialog as any).show();
     },
   },
-})
+};
 </script>

@@ -2,7 +2,7 @@
   <component :is="component" v-if="component" :item="item" readonly />
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'cc-npc-feature-card',
   props: {
@@ -18,30 +18,30 @@ export default {
   data() {
     return {
       component: null,
-    }
+    };
   },
   computed: {
     item() {
       return {
         Feature: this.feature,
         Tier: this.tier,
-      }
+      };
     },
     loader() {
       if (!this.feature) {
-        return null
+        return null;
       }
-      return () => import(`./cards/_${this.feature.FeatureType}Card.vue`)
+      return () => import(`./cards/_${this.feature.FeatureType}Card.vue`);
     },
   },
   mounted() {
     this.loader()
       .then(() => {
-        this.component = () => this.loader()
+        this.component = () => this.loader();
       })
       .catch(() => {
-        console.error(`Unable to load component ${this.feature.FeatureType}`)
-      })
+        console.error(`Unable to load component ${this.feature.FeatureType}`);
+      });
   },
-}
+};
 </script>

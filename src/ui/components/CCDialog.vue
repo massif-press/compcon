@@ -1,14 +1,29 @@
 <template>
   <div>
-    <v-btn v-if="flat" :small="smallBtn || $vuetify.breakpoint.smAndDown" :color="color" text :dark="dark"
-      @click="dialog = true">
+    <v-btn
+      v-if="flat"
+      :small="smallBtn || $vuetify.display.smAndDown"
+      :color="color"
+      text
+      :dark="dark"
+      @click="dialog = true"
+    >
       <slot name="button" />
     </v-btn>
-    <v-btn v-else tile :small="smallBtn || $vuetify.breakpoint.smAndDown" :color="color" @click="dialog = true">
+    <v-btn
+      v-else
+      tile
+      :small="smallBtn || $vuetify.display.smAndDown"
+      :color="color"
+      @click="dialog = true"
+    >
       <slot name="button" />
     </v-btn>
-    <v-dialog v-model="dialog" :fullscreen="fullscreen || $vuetify.breakpoint.mdAndDown"
-      :width="small ? '30vw' : large ? '80vw' : '50vw'">
+    <v-dialog
+      v-model="dialog"
+      :fullscreen="fullscreen || $vuetify.display.mdAndDown"
+      :width="small ? '30vw' : large ? '80vw' : '50vw'"
+    >
       <v-card tile class="background">
         <cc-titlebar :color="color">
           <slot name="title" />
@@ -21,7 +36,13 @@
 
         <v-divider></v-divider>
 
-        <v-card-actions v-if="fullscreen || $vuetify.breakpoint.mdAndDown || (noConfirm && !noDismiss)">
+        <v-card-actions
+          v-if="
+            fullscreen ||
+            $vuetify.display.mdAndDown ||
+            (noConfirm && !noDismiss)
+          "
+        >
           <v-spacer />
           <v-btn text @click="dialog = false">dismiss</v-btn>
         </v-card-actions>
@@ -36,38 +57,67 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
-
-@Component({ name: 'cc-dialog' })
-export default class CCDialog extends Vue {
-  @Prop({ type: Boolean })
-  readonly small?: boolean
-  @Prop({ type: Boolean })
-  readonly fullscreen?: boolean
-  @Prop({ type: Boolean })
-  readonly smallBtn?: boolean
-  @Prop({ type: Boolean })
-  readonly large?: boolean
-
-  @Prop({ type: String, required: false, default: 'primary' })
-  readonly color: string
-
-  @Prop({ type: Boolean })
-  readonly flat?: boolean
-  @Prop({ type: Boolean })
-  readonly dark?: boolean
-  @Prop({ type: Boolean })
-  readonly noConfirm?: boolean
-  @Prop({ type: Boolean })
-  readonly noDismiss?: boolean
-
-  dialog = false
-
-  @Emit()
-  confirm(): void {
-    this.dialog = false
-  }
-}
+export default {
+  name: 'CCDialog',
+  props: {
+    small: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    fullscreen: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    smallBtn: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    large: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    flat: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    dark: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    noConfirm: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    noDismiss: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      dialog: false,
+    };
+  },
+  methods: {
+    confirm() {
+      this.dialog = false;
+      this.$emit('confirm');
+    },
+  },
+};
 </script>
 
 <style scoped>

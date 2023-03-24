@@ -1,7 +1,9 @@
 <template>
   <v-dialog v-model="dialog" width="60vw">
     <v-card>
-      <v-toolbar flat dense dark color="damage--burn" class="heading h2">Burn</v-toolbar>
+      <v-toolbar flat dense dark color="damage--burn" class="heading h2"
+        >Burn</v-toolbar
+      >
       <v-card-text class="text-center">
         <div class="heading h3 font-weight-bold stark--text mt-2">
           <span class="subtle--text">FRAME.ALERT::</span>
@@ -16,20 +18,35 @@
         </p>
         <v-row justify="center" class="text-center mt-4">
           <v-col lg="auto" md="12" class="mt-n5">
-            <v-row dense class="text-center mb-n3" justify="start" align="start">
+            <v-row
+              dense
+              class="text-center mb-n3"
+              justify="start"
+              align="start"
+            >
               <v-col cols="auto" class="mx-8">
                 <div class="overline mb-n2">Engineering Roll</div>
                 <div class="heading text--text" style="font-size: 24pt">
                   <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                   + {{ mech.Eng }}
-                  <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
+                  <cc-synergy-display
+                    location="engineering"
+                    :mech="mech"
+                    class="d-inline"
+                  />
                 </div>
               </v-col>
             </v-row>
           </v-col>
           <v-col cols="auto" class="mr-2">
             <cc-tooltip title="Roll Engineering Check" :content="rollTooltip">
-              <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollCheck">
+              <v-btn
+                icon
+                small
+                color="accent"
+                class="mt-1 mr-n3"
+                @click="rollCheck"
+              >
                 <v-icon large>mdi-dice-multiple</v-icon>
               </v-btn>
             </cc-tooltip>
@@ -39,7 +56,7 @@
               v-model="roll"
               type="number"
               label="Engineering Check Result"
-              outlined
+              variant="outlined"
               dense
               hide-details
               class="flavor-text"
@@ -81,10 +98,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { DiceRoller } from '@/class'
+import { DiceRoller } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'burn-dialog',
   props: {
     mech: {
@@ -98,33 +114,33 @@ export default Vue.extend({
   }),
   computed: {
     rollTooltip() {
-      if (this.roll) return `${this.roll} + ${this.mech.Eng}`
-      return ''
+      if (this.roll) return `${this.roll} + ${this.mech.Eng}`;
+      return '';
     },
   },
   methods: {
     rollCheck() {
-      this.roll = DiceRoller.rollToHit(this.mech.Eng).total
+      this.roll = DiceRoller.rollToHit(this.mech.Eng).total;
     },
     show() {
-      this.dialog = true
+      this.dialog = true;
     },
     complete(success) {
       if (success) {
-        this.mech.Pilot.State.ClearBurn()
-        this.$emit('complete', null)
+        this.mech.Pilot.State.ClearBurn();
+        this.$emit('complete', null);
       } else {
-        const preStruct = this.mech.CurrentStructure
-        const preHP = this.mech.CurrentHP
-        this.mech.Pilot.State.TakeBurn()
+        const preStruct = this.mech.CurrentStructure;
+        const preHP = this.mech.CurrentHP;
+        this.mech.Pilot.State.TakeBurn();
         this.$emit('complete', {
           hp: preHP - this.mech.CurrentHP,
           str: preStruct - this.mech.CurrentStructure,
-        })
+        });
       }
-      this.roll = null
-      this.dialog = false
+      this.roll = null;
+      this.dialog = false;
     },
   },
-})
+};
 </script>

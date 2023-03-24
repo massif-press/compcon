@@ -7,7 +7,7 @@
       <v-row dense justify="end">
         <v-col cols="auto">
           <v-btn @click="fetch()" color="primary" small class="mb-3">
-            <v-icon left>mdi-reload</v-icon>
+            <v-icon start>mdi-reload</v-icon>
             Refresh Table
           </v-btn>
         </v-col>
@@ -17,7 +17,13 @@
         <v-expansion-panel v-for="k in cloudItemTypes" :key="k">
           <v-expansion-panel-header>
             <span>
-              <v-chip dark color="primary" outlined x-small class="mt-n1 mr-2">
+              <v-chip
+                dark
+                color="primary"
+                variant="outlined"
+                x-small
+                class="mt-n1 mr-2"
+              >
                 <b>{{ itemsByType(k).length.toString().padStart(3, '0') }}</b>
               </v-chip>
               <span class="heading h3">{{ k }}</span>
@@ -29,10 +35,21 @@
               <v-simple-table class="text-center">
                 <thead>
                   <th width="10%">
-                    <v-btn v-if="!selectedItems.length" x-small outlined @click="selectAll(k)">
+                    <v-btn
+                      v-if="!selectedItems.length"
+                      x-small
+                      variant="outlined"
+                      @click="selectAll(k)"
+                    >
                       Select All
                     </v-btn>
-                    <v-btn v-else x-small outlined @click="deselectAll(k)">Deselect All</v-btn>
+                    <v-btn
+                      v-else
+                      x-small
+                      variant="outlined"
+                      @click="deselectAll(k)"
+                      >Deselect All</v-btn
+                    >
                   </th>
                   <th>Name</th>
                   <th>Last Local Update</th>
@@ -51,8 +68,14 @@
                       <v-row no-gutters align="center">
                         <v-col><v-divider /></v-col>
                         <v-col cols="auto" class="px-2">
-                          <b v-if="item.remote" class="primary--text text--darken-1">Remote</b>
-                          <b v-else class="success--text text--darken-1">Synced</b>
+                          <b
+                            v-if="item.remote"
+                            class="primary--text text--darken-1"
+                            >Remote</b
+                          >
+                          <b v-else class="success--text text--darken-1"
+                            >Synced</b
+                          >
                         </v-col>
                         <v-col><v-divider /></v-col>
                       </v-row>
@@ -60,17 +83,27 @@
                     <td v-else-if="!isAtLatest(item)">
                       <span
                         v-if="item.lastModifiedLocal"
-                        :class="item.latest === 'local' ? 'font-weight-bold' : 'text--disabled'"
+                        :class="
+                          item.latest === 'local'
+                            ? 'font-weight-bold'
+                            : 'text--disabled'
+                        "
                       >
                         {{ item.lastModifiedLocal.split('GMT')[0] }}
                       </span>
-                      <span v-else-if="item.missingContent"><i class="text--disabled">ERR</i></span>
+                      <span v-else-if="item.missingContent"
+                        ><i class="text--disabled">ERR</i></span
+                      >
                       <span v-else class="text--disabled"><i>No Data</i></span>
                     </td>
                     <td v-if="!isAtLatest(item)">
                       <span
                         v-if="item.lastModifiedCloud"
-                        :class="item.latest === 'cloud' ? 'font-weight-bold' : 'text--disabled'"
+                        :class="
+                          item.latest === 'cloud'
+                            ? 'font-weight-bold'
+                            : 'text--disabled'
+                        "
                       >
                         {{ item.lastModifiedCloud.split('GMT')[0] }}
                       </span>
@@ -108,7 +141,9 @@
                           title="Item Synced"
                           :content="`The latest version of this item is stored both locally and in your cloud account. This item was last modifed at: ${item.lastModifiedLocal}`"
                         >
-                          <v-icon color="success darken-1">mdi-check-bold</v-icon>
+                          <v-icon color="success darken-1"
+                            >mdi-check-bold</v-icon
+                          >
                         </cc-tooltip>
                         <cc-tooltip
                           inline
@@ -140,10 +175,18 @@
                         @delete="flagDelete(item)"
                         @delete-forever="deleteForever(item)"
                         @undelete="undelete(item)"
-                        @overwite-local="overwriteSingle(item, 'cloud', 'local')"
-                        @overwite-cloud="overwriteSingle(item, 'local', 'cloud')"
+                        @overwite-local="
+                          overwriteSingle(item, 'cloud', 'local')
+                        "
+                        @overwite-cloud="
+                          overwriteSingle(item, 'local', 'cloud')
+                        "
                       />
-                      <cc-tooltip v-else inline content="Sync local data to latest remote data">
+                      <cc-tooltip
+                        v-else
+                        inline
+                        content="Sync local data to latest remote data"
+                      >
                         <v-btn icon @click="remoteUpdate(item)">
                           <v-icon color="primary">mdi-cloud-sync</v-icon>
                         </v-btn>
@@ -227,8 +270,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SyncItemMenu from './SyncItemMenu.vue'
+import SyncItemMenu from './SyncItemMenu.vue';
 import {
   ListCloudItems,
   ProcessItemsList,
@@ -241,13 +283,13 @@ import {
   AutoSyncAll,
   AutoSyncRemotes,
   RemoteSyncItem,
-} from '@/cloud/item_sync'
-import { ICloudSyncable } from '@/classes/components'
-import { Pilot } from '@/classes/pilot/Pilot'
-import sleep from '@/util/sleep'
-import { SaveAllLocalUpdates } from '@/io/BulkData'
+} from '@/cloud/item_sync';
+import { ICloudSyncable } from '@/classes/components';
+import { Pilot } from '@/classes/pilot/Pilot';
+import sleep from '@/util/sleep';
+import { SaveAllLocalUpdates } from '@/io/BulkData';
 
-export default Vue.extend({
+export default {
   name: 'sync-manager',
   components: { SyncItemMenu },
   data: () => ({
@@ -260,50 +302,51 @@ export default Vue.extend({
     cloudItemTypes: ['Active Mission', 'Mission', 'Encounter', 'NPC', 'Pilot'],
   }),
   async mounted() {
-    this.fetch()
+    this.fetch();
   },
   computed: {
     selectedItems() {
-      return this.items.filter(x => x.selected)
+      return this.items.filter((x) => x.selected);
     },
   },
   methods: {
     selectAll(type) {
-      this.itemsByType(type).forEach(i => {
-        this.$set(i, 'selected', true)
-      })
+      this.itemsByType(type).forEach((i) => {
+        this.$set(i, 'selected', true);
+      });
     },
     deselectAll(type) {
-      this.itemsByType(type).forEach(i => {
-        this.$set(i, 'selected', false)
-      })
+      this.itemsByType(type).forEach((i) => {
+        this.$set(i, 'selected', false);
+      });
     },
     itemsByType(type) {
-      return this.items.filter(x => x.itemType === type)
+      return this.items.filter((x) => x.itemType === type);
     },
     callsign(item) {
-      if (item.itemType !== 'Pilot') return ''
-      const p = GetLocalItem(item) as Pilot
-      if (p && p.Callsign) return `${p.Callsign} //`
+      if (item.itemType !== 'Pilot') return '';
+      const p = GetLocalItem(item) as Pilot;
+      if (p && p.Callsign) return `${p.Callsign} //`;
     },
     isAtLatest(item) {
-      if (!item.lastModifiedCloud || !item.lastModifiedLocal) return false
+      if (!item.lastModifiedCloud || !item.lastModifiedLocal) return false;
       const sDiff =
         Math.abs(
-          new Date(item.lastModifiedCloud).valueOf() - new Date(item.lastModifiedLocal).valueOf()
-        ) / 1000
-      return sDiff < 15
+          new Date(item.lastModifiedCloud).valueOf() -
+            new Date(item.lastModifiedLocal).valueOf()
+        ) / 1000;
+      return sDiff < 15;
     },
     async fetch() {
-      this.loading = true
+      this.loading = true;
       ListCloudItems()
-        .then(res => {
-          this.items = ProcessItemsList(res)
+        .then((res) => {
+          this.items = ProcessItemsList(res);
         })
-        .finally(() => (this.loading = false))
+        .finally(() => (this.loading = false));
     },
     async syncSingle(item) {
-      this.loading = true
+      this.loading = true;
       SyncItem(item)
         .then(() => this.fetch())
         .then(() => this.$notify('Sync successful', 'success'))
@@ -312,86 +355,109 @@ export default Vue.extend({
             'An error occured while syncing. You may be missing one or more required LCPs.',
             'error'
           )
-        )
+        );
     },
     async syncSelected() {
-      this.loading = true
-      Promise.all(this.selectedItems.map(item => SyncItem(item, true)))
+      this.loading = true;
+      Promise.all(this.selectedItems.map((item) => SyncItem(item, true)))
         .then(() => SaveAllLocalUpdates())
         .then(() => this.fetch())
         .then(() =>
-          this.$notify(`Synced ${this.selectedItems.length} items successfully`, 'success')
+          this.$notify(
+            `Synced ${this.selectedItems.length} items successfully`,
+            'success'
+          )
         )
         .catch(() =>
           this.$notify(
             'An error occured while syncing. You may be missing one or more required LCPs.',
             'error'
           )
-        )
+        );
     },
     async overwriteSingle(item, source, dest) {
-      this.loading = true
+      this.loading = true;
       Overwrite(item, source, dest)
         .then(() => this.fetch())
         .then(() => this.$notify('Overwrite successful', 'success'))
-        .catch(() => this.$notify('An error occured while overwriting.', 'error'))
+        .catch(() =>
+          this.$notify('An error occured while overwriting.', 'error')
+        );
     },
     async overwriteSelected(source, dest) {
-      this.loading = true
-      Promise.all(this.selectedItems.map(item => Overwrite(item, source, dest, true)))
+      this.loading = true;
+      Promise.all(
+        this.selectedItems.map((item) => Overwrite(item, source, dest, true))
+      )
         .then(() => SaveAllLocalUpdates())
         .then(() => this.fetch())
         .then(() =>
-          this.$notify(`Replaced ${this.selectedItems.length} items successfully`, 'success')
+          this.$notify(
+            `Replaced ${this.selectedItems.length} items successfully`,
+            'success'
+          )
         )
-        .catch(() => this.$notify('An error occured while overwriting.', 'error'))
+        .catch(() =>
+          this.$notify('An error occured while overwriting.', 'error')
+        );
     },
     async undelete(item) {
-      const local = GetLocalItem(item) as ICloudSyncable
+      const local = GetLocalItem(item) as ICloudSyncable;
       if (local) {
-        local.SaveController.restore()
-        this.fetch()
-      } else FlagCloudRestore(item).then(() => this.fetch())
+        local.SaveController.restore();
+        this.fetch();
+      } else FlagCloudRestore(item).then(() => this.fetch());
     },
     async flagDelete(item) {
-      const local = GetLocalItem(item) as ICloudSyncable
+      const local = GetLocalItem(item) as ICloudSyncable;
       if (local) {
-        local.SaveController.delete()
-        this.fetch()
-      } else FlagCloudDelete(item).then(() => this.fetch())
+        local.SaveController.delete();
+        this.fetch();
+      } else FlagCloudDelete(item).then(() => this.fetch());
     },
     deleteForever(item) {
       DeleteForever(item)
         .then(() => this.fetch())
         .then(() => this.$notify('Delete successful', 'success'))
         .catch(() =>
-          this.$notify('An error occured while attempting to delete this record.', 'error')
-        )
+          this.$notify(
+            'An error occured while attempting to delete this record.',
+            'error'
+          )
+        );
     },
     syncAll(hideAlert?: boolean) {
-      this.loading = true
+      this.loading = true;
       AutoSyncAll()
         .then(() => AutoSyncRemotes())
         .then(() => sleep(500))
         .then(() => this.fetch())
         .then(() => {
-          if (!hideAlert) this.$notify(`Synced ${this.items.length} items successfully`, 'success')
+          if (!hideAlert)
+            this.$notify(
+              `Synced ${this.items.length} items successfully`,
+              'success'
+            );
         })
         .catch(() => {
-          if (!hideAlert) this.$notify('An error occured while syncing.', 'error')
-        })
+          if (!hideAlert)
+            this.$notify('An error occured while syncing.', 'error');
+        });
     },
     async remoteUpdate(item) {
-      const local = GetLocalItem(item) as ICloudSyncable
+      const local = GetLocalItem(item) as ICloudSyncable;
       try {
-        RemoteSyncItem(local)
-        this.$notify('Pilot synced to remote', 'success')
-        this.fetch()
+        RemoteSyncItem(local);
+        this.$notify('Pilot synced to remote', 'success');
+        this.fetch();
       } catch (error) {
-        console.error(error)
-        this.$notify('An error occurred while attempting to download remote data', 'error')
+        console.error(error);
+        this.$notify(
+          'An error occurred while attempting to download remote data',
+          'error'
+        );
       }
     },
   },
-})
+};
 </script>

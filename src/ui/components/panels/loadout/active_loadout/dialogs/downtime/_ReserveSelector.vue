@@ -4,7 +4,7 @@
       v-model="type"
       label="Reserve Type"
       :items="reserveTypes"
-      outlined
+      variant="outlined"
       dense
       hide-details
       @change="reserve = ''"
@@ -17,12 +17,16 @@
       :items="reserves"
       item-text="name"
       item-value="id"
-      outlined
+      variant="outlined"
       dense
       hide-details
     />
     <v-slide-y-transition>
-      <v-card v-if="type === 'Custom' || reserve" color="light-panel" class="mx-3 mt-1">
+      <v-card
+        v-if="type === 'Custom' || reserve"
+        color="light-panel"
+        class="mx-3 mt-1"
+      >
         <v-card-text class="flavor-text pt-1 pb-0">
           <p
             v-if="type !== 'Custom' && reserve"
@@ -32,8 +36,8 @@
           <div
             v-if="
               type !== 'Mech' &&
-                reserve !== 'reserve_extendedharness' &&
-                reserve !== 'reserve_bombardment'
+              reserve !== 'reserve_extendedharness' &&
+              reserve !== 'reserve_bombardment'
             "
           >
             <v-text-field
@@ -58,10 +62,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { reserves } from 'lancer-data'
+import { reserves } from 'lancer-data';
 
-export default Vue.extend({
+export default {
   name: 'reserve-selector',
   data: () => ({
     type: '',
@@ -73,23 +76,24 @@ export default Vue.extend({
   computed: {
     reserveComplete() {
       return (
-        (this.type && this.reserve) || (this.type === 'Custom' && this.custom_name && this.details)
-      )
+        (this.type && this.reserve) ||
+        (this.type === 'Custom' && this.custom_name && this.details)
+      );
     },
     reserves() {
-      return reserves.filter(x => x.type === this.type)
+      return reserves.filter((x) => x.type === this.type);
     },
   },
   methods: {
     reserveByID(id) {
-      return reserves.find(x => x.id === id)
+      return reserves.find((x) => x.id === id);
     },
     reset() {
-      this.type = ''
-      this.reserve = ''
-      this.custom_name = ''
-      this.details = ''
+      this.type = '';
+      this.reserve = '';
+      this.custom_name = '';
+      this.details = '';
     },
   },
-})
+};
 </script>

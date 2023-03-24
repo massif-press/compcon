@@ -1,14 +1,13 @@
 <template>
-  <v-alert outlined dense :color="bonus.Color">
+  <v-alert variant="outlined" dense :color="bonus.Color">
     <bonus-base :bonus="bonus" />
   </v-alert>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import bonusBase from './_bonusBase.vue'
+import bonusBase from './_bonusBase.vue';
 
-export default Vue.extend({
+export default {
   name: 'bonus-panel',
   components: { bonusBase },
   props: {
@@ -17,5 +16,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

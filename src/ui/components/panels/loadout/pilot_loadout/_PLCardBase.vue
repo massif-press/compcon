@@ -2,10 +2,20 @@
   <v-col cols="12" md="">
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
-        <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
+        <v-card-title
+          class="pilot white--text py-0 heading h3"
+          style="height: 24px"
+        >
           <v-menu v-if="item" offset-x left>
-            <template v-slot:activator="{ on }">
-              <v-icon icon small dark class="fadeSelect mt-n1 ml-n2 mr-1" v-on="on">mdi-cog</v-icon>
+            <template v-slot:activator="{ props }">
+              <v-icon
+                icon
+                small
+                dark
+                class="fadeSelect mt-n1 ml-n2 mr-1"
+                v-bind="props"
+                >mdi-cog</v-icon
+              >
             </template>
             <v-list dense>
               <v-list-item @click="$refs.selectorDialog.show()">
@@ -17,9 +27,12 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider />
-              <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+              <v-list-item
+                v-if="item.CanSetDamage"
+                @click="$refs.damageTypeDialog.show()"
+              >
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
-                  <v-icon>cci-variable</v-icon>
+                  <v-icon>cc:variable</v-icon>
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Select Damage Type</v-list-item-title>
@@ -54,8 +67,15 @@
           </v-menu>
           <div class="mt-n1">
             {{ title }}
-            <cc-tooltip v-if="extended" simple inline content="Extended Harness">
-              <v-icon dark right small class="mt-n1">mdi-alpha-e-box-outline</v-icon>
+            <cc-tooltip
+              v-if="extended"
+              simple
+              inline
+              content="Extended Harness"
+            >
+              <v-icon dark right small class="mt-n1"
+                >mdi-alpha-e-box-outline</v-icon
+              >
             </cc-tooltip>
           </div>
           <v-spacer />
@@ -64,7 +84,10 @@
               <v-icon class="fadeSelect">delete</v-icon>
             </v-btn>
             <v-btn icon small dark @click="$refs.selectorDialog.show()">
-              <v-icon class="fadeSelect" v-html="item ? 'mdi-swap-vertical-variant' : 'add'" />
+              <v-icon
+                class="fadeSelect"
+                v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
+              />
             </v-btn>
           </div>
         </v-card-title>
@@ -77,7 +100,9 @@
             <div v-if="item">
               <slot @click="$refs.detailDialog.show()" />
               <div v-if="item.Deployables.length">
-                <div class="overline ml-n2 subtle--text">EQUIPMENT DEPLOYABLES</div>
+                <div class="overline ml-n2 subtle--text">
+                  EQUIPMENT DEPLOYABLES
+                </div>
                 <v-row no-gutters justify="center">
                   <v-col
                     v-for="(d, i) in item.Deployables"
@@ -101,23 +126,38 @@
               @click="$refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
-                <span class="heading h2 subtle--text my-auto" style="width: 100%">// EMPTY //</span>
+                <span
+                  class="heading h2 subtle--text my-auto"
+                  style="width: 100%"
+                  >// EMPTY //</span
+                >
               </v-row>
             </div>
           </div>
         </v-card-text>
       </v-card>
     </div>
-    <cc-solo-dialog ref="selectorDialog" no-confirm :title="`Equip ${title}`" fullscreen no-pad>
+    <cc-solo-dialog
+      ref="selectorDialog"
+      no-confirm
+      :title="`Equip ${title}`"
+      fullscreen
+      no-pad
+    >
       <slot name="selector" />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
+    <cc-solo-dialog
+      ref="detailDialog"
+      no-confirm
+      :title="item ? item.Name : ''"
+      large
+    >
       <cc-item-card :item="item" />
       <slot name="detail" />
       <div v-if="item">
         <v-textarea
           v-model="item.Note"
-          outlined
+          variant="outlined"
           auto-grow
           rows="2"
           filled
@@ -155,8 +195,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'pl-pilot-card-base',
   props: {
     title: {
@@ -177,27 +216,27 @@ export default Vue.extend({
   },
   methods: {
     closeSelector() {
-      this.$refs.selectorDialog.hide()
+      (this.$refs.selectorDialog as any).hide();
     },
     openDetail() {
-      this.$refs.detailDialog.show()
+      (this.$refs.detailDialog as any).show();
     },
     save(prop, newName) {
-      this.$set(this.item, prop, newName)
-      this.$emit('save')
+      this.$set(this.item, prop, newName);
+      this.$emit('save');
     },
   },
-})
+};
 </script>
 
 <style scoped>
 #underline-parent {
-  background-color: var(--v-panel-darken1);
+  background-color: rgb(var(--v-theme-panel-darken1));
   transition: background-color 0.4s ease-in-out;
 }
 
 #underline-parent:hover {
-  background-color: var(--v-panel-base);
+  background-color: rgb(var(--v-theme-panel));
 }
 
 .underline-slide::before {
@@ -208,7 +247,7 @@ export default Vue.extend({
   right: 0;
   height: 2px;
   z-index: 10;
-  background-color: var(--v-secondary-base);
+  background-color: rgb(var(--v-theme-secondary));
   transform-origin: bottom left;
   transform: scaleX(0);
   transition: transform 0.4s ease;

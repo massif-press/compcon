@@ -1,26 +1,32 @@
 <template>
   <div v-if="profile && profile.GetView">
-    <tabbed-layout v-if="profile.GetView('pilotSheet') === 'tabbed'" :page="tab" :pilot="pilot" />
+    <tabbed-layout
+      v-if="profile.GetView('pilotSheet') === 'tabbed'"
+      :page="tab"
+      :pilot="pilot"
+    />
     <classic-layout
       v-else-if="profile.GetView('pilotSheet') === 'classic'"
       :page="tab"
       :pilot="pilot"
     />
-    <pilot-nav :pilot="pilot" :selected="tab" @set="profile.SetView('pilotSheet', $event)" />
+    <pilot-nav
+      :pilot="pilot"
+      :selected="tab"
+      @set="profile.SetView('pilotSheet', $event)"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
-import { Pilot } from '@/class'
-import { UserProfile } from '@/user'
-import TabbedLayout from './Tabbed.vue'
-import ClassicLayout from './Classic.vue'
-import PilotNav from '../components/PilotNav.vue'
+import { UserStore } from '@/store';
+import { Pilot } from '@/class';
+import { UserProfile } from '@/user';
+import TabbedLayout from './Tabbed.vue';
+import ClassicLayout from './Classic.vue';
+import PilotNav from '../components/PilotNav.vue';
 
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'pilot-sheet-content',
   components: { PilotNav, TabbedLayout, ClassicLayout },
   props: {
@@ -38,20 +44,22 @@ export default Vue.extend({
   }),
   computed: {
     pilot(): Pilot {
-      return this.$store.state.management.Pilots.find(p => p.ID === this.pilotID)
+      return this.$store.state.management.Pilots.find(
+        (p) => p.ID === this.pilotID
+      );
     },
     profile(): UserProfile {
-      const store = getModule(UserStore, this.$store)
-      return store.UserProfile
+      const store = this.getModule(UserStore);
+      return store.UserProfile;
     },
   },
   watch: {
     tab() {
-      this.page = this.tab
+      this.page = this.tab;
     },
     layout() {
-      this.page = 0
+      this.page = 0;
     },
   },
-})
+};
 </script>

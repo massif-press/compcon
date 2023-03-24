@@ -6,7 +6,7 @@ import { SyncItem, getCognitoIdentity } from '@/cloud/item_sync'
 import sleep from '@/util/sleep'
 import axios from 'axios'
 
-const lcp_meta_key = process.env.VUE_APP_LCP_META_KEY
+const lcp_meta_key = import.meta.env.VUE_APP_LCP_META_KEY
 
 const headers = {
   headers: {

@@ -4,7 +4,8 @@
       <v-row v-for="(l, i) in state.Log" :key="`${l.id}_${i}`" dense>
         <v-col>
           <div class="caption subtle--text mb-n1">
-            MISSION {{ l.mission }} // ENCOUNTER {{ l.encounter }} // ROUND {{ l.round }} ::
+            MISSION {{ l.mission }} // ENCOUNTER {{ l.encounter }} // ROUND
+            {{ l.round }} ::
             {{ l.timestamp }}
           </div>
           <p class="flavor-text ma-0 ml-3 mb-2">
@@ -14,9 +15,21 @@
             <span class="stark--text">{{ l.detail }}</span>
           </p>
         </v-col>
-        <v-col v-if="l.undoAction" cols="auto" class="ml-auto" align-self="center">
-          <cc-tooltip content="Undo this action, refunding any cost it may have had">
-            <v-btn x-small color="primary" class="fadeSelect" @click="undo(l.undoAction)">
+        <v-col
+          v-if="l.undoAction"
+          cols="auto"
+          class="ml-auto"
+          align-self="center"
+        >
+          <cc-tooltip
+            content="Undo this action, refunding any cost it may have had"
+          >
+            <v-btn
+              x-small
+              color="primary"
+              class="fadeSelect"
+              @click="undo(l.undoAction)"
+            >
               <v-icon small left>mdi-reload</v-icon>
               UNDO
             </v-btn>
@@ -63,8 +76,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'combat-log-renderer',
   props: {
     state: {
@@ -74,8 +86,8 @@ export default Vue.extend({
   },
   methods: {
     undo(action) {
-      this.state.UndoAction(action)
+      this.state.UndoAction(action);
     },
   },
-})
+};
 </script>

@@ -9,13 +9,17 @@
           <div class="white--text heading h1 ml-2">{{ talent.Name }}</div>
         </v-col>
         <v-col v-if="rank" cols="auto" class="ml-auto mr-3">
-          <v-icon size="45" color="white">cci-rank-{{ rank }}</v-icon>
+          <v-icon size="45" color="white">cc:rank-{{ rank }}</v-icon>
         </v-col>
         <v-col v-if="talent.InLcp" cols="auto" class="mr-3">
           <div class="white--text heading h3">{{ talent.LcpName }}</div>
         </v-col>
         <v-col cols="auto" align-self="center">
-          <v-icon color="white" class="fadeSelect mr-n2" @click="$emit('expand', 'terse')">
+          <v-icon
+            color="white"
+            class="fadeSelect mr-n2"
+            @click="$emit('expand', 'terse')"
+          >
             mdi-arrow-collapse
           </v-icon>
         </v-col>
@@ -33,7 +37,7 @@
         :class="rank && parseInt(rank) < n ? 'text--disabled' : 'stark--text'"
       >
         <v-col cols="auto">
-          <v-icon x-large>cci-rank-{{ n }}</v-icon>
+          <v-icon x-large>cc:rank-{{ n }}</v-icon>
         </v-col>
         <v-col>
           <v-row no-gutters class="heading h3" align="center">
@@ -44,7 +48,11 @@
               <v-divider class="mx-2" />
             </v-col>
             <v-col cols="auto" class="ml-auto">
-              <v-icon v-if="selectable && parseInt(rank) > n" color="primary" left>
+              <v-icon
+                v-if="selectable && parseInt(rank) > n"
+                color="primary"
+                left
+              >
                 mdi-lock-open
               </v-icon>
               <v-btn
@@ -54,18 +62,18 @@
                 :disabled="!canAdd"
                 @click="$emit('add')"
               >
-                <v-icon left small>mdi-lock-open</v-icon>
+                <v-icon start small>mdi-lock-open</v-icon>
                 Unlock
               </v-btn>
               <v-btn
                 v-else-if="selectable && parseInt(rank) === n"
                 small
                 color="error"
-                outlined
+                variant="outlined"
                 class="fadeSelect"
                 @click="$emit('remove')"
               >
-                <v-icon left>mdi-close</v-icon>
+                <v-icon start>mdi-close</v-icon>
                 Remove
               </v-btn>
             </v-col>
@@ -90,11 +98,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import TalentEmblem from './_TalentEmblem.vue'
-import TalentRankContents from './_TalentRankContents.vue'
+import TalentEmblem from './_TalentEmblem.vue';
+import TalentRankContents from './_TalentRankContents.vue';
 
-export default Vue.extend({
+export default {
   name: 'talent-full',
   components: { TalentEmblem, TalentRankContents },
   props: {
@@ -109,9 +116,9 @@ export default Vue.extend({
   }),
   computed: {
     showFull() {
-      if (this.hideLocked) return this.showAll
-      return true
+      if (this.hideLocked) return this.showAll;
+      return true;
     },
   },
-})
+};
 </script>

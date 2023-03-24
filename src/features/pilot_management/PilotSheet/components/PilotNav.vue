@@ -1,10 +1,14 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <div v-if="$vuetify.breakpoint.mdAndUp" class="d-inline">
+    <div v-if="$vuetify.display.mdAndUp" class="d-inline">
       <router-link to="../sheet/0">
         <cc-nav-item :selected="selected === '0'">
-          <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
+          <cc-tooltip
+            inline
+            delayed
+            content="Pilot IDENT, Status, and Biographical Information"
+          >
             DOSSIER
           </cc-tooltip>
         </cc-nav-item>
@@ -38,15 +42,26 @@
       </router-link>
       <router-link to="../sheet/3">
         <cc-nav-item :selected="selected === '3'">
-          <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
+          <cc-tooltip
+            inline
+            delayed
+            content="Create and Modify Mechs and their Loadouts"
+          >
             MECH HANGAR
           </cc-tooltip>
         </cc-nav-item>
       </router-link>
     </div>
     <v-menu v-else open-on-hover>
-      <template v-slot:activator="{ on }">
-        <v-btn light icon color="white" style="z-index: 9" class="unskew pl-1 pr-0" v-on="on">
+      <template v-slot:activator="{ props }">
+        <v-btn
+          light
+          icon
+          color="white"
+          style="z-index: 9"
+          class="unskew pl-1 pr-0"
+          v-bind="props"
+        >
           <v-icon large>mdi-book-open-page-variant</v-icon>
           <v-icon>arrow_drop_up</v-icon>
         </v-btn>
@@ -64,14 +79,14 @@
       icon
       fab
       x-small
-      outlined
+      variant="outlined"
       :disabled="!lastLoaded"
       class="mx-4 unskew"
       dark
       @click="toMech()"
     >
       <cc-tooltip inline delayed content="Active Mech Sheet">
-        <v-icon large color="white">cci-frame</v-icon>
+        <v-icon large color="white">cc:frame</v-icon>
       </cc-tooltip>
     </v-btn>
     <div id="divider" />
@@ -102,7 +117,12 @@
       delayed
       :content="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'"
     >
-      <v-btn icon class="unskew ml-6" :disabled="!isAuthed" @click="$refs.share.show()">
+      <v-btn
+        icon
+        class="unskew ml-6"
+        :disabled="!isAuthed"
+        @click="$refs.share.show()"
+      >
         <v-icon color="white">mdi-code-json</v-icon>
       </v-btn>
     </cc-tooltip>
@@ -118,7 +138,9 @@
         </cc-tooltip>
       </template>
       <v-list subheader>
-        <v-subheader class="heading h2 white--text primary py-0 px-4">Layout Options</v-subheader>
+        <v-subheader class="heading h2 white--text primary py-0 px-4"
+          >Layout Options</v-subheader
+        >
         <v-list-item-group>
           <v-list-item @click="$emit('set', 'tabbed')">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
@@ -146,15 +168,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditMenu from './PilotEditMenu.vue'
-import ShareDialog from './ShareDialog.vue'
-import { getModule } from 'vuex-module-decorators'
-import { PilotManagementStore, CompendiumStore, UserStore } from '@/store'
-import { Auth } from 'aws-amplify'
-import { RemoteSyncItem } from '@/cloud/item_sync'
+import EditMenu from './PilotEditMenu.vue';
+import ShareDialog from './ShareDialog.vue';
 
-export default Vue.extend({
+import { PilotManagementStore, CompendiumStore, UserStore } from '@/store';
+import { Auth } from 'aws-amplify';
+import { RemoteSyncItem } from '@/cloud/item_sync';
+
+export default {
   name: 'pilot-nav',
   components: {
     EditMenu,
@@ -174,48 +195,51 @@ export default Vue.extend({
     loading: false,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser()
+    await Auth.currentAuthenticatedUser();
   },
   computed: {
     lastLoaded() {
-      const store = getModule(PilotManagementStore, this.$store)
-      return this.pilot.Mechs.some(x => x.ID === store.LoadedMechID)
+      const store = this.getModule(PilotManagementStore);
+      return this.pilot.Mechs.some((x) => x.ID === store.LoadedMechID)
         ? store.LoadedMechID
         : this.pilot.ActiveMech
         ? this.pilot.ActiveMech.ID
-        : null
+        : null;
     },
     isAuthed() {
-      return getModule(UserStore, this.$store).IsLoggedIn
+      return this.getModule(UserStore).IsLoggedIn;
     },
     hasBondData() {
-      return getModule(CompendiumStore, this.$store).Bonds.length
+      return this.getModule(CompendiumStore).Bonds.length;
     },
   },
   methods: {
     toMech() {
-      this.$router.push(`../mech/${this.lastLoaded}`)
+      this.$router.push(`../mech/${this.lastLoaded}`);
     },
     toActive() {
-      this.$router.push(`/active/${this.pilot.ID}`)
+      this.$router.push(`/active/${this.pilot.ID}`);
     },
     delete_pilot() {
-      this.pilot.SaveController.delete()
-      this.$router.push('/pilot_management')
+      this.pilot.SaveController.delete();
+      this.$router.push('/pilot_management');
     },
     async remoteUpdate() {
-      this.loading = true
+      this.loading = true;
       try {
-        await RemoteSyncItem(this.pilot)
-        this.$notify('Pilot synced to remote', 'success')
+        await RemoteSyncItem(this.pilot);
+        this.$notify('Pilot synced to remote', 'success');
       } catch (error) {
-        console.error(error)
-        this.$notify('An error occurred while attempting to download remote data', 'error')
+        console.error(error);
+        this.$notify(
+          'An error occurred while attempting to download remote data',
+          'error'
+        );
       }
-      this.loading = false
+      this.loading = false;
     },
   },
-})
+};
 </script>
 
 <style scoped>
@@ -226,13 +250,13 @@ export default Vue.extend({
   min-height: 40px;
   padding: 5px 20px 5px 20px;
   transform: skew(-0.65rad);
-  background-color: var(--v-primary-base);
+  background-color: rgb(var(--v-theme-primary));
   color: white;
   z-index: 10;
 }
 
 #cap {
-  background-color: var(--v-primary-base);
+  background-color: rgb(var(--v-theme-primary));
   position: absolute;
   width: 70px;
   height: 45px;

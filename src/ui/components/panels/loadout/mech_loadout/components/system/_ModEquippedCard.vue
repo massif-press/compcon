@@ -1,12 +1,24 @@
 <template>
   <div style="height: 100%" :class="readonly ? 'mt-n1' : ''">
-    <slot-card-base ref="base" :item="mod" :mech="mech" :readonly="readonly" style="height: 100%">
+    <slot-card-base
+      ref="base"
+      :item="mod"
+      :mech="mech"
+      :readonly="readonly"
+      style="height: 100%"
+    >
       <div slot="header">
         <span v-if="mod">
-          <equipment-options :item="mod" :readonly="readonly" :active="readonly" />
+          <equipment-options
+            :item="mod"
+            :readonly="readonly"
+            :active="readonly"
+          />
           <span v-if="!mod.Destroyed" class="ml-n2">
             {{ mod.Name }}
-            <span v-if="mod.FlavorName" class="caption ml-2 my-n1">//{{ mod.TrueName }}</span>
+            <span v-if="mod.FlavorName" class="caption ml-2 my-n1"
+              >//{{ mod.TrueName }}</span
+            >
           </span>
           <span v-else class="py-1 error" style="letter-spacing: 3px">
             &emsp;/ / {{ mod.Name }} DESTROYED / /&emsp;
@@ -18,13 +30,20 @@
           <span class="heading h2">{{ mod.SP }}</span>
           <span class="heading h3">SP</span>
         </div>
-        <div v-if="!readonly" class="d-inline pl-3 ml-3" style=" border-left: 1px solid #616161;">
+        <div
+          v-if="!readonly"
+          class="d-inline pl-3 ml-3"
+          style="border-left: 1px solid #616161"
+        >
           <v-btn v-if="mod" icon dark @click="$emit('remove')">
             <v-icon class="fadeSelect mt-n1">delete</v-icon>
           </v-btn>
         </div>
         <v-btn v-else right icon class="fadeSelect" @click.stop="hide = !hide">
-          <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
+          <v-icon
+            small
+            v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+          />
         </v-btn>
       </div>
       <v-slide-y-transition>
@@ -36,12 +55,14 @@
               tile
               color="error"
               class="text-center white--text stat-text"
-              style="letter-spacing: 3px;"
+              style="letter-spacing: 3px"
             >
               / / AI IN CASCADE / /
             </v-alert>
             <div class="overline mt-n1">APPLIED TO</div>
-            <div class="heading h3 subtle--text ml-3 mt-n2 mb-1">{{ weapon.Name }}</div>
+            <div class="heading h3 subtle--text ml-3 mt-n2 mb-1">
+              {{ weapon.Name }}
+            </div>
           </v-col>
         </v-row>
       </v-slide-y-transition>
@@ -50,11 +71,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SlotCardBase from '../_SlotCardBase.vue'
-import EquipmentOptions from '../_EquipmentOptions.vue'
+import SlotCardBase from '../_SlotCardBase.vue';
+import EquipmentOptions from '../_EquipmentOptions.vue';
 
-export default Vue.extend({
+export default {
   name: 'mod-equipped-card',
   components: {
     SlotCardBase,
@@ -85,5 +105,5 @@ export default Vue.extend({
   data: () => ({
     hide: false,
   }),
-})
+};
 </script>

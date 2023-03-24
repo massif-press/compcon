@@ -1,43 +1,55 @@
 <template>
   <v-container fluid>
-    <compendium-browser :headers="headers" :items="weapons">Mech Weapons</compendium-browser>
+    <compendium-browser :headers="headers" :items="weapons"
+      >Mech Weapons</compendium-browser
+    >
   </v-container>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import Component from 'vue-class-component'
-import CompendiumBrowser from '../components/CompendiumBrowser.vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore, UserStore } from '@/store'
-import { MechWeapon } from '../../../classes/mech/components/equipment/MechWeapon'
+import _ from 'lodash';
+import CompendiumBrowser from '../components/CompendiumBrowser.vue';
 
-@Component({
+import { CompendiumStore, UserStore } from '@/store';
+import { MechWeapon } from '../../../classes/mech/components/equipment/MechWeapon';
+
+export default {
+  name: 'Weapons',
   components: { CompendiumBrowser },
-})
-export default class Weapons extends Vue {
-  public headers = [
-    { text: 'Source', align: 'left', value: 'Source' },
-    { text: 'Weapon', align: 'left', value: 'Name' },
-    { text: 'License', align: 'left', value: 'LicenseString' },
-    { text: 'Size', align: 'left', value: 'SizeInt' },
-    { text: 'Type', align: 'left', value: 'WeaponType' },
-    { text: 'Range', align: 'left', value: 'Range[0].Max' },
-    { text: 'Damage', align: 'left', value: 'Damage[0].Max' },
-  ]
+  data: () => ({
+    headers: [
+      { text: 'Source', align: 'left', value: 'Source' },
+      { text: 'Weapon', align: 'left', value: 'Name' },
+      { text: 'License', align: 'left', value: 'LicenseString' },
+      { text: 'Size', align: 'left', value: 'SizeInt' },
+      { text: 'Type', align: 'left', value: 'WeaponType' },
+      { text: 'Range', align: 'left', value: 'Range[0].Max' },
+      { text: 'Damage', align: 'left', value: 'Damage[0].Max' },
+    ],
+  }),
+  computed: {
+    compendium(): CompendiumStore {
+      return this.getModule(CompendiumStore);
+    },
+    user(): UserStore {
+      return this.getModule(UserStore);
+    },
+    sourceIds(): string[] {
+      return this.compendium.Manufacturers.map((x) => x.ID);
+    },
+    weapons(): MechWeapon[] {
+      let arr = this.compendium.MechWeapons.filter(
+        (x) => !x.IsHidden && !(!x.Source && !x.IsExotic)
+      );
+      if (!this.user.GetView('showExotics')) {
+        arr = arr.filter((x) => !x.IsExotic);
+      }
 
-  private compendium = getModule(CompendiumStore, this.$store)
-  private user = getModule(UserStore, this.$store).UserProfile
-  private sourceIds = this.compendium.Manufacturers.map(x => x.ID)
-
-  public get weapons(): MechWeapon[] {
-    let arr = this.compendium.MechWeapons.filter(x => !x.IsHidden && !(!x.Source && !x.IsExotic))
-    if (!this.user.GetView('showExotics')) {
-      arr = arr.filter(x => !x.IsExotic)
-    }
-
-    return _.orderBy(arr, [item => this.sourceIds.indexOf(item.Source), 'Name'])
-  }
-}
+      return _.orderBy(arr, [
+        (item) => this.sourceIds.indexOf(item.Source),
+        'Name',
+      ]);
+    },
+  },
+};
 </script>

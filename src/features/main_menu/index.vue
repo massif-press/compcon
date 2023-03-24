@@ -1,6 +1,6 @@
 <template>
   <div>
-    <landing-page-mobile v-if="$vuetify.breakpoint.smAndDown" />
+    <landing-page-mobile v-if="$vuetify.display.smAndDown" />
     <landing-page-desktop v-else />
     <storage-warning />
     <welcome-message />
@@ -9,13 +9,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import LandingPageMobile from './mobile.vue'
-import LandingPageDesktop from './desktop.vue'
-import WelcomeMessage from './welcome.vue'
-import StorageWarning from './_components/StorageWarning.vue'
+import LandingPageMobile from './mobile.vue';
+import LandingPageDesktop from './desktop.vue';
+import WelcomeMessage from './welcome.vue';
+import StorageWarning from './_components/StorageWarning.vue';
 
-export default Vue.extend({
+export default {
   name: 'landing-page',
   components: {
     LandingPageMobile,
@@ -23,5 +22,5 @@ export default Vue.extend({
     WelcomeMessage,
     StorageWarning,
   },
-})
+};
 </script>

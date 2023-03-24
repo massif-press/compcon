@@ -1,5 +1,5 @@
 <template>
-  <v-row v-if="extended && $vuetify.breakpoint.mdAndUp" no-gutters>
+  <v-row v-if="extended && $vuetify.display.mdAndUp" no-gutters>
     <v-col v-for="(t, i) in tags" :key="`${t.ID}_${i}`" cols="12">
       <cc-extended-tag :tag="t" :color="t.IsExotic ? 'exotic' : color" />
     </v-col>
@@ -8,7 +8,7 @@
     <v-chip
       v-for="(t, i) in tags"
       :key="`${t.ID}_${i}`"
-      outlined
+      variant="outlined"
       x-small
       label
       class="mx-1 mt-n1 my-0"
@@ -31,29 +31,43 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Tag } from '@/class'
-
-@Component({ name: 'cc-tags' })
-export default class CCTags extends Vue {
-  @Prop({ type: Boolean, required: false })
-  readonly small?: boolean
-  @Prop({ type: Boolean, required: false })
-  readonly dense?: boolean
-  @Prop({ type: Boolean, required: false })
-  readonly outlined?: boolean
-
-  @Prop({ type: Boolean, required: false })
-  readonly extended?: boolean
-  @Prop({ type: Boolean, required: false })
-  readonly print?: boolean
-  @Prop({ type: String, required: false, default: 'primary' })
-  readonly color: string
-
-  @Prop({ type: Array, required: true })
-  readonly tags!: Tag[]
-
-  @Prop({ type: Number, required: false, default: 0 })
-  readonly bonus?: number
-}
+export default {
+  name: 'CCTags',
+  props: {
+    small: {
+      type: Boolean,
+      required: false,
+    },
+    dense: {
+      type: Boolean,
+      required: false,
+    },
+    outlined: {
+      type: Boolean,
+      required: false,
+    },
+    extended: {
+      type: Boolean,
+      required: false,
+    },
+    print: {
+      type: Boolean,
+      required: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    tags: {
+      type: Array,
+      required: true,
+    },
+    bonus: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+  },
+};
 </script>

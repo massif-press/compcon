@@ -18,7 +18,13 @@
         </v-col>
 
         <v-col cols="auto">
-          <v-btn small tile color="warning darken-1" :loading="loading" @click="signOut">
+          <v-btn
+            small
+            tile
+            color="warning darken-1"
+            :loading="loading"
+            @click="signOut"
+          >
             Sign Out
           </v-btn>
         </v-col>
@@ -30,7 +36,7 @@
         <v-col lg="6" cols="12">
           <v-text-field
             v-model="oldpass"
-            outlined
+            variant="outlined"
             dense
             label="Old Password"
             :type="showOld ? 'text' : 'password'"
@@ -41,7 +47,7 @@
         <v-col lg="6" cols="12">
           <v-text-field
             v-model="newpass"
-            outlined
+            variant="outlined"
             dense
             label="New Password"
             :rules="[rules.passLength, passMatch]"
@@ -76,26 +82,42 @@
         </cc-tooltip>
       </div>
 
-      <v-alert class="my-3" prominent icon="mdi-alert" color="warning darken-2" outlined>
+      <v-alert
+        class="my-3"
+        prominent
+        icon="mdi-alert"
+        color="warning darken-2"
+        variant="outlined"
+      >
         <b>Cloud Sync functionality has changed</b>
         <div class="text--text">
           Cloud auto-syncing has
           <b>changed,</b>
-          manual saving or loading to/from the cloud can be done here, or through the options in the
-          nav bar. If auto-sync is enabled, COMP/CON will try to sync all local and cloud data when
-          your account is logged in.
+          manual saving or loading to/from the cloud can be done here, or
+          through the options in the nav bar. If auto-sync is enabled, COMP/CON
+          will try to sync all local and cloud data when your account is logged
+          in.
         </div>
 
         <div v-show="!isOnV2" class="pa-2">
-          <v-card outlined style="border-color: var(--v-error-base); border-width: 3px">
+          <v-card
+            variant="outlined"
+            style="border-color: rgb(var(--v-theme-error)); border-width: 3px"
+          >
             <div class="font-weight-bold text--text pa-2">
-              COMP/CON has determined that your cloud account is not configured for the most recent
-              backend changes. Clicking the upgrade button will save a backup of your current local
-              data and attempt to update your account data. This process should take less than a
+              COMP/CON has determined that your cloud account is not configured
+              for the most recent backend changes. Clicking the upgrade button
+              will save a backup of your current local data and attempt to
+              update your account data. This process should take less than a
               second and the app will reload itself once complete.
             </div>
             <div class="px-12 py-2">
-              <v-btn block class="secondary" :loading="upgradeLoading" @click="v2Upgrade()">
+              <v-btn
+                block
+                class="secondary"
+                :loading="upgradeLoading"
+                @click="v2Upgrade()"
+              >
                 UPGRADE
               </v-btn>
             </div>
@@ -114,7 +136,7 @@
                   inline
                   content="This will automatically smart sync all item and LCP data whenever the account login process is successful. If you do not log out, this will occur shortly after the application starts. "
                 >
-                  <v-icon left>mdi-information-outline</v-icon>
+                  <v-icon start>mdi-information-outline</v-icon>
                 </cc-tooltip>
               </span>
             </v-col>
@@ -128,7 +150,9 @@
                 @change="userUpdate()"
               />
             </v-col>
-            <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"><b>ON</b></v-col>
+            <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"
+              ><b>ON</b></v-col
+            >
             <v-col v-else cols="auto"><i>OFF</i></v-col>
           </v-row>
           <v-row dense align="center">
@@ -139,7 +163,7 @@
                   inline
                   content="This will automatically attempt to sync all remote resources with the latest versions in their authors' cloud accounts. Remote data cannot be saved to your own cloud account."
                 >
-                  <v-icon left>mdi-information-outline</v-icon>
+                  <v-icon start>mdi-information-outline</v-icon>
                 </cc-tooltip>
               </span>
             </v-col>
@@ -153,7 +177,9 @@
                 @change="userUpdate()"
               />
             </v-col>
-            <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"><b>ON</b></v-col>
+            <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"
+              ><b>ON</b></v-col
+            >
             <v-col v-else cols="auto"><i>OFF</i></v-col>
           </v-row>
         </v-card-text>
@@ -162,7 +188,11 @@
       <sync-manager ref="sync" />
       <v-divider class="my-6" />
       <v-divider class="my-6" />
-      <backup-manager ref="backup" :username="userProfile.Username" @change="$refs.sync.fetch()" />
+      <backup-manager
+        ref="backup"
+        :username="userProfile.Username"
+        @change="$refs.sync.fetch()"
+      />
 
       <v-scroll-y-transition leave-absolute hide-on-leave>
         <v-alert
@@ -191,16 +221,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import SyncManager from '@/ui/syncManager/SyncManager.vue'
-import BackupManager from '@/ui/syncManager/BackupManager.vue'
-import { Auth } from '@aws-amplify/auth'
-import { getModule } from 'vuex-module-decorators'
-import { UserStore } from '@/store'
-import { UpdateUserData } from '@/cloud/user_sync'
-import _ from 'lodash'
+import SyncManager from '@/ui/syncManager/SyncManager.vue';
+import BackupManager from '@/ui/syncManager/BackupManager.vue';
+import { Auth } from '@aws-amplify/auth';
 
-export default Vue.extend({
+import { UserStore } from '@/store';
+import { UpdateUserData } from '@/cloud/user_sync';
+import _ from 'lodash';
+
+export default {
   name: 'auth-signed-in',
   components: { SyncManager, BackupManager },
   data: () => ({
@@ -214,7 +243,7 @@ export default Vue.extend({
     newpass: null,
     showNew: false,
     rules: {
-      passLength: v => (v && v.length >= 6) || 'Minimum 6 characters',
+      passLength: (v) => (v && v.length >= 6) || 'Minimum 6 characters',
     },
     authedUser: null,
   }),
@@ -222,101 +251,113 @@ export default Vue.extend({
     passMatch() {
       return () =>
         (this.oldpass && this.newpass && this.oldpass !== this.newpass) ||
-        'Password must be different'
+        'Password must be different';
     },
     userProfile() {
-      return getModule(UserStore, this.$store).UserProfile
+      return this.getModule(UserStore).UserProfile;
     },
     isOnV2() {
-      return this.userProfile && _.has(this.userProfile.SyncFrequency, 'cloudSync_v2')
+      return (
+        this.userProfile &&
+        _.has(this.userProfile.SyncFrequency, 'cloudSync_v2')
+      );
     },
   },
   mounted() {
     Auth.currentAuthenticatedUser()
-      .then(user => {
-        this.authedUser = user
+      .then((user) => {
+        this.authedUser = user;
       })
-      .then(() => Auth.currentUserCredentials().then(res => (this.iid = res.identityId)))
+      .then(() =>
+        Auth.currentUserCredentials().then((res) => (this.iid = res.identityId))
+      )
       .catch(() => {
-        this.$emit('set-state', 'sign-in')
-      })
+        this.$emit('set-state', 'sign-in');
+      });
   },
   methods: {
     async load() {
-      this.loading = true
-      const userstore = getModule(UserStore, this.$store)
-      Auth.currentAuthenticatedUser()
-        .then(cognitoUser => {
-          userstore.setAws({ cognitoUser })
-        })
-        .then(() => {
-          this.loading = false
-          this.$notify('Cloud Load Complete', 'success')
-        })
-        .catch(err => {
-          console.error(err)
-          this.loading = false
-        })
+      this.loading = true;
+      // const userstore =this.getModule(UserStore);
+      // Auth.currentAuthenticatedUser()
+      //   .then((cognitoUser) => {
+      //     userstore.setAws({ cognitoUser });
+      //   })
+      //   .then(() => {
+      //     this.loading = false;
+      //     this.$notify('Cloud Load Complete', 'success');
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //     this.loading = false;
+      //   });
     },
     changePass() {
-      this.loading = true
+      this.loading = true;
       Auth.currentAuthenticatedUser()
-        .then(user => {
-          return Auth.changePassword(user, this.oldpass, this.newpass)
+        .then((user) => {
+          return Auth.changePassword(user, this.oldpass, this.newpass);
         })
         .then(() => {
-          this.loading = false
-          this.showError = false
-          this.$notify('Password Changed')
-          this.oldpass = null
-          this.newpass = null
+          this.loading = false;
+          this.showError = false;
+          this.$notify('Password Changed');
+          this.oldpass = null;
+          this.newpass = null;
         })
-        .catch(err => {
-          this.loading = false
-          this.showError = true
-          this.error = `${err.message}<br><div class='text-right'>${err.name}</div>`
-        })
+        .catch((err) => {
+          this.loading = false;
+          this.showError = true;
+          this.error = `${err.message}<br><div class='text-right'>${err.name}</div>`;
+        });
     },
     signOut() {
       Auth.signOut()
         .then(() => {
-          this.$notify('Sign Out Complete')
-          const store = getModule(UserStore, this.$store)
-          store.setLoggedIn(false)
-          this.$emit('set-state', 'sign-in')
+          this.$notify('Sign Out Complete');
+          // const store =this.getModule(UserStore);
+          // store.setLoggedIn(false);
+          this.$emit('set-state', 'sign-in');
         })
-        .catch(err => {
-          console.error(err)
-        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
     userUpdate() {
-      UpdateUserData(this.userProfile).then(res => console.log(res))
+      UpdateUserData(this.userProfile).then((res) => console.log(res));
     },
     copyIid() {
       navigator.clipboard
         .writeText(this.iid)
-        .then(() => Vue.prototype.$notify('Cloud Identity ID copied to clipboard.', 'confirmation'))
-        .catch(() => Vue.prototype.$notifyError('Unable to copy Cloud Identity ID '))
+        .then(() =>
+          Vue.prototype.$notify(
+            'Cloud Identity ID copied to clipboard.',
+            'confirmation'
+          )
+        )
+        .catch(() =>
+          Vue.prototype.$notifyError('Unable to copy Cloud Identity ID ')
+        );
     },
     async v2Upgrade() {
-      this.upgradeLoading = true
+      this.upgradeLoading = true;
       try {
-        await this.$refs.backup.dataExport()
-        await this.$refs.sync.syncAll(true)
-        await UpdateUserData(this.userProfile, true)
-        this.$notify('Data successfully updated. Reloading.', 'success')
+        await (this.$refs.backup as any).dataExport();
+        await (this.$refs.sync as any).syncAll(true);
+        await UpdateUserData(this.userProfile, true);
+        this.$notify('Data successfully updated. Reloading.', 'success');
         setTimeout(() => {
-          location.reload()
-        }, 2000)
+          location.reload();
+        }, 2000);
       } catch (error) {
-        console.error(error)
-        this.$notify('An error occured while syncing.', 'error')
+        console.error(error);
+        this.$notify('An error occured while syncing.', 'error');
       } finally {
-        this.upgradeLoading = false
+        this.upgradeLoading = false;
       }
     },
   },
-})
+};
 </script>
 
 <style scoped>

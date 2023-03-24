@@ -19,7 +19,7 @@
             v-model="skillRoll"
             type="number"
             label="Roll Result"
-            outlined
+            variant="outlined"
             dense
             hide-details
             append-outer-icon="mdi-plus-circle-outline"
@@ -30,18 +30,33 @@
         </v-col>
       </v-row>
       <v-slide-y-transition>
-        <v-row v-show="skillRoll" justify="center" class="text-center flavor-text">
+        <v-row
+          v-show="skillRoll"
+          justify="center"
+          class="text-center flavor-text"
+        >
           <v-col cols="10">
             <p v-if="skillRoll < 10" class="font-weight-bold px-3">
               You can get what you’re looking for, but...
               <v-radio-group v-model="choice" mandatory>
-                <v-radio v-for="(c, i) in choices" :key="c" :label="c" :value="i"></v-radio>
+                <v-radio
+                  v-for="(c, i) in choices"
+                  :key="c"
+                  :label="c"
+                  :value="i"
+                ></v-radio>
               </v-radio-group>
             </p>
             <p v-else-if="skillRoll < 20" class="font-weight-bold px-3">
-              You can get what you’re looking for, as long as you trade in a little...
+              You can get what you’re looking for, as long as you trade in a
+              little...
               <v-radio-group v-model="trade" mandatory>
-                <v-radio v-for="(t, i) in trades" :key="t" :label="t" :value="i"></v-radio>
+                <v-radio
+                  v-for="(t, i) in trades"
+                  :key="t"
+                  :label="t"
+                  :value="i"
+                ></v-radio>
               </v-radio-group>
             </p>
             <p v-else class="font-weight-bold px-3">
@@ -60,9 +75,15 @@
                     label="Asset or Gear"
                     style="width: 500px"
                     dense
-                    outlined
+                    variant="outlined"
                   />
-                  <v-textarea v-model="details" auto-grow rows="1" label="Details" filled />
+                  <v-textarea
+                    v-model="details"
+                    auto-grow
+                    rows="1"
+                    label="Details"
+                    filled
+                  />
                 </v-card-text>
               </v-card>
             </v-col>
@@ -74,7 +95,13 @@
     <v-card-actions>
       <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
-      <v-btn large tile color="primary" :disabled="!skillRoll || !custom_name" @click="addReserve">
+      <v-btn
+        large
+        tile
+        color="primary"
+        :disabled="!skillRoll || !custom_name"
+        @click="addReserve"
+      >
         add reserve
       </v-btn>
     </v-card-actions>
@@ -82,9 +109,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Reserve } from '@/class'
-export default Vue.extend({
+import { Reserve } from '@/class';
+export default {
   name: 'scrounge-barter',
   props: {
     pilot: {
@@ -118,23 +144,23 @@ export default Vue.extend({
         resource_cost: '',
         used: false,
         consumable: false,
-      })
-      if (this.skillRoll < 10) nr.ResourceCost = this.choices[this.choice]
+      });
+      if (this.skillRoll < 10) nr.ResourceCost = this.choices[this.choice];
       else if (this.skillRoll < 20)
         nr.ResourceCost = `Acquiring this has cost you your ${this.trades[
           this.trade
-        ].toLowerCase()}`
-      this.pilot.ReservesController.AddReserve(nr)
-      this.close()
+        ].toLowerCase()}`;
+      this.pilot.ReservesController.AddReserve(nr);
+      this.close();
     },
     close() {
-      this.choice = 0
-      this.trade = 0
-      this.skillRoll = ''
-      this.custom_name = ''
-      this.details = ''
-      this.$emit('close')
+      this.choice = 0;
+      this.trade = 0;
+      this.skillRoll = '';
+      this.custom_name = '';
+      this.details = '';
+      this.$emit('close');
     },
   },
-})
+};
 </script>

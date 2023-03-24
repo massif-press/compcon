@@ -7,7 +7,7 @@
         hide-details
         dense
         prepend-icon="mdi-factory"
-        outlined
+        variant="outlined"
         label="From Manufacturer"
         :items="manufacturers"
         chips
@@ -25,7 +25,7 @@
         prepend-icon="mdi-tag"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="Tags"
         :items="tags"
         multiple
@@ -40,8 +40,8 @@
         v-model="systemTypeFilter"
         class="px-2"
         dense
-        prepend-icon="cci-system"
-        outlined
+        prepend-icon="cc:system"
+        variant="outlined"
         label="System Type"
         :items="systemTypes"
         chips
@@ -56,10 +56,10 @@
         class="px-2"
         hide-details
         dense
-        prepend-icon="cci-compendium"
+        prepend-icon="cc:compendium"
         chips
         deletable-chips
-        outlined
+        variant="outlined"
         label="From Content Pack"
         :items="lcps"
         multiple
@@ -68,9 +68,14 @@
       />
     </v-col>
     <v-col cols="12" md="4" class="text-center">
-      <v-icon>cci-system-point</v-icon>
+      <v-icon>cc:system-point</v-icon>
       <span class="text-button">SP Cost</span>
-      <v-btn-toggle v-model="spType" color="accent" class="ml-1 py-1" @change="updateFilters()">
+      <v-btn-toggle
+        v-model="spType"
+        color="accent"
+        class="ml-1 py-1"
+        @change="updateFilters()"
+      >
         <v-btn value="less" small text>Less Than</v-btn>
         <v-btn value="eq" small text>Equal To</v-btn>
         <v-btn value="greater" small text>Greater Than</v-btn>
@@ -80,20 +85,20 @@
           <v-text-field
             v-model="sp"
             type="number"
-            outlined
-            style="width: 150px;"
+            variant="outlined"
+            style="width: 150px"
             dense
             hide-details
             class="hide-input-spinners"
             prepend-icon="mdi-minus"
             append-outer-icon="mdi-plus"
             @click:prepend="
-              sp > 0 ? sp-- : sp
-              updateFilters()
+              sp > 0 ? sp-- : sp;
+              updateFilters();
             "
             @click:append-outer="
-              sp++
-              updateFilters()
+              sp++;
+              updateFilters();
             "
             @change="updateFilters()"
           />
@@ -104,18 +109,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Tag, SystemType, Manufacturer } from '@/class'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { Tag, SystemType, Manufacturer } from '@/class';
 
-const nameSort = function(a, b): number {
-  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1
-  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1
-  return 0
-}
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+const nameSort = function (a, b): number {
+  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
+  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+  return 0;
+};
+
+export default {
   name: 'frame-filter',
   data: () => ({
     sourceFilter: [],
@@ -129,48 +133,52 @@ export default Vue.extend({
     manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
-        .map(x => ({ text: x.Name, value: x.ID }))
-        .sort(nameSort)
+        .map((x) => ({ text: x.Name, value: x.ID }))
+        .sort(nameSort);
     },
     systemTypes(): SystemType[] {
       return Object.keys(SystemType)
-        .map(k => SystemType[k as any])
-        .filter(k => k !== 'Integrated')
-        .sort() as SystemType[]
+        .map((k) => SystemType[k as any])
+        .filter((k) => k !== 'Integrated')
+        .sort() as SystemType[];
     },
     tags(): Tag[] {
       return this.$_.uniqBy(
         [].concat(
           this.$store.getters
             .getItemCollection('MechSystems')
-            .flatMap(x => x.Tags)
-            .filter(x => !x.FilterIgnore && !x.IsHidden)
+            .flatMap((x) => x.Tags)
+            .filter((x) => !x.FilterIgnore && !x.IsHidden)
         ),
         'ID'
-      )
+      );
     },
     lcps(): string[] {
-      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+      return this.getModule(CompendiumStore).Frames.map((x) => x.LcpName);
     },
   },
   methods: {
     clear() {
-      this.sourceFilter = []
-      this.tagFilter = []
-      this.systemTypeFilter = []
-      this.sp = ''
-      this.spType = ''
-      this.lcpFilter = []
+      this.sourceFilter = [];
+      this.tagFilter = [];
+      this.systemTypeFilter = [];
+      this.sp = '';
+      this.spType = '';
+      this.lcpFilter = [];
     },
     updateFilters() {
-      const fObj = {} as any
-      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter]
-      if (this.spType && parseInt(this.sp) !== NaN) fObj[`SP_${this.spType}`] = parseInt(this.sp)
-      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
-      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
-      if (this.systemTypeFilter && this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter]
-      this.$emit('set-filters', fObj)
+      const fObj = {} as any;
+      if (this.lcpFilter && this.lcpFilter.length)
+        fObj.LcpName = [this.lcpFilter];
+      if (this.spType && parseInt(this.sp) !== NaN)
+        fObj[`SP_${this.spType}`] = parseInt(this.sp);
+      if (this.sourceFilter && this.sourceFilter.length)
+        fObj.Source = [this.sourceFilter];
+      if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
+      if (this.systemTypeFilter && this.systemTypeFilter.length)
+        fObj.Type = [this.systemTypeFilter];
+      this.$emit('set-filters', fObj);
     },
   },
-})
+};
 </script>

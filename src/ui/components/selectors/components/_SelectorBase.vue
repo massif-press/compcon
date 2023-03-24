@@ -1,8 +1,10 @@
 <template>
   <v-container fluid style="overflow: hidden">
-    <v-row v-if="$vuetify.breakpoint.mdAndDown">
+    <v-row v-if="$vuetify.display.mdAndDown">
       <v-col cols="12">
-        <cc-title small :color="success ? 'success' : 'primary'">{{ title }}</cc-title>
+        <cc-title small :color="success ? 'success' : 'primary'">{{
+          title
+        }}</cc-title>
         <slot name="left-column" />
       </v-col>
       <v-col ref="content" cols="12">
@@ -14,12 +16,14 @@
         <div
           ref="float"
           style="width: 23vw"
-          :class="
-            `${floating ? 'fixed-float' : ''} ${success ? 'bordered-success' : 'bordered-primary'}`
-          "
+          :class="`${floating ? 'fixed-float' : ''} ${
+            success ? 'bordered-success' : 'bordered-primary'
+          }`"
         >
           <div width="90%" class="ml-3">
-            <cc-title small :color="success ? 'success' : 'primary'">{{ title }}</cc-title>
+            <cc-title small :color="success ? 'success' : 'primary'">{{
+              title
+            }}</cc-title>
             <slot name="left-column" />
           </div>
         </div>
@@ -32,9 +36,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'selector',
 
   props: {
@@ -56,24 +58,24 @@ export default Vue.extend({
     floating: false,
   }),
   mounted() {
-    this.floating = false
+    this.floating = false;
     window.addEventListener(
       'scroll',
       () => {
-        if (!this.$refs.float || !this.$refs.content) return
-        const floatY = this.$refs['float'].getBoundingClientRect().top
-        const containerY = this.$refs['content'].getBoundingClientRect().top
-        if (floatY && floatY <= 30) this.floating = true
-        else if (floatY < containerY) this.floating = false
+        if (!(this.$refs.float || (!this.$refs as any)).content) return;
+        const floatY = this.$refs['float'].getBoundingClientRect().top;
+        const containerY = this.$refs['content'].getBoundingClientRect().top;
+        if (floatY && floatY <= 30) this.floating = true;
+        else if (floatY < containerY) this.floating = false;
       },
       true
-    )
+    );
   },
   beforeDestroy() {
-    this.floating = false
-    window.removeEventListener('scroll', null, false)
+    this.floating = false;
+    window.removeEventListener('scroll', null, false);
   },
-})
+};
 </script>
 
 <style scoped>

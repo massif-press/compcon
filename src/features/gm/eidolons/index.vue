@@ -28,15 +28,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import GmCollectionView from '../_views/GMCollectionView.vue'
-import Editor from './editor.vue'
-import Builder from './builder.vue'
-import Features from './features.vue'
-import { getModule } from 'vuex-module-decorators'
-import { EidolonStore } from '@/store'
+import GmCollectionView from '../_views/GMCollectionView.vue';
+import Editor from './editor.vue';
+import Builder from './builder.vue';
+import Features from './features.vue';
 
-export default Vue.extend({
+// import { EidolonStore } from '@/store';
+
+export default {
   name: 'eidolon-roster',
   components: { GmCollectionView, Editor, Builder, Features },
   data: () => ({
@@ -47,25 +46,25 @@ export default Vue.extend({
   }),
   computed: {
     eidolons() {
-      return getModule(EidolonStore, this.$store).Eidolons
+      return this.getModule(EidolonStore).Eidolons;
     },
   },
   methods: {
     openItem(id) {
-      this.selected = id
-      this.dialog = true
+      this.selected = id;
+      this.dialog = true;
     },
     addNew() {
-      this.selected = 'new'
-      this.dialog = true
+      this.selected = 'new';
+      this.dialog = true;
     },
     SaveAndClose() {
-      const store = getModule(EidolonStore, this.$store)
+      // const store =this.getModule(EidolonStore);
       // TODO: check for and ask to update instances on save
-      store.addEidolon(this.selected)
-      this.$set(this, 'selected', null)
-      this.dialog = false
+      store.addEidolon(this.selected);
+      this.$set(this, 'selected', null);
+      this.dialog = false;
     },
   },
-})
+};
 </script>

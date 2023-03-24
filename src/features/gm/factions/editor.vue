@@ -20,14 +20,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditorBase from '../_components/EditorBase.vue'
-import { getModule } from 'vuex-module-decorators'
-import { FactionStore } from '@/store'
-import { Faction } from '@/classes/campaign/Faction'
+import EditorBase from '../_components/EditorBase.vue';
+
+import { FactionStore } from '@/store';
+import { Faction } from '@/classes/campaign/Faction';
 // import { faction } from '@/io/Generators'
 
-export default Vue.extend({
+export default {
   name: 'faction-editor',
   components: { EditorBase },
   props: {
@@ -39,10 +38,12 @@ export default Vue.extend({
   computed: {
     faction() {
       if (this.id === 'new') {
-        if (!this.newFaction) this.newFaction = new Faction()
-        return this.newFaction
+        if (!this.newFaction) this.newFaction = new Faction();
+        return this.newFaction;
       }
-      return getModule(FactionStore, this.$store).Factions.find(x => x.ID === this.id)
+      return this.getModule(FactionStore).Factions.find(
+        (x) => x.ID === this.id
+      );
     },
   },
   methods: {
@@ -50,31 +51,31 @@ export default Vue.extend({
       // return faction()
     },
     exit() {
-      this.$set(this, 'newFaction', null)
-      this.$emit('exit')
+      this.$set(this, 'newFaction', null);
+      this.$emit('exit');
     },
     saveAsNew() {
-      const store = getModule(FactionStore, this.$store)
-      store.addFaction(this.faction)
-      this.exit()
+      const store = this.getModule(FactionStore);
+      store.addFaction(this.faction);
+      this.exit();
     },
     save() {
-      const store = getModule(FactionStore, this.$store)
+      const store = this.getModule(FactionStore);
       // TODO: check for and ask to update instances on save
-      store.saveFactionData()
-      this.$emit('exit')
+      store.saveFactionData();
+      this.$emit('exit');
     },
     deleteItem() {
-      this.faction.SaveController.delete()
-      this.$emit('exit')
+      this.faction.SaveController.delete();
+      this.$emit('exit');
     },
     dupe() {
-      const store = getModule(FactionStore, this.$store)
-      const dupe = Faction.Deserialize(Faction.Serialize(this.faction))
-      dupe.RenewID()
-      store.addFaction(dupe)
-      this.$emit('exit')
+      const store = this.getModule(FactionStore);
+      const dupe = Faction.Deserialize(Faction.Serialize(this.faction));
+      dupe.RenewID();
+      store.addFaction(dupe);
+      this.$emit('exit');
     },
   },
-})
+};
 </script>

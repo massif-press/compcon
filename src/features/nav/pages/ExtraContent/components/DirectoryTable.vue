@@ -37,7 +37,11 @@
           >
             <v-icon color="accent">mdi-alert</v-icon>
           </cc-tooltip>
-          <cc-tooltip v-else inline content="This content pack is installed and up-to-date">
+          <cc-tooltip
+            v-else
+            inline
+            content="This content pack is installed and up-to-date"
+          >
             <v-icon color="success">mdi-check</v-icon>
           </cc-tooltip>
         </span>
@@ -56,14 +60,17 @@
           <v-col>
             <p class="body-text text--text pa-2 mb-1">
               <span v-if="item.description" v-html-safe="item.description" />
-              <span v-else>
-                No description given.
-              </span>
+              <span v-else>No description given.</span>
             </p>
 
             <div v-if="item.website" class="mt-2">
               <v-divider class="ma-1" />
-              <v-btn target="_blank" :href="item.website" text color="secondary">
+              <v-btn
+                target="_blank"
+                :href="item.website"
+                text
+                color="secondary"
+              >
                 <v-icon prepend left>open_in_new</v-icon>
                 Author's Website
               </v-btn>
@@ -79,11 +86,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
+import { CompendiumStore } from '@/store';
 
-export default Vue.extend({
+export default {
   name: 'content-pack-directory-table',
   props: {
     items: {
@@ -98,37 +103,49 @@ export default Vue.extend({
       if (this.noAuthor)
         return [
           { text: '', value: 'data-table-expand' },
-          { text: 'Download', value: 'website', sortable: false, align: 'center' },
+          {
+            text: 'Download',
+            value: 'website',
+            sortable: false,
+            align: 'center',
+          },
           { text: 'Name', value: 'name' },
           { text: 'Version', value: 'version' },
           { text: 'Cost', value: 'cost' },
-        ]
+        ];
       return [
         { text: '', value: 'data-table-expand' },
-        { text: 'Download', value: 'website', sortable: false, align: 'center' },
+        {
+          text: 'Download',
+          value: 'website',
+          sortable: false,
+          align: 'center',
+        },
         { text: 'Name', value: 'name' },
         { text: 'Author', value: 'author' },
         { text: 'Version', value: 'version' },
         { text: 'Cost', value: 'cost' },
-      ]
+      ];
     },
     contentPacks() {
-      return getModule(CompendiumStore, this.$store).ContentPacks
+      return this.getModule(CompendiumStore).ContentPacks;
     },
   },
   methods: {
     packInstalled(item) {
-      return this.contentPacks.some(x => x.Name === item.name || x.Name === item.title)
+      return this.contentPacks.some(
+        (x) => x.Name === item.name || x.Name === item.title
+      );
     },
     packOutdated(item) {
       const installedPack = this.contentPacks.find(
-        x => x.Name === item.name || x.Name === item.title
-      )
-      if (!installedPack) return true
-      return installedPack.Version !== item.version
+        (x) => x.Name === item.name || x.Name === item.title
+      );
+      if (!installedPack) return true;
+      return installedPack.Version !== item.version;
     },
   },
-})
+};
 </script>
 
 <style scoped>

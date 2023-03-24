@@ -1,10 +1,17 @@
 <template>
   <div class="mt-1 mb-3 mx-2">
-    <div v-for="d in deployables" :key="`deployable${d.ID}`" style="border: 1px solid grey">
+    <div
+      v-for="d in deployables"
+      :key="`deployable${d.ID}`"
+      style="border: 1px solid grey"
+    >
       <div class="text-center caption font-weight-bold">{{ d.name }}</div>
       <v-row justify="center" dense class="text-center mt-n1">
         <v-col v-if="d.size" cols="auto">
-          <div class="caption font-weight-bold" v-html="`Size ${d.size === 0.5 ? '½' : d.size}`" />
+          <div
+            class="caption font-weight-bold"
+            v-html="`Size ${d.size === 0.5 ? '½' : d.size}`"
+          />
         </v-col>
         <v-col v-if="d.armor" cols="auto">
           <div class="caption" v-html="`<b>Armor</b>: ${d.armor}`" />
@@ -14,7 +21,9 @@
             class="caption"
             v-html="
               `<b>HP</b>: ${
-                d.hp ? d.hp.toString().replace(/[{}]/gim, '') : parseFloat(d.size || 0.5) * 10
+                d.hp
+                  ? d.hp.toString().replace(/[{}]/gim, '')
+                  : parseFloat(d.size || 0.5) * 10
               }`
             "
           />
@@ -55,11 +64,11 @@
 </template>
 
 <script lang="ts">
-import { Action } from '@/classes/Action'
-import Vue from 'vue'
-import PrintAction from './PrintAction.vue'
+import { Action } from '@/classes/Action';
 
-export default Vue.extend({
+import PrintAction from './PrintAction.vue';
+
+export default {
   name: 'print-deployable',
   components: { PrintAction },
   props: {
@@ -70,8 +79,10 @@ export default Vue.extend({
   },
   methods: {
     actions(deployable) {
-      return deployable.actions ? deployable.actions.map(x => new Action(x)) : []
+      return deployable.actions
+        ? deployable.actions.map((x) => new Action(x))
+        : [];
     },
   },
-})
+};
 </script>

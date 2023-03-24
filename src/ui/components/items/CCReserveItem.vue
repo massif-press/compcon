@@ -1,16 +1,19 @@
 <template>
   <v-col cols="12" md="auto">
-    <v-dialog v-model="dialog" :width="$vuetify.breakpoint.mdAndDown ? '100vw' : '60vw'">
-      <template v-slot:activator="{ on }">
+    <v-dialog
+      v-model="dialog"
+      :width="$vuetify.display.mdAndDown ? '100vw' : '60vw'"
+    >
+      <template v-slot:activator="{ props }">
         <v-btn
-          :large="$vuetify.breakpoint.lgAndUp"
-          outlined
+          :large="$vuetify.display.lgAndUp"
+          variant="outlined"
           color="stark"
           class="px-4"
           block
-          v-on="on"
+          v-bind="props"
         >
-          <v-icon left color="stark">{{ reserve.Icon }}</v-icon>
+          <v-icon start color="stark">{{ reserve.Icon }}</v-icon>
           <s v-if="reserve.Used">
             {{ reserve.Name }}
           </s>
@@ -36,7 +39,12 @@
           </v-btn>
         </div>
         <p v-html-safe="reserve.Description" class="flavor-text mx-2 my-1" />
-        <v-card v-if="reserve.ID != 'reserve_skill'" flat outlined class="px-5">
+        <v-card
+          v-if="reserve.ID != 'reserve_skill'"
+          flat
+          variant="outlined"
+          class="px-5"
+        >
           <v-card-text>
             <v-row>
               <v-col cols="9">
@@ -44,7 +52,7 @@
                   <v-text-field
                     v-model.lazy="reserve.ResourceName"
                     :label="reserve.ResourceLabel"
-                    outlined
+                    variant="outlined"
                   />
                 </div>
                 <div v-else-if="reserve.Type === 'Mech'">
@@ -54,7 +62,7 @@
                   <div
                     v-if="
                       reserve.ID === 'reserve_bombardment' ||
-                        reserve.ID === 'reserve_extendedharness'
+                      reserve.ID === 'reserve_extendedharness'
                     "
                   >
                     <span class="effect-text">{{ reserve.Description }}</span>
@@ -68,8 +76,18 @@
                   </div>
                 </div>
               </v-col>
-              <v-col v-if="reserve.Type !== 'Project'" cols="3" class="text-center">
-                <v-switch v-model="reserve.Used" dense inset hide-details color="secondary">
+              <v-col
+                v-if="reserve.Type !== 'Project'"
+                cols="3"
+                class="text-center"
+              >
+                <v-switch
+                  v-model="reserve.Used"
+                  dense
+                  inset
+                  hide-details
+                  color="secondary"
+                >
                   <span slot="label" class="stat-text text--text">
                     Used
                     <cc-tooltip
@@ -83,7 +101,13 @@
                 </v-switch>
               </v-col>
             </v-row>
-            <v-textarea v-model.lazy="reserve.Note" auto-grow filled rows="2" label="Notes" />
+            <v-textarea
+              v-model.lazy="reserve.Note"
+              auto-grow
+              filled
+              rows="2"
+              label="Notes"
+            />
 
             <v-textarea
               v-model.lazy="reserve.ResourceCost"
@@ -106,9 +130,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'cc-reserve-item',
   props: {
     reserve: {
@@ -121,9 +143,9 @@ export default Vue.extend({
   }),
   methods: {
     remove() {
-      this.$emit('remove')
-      this.dialog = false
+      this.$emit('remove');
+      this.dialog = false;
     },
   },
-})
+};
 </script>

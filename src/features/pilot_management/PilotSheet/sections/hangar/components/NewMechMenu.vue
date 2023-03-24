@@ -10,7 +10,9 @@
             slot="label"
             simple
             inline
-            :content="showAll ? 'Unlicensed frames: SHOWN' : 'Unlicensed frames: HIDDEN'"
+            :content="
+              showAll ? 'Unlicensed frames: SHOWN' : 'Unlicensed frames: HIDDEN'
+            "
           >
             <v-icon
               :color="showAll ? 'warning' : 'success'"
@@ -24,7 +26,12 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-expansion-panels v-model="selectedFrame" accordion focusable active-class="border-primary">
+      <v-expansion-panels
+        v-model="selectedFrame"
+        accordion
+        focusable
+        active-class="border-primary"
+      >
         <v-expansion-panel
           v-for="f in frames"
           v-show="selectIncl(f.ID)"
@@ -56,7 +63,7 @@
                 :key="mt"
                 small
                 dark
-                outlined
+                variant="outlined"
                 color="accent"
                 class="mr-2"
               >
@@ -68,7 +75,7 @@
               :src="f.DefaultImage"
               max-height="100%"
               :position="`top ${f.YPosition}% left 80px`"
-              style="position:absolute; top: 0; right: 0;"
+              style="position: absolute; top: 0; right: 0"
             />
           </v-expansion-panel-header>
         </v-expansion-panel>
@@ -82,10 +89,17 @@
         <v-row justify="center">
           <v-col cols="8">
             <span class="overline">XK-4-01 // REGISTER MECH NAME</span>
-            <v-text-field v-model="mechName" outlined label="Name" hide-details>
+            <v-text-field
+              v-model="mechName"
+              variant="outlined"
+              label="Name"
+              hide-details
+            >
               <template v-slot:prepend>
                 <cc-tooltip simple content="Generate Random Name">
-                  <v-icon color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
+                  <v-icon color="secondary" @click="randomName()"
+                    >mdi-dice-multiple</v-icon
+                  >
                 </cc-tooltip>
               </template>
               <template v-slot:append-outer>
@@ -98,7 +112,14 @@
 
         <v-row justify="center">
           <v-col cols="6">
-            <v-btn tile x-large block color="secondary" :disabled="!mechName" @click="addMech()">
+            <v-btn
+              tile
+              x-large
+              block
+              color="secondary"
+              :disabled="!mechName"
+              @click="addMech()"
+            >
               Register New Mech
             </v-btn>
           </v-col>
@@ -109,15 +130,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import _ from 'lodash'
-import { getModule } from 'vuex-module-decorators'
-import { CompendiumStore } from '@/store'
-import { Pilot, Frame, Mech } from '@/class'
-import { mechname } from '@/io/Generators'
-import ItemFilter from '@/classes/utility/ItemFilter'
+import _ from 'lodash';
 
-export default Vue.extend({
+import { CompendiumStore } from '@/store';
+import { Pilot, Frame, Mech } from '@/class';
+import { mechname } from '@/io/Generators';
+import ItemFilter from '@/classes/utility/ItemFilter';
+
+export default {
   name: 'new-mech-menu',
   props: {
     pilot: Pilot,
@@ -131,55 +151,59 @@ export default Vue.extend({
   }),
   computed: {
     filteredFrames() {
-      let i = this.frames as Frame[]
+      let i = this.frames as Frame[];
 
       if (!this.showAll)
         i = i.filter(
-          x =>
+          (x) =>
             !x.IsExotic &&
             (this.pilot.has('License', x.Name, 2) ||
               this.pilot.has('License', x.Variant, 2) ||
               !x.LicenseLevel)
-        )
+        );
 
       if (Object.keys(this.filters).length) {
-        i = ItemFilter.Filter(i, this.filters) as Frame[]
+        i = ItemFilter.Filter(i, this.filters) as Frame[];
       }
 
       return i
-        .map(x => x.ID)
-        .concat(this.pilot.SpecialEquipment.filter(x => x.ItemType === 'Frame').map(f => f.ID))
+        .map((x) => x.ID)
+        .concat(
+          this.pilot.SpecialEquipment.filter((x) => x.ItemType === 'Frame').map(
+            (f) => f.ID
+          )
+        );
     },
   },
   mounted() {
-    const compendium = getModule(CompendiumStore, this.$store)
+    const compendium = this.getModule(CompendiumStore);
     this.frames = _.sortBy(
-      compendium.Frames.filter(x => !x.IsHidden),
+      compendium.Frames.filter((x) => !x.IsHidden),
       ['Source', 'Name']
-    )
+    );
   },
   methods: {
     setFilters(newFilter) {
-      this.filters = newFilter
+      this.filters = newFilter;
     },
     selectIncl(id: string) {
-      return this.filteredFrames.includes(id)
+      return this.filteredFrames.includes(id);
     },
     randomName() {
-      this.mechName = mechname()
+      this.mechName = mechname();
     },
     addMech() {
-      const f = this.frames[this.selectedFrame]
-      const newMech = new Mech(f, this.pilot)
-      newMech.Name = this.mechName
-      this.pilot.AddMech(newMech)
-      this.mechName = null
-      this.selectedFrame = null
-      this.showAll = false
-      this.$emit('close')
+      const f = this.frames[this.selectedFrame];
+      const newMech = new Mech(f, this.pilot);
+      newMech.Name = this.mechName;
+      this.pilot.AddMech(newMech);
+      this.mechName = null;
+      this.selectedFrame = null;
+      this.showAll = false;
+      this.$emit('close');
     },
   },
-})
+};
 </script>
 
 <style scoped>

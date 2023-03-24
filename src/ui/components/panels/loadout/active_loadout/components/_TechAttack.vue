@@ -5,33 +5,46 @@
         v-if="used"
         justify="center"
         align="center"
-        :class="$vuetify.breakpoint.smAndDown ? 'mt-4' : ''"
+        :class="$vuetify.display.smAndDown ? 'mt-4' : ''"
       >
         <v-col lg="auto" cols="12" class="mt-n5">
           <v-row dense class="text-center mb-n3" justify="start" align="start">
-            <v-col cols="auto" :class="$vuetify.breakpoint.smAndDown ? '' : 'mx-8'">
+            <v-col
+              cols="auto"
+              :class="$vuetify.display.smAndDown ? '' : 'mx-8'"
+            >
               <div class="overline">Tech Attack Roll</div>
               <div class="heading text--text" style="font-size: 24pt">
                 <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
                 {{ `${mech.TechAttack >= 0 ? '+' : ''}${mech.TechAttack}` }}
               </div>
             </v-col>
-            <v-col cols="auto" :class="$vuetify.breakpoint.smAndDown ? '' : 'mx-8'">
+            <v-col
+              cols="auto"
+              :class="$vuetify.display.smAndDown ? '' : 'mx-8'"
+            >
               <div class="overline">vs. Target</div>
-              <v-icon x-large v-html="'cci-edef'" />
-              <div class="overline font-weight-bold mt-n2" v-html="'E-Defense'" />
+              <v-icon x-large v-html="'cc:edef'" />
+              <div
+                class="overline font-weight-bold mt-n2"
+                v-html="'E-Defense'"
+              />
             </v-col>
           </v-row>
         </v-col>
         <v-col cols="auto" class="ml-auto">
           <v-row
             dense
-            :justify="$vuetify.breakpoint.smAndDown ? 'space-around' : 'end'"
-            :class="$vuetify.breakpoint.smAndDown ? 'panel' : ''"
+            :justify="$vuetify.display.smAndDown ? 'space-around' : 'end'"
+            :class="$vuetify.display.smAndDown ? 'panel' : ''"
           >
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
+              :class="
+                $vuetify.display.mdAndUp
+                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
+                  : ''
+              "
               style="height: 70px"
             >
               <div class="overline pl-1">Accuracy</div>
@@ -39,7 +52,7 @@
                 v-model="accuracy"
                 type="number"
                 append-outer-icon="mdi-plus-circle-outline"
-                append-icon="cci-accuracy"
+                append-icon="cc:accuracy"
                 prepend-icon="mdi-minus-circle-outline"
                 style="width: 115px"
                 class="hide-input-spinners"
@@ -53,7 +66,9 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'px-12 mr-n10 panel dual-sliced' : ''"
+              :class="
+                $vuetify.display.mdAndUp ? 'px-12 mr-n10 panel dual-sliced' : ''
+              "
               style="height: 70px"
             >
               <div class="overline pl-1">Difficulty</div>
@@ -61,7 +76,7 @@
                 v-model="difficulty"
                 type="number"
                 append-outer-icon="mdi-plus-circle-outline"
-                append-icon="cci-difficulty"
+                append-icon="cc:difficulty"
                 prepend-icon="mdi-minus-circle-outline"
                 style="width: 115px"
                 class="hide-input-spinners"
@@ -75,7 +90,7 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="$vuetify.breakpoint.mdAndUp ? 'px-12 panel dual-sliced' : ''"
+              :class="$vuetify.display.mdAndUp ? 'px-12 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="overline mr-n6 pl-3">Tech Attack Roll</div>
@@ -139,9 +154,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'tech-attack',
   props: {
     used: { type: Boolean },
@@ -160,34 +173,34 @@ export default Vue.extend({
     used: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
-        if (!newval) this.init()
+      handler: function (newval) {
+        if (!newval) this.init();
       },
     },
   },
   methods: {
     init() {
-      this.activated = false
-      this.accuracy = 0
-      this.difficulty = 0
-      this.freeAction = false
-      this.succeeded = false
-      this.failed = false
-      this.attackRoll = ''
-      this.resetAttackRoll = false
-      this.$nextTick(function() {
-        this.resetAttackRoll = true
-      })
+      this.activated = false;
+      this.accuracy = 0;
+      this.difficulty = 0;
+      this.freeAction = false;
+      this.succeeded = false;
+      this.failed = false;
+      this.attackRoll = '';
+      this.resetAttackRoll = false;
+      this.$nextTick(function () {
+        this.resetAttackRoll = true;
+      });
     },
     registerTechRoll(roll) {
-      Vue.set(this, 'attackRoll', roll)
-      Vue.nextTick().then(() => this.$forceUpdate())
+      Vue.set(this, 'attackRoll', roll);
+      Vue.nextTick().then(() => this.$forceUpdate());
     },
     complete(success) {
-      this.succeeded = success
-      this.failed = !success
-      this.$emit('techAttackComplete', this.succeeded)
+      this.succeeded = success;
+      this.failed = !success;
+      this.$emit('techAttackComplete', this.succeeded);
     },
   },
-})
+};
 </script>

@@ -1,7 +1,7 @@
-import themeDefaults from './common'
+import themeDefaults from './common';
 
 const theme = {
-  type: 'dark',
+  dark: true,
   id: 'msmc',
   name: 'MSMC Solarized',
   colors: {
@@ -40,5 +40,5 @@ const theme = {
     'reserve--organization': '#3ec2c2',
     'action--reaction': '#be51ed',
   },
-}
-export default theme
+};
+export default theme;

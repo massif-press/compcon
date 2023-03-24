@@ -1,8 +1,19 @@
 <template>
   <v-col :cols="cols" :lg="lg" :md="md" :sm="sm">
-    <div class="mx-2" @click="$emit('clicked')" @keydown.enter="$emit('clicked')" tabindex="0">
-      <v-alert outlined :color="color" prominent dense border="left">
-        <v-icon slot="prepend" class="icn" x-large :color="`${color} lighten-1`" left>
+    <div
+      class="mx-2"
+      @click="$emit('clicked')"
+      @keydown.enter="$emit('clicked')"
+      tabindex="0"
+    >
+      <v-alert variant="outlined" :color="color" prominent dense>
+        <v-icon
+          slot="prepend"
+          class="icn"
+          x-large
+          :color="`${color} lighten-1`"
+          left
+        >
           {{ icon }}
         </v-icon>
         <div class="d-inline mt-n1 heading h2 stark--text">{{ name }}</div>
@@ -12,31 +23,45 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-
-@Component({ name: 'cc-compendium-page-btn' })
-export default class CompendiumPageButton extends Vue {
-  @Prop({ type: String, required: true })
-  readonly name!: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly icon: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly cols?: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly lg?: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly md?: string
-
-  @Prop({ type: String, required: false, default: '' })
-  readonly sm?: string
-
-  @Prop({ type: String, required: false, default: 'primary' })
-  readonly color: string
-}
+export default {
+  name: 'CompendiumPageButton',
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    cols: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    lg: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    md: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    sm: {
+      type: String,
+      required: false,
+      default: '',
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -57,6 +82,6 @@ export default class CompendiumPageButton extends Vue {
 
 .v-alert:hover > .icn {
   opacity: 1;
-  color: var(--v-stark-base);
+  color: rgb(var(--v-theme-stark));
 }
 </style>

@@ -9,11 +9,16 @@
       </v-col>
       <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">NAME</div>
-        <cc-short-string-editor @set="pilot.Name = $event">{{ pilot.Name }}</cc-short-string-editor>
+        <cc-short-string-editor @set="pilot.Name = $event">{{
+          pilot.Name
+        }}</cc-short-string-editor>
       </v-col>
       <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">BACKGROUND</div>
-        <cc-short-string-editor class="d-inline" @set="pilot.Background = $event">
+        <cc-short-string-editor
+          class="d-inline"
+          @set="pilot.Background = $event"
+        >
           {{ pilot.Background }}
         </cc-short-string-editor>
         <span>
@@ -33,7 +38,9 @@
       </v-col>
       <v-col cols="6" md="4" xl="3">
         <div class="overline mb-n3 subtle--text">STATUS</div>
-        <span :class="`stat-text ${statusColor()}--text`">{{ pilot.Status }}</span>
+        <span :class="`stat-text ${statusColor()}--text`">{{
+          pilot.Status
+        }}</span>
         <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />
       </v-col>
     </v-row>
@@ -41,11 +48,9 @@
 </template>
 
 <script lang="ts">
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import { Auth } from 'aws-amplify'
-import vueMixins from '@/util/vueMixins'
+import { Auth } from 'aws-amplify';
 
-export default vueMixins(activePilot).extend({
+export default {
   name: 'ident-block',
   data: () => ({
     pilotStatuses: [
@@ -62,24 +67,24 @@ export default vueMixins(activePilot).extend({
     currentAuthedUser: null,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser().then(res => {
-      this.currentAuthedUser = !!res.username
-    })
+    await Auth.currentAuthenticatedUser().then((res) => {
+      this.currentAuthedUser = !!res.username;
+    });
   },
   methods: {
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {
         case 'active':
-          return 'success'
-          break
+          return 'success';
+          break;
         case 'mia':
         case 'kia':
-          return 'error'
+          return 'error';
         default:
-          return 'text'
-          break
+          return 'text';
+          break;
       }
     },
   },
-})
+};
 </script>

@@ -6,16 +6,14 @@
 </template>
 
 <script lang="ts">
-import activePilot from '@/features/pilot_management/mixins/activePilot'
-import vueMixins from '@/util/vueMixins'
-import PilotBlock from '../layout/PilotBlock.vue'
-import CloneBlock from '@/features/pilot_management/PilotSheet/sections/info/components/CloneBlock.vue'
+import PilotBlock from '../layout/PilotBlock.vue';
+import CloneBlock from '@/features/pilot_management/PilotSheet/sections/info/components/CloneBlock.vue';
 
-export default vueMixins(activePilot).extend({
+export default {
   name: 'active-narrative',
   components: {
     PilotBlock,
     CloneBlock,
   },
-})
+};
 </script>

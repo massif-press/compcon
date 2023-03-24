@@ -19,7 +19,7 @@
             v-model="skillRoll"
             type="number"
             label="Roll Result"
-            outlined
+            variant="outlined"
             dense
             hide-details
             append-outer-icon="mdi-plus-circle-outline"
@@ -30,15 +30,19 @@
         </v-col>
       </v-row>
       <v-slide-y-transition>
-        <v-row v-show="skillRoll" justify="center" class="text-center flavor-text">
+        <v-row
+          v-show="skillRoll"
+          justify="center"
+          class="text-center flavor-text"
+        >
           <v-col cols="10">
             <p v-if="skillRoll < 10" class="font-weight-bold px-3">
-              You can decide whether you had good time or not. However, you wake up in a gutter
-              somewhere with only one of the following:
+              You can decide whether you had good time or not. However, you wake
+              up in a gutter somewhere with only one of the following:
               <v-select
                 v-model="kept"
                 class="ml-5 mr-5"
-                outlined
+                variant="outlined"
                 :items="losses"
                 label="You retain..."
               />
@@ -55,7 +59,7 @@
                     v-model="reserve1"
                     hide-details
                     dense
-                    outlined
+                    variant="outlined"
                     :items="choices"
                     label="You gain..."
                   />
@@ -71,7 +75,7 @@
                 <v-col cols="6">
                   <v-select
                     v-model="loss"
-                    outlined
+                    variant="outlined"
                     dense
                     hide-details
                     :items="choices"
@@ -88,7 +92,7 @@
                     <v-select
                       v-model="reserve1"
                       hide-details
-                      outlined
+                      variant="outlined"
                       dense
                       :items="choices"
                       label="You gain..."
@@ -108,7 +112,7 @@
                     <v-select
                       v-model="reserve2"
                       hide-details
-                      outlined
+                      variant="outlined"
                       dense
                       :items="choices"
                       label="...as well as..."
@@ -133,7 +137,13 @@
     <v-card-actions>
       <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
-      <v-btn large tile color="primary" :disabled="addDisabled" @click="addReserve">
+      <v-btn
+        large
+        tile
+        color="primary"
+        :disabled="addDisabled"
+        @click="addReserve"
+      >
         add reserve
       </v-btn>
     </v-card-actions>
@@ -141,9 +151,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Reserve } from '@/class'
-export default Vue.extend({
+import { Reserve } from '@/class';
+export default {
   name: 'damn-drink',
   props: {
     pilot: {
@@ -170,12 +179,14 @@ export default Vue.extend({
   }),
   computed: {
     addDisabled() {
-      if (!this.skillRoll) return true
+      if (!this.skillRoll) return true;
       return (
         (this.skillRoll < 10 && !this.kept) ||
-        (this.skillRoll > 10 && this.skillRoll < 20 && (!this.reserve1 || !this.loss)) ||
+        (this.skillRoll > 10 &&
+          this.skillRoll < 20 &&
+          (!this.reserve1 || !this.loss)) ||
         (this.skillRoll >= 20 && (!this.reserve1 || !this.reserve2))
-      )
+      );
     },
   },
   methods: {
@@ -192,14 +203,14 @@ export default Vue.extend({
           resource_name: '',
           consumable: true,
           used: false,
-        })
-        const lossArr = [...this.losses]
+        });
+        const lossArr = [...this.losses];
         lossArr.splice(
-          lossArr.findIndex(x => x === this.kept),
+          lossArr.findIndex((x) => x === this.kept),
           1
-        )
-        nr.ResourceCost = `You've lost ${lossArr[0].toLowerCase()}, as well as ${lossArr[1].toLowerCase()}`
-        this.pilot.ReservesController.AddReserve(nr)
+        );
+        nr.ResourceCost = `You've lost ${lossArr[0].toLowerCase()}, as well as ${lossArr[1].toLowerCase()}`;
+        this.pilot.ReservesController.AddReserve(nr);
       } else if (this.skillRoll < 20) {
         const nr = new Reserve({
           id: 'reserve_damndrink',
@@ -212,10 +223,10 @@ export default Vue.extend({
           resource_name: '',
           consumable: true,
           used: false,
-        })
-        nr.Note = this.details1
-        nr.ResourceCost = `You've lost ${this.loss.toLowerCase()}`
-        this.pilot.ReservesController.AddReserve(nr)
+        });
+        nr.Note = this.details1;
+        nr.ResourceCost = `You've lost ${this.loss.toLowerCase()}`;
+        this.pilot.ReservesController.AddReserve(nr);
       } else {
         const nr = new Reserve({
           id: 'reserve_damndrink',
@@ -228,9 +239,9 @@ export default Vue.extend({
           resource_name: '',
           consumable: true,
           used: false,
-        })
-        nr.Note = this.details1
-        this.pilot.ReservesController.AddReserve(nr)
+        });
+        nr.Note = this.details1;
+        this.pilot.ReservesController.AddReserve(nr);
 
         const nr2 = new Reserve({
           id: 'reserve_damndrink',
@@ -243,23 +254,23 @@ export default Vue.extend({
           resource_name: '',
           consumable: true,
           used: false,
-        })
-        nr2.Note = this.details2
-        this.pilot.ReservesController.AddReserve(nr2)
+        });
+        nr2.Note = this.details2;
+        this.pilot.ReservesController.AddReserve(nr2);
       }
-      this.close()
+      this.close();
     },
     close() {
-      this.skillRoll = ''
-      this.details = ''
-      this.kept = ''
-      this.reserve1 = ''
-      this.details1 = ''
-      this.reserve2 = ''
-      this.details2 = ''
-      this.loss = ''
-      this.$emit('close')
+      this.skillRoll = '';
+      this.details = '';
+      this.kept = '';
+      this.reserve1 = '';
+      this.details1 = '';
+      this.reserve2 = '';
+      this.details2 = '';
+      this.loss = '';
+      this.$emit('close');
     },
   },
-})
+};
 </script>

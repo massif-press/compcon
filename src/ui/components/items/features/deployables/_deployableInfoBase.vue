@@ -5,7 +5,7 @@
         v-if="deployable.size"
         inline
         class="mx-1"
-        :icon="`cci-size-${deployable.size === 0.5 ? 'half' : deployable.size}`"
+        :icon="`cc:size-${deployable.size === 0.5 ? 'half' : deployable.size}`"
         name="Size"
         :value="`${deployable.size === 0.5 ? '½' : deployable.size}`"
       />
@@ -96,13 +96,24 @@
     </v-row>
     <v-row justify="center" dense>
       <v-col cols="auto">
-        <p v-html-safe="deployable.detail" class="light-panel mb-0 clipped body-text px-4 py-2" />
+        <p
+          v-html-safe="deployable.detail"
+          class="light-panel mb-0 clipped body-text px-4 py-2"
+        />
       </v-col>
     </v-row>
     <div v-if="actions.length">
       <v-row no-gutters justify="center">
-        <v-col v-for="(a, i) in actions" :key="`${deployable.name}_action_${i}`" cols="auto">
-          <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+        <v-col
+          v-for="(a, i) in actions"
+          :key="`${deployable.name}_action_${i}`"
+          cols="auto"
+        >
+          <cc-action
+            :action="a"
+            :panel="$vuetify.display.lgAndUp"
+            class="ma-2"
+          />
         </v-col>
       </v-row>
     </div>
@@ -110,10 +121,9 @@
 </template>
 
 <script lang="ts">
-import { Action } from '@/classes/Action'
-import Vue from 'vue'
+import { Action } from '@/classes/Action';
 
-export default Vue.extend({
+export default {
   name: 'deployable-info-base',
   props: {
     deployable: {
@@ -123,8 +133,10 @@ export default Vue.extend({
   },
   computed: {
     actions() {
-      return this.deployable.actions ? this.deployable.actions.map(x => new Action(x)) : []
+      return this.deployable.actions
+        ? this.deployable.actions.map((x) => new Action(x))
+        : [];
     },
   },
-})
+};
 </script>

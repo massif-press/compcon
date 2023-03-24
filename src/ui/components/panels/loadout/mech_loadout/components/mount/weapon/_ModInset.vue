@@ -3,11 +3,15 @@
     <v-card flat tile color="transparent" class="mx-4 my-2 mod-border">
       <v-card-title
         class="mod darken-3 py-0 pt-n1 heading h3 white--text"
-        style="height: 24px!important"
+        style="height: 24px !important"
       >
         <v-row class="mt-n1" no-gutters>
           <equipment-options slot="options" :item="mod" />
-          <span v-if="mod.Destroyed" class="error" style="text-decoration: line-through">
+          <span
+            v-if="mod.Destroyed"
+            class="error"
+            style="text-decoration: line-through"
+          >
             DESTROYED
           </span>
           <span v-else>
@@ -16,7 +20,11 @@
           <v-spacer />
           <span v-if="mod.SP" class="pr-3">{{ mod.SP }}SP</span>
           <cc-tooltip simple inline content="Remove Mod">
-            <v-icon dark class="mt-n1 fadeSelect" @click.stop="$emit('remove-mod')">
+            <v-icon
+              dark
+              class="mt-n1 fadeSelect"
+              @click.stop="$emit('remove-mod')"
+            >
               mdi-delete
             </v-icon>
           </cc-tooltip>
@@ -37,13 +45,13 @@
           tile
           color="error"
           class="text-center white--text stat-text"
-          style="letter-spacing: 3px;"
+          style="letter-spacing: 3px"
         >
           / / NHP IN CASCADE / /
         </v-alert>
         <div class="py-1">
           <div class="overline mb-n2">
-            <v-icon>cci-system</v-icon>
+            <v-icon>cc:system</v-icon>
             EQUIPMENT EFFECT
           </div>
           <p class="text--text body-text mb-1 mr-3 ml-7" v-html="mod.Effect" />
@@ -54,8 +62,16 @@
               <v-col v-if="mod.Actions.length" cols="auto">
                 <div class="overline ml-n2">EQUIPMENT ACTIONS</div>
                 <v-row no-gutters justify="center">
-                  <v-col v-for="(a, i) in mod.Actions" :key="`${mod.Name}_action_${i}`" cols="auto">
-                    <cc-action :action="a" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+                  <v-col
+                    v-for="(a, i) in mod.Actions"
+                    :key="`${mod.Name}_action_${i}`"
+                    cols="auto"
+                  >
+                    <cc-action
+                      :action="a"
+                      :panel="$vuetify.display.lgAndUp"
+                      class="ma-2"
+                    />
                   </v-col>
                 </v-row>
               </v-col>
@@ -69,7 +85,7 @@
                   >
                     <cc-deployable-info
                       :deployable="d"
-                      :panel="$vuetify.breakpoint.lgAndUp"
+                      :panel="$vuetify.display.lgAndUp"
                       :name-override="mod.Name"
                       class="ma-2"
                     />
@@ -100,11 +116,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EquipmentOptions from '../../_EquipmentOptions.vue'
-import EquipmentHeader from '../../_EquipmentHeader.vue'
+import EquipmentOptions from '../../_EquipmentOptions.vue';
+import EquipmentHeader from '../../_EquipmentHeader.vue';
 
-export default Vue.extend({
+export default {
   name: 'mod-inset',
   components: { EquipmentOptions, EquipmentHeader },
   props: {
@@ -122,7 +137,7 @@ export default Vue.extend({
       default: 'primary',
     },
   },
-})
+};
 </script>
 
 <style scoped>

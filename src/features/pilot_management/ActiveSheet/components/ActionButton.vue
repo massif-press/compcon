@@ -15,7 +15,9 @@
       </v-icon>
       <div style="position: absolute; right: -10px">
         <v-divider dark vertical class="ml-2 mr-1" />
-        <v-icon :small="!large" @click.stop="dialog = true">mdi-help-circle-outline</v-icon>
+        <v-icon :small="!large" @click.stop="dialog = true"
+          >mdi-help-circle-outline</v-icon
+        >
       </div>
       <span class="px-3">{{ nameOverride ? nameOverride : action.name }}</span>
     </v-btn>
@@ -25,17 +27,19 @@
         {{ action.name }}
       </v-toolbar>
       <v-card tile>
-        <v-card-text class="flavor-text text--text pt-2" v-html="action.detail" />
+        <v-card-text
+          class="flavor-text text--text pt-2"
+          v-html="action.detail"
+        />
       </v-card>
     </v-dialog>
   </v-col>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { actions } from 'lancer-data'
+import { actions } from 'lancer-data';
 
-export default Vue.extend({
+export default {
   name: 'action-button',
   props: {
     actionId: {
@@ -73,9 +77,9 @@ export default Vue.extend({
     actionColor: '',
   }),
   created() {
-    this.action = actions.find(x => x.id === `act_${this.actionId}`)
-    if (this.colorOverride) this.actionColor = this.colorOverride
-    else this.actionColor = `action--${this.action.action_type}`
+    this.action = actions.find((x) => x.id === `act_${this.actionId}`);
+    if (this.colorOverride) this.actionColor = this.colorOverride;
+    else this.actionColor = `action--${this.action.action_type}`;
   },
-})
+};
 </script>

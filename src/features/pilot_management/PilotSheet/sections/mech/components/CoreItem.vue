@@ -2,14 +2,15 @@
   <div class="mx-3">
     <span class="heading h2 text--text">{{ coreSystem.Name }}</span>
     <p
-      v-show="$vuetify.breakpoint.mdAndUp"
+      v-show="$vuetify.display.mdAndUp"
       class="flavor-text px-3"
       v-html="coreSystem.Description"
     />
 
     <div v-if="coreSystem.PassiveName">
       <span class="heading sub">
-        PASSIVE {{ coreSystem.PassiveName ? ` - ${coreSystem.PassiveName}` : '' }}
+        PASSIVE
+        {{ coreSystem.PassiveName ? ` - ${coreSystem.PassiveName}` : '' }}
       </span>
       <div class="light-panel pa-2 clipped mb-2 mx-3">
         <p
@@ -23,7 +24,7 @@
               v-for="(a, i) in coreSystem.PassiveActions"
               :key="`${coreSystem.Name}_action_${i}`"
               :action="a"
-              :panel="$vuetify.breakpoint.lgAndUp"
+              :panel="$vuetify.display.lgAndUp"
             />
           </v-col>
         </v-row>
@@ -33,7 +34,8 @@
     <v-row no-gutters>
       <v-col cols="auto">
         <span class="heading sub">
-          ACTIVE {{ coreSystem.ActiveName ? ` - ${coreSystem.ActiveName}` : '' }}
+          ACTIVE
+          {{ coreSystem.ActiveName ? ` - ${coreSystem.ActiveName}` : '' }}
         </span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
@@ -45,11 +47,15 @@
           "
           small
           label
-          outlined
-        >
+          variant="outlined"         >
           {{ coreSystem.Duration.toUpperCase() }}
         </v-chip> -->
-        <v-chip small label dark :color="`action--${coreSystem.Activation.toLowerCase()}`">
+        <v-chip
+          small
+          label
+          dark
+          :color="`action--${coreSystem.Activation.toLowerCase()}`"
+        >
           {{ coreSystem.Activation.toUpperCase() }}
         </v-chip>
       </v-col>
@@ -60,7 +66,7 @@
         v-for="(a, i) in coreSystem.ActiveActions"
         :key="`${coreSystem.Name}_action_${i}`"
         :action="a"
-        :panel="$vuetify.breakpoint.lgAndUp"
+        :panel="$vuetify.display.lgAndUp"
         class="ma-2"
       />
     </div>
@@ -71,7 +77,11 @@
         :key="`${coreSystem.Name}_deployable_${i}`"
         cols="auto"
       >
-        <cc-deployable-info :deployable="d" :panel="$vuetify.breakpoint.lgAndUp" class="ma-2" />
+        <cc-deployable-info
+          :deployable="d"
+          :panel="$vuetify.display.lgAndUp"
+          class="ma-2"
+        />
       </v-col>
     </v-row>
 
@@ -80,8 +90,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-export default Vue.extend({
+export default {
   name: 'core-item',
   props: {
     coreSystem: {
@@ -93,5 +102,5 @@ export default Vue.extend({
       required: true,
     },
   },
-})
+};
 </script>

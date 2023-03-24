@@ -13,13 +13,14 @@
         prominent
         icon="mdi-information-outline"
         dense
-        outlined
-        border="left"
+        variant="outlined"
       >
-        Completing this Downtime Action will add a "Get Focused" item to this pilot's Downtime
-        Reserves. Each "Get Focused" Reserve adds a bonus Skill Trigger selection, which can be made
-        in the
-        <b class="accent--text">Pilot Sheet's Skill Trigger selection screen.</b>
+        Completing this Downtime Action will add a "Get Focused" item to this
+        pilot's Downtime Reserves. Each "Get Focused" Reserve adds a bonus Skill
+        Trigger selection, which can be made in the
+        <b class="accent--text"
+          >Pilot Sheet's Skill Trigger selection screen.</b
+        >
       </v-alert>
     </v-card-text>
     <v-divider />
@@ -34,10 +35,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { Reserve } from '@/class'
+import { Reserve } from '@/class';
 
-export default Vue.extend({
+export default {
   name: 'get-focused',
   props: {
     pilot: {
@@ -65,12 +65,12 @@ export default Vue.extend({
           used: false,
           consumable: false,
         })
-      )
-      this.close()
+      );
+      this.close();
     },
     close() {
-      this.$emit('close')
+      this.$emit('close');
     },
   },
-})
+};
 </script>

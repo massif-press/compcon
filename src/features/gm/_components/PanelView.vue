@@ -2,7 +2,10 @@
   <v-container fluid style="height: 100%">
     <slot name="title" />
     <v-row>
-      <v-col cols="4" style="min-height: 87vh; max-height: 87vh; overflow-y: scroll;">
+      <v-col
+        cols="4"
+        style="min-height: 87vh; max-height: 87vh; overflow-y: scroll"
+      >
         <slot name="left" />
       </v-col>
       <v-divider vertical />
@@ -14,19 +17,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-
-export default Vue.extend({
+export default {
   name: 'panel-view',
   props: {
     noBorder: { type: Boolean },
   },
   methods: {
     resetScroll() {
-      document.getElementById('scrollTarget').scrollTop = 0
+      document.getElementById('scrollTarget').scrollTop = 0;
     },
   },
-})
+};
 </script>
 
 <style scoped>

@@ -14,15 +14,14 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditorBase from '../../gm/_components/EditorBase.vue'
-import { getModule } from 'vuex-module-decorators'
-import { NpcStore } from '@/store'
-import Features from './features.vue'
-import Builder from './builder.vue'
-import { Npc } from '@/class'
+import EditorBase from '../../gm/_components/EditorBase.vue';
 
-export default Vue.extend({
+import { NpcStore } from '@/store';
+import Features from './features.vue';
+import Builder from './builder.vue';
+import { Npc } from '@/class';
+
+export default {
   name: 'gm-editor-npc',
   components: { Builder, Features, EditorBase },
   props: {
@@ -34,39 +33,39 @@ export default Vue.extend({
   computed: {
     npc() {
       if (this.id === 'new') {
-        if (!this.newNpc) this.newNpc = new Npc()
-        return this.newNpc
+        if (!this.newNpc) this.newNpc = new Npc();
+        return this.newNpc;
       }
-      return getModule(NpcStore, this.$store).Npcs.find(x => x.ID === this.id)
+      return this.getModule(NpcStore).Npcs.find((x) => x.ID === this.id);
     },
   },
   methods: {
     exit() {
-      this.$set(this, 'newNpc', null)
-      this.$emit('exit')
+      this.$set(this, 'newNpc', null);
+      this.$emit('exit');
     },
     saveAsNew() {
-      const store = getModule(NpcStore, this.$store)
-      store.addNpc(this.npc)
-      this.exit()
+      const store = this.getModule(NpcStore);
+      store.addNpc(this.npc);
+      this.exit();
     },
     save() {
-      const store = getModule(NpcStore, this.$store)
+      const store = this.getModule(NpcStore);
       // TODO: check for and ask to update instances on save
-      store.saveNpcData()
-      this.$emit('exit')
+      store.saveNpcData();
+      this.$emit('exit');
     },
     deleteItem() {
-      this.npc.SaveController.delete()
-      this.$emit('exit')
+      this.npc.SaveController.delete();
+      this.$emit('exit');
     },
     dupe() {
-      const store = getModule(NpcStore, this.$store)
-      const dupe = Npc.Deserialize(Npc.Serialize(this.npc))
-      dupe.RenewID()
-      store.addNpc(dupe)
-      this.$emit('exit')
+      const store = this.getModule(NpcStore);
+      const dupe = Npc.Deserialize(Npc.Serialize(this.npc));
+      dupe.RenewID();
+      store.addNpc(dupe);
+      this.$emit('exit');
     },
   },
-})
+};
 </script>
