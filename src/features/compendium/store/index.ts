@@ -323,6 +323,12 @@ export class CompendiumStore extends VuexModule {
     }
   }
 
+  get lcpNames(): string[] {
+    let frame_packs = this.Frames.map(x => x.LcpName)
+    let lcp_packs = this.ContentPacks.map(x => x.Name)
+    return _.unionWith(frame_packs, lcp_packs, _.isEqual)
+  }
+
   get getVersion(): string {
     return this.CCVersion
   }
