@@ -109,7 +109,7 @@ export default Vue.extend({
         .sort() as MountType[]
     },
     lcps(): string[] {
-      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+      return getModule(CompendiumStore).lcpNames
     },
   },
   methods: {

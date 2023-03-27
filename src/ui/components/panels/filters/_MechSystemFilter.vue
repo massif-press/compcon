@@ -150,7 +150,7 @@ export default Vue.extend({
       )
     },
     lcps(): string[] {
-      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+      return getModule(CompendiumStore).lcpNames
     },
   },
   methods: {
@@ -165,7 +165,7 @@ export default Vue.extend({
     updateFilters() {
       const fObj = {} as any
       if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter]
-      if (this.spType && parseInt(this.sp) !== NaN) fObj[`SP_${this.spType}`] = parseInt(this.sp)
+      if (this.spType && !isNaN(parseInt(this.sp))) fObj[`SP_${this.spType}`] = parseInt(this.sp)
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       if (this.systemTypeFilter && this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter]
