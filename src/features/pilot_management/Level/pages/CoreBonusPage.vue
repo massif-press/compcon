@@ -26,7 +26,13 @@
         Engineering Subcommittee only recognize CORE augmentation from a
         Union-approved and registered Lincensor.
       </span>
-      <v-alert v-if="cbEligible" color="accent" outlined dense class="mt-2">
+      <v-alert
+        v-if="cbEligible"
+        color="accent"
+        outlined
+        density="compact"
+        class="mt-2"
+      >
         <b>Select a CORE Bonus</b>
         <br />
         <span class="overline">
@@ -40,11 +46,11 @@
     <cc-core-bonus-selector v-if="cbEligible" level-up :pilot="pilot" />
     <v-card v-else flat tile color="panel">
       <v-card-text class="flavor-text text-center py-5 px-3">
-        <span class="heading h2 subtle--text text--darken-1"
+        <span class="heading h2 text-subtle text--darken-1"
           >PILOT INELIGIBLE FOR CORE BONUS</span
         >
         <br />
-        <span class="subtle--text text--darken-2">
+        <span class="text-subtle text--darken-2">
           NEXT CORE BONUS IN {{ 3 - (pilot.Level % 3) }} LICENSE LEVELS
         </span>
       </v-card-text>

@@ -8,7 +8,7 @@
       multiple
       color="accent"
       item-color="accent"
-      dense
+      density="compact"
       hide-details
       variant="outlined"
       clearable

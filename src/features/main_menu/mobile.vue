@@ -45,7 +45,7 @@
         <v-btn
           target="_blank"
           href="https://www.netlify.com"
-          class="fadeSelect mt-n2"
+          class="fade-select mt-n2"
           x-small
           variant="outlined"
           block
@@ -53,9 +53,9 @@
           deploys by netlify
         </v-btn>
       </div>
-      <v-row dense align="center" class="my-1 px-2 primary py-2">
+      <v-row density="compact" align="center" class="my-1 px-2 primary py-2">
         <v-col cols="auto">
-          <div class="flavor-text white--text">
+          <div class="flavor-text text-white">
             <span>v.{{ $appVersion }}</span>
           </div>
         </v-col>
@@ -63,7 +63,7 @@
           <update-checker small />
         </v-col>
       </v-row>
-      <v-row dense justify="space-around">
+      <v-row density="compact" justify="space-around">
         <mobile-btn
           icon="mdi-book"
           title="Compendium"
@@ -147,7 +147,7 @@ import CreditsPage from '../nav/pages/Credits.vue';
 import AboutPage from '../nav/pages/About.vue';
 import HelpPage from '../nav/pages/Help.vue';
 import OptionsPage from '../nav/pages/Options/index.vue';
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import SignIn from './_components/login/index.vue';
 
 export default {

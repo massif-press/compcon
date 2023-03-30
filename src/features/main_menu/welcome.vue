@@ -6,10 +6,15 @@
     :title="title"
     @close="setHash()"
   >
-    <div v-html-safe="body" class="mt-2 body-text text--text" />
+    <div v-html-safe="body" class="mt-2 body-text text-text" />
     <v-row no-gutters align="end" justify="end">
       <v-col cols="auto">
-        <v-checkbox v-model="noshow" color="secondary" hide-details dense>
+        <v-checkbox
+          v-model="noshow"
+          color="secondary"
+          hide-details
+          density="compact"
+        >
           <span slot="label">Don't show this message again</span>
         </v-checkbox>
       </v-col>
@@ -18,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { UserProfile } from '@/user';
 
 export default {

@@ -18,12 +18,12 @@
     </span>
     <div v-else>
       <div v-if="simple">
-        <p class="body-text stark--text mb-0" v-html="content" />
+        <p class="body-text text-stark mb-0" v-html="content" />
       </div>
       <div v-else>
-        <span v-if="title" class="heading h3 stark--text">{{ title }}</span>
+        <span v-if="title" class="heading h3 text-stark">{{ title }}</span>
         <v-divider v-if="title" class="my-1" />
-        <p class="body-text stark--text pb-0 mb-0" v-html="content" />
+        <p class="body-text text-stark pb-0 mb-0" v-html="content" />
       </div>
     </div>
   </v-tooltip>

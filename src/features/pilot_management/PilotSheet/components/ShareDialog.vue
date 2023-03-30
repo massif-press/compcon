@@ -2,7 +2,7 @@
   <div>
     <v-alert
       variant="outlined"
-      dense
+      density="compact"
       prominent
       icon="mdi-information-outline"
       class="body-text mt-2"
@@ -15,9 +15,9 @@
     <div v-if="pilot.CloudController.ShareCode">
       <v-row justify="center">
         <v-col cols="auto" class="py-12">
-          <div class="overline mb-4">PILOT SHARE CODE</div>
+          <div class="text-overline mb-4">PILOT SHARE CODE</div>
           <b
-            class="accent--text"
+            class="text-accent"
             style="font-size: 80px; letter-spacing: 15px"
             v-text="pilot.CloudController.ShareCode"
           />
@@ -29,7 +29,7 @@
         </v-col>
       </v-row>
       <div class="text-center px-6">
-        <b class="accent--text">
+        <b class="text-accent">
           Share codes are valid for 90 days, after which the code will expire.
           This pilot's code will expire on
           {{ pilot.CloudController.ShareCodeExpiration }}. This can be extended
@@ -67,12 +67,17 @@
     <div v-else>
       <v-row justify="center">
         <v-col cols="auto" class="py-12 text-center">
-          <v-btn x-large class="primary" :loading="loading" @click="generate()">
+          <v-btn
+            size="x-large"
+            class="primary"
+            :loading="loading"
+            @click="generate()"
+          >
             Generate Pilot Share Code
           </v-btn>
           <div
             v-show="!pilot.CloudController.LastUpdateCloud"
-            class="overline text-disabled"
+            class="text-overline text-disabled"
           >
             Generating a Share Code will upload this pilot to your cloud
             account. This process may take several seconds.

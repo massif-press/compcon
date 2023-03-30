@@ -4,7 +4,7 @@
       <v-card-text>
         <span class="heading h2">Select Damage Type</span>
         <v-row>
-          <v-col v-for="t in availableTypes" :key="`${t} Damage`">
+          <v-col v-for="t in availableTypes">
             <div class="clip-icon">
               <cc-tooltip simple inline :content="t">
                 <v-btn

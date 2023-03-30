@@ -16,6 +16,6 @@
   {
     "id": "reactor_critical",
     "name": "Irreversible Meltdown",
-    "description": "<b class='heading h2 error--text'>REACTOR CRITICAL // MELTDOWN IMMINENT</b>"
+    "description": "<b class='heading h2 text-error'>REACTOR CRITICAL // MELTDOWN IMMINENT</b>"
   }
 ]

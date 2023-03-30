@@ -3,10 +3,10 @@
     <cc-synergy-display location="cascade" :mech="mech" />
     <v-card tile elevation="0" outlined>
       <v-toolbar
-        dense
+        density="compact"
         elevation="0"
         color="error"
-        class="text-center white--text heading h3"
+        class="text-center text-white heading h3"
       >
         CASCADE ALERT
         <v-spacer />
@@ -16,22 +16,17 @@
 <p>When an NHP begins to cascade, they immediately take over the mech and become an NPC under the control of the GM. They plan their own agenda, and adopt one of several behavioral patterns &ndash; ignoring their pilot, overruling their pilot, trying to get their pilot out of the way, or simply acting outside the constraints of human logic and desire. In cascade, NHPs&rsquo; actions do not always conform to human logic &ndash; though they are not yet unshackled, their actions may seem odd, contrapositive, or threatening to humans.&nbsp;</p>
 <p>NHPs in cascade can be stabilized by a pilot choosing to <strong>SHUT DOWN</strong> their mech, returning them to their base state. This is the only action a pilot in a cascading mech can take. </p>"
         >
-          <v-icon>mdi-information-outline</v-icon>
+          <v-icon icon="mdi-information-outline" />
         </cc-tooltip>
       </v-toolbar>
-      <v-row
-        v-for="(a, i) in AiSystems"
-        :key="`${a.ID}_${i}`"
-        class="heading h3 py-2"
-        align="center"
-      >
+      <v-row v-for="(a, i) in AiSystems" class="heading h3 py-2" align="center">
         <v-col>
           {{ a.Name }}
         </v-col>
         <v-col>
           STATUS:
           <span v-if="!checked.includes(i)" style="opacity: 0.4">PENDING</span>
-          <span v-else :class="a.IsCascading ? 'red--text' : 'success--text'">
+          <span v-else :class="a.IsCascading ? 'text-red' : 'text-success'">
             {{ a.IsCascading ? 'IN CASCADE' : 'NOMINAL' }}
           </span>
         </v-col>

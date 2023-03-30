@@ -15,7 +15,7 @@
           <v-menu offset-y max-width="700px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
-                <v-icon class="fadeSelect">mdi-information-outline</v-icon>
+                <v-icon class="fade-select">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -24,7 +24,7 @@
               </div>
               <v-divider />
               <v-card-text
-                class="body-text text--text mt-0 pt-1"
+                class="body-text text-text mt-0 pt-1"
                 v-html="skirmishHelp"
               />
             </v-card>
@@ -52,7 +52,7 @@
           <v-menu offset-y max-width="700px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
-                <v-icon class="fadeSelect">mdi-information-outline</v-icon>
+                <v-icon class="fade-select">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -61,23 +61,18 @@
               </div>
               <v-divider />
               <v-card-text
-                class="body-text text--text mt-0 pt-1"
+                class="body-text text-text mt-0 pt-1"
                 v-html="barrageHelp"
               />
             </v-card>
           </v-menu>
         </v-btn>
       </v-col>
-      <v-col
-        v-for="(a, i) in item.Actions"
-        :key="`${item.Name}_action_${i}`"
-        cols="12"
-        md=""
-      >
+      <v-col v-for="(a, i) in item.Actions" cols="12" md="">
         <cc-action :action="a" active />
       </v-col>
     </v-row>
-    <v-row v-else dense justify="center">
+    <v-row v-else density="compact" justify="center">
       <v-col cols="12" md="">
         <v-btn
           tile
@@ -92,7 +87,7 @@
           <v-menu offset-y max-width="700px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
-                <v-icon class="fadeSelect">mdi-information-outline</v-icon>
+                <v-icon class="fade-select">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -101,7 +96,7 @@
               </div>
               <v-divider />
               <v-card-text
-                class="body-text text--text mt-0 pt-1"
+                class="body-text text-text mt-0 pt-1"
                 v-html="skirmishHelp"
               />
             </v-card>
@@ -130,7 +125,7 @@
           <v-menu offset-y max-width="700px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
-                <v-icon class="fadeSelect">mdi-information-outline</v-icon>
+                <v-icon class="fade-select">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -139,19 +134,14 @@
               </div>
               <v-divider />
               <v-card-text
-                class="body-text text--text mt-0 pt-1"
+                class="body-text text-text mt-0 pt-1"
                 v-html="barrageHelp"
               />
             </v-card>
           </v-menu>
         </v-btn>
       </v-col>
-      <v-col
-        v-for="(a, i) in item.Actions"
-        :key="`${item.Name}_action_${i}`"
-        cols="12"
-        md=""
-      >
+      <v-col v-for="(a, i) in item.Actions" cols="12" md="">
         <cc-action :action="a" active />
       </v-col>
       <barrage-dialog
@@ -176,7 +166,7 @@ import SkirmishDialog from '../dialogs/action/_SelSkirmishDialog.vue';
 import BarrageDialog from '../dialogs/action/_SelBarrageDialog.vue';
 import ShBarrageDialog from '../dialogs/action/_SelSHBarrageDialog.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { WeaponSize } from '@/class';
 
 export default {
@@ -204,7 +194,7 @@ export default {
       return this.mech.Pilot.State;
     },
     compendium() {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
     barrageCount() {
       return this.state.BarrageSelections.length;

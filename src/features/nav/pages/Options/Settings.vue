@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h3 class="heading accent--text">User Options</h3>
-    <v-row dense>
+    <h3 class="heading text-accent">User Options</h3>
+    <v-row density="compact">
       <v-col md="12" lg="6" class="mr-3">
         <div class="flavor-text">
           <b>USER ID:</b>
-          <span class="accent--text">
+          <span class="text-accent">
             {{ userID }}
           </span>
         </div>
@@ -28,7 +28,7 @@
                 inline
                 content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
               >
-                <v-icon end class="fadeSelect">mdi-help-circle-outline</v-icon>
+                <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
               </cc-tooltip>
             </v-btn>
           </div>
@@ -42,7 +42,7 @@
                     inline
                     content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
                   >
-                    <v-icon end class="fadeSelect"
+                    <v-icon end class="fade-select"
                       >mdi-help-circle-outline</v-icon
                     >
                   </cc-tooltip>
@@ -50,20 +50,20 @@
               </template>
               <v-card>
                 <v-card-text class="pa-6">
-                  <p class="text-center heading h3 text--text">
+                  <p class="text-center heading h3 text-text">
                     This will OVERWRITE
-                    <b class="accent--text">ALL</b>
+                    <b class="text-accent">ALL</b>
                     local COMP/CON data.
                     <br />
                     This
-                    <b class="accent--text">cannot</b>
+                    <b class="text-accent">cannot</b>
                     be undone.
                   </p>
                   <v-file-input
                     v-model="fileValue"
                     accept=".compcon"
                     variant="outlined"
-                    dense
+                    density="compact"
                     hide-details
                     autofocus
                     placeholder="Select COMP/CON Bulk Export File"
@@ -77,12 +77,12 @@
         </div>
       </v-col>
       <v-col>
-        <h3 class="heading accent--text mb-n2">Advanced Options</h3>
+        <h3 class="heading text-accent mb-n2">Advanced Options</h3>
         <v-switch
           v-model="userSaveStrategy"
           color="secondary"
           inset
-          dense
+          density="compact"
           hide-details
         >
           <span slot="label">
@@ -92,7 +92,7 @@
               :content="`COMP/CON tries to write changes to your save data every time a value changes. On some systems this can cause poor app performance. Enabling Performant Saving restricts saving data to page navigation and browser exit events, increasing performance at a cost of save reliablity. This option works best on Chrome browsers.`"
               inline
             >
-              <v-icon>mdi-information-outline</v-icon>
+              <v-icon icon="mdi-information-outline" />
             </cc-tooltip>
           </span>
         </v-switch>
@@ -100,7 +100,7 @@
           v-model="userViewExotics"
           color="exotic"
           inset
-          dense
+          density="compact"
           hide-details
         >
           <span slot="label">
@@ -119,15 +119,15 @@
           v-model="userAllowQuickstart"
           color="exotic"
           inset
-          dense
+          density="compact"
           hide-details
         >
           <span slot="label">Enable quick pilot creation and level-up</span>
         </v-switch>
-        <h3 class="heading accent--text mt-2">Theme</h3>
+        <h3 class="heading text-accent mt-2">Theme</h3>
         <v-select
           v-model="theme"
-          dense
+          density="compact"
           variant="outlined"
           :items="themes"
           item-text="name"
@@ -137,8 +137,8 @@
 
     <v-divider class="my-4" />
 
-    <h3 class="heading accent--text">Achievements</h3>
-    <p class="panel py-3 text-center subtle--text">
+    <h3 class="heading text-accent">Achievements</h3>
+    <p class="panel py-3 text-center text-subtle">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
@@ -155,7 +155,7 @@
 <script lang="ts">
 import * as allThemes from '@/ui/style/themes';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { exportAll, importAll, clearAllData } from '@/io/BulkData';
 import { saveFile } from '@/io/Dialog';
 import DeletedItems from './DeletedItems.vue';

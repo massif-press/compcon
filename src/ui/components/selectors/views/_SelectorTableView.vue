@@ -42,7 +42,7 @@
         dark
         @click="$refs[`modal_${item.ID}`].show()"
       >
-        <v-icon>mdi-open-in-new</v-icon>
+        <v-icon icon="mdi-open-in-new" />
       </v-btn>
       <cc-solo-dialog
         :ref="`modal_${item.ID}`"
@@ -58,7 +58,7 @@
     <template v-slot:[`item.Name`]="{ item }">
       <span
         v-if="spDisable && item.SP > sp && !spIgnore"
-        class="stat-text subtle--text"
+        class="stat-text text-subtle"
       >
         {{ item.Name }}
         <cc-tooltip inline content="Equipment exceeds System Point capacity">
@@ -67,7 +67,7 @@
       </span>
       <span
         v-else
-        :class="`stat-text ${item.IsExotic ? 'amber--text text-accent-4' : ''}`"
+        :class="`stat-text ${item.IsExotic ? 'text-amber text-accent-4' : ''}`"
       >
         {{ item.Name }}
       </span>

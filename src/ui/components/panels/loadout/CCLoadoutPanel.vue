@@ -6,14 +6,14 @@
       :color="color"
       dark
       flat
-      dense
+      density="compact"
       class="sliced"
       max-height="30px"
     >
       <v-toolbar-title style="max-height: 30px" class="mt-n4">
         <v-menu offset-y top>
           <template v-slot:activator="{ props }">
-            <v-icon start class="fadeSelect mt-n2" v-bind="props"
+            <v-icon start class="fade-select mt-n2" v-bind="props"
               >mdi-menu</v-icon
             >
           </template>
@@ -23,7 +23,6 @@
             >
             <v-list-item
               v-for="(l, i) in loadouts"
-              :key="`pl_${i}`"
               @click="$emit('set-active', l)"
             >
               <v-list-item-title class="stat-text">{{
@@ -31,7 +30,7 @@
               }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="!readonly" @click="$emit('add-loadout')">
-              <v-list-item-title class="accent--text font-weight-bold">
+              <v-list-item-title class="text-accent font-weight-bold">
                 <v-icon color="primary" left>add</v-icon>
                 Add New Loadout
               </v-list-item-title>
@@ -51,24 +50,24 @@
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-items v-if="!readonly" class="mr-6 mt-n4">
-        <v-btn small icon class="fadeSelect" @click="$emit('clone-loadout')">
-          <v-icon>mdi-content-duplicate</v-icon>
+        <v-btn small icon class="fade-select" @click="$emit('clone-loadout')">
+          <v-icon icon="mdi-content-duplicate" />
         </v-btn>
         <v-menu v-model="confirmMenu" offset-y top>
           <template v-slot:activator="{ props }">
             <v-btn
               small
               icon
-              class="fadeSelect"
+              class="fade-select"
               :disabled="loadouts.length === 1"
               v-bind="props"
             >
-              <v-icon>delete</v-icon>
+              <v-icon icon="delete" />
             </v-btn>
           </template>
           <cc-confirmation
             :content="`Lancer, please confirm deletion of:
-          <span class='accent--text'>
+          <span class='text-accent'>
             ${activeLoadout.Name}
           </span> Loadout`"
             @confirm="removeConfirm"

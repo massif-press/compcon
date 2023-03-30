@@ -9,7 +9,7 @@
         style="margin-top: 48px; y-overflow: scroll"
         class="pb-8"
       >
-        <v-row dense class="pa-2" justify="center" align="center">
+        <v-row density="compact" class="pa-2" justify="center" align="center">
           <v-col cols="auto" class="heading h3 text-center">
             {{ campaign.Name }}
           </v-col>
@@ -28,7 +28,7 @@
 
           <v-divider class="my-2" />
 
-          <div v-for="(s, i) in campaign.Sections" :key="`section_${i}`">
+          <div v-for="(s, i) in campaign.Sections">
             <sidebar-button
               :selected="s === selected"
               :idn="s.ItemNumber"
@@ -36,11 +36,7 @@
             >
               {{ s.Title }}
             </sidebar-button>
-            <div
-              v-for="(c, j) in s.Children"
-              :key="`section_${i}_content_${j}`"
-              class="mt-n1"
-            >
+            <div v-for="(c, j) in s.Children" class="mt-n1">
               <sidebar-button
                 :selected="c === selected"
                 text
@@ -50,11 +46,7 @@
               >
                 {{ c.Title.toUpperCase() }}
               </sidebar-button>
-              <div
-                v-for="(e, k) in c.Children"
-                :key="`section_${i}_content_${j}_subsection_${k}`"
-                class="mt-n2"
-              >
+              <div v-for="(e, k) in c.Children" class="mt-n2">
                 <sidebar-button
                   :selected="e === selected"
                   :indent="3"
@@ -65,11 +57,7 @@
                 >
                   {{ e.Title.toUpperCase() }}
                 </sidebar-button>
-                <div
-                  v-for="(f, l) in e.Children"
-                  :key="`section_${i}_content_${j}_subsection_${k}_subsection_${l}`"
-                  class="mt-n2"
-                >
+                <div v-for="(f, l) in e.Children" class="mt-n2">
                   <sidebar-button
                     :selected="f === selected"
                     :indent="4"
@@ -156,7 +144,6 @@
             <component
               v-if="itemComponent"
               :is="itemComponent"
-              :key="componentType"
               :item="selected"
             />
           </div>
@@ -170,7 +157,7 @@
 import * as Components from './pages';
 import SidebarButton from './_components/SidebarButton.vue';
 
-import { CampaignStore } from '@/store';
+import { CampaignStore } from '@/stores';
 
 export default {
   name: 'campaign-editor',

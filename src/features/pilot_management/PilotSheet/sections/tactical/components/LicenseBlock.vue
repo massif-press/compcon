@@ -28,12 +28,11 @@
       <no-data-block v-if="!pilot.LicenseController.Licenses.length" />
       <v-row
         v-else
-        dense
+        density="compact"
         :style="$vuetify.display.lgAndUp ? `width: calc(100vw - 250px)` : ''"
       >
         <v-col
           v-for="(l, i) in pilot.LicenseController.Licenses"
-          :key="`l_${i}`"
           cols="12"
           md="4"
         >

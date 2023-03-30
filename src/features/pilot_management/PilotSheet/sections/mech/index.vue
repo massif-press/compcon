@@ -32,10 +32,10 @@
             <span v-if="!small" :style="`color: ${color}`" class="pt-n3">
               {{ mech.Frame.Manufacturer.Name }}
             </span>
-            <span class="text--text">{{ mech.Frame.Name }}</span>
+            <span class="text-text">{{ mech.Frame.Name }}</span>
             <v-icon
               right
-              class="fadeSelect mt-n1"
+              class="fade-select mt-n1"
               @click="$refs.frameInfoDialog.show()"
             >
               mdi-information-outline
@@ -50,7 +50,7 @@
             >
               <p
                 v-html-safe="mech.Frame.Description"
-                class="flavor-text mt-3 mb-1 px-1 text--text"
+                class="flavor-text mt-3 mb-1 px-1 text-text"
               />
             </cc-solo-dialog>
           </span>
@@ -59,11 +59,11 @@
     </v-row>
     <v-row
       v-if="mech.StatusString.length"
-      dense
+      density="compact"
       justify="center"
       class="mt-n3 mb-1"
     >
-      <v-col v-for="s in mech.StatusString" :key="`status-${s}`" cols="auto">
+      <v-col v-for="s in mech.StatusString">
         <cc-mech-status-alert
           :type="s"
           @clear-ejected="mech.Ejected = false"
@@ -75,7 +75,6 @@
     <div>
       <div v-if="small" class="text-center mb-2">
         <img
-          :key="mech.Image"
           :src="mech.Portrait"
           :style="`object-fit: contain; width: 100%; image-rendering: ${
             isPixel ? 'pixelated' : 'crisp-edges'
@@ -87,7 +86,7 @@
           color="secondary"
           small
           block
-          class="fadeSelect"
+          class="fade-select"
           @click="$refs.imageSelector.open()"
         >
           <v-icon start>mdi-circle-edit-outline</v-icon>
@@ -115,7 +114,6 @@
         <div class="text-center mt-n10" style="max-height: inherit">
           <div style="position: relative; max-height: inherit">
             <img
-              :key="mech.Image"
               :src="mech.Portrait"
               :style="`object-fit: contain; width: 100%; image-rendering: ${
                 isPixel ? 'pixelated' : 'crisp-edges'
@@ -126,7 +124,7 @@
               variant="outlined"
               color="secondary"
               small
-              class="fadeSelect"
+              class="fade-select"
               style="position: absolute; bottom: 0; right: 0"
               @click="$refs.imageSelector.open()"
             >

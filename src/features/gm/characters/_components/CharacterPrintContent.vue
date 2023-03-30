@@ -17,13 +17,12 @@
         </v-row>
 
         <v-row no-gutters>
-          <v-col v-if="item.Pronouns" class="overline mt-n2"
+          <v-col v-if="item.Pronouns" class="text-overline mt-n2"
             >({{ item.Pronouns }})</v-col
           >
           <v-col v-if="item.Labels" cols="auto">
             <v-chip
               v-for="(l, i) in item.Labels"
-              :key="l + i"
               small
               variant="outlined"
               class="ml-1"
@@ -39,7 +38,7 @@
         />
 
         <div v-if="item.NarrativeController.TextItems.length">
-          <v-row v-for="(s, i) in item.Sections" :key="`section_${i}`" dense>
+          <v-row v-for="(s, i) in item.Sections" density="compact">
             <v-col>
               <v-row no-gutters justify="space-between">
                 <v-col cols="auto">
@@ -57,7 +56,6 @@
         </div>
         <cc-clock
           v-for="(c, i) in item.NarrativeController.Clocks"
-          :key="`${item.Name}_clock_${i}`"
           :clock="c"
           class="mx-1 my-2"
           print
@@ -65,7 +63,6 @@
         <div v-if="item.NarrativeController.Tables.length">
           <cc-rollable-table
             v-for="(t, i) in item.Tables"
-            :key="`${item.Name}_table_${i}`"
             :table="t"
             class="mx-1 my-2"
             print

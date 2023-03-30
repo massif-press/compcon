@@ -1,14 +1,9 @@
 <template>
-  <div>
-    <router-link to="/gm">
-      <v-btn text color="white" tile>Encounter Toolkit</v-btn>
-    </router-link>
-    <v-divider vertical dark class="ml-2 mr-2" />
-    <router-link to="/pilot_management">
-      <v-btn text color="white" tile>Pilot Roster</v-btn>
-    </router-link>
-    <v-divider vertical dark class="ml-2 mr-2" />
-  </div>
+  <v-btn variant="text" color="white" to="/gm">GM Toolkit</v-btn>
+  <v-btn variant="text" color="white" to="/pilot_management"
+    >Pilot Roster</v-btn
+  >
+  <v-btn variant="text" color="white" to="/active_mode">Active Mode</v-btn>
 </template>
 
 <script lang="ts">

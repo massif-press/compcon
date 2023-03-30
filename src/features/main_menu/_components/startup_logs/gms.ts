@@ -1,6 +1,6 @@
-import { encryption } from '@/io/Generators'
+import { encryption } from '@/io/Generators';
 
-const plog = typer => {
+const plog = (typer) => {
   typer
     .type('<br>')
     .type('<br>')
@@ -99,9 +99,9 @@ const plog = typer => {
     .type('No sensory bridge found // manual input mode enabled')
     .break()
     .type(
-      '>//[<span class="accent--text">COMP/CON</span>: <span class="stark-text--text">Welcome, Lancer. Input Command.</span>]'
+      '>//[<span class="text-accent">COMP/CON</span>: <span class="stark-text-text">Welcome, Lancer. Input Command.</span>]'
     )
-    .go()
-}
+    .go();
+};
 
-export default plog
+export default plog;

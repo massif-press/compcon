@@ -21,7 +21,7 @@
               rolls remaining
             </span>
             <br />
-            <div v-for="n in rolls.length" :key="`rr${n}`" class="d-inline">
+            <div v-for="n in rolls.length">
               <cc-tooltip simple inline content="Click to re-roll">
                 <v-btn text icon @click="rolls.splice(n - 1, 1)">
                   <v-icon
@@ -32,13 +32,9 @@
                 </v-btn>
               </cc-tooltip>
             </div>
-            <div
-              v-for="n in totalRolls - rolls.length"
-              :key="`er${n}`"
-              class="d-inline"
-            >
-              <v-btn text icon x-large disabled>
-                <v-icon x-large v-html="'mdi-checkbox-blank-outline'" />
+            <div v-for="n in totalRolls - rolls.length" class="d-inline">
+              <v-btn text icon size="x-large" disabled>
+                <v-icon size="x-large" v-html="'mdi-checkbox-blank-outline'" />
               </v-btn>
             </div>
             <br />
@@ -58,7 +54,6 @@
                 <v-divider vertical class="mr-3" />
                 <v-btn
                   v-for="n in 6"
-                  :key="`rb${n}`"
                   class="mt-0 mb-4"
                   :ripple="false"
                   x-large
@@ -78,7 +73,7 @@
                   <span
                     v-if="rolls.filter((x) => x === 1).length > 1"
                     key="t01"
-                    class="heading h3 error--text"
+                    class="heading h3 text-error"
                   >
                     // CRITICAL STRUCTURAL DAMAGE //
                   </span>
@@ -88,15 +83,11 @@
                   </span>
                 </v-scroll-y-transition>
               </div>
-              <div
-                v-if="rolls.length === totalRolls"
-                :key="'undo_1'"
-                class="text-right"
-              >
+              <div v-if="rolls.length === totalRolls" class="text-right">
                 <v-btn
                   x-small
                   color="primary"
-                  class="fadeSelect"
+                  class="fade-select"
                   @click="rolls.splice(0, rolls.length)"
                 >
                   <v-icon small left>mdi-reload</v-icon>
@@ -156,7 +147,6 @@
           <v-divider vertical class="mr-3" />
           <v-btn
             v-for="n in 6"
-            :key="`rb${n}`"
             class="mt-0 mb-4"
             :ripple="false"
             x-large
@@ -276,7 +266,7 @@ export default {
   }),
   computed: {
     mech(): MechInstance {
-      return this.$store.getters.activeMech;
+      return this.$CompendiumStore().activeMech;
     },
     destroyableMounts(): { name: string; index: number }[] {
       return this.loadout

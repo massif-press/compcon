@@ -33,7 +33,7 @@
           color="accent"
           variant="outlined"
           class="mt-2"
-          dense
+          density="compact"
           prominent
         >
           <b>Add two (2) Mech Skill Points.</b>

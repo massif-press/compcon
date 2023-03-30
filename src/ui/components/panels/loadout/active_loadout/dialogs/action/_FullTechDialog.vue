@@ -3,11 +3,10 @@
     <action-detail-expander :action="action" />
     <v-divider class="my-3" />
     <v-container style="max-width: 800px">
-      <div v-for="(k, i) in Object.keys(quickActions)" :key="`sys_act_${i}`">
+      <div v-for="(k, i) in Object.keys(quickActions)">
         <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
         <item-selector-row
           v-for="(a, j) in quickActions[k]"
-          :key="`action_${j}`"
           :item="a"
           :disabled="quick.length === 2"
           @click="addQuick(a)"
@@ -15,7 +14,6 @@
         <cc-combat-dialog
           v-for="(a, j) in quickActions[k]"
           v-show="a.IsTechAttack"
-          :key="`action_dialog_${j}`"
           :ref="`dialog_${a.ID}`"
           fulltech
           :action="a"
@@ -36,18 +34,16 @@
       v-if="Object.keys(fullActions).length"
       style="max-width: 800px"
     >
-      <div v-for="(k, i) in Object.keys(fullActions)" :key="`sys_act_${i}`">
+      <div v-for="(k, i) in Object.keys(fullActions)">
         <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
         <item-selector-row
           v-for="(a, j) in fullActions[k]"
-          :key="`action_${j}`"
           :item="a"
           :disabled="quick.length > 0"
           @click="fulltech(a)"
         />
         <cc-combat-dialog
           v-for="(a, j) in fullActions[k]"
-          :key="`action_dialog_${j}`"
           :ref="`dialog_${a.ID}`"
           :action="a"
           :mech="mech"
@@ -59,15 +55,14 @@
       <v-slide-x-reverse-transition group>
         <v-row
           v-for="(q, i) in quick"
-          :key="`quick_sel_${i}`"
-          dense
+          density="compact"
           justify="center"
           align="center"
         >
           <v-col cols="12" md="">
             <v-alert
               v-if="q === 'invade-fail'"
-              dense
+              density="compact"
               variant="outlined"
               color="white"
               class="text-center"
@@ -78,7 +73,7 @@
             </v-alert>
             <v-alert
               v-else-if="typeof q === 'string' && q.startsWith('attack-fail-')"
-              dense
+              density="compact"
               variant="outlined"
               color="white"
               class="text-center"
@@ -107,7 +102,7 @@
       </v-slide-x-reverse-transition>
 
       <v-slide-x-reverse-transition>
-        <v-row v-if="quick.length === 2" dense justify="center">
+        <v-row v-if="quick.length === 2" density="compact" justify="center">
           <v-col lg="6" md="10" xs="12">
             <v-btn
               block

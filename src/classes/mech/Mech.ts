@@ -1,4 +1,4 @@
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 import { Rules, Pilot, Frame, CoreBonus, Mount } from '@/class';
@@ -592,7 +592,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   }
 
   public static Deserialize(data: IMechData, pilot: Pilot): Mech {
-    const f = store.getters.referenceByID('Frames', data.frame);
+    const f = CompendiumStore().referenceByID('Frames', data.frame);
     const m = new Mech(f, pilot);
     // m.MechLoadoutController.UpdateLoadouts()
 

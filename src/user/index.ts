@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 import { UpdateUserData } from '@/cloud/user_sync';
 
-import { UserStore, store } from '@/store';
+import { UserStore } from '@/stores';
 import localForage from 'localforage';
 
 const CONFIG_FILE_NAME = 'user.config';
@@ -132,7 +132,7 @@ class UserProfile {
     };
 
     localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(data));
-    if (getModule(UserStore, store).IsLoggedIn) UpdateUserData(this, false);
+    if (getModule(UserStore).IsLoggedIn) UpdateUserData(this, false);
   }
 
   public get IsSavePerformant(): boolean {

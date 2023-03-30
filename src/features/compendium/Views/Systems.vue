@@ -10,7 +10,7 @@
 import _ from 'lodash';
 import CompendiumBrowser from '../components/CompendiumBrowser.vue';
 
-import { CompendiumStore, UserStore } from '@/store';
+import { CompendiumStore, UserStore } from '@/stores';
 import { MechEquipment } from '@/class';
 
 export default {
@@ -27,7 +27,7 @@ export default {
   }),
   computed: {
     compendium(): CompendiumStore {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
     user(): UserStore {
       return this.getModule(UserStore).UserProfile;

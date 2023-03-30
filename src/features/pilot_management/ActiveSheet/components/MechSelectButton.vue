@@ -6,14 +6,8 @@
       >
     </template>
     <v-list two-line subheader>
-      <v-subheader class="heading h2 white--text primary py-0 px-2"
-        >Available Mechs</v-subheader
-      >
-      <v-list-item
-        v-for="mech in mechs"
-        :key="`mech-select-${mech.ID}`"
-        @click="$emit('select', mech)"
-      >
+      <div class="heading h2 text-white primary py-0 px-2">Available Mechs</div>
+      <v-list-item v-for="mech in mechs" @click="$emit('select', mech)">
         <v-list-item-icon class="ma-0 mr-2 mt-3">
           <cc-logo size="large" :source="mech.Frame.Manufacturer" />
         </v-list-item-icon>

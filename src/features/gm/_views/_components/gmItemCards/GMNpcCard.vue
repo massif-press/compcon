@@ -10,27 +10,26 @@
         <v-fade-transition>
           <div
             v-if="hover"
-            class="d-flex text-center primary darken-2 v-card--reveal heading h2 white--text"
+            class="d-flex text-center primary darken-2 v-card--reveal heading h2 text-white"
             style="height: 100%"
           >
             <v-container v-if="item.NpcClassController.HasClass">
-              <v-row dense justify="space-around">
+              <v-row density="compact" justify="space-around">
                 <v-col cols="auto">
                   <v-icon size="80" color="white"
                     >cc:size-{{ item.StatController.Size }}</v-icon
                   >
                 </v-col>
               </v-row>
-              <v-row dense justify="space-around">
-                <v-col v-for="(e, i) in hase" :key="`haseitem_${i}`">
+              <v-row density="compact" justify="space-around">
+                <v-col v-for="(e, i) in hase">
                   <span style="opacity: 0.5">{{ e.text }}</span>
                   <b v-text="item.StatController[e.val]" />
                 </v-col>
               </v-row>
-              <v-row dense justify="space-around">
+              <v-row density="compact" justify="space-around">
                 <v-col
                   v-for="(e, i) in stats"
-                  :key="`statsitem_${i}`"
                   v-show="item.StatController[e.val]"
                   cols="3"
                 >
@@ -43,7 +42,7 @@
               <div v-show="big">
                 <v-divider dark class="my-2" />
                 <v-row
-                  dense
+                  density="compact"
                   justify="center"
                   align="center"
                   class="text-center"
@@ -51,7 +50,6 @@
                   <v-col>
                     <v-chip
                       v-for="(e, i) in item.Items"
-                      :key="`npc_item_${i}`"
                       small
                       label
                       variant="outlined"
@@ -62,7 +60,7 @@
                 </v-row>
                 <v-row v-if="item.Subtitle" justify="center" align="end">
                   <v-col
-                    class="white--text flavor-text"
+                    class="text-white flavor-text"
                     v-text="item.Subtitle"
                   />
                 </v-row>
@@ -78,14 +76,13 @@
           :color="hover ? 'accent' : 'primary'"
           class="ma-1"
           v-for="(t, i) in item.NpcTemplateController.Templates"
-          :key="`${item.ID}_template_${i}`"
         >
-          <v-icon small>cc:npc-template</v-icon>
+          <v-icon small>cc:npc_template</v-icon>
           {{ t.Name }}
         </v-chip>
       </div>
       <v-card-text class="pa-0 pb-2 text-center" style="position: relative">
-        <div class="text-button" :class="hover ? 'accent--text' : ''">
+        <div class="text-button" :class="hover ? 'text-accent' : ''">
           <span v-if="item.NpcClassController.Class">
             {{ `T${item.NpcClassController.Tier}` }}
           </span>
@@ -94,7 +91,7 @@
           </b>
           <span v-if="item.Tag">{{ item.Tag }}</span>
         </div>
-        <div class="heading h2" :class="hover ? 'accent--text' : ''">
+        <div class="heading h2" :class="hover ? 'text-accent' : ''">
           {{ item.Name }}
         </div>
 
@@ -103,7 +100,7 @@
           small
           :color="hover ? 'accent' : ''"
           v-for="(l, i) in item.Labels"
-          :key="`${item.ID}_label_${i}`"
+          
           v-text="l"
         /> -->
       </v-card-text>

@@ -5,7 +5,7 @@
         color="error"
         prominent
         icon="mdi-database-alert"
-        class="white--text"
+        class="text-white"
       >
         <div class="heading h2 text-center mb-2">
           Storage Permission Required!
@@ -39,13 +39,13 @@
         </div>
       </v-alert>
       <v-card-actions>
-        <v-btn color="white" text class="fadeSelect" @click="show = false">
+        <v-btn color="white" text class="fade-select" @click="show = false">
           Close
         </v-btn>
       </v-card-actions>
     </v-card>
     <v-fade-transition>
-      <div v-if="!show" class="white--text">
+      <div v-if="!show" class="text-white">
         <b>Persistent storage activated! Closing alert...</b>
       </div>
     </v-fade-transition>

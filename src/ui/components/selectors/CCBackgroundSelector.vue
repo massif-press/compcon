@@ -10,7 +10,6 @@
       <cc-sidebar-view>
         <v-list-item
           v-for="(e, i) in backgrounds"
-          :key="`${i}_sidebar'`"
           slot="sidebar"
           link
           @click="
@@ -30,8 +29,7 @@
         <v-row
           v-for="(e, i) in backgrounds"
           :id="`e_${e.ID}`"
-          :key="`${e.ID}_${i}`"
-          dense
+          density="compact"
         >
           <v-col>
             <cc-titled-panel
@@ -52,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'cc-background-selector',

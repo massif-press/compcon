@@ -10,15 +10,19 @@
       icons-and-text
       show-arrows
     >
-      <v-tab v-for="(m, i) in manufacturers" :key="m.ID" ripple>
+      <v-tab v-for="(m, i) in manufacturers" ripple>
         <cc-logo
+          v-if="m.LogoIsExternal"
           size="large"
           :source="m"
           :color="tabModel == i ? 'white' : 'black'"
         />
+        <v-icon v-else size="40" :icon="`cc:${m.Icon}`" />
         {{ m.ID }}
       </v-tab>
-      <v-tab-item v-for="m in manufacturers" :key="m.ID + 'desc'">
+    </v-tabs>
+    <v-window v-model="tabModel">
+      <v-window-item v-for="m in manufacturers">
         <v-card flat class="px-3 py-3 panel clipped-x-large">
           <v-card-title
             :class="`heading ${$vuetify.display.lgAndUp ? 'mech pb-3' : 'h2'}`"
@@ -41,23 +45,22 @@
             />
             <blockquote
               v-html-safe="m.Quote"
-              class="quote-block fluff-text text--text"
+              class="quote-block fluff-text text-text"
             />
-            <v-divider class="ma-2" style="width: 800px" />
+            <v-divider class="ma-2" style="width: 30vw" />
             <p
               v-html-safe="m.Description"
-              class="body-text stark-text--text mb-2"
-              style="min-height: 400px"
+              class="body-text stark-text-text mb-2"
             />
           </v-card-text>
         </v-card>
-      </v-tab-item>
-    </v-tabs>
+      </v-window-item>
+    </v-window>
   </v-container>
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 export default {
   name: 'manufacturers',
   data: () => ({
@@ -65,9 +68,7 @@ export default {
   }),
   computed: {
     manufacturers() {
-      return this.getModule(CompendiumStore).Manufacturers.filter(
-        (x) => !x.IsHidden
-      );
+      return CompendiumStore().Manufacturers.filter((x) => !x.IsHidden);
     },
   },
 };

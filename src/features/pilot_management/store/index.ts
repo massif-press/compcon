@@ -1,3 +1,4 @@
+import { defineStore } from 'pinia';
 import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
 import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator';
 import { Pilot } from '@/class';
@@ -24,15 +25,15 @@ export interface PilotGroup {
   hidden: boolean;
 }
 
-export default {
+export const PilotStore = defineStore('pilot', {
   state: () => ({
     Pilots: [] as Pilot[],
     DeletedPilots: [] as Pilot[],
     PilotGroups: [] as PilotGroup[],
     MissingPilots: [] as PilotData[],
     LoadedMechID: '',
-    ActivePilot: null as unknown as Pilot,
-    printOptions: null as unknown as PrintOptions,
+    ActivePilot: null as Pilot | null,
+    printOptions: null as PrintOptions | null,
   }),
   getters: {
     AllPilots: (state: any) => state.Pilots.concat(state.DeletedPilots),
@@ -42,24 +43,18 @@ export default {
     getActivePilot: (state: any) => state.ActivePilot,
     getPrintOptions: (state: any) => state.printOptions,
   },
-  mutations: {
-    SAVE_DATA(state: any): void {
-      savePilots(state.Pilots.concat(state.DeletedPilots));
-    },
-    LOAD_PILOTS(
-      state: any,
-      payload: {
-        pilotData: PilotData[];
-        groupData: PilotGroup[];
-      }
-    ): void {
+  actions: {
+    _loadPilots(payload: {
+      pilotData: PilotData[];
+      groupData: PilotGroup[];
+    }): void {
       const all = payload.pilotData.map((x) => Pilot.Deserialize(x));
-      state.Pilots = all.filter((x) => !x.SaveController.IsDeleted);
-      state.DeletedPilots = all.filter((x) => x.SaveController.IsDeleted);
+      this.Pilots = all.filter((x) => !x.SaveController.IsDeleted);
+      this.DeletedPilots = all.filter((x) => x.SaveController.IsDeleted);
 
       //clean up deleted
       const del = [] as Pilot[];
-      state.DeletedPilots.forEach((dp: Pilot) => {
+      (this.DeletedPilots as Pilot[]).forEach((dp: Pilot) => {
         if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime))
           del.push(dp);
       });
@@ -67,18 +62,25 @@ export default {
         console.info(`Cleaning up ${del.length} pilots marked for deletion`);
 
         Promise.all(del.map((p) => deletePermanent(p)))
-          .then(() => storeSaveDelta(state.Pilots.concat(state.DeletedPilots)))
+          .then(() =>
+            storeSaveDelta(
+              (this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[])
+            )
+          )
           .then(() => console.info('Done'))
           .catch((err) =>
             console.error('Error in permanently deleting pilots:', err)
           );
       }
     },
-    ADD_PILOT(state: any, payload: Pilot): void {
+    AddPilot(payload: Pilot): void {
       payload.SaveController.IsDirty = true;
-      state.Pilots.push(payload);
+      this.Pilots.push(payload);
+      savePilots(
+        (this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[])
+      );
     },
-    CLONE_PILOT(state: any, payload: { pilot: Pilot; quirk: boolean }): void {
+    ClonePilot(payload: { pilot: Pilot; quirk: boolean }): void {
       const pilotData = Pilot.Serialize(payload.pilot);
       const newPilot = Pilot.Deserialize(pilotData);
       newPilot.RenewID();
@@ -87,114 +89,87 @@ export default {
       for (const mech of newPilot.Mechs) {
         mech.RenewID();
       }
-      state.Pilots.push(newPilot);
+      this.Pilots.push(newPilot);
     },
-    DELETE_PILOT(state: any, payload: Pilot): void {
-      const pilotIndex = state.Pilots.findIndex(
+    DeletePilot(payload: Pilot): void {
+      const pilotIndex = (this.Pilots as Pilot[]).findIndex(
         (x: Pilot) => x.ID === payload.ID
       );
 
       if (pilotIndex > -1) {
-        state.Pilots.splice(pilotIndex, 1);
-        state.DeletedPilots.push(payload);
+        this.Pilots.splice(pilotIndex, 1);
+        this.DeletedPilots.push(payload);
       } else {
         throw console.error('Pilot not loaded!');
       }
     },
-    DELETE_PILOT_PERMANENT(state: any, payload: Pilot): void {
-      const dpIdx = state.DeletedPilots.findIndex(
+    DeletePilotPermanent(payload: Pilot): void {
+      const dpIdx = (this.DeletedPilots as Pilot[]).findIndex(
         (x: Pilot) => x.ID === payload.ID
       );
       if (dpIdx > -1) {
-        state.DeletedPilots.splice(dpIdx, 1);
+        this.DeletedPilots.splice(dpIdx, 1);
         deletePermanent(payload);
       }
     },
-    DELETE_MISSING_PILOT(state: any, payload: any): void {
-      const idx = state.MissingPilots.findIndex(
+    DeleteMissingPilot(payload: any): void {
+      const idx = (this.MissingPilots as any[]).findIndex(
         (x: Pilot) => x.ID === payload.ID
       );
       if (idx > -1) {
-        state.MissingPilots.splice(idx, 1);
+        this.MissingPilots.splice(idx, 1);
         deletePermanent(payload);
       }
     },
-    RESTORE_PILOT(state: any, payload: Pilot): void {
-      const pilotIndex = state.DeletedPilots.findIndex(
+    restorePilot(payload: Pilot): void {
+      const pilotIndex = (this.DeletedPilots as Pilot[]).findIndex(
         (x: Pilot) => x.ID === payload.ID
       );
       if (pilotIndex > -1) {
-        state.DeletedPilots.splice(pilotIndex, 1);
-        state.Pilots.push(payload);
+        this.DeletedPilots.splice(pilotIndex, 1);
+        this.Pilots.push(payload);
       } else {
         throw console.error('Pilot not loaded!');
       }
     },
-    SET_LOADED_MECH(state: any, payload: string): void {
-      state.LoadedMechID = payload;
+    setLoadedMech(payload: string): void {
+      this.LoadedMechID = payload;
     },
 
-    SET_MISSING_PILOTS(state: any, payload: PilotData[]): void {
-      state.MissingPilots = payload;
-    },
-  },
-  actions: {
-    setPilots({ commit }: any, payload: Pilot[]) {
-      commit('SET_PILOTS', payload);
+    SetMissingPilots(payload: PilotData[]): void {
+      this.MissingPilots = payload;
     },
 
-    set_pilot_dirty({ commit }: any): void {
-      commit('SET_DIRTY');
+    savePilotData(): void {
+      savePilots(
+        (this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[])
+      );
     },
 
-    set_mech_dirty({ commit }: any): void {
-      commit('SET_DIRTY');
-    },
-
-    savePilotData({ commit }: any): void {
-      commit('SAVE_DATA');
-    },
-
-    async loadPilots({ commit }: any) {
+    async LoadPilots() {
       const pilotData = await GetAll('pilots');
-      commit('LOAD_PILOTS', {
+      this._loadPilots({
         pilotData: ItemsWithLcp(pilotData),
+        groupData: [],
       });
-      commit('SET_MISSING_PILOTS', ItemsMissingLcp(pilotData));
+      this.SetMissingPilots(ItemsMissingLcp(pilotData));
     },
 
-    async loadCloudPilots({ commit }: any, payload: PilotData) {
-      commit('LOAD_PILOTS', payload);
+    async loadCloudPilots(payload: PilotData) {
+      this._loadPilots({ pilotData: [payload], groupData: [] });
     },
 
-    clonePilot({ commit }: any, payload: Pilot): void {
-      commit('CLONE_PILOT', payload);
+    delete_pilot(payload: Pilot): void {
+      this.DeletePilot(payload);
     },
 
-    addPilot({ commit }: any, payload: Pilot): void {
-      commit('ADD_PILOT', payload);
-      commit('SAVE_DATA');
+    deletePilotPermanent(payload: Pilot): void {
+      if (!payload.SaveController.IsDeleted) this.DeletePilot(payload);
+      this.deletePilotPermanent(payload);
     },
 
-    delete_pilot({ commit }: any, payload: Pilot): void {
-      commit('DELETE_PILOT', payload);
-    },
-
-    deleteMissingPilot({ commit }: any, payload: any): void {
-      commit('DELETE_MISSING_PILOT', payload);
-    },
-
-    deletePilotPermanent({ commit }: any, payload: Pilot): void {
-      if (!payload.SaveController.IsDeleted) commit('DELETE_PILOT');
-      commit('DELETE_PILOT_PERMANENT', payload);
-    },
-
-    restore_pilot({ commit }: any, payload: Pilot): void {
-      commit('RESTORE_PILOT', payload);
-    },
-
-    setLoadedMech({ commit }: any, id: string): void {
-      commit('SET_LOADED_MECH', id);
+    restore_pilot(payload: Pilot): void {
+      this.restorePilot(payload);
     },
   },
-};
+});

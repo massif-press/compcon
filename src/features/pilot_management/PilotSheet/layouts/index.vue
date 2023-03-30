@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { Pilot } from '@/class';
 import { UserProfile } from '@/user';
 import TabbedLayout from './Tabbed.vue';

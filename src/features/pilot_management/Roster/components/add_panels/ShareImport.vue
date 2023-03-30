@@ -48,7 +48,7 @@
       </v-card>
     </div>
     <v-card v-if="missingContent.length">
-      <p v-if="oldBrewsWarning" class="heading h3 accent--text">
+      <p v-if="oldBrewsWarning" class="heading h3 text-accent">
         WARNING: The imported Pilot was created using an older version of
         COMP/CON. Lancer Content Pack analysis may not be comprehensive and
         there is a chance COMP/CON will be unable to correctly load this data.
@@ -56,12 +56,12 @@
         LCP validation.
       </p>
       <v-card-text class="text-center">
-        <p class="heading h4 accent--text">
+        <p class="heading h4 text-accent">
           The imported Pilot requires the following content packs that are not
           currently installed/active, or have mismatching versions:
         </p>
         <p class="effect-text text-center" v-html="missingContent" />
-        <p class="text--text">
+        <p class="text-text">
           This Pilot cannot be imported until the missing content packs are
           installed and activated, or the content pack versions are
           synchronized.
@@ -74,16 +74,16 @@
       </v-card-actions>
     </v-card>
     <div class="mt-2">
-      <p v-if="alreadyPresentItem" class="accent--text text-center">
+      <p v-if="alreadyPresentItem" class="text-accent text-center">
         A Pilot with this ID already exists in the roster. Unable to set this
         pilot as a remote resource. You may
-        <b class="accent--text">permanently delete</b>
+        <b class="text-accent">permanently delete</b>
         the existing pilot to continue this import.
         <v-btn x-small color="error" @click="deleteAP()"
           >Permanenty delete local item</v-btn
         >
       </p>
-      <p v-if="isSameUser" class="accent--text text-center">
+      <p v-if="isSameUser" class="text-accent text-center">
         The cloud account ID associated with this item is the same as the
         currently logged-in user. Unable to set this pilot as a remote resource.
       </p>
@@ -134,7 +134,7 @@
 <script lang="ts">
 import { Pilot } from '@/class';
 
-import { CompendiumStore, PilotManagementStore } from '@/store';
+import { CompendiumStore, PilotStore } from '@/stores';
 import { getRecord } from '@/io/apis/share';
 import { GetSingleRemote } from '@/cloud/item_sync';
 import { Auth } from 'aws-amplify';
@@ -218,7 +218,7 @@ export default {
       if (this.pilotData.brews.length && !this.pilotData.brews[0].LcpId) {
         this.oldBrewsWarning = true;
 
-        const installedPacks = this.getModule(CompendiumStore)
+        const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
           .map((x) => `${x.Name} @ ${x.Version}`);
         const missingPacks = this.$_.pullAll(
@@ -228,7 +228,7 @@ export default {
         if (missingPacks.length)
           this.missingContent = missingPacks.join('<br />');
       } else {
-        const installedPacks = this.getModule(CompendiumStore)
+        const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
           .map((x) => x.ID);
         let missing = [];
@@ -239,7 +239,7 @@ export default {
         });
         if (missing.length) this.missingContent = missing.join('<br />');
       }
-      const ap = this.getModule(PilotManagementStore).AllPilots.find(
+      const ap = this.getModule(PilotStore).AllPilots.find(
         (x) => x.ID === this.pilotData.id
       );
       if (ap) {
@@ -293,7 +293,7 @@ export default {
       this.shareCode = this.shareCode.replaceAll(' ', '');
     },
     deleteAP() {
-      const ps = this.getModule(PilotManagementStore);
+      const ps = this.getModule(PilotStore);
       ps.deletePilotPermanent(
         ps.AllPilots.find((x) => x.ID === this.alreadyPresentItem.ID)
       );

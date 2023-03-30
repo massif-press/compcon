@@ -25,7 +25,7 @@
         unavailable, request an NHP-directed review at secure Omninet address
         <code>un_omni-18364.andes.cerrobonete.node:9</code>
       </span>
-      <v-alert color="accent" variant="outlined" dense class="mt-2">
+      <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
         <span class="overline">
           Submitting unauthorized licensing updates and/or submitting
           applications for unauthorized or previously-witheld license rights
@@ -40,14 +40,14 @@
         <v-col class="text-center">
           The UAD IDENT Service has determined that&nbsp;
           <div
-            class="accent--text stat-text d-inline-block"
+            class="text-accent stat-text d-inline-block"
             style="position: relative; top: 10px; line-height: 10px"
           >
             {{ pilot.Name }}
             <cc-slashes />
             "{{ pilot.Callsign }}"
             <br />
-            <span class="overline subtle--text">{{ pilot.ID }}</span>
+            <span class="text-overline text-subtle">{{ pilot.ID }}</span>
           </div>
           &nbsp;is eligible for the following license update:
         </v-col>
@@ -57,13 +57,13 @@
           <v-card-text>
             <v-row class="px-3">
               <v-col class="text-center" cols="auto">
-                <span class="overline white--text">LICENSE LEVEL</span>
+                <span class="text-overline text-white">LICENSE LEVEL</span>
                 <br />
-                <span class="white--text display-4 font-weight-black">{{
+                <span class="text-white display-4 font-weight-black">{{
                   pilot.Level
                 }}</span>
               </v-col>
-              <v-col cols="auto" class="flavor-text white--text px-4">
+              <v-col cols="auto" class="flavor-text text-white px-4">
                 <ul>
                   <li>PILOT SKILL TRIGGER IMPROVEMENT</li>
                   <li>PILOT TALENT UPGRADE</li>
@@ -73,7 +73,7 @@
                   <li v-if="cbEligible" class="font-weight-bolder">
                     CORE BONUS INSTALLATION
                   </li>
-                  <li v-else class="subtle--text">INELIGIBLE FOR CORE BONUS</li>
+                  <li v-else class="text-subtle">INELIGIBLE FOR CORE BONUS</li>
                 </ul>
               </v-col>
             </v-row>

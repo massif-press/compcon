@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense class="panel" justify="center" align="center">
+    <v-row density="compact" class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">RESET PASSWORD</v-col>
     </v-row>
     <v-row class="mt-2" justify="center">
@@ -8,7 +8,7 @@
         <v-text-field
           v-model="email"
           variant="outlined"
-          dense
+          density="compact"
           label="E-Mail Address"
           hide-details
         />
@@ -28,14 +28,14 @@
     </v-row>
     <v-slide-x-transition group>
       <v-row v-if="sent" key="a">
-        <v-col cols="12" class="text-center body-text stark--text">
+        <v-col cols="12" class="text-center body-text text-stark">
           <div>Password reset code sent to {{ email }}</div>
         </v-col>
         <v-col lg="6" cols="12">
           <v-text-field
             v-model="code"
             variant="outlined"
-            dense
+            density="compact"
             label="Password Reset Code"
           />
         </v-col>
@@ -43,7 +43,7 @@
           <v-text-field
             v-model="newpass"
             variant="outlined"
-            dense
+            density="compact"
             label="New Password"
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show ? 'text' : 'password'"

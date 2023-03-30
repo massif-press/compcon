@@ -1,11 +1,11 @@
 <template>
-  <v-row dense justify="space-around" class="mx-4">
+  <v-row density="compact" justify="space-around" class="mx-4">
     <v-col cols="12" md="4">
       <v-select
         v-model="sourceFilter"
         class="px-2"
         hide-details
-        dense
+        density="compact"
         prepend-icon="mdi-factory"
         variant="outlined"
         label="From Manufacturer"
@@ -21,7 +21,7 @@
         v-model="typeFilter"
         class="px-2"
         hide-details
-        dense
+        density="compact"
         prepend-icon="cc:frame"
         chips
         deletable-chips
@@ -38,7 +38,7 @@
         v-model="mountFilter"
         class="px-2"
         hide-details
-        dense
+        density="compact"
         prepend-icon="cc:weapon"
         chips
         deletable-chips
@@ -55,7 +55,7 @@
         v-model="lcpFilter"
         class="px-2"
         hide-details
-        dense
+        density="compact"
         prepend-icon="cc:compendium"
         chips
         deletable-chips
@@ -73,7 +73,7 @@
 <script lang="ts">
 import { MechType, MountType, Manufacturer } from '@/class';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 const nameSort = function (a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
@@ -91,7 +91,7 @@ export default {
   }),
   computed: {
     manufacturers(): Manufacturer[] {
-      return this.$store.getters
+      return this.$CompendiumStore
         .getItemCollection('Manufacturers')
         .map((x) => ({ text: x.Name, value: x.ID }))
         .sort(nameSort);
@@ -108,7 +108,7 @@ export default {
         .sort() as MountType[];
     },
     lcps(): string[] {
-      return this.getModule(CompendiumStore).Frames.map((x) => x.LcpName);
+      return CompendiumStore().Frames.map((x) => x.LcpName);
     },
   },
   methods: {

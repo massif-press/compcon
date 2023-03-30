@@ -2,7 +2,7 @@
   <div
     v-if="!tag.IsHidden"
     :class="`text-center d-inline-block ${
-      dense || $vuetify.display.mdAndDown ? '' : 'my-2'
+      density === `compact` || $vuetify.display.mdAndDown ? '' : 'my-2'
     }`"
   >
     <cc-tooltip
@@ -37,9 +37,9 @@ export default {
       type: Boolean,
       required: false,
     },
-    dense: {
-      type: Boolean,
-      required: false,
+    density: {
+      type: String,
+      required: '',
     },
     outlined: {
       type: Boolean,

@@ -1,24 +1,24 @@
 <template>
   <v-col :cols="cols" :lg="lg" :md="md" :sm="sm">
-    <div
-      class="mx-2"
-      @click="$emit('clicked')"
-      @keydown.enter="$emit('clicked')"
-      tabindex="0"
+    <v-card
+      variant="tonal"
+      :color="color"
+      class="pa-2"
+      @click="$router.push(to)"
     >
-      <v-alert variant="outlined" :color="color" prominent dense>
-        <v-icon
-          slot="prepend"
-          class="icn"
-          x-large
-          :color="`${color} lighten-1`"
-          left
-        >
-          {{ icon }}
-        </v-icon>
-        <div class="d-inline mt-n1 heading h2 stark--text">{{ name }}</div>
-      </v-alert>
-    </div>
+      <v-row align="center">
+        <v-col cols="auto">
+          <v-icon class="icn" size="50" :color="`${color} lighten-1`">
+            {{ icon }}
+          </v-icon>
+        </v-col>
+        <v-col>
+          <div class="heading h2 text-stark">
+            {{ name }}
+          </div>
+        </v-col>
+      </v-row>
+    </v-card>
   </v-col>
 </template>
 
@@ -27,6 +27,10 @@ export default {
   name: 'CompendiumPageButton',
   props: {
     name: {
+      type: String,
+      required: true,
+    },
+    to: {
       type: String,
       required: true,
     },
@@ -65,13 +69,13 @@ export default {
 </script>
 
 <style scoped>
-.v-alert {
+.v-card {
   filter: brightness(100%);
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
 
-.v-alert:hover {
+.v-card:hover {
   filter: brightness(160%);
 }
 

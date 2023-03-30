@@ -2,7 +2,6 @@
   <cc-sidebar-view>
     <v-list-item
       v-for="(t, i) in talents"
-      :key="`${i}_sidebar'`"
       slot="sidebar"
       link
       @click="
@@ -17,15 +16,15 @@
         t.Name
       }}</v-list-item-title>
     </v-list-item>
-    <v-row dense align="center">
+    <v-row density="compact" align="center">
       <v-col cols="auto">
         <div class="heading h1 mt-3 mb-2">PILOT TALENTS</div>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-btn-toggle v-model="ctype" mandatory>
-          <v-btn value="full"><v-icon>mdi-view-stream</v-icon></v-btn>
-          <v-btn value="terse"><v-icon>mdi-view-list</v-icon></v-btn>
-          <v-btn value="small"><v-icon>mdi-view-comfy</v-icon></v-btn>
+          <v-btn value="full"><v-icon icon="mdi-view-stream" /></v-btn>
+          <v-btn value="terse"><v-icon icon="mdi-view-list" /></v-btn>
+          <v-btn value="small"><v-icon icon="mdi-view-comfy" /></v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
@@ -33,7 +32,6 @@
       <cc-talent
         v-for="t in talents"
         :id="`e_${t.ID}`"
-        :key="`${t.ID}_data'`"
         :talent="t"
         :terse="ctype === 'terse'"
         :small="ctype === 'small'"
@@ -43,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { Talent } from '@/class';
 
 export default {
@@ -53,7 +51,7 @@ export default {
   }),
   computed: {
     compendium(): CompendiumStore {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
     talents(): Talent[] {
       return this.compendium.Talents.filter((x) => !x.IsHidden);

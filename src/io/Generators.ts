@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import * as callsigns from '@/assets/generators/callsigns.txt';
 import * as mechnames from '@/assets/generators/mechnames.txt';
 import * as teamnames from '@/assets/generators/teamnames.txt';
@@ -19,21 +19,21 @@ function pullRandom(data: string, count: number): string[] {
 
 function callsign(): string {
   return pullRandom(
-    (callsigns as any).concat(store.getters.Tables?.callsigns || []),
+    (callsigns as any).concat(CompendiumStore().Tables?.callsigns || []),
     1
   )[0];
 }
 
 function mechname(): string {
   return pullRandom(
-    (mechnames as any).concat(store.getters.Tables?.mech_names || []),
+    (mechnames as any).concat(CompendiumStore().Tables?.mech_names || []),
     1
   )[0];
 }
 
 function teamName(): string {
   return pullRandom(
-    (teamnames as any).concat(store.getters.Tables?.team_names || []),
+    (teamnames as any).concat(CompendiumStore().Tables?.team_names || []),
     1
   )[0];
 }
@@ -67,7 +67,7 @@ function mission(): string {
 
 function faction(): string {
   return pullRandom(
-    (factions as any).concat(store.getters.Tables?.team_names || []),
+    (factions as any).concat(CompendiumStore().Tables?.team_names || []),
     1
   )[0];
 }

@@ -3,8 +3,7 @@
     <div v-if="item.NarrativeController.TextItems.length">
       <v-row
         v-for="(s, i) in item.NarrativeController.TextItems"
-        :key="`textItem_${i}`"
-        dense
+        density="compact"
       >
         <v-col>
           <v-row no-gutters justify="space-between">
@@ -22,10 +21,10 @@
                     small
                     icon
                     color="error"
-                    class="fadeSelect"
+                    class="fade-select"
                     v-bind="props"
                   >
-                    <v-icon>mdi-delete</v-icon>
+                    <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
                 <v-card>
@@ -77,7 +76,7 @@
                 v-else
                 v-model="newTextItemHeader"
                 label="New Title"
-                dense
+                density="compact"
                 hide-details
                 variant="outlined"
               />

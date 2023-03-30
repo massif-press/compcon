@@ -6,14 +6,14 @@
 import _ from 'lodash';
 import SidebarArrayView from '../components/SidebarArrayView.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'Tags',
   components: { SidebarArrayView },
   computed: {
     compendium(): CompendiumStore {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
     tags(): string[] {
       return _.sortBy(

@@ -1,10 +1,6 @@
 <template>
   <cc-sidebar-view>
-    <div
-      v-for="m in Object.keys(bonuses)"
-      :key="`list_block_${m}`"
-      slot="sidebar"
-    >
+    <div v-for="m in Object.keys(bonuses)" slot="sidebar">
       <v-list-item>
         <v-list-item-title class="ml-n5 mb-n2">
           <cc-logo :source="manufacturer(m)" style="margin-bottom: -6px" />
@@ -19,7 +15,6 @@
 
       <v-list-item
         v-for="cb in bonuses[m]"
-        :key="`${cb.ID}_data'`"
         link
         @click="
           $vuetify.goTo(`#e_${cb.ID}`, {
@@ -29,7 +24,7 @@
           })
         "
       >
-        <v-list-item-title class="heading h3 text--text">{{
+        <v-list-item-title class="heading h3 text-text">{{
           cb.Name
         }}</v-list-item-title>
       </v-list-item>
@@ -50,7 +45,7 @@
           value="ALL"
           :items="['ALL', ...sources]"
           variant="outlined"
-          dense
+          density="compact"
           hide-details
           height="2px"
         />
@@ -59,8 +54,8 @@
 
     <v-divider class="my-2" />
 
-    <div v-for="m in Object.keys(bonuses)" :key="`summary_block_m${m}`">
-      <v-row dense align="center">
+    <div v-for="m in Object.keys(bonuses)">
+      <v-row density="compact" align="center">
         <v-col cols="auto">
           <cc-logo
             :size="$vuetify.display.mdAndUp ? 'xLarge' : 'large'"
@@ -80,7 +75,6 @@
       <cc-core-bonus-item
         v-for="(b, i) in bonuses[m]"
         :id="`e_${b.ID}`"
-        :key="`${b.ID}_${i}`"
         :bonus="b"
         class="mx-3 my-5"
       />
@@ -89,7 +83,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import _, { Dictionary } from 'lodash';
 import { CoreBonus } from '@/class';
 import { Manufacturer } from '@/classes/Manufacturer';
@@ -101,7 +95,7 @@ export default {
   }),
   computed: {
     bonuses(): Dictionary<CoreBonus[]> {
-      let bArr = this.$store.getters['compendium/CoreBonuses'].filter(
+      let bArr = this.$CompendiumStore['compendium/CoreBonuses'].filter(
         (x: CoreBonus) => !x.IsHidden
       );
       if (this.manFilter && this.manFilter.toLowerCase() !== 'all') {
@@ -111,12 +105,12 @@ export default {
       return _.groupBy(bArr, 'Source');
     },
     sources(): string[] {
-      return this.$store.getters['compendium/CoreBonuses']
+      return this.$CompendiumStore['compendium/CoreBonuses']
         .filter((x: CoreBonus) => !x.IsHidden)
         .map((x: CoreBonus) => x.Source);
     },
     compendium(): CompendiumStore {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
   },
   mounted(): void {
@@ -124,7 +118,7 @@ export default {
   },
   methods: {
     manufacturer(id: string): Manufacturer {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       return compendium.Manufacturers.find((x) => x.ID === id.toUpperCase());
     },
   },

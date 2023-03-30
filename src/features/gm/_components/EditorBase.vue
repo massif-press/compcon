@@ -1,8 +1,8 @@
 <template>
   <v-container fluid v-show="item">
     <v-card flat variant="outlined" class="mb-8">
-      <v-toolbar dense color="primary">
-        <div class="heading h3 pa-1 white--text">{{ typeText }} EDITOR</div>
+      <v-toolbar density="compact" color="primary">
+        <div class="heading h3 pa-1 text-white">{{ typeText }} EDITOR</div>
         <v-spacer />
         <v-btn icon @click="$emit('exit')">
           <v-icon large color="white">mdi-close</v-icon>
@@ -56,7 +56,6 @@
         <div class="caption">{{ typeText }} CLOCKS</div>
         <cc-clock
           v-for="(c, i) in item.NarrativeController.Clocks"
-          :key="`${item.Name}_clock_${i}`"
           :clock="c"
           class="mx-1 my-2"
           @delete="item.DeleteClock(c)"
@@ -78,7 +77,6 @@
         <div class="caption">{{ typeText }} TABLES</div>
         <cc-rollable-table
           v-for="(t, i) in item.NarrativeController.Tables"
-          :key="`${item.Name}_table_${i}`"
           :table="t"
           class="mx-1 my-2"
           @delete="item.DeleteTable(t)"

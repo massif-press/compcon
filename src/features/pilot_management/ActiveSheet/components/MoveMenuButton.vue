@@ -18,9 +18,8 @@
       </v-btn>
     </template>
     <div>
-      <v-card class="px-4 py-2" dense color="panel">
+      <v-card class="px-4 py-2" density="compact" color="panel">
         <cc-tick-bar
-          :key="state.Move"
           :current="state.Move"
           :max="state.MaxMove"
           large
@@ -35,7 +34,6 @@
         <v-fade-transition>
           <cc-tick-bar
             v-if="mech.Boost"
-            :key="mech.Boost"
             :current="mech.Boost"
             :max="mech.MaxMove"
             large

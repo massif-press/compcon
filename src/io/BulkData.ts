@@ -4,7 +4,7 @@ import Startup from './Startup';
 
 import { DeleteAll } from '@/cloud/item_sync';
 import _ from 'lodash';
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import localForage from 'localforage';
 
 const files = [

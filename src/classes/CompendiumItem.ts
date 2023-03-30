@@ -1,4 +1,4 @@
-import { store } from '../store';
+import { CompendiumStore, PilotStore } from '../stores';
 import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '../class';
 import { ICounterData, ITagCompendiumData, ITagData } from '../interface';
 import _ from 'lodash';
@@ -25,8 +25,8 @@ interface ICompendiumItemData {
 abstract class CompendiumItem {
   public ItemType: ItemType;
   public readonly Brew: string;
-  public readonly LcpName: string;
-  public readonly InLcp: boolean;
+  public readonly LcpName: string = '';
+  public readonly InLcp: boolean = false;
   public readonly ID: string;
   public readonly Actions: Action[];
   public readonly Bonuses: Bonus[];
@@ -35,16 +35,16 @@ abstract class CompendiumItem {
   public readonly Counters: ICounterData[];
   // public readonly Tags: Tag[]
   public readonly Err: string;
-  public IsHidden: boolean;
-  public IsExotic: boolean;
-  private _integrated: string[];
-  private _special_equipment: string[];
+  public IsHidden: boolean = false;
+  public IsExotic: boolean = false;
+  private _integrated: string[] = [];
+  private _special_equipment: string[] = [];
   private _baseTags: Tag[];
   protected _name: string;
   protected _description: string;
-  protected _note: string;
-  protected _flavor_name: string;
-  protected _flavor_description: string;
+  protected _note: string = '';
+  protected _flavor_name: string = '';
+  protected _flavor_description: string = '';
 
   public constructor(
     data?: ICompendiumItemData,
@@ -64,7 +64,7 @@ abstract class CompendiumItem {
       this.Brew = data.brew || 'Core';
       this.LcpName = packName || 'LANCER Core Book';
       this.InLcp = packName ? true : false;
-      this._baseTags = Tag.Deserialize(data.tags, packTags);
+      this._baseTags = Tag.Deserialize(data.tags || [], packTags);
       this.IsExotic = this._baseTags.some((x) => x.IsExotic);
       const heatTag = this.Tags.find((x) => x.IsHeatCost);
       const heatCost = Number(heatTag ? heatTag.Value : 0);
@@ -104,7 +104,8 @@ abstract class CompendiumItem {
   }
 
   protected save(): void {
-    store.dispatch('set_pilot_dirty');
+    // TODO: set pilot store to dirty
+    // PilotStore().;
   }
 
   public get Name(): string {
@@ -138,13 +139,13 @@ abstract class CompendiumItem {
   public get SpecialEquipment(): CompendiumItem[] {
     if (!this._special_equipment) return [];
     const res = this._special_equipment.map((x) => {
-      const w = store.getters.referenceByID('MechWeapons', x);
+      const w = CompendiumStore().referenceByID('MechWeapons', x);
       if (w && !w.err) return w;
-      const s = store.getters.referenceByID('MechSystems', x);
+      const s = CompendiumStore().referenceByID('MechSystems', x);
       if (s && !s.err) return s;
-      const wm = store.getters.referenceByID('WeaponMods', x);
+      const wm = CompendiumStore().referenceByID('WeaponMods', x);
       if (wm && !wm.err) return wm;
-      const pg = store.getters.referenceByID('PilotGear', x);
+      const pg = CompendiumStore().referenceByID('PilotGear', x);
       if (pg && !pg.err) return pg;
       return false;
     });
@@ -154,26 +155,26 @@ abstract class CompendiumItem {
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return [];
     return this._integrated.map((x) => {
-      const w = store.getters.referenceByID('MechWeapons', x);
+      const w = CompendiumStore().referenceByID('MechWeapons', x);
       if (w.Name) return w;
-      return store.getters.referenceByID('MechSystems', x);
+      return CompendiumStore().referenceByID('MechSystems', x);
     });
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
     return this._integrated
-      .map((x) => store.getters.referenceByID('MechWeapons', x))
+      .map((x) => CompendiumStore().referenceByID('MechWeapons', x))
       .filter((x) => !x.err);
   }
 
   public get IntegratedSystems(): MechSystem[] {
     return this._integrated
-      .map((x) => store.getters.referenceByID('MechSystems', x))
+      .map((x) => CompendiumStore().referenceByID('MechSystems', x))
       .filter((x) => !x.err);
   }
 
   public get Tags(): Tag[] {
-    return this._baseTags.concat(Tag.Populate(this));
+    return [...this._baseTags, ...Tag.Populate(this)];
   }
 
   public get Note(): string {
@@ -186,7 +187,10 @@ abstract class CompendiumItem {
   }
 
   public get Icon(): string {
-    return 'cc:' + _.kebabCase(this.ItemType);
+    return (
+      'cc:' +
+      _.snakeCase(this.ItemType.toLowerCase().replace(/mech|pilot/gm, ''))
+    );
   }
 
   public get Color(): string {
@@ -194,4 +198,5 @@ abstract class CompendiumItem {
   }
 }
 
-export { CompendiumItem, ICompendiumItemData };
+export { CompendiumItem };
+export type { ICompendiumItemData };

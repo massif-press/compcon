@@ -6,7 +6,7 @@
         <div class="side-legend">
           <span
             :class="`heading h3 ${
-              mech.FreeSP < 0 ? 'error--text' : 'subtle--text text--darken-3'
+              mech.FreeSP < 0 ? 'text-error' : 'text-subtle text--darken-3'
             }`"
           >
             <v-icon v-if="mech.FreeSP < 0" color="error" left>mdi-alert</v-icon>
@@ -19,7 +19,6 @@
       <system-slot-card
         v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout
           .IntegratedSystems"
-        :key="`${s.ID}-${i}-intg`"
         :mech="mech"
         :item="s"
         :color="color"
@@ -28,7 +27,6 @@
 
       <mod-equipped-card
         v-for="(w, i) in moddedWeapons"
-        :key="`${w.ID}-${i}-mod`"
         :mech="mech"
         :mod="w.Mod"
         :weapon="w"
@@ -45,7 +43,6 @@
       >
         <system-slot-card
           v-for="(s, i) in systems"
-          :key="`${s.ID}-${i}`"
           :mech="mech"
           :item="s"
           :color="color"

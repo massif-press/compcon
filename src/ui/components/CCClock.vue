@@ -1,14 +1,19 @@
 <template>
   <v-card flat outlined>
     <v-card-text class="py-1 px-2 ma-0">
-      <v-row v-if="clock.Linear" dense align="center">
+      <v-row v-if="clock.Linear" density="compact" align="center">
         <v-col>
-          <v-row dense>
+          <v-row density="compact">
             <v-col cols="12" class="heading h3 text-center">
               {{ clock.Title }}
               <span v-if="!print">
-                <v-btn small icon class="fadeSelect" @click="editDialog = true">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
+                <v-btn
+                  small
+                  icon
+                  class="fade-select"
+                  @click="editDialog = true"
+                >
+                  <v-icon icon="mdi-circle-edit-outline" />
                 </v-btn>
                 <v-menu v-if="!noDelete" offset-x left>
                   <template v-slot:activator="{ props }">
@@ -16,10 +21,10 @@
                       small
                       icon
                       color="error"
-                      class="fadeSelect"
+                      class="fade-select"
                       v-bind="props"
                     >
-                      <v-icon>mdi-delete</v-icon>
+                      <v-icon icon="mdi-delete" />
                     </v-btn>
                   </template>
                   <v-card>
@@ -45,7 +50,7 @@
                 :value="total"
                 :color="color"
               >
-                <div class="background accent--text" style="border-radius: 2px">
+                <div class="background text-accent" style="border-radius: 2px">
                   <b v-if="print">&emsp; / {{ clock.Segments }}&nbsp;</b>
                   <b v-else
                     >&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b
@@ -56,11 +61,11 @@
 
             <v-col>
               <div v-if="clock.Description">
-                <div class="overline mb-n1">DESCRIPTION</div>
+                <div class="text-overline mb-n1">DESCRIPTION</div>
                 <div class="ml-2" v-html-safe="clock.Description" />
               </div>
               <div v-if="clock.Resolution">
-                <div class="overline mb-n1">RESOLUTION</div>
+                <div class="text-overline mb-n1">RESOLUTION</div>
                 <div class="ml-2" v-html-safe="clock.Resolution" />
               </div>
             </v-col>
@@ -78,7 +83,7 @@
         </v-col>
       </v-row>
 
-      <v-row v-else dense align="center">
+      <v-row v-else density="compact" align="center">
         <v-col cols="auto">
           <v-progress-circular
             :size="size"
@@ -94,8 +99,8 @@
           <div class="heading h3">
             {{ clock.Title }}
             <span v-if="!print">
-              <v-btn small icon class="fadeSelect" @click="editDialog = true">
-                <v-icon>mdi-circle-edit-outline</v-icon>
+              <v-btn small icon class="fade-select" @click="editDialog = true">
+                <v-icon icon="mdi-circle-edit-outline" />
               </v-btn>
               <v-menu offset-x left>
                 <template v-slot:activator="{ props }">
@@ -103,10 +108,10 @@
                     small
                     icon
                     color="error"
-                    class="fadeSelect"
+                    class="fade-select"
                     v-bind="props"
                   >
-                    <v-icon>mdi-delete</v-icon>
+                    <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
                 <v-card>
@@ -126,11 +131,11 @@
             </span>
           </div>
           <div v-if="clock.Description">
-            <div class="overline mb-n1">DESCRIPTION</div>
+            <div class="text-overline mb-n1">DESCRIPTION</div>
             <div class="ml-2" v-html-safe="clock.Description" />
           </div>
           <div v-if="clock.Resolution">
-            <div class="overline mb-n1">RESOLUTION</div>
+            <div class="text-overline mb-n1">RESOLUTION</div>
             <div class="ml-2" v-html-safe="clock.Resolution" />
           </div>
         </v-col>
@@ -159,10 +164,10 @@
     </v-card-text>
     <v-dialog v-model="editDialog" width="70vw">
       <v-card>
-        <v-toolbar dense color="primary" class="white--text">
+        <v-toolbar density="compact" color="primary" class="text-white">
           <span class="heading h3">CLOCK EDITOR</span>
           <v-spacer />
-          <v-btn icon class="white--text" @click="editDialog = false">
+          <v-btn icon class="text-white" @click="editDialog = false">
             <v-icon large>mdi-close</v-icon>
           </v-btn>
         </v-toolbar>
@@ -178,7 +183,7 @@
                 <b>{{ progress }} / {{ clock.Segments }}</b>
               </v-progress-linear>
             </div>
-            <div v-else dense>
+            <div v-else density="compact">
               <v-progress-circular
                 :size="size"
                 :width="size / 5"

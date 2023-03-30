@@ -3,28 +3,19 @@
     <div style="height: 40px" />
     <div v-if="pilot && pilot.State">
       <v-fade-transition group leave-absolute>
-        <active-narrative
-          v-if="pilot.State.Stage === 'Narrative'"
-          :key="'act-ft-tr-narrative'"
-        />
-        <active-combat
-          v-else-if="pilot.State.Stage === 'Combat'"
-          :key="'act-ft-tr-combat'"
-        />
-        <active-rest
-          v-else-if="pilot.State.Stage === 'Rest'"
-          :key="'act-ft-tr-rest'"
-        />
+        <active-narrative v-if="pilot.State.Stage === 'Narrative'" />
+        <active-combat v-else-if="pilot.State.Stage === 'Combat'" />
+        <active-rest v-else-if="pilot.State.Stage === 'Rest'" />
       </v-fade-transition>
     </div>
     <div>
-      <div class="overline my-2">
+      <div class="text-overline my-2">
         PLAYER NOTES
         <v-btn
           small
           right
           icon
-          class="fadeSelect"
+          class="fade-select"
           @click="showNotes = !showNotes"
         >
           <v-icon

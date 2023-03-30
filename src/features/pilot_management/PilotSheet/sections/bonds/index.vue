@@ -26,14 +26,14 @@
         <v-btn
           x-small
           icon
-          class="fadeSelect mb-n3 ml-n3"
+          class="fade-select mb-n3 ml-n3"
           @click="$refs.choosebond.show()"
         >
-          <v-icon>mdi-circle-edit-outline</v-icon>
+          <v-icon icon="mdi-circle-edit-outline" />
         </v-btn>
       </div>
       <div v-else class="heading h1">
-        <v-btn x-large color="primary" @click="$refs.choosebond.show()">
+        <v-btn size="x-large" color="primary" @click="$refs.choosebond.show()">
           <v-icon large class="pr-3">mdi-vector-link</v-icon>
           Select Bond
         </v-btn>
@@ -48,7 +48,6 @@
           <ul>
             <li
               v-for="(m, n) in pilot.BondController.Bond.MajorIdeals"
-              :key="`mi_${n}`"
               v-text="m"
             />
           </ul>
@@ -58,7 +57,7 @@
           <v-combobox
             v-model="pilot.BondController.MinorIdeal"
             :items="pilot.BondController.Bond.MinorIdeals"
-            dense
+            density="compact"
             hide-details
             filled
           />
@@ -67,13 +66,12 @@
           md="6"
           sm="12"
           v-for="(q, i) in pilot.BondController.Bond.Questions"
-          :key="`question_${i}`"
         >
           {{ q.question }}
           <v-combobox
             v-model="pilot.BondController.Answers[i]"
             :items="pilot.BondController.Bond.Questions[i].options"
-            dense
+            density="compact"
             hide-details
             filled
           />
@@ -82,10 +80,9 @@
       <v-divider class="mb-3 mt-6" />
       <v-row align="center" justify="space-around" class="mt-2">
         <v-col cols="auto">
-          <v-row dense>
+          <v-row density="compact">
             <v-col cols="auto" class="text-center">
               <cc-tick-bar
-                :key="pilot.BondController.XP"
                 :current="pilot.BondController.XP"
                 :max="8"
                 large
@@ -126,7 +123,7 @@
             >
               <fieldset style="border-radius: 5px" class="px-3">
                 <legend>
-                  <span class="px-2 heading h4 accent--text"
+                  <span class="px-2 heading h4 text-accent"
                     >Bond Powers Available</span
                   >
                 </legend>
@@ -140,7 +137,7 @@
                   <v-btn
                     x-small
                     text
-                    class="fadeSelect"
+                    class="fade-select"
                     @click="pilot.BondController.PowerSelections = 0"
                   >
                     Reset
@@ -151,10 +148,9 @@
           </v-row>
         </v-col>
         <v-col cols="auto" class="text-center">
-          <v-row dense align="center">
+          <v-row density="compact" align="center">
             <v-col cols="auto">
               <cc-tick-bar
-                :key="pilot.BondController.Stress"
                 :current="pilot.BondController.Stress"
                 :max="pilot.BondController.MaxStress"
                 large
@@ -173,7 +169,7 @@
                 :close-on-content-click="false"
               >
                 <template v-slot:activator="{ props }">
-                  <v-btn x-small text class="mt-2 fadeSelect" v-bind="props"
+                  <v-btn x-small text class="mt-2 fade-select" v-bind="props"
                     >Set Maximum Stress</v-btn
                   >
                 </template>
@@ -185,7 +181,7 @@
                     </i>
                     <v-text-field
                       v-model="pilot.BondController.MaxStress"
-                      dense
+                      density="compact"
                       hide-details
                       type="number"
                       color="accent"
@@ -262,7 +258,7 @@
         </v-col>
       </v-row>
       <div class="caption">BURDENS</div>
-      <div v-for="(b, i) in pilot.BondController.Burdens" :key="`burden${i}`">
+      <div v-for="(b, i) in pilot.BondController.Burdens">
         <cc-clock
           :clock="b"
           class="mx-1 my-2"
@@ -276,7 +272,7 @@
           <v-btn
             text
             x-small
-            class="fadeSelect"
+            class="fade-select"
             @click="pilot.BondController.AddNewBurden()"
           >
             Add New Burden
@@ -284,10 +280,7 @@
         </v-col>
       </v-row>
       <div class="caption">OTHER CLOCKS</div>
-      <div
-        v-for="(b, i) in pilot.BondController.Clocks"
-        :key="`playerclock${i}`"
-      >
+      <div v-for="(b, i) in pilot.BondController.Clocks">
         <cc-clock
           :clock="b"
           class="mx-1 my-2"
@@ -301,7 +294,7 @@
           <v-btn
             variant="outlined"
             small
-            class="fadeSelect"
+            class="fade-select"
             @click="pilot.BondController.AddClock()"
           >
             Add New Clock
@@ -316,7 +309,6 @@
         <v-row justify="center">
           <v-col
             v-for="(p, i) in pilot.BondController.BondPowers"
-            :key="`${p.name}_sheet_${i}`"
             xl="6"
             lg="6"
             sm="12"
@@ -333,7 +325,7 @@
             >
               <v-row
                 no-gutters
-                class="deep-purple darken-3 white--text heading h4 py-1 px-3"
+                class="deep-purple darken-3 text-white heading h4 py-1 px-3"
               >
                 <v-col>{{ boon.name }}</v-col>
                 <v-col v-if="boon.frequency" cols="auto">
@@ -354,7 +346,6 @@
 
       <bond-power-selector
         v-if="hasBond"
-        :key="bid"
         :pilot="pilot"
         @set="setBond($event)"
       />
@@ -375,7 +366,7 @@
 import BondSelector from './components/BondSelector.vue';
 import BondPowerSelector from './components/BondPowerSelector.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'bonds-view',
@@ -392,7 +383,7 @@ export default {
   }),
   computed: {
     bonds() {
-      return this.getModule(CompendiumStore).Bonds;
+      return CompendiumStore().Bonds;
     },
     hasBond() {
       return !!this.pilot.BondController.Bond;

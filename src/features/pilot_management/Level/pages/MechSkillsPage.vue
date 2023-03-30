@@ -26,7 +26,7 @@
         remitted to the correct address, any changes in Vault node data must be
         submitted to the IDENT service using form RM-09-E IDENT Supplemental (e)
       </span>
-      <v-alert color="accent" variant="outlined" dense class="mt-2">
+      <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
         <b>Improve a Mech Skill.</b>
         <br />
         <span class="overline">

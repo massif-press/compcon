@@ -37,7 +37,7 @@ import BlankMechPrint from './BlankMechPrint.vue';
 import MechPrint from './MechPrint.vue';
 import PrintFooter from './PrintFooter.vue';
 
-import { PilotManagementStore, CompendiumStore } from '@/store';
+import { PilotStore, CompendiumStore } from '@/stores';
 import { Pilot } from '@/class';
 
 export default {
@@ -69,7 +69,7 @@ export default {
   }),
   created() {
     if (this.pilotID === 'blank') this.blank = true;
-    this.pilot = this.getModule(PilotManagementStore).Pilots.find(
+    this.pilot = this.getModule(PilotStore).Pilots.find(
       (p) => p.ID === this.pilotID
     );
     this.mech =
@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     hasBondData() {
-      return this.getModule(CompendiumStore).Bonds.length;
+      return CompendiumStore().Bonds.length;
     },
   },
 };

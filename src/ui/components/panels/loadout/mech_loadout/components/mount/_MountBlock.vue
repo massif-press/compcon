@@ -15,21 +15,15 @@
       </legend>
       <cb-mount-menu
         v-if="!intWeapon && !integrated && !readonly"
-        :key="mech.AvailableBonuses.length"
         :mech="mech"
         :mount="mount"
       />
-      <cb-card
-        v-for="b in mount.Bonuses"
-        :key="`${mount.ID}_bonus-${b.ID}`"
-        :bonus="b"
-      />
+      <cb-card v-for="b in mount.Bonuses" :bonus="b" />
       <sh-lock-card v-if="mount.IsLocked" />
       <v-row v-else no-gutters align="center">
         <v-col>
           <weapon-slot-card
             v-for="(s, i) in mount.Slots"
-            :key="`slot_${mount.ID}-${i}`"
             :weapon-slot="s"
             :mech="mech"
             :mount="mount"

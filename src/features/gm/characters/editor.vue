@@ -10,15 +10,15 @@
     @copy="dupeCharacter()"
   >
     <v-container slot="builder">
-      <v-row dense align="center">
+      <v-row density="compact" align="center">
         <v-col cols="auto">
           <v-btn
             icon
             color="secondary"
-            class="fadeSelect"
+            class="fade-select"
             @click="randomName()"
           >
-            <v-icon>mdi-dice-multiple</v-icon>
+            <v-icon icon="mdi-dice-multiple" />
           </v-btn>
         </v-col>
         <v-col>
@@ -28,10 +28,10 @@
           <v-btn
             icon
             color="secondary"
-            class="fadeSelect"
+            class="fade-select"
             @click="randomAlias()"
           >
-            <v-icon>mdi-dice-multiple</v-icon>
+            <v-icon icon="mdi-dice-multiple" />
           </v-btn>
         </v-col>
         <v-col>
@@ -54,7 +54,7 @@
           <v-combobox
             v-model="character.Pronouns"
             :items="character.PronounSuggestions"
-            dense
+            density="compact"
             hide-details
             class="small"
           />
@@ -68,7 +68,7 @@
 import { name, callsign } from '@/io/Generators';
 import EditorBase from '../_components/EditorBase.vue';
 
-import { CharacterStore } from '@/store';
+import { NarrativeStore } from '@/stores';
 import { Character } from '@/classes/campaign/Character';
 
 export default {
@@ -86,7 +86,7 @@ export default {
         if (!this.newCharacter) this.newCharacter = new Character();
         return this.newCharacter;
       }
-      return this.getModule(CharacterStore).Characters.find(
+      return this.getModule(NarrativeStore).Characters.find(
         (x) => x.ID === this.id
       );
     },
@@ -103,12 +103,12 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = this.getModule(CharacterStore);
+      const store = this.getModule(NarrativeStore);
       store.addCharacter(this.character);
       this.exit();
     },
     save() {
-      const store = this.getModule(CharacterStore);
+      const store = this.getModule(NarrativeStore);
       // // TODO: check for and ask to update instances on save
       store.saveCharacterData();
       this.$emit('exit');
@@ -118,7 +118,7 @@ export default {
       this.$emit('exit');
     },
     dupe() {
-      const store = this.getModule(CharacterStore);
+      const store = this.getModule(NarrativeStore);
       const dupe = Character.Deserialize(Character.Serialize(this.character));
       dupe.RenewID();
       store.addCharacter(dupe);

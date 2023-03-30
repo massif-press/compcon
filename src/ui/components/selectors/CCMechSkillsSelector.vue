@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row dense class="mt-n6 mb-3">
+    <v-row density="compact" class="mt-n6 mb-3">
       <v-col cols="12" md="5" class="ml-auto mr-auto">
         <v-alert
           :value="true"
@@ -16,7 +16,7 @@
         <div class="text-center mt-n2">
           <v-btn
             small
-            class="fadeSelect"
+            class="fade-select"
             color="info"
             variant="outlined"
             @click="pilot.MechSkillsController.Reset()"
@@ -27,14 +27,14 @@
       </v-col>
     </v-row>
 
-    <v-row dense>
+    <v-row density="compact">
       <v-col cols="12" lg="6">
         <cc-title :small="$vuetify.display.smAndDown">HULL</cc-title>
         <span class="flavor-text">
           Your HULL skill describes your ability to build and pilot durable,
           heavy mechs that can take punches and keep going
         </span>
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
@@ -46,7 +46,7 @@
               class="d-inline elevation-0"
               @click="remove('Hull')"
             >
-              <v-icon>remove</v-icon>
+              <v-icon icon="remove" />
             </v-btn>
             <cc-rating
               :dense="$vuetify.display.mdAndDown"
@@ -62,22 +62,22 @@
               class="d-inline elevation-0"
               @click="add('Hull')"
             >
-              <v-icon>add</v-icon>
+              <v-icon icon="add" />
             </v-btn>
           </v-col>
         </v-row>
-        <v-row dense class="mt-n3 mb-6">
+        <v-row density="compact" class="mt-n3 mb-6">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">
               MECH HP
-              <span class="accent--text">
+              <span class="text-accent">
                 +{{ pilot.MechSkillsController.MechSkills.Hull * 2 }}
               </span>
             </span>
             <cc-slashes class="ml-1 mr-1" />
             <span class="heading h3">
               REPAIR CAPACITY
-              <span class="accent--text">
+              <span class="text-accent">
                 +{{
                   Math.floor(pilot.MechSkillsController.MechSkills.Hull / 2)
                 }}
@@ -93,7 +93,7 @@
           Your AGILITY skill describes your ability to build and pilot fast,
           evasive mechs
         </span>
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
@@ -105,7 +105,7 @@
               class="d-inline elevation-0"
               @click="remove('Agi')"
             >
-              <v-icon>remove</v-icon>
+              <v-icon icon="remove" />
             </v-btn>
             <cc-rating
               :dense="$vuetify.display.mdAndDown"
@@ -121,20 +121,20 @@
               bottom
               @click="add('Agi')"
             >
-              <v-icon>add</v-icon>
+              <v-icon icon="add" />
             </v-btn>
           </v-col>
         </v-row>
 
-        <v-row dense class="mt-n3 mb-6">
+        <v-row density="compact" class="mt-n3 mb-6">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">EVASION</span>
-            <span class="heading h3 accent--text">
+            <span class="heading h3 text-accent">
               +{{ pilot.MechSkillsController.MechSkills.Agi }}
             </span>
             <cc-slashes class="ml-1 mr-1" />
             <span class="heading h3">SPEED</span>
-            <span class="heading h3 accent--text">
+            <span class="heading h3 text-accent">
               +{{ Math.floor(pilot.MechSkillsController.MechSkills.Agi / 2) }}
             </span>
           </v-col>
@@ -147,7 +147,7 @@
           Your SYSTEMS skill describes your ability to build and pilot technical
           mechs with powerful electronic warfare tools
         </span>
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
@@ -159,7 +159,7 @@
               class="d-inline elevation-0"
               @click="remove('Sys')"
             >
-              <v-icon>remove</v-icon>
+              <v-icon icon="remove" />
             </v-btn>
             <cc-rating
               :dense="$vuetify.display.mdAndDown"
@@ -175,25 +175,25 @@
               bottom
               @click="add('Sys')"
             >
-              <v-icon>add</v-icon>
+              <v-icon icon="add" />
             </v-btn>
           </v-col>
         </v-row>
 
-        <v-row dense class="mt-n3 mb-6">
+        <v-row density="compact" class="mt-n3 mb-6">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">ELECTRONIC DEFENSE</span>
-            <span class="heading h3 accent--text">
+            <span class="heading h3 text-accent">
               +{{ pilot.MechSkillsController.MechSkills.Sys }}
             </span>
             <cc-slashes class="ml-1 mr-1" />
             <span class="heading h3">TECH ATTACK</span>
-            <span class="heading h3 accent--text">
+            <span class="heading h3 text-accent">
               +{{ pilot.MechSkillsController.MechSkills.Sys }}
             </span>
             <cc-slashes class="ml-1 mr-1" />
             <span class="heading h3">SP</span>
-            <span class="heading h3 accent--text">
+            <span class="heading h3 text-accent">
               +{{ Math.floor(pilot.MechSkillsController.MechSkills.Sys / 2) }}
             </span>
           </v-col>
@@ -206,7 +206,7 @@
           Your ENGINEERING skill describes your ability to build and pilot mechs
           with powerful reactors, supplies and support systems
         </span>
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <v-btn
               color="secondary"
@@ -218,7 +218,7 @@
               class="d-inline elevation-0"
               @click="remove('Eng')"
             >
-              <v-icon>remove</v-icon>
+              <v-icon icon="remove" />
             </v-btn>
             <cc-rating
               :dense="$vuetify.display.mdAndDown"
@@ -234,22 +234,22 @@
               bottom
               @click="add('Eng')"
             >
-              <v-icon>add</v-icon>
+              <v-icon icon="add" />
             </v-btn>
           </v-col>
         </v-row>
 
-        <v-row dense class="mt-n3 mb-6">
+        <v-row density="compact" class="mt-n3 mb-6">
           <v-col cols="auto" class="ml-auto mr-auto text-center">
             <span class="heading h3">HEAT CAPACITY</span>
-            <span class="heading h3 accent--text">
+            <span class="heading h3 text-accent">
               +{{ pilot.MechSkillsController.MechSkills.Eng }}
             </span>
 
             <cc-slashes class="ml-1 mr-1" />
 
             <span class="heading h3">LIMITED SYSTEMS BONUS</span>
-            <span class="heading h3 accent--text">
+            <span class="heading h3 text-accent">
               +{{ Math.floor(pilot.MechSkillsController.MechSkills.Eng / 2) }}
             </span>
           </v-col>

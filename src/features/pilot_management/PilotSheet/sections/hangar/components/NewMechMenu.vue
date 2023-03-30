@@ -5,7 +5,13 @@
         <cc-title>Select Frame</cc-title>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-switch v-model="showAll" dense inset hide-details color="warning">
+        <v-switch
+          v-model="showAll"
+          density="compact"
+          inset
+          hide-details
+          color="warning"
+        >
           <cc-tooltip
             slot="label"
             simple
@@ -35,7 +41,6 @@
         <v-expansion-panel
           v-for="f in frames"
           v-show="selectIncl(f.ID)"
-          :key="f.ID"
           class="border-highlight"
         >
           <v-expansion-panel-header id="hover-parent" hide-actions>
@@ -60,7 +65,6 @@
               </span>
               <v-chip
                 v-for="mt in f.Mechtype"
-                :key="mt"
                 small
                 dark
                 variant="outlined"
@@ -132,7 +136,7 @@
 <script lang="ts">
 import _ from 'lodash';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { Pilot, Frame, Mech } from '@/class';
 import { mechname } from '@/io/Generators';
 import ItemFilter from '@/classes/utility/ItemFilter';
@@ -176,7 +180,7 @@ export default {
     },
   },
   mounted() {
-    const compendium = this.getModule(CompendiumStore);
+    const compendium = CompendiumStore();
     this.frames = _.sortBy(
       compendium.Frames.filter((x) => !x.IsHidden),
       ['Source', 'Name']

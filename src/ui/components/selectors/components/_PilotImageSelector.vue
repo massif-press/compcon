@@ -3,10 +3,10 @@
     <v-row>
       <div class="flavor-text">
         COMP/CON OMNINET ARCHIVE ::
-        <b class="stark--text">LANCERS</b>
+        <b class="text-stark">LANCERS</b>
       </div>
       <v-row align="center">
-        <v-col v-for="a in pilotArt" :key="a.img" cols="2">
+        <v-col v-for="a in pilotArt">
           <div
             :class="
               selected === imgPath(a.tag, a.img)
@@ -23,14 +23,14 @@
     <v-alert
       v-if="selected && artist"
       variant="outlined"
-      dense
+      density="compact"
       color="primary"
       class="my-2"
     >
       <v-row>
         <v-col>
           <div>
-            <div class="heading h3 accent--text">{{ artist.imgName }}</div>
+            <div class="heading h3 text-accent">{{ artist.imgName }}</div>
             <div class="flavor-text ml-3">by {{ artist.name }}</div>
           </div>
           <a
@@ -48,7 +48,6 @@
           >
           <a
             v-if="artist.twitter"
-            :key="artist.twitter"
             target="_blank"
             :href="`https://twitter.com/${artist.twitter}`"
             class="ml-3"

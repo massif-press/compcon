@@ -8,26 +8,13 @@
       slider-color="active"
       fixed-tabs
     >
-      <v-tab
-        v-for="(k, i) in Object.keys(reserves)"
-        :key="'tab_' + k + i"
-        ripple
-      >
+      <v-tab v-for="(k, i) in Object.keys(reserves)" ripple>
         {{ k }}
       </v-tab>
-      <v-tab-item
-        v-for="(k, i) in Object.keys(reserves)"
-        :key="'titem_' + k + i + 'desc'"
-      >
+      <v-tab-item v-for="(k, i) in Object.keys(reserves)">
         <v-container>
           <v-row justify="center">
-            <v-col
-              v-for="reserve in reserves[k]"
-              :key="reserve.ID"
-              lg="4"
-              md="6"
-              sm="12"
-            >
+            <v-col v-for="reserve in reserves[k]" lg="4" md="6" sm="12">
               <cc-titled-panel
                 :title="reserve.Name"
                 :icon="reserve.Icon"
@@ -37,7 +24,7 @@
                   class="text-xs-left mt-0 pt-0"
                   style="height: 115px"
                 >
-                  <div class="overline subtle--text mt-n2 mb-n1">
+                  <div class="text-overline text-subtle mt-n2 mb-n1">
                     {{ reserve.Type }}
                   </div>
                   <p
@@ -55,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import _ from 'lodash';
 
 export default {
@@ -65,7 +52,7 @@ export default {
   }),
   computed: {
     reserves() {
-      // const compendium =this.getModule(CompendiumStore);
+      // const compendium =CompendiumStore();
       // return _.groupBy(
       //   compendium.Reserves.filter((x) => x),
       //   'Type'

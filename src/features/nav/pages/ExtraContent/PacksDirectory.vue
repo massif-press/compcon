@@ -1,15 +1,15 @@
 <template>
   <div class="packsList" style="min-height: 300px">
-    <div class="heading h2 stark--text mt-3 px-2">
+    <div class="heading h2 text-stark mt-3 px-2">
       Official Massif LANCER Content
     </div>
     <directory-table :items="massifPacks" :loading="loading" no-author />
     <v-divider class="my-6" />
-    <div class="heading h2 stark--text mt-3 px-2">
+    <div class="heading h2 text-stark mt-3 px-2">
       LANCER Community Content
       <v-menu bottom open-on-hover>
         <template v-slot:activator="{ props }">
-          <v-icon class="fadeSelect" v-bind="props"
+          <v-icon class="fade-select" v-bind="props"
             >mdi-information-outline</v-icon
           >
         </template>

@@ -2,7 +2,7 @@
   <v-col>
     <v-card flat tile color="transparent" class="mx-4 my-2 mod-border">
       <v-card-title
-        class="mod darken-3 py-0 pt-n1 heading h3 white--text"
+        class="mod darken-3 py-0 pt-n1 heading h3 text-white"
         style="height: 24px !important"
       >
         <v-row class="mt-n1" no-gutters>
@@ -30,35 +30,31 @@
         />
         <v-alert
           v-if="mod.IsCascading"
-          dense
+          density="compact"
           tile
           color="error"
-          class="text-center white--text stat-text"
+          class="text-center text-white stat-text"
           style="letter-spacing: 3px"
         >
           / / NHP IN CASCADE / /
         </v-alert>
         <div>
           <div class="overline">
-            <v-icon>cc:system</v-icon>
+            <v-icon icon="cc:system" />
             EQUIPMENT EFFECT
           </div>
           <p
             v-html-safe="mod.Effect"
-            class="text--text body-text mb-1 mr-3 ml-7"
+            class="text-text body-text mb-1 mr-3 ml-7"
           />
         </div>
-        <v-row v-if="!action" class="text-left" dense align="end">
+        <v-row v-if="!action" class="text-left" density="compact" align="end">
           <v-col>
-            <v-row justify="space-around" dense>
+            <v-row justify="space-around" density="compact">
               <v-col v-if="mod.Actions.length" cols="auto">
-                <div class="overline ml-n2">EQUIPMENT ACTIONS</div>
+                <div class="text-overline ml-n2">EQUIPMENT ACTIONS</div>
                 <v-row no-gutters justify="center">
-                  <v-col
-                    v-for="(a, i) in mod.Actions"
-                    :key="`${mod.Name}_action_${i}`"
-                    cols="auto"
-                  >
+                  <v-col v-for="(a, i) in mod.Actions" cols="auto">
                     <cc-action
                       :action="a"
                       :panel="$vuetify.display.lgAndUp"
@@ -68,13 +64,9 @@
                 </v-row>
               </v-col>
               <v-col v-if="mod.Deployables.length" cols="auto">
-                <div class="overline ml-n2">EQUIPMENT DEPLOYABLES</div>
+                <div class="text-overline ml-n2">EQUIPMENT DEPLOYABLES</div>
                 <v-row no-gutters justify="center">
-                  <v-col
-                    v-for="(d, i) in mod.Deployables"
-                    :key="`${mod.Name}_deployable_${i}`"
-                    cols="auto"
-                  >
+                  <v-col v-for="(d, i) in mod.Deployables" cols="auto">
                     <cc-deployable-info
                       :deployable="d"
                       :panel="$vuetify.display.lgAndUp"

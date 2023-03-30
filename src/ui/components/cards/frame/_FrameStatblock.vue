@@ -1,6 +1,6 @@
 <template>
   <v-container class="mt-0 pt-1">
-    <v-row justify="center" dense>
+    <v-row justify="center" density="compact">
       <cc-statblock-panel
         icon="cc:structure"
         name="Structure"

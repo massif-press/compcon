@@ -25,7 +25,7 @@
             v-if="!inputting"
             icon
             small
-            class="fadeSelect"
+            class="fade-select"
             @click="startInputting"
           >
             <v-icon :small="small" :color="color">mdi-keyboard</v-icon>
@@ -67,7 +67,7 @@
         <v-btn
           icon
           small
-          class="fadeSelect"
+          class="fade-select"
           @click="$emit('update', model - 1)"
         >
           <v-icon :color="color">mdi-minus</v-icon>
@@ -75,10 +75,9 @@
       </v-col>
       <v-col v-if="!noPips && !maxExceeded" cols="auto">
         <v-rating
-          :key="current"
           v-model="model"
           :class="`d-inline-block ${$vuetify.display.smAndDown ? 'my-n1' : ''}`"
-          dense
+          density="compact"
           hover
           :length="max"
           :readonly="readonly"
@@ -97,14 +96,14 @@
           :color="color"
           v-html="fullIcon"
         />
-        <span class="flavor-text subtle--text">x</span>
+        <span class="flavor-text text-subtle">x</span>
         <span class="heading h3">{{ current }}</span>
       </div>
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
         <v-btn
           icon
           small
-          class="fadeSelect"
+          class="fade-select"
           @click="$emit('update', model + 1)"
         >
           <v-icon :color="color">mdi-plus</v-icon>

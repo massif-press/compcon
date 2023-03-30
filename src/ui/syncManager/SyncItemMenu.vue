@@ -2,7 +2,7 @@
   <v-menu v-model="menu" offset-y>
     <template v-slot:activator="{ props }">
       <v-btn icon v-bind="props">
-        <v-icon>mdi-dots-vertical</v-icon>
+        <v-icon icon="mdi-dots-vertical" />
       </v-btn>
     </template>
     <v-list tile>
@@ -94,7 +94,7 @@
           />
           <v-list-item-subtitle>
             Permanently delete this item
-            <b class="error--text">This action cannot be undone!</b>
+            <b class="text-error">This action cannot be undone!</b>
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>

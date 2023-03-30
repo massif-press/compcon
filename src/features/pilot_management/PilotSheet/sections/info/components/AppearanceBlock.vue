@@ -16,7 +16,7 @@
       <p
         v-if="pilot.TextAppearance"
         v-html-safe="pilot.TextAppearance"
-        class="flavor-text text--text mx-2 preserve-linebreaks"
+        class="flavor-text text-text mx-2 preserve-linebreaks"
       />
       <no-data-block v-else />
     </div>

@@ -21,7 +21,7 @@
           ref="nameField"
           v-model="name"
           placeholder="Counter name"
-          dense
+          density="compact"
           @keypress.esc="cancel"
           @keypress.enter="create"
         ></v-text-field>

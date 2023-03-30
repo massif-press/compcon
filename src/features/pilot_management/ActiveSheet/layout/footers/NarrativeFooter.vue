@@ -23,30 +23,36 @@
         </v-btn>
       </template>
       <v-card>
-        <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
+        <v-toolbar
+          density="compact"
+          dark
+          flat
+          tile
+          color="warning darken-3 heading h2"
+        >
           START MISSION
           <v-spacer />
           <v-btn large dark icon @click="scDialog = false"
-            ><v-icon>mdi-close</v-icon></v-btn
-          >
+            ><v-icon icon="mdi-close"
+          /></v-btn>
         </v-toolbar>
         <v-card-text>
           <p class="flavor-text mt-2 mb-0 mx-6">
             >//[
-            <span class="accent--text">COMP/CON</span>
+            <span class="text-accent">COMP/CON</span>
             :
-            <span class="stark--text">Active Protocols Standing By</span>
+            <span class="text-stark">Active Protocols Standing By</span>
             ] Pilot, proceeding will engage COMP/CON ACTIVE MODE, which will
             assist with running LANCER Missions and Encounters.
             <!-- First-time users are encouraged to enable the Active Mode Tutorial. -->
           </p>
           <!-- <v-row justify="center" no-gutters class="mt-n2">
             <v-col cols="auto">
-              <v-checkbox color="accent" label="Enable Active Mode Tutorial" dense hide-details />
+              <v-checkbox color="accent" label="Enable Active Mode Tutorial" density="compact" hide-details />
             </v-col>
           </v-row> -->
           <v-alert
-            dense
+            density="compact"
             variant="outlined"
             :color="
               pilot.ActiveMech
@@ -57,7 +63,7 @@
           >
             <v-row justify="start" no-gutters>
               <v-col>
-                <div class="overline text--text pb-1">ACTIVE MECH</div>
+                <div class="text-overline text-text pb-1">ACTIVE MECH</div>
                 <div
                   :class="
                     $vuetify.display.mdAndDown ? 'heading h3' : 'heading h1'
@@ -81,7 +87,10 @@
                   </span>
                   <div v-else class="pb-3">NO ACTIVE MECH</div>
                 </div>
-                <div v-if="pilot.ActiveMech" class="overline text--text ml-4">
+                <div
+                  v-if="pilot.ActiveMech"
+                  class="text-overline text-text ml-4"
+                >
                   {{ pilot.ActiveMech.Frame.Source }}
                   {{ pilot.ActiveMech.Frame.Name }}
                 </div>
@@ -98,22 +107,18 @@
           <div v-if="pilot.ActiveMech">
             <p
               v-if="pilot.ActiveMech.StatusString.length"
-              class="flavor-text stark--text mt-2 mx-6 mb-0"
+              class="flavor-text text-stark mt-2 mx-6 mb-0"
             >
               >//[
-              <span class="accent--text">COMP/CON</span>
+              <span class="text-accent">COMP/CON</span>
               :
-              <span class="stark--text">Frame Issues Detected</span>
+              <span class="text-stark">Frame Issues Detected</span>
               ] Pilot, COMP/CON has detected one ore more issues with the
               selected mech. If these issues are not addressed, your mech may
               operate at reduced combat efficacy. Caution is advised.
             </p>
-            <v-row dense justify="center">
-              <v-col
-                v-for="s in pilot.ActiveMech.StatusString"
-                :key="`status-${s}`"
-                cols="12"
-              >
+            <v-row density="compact" justify="center">
+              <v-col v-for="s in pilot.ActiveMech.StatusString" cols="12">
                 <div class="px-10">
                   <cc-mech-status-alert
                     :type="s"
@@ -147,9 +152,9 @@
 
     <span v-if="$vuetify.display.mdAndUp" class="flavor-text">
       >//[
-      <span class="accent--text">COMP/CON</span>
+      <span class="text-accent">COMP/CON</span>
       :
-      <span class="stark-text--text">Downtime Mode Active</span>
+      <span class="stark-text-text">Downtime Mode Active</span>
       ]
     </span>
 
@@ -171,7 +176,6 @@
 
     <cc-downtime-dialog
       v-for="a in pilot.State.DowntimeActions"
-      :key="`fa_${a.ID}`"
       :ref="`dialog_${a.ID}`"
       :action="a"
       :pilot="pilot"

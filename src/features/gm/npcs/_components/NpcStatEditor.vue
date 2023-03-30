@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense>
+    <v-row density="compact">
       <editable-attribute
         attr="HULL"
         :val="item.StatController.Hull || 0"
@@ -26,7 +26,7 @@
         @set="item.StatController.Eng = $event"
       />
     </v-row>
-    <v-row dense>
+    <v-row density="compact">
       <editable-attribute
         attr="STRUCTURE"
         :val="item.StatController.MaxStructure || 0"
@@ -59,7 +59,7 @@
         @set="item.StatController.HeatCapacity = $event"
       />
     </v-row>
-    <v-row dense>
+    <v-row density="compact">
       <editable-attribute
         attr="SPEED"
         :val="item.StatController.Speed || 0"

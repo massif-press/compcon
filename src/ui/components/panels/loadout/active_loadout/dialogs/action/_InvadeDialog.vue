@@ -37,7 +37,7 @@
           <div v-if="succeeded">
             <v-row no-gutters justify="center" class="mt-4 mb-n2">
               <v-col cols="auto" class="ml-auto" align="end">
-                <div class="body-text stark--text text-left">
+                <div class="body-text text-stark text-left">
                   <b>Invasion Success</b>
                   <p>
                     Your target takes
@@ -47,10 +47,9 @@
                 </div>
               </v-col>
             </v-row>
-            <v-row dense justify="center">
+            <v-row density="compact" justify="center">
               <v-col
                 v-for="(a, j) in actions"
-                :key="`action_${j}`"
                 cols="auto"
                 style="min-width: 400px"
               >
@@ -60,13 +59,16 @@
                   :class="selected === a ? 'optionSelect' : 'optionFade'"
                   @click="select(a)"
                 >
-                  <v-toolbar :color="selected === a ? 'secondary' : ''" dense>
+                  <v-toolbar
+                    :color="selected === a ? 'secondary' : ''"
+                    density="compact"
+                  >
                     <v-toolbar-title class="px-n2 heading h3">
                       {{ a.Name }}
                     </v-toolbar-title>
                   </v-toolbar>
                   <v-card-text>
-                    <div v-html-safe="a.Terse" class="body-text text--text" />
+                    <div v-html-safe="a.Terse" class="body-text text-text" />
                     <div v-html-safe="a.Detail" class="flavor-text mt-1 mx-3" />
                   </v-card-text>
                 </v-card>
@@ -82,11 +84,11 @@
             class="mt-2"
           >
             <v-col cols="auto" class="ml-auto" align="end">
-              <v-fade-transition v-for="(s, i) in skLog" :key="`skLog_${i}`">
-                <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
+              <v-fade-transition v-for="(s, i) in skLog">
+                <p v-if="timer > 10 * i" class="flavor-text text-stark ma-0">
                   <span>
                     >//[
-                    <span class="accent--text">COMP/CON:</span>
+                    <span class="text-accent">COMP/CON:</span>
                     ] :
                     <span>{{ s }}</span>
                   </span>
@@ -105,7 +107,7 @@
                 <v-btn
                   x-small
                   color="primary"
-                  class="fadeSelect"
+                  class="fade-select"
                   @click="reset"
                 >
                   <v-icon small left>mdi-reload</v-icon>

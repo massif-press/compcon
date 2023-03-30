@@ -4,7 +4,6 @@
       <v-list>
         <downtime-menu-item
           v-for="(a, i) in pilot.State.DowntimeActions"
-          :key="`am_downtime_${i}`"
           :action="a"
           available
           :pilot="pilot"

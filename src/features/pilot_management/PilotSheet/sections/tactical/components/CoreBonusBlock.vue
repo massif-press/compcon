@@ -26,10 +26,9 @@
     </cc-solo-dialog>
     <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
-      <v-row v-else dense justify="center">
+      <v-row v-else density="compact" justify="center">
         <v-col
           v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
-          :key="`b_${i}`"
           cols="12"
           md=""
           :style="$vuetify.display.mdAndUp ? 'min-width: 500px;' : ''"

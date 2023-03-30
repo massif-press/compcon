@@ -31,11 +31,11 @@
         <div slot="items">
           <cc-tooltip simple inline content="Delete Reserve">
             <v-btn icon color="error" @click="remove()">
-              <v-icon>delete</v-icon>
+              <v-icon icon="delete" />
             </v-btn>
           </cc-tooltip>
           <v-btn icon dark @click="dialog = false">
-            <v-icon>close</v-icon>
+            <v-icon icon="close" />
           </v-btn>
         </div>
         <p v-html-safe="reserve.Description" class="flavor-text mx-2 my-1" />
@@ -83,12 +83,12 @@
               >
                 <v-switch
                   v-model="reserve.Used"
-                  dense
+                  density="compact"
                   inset
                   hide-details
                   color="secondary"
                 >
-                  <span slot="label" class="stat-text text--text">
+                  <span slot="label" class="stat-text text-text">
                     Used
                     <cc-tooltip
                       simple

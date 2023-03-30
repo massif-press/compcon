@@ -4,11 +4,10 @@
     <v-divider class="my-3" />
     <v-container v-if="Object.keys(actions).length" style="max-width: 800px">
       <!-- {{ usedArr }} -->
-      <div v-for="(k, i) in Object.keys(actions)" :key="`sys_act_${i}`">
+      <div v-for="(k, i) in Object.keys(actions)">
         <div class="flavor-text mb-n2 mt-1">{{ k }}</div>
         <item-selector-row
           v-for="(a, j) in actions[k]"
-          :key="`action_${j}`"
           :item="a"
           :color="usedArr.includes(j) ? 'grey darken-2' : 'action--quick'"
           @click="activate(a, j)"

@@ -20,20 +20,26 @@
           <v-tab :disabled="!organizations.length">Improve Organization</v-tab>
           <v-tab-item>
             <v-card flat tile class="ma-3">
-              <v-toolbar dark flat tile dense color="action--downtime">
+              <v-toolbar
+                dark
+                flat
+                tile
+                density="compact"
+                color="action--downtime"
+              >
                 <v-toolbar-title class="heading h2"
                   >New Organization</v-toolbar-title
                 >
               </v-toolbar>
               <v-card-text class="pa-4">
-                <v-row dense>
+                <v-row density="compact">
                   <v-col cols="4">
                     <v-select
                       v-model="type"
                       label="Organization Type"
                       :items="orgTypes"
                       variant="outlined"
-                      dense
+                      density="compact"
                       hide-details
                     />
                   </v-col>
@@ -41,13 +47,13 @@
                     <v-text-field
                       v-model="name"
                       variant="outlined"
-                      dense
+                      density="compact"
                       hide-details
                       label="Organization Name"
                     />
                   </v-col>
                 </v-row>
-                <v-row dense justify="center">
+                <v-row density="compact" justify="center">
                   <v-col cols="10">
                     <v-textarea
                       v-model="details"
@@ -58,7 +64,7 @@
                   </v-col>
                 </v-row>
                 <div class="heading h2 text-center mb-2">Start with:</div>
-                <v-row dense justify="space-around">
+                <v-row density="compact" justify="space-around">
                   <v-col cols="5">
                     <cc-tooltip
                       simple
@@ -119,7 +125,6 @@
               <div v-if="!selected" class="mx-3">
                 <v-btn
                   v-for="o in organizations"
-                  :key="o.Name"
                   tile
                   block
                   dark
@@ -138,7 +143,12 @@
                   </v-btn>
 
                   <v-card tile flat>
-                    <v-toolbar dark flat dense color="action--downtime">
+                    <v-toolbar
+                      dark
+                      flat
+                      density="compact"
+                      color="action--downtime"
+                    >
                       <v-toolbar-title class="heading h2">
                         {{ selected.Name }}
                       </v-toolbar-title>
@@ -157,7 +167,7 @@
                             type="number"
                             label="Organization Management Roll Result"
                             variant="outlined"
-                            dense
+                            density="compact"
                             hide-details
                             append-outer-icon="mdi-plus-circle-outline"
                             prepend-icon="mdi-minus-circle-outline"
@@ -172,11 +182,11 @@
                       <v-slide-y-transition>
                         <v-row
                           v-if="improveRoll"
-                          dense
+                          density="compact"
                           class="text-center flavor-text"
                         >
                           <v-col v-if="improveRoll < 10">
-                            <v-row dense justify="center">
+                            <v-row density="compact" justify="center">
                               <v-col cols="auto" class="pr-2"
                                 >This organization</v-col
                               >
@@ -184,7 +194,7 @@
                                 <v-radio-group
                                   v-model="badChoice"
                                   row
-                                  dense
+                                  density="compact"
                                   style="display: inline-block"
                                 >
                                   <v-radio
@@ -247,7 +257,7 @@
                               wrap
                             >
                               <v-col class="text-center">
-                                <span class="heading h3 subtle--text">
+                                <span class="heading h3 text-subtle">
                                   Organization is operating at maximum capacity
                                 </span>
                               </v-col>
@@ -343,24 +353,24 @@
                                 parseInt(selected.Influence) < 6 &&
                                 parseInt(selected.Efficiency) < 6
                               "
-                              class="heading h3 accent--text"
+                              class="heading h3 text-accent"
                             >
                               Organization Influence and Efficiency increased by
                               +2
                             </span>
                             <span
                               v-else-if="parseInt(selected.Influence) < 6"
-                              class="heading h3 accent--text"
+                              class="heading h3 text-accent"
                             >
                               Organization Influence increased by +2
                             </span>
                             <span
                               v-else-if="parseInt(selected.Efficiency) < 6"
-                              class="heading h3 accent--text"
+                              class="heading h3 text-accent"
                             >
                               Organization Efficiency increased by +2
                             </span>
-                            <span v-else class="heading h3 subtle--text">
+                            <span v-else class="heading h3 text-subtle">
                               Organization is operating at maximum capacity
                             </span>
                           </v-col>

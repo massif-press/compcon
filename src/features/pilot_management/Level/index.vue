@@ -128,7 +128,7 @@ import LicensePage from './pages/LicensePage.vue';
 import CoreBonusPage from './pages/CoreBonusPage.vue';
 import ConfirmPage from './pages/ConfirmPage.vue';
 
-import { PilotManagementStore } from '@/store';
+import { PilotStore } from '@/stores';
 import { Pilot } from '@/class';
 
 export default {
@@ -150,7 +150,7 @@ export default {
   computed: {
     currentPilot(): Pilot {
       returnthis
-        .getModule(PilotManagementStore, this.$store)
+        .getModule(PilotStore, this.$store)
         .Pilots.find((p) => p.ID === this.$route.params.pilotID);
     },
   },

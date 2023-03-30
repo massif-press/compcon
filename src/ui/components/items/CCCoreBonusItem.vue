@@ -1,9 +1,9 @@
 <template>
-  <cc-titled-panel :title="bonus.Name" dense>
+  <cc-titled-panel :title="bonus.Name" density="compact">
     <p
       v-if="bonus.InLcp"
       v-html-safe="bonus.LcpName"
-      class="stat--text heading h3"
+      class="text-stat heading h3"
     />
     <p
       v-show="$vuetify.display.mdAndUp"
@@ -17,13 +17,11 @@
     />
     <div v-else v-html-safe="bonus.Effect" class="body-text mt-n1 pb-1" />
     <div v-if="bonus.Actions.length">
-      <div class="overline ml-n2 mb-n2 subtle--text">CORE BONUS ACTIONS</div>
+      <div class="text-overline ml-n2 mb-n2 text-subtle">
+        CORE BONUS ACTIONS
+      </div>
       <v-row no-gutters justify="center">
-        <v-col
-          v-for="(a, i) in bonus.Actions"
-          :key="`${bonus.Name}_action_${i}`"
-          cols="auto"
-        >
+        <v-col v-for="(a, i) in bonus.Actions" cols="auto">
           <cc-action
             :action="a"
             :panel="$vuetify.display.lgAndUp"
@@ -34,15 +32,11 @@
     </div>
 
     <div v-if="bonus.Deployables.length">
-      <div class="overline ml-n2 mb-n2 subtle--text">
+      <div class="text-overline ml-n2 mb-n2 text-subtle">
         CORE BONUS DEPLOYABLES
       </div>
       <v-row no-gutters justify="center">
-        <v-col
-          v-for="(d, i) in bonus.Deployables"
-          :key="`${bonus.Name}_deployable_${i}`"
-          cols="auto"
-        >
+        <v-col v-for="(d, i) in bonus.Deployables" cols="auto">
           <cc-deployable-info
             :deployable="d"
             :panel="$vuetify.display.lgAndUp"
@@ -54,30 +48,22 @@
     </div>
 
     <div v-if="bonus.IntegratedEquipment.length">
-      <div class="overline ml-n2 mb-n2 subtle--text">
+      <div class="text-overline ml-n2 mb-n2 text-subtle">
         CORE BONUS INTEGRATED EQUIPMENT
       </div>
       <v-row no-gutters justify="center">
-        <v-col
-          v-for="(x, i) in bonus.IntegratedEquipment"
-          :key="`${bonus.Name}_integrated_${i}`"
-          cols="auto"
-        >
+        <v-col v-for="(x, i) in bonus.IntegratedEquipment" cols="auto">
           <cc-integrated-info :item="x" :panel="$vuetify.display.lgAndUp" />
         </v-col>
       </v-row>
     </div>
 
     <div v-if="bonus.SpecialEquipment.length">
-      <div class="overline ml-n2 mb-n2 subtle--text">
+      <div class="text-overline ml-n2 mb-n2 text-subtle">
         CORE BONUS ADDITIONAL EQUIPMENT
       </div>
       <v-row no-gutters justify="center">
-        <v-col
-          v-for="(x, i) in bonus.SpecialEquipment"
-          :key="`${bonus.Name}_special_${i}`"
-          cols="auto"
-        >
+        <v-col v-for="(x, i) in bonus.SpecialEquipment" cols="auto">
           <cc-integrated-info :item="x" :panel="$vuetify.display.lgAndUp" />
         </v-col>
       </v-row>

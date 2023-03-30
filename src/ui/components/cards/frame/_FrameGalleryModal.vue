@@ -11,7 +11,7 @@
           <v-icon x-large>mdi-close</v-icon>
         </v-btn>
         <v-container fluid class="px-5">
-          <v-row dense>
+          <v-row density="compact">
             <v-col cols="auto" class="ml-auto mr-auto">
               <v-img
                 :src="selected"
@@ -24,18 +24,18 @@
               />
             </v-col>
             <v-col cols="4" class="ml-auto pr-6">
-              <div class="heading h1 accent--text">{{ frame.Name }}</div>
+              <div class="heading h1 text-accent">{{ frame.Name }}</div>
               <v-alert
                 v-if="selected && artist"
                 variant="outlined"
-                dense
+                density="compact"
                 color="primary"
                 class="my-2"
               >
                 <v-row>
                   <v-col>
                     <div>
-                      <div class="heading h3 accent--text">
+                      <div class="heading h3 text-accent">
                         {{ artist.imgName }}
                       </div>
                       <div class="flavor-text ml-3">by {{ artist.name }}</div>
@@ -57,7 +57,6 @@
                     >
                     <a
                       v-if="artist.twitter"
-                      :key="artist.twitter"
                       target="_blank"
                       :href="`https://twitter.com/${artist.twitter}`"
                       class="ml-3"
@@ -70,7 +69,7 @@
                 </v-row>
               </v-alert>
 
-              <v-row dense justify="space-around">
+              <v-row density="compact" justify="space-around">
                 <v-col
                   v-if="frame.ID !== 'mf_standard_pattern_i_everest'"
                   cols="auto"
@@ -95,7 +94,6 @@
                 </v-col>
                 <v-col
                   v-for="a in frame.OtherArt"
-                  :key="a.src"
                   cols="auto"
                   style="max-width: 200px"
                 >

@@ -6,10 +6,10 @@
       >
       <br />
       <span v-if="!noCc">//[COMP/CON:</span>
-      <b class="stark--text" v-html="content" />
+      <b class="text-stark" v-html="content" />
       <span v-if="!noCc">]</span>
       <v-divider class="my-2" />
-      <v-row dense>
+      <v-row density="compact">
         <cc-btn small color="error" class="ml-auto" @click="$emit('confirm')"
           >CONFIRM</cc-btn
         >

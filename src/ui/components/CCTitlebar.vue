@@ -3,23 +3,26 @@
     :color="color"
     :class="{ 'clipped-large': clipped }"
     :style="fixed ? 'position: fixed; width: 100%; z-index:99' : ''"
-    density="compact"
   >
-    <v-toolbar-title
-      :class="`heading ${$vuetify.display.mdAndDown ? 'h3' : 'h2'} ${
-        dark ? 'white--text' : 'stark--text'
-      } pt-1`"
+    <v-row
+      align="center"
+      :class="`heading ${$vuetify.display.mdAndDown ? 'h3' : 'h2'} px-2`"
       style="text-transform: uppercase"
     >
-      <v-icon v-if="icon" x-large :dark="dark" class="mt-n1" left>{{
-        icon
-      }}</v-icon>
-      <slot />
-    </v-toolbar-title>
-    <v-spacer />
-    <v-toolbar-items>
-      <slot name="items" />
-    </v-toolbar-items>
+      <v-col cols="auto">
+        <v-icon v-if="icon" size="50" :icon="icon" />
+      </v-col>
+      <v-col cols="auto">
+        <slot name="title" />
+      </v-col>
+      <v-col cols="auto">
+        <slot name="title-chips" />
+      </v-col>
+      <v-spacer />
+      <v-col cols="auto">
+        <slot name="title-items" />
+      </v-col>
+    </v-row>
   </v-toolbar>
 </template>
 

@@ -2,8 +2,7 @@
   <v-container>
     <v-alert
       v-for="(alert, i) in item.NpcTemplateController.TemplateFeatureAlerts"
-      :key="`${alert}_${i}`"
-      dense
+      density="compact"
       prominent
       variant="outlined"
       :color="alert.severity"

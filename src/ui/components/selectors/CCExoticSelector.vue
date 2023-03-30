@@ -14,7 +14,7 @@
 <script lang="ts">
 import _ from 'lodash';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { CompendiumItem } from '@/classes/CompendiumItem';
 
 export default {
@@ -46,7 +46,7 @@ export default {
     },
   },
   created() {
-    const compendium = this.getModule(CompendiumStore);
+    const compendium = CompendiumStore();
     const items = (
       compendium.MechWeapons.filter((x) => x.IsExotic) as CompendiumItem[]
     )

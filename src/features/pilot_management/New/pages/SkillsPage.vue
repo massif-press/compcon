@@ -38,7 +38,7 @@
           color="accent"
           variant="outlined"
           class="mt-2"
-          dense
+          density="compact"
           prominent
         >
           <b>Select four (4) Skill Triggers.</b>

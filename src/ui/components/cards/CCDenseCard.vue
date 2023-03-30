@@ -6,7 +6,13 @@
     class="light-panel"
     :height="fullHeight ? '100%' : ''"
   >
-    <v-toolbar dense :color="item.Color" flat height="30px" class="white--text">
+    <v-toolbar
+      density="compact"
+      :color="item.Color"
+      flat
+      height="30px"
+      class="text-white"
+    >
       <span class="heading">
         <item-menu v-if="showMenu" :item="item" />
         <cc-tooltip inline :content="item.FeatureType">
@@ -16,7 +22,7 @@
       </span>
       <v-spacer />
       <div
-        class="overline text-right white--text"
+        class="text-overline text-right text-white"
         style="line-height: 11px !important"
       >
         {{ item.OriginString }}
@@ -25,7 +31,7 @@
         </cc-tooltip>
       </div>
     </v-toolbar>
-    <cc-item-card :item="item" dense small-tags />
+    <cc-item-card :item="item" density="compact" small-tags />
   </v-card>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="bordered-primary">
-    <v-row class="primary white--text mt-n3 px-2" dense>
+    <v-row class="primary text-white mt-n3 px-2" density="compact">
       <v-col>
         <div :class="`heading h${$vuetify.display.mdAndUp ? '1' : '3'}`">
           {{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}
@@ -20,7 +20,7 @@
     </div>
 
     <div class="ml-2 py-1 px-2">
-      <v-row v-if="$vuetify.display.mdAndUp" dense>
+      <v-row v-if="$vuetify.display.mdAndUp" density="compact">
         <span v-if="!pilot.Name" class="flavor-text">
           ERR NAME NOT FOUND UNABLE TO GENERATE UUID
         </span>
@@ -28,29 +28,29 @@
           {{ flipName(pilot.Name) }}:{{ pilot.ID }}//NDL-C-{{ missionName() }}
         </span>
       </v-row>
-      <v-row dense>
+      <v-row density="compact">
         <v-col cols="12" md="8">
-          <v-row dense>
+          <v-row density="compact">
             <v-col cols="12" md="8">
               <span class="flavor-text">
                 Callsign:
-                <b class="accent--text">{{
+                <b class="text-accent">{{
                   pilot.Callsign || 'ERR CALLSIGN NOT FOUND'
                 }}</b>
                 <br />
                 Name (or legal alias):
-                <b class="accent--text">{{
+                <b class="text-accent">{{
                   pilot.Name || 'ERR NAME NOT FOUND'
                 }}</b>
                 <br />
                 Background:
-                <b class="accent--text">
+                <b class="text-accent">
                   {{ pilot.Background || 'PILOT HISTORY NOT REGISTERED' }}
                 </b>
               </span>
             </v-col>
             <v-col v-if="$vuetify.display.mdAndUp">
-              <span class="flavor-text subtle--text">
+              <span class="flavor-text text-subtle">
                 {{ pilot.Callsign ? 'CALLSIGN AVAILABLE' : '--' }}
                 <br />
                 {{ pilot.Name ? 'IDENTITY VERIFIED' : '--' }}
@@ -61,7 +61,7 @@
           </v-row>
           <div class="flavor-text mt-2">
             FRAME CONFIGURATION OPTIONS
-            <span class="subtle--text">("H.A.S.E" OMNINET VAULT REMIT)</span>
+            <span class="text-subtle">("H.A.S.E" OMNINET VAULT REMIT)</span>
           </div>
           <v-row class="my-1">
             <span
@@ -69,19 +69,19 @@
               style="font-size: 22px; line-height: 15px"
             >
               [ HULL:
-              <span class="stat-text accent--text" style="font-size: 24px">
+              <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Hull }}&emsp;
               </span>
               AGI:
-              <span class="stat-text accent--text" style="font-size: 24px">
+              <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Agi }}&emsp;
               </span>
               SYS:
-              <span class="stat-text accent--text" style="font-size: 24px">
+              <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Sys }}&emsp;
               </span>
               ENG:
-              <span class="stat-text accent--text" style="font-size: 24px">
+              <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Eng }}
               </span>
               ]
@@ -93,14 +93,13 @@
               <br />
               <span
                 v-if="!pilot.SkillsController.Skills.length"
-                class="stat-text accent--text"
+                class="stat-text text-accent"
               >
                 &nbsp;ERR SKILL AUDIT INCOMPLETE
               </span>
               <v-chip
                 v-for="s in pilot.SkillsController.Skills"
                 v-else
-                :key="s.Skill.ID"
                 color="accent"
                 class="ma-1"
                 variant="outlined"
@@ -116,14 +115,13 @@
               <br />
               <span
                 v-if="!pilot.TalentsController.Talents.length"
-                class="stat-text accent--text"
+                class="stat-text text-accent"
               >
                 &nbsp;ERR TALENT AUDIT INCOMPLETE
               </span>
               <v-chip
                 v-for="t in pilot.TalentsController.Talents"
                 v-else
-                :key="t.Talent.ID"
                 color="accent"
                 class="ma-1"
                 variant="outlined"
@@ -135,8 +133,8 @@
               </v-chip>
             </v-col>
           </v-row>
-          <v-row dense>
-            <span v-if="pilotReady" class="flavor-text subtle--text">
+          <v-row density="compact">
+            <span v-if="pilotReady" class="flavor-text text-subtle">
               <v-icon large color="grey darken-2">mdi-fingerprint</v-icon>
               BIOMETRIC RECORD VALID [[{{ randomNumber(13, 22) }}PB]] :: OHM
               C//{{ futuredate() }}
@@ -158,7 +156,7 @@
         </v-col>
       </v-row>
       <v-divider v-show="$vuetify.display.mdAndUp" class="ma-2" />
-      <v-row v-show="$vuetify.display.mdAndUp" dense>
+      <v-row v-show="$vuetify.display.mdAndUp" density="compact">
         <span
           class="overline"
           style="line-height: 13px !important; opacity: 0.4"

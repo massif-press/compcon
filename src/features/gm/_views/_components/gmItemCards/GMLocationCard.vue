@@ -9,7 +9,7 @@
       <v-card-text class="py-2 text-center" style="position: relative">
         <div
           :class="`${big ? 'heading h2' : 'body-text font-weight-bold'} ${
-            hover ? 'primary--text' : ''
+            hover ? 'text-primary' : ''
           }`"
         >
           {{ item.Name }}

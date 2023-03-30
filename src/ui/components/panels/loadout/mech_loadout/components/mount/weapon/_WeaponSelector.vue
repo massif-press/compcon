@@ -12,12 +12,12 @@
       <div v-if="weaponSlot.Weapon">
         <span class="overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-          <span class="success--text text--darken-1">
+          <span class="text-success text--darken-1">
             [ FRAME EQUIPMENT REGISTRATION VERIFIED ]
           </span>
         </span>
         <br />
-        <span class="heading h1 accent--text" style="line-height: 20px">
+        <span class="heading h1 text-accent" style="line-height: 20px">
           {{ weaponSlot.Weapon.Name }}
         </span>
         <span class="flavor-text overline mt-n1" style="display: block"
@@ -33,13 +33,13 @@
         </span>
         <br />
         <span
-          class="heading h1 subtle--text text--lighten-1"
+          class="heading h1 text-subtle text--lighten-1"
           style="line-height: 20px"
         >
           NO SELECTION
         </span>
         <span
-          class="flavor-text overline mt-n1 error--text"
+          class="flavor-text overline mt-n1 text-error"
           style="display: block"
         >
           [ EQUIPMENT ID INVALID OR MISSING ]
@@ -49,7 +49,7 @@
         <div class="mb-n2">
           <v-switch
             v-model="showUnlicensed"
-            dense
+            density="compact"
             inset
             hide-details
             color="warning"
@@ -76,7 +76,7 @@
         <div class="mt-n4">
           <v-switch
             v-model="showOverSP"
-            dense
+            density="compact"
             inset
             hide-details
             color="warning"
@@ -108,7 +108,7 @@
 <script lang="ts">
 import _ from 'lodash';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { Rules, MechWeapon } from '@/class';
 import { flavorID } from '@/io/Generators';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
@@ -192,7 +192,7 @@ export default {
     },
   },
   created() {
-    const compendium = this.getModule(CompendiumStore);
+    const compendium = CompendiumStore();
     this.weapons = compendium.MechWeapons.filter((x) => x.Source);
   },
   methods: {

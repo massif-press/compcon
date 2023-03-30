@@ -7,56 +7,61 @@
       :color="color"
     >
       <v-card-text class="pa-0 ma-0">
-        <v-row v-if="print" dense align="center" justify="space-between">
+        <v-row
+          v-if="print"
+          density="compact"
+          align="center"
+          justify="space-between"
+        >
           <v-col class="heading h3">{{ table.Title }}</v-col>
-          <v-col cols="auto" class="heading h4 grey--text">
+          <v-col cols="auto" class="heading h4 text-grey">
             Roll {{ table.Mult }}D{{ table.Die }}
           </v-col>
         </v-row>
-        <v-row v-else dense align="center">
+        <v-row v-else density="compact" align="center">
           <v-col class="heading h3">
             <cc-short-string-editor @set="table.Title = $event">
               {{ table.Title }}
             </cc-short-string-editor>
           </v-col>
           <v-col cols="auto" class="ml-auto">
-            <span class="heading h3 grey--text">Roll</span>
+            <span class="heading h3 text-grey">Roll</span>
           </v-col>
           <v-col cols="auto" class="mt-n2">
             <v-select
               v-model="table.Mult"
-              dense
+              density="compact"
               hide-details
               style="width: 50px"
               :items="mults"
             />
           </v-col>
           <v-col cols="auto">
-            <span class="heading h3 grey--text">D</span>
+            <span class="heading h3 text-grey">D</span>
           </v-col>
           <v-col cols="auto" class="mt-n2">
             <v-select
               v-model="table.Die"
-              dense
+              density="compact"
               hide-details
               style="width: 50px"
               :items="dice"
             />
           </v-col>
-          <v-col cols="auto" class="heading h4 grey--text">Step</v-col>
+          <v-col cols="auto" class="heading h4 text-grey">Step</v-col>
           <v-col cols="1" class="mt-n2">
             <v-text-field
               v-model="step"
               type="number"
               style="width: 50px"
-              dense
+              density="compact"
               hide-details
             />
           </v-col>
           <v-col cols="auto">
             <v-menu offset-x bottom>
               <template v-slot:activator="{ props }">
-                <v-btn small color="primary" class="fadeSelect" v-bind="props">
+                <v-btn small color="primary" class="fade-select" v-bind="props">
                   <v-icon start>mdi-reload</v-icon>
                   Rebuild table
                 </v-btn>
@@ -83,10 +88,10 @@
                   small
                   icon
                   color="error"
-                  class="fadeSelect"
+                  class="fade-select"
                   v-bind="props"
                 >
-                  <v-icon>mdi-delete</v-icon>
+                  <v-icon icon="mdi-delete" />
                 </v-btn>
               </template>
               <v-card>
@@ -108,7 +113,6 @@
         <v-simple-table class="my-2 px-1">
           <tr
             v-for="(r, i) in table.Results"
-            :key="`table_item_${i}`"
             :class="`${print ? 'py-2' : ''} ${
               i % 2 !== 0 ? 'light-panel' : ''
             }`"
@@ -121,7 +125,7 @@
               <v-textarea
                 v-if="!print"
                 v-model="r.result"
-                dense
+                density="compact"
                 hide-details
                 rows="2"
                 variant="outlined"

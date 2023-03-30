@@ -8,7 +8,7 @@
       <v-row style="position: absolute; z-index: 10" class="py-2">
         <v-col cols="1" class="ml-n3 mr-4">
           <v-icon v-if="rank" size="50" color="accent" class="d-inline"
-            >cc:rank-{{ rank }}</v-icon
+            >cc:rank_{{ rank }}</v-icon
           >
           <cc-logo
             v-else
@@ -25,7 +25,6 @@
           }}</span>
           <v-chip
             v-for="f in frame(license.FrameID).Mechtype"
-            :key="f"
             small
             dark
             variant="outlined"
@@ -48,7 +47,7 @@
       <v-alert
         v-if="!!prereq(license)"
         variant="outlined"
-        dense
+        density="compact"
         class="text-center mx-10 mt-2 mb-n1"
         color="warning"
       >
@@ -89,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { License } from '@/class';
 
 export default {
@@ -110,7 +109,7 @@ export default {
   },
   methods: {
     frame(id: string) {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       return compendium.referenceByID('Frames', id);
     },
     prereq(l: License) {

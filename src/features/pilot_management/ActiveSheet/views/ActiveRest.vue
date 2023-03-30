@@ -5,34 +5,34 @@
         <span class="heading mech" style="line-height: 5px">{{
           pilot.Callsign
         }}</span>
-        <div class="flavor-text subtle--text">{{ pilot.Name }}</div>
+        <div class="flavor-text text-subtle">{{ pilot.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-right mr-2 mt-n2">
-        <div class="heading h3 accent--text">HP</div>
+        <div class="heading h3 text-accent">HP</div>
         <div class="font-weight-bold mr-n5">
-          <v-btn icon x-small class="fadeSelect" @click="pilot.CurrentHP -= 1">
+          <v-btn icon x-small class="fade-select" @click="pilot.CurrentHP -= 1">
             <v-icon small color="primary">mdi-minus</v-icon>
           </v-btn>
           {{ pilot.CurrentHP }}/{{ pilot.MaxHP }}
-          <v-btn icon x-small class="fadeSelect" @click="pilot.CurrentHP += 1">
+          <v-btn icon x-small class="fade-select" @click="pilot.CurrentHP += 1">
             <v-icon small color="primary">mdi-plus</v-icon>
           </v-btn>
         </div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 accent--text">Armor</div>
+        <div class="heading h3 text-accent">Armor</div>
         <div class="font-weight-bold">{{ pilot.Armor }}</div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 accent--text">E-Defense</div>
+        <div class="heading h3 text-accent">E-Defense</div>
         <div class="font-weight-bold">{{ pilot.EDefense }}</div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 accent--text">Evasion</div>
+        <div class="heading h3 text-accent">Evasion</div>
         <div class="font-weight-bold">{{ pilot.Evasion }}</div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <div class="heading h3 accent--text">Grit</div>
+        <div class="heading h3 text-accent">Grit</div>
         <div class="font-weight-bold">+{{ pilot.Grit }}</div>
       </v-col>
     </v-row>
@@ -40,24 +40,24 @@
     <div v-if="mech.Destroyed || mech.ReactorDestroyed">
       <v-row
         v-if="mech.Destroyed"
-        dense
+        density="compact"
         justify="center"
         class="text-center mb-n5"
       >
         <v-col cols="auto">
-          <v-alert dense variant="outlined" color="error" prominent>
+          <v-alert density="compact" variant="outlined" color="error" prominent>
             <v-icon slot="prepend" color="error" size="70" class="mr-3"
               >cc:eclipse</v-icon
             >
             <span class="heading h1">MECH DESTROYED</span>
-            <div class="heading mt-n4 subtle--text">
+            <div class="heading mt-n4 text-subtle">
               FRAME.CRITICAL//: CATASTROPHIC DAMAGE
             </div>
           </v-alert>
         </v-col>
       </v-row>
       <div v-if="mech.ReactorDestroyed">
-        <p class="heading h2 stark--text text-center pt-4">
+        <p class="heading h2 text-stark text-center pt-4">
           This mech cannot be repaired and must be reprinted.
         </p>
       </div>
@@ -68,25 +68,22 @@
           border="bottom"
           class="mb-2"
         >
-          <div class="body-text text--text">
+          <div class="body-text text-text">
             This mech can be repaired to working order by spending
-            <b class="accent--text">4</b>
+            <b class="text-accent">4</b>
             repair points. These repairs can be spent from this mech’s own pool
             or the pools of any pilots that wish to contribute, in any
             combination.
           </div>
         </v-alert>
-        <div class="subtle--text mt-2">
+        <div class="text-subtle mt-2">
           REPAIR CAPACITY REMAINING:
-          <b class="accent--text">{{ mech.CurrentRepairs }}</b>
+          <b class="text-accent">{{ mech.CurrentRepairs }}</b>
         </div>
         <div>
-          <v-icon v-for="n in mech.CurrentRepairs" :key="'rep_' + n" large
-            >control_point</v-icon
-          >
+          <v-icon v-for="n in mech.CurrentRepairs" large>control_point</v-icon>
           <v-icon
             v-for="n in mech.RepairCapacity - mech.CurrentRepairs"
-            :key="'repcap_' + n"
             large
             color="grey darken-1"
           >
@@ -124,7 +121,7 @@
           :disabled="selfRepair + allyRepair < 4"
           @click="pilot.State.RepairDestroyed(selfRepair)"
         >
-          <v-icon x-large left>cc:repair</v-icon>
+          <v-icon size="x-large" left>cc:repair</v-icon>
           &nbsp; Repair Mech
         </v-btn>
       </div>
@@ -140,7 +137,7 @@
           small
           right
           icon
-          class="fadeSelect"
+          class="fade-select"
           @click="showRepair = !showRepair"
         >
           <v-icon
@@ -153,9 +150,9 @@
         v-if="!mech.Destroyed && !mech.ReactorDestroyed && showRepair"
         class="panel clipped mb-6 mt-n1"
       >
-        <v-row dense class="px-3">
+        <v-row density="compact" class="px-3">
           <v-col v-if="$vuetify.display.mdAndUp">
-            <p class="caption flavor-text subtle--text pb-0 mb-0">
+            <p class="caption flavor-text text-subtle pb-0 mb-0">
               //[COMP/CON: COMBAT OPERATIONS COMPLETE
               <br />
               DISCONNECTING PILOT SENSORIUM ... done
@@ -164,17 +161,17 @@
               <br />
               RUNNING FRAME DIAGNOSTIC SUITE ... done ]
               <br />
-              <span class="overline stark--text">
+              <span class="text-overline text-stark">
                 {{ mech.Frame.Source }} {{ mech.Frame.Name }} DIAGNOSTICS
                 COMPLETE
               </span>
             </p>
-            <p class="flavor-text subtle--text mb-0">
+            <p class="flavor-text text-subtle mb-0">
               >//[
-              <span class="accent--text">COMP/CON</span>
-              <span class="text--text">
+              <span class="text-accent">COMP/CON</span>
+              <span class="text-text">
                 Lancer, I have detected
-                <b class="accent--text">{{ issues }}</b>
+                <b class="text-accent">{{ issues }}</b>
                 issue{{ issues === 1 ? '' : 's' }} requiring your attention:
               </span>
               ]
@@ -184,16 +181,15 @@
             <div class="text-center mb-1">
               <span class="heading h3">
                 REPAIR CAPACITY REMAINING:
-                <b class="accent--text heading h2">{{ mech.CurrentRepairs }}</b>
+                <b class="text-accent heading h2">{{ mech.CurrentRepairs }}</b>
               </span>
               <br />
               <span>
-                <v-icon v-for="n in mech.CurrentRepairs" :key="'rep_' + n" large
+                <v-icon v-for="n in mech.CurrentRepairs" large
                   >cc:repair</v-icon
                 >
                 <v-icon
                   v-for="n in mech.RepairCapacity - mech.CurrentRepairs"
-                  :key="'repcap_' + n"
                   large
                   color="grey"
                   style="opacity: 0.4"
@@ -218,12 +214,12 @@
           </v-col>
         </v-row>
 
-        <v-row dense class="px-3">
+        <v-row density="compact" class="px-3">
           <v-col class="text-center flavor-text background">
-            <span v-if="mech.CurrentHP === mech.MaxHP" class="stark--text">
+            <span v-if="mech.CurrentHP === mech.MaxHP" class="text-stark">
               > NO DAMAGE DETECTED
             </span>
-            <b v-else class="warning--text">WARNING: DAMAGE DETECTED</b>
+            <b v-else class="text-warning">WARNING: DAMAGE DETECTED</b>
             <br />
             <v-btn
               v-if="mech.CurrentHP !== mech.MaxHP"
@@ -243,11 +239,11 @@
           <v-col class="text-center flavor-text background">
             <span
               v-if="mech.CurrentStructure === mech.MaxStructure"
-              class="stark--text"
+              class="text-stark"
             >
               > STRUCTURAL INTEGRITY NOMINAL
             </span>
-            <b v-else class="error--text">CRITICAL: STRUCTURE COMPROMISED</b>
+            <b v-else class="text-error">CRITICAL: STRUCTURE COMPROMISED</b>
             <br />
             <v-btn
               v-if="mech.CurrentStructure !== mech.MaxStructure"
@@ -270,11 +266,11 @@
           <v-col class="text-center flavor-text background">
             <span
               v-if="mech.CurrentStress === mech.MaxStress"
-              class="stark--text"
+              class="text-stark"
             >
               > REACTOR INTEGRITY NOMINAL
             </span>
-            <b v-else class="error--text">CRITICAL: REACTOR COMPROMISED</b>
+            <b v-else class="text-error">CRITICAL: REACTOR COMPROMISED</b>
             <br />
             <v-btn
               v-if="mech.CurrentStress !== mech.MaxStress"
@@ -297,14 +293,13 @@
 
         <v-row class="px-5">
           <v-col class="text-center flavor-text background">
-            <span v-if="!destroyedWeapons.length" class="stark--text"
+            <span v-if="!destroyedWeapons.length" class="text-stark"
               >> ARMAMENT NOMINAL</span
             >
-            <b v-else class="warning--text">WARNING: ARMAMENT DAMAGED</b>
+            <b v-else class="text-warning">WARNING: ARMAMENT DAMAGED</b>
             <br />
             <v-btn
               v-for="w in destroyedWeapons"
-              :key="w.ID"
               small
               dark
               tile
@@ -320,14 +315,13 @@
           </v-col>
 
           <v-col class="text-center flavor-text background">
-            <span v-if="!destroyedSystems.length" class="stark--text"
+            <span v-if="!destroyedSystems.length" class="text-stark"
               >> SYSTEMS NOMINAL</span
             >
-            <b v-else class="warning--text">WARNING: SYSTEMS DAMAGED</b>
+            <b v-else class="text-warning">WARNING: SYSTEMS DAMAGED</b>
             <br />
             <v-btn
               v-for="s in destroyedSystems"
-              :key="s.ID"
               small
               dark
               tile
@@ -345,10 +339,14 @@
       </v-container>
 
       <div class="mt-2">
-        <v-row dense align="center" justify="space-between" class="mt-n3 mx-4">
+        <v-row
+          density="compact"
+          align="center"
+          justify="space-between"
+          class="mt-n3 mx-4"
+        >
           <v-col cols="auto">
             <cc-tick-bar
-              :key="mech.CurrentStructure"
               :current="mech.CurrentStructure"
               :max="mech.MaxStructure"
               large
@@ -364,7 +362,6 @@
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
-              :key="mech.CurrentStress"
               :current="mech.CurrentStress"
               :max="mech.MaxStress"
               large
@@ -380,7 +377,6 @@
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
-              :key="mech.CurrentHP"
               :current="mech.CurrentHP"
               :max="mech.MaxHP"
               large
@@ -397,7 +393,6 @@
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
-              :key="mech.CurrentRepairs"
               :current="mech.CurrentRepairs"
               :max="mech.RepairCapacity"
               large
@@ -425,7 +420,7 @@
           <span class="overline">PILOT LOADOUT</span>
           <cc-pilot-loadout :pilot="pilot" readonly />
 
-          <v-row dense>
+          <v-row density="compact">
             <v-col cols="auto">
               <span class="overline">SKILL TRIGGERS</span>
             </v-col>
@@ -433,7 +428,7 @@
               <v-btn
                 x-small
                 variant="outlined"
-                class="fadeSelect"
+                class="fade-select"
                 @click="
                   expandAll(pilot.SkillsController.Skills.length, 'sk_', true)
                 "
@@ -444,7 +439,7 @@
               <v-btn
                 x-small
                 variant="outlined"
-                class="fadeSelect"
+                class="fade-select"
                 @click="
                   expandAll(pilot.SkillsController.Skills.length, 'sk_', false)
                 "
@@ -454,10 +449,9 @@
               </v-btn>
             </v-col>
           </v-row>
-          <v-row dense justify="center">
+          <v-row density="compact" justify="center">
             <cc-active-card
               v-for="(s, i) in pilot.SkillsController.Skills"
-              :key="`sk_${i}`"
               :ref="`sk_${i}`"
               :cols="
                 $vuetify.display.lgAndUp
@@ -487,7 +481,7 @@
             small
             right
             icon
-            class="fadeSelect"
+            class="fade-select"
             @click="showReserves = !showReserves"
           >
             <v-icon
@@ -509,13 +503,11 @@
               v-for="(r, i) in pilot.ReservesController.Reserves.filter(
                 (r) => r.Type !== 'Bonus'
               )"
-              :key="`r_${i}`"
               :reserve="r"
               @remove="pilot.ReservesController.RemoveReserve(i)"
             />
             <cc-org-item
               v-for="(o, i) in pilot.ReservesController.Organizations"
-              :key="`o_${i}`"
               :org="o"
               @remove="pilot.ReservesController.RemoveOrganization(i)"
             />

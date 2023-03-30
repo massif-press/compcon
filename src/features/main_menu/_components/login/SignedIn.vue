@@ -8,11 +8,11 @@
         userProfile.Username !== 'No Cloud Account'
       "
     >
-      <v-row dense justify="space-between" align="center">
+      <v-row density="compact" justify="space-between" align="center">
         <v-col v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
           CONNECTED
           <cc-slashes />
-          <b class="accent--text">
+          <b class="text-accent">
             {{ userProfile.Username }}
           </b>
         </v-col>
@@ -29,15 +29,15 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-row dense class="panel" justify="center" align="center">
+      <v-row density="compact" class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">CHANGE PASSWORD</v-col>
       </v-row>
-      <v-row dense class="my-2">
+      <v-row density="compact" class="my-2">
         <v-col lg="6" cols="12">
           <v-text-field
             v-model="oldpass"
             variant="outlined"
-            dense
+            density="compact"
             label="Old Password"
             :type="showOld ? 'text' : 'password'"
             :append-icon="showOld ? 'mdi-eye' : 'mdi-eye-off'"
@@ -48,7 +48,7 @@
           <v-text-field
             v-model="newpass"
             variant="outlined"
-            dense
+            density="compact"
             label="New Password"
             :rules="[rules.passLength, passMatch]"
             :type="showNew ? 'text' : 'password'"
@@ -70,7 +70,7 @@
           </v-btn>
         </v-col>
       </v-row>
-      <v-row dense class="panel" justify="center" align="center">
+      <v-row density="compact" class="panel" justify="center" align="center">
         <v-col cols="auto" style="letter-spacing: 5px">ACCOUNT DATA</v-col>
       </v-row>
       <div v-if="iid" class="caption text-center mt-1 mb-n3">
@@ -90,7 +90,7 @@
         variant="outlined"
       >
         <b>Cloud Sync functionality has changed</b>
-        <div class="text--text">
+        <div class="text-text">
           Cloud auto-syncing has
           <b>changed,</b>
           manual saving or loading to/from the cloud can be done here, or
@@ -104,7 +104,7 @@
             variant="outlined"
             style="border-color: rgb(var(--v-theme-error)); border-width: 3px"
           >
-            <div class="font-weight-bold text--text pa-2">
+            <div class="font-weight-bold text-text pa-2">
               COMP/CON has determined that your cloud account is not configured
               for the most recent backend changes. Clicking the upgrade button
               will save a backup of your current local data and attempt to
@@ -128,7 +128,7 @@
       <v-card v-if="isOnV2" class="mt-3 mb-6">
         <v-card-title class="heading h3">Auto-sync settings</v-card-title>
         <v-card-text class="px-10">
-          <v-row dense align="center">
+          <v-row density="compact" align="center">
             <v-col>
               <span class="heading h3">
                 On Login
@@ -143,7 +143,7 @@
             <v-col cols="auto" class="mr-n3">
               <v-switch
                 v-model="userProfile.SyncFrequency.cloudSync_v2"
-                dense
+                density="compact"
                 hide-details
                 inset
                 color="accent"
@@ -155,7 +155,7 @@
             >
             <v-col v-else cols="auto"><i>OFF</i></v-col>
           </v-row>
-          <v-row dense align="center">
+          <v-row density="compact" align="center">
             <v-col>
               <span class="heading h3">
                 Sync Remote Resources
@@ -170,7 +170,7 @@
             <v-col cols="auto" class="mr-n3">
               <v-switch
                 v-model="userProfile.SyncFrequency.remotes"
-                dense
+                density="compact"
                 hide-details
                 inset
                 color="accent"
@@ -200,7 +200,7 @@
           v-model="showError"
           color="error darken-1"
           dark
-          dense
+          density="compact"
           class="mt-2"
           icon="mdi-alert"
           dismissible
@@ -225,7 +225,7 @@ import SyncManager from '@/ui/syncManager/SyncManager.vue';
 import BackupManager from '@/ui/syncManager/BackupManager.vue';
 import { Auth } from '@aws-amplify/auth';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { UpdateUserData } from '@/cloud/user_sync';
 import _ from 'lodash';
 

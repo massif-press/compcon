@@ -3,20 +3,20 @@
     <p
       v-if="!action.Trigger"
       v-html-safe="action.Terse ? action.Terse : action.Detail"
-      class="text--text body-text mb-2"
+      class="text-text body-text mb-2"
     />
     <div v-else>
       <div v-if="action.Frequency.ToString() !== 'Unlimited'">
-        <div class="overline mb-n3">Frequency</div>
+        <div class="text-overline mb-n3">Frequency</div>
         <div
           v-html-safe="action.Frequency.ToString()"
-          class="ml-3 body-text stark--text"
+          class="ml-3 body-text text-stark"
         />
       </div>
-      <div class="overline mb-n3">Trigger</div>
-      <div v-html-safe="action.Trigger" class="ml-3 body-text stark--text" />
-      <div class="overline mb-n3">Effect</div>
-      <div v-html-safe="action.Detail" class="ml-3 body-text stark--text" />
+      <div class="text-overline mb-n3">Trigger</div>
+      <div v-html-safe="action.Trigger" class="ml-3 body-text text-stark" />
+      <div class="text-overline mb-n3">Effect</div>
+      <div v-html-safe="action.Detail" class="ml-3 body-text text-stark" />
     </div>
     <div
       v-if="action.Terse"
@@ -24,7 +24,7 @@
       :style="`max-height:${expanded ? '100%' : '40px;'}`"
     >
       <div class="panel clipped py-1 px-2">
-        <div class="caption accent--text mt-1">
+        <div class="caption text-accent mt-1">
           COMPENDIUM ENTRY
           <cc-slashes />
           <b>{{ action.Name }}</b>
@@ -34,7 +34,7 @@
       <p class="read-more">
         <v-btn
           icon
-          :class="`fadeSelect ${expanded ? 'mb-n2' : 'mb-n6'}`"
+          :class="`fade-select ${expanded ? 'mb-n2' : 'mb-n6'}`"
           style="background-color: rgb(var(--v-theme-stark-panel))"
           @click="expanded = !expanded"
         >

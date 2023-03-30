@@ -2,7 +2,7 @@
   <div>
     <div>
       <v-card flat light tile class="print-main px-6 py-3">
-        <v-row dense justify="space-between" align="start">
+        <v-row density="compact" justify="space-between" align="start">
           <v-col>
             <span class="heading h3">{{ item.Name }}</span>
             <span v-if="item.Class" class="pl-4">
@@ -20,7 +20,6 @@
             <cc-divider v-if="item.NarrativeController.Labels.length" />
             <v-chip
               v-for="(l, i) in item.Labels"
-              :key="l + i"
               small
               variant="outlined"
               label
@@ -67,7 +66,7 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-row dense no-gutters justify="center">
+            <v-row density="compact" no-gutters justify="center">
               <v-col cols="auto" class="text-center">
                 <div class="small-header overline">HP</div>
                 <div>
@@ -85,7 +84,7 @@
               >
                 <div class="small-header overline">ARMOR</div>
                 <div class="heading h3">
-                  <v-icon>mdi-shield</v-icon>
+                  <v-icon icon="mdi-shield" />
                   {{ item.Stats.Armor }}
                 </div>
               </v-col>
@@ -117,7 +116,7 @@
           </v-col>
         </v-row>
 
-        <v-row v-if="hasClass" dense>
+        <v-row v-if="hasClass" density="compact">
           <v-col>
             <fieldset>
               <legend class="caption font-weight-bold px-1">SAVE</legend>
@@ -170,10 +169,13 @@
           </v-col>
         </v-row>
 
-        <v-row dense justify="center" style="page-break-after: always">
+        <v-row
+          density="compact"
+          justify="center"
+          style="page-break-after: always"
+        >
           <v-col
             v-for="item in item.Items"
-            :key="item.ID"
             :class="` ${item.HideOnPrint ? 'no-print' : ''}`"
             style="page-break-inside: avoid !important; min-width: 45vw"
           >
@@ -182,7 +184,7 @@
         </v-row>
 
         <div v-if="item.NarrativeController.TextItems.length">
-          <v-row v-for="(s, i) in item.Sections" :key="`section_${i}`" dense>
+          <v-row v-for="(s, i) in item.Sections" density="compact">
             <v-col>
               <v-row no-gutters justify="space-between">
                 <v-col cols="auto">
@@ -200,7 +202,6 @@
         </div>
         <cc-clock
           v-for="(c, i) in item.NarrativeController.Clocks"
-          :key="`${item.Name}_clock_${i}`"
           :clock="c"
           class="mx-1 my-2"
           print
@@ -208,7 +209,6 @@
         <div v-if="item.NarrativeController.Tables.length">
           <cc-rollable-table
             v-for="(t, i) in item.Tables"
-            :key="`${item.Name}_table_${i}`"
             :table="t"
             class="mx-1 my-2"
             print

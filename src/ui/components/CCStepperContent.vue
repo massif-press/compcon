@@ -2,7 +2,7 @@
   <div>
     <slot />
     <v-divider class="ma-3" />
-    <v-row dense class="mx-3">
+    <v-row density="compact" class="mx-3">
       <v-col cols="auto">
         <router-link to="exit">
           <v-btn large text>EXIT</v-btn>

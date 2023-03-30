@@ -11,7 +11,7 @@
 <script lang="ts">
 import SidebarArrayView from '../components/SidebarArrayView.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'skills',
@@ -20,7 +20,7 @@ export default {
     skills: [],
   }),
   async created() {
-    // const compendium =this.getModule(CompendiumStore);
+    // const compendium =CompendiumStore();
     // this.skills = await compendium.Skills.filter((x) => x);
   },
 };

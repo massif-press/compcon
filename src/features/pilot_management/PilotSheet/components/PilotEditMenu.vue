@@ -3,19 +3,16 @@
     <v-menu offset-y offset-x>
       <template v-slot:activator="{ on: menu }">
         <v-btn class="ml-2" icon :dark="!light" v-on="menu">
-          <v-icon>mdi-cog</v-icon>
+          <v-icon icon="mdi-cog" />
         </v-btn>
       </template>
       <v-list two-line subheader color="panel">
-        <v-subheader
-          v-if="!dense"
-          class="heading h2 white--text primary py-0 px-2"
-        >
+        <div v-if="!dense" class="heading h2 text-white primary py-0 px-2">
           Pilot Options
-        </v-subheader>
+        </div>
         <v-list-item @click="$refs.printDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-printer</v-icon>
+            <v-icon icon="mdi-printer" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Print</v-list-item-title>
@@ -26,7 +23,7 @@
         </v-list-item>
         <v-list-item @click="$refs.cloneDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-dna</v-icon>
+            <v-icon icon="mdi-dna" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Clone</v-list-item-title>
@@ -37,7 +34,7 @@
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-file-document-outline</v-icon>
+            <v-icon icon="mdi-file-document-outline" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Generate Statblock</v-list-item-title>
@@ -53,7 +50,7 @@
           @click="remoteUpdate()"
         >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-cloud-sync</v-icon>
+            <v-icon icon="mdi-cloud-sync" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Download Latest Data</v-list-item-title>
@@ -70,7 +67,7 @@
           @click="$refs.shareDialog.show()"
         >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-code-json</v-icon>
+            <v-icon icon="mdi-code-json" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Get Share Code</v-list-item-title>
@@ -84,7 +81,7 @@
         </v-list-item>
         <!-- <v-list-item @click="$refs.roll20Dialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-dice-d20</v-icon>
+            <v-icon icon="mdi-dice-d20" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Convert to Roll20</v-list-item-title>
@@ -95,7 +92,7 @@
         </v-list-item> -->
         <v-list-item @click="$refs.exportDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-export-variant</v-icon>
+            <v-icon icon="mdi-export-variant" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Export Pilot</v-list-item-title>
@@ -110,10 +107,10 @@
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="error--text"
+            <v-list-item-title class="text-error"
               >Delete Pilot</v-list-item-title
             >
-            <v-list-item-subtitle class="error--text">
+            <v-list-item-subtitle class="text-error">
               Remove this pilot from the roster
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -141,7 +138,7 @@ import ShareDialog from './ShareDialog.vue';
 import PrintDialog from './PrintDialog.vue';
 import DeleteDialog from './DeletePilotDialog.vue';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { RemoteSyncItem } from '@/cloud/item_sync';
 
 export default {
@@ -163,8 +160,8 @@ export default {
     light: {
       type: Boolean,
     },
-    dense: {
-      type: Boolean,
+    density: {
+      type: String,
     },
   },
   data: () => ({

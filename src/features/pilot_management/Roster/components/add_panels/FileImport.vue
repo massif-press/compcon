@@ -10,7 +10,7 @@
       @click:clear="reset"
     />
     <v-card v-if="missingContent.length">
-      <p v-if="oldBrewsWarning" class="heading h3 accent--text">
+      <p v-if="oldBrewsWarning" class="heading h3 text-accent">
         WARNING: The imported Pilot was created using an older version of
         COMP/CON. Lancer Content Pack analysis may not be comprehensive and
         there is a chance COMP/CON will be unable to correctly load this data.
@@ -18,12 +18,12 @@
         LCP validation.
       </p>
       <v-card-text class="text-center">
-        <p class="heading h4 accent--text">
+        <p class="heading h4 text-accent">
           The imported Pilot requires the following content packs that are not
           currently installed/active, or have mismatching versions:
         </p>
         <p class="effect-text text-center" v-html="missingContent" />
-        <p class="text--text">
+        <p class="text-text">
           This Pilot cannot be imported until the missing content packs are
           installed and activated, or the content pack versions are
           synchronized.
@@ -36,7 +36,7 @@
       </v-card-actions>
     </v-card>
     <div class="mt-2">
-      <p v-if="alreadyPresent" class="accent--text text-center">
+      <p v-if="alreadyPresent" class="text-accent text-center">
         A Pilot with this ID already exists in the roster. Importing will create
         a unique copy of this pilot.
       </p>
@@ -63,7 +63,7 @@
 import { Pilot } from '@/class';
 import { importData } from '@/io/Data';
 
-import { CompendiumStore, PilotManagementStore } from '@/store';
+import { CompendiumStore, PilotStore } from '@/stores';
 import { PilotData } from '@/interface';
 
 export default {
@@ -92,14 +92,14 @@ export default {
       if (pilotData.brews.length && !pilotData.brews[0].LcpId) {
         this.oldBrewsWarning = true;
 
-        const installedPacks = this.getModule(CompendiumStore)
+        const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
           .map((x) => `${x.Name} @ ${x.Version}`);
         const missingPacks = this.$_.pullAll(pilotData.brews, installedPacks);
         if (missingPacks.length)
           this.missingContent = missingPacks.join('<br />');
       } else {
-        const installedPacks = this.getModule(CompendiumStore)
+        const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
           .map((x) => x.ID);
         let missing = [];
@@ -111,7 +111,7 @@ export default {
         if (missing.length) this.missingContent = missing.join('<br />');
       }
       if (
-        this.getModule(PilotManagementStore)
+        this.getModule(PilotStore)
           .Pilots.map((x) => x.ID)
           .includes(pilotData.id)
       ) {

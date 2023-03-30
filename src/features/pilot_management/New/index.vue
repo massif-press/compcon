@@ -131,7 +131,7 @@ import ConfirmPage from './pages/ConfirmPage.vue';
 import TemplatesPage from './pages/TemplatesPage.vue';
 import { Pilot } from '@/class';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'new-pilot-wizard',

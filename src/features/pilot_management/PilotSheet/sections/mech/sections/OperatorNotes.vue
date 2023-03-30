@@ -7,7 +7,7 @@
     <div class="my-2">
       <p
         v-if="mech.Notes"
-        class="flavor-text text--text mx-2 preserve-linebreaks"
+        class="flavor-text text-text mx-2 preserve-linebreaks"
         v-html="mech.Notes"
       />
       <no-data-block v-else />

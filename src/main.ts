@@ -2,13 +2,13 @@ import { version } from '../package.json';
 import lancerData from 'lancer-data';
 import _ from 'lodash';
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 
 import './assets/css/global.css';
 import './ui/style/_style.css';
 
 import App from './App.vue';
 
-import { store } from './store';
 import router from './router';
 import vuetify from './ui/style';
 import * as globals from './ui/globals';
@@ -16,9 +16,11 @@ import * as globals from './ui/globals';
 import { getModule } from './util/storeUtils';
 import VueSecureHTML from 'vue-html-secure';
 
+import Startup from './io/Startup';
+
 const compcon = createApp(App);
 
-compcon.use(store);
+compcon.use(createPinia());
 compcon.use(vuetify);
 compcon.use(router);
 compcon.use(VueSecureHTML);
@@ -38,3 +40,5 @@ compcon.config.globalProperties.$lancerVersion = lancerData.info.version;
 compcon.config.globalProperties.getModule = getModule;
 
 compcon.mount('#app');
+
+await Startup();

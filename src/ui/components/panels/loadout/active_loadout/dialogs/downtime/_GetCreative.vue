@@ -19,16 +19,22 @@
         <v-tab :disabled="!projects.length">Continue Project</v-tab>
         <v-tab-item>
           <v-card flat tile class="ma-3">
-            <v-toolbar dark flat tile dense color="action--downtime">
+            <v-toolbar
+              dark
+              flat
+              tile
+              density="compact"
+              color="action--downtime"
+            >
               <v-toolbar-title class="heading h2">New Project</v-toolbar-title>
             </v-toolbar>
             <v-card-text class="pa-4">
-              <v-row dense>
+              <v-row density="compact">
                 <v-col cols="7">
                   <v-text-field
                     v-model="project_name"
                     variant="outlined"
-                    dense
+                    density="compact"
                     label="Project Name"
                   />
                 </v-col>
@@ -40,14 +46,14 @@
                   >
                     <v-switch
                       v-model="complicated"
-                      dense
+                      density="compact"
                       inset
                       label="Complicated"
                     />
                   </cc-tooltip>
                 </v-col>
               </v-row>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col class="mx-6">
                   <v-textarea
                     v-model="details"
@@ -65,7 +71,7 @@
                     type="number"
                     label="Initial Roll Result"
                     variant="outlined"
-                    dense
+                    density="compact"
                     append-outer-icon="mdi-plus-circle-outline"
                     prepend-icon="mdi-minus-circle-outline"
                     hide-details
@@ -134,7 +140,6 @@
             <div class="mx-3">
               <v-btn
                 v-for="(p, i) in projects"
-                :key="p.ResourceName + i"
                 tile
                 block
                 dark
@@ -155,12 +160,12 @@
               <div class="text-center heading h2">
                 Working on {{ improveSelection.ResourceName }}
               </div>
-              <v-row dense justify="center">
+              <v-row density="compact" justify="center">
                 <v-col cols="8">
                   <v-alert
                     v-if="improveSelection.ResourceCost"
                     color="primary"
-                    dense
+                    density="compact"
                     variant="outlined"
                     class="mt-2"
                   >
@@ -179,7 +184,7 @@
               </v-row>
               <div
                 v-if="improveSelection.ResourceCost"
-                class="text-center heading h2 accent--text"
+                class="text-center heading h2 text-accent"
               >
                 OR
               </div>
@@ -190,7 +195,7 @@
                     type="number"
                     label="Progress Roll Result"
                     variant="outlined"
-                    dense
+                    density="compact"
                     hide-details
                     append-outer-icon="mdi-plus-circle-outline"
                     prepend-icon="mdi-minus-circle-outline"

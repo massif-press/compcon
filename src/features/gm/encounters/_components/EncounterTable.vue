@@ -13,7 +13,6 @@
     <tbody>
       <encounter-row-item
         v-for="(e, i) in encounters"
-        :key="`encounter_${i}`"
         :encounter="e"
         :active="active"
       />

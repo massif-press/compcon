@@ -10,7 +10,7 @@
     >
       <template v-slot:activator="{ props }">
         <div v-bind="props">
-          <v-icon>cc:{{ $_.kebabCase(item.ItemType) }}</v-icon>
+          <v-icon icon="cc:{{ $_.kebabCase(item.ItemType) }}" />
           <span class="heading h3 px-2 mt-n1">{{ item.Name }}</span>
         </div>
       </template>

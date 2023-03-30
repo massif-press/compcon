@@ -1,11 +1,16 @@
 <template>
   <v-container fluid class="px-3" style="margin-top: 20px">
-    <v-row dense align="end" class="mt-2">
+    <v-row density="compact" align="end" class="mt-2">
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
-        <v-btn-toggle :value="getRosterView" mandatory dense class="mt-n4">
+        <v-btn-toggle
+          :value="getRosterView"
+          mandatory
+          density="compact"
+          class="mt-n4"
+        >
           <v-btn
             small
             icon
@@ -35,11 +40,11 @@
       <v-col cols="auto" class="ml-auto">
         <v-btn-toggle class="mr-2">
           <v-btn text small @click="showAll">
-            <v-icon>mdi-chevron-down</v-icon>
+            <v-icon icon="mdi-chevron-down" />
             <span v-if="$vuetify.display.mdAndUp">Expand All</span>
           </v-btn>
           <v-btn text small @click="hideAll">
-            <v-icon>mdi-chevron-up</v-icon>
+            <v-icon icon="mdi-chevron-up" />
             <span v-if="$vuetify.display.mdAndUp">Collapse All</span>
           </v-btn>
         </v-btn-toggle>
@@ -47,7 +52,7 @@
       <v-col v-if="isTouch" cols="auto">
         <v-switch
           v-model="preventDnd"
-          dense
+          density="compact"
           inset
           hide-details
           color="accent"
@@ -81,10 +86,10 @@
           v-bind="dragOptions"
           @change="pilotStore.moveGroup(groups)"
         >
-          <div v-for="(g, i) in groups" :key="`pg_${g.name}_${i}`">
+          <div v-for="(g, i) in groups">
             <v-row
               no-gutters
-              class="pl-10 ml-n12 heading h3 white--text primary sliced"
+              class="pl-10 ml-n12 heading h3 text-white primary sliced"
             >
               <v-col cols="auto">
                 <v-btn small dark icon class="mt-n1" @click="toggleHidden(g)">
@@ -98,8 +103,8 @@
               <v-col v-if="g.name" cols="auto" class="ml-auto mr-8">
                 <v-menu offset-x left :close-on-content-click="false">
                   <template v-slot:activator="{ props }">
-                    <v-btn dark small icon class="fadeSelect" v-bind="props">
-                      <v-icon>mdi-circle-edit-outline</v-icon>
+                    <v-btn dark small icon class="fade-select" v-bind="props">
+                      <v-icon icon="mdi-circle-edit-outline" />
                     </v-btn>
                   </template>
                   <v-card>
@@ -119,10 +124,10 @@
                   dark
                   small
                   icon
-                  class="fadeSelect"
+                  class="fade-select"
                   @click="deleteGroup(g)"
                 >
-                  <v-icon>mdi-delete</v-icon>
+                  <v-icon icon="mdi-delete" />
                 </v-btn>
               </v-col>
             </v-row>
@@ -147,7 +152,6 @@
                   <component
                     :is="pilotCardType"
                     v-for="(id, j) in g.pilotIDs"
-                    :key="`${pilotCardType}_${j}`"
                     :pilot="getPilotFromId(id)"
                     :small="getRosterView === 'small-cards'"
                     :dragging="drag"
@@ -159,7 +163,7 @@
         </draggable>
       </v-container>
     </v-slide-x-transition>
-    <v-row dense justify="end">
+    <v-row density="compact" justify="end">
       <v-col cols="auto">
         <v-btn x-small color="primary" @click="$refs.delete.show()"
           >Delete Multiple</v-btn
@@ -176,21 +180,21 @@
       </v-col>
     </v-row>
     <v-divider class="my-3" />
-    <v-row dense justify="center">
+    <v-row density="compact" justify="center">
       <v-col cols="auto" class="mx-4">
-        <v-btn x-large tile color="accent" @click="$router.push('new')">
+        <v-btn size="x-large" tile color="accent" @click="$router.push('new')">
           <v-icon start large>cc:accuracy</v-icon>
           Create New Pilot
         </v-btn>
       </v-col>
       <v-col cols="auto" class="mx-4">
-        <v-btn x-large tile color="accent" @click="$refs.import.show()">
+        <v-btn size="x-large" tile color="accent" @click="$refs.import.show()">
           <v-icon large left class="pr-2">mdi-import</v-icon>
           Import Pilot
         </v-btn>
       </v-col>
     </v-row>
-    <v-row dense justify="center">
+    <v-row density="compact" justify="center">
       <v-col cols="auto">
         <v-menu v-model="newGroupMenu" top :close-on-content-click="false">
           <template v-slot:activator="{ props }">
@@ -206,7 +210,7 @@
           </template>
           <v-card tile flat>
             <v-card-text>
-              <v-row dense justify="center">
+              <v-row density="compact" justify="center">
                 <v-col cols="auto">
                   <cc-tooltip simple content="Generate Random Name">
                     <v-icon large color="secondary" @click="randomName()"
@@ -218,7 +222,7 @@
                   <v-text-field
                     v-model="newGroupName"
                     variant="outlined"
-                    dense
+                    density="compact"
                     label="Group Name"
                     hide-details
                   />
@@ -255,7 +259,7 @@ import PilotCard from './components/PilotCard.vue';
 import PilotListItem from './components/PilotListItem.vue';
 import ImportDialog from './components/ImportDialog.vue';
 
-import { UserStore, PilotManagementStore } from '@/store';
+import { UserStore, PilotStore } from '@/stores';
 import { Pilot } from '@/class';
 import { UserProfile } from '@/user';
 import draggable from 'vuedraggable';
@@ -280,7 +284,7 @@ export default {
   },
   computed: {
     pilotStore() {
-      const mod = this.getModule(PilotManagementStore);
+      const mod = this.getModule(PilotStore);
       return mod;
     },
     pilotCardType(): string {

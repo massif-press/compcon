@@ -13,7 +13,7 @@
         align="center"
       >
         <v-col class="panel">
-          <div class="heading h1 subtle--text text--darken-1">MOUNT LOCKED</div>
+          <div class="heading h1 text-subtle text--darken-1">MOUNT LOCKED</div>
           <div class="mt-2 mb-n4">SUPERHEAVY WEAPON BRACING</div>
         </v-col>
       </v-row>

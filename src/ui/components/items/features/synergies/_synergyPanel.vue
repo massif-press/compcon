@@ -1,5 +1,5 @@
 <template>
-  <v-alert variant="outlined" dense>
+  <v-alert variant="outlined" density="compact">
     <synergy-base :synergy="synergy" />
   </v-alert>
 </template>

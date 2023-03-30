@@ -12,12 +12,12 @@
         <p
           id="completed"
           ref="completed"
-          class="flavor-text subtle--text text--darken-1 py-0 my-0"
+          class="flavor-text text-subtle text--darken-1 py-0 my-0"
         ></p>
         <p
           id="output"
           ref="output"
-          class="flavor-text subtle--text text--darken-1 py-0 my-0"
+          class="flavor-text text-subtle text--darken-1 py-0 my-0"
         ></p>
       </v-col>
       <v-col cols="auto" class="ml-2">
@@ -36,7 +36,7 @@ import GmsStart from './startup_logs/gms';
 import MsmcStart from './startup_logs/msmc';
 import { HorusStart, HorusChat } from './startup_logs/horus';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { UserProfile } from '@/user';
 
 export default {
@@ -136,13 +136,13 @@ export default {
         },
       })
         .type(`$ `)
-        .type(`<span class="stark-text--text">${user}</span>↵`)
+        .type(`<span class="stark-text-text">${user}</span>↵`)
         .pause(100)
         .options({ speed: 3, lifeLike: false })
         .break()
         .type('>')
         .type(
-          `//[<span class="accent--text">COMP/CON</span>: <span class="stark--text">${response}</span>]`
+          `//[<span class="text-accent">COMP/CON</span>: <span class="text-stark">${response}</span>]`
         )
         .type(' ')
         .go();

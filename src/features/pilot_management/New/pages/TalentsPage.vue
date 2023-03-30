@@ -34,7 +34,7 @@
           color="accent"
           variant="outlined"
           class="mt-2"
-          dense
+          density="compact"
           prominent
         >
           <b>Select three (3) Pilot Talents.</b>

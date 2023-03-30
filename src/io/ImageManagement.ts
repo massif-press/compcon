@@ -11,7 +11,7 @@ declare interface IImageInfo {
 }
 
 function getImageDir(subdir: ImageTag): string {
-  return `assets/img/${subdir}`;
+  return `/src/assets/img/${subdir}`;
 }
 
 function getImagePath(subdir: ImageTag, fileName: string): string {

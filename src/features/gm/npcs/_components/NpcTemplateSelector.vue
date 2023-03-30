@@ -3,7 +3,6 @@
     <div class="caption mb-1">TEMPLATES</div>
     <v-chip
       v-for="t in item.NpcTemplateController.Templates"
-      :key="t.Name"
       cols="auto"
       variant="outlined"
       label
@@ -19,8 +18,8 @@
 
     <v-dialog v-model="dialog">
       <v-card>
-        <v-toolbar dense color="primary" flat>
-          <span class="heading h6 white--text">Select Template</span>
+        <v-toolbar density="compact" color="primary" flat>
+          <span class="heading h6 text-white">Select Template</span>
           <v-spacer />
           <v-btn icon color="white" @click="dialog = false"
             ><v-icon large>mdi-close</v-icon></v-btn
@@ -29,12 +28,12 @@
 
         <panel-view no-border>
           <template slot="left">
-            <v-row dense>
+            <v-row density="compact">
               <v-col>
                 <v-text-field
                   v-model="search"
                   prepend-inner-icon="mdi-magnify"
-                  dense
+                  density="compact"
                   hide-details
                   variant="outlined"
                   clearable
@@ -43,11 +42,11 @@
             </v-row>
             <v-divider class="my-2" />
             <v-row
-              dense
+              density="compact"
               style="max-height: calc(100% - 145px); overflow-y: scroll"
             >
               <v-data-table
-                dense
+                density="compact"
                 :items="templates"
                 :search="search"
                 :headers="headers"
@@ -82,7 +81,7 @@
           <template slot="right">
             <v-container v-if="selected" class="mt-n6">
               <v-row no-gutters align="center">
-                <v-col class="heading h1 text--text">{{ selected.Name }}</v-col>
+                <v-col class="heading h1 text-text">{{ selected.Name }}</v-col>
                 <v-col cols="auto">
                   <v-btn
                     v-if="isAssigned(selected)"
@@ -103,14 +102,14 @@
                 </v-col>
               </v-row>
 
-              <div v-if="selected.InLcp" class="heading h3 text--text">
+              <div v-if="selected.InLcp" class="heading h3 text-text">
                 {{ selected.LcpName }}
               </div>
               <p class="flavor-text mb-0" v-html-safe="selected.Description" />
 
               <v-alert
                 v-show="selected.ClassFeatureSelectionInfo"
-                dense
+                density="compact"
                 color="panel"
                 class="text-center ma-0"
                 v-html="selected.ClassFeatureSelectionInfo"
@@ -120,7 +119,7 @@
                 <v-expansion-panel>
                   <v-expansion-panel-header>
                     <span class="heading h3">
-                      <b class="accent--text">Base</b>
+                      <b class="text-accent">Base</b>
                       Features
                       <span class="caption"
                         >({{ selected.BaseFeatures.length }})</span
@@ -130,7 +129,6 @@
                   <v-expansion-panel-content>
                     <cc-dense-card
                       v-for="b in selected.BaseFeatures"
-                      :key="b.ID"
                       :item="b"
                       class="my-1"
                     />
@@ -141,7 +139,7 @@
                     <v-row no-gutters align="centter">
                       <v-col align-self="center">
                         <div class="heading h3">
-                          <b class="accent--text">Optional</b>
+                          <b class="text-accent">Optional</b>
                           Features
                           <span class="caption"
                             >({{ selected.OptionalFeatures.length }})</span
@@ -151,14 +149,14 @@
                       <v-col align-self="center">
                         <v-alert
                           v-show="selected.FeatureSelectionInfo"
-                          dense
+                          density="compact"
                           color="panel"
                           class="text-center ma-0"
                           v-html="selected.FeatureSelectionInfo"
                         />
                         <v-alert
                           v-show="selected.Caveat"
-                          dense
+                          density="compact"
                           color="panel"
                           class="text-center mb-0 mt-1"
                           v-html="selected.Caveat"
@@ -169,7 +167,6 @@
                   <v-expansion-panel-content>
                     <cc-dense-card
                       v-for="f in selected.OptionalFeatures"
-                      :key="f.ID"
                       :item="f"
                       class="my-1"
                     />
@@ -184,7 +181,7 @@
               style="width: 100%; height: 100%"
             >
               <v-col cols="auto">
-                <span class="heading h1 subtle--text text--lighten-2"
+                <span class="heading h1 text-subtle text--lighten-2"
                   >select npc template</span
                 >
               </v-col>
@@ -197,7 +194,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import PanelView from '../../_components/PanelView.vue';
 
 export default {
@@ -216,7 +213,7 @@ export default {
     classes: [],
   }),
   created() {
-    // const compendium =this.getModule(CompendiumStore);
+    // const compendium =CompendiumStore();
     // this.templates = compendium.NpcTemplates;
   },
   methods: {

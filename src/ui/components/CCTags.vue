@@ -1,13 +1,10 @@
 <template>
-  <v-row v-if="extended && $vuetify.display.mdAndUp" no-gutters>
-    <v-col v-for="(t, i) in tags" :key="`${t.ID}_${i}`" cols="12">
-      <cc-extended-tag :tag="t" :color="t.IsExotic ? 'exotic' : color" />
-    </v-col>
-  </v-row>
+  <div v-if="extended && $vuetify.display.mdAndUp" v-for="t in (tags as Tag[])">
+    <cc-extended-tag :tag="t" :color="t.IsExotic ? 'exotic' : color" />
+  </div>
   <div v-else-if="print">
     <v-chip
-      v-for="(t, i) in tags"
-      :key="`${t.ID}_${i}`"
+      v-for="t in (tags as Tag[])"
       variant="outlined"
       x-small
       label
@@ -18,11 +15,10 @@
   </div>
   <div v-else class="text-center">
     <cc-tag
-      v-for="(t, i) in tags"
-      :key="`${t.ID}_${i}`"
+      v-for="t in (tags as Tag[])"
       :tag="t"
       :small="small"
-      :dense="dense"
+      :density="density"
       :outlined="outlined"
       :color="color"
       :bonus="bonus"
@@ -31,6 +27,8 @@
 </template>
 
 <script lang="ts">
+import { Tag } from '@/class';
+
 export default {
   name: 'CCTags',
   props: {
@@ -38,7 +36,7 @@ export default {
       type: Boolean,
       required: false,
     },
-    dense: {
+    density: {
       type: Boolean,
       required: false,
     },

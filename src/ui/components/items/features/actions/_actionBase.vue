@@ -4,7 +4,11 @@
     :class="$vuetify.display.smAndDown ? 'px-0' : ''"
   >
     <div class="my-2">
-      <v-row v-if="action.Damage || action.Range" dense align="center">
+      <v-row
+        v-if="action.Damage || action.Range"
+        density="compact"
+        align="center"
+      >
         <v-col cols="auto">
           <cc-range-element :range="action.Range" />
         </v-col>
@@ -20,22 +24,22 @@
     <div
       v-if="action.Init"
       v-html-safe="action.Init"
-      class="body-text stark--text mt-2"
+      class="body-text text-stark mt-2"
     />
     <div v-if="action.Frequency.ToString() !== 'Unlimited'">
-      <div class="subtle--text overline mb-n2">Frequency</div>
+      <div class="text-subtle overline mb-n2">Frequency</div>
       <div
         v-html-safe="action.Frequency.ToString()"
-        class="body-text stark--text"
+        class="body-text text-stark"
       />
     </div>
     <div v-if="action.Trigger">
-      <div class="subtle--text overline mb-n2">Trigger</div>
-      <div v-html-safe="action.Trigger" class="body-text stark--text" />
+      <div class="text-subtle overline mb-n2">Trigger</div>
+      <div v-html-safe="action.Trigger" class="body-text text-stark" />
     </div>
     <div v-if="action.Detail">
-      <div class="subtle--text overline mb-n2">Effect</div>
-      <div v-html-safe="action.Detail" class="body-text stark--text" />
+      <div class="text-subtle overline mb-n2">Effect</div>
+      <div v-html-safe="action.Detail" class="body-text text-stark" />
     </div>
   </v-card-text>
 </template>

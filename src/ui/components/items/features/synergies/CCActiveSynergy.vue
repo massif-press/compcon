@@ -1,13 +1,18 @@
 <template>
   <v-row no-gutters justify="center">
-    <v-col v-for="(s, i) in synergies" :key="`syn_${i}`" style="min-width: 33%">
-      <v-alert dense variant="outlined" class="py-1 ma-1" color="primary">
-        <div class="overline mt-n2 subtle--text">
+    <v-col v-for="(s, i) in synergies">
+      <v-alert
+        density="compact"
+        variant="outlined"
+        class="py-1 ma-1"
+        color="primary"
+      >
+        <div class="text-overline mt-n2 text-subtle">
           ACTIVE SYNERGY
           <cc-slashes />
-          <span class="text--text">{{ s.Origin }}</span>
+          <span class="text-text">{{ s.Origin }}</span>
         </div>
-        <div v-html-safe="s.Detail" class="body-text text--text" />
+        <div v-html-safe="s.Detail" class="body-text text-text" />
       </v-alert>
     </v-col>
   </v-row>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense class="panel" justify="center" align="center">
+    <v-row density="compact" class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">SIGN IN</v-col>
     </v-row>
     <v-form @submit="signIn()">
@@ -9,7 +9,7 @@
           <v-text-field
             v-model="email"
             label="E-Mail Address"
-            dense
+            density="compact"
             variant="outlined"
             hide-details
           />
@@ -34,7 +34,7 @@
           <v-text-field
             v-model="password"
             label="Password"
-            dense
+            density="compact"
             variant="outlined"
             hide-details
             :type="show ? 'text' : 'password'"
@@ -81,7 +81,7 @@
         v-model="showError"
         color="error darken-1"
         dark
-        dense
+        density="compact"
         class="mt-2"
         icon="mdi-alert"
         dismissible
@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { Auth } from '@aws-amplify/auth';
 import { SetTheme } from '@/classes/utility/ThemeManager';
 

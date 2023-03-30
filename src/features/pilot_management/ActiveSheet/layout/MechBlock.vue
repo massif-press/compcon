@@ -3,9 +3,12 @@
     <cc-stress-table ref="stressTable" :mech="mech" />
     <cc-structure-table ref="structureTable" :mech="mech" />
     <div>
-      <v-row dense>
+      <v-row density="compact">
         <v-col class="mt-n5">
-          <div v-show="$vuetify.display.mdAndUp" class="overline subtle--text">
+          <div
+            v-show="$vuetify.display.mdAndUp"
+            class="text-overline text-subtle"
+          >
             MOUNTED::
           </div>
           <div
@@ -13,11 +16,11 @@
               $vuetify.display.mdAndUp ? 'heading h2 mt-n4' : 'font-weight-bold'
             "
           >
-            <span class="accent--text"
+            <span class="text-accent"
               >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span
             >
             <cc-slashes />
-            <span class="stark--text">{{ mech.Name }}</span>
+            <span class="text-stark">{{ mech.Name }}</span>
           </div>
         </v-col>
         <v-col
@@ -25,8 +28,8 @@
           cols="auto"
           class="ml-auto mr-2 mt-n3"
         >
-          <div class="overline subtle--text mt-n2">PILOT::</div>
-          <div class="heading h2 mt-n3 subtle--text">{{ pilot.Callsign }}</div>
+          <div class="text-overline text-subtle mt-n2">PILOT::</div>
+          <div class="heading h2 mt-n3 text-subtle">{{ pilot.Callsign }}</div>
         </v-col>
       </v-row>
 
@@ -34,12 +37,12 @@
 
       <v-row
         v-if="state.SelfDestructCounter > 0"
-        dense
+        density="compact"
         justify="center"
         class="text-center"
       >
         <v-col cols="auto">
-          <v-alert dense variant="outlined" color="error" prominent>
+          <v-alert density="compact" variant="outlined" color="error" prominent>
             <v-icon slot="prepend" color="error" size="90" class="mr-3"
               >cc:reactor</v-icon
             >
@@ -50,7 +53,7 @@
               SELF DESTRUCT IN {{ state.SelfDestructCounter }} ROUNDS
             </span>
             <span v-else class="heading h1">SELF DESTRUCT IMMINENT</span>
-            <div class="heading mt-n4 subtle--text">
+            <div class="heading mt-n4 text-subtle">
               FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
             </div>
             <div class="px-5 my-1">
@@ -64,7 +67,7 @@
               <v-btn
                 x-small
                 color="primary"
-                class="fadeSelect"
+                class="fade-select"
                 @click="state.CancelSelfDestruct()"
               >
                 <v-icon small left>mdi-reload</v-icon>
@@ -78,7 +81,7 @@
       <v-alert
         v-if="mech.Pilot.Status === 'KIA' || mech.Pilot.IsDead"
         prominent
-        dense
+        density="compact"
         variant="outlined"
         color="error"
       >
@@ -99,7 +102,7 @@
                 right
                 small
                 variant="outlined"
-                class="fadeSelect"
+                class="fade-select"
                 style="bottom: 0; right: 0"
                 v-bind="props"
               >
@@ -122,21 +125,26 @@
 
       <v-row
         v-else-if="mech.IsShutDown"
-        dense
+        density="compact"
         justify="center"
         class="text-center"
       >
         <v-col cols="auto">
-          <v-alert dense variant="outlined" color="warning" prominent>
+          <v-alert
+            density="compact"
+            variant="outlined"
+            color="warning"
+            prominent
+          >
             <v-icon slot="prepend" color="warning" size="70" class="mr-3">
-              cc:status-shut-down
+              cc:status_shut-down
             </v-icon>
             <span
               :class="$vuetify.display.mdAndUp ? 'heading h1' : 'heading h3'"
             >
               MECH SHUT DOWN
             </span>
-            <div class="heading mt-n4 subtle--text">
+            <div class="heading mt-n4 text-subtle">
               FRAME.STATUS//ERR: NO RESPONSE
             </div>
           </v-alert>
@@ -144,7 +152,12 @@
       </v-row>
 
       <div v-if="!mech.ReactorDestroyed">
-        <v-row justify="space-between" align="center" dense class="mt-n3">
+        <v-row
+          justify="space-between"
+          align="center"
+          density="compact"
+          class="mt-n3"
+        >
           <v-col cols="6" md="3" :style="mech.Destroyed ? 'opacity: 0.5' : ''">
             <cc-status-select
               label="Statuses"
@@ -192,7 +205,7 @@
               class="hide-input-spinners"
               hint="BURN"
               persistent-hint
-              dense
+              density="compact"
               @click:append-outer="state.SetBurn(mech.Burn + 1)"
               @click:prepend="state.SetBurn(mech.Burn - 1)"
               @change="state.SetBurn(parseInt($event))"
@@ -218,17 +231,23 @@
                   <v-btn
                     v-if="!mech.Destroyed"
                     icon
-                    class="fadeSelect"
+                    class="fade-select"
                     v-bind="props"
                   >
                     <v-icon x-large>cc:repair</v-icon>
                   </v-btn>
-                  <v-btn v-else x-large color="secondary" icon v-bind="props">
+                  <v-btn
+                    v-else
+                    size="x-large"
+                    color="secondary"
+                    icon
+                    v-bind="props"
+                  >
                     <v-icon size="50">cc:repair</v-icon>
                   </v-btn>
                 </template>
                 <cc-confirmation
-                  content="Lancer, this will <span class='accent--text'>fully repair and recharge this mech.</span> Do you want to continue?"
+                  content="Lancer, this will <span class='text-accent'>fully repair and recharge this mech.</span> Do you want to continue?"
                   @confirm="
                     repairMenu = false;
                     state.CommitFullRepair();
@@ -238,7 +257,7 @@
             </cc-tooltip>
           </pip-layout>
 
-          <v-row dense align="center" class="mt-n3">
+          <v-row density="compact" align="center" class="mt-n3">
             <v-col
               cols="12"
               md="auto"
@@ -247,15 +266,15 @@
               }`"
             >
               <div :class="$vuetify.display.smAndDown ? 'd-inline ' : 'mb-n2'">
-                <span class="heading h2 accent--text">
+                <span class="heading h2 text-accent">
                   {{ pilot.MechSkillsController.MechSkills.Hull }}
                   <span
                     v-if="$vuetify.display.smAndDown"
-                    class="heading h3 subtle--text"
+                    class="heading h3 text-subtle"
                   >
                     H
                   </span>
-                  <span v-else class="flavor-text subtle--text">//HULL</span>
+                  <span v-else class="flavor-text text-subtle">//HULL</span>
                   <cc-synergy-display
                     location="hull"
                     :mech="mech"
@@ -264,15 +283,15 @@
                 </span>
               </div>
               <div :class="$vuetify.display.smAndDown ? 'd-inline' : 'mb-n2'">
-                <span class="heading h2 accent--text">
+                <span class="heading h2 text-accent">
                   {{ pilot.MechSkillsController.MechSkills.Agi }}
                   <span
                     v-if="$vuetify.display.smAndDown"
-                    class="heading h3 subtle--text"
+                    class="heading h3 text-subtle"
                   >
                     A
                   </span>
-                  <span v-else class="flavor-text subtle--text">//AGI</span>
+                  <span v-else class="flavor-text text-subtle">//AGI</span>
                   <cc-synergy-display
                     location="agility"
                     :mech="mech"
@@ -281,15 +300,15 @@
                 </span>
               </div>
               <div :class="$vuetify.display.smAndDown ? 'd-inline' : 'mb-n2'">
-                <span class="heading h2 accent--text">
+                <span class="heading h2 text-accent">
                   {{ pilot.MechSkillsController.MechSkills.Sys }}
                   <span
                     v-if="$vuetify.display.smAndDown"
-                    class="heading h3 subtle--text"
+                    class="heading h3 text-subtle"
                   >
                     S
                   </span>
-                  <span v-else class="flavor-text subtle--text">//SYS</span>
+                  <span v-else class="flavor-text text-subtle">//SYS</span>
                   <cc-synergy-display
                     location="systems"
                     :mech="mech"
@@ -298,15 +317,15 @@
                 </span>
               </div>
               <div :class="$vuetify.display.smAndDown ? 'd-inline' : 'mb-n2'">
-                <span class="heading h2 accent--text">
+                <span class="heading h2 text-accent">
                   {{ pilot.MechSkillsController.MechSkills.Eng }}
                   <span
                     v-if="$vuetify.display.smAndDown"
-                    class="heading h3 subtle--text"
+                    class="heading h3 text-subtle"
                   >
                     E
                   </span>
-                  <span v-else class="flavor-text subtle--text">//ENG</span>
+                  <span v-else class="flavor-text text-subtle">//ENG</span>
                   <cc-synergy-display
                     location="engineering"
                     :mech="mech"
@@ -353,7 +372,6 @@
               </v-row>
               <v-row>
                 <cc-active-card
-                  :key="mech.IsStunned"
                   prominent
                   class="my-1"
                   color="frame"
@@ -405,20 +423,18 @@
             </v-col>
           </v-row>
 
-          <v-row dense>
+          <v-row density="compact">
             <v-col cols="12" md="4">
               <cc-active-card
                 v-for="(trait, i) in mech.Frame.Traits"
-                :key="`tr_${i}`"
                 color="frame"
                 :header="trait.Name"
                 subheader="FRAME TRAIT"
               >
                 <div v-html-safe="trait.Description" />
-                <v-row v-if="trait.Actions.length" dense>
+                <v-row v-if="trait.Actions.length" density="compact">
                   <v-col
                     v-for="(a, j) in trait.Actions"
-                    :key="`${trait.Name}_action_${j}`"
                     style="min-width: 40%"
                     class="mb-n1"
                   >
@@ -446,9 +462,7 @@
                 <div v-if="mech.Frame.CoreSystem.PassiveName" class="mb-2">
                   <span class="heading h2">
                     {{ mech.Frame.CoreSystem.PassiveName }}
-                    <span class="pt-2 ml-2 caption subtle--text"
-                      >(PASSIVE)</span
-                    >
+                    <span class="pt-2 ml-2 caption text-subtle">(PASSIVE)</span>
                   </span>
                   <p
                     v-html-safe="mech.Frame.CoreSystem.PassiveEffect"
@@ -456,7 +470,6 @@
                   />
                   <cc-action
                     v-for="(a, i) in mech.Frame.CoreSystem.PassiveActions"
-                    :key="`core_passive_action_${i}`"
                     :action="a"
                     active
                     :activations="mech.Pilot.State.Actions"
@@ -468,10 +481,9 @@
                     class="mx-8"
                   />
                 </div>
-                <v-row dense class="mb-1">
+                <v-row density="compact" class="mb-1">
                   <v-col
                     v-for="(a, i) in mech.Frame.CoreSystem.DeployActions"
-                    :key="`${mech.Frame.CoreSystem.Name}_deployable_action_${i}`"
                     style="min-width: 40%"
                     class="mb-n1"
                   >
@@ -485,11 +497,11 @@
                 </v-row>
                 <span class="heading h2">
                   {{ mech.Frame.CoreSystem.ActiveName }}
-                  <span class="pt-2 ml-2 caption subtle--text">(ACTIVE)</span>
+                  <span class="pt-2 ml-2 caption text-subtle">(ACTIVE)</span>
                 </span>
                 <p
                   v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
-                  class="mb-1 text--text body-text"
+                  class="mb-1 text-text body-text"
                 />
                 <div class="my-1 px-6">
                   <cc-action
@@ -507,7 +519,6 @@
                   </div>
                   <cc-action
                     v-for="(a, i) in mech.Frame.CoreSystem.ActiveActions"
-                    :key="`core_active_action_${i}`"
                     :action="a"
                     active
                     :activations="mech.Pilot.State.Actions"
@@ -525,14 +536,14 @@
           </v-row>
         </div>
 
-        <v-row v-if="pilot.CoreBonusController.CoreBonuses" dense>
+        <v-row v-if="pilot.CoreBonusController.CoreBonuses" density="compact">
           <v-col cols="auto" class="mb-n2">
             <span class="overline">CORE BONUSES</span>
             <v-btn
               small
               right
               icon
-              class="fadeSelect"
+              class="fade-select"
               @click="showCBs = !showCBs"
             >
               <v-icon
@@ -546,7 +557,7 @@
               <v-btn
                 x-small
                 variant="outlined"
-                class="fadeSelect"
+                class="fade-select"
                 @click="
                   expandAll(
                     pilot.CoreBonusController.CoreBonuses.length,
@@ -561,7 +572,7 @@
               <v-btn
                 x-small
                 variant="outlined"
-                class="fadeSelect"
+                class="fade-select"
                 @click="
                   expandAll(
                     pilot.CoreBonusController.CoreBonuses.length,
@@ -580,7 +591,6 @@
           <v-row v-if="pilot.CoreBonusController.CoreBonuses && showCBs">
             <cc-active-card
               v-for="(bonus, i) in pilot.CoreBonusController.CoreBonuses"
-              :key="`cb_${i}`"
               :ref="`cb_${i}`"
               :cols="12 / pilot.CoreBonusController.CoreBonuses.length"
               color="corepower"
@@ -593,14 +603,14 @@
           </v-row>
         </v-scroll-y-reverse-transition>
 
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto" class="mb-n2">
             <span class="overline">PILOT TALENTS</span>
             <v-btn
               small
               right
               icon
-              class="fadeSelect"
+              class="fade-select"
               @click="showTalents = !showTalents"
             >
               <v-icon
@@ -614,7 +624,7 @@
               <v-btn
                 x-small
                 variant="outlined"
-                class="fadeSelect"
+                class="fade-select"
                 @click="
                   expandAll(
                     pilot.TalentsController.Talents.length,
@@ -629,7 +639,7 @@
               <v-btn
                 x-small
                 variant="outlined"
-                class="fadeSelect"
+                class="fade-select"
                 @click="
                   expandAll(
                     pilot.TalentsController.Talents.length,
@@ -648,7 +658,6 @@
           <v-row v-if="showTalents" justify="center">
             <cc-active-card
               v-for="(t, i) in pilot.TalentsController.Talents"
-              :key="`tal_${i}`"
               :ref="`tal_${i}`"
               collapsible
               start-closed
@@ -662,13 +671,12 @@
               "
               :header="`${t.Talent.Name} ${'I'.repeat(t.Rank)}`"
             >
-              <ul v-for="n in 3" :key="'t_' + n">
+              <ul v-for="n in 3">
                 <li v-if="t.Rank >= n">
                   <span v-html-safe="t.Talent.Ranks[n - 1].Description" />
                   <div class="text-center">
                     <cc-action
                       v-for="a in t.Talent.Ranks[n - 1].Actions"
-                      :key="`t_a_${n}_${a.Name}`"
                       :action="a"
                       :active="a.Activation !== 'Invade'"
                       :activations="pilot.State.Actions"
@@ -685,14 +693,14 @@
           </v-row>
         </v-scroll-y-reverse-transition>
 
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="12">
             <span class="overline">COUNTERS</span>
             <v-btn
               small
               right
               icon
-              class="fadeSelect"
+              class="fade-select"
               @click="showCounters = !showCounters"
             >
               <v-icon
@@ -773,12 +781,12 @@ export default {
       return this.mech.MechLoadoutController.ActiveLoadout;
     },
     statuses(): string[] {
-      return this.$store.getters
+      return this.$CompendiumStore
         .getItemCollection('Statuses')
         .filter((x) => x.type === 'Status');
     },
     conditions(): string[] {
-      return this.$store.getters
+      return this.$CompendiumStore
         .getItemCollection('Statuses')
         .filter((x) => x.type === 'Condition');
     },

@@ -21,7 +21,7 @@
           <v-col cols="auto">
             <div
               v-if="!item.Destroyed"
-              :class="`ml-n2 ${small ? 'white--text effect-text' : ''}`"
+              :class="`ml-n2 ${small ? 'text-white effect-text' : ''}`"
             >
               <cc-tooltip
                 v-if="item.Mod"
@@ -36,7 +36,7 @@
               >
               <component
                 :is="small ? 'div' : 'span'"
-                class="caption subtle--text ml-1 my-n1"
+                class="caption text-subtle ml-1 my-n1"
               >
                 <b>{{ item.Size }}</b>
                 {{ item.WeaponType }}
@@ -80,13 +80,13 @@
               v-if="item"
               :small="small"
               dark
-              class="fadeSelect mt-n1"
+              class="fade-select mt-n1"
               @click.stop="remove()"
             >
               delete
             </v-icon>
             <v-icon
-              class="fadeSelect mt-n1"
+              class="fade-select mt-n1"
               :small="small"
               dark
               @click.stop="$refs.base.$refs.selectorDialog.show()"
@@ -121,41 +121,41 @@
             <div class="mb-n2">
               <p
                 v-html-safe="item.ProfileEffect"
-                class="text--text body-text mb-1 mx-3 py-2"
+                class="text-text body-text mb-1 mx-3 py-2"
               />
             </div>
           </div>
           <div v-if="item.ProfileOnAttack">
             <div class="mb-n2 mt-1">
               <v-icon class="mt-n1">cc:weapon</v-icon>
-              <span class="overline stark--text">ON ATTACK</span>
+              <span class="text-overline text-stark">ON ATTACK</span>
               <p
                 v-html-safe="item.ProfileOnAttack"
-                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
               />
             </div>
           </div>
           <div v-if="item.ProfileOnHit">
             <div class="mb-n2 mt-1">
               <v-icon class="mt-n1">cc:weapon</v-icon>
-              <span class="overline stark--text">ON HIT</span>
+              <span class="text-overline text-stark">ON HIT</span>
               <p
                 v-html-safe="item.ProfileOnHit"
-                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
               />
             </div>
           </div>
           <div v-if="item.ProfileOnCrit">
             <div class="mb-n2 mt-1">
               <v-icon class="mt-n1">cc:weapon</v-icon>
-              <span class="overline stark--text">ON CRITICAL HIT</span>
+              <span class="text-overline text-stark">ON CRITICAL HIT</span>
               <p
                 v-html-safe="item.ProfileOnCrit"
-                class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
               />
             </div>
           </div>
-          <v-row v-if="item.Mod" dense justify="center">
+          <v-row v-if="item.Mod" density="compact" justify="center">
             <mod-inset
               :mod="item.Mod"
               :mech="mech"

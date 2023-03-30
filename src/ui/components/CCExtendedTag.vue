@@ -1,37 +1,17 @@
 <template>
+  <span v-if="tag.err">ERR: {{ tag.err.toUpperCase() }}</span>
   <v-alert
     v-show="!tag.IsHidden"
-    variant="outlined"
-    dense
+    icon="mdi-label"
     :color="tag.isExotic ? 'exotic' : color"
-    class="mb-1"
+    variant="outlined"
+    density="compact"
+    class="my-1"
   >
-    <v-icon
-      v-if="$vuetify.display.lgAndUp"
-      slot="prepend"
-      x-large
-      class="ml-n2 mr-1"
-      :color="tag.isExotic ? 'exotic' : color"
-    >
-      label
-    </v-icon>
-    <span v-if="tag.err">ERR: {{ tag.err.toUpperCase() }}</span>
-    <div v-else>
-      <h3 :class="`heading ${tag.IsExotic ? 'exotic' : 'accent'}--text`">
-        <v-icon
-          v-if="$vuetify.display.mdAndDown"
-          class="mt-n1"
-          :color="tag.isExotic ? 'exotic' : color"
-        >
-          label
-        </v-icon>
-        {{ tag.GetName(bonus) }}
-      </h3>
-      <p
-        class="text--text body-text pb-0 mb-0"
-        v-html="tag.GetDescription(bonus)"
-      />
-    </div>
+    <h3 :class="`heading ${tag.IsExotic ? 'exotic' : 'accent'}text-`">
+      {{ tag.GetName(bonus) }}
+    </h3>
+    <div class="text-text" v-html="tag.GetDescription(bonus)" />
   </v-alert>
 </template>
 

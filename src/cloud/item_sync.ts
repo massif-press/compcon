@@ -1,4 +1,4 @@
-import { store, PilotManagementStore, NpcStore } from '../store';
+import { PilotStore, NpcStore } from '../stores';
 import { Auth, Storage } from 'aws-amplify';
 
 import { ICloudSyncable } from '@/classes/components';
@@ -69,7 +69,7 @@ function determineLatest(
 const ProcessItemsList = (cloudList): CloudCollectionItem[] => {
   const localCollection = {
     // npc: getModule(NpcStore, store).AllNpcs,
-    // pilot: getModule(PilotManagementStore, store).AllPilots,
+    // pilot: getModule(PilotStore, store).AllPilots,
   };
 
   const missingIds = MissingItemIds();
@@ -163,7 +163,7 @@ function GetLocalItem(item: CloudCollectionItem): any {
     case CloudItemTypeMap.npc:
     // return getModule(NpcStore, store).Npcs.find((x) => x.ID === item.id);
     case CloudItemTypeMap.pilot:
-    // return getModule(PilotManagementStore, store).AllPilots.find(
+    // return getModule(PilotStore, store).AllPilots.find(
     //   (x) => x.ID === item.id
     // );
     default:
@@ -178,7 +178,7 @@ function PermanentlyDeleteLocalItem(item: CloudCollectionItem): any {
       // ns.deleteNpcPermanent(ns.AllNpcs.find((x) => x.ID === item.id));
       break;
     case CloudItemTypeMap.pilot:
-      // const ps = getModule(PilotManagementStore, store);
+      // const ps = getModule(PilotStore, store);
       // ps.deletePilotPermanent(ps.AllPilots.find((x) => x.ID === item.id));
       break;
     default:

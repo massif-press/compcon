@@ -1,16 +1,21 @@
 <template>
   <v-container fluid>
-    <v-btn-toggle v-model="tier" dense mandatory active-class="accent--text">
+    <v-btn-toggle
+      v-model="tier"
+      density="compact"
+      mandatory
+      active-class="text-accent"
+    >
       <v-btn :value="1">
-        <v-icon start>cc:rank-1</v-icon>
+        <v-icon start>cc:rank_1</v-icon>
         Tier 1
       </v-btn>
       <v-btn :value="2">
-        <v-icon start>cc:rank-2</v-icon>
+        <v-icon start>cc:rank_2</v-icon>
         Tier 2
       </v-btn>
       <v-btn :value="3">
-        <v-icon start>cc:rank-3</v-icon>
+        <v-icon start>cc:rank_3</v-icon>
         Tier 3
       </v-btn>
     </v-btn-toggle>
@@ -57,7 +62,7 @@
           dark
           @click="$refs[`modal_${item.ID}`].show()"
         >
-          <v-icon>mdi-open-in-new</v-icon>
+          <v-icon icon="mdi-open-in-new" />
         </v-btn>
         <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
       </template>
@@ -109,7 +114,7 @@
 <script lang="ts">
 import CompendiumBrowser from '../components/CompendiumBrowser.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { NpcClass } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 
@@ -137,7 +142,7 @@ export default {
       { text: 'Save', align: 'left', value: 'Save' },
       { text: 'H/A/S/E', align: 'left', value: 'Hase', sortable: false },
     ],
-    // compendium:this.getModule(CompendiumStore),
+    // compendium:CompendiumStore(),
   }),
   computed: {
     fItems(): NpcClass[] {

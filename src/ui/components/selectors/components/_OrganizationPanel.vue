@@ -38,7 +38,7 @@
         />
         <br />
         <span class="heading h3">Start with:</span>
-        <v-row dense justify="center" class="mx-4">
+        <v-row density="compact" justify="center" class="mx-4">
           <v-col cols="12" md="" class="text-center">
             <v-btn
               v-if="!orgStart"

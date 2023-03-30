@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-alert variant="outlined" class="text-center" color="subtle" dense>
+    <v-alert
+      variant="outlined"
+      class="text-center"
+      color="subtle"
+      density="compact"
+    >
       <span v-if="items.length">
         Deleted items are preserved for 30 days, after which they are
         automatically removed
@@ -17,7 +22,7 @@
         <th />
       </thead>
       <tbody>
-        <tr v-for="item in items" :key="item.ID">
+        <tr v-for="item in items">
           <td>{{ item.ItemType.toUpperCase() }}</td>
           <td>
             {{ item.Name }}{{ item.Callsign ? ` (${item.Callsign})` : '' }}
@@ -55,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { NpcStore, PilotManagementStore } from '@/store';
+import { NpcStore, PilotStore } from '@/stores';
 
 export default {
   name: 'deleted-items',
@@ -65,7 +70,7 @@ export default {
         ...getModule(NpcStore, this.$store).AllNpcs.filter(
           (x) => x.SaveController.IsDeleted
         ),
-        ...getModule(PilotManagementStore, this.$store).AllPilots.filter(
+        ...getModule(PilotStore, this.$store).AllPilots.filter(
           (x) => x.SaveController.IsDeleted
         ),
       ];
@@ -79,7 +84,7 @@ export default {
           ns.deleteNpcPermanent(ns.AllNpcs.find((x) => x.ID === item.ID));
           break;
         case 'pilot':
-          const ps = this.getModule(PilotManagementStore);
+          const ps = this.getModule(PilotStore);
           ps.deletePilotPermanent(ps.AllPilots.find((x) => x.ID === item.ID));
           break;
         default:

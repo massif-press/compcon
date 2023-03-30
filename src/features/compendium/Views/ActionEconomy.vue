@@ -5,13 +5,13 @@
       <h2 class="heading mech">Per Turn</h2>
       <v-card color="panel" elevation-10>
         <v-card-text>
-          <v-row justify="center" dense>
+          <v-row justify="center" density="compact">
             <v-col
               :cols="$vuetify.display.smAndDown ? 12 : 4"
               class="effect-text text-center"
             >
               Full Action
-              <i class="subtle--text text--darken-1">or</i>
+              <i class="text-subtle text--darken-1">or</i>
               2 Quick Actions
               <br />
               <v-card
@@ -30,7 +30,6 @@
             </v-col>
             <v-col
               v-for="a in actionTypes"
-              :key="`atc_${a.action}`"
               sm="6"
               lg="2"
               class="effect-text text-center text-capitalize"
@@ -49,27 +48,27 @@
     <v-container fluid>
       <v-row class="mt-3">
         <v-divider class="mt-5" />
-        <v-icon x-large color="panel-border">cc:frame</v-icon>
+        <v-icon size="x-large" color="panel-border">cc:frame</v-icon>
         <v-divider class="mt-5" />
       </v-row>
       <v-row fill-height justify="center">
-        <action-card v-for="a in actions" :key="a.id" :action="a" />
+        <action-card v-for="a in actions" />
       </v-row>
       <v-row class="mt-3">
         <v-divider class="mt-5" />
-        <v-icon x-large color="panel-border">cc:pilot</v-icon>
+        <v-icon size="x-large" color="panel-border">cc:pilot</v-icon>
         <v-divider class="mt-5" />
       </v-row>
       <v-row fill-height justify="center">
-        <action-card v-for="a in pilotActions" :key="a.id" :action="a" />
+        <action-card v-for="a in pilotActions" />
       </v-row>
       <v-row class="mt-3">
         <v-divider class="mt-5" />
-        <v-icon x-large color="panel-border">cc:downtime</v-icon>
+        <v-icon size="x-large" color="panel-border">cc:downtime</v-icon>
         <v-divider class="mt-5" />
       </v-row>
       <v-row fill-height justify="center">
-        <action-card v-for="a in downtimeActions" :key="a.id" :action="a" />
+        <action-card v-for="a in downtimeActions" />
       </v-row>
     </v-container>
   </div>
@@ -78,7 +77,7 @@
 <script lang="ts">
 import ActionCard from '../components/ActionCard.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'action-economy',
@@ -95,7 +94,7 @@ export default {
     downtimeActions: [],
   }),
   async created() {
-    const compendium = this.getModule(CompendiumStore);
+    const compendium = CompendiumStore();
     this.actions = await compendium.Actions.filter(
       (a) => a && !a.IsDowntimeAction && !a.IsPilotAction
     );

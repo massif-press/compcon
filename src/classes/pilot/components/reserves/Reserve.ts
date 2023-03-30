@@ -1,4 +1,4 @@
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import {
   ReserveType,
   Synergy,
@@ -89,19 +89,19 @@ class Reserve {
   public get Icon(): string {
     if (this.Type === ReserveType.Organization) return 'mdi-account-group';
     if (this.Type === ReserveType.Project) return 'cc:orbital';
-    return `cc:reserve-${this.Type.toString().toLowerCase()}`;
+    return `cc:reserve_${this.Type.toString().toLowerCase()}`;
   }
 
   public get SpecialEquipment(): CompendiumItem[] {
     if (!this._special_equipment) return [];
     const res = this._special_equipment.map((x) => {
-      const w = store.getters.referenceByID('MechWeapons', x);
+      const w = CompendiumStore().referenceByID('MechWeapons', x);
       if (w && !w.err) return w;
-      const s = store.getters.referenceByID('MechSystems', x);
+      const s = CompendiumStore().referenceByID('MechSystems', x);
       if (s && !s.err) return s;
-      const wm = store.getters.referenceByID('WeaponMods', x);
+      const wm = CompendiumStore().referenceByID('WeaponMods', x);
       if (wm && !wm.err) return wm;
-      const pg = store.getters.referenceByID('PilotGear', x);
+      const pg = CompendiumStore().referenceByID('PilotGear', x);
       if (pg && !pg.err) return pg;
       return false;
     });
@@ -111,21 +111,21 @@ class Reserve {
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return [];
     return this._integrated.map((x) => {
-      const w = store.getters.referenceByID('MechWeapons', x);
+      const w = CompendiumStore().referenceByID('MechWeapons', x);
       if (w) return w;
-      return store.getters.referenceByID('MechSystems', x);
+      return CompendiumStore().referenceByID('MechSystems', x);
     });
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
     return this._integrated.map((x) =>
-      store.getters.referenceByID('MechWeapons', x)
+      CompendiumStore().referenceByID('MechWeapons', x)
     );
   }
 
   public get IntegratedSystems(): MechSystem[] {
     return this._integrated.map((x) =>
-      store.getters.referenceByID('MechSystems', x)
+      CompendiumStore().referenceByID('MechSystems', x)
     );
   }
 

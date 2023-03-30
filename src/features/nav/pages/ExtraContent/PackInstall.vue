@@ -66,7 +66,7 @@
             justify-content: center;
           "
         >
-          <div class="heading h3 font-italic subtle--text text--darken-1">
+          <div class="heading h3 font-italic text-subtle text--darken-1">
             No content pack selected.
           </div>
         </div>
@@ -79,7 +79,7 @@
 import PromisifyFileReader from 'promisify-file-reader';
 import { parseContentPack } from '@/io/ContentPackParser';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 import { IContentPack } from '@/interface';
 

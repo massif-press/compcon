@@ -3,11 +3,11 @@
     <v-card-text class="my-0 pt-0 pb-1">
       <v-slide-x-reverse-transition v-if="!hideLog">
         <div v-if="finished" class="text-right">
-          <v-fade-transition v-for="(s, i) in finalLog" :key="`log_${i}`">
-            <p v-if="timer > 10 * i" class="flavor-text stark--text ma-0">
+          <v-fade-transition v-for="(s, i) in finalLog">
+            <p v-if="timer > 10 * i" class="flavor-text text-stark ma-0">
               <span>
                 >//[
-                <span class="accent--text">COMP/CON:</span>
+                <span class="text-accent">COMP/CON:</span>
                 ] :
                 <span>{{ s }}</span>
               </span>
@@ -17,7 +17,7 @@
       </v-slide-x-reverse-transition>
       <v-slide-x-reverse-transition>
         <div v-if="finished" class="text-right">
-          <v-btn x-small color="primary" class="fadeSelect" @click="undo()">
+          <v-btn x-small color="primary" class="fade-select" @click="undo()">
             <cc-tooltip
               content="Undo this action, refunding any cost it may have had"
             >

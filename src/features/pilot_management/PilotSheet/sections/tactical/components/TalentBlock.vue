@@ -20,19 +20,18 @@
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-btn-toggle v-model="ctype" mandatory>
-          <v-btn value="full"><v-icon>mdi-view-stream</v-icon></v-btn>
-          <v-btn value="terse"><v-icon>mdi-view-list</v-icon></v-btn>
-          <v-btn value="small"><v-icon>mdi-view-comfy</v-icon></v-btn>
+          <v-btn value="full"><v-icon icon="mdi-view-stream" /></v-btn>
+          <v-btn value="terse"><v-icon icon="mdi-view-list" /></v-btn>
+          <v-btn value="small"><v-icon icon="mdi-view-comfy" /></v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.TalentsController.Talents.length" />
-      <v-row v-else dense justify="center">
+      <v-row v-else density="compact" justify="center">
         <cc-talent
           v-for="(t, i) in pilot.TalentsController.Talents"
-          :key="`t_${i}`"
           hide-locked
           :talent="t.Talent"
           :rank="t.Rank"
@@ -57,7 +56,7 @@
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'skill-block',

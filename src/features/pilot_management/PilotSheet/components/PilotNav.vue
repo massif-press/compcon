@@ -63,10 +63,10 @@
           v-bind="props"
         >
           <v-icon large>mdi-book-open-page-variant</v-icon>
-          <v-icon>arrow_drop_up</v-icon>
+          <v-icon icon="arrow_drop_up" />
         </v-btn>
       </template>
-      <v-list dense class="heading h3">
+      <v-list density="compact" class="heading h3">
         <v-list-item to="../sheet/0">DOSSIER</v-list-item>
         <v-list-item to="../sheet/1">NARRATIVE PROFILE</v-list-item>
         <v-list-item v-show="hasBondData" to="../sheet/4">BONDS</v-list-item>
@@ -133,18 +133,18 @@
       <template v-slot:activator="{ on: menu }">
         <cc-tooltip inline delayed content="Pilot Sheet Layout Options">
           <v-btn class="unskew ml-2" icon dark v-on="menu">
-            <v-icon>mdi-view-grid-plus</v-icon>
+            <v-icon icon="mdi-view-grid-plus" />
           </v-btn>
         </cc-tooltip>
       </template>
       <v-list subheader>
-        <v-subheader class="heading h2 white--text primary py-0 px-4"
-          >Layout Options</v-subheader
-        >
+        <div class="heading h2 text-white primary py-0 px-4">
+          Layout Options
+        </div>
         <v-list-item-group>
           <v-list-item @click="$emit('set', 'tabbed')">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-view-array</v-icon>
+              <v-icon icon="mdi-view-array" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Tabbed View</v-list-item-title>
@@ -152,7 +152,7 @@
           </v-list-item>
           <v-list-item @click="$emit('set', 'classic')">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-view-sequential</v-icon>
+              <v-icon icon="mdi-view-sequential" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Sheet View (Classic View)</v-list-item-title>
@@ -171,7 +171,7 @@
 import EditMenu from './PilotEditMenu.vue';
 import ShareDialog from './ShareDialog.vue';
 
-import { PilotManagementStore, CompendiumStore, UserStore } from '@/store';
+import { PilotStore, CompendiumStore, UserStore } from '@/stores';
 import { Auth } from 'aws-amplify';
 import { RemoteSyncItem } from '@/cloud/item_sync';
 
@@ -199,7 +199,7 @@ export default {
   },
   computed: {
     lastLoaded() {
-      const store = this.getModule(PilotManagementStore);
+      const store = this.getModule(PilotStore);
       return this.pilot.Mechs.some((x) => x.ID === store.LoadedMechID)
         ? store.LoadedMechID
         : this.pilot.ActiveMech
@@ -210,7 +210,7 @@ export default {
       return this.getModule(UserStore).IsLoggedIn;
     },
     hasBondData() {
-      return this.getModule(CompendiumStore).Bonds.length;
+      return CompendiumStore().Bonds.length;
     },
   },
   methods: {

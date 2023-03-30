@@ -12,12 +12,12 @@
       <div v-if="weapon.Mod">
         <span class="overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-          <span class="success--text text--darken-1"
+          <span class="text-success text--darken-1"
             >[ EQUIPMENT MODIFICATION REGISTERED ]</span
           >
         </span>
         <br />
-        <span class="heading h1 accent--text" style="line-height: 20px">
+        <span class="heading h1 text-accent" style="line-height: 20px">
           {{ weapon.Mod.Name }}
         </span>
         <span class="flavor-text overline mt-n1" style="display: block"
@@ -31,13 +31,13 @@
         </span>
         <br />
         <span
-          class="heading h1 subtle--text text--lighten-1"
+          class="heading h1 text-subtle text--lighten-1"
           style="line-height: 20px"
         >
           NO SELECTION
         </span>
         <span
-          class="flavor-text overline mt-n1 error--text"
+          class="flavor-text overline mt-n1 text-error"
           style="display: block"
         >
           [ MODIFICATION DATA INVALID OR MISSING ]
@@ -47,7 +47,7 @@
         <div class="mb-n2">
           <v-switch
             v-model="showUnlicensed"
-            dense
+            density="compact"
             inset
             hide-details
             color="warning"
@@ -74,7 +74,7 @@
         <div class="mt-n4">
           <v-switch
             v-model="showOverSP"
-            dense
+            density="compact"
             inset
             hide-details
             color="warning"
@@ -104,7 +104,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { MechSystem } from '@/class';
 import { flavorID } from '@/io/Generators';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
@@ -202,7 +202,7 @@ export default {
     },
   },
   created() {
-    const compendium = this.getModule(CompendiumStore);
+    const compendium = CompendiumStore();
     this.mods = compendium.WeaponMods.filter((x) => x.Source);
   },
   methods: {

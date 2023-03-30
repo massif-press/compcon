@@ -1,9 +1,9 @@
 <template>
   <div>
-    <span class="heading h3 accent--text">{{ title }}</span>
+    <span class="heading h3 text-accent">{{ title }}</span>
     <v-item-group :mandatory="mandatory" :multiple="multiple">
-      <v-row dense justify="space-around" align="center">
-        <v-col v-for="i in items" :key="i.text" :cols="multiple && '3'">
+      <v-row density="compact" justify="space-around" align="center">
+        <v-col v-for="i in items">
           <v-item v-slot:default="{ active, toggle }">
             <v-card
               :color="active ? 'primary' : ''"
@@ -22,7 +22,7 @@
                     }}</v-icon>
                     <br v-if="i.icon" />
                     <span
-                      :class="`font-weight-bold ${active && 'white--text'}`"
+                      :class="`font-weight-bold ${active && 'text-white'}`"
                       >{{ i.text }}</span
                     >
                   </div>

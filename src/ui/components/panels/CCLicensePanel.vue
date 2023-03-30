@@ -1,9 +1,8 @@
 <template>
-  <v-row dense justify="center" align="center">
+  <v-row density="compact" justify="center" align="center">
     <v-col
       v-for="n in license.MaxRank"
       v-show="license.Unlocks[n - 1].length"
-      :key="`r_${n}`"
       lg="4"
       md="6"
       sm="12"
@@ -11,7 +10,7 @@
     >
       <div class="text-center">
         <p class="pt-1 mb-1">
-          <span class="stat-text subtle--text text--darken-1">
+          <span class="stat-text text-subtle text--darken-1">
             RANK {{ 'I'.repeat(n) }}
             <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
             <v-icon v-else-if="ranked && rank >= n" right
@@ -19,8 +18,12 @@
             >
           </span>
         </p>
-        <div v-for="i in license.Unlocks[n - 1]" :key="i.id" class="my-2">
-          <cc-item-modal :item="i" :small-btn="$vuetify.display.mdAndDown" />
+        <div v-for="i in license.Unlocks[n - 1]">
+          <cc-item-modal
+            :item="i"
+            :small-btn="$vuetify.display.mdAndDown"
+            class="ma-1"
+          />
         </div>
       </div>
     </v-col>

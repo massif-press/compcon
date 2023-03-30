@@ -154,4 +154,5 @@ class Frame extends LicensedItem implements IFeatureContainer {
   }
 }
 
-export { Frame, IFrameData, IFrameStats };
+export { Frame };
+export type { IFrameData, IFrameStats };

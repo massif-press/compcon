@@ -13,7 +13,7 @@
 <script lang="ts">
 import SidebarArrayView from '../components/SidebarArrayView.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'backgrounds',
@@ -22,7 +22,7 @@ export default {
     backgrounds: [],
   }),
   created() {
-    this.backgrounds = this.getModule(CompendiumStore).Backgrounds;
+    this.backgrounds = CompendiumStore().Backgrounds;
   },
 };
 </script>

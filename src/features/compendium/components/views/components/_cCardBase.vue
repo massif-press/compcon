@@ -19,7 +19,7 @@
             <cc-tags
               :tags="item.Tags"
               small
-              dense
+              density="compact"
               variant="outlined"
               color="accent"
             />
@@ -27,9 +27,13 @@
         </div>
       </v-col>
     </v-row>
-    <v-toolbar dense :color="hover ? 'primary lighten-1' : 'primary'" dark>
+    <v-toolbar
+      density="compact"
+      :color="hover ? 'primary lighten-1' : 'primary'"
+      dark
+    >
       <div>
-        <div class="overline mb-n2">
+        <div class="text-overline mb-n2">
           <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
           <slot name="overline" />
         </div>

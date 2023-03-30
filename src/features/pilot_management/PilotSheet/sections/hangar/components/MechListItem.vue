@@ -53,7 +53,7 @@
                   <v-btn
                     small
                     icon
-                    class="fadeSelect"
+                    class="fade-select"
                     color="error"
                     @click.stop="$refs.delete.show()"
                   >
@@ -64,7 +64,7 @@
                   <v-btn
                     small
                     icon
-                    class="fadeSelect"
+                    class="fade-select"
                     @click.stop="$refs.copy.show()"
                   >
                     <v-icon small>mdi-content-copy</v-icon>
@@ -74,7 +74,7 @@
                   <v-btn
                     small
                     icon
-                    class="fadeSelect"
+                    class="fade-select"
                     @click.stop="$refs.print.show()"
                   >
                     <v-icon small>mdi-printer</v-icon>
@@ -84,11 +84,11 @@
                   <v-btn
                     small
                     icon
-                    class="fadeSelect"
+                    class="fade-select"
                     :disabled="mech.Pilot.ActiveMech === mech"
                     @click.stop="mech.Pilot.ActiveMech = mech"
                   >
-                    <v-icon>cc:activate</v-icon>
+                    <v-icon icon="cc:activate" />
                   </v-btn>
                 </cc-tooltip>
               </v-col>
@@ -104,17 +104,11 @@
                     }}
                   </legend>
                   <div v-if="mech.MechLoadoutController.ActiveLoadout">
-                    <span
-                      v-for="(item, i) in loadoutWeapons"
-                      :key="`${mech.ID}_lw_${i}`"
-                    >
+                    <span v-for="(item, i) in loadoutWeapons">
                       {{ item }}
                     </span>
                     <br />
-                    <span
-                      v-for="(item, i) in loadoutSystems"
-                      :key="`${mech.ID}_ls_${i}`"
-                    >
+                    <span v-for="(item, i) in loadoutSystems">
                       {{ i > 0 ? ' - ' : '' }}{{ item }}
                     </span>
                   </div>
@@ -161,11 +155,11 @@
                   </v-col>
                 </v-row>
               </v-col>
-              <v-col cols="auto" class="white--text flavor-text">
+              <v-col cols="auto" class="text-white flavor-text">
                 <v-alert
                   v-if="mech.Destroyed"
                   color="error"
-                  dense
+                  density="compact"
                   tile
                   class="text-center"
                 >
@@ -174,7 +168,7 @@
                 <v-alert
                   v-if="mech.MeltdownImminent"
                   color="orange"
-                  dense
+                  density="compact"
                   tile
                   class="text-center"
                 >
@@ -185,7 +179,7 @@
                 <v-alert
                   v-if="mech.ReactorDestroyed"
                   color="accent"
-                  dense
+                  density="compact"
                   tile
                   class="text-center"
                 >

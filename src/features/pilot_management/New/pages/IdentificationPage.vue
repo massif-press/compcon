@@ -27,7 +27,7 @@
           color="accent"
           variant="outlined"
           class="mt-2"
-          dense
+          density="compact"
           prominent
         >
           <b>
@@ -181,12 +181,7 @@
           class="border mr-8 ml-auto mr-auto"
           style="width: 300px; height: 300px"
         >
-          <v-img
-            v-if="pilot.Portrait"
-            :key="pilot.PortraitController.Image"
-            :src="pilot.Portrait"
-            aspect-ratio="1"
-          />
+          <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
         </div>
         <div class="mr-8 mt-3">
           <v-btn
@@ -223,7 +218,7 @@
       <v-btn color="accent" class="mx-2" large @click="$emit('templates')">
         Select Character Template
       </v-btn>
-      <div class="overline stark--text">Recommended for New Players</div>
+      <div class="text-overline text-stark">Recommended for New Players</div>
     </div>
   </cc-stepper-content>
 </template>

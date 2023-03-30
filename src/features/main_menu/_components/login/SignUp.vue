@@ -17,17 +17,17 @@
         government agency, or company at any time.
       </div>
     </v-alert>
-    <v-row dense class="panel" justify="center" align="center">
+    <v-row density="compact" class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">CREATE ACCOUNT</v-col>
     </v-row>
-    <!-- <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
+    <!-- <div v-if="isPatron" class="mt-2 heading h3 text-accent text-center">
       <v-icon large color="success">mdi-patreon</v-icon>
       Patreon Account Connected: {{ patreonAuthCode }}
       <v-icon large color="success">mdi-check</v-icon>
     </div>
     <div v-else>
       <v-row no-gutters justify="center" align="center" class="mt-2">
-        <v-btn x-large color="patreon" dark @click="verifyPatreon">
+        <v-btn size="x-large" color="patreon" dark @click="verifyPatreon">
           <v-icon start>mdi-patreon</v-icon>
           Link Patreon Account
         </v-btn>
@@ -92,7 +92,7 @@
         v-model="showError"
         color="error darken-1"
         dark
-        dense
+        density="compact"
         class="mt-2"
         icon="mdi-alert"
         dismissible
@@ -107,7 +107,7 @@
 <script lang="ts">
 import { Auth } from '@aws-amplify/auth';
 // import { loginUrl } from '@/cloud/patreon'
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 
 // import popupOauth from '@/cloud/oauth2-popup'
 

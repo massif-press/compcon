@@ -8,7 +8,6 @@
       >
         <cc-npc-item-card
           v-for="item in npc.NpcFeatureController.Items"
-          :key="item.ID"
           :item="item"
           class="list-group-item"
           @remove-feature="npc.RemoveFeature(item)"

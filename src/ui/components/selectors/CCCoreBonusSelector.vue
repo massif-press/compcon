@@ -7,7 +7,6 @@
     <template v-slot:left-column>
       <v-row
         v-for="b in pilot.CoreBonusController.CoreBonuses"
-        :key="`summary_${b.ID}`"
         class="my-2"
         style="width: 98%"
       >
@@ -61,7 +60,6 @@
       <v-expansion-panels>
         <v-expansion-panel
           v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
-          :key="`panel_m${manufacturer.ID}`"
           class="no-shadow"
         >
           <v-expansion-panel-header color="panel" class="px-1">
@@ -89,7 +87,7 @@
               >
                 <v-row class="text-center">
                   <span
-                    class="flavor-text text--text"
+                    class="flavor-text text-text"
                     style="width: 100%"
                     v-html="requirement(manufacturer)"
                   />
@@ -101,7 +99,6 @@
           <v-expansion-panel-content color="panel">
             <core-bonus-select-item
               v-for="b in coreBonuses"
-              :key="b.ID"
               :bonus="b"
               :is-selectable="isSelectable(b)"
               :is-selected="isSelected(b)"
@@ -121,7 +118,7 @@ import Selector from './components/_SelectorBase.vue';
 import MissingItem from './components/_MissingItem.vue';
 import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { Pilot, CoreBonus, Manufacturer } from '@/class';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 

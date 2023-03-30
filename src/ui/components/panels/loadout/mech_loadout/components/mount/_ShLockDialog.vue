@@ -13,9 +13,9 @@
         >
         <br />
         //[COMP/CON:
-        <b class="stark--text">
+        <b class="text-stark">
           Lancer, Superheavy-class armament requires two mounts. Please select a
-          <span class="accent--text">bracing mount.</span>
+          <span class="text-accent">bracing mount.</span>
           This bracing mount will be not be able to field armament until the
           Superheavy weapon is removed.
         </b>
@@ -23,7 +23,6 @@
         <br />
         <v-btn
           v-for="m in availableMounts"
-          :key="m.Name"
           x-large
           block
           variant="outlined"

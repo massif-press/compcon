@@ -23,8 +23,8 @@
           color="action--reaction"
           @click="$emit('add-reaction', item.Name)"
         >
-          <v-icon>mdi-plus</v-icon>
-          <v-icon>cc:reaction</v-icon>
+          <v-icon icon="mdi-plus" />
+          <v-icon icon="cc:reaction" />
         </v-btn>
       </cc-tooltip>
     </v-col>

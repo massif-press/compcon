@@ -11,7 +11,6 @@
         <v-list>
           <v-list-item
             v-for="(t, index) in tags"
-            :key="`npc_tag_${index}`"
             three-line
             @click="$set(item, 'Tag', t.name)"
           >

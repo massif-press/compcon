@@ -30,7 +30,7 @@
                   <span class="heading h3">Glancing Blow</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Emergency systems kick in and stabilize your mech. However,
                     your mech is
                     <b>impaired</b>
@@ -49,7 +49,7 @@
                   <span class="heading h3">System Trauma</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Parts of your mech are torn off by the damage. Roll a d6. On
                     a 1-3, all the weapons on one mount are destroyed. On a 4-6,
                     a system is destroyed. You choose what’s destroyed, but
@@ -69,7 +69,7 @@
                   <span class="heading h3">Direct Hit</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     This result has different outcomes depending on how much
                     structure your mech has remaining.
                     <br />
@@ -101,7 +101,7 @@
                   <span class="heading h3">Crushing Hit</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Your mech is damaged beyond repair and is
                     <b>destroyed</b>
                     . You can still exit it as normal.

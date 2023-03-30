@@ -8,7 +8,7 @@
           x-large
           block
           color="secondary"
-          class="white--text"
+          class="text-white"
           tabindex="0"
         >
           Frequently Asked Questions
@@ -21,7 +21,7 @@
           x-large
           block
           color="secondary"
-          class="white--text"
+          class="text-white"
           tabindex="0"
         >
           Troubleshooting FAQ
@@ -36,7 +36,7 @@
           x-large
           block
           color="error"
-          class="white--text"
+          class="text-white"
           tabindex="0"
         >
           Report a Bug / Suggest a Feature
@@ -49,7 +49,7 @@
           x-large
           block
           color="error"
-          class="white--text"
+          class="text-white"
         >
           Discussion Forum
         </v-btn>
@@ -61,7 +61,7 @@
           x-large
           block
           color="error"
-          class="white--text"
+          class="text-white"
         >
           Project Wiki
         </v-btn>
@@ -77,14 +77,14 @@
         .
       </v-col>
     </v-row>
-    <!-- <h3 class="heading accent--text">Tutorial Mode</h3>
-    <p class="panel py-3 text-center subtle--text">
+    <!-- <h3 class="heading text-accent">Tutorial Mode</h3>
+    <p class="panel py-3 text-center text-subtle">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
     </p> -->
-    <h3 class="heading accent--text mt-4">Quick FAQ</h3>
-    <div class="body-text text--text">
+    <h3 class="heading text-accent mt-4">Quick FAQ</h3>
+    <div class="body-text text-text">
       <b>Where are the NPCs?</b>
       <p>
         Now that LANCER is offically released, COMP/CON mirrors the Core Book
@@ -100,7 +100,7 @@
       <p>Roll20 does not support imports from COMP/CON at this time.</p>
     </div>
 
-    <h3 class="heading accent--text">Additional Help</h3>
+    <h3 class="heading text-accent">Additional Help</h3>
     <p class="body-text">
       The
       <a
@@ -121,8 +121,8 @@
       for the developers.
     </p>
 
-    <!-- <h3 class="heading accent--text">Video Guide</h3>
-    <p class="panel py-3 text-center subtle--text">
+    <!-- <h3 class="heading text-accent">Video Guide</h3>
+    <p class="panel py-3 text-center text-subtle">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //

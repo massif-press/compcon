@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { NpcStore, store } from '@/store';
+import { NpcStore, store } from '@/stores';
 import { ImageTag } from '@/io/ImageManagement';
 import { NpcClass, NpcItem } from './';
 import { INpcItemSaveData } from './interfaces';

@@ -9,10 +9,7 @@
     variant="outlined"
     :disabled="disabled"
   >
-    <v-row
-      no-gutters
-      :class="`${headerColor} white--text heading h4 py-1 px-3`"
-    >
+    <v-row no-gutters :class="`${headerColor} text-white heading h4 py-1 px-3`">
       <v-col>{{ power.name }}</v-col>
       <v-col v-if="power.veteran" cols="auto">
         <v-chip small color="primary" v-text="'Veteran Power'" />

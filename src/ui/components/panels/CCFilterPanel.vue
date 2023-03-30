@@ -10,7 +10,7 @@
       >
         <v-badge :value="filterCount" overlap right color="secondary">
           <template v-slot:badge>
-            <span class="stat-text white--text">{{ filterCount }}</span>
+            <span class="stat-text text-white">{{ filterCount }}</span>
           </template>
 
           <v-btn fab color="primary" v-bind="props">

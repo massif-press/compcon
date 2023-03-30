@@ -31,7 +31,7 @@
 <script lang="ts">
 import CompendiumBrowser from '../components/CompendiumBrowser.vue';
 
-import { CompendiumStore, UserStore } from '@/store';
+import { CompendiumStore, UserStore } from '@/stores';
 import { ItemType, PilotArmor, PilotGear } from '@/class';
 import { PilotWeapon } from '@/class';
 
@@ -59,7 +59,7 @@ export default {
   }),
   computed: {
     compendium(): CompendiumStore {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
     user(): UserStore {
       return this.getModule(UserStore);

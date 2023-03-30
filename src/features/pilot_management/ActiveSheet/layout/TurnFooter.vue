@@ -8,15 +8,9 @@
   >
     <div v-if="pilot && pilot.State">
       <v-slide-y-transition group leave-absolute>
-        <narrative-footer
-          v-if="pilot.State.Stage === 'Narrative'"
-          :key="'a-ftr-narrative'"
-        />
-        <combat-footer
-          v-if="pilot.State.Stage === 'Combat'"
-          :key="'a-ftr-combat'"
-        />
-        <rest-footer v-if="pilot.State.Stage === 'Rest'" :key="'a-ftr-rest'" />
+        <narrative-footer v-if="pilot.State.Stage === 'Narrative'" />
+        <combat-footer v-if="pilot.State.Stage === 'Combat'" />
+        <rest-footer v-if="pilot.State.Stage === 'Rest'" />
       </v-slide-y-transition>
     </div>
     <v-spacer />

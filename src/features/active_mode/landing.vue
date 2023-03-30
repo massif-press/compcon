@@ -32,7 +32,7 @@
 
             <v-list-item-content>
               <v-list-item-title
-                class="heading h3 accent--text"
+                class="heading h3 text-accent"
                 v-text="'Start a Character Sheet'"
               />
               <v-list-item-subtitle>
@@ -48,7 +48,7 @@
 
             <v-list-item-content>
               <v-list-item-title
-                class="heading h3 accent--text"
+                class="heading h3 text-accent"
                 v-text="'Open a Character Sheet'"
               />
               <v-list-item-subtitle>
@@ -91,7 +91,7 @@
 
             <v-list-item-content>
               <v-list-item-title
-                class="heading h3 accent--text"
+                class="heading h3 text-accent"
                 v-text="'Begin a new Encounter'"
               />
               <v-list-item-subtitle
@@ -110,7 +110,7 @@
 
             <v-list-item-content>
               <v-list-item-title
-                class="heading h3 accent--text"
+                class="heading h3 text-accent"
                 v-text="'Resume an Encounter'"
               />
               <v-list-item-subtitle

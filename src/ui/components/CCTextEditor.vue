@@ -2,7 +2,7 @@
   <div class="d-inline">
     <span>
       <cc-tooltip inline simple content="Edit">
-        <v-icon dark class="fadeSelect" @click="show()"
+        <v-icon dark class="fade-select" @click="show()"
           >mdi-circle-edit-outline</v-icon
         >
       </cc-tooltip>

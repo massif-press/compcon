@@ -14,7 +14,7 @@
             pilotLicense.License.Manufacturer.GetColor($vuetify.theme.dark)
           "
         >
-          cc:rank-{{ pilotLicense.Rank }}
+          cc:rank_{{ pilotLicense.Rank }}
         </v-icon>
         <v-spacer />
         {{ pilotLicense.License.Source }}

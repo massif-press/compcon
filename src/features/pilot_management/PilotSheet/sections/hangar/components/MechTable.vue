@@ -1,5 +1,9 @@
 <template>
-  <v-simple-table dense fixed-header class="mb-4 mt-4 flavor-text panel px-0">
+  <v-simple-table
+    density="compact"
+    fixed-header
+    class="mb-4 mt-4 flavor-text panel px-0"
+  >
     <thead>
       <tr>
         <th class="text-left">Name</th>
@@ -8,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="m in mechs" :key="m.ID">
+      <tr v-for="m in mechs">
         <td>
           <v-btn
             text
@@ -39,10 +43,10 @@ export default {
   },
   methods: {
     getMechStatus(m: Mech) {
-      // if (m.Destroyed) return ['DESTROYED', 'red--text text--darken-2']
-      // if (m.ReactorDestroyed) return ['REACTOR DESTROYED', 'error--text']
-      // if (m.IsActive) return ['ACTIVE', 'success--text']
-      return ['STANDBY', 'subtle--text text--darken-2'];
+      // if (m.Destroyed) return ['DESTROYED', 'text-red text--darken-2']
+      // if (m.ReactorDestroyed) return ['REACTOR DESTROYED', 'text-error']
+      // if (m.IsActive) return ['ACTIVE', 'text-success']
+      return ['STANDBY', 'text-subtle text--darken-2'];
     },
   },
 };

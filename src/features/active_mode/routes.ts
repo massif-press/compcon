@@ -1,13 +1,13 @@
-import Main from './index.vue'
+import Main from './index.vue';
 
-import Home from './landing.vue'
+import Home from './landing.vue';
 
-import CreateSheet from './pc/create_sheet.vue'
-import OpenSheet from './pc/open_sheet.vue'
+import CreateSheet from './pc/create_sheet.vue';
+import OpenSheet from './pc/open_sheet.vue';
 
-import { RouteConfig } from 'vue-router'
+import { RouteConfig } from 'vue-router';
 
-const routes: RouteConfig[] = [
+const routes = [
   {
     path: '',
     component: Main,
@@ -29,6 +29,6 @@ const routes: RouteConfig[] = [
       },
     ],
   },
-]
+];
 
-export default routes
+export default routes;

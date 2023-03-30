@@ -24,7 +24,7 @@
               }`"
             >
               <span
-                class="heading h2 white--text flavor-text ml-2"
+                class="heading h2 text-white flavor-text ml-2"
                 style="letter-spacing: 3px"
               >
                 {{ mech.Name }}
@@ -45,7 +45,7 @@
               class="overline"
               :style="`z-index: 3; position: absolute; top: 30px; left: 4px;`"
             >
-              <b class="success--text">//ACTIVE</b>
+              <b class="text-success">//ACTIVE</b>
             </div>
             <v-img :src="mech.Portrait" position="top center" height="100%" />
             <v-fade-transition>
@@ -72,17 +72,11 @@
                       <div
                         v-if="mech && mech.MechLoadoutController.ActiveLoadout"
                       >
-                        <span
-                          v-for="(item, i) in loadoutWeapons"
-                          :key="`${mech.ID}_lw_${i}`"
-                        >
+                        <span v-for="(item, i) in loadoutWeapons">
                           {{ item }}
                         </span>
                         <br />
-                        <span
-                          v-for="(item, i) in loadoutSystems"
-                          :key="`${mech.ID}_ls_${i}`"
-                        >
+                        <span v-for="(item, i) in loadoutSystems">
                           {{ i > 0 ? ' - ' : '' }}{{ item }}
                         </span>
                       </div>
@@ -128,7 +122,7 @@
                   <v-alert
                     v-if="mech.Destroyed"
                     color="error"
-                    dense
+                    density="compact"
                     tile
                     class="text-center"
                   >
@@ -137,7 +131,7 @@
                   <v-alert
                     v-if="mech.ReactorDestroyed"
                     color="accent"
-                    dense
+                    density="compact"
                     tile
                     class="text-center"
                   >
@@ -149,7 +143,7 @@
                     <v-alert
                       v-if="mech.IsActive"
                       color="success"
-                      dense
+                      density="compact"
                       tile
                       class="text-center"
                     >
@@ -163,42 +157,42 @@
                       <v-btn
                         small
                         icon
-                        class="fadeSelect"
+                        class="fade-select"
                         color="error"
                         @click.stop="$refs.delete.show()"
                       >
-                        <v-icon>delete</v-icon>
+                        <v-icon icon="delete" />
                       </v-btn>
                     </cc-tooltip>
                     <cc-tooltip simple inline content="Duplicate Mech">
                       <v-btn
                         small
                         icon
-                        class="fadeSelect"
+                        class="fade-select"
                         @click.stop="$refs.copy.show()"
                       >
-                        <v-icon>mdi-content-copy</v-icon>
+                        <v-icon icon="mdi-content-copy" />
                       </v-btn>
                     </cc-tooltip>
                     <cc-tooltip simple inline content="Print Mech Sheet">
                       <v-btn
                         small
                         icon
-                        class="fadeSelect"
+                        class="fade-select"
                         @click.stop="$refs.print.show()"
                       >
-                        <v-icon>mdi-printer</v-icon>
+                        <v-icon icon="mdi-printer" />
                       </v-btn>
                     </cc-tooltip>
                     <cc-tooltip simple inline content="Set As Active Mech">
                       <v-btn
                         small
                         icon
-                        class="fadeSelect"
+                        class="fade-select"
                         :disabled="mech.Pilot.ActiveMech === mech"
                         @click.stop="mech.Pilot.ActiveMech = mech"
                       >
-                        <v-icon>cc:activate</v-icon>
+                        <v-icon icon="cc:activate" />
                       </v-btn>
                     </cc-tooltip>
                   </v-card-actions>

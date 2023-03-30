@@ -25,7 +25,7 @@
         battlefield telemetry data at classifications below GREY SIERRA SHARP,
         and (in specific cases) GMS MM-pattern materiel licenses.
       </span>
-      <v-alert color="accent" variant="outlined" dense class="mt-2">
+      <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
         <b>Add or Upgrade a Talent.</b>
         <br />
         <span class="overline">

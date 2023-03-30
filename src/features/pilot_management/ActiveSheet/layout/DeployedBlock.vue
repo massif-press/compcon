@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="overline mb-2">
+    <div class="text-overline mb-2">
       DEPLOYED EQUIPMENT
       <v-btn
         small
         right
         icon
-        class="fadeSelect"
+        class="fade-select"
         @click="showDeployed = !showDeployed"
       >
         <v-icon
@@ -17,12 +17,8 @@
     </div>
     <v-scroll-y-reverse-transition mode="out-in" leave-absolute>
       <div v-if="showDeployed">
-        <v-row v-if="pilot.State.Deployed.length" dense>
-          <deployable-item
-            v-for="d in pilot.State.Deployed"
-            :key="d.ID"
-            :deployable="d"
-          />
+        <v-row v-if="pilot.State.Deployed.length" density="compact">
+          <deployable-item v-for="d in pilot.State.Deployed" :deployable="d" />
         </v-row>
         <v-card
           v-else
@@ -40,7 +36,7 @@
             align="center"
           >
             <v-col class="panel">
-              <div class="heading h2 subtle--text" style="opacity: 0.4">
+              <div class="heading h2 text-subtle" style="opacity: 0.4">
                 <cc-slashes />
                 NO EQUIPMENT DEPLOYED
                 <cc-slashes />

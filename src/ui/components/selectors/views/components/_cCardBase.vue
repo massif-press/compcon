@@ -17,7 +17,7 @@
             <cc-tags
               :tags="item.Tags"
               small
-              dense
+              density="compact"
               variant="outlined"
               color="accent"
             />
@@ -25,15 +25,19 @@
         </div>
       </v-col>
     </v-row>
-    <v-toolbar dense :color="hover ? 'primary lighten-1' : 'primary'" dark>
+    <v-toolbar
+      density="compact"
+      :color="hover ? 'primary lighten-1' : 'primary'"
+      dark
+    >
       <span>
-        <div class="overline mb-n2">
+        <div class="text-overline mb-n2">
           <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
           <slot name="overline" />
         </div>
         <div
           :class="`d-inline ${small ? 'font-weight-bold' : 'heading h3'} ${
-            item.IsExotic ? 'exotic--text' : ''
+            item.IsExotic ? 'text-exotic' : ''
           }`"
           :style="`overflow: hidden; width: ${
             small ? '73vw' : '25vw'

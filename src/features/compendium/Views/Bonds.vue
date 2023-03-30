@@ -3,7 +3,6 @@
     <v-list-item
       v-for="(e, i) in bonds"
       slot="sidebar"
-      :key="`${i}_sidebar'`"
       link
       @click="
         $vuetify.goTo(`#e_${e.Name.replace(/\W/g, '')}`, {
@@ -22,7 +21,6 @@
       <cc-bond-info
         v-for="(e, i) in bonds"
         :id="`e_${e.Name.replace(/\W/g, '')}`"
-        :key="`${e.Name.replace(/\W/g, '')}_${i}`"
         :bond="e"
         class="my-4"
       />
@@ -33,7 +31,7 @@
 <script lang="ts">
 import SidebarArrayView from '../components/SidebarArrayView.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'bonds',
@@ -42,7 +40,7 @@ export default {
     bonds: [],
   }),
   created() {
-    this.bonds = this.getModule(CompendiumStore).Bonds;
+    this.bonds = CompendiumStore().Bonds;
   },
 };
 </script>

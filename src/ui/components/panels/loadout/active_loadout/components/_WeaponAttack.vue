@@ -1,14 +1,9 @@
 <template>
   <div>
     <div v-if="mount">
-      <cb-card
-        v-for="b in mount.Bonuses"
-        :key="`${mount.ID}_bonus-${b.ID}`"
-        :bonus="b"
-        class="my-1"
-      />
+      <cb-card v-for="b in mount.Bonuses" :bonus="b" class="my-1" />
     </div>
-    <v-row dense>
+    <v-row density="compact">
       <v-col>
         <slot />
       </v-col>
@@ -27,47 +22,47 @@
       <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
         <div class="overline">WEAPON PROFILES</div>
         <v-tabs v-model="tab" grow height="30px">
-          <v-tab v-for="p in item.Profiles" :key="p.ID">
-            <span class="accent--text font-weight-bold">{{ p.Name }}</span>
+          <v-tab v-for="p in item.Profiles">
+            <span class="text-accent font-weight-bold">{{ p.Name }}</span>
           </v-tab>
         </v-tabs>
       </v-col>
     </v-row>
-    <v-row dense justify="center">
+    <v-row density="compact" justify="center">
       <v-col md="12" lg="10">
         <v-alert
           v-if="item.ProfileEffect"
-          dense
+          density="compact"
           variant="outlined"
           color="active"
           class="mt-2"
         >
           <div class="mb-n2 mt-n2">
-            <div class="overline stark--text my-n2">EFFECT</div>
+            <div class="text-overline text-stark my-n2">EFFECT</div>
             <p
               v-html-safe="item.ProfileEffect"
-              class="text--text body-text mb-1 mr-2 ml-3"
+              class="text-text body-text mb-1 mr-2 ml-3"
             />
           </div>
         </v-alert>
         <v-alert
           v-if="item.ProfileOnAttack"
-          dense
+          density="compact"
           variant="outlined"
           color="active"
           class="mt-2"
           :style="`opacity: ${!attackRoll ? '0.4' : '1'}`"
         >
           <div class="my-n2">
-            <div class="overline stark--text my-n2">ON ATTACK</div>
+            <div class="text-overline text-stark my-n2">ON ATTACK</div>
             <p
               v-html-safe="item.ProfileOnAttack"
-              class="text--text body-text mb-1"
+              class="text-text body-text mb-1"
             />
           </div>
         </v-alert>
 
-        <v-row v-if="item.Mod" dense justify="center">
+        <v-row v-if="item.Mod" density="compact" justify="center">
           <active-mod-inset :mod="item.Mod" :mech="mech" color="mod" action />
         </v-row>
         <ammo-case-inset
@@ -87,26 +82,26 @@
       :item="improv ? null : item"
     />
 
-    <v-row dense justify="center">
+    <v-row density="compact" justify="center">
       <v-col md="12" lg="10">
         <v-alert
           v-if="item.ProfileOnHit"
-          dense
+          density="compact"
           variant="outlined"
           :color="hit ? 'accent' : 'subtle'"
           :style="`opacity: ${!hit ? '0.4' : '1'}`"
         >
           <div class="mb-n2">
-            <div class="overline stark--text my-n2">ON HIT</div>
+            <div class="text-overline text-stark my-n2">ON HIT</div>
             <p
               v-html-safe="item.ProfileOnHit"
-              class="text--text body-text mb-1"
+              class="text-text body-text mb-1"
             />
           </div>
         </v-alert>
         <v-alert
           v-if="item.ProfileOnCrit"
-          dense
+          density="compact"
           variant="outlined"
           text
           :color="crit ? 'secondary' : 'subtle'"
@@ -121,10 +116,10 @@
             cc:mech-weapon
           </v-icon>
           <div class="mb-n2">
-            <div class="overline stark--text my-n2">ON CRITICAL HIT</div>
+            <div class="text-overline text-stark my-n2">ON CRITICAL HIT</div>
             <p
               v-html-safe="item.ProfileOnCrit"
-              class="text--text body-text mb-1"
+              class="text-text body-text mb-1"
             />
           </div>
         </v-alert>
@@ -136,7 +131,7 @@
         <v-row align="center">
           <v-col lg="auto" cols="12" class="mt-n5">
             <v-row
-              dense
+              density="compact"
               class="text-center mb-n3"
               :justify="$vuetify.display.mdAndUp ? 'start' : 'space-between'"
               align="start"
@@ -153,9 +148,11 @@
                 cols="auto"
                 :class="$vuetify.display.mdAndUp ? 'mx-8' : ''"
               >
-                <div class="overline mb-n2">Attack Roll</div>
-                <div class="heading text--text" style="font-size: 24pt">
-                  <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
+                <div class="text-overline mb-n2">Attack Roll</div>
+                <div class="heading text-text" style="font-size: 24pt">
+                  <v-icon size="x-large" class="mr-n1"
+                    >mdi-dice-d20-outline</v-icon
+                  >
                   + {{ mech.AttackBonus }}
                 </div>
               </v-col>
@@ -163,10 +160,13 @@
                 cols="auto"
                 :class="$vuetify.display.mdAndUp ? 'mx-8' : ''"
               >
-                <div class="overline mb-n3">vs. Target</div>
-                <v-icon x-large v-html="isSmart ? 'cc:edef' : 'cc:evasion'" />
+                <div class="text-overline mb-n3">vs. Target</div>
+                <v-icon
+                  size="x-large"
+                  v-html="isSmart ? 'cc:edef' : 'cc:evasion'"
+                />
                 <div
-                  class="overline font-weight-bold mt-n2"
+                  class="text-overline font-weight-bold mt-n2"
                   v-html="isSmart ? 'E-Defense' : 'Evasion'"
                 />
               </v-col>
@@ -187,7 +187,7 @@
           </v-col>
           <v-col lg="auto" md="12" class="ml-auto">
             <v-row
-              dense
+              density="compact"
               :justify="$vuetify.display.mdAndUp ? 'end' : 'space-around'"
               :class="$vuetify.display.mdAndUp ? '' : 'panel'"
             >
@@ -200,7 +200,7 @@
                 "
                 style="height: 70px"
               >
-                <div class="overline pl-1">Accuracy</div>
+                <div class="text-overline pl-1">Accuracy</div>
                 <v-text-field
                   v-model="accuracy"
                   type="number"
@@ -210,7 +210,7 @@
                   style="width: 115px"
                   class="hide-input-spinners"
                   color="accent"
-                  dense
+                  density="compact"
                   hide-details
                   @click:append-outer="accuracy < 99 ? (accuracy += 1) : ''"
                   @click:prepend="accuracy > minAccuracy ? (accuracy -= 1) : ''"
@@ -226,7 +226,7 @@
                 "
                 style="height: 70px"
               >
-                <div class="overline pl-1">Difficulty</div>
+                <div class="text-overline pl-1">Difficulty</div>
                 <v-text-field
                   v-model="difficulty"
                   type="number"
@@ -236,7 +236,7 @@
                   style="width: 115px"
                   class="hide-input-spinners"
                   color="accent"
-                  dense
+                  density="compact"
                   hide-details
                   @click:append-outer="difficulty < 99 ? (difficulty += 1) : ''"
                   @click:prepend="
@@ -254,7 +254,7 @@
                 "
                 style="height: 70px"
               >
-                <div class="overline pl-1">Attack Roll</div>
+                <div class="text-overline pl-1">Attack Roll</div>
                 <v-row no-gutters>
                   <v-col class="mr-n2 ml-n2">
                     <cc-dice-menu
@@ -275,14 +275,14 @@
                       }`"
                       style="max-width: 60px; margin-top: -0.5px"
                       :color="crit ? 'secondary' : 'accent'"
-                      dense
+                      density="compact"
                       hide-details
                     />
                   </v-col>
                 </v-row>
                 <div
                   v-if="crit"
-                  class="caption secondary--text font-weight-bold ml-8 my-n1"
+                  class="caption text-secondary font-weight-bold ml-8 my-n1"
                 >
                   CRITICAL
                 </div>
@@ -322,7 +322,7 @@
                   large
                   tile
                   block
-                  class="white--text"
+                  class="text-white"
                   :disabled="
                     attackFree ||
                     !attackRoll ||
@@ -345,7 +345,7 @@
                   small
                   tile
                   block
-                  class="white--text"
+                  class="text-white"
                   :disabled="attackQuick || !attackRoll"
                   :color="`action--free ${attackFree ? 'lighten-1' : ''}`"
                   @click="attackFree = !attackFree"
@@ -356,14 +356,14 @@
                     inline
                     content="Special rules or equipment may allow you to Skirmish as a Free Action. Using this button will commit the attack without spending a Quick Action this turn"
                   >
-                    <v-icon end small class="fadeSelect"
+                    <v-icon end small class="fade-select"
                       >mdi-information-outline</v-icon
                     >
                   </cc-tooltip>
                 </v-btn>
                 <div
                   v-if="item.ProfileHeatCost"
-                  class="overline error--text text-center"
+                  class="text-overline text-error text-center"
                 >
                   ALERT: This action will incur {{ item.ProfileHeatCost }} heat
                 </div>
@@ -414,8 +414,10 @@
 (including bonus damage) and the highest result from
 each source of damage is used.`"
               >
-                <v-icon x-large color="secondary">mdi-progress-alert</v-icon>
-                <div class="secondary--text">CRITICAL HIT</div>
+                <v-icon size="x-large" color="secondary"
+                  >mdi-progress-alert</v-icon
+                >
+                <div class="text-secondary">CRITICAL HIT</div>
               </cc-tooltip>
             </v-col>
             <v-col
@@ -428,15 +430,11 @@ each source of damage is used.`"
               "
               style="height: 70px"
             >
-              <div class="overline mt-n2 pl-1">
+              <div class="text-overline mt-n2 pl-1">
                 {{ getDamage.length > 1 ? 'Damage Rolls' : 'Damage Roll' }}
               </div>
               <v-row no-gutters>
-                <v-col
-                  v-for="(d, i) in getDamage"
-                  :key="`rolled_damage_${i}`"
-                  class="mr-n2 ml-n2"
-                >
+                <v-col v-for="(d, i) in getDamage" class="mr-n2 ml-n2">
                   <v-row no-gutters>
                     <v-col>
                       <cc-dice-menu
@@ -457,7 +455,7 @@ each source of damage is used.`"
                         }`"
                         style="max-width: 60px; margin-top: -0.5px"
                         :color="crit ? 'secondary' : 'accent'"
-                        dense
+                        density="compact"
                         :hint="d.Type"
                         persistent-hint
                       />
@@ -476,7 +474,7 @@ each source of damage is used.`"
               "
               style="height: 70px"
             >
-              <div class="overline mt-n2 pl-1">Bonus Damage</div>
+              <div class="text-overline mt-n2 pl-1">Bonus Damage</div>
               <v-row no-gutters>
                 <v-col cols="auto">
                   <cc-dice-menu
@@ -493,7 +491,7 @@ each source of damage is used.`"
                     style="width: 60px"
                     class="hide-input-spinners mt-2 mb-n2 ml-4"
                     color="accent"
-                    dense
+                    density="compact"
                     hide-details
                     @change="bonusDamage = parseInt(total)"
                   />
@@ -509,14 +507,10 @@ each source of damage is used.`"
                 "
                 style="height: 70px"
               >
-                <div class="overline mt-n2 pl-1">Total Damage</div>
+                <div class="text-overline mt-n2 pl-1">Total Damage</div>
                 <v-row no-gutters justify="end">
-                  <v-col
-                    v-for="(d, i) in getDamage"
-                    :key="`dm_result_${i}`"
-                    cols="auto"
-                  >
-                    <div class="heading h2 stark--text">
+                  <v-col v-for="(d, i) in getDamage" cols="auto">
+                    <div class="heading h2 text-stark">
                       {{ damageRolls[i] ? damageRolls[i] : '--' }}
                       <cc-tooltip inline :content="d.Type">
                         <v-icon
@@ -532,18 +526,18 @@ each source of damage is used.`"
                     </div>
                   </v-col>
                   <v-col v-if="bonusDamage" cols="auto" class="ml-n1">
-                    <div class="heading h2 stark--text" style="margin-top: 4px">
+                    <div class="heading h2 text-stark" style="margin-top: 4px">
                       +{{ bonusDamage }}
                     </div>
                   </v-col>
                 </v-row>
                 <div
                   v-if="summedDamage"
-                  class="overline my-n3 pr-1 subtle--text text-right"
+                  class="text-overline my-n3 pr-1 text-subtle text-right"
                 >
                   <b
                     v-if="!!reliable && summedDamage < reliable"
-                    class="accent--text"
+                    class="text-accent"
                   >
                     ({{ reliable }})
                   </b>
@@ -570,7 +564,7 @@ each source of damage is used.`"
             </v-slide-x-reverse-transition>
             <v-slide-x-reverse-transition>
               <v-col v-if="overkill" cols="12">
-                <div class="text-right overline stark--text mt-n2">
+                <div class="text-right overline text-stark mt-n2">
                   <b>OVERKILL</b>
                 </div>
                 <v-row no-gutters justify="end" align="center">
@@ -583,15 +577,14 @@ each source of damage is used.`"
                   </v-col>
                   <v-col
                     v-for="n in overkillHeat"
-                    :key="`ovkr_${n}`"
                     cols="auto"
                     class="px-12 mx-n2 panel dual-sliced text-center mt-n1"
                     style="height: 60px"
                   >
                     <v-icon large color="dangerzone">mdi-fire</v-icon>
-                    <div class="overline my-n2">
+                    <div class="text-overline my-n2">
                       +1 HEAT
-                      <v-icon small class="fadeSelect" @click="overkillHeat--"
+                      <v-icon small class="fade-select" @click="overkillHeat--"
                         >mdi-close</v-icon
                       >
                     </div>
@@ -606,7 +599,7 @@ each source of damage is used.`"
                 </v-row>
                 <div
                   v-if="overkillHeat"
-                  class="overline error--text text-right"
+                  class="text-overline text-error text-right"
                 >
                   ALERT: This action will incur an additional
                   {{ overkillHeat }} heat
@@ -645,7 +638,7 @@ each source of damage is used.`"
                       v-if="!noDamageItem"
                       v-model="kill"
                       color="accent"
-                      dense
+                      density="compact"
                       :disabled="hit && !summedDamage"
                     >
                       <span slot="label" class="caption">TARGET DESTROYED</span>
@@ -661,9 +654,9 @@ each source of damage is used.`"
     <v-slide-x-reverse-transition>
       <v-row v-if="(hit || missed) && !noDamageItem" no-gutters class="mt-2">
         <v-col cols="auto" class="ml-auto">
-          <p class="flavor-text stark--text ma-0">
+          <p class="flavor-text text-stark ma-0">
             >//[
-            <span class="accent--text">COMP/CON</span>
+            <span class="text-accent">COMP/CON</span>
             ] :
             <span v-if="missed">
               {{ improv ? 'Improvised attack' : 'Weapon activation' }}
@@ -675,9 +668,9 @@ each source of damage is used.`"
             </span>
             <span v-if="kill">Target destroyed.</span>
           </p>
-          <p v-if="confirmed" class="flavor-text stark--text ma-0">
+          <p v-if="confirmed" class="flavor-text text-stark ma-0">
             >//[
-            <span class="accent--text">COMP/CON::COMBAT TELEMETRY LOG</span>
+            <span class="text-accent">COMP/CON::COMBAT TELEMETRY LOG</span>
             ] :
             <span>ATK {{ attackRoll }}</span>
             <cc-slashes />
@@ -696,7 +689,7 @@ each source of damage is used.`"
               inline
               content="Undo this attack, refunding any actions it may have cost"
             >
-              <v-btn x-small color="primary" class="fadeSelect" @click="reset">
+              <v-btn x-small color="primary" class="fade-select" @click="reset">
                 <v-icon small left>mdi-reload</v-icon>
                 UNDO
               </v-btn>

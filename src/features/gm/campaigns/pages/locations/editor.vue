@@ -1,6 +1,6 @@
 <template>
   <editor-base :item="location" @exit="$router.push('/gm/locations')">
-    <v-row dense align="center">
+    <v-row density="compact" align="center">
       <v-col cols="12">
         <v-text-field v-model="location.Name" label="Name" />
       </v-col>

@@ -2,7 +2,7 @@
   <v-col :cols="cols">
     <v-card tile variant="outlined" class="text-center">
       <v-card-title
-        :class="`${color} white--text caption pa-1`"
+        :class="`${color} text-white caption pa-1`"
         style="font-weight: bold; max-height: 28px; font-size: 18px !important"
       >
         <v-menu
@@ -12,15 +12,21 @@
           offset-y
         >
           <template v-slot:activator="{ props }">
-            <v-btn icon dark x-small class="fadeSelect" absolute v-bind="props">
-              <v-icon>mdi-circle-edit-outline</v-icon>
+            <v-btn
+              icon
+              dark
+              x-small
+              class="fade-select"
+              absolute
+              v-bind="props"
+            >
+              <v-icon icon="mdi-circle-edit-outline" />
             </v-btn>
           </template>
           <v-card>
             <v-card-text class="pa-2">
               <v-btn
                 v-for="i in editable ? allSizes : statController.Sizes"
-                :key="`size_${i}`"
                 style="width: 80px; height: 80px"
                 class="ma-3"
                 icon
@@ -37,7 +43,7 @@
         SIZE
         <v-spacer />
       </v-card-title>
-      <v-card-text class="pa-1 text--text">
+      <v-card-text class="pa-1 text-text">
         <span class="heading h2">
           {{
             parseFloat(statController.Size) === 0.5 ? '½' : statController.Size

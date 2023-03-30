@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="my-2">
-      <div class="heading h3 accent--text">Active Campaigns</div>
+      <div class="heading h3 text-accent">Active Campaigns</div>
       <div v-if="!active.length" class="text-center">
         <span class="flavor-text text--disabled">None</span>
       </div>
@@ -20,14 +20,14 @@
       </v-simple-table>
       <v-row justify="end" align="center">
         <v-col cols="3">
-          <v-btn color="primary" class="white--text" disabled>
+          <v-btn color="primary" class="text-white" disabled>
             <v-icon start v-html="'cc:activate'" />
             Start Campaign
           </v-btn>
         </v-col>
       </v-row>
 
-      <div class="heading h3 accent--text">Campaign Catalog</div>
+      <div class="heading h3 text-accent">Campaign Catalog</div>
       <v-row justify="center" align="center">
         <v-col cols="auto">
           <span class="flavor-text text--disabled">None</span>
@@ -35,14 +35,14 @@
       </v-row>
       <v-row justify="end" align="center">
         <v-col cols="3">
-          <v-btn color="primary" class="white--text" block disabled>
+          <v-btn color="primary" class="text-white" block disabled>
             <v-icon start v-html="'mdi-import'" />
             Import Campaign
           </v-btn>
         </v-col>
       </v-row>
 
-      <div class="heading h3 accent--text">Unpublished Campaigns</div>
+      <div class="heading h3 text-accent">Unpublished Campaigns</div>
       <div v-if="!unpublished.length" class="text-center">
         <span class="flavor-text text--disabled">None</span>
       </div>
@@ -58,11 +58,7 @@
         </thead>
 
         <tbody>
-          <tr
-            v-for="(c, i) in unpublished"
-            :key="`unpublished_${i}`"
-            class="text-center"
-          >
+          <tr v-for="(c, i) in unpublished" class="text-center">
             <td class="text-left">{{ c.Name }}</td>
             <td>{{ c.Count('Beat') }}</td>
             <td>{{ c.Count('Mission') }}</td>
@@ -85,7 +81,7 @@
         <v-col cols="3">
           <v-btn
             color="primary"
-            class="white--text"
+            class="text-white"
             block
             @click="openNewCampaign()"
           >
@@ -101,17 +97,17 @@
         <v-col cols="12">
           <v-card outlined>
             <v-card-text>
-              <v-alert dense icon="mdi-alert" class="ma-0">
+              <v-alert density="compact" icon="mdi-alert" class="ma-0">
                 COMP/CON stores its data locally, which may be erased by other
                 browser functions or plugins. It is strongly recommended to
                 regularly create campaign data backups.
               </v-alert>
-              <v-row dense justify="center" align="center">
+              <v-row density="compact" justify="center" align="center">
                 <v-col>
                   <v-btn
                     small
                     color="primary"
-                    class="white--text"
+                    class="text-white"
                     block
                     to="campaigns/edit"
                   >
@@ -123,7 +119,7 @@
                   <v-btn
                     small
                     color="primary"
-                    class="white--text"
+                    class="text-white"
                     block
                     to="campaigns/edit"
                   >
@@ -151,7 +147,7 @@
 <script lang="ts">
 import { Campaign } from '@/classes/campaign/Campaign';
 
-import { CampaignStore } from '@/store';
+import { CampaignStore } from '@/stores';
 
 export default {
   name: 'campaign-landing',

@@ -29,7 +29,7 @@
           />
         </fieldset>
         <v-overlay absolute :value="true" color="panel" opacity="0.85">
-          <span class="heading h2 text--text">Feature In Development</span>
+          <span class="heading h2 text-text">Feature In Development</span>
         </v-overlay>
       </v-card>
       <v-card flat tile>
@@ -45,7 +45,7 @@
           />
         </fieldset>
         <v-overlay absolute :value="true" color="panel" opacity="0.85">
-          <span class="heading h2 text--text">Feature In Development</span>
+          <span class="heading h2 text-text">Feature In Development</span>
         </v-overlay>
       </v-card>
       <v-scroll-y-transition>
@@ -62,7 +62,7 @@
             />
           </fieldset>
           <v-overlay absolute :value="true" color="panel" opacity="0.85">
-            <span class="heading h2 text--text">Feature In Development</span>
+            <span class="heading h2 text-text">Feature In Development</span>
           </v-overlay>
         </v-card>
       </v-scroll-y-transition>
@@ -76,7 +76,7 @@
           />
         </fieldset>
         <v-overlay absolute :value="true" color="panel" opacity="0.85">
-          <span class="heading h2 text--text">Feature In Development</span>
+          <span class="heading h2 text-text">Feature In Development</span>
         </v-overlay>
       </v-card>
     </v-card-text>

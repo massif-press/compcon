@@ -1,8 +1,8 @@
 <template>
-  <v-row dense align="center">
+  <v-row density="compact" align="center">
     <v-col cols="12">
       <div class="centered text-left pl-3">
-        <span class="stark--text flavor-text font-weight-bold"
+        <span class="text-stark flavor-text font-weight-bold"
           >NEW CUSTOM TRIGGER</span
         >
       </div>
@@ -12,14 +12,14 @@
         <v-text-field
           v-model="newSkill"
           variant="outlined"
-          dense
+          density="compact"
           hide-details
           label="New Skill Trigger"
         />
         <v-textarea
           v-model="newDesc"
           variant="outlined"
-          dense
+          density="compact"
           hide-details
           rows="1"
           auto-grow
@@ -29,7 +29,7 @@
         <v-textarea
           v-model="newDetail"
           variant="outlined"
-          dense
+          density="compact"
           hide-details
           rows="3"
           auto-grow

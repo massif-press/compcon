@@ -9,7 +9,7 @@
           <v-fade-transition>
             <div
               v-if="hover"
-              class="d-flex text-center primary darken-2 v-card--reveal heading h2 white--text"
+              class="d-flex text-center primary darken-2 v-card--reveal heading h2 text-white"
               style="height: 100%"
             >
               {{ description }}
@@ -20,7 +20,7 @@
           class="py-2 text-center heading h2"
           style="position: relative"
         >
-          <span :class="hover ? 'primary--text' : ''">{{ name }}</span>
+          <span :class="hover ? 'text-primary' : ''">{{ name }}</span>
         </v-card-text>
       </v-card>
     </v-hover>

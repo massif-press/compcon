@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view style="width: 100vw; padding-top: 50px" />
+    <router-view style="width: 100vw; padding-top: 40px" />
   </div>
 </template>
 

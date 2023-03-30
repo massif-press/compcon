@@ -10,11 +10,10 @@
       @clone-loadout="mech.MechLoadoutController.CloneLoadout()"
       @remove-loadout="mech.MechLoadoutController.RemoveLoadout()"
     >
-      <v-row dense>
+      <v-row density="compact">
         <mount-block
           v-for="(im, j) in mech.MechLoadoutController.ActiveLoadout
             .IntegratedMounts"
-          :key="`int_${j}`"
           integrated
           :mount="im"
           :mech="mech"
@@ -49,7 +48,6 @@
         <mount-block
           v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout
             .EquippableMounts"
-          :key="`m_${k}`"
           :readonly="readonly"
           :mount="m"
           :mech="mech"

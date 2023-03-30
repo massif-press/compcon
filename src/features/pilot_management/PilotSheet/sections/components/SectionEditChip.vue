@@ -5,13 +5,13 @@
         small
         label
         dark
-        :class="{ fadeSelect: !highlight }"
+        :class="{ 'fade-select': !highlight }"
         :color="highlight ? 'warning' : 'pilot'"
         style="margin-bottom: 1px"
         @click="$emit('open-selector')"
       >
         {{ current }}/{{ max }}&nbsp;
-        <v-icon>mdi-circle-edit-outline</v-icon>
+        <v-icon icon="mdi-circle-edit-outline" />
       </v-chip>
     </cc-tooltip>
   </span>

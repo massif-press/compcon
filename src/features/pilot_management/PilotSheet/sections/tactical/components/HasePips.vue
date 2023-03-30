@@ -1,9 +1,14 @@
 <template>
   <v-col class="py-0">
     <span class="text-uppercase stat-text">{{ title }}</span>
-    <span class="flavor-text subtle--text">({{ skillPoints || 0 }})</span>
+    <span class="flavor-text text-subtle">({{ skillPoints || 0 }})</span>
     <cc-tooltip simple :content="tooltip()">
-      <cc-rating :model="skillPoints" :max="6" dense color="secondary" />
+      <cc-rating
+        :model="skillPoints"
+        :max="6"
+        density="compact"
+        color="secondary"
+      />
     </cc-tooltip>
   </v-col>
 </template>

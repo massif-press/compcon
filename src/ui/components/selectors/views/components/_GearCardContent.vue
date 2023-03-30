@@ -6,34 +6,34 @@
     @equip="$emit('equip', $event)"
   >
     <div slot="top">
-      <v-row dense justify="space-around" class="mt-2">
+      <v-row density="compact" justify="space-around" class="mt-2">
         <v-col v-if="item.Armor" cols="auto">
           <cc-tooltip simple inline content="Armor Bonus">
-            <v-icon>mdi-shield-outline</v-icon>
+            <v-icon icon="mdi-shield-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ item.Armor }}</span>
         </v-col>
         <v-col v-if="item.HPBonus" cols="auto">
           <cc-tooltip simple inline content="HP Bonus">
-            <v-icon>mdi-heart</v-icon>
+            <v-icon icon="mdi-heart" />
           </cc-tooltip>
           <span class="stat-text">+{{ item.HPBonus }}</span>
         </v-col>
         <v-col v-if="item.EDefense" cols="auto">
           <cc-tooltip simple inline content="Electronic Defense">
-            <v-icon>cc:edef</v-icon>
+            <v-icon icon="cc:edef" />
           </cc-tooltip>
           <span class="stat-text">{{ item.EDefense }}</span>
         </v-col>
         <v-col v-if="item.Evasion" cols="auto">
           <cc-tooltip simple inline content="Evasion">
-            <v-icon>cc:evasion</v-icon>
+            <v-icon icon="cc:evasion" />
           </cc-tooltip>
           <span class="stat-text">{{ item.Evasion }}</span>
         </v-col>
         <v-col v-if="item.Speed" cols="auto">
           <cc-tooltip simple inline content="Speed">
-            <v-icon>$vuetify.icons.move</v-icon>
+            <v-icon icon="$vuetify.icons.move" />
           </cc-tooltip>
           <span class="stat-text">{{ item.Speed }}</span>
         </v-col>
@@ -73,7 +73,7 @@
         </v-row>
         <!-- <v-row no-gutters>
           <v-col v-if="item.Tags" cols="12" class="text-center pb-2">
-            <cc-tags :tags="item.Tags" small dense variant="outlined" color="accent" />
+            <cc-tags :tags="item.Tags" small density="compact" variant="outlined" color="accent" />
           </v-col>
         </v-row> -->
       </div>

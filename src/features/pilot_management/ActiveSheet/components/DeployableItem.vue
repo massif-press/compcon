@@ -1,7 +1,7 @@
 <template>
   <v-col cols="12" lg="6">
     <v-card flat tile class="clipped-large light-panel pb-2">
-      <v-toolbar dense flat>
+      <v-toolbar density="compact" flat>
         <v-toolbar-title>
           <v-row no-gutters>
             <v-col cols="auto">
@@ -21,7 +21,7 @@
               </cc-short-string-editor>
             </v-col>
             <v-col v-if="$vuetify.display.mdAndUp">
-              <span class="pl-3 flavor-text subtle--text"
+              <span class="pl-3 flavor-text text-subtle"
                 >//{{ deployable.BaseName }}</span
               >
             </v-col>
@@ -34,7 +34,7 @@
             small
             text
             color="accent"
-            class="fadeSelect"
+            class="fade-select"
             :disabled="!canRecall"
             @click="recall"
           >
@@ -46,7 +46,7 @@
             small
             text
             color="accent"
-            class="fadeSelect"
+            class="fade-select"
             :disabled="!canRedeploy"
             @click="redeploy"
           >
@@ -55,12 +55,12 @@
           </v-btn>
           <v-menu v-model="removeMenu" offset-y offset-x top left>
             <template v-slot:activator="{ props }">
-              <v-btn small text color="error" class="fadeSelect" v-bind="props"
+              <v-btn small text color="error" class="fade-select" v-bind="props"
                 >Remove</v-btn
               >
             </template>
             <cc-confirmation
-              content="Lancer, this will remove this deployable from the Deployed Equipment list. <span class='accent--text'>This cannot be undone.</span> Do you want to continue?"
+              content="Lancer, this will remove this deployable from the Deployed Equipment list. <span class='text-accent'>This cannot be undone.</span> Do you want to continue?"
               @confirm="
                 removeMenu = false;
                 pilot.State.RemoveDeployable(deployable.ID);
@@ -70,14 +70,12 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-card-text v-if="deployable.Destroyed">
-        <div class="heading h3 error--text text-center">
-          EQUIPMENT DESTROYED
-        </div>
+        <div class="heading h3 text-error text-center">EQUIPMENT DESTROYED</div>
         <div class="text-right mr-3 mb-n3">
           <v-btn
             x-small
             color="primary"
-            class="fadeSelect"
+            class="fade-select"
             @click="deployable.Repair()"
           >
             <cc-tooltip
@@ -90,14 +88,12 @@
         </div>
       </v-card-text>
       <v-card-text v-else-if="recallState">
-        <div class="heading h3 subtle--text text-center">
-          EQUIPMENT RECALLED
-        </div>
+        <div class="heading h3 text-subtle text-center">EQUIPMENT RECALLED</div>
         <div class="text-right mr-3 mb-n3">
           <v-btn
             x-small
             color="primary"
-            class="fadeSelect"
+            class="fade-select"
             @click="freeRecall()"
           >
             <cc-tooltip
@@ -111,10 +107,9 @@
       </v-card-text>
 
       <v-card-text v-else class="py-1">
-        <v-row dense>
+        <v-row density="compact">
           <v-col v-if="deployable.Armor" cols="12" md="auto">
             <cc-tick-bar
-              :key="deployable.Armor"
               :current="deployable.Armor"
               :max="deployable.Armor"
               color="armor"
@@ -127,7 +122,6 @@
           </v-col>
           <v-col v-if="deployable.MaxHP" cols="12" md="auto">
             <cc-tick-bar
-              :key="deployable.CurrentHP"
               :current="deployable.CurrentHP"
               :max="deployable.MaxHP"
               color="hp"
@@ -140,7 +134,6 @@
           </v-col>
           <v-col v-if="deployable.MaxHP" cols="12" md="auto">
             <cc-tick-bar
-              :key="deployable.Overshield"
               :current="deployable.Overshield"
               :max="deployable.Overshield"
               color="stark"
@@ -156,7 +149,6 @@
           </v-col>
           <v-col v-if="deployable.Heatcap" cols="12" md="auto">
             <cc-tick-bar
-              :key="deployable.CurrentHeat"
               :current="deployable.CurrentHeat"
               :max="deployable.Heatcap"
               color="heatcap"
@@ -169,7 +161,6 @@
           </v-col>
           <v-col v-if="deployable.Repcap" cols="12" md="auto">
             <cc-tick-bar
-              :key="deployable.CurrentRepairs"
               :current="deployable.CurrentRepairs"
               :max="deployable.Repcap"
               color="repcap"
@@ -182,7 +173,7 @@
         </v-row>
         <v-row
           justify="center"
-          dense
+          density="compact"
           :class="$vuetify.display.smAndDown ? '' : 'mx-8'"
         >
           <cc-statblock-panel
@@ -273,7 +264,7 @@
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
           />
         </v-row>
-        <v-row justify="center" dense>
+        <v-row justify="center" density="compact">
           <v-col cols="auto">
             <p
               v-html-safe="deployable.Detail"
@@ -281,10 +272,9 @@
             />
           </v-col>
         </v-row>
-        <v-row dense justify="center">
+        <v-row density="compact" justify="center">
           <v-col
             v-for="(a, i) in deployable.Actions"
-            :key="`${deployable.Name}_action_${i}`"
             cols="12"
             md="auto"
             style="min-width: 25%"

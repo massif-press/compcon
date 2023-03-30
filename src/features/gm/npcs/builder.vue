@@ -24,7 +24,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row dense align="end">
+    <v-row density="compact" align="end">
       <npc-class-selector :item="item" />
       <npc-tag-selector :item="item" />
     </v-row>

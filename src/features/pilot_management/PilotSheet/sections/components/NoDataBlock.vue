@@ -2,7 +2,7 @@
   <v-card tile variant="outlined" color="panel darken-1" style="opacity: 0.4">
     <v-card-text class="text-center">
       <h2
-        class="heading flavor-text subtle--text text--darken-1"
+        class="heading flavor-text text-subtle text--darken-1"
         style="opacity: 0.6"
       >
         // NO DATA //

@@ -8,14 +8,14 @@
               <div class="flavor-text text--disabled">
                 <i>No Campaign Image</i>
               </div>
-              <div class="overline text--disabled">1200 x 200</div>
+              <div class="text-overline text--disabled">1200 x 200</div>
             </v-col>
           </v-row>
         </v-card>
         <v-btn
           x-small
           block
-          class="fadeSelect"
+          class="fade-select"
           variant="outlined"
           color="accent"
         >
@@ -23,10 +23,10 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row justify="center" dense>
+    <v-row justify="center" density="compact">
       <v-col cols="auto">
         <cc-short-string-editor large @set="item.Name = $event">
-          <span class="display-2 accent--text">
+          <span class="display-2 text-accent">
             {{ item.Name }}
           </span>
         </cc-short-string-editor>
@@ -38,7 +38,7 @@
           v-model="item.Author"
           variant="outlined"
           hide-details
-          dense
+          density="compact"
           label="Author(s)"
         />
       </v-col>

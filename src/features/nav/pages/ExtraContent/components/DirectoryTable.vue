@@ -58,7 +58,7 @@
       <td :colspan="headers.length" class="py-4 px-6 w-100 light-panel">
         <v-row>
           <v-col>
-            <p class="body-text text--text pa-2 mb-1">
+            <p class="body-text text-text pa-2 mb-1">
               <span v-if="item.description" v-html-safe="item.description" />
               <span v-else>No description given.</span>
             </p>
@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'content-pack-directory-table',
@@ -128,7 +128,7 @@ export default {
       ];
     },
     contentPacks() {
-      return this.getModule(CompendiumStore).ContentPacks;
+      return CompendiumStore().ContentPacks;
     },
   },
   methods: {

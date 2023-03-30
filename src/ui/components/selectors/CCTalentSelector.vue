@@ -7,14 +7,13 @@
     <template v-slot:left-column>
       <v-row
         v-for="(pTalent, i) in pilot.TalentsController.Talents"
-        :key="`summary_${pTalent.Talent.ID}_${i}`"
         class="my-2"
       >
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
-          <v-icon color="accent">cc:rank-{{ pTalent.Rank }}</v-icon>
+          <v-icon color="accent">cc:rank_{{ pTalent.Rank }}</v-icon>
           <strong>{{ pTalent.Talent.Name }}</strong>
-          <v-icon end class="fadeSelect" @click="scroll(pTalent.Talent.ID)">
+          <v-icon end class="fade-select" @click="scroll(pTalent.Talent.ID)">
             mdi-chevron-right
           </v-icon>
         </span>
@@ -28,7 +27,7 @@
           <v-alert
             variant="outlined"
             prominent
-            dense
+            density="compact"
             color="success"
             icon="check_circle"
             class="stat-text"
@@ -42,7 +41,7 @@
           <v-alert
             variant="outlined"
             prominent
-            dense
+            density="compact"
             color="accent"
             icon="warning"
             class="stat-text"
@@ -61,7 +60,7 @@
           <v-alert
             variant="outlined"
             prominent
-            dense
+            density="compact"
             color="accent"
             icon="warning"
             class="stat-text"
@@ -86,14 +85,14 @@
     </template>
 
     <template v-slot:right-column>
-      <v-row dense align="center">
+      <v-row density="compact" align="center">
         <v-col cols="10" lg="5">
           <v-text-field
             v-model="search"
             prepend-icon="mdi-magnify"
             color="accent"
             label="Search Talents"
-            dense
+            density="compact"
             hide-details
             class="mb-2"
             variant="outlined"
@@ -102,18 +101,17 @@
         </v-col>
         <v-col cols="auto" class="ml-auto">
           <v-btn-toggle v-model="ctype" mandatory>
-            <v-btn value="full"><v-icon>mdi-view-stream</v-icon></v-btn>
-            <v-btn value="terse"><v-icon>mdi-view-list</v-icon></v-btn>
-            <v-btn value="small"><v-icon>mdi-view-comfy</v-icon></v-btn>
+            <v-btn value="full"><v-icon icon="mdi-view-stream" /></v-btn>
+            <v-btn value="terse"><v-icon icon="mdi-view-list" /></v-btn>
+            <v-btn value="small"><v-icon icon="mdi-view-comfy" /></v-btn>
           </v-btn-toggle>
         </v-col>
       </v-row>
 
-      <v-row id="talent-list" dense justify="center">
+      <v-row id="talent-list" density="compact" justify="center">
         <cc-talent
           v-for="(t, i) in talents"
           :id="`e_${t.ID}`"
-          :key="`t_${i}`"
           :talent="t"
           :rank="pilot.TalentsController.getTalentRank(t.ID)"
           :terse="ctype === 'terse'"
@@ -133,7 +131,7 @@ import _ from 'lodash';
 import Selector from './components/_SelectorBase.vue';
 import MissingItem from './components/_MissingItem.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { Rules, Pilot, Talent } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 
@@ -169,7 +167,7 @@ export default {
       );
     },
     talents(): Talent[] {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       const talents = compendium.Talents.filter((x) => !x.IsHidden);
       if (this.search)
         return talents.filter((x) => accentInclude(x.Name, this.search));

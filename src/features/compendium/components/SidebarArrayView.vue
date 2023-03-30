@@ -3,7 +3,6 @@
     <v-list-item
       v-for="(e, i) in array"
       slot="sidebar"
-      :key="`${i}_sidebar'`"
       link
       @click="
         $vuetify.goTo(`#e_${e[nameKey].replace(/\W/g, '')}`, {
@@ -21,11 +20,10 @@
     <cc-titled-panel
       v-for="(e, i) in array"
       :id="`e_${e[nameKey].replace(/\W/g, '')}`"
-      :key="`${e[nameKey].replace(/\W/g, '')}_${i}`"
       :icon="icon || ''"
       :title="e[nameKey]"
       class="my-6"
-      dense
+      density="compact"
     >
       <h3
         v-if="subKey && (!subConditional || e[subConditional])"

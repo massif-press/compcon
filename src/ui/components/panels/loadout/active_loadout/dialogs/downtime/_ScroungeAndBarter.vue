@@ -20,7 +20,7 @@
             type="number"
             label="Roll Result"
             variant="outlined"
-            dense
+            density="compact"
             hide-details
             append-outer-icon="mdi-plus-circle-outline"
             prepend-icon="mdi-minus-circle-outline"
@@ -41,7 +41,6 @@
               <v-radio-group v-model="choice" mandatory>
                 <v-radio
                   v-for="(c, i) in choices"
-                  :key="c"
                   :label="c"
                   :value="i"
                 ></v-radio>
@@ -53,7 +52,6 @@
               <v-radio-group v-model="trade" mandatory>
                 <v-radio
                   v-for="(t, i) in trades"
-                  :key="t"
                   :label="t"
                   :value="i"
                 ></v-radio>
@@ -63,10 +61,10 @@
               You get what you’re looking for, no problems at all.
             </p>
           </v-col>
-          <v-row dense>
+          <v-row density="compact">
             <v-col>
               <v-card color="panel" class="ml-5 mr-5 mt-2">
-                <v-toolbar dark dense color="action--downtime">
+                <v-toolbar dark density="compact" color="action--downtime">
                   <v-toolbar-title>New Asset</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
@@ -74,7 +72,7 @@
                     v-model="custom_name"
                     label="Asset or Gear"
                     style="width: 500px"
-                    dense
+                    density="compact"
                     variant="outlined"
                   />
                   <v-textarea

@@ -12,7 +12,6 @@
       <v-divider :vertical="$vuetify.display.mdAndUp" class="mx-4 my-1" />
       <pilot-weapon-card
         v-for="(w, i) in weapons"
-        :key="`pgwi_${i}`"
         :item="w"
         :readonly="readonly"
         :exotics="exotics('PilotWeapon')"
@@ -22,7 +21,6 @@
       />
       <pilot-weapon-card
         v-for="(w, i) in extendedWeapons"
-        :key="`pgewi_${i}`"
         :item="w"
         :readonly="readonly"
         :extended="true"
@@ -32,10 +30,9 @@
         @save="pilot.SaveController.save()"
       />
     </v-row>
-    <v-row dense>
+    <v-row density="compact">
       <pilot-gear-card
         v-for="(g, i) in gear"
-        :key="`pgi_${i}`"
         :item="g"
         :readonly="readonly"
         :exotics="exotics('PilotGear')"
@@ -45,7 +42,6 @@
       />
       <pilot-gear-card
         v-for="(g, i) in extendedGear"
-        :key="`pegi_${i}`"
         :item="g"
         :readonly="readonly"
         :extended="true"

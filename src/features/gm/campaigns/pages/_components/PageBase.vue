@@ -2,11 +2,11 @@
   <v-container>
     <v-row justify="space-between">
       <v-col cols="auto">
-        <div v-if="item.ItemNumber" class="overline mt-n2 mb-n3">
+        <div v-if="item.ItemNumber" class="text-overline mt-n2 mb-n3">
           <b>{{ item.ItemType }} {{ item.ItemNumber }}:</b>
         </div>
         <cc-short-string-editor large @set="item.Title = $event">
-          <span class="heading mech accent--text">
+          <span class="heading mech text-accent">
             {{ item.Title }}
           </span>
         </cc-short-string-editor>
@@ -14,7 +14,7 @@
       <v-col cols="1">
         <v-text-field
           v-model="item.ItemNumber"
-          dense
+          density="compact"
           variant="outlined"
           label="ID"
           hint="Optional"
@@ -23,13 +23,12 @@
     </v-row>
     <page-content-container
       v-for="(e, i) in item.Content"
-      :key="`content_item_${i}`"
       :item="e"
       @move-up="moveUp(i)"
       @move-down="moveDown(i)"
       @delete-item="item.DeleteItem(i)"
     />
-    <v-row dense>
+    <v-row density="compact">
       <v-col>
         <v-btn small block color="primary" @click="item.AddTextArea()"
           >Add Text Section</v-btn

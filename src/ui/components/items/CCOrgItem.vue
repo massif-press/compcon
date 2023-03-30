@@ -16,11 +16,11 @@
         <div slot="items">
           <cc-tooltip simple inline content="Delete Organization">
             <v-btn icon color="error" @click="remove()">
-              <v-icon>delete</v-icon>
+              <v-icon icon="delete" />
             </v-btn>
           </cc-tooltip>
           <v-btn icon dark @click="dialog = false">
-            <v-icon>close</v-icon>
+            <v-icon icon="close" />
           </v-btn>
         </div>
         <v-row>
@@ -51,7 +51,7 @@
           hide-details
         />
         <br />
-        <v-row dense justify="center" class="mx-12">
+        <v-row density="compact" justify="center" class="mx-12">
           <v-col cols="auto">
             <v-btn
               icon
@@ -64,9 +64,7 @@
           </v-col>
           <v-col class="text-center" cols="auto">
             <div>
-              <span class="heading h2 accent--text"
-                >+ {{ org.Efficiency }}</span
-              >
+              <span class="heading h2 text-accent">+ {{ org.Efficiency }}</span>
               <br />
               <span>
                 Organization Efficiency
@@ -107,7 +105,7 @@
           </v-col>
           <v-col class="text-center" cols="auto">
             <div>
-              <span class="heading h2 accent--text">+ {{ org.Influence }}</span>
+              <span class="heading h2 text-accent">+ {{ org.Influence }}</span>
               <br />
               <span>
                 Organization Influence

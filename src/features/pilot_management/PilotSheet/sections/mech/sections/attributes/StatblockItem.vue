@@ -2,7 +2,7 @@
   <v-col cols="4" md="" class="text-center flavor-text">
     <v-card flat tile class="ma-1 clipped" color="panel darken-1">
       <v-card-text
-        class="white--text heading h3 pa-0"
+        class="text-white heading h3 pa-0"
         :style="`letter-spacing: 3px; background-color: ${color}`"
       >
         <contributor
@@ -12,7 +12,7 @@
         />
       </v-card-text>
       <v-card-text class="pt-2 pb-0">
-        <span class="text--text font-weight-black" style="font-size: 32px">
+        <span class="text-text font-weight-black" style="font-size: 32px">
           {{ `${signed ? (val > -1 ? '+' : '-') : ''}${Math.abs(val)}` }}
         </span>
       </v-card-text>

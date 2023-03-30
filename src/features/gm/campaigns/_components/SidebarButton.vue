@@ -10,7 +10,7 @@
       <v-col>
         <div
           :class="
-            text ? (nested ? '' : 'font-weight-bold') : 'white--text heading h4'
+            text ? (nested ? '' : 'font-weight-bold') : 'text-white heading h4'
           "
         >
           <slot />
@@ -19,7 +19,7 @@
       <v-col
         v-if="idn"
         cols="auto"
-        :class="text ? '' : 'white--text'"
+        :class="text ? '' : 'text-white'"
         class="ml-auto pr-1"
         align-self="end"
       >

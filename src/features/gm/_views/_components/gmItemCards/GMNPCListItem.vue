@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
     <v-row
-      dense
+      density="compact"
       :class="`elevation-${hover ? '12' : '0'}`"
       :style="`border-radius: 2px; border: ${
         hover ? '1px solid rgb(var(--v-theme-primary))' : ''
@@ -16,9 +16,9 @@
         </v-card>
       </v-col>
       <v-col>
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto">
-            <div :class="`heading h3 ${hover ? 'accent--text' : ''}`">
+            <div :class="`heading h3 ${hover ? 'text-accent' : ''}`">
               {{ item.Name }}
               <v-chip
                 v-if="item.NpcClassController.Class"
@@ -38,7 +38,6 @@
           <v-col
             cols="auto"
             v-for="(t, i) in item.NpcTemplateController.Templates"
-            :key="`${item.ID}_template_${i}`"
           >
             <v-chip
               label
@@ -46,25 +45,19 @@
               :color="hover ? 'accent' : 'primary'"
               class="ma-1"
             >
-              <v-icon>cc:npc-template</v-icon>
+              <v-icon icon="cc:npc_template" />
               {{ t.Name }}
             </v-chip>
           </v-col>
         </v-row>
         <div>{{ item.Subtitle }}</div>
-        <v-row v-if="item.NpcClassController.Class" dense>
-          <v-col
-            v-for="(e, i) in hase"
-            :key="`haseitem_${i}`"
-            cols="auto"
-            class="pr-2"
-          >
+        <v-row v-if="item.NpcClassController.Class" density="compact">
+          <v-col v-for="(e, i) in hase" cols="auto" class="pr-2">
             <span class="heading h3" style="opacity: 0.5">{{ e.text }}</span>
             <b v-text="item.StatController[e.val]" />
           </v-col>
           <v-col
             v-for="(e, i) in stats"
-            :key="`statsitem_${i}`"
             v-show="item.StatController[e.val]"
             cols="auto"
             class="pr-2"
@@ -74,11 +67,15 @@
           </v-col>
         </v-row>
         <v-divider class="my-2" />
-        <v-row dense justify="center" align="center" class="text-center">
+        <v-row
+          density="compact"
+          justify="center"
+          align="center"
+          class="text-center"
+        >
           <v-col>
             <v-chip
               v-for="(e, i) in item.Items"
-              :key="`npc_item_${i}`"
               small
               label
               variant="outlined"

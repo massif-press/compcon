@@ -4,17 +4,12 @@
       <legend :style="`color: ${color}`" class="heading h3">
         {{ mount.Name }}
       </legend>
-      <cb-card
-        v-for="b in mount.Bonuses"
-        :key="`${mount.ID}_bonus-${b.ID}`"
-        :bonus="b"
-      />
+      <cb-card v-for="b in mount.Bonuses" :bonus="b" />
       <sh-lock-card v-if="mount.IsLocked" />
       <v-row v-else no-gutters align="center">
         <v-col cols="12" md="">
           <active-weapon-card
             v-for="(s, i) in mount.Slots"
-            :key="`slot_${mount.ID}-${i}`"
             :item="s.Weapon"
             :mech="mech"
             :mount="mount"

@@ -6,8 +6,8 @@
     @keydown.esc="cancel"
   >
     <v-card>
-      <v-toolbar dark :color="options.color" dense flat>
-        <v-toolbar-title class="white--text">{{ title }}</v-toolbar-title>
+      <v-toolbar dark :color="options.color" density="compact" flat>
+        <v-toolbar-title class="text-white">{{ title }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text v-show="!!message" class="pa-4">{{ message }}</v-card-text>
       <v-card-actions class="pt-0">

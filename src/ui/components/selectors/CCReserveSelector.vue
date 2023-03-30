@@ -35,13 +35,8 @@
         <b>Organization</b>
       </v-tab>
       <v-tab-item>
-        <v-row dense>
-          <v-col
-            v-for="r in reserves['Bonus']"
-            :key="`item_${r.ID}`"
-            cols="12"
-            md="6"
-          >
+        <v-row density="compact">
+          <v-col v-for="r in reserves['Bonus']" cols="12" md="6">
             <reserve-item
               :reserve="r"
               icon="cc:pilot"
@@ -53,16 +48,11 @@
         </v-row>
       </v-tab-item>
       <v-tab-item>
-        <v-row dense>
-          <v-col
-            v-for="r in reserves['Resource']"
-            :key="`item_${r.ID}`"
-            cols="12"
-            md="6"
-          >
+        <v-row density="compact">
+          <v-col v-for="r in reserves['Resource']" cols="12" md="6">
             <reserve-item
               :reserve="r"
-              icon="cc:reserve-resource"
+              icon="cc:reserve_resource"
               color="reserve--resource"
               class="ma-2"
               @click="add(r)"
@@ -71,16 +61,11 @@
         </v-row>
       </v-tab-item>
       <v-tab-item>
-        <v-row dense>
-          <v-col
-            v-for="r in reserves['Tactical']"
-            :key="`item_${r.ID}`"
-            cols="12"
-            md="6"
-          >
+        <v-row density="compact">
+          <v-col v-for="r in reserves['Tactical']" cols="12" md="6">
             <reserve-item
               :reserve="r"
-              icon="cc:reserve-tactical"
+              icon="cc:reserve_tactical"
               color="reserve--tactical"
               class="ma-1"
               @click="add(r)"
@@ -89,16 +74,11 @@
         </v-row>
       </v-tab-item>
       <v-tab-item>
-        <v-row dense>
-          <v-col
-            v-for="r in reserves['Mech']"
-            :key="`item_${r.ID}`"
-            cols="12"
-            md="6"
-          >
+        <v-row density="compact">
+          <v-col v-for="r in reserves['Mech']" cols="12" md="6">
             <reserve-item
               :reserve="r"
-              icon="cc:reserve-mech"
+              icon="cc:reserve_mech"
               color="reserve--mech"
               class="ma-1"
               @click="add(r)"

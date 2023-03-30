@@ -1,4 +1,4 @@
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import _ from 'lodash';
 import {
   CompendiumItem,
@@ -109,7 +109,7 @@ class MechWeapon extends MechEquipment {
   public readonly NoAttack: boolean;
   public readonly NoCoreBonus: boolean;
   private _mod: WeaponMod | null;
-  private _custom_damage_type?: string;
+  private _custom_damage_type?: string | null;
   private _selected_profile: number;
 
   public constructor(
@@ -181,13 +181,18 @@ class MechWeapon extends MechEquipment {
     }
   }
 
-  public SetProfileSelection(val: number, temp: boolean): void {
+  public SetProfileSelection(val: number): void {
+    // TODO: recognize when this is instantiated on an existing mech so we can correctly call the save function from the setter
     this._selected_profile = val;
-    if (!temp) this.save();
+    this.save();
   }
 
   public get ProfileIndex(): number {
     return this._selected_profile;
+  }
+
+  public set ProfileIndex(val: number) {
+    this._selected_profile = val;
   }
 
   public get ProfileEffect(): string {
@@ -244,11 +249,11 @@ class MechWeapon extends MechEquipment {
     }
   }
 
-  public get DamageTypeOverride(): string {
+  public get DamageTypeOverride(): string | null {
     return this._custom_damage_type || null;
   }
 
-  public set DamageTypeOverride(val: string) {
+  public set DamageTypeOverride(val: string | null) {
     this._custom_damage_type = val;
     this.save();
   }
@@ -321,7 +326,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
-    const item = store.getters.instantiate(
+    const item = CompendiumStore().instantiate(
       'MechWeapons',
       data.id
     ) as MechWeapon;

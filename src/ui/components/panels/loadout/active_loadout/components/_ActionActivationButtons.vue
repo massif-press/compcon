@@ -4,7 +4,7 @@
       large
       tile
       block
-      class="white--text"
+      class="text-white"
       :disabled="disableCostActivate"
       :color="`${action.Color}`"
       @click="select()"
@@ -21,7 +21,7 @@
       small
       tile
       block
-      class="white--text"
+      class="text-white"
       color="action--free"
       @click="select(true)"
     >
@@ -31,10 +31,10 @@
         inline
         :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
       >
-        <v-icon end small class="fadeSelect">mdi-information-outline</v-icon>
+        <v-icon end small class="fade-select">mdi-information-outline</v-icon>
       </cc-tooltip>
     </v-btn>
-    <div v-if="action.HeatCost" class="overline error--text text-center">
+    <div v-if="action.HeatCost" class="text-overline text-error text-center">
       ALERT: This action will incur {{ action.HeatCost }} heat
     </div>
   </v-col>

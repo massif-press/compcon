@@ -20,7 +20,7 @@
             type="number"
             label="Roll Result"
             variant="outlined"
-            dense
+            density="compact"
             hide-details
             append-outer-icon="mdi-plus-circle-outline"
             prepend-icon="mdi-minus-circle-outline"
@@ -58,7 +58,7 @@
               "
             />
             <v-card color="panel" flat tile class="ml-5 mr-5">
-              <v-toolbar dark dense color="action--downtime">
+              <v-toolbar dark density="compact" color="action--downtime">
                 <v-toolbar-title class="heading h2"
                   >Bought Time</v-toolbar-title
                 >

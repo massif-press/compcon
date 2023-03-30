@@ -3,7 +3,7 @@
     <v-alert
       v-if="pilot.Status === 'KIA' || pilot.IsDead"
       prominent
-      dense
+      density="compact"
       variant="outlined"
       color="error"
     >
@@ -39,7 +39,7 @@
               <v-btn
                 color="pimary"
                 x-small
-                class="fadeSelect ml-3"
+                class="fade-select ml-3"
                 v-bind="props"
               >
                 <v-icon small left>mdi-reload</v-icon>
@@ -55,18 +55,19 @@
       </div>
     </v-alert>
     <div v-if="pilot.Quirks.length && !hideQuirks">
-      <div class="flavor-text font-weight-bold stark--text">CLONE QUIRKS</div>
-      <v-row
-        v-for="(q, i) in pilot.Quirks"
-        :key="`clone_quirk_${i}`"
-        dense
-        align="start"
-      >
+      <div class="flavor-text font-weight-bold text-stark">CLONE QUIRKS</div>
+      <v-row v-for="(q, i) in pilot.Quirks" density="compact" align="start">
         <v-col>
-          <v-alert icon="mdi-dna" prominent dense color="primary" outlined>
+          <v-alert
+            icon="mdi-dna"
+            prominent
+            density="compact"
+            color="primary"
+            outlined
+          >
             <v-textarea
               :value="q"
-              dense
+              density="compact"
               hide-details
               rows="1"
               auto-grow
@@ -83,7 +84,7 @@
               <cc-tooltip content="Remove Clone Quirk">
                 <v-btn
                   icon
-                  class="fadeSelect"
+                  class="fade-select"
                   v-bind="props"
                   @click="pilot.RemoveQuirk(i)"
                 >
@@ -99,7 +100,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 import _ from 'lodash';
 
@@ -114,7 +115,7 @@ export default {
       if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※';
       if (!this.pilot.Callsign.includes('※')) this.pilot.Name += '※';
       this.pilot.Heal();
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       this.pilot.AddQuirk(_.sample(compendium.Tables.quirks));
     },
     updateQuirk(index, str) {

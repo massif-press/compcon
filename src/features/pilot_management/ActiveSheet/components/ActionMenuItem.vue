@@ -19,15 +19,21 @@
     </v-list-item-content>
     <v-menu left width="80vw" offset-x open-on-hover open-delay="100">
       <template v-slot:activator="{ props }">
-        <v-icon class="fadeSelect ml-4" style="cursor: help" v-bind="props">
+        <v-icon class="fade-select ml-4" style="cursor: help" v-bind="props">
           mdi-help-circle-outline
         </v-icon>
       </template>
       <v-card tile>
-        <v-toolbar dense flat :color="action.Color" class="heading h2" dark>
+        <v-toolbar
+          density="compact"
+          flat
+          :color="action.Color"
+          class="heading h2"
+          dark
+        >
           {{ action.Name }}
         </v-toolbar>
-        <v-card-text v-html-safe="action.Detail" class="body-text text--text" />
+        <v-card-text v-html-safe="action.Detail" class="body-text text-text" />
       </v-card>
     </v-menu>
     <cc-combat-dialog ref="dialog" :action="action" :mech="mech" />

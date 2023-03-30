@@ -7,7 +7,7 @@
   >
     <v-card tile class="background">
       <cc-titlebar large color="action--full">
-        <v-icon x-large color="white">mdi-hexagon-slice-6</v-icon>
+        <v-icon size="x-large" color="white">mdi-hexagon-slice-6</v-icon>
         Barrage
         <v-btn slot="items" dark icon @click="hide()">
           <v-icon large left>close</v-icon>
@@ -17,7 +17,7 @@
       <v-spacer v-if="$vuetify.display.mdAndDown" class="titlebar-margin" />
 
       <v-card-text v-if="items.length" class="mb-0 pb-2">
-        <div v-for="(item, i) in items" :key="`barrage_item_${item.ID}_${i}`">
+        <div v-for="(item, i) in items">
           <weapon-attack
             :ref="`main_${i}`"
             :item="item"
@@ -26,7 +26,7 @@
             @confirm="$emit('confirm')"
           >
             <div class="heading h2 mt-3 mb-n3">
-              <v-icon x-large class="mt-n2 mr-n1">cc:mech-weapon</v-icon>
+              <v-icon size="x-large" class="mt-n2 mr-n1">cc:mech-weapon</v-icon>
               {{ item.Name }}
             </div>
           </weapon-attack>
@@ -40,7 +40,7 @@
                 </div>
               </div>
               <v-alert
-                dense
+                density="compact"
                 variant="outlined"
                 class="my-1"
                 colored-border

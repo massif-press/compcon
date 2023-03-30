@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="mt-n3">
-    <v-row dense no-gutters>
+    <v-row density="compact" no-gutters>
       <v-col
         v-if="$vuetify.display.mdAndUp"
         style="width: 12vw; position: fixed"
@@ -8,7 +8,7 @@
       >
         <slot name="alt" />
         <v-list
-          dense
+          density="compact"
           class="side-fixed"
           :style="
             popup

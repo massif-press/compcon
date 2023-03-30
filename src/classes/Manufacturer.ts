@@ -33,6 +33,7 @@ class Manufacturer {
     this._logo = data.logo;
     this._logo_url = data.logo_url;
     this._is_cors_safe = false;
+    this.IsHidden = false;
   }
 
   public get Color(): string {
@@ -55,6 +56,10 @@ class Manufacturer {
     return ''; // TODO: placeholder logo?
   }
 
+  public get Icon(): string {
+    return this.ID.toLowerCase().replaceAll(/[^a-zA-Z\d]/g, '');
+  }
+
   public get isSvg(): boolean {
     const filenameQuery = this.Logo.split('/').slice(-1)[0];
     const filename = filenameQuery.split('?')[0];
@@ -74,9 +79,10 @@ class Manufacturer {
     } catch (e) {
       corsSafe = false;
     }
-    Vue.set(this, '_is_cors_safe', corsSafe);
+    // Vue.set(this, '_is_cors_safe', corsSafe);
     return corsSafe;
   }
 }
 
-export { Manufacturer, IManufacturerData };
+export { Manufacturer };
+export type { IManufacturerData };

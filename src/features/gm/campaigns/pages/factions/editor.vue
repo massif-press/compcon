@@ -1,6 +1,6 @@
 <template>
   <editor-base :item="faction" @exit="$router.push('/gm/factions')">
-    <v-row dense align="center">
+    <v-row density="compact" align="center">
       <v-col>
         <v-text-field v-model="faction.Name" label="Name" />
         <v-textarea

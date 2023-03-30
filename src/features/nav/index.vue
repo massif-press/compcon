@@ -2,49 +2,44 @@
   <v-app-bar
     v-show="mode"
     app
-    fixed
     top
     color="primary"
     class="clipped-large no-print"
-    dark
-    dense
+    density="compact"
     style="z-index: 50"
   >
-    <v-tooltip bottom open-delay="500ms">
+    <v-tooltip location="bottom" open-delay="500ms">
       <template v-slot:activator="{ props }">
-        <v-btn text icon v-bind="props" @click="historyNav(-1)">
-          <v-icon dark>mdi-arrow-left</v-icon>
+        <v-btn icon v-bind="props" @click="historyNav(-1)">
+          <v-icon icon="mdi-arrow-left" />
         </v-btn>
       </template>
       <span>Back</span>
     </v-tooltip>
 
-    <v-tooltip bottom open-delay="500ms">
+    <v-tooltip location="bottom" open-delay="500ms">
       <template v-slot:activator="{ props }">
-        <v-btn text icon v-bind="props" @click="historyNav(1)">
-          <v-icon dark>mdi-arrow-right</v-icon>
+        <v-btn icon v-bind="props" @click="historyNav(1)">
+          <v-icon icon="mdi-arrow-right" />
         </v-btn>
       </template>
       <span>Forward</span>
     </v-tooltip>
 
-    <v-tooltip bottom open-delay="500ms">
+    <v-tooltip location="bottom" open-delay="500ms">
       <template v-slot:activator="{ props }">
-        <v-btn text icon v-bind="props" @click="home()">
-          <v-icon dark>mdi-home</v-icon>
+        <v-btn icon v-bind="props" to="/">
+          <v-icon icon="mdi-home" />
         </v-btn>
       </template>
       <span>Main Menu</span>
     </v-tooltip>
 
-    <v-tooltip bottom open-delay="500ms">
+    <v-tooltip location="bottom" open-delay="500ms">
       <template v-slot:activator="{ props }">
-        <!-- Using <a> around the button lets it link properly without breaking the button styling like `to` does.-->
-        <router-link to="/compendium">
-          <v-btn text icon v-bind="props">
-            <v-icon dark>mdi-book</v-icon>
-          </v-btn>
-        </router-link>
+        <v-btn icon v-bind="props" to="/compendium">
+          <v-icon icon="mdi-book" />
+        </v-btn>
       </template>
       <span>Compendium</span>
     </v-tooltip>
@@ -53,7 +48,9 @@
 
     <v-toolbar-title v-if="$vuetify.display.mdAndUp">
       <span class="heading">COMP/CON</span>
-      <span class="flavor-text white--text">{{ $appVersion }}</span>
+      <span class="flavor-text text-white" style="opacity: 0.5"
+        >&nbsp;{{ $appVersion }}</span
+      >
     </v-toolbar-title>
 
     <v-spacer />
@@ -73,39 +70,45 @@
 
     <cc-tooltip
       v-if="$vuetify.display.mdAndUp && isAuthed"
-      bottom
+      location="bottom"
       content="Open cloud account menu"
     >
-      <v-btn icon dark @click="$refs.cloudModal.show()">
-        <v-icon>mdi-cloud-sync-outline</v-icon>
+      <v-btn icon dark @click="($refs.cloudModal as any).show()">
+        <v-icon icon="mdi-cloud-sync-outline" />
       </v-btn>
     </cc-tooltip>
 
     <v-divider v-if="$vuetify.display.mdAndUp" vertical dark class="mx-2" />
 
-    <cc-tooltip bottom content="Help &amp; FAQ">
-      <v-btn icon dark @click="$refs.helpModal.show()">
-        <v-icon>mdi-help-circle-outline</v-icon>
+    <cc-tooltip location="bottom" content="Help &amp; FAQ">
+      <v-btn icon dark @click="($refs.helpModal as any).show()">
+        <v-icon icon="mdi-help-circle-outline" />
       </v-btn>
     </cc-tooltip>
 
     <v-divider vertical dark class="mx-2" />
 
-    <v-menu nudge-bottom="40px">
+    <v-menu nudge-location="40px">
       <template v-slot:activator="{ props }">
-        <v-btn text icon v-bind="props">
+        <v-btn icon v-bind="props">
           <v-icon dark>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
 
-      <v-list dense>
-        <v-list-item @click="$refs.contentModal.show()"
+      <v-list density="compact">
+        <v-list-item @click="($refs.contentModal as any).show()"
           >Manage Content</v-list-item
         >
-        <v-list-item @click="$refs.optionsModal.show()">Options</v-list-item>
-        <v-list-item @click="$refs.aboutModal.show()">About</v-list-item>
-        <v-list-item @click="$refs.creditsModal.show()">Credits</v-list-item>
-        <v-list-item @click="$refs.helpModal.show()">Help</v-list-item>
+        <v-list-item @click="($refs.optionsModal as any).show()"
+          >Options</v-list-item
+        >
+        <v-list-item @click="($refs.aboutModal as any).show()"
+          >About</v-list-item
+        >
+        <v-list-item @click="($refs.creditsModal as any).show()"
+          >Credits</v-list-item
+        >
+        <v-list-item @click="($refs.helpModal as any).show()">Help</v-list-item>
         <v-divider />
         <v-list-item target="_blank" href="https://www.patreon.com/compcon">
           Support COMP/CON
@@ -166,8 +169,8 @@ import PilotMode from './modes/pilot.vue';
 import EncounterMode from './modes/encounter.vue';
 import CompendiumMode from './modes/compendium.vue';
 
-import { PilotManagementStore, UserStore, NavStore } from '@/store';
-import { Auth } from 'aws-amplify';
+import { PilotStore, UserStore } from '@/stores';
+// import { Auth } from 'aws-amplify';
 
 export default {
   name: 'cc-nav',
@@ -192,14 +195,22 @@ export default {
     optionsDialog: false,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser();
+    // await Auth.currentAuthenticatedUser();
   },
   computed: {
     mode(): string {
-      return this.getModule(NavStore).NavMode;
+      if (this.$route.path.includes('/compendium')) return 'compendium';
+      else if (
+        this.$route.path.includes('/pilot') ||
+        this.$route.path.includes('/active') ||
+        this.$route.path.includes('/new')
+      )
+        return 'pilot';
+      else if (this.$route.path.includes('/gm')) return 'encounter';
+      else return '';
     },
     unsaved() {
-      return this.getModule(PilotManagementStore).unsavedCloudPilots;
+      return this.getModule(PilotStore).unsavedCloudPilots;
     },
     isAuthed() {
       return this.getModule(UserStore).IsLoggedIn;
@@ -215,12 +226,9 @@ export default {
   },
   methods: {
     sync() {
-      //this.getModule(UserStore).cloudSync({
-      //   callback: (status, message) => this.$notify(status, message),
-      // })
-    },
-    home() {
-      this.$router.push('/');
+      this.getModule(UserStore).cloudSync({
+        callback: (status, message) => this.$notify(status, message),
+      });
     },
     historyNav(dir: number) {
       this.$router.go(dir);

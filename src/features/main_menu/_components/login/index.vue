@@ -3,31 +3,26 @@
     <v-slide-x-transition group leave-absolute>
       <sign-in
         v-if="state === 'sign-in'"
-        :key="'auth-signin'"
         @set-state="state = $event"
         @reverify="verifyFlow($event)"
       />
       <password-reset
         v-else-if="state === 'reset'"
-        :key="'auth-reset'"
         @set-state="state = $event"
       />
       <sign-up
         v-else-if="state === 'sign-up'"
-        :key="'auth-signup'"
         :oauth-code="oauthCode"
         @set-state="state = $event"
         @success="verifyFlow($event)"
       />
       <verify
         v-else-if="state === 'verify'"
-        :key="'auth-verify'"
         :email="email"
         @set-state="state = $event"
       />
       <signed-in
         v-else-if="state === 'signed-in'"
-        :key="'auth-signedin'"
         :email="email"
         @set-state="state = $event"
       />
@@ -42,7 +37,7 @@ import SignUp from './SignUp.vue';
 import Verify from './Verify.vue';
 import SignedIn from './SignedIn.vue';
 import { Auth } from '@aws-amplify/auth';
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'login-auth',

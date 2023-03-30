@@ -1,7 +1,7 @@
 <template>
   <v-card flat tile class="my-1" color="transparent">
     <v-card-title :class="`${item.Feature.Color} pa-0`">
-      <div class="heading h3 flavor-text white--text pa-0 ml-2">
+      <div class="heading h3 flavor-text text-white pa-0 ml-2">
         <item-menu
           v-if="!readonly && !active"
           :item="item"
@@ -21,14 +21,14 @@
         </span>
       </div>
       <v-spacer />
-      <v-icon dark class="fadeSelect mx-2" @click="expanded = !expanded">
+      <v-icon dark class="fade-select mx-2" @click="expanded = !expanded">
         {{ expanded ? 'mdi-chevron-down' : 'mdi-chevron-up' }}
       </v-icon>
     </v-card-title>
     <v-menu-transition>
       <v-card-text
         v-if="expanded"
-        :class="`py-1 mt-n1 px-2 text--text ${
+        :class="`py-1 mt-n1 px-2 text-text ${
           item.Destroyed ? 'error lighten-1' : 'stark-panel'
         }`"
         :style="`border: 1px solid rgb(var(--v-theme-${item.Feature.Color}))!important`"
@@ -36,12 +36,12 @@
         <p
           v-if="item.Description"
           v-html-safe="item.Description"
-          class="flavor-text px-2 light-panel stark--text mb-1"
+          class="flavor-text px-2 light-panel text-stark mb-1"
         />
         <slot />
         <div v-if="active">
           <v-divider class="my-1" />
-          <v-row dense>
+          <v-row density="compact">
             <slot name="extra-action" />
             <v-col v-if="item.Feature.IsRecharging" class="ml-2 mt-n1">
               <v-switch
@@ -52,7 +52,7 @@
                     : `Recharges on ${item.Feature.ChargeRoll}+`
                 "
                 inset
-                dense
+                density="compact"
                 hide-details
                 color="primary"
                 class="mt-0 flavor-text"
@@ -70,7 +70,7 @@
                 <v-btn
                   icon
                   :color="item.Destroyed ? 'secondary' : 'error'"
-                  class="fadeSelect"
+                  class="fade-select"
                   @click="item.Destroyed = !item.Destroyed"
                 >
                   <v-icon>

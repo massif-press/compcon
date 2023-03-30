@@ -11,27 +11,27 @@
       <v-divider class="mb-2" />
       <v-row class="mx-3">
         <v-col cols="6">
-          <span class="heading h3 accent--text">Resource Gained</span>
+          <span class="heading h3 text-accent">Resource Gained</span>
           <reserve-selector ref="rs" />
         </v-col>
         <v-col cols="6">
-          <span class="heading h3 accent--text">Complication</span>
+          <span class="heading h3 text-accent">Complication</span>
           <v-select
             v-model="complication1"
             label="Complication"
             :items="complications"
             variant="outlined"
-            dense
+            density="compact"
             hide-details
           />
           <br />
-          <span class="heading h3 accent--text">Additional Complication</span>
+          <span class="heading h3 text-accent">Additional Complication</span>
           <v-select
             v-model="complication2"
             label="Complication"
             :items="complications"
             variant="outlined"
-            dense
+            density="compact"
             hide-details
           />
         </v-col>

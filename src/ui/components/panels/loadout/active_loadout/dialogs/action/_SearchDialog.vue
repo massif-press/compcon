@@ -33,7 +33,7 @@
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon end small class="fadeSelect"
+            <v-icon end small class="fade-select"
               >mdi-information-outline</v-icon
             >
           </cc-tooltip>
@@ -45,7 +45,7 @@
       <v-row v-if="actionFree || actionCost" justify="center" align="center">
         <v-col cols="12" md="auto" class="mt-n5">
           <v-row
-            dense
+            density="compact"
             class="text-center mb-n3"
             :justify="$vuetify.display.mdAndUp ? 'start' : 'space-around'"
             align="start"
@@ -60,7 +60,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-4 mr-n4">Contested AGI</div>
+              <div class="text-overline pl-4 mr-n4">Contested AGI</div>
               <v-text-field
                 v-model="sys"
                 type="number"
@@ -69,7 +69,7 @@
                   $vuetify.display.mdAndUp ? 'ml-10' : 'ml-n8'
                 }`"
                 color="accent"
-                dense
+                density="compact"
                 hide-details
                 @change="sys = parseInt($event)"
               />
@@ -78,7 +78,7 @@
         </v-col>
         <v-col cols="auto" class="ml-auto">
           <v-row
-            dense
+            density="compact"
             :justify="$vuetify.display.mdAndUp ? 'end' : 'space-around'"
             :class="$vuetify.display.mdAndUp ? '' : 'panel'"
           >
@@ -91,7 +91,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">Accuracy</div>
+              <div class="text-overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
                 type="number"
@@ -101,7 +101,7 @@
                 style="width: 115px"
                 class="hide-input-spinners"
                 color="accent"
-                dense
+                density="compact"
                 hide-details
                 @click:append-outer="accuracy += 1"
                 @click:prepend="accuracy -= 1"
@@ -117,7 +117,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">Difficulty</div>
+              <div class="text-overline pl-1">Difficulty</div>
               <v-text-field
                 v-model="difficulty"
                 type="number"
@@ -127,7 +127,7 @@
                 style="width: 115px"
                 class="hide-input-spinners"
                 color="accent"
-                dense
+                density="compact"
                 hide-details
                 @click:append-outer="difficulty += 1"
                 @click:prepend="difficulty -= 1"
@@ -143,8 +143,8 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">SYS Roll</div>
-              <v-row dense>
+              <div class="text-overline pl-1">SYS Roll</div>
+              <v-row density="compact">
                 <v-col class="ml-n2">
                   <cc-dice-menu
                     :preset="`1d20+${mech.Sys}`"
@@ -156,13 +156,12 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    :key="`input_${sysRoll}`"
                     v-model="sysRoll"
                     type="number"
                     class="hide-input-spinners ml-n3"
                     style="max-width: 60px; margin-top: -0.5px"
                     color="accent"
-                    dense
+                    density="compact"
                     hide-details
                   />
                 </v-col>

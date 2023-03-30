@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense>
+    <v-row density="compact">
       <v-col cols="12" class="mt-2">
         <span class="overline"
           >{{ mech.MechLoadoutController.ActiveLoadout.Name }} Loadout</span
@@ -9,7 +9,7 @@
           small
           right
           icon
-          class="fadeSelect"
+          class="fade-select"
           @click="showLoadout = !showLoadout"
         >
           <v-icon

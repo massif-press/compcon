@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row align="start" dense justify="space-between">
+    <v-row align="start" density="compact" justify="space-between">
       <v-col
         v-if="$vuetify.display.smAndDown"
         cols="12"
@@ -8,7 +8,7 @@
         class="ml-auto text-center"
       >
         <fieldset class="ma-0 py-0 px-3" style="height: 100%">
-          <legend class="overline px-1 mb-n1" style="line-height: 0">
+          <legend class="text-overline px-1 mb-n1" style="line-height: 0">
             Active Effects
           </legend>
           <cc-synergy-display
@@ -21,7 +21,6 @@
       </v-col>
       <v-col cols="12" md="auto">
         <cc-tick-bar
-          :key="mech.CurrentMove"
           :current="mech.CurrentMove"
           :max="mech.MaxMove"
           large
@@ -39,7 +38,6 @@
         <v-fade-transition>
           <cc-tick-bar
             v-if="mech.Boost"
-            :key="mech.Boost"
             :current="mech.Boost"
             :max="mech.MaxMove"
             large
@@ -70,7 +68,7 @@
         class="ml-auto text-center"
       >
         <fieldset class="ma-0 py-0 px-3" style="height: 100%">
-          <legend class="overline px-1 mb-n1" style="line-height: 0">
+          <legend class="text-overline px-1 mb-n1" style="line-height: 0">
             Active Effects
           </legend>
           <cc-synergy-display
@@ -87,7 +85,7 @@
     </v-row>
     <v-row
       align="start"
-      dense
+      density="compact"
       :class="
         $vuetify.display.smAndDown
           ? 'justify-space-between'
@@ -96,7 +94,7 @@
       class="mt-n3"
     >
       <v-col cols="auto">
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto" align-self="end" class="ma-0 pa-0">
             <cc-synergy-display
               large
@@ -107,7 +105,6 @@
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
-              :key="mech.CurrentStructure"
               :current="mech.CurrentStructure"
               :max="mech.MaxStructure"
               large
@@ -138,7 +135,6 @@
           />
         </v-col>
         <cc-tick-bar
-          :key="mech.Armor"
           :current="mech.Armor"
           :max="mech.Armor"
           large
@@ -155,7 +151,7 @@
       </v-col>
       <v-col>
         <v-row
-          dense
+          density="compact"
           :class="
             $vuetify.display.smAndDown
               ? 'justify-space-between'
@@ -172,7 +168,6 @@
               />
             </v-col>
             <cc-tick-bar
-              :key="mech.Armor"
               :current="mech.Armor"
               :max="mech.Armor"
               large
@@ -202,7 +197,6 @@
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
-              :key="mech.CurrentHP"
               :current="mech.CurrentHP"
               :max="mech.MaxHP"
               large
@@ -232,7 +226,6 @@
               />
             </v-col>
             <cc-tick-bar
-              :key="mech.Overshield"
               :current="mech.Overshield"
               :max="mech.Overshield"
               large
@@ -268,7 +261,7 @@
       "
     >
       <v-col cols="auto">
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto" align-self="end" class="ma-0 pa-0">
             <cc-synergy-display
               large
@@ -279,7 +272,6 @@
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
-              :key="mech.CurrentStress"
               :current="mech.CurrentStress"
               :max="mech.MaxStress"
               large
@@ -310,7 +302,6 @@
           />
         </v-col>
         <cc-tick-bar
-          :key="mech.CurrentCoreEnergy"
           :current="mech.CurrentCoreEnergy"
           :max="1"
           large
@@ -329,16 +320,16 @@
         <div v-if="$vuetify.display.mdAndUp">
           <div
             v-if="mech.CurrentCoreEnergy"
-            class="text-center caption font-weight-bold corepower--text"
+            class="text-center caption font-weight-bold text-corepower"
           >
             AVAILABLE
           </div>
-          <div v-else class="text-center caption subtle--text">EXHAUSTED</div>
+          <div v-else class="text-center caption text-subtle">EXHAUSTED</div>
         </div>
       </v-col>
       <v-col>
         <v-row
-          dense
+          density="compact"
           :class="
             $vuetify.display.smAndDown
               ? 'mt-n4 justify-space-between'
@@ -355,7 +346,6 @@
               />
             </v-col>
             <cc-tick-bar
-              :key="mech.CurrentHeat"
               :current="mech.CurrentHeat"
               :max="mech.HeatCapacity"
               large
@@ -369,7 +359,7 @@
             >
               <span
                 v-if="mech.IsInDangerZone"
-                class="dangerzone--text heading h3"
+                class="text-dangerzone heading h3"
                 >HEAT</span
               >
               <span
@@ -381,13 +371,13 @@
             </cc-tick-bar>
             <div
               v-if="!$vuetify.display.smAndDown && mech.IsInDangerZone"
-              class="caption font-weight-bold dangerzone--text text-center"
+              class="caption font-weight-bold text-dangerzone text-center"
             >
               // HEAT::DANGER ZONE //
             </div>
             <div
               v-else-if="!$vuetify.display.smAndDown"
-              class="caption subtle--text text-center"
+              class="caption text-subtle text-center"
             >
               HEAT LEVELS NOMINAL
             </div>
@@ -402,7 +392,6 @@
               />
             </v-col>
             <cc-tick-bar
-              :key="mech.CurrentRepairs"
               :current="mech.CurrentRepairs"
               :max="mech.RepairCapacity"
               large
@@ -437,7 +426,6 @@
               />
             </v-col>
             <cc-tick-bar
-              :key="mech.CurrentOvercharge"
               :current="mech.CurrentOvercharge"
               :max="mech.OverchargeTrack.length - 1"
               large
@@ -455,7 +443,7 @@
                 Overcharge
               </div>
             </cc-tick-bar>
-            <div class="text-center caption overcharge--text font-weight-bold">
+            <div class="text-center caption text-overcharge font-weight-bold">
               +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
             </div>
           </v-col>
@@ -469,7 +457,6 @@
               />
             </v-col>
             <cc-tick-bar
-              :key="mech.CurrentCoreEnergy"
               :current="mech.CurrentCoreEnergy"
               :max="1"
               large
@@ -498,11 +485,11 @@
             </cc-tick-bar>
             <div
               v-if="mech.CurrentCoreEnergy"
-              class="text-center caption font-weight-bold corepower--text"
+              class="text-center caption font-weight-bold text-corepower"
             >
               AVAILABLE
             </div>
-            <div v-else class="text-center caption subtle--text">EXHAUSTED</div>
+            <div v-else class="text-center caption text-subtle">EXHAUSTED</div>
           </v-col>
         </v-row>
       </v-col>

@@ -10,7 +10,7 @@
     @copy="dupe()"
   >
     <v-container slot="builder">
-      <v-row dense align="center">
+      <v-row density="compact" align="center">
         <v-col>
           <v-text-field v-model="faction.Name" label="Name" />
         </v-col>
@@ -22,7 +22,7 @@
 <script lang="ts">
 import EditorBase from '../_components/EditorBase.vue';
 
-import { FactionStore } from '@/store';
+import { NarrativeStore } from '@/stores';
 import { Faction } from '@/classes/campaign/Faction';
 // import { faction } from '@/io/Generators'
 
@@ -41,7 +41,7 @@ export default {
         if (!this.newFaction) this.newFaction = new Faction();
         return this.newFaction;
       }
-      return this.getModule(FactionStore).Factions.find(
+      return this.getModule(NarrativeStore).Factions.find(
         (x) => x.ID === this.id
       );
     },
@@ -55,12 +55,12 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = this.getModule(FactionStore);
+      const store = this.getModule(NarrativeStore);
       store.addFaction(this.faction);
       this.exit();
     },
     save() {
-      const store = this.getModule(FactionStore);
+      const store = this.getModule(NarrativeStore);
       // TODO: check for and ask to update instances on save
       store.saveFactionData();
       this.$emit('exit');
@@ -70,7 +70,7 @@ export default {
       this.$emit('exit');
     },
     dupe() {
-      const store = this.getModule(FactionStore);
+      const store = this.getModule(NarrativeStore);
       const dupe = Faction.Deserialize(Faction.Serialize(this.faction));
       dupe.RenewID();
       store.addFaction(dupe);

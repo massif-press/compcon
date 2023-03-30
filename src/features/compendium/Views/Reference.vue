@@ -3,7 +3,7 @@
     <h1 class="heading mb-3 ml-5">REFERENCE</h1>
     <v-container fluid class="effect-text">
       <span class="heading mech">Structure Damage & Overheating</span>
-      <v-row dense justify="center">
+      <v-row density="compact" justify="center">
         <v-col>
           <v-toolbar color="red darken-3" dark>
             <v-toolbar-title>STRUCTURE DAMAGE</v-toolbar-title>
@@ -32,7 +32,7 @@
                   <span class="heading h3">Glancing Blow</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Emergency systems kick in and stabilize your mech. However,
                     your mech is
                     <b>impaired</b>
@@ -51,7 +51,7 @@
                   <span class="heading h3">System Trauma</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Parts of your mech are torn off by the damage. Roll a d6. On
                     a 1-3, all the weapons on one mount are destroyed. On a 4-6,
                     a system is destroyed. You choose what’s destroyed, but
@@ -71,7 +71,7 @@
                   <span class="heading h3">Direct Hit</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     This result has different outcomes depending on how much
                     structure your mech has remaining.
                     <br />
@@ -102,7 +102,7 @@
                   <span class="heading h3">Crushing Hit</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Your mech is damaged beyond repair and is
                     <b>destroyed.</b>
                     You can still exit it as normal.
@@ -142,7 +142,7 @@
                   <span class="heading h3">Emergency Shunt</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Cooling systems recover and manage to contain the peaking
                     heat levels. However, your mech is
                     <b>impaired</b>
@@ -161,7 +161,7 @@
                   <span class="heading h3">Power Plant Destabilize</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Your mech’s power plant becomes unstable, ejecting jets of
                     plasma. Your mech suffers from the
                     <b>exposed</b>
@@ -179,7 +179,7 @@
                   <span class="heading h3">Meltdown</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     This result has different outcomes depending on how much
                     reactor stress your mech has remaining.
                     <br />
@@ -206,7 +206,7 @@
                   <span class="heading h3">Irreversible Meltdown</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Your reactor goes critical. Your mech will suffer a reactor
                     meltdown at the end of your next turn.
                   </span>
@@ -249,7 +249,7 @@
                   <v-icon large>mdi-dice-6</v-icon>
                 </v-col>
                 <v-col cols="10">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     On 6, your pilot barely shrugs off the hit (or it’s a close
                     call) – they return to 1 HP.
                   </span>
@@ -263,7 +263,7 @@
                   <v-icon large>mdi-dice-5</v-icon>
                 </v-col>
                 <v-col cols="10">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     On 2–5, your pilot gains the DOWN AND OUT status (and the
                     STUNNED condition) and remains at 0 HP. They are
                     unconscious, pinned, bleeding out, or otherwise unable to
@@ -282,7 +282,7 @@
                   <v-icon large>mdi-dice-1</v-icon>
                 </v-col>
                 <v-col cols="10">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     On 1, your pilot’s luck has run out – they die immediately.
                   </span>
                 </v-col>

@@ -34,10 +34,12 @@
           />
           <v-col cols="auto" md="12">
             <v-divider v-if="$vuetify.display.mdAndUp" class="mt-2" />
-            <span v-if="$vuetify.display.lgAndUp" class="overline no-height"
+            <span
+              v-if="$vuetify.display.lgAndUp"
+              class="text-overline no-height"
               >System Points</span
             >
-            <span v-else class="overline no-height">SP</span>
+            <span v-else class="text-overline no-height">SP</span>
             <cc-tooltip
               :title="`${mech.MaxSP} System Points`"
               :content="mech.SPContributors.join('<br />')"

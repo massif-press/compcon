@@ -11,7 +11,6 @@
       <template v-slot:[`item.Campaigns`]="{ item }">
         <v-chip
           v-for="c in item.Campaigns"
-          :key="`${item.ID}_campaign_${c}`"
           small
           color="accent"
           variant="outlined"
@@ -23,7 +22,6 @@
       <template v-slot:[`item.Labels`]="{ item }">
         <v-chip
           v-for="l in item.Labels"
-          :key="`${item.ID}_label_${l}`"
           small
           color="primary"
           label
@@ -35,13 +33,12 @@
       <template v-slot:[`item.NpcTemplateController.Templates`]="{ item }">
         <v-chip
           v-for="(t, i) in item.NpcTemplateController.Templates"
-          :key="`${item.ID}_template_${i}`"
           small
           color="primary"
           label
           class="mr-1"
         >
-          <v-icon small>cc:npc-template</v-icon>
+          <v-icon small>cc:npc_template</v-icon>
           {{ t.Name }}
         </v-chip>
       </template>
@@ -49,7 +46,7 @@
         <v-btn
           small
           color="primary"
-          class="white--text"
+          class="text-white"
           @click="$emit('open', item.ID)"
         >
           <v-icon start>mdi-open-in-new</v-icon>

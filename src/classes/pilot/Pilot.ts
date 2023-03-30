@@ -22,7 +22,7 @@ import {
 } from './components/';
 import { IMechData } from '../mech/Mech';
 import { ItemType } from '../enums';
-import { PilotManagementStore, store } from '../../store';
+import { PilotStore, store } from '../../stores';
 import {
   CloudController,
   GroupController,
@@ -491,7 +491,7 @@ class Pilot
     const items = [];
     Object.keys(equipment).forEach((key) => {
       equipment[key].forEach((id) =>
-        items.push(store.getters.referenceByID(key, id))
+        items.push(CompendiumStore().referenceByID(key, id))
       );
     });
     return items;
@@ -539,7 +539,7 @@ class Pilot
   public static AddNew(data: PilotData, sync?: boolean): Pilot {
     const p = Pilot.Deserialize(data);
     if (sync) p.CloudController.MarkSync();
-    // getModule(PilotManagementStore, store).addPilot(p);
+    // getModule(PilotStore, store).addPilot(p);
     return p;
   }
 

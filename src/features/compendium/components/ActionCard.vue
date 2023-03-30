@@ -21,14 +21,10 @@
       width="80vw"
     >
       <v-container>
-        <p v-html-safe="action.Detail" class="body-text text--text mb-1 mt-2" />
-        <div class="overline subtle--text">OPTIONS</div>
+        <p v-html-safe="action.Detail" class="body-text text-text mb-1 mt-2" />
+        <div class="text-overline text-subtle">OPTIONS</div>
         <v-row no-gutters justify="center">
-          <v-col
-            v-for="(a, i) in action.SubActions"
-            :key="`${action.Name}_action_${i}`"
-            cols="auto"
-          >
+          <v-col v-for="(a, i) in action.SubActions" cols="auto">
             <cc-action :action="a" :panel="false" class="ma-2" />
           </v-col>
         </v-row>

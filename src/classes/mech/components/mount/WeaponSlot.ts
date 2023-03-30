@@ -1,6 +1,6 @@
 import { MechWeapon, FittingSize, Mount } from '@/class';
 import _ from 'lodash';
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { WeaponMod } from '@/class';
 
 class WeaponSlot {

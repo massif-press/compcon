@@ -2,7 +2,7 @@
   <v-container>
     <v-card flat>
       <v-toolbar>
-        <v-row dense align="center">
+        <v-row density="compact" align="center">
           <v-col cols="auto">
             <span class="heading h2">{{ title }}</span>
           </v-col>
@@ -13,7 +13,7 @@
               :items="items"
               item-text="Name"
               item-value="Name"
-              dense
+              density="compact"
               hide-details
               clearable
             />
@@ -25,7 +25,7 @@
               label="Group By"
               hide-details
               variant="outlined"
-              dense
+              density="compact"
             />
           </v-col>
           <v-col cols="3">
@@ -35,7 +35,7 @@
               label="Sort By"
               hide-details
               variant="outlined"
-              dense
+              density="compact"
             />
           </v-col>
         </v-row>
@@ -99,15 +99,15 @@
         />
       </v-card-text>
     </v-card>
-    <v-row justify="center" align="center" class="my-4" dense>
+    <v-row justify="center" align="center" class="my-4" density="compact">
       <v-col cols="8">
-        <v-btn x-large block color="primary" @click="$emit('add-new')">
+        <v-btn size="x-large" block color="primary" @click="$emit('add-new')">
           <v-icon large left>mdi-plus</v-icon>
           Add New {{ itemType }}
         </v-btn>
       </v-col>
     </v-row>
-    <v-row justify="center" align="center" class="my-4" dense>
+    <v-row justify="center" align="center" class="my-4" density="compact">
       <v-col cols="8">
         <v-btn
           variant="outlined"

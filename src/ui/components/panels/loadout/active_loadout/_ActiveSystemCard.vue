@@ -12,7 +12,7 @@
         :style="!hide && !rest ? 'height: 100%; min-height: 100px' : ''"
       >
         <v-card-title
-          class="white--text py-0 heading h3 hover-item"
+          class="text-white py-0 heading h3 hover-item"
           style="cursor: pointer"
           @click="$refs.detailDialog.show()"
         >
@@ -34,8 +34,8 @@
                 <span
                   :class="
                     $vuetify.display.mdAndUp
-                      ? 'white--text heading h3'
-                      : 'white--text body-text font-weight-bold'
+                      ? 'text-white heading h3'
+                      : 'text-white body-text font-weight-bold'
                   "
                 >
                   {{ item.Name }}
@@ -45,7 +45,7 @@
                 >
                 <span
                   v-show="$vuetify.display.mdAndUp"
-                  class="caption subtle--text ml-1"
+                  class="caption text-subtle ml-1"
                 >
                   <b>{{ item.Size }}</b>
                   {{ item.Type }}
@@ -63,7 +63,7 @@
                 right
                 dark
                 icon
-                class="fadeSelect"
+                class="fade-select"
                 @click.stop="hide = !hide"
               >
                 <v-icon
@@ -82,13 +82,12 @@
             <div class="underline-slide">
               <v-row
                 v-if="item.Actions.length"
-                dense
+                density="compact"
                 justify="center"
                 class="my-1"
               >
                 <v-col
                   v-for="(a, i) in item.Actions"
-                  :key="`${item.Name}_action_${i}`"
                   style="min-width: 40%"
                   cols="12"
                   md="auto"
@@ -116,32 +115,28 @@
               />
               <v-alert
                 v-if="item.IsCascading"
-                dense
+                density="compact"
                 tile
                 color="error"
-                class="text-center white--text stat-text"
+                class="text-center text-white stat-text"
                 style="letter-spacing: 3px"
               >
                 / / AI IN CASCADE / /
               </v-alert>
               <div v-if="item && item.Effect">
-                <div class="overline mt-2">
-                  <v-icon>cc:system</v-icon>
+                <div class="text-overline mt-2">
+                  <v-icon icon="cc:system" />
                   EQUIPMENT EFFECT
                 </div>
                 <p
                   v-html-safe="item.Effect"
-                  class="text--text body-text mb-1 mr-3 ml-7"
+                  class="text-text body-text mb-1 mr-3 ml-7"
                 />
               </div>
             </div>
             <div v-if="item">
               <div v-if="item && item.Ammo && item.Ammo.length">
-                <div
-                  v-for="(a, i) in item.Ammo"
-                  :key="`${item.Name}_ammo_${i}`"
-                  class="body-text"
-                >
+                <div v-for="(a, i) in item.Ammo" class="body-text">
                   <b>{{ a.name }}</b>
                   :
                   <span v-html-safe="a.detail" />

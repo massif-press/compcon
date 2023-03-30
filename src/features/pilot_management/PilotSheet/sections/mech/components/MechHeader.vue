@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <v-row id="stat-row" dense>
+    <v-row id="stat-row" density="compact">
       <v-col cols="2" offset="1" class="unskew">
         <cc-tooltip
           simple
@@ -8,10 +8,10 @@
           delay
           :content="`Structure: ${mech.CurrentStructure}/${mech.MaxStructure}`"
         >
-          <v-icon>cc:structure</v-icon>
+          <v-icon icon="cc:structure" />
         </cc-tooltip>
         <span class="stat-text">{{ mech.CurrentStructure }}</span>
-        <span class="flavor-text subtle--text" style="font-size: 14px">
+        <span class="flavor-text text-subtle" style="font-size: 14px">
           /{{ mech.MaxStructure }}
         </span>
       </v-col>
@@ -22,10 +22,10 @@
           delay
           :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`"
         >
-          <v-icon>mdi-heart-outline</v-icon>
+          <v-icon icon="mdi-heart-outline" />
         </cc-tooltip>
         <span class="stat-text">{{ mech.CurrentHP }}</span>
-        <span class="flavor-text subtle--text" style="font-size: 14px"
+        <span class="flavor-text text-subtle" style="font-size: 14px"
           >/{{ mech.MaxHP }}</span
         >
       </v-col>
@@ -36,10 +36,10 @@
           delay
           :content="`Reactor Stress: ${mech.CurrentStress}/${mech.MaxStress}`"
         >
-          <v-icon>cc:reactor</v-icon>
+          <v-icon icon="cc:reactor" />
         </cc-tooltip>
         <span class="stat-text">{{ mech.CurrentStress }}</span>
-        <span class="flavor-text subtle--text" style="font-size: 14px"
+        <span class="flavor-text text-subtle" style="font-size: 14px"
           >/{{ mech.MaxStress }}</span
         >
       </v-col>
@@ -50,10 +50,10 @@
           delay
           :content="`Heat: ${mech.CurrentHeat}/${mech.HeatCapacity}`"
         >
-          <v-icon>mdi-fire</v-icon>
+          <v-icon icon="mdi-fire" />
         </cc-tooltip>
         <span class="stat-text">{{ mech.CurrentHeat }}</span>
-        <span class="flavor-text subtle--text" style="font-size: 14px">
+        <span class="flavor-text text-subtle" style="font-size: 14px">
           /{{ mech.HeatCapacity }}
         </span>
       </v-col>
@@ -64,10 +64,10 @@
           delay
           :content="`Repair Capacity: ${mech.CurrentRepairs}/${mech.RepairCapacity}`"
         >
-          <v-icon>cc:repair</v-icon>
+          <v-icon icon="cc:repair" />
         </cc-tooltip>
         <span class="stat-text">{{ mech.CurrentRepairs }}</span>
-        <span class="flavor-text subtle--text" style="font-size: 14px">
+        <span class="flavor-text text-subtle" style="font-size: 14px">
           /{{ mech.RepairCapacity }}
         </span>
       </v-col>

@@ -1,6 +1,7 @@
 import { ISaveable } from '@/classes/components';
 import { deleteDataById, saveDelta } from '@/io/Data';
 import _ from 'lodash';
+import { CompendiumStore } from '@/stores';
 
 interface StoreTree {
   [key: string]: any;
@@ -20,7 +21,6 @@ const getModule = (module: StoreTree) => {
       });
     }
   });
-  console.log(ret);
   return ret;
 };
 

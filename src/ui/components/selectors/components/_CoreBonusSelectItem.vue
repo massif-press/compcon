@@ -1,5 +1,5 @@
 <template>
-  <v-row dense>
+  <v-row density="compact">
     <v-col v-if="$vuetify.display.mdAndUp" cols="12" md="auto" class="pr-0">
       <v-btn
         tile

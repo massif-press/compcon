@@ -8,11 +8,11 @@
 
     <div class="text-center heading h3 pb-0 mt-4 mb-2">
       Overcharging will incur
-      <span class="red--text text--darken-2">
+      <span class="text-red text--darken-2">
         +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }} Heat
       </span>
     </div>
-    <v-row dense justify="center">
+    <v-row density="compact" justify="center">
       <v-col cols="auto">
         <cc-tooltip content="Roll Overcharge">
           <cc-dice-menu
@@ -30,7 +30,7 @@
           type="number"
           label="Heat Roll Result"
           variant="outlined"
-          dense
+          density="compact"
           hide-details
           :disabled="used"
           class="hide-spinners"
@@ -41,7 +41,7 @@
         />
       </v-col>
     </v-row>
-    <v-row dense justify="center">
+    <v-row density="compact" justify="center">
       <v-col cols="3">
         <v-btn
           large

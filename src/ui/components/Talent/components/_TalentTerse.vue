@@ -1,6 +1,6 @@
 <template>
   <v-row
-    dense
+    density="compact"
     style="min-width: 100%"
     :class="$vuetify.display.smAndDown ? 'mb-3' : ''"
   >
@@ -17,11 +17,11 @@
       </div>
     </v-col>
     <v-col>
-      <div class="sliced primary white--text pl-3 ml-n2 heading h2">
+      <div class="sliced primary text-white pl-3 ml-n2 heading h2">
         <v-row no-gutters>
           <v-col cols="auto">
             {{ talent.Name }}
-            <span v-if="rank" class="flavor-text white--text">
+            <span v-if="rank" class="flavor-text text-white">
               <cc-slashes />
               RANK {{ 'I'.repeat(rank) }}
             </span>
@@ -38,10 +38,10 @@
             <v-btn
               icon
               color="white"
-              class="fadeSelect"
+              class="fade-select"
               @click="$emit('expand', 'full')"
             >
-              <v-icon>mdi-arrow-expand</v-icon>
+              <v-icon icon="mdi-arrow-expand" />
             </v-btn>
           </v-col>
         </v-row>
@@ -49,11 +49,15 @@
       <div :class="$vuetify.display.mdAndUp ? 'box-outline px-2 py-1' : 'px-2'">
         <div v-if="showFull" class="flavor-text mb-2">{{ talent.Terse }}</div>
         <div v-else style="height: 30px" />
-        <v-row align="center" justify="space-around" class="text-center" dense>
+        <v-row
+          align="center"
+          justify="space-around"
+          class="text-center"
+          density="compact"
+        >
           <v-col
             v-for="n in 3"
             v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
-            :key="`rank-btn-${n}`"
           >
             <v-menu open-on-hover top offset-y open-delay="100">
               <template v-slot:activator="{ props }">
@@ -64,7 +68,7 @@
                   v-bind="props"
                 >
                   <v-icon v-if="!rank || (rank && parseInt(rank) >= n)" left>
-                    cc:rank-{{ n }}
+                    cc:rank_{{ n }}
                   </v-icon>
                   <v-icon
                     v-else-if="!rank || (rank && parseInt(rank) + 1 === n)"
@@ -77,9 +81,9 @@
                 </v-btn>
               </template>
               <v-card>
-                <v-toolbar flat dense tile color="pilot">
-                  <span class="heading h3 white--text">
-                    <v-icon start large color="white">cc:rank-{{ n }}</v-icon>
+                <v-toolbar flat density="compact" tile color="pilot">
+                  <span class="heading h3 text-white">
+                    <v-icon start large color="white">cc:rank_{{ n }}</v-icon>
                     {{ talent.Rank(n).Name }}
                   </span>
                 </v-toolbar>
@@ -112,14 +116,14 @@
                     v-else-if="selectable && parseInt(rank) === n"
                     color="error"
                     variant="outlined"
-                    class="fadeSelect"
+                    class="fade-select"
                     @click="$emit('remove')"
                   >
                     <v-icon start>mdi-close</v-icon>
                     Remove
                   </v-btn>
                   <div v-else class="text-center">
-                    <v-icon start>cc:rank-{{ n }}</v-icon>
+                    <v-icon start>cc:rank_{{ n }}</v-icon>
                     UNLOCKED
                   </div>
                 </v-card-actions>
@@ -133,7 +137,7 @@
       <v-row no-gutters>
         <v-col cols="auto" class="ml-auto">
           <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
-            <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
+            <v-btn small icon class="fade-select" @click="showAll = !showAll">
               <v-icon small>mdi-eye</v-icon>
             </v-btn>
           </cc-tooltip>

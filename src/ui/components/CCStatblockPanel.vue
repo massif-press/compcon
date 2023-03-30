@@ -15,7 +15,7 @@
           : 'min-width: 20vw'
       "
     >
-      <v-card-title class="heading h3 primary px-3 py-0 ma-0 white--text">
+      <v-card-title class="heading h3 primary px-3 py-0 ma-0 text-white">
         <v-spacer v-if="!inline && $vuetify.display.mdAndDown" />
         <cc-tooltip inline :title="name" :content="glossary(name)">
           <v-icon large color="white">{{ icon }}</v-icon>
@@ -26,7 +26,7 @@
       </v-card-title>
       <v-card-text
         v-if="!inline"
-        class="heading stark--text py-3"
+        class="heading text-stark py-3"
         style="font-size: 32px"
       >
         <span>{{ value }}</span>

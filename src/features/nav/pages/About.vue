@@ -3,9 +3,9 @@
     <div class="heading mech">COMP/CON</div>
     <div class="text-overline mt-n4 ml-1">
       C/C version:
-      <b class="accent--text">{{ $appVersion }}</b>
+      <b class="text-accent">{{ $appVersion }}</b>
       // LANCER CORE version:
-      <b class="accent--text">{{ $lancerVersion }}</b>
+      <b class="text-accent">{{ $lancerVersion }}</b>
     </div>
     <div align="center" class="my-2">
       <a href="https://app.netlify.com/sites/compcon/deploys">

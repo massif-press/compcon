@@ -12,7 +12,6 @@
     </div>
     <cc-tooltip
       v-for="(s, i) in synergies"
-      :key="`${item ? item.ID : location}_synergy_${i}`"
       inline
       :title="s.Origin"
       :content="s.Detail"

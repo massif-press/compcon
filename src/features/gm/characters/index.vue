@@ -32,7 +32,7 @@
 import GmCollectionView from '../_views/GMCollectionView.vue';
 import Editor from './editor.vue';
 
-import { CharacterStore } from '@/store';
+import { NarrativeStore } from '@/stores';
 
 export default {
   name: 'characters-roster',
@@ -45,7 +45,7 @@ export default {
   }),
   computed: {
     characters() {
-      return this.getModule(CharacterStore).Characters;
+      return this.getModule(NarrativeStore).Characters;
     },
   },
   methods: {
@@ -64,7 +64,7 @@ export default {
       console.error('NOT YET IMPLEMENTED');
     },
     SaveAndClose() {
-      const store = this.getModule(CharacterStore);
+      const store = this.getModule(NarrativeStore);
       // TODO: check for and ask to update instances on save
       store.addCharacter(this.selected);
       this.$set(this, 'selected', null);

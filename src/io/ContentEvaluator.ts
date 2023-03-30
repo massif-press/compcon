@@ -1,7 +1,7 @@
-import { CompendiumStore, store } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 const ItemsMissingLcp = (items: any[]): any[] => {
-  const activePackIds = getModule(CompendiumStore, store)
+  const activePackIds = CompendiumStore()
     .ContentPacks.filter((x) => x.Active)
     .map((x) => x.ID);
 
@@ -12,7 +12,7 @@ const ItemsMissingLcp = (items: any[]): any[] => {
 };
 
 const ItemsWithLcp = (items: any[]): any[] => {
-  const activePackIds = getModule(CompendiumStore, store)
+  const activePackIds = CompendiumStore()
     .ContentPacks.filter((x) => x.Active)
     .map((x) => x.ID);
 
@@ -23,8 +23,8 @@ const ItemsWithLcp = (items: any[]): any[] => {
 };
 
 const MissingItemIds = (): string[] => {
-  const m = getModule(CompendiumStore, store).MissingContent;
-  let out = [];
+  const m = CompendiumStore().MissingContent;
+  let out = [] as any[];
   for (const key in m) {
     out = [...out, ...m[key].map((i) => i.id)];
   }

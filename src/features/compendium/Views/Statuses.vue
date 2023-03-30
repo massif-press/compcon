@@ -3,7 +3,6 @@
     <v-list-item
       v-for="(e, i) in statuses"
       slot="sidebar"
-      :key="`${i}_sidebar'`"
       link
       @click="
         $vuetify.goTo(`#e_${e.name.replace(/\W/g, '')}`, {
@@ -22,20 +21,19 @@
       <cc-titled-panel
         v-for="(e, i) in statuses"
         :id="`e_${e.name.replace(/\W/g, '')}`"
-        :key="`${e.name.replace(/\W/g, '')}_${i}`"
         :title="e.name"
         class="my-4"
-        dense
+        density="compact"
       >
-        <span slot="items" class="flavor-text stark--text" v-html="e.type" />
-        <v-row dense align="center" class="mt-n3">
+        <span slot="items" class="flavor-text text-stark" v-html="e.type" />
+        <v-row density="compact" align="center" class="mt-n3">
           <v-col cols="auto" class="ml-n2">
             <v-icon v-if="e.icon" size="75" color="accent">
               cc:{{ e.type.toLowerCase() }}-{{ e.icon.toLowerCase() }}
             </v-icon>
           </v-col>
           <v-col
-            ><p v-html-safe="e.effects" class="mb-0 stark--text body-text"
+            ><p v-html-safe="e.effects" class="mb-0 text-stark body-text"
           /></v-col>
         </v-row>
       </cc-titled-panel>
@@ -44,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'statuses',
@@ -52,7 +50,7 @@ export default {
     statuses: [],
   }),
   created() {
-    // const compendium =this.getModule(CompendiumStore);
+    // const compendium =CompendiumStore();
     // this.statuses = compendium.Statuses;
   },
 };

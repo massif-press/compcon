@@ -48,7 +48,7 @@
                 inline
                 :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
               >
-                <v-icon end small class="fadeSelect"
+                <v-icon end small class="fade-select"
                   >mdi-information-outline</v-icon
                 >
               </cc-tooltip>
@@ -65,7 +65,7 @@
             >
               <v-col lg="auto" md="12" class="mt-n5">
                 <v-row
-                  dense
+                  density="compact"
                   class="text-center mb-n3"
                   justify="start"
                   align="start"
@@ -75,14 +75,16 @@
                     class="ml-auto px-12 panel dual-sliced"
                     style="height: 70px"
                   >
-                    <div class="overline mt-n2 pl-4 mr-n4">Contested HULL</div>
+                    <div class="text-overline mt-n2 pl-4 mr-n4">
+                      Contested HULL
+                    </div>
                     <v-text-field
                       v-model="hull"
                       type="number"
                       style="width: 60px"
                       class="hide-input-spinners mt-n1 ml-10"
                       color="accent"
-                      dense
+                      density="compact"
                       hide-details
                       @change="hull = parseInt($event)"
                     />
@@ -90,13 +92,13 @@
                 </v-row>
               </v-col>
               <v-col cols="auto" class="ml-auto">
-                <v-row dense justify="end">
+                <v-row density="compact" justify="end">
                   <v-col
                     cols="auto"
                     class="ml-auto px-12 mr-n10 panel dual-sliced"
                     style="height: 70px"
                   >
-                    <div class="overline mt-n2 pl-1">Accuracy</div>
+                    <div class="text-overline mt-n2 pl-1">Accuracy</div>
                     <v-text-field
                       v-model="accuracy"
                       type="number"
@@ -106,7 +108,7 @@
                       style="width: 115px"
                       class="hide-input-spinners"
                       color="accent"
-                      dense
+                      density="compact"
                       hide-details
                       :disabled="actionUsed"
                       @click:append-outer="accuracy < 99 ? (accuracy += 1) : ''"
@@ -121,7 +123,7 @@
                     class="px-12 mr-n10 panel dual-sliced"
                     style="height: 70px"
                   >
-                    <div class="overline mt-n2 pl-1">Difficulty</div>
+                    <div class="text-overline mt-n2 pl-1">Difficulty</div>
                     <v-text-field
                       v-model="difficulty"
                       type="number"
@@ -131,7 +133,7 @@
                       style="width: 115px"
                       class="hide-input-spinners"
                       color="accent"
-                      dense
+                      density="compact"
                       :disabled="actionUsed"
                       hide-details
                       @click:append-outer="
@@ -148,7 +150,9 @@
                     class="px-12 panel dual-sliced"
                     style="height: 70px"
                   >
-                    <div class="overline mt-n2 mr-n6 pl-3">Contested Roll</div>
+                    <div class="text-overline mt-n2 mr-n6 pl-3">
+                      Contested Roll
+                    </div>
                     <v-row no-gutters>
                       <v-col class="mr-n2 ml-n2">
                         <cc-tooltip
@@ -174,7 +178,7 @@
                           class="hide-input-spinners ml-n3"
                           style="max-width: 60px; margin-top: -0.5px"
                           color="accent"
-                          dense
+                          density="compact"
                           hide-details
                         />
                       </v-col>
@@ -203,25 +207,25 @@
             >
               JOCKEY SUCCESSFUL
             </div>
-            <div v-else class="heading h3 text-right stark--text">
+            <div v-else class="heading h3 text-right text-stark">
               JOCKEY IN PROGRESS
             </div>
             <div class="flavor-text text-right">Select Jockey Option</div>
-            <v-row dense class="mt-2">
+            <v-row density="compact" class="mt-2">
               <v-col>
                 <v-card
                   variant="outlined"
                   :disabled="actionUsed"
-                  :class="selected === 'distract' ? '' : 'fadeSelect'"
+                  :class="selected === 'distract' ? '' : 'fade-select'"
                   @click="selected = 'distract'"
                 >
                   <v-toolbar
-                    dense
+                    density="compact"
                     :color="
                       selected === 'distract' ? 'primary lighten-2' : 'primary'
                     "
                   >
-                    <span class="heading h3 white--text">DISTRACT</span>
+                    <span class="heading h3 text-white">DISTRACT</span>
                   </v-toolbar>
                   <v-card-text class="body-text">
                     The mech is IMPAIRED and SLOWED until the end of its next
@@ -233,16 +237,16 @@
                 <v-card
                   variant="outlined"
                   :disabled="actionUsed"
-                  :class="selected === 'shred' ? '' : 'fadeSelect'"
+                  :class="selected === 'shred' ? '' : 'fade-select'"
                   @click="selected = 'shred'"
                 >
                   <v-toolbar
-                    dense
+                    density="compact"
                     :color="
                       selected === 'shred' ? 'primary lighten-2' : 'primary'
                     "
                   >
-                    <span class="heading h3 white--text">SHRED</span>
+                    <span class="heading h3 text-white">SHRED</span>
                   </v-toolbar>
                   <v-card-text class="body-text">
                     Deal 2 Heat to the mech by ripping at wiring, paneling, and
@@ -254,16 +258,16 @@
                 <v-card
                   variant="outlined"
                   :disabled="actionUsed"
-                  :class="selected === 'damage' ? '' : 'fadeSelect'"
+                  :class="selected === 'damage' ? '' : 'fade-select'"
                   @click="selected = 'damage'"
                 >
                   <v-toolbar
-                    dense
+                    density="compact"
                     :color="
                       selected === 'damage' ? 'primary lighten-2' : 'primary'
                     "
                   >
-                    <span class="heading h3 white--text">DAMAGE</span>
+                    <span class="heading h3 text-white">DAMAGE</span>
                   </v-toolbar>
                   <v-card-text class="body-text">
                     Deal 4 Kinetic dmage to the mech by attacking joints,
@@ -299,7 +303,7 @@
                 <v-btn
                   x-small
                   color="primary"
-                  class="fadeSelect"
+                  class="fade-select"
                   @click="reset"
                 >
                   <v-icon small left>mdi-reload</v-icon>
@@ -369,9 +373,9 @@ export default {
     rollResultTooltip() {
       let str = this.rollString;
       if (this.rollResultString) {
-        str += `<div class="overline my-n2">Last Roll:</div><div class="caption ml-3">${this.rollResultString}`;
+        str += `<div class="text-overline my-n2">Last Roll:</div><div class="caption ml-3">${this.rollResultString}`;
         if (this.rollAccuracyResults.length)
-          str += ` <span class="subtle--text">[${this.rollAccuracyResults.join(
+          str += ` <span class="text-subtle">[${this.rollAccuracyResults.join(
             ', '
           )}]</span>`;
         str += '</div>';

@@ -5,7 +5,6 @@
     <v-container style="max-width: 800px">
       <item-selector-row
         v-for="(w, j) in mech.Pilot.Loadout.Weapons"
-        :key="`weap_${j}`"
         :item="w"
         color="action--full"
         @click="fight(w)"

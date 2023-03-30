@@ -1,10 +1,10 @@
 <template>
   <v-card>
-    <!-- <v-toolbar dense color="primary" class="white--text"
+    <!-- <v-toolbar density="compact" color="primary" class="text-white"
       >Sync Manager</v-toolbar
     > -->
     <v-card-text>
-      <v-row dense justify="end">
+      <v-row density="compact" justify="end">
         <v-col cols="auto">
           <v-btn @click="fetch()" color="primary" small class="mb-3">
             <v-icon start>mdi-reload</v-icon>
@@ -14,7 +14,7 @@
       </v-row>
 
       <v-expansion-panels>
-        <v-expansion-panel v-for="k in cloudItemTypes" :key="k">
+        <v-expansion-panel v-for="k in cloudItemTypes">
           <v-expansion-panel-header>
             <span>
               <v-chip
@@ -58,7 +58,7 @@
                   <th>Options</th>
                 </thead>
                 <tbody>
-                  <tr v-for="item in itemsByType(k)" :key="`item_${item.id}`">
+                  <tr v-for="item in itemsByType(k)">
                     <td><v-simple-checkbox v-model="item.selected" /></td>
                     <td class="text-left">
                       {{ callsign(item) }}
@@ -70,10 +70,10 @@
                         <v-col cols="auto" class="px-2">
                           <b
                             v-if="item.remote"
-                            class="primary--text text--darken-1"
+                            class="text-primary text--darken-1"
                             >Remote</b
                           >
-                          <b v-else class="success--text text--darken-1"
+                          <b v-else class="text-success text--darken-1"
                             >Synced</b
                           >
                         </v-col>

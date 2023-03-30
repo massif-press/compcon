@@ -12,31 +12,31 @@
     >
       <v-tab>
         Protocols
-        <v-icon>cc:protocol</v-icon>
+        <v-icon icon="cc:protocol" />
       </v-tab>
       <v-tab>
         Full Actions
-        <v-icon>mdi-hexagon-slice-6</v-icon>
+        <v-icon icon="mdi-hexagon-slice-6" />
       </v-tab>
       <v-tab>
         Quick Actions
-        <v-icon>mdi-hexagon-slice-3</v-icon>
+        <v-icon icon="mdi-hexagon-slice-3" />
       </v-tab>
       <v-tab>
         Reactions
-        <v-icon>cc:reaction</v-icon>
+        <v-icon icon="cc:reaction" />
       </v-tab>
       <v-tab>
         Free Actions
-        <v-icon>cc:free-action</v-icon>
+        <v-icon icon="cc:free-action" />
       </v-tab>
       <v-tab>
         Combat Log
-        <v-icon>mdi-notebook</v-icon>
+        <v-icon icon="mdi-notebook" />
       </v-tab>
       <v-tab class="mr-12">
         Other
-        <v-icon>mdi-dots-vertical</v-icon>
+        <v-icon icon="mdi-dots-vertical" />
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="selected">
@@ -45,7 +45,6 @@
           <v-list>
             <action-menu-item
               v-for="(a, i) in pilot.State.ActionsByType('Protocol')"
-              :key="`am_protocol_${i}`"
               :action="a"
               :available="pilot.State.IsProtocolAvailable"
               :mech="pilot.ActiveMech"
@@ -58,7 +57,6 @@
           <v-list>
             <action-menu-item
               v-for="(a, i) in pilot.State.ActionsByType('Full')"
-              :key="`am_protocol_${i}`"
               :action="a"
               :available="pilot.State.Actions > 1"
               :mech="pilot.ActiveMech"
@@ -71,7 +69,6 @@
           <v-list>
             <action-menu-item
               v-for="(a, i) in pilot.State.ActionsByType('Quick')"
-              :key="`am_protocol_${i}`"
               :action="a"
               :mech="pilot.ActiveMech"
               :available="pilot.State.Actions > 0"
@@ -84,7 +81,6 @@
           <v-list>
             <action-menu-item
               v-for="(a, i) in pilot.State.ActionsByType('Reaction')"
-              :key="`am_protocol_${i}`"
               :action="a"
               available
               :mech="pilot.ActiveMech"
@@ -97,7 +93,6 @@
           <v-list>
             <action-menu-item
               v-for="(a, i) in pilot.State.ActionsByType('Free')"
-              :key="`am_protocol_${i}`"
               :action="a"
               available
               :mech="pilot.ActiveMech"
@@ -116,15 +111,14 @@
         <v-card flat color="background">
           <v-card-text>
             <v-divider class="my-4" />
-            <v-row dense>
+            <v-row density="compact">
               <v-col cols="auto">
                 <span class="overline">PILOT SKILL TRIGGERS</span>
               </v-col>
             </v-row>
-            <v-row dense justify="center">
+            <v-row density="compact" justify="center">
               <cc-active-card
                 v-for="(s, i) in pilot.SkillsController.Skills"
-                :key="`sk_${i}`"
                 :ref="`sk_${i}`"
                 :cols="12"
                 color="primary"
@@ -153,13 +147,11 @@
                   v-for="(r, i) in pilot.ReservesController.Reserves.filter(
                     (r) => r.Type !== 'Bonus'
                   )"
-                  :key="`r_${i}`"
                   :reserve="r"
                   @remove="pilot.ReservesController.RemoveReserve(i)"
                 />
                 <cc-org-item
                   v-for="(o, i) in pilot.ReservesController.Organizations"
-                  :key="`o_${i}`"
                   :org="o"
                   @remove="pilot.ReservesController.RemoveOrganization(i)"
                 />

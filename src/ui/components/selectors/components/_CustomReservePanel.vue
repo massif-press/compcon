@@ -3,7 +3,7 @@
     <v-col cols="12" md="7">
       <cc-titled-panel
         title="Custom Reserve"
-        :icon="`cc:reserve-${customType.toLowerCase()}`"
+        :icon="`cc:reserve_${customType.toLowerCase()}`"
         :color="`reserve--${customType.toLowerCase()}`"
       >
         <div class="text-center">

@@ -28,7 +28,6 @@
       <v-row justify="center">
         <mech-card
           v-for="m in pilot.Mechs"
-          :key="`${m.ID}_mc`"
           :mech="m"
           @delete="pilot.RemoveMech($event)"
           @copy="pilot.CloneMech($event)"
@@ -39,7 +38,6 @@
     <v-container v-else-if="getView === 'list'" class="mt-2 px-0" fluid>
       <mech-list-item
         v-for="m in pilot.Mechs"
-        :key="`${m.ID}_mc`"
         :mech="m"
         @delete="pilot.RemoveMech($event)"
         @copy="pilot.CloneMech($event)"
@@ -51,7 +49,11 @@
     </v-container>
     <v-row justify="center">
       <v-col cols="auto">
-        <cc-btn x-large class="ml-auto mr-auto" @click="$refs.dialog.show()">
+        <cc-btn
+          size="x-large"
+          class="ml-auto mr-auto"
+          @click="$refs.dialog.show()"
+        >
           <v-icon start large>cc:accuracy</v-icon>
           &emsp;Add New Mech
         </cc-btn>
@@ -74,7 +76,7 @@ import MechCard from './components/MechCard.vue';
 import MechListItem from './components/MechListItem.vue';
 import MechTable from './components/MechTable.vue';
 import NewMechMenu from './components/NewMechMenu.vue';
-import { UserStore, PilotManagementStore } from '@/store';
+import { UserStore, PilotStore } from '@/stores';
 import { Pilot } from '@/class';
 import { UserProfile } from '@/user';
 
@@ -99,7 +101,7 @@ export default {
   },
   methods: {
     toMechSheet(mech) {
-      const store = this.getModule(PilotManagementStore);
+      const store = this.getModule(PilotStore);
       store.setLoadedMech(mech.ID);
       this.$router.push(`../mech/${mech.ID}`);
     },

@@ -17,25 +17,25 @@
           <div v-if="rank" class="triangle" />
           <div
             v-if="rank"
-            class="white--text"
+            class="text-white"
             style="position: absolute; bottom: 0px; right: 0px; z-index: 3"
           >
-            <v-icon color="white" size="30">cc:rank-{{ rank }}</v-icon>
+            <v-icon color="white" size="30">cc:rank_{{ rank }}</v-icon>
           </div>
         </div>
       </template>
       <v-card height="100%">
-        <v-toolbar flat dense tile color="primary">
-          <span class="heading h3 white--text">{{ talent.Name }}</span>
+        <v-toolbar flat density="compact" tile color="primary">
+          <span class="heading h3 text-white">{{ talent.Name }}</span>
           <v-spacer />
-          <span v-if="talent.InLcp" class="heading h3 white--text mr-3">{{
+          <span v-if="talent.InLcp" class="heading h3 text-white mr-3">{{
             talent.LcpName
           }}</span>
           <cc-tooltip
             v-if="hideLocked"
             :content="`${showAll ? 'Hide' : 'Show'} All`"
           >
-            <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
+            <v-btn small icon class="fade-select" @click="showAll = !showAll">
               <v-icon small>mdi-eye</v-icon>
             </v-btn>
           </cc-tooltip>
@@ -44,7 +44,6 @@
           <v-col
             v-for="n in 3"
             v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
-            :key="`rank-col-${n}`"
             cols="12"
             md=""
             style="min-height: 100%"
@@ -52,7 +51,7 @@
             <v-card flat tile variant="outlined" min-height="100%">
               <v-toolbar
                 flat
-                dense
+                density="compact"
                 tile
                 :color="
                   selectable && parseInt(rank) + 1 === n ? 'secondary' : 'pilot'
@@ -61,8 +60,8 @@
                 <span
                   :class="`heading h3 ${
                     !rank || parseInt(rank) >= (selectable ? n - 1 : n)
-                      ? 'white--text'
-                      : 'pilot--text text--lighten-2'
+                      ? 'text-white'
+                      : 'text-pilot text--lighten-2'
                   }`"
                 >
                   <v-icon
@@ -74,7 +73,7 @@
                         : 'pilot lighten-2'
                     "
                   >
-                    cc:rank-{{ n }}
+                    cc:rank_{{ n }}
                   </v-icon>
                   {{ talent.Rank(n).Name }}
                 </span>
@@ -108,14 +107,14 @@
                   v-else-if="selectable && parseInt(rank) === n"
                   color="error"
                   variant="outlined"
-                  class="fadeSelect"
+                  class="fade-select"
                   @click="$emit('remove')"
                 >
                   <v-icon start>mdi-close</v-icon>
                   Remove
                 </v-btn>
                 <div v-else class="text-center">
-                  <v-icon start>cc:rank-{{ n }}</v-icon>
+                  <v-icon start>cc:rank_{{ n }}</v-icon>
                   UNLOCKED
                 </div>
               </v-card-actions>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- {{ cs }} -->
-    <span class="heading h2 text--text">{{ cs.Name }}</span>
+    <span class="heading h2 text-text">{{ cs.Name }}</span>
     <p v-html-safe="cs.Description" class="flavor-text px-3" />
 
     <div v-if="cs.PassiveName">
@@ -18,7 +18,6 @@
           <v-col cols="auto">
             <cc-action
               v-for="(a, i) in cs.PassiveActions"
-              :key="`${cs.Name}_action_${i}`"
               :action="a"
               :panel="$vuetify.display.lgAndUp"
             />
@@ -57,7 +56,6 @@
       <p v-html-safe="cs.ActiveEffect" class="body-text mb-1 px-3" />
       <cc-action
         v-for="(a, i) in cs.ActiveActions"
-        :key="`${cs.Name}_action_${i}`"
         :action="a"
         :panel="$vuetify.display.lgAndUp"
         class="ma-2"
@@ -71,21 +69,13 @@
       CORE INTEGRATED EQUIPMENT
     </span>
     <v-row v-if="cs.IntegratedEquipment.length" no-gutters justify="center">
-      <v-col
-        v-for="(x, i) in cs.IntegratedEquipment"
-        :key="`${cs.Name}_integrated_${i}`"
-        cols="auto"
-      >
+      <v-col v-for="(x, i) in cs.IntegratedEquipment" cols="auto">
         <cc-integrated-info :item="x" :panel="$vuetify.display.lgAndUp" />
       </v-col>
     </v-row>
 
     <v-row v-if="cs.Deployables.length" no-gutters justify="center">
-      <v-col
-        v-for="(d, i) in cs.Deployables"
-        :key="`${cs.Name}_deployable_${i}`"
-        cols="auto"
-      >
+      <v-col v-for="(d, i) in cs.Deployables" cols="auto">
         <cc-deployable-info
           :deployable="d"
           :panel="$vuetify.display.lgAndUp"

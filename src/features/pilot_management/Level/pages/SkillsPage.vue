@@ -30,7 +30,7 @@
         translated, reproduced, transmitted, or encoded without the express
         permisson of Union Naval Intelligence.
       </span>
-      <v-alert color="accent" variant="outlined" dense class="mt-2">
+      <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
         <b>Add or Improve a Skill Trigger.</b>
         <br />
         <span class="overline">

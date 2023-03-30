@@ -14,7 +14,7 @@
         </v-btn>
       </cc-titlebar>
       <cc-titlebar v-else large color="action--quick">
-        <v-icon x-large color="white">mdi-hexagon-slice-3</v-icon>
+        <v-icon size="x-large" color="white">mdi-hexagon-slice-3</v-icon>
         Skirmish
         <v-btn slot="items" dark icon @click="hide">
           <v-icon large left>close</v-icon>
@@ -33,7 +33,7 @@
           @confirm="confirmAttack($event)"
         >
           <div class="heading h2 mt-3 mb-n3">
-            <v-icon x-large class="mt-n2 mr-n1">cc:mech-weapon</v-icon>
+            <v-icon size="x-large" class="mt-n2 mr-n1">cc:mech-weapon</v-icon>
             {{ item.Name }}
           </div>
         </weapon-attack>
@@ -47,7 +47,7 @@
               </div>
             </div>
             <v-alert
-              dense
+              density="compact"
               variant="outlined"
               class="my-1"
               colored-border

@@ -1,25 +1,18 @@
 <template>
   <v-col cols="auto" md="12">
     <cc-tooltip simple inline :content="`${attr.toUpperCase()}: ${val}`">
-      <span class="overline no-height ml-n1">
+      <span class="text-overline no-height ml-n1">
         {{ attr }}
       </span>
     </cc-tooltip>
     <cc-synergy-display :location="attr" :mech="mech" class="d-inline" />
     <div v-if="$vuetify.display.lgAndUp" class="mt-n2 ml-1">
       <span class="no-height">
-        <v-icon
-          v-for="n in val"
-          :key="`hase_${attr}-${n}`"
-          small
-          :color="color"
-          v-html="'mdi-hexagon'"
-        />
+        <v-icon v-for="n in val" small :color="color" v-html="'mdi-hexagon'" />
       </span>
       <span class="no-height">
         <v-icon
           v-for="n in 6 - val"
-          :key="`hase_${attr}-n${n}`"
           small
           color="grey"
           v-html="'mdi-hexagon-outline'"
@@ -27,7 +20,7 @@
       </span>
     </div>
     <div v-else class="mt-n2">
-      <span class="accent--text heading h2">{{ val }}</span>
+      <span class="text-accent heading h2">{{ val }}</span>
     </div>
   </v-col>
 </template>
