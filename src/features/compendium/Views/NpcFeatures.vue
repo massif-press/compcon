@@ -14,7 +14,7 @@
 <script lang="ts">
 import CompendiumBrowser from '../components/CompendiumBrowser.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { NpcFeature } from '@/class';
 
 export default {
@@ -30,7 +30,7 @@ export default {
   }),
   computed: {
     compendium(): CompendiumStore {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
     features(): NpcFeature[] {
       return this.compendium.NpcFeatures;

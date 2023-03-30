@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import {
   MechWeapon,
   WeaponSlot,

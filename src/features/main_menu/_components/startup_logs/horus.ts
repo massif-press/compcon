@@ -1,12 +1,14 @@
-import _ from 'lodash'
-import { tracert } from '@/io/Generators'
+import _ from 'lodash';
+import { tracert } from '@/io/Generators';
 
 function motd(): string {
-  return _.sample(require('raw-loader!./horus_chat/motd.txt').default.split('\n'))
+  return _.sample(
+    require('raw-loader!./horus_chat/motd.txt').default.split('\n')
+  );
 }
 
-const HorusStart = typer => {
-  const nfo = require('raw-loader!./horus_chat/nfo.txt').default
+const HorusStart = (typer) => {
+  const nfo = require('raw-loader!./horus_chat/nfo.txt').default;
 
   typer
     .type('<br>')
@@ -82,8 +84,8 @@ const HorusStart = typer => {
     .break()
     .type('------------------------------------------------------------')
     .pause(550)
-    .go()
-}
+    .go();
+};
 
 const banTypes = [
   'BANNED',
@@ -95,78 +97,83 @@ const banTypes = [
   'PERMABANNED',
   'MUTED FOR 500KSEC',
   'MUTED FOR 800KSEC',
-]
+];
 
 function formatChat(input: string[]): string {
-  return `<span class="accent--text">${input[0]}: </span><span>${input[1]}</span>`
+  return `<span class="text-accent">${input[0]}: </span><span>${input[1]}</span>`;
 }
 
 function formatMod(input: string[]): string {
-  return `<span class="red--text">${input[0]}: </span><span>${input[1]}</span>`
+  return `<span class="text-red">${input[0]}: </span><span>${input[1]}</span>`;
 }
 
 function formatAdmin(input: string): string {
-  return `<span class="info--text"><b>[ADMIN] dogfriend_68: </b>${input}</span>`
+  return `<span class="text-info"><b>[ADMIN] dogfriend_68: </b>${input}</span>`;
 }
 
 function formatBan(input: string[]): string {
-  return `<span class="warning--text">// USER: ${input[0]} ${_.sample(banTypes)} | REASON: ${input[1]} --ADMIN //</span>`
+  return `<span class="text-warning">// USER: ${input[0]} ${_.sample(
+    banTypes
+  )} | REASON: ${input[1]} --ADMIN //</span>`;
 }
 
 function randomNoRepeat(arr) {
-  let copy = arr.slice(0)
+  let copy = arr.slice(0);
   return function () {
     if (copy.length < 1) {
-      copy = arr.slice(0)
+      copy = arr.slice(0);
     }
-    const index = Math.floor(Math.random() * copy.length)
-    const item = copy[index]
-    copy.splice(index, 1)
-    return item
-  }
+    const index = Math.floor(Math.random() * copy.length);
+    const item = copy[index];
+    copy.splice(index, 1);
+    return item;
+  };
 }
 
-const HorusChat = output => {
-  const chat = require('raw-loader!./horus_chat/chat.txt').default.split('\n')
-  const mods = require('raw-loader!./horus_chat/mods.txt').default.split('\n')
-  const admin = require('raw-loader!./horus_chat/admin.txt').default.split('\n')
-  const bans = require('raw-loader!./horus_chat/bans.txt').default.split('\n')
+const HorusChat = (output) => {
+  const chat = require('raw-loader!./horus_chat/chat.txt').default.split('\n');
+  const mods = require('raw-loader!./horus_chat/mods.txt').default.split('\n');
+  const admin = require('raw-loader!./horus_chat/admin.txt').default.split(
+    '\n'
+  );
+  const bans = require('raw-loader!./horus_chat/bans.txt').default.split('\n');
 
-  const allLines = []
+  const allLines = [];
 
-  chat.forEach(l => {
-    allLines.push(formatChat(l.split(/,(.+)/)))
-  })
+  chat.forEach((l) => {
+    allLines.push(formatChat(l.split(/,(.+)/)));
+  });
 
-  mods.forEach(l => {
-    allLines.push(formatMod(l.split(/,(.+)/)))
-  })
+  mods.forEach((l) => {
+    allLines.push(formatMod(l.split(/,(.+)/)));
+  });
 
-  admin.forEach(l => {
-    allLines.push(formatAdmin(l))
-  })
+  admin.forEach((l) => {
+    allLines.push(formatAdmin(l));
+  });
 
-  bans.forEach(l => {
-    allLines.push(formatBan(l.split(/,(.+)/)))
-  })
+  bans.forEach((l) => {
+    allLines.push(formatBan(l.split(/,(.+)/)));
+  });
 
-  const sel = randomNoRepeat(allLines)
+  const sel = randomNoRepeat(allLines);
 
   function callback(): void {
-    output.innerHTML += `<br>${sel()}`
-    output.scrollIntoView({ block: 'end' })
-    if (output && output.innerHTML.length > 2500) output.innerHTML = output.innerHTML.trim(200)
+    output.innerHTML += `<br>${sel()}`;
+    output.scrollIntoView({ block: 'end' });
+    if (output && output.innerHTML.length > 2500)
+      output.innerHTML = output.innerHTML.trim(200);
   }
 
   function loop(): void {
-    const rand = _.random(10, 2500)
+    const rand = _.random(10, 2500);
     setTimeout(function () {
-      callback()
-      loop()
-    }, rand)
+      callback();
+      loop();
+    }, rand);
   }
 
-  loop()
-}
+  loop();
+};
 
-export { HorusStart, HorusChat }
+export { HorusStart, HorusChat };

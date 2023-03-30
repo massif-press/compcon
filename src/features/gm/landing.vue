@@ -2,7 +2,7 @@
   <v-container fluid style="overflow: hidden; height: calc(100vh - 50px)">
     <v-row style="height: 100%" class="mt-1" align="center">
       <v-col cols="12">
-        <v-row align="center" justify="center" dense>
+        <v-row align="center" justify="center" density="compact">
           <landing-card
             cols="8"
             to="gm/campaigns"
@@ -25,7 +25,7 @@
         </v-row>
       </v-col>
       <v-col cols="12" class="panel lighten-1">
-        <v-row align="center" justify="space-around" dense>
+        <v-row align="center" justify="space-around" density="compact">
           <landing-card
             cols="2"
             to="gm/npcs"

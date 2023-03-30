@@ -12,15 +12,13 @@
         color="secondary"
         prominent
         icon="mdi-information-outline"
-        dense
+        density="compact"
         variant="outlined"
       >
         Completing this Downtime Action will add a "Get Focused" item to this
         pilot's Downtime Reserves. Each "Get Focused" Reserve adds a bonus Skill
         Trigger selection, which can be made in the
-        <b class="accent--text"
-          >Pilot Sheet's Skill Trigger selection screen.</b
-        >
+        <b class="text-accent">Pilot Sheet's Skill Trigger selection screen.</b>
       </v-alert>
     </v-card-text>
     <v-divider />

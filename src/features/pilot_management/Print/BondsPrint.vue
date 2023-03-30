@@ -1,14 +1,14 @@
 <template>
   <v-container fluid>
-    <v-row dense align="start">
+    <v-row density="compact" align="start">
       <v-col class="mr-4">
-        <div class="overline mt-n2 mb-n3">BOND</div>
+        <div class="text-overline mt-n2 mb-n3">BOND</div>
         <div class="heading h2 my-n2">
           {{ bc.Bond.Name }}
         </div>
       </v-col>
       <v-col cols="auto" class="mx-12">
-        <div class="overline mt-n2 mb-n3">XP</div>
+        <div class="text-overline mt-n2 mb-n3">XP</div>
         <div>
           <v-icon size="50" color="grey lighten-3" class="mr-n1"
             >mdi-hexagon-outline</v-icon
@@ -17,29 +17,30 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <div class="overline mt-n2 mb-n3 ml-n7">STRESS</div>
+        <div class="text-overline mt-n2 mb-n3 ml-n7">STRESS</div>
         <div style="position: relative; width: max-content">
           <v-icon size="50" color="grey lighten-3">mdi-heart-outline</v-icon>
         </div>
       </v-col>
     </v-row>
 
-    <v-row dense align="start" justify="space-between">
+    <v-row density="compact" align="start" justify="space-between">
       <v-col>
-        <div class="overline mt-n5 mb-n1">MAJOR IDEAL</div>
+        <div class="text-overline mt-n5 mb-n1">MAJOR IDEAL</div>
         <div class="text-left caption" v-text="bc.MajorIdeal" />
       </v-col>
       <v-col>
-        <div class="overline mt-n5 mb-n1">MINOR IDEAL</div>
+        <div class="text-overline mt-n5 mb-n1">MINOR IDEAL</div>
         <div class="text-left caption" v-text="bc.MinorIdeal" />
       </v-col>
     </v-row>
 
-    <div v-if="bc.Burdens.length" class="overline mb-n2 mt-n1">BURDENS</div>
+    <div v-if="bc.Burdens.length" class="text-overline mb-n2 mt-n1">
+      BURDENS
+    </div>
     <v-row
       v-for="(b, i) in bc.Burdens"
-      :key="`b_${i}`"
-      dense
+      density="compact"
       justify="space-between"
       class="mt-n1 caption"
       style="position: relative; page-break-inside: avoid"
@@ -49,7 +50,7 @@
           <legend class="heading ml-1 px-2">{{ b.Title }}</legend>
           <v-row no-gutters class="pb-1">
             <v-col cols="auto" class="mr-4">
-              <span class="heading h2 grey--text">&emsp;/{{ b.Segments }}</span>
+              <span class="heading h2 text-grey">&emsp;/{{ b.Segments }}</span>
             </v-col>
             <v-col><div v-html="b.Description" /></v-col>
           </v-row>
@@ -57,11 +58,10 @@
       </v-col>
     </v-row>
 
-    <div class="overline mb-n2 mt-n1">BOND POWERS</div>
-    <v-row dense justify="center" class="mt-n1 caption">
+    <div class="text-overline mb-n2 mt-n1">BOND POWERS</div>
+    <v-row density="compact" justify="center" class="mt-n1 caption">
       <v-col
         v-for="(p, i) in bc.BondPowers"
-        :key="`pp_${i}`"
         cols="6"
         style="position: relative; page-break-inside: avoid"
       >

@@ -7,7 +7,6 @@
     <template v-slot:left-column>
       <div
         v-for="(pSkill, i) in pilot.SkillsController.Skills"
-        :key="`summary_${pSkill.Skill.ID}_${i}`"
         @click="scroll(pSkill.Skill.ID)"
       >
         <missing-item
@@ -38,7 +37,7 @@
           <v-alert
             variant="outlined"
             :prominent="$vuetify.display.mdAndUp"
-            dense
+            density="compact"
             color="success"
             icon="check_circle"
             class="stat-text"
@@ -49,7 +48,7 @@
           <v-alert
             variant="outlined"
             :prominent="$vuetify.display.mdAndUp"
-            dense
+            density="compact"
             color="accent"
             icon="warning"
             class="stat-text"
@@ -67,7 +66,7 @@
           <v-alert
             variant="outlined"
             :prominent="$vuetify.display.mdAndUp"
-            dense
+            density="compact"
             color="accent"
             icon="warning"
             class="stat-text"
@@ -89,19 +88,18 @@
     </template>
 
     <template v-slot:right-column>
-      <div v-for="h in headers" :key="`h_${h.attr}`" class="mb-4">
+      <div v-for="h in headers">
         <v-divider v-if="$vuetify.display.smAndDown" class="my-2" />
         <span v-if="h.attr !== 'Custom'" class="overline">Your Ability To</span>
         <cc-title v-if="$vuetify.display.mdAndUp" small>{{
           h.description
         }}</cc-title>
-        <div v-else class="heading h3 accent--text mb-1">
+        <div v-else class="heading h3 text-accent mb-1">
           {{ h.description }}
         </div>
         <skill-select-item
           v-for="(s, i) in skills[h.attr]"
           :id="`skill_${s.ID}`"
-          :key="`skill_${h.attr}_${i}`"
           :skill="s"
           :can-add="pilot.SkillsController.CanAddSkill(s)"
           :can-remove="pilot.SkillsController.CanRemoveSkill(s)"
@@ -123,7 +121,7 @@ import AddCustomSkill from './components/_AddCustomSkill.vue';
 import MissingItem from './components/_MissingItem.vue';
 import Selector from './components/_SelectorBase.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { Rules, Pilot } from '@/class';
 import { rules } from 'lancer-data';
 
@@ -167,7 +165,7 @@ export default {
     },
   },
   created() {
-    const compendium = this.getModule(CompendiumStore);
+    const compendium = CompendiumStore();
     this.staticSkills = this.$_.groupBy(compendium.Skills, 'Family');
     this.headers = rules.skill_headers;
   },

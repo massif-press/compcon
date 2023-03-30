@@ -3,10 +3,9 @@
     <v-card flat tile>
       <v-card-text class="px-2 py-0 background">
         <div>
-          <v-row dense>
+          <v-row density="compact">
             <active-mount-block
               v-for="(m, j) in mech.ActiveMounts"
-              :key="`a_m_${j}`"
               :mount="m"
               :mech="mech"
               :color="color"

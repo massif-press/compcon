@@ -44,7 +44,7 @@
             type="number"
             hide-details
             hide-spin-buttons
-            dense
+            density="compact"
             variant="outlined"
             background-color="panel"
             class="level-input"

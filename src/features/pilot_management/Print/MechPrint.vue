@@ -1,14 +1,14 @@
 <template>
   <v-container fluid>
-    <v-row dense align="top">
+    <v-row density="compact" align="top">
       <v-col cols="auto">
-        <div class="overline my-n2 grey--text">
+        <div class="text-overline my-n2 text-grey">
           {{ mech.Frame.Source }} {{ mech.Frame.Name }}
         </div>
         <div class="heading h2 mt-n4 font-weight-bolder">{{ mech.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-center caption">
-        <div class="overline mt-n2">OVERCHARGE</div>
+        <div class="text-overline mt-n2">OVERCHARGE</div>
         <span class="mx-1 oc-border">
           &nbsp;+1
           <v-icon small class="ml-n1">mdi-fire</v-icon>
@@ -28,11 +28,16 @@
       </v-col>
     </v-row>
 
-    <v-row dense align="center" justify="space-around" class="mt-n5 mb-1">
+    <v-row
+      density="compact"
+      align="center"
+      justify="space-around"
+      class="mt-n5 mb-1"
+    >
       <v-col cols="auto">
         <span class="font-weight-bold overline pr-3">HULL</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content">
-          <v-icon x-large style="margin-right: -3px !important"
+          <v-icon size="x-large" style="margin-right: -3px !important"
             >mdi-hexagon-outline</v-icon
           >
           <div class="heading h2 icon-overlap" v-html="mech.Hull" />
@@ -41,7 +46,7 @@
       <v-col cols="auto">
         <span class="font-weight-bold overline pr-3">AGI</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content">
-          <v-icon x-large style="margin-right: -3px !important"
+          <v-icon size="x-large" style="margin-right: -3px !important"
             >mdi-hexagon-outline</v-icon
           >
           <div class="heading h2 icon-overlap" v-html="mech.Agi" />
@@ -50,7 +55,7 @@
       <v-col cols="auto">
         <span class="font-weight-bold overline pr-3">SYS</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content">
-          <v-icon x-large style="margin-right: -3px !important"
+          <v-icon size="x-large" style="margin-right: -3px !important"
             >mdi-hexagon-outline</v-icon
           >
           <div class="heading h2 icon-overlap" v-html="mech.Sys" />
@@ -59,7 +64,7 @@
       <v-col cols="auto">
         <span class="font-weight-bold overline pr-3">ENG</span>
         <div class="ml-4 mt-n3" style="position: relative; width: max-content">
-          <v-icon x-large style="margin-right: -3px !important"
+          <v-icon size="x-large" style="margin-right: -3px !important"
             >mdi-hexagon-outline</v-icon
           >
           <div class="heading h2 icon-overlap" v-html="mech.Eng" />
@@ -90,9 +95,14 @@
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-between" align="start" class="mt-n4">
+    <v-row
+      density="compact"
+      justify="space-between"
+      align="start"
+      class="mt-n4"
+    >
       <v-col class="text-center">
-        <div style="line-height: 0" class="overline mb-4">STRUCTURE</div>
+        <div style="line-height: 0" class="text-overline mb-4">STRUCTURE</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6"
             >cc:structure</v-icon
@@ -104,9 +114,9 @@
         </div>
       </v-col>
       <v-col cols="auto">
-        <v-row dense no-gutters justify="center">
+        <v-row density="compact" no-gutters justify="center">
           <v-col cols="auto" class="text-center">
-            <div style="line-height: 0" class="overline mb-4 mr-6">HP</div>
+            <div style="line-height: 0" class="text-overline mb-4 mr-6">HP</div>
             <div>
               <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">
                 mdi-hexagon-outline
@@ -123,7 +133,9 @@
             class="text-center mb-1"
             align-self="end"
           >
-            <div style="line-height: 0" class="overline mb-4 ml-2">ARMOR</div>
+            <div style="line-height: 0" class="text-overline mb-4 ml-2">
+              ARMOR
+            </div>
             <div class="heading h2 mt-n4 mr-n2">
               <v-icon class="mt-n1 mr-n1">mdi-shield</v-icon>
               {{ mech.Armor }}
@@ -133,7 +145,7 @@
       </v-col>
       <v-spacer />
       <v-col class="text-center">
-        <div style="line-height: 0" class="overline mb-4 mr-2">STRESS</div>
+        <div style="line-height: 0" class="text-overline mb-4 mr-2">STRESS</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6"
             >cc:reactor</v-icon
@@ -145,7 +157,7 @@
         </div>
       </v-col>
       <v-col class="text-center">
-        <div style="line-height: 0" class="overline mb-4 mr-6">HEAT</div>
+        <div style="line-height: 0" class="text-overline mb-4 mr-6">HEAT</div>
         <div>
           <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6"
             >mdi-fire</v-icon
@@ -158,7 +170,7 @@
       </v-col>
     </v-row>
 
-    <v-row dense>
+    <v-row density="compact">
       <v-col>
         <fieldset>
           <legend class="caption font-weight-bold px-1">ATK</legend>
@@ -215,9 +227,9 @@
       </v-col>
     </v-row>
 
-    <div class="overline mb-n2">FRAME TRAITS</div>
-    <v-row dense justify="space-between" class="caption mt-n1">
-      <v-col v-for="(t, i) in mech.Frame.Traits" :key="`mt_${i}`" class="mt-n1">
+    <div class="text-overline mb-n2">FRAME TRAITS</div>
+    <v-row density="compact" justify="space-between" class="caption mt-n1">
+      <v-col v-for="(t, i) in mech.Frame.Traits">
         <fieldset>
           <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
           <p v-html-safe="t.Description" class="ml-6 mb-0" />
@@ -225,7 +237,7 @@
       </v-col>
     </v-row>
 
-    <div class="overline mb-n3">CORE SYSTEM</div>
+    <div class="text-overline mb-n3">CORE SYSTEM</div>
     <fieldset class="mt-n2">
       <legend class="heading h3 ml-1 px-2">
         {{ mech.Frame.CoreSystem.Name }}
@@ -256,17 +268,13 @@
         class="caption ml-6 mb-1"
       />
       <div v-if="mech.Frame.CoreSystem.Tag" class="text-right">
-        <span
-          v-for="(t, i) in mech.Frame.CoreSystem.Tags"
-          :key="`mcst_${i}`"
-          class="mx-1"
-        >
+        <span v-for="(t, i) in mech.Frame.CoreSystem.Tags" class="mx-1">
           {{ t.Name() }}
         </span>
       </div>
     </fieldset>
 
-    <v-row dense class="mb-n3">
+    <v-row density="compact" class="mb-n3">
       <v-col cols="1">
         <v-divider class="mt-3" />
       </v-col>
@@ -283,7 +291,6 @@
 
     <fieldset
       v-for="(m, i) in mounts"
-      :key="`mmt_${i}`"
       style="position: relative; page-break-inside: avoid"
     >
       <legend class="heading ml-1 px-2 mb-n2">{{ m.Name }}</legend>
@@ -292,12 +299,7 @@
         <br />
         <span class="overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
-      <div
-        v-for="(w, j) in m.Weapons"
-        v-else
-        :key="`mmtw_${i}_${j}`"
-        class="px-1"
-      >
+      <div v-for="(w, j) in m.Weapons" v-else class="px-1">
         <v-row no-gutters class="stat-text">
           {{ w.Name }}
           <div class="d-inline-block overline ml-2 my-n1">
@@ -305,24 +307,16 @@
           </div>
           <v-spacer />
           <span v-if="w.Uses">
-            <v-icon
-              v-for="n in w.getTotalUses(mech.Pilot.LimitedBonus)"
-              :key="`use_${w.ID}_${n}`"
-              small
-            >
+            <v-icon v-for="n in w.getTotalUses(mech.Pilot.LimitedBonus)" small>
               mdi-hexagon-outline
             </v-icon>
           </span>
         </v-row>
-        <div v-for="p in w.Profiles" :key="`${w.ID}_${p.Name}`">
+        <div v-for="p in w.Profiles">
           <div class="caption">
-            <b v-for="(r, k) in p.Range" :key="`mmwr_${i}_${j}_${k}`"
-              >{{ r.Text }}&nbsp;</b
-            >
+            <b v-for="(r, k) in p.Range">{{ r.Text }}&nbsp;</b>
             <span v-if="p.Damage && p.Damage.length">|</span>
-            <b v-for="(d, k) in p.Damage" :key="`mmwd_${i}_${j}_${k}`"
-              >{{ d.Text }}&nbsp;</b
-            >
+            <b v-for="(d, k) in p.Damage">{{ d.Text }}&nbsp;</b>
             <p v-if="p.Effect" :v-html-safe="p.Effect" print />
             <p
               v-if="p.OnAttack"
@@ -364,7 +358,6 @@
       <legend class="heading ml-1 px-2">Systems</legend>
       <div
         v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
-        :key="`mms_${i}`"
         class="bordered-block"
       >
         <v-row no-gutters class="stat-text mt-n1">
@@ -374,11 +367,7 @@
           </div>
           <v-spacer />
           <span v-if="s.Uses">
-            <v-icon
-              v-for="n in s.getTotalUses(mech.Pilot.LimitedBonus)"
-              :key="`use_${s.ID}_${n}`"
-              small
-            >
+            <v-icon v-for="n in s.getTotalUses(mech.Pilot.LimitedBonus)" small>
               mdi-hexagon-outline
             </v-icon>
           </span>

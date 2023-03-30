@@ -25,7 +25,7 @@
           class="mt-4"
         >
           <div class="heading h2 mt-3 mb-n3">
-            <v-icon x-large class="mt-n2 mr-n1">cc:pilot</v-icon>
+            <v-icon size="x-large" class="mt-n2 mr-n1">cc:pilot</v-icon>
             {{ item.Name }}
           </div>
         </pilot-attack>

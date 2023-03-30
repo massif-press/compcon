@@ -1,19 +1,14 @@
 <template>
   <div class="text-center">
     <div class="border">
-      <v-img
-        v-if="pilot.Portrait"
-        :key="pilot.PortraitController.Image"
-        :src="pilot.Portrait"
-        max-width="100%"
-      />
+      <v-img v-if="pilot.Portrait" :src="pilot.Portrait" max-width="100%" />
     </div>
     <v-btn
       variant="outlined"
       color="secondary"
       small
       block
-      class="fadeSelect"
+      class="fade-select"
       @click="$refs.imageSelector.open()"
     >
       <v-icon start>mdi-circle-edit-outline</v-icon>

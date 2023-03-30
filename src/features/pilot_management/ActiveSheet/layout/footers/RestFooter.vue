@@ -22,19 +22,25 @@
             >
           </template>
           <v-card>
-            <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
+            <v-toolbar
+              density="compact"
+              dark
+              flat
+              tile
+              color="warning darken-3 heading h2"
+            >
               NEXT ENCOUNTER
               <v-spacer />
               <v-btn icon @click="rcDialog = false"
-                ><v-icon>mdi-close</v-icon></v-btn
-              >
+                ><v-icon icon="mdi-close"
+              /></v-btn>
             </v-toolbar>
             <v-card-text>
-              <p class="flavor-text stark--text mt-2 mb-0 mx-6">
+              <p class="flavor-text text-stark mt-2 mb-0 mx-6">
                 >//[
-                <span class="accent--text">COMP/CON</span>
+                <span class="text-accent">COMP/CON</span>
                 :
-                <span class="stark-text--text">Confirmation Required.</span>
+                <span class="stark-text-text">Confirmation Required.</span>
                 Continue?
               </p>
               <v-row justify="center" class="mt-2">
@@ -68,77 +74,83 @@
             >
           </template>
           <v-card>
-            <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
+            <v-toolbar
+              density="compact"
+              dark
+              flat
+              tile
+              color="warning darken-3 heading h2"
+            >
               END MISSION
               <v-spacer />
               <v-btn icon @click="emDialog = false"
-                ><v-icon>mdi-close</v-icon></v-btn
-              >
+                ><v-icon icon="mdi-close"
+              /></v-btn>
             </v-toolbar>
             <v-card-text>
               <div>
                 <v-checkbox
                   v-model="saveCheckbox"
-                  dense
+                  density="compact"
                   hide-details
                   label="Save Mission Data"
                 />
               </div>
               <p
                 v-show="saveCheckbox"
-                class="flavor-text stark--text mt-2 mb-0 mx-6"
+                class="flavor-text text-stark mt-2 mb-0 mx-6"
               >
                 >//[
-                <span class="accent--text">COMP/CON</span>
+                <span class="text-accent">COMP/CON</span>
                 :
-                <span class="stark-text--text">Confirmation Required</span>
+                <span class="stark-text-text">Confirmation Required</span>
                 ] Pilot, proceeding will end the current mission and write all
                 combat telemetry data to your record. This cannot be undone.
                 Continue?
               </p>
               <v-row justify="center" no-gutters class="mt-n2"></v-row>
               <v-alert
-                dense
+                density="compact"
                 variant="outlined"
                 :color="pilot.ActiveMech.Frame.Manufacturer.Color"
                 class="mt-4"
               >
-                <span v-show="saveCheckbox" class="text--text">
+                <span v-show="saveCheckbox" class="text-text">
                   The following mission data will be added to the Pilot Combat
                   Telemetry Record:
                 </span>
                 <div class="pl-2 pr-4 flavor-text">
                   <div>
                     MOVES:
-                    <b class="stark--text">{{ pilot.State.Stats.moves }}</b>
+                    <b class="text-stark">{{ pilot.State.Stats.moves }}</b>
                   </div>
                   <div>
                     DAMAGE DEALT:
-                    <b class="stark--text">{{ pilot.State.Stats.damage }}</b>
+                    <b class="text-stark">{{ pilot.State.Stats.damage }}</b>
                   </div>
                   <div>
                     ENEMIES DESTROYED:
-                    <b class="stark--text">{{ pilot.State.Stats.kills }}</b>
+                    <b class="text-stark">{{ pilot.State.Stats.kills }}</b>
                   </div>
                   <div>
                     DAMAGE TAKEN:
-                    <b class="stark--text">{{ pilot.State.Stats.hp_damage }}</b>
+                    <b class="text-stark">{{ pilot.State.Stats.hp_damage }}</b>
                   </div>
                   <div>
                     STRUCTURE LOST:
-                    <b class="stark--text">{{
+                    <b class="text-stark">{{
                       pilot.State.Stats.structure_damage
                     }}</b>
                   </div>
                   <div>
                     HEAT TAKEN:
-                    <b class="stark--text">{{
+                    <b class="text-stark">{{
                       pilot.State.Stats.heat_damage
                     }}</b>
                   </div>
                   <div>
                     REACTOR STRESS:
-                    <b class="stark--text">{{
+                    <b class="text-stark">{{
                       pilot.State.Stats.reactor_damage
                     }}</b>
                   </div>
@@ -167,9 +179,9 @@
       <v-col v-if="$vuetify.display.mdAndUp">
         <span class="flavor-text">
           >//[
-          <span class="accent--text">COMP/CON</span>
+          <span class="text-accent">COMP/CON</span>
           :
-          <span class="stark-text--text">Field Repair Protocols Active</span>
+          <span class="stark-text-text">Field Repair Protocols Active</span>
           ]
         </span>
       </v-col>

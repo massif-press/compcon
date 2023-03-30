@@ -7,7 +7,6 @@
     </div>
     <cc-trait-item
       v-for="(t, index) in mech.Frame.Traits"
-      :key="'trait_' + index + t.name"
       :trait="t"
       :color="color"
     />

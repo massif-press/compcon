@@ -14,50 +14,40 @@
       style="cursor: pointer !important; height: 100%; min-height: 80px"
       @click="$refs.base.openDetail()"
     >
-      <span
-        :key="item.Name"
-        class="h2 heading text--text"
-        style="line-height: 35px"
-      >
+      <span class="h2 heading text-text" style="line-height: 35px">
         {{ item.Name }}
-        <cc-tooltip
-          v-if="item.Note"
-          :key="item.Note.length"
-          simple
-          inline
-          :content="item.Note"
-        >
+        <cc-tooltip v-if="item.Note" simple inline :content="item.Note">
           <v-icon small color="active">mdi-note</v-icon>
         </cc-tooltip>
       </span>
-      <v-row dense class="pb-2">
+      <v-row density="compact" class="pb-2">
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Armor Bonus">
-            <v-icon>mdi-shield-outline</v-icon>
+            <v-icon icon="mdi-shield-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ armor }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="HP Bonus">
-            <v-icon>mdi-heart</v-icon>
+            <v-icon icon="mdi-heart" />
           </cc-tooltip>
           <span class="stat-text">+{{ hp }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Electronic Defense">
-            <v-icon>cc:edef</v-icon>
+            <v-icon icon="cc:edef" />
           </cc-tooltip>
           <span class="stat-text">{{ edef }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Evasion">
-            <v-icon>cc:evasion</v-icon>
+            <v-icon icon="cc:evasion" />
           </cc-tooltip>
           <span class="stat-text">{{ evasion }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Speed">
-            <v-icon>$vuetify.icons.move</v-icon>
+            <v-icon icon="$vuetify.icons.move" />
           </cc-tooltip>
           <span class="stat-text">{{ speed }}</span>
         </v-col>
@@ -79,12 +69,12 @@
         <div v-if="item">
           <span class="overline">
             GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-            <span class="success--text text--darken-1">
+            <span class="text-success text--darken-1">
               [ PILOT MATERIEL REGISTRATION VERIFIED ]
             </span>
           </span>
           <br />
-          <span class="heading h1 accent--text" style="line-height: 20px">{{
+          <span class="heading h1 text-accent" style="line-height: 20px">{{
             item.Name
           }}</span>
           <span class="flavor-text overline mt-n1" style="display: block"
@@ -98,13 +88,13 @@
           </span>
           <br />
           <span
-            class="heading h1 subtle--text text--lighten-1"
+            class="heading h1 text-subtle text--lighten-1"
             style="line-height: 20px"
           >
             NO SELECTION
           </span>
           <span
-            class="flavor-text overline mt-n1 error--text"
+            class="flavor-text overline mt-n1 text-error"
             style="display: block"
           >
             [ MATERIEL ID INVALID OR MISSING ]
@@ -118,7 +108,7 @@
 <script lang="ts">
 import PlCardBase from './_PLCardBase.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { PilotArmor, CompendiumItem, ItemType } from '@/class';
 import { flavorID } from '@/io/Generators';
 
@@ -183,7 +173,7 @@ export default {
       (this.$refs.base as any).closeSelector();
     },
     getArmor() {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       let gear = compendium.PilotGear.filter(
         (x: CompendiumItem) =>
           !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotArmor

@@ -1,13 +1,13 @@
 <template>
   <v-alert
     variant="outlined"
-    dense
+    density="compact"
     :color="item.Color"
     class="light-panel pb-1"
   >
     <v-row
       v-if="item.ItemType === 'MechWeapon'"
-      class="stark--text mb-n3"
+      class="text-stark mb-n3"
       no-gutters
       align="center"
     >

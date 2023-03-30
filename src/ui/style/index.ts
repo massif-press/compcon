@@ -3,7 +3,6 @@ import { createVuetify } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import { ccIcons } from '@/assets/icons/cc-icons';
-// import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import '@mdi/font/css/materialdesignicons.css';
 
 import * as themes from './themes';
@@ -37,8 +36,5 @@ const vuetify = createVuetify({
     },
   },
 });
-
-console.log(ccIcons);
-console.log(vuetify);
 
 export default vuetify;

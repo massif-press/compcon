@@ -6,7 +6,7 @@
     @remove-feature="$emit('remove-feature', $event)"
     @recalc="$emit('recalc')"
   >
-    <v-row class="heading h3 text-center" dense no-gutters>
+    <v-row class="heading h3 text-center" density="compact" no-gutters>
       <v-col cols="auto">
         <span class="heading h3">
           <cc-range-element small :range="item.Feature.Range" />
@@ -28,13 +28,13 @@
       <v-divider vertical class="mx-4" />
       <v-col>
         <span v-if="item.Tier" class="heading h3">
-          <v-icon>cc:reticule</v-icon>
+          <v-icon icon="cc:reticule" />
           <span v-if="item.Feature.AttackBonus(item.Tier) > 0">+</span>
           {{ item.Feature.AttackBonus(item.Tier) }}
           Attack Bonus
         </span>
         <span v-else>
-          <v-icon>cc:reticule</v-icon>
+          <v-icon icon="cc:reticule" />
           <span v-if="item.Feature.AttackBonus(1) > 0">+</span>
           {{ item.Feature.AttackBonus(1) }} /
           <span v-if="item.Feature.AttackBonus(2) > 0">+</span>
@@ -48,25 +48,25 @@
       <v-col>
         <span v-if="item.Tier" class="heading h3">
           <div v-if="item.Feature.Accuracy(item.Tier) > 0">
-            <v-icon>cc:accuracy</v-icon>
+            <v-icon icon="cc:accuracy" />
             +{{ item.Feature.Accuracy(item.Tier) }}
             Accuracy
           </div>
           <div v-else-if="item.Feature.Accuracy(item.Tier) < 0">
-            <v-icon>cc:difficulty</v-icon>
+            <v-icon icon="cc:difficulty" />
             +{{ Math.abs(item.Feature.Accuracy(item.Tier)) }}
             Difficulty
           </div>
         </span>
         <span v-else>
           <div v-if="item.Feature.Accuracy(1) > 0">
-            <v-icon>cc:accuracy</v-icon>
+            <v-icon icon="cc:accuracy" />
             +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} /
             +{{ item.Feature.Accuracy(3) }}
             Accuracy
           </div>
           <div v-else-if="item.Feature.Accuracy(1) < 0">
-            <v-icon>cc:difficulty</v-icon>
+            <v-icon icon="cc:difficulty" />
             +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{
               Math.abs(item.Feature.Accuracy(2))
             }}

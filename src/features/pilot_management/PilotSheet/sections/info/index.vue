@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense align="center" class="mt-n6 mb-n6">
+    <v-row density="compact" align="center" class="mt-n6 mb-n6">
       <v-col>
         <ident-block />
       </v-col>
@@ -10,14 +10,14 @@
       <v-col v-if="$vuetify.display.smAndDown" cols="12">
         <image-block />
       </v-col>
-      <v-col cols="12" md="8" dense>
+      <v-col cols="12" md="8" density="compact">
         <clone-block />
         <history-block />
         <appearance-block />
         <notes-block />
         <combat-history-block />
       </v-col>
-      <v-col v-if="$vuetify.display.mdAndUp" cols="4" dense>
+      <v-col v-if="$vuetify.display.mdAndUp" cols="4" density="compact">
         <image-block />
       </v-col>
     </v-row>

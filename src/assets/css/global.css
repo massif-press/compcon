@@ -53,11 +53,11 @@ a {
   text-align: center;
 }
 
-.fadeSelect {
+.fade-select {
   opacity: 0.45;
 }
 
-.fadeSelect:hover {
+.fade-select:hover {
   opacity: 1;
   transition: all 0.25s;
 }

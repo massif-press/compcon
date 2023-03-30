@@ -14,7 +14,7 @@
       <v-menu v-if="!noAction" offset-y max-width="700px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn right icon v-bind="props">
-            <v-icon class="fadeSelect">mdi-information-outline</v-icon>
+            <v-icon class="fade-select">mdi-information-outline</v-icon>
           </v-btn>
         </template>
         <v-card>
@@ -26,12 +26,12 @@
           <v-card-text
             v-if="displayFreq"
             v-html-safe="action.Frequency.ToString()"
-            class="body-text text--text mt-0 pt-1"
+            class="body-text text-text mt-0 pt-1"
           />
           <v-card-text
             v-if="action.Detail"
             v-html-safe="action.Detail"
-            class="body-text text--text mt-0 pt-1"
+            class="body-text text-text mt-0 pt-1"
           />
         </v-card>
       </v-menu>

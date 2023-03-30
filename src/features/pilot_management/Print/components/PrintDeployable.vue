@@ -1,12 +1,8 @@
 <template>
   <div class="mt-1 mb-3 mx-2">
-    <div
-      v-for="d in deployables"
-      :key="`deployable${d.ID}`"
-      style="border: 1px solid grey"
-    >
+    <div v-for="d in deployables" style="border: 1px solid grey">
       <div class="text-center caption font-weight-bold">{{ d.name }}</div>
-      <v-row justify="center" dense class="text-center mt-n1">
+      <v-row justify="center" density="compact" class="text-center mt-n1">
         <v-col v-if="d.size" cols="auto">
           <div
             class="caption font-weight-bold"

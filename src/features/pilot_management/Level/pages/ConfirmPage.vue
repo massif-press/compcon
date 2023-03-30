@@ -9,11 +9,11 @@
     <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
     <br />
     <v-alert type="error" variant="outlined" :value="!pilotReady">
-      <span class="stat-text accent--text">
+      <span class="stat-text text-accent">
         WARNING: Submission for IDENT record {{ pilot.ID }} has the following
         issue(s):
       </span>
-      <ul class="flavor-text error--text">
+      <ul class="flavor-text text-error">
         <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
         <li v-if="!pilot.Name">PILOT NAME blank or invalid</li>
         <li v-if="!pilot.SkillsController.HasFullSkills">

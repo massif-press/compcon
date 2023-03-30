@@ -1,11 +1,16 @@
 <template>
-  <v-alert variant="outlined" dense color="primary" class="pb-0 ma-1">
-    <div class="text--text">
+  <v-alert
+    variant="outlined"
+    density="compact"
+    color="primary"
+    class="pb-0 ma-1"
+  >
+    <div class="text-text">
       <v-row no-gutters>
         <v-col cols="auto">
           <v-icon start large color="stark" class="mt-n2">cc:drone</v-icon>
           <span class="heading h2">{{ deployable.name }}</span>
-          <span v-if="deployable.type" class="heading h3 subtle--text">
+          <span v-if="deployable.type" class="heading h3 text-subtle">
             <cc-slashes />
             {{ deployable.type }}
           </span>

@@ -11,7 +11,7 @@
           v-if="collapsible"
           left
           dark
-          class="fadeSelect"
+          class="fade-select"
           @click="collapsed = !collapsed"
         >
           {{ collapsed ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
@@ -23,7 +23,7 @@
               : $vuetify.display.lgAndUp
               ? 'heading h3'
               : 'heading h2'
-          } white--text`"
+          } text-white`"
         >
           {{ header }}
         </span>
@@ -33,12 +33,12 @@
           style="opacity: 0.5"
         />
         <v-spacer v-else />
-        <span class="overline white--text mr-2">{{ subheader }}</span>
+        <span class="text-overline text-white mr-2">{{ subheader }}</span>
         <span
           v-if="content && prominent"
           :class="`heading ${
             $vuetify.display.lgAndup ? 'h1' : 'h2'
-          } pt-1 pb-3 pr-3 white--text`"
+          } pt-1 pb-3 pr-3 text-white`"
         >
           {{ content }}
         </span>
@@ -46,7 +46,7 @@
       <v-scroll-y-transition leave-absolute>
         <v-card-text
           v-if="!collapsed && !prominent"
-          class="pa-1 pl-2 ma-0 text--text body-text"
+          class="pa-1 pl-2 ma-0 text-text body-text"
         >
           <div v-if="content && !prominent">
             {{ content }}

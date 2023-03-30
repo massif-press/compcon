@@ -1,7 +1,7 @@
 // Wrapper class for items assigned to an NPC
 import { v4 as uuid } from 'uuid';
 import { NpcFeature, NpcTemplate } from '../../..';
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export interface INpcItemSaveData {
   itemID: string;
@@ -157,7 +157,7 @@ export class NpcItem {
 
   public static Deserialize(data: INpcItemSaveData): NpcItem {
     const item = new NpcItem(
-      store.getters.referenceByID('NpcFeatures', data.itemID),
+      CompendiumStore().referenceByID('NpcFeatures', data.itemID),
       data.tier
     );
     item._flavor_description = data.description;

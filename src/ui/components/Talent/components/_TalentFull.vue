@@ -6,18 +6,18 @@
           <talent-emblem :url="talent.Image" :name="talent.Name" white />
         </v-col>
         <v-col>
-          <div class="white--text heading h1 ml-2">{{ talent.Name }}</div>
+          <div class="text-white heading h1 ml-2">{{ talent.Name }}</div>
         </v-col>
         <v-col v-if="rank" cols="auto" class="ml-auto mr-3">
-          <v-icon size="45" color="white">cc:rank-{{ rank }}</v-icon>
+          <v-icon size="45" color="white">cc:rank_{{ rank }}</v-icon>
         </v-col>
         <v-col v-if="talent.InLcp" cols="auto" class="mr-3">
-          <div class="white--text heading h3">{{ talent.LcpName }}</div>
+          <div class="text-white heading h3">{{ talent.LcpName }}</div>
         </v-col>
         <v-col cols="auto" align-self="center">
           <v-icon
             color="white"
-            class="fadeSelect mr-n2"
+            class="fade-select mr-n2"
             @click="$emit('expand', 'terse')"
           >
             mdi-arrow-collapse
@@ -32,12 +32,11 @@
       <v-row
         v-for="n in 3"
         v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
-        :key="`rank-layout-${n}`"
-        dense
-        :class="rank && parseInt(rank) < n ? 'text--disabled' : 'stark--text'"
+        density="compact"
+        :class="rank && parseInt(rank) < n ? 'text--disabled' : 'text-stark'"
       >
         <v-col cols="auto">
-          <v-icon x-large>cc:rank-{{ n }}</v-icon>
+          <v-icon x-large>cc:rank_{{ n }}</v-icon>
         </v-col>
         <v-col>
           <v-row no-gutters class="heading h3" align="center">
@@ -70,7 +69,7 @@
                 small
                 color="error"
                 variant="outlined"
-                class="fadeSelect"
+                class="fade-select"
                 @click="$emit('remove')"
               >
                 <v-icon start>mdi-close</v-icon>
@@ -88,7 +87,7 @@
     <v-row v-if="hideLocked" no-gutters>
       <v-col cols="auto" class="ml-auto">
         <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
-          <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
+          <v-btn small icon class="fade-select" @click="showAll = !showAll">
             <v-icon small>mdi-eye</v-icon>
           </v-btn>
         </cc-tooltip>

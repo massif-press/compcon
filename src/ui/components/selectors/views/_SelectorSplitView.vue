@@ -1,15 +1,10 @@
 <template>
   <div class="mt-n2">
-    <v-row dense>
+    <v-row density="compact">
       <v-col cols="3" class="pt-2 ml-n6">
-        <v-list dense class="side-fixed">
+        <v-list density="compact" class="side-fixed">
           <v-list-item-group v-model="selected" color="accent">
-            <v-list-item
-              v-for="i in items"
-              :key="`${i.ID}_sidebar'`"
-              :value="i.ID"
-              dense
-            >
+            <v-list-item v-for="i in items" :value="i.ID" density="compact">
               <v-list-item-icon>
                 <v-icon v-if="equipmentAdd" v-html="i.Icon" />
                 <v-icon v-else-if="i.IsExotic" color="exotic">mdi-star</v-icon>
@@ -24,8 +19,8 @@
                 <v-list-item-title
                   :class="`heading h3 ${
                     spDisable && i.SP > 0 && i.SP > sp && !spIgnore
-                      ? 'subtle--text'
-                      : 'stark--text'
+                      ? 'text-subtle'
+                      : 'text-stark'
                   } font-weight-bold`"
                   style="font-size: 15px"
                 >
@@ -46,13 +41,13 @@
       <v-col class="pl-7 mr-7">
         <div
           v-if="!selectedItem"
-          class="heading h2 light-panel--text text-center"
+          class="heading h2 light-text-panel text-center"
           style="margin-top: calc(50vh - 150px)"
         >
           NO SELECTION
         </div>
         <div v-else class="side-fixed">
-          <div class="heading h1 mt-2 stark--text">{{ selectedItem.Name }}</div>
+          <div class="heading h1 mt-2 text-stark">{{ selectedItem.Name }}</div>
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
           <div v-if="equipmentAdd" class="text-center mt-3">
@@ -73,7 +68,7 @@
                 selectedItem.SP > sp &&
                 !spIgnore
               "
-              class="overline warning--text"
+              class="text-overline text-warning"
             >
               // ALERT: EQUIPMENT EXCEEDS SYSTEM POINT CAPACITY //
             </div>

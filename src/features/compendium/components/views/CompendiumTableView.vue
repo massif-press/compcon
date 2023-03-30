@@ -18,7 +18,7 @@
       <v-hover v-if="$vuetify.display.smAndDown" v-slot="{ hover }">
         <div
           block
-          :class="`font-weight-bold ${hover ? 'accent--text' : ''}`"
+          :class="`font-weight-bold ${hover ? 'text-accent' : ''}`"
           dark
           @click="$refs[`modal_${item.ID}`].show()"
         >
@@ -33,7 +33,7 @@
         dark
         @click="$refs[`modal_${item.ID}`].show()"
       >
-        <v-icon>mdi-open-in-new</v-icon>
+        <v-icon icon="mdi-open-in-new" />
       </v-btn>
       <cc-solo-dialog
         :ref="`modal_${item.ID}`"

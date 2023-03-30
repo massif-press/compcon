@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" width="75vw">
     <cc-confirmation
       :content="`Lancer, please confirm deletion of Mech Configuration:
-          <span class='accent--text'>
+          <span class='text-accent'>
             ${mech.Name} (${mech.Frame.Source}, ${mech.Frame.Name})
           </span>`"
       @confirm="remove()"

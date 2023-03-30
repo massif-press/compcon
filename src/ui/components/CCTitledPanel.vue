@@ -7,15 +7,17 @@
     <v-toolbar
       :color="color ? color : 'primary'"
       flat
-      dense
+      density="compact"
       dark
-      :class="`${dense ? 'clipped-invert' : 'clipped-large-invert'} ${
-        clickable ? 'titlebar' : ''
-      }`"
-      :style="dense ? 'height: 28px' : ''"
+      :class="`${
+        density === `compact` ? 'clipped-invert' : 'clipped-large-invert'
+      } ${clickable ? 'titlebar' : ''}`"
+      :style="density === `compact` ? 'height: 28px' : ''"
     >
-      <v-toolbar-title :class="dense ? 'mt-n6' : ''">
-        <v-icon v-if="icon" :x-large="!dense" left>{{ icon }}</v-icon>
+      <v-toolbar-title :class="density === `compact` ? 'mt-n6' : ''">
+        <v-icon v-if="icon" :x-large="density !== `compact`" left>{{
+          icon
+        }}</v-icon>
         <span :class="`heading h3 pr-3 ${clickable ? 'underline-slide' : ''}`">
           {{ title }}
         </span>
@@ -62,8 +64,8 @@ export default {
       type: Boolean,
       required: false,
     },
-    dense: {
-      type: Boolean,
+    density: {
+      type: String,
       required: false,
     },
   },

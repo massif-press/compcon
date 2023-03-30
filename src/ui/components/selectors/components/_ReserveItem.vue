@@ -1,7 +1,7 @@
 <template>
   <cc-titled-panel :title="reserve.Name" :icon="icon" :color="color">
-    <v-row dense style="min-height: 70px">
-      <v-col cols="12" md="auto" dense class="pr-0">
+    <v-row density="compact" style="min-height: 70px">
+      <v-col cols="12" md="auto" density="compact" class="pr-0">
         <v-btn
           v-if="$vuetify.display.smAndDown"
           :color="color"
@@ -16,7 +16,7 @@
             block
             icon
             min-height="calc(100% - 8px)"
-            class="pa-0 mr-6 fadeSelect"
+            class="pa-0 mr-6 fade-select"
             :color="color"
             @click="$emit('click')"
           >
@@ -25,7 +25,7 @@
         </cc-tooltip>
       </v-col>
       <v-col class="pl-0 ml-2">
-        <p v-html-safe="reserve.Description" class="flavor-text text--text" />
+        <p v-html-safe="reserve.Description" class="flavor-text text-text" />
       </v-col>
     </v-row>
   </cc-titled-panel>

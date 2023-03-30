@@ -1,50 +1,33 @@
 <template>
-  <cc-titled-panel :title="bond.Name" dense>
-    <span slot="items" class="flavor-text white--text" v-html="bond.LcpName" />
+  <cc-titled-panel :title="bond.Name" density="compact">
+    <span slot="items" class="flavor-text text-white" v-html="bond.LcpName" />
     <slot name="button" />
-    <v-row class="text--text">
+    <v-row class="text-text">
       <v-col>
-        <div class="overline mb-n1 font-weight-bold">MAJOR IDEALS</div>
+        <div class="text-overline mb-n1 font-weight-bold">MAJOR IDEALS</div>
         <ul>
-          <li
-            v-for="(s, i) in bond.MajorIdeals"
-            :key="`mi_${bond.ID}_${i}`"
-            v-text="s"
-          />
+          <li v-for="(s, i) in bond.MajorIdeals" v-text="s" />
         </ul>
       </v-col>
       <v-col>
-        <div class="overline mb-n1 font-weight-bold">MINOR IDEALS</div>
+        <div class="text-overline mb-n1 font-weight-bold">MINOR IDEALS</div>
         <ul>
-          <li
-            v-for="(s, i) in bond.MinorIdeals"
-            :key="`mmi_${bond.ID}_${i}`"
-            v-text="s"
-          />
+          <li v-for="(s, i) in bond.MinorIdeals" v-text="s" />
         </ul>
       </v-col>
     </v-row>
-    <v-row class="text--text">
-      <v-col v-for="(q, i) in bond.Questions" :key="`1_${bond.ID}_${i}`">
-        <div class="overline mb-n1 font-weight-bold" v-text="q.question" />
+    <v-row class="text-text">
+      <v-col v-for="(q, i) in bond.Questions">
+        <div class="text-overline mb-n1 font-weight-bold" v-text="q.question" />
         <ul>
-          <li
-            v-for="(o, j) in q.options"
-            :key="`qo_${bond.ID}_${i}_${j}`"
-            v-text="o"
-          />
+          <li v-for="(o, j) in q.options" v-text="o" />
         </ul>
       </v-col>
     </v-row>
     <v-divider class="my-4" />
     <div class="heading h3 my-3">BOND POWERS</div>
     <v-row class="mb-3 px-6">
-      <v-col
-        xl="6"
-        sm="12"
-        v-for="(p, i) in bond.Powers"
-        :key="`p_${bond.ID}_${i}}`"
-      >
+      <v-col xl="6" sm="12" v-for="(p, i) in bond.Powers">
         <v-card
           variant="outlined"
           class="pa-2"
@@ -54,12 +37,12 @@
             <v-col>
               <div
                 v-if="p.veteran"
-                class="heading h4 accent--text"
+                class="heading h4 text-accent"
                 v-text="`${p.name} (Veteran Power)`"
               />
               <div
                 v-else-if="p.master"
-                class="heading h4 exotic--text"
+                class="heading h4 text-exotic"
                 v-text="`${p.name} (Master Power)`"
               />
               <div v-else class="heading h4" v-text="p.name" />

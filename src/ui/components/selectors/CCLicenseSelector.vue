@@ -7,17 +7,16 @@
     <template v-slot:left-column>
       <v-row
         v-for="pl in pilot.LicenseController.Licenses"
-        :key="`summary_${pl.License.Name}`"
         class="my-2"
         style="width: 98%"
       >
         <missing-item v-if="pl.License.err" @remove="remove(pl)" />
         <div v-else>
           <v-icon :color="manufacturer(pl.License.Source).Color"
-            >cc:rank-{{ pl.Rank }}</v-icon
+            >cc:rank_{{ pl.Rank }}</v-icon
           >
           <strong>{{ pl.License.Name }}</strong>
-          <v-icon end class="fadeSelect" @click="scroll(pl.License.FrameID)">
+          <v-icon end class="fade-select" @click="scroll(pl.License.FrameID)">
             mdi-chevron-right
           </v-icon>
         </div>
@@ -62,7 +61,7 @@
     </template>
 
     <template v-slot:right-column>
-      <v-row v-for="m in Object.keys(licenses)" :key="m">
+      <v-row v-for="m in Object.keys(licenses)">
         <v-col class="text-center pa-3">
           <span
             class="heading mech"
@@ -75,7 +74,6 @@
             <license-select-item
               v-for="l in licenses[m]"
               :id="`e_${l.FrameID}`"
-              :key="l.FrameID"
               :license="l"
               :is-selectable="l.CanSelect(pilot)"
               :rank="pilot.LicenseController.getLicenseRank(l.Name)"
@@ -95,7 +93,7 @@ import Selector from './components/_SelectorBase.vue';
 import MissingItem from './components/_MissingItem.vue';
 import LicenseSelectItem from './components/_LicenseSelectItem.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { Pilot } from '@/class';
 
 export default {
@@ -119,7 +117,7 @@ export default {
     },
   },
   created() {
-    const compendium = this.getModule(CompendiumStore);
+    const compendium = CompendiumStore();
     this.licenses = this.$_.groupBy(
       compendium.Licenses.filter((x) => !x.Hidden),
       'Source'
@@ -142,7 +140,7 @@ export default {
         });
     },
     manufacturer(id: string) {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       return compendium.referenceByID('Manufacturers', id.toUpperCase());
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <cc-dialog no-dismiss large>
-    <span slot="button" class="white--text" style="width: 100%">
+    <span slot="button" class="text-white" style="width: 100%">
       <v-icon dark>cc:drone</v-icon>
       {{ deployable.name }}
     </span>

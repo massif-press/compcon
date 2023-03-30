@@ -1,5 +1,10 @@
 <template>
-  <v-alert variant="outlined" dense :color="action.Color" class="pb-0 ma-1">
+  <v-alert
+    variant="outlined"
+    density="compact"
+    :color="action.Color"
+    class="pb-0 ma-1"
+  >
     <v-row no-gutters>
       <v-col cols="auto">
         <v-icon large dark class="mt-n2" color="stark">{{
@@ -8,7 +13,7 @@
         <span
           :class="`heading ${
             $vuetify.display.smAndDown ? 'h3' : 'h2'
-          } text--text`"
+          } text-text`"
         >
           {{ action.Name }}
         </span>

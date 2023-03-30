@@ -6,13 +6,13 @@
           <v-col cols="auto" class="mr-2 ml-2">
             <v-avatar color="orange" size="80px">
               <v-img v-if="info.image" :src="info.image" />
-              <span v-else class="white--text headline">{{
+              <span v-else class="text-white headline">{{
                 info.name.substring(0, 1)
               }}</span>
             </v-avatar>
           </v-col>
           <v-col>
-            <div class="heading h2 mb-2 text--text">
+            <div class="heading h2 mb-2 text-text">
               {{ info.name }}
             </div>
             <a v-if="info.website" target="_blank" :href="`${info.website}`">

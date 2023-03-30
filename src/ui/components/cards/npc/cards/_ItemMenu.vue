@@ -2,14 +2,14 @@
   <div class="d-inline-block">
     <v-menu offset-x left>
       <template v-slot:activator="{ props }">
-        <v-icon icon dark class="fadeSelect mt-n1" v-bind="props"
+        <v-icon icon dark class="fade-select mt-n1" v-bind="props"
           >mdi-cog</v-icon
         >
       </template>
-      <v-list dense>
+      <v-list density="compact">
         <v-list-item :disabled="item.Tier === 3" @click="upgradeTier()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-arrow-up-thick</v-icon>
+            <v-icon icon="mdi-arrow-up-thick" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Upgrade Tier</v-list-item-title>
@@ -17,7 +17,7 @@
         </v-list-item>
         <v-list-item :disabled="item.Tier === 1" @click="downgradeTier()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>mdi-arrow-down-thick</v-icon>
+            <v-icon icon="mdi-arrow-down-thick" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Downgrade Tier</v-list-item-title>
@@ -25,7 +25,7 @@
         </v-list-item>
         <v-list-item @click="$refs.cName.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>mdi-circle-edit-outline</v-icon>
+            <v-icon icon="mdi-circle-edit-outline" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Set Custom Name</v-list-item-title>
@@ -33,7 +33,7 @@
         </v-list-item>
         <v-list-item @click="$refs.cDesc.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>mdi-circle-edit-outline</v-icon>
+            <v-icon icon="mdi-circle-edit-outline" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Set Custom Description</v-list-item-title>

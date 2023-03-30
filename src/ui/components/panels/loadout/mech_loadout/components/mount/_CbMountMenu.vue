@@ -13,7 +13,7 @@
     <v-card variant="outlined" elevation="10">
       <v-card-title
         :style="`background-color: ${color}; height: 32px`"
-        class="white--text"
+        class="text-white"
       >
         <div class="mt-n4">
           <v-icon large left dark class="mt-n2">cc:corebonus</v-icon>
@@ -21,10 +21,9 @@
         </div>
       </v-card-title>
       <v-card-text class="text-center">
-        <v-row dense class="mt-2 mx-3">
+        <v-row density="compact" class="mt-2 mx-3">
           <v-btn
             v-for="b in mech.AvailableBonuses"
-            :key="`${mount.ID}_cb_${b.Name}`"
             block
             color="primary"
             class="my-1"
@@ -36,7 +35,6 @@
           </v-btn>
           <v-btn
             v-for="b in mount.Bonuses"
-            :key="`${mount.ID}_cb_${b.Name}`"
             block
             color="secondary"
             class="my-1"

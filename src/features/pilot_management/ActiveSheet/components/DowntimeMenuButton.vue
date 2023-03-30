@@ -23,7 +23,12 @@
       </v-btn>
     </template>
     <div>
-      <v-toolbar dense flat class="heading h3" style="min-width: 80px">
+      <v-toolbar
+        density="compact"
+        flat
+        class="heading h3"
+        style="min-width: 80px"
+      >
         {{ title }}
         <v-spacer />
         <v-btn
@@ -33,14 +38,13 @@
           class="ml-4"
           @click="$emit('open-menu')"
         >
-          <v-icon>mdi-open-in-new</v-icon>
+          <v-icon icon="mdi-open-in-new" />
         </v-btn>
       </v-toolbar>
-      <v-list class="px-2 py-3" dense color="panel">
+      <v-list class="px-2 py-3" density="compact" color="panel">
         <v-list-item
           v-for="(a, i) in baseActions"
           v-show="allowed.includes(a.ID)"
-          :key="`${title}_action${i}_${a.Name}_${a.Used}`"
           @click="$emit('open-dialog', a)"
         >
           <v-list-item-title class="text-button">
@@ -54,7 +58,6 @@
         <v-list-item
           v-for="(a, i) in itemActions"
           v-show="allowed.includes(a.ID)"
-          :key="`${title}_action${i}_${a.Name}_${a.Used}`"
           @click="$emit('open-dialog', a)"
         >
           <v-list-item-title class="text-button">

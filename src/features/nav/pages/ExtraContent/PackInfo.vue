@@ -5,13 +5,13 @@
         <v-icon dark x-large>mdi-package</v-icon>
       </v-list-item-icon>
       <v-list-item-content>
-        <v-list-item-title class="headline white--text">
+        <v-list-item-title class="headline text-white">
           {{ pack.manifest.name }}
           <v-chip variant="outlined" dark label>{{
             pack.manifest.version
           }}</v-chip>
         </v-list-item-title>
-        <v-list-item-subtitle class="white--text text--darken-1">
+        <v-list-item-subtitle class="text-white text--darken-1">
           by {{ pack.manifest.author }}
         </v-list-item-subtitle>
       </v-list-item-content>
@@ -19,7 +19,7 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <p class="body-text text--text light-panel pa-2 mb-1">
+          <p class="body-text text-text light-panel pa-2 mb-1">
             <span
               v-if="pack.manifest.description"
               v-html-safe="pack.manifest.description"
@@ -31,12 +31,11 @@
             <div>
               <v-chip
                 v-for="item in packContents"
-                :key="item.name"
                 variant="outlined"
                 color="secondary"
                 class="mr-2 mb-1 caption"
               >
-                <v-avatar class="secondary white--text" left>
+                <v-avatar class="secondary text-white" left>
                   <b>{{ item.count }}</b>
                 </v-avatar>
                 {{ item.name }}

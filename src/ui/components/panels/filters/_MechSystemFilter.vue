@@ -1,11 +1,11 @@
 <template>
-  <v-row dense justify="space-around" class="mx-4">
+  <v-row density="compact" justify="space-around" class="mx-4">
     <v-col cols="12" md="4">
       <v-select
         v-model="sourceFilter"
         class="px-2"
         hide-details
-        dense
+        density="compact"
         prepend-icon="mdi-factory"
         variant="outlined"
         label="From Manufacturer"
@@ -21,7 +21,7 @@
         v-model="tagFilter"
         class="px-2"
         hide-details
-        dense
+        density="compact"
         prepend-icon="mdi-tag"
         chips
         deletable-chips
@@ -39,7 +39,7 @@
       <v-select
         v-model="systemTypeFilter"
         class="px-2"
-        dense
+        density="compact"
         prepend-icon="cc:system"
         variant="outlined"
         label="System Type"
@@ -55,7 +55,7 @@
         v-model="lcpFilter"
         class="px-2"
         hide-details
-        dense
+        density="compact"
         prepend-icon="cc:compendium"
         chips
         deletable-chips
@@ -68,7 +68,7 @@
       />
     </v-col>
     <v-col cols="12" md="4" class="text-center">
-      <v-icon>cc:system-point</v-icon>
+      <v-icon icon="cc:system-point" />
       <span class="text-button">SP Cost</span>
       <v-btn-toggle
         v-model="spType"
@@ -87,7 +87,7 @@
             type="number"
             variant="outlined"
             style="width: 150px"
-            dense
+            density="compact"
             hide-details
             class="hide-input-spinners"
             prepend-icon="mdi-minus"
@@ -111,7 +111,7 @@
 <script lang="ts">
 import { Tag, SystemType, Manufacturer } from '@/class';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 const nameSort = function (a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
@@ -131,7 +131,7 @@ export default {
   }),
   computed: {
     manufacturers(): Manufacturer[] {
-      return this.$store.getters
+      return this.$CompendiumStore
         .getItemCollection('Manufacturers')
         .map((x) => ({ text: x.Name, value: x.ID }))
         .sort(nameSort);
@@ -145,7 +145,7 @@ export default {
     tags(): Tag[] {
       return this.$_.uniqBy(
         [].concat(
-          this.$store.getters
+          this.$CompendiumStore
             .getItemCollection('MechSystems')
             .flatMap((x) => x.Tags)
             .filter((x) => !x.FilterIgnore && !x.IsHidden)
@@ -154,7 +154,7 @@ export default {
       );
     },
     lcps(): string[] {
-      return this.getModule(CompendiumStore).Frames.map((x) => x.LcpName);
+      return CompendiumStore().Frames.map((x) => x.LcpName);
     },
   },
   methods: {

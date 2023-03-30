@@ -10,6 +10,8 @@
 </template>
 
 <script lang="ts">
+import * as cards from './items';
+
 export default {
   name: 'CCItemCard',
   props: {
@@ -29,19 +31,26 @@ export default {
   computed: {
     componentLoader(): any {
       if (!this.item) {
+        console.error('No item provided to CCItemCard');
         return null;
       }
-      return () => {
-        try {
-          const t = this.item.ItemType
-            ? this.item.ItemType
-            : `Npc${this.item.type}`;
-          return import(`./_${t}Card.vue`);
-        } catch (error) {
-          console.error(`Unable to load component ${this.item.ItemType}`);
-          return null;
-        }
-      };
+
+      if (!this.item.ItemType && !this.item.type) {
+        console.error('No item type provided to CCItemCard');
+        return null;
+      }
+
+      let t = this.item.ItemType ? this.item.ItemType : `Npc${this.item.type}`;
+
+      t += 'Card';
+
+      if (!cards[t]) {
+        console.log(cards);
+        console.error(`No card found for item type ${t}`);
+        return null;
+      }
+
+      return cards[t];
     },
   },
 };

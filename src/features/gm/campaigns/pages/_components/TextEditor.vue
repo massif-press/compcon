@@ -1,6 +1,11 @@
 <template>
   <div>
-    <v-row dense class="heading h3" justify="space-between" align="end">
+    <v-row
+      density="compact"
+      class="heading h3"
+      justify="space-between"
+      align="end"
+    >
       <v-col cols="auto">
         <cc-short-string-editor large @set="item.title = $event">
           {{ item.title }}
@@ -10,7 +15,7 @@
         <v-switch
           v-model="item.Alert"
           label="Emphasize"
-          dense
+          density="compact"
           hide-details
           inset
           class="mt-0"

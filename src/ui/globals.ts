@@ -85,8 +85,13 @@ import CCStressTable from './components/tables/CCStressTable.vue';
 import CCStructureTable from './components/tables/CCStructureTable.vue';
 import CCTalent from './components/Talent/CCTalent.vue';
 import CCSidebarView from './components/views/CCSidebarView.vue';
+import CCIconDivider from './components/CCIconDivider.vue';
+import CCDeployableInfo from './components/items/features/deployables/CCDeployableInfo.vue';
+import CCIntegratedInfo from './components/items/features/integrated/CCIntegratedInfo.vue';
 
 export {
+  CCIntegratedInfo,
+  CCDeployableInfo,
   CCBondInfo,
   CCBondPowerCard,
   CCBtn,
@@ -174,4 +179,5 @@ export {
   CCStructureTable,
   CCTalent,
   CCSidebarView,
+  CCIconDivider,
 };

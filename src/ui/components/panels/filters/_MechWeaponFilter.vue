@@ -1,9 +1,9 @@
 <template>
-  <v-row dense justify="space-around" class="mx-4">
+  <v-row density="compact" justify="space-around" class="mx-4">
     <v-col cols="12" md="4">
       <v-select
         v-model="sourceFilter"
-        dense
+        density="compact"
         hide-details
         class="px-2"
         prepend-icon="mdi-factory"
@@ -19,7 +19,7 @@
     <v-col cols="12" md="4">
       <v-select
         v-model="tagFilter"
-        dense
+        density="compact"
         hide-details
         class="px-2"
         prepend-icon="mdi-tag"
@@ -38,7 +38,7 @@
     <v-col cols="12" md="4">
       <v-select
         v-model="weaponTypeFilter"
-        dense
+        density="compact"
         hide-details
         class="px-2"
         prepend-icon="cc:weapon"
@@ -54,7 +54,7 @@
     <v-col cols="12" md="4">
       <v-select
         v-model="weaponSizeFilter"
-        dense
+        density="compact"
         hide-details
         class="px-2"
         prepend-icon="mdi-relative-scale"
@@ -70,7 +70,7 @@
     <v-col cols="12" md="4">
       <v-select
         v-model="attackTypeFilter"
-        dense
+        density="compact"
         hide-details
         class="px-2"
         prepend-icon="cc:range"
@@ -87,7 +87,7 @@
     <v-col cols="12" md="4">
       <v-select
         v-model="damageTypeFilter"
-        dense
+        density="compact"
         hide-details
         class="px-2"
         prepend-icon="cc:kinetic"
@@ -106,7 +106,7 @@
         v-model="lcpFilter"
         class="px-2"
         hide-details
-        dense
+        density="compact"
         prepend-icon="cc:compendium"
         chips
         deletable-chips
@@ -119,7 +119,7 @@
       />
     </v-col>
     <v-col cols="12" md="4" class="text-center">
-      <v-icon>cc:system-point</v-icon>
+      <v-icon icon="cc:system-point" />
       <span class="text-button">SP Cost</span>
       <v-btn-toggle
         v-model="spType"
@@ -138,7 +138,7 @@
             type="number"
             variant="outlined"
             style="width: 150px"
-            dense
+            density="compact"
             hide-details
             class="hide-input-spinners"
             prepend-icon="mdi-minus"
@@ -169,7 +169,7 @@ import {
   Manufacturer,
 } from '@/class';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 const nameSort = function (a, b): number {
   if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
@@ -192,7 +192,7 @@ export default {
   }),
   computed: {
     manufacturers(): Manufacturer[] {
-      return this.$store.getters
+      return this.$CompendiumStore
         .getItemCollection('Manufacturers')
         .map((x) => ({ text: x.Name, value: x.ID }))
         .sort(nameSort);
@@ -221,7 +221,7 @@ export default {
     tags(): Tag[] {
       return this.$_.uniqBy(
         [].concat(
-          this.$store.getters
+          this.$CompendiumStore
             .getItemCollection('MechWeapons')
             .flatMap((x) => x.Tags)
             .filter((x) => !x.FilterIgnore && !x.IsHidden)
@@ -230,7 +230,7 @@ export default {
       );
     },
     lcps(): string[] {
-      return this.getModule(CompendiumStore).Frames.map((x) => x.LcpName);
+      return CompendiumStore().Frames.map((x) => x.LcpName);
     },
   },
   methods: {

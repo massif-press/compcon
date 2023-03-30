@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense class="panel" justify="center" align="center">
+    <v-row density="compact" class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px"
         >VERIFY E-MAIL ADDRESS</v-col
       >
@@ -11,7 +11,7 @@
       . Input the code below to finalize your account
     </p>
     <div class="text-center">
-      <v-btn small text color="accent" style="fadeSelect" @click="resend()">
+      <v-btn small text color="accent" style="fade-select" @click="resend()">
         Re-send Verification Code
       </v-btn>
     </div>
@@ -20,13 +20,18 @@
         <v-text-field
           v-model="verify"
           label="Verification Code"
-          dense
+          density="compact"
           variant="outlined"
           hide-details
         />
       </v-col>
     </v-row>
-    <v-row dense justify="center" align="start" class="mt-n2 text-center">
+    <v-row
+      density="compact"
+      justify="center"
+      align="start"
+      class="mt-n2 text-center"
+    >
       <v-col cols="auto">
         <v-btn
           large
@@ -53,7 +58,7 @@
         v-if="error"
         v-model="showError"
         color="error darken-1"
-        dense
+        density="compact"
         class="mt-2"
         icon="mdi-alert"
         dismissible

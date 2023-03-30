@@ -10,7 +10,7 @@
     @copy="dupe()"
   >
     <v-container slot="builder">
-      <v-row dense align="center">
+      <v-row density="compact" align="center">
         <v-col>
           <v-text-field v-model="location.Name" label="Name" />
         </v-col>
@@ -22,7 +22,7 @@
 <script lang="ts">
 import EditorBase from '../_components/EditorBase.vue';
 
-import { LocationStore } from '@/store';
+import { NarrativeStore } from '@/stores';
 import { Location } from '@/classes/campaign/Location';
 
 export default {
@@ -40,7 +40,7 @@ export default {
         if (!this.newLocation) this.newLocation = new Location();
         return this.newLocation;
       }
-      return this.getModule(LocationStore).Locations.find(
+      return this.getModule(NarrativeStore).Locations.find(
         (x) => x.ID === this.id
       );
     },
@@ -51,12 +51,12 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = this.getModule(LocationStore);
+      const store = this.getModule(NarrativeStore);
       store.addLocation(this.location);
       this.exit();
     },
     save() {
-      const store = this.getModule(LocationStore);
+      const store = this.getModule(NarrativeStore);
       // TODO: check for and ask to update instances on save
       store.saveLocationData();
       this.$emit('exit');
@@ -66,7 +66,7 @@ export default {
       this.$emit('exit');
     },
     dupe() {
-      const store = this.getModule(LocationStore);
+      const store = this.getModule(NarrativeStore);
       const dupe = Location.Deserialize(Location.Serialize(this.location));
       dupe.RenewID();
       store.addLocation(dupe);

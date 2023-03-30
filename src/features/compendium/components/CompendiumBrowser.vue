@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="mx-2 mt-n2 mb-2" no-gutters align="center">
       <v-col cols="auto">
-        <h1 class="ml-n2 heading accent--text"><slot /></h1>
+        <h1 class="ml-n2 heading text-accent"><slot /></h1>
       </v-col>
       <v-col cols="auto" class="ml-4 mr-2">
         <v-btn-toggle :value="getView" mandatory>
@@ -41,7 +41,7 @@
           flat
           hide-actions
           single-line
-          dense
+          density="compact"
           placeholder="Search"
           clearable
           persistent-hint
@@ -75,7 +75,7 @@ import CompendiumMobileView from './views/CompendiumMobileView.vue';
 import CompendiumSplitView from './views/CompendiumSplitView.vue';
 import CompendiumCardsView from './views/CompendiumCardsView.vue';
 import CompendiumTableView from './views/CompendiumTableView.vue';
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { UserProfile } from '@/user';
 
 export default {

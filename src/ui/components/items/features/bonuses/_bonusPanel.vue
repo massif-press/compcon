@@ -1,5 +1,5 @@
 <template>
-  <v-alert variant="outlined" dense :color="bonus.Color">
+  <v-alert variant="outlined" density="compact" :color="bonus.Color">
     <bonus-base :bonus="bonus" />
   </v-alert>
 </template>

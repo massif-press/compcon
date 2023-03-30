@@ -2,12 +2,12 @@
   <div>
     <v-row
       v-if="state.SelfDestructCounter > 0"
-      dense
+      density="compact"
       justify="center"
       class="text-center"
     >
       <v-col cols="auto">
-        <v-alert dense variant="outlined" color="error" prominent>
+        <v-alert density="compact" variant="outlined" color="error" prominent>
           <v-icon slot="prepend" color="error" size="90" class="mr-3">
             cc:reactor
           </v-icon>
@@ -15,7 +15,7 @@
             SELF DESTRUCT IN {{ state.SelfDestructCounter }} ROUNDS
           </span>
           <span v-else class="heading h1">SELF DESTRUCT IMMINENT</span>
-          <div class="heading subtle--text">
+          <div class="heading text-subtle">
             FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
           </div>
           <div class="px-5 my-1">
@@ -27,7 +27,7 @@
           </div>
         </v-alert>
         <div class="text-right mt-1">
-          <v-btn x-small color="primary" class="fadeSelect" @click="reset()">
+          <v-btn x-small color="primary" class="fade-select" @click="reset()">
             <v-icon small left>mdi-reload</v-icon>
             UNDO
           </v-btn>
@@ -39,7 +39,7 @@
         <span v-html="'WARNING // '.repeat(400)" />
       </div>
       <div class="text-center mx-12">
-        <div class="body-text stark--text">
+        <div class="body-text text-stark">
           <b>
             CONFIRMING THIS ACTION INITIATES A CRITICALITY EXCURSION EVENT THAT
             <u>WILL</u>
@@ -48,7 +48,7 @@
         </div>
         <div class="flavor-text">
           Occupant survival probability (monte_carlo//cc-n2@latest):
-          <b class="error--text">0.000%</b>
+          <b class="text-error">0.000%</b>
         </div>
       </div>
 
@@ -90,7 +90,7 @@
                 inline
                 :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
               >
-                <v-icon end small class="fadeSelect"
+                <v-icon end small class="fade-select"
                   >mdi-information-outline</v-icon
                 >
               </cc-tooltip>
@@ -101,10 +101,10 @@
 
       <v-slide-x-reverse-transition>
         <v-card-text v-if="actionCost || actionFree">
-          <p class="flavor-text stark--text ma-0 text-center">
+          <p class="flavor-text text-stark ma-0 text-center">
             <span>
               >//[
-              <span class="accent--text"> COMP/CON: </span>
+              <span class="text-accent"> COMP/CON: </span>
               ] :
               <span>MANUAL OVERRIDE REQUIRED</span>
             </span>
@@ -155,7 +155,7 @@
               />
             </v-col>
           </v-row>
-          <v-row dense justify="center">
+          <v-row density="compact" justify="center">
             <v-col cols="10">
               <v-btn
                 x-large
@@ -187,7 +187,7 @@
             <cc-tooltip
               content="Undo this action, refunding any cost it may have had"
             >
-              <v-btn x-small color="primary" class="fadeSelect" @click="reset">
+              <v-btn x-small color="primary" class="fade-select" @click="reset">
                 <v-icon small left>mdi-reload</v-icon>
                 UNDO
               </v-btn>

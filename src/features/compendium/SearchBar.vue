@@ -20,6 +20,7 @@ export default {
   }),
   methods: {
     search() {
+      console.log(this.searchText);
       this.$router.push(`/compendium/search?search=${this.searchText}`);
     },
   },

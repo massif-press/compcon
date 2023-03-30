@@ -10,15 +10,14 @@
       @open="$emit('open', $event)"
     />
     <div v-else>
-      <v-row v-for="(group, i) in groupings" :key="`${group}_${i}`" dense>
+      <v-row v-for="(group, i) in groupings" density="compact">
         <v-col cols="12">
-          <div class="primary white--text heading h3 pa-1 pl-2">
+          <div class="primary text-white heading h3 pa-1 pl-2">
             {{ group }}
           </div>
         </v-col>
         <v-col
           v-for="(item, j) in groupedItems(group)"
-          :key="`grid_item_${j}`"
           :cols="list ? 12 : big ? 3 : 2"
         >
           <item-card

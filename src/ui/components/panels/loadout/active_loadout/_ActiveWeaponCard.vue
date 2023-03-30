@@ -12,7 +12,7 @@
         :style="!hide ? 'height: 100%' : ''"
       >
         <v-card-title
-          class="white--text py-0 hover-item"
+          class="text-white py-0 hover-item"
           style="cursor: pointer; word-break: break-word"
           @click="$refs.detailDialog.show()"
         >
@@ -34,8 +34,8 @@
                 <span
                   :class="
                     $vuetify.display.mdAndUp
-                      ? 'white--text heading h3'
-                      : 'white--text body-text font-weight-bold'
+                      ? 'text-white heading h3'
+                      : 'text-white body-text font-weight-bold'
                   "
                 >
                   {{ item.Name }}
@@ -45,7 +45,7 @@
                 >
                 <span
                   v-show="$vuetify.display.mdAndUp"
-                  class="caption subtle--text ml-1"
+                  class="caption text-subtle ml-1"
                 >
                   <b>{{ item.Size }}</b>
                   {{ item.WeaponType }}
@@ -80,7 +80,7 @@
                 v-if="!rest"
                 right
                 icon
-                class="fadeSelect"
+                class="fade-select"
                 dark
                 @click.stop="hide = !hide"
               >
@@ -105,15 +105,15 @@
                 >
                   <div class="overline">WEAPON PROFILES</div>
                   <v-tabs v-model="tab" grow height="30px">
-                    <v-tab v-for="p in item.Profiles" :key="p.ID">
-                      <span class="accent--text font-weight-bold">{{
+                    <v-tab v-for="p in item.Profiles">
+                      <span class="text-accent font-weight-bold">{{
                         p.Name
                       }}</span>
                     </v-tab>
                   </v-tabs>
                 </v-col>
               </v-row>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col cols="12">
                   <weapon-activators
                     v-if="!item.Destroyed"
@@ -130,10 +130,13 @@
                 :use-bonus="mech.LimitedBonus"
               />
               <!-- <ammo-case-inset :level="armoryLevel" readonly /> -->
-              <v-row v-if="item.ProfileActions.length" dense justify="center">
+              <v-row
+                v-if="item.ProfileActions.length"
+                density="compact"
+                justify="center"
+              >
                 <v-col
                   v-for="(a, i) in item.ProfileActions"
-                  :key="`${item.Name}_action_${i}`"
                   style="min-width: 40%"
                   class="mb-n1"
                   cols="12"
@@ -159,41 +162,43 @@
                   <div class="mb-n2">
                     <p
                       v-html-safe="item.ProfileEffect"
-                      class="text--text body-text mb-1 mx-3 pb-2"
+                      class="text-text body-text mb-1 mx-3 pb-2"
                     />
                   </div>
                 </div>
                 <div v-if="item.ProfileOnAttack">
                   <div class="mb-n2 mt-1">
                     <v-icon class="mt-n1">cc:weapon</v-icon>
-                    <span class="overline stark--text">ON ATTACK</span>
+                    <span class="text-overline text-stark">ON ATTACK</span>
                     <p
                       v-html-safe="item.ProfileOnAttack"
-                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                      class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
                     />
                   </div>
                 </div>
                 <div v-if="item.ProfileOnHit">
                   <div class="mb-n2 mt-1">
                     <v-icon class="mt-n1">cc:weapon</v-icon>
-                    <span class="overline stark--text">ON HIT</span>
+                    <span class="text-overline text-stark">ON HIT</span>
                     <p
                       v-html-safe="item.ProfileOnHit"
-                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                      class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
                     />
                   </div>
                 </div>
                 <div v-if="item.ProfileOnCrit">
                   <div class="mb-n2 mt-1">
                     <v-icon class="mt-n1">cc:weapon</v-icon>
-                    <span class="overline stark--text">ON CRITICAL HIT</span>
+                    <span class="text-overline text-stark"
+                      >ON CRITICAL HIT</span
+                    >
                     <p
                       v-html-safe="item.ProfileOnCrit"
-                      class="text--text body-text mb-1 mr-2 ml-6 mt-n2"
+                      class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
                     />
                   </div>
                 </div>
-                <v-row v-if="item.Mod" dense justify="center">
+                <v-row v-if="item.Mod" density="compact" justify="center">
                   <active-mod-inset
                     :mod="item.Mod"
                     :mech="mech"
@@ -203,14 +208,13 @@
               </div>
             </div>
             <div v-if="item">
-              <v-row class="text-left" dense align="end">
+              <v-row class="text-left" density="compact" align="end">
                 <v-col>
-                  <v-row justify="space-around" dense>
+                  <v-row justify="space-around" density="compact">
                     <v-col v-if="item.Deployables.length" cols="auto">
                       <v-row no-gutters justify="center">
                         <v-col
                           v-for="(d, i) in item.Deployables"
-                          :key="`${item.Name}_deployable_${i}`"
                           cols="12"
                           md="auto"
                         >

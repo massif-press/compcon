@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row dense class="panel" justify="center" align="center">
+    <v-row density="compact" class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">DATA ANALYSIS</v-col>
     </v-row>
     <v-slide-x-reverse-transition>
@@ -12,9 +12,9 @@
               No Issues Detected
             </span>
           </v-expansion-panel-header>
-          <v-expansion-panel-header v-else class="heading h3 stark--text">
+          <v-expansion-panel-header v-else class="heading h3 text-stark">
             <span>
-              <span class="error--text">{{ missingLength }}</span>
+              <span class="text-error">{{ missingLength }}</span>
               {{ missingLength > 1 ? 'issues' : 'issue' }} detected
             </span>
           </v-expansion-panel-header>
@@ -24,15 +24,11 @@
               require Lancer Content Packs that are not installed or not
               activated:
             </p>
-            <div v-for="key in Object.keys(missing)" :key="key">
-              <v-card
-                variant="outlined"
-                v-for="(item, n) in missing[key]"
-                :key="`mp_${n}`"
-              >
+            <div v-for="key in Object.keys(missing)">
+              <v-card variant="outlined" v-for="(item, n) in missing[key]">
                 <v-card-title v-if="key === 'pilots'" class="heading h3 mb-n4">
                   Pilot Data:
-                  <span class="primary--text">
+                  <span class="text-primary">
                     {{ item.callsign }}
                     <cc-slashes />
                     {{ item.name }}
@@ -40,7 +36,7 @@
                 </v-card-title>
                 <v-card-title v-if="key === 'npcs'" class="heading h3 mb-n4">
                   NPC Data:
-                  <span class="primary--text">
+                  <span class="text-primary">
                     {{ item.class }}
                     <cc-slashes />
                     {{ item.name }}
@@ -51,11 +47,7 @@
                     <v-col>
                       <div v-if="notActive(item.brews).length">
                         <div class="caption">DEACTIVATED LCPS</div>
-                        <div
-                          v-for="pack in notActive(item.brews)"
-                          :key="pack"
-                          class="ml-2"
-                        >
+                        <div v-for="pack in notActive(item.brews)" class="ml-2">
                           <span class="body-text">
                             LCP
                             <b v-text="pack" />
@@ -68,7 +60,6 @@
                           <div class="caption mt-2">MISSING LCPS</div>
                           <div
                             v-for="brew in notInstalled(item.brews)"
-                            :key="brew.LcpId"
                             class="ml-2"
                           >
                             <span class="body-text">
@@ -95,7 +86,6 @@
                         <div v-else>
                           <div
                             v-for="brew in notInstalled(item.brews)"
-                            :key="brew.LcpId"
                             class="ml-2"
                           >
                             <span class="body-text">
@@ -126,7 +116,7 @@
                           color="error"
                           @click="deleteItem(item, key)"
                         >
-                          <v-icon>mdi-delete</v-icon>
+                          <v-icon icon="mdi-delete" />
                         </v-btn>
                       </cc-tooltip>
                       <cc-tooltip
@@ -139,7 +129,7 @@
                           color="secondary"
                           @click="forceItem(item, key)"
                         >
-                          <v-icon>mdi-download-box</v-icon>
+                          <v-icon icon="mdi-download-box" />
                         </v-btn>
                       </cc-tooltip>
                     </v-col>
@@ -155,7 +145,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store';
+import { CompendiumStore, PilotStore, NpcStore } from '@/stores';
 import { Pilot } from '@/classes/pilot/Pilot';
 import AutoUpdater from './components/AutoUpdater.vue';
 
@@ -167,7 +157,7 @@ export default {
   }),
   computed: {
     missing() {
-      return this.getModule(CompendiumStore).MissingContent;
+      return CompendiumStore().MissingContent;
     },
 
     missingLength() {
@@ -179,7 +169,7 @@ export default {
   },
   methods: {
     notActive(itemBrews) {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
       //   .ContentPacks.filter((x) => itemBrews.some((y) => y.LcpId === x.ID))
       //   .map((p) => `${p.Name} @ ${p.Version}`);
     },
@@ -193,7 +183,7 @@ export default {
     },
     deleteItem(item, key) {
       if (key === 'pilots') {
-        //this.getModule(PilotManagementStore).deleteMissingPilot(item);
+        //this.getModule(PilotStore).deleteMissingPilot(item);
       } else if (key === 'npcs') {
         //this.getModule(NpcStore).deleteMissingNpc(item);
       }
@@ -201,7 +191,7 @@ export default {
     forceItem(item, key) {
       if (key === 'pilots') {
         Pilot.AddNew(item);
-        //this.getModule(PilotManagementStore).deleteMissingPilot(item);
+        //this.getModule(PilotStore).deleteMissingPilot(item);
       } else if (key === 'npcs') {
         //this.getModule(NpcStore).deleteMissingNpc(item);
       }

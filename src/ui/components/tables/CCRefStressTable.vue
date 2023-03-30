@@ -30,7 +30,7 @@
                   <span class="heading h3">Emergency Shunt</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Cooling systems recover and manage to contain the peaking
                     heat levels. However, your mech is
                     <b>impaired</b>
@@ -49,7 +49,7 @@
                   <span class="heading h3">Power Plant Destabilize</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Your mech’s power plant becomes unstable, ejecting jets of
                     plasma. Your mech suffers from the
                     <b>exposed</b>
@@ -67,7 +67,7 @@
                   <span class="heading h3">Meltdown</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     This result has different outcomes depending on how much
                     reactor stress your mech has remaining.
                     <br />
@@ -94,7 +94,7 @@
                   <span class="heading h3">Irreversible Meltdown</span>
                 </v-col>
                 <v-col cols="7">
-                  <span class="body-text text--text">
+                  <span class="body-text text-text">
                     Your reactor goes critical. Your mech will suffer a reactor
                     meltdown at the end of your next turn.
                   </span>

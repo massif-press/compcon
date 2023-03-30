@@ -18,14 +18,14 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'autoupdater',
   props: ['brew'],
   computed: {
     lcps() {
-      return this.getModule(CompendiumStore).ContentPacks;
+      return CompendiumStore().ContentPacks;
     },
     normalizedBrew() {
       if (this.brew.LcpName) return this.brew;

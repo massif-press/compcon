@@ -2,14 +2,19 @@
   <v-menu open-on-hover bottom offset-y>
     <template v-slot:activator="{ props }">
       <v-chip :color="deployable.Color" v-bind="props">
-        <span class="white--text">
+        <span class="text-white">
           <v-icon start dark>{{ deployable.Icon }}</v-icon>
           {{ deployable.Name }}
         </span>
       </v-chip>
     </template>
     <v-card flat tile>
-      <v-toolbar dense flat :color="deployable.Color" class="white--text">
+      <v-toolbar
+        density="compact"
+        flat
+        :color="deployable.Color"
+        class="text-white"
+      >
         <v-icon start large dark>{{ deployable.Icon }}</v-icon>
         <span class="heading h3">{{ deployable.Name }}</span>
       </v-toolbar>

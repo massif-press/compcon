@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h3 class="heading accent--text">Storage</h3>
+    <h3 class="heading text-accent">Storage</h3>
     <div class="flavor-text">
       COMP/CON is currently using {{ bytesToSize(size.usage) }} of
       {{ bytesToSize(size.quota) }}, or
-      <b class="accent--text"
+      <b class="text-accent"
         >{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</b
       >
       of your available storage. This includes space reveserved by COMP/CON for
@@ -12,7 +12,7 @@
     </div>
     <v-divider class="my-4" />
 
-    <h3 class="heading accent--text">Deleted Items (local data only)</h3>
+    <h3 class="heading text-accent">Deleted Items (local data only)</h3>
     <deleted-items />
     <v-dialog v-model="deleteDialog" width="80%">
       <template v-slot:activator="{ props }">
@@ -34,17 +34,17 @@
           >
             <span class="heading h2">WARNING // WARNING // WARNING</span>
           </v-alert>
-          <p class="text-center heading h2 text--text">
+          <p class="text-center heading h2 text-text">
             This will delete
-            <b class="accent--text">ALL</b>
+            <b class="text-accent">ALL</b>
             local COMP/CON data.
             <br />
             This
-            <b class="accent--text">cannot</b>
+            <b class="text-accent">cannot</b>
             be undone.
             <br />
             <br />
-            <b class="accent--text">Are you sure you want to continue?</b>
+            <b class="text-accent">Are you sure you want to continue?</b>
           </p>
         </v-card-text>
         <v-divider />
@@ -67,7 +67,7 @@
 <script lang="ts">
 import * as allThemes from '@/ui/style/themes';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { exportAll, importAll, clearAllData } from '@/io/BulkData';
 import { saveFile } from '@/io/Dialog';
 import DeletedItems from './DeletedItems.vue';

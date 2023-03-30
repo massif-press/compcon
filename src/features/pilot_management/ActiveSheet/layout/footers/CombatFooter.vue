@@ -20,15 +20,21 @@
             </v-btn>
           </template>
           <v-card>
-            <v-toolbar dense dark flat tile color="warning darken-3 heading h2">
+            <v-toolbar
+              density="compact"
+              dark
+              flat
+              tile
+              color="warning darken-3 heading h2"
+            >
               END COMBAT
             </v-toolbar>
             <v-card-text>
-              <p class="flavor-text stark--text mt-1 mb-0 mx-6">
+              <p class="flavor-text text-stark mt-1 mb-0 mx-6">
                 >//[
-                <span class="accent--text">COMP/CON</span>
+                <span class="text-accent">COMP/CON</span>
                 :
-                <span class="stark-text--text">Confirmation Required</span>
+                <span class="stark-text-text">Confirmation Required</span>
                 ] Pilot, proceeding will disengage combat mode and enable rest
                 and repair protocols. This cannot be undone. Continue?
               </p>
@@ -54,7 +60,7 @@
       </v-col>
 
       <v-col cols="auto">
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto">
             <v-menu
               v-if="state.InTurn"
@@ -100,7 +106,7 @@
                   :small="$vuetify.display.mdAndUp"
                   :x-small="$vuetify.display.smAndDown"
                   color="accent"
-                  class="white--text"
+                  class="text-white"
                   elevation="0"
                   :disabled="state.InTurn"
                   v-bind="props"
@@ -127,7 +133,6 @@
           <v-col v-if="!mech.Pilot.IsDownAndOut" cols="auto">
             <cc-tooltip inline content="Protocol Actions" delayed>
               <action-menu-button
-                :key="`protocol_btn_${state.IsProtocolAvailable}`"
                 :actions="state.ActionsByType('Protocol')"
                 :mech="pilot.ActiveMech"
                 :available="state.IsProtocolAvailable"
@@ -274,7 +279,6 @@
 
     <cc-combat-dialog
       v-for="(a, i) in state.AllActions"
-      :key="`fa_${i}_${a.ID}`"
       :ref="`dialog_${a.ID}`"
       :action="a"
       :mech="pilot.ActiveMech"
@@ -322,7 +326,7 @@ export default {
       if (this.state.Move > 0)
         str += `<div class='px-2'>Movement available</div>`;
       if (str.length) {
-        str = `<div class='error--text'>ALERT::<div>${str}`;
+        str = `<div class='text-error'>ALERT::<div>${str}`;
       } else
         str =
           '<div>Confirm Round Complete</div> <div class="text--secondary">This cannot be undone.</div>';
@@ -335,7 +339,7 @@ export default {
       if (this.state.Move > 0)
         str += `<div class='px-2'>Movement available</div>`;
       if (str.length) {
-        str = `<div class='error--text'>ALERT::<div>${str}`;
+        str = `<div class='text-error'>ALERT::<div>${str}`;
       } else str = '';
       return str;
     },

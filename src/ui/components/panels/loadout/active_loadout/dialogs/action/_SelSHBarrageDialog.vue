@@ -26,7 +26,7 @@
           @confirm="$emit('confirm')"
         >
           <div class="heading h2 mt-3 mb-n3">
-            <v-icon x-large class="mt-n2 mr-n1">cc:mech-weapon</v-icon>
+            <v-icon size="x-large" class="mt-n2 mr-n1">cc:mech-weapon</v-icon>
             {{ item.Name }}
           </div>
         </weapon-attack>

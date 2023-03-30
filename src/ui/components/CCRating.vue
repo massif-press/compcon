@@ -4,7 +4,7 @@
     @update:value="(val) => (model = val)"
     hover
     x-large
-    :dense="dense"
+    :density="density"
     :length="max"
     readonly
     :color="color"
@@ -28,7 +28,7 @@ export default {
       required: false,
       default: 6,
     },
-    dense: {
+    density: {
       type: Boolean,
       required: false,
     },

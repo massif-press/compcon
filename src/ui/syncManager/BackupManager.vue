@@ -11,7 +11,7 @@
               </v-btn>
             </template>
             <v-card max-width="30vw">
-              <v-card-text class="text-center stark--text">
+              <v-card-text class="text-center text-stark">
                 This tool will save a snapshot of all local user data and LCP
                 content, including data marked for deletion. It produces a
                 .compcon file that can be loaded from the "Load Backup"
@@ -38,7 +38,7 @@
               </v-btn>
             </template>
             <v-card max-width="30vw">
-              <v-card-text class="text-center stark--text">
+              <v-card-text class="text-center text-stark">
                 This tool uses a .compcon file produced by the "Create Backup"
                 option. It will replace
                 <b>all</b>
@@ -48,7 +48,7 @@
                   v-model="fileValue"
                   accept=".compcon"
                   variant="outlined"
-                  dense
+                  density="compact"
                   hide-details
                   autofocus
                   placeholder="Select COMP/CON Bulk Export File"
@@ -92,7 +92,7 @@
               </v-btn>
             </template>
             <v-card max-width="30vw">
-              <v-card-text class="text-center stark--text">
+              <v-card-text class="text-center text-stark">
                 This action will delete
                 <b>all</b>
                 local COMP/CON data. Cloud data will not be affected.
@@ -133,7 +133,7 @@
               </v-btn>
             </template>
             <v-card max-width="30vw">
-              <v-card-text class="text-center stark--text">
+              <v-card-text class="text-center text-stark">
                 This action will delete
                 <b>all</b>
                 COMP/CON data stored in the cloud under the current user ({{

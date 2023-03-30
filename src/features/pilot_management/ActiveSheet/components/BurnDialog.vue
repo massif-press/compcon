@@ -1,33 +1,40 @@
 <template>
   <v-dialog v-model="dialog" width="60vw">
     <v-card>
-      <v-toolbar flat dense dark color="damage--burn" class="heading h2"
+      <v-toolbar
+        flat
+        density="compact"
+        dark
+        color="damage--burn"
+        class="heading h2"
         >Burn</v-toolbar
       >
       <v-card-text class="text-center">
-        <div class="heading h3 font-weight-bold stark--text mt-2">
-          <span class="subtle--text">FRAME.ALERT::</span>
+        <div class="heading h3 font-weight-bold text-stark mt-2">
+          <span class="text-subtle">FRAME.ALERT::</span>
           mech has been inflicted with
-          <span class="damage--burn--text">{{ mech.Burn }} Burn</span>
+          <span class="text-damage-burn">{{ mech.Burn }} Burn</span>
         </div>
-        <p class="my-2 body-text text--text">
+        <p class="my-2 body-text text-text">
           Make an
           <b>ENGINEERING</b>
           check to clear the current Burn , or suffer
-          <span class="damage--burn--text">{{ mech.Burn }} Damage</span>
+          <span class="text-damage-burn">{{ mech.Burn }} Damage</span>
         </p>
         <v-row justify="center" class="text-center mt-4">
           <v-col lg="auto" md="12" class="mt-n5">
             <v-row
-              dense
+              density="compact"
               class="text-center mb-n3"
               justify="start"
               align="start"
             >
               <v-col cols="auto" class="mx-8">
-                <div class="overline mb-n2">Engineering Roll</div>
-                <div class="heading text--text" style="font-size: 24pt">
-                  <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
+                <div class="text-overline mb-n2">Engineering Roll</div>
+                <div class="heading text-text" style="font-size: 24pt">
+                  <v-icon size="x-large" class="mr-n1"
+                    >mdi-dice-d20-outline</v-icon
+                  >
                   + {{ mech.Eng }}
                   <cc-synergy-display
                     location="engineering"
@@ -57,14 +64,14 @@
               type="number"
               label="Engineering Check Result"
               variant="outlined"
-              dense
+              density="compact"
               hide-details
               class="flavor-text"
               style="width: 300px"
             />
           </v-col>
         </v-row>
-        <v-row v-if="roll" dense justify="center">
+        <v-row v-if="roll" density="compact" justify="center">
           <v-col cols="6">
             <v-btn
               v-if="roll < 10"

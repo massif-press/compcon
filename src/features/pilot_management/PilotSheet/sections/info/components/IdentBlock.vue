@@ -1,20 +1,20 @@
 <template>
   <v-container fluid class="pt-0">
-    <v-row dense class="stat-text pt-0 pb-0 mt-n2">
+    <v-row density="compact" class="stat-text pt-0 pb-0 mt-n2">
       <v-col cols="6" md="4" xl="3">
-        <div class="overline mb-n3 subtle--text">CALLSIGN</div>
+        <div class="text-overline mb-n3 text-subtle">CALLSIGN</div>
         <cc-short-string-editor @set="pilot.Callsign = $event">
           {{ pilot.Callsign }}
         </cc-short-string-editor>
       </v-col>
       <v-col cols="6" md="4" xl="3">
-        <div class="overline mb-n3 subtle--text">NAME</div>
+        <div class="text-overline mb-n3 text-subtle">NAME</div>
         <cc-short-string-editor @set="pilot.Name = $event">{{
           pilot.Name
         }}</cc-short-string-editor>
       </v-col>
       <v-col cols="6" md="4" xl="3">
-        <div class="overline mb-n3 subtle--text">BACKGROUND</div>
+        <div class="text-overline mb-n3 text-subtle">BACKGROUND</div>
         <cc-short-string-editor
           class="d-inline"
           @set="pilot.Background = $event"
@@ -25,20 +25,20 @@
           <cc-background-selector
             :pilot="pilot"
             small
-            class="d-inline fadeSelect ml-n1"
+            class="d-inline fade-select ml-n1"
             @select="pilot.Background = $event"
           />
         </span>
       </v-col>
       <v-col cols="6" md="4" xl="3">
-        <div class="overline mb-n3 subtle--text">PLAYER</div>
+        <div class="text-overline mb-n3 text-subtle">PLAYER</div>
         <cc-short-string-editor @set="pilot.PlayerName = $event">
           {{ pilot.PlayerName || '---' }}
         </cc-short-string-editor>
       </v-col>
       <v-col cols="6" md="4" xl="3">
-        <div class="overline mb-n3 subtle--text">STATUS</div>
-        <span :class="`stat-text ${statusColor()}--text`">{{
+        <div class="text-overline mb-n3 text-subtle">STATUS</div>
+        <span :class="`stat-text ${statusColor()}text-`">{{
           pilot.Status
         }}</span>
         <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />

@@ -1,32 +1,30 @@
-import Main from './index.vue'
+import Main from './index.vue';
 
-import Home from './Views/Home.vue'
-import Search from './Views/SearchResults.vue'
+import Home from './Views/Home.vue';
+import Search from './Views/SearchResults.vue';
 
-import Licenses from './Views/Licenses.vue'
-import Manufacturers from './Views/Manufacturers.vue'
-import Frames from './Views/Frames.vue'
-import Weapons from './Views/Weapons.vue'
-import Systems from './Views/Systems.vue'
-import PilotGear from './Views/PilotGear.vue'
-import Skills from './Views/Skills.vue'
-import NpcClasses from './Views/NpcClasses.vue'
-import NpcFeatures from './Views/NpcFeatures.vue'
-import NpcTemplates from './Views/NpcTemplates.vue'
-import Statuses from './Views/Statuses.vue'
-import Tags from './Views/Tags.vue'
-import Reference from './Views/Reference.vue'
-import CoreBonuses from './Views/CoreBonuses.vue'
-import Talents from './Views/Talents.vue'
-import Backgrounds from './Views/Backgrounds.vue'
-import ActionEconomy from './Views/ActionEconomy.vue'
-import Glossary from './Views/Glossary.vue'
-import Reserves from './Views/Reserves.vue'
-import Bonds from './Views/Bonds.vue'
+import Licenses from './Views/Licenses.vue';
+import Manufacturers from './Views/Manufacturers.vue';
+import Frames from './Views/Frames.vue';
+import Weapons from './Views/Weapons.vue';
+import Systems from './Views/Systems.vue';
+import PilotGear from './Views/PilotGear.vue';
+import Skills from './Views/Skills.vue';
+import NpcClasses from './Views/NpcClasses.vue';
+import NpcFeatures from './Views/NpcFeatures.vue';
+import NpcTemplates from './Views/NpcTemplates.vue';
+import Statuses from './Views/Statuses.vue';
+import Tags from './Views/Tags.vue';
+import Reference from './Views/Reference.vue';
+import CoreBonuses from './Views/CoreBonuses.vue';
+import Talents from './Views/Talents.vue';
+import Backgrounds from './Views/Backgrounds.vue';
+import ActionEconomy from './Views/ActionEconomy.vue';
+import Glossary from './Views/Glossary.vue';
+import Reserves from './Views/Reserves.vue';
+import Bonds from './Views/Bonds.vue';
 
-import { RouteConfig } from 'vue-router'
-
-const routes: RouteConfig[] = [
+const routes = [
   {
     path: '',
     component: Main,
@@ -121,6 +119,6 @@ const routes: RouteConfig[] = [
       },
     ],
   },
-]
+];
 
-export default routes
+export default routes;

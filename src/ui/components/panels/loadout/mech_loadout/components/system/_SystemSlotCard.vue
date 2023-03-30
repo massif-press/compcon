@@ -7,7 +7,7 @@
           dark
           small
           color="primary"
-          class="fadeSelect"
+          class="fade-select"
           @click.stop="$refs.selectorDialog.show()"
         >
           <v-icon small>mdi-plus</v-icon>
@@ -42,20 +42,14 @@
           <v-col cols="auto">
             <span
               v-if="!item.Destroyed"
-              :key="item.Name"
-              :class="`ml-n2 ${small ? 'white--text effect-text' : ''}`"
+              :class="`ml-n2 ${small ? 'text-white effect-text' : ''}`"
             >
               {{ item.Name }}
               <span v-if="item.FlavorName" class="caption ml-2 my-n1"
                 >//{{ item.TrueName }}</span
               >
             </span>
-            <span
-              v-else
-              :key="item.Name + '_dest'"
-              class="py-1 error"
-              style="letter-spacing: 3px"
-            >
+            <span v-else class="py-1 error" style="letter-spacing: 3px">
               &nbsp;//
               <strike>{{ item.Name }}</strike>
               //&nbsp;
@@ -77,14 +71,14 @@
           <v-icon
             v-if="item"
             dark
-            class="fadeSelect mt-n1"
+            class="fade-select mt-n1"
             :small="small"
             @click.stop="remove(item)"
           >
             delete
           </v-icon>
           <v-icon
-            class="fadeSelect mt-n1"
+            class="fade-select mt-n1"
             :small="small"
             dark
             @click.stop="$refs.base.$refs.selectorDialog.show()"
@@ -95,31 +89,27 @@
       <div v-if="item">
         <v-alert
           v-if="item.IsCascading"
-          dense
+          density="compact"
           tile
           color="error"
-          class="text-center white--text stat-text"
+          class="text-center text-white stat-text"
           style="letter-spacing: 3px"
         >
           / / AI IN CASCADE / /
         </v-alert>
         <div v-if="item && item.Effect">
-          <div class="overline mt-2">
-            <v-icon>cc:system</v-icon>
+          <div class="text-overline mt-2">
+            <v-icon icon="cc:system" />
             EQUIPMENT EFFECT
           </div>
           <p
             v-html-safe="item.Effect"
-            class="text--text body-text mb-1 mr-3 ml-7"
+            class="text-text body-text mb-1 mr-3 ml-7"
           />
         </div>
       </div>
       <div v-if="item && item.Ammo && item.Ammo.length">
-        <div
-          v-for="(a, i) in item.Ammo"
-          :key="`${item.Name}_ammo_${i}`"
-          class="body-text"
-        >
+        <div v-for="(a, i) in item.Ammo" class="body-text">
           <b>{{ a.name }}</b>
           :
           <span v-html="a.detail" />

@@ -22,13 +22,13 @@
       <span class="px-3">{{ nameOverride ? nameOverride : action.name }}</span>
     </v-btn>
     <v-dialog v-model="dialog" width="60vw">
-      <v-toolbar dense :color="actionColor" dark class="heading h2">
+      <v-toolbar density="compact" :color="actionColor" dark class="heading h2">
         <v-icon large left>$vuetify.icons.{{ action.action_type }}</v-icon>
         {{ action.name }}
       </v-toolbar>
       <v-card tile>
         <v-card-text
-          class="flavor-text text--text pt-2"
+          class="flavor-text text-text pt-2"
           v-html="action.detail"
         />
       </v-card>

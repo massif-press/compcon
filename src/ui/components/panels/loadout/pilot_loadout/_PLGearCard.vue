@@ -14,21 +14,11 @@
       style="cursor: pointer !important; height: 100%"
       @click="$refs.base.openDetail()"
     >
-      <v-row dense>
+      <v-row density="compact">
         <v-col>
-          <span
-            :key="item.Name"
-            class="h2 heading text--text"
-            style="line-height: 35px"
-          >
+          <span class="h2 heading text-text" style="line-height: 35px">
             {{ item.Name }}
-            <cc-tooltip
-              v-if="item.Note"
-              :key="item.Note.length"
-              simple
-              inline
-              :content="item.Note"
-            >
+            <cc-tooltip v-if="item.Note" simple inline :content="item.Note">
               <v-icon small color="active">mdi-note</v-icon>
             </cc-tooltip>
           </span>
@@ -43,13 +33,13 @@
       </v-row>
       <v-row
         v-if="!readonly"
-        dense
+        density="compact"
         class="mt-2"
         :style="`max-height: ${
           $vuetify.display.smAndDown ? '125' : '200'
         }px; overflow-y: scroll`"
       >
-        <p v-html-safe="item.Description" class="text--text" />
+        <p v-html-safe="item.Description" class="text-text" />
       </v-row>
       <v-row no-gutters>
         <v-col cols="auto" class="ml-auto mr-4 mt-n2">
@@ -69,12 +59,12 @@
           <span class="overline">
             GMS EQUIPMENT CATALOG PRINTID:
             {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-            <span class="success--text text--darken-1">
+            <span class="text-success text--darken-1">
               [ PILOT EQUIPMENT REGISTRATION VERIFIED ]
             </span>
           </span>
           <br />
-          <span class="heading h1 accent--text" style="line-height: 20px">{{
+          <span class="heading h1 text-accent" style="line-height: 20px">{{
             item.Name
           }}</span>
           <span class="flavor-text overline mt-n1" style="display: block"
@@ -87,13 +77,13 @@
           >
           <br />
           <span
-            class="heading h1 subtle--text text--lighten-1"
+            class="heading h1 text-subtle text--lighten-1"
             style="line-height: 20px"
           >
             NO SELECTION
           </span>
           <span
-            class="flavor-text overline mt-n1 error--text"
+            class="flavor-text overline mt-n1 text-error"
             style="display: block"
           >
             [ EQUIPMENT ID INVALID OR MISSING ]
@@ -107,7 +97,7 @@
 <script lang="ts">
 import PlCardBase from './_PLCardBase.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { PilotGear, CompendiumItem, ItemType } from '@/class';
 import { flavorID } from '@/io/Generators';
 
@@ -147,7 +137,7 @@ export default {
       (this.$refs.base as any).closeSelector();
     },
     getGear() {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       let gear = compendium.PilotGear.filter(
         (x: CompendiumItem) =>
           !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotGear

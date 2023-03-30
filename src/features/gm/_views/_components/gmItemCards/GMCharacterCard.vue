@@ -9,7 +9,7 @@
         <v-fade-transition>
           <div
             v-if="hover"
-            class="d-flex text-center primary darken-2 v-card--reveal white--text"
+            class="d-flex text-center primary darken-2 v-card--reveal text-white"
             style="height: 100%"
           >
             <v-container>
@@ -23,7 +23,11 @@
               >
                 <v-col>"{{ item.Alias }}"</v-col>
               </v-row>
-              <v-row v-if="item.Alias && item.Title" dense align="center">
+              <v-row
+                v-if="item.Alias && item.Title"
+                density="compact"
+                align="center"
+              >
                 <v-col><v-divider dark /></v-col>
                 <v-col cols="auto">
                   <v-icon x- small dark style="opacity: 0.4"
@@ -32,7 +36,7 @@
                 </v-col>
                 <v-col><v-divider dark /></v-col>
               </v-row>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col :class="big ? 'heading h3' : 'font-weight-bold'">{{
                   item.Title
                 }}</v-col>
@@ -44,7 +48,7 @@
       <v-card-text class="py-2 text-center" style="position: relative">
         <div
           :class="`${big ? 'heading h2' : 'body-text font-weight-bold'} ${
-            hover ? 'primary--text' : ''
+            hover ? 'text-primary' : ''
           }`"
         >
           {{ item.Name }}
@@ -52,7 +56,7 @@
         <div
           v-if="big"
           class="body-text"
-          :class="hover ? 'primary--text' : ''"
+          :class="hover ? 'text-primary' : ''"
         ></div>
       </v-card-text>
     </v-card>

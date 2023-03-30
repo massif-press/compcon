@@ -29,16 +29,14 @@
           !pilot.ReservesController.Organizations.length
         "
       />
-      <v-row v-else dense>
+      <v-row v-else density="compact">
         <cc-reserve-item
           v-for="(r, i) in pilot.ReservesController.Reserves"
-          :key="`r_${i}`"
           :reserve="r"
           @remove="pilot.ReservesController.RemoveReserve(i)"
         />
         <cc-org-item
           v-for="(o, i) in pilot.ReservesController.Organizations"
-          :key="`o_${i}`"
           :org="o"
           @remove="pilot.ReservesController.RemoveOrganization(i)"
         />

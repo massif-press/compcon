@@ -18,7 +18,7 @@
           </div>
         </v-col>
       </v-row>
-      <v-row dense justify="space-around">
+      <v-row density="compact" justify="space-around">
         <v-col cols="5" class="text-center">
           <cc-tooltip
             inline
@@ -53,8 +53,13 @@
           <v-row align="center">
             <v-col>
               <div class="overline">CLONE QUIRK</div>
-              <v-alert dense color="primary" variant="outlined" left>
-                <div class="body-text stark--text font-weight-bold">
+              <v-alert
+                density="compact"
+                color="primary"
+                variant="outlined"
+                left
+              >
+                <div class="body-text text-stark font-weight-bold">
                   {{ quirk }}
                 </div>
               </v-alert>
@@ -87,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import _ from 'lodash';
 import { Pilot } from '@/class';
 
@@ -111,7 +116,7 @@ export default {
       (this.$refs.dialog as any).hide();
     },
     rollQuirk() {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       this.quirk = _.sample(compendium.Tables.quirks);
     },
     clonePilot() {

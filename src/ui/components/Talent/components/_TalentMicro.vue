@@ -7,15 +7,15 @@
         </div>
       </template>
       <v-card>
-        <v-toolbar flat dense tile color="primary">
-          <span class="heading h3 white--text">
+        <v-toolbar flat density="compact" tile color="primary">
+          <span class="heading h3 text-white">
             {{ talent.Name }}
-            <span v-if="rank" class="flavor-text white--text">
+            <span v-if="rank" class="flavor-text text-white">
               <cc-slashes />
               RANK {{ 'I'.repeat(parseInt(rank)) }}
             </span>
           </span>
-          <span v-if="talent.InLcp" class="heading h3 white--text ml-3">{{
+          <span v-if="talent.InLcp" class="heading h3 text-white ml-3">{{
             talent.LcpName
           }}</span>
         </v-toolbar>

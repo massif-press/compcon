@@ -3,7 +3,7 @@
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
         <v-card-title
-          class="pilot white--text py-0 heading h3"
+          class="pilot text-white py-0 heading h3"
           style="height: 24px"
         >
           <v-menu v-if="item" offset-x left>
@@ -12,15 +12,15 @@
                 icon
                 small
                 dark
-                class="fadeSelect mt-n1 ml-n2 mr-1"
+                class="fade-select mt-n1 ml-n2 mr-1"
                 v-bind="props"
                 >mdi-cog</v-icon
               >
             </template>
-            <v-list dense>
+            <v-list density="compact">
               <v-list-item @click="$refs.selectorDialog.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
-                  <v-icon>mdi-swap-vertical-variant</v-icon>
+                  <v-icon icon="mdi-swap-vertical-variant" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Change Item</v-list-item-title>
@@ -32,7 +32,7 @@
                 @click="$refs.damageTypeDialog.show()"
               >
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
-                  <v-icon>cc:variable</v-icon>
+                  <v-icon icon="cc:variable" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Select Damage Type</v-list-item-title>
@@ -40,7 +40,7 @@
               </v-list-item>
               <v-list-item @click="$refs.cName.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
+                  <v-icon icon="mdi-circle-edit-outline" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Set Custom Name</v-list-item-title>
@@ -48,7 +48,7 @@
               </v-list-item>
               <v-list-item @click="$refs.cDesc.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
-                  <v-icon>mdi-circle-edit-outline</v-icon>
+                  <v-icon icon="mdi-circle-edit-outline" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title>Set Custom Description</v-list-item-title>
@@ -81,11 +81,11 @@
           <v-spacer />
           <div v-if="!readonly" class="text-right mt-n2">
             <v-btn v-if="item" small icon dark @click="$emit('remove')">
-              <v-icon class="fadeSelect">delete</v-icon>
+              <v-icon class="fade-select">delete</v-icon>
             </v-btn>
             <v-btn icon small dark @click="$refs.selectorDialog.show()">
               <v-icon
-                class="fadeSelect"
+                class="fade-select"
                 v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
               />
             </v-btn>
@@ -100,15 +100,11 @@
             <div v-if="item">
               <slot @click="$refs.detailDialog.show()" />
               <div v-if="item.Deployables.length">
-                <div class="overline ml-n2 subtle--text">
+                <div class="text-overline ml-n2 text-subtle">
                   EQUIPMENT DEPLOYABLES
                 </div>
                 <v-row no-gutters justify="center">
-                  <v-col
-                    v-for="(d, i) in item.Deployables"
-                    :key="`${item.Name}_deployable_${i}`"
-                    cols="auto"
-                  >
+                  <v-col v-for="(d, i) in item.Deployables" cols="auto">
                     <cc-deployable-info
                       :deployable="d"
                       :panel="false"
@@ -121,14 +117,12 @@
             </div>
             <div
               v-else
-              class="py-3 text-center fadeSelect"
+              class="py-3 text-center fade-select"
               style="cursor: pointer; height: 100%"
               @click="$refs.selectorDialog.show()"
             >
               <v-row style="height: 100%">
-                <span
-                  class="heading h2 subtle--text my-auto"
-                  style="width: 100%"
+                <span class="heading h2 text-subtle my-auto" style="width: 100%"
                   >// EMPTY //</span
                 >
               </v-row>
@@ -161,7 +155,7 @@
           auto-grow
           rows="2"
           filled
-          dense
+          density="compact"
           hide-details
           prepend-icon="mdi-note"
           label="Equipment Notes"

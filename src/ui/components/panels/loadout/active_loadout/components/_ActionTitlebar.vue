@@ -2,7 +2,7 @@
   <cc-titlebar
     large
     :color="unusable ? '#616161' : action.Color"
-    class="white--text"
+    class="text-white"
   >
     <v-icon
       v-if="!noAction"
@@ -15,7 +15,7 @@
       <cc-slashes />
       Action Unavailable
     </span>
-    <span v-else-if="action.Origin" class="flavor-text white--text">
+    <span v-else-if="action.Origin" class="flavor-text text-white">
       <cc-slashes />
       {{ action.Origin }}
     </span>

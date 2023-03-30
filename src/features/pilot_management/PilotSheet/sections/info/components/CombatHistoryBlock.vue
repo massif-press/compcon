@@ -9,35 +9,35 @@
       <span class="ml-9">&emsp;</span>
       Pilot Combat Telemetry Record
     </cc-title>
-    <v-row dense class="stat-text pt-2 pb-2 pl-2 mt-n2">
+    <v-row density="compact" class="stat-text pt-2 pb-2 pl-2 mt-n2">
       <v-col>
         <div>
           MOVES:
-          <b class="stark--text">{{ pilot.CombatHistory.moves }}</b>
+          <b class="text-stark">{{ pilot.CombatHistory.moves }}</b>
         </div>
         <div>
           DAMAGE DEALT:
-          <b class="stark--text">{{ pilot.CombatHistory.damage }}</b>
+          <b class="text-stark">{{ pilot.CombatHistory.damage }}</b>
         </div>
         <div>
           ENEMIES DESTROYED:
-          <b class="stark--text">{{ pilot.CombatHistory.kills }}</b>
+          <b class="text-stark">{{ pilot.CombatHistory.kills }}</b>
         </div>
         <div>
           DAMAGE TAKEN:
-          <b class="stark--text">{{ pilot.CombatHistory.hp_damage }}</b>
+          <b class="text-stark">{{ pilot.CombatHistory.hp_damage }}</b>
         </div>
         <div>
           STRUCTURE LOST:
-          <b class="stark--text">{{ pilot.CombatHistory.structure_damage }}</b>
+          <b class="text-stark">{{ pilot.CombatHistory.structure_damage }}</b>
         </div>
         <div>
           HEAT TAKEN:
-          <b class="stark--text">{{ pilot.CombatHistory.heat_damage }}</b>
+          <b class="text-stark">{{ pilot.CombatHistory.heat_damage }}</b>
         </div>
         <div>
           REACTOR STRESS:
-          <b class="stark--text">{{ pilot.CombatHistory.reactor_damage }}</b>
+          <b class="text-stark">{{ pilot.CombatHistory.reactor_damage }}</b>
         </div>
       </v-col>
     </v-row>

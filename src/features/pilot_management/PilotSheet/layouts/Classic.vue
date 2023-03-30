@@ -15,7 +15,7 @@ import TacticalView from '../sections/tactical/index.vue';
 import MechHangarView from '../sections/hangar/index.vue';
 import BondsView from '../sections/bonds/index.vue';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'classic',
@@ -52,9 +52,7 @@ export default {
   },
   computed: {
     hasBondData() {
-      return (
-        this.pilot.Level >= 1 && this.getModule(CompendiumStore).Bonds.length
-      );
+      return this.pilot.Level >= 1 && CompendiumStore().Bonds.length;
     },
   },
 };

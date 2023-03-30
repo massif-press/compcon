@@ -1,6 +1,6 @@
 <template>
   <cc-dialog no-dismiss :color="action.Color" large>
-    <span slot="button" class="white--text" style="width: 100%">
+    <span slot="button" class="text-white" style="width: 100%">
       <v-icon dark>{{ action.Icon }}</v-icon>
       {{ action.Name }}
     </span>

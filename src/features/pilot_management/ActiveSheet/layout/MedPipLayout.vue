@@ -1,9 +1,13 @@
 <template>
   <div>
-    <v-row dense align="center" justify="space-between" class="mt-n3">
+    <v-row
+      density="compact"
+      align="center"
+      justify="space-between"
+      class="mt-n3"
+    >
       <v-col cols="auto">
         <cc-tick-bar
-          :key="mech.CurrentStructure"
           :current="mech.CurrentStructure"
           :max="mech.MaxStructure"
           large
@@ -17,7 +21,6 @@
       </v-col>
       <v-col v-if="mech.Armor" cols="auto">
         <cc-tick-bar
-          :key="mech.Armor"
           :current="mech.Armor"
           :max="mech.Armor"
           large
@@ -32,7 +35,6 @@
       </v-col>
       <v-col cols="auto">
         <cc-tick-bar
-          :key="mech.CurrentHP"
           :current="mech.CurrentHP"
           :max="mech.MaxHP"
           large
@@ -46,7 +48,6 @@
       </v-col>
       <v-col cols="auto">
         <cc-tick-bar
-          :key="mech.Overshield"
           :current="mech.Overshield"
           :max="mech.Overshield"
           large
@@ -61,10 +62,9 @@
       </v-col>
     </v-row>
 
-    <v-row dense align="center" justify="space-between">
+    <v-row density="compact" align="center" justify="space-between">
       <v-col cols="auto">
         <cc-tick-bar
-          :key="mech.CurrentStress"
           :current="mech.CurrentStress"
           :max="mech.MaxStress"
           large
@@ -78,7 +78,6 @@
       </v-col>
       <v-col cols="auto">
         <cc-tick-bar
-          :key="mech.CurrentHeat"
           :current="mech.CurrentHeat"
           :max="mech.HeatCapacity"
           large
@@ -88,22 +87,21 @@
           max-length="12"
           @update="mech.CurrentHeat = $event"
         >
-          <span v-if="mech.IsInDangerZone" class="dangerzone--text heading h3"
+          <span v-if="mech.IsInDangerZone" class="text-dangerzone heading h3"
             >HEAT</span
           >
           <span v-else class="heading h3">HEAT</span>
         </cc-tick-bar>
         <div
           v-if="mech.IsInDangerZone"
-          class="caption font-weight-bold dangerzone--text"
+          class="caption font-weight-bold text-dangerzone"
         >
           // HEAT::DANGER ZONE //
         </div>
-        <div v-else class="caption subtle--text">HEAT LEVELS NOMINAL</div>
+        <div v-else class="caption text-subtle">HEAT LEVELS NOMINAL</div>
       </v-col>
       <v-col cols="auto">
         <cc-tick-bar
-          :key="mech.CurrentRepairs"
           :current="mech.CurrentRepairs"
           :max="mech.RepairCapacity"
           large
@@ -116,10 +114,9 @@
       </v-col>
     </v-row>
 
-    <v-row dense align="center" justify="space-around">
+    <v-row density="compact" align="center" justify="space-around">
       <v-col cols="auto">
         <cc-tick-bar
-          :key="mech.CurrentCoreEnergy"
           :current="mech.CurrentCoreEnergy"
           :max="1"
           large
@@ -136,17 +133,15 @@
         </cc-tick-bar>
         <div
           v-if="mech.CurrentCoreEnergy > 0"
-          :key="mech.CurrentCoreEnergy"
-          class="caption font-weight-bold corepower--text"
+          class="caption font-weight-bold text-corepower"
         >
           AVAILABLE
         </div>
-        <div v-else class="caption subtle--text">EXHAUSTED</div>
+        <div v-else class="caption text-subtle">EXHAUSTED</div>
       </v-col>
 
       <v-col cols="auto">
         <cc-tick-bar
-          :key="mech.CurrentOvercharge"
           :current="mech.CurrentOvercharge"
           :max="mech.OverchargeTrack.length - 1"
           large
@@ -159,7 +154,7 @@
         >
           <span class="heading h3">Overcharge</span>
         </cc-tick-bar>
-        <div class="caption overcharge--text font-weight-bold">
+        <div class="caption text-overcharge font-weight-bold">
           +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
         </div>
       </v-col>

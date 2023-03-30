@@ -25,7 +25,7 @@
         Templates not exceeding 3.75EB, and access protocols to FRAME-compliant
         system software.
       </span>
-      <v-alert color="accent" variant="outlined" dense class="mt-2">
+      <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
         <b>Unlock a License.</b>
         <br />
         <span class="overline">

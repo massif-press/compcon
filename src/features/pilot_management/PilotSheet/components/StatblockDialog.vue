@@ -37,7 +37,7 @@
       />
       <cc-tooltip simple inline content="Copy stat block to clipboard">
         <v-btn class="mt-n4" color="accent" @click="copy()">
-          <v-icon>mdi-clipboard-text-outline</v-icon>
+          <v-icon icon="mdi-clipboard-text-outline" />
           Copy to Clipboard
         </v-btn>
       </cc-tooltip>

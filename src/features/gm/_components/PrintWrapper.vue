@@ -4,23 +4,28 @@
     <v-bottom-navigation fixed grow horizontal color="primary" class="no-print">
       <v-btn @click="$router.go(-1)">
         <span>Close Preview</span>
-        <v-icon>mdi-close</v-icon>
+        <v-icon icon="mdi-close" />
       </v-btn>
       <v-spacer />
       <v-btn disabled>
         <span>Options</span>
-        <v-icon>mdi-settings</v-icon>
+        <v-icon icon="mdi-settings" />
       </v-btn>
       <v-btn @click="print()">
         <span>Print</span>
-        <v-icon>print</v-icon>
+        <v-icon icon="print" />
       </v-btn>
     </v-bottom-navigation>
   </div>
 </template>
 
 <script lang="ts">
-import { NpcStore, CharacterStore, LocationStore, FactionStore } from '@/store';
+import {
+  NpcStore,
+  NarrativeStore,
+  NarrativeStore,
+  NarrativeStore,
+} from '@/stores';
 import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue';
 import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue';
 import FactionPrintContent from '../factions/_components/FactionPrintContent.vue';
@@ -46,15 +51,15 @@ export default {
       if (!this.id) return null;
       switch (this.type.toLowerCase()) {
         case 'character':
-          return this.getModule(CharacterStore).Characters.find(
+          return this.getModule(NarrativeStore).Characters.find(
             (x) => x.ID === this.id
           );
         case 'location':
-          return this.getModule(LocationStore).Locations.find(
+          return this.getModule(NarrativeStore).Locations.find(
             (x) => x.ID === this.id
           );
         case 'faction':
-          return this.getModule(FactionStore).Factions.find(
+          return this.getModule(NarrativeStore).Factions.find(
             (x) => x.ID === this.id
           );
         default:

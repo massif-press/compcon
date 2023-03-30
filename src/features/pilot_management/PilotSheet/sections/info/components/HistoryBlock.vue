@@ -13,7 +13,7 @@
       <p
         v-if="pilot.History"
         v-html-safe="pilot.History"
-        class="flavor-text text--text mx-2 preserve-linebreaks"
+        class="flavor-text text-text mx-2 preserve-linebreaks"
       />
       <no-data-block v-else />
     </div>

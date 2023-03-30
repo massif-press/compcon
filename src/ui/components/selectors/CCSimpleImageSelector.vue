@@ -21,7 +21,7 @@
             ref="fileInput"
             class="px-6 mt-2"
             accept="image/*"
-            dense
+            density="compact"
             variant="outlined"
             placeholder="Select Image"
             prepend-icon="mdi-file-upload-outline"

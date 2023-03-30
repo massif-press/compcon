@@ -3,14 +3,14 @@
     <action-detail-expander :action="action" />
     <v-row justify="center" align="center">
       <v-col cols="12" lg="">
-        <v-row dense justify="space-around">
+        <v-row density="compact" justify="space-around">
           <v-col cols="12" lg="auto">
             <div class="heading h3 text-center">
               Choose one of the following:
             </div>
             <v-radio-group
               v-model="state.StabilizeMajor"
-              dense
+              density="compact"
               hide-details
               column
             >
@@ -37,7 +37,7 @@
             <v-radio-group
               v-model="state.StabilizeMinor"
               color="accent"
-              dense
+              density="compact"
               hide-details
               column
             >
@@ -96,7 +96,7 @@
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon end small class="fadeSelect"
+            <v-icon end small class="fade-select"
               >mdi-information-outline</v-icon
             >
           </cc-tooltip>

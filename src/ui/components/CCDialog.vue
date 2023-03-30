@@ -2,9 +2,9 @@
   <div>
     <v-btn
       v-if="flat"
-      :small="smallBtn || $vuetify.display.smAndDown"
+      :size="smallBtn || $vuetify.display.smAndDown ? 'small' : 'default'"
       :color="color"
-      text
+      variant="text"
       :dark="dark"
       @click="dialog = true"
     >
@@ -13,7 +13,8 @@
     <v-btn
       v-else
       tile
-      :small="smallBtn || $vuetify.display.smAndDown"
+      flat
+      :size="smallBtn || $vuetify.display.smAndDown ? 'small' : 'default'"
       :color="color"
       @click="dialog = true"
     >
@@ -25,9 +26,16 @@
       :width="small ? '30vw' : large ? '80vw' : '50vw'"
     >
       <v-card tile class="background">
-        <cc-titlebar :color="color">
-          <slot name="title" />
-          <slot slot="items" name="title-items" />
+        <cc-titlebar :color="color" :icon="icon">
+          <template v-slot:title>
+            <slot name="title" />
+          </template>
+          <template v-slot:title-chips>
+            <slot name="title-chips" />
+          </template>
+          <template v-slot:title-items>
+            <slot name="title-items" />
+          </template>
         </cc-titlebar>
 
         <v-card-text>
@@ -36,17 +44,7 @@
 
         <v-divider></v-divider>
 
-        <v-card-actions
-          v-if="
-            fullscreen ||
-            $vuetify.display.mdAndDown ||
-            (noConfirm && !noDismiss)
-          "
-        >
-          <v-spacer />
-          <v-btn text @click="dialog = false">dismiss</v-btn>
-        </v-card-actions>
-        <v-card-actions v-else-if="!noDismiss">
+        <v-card-actions v-if="hasConfirm">
           <v-btn text @click="dialog = false">cancel</v-btn>
           <v-spacer />
           <cc-btn @click="confirm">confirm</cc-btn>
@@ -85,6 +83,11 @@ export default {
       required: false,
       default: 'primary',
     },
+    icon: {
+      type: String,
+      required: false,
+      default: '',
+    },
     flat: {
       type: Boolean,
       required: false,
@@ -95,12 +98,7 @@ export default {
       required: false,
       default: false,
     },
-    noConfirm: {
-      type: Boolean,
-      required: false,
-      default: false,
-    },
-    noDismiss: {
+    hasConfirm: {
       type: Boolean,
       required: false,
       default: false,

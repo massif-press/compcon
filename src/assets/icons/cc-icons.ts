@@ -1,5 +1,5 @@
 import { h } from 'vue';
-import type { IconSet, IconProps } from 'vuetify';
+import type { IconSet, IconProps, IconAliases } from 'vuetify';
 
 import accuracy from './svg/accuracy.vue';
 import activate from './svg/activate.vue';
@@ -110,6 +110,11 @@ import vehicle from './svg/vehicle.vue';
 import weapon_profile from './svg/weapon_profile.vue';
 import weapon from './svg/weapon.vue';
 import weaponmod from './svg/weaponmod.vue';
+import gms from './svg/gms.vue';
+import ha from './svg/ha.vue';
+import ipsn from './svg/ipsn.vue';
+import ssc from './svg/ssc.vue';
+import horus from './svg/horus.vue';
 
 const svgs: any = {
   accuracy,
@@ -221,6 +226,11 @@ const svgs: any = {
   weapon_profile,
   weapon,
   weaponmod,
+  gms,
+  ha,
+  ipsn,
+  ssc,
+  horus,
 };
 
 const ccIcons: IconSet = {
@@ -232,4 +242,4 @@ const ccIcons: IconSet = {
     ]),
 };
 
-export { ccIcons /* aliases */ };
+export { ccIcons };

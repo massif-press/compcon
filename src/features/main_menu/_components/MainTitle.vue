@@ -36,7 +36,10 @@
         </div>
       </div>
     </div>
-    <div class="clipped pl-4 pt-2">
+    <div
+      class="clipped pl-4 pt-2"
+      style="position: absolute; height: 80px; left: 0; top: 0"
+    >
       <div id="title">COMP/CON</div>
       <div id="subtitle">v.{{ $appVersion }}</div>
     </div>

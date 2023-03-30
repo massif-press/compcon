@@ -5,19 +5,19 @@
         <v-btn
           dark
           small
-          class="ml-n3 mt-n1 mr-2 fadeSelect"
+          class="ml-n3 mt-n1 mr-2 fade-select"
           icon
           v-on="menu"
           @click.stop
         >
-          <v-icon>settings</v-icon>
+          <v-icon icon="settings" />
         </v-btn>
       </template>
-      <v-list dense>
+      <v-list density="compact">
         <div v-if="!item.IsIntegrated && !readonly">
           <v-list-item @click="$emit('swap')">
             <v-list-item-icon class="ma-0 mr-2 mt-2">
-              <v-icon>mdi-swap-vertical-variant</v-icon>
+              <v-icon icon="mdi-swap-vertical-variant" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Change Item</v-list-item-title>
@@ -38,7 +38,7 @@
         </v-list-item>
         <v-list-item v-else-if="item.Used" @click="item.Used = false">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-redo</v-icon>
+            <v-icon icon="mdi-redo" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Mark as Unused</v-list-item-title>
@@ -49,7 +49,7 @@
           @click="$refs.damageTypeDialog.show()"
         >
           <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>cc:variable</v-icon>
+            <v-icon icon="cc:variable" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Select Damage Type</v-list-item-title>
@@ -57,7 +57,7 @@
         </v-list-item>
         <v-list-item v-if="item.CanSetUses" @click="$refs.maxUseDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>mdi-dice-6</v-icon>
+            <v-icon icon="mdi-dice-6" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Set Max Uses</v-list-item-title>
@@ -76,7 +76,7 @@
         </v-list-item>
         <v-list-item v-else-if="!item.IsIndestructible" @click="item.Repair()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-wrench</v-icon>
+            <v-icon icon="mdi-wrench" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Mark as Repaired</v-list-item-title>
@@ -85,7 +85,7 @@
         <div v-if="item.IsLoading">
           <v-list-item v-if="item.Loaded" @click="item.Loaded = false">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-progress-download</v-icon>
+              <v-icon icon="mdi-progress-download" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Mark as Unloaded</v-list-item-title>
@@ -93,7 +93,7 @@
           </v-list-item>
           <v-list-item v-else @click="item.Loaded = true">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-progress-upload</v-icon>
+              <v-icon icon="mdi-progress-upload" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Mark as Loaded</v-list-item-title>
@@ -103,7 +103,7 @@
         <div v-if="item.IsAI">
           <v-list-item v-if="!item.IsCascading" @click="item.Unshackle()">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-link-variant</v-icon>
+              <v-icon icon="mdi-link-variant" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Mark as Cascading</v-list-item-title>
@@ -111,7 +111,7 @@
           </v-list-item>
           <v-list-item v-else @click="item.Shackle()">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon>mdi-link-variant-off</v-icon>
+              <v-icon icon="mdi-link-variant-off" />
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title>Clear Cascading Status</v-list-item-title>
@@ -121,7 +121,7 @@
         <v-divider v-if="!active" />
         <v-list-item v-if="!active" @click="$refs.cName.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>mdi-circle-edit-outline</v-icon>
+            <v-icon icon="mdi-circle-edit-outline" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Set Custom Name</v-list-item-title>
@@ -129,7 +129,7 @@
         </v-list-item>
         <v-list-item v-if="!active" @click="$refs.cDesc.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
-            <v-icon>mdi-circle-edit-outline</v-icon>
+            <v-icon icon="mdi-circle-edit-outline" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Set Custom Description</v-list-item-title>

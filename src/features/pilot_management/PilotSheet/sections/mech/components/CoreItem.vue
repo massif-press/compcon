@@ -1,6 +1,6 @@
 <template>
   <div class="mx-3">
-    <span class="heading h2 text--text">{{ coreSystem.Name }}</span>
+    <span class="heading h2 text-text">{{ coreSystem.Name }}</span>
     <p
       v-show="$vuetify.display.mdAndUp"
       class="flavor-text px-3"
@@ -22,7 +22,6 @@
           <v-col cols="auto">
             <cc-action
               v-for="(a, i) in coreSystem.PassiveActions"
-              :key="`${coreSystem.Name}_action_${i}`"
               :action="a"
               :panel="$vuetify.display.lgAndUp"
             />
@@ -64,7 +63,6 @@
       <p v-html-safe="coreSystem.ActiveEffect" class="body-text mb-1 px-3" />
       <cc-action
         v-for="(a, i) in coreSystem.ActiveActions"
-        :key="`${coreSystem.Name}_action_${i}`"
         :action="a"
         :panel="$vuetify.display.lgAndUp"
         class="ma-2"
@@ -72,11 +70,7 @@
     </div>
 
     <v-row v-if="coreSystem.Deployables.length" no-gutters justify="center">
-      <v-col
-        v-for="(d, i) in coreSystem.Deployables"
-        :key="`${coreSystem.Name}_deployable_${i}`"
-        cols="auto"
-      >
+      <v-col v-for="(d, i) in coreSystem.Deployables" cols="auto">
         <cc-deployable-info
           :deployable="d"
           :panel="$vuetify.display.lgAndUp"

@@ -4,7 +4,7 @@
       large
       block
       color="primary"
-      class="white--text"
+      class="text-white"
       @click="dialog = true"
     >
       {{
@@ -16,8 +16,8 @@
 
     <v-dialog v-model="dialog">
       <v-card>
-        <v-toolbar dense color="primary">
-          <span class="heading h6 white--text">Select Class</span>
+        <v-toolbar density="compact" color="primary">
+          <span class="heading h6 text-white">Select Class</span>
           <v-spacer />
           <v-btn icon color="white" @click="dialog = false"
             ><v-icon large>mdi-close</v-icon></v-btn
@@ -25,12 +25,12 @@
         </v-toolbar>
         <panel-view ref="view">
           <template slot="left">
-            <v-row dense>
+            <v-row density="compact">
               <v-col>
                 <v-text-field
                   v-model="search"
                   prepend-inner-icon="mdi-magnify"
-                  dense
+                  density="compact"
                   hide-details
                   variant="outlined"
                   clearable
@@ -39,11 +39,11 @@
             </v-row>
             <v-divider class="my-2" />
             <v-row
-              dense
+              density="compact"
               style="max-height: calc(100% - 145px); overflow-y: scroll"
             >
               <v-data-table
-                dense
+                density="compact"
                 :items="classes"
                 :headers="headers"
                 :search="search"
@@ -59,7 +59,7 @@
                   <div class="primary sliced">
                     <span
                       v-if="h.group"
-                      class="heading white--text ml-2 text-uppercase"
+                      class="heading text-white ml-2 text-uppercase"
                     >
                       <v-icon
                         v-if="h.group.toLowerCase() === 'biological'"
@@ -97,7 +97,7 @@
               </v-data-table>
             </v-row>
             <v-divider class="mt-2" />
-            <v-row justify="center" dense class="mb-n10">
+            <v-row justify="center" density="compact" class="mb-n10">
               <v-col cols="10">
                 <v-btn
                   large
@@ -115,44 +115,43 @@
           </template>
           <template slot="right">
             <v-container v-if="selected">
-              <v-row dense>
+              <v-row density="compact">
                 <v-col cols="auto" class="mt-4">
                   <span class="heading mech" style="line-height: 0">
                     {{ selected.Name }}
                   </span>
                 </v-col>
                 <v-col v-if="selected.InLcp" class="ml-auto mt-n4">
-                  <div class="heading h3 text--text">
+                  <div class="heading h3 text-text">
                     {{ selected.LcpName }}
                   </div>
                 </v-col>
                 <v-col cols="auto" class="ml-auto text-center mt-n4">
                   <v-icon size="60">{{ selected.RoleIcon }}</v-icon>
-                  <div class="overline mt-n1">{{ selected.Role }}</div>
+                  <div class="text-overline mt-n1">{{ selected.Role }}</div>
                 </v-col>
               </v-row>
               <p
-                class="flavor-text panel pa-2 stark--text"
+                class="flavor-text panel pa-2 text-stark"
                 v-html-safe="selected.Flavor"
               />
-              <span class="heading h3 accent--text">Tactics</span>
+              <span class="heading h3 text-accent">Tactics</span>
               <p class="body-1" v-html-safe="selected.Tactics" />
 
               <v-divider class="mb-3" />
 
-              <v-row dense>
+              <v-row density="compact">
                 <tiered-attribute
                   v-for="i in hase"
-                  :key="`hase_item_${i}`"
                   :title="i"
                   :arr="selected.Stats.StatArr(i)"
                 />
               </v-row>
-              <v-row dense>
+              <v-row density="compact">
                 <v-col class="text-center">
                   <div class="caption">SIZE</div>
                   <div
-                    class="heading h3 primary--text"
+                    class="heading h3 text-primary"
                     v-html="
                       selected.Stats.Sizes(tierPreview)
                         .join(' or ')
@@ -162,15 +161,13 @@
                 </v-col>
                 <tiered-attribute
                   v-for="i in p1"
-                  :key="`p1_item_${i}`"
                   :title="i"
                   :arr="selected.Stats.StatArr(i)"
                 />
               </v-row>
-              <v-row dense>
+              <v-row density="compact">
                 <tiered-attribute
                   v-for="i in p2"
-                  :key="`p1_item_${i}`"
                   :title="i"
                   :arr="selected.Stats.StatArr(i)"
                 />
@@ -180,7 +177,7 @@
                 <v-expansion-panel>
                   <v-expansion-panel-header>
                     <span class="heading h3">
-                      <b class="accent--text">Base</b>
+                      <b class="text-accent">Base</b>
                       Features
                       <span class="caption"
                         >({{ selected.BaseFeatures.length }})</span
@@ -190,7 +187,6 @@
                   <v-expansion-panel-content>
                     <cc-dense-card
                       v-for="b in selected.BaseFeatures"
-                      :key="b.ID"
                       :item="b"
                       class="my-1"
                     />
@@ -199,7 +195,7 @@
                 <v-expansion-panel v-if="selected.OptionalFeatures.length">
                   <v-expansion-panel-header>
                     <span class="heading h3">
-                      <b class="accent--text">Optional</b>
+                      <b class="text-accent">Optional</b>
                       Features
                       <span class="caption"
                         >({{ selected.OptionalFeatures.length }})</span
@@ -209,7 +205,6 @@
                   <v-expansion-panel-content>
                     <cc-dense-card
                       v-for="f in selected.OptionalFeatures"
-                      :key="f.ID"
                       :item="f"
                       class="my-1"
                     />
@@ -225,7 +220,7 @@
               style="width: 100%; height: 100%"
             >
               <v-col cols="auto">
-                <span class="heading h1 subtle--text text--lighten-2"
+                <span class="heading h1 text-subtle text--lighten-2"
                   >select npc class</span
                 >
               </v-col>
@@ -238,7 +233,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore, NpcStore } from '@/store';
+import { CompendiumStore, NpcStore } from '@/stores';
 import { Npc } from '@/class';
 import PanelView from '../../_components/PanelView.vue';
 import TieredAttribute from '../_components/_subcomponents/TieredAttribute.vue';
@@ -267,7 +262,7 @@ export default {
     },
   },
   created() {
-    // const store =this.getModule(CompendiumStore);
+    // const store =CompendiumStore();
     // this.classes = store.NpcClasses;
   },
   methods: {

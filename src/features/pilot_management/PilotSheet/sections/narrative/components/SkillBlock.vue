@@ -21,13 +21,13 @@
     </cc-solo-dialog>
     <v-row
       :style="$vuetify.display.lgAndUp ? `width: calc(100vw - 250px)` : ''"
-      dense
+      density="compact"
       class="mt-2"
     >
       <v-col cols="12" md="auto" class="mr-2 text-center">
         <div class="stat-text">PILOT GRIT</div>
         <div
-          class="heading h1 secondary--text"
+          class="heading h1 text-secondary"
           :style="
             $vuetify.display.lgAndUp
               ? 'font-size: 80px; line-height: 50px'
@@ -42,7 +42,6 @@
         <cc-skill-item
           v-for="(s, i) in pilot.SkillsController.Skills"
           v-else
-          :key="`s_${i}`"
           :bonus="s.Bonus"
           :skill="s.Skill"
           pilot

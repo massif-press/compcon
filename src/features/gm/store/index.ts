@@ -1,3 +1,4 @@
+import { defineStore } from 'pinia';
 import { loadData } from '@/io/Data';
 
 import {
@@ -7,7 +8,7 @@ import {
 } from '@/classes/campaign/Campaign';
 import { storeSaveDelta } from '@/util/storeUtils';
 
-export default {
+export const CampaignStore = defineStore('campaign', {
   state: () => ({
     EditCampaign: null as unknown as Campaign,
     Campaigns: [] as Campaign[],
@@ -33,7 +34,7 @@ export default {
         (x: Campaign) => x.Status === CampaignStatus.Archived
       ),
   },
-  mutations: {
+  actions: {
     LOAD_CAMPAIGNS(state: any, payload: ICampaignData[]): void {
       state.Campaigns = [...payload.map((x) => Campaign.Deserialize(x))];
     },
@@ -75,8 +76,6 @@ export default {
       }
       state.Dirty = true;
     },
-  },
-  actions: {
     setEditCampaign({ state, commit }: any, id: string): void {
       commit(
         'SET_EDIT_CAMPAIGN',
@@ -105,4 +104,4 @@ export default {
       commit('LOAD_CAMPAIGNS', campaignData);
     },
   },
-};
+});

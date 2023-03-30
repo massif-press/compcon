@@ -19,7 +19,7 @@
             <b>5</b>
           </v-btn>
         </template>
-        <v-list dense>
+        <v-list density="compact">
           <v-list-item>NPC Name #1</v-list-item>
           <v-list-item>NPC Name #2</v-list-item>
           <v-list-item>NPC Name #3</v-list-item>
@@ -43,7 +43,7 @@
               <b>2</b>
             </v-btn>
           </template>
-          <v-list dense>
+          <v-list density="compact">
             <v-list-item>Dead NPC #1</v-list-item>
             <v-list-item>Dead NPC #2</v-list-item>
           </v-list>
@@ -67,7 +67,7 @@
             <b>3</b>
           </v-btn>
         </template>
-        <v-list dense>
+        <v-list density="compact">
           <v-list-item>Pilot Callsign #1</v-list-item>
           <v-list-item>Pilot Callsign #2</v-list-item>
           <v-list-item>Pilot Callsign #3</v-list-item>

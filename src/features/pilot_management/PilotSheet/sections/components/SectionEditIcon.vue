@@ -1,7 +1,11 @@
 <template>
   <span>
     <cc-tooltip inline simple :content="label">
-      <v-icon dark class="fadeSelect ml-8 mr-2" @click="$emit('open-selector')">
+      <v-icon
+        dark
+        class="fade-select ml-8 mr-2"
+        @click="$emit('open-selector')"
+      >
         mdi-circle-edit-outline
       </v-icon>
     </cc-tooltip>

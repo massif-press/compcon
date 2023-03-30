@@ -18,13 +18,13 @@
     >
       <template v-slot:activator="{ props }">
         <div v-bind="props">
-          <v-icon>cc:{{ $_.kebabCase(item.ItemType) }}</v-icon>
+          <v-icon icon="cc:{{ $_.kebabCase(item.ItemType) }}" />
           <span class="heading h3 px-2 mt-n1">{{ item.Name }}</span>
           <v-icon
             v-html-safe="
               item.Tier === 'custom'
                 ? 'mdi-star-circle-outline'
-                : 'cc:rank-' + item.Tier
+                : 'cc:rank_' + item.Tier
             "
           />
         </div>

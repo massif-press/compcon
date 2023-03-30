@@ -51,7 +51,7 @@
         </div>
         <edit-menu
           style="display: inline-block; padding-right: 10px"
-          dense
+          density="compact"
           :pilot="pilot"
         />
       </div>
@@ -69,21 +69,21 @@
         >
           <p class="flavor-text">
             <span v-show="!mobile">
-              <span class="subtle--text">>[</span>
-              <b class="stark--text">{{ pilot.Name }}</b>
-              <span class="subtle--text">]</span>
-              <span class="subtle--text">STATUS [</span>
-              <span :class="`${statusColor(pilot.Status)}--text`">{{
+              <span class="text-subtle">>[</span>
+              <b class="text-stark">{{ pilot.Name }}</b>
+              <span class="text-subtle">]</span>
+              <span class="text-subtle">STATUS [</span>
+              <span :class="`${statusColor(pilot.Status)}text-`">{{
                 pilot.Status
               }}</span>
-              <span class="subtle--text">] -</span>
-              <span class="text--text">
+              <span class="text-subtle">] -</span>
+              <span class="text-text">
                 {{ pilot.Background.Name }}
               </span>
             </span>
-            <b class="success--text">LL: {{ pilot.Level }}</b>
+            <b class="text-success">LL: {{ pilot.Level }}</b>
             <cc-slashes v-show="$vuetify.display.mdAndUp" />
-            <span class="text--text">
+            <span class="text-text">
               [ H:{{ pilot.MechSkillsController.MechSkills.Hull }} A:{{
                 pilot.MechSkillsController.MechSkills.Agi
               }}
@@ -97,17 +97,17 @@
             v-if="pilot.ActiveMech && !mobile"
             class="flavor-text mb-0 pb-2 mt-n1"
           >
-            <span class="subtle--text">UNB::CAV (LNCR)</span>
+            <span class="text-subtle">UNB::CAV (LNCR)</span>
             <cc-slashes />
-            <span class="text--text">
+            <span class="text-text">
               {{ pilot.ActiveMech.Frame.Source }}
               {{ pilot.ActiveMech.Frame.Name }}
             </span>
-            <span class="subtle--text">[</span>
-            <span class="text--text font-weight-bold">{{
+            <span class="text-subtle">[</span>
+            <span class="text-text font-weight-bold">{{
               pilot.ActiveMech.Name
             }}</span>
-            <span class="subtle--text">]</span>
+            <span class="text-subtle">]</span>
           </p>
           <div v-else-if="pilot.ActiveMech" class="mt-n6">
             <span class="overline">

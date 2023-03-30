@@ -9,16 +9,16 @@
         <span class="heading mech" style="line-height: 5px">{{
           pilot.Callsign
         }}</span>
-        <div class="flavor-text subtle--text">{{ pilot.Name }}</div>
+        <div class="flavor-text text-subtle">{{ pilot.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-right mr-2 mt-n2">
-        <div class="heading h3 accent--text">HP</div>
+        <div class="heading h3 text-accent">HP</div>
         <div class="font-weight-bold mr-n5">
-          <v-btn icon x-small class="fadeSelect" @click="pilot.CurrentHP -= 1">
+          <v-btn icon x-small class="fade-select" @click="pilot.CurrentHP -= 1">
             <v-icon small color="primary">mdi-minus</v-icon>
           </v-btn>
           {{ pilot.CurrentHP }}/{{ pilot.MaxHP }}
-          <v-btn icon x-small class="fadeSelect" @click="pilot.CurrentHP += 1">
+          <v-btn icon x-small class="fade-select" @click="pilot.CurrentHP += 1">
             <v-icon small color="primary">mdi-plus</v-icon>
           </v-btn>
         </div>
@@ -26,7 +26,7 @@
       <v-col cols="auto" class="text-right mx-2 mt-n2">
         <component
           :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="heading h3 accent--text"
+          class="heading h3 text-accent"
         >
           Armor
         </component>
@@ -40,7 +40,7 @@
       <v-col cols="auto" class="text-right mx-2 mt-n2">
         <component
           :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="heading h3 accent--text"
+          class="heading h3 text-accent"
         >
           {{ $vuetify.display.mdAndUp ? 'E-DEFENSE' : 'E-DEF' }}
         </component>
@@ -54,7 +54,7 @@
       <v-col cols="auto" class="text-right mx-2 mt-n2">
         <component
           :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="heading h3 accent--text"
+          class="heading h3 text-accent"
         >
           Evasion
         </component>
@@ -68,7 +68,7 @@
       <v-col cols="auto" class="text-right mx-2 mt-n2">
         <component
           :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="heading h3 accent--text"
+          class="heading h3 text-accent"
         >
           Grit
         </component>
@@ -91,12 +91,12 @@
 
     <v-row
       v-if="pilot.State.SelfDestructCounter > 0"
-      dense
+      density="compact"
       justify="center"
       class="text-center"
     >
       <v-col cols="auto">
-        <v-alert dense variant="outlined" color="error" prominent>
+        <v-alert density="compact" variant="outlined" color="error" prominent>
           <v-icon slot="prepend" color="error" size="90" class="mr-3"
             >cc:reactor</v-icon
           >
@@ -105,7 +105,7 @@
             {{ pilot.State.SelfDestructCounter }} ROUNDS
           </span>
           <span v-else class="heading h1">MECH SELF DESTRUCTION IMMINENT</span>
-          <div class="heading mt-n4 subtle--text">
+          <div class="heading mt-n4 text-subtle">
             FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
           </div>
           <div class="px-5 my-1">
@@ -124,7 +124,7 @@
             <v-btn
               x-small
               color="primary"
-              class="fadeSelect"
+              class="fade-select"
               @click="pilot.State.CancelSelfDestruct()"
             >
               <v-icon small left>mdi-reload</v-icon>
@@ -138,13 +138,13 @@
     <v-alert
       v-if="pilot.IsDownAndOut"
       prominent
-      dense
+      density="compact"
       color="warning"
       variant="outlined"
       icon="mdi-account-alert"
     >
       <div class="heading h2">DOWN AND OUT</div>
-      <div class="body-text text--text">
+      <div class="body-text text-text">
         This Pilot is unconscious and STUNNED – if they take any more damage,
         they die. They'll regain consciousness and half of their HP when they
         rest.
@@ -154,11 +154,11 @@
           small
           :absolute="$vuetify.display.mdAndUp"
           color="error"
-          class="fadeSelect"
+          class="fade-select"
           style="bottom: 0; right: 0"
           @click="pilot.Kill()"
         >
-          <v-icon>mdi-skull</v-icon>
+          <v-icon icon="mdi-skull" />
           Mark as Killed
         </v-btn>
       </div>
@@ -169,7 +169,7 @@
       <cc-pilot-loadout :pilot="pilot" readonly />
 
       <div v-if="pilot.State.Stage === 'Narrative'">
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="auto">
             <span class="overline">SKILL TRIGGERS</span>
           </v-col>
@@ -177,7 +177,7 @@
             <v-btn
               x-small
               variant="outlined"
-              class="fadeSelect"
+              class="fade-select"
               @click="
                 expandAll(pilot.SkillsController.Skills.length, 'sk_', true)
               "
@@ -188,7 +188,7 @@
             <v-btn
               x-small
               variant="outlined"
-              class="fadeSelect"
+              class="fade-select"
               @click="
                 expandAll(pilot.SkillsController.Skills.length, 'sk_', false)
               "
@@ -198,10 +198,9 @@
             </v-btn>
           </v-col>
         </v-row>
-        <v-row dense justify="center">
+        <v-row density="compact" justify="center">
           <cc-active-card
             v-for="(s, i) in pilot.SkillsController.Skills"
-            :key="`sk_${i}`"
             :ref="`sk_${i}`"
             :cols="
               $vuetify.display.smAndDown ? 12 : $vuetify.display.lgAndUp ? 4 : 6
@@ -227,7 +226,7 @@
           small
           right
           icon
-          class="fadeSelect"
+          class="fade-select"
           @click="showReserves = !showReserves"
         >
           <v-icon
@@ -249,13 +248,11 @@
             v-for="(r, i) in pilot.ReservesController.Reserves.filter(
               (r) => r.Type !== 'Bonus'
             )"
-            :key="`r_${i}`"
             :reserve="r"
             @remove="pilot.ReservesController.RemoveReserve(i)"
           />
           <cc-org-item
             v-for="(o, i) in pilot.ReservesController.Organizations"
-            :key="`o_${i}`"
             :org="o"
             @remove="pilot.ReservesController.RemoveOrganization(i)"
           />

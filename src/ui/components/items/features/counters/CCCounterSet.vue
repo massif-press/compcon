@@ -7,7 +7,6 @@
   >
     <v-col
       v-for="cd in actors.flatMap((x) => x.CounterController.CounterData)"
-      :key="cd.id"
       cols="auto"
     >
       <counter-component

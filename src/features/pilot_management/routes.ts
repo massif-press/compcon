@@ -1,19 +1,19 @@
-import Main from './index.vue'
+import Main from './index.vue';
 
-import Roster from './Roster/index.vue'
-import Print from './Print/index.vue'
-import Active from './ActiveSheet/index.vue'
-import Level from './Level/index.vue'
+import Roster from './Roster/index.vue';
+import Print from './Print/index.vue';
+import Active from './ActiveSheet/index.vue';
+import Level from './Level/index.vue';
 
-import Sheet from './PilotSheet/index.vue'
-import Layout from './PilotSheet/layouts/index.vue'
-import MechSheet from './PilotSheet/sections/mech/index.vue'
+import Sheet from './PilotSheet/index.vue';
+import Layout from './PilotSheet/layouts/index.vue';
+import MechSheet from './PilotSheet/sections/mech/index.vue';
 
-import New from './New/index.vue'
+import New from './New/index.vue';
 
-import { RouteConfig } from 'vue-router'
+import { RouteConfig } from 'vue-router';
 
-const routes: RouteConfig[] = [
+const routes = [
   {
     path: '',
     component: Main,
@@ -78,6 +78,6 @@ const routes: RouteConfig[] = [
       },
     ],
   },
-]
+];
 
-export default routes
+export default routes;

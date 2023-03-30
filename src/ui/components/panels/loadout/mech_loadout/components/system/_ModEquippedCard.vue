@@ -36,10 +36,10 @@
           style="border-left: 1px solid #616161"
         >
           <v-btn v-if="mod" icon dark @click="$emit('remove')">
-            <v-icon class="fadeSelect mt-n1">delete</v-icon>
+            <v-icon class="fade-select mt-n1">delete</v-icon>
           </v-btn>
         </div>
-        <v-btn v-else right icon class="fadeSelect" @click.stop="hide = !hide">
+        <v-btn v-else right icon class="fade-select" @click.stop="hide = !hide">
           <v-icon
             small
             v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
@@ -47,20 +47,20 @@
         </v-btn>
       </div>
       <v-slide-y-transition>
-        <v-row v-if="!hide" dense no-gutters style="height: 100%">
+        <v-row v-if="!hide" density="compact" no-gutters style="height: 100%">
           <v-col cols="auto">
             <v-alert
               v-if="mod.IsCascading"
-              dense
+              density="compact"
               tile
               color="error"
-              class="text-center white--text stat-text"
+              class="text-center text-white stat-text"
               style="letter-spacing: 3px"
             >
               / / AI IN CASCADE / /
             </v-alert>
-            <div class="overline mt-n1">APPLIED TO</div>
-            <div class="heading h3 subtle--text ml-3 mt-n2 mb-1">
+            <div class="text-overline mt-n1">APPLIED TO</div>
+            <div class="heading h3 text-subtle ml-3 mt-n2 mb-1">
               {{ weapon.Name }}
             </div>
           </v-col>

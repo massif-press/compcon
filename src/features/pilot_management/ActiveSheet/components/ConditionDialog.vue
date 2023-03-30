@@ -6,13 +6,12 @@
     transition="dialog-transition"
   >
     <v-card>
-      <v-toolbar dark flat dense class="heading h2"
+      <v-toolbar dark flat density="compact" class="heading h2"
         >Select Condiditon to End</v-toolbar
       >
       <v-card-text class="pa-6">
         <v-btn
           v-for="c in mech.Conditions"
-          :key="c"
           block
           x-large
           text

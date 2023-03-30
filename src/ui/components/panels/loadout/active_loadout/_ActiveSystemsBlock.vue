@@ -2,11 +2,13 @@
   <v-card flat tile color="transparent">
     <fieldset>
       <legend :style="`color: ${color}`" class="heading h3">Systems</legend>
-      <v-row dense :class="$vuetify.display.mdAndUp ? 'mx-2' : 'my-2'">
+      <v-row
+        density="compact"
+        :class="$vuetify.display.mdAndUp ? 'mx-2' : 'my-2'"
+      >
         <active-system-card
           v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout
             .IntegratedSystems"
-          :key="`${s.ID}-${i}-intg`"
           :mech="mech"
           :item="s"
           :color="color"
@@ -14,12 +16,7 @@
           readonly
         />
 
-        <v-col
-          v-for="(w, i) in moddedWeapons"
-          :key="`${w.ID}-${i}-mod`"
-          cols="12"
-          lg="6"
-        >
+        <v-col v-for="(w, i) in moddedWeapons" cols="12" lg="6">
           <mod-equipped-card
             :mech="mech"
             :mod="w.Mod"
@@ -33,7 +30,6 @@
 
         <active-system-card
           v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
-          :key="`${s.ID}-${i}`"
           :mech="mech"
           :item="s"
           :color="color"

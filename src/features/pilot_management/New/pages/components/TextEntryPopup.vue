@@ -1,5 +1,5 @@
 <template>
-  <v-row dense class="mb-1">
+  <v-row density="compact" class="mb-1">
     <!-- <v-col cols="auto">
       <cc-tooltip simple inline content="Feature In Development">
         <v-icon color="panel" class="mt-2">mdi-dice-multiple</v-icon>

@@ -30,7 +30,7 @@ import { EidolonLayer } from './EidolonLayer';
 import { v4 as uuid } from 'uuid';
 import { ImageTag } from '@/io/ImageManagement';
 // import { EidolonStore } from '@/features/gm/store/eidolon_store';
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 class EidolonData implements IPortraitData, IBrewData, NarrativeElementData {
   portrait: string;

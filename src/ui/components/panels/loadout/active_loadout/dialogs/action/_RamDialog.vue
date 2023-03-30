@@ -32,7 +32,7 @@
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon end small class="fadeSelect"
+            <v-icon end small class="fade-select"
               >mdi-information-outline</v-icon
             >
           </cc-tooltip>
@@ -44,28 +44,33 @@
       <v-row v-if="actionFree || actionCost" justify="center" align="center">
         <v-col lg="auto" md="12" class="mt-n5">
           <v-row
-            dense
+            density="compact"
             class="text-center mb-n3"
             :justify="$vuetify.display.mdAndUp ? 'start' : 'space-around'"
             align="start"
           >
             <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
-              <div class="overline mb-n2">Attack Roll</div>
-              <div class="heading text--text" style="font-size: 24pt">
-                <v-icon x-large class="mr-n1">mdi-dice-d20-outline</v-icon>
+              <div class="text-overline mb-n2">Attack Roll</div>
+              <div class="heading text-text" style="font-size: 24pt">
+                <v-icon size="x-large" class="mr-n1"
+                  >mdi-dice-d20-outline</v-icon
+                >
                 + {{ mech.AttackBonus }}
               </div>
             </v-col>
             <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
-              <div class="overline mb-n3">vs. Target</div>
-              <v-icon x-large v-html="'cc:evasion'" />
-              <div class="overline font-weight-bold mt-n2" v-html="'Evasion'" />
+              <div class="text-overline mb-n3">vs. Target</div>
+              <v-icon size="x-large" v-html="'cc:evasion'" />
+              <div
+                class="text-overline font-weight-bold mt-n2"
+                v-html="'Evasion'"
+              />
             </v-col>
           </v-row>
         </v-col>
         <v-col cols="auto" class="ml-auto">
           <v-row
-            dense
+            density="compact"
             :justify="$vuetify.display.mdAndUp ? 'end' : 'space-around'"
             :class="$vuetify.display.mdAndUp ? '' : 'panel'"
           >
@@ -78,7 +83,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">Accuracy</div>
+              <div class="text-overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
                 type="number"
@@ -88,7 +93,7 @@
                 style="width: 115px"
                 class="hide-input-spinners"
                 color="accent"
-                dense
+                density="compact"
                 hide-details
                 @click:append-outer="accuracy += 1"
                 @click:prepend="accuracy -= 1"
@@ -104,7 +109,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">Difficulty</div>
+              <div class="text-overline pl-1">Difficulty</div>
               <v-text-field
                 v-model="difficulty"
                 type="number"
@@ -114,7 +119,7 @@
                 style="width: 115px"
                 class="hide-input-spinners"
                 color="accent"
-                dense
+                density="compact"
                 hide-details
                 @click:append-outer="difficulty += 1"
                 @click:prepend="difficulty -= 1"
@@ -130,7 +135,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">Melee Attack Roll</div>
+              <div class="text-overline pl-1">Melee Attack Roll</div>
               <v-row no-gutters>
                 <v-col class="mr-n2 ml-n2">
                   <cc-dice-menu
@@ -143,13 +148,12 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    :key="`input_${attackRoll}`"
                     v-model="attackRoll"
                     type="number"
                     class="hide-input-spinners ml-n3"
                     style="max-width: 60px; margin-top: -0.5px"
                     color="accent"
-                    dense
+                    density="compact"
                     hide-details
                   />
                 </v-col>
@@ -161,7 +165,7 @@
     </v-slide-x-reverse-transition>
 
     <v-slide-x-reverse-transition>
-      <v-row v-if="attackRoll" dense class="mt-n2">
+      <v-row v-if="attackRoll" density="compact" class="mt-n2">
         <v-col md="6" lg="3" xl="2" class="ml-auto">
           <v-btn
             tile
@@ -190,7 +194,7 @@
     <v-slide-x-reverse-transition>
       <v-row v-if="succeeded" no-gutters class="mt-2">
         <v-col cols="auto" class="ml-auto" align="end">
-          <div class="body-text stark--text font-weight-bold">
+          <div class="body-text text-stark font-weight-bold">
             Your target is knocked PRONE and you may also choose to knock them
             back by one space, directly away from you
           </div>

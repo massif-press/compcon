@@ -2,7 +2,7 @@
   <div class="ml-4 my-2">
     <div class="flavor-text">
       COMP/CON OMNINET ARCHIVE ::
-      <b class="stark--text">{{ mech.Frame.Name }}</b>
+      <b class="text-stark">{{ mech.Frame.Name }}</b>
     </div>
     <v-row align="center">
       <v-col v-if="mech.Frame.ID !== 'mf_standard_pattern_i_everest'" cols="2">
@@ -17,7 +17,7 @@
           <v-img :src="mech.Frame.DefaultImage" contain />
         </div>
       </v-col>
-      <v-col v-for="a in mech.Frame.OtherArt" :key="a.src" cols="2">
+      <v-col v-for="a in mech.Frame.OtherArt">
         <div
           :class="
             selected === imgPath(a.tag, a.src)
@@ -33,10 +33,10 @@
     <v-divider class="my-2" />
     <div class="flavor-text">
       COMP/CON OMNINET ARCHIVE ::
-      <b class="stark--text">OTHER FRAMES</b>
+      <b class="text-stark">OTHER FRAMES</b>
     </div>
     <v-row>
-      <v-col v-for="a in genericArt" :key="a.img" cols="2">
+      <v-col v-for="a in genericArt">
         <div
           :class="
             selected === imgPath(a.tag, a.img)
@@ -52,14 +52,14 @@
     <v-alert
       v-if="selected && artist"
       variant="outlined"
-      dense
+      density="compact"
       color="primary"
       class="my-2"
     >
       <v-row>
         <v-col>
           <div>
-            <div class="heading h3 accent--text">{{ artist.imgName }}</div>
+            <div class="heading h3 text-accent">{{ artist.imgName }}</div>
             <div class="flavor-text ml-3">by {{ artist.name }}</div>
           </div>
           <a
@@ -77,7 +77,6 @@
           >
           <a
             v-if="artist.twitter"
-            :key="artist.twitter"
             target="_blank"
             :href="`https://twitter.com/${artist.twitter}`"
             class="ml-3"

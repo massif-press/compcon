@@ -1,57 +1,63 @@
-import { store } from '../../../../store'
-import { CompendiumItem } from '../../../../class'
-import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface'
+import { CompendiumStore } from '../../../../stores';
+import { CompendiumItem } from '../../../../class';
+import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface';
 
 interface ITalentRankData extends ICompendiumItemData {
-  exclusive: boolean
+  exclusive: boolean;
 }
 
 interface ITalentData extends ICompendiumItemData {
-  terse: string
-  ranks: ITalentRankData[]
+  terse: string;
+  ranks: ITalentRankData[];
 }
 
 class TalentRank extends CompendiumItem {
-  public readonly Exclusive: boolean
+  public readonly Exclusive: boolean;
 
   public constructor(data: ITalentRankData) {
-    super(data)
-    this.Exclusive = data.exclusive
+    super(data);
+    this.Exclusive = data.exclusive;
   }
 }
 
 class Talent extends CompendiumItem {
-  public readonly Terse: string
-  private _ranks: TalentRank[]
-  private _icon_url: string
+  public readonly Terse: string;
+  private _ranks: TalentRank[];
+  private _icon_url: string;
 
-  public constructor(data: any, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName)
-    this.Terse = data.terse || ''
-    this._icon_url = data.icon_url || ''
-    this._ranks = data.ranks.map(x => new TalentRank(x))
+  public constructor(
+    data: any,
+    packTags?: ITagCompendiumData[],
+    packName?: string
+  ) {
+    super(data, packTags, packName);
+    this.Terse = data.terse || '';
+    this._icon_url = data.icon_url || '';
+    this._ranks = data.ranks.map((x) => new TalentRank(x));
   }
 
   public get Ranks(): TalentRank[] {
-    return this._ranks
+    return this._ranks;
   }
 
   public get Image(): string {
-    if (this._icon_url) return this._icon_url
-    return `/static/img/talent/${this.Name.toUpperCase()}.svg`
+    if (this._icon_url) return this._icon_url;
+    return `/static/img/talent/${this.Name.toUpperCase()}.svg`;
   }
 
   public Rank(rank: number): TalentRank {
     try {
-      return this._ranks[rank - 1]
+      return this._ranks[rank - 1];
     } catch (err) {
-      console.error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`)
+      console.error(
+        `Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`
+      );
     }
   }
 
   public static Deserialize(id: string): Talent {
-    return store.getters.referenceByID('Talents', id)
+    return CompendiumStore().referenceByID('Talents', id);
   }
 }
 
-export { Talent, TalentRank, ITalentData }
+export { Talent, TalentRank, ITalentData };

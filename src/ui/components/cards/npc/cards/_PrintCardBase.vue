@@ -7,7 +7,7 @@
       right
       x-small
       color="primary"
-      class="fadeSelect mr-n6 no-print"
+      class="fade-select mr-n6 no-print"
     >
       <cc-tooltip :content="item.HideOnPrint ? 'Show' : 'Hide'">
         <v-icon small @click="item.HideOnPrint = !item.HideOnPrint">
@@ -43,7 +43,6 @@
         <v-col>
           <v-chip
             v-for="t in item.Feature.Tags"
-            :key="item.Feature.ID + t.ID"
             x-small
             variant="outlined"
             label

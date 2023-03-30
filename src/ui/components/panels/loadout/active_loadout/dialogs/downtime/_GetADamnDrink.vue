@@ -20,7 +20,7 @@
             type="number"
             label="Roll Result"
             variant="outlined"
-            dense
+            density="compact"
             hide-details
             append-outer-icon="mdi-plus-circle-outline"
             prepend-icon="mdi-minus-circle-outline"
@@ -58,7 +58,7 @@
                   <v-select
                     v-model="reserve1"
                     hide-details
-                    dense
+                    density="compact"
                     variant="outlined"
                     :items="choices"
                     label="You gain..."
@@ -76,7 +76,7 @@
                   <v-select
                     v-model="loss"
                     variant="outlined"
-                    dense
+                    density="compact"
                     hide-details
                     :items="choices"
                     label="But lose..."
@@ -93,7 +93,7 @@
                       v-model="reserve1"
                       hide-details
                       variant="outlined"
-                      dense
+                      density="compact"
                       :items="choices"
                       label="You gain..."
                     />
@@ -113,7 +113,7 @@
                       v-model="reserve2"
                       hide-details
                       variant="outlined"
-                      dense
+                      density="compact"
                       :items="choices"
                       label="...as well as..."
                     />

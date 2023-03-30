@@ -32,7 +32,7 @@
 import GmCollectionView from '../_views/GMCollectionView.vue';
 import Editor from './editor.vue';
 
-import { LocationStore } from '@/store';
+import { NarrativeStore } from '@/stores';
 
 export default {
   name: 'locations-roster',
@@ -45,7 +45,7 @@ export default {
   }),
   computed: {
     locations() {
-      return this.getModule(LocationStore).Locations;
+      return this.getModule(NarrativeStore).Locations;
     },
   },
   methods: {
@@ -64,7 +64,7 @@ export default {
       console.error('NOT YET IMPLEMENTED');
     },
     SaveAndClose() {
-      // const store =this.getModule(LocationStore);
+      // const store =this.getModule(NarrativeStore);
       // TODO: check for and ask to update instances on save
       // store.addLocation(this.selected);
       this.$set(this, 'selected', null);

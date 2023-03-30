@@ -10,7 +10,7 @@
             x-small
             variant="outlined"
             color="warning"
-            class="fadeSelect mt-1"
+            class="fade-select mt-1"
             @click="resetPowers()"
           >
             Reset Powers
@@ -23,19 +23,24 @@
         <v-toolbar
           flat
           tile
-          dense
+          density="compact"
           color="blue-grey darken-4"
-          class="white--text"
+          class="text-white"
         >
           Select Bond powers
           <v-spacer />
           <v-btn icon dark @click="dialog = false"
-            ><v-icon>mdi-close</v-icon></v-btn
-          >
+            ><v-icon icon="mdi-close"
+          /></v-btn>
         </v-toolbar>
         <v-row no-gutters>
           <v-col cols="3" style="max-width: 325px !important">
-            <v-list dense nav class="side-fixed mt-n1" color="panel">
+            <v-list
+              density="compact"
+              nav
+              class="side-fixed mt-n1"
+              color="panel"
+            >
               <v-list-item
                 color="accent"
                 selectable
@@ -74,7 +79,6 @@
 
                 <v-list-item
                   v-for="b in Bonds"
-                  :key="`all_bonds_${b.ID}`"
                   color="accent"
                   class="pl-6"
                   @click="featureSet = b.ID"
@@ -94,13 +98,13 @@
             <v-container
               style="height: calc(100vh - 35px) !important; overflow-y: scroll"
             >
-              <v-row dense align="start" class="mt-n3">
+              <v-row density="compact" align="start" class="mt-n3">
                 <v-col>
                   <span class="heading h3">{{ currentSelection }} Powers</span>
                 </v-col>
                 <v-col>
                   <span class="heading h3">
-                    <b class="accent--text">{{
+                    <b class="text-accent">{{
                       pilot.BondController.TotalPowerSelections
                     }}</b>
                     Selections Available
@@ -110,7 +114,7 @@
                   <v-switch
                     v-model="ignoreLimit"
                     inset
-                    dense
+                    density="compact"
                     hide-details
                     class="ma-0"
                     color="accent"
@@ -120,13 +124,7 @@
               </v-row>
               <v-divider class="mt-2 mb-4" />
               <v-row>
-                <v-col
-                  v-for="(p, i) in shownPowers"
-                  :key="`${p.name}_sel_${i}`"
-                  xl="6"
-                  lg="6"
-                  cols="12"
-                >
+                <v-col v-for="(p, i) in shownPowers" xl="6" lg="6" cols="12">
                   <cc-bond-power-card :power="p" />
                   <v-btn
                     v-if="!p.veteran && (!hasPower(p) || allowDupes)"
@@ -141,7 +139,7 @@
                   <v-btn
                     v-if="hasPower(p)"
                     color="warning darken-1"
-                    class="white--text"
+                    class="text-white"
                     block
                     tile
                     @click="pilot.BondController.RemovePower(p)"
@@ -190,7 +188,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'npc-feature-select-menu',
@@ -243,7 +241,7 @@ export default {
         .Bonds.find((x) => x.ID === this.featureSet).Powers;
     },
     Bonds() {
-      return this.getModule(CompendiumStore).Bonds.map((x) => ({
+      return CompendiumStore().Bonds.map((x) => ({
         Name: x.Name,
         ID: x.ID,
       }));

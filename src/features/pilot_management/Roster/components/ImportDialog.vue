@@ -24,7 +24,7 @@
 import FileImport from './add_panels/FileImport.vue';
 import ShareImport from './add_panels/ShareImport.vue';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'import-dialog',

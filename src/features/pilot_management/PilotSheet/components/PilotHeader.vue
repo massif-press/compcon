@@ -1,10 +1,10 @@
 <template>
   <div :style="`height: ${$vuetify.display.mdAndUp ? '155px' : '45px'};`">
     <div id="header-container">
-      <v-row dense class="pt-9 ml-2" style="width: 97vw">
+      <v-row density="compact" class="pt-9 ml-2" style="width: 97vw">
         <v-col>
           <v-row
-            dense
+            density="compact"
             :style="`height: ${$vuetify.display.mdAndUp ? '60px' : '45px'};`"
             align="end"
             align-md="start"
@@ -33,7 +33,7 @@
                   title="Remote Resource"
                   :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.`"
                 >
-                  <v-icon dark class="mb-n2 ml-n5 fadeSelect"
+                  <v-icon dark class="mb-n2 ml-n5 fade-select"
                     >mdi-cloud-braces</v-icon
                   >
                 </cc-tooltip>
@@ -55,7 +55,7 @@
                 <v-icon
                   small
                   dark
-                  class="fadeSelect"
+                  class="fade-select"
                   @click="$refs.levelEdit.show()"
                 >
                   mdi-circle-edit-outline
@@ -83,7 +83,7 @@
               class="ml-auto text-center mt-4"
               :style="$vuetify.display.lgAndUp ? `margin-right:200px` : ''"
             >
-              <div class="overline mb-n9">
+              <div class="text-overline mb-n9">
                 license level
                 <cc-tooltip
                   v-if="!isLevelingUp"
@@ -96,7 +96,7 @@
                   <v-icon
                     small
                     dark
-                    class="fadeSelect"
+                    class="fade-select"
                     @click="$refs.levelEdit.show()"
                   >
                     mdi-circle-edit-outline
@@ -111,7 +111,7 @@
                 tile
                 variant="outlined"
                 small
-                class="fadeSelect mt-n4"
+                class="fade-select mt-n4"
                 color="grey lighten-3"
                 @click="
                   $router.push({ name: 'level-up', params: { id: pilot.ID } })
@@ -128,7 +128,6 @@
                   <div id="image" class="border">
                     <v-img
                       v-if="pilot.Portrait"
-                      :key="pilot.PortraitController.Image"
                       :src="pilot.Portrait"
                       aspect-ratio="1"
                       position="top center"
@@ -148,31 +147,31 @@
               </v-hover>
             </v-col>
           </v-row>
-          <v-row v-show="$vuetify.display.mdAndUp" dense>
+          <v-row v-show="$vuetify.display.mdAndUp" density="compact">
             <v-col cols="auto" class="mr-5">
-              <div class="overline mb-n2 subtle--text">name</div>
-              <div class="stat-text white--text mt-n2 mb-n1">
+              <div class="text-overline mb-n2 text-subtle">name</div>
+              <div class="stat-text text-white mt-n2 mb-n1">
                 {{ pilot.Name }}
               </div>
             </v-col>
             <v-col v-if="pilot.Background" cols="auto" class="mr-5">
-              <div class="overline mb-n2 subtle--text">background</div>
-              <div class="stat-text white--text mt-n2 mb-n1">
+              <div class="text-overline mb-n2 text-subtle">background</div>
+              <div class="stat-text text-white mt-n2 mb-n1">
                 {{ pilot.Background }}
               </div>
             </v-col>
             <v-col v-if="pilot.PlayerName" cols="auto" class="mr-5">
-              <div class="overline mb-n2 subtle--text">player</div>
-              <div class="stat-text white--text mt-n2 mb-n1">
+              <div class="text-overline mb-n2 text-subtle">player</div>
+              <div class="stat-text text-white mt-n2 mb-n1">
                 {{ pilot.PlayerName }}
               </div>
             </v-col>
             <v-col cols="auto" class="mr-5">
-              <div class="overline mb-n2 subtle--text">rm-4://(IDENT)</div>
-              <div class="stat-text white--text mt-n2 mb-n1">
+              <div class="text-overline mb-n2 text-subtle">rm-4://(IDENT)</div>
+              <div class="stat-text text-white mt-n2 mb-n1">
                 <v-dialog max-width="1200px">
                   <template v-slot:activator="{ props }">
-                    <v-icon dark class="fadeSelect" v-bind="props"
+                    <v-icon dark class="fade-select" v-bind="props"
                       >mdi-card-bulleted-outline</v-icon
                     >
                   </template>
@@ -185,7 +184,11 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row v-if="$vuetify.display.mdAndUp && mech" id="stat-row" dense>
+      <v-row
+        v-if="$vuetify.display.mdAndUp && mech"
+        id="stat-row"
+        density="compact"
+      >
         <v-col cols="2" offset="1" class="unskew">
           <cc-tooltip
             simple
@@ -193,10 +196,10 @@
             delay
             :content="`Structure: ${mech.CurrentStructure}/${mech.MaxStructure}`"
           >
-            <v-icon>cc:structure</v-icon>
+            <v-icon icon="cc:structure" />
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentStructure }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px">
+          <span class="flavor-text text-subtle" style="font-size: 14px">
             /{{ mech.MaxStructure }}
           </span>
         </v-col>
@@ -207,10 +210,10 @@
             delay
             :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`"
           >
-            <v-icon>mdi-heart-outline</v-icon>
+            <v-icon icon="mdi-heart-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentHP }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px"
+          <span class="flavor-text text-subtle" style="font-size: 14px"
             >/{{ mech.MaxHP }}</span
           >
         </v-col>
@@ -221,10 +224,10 @@
             delay
             :content="`Reactor Stress: ${mech.CurrentStress}/${mech.MaxStress}`"
           >
-            <v-icon>cc:reactor</v-icon>
+            <v-icon icon="cc:reactor" />
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentStress }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px">
+          <span class="flavor-text text-subtle" style="font-size: 14px">
             /{{ mech.MaxStress }}
           </span>
         </v-col>
@@ -235,10 +238,10 @@
             delay
             :content="`Heat: ${mech.CurrentHeat}/${mech.HeatCapacity}`"
           >
-            <v-icon>mdi-fire</v-icon>
+            <v-icon icon="mdi-fire" />
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentHeat }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px">
+          <span class="flavor-text text-subtle" style="font-size: 14px">
             /{{ mech.HeatCapacity }}
           </span>
         </v-col>
@@ -249,15 +252,19 @@
             delay
             :content="`Repair Capacity: ${mech.CurrentRepairs}/${mech.RepairCapacity}`"
           >
-            <v-icon>cc:repair</v-icon>
+            <v-icon icon="cc:repair" />
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentRepairs }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px">
+          <span class="flavor-text text-subtle" style="font-size: 14px">
             /{{ mech.RepairCapacity }}
           </span>
         </v-col>
       </v-row>
-      <v-row v-else-if="$vuetify.display.mdAndUp" id="stat-row" dense>
+      <v-row
+        v-else-if="$vuetify.display.mdAndUp"
+        id="stat-row"
+        density="compact"
+      >
         <v-col cols="2" offset="1" class="unskew">
           <cc-tooltip
             simple
@@ -265,16 +272,16 @@
             delay
             :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`"
           >
-            <v-icon>mdi-heart-outline</v-icon>
+            <v-icon icon="mdi-heart-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.CurrentHP }}</span>
-          <span class="flavor-text subtle--text" style="font-size: 14px"
+          <span class="flavor-text text-subtle" style="font-size: 14px"
             >/{{ pilot.MaxHP }}</span
           >
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Armor: ${pilot.Armor}`">
-            <v-icon>mdi-shield-outline</v-icon>
+            <v-icon icon="mdi-shield-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.Armor }}</span>
         </v-col>
@@ -285,7 +292,7 @@
             delay
             :content="`Electronic Defense: ${pilot.EDefense}`"
           >
-            <v-icon>cc:edef</v-icon>
+            <v-icon icon="cc:edef" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.EDefense }}</span>
         </v-col>
@@ -296,13 +303,13 @@
             delay
             :content="`Evasion: ${pilot.Evasion}`"
           >
-            <v-icon>cc:evasion</v-icon>
+            <v-icon icon="cc:evasion" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.Evasion }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Speed: ${pilot.Speed}`">
-            <v-icon>$vuetify.icons.move</v-icon>
+            <v-icon icon="$vuetify.icons.move" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.Speed }}</span>
         </v-col>

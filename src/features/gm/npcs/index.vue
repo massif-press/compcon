@@ -46,7 +46,7 @@ import Builder from './builder.vue';
 import Features from './features.vue';
 import EidolonIndex from '../eidolons/index.vue';
 
-import { CompendiumStore, NpcStore } from '@/store';
+import { CompendiumStore, NpcStore } from '@/stores';
 
 export default {
   name: 'npc-roster',
@@ -72,7 +72,7 @@ export default {
       return this.getModule(NpcStore).Npcs;
     },
     eidolons() {
-      return this.getModule(CompendiumStore).AllowEidolons;
+      return CompendiumStore().AllowEidolons;
     },
   },
   methods: {

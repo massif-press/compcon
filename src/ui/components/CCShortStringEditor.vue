@@ -7,7 +7,7 @@
         small
         :right="right"
         :lefft="left"
-        :class="`fadeSelect ${before ? 'mt-n12' : ''}`"
+        :class="`fade-select ${before ? 'mt-n12' : ''}`"
         @click="edit()"
       >
         mdi-circle-edit-outline

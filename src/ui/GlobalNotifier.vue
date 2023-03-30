@@ -7,7 +7,6 @@
     >
       <notification-snackbar
         v-for="notification in shownNotifications"
-        :key="notification.id"
         class="mb-1 align-end snackFade"
         :notification="notification"
         :timeout="5000"
@@ -18,7 +17,6 @@
 </template>
 
 <script lang="ts">
-import { NavStore } from '@/store';
 import { v4 as uuid } from 'uuid';
 
 import NotificationSnackbar from './NotificationSnackbar.vue';
@@ -43,15 +41,14 @@ export default {
       if (!error || !error.message) return;
       console.error(error.message);
       const vm = this;
-      const store = (this as any).$store;
-      const nm = this.getModule(NavStore, store);
-      nm.logError({
-        time: new Date(),
-        message: error.message,
-        component: vm?.$options?.name ?? undefined,
-        stack: error.stack,
-      });
-      this.notify(error.message, 'error');
+      // const store = (this as any).$store;
+      // nm.logError({
+      //   time: new Date(),
+      //   message: error.message,
+      //   component: vm?.$options?.name ?? undefined,
+      //   stack: error.stack,
+      // });
+      // this.notify(error.message, 'error');
     },
     hideNotification(id: string): void {
       this.shownNotifications = this.shownNotifications.filter(

@@ -8,15 +8,15 @@
     >
       <v-tab>
         Content Packs
-        <v-icon>list_alt</v-icon>
+        <v-icon icon="list_alt" />
       </v-tab>
       <v-tab>
         Install Content
-        <v-icon>open_in_browser</v-icon>
+        <v-icon icon="open_in_browser" />
       </v-tab>
       <v-tab>
         LCP Directory
-        <v-icon>mdi-format-list-text</v-icon>
+        <v-icon icon="mdi-format-list-text" />
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="tabs">

@@ -6,7 +6,7 @@
         icon="mdi-atom-variant"
         color="reserve--project"
       >
-        <v-row dense>
+        <v-row density="compact">
           <v-col cols="12" md="">
             <v-text-field
               v-model="projectName"
@@ -21,13 +21,13 @@
               <v-col cols="auto" class="text-center">
                 <v-switch
                   v-model="complicated"
-                  dense
+                  density="compact"
                   inset
                   hide-details
                   color="secondary"
                   class="mr-3"
                 >
-                  <span slot="label" class="stat-text text--text">
+                  <span slot="label" class="stat-text text-text">
                     Complicated
                     <cc-tooltip
                       simple
@@ -42,12 +42,12 @@
               <v-col cols="auto" class="text-center">
                 <v-switch
                   v-model="finished"
-                  dense
+                  density="compact"
                   inset
                   hide-details
                   color="secondary"
                 >
-                  <span slot="label" class="stat-text text--text">
+                  <span slot="label" class="stat-text text-text">
                     Finished
                     <cc-tooltip
                       simple
@@ -80,7 +80,7 @@
           multiple
           variant="outlined"
           color="accent"
-          dense
+          density="compact"
           class="mr-5 ml-5 mt-5"
           :disabled="finished"
         ></v-combobox>

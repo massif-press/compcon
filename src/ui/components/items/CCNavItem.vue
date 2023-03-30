@@ -3,7 +3,7 @@
     tile
     depressed
     :color="selected ? 'white' : 'primary'"
-    :class="selected ? 'primary--text' : 'white--text'"
+    :class="selected ? 'text-primary' : 'text-white'"
     :to="to"
     :disabled="disabled"
     @click="to ? '' : $emit('clicked')"

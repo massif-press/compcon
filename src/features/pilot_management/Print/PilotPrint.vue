@@ -1,22 +1,22 @@
 <template>
   <v-container fluid>
-    <v-row dense align="start">
+    <v-row density="compact" align="start">
       <v-col cols="auto" class="mr-4">
-        <div class="overline mt-n2 mb-n4">CALLSIGN</div>
+        <div class="text-overline mt-n2 mb-n4">CALLSIGN</div>
         <div class="heading h2 my-n2">
           {{ pilot.Callsign }}
         </div>
         <div class="my-n2">
           <div>{{ pilot.Name }}, LL {{ pilot.Level }}</div>
-          <div v-if="pilot.Background" class="caption my-n1 grey--text">
+          <div v-if="pilot.Background" class="caption my-n1 text-grey">
             {{ pilot.Background }}
           </div>
         </div>
       </v-col>
       <v-col class="ml-auto mr-auto">
-        <v-row dense justify="space-between">
+        <v-row density="compact" justify="space-between">
           <v-col cols="auto">
-            <div class="overline mt-n2 mb-n3">HP</div>
+            <div class="text-overline mt-n2 mb-n3">HP</div>
             <div>
               <v-icon size="50" color="grey lighten-3" class="mr-n1"
                 >mdi-hexagon-outline</v-icon
@@ -25,7 +25,7 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="overline mt-n2 mb-n3 ml-n7">ARMOR</div>
+            <div class="text-overline mt-n2 mb-n3 ml-n7">ARMOR</div>
             <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3"
                 >mdi-shield-outline</v-icon
@@ -34,7 +34,7 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="overline mt-n2 mb-n3 ml-n6">E-DEF</div>
+            <div class="text-overline mt-n2 mb-n3 ml-n6">E-DEF</div>
             <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3">cc:marker</v-icon>
               <div
@@ -44,14 +44,14 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="overline mt-n2 mb-n3 ml-n8">EVASION</div>
+            <div class="text-overline mt-n2 mb-n3 ml-n8">EVASION</div>
             <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3">cc:evasion</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Evasion" />
             </div>
           </v-col>
           <v-col cols="auto">
-            <div class="overline mt-n2 mb-n3 ml-n6">SPEED</div>
+            <div class="text-overline mt-n2 mb-n3 ml-n6">SPEED</div>
             <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3"
                 >$vuetify.icons.move</v-icon
@@ -62,20 +62,19 @@
         </v-row>
       </v-col>
       <v-col cols="auto" class="text-right mt-n1 ml-4">
-        <div class="overline mr-9">GRIT</div>
+        <div class="text-overline mr-9">GRIT</div>
         <div class="heading mt-n5" style="font-size: 65px; line-height: 60px">
           +{{ pilot.Grit }}
         </div>
       </v-col>
     </v-row>
 
-    <v-row dense align="start" justify="space-between">
+    <v-row density="compact" align="start" justify="space-between">
       <v-col>
         <div class="overline">SKILL TRIGGERS</div>
         <div class="text-left">
           <v-chip
             v-for="(s, i) in pilot.SkillsController.Skills"
-            :key="`psk_${i}`"
             label
             variant="outlined"
             small
@@ -92,7 +91,7 @@
         </div>
       </v-col>
       <v-col cols="4">
-        <v-row dense justify="space-between" class="mt-n5 pl-3">
+        <v-row density="compact" justify="space-between" class="mt-n5 pl-3">
           <v-col>
             <span class="font-weight-bold overline pr-4">HULL</span>
             <div
@@ -175,23 +174,22 @@
 
     <v-row
       v-if="pilot.LicenseController.Licenses.length"
-      dense
+      density="compact"
       align="start"
       justify="space-between"
       class="mt-n2"
     >
       <v-col>
-        <div class="overline mb-n2 mt-n1">LICENSES</div>
+        <div class="text-overline mb-n2 mt-n1">LICENSES</div>
         <div class="text-left">
           <v-chip
             v-for="(l, i) in pilot.LicenseController.Licenses"
-            :key="`plr_${i}`"
             small
             variant="outlined"
           >
-            <v-icon start>cc:rank-{{ l.Rank }}</v-icon>
+            <v-icon start>cc:rank_{{ l.Rank }}</v-icon>
             <span
-              class="flavor-text black--text"
+              class="flavor-text text-black"
               v-html="
                 `${l.License.Source} ${l.License.Name}
             ${'I'.repeat(l.rank)}`
@@ -202,11 +200,10 @@
       </v-col>
     </v-row>
 
-    <div class="overline mb-n3 mt-n1">TALENTS</div>
+    <div class="text-overline mb-n3 mt-n1">TALENTS</div>
     <v-row
       v-for="(t, i) in pilot.TalentsController.Talents"
-      :key="`pt_${i}`"
-      dense
+      density="compact"
       justify="space-between"
       class="mt-n1 caption"
       style="position: relative; page-break-inside: avoid"
@@ -216,13 +213,12 @@
           <legend class="heading ml-1 px-2">{{ t.Talent.Name }}</legend>
           <v-row
             v-for="n in t.Rank"
-            :key="`ptr_${i}_${n}`"
             align="center"
-            dense
+            density="compact"
             no-gutters
           >
             <v-col cols="auto" class="mr-1">
-              <v-icon>cc:rank-{{ n }}</v-icon>
+              <v-icon icon="cc:rank_{{ n }}" />
             </v-col>
             <v-col>
               <span v-html-safe="t.Talent.Ranks[n - 1].Description" />
@@ -234,14 +230,13 @@
 
     <div
       v-if="pilot.CoreBonusController.CoreBonuses.length"
-      class="overline mb-n3 mt-n1"
+      class="text-overline mb-n3 mt-n1"
     >
       CORE BONUSES
     </div>
     <v-row
       v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
-      :key="`pb_${i}`"
-      dense
+      density="compact"
       justify="space-between"
       class="mt-n1 caption"
     >
@@ -253,17 +248,16 @@
       </v-col>
     </v-row>
 
-    <div class="overline mb-n3 mt-n1">PILOT LOADOUT</div>
-    <v-row dense justify="space-between" class="mt-n1 caption">
+    <div class="text-overline mb-n3 mt-n1">PILOT LOADOUT</div>
+    <v-row density="compact" justify="space-between" class="mt-n1 caption">
       <v-col
         v-for="(a, i) in pilot.Loadout.Armor.filter((x) => x)"
-        :key="`pla_${i}`"
         style="position: relative; page-break-inside: avoid"
       >
         <fieldset v-if="a">
           <legend class="heading ml-1 px-2">
             {{ a.Name }}
-            <span class="overline flavor-text">//ARMOR</span>
+            <span class="text-overline flavor-text">//ARMOR</span>
           </legend>
           <div
             class="pa-1 mt-n2"
@@ -277,30 +271,19 @@
           />
         </fieldset>
       </v-col>
-      <v-col
-        v-for="(w, i) in pilot.Loadout.Weapons.filter((x) => x)"
-        :key="`plw_${i}`"
-      >
+      <v-col v-for="(w, i) in pilot.Loadout.Weapons.filter((x) => x)">
         <fieldset v-if="w">
           <legend class="heading ml-1 px-2">
             {{ w.Name }}
-            <span class="overline flavor-text">//WEAPON</span>
+            <span class="text-overline flavor-text">//WEAPON</span>
           </legend>
           <div class="pa-1 mt-n2">
-            <b v-for="(r, j) in w.Range" :key="`plwr_${i}_${j}`">{{
-              r.Text
-            }}</b>
+            <b v-for="(r, j) in w.Range">{{ r.Text }}</b>
             |
-            <b v-for="(d, j) in w.Damage" :key="`plwd_${i}_${j}`">{{
-              d.Text
-            }}</b>
+            <b v-for="(d, j) in w.Damage">{{ d.Text }}</b>
             <div v-if="w.Effect" v-html-safe="w.Effect" />
             <div class="text-right">
-              <span
-                v-for="(t, j) in i.Tags"
-                :key="`plwt_${i}_${j}`"
-                class="mx-1"
-              >
+              <span v-for="(t, j) in i.Tags" class="mx-1">
                 {{ t.Name() }}
               </span>
             </div>
@@ -308,24 +291,17 @@
         </fieldset>
       </v-col>
     </v-row>
-    <v-row dense justify="space-between" class="mt-n1 caption">
-      <v-col
-        v-for="(g, i) in pilot.Loadout.Gear.filter((x) => x)"
-        :key="`plg_${i}`"
-      >
+    <v-row density="compact" justify="space-between" class="mt-n1 caption">
+      <v-col v-for="(g, i) in pilot.Loadout.Gear.filter((x) => x)">
         <fieldset v-if="g">
           <legend class="heading ml-1 px-2">
             {{ g.Name }}
-            <span class="overline flavor-text">//GEAR</span>
+            <span class="text-overline flavor-text">//GEAR</span>
           </legend>
           <div class="pa-1 my-n2">
             <div v-if="g.Description" v-html-safe="g.Description" />
             <div class="text-right">
-              <span
-                v-for="(t, j) in i.Tags"
-                :key="`plgt_${i}_${j}`"
-                class="mx-1"
-              >
+              <span v-for="(t, j) in i.Tags" class="mx-1">
                 {{ t.Name() }}
               </span>
             </div>

@@ -1,4 +1,4 @@
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { INpcClassStats, NpcClassStats } from './NpcClassStats';
 import { NpcFeature } from '../..';
 
@@ -74,7 +74,7 @@ export class NpcClass {
   }
 
   private get _features(): NpcFeature[] {
-    return store.getters.NpcFeatures.filter((x) => x.Origin.ID === this.ID);
+    return CompendiumStore().NpcFeatures.filter((x) => x.Origin.ID === this.ID);
   }
 
   public get BaseFeatures(): NpcFeature[] {

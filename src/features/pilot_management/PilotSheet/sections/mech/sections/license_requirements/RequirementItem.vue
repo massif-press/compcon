@@ -10,7 +10,7 @@
         class="ma-1"
         v-bind="props"
       >
-        <v-icon start>cc:rank-{{ license.rank }}</v-icon>
+        <v-icon start>cc:rank_{{ license.rank }}</v-icon>
         {{ license.source }} {{ license.name }} {{ 'I'.repeat(license.rank) }}
       </v-chip>
     </template>
@@ -18,11 +18,11 @@
     <v-card tile>
       <v-card-title
         v-if="license.missing"
-        class="error white--text font-weight-bolder py-1 my-0"
+        class="error text-white font-weight-bolder py-1 my-0"
       >
         WARNING: LICENSE MISSING&emsp;
       </v-card-title>
-      <v-card-text class="pa-2 text--text">
+      <v-card-text class="pa-2 text-text">
         <b>{{ license.name }} RANK {{ license.rank }}</b>
         <br />
         <i>Required for:&nbsp;</i>

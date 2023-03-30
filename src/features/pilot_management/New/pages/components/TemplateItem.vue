@@ -15,11 +15,11 @@
     </v-col>
     <v-col cols="12" md="">
       <v-row
-        dense
+        density="compact"
         :class="`pl-2 ${isSelected ? 'selected-gradient' : 'gradient'}`"
       >
-        <v-col cols="12" md="auto" class="white--text">
-          <div v-show="$vuetify.display.mdAndUp" class="overline mt-n1">
+        <v-col cols="12" md="auto" class="text-white">
+          <div v-show="$vuetify.display.mdAndUp" class="text-overline mt-n1">
             {{ template.code }}
           </div>
           <div
@@ -57,20 +57,19 @@
         :style="`max-height:${expanded ? '100%' : '80px;'}`"
       >
         <div class="panel clipped py-1 px-2">
-          <div class="caption accent--text mt-1"><b>TACTICS</b></div>
+          <div class="caption text-accent mt-1"><b>TACTICS</b></div>
           <p v-html-safe="template.tactics" class="pb-1 mb-0" />
         </div>
         <div class="panel clipped py-1 px-2 my-2">
-          <v-row dense>
+          <v-row density="compact">
             <v-col cols="12" md="6">
-              <div class="caption accent--text mt-1">
+              <div class="caption text-accent mt-1">
                 PILOT//
                 <b>SKILLS</b>
               </div>
-              <v-row dense justify="center" class="px-2">
+              <v-row density="compact" justify="center" class="px-2">
                 <v-col
                   v-for="s in template.build.skills"
-                  :key="template.name + s"
                   cols="auto"
                   class="mx-1"
                 >
@@ -87,14 +86,13 @@
               </v-row>
             </v-col>
             <v-col cols="6">
-              <div class="caption accent--text mt-1">
+              <div class="caption text-accent mt-1">
                 PILOT//
                 <b>TALENTS</b>
               </div>
-              <v-row dense justify="center" class="px-2">
+              <v-row density="compact" justify="center" class="px-2">
                 <v-col
                   v-for="t in template.build.talents"
-                  :key="template.name + t"
                   cols="12"
                   md="auto"
                   class="mx-1"
@@ -107,7 +105,7 @@
                     :content="item('Talents', t).Rank(1).Description"
                   >
                     <v-chip variant="outlined" color="accent" label>
-                      <v-icon start>cc:rank-1</v-icon>
+                      <v-icon start>cc:rank_1</v-icon>
                       {{ item('Talents', t).Name }}
                     </v-chip>
                   </cc-tooltip>
@@ -117,34 +115,26 @@
           </v-row>
         </div>
         <div class="panel clipped py-1 px-2 my-2">
-          <div class="caption accent--text mt-1">
+          <div class="caption text-accent mt-1">
             GMS EVEREST//
             <b>LOADOUT</b>
           </div>
-          <v-row dense justify="space-around">
-            <v-col
-              v-for="m in template.build.mech.mounts"
-              :key="template.name + m.mount_type"
-            >
-              <div class="flavor-text stark--text text-center">
+          <v-row density="compact" justify="space-around">
+            <v-col v-for="m in template.build.mech.mounts">
+              <div class="flavor-text text-stark text-center">
                 {{ m.mount_type }} Mount
               </div>
-              <v-row dense>
-                <v-col
-                  v-for="(w, i) in m.slots"
-                  :key="template.name + w + i"
-                  class="text-center"
-                >
+              <v-row density="compact">
+                <v-col v-for="(w, i) in m.slots" class="text-center">
                   <cc-item-modal class="mx-1" :item="item('MechWeapons', w)" />
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
-          <div class="flavor-text stark--text text-center mt-1">Systems</div>
-          <v-row dense justify="center">
+          <div class="flavor-text text-stark text-center mt-1">Systems</div>
+          <v-row density="compact" justify="center">
             <v-col
               v-for="s in template.build.mech.systems"
-              :key="template.name + s"
               class="text-center mx-2"
               cols="auto"
             >
@@ -175,7 +165,7 @@
 <script lang="ts">
 import { getImagePath, ImageTag } from '@/io/ImageManagement';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'template-item',
@@ -193,7 +183,7 @@ export default {
   },
   methods: {
     item(type: string, id: string) {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       return compendium.referenceByID(type, id);
     },
   },

@@ -16,7 +16,7 @@
 <script lang="ts">
 import EditorBase from '../../gm/_components/EditorBase.vue';
 
-import { NpcStore } from '@/store';
+import { NpcStore } from '@/stores';
 import Features from './features.vue';
 import Builder from './builder.vue';
 import { Npc } from '@/class';

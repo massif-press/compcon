@@ -8,20 +8,20 @@
     :min-width="$vuetify.display.mdAndUp ? '225px' : '100%'"
     :height="$vuetify.display.mdAndUp ? '100%' : ''"
   >
-    <v-toolbar dense flat color="primary" class="white--text">
+    <v-toolbar density="compact" flat color="primary" class="text-white">
       <div :class="$vuetify.display.mdAndUp ? 'heading h3' : 'heading h4'">
         {{ counter.Name }}
       </div>
       <v-spacer />
       <cc-tooltip simple content="Reset Counter">
-        <v-btn class="fadeSelect" dark icon x-small @click="counter.Reset()">
+        <v-btn class="fade-select" dark icon x-small @click="counter.Reset()">
           <v-icon small>mdi-reload</v-icon>
         </v-btn>
       </cc-tooltip>
 
       <cc-tooltip v-if="counterData.custom" simple content="Delete Counter">
         <v-btn
-          class="fadeSelect ml-1"
+          class="fade-select ml-1"
           dark
           icon
           x-small
@@ -41,7 +41,7 @@
             :disabled="counter.Value <= counter.Min"
             @click="counter.Decrement()"
           >
-            <v-icon>remove</v-icon>
+            <v-icon icon="remove" />
           </v-btn>
         </v-col>
 
@@ -49,7 +49,7 @@
           <v-text-field
             type="number"
             variant="outlined"
-            dense
+            density="compact"
             class="counterValue"
             :class="{
               dirty,
@@ -70,7 +70,7 @@
             :disabled="counter.Value >= counter.Max"
             @click="counter.Increment()"
           >
-            <v-icon>add</v-icon>
+            <v-icon icon="add" />
           </v-btn>
         </v-col>
       </v-row>

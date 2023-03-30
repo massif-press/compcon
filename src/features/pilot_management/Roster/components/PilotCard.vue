@@ -23,7 +23,7 @@
             <div
               :class="`heading ${
                 small || mobile ? 'h3' : 'h2'
-              } white--text flavor-text ml-2`"
+              } text-white flavor-text ml-2`"
               style="letter-spacing: 3px; text-overflow: ellipsis"
             >
               {{ pilot.Callsign }}
@@ -35,10 +35,10 @@
           />
           <div
             v-show="!(small && mobile)"
-            class="ll white--text"
+            class="ll text-white"
             style="line-height: 25px"
           >
-            <div v-if="!small" class="overline mb-n1 text-right">LL</div>
+            <div v-if="!small" class="text-overline mb-n1 text-right">LL</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
             </div>
@@ -73,10 +73,7 @@
                   {{ pilot.MechSkillsController.MechSkills.Eng }}
                   <v-divider />
                   <div>
-                    <span
-                      v-for="(s, i) in pilot.TalentsController.Talents"
-                      :key="pilot.ID + s.Talent.Name"
-                    >
+                    <span v-for="(s, i) in pilot.TalentsController.Talents">
                       {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
                       {{
                         i + 1 !== pilot.TalentsController.Talents.length
@@ -89,7 +86,6 @@
                   <div>
                     <span
                       v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
-                      :key="pilot.ID + b.Name"
                     >
                       {{ b.Name }}
                       {{

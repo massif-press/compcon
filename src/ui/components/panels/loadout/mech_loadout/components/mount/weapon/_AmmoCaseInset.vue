@@ -1,6 +1,6 @@
 <template>
   <div v-show="level > 0" class="light-panel clipped" @click.stop>
-    <div class="caption stark--text px-2 py-1">
+    <div class="caption text-stark px-2 py-1">
       WALKING ARMORY//
       <b>SELECTED AMMUNITION</b>
     </div>
@@ -12,7 +12,7 @@
           item-color="accent"
           :item-disabled="(item) => !readonly && item.cost > uses"
           variant="outlined"
-          dense
+          density="compact"
           hide-details
           :items="ammoItems"
           item-text="name"
@@ -22,14 +22,9 @@
         />
       </v-col>
       <v-col v-if="selected.cost" class="ml-auto pl-4 pr-3 text-left">
-        <div class="overline my-n2">COST::AMMO CASE</div>
+        <div class="text-overline my-n2">COST::AMMO CASE</div>
         <div>
-          <v-icon
-            v-for="n in selected.cost"
-            :key="selected.name + '_ammo_' + n"
-          >
-            mdi-hexagon-slice-6
-          </v-icon>
+          <v-icon v-for="n in selected.cost"> mdi-hexagon-slice-6 </v-icon>
         </div>
       </v-col>
     </v-row>

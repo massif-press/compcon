@@ -5,15 +5,11 @@
       <action-detail-expander :action="action" />
       <v-divider class="my-3" />
       <v-container style="max-width: 800px">
-        <div
-          v-for="(m, i) in mech.MechLoadoutController.ActiveLoadout.Mounts"
-          :key="`bar_${i}`"
-        >
+        <div v-for="(m, i) in mech.MechLoadoutController.ActiveLoadout.Mounts">
           <item-selector-row
             v-for="(w, j) in m.Weapons.filter(
               (x) => x.Size !== 'Superheavy' && !x.Destroyed && !x.NoAttack
             )"
-            :key="`weap_${j}`"
             :item="w"
             overwatch
             color="action--reaction"
@@ -28,7 +24,6 @@
       <v-container style="max-width: 800px">
         <item-selector-row
           v-for="(w, j) in mech.Pilot.Loadout.Weapons"
-          :key="`weap_${j}`"
           :item="w"
           color="action--reaction"
           @click="pilotOverwatch(w)"

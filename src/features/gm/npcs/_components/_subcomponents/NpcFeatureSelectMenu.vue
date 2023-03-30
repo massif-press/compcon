@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn x-large block color="primary" @click="dialog = true"
+    <v-btn size="x-large" block color="primary" @click="dialog = true"
       >Set NPC Features</v-btn
     >
     <v-row no-gutters justify="end">
@@ -8,7 +8,7 @@
         <v-btn
           x-small
           variant="outlined"
-          class="fadeSelect mt-1"
+          class="fade-select mt-1"
           @click="npc.NpcFeatureController.ResetFeatures()"
         >
           Reset Features
@@ -20,16 +20,15 @@
         <v-toolbar
           flat
           tile
-          dense
+          density="compact"
           color="blue-grey darken-4"
-          class="white--text"
+          class="text-white"
         >
           Set NPC Features
           <v-spacer />
           <cc-tooltip
             v-for="(alert, i) in npc.NpcTemplateController
               .TemplateFeatureAlerts"
-            :key="`${alert}_menu_${i}`"
             :title="alert.severity"
             :content="alert.message"
           >
@@ -37,19 +36,24 @@
           </cc-tooltip>
           <v-spacer />
           <v-btn icon dark @click="dialog = false"
-            ><v-icon>mdi-close</v-icon></v-btn
-          >
+            ><v-icon icon="mdi-close"
+          /></v-btn>
         </v-toolbar>
         <v-row no-gutters>
           <v-col cols="3" style="max-width: 325px !important">
-            <v-list dense nav class="side-fixed mt-n1" color="panel">
+            <v-list
+              density="compact"
+              nav
+              class="side-fixed mt-n1"
+              color="panel"
+            >
               <v-list-item
                 color="accent"
                 selectable
                 @click="featureSet = 'all'"
               >
                 <v-list-item-icon>
-                  <v-icon>cc:npc-feature</v-icon>
+                  <v-icon icon="cc:npc_feature" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
@@ -63,7 +67,7 @@
                 @click="featureSet = 'assigned'"
               >
                 <v-list-item-icon>
-                  <v-icon>cc:npc-feature</v-icon>
+                  <v-icon icon="cc:npc_feature" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
@@ -88,12 +92,11 @@
               </v-list-item>
               <v-list-item
                 v-for="t in npc.Templates"
-                :key="`npc_applied_template_${t.ID}`"
                 color="accent"
                 @click="featureSet = t.ID"
               >
                 <v-list-item-icon>
-                  <v-icon v-text="'cc:npc-template'" />
+                  <v-icon v-text="'cc:npc_template'" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
@@ -115,13 +118,12 @@
 
                 <v-list-item
                   v-for="c in allClasses"
-                  :key="`all_classes_${c.ID}`"
                   color="accent"
                   class="pl-6"
                   @click="featureSet = c.ID"
                 >
                   <v-list-item-icon>
-                    <v-icon>{{ c.Icon }}</v-icon>
+                    <v-icon :icon="c.Icon" />
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title class="text-button">
@@ -143,13 +145,12 @@
 
                 <v-list-item
                   v-for="t in allTemplates"
-                  :key="`all_templates_${t.ID}`"
                   color="accent"
                   class="pl-6"
                   @click="featureSet = t.ID"
                 >
                   <v-list-item-icon>
-                    <v-icon v-text="'cc:npc-template'" />
+                    <v-icon v-text="'cc:npc_template'" />
                   </v-list-item-icon>
                   <v-list-item-content>
                     <v-list-item-title class="text-button">
@@ -167,7 +168,7 @@
             <v-container
               style="height: calc(100vh - 35px) !important; overflow-y: scroll"
             >
-              <v-row dense align="start" class="mt-n3">
+              <v-row density="compact" align="start" class="mt-n3">
                 <v-col>
                   <span class="heading h3"
                     >{{ currentSelection }} Features</span
@@ -178,7 +179,7 @@
                     v-if="featureSet === 'all'"
                     v-model="ignoreLimit"
                     inset
-                    dense
+                    density="compact"
                     hide-details
                     class="ma-0"
                     label="Ignore Limit"
@@ -187,7 +188,7 @@
                     v-else
                     v-model="allowDupes"
                     inset
-                    dense
+                    density="compact"
                     hide-details
                     class="ma-0"
                     label="Allow Duplicates"
@@ -196,13 +197,7 @@
               </v-row>
               <v-divider class="mt-2 mb-4" />
               <v-row>
-                <v-col
-                  v-for="(f, i) in shownFeatures"
-                  :key="`${f.ID}_${i}`"
-                  xl="6"
-                  lg="6"
-                  cols="12"
-                >
+                <v-col v-for="(f, i) in shownFeatures" xl="6" lg="6" cols="12">
                   <cc-dense-card
                     :item="f"
                     :style="`height: calc(100% - ${
@@ -223,7 +218,7 @@
                   <v-btn
                     v-if="hasItem(f)"
                     color="warning darken-1"
-                    class="white--text"
+                    class="text-white"
                     block
                     variant="outlined"
                     tile
@@ -268,7 +263,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'npc-feature-select-menu',
@@ -311,19 +306,19 @@ export default {
       if (this.featureSet === 'assigned')
         return this.npc.Items.map((x) => x.Feature);
 
-      return this.getModule(CompendiumStore).NpcFeatures.filter(
+      return CompendiumStore().NpcFeatures.filter(
         (x) => x.Origin.ID === this.featureSet
       );
     },
     allClasses() {
-      return this.getModule(CompendiumStore).NpcClasses.map((x) => ({
+      return CompendiumStore().NpcClasses.map((x) => ({
         Name: x.Name,
         ID: x.ID,
         Icon: x.RoleIcon,
       }));
     },
     allTemplates() {
-      return this.getModule(CompendiumStore).NpcTemplates.map((x) => ({
+      return CompendiumStore().NpcTemplates.map((x) => ({
         Name: x.Name,
         ID: x.ID,
       }));

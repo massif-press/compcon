@@ -2,7 +2,7 @@
   <v-col :cols="cols">
     <v-card tile variant="outlined" class="text-center">
       <v-card-title
-        :class="`${color} white--text caption py-1`"
+        :class="`${color} text-white caption py-1`"
         style="font-weight: bold; max-height: 28px; font-size: 18px !important"
       >
         <v-btn
@@ -10,24 +10,24 @@
           icon
           dark
           x-small
-          class="fadeSelect"
+          class="fade-select"
           absolute
           @click="editMode = true"
         >
-          <v-icon>mdi-circle-edit-outline</v-icon>
+          <v-icon icon="mdi-circle-edit-outline" />
         </v-btn>
         <v-spacer />
         {{ attr }}
         <v-spacer />
       </v-card-title>
-      <v-card-text class="pa-1 text--text">
+      <v-card-text class="pa-1 text-text">
         <v-text-field
           v-if="editMode"
           v-model="model"
           solo
           variant="outlined"
           filled
-          dense
+          density="compact"
           hide-details
           autofocus
           type="number"

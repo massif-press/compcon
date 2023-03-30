@@ -5,7 +5,7 @@
       label="Reserve Type"
       :items="reserveTypes"
       variant="outlined"
-      dense
+      density="compact"
       hide-details
       @change="reserve = ''"
     />
@@ -18,7 +18,7 @@
       item-text="name"
       item-value="id"
       variant="outlined"
-      dense
+      density="compact"
       hide-details
     />
     <v-slide-y-transition>

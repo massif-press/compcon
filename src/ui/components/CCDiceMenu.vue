@@ -9,23 +9,23 @@
   >
     <template v-slot:activator="{ props }">
       <v-btn icon @click.stop="menu = true" v-bind="props">
-        <v-icon>mdi-dice-multiple</v-icon>
+        <v-icon icon="mdi-dice-multiple" />
       </v-btn>
     </template>
     <v-card height="400px" style="overflow-y: scroll">
       <v-toolbar
         v-if="title"
         tile
-        dense
+        density="compact"
         flat
         :color="critical ? 'exotic' : 'primary'"
-        class="white--text heading h3"
+        class="text-white heading h3"
       >
         {{ title }}
-        <span v-if="critical" class="flavor-text white--text text--secondary"
+        <span v-if="critical" class="flavor-text text-white text--secondary"
           >// CRITICAL</span
         >
-        <span v-if="overkill" class="flavor-text white--text text--secondary"
+        <span v-if="overkill" class="flavor-text text-white text--secondary"
           >// OVERKILL</span
         >
       </v-toolbar>
@@ -33,7 +33,7 @@
         <v-col>
           <v-card-text>
             <v-row
-              dense
+              density="compact"
               justify="center"
               style="
                 border: 1px solid rgb(var(--v-theme-primary));
@@ -90,7 +90,7 @@
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
-                <v-btn icon class="fadeSelect" @click="moreDice = !moreDice">
+                <v-btn icon class="fade-select" @click="moreDice = !moreDice">
                   <v-icon v-if="moreDice">mdi-chevron-double-left</v-icon>
                   <v-icon v-else>mdi-chevron-double-right</v-icon>
                 </v-btn>
@@ -110,7 +110,7 @@
                 </cc-tooltip>
               </v-col>
             </v-row>
-            <v-row dense align="center" justify="center">
+            <v-row density="compact" align="center" justify="center">
               <v-col cols="auto">
                 <v-chip
                   v-if="!dice.length"
@@ -119,11 +119,7 @@
                   >No Roll</v-chip
                 >
               </v-col>
-              <v-col
-                v-for="(d, i) in dice"
-                :key="`${i}_dice_${d.sides}`"
-                cols="auto"
-              >
+              <v-col v-for="(d, i) in dice" cols="auto">
                 <v-chip
                   variant="outlined"
                   class="mx-1"
@@ -133,13 +129,13 @@
                 >
                   {{ d.count }}d{{ d.sides }}
                 </v-chip>
-                <v-icon>mdi-plus</v-icon>
+                <v-icon icon="mdi-plus" />
               </v-col>
 
               <v-col cols="auto">
                 <v-text-field
                   v-model="flat"
-                  dense
+                  density="compact"
                   hide-details
                   variant="outlined"
                   :prepend-icon="!dice.length ? 'mdi-plus' : ''"
@@ -149,7 +145,12 @@
               </v-col>
             </v-row>
             <v-slide-y-reverse-transition>
-              <v-row v-if="accuracy" dense justify="center" align="center">
+              <v-row
+                v-if="accuracy"
+                density="compact"
+                justify="center"
+                align="center"
+              >
                 <v-col cols="auto">
                   <v-chip
                     v-if="accuracy"
@@ -176,16 +177,12 @@
             <v-divider v-if="result" />
             <div style="min-height: 20px">
               <div v-if="result">
-                <div v-for="(r, j) in result" :key="`${j}_res_${r.sides}`">
+                <div v-for="(r, j) in result">
                   <div class="caption">
                     ROLLING {{ r.rolls.length }}D{{ r.sides }}
                   </div>
                   <v-row no-gutters>
-                    <v-col
-                      v-for="(val, i) in r.rolls"
-                      :key="`roll_${r.sides}_${i}_${val}`"
-                      cols="auto"
-                    >
+                    <v-col v-for="(val, i) in r.rolls" cols="auto">
                       <v-chip
                         x-small
                         label
@@ -198,7 +195,7 @@
                         >mdi-plus</v-icon
                       >
                     </v-col>
-                    <v-col cols="auto" class="ml-auto stark--text">
+                    <v-col cols="auto" class="ml-auto text-stark">
                       <b>
                         =
                         {{
@@ -220,7 +217,7 @@
                         {{ flat }}
                       </v-chip>
                     </v-col>
-                    <v-col cols="auto" class="ml-auto stark--text">
+                    <v-col cols="auto" class="ml-auto text-stark">
                       <b>= {{ flat }}</b>
                     </v-col>
                   </v-row>
@@ -230,11 +227,7 @@
                     {{ accuracy > 0 ? 'ACCURACY' : 'DIFFICULTY' }}
                   </div>
                   <v-row no-gutters>
-                    <v-col
-                      v-for="(a, i) in accRolls"
-                      :key="`acc_${a}_${i}`"
-                      cols="auto"
-                    >
+                    <v-col v-for="(a, i) in accRolls" cols="auto">
                       <v-chip
                         x-small
                         label
@@ -245,7 +238,7 @@
                       </v-chip>
                       <cc-slashes v-if="i + 1 < accRolls.length" small />
                     </v-col>
-                    <v-col cols="auto" class="ml-auto stark--text">
+                    <v-col cols="auto" class="ml-auto text-stark">
                       <b
                         >{{ accuracy > 0 ? '+' : '-'
                         }}{{ Math.abs(accTotal) }}</b
@@ -261,7 +254,7 @@
                     border-radius: 2px;
                   "
                 >
-                  <v-col cols="auto" class="ml-auto stark--text text-right">
+                  <v-col cols="auto" class="ml-auto text-stark text-right">
                     <div class="caption">TOTAL</div>
                     <div class="heading h2">{{ total }}</div>
                   </v-col>
@@ -275,14 +268,9 @@
                     border-radius: 2px;
                   "
                 >
-                  <v-col cols="auto" class="ml-auto stark--text text-right">
+                  <v-col cols="auto" class="ml-auto text-stark text-right">
                     <div class="caption">// OVERKILL //</div>
-                    <v-chip
-                      v-for="n in overkillRolls"
-                      :key="`overkill_${n}`"
-                      x-small
-                      color="heat"
-                    >
+                    <v-chip v-for="n in overkillRolls" x-small color="heat">
                       <v-icon small>cc:heat</v-icon>
                     </v-chip>
                   </v-col>
@@ -291,7 +279,12 @@
             </div>
             <v-divider />
             <v-card-actions>
-              <v-row dense justify="center" align="center" class="text-center">
+              <v-row
+                density="compact"
+                justify="center"
+                align="center"
+                class="text-center"
+              >
                 <v-col cols="12" md="auto">
                   <v-btn small text class="mr-3" @click="menu = false"
                     >Cancel</v-btn

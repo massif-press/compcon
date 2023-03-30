@@ -1,0 +1,15 @@
+{
+  "name": "lancer-srd",
+  "version": "0.0.0",
+  "description": "SRD Data for the LANCER TTRPG",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/massif-press/lancer-srd.git"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "Massif Press",
+  "license": "GPL-3.0-or-later"
+}

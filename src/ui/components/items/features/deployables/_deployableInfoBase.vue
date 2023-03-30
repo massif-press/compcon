@@ -1,6 +1,6 @@
 <template>
   <v-card-text>
-    <v-row justify="center" dense class="mt-2 mx-8">
+    <v-row justify="center" density="compact" class="mt-2 mx-8">
       <cc-statblock-panel
         v-if="deployable.size"
         inline
@@ -94,7 +94,7 @@
         :value="deployable.speed"
       />
     </v-row>
-    <v-row justify="center" dense>
+    <v-row justify="center" density="compact">
       <v-col cols="auto">
         <p
           v-html-safe="deployable.detail"
@@ -104,11 +104,7 @@
     </v-row>
     <div v-if="actions.length">
       <v-row no-gutters justify="center">
-        <v-col
-          v-for="(a, i) in actions"
-          :key="`${deployable.name}_action_${i}`"
-          cols="auto"
-        >
+        <v-col v-for="(a, i) in actions" cols="auto">
           <cc-action
             :action="a"
             :panel="$vuetify.display.lgAndUp"

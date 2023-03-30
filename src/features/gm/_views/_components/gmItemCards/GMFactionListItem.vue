@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
     <v-row
-      dense
+      density="compact"
       :class="`elevation-${hover ? '12' : '0'}`"
       @click="$emit('open')"
     >
@@ -11,7 +11,7 @@
         </v-card>
       </v-col>
       <v-col>
-        <div :class="`heading h3 ${hover ? 'accent--text' : ''}`">
+        <div :class="`heading h3 ${hover ? 'text-accent' : ''}`">
           {{ item.Name }}
         </div>
         <div>{{ item.Description }}</div>
@@ -24,7 +24,6 @@
               v-for="(f, i) in item.Factions"
               small
               variant="outlined"
-              :key="`${f.name}_${i}`"
               class="mr-2"
               :disabled="!isLink(f.name)"
               @click.stop="goTo(f.name)"
@@ -35,7 +34,6 @@
           <v-col cols="auto">
             <v-chip
               v-for="l in item.Labels"
-              :key="`${item.ID}_label_${l}`"
               small
               color="primary"
               label
@@ -60,8 +58,8 @@ export default {
   },
   computed: {
     allFactions() {
-      if (!this.$store.getters['faction/getFactions']) return [];
-      return this.$store.getters['faction/getFactions'].filter(
+      if (!this.$CompendiumStore['faction/getFactions']) return [];
+      return this.$CompendiumStore['faction/getFactions'].filter(
         (x) => x.Name !== this.item.Name
       );
     },

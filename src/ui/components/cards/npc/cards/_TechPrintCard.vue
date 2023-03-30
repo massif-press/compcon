@@ -10,7 +10,7 @@
       <v-col cols="auto" class="heading h4" v-text="item.Name" />
       <v-col cols="auto">
         <span class="heading h4">
-          <v-icon>cc:reticule</v-icon>
+          <v-icon icon="cc:reticule" />
           <span v-if="item.Feature.AttackBonus(item.Tier) > 0">+</span>
           {{ item.Feature.AttackBonus(item.Tier) }}
           ATK
@@ -19,12 +19,12 @@
       <v-col cols="auto">
         <span class="heading h4">
           <div v-if="item.Feature.Accuracy(item.Tier) > 0">
-            <v-icon>cc:accuracy</v-icon>
+            <v-icon icon="cc:accuracy" />
             +{{ item.Feature.Accuracy(item.Tier) }}
             ACC
           </div>
           <div v-else-if="item.Feature.Accuracy(item.Tier) < 0">
-            <v-icon>cc:difficulty</v-icon>
+            <v-icon icon="cc:difficulty" />
             +{{ Math.abs(item.Feature.Accuracy(item.Tier)) }}
             DIFF
           </div>

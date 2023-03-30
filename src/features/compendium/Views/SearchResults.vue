@@ -17,14 +17,14 @@
     </v-row>
     <v-row class="mx-3">
       <v-col>
-        <v-subheader>
+        <div>
           {{ searchResults.length }} result{{
             searchResults.length === 1 ? '' : 's'
           }}
-        </v-subheader>
+        </div>
         <v-slide-y-reverse-transition mode="out-in">
-          <v-row :key="searchText" fill-height>
-            <v-col v-for="(item, index) in searchResults" :key="index">
+          <v-row fill-height>
+            <v-col v-for="(item, index) in searchResults">
               <cc-titled-panel
                 :title="
                   (item.ItemType === 'Frame' ? `${item.Source} ` : '') +
@@ -60,7 +60,7 @@
 import { CompendiumItem } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'search-results',
@@ -70,7 +70,7 @@ export default {
   }),
   computed: {
     validResults(): CompendiumItem[] {
-      // const compendium =this.getModule(CompendiumStore);
+      // const compendium =CompendiumStore();
       // return this.$_.flatten(
       //   this.$_.values(
       //     this.$_.pick(compendium, [

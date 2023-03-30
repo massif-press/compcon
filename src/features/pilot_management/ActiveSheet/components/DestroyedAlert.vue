@@ -2,7 +2,7 @@
   <v-alert
     v-if="mech.Destroyed"
     prominent
-    dense
+    density="compact"
     color="error"
     variant="outlined"
     class="text-center"
@@ -17,14 +17,14 @@
         REACTOR DESTROYED
       </span>
     </span>
-    <div class="heading mt-n4 subtle--text">
+    <div class="heading mt-n4 text-subtle">
       {{
         mech.ReactorDestroyed
           ? 'ERR ERR ERR ERR ERR ERR ERR'
           : 'FRAME.CRITICAL//: CATASTROPHIC DAMAGE'
       }}
     </div>
-    <div class="flavor-text text--text">
+    <div class="flavor-text text-text">
       The currently active mech ({{ mech.Name }}
       <cc-slashes />
       {{ mech.Frame.Source }} {{ mech.Frame.Name }}) has been destroyed.
@@ -42,7 +42,7 @@
         <v-btn
           x-small
           color="primary"
-          class="fadeSelect"
+          class="fade-select"
           @click="restore(false)"
         >
           <v-icon small left>cc:repair</v-icon>
@@ -56,7 +56,7 @@
         <v-btn
           x-small
           color="primary"
-          class="fadeSelect"
+          class="fade-select"
           @click="restore(true)"
         >
           <v-icon small left>mdi-reload</v-icon>

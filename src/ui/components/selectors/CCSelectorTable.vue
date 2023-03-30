@@ -3,7 +3,7 @@
     fluid
     :class="$vuetify.display.smAndDown ? 'px-1 mt-n4 mb-12' : ''"
   >
-    <v-row dense class="mx-2 mt-n2 mb-2" no-gutters align="center">
+    <v-row density="compact" class="mx-2 mt-n2 mb-2" no-gutters align="center">
       <v-col v-if="$vuetify.display.mdAndUp">
         <slot />
       </v-col>
@@ -32,7 +32,7 @@
           flat
           hide-actions
           single-line
-          dense
+          density="compact"
           placeholder="Search"
           clearable
           persistent-hint
@@ -97,7 +97,7 @@ import SelectorMobileView from './views/_SelectorMobileView.vue';
 import SelectorCardsView from './views/_SelectorCardsView.vue';
 import { accentInclude } from '@/classes/utility/accent_fold';
 
-import { UserStore } from '@/store';
+import { UserStore } from '@/stores';
 import { UserProfile } from '@/user';
 
 export default {

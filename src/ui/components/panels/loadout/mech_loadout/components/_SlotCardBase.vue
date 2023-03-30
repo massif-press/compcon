@@ -8,7 +8,7 @@
         style="height: 100%"
       >
         <v-card-title
-          :class="`white--text py-0 ${
+          :class="`text-white py-0 ${
             small ? 'effect-text' : 'heading h3'
           } hover-item`"
           style="cursor: pointer"
@@ -30,22 +30,18 @@
           <div class="underline-slide">
             <slot />
             <div v-if="item">
-              <v-row class="text-left" dense align="end">
+              <v-row class="text-left" density="compact" align="end">
                 <v-col>
-                  <v-row justify="space-around" dense>
+                  <v-row justify="space-around" density="compact">
                     <v-col
                       v-if="item.Actions && item.Actions.length"
                       cols="auto"
                     >
-                      <div v-if="!readonly" class="overline ml-n2">
+                      <div v-if="!readonly" class="text-overline ml-n2">
                         EQUIPMENT ACTIONS
                       </div>
                       <v-row no-gutters justify="center">
-                        <v-col
-                          v-for="(a, i) in item.Actions"
-                          :key="`${item.Name}_action_${i}`"
-                          cols="auto"
-                        >
+                        <v-col v-for="(a, i) in item.Actions" cols="auto">
                           <cc-action
                             :action="a"
                             :panel="!readonly && $vuetify.display.lgAndUp"
@@ -55,15 +51,11 @@
                       </v-row>
                     </v-col>
                     <v-col v-if="item.Deployables.length" cols="auto">
-                      <div v-if="!readonly" class="overline ml-n2">
+                      <div v-if="!readonly" class="text-overline ml-n2">
                         EQUIPMENT DEPLOYABLES
                       </div>
                       <v-row no-gutters justify="center">
-                        <v-col
-                          v-for="(d, i) in item.Deployables"
-                          :key="`${item.Name}_deployable_${i}`"
-                          cols="auto"
-                        >
+                        <v-col v-for="(d, i) in item.Deployables" cols="auto">
                           <cc-deployable-info
                             :deployable="d"
                             :panel="!readonly && $vuetify.display.lgAndUp"
@@ -89,12 +81,11 @@
                 <v-col
                   v-show="item.Profiles.length > 1"
                   v-for="(p, i) in item.Profiles"
-                  :key="`profile_tags_${i}`"
                   class="mr-4"
                   cols="auto"
                 >
                   <div v-if="p.Tags.length">
-                    <div class="overline my-n1" v-text="p.Name" />
+                    <div class="text-overline my-n1" v-text="p.Name" />
                     <cc-tags
                       v-if="p.Tags"
                       small
@@ -129,7 +120,7 @@
             </div>
             <div
               v-else
-              class="py-3 text-center fadeSelect"
+              class="py-3 text-center fade-select"
               style="height: 100%"
               :style="{
                 cursor: readonly ? 'inherit' : 'pointer',
@@ -138,7 +129,7 @@
             >
               <v-row style="height: 100%">
                 <div
-                  class="heading h2 subtle--text my-auto py-3"
+                  class="heading h2 text-subtle my-auto py-3"
                   style="width: 100%"
                 >
                   // EMPTY //

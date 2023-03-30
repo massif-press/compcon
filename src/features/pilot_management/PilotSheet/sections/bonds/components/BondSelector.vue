@@ -3,7 +3,6 @@
     <v-list-item
       v-for="(e, i) in bonds"
       slot="sidebar"
-      :key="`${i}_sidebar'`"
       link
       @click="
         $vuetify.goTo(`#e_${e.ID}`, {
@@ -22,7 +21,6 @@
       <cc-bond-info
         v-for="(e, i) in bonds"
         :id="`e_${e.ID}`"
-        :key="`${e.ID}_${i}`"
         :bond="e"
         class="my-4"
       >
@@ -43,13 +41,13 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'bond-selector',
   computed: {
     bonds() {
-      return this.getModule(CompendiumStore).Bonds;
+      return CompendiumStore().Bonds;
     },
   },
 };

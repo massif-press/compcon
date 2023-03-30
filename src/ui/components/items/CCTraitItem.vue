@@ -1,33 +1,30 @@
 <template>
-  <v-alert dense :color="color" variant="outlined" class="pb-0">
+  <v-alert density="compact" :color="color" variant="outlined" class="pb-0">
     <v-row no-gutters>
       <v-col cols="auto">
         <h3 class="heading" :style="`color: ${color}`">{{ trait.Name }}</h3>
       </v-col>
       <v-col v-if="trait.Use !== 'Mission'" cols="auto" class="ml-auto">
-        <div class="subtle--text overline mt-n2">{{ trait.Use }}</div>
+        <div class="text-subtle overline mt-n2">{{ trait.Use }}</div>
       </v-col>
     </v-row>
-    <v-row dense align="center">
+    <v-row density="compact" align="center">
       <v-col>
-        <div class="body-text text--text" v-html="trait.Description" />
+        <div class="body-text text-text" v-html="trait.Description" />
       </v-col>
       <v-col cols="12">
         <cc-action
           v-for="(a, i) in trait.Actions"
-          :key="`${trait.ID}_action_${i}`"
           :action="a"
           :panel="$vuetify.display.lgAndUp"
         />
         <cc-deployable-info
           v-for="(d, i) in trait.Deployables"
-          :key="`${trait.ID}_deployable_${i}`"
           :deployable="d"
           :panel="$vuetify.display.lgAndUp"
         />
         <cc-integrated-info
           v-for="(x, i) in trait.Integrated"
-          :key="`${trait.ID}_integrated_${i}`"
           :item="x"
           :panel="$vuetify.display.lgAndUp"
         />

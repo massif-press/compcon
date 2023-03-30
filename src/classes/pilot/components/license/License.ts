@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { store } from '../../../../store';
+import { CompendiumStore } from '../../../../stores';
 import { Manufacturer } from '../../../Manufacturer';
 import { Frame } from '../../../mech/components/frame/Frame';
 import { Pilot } from '../../Pilot';
@@ -17,7 +17,7 @@ class License {
     min_rank: number;
     cumulative?: boolean;
   };
-  public readonly Hidden: boolean;
+  public readonly Hidden: boolean = false;
 
   public constructor(frame: Frame, variants?: Frame[]) {
     this.Name = frame.Name;
@@ -40,14 +40,11 @@ class License {
       }
     }
 
-    const items: LicensedItem[] = {
-      ...store.getters.getItemCollection('MechWeapons'),
-    }
-      .concat(
-        store.getters.getItemCollection('WeaponMods'),
-        store.getters.getItemCollection('MechSystems')
-      )
-      .filter((x: LicensedItem) => licenseMatch(x, frame));
+    const items: LicensedItem[] = [
+      ...CompendiumStore().getItemCollection('MechWeapons'),
+      ...CompendiumStore().getItemCollection('WeaponMods'),
+      ...CompendiumStore().getItemCollection('MechSystems'),
+    ].filter((x: LicensedItem) => licenseMatch(x, frame));
 
     const lls = [...items].map((i) => i.LicenseLevel);
 
@@ -93,7 +90,7 @@ class License {
   }
 
   public get Manufacturer(): Manufacturer {
-    return store.getters.referenceByID('Manufacturers', this.Source);
+    return CompendiumStore().referenceByID('Manufacturers', this.Source);
   }
 
   public get MaxRank(): number {
@@ -115,7 +112,7 @@ class License {
   }
 
   public static Deserialize(frameId: string): License {
-    return new License(store.getters.referenceByID('Frames', frameId));
+    return new License(CompendiumStore().referenceByID('Frames', frameId));
   }
 }
 

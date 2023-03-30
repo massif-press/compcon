@@ -1,5 +1,5 @@
 <template>
-  <p class="body-text text--text" v-html="action.Detail" />
+  <p class="body-text text-text" v-html="action.Detail" />
 </template>
 
 <script lang="ts">

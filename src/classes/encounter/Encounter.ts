@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { Npc } from '@/class';
-import { store } from '@/store';
+import { CompendiumStore } from '@/stores';
 import { ISaveData, SaveController } from '../components';
 import { INpcData } from '../npc/Npc';
 import { ISitrepData, SitrepData } from './Sitrep';

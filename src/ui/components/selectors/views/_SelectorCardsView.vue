@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <div v-for="s in sources" :key="s.ID">
+    <div v-for="s in sources">
       <v-row v-if="s.Name" no-gutters align="center" justify="center">
         <v-col cols="auto">
           <cc-logo
@@ -20,7 +20,6 @@
       <v-row align="center" justify="center" class="mt-0 mb-3">
         <compendium-card
           v-for="item in itemsBySource(s.ID)"
-          :key="`card_${item.ID}`"
           :item="item"
           :small="$vuetify.display.smAndDown"
           :equipment-add="equipmentAdd"
@@ -34,7 +33,7 @@
 <script lang="ts">
 import _ from 'lodash';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import CompendiumCard from './components/CompendiumCard.vue';
 
 export default {
@@ -52,7 +51,7 @@ export default {
   }),
   computed: {
     compendium() {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
     sources() {
       if (this.equipmentAdd) {

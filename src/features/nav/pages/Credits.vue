@@ -9,57 +9,35 @@
       />
     </div>
     <div v-else>
-      <div class="heading h2 accent--text text-center mt-2 mb-1">
-        LANCER by:
-      </div>
+      <div class="heading h2 text-accent text-center mt-2 mb-1">LANCER by:</div>
       <v-row justify="center">
-        <dev-badge
-          v-for="c in credits.writers"
-          :key="c.name"
-          :info="c"
-          :cols="6"
-        />
+        <dev-badge v-for="c in credits.writers" :info="c" :cols="6" />
       </v-row>
-      <div class="heading h2 accent--text text-center mt-2 mb-1">
+      <div class="heading h2 text-accent text-center mt-2 mb-1">
         COMP/CON by:
       </div>
       <v-row justify="center">
-        <dev-badge
-          v-for="c in credits.lead_devs"
-          :key="c.name"
-          :info="c"
-          :cols="12"
-        />
+        <dev-badge v-for="c in credits.lead_devs" :info="c" :cols="12" />
       </v-row>
-      <div class="heading h2 accent--text text-center mt-2 mb-1">With:</div>
-      <v-row dense justify="center">
-        <dev-badge
-          v-for="c in credits.devs"
-          :key="c.name"
-          :info="c"
-          :cols="6"
-        />
+      <div class="heading h2 text-accent text-center mt-2 mb-1">With:</div>
+      <v-row density="compact" justify="center">
+        <dev-badge v-for="c in credits.devs" :info="c" :cols="6" />
       </v-row>
-      <div class="heading h2 accent--text text-center mt-2 mb-1">
+      <div class="heading h2 text-accent text-center mt-2 mb-1">
         Graphic design by:
       </div>
-      <v-row dense justify="center">
-        <dev-badge
-          v-for="c in credits.graphics"
-          :key="c.name"
-          :info="c"
-          :cols="4"
-        />
+      <v-row density="compact" justify="center">
+        <dev-badge v-for="c in credits.graphics" :info="c" :cols="4" />
       </v-row>
-      <div class="heading h2 accent--text text-center mt-2 mb-1">
+      <div class="heading h2 text-accent text-center mt-2 mb-1">
         Additional art by:
       </div>
-      <v-row dense justify="center">
-        <dev-badge v-for="c in credits.art" :key="c.name" :info="c" :cols="4" />
+      <v-row density="compact" justify="center">
+        <dev-badge v-for="c in credits.art" />
       </v-row>
       <v-divider class="my-3" />
       <div class="text-center mt-6 mb-2">
-        <span class="heading h2 text--text">
+        <span class="heading h2 text-text">
           The continued development of COMP/CON would not be possible without
           the generous
           <a
@@ -70,14 +48,13 @@
           of:
         </span>
       </div>
-      <v-row v-for="(t, i) in tiers" :key="`tier_${t}`">
+      <v-row v-for="(t, i) in tiers">
         <v-col cols="12">
           <cc-title small class="mb-n4">{{ t.toUpperCase() }} TIER</cc-title>
         </v-col>
         <v-col
           v-for="p in patrons[t]"
-          :key="`tier_${t}_patron_${p.Name}`"
-          dense
+          density="compact"
           :cols="isActive(p) ? cols[i] : 3"
         >
           <v-row align="center">
@@ -95,13 +72,13 @@
               />
             </v-col>
             <v-col v-if="isActive(p)">
-              <div class="heading h2 accent--text">{{ p.Name }}</div>
+              <div class="heading h2 text-accent">{{ p.Name }}</div>
               <div class="flavor-text font-weight-bold">
                 STATUS//[
-                <span class="success--text">ACTIVE</span>
+                <span class="text-success">ACTIVE</span>
                 ]
               </div>
-              <div v-if="p['Patronage Since Date']" class="flavor--text">
+              <div v-if="p['Patronage Since Date']" class="text-flavor">
                 Since {{ p['Patronage Since Date'].substring(0, 10) }}
               </div>
             </v-col>
@@ -112,13 +89,9 @@
           </v-row>
         </v-col>
       </v-row>
-      <span class="heading h2 text--text mt-4">Special Thanks to:</span>
+      <span class="heading h2 text-text mt-4">Special Thanks to:</span>
       <div class="my-2">
-        <special-thanks
-          v-for="c in credits.special_thanks"
-          :key="c"
-          :name="c"
-        />
+        <special-thanks v-for="c in credits.special_thanks" :name="c" />
       </div>
     </div>
   </div>

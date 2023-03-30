@@ -20,7 +20,7 @@
             type="number"
             label="Roll Result"
             variant="outlined"
-            dense
+            density="compact"
             hide-details
             append-outer-icon="mdi-plus-circle-outline"
             prepend-icon="mdi-minus-circle-outline"
@@ -32,7 +32,7 @@
       <v-slide-y-transition>
         <v-row
           v-show="skillRoll"
-          dense
+          density="compact"
           justify="center"
           class="text-center flavor-text"
         >
@@ -61,10 +61,10 @@
               "
             />
           </v-col>
-          <v-row dense>
+          <v-row density="compact">
             <v-col>
               <v-card color="panel" class="ml-5 mr-5 mt-2">
-                <v-toolbar dark dense color="action--downtime">
+                <v-toolbar dark density="compact" color="action--downtime">
                   <v-toolbar-title>Connection</v-toolbar-title>
                 </v-toolbar>
                 <v-card-text>
@@ -72,7 +72,7 @@
                     v-model="custom_name"
                     label="Contact or Organization Name"
                     variant="outlined"
-                    dense
+                    density="compact"
                     hide-details
                   />
                   <v-textarea

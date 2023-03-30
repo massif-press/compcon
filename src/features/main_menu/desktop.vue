@@ -2,7 +2,7 @@
   <div id="wrapper">
     <main-title @logupdate="ccLog('update')" />
     <c-c-log v-show="$vuetify.display.mdAndUp" ref="log" />
-    <v-container style="height: calc(100vh - 135px)">
+    <v-container style="height: calc(100vh - 135px); margin-top: 80px">
       <v-row justify="space-between" style="height: 100%">
         <main-btn
           icon="cc:compendium"
@@ -94,7 +94,7 @@
               inline
               content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
             >
-              <v-icon end class="fadeSelect">mdi-help-circle-outline</v-icon>
+              <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
             </cc-tooltip>
           </v-btn>
         </v-col>
@@ -104,7 +104,7 @@
               <v-btn size="small" dark variant="outlined" v-bind="props">
                 <v-icon start>mdi-database-refresh</v-icon>
                 Load Data Backup
-                <v-icon end class="fadeSelect" id="tt2"
+                <v-icon end class="fade-select" id="tt2"
                   >mdi-help-circle-outline
                 </v-icon>
                 <v-tooltip location="top" activator="#tt2" width="300px">
@@ -118,20 +118,20 @@
             </template>
             <v-card>
               <v-card-text class="pa-6">
-                <p class="text-center heading h3 text--text">
+                <p class="text-center heading h3 text-text">
                   This will OVERWRITE
-                  <b class="accent--text">ALL</b>
+                  <b class="text-accent">ALL</b>
                   local COMP/CON data.
                   <br />
                   This
-                  <b class="accent--text">cannot</b>
+                  <b class="text-accent">cannot</b>
                   be undone.
                 </p>
                 <v-file-input
                   v-model="fileValue"
                   accept=".compcon"
                   variant="outlined"
-                  dense
+                  density="compact"
                   hide-details
                   autofocus
                   placeholder="Select COMP/CON Bulk Export File"
@@ -257,7 +257,7 @@ import AboutPage from '../nav/pages/About.vue';
 import CreditsPage from '../nav/pages/Credits.vue';
 import HelpPage from '../nav/pages/Help.vue';
 import OptionsPage from '../nav/pages/Options/index.vue';
-import { UserStore, CompendiumStore } from '@/store';
+import { UserStore, CompendiumStore } from '@/stores';
 
 export default {
   name: 'landing-page',
@@ -281,7 +281,7 @@ export default {
       return this.getModule(UserStore);
     },
     missingContent() {
-      const mc = this.getModule(CompendiumStore).MissingContent;
+      const mc = CompendiumStore().MissingContent;
       let b = false;
       if (!mc || !mc.pilots || !mc.npcs) return b;
       for (const key in mc) {

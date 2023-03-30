@@ -9,22 +9,22 @@
       <cc-clock v-else-if="item.ItemType === 'Clock'" :clock="item" no-delete />
       <text-editor v-else :item="item" />
     </v-col>
-    <v-col cols="auto" class="fadeSelect">
+    <v-col cols="auto" class="fade-select">
       <cc-tooltip left content="Move Up">
         <v-btn icon small @click="$emit('move-up')"
-          ><v-icon>mdi-arrow-up</v-icon></v-btn
-        >
+          ><v-icon icon="mdi-arrow-up"
+        /></v-btn>
       </cc-tooltip>
       <cc-tooltip left content="Move Down">
         <v-btn icon small @click="$emit('move-down')"
-          ><v-icon>mdi-arrow-down</v-icon></v-btn
-        >
+          ><v-icon icon="mdi-arrow-down"
+        /></v-btn>
       </cc-tooltip>
       <cc-tooltip left content="Delete Item">
         <v-menu offset-x left>
           <template v-slot:activator="{ props }">
             <v-btn small icon v-bind="props">
-              <v-icon>mdi-delete</v-icon>
+              <v-icon icon="mdi-delete" />
             </v-btn>
           </template>
           <v-card>

@@ -13,7 +13,7 @@
       <cc-slashes />
       &nbsp;PRM-ALT QUICK ACCESS SELECTION
     </h2>
-    <v-row dense justify="start" align="center">
+    <v-row density="compact" justify="start" align="center">
       <v-col v-show="$vuetify.display.mdAndUp">
         <div class="flavor-text mt-n2" style="font-size: 14px">
           Per the 5017 PRM-ALT Act, the Union Administrative Department's IDENT
@@ -25,8 +25,13 @@
           Registration with a tailored set of combat-role-optimal responses.
         </div>
         <br />
-        <v-alert dense variant="outlined" color="accent" class="mt-n1">
-          <div class="text-center stark--text">
+        <v-alert
+          density="compact"
+          variant="outlined"
+          color="accent"
+          class="mt-n1"
+        >
+          <div class="text-center text-stark">
             Selecting a template will complete the New Pilot interface and start
             your Pilot with a curated set of skills and talents and an outfitted
             GMS EVEREST mech, tailored to the combat role selected below. All of
@@ -38,7 +43,7 @@
         </v-alert>
       </v-col>
       <v-col cols="12" md="4">
-        <b class="caption accent--text mt-n2">MECH ART COURTESY OF</b>
+        <b class="caption text-accent mt-n2">MECH ART COURTESY OF</b>
         <v-img
           target="_blank"
           href="https://www.retrogrademinis.com/"
@@ -53,7 +58,6 @@
     <v-row :class="$vuetify.display.mdAndUp ? 'mx-6' : 'mx-2'">
       <template-item
         v-for="t in templates"
-        :key="t.name"
         :template="t"
         :is-selected="t === selected"
         @select="selected = t"
@@ -65,7 +69,7 @@
 <script lang="ts">
 import { getImagePath, ImageTag } from '@/io/ImageManagement';
 
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 import TemplateItem from './components/TemplateItem.vue';
 import Templates from '../pregens.json';
 import { MechSkills, Mech } from '@/class';
@@ -101,7 +105,7 @@ export default {
   },
   methods: {
     item(type: string, id: string) {
-      const compendium = this.getModule(CompendiumStore);
+      const compendium = CompendiumStore();
       return compendium.referenceByID(type, id);
     },
     setTemplate() {

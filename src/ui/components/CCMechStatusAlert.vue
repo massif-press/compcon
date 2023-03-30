@@ -1,6 +1,6 @@
 <template>
-  <v-alert v-if="show" :color="color" dense dark class="ma-0">
-    <v-icon slot="prepend" x-large class="ml-n2 mr-2" color="white">{{
+  <v-alert v-if="show" :color="color" density="compact" dark class="ma-0">
+    <v-icon slot="prepend" size="x-large" class="ml-n2 mr-2" color="white">{{
       icon
     }}</v-icon>
     <div :class="`heading ${small ? 'h3' : 'h2'}`">
@@ -29,21 +29,21 @@
         <v-icon start>cc:mech</v-icon>
         Reprint Mech
       </v-btn>
-      <span v-else-if="type === 'cascading'" class="white--text flavor-text">
+      <span v-else-if="type === 'cascading'" class="text-white flavor-text">
         UNSHACKLED NHP REPRESENT AN IMMININENT THREAT TO ANY PERSONS OR PROPERTY
         WITHIN THE MAXIMUM OPERATIONAL AREA OF THE FRAME. FAILURE TO HARDCYCLE
         CONSTITUTES CONTRIBUTORY NEGLIGENCE UNDER UNION LAW.
       </span>
-      <span v-else-if="type === 'overSP'" class="white--text flavor-text">
+      <span v-else-if="type === 'overSP'" class="text-white flavor-text">
         Loadout configuration exceeds available Frame System Capacity
       </span>
       <span
         v-else-if="type === 'unfinished' || type === 'underSP'"
-        class="white--text flavor-text"
+        class="text-white flavor-text"
       >
         Operational capacity significantly impaired
       </span>
-      <span v-else-if="type === 'unlicensed'" class="white--text flavor-text">
+      <span v-else-if="type === 'unlicensed'" class="text-white flavor-text">
         Pilot is missing one or more licenses required to legally print or
         operate this configuration
       </span>

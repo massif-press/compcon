@@ -21,7 +21,7 @@
       <template v-slot:[`item.Name`]="{ item }">
         <span
           class="heading h3"
-          :class="item.Active ? 'accent--text' : 'subtle--text font-italic'"
+          :class="item.Active ? 'text-accent' : 'text-subtle font-italic'"
         >
           {{ item.Name }}
         </span>
@@ -36,8 +36,8 @@
       <template v-slot:[`item.deleteAction`]="{ item }">
         <v-menu offset-y offset-x top nudge-left="30px">
           <template v-slot:activator="{ props }">
-            <v-btn icon color="primary" class="fadeSelect" v-bind="props">
-              <v-icon>delete</v-icon>
+            <v-btn icon color="primary" class="fade-select" v-bind="props">
+              <v-icon icon="delete" />
             </v-btn>
           </template>
           <v-card>
@@ -49,7 +49,7 @@
                 continue?
               </p>
               <v-divider class="my-2" />
-              <v-row dense>
+              <v-row density="compact">
                 <v-btn small text>CANCEL</v-btn>
                 <v-btn
                   small
@@ -69,7 +69,7 @@
         <td :colspan="headers.length" class="py-4 px-6 w-100 light-panel">
           <v-row>
             <v-col>
-              <p class="body-text text--text pa-2 mb-1">
+              <p class="body-text text-text pa-2 mb-1">
                 <span v-if="item.Description">
                   {{ item.Description }}
                 </span>
@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store';
+import { CompendiumStore, PilotStore, NpcStore } from '@/stores';
 
 import { ContentPack } from '@/class';
 
@@ -123,34 +123,34 @@ export default {
   }),
   computed: {
     contentPacks(): ContentPack[] {
-      // return this.compendiumStore.ContentPacks;
+      // return this.CompendiumStore().ContentPacks;
     },
     compendiumStore(): CompendiumStore {
-      return this.getModule(CompendiumStore);
+      return CompendiumStore();
     },
   },
   methods: {
     async toggleActive(packID: string, active: boolean): Promise<void> {
-      await this.compendiumStore.setPackActive({
+      await this.CompendiumStore().setPackActive({
         packID,
         active,
       });
       await this.reload();
     },
     async deletePack(id: string): Promise<void> {
-      await this.compendiumStore.deleteContentPack(id);
+      await this.CompendiumStore().deleteContentPack(id);
       await this.reload();
     },
     async reload() {
       // this.$emit('start-load');
-      // const pilotStore =this.getModule(PilotManagementStore);
+      // const pilotStore =this.getModule(PilotStore);
       // const npcStore =this.getModule(NpcStore);
       // const missing = { pilots: [], npcs: [] };
       // await pilotStore.loadPilots();
       // missing.pilots = pilotStore.MissingPilots;
       // await npcStore.loadNpcs();
       // missing.npcs = npcStore.MissingNpcs;
-      // await this.compendiumStore.setMissingContent(missing);
+      // await this.CompendiumStore().setMissingContent(missing);
       // this.$emit('end-load');
     },
   },

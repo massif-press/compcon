@@ -13,12 +13,12 @@
     <v-divider />
     <cc-title class="mb-2">new talent ui</cc-title>
 
-    <v-row dense>
+    <v-row density="compact">
       <cc-talent :talent="exampleTalents[0]" micro rank="2" selectable />
       <cc-talent :talent="exampleTalents[1]" micro rank="1" />
       <cc-talent :talent="exampleTalents[2]" micro />
     </v-row>
-    <v-row dense>
+    <v-row density="compact">
       <cc-talent :talent="exampleTalents[0]" small rank="2" selectable />
       <cc-talent :talent="exampleTalents[1]" small rank="1" hide-locked />
       <cc-talent :talent="exampleTalents[2]" small />
@@ -70,8 +70,12 @@
     <v-divider class="ma-4" />
     <cc-title>glyphs</cc-title>
     <v-container grid-list-xs>
-      <v-row dense>
-        <v-col v-for="i in allIcons()" :key="i" dense style="min-width: 200px">
+      <v-row density="compact">
+        <v-col
+          v-for="i in allIcons()"
+          density="compact"
+          style="min-width: 200px"
+        >
           <v-card outlined>
             <v-card-text class="text-center">
               <v-icon size="70px">cc:{{ i }}</v-icon>
@@ -105,7 +109,7 @@
           <cc-btn large color="info">large button</cc-btn>
         </v-col>
         <v-col>
-          <cc-btn x-large color="success">x-large button</cc-btn>
+          <cc-btn size="x-large" color="success">x-large button</cc-btn>
         </v-col>
       </v-row>
       <v-row class="my-2">
@@ -186,7 +190,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/store';
+import { CompendiumStore } from '@/stores';
 
 const icons = [
   'npc-template',
@@ -338,7 +342,7 @@ export default {
     },
   },
   created() {
-    const s = this.getModule(CompendiumStore);
+    const s = CompendiumStore();
     this.genericExample = s.MechSystems.find((x) => x.ID === 'ms_eva_module');
     this.chargeExample = s.MechSystems.find(
       (x) => x.ID === 'ms_pattern_a_smoke_charges'

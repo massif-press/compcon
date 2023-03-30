@@ -1,3 +1,7 @@
+import { defineStore } from 'pinia';
+import _ from 'lodash';
+import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data';
+import lancerData from 'lancer-data';
 import {
   License,
   CoreBonus,
@@ -7,9 +11,6 @@ import {
   WeaponMod,
   MechSystem,
   Tag,
-  PilotWeapon,
-  PilotArmor,
-  PilotGear,
   Talent,
   Reserve,
   Manufacturer,
@@ -18,33 +19,36 @@ import {
   NpcFeature,
   ContentPack,
   PilotEquipment,
+  Background,
+  PlayerAction,
+  Bond,
 } from '@/class';
-import { IContentPack } from '@/interface';
-import * as PlayerAction from '@/classes/Action';
-import { Background } from '@/classes/Background';
-import { Bond } from '@/classes/pilot/components/bond/Bond';
-import { SetItem, GetAll } from '@/io/Storage';
+import {
+  IContentPack,
+  INpcClassData,
+  INpcFeatureData,
+  IPilotEquipmentData,
+  ITagCompendiumData,
+} from '@/interface';
 
-async function SaveContent(packs: any[]) {
-  const promises = packs.map((pack: ContentPack) =>
-    SetItem('content', pack.Serialize())
-  );
-  Promise.all(promises).then(() => console.info('Content updated'));
+function construct<T>(
+  state,
+  itemType: string,
+  constructor: { new (Y: any): T }
+): T[] {
+  return collect<T>(state, itemType).map((x) => new constructor(x));
 }
 
-function getActiveItems<T>(items: T[]): T[] {
-  return items.filter((item: any) => item.Active);
+function collect<T>(state, itemType: string): T[] {
+  return [
+    ...(lancerData[itemType] || []),
+    ...state.ContentPacks.filter((pack: ContentPack) => pack.Active).flatMap(
+      (pack: ContentPack) => pack[itemType] || []
+    ),
+  ];
 }
 
-function getActiveItemsByProp<T>(state: any, prop: string): T[] {
-  return getActiveItems(
-    state.ContentPacks.flatMap(
-      (pack: ContentPack) => pack[prop as keyof ContentPack]
-    )
-  );
-}
-
-export default {
+export const CompendiumStore = defineStore('compendium', {
   state: () => ({
     LancerVersion: '',
     CCVersion: '',
@@ -53,46 +57,50 @@ export default {
     nfErr: { err: 'ID not found' },
   }),
   getters: {
-    NpcClasses: (state: any) =>
-      getActiveItemsByProp<NpcClass>(state, 'NpcClass'),
-    NpcTemplates: (state: any) =>
-      getActiveItemsByProp<NpcTemplate>(state, 'NpcTemplate'),
-    NpcFeatures: (state: any) =>
-      getActiveItemsByProp<NpcFeature>(state, 'NpcFeature'),
-    Bonds: (state: any) => getActiveItemsByProp<Bond>(state, 'Bond'),
-    Talents: (state: any) => getActiveItemsByProp<Talent>(state, 'Talent'),
-    CoreBonuses: (state: any) =>
-      getActiveItemsByProp<CoreBonus>(state, 'CoreBonus'),
-    Frames: (state: any) => getActiveItemsByProp<Frame>(state, 'Frame'),
-    Manufacturers: (state: any) =>
-      getActiveItemsByProp<Manufacturer>(state, 'Manufacturer'),
-    MechWeapons: (state: any) =>
-      getActiveItemsByProp<MechWeapon>(state, 'MechWeapon'),
-    WeaponMods: (state: any) =>
-      getActiveItemsByProp<WeaponMod>(state, 'WeaponMod'),
-    MechSystems: (state: any) =>
-      getActiveItemsByProp<MechSystem>(state, 'MechSystem'),
-    Tags: (state: any) => getActiveItemsByProp<Tag>(state, 'Tag'),
-    PilotWeapons: (state: any) =>
-      getActiveItemsByProp<PilotWeapon>(state, 'PilotWeapon'),
-    PilotArmor: (state: any) =>
-      getActiveItemsByProp<PilotArmor>(state, 'PilotArmor'),
-    PilotGear: (state: any) =>
-      getActiveItemsByProp<PilotGear>(state, 'PilotGear'),
-    PilotEquipment: (state: any) =>
-      getActiveItemsByProp<PilotEquipment>(state, 'PilotEquipment'),
-    Reserves: (state: any) => getActiveItemsByProp<Reserve>(state, 'Reserve'),
-    Backgrounds: (state: any) =>
-      getActiveItemsByProp<Background>(state, 'Background'),
-    Skills: (state: any) => getActiveItemsByProp<Skill>(state, 'Skill'),
-    Actions: (state: any) =>
-      getActiveItemsByProp<PlayerAction.Action>(state, 'Action'),
-    Statuses: (state: any) => getActiveItemsByProp<Status>(state, 'Status'),
-    Environments: (state: any) =>
-      getActiveItemsByProp<Environment>(state, 'Environment'),
-    Sitreps: (state: any) => getActiveItemsByProp<Sitrep>(state, 'Sitrep'),
-    Tables: (state: any) => getActiveItemsByProp<any>(state, 'Tables'),
-    Licenses: (state: any) => {
+    NpcClasses: (state) => construct<NpcClass>(state, 'npc_classes', NpcClass),
+    NpcTemplates: (state) =>
+      construct<NpcTemplate>(state, 'npc_templates', NpcTemplate),
+    NpcFeatures: (state) =>
+      collect<INpcFeatureData>(state, 'npc_features').map((x) =>
+        NpcFeature.Factory(x)
+      ),
+    Bonds: (state) => construct<Bond>(state, 'bonds', Bond),
+    Backgrounds: (state) =>
+      construct<Background>(state, 'backgrounds', Background),
+    Talents: (state) => construct<Talent>(state, 'talents', Talent),
+    CoreBonuses: (state) =>
+      construct<CoreBonus>(state, 'core_bonuses', CoreBonus),
+    Frames: (state) => construct<Frame>(state, 'frames', Frame),
+    Manufacturers: (state) =>
+      construct<Manufacturer>(state, 'manufacturers', Manufacturer),
+    MechWeapons: (state) => construct<MechWeapon>(state, 'weapons', MechWeapon),
+    WeaponMods: (state) => construct<WeaponMod>(state, 'mods', WeaponMod),
+    MechSystems: (state) => construct<MechSystem>(state, 'systems', MechSystem),
+    Skills: (state) => construct<Skill>(state, 'skills', Skill),
+    Actions: (state) =>
+      construct<PlayerAction.Action>(state, 'actions', PlayerAction.Action),
+    Tags: (state) => construct<Tag>(state, 'tags', Tag),
+    TagData: (state) => collect<ITagCompendiumData>(state, 'tags'),
+    Reserves: (state) => construct<Reserve>(state, 'reserves', Reserve),
+    Statuses: (state) => collect<Status>(state, 'statuses'),
+    Environments: (state) => collect<Environment>(state, 'environments'),
+    Sitreps: (state) => collect<Sitrep>(state, 'sitreps'),
+    PilotGear: (state) =>
+      collect<IPilotEquipmentData>(state, 'pilot_gear').map((x) =>
+        PilotEquipment.Factory(x)
+      ),
+    Tables: (state) => {
+      const tables = lancerData.tables;
+      state.ContentPacks.filter((pack) => pack.Active).forEach((pack) => {
+        for (const t in pack.Tables) {
+          if (tables[t] !== undefined)
+            tables[t] = [...tables[t], ...pack.Tables[t]];
+          else tables[t] = pack.Tables[t];
+        }
+      });
+      return tables;
+    },
+    Licenses() {
       function variantLicenseMatch(
         variantFrame: Frame,
         licenseFrame: Frame
@@ -108,167 +116,114 @@ export default {
           );
         }
       }
-      return state.Frames.filter(
-        (x: Frame) => x.Source !== 'GMS' && !x.IsHidden
-      ).map((frame: Frame) => {
-        const variants = state.Frames.filter(
-          (f: Frame) => !f.IsHidden && variantLicenseMatch(f, frame)
-        );
-        return new License(frame, variants);
-      });
-    },
-    AllowBonds(state: any): boolean {
-      return state.Bonds.length > 0;
-    },
-    AllowEidolons(state: any): boolean {
-      // TODO: check for eidolon data
-      return true;
-    },
-    packAlreadyInstalled(state: any): any {
-      return (packID: string) =>
-        state.ContentPacks.map((p: any) => p.ID).includes(packID);
-    },
-    instantiate(state: any): any | { err: string } {
-      return (itemType: string, id: string) => {
-        if (state[itemType] && state[itemType] instanceof Array) {
-          const i = state[itemType].find(
-            (x: any) => x.ID === id || x.id === id
+
+      return (this.Frames as any)
+        .filter((x) => x.Source !== 'GMS' && !x.IsHidden)
+        .map((frame) => {
+          const variants = this.Frames.filter(
+            (f) => !f.IsHidden && variantLicenseMatch(f, frame)
           );
+          return new License(frame, variants);
+        });
+    },
+    packAlreadyInstalled(): any {
+      return (packID: string) =>
+        this.ContentPacks.map((pak) => pak.ID).includes(packID);
+    },
+
+    instantiate(): any | { err: string } {
+      return (itemType: string, id: string) => {
+        if (this[itemType] && this[itemType] instanceof Array) {
+          const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
           if (i) return { ...i };
           const miID = `missing_${itemType.toLowerCase()}`;
-          const missingItem = state[itemType].find(
+          const missingItem = this[itemType].find(
             (x: any) => x.ID === miID || x.id === miID
           );
           if (missingItem) return { ...missingItem };
-          return state.nfErr;
+          return this.nfErr;
         }
         return { err: 'Invalid Item Type' };
       };
     },
-    referenceByID(state: any): any | { err: string } {
+
+    referenceByID(): any | { err: string } {
       return (itemType: string, id: string) => {
-        if (state[itemType] && state[itemType] instanceof Array) {
-          const i = state[itemType].find(
-            (x: any) => x.ID === id || x.id === id
-          );
+        if (this[itemType] && this[itemType] instanceof Array) {
+          const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
           if (i) return i;
           const miID = `missing_${itemType.toLowerCase()}`;
-          const missingItem = state[itemType].find(
+          const missingItem = this[itemType].find(
             (x: any) => x.ID === miID || x.id === miID
           );
           if (missingItem) return missingItem;
-          return state.nfErr;
+          return this.nfErr;
         }
         return { err: 'Invalid Item Type' };
       };
     },
-    getItemCollection(state: any): any {
+
+    getItemCollection(): any {
       return (itemType: string) => {
-        return state[itemType].filter((x: any) => x && !x.IsHidden);
+        return this[itemType].filter((x) => x && !x.IsHidden);
       };
-    },
-    getVersion(state: any): string {
-      return state.CCVersion;
-    },
-  },
-  mutations: {
-    // TODO: just set as part of the data loader
-    SET_VERSIONS(state: any, payload: { lancer: string; cc: string }): void {
-      state.LancerVersion = payload.lancer;
-      state.CCVersion = payload.cc;
-    },
-
-    SET_MISSING_CONTENT(state: any, payload: any): void {
-      state.MissingContent = payload;
-    },
-
-    CLEAR_PACKS(state: any): void {
-      state.ContentPacks.splice(0, state.ContentPacks.length);
-    },
-
-    LOAD_PACK(state: any, packData: IContentPack): void {
-      const pack = new ContentPack(packData);
-      state.ContentPacks = [...state.ContentPacks, pack];
-      SaveContent(state.ContentPacks);
-    },
-
-    DELETE_PACK(state: any, packID: string): void {
-      state.ContentPacks = state.ContentPacks.filter(
-        (pack: ContentPack) => pack.ID !== packID
-      );
-      SaveContent(state.ContentPacks);
-    },
-    SET_PACK_ACTIVE(
-      state: any,
-      payload: {
-        packID: string;
-        active: boolean;
-      }
-    ): void {
-      const { packID, active } = payload;
-      state.ContentPacks.find(
-        (pack: ContentPack) => pack.ID === packID
-      ).SetActive(active);
-      state.ContentPacks = [...state.ContentPacks];
-      SaveContent(state.ContentPacks);
     },
   },
   actions: {
-    async setPackActive(
-      { state, commit }: any,
-      payload: {
-        packID: string;
-        active: boolean;
-      }
-    ): Promise<void> {
-      commit('SET_PACK_ACTIVE', payload);
-      SaveContent(state.ContentPacks);
+    setMissingContent(payload: any): void {
+      this.MissingContent = payload;
     },
-    async installContentPack(
-      { state, commit, dispatch }: any,
-      pack: IContentPack
-    ): Promise<void> {
-      const alreadyInstalled = await dispatch.packAlreadyInstalled(pack.id);
-      if (alreadyInstalled) {
+    async setPackActive(payload: {
+      packID: string;
+      active: boolean;
+    }): Promise<void> {
+      this.ContentPacks.find((pack) => pack.ID === payload.packID)?.SetActive(
+        payload.active
+      );
+      await saveUserData(
+        'extra_content.json',
+        this.ContentPacks.map((pack) => pack.Serialize())
+      );
+    },
+    async installContentPack(packData: IContentPack): Promise<void> {
+      if (this.packAlreadyInstalled(packData.id)) {
         console.info(
-          `pack ${pack.manifest.name} [${pack.id}] already exists, deleting original...`
+          `pack ${packData.manifest.name} [${packData.id}] already exists, deleting original...`
         );
-        await dispatch.deleteContentPack(pack.id);
+        await this.deleteContentPack(packData.id);
       }
-      commit('LOAD_PACK', pack);
+      const pack = new ContentPack(packData);
+      this.ContentPacks = [...this.ContentPacks, pack];
+      await saveUserData(
+        'extra_content.json',
+        this.ContentPacks.map((pack) => pack.Serialize())
+      );
     },
-    async deleteContentPack(
-      { state, commit }: any,
-      packID: string
-    ): Promise<void> {
-      commit('DELETE_PACK', packID);
-      SaveContent(state.ContentPacks);
+    async deleteContentPack(packID: string): Promise<void> {
+      this.ContentPacks = this.ContentPacks.filter(
+        (pack) => pack.ID !== packID
+      );
+      await saveUserData(
+        'extra_content.json',
+        this.ContentPacks.map((pack) => pack.Serialize())
+      );
     },
-    async loadExtraContent({ state, commit }: any): Promise<void> {
-      const content = await GetAll('content');
+    async loadExtraContent(): Promise<void> {
+      const content = (await loadUserData(
+        'extra_content.json'
+      )) as IContentPack[];
       try {
-        content.forEach((c) => commit('LOAD_PACK', c));
+        this.ContentPacks = [
+          ...this.ContentPacks,
+          ...content.map((c) => new ContentPack(c)),
+        ];
       } catch (err) {
         console.error(err);
       }
     },
-    async refreshExtraContent({ commit }: any): Promise<void> {
-      await commit('CLEAR_PACKS');
-      const content = await GetAll('content');
-      try {
-        content.forEach((c) => commit('LOAD_PACK', c));
-      } catch (err) {
-        console.error(err);
-      }
-    },
-    setVersions(
-      { commit }: any,
-      payload: { lancerVer: string; ccVer: string }
-    ): void {
-      commit('SET_VERSIONS', payload);
-    },
-    setMissingContent({ commit }: any, payload: any): void {
-      commit('SET_MISSING_CONTENT', payload);
+    async refreshExtraContent(): Promise<void> {
+      this.ContentPacks = [];
+      await this.loadExtraContent();
     },
   },
-};
+});

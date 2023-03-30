@@ -33,7 +33,7 @@
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon end small class="fadeSelect"
+            <v-icon end small class="fade-select"
               >mdi-information-outline</v-icon
             >
           </cc-tooltip>
@@ -50,13 +50,13 @@
       >
         <v-col class="mt-n2">
           <v-row
-            dense
+            density="compact"
             justify="space-between"
             :class="'text-center ' + $vuetify.display.mdAndUp ? '' : 'panel'"
           >
             <v-col cols="auto">
               <div class="heading h3">hull</div>
-              <div class="heading h2 accent--text">
+              <div class="heading h2 text-accent">
                 {{ mech.Hull }}
                 <cc-synergy-display inline :mech="mech" location="hull" />
               </div>
@@ -64,7 +64,7 @@
             <v-divider vertical />
             <v-col cols="auto">
               <div class="heading h3">agility</div>
-              <div class="heading h2 accent--text">
+              <div class="heading h2 text-accent">
                 {{ mech.Agi }}
                 <cc-synergy-display inline :mech="mech" location="agility" />
               </div>
@@ -72,7 +72,7 @@
             <v-divider vertical />
             <v-col cols="auto">
               <div class="heading h3">systems</div>
-              <div class="heading h2 accent--text">
+              <div class="heading h2 text-accent">
                 {{ mech.Sys }}
                 <cc-synergy-display inline :mech="mech" location="systems" />
               </div>
@@ -80,7 +80,7 @@
             <v-divider vertical />
             <v-col cols="auto">
               <div class="heading h3">engineering</div>
-              <div class="heading h2 accent--text">
+              <div class="heading h2 text-accent">
                 {{ mech.Eng }}
                 <cc-synergy-display
                   inline
@@ -93,7 +93,7 @@
         </v-col>
         <v-col cols="auto">
           <v-row
-            dense
+            density="compact"
             :justify="$vuetify.display.mdAndUp ? 'end' : 'space-between'"
             :class="$vuetify.display.mdAndUp ? '' : 'panel'"
           >
@@ -106,7 +106,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">Accuracy</div>
+              <div class="text-overline pl-1">Accuracy</div>
               <v-text-field
                 v-model="accuracy"
                 type="number"
@@ -116,7 +116,7 @@
                 style="width: 115px"
                 class="hide-input-spinners"
                 color="accent"
-                dense
+                density="compact"
                 hide-details
                 @click:append-outer="accuracy += 1"
                 @click:prepend="accuracy -= 1"
@@ -132,7 +132,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">Difficulty</div>
+              <div class="text-overline pl-1">Difficulty</div>
               <v-text-field
                 v-model="difficulty"
                 type="number"
@@ -142,7 +142,7 @@
                 style="width: 115px"
                 class="hide-input-spinners"
                 color="accent"
-                dense
+                density="compact"
                 hide-details
                 @click:append-outer="difficulty += 1"
                 @click:prepend="difficulty -= 1"
@@ -158,7 +158,7 @@
               "
               style="height: 70px"
             >
-              <div class="overline pl-1">Skill Roll</div>
+              <div class="text-overline pl-1">Skill Roll</div>
               <v-row no-gutters>
                 <v-col class="mr-n2 ml-n2">
                   <cc-dice-menu
@@ -171,13 +171,12 @@
                 </v-col>
                 <v-col>
                   <v-text-field
-                    :key="`input_${skillRoll}`"
                     v-model="skillRoll"
                     type="number"
                     class="hide-input-spinners ml-n3"
                     style="max-width: 60px; margin-top: -0.5px"
                     color="accent"
-                    dense
+                    density="compact"
                     hide-details
                   />
                 </v-col>
@@ -189,7 +188,7 @@
     </v-slide-x-reverse-transition>
 
     <v-slide-x-reverse-transition>
-      <v-row v-if="skillRoll" dense class="mt-n2">
+      <v-row v-if="skillRoll" density="compact" class="mt-n2">
         <v-col md="6" lg="3" xl="2" class="ml-auto">
           <v-btn
             tile
