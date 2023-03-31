@@ -131,18 +131,13 @@ export default {
   },
   computed: {
     coreBonuses(): CoreBonus[] {
-      returnthis
-        .getModule(CompendiumStore, this.$store)
-        .CoreBonuses.filter((x) => !x.IsHidden);
+      return CompendiumStore().CoreBonuses.filter((x) => !x.IsHidden);
     },
     manufacturersWithCBs(): {
       manufacturer: Manufacturer;
       coreBonuses: CoreBonus[];
     }[] {
-      const manufacturers = this.getModule(
-        CompendiumStore,
-        this.$store
-      ).Manufacturers;
+      const manufacturers = CompendiumStore().Manufacturers;
 
       return manufacturers
         .filter((x) => !x.IsHidden)

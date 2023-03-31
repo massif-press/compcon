@@ -210,10 +210,10 @@ export default {
       else return '';
     },
     unsaved() {
-      return this.getModule(PilotStore).unsavedCloudPilots;
+      return PilotStore().unsavedCloudPilots;
     },
     isAuthed() {
-      return this.getModule(UserStore).IsLoggedIn;
+      return UserStore().IsLoggedIn;
     },
     syncTooltip(): string {
       if (!this.unsaved.length) return 'Pilot data synced';
@@ -226,7 +226,7 @@ export default {
   },
   methods: {
     sync() {
-      this.getModule(UserStore).cloudSync({
+      UserStore().cloudSync({
         callback: (status, message) => this.$notify(status, message),
       });
     },

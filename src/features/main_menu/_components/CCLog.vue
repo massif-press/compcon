@@ -48,7 +48,7 @@ export default {
   }),
   computed: {
     profile(): UserProfile {
-      const store = this.getModule(UserStore);
+      const store = UserStore();
       return store.UserProfile;
     },
     theme(): string {

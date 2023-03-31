@@ -49,7 +49,7 @@ export default {
       );
     },
     profile(): UserProfile {
-      const store = this.getModule(UserStore);
+      const store = UserStore();
       return store.UserProfile;
     },
   },

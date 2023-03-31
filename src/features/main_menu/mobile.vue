@@ -164,7 +164,7 @@ export default {
   },
   computed: {
     userstore() {
-      return this.getModule(UserStore);
+      return UserStore();
     },
   },
 };

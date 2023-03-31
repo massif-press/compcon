@@ -223,8 +223,7 @@ export default {
           );
         if (this.featureSet === 'assigned')
           return this.pilot.BondController.BondPowers;
-        returnthis
-          .getModule(CompendiumStore, this.$store)
+        return CompendiumStore()
           .Bonds.find((x) => x.ID === this.featureSet)
           .Powers.filter((x) =>
             this.pilot.BondController.BondPowers.some((y) => y.name === x.name)
@@ -236,9 +235,8 @@ export default {
       if (this.featureSet === 'assigned')
         return this.pilot.BondController.BondPowers;
 
-      returnthis
-        .getModule(CompendiumStore, this.$store)
-        .Bonds.find((x) => x.ID === this.featureSet).Powers;
+      return CompendiumStore().Bonds.find((x) => x.ID === this.featureSet)
+        .Powers;
     },
     Bonds() {
       return CompendiumStore().Bonds.map((x) => ({

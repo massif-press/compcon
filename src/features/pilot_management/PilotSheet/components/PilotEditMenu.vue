@@ -10,7 +10,7 @@
         <div v-if="!dense" class="heading h2 text-white primary py-0 px-2">
           Pilot Options
         </div>
-        <v-list-item @click="$refs.printDialog.show()">
+        <v-list-item @click="($refs.printDialog as any).show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-printer" />
           </v-list-item-icon>
@@ -21,7 +21,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.cloneDialog.show()">
+        <v-list-item @click="($refs.cloneDialog as any).show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-dna" />
           </v-list-item-icon>
@@ -32,7 +32,7 @@
             >
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.statblockDialog.show()">
+        <v-list-item @click="($refs.statblockDialog as any).show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-file-document-outline" />
           </v-list-item-icon>
@@ -64,7 +64,7 @@
         <v-list-item
           v-else
           :disabled="!isAuthed"
-          @click="$refs.shareDialog.show()"
+          @click="($refs.shareDialog as any).show()"
         >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-code-json" />
@@ -79,7 +79,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <!-- <v-list-item @click="$refs.roll20Dialog.show()">
+        <!-- <v-list-item @click="($refs.roll20Dialog as any).show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-dice-d20" />
           </v-list-item-icon>
@@ -90,7 +90,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item> -->
-        <v-list-item @click="$refs.exportDialog.show()">
+        <v-list-item @click="($refs.exportDialog as any).show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-export-variant" />
           </v-list-item-icon>
@@ -102,7 +102,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-divider />
-        <v-list-item @click="$refs.deleteDialog.show()">
+        <v-list-item @click="($refs.deleteDialog as any).show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
@@ -139,7 +139,7 @@ import PrintDialog from './PrintDialog.vue';
 import DeleteDialog from './DeletePilotDialog.vue';
 
 import { UserStore } from '@/stores';
-import { RemoteSyncItem } from '@/cloud/item_sync';
+// import { RemoteSyncItem } from '@/cloud/item_sync';
 
 export default {
   name: 'edit-menu',
@@ -169,7 +169,7 @@ export default {
   }),
   computed: {
     isAuthed() {
-      return this.getModule(UserStore).IsLoggedIn;
+      return UserStore().IsLoggedIn;
     },
   },
   methods: {
@@ -181,7 +181,7 @@ export default {
     async remoteUpdate() {
       this.loading = true;
       try {
-        await RemoteSyncItem(this.pilot);
+        // await RemoteSyncItem(this.pilot);
         this.$notify('Pilot synced to remote', 'success');
       } catch (error) {
         console.error(error);

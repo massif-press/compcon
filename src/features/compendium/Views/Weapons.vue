@@ -32,7 +32,7 @@ export default {
       return CompendiumStore();
     },
     user(): UserStore {
-      return this.getModule(UserStore);
+      return UserStore();
     },
     sourceIds(): string[] {
       return this.compendium.Manufacturers.map((x) => x.ID);

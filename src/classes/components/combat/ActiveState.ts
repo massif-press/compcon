@@ -78,43 +78,43 @@ class ActiveState {
 
   private _log: ICombatLogData[]; // write this to a pilot log after mission is ended
 
-  private _pilot_mounted: boolean;
+  private _pilot_mounted: boolean = false;
   private _pilot_move: number;
 
-  private _pilot: Pilot;
+  private _pilot: Pilot = new Pilot();
   private _mech: Mech | null;
   private _remoteMech: Mech | null;
 
   private _round: number;
   private _encounter: number;
-  private _mission: number;
+  private _mission!: number;
 
   private _actions: number;
 
   private _barrageSelections: MechWeapon[];
   private _barrageMounts: Mount[];
-  private _shBarrageSelection: MechWeapon;
-  private _shBarrageMount: Mount;
+  private _shBarrageSelection!: MechWeapon;
+  private _shBarrageMount!: Mount;
 
   private _self_destruct_counter: number;
 
-  public StabilizeMajor: string;
-  private _last_stabilize_major: string;
-  public StabilizeMinor: string;
-  private _last_stabilize_minor: string;
+  public StabilizeMajor!: string;
+  private _last_stabilize_major!: string;
+  public StabilizeMinor!: string;
+  private _last_stabilize_minor!: string;
 
   private _cachedBurnDamage: number;
   private _cachedBurnStructure: number;
 
-  private _jockeying: boolean;
+  private _jockeying: boolean = false;
   private _braced: boolean;
   private _overcharged: boolean;
   private _prepare: boolean;
   private _bracedCooldown: boolean;
   private _redundant: boolean;
 
-  private _stageNextTurnCoreEnd: boolean;
-  private _stageNextRoundCoreEnd: boolean;
+  private _stageNextTurnCoreEnd: boolean = false;
+  private _stageNextRoundCoreEnd: boolean = false;
 
   private _stats: ICombatStats;
 
@@ -158,7 +158,7 @@ class ActiveState {
   }
 
   private save(): void {
-    store.dispatch('set_pilot_dirty');
+    // store.dispatch('set_pilot_dirty');
   }
 
   public get Stats(): ICombatStats {
@@ -1331,4 +1331,5 @@ class ActiveState {
   }
 }
 
-export { ActiveState, IActiveStateData, ICombatStats };
+export { ActiveState };
+export type { IActiveStateData, ICombatStats };

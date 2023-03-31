@@ -26,17 +26,17 @@ interface ISectionData {
 }
 
 class ICollectionItemData {
-  save: ISaveData;
-  img: IPortraitData;
-  narrative: NarrativeElementData;
+  save!: ISaveData;
+  img!: IPortraitData;
+  narrative!: NarrativeElementData;
 
-  campaign: string;
-  id: string;
-  name: string;
-  description: string;
-  notes: string;
-  campaigns: string[];
-  labels: string[];
+  campaign!: string;
+  id!: string;
+  name!: string;
+  description!: string;
+  notes!: string;
+  campaigns!: string[];
+  labels!: string[];
 }
 
 abstract class CollectionItem
@@ -46,9 +46,9 @@ abstract class CollectionItem
   private _name: string;
   private _description: string;
   private _notes: string;
-  public ItemType: ItemType;
+  public ItemType!: ItemType;
   public SaveController: SaveController;
-  public ImageTag: ImageTag;
+  public ImageTag!: ImageTag;
   public NarrativeController: NarrativeController;
   public PortraitController: PortraitController;
 
@@ -98,7 +98,7 @@ abstract class CollectionItem
   }
 
   public Clone(): ISaveable {
-    return null;
+    return null as any;
   }
 }
 

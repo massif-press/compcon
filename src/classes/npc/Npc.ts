@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid';
-import { NpcStore, store } from '@/stores';
 import { ImageTag } from '@/io/ImageManagement';
 import { NpcClass, NpcItem } from './';
 import { INpcItemSaveData } from './interfaces';
@@ -41,23 +40,23 @@ import {
 } from '../components/combat/stats/StatController';
 
 class INpcData implements INpcClassSaveData, INpcFeatureSaveData {
-  id: string;
-  save: ISaveData;
-  cloud: ICloudData;
-  brews: BrewInfo[];
-  img: IPortraitData;
-  group: IGroupData;
-  narrative: NarrativeElementData;
-  stats: IStatData;
+  id!: string;
+  save!: ISaveData;
+  cloud!: ICloudData;
+  brews!: BrewInfo[];
+  img!: IPortraitData;
+  group!: IGroupData;
+  narrative!: NarrativeElementData;
+  stats!: IStatData;
 
-  name: string;
-  class: string;
-  tier: number;
-  subtitle: string;
-  tag: string;
-  note: string;
-  templates: string[];
-  items: INpcItemSaveData[];
+  name!: string;
+  class!: string;
+  tier!: number;
+  subtitle!: string;
+  tag!: string;
+  note!: string;
+  templates!: string[];
+  items!: INpcItemSaveData[];
 }
 
 class Npc
@@ -69,7 +68,7 @@ class Npc
     INarrativeElement
 {
   public readonly ItemType: string = 'npc';
-  public ImageTag: ImageTag.NPC;
+  public ImageTag!: ImageTag.NPC;
   public CloudController: CloudController;
   public SaveController: SaveController;
   public PortraitController: PortraitController;
@@ -87,6 +86,8 @@ class Npc
   private _subtitle: string;
   private _note: string;
   private _tag: string;
+  static ID: string;
+  static Name: string;
 
   public constructor(npcClass?: NpcClass, tier?: number) {
     const t = tier || 1;

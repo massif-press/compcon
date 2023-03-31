@@ -174,7 +174,7 @@ export default {
       return Components[this.componentType];
     },
     campaign() {
-      return this.getModule(CampaignStore).EditCampaign;
+      return CampaignStore().EditCampaign;
     },
   },
   methods: {

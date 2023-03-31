@@ -1,13 +1,11 @@
 <template>
   <div>
-    <div
-      v-if="
-        !!authedUser &&
+    <div v-if="false">
+      <!--         !!authedUser &&
         !!authedUser.attributes &&
         userProfile.Username &&
         userProfile.Username !== 'No Cloud Account'
-      "
-    >
+ -->
       <v-row density="compact" justify="space-between" align="center">
         <v-col v-if="userProfile" class="text-center heading h3 mt-3 mb-2">
           CONNECTED
@@ -191,7 +189,7 @@
       <backup-manager
         ref="backup"
         :username="userProfile.Username"
-        @change="$refs.sync.fetch()"
+        @change="($refs.sync as any).fetch()"
       />
 
       <v-scroll-y-transition leave-absolute hide-on-leave>
@@ -221,9 +219,9 @@
 </template>
 
 <script lang="ts">
-import SyncManager from '@/ui/syncManager/SyncManager.vue';
+// import SyncManager from '@/ui/syncManager/SyncManager.vue';
 import BackupManager from '@/ui/syncManager/BackupManager.vue';
-import { Auth } from '@aws-amplify/auth';
+// import { Auth } from '@aws-amplify/auth';
 
 import { UserStore } from '@/stores';
 import { UpdateUserData } from '@/cloud/user_sync';
@@ -231,7 +229,8 @@ import _ from 'lodash';
 
 export default {
   name: 'auth-signed-in',
-  components: { SyncManager, BackupManager },
+  // components: { SyncManager, BackupManager },
+  components: { BackupManager },
   data: () => ({
     upgradeLoading: false,
     loading: false,
@@ -254,7 +253,7 @@ export default {
         'Password must be different';
     },
     userProfile() {
-      return this.getModule(UserStore).UserProfile;
+      return UserStore().UserProfile;
     },
     isOnV2() {
       return (
@@ -264,21 +263,21 @@ export default {
     },
   },
   mounted() {
-    Auth.currentAuthenticatedUser()
-      .then((user) => {
-        this.authedUser = user;
-      })
-      .then(() =>
-        Auth.currentUserCredentials().then((res) => (this.iid = res.identityId))
-      )
-      .catch(() => {
-        this.$emit('set-state', 'sign-in');
-      });
+    // Auth.currentAuthenticatedUser()
+    //   .then((user) => {
+    //     this.authedUser = user;
+    //   })
+    //   .then(() =>
+    //     Auth.currentUserCredentials().then((res) => (this.iid = res.identityId))
+    //   )
+    //   .catch(() => {
+    //     this.$emit('set-state', 'sign-in');
+    //   });
   },
   methods: {
     async load() {
       this.loading = true;
-      // const userstore =this.getModule(UserStore);
+      // const userstore =UserStore();
       // Auth.currentAuthenticatedUser()
       //   .then((cognitoUser) => {
       //     userstore.setAws({ cognitoUser });
@@ -293,65 +292,65 @@ export default {
       //   });
     },
     changePass() {
-      this.loading = true;
-      Auth.currentAuthenticatedUser()
-        .then((user) => {
-          return Auth.changePassword(user, this.oldpass, this.newpass);
-        })
-        .then(() => {
-          this.loading = false;
-          this.showError = false;
-          this.$notify('Password Changed');
-          this.oldpass = null;
-          this.newpass = null;
-        })
-        .catch((err) => {
-          this.loading = false;
-          this.showError = true;
-          this.error = `${err.message}<br><div class='text-right'>${err.name}</div>`;
-        });
+      // this.loading = true;
+      // Auth.currentAuthenticatedUser()
+      //   .then((user) => {
+      //     return Auth.changePassword(user, this.oldpass, this.newpass);
+      //   })
+      //   .then(() => {
+      //     this.loading = false;
+      //     this.showError = false;
+      //     this.$notify('Password Changed');
+      //     this.oldpass = null;
+      //     this.newpass = null;
+      //   })
+      //   .catch((err) => {
+      //     this.loading = false;
+      //     this.showError = true;
+      //     this.error = `${err.message}<br><div class='text-right'>${err.name}</div>`;
+      //   });
     },
     signOut() {
-      Auth.signOut()
-        .then(() => {
-          this.$notify('Sign Out Complete');
-          // const store =this.getModule(UserStore);
-          // store.setLoggedIn(false);
-          this.$emit('set-state', 'sign-in');
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      // Auth.signOut()
+      //   .then(() => {
+      //     this.$notify('Sign Out Complete');
+      //     // const store =UserStore();
+      //     // store.setLoggedIn(false);
+      //     this.$emit('set-state', 'sign-in');
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //   });
     },
     userUpdate() {
-      UpdateUserData(this.userProfile).then((res) => console.log(res));
+      // UpdateUserData(this.userProfile).then((res) => console.log(res));
     },
     copyIid() {
-      navigator.clipboard
-        .writeText(this.iid)
-        .then(() =>
-          Vue.prototype.$notify(
-            'Cloud Identity ID copied to clipboard.',
-            'confirmation'
-          )
-        )
-        .catch(() =>
-          Vue.prototype.$notifyError('Unable to copy Cloud Identity ID ')
-        );
+      // navigator.clipboard
+      //   .writeText(this.iid)
+      //   .then(() =>
+      //     Vue.prototype.$notify(
+      //       'Cloud Identity ID copied to clipboard.',
+      //       'confirmation'
+      //     )
+      //   )
+      //   .catch(() =>
+      //     Vue.prototype.$notifyError('Unable to copy Cloud Identity ID ')
+      //   );
     },
     async v2Upgrade() {
       this.upgradeLoading = true;
       try {
         await (this.$refs.backup as any).dataExport();
         await (this.$refs.sync as any).syncAll(true);
-        await UpdateUserData(this.userProfile, true);
-        this.$notify('Data successfully updated. Reloading.', 'success');
+        // await UpdateUserData(this.userProfile, true);
+        // this.$notify('Data successfully updated. Reloading.', 'success');
         setTimeout(() => {
           location.reload();
         }, 2000);
       } catch (error) {
         console.error(error);
-        this.$notify('An error occured while syncing.', 'error');
+        // this.$notify('An error occured while syncing.', 'error');
       } finally {
         this.upgradeLoading = false;
       }

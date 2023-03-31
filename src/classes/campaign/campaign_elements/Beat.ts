@@ -1,27 +1,29 @@
-import { Combat, ICombatData } from "./Combat";
-import { ISubItemData, SubItem } from "./SubItem";
+import { Combat, ICombatData } from './Combat';
+import { ISubItemData, SubItem } from './SubItem';
 
 interface IBeatData extends ISubItemData {
-  combats: ICombatData[]
+  combats: ICombatData[];
 }
 
 class Beat extends SubItem {
-  public Combats: Combat[]
+  public Combats: Combat[];
 
   constructor(data: IBeatData) {
-    super(data)
-    this.Combats = data.combats.map(c => Combat.Deserialize(c))
-    this.ItemType = 'Beat'
+    super(data);
+    this.Combats = data.combats.map((c) => Combat.Deserialize(c));
+    this.ItemType = 'Beat';
   }
 
   public get Children(): Combat[] {
-    return this.Combats
+    return this.Combats;
   }
 
   public AddCombat() {
-    this.Combats.push(new Combat({
-      item_type: 'Combat'
-    }))
+    this.Combats.push(
+      new Combat({
+        item_type: 'Combat',
+      })
+    );
   }
 
   public MoveCombat(from: number, to: number) {
@@ -29,9 +31,9 @@ class Beat extends SubItem {
   }
 
   public DeleteCombat(item: SubItem) {
-    const idx = this.Combats.findIndex(x => x.ID === item.ID)
-    if (idx === -1) return
-    this.Combats.splice(idx, 1)
+    const idx = this.Combats.findIndex((x) => x.ID === item.ID);
+    if (idx === -1) return;
+    this.Combats.splice(idx, 1);
   }
 
   public static Serialize(b: Beat): IBeatData {
@@ -39,14 +41,15 @@ class Beat extends SubItem {
       id: b.ID,
       title: b.Title,
       content: b.Content,
-      combats: b.Combats.map(c => Combat.Serialize(c)),
-      item_type: 'Beat'
-    }
+      combats: b.Combats.map((c) => Combat.Serialize(c)),
+      item_type: 'Beat',
+    };
   }
 
   public static Deserialize(data: IBeatData): Beat {
-    return new Beat(data)
+    return new Beat(data);
   }
 }
 
-export { IBeatData, Beat }
+export { Beat };
+export type { IBeatData };

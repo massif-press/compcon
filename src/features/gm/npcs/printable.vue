@@ -39,9 +39,7 @@ export default {
   },
   computed: {
     npc() {
-      return this.getModule(NpcStore).Npcs.find(
-      //   (x) => x.ID === this.id
-      // );
+      return NpcStore().Npcs.find((x) => x.ID === this.id);
     },
     options() {
       return {

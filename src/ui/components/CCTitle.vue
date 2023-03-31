@@ -5,7 +5,7 @@
         ? 'pt-1'
         : `px-2 pt-2 pb-1 ml-n3 clipped${size}`
     "
-    :style="`width: max-content; background-color: ${getColor()};`"
+    :style="`width: max-content; background-color: ${color};`"
   >
     <span
       :class="`${
@@ -18,8 +18,6 @@
 </template>
 
 <script lang="ts">
-import GetColorMixin from '@/mixins/getColor';
-
 export default {
   name: 'CCTitle',
   props: {
@@ -40,11 +38,6 @@ export default {
       type: String,
       required: false,
       default: 'primary',
-    },
-  },
-  methods: {
-    getColor() {
-      return GetColorMixin;
     },
   },
   computed: {

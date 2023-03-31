@@ -69,7 +69,7 @@ export default {
   }),
   computed: {
     npcs() {
-      return this.getModule(NpcStore).Npcs;
+      return NpcStore().Npcs;
     },
     eidolons() {
       return CompendiumStore().AllowEidolons;
@@ -91,7 +91,7 @@ export default {
       console.error('NOT YET IMPLEMENTED');
     },
     SaveAndClose() {
-      // const store =this.getModule(NpcStore);
+      // const store =NpcStore();
       // TODO: check for and ask to update instances on save
       // store.addNpc(this.selected);
       this.$set(this, 'selected', null);

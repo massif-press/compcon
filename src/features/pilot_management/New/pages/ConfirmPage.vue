@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     savePilot() {
-      const store = this.getModule(PilotStore);
+      const store = PilotStore();
       this.pilot.Callsign = this.pilot.Callsign
         ? this.pilot.Callsign
         : this.default_callsign;

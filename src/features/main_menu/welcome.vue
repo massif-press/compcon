@@ -38,7 +38,7 @@ export default {
   }),
   computed: {
     profile(): UserProfile {
-      return this.getModule(UserStore).UserProfile;
+      return UserStore().UserProfile;
     },
   },
   watch: {

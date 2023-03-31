@@ -36,9 +36,7 @@ export default {
         if (!this.newEidolon) this.newEidolon = new Eidolon();
         return this.newEidolon;
       }
-      return this.getModule(EidolonStore).Eidolons.find(
-        (x) => x.ID === this.id
-      );
+      return EidolonStore().Eidolons.find((x) => x.ID === this.id);
     },
   },
   methods: {
@@ -47,23 +45,23 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = this.getModule(EidolonStore);
+      const store = EidolonStore();
       store.addEidolon(this.eidolon);
       this.exit();
     },
     save() {
-      const store = this.getModule(EidolonStore);
+      const store = EidolonStore();
       // TODO: check for and ask to update instances on save
       store.saveEidolonData();
       this.$emit('exit');
     },
     deleteItem() {
-      const store = this.getModule(EidolonStore);
+      const store = EidolonStore();
       store.deleteEidolon(this.eidolon);
       this.$emit('exit');
     },
     dupe() {
-      const store = this.getModule(EidolonStore);
+      const store = EidolonStore();
       const dupe = Eidolon.Deserialize(Eidolon.Serialize(this.eidolon));
       dupe.RenewID();
       store.addEidolon(dupe);

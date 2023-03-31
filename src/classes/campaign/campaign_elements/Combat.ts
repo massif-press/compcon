@@ -1,13 +1,11 @@
-import { ISubItemData, SubItem } from "./SubItem";
+import { ISubItemData, SubItem } from './SubItem';
 
-interface ICombatData extends ISubItemData {
-}
+interface ICombatData extends ISubItemData {}
 
 class Combat extends SubItem {
-
   constructor(data: ICombatData) {
-    super(data)
-    this.ItemType = 'Combat'
+    super(data);
+    this.ItemType = 'Combat';
   }
 
   public static Serialize(b: Combat): ICombatData {
@@ -15,13 +13,14 @@ class Combat extends SubItem {
       id: b.ID,
       title: b.Title,
       content: b.Content,
-      item_type: 'Combat'
-    }
+      item_type: 'Combat',
+    };
   }
 
   public static Deserialize(data: ICombatData): Combat {
-    return new Combat(data)
+    return new Combat(data);
   }
 }
 
-export { ICombatData, Combat }
+export { Combat };
+export type { ICombatData };

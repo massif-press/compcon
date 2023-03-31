@@ -21,7 +21,7 @@ abstract class SubItem {
   public Title: string;
   public ItemNumber: string;
   public Content: any[];
-  public ItemType: string;
+  public ItemType: string = '';
 
   constructor(data: ISubItemData) {
     this.ID = data.id || uuid();
@@ -57,4 +57,5 @@ abstract class SubItem {
   }
 }
 
-export { ISubItemData, SubItem };
+export { SubItem };
+export type { ISubItemData };

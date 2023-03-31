@@ -36,7 +36,7 @@ export default {
         if (!this.newNpc) this.newNpc = new Npc();
         return this.newNpc;
       }
-      return this.getModule(NpcStore).Npcs.find((x) => x.ID === this.id);
+      return NpcStore().Npcs.find((x) => x.ID === this.id);
     },
   },
   methods: {
@@ -45,12 +45,12 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = this.getModule(NpcStore);
+      const store = NpcStore();
       store.addNpc(this.npc);
       this.exit();
     },
     save() {
-      const store = this.getModule(NpcStore);
+      const store = NpcStore();
       // TODO: check for and ask to update instances on save
       store.saveNpcData();
       this.$emit('exit');
@@ -60,7 +60,7 @@ export default {
       this.$emit('exit');
     },
     dupe() {
-      const store = this.getModule(NpcStore);
+      const store = NpcStore();
       const dupe = Npc.Deserialize(Npc.Serialize(this.npc));
       dupe.RenewID();
       store.addNpc(dupe);

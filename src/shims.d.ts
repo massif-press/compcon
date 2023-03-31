@@ -4,7 +4,6 @@ declare module 'vue/types/vue' {
     $vuetify: Framework;
     $appVersion: string;
     $lancerVersion: string;
-    getModule: function;
     $notify: (text: string, type?: string, onClick?: () => void) => void;
   }
 }

@@ -278,7 +278,7 @@ export default {
   }),
   computed: {
     userstore() {
-      return this.getModule(UserStore);
+      return UserStore();
     },
     missingContent() {
       const mc = CompendiumStore().MissingContent;

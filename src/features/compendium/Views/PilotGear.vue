@@ -62,7 +62,7 @@ export default {
       return CompendiumStore();
     },
     user(): UserStore {
-      return this.getModule(UserStore);
+      return UserStore();
     },
     armor(): PilotArmor[] {
       let arr = this.compendium.PilotGear.filter(

@@ -27,8 +27,6 @@
 </template>
 
 <script lang="ts">
-import getColor from '@/mixins/getColor';
-
 export default {
   name: 'CCBtn',
   props: {
@@ -80,7 +78,7 @@ export default {
   computed: {
     bgColor(): string {
       if (this.disabled) return 'gray';
-      else return getColor(this.color, this.$vuetify);
+      else return this.color;
     },
   },
 };

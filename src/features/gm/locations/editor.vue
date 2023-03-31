@@ -40,9 +40,7 @@ export default {
         if (!this.newLocation) this.newLocation = new Location();
         return this.newLocation;
       }
-      return this.getModule(NarrativeStore).Locations.find(
-        (x) => x.ID === this.id
-      );
+      return NarrativeStore().Locations.find((x) => x.ID === this.id);
     },
   },
   methods: {
@@ -51,12 +49,12 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       store.addLocation(this.location);
       this.exit();
     },
     save() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       // TODO: check for and ask to update instances on save
       store.saveLocationData();
       this.$emit('exit');
@@ -66,7 +64,7 @@ export default {
       this.$emit('exit');
     },
     dupe() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       const dupe = Location.Deserialize(Location.Serialize(this.location));
       dupe.RenewID();
       store.addLocation(dupe);

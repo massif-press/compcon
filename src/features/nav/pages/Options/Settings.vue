@@ -172,7 +172,7 @@ export default {
   }),
   computed: {
     user() {
-      const store = this.getModule(UserStore);
+      const store = UserStore();
       return store.UserProfile;
     },
     userViewExotics: {
@@ -226,7 +226,7 @@ export default {
       location.reload();
     },
     showMessage() {
-      const store = this.getModule(UserStore);
+      const store = UserStore();
       store.UserProfile.WelcomeHash = '';
       localStorage.removeItem('cc-welcome-hash');
       this.reload();

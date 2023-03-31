@@ -67,12 +67,8 @@ export default {
   computed: {
     items() {
       return [
-        ...getModule(NpcStore, this.$store).AllNpcs.filter(
-          (x) => x.SaveController.IsDeleted
-        ),
-        ...getModule(PilotStore, this.$store).AllPilots.filter(
-          (x) => x.SaveController.IsDeleted
-        ),
+        ...NpcStore().AllNpcs.filter((x) => x.SaveController.IsDeleted),
+        ...PilotStore().AllPilots.filter((x) => x.SaveController.IsDeleted),
       ];
     },
   },
@@ -80,11 +76,11 @@ export default {
     permanentlyDelete(item) {
       switch (item.ItemType) {
         case 'npc':
-          const ns = this.getModule(NpcStore);
+          const ns = NpcStore();
           ns.deleteNpcPermanent(ns.AllNpcs.find((x) => x.ID === item.ID));
           break;
         case 'pilot':
-          const ps = this.getModule(PilotStore);
+          const ps = PilotStore();
           ps.deletePilotPermanent(ps.AllPilots.find((x) => x.ID === item.ID));
           break;
         default:

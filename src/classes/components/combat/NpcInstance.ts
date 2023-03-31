@@ -11,16 +11,16 @@ import {
 import { IStatData, StatController } from './stats/StatController';
 
 class INpcInstanceData {
-  id: string;
-  link_id: string;
-  name: string;
-  notes: string;
+  id!: string;
+  link_id!: string;
+  name!: string;
+  notes!: string;
 
-  reactor_destroyed: boolean;
+  reactor_destroyed: boolean = false;
 
-  save: ISaveData;
-  stats: IStatData;
-  current_stats: IActiveStatData;
+  save!: ISaveData;
+  stats!: IStatData;
+  current_stats!: IActiveStatData;
 }
 
 class NpcInstance implements ISaveable {
@@ -32,8 +32,8 @@ class NpcInstance implements ISaveable {
   public StatController: StatController;
 
   public ID: string;
-  public LinkedID: string;
-  public Name: string;
+  public LinkedID!: string;
+  public Name!: string;
 
   public _notes: string;
 

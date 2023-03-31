@@ -95,7 +95,7 @@
 
 <script lang="ts">
 import { UserStore } from '@/stores';
-import { Auth } from '@aws-amplify/auth';
+// import { Auth } from '@aws-amplify/auth';
 import { SetTheme } from '@/classes/utility/ThemeManager';
 
 export default {
@@ -114,7 +114,7 @@ export default {
       // this.loading = true;
       // const userEmail = this.email.trim(); // use safe const for auth
       // this.email = userEmail;
-      // // const userstore =this.getModule(UserStore);
+      // // const userstore =UserStore();
       // // eslint-disable-next-line @typescript-eslint/no-this-alias
       // const self = this;
       // Auth.signIn(userEmail, this.password)

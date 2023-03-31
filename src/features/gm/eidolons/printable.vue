@@ -39,9 +39,7 @@ export default {
   },
   computed: {
     eidolon() {
-      return this.getModule(EidolonStore).Eidolons.find(
-        (x) => x.ID === this.id
-      );
+      return EidolonStore().Eidolons.find((x) => x.ID === this.id);
     },
     options() {
       return {

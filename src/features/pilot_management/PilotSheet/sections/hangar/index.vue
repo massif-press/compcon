@@ -91,7 +91,7 @@ export default {
   },
   computed: {
     profile(): UserProfile {
-      const store = this.getModule(UserStore);
+      const store = UserStore();
       return store.UserProfile;
     },
     getView() {
@@ -101,7 +101,7 @@ export default {
   },
   methods: {
     toMechSheet(mech) {
-      const store = this.getModule(PilotStore);
+      const store = PilotStore();
       store.setLoadedMech(mech.ID);
       this.$router.push(`../mech/${mech.ID}`);
     },

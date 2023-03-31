@@ -16,7 +16,7 @@ class CampaignText {
 
   constructor(data: ICampaignTextData) {
     this.ID = data.id || uuid();
-    this.Alert = data.alert;
+    this.Alert = data.alert || false;
     this.Content = data.content || '';
     this.Title = data.title || 'New Text';
   }
@@ -35,4 +35,5 @@ class CampaignText {
   }
 }
 
-export { ICampaignTextData, CampaignText };
+export { CampaignText };
+export type { ICampaignTextData };

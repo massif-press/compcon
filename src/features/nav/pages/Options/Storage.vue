@@ -85,7 +85,7 @@ export default {
   }),
   computed: {
     user() {
-      const store = this.getModule(UserStore);
+      const store = UserStore();
       return store.UserProfile;
     },
     userViewExotics: {
@@ -149,7 +149,7 @@ export default {
       return `${(bytes / 1024 ** i).toFixed(1)} ${sizes[i]}`;
     },
     showMessage() {
-      const store = this.getModule(UserStore);
+      const store = UserStore();
       store.UserProfile.WelcomeHash = '';
       localStorage.removeItem('cc-welcome-hash');
       this.reload();

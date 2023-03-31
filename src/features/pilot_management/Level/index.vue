@@ -149,9 +149,9 @@ export default {
   }),
   computed: {
     currentPilot(): Pilot {
-      returnthis
-        .getModule(PilotStore, this.$store)
-        .Pilots.find((p) => p.ID === this.$route.params.pilotID);
+      return PilotStore().Pilots.find(
+        (p) => p.ID === this.$route.params.pilotID
+      );
     },
   },
   watch: {

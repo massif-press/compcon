@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     profile() {
-      return this.getModule(UserStore).UserProfile;
+      return UserStore().UserProfile;
     },
     ctype: {
       get: function (): string {
