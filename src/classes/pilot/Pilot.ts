@@ -22,7 +22,7 @@ import {
 } from './components/';
 import { IMechData } from '../mech/Mech';
 import { ItemType } from '../enums';
-import { PilotStore, store } from '../../stores';
+import { CompendiumStore, PilotStore, store } from '../../stores';
 import {
   CloudController,
   GroupController,
@@ -74,38 +74,38 @@ class PilotData
     ILicenseSaveData,
     IBrewData
 {
-  id: string;
+  id!: string;
 
-  save: ISaveData;
-  cloud: ICloudData;
-  brews: BrewInfo[];
-  img: IPortraitData;
-  group: IGroupData;
+  save!: ISaveData;
+  cloud!: ICloudData;
+  brews!: BrewInfo[];
+  img!: IPortraitData;
+  group!: IGroupData;
 
   // pilot
-  level: number;
-  callsign: string;
-  name: string;
-  player_name: string;
-  status: string;
-  text_appearance: string;
-  notes: string;
-  history: string;
-  quirks: string[];
-  background: string;
-  special_equipment: IUnlockData;
-  mechs: IMechData[];
-  combat_history: ICombatStats;
-  loadout: IPilotLoadoutData;
+  level!: number;
+  callsign!: string;
+  name!: string;
+  player_name!: string;
+  status!: string;
+  text_appearance!: string;
+  notes!: string;
+  history!: string;
+  quirks!: string[];
+  background!: string;
+  special_equipment!: IUnlockData;
+  mechs!: IMechData[];
+  combat_history!: ICombatStats;
+  loadout!: IPilotLoadoutData;
 
-  bond: IPilotBondData;
-  skills: IRankedData[];
-  talents: IRankedData[];
-  mechSkills: number[];
-  core_bonuses: string[];
-  licenses: IRankedData[];
-  reserves: IReserveData[];
-  orgs: IOrganizationData[];
+  bond!: IPilotBondData;
+  skills!: IRankedData[];
+  talents!: IRankedData[];
+  mechSkills!: number[];
+  core_bonuses!: string[];
+  licenses!: IRankedData[];
+  reserves!: IReserveData[];
+  orgs!: IOrganizationData[];
 }
 
 class Pilot
@@ -488,7 +488,7 @@ class Pilot
 
   private static deserializeSE(equipment: IUnlockData): CompendiumItem[] {
     if (!equipment) return [];
-    const items = [];
+    const items = [] as CompendiumItem[];
     Object.keys(equipment).forEach((key) => {
       equipment[key].forEach((id) =>
         items.push(CompendiumStore().referenceByID(key, id))
@@ -550,7 +550,7 @@ class Pilot
       p.SaveController.SetLoaded();
       return p;
     } catch (err) {
-      console.error(err);
+      throw err;
     }
   }
 
@@ -604,4 +604,5 @@ class Pilot
   }
 }
 
-export { Pilot, PilotData, IUnlockData };
+export { Pilot, PilotData };
+export type { IUnlockData };

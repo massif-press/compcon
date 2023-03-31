@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { Auth } from '@aws-amplify/auth';
+// import { Auth } from '@aws-amplify/auth';
 
 export default {
   name: 'auth-password-reset',

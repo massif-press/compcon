@@ -113,24 +113,25 @@ class StatController {
     parent.StatController.Speed = data.speed;
     parent.StatController.EDefense = data.edef;
     parent.StatController.Activations = data.activations;
-    parent.StatController.SaveTarget = data.saveTarget;
-    parent.StatController.SensorRange = data.sensorRange;
-    parent.StatController.LimitedBonus = data.limitedBonus;
-    parent.StatController.AttackBonus = data.attackBonus;
-    parent.StatController.TechAttack = data.techAttack;
-    parent.StatController.Grapple = data.grapple;
-    parent.StatController.Ram = data.ram;
-    parent.StatController.SaveBonus = data.saveBonus;
-    parent.StatController.Hull = data.hull;
-    parent.StatController.Agi = data.agi;
-    parent.StatController.Sys = data.sys;
-    parent.StatController.Eng = data.eng;
-    parent.StatController.MaxStructure = data.maxStructure;
-    parent.StatController.HeatCapacity = data.heatCapacity;
-    parent.StatController.MaxStress = data.maxStress;
-    parent.StatController.RepairCapacity = data.repairCapacity;
-    parent.StatController.OverchargeTrack = data.overchargeTrack;
+    parent.StatController.SaveTarget = data.saveTarget || 0;
+    parent.StatController.SensorRange = data.sensorRange || 0;
+    parent.StatController.LimitedBonus = data.limitedBonus || 0;
+    parent.StatController.AttackBonus = data.attackBonus || 0;
+    parent.StatController.TechAttack = data.techAttack || 0;
+    parent.StatController.Grapple = data.grapple || 0;
+    parent.StatController.Ram = data.ram || 0;
+    parent.StatController.SaveBonus = data.saveBonus || 0;
+    parent.StatController.Hull = data.hull || 0;
+    parent.StatController.Agi = data.agi || 0;
+    parent.StatController.Sys = data.sys || 0;
+    parent.StatController.Eng = data.eng || 0;
+    parent.StatController.MaxStructure = data.maxStructure || 0;
+    parent.StatController.HeatCapacity = data.heatCapacity || 0;
+    parent.StatController.MaxStress = data.maxStress || 0;
+    parent.StatController.RepairCapacity = data.repairCapacity || 0;
+    parent.StatController.OverchargeTrack = data.overchargeTrack || ([] as any);
   }
 }
 
-export { StatController, IStatData };
+export { StatController };
+export type { IStatData };

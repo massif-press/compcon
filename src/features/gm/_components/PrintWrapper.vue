@@ -20,12 +20,7 @@
 </template>
 
 <script lang="ts">
-import {
-  NpcStore,
-  NarrativeStore,
-  NarrativeStore,
-  NarrativeStore,
-} from '@/stores';
+import { NpcStore, NarrativeStore } from '@/stores';
 import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue';
 import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue';
 import FactionPrintContent from '../factions/_components/FactionPrintContent.vue';
@@ -51,19 +46,13 @@ export default {
       if (!this.id) return null;
       switch (this.type.toLowerCase()) {
         case 'character':
-          return this.getModule(NarrativeStore).Characters.find(
-            (x) => x.ID === this.id
-          );
+          return NarrativeStore().Characters.find((x) => x.ID === this.id);
         case 'location':
-          return this.getModule(NarrativeStore).Locations.find(
-            (x) => x.ID === this.id
-          );
+          return NarrativeStore().Locations.find((x) => x.ID === this.id);
         case 'faction':
-          return this.getModule(NarrativeStore).Factions.find(
-            (x) => x.ID === this.id
-          );
+          return NarrativeStore().Factions.find((x) => x.ID === this.id);
         default:
-          return this.getModule(NpcStore).Npcs.find((x) => x.ID === this.id);
+          return NpcStore().Npcs.find((x) => x.ID === this.id());
       }
     },
     component() {

@@ -111,7 +111,7 @@ export default {
         if (missing.length) this.missingContent = missing.join('<br />');
       }
       if (
-        this.getModule(PilotStore)
+        PilotStore()
           .Pilots.map((x) => x.ID)
           .includes(pilotData.id)
       ) {

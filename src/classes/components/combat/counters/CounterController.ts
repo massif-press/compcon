@@ -69,8 +69,9 @@ class CounterController {
   }
 
   public get CounterData(): ICounterData[] {
-    const parent_counters = this.Parent.FeatureController.Containers.length
-      ? this.Parent.FeatureController.Counters
+    const parent_counters = (this.Parent as any).FeatureController.Containers
+      .length
+      ? (this.Parent as any).FeatureController.Counters
       : [];
     return [...parent_counters, ...this.CustomCounterData]
       .flat()
@@ -97,4 +98,5 @@ class CounterController {
   }
 }
 
-export { ICounterSaveData, ICounterCollection, CounterController };
+export { CounterController };
+export type { ICounterSaveData, ICounterCollection };

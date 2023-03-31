@@ -86,9 +86,7 @@ export default {
         if (!this.newCharacter) this.newCharacter = new Character();
         return this.newCharacter;
       }
-      return this.getModule(NarrativeStore).Characters.find(
-        (x) => x.ID === this.id
-      );
+      return NarrativeStore().Characters.find((x) => x.ID === this.id);
     },
   },
   methods: {
@@ -103,12 +101,12 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       store.addCharacter(this.character);
       this.exit();
     },
     save() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       // // TODO: check for and ask to update instances on save
       store.saveCharacterData();
       this.$emit('exit');
@@ -118,7 +116,7 @@ export default {
       this.$emit('exit');
     },
     dupe() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       const dupe = Character.Deserialize(Character.Serialize(this.character));
       dupe.RenewID();
       store.addCharacter(dupe);

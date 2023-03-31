@@ -1,60 +1,60 @@
-import { ItemType } from '../enums'
-import { CollectionItem, ICollectionItemData } from './CollectionItem'
-import { PortraitController, SaveController } from '../components'
-import { NarrativeController } from '../components/narrative/NarrativeController'
+import { ItemType } from '../enums';
+import { CollectionItem, ICollectionItemData } from './CollectionItem';
+import { PortraitController, SaveController } from '../components';
+import { NarrativeController } from '../components/narrative/NarrativeController';
 
 interface ICharacterData extends ICollectionItemData {
-  alias?: string
-  title?: string
-  pronouns?: string
+  alias?: string;
+  title?: string;
+  pronouns?: string;
 }
 
 class Character extends CollectionItem {
-  private _alias: string
-  private _title: string
-  private _pronouns: string
+  private _alias!: string;
+  private _title!: string;
+  private _pronouns!: string;
 
   public constructor() {
-    super()
-    this.Alias = ''
-    this.Title = ''
-    this.Pronouns = ''
-    this.ItemType = ItemType.Character
+    super();
+    this.Alias = '';
+    this.Title = '';
+    this.Pronouns = '';
+    this.ItemType = ItemType.Character;
   }
 
   public get Alias(): string {
-    return this._alias
+    return this._alias;
   }
 
   public set Alias(val: string) {
-    this._alias = val
-    this.SaveController.save()
+    this._alias = val;
+    this.SaveController.save();
   }
 
   public get Title(): string {
-    return this._title
+    return this._title;
   }
 
   public set Title(val: string) {
-    this._title = val
-    this.SaveController.save()
+    this._title = val;
+    this.SaveController.save();
   }
 
   public get Pronouns(): string {
-    return this._pronouns
+    return this._pronouns;
   }
 
   public set Pronouns(val: string) {
-    this._pronouns = val
-    this.SaveController.save()
+    this._pronouns = val;
+    this.SaveController.save();
   }
 
   public get SectionSuggestions(): string[] {
-    return ['History', 'Personality', 'Skills', 'Motivations', 'Resources']
+    return ['History', 'Personality', 'Skills', 'Motivations', 'Resources'];
   }
 
   public get PronounSuggestions(): string[] {
-    return ['He/Him', 'She/Her', 'They/Them']
+    return ['He/Him', 'She/Her', 'They/Them'];
   }
 
   public static Serialize(c: Character): ICharacterData {
@@ -66,50 +66,51 @@ class Character extends CollectionItem {
       name: c.Name,
       description: c.Description,
       notes: c.Notes,
-    }
+    };
 
-    SaveController.Serialize(c, data)
-    PortraitController.Serialize(c, data)
-    NarrativeController.Serialize(c, data)
+    SaveController.Serialize(c, data);
+    PortraitController.Serialize(c, data);
+    NarrativeController.Serialize(c, data);
 
-    return data as ICharacterData
+    return data as ICharacterData;
   }
 
   Serialize(): ICharacterData {
-    return Character.Serialize(this)
+    return Character.Serialize(this);
   }
 
   Update(data: ICharacterData) {
-    this.ID = data.id
-    this.Name = data.name || ''
-    this.Alias = data.alias || ''
-    this.Title = data.title || ''
-    this.Pronouns = data.pronouns || ''
-    this.Description = data.description || ''
-    this.Notes = data.notes || ''
-    NarrativeController.Deserialize(this, data.narrative)
-    PortraitController.Deserialize(this, data.img)
-    SaveController.Deserialize(this, data.save)
+    this.ID = data.id;
+    this.Name = data.name || '';
+    this.Alias = data.alias || '';
+    this.Title = data.title || '';
+    this.Pronouns = data.pronouns || '';
+    this.Description = data.description || '';
+    this.Notes = data.notes || '';
+    NarrativeController.Deserialize(this, data.narrative);
+    PortraitController.Deserialize(this, data.img);
+    SaveController.Deserialize(this, data.save);
   }
 
   public static Deserialize(data: ICharacterData): Character {
-    const c = new Character()
+    const c = new Character();
     try {
-      c.Update(data)
-      c.SaveController.SetLoaded()
-      return c
+      c.Update(data);
+      c.SaveController.SetLoaded();
+      return c;
     } catch (err) {
-      console.error(err)
+      throw err;
     }
   }
 
   public Clone(): Character {
-    const itemData = Character.Serialize(this)
-    const newItem = Character.Deserialize(itemData)
-    newItem.RenewID()
-    newItem.Name += ' (COPY)'
-    return newItem
+    const itemData = Character.Serialize(this);
+    const newItem = Character.Deserialize(itemData);
+    newItem.RenewID();
+    newItem.Name += ' (COPY)';
+    return newItem;
   }
 }
 
-export { Character, ICharacterData }
+export { Character };
+export type { ICharacterData };

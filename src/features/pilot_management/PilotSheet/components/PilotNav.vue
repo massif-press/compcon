@@ -172,8 +172,8 @@ import EditMenu from './PilotEditMenu.vue';
 import ShareDialog from './ShareDialog.vue';
 
 import { PilotStore, CompendiumStore, UserStore } from '@/stores';
-import { Auth } from 'aws-amplify';
-import { RemoteSyncItem } from '@/cloud/item_sync';
+// import { Auth } from 'aws-amplify';
+// import { RemoteSyncItem } from '@/cloud/item_sync';
 
 export default {
   name: 'pilot-nav',
@@ -199,7 +199,7 @@ export default {
   },
   computed: {
     lastLoaded() {
-      const store = this.getModule(PilotStore);
+      const store = PilotStore();
       return this.pilot.Mechs.some((x) => x.ID === store.LoadedMechID)
         ? store.LoadedMechID
         : this.pilot.ActiveMech
@@ -207,7 +207,7 @@ export default {
         : null;
     },
     isAuthed() {
-      return this.getModule(UserStore).IsLoggedIn;
+      return UserStore().IsLoggedIn;
     },
     hasBondData() {
       return CompendiumStore().Bonds.length;

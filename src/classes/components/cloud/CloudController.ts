@@ -1,14 +1,14 @@
-import _ from 'lodash'
-import { ICloudSyncable } from './ICloudSyncable'
+import _ from 'lodash';
+import { ICloudSyncable } from './ICloudSyncable';
 
 interface ICloudData {
-  lastUpdate_cloud: string
-  lastSync: string
-  shareCode: string
-  shareCodeExpiry: string
-  isRemoteResource: boolean
-  remoteIID: string
-  remoteKey: string
+  lastUpdate_cloud: string;
+  lastSync: string;
+  shareCode: string;
+  shareCodeExpiry: string;
+  isRemoteResource: boolean;
+  remoteIID: string;
+  remoteKey: string;
 }
 
 enum CloudItemTypeMap {
@@ -20,125 +20,126 @@ enum CloudItemTypeMap {
 }
 
 class CloudController {
-  public readonly Parent: ICloudSyncable
+  public readonly Parent: ICloudSyncable;
 
-  public LastUpdateCloud: string
-  public LastSync: string
-  public ShareCode: string
-  public ShareCodeExpiry: string
+  public LastUpdateCloud: string;
+  public LastSync: string;
+  public ShareCode!: string;
+  public ShareCodeExpiry!: string;
 
-  private _isRemoteResource: boolean
-  public RemoteIID: string
-  public RemoteKey: string
+  private _isRemoteResource!: boolean;
+  public RemoteIID!: string;
+  public RemoteKey!: string;
 
   public constructor(parent: ICloudSyncable) {
-    this.Parent = parent
-    this.LastSync = ''
-    this.LastUpdateCloud = ''
+    this.Parent = parent;
+    this.LastSync = '';
+    this.LastUpdateCloud = '';
   }
 
   public reset() {
-    this.LastUpdateCloud = ''
-    this.LastSync = ''
-    this.ShareCode = ''
-    this.ShareCodeExpiry = ''
-    this._isRemoteResource = false
+    this.LastUpdateCloud = '';
+    this.LastSync = '';
+    this.ShareCode = '';
+    this.ShareCodeExpiry = '';
+    this._isRemoteResource = false;
   }
 
   public get s3Key(): string {
-    const sanitizedName = this.Parent.Name.replace(/[^a-zA-Z\d\s:]/g, ' ')
+    const sanitizedName = this.Parent.Name.replace(/[^a-zA-Z\d\s:]/g, ' ');
     return `${this.Parent.ItemType}/${sanitizedName}--${this.Parent.ID}--${
       this.Parent.SaveController.IsDeleted ? 'deleted' : 'active'
-    }`
+    }`;
   }
 
   public get ShareCodeExpiration(): string {
-    if (!this.ShareCodeExpiry) return ''
+    if (!this.ShareCodeExpiry) return '';
     return new Date(this.ShareCodeExpiry).toLocaleDateString(undefined, {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-    })
+    });
   }
 
   public SetShareCode(code: string) {
-    this.ShareCode = code
+    this.ShareCode = code;
 
-    const d = new Date()
-    d.setDate(d.getDate() + 90)
-    this.ShareCodeExpiry = d.toString()
-    this.Parent.SaveController.save()
+    const d = new Date();
+    d.setDate(d.getDate() + 90);
+    this.ShareCodeExpiry = d.toString();
+    this.Parent.SaveController.save();
   }
 
   public get IsShareExpired(): boolean {
-    if (!this.ShareCodeExpiry) return false
-    return new Date(this.ShareCodeExpiry) < new Date()
+    if (!this.ShareCodeExpiry) return false;
+    return new Date(this.ShareCodeExpiry) < new Date();
   }
 
   public SetRemoteResource(iid: string, key: string) {
-    this.ShareCode = ''
-    this.ShareCodeExpiry = ''
-    this.RemoteIID = iid
-    this.RemoteKey = key
-    this._isRemoteResource = true
+    this.ShareCode = '';
+    this.ShareCodeExpiry = '';
+    this.RemoteIID = iid;
+    this.RemoteKey = key;
+    this._isRemoteResource = true;
   }
 
   public get IsRemoteResource(): boolean {
-    return this._isRemoteResource
+    return this._isRemoteResource;
   }
 
   public MarkSync() {
-    this.LastSync = new Date().toString()
-    this.LastUpdateCloud = this.LastSync
-    this.Parent.SaveController.save()
+    this.LastSync = new Date().toString();
+    this.LastUpdateCloud = this.LastSync;
+    this.Parent.SaveController.save();
   }
 
   public ForceSync() {
-    this.Parent.SaveController.save()
-    this.LastSync = this.Parent.SaveController.LastModified
-    this.LastUpdateCloud = this.Parent.SaveController.LastModified
+    this.Parent.SaveController.save();
+    this.LastSync = this.Parent.SaveController.LastModified;
+    this.LastUpdateCloud = this.Parent.SaveController.LastModified;
   }
 
   public get LastUpdateLocal(): string {
-    return this.Parent.SaveController.LastModified
+    return this.Parent.SaveController.LastModified;
   }
 
   // test against legacy saves, which were just IDs
   public static ValidateName(name: string) {
     // looking for name--id--status
-    return (name.match(/--/g) || []).length === 2
+    return (name.match(/--/g) || []).length === 2;
   }
 
   // catch if the s3 key must be changed due to name or status changes
   public static IsKeyChange(oldKey: string, newItem: ICloudSyncable): Boolean {
-    return oldKey === newItem.CloudController.s3Key
+    return oldKey === newItem.CloudController.s3Key;
   }
 
   public static Serialize(parent: ICloudSyncable, target: any) {
-    if (!target.cloud) target.cloud = {}
-    target.cloud.lastUpdate_cloud = parent.CloudController.LastUpdateCloud
-    target.cloud.lastSync = parent.CloudController.LastSync
-    target.cloud.shareCode = parent.CloudController.ShareCode
-    target.cloud.shareCodeExpiry = parent.CloudController.ShareCodeExpiry
-    target.cloud.isRemoteResource = parent.CloudController.IsRemoteResource
-    target.cloud.remoteIID = parent.CloudController.RemoteIID
-    target.cloud.remoteKey = parent.CloudController.RemoteKey
+    if (!target.cloud) target.cloud = {};
+    target.cloud.lastUpdate_cloud = parent.CloudController.LastUpdateCloud;
+    target.cloud.lastSync = parent.CloudController.LastSync;
+    target.cloud.shareCode = parent.CloudController.ShareCode;
+    target.cloud.shareCodeExpiry = parent.CloudController.ShareCodeExpiry;
+    target.cloud.isRemoteResource = parent.CloudController.IsRemoteResource;
+    target.cloud.remoteIID = parent.CloudController.RemoteIID;
+    target.cloud.remoteKey = parent.CloudController.RemoteKey;
   }
 
   public static Deserialize(parent: ICloudSyncable, data: ICloudData) {
     if (!parent.CloudController)
       throw new Error(
         `CloudController not found on parent (${typeof parent}). New CloudControllers must be instantiated in the parent's constructor method.`
-      )
+      );
 
-    parent.CloudController.LastUpdateCloud = data.lastUpdate_cloud
-    parent.CloudController.LastSync = data.lastSync
-    parent.CloudController.ShareCode = data.shareCode
-    parent.CloudController.ShareCodeExpiry = data.shareCodeExpiry
-    parent.CloudController._isRemoteResource = data.isRemoteResource
-    parent.CloudController.RemoteIID = data.remoteIID
-    parent.CloudController.RemoteKey = data.remoteKey
+    parent.CloudController.LastUpdateCloud = data.lastUpdate_cloud;
+    parent.CloudController.LastSync = data.lastSync;
+    parent.CloudController.ShareCode = data.shareCode;
+    parent.CloudController.ShareCodeExpiry = data.shareCodeExpiry;
+    parent.CloudController._isRemoteResource = data.isRemoteResource;
+    parent.CloudController.RemoteIID = data.remoteIID;
+    parent.CloudController.RemoteKey = data.remoteKey;
   }
 }
-export { ICloudData, CloudController, CloudItemTypeMap }
+export { CloudController, CloudItemTypeMap };
+export type { ICloudData };

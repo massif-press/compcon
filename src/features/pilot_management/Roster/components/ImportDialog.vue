@@ -31,7 +31,7 @@ export default {
   components: { FileImport, ShareImport },
   computed: {
     isAuthed() {
-      return this.getModule(UserStore).IsLoggedIn;
+      return UserStore().IsLoggedIn;
     },
   },
 };

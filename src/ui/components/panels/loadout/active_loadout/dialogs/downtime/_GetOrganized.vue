@@ -137,7 +137,7 @@
               </div>
               <v-slide-x-transition>
                 <div v-if="selected">
-                  <v-btn small text @click="selected = null">
+                  <v-btn small text @click="selected = {} as Organization">
                     <v-icon start>mdi-chevron-left</v-icon>
                     Select another organization
                   </v-btn>
@@ -250,8 +250,8 @@
                           <v-col v-else-if="improveRoll <= 20" cols="12">
                             <v-row
                               v-if="
-                                parseInt(selected.Influence) === 6 &&
-                                parseInt(selected.Efficiency) === 6
+                                selected.Influence === 6 &&
+                                selected.Efficiency === 6
                               "
                               row
                               wrap
@@ -350,8 +350,8 @@
                           <v-col v-else cols="12">
                             <span
                               v-if="
-                                parseInt(selected.Influence) < 6 &&
-                                parseInt(selected.Efficiency) < 6
+                                selected.Influence < 6 &&
+                                selected.Efficiency < 6
                               "
                               class="heading h3 text-accent"
                             >
@@ -359,13 +359,13 @@
                               +2
                             </span>
                             <span
-                              v-else-if="parseInt(selected.Influence) < 6"
+                              v-else-if="selected.Influence < 6"
                               class="heading h3 text-accent"
                             >
                               Organization Influence increased by +2
                             </span>
                             <span
-                              v-else-if="parseInt(selected.Efficiency) < 6"
+                              v-else-if="selected.Efficiency < 6"
                               class="heading h3 text-accent"
                             >
                               Organization Efficiency increased by +2
@@ -418,8 +418,9 @@ export default {
     name: '',
     details: '',
     start: '',
-    selected: null,
-    improveRoll: '',
+    purpose: '',
+    selected: {} as Organization,
+    improveRoll: 0,
     badChoice: '',
     action: '',
     improvement: '',
@@ -436,12 +437,12 @@ export default {
     confirmDisabled() {
       if (this.tabs === 0) return !this.name || !this.type || !this.start;
       if (this.tabs === 1) {
-        if (parseInt(this.improveRoll) < 10) {
+        if (this.improveRoll < 10) {
           return !(
             this.badChoice === 'fold' ||
             (this.badChoice && this.action)
           );
-        } else if (parseInt(this.improveRoll) < 20) {
+        } else if (this.improveRoll < 20) {
           if (this.selected.Efficiency === 6 && this.selected.Influence === 6)
             return false;
           else return;
@@ -474,7 +475,7 @@ export default {
       this.close();
     },
     improveOrg() {
-      if (parseInt(this.improveRoll) < 10) {
+      if (this.improveRoll < 10) {
         if (this.badChoice === 'fold') {
           this.pilot.ReservesController.Organizations.splice(
             this.pilot.ReservesController.Organizations.findIndex(
@@ -487,7 +488,7 @@ export default {
           if (this.selected.Influence > 0) this.selected.Influence -= 2;
           this.selected.Actions = this.action;
         }
-      } else if (parseInt(this.improveRoll) < 20) {
+      } else if (this.improveRoll < 20) {
         if (this.improvement === 'efficiency') {
           this.selected.Efficiency += 2;
         } else if (this.improvement === 'influence') {
@@ -506,8 +507,8 @@ export default {
       this.name = '';
       this.details = '';
       this.start = '';
-      this.selected = null;
-      this.improveRoll = '';
+      this.selected = {} as Organization;
+      this.improveRoll = 0;
       this.badChoice = '';
       this.action = '';
       this.improvement = '';

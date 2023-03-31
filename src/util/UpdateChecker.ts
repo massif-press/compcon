@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events';
+// import { EventEmitter } from 'events';
 
 const TIMEOUT = 10_000;
 
@@ -13,7 +13,8 @@ function promiseTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([promise, timeout]);
 }
 
-export class UpdateChecker extends EventEmitter {
+// export class UpdateChecker extends EventEmitter {
+export class UpdateChecker {
   private _updateAvailable = false;
   get updateAvailable(): boolean {
     return this._updateAvailable;

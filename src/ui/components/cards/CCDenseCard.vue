@@ -37,7 +37,6 @@
 
 <script lang="ts">
 import ItemMenu from './npc/cards/_ItemMenu.vue';
-import GetColorMixin from '@/mixins/getColor';
 
 export default {
   name: 'CCDenseCard',
@@ -60,12 +59,7 @@ export default {
   },
   computed: {
     hexColor(): string {
-      return this.getColor(this.item.Color, this.$vuetify);
-    },
-  },
-  methods: {
-    getColor() {
-      return GetColorMixin;
+      return this.item.Color;
     },
   },
 };

@@ -169,31 +169,28 @@ export default {
   },
   methods: {
     notActive(itemBrews) {
-      return CompendiumStore();
-      //   .ContentPacks.filter((x) => itemBrews.some((y) => y.LcpId === x.ID))
-      //   .map((p) => `${p.Name} @ ${p.Version}`);
+      return CompendiumStore()
+        .ContentPacks.filter((x) => itemBrews.some((y) => y.LcpId === x.ID))
+        .map((p) => `${p.Name} @ ${p.Version}`);
     },
     notInstalled(itemBrews) {
-      // return itemBrews.filter(
-      //   (x) =>
-      //     !getModule(CompendiumStore, this.$store).ContentPacks.some(
-      //       (y) => y.ID === x.LcpId
-      //     )
-      // );
+      return itemBrews.filter((x) =>
+        CompendiumStore().ContentPacks.some((y) => y.ID === x.LcpId)
+      );
     },
     deleteItem(item, key) {
       if (key === 'pilots') {
-        //this.getModule(PilotStore).deleteMissingPilot(item);
+        PilotStore().DeleteMissingPilot(item);
       } else if (key === 'npcs') {
-        //this.getModule(NpcStore).deleteMissingNpc(item);
+        NpcStore().DeleteMissingNpc(item);
       }
     },
     forceItem(item, key) {
       if (key === 'pilots') {
         Pilot.AddNew(item);
-        //this.getModule(PilotStore).deleteMissingPilot(item);
+        PilotStore().DeleteMissingPilot(item);
       } else if (key === 'npcs') {
-        //this.getModule(NpcStore).deleteMissingNpc(item);
+        NpcStore().DeleteMissingNpc(item);
       }
     },
     forceUpdate(item, key) {

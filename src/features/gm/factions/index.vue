@@ -45,7 +45,7 @@ export default {
   }),
   computed: {
     factions() {
-      return this.getModule(NarrativeStore).Factions;
+      return NarrativeStore().Factions;
     },
   },
   methods: {
@@ -64,7 +64,7 @@ export default {
       console.error('NOT YET IMPLEMENTED');
     },
     SaveAndClose() {
-      // const store =this.getModule(NarrativeStore);
+      // const store =NarrativeStore();
       // TODO: check for and ask to update instances on save
       // store.addFaction(this.selected);
       this.$set(this, 'selected', null);

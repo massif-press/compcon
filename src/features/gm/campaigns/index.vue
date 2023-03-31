@@ -153,7 +153,7 @@ export default {
   name: 'campaign-landing',
   computed: {
     cstore() {
-      return this.getModule(CampaignStore);
+      return CampaignStore();
     },
     unpublished() {
       return this.cstore.Unpublished;

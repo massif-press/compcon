@@ -36,7 +36,7 @@ import PasswordReset from './PasswordReset.vue';
 import SignUp from './SignUp.vue';
 import Verify from './Verify.vue';
 import SignedIn from './SignedIn.vue';
-import { Auth } from '@aws-amplify/auth';
+// import { Auth } from '@aws-amplify/auth';
 import { UserStore } from '@/stores';
 
 export default {
@@ -50,7 +50,7 @@ export default {
   }),
   async mounted() {
     await this.getAuthedUser();
-    // const userstore =this.getModule(UserStore);
+    // const userstore =UserStore();
     // if (userstore.IsPatron) {
     //   this.state = 'sign-up';
     // }

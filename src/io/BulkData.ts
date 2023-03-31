@@ -2,7 +2,7 @@ import { readFile, writeFile } from './Data';
 import PromisifyFileReader from 'promisify-file-reader';
 import Startup from './Startup';
 
-import { DeleteAll } from '@/cloud/item_sync';
+// import { DeleteAll } from '@/cloud/item_sync';
 import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import localForage from 'localforage';
@@ -43,7 +43,7 @@ const importAll = async function (file): Promise<void> {
   await Promise.all(promises);
   // await store.dispatch('cloudSync', { callback: null, condition: 'bulkDelete' }).catch(e => console.error(e))
   console.info('Import data loaded! Running startup...');
-  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store);
+  await Startup();
 };
 
 const clearAllData = async function (clear_cloud: boolean): Promise<void> {
@@ -53,11 +53,11 @@ const clearAllData = async function (clear_cloud: boolean): Promise<void> {
   }
 
   if (clear_cloud) {
-    await DeleteAll();
+    // await DeleteAll();
   }
 
   console.info('All data erased! Running startup...');
-  await Startup(Vue.prototype.$appVersion, Vue.prototype.$lancerVersion, store);
+  await Startup();
 };
 
 const SaveAllLocalUpdates = () => {
@@ -65,8 +65,9 @@ const SaveAllLocalUpdates = () => {
 };
 
 const globalSave = () => {
-  store.dispatch('saveNpcData');
-  store.dispatch('savePilotData');
+  // TODO
+  // store.dispatch('saveNpcData');
+  // store.dispatch('savePilotData');
 };
 
 const debounced = _.debounce(globalSave, 500, {

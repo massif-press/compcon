@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { Auth } from '@aws-amplify/auth';
+// import { Auth } from '@aws-amplify/auth';
 // import { loginUrl } from '@/cloud/patreon'
 import { UserStore } from '@/stores';
 
@@ -162,7 +162,7 @@ export default {
         this.loading = false;
         this.showError = false;
         this.$emit('success', userEmail);
-        // const userstore =this.getModule(UserStore)
+        // const userstore =UserStore()
         // userstore.clearOauth()
       } catch (error) {
         console.log('error signing up:', error);

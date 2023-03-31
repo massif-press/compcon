@@ -15,20 +15,20 @@ import {
 import { IStatData, StatController } from './stats/StatController';
 
 class IMechInstanceData {
-  id: string;
-  link_id: string;
-  name: string;
-  notes: string;
-  loadout: IMechLoadoutData;
+  id!: string;
+  link_id!: string;
+  name!: string;
+  notes!: string;
+  loadout!: IMechLoadoutData;
 
-  core_energy: number;
-  meltdown_imminent: boolean;
-  reactor_destroyed: boolean;
-  core_active: boolean;
+  core_energy!: number;
+  meltdown_imminent!: boolean;
+  reactor_destroyed!: boolean;
+  core_active!: boolean;
 
-  save: ISaveData;
-  stats: IStatData;
-  current_stats: IActiveStatData;
+  save!: ISaveData;
+  stats!: IStatData;
+  current_stats!: IActiveStatData;
 }
 
 class MechInstance implements ISaveable {
@@ -40,13 +40,13 @@ class MechInstance implements ISaveable {
   public StatController: StatController;
 
   public ID: string;
-  public LinkedID: string;
+  public LinkedID!: string;
   public Parent: PilotInstance;
-  public Name: string;
+  public Name!: string;
 
-  public CoreEnergy: number;
+  public CoreEnergy!: number;
 
-  public Loadout: MechLoadout;
+  public Loadout!: MechLoadout;
 
   public _notes: string;
 

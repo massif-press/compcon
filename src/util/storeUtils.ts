@@ -1,28 +1,6 @@
 import { ISaveable } from '@/classes/components';
 import { deleteDataById, saveDelta } from '@/io/Data';
 import _ from 'lodash';
-import { CompendiumStore } from '@/stores';
-
-interface StoreTree {
-  [key: string]: any;
-  getters?: any;
-  actions?: any;
-  mutations?: any;
-  state?: any;
-}
-
-const getModule = (module: StoreTree) => {
-  const keys = ['getters', 'actions', 'mutations', 'state'];
-  const ret = {};
-  keys.forEach((key) => {
-    if (module[key]) {
-      Object.keys(module[key]).forEach((k) => {
-        ret[k] = module[key][k];
-      });
-    }
-  });
-  return ret;
-};
 
 const storeSaveDelta = async (items: ISaveable[]) => {
   if (items.length) _.debounce(__ssd_internal, 1000)(items);
@@ -45,4 +23,4 @@ const deletePermanent = async (item: ISaveable) => {
   await deleteDataById(`${t}s`, [item.ID]);
 };
 
-export { storeSaveDelta, deletePermanent, getModule };
+export { storeSaveDelta, deletePermanent };

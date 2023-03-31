@@ -1,14 +1,14 @@
-import { ItemType } from '../enums'
-import { CollectionItem, ICollectionItemData } from './CollectionItem'
-import { SaveController } from '../components'
-import { NarrativeController } from '../components/narrative/NarrativeController'
+import { ItemType } from '../enums';
+import { CollectionItem, ICollectionItemData } from './CollectionItem';
+import { SaveController } from '../components';
+import { NarrativeController } from '../components/narrative/NarrativeController';
 
 interface ILocationData extends ICollectionItemData {}
 
 class Location extends CollectionItem {
   public constructor() {
-    super()
-    this.ItemType = ItemType.Location
+    super();
+    this.ItemType = ItemType.Location;
   }
 
   public static Serialize(c: Location): ILocationData {
@@ -17,45 +17,46 @@ class Location extends CollectionItem {
       name: c.Name,
       description: c.Description,
       notes: c.Notes,
-    }
+    };
 
-    SaveController.Serialize(c, data)
-    NarrativeController.Serialize(c, data)
+    SaveController.Serialize(c, data);
+    NarrativeController.Serialize(c, data);
 
-    return data as ILocationData
+    return data as ILocationData;
   }
 
   Serialize(): ILocationData {
-    return Location.Serialize(this)
+    return Location.Serialize(this);
   }
 
   Update(data: ILocationData) {
-    this.ID = data.id
-    this.Name = data.name
-    this.Description = data.description
-    this.Notes = data.notes
-    NarrativeController.Deserialize(this, data.narrative)
-    SaveController.Deserialize(this, data.save)
+    this.ID = data.id;
+    this.Name = data.name;
+    this.Description = data.description;
+    this.Notes = data.notes;
+    NarrativeController.Deserialize(this, data.narrative);
+    SaveController.Deserialize(this, data.save);
   }
 
   public static Deserialize(data: ILocationData): Location {
-    const c = new Location()
+    const c = new Location();
     try {
-      c.Update(data)
-      c.SaveController.SetLoaded()
-      return c
+      c.Update(data);
+      c.SaveController.SetLoaded();
+      return c;
     } catch (err) {
-      console.error(err)
+      throw err;
     }
   }
 
   public Clone(): Location {
-    const itemData = Location.Serialize(this)
-    const newItem = Location.Deserialize(itemData)
-    newItem.RenewID()
-    newItem.Name += ' (COPY)'
-    return newItem
+    const itemData = Location.Serialize(this);
+    const newItem = Location.Deserialize(itemData);
+    newItem.RenewID();
+    newItem.Name += ' (COPY)';
+    return newItem;
   }
 }
 
-export { Location, ILocationData }
+export { Location };
+export type { ILocationData };

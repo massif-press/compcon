@@ -5,11 +5,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "build-nocheck": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@mdi/font": "^7.1.96",
-    "aws-amplify": "^5.0.22",
     "axios": "^1.3.4",
     "jszip": "^3.10.1",
     "lancer-data": "^3.0.47",

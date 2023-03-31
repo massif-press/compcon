@@ -23,12 +23,7 @@
 </template>
 
 <script lang="ts">
-import {
-  NpcStore,
-  NarrativeStore,
-  NarrativeStore,
-  NarrativeStore,
-} from '@/stores';
+import { NpcStore, NarrativeStore } from '@/stores';
 import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue';
 import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue';
 import LocationPrintContent from '../locations/_components/LocationPrintContent.vue';
@@ -48,21 +43,13 @@ export default {
       const arr = this.ids.split(',');
       switch (this.type.toLowerCase()) {
         case 'npc':
-          return this.getModule(NpcStore).Npcs.filter((x) =>
-            arr.includes(x.ID)
-          );
+          return NpcStore().Npcs.filter((x) => arr.includes(x.ID));
         case 'character':
-          return this.getModule(NarrativeStore).Characters.filter((x) =>
-            arr.includes(x.ID)
-          );
+          return NarrativeStore().Characters.filter((x) => arr.includes(x.ID));
         case 'location':
-          return this.getModule(NarrativeStore).Locations.filter((x) =>
-            arr.includes(x.ID)
-          );
+          return NarrativeStore().Locations.filter((x) => arr.includes(x.ID));
         case 'faction':
-          return this.getModule(NarrativeStore).Factions.filter((x) =>
-            arr.includes(x.ID)
-          );
+          return NarrativeStore().Factions.filter((x) => arr.includes(x.ID));
         default:
           return [];
       }

@@ -41,9 +41,7 @@ export default {
         if (!this.newFaction) this.newFaction = new Faction();
         return this.newFaction;
       }
-      return this.getModule(NarrativeStore).Factions.find(
-        (x) => x.ID === this.id
-      );
+      return NarrativeStore().Factions.find((x) => x.ID === this.id);
     },
   },
   methods: {
@@ -55,12 +53,12 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       store.addFaction(this.faction);
       this.exit();
     },
     save() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       // TODO: check for and ask to update instances on save
       store.saveFactionData();
       this.$emit('exit');
@@ -70,7 +68,7 @@ export default {
       this.$emit('exit');
     },
     dupe() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       const dupe = Faction.Deserialize(Faction.Serialize(this.faction));
       dupe.RenewID();
       store.addFaction(dupe);

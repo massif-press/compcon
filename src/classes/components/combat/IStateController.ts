@@ -1,5 +1,5 @@
-import { Deployable } from '../feature/deployable/Deployable'
+import { Deployable } from '../feature/deployable/Deployable';
 
 interface IStateController {}
 
-export { IStateController }
+export type { IStateController };

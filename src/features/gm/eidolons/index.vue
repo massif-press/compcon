@@ -46,7 +46,7 @@ export default {
   }),
   computed: {
     eidolons() {
-      return this.getModule(EidolonStore).Eidolons;
+      return EidolonStore().Eidolons;
     },
   },
   methods: {
@@ -59,7 +59,7 @@ export default {
       this.dialog = true;
     },
     SaveAndClose() {
-      // const store =this.getModule(EidolonStore);
+      // const store =EidolonStore();
       // TODO: check for and ask to update instances on save
       store.addEidolon(this.selected);
       this.$set(this, 'selected', null);

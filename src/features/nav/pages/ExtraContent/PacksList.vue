@@ -143,8 +143,8 @@ export default {
     },
     async reload() {
       // this.$emit('start-load');
-      // const pilotStore =this.getModule(PilotStore);
-      // const npcStore =this.getModule(NpcStore);
+      // const pilotStore =PilotStore();
+      // const npcStore =NpcStore();
       // const missing = { pilots: [], npcs: [] };
       // await pilotStore.loadPilots();
       // missing.pilots = pilotStore.MissingPilots;

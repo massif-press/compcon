@@ -45,7 +45,7 @@ export default {
   }),
   computed: {
     characters() {
-      return this.getModule(NarrativeStore).Characters;
+      return NarrativeStore().Characters;
     },
   },
   methods: {
@@ -64,7 +64,7 @@ export default {
       console.error('NOT YET IMPLEMENTED');
     },
     SaveAndClose() {
-      const store = this.getModule(NarrativeStore);
+      const store = NarrativeStore();
       // TODO: check for and ask to update instances on save
       store.addCharacter(this.selected);
       this.$set(this, 'selected', null);

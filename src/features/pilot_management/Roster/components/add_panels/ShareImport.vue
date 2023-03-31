@@ -136,8 +136,8 @@ import { Pilot } from '@/class';
 
 import { CompendiumStore, PilotStore } from '@/stores';
 import { getRecord } from '@/io/apis/share';
-import { GetSingleRemote } from '@/cloud/item_sync';
-import { Auth } from 'aws-amplify';
+// import { GetSingleRemote } from '@/cloud/item_sync';
+// import { Auth } from 'aws-amplify';
 
 export default {
   name: 'share-import',
@@ -154,9 +154,9 @@ export default {
     searchResults: null,
   }),
   async mounted() {
-    this.cid = await Auth.currentUserCredentials()
-      .then((res) => res.identityId)
-      .catch(() => '');
+    // this.cid = await Auth.currentUserCredentials()
+    //   .then((res) => res.identityId)
+    //   .catch(() => '');
   },
   watch: {
     searchResults(newval) {
@@ -198,19 +198,19 @@ export default {
         });
     },
     async downloadPilotData() {
-      const record = this.searchResults.Item;
-      GetSingleRemote(record.key, record.iid)
-        .then((res) => {
-          this.pilotData = res;
-        })
-        .then(() => this.stageImport())
-        .catch((err) => {
-          console.error(err);
-          this.$notify('An error occurred while downloading remote data.', err);
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      // const record = this.searchResults.Item;
+      // GetSingleRemote(record.key, record.iid)
+      //   .then((res) => {
+      //     this.pilotData = res;
+      //   })
+      //   .then(() => this.stageImport())
+      //   .catch((err) => {
+      //     console.error(err);
+      //     this.$notify('An error occurred while downloading remote data.', err);
+      //   })
+      //   .finally(() => {
+      //     this.loading = false;
+      //   });
     },
     async stageImport() {
       if (!this.pilotData.brews) this.pilotData.brews = [];
@@ -239,9 +239,7 @@ export default {
         });
         if (missing.length) this.missingContent = missing.join('<br />');
       }
-      const ap = this.getModule(PilotStore).AllPilots.find(
-        (x) => x.ID === this.pilotData.id
-      );
+      const ap = PilotStore().AllPilots.find((x) => x.ID === this.pilotData.id);
       if (ap) {
         this.alreadyPresentItem = ap;
       }
@@ -273,7 +271,7 @@ export default {
         const importPilot = Pilot.Deserialize(this.stagedData);
         importPilot.GroupController.reset();
         const record = this.searchResults.Item;
-        importPilot.CloudController.SetRemoteResource(record.iid, record.key);
+        // importPilot.CloudController.SetRemoteResource(record.iid, record.key);
         this.$store.dispatch('addPilot', importPilot);
         this.reset();
         this.$emit('done');
@@ -293,7 +291,7 @@ export default {
       this.shareCode = this.shareCode.replaceAll(' ', '');
     },
     deleteAP() {
-      const ps = this.getModule(PilotStore);
+      const ps = PilotStore();
       ps.deletePilotPermanent(
         ps.AllPilots.find((x) => x.ID === this.alreadyPresentItem.ID)
       );

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import * as Sync from '@/cloud/user_sync';
-import { AutoSyncAll, AutoSyncRemotes } from '@/cloud/item_sync';
+// import { AutoSyncAll, AutoSyncRemotes } from '@/cloud/item_sync';
 import * as Client from '../index';
 
 export const UserStore = defineStore('cloud', {
@@ -42,8 +42,8 @@ export const UserStore = defineStore('cloud', {
       if (this.UserProfile.SyncFrequency.cloudSync_v2) {
         console.info('auto-sync ON');
         try {
-          await AutoSyncAll();
-          await AutoSyncRemotes();
+          // await AutoSyncAll();
+          // await AutoSyncRemotes();
         } catch (error) {
           console.error('error in auto-sync:', error);
         }

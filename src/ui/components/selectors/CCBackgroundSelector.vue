@@ -66,10 +66,7 @@ export default {
   methods: {
     open() {
       (this.$refs.dialog as any).show();
-      this.backgrounds = this.getModule(
-        CompendiumStore,
-        this.$store
-      ).Backgrounds;
+      this.backgrounds = CompendiumStore().Backgrounds;
     },
     choose(background: string) {
       this.$emit('select', background);

@@ -36,10 +36,10 @@ class BrewController {
       .map((item) => packs.find((p) => p.ID === item.Brew))
       .filter((p) => !!p)
       .map((pack) => ({
-        LcpId: pack.ID,
-        LcpName: pack.Name || 'ERR',
-        LcpVersion: pack.Version || '',
-        Website: pack.Website || '',
+        LcpId: pack?.ID || '',
+        LcpName: pack?.Name || 'ERR',
+        LcpVersion: pack?.Version || '',
+        Website: pack?.Website || '',
       }))
       .filter(
         (value, index, self) =>
@@ -61,4 +61,5 @@ class BrewController {
     parent.BrewController.Brews = data.brews;
   }
 }
-export { IBrewData, BrewInfo, BrewController };
+export { BrewController };
+export type { IBrewData, BrewInfo };

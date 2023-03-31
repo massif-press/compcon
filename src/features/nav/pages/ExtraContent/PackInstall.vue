@@ -92,7 +92,7 @@ export default {
     value: null,
     installing: false,
     done: false,
-    // dataStore:this.getModule(CompendiumStore, (this as any).$store),
+    // dataStore:CompendiumStore, (this as any).$store(),
     contentPack: null as IContentPack,
     error: null as string,
   }),

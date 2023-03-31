@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { Auth } from 'aws-amplify';
+// import { Auth } from 'aws-amplify';
 
 export default {
   name: 'ident-block',

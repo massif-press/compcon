@@ -132,7 +132,7 @@ class UserProfile {
     };
 
     localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(data));
-    if (getModule(UserStore).IsLoggedIn) UpdateUserData(this, false);
+    if (UserStore().IsLoggedIn) UpdateUserData(this, false);
   }
 
   public get IsSavePerformant(): boolean {

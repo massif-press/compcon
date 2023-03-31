@@ -284,7 +284,7 @@ export default {
   },
   computed: {
     pilotStore() {
-      const mod = this.getModule(PilotStore);
+      const mod = PilotStore();
       return mod;
     },
     pilotCardType(): string {
@@ -298,7 +298,7 @@ export default {
       }
     },
     profile(): UserProfile {
-      const store = this.getModule(UserStore);
+      const store = UserStore();
       return store.UserProfile;
     },
     pilots() {

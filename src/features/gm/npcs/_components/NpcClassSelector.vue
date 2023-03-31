@@ -272,7 +272,7 @@ export default {
         this.item.NpcClassController.Tier
       );
       this.dialog = false;
-      // const store =this.getModule(NpcStore)
+      // const store =NpcStore()
       // store.addNpc(new Npc(this.selectedClass, (this.$refs.card as any).tierPreview))
       // this.$store.dispatch('cloudSync', { callback: null, condition: 'selectedreate' })
       // this.$router.push('./npc-roster')

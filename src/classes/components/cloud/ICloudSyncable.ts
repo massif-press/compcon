@@ -1,15 +1,15 @@
-import { SaveController } from '../save/SaveController'
-import { CloudController } from './CloudController'
+import { SaveController } from '../save/SaveController';
+import { CloudController } from './CloudController';
 
 interface ICloudSyncable {
-  ID: string
-  Name: string
-  ItemType: string
-  CloudController: CloudController
-  SaveController: SaveController
+  ID: string;
+  Name: string;
+  ItemType: string;
+  CloudController: CloudController;
+  SaveController: SaveController;
 
-  Serialize(item: any)
-  Update(data: any)
+  Serialize(item: any);
+  Update(data: any);
 }
 
-export { ICloudSyncable }
+export type { ICloudSyncable };

@@ -72,7 +72,7 @@ class Deployable extends CompendiumItem {
   private _current_repairs: number;
   private _overshield: number;
   private _destroyed: boolean;
-  private _recalled: boolean;
+  private _recalled: boolean = false;
   private _resistances: string[];
   private _data: IDeployableData;
 

@@ -13,7 +13,6 @@ import router from './router';
 import vuetify from './ui/style';
 import * as globals from './ui/globals';
 
-import { getModule } from './util/storeUtils';
 import VueSecureHTML from 'vue-html-secure';
 
 import Startup from './io/Startup';
@@ -37,7 +36,6 @@ Object.keys(globals).forEach((key: string) => {
 
 compcon.config.globalProperties.$appVersion = version;
 compcon.config.globalProperties.$lancerVersion = lancerData.info.version;
-compcon.config.globalProperties.getModule = getModule;
 
 compcon.mount('#app');
 

@@ -1,5 +1,5 @@
 import * as Client from '@/user';
-import { API } from 'aws-amplify';
+// import { API } from 'aws-amplify';
 // import { createUserData, updateUserData } from '@/graphql/mutations'
 // import { syncUserData } from '@/graphql/queries'
 import _ from 'lodash';

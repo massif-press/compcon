@@ -69,9 +69,7 @@ export default {
   }),
   created() {
     if (this.pilotID === 'blank') this.blank = true;
-    this.pilot = this.getModule(PilotStore).Pilots.find(
-      (p) => p.ID === this.pilotID
-    );
+    this.pilot = PilotStore().Pilots.find((p) => p.ID === this.pilotID);
     this.mech =
       !this.mechID || this.mechID === 'blank'
         ? null

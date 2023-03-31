@@ -30,7 +30,7 @@ export default {
       return CompendiumStore();
     },
     user(): UserStore {
-      return this.getModule(UserStore).UserProfile;
+      return UserStore().UserProfile;
     },
     sourceIds(): string[] {
       return this.compendium.Manufacturers.map((x) => x.ID);

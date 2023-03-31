@@ -150,9 +150,7 @@ export default {
   }),
   computed: {
     quickstart() {
-      return !!getModule(UserStore, this.$store).UserProfile.GetView(
-        'quickstart'
-      );
+      return !!UserStore().UserProfile.GetView('quickstart');
     },
   },
   watch: {

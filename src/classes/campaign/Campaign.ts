@@ -166,7 +166,7 @@ class Campaign implements ISaveable {
       c.SaveController.SetLoaded();
       return c;
     } catch (err) {
-      console.error(err);
+      throw err;
     }
   }
 
@@ -179,4 +179,5 @@ class Campaign implements ISaveable {
   }
 }
 
-export { ICampaignData, Campaign, CampaignStatus };
+export { Campaign, CampaignStatus };
+export type { ICampaignData };

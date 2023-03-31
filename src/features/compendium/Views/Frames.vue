@@ -39,7 +39,7 @@ export default {
       return CompendiumStore();
     },
     user() {
-      return this.getModule(UserStore).UserProfile;
+      return UserStore().UserProfile;
     },
     sourceIds() {
       return this.compendium.Manufacturers.map((x) => x.ID);
