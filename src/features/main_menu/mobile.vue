@@ -41,17 +41,6 @@
         >
           COMP/CON
         </div>
-        <!-- Shout out Netlify on web for their free open source plan -->
-        <v-btn
-          target="_blank"
-          href="https://www.netlify.com"
-          class="fade-select mt-n2"
-          x-small
-          variant="outlined"
-          block
-        >
-          deploys by netlify
-        </v-btn>
       </div>
       <v-row density="compact" align="center" class="my-1 px-2 primary py-2">
         <v-col cols="auto">

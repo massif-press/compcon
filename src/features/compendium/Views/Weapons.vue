@@ -41,9 +41,9 @@ export default {
       let arr = this.compendium.MechWeapons.filter(
         (x) => !x.IsHidden && !(!x.Source && !x.IsExotic)
       );
-      if (!this.user.GetView('showExotics')) {
-        arr = arr.filter((x) => !x.IsExotic);
-      }
+      // if (!this.user.GetView('showExotics')) {
+      //   arr = arr.filter((x) => !x.IsExotic);
+      // }
 
       return _.orderBy(arr, [
         (item) => this.sourceIds.indexOf(item.Source),

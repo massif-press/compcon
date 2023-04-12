@@ -4,14 +4,20 @@
       <v-btn
         :x-large="$vuetify.display.lgAndUp"
         variant="outlined"
-        :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.dark)"
+        :color="
+          pilotLicense.License.Manufacturer.GetColor(
+            $vuetify.theme.current.dark
+          )
+        "
         block
         v-bind="props"
       >
         <v-icon
           large
           :color="
-            pilotLicense.License.Manufacturer.GetColor($vuetify.theme.dark)
+            pilotLicense.License.Manufacturer.GetColor(
+              $vuetify.theme.current.dark
+            )
           "
         >
           cc:rank_{{ pilotLicense.Rank }}

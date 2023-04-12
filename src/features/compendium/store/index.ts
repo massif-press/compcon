@@ -30,6 +30,7 @@ import {
   IPilotEquipmentData,
   ITagCompendiumData,
 } from '@/interface';
+import { FrameComparison } from '@/classes/mech/components/frame/Frame';
 
 function construct<T>(
   state,
@@ -217,6 +218,10 @@ export const CompendiumStore = defineStore('compendium', {
           ...this.ContentPacks,
           ...content.map((c) => new ContentPack(c)),
         ];
+        FrameComparison.NormalizeReferenceSet(
+          this.Frames.filter((x) => !x.ID.startsWith('missing_'))
+        );
+        console.log(this.Frames.map((x) => x.Comparator));
       } catch (err) {
         console.error(err);
       }

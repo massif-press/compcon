@@ -58,7 +58,7 @@
           <v-col cols="auto">
             <div class="text-overline mb-n1">SPEED</div>
             <v-icon size="60" color="grey lighten-3"
-              >$vuetify.icons.move</v-icon
+              >mdi-arrow-right-bold-hexagon-outline</v-icon
             >
           </v-col>
         </v-row>

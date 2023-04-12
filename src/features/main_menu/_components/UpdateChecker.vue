@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import updateChecker from '@/util/UpdateChecker';
+// import updateChecker from '@/util/UpdateChecker';
 
 export default {
   name: 'UpdateChecker',
@@ -37,16 +37,16 @@ export default {
     async checkUpdates() {
       this.checking = true;
 
-      await updateChecker.checkUpdates();
+      // await updateChecker.checkUpdates();
 
       this.checking = false;
     },
     updateClick() {
-      updateChecker.getUpdate();
+      // updateChecker.getUpdate();
     },
   },
   created() {
-    updateChecker.on('updatefound', () => (this.updateFound = true));
+    // updateChecker.on('updatefound', () => (this.updateFound = true));
   },
   computed: {
     updateText(): string {

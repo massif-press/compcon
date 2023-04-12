@@ -111,10 +111,10 @@ export default {
   }),
   computed: {
     profile(): UserProfile {
-      return this.$store.UserProfile;
+      // return this.$store.UserProfile;
     },
     getView() {
-      if (this.profile) return this.profile.GetView('selector');
+      // if (this.profile) return this.profile.GetView('selector');
       return 'split';
     },
     fItems() {

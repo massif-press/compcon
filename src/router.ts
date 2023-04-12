@@ -12,7 +12,7 @@ import activeModeRoutes from './features/active_mode/routes';
 import MainMenu from './features/main_menu/index.vue';
 import UITest from './features/ui_test/index.vue';
 
-import updateChecker from './util/UpdateChecker';
+// import updateChecker from './util/UpdateChecker';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -46,8 +46,8 @@ const router = createRouter({
   ],
 });
 
-router.afterEach(() => {
-  updateChecker.checkUpdates();
-});
+// router.afterEach(() => {
+//   updateChecker.checkUpdates();
+// });
 
 export default router;

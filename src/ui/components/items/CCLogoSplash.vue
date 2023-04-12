@@ -11,7 +11,7 @@
     :style="{
       maxWidth: '22vw',
       height: '22vw',
-      filter: `invert(${$vuetify.theme.dark ? 1 : 0})`,
+      filter: `invert(${$vuetify.theme.current.dark ? 1 : 0})`,
     }"
   />
 </template>

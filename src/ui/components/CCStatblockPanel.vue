@@ -1,37 +1,29 @@
 <template>
   <v-col :cols="cols">
-    <v-card
-      flat
-      tile
-      color="light-panel"
-      class="text-center"
-      height="100%"
-      width="100%"
-      :style="
-        cols
-          ? ''
-          : inline
-          ? 'min-width: 15vw; max-width: 20vw'
-          : 'min-width: 20vw'
-      "
-    >
-      <v-card-title class="heading h3 primary px-3 py-0 ma-0 text-white">
-        <v-spacer v-if="!inline && $vuetify.display.mdAndDown" />
-        <cc-tooltip inline :title="name" :content="glossary(name)">
-          <v-icon large color="white">{{ icon }}</v-icon>
-          <span v-if="inline || $vuetify.display.lgAndUp">{{ name }}</span>
-        </cc-tooltip>
-        <v-spacer />
-        <span v-if="inline" class="pl-2">{{ value }}</span>
-      </v-card-title>
-      <v-card-text
-        v-if="!inline"
-        class="heading text-stark py-3"
-        style="font-size: 32px"
+    <cc-tooltip inline :title="name" :content="glossary(name)" delayed>
+      <v-card
+        flat
+        tile
+        color="light-panel"
+        class="text-center"
+        height="100%"
+        width="100%"
+        :style="cols ? '' : inline"
       >
-        <span>{{ value }}</span>
-      </v-card-text>
-    </v-card>
+        <v-row class="heading h3 py-1" dense align="center" justify="center">
+          <v-col cols="auto">
+            <v-icon size="30" :icon="icon" />
+          </v-col>
+          <v-col cols="auto">
+            <span>{{ name }}</span>
+            <span v-if="inline" class="pl-2">{{ value }}</span>
+          </v-col>
+        </v-row>
+        <div v-if="!inline" class="heading pb-4" style="font-size: 32px">
+          {{ value }}
+        </div>
+      </v-card>
+    </cc-tooltip>
   </v-col>
 </template>
 

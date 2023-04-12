@@ -214,5 +214,5 @@ a {
 }
 
 .v-tooltip .v-overlay__content {
-    background: rgba(var(--v-theme-surface-variant), .93) !important;
+    background: rgba(var(--v-theme-surface-variant), .97) !important;
 }

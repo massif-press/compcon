@@ -200,7 +200,9 @@ export default {
       return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID);
     },
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
+      return this.mech.Frame.Manufacturer.GetColor(
+        this.$vuetify.theme.current.dark
+      );
     },
     isPixel() {
       return this.mech.LocalImage && this.mech.LocalImage.includes('_pixel');

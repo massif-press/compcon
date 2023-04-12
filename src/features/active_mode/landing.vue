@@ -13,179 +13,29 @@
       <v-col><v-divider /></v-col>
     </v-row>
     <v-row style="height: 100%" class="mt-1 px-5" justify="space-around">
-      <v-col>
-        <v-list>
+      <v-col v-for="(list, i) in lists">
+        <v-list lines="two">
           <v-list-item>
-            <v-list-item-avatar tile width="100px" height="100px">
-              <v-img :src="pcImg" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title class="heading mech" v-text="'LANCER'" />
-            </v-list-item-content>
+            <v-img :src="headers[i].img" />
+            <v-list-item-title
+              class="heading h2 text-accent"
+              v-text="headers[i].title"
+            />
           </v-list-item>
           <v-divider />
-          <v-list-item three-line :to="'/active-mode/new-character-sheet'">
-            <v-list-item-avatar>
-              <v-icon size="60" color="accent" v-text="'cc:pilot'" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title
-                class="heading h3 text-accent"
-                v-text="'Start a Character Sheet'"
-              />
-              <v-list-item-subtitle>
-                Create a new Character Sheet, an instance of a Pilot and their
-                active Mech, for use in a LANCER game
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item three-line :to="'/active-mode/open-character-sheet'">
-            <v-list-item-avatar tile>
-              <v-icon size="40" color="accent" v-text="'mdi-book-open'" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title
-                class="heading h3 text-accent"
-                v-text="'Open a Character Sheet'"
-              />
-              <v-list-item-subtitle>
-                Open a previously created Character Sheet to continue a LANCER
-                game
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item three-line disabled>
-            <v-list-item-avatar tile>
-              <v-icon size="50" v-text="'cc:squad'" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title class="heading h3" v-text="'Join a Table'" />
-              <v-list-item-subtitle>
-                Join an realtime LANCER table to play with friends online (in
-                development!)
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-col>
-      <v-col>
-        <v-list>
-          <v-list-item>
-            <v-list-item-avatar tile width="100px" height="100px">
-              <v-img :src="gmImg" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title class="heading mech" v-text="'GAME MASTER'" />
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider />
-          <v-list-item three-line @click.stop="">
-            <v-list-item-avatar tile>
-              <v-icon size="50" color="accent" v-text="'cc:encounter'" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title
-                class="heading h3 text-accent"
-                v-text="'Begin a new Encounter'"
-              />
-              <v-list-item-subtitle
-                >Configure and run an Encounter</v-list-item-subtitle
-              >
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item three-line @click.stop="">
-            <v-list-item-avatar tile>
-              <v-icon
-                size="40"
-                color="accent"
-                v-text="'mdi-motion-play-outline'"
-              />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title
-                class="heading h3 text-accent"
-                v-text="'Resume an Encounter'"
-              />
-              <v-list-item-subtitle
-                >Continue an active Encounter</v-list-item-subtitle
-              >
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item three-line disabled>
-            <v-list-item-avatar tile>
-              <v-icon size="50" v-text="'mdi-plus-network-outline'" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title class="heading h3" v-text="'Create a Table'" />
-              <v-list-item-subtitle>
-                Create an online LANCER table and invite players to join (in
-                development!)
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item three-line disabled>
-            <v-list-item-avatar tile>
-              <v-icon size="50" v-text="'mdi-lan'" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title class="heading h3" v-text="'Resume a Table'" />
-              <v-list-item-subtitle>
-                Resume an online LANCER table (in development!)
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-col>
-      <v-col>
-        <v-list>
-          <v-list-item>
-            <v-list-item-avatar tile width="100px" height="100px">
-              <v-img :src="specImg" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title class="heading mech" v-text="'DISPLAY'" />
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider />
-
-          <v-list-item three-line disabled>
-            <v-list-item-avatar tile>
-              <v-icon size="40" v-text="'mdi-monitor-share'" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title class="heading h3" v-text="'Spectator Mode'" />
-              <v-list-item-subtitle>
-                Run a non-interactive spectator display for a realtime LANCER
-                game (in development!)
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item three-line disabled>
-            <v-list-item-avatar tile>
-              <v-icon size="40" v-text="'mdi-monitor-dashboard'" />
-            </v-list-item-avatar>
-
-            <v-list-item-content>
-              <v-list-item-title
-                class="heading h3"
-                v-text="'Campaign Display'"
-              />
-              <v-list-item-subtitle>
-                Run an interactive GM display for a loaded LANCER campaign (in
-                development!)
-              </v-list-item-subtitle>
-            </v-list-item-content>
+          <v-list-item
+            v-for="e in list"
+            :key="e.title"
+            :title="e.title"
+            :subtitle="e.subtitle"
+            :to="e.to"
+            :disabled="e.disabled"
+          >
+            <template v-slot:prepend>
+              <v-avatar color="grey-lighten-1">
+                <v-icon size="x-large" color="accent" :icon="e.icon" />
+              </v-avatar>
+            </template>
           </v-list-item>
         </v-list>
       </v-col>
@@ -199,16 +49,92 @@ import { getImagePath } from '@/io/ImageManagement';
 
 export default {
   name: 'home',
-  computed: {
-    pcImg() {
-      return getImagePath(ImageTag.Misc, 'patreon_tiers\\lancer.svg');
-    },
-    gmImg() {
-      return getImagePath(ImageTag.Misc, 'patreon_tiers\\nhp.svg');
-    },
-    specImg() {
-      return getImagePath(ImageTag.Misc, 'patreon_tiers\\diasporan.svg');
-    },
-  },
+  data: () => ({
+    headers: [
+      {
+        img: getImagePath(ImageTag.Misc, 'lancer.svg'),
+        title: 'LANCER',
+      },
+      {
+        img: getImagePath(ImageTag.Misc, 'nhp.svg'),
+        title: 'GAME MASTER',
+      },
+      {
+        img: getImagePath(ImageTag.Misc, 'diasporan.svg'),
+        title: 'OBSERVER',
+      },
+    ],
+    lists: [
+      [
+        {
+          title: 'Start a Character Sheet',
+          subtitle:
+            'Create a new Character Sheet, an instance of a Pilot and their active Mech, for use in a LANCER game',
+          icon: 'cc:pilot',
+          to: '/active-mode/new-character-sheet',
+        },
+        {
+          title: 'Open a Character Sheet',
+          subtitle:
+            'Open a previously created Character Sheet to continue a LANCER game',
+          icon: 'mdi-book-open',
+          to: '/active-mode/open-character-sheet',
+        },
+        {
+          title: 'Join a Table',
+          subtitle: 'Join an realtime LANCER table to play with friends online',
+          icon: 'cc:squad',
+          disabled: true,
+          to: '',
+        },
+        {
+          title: 'Resume a Table',
+          subtitle: 'Resume a realtime LANCER table',
+          icon: 'mdi-lan',
+          disabled: true,
+          to: '',
+        },
+      ],
+      [
+        {
+          title: 'Begin a New Encounter',
+          subtitle: 'Configure and run an Encounter',
+          icon: 'cc:encounter',
+          to: '',
+        },
+        {
+          title: 'Resume an Encounter',
+          subtitle: 'Continue an active Encounter',
+          icon: 'mdi-motion-play-outlne',
+          to: '',
+        },
+        {
+          title: 'Create a Table',
+          subtitle: 'Create an online LANCER table and invite players to join',
+          icon: 'mdi-plus-network-outline',
+          disabled: true,
+          to: '',
+        },
+      ],
+      [
+        {
+          title: 'Spectator Mode',
+          subtitle:
+            'Run a non-interactive spectator display for a realtime LANCER game',
+          icon: 'mdi-monitor-share',
+          disabled: true,
+          to: '',
+        },
+        {
+          title: 'Campaign Display',
+          subtitle:
+            'Run an interactive GM display for a loaded LANCER campaign',
+          icon: 'mdi-monitor-dashboard',
+          disabled: true,
+          to: '',
+        },
+      ],
+    ],
+  }),
 };
 </script>

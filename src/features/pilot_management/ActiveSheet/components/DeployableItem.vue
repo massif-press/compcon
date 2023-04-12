@@ -193,7 +193,7 @@
           />
           <cc-statblock-panel
             v-if="deployable.Size"
-            :icon="$vuetify.display.smAndDown ? '' : '$vuetify.icons.evasion'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:evasion'"
             inline
             class="mx-1"
             name="Evasion"
@@ -204,7 +204,7 @@
             v-if="deployable.EDefense"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : '$vuetify.icons.edef'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:edef'"
             name="E-Defense"
             :value="deployable.EDefense"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -213,7 +213,7 @@
             v-if="deployable.Heatcap"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : '$vuetify.icons.heat'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:heat'"
             name="Heat Capacity"
             :value="deployable.Heatcap"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -222,7 +222,7 @@
             v-if="deployable.Sensor"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : '$vuetify.icons.sensor'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:sensor'"
             name="Sensor Range"
             :value="deployable.Sensor"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -231,7 +231,7 @@
             v-if="deployable.TechAttack"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : '$vuetify.icons.tech'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:tech-full'"
             name="Tech Attack"
             :value="deployable.TechAttack"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -240,7 +240,7 @@
             v-if="deployable.Repcap"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : '$vuetify.icons.repair'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:repair'"
             name="Repair Capacity"
             :value="deployable.Repcap"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -249,7 +249,7 @@
             v-if="deployable.Save"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : '$vuetify.icons.save'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:save'"
             name="Save Target"
             :value="deployable.Save"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -258,7 +258,11 @@
             v-if="deployable.Speed"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : '$vuetify.icons.speed'"
+            :icon="
+              $vuetify.display.smAndDown
+                ? ''
+                : 'mdi-arrow-right-bold-hexagon-outline'
+            "
             name="Speed"
             :value="deployable.Speed"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"

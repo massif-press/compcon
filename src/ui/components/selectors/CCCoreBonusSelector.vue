@@ -68,7 +68,9 @@
                 no-gutters
                 align="center"
                 :class="`heading ${$vuetify.display.smAndDown ? 'h3' : 'h1'}`"
-                :style="`color: ${manufacturer.GetColor($vuetify.theme.dark)}`"
+                :style="`color: ${manufacturer.GetColor(
+                  $vuetify.theme.current.dark
+                )}`"
               >
                 <v-col cols="auto">
                   <cc-logo
@@ -82,7 +84,7 @@
               </v-row>
               <v-alert
                 variant="outlined"
-                :color="manufacturer.GetColor($vuetify.theme.dark)"
+                :color="manufacturer.GetColor($vuetify.theme.current.dark)"
                 class="py-3 my-2"
               >
                 <v-row class="text-center">
@@ -102,7 +104,7 @@
               :bonus="b"
               :is-selectable="isSelectable(b)"
               :is-selected="isSelected(b)"
-              :color="manufacturer.GetColor($vuetify.theme.dark)"
+              :color="manufacturer.GetColor($vuetify.theme.current.dark)"
               @add="pilot.CoreBonusController.AddCoreBonus(b)"
               @remove="pilot.CoreBonusController.RemoveCoreBonus(b)"
             />

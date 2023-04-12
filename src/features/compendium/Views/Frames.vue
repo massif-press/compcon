@@ -46,8 +46,10 @@ export default {
     },
     frames() {
       let arr = this.compendium.Frames.filter((x) => !x.IsHidden);
-      if (!this.user.GetView('showExotics'))
-        arr = arr.filter((x) => !x.IsExotic);
+      // TODO: re-enable exotics
+
+      // if (!this.user.GetView('showExotics'))
+      //   arr = arr.filter((x) => !x.IsExotic);
       return _.sortBy(arr, [
         (item) => this.sourceIds.indexOf(item.Source),
         'Name',

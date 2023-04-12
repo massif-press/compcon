@@ -64,7 +64,7 @@
                 :max-height="isActive(p) ? '100px' : '50px'"
                 :max-width="isActive(p) ? '100px' : '50px'"
                 :style="
-                  $vuetify.theme.dark
+                  $vuetify.theme.current.dark
                     ? 'filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);'
                     : 'filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(320deg) brightness(96%) contrast(104%);'
                 "

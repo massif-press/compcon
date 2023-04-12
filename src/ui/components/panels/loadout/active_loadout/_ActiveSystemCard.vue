@@ -218,7 +218,9 @@ export default {
   }),
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
+      return this.mech.Frame.Manufacturer.GetColor(
+        this.$vuetify.theme.current.dark
+      );
     },
   },
   methods: {

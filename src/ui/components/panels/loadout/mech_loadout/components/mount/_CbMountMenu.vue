@@ -68,7 +68,9 @@ export default {
       return this.mount.Bonuses.length;
     },
     color(): string {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
+      return this.mech.Frame.Manufacturer.GetColor(
+        this.$vuetify.theme.current.dark
+      );
     },
     visible(): boolean {
       return this.mech.AvailableBonuses.length || this.mount.Bonuses.length;

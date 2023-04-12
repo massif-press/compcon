@@ -13,7 +13,7 @@
         v-if="deployable.armor"
         inline
         class="mx-1"
-        icon="$vuetify.icons.armor"
+        icon="mdi-shield"
         name="Armor"
         :value="deployable.armor"
       />
@@ -21,7 +21,7 @@
         v-if="deployable.hp || deployable.size"
         inline
         class="mx-1"
-        icon="$vuetify.icons.hp"
+        icon="mdi-heart"
         name="HP"
         :value="
           deployable.hp
@@ -31,7 +31,7 @@
       />
       <cc-statblock-panel
         v-if="deployable.size"
-        icon="$vuetify.icons.evasion"
+        icon="cc:evasion"
         inline
         class="mx-1"
         name="Evasion"
@@ -41,7 +41,7 @@
         v-if="deployable.edef"
         inline
         class="mx-1"
-        icon="$vuetify.icons.edef"
+        icon="cc:edef"
         name="E-Defense"
         :value="deployable.edef"
       />
@@ -49,7 +49,7 @@
         v-if="deployable.heatcap"
         inline
         class="mx-1"
-        icon="$vuetify.icons.heat"
+        icon="cc:heat"
         name="Heat Capacity"
         :value="deployable.heatcap"
       />
@@ -57,7 +57,7 @@
         v-if="deployable.sensor"
         inline
         class="mx-1"
-        icon="$vuetify.icons.sensor"
+        icon="cc:sensor"
         name="Sensor Range"
         :value="deployable.sensor"
       />
@@ -65,7 +65,7 @@
         v-if="deployable.techattack"
         inline
         class="mx-1"
-        icon="$vuetify.icons.tech"
+        icon="cc:tech-full"
         name="Tech Attack"
         :value="deployable.techattack"
       />
@@ -73,7 +73,7 @@
         v-if="deployable.repcap"
         inline
         class="mx-1"
-        icon="$vuetify.icons.repair"
+        icon="cc:repair"
         name="Repair Capacity"
         :value="deployable.repcap"
       />
@@ -81,7 +81,7 @@
         v-if="deployable.save"
         inline
         class="mx-1"
-        icon="$vuetify.icons.save"
+        icon="cc:save"
         name="Save Target"
         :value="deployable.save"
       />
@@ -89,7 +89,7 @@
         v-if="deployable.speed"
         inline
         class="mx-1"
-        icon="$vuetify.icons.speed"
+        icon="mdi-arrow-right-bold-hexagon-outline"
         name="Speed"
         :value="deployable.speed"
       />

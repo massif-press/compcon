@@ -12,7 +12,7 @@
         <v-col cols="auto">
           <div
             :class="`heading ${$vuetify.display.mdAndDown ? 'h3' : 'h1'}`"
-            :style="`color: ${s.GetColor($vuetify.theme.dark)}`"
+            :style="`color: ${s.GetColor($vuetify.theme.current.dark)}`"
           >
             {{ s.Name }}
           </div>

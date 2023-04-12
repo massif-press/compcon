@@ -255,7 +255,9 @@ export default {
       return this.weaponSlot.Weapon;
     },
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
+      return this.mech.Frame.Manufacturer.GetColor(
+        this.$vuetify.theme.current.dark
+      );
     },
     // armoryLevel() {
     //   if (!this.item) return 0
