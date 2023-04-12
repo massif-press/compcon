@@ -33,7 +33,7 @@
         </v-col>
         <v-col v-if="item.Speed" cols="auto">
           <cc-tooltip simple inline content="Speed">
-            <v-icon icon="$vuetify.icons.move" />
+            <v-icon icon="mdi-arrow-right-bold-hexagon-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ item.Speed }}</span>
         </v-col>

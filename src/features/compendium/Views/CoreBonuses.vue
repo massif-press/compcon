@@ -6,7 +6,9 @@
           <cc-logo :source="manufacturer(m)" style="margin-bottom: -6px" />
           <span
             class="heading sub"
-            :style="`color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
+            :style="`color: ${manufacturer(m).GetColor(
+              $vuetify.theme.current.dark
+            )}`"
           >
             {{ m }}
           </span>
@@ -66,7 +68,9 @@
         <v-col>
           <div
             class="heading h2"
-            :style="`color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
+            :style="`color: ${manufacturer(m).GetColor(
+              $vuetify.theme.current.dark
+            )}`"
           >
             {{ manufacturer(m).Name }}
           </div>

@@ -6,28 +6,20 @@
     <v-row>
       <v-container slot="statblock" grid-list-md class="mt-0 pt-1">
         <v-row density="compact" justify="center">
+          <cc-statblock-panel icon="mdi-shield" name="Armor" :value="armor" />
           <cc-statblock-panel
-            icon="$vuetify.icons.armor"
-            name="Armor"
-            :value="armor"
-          />
-          <cc-statblock-panel
-            icon="$vuetify.icons.hp"
+            icon="mdi-heart"
             name="HP Bonus"
             :value="`+${hp}`"
           />
+          <cc-statblock-panel icon="cc:edef" name="E-Defense" :value="edef" />
           <cc-statblock-panel
-            icon="$vuetify.icons.edef"
-            name="E-Defense"
-            :value="edef"
-          />
-          <cc-statblock-panel
-            icon="$vuetify.icons.evasion"
+            icon="cc:evasion"
             name="Evasion"
             :value="evasion"
           />
           <cc-statblock-panel
-            icon="$vuetify.icons.speed"
+            icon="mdi-arrow-right-bold-hexagon-outline"
             name="Speed"
             :value="speed"
           />

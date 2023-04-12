@@ -20,12 +20,12 @@
                 width="100%"
                 class="text-center pt-4 pb-4"
               >
-                <v-icon size="100" dark>$vuetify.icons.full</v-icon>
+                <v-icon size="100" dark>mdi-hexagon-slice-6</v-icon>
                 <v-icon size="50" color="indigo lighten-3"
                   >mdi-swap-horizontal</v-icon
                 >
-                <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
-                <v-icon size="65" dark>$vuetify.icons.quick</v-icon>
+                <v-icon size="65" dark>mdi-hexagon-slice-3</v-icon>
+                <v-icon size="65" dark>mdi-hexagon-slice-3</v-icon>
               </v-card>
             </v-col>
             <v-col
@@ -84,7 +84,7 @@ export default {
   components: { ActionCard },
   data: () => ({
     actionTypes: [
-      { action: 'move', icon: '$vuetify.icons.move' },
+      { action: 'move', icon: 'mdi-arrow-right-bold-hexagon-outline' },
       { action: 'overcharge', icon: 'cc:overcharge' },
       { action: 'reaction', icon: 'cc:reaction' },
       { action: 'free', icon: 'cc:free' },

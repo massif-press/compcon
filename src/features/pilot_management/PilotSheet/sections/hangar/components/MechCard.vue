@@ -9,7 +9,7 @@
       :style="`border: 2px solid ${
         mech.IsActive
           ? 'rgb(var(--v-theme-success))'
-          : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
+          : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
       }`"
     >
       <v-hover>
@@ -20,7 +20,9 @@
               :style="`z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${
                 mech.IsActive
                   ? 'rgb(var(--v-theme-success))'
-                  : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
+                  : mech.Frame.Manufacturer.GetColor(
+                      $vuetify.theme.current.dark
+                    )
               }`"
             >
               <span
@@ -37,7 +39,9 @@
                 size="xLarge"
                 :source="mech.Frame.Manufacturer"
                 color="white"
-                :stroke="mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)"
+                :stroke="
+                  mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
+                "
               />
             </div>
             <div

@@ -309,7 +309,7 @@
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Speed: ${pilot.Speed}`">
-            <v-icon icon="$vuetify.icons.move" />
+            <v-icon icon="mdi-arrow-right-bold-hexagon-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.Speed }}</span>
         </v-col>

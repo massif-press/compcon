@@ -1,8 +1,7 @@
 <template>
   <div>
-    <!-- {{ cs }} -->
     <span class="heading h2 text-text">{{ cs.Name }}</span>
-    <p v-html-safe="cs.Description" class="flavor-text px-3" />
+    <p v-html-safe="cs.Description" class="flavor-text px-3 pb-4" />
 
     <div v-if="cs.PassiveName">
       <span class="heading sub"
@@ -26,7 +25,7 @@
       </div>
     </div>
 
-    <v-row no-gutters>
+    <v-row>
       <v-col cols="auto">
         <span class="heading sub"
           >ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span
@@ -52,8 +51,8 @@
         </v-chip>
       </v-col>
     </v-row>
-    <div class="light-panel pa-2 clipped mb-2 mx-3 mt-1">
-      <p v-html-safe="cs.ActiveEffect" class="body-text mb-1 px-3" />
+    <div class="light-panel pa-2 clipped mx-3 mt-1">
+      <div v-html-safe="cs.ActiveEffect" class="body-text mb-1 px-3" />
       <cc-action
         v-for="(a, i) in cs.ActiveActions"
         :action="a"

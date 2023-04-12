@@ -24,8 +24,6 @@ compcon.use(vuetify);
 compcon.use(router);
 compcon.use(VueSecureHTML);
 
-// Install the component with Vue, using its appropriate name and configuration.
-// This will add it as a globally available component for use within templates.
 Object.keys(globals).forEach((key: string) => {
   const componentConfig = globals[key as keyof typeof globals];
   compcon.component(

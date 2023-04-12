@@ -65,7 +65,9 @@
         <v-col class="text-center pa-3">
           <span
             class="heading mech"
-            :style="`color: ${manufacturer(m).GetColor($vuetify.theme.dark)}`"
+            :style="`color: ${manufacturer(m).GetColor(
+              $vuetify.theme.current.dark
+            )}`"
           >
             <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
             {{ manufacturer(m).Name }}

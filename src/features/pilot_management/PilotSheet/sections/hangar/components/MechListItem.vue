@@ -5,7 +5,7 @@
       :color="
         mech.IsActive
           ? 'success'
-          : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
+          : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
       "
       style="position: absolute; z-index: 5"
       class="overlay clipped-square-invert"
@@ -23,7 +23,7 @@
         :style="`background-color: ${
           mech.IsActive
             ? 'rgb(var(--v-theme-success))'
-            : mech.Frame.Manufacturer.GetColor($vuetify.theme.dark)
+            : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
         }`"
       >
         <v-row no-gutters>

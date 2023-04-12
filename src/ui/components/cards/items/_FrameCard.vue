@@ -1,29 +1,20 @@
 <template>
   <v-card-text>
-    <v-row density="compact">
-      <v-col md="12" lg="7">
-        <v-row density="compact" align="start">
-          <v-col>
-            <span class="heading h2 text-text">
-              {{ item.Source }} {{ item.MechTypeString }} Frame
-            </span>
-          </v-col>
-          <v-col cols="auto" class="ml-auto">
-            <cc-tooltip
-              :title="`Size ${item.Size === 0.5 ? '½' : item.Size}`"
-              :content="glossary('size')"
-            >
-              <v-icon
-                size="60"
-                color="accent"
-                class="mt-n2"
-                style="line-height: 40px"
-              >
-                {{ item.SizeIcon }}
-              </v-icon>
-            </cc-tooltip>
-          </v-col>
-        </v-row>
+    <v-row dense align="start">
+      <v-col class="heading h1 text-text">
+        {{ item.Source }} {{ item.MechTypeString }} Frame
+      </v-col>
+      <v-col cols="auto" class="mt-n5">
+        <cc-tooltip
+          :title="`Size ${item.Size === 0.5 ? '½' : item.Size}`"
+          :content="glossary('size')"
+        >
+          <v-icon size="65" color="accent" :icon="item.SizeIcon" />
+        </cc-tooltip>
+      </v-col>
+    </v-row>
+    <v-row align="center" class="mt-n4">
+      <v-col md="12" lg="8">
         <div v-if="item.InLcp" class="heading h4 text-text">
           {{ item.LcpName }}
         </div>
@@ -31,36 +22,33 @@
           <div class="text-overline ml-n2 my-1 text-text">COMPENDIUM ENTRY</div>
           <p v-html-safe="item.Description" class="flavor-text" />
         </div>
+        <br />
         <div>
-          <span class="text-overline ml-n2 text-text">COMBAT PROFILE</span>
-          <p class="heading h3 text-subtle light-panel text-center py-10">
-            <v-icon large color="grey">mdi-lock</v-icon>
-            <br />
-            FEATURE IN DEVELOPMENT
-          </p>
+          <div class="text-overline ml-n2 text-text">COMBAT PROFILE</div>
+          <frame-combat-chart :frame="item" />
         </div>
       </v-col>
-      <v-col v-if="$vuetify.display.lgAndUp" cols="5">
+      <v-col v-if="$vuetify.display.lgAndUp" cols="4">
         <v-img :src="item.DefaultImage" max-width="35vw" />
-        <cc-tooltip simple content="Feature In Development">
-          <frame-gallery-modal :frame="item" />
-        </cc-tooltip>
+        <!-- <cc-tooltip simple content="Feature In Development"> -->
+        <!-- <frame-gallery-modal :frame="item" /> -->
+        <!-- </cc-tooltip> -->
       </v-col>
     </v-row>
 
-    <span class="text-overline ml-n2 mb-n2 text-text"
-      >BASE FRAME ATTRIBUTES</span
-    >
-    <frame-statblock :frame="item" />
+    <div class="text-overline ml-n2 text-text">FRAME TRAITS</div>
+    <v-row>
+      <v-col v-for="t in item.Traits">
+        <cc-trait-item
+          :trait="t"
+          :color="item.Manufacturer.GetColor($vuetify.theme.current.dark)"
+          class="mb-2"
+        />
+      </v-col>
+    </v-row>
 
-    <span class="text-overline ml-n2 text-text">FRAME TRAITS</span>
-    <cc-trait-item
-      v-for="(t, i) in item.Traits"
-      :trait="t"
-      :color="item.Manufacturer.GetColor($vuetify.theme.dark)"
-    />
-
-    <span class="text-overline ml-n2 text-text">AVAILABLE WEAPON MOUNTS</span>
+    <br />
+    <div class="text-overline ml-n2 text-text">AVAILABLE WEAPON MOUNTS</div>
     <v-row justify="space-around" class="mb-3">
       <v-col v-for="(m, i) in item.Mounts">
         <v-card color="primary" dark class="clipped">
@@ -71,7 +59,8 @@
       </v-col>
     </v-row>
 
-    <span class="text-overline ml-n2 text-text">ONBOARD CORE SYSTEM</span>
+    <br />
+    <div class="text-overline ml-n2 text-text">ONBOARD CORE SYSTEM</div>
     <frame-core-system-panel :cs="item.CoreSystem" />
   </v-card-text>
 </template>
@@ -81,12 +70,18 @@ import {
   FrameGalleryModal,
   FrameStatblock,
   FrameCoreSystemPanel,
+  FrameCombatChart,
 } from '../frame';
 import { glossary } from 'lancer-data';
 
 export default {
   name: 'cc-frame-card',
-  components: { FrameGalleryModal, FrameStatblock, FrameCoreSystemPanel },
+  components: {
+    FrameGalleryModal,
+    FrameStatblock,
+    FrameCoreSystemPanel,
+    FrameCombatChart,
+  },
   props: {
     item: {
       type: Object,

@@ -324,7 +324,9 @@ export default {
   }),
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark);
+      return this.mech.Frame.Manufacturer.GetColor(
+        this.$vuetify.theme.current.dark
+      );
     },
     // armoryLevel() {
     //   if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0

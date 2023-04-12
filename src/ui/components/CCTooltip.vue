@@ -1,29 +1,28 @@
 <template>
   <v-tooltip
-    :top="isTop"
-    :bottom="bottom"
-    :left="left"
-    :right="right"
-    content-class="cc-tooltip"
+    :location="(location as any)"
     :open-delay="delayed ? 500 : 150"
+    :max-width="maxWidth"
   >
     <template v-slot:activator="{ props }">
       <div :class="{ 'd-inline': inline }" v-bind="props">
         <slot />
       </div>
     </template>
-    <span v-if="err">
-      Unable to load tooltip information. This may be due to malformed data or
-      an unloaded content package.
-    </span>
-    <div v-else>
-      <div v-if="simple">
-        <p class="body-text text-stark mb-0" v-html="content" />
+    <div class="text-white">
+      <div v-if="err">
+        Unable to load tooltip information. This may be due to malformed data or
+        an unloaded content package.
       </div>
       <div v-else>
-        <span v-if="title" class="heading h3 text-stark">{{ title }}</span>
-        <v-divider v-if="title" class="my-1" />
-        <p class="body-text text-stark pb-0 mb-0" v-html="content" />
+        <div v-if="!title">
+          <div class="body-text text-white" v-html="content" />
+        </div>
+        <div v-else>
+          <span class="heading h3 text-white">{{ title }}</span>
+          <v-divider class="my-1" />
+          <div class="body-text text-white" v-html="content" />
+        </div>
       </div>
     </div>
   </v-tooltip>
@@ -38,25 +37,10 @@ export default {
       required: false,
       default: '',
     },
-    simple: {
-      type: Boolean,
+    location: {
+      type: String,
       required: false,
-    },
-    top: {
-      type: Boolean,
-      required: false,
-    },
-    bottom: {
-      type: Boolean,
-      required: false,
-    },
-    left: {
-      type: Boolean,
-      required: false,
-    },
-    right: {
-      type: Boolean,
-      required: false,
+      default: 'top',
     },
     inline: {
       type: Boolean,
@@ -69,37 +53,16 @@ export default {
     title: {
       type: String,
       required: false,
-      default: '',
     },
     content: {
       type: String,
       required: true,
     },
-  },
-  computed: {
-    isTop(): boolean {
-      if (this.top) return true;
-      return !this.bottom && !this.left && !this.right;
+    maxWidth: {
+      type: String,
+      required: false,
+      default: '350px',
     },
   },
 };
 </script>
-
-<style scoped>
-.cc-tooltip {
-  background: rgb(var(--v-theme-tooltip)) !important;
-  background-color: rgb(var(--v-theme-tooltip)) !important;
-  opacity: 1 !important;
-  max-width: 50vw;
-  border: 1px rgb(var(--v-theme-active)) solid;
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

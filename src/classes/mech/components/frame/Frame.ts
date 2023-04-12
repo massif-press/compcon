@@ -40,6 +40,107 @@ interface IFrameData extends ILicensedItemData {
   other_art?: { tag?: ImageTag; src?: string; url?: string }[];
 }
 
+class FrameComparison {
+  public static readonly EvasionMultiplier: number = 3;
+  public static readonly EdefenseMultiplier: number = 2;
+
+  public static readonly MainMultiplier: number = 2;
+  public static readonly HeavyMultiplier: number = 3.5;
+  public static readonly AuxAuxMultiplier: number = 1.5;
+  public static readonly AuxMultiplier: number = 1;
+  public static readonly MainAuxMultiplier: number = 2.5;
+  public static readonly FlexMultiplier: number = 3;
+  public static readonly IntegratedMultiplier: number = 2;
+
+  public Survivability: number = 1;
+  public readonly SurvivabilityRaw: number;
+  public Mobility: number = 1;
+  public readonly MobilityRaw: number;
+  public Offense: number = 1;
+  public readonly OffenseRaw: number;
+  public Utility: number = 1;
+  public readonly UtilityRaw: number;
+
+  public HP: number = 1;
+  public Evasion: number = 1;
+  public EDefense: number = 1;
+  public HeatCap: number = 1;
+  public SensorRange: number = 1;
+  public TechAttack: number = 1;
+  public RepCap: number = 1;
+  public SaveTarget: number = 1;
+  public Speed: number = 1;
+  public SP: number = 1;
+
+  public constructor(frame: Frame) {
+    this.SurvivabilityRaw =
+      (frame.HP * frame.Armor * frame.Structure +
+        frame.HP * frame.RepCap +
+        frame.HeatCap * frame.HeatStress +
+        frame.Evasion * FrameComparison.EvasionMultiplier +
+        frame.EDefense *
+          FrameComparison.EdefenseMultiplier *
+          Math.max(frame.SaveTarget - 10, 0.9)) /
+      (Math.max(frame.Size, 0.8) * 0.9);
+    this.MobilityRaw = frame.Speed * (frame.HeatCap * frame.HeatStress);
+    this.OffenseRaw =
+      frame.TechAttack * 5 +
+      frame.SP * 3 +
+      frame.Mounts.map((x) => this.mScore(frame, x)).reduce((a, b) => a + b, 0);
+    this.UtilityRaw =
+      frame.SensorRange * 3 +
+      frame.RepCap * 2 +
+      frame.SP * 5 * Math.max(frame.TechAttack, 1);
+  }
+
+  mScore(frame: Frame, mountType: MountType) {
+    return (
+      frame.Mounts.filter((x) => x === mountType).length *
+      FrameComparison[`${mountType.replace('/', '')}Multiplier`]
+    );
+  }
+
+  public static NormalizeReferenceSet(Frames: Frame[]) {
+    const normalize = (val, valMin, valMax, min, max) =>
+      ((val - valMin) / (valMax - valMin)) * (max - min) + min;
+
+    const combatVals = ['Survivability', 'Mobility', 'Offense', 'Utility'];
+    combatVals.forEach((v) => {
+      const vMax = Math.max(...Frames.map((x) => x.Comparator![`${v}Raw`]));
+      const vMin = Math.min(...Frames.map((x) => x.Comparator![`${v}Raw`]));
+      Frames.forEach((x) => {
+        x.Comparator![v] = x.Comparator![v] = normalize(
+          x.Comparator![`${v}Raw`],
+          vMin,
+          vMax,
+          0,
+          1
+        );
+      });
+    });
+
+    const statVals = [
+      'HP',
+      'Evasion',
+      'EDefense',
+      'HeatCap',
+      'SensorRange',
+      'TechAttack',
+      'RepCap',
+      'SaveTarget',
+      'Speed',
+      'SP',
+    ];
+    statVals.forEach((v) => {
+      const vMax = Math.max(...Frames.map((x) => x[v]));
+      const vMin = Math.min(...Frames.map((x) => x[v]));
+      Frames.forEach((x) => {
+        x.Comparator![v] = normalize(x[v], vMin, vMax, 0, 100) + 10;
+      });
+    });
+  }
+}
+
 class Frame extends LicensedItem implements IFeatureContainer {
   public readonly MechType: MechType[];
   public readonly YPosition: number;
@@ -53,6 +154,7 @@ class Frame extends LicensedItem implements IFeatureContainer {
   public readonly Variant: string;
   private _image_url?: string;
   private _stats: IFrameStats;
+  public Comparator?: FrameComparison;
 
   public constructor(
     frameData: IFrameData,
@@ -71,6 +173,7 @@ class Frame extends LicensedItem implements IFeatureContainer {
     this.OtherArt = frameData.other_art;
     this.Specialty = frameData.specialty || false;
     this.Variant = frameData.variant || '';
+    this.Comparator = new FrameComparison(this);
   }
 
   get FeatureSource(): any[] {
@@ -93,7 +196,7 @@ class Frame extends LicensedItem implements IFeatureContainer {
   }
 
   public get SizeIcon(): string {
-    return `cc:size-${this.Size === 0.5 ? 'half' : this.Size}`;
+    return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`;
   }
 
   public get Armor(): number {
@@ -154,5 +257,5 @@ class Frame extends LicensedItem implements IFeatureContainer {
   }
 }
 
-export { Frame };
+export { Frame, FrameComparison };
 export type { IFrameData, IFrameStats };

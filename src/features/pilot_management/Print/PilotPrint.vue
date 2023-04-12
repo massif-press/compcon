@@ -54,7 +54,7 @@
             <div class="text-overline mt-n2 mb-n3 ml-n6">SPEED</div>
             <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3"
-                >$vuetify.icons.move</v-icon
+                >mdi-arrow-right-bold-hexagon-outline</v-icon
               >
               <div class="heading p-stat icon-overlap" v-html="pilot.Speed" />
             </div>

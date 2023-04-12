@@ -104,16 +104,18 @@
               <v-btn size="small" dark variant="outlined" v-bind="props">
                 <v-icon start>mdi-database-refresh</v-icon>
                 Load Data Backup
-                <v-icon end class="fade-select" id="tt2"
-                  >mdi-help-circle-outline
-                </v-icon>
-                <v-tooltip location="top" activator="#tt2" width="300px">
-                  COMP/CON relies on your browser to save and load its data.
+                <cc-tooltip
+                  inline
+                  content="COMP/CON relies on your browser to save and load its data.
                   Settings, utilities, and other applications can erase your
                   browser's localStorage cache, resulting in the loss of your
-                  COMP/CON data. IT is <b>strongly</b> recommended to back up
-                  your data often.
-                </v-tooltip>
+                  COMP/CON data. It is <b>strongly</b> recommended to back up
+                  your data often."
+                >
+                  <v-icon end class="fade-select"
+                    >mdi-help-circle-outline</v-icon
+                  >
+                </cc-tooltip>
               </v-btn>
             </template>
             <v-card>

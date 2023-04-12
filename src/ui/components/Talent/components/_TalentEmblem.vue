@@ -10,7 +10,7 @@
       :class="
         white
           ? 'white-emblem'
-          : $vuetify.theme.dark
+          : $vuetify.theme.current.dark
           ? 'white-emblem'
           : 'black-emblem'
       "

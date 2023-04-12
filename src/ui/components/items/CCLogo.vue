@@ -65,7 +65,7 @@ export default {
       return this.color || this.source.Color;
     },
     getFilter(): string {
-      if (this.$vuetify.theme.dark) return 'brightness(0) invert(1)';
+      if (this.$vuetify.theme.current.dark) return 'brightness(0) invert(1)';
       return 'brightness(0)';
     },
     isSvg(): boolean {
