@@ -54,12 +54,12 @@ export default {
   name: 'ident-block',
   data: () => ({
     pilotStatuses: [
-      { text: 'Active', value: 'ACTIVE' },
-      { text: 'Inactive', value: 'INACTIVE' },
-      { text: 'Retired', value: 'RET' },
-      { text: 'Missing In Action', value: 'MIA' },
-      { text: 'Killed In Action', value: 'KIA' },
-      { text: 'Unknown', value: 'UNKNOWN' },
+      { title: 'Active', value: 'ACTIVE' },
+      { title: 'Inactive', value: 'INACTIVE' },
+      { title: 'Retired', value: 'RET' },
+      { title: 'Missing In Action', value: 'MIA' },
+      { title: 'Killed In Action', value: 'KIA' },
+      { title: 'Unknown', value: 'UNKNOWN' },
     ],
     noteColor: '',
     notification: '',

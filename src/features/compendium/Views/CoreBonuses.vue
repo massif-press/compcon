@@ -1,36 +1,39 @@
 <template>
   <cc-sidebar-view>
-    <div v-for="m in Object.keys(bonuses)" slot="sidebar">
-      <v-list-item>
-        <v-list-item-title class="ml-n5 mb-n2">
-          <cc-logo :source="manufacturer(m)" style="margin-bottom: -6px" />
-          <span
-            class="heading sub"
-            :style="`color: ${manufacturer(m).GetColor(
-              $vuetify.theme.current.dark
-            )}`"
-          >
-            {{ m }}
-          </span>
-        </v-list-item-title>
-      </v-list-item>
+    <template v-slot:sidebar>
+      <div v-for="m in Object.keys(bonuses)" slot="sidebar">
+        <v-list-item>
+          <v-list-item-title>
+            <v-row no-gutters align="center">
+              <v-col cols="auto">
+                <v-icon
+                  size="30"
+                  :icon="`cc:${manufacturer(m).Icon}`"
+                  :color="manufacturer(m).Color"
+                />
+              </v-col>
+              <v-col
+                cols="auto"
+                class="heading sub"
+                :style="`color: ${manufacturer(m).GetColor(
+                  $vuetify.theme.current.dark
+                )}`"
+              >
+                {{ m }}
+              </v-col>
+            </v-row>
+          </v-list-item-title>
+        </v-list-item>
 
-      <v-list-item
-        v-for="cb in bonuses[m]"
-        link
-        @click="
-          $vuetify.goTo(`#e_${cb.ID}`, {
-            duration: 150,
-            easing: 'easeInOutQuad',
-            offset: 25,
-          })
-        "
-      >
-        <v-list-item-title class="heading h3 text-text">{{
-          cb.Name
-        }}</v-list-item-title>
-      </v-list-item>
-    </div>
+        <v-list-item
+          v-for="cb in bonuses[m]"
+          link
+          :title="cb.Name"
+          @click="scrollTo(cb)"
+        >
+        </v-list-item>
+      </div>
+    </template>
 
     <v-row no-gutters class="mt-3" align="center">
       <v-col cols="auto">
@@ -57,12 +60,12 @@
     <v-divider class="my-2" />
 
     <div v-for="m in Object.keys(bonuses)">
-      <v-row density="compact" align="center">
+      <v-row dense align="center">
         <v-col cols="auto">
-          <cc-logo
-            :size="$vuetify.display.mdAndUp ? 'xLarge' : 'large'"
-            :source="manufacturer(m)"
-            class="mb-n2"
+          <v-icon
+            size="80"
+            :icon="`cc:${manufacturer(m).Icon}`"
+            :color="manufacturer(m).Color"
           />
         </v-col>
         <v-col>
@@ -77,7 +80,7 @@
         </v-col>
       </v-row>
       <cc-core-bonus-item
-        v-for="(b, i) in bonuses[m]"
+        v-for="b in bonuses[m]"
         :id="`e_${b.ID}`"
         :bonus="b"
         class="mx-3 my-5"
@@ -90,7 +93,6 @@
 import { CompendiumStore } from '@/stores';
 import _, { Dictionary } from 'lodash';
 import { CoreBonus } from '@/class';
-import { Manufacturer } from '@/classes/Manufacturer';
 
 export default {
   name: 'CoreBonuses',
@@ -99,7 +101,7 @@ export default {
   }),
   computed: {
     bonuses(): Dictionary<CoreBonus[]> {
-      let bArr = this.$CompendiumStore['compendium/CoreBonuses'].filter(
+      let bArr = CompendiumStore().CoreBonuses.filter(
         (x: CoreBonus) => !x.IsHidden
       );
       if (this.manFilter && this.manFilter.toLowerCase() !== 'all') {
@@ -109,21 +111,28 @@ export default {
       return _.groupBy(bArr, 'Source');
     },
     sources(): string[] {
-      return this.$CompendiumStore['compendium/CoreBonuses']
-        .filter((x: CoreBonus) => !x.IsHidden)
+      return CompendiumStore()
+        .CoreBonuses.filter((x: CoreBonus) => !x.IsHidden)
         .map((x: CoreBonus) => x.Source);
-    },
-    compendium(): CompendiumStore {
-      return CompendiumStore();
     },
   },
   mounted(): void {
     this.manFilter = 'ALL';
   },
   methods: {
-    manufacturer(id: string): Manufacturer {
-      const compendium = CompendiumStore();
-      return compendium.Manufacturers.find((x) => x.ID === id.toUpperCase());
+    scrollTo(bonus: CoreBonus): void {
+      const el = document.getElementById(`e_${bonus.ID}`);
+      if (el) {
+        const yOffset = -60;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    },
+    manufacturer(id: string): any {
+      return CompendiumStore().Manufacturers.find(
+        (x) => x.ID === id.toUpperCase()
+      );
     },
   },
 };

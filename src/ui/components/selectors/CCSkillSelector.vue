@@ -166,7 +166,7 @@ export default {
   },
   created() {
     const compendium = CompendiumStore();
-    this.staticSkills = this.$_.groupBy(compendium.Skills, 'Family');
+    this.staticSkills = _.groupBy(compendium.Skills, 'Family');
     this.headers = rules.skill_headers;
   },
   methods: {

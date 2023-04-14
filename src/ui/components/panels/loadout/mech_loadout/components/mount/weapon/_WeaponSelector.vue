@@ -95,7 +95,7 @@
               <v-icon
                 class="ml-n2"
                 :color="showOverSP ? 'warning' : 'success'"
-                v-html="'cc:system-point'"
+                v-html="'cc:system_point'"
               />
             </cc-tooltip>
           </v-switch>
@@ -127,15 +127,15 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: 'Source', align: 'left', value: 'Source' },
-      { text: 'Weapon', align: 'left', value: 'Name' },
-      { text: 'License', align: 'left', value: 'LicenseString' },
-      { text: 'Size', align: 'left', value: 'SizeInt' },
-      { text: 'Type', align: 'left', value: 'WeaponType' },
-      { text: 'Range', align: 'left', value: 'Range[0].Max' },
-      { text: 'Damage', align: 'left', value: 'Damage[0].Max' },
-      { text: 'SP', align: 'left', value: 'SP' },
-      { text: '', align: 'center', value: 'Equip' },
+      { title: 'Source', align: 'left', value: 'Source' },
+      { title: 'Weapon', align: 'left', value: 'Name' },
+      { title: 'License', align: 'left', value: 'LicenseString' },
+      { title: 'Size', align: 'left', value: 'SizeInt' },
+      { title: 'Type', align: 'left', value: 'WeaponType' },
+      { title: 'Range', align: 'left', value: 'Range[0].Max' },
+      { title: 'Damage', align: 'left', value: 'Damage[0].Max' },
+      { title: 'SP', align: 'left', value: 'SP' },
+      { title: '', align: 'center', value: 'Equip' },
     ],
     weapons: [],
     showUnlicensed: false,

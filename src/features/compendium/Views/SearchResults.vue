@@ -71,9 +71,9 @@ export default {
   computed: {
     validResults(): CompendiumItem[] {
       // const compendium =CompendiumStore();
-      // return this.$_.flatten(
-      //   this.$_.values(
-      //     this.$_.pick(compendium, [
+      // return _.flatten(
+      //   _.values(
+      //     _.pick(compendium, [
       //       'Frames',
       //       'MechSystems',
       //       'MechWeapons',

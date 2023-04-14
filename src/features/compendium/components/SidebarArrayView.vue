@@ -1,36 +1,25 @@
 <template>
   <cc-sidebar-view>
-    <v-list-item
-      v-for="(e, i) in array"
-      slot="sidebar"
-      link
-      @click="
-        $vuetify.goTo(`#e_${e[nameKey].replace(/\W/g, '')}`, {
-          duration: 150,
-          easing: 'easeInOutQuad',
-          offset: 25,
-        })
-      "
-    >
-      <v-list-item-title class="heading h3 ml-2">{{
-        e[nameKey]
-      }}</v-list-item-title>
-    </v-list-item>
+    <template v-slot:sidebar>
+      <v-list-item v-for="e in array" link @click="scrollTo(e)">
+        <v-list-item-title>{{ (e as any)[nameKey] }}</v-list-item-title>
+      </v-list-item>
+    </template>
     <h1 class="heading mb-3 mt-2">{{ title }}</h1>
     <cc-titled-panel
-      v-for="(e, i) in array"
-      :id="`e_${e[nameKey].replace(/\W/g, '')}`"
+      v-for="e in array"
+      :id="`e_${(e as any)[nameKey].replace(/\W/g, '')}`"
       :icon="icon || ''"
-      :title="e[nameKey]"
-      class="my-6"
+      :title="(e as any)[nameKey]"
+      class="my-5"
       density="compact"
     >
       <h3
-        v-if="subKey && (!subConditional || e[subConditional])"
-        v-html-safe="e[subKey]"
+        v-if="subKey && (!subConditional || (e as any)[subConditional])"
+        v-html-safe="(e as any)[subKey]"
         class="heading mb-2"
       />
-      <p v-html-safe="e[descriptionKey]" class="body-text mb-1" />
+      <p v-html-safe="(e as any)[descriptionKey]" class="body-text mb-1" />
     </cc-titled-panel>
   </cc-sidebar-view>
 </template>
@@ -71,6 +60,19 @@ export default {
       type: String,
       required: false,
       default: '',
+    },
+  },
+  methods: {
+    scrollTo(e: any): void {
+      const el = document.getElementById(
+        `e_${(e as any)[this.nameKey].replace(/\W/g, '')}`
+      );
+      if (el) {
+        const yOffset = -60;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     },
   },
 };

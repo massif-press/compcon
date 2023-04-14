@@ -58,15 +58,14 @@
               <v-text-field
                 v-model="accuracy"
                 type="number"
-                append-outer-icon="mdi-plus-circle-outline"
-                append-icon="cc:accuracy"
+                append-icon="mdi-plus-circle-outline"
                 prepend-icon="mdi-minus-circle-outline"
                 style="width: 115px"
                 class="hide-input-spinners"
                 color="accent"
                 density="compact"
                 hide-details
-                @click:append-outer="accuracy += 1"
+                @click:append="accuracy += 1"
                 @click:prepend="accuracy > 0 ? (accuracy -= 1) : ''"
                 @change="accuracy = parseInt($event)"
               />
@@ -82,15 +81,14 @@
               <v-text-field
                 v-model="difficulty"
                 type="number"
-                append-outer-icon="mdi-plus-circle-outline"
-                append-icon="cc:difficulty"
+                append-icon="mdi-plus-circle-outline"
                 prepend-icon="mdi-minus-circle-outline"
                 style="width: 115px"
                 class="hide-input-spinners"
                 color="accent"
                 density="compact"
                 hide-details
-                @click:append-outer="difficulty += 1"
+                @click:append="difficulty += 1"
                 @click:prepend="difficulty > 0 ? (difficulty -= 1) : ''"
                 @change="difficulty = parseInt($event)"
               />

@@ -136,13 +136,13 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: 'Item', align: 'left', value: 'Name' },
-      { text: 'Armor', align: 'center', value: 'Armor' },
-      { text: 'HP Bonus', align: 'center', value: 'HPBonus' },
-      { text: 'E-Defense', align: 'center', value: 'EDefense' },
-      { text: 'Evasion', align: 'center', value: 'Evasion' },
-      { text: 'Speed', align: 'center', value: 'Speed' },
-      { text: '', align: 'center', value: 'Equip' },
+      { title: 'Item', align: 'left', value: 'Name' },
+      { title: 'Armor', align: 'center', value: 'Armor' },
+      { title: 'HP Bonus', align: 'center', value: 'HPBonus' },
+      { title: 'E-Defense', align: 'center', value: 'EDefense' },
+      { title: 'Evasion', align: 'center', value: 'Evasion' },
+      { title: 'Speed', align: 'center', value: 'Speed' },
+      { title: '', align: 'center', value: 'Equip' },
     ],
   }),
   computed: {

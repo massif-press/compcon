@@ -198,15 +198,14 @@
             <v-text-field
               v-model="mech.Burn"
               type="number"
-              append-outer-icon="mdi-plus-circle-outline"
-              append-icon="mdi-fire"
+              append-icon="mdi-plus-circle-outline"
               prepend-icon="mdi-minus-circle-outline"
               :style="$vuetify.display.mdAndUp ? 'width: 115px' : ''"
               class="hide-input-spinners"
               hint="BURN"
               persistent-hint
               density="compact"
-              @click:append-outer="state.SetBurn(mech.Burn + 1)"
+              @click:append="state.SetBurn(mech.Burn + 1)"
               @click:prepend="state.SetBurn(mech.Burn - 1)"
               @change="state.SetBurn(parseInt($event))"
             />
@@ -781,12 +780,12 @@ export default {
       return this.mech.MechLoadoutController.ActiveLoadout;
     },
     statuses(): string[] {
-      return this.$CompendiumStore
+      return CompendiumStore()
         .getItemCollection('Statuses')
         .filter((x) => x.type === 'Status');
     },
     conditions(): string[] {
-      return this.$CompendiumStore
+      return CompendiumStore()
         .getItemCollection('Statuses')
         .filter((x) => x.type === 'Condition');
     },

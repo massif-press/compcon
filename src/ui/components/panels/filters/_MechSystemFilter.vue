@@ -11,9 +11,8 @@
         label="From Manufacturer"
         :items="manufacturers"
         chips
-        deletable-chips
-        small-chips
-        @change="updateFilters()"
+        clearable
+        @update:modelValue="updateFilters()"
       />
     </v-col>
     <v-col cols="12" md="4">
@@ -24,15 +23,14 @@
         density="compact"
         prepend-icon="mdi-tag"
         chips
-        deletable-chips
+        clearable
         variant="outlined"
         label="Tags"
         :items="tags"
         multiple
-        small-chips
         item-text="Name"
         item-value="ID"
-        @change="updateFilters()"
+        @update:modelValue="updateFilters()"
       />
     </v-col>
     <v-col cols="12" md="4">
@@ -45,9 +43,8 @@
         label="System Type"
         :items="systemTypes"
         chips
-        deletable-chips
-        small-chips
-        @change="updateFilters()"
+        clearable
+        @update:modelValue="updateFilters()"
       />
     </v-col>
     <v-col cols="12" md="4">
@@ -58,29 +55,34 @@
         density="compact"
         prepend-icon="cc:compendium"
         chips
-        deletable-chips
+        clearable
         variant="outlined"
         label="From Content Pack"
         :items="lcps"
         multiple
-        small-chips
-        @change="updateFilters()"
+        @update:modelValue="updateFilters()"
       />
     </v-col>
-    <v-col cols="12" md="4" class="text-center">
-      <v-icon icon="cc:system-point" />
-      <span class="text-button">SP Cost</span>
-      <v-btn-toggle
-        v-model="spType"
-        color="accent"
-        class="ml-1 py-1"
-        @change="updateFilters()"
-      >
-        <v-btn value="less" small text>Less Than</v-btn>
-        <v-btn value="eq" small text>Equal To</v-btn>
-        <v-btn value="greater" small text>Greater Than</v-btn>
-      </v-btn-toggle>
-      <v-row no-gutters justify="center">
+    <v-col cols="12" md="6" class="text-center">
+      <v-row dense align="center">
+        <v-col cols="auto">
+          <v-icon icon="cc:system_point" />
+        </v-col>
+        <v-col cols="auto">
+          <span class="text-button">SP Cost</span>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn-toggle
+            v-model="spType"
+            color="accent"
+            class="ml-1 py-1"
+            @update:modelValue="updateFilters()"
+          >
+            <v-btn value="less" size="small">Less Than</v-btn>
+            <v-btn value="eq" size="small">Equal To</v-btn>
+            <v-btn value="greater" size="small">Greater Than</v-btn>
+          </v-btn-toggle>
+        </v-col>
         <v-col cols="auto">
           <v-text-field
             v-model="sp"
@@ -91,16 +93,16 @@
             hide-details
             class="hide-input-spinners"
             prepend-icon="mdi-minus"
-            append-outer-icon="mdi-plus"
+            append-icon="mdi-plus"
             @click:prepend="
               sp > 0 ? sp-- : sp;
               updateFilters();
             "
-            @click:append-outer="
+            @click:append="
               sp++;
               updateFilters();
             "
-            @change="updateFilters()"
+            @update:modelValue="updateFilters()"
           />
         </v-col>
       </v-row>
@@ -112,10 +114,11 @@
 import { Tag, SystemType, Manufacturer } from '@/class';
 
 import { CompendiumStore } from '@/stores';
+import _ from 'lodash';
 
 const nameSort = function (a, b): number {
-  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
-  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
+  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
   return 0;
 };
 
@@ -129,11 +132,12 @@ export default {
     spType: '',
     lcpFilter: [],
   }),
+  emits: ['set-filters'],
   computed: {
     manufacturers(): Manufacturer[] {
-      return this.$CompendiumStore
+      return CompendiumStore()
         .getItemCollection('Manufacturers')
-        .map((x) => ({ text: x.Name, value: x.ID }))
+        .map((x) => ({ title: x.Name, value: x.ID }))
         .sort(nameSort);
     },
     systemTypes(): SystemType[] {
@@ -143,9 +147,9 @@ export default {
         .sort() as SystemType[];
     },
     tags(): Tag[] {
-      return this.$_.uniqBy(
+      return _.uniqBy(
         [].concat(
-          this.$CompendiumStore
+          CompendiumStore()
             .getItemCollection('MechSystems')
             .flatMap((x) => x.Tags)
             .filter((x) => !x.FilterIgnore && !x.IsHidden)
@@ -170,7 +174,7 @@ export default {
       const fObj = {} as any;
       if (this.lcpFilter && this.lcpFilter.length)
         fObj.LcpName = [this.lcpFilter];
-      if (this.spType && parseInt(this.sp) !== NaN)
+      if (this.spType && !Number.isNaN(parseInt(this.sp)))
         fObj[`SP_${this.spType}`] = parseInt(this.sp);
       if (this.sourceFilter && this.sourceFilter.length)
         fObj.Source = [this.sourceFilter];

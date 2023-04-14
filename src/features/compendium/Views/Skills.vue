@@ -9,6 +9,7 @@
 </template>
 
 <script lang="ts">
+import { Skill } from '@/class';
 import SidebarArrayView from '../components/SidebarArrayView.vue';
 
 import { CompendiumStore } from '@/stores';
@@ -16,12 +17,10 @@ import { CompendiumStore } from '@/stores';
 export default {
   name: 'skills',
   components: { SidebarArrayView },
-  data: () => ({
-    skills: [],
-  }),
-  async created() {
-    // const compendium =CompendiumStore();
-    // this.skills = await compendium.Skills.filter((x) => x);
+  computed: {
+    skills(): Skill[] {
+      return CompendiumStore().Skills;
+    },
   },
 };
 </script>

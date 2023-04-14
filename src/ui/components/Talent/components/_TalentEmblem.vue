@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     imageLoadFailed() {
-      this.src = '/static/img/talent/GENERIC TALENT.svg';
+      this.src = '/assets/img/talent/GENERIC TALENT.svg';
       this.backup = this.name;
     },
   },

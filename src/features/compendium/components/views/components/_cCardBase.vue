@@ -1,53 +1,51 @@
 <template>
-  <div>
-    <v-row
-      no-gutters
-      align="center"
-      justify="center"
-      :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${
-        small ? '75px' : '200px'
-      }`"
-    >
-      <v-col>
-        <div>
-          <slot name="top" />
-          <div
-            v-if="item.Tags && item.Tags.length"
-            cols="12"
-            class="text-center pb-2 pt-2 my-1"
-          >
-            <cc-tags
-              :tags="item.Tags"
-              small
-              density="compact"
-              variant="outlined"
-              color="accent"
-            />
-          </div>
-        </div>
-      </v-col>
-    </v-row>
-    <v-toolbar
-      density="compact"
-      :color="hover ? 'primary lighten-1' : 'primary'"
-      dark
-    >
+  <v-row
+    no-gutters
+    align="center"
+    justify="center"
+    :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${
+      small ? '75px' : '200px'
+    }`"
+  >
+    <v-col>
       <div>
-        <div class="text-overline mb-n2">
-          <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
-          <slot name="overline" />
-        </div>
+        <slot name="top" />
         <div
-          :class="small ? 'font-weight-bold' : 'heading h3'"
-          :style="`overflow: hidden; width: ${
-            small ? '73vw' : '25vw'
-          }; text-overflow: ellipsis; white-space: nowrap;`"
+          v-if="item.Tags && item.Tags.length"
+          cols="12"
+          class="text-center pb-2 pt-2 my-1"
         >
-          {{ item.Name }}
+          <cc-tags
+            :tags="item.Tags"
+            small
+            density="compact"
+            variant="outlined"
+            color="accent"
+          />
         </div>
       </div>
-    </v-toolbar>
-  </div>
+    </v-col>
+  </v-row>
+  <v-toolbar
+    density="compact"
+    :color="hover ? 'primary lighten-1' : 'primary'"
+    class="px-3 pb-1"
+  >
+    <div>
+      <div class="text-overline mb-n2">
+        <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
+        <slot name="overline" />
+      </div>
+      <div
+        :class="small ? 'font-weight-bold' : 'heading h3'"
+        :style="`overflow: hidden; width: ${
+          small ? '73vw' : '25vw'
+        }; text-overflow: ellipsis; white-space: nowrap;`"
+      >
+        {{ item.Name }}
+      </div>
+    </div>
+  </v-toolbar>
 </template>
 
 <script lang="ts">

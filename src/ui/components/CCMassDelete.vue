@@ -29,26 +29,26 @@ import { ISaveable } from '@/classes/components';
 
 const pilotHeaders = [
   {
-    text: 'Callsign',
+    title: 'Callsign',
     align: 'start',
     value: 'Callsign',
   },
-  { text: 'LL', value: 'Level' },
-  { text: 'Name', value: 'Name' },
-  { text: 'Active Mech', value: 'State.ActiveMech.Name' },
-  { text: 'Group', value: 'GroupController.Group' },
+  { title: 'LL', value: 'Level' },
+  { title: 'Name', value: 'Name' },
+  { title: 'Active Mech', value: 'State.ActiveMech.Name' },
+  { title: 'Group', value: 'GroupController.Group' },
 ];
 
 const npcHeaders = [
   {
-    text: 'Name',
+    title: 'Name',
     align: 'start',
     value: 'Name',
   },
-  { text: 'Tier', value: 'NpcClassController.Tier' },
-  { text: 'Class', value: 'NpcClassController.Class.Name' },
-  { text: 'Templates', value: 'NpcTemplateController.Templates' },
-  { text: 'Campaign', value: 'Campaign' },
+  { title: 'Tier', value: 'NpcClassController.Tier' },
+  { title: 'Class', value: 'NpcClassController.Class.Name' },
+  { title: 'Templates', value: 'NpcTemplateController.Templates' },
+  { title: 'Campaign', value: 'Campaign' },
 ];
 
 export default {

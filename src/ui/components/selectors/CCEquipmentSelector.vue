@@ -29,11 +29,11 @@ export default {
   data: () => ({
     items: [],
     headers: [
-      { text: '', align: 'left', value: 'Info' },
-      { text: 'Type', align: 'left', value: 'ItemType' },
-      { text: 'Source', align: 'left', value: 'Source' },
-      { text: 'Equipment', align: 'left', value: 'Name' },
-      { text: '', align: 'center', value: 'Add' },
+      { title: '', align: 'left', value: 'Info' },
+      { title: 'Type', align: 'left', value: 'ItemType' },
+      { title: 'Source', align: 'left', value: 'Source' },
+      { title: 'Equipment', align: 'left', value: 'Name' },
+      { title: '', align: 'center', value: 'Add' },
     ],
   }),
   computed: {

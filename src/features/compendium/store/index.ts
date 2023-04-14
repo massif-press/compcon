@@ -221,7 +221,6 @@ export const CompendiumStore = defineStore('compendium', {
         FrameComparison.NormalizeReferenceSet(
           this.Frames.filter((x) => !x.ID.startsWith('missing_'))
         );
-        console.log(this.Frames.map((x) => x.Comparator));
       } catch (err) {
         console.error(err);
       }

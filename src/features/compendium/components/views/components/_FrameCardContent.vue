@@ -1,14 +1,15 @@
 <template>
   <c-card-base :item="item" :small="small" :hover="hover">
-    <v-img
-      v-if="item.DefaultImage"
-      slot="top"
-      :src="item.DefaultImage"
-      :max-height="small ? '175px' : '225px'"
-      contain
-      class="py-2"
-    />
-    <span slot="overline">{{ item.MechTypeString }} Frame</span>
+    <template v-slot:top>
+      <v-img
+        v-if="item.DefaultImage"
+        :src="item.DefaultImage"
+        :max-height="small ? '175px' : '225px'"
+        contain
+        class="py-2"
+      />
+    </template>
+    <template v-slot:overline> {{ item.MechTypeString }} Frame </template>
   </c-card-base>
 </template>
 

@@ -336,4 +336,5 @@ async function getLocalProfile(): Promise<UserProfile> {
   return UserProfile.Deserialize(data);
 }
 
-export { getLocalProfile, UserProfile, IUserProfile };
+export { getLocalProfile, UserProfile };
+export type { IUserProfile };

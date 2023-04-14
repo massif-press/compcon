@@ -56,8 +56,8 @@ export default {
   },
   computed: {
     allLocations() {
-      if (!this.$CompendiumStore['location/getLocations']) return [];
-      return this.$CompendiumStore['location/getLocations'].filter(
+      if (!CompendiumStore()['location/getLocations']) return [];
+      return CompendiumStore()['location/getLocations'].filter(
         (x) => x.Name !== this.item.Name
       );
     },

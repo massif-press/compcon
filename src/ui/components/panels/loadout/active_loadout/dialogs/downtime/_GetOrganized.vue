@@ -169,9 +169,9 @@
                             variant="outlined"
                             density="compact"
                             hide-details
-                            append-outer-icon="mdi-plus-circle-outline"
+                            append-icon="mdi-plus-circle-outline"
                             prepend-icon="mdi-minus-circle-outline"
-                            @click:append-outer="improveRoll++"
+                            @click:append="improveRoll++"
                             @click:prepend="
                               improveRoll > 1 ? improveRoll-- : ''
                             "

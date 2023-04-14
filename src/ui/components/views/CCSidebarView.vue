@@ -1,32 +1,26 @@
 <template>
-  <v-container fluid class="mt-n3">
-    <v-row density="compact" no-gutters>
-      <v-col
-        v-if="$vuetify.display.mdAndUp"
-        style="width: 12vw; position: fixed"
-        class="pt-2"
+  <v-row no-gutters align="start">
+    <v-col
+      v-if="$vuetify.display.mdAndUp"
+      style="width: 12vw; position: fixed"
+      class="pt-2"
+    >
+      <slot name="alt" />
+      <v-list
+        density="compact"
+        class="side-fixed"
+        :style="popup ? `top: 65px; padding-bottom: 65px;` : ''"
       >
-        <slot name="alt" />
-        <v-list
-          density="compact"
-          class="side-fixed"
-          :style="
-            popup
-              ? `top: 65px; padding-bottom: 65px;`
-              : `top: 125px; padding-bottom: 65px;`
-          "
-        >
-          <slot name="sidebar" />
-        </v-list>
-      </v-col>
-      <v-col
-        :style="$vuetify.display.mdAndUp ? 'margin-left: 12vw' : ''"
-        :class="$vuetify.display.mdAndUp ? 'pl-7 mr-7' : ''"
-      >
-        <slot />
-      </v-col>
-    </v-row>
-  </v-container>
+        <slot name="sidebar" />
+      </v-list>
+    </v-col>
+    <v-col
+      :style="$vuetify.display.mdAndUp ? 'margin-left: 12vw' : ''"
+      :class="$vuetify.display.mdAndUp ? 'pl-7 mr-7' : ''"
+    >
+      <slot />
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">

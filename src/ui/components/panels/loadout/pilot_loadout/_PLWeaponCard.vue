@@ -121,11 +121,11 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: 'Item', align: 'left', value: 'Name' },
-      { text: 'Range', align: 'left', value: 'Range[0].Max' },
-      { text: 'Damage', align: 'left', value: 'Damage[0].Max' },
-      { text: 'Detail', align: 'center', value: 'Detail' },
-      { text: '', align: 'center', value: 'Equip' },
+      { title: 'Item', align: 'left', value: 'Name' },
+      { title: 'Range', align: 'left', value: 'Range[0].Max' },
+      { title: 'Damage', align: 'left', value: 'Damage[0].Max' },
+      { title: 'Detail', align: 'center', value: 'Detail' },
+      { title: '', align: 'center', value: 'Equip' },
     ],
   }),
   methods: {

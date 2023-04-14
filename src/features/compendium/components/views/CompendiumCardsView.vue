@@ -3,10 +3,10 @@
     <div v-for="s in sources">
       <v-row v-if="s.Name" no-gutters align="center" justify="center">
         <v-col cols="auto">
-          <cc-logo
-            :size="$vuetify.display.mdAndUp ? 'xLarge' : 'large'"
-            :source="s"
-            class="mb-n2"
+          <v-icon
+            size="60"
+            :color="s.GetColor($vuetify.theme.current.dark)"
+            :icon="`cc:${s.Icon}`"
           />
         </v-col>
         <v-col cols="auto">
@@ -20,8 +20,7 @@
       </v-row>
       <v-row align="center" justify="center" class="mt-0 mb-3">
         <compendium-card
-          v-for="item in itemsBySource(s.ID)"
-          :item="item"
+          :item="(item as any)"
           :small="$vuetify.display.smAndDown"
         />
       </v-row>
@@ -51,9 +50,9 @@ export default {
     compendium() {
       return CompendiumStore();
     },
-    sources() {
-      if (!this.items.some((x) => !x.Source)) {
-        const sources = _.uniq(this.items.map((x) => x.Source));
+    sources(): any[] {
+      if (!this.items.some((x: any) => !x.Source)) {
+        const sources = _.uniq(this.items.map((x: any) => x.Source));
         return sources.map((x: string) => {
           const s = this.compendium.Manufacturers.find(
             (y) => y.ID === x.toUpperCase()
@@ -67,7 +66,7 @@ export default {
   methods: {
     itemsBySource(s) {
       if (!s) return this.items;
-      return this.items.filter((x) => x.Source === s);
+      return this.items.filter((x: any) => x.Source === s);
     },
   },
 };

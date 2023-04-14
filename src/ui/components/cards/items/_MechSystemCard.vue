@@ -2,7 +2,7 @@
   <equipment-card-base :item="item" :notes="notes">
     <v-col v-if="item.SP" cols="auto" class="text-center">
       <div class="panel clipped">
-        <v-icon v-for="n in item.SP" x-large>cc:system-point</v-icon>
+        <v-icon v-for="n in item.SP" x-large>cc:system_point</v-icon>
       </div>
       <span class="overline">
         <b>{{ item.SP }}</b>

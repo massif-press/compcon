@@ -1,28 +1,26 @@
 <template>
-  <v-bottom-sheet v-model="panel">
-    <template v-slot:activator="{ props }">
-      <div
-        :style="
-          $vuetify.display.smAndDown
-            ? 'z-index:2; position: fixed; bottom: 28px; right: 28px'
-            : ''
-        "
-      >
-        <v-badge :value="filterCount" overlap right color="secondary">
-          <template v-slot:badge>
-            <span class="stat-text text-white">{{ filterCount }}</span>
-          </template>
+  <div
+    :style="
+      $vuetify.display.smAndDown
+        ? 'z-index:2; position: fixed; bottom: 28px; right: 28px'
+        : ''
+    "
+  >
+    <v-badge :value="filterCount" overlap right color="secondary">
+      <template v-slot:badge>
+        <b>{{ filterCount }}</b>
+      </template>
 
-          <v-btn fab color="primary" v-bind="props">
-            <v-icon dark>mdi-filter-variant</v-icon>
-          </v-btn>
-        </v-badge>
-      </div>
-    </template>
+      <v-btn icon size="small" color="primary" @click="panel = !panel">
+        <v-icon dark>mdi-filter-variant</v-icon>
+      </v-btn>
+    </v-badge>
+  </div>
 
+  <v-navigation-drawer v-model="panel" location="bottom" temporary>
     <v-sheet>
       <cc-titlebar dark icon="mdi-filter-variant">Set Item Filters</cc-titlebar>
-      <v-card-text pb-0>
+      <v-card-text>
         <cc-item-filter
           ref="controls"
           :item-type="itemType"
@@ -33,18 +31,17 @@
       <v-card-actions>
         <v-btn text @click="panel = false">dismiss</v-btn>
         <v-spacer />
-        <cc-btn color="warning" class="mr-3" @click="clearFilters"
+        <cc-btn color="accent" class="mr-3" @click="clearFilters"
           >clear all</cc-btn
         >
       </v-card-actions>
     </v-sheet>
-  </v-bottom-sheet>
+  </v-navigation-drawer>
 </template>
 
 <script lang="ts">
 export default {
   name: 'cc-filter-panel',
-
   props: {
     itemType: {
       type: String,
@@ -55,6 +52,7 @@ export default {
     filterCount: 0,
     panel: false,
   }),
+  emits: ['set-filters'],
   methods: {
     clearFilters() {
       (this.$refs.controls as any).clear();

@@ -250,7 +250,7 @@ export default {
     selected: null,
     search: '',
     grouping: null,
-    headers: [{ text: 'Name', value: 'Name', align: 'left' }],
+    headers: [{ title: 'Name', value: 'Name', align: 'left' }],
     classes: [],
     hase: ['Hull', 'Agility', 'Systems', 'Engineering'],
     p1: ['Armor', 'HP', 'Heatcap'],

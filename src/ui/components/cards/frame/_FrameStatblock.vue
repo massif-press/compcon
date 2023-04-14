@@ -6,9 +6,14 @@
       :value="frame.Structure"
       cols="5"
     />
-    <cc-statblock-panel icon="mdi-heart" name="HP" :value="frame.HP" cols="3" />
     <cc-statblock-panel
-      icon="mdi-shield"
+      icon="mdi-heart-outline"
+      name="HP"
+      :value="frame.HP"
+      cols="3"
+    />
+    <cc-statblock-panel
+      icon="mdi-shield-outline"
       name="Armor"
       :value="frame.Armor"
       cols="4"

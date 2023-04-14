@@ -45,7 +45,7 @@ export default {
     },
   },
   data: () => ({
-    text: '',
+    title: '',
   }),
   mounted() {
     if (this.prepopulate) this.text = this.prepopulate;

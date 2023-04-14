@@ -58,8 +58,8 @@ export default {
   },
   computed: {
     allFactions() {
-      if (!this.$CompendiumStore['faction/getFactions']) return [];
-      return this.$CompendiumStore['faction/getFactions'].filter(
+      if (!CompendiumStore()['faction/getFactions']) return [];
+      return CompendiumStore()['faction/getFactions'].filter(
         (x) => x.Name !== this.item.Name
       );
     },

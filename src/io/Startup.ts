@@ -30,6 +30,8 @@ export default async function (): Promise<void> {
   //     });
   //   });
 
+  await UserStore().loadUser();
+
   await CompendiumStore().refreshExtraContent();
   const missing = { pilots: [] as PilotData[], npcs: [] as INpcData[] };
   await PilotStore().LoadPilots();

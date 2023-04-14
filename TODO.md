@@ -1,0 +1,1 @@
+- compendium table row click to open

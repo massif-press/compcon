@@ -3,7 +3,7 @@
   <v-btn variant="text" color="white" to="/pilot_management"
     >Pilot Roster</v-btn
   >
-  <v-btn variant="text" color="white" to="/active_mode">Active Mode</v-btn>
+  <v-btn variant="text" color="white" to="/active-mode">Active Mode</v-btn>
 </template>
 
 <script lang="ts">

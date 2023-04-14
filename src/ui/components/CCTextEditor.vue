@@ -37,7 +37,7 @@ export default {
     },
   },
   data: () => ({
-    text: '',
+    title: '',
   }),
   created() {
     this.text = this.original || '';

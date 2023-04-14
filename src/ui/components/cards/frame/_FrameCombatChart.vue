@@ -1,7 +1,11 @@
 <template>
   <v-row align="center">
     <v-col cols="6">
-      <Radar :data="chartData" :options="chartOptions" />
+      <Radar
+        :data="chartData"
+        :options="chartOptions"
+        style="max-height: 600px"
+      />
       <div>
         <v-row dense align="center" justify="space-around">
           <v-col cols="auto">
@@ -21,10 +25,36 @@
                 Relative
                 <cc-tooltip
                   inline
-                  content="Chart stat values relative to all other frames in the Compendium."
+                  content="Chart stat values relative to all other frames in the Compendium"
                 >
                   <v-icon size="small" class="fade-select"
                     >mdi-information-outline</v-icon
+                  >
+                </cc-tooltip>
+              </v-col>
+            </v-row>
+            <v-row align="center" class="text-overline mt-n5" dense>
+              <v-col cols="auto">
+                Standard
+                <cc-tooltip inline content="Chart standard Frame stats">
+                  <v-icon size="small" class="fade-select"
+                    >mdi-information-outline</v-icon
+                  >
+                </cc-tooltip></v-col
+              >
+              <v-col cols="auto">
+                <v-switch v-model="aggregate" density="compact" hide-details />
+              </v-col>
+              <v-col cols="auto">
+                Aggregated*
+
+                <cc-tooltip
+                  inline
+                  title="Experimental Feature"
+                  content="Selecting this option aggregates Frame stats into aptitude ratings for Survivability, Mobility, Offense, and Utility. This is an experimental feature and may not be accurate, but is actively being developed into a more useful indicator of Frame capability."
+                >
+                  <v-icon size="small" color="warning" class="fade-select"
+                    >mdi-alert</v-icon
                   >
                 </cc-tooltip>
               </v-col>
@@ -89,8 +119,9 @@ export default {
   },
   data: () => ({
     relative: false,
+    aggregate: false,
     compareFrames: [] as Frame[],
-    labels: [
+    standardLabels: [
       'HP',
       'Evasion',
       'E-Defense',
@@ -102,8 +133,12 @@ export default {
       'Speed',
       'SP',
     ],
+    aggregateLabels: ['Survivability', 'Mobility', 'Offense', 'Utility'],
   }),
   computed: {
+    labels() {
+      return this.aggregate ? this.aggregateLabels : this.standardLabels;
+    },
     frames() {
       return CompendiumStore().Frames.filter(
         (x) => x.Name !== this.frame.Name && !x.ID.startsWith('missing_')
@@ -169,24 +204,36 @@ export default {
       return hex;
     },
     getDataset(frame, compare?: boolean) {
-      return {
+      const dataset = {
         label: frame.Name,
         backgroundColor: compare ? this.getColor() + '1A' : '#673AB333',
         borderColor: compare ? this.getColor() + 'CC' : '#673AB7',
-
-        data: [
-          this.relative ? frame.Comparator.HP : frame.HP,
-          this.relative ? frame.Comparator.Evasion : frame.Evasion,
-          this.relative ? frame.Comparator.EDefense : frame.EDefense,
-          this.relative ? frame.Comparator.HeatCap : frame.HeatCap,
-          this.relative ? frame.Comparator.SensorRange : frame.SensorRange,
-          this.relative ? frame.Comparator.TechAttack : frame.TechAttack,
-          this.relative ? frame.Comparator.RepCap : frame.RepCap,
-          this.relative ? frame.Comparator.SaveTarget : frame.SaveTarget,
-          this.relative ? frame.Comparator.Speed : frame.Speed,
-          this.relative ? frame.Comparator.SP : frame.SP,
-        ],
+        data: [] as any[],
       };
+
+      dataset.data = this.aggregate
+        ? [
+            this.relative
+              ? frame.Comparator.Survivability
+              : frame.SurvivabilityRaw,
+            this.relative ? frame.Comparator.Mobility : frame.MobilityRaw,
+            this.relative ? frame.Comparator.Offense : frame.OffenseRaw,
+            this.relative ? frame.Comparator.Utility : frame.UtilityRaw,
+          ]
+        : [
+            this.relative ? frame.Comparator.HP : frame.HP,
+            this.relative ? frame.Comparator.Evasion : frame.Evasion,
+            this.relative ? frame.Comparator.EDefense : frame.EDefense,
+            this.relative ? frame.Comparator.HeatCap : frame.HeatCap,
+            this.relative ? frame.Comparator.SensorRange : frame.SensorRange,
+            this.relative ? frame.Comparator.TechAttack : frame.TechAttack,
+            this.relative ? frame.Comparator.RepCap : frame.RepCap,
+            this.relative ? frame.Comparator.SaveTarget : frame.SaveTarget,
+            this.relative ? frame.Comparator.Speed : frame.Speed,
+            this.relative ? frame.Comparator.SP : frame.SP,
+          ];
+
+      return dataset;
     },
   },
 };
