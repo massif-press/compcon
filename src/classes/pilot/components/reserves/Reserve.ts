@@ -12,6 +12,7 @@ import { IActionData, Action } from '@/classes/Action'
 import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus'
 import { ISynergyData, ICounterData } from '@/interface'
 import { IDeployableData } from '@/classes/components/feature/deployable/Deployable'
+import { ItemType } from '../../../enums'
 
 declare interface IReserveData {
   id: string
@@ -33,7 +34,7 @@ declare interface IReserveData {
   special_equipment?: string[]
 }
 
-class Reserve {
+class Reserve extends CompendiumItem {
   public readonly ID: string
   public readonly ResourceLabel: string
   public readonly Consumable: boolean
@@ -45,16 +46,15 @@ class Reserve {
   public readonly Counters: ICounterData[]
   public readonly LcpName: string
   public readonly InLcp: boolean
-  private _special_equipment: string[]
-  private _name: string
+
   private _resource_name: string
   private _resource_note: string
   private _resource_cost: string
-  private _description: string
-  private _integrated: string[]
   private _used: boolean
 
-  public constructor(data: IReserveData, packName?: string) {
+  public constructor(data: any, packTags?: any, packName?: string) {
+    super(data, packTags, packName)
+
     this.ID = data.id
     this.ResourceLabel = data.label || ''
     this.Consumable = data.consumable
@@ -78,6 +78,7 @@ class Reserve {
     this._used = false
     this.LcpName = packName || 'LANCER Core Book'
     this.InLcp = packName ? true : false
+    this.ItemType = ItemType.Reserve
   }
 
   protected save(): void {
