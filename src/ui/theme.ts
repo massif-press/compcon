@@ -82,7 +82,7 @@ const theme: any = {
       repair: 'cc:repair',
       save: 'cc:save',
       speed: 'mdi-arrow-right-bold-hexagon-outline',
-      sp: 'cc:system-point',
+      sp: 'cc:system_point',
     },
   },
   theme: {

@@ -18,7 +18,7 @@ export default {
     glossary: [],
   }),
   created() {
-    this.glossary = this.$_.sortBy(glossary, [(x) => x.name]);
+    this.glossary = _.sortBy(glossary, [(x) => x.name]);
   },
 };
 </script>

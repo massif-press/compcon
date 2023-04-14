@@ -266,7 +266,7 @@ export default {
   }),
   computed: {
     mech(): MechInstance {
-      return this.$CompendiumStore().activeMech;
+      return CompendiumStore()().activeMech;
     },
     destroyableMounts(): { name: string; index: number }[] {
       return this.loadout

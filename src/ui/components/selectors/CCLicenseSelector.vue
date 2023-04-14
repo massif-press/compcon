@@ -120,7 +120,7 @@ export default {
   },
   created() {
     const compendium = CompendiumStore();
-    this.licenses = this.$_.groupBy(
+    this.licenses = _.groupBy(
       compendium.Licenses.filter((x) => !x.Hidden),
       'Source'
     );

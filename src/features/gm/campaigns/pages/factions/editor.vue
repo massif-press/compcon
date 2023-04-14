@@ -14,7 +14,7 @@
         <v-combobox
           v-model="faction.CoreMission"
           chips
-          deletable-chips
+          clearable
           multiple
           filled
           labels

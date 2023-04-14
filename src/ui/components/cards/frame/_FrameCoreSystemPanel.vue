@@ -54,7 +54,7 @@
     <div class="light-panel pa-2 clipped mx-3 mt-1">
       <div v-html-safe="cs.ActiveEffect" class="body-text mb-1 px-3" />
       <cc-action
-        v-for="(a, i) in cs.ActiveActions"
+        v-for="a in cs.ActiveActions"
         :action="a"
         :panel="$vuetify.display.lgAndUp"
         class="ma-2"

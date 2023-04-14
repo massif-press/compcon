@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts">
+import { Background } from '@/class';
 import SidebarArrayView from '../components/SidebarArrayView.vue';
 
 import { CompendiumStore } from '@/stores';
@@ -18,11 +19,10 @@ import { CompendiumStore } from '@/stores';
 export default {
   name: 'backgrounds',
   components: { SidebarArrayView },
-  data: () => ({
-    backgrounds: [],
-  }),
-  created() {
-    this.backgrounds = CompendiumStore().Backgrounds;
+  computed: {
+    backgrounds(): Background[] {
+      return CompendiumStore().Backgrounds;
+    },
   },
 };
 </script>

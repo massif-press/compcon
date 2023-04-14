@@ -43,7 +43,7 @@ export default {
   name: 'cc-log',
   data: () => ({
     typer: {},
-    text: [],
+    title: [],
     lock: false,
   }),
   computed: {

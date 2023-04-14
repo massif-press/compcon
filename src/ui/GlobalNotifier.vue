@@ -30,7 +30,7 @@ export default {
     shownNotifications: [] as INotification[],
   }),
   methods: {
-    notify(text: string, variant: string, onClick?: () => void): void {
+    notify(title: string, variant: string, onClick?: () => void): void {
       const notification = { id: uuid(), variant, text, onClick };
 
       this.notifications = [...this.notifications, notification];

@@ -102,29 +102,29 @@ export default {
     tableHeaders() {
       if (this.noAuthor)
         return [
-          { text: '', value: 'data-table-expand' },
+          { title: '', value: 'data-table-expand' },
           {
-            text: 'Download',
+            title: 'Download',
             value: 'website',
             sortable: false,
             align: 'center',
           },
-          { text: 'Name', value: 'name' },
-          { text: 'Version', value: 'version' },
-          { text: 'Cost', value: 'cost' },
+          { title: 'Name', value: 'name' },
+          { title: 'Version', value: 'version' },
+          { title: 'Cost', value: 'cost' },
         ];
       return [
-        { text: '', value: 'data-table-expand' },
+        { title: '', value: 'data-table-expand' },
         {
-          text: 'Download',
+          title: 'Download',
           value: 'website',
           sortable: false,
           align: 'center',
         },
-        { text: 'Name', value: 'name' },
-        { text: 'Author', value: 'author' },
-        { text: 'Version', value: 'version' },
-        { text: 'Cost', value: 'cost' },
+        { title: 'Name', value: 'name' },
+        { title: 'Author', value: 'author' },
+        { title: 'Version', value: 'version' },
+        { title: 'Cost', value: 'cost' },
       ];
     },
     contentPacks() {

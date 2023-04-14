@@ -64,7 +64,7 @@
               >
             </cc-tooltip>
           </template>
-          <template v-slot:append-outer>
+          <template v-slot:append>
             <v-icon v-if="!pilot.Name" color="error">mdi-alert</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
@@ -87,7 +87,7 @@
               >
             </cc-tooltip>
           </template>
-          <template v-slot:append-outer>
+          <template v-slot:append>
             <v-icon v-if="!pilot.Callsign" color="error">mdi-alert</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
@@ -110,7 +110,7 @@
               />
             </cc-tooltip>
           </template>
-          <template v-slot:append-outer>
+          <template v-slot:append>
             <v-icon v-if="!pilot.Background" color="grey"
               >mdi-circle-outline</v-icon
             >

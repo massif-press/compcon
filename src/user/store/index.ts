@@ -14,7 +14,7 @@ export const UserStore = defineStore('cloud', {
     IsPatron: false,
   }),
   actions: {
-    async loadUser({ commit }: any): Promise<void> {
+    async loadUser(): Promise<void> {
       this.UserProfile = await Client.getLocalProfile();
     },
     setLoggedIn(payload: boolean): void {
@@ -27,7 +27,10 @@ export const UserStore = defineStore('cloud', {
     setUserProfile(payload: any): void {
       this.UserProfile = payload;
     },
-    getUserProfile(): Client.UserProfile {
+    async getUserProfile(): Promise<Client.UserProfile> {
+      if (Object.keys(this.UserProfile).length === 0) {
+        await this.loadUser();
+      }
       return this.UserProfile as Client.UserProfile;
     },
     async setAws(payload: { cognitoUser: any }): Promise<void> {

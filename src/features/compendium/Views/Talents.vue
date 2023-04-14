@@ -1,21 +1,14 @@
 <template>
   <cc-sidebar-view>
-    <v-list-item
-      v-for="(t, i) in talents"
-      slot="sidebar"
-      link
-      @click="
-        $vuetify.goTo(`#e_${t.ID}`, {
-          duration: 150,
-          easing: 'easeInOutQuad',
-          offset: 25,
-        })
-      "
-    >
-      <v-list-item-title class="heading h3 ml-2">{{
-        t.Name
-      }}</v-list-item-title>
-    </v-list-item>
+    <template v-slot:sidebar>
+      <v-list-item
+        v-for="t in talents"
+        slot="sidebar"
+        link
+        :title="t.Name"
+        @click="scrollTo(t)"
+      />
+    </template>
     <v-row density="compact" align="center">
       <v-col cols="auto">
         <div class="heading h1 mt-3 mb-2">PILOT TALENTS</div>
@@ -50,11 +43,20 @@ export default {
     ctype: 'full',
   }),
   computed: {
-    compendium(): CompendiumStore {
-      return CompendiumStore();
-    },
     talents(): Talent[] {
-      return this.compendium.Talents.filter((x) => !x.IsHidden);
+      return CompendiumStore().Talents.filter((x) => !x.IsHidden);
+    },
+  },
+  methods: {
+    scrollTo(t: Talent): void {
+      const el = document.getElementById(`e_${t.ID}`);
+      console.log(el);
+      if (el) {
+        const yOffset = -60;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     },
   },
 };

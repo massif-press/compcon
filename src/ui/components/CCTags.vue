@@ -37,7 +37,7 @@ export default {
       required: false,
     },
     density: {
-      type: Boolean,
+      type: String,
       required: false,
     },
     outlined: {

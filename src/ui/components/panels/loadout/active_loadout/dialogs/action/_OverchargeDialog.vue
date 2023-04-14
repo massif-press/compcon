@@ -34,9 +34,9 @@
           hide-details
           :disabled="used"
           class="hide-spinners"
-          append-outer-icon="mdi-plus-circle-outline"
+          append-icon="mdi-plus-circle-outline"
           prepend-icon="mdi-minus-circle-outline"
-          @click:append-outer="overcharge_heat++"
+          @click:append="overcharge_heat++"
           @click:prepend="overcharge_heat > 0 ? overcharge_heat-- : ''"
         />
       </v-col>

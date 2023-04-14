@@ -22,9 +22,9 @@
             variant="outlined"
             density="compact"
             hide-details
-            append-outer-icon="mdi-plus-circle-outline"
+            append-icon="mdi-plus-circle-outline"
             prepend-icon="mdi-minus-circle-outline"
-            @click:append-outer="skillRoll++"
+            @click:append="skillRoll++"
             @click:prepend="skillRoll > 1 ? skillRoll-- : ''"
           />
         </v-col>

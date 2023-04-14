@@ -12,15 +12,20 @@
     >
       <v-chip
         :class="$vuetify.display.mdAndUp ? 'px-2 py-2 mx-1' : 'ma-1'"
-        :color="tag.err ? 'error' : tag.IsExotic ? 'exotic' : color"
+        :color="getColor"
         dark
         label
         :small="small"
         :outlined="outlined"
       >
         <v-avatar>
-          <v-icon v-if="tag.err" small>label_off</v-icon>
-          <v-icon v-else small>label</v-icon>
+          <v-icon
+            v-if="tag.err"
+            size="small"
+            icon="mdi-label-off"
+            :color="getColor"
+          />
+          <v-icon v-else size="small" icon="mdi-label" :color="getColor" />
         </v-avatar>
         <span v-if="tag.err">MISSING DATA</span>
         <span v-else>{{ tag.GetName(bonus).toUpperCase() }}</span>
@@ -39,7 +44,7 @@ export default {
     },
     density: {
       type: String,
-      required: '',
+      required: false,
     },
     outlined: {
       type: Boolean,
@@ -63,6 +68,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+  },
+  computed: {
+    getColor(): string {
+      return this.tag.err ? 'error' : this.tag.IsExotic ? 'exotic' : this.color;
     },
   },
 };

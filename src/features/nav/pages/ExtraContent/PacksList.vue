@@ -114,11 +114,11 @@ export default {
   data: () => ({
     expanded: [],
     headers: [
-      { text: 'Active', value: 'toggleActive', sortable: false },
-      { text: 'Name', value: 'Name' },
-      { text: 'Author', value: 'Author' },
-      { text: 'Version', value: 'Version' },
-      { text: '', value: 'deleteAction', sortable: false },
+      { title: 'Active', value: 'toggleActive', sortable: false },
+      { title: 'Name', value: 'Name' },
+      { title: 'Author', value: 'Author' },
+      { title: 'Version', value: 'Version' },
+      { title: '', value: 'deleteAction', sortable: false },
     ],
   }),
   computed: {

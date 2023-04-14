@@ -30,7 +30,7 @@ export default {
     to: { type: String, required: false, default: '' },
     title: { type: String, required: true },
     icon: { type: String, required: true },
-    text: { type: String, required: true },
+    title: { type: String, required: true },
     disabled: { type: Boolean },
     loading: { type: Boolean },
   },

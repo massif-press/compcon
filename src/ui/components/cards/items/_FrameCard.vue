@@ -13,19 +13,14 @@
         </cc-tooltip>
       </v-col>
     </v-row>
-    <v-row align="center" class="mt-n4">
-      <v-col md="12" lg="8">
+    <v-row>
+      <v-col>
         <div v-if="item.InLcp" class="heading h4 text-text">
           {{ item.LcpName }}
         </div>
         <div v-if="item.Description">
           <div class="text-overline ml-n2 my-1 text-text">COMPENDIUM ENTRY</div>
           <p v-html-safe="item.Description" class="flavor-text" />
-        </div>
-        <br />
-        <div>
-          <div class="text-overline ml-n2 text-text">COMBAT PROFILE</div>
-          <frame-combat-chart :frame="item" />
         </div>
       </v-col>
       <v-col v-if="$vuetify.display.lgAndUp" cols="4">
@@ -35,6 +30,11 @@
         <!-- </cc-tooltip> -->
       </v-col>
     </v-row>
+
+    <div>
+      <div class="text-overline ml-n2 text-text">COMBAT PROFILE</div>
+      <frame-combat-chart :frame="item" />
+    </div>
 
     <div class="text-overline ml-n2 text-text">FRAME TRAITS</div>
     <v-row>

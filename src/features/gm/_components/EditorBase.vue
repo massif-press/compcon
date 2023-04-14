@@ -20,7 +20,6 @@
           <v-col cols="3" class="text-center">
             <v-combobox
               v-model="item.Labels"
-              small-chips
               multiple
               variant="outlined"
               hide-details

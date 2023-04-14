@@ -92,7 +92,7 @@
             md="6"
             sm="12"
             color="secondary"
-            icon="public"
+            icon="cc:orbit"
             name="Backgrounds"
             to="compendium/backgrounds"
           />

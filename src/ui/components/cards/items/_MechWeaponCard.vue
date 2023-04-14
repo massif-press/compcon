@@ -45,7 +45,7 @@ const state = reactive({
     <v-divider v-if="item.SP" vertical class="mx-4" />
     <v-col v-if="item.SP" cols="auto" class="text-center">
       <div class="panel clipped">
-        <v-icon v-for="n in item.SP" x-large>cc:system-point</v-icon>
+        <v-icon v-for="n in item.SP" x-large>cc:system_point</v-icon>
       </div>
       <span class="overline">
         <b>{{ item.SP }}</b>

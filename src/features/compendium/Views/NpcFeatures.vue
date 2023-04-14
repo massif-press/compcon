@@ -3,11 +3,10 @@
     <compendium-browser
       :headers="headers"
       :items="features"
+      title="NPC Features"
       no-filter
       lock-view
-    >
-      NPC Features
-    </compendium-browser>
+    />
   </v-container>
 </template>
 
@@ -22,10 +21,10 @@ export default {
   components: { CompendiumBrowser },
   data: () => ({
     headers: [
-      { text: 'Feature', align: 'left', value: 'Name' },
-      { text: 'Type', align: 'left', value: 'FeatureType' },
-      { text: 'Class', align: 'left', value: 'OriginClass' },
-      { text: 'Set', align: 'left', value: 'OriginSet' },
+      { title: 'Feature', align: 'left', value: 'Name' },
+      { title: 'Type', align: 'left', value: 'FeatureType' },
+      { title: 'Class', align: 'left', value: 'OriginClass' },
+      { title: 'Set', align: 'left', value: 'OriginSet' },
     ],
   }),
   computed: {

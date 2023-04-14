@@ -125,10 +125,10 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: 'Item', align: 'left', value: 'Name' },
-      { text: 'Uses', align: 'center', value: 'MaxUses' },
-      { text: 'Detail', align: 'center', value: 'Detail' },
-      { text: '', align: 'center', value: 'Equip' },
+      { title: 'Item', align: 'left', value: 'Name' },
+      { title: 'Uses', align: 'center', value: 'MaxUses' },
+      { title: 'Detail', align: 'center', value: 'Detail' },
+      { title: '', align: 'center', value: 'Equip' },
     ],
   }),
   methods: {

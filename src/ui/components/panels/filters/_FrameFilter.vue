@@ -11,9 +11,8 @@
         label="From Manufacturer"
         :items="manufacturers"
         chips
-        deletable-chips
-        small-chips
-        @change="updateFilters()"
+        clearable
+        @update:modelValue="updateFilters()"
       />
     </v-col>
     <v-col cols="12" md="4">
@@ -24,13 +23,12 @@
         density="compact"
         prepend-icon="cc:frame"
         chips
-        deletable-chips
+        clearable
         variant="outlined"
         label="Role"
         :items="mechTypes"
         multiple
-        small-chips
-        @change="updateFilters()"
+        @update:modelValue="updateFilters()"
       />
     </v-col>
     <v-col cols="12" md="4">
@@ -41,13 +39,12 @@
         density="compact"
         prepend-icon="cc:weapon"
         chips
-        deletable-chips
+        clearable
         variant="outlined"
         label="Has Mount"
         :items="mountTypes"
         multiple
-        small-chips
-        @change="updateFilters()"
+        @update:modelValue="updateFilters()"
       />
     </v-col>
     <v-col cols="12" md="4">
@@ -58,42 +55,43 @@
         density="compact"
         prepend-icon="cc:compendium"
         chips
-        deletable-chips
+        clearable
         variant="outlined"
         label="From Content Pack"
         :items="lcps"
         multiple
-        small-chips
-        @change="updateFilters()"
+        @update:modelValue="updateFilters()"
       />
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { MechType, MountType, Manufacturer } from '@/class';
 
 import { CompendiumStore } from '@/stores';
 
 const nameSort = function (a, b): number {
-  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
-  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
+  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
   return 0;
 };
 
 export default {
   name: 'frame-filter',
   data: () => ({
-    sourceFilter: '',
+    sourceFilter: [],
     typeFilter: [],
     mountFilter: [],
     lcpFilter: [],
   }),
+  emits: ['set-filters'],
   computed: {
     manufacturers(): Manufacturer[] {
-      return this.$CompendiumStore
+      return CompendiumStore()
         .getItemCollection('Manufacturers')
-        .map((x) => ({ text: x.Name, value: x.ID }))
+        .map((x) => ({ title: x.Name, value: x.ID }))
         .sort(nameSort);
     },
     mechTypes(): MechType[] {
@@ -108,7 +106,7 @@ export default {
         .sort() as MountType[];
     },
     lcps(): string[] {
-      return CompendiumStore().Frames.map((x) => x.LcpName);
+      return _.uniq(CompendiumStore().Frames.map((x) => x.LcpName));
     },
   },
   methods: {

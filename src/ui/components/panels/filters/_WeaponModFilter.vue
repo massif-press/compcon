@@ -11,9 +11,8 @@
         label="From Manufacturer"
         :items="manufacturers"
         chips
-        deletable-chips
-        small-chips
-        @change="updateFilters()"
+        clearable
+        @update:modelValue="updateFilters()"
       />
     </v-col>
     <v-col cols="12" md="4">
@@ -24,13 +23,12 @@
         density="compact"
         prepend-icon="cc:compendium"
         chips
-        deletable-chips
+        clearable
         variant="outlined"
         label="From Content Pack"
         :items="lcps"
         multiple
-        small-chips
-        @change="updateFilters()"
+        @update:modelValue="updateFilters()"
       />
     </v-col>
     <v-col cols="4">
@@ -41,15 +39,14 @@
         class="px-2"
         prepend-icon="mdi-tag"
         chips
-        deletable-chips
-        small-chips
+        clearable
         variant="outlined"
         label="Tags"
         :items="tags"
         item-value="ID"
         multiple
         item-text="Name"
-        @change="updateFilters()"
+        @update:modelValue="updateFilters()"
       />
     </v-col>
   </v-row>
@@ -59,10 +56,11 @@
 import { Tag, Manufacturer } from '@/class';
 
 import { CompendiumStore } from '@/stores';
+import _ from 'lodash';
 
 const nameSort = function (a, b): number {
-  if (a.text.toUpperCase() < b.text.toUpperCase()) return -1;
-  if (a.text.toUpperCase() > b.text.toUpperCase()) return 1;
+  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
+  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
   return 0;
 };
 
@@ -72,18 +70,20 @@ export default {
     sourceFilter: [],
     tagFilter: [],
     lcpFilter: [],
+    weaponTypeFilter: [],
   }),
+  emits: ['set-filters'],
   computed: {
     manufacturers(): Manufacturer[] {
-      return this.$CompendiumStore
+      return CompendiumStore()
         .getItemCollection('Manufacturers')
-        .map((x) => ({ text: x.Name, value: x.ID }))
+        .map((x) => ({ title: x.Name, value: x.ID }))
         .sort(nameSort);
     },
     tags(): Tag[] {
-      return this.$_.uniqBy(
+      return _.uniqBy(
         [].concat(
-          this.$CompendiumStore
+          CompendiumStore()
             .getItemCollection('WeaponMods')
             .flatMap((x) => x.Tags)
             .filter((x) => !x.FilterIgnore && !x.IsHidden)
@@ -92,7 +92,7 @@ export default {
       );
     },
     lcps(): string[] {
-      return CompendiumStore().Frames.map((x) => x.LcpName);
+      return _.uniq(CompendiumStore().Frames.map((x) => x.LcpName));
     },
   },
   methods: {

@@ -1,31 +1,27 @@
 <template>
   <equipment-card-base :item="item">
-    <v-row v-if="item.InLcp">
-      <div class="heading h3 text-text">{{ item.LcpName }}</div>
-    </v-row>
-    <v-row>
-      <v-container slot="statblock" grid-list-md class="mt-0 pt-1">
-        <v-row density="compact" justify="center">
-          <cc-statblock-panel icon="mdi-shield" name="Armor" :value="armor" />
-          <cc-statblock-panel
-            icon="mdi-heart"
-            name="HP Bonus"
-            :value="`+${hp}`"
-          />
-          <cc-statblock-panel icon="cc:edef" name="E-Defense" :value="edef" />
-          <cc-statblock-panel
-            icon="cc:evasion"
-            name="Evasion"
-            :value="evasion"
-          />
-          <cc-statblock-panel
-            icon="mdi-arrow-right-bold-hexagon-outline"
-            name="Speed"
-            :value="speed"
-          />
-        </v-row>
-      </v-container>
-    </v-row>
+    <template v-slot:title>
+      <v-row v-if="item.InLcp">
+        <div class="heading h3 text-text">{{ item.LcpName }}</div>
+      </v-row>
+    </template>
+    <template v-slot:statblock>
+      <v-row density="compact" justify="center">
+        <cc-statblock-panel icon="mdi-shield" name="Armor" :value="armor" />
+        <cc-statblock-panel
+          icon="mdi-heart"
+          name="HP Bonus"
+          :value="`+${hp}`"
+        />
+        <cc-statblock-panel icon="cc:e_def" name="E-Defense" :value="edef" />
+        <cc-statblock-panel icon="cc:evasion" name="Evasion" :value="evasion" />
+        <cc-statblock-panel
+          icon="mdi-arrow-right-bold-hexagon-outline"
+          name="Speed"
+          :value="speed"
+        />
+      </v-row>
+    </template>
   </equipment-card-base>
 </template>
 
@@ -33,7 +29,7 @@
 import EquipmentCardBase from './_EquipmentCardBase.vue';
 
 export default {
-  name: 'cc-mech-weapon-card',
+  name: 'pilot-armor-card',
   components: { EquipmentCardBase },
   props: {
     item: {

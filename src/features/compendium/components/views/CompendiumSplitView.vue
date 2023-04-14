@@ -1,47 +1,40 @@
 <template>
-  <div class="mt-n3">
-    <v-row density="compact">
-      <v-col cols="auto" class="pt-2 ml-n6" style="max-width: 25vw">
-        <v-list density="compact" class="side-fixed pr-2" color="panel">
-          <v-list-item-group v-model="selected" color="accent">
-            <v-list-item v-for="i in items" :value="i.ID" density="compact">
-              <v-list-item-icon>
-                <v-icon v-if="i.IsExotic" color="exotic">mdi-star</v-icon>
-                <cc-logo
-                  v-else-if="i.Source && i.Manufacturer"
-                  :source="i.Manufacturer"
-                  class="mb-n1"
-                />
-                <v-icon v-else>cc:trait</v-icon>
-              </v-list-item-icon>
-              <v-list-item-content class="ml-n6 mb-n1">
-                <v-list-item-title
-                  class="heading h3 text-stark font-weight-bold"
-                  style="font-size: 15px"
-                >
-                  {{ i.Name }}
-                </v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-col>
-      <v-col class="pl-7 mr-7">
-        <div
-          v-if="!selectedItem"
-          class="heading h2 light-text-panel text-center"
-          style="margin-top: calc(50vh - 150px)"
+  <v-row density="compact">
+    <v-col cols="auto" class="pt-2 ml-n6" style="max-width: 25vw">
+      <v-list density="compact" class="side-fixed pr-2" color="primary">
+        <v-list-item
+          v-for="item in items"
+          :value="(item as any).ID"
+          nav
+          density="compact"
+          @click="selected = (item as any).ID"
         >
-          NO SELECTION
+          <template v-slot:prepend>
+            <v-icon class="ml-2" :icon="getIcon(item)" />
+          </template>
+          <template v-slot:title>
+            <b v-text="(item as any).Name" />
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-col>
+    <v-col>
+      <div
+        v-if="!selectedItem"
+        class="heading h2 light-text-panel text-center"
+        style="margin-top: calc(50vh - 150px)"
+      >
+        NO SELECTION
+      </div>
+      <div v-else class="side-fixed">
+        <div class="heading h1 text-stark">
+          {{ (selectedItem as any).Name }}
         </div>
-        <div v-else class="side-fixed">
-          <div class="heading h1 text-stark">{{ selectedItem.Name }}</div>
-          <v-divider class="mt-4 mb-1" />
-          <cc-item-card :item="selectedItem" />
-        </div>
-      </v-col>
-    </v-row>
-  </div>
+        <v-divider class="mt-4 mb-1" />
+        <cc-item-card :item="selectedItem" />
+      </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
@@ -54,11 +47,19 @@ export default {
     },
   },
   data: () => ({
-    selected: null,
+    selected: undefined as any,
   }),
   computed: {
     selectedItem() {
-      return this.items.find((x) => x.ID === this.selected);
+      return this.items.find((x: any) => x.ID === this.selected);
+    },
+  },
+  methods: {
+    getIcon(item: any) {
+      if (item.IsExotic) return 'mdi-star';
+      else if (item.Source && item.Manufacturer)
+        return 'cc:' + item.Manufacturer.Icon;
+      else return 'cc:trait';
     },
   },
 };
@@ -68,7 +69,5 @@ export default {
 .side-fixed {
   height: calc(100vh - 150px);
   overflow-y: scroll;
-  top: 125px;
-  padding-bottom: 35px;
 }
 </style>

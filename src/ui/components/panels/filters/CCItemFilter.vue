@@ -1,13 +1,15 @@
 <template>
   <component
-    :is="component"
-    v-if="component"
+    :is="componentLoader"
+    v-if="componentLoader"
     ref="c"
     @set-filters="$emit('set-filters', $event)"
   />
 </template>
 
 <script lang="ts">
+import * as filters from './';
+
 export default {
   name: 'cc-item-filter',
   props: {
@@ -16,27 +18,29 @@ export default {
       required: true,
     },
   },
+  emits: ['set-filters'],
   data() {
     return {
       component: null,
     };
   },
   computed: {
-    loader() {
+    componentLoader() {
       if (!this.itemType) {
+        console.error('No item type provided to CCItemFilter');
         return null;
       }
-      return () => import(`./_${this.itemType}Filter.vue`);
+
+      const f = `${this.itemType.replace(' ', '')}Filter`;
+
+      if (!filters[f]) {
+        console.log(filters);
+        console.error(`No filter found for item type ${this.itemType}`);
+        return null;
+      }
+
+      return filters[f];
     },
-  },
-  mounted() {
-    this.loader()
-      .then(() => {
-        this.component = () => this.loader();
-      })
-      .catch(() => {
-        console.error(`Unable to load component ${this.itemType}`);
-      });
   },
   methods: {
     clear() {

@@ -34,7 +34,7 @@ export default {
   name: 'gm-edit-sidebar-button',
   props: {
     selected: { type: Boolean },
-    text: { type: Boolean },
+    title: { type: Boolean },
     idn: { type: String, required: false, default: '' },
     nested: { type: Boolean },
     indent: { type: Number, required: false, default: 1 },

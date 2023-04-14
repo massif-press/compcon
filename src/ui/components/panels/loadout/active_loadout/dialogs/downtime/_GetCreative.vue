@@ -72,10 +72,10 @@
                     label="Initial Roll Result"
                     variant="outlined"
                     density="compact"
-                    append-outer-icon="mdi-plus-circle-outline"
+                    append-icon="mdi-plus-circle-outline"
                     prepend-icon="mdi-minus-circle-outline"
                     hide-details
-                    @click:append-outer="initialRoll++"
+                    @click:append="initialRoll++"
                     @click:prepend="initialRoll > 1 ? initialRoll-- : ''"
                   />
                 </v-col>
@@ -197,9 +197,9 @@
                     variant="outlined"
                     density="compact"
                     hide-details
-                    append-outer-icon="mdi-plus-circle-outline"
+                    append-icon="mdi-plus-circle-outline"
                     prepend-icon="mdi-minus-circle-outline"
-                    @click:append-outer="improveRoll++"
+                    @click:append="improveRoll++"
                     @click:prepend="improveRoll > 1 ? improveRoll-- : ''"
                   />
                 </v-col>

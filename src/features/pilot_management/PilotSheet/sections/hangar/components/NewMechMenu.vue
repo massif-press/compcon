@@ -106,7 +106,7 @@
                   >
                 </cc-tooltip>
               </template>
-              <template v-slot:append-outer>
+              <template v-slot:append>
                 <v-icon v-if="!mechName" color="error">mdi-alert</v-icon>
                 <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
               </template>

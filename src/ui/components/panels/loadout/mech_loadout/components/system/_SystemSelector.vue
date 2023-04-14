@@ -92,7 +92,7 @@
               <v-icon
                 class="ml-n2"
                 :color="showOverSP ? 'warning' : 'success'"
-                v-html="'cc:system-point'"
+                v-html="'cc:system_point'"
               />
             </cc-tooltip>
           </v-switch>
@@ -125,11 +125,11 @@ export default {
   },
   data: () => ({
     headers: [
-      { text: 'Source', align: 'left', value: 'Source' },
-      { text: 'System', align: 'left', value: 'Name' },
-      { text: 'License', align: 'left', value: 'LicenseString' },
-      { text: 'SP Cost', align: 'left', value: 'SP' },
-      { text: '', align: 'center', value: 'Equip' },
+      { title: 'Source', align: 'left', value: 'Source' },
+      { title: 'System', align: 'left', value: 'Name' },
+      { title: 'License', align: 'left', value: 'LicenseString' },
+      { title: 'SP Cost', align: 'left', value: 'SP' },
+      { title: '', align: 'center', value: 'Equip' },
     ],
     systems: [],
     showUnlicensed: false,

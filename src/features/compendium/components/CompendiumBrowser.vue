@@ -1,30 +1,26 @@
 <template>
   <v-container fluid>
-    <v-row class="mx-2 mt-n2 mb-2" no-gutters align="center">
+    <v-row class="mx-2 my-1" no-gutters align="center">
       <v-col cols="auto">
-        <h1 class="ml-n2 heading text-accent"><slot /></h1>
+        <h1
+          class="ml-n2 heading text-accent"
+          v-text="Array.isArray(items) ? title : items"
+        />
       </v-col>
       <v-col cols="auto" class="ml-4 mr-2">
         <v-btn-toggle :value="getView" mandatory>
           <v-btn
             v-show="!lockView"
-            small
             icon
             value="split"
             @click="profile.SetView('selector', 'split')"
           >
             <v-icon color="accent">mdi-view-split-vertical</v-icon>
           </v-btn>
-          <v-btn
-            small
-            icon
-            value="list"
-            @click="profile.SetView('selector', 'list')"
-          >
+          <v-btn icon value="list" @click="profile.SetView('selector', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
           <v-btn
-            small
             icon
             value="cards"
             @click="profile.SetView('selector', 'cards')"
@@ -33,7 +29,8 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col cols="12" md="3" class="ml-auto mr-5">
+      <v-spacer />
+      <v-col cols="12" md="3" class="mt-2 mr-5">
         <v-text-field
           v-model="search"
           class="search-field"
@@ -48,7 +45,11 @@
           :hint="`${fItems.length} Items`"
         />
       </v-col>
-      <cc-filter-panel :item-type="itemType" @set-filters="setFilters" />
+      <cc-filter-panel
+        v-if="!noFilter"
+        :item-type="itemType"
+        @set-filters="setFilters"
+      />
     </v-row>
     <div>
       <div v-if="getView === 'split' || lockView">
@@ -75,8 +76,9 @@ import CompendiumMobileView from './views/CompendiumMobileView.vue';
 import CompendiumSplitView from './views/CompendiumSplitView.vue';
 import CompendiumCardsView from './views/CompendiumCardsView.vue';
 import CompendiumTableView from './views/CompendiumTableView.vue';
-import { UserStore } from '@/stores';
+import { UserStore, CompendiumStore } from '@/stores';
 import { UserProfile } from '@/user';
+import _ from 'lodash';
 
 export default {
   name: 'compendium-browser',
@@ -87,12 +89,16 @@ export default {
     CompendiumCardsView,
   },
   props: {
+    title: {
+      type: String,
+      required: false,
+    },
     headers: {
       type: Array,
       required: true,
     },
     items: {
-      type: Array,
+      type: [Array, String],
       required: true,
     },
     noFilter: {
@@ -109,30 +115,50 @@ export default {
     filters: {},
     itemType: '',
   }),
+  async mounted() {
+    await UserStore().getUserProfile();
+  },
   computed: {
     profile(): UserProfile {
-      // return this.$store.UserProfile;
+      return UserStore().UserProfile as UserProfile;
     },
     getView() {
-      // if (this.profile) return this.profile.GetView('selector');
+      if (this.profile && Object.keys(this.profile).length > 0)
+        return this.profile.GetView('selector');
       return 'split';
     },
     fItems() {
-      const vm = this as any;
-      let i = vm.items;
+      let i = Array.isArray(this.items)
+        ? this.items
+        : CompendiumStore()[this.itemType.replace(' ', '')];
 
-      if (vm.search) i = i.filter((x) => accentInclude(x.Name, vm.search));
+      if (this.search) i = i.filter((x) => accentInclude(x.Name, this.search));
 
-      if (Object.keys(vm.filters).length) {
-        i = ItemFilter.Filter(i, vm.filters);
+      if (Object.keys(this.filters).length) {
+        i = ItemFilter.Filter(i, this.filters);
       }
 
-      return i;
+      const canShowExotics =
+        this.profile &&
+        Object.keys(this.profile).length > 0 &&
+        this.profile.GetView('showExotics');
+
+      if (!canShowExotics) i = i.filter((x) => !x.IsExotic);
+
+      const sourceIds = CompendiumStore().Manufacturers.map((x) => x.ID);
+
+      _.orderBy(i, [(item) => sourceIds.indexOf(item.Source), 'Name']);
+
+      return i.filter((x) => !x.IsHidden);
     },
   },
   created() {
     this.itemType =
-      this.items && this.items.length ? this.items[0].ItemType : '';
+      this.items && !Array.isArray(this.items)
+        ? this.items
+        : this.items.length
+        ? (this.items[0] as any).ItemType
+        : '';
   },
   methods: {
     setFilters(newFilter) {

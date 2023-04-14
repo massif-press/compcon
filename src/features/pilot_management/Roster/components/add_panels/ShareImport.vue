@@ -221,10 +221,7 @@ export default {
         const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
           .map((x) => `${x.Name} @ ${x.Version}`);
-        const missingPacks = this.$_.pullAll(
-          this.pilotData.brews,
-          installedPacks
-        );
+        const missingPacks = _.pullAll(this.pilotData.brews, installedPacks);
         if (missingPacks.length)
           this.missingContent = missingPacks.join('<br />');
       } else {
