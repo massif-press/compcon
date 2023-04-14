@@ -8,6 +8,7 @@
       <span v-else-if="type === 'unfinished'">WARNING: EMPTY MOUNTS DETECTED</span>
       <span v-else-if="type === 'underSP'">WARNING: SYSTEM CAPACITY REMAINING</span>
       <span v-else-if="type === 'unlicensed'">WARNING: UNLICENSED EQUIPMENT DETECTED</span>
+      <span v-else-if="type === 'incompatiblemod'">WARNING: INCOMPATIBLE WEAPON MOD</span>
     </div>
     <div v-if="!small && !hideClear" class="mt-1">
       <v-btn v-if="type === 'destroyed'" block small outlined dark @click="$emit('reprint')">
@@ -28,6 +29,9 @@
       <span v-else-if="type === 'unlicensed'" class="white--text flavor-text">
         Pilot is missing one or more licenses required to legally print or operate this
         configuration
+      </span>
+      <span v-else-if="type === 'incompatiblemod'" class="white--text flavor-text">
+        One or more weapon mods are installed to incompatible weapons
       </span>
     </div>
   </v-alert>
@@ -56,6 +60,7 @@ export default class CCMechStatusAlert extends Vue {
       case 'underSP':
       case 'unfinished':
       case 'unlicensed':
+      case 'incompatiblemod':
         return false
       default:
         return true
@@ -85,6 +90,9 @@ export default class CCMechStatusAlert extends Vue {
       case 'unlicensed':
         return 'cci-license'
         break
+      case 'incompatiblemod':
+        return 'cci-status-downandout'
+        break
       default:
         return ''
         break
@@ -104,6 +112,9 @@ export default class CCMechStatusAlert extends Vue {
         break
       case 'overSP':
       case 'unlicensed':
+        return 'warning darken-1'
+        break
+      case 'incompatiblemod':
         return 'warning darken-1'
         break
       default:
