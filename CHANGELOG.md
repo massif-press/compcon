@@ -1,7 +1,24 @@
 # COMP/CON Changelog
+
 ## [2.3.11] (2022-10-3)
 
 ### Bug Fixes
+
+- **NPC Roster** Fix NPC Class sorting (thanks NicholasBreazeale!) [#840](https://github.com/massif-press/compcon/issues/840)
+- **Active Mode** Fix combat log HP/Heat tracking (thanks TesserWract!) [#1994](https://github.com/massif-press/compcon/issues/1994) [#1995](https://github.com/massif-press/compcon/issues/1995)
+- **Compendium** Collect packnames from LCP directly (thanks msprijatelj!) [#2206](https://github.com/massif-press/compcon/issues/2206)
+- **Global** Ensure Synergies collect unique elements (thanks TesserWract!) [#1968](https://github.com/massif-press/compcon/issues/1968)
+- **Cloud** Improve cloud save functionality (thanks Hawkzed!) [#2124](https://github.com/massif-press/compcon/issues/2124)
+
+### Features
+
+- **Compendium** Significantly enhance Compendium search feature (thanks super-salad!)
+- **Compendium** Allow for unrestricted weapon mods when the unrestricted toggle is on (thanks Tidomann!) [#2180](https://github.com/massif-press/compcon/issues/2180)
+
+## [2.3.11] (2022-10-3)
+
+### Bug Fixes
+
 - **Data** Various fixes and corrections (thanks lenaleciel, msprijatelj)
 - **Mech Hangar** Corrects buggy loadout saving (thanks msprijatelj!) [#2138](https://github.com/massif-press/compcon/issues/2138)
 - **Compendium** Updates Pilot Gear headers (thanks msprijatelj!) [#2141](https://github.com/massif-press/compcon/issues/2141)
@@ -13,12 +30,13 @@
 - **Mech Hangar** Add toggle for system reorder (thanks super-salad!) [#2095](https://github.com/massif-press/compcon/issues/2095)
 
 ### Features
-- **Statblock** Improve output capitalization (thanks msprijatelj!)
 
+- **Statblock** Improve output capitalization (thanks msprijatelj!)
 
 ## [2.3.10] (2022-8-11)
 
 ### Bug Fixes
+
 - **Sign In** require e-mail for verification code functions (thanks super-salad!) [#2061](https://github.com/massif-press/compcon/issues/2061)
 - **UI** Remove references to Roll20 (thanks msprijatelj!)
 - **Active Mode** Filter actions based on LCP Active status (thanks super-salad!) [#2025](https://github.com/massif-press/compcon/issues/2025) [#2076](https://github.com/massif-press/compcon/issues/2076)
@@ -28,13 +46,14 @@
 - **Pilot Mode** improve Bond saving reliability [#2055](https://github.com/massif-press/compcon/issues/2055)
 
 ### Features
+
 - **Mech Hangar** Add editable system order (thanks super-salad!) [#1828](https://github.com/massif-press/compcon/issues/1828)
 - **Mech Hangar** Add "redeploy" action to deployables (thanks msprijatelj!)
-
 
 ## [2.3.9] (2022-6-27)
 
 ### Bug Fixes
+
 - **Mech Sheet** Mechs should now correctly save changed equipment on reload/when logged out. Thanks to msprijatelj for the help! [#1989](https://github.com/massif-press/compcon/issues/1989)
 - **Active Mode** Correct a bug that was preventing all actions from being populated and not respecting their correct use state [#2005](https://github.com/massif-press/compcon/issues/2005) [#2037](https://github.com/massif-press/compcon/issues/2037)
 - **Help Menu** Update help menu options [#2001](https://github.com/massif-press/compcon/issues/2001)
@@ -43,11 +62,11 @@
 - **Pilot Sheet** Fixed failing import for Pilots with Bond data being imported into environments without the KTB LCP installed [#2007](https://github.com/massif-press/compcon/issues/2007)
 
 ### Features
+
 - **Global** Improved Keyboard accesibility ((thanks Qazzquimby! First PR! 🎉) [#1557](https://github.com/massif-press/compcon/issues/1557)
 - **Pilot Sheet** Revised Statblock Generator (thanks karidyas!) [#1887](https://github.com/massif-press/compcon/issues/1887)
 - **LCP Importer** Humanize Reserves/Factions (thanks msprijatelj!) [#1557](https://github.com/massif-press/compcon/issues/1557)
 - **Nav** Add Help Icon, FAQ links, style fixes (thanks msprijatelj!) [#2033](https://github.com/massif-press/compcon/issues/2033)
-
 
 ## [2.3.8] (2022-5-9)
 
@@ -71,8 +90,9 @@
 ### Features
 
 - **Mech Sheet** Better Tag display for multi-profile weapons [#1959](https://github.com/massif-press/compcon/issues/1959)
-- **Mech Hangar** AND logic for frame filtering  (thanks msprijatelj!) [#1966](https://github.com/massif-press/compcon/issues/1966)
-- 
+- **Mech Hangar** AND logic for frame filtering (thanks msprijatelj!) [#1966](https://github.com/massif-press/compcon/issues/1966)
+-
+
 ### Bug Fixes
 
 - **Active Mode** Fix reserve bonuses not being added correctly (thanks TranslucentSabre!) [#1819](https://github.com/massif-press/compcon/issues/1819)
@@ -125,8 +145,8 @@
 ### Bug Fixes
 
 - **Various** A handful of hotfixes to correct bugs.
-- **Mech Sheet** Corrected a bug that prevented most synergies from being displayed  [#1919](https://github.com/massif-press/compcon/issues/1919)
-- **Mech Sheet** Corrected a bug with the TalentController in Active Mode  [#1916](https://github.com/massif-press/compcon/issues/1916)
+- **Mech Sheet** Corrected a bug that prevented most synergies from being displayed [#1919](https://github.com/massif-press/compcon/issues/1919)
+- **Mech Sheet** Corrected a bug with the TalentController in Active Mode [#1916](https://github.com/massif-press/compcon/issues/1916)
 - **Pilot Roster** Corrected a bug that was preventing the Pilot Roster view from being changed [#1917](https://github.com/massif-press/compcon/issues/1917)
 
 ## [2.3.2] (2022-4-13)
@@ -138,7 +158,7 @@
 ### Bug Fixes
 
 - **Various** A handful of hotfixes to correct bugs.
-- **Mech Sheet** Corrected an error in the Bonus controller that was preventing some mechs from being saved  [#1910](https://github.com/massif-press/compcon/issues/1910)
+- **Mech Sheet** Corrected an error in the Bonus controller that was preventing some mechs from being saved [#1910](https://github.com/massif-press/compcon/issues/1910)
 
 ## [2.3.1] (2022-4-12)
 
@@ -185,6 +205,7 @@
 ## [2.2.37] (2022-2-21)
 
 ### Features
+
 - **LCP** Enable new LCP metadata hosting method
 - **LCP** Enable LCP Background import humanized info text (thanks, msprijatelj!)[#1858](https://github.com/massif-press/compcon/issues/1858)
 - **Compendium** Change tag search logic to AND (thanks, msprijatelj!)[#1860](https://github.com/massif-press/compcon/issues/1860)
