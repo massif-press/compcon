@@ -14,6 +14,8 @@
 
 - **Compendium** Significantly enhance Compendium search feature (thanks super-salad!)
 - **Compendium** Allow for unrestricted weapon mods when the unrestricted toggle is on (thanks Tidomann!) [#2180](https://github.com/massif-press/compcon/issues/2180)
+- **Mech Hangar** Allow weapons to specify an alternate type and size for mods [#2180](https://github.com/massif-press/compcon/issues/2180)
+- **Compendium** Allow Frames to be sorted by size [#2195](https://github.com/massif-press/compcon/issues/2195)
 
 ## [2.3.11] (2022-10-3)
 
