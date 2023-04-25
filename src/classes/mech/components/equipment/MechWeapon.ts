@@ -43,8 +43,8 @@ interface IMechWeaponData extends IMechEquipmentData {
   range?: IRangeData[]
   profiles?: IWeaponProfileData[]
   selected_profile: number
-  mod_type_override: WeaponType
-  mod_size_override: WeaponSize
+  mod_type_override?: WeaponType
+  mod_size_override?: WeaponSize
 }
 
 interface IWeaponProfileData {
