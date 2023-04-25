@@ -250,7 +250,6 @@ export class PilotManagementStore extends VuexModule {
 
   @Action
   public set_mech_dirty(): void {
-    console.log('in smd')
     this.context.commit(SET_DIRTY)
   }
 

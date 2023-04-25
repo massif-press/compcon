@@ -77,13 +77,13 @@
       </div>
 
       <v-alert class="my-3" prominent icon="mdi-alert" color="warning darken-2" outlined>
-        <b>Cloud Sync functionality has changed</b>
+        <b>Automatic Cloud Sync temporarily disabled</b>
         <div class="text--text">
-          Cloud auto-syncing has
-          <b>changed,</b>
-          manual saving or loading to/from the cloud can be done here, or through the options in the
-          nav bar. If auto-sync is enabled, COMP/CON will try to sync all local and cloud data when
-          your account is logged in.
+          COMP/CON has been experiencing issues with the automatic cloud sync feature, including
+          data not saving state correctly (such as deleted characters not staying deleted). COMP/CON
+          will still attempt to save your data to your cloud account whenever possible, but to
+          ensure that correct data is transferred between devices, please use the sync functions
+          below. Auto-sync will be re-enabled in a future update.
         </div>
 
         <div v-show="!isOnV2" class="pa-2">
@@ -103,7 +103,7 @@
         </div>
       </v-alert>
 
-      <v-card v-if="isOnV2" class="mt-3 mb-6">
+      <v-card v-if="isOnV2" class="mt-3 mb-6" disabled>
         <v-card-title class="heading h3">Auto-sync settings</v-card-title>
         <v-card-text class="px-10">
           <v-row dense align="center">
@@ -120,16 +120,17 @@
             </v-col>
             <v-col cols="auto" class="mr-n3">
               <v-switch
-                v-model="userProfile.SyncFrequency.cloudSync_v2"
+                :value="false"
                 dense
                 hide-details
                 inset
                 color="accent"
+                disabled
                 @change="userUpdate()"
               />
             </v-col>
-            <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"><b>ON</b></v-col>
-            <v-col v-else cols="auto"><i>OFF</i></v-col>
+            <!-- <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"><b>ON</b></v-col> -->
+            <v-col cols="auto"><i>OFF</i></v-col>
           </v-row>
           <v-row dense align="center">
             <v-col>
@@ -145,16 +146,17 @@
             </v-col>
             <v-col cols="auto" class="mr-n3">
               <v-switch
-                v-model="userProfile.SyncFrequency.remotes"
+                :value="false"
                 dense
                 hide-details
                 inset
                 color="accent"
+                disabled
                 @change="userUpdate()"
               />
             </v-col>
-            <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"><b>ON</b></v-col>
-            <v-col v-else cols="auto"><i>OFF</i></v-col>
+            <!-- <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"><b>ON</b></v-col> -->
+            <v-col cols="auto"><i>OFF</i></v-col>
           </v-row>
         </v-card-text>
       </v-card>

@@ -84,16 +84,17 @@ export class UserStore extends VuexModule {
     this.setLoggedIn(true)
     this.UserProfile.Username = payload.cognitoUser.attributes.email
 
-    if (this.UserProfile.SyncFrequency.cloudSync_v2) {
-      console.info('auto-sync ON')
-      try {
-        await SyncLCPs()
-        await AutoSyncAll()
-        await AutoSyncRemotes()
-      } catch (error) {
-        console.error('error in auto-sync:', error)
-      }
-    }
+    // Temporarily disable auto-sync
+    // if (this.UserProfile.SyncFrequency.cloudSync_v2) {
+    //   console.info('auto-sync ON')
+    //   try {
+    //     await SyncLCPs()
+    //     await AutoSyncAll()
+    //     await AutoSyncRemotes()
+    //   } catch (error) {
+    //     console.error('error in auto-sync:', error)
+    //   }
+    // }
   }
 
   @Action({ rawError: true })

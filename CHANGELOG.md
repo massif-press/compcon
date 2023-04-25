@@ -2,6 +2,10 @@
 
 ## [2.3.11] (2022-10-3)
 
+### Other
+
+Automatic cloud saving has been temporarily disabled while persistent issues are resolved
+
 ### Bug Fixes
 
 - **NPC Roster** Fix NPC Class sorting (thanks NicholasBreazeale!) [#840](https://github.com/massif-press/compcon/issues/840)
