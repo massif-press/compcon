@@ -182,10 +182,10 @@ export default {
   data: () => ({
     sourceFilter: [],
     tagFilter: [],
-    weaponTypeFilter: [],
-    weaponSizeFilter: [],
-    attackTypeFilter: [],
-    damageTypeFilter: [],
+    weaponTypeFilter: [] as WeaponType[],
+    weaponSizeFilter: [] as WeaponSize[],
+    attackTypeFilter: [] as RangeType[],
+    damageTypeFilter: [] as DamageType[],
     sp: '',
     spType: '',
     lcpFilter: [],
@@ -231,7 +231,7 @@ export default {
       );
     },
     lcps(): string[] {
-      return CompendiumStore().Frames.map((x) => x.LcpName);
+      return CompendiumStore().lcpNames;
     },
   },
   methods: {
@@ -250,8 +250,9 @@ export default {
       const fObj = {} as any;
       if (this.lcpFilter && this.lcpFilter.length)
         fObj.LcpName = [this.lcpFilter];
-      if (this.spType && parseInt(this.sp) !== NaN)
+      if (this.spType && !isNaN(parseInt(this.sp)))
         fObj[`SP_${this.spType}`] = parseInt(this.sp);
+      fObj[`SP_${this.spType}`] = parseInt(this.sp);
       if (this.sourceFilter && this.sourceFilter.length)
         fObj.Source = [this.sourceFilter];
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;

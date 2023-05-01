@@ -1,6 +1,6 @@
 <template>
-  <v-card flat tile class="my-1" width="100%">
-    <v-toolbar flat color="primary">
+  <v-card variant="flat" class="my-1" width="100%">
+    <v-toolbar color="primary">
       <v-row no-gutters align="center">
         <v-col cols="auto">
           <talent-emblem :url="talent.Image" :name="talent.Name" white />

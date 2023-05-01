@@ -169,6 +169,12 @@ export const CompendiumStore = defineStore('compendium', {
         return this[itemType].filter((x) => x && !x.IsHidden);
       };
     },
+
+    lcpNames(): any {
+      const frame_packs = this.Frames.map((x) => x.LcpName);
+      const lcp_packs = this.ContentPacks.map((x) => x.Name);
+      return _.unionWith(frame_packs, lcp_packs, _.isEqual);
+    },
   },
   actions: {
     setMissingContent(payload: any): void {

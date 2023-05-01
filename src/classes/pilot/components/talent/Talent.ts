@@ -1,5 +1,5 @@
 import { CompendiumStore } from '../../../../stores';
-import { CompendiumItem } from '../../../../class';
+import { CompendiumItem, ItemType } from '../../../../class';
 import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface';
 
 interface ITalentRankData extends ICompendiumItemData {
@@ -34,6 +34,7 @@ class Talent extends CompendiumItem {
     this.Terse = data.terse || '';
     this._icon_url = data.icon_url || '';
     this._ranks = data.ranks.map((x) => new TalentRank(x));
+    this.ItemType = ItemType.Talent;
   }
 
   public get Ranks(): TalentRank[] {
@@ -42,7 +43,7 @@ class Talent extends CompendiumItem {
 
   public get Image(): string {
     if (this._icon_url) return this._icon_url;
-    return `/assets/img/talent/${this.Name.toUpperCase()}.svg`;
+    return `/src/assets/img/talent/${this.Name.toUpperCase()}.svg`;
   }
 
   public Rank(rank: number): TalentRank {
@@ -60,4 +61,5 @@ class Talent extends CompendiumItem {
   }
 }
 
-export { Talent, TalentRank, ITalentData };
+export { Talent, TalentRank };
+export type { ITalentData };

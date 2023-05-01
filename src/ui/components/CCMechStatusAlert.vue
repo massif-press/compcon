@@ -16,6 +16,9 @@
       <span v-else-if="type === 'unlicensed'"
         >WARNING: UNLICENSED EQUIPMENT DETECTED</span
       >
+      <span v-else-if="type === 'incompatiblemod'"
+        >WARNING: INCOMPATIBLE WEAPON MOD</span
+      >
     </div>
     <div v-if="!small && !hideClear" class="mt-1">
       <v-btn
@@ -46,6 +49,12 @@
       <span v-else-if="type === 'unlicensed'" class="text-white flavor-text">
         Pilot is missing one or more licenses required to legally print or
         operate this configuration
+      </span>
+      <span
+        v-else-if="type === 'incompatiblemod'"
+        class="white--text flavor-text"
+      >
+        One or more weapon mods are installed to incompatible weapons
       </span>
     </div>
   </v-alert>
@@ -81,6 +90,7 @@ export default {
         case 'underSP':
         case 'unfinished':
         case 'unlicensed':
+        case 'incompatiblemod':
           return false;
         default:
           return true;
@@ -103,6 +113,8 @@ export default {
           return 'mdi-alert';
         case 'unlicensed':
           return 'cc:license';
+        case 'incompatiblemod':
+          return 'cc:status_downandout';
         default:
           return '';
       }
@@ -125,6 +137,8 @@ export default {
           return 'warning';
         case 'unlicensed':
           return 'warning';
+        case 'incompatiblemod':
+          return 'warning darken-1';
         default:
           return '';
       }

@@ -33,7 +33,7 @@ declare interface IReserveData {
   special_equipment?: string[];
 }
 
-class Reserve {
+class Reserve extends CompendiumItem {
   public readonly ID: string;
   public readonly ResourceLabel: string;
   public readonly Consumable: boolean;
@@ -45,16 +45,13 @@ class Reserve {
   public readonly Counters: ICounterData[];
   public readonly LcpName: string;
   public readonly InLcp: boolean;
-  private _special_equipment: string[];
-  private _name: string;
   private _resource_name: string;
   private _resource_note: string;
   private _resource_cost: string;
-  private _description: string;
-  private _integrated: string[];
   private _used: boolean;
 
-  public constructor(data: IReserveData, packName?: string) {
+  public constructor(data: any, packTags?: any, packName?: string) {
+    super(data, packTags, packName);
     this.ID = data.id;
     this.ResourceLabel = data.label || '';
     this.Consumable = data.consumable;
@@ -83,7 +80,7 @@ class Reserve {
   }
 
   protected save(): void {
-    store.dispatch('set_pilot_dirty');
+    // store.dispatch('set_pilot_dirty');
   }
 
   public get Icon(): string {
@@ -227,4 +224,5 @@ class Reserve {
   }
 }
 
-export { Reserve, IReserveData };
+export { Reserve };
+export type { IReserveData };
