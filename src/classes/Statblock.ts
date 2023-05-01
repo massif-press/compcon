@@ -1,4 +1,4 @@
-import { Bond } from '@/classes/pilot/components/bond/Bond';
+import { Bond } from '@/classes/pilot/components/bond/Bond'
 /* eslint-disable @typescript-eslint/indent */
 import { Pilot, Mech, Npc, PilotWeapon, MechWeapon } from '../class'
 
@@ -38,8 +38,7 @@ class Statblock {
   public static Generate(pilot: Pilot, mech: Mech, discordEmoji: boolean, view: string): string {
     let output = ''
 
-    if (view == "pilotBuild" || "full") {
-
+    if (view == 'pilotBuild' || 'full') {
       output += `» ${pilot.Name} // ${pilot.Callsign.toUpperCase()} «\n  `
       if (pilot.Background) {
         output += `${pilot.Background}, `
@@ -88,14 +87,19 @@ class Statblock {
         if (bond.BondPowers) {
           output += '  Powers: '
           for (let i = 0; i < bond.BondPowers.length; i++) {
-            output += `${bond.BondPowers[i].name.toUpperCase()}${linebreak(i, bond.BondPowers.length)}`
+            output += `${bond.BondPowers[i].name.toUpperCase()}${linebreak(
+              i,
+              bond.BondPowers.length
+            )}`
           }
         }
       }
 
-      if (view == "full") {output += '***\n'}
+      if (view == 'full') {
+        output += '***\n'
+      }
 
-      if (view == "pilotBuild"){ 
+      if (view == 'pilotBuild') {
         output += '[ MECH SKILLS ]\n  '
         output += `GRIT:${pilot.Grit} // H:${pilot.MechSkillsController.MechSkills.Hull} A:${pilot.MechSkillsController.MechSkills.Agi} S:${pilot.MechSkillsController.MechSkills.Sys} E:${pilot.MechSkillsController.MechSkills.Eng}\n`
       }
@@ -126,14 +130,14 @@ class Statblock {
           output += `${cb.Name}${linebreak(i, pilot.CoreBonusController.CoreBonuses.length)}`
         }
       }
-    }   
-
+    }
 
     if (mech) {
-      if (view == "full") {
-    
-        output += `[ MECH ]\n  « ${mech.Name.toUpperCase()} »\n  ${mech.Frame.Source} ${mech.Frame.Name}\n`
-          output += `  H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
+      if (view == 'full') {
+        output += `[ MECH ]\n  « ${mech.Name.toUpperCase()} »\n  ${mech.Frame.Source} ${
+          mech.Frame.Name
+        }\n`
+        output += `  H:${mech.Hull} A:${mech.Agi} S:${mech.Sys} E:${mech.Eng} SIZE:${mech.Size}\n`
         output += `  STRUCTURE:${mech.CurrentStructure}${
           mech.IsActive ? '/' + mech.MaxStructure : ''
         }`
@@ -141,10 +145,12 @@ class Statblock {
         output += ` ARMOR:${mech.Armor}\n`
         output += `  STRESS:${mech.CurrentStress}${mech.IsActive ? '/' + mech.MaxStress : ''}`
         output += ` HEAT:${mech.CurrentHeat}${mech.IsActive ? '/' + mech.HeatCapacity : ''}`
-        output += ` REPAIR:${mech.CurrentRepairs}${mech.IsActive ? '/' + mech.RepairCapacity : ''}\n`
+        output += ` REPAIR:${mech.CurrentRepairs}${
+          mech.IsActive ? '/' + mech.RepairCapacity : ''
+        }\n`
         output += `  ATK BONUS:${mech.AttackBonus} TECH ATK:${mech.TechAttack} LTD BONUS:${mech.LimitedBonus}\n`
         output += `  SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENS:${mech.SensorRange} SAVE:${mech.SaveTarget}\n`
-  
+
         output += '[ WEAPONS ]\n'
         for (const im of mech.FeatureController.IntegratedWeapons) {
           output += '  INTEGRATED MOUNT: '
@@ -169,14 +175,14 @@ class Statblock {
                 if (idx + 1 < mount.Weapons.length) output += ' / '
               })
             }
-  
+
             if (mount.Bonuses.length > 0) {
               output += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
             }
-  
+
             output += '\n'
           }
-  
+
           output += '[ SYSTEMS ]\n  '
           const allsys = mech.MechLoadoutController.ActiveLoadout.IntegratedSystems.concat(
             loadout.Systems
@@ -186,17 +192,18 @@ class Statblock {
           })
         }
       }
-    }  
-    else if (view == "full") { output += "\n>> NO MECH SELECTED <<"}
+    } else if (view == 'full') {
+      output += '\n>> NO MECH SELECTED <<'
+    }
     return output
   }
 
   public static GenerateBuildSummary(pilot: Pilot, mech: Mech, discordEmoji: boolean): string {
     if (mech) {
       const mechLoadout = mech.MechLoadoutController.ActiveLoadout
-      ? mech.MechLoadoutController.ActiveLoadout
-      : mech.MechLoadoutController.Loadouts[0]
-    return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
+        ? mech.MechLoadoutController.ActiveLoadout
+        : mech.MechLoadoutController.Loadouts[0]
+      return `-- ${mech.Frame.Source} ${mech.Frame.Name} @ LL${pilot.Level} --
 [ LICENSES ]
   ${
     pilot.LicenseController.Licenses.length
@@ -215,18 +222,18 @@ class Statblock {
   ${pilot.TalentsController.Talents.map(t => `${t.Talent.Name} ${t.Rank}`).join(', ')}
 [ STATS ]
   HULL:${pilot.MechSkillsController.MechSkills.Hull} AGI:${
-      pilot.MechSkillsController.MechSkills.Agi
-    } SYS:${pilot.MechSkillsController.MechSkills.Sys} ENGI:${
-      pilot.MechSkillsController.MechSkills.Eng
-    }
+        pilot.MechSkillsController.MechSkills.Agi
+      } SYS:${pilot.MechSkillsController.MechSkills.Sys} ENGI:${
+        pilot.MechSkillsController.MechSkills.Eng
+      }
   STRUCTURE:${mech.MaxStructure} HP:${mech.MaxHP} ARMOR:${mech.Armor}
   STRESS:${mech.MaxStress} HEATCAP:${mech.HeatCapacity} REPAIR:${mech.RepairCapacity}
   TECH ATK:${mech.TechAttack > 0 ? `+${mech.TechAttack}` : mech.TechAttack} LIMITED:+${
-      mech.LimitedBonus
-    }
+        mech.LimitedBonus
+      }
   SPD:${mech.Speed} EVA:${mech.Evasion} EDEF:${mech.EDefense} SENSE:${mech.SensorRange} SAVE:${
-      mech.SaveTarget
-    }
+        mech.SaveTarget
+      }
 [ WEAPONS ]
   ${mech.FeatureController.IntegratedWeapons.map(
     weapon =>
@@ -246,49 +253,49 @@ class Statblock {
           : ''
       }\n  `
   )}${mechLoadout
-      .AllEquippableMounts(
-        pilot.has('CoreBonus', 'cb_improved_armament'),
-        pilot.has('CoreBonus', 'cb_integrated_weapon')
-      )
-      .map(mount => {
-        let out = `${mount.Name.toUpperCase()}: `
-        if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
-        else
-          out += mount.Weapons.filter(Boolean)
-            .map(
-              weapon =>
-                `${weapon.TrueName}${
-                  discordEmoji && weapon.Range
-                    ? ' ' +
-                      weapon.Range.filter(Boolean)
-                        .map(r => `${r.DiscordEmoji}${r.Value}`)
-                        .join(' ')
-                    : ''
-                }${
-                  discordEmoji && weapon.Damage
-                    ? ' ' +
-                      weapon.Damage.filter(Boolean)
-                        .map(d => `${d.DiscordEmoji}${d.Value}`)
-                        .join(' ')
-                    : ''
-                }${weapon.Mod ? ` (${weapon.Mod.TrueName})` : ''}`
-            )
-            .join(' / ')
+        .AllEquippableMounts(
+          pilot.has('CoreBonus', 'cb_improved_armament'),
+          pilot.has('CoreBonus', 'cb_integrated_weapon'),
+          pilot.has('CoreBonus', 'cb_superheavy_mounting')
+        )
+        .map(mount => {
+          let out = `${mount.Name.toUpperCase()}: `
+          if (mount.IsLocked) out += 'SUPERHEAVY WEAPON BRACING'
+          else
+            out += mount.Weapons.filter(Boolean)
+              .map(
+                weapon =>
+                  `${weapon.TrueName}${
+                    discordEmoji && weapon.Range
+                      ? ' ' +
+                        weapon.Range.filter(Boolean)
+                          .map(r => `${r.DiscordEmoji}${r.Value}`)
+                          .join(' ')
+                      : ''
+                  }${
+                    discordEmoji && weapon.Damage
+                      ? ' ' +
+                        weapon.Damage.filter(Boolean)
+                          .map(d => `${d.DiscordEmoji}${d.Value}`)
+                          .join(' ')
+                      : ''
+                  }${weapon.Mod ? ` (${weapon.Mod.TrueName})` : ''}`
+              )
+              .join(' / ')
 
-        if (mount.Bonuses.length > 0)
-          out += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
+          if (mount.Bonuses.length > 0)
+            out += ' // ' + mount.Bonuses.map(bonus => bonus.Name).join(', ')
 
-        return out
-      })
-      .join('\n  ')}
+          return out
+        })
+        .join('\n  ')}
 [ SYSTEMS ]
   ${mechLoadout.Systems.map(sys => {
     let out = sys.TrueName
     if (sys.IsLimited) out += ` x${sys.getTotalUses(mech.LimitedBonus)}`
     return out
   }).join(', ')}`
-}
-    else return ">> NO MECH SELECTED <<"
+    } else return '>> NO MECH SELECTED <<'
   }
 
   public static GenerateNPC(npc: Npc): string {

@@ -195,7 +195,8 @@ export default Vue.extend({
       const output = []
       for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       )) {
         if (!mount.IsLocked) {
           let str = `${mount.Name}:`

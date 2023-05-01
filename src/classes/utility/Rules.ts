@@ -82,7 +82,7 @@ export class Rules {
   }
 
   public static get MountFittings(): object {
-    return rules.mount_fittings
+    return { ...rules.mount_fittings, ...{ Superheavy: ['Superheavy'] } }
   }
 
   public static get Overcharge(): string[] {

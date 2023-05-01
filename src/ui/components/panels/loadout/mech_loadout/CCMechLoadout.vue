@@ -42,6 +42,18 @@
         />
 
         <mount-block
+          v-if="
+            mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting') &&
+            mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3
+          "
+          superheavy
+          :readonly="readonly"
+          :mount="mech.MechLoadoutController.ActiveLoadout.SuperheavyMount"
+          :mech="mech"
+          :color="color"
+        />
+
+        <mount-block
           v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout.EquippableMounts"
           :key="`m_${k}`"
           :readonly="readonly"
