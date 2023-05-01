@@ -23,6 +23,10 @@ class ItemFilter {
         items = items.filter((f: Frame) =>
           filter[p].every((t) => f.MechType.includes(t))
         );
+      } else if (p === 'MechSize') {
+        items = items.filter((f: Frame) =>
+          filter[p].every((t) => f.Size === t)
+        );
       } else if (p === 'Mounts') {
         items = items.filter((f: Frame) =>
           filter[p].every((m) => f.Mounts.includes(m))

@@ -562,6 +562,22 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     return this.PilotBonuses.filter((x) => !this.AppliedBonuses.includes(x));
   }
 
+  public HasCompatibleMods(): boolean {
+    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(
+      (x) => x.Mod != null
+    )) {
+      if (
+        !w.Mod.AllowedTypes.includes(w.ModType) ||
+        !w.Mod.AllowedSizes.includes(w.ModSize) ||
+        w.Mod.RestrictedTypes.includes(w.ModType) ||
+        w.Mod.RestrictedSizes.includes(w.ModSize)
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   // -- I/O ---------------------------------------------------------------------------------------
   public static Serialize(m: Mech): IMechData {
     const data = {

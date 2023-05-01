@@ -15,24 +15,7 @@
         <v-container>
           <v-row justify="center">
             <v-col v-for="reserve in reserves[k]" lg="4" md="6" sm="12">
-              <cc-titled-panel
-                :title="reserve.Name"
-                :icon="reserve.Icon"
-                :color="reserve.Color"
-              >
-                <v-card-text
-                  class="text-xs-left mt-0 pt-0"
-                  style="height: 115px"
-                >
-                  <div class="text-overline text-subtle mt-n2 mb-n1">
-                    {{ reserve.Type }}
-                  </div>
-                  <p
-                    v-html-safe="reserve.Description"
-                    class="flavor-text mb-0"
-                  />
-                </v-card-text>
-              </cc-titled-panel>
+              <reserve-card :item="reserve" />
             </v-col>
           </v-row>
         </v-container>
@@ -52,11 +35,11 @@ export default {
   }),
   computed: {
     reserves() {
-      // const compendium =CompendiumStore();
-      // return _.groupBy(
-      //   compendium.Reserves.filter((x) => x),
-      //   'Type'
-      // );
+      const compendium = CompendiumStore();
+      return _.groupBy(
+        compendium.Reserves.filter((x) => x),
+        'Type'
+      );
     },
   },
 };

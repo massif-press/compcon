@@ -127,7 +127,7 @@ export default {
   data: () => ({
     sourceFilter: [],
     tagFilter: [],
-    systemTypeFilter: [],
+    systemTypeFilter: [] as SystemType[],
     sp: '',
     spType: '',
     lcpFilter: [],
@@ -158,7 +158,7 @@ export default {
       );
     },
     lcps(): string[] {
-      return CompendiumStore().Frames.map((x) => x.LcpName);
+      return CompendiumStore().lcpNames;
     },
   },
   methods: {

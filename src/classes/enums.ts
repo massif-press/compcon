@@ -79,6 +79,7 @@ enum ItemType {
   Character = 'Character',
   Location = 'Location',
   Faction = 'Faction',
+  Reserve = 'Reserve',
 }
 
 enum SystemType {
@@ -185,4 +186,4 @@ export {
   ReserveType,
   OrgType,
   ImageTag,
-}
+};

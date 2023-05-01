@@ -98,6 +98,33 @@
             </cc-tooltip>
           </v-switch>
         </div>
+        <div class="mt-n4">
+          <v-switch
+            v-model="showIncompatible"
+            dense
+            inset
+            hide-details
+            color="warning"
+            class="mr-3 d-inline"
+          >
+            <cc-tooltip
+              slot="label"
+              simple
+              inline
+              :content="
+                showIncompatible
+                  ? 'Incompatible Mods: SHOWN'
+                  : 'Incompatible Mods: HIDDEN'
+              "
+            >
+              <v-icon
+                class="ml-n2"
+                :color="showIncompatible ? 'warning' : 'success'"
+                v-html="'cci-status-downandout'"
+              />
+            </cc-tooltip>
+          </v-switch>
+        </div>
       </div>
     </cc-selector-table>
   </div>
@@ -142,24 +169,27 @@ export default {
     availableMods(): MechSystem[] {
       let i = this.mods.filter((x) => !x.IsHidden);
 
-      // filter by applied_to
-      i = i.filter(
-        (x) => x.AllowedTypes && x.AllowedTypes.includes(this.weapon.WeaponType)
-      );
-      i = i.filter(
-        (x) => x.AllowedSizes && x.AllowedSizes.includes(this.weapon.Size)
-      );
+      if (!this.showIncompatible) {
+        // filter by applied_to
+        i = i.filter(
+          (x) => x.AllowedTypes && x.AllowedTypes.includes(this.weapon.ModType)
+        );
+        i = i.filter(
+          (x) => x.AllowedSizes && x.AllowedSizes.includes(this.weapon.ModSize)
+        );
 
-      // // filter out any mount restrictions
-      i = i.filter(
-        (x) =>
-          !x.RestrictedTypes ||
-          !x.RestrictedTypes.includes(this.weapon.WeaponType)
-      );
-      i = i.filter(
-        (x) =>
-          !x.RestrictedSizes || !x.RestrictedSizes.includes(this.weapon.Size)
-      );
+        // // filter out any mount restrictions
+        i = i.filter(
+          (x) =>
+            !x.RestrictedTypes ||
+            !x.RestrictedTypes.includes(this.weapon.ModType)
+        );
+        i = i.filter(
+          (x) =>
+            !x.RestrictedSizes ||
+            !x.RestrictedSizes.includes(this.weapon.ModSize)
+        );
+      }
 
       // filter already equipped
       if (this.weapon.Mod) i = i.filter((x) => x.ID !== this.weapon.Mod.ID);

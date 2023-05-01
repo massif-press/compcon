@@ -88,8 +88,10 @@ import CCSidebarView from './components/views/CCSidebarView.vue';
 import CCIconDivider from './components/CCIconDivider.vue';
 import CCDeployableInfo from './components/items/features/deployables/CCDeployableInfo.vue';
 import CCIntegratedInfo from './components/items/features/integrated/CCIntegratedInfo.vue';
+import CCReserveCard from './components/items/features/reserves/CCReserveCard.vue';
 
 export {
+  CCReserveCard,
   CCIntegratedInfo,
   CCDeployableInfo,
   CCBondInfo,

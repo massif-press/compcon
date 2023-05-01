@@ -49,6 +49,22 @@
     </v-col>
     <v-col cols="12" md="4">
       <v-select
+        v-model="sizeFilter"
+        class="px-2"
+        hide-details
+        density="compact"
+        chips
+        clearable
+        prepend-icon="cc:size_1"
+        variant="outlined"
+        label="Size"
+        :items="sizes"
+        multiple
+        @update:modelValue="updateFilters()"
+      />
+    </v-col>
+    <v-col cols="12" md="4">
+      <v-select
         v-model="lcpFilter"
         class="px-2"
         hide-details
@@ -68,7 +84,7 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { MechType, MountType, Manufacturer } from '@/class';
+import { MechType, MountType, Manufacturer, Frame } from '@/class';
 
 import { CompendiumStore } from '@/stores';
 
@@ -85,6 +101,7 @@ export default {
     typeFilter: [],
     mountFilter: [],
     lcpFilter: [],
+    sizeFilter: [],
   }),
   emits: ['set-filters'],
   computed: {
@@ -105,8 +122,15 @@ export default {
         .filter((x) => x !== 'Integrated')
         .sort() as MountType[];
     },
+    sizes(): { title: string; value: string }[] {
+      const sizes = CompendiumStore()
+        .getItemCollection('Frames')
+        .map((x: Frame) => x.Size)
+        .sort();
+      return _.uniq(sizes).map((y: any) => ({ title: 'Size ' + y, value: y }));
+    },
     lcps(): string[] {
-      return _.uniq(CompendiumStore().Frames.map((x) => x.LcpName));
+      return CompendiumStore().lcpNames;
     },
   },
   methods: {
@@ -115,12 +139,15 @@ export default {
       this.typeFilter = [];
       this.mountFilter = [];
       this.lcpFilter = [];
+      this.sizeFilter = [];
     },
     updateFilters() {
       const fObj = {} as any;
       if (this.lcpFilter && this.lcpFilter.length)
         fObj.LcpName = [this.lcpFilter];
       if (this.sourceFilter) fObj.Source = [this.sourceFilter];
+      if (this.sizeFilter && this.sizeFilter.length)
+        fObj.MechSize = this.sizeFilter;
       if (this.typeFilter && this.typeFilter.length)
         fObj.MechType = this.typeFilter;
       if (this.mountFilter && this.mountFilter.length)
