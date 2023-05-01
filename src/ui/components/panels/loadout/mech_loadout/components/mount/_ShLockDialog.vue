@@ -31,6 +31,9 @@
         >
           {{ m.Name }}
         </v-btn>
+        <div v-if="superheavySelect">
+          <i>The SUPERHEAVY MOUNTING Core Bonus requires bracing on a Heavy Mount, if available.</i>
+        </div>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -45,7 +48,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { EquippableMount } from '@/class'
+import { EquippableMount, MountType } from '@/class'
 
 export default Vue.extend({
   name: 'sh-lock-dialog',
@@ -64,12 +67,29 @@ export default Vue.extend({
     availableMounts: [],
   }),
   mounted() {
-    const candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+    let candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
       this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
       false
     ) as EquippableMount[]
 
+    if (this.superheavySelect) {
+      candidates = this.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
+        m => m.Type === MountType.Heavy
+      )
+    }
+
     this.availableMounts = candidates.filter(x => x.Name !== this.mount.Name)
+  },
+  computed: {
+    superheavySelect() {
+      return (
+        this.mech.Pilot.has('corebonus', 'cb_superheavy_mounting') &&
+        this.mech.MechLoadoutController.ActiveLoadout.Mounts.some(
+          m => m.Type === MountType.Heavy
+        ) &&
+        this.mount.Type !== MountType.Heavy
+      )
+    },
   },
   methods: {
     show() {

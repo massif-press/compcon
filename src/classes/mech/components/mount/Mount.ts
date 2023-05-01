@@ -44,6 +44,8 @@ abstract class Mount {
         this.extra = [new WeaponSlot(FittingSize.Auxiliary, this)]
       } else if (mountType === MountType.Main) {
         this.slots = [new WeaponSlot(FittingSize.Main, this)]
+      } else if (mountType === MountType.Superheavy) {
+        this.slots = [new WeaponSlot(FittingSize.Superheavy, this)]
       } else {
         this.slots = [new WeaponSlot(FittingSize.Heavy, this)]
       }
@@ -115,6 +117,9 @@ abstract class Mount {
         break
       case MountType.MainAux:
         result = 'Main & Auxiliary | Auxiliary & Auxiliary'
+        break
+      case MountType.Superheavy:
+        result = 'Superheavy'
         break
     }
 
