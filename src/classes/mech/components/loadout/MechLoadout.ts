@@ -240,7 +240,12 @@ class MechLoadout extends Loadout {
   }
 
   public get TotalSP(): number {
-    const mountSP = [...this._equippableMounts, this._improvedArmament, this._integratedWeapon]
+    const mountSP = [
+      ...this._equippableMounts,
+      this._improvedArmament,
+      this._integratedWeapon,
+      this._superheavyMounting,
+    ]
       .flatMap(x => x.Weapons)
       .reduce(function (a, b) {
         return a + (b ? b.TotalSP : 0)
