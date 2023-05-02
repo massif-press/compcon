@@ -7,19 +7,15 @@
     </template>
     <template v-slot:statblock>
       <v-row density="compact" justify="center">
-        <cc-statblock-panel icon="mdi-shield" name="Armor" :value="armor" />
+        <cc-statblock-panel icon="$vuetify.icons.armor" name="Armor" :value="item.ArmorString" />
+        <cc-statblock-panel icon="$vuetify.icons.hp" name="HP Bonus" :value="`+${item.HpString}`" />
+        <cc-statblock-panel icon="$vuetify.icons.edef" name="E-Defense" :value="item.EdefString" />
         <cc-statblock-panel
-          icon="mdi-heart"
-          name="HP Bonus"
-          :value="`+${hp}`"
+          icon="$vuetify.icons.evasion"
+          name="Evasion"
+          :value="item.EvasionString"
         />
-        <cc-statblock-panel icon="cc:e_def" name="E-Defense" :value="edef" />
-        <cc-statblock-panel icon="cc:evasion" name="Evasion" :value="evasion" />
-        <cc-statblock-panel
-          icon="mdi-arrow-right-bold-hexagon-outline"
-          name="Speed"
-          :value="speed"
-        />
+        <cc-statblock-panel icon="$vuetify.icons.speed" name="Speed" :value="item.SpeedString" />
       </v-row>
     </template>
   </equipment-card-base>
@@ -35,28 +31,6 @@ export default {
     item: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    armor() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_armor');
-      return attr ? attr.Value : 0;
-    },
-    hp() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_hp');
-      return attr ? attr.Value : 0;
-    },
-    edef() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_edef');
-      return attr ? attr.Value : 0;
-    },
-    evasion() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_evasion');
-      return attr ? attr.Value : 0;
-    },
-    speed() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_speed');
-      return attr ? attr.Value : 0;
     },
   },
 };

@@ -14,6 +14,7 @@
         v-for="(w, i) in weapons"
         :item="w"
         :readonly="readonly"
+        :pilot="pilot"
         :exotics="exotics('PilotWeapon')"
         @equip="setWeapon($event, i)"
         @remove="setWeapon(null, i)"
@@ -24,6 +25,7 @@
         :item="w"
         :readonly="readonly"
         :extended="true"
+        :pilot="pilot"
         :exotics="exotics('PilotWeapon')"
         @equip="setWeapon($event, i, true)"
         @remove="setWeapon(null, i, true)"
@@ -35,6 +37,7 @@
         v-for="(g, i) in gear"
         :item="g"
         :readonly="readonly"
+        :pilot="pilot"
         :exotics="exotics('PilotGear')"
         @equip="setGear($event, i)"
         @remove="setGear(null, i)"
@@ -45,6 +48,7 @@
         :item="g"
         :readonly="readonly"
         :extended="true"
+        :pilot="pilot"
         :exotics="exotics('PilotGear')"
         @equip="setGear($event, i, true)"
         @remove="setGear(null, i, true)"
@@ -77,16 +81,14 @@ export default {
       return this.pilot.Loadout.Gear;
     },
     extendedGear() {
-      if (this.pilot.has('reserve', 'extended_harness'))
-        return this.pilot.Loadout.ExtendedGear;
+      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedGear;
       return [];
     },
     weapons() {
       return this.pilot.Loadout.Weapons;
     },
     extendedWeapons() {
-      if (this.pilot.has('reserve', 'extended_harness'))
-        return this.pilot.Loadout.ExtendedWeapons;
+      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedWeapons;
       return [];
     },
   },
@@ -106,9 +108,7 @@ export default {
       this.pilot.Heal();
     },
     setGear(g: PilotGear | null, idx: number, extended: boolean) {
-      const gearArray = extended
-        ? this.pilot.Loadout.ExtendedGear
-        : this.pilot.Loadout.Gear;
+      const gearArray = extended ? this.pilot.Loadout.ExtendedGear : this.pilot.Loadout.Gear;
       this.$set(gearArray, idx, g);
       this.pilot.Heal();
     },

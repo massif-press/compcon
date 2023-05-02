@@ -22,6 +22,7 @@ interface IMechLoadoutData {
   integratedMounts: { weapon: IMechWeaponSaveData }[];
   improved_armament: IMountData;
   integratedWeapon: IMountData;
+  superheavy_mounting: IMountData;
 }
 
 class MechLoadout extends Loadout {
@@ -30,24 +31,20 @@ class MechLoadout extends Loadout {
   private _equippableMounts: EquippableMount[];
   private _improvedArmament: EquippableMount;
   private _integratedWeapon: EquippableMount;
+  private _superheavyMounting: EquippableMount;
   private _systems: MechSystem[];
   private _integratedSystems: MechSystem[];
 
   public constructor(mech: Mech) {
-    super(
-      mech.MechLoadoutController
-        ? mech.MechLoadoutController.Loadouts.length
-        : 0
-    );
+    super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0);
     this.Parent = mech;
-    this._equippableMounts = mech.Frame.Mounts.map(
-      (x) => new EquippableMount(x, this)
-    );
+    this._equippableMounts = mech.Frame.Mounts.map((x) => new EquippableMount(x, this));
     this._integratedMounts = [];
     this._systems = [];
     this._integratedSystems = [];
     this._improvedArmament = new EquippableMount(MountType.Flex, this);
     this._integratedWeapon = new EquippableMount(MountType.Aux, this);
+    this._superheavyMounting = new EquippableMount(MountType.Superheavy, this);
   }
 
   public saveMechLoadout() {
@@ -57,9 +54,7 @@ class MechLoadout extends Loadout {
 
   public SetAllIntegrated(save?: boolean) {
     const im = [
-      ...this.Parent.FeatureController.IntegratedWeapons.map(
-        (x) => new IntegratedMount(x, this)
-      ),
+      ...this.Parent.FeatureController.IntegratedWeapons.map((x) => new IntegratedMount(x, this)),
       ...this.Parent.Pilot.FeatureController.IntegratedWeapons.map(
         (x) => new IntegratedMount(x, this)
       ),
@@ -68,8 +63,8 @@ class MechLoadout extends Loadout {
       ...this.Parent.FeatureController.IntegratedSystems,
       ...this.Parent.Pilot.FeatureController.IntegratedSystems,
     ];
-    Vue.set(this, '_integratedSystems', is);
-    Vue.set(this, '_integratedMounts', im);
+    this._integratedSystems = is;
+    this._integratedMounts = im;
     if (save) this.saveMechLoadout();
   }
 
@@ -89,36 +84,40 @@ class MechLoadout extends Loadout {
     return this._improvedArmament;
   }
 
-  public AllMounts(improved?: boolean, integrated?: boolean): Mount[] {
-    let ms = [];
+  public get SuperheavyMount(): EquippableMount {
+    return this._superheavyMounting;
+  }
+
+  public AllMounts(improved?: boolean, integrated?: boolean, superheavy?: boolean): Mount[] {
+    let ms = [] as EquippableMount[];
     if (integrated) ms.push(this._integratedWeapon);
-    if (improved && this._equippableMounts.length < 3)
-      ms.push(this._improvedArmament);
+    if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament);
+    if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting);
     ms = ms.concat(this._equippableMounts).concat(this._integratedMounts);
+
     return ms;
   }
 
   public AllEquippableMounts(
     improved?: boolean,
-    integrated?: boolean
+    integrated?: boolean,
+    superheavy?: boolean
   ): EquippableMount[] {
-    let ms = [];
+    let ms = [] as EquippableMount[];
     if (integrated) ms.push(this._integratedWeapon);
-    if (improved && this._equippableMounts.length < 3)
-      ms.push(this._improvedArmament);
+    if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament);
+    if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting);
     ms = ms.concat(this._equippableMounts);
     return ms;
   }
 
   public AllActiveMounts(m: Mech): Mount[] {
     let ms = [] as Mount[];
-    if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon'))
-      ms.push(this.IntegratedWeaponMount);
-    if (
-      m.Pilot.has('CoreBonus', 'cb_improved_armament') &&
-      this.EquippableMounts.length < 3
-    )
+    if (m.Pilot.has('CoreBonus', 'cb_integrated_weapon')) ms.push(this.IntegratedWeaponMount);
+    if (m.Pilot.has('CoreBonus', 'cb_improved_armament') && this.EquippableMounts.length < 3)
       ms.push(this.ImprovedArmamentMount);
+    if (m.Pilot.has('CoreBonus', 'cb_superheavy_mounting') && this.EquippableMounts.length < 3)
+      ms.push(this.SuperheavyMount);
     ms = ms.concat(this.EquippableMounts).concat(this.IntegratedMounts);
     return ms.filter((x) => x.Weapons.length);
   }
@@ -136,8 +135,7 @@ class MechLoadout extends Loadout {
 
   public RemoveRetrofitting(): void {
     this.AllEquippableMounts(true, true).forEach((x) => {
-      if (x.Bonuses.some((x) => x.ID === 'cb_mount_retrofitting'))
-        x.ClearBonuses();
+      if (x.Bonuses.some((x) => x.ID === 'cb_mount_retrofitting')) x.ClearBonuses();
     });
   }
 
@@ -227,18 +225,12 @@ class MechLoadout extends Loadout {
         }
       } else {
         const licenseIndex = requirements.findIndex(
-          (x) =>
-            x.source === item.Source &&
-            x.name === item.License &&
-            x.rank === item.LicenseLevel
+          (x) => x.source === item.Source && x.name === item.License && x.rank === item.LicenseLevel
         );
         if (licenseIndex > -1) {
           requirements[licenseIndex].items.push(item.Name);
         } else {
-          if (
-            item.RequiredLicense.name !== '' &&
-            item.RequiredLicense.rank > 0
-          ) {
+          if (item.RequiredLicense.name !== '' && item.RequiredLicense.rank > 0) {
             requirements.push(item.RequiredLicense);
           }
         }
@@ -252,6 +244,7 @@ class MechLoadout extends Loadout {
       ...this._equippableMounts,
       this._improvedArmament,
       this._integratedWeapon,
+      this._superheavyMounting,
     ]
       .flatMap((x) => x.Weapons)
       .reduce(function (a, b) {
@@ -291,22 +284,16 @@ class MechLoadout extends Loadout {
       id: ml.ID,
       name: ml.Name,
       systems: ml._systems.map((x) => MechSystem.Serialize(x)),
-      integratedSystems: ml._integratedSystems.map((x) =>
-        MechSystem.Serialize(x)
-      ),
+      integratedSystems: ml._integratedSystems.map((x) => MechSystem.Serialize(x)),
       mounts: ml._equippableMounts.map((x) => EquippableMount.Serialize(x)),
-      integratedMounts: ml._integratedMounts.map((x) =>
-        IntegratedMount.Serialize(x)
-      ),
+      integratedMounts: ml._integratedMounts.map((x) => IntegratedMount.Serialize(x)),
       improved_armament: EquippableMount.Serialize(ml._improvedArmament),
       integratedWeapon: EquippableMount.Serialize(ml._integratedWeapon),
+      superheavy_mounting: EquippableMount.Serialize(ml._superheavyMounting),
     };
   }
 
-  public static Deserialize(
-    loadoutData: IMechLoadoutData,
-    mech: Mech
-  ): MechLoadout {
+  public static Deserialize(loadoutData: IMechLoadoutData, mech: Mech): MechLoadout {
     const ml = new MechLoadout(mech);
     ml.ID = loadoutData.id;
     ml._name = loadoutData.name;
@@ -314,18 +301,14 @@ class MechLoadout extends Loadout {
     ml._integratedSystems = !loadoutData.integratedSystems
       ? mech.Frame.IntegratedSystems
       : loadoutData.integratedSystems.map((x) => MechSystem.Deserialize(x));
-    ml._equippableMounts = loadoutData.mounts.map((x) =>
-      EquippableMount.Deserialize(x, ml)
-    );
+    ml._equippableMounts = loadoutData.mounts.map((x) => EquippableMount.Deserialize(x, ml));
     ml._integratedMounts = !loadoutData.integratedMounts
       ? mech.Frame.IntegratedWeapons.map((x) => new IntegratedMount(x, ml))
-      : loadoutData.integratedMounts.map((x) =>
-          IntegratedMount.Deserialize(x, ml)
-        );
-    ml._improvedArmament = EquippableMount.Deserialize(
-      loadoutData.improved_armament,
-      ml
-    );
+      : loadoutData.integratedMounts.map((x) => IntegratedMount.Deserialize(x, ml));
+    ml._improvedArmament = EquippableMount.Deserialize(loadoutData.improved_armament, ml);
+    ml._superheavyMounting = loadoutData.superheavy_mounting
+      ? EquippableMount.Deserialize(loadoutData.superheavy_mounting, ml)
+      : new EquippableMount(MountType.Superheavy, ml);
     ml._integratedWeapon = !loadoutData.integratedWeapon
       ? new EquippableMount(MountType.Aux, ml)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon, ml);
@@ -334,4 +317,5 @@ class MechLoadout extends Loadout {
   }
 }
 
-export { MechLoadout, IMechLoadoutData };
+export { MechLoadout };
+export type { IMechLoadoutData };

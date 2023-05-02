@@ -3,9 +3,7 @@
     <v-card
       tile
       :color="
-        mech.IsActive
-          ? 'success'
-          : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
+        mech.IsActive ? 'success' : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
       "
       style="position: absolute; z-index: 5"
       class="overlay clipped-square-invert"
@@ -27,9 +25,7 @@
         }`"
       >
         <v-row no-gutters>
-          <span class="heading h2 callsign" style="margin-left: 138px">{{
-            mech.Name
-          }}</span>
+          <span class="heading h2 callsign" style="margin-left: 138px">{{ mech.Name }}</span>
           <v-fade-transition>
             <span
               v-if="mech.IsActive"
@@ -61,22 +57,12 @@
                   </v-btn>
                 </cc-tooltip>
                 <cc-tooltip simple inline content="Duplicate Mech">
-                  <v-btn
-                    small
-                    icon
-                    class="fade-select"
-                    @click.stop="$refs.copy.show()"
-                  >
+                  <v-btn small icon class="fade-select" @click.stop="$refs.copy.show()">
                     <v-icon small>mdi-content-copy</v-icon>
                   </v-btn>
                 </cc-tooltip>
                 <cc-tooltip simple inline content="Print Mech Sheet">
-                  <v-btn
-                    small
-                    icon
-                    class="fade-select"
-                    @click.stop="$refs.print.show()"
-                  >
+                  <v-btn small icon class="fade-select" @click.stop="$refs.print.show()">
                     <v-icon small>mdi-printer</v-icon>
                   </v-btn>
                 </cc-tooltip>
@@ -114,11 +100,7 @@
                   </div>
                 </fieldset>
                 <!-- TODO: add charts -->
-                <v-row
-                  v-show="$vuetify.display.mdAndUp"
-                  no-gutters
-                  justify="space-around"
-                >
+                <v-row v-show="$vuetify.display.mdAndUp" no-gutters justify="space-around">
                   <v-col cols="auto">
                     <span class="overline">
                       STR
@@ -172,9 +154,7 @@
                   tile
                   class="text-center"
                 >
-                  <span style="letter-spacing: 5px"
-                    >// REACTOR CRITICAL //</span
-                  >
+                  <span style="letter-spacing: 5px">// REACTOR CRITICAL //</span>
                 </v-alert>
                 <v-alert
                   v-if="mech.ReactorDestroyed"
@@ -183,9 +163,7 @@
                   tile
                   class="text-center"
                 >
-                  <span style="letter-spacing: 5px"
-                    >// REACTOR DESTROYED //</span
-                  >
+                  <span style="letter-spacing: 5px">// REACTOR DESTROYED //</span>
                 </v-alert>
               </v-col>
             </v-row>
@@ -194,11 +172,7 @@
       </div>
     </div>
     <copy-mech-dialog ref="copy" :mech="mech" @copy="$emit('copy', mech)" />
-    <delete-mech-dialog
-      ref="delete"
-      :mech="mech"
-      @delete="$emit('delete', mech)"
-    />
+    <delete-mech-dialog ref="delete" :mech="mech" @delete="$emit('delete', mech)" />
     <print-dialog ref="print" :pilot="mech.Pilot" />
   </div>
 </template>
@@ -222,7 +196,8 @@ export default {
       const output = [];
       for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       )) {
         if (!mount.IsLocked) {
           let str = `${mount.Name}:`;
@@ -240,9 +215,7 @@ export default {
       return output;
     },
     loadoutSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map(
-        (x) => x.Name
-      );
+      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map((x) => x.Name);
     },
   },
 };
