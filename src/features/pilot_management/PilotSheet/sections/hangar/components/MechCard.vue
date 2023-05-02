@@ -20,15 +20,10 @@
               :style="`z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${
                 mech.IsActive
                   ? 'rgb(var(--v-theme-success))'
-                  : mech.Frame.Manufacturer.GetColor(
-                      $vuetify.theme.current.dark
-                    )
+                  : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
               }`"
             >
-              <span
-                class="heading h2 text-white flavor-text ml-2"
-                style="letter-spacing: 3px"
-              >
+              <span class="heading h2 text-white flavor-text ml-2" style="letter-spacing: 3px">
                 {{ mech.Name }}
               </span>
             </div>
@@ -39,9 +34,7 @@
                 size="xLarge"
                 :source="mech.Frame.Manufacturer"
                 color="white"
-                :stroke="
-                  mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
-                "
+                :stroke="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
               />
             </div>
             <div
@@ -53,12 +46,7 @@
             </div>
             <v-img :src="mech.Portrait" position="top center" height="100%" />
             <v-fade-transition>
-              <v-overlay
-                v-if="hover"
-                absolute
-                color="grey darken-3"
-                opacity="0.8"
-              >
+              <v-overlay v-if="hover" absolute color="grey darken-3" opacity="0.8">
                 <v-card flat tile class="flavor-text" light>
                   <v-card-text>
                     <b>{{ mech.Name }}</b>
@@ -73,9 +61,7 @@
                             : 'ERR'
                         }}
                       </legend>
-                      <div
-                        v-if="mech && mech.MechLoadoutController.ActiveLoadout"
-                      >
+                      <div v-if="mech && mech.MechLoadoutController.ActiveLoadout">
                         <span v-for="(item, i) in loadoutWeapons">
                           {{ item }}
                         </span>
@@ -139,9 +125,7 @@
                     tile
                     class="text-center"
                   >
-                    <span style="letter-spacing: 5px"
-                      >// REACTOR DESTROYED //</span
-                    >
+                    <span style="letter-spacing: 5px">// REACTOR DESTROYED //</span>
                   </v-alert>
                   <v-expand-transition>
                     <v-alert
@@ -169,22 +153,12 @@
                       </v-btn>
                     </cc-tooltip>
                     <cc-tooltip simple inline content="Duplicate Mech">
-                      <v-btn
-                        small
-                        icon
-                        class="fade-select"
-                        @click.stop="$refs.copy.show()"
-                      >
+                      <v-btn small icon class="fade-select" @click.stop="$refs.copy.show()">
                         <v-icon icon="mdi-content-copy" />
                       </v-btn>
                     </cc-tooltip>
                     <cc-tooltip simple inline content="Print Mech Sheet">
-                      <v-btn
-                        small
-                        icon
-                        class="fade-select"
-                        @click.stop="$refs.print.show()"
-                      >
+                      <v-btn small icon class="fade-select" @click.stop="$refs.print.show()">
                         <v-icon icon="mdi-printer" />
                       </v-btn>
                     </cc-tooltip>
@@ -208,11 +182,7 @@
       </v-hover>
     </div>
     <copy-mech-dialog ref="copy" :mech="mech" @copy="$emit('copy', mech)" />
-    <delete-mech-dialog
-      ref="delete"
-      :mech="mech"
-      @delete="$emit('delete', mech)"
-    />
+    <delete-mech-dialog ref="delete" :mech="mech" @delete="$emit('delete', mech)" />
     <print-dialog ref="print" :pilot="mech.Pilot" />
   </v-col>
 </template>
@@ -236,7 +206,8 @@ export default {
       const output = [];
       for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       )) {
         if (!mount.IsLocked) {
           let str = `${mount.Name}:`;
@@ -254,9 +225,7 @@ export default {
       return output;
     },
     loadoutSystems() {
-      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map(
-        (x) => x.Name
-      );
+      return this.mech.MechLoadoutController.ActiveLoadout.AllActiveSystems.map((x) => x.Name);
     },
   },
 };

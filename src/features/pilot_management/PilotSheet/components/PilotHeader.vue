@@ -10,40 +10,36 @@
             align-md="start"
           >
             <v-col cols="auto">
-              <div
-                :class="`heading ${
-                  $vuetify.display.lgAndUp
-                    ? 'h1'
-                    : $vuetify.display.mdAndUp
-                    ? 'h1'
-                    : 'h3'
-                }`"
-                style="
-                  letter-spacing: 10px;
-                  overflow: hidden;
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
-                "
-              >
-                {{ pilot.Callsign }}
-                <cc-tooltip
-                  inline
-                  v-if="pilot.CloudController.IsRemoteResource"
-                  bottom
-                  title="Remote Resource"
-                  :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.`"
-                >
-                  <v-icon dark class="mb-n2 ml-n5 fade-select"
-                    >mdi-cloud-braces</v-icon
+              <v-row dense align="center">
+                <v-col cols="auto">
+                  <div
+                    :class="`heading ${
+                      $vuetify.breakpoint.lgAndUp ? 'h1' : $vuetify.breakpoint.mdAndUp ? 'h1' : 'h3'
+                    }`"
+                    style="
+                      letter-spacing: 10px;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    "
                   >
-                </cc-tooltip>
-              </div>
+                    {{ pilot.Callsign }}
+                  </div>
+                </v-col>
+                <v-col cols="auto" class="ml-3">
+                  <cc-tooltip
+                    v-if="pilot.CloudController.IsRemoteResource"
+                    inline
+                    bottom
+                    title="Remote Resource"
+                    :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.`"
+                  >
+                    <v-icon dark class="mb-n2 ml-n5 fadeSelect">mdi-cloud-braces</v-icon>
+                  </cc-tooltip>
+                </v-col>
+              </v-row>
             </v-col>
-            <v-col
-              v-if="$vuetify.display.smAndDown"
-              cols="auto"
-              class="ml-auto"
-            >
+            <v-col v-if="$vuetify.display.smAndDown" cols="auto" class="ml-auto">
               <cc-tooltip
                 v-if="!isLevelingUp"
                 delayed
@@ -52,12 +48,7 @@
                 bottom
                 content="Edit License Level"
               >
-                <v-icon
-                  small
-                  dark
-                  class="fade-select"
-                  @click="$refs.levelEdit.show()"
-                >
+                <v-icon small dark class="fade-select" @click="$refs.levelEdit.show()">
                   mdi-circle-edit-outline
                 </v-icon>
               </cc-tooltip>
@@ -70,9 +61,7 @@
                 x-small
                 right
                 dark
-                @click="
-                  $router.push({ name: 'level-up', params: { id: pilot.ID } })
-                "
+                @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
               >
                 Level Up
               </v-btn>
@@ -93,12 +82,7 @@
                   bottom
                   content="Edit License Level"
                 >
-                  <v-icon
-                    small
-                    dark
-                    class="fade-select"
-                    @click="$refs.levelEdit.show()"
-                  >
+                  <v-icon small dark class="fade-select" @click="$refs.levelEdit.show()">
                     mdi-circle-edit-outline
                   </v-icon>
                 </cc-tooltip>
@@ -113,9 +97,7 @@
                 small
                 class="fade-select mt-n4"
                 color="grey lighten-3"
-                @click="
-                  $router.push({ name: 'level-up', params: { id: pilot.ID } })
-                "
+                @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
               >
                 Level Up
                 <v-icon end>mdi-arrow-up-bold-hexagon-outline</v-icon>
@@ -134,10 +116,7 @@
                     />
                     <v-fade-transition>
                       <v-overlay v-if="hover" absolute color="secondary">
-                        <cc-btn
-                          color="secondary"
-                          @click="$refs.imageSelector.open()"
-                        >
+                        <cc-btn color="secondary" @click="$refs.imageSelector.open()">
                           Set Pilot Portrait
                         </cc-btn>
                       </v-overlay>
@@ -184,11 +163,7 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row
-        v-if="$vuetify.display.mdAndUp && mech"
-        id="stat-row"
-        density="compact"
-      >
+      <v-row v-if="$vuetify.display.mdAndUp && mech" id="stat-row" density="compact">
         <v-col cols="2" offset="1" class="unskew">
           <cc-tooltip
             simple
@@ -204,18 +179,11 @@
           </span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip
-            simple
-            inline
-            delay
-            :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`"
-          >
+          <cc-tooltip simple inline delay :content="`HP: ${mech.CurrentHP}/${mech.MaxHP}`">
             <v-icon icon="mdi-heart-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ mech.CurrentHP }}</span>
-          <span class="flavor-text text-subtle" style="font-size: 14px"
-            >/{{ mech.MaxHP }}</span
-          >
+          <span class="flavor-text text-subtle" style="font-size: 14px">/{{ mech.MaxHP }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip
@@ -260,24 +228,13 @@
           </span>
         </v-col>
       </v-row>
-      <v-row
-        v-else-if="$vuetify.display.mdAndUp"
-        id="stat-row"
-        density="compact"
-      >
+      <v-row v-else-if="$vuetify.display.mdAndUp" id="stat-row" density="compact">
         <v-col cols="2" offset="1" class="unskew">
-          <cc-tooltip
-            simple
-            inline
-            delay
-            :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`"
-          >
+          <cc-tooltip simple inline delay :content="`HP: ${pilot.CurrentHP}/${pilot.MaxHP}`">
             <v-icon icon="mdi-heart-outline" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.CurrentHP }}</span>
-          <span class="flavor-text text-subtle" style="font-size: 14px"
-            >/{{ pilot.MaxHP }}</span
-          >
+          <span class="flavor-text text-subtle" style="font-size: 14px">/{{ pilot.MaxHP }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Armor: ${pilot.Armor}`">
@@ -286,23 +243,13 @@
           <span class="stat-text">{{ pilot.Armor }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip
-            simple
-            inline
-            delay
-            :content="`Electronic Defense: ${pilot.EDefense}`"
-          >
+          <cc-tooltip simple inline delay :content="`Electronic Defense: ${pilot.EDefense}`">
             <v-icon icon="cc:edef" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.EDefense }}</span>
         </v-col>
         <v-col cols="2" class="unskew">
-          <cc-tooltip
-            simple
-            inline
-            delay
-            :content="`Evasion: ${pilot.Evasion}`"
-          >
+          <cc-tooltip simple inline delay :content="`Evasion: ${pilot.Evasion}`">
             <v-icon icon="cc:evasion" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.Evasion }}</span>
@@ -336,9 +283,7 @@ export default {
     },
     mech(): Mech {
       if (this.$route.name === 'mech-sheet')
-        return this.pilot.Mechs.find(
-          (m: Mech) => m.ID === this.$route.params.mechID
-        );
+        return this.pilot.Mechs.find((m: Mech) => m.ID === this.$route.params.mechID);
       return null;
     },
   },

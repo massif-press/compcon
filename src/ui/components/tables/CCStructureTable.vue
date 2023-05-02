@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :fullscreen="$vuetify.display.mdAndDown"
-    width="60vw"
-    persistent
-  >
+  <v-dialog v-model="dialog" :fullscreen="$vuetify.display.mdAndDown" width="60vw" persistent>
     <v-card flat tile>
       <v-toolbar color="title-bg clipped-large" dark flat>
         <v-toolbar-title class="heading h1">STRUCTURE DAMAGE</v-toolbar-title>
@@ -12,9 +7,7 @@
       <v-window v-model="window">
         <v-window-item>
           <v-card-text class="text-center">
-            <span class="flavor-text"
-              >Roll 1d6 per point of structure damage</span
-            >
+            <span class="flavor-text">Roll 1d6 per point of structure damage</span>
             <br />
             <span class="overline">
               <b>{{ totalRolls - rolls.length }}</b>
@@ -61,11 +54,7 @@
                   icon
                   @click="rolls.push(n)"
                 >
-                  <v-icon
-                    class="die-hover"
-                    size="55px"
-                    v-html="`mdi-dice-${n}`"
-                  />
+                  <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
                 </v-btn>
               </div>
               <div v-else key="tr02">
@@ -130,9 +119,7 @@
           @previous="window = 0"
           @confirm="applySystemTrauma()"
         >
-          <p class="fluff-text">
-            Parts of your mech have been torn off by the damage. Roll a d6.
-          </p>
+          <p class="fluff-text">Parts of your mech have been torn off by the damage. Roll a d6.</p>
           <cc-tooltip inline content="Roll Die">
             <v-btn
               icon
@@ -168,9 +155,7 @@
               item-value="index"
               color="accent"
             />
-            <span class="effect-text"
-              >All weapons on this mount are destroyed</span
-            >
+            <span class="effect-text">All weapons on this mount are destroyed</span>
           </div>
           <div v-else-if="systemTraumaRoll && systemTraumaRoll >= 4">
             <v-select
@@ -204,20 +189,11 @@
           <cascade-check :mech="mech" />
           <div slot="confirm-button">
             <div v-if="mech.CurrentStructure >= 3">
-              <v-btn color="success" large @click="applyDirectHit"
-                >confirm</v-btn
-              >
+              <v-btn color="success" large @click="applyDirectHit">confirm</v-btn>
             </div>
             <div v-else>
-              <v-btn color="error" tile large @click="window = 4"
-                >fail hull check</v-btn
-              >
-              <v-btn
-                color="success darken-1"
-                tile
-                large
-                @click="applyDirectHit()"
-              >
+              <v-btn color="error" tile large @click="window = 4">fail hull check</v-btn>
+              <v-btn color="success darken-1" tile large @click="applyDirectHit()">
                 pass hull check
               </v-btn>
             </div>
@@ -272,17 +248,15 @@ export default {
       return this.loadout
         .AllMounts
         // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+        // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        // this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
         ()
-        .filter((x) =>
-          x.Weapons.some((w) => !w.Destroyed && !(w.IsLimited && w.Uses === 0))
-        )
+        .filter((x) => x.Weapons.some((w) => !w.Destroyed && !(w.IsLimited && w.Uses === 0)))
         .map((m, i) => ({ name: m.Name, index: i }));
     },
     destroyableSystems(): MechSystem[] {
       return this.loadout.AllActiveSystems.filter(
-        (x) =>
-          !x.IsIndestructible && !x.Destroyed && !(x.IsLimited && x.Uses === 0)
+        (x) => !x.IsIndestructible && !x.Destroyed && !(x.IsLimited && x.Uses === 0)
       );
     },
     loadout(): MechLoadout {
@@ -290,8 +264,7 @@ export default {
     },
     totalRolls(): number {
       return (
-        (this.mech.ActiveStatController.CurrentStructure -
-          this.mech.StatController.MaxStructure) *
+        (this.mech.ActiveStatController.CurrentStructure - this.mech.StatController.MaxStructure) *
         -1
       );
     },
@@ -310,8 +283,7 @@ export default {
         case 4:
         case 3:
         case 2:
-          if (!this.destroyableMounts.length && !this.destroyableSystems.length)
-            return 3;
+          if (!this.destroyableMounts.length && !this.destroyableSystems.length) return 3;
           return 2;
         case 1:
           return this.mech.ActiveStatController.CurrentStructure <= 1 ? 4 : 3;
@@ -345,16 +317,15 @@ export default {
       if (this.systemTraumaRoll > 3) {
         let s = this.loadout.Systems.find((x) => x.ID === this.destroyedSystem);
         if (!s) {
-          s = this.loadout.IntegratedSystems.find(
-            (x) => x.ID === this.destroyedSystem
-          );
+          s = this.loadout.IntegratedSystems.find((x) => x.ID === this.destroyedSystem);
         }
         s.Destroy();
       } else {
         const m = this.loadout
           .AllMounts
           // this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-          // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+          // this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+          // this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
           ()[this.destroyedMount];
         m.Weapons.forEach((w) => {
           w.Destroy();

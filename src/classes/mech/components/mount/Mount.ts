@@ -1,13 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { CompendiumStore } from '@/stores';
-import {
-  MechWeapon,
-  WeaponSlot,
-  MountType,
-  FittingSize,
-  WeaponSize,
-  MechLoadout,
-} from '@/class';
+import { MechWeapon, WeaponSlot, MountType, FittingSize, WeaponSize, MechLoadout } from '@/class';
 
 abstract class Mount {
   private _mount_type: MountType;
@@ -51,6 +44,8 @@ abstract class Mount {
         this.extra = [new WeaponSlot(FittingSize.Auxiliary, this)];
       } else if (mountType === MountType.Main) {
         this.slots = [new WeaponSlot(FittingSize.Main, this)];
+      } else if (mountType === MountType.Superheavy) {
+        this.slots = [new WeaponSlot(FittingSize.Superheavy, this)];
       } else {
         this.slots = [new WeaponSlot(FittingSize.Heavy, this)];
       }
@@ -79,9 +74,7 @@ abstract class Mount {
 
   public get Slots(): WeaponSlot[] {
     if (!this.slots[0]) this.generateSlots(this.Type);
-    const isFlex =
-      this.Type == MountType.Flex &&
-      this._name_override !== 'Retrofitted Mount';
+    const isFlex = this.Type == MountType.Flex && this._name_override !== 'Retrofitted Mount';
 
     if (isFlex) {
       if (
@@ -89,10 +82,7 @@ abstract class Mount {
         (!this.slots[0].Weapon && this.extra[0].Weapon)
       ) {
         return this.slots.concat(this.extra);
-      } else if (
-        this.slots[0].Weapon?.Size === WeaponSize.Main &&
-        this.extra[0].Weapon
-      ) {
+      } else if (this.slots[0].Weapon?.Size === WeaponSize.Main && this.extra[0].Weapon) {
         this.extra[0].UnequipWeapon();
       }
     }
@@ -128,15 +118,16 @@ abstract class Mount {
       case MountType.MainAux:
         result = 'Main & Auxiliary | Auxiliary & Auxiliary';
         break;
+      case MountType.Superheavy:
+        result = 'Superheavy';
+        break;
     }
 
     return result;
   }
 
   public get Weapons(): MechWeapon[] {
-    return this.Slots.map((x) => x.Weapon).filter(
-      (y) => y !== null
-    ) as MechWeapon[];
+    return this.Slots.map((x) => x.Weapon).filter((y) => y !== null) as MechWeapon[];
   }
 
   public get IsLocked(): boolean {

@@ -5,19 +5,13 @@
   >
     <fieldset class="ma-0 py-0" style="height: 100%">
       <legend :style="`color: ${color}`" class="heading h3">
-        <cc-tooltip
-          title="Available Mount Fittings"
-          :content="`${mount.AvailableFittings}`"
-        >
+        <cc-tooltip title="Available Mount Fittings" :content="`${mount.AvailableFittings}`">
           {{ mount.Name }}
           <span v-if="impArm">(IMPROVED ARMAMENT)</span>
+          <span v-if="superheavy">(SUPERHEAVY MOUNTING)</span>
         </cc-tooltip>
       </legend>
-      <cb-mount-menu
-        v-if="!intWeapon && !integrated && !readonly"
-        :mech="mech"
-        :mount="mount"
-      />
+      <cb-mount-menu v-if="!intWeapon && !integrated && !readonly" :mech="mech" :mount="mount" />
       <cb-card v-for="b in mount.Bonuses" :bonus="b" />
       <sh-lock-card v-if="mount.IsLocked" />
       <v-row v-else no-gutters align="center">
@@ -69,6 +63,9 @@ export default {
       type: Boolean,
     },
     readonly: {
+      type: Boolean,
+    },
+    superheavy: {
       type: Boolean,
     },
   },

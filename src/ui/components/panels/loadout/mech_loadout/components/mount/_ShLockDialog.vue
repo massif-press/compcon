@@ -8,16 +8,14 @@
         </v-btn>
       </cc-titlebar>
       <v-card-text class="text-center flavor-text mt-2">
-        <span class="overline"
-          >// PROCESS INTERRUPT: PILOT INPUT REQUIRED //</span
-        >
+        <span class="overline">// PROCESS INTERRUPT: PILOT INPUT REQUIRED //</span>
         <br />
         //[COMP/CON:
         <b class="text-stark">
           Lancer, Superheavy-class armament requires two mounts. Please select a
           <span class="text-accent">bracing mount.</span>
-          This bracing mount will be not be able to field armament until the
-          Superheavy weapon is removed.
+          This bracing mount will be not be able to field armament until the Superheavy weapon is
+          removed.
         </b>
         ]
         <br />
@@ -32,6 +30,9 @@
         >
           {{ m.Name }}
         </v-btn>
+        <div v-if="superheavySelect">
+          <i>The SUPERHEAVY MOUNTING Core Bonus requires bracing on a Heavy Mount, if available.</i>
+        </div>
       </v-card-text>
 
       <v-divider></v-divider>
@@ -64,13 +65,27 @@ export default {
     availableMounts: [],
   }),
   mounted() {
-    const candidates =
-      this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-        this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
-        false
-      ) as EquippableMount[];
-
+    let candidates = this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
+      this.mech.Pilot.has('corebonus', 'cb_improved_armament'),
+      false
+    ) as EquippableMount[];
+    if (this.superheavySelect) {
+      candidates = this.mech.MechLoadoutController.ActiveLoadout.Mounts.filter(
+        (m) => m.Type === MountType.Heavy
+      );
+    }
     this.availableMounts = candidates.filter((x) => x.Name !== this.mount.Name);
+  },
+  computed: {
+    superheavySelect() {
+      return (
+        this.mech.Pilot.has('corebonus', 'cb_superheavy_mounting') &&
+        this.mech.MechLoadoutController.ActiveLoadout.Mounts.some(
+          (m) => m.Type === MountType.Heavy
+        ) &&
+        this.mount.Type !== MountType.Heavy
+      );
+    },
   },
   methods: {
     show() {

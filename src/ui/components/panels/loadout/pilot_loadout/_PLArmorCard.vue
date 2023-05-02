@@ -25,31 +25,31 @@
           <cc-tooltip simple inline content="Armor Bonus">
             <v-icon icon="mdi-shield-outline" />
           </cc-tooltip>
-          <span class="stat-text">{{ armor }}</span>
+          <span class="stat-text">{{ item.Armor(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="HP Bonus">
             <v-icon icon="mdi-heart" />
           </cc-tooltip>
-          <span class="stat-text">+{{ hp }}</span>
+          <span class="stat-text">+{{ item.HPBonus(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Electronic Defense">
             <v-icon icon="cc:edef" />
           </cc-tooltip>
-          <span class="stat-text">{{ edef }}</span>
+          <span class="stat-text">{{ item.EDefense(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Evasion">
             <v-icon icon="cc:evasion" />
           </cc-tooltip>
-          <span class="stat-text">{{ evasion }}</span>
+          <span class="stat-text">{{ item.Evasion(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
           <cc-tooltip simple inline content="Speed">
             <v-icon icon="mdi-arrow-right-bold-hexagon-outline" />
           </cc-tooltip>
-          <span class="stat-text">{{ speed }}</span>
+          <span class="stat-text">{{ item.Speed(pilot) }}</span>
         </v-col>
       </v-row>
       <v-row no-gutters class="mt-n3">
@@ -74,29 +74,18 @@
             </span>
           </span>
           <br />
-          <span class="heading h1 text-accent" style="line-height: 20px">{{
-            item.Name
-          }}</span>
-          <span class="flavor-text overline mt-n1" style="display: block"
-            >CURRENTLY EQUIPPED</span
-          >
+          <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
+          <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
         </div>
         <div v-else>
           <span class="overline">
-            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMOR::TI -
-            TVII-A
+            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMOR::TI - TVII-A
           </span>
           <br />
-          <span
-            class="heading h1 text-subtle text--lighten-1"
-            style="line-height: 20px"
-          >
+          <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
             NO SELECTION
           </span>
-          <span
-            class="flavor-text overline mt-n1 text-error"
-            style="display: block"
-          >
+          <span class="flavor-text overline mt-n1 text-error" style="display: block">
             [ MATERIEL ID INVALID OR MISSING ]
           </span>
         </div>
@@ -133,6 +122,10 @@ export default {
       required: false,
       default: () => [],
     },
+    pilot: {
+      type: Object,
+      required: true,
+    },
   },
   data: () => ({
     headers: [
@@ -145,28 +138,6 @@ export default {
       { title: '', align: 'center', value: 'Equip' },
     ],
   }),
-  computed: {
-    armor() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_armor');
-      return attr ? attr.Value : 0;
-    },
-    hp() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_hp');
-      return attr ? attr.Value : 0;
-    },
-    edef() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_edef');
-      return attr ? attr.Value : 0;
-    },
-    evasion() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_evasion');
-      return attr ? attr.Value : 0;
-    },
-    speed() {
-      const attr = this.item.Bonuses.find((b) => b.ID === 'pilot_speed');
-      return attr ? attr.Value : 0;
-    },
-  },
   methods: {
     equip(item: PilotArmor) {
       this.$emit('equip', { ...item });
@@ -175,8 +146,7 @@ export default {
     getArmor() {
       const compendium = CompendiumStore();
       let gear = compendium.PilotGear.filter(
-        (x: CompendiumItem) =>
-          !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotArmor
+        (x: CompendiumItem) => !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotArmor
       );
       if (this.exotics.length) {
         gear = gear.concat(this.exotics);

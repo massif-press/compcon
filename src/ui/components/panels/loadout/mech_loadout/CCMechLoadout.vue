@@ -12,8 +12,7 @@
     >
       <v-row density="compact">
         <mount-block
-          v-for="(im, j) in mech.MechLoadoutController.ActiveLoadout
-            .IntegratedMounts"
+          v-for="(im, j) in mech.MechLoadoutController.ActiveLoadout.IntegratedMounts"
           integrated
           :mount="im"
           :mech="mech"
@@ -24,9 +23,7 @@
           v-if="mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')"
           int-weapon
           :readonly="readonly"
-          :mount="
-            mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount
-          "
+          :mount="mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount"
           :mech="mech"
           :color="color"
         />
@@ -38,16 +35,25 @@
           "
           imp-arm
           :readonly="readonly"
-          :mount="
-            mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount
-          "
+          :mount="mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount"
           :mech="mech"
           :color="color"
         />
 
         <mount-block
-          v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout
-            .EquippableMounts"
+          v-if="
+            mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting') &&
+            mech.MechLoadoutController.ActiveLoadout.EquippableMounts.length < 3
+          "
+          superheavy
+          :readonly="readonly"
+          :mount="mech.MechLoadoutController.ActiveLoadout.SuperheavyMount"
+          :mech="mech"
+          :color="color"
+        />
+
+        <mount-block
+          v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout.EquippableMounts"
           :readonly="readonly"
           :mount="m"
           :mech="mech"
@@ -81,9 +87,7 @@ export default {
   },
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(
-        this.$vuetify.theme.current.dark
-      );
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
     },
   },
 };
