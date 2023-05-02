@@ -184,7 +184,7 @@ export default vueMixins(activePilot).extend({
     optionsDialog: false,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser()
+    // await Auth.currentAuthenticatedUser()
   },
   computed: {
     mode(): string {

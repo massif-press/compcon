@@ -192,7 +192,7 @@
     <div v-else>
       <v-row no-gutters justify="center" align="center" style="height: 100%">
         <v-col cols="auto">
-          <v-progress-circular intermediate size="60" color="primary" />
+          <v-progress-circular indeterminate size="60" color="primary" class="pt-3" />
         </v-col>
       </v-row>
     </div>

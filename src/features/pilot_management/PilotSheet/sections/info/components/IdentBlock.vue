@@ -62,9 +62,9 @@ export default vueMixins(activePilot).extend({
     currentAuthedUser: null,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser().then(res => {
-      this.currentAuthedUser = !!res.username
-    })
+    // await Auth.currentAuthenticatedUser().then(res => {
+    //   this.currentAuthedUser = !!res.username
+    // })
   },
   methods: {
     statusColor(): string {
