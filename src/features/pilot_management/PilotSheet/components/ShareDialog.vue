@@ -41,7 +41,7 @@
               : `Extend to
           ${extendedDate}`
           "
-          @click="refresh(pilot)"
+          @click="refresh()"
         />
         <div v-if="isSameDate" class="caption text-disabled"></div>
       </div>
@@ -112,7 +112,9 @@ export default Vue.extend({
       await generateCode(this.pilot)
         .then(res => this.pilot.CloudController.SetShareCode(res))
         .then(() => this.$notify('Share Code generated', 'success'))
-        .catch(() => this.$notify('An error occurred while attempting to generate a share code', 'error'))
+        .catch(() =>
+          this.$notify('An error occurred while attempting to generate a share code', 'error')
+        )
       this.loading = false
     },
     async refresh() {
@@ -121,7 +123,9 @@ export default Vue.extend({
       await refreshItem(c)
         .then(() => this.pilot.CloudController.SetShareCode(c))
         .then(() => this.$notify('Share Code refreshed', 'success'))
-        .catch(() => this.$notify('An error occurred while attempting to refresh the share code', 'error'))
+        .catch(() =>
+          this.$notify('An error occurred while attempting to refresh the share code', 'error')
+        )
       this.loading = false
     },
     copy() {

@@ -47,6 +47,7 @@
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "@vue/runtime-dom": "^3.2.47",
     "prettier": "^2.2.1",
     "sass": "~1.32.0",
     "source-map-support": "^0.5.10",
