@@ -1,5 +1,11 @@
 # COMP/CON Changelog
 
+## [2.3.11a] (2022-10-3)
+
+### Bug Fixes
+
+- **Pilot Loadout** Hotfixed an issue related to Pilot Armor bonuses breaking Pilot loadouts [#2227](https://github.com/massif-press/compcon/issues/2227)
+
 ## [2.3.11] (2022-10-3)
 
 ### Other

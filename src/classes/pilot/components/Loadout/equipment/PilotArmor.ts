@@ -35,10 +35,9 @@ class PilotArmor extends PilotEquipment {
   }
 
   public Armor(pilot: Pilot) {
-    return Bonus.Evaluate(
-      this.Bonuses.find(x => x.ID === 'pilot_armor'),
-      pilot
-    )
+    const b = this.Bonuses.find(x => x.ID === 'pilot_armor')
+    if (!b) return 0
+    return Bonus.Evaluate(b, pilot)
   }
 
   public get HpString() {
@@ -46,10 +45,9 @@ class PilotArmor extends PilotEquipment {
   }
 
   public HPBonus(pilot: Pilot) {
-    return Bonus.Evaluate(
-      this.Bonuses.find(x => x.ID === 'pilot_hp'),
-      pilot
-    )
+    const b = this.Bonuses.find(x => x.ID === 'pilot_hp')
+    if (!b) return 0
+    return Bonus.Evaluate(b, pilot)
   }
 
   public get EdefString() {
@@ -57,10 +55,9 @@ class PilotArmor extends PilotEquipment {
   }
 
   public EDefense(pilot: Pilot) {
-    return Bonus.Evaluate(
-      this.Bonuses.find(x => x.ID === 'pilot_edef'),
-      pilot
-    )
+    const b = this.Bonuses.find(x => x.ID === 'pilot_edef')
+    if (!b) return 0
+    return Bonus.Evaluate(b, pilot)
   }
 
   public get EvasionString() {
@@ -68,10 +65,9 @@ class PilotArmor extends PilotEquipment {
   }
 
   public Evasion(pilot: Pilot) {
-    return Bonus.Evaluate(
-      this.Bonuses.find(x => x.ID === 'pilot_evasion'),
-      pilot
-    )
+    const b = this.Bonuses.find(x => x.ID === 'pilot_evasion')
+    if (!b) return 0
+    return Bonus.Evaluate(b, pilot)
   }
 
   public get SpeedString() {
@@ -79,10 +75,9 @@ class PilotArmor extends PilotEquipment {
   }
 
   public Speed(pilot: Pilot) {
-    return Bonus.Evaluate(
-      this.Bonuses.find(x => x.ID === 'pilot_speed'),
-      pilot
-    )
+    const b = this.Bonuses.find(x => x.ID === 'pilot_speed')
+    if (!b) return 0
+    return Bonus.Evaluate(b, pilot)
   }
 
   private cleanAttrValue(attr?: Bonus) {
