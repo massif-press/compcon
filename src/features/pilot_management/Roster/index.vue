@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="px-3" style="margin-top: 20px">
+  <v-container fluid class="px-3 mt-5">
     <v-row dense align="end" class="mt-2">
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
