@@ -12,12 +12,10 @@
             {{ talent.Name }}
             <span v-if="rank" class="flavor-text text-white">
               <cc-slashes />
-              RANK {{ 'I'.repeat(parseInt(rank)) }}
+              RANK {{ 'I'.repeat(Number(rank)) }}
             </span>
           </span>
-          <span v-if="talent.InLcp" class="heading h3 text-white ml-3">{{
-            talent.LcpName
-          }}</span>
+          <span v-if="talent.InLcp" class="heading h3 text-white ml-3">{{ talent.LcpName }}</span>
         </v-toolbar>
       </v-card>
     </v-menu>
