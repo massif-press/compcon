@@ -118,7 +118,7 @@ export default {
 </script>
 
 <style scoped>
-.content >>> p {
+.content :deep(p) {
   padding-bottom: 12px;
 }
 

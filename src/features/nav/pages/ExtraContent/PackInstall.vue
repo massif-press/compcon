@@ -34,9 +34,7 @@
             />
           </svg>
         </v-fade-transition>
-        <span v-show="!done">{{
-          packAlreadyInstalled ? 'Replace' : 'Install'
-        }}</span>
+        <span v-show="!done">{{ packAlreadyInstalled ? 'Replace' : 'Install' }}</span>
       </v-btn>
       <p v-if="error" style="color: red">{{ error }}</p>
       <v-alert
@@ -45,8 +43,8 @@
         class="transition-swing"
         transition="slide-y-reverse-transition"
       >
-        A pack with this same name and author is already installed. It will be
-        replaced by this copy.
+        A pack with this same name and author is already installed. It will be replaced by this
+        copy.
       </v-alert>
     </v-col>
     <v-divider vertical class="mx-3" />
@@ -141,7 +139,7 @@ export default {
 </script>
 
 <style scoped>
-.packInstaller >>> .v-btn {
+.packInstaller :deep(.v-btn) {
   transition: background-color 500ms cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 

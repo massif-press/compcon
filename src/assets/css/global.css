@@ -205,7 +205,7 @@ a {
   white-space: nowrap !important;
 }
 
-.v-tabs >>> .v-slide-group__prev {
+.v-tabs :deep(.v-slide-group__prev) {
   display: none !important;
 }
 

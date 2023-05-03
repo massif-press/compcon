@@ -1,9 +1,6 @@
 <template>
   <div class="notificationContainer">
-    <div
-      class="v-menu__content--active"
-      style="display: none; z-index: 1000"
-    ></div>
+    <div class="v-menu__content--active" style="display: none; z-index: 1000"></div>
     <v-snackbar
       ref="snackbar"
       v-ripple="false"
@@ -22,9 +19,7 @@
       />
       &nbsp;
       <span v-html="notification.text" />
-      <v-btn class="ml-auto" dark text @click.stop="$emit('dismiss-snackbar')"
-        >Dismiss</v-btn
-      >
+      <v-btn class="ml-auto" dark text @click.stop="$emit('dismiss-snackbar')">Dismiss</v-btn>
       <v-fade-transition>
         <v-progress-linear
           v-if="timeout > 0 && !interacted"
@@ -77,8 +72,7 @@ export default {
   computed: {
     notificationVariant() {
       return (
-        notificationVariants[this.notification.variant] ??
-        notificationVariants['confirmation']
+        notificationVariants[this.notification.variant] ?? notificationVariants['confirmation']
       );
     },
     timeout() {
@@ -140,7 +134,7 @@ export default {
   margin-left: auto;
 }
 
-.notificationContainer >>> .v-snack {
+.notificationContainer :deep(.v-snack) {
   /* pointer-events: all; */
   position: static;
   /* need to unset all relative pos. values as v-ripple sets position to relative temporarily */
@@ -151,18 +145,18 @@ export default {
   border-radius: 0px;
 }
 
-.notificationContainer >>> .v-snack__wrapper {
+.notificationContainer :deep(.v-snack__wrapper) {
   min-width: 40vw;
   max-width: 70vw;
   border-radius: 0px;
 }
 
-.notificationContainer >>> .v-snack__content {
+.notificationContainer :deep(.v-snack__content) {
   border-radius: 0px;
   position: relative;
 }
 
-.notificationContainer >>> .v-progress-linear__determinate {
+.notificationContainer :deep(.v-progress-linear__determinate) {
   transition-timing-function: linear;
 }
 </style>
