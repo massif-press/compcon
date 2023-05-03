@@ -1,38 +1,18 @@
 <template>
-  <v-container fluid class="px-3" style="margin-top: 20px">
+  <v-container fluid class="px-3" style="margin-top: 40px">
     <v-row density="compact" align="end" class="mt-2">
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
-        <v-btn-toggle
-          :value="getRosterView"
-          mandatory
-          density="compact"
-          class="mt-n4"
-        >
-          <v-btn
-            small
-            icon
-            value="list"
-            @click="profile.SetView('roster', 'list')"
-          >
+        <v-btn-toggle :value="getRosterView" mandatory density="compact" class="mt-n4">
+          <v-btn small icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn
-            small
-            icon
-            value="cards"
-            @click="profile.SetView('roster', 'cards')"
-          >
+          <v-btn small icon value="cards" @click="profile.SetView('roster', 'cards')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
-          <v-btn
-            small
-            icon
-            value="small-cards"
-            @click="profile.SetView('roster', 'small-cards')"
-          >
+          <v-btn small icon value="small-cards" @click="profile.SetView('roster', 'small-cards')">
             <v-icon color="accent">mdi-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
@@ -62,9 +42,7 @@
             slot="label"
             simple
             inline
-            :content="
-              preventDnd ? 'Pilot Reordering: OFF' : 'Pilot Reordering: ON'
-            "
+            :content="preventDnd ? 'Pilot Reordering: OFF' : 'Pilot Reordering: ON'"
           >
             <v-icon
               class="ml-n2"
@@ -76,10 +54,7 @@
       </v-col>
     </v-row>
     <v-slide-x-transition mode="out-in">
-      <v-container
-        fluid
-        :class="$vuetify.display.mdAndUp ? 'mx-1' : 'mx-n4 pa-0'"
-      >
+      <v-container fluid :class="$vuetify.display.mdAndUp ? 'mx-1' : 'mx-n4 pa-0'">
         <draggable
           :list="groups"
           :disabled="preventDnd"
@@ -87,15 +62,10 @@
           @change="pilotStore.moveGroup(groups)"
         >
           <div v-for="(g, i) in groups">
-            <v-row
-              no-gutters
-              class="pl-10 ml-n12 heading h3 text-white primary sliced"
-            >
+            <v-row no-gutters class="pl-10 ml-n12 heading h3 text-white primary sliced">
               <v-col cols="auto">
                 <v-btn small dark icon class="mt-n1" @click="toggleHidden(g)">
-                  <v-icon
-                    v-html="!g.hidden ? 'mdi-chevron-down' : 'mdi-chevron-up'"
-                  />
+                  <v-icon v-html="!g.hidden ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
                 </v-btn>
                 {{ g.name ? g.name : 'Ungrouped' }}
                 <span class="overline">({{ g.pilotIDs.length }})</span>
@@ -120,24 +90,14 @@
                     </v-card-text>
                   </v-card>
                 </v-menu>
-                <v-btn
-                  dark
-                  small
-                  icon
-                  class="fade-select"
-                  @click="deleteGroup(g)"
-                >
+                <v-btn dark small icon class="fade-select" @click="deleteGroup(g)">
                   <v-icon icon="mdi-delete" />
                 </v-btn>
               </v-col>
             </v-row>
             <div
               v-if="!g.hidden"
-              :style="
-                getRosterView !== 'list'
-                  ? 'margin-left: -8px; width: 100vw;'
-                  : ''
-              "
+              :style="getRosterView !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
             >
               <v-expand-transition>
                 <draggable
@@ -165,16 +125,8 @@
     </v-slide-x-transition>
     <v-row density="compact" justify="end">
       <v-col cols="auto">
-        <v-btn x-small color="primary" @click="$refs.delete.show()"
-          >Delete Multiple</v-btn
-        >
-        <cc-solo-dialog
-          ref="delete"
-          icon="mdi-delete"
-          no-confirm
-          large
-          title="Delete Multiple"
-        >
+        <v-btn x-small color="primary" @click="$refs.delete.show()">Delete Multiple</v-btn>
+        <cc-solo-dialog ref="delete" icon="mdi-delete" no-confirm large title="Delete Multiple">
           <cc-mass-delete :items="pilots" />
         </cc-solo-dialog>
       </v-col>
@@ -198,12 +150,7 @@
       <v-col cols="auto">
         <v-menu v-model="newGroupMenu" top :close-on-content-click="false">
           <template v-slot:activator="{ props }">
-            <v-btn
-              variant="outlined"
-              color="accent"
-              class="mt-1"
-              v-bind="props"
-            >
+            <v-btn variant="outlined" color="accent" class="mt-1" v-bind="props">
               <v-icon start>mdi-folder</v-icon>
               Add Group
             </v-btn>
@@ -213,9 +160,7 @@
               <v-row density="compact" justify="center">
                 <v-col cols="auto">
                   <cc-tooltip simple content="Generate Random Name">
-                    <v-icon large color="secondary" @click="randomName()"
-                      >mdi-dice-multiple</v-icon
-                    >
+                    <v-icon large color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
                   </cc-tooltip>
                 </v-col>
                 <v-col>
@@ -228,13 +173,7 @@
                   />
                 </v-col>
               </v-row>
-              <v-btn
-                small
-                variant="outlined"
-                block
-                :disabled="!newGroupName"
-                @click="addNewGroup"
-              >
+              <v-btn small variant="outlined" block :disabled="!newGroupName" @click="addNewGroup">
                 Add New Group
               </v-btn>
             </v-card-text>
@@ -242,13 +181,7 @@
         </v-menu>
       </v-col>
     </v-row>
-    <cc-solo-dialog
-      ref="import"
-      icon="cc:pilot"
-      no-confirm
-      large
-      title="Import Pilot"
-    >
+    <cc-solo-dialog ref="import" icon="cc:pilot" no-confirm large title="Import Pilot">
       <import-dialog />
     </cc-solo-dialog>
   </v-container>
@@ -351,19 +284,13 @@ export default {
       groups.forEach((g) => {
         g.pilotIDs = this.pilots
           .filter((p) => p.GroupController.Group === g.name)
-          .sort(
-            (p1, p2) =>
-              p1.GroupController.SortIndex - p2.GroupController.SortIndex
-          )
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
           .map((p) => p.ID);
       });
       groups.push({
         name: '',
         pilotIDs: this.pilots
-          .sort(
-            (p1, p2) =>
-              p1.GroupController.SortIndex - p2.GroupController.SortIndex
-          )
+          .sort((p1, p2) => p1.GroupController.SortIndex - p2.GroupController.SortIndex)
           .map((p) => p.ID)
           .filter((id) => !groups.flatMap((g) => g.pilotIDs).includes(id)),
         hidden: false,

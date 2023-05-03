@@ -3,24 +3,21 @@
     <v-btn
       :color="usable ? 'grey darken-2' : action.Color"
       block
-      tile
-      dark
       :small="$vuetify.display.smAndDown"
       :disabled="disabled"
-      @click="$refs.dialog.show()"
+      @click="($refs.dialog as any).show()"
     >
       <v-icon v-if="!noAction" dark left>{{ action.Icon }}</v-icon>
       {{ action.Name }}
       <v-menu v-if="!noAction" offset-y max-width="700px">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn right icon v-bind="props">
+        <template v-slot:activator="{ on }">
+          <v-btn right icon v-bind="on">
             <v-icon class="fade-select">mdi-information-outline</v-icon>
           </v-btn>
         </template>
         <v-card>
           <div class="heading h3 ma-1 pl-3">
-            {{ action.Name.toUpperCase() }} &mdash;
-            {{ action.Activation.toUpperCase() }} ACTION
+            {{ action.Name.toUpperCase() }} &mdash; {{ action.Activation.toUpperCase() }} ACTION
           </div>
           <v-divider v-if="action.Detail || displayFreq" />
           <v-card-text
@@ -37,6 +34,7 @@
       </v-menu>
     </v-btn>
     <cc-combat-dialog
+      v-if="pilot"
       ref="dialog"
       :no-action="noAction"
       :action="action"
@@ -68,6 +66,7 @@ export default {
     disabled: { type: Boolean },
     unusable: { type: Boolean },
     noAction: { type: Boolean },
+    pilot: { type: Object },
   },
   computed: {
     cost() {

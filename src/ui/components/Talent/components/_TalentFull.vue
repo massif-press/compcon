@@ -1,25 +1,21 @@
 <template>
-  <v-card variant="flat" class="my-1" width="100%">
+  <v-card variant="outlined" class="my-1" width="100%">
     <v-toolbar color="primary">
-      <v-row no-gutters align="center">
-        <v-col cols="auto">
+      <v-row dense align="center">
+        <v-col cols="auto" class="pl-4">
           <talent-emblem :url="talent.Image" :name="talent.Name" white />
         </v-col>
         <v-col>
-          <div class="text-white heading h1 ml-2">{{ talent.Name }}</div>
+          <div class="text-white heading h1">{{ talent.Name }}</div>
         </v-col>
         <v-col v-if="rank" cols="auto" class="ml-auto mr-3">
           <v-icon size="45" color="white">cc:rank_{{ rank }}</v-icon>
         </v-col>
-        <v-col v-if="talent.InLcp" cols="auto" class="mr-3">
+        <v-col v-if="talent.InLcp" cols="auto">
           <div class="text-white heading h3">{{ talent.LcpName }}</div>
         </v-col>
-        <v-col cols="auto" align-self="center">
-          <v-icon
-            color="white"
-            class="fade-select mr-n2"
-            @click="$emit('expand', 'terse')"
-          >
+        <v-col cols="auto" align-self="center" class="pr-4">
+          <v-icon color="white" class="fade-select" @click="$emit('expand', 'terse')">
             mdi-arrow-collapse
           </v-icon>
         </v-col>
@@ -31,12 +27,12 @@
     <v-card-text>
       <v-row
         v-for="n in 3"
-        v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
-        density="compact"
-        :class="rank && parseInt(rank) < n ? 'text--disabled' : 'text-stark'"
+        v-show="showFull || (!showFull && rank && Number(rank) >= n)"
+        dense
+        :class="rank && Number(rank) < n ? 'text--disabled' : 'text-stark'"
       >
         <v-col cols="auto">
-          <v-icon x-large>cc:rank_{{ n }}</v-icon>
+          <v-icon size="40">cc:rank_{{ n }}</v-icon>
         </v-col>
         <v-col>
           <v-row no-gutters class="heading h3" align="center">
@@ -47,15 +43,11 @@
               <v-divider class="mx-2" />
             </v-col>
             <v-col cols="auto" class="ml-auto">
-              <v-icon
-                v-if="selectable && parseInt(rank) > n"
-                color="primary"
-                left
-              >
+              <v-icon v-if="selectable && Number(rank) > n" color="primary" left>
                 mdi-lock-open
               </v-icon>
               <v-btn
-                v-else-if="selectable && parseInt(rank) + 1 === n"
+                v-else-if="selectable && Number(rank) + 1 === n"
                 small
                 color="secondary"
                 :disabled="!canAdd"
@@ -65,7 +57,7 @@
                 Unlock
               </v-btn>
               <v-btn
-                v-else-if="selectable && parseInt(rank) === n"
+                v-else-if="selectable && Number(rank) === n"
                 small
                 color="error"
                 variant="outlined"
@@ -79,7 +71,7 @@
           </v-row>
           <talent-rank-contents
             :talent-rank="talent.Rank(n)"
-            :unlocked="!rank || parseInt(rank) >= (selectable ? n - 1 : n)"
+            :unlocked="!rank || Number(rank) >= (selectable ? n - 1 : n)"
           />
         </v-col>
       </v-row>
@@ -108,6 +100,7 @@ export default {
     talent: { type: Object, required: true },
     selectable: { type: Boolean },
     canAdd: { type: Boolean },
+    showFull: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
   data: () => ({

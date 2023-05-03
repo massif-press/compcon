@@ -1,9 +1,5 @@
 <template>
-  <v-row
-    density="compact"
-    style="min-width: 100%"
-    :class="$vuetify.display.smAndDown ? 'mb-3' : ''"
-  >
+  <v-row no-gutters style="min-width: 100%" class="my-2">
     <v-col v-if="$vuetify.display.mdAndUp" cols="auto">
       <div
         style="
@@ -11,19 +7,22 @@
           border: 1px solid rgb(var(--v-theme-primary));
           border-radius: 1px;
         "
-        class="pa-2"
+        class="pa-3"
       >
         <talent-emblem :url="talent.Image" :name="talent.Name" large />
       </div>
     </v-col>
     <v-col>
-      <div class="sliced primary text-white pl-3 ml-n2 heading h2">
-        <v-row no-gutters>
+      <div
+        class="sliced text-white heading h2 px-3 mt-n1 mb-1"
+        style="background-color: rgb(var(--v-theme-primary))"
+      >
+        <v-row dense align="center" class="mt-1">
           <v-col cols="auto">
             {{ talent.Name }}
             <span v-if="rank" class="flavor-text text-white">
               <cc-slashes />
-              RANK {{ 'I'.repeat(rank) }}
+              RANK {{ 'I'.repeat(Number(rank)) }}
             </span>
           </v-col>
           <v-col
@@ -36,29 +35,22 @@
           </v-col>
           <v-col cols="auto" class="mr-8 mt-n1">
             <v-btn
+              size="30"
               icon
               color="white"
               class="fade-select"
               @click="$emit('expand', 'full')"
             >
-              <v-icon icon="mdi-arrow-expand" />
+              <v-icon size="x-small" icon="mdi-arrow-expand" />
             </v-btn>
           </v-col>
         </v-row>
       </div>
       <div :class="$vuetify.display.mdAndUp ? 'box-outline px-2 py-1' : 'px-2'">
-        <div v-if="showFull" class="flavor-text mb-2">{{ talent.Terse }}</div>
+        <div v-if="showFull" class="flavor-text mb-2 px-3">{{ talent.Terse }}</div>
         <div v-else style="height: 30px" />
-        <v-row
-          align="center"
-          justify="space-around"
-          class="text-center"
-          density="compact"
-        >
-          <v-col
-            v-for="n in 3"
-            v-show="showFull || (!showFull && rank && parseInt(rank) >= n)"
-          >
+        <v-row align="center" justify="space-around" class="text-center" density="compact">
+          <v-col v-for="n in 3" v-show="showFull || (!showFull && rank && Number(rank) >= n)">
             <v-menu open-on-hover top offset-y open-delay="100">
               <template v-slot:activator="{ props }">
                 <v-btn
@@ -67,13 +59,10 @@
                   :color="rankColor(n)"
                   v-bind="props"
                 >
-                  <v-icon v-if="!rank || (rank && parseInt(rank) >= n)" left>
+                  <v-icon v-if="!rank || (rank && Number(rank) >= n)" start>
                     cc:rank_{{ n }}
                   </v-icon>
-                  <v-icon
-                    v-else-if="!rank || (rank && parseInt(rank) + 1 === n)"
-                    left
-                  >
+                  <v-icon v-else-if="!rank || (rank && Number(rank) + 1 === n)" left>
                     mdi-lock-open
                   </v-icon>
                   <v-icon v-else left>mdi-lock</v-icon>
@@ -90,16 +79,14 @@
                 <v-card-text>
                   <talent-rank-contents
                     :talent-rank="talent.Rank(n)"
-                    :unlocked="
-                      !rank || parseInt(rank) >= (selectable ? n - 1 : n)
-                    "
+                    :unlocked="!rank || Number(rank) >= (selectable ? n - 1 : n)"
                   />
                 </v-card-text>
                 <v-divider v-if="selectable" />
                 <v-card-actions v-if="selectable">
                   <v-spacer />
                   <v-btn
-                    v-if="n === parseInt(rank) + 1"
+                    v-if="n === Number(rank) + 1"
                     small
                     color="secondary"
                     :disabled="!canAdd"
@@ -108,12 +95,12 @@
                     <v-icon start>mdi-lock-open</v-icon>
                     Unlock {{ talent.Rank(n).Name }}
                   </v-btn>
-                  <v-btn v-else-if="n > parseInt(rank)" small disabled>
+                  <v-btn v-else-if="n > Number(rank)" small disabled>
                     <v-icon start>mdi-lock</v-icon>
                     TALENT RANK LOCKED
                   </v-btn>
                   <v-btn
-                    v-else-if="selectable && parseInt(rank) === n"
+                    v-else-if="selectable && Number(rank) === n"
                     color="error"
                     variant="outlined"
                     class="fade-select"
@@ -173,7 +160,7 @@ export default {
   methods: {
     rankColor(n): string {
       if (!this.rank) return 'primary';
-      const rank = parseInt(this.rank);
+      const rank = Number(this.rank);
       if (n <= rank) return 'primary';
       if (this.selectable && n === rank + 1) return 'secondary';
       return 'grey';
