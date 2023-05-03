@@ -215,11 +215,11 @@ export default {
 </script>
 
 <style scoped>
-.result-body >>> .highlight {
+.result-body :deep(.highlight) {
   background-color: yellow;
 }
 
-.result-headline >>> .highlight {
+.result-headline :deep(.highlight) {
   background-color: yellow;
 }
 </style>

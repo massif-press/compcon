@@ -1,11 +1,6 @@
 <template>
   <v-card flat tile class="containerCard">
-    <v-tabs
-      v-model="tabs"
-      background-color="panel"
-      color="accent"
-      icons-and-text
-    >
+    <v-tabs v-model="tabs" background-color="panel" color="accent" icons-and-text>
       <v-tab>
         Content Packs
         <v-icon icon="list_alt" />
@@ -69,8 +64,8 @@ export default {
 </script>
 
 <style scoped>
-.containerCard >>> .v-window__container,
-.containerCard >>> .v-window-item {
+.containerCard :deep(.v-window__container),
+.containerCard :deep(.v-window-item) {
   height: 100%;
 }
 </style>

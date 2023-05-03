@@ -138,7 +138,7 @@ export default {
 </script>
 
 <style scoped>
-.packsList >>> .v-data-table tbody tr.v-data-table__expanded__content {
+.packsList :deep(.v-data-table tbody tr.v-data-table__expanded__content) {
   box-shadow: none;
 }
 </style>

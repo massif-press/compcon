@@ -131,8 +131,13 @@ class UserProfile {
       last_sync: this.LastSync,
     };
 
+<<<<<<< HEAD
     localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(data));
     if (UserStore().IsLoggedIn) UpdateUserData(this, false);
+=======
+    localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(data))
+    // if (getModule(UserStore, store).IsLoggedIn) UpdateUserData(this, false)
+>>>>>>> b08131012 (increment version)
   }
 
   public get IsSavePerformant(): boolean {

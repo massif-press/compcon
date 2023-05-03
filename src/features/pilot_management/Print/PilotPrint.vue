@@ -262,11 +262,19 @@
           <div
             class="pa-1 mt-n2"
             v-html="
+<<<<<<< HEAD
               `+${a.Armor || 0} Armor / E-Def: ${
                 a.EDefense || 'N/A'
               } / Evasion: ${a.Evasion || 'N/A'}<br>${
                 a.HPBonus ? `HP Bonus: +${a.HPBonus}` : ''
               }${a.Speed ? ` / Speed: ${a.Speed}` : ''}`
+=======
+              `+${a.Armor(pilot) || 0} Armor / E-Def: ${a.EDefense(pilot) || 'N/A'} / Evasion: ${
+                a.Evasion(pilot) || 'N/A'
+              }<br>${a.HPBonus(pilot) ? `HP Bonus: +${a.HPBonus(pilot)}` : ''}${
+                a.Speed(pilot) ? ` / Speed: ${a.Speed(pilot)}` : ''
+              }`
+>>>>>>> b08131012 (increment version)
             "
           />
         </fieldset>

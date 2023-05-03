@@ -20,13 +20,7 @@
       </cc-tooltip>
 
       <cc-tooltip v-if="counterData.custom" simple content="Delete Counter">
-        <v-btn
-          class="fade-select ml-1"
-          dark
-          icon
-          x-small
-          @click="$emit('delete')"
-        >
+        <v-btn class="fade-select ml-1" dark icon x-small @click="$emit('delete')">
           <v-icon small>delete</v-icon>
         </v-btn>
       </cc-tooltip>
@@ -108,9 +102,7 @@ export default {
   created(): void {
     this.counter = new Counter(this.$props.counterData);
 
-    const data = this.$props.saveData.find(
-      (data) => data.id === this.counter.ID
-    );
+    const data = this.$props.saveData.find((data) => data.id === this.counter.ID);
     if (data) this.counter.LoadData(data);
   },
   methods: {
@@ -131,27 +123,27 @@ export default {
 </script>
 
 <style scoped>
-.counterValue.dirty >>> input {
+.counterValue.dirty :deep(input) {
   color: rgb(var(--v-theme-primary)) !important;
   transition: color 300ms ease-in-out !important;
 }
 
-.counterValue >>> input {
+.counterValue :deep(input) {
   font-size: 1.2em;
   text-align: center;
   -moz-appearance: textfield;
 }
 
-.counterValue >>> input::-webkit-outer-spin-button,
-.counterValue >>> input::-webkit-inner-spin-button {
+.counterValue :deep(input::-webkit-outer-spin-button),
+.counterValue :deep(input::-webkit-inner-spin-button) {
   -webkit-appearance: none;
 }
 
-.counterValue >>> .v-input__slot {
+.counterValue :deep(.v-input__slot) {
   margin-bottom: 0 !important;
 }
 
-.counterValue >>> .v-text-field__details {
+.counterValue :deep(.v-text-field__details) {
   display: none !important;
 }
 
