@@ -1,13 +1,18 @@
 # COMP/CON Changelog
 
-## [2.3.11a] (2022-10-3)
+## [2.3.13] (2022-10-3)
+
+- **Pilot Roster/Mech Hangar** Added support for upcoming Dustgrave content
+- **Printables** Fixed pilot gear print output
+
+## [2.3.12a] (2022-10-3)
 
 ### Bug Fixes
 
 - **Pilot Loadout** Hotfixed an issue related to Pilot Armor bonuses breaking Pilot loadouts [#2227](https://github.com/massif-press/compcon/issues/2227)
 - **Pilot Profile** Hotfixed an issue related to imported pilot callsigns getting unnecessarily truncated [#2223](https://github.com/massif-press/compcon/issues/2223)
 
-## [2.3.11] (2022-10-3)
+## [2.3.12] (2022-10-3)
 
 ### Other
 
