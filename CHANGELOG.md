@@ -1,5 +1,11 @@
 # COMP/CON Changelog
 
+## [2.3.13a] (2022-10-3)
+
+### Bug Fixes
+
+- **NPC Roster** Fixed a bug preventing NPCs from correctly saving or loading in certain cases
+
 ## [2.3.13] (2022-10-3)
 
 - **Pilot Roster/Mech Hangar** Added support for upcoming Dustgrave content

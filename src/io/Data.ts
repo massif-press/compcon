@@ -19,7 +19,9 @@ const saveData = async function <T>(fileName: string, data: T): Promise<void> {
 const saveDelta = async function <T>(filename: string, data: T[]): Promise<void> {
   if (!data.length) return
   const ls = localStorage.getItem(filename)
-  const mem = ls ? JSON.parse(localStorage.getItem(filename)) : []
+  let mem = []
+  const parsed = JSON.parse(localStorage.getItem(filename))
+  if (ls && parsed) mem = parsed
   data.forEach((e: any) => {
     const idx = mem.findIndex((x: any) => x.id === e.id)
     if (idx > -1) mem[idx] = e
