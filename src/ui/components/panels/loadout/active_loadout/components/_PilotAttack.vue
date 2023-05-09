@@ -127,7 +127,6 @@
                 <v-text-field
                   v-model="accuracy"
                   type="number"
-                  append-icon="mdi-plus-circle-outline"
                   append-icon="cc:accuracy"
                   prepend-icon="mdi-minus-circle-outline"
                   style="width: 115px"
@@ -145,7 +144,6 @@
                 <v-text-field
                   v-model="difficulty"
                   type="number"
-                  append-icon="mdi-plus-circle-outline"
                   append-icon="cc:difficulty"
                   prepend-icon="mdi-minus-circle-outline"
                   style="width: 115px"
