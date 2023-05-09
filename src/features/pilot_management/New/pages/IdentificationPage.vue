@@ -14,13 +14,12 @@
       </h2>
       <v-container class="flavor-text" style="font-size: 14px">
         <div class="mt-n2">
-          Welcome to the Union Administrative Department's IDENT registration
-          service. IDENT is the omninet-based certification system that guides
-          the user through the UAD's pilot registration process. IDENT helps
-          ensure pilots meet regulatory and policy requirements through the use
-          of NHP-directed data validation protocols. Union Regulars that have
-          already been issued an RM-4 IDENT fingerprint should not complete this
-          form unless instructed to by their commanding officer.
+          Welcome to the Union Administrative Department's IDENT registration service. IDENT is the
+          omninet-based certification system that guides the user through the UAD's pilot
+          registration process. IDENT helps ensure pilots meet regulatory and policy requirements
+          through the use of NHP-directed data validation protocols. Union Regulars that have
+          already been issued an RM-4 IDENT fingerprint should not complete this form unless
+          instructed to by their commanding officer.
         </div>
         <v-alert
           type="warning"
@@ -36,10 +35,9 @@
             glyph must be populated.
           </b>
           <div class="overline" style="line-height: 13px">
-            By submitting this form you attest that your responses are truthful
-            and accurate to the best of your knowledge. Knowingly providing
-            false or or incomplete information is punishable under DoJ/HR AR
-            303-J.
+            By submitting this form you attest that your responses are truthful and accurate to the
+            best of your knowledge. Knowingly providing false or or incomplete information is
+            punishable under DoJ/HR AR 303-J.
           </div>
         </v-alert>
       </v-container>
@@ -57,14 +55,12 @@
           class="my-1"
           @change="$emit('set', { attr: 'Name', val: $event })"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <cc-tooltip simple content="Generate Random Name">
-              <v-icon color="secondary" @click="randomName()"
-                >mdi-dice-multiple</v-icon
-              >
+              <v-icon color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
             </cc-tooltip>
           </template>
-          <template v-slot:append>
+          <template #append>
             <v-icon v-if="!pilot.Name" color="error">mdi-alert</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
@@ -80,14 +76,12 @@
           hide-details
           class="my-1"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <cc-tooltip simple content="Generate Random Callsign">
-              <v-icon color="secondary" @click="randomCallsign()"
-                >mdi-dice-multiple</v-icon
-              >
+              <v-icon color="secondary" @click="randomCallsign()">mdi-dice-multiple</v-icon>
             </cc-tooltip>
           </template>
-          <template v-slot:append>
+          <template #append>
             <v-icon v-if="!pilot.Callsign" color="error">mdi-alert</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
@@ -103,17 +97,13 @@
           hide-details
           class="my-1"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <cc-tooltip simple content="Select Predefined Background">
-              <cc-background-selector
-                @select="$emit('set', { attr: 'Background', val: $event })"
-              />
+              <cc-background-selector @select="$emit('set', { attr: 'Background', val: $event })" />
             </cc-tooltip>
           </template>
-          <template v-slot:append>
-            <v-icon v-if="!pilot.Background" color="grey"
-              >mdi-circle-outline</v-icon
-            >
+          <template #append>
+            <v-icon v-if="!pilot.Background" color="grey">mdi-circle-outline</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </template>
         </v-text-field>
@@ -135,9 +125,7 @@
             Edit Pilot Biography
           </span>
           <div style="position: absolute; right: -53px">
-            <v-icon v-if="!pilot.History" color="grey"
-              >mdi-circle-outline</v-icon
-            >
+            <v-icon v-if="!pilot.History" color="grey">mdi-circle-outline</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </div>
         </text-entry-popup>
@@ -159,28 +147,19 @@
             Edit Pilot Description
           </span>
           <div style="position: absolute; right: -53px">
-            <v-icon v-if="!pilot.TextAppearance" color="grey"
-              >mdi-circle-outline</v-icon
-            >
+            <v-icon v-if="!pilot.TextAppearance" color="grey">mdi-circle-outline</v-icon>
             <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
           </div>
         </text-entry-popup>
       </v-col>
-      <v-col
-        v-if="$vuetify.display.mdAndUp"
-        cols="1"
-        class="ml-auto mr-auto text-center"
-      >
+      <v-col v-if="$vuetify.display.mdAndUp" cols="1" class="ml-auto mr-auto text-center">
         <v-divider vertical />
       </v-col>
       <v-col cols="12" md="5" class="ml-auto">
         <span v-if="$vuetify.display.mdAndUp" class="overline">
           RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
         </span>
-        <div
-          class="border mr-8 ml-auto mr-auto"
-          style="width: 300px; height: 300px"
-        >
+        <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
           <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
         </div>
         <div class="mr-8 mt-3">
@@ -200,17 +179,11 @@
               Edit Pilot Image
             </span>
             <div style="position: absolute; right: -53px">
-              <v-icon v-if="!pilot.Portrait" color="grey"
-                >mdi-circle-outline</v-icon
-              >
+              <v-icon v-if="!pilot.Portrait" color="grey">mdi-circle-outline</v-icon>
               <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
             </div>
           </v-btn>
-          <cc-image-selector-web
-            ref="imageSelector"
-            :item="pilot"
-            type="pilot"
-          />
+          <cc-image-selector-web ref="imageSelector" :item="pilot" type="pilot" />
         </div>
       </v-col>
     </v-row>

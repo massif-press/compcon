@@ -1,6 +1,6 @@
 <template>
   <v-tooltip top>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-icon v-bind="props">cc:talent</v-icon>
     </template>
     <synergy-base :synergy="synergy" />

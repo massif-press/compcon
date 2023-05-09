@@ -1,6 +1,6 @@
 <template>
   <c-card-base :item="item" :small="small" :hover="hover">
-    <template v-slot:top>
+    <template #top>
       <v-img
         v-if="item.DefaultImage"
         :src="item.DefaultImage"
@@ -9,7 +9,7 @@
         class="py-2"
       />
     </template>
-    <template v-slot:overline> {{ item.MechTypeString }} Frame </template>
+    <template #overline> {{ item.MechTypeString }} Frame </template>
   </c-card-base>
 </template>
 

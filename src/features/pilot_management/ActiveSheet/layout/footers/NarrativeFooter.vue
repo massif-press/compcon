@@ -1,17 +1,7 @@
 <template>
-  <v-footer
-    fixed
-    style="
-      padding-bottom: 2px;
-      border-top: 2px solid rgb(var(--v-theme-primary));
-    "
-  >
-    <v-dialog
-      v-model="scDialog"
-      :fullscreen="$vuetify.display.smAndDown"
-      width="80vw"
-    >
-      <template v-slot:activator="{ props }">
+  <v-footer fixed style="padding-bottom: 2px; border-top: 2px solid rgb(var(--v-theme-primary))">
+    <v-dialog v-model="scDialog" :fullscreen="$vuetify.display.smAndDown" width="80vw">
+      <template #activator="{ props }">
         <v-btn
           small
           class="mr-5"
@@ -23,18 +13,10 @@
         </v-btn>
       </template>
       <v-card>
-        <v-toolbar
-          density="compact"
-          dark
-          flat
-          tile
-          color="warning darken-3 heading h2"
-        >
+        <v-toolbar density="compact" dark flat tile color="warning darken-3 heading h2">
           START MISSION
           <v-spacer />
-          <v-btn large dark icon @click="scDialog = false"
-            ><v-icon icon="mdi-close"
-          /></v-btn>
+          <v-btn large dark icon @click="scDialog = false"><v-icon icon="mdi-close" /></v-btn>
         </v-toolbar>
         <v-card-text>
           <p class="flavor-text mt-2 mb-0 mx-6">
@@ -42,8 +24,8 @@
             <span class="text-accent">COMP/CON</span>
             :
             <span class="text-stark">Active Protocols Standing By</span>
-            ] Pilot, proceeding will engage COMP/CON ACTIVE MODE, which will
-            assist with running LANCER Missions and Encounters.
+            ] Pilot, proceeding will engage COMP/CON ACTIVE MODE, which will assist with running
+            LANCER Missions and Encounters.
             <!-- First-time users are encouraged to enable the Active Mode Tutorial. -->
           </p>
           <!-- <v-row justify="center" no-gutters class="mt-n2">
@@ -54,21 +36,13 @@
           <v-alert
             density="compact"
             variant="outlined"
-            :color="
-              pilot.ActiveMech
-                ? pilot.ActiveMech.Frame.Manufacturer.Color
-                : 'primary'
-            "
+            :color="pilot.ActiveMech ? pilot.ActiveMech.Frame.Manufacturer.Color : 'primary'"
             class="mt-4"
           >
             <v-row justify="start" no-gutters>
               <v-col>
                 <div class="text-overline text-text pb-1">ACTIVE MECH</div>
-                <div
-                  :class="
-                    $vuetify.display.mdAndDown ? 'heading h3' : 'heading h1'
-                  "
-                >
+                <div :class="$vuetify.display.mdAndDown ? 'heading h3' : 'heading h1'">
                   <cc-logo
                     v-if="pilot.ActiveMech"
                     :source="pilot.ActiveMech.Frame.Manufacturer"
@@ -77,20 +51,13 @@
                   />
                   <span
                     v-if="pilot.ActiveMech"
-                    :class="
-                      pilot.ActiveMech.Destroyed
-                        ? 'text-decoration-line-through'
-                        : ''
-                    "
+                    :class="pilot.ActiveMech.Destroyed ? 'text-decoration-line-through' : ''"
                   >
                     {{ pilot.ActiveMech.Name }}
                   </span>
                   <div v-else class="pb-3">NO ACTIVE MECH</div>
                 </div>
-                <div
-                  v-if="pilot.ActiveMech"
-                  class="text-overline text-text ml-4"
-                >
+                <div v-if="pilot.ActiveMech" class="text-overline text-text ml-4">
                   {{ pilot.ActiveMech.Frame.Source }}
                   {{ pilot.ActiveMech.Frame.Name }}
                 </div>
@@ -113,9 +80,9 @@
               <span class="text-accent">COMP/CON</span>
               :
               <span class="text-stark">Frame Issues Detected</span>
-              ] Pilot, COMP/CON has detected one ore more issues with the
-              selected mech. If these issues are not addressed, your mech may
-              operate at reduced combat efficacy. Caution is advised.
+              ] Pilot, COMP/CON has detected one ore more issues with the selected mech. If these
+              issues are not addressed, your mech may operate at reduced combat efficacy. Caution is
+              advised.
             </p>
             <v-row density="compact" justify="center">
               <v-col v-for="s in pilot.ActiveMech.StatusString" cols="12">

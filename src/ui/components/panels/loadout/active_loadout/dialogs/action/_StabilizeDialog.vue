@@ -5,15 +5,8 @@
       <v-col cols="12" lg="">
         <v-row density="compact" justify="space-around">
           <v-col cols="12" lg="auto">
-            <div class="heading h3 text-center">
-              Choose one of the following:
-            </div>
-            <v-radio-group
-              v-model="state.StabilizeMajor"
-              density="compact"
-              hide-details
-              column
-            >
+            <div class="heading h3 text-center">Choose one of the following:</div>
+            <v-radio-group v-model="state.StabilizeMajor" density="compact" hide-details column>
               <v-radio
                 label="Cool Mech, resetting the heat gauge and ending the EXPOSED status"
                 value="cool"
@@ -90,15 +83,13 @@
           color="action--free"
           @click="$emit('use', true)"
         >
-          <v-icon start small>cc:free-action</v-icon>
+          <v-icon start small>cc:free_action</v-icon>
           Free Action
           <cc-tooltip
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon end small class="fade-select"
-              >mdi-information-outline</v-icon
-            >
+            <v-icon end small class="fade-select">mdi-information-outline</v-icon>
           </cc-tooltip>
         </v-btn>
       </v-col>

@@ -27,15 +27,13 @@
           :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
           @click="actionFree = !actionFree"
         >
-          <v-icon start small>cc:free-action</v-icon>
+          <v-icon start small>cc:free_action</v-icon>
           Free Action
           <cc-tooltip
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon end small class="fade-select"
-              >mdi-information-outline</v-icon
-            >
+            <v-icon end small class="fade-select">mdi-information-outline</v-icon>
           </cc-tooltip>
         </v-btn>
       </v-col>
@@ -53,11 +51,7 @@
           >
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-4 mr-n4">Contested AGI</div>
@@ -65,9 +59,7 @@
                 v-model="sys"
                 type="number"
                 style="width: 60px"
-                :class="`hide-input-spinners mt-n1 ${
-                  $vuetify.display.mdAndUp ? 'ml-10' : 'ml-n8'
-                }`"
+                :class="`hide-input-spinners mt-n1 ${$vuetify.display.mdAndUp ? 'ml-10' : 'ml-n8'}`"
                 color="accent"
                 density="compact"
                 hide-details
@@ -84,11 +76,7 @@
           >
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Accuracy</div>
@@ -110,11 +98,7 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Difficulty</div>
@@ -136,11 +120,7 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">SYS Roll</div>
@@ -226,10 +206,7 @@ export default {
   }),
   methods: {
     complete() {
-      this.$emit(
-        'use',
-        this.actionFree ? ActivationType.Free : ActivationType.Quick
-      );
+      this.$emit('use', this.actionFree ? ActivationType.Free : ActivationType.Quick);
     },
     registerSysRoll(roll) {
       Vue.set(this, 'sysRoll', roll);

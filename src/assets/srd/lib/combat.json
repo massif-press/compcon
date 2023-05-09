@@ -1,0 +1,186 @@
+[
+  {
+    "title": {
+      "en": "Overview"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Characters and Objects"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Space, Size, and Measurement"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Turns"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Movement"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Attacks"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Harm"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Actions"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Pilot Combat"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Pilots in Mech Combat"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Statuses and Conditions"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Combat Terminology"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Gear and Systems"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Tags"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Artificial Intelligence"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Reserves"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Wear and Tear"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Damage and Structure"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Overheating and Stress"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Repairs and Rest"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Death"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Quirks"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  }
+]

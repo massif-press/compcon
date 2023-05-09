@@ -1,7 +1,7 @@
 <template>
   <v-col cols="auto" class="mx-2">
     <v-dialog v-model="dialog" width="70vw">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn large variant="outlined" color="stark" block v-bind="props">
           <v-icon small left color="stark">mdi-account-multiple</v-icon>
           {{ org.Name }}
@@ -53,12 +53,7 @@
         <br />
         <v-row density="compact" justify="center" class="mx-12">
           <v-col cols="auto">
-            <v-btn
-              icon
-              large
-              :disabled="org.Efficiency === 0"
-              @click="org.Efficiency -= 2"
-            >
+            <v-btn icon large :disabled="org.Efficiency === 0" @click="org.Efficiency -= 2">
               <v-icon large color="accent">remove</v-icon>
             </v-btn>
           </v-col>
@@ -83,23 +78,13 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-btn
-              icon
-              large
-              :disabled="org.Efficiency === 6"
-              @click="org.Efficiency += 2"
-            >
+            <v-btn icon large :disabled="org.Efficiency === 6" @click="org.Efficiency += 2">
               <v-icon large color="accent">add</v-icon>
             </v-btn>
           </v-col>
           <v-spacer />
           <v-col cols="auto">
-            <v-btn
-              icon
-              large
-              :disabled="org.Influence === 0"
-              @click="org.Influence -= 2"
-            >
+            <v-btn icon large :disabled="org.Influence === 0" @click="org.Influence -= 2">
               <v-icon large color="accent">remove</v-icon>
             </v-btn>
           </v-col>
@@ -122,12 +107,7 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-btn
-              icon
-              large
-              :disabled="org.Influence === 6"
-              @click="org.Influence += 2"
-            >
+            <v-btn icon large :disabled="org.Influence === 6" @click="org.Influence += 2">
               <v-icon large color="accent">add</v-icon>
             </v-btn>
           </v-col>

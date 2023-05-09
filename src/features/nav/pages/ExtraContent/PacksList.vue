@@ -10,7 +10,7 @@
       item-key="Key"
     >
       <!-- Active toggle -->
-      <template v-slot:[`item.toggleActive`]="{ item }">
+      <template #[`item.toggleActive`]="{ item }">
         <v-switch
           :input-value="item.Active"
           color="primary"
@@ -18,24 +18,21 @@
         />
       </template>
       <!-- Name -->
-      <template v-slot:[`item.Name`]="{ item }">
-        <span
-          class="heading h3"
-          :class="item.Active ? 'text-accent' : 'text-subtle font-italic'"
-        >
+      <template #[`item.Name`]="{ item }">
+        <span class="heading h3" :class="item.Active ? 'text-accent' : 'text-subtle font-italic'">
           {{ item.Name }}
         </span>
       </template>
       <!-- Version -->
-      <template v-slot:[`item.Version`]="{ item }">
+      <template #[`item.Version`]="{ item }">
         <span class="packVersion">
           {{ item.Version }}
         </span>
       </template>
       <!-- Delete action -->
-      <template v-slot:[`item.deleteAction`]="{ item }">
+      <template #[`item.deleteAction`]="{ item }">
         <v-menu offset-y offset-x top nudge-left="30px">
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn icon color="primary" class="fade-select" v-bind="props">
               <v-icon icon="delete" />
             </v-btn>
@@ -43,20 +40,14 @@
           <v-card>
             <v-card-text class="text-center body-text">
               <p>
-                This will remove this pack and all of its contents from
-                COMP/CON. User data that relies on this content will be
-                unavailable and may cause errors. Are you sure you want to
-                continue?
+                This will remove this pack and all of its contents from COMP/CON. User data that
+                relies on this content will be unavailable and may cause errors. Are you sure you
+                want to continue?
               </p>
               <v-divider class="my-2" />
               <v-row density="compact">
                 <v-btn small text>CANCEL</v-btn>
-                <v-btn
-                  small
-                  color="error"
-                  class="ml-auto"
-                  @click="deletePack(item.ID)"
-                >
+                <v-btn small color="error" class="ml-auto" @click="deletePack(item.ID)">
                   CONFIRM
                 </v-btn>
               </v-row>
@@ -65,7 +56,7 @@
         </v-menu>
       </template>
       <!-- Expanded view -->
-      <template v-slot:expanded-item="{ item, headers }">
+      <template #expanded-item="{ item, headers }">
         <td :colspan="headers.length" class="py-4 px-6 w-100 light-panel">
           <v-row>
             <v-col>
@@ -78,24 +69,14 @@
 
               <div v-if="item.Website" class="mt-2">
                 <v-divider class="ma-1" />
-                <v-btn
-                  target="_blank"
-                  :href="item.Website"
-                  text
-                  color="secondary"
-                >
+                <v-btn target="_blank" :href="item.Website" text color="secondary">
                   <v-icon prepend class="mr-1">open_in_new</v-icon>
                   &nbsp;Website
                 </v-btn>
               </div>
             </v-col>
             <v-col cols="2">
-              <v-img
-                :src="item.ImageURL"
-                alt="Pack image"
-                max-width="200px"
-                max-height="300px"
-              />
+              <v-img :src="item.ImageURL" alt="Pack image" max-width="200px" max-height="300px" />
             </v-col>
           </v-row>
         </td>

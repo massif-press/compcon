@@ -1,15 +1,13 @@
 <template>
   <div>
     <v-menu offset-y offset-x>
-      <template v-slot:activator="{ on: menu }">
+      <template #activator="{ on: menu }">
         <v-btn class="ml-2" icon :dark="!light" v-on="menu">
           <v-icon icon="mdi-cog" />
         </v-btn>
       </template>
       <v-list two-line subheader color="panel">
-        <div v-if="!dense" class="heading h2 text-white primary py-0 px-2">
-          Pilot Options
-        </div>
+        <div v-if="!dense" class="heading h2 text-white primary py-0 px-2">Pilot Options</div>
         <v-list-item @click="($refs.printDialog as any).show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-printer" />
@@ -27,9 +25,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Clone</v-list-item-title>
-            <v-list-item-subtitle
-              >Duplicate or Flash Clone this character</v-list-item-subtitle
-            >
+            <v-list-item-subtitle>Duplicate or Flash Clone this character</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="($refs.statblockDialog as any).show()">
@@ -61,19 +57,14 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-else
-          :disabled="!isAuthed"
-          @click="($refs.shareDialog as any).show()"
-        >
+        <v-list-item v-else :disabled="!isAuthed" @click="($refs.shareDialog as any).show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-code-json" />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Get Share Code</v-list-item-title>
             <v-list-item-subtitle>
-              Generate a share code that other users can use to import and sync
-              this character.
+              Generate a share code that other users can use to import and sync this character.
               <br />
               <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
             </v-list-item-subtitle>
@@ -96,9 +87,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Export Pilot</v-list-item-title>
-            <v-list-item-subtitle
-              >Open the pilot export menu</v-list-item-subtitle
-            >
+            <v-list-item-subtitle>Open the pilot export menu</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider />
@@ -107,9 +96,7 @@
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text-error"
-              >Delete Pilot</v-list-item-title
-            >
+            <v-list-item-title class="text-error">Delete Pilot</v-list-item-title>
             <v-list-item-subtitle class="text-error">
               Remove this pilot from the roster
             </v-list-item-subtitle>
@@ -175,8 +162,7 @@ export default {
   methods: {
     delete_pilot() {
       this.pilot.SaveController.delete();
-      if (this.$route.path !== '/pilot_management')
-        this.$router.push('/pilot_management');
+      if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management');
     },
     async remoteUpdate() {
       this.loading = true;
@@ -185,10 +171,7 @@ export default {
         this.$notify('Pilot synced to remote', 'success');
       } catch (error) {
         console.error(error);
-        this.$notify(
-          'An error occurred while attempting to download remote data',
-          'error'
-        );
+        this.$notify('An error occurred while attempting to download remote data', 'error');
       }
       this.loading = false;
     },

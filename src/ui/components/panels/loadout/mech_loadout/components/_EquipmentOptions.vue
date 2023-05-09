@@ -1,15 +1,8 @@
 <template>
   <span v-if="item">
     <v-menu offset-y top @click.stop>
-      <template v-slot:activator="{ on: menu }">
-        <v-btn
-          dark
-          small
-          class="ml-n3 mt-n1 mr-2 fade-select"
-          icon
-          v-on="menu"
-          @click.stop
-        >
+      <template #activator="{ on: menu }">
+        <v-btn dark small class="ml-n3 mt-n1 mr-2 fade-select" icon v-on="menu" @click.stop>
           <v-icon icon="settings" />
         </v-btn>
       </template>
@@ -25,10 +18,7 @@
           </v-list-item>
           <v-divider />
         </div>
-        <v-list-item
-          v-if="!item.Destroyed && !item.Used"
-          @click="item.Used = true"
-        >
+        <v-list-item v-if="!item.Destroyed && !item.Used" @click="item.Used = true">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="success">mdi-check</v-icon>
           </v-list-item-icon>
@@ -44,10 +34,7 @@
             <v-list-item-title>Mark as Unused</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-if="item.CanSetDamage"
-          @click="$refs.damageTypeDialog.show()"
-        >
+        <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon icon="cc:variable" />
           </v-list-item-icon>
@@ -63,10 +50,7 @@
             <v-list-item-title>Set Max Uses</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-if="!item.Destroyed && !item.IsIndestructible"
-          @click="item.Destroy()"
-        >
+        <v-list-item v-if="!item.Destroyed && !item.IsIndestructible" @click="item.Destroy()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon color="error">mdi-image-broken-variant</v-icon>
           </v-list-item-icon>

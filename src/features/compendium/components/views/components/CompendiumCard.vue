@@ -1,7 +1,7 @@
 <template>
   <v-col cols="12" md="4">
     <v-hover>
-      <template v-slot:default="{ isHovering, props }">
+      <template #default="{ isHovering, props }">
         <v-card
           class="clipped-large"
           :color="isHovering ? '' : 'panel'"
@@ -27,12 +27,7 @@
             :hover="isHovering"
             :small="small"
           />
-          <gear-card-content
-            v-else
-            :item="item"
-            :hover="isHovering"
-            :small="small"
-          />
+          <gear-card-content v-else :item="item" :hover="isHovering" :small="small" />
         </v-card>
       </template>
     </v-hover>

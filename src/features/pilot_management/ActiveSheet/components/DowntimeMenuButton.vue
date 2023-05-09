@@ -1,43 +1,24 @@
 <template>
   <v-menu offset-y top>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn
         class="mx-1"
         small
         dark
         :fab="$vuetify.display.lgAndUp"
         elevation="0"
-        :color="
-          available && (baseActions.length || itemActions.length)
-            ? color
-            : 'grey darken-2'
-        "
+        :color="available && (baseActions.length || itemActions.length) ? color : 'grey darken-2'"
         v-bind="props"
       >
         <slot name="icon" />
-        <span
-          v-if="$vuetify.display.md"
-          class="pl-2"
-          v-html="title.replace(' ACTIONS', '')"
-        />
+        <span v-if="$vuetify.display.md" class="pl-2" v-html="title.replace(' ACTIONS', '')" />
       </v-btn>
     </template>
     <div>
-      <v-toolbar
-        density="compact"
-        flat
-        class="heading h3"
-        style="min-width: 80px"
-      >
+      <v-toolbar density="compact" flat class="heading h3" style="min-width: 80px">
         {{ title }}
         <v-spacer />
-        <v-btn
-          small
-          icon
-          color="accent"
-          class="ml-4"
-          @click="$emit('open-menu')"
-        >
+        <v-btn small icon color="accent" class="ml-4" @click="$emit('open-menu')">
           <v-icon icon="mdi-open-in-new" />
         </v-btn>
       </v-toolbar>

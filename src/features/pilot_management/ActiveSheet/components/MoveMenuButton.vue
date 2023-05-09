@@ -1,6 +1,6 @@
 <template>
   <v-menu offset-y top :close-on-content-click="false">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn
         class="mx-1"
         :small="$vuetify.display.lgAndUp"
@@ -11,9 +11,7 @@
         :color="state.Move < 1 ? 'grey darken-1' : 'action--move'"
         v-bind="props"
       >
-        <v-icon color="white" size="30"
-          >mdi-arrow-right-bold-hexagon-outline</v-icon
-        >
+        <v-icon color="white" size="30">mdi-arrow-right-bold-hexagon-outline</v-icon>
         <span v-if="$vuetify.display.md" class="pl-2" v-html="'MOVEMENT'" />
       </v-btn>
     </template>

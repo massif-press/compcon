@@ -1,9 +1,7 @@
 <template>
   <v-menu offset-y>
-    <template v-slot:activator="{ props }">
-      <v-btn variant="outlined" small color="secondary" v-bind="props"
-        >Change Mech</v-btn
-      >
+    <template #activator="{ props }">
+      <v-btn variant="outlined" small color="secondary" v-bind="props">Change Mech</v-btn>
     </template>
     <v-list two-line subheader>
       <div class="heading h2 text-white primary py-0 px-2">Available Mechs</div>
@@ -13,19 +11,11 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>
-            <span
-              :class="
-                mech.Destroyed
-                  ? 'text-decoration-line-through text--disabled'
-                  : ''
-              "
-            >
+            <span :class="mech.Destroyed ? 'text-decoration-line-through text--disabled' : ''">
               {{ mech.Name }}
             </span>
           </v-list-item-title>
-          <v-list-item-subtitle
-            >{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-item-subtitle
-          >
+          <v-list-item-subtitle>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </v-list>

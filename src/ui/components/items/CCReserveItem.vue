@@ -1,10 +1,7 @@
 <template>
   <v-col cols="12" md="auto">
-    <v-dialog
-      v-model="dialog"
-      :width="$vuetify.display.mdAndDown ? '100vw' : '60vw'"
-    >
-      <template v-slot:activator="{ props }">
+    <v-dialog v-model="dialog" :width="$vuetify.display.mdAndDown ? '100vw' : '60vw'">
+      <template #activator="{ props }">
         <v-btn
           :large="$vuetify.display.lgAndUp"
           variant="outlined"
@@ -39,12 +36,7 @@
           </v-btn>
         </div>
         <p v-html-safe="reserve.Description" class="flavor-text mx-2 my-1" />
-        <v-card
-          v-if="reserve.ID != 'reserve_skill'"
-          flat
-          variant="outlined"
-          class="px-5"
-        >
+        <v-card v-if="reserve.ID != 'reserve_skill'" flat variant="outlined" class="px-5">
           <v-card-text>
             <v-row>
               <v-col cols="9">
@@ -76,11 +68,7 @@
                   </div>
                 </div>
               </v-col>
-              <v-col
-                v-if="reserve.Type !== 'Project'"
-                cols="3"
-                class="text-center"
-              >
+              <v-col v-if="reserve.Type !== 'Project'" cols="3" class="text-center">
                 <v-switch
                   v-model="reserve.Used"
                   density="compact"
@@ -101,13 +89,7 @@
                 </v-switch>
               </v-col>
             </v-row>
-            <v-textarea
-              v-model.lazy="reserve.Note"
-              auto-grow
-              filled
-              rows="2"
-              label="Notes"
-            />
+            <v-textarea v-model.lazy="reserve.Note" auto-grow filled rows="2" label="Notes" />
 
             <v-textarea
               v-model.lazy="reserve.ResourceCost"

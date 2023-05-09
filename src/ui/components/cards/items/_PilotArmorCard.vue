@@ -1,11 +1,11 @@
 <template>
   <equipment-card-base :item="item">
-    <template v-slot:title>
+    <template #title>
       <v-row v-if="item.InLcp">
         <div class="heading h3 text-text">{{ item.LcpName }}</div>
       </v-row>
     </template>
-    <template v-slot:statblock>
+    <template #statblock>
       <v-row density="compact" justify="center">
         <cc-statblock-panel icon="$vuetify.icons.armor" name="Armor" :value="item.ArmorString" />
         <cc-statblock-panel icon="$vuetify.icons.hp" name="HP Bonus" :value="`+${item.HpString}`" />

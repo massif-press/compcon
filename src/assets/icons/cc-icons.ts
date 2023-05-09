@@ -1,5 +1,5 @@
 import { h } from 'vue';
-import type { IconSet, IconProps, IconAliases } from 'vuetify';
+import type { IconSet, IconProps } from 'vuetify';
 
 import accuracy from './svg/accuracy.vue';
 import activate from './svg/activate.vue';
@@ -14,13 +14,14 @@ import burning from './svg/burning.vue';
 import burst from './svg/burst.vue';
 import campaign from './svg/campaign.vue';
 import compendium from './svg/compendium.vue';
-import condition_downandout from './svg/condition_downandout.vue';
+import status_downandout from './svg/status_downandout.vue';
 import condition_jammed from './svg/condition_jammed.vue';
 import condition_lockon from './svg/condition_lockon.vue';
 import condition_shredded from './svg/condition_shredded.vue';
 import condition_slow from './svg/condition_slow.vue';
 import condition_stunned from './svg/condition_stunned.vue';
-import conditions_immobilized from './svg/conditions_immobilized.vue';
+import condition_immobilized from './svg/condition_immobilized.vue';
+import condition_impaired from './svg/difficulty.vue';
 import cone from './svg/cone.vue';
 import content_manager from './svg/content_manager.vue';
 import corebonus from './svg/corebonus.vue';
@@ -37,6 +38,7 @@ import evasion from './svg/evasion.vue';
 import explosive from './svg/explosive.vue';
 import frame from './svg/frame.vue';
 import free_action from './svg/free_action.vue';
+import free from './svg/free_action.vue';
 import generic_item from './svg/generic_item.vue';
 import grenade from './svg/grenade.vue';
 import heat from './svg/heat.vue';
@@ -69,7 +71,8 @@ import reaction from './svg/reaction.vue';
 import reactor from './svg/reactor.vue';
 import repair from './svg/repair.vue';
 import reserve_mech from './svg/reserve_mech.vue';
-import reserve_tac from './svg/reserve_tac.vue';
+import reserve_tactical from './svg/reserve_tactical.vue';
+import reserve_resource from './svg/orbital.vue';
 import reticule from './svg/reticule.vue';
 import role_artillery from './svg/role-artillery.vue';
 import role_controller from './svg/role-controller.vue';
@@ -88,7 +91,7 @@ import size_half from './svg/size-half.vue';
 import skill from './svg/skill.vue';
 import spikes from './svg/spikes.vue';
 import squad from './svg/squad.vue';
-import status_danger_zone from './svg/status_danger_zone.vue';
+import status_dangerzone from './svg/status_dangerzone.vue';
 import status_engaged from './svg/status_engaged.vue';
 import status_exposed from './svg/status_exposed.vue';
 import status_hidden from './svg/status_hidden.vue';
@@ -100,8 +103,9 @@ import sword_array from './svg/sword-array.vue';
 import system_point from './svg/system_point.vue';
 import system from './svg/system.vue';
 import talent from './svg/talent.vue';
-import tech_full from './svg/tech_full.vue';
-import tech_quick from './svg/tech_quick.vue';
+import full_tech from './svg/tech_full.vue';
+import invade from './svg/tech_full.vue';
+import quick_tech from './svg/tech_quick.vue';
 import threat from './svg/threat.vue';
 import thrown from './svg/thrown.vue';
 import trait from './svg/trait.vue';
@@ -130,13 +134,13 @@ const svgs: any = {
   burst,
   campaign,
   compendium,
-  condition_downandout,
+  status_downandout,
   condition_jammed,
   condition_lockon,
   condition_shredded,
   condition_slow,
   condition_stunned,
-  conditions_immobilized,
+  condition_immobilized,
   cone,
   content_manager,
   corebonus,
@@ -153,6 +157,7 @@ const svgs: any = {
   explosive,
   frame,
   free_action,
+  free,
   generic_item,
   grenade,
   heat,
@@ -185,7 +190,8 @@ const svgs: any = {
   reactor,
   repair,
   reserve_mech,
-  reserve_tac,
+  reserve_tactical,
+  reserve_resource,
   reticule,
   role_artillery,
   role_controller,
@@ -204,7 +210,7 @@ const svgs: any = {
   skill,
   spikes,
   squad,
-  status_danger_zone,
+  status_dangerzone,
   status_engaged,
   status_exposed,
   status_hidden,
@@ -216,8 +222,9 @@ const svgs: any = {
   system_point,
   system,
   talent,
-  tech_full,
-  tech_quick,
+  full_tech,
+  invade,
+  quick_tech,
   threat,
   thrown,
   trait,
@@ -231,6 +238,7 @@ const svgs: any = {
   ipsn,
   ssc,
   horus,
+  condition_impaired,
 };
 
 const ccIcons: IconSet = {

@@ -11,7 +11,7 @@
       width="70vw"
       min-width="300px"
     >
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <div style="position: relative" v-bind="props">
           <talent-emblem :url="talent.Image" :name="talent.Name" large />
           <div v-if="rank" class="triangle" />

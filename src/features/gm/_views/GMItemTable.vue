@@ -8,29 +8,17 @@
       :items-per-page="-1"
       hide-default-footer
     >
-      <template v-slot:[`item.Campaigns`]="{ item }">
-        <v-chip
-          v-for="c in item.Campaigns"
-          small
-          color="accent"
-          variant="outlined"
-          class="mr-1"
-        >
+      <template #[`item.Campaigns`]="{ item }">
+        <v-chip v-for="c in item.Campaigns" small color="accent" variant="outlined" class="mr-1">
           {{ c }}
         </v-chip>
       </template>
-      <template v-slot:[`item.Labels`]="{ item }">
-        <v-chip
-          v-for="l in item.Labels"
-          small
-          color="primary"
-          label
-          class="mr-1"
-        >
+      <template #[`item.Labels`]="{ item }">
+        <v-chip v-for="l in item.Labels" small color="primary" label class="mr-1">
           {{ l }}
         </v-chip>
       </template>
-      <template v-slot:[`item.NpcTemplateController.Templates`]="{ item }">
+      <template #[`item.NpcTemplateController.Templates`]="{ item }">
         <v-chip
           v-for="(t, i) in item.NpcTemplateController.Templates"
           small
@@ -42,13 +30,8 @@
           {{ t.Name }}
         </v-chip>
       </template>
-      <template v-slot:[`item.ItemType`]="{ item }">
-        <v-btn
-          small
-          color="primary"
-          class="text-white"
-          @click="$emit('open', item.ID)"
-        >
+      <template #[`item.ItemType`]="{ item }">
+        <v-btn small color="primary" class="text-white" @click="$emit('open', item.ID)">
           <v-icon start>mdi-open-in-new</v-icon>
           Open
         </v-btn>
@@ -82,9 +65,7 @@ export default {
   methods: {
     groupedItems(group) {
       if (this.grouping === 'None') return this.items;
-      return this.items.filter((x) =>
-        x[this.grouping].some((y) => y === group)
-      );
+      return this.items.filter((x) => x[this.grouping].some((y) => y === group));
       // return _.orderBy(
       //   this.sorting,
       //   this.sortDir

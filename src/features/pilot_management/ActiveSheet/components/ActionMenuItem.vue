@@ -2,10 +2,7 @@
   <v-list-item color="active" @click.stop="$refs.dialog.show()">
     <v-list-item-content>
       <v-list-item-title class="title">
-        <v-icon
-          class="mt-n1"
-          :style="!available && !action.Used ? 'opacity:0.3' : ''"
-        >
+        <v-icon class="mt-n1" :style="!available && !action.Used ? 'opacity:0.3' : ''">
           {{ action.Used ? 'mdi-check-circle' : action.Icon }}
         </v-icon>
         <span :style="!available && !action.Used ? 'opacity:0.3' : ''">
@@ -18,19 +15,13 @@
       />
     </v-list-item-content>
     <v-menu left width="80vw" offset-x open-on-hover open-delay="100">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-icon class="fade-select ml-4" style="cursor: help" v-bind="props">
           mdi-help-circle-outline
         </v-icon>
       </template>
       <v-card tile>
-        <v-toolbar
-          density="compact"
-          flat
-          :color="action.Color"
-          class="heading h2"
-          dark
-        >
+        <v-toolbar density="compact" flat :color="action.Color" class="heading h2" dark>
           {{ action.Name }}
         </v-toolbar>
         <v-card-text v-html-safe="action.Detail" class="body-text text-text" />

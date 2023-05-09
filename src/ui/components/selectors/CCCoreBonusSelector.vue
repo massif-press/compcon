@@ -4,12 +4,8 @@
     height="60vh"
     :success="!pilot.CoreBonusController.IsMissingCBs"
   >
-    <template v-slot:left-column>
-      <v-row
-        v-for="b in pilot.CoreBonusController.CoreBonuses"
-        class="my-2"
-        style="width: 98%"
-      >
+    <template #left-column>
+      <v-row v-for="b in pilot.CoreBonusController.CoreBonuses" class="my-2" style="width: 98%">
         <!-- <missing-item v-if="b.err" @remove="pilot.CoreBonusController.RemoveCoreBonus(b)" /> -->
         <div>
           <v-icon small color="accent">cc:corebonus</v-icon>
@@ -17,10 +13,7 @@
           <span class="overline">{{ b.Source }}</span>
         </div>
       </v-row>
-      <v-divider
-        v-if="pilot.CoreBonusController.CoreBonuses.length"
-        class="ma-2 ml-4 mr-4"
-      />
+      <v-divider v-if="pilot.CoreBonusController.CoreBonuses.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-alert
           variant="outlined"
@@ -56,7 +49,7 @@
       </v-row>
     </template>
 
-    <template v-slot:right-column>
+    <template #right-column>
       <v-expansion-panels>
         <v-expansion-panel
           v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
@@ -68,9 +61,7 @@
                 no-gutters
                 align="center"
                 :class="`heading ${$vuetify.display.smAndDown ? 'h3' : 'h1'}`"
-                :style="`color: ${manufacturer.GetColor(
-                  $vuetify.theme.current.dark
-                )}`"
+                :style="`color: ${manufacturer.GetColor($vuetify.theme.current.dark)}`"
               >
                 <v-col cols="auto">
                   <cc-logo
@@ -145,9 +136,7 @@ export default {
         .filter((x) => !x.IsHidden)
         .map((manufacturer) => ({
           manufacturer,
-          coreBonuses: this.coreBonuses.filter(
-            (cb) => cb.Manufacturer.ID === manufacturer.ID
-          ),
+          coreBonuses: this.coreBonuses.filter((cb) => cb.Manufacturer.ID === manufacturer.ID),
         }))
         .filter((x) => x.coreBonuses.length > 0);
     },
@@ -174,29 +163,20 @@ export default {
         )}</b> ${abbr} CORE Bonuses Selected<br>${name} CORE Bonuses do not have a license requirement`;
       const lvl = `<b>${this.pilot.LicenseController.LicenseLevel(m.ID)}</b>`;
       let output = `${lvl} ${abbr} Licenses Acquired ${br} `;
-      let remain =
-        (3 % this.pilot.Level || 3) -
-        this.pilot.LicenseController.LicenseLevel(m.ID);
+      let remain = (3 % this.pilot.Level || 3) - this.pilot.LicenseController.LicenseLevel(m.ID);
       if (remain < 1) remain += 3;
-      output += `<b>${this.availableCount(
-        m.ID
-      )}</b> ${abbr} CORE Bonuses Available ${br} `;
-      output += `<b>${this.selectedCount(
-        m.ID
-      )}</b> ${abbr} CORE Bonuses Selected`;
+      output += `<b>${this.availableCount(m.ID)}</b> ${abbr} CORE Bonuses Available ${br} `;
+      output += `<b>${this.selectedCount(m.ID)}</b> ${abbr} CORE Bonuses Selected`;
       if (this.pilot.Level < 12)
         output += `<br>${
           this.pilot.Level < 3 ? 'First' : 'Next'
-        } ${name} CORE Bonus available in <b>${remain}</b> License Level${
-          remain === 1 ? '' : 's'
-        }`;
+        } ${name} CORE Bonus available in <b>${remain}</b> License Level${remain === 1 ? '' : 's'}`;
       return output;
     },
 
     selectedCount(m: string): number {
-      return this.pilot.CoreBonusController.CoreBonuses.filter(
-        (x: CoreBonus) => x.Source === m
-      ).length;
+      return this.pilot.CoreBonusController.CoreBonuses.filter((x: CoreBonus) => x.Source === m)
+        .length;
     },
     availableCount(m: string): number {
       if (m.toUpperCase() === 'GMS') return Infinity;
@@ -208,10 +188,7 @@ export default {
       );
     },
     isSelectable(b: CoreBonus): boolean {
-      return (
-        this.availableCount(b.Source) > 0 &&
-        this.pilot.CoreBonusController.IsMissingCBs
-      );
+      return this.availableCount(b.Source) > 0 && this.pilot.CoreBonusController.IsMissingCBs;
     },
     isSelected(b: CoreBonus): boolean {
       return this.pilot.has('CoreBonus', b.ID);

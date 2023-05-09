@@ -1,6 +1,6 @@
 <template>
   <v-menu open-on-hover bottom offset-y>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-chip :color="item.Color" v-bind="props">
         <span class="text-white">
           <v-icon start dark>{{ item.Icon }}</v-icon>

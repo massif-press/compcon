@@ -13,7 +13,7 @@
       }`"
     >
       <v-hover>
-        <template v-slot:default="{ hover }">
+        <template #default="{ hover }">
           <v-card height="300px" tile flat @click="$emit('go', mech)">
             <div
               class="clipped-large"

@@ -5,20 +5,12 @@
         <cc-title>Select Frame</cc-title>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-switch
-          v-model="showAll"
-          density="compact"
-          inset
-          hide-details
-          color="warning"
-        >
+        <v-switch v-model="showAll" density="compact" inset hide-details color="warning">
           <cc-tooltip
             slot="label"
             simple
             inline
-            :content="
-              showAll ? 'Unlicensed frames: SHOWN' : 'Unlicensed frames: HIDDEN'
-            "
+            :content="showAll ? 'Unlicensed frames: SHOWN' : 'Unlicensed frames: HIDDEN'"
           >
             <v-icon
               :color="showAll ? 'warning' : 'success'"
@@ -32,17 +24,8 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-expansion-panels
-        v-model="selectedFrame"
-        accordion
-        focusable
-        active-class="border-primary"
-      >
-        <v-expansion-panel
-          v-for="f in frames"
-          v-show="selectIncl(f.ID)"
-          class="border-highlight"
-        >
+      <v-expansion-panels v-model="selectedFrame" accordion focusable active-class="border-primary">
+        <v-expansion-panel v-for="f in frames" v-show="selectIncl(f.ID)" class="border-highlight">
           <v-expansion-panel-header id="hover-parent" hide-actions>
             <v-btn
               fab
@@ -93,20 +76,13 @@
         <v-row justify="center">
           <v-col cols="8">
             <span class="overline">XK-4-01 // REGISTER MECH NAME</span>
-            <v-text-field
-              v-model="mechName"
-              variant="outlined"
-              label="Name"
-              hide-details
-            >
-              <template v-slot:prepend>
+            <v-text-field v-model="mechName" variant="outlined" label="Name" hide-details>
+              <template #prepend>
                 <cc-tooltip simple content="Generate Random Name">
-                  <v-icon color="secondary" @click="randomName()"
-                    >mdi-dice-multiple</v-icon
-                  >
+                  <v-icon color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
                 </cc-tooltip>
               </template>
-              <template v-slot:append>
+              <template #append>
                 <v-icon v-if="!mechName" color="error">mdi-alert</v-icon>
                 <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
               </template>
@@ -116,14 +92,7 @@
 
         <v-row justify="center">
           <v-col cols="6">
-            <v-btn
-              tile
-              x-large
-              block
-              color="secondary"
-              :disabled="!mechName"
-              @click="addMech()"
-            >
+            <v-btn tile x-large block color="secondary" :disabled="!mechName" @click="addMech()">
               Register New Mech
             </v-btn>
           </v-col>
@@ -172,11 +141,7 @@ export default {
 
       return i
         .map((x) => x.ID)
-        .concat(
-          this.pilot.SpecialEquipment.filter((x) => x.ItemType === 'Frame').map(
-            (f) => f.ID
-          )
-        );
+        .concat(this.pilot.SpecialEquipment.filter((x) => x.ItemType === 'Frame').map((f) => f.ID));
     },
   },
   mounted() {

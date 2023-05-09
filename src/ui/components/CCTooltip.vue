@@ -1,18 +1,14 @@
 <template>
-  <v-tooltip
-    :location="(location as any)"
-    :open-delay="delayed ? 500 : 150"
-    :max-width="maxWidth"
-  >
-    <template v-slot:activator="{ props }">
+  <v-tooltip :location="(location as any)" :open-delay="delayed ? 500 : 150" :max-width="maxWidth">
+    <template #activator="{ props }">
       <div :class="{ 'd-inline': inline }" v-bind="props">
         <slot />
       </div>
     </template>
     <div class="text-white">
       <div v-if="err">
-        Unable to load tooltip information. This may be due to malformed data or
-        an unloaded content package.
+        Unable to load tooltip information. This may be due to malformed data or an unloaded content
+        package.
       </div>
       <div v-else>
         <div v-if="!title">

@@ -46,7 +46,7 @@
     </div>
 
     <!-- <v-menu v-else open-on-hover>
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
         <v-btn light icon color="white" style="z-index: 9" class="unskew pl-2 pr-0" v-bind="props">
           <v-icon large>mdi-book-open-page-variant</v-icon>
           <v-icon icon="arrow_drop_up" />
@@ -65,7 +65,7 @@
     <v-divider vertical class="mx-2" />
     <div id="divider" />
     <v-menu offset-y top>
-      <template v-slot:activator="{ on: menu }">
+      <template #activator="{ on: menu }">
         <v-btn class="unskew ml-2" icon dark v-on="menu">
           <cc-tooltip inline delayed content="Mech Options">
             <v-icon icon="mdi-cog" />
@@ -80,9 +80,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Print</v-list-item-title>
-            <v-list-item-subtitle
-              >Print a tabletop-ready mech sheet</v-list-item-subtitle
-            >
+            <v-list-item-subtitle>Print a tabletop-ready mech sheet</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="$refs.statblockDialog.show()">
@@ -102,9 +100,7 @@
             <v-icon color="error">mdi-delete</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="text-error"
-              >Delete Mech</v-list-item-title
-            >
+            <v-list-item-title class="text-error">Delete Mech</v-list-item-title>
             <v-list-item-subtitle class="text-error">
               Remove mech from the Hangar
             </v-list-item-subtitle>
@@ -114,7 +110,7 @@
     </v-menu>
 
     <v-menu offset-y top>
-      <template v-slot:activator="{ on: menu }">
+      <template #activator="{ on: menu }">
         <v-btn class="unskew ml-2" icon dark v-on="menu">
           <cc-tooltip inline delayed content="Layout Options">
             <v-icon icon="mdi-view-grid-plus" />
@@ -122,9 +118,7 @@
         </v-btn>
       </template>
       <v-list subheader>
-        <div class="heading h2 text-white primary py-0 px-4">
-          Layout Options
-        </div>
+        <div class="heading h2 text-white primary py-0 px-4">Layout Options</div>
         <v-list-item-group>
           <v-list-item @click.stop>
             <v-list-item-icon class="ma-0 mr-2 mt-3">
@@ -141,9 +135,7 @@
             <v-list-item-content>
               <cc-tooltip simple content="Feature In Development">
                 <v-list-item-title>Manage Custom Views</v-list-item-title>
-                <v-list-item-subtitle
-                  >Feature In Development</v-list-item-subtitle
-                >
+                <v-list-item-subtitle>Feature In Development</v-list-item-subtitle>
               </cc-tooltip>
             </v-list-item-content>
           </v-list-item>
@@ -151,12 +143,7 @@
       </v-list>
     </v-menu>
     <print-dialog ref="printDialog" class="unskew" :pilot="pilot" />
-    <statblock-dialog
-      ref="statblockDialog"
-      class="unskew"
-      :pilot="pilot"
-      :mechID="mechID"
-    />
+    <statblock-dialog ref="statblockDialog" class="unskew" :pilot="pilot" :mechID="mechID" />
   </div>
 </template>
 

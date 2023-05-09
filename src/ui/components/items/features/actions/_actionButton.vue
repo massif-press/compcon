@@ -10,7 +10,7 @@
       <v-icon v-if="!noAction" dark left>{{ action.Icon }}</v-icon>
       {{ action.Name }}
       <v-menu v-if="!noAction" offset-y max-width="700px">
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn right icon v-bind="on">
             <v-icon class="fade-select">mdi-information-outline</v-icon>
           </v-btn>

@@ -1,24 +1,16 @@
 <template>
   <v-dialog width="90vw">
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn
         :x-large="$vuetify.display.lgAndUp"
         variant="outlined"
-        :color="
-          pilotLicense.License.Manufacturer.GetColor(
-            $vuetify.theme.current.dark
-          )
-        "
+        :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.current.dark)"
         block
         v-bind="props"
       >
         <v-icon
           large
-          :color="
-            pilotLicense.License.Manufacturer.GetColor(
-              $vuetify.theme.current.dark
-            )
-          "
+          :color="pilotLicense.License.Manufacturer.GetColor($vuetify.theme.current.dark)"
         >
           cc:rank_{{ pilotLicense.Rank }}
         </v-icon>
@@ -32,11 +24,7 @@
     </template>
     <v-card>
       <v-card-text>
-        <cc-license-panel
-          :license="pilotLicense.License"
-          ranked
-          :rank="pilotLicense.Rank"
-        />
+        <cc-license-panel :license="pilotLicense.License" ranked :rank="pilotLicense.Rank" />
       </v-card-text>
     </v-card>
   </v-dialog>

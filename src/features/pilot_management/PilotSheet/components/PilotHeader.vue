@@ -106,7 +106,7 @@
             <v-col v-show="$vuetify.display.lgAndUp" cols="auto">
               <div id="image-bg" />
               <v-hover>
-                <template v-slot:default="{ hover }">
+                <template #default="{ hover }">
                   <div id="image" class="border">
                     <v-img
                       v-if="pilot.Portrait"
@@ -149,7 +149,7 @@
               <div class="text-overline mb-n2 text-subtle">rm-4://(IDENT)</div>
               <div class="stat-text text-white mt-n2 mb-n1">
                 <v-dialog max-width="1200px">
-                  <template v-slot:activator="{ props }">
+                  <template #activator="{ props }">
                     <v-icon dark class="fade-select" v-bind="props"
                       >mdi-card-bulleted-outline</v-icon
                     >

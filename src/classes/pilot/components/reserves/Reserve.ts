@@ -63,9 +63,7 @@ class Reserve extends CompendiumItem {
     this._description = data.description || '';
     this.Actions = data.actions ? data.actions.map((x) => new Action(x)) : [];
     this.Bonuses = data.bonuses
-      ? data.bonuses.map(
-          (x) => new Bonus(x, `${this._name} (${this.Type} Reserve)`)
-        )
+      ? data.bonuses.map((x) => new Bonus(x, `${this._name} (${this.Type} Reserve)`))
       : [];
     this.Synergies = data.synergies
       ? data.synergies.map((x) => new Synergy(x, `Reserve: ${data.name}`))
@@ -86,6 +84,7 @@ class Reserve extends CompendiumItem {
   public get Icon(): string {
     if (this.Type === ReserveType.Organization) return 'mdi-account-group';
     if (this.Type === ReserveType.Project) return 'cc:orbital';
+    if (this.Type === ReserveType.Bonus) return 'cc:accuracy';
     return `cc:reserve_${this.Type.toString().toLowerCase()}`;
   }
 
@@ -115,15 +114,11 @@ class Reserve extends CompendiumItem {
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
-    return this._integrated.map((x) =>
-      CompendiumStore().referenceByID('MechWeapons', x)
-    );
+    return this._integrated.map((x) => CompendiumStore().referenceByID('MechWeapons', x));
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this._integrated.map((x) =>
-      CompendiumStore().referenceByID('MechSystems', x)
-    );
+    return this._integrated.map((x) => CompendiumStore().referenceByID('MechSystems', x));
   }
 
   public get Color(): string {

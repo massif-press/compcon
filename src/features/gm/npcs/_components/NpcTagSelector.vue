@@ -1,7 +1,7 @@
 <template>
   <v-col>
     <v-menu offset-y>
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn small variant="outlined" color="protocol" v-bind="props">
           <v-icon small class="mr-1">mdi-tag-outline</v-icon>
           {{ item.Tag ? item.Tag : 'Set NPC Tag' }}
@@ -9,11 +9,7 @@
       </template>
       <v-card max-width="40vw">
         <v-list>
-          <v-list-item
-            v-for="(t, index) in tags"
-            three-line
-            @click="$set(item, 'Tag', t.name)"
-          >
+          <v-list-item v-for="(t, index) in tags" three-line @click="$set(item, 'Tag', t.name)">
             <v-list-item-content>
               <v-list-item-title class="title">{{ t.name }}</v-list-item-title>
               <v-list-item-subtitle>{{ t.description }}</v-list-item-subtitle>

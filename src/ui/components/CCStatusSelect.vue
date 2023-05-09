@@ -13,9 +13,9 @@
       variant="outlined"
       clearable
     >
-      <template v-slot:selection="{ item }">
+      <template #selection="{ item }">
         <v-menu v-if="item.effects" bottom offset-y open-on-hover>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-chip small :dark="dark" :color="color" v-bind="props">
               <b>{{ item.name }}</b>
             </v-chip>

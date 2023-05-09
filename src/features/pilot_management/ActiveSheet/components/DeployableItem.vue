@@ -5,25 +5,15 @@
         <v-toolbar-title>
           <v-row no-gutters>
             <v-col cols="auto">
-              <v-icon v-if="$vuetify.display.mdAndUp" left>{{
-                deployable.Icon
-              }}</v-icon>
+              <v-icon v-if="$vuetify.display.mdAndUp" left>{{ deployable.Icon }}</v-icon>
             </v-col>
-            <v-col
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'heading h3'
-                  : 'body-text font-weight-bold'
-              "
-            >
+            <v-col :class="$vuetify.display.mdAndUp ? 'heading h3' : 'body-text font-weight-bold'">
               <cc-short-string-editor inline @set="deployable.Name = $event">
                 {{ deployable.Name }}
               </cc-short-string-editor>
             </v-col>
             <v-col v-if="$vuetify.display.mdAndUp">
-              <span class="pl-3 flavor-text text-subtle"
-                >//{{ deployable.BaseName }}</span
-              >
+              <span class="pl-3 flavor-text text-subtle">//{{ deployable.BaseName }}</span>
             </v-col>
           </v-row>
         </v-toolbar-title>
@@ -54,10 +44,8 @@
             Redeploy
           </v-btn>
           <v-menu v-model="removeMenu" offset-y offset-x top left>
-            <template v-slot:activator="{ props }">
-              <v-btn small text color="error" class="fade-select" v-bind="props"
-                >Remove</v-btn
-              >
+            <template #activator="{ props }">
+              <v-btn small text color="error" class="fade-select" v-bind="props">Remove</v-btn>
             </template>
             <cc-confirmation
               content="Lancer, this will remove this deployable from the Deployed Equipment list. <span class='text-accent'>This cannot be undone.</span> Do you want to continue?"
@@ -72,12 +60,7 @@
       <v-card-text v-if="deployable.Destroyed">
         <div class="heading h3 text-error text-center">EQUIPMENT DESTROYED</div>
         <div class="text-right mr-3 mb-n3">
-          <v-btn
-            x-small
-            color="primary"
-            class="fade-select"
-            @click="deployable.Repair()"
-          >
+          <v-btn x-small color="primary" class="fade-select" @click="deployable.Repair()">
             <cc-tooltip
               content="Restore this deployable to working order. This does not consume an action and should be used to correct an error or in special cases, such as GM fiat"
             >
@@ -90,12 +73,7 @@
       <v-card-text v-else-if="recallState">
         <div class="heading h3 text-subtle text-center">EQUIPMENT RECALLED</div>
         <div class="text-right mr-3 mb-n3">
-          <v-btn
-            x-small
-            color="primary"
-            class="fade-select"
-            @click="freeRecall()"
-          >
+          <v-btn x-small color="primary" class="fade-select" @click="freeRecall()">
             <cc-tooltip
               content="Return this deployable to the battlefield. This does not consume an action and should be used to correct an error or in special cases, such as GM fiat"
             >
@@ -142,9 +120,7 @@
               hide-max
               @update="deployable.Overshield = $event"
             >
-              <span class="heading"
-                >OVERSHIELD: {{ deployable.Overshield }}</span
-              >
+              <span class="heading">OVERSHIELD: {{ deployable.Overshield }}</span>
             </cc-tick-bar>
           </v-col>
           <v-col v-if="deployable.Heatcap" cols="12" md="auto">
@@ -171,11 +147,7 @@
             </cc-tick-bar>
           </v-col>
         </v-row>
-        <v-row
-          justify="center"
-          density="compact"
-          :class="$vuetify.display.smAndDown ? '' : 'mx-8'"
-        >
+        <v-row justify="center" density="compact" :class="$vuetify.display.smAndDown ? '' : 'mx-8'">
           <cc-statblock-panel
             v-if="deployable.Size"
             inline
@@ -183,9 +155,7 @@
             :icon="
               $vuetify.display.smAndDown
                 ? ''
-                : `cc:size-${
-                    deployable.Size === 0.5 ? 'half' : deployable.Size
-                  }`
+                : `cc:size-${deployable.Size === 0.5 ? 'half' : deployable.Size}`
             "
             name="Size"
             :value="`${deployable.Size === 0.5 ? '½' : deployable.Size}`"
@@ -231,7 +201,7 @@
             v-if="deployable.TechAttack"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : 'cc:tech-full'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:tech_full'"
             name="Tech Attack"
             :value="deployable.TechAttack"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -258,11 +228,7 @@
             v-if="deployable.Speed"
             inline
             class="mx-1"
-            :icon="
-              $vuetify.display.smAndDown
-                ? ''
-                : 'mdi-arrow-right-bold-hexagon-outline'
-            "
+            :icon="$vuetify.display.smAndDown ? '' : 'mdi-arrow-right-bold-hexagon-outline'"
             name="Speed"
             :value="deployable.Speed"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -270,27 +236,17 @@
         </v-row>
         <v-row justify="center" density="compact">
           <v-col cols="auto">
-            <p
-              v-html-safe="deployable.Detail"
-              class="light-panel mb-0 clipped body-text px-4"
-            />
+            <p v-html-safe="deployable.Detail" class="light-panel mb-0 clipped body-text px-4" />
           </v-col>
         </v-row>
         <v-row density="compact" justify="center">
-          <v-col
-            v-for="(a, i) in deployable.Actions"
-            cols="12"
-            md="auto"
-            style="min-width: 25%"
-          >
+          <v-col v-for="(a, i) in deployable.Actions" cols="12" md="auto" style="min-width: 25%">
             <cc-action
               :action="a"
               active
               :activations="pilot.State.Actions"
               :unusable="
-                a.Used ||
-                (a.Activation === 'Protocol' &&
-                  !pilot.State.IsProtocolAvailable)
+                a.Used || (a.Activation === 'Protocol' && !pilot.State.IsProtocolAvailable)
               "
             />
           </v-col>
@@ -345,18 +301,14 @@ export default {
     },
     recallIcon() {
       if (!this.deployable.Recall) return '';
-      else if (this.deployable.Recall === ActivationType.Quick)
-        return 'mdi-hexagon-slice-3';
-      else if (this.deployable.Recall === ActivationType.Full)
-        return 'mdi-hexagon-slice-6';
+      else if (this.deployable.Recall === ActivationType.Quick) return 'mdi-hexagon-slice-3';
+      else if (this.deployable.Recall === ActivationType.Full) return 'mdi-hexagon-slice-6';
       else return 'cc:free';
     },
     redeployIcon() {
       if (!this.deployable.Redeploy) return '';
-      else if (this.deployable.Redeploy === ActivationType.Quick)
-        return 'mdi-hexagon-slice-3';
-      else if (this.deployable.Redeploy === ActivationType.Full)
-        return 'mdi-hexagon-slice-6';
+      else if (this.deployable.Redeploy === ActivationType.Quick) return 'mdi-hexagon-slice-3';
+      else if (this.deployable.Redeploy === ActivationType.Full) return 'mdi-hexagon-slice-6';
       else return 'cc:free';
     },
   },

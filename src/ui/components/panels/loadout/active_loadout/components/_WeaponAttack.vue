@@ -39,10 +39,7 @@
         >
           <div class="mb-n2 mt-n2">
             <div class="text-overline text-stark my-n2">EFFECT</div>
-            <p
-              v-html-safe="item.ProfileEffect"
-              class="text-text body-text mb-1 mr-2 ml-3"
-            />
+            <p v-html-safe="item.ProfileEffect" class="text-text body-text mb-1 mr-2 ml-3" />
           </div>
         </v-alert>
         <v-alert
@@ -55,10 +52,7 @@
         >
           <div class="my-n2">
             <div class="text-overline text-stark my-n2">ON ATTACK</div>
-            <p
-              v-html-safe="item.ProfileOnAttack"
-              class="text-text body-text mb-1"
-            />
+            <p v-html-safe="item.ProfileOnAttack" class="text-text body-text mb-1" />
           </div>
         </v-alert>
 
@@ -93,10 +87,7 @@
         >
           <div class="mb-n2">
             <div class="text-overline text-stark my-n2">ON HIT</div>
-            <p
-              v-html-safe="item.ProfileOnHit"
-              class="text-text body-text mb-1"
-            />
+            <p v-html-safe="item.ProfileOnHit" class="text-text body-text mb-1" />
           </div>
         </v-alert>
         <v-alert
@@ -107,20 +98,12 @@
           :color="crit ? 'secondary' : 'subtle'"
           :style="`opacity: ${crit && hit ? '1' : '0.4'}`"
         >
-          <v-icon
-            slot="prepend"
-            :color="crit ? 'secondary' : 'subtle'"
-            large
-            class="ml-n2 mr-2"
-          >
+          <v-icon slot="prepend" :color="crit ? 'secondary' : 'subtle'" large class="ml-n2 mr-2">
             cc:mech-weapon
           </v-icon>
           <div class="mb-n2">
             <div class="text-overline text-stark my-n2">ON CRITICAL HIT</div>
-            <p
-              v-html-safe="item.ProfileOnCrit"
-              class="text-text body-text mb-1"
-            />
+            <p v-html-safe="item.ProfileOnCrit" class="text-text body-text mb-1" />
           </div>
         </v-alert>
       </v-col>
@@ -136,35 +119,20 @@
               :justify="$vuetify.display.mdAndUp ? 'start' : 'space-between'"
               align="start"
             >
-              <v-col
-                v-if="item.Range"
-                cols="auto"
-                :class="$vuetify.display.mdAndUp ? 'mr-8' : ''"
-              >
+              <v-col v-if="item.Range" cols="auto" :class="$vuetify.display.mdAndUp ? 'mr-8' : ''">
                 <div class="overline">Range</div>
                 <cc-range-element :range="getRange" class="d-inline" />
               </v-col>
-              <v-col
-                cols="auto"
-                :class="$vuetify.display.mdAndUp ? 'mx-8' : ''"
-              >
+              <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
                 <div class="text-overline mb-n2">Attack Roll</div>
                 <div class="heading text-text" style="font-size: 24pt">
-                  <v-icon size="x-large" class="mr-n1"
-                    >mdi-dice-d20-outline</v-icon
-                  >
+                  <v-icon size="x-large" class="mr-n1">mdi-dice-d20-outline</v-icon>
                   + {{ mech.AttackBonus }}
                 </div>
               </v-col>
-              <v-col
-                cols="auto"
-                :class="$vuetify.display.mdAndUp ? 'mx-8' : ''"
-              >
+              <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
                 <div class="text-overline mb-n3">vs. Target</div>
-                <v-icon
-                  size="x-large"
-                  v-html="isSmart ? 'cc:edef' : 'cc:evasion'"
-                />
+                <v-icon size="x-large" v-html="isSmart ? 'cc:edef' : 'cc:evasion'" />
                 <div
                   class="text-overline font-weight-bold mt-n2"
                   v-html="isSmart ? 'E-Defense' : 'Evasion'"
@@ -193,11 +161,7 @@
             >
               <v-col
                 cols="auto"
-                :class="
-                  $vuetify.display.mdAndUp
-                    ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                    : ''
-                "
+                :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
                 style="height: 70px"
               >
                 <div class="text-overline pl-1">Accuracy</div>
@@ -218,11 +182,7 @@
               </v-col>
               <v-col
                 cols="auto"
-                :class="
-                  $vuetify.display.mdAndUp
-                    ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                    : ''
-                "
+                :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
                 style="height: 70px"
               >
                 <div class="text-overline pl-1">Difficulty</div>
@@ -237,19 +197,13 @@
                   density="compact"
                   hide-details
                   @click:append="difficulty < 99 ? (difficulty += 1) : ''"
-                  @click:prepend="
-                    difficulty > minDifficulty ? (difficulty -= 1) : ''
-                  "
+                  @click:prepend="difficulty > minDifficulty ? (difficulty -= 1) : ''"
                   @change="difficulty = parseInt($event)"
                 />
               </v-col>
               <v-col
                 cols="auto"
-                :class="
-                  $vuetify.display.mdAndUp
-                    ? 'ml-auto px-12 panel dual-sliced'
-                    : ''
-                "
+                :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
                 style="height: 70px"
               >
                 <div class="text-overline pl-1">Attack Roll</div>
@@ -268,9 +222,7 @@
                     <v-text-field
                       v-model="attackRoll"
                       type="number"
-                      :class="`hide-input-spinners ml-n3 ${
-                        crit ? 'font-weight-bold' : ''
-                      }`"
+                      :class="`hide-input-spinners ml-n3 ${crit ? 'font-weight-bold' : ''}`"
                       style="max-width: 60px; margin-top: -0.5px"
                       :color="crit ? 'secondary' : 'accent'"
                       density="compact"
@@ -278,10 +230,7 @@
                     />
                   </v-col>
                 </v-row>
-                <div
-                  v-if="crit"
-                  class="caption text-secondary font-weight-bold ml-8 my-n1"
-                >
+                <div v-if="crit" class="caption text-secondary font-weight-bold ml-8 my-n1">
                   CRITICAL
                 </div>
               </v-col>
@@ -291,12 +240,10 @@
                   tile
                   block
                   :disabled="!attackRoll"
-                  :color="`${crit ? 'secondary' : 'action--free'} ${
-                    attackFree ? 'lighten-1' : ''
-                  }`"
+                  :color="`${crit ? 'secondary' : 'action--free'} ${attackFree ? 'lighten-1' : ''}`"
                   @click="attackFree = !attackFree"
                 >
-                  <v-icon start>cc:free-action</v-icon>
+                  <v-icon start>cc:free_action</v-icon>
                   Attack
                 </v-btn>
               </v-col>
@@ -321,18 +268,10 @@
                   tile
                   block
                   class="text-white"
-                  :disabled="
-                    attackFree ||
-                    !attackRoll ||
-                    (!improv && !state.IsSkirmishAvailable)
-                  "
-                  :color="`${
-                    crit
-                      ? 'secondary'
-                      : improv
-                      ? 'action--full'
-                      : 'action--quick'
-                  } ${attackQuick ? 'lighten-1' : ''}`"
+                  :disabled="attackFree || !attackRoll || (!improv && !state.IsSkirmishAvailable)"
+                  :color="`${crit ? 'secondary' : improv ? 'action--full' : 'action--quick'} ${
+                    attackQuick ? 'lighten-1' : ''
+                  }`"
                   @click="attackQuick = !attackQuick"
                 >
                   <v-icon v-if="improv" left>mdi-hexagon-slice-6</v-icon>
@@ -348,21 +287,16 @@
                   :color="`action--free ${attackFree ? 'lighten-1' : ''}`"
                   @click="attackFree = !attackFree"
                 >
-                  <v-icon start small>cc:free-action</v-icon>
+                  <v-icon start small>cc:free_action</v-icon>
                   Free Action
                   <cc-tooltip
                     inline
                     content="Special rules or equipment may allow you to Skirmish as a Free Action. Using this button will commit the attack without spending a Quick Action this turn"
                   >
-                    <v-icon end small class="fade-select"
-                      >mdi-information-outline</v-icon
-                    >
+                    <v-icon end small class="fade-select">mdi-information-outline</v-icon>
                   </cc-tooltip>
                 </v-btn>
-                <div
-                  v-if="item.ProfileHeatCost"
-                  class="text-overline text-error text-center"
-                >
+                <div v-if="item.ProfileHeatCost" class="text-overline text-error text-center">
                   ALERT: This action will incur {{ item.ProfileHeatCost }} heat
                 </div>
               </v-col>
@@ -376,9 +310,7 @@
                 tile
                 block
                 class="primary"
-                :color="`${crit ? 'secondary' : 'primary'} ${
-                  hit ? 'lighten-1' : ''
-                }`"
+                :color="`${crit ? 'secondary' : 'primary'} ${hit ? 'lighten-1' : ''}`"
                 :disabled="missed"
                 @click="hit = !hit"
               >
@@ -412,20 +344,14 @@
 (including bonus damage) and the highest result from
 each source of damage is used.`"
               >
-                <v-icon size="x-large" color="secondary"
-                  >mdi-progress-alert</v-icon
-                >
+                <v-icon size="x-large" color="secondary">mdi-progress-alert</v-icon>
                 <div class="text-secondary">CRITICAL HIT</div>
               </cc-tooltip>
             </v-col>
             <v-col
               v-if="hit && !noDamageItem"
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline mt-n2 pl-1">
@@ -448,9 +374,7 @@ each source of damage is used.`"
                       <v-text-field
                         v-model="damageRolls[i]"
                         type="number"
-                        :class="`hide-input-spinners ml-n3 ${
-                          crit ? 'font-weight-bold' : ''
-                        }`"
+                        :class="`hide-input-spinners ml-n3 ${crit ? 'font-weight-bold' : ''}`"
                         style="max-width: 60px; margin-top: -0.5px"
                         :color="crit ? 'secondary' : 'accent'"
                         density="compact"
@@ -465,11 +389,7 @@ each source of damage is used.`"
             <v-col
               v-if="hit && !aux && !noDamageItem"
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline mt-n2 pl-1">Bonus Damage</div>
@@ -500,9 +420,7 @@ each source of damage is used.`"
               <v-col
                 v-if="hit && !noDamageItem"
                 cols="auto"
-                :class="
-                  $vuetify.display.mdAndUp ? 'px-12 panel dual-sliced' : ''
-                "
+                :class="$vuetify.display.mdAndUp ? 'px-12 panel dual-sliced' : ''"
                 style="height: 70px"
               >
                 <div class="text-overline mt-n2 pl-1">Total Damage</div>
@@ -513,9 +431,7 @@ each source of damage is used.`"
                       <cc-tooltip inline :content="d.Type">
                         <v-icon
                           large
-                          :color="
-                            ammoDamage ? `damage--${ammoDamage}` : d.Color
-                          "
+                          :color="ammoDamage ? `damage--${ammoDamage}` : d.Color"
                           class="ml-n3"
                         >
                           {{ ammoDamage ? `cc:${ammoDamage}` : d.Icon }}
@@ -529,14 +445,8 @@ each source of damage is used.`"
                     </div>
                   </v-col>
                 </v-row>
-                <div
-                  v-if="summedDamage"
-                  class="text-overline my-n3 pr-1 text-subtle text-right"
-                >
-                  <b
-                    v-if="!!reliable && summedDamage < reliable"
-                    class="text-accent"
-                  >
+                <div v-if="summedDamage" class="text-overline my-n3 pr-1 text-subtle text-right">
+                  <b v-if="!!reliable && summedDamage < reliable" class="text-accent">
                     ({{ reliable }})
                   </b>
                   <span v-else>({{ summedDamage }})</span>
@@ -546,15 +456,12 @@ each source of damage is used.`"
             <v-slide-x-reverse-transition>
               <v-col
                 v-if="
-                  (missed && !!reliable) ||
-                  (summedDamage && !!reliable && summedDamage < reliable)
+                  (missed && !!reliable) || (summedDamage && !!reliable && summedDamage < reliable)
                 "
                 cols="auto"
                 class="text-center mt-1 ml-n5 mr-6"
               >
-                <cc-tooltip
-                  :content="`This attack deals a minimum of ${reliable} damage`"
-                >
+                <cc-tooltip :content="`This attack deals a minimum of ${reliable} damage`">
                   <v-icon x-large>mdi-progress-alert</v-icon>
                   <div>RELIABLE {{ reliable }}</div>
                 </cc-tooltip>
@@ -582,9 +489,7 @@ each source of damage is used.`"
                     <v-icon large color="dangerzone">mdi-fire</v-icon>
                     <div class="text-overline my-n2">
                       +1 HEAT
-                      <v-icon small class="fade-select" @click="overkillHeat--"
-                        >mdi-close</v-icon
-                      >
+                      <v-icon small class="fade-select" @click="overkillHeat--">mdi-close</v-icon>
                     </div>
                   </v-col>
                   <v-col cols="auto">
@@ -595,10 +500,7 @@ each source of damage is used.`"
                     </cc-tooltip>
                   </v-col>
                 </v-row>
-                <div
-                  v-if="overkillHeat"
-                  class="text-overline text-error text-right"
-                >
+                <div v-if="overkillHeat" class="text-overline text-error text-right">
                   ALERT: This action will incur an additional
                   {{ overkillHeat }} heat
                 </div>
@@ -607,11 +509,7 @@ each source of damage is used.`"
 
             <v-col v-if="overkill" class="ml-auto" />
             <v-slide-x-reverse-transition>
-              <v-col
-                v-if="hit || missed"
-                cols="auto"
-                class="text-center mt-n2 mb-n5 ml-n4"
-              >
+              <v-col v-if="hit || missed" cols="auto" class="text-center mt-n2 mb-n5 ml-n4">
                 <v-row no-gutters class="mt-2">
                   <v-col cols="auto" class="ml-auto">
                     <v-btn
@@ -626,11 +524,7 @@ each source of damage is used.`"
                     </v-btn>
                   </v-col>
                 </v-row>
-                <v-row
-                  v-if="hit || (missed && !!reliable)"
-                  no-gutters
-                  class="mt-n4"
-                >
+                <v-row v-if="hit || (missed && !!reliable)" no-gutters class="mt-n4">
                   <v-col cols="auto" class="ml-auto">
                     <v-checkbox
                       v-if="!noDamageItem"
@@ -704,14 +598,7 @@ each source of damage is used.`"
 
 import ActiveModInset from '../components/_ActiveModInset.vue';
 import AmmoCaseInset from '../../mech_loadout/components/mount/weapon/_AmmoCaseInset.vue';
-import {
-  ActivationType,
-  Damage,
-  PilotTalent,
-  Range,
-  WeaponSize,
-  WeaponType,
-} from '@/class';
+import { ActivationType, Damage, PilotTalent, Range, WeaponSize, WeaponType } from '@/class';
 import CbCard from '../../mech_loadout/components/mount/_CbCard.vue';
 
 export default {
@@ -777,8 +664,7 @@ export default {
     },
     overkill() {
       if (this.item.ProfileTags.some((x) => x.IsOverkill)) return true;
-      if (this.item.Mod && this.item.Mod.AddedTags.some((x) => x.IsOverkill))
-        return true;
+      if (this.item.Mod && this.item.Mod.AddedTags.some((x) => x.IsOverkill)) return true;
       return false;
     },
     crit() {
@@ -792,18 +678,13 @@ export default {
       if (this.item.NoCoreBonus) return false;
       return (
         this.mount.Bonuses &&
-        this.mount.Bonuses.find(
-          (x) => x.ID === 'cb_auto_stabilizing_hardpoints'
-        )
+        this.mount.Bonuses.find((x) => x.ID === 'cb_auto_stabilizing_hardpoints')
       );
     },
     overpower() {
       if (!this.mount) return false;
       if (this.item.NoCoreBonus) return false;
-      return (
-        this.mount.Bonuses &&
-        this.mount.Bonuses.find((x) => x.ID === 'cb_overpower_caliber')
-      );
+      return this.mount.Bonuses && this.mount.Bonuses.find((x) => x.ID === 'cb_overpower_caliber');
     },
     armoryLevel() {
       if (
@@ -828,8 +709,7 @@ export default {
     },
     isSmart() {
       if (this.item.ProfileTags.some((x) => x.IsSmart)) return true;
-      if (this.item.Mod && this.item.Mod.AddedTags.some((x) => x.IsSmart))
-        return true;
+      if (this.item.Mod && this.item.Mod.AddedTags.some((x) => x.IsSmart)) return true;
       return false;
     },
     reliable() {
@@ -839,21 +719,13 @@ export default {
     minAccuracy() {
       let bonus = 0;
       if (this.item.ProfileTags.some((x) => x.ID === 'tg_accurate')) bonus += 1;
-      if (
-        this.item.Mod &&
-        this.item.Mod.AddedTags.some((x) => x.ID === 'tg_accurate')
-      )
-        bonus += 1;
+      if (this.item.Mod && this.item.Mod.AddedTags.some((x) => x.ID === 'tg_accurate')) bonus += 1;
       if (this.hardpoints) bonus += 1;
       return bonus;
     },
     minDifficulty() {
       if (this.item.ProfileTags.some((x) => x.ID === 'tg_inaccurate')) return 1;
-      if (
-        this.item.Mod &&
-        this.item.Mod.AddedTags.some((x) => x.ID === 'tg_inaccurate')
-      )
-        return 1;
+      if (this.item.Mod && this.item.Mod.AddedTags.some((x) => x.ID === 'tg_inaccurate')) return 1;
       return 0;
     },
     summedDamage() {
@@ -865,9 +737,7 @@ export default {
       return dmg;
     },
     finalDamage() {
-      return this.reliable > this.summedDamage
-        ? this.reliable
-        : this.summedDamage;
+      return this.reliable > this.summedDamage ? this.reliable : this.summedDamage;
     },
   },
   watch: {
@@ -912,12 +782,7 @@ export default {
       if (this.ammoCost) this.state.SpendAmmoCost(this.ammoCost);
       this.mech.CurrentHeat += this.item.ProfileHeatCost;
       this.mech.CurrentHeat += this.overkillHeat;
-      this.mech.Pilot.State.LogAttackAction(
-        'ATTACK',
-        this.item.Name,
-        this.summedDamage,
-        this.kill
-      );
+      this.mech.Pilot.State.LogAttackAction('ATTACK', this.item.Name, this.summedDamage, this.kill);
       this.$emit('confirm', actionObj.activation === ActivationType.Free);
     },
     reset() {

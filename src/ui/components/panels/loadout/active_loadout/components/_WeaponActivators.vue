@@ -13,20 +13,15 @@
           <v-icon start>mdi-hexagon-slice-3</v-icon>
           skirmish
           <v-menu offset-y max-width="700px">
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
                 <v-icon class="fade-select">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
-              <div class="heading h3 ma-1 pl-3">
-                SKIRMISH &mdash; QUICK ACTION
-              </div>
+              <div class="heading h3 ma-1 pl-3">SKIRMISH &mdash; QUICK ACTION</div>
               <v-divider />
-              <v-card-text
-                class="body-text text-text mt-0 pt-1"
-                v-html="skirmishHelp"
-              />
+              <v-card-text class="body-text text-text mt-0 pt-1" v-html="skirmishHelp" />
             </v-card>
           </v-menu>
         </v-btn>
@@ -50,20 +45,15 @@
           <v-icon start>mdi-hexagon-slice-6</v-icon>
           barrage
           <v-menu offset-y max-width="700px">
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
                 <v-icon class="fade-select">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
-              <div class="heading h3 ma-1 pl-3">
-                BARRAGE &mdash; FULL ACTION
-              </div>
+              <div class="heading h3 ma-1 pl-3">BARRAGE &mdash; FULL ACTION</div>
               <v-divider />
-              <v-card-text
-                class="body-text text-text mt-0 pt-1"
-                v-html="barrageHelp"
-              />
+              <v-card-text class="body-text text-text mt-0 pt-1" v-html="barrageHelp" />
             </v-card>
           </v-menu>
         </v-btn>
@@ -85,20 +75,15 @@
           <v-icon start>mdi-hexagon-slice-3</v-icon>
           skirmish
           <v-menu offset-y max-width="700px">
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
                 <v-icon class="fade-select">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
-              <div class="heading h3 ma-1 pl-3">
-                SKIRMISH &mdash; QUICK ACTION
-              </div>
+              <div class="heading h3 ma-1 pl-3">SKIRMISH &mdash; QUICK ACTION</div>
               <v-divider />
-              <v-card-text
-                class="body-text text-text mt-0 pt-1"
-                v-html="skirmishHelp"
-              />
+              <v-card-text class="body-text text-text mt-0 pt-1" v-html="skirmishHelp" />
             </v-card>
           </v-menu>
         </v-btn>
@@ -123,20 +108,15 @@
           barrage
           <span v-if="barrageToggle">({{ barrageCount }}/2)</span>
           <v-menu offset-y max-width="700px">
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
                 <v-icon class="fade-select">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
-              <div class="heading h3 ma-1 pl-3">
-                BARRAGE &mdash; FULL ACTION
-              </div>
+              <div class="heading h3 ma-1 pl-3">BARRAGE &mdash; FULL ACTION</div>
               <v-divider />
-              <v-card-text
-                class="body-text text-text mt-0 pt-1"
-                v-html="barrageHelp"
-              />
+              <v-card-text class="body-text text-text mt-0 pt-1" v-html="barrageHelp" />
             </v-card>
           </v-menu>
         </v-btn>
@@ -152,12 +132,7 @@
         @confirm="regularConfirm()"
       />
     </v-row>
-    <sh-barrage-dialog
-      ref="sh_b_dialog"
-      :mech="mech"
-      :cached="item"
-      @confirm="shConfirm($event)"
-    />
+    <sh-barrage-dialog ref="sh_b_dialog" :mech="mech" :cached="item" @confirm="shConfirm($event)" />
   </div>
 </template>
 
@@ -200,8 +175,7 @@ export default {
       return this.state.BarrageSelections.length;
     },
     skirmishHelp() {
-      return this.compendium.Actions.find((x) => x.ID === 'act_skirmish')
-        .Detail;
+      return this.compendium.Actions.find((x) => x.ID === 'act_skirmish').Detail;
     },
     barrageHelp() {
       return this.compendium.Actions.find((x) => x.ID === 'act_barrage').Detail;
@@ -221,8 +195,7 @@ export default {
       if (this.mech.IsStunned) return true;
       if (!this.item.CanBarrage) return true;
       if (this.mech.Pilot.State.Actions < 2) return true;
-      if (this.item.Size === WeaponSize.Superheavy)
-        return this.barrageCount > 0;
+      if (this.item.Size === WeaponSize.Superheavy) return this.barrageCount > 0;
       if (this.item.IsOrdnance && !this.state.IsProtocolAvailable) return true;
       if (this.item.IsLoading && !this.item.Loaded) return true;
       return !this.barrageToggle && this.barrageCount === 2;

@@ -4,22 +4,13 @@
     height="60vh"
     :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
   >
-    <template v-slot:left-column>
-      <div
-        v-for="(pSkill, i) in pilot.SkillsController.Skills"
-        @click="scroll(pSkill.Skill.ID)"
-      >
+    <template #left-column>
+      <div v-for="(pSkill, i) in pilot.SkillsController.Skills" @click="scroll(pSkill.Skill.ID)">
         <missing-item
           v-if="pSkill.Skill.err"
           @remove="pilot.SkillsController.RemoveSkill(pSkill)"
         />
-        <v-chip
-          v-else
-          label
-          color="panel"
-          style="width: 100%"
-          class="my-1 pa-1"
-        >
+        <v-chip v-else label color="panel" style="width: 100%" class="my-1 pa-1">
           <v-chip dark color="accent" small>
             +
             <b>{{ pSkill.Bonus }}</b>
@@ -28,10 +19,7 @@
           <strong>{{ pSkill.Skill.Trigger }}</strong>
         </v-chip>
       </div>
-      <v-divider
-        v-if="pilot.SkillsController.Skills.length"
-        class="ma-2 ml-4 mr-4"
-      />
+      <v-divider v-if="pilot.SkillsController.Skills.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-col>
           <v-alert
@@ -53,14 +41,10 @@
             icon="warning"
             class="stat-text"
             :value="
-              pilot.SkillsController.MaxSkillPoints >
-              pilot.SkillsController.CurrentSkillPoints
+              pilot.SkillsController.MaxSkillPoints > pilot.SkillsController.CurrentSkillPoints
             "
           >
-            {{
-              pilot.SkillsController.MaxSkillPoints -
-              pilot.SkillsController.CurrentSkillPoints
-            }}
+            {{ pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints }}
             Skill Points remaining
           </v-alert>
           <v-alert
@@ -87,13 +71,11 @@
       </v-row>
     </template>
 
-    <template v-slot:right-column>
+    <template #right-column>
       <div v-for="h in headers">
         <v-divider v-if="$vuetify.display.smAndDown" class="my-2" />
         <span v-if="h.attr !== 'Custom'" class="overline">Your Ability To</span>
-        <cc-title v-if="$vuetify.display.mdAndUp" small>{{
-          h.description
-        }}</cc-title>
+        <cc-title v-if="$vuetify.display.mdAndUp" small>{{ h.description }}</cc-title>
         <div v-else class="heading h3 text-accent mb-1">
           {{ h.description }}
         </div>
@@ -139,8 +121,7 @@ export default {
   computed: {
     skills() {
       const cs = this.pilot.SkillsController.Skills.filter((x) => x.IsCustom);
-      if (cs.length)
-        return { ...this.staticSkills, Custom: cs.map((x) => x.Skill) };
+      if (cs.length) return { ...this.staticSkills, Custom: cs.map((x) => x.Skill) };
       return this.staticSkills;
     },
     newPilot(): boolean {
@@ -153,10 +134,7 @@ export default {
       return !(this.pilot.SkillsController.Skills.length < this.selectedMin);
     },
     selectionComplete(): boolean {
-      return (
-        (this.newPilot || this.levelUp) &&
-        !this.pilot.SkillsController.IsMissingSkills
-      );
+      return (this.newPilot || this.levelUp) && !this.pilot.SkillsController.IsMissingSkills;
     },
   },
   watch: {

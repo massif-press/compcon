@@ -3,42 +3,34 @@
     v-model="dialog"
     :fullscreen="fullscreen || $vuetify.display.mdAndDown"
     :width="small ? '30vw' : large ? '85vw' : '50vw'"
-    :style="
-      fullscreen || $vuetify.display.mdAndDown ? `x-overflow: hidden` : ''
-    "
+    :style="fullscreen || $vuetify.display.mdAndDown ? `x-overflow: hidden` : ''"
   >
-    <v-card tile class="background">
-      <cc-titlebar
-        :clipped="!noTitleClip"
-        large
-        :icon="icon"
-        :color="color"
-        :fixed="fullscreen"
-      >
-        {{ title }}
-        <v-btn slot="items" dark icon @click="hide">
-          <v-icon large left>close</v-icon>
-        </v-btn>
+    <v-card tile>
+      <cc-titlebar :clipped="!noTitleClip" large :icon="icon" :color="color" :fixed="fullscreen">
+        <template #title>
+          {{ title }}
+        </template>
+        <template #items>
+          <v-btn @click="hide">
+            <v-icon size="large">close</v-icon>
+          </v-btn>
+        </template>
       </cc-titlebar>
 
       <v-spacer v-if="fullscreen" class="titlebar-margin" />
 
-      <v-card-text
-        :style="
-          noPad || $vuetify.display.mdAndDown ? 'padding: 0!important' : ''
-        "
-      >
+      <v-card-text :style="noPad || $vuetify.display.mdAndDown ? 'padding: 0!important' : ''">
         <slot />
       </v-card-text>
       <div v-if="!noActions">
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-actions v-if="noConfirm">
           <v-spacer />
-          <v-btn text @click="hide">dismiss</v-btn>
+          <v-btn @click="hide">dismiss</v-btn>
         </v-card-actions>
         <v-card-actions v-else>
-          <v-btn text @click="hide">cancel</v-btn>
+          <v-btn @click="hide">cancel</v-btn>
           <v-spacer />
           <cc-btn @click="confirm">confirm</cc-btn>
         </v-card-actions>

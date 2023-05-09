@@ -9,7 +9,7 @@
       :small-btn="smallBtn"
       :icon="item.Icon"
     >
-      <template v-slot:button>
+      <template #button>
         <span class="text-white" style="width: 100%">
           <v-icon :icon="item.Icon" />
           {{ truncate(item.Name) }}
@@ -17,23 +17,18 @@
         </span>
       </template>
 
-      <template v-slot:title>
+      <template #title>
         {{ item.Name }}
       </template>
 
-      <template v-slot:title-chips>
+      <template #title-chips>
         <v-chip class="stat-text mt-n1" size="small" variant="outlined" label>
           {{ item.Source || '' }} {{ startCase(item.ItemType) }}
         </v-chip>
       </template>
 
-      <template v-slot:title-items>
-        <v-btn
-          slot="title-items"
-          dark
-          icon
-          @click="($refs.dialog as any).confirm()"
-        >
+      <template #title-items>
+        <v-btn slot="title-items" dark icon @click="($refs.dialog as any).confirm()">
           <v-icon size="large" class="fade-select">mdi-close</v-icon>
         </v-btn>
       </template>

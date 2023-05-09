@@ -145,6 +145,7 @@ enum ReserveType {
   Mech = 'Mech',
   Project = 'Project',
   Organization = 'Organization',
+  Bonus = 'Bonus',
 }
 
 enum OrgType {

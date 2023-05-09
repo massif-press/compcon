@@ -1,8 +1,6 @@
 <template>
   <div>
-    <v-btn size="x-large" block color="primary" @click="dialog = true"
-      >Set NPC Features</v-btn
-    >
+    <v-btn size="x-large" block color="primary" @click="dialog = true">Set NPC Features</v-btn>
     <v-row no-gutters justify="end">
       <v-col cols="auto">
         <v-btn
@@ -17,41 +15,23 @@
     </v-row>
     <v-dialog v-model="dialog" fullscreen style="overflow-y: hidden">
       <v-card>
-        <v-toolbar
-          flat
-          tile
-          density="compact"
-          color="blue-grey darken-4"
-          class="text-white"
-        >
+        <v-toolbar flat tile density="compact" color="blue-grey darken-4" class="text-white">
           Set NPC Features
           <v-spacer />
           <cc-tooltip
-            v-for="(alert, i) in npc.NpcTemplateController
-              .TemplateFeatureAlerts"
+            v-for="(alert, i) in npc.NpcTemplateController.TemplateFeatureAlerts"
             :title="alert.severity"
             :content="alert.message"
           >
             <v-icon end :color="alert.severity">mdi-alert</v-icon>
           </cc-tooltip>
           <v-spacer />
-          <v-btn icon dark @click="dialog = false"
-            ><v-icon icon="mdi-close"
-          /></v-btn>
+          <v-btn icon dark @click="dialog = false"><v-icon icon="mdi-close" /></v-btn>
         </v-toolbar>
         <v-row no-gutters>
           <v-col cols="3" style="max-width: 325px !important">
-            <v-list
-              density="compact"
-              nav
-              class="side-fixed mt-n1"
-              color="panel"
-            >
-              <v-list-item
-                color="accent"
-                selectable
-                @click="featureSet = 'all'"
-              >
+            <v-list density="compact" nav class="side-fixed mt-n1" color="panel">
+              <v-list-item color="accent" selectable @click="featureSet = 'all'">
                 <v-list-item-icon>
                   <v-icon icon="cc:npc_feature" />
                 </v-list-item-icon>
@@ -61,11 +41,7 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item
-                color="accent"
-                selectable
-                @click="featureSet = 'assigned'"
-              >
+              <v-list-item color="accent" selectable @click="featureSet = 'assigned'">
                 <v-list-item-icon>
                   <v-icon icon="cc:npc_feature" />
                 </v-list-item-icon>
@@ -76,10 +52,7 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider />
-              <v-list-item
-                color="accent"
-                @click="featureSet = npc.NpcClassController.Class.ID"
-              >
+              <v-list-item color="accent" @click="featureSet = npc.NpcClassController.Class.ID">
                 <v-list-item-icon>
                   <v-icon v-text="npc.NpcClassController.Class.RoleIcon" />
                 </v-list-item-icon>
@@ -90,11 +63,7 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item
-                v-for="t in npc.Templates"
-                color="accent"
-                @click="featureSet = t.ID"
-              >
+              <v-list-item v-for="t in npc.Templates" color="accent" @click="featureSet = t.ID">
                 <v-list-item-icon>
                   <v-icon v-text="'cc:npc_template'" />
                 </v-list-item-icon>
@@ -108,11 +77,9 @@
               <v-divider />
 
               <v-list-group no-action color="accent">
-                <template v-slot:activator>
+                <template #activator>
                   <v-list-item-content>
-                    <v-list-item-title class="heading h6"
-                      >Classes</v-list-item-title
-                    >
+                    <v-list-item-title class="heading h6">Classes</v-list-item-title>
                   </v-list-item-content>
                 </template>
 
@@ -135,11 +102,9 @@
               </v-list-group>
 
               <v-list-group no-action color="accent">
-                <template v-slot:activator>
+                <template #activator>
                   <v-list-item-content>
-                    <v-list-item-title class="heading h6"
-                      >Templates</v-list-item-title
-                    >
+                    <v-list-item-title class="heading h6">Templates</v-list-item-title>
                   </v-list-item-content>
                 </template>
 
@@ -165,14 +130,10 @@
           </v-col>
 
           <v-col class="pl-6 pr-8">
-            <v-container
-              style="height: calc(100vh - 35px) !important; overflow-y: scroll"
-            >
+            <v-container style="height: calc(100vh - 35px) !important; overflow-y: scroll">
               <v-row density="compact" align="start" class="mt-n3">
                 <v-col>
-                  <span class="heading h3"
-                    >{{ currentSelection }} Features</span
-                  >
+                  <span class="heading h3">{{ currentSelection }} Features</span>
                 </v-col>
                 <v-col cols="auto">
                   <v-switch
@@ -229,16 +190,12 @@
                   </v-btn>
                 </v-col>
                 <v-col v-if="!shownFeatures.length" cols="12">
-                  <v-alert
-                    v-if="featureSet === 'all'"
-                    variant="outlined"
-                    class="text-center"
-                  >
+                  <v-alert v-if="featureSet === 'all'" variant="outlined" class="text-center">
                     No NPC Feature selections remaining
                     <br />
                     <span class="caption text--secondary">
-                      Additional features beyond the reccommended guidelines can
-                      be added by toggling the "Ignore Limit" option above
+                      Additional features beyond the reccommended guidelines can be added by
+                      toggling the "Ignore Limit" option above
                     </span>
                   </v-alert>
                   <v-alert
@@ -284,31 +241,21 @@ export default {
         case 'assigned':
           return 'All Assigned';
         default:
-          const selClass = this.allClasses.find(
-            (x) => x.ID === this.featureSet
-          );
-          const selTemp = this.allTemplates.find(
-            (x) => x.ID === this.featureSet
-          );
+          const selClass = this.allClasses.find((x) => x.ID === this.featureSet);
+          const selTemp = this.allTemplates.find((x) => x.ID === this.featureSet);
           return selClass ? selClass.Name : selTemp.Name;
       }
     },
     shownFeatures() {
       if (this.featureSet === 'all') {
-        if (
-          this.npc.NpcTemplateController.TemplateFeatureAlerts.length ||
-          this.ignoreLimit
-        )
+        if (this.npc.NpcTemplateController.TemplateFeatureAlerts.length || this.ignoreLimit)
           return this.npc.NpcFeatureController.AvailableFeatures;
         else return [];
       }
 
-      if (this.featureSet === 'assigned')
-        return this.npc.Items.map((x) => x.Feature);
+      if (this.featureSet === 'assigned') return this.npc.Items.map((x) => x.Feature);
 
-      return CompendiumStore().NpcFeatures.filter(
-        (x) => x.Origin.ID === this.featureSet
-      );
+      return CompendiumStore().NpcFeatures.filter((x) => x.Origin.ID === this.featureSet);
     },
     allClasses() {
       return CompendiumStore().NpcClasses.map((x) => ({
@@ -326,9 +273,7 @@ export default {
   },
   methods: {
     hasItem(feature) {
-      return this.npc.NpcFeatureController.SelectedFeatures.some(
-        (y) => y.ID === feature.ID
-      );
+      return this.npc.NpcFeatureController.SelectedFeatures.some((y) => y.ID === feature.ID);
     },
   },
 };

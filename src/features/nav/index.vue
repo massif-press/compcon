@@ -9,7 +9,7 @@
     style="z-index: 50"
   >
     <v-tooltip location="bottom" open-delay="500ms">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn icon v-bind="props" @click="historyNav(-1)">
           <v-icon icon="mdi-arrow-left" />
         </v-btn>
@@ -18,7 +18,7 @@
     </v-tooltip>
 
     <v-tooltip location="bottom" open-delay="500ms">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn icon v-bind="props" @click="historyNav(1)">
           <v-icon icon="mdi-arrow-right" />
         </v-btn>
@@ -27,7 +27,7 @@
     </v-tooltip>
 
     <v-tooltip location="bottom" open-delay="500ms">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn icon v-bind="props" to="/">
           <v-icon icon="mdi-home" />
         </v-btn>
@@ -36,8 +36,8 @@
     </v-tooltip>
 
     <v-tooltip location="bottom" open-delay="500ms">
-      <template v-slot:activator="{ props }">
-        <v-btn icon v-bind="props" to="/compendium">
+      <template #activator="{ props }">
+        <v-btn icon v-bind="props" to="/srd">
           <v-icon icon="mdi-book" />
         </v-btn>
       </template>
@@ -48,9 +48,7 @@
 
     <v-toolbar-title v-if="$vuetify.display.mdAndUp">
       <span class="heading">COMP/CON</span>
-      <span class="flavor-text text-white" style="opacity: 0.5"
-        >&nbsp;{{ $appVersion }}</span
-      >
+      <span class="flavor-text text-white" style="opacity: 0.5">&nbsp;{{ $appVersion }}</span>
     </v-toolbar-title>
 
     <v-spacer />
@@ -61,12 +59,7 @@
       <encounter-mode v-if="mode === 'encounter'" />
     </div>
 
-    <v-divider
-      v-if="$vuetify.display.mdAndUp && isAuthed"
-      vertical
-      dark
-      class="mx-2"
-    />
+    <v-divider v-if="$vuetify.display.mdAndUp && isAuthed" vertical dark class="mx-2" />
 
     <cc-tooltip
       v-if="$vuetify.display.mdAndUp && isAuthed"
@@ -89,25 +82,17 @@
     <v-divider vertical dark class="mx-2" />
 
     <v-menu nudge-location="40px">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn icon v-bind="props">
           <v-icon dark>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
 
       <v-list density="compact">
-        <v-list-item @click="($refs.contentModal as any).show()"
-          >Manage Content</v-list-item
-        >
-        <v-list-item @click="($refs.optionsModal as any).show()"
-          >Options</v-list-item
-        >
-        <v-list-item @click="($refs.aboutModal as any).show()"
-          >About</v-list-item
-        >
-        <v-list-item @click="($refs.creditsModal as any).show()"
-          >Credits</v-list-item
-        >
+        <v-list-item @click="($refs.contentModal as any).show()">Manage Content</v-list-item>
+        <v-list-item @click="($refs.optionsModal as any).show()">Options</v-list-item>
+        <v-list-item @click="($refs.aboutModal as any).show()">About</v-list-item>
+        <v-list-item @click="($refs.creditsModal as any).show()">Credits</v-list-item>
         <v-list-item @click="($refs.helpModal as any).show()">Help</v-list-item>
         <v-divider />
         <v-list-item target="_blank" href="https://www.patreon.com/compcon">
@@ -139,15 +124,11 @@
     >
       <options-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"
-      ><about-page
-    /></cc-solo-dialog>
+    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
     <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"
-      ><help-page
-    /></cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
     <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
@@ -199,7 +180,7 @@ export default {
   },
   computed: {
     mode(): string {
-      if (this.$route.path.includes('/compendium')) return 'compendium';
+      if (this.$route.path.includes('/srd')) return 'compendium';
       else if (
         this.$route.path.includes('/pilot') ||
         this.$route.path.includes('/active') ||
@@ -226,9 +207,9 @@ export default {
   },
   methods: {
     sync() {
-      UserStore().cloudSync({
-        callback: (status, message) => this.$notify(status, message),
-      });
+      // UserStore().cloudSync({
+      //   callback: (status, message) => this.$notify(status, message),
+      // });
     },
     historyNav(dir: number) {
       this.$router.go(dir);

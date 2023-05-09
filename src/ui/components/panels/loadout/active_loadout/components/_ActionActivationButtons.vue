@@ -13,11 +13,7 @@
       {{ action.Name }}
     </v-btn>
     <v-btn
-      v-if="
-        !fulltech &&
-        action.Activation !== 'Free' &&
-        action.Activation !== 'Protocol'
-      "
+      v-if="!fulltech && action.Activation !== 'Free' && action.Activation !== 'Protocol'"
       small
       tile
       block
@@ -25,7 +21,7 @@
       color="action--free"
       @click="select(true)"
     >
-      <v-icon start small>cc:free-action</v-icon>
+      <v-icon start small>cc:free_action</v-icon>
       Free Action
       <cc-tooltip
         inline

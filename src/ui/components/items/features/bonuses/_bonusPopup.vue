@@ -1,6 +1,6 @@
 <template>
   <v-tooltip top>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-icon v-bind="props">cc:accuracy</v-icon>
     </template>
     <bonus-base :bonus="bonus" />

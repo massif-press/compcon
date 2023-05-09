@@ -10,7 +10,7 @@
       hide-default-footer
       item-key="ID"
     >
-      <template v-slot:[`item.NpcTemplateController.Templates`]="{ item }">
+      <template #[`item.NpcTemplateController.Templates`]="{ item }">
         {{ item.NpcTemplateController.Templates.map((x) => x.Name).join(', ') }}
       </template>
     </v-data-table>

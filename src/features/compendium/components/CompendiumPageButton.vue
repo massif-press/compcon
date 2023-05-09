@@ -1,11 +1,6 @@
 <template>
-  <v-col :cols="cols" :lg="lg" :md="md" :sm="sm">
-    <v-card
-      variant="tonal"
-      :color="color"
-      class="pa-2"
-      @click="$router.push(to)"
-    >
+  <v-col :cols="cols" lg="4" md="6" sm="12">
+    <v-card variant="tonal" :color="color" class="pa-2" @click="$router.push(to)">
       <v-row align="center">
         <v-col cols="auto">
           <v-icon class="icn" size="50" :color="`${color} lighten-1`">
@@ -40,21 +35,6 @@ export default {
       default: '',
     },
     cols: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    lg: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    md: {
-      type: String,
-      required: false,
-      default: '',
-    },
-    sm: {
       type: String,
       required: false,
       default: '',

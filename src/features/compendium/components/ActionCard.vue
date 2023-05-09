@@ -6,11 +6,9 @@
       :icon="action.Icon"
       :color="action.Color"
       style="height: 100%"
-      @click="$refs.dialog.show()"
+      @click="($refs.dialog as any).show()"
     >
-      <v-card-text class="text-left py-1">
-        <p v-html-safe="action.Terse" class="body-text mb-1 pa-2" />
-      </v-card-text>
+      <p v-html-safe="action.Terse" class="body-text mb-2 pa-2" />
     </cc-titled-panel>
     <cc-solo-dialog
       ref="dialog"
@@ -21,13 +19,15 @@
       width="80vw"
     >
       <v-container>
-        <p v-html-safe="action.Detail" class="body-text text-text mb-1 mt-2" />
-        <div class="text-overline text-subtle">OPTIONS</div>
-        <v-row no-gutters justify="center">
-          <v-col v-for="(a, i) in action.SubActions" cols="auto">
-            <cc-action :action="a" :panel="false" class="ma-2" />
-          </v-col>
-        </v-row>
+        <p v-html-safe="action.Detail" class="body-text text-text mt-n3" />
+        <div v-if="action.SubActions && action.SubActions.length">
+          <div class="text-overline text-subtle">OPTIONS</div>
+          <v-row no-gutters justify="center">
+            <v-col v-for="a in action.SubActions" cols="auto">
+              <cc-action :action="a" :panel="false" class="ma-2" />
+            </v-col>
+          </v-row>
+        </div>
       </v-container>
     </cc-solo-dialog>
   </v-col>
@@ -48,8 +48,7 @@ export default {
   },
   computed: {
     exclusive() {
-      if (this.action.IsPilotAction && !this.action.IsMechAction)
-        return ' (Pilot Only)';
+      if (this.action.IsPilotAction && !this.action.IsMechAction) return ' (Pilot Only)';
       return '';
     },
   },

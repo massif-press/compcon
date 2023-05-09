@@ -30,41 +30,25 @@
     />
     <v-row density="compact">
       <v-col>
-        <v-btn small block color="primary" @click="item.AddTextArea()"
-          >Add Text Section</v-btn
-        >
+        <v-btn small block color="primary" @click="item.AddTextArea()">Add Text Section</v-btn>
       </v-col>
       <v-col>
-        <v-btn small block color="primary" @click="item.AddClock()"
-          >Add Clock</v-btn
-        >
+        <v-btn small block color="primary" @click="item.AddClock()">Add Clock</v-btn>
       </v-col>
       <v-col>
-        <v-btn small block color="primary" @click="item.AddTable()"
-          >Add Rollable Table</v-btn
-        >
+        <v-btn small block color="primary" @click="item.AddTable()">Add Rollable Table</v-btn>
       </v-col>
       <v-col>
-        <v-btn small block color="primary" @click="linkSelectDialog = true"
-          >Link Item</v-btn
-        >
+        <v-btn small block color="primary" @click="linkSelectDialog = true">Link Item</v-btn>
         <v-dialog v-model="linkSelectDialog">
-          <link-selector
-            @add-link="item.AddLink($event)"
-            @close="linkSelectDialog = false"
-          />
+          <link-selector @add-link="item.AddLink($event)" @close="linkSelectDialog = false" />
         </v-dialog>
       </v-col>
     </v-row>
     <slot />
     <v-row
       justify="space-between"
-      style="
-        position: fixed;
-        bottom: 12px;
-        right: 12px;
-        width: calc(100% - 256px);
-      "
+      style="position: fixed; bottom: 12px; right: 12px; width: calc(100% - 256px)"
     >
       <v-col cols="auto">
         <v-btn tile color="primary" @click="$emit('move-up')">
@@ -86,7 +70,7 @@
       </v-col>
       <v-col cols="auto">
         <v-menu offset-y top>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn tile color="error" v-bind="props">
               <v-icon start>mdi-delete</v-icon>
               Delete {{ item.ItemType }}
@@ -94,15 +78,13 @@
           </template>
           <v-card>
             <v-card-text>
-              Do you want to delete the {{ item.ItemType }} "{{ item.Title }}"?
-              This action cannot be undone.
+              Do you want to delete the {{ item.ItemType }} "{{ item.Title }}"? This action cannot
+              be undone.
             </v-card-text>
             <v-divider />
             <v-card-actions>
               <v-spacer />
-              <v-btn small color="error" @click="$emit('delete')"
-                >Confirm Deletion</v-btn
-              >
+              <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>

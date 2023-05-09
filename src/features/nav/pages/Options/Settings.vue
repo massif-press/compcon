@@ -34,7 +34,7 @@
           </div>
           <div class="text-center my-2">
             <v-dialog v-model="importDialog" width="50%">
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-btn block large color="primary" v-bind="props">
                   <v-icon start>mdi-database-refresh</v-icon>
                   Load Data Backup
@@ -42,9 +42,7 @@
                     inline
                     content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
                   >
-                    <v-icon end class="fade-select"
-                      >mdi-help-circle-outline</v-icon
-                    >
+                    <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
                   </cc-tooltip>
                 </v-btn>
               </template>
@@ -78,13 +76,7 @@
       </v-col>
       <v-col>
         <h3 class="heading text-accent mb-n2">Advanced Options</h3>
-        <v-switch
-          v-model="userSaveStrategy"
-          color="secondary"
-          inset
-          density="compact"
-          hide-details
-        >
+        <v-switch v-model="userSaveStrategy" color="secondary" inset density="compact" hide-details>
           <span slot="label">
             Enable Performant Saving
             <cc-tooltip
@@ -96,13 +88,7 @@
             </cc-tooltip>
           </span>
         </v-switch>
-        <v-switch
-          v-model="userViewExotics"
-          color="exotic"
-          inset
-          density="compact"
-          hide-details
-        >
+        <v-switch v-model="userViewExotics" color="exotic" inset density="compact" hide-details>
           <span slot="label">
             Show Exotic items in the Compendium
             <cc-tooltip
@@ -115,13 +101,7 @@
             </cc-tooltip>
           </span>
         </v-switch>
-        <v-switch
-          v-model="userAllowQuickstart"
-          color="exotic"
-          inset
-          density="compact"
-          hide-details
-        >
+        <v-switch v-model="userAllowQuickstart" color="exotic" inset density="compact" hide-details>
           <span slot="label">Enable quick pilot creation and level-up</span>
         </v-switch>
         <h3 class="heading text-accent mt-2">Theme</h3>
@@ -242,9 +222,7 @@ export default {
     async bulkImport(file) {
       await importAll(file)
         .then(() => this.$notify('Data import successful', 'confirmation'))
-        .catch((err) =>
-          this.$notify(`ERROR: Unable to import: ${err}`, 'error')
-        );
+        .catch((err) => this.$notify(`ERROR: Unable to import: ${err}`, 'error'));
       this.importDialog = false;
     },
     async deleteAll() {
