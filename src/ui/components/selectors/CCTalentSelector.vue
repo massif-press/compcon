@@ -4,11 +4,8 @@
     height="60vh"
     :success="!pilot.TalentsController.IsMissingTalents && enoughSelections"
   >
-    <template v-slot:left-column>
-      <v-row
-        v-for="(pTalent, i) in pilot.TalentsController.Talents"
-        class="my-2"
-      >
+    <template #left-column>
+      <v-row v-for="(pTalent, i) in pilot.TalentsController.Talents" class="my-2">
         <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
         <span v-else>
           <v-icon color="accent">cc:rank_{{ pTalent.Rank }}</v-icon>
@@ -18,10 +15,7 @@
           </v-icon>
         </span>
       </v-row>
-      <v-divider
-        v-if="pilot.TalentsController.Talents.length"
-        class="ma-2 ml-4 mr-4"
-      />
+      <v-divider v-if="pilot.TalentsController.Talents.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-col>
           <v-alert
@@ -32,9 +26,7 @@
             icon="check_circle"
             class="stat-text"
             style="width: 95%"
-            :value="
-              !pilot.TalentsController.IsMissingTalents && enoughSelections
-            "
+            :value="!pilot.TalentsController.IsMissingTalents && enoughSelections"
           >
             Talent Selection Complete
           </v-alert>
@@ -47,13 +39,11 @@
             class="stat-text"
             style="width: 95%"
             :value="
-              pilot.TalentsController.MaxTalentPoints >
-              pilot.TalentsController.CurrentTalentPoints
+              pilot.TalentsController.MaxTalentPoints > pilot.TalentsController.CurrentTalentPoints
             "
           >
             {{
-              pilot.TalentsController.MaxTalentPoints -
-              pilot.TalentsController.CurrentTalentPoints
+              pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints
             }}
             Talent selections remaining
           </v-alert>
@@ -84,7 +74,7 @@
       </v-row>
     </template>
 
-    <template v-slot:right-column>
+    <template #right-column>
       <v-row density="compact" align="center">
         <v-col cols="10" lg="5">
           <v-text-field
@@ -156,21 +146,16 @@ export default {
     enoughSelections(): boolean {
       // we should only care about the minimum pilot talents in non-levelup (creation)
       return (
-        this.pilot.Level === 0 ||
-        !(this.pilot.TalentsController.Talents.length < this.selectedMin)
+        this.pilot.Level === 0 || !(this.pilot.TalentsController.Talents.length < this.selectedMin)
       );
     },
     selectionComplete(): boolean {
-      return (
-        (this.newPilot || this.levelUp) &&
-        !this.pilot.TalentsController.IsMissingTalents
-      );
+      return (this.newPilot || this.levelUp) && !this.pilot.TalentsController.IsMissingTalents;
     },
     talents(): Talent[] {
       const compendium = CompendiumStore();
       const talents = compendium.Talents.filter((x) => !x.IsHidden);
-      if (this.search)
-        return talents.filter((x) => accentInclude(x.Name, this.search));
+      if (this.search) return talents.filter((x) => accentInclude(x.Name, this.search));
 
       return talents;
     },

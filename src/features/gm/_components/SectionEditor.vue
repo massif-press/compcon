@@ -1,10 +1,7 @@
 <template>
   <div>
     <div v-if="item.NarrativeController.TextItems.length">
-      <v-row
-        v-for="(s, i) in item.NarrativeController.TextItems"
-        density="compact"
-      >
+      <v-row v-for="(s, i) in item.NarrativeController.TextItems" density="compact">
         <v-col>
           <v-row no-gutters justify="space-between">
             <v-col cols="auto">
@@ -16,28 +13,20 @@
             </v-col>
             <v-col cols="auto">
               <v-menu offset-x left>
-                <template v-slot:activator="{ props }">
-                  <v-btn
-                    small
-                    icon
-                    color="error"
-                    class="fade-select"
-                    v-bind="props"
-                  >
+                <template #activator="{ props }">
+                  <v-btn small icon color="error" class="fade-select" v-bind="props">
                     <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-text>
-                    Do you want to delete the textItem titled "{{ s.header }}"?
-                    This action cannot be undone.
+                    Do you want to delete the textItem titled "{{ s.header }}"? This action cannot
+                    be undone.
                   </v-card-text>
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn small color="error" @click="deleteTextItem(s)"
-                      >Confirm Deletion</v-btn
-                    >
+                    <v-btn small color="error" @click="deleteTextItem(s)">Confirm Deletion</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-menu>
@@ -58,7 +47,7 @@
           :close-on-click="false"
           :close-on-content-click="false"
         >
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn color="accent" variant="outlined" small v-bind="props">
               <v-icon start>mdi-plus</v-icon>
               Add New Text Section

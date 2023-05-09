@@ -1,39 +1,16 @@
 <template>
-  <v-footer
-    fixed
-    style="
-      padding-bottom: 2px;
-      border-top: 2px solid rgb(var(--v-theme-primary));
-    "
-  >
-    <v-row
-      no-gutters
-      :justify="$vuetify.display.smAndDown ? 'space-around' : ''"
-    >
+  <v-footer fixed style="padding-bottom: 2px; border-top: 2px solid rgb(var(--v-theme-primary))">
+    <v-row no-gutters :justify="$vuetify.display.smAndDown ? 'space-around' : ''">
       <v-col cols="auto">
-        <v-dialog
-          v-model="rcDialog"
-          :fullscreen="$vuetify.display.smAndDown"
-          width="80vw"
-        >
-          <template v-slot:activator="{ props }">
-            <v-btn small class="mr-5" color="warning darken-2" v-bind="props"
-              >NEXT ENCOUNTER</v-btn
-            >
+        <v-dialog v-model="rcDialog" :fullscreen="$vuetify.display.smAndDown" width="80vw">
+          <template #activator="{ props }">
+            <v-btn small class="mr-5" color="warning darken-2" v-bind="props">NEXT ENCOUNTER</v-btn>
           </template>
           <v-card>
-            <v-toolbar
-              density="compact"
-              dark
-              flat
-              tile
-              color="warning darken-3 heading h2"
-            >
+            <v-toolbar density="compact" dark flat tile color="warning darken-3 heading h2">
               NEXT ENCOUNTER
               <v-spacer />
-              <v-btn icon @click="rcDialog = false"
-                ><v-icon icon="mdi-close"
-              /></v-btn>
+              <v-btn icon @click="rcDialog = false"><v-icon icon="mdi-close" /></v-btn>
             </v-toolbar>
             <v-card-text>
               <p class="flavor-text text-stark mt-2 mb-0 mx-6">
@@ -63,29 +40,15 @@
         </v-dialog>
       </v-col>
       <v-col cols="auto">
-        <v-dialog
-          v-model="emDialog"
-          :fullscreen="$vuetify.display.smAndDown"
-          width="80vw"
-        >
-          <template v-slot:activator="{ props }">
-            <v-btn small class="mr-5" color="error darken-2" v-bind="props"
-              >END MISSION</v-btn
-            >
+        <v-dialog v-model="emDialog" :fullscreen="$vuetify.display.smAndDown" width="80vw">
+          <template #activator="{ props }">
+            <v-btn small class="mr-5" color="error darken-2" v-bind="props">END MISSION</v-btn>
           </template>
           <v-card>
-            <v-toolbar
-              density="compact"
-              dark
-              flat
-              tile
-              color="warning darken-3 heading h2"
-            >
+            <v-toolbar density="compact" dark flat tile color="warning darken-3 heading h2">
               END MISSION
               <v-spacer />
-              <v-btn icon @click="emDialog = false"
-                ><v-icon icon="mdi-close"
-              /></v-btn>
+              <v-btn icon @click="emDialog = false"><v-icon icon="mdi-close" /></v-btn>
             </v-toolbar>
             <v-card-text>
               <div>
@@ -96,17 +59,13 @@
                   label="Save Mission Data"
                 />
               </div>
-              <p
-                v-show="saveCheckbox"
-                class="flavor-text text-stark mt-2 mb-0 mx-6"
-              >
+              <p v-show="saveCheckbox" class="flavor-text text-stark mt-2 mb-0 mx-6">
                 >//[
                 <span class="text-accent">COMP/CON</span>
                 :
                 <span class="stark-text-text">Confirmation Required</span>
-                ] Pilot, proceeding will end the current mission and write all
-                combat telemetry data to your record. This cannot be undone.
-                Continue?
+                ] Pilot, proceeding will end the current mission and write all combat telemetry data
+                to your record. This cannot be undone. Continue?
               </p>
               <v-row justify="center" no-gutters class="mt-n2"></v-row>
               <v-alert
@@ -116,8 +75,7 @@
                 class="mt-4"
               >
                 <span v-show="saveCheckbox" class="text-text">
-                  The following mission data will be added to the Pilot Combat
-                  Telemetry Record:
+                  The following mission data will be added to the Pilot Combat Telemetry Record:
                 </span>
                 <div class="pl-2 pr-4 flavor-text">
                   <div>
@@ -138,21 +96,15 @@
                   </div>
                   <div>
                     STRUCTURE LOST:
-                    <b class="text-stark">{{
-                      pilot.State.Stats.structure_damage
-                    }}</b>
+                    <b class="text-stark">{{ pilot.State.Stats.structure_damage }}</b>
                   </div>
                   <div>
                     HEAT TAKEN:
-                    <b class="text-stark">{{
-                      pilot.State.Stats.heat_damage
-                    }}</b>
+                    <b class="text-stark">{{ pilot.State.Stats.heat_damage }}</b>
                   </div>
                   <div>
                     REACTOR STRESS:
-                    <b class="text-stark">{{
-                      pilot.State.Stats.reactor_damage
-                    }}</b>
+                    <b class="text-stark">{{ pilot.State.Stats.reactor_damage }}</b>
                   </div>
                 </div>
               </v-alert>

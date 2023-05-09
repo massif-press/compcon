@@ -1,0 +1,128 @@
+[
+  {
+    "title": {
+      "en": "vs. Mech Combat"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Skill Checks"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Teamwork"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Difficult, Risky and Heroic Rolls"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Trying Again and Pushing It"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Consequences"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Skill Challenges"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Player Initiative & NPC Action"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Combat in Narrative Play"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Hit Points, Damage, and Injury"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Down and Out"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Downtime"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Structured and Freeform Play"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Reserves"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Downtime Actions"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  }
+]

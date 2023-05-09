@@ -7,7 +7,7 @@
     offset-x
     nudge-bottom="-200px"
   >
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-btn icon @click.stop="menu = true" v-bind="props">
         <v-icon icon="mdi-dice-multiple" />
       </v-btn>
@@ -22,12 +22,8 @@
         class="text-white heading h3"
       >
         {{ title }}
-        <span v-if="critical" class="flavor-text text-white text--secondary"
-          >// CRITICAL</span
-        >
-        <span v-if="overkill" class="flavor-text text-white text--secondary"
-          >// OVERKILL</span
-        >
+        <span v-if="critical" class="flavor-text text-white text--secondary">// CRITICAL</span>
+        <span v-if="overkill" class="flavor-text text-white text--secondary">// OVERKILL</span>
       </v-toolbar>
       <v-row no-gutters align="center" justify="center">
         <v-col>
@@ -35,10 +31,7 @@
             <v-row
               density="compact"
               justify="center"
-              style="
-                border: 1px solid rgb(var(--v-theme-primary));
-                border-radius: 2px;
-              "
+              style="border: 1px solid rgb(var(--v-theme-primary)); border-radius: 2px"
             >
               <v-col v-show="moreDice" cols="auto">
                 <cc-tooltip content="Add coin flip (d2)">
@@ -112,12 +105,7 @@
             </v-row>
             <v-row density="compact" align="center" justify="center">
               <v-col cols="auto">
-                <v-chip
-                  v-if="!dice.length"
-                  variant="outlined"
-                  style="opacity: 0.5"
-                  >No Roll</v-chip
-                >
+                <v-chip v-if="!dice.length" variant="outlined" style="opacity: 0.5">No Roll</v-chip>
               </v-col>
               <v-col v-for="(d, i) in dice" cols="auto">
                 <v-chip
@@ -145,12 +133,7 @@
               </v-col>
             </v-row>
             <v-slide-y-reverse-transition>
-              <v-row
-                v-if="accuracy"
-                density="compact"
-                justify="center"
-                align="center"
-              >
+              <v-row v-if="accuracy" density="compact" justify="center" align="center">
                 <v-col cols="auto">
                   <v-chip
                     v-if="accuracy"
@@ -166,21 +149,14 @@
                 </v-col>
               </v-row>
             </v-slide-y-reverse-transition>
-            <v-btn
-              block
-              variant="outlined"
-              color="secondary"
-              class="my-3"
-              @click="roll"
+            <v-btn block variant="outlined" color="secondary" class="my-3" @click="roll"
               >Roll</v-btn
             >
             <v-divider v-if="result" />
             <div style="min-height: 20px">
               <div v-if="result">
                 <div v-for="(r, j) in result">
-                  <div class="caption">
-                    ROLLING {{ r.rolls.length }}D{{ r.sides }}
-                  </div>
+                  <div class="caption">ROLLING {{ r.rolls.length }}D{{ r.sides }}</div>
                   <v-row no-gutters>
                     <v-col v-for="(val, i) in r.rolls" cols="auto">
                       <v-chip
@@ -191,9 +167,7 @@
                       >
                         {{ val }}
                       </v-chip>
-                      <v-icon v-if="i + 1 < r.rolls.length" small
-                        >mdi-plus</v-icon
-                      >
+                      <v-icon v-if="i + 1 < r.rolls.length" small>mdi-plus</v-icon>
                     </v-col>
                     <v-col cols="auto" class="ml-auto text-stark">
                       <b>
@@ -239,20 +213,14 @@
                       <cc-slashes v-if="i + 1 < accRolls.length" small />
                     </v-col>
                     <v-col cols="auto" class="ml-auto text-stark">
-                      <b
-                        >{{ accuracy > 0 ? '+' : '-'
-                        }}{{ Math.abs(accTotal) }}</b
-                      >
+                      <b>{{ accuracy > 0 ? '+' : '-' }}{{ Math.abs(accTotal) }}</b>
                     </v-col>
                   </v-row>
                 </div>
                 <v-row
                   no-gutters
                   class="pa-1 ma-1"
-                  style="
-                    border: 1px solid rgb(var(--v-theme-secondary));
-                    border-radius: 2px;
-                  "
+                  style="border: 1px solid rgb(var(--v-theme-secondary)); border-radius: 2px"
                 >
                   <v-col cols="auto" class="ml-auto text-stark text-right">
                     <div class="caption">TOTAL</div>
@@ -263,10 +231,7 @@
                   v-if="overkill && overkillRolls"
                   no-gutters
                   class="pa-1 ma-1"
-                  style="
-                    border: 1px solid rgb(var(--v-theme-heat));
-                    border-radius: 2px;
-                  "
+                  style="border: 1px solid rgb(var(--v-theme-heat)); border-radius: 2px"
                 >
                   <v-col cols="auto" class="ml-auto text-stark text-right">
                     <div class="caption">// OVERKILL //</div>
@@ -279,24 +244,13 @@
             </div>
             <v-divider />
             <v-card-actions>
-              <v-row
-                density="compact"
-                justify="center"
-                align="center"
-                class="text-center"
-              >
+              <v-row density="compact" justify="center" align="center" class="text-center">
                 <v-col cols="12" md="auto">
-                  <v-btn small text class="mr-3" @click="menu = false"
-                    >Cancel</v-btn
-                  >
+                  <v-btn small text class="mr-3" @click="menu = false">Cancel</v-btn>
                 </v-col>
                 <v-col cols="12" md="auto">
-                  <v-btn small variant="outlined" color="accent" @click="clear"
-                    >Clear All</v-btn
-                  >
-                  <v-btn small variant="outlined" color="accent" @click="reset"
-                    >Reset All</v-btn
-                  >
+                  <v-btn small variant="outlined" color="accent" @click="clear">Clear All</v-btn>
+                  <v-btn small variant="outlined" color="accent" @click="reset">Reset All</v-btn>
                 </v-col>
 
                 <v-col cols="12" md="auto">
@@ -344,8 +298,7 @@ export default {
   }),
   computed: {
     accString() {
-      if (this.accuracy > 0)
-        return `<b>${this.accuracy}</b>&nbsp;&nbsp;ACCURACY`;
+      if (this.accuracy > 0) return `<b>${this.accuracy}</b>&nbsp;&nbsp;ACCURACY`;
       else return `<b>${Math.abs(this.accuracy)}</b>&nbsp;&nbsp;DIFFICULTY`;
     },
     overkillRolls() {
@@ -407,11 +360,7 @@ export default {
     },
     roll() {
       this.result = this.dice.map((x) => {
-        const dRoll = DiceRoller.rollDamage(
-          `${x.count}d${x.sides}`,
-          this.critical,
-          this.overkill
-        );
+        const dRoll = DiceRoller.rollDamage(`${x.count}d${x.sides}`, this.critical, this.overkill);
         return {
           sides: x.sides,
           rolls: dRoll.rawDieRolls,
@@ -429,8 +378,7 @@ export default {
           false,
           false
         ).rawDieRolls;
-        this.accTotal =
-          Math.max(...this.accRolls) * (this.accuracy > 0 ? 1 : -1);
+        this.accTotal = Math.max(...this.accRolls) * (this.accuracy > 0 ? 1 : -1);
       }
     },
     reset() {

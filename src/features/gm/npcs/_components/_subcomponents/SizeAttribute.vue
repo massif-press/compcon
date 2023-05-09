@@ -11,15 +11,8 @@
           right
           offset-y
         >
-          <template v-slot:activator="{ props }">
-            <v-btn
-              icon
-              dark
-              x-small
-              class="fade-select"
-              absolute
-              v-bind="props"
-            >
+          <template #activator="{ props }">
+            <v-btn icon dark x-small class="fade-select" absolute v-bind="props">
               <v-icon icon="mdi-circle-edit-outline" />
             </v-btn>
           </template>
@@ -45,9 +38,7 @@
       </v-card-title>
       <v-card-text class="pa-1 text-text">
         <span class="heading h2">
-          {{
-            parseFloat(statController.Size) === 0.5 ? '½' : statController.Size
-          }}
+          {{ parseFloat(statController.Size) === 0.5 ? '½' : statController.Size }}
         </span>
       </v-card-text>
     </v-card>

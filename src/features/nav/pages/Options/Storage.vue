@@ -2,20 +2,16 @@
   <div>
     <h3 class="heading text-accent">Storage</h3>
     <div class="flavor-text">
-      COMP/CON is currently using {{ bytesToSize(size.usage) }} of
-      {{ bytesToSize(size.quota) }}, or
-      <b class="text-accent"
-        >{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</b
-      >
-      of your available storage. This includes space reveserved by COMP/CON for
-      app management.
+      COMP/CON is currently using {{ bytesToSize(size.usage) }} of {{ bytesToSize(size.quota) }}, or
+      <b class="text-accent">{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</b>
+      of your available storage. This includes space reveserved by COMP/CON for app management.
     </div>
     <v-divider class="my-4" />
 
     <h3 class="heading text-accent">Deleted Items (local data only)</h3>
     <deleted-items />
     <v-dialog v-model="deleteDialog" width="80%">
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn block color="error" class="my-1" v-bind="props">
           <v-icon start v-html="'mdi-alert'" />
           Delete All User Data
@@ -49,9 +45,7 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn color="secondary" text large @click="deleteDialog = false"
-            >Dismiss</v-btn
-          >
+          <v-btn color="secondary" text large @click="deleteDialog = false">Dismiss</v-btn>
           <v-spacer />
           <v-btn color="error" text @click="deleteAll">
             <v-icon start v-html="'mdi-alert'" />
@@ -165,9 +159,7 @@ export default {
     async bulkImport(file) {
       await importAll(file)
         .then(() => this.$notify('Data import successful', 'confirmation'))
-        .catch((err) =>
-          this.$notify(`ERROR: Unable to import: ${err}`, 'error')
-        );
+        .catch((err) => this.$notify(`ERROR: Unable to import: ${err}`, 'error'));
       this.importDialog = false;
     },
     async deleteAll() {

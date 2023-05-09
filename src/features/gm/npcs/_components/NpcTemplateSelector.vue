@@ -21,9 +21,7 @@
         <v-toolbar density="compact" color="primary" flat>
           <span class="heading h6 text-white">Select Template</span>
           <v-spacer />
-          <v-btn icon color="white" @click="dialog = false"
-            ><v-icon large>mdi-close</v-icon></v-btn
-          >
+          <v-btn icon color="white" @click="dialog = false"><v-icon large>mdi-close</v-icon></v-btn>
         </v-toolbar>
 
         <panel-view no-border>
@@ -41,10 +39,7 @@
               </v-col>
             </v-row>
             <v-divider class="my-2" />
-            <v-row
-              density="compact"
-              style="max-height: calc(100% - 145px); overflow-y: scroll"
-            >
+            <v-row density="compact" style="max-height: calc(100% - 145px); overflow-y: scroll">
               <v-data-table
                 density="compact"
                 :items="templates"
@@ -57,7 +52,7 @@
                 style="min-width: 100%"
                 disable-pagination
               >
-                <template v-slot:[`item.Name`]="{ item }">
+                <template #[`item.Name`]="{ item }">
                   <v-btn
                     block
                     tile
@@ -69,9 +64,7 @@
                     <v-icon v-if="isAssigned(item)" left>mdi-check</v-icon>
                     {{ item.Name }}
                     <v-scroll-x-transition leave-absolute>
-                      <v-icon v-if="selected === item" right
-                        >mdi-chevron-triple-right</v-icon
-                      >
+                      <v-icon v-if="selected === item" right>mdi-chevron-triple-right</v-icon>
                     </v-scroll-x-transition>
                   </v-btn>
                 </template>
@@ -121,17 +114,11 @@
                     <span class="heading h3">
                       <b class="text-accent">Base</b>
                       Features
-                      <span class="caption"
-                        >({{ selected.BaseFeatures.length }})</span
-                      >
+                      <span class="caption">({{ selected.BaseFeatures.length }})</span>
                     </span>
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
-                    <cc-dense-card
-                      v-for="b in selected.BaseFeatures"
-                      :item="b"
-                      class="my-1"
-                    />
+                    <cc-dense-card v-for="b in selected.BaseFeatures" :item="b" class="my-1" />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
                 <v-expansion-panel v-if="selected.OptionalFeatures.length">
@@ -141,9 +128,7 @@
                         <div class="heading h3">
                           <b class="text-accent">Optional</b>
                           Features
-                          <span class="caption"
-                            >({{ selected.OptionalFeatures.length }})</span
-                          >
+                          <span class="caption">({{ selected.OptionalFeatures.length }})</span>
                         </div>
                       </v-col>
                       <v-col align-self="center">
@@ -165,25 +150,14 @@
                     </v-row>
                   </v-expansion-panel-header>
                   <v-expansion-panel-content>
-                    <cc-dense-card
-                      v-for="f in selected.OptionalFeatures"
-                      :item="f"
-                      class="my-1"
-                    />
+                    <cc-dense-card v-for="f in selected.OptionalFeatures" :item="f" class="my-1" />
                   </v-expansion-panel-content>
                 </v-expansion-panel>
               </v-expansion-panels>
             </v-container>
-            <v-row
-              v-else
-              align="center"
-              justify="center"
-              style="width: 100%; height: 100%"
-            >
+            <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
               <v-col cols="auto">
-                <span class="heading h1 text-subtle text--lighten-2"
-                  >select npc template</span
-                >
+                <span class="heading h1 text-subtle text--lighten-2">select npc template</span>
               </v-col>
             </v-row>
           </template>
@@ -218,9 +192,7 @@ export default {
   },
   methods: {
     isAssigned(t) {
-      return this.item.NpcTemplateController.Templates.some(
-        (x) => x.ID === t.ID
-      );
+      return this.item.NpcTemplateController.Templates.some((x) => x.ID === t.ID);
     },
   },
 };

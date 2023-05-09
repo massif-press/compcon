@@ -26,12 +26,7 @@
               label="GM Labels"
               class="mb-2"
             />
-            <v-combobox
-              v-model="item.Campaign"
-              variant="outlined"
-              hide-details
-              label="Campaign"
-            />
+            <v-combobox v-model="item.Campaign" variant="outlined" hide-details label="Campaign" />
             <v-img :src="item.PortraitController.Image" />
             <v-btn
               small
@@ -104,21 +99,16 @@
         <v-btn color="secondary" @click="saveExit()">Save and Exit</v-btn>
       </v-card-actions>
       <v-card-actions v-else>
-        <v-btn :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
-          >Print</v-btn
-        >
+        <v-btn :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">Print</v-btn>
         <v-spacer />
         <v-menu v-model="dupeMenu" offset-y offset-x top left>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn color="primary" class="mx-3" v-bind="props">Duplicate</v-btn>
           </template>
-          <cc-confirmation
-            content="Confirm duplication of this NPC"
-            @confirm="dupeNpc()"
-          />
+          <cc-confirmation content="Confirm duplication of this NPC" @confirm="dupeNpc()" />
         </v-menu>
         <v-menu v-model="deleteMenu" offset-y offset-x top left>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn color="error" v-bind="props">Delete</v-btn>
           </template>
           <cc-confirmation

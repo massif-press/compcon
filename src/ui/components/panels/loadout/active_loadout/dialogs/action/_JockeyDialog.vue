@@ -9,11 +9,7 @@
       <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text class="pt-4">
-        <cc-active-synergy
-          :locations="action.SynergyLocations"
-          :mech="mech"
-          class="mb-n4"
-        />
+        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
 
         <v-row justify="center" align="center">
           <v-col>
@@ -42,15 +38,13 @@
               :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
               @click="actionFree = !actionFree"
             >
-              <v-icon start small>cc:free-action</v-icon>
+              <v-icon start small>cc:free_action</v-icon>
               Free Action
               <cc-tooltip
                 inline
                 :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
               >
-                <v-icon end small class="fade-select"
-                  >mdi-information-outline</v-icon
-                >
+                <v-icon end small class="fade-select">mdi-information-outline</v-icon>
               </cc-tooltip>
             </v-btn>
           </v-col>
@@ -58,26 +52,11 @@
 
         <div v-if="!mech.Pilot.State.IsJockeying">
           <v-slide-x-reverse-transition>
-            <v-row
-              v-if="actionFree || actionCost"
-              justify="center"
-              align="center"
-            >
+            <v-row v-if="actionFree || actionCost" justify="center" align="center">
               <v-col lg="auto" md="12" class="mt-n5">
-                <v-row
-                  density="compact"
-                  class="text-center mb-n3"
-                  justify="start"
-                  align="start"
-                >
-                  <v-col
-                    cols="auto"
-                    class="ml-auto px-12 panel dual-sliced"
-                    style="height: 70px"
-                  >
-                    <div class="text-overline mt-n2 pl-4 mr-n4">
-                      Contested HULL
-                    </div>
+                <v-row density="compact" class="text-center mb-n3" justify="start" align="start">
+                  <v-col cols="auto" class="ml-auto px-12 panel dual-sliced" style="height: 70px">
+                    <div class="text-overline mt-n2 pl-4 mr-n4">Contested HULL</div>
                     <v-text-field
                       v-model="hull"
                       type="number"
@@ -112,17 +91,11 @@
                       hide-details
                       :disabled="actionUsed"
                       @click:append="accuracy < 99 ? (accuracy += 1) : ''"
-                      @click:prepend="
-                        accuracy > minAccuracy ? (accuracy -= 1) : ''
-                      "
+                      @click:prepend="accuracy > minAccuracy ? (accuracy -= 1) : ''"
                       @change="accuracy = parseInt($event)"
                     />
                   </v-col>
-                  <v-col
-                    cols="auto"
-                    class="px-12 mr-n10 panel dual-sliced"
-                    style="height: 70px"
-                  >
+                  <v-col cols="auto" class="px-12 mr-n10 panel dual-sliced" style="height: 70px">
                     <div class="text-overline mt-n2 pl-1">Difficulty</div>
                     <v-text-field
                       v-model="difficulty"
@@ -137,26 +110,15 @@
                       :disabled="actionUsed"
                       hide-details
                       @click:append="difficulty < 99 ? (difficulty += 1) : ''"
-                      @click:prepend="
-                        difficulty > minDifficulty ? (difficulty -= 1) : ''
-                      "
+                      @click:prepend="difficulty > minDifficulty ? (difficulty -= 1) : ''"
                       @change="difficulty = parseInt($event)"
                     />
                   </v-col>
-                  <v-col
-                    cols="auto"
-                    class="px-12 panel dual-sliced"
-                    style="height: 70px"
-                  >
-                    <div class="text-overline mt-n2 mr-n6 pl-3">
-                      Contested Roll
-                    </div>
+                  <v-col cols="auto" class="px-12 panel dual-sliced" style="height: 70px">
+                    <div class="text-overline mt-n2 mr-n6 pl-3">Contested Roll</div>
                     <v-row no-gutters>
                       <v-col class="mr-n2 ml-n2">
-                        <cc-tooltip
-                          title="hullTEMS Roll"
-                          :content="rollResultTooltip"
-                        >
+                        <cc-tooltip title="hullTEMS Roll" :content="rollResultTooltip">
                           <v-btn
                             icon
                             small
@@ -194,20 +156,12 @@
 
         <v-slide-x-reverse-transition>
           <div
-            v-if="
-              (roll && hull) ||
-              ((actionFree || actionCost) && mech.Pilot.State.IsJockeying)
-            "
+            v-if="(roll && hull) || ((actionFree || actionCost) && mech.Pilot.State.IsJockeying)"
           >
-            <div
-              v-if="!mech.Pilot.State.IsJockeying"
-              class="heading h3 text-right"
-            >
+            <div v-if="!mech.Pilot.State.IsJockeying" class="heading h3 text-right">
               JOCKEY SUCCESSFUL
             </div>
-            <div v-else class="heading h3 text-right text-stark">
-              JOCKEY IN PROGRESS
-            </div>
+            <div v-else class="heading h3 text-right text-stark">JOCKEY IN PROGRESS</div>
             <div class="flavor-text text-right">Select Jockey Option</div>
             <v-row density="compact" class="mt-2">
               <v-col>
@@ -219,15 +173,12 @@
                 >
                   <v-toolbar
                     density="compact"
-                    :color="
-                      selected === 'distract' ? 'primary lighten-2' : 'primary'
-                    "
+                    :color="selected === 'distract' ? 'primary lighten-2' : 'primary'"
                   >
                     <span class="heading h3 text-white">DISTRACT</span>
                   </v-toolbar>
                   <v-card-text class="body-text">
-                    The mech is IMPAIRED and SLOWED until the end of its next
-                    turn
+                    The mech is IMPAIRED and SLOWED until the end of its next turn
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -240,15 +191,12 @@
                 >
                   <v-toolbar
                     density="compact"
-                    :color="
-                      selected === 'shred' ? 'primary lighten-2' : 'primary'
-                    "
+                    :color="selected === 'shred' ? 'primary lighten-2' : 'primary'"
                   >
                     <span class="heading h3 text-white">SHRED</span>
                   </v-toolbar>
                   <v-card-text class="body-text">
-                    Deal 2 Heat to the mech by ripping at wiring, paneling, and
-                    so on
+                    Deal 2 Heat to the mech by ripping at wiring, paneling, and so on
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -261,15 +209,12 @@
                 >
                   <v-toolbar
                     density="compact"
-                    :color="
-                      selected === 'damage' ? 'primary lighten-2' : 'primary'
-                    "
+                    :color="selected === 'damage' ? 'primary lighten-2' : 'primary'"
                   >
                     <span class="heading h3 text-white">DAMAGE</span>
                   </v-toolbar>
                   <v-card-text class="body-text">
-                    Deal 4 Kinetic dmage to the mech by attacking joints,
-                    hatches, and so on
+                    Deal 4 Kinetic dmage to the mech by attacking joints, hatches, and so on
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -280,12 +225,7 @@
         <v-slide-x-reverse-transition>
           <v-row v-if="selected" no-gutters justify="center">
             <v-col cols="auto">
-              <v-btn
-                x-large
-                color="primary"
-                :disabled="actionUsed"
-                @click="confirmJockey()"
-              >
+              <v-btn x-large color="primary" :disabled="actionUsed" @click="confirmJockey()">
                 COMFIRM JOCKEY::{{ selected.toUpperCase() }}
               </v-btn>
             </v-col>
@@ -295,15 +235,8 @@
         <v-slide-x-reverse-transition>
           <v-row v-if="actionUsed" no-gutters>
             <v-col cols="auto" class="ml-auto">
-              <cc-tooltip
-                content="Undo this action, refunding any cost it may have had"
-              >
-                <v-btn
-                  x-small
-                  color="primary"
-                  class="fade-select"
-                  @click="reset"
-                >
+              <cc-tooltip content="Undo this action, refunding any cost it may have had">
+                <v-btn x-small color="primary" class="fade-select" @click="reset">
                   <v-icon small left>mdi-reload</v-icon>
                   UNDO
                 </v-btn>
@@ -373,9 +306,7 @@ export default {
       if (this.rollResultString) {
         str += `<div class="text-overline my-n2">Last Roll:</div><div class="caption ml-3">${this.rollResultString}`;
         if (this.rollAccuracyResults.length)
-          str += ` <span class="text-subtle">[${this.rollAccuracyResults.join(
-            ', '
-          )}]</span>`;
+          str += ` <span class="text-subtle">[${this.rollAccuracyResults.join(', ')}]</span>`;
         str += '</div>';
       }
       return str;
@@ -398,16 +329,12 @@ export default {
       return !action;
     },
     rollSkill(): void {
-      const roll = DiceRoller.rollToHit(
-        this.mech.Pilot.Grit,
-        this.accuracy,
-        this.difficulty
-      );
+      const roll = DiceRoller.rollToHit(this.mech.Pilot.Grit, this.accuracy, this.difficulty);
       this.rollResultString = `${roll.rawDieRoll} + ${roll.staticBonus}`;
       if (roll.accuracyResult) {
-        this.rollResultString += ` ${
-          roll.accuracyResult > 0 ? '+' : '-'
-        } ${Math.abs(roll.accuracyResult)}`;
+        this.rollResultString += ` ${roll.accuracyResult > 0 ? '+' : '-'} ${Math.abs(
+          roll.accuracyResult
+        )}`;
       }
       this.rollAccuracyResults = roll.rawAccuracyRolls;
       this.roll = roll.total;

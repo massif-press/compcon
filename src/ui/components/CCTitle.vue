@@ -1,19 +1,11 @@
 <template>
   <div
-    :class="
-      this.$vuetify.display.smAndDown
-        ? 'pt-1'
-        : `px-2 pt-2 pb-1 ml-n3 clipped${size}`
-    "
-    :style="`width: max-content; background-color: ${color};`"
+    :class="`px-2 pt-2 pb-1 ml-n3 clipped${size} text-white`"
+    :style="`width: max-content;  background-color: rgb(var(--v-theme-${color}));`"
   >
-    <span
-      :class="`${
-        this.$vuetify.display.smAndDown ? 'px-2' : 'pr-5 pb-1'
-      } pl-5 ctitle${size} ${dark ? 'text-white' : 'text-stark'}`"
-    >
+    <div :class="`pr-5 pb-1 pl-5 ctitle${size}`">
       <slot />
-    </span>
+    </div>
   </div>
 </template>
 

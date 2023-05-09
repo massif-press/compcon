@@ -4,27 +4,18 @@
     height="60vh"
     :success="!pilot.LicenseController.IsMissingLicenses"
   >
-    <template v-slot:left-column>
-      <v-row
-        v-for="pl in pilot.LicenseController.Licenses"
-        class="my-2"
-        style="width: 98%"
-      >
+    <template #left-column>
+      <v-row v-for="pl in pilot.LicenseController.Licenses" class="my-2" style="width: 98%">
         <missing-item v-if="pl.License.err" @remove="remove(pl)" />
         <div v-else>
-          <v-icon :color="manufacturer(pl.License.Source).Color"
-            >cc:rank_{{ pl.Rank }}</v-icon
-          >
+          <v-icon :color="manufacturer(pl.License.Source).Color">cc:rank_{{ pl.Rank }}</v-icon>
           <strong>{{ pl.License.Name }}</strong>
           <v-icon end class="fade-select" @click="scroll(pl.License.FrameID)">
             mdi-chevron-right
           </v-icon>
         </div>
       </v-row>
-      <v-divider
-        v-if="pilot.LicenseController.Licenses.length"
-        class="ma-2 ml-4 mr-4"
-      />
+      <v-divider v-if="pilot.LicenseController.Licenses.length" class="ma-2 ml-4 mr-4" />
       <v-row>
         <v-alert
           variant="outlined"
@@ -60,14 +51,12 @@
       </v-row>
     </template>
 
-    <template v-slot:right-column>
+    <template #right-column>
       <v-row v-for="m in Object.keys(licenses)">
         <v-col class="text-center pa-3">
           <span
             class="heading mech"
-            :style="`color: ${manufacturer(m).GetColor(
-              $vuetify.theme.current.dark
-            )}`"
+            :style="`color: ${manufacturer(m).GetColor($vuetify.theme.current.dark)}`"
           >
             <cc-logo :source="manufacturer(m)" size="xLarge" class="pt-4" />
             {{ manufacturer(m).Name }}

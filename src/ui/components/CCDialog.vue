@@ -27,13 +27,13 @@
     >
       <v-card tile class="background">
         <cc-titlebar :color="color" :icon="icon">
-          <template v-slot:title>
+          <template #title>
             <slot name="title" />
           </template>
-          <template v-slot:title-chips>
+          <template #title-chips>
             <slot name="title-chips" />
           </template>
-          <template v-slot:title-items>
+          <template #title-items>
             <slot name="title-items" />
           </template>
         </cc-titlebar>
@@ -42,7 +42,7 @@
           <slot />
         </v-card-text>
 
-        <v-divider></v-divider>
+        <v-divider />
 
         <v-card-actions v-if="hasConfirm">
           <v-btn text @click="dialog = false">cancel</v-btn>

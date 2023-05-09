@@ -4,11 +4,7 @@
     <cc-title class="mb-2">dice menu</cc-title>
     <cc-dice-menu />
     <cc-dice-menu preset="2d6+1" title="preset 1" autoroll />
-    <cc-dice-menu
-      preset="2d6+1d20+3d8-9"
-      :preset-accuracy="-2"
-      title="preset 2"
-    />
+    <cc-dice-menu preset="2d6+1d20+3d8-9" :preset-accuracy="-2" title="preset 2" />
 
     <v-divider />
     <cc-title class="mb-2">new talent ui</cc-title>
@@ -71,11 +67,7 @@
     <cc-title>glyphs</cc-title>
     <v-container grid-list-xs>
       <v-row density="compact">
-        <v-col
-          v-for="i in allIcons()"
-          density="compact"
-          style="min-width: 200px"
-        >
+        <v-col v-for="i in allIcons()" density="compact" style="min-width: 200px">
           <v-card outlined>
             <v-card-text class="text-center">
               <v-icon size="70px">cc:{{ i }}</v-icon>
@@ -117,9 +109,7 @@
           <v-btn block color="primary" tile>block button</v-btn>
         </v-col>
         <v-col>
-          <v-btn block color="primary" tile variant="outlined"
-            >outlined block button</v-btn
-          >
+          <v-btn block color="primary" tile variant="outlined">outlined block button</v-btn>
         </v-col>
         <v-col>
           <v-btn block color="primary" text>text block button</v-btn>
@@ -132,22 +122,22 @@
       <v-row class="my-2">
         <v-col>
           <cc-dialog small @confirm="dialog1Confirm()">
-            <template v-slot:button>small dialog</template>
-            <template v-slot:title>Small Dialog Box (v-slot:title)</template>
+            <template #button>small dialog</template>
+            <template #title>Small Dialog Box (#title)</template>
             Dialog contents
           </cc-dialog>
         </v-col>
         <v-col>
           <cc-dialog @confirm="dialog1Confirm()">
-            <template v-slot:button>dialog</template>
-            <template v-slot:title>Dialog Box (v-slot:title)</template>
+            <template #button>dialog</template>
+            <template #title>Dialog Box (#title)</template>
             Dialog contents
           </cc-dialog>
         </v-col>
         <v-col>
           <cc-dialog large @confirm="dialog1Confirm()">
-            <template v-slot:button>large dialog</template>
-            <template v-slot:title>Large Dialog Box (v-slot:title)</template>
+            <template #button>large dialog</template>
+            <template #title>Large Dialog Box (#title)</template>
             Dialog contents
           </cc-dialog>
         </v-col>
@@ -155,8 +145,8 @@
       <v-row class="my-2">
         <v-col>
           <!-- <cc-popup small @confirm="dialog1Confirm()">
-            <template v-slot:button>popup</template>
-            <template v-slot:title>CC-Popup</template>
+            <template #button>popup</template>
+            <template #title>CC-Popup</template>
             popup content
           </cc-popup> -->
         </v-col>
@@ -172,11 +162,7 @@
           <v-text-field v-model="notificationText" class="pt-0 mt-0" />
         </v-col>
         <v-col cols="3">
-          <v-select
-            v-model="notificationType"
-            class="pt-0 mt-0"
-            :items="notificationTypes"
-          />
+          <v-select v-model="notificationType" class="pt-0 mt-0" :items="notificationTypes" />
         </v-col>
         <v-col cols="2">
           <v-btn :disabled="!notificationText" @click="doNotify">Notify</v-btn>
@@ -215,10 +201,10 @@ const icons = [
   'status-danger-zone',
   'activation-full',
   'activation-quick',
-  'tech-full',
-  'full-tech',
-  'tech-quick',
-  'quick-tech',
+  'tech_full',
+  'full_tech',
+  'tech_quick',
+  'quick_tech',
   'invade',
   'edef',
   'downtime',
@@ -227,7 +213,7 @@ const icons = [
   'npc-tier-3',
   'npc-tier-2',
   'npc-tier-1',
-  'free-action',
+  'free_action',
   'reaction',
   'reserve-tactical',
   'reserve-mech',
@@ -344,25 +330,17 @@ export default {
   created() {
     const s = CompendiumStore();
     this.genericExample = s.MechSystems.find((x) => x.ID === 'ms_eva_module');
-    this.chargeExample = s.MechSystems.find(
-      (x) => x.ID === 'ms_pattern_a_smoke_charges'
-    );
+    this.chargeExample = s.MechSystems.find((x) => x.ID === 'ms_pattern_a_smoke_charges');
     this.deployExample = s.MechSystems.find(
       (x) => x.ID === 'ms_pattern_a_jericho_deployable_cover'
     );
     this.droneExample = s.MechSystems.find((x) => x.ID === 'ms_turret_drones');
-    this.multipleExample = s.MechSystems.find(
-      (x) => x.ID === 'ms_reinforced_cabling'
-    );
+    this.multipleExample = s.MechSystems.find((x) => x.ID === 'ms_reinforced_cabling');
     this.aiExample = s.MechSystems.find((x) => x.ID === 'ms_sekhmet_class_nhp');
     this.techExample = s.MechSystems.find((x) => x.ID === 'ms_neurospike');
-    this.reactionExample = s.MechSystems.find(
-      (x) => x.ID === 'ms_singularity_motivator'
-    );
+    this.reactionExample = s.MechSystems.find((x) => x.ID === 'ms_singularity_motivator');
     this.profileExample = s.MechWeapons.find((x) => x.ID === 'mw_siege_cannon');
-    this.onAttackExample = s.MechWeapons.find(
-      (x) => x.ID === 'mw_plasma_thrower'
-    );
+    this.onAttackExample = s.MechWeapons.find((x) => x.ID === 'mw_plasma_thrower');
     this.onHitExample = s.MechWeapons.find((x) => x.ID === 'mw_annihilator');
     this.onCritExample = s.MechWeapons.find((x) => x.ID === 'mw_chain_axe');
     this.asDroneExample = s.MechWeapons.find((x) => x.ID === 'mw_ghast_nexus');

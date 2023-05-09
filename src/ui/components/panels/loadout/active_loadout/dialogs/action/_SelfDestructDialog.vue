@@ -8,16 +8,12 @@
     >
       <v-col cols="auto">
         <v-alert density="compact" variant="outlined" color="error" prominent>
-          <v-icon slot="prepend" color="error" size="90" class="mr-3">
-            cc:reactor
-          </v-icon>
+          <v-icon slot="prepend" color="error" size="90" class="mr-3"> cc:reactor </v-icon>
           <span v-if="state.SelfDestructCounter > 1" class="heading h1 pt-2">
             SELF DESTRUCT IN {{ state.SelfDestructCounter }} ROUNDS
           </span>
           <span v-else class="heading h1">SELF DESTRUCT IMMINENT</span>
-          <div class="heading text-subtle">
-            FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
-          </div>
+          <div class="heading text-subtle">FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT</div>
           <div class="px-5 my-1">
             <v-btn small block color="error" @click="selfDestruct()">
               <v-icon start>mdi-skull</v-icon>
@@ -84,15 +80,13 @@
               :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
               @click="actionFree = select(actionFree)"
             >
-              <v-icon start small>cc:free-action</v-icon>
+              <v-icon start small>cc:free_action</v-icon>
               Free Action
               <cc-tooltip
                 inline
                 :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
               >
-                <v-icon end small class="fade-select"
-                  >mdi-information-outline</v-icon
-                >
+                <v-icon end small class="fade-select">mdi-information-outline</v-icon>
               </cc-tooltip>
             </v-btn>
           </v-col>
@@ -118,9 +112,7 @@
                 :color="or1 ? 'error' : 'primary'"
                 @click="or1 = true"
                 v-html="
-                  or1
-                    ? 'REACTOR SAFETY PROTOCOLS DISABLED'
-                    : 'DISABLE REACTOR SAFETY PROTOCOLS'
+                  or1 ? 'REACTOR SAFETY PROTOCOLS DISABLED' : 'DISABLE REACTOR SAFETY PROTOCOLS'
                 "
               />
             </v-col>
@@ -132,11 +124,7 @@
                 :disabled="!or1"
                 :color="or2 ? 'error' : 'primary'"
                 @click="or2 = true"
-                v-html="
-                  or2
-                    ? 'CORE EMERGENCY VENTS LOCKED'
-                    : 'LOCK CORE EMERGENCY VENTS'
-                "
+                v-html="or2 ? 'CORE EMERGENCY VENTS LOCKED' : 'LOCK CORE EMERGENCY VENTS'"
               />
             </v-col>
             <v-col cols="auto">
@@ -147,11 +135,7 @@
                 :disabled="!or2"
                 :color="or3 ? 'error' : 'primary'"
                 @click="or3 = true"
-                v-html="
-                  or3
-                    ? 'COOLANT RESERVOIR EMPTY'
-                    : 'DISCHARGE COOLANT RESERVOIR'
-                "
+                v-html="or3 ? 'COOLANT RESERVOIR EMPTY' : 'DISCHARGE COOLANT RESERVOIR'"
               />
             </v-col>
           </v-row>
@@ -164,14 +148,8 @@
                 :color="finished ? 'error' : `error darken-2`"
                 @click="start()"
               >
-                <v-icon style="position: absolute; left: 0" large
-                  >mdi-alert-rhombus-outline</v-icon
-                >
-                {{
-                  finished
-                    ? 'CRITICAL ALERT: REACTOR MELTDOWN IMMINENT'
-                    : 'OVERLOAD REACTOR'
-                }}
+                <v-icon style="position: absolute; left: 0" large>mdi-alert-rhombus-outline</v-icon>
+                {{ finished ? 'CRITICAL ALERT: REACTOR MELTDOWN IMMINENT' : 'OVERLOAD REACTOR' }}
                 <v-icon style="position: absolute; right: 0" large>
                   mdi-alert-rhombus-outline
                 </v-icon>
@@ -184,9 +162,7 @@
       <v-slide-x-reverse-transition>
         <v-row v-if="finished" no-gutters>
           <v-col cols="auto" class="ml-auto">
-            <cc-tooltip
-              content="Undo this action, refunding any cost it may have had"
-            >
+            <cc-tooltip content="Undo this action, refunding any cost it may have had">
               <v-btn x-small color="primary" class="fade-select" @click="reset">
                 <v-icon small left>mdi-reload</v-icon>
                 UNDO

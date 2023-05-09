@@ -3,6 +3,7 @@
     <!-- <global-confirm ref="confirm" /> -->
     <!-- <global-notifier ref="notifier" /> -->
     <navbar />
+    <div style="height: 40px" />
     <router-view />
   </v-app>
 </template>

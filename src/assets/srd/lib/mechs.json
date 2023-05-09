@@ -1,0 +1,172 @@
+[
+  {
+    "title": {
+      "en": "Overview"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Modular Mechs"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "General Massive Systems"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Without Limits"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Mech Skills"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Mech Structure"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Frames"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Size"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Armor"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Mounts"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Mech Weapons"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Size"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Type"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Damage"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Mech Systems"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "System Points"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Base Statistics"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Improving Mechs"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Core Bonuses"
+    },
+    "content": {
+      "en": "content"
+    }
+  },
+  {
+    "title": {
+      "en": "Talents"
+    },
+    "content": {
+      "en": "content"
+    }
+  }
+]

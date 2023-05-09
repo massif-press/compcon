@@ -65,7 +65,7 @@
         v-if="deployable.techattack"
         inline
         class="mx-1"
-        icon="cc:tech-full"
+        icon="cc:tech_full"
         name="Tech Attack"
         :value="deployable.techattack"
       />
@@ -96,20 +96,13 @@
     </v-row>
     <v-row justify="center" density="compact">
       <v-col cols="auto">
-        <p
-          v-html-safe="deployable.detail"
-          class="light-panel mb-0 clipped body-text px-4 py-2"
-        />
+        <p v-html-safe="deployable.detail" class="light-panel mb-0 clipped body-text px-4 py-2" />
       </v-col>
     </v-row>
     <div v-if="actions.length">
       <v-row no-gutters justify="center">
         <v-col v-for="(a, i) in actions" cols="auto">
-          <cc-action
-            :action="a"
-            :panel="$vuetify.display.lgAndUp"
-            class="ma-2"
-          />
+          <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
         </v-col>
       </v-row>
     </div>
@@ -129,9 +122,7 @@ export default {
   },
   computed: {
     actions() {
-      return this.deployable.actions
-        ? this.deployable.actions.map((x) => new Action(x))
-        : [];
+      return this.deployable.actions ? this.deployable.actions.map((x) => new Action(x)) : [];
     },
   },
 };

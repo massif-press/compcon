@@ -17,10 +17,7 @@
         <v-list lines="two">
           <v-list-item>
             <v-img :src="headers[i].img" />
-            <v-list-item-title
-              class="heading h2 text-accent"
-              v-text="headers[i].title"
-            />
+            <v-list-item-title class="heading h2 text-accent" v-text="headers[i].title" />
           </v-list-item>
           <v-divider />
           <v-list-item
@@ -31,7 +28,7 @@
             :to="e.to"
             :disabled="e.disabled"
           >
-            <template v-slot:prepend>
+            <template #prepend>
               <v-avatar color="grey-lighten-1">
                 <v-icon size="x-large" color="accent" :icon="e.icon" />
               </v-avatar>
@@ -75,8 +72,7 @@ export default {
         },
         {
           title: 'Open a Character Sheet',
-          subtitle:
-            'Open a previously created Character Sheet to continue a LANCER game',
+          subtitle: 'Open a previously created Character Sheet to continue a LANCER game',
           icon: 'mdi-book-open',
           to: '/active-mode/open-character-sheet',
         },
@@ -119,16 +115,14 @@ export default {
       [
         {
           title: 'Spectator Mode',
-          subtitle:
-            'Run a non-interactive spectator display for a realtime LANCER game',
+          subtitle: 'Run a non-interactive spectator display for a realtime LANCER game',
           icon: 'mdi-monitor-share',
           disabled: true,
           to: '',
         },
         {
           title: 'Campaign Display',
-          subtitle:
-            'Run an interactive GM display for a loaded LANCER campaign',
+          subtitle: 'Run an interactive GM display for a loaded LANCER campaign',
           icon: 'mdi-monitor-dashboard',
           disabled: true,
           to: '',

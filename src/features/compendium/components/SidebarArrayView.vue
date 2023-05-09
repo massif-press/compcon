@@ -1,6 +1,6 @@
 <template>
   <cc-sidebar-view>
-    <template v-slot:sidebar>
+    <template #sidebar>
       <v-list-item v-for="e in array" link @click="scrollTo(e)">
         <v-list-item-title>{{ (e as any)[nameKey] }}</v-list-item-title>
       </v-list-item>
@@ -64,9 +64,7 @@ export default {
   },
   methods: {
     scrollTo(e: any): void {
-      const el = document.getElementById(
-        `e_${(e as any)[this.nameKey].replace(/\W/g, '')}`
-      );
+      const el = document.getElementById(`e_${(e as any)[this.nameKey].replace(/\W/g, '')}`);
       if (el) {
         const yOffset = -60;
         const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;

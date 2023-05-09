@@ -28,7 +28,7 @@
       </v-tab>
       <v-tab>
         Free Actions
-        <v-icon icon="cc:free-action" />
+        <v-icon icon="cc:free_action" />
       </v-tab>
       <v-tab>
         Combat Log
@@ -128,19 +128,11 @@
               />
             </v-row>
 
-            <div
-              v-if="
-                pilot.ReservesController.Reserves ||
-                pilot.ReservesController.Organizations
-              "
-            >
+            <div v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations">
               <v-divider class="my-4" />
               <span class="overline">RESERVES AND RESOURCES</span>
               <v-row
-                v-if="
-                  pilot.ReservesController.Reserves ||
-                  pilot.ReservesController.Organizations
-                "
+                v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations"
                 class="mt-n3"
               >
                 <cc-reserve-item

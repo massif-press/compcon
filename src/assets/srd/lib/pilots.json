@@ -1,0 +1,46 @@
+[
+  {
+    "title": {
+      "en": "Overview"
+    },
+    "content": {
+      "en": "<p>Your pilot is the person inside the machine; the character whose entire career you’ll be playing out. Lancers are generally interesting people – if they weren’t, you probably wouldn’t be playing them! As you create your character, you will be able to figure out who they are and what makes them so interesting.</p>"
+    }
+  },
+  {
+    "title": {
+      "en": "Backgrounds"
+    },
+    "content": {
+      "en": "<p>Your pilot&rsquo;s background describes their life before they became a mech pilot. It doesn&rsquo;t necessarily determine your pilot&rsquo;s current role &ndash; indeed, your pilot might reject their old lives, wanting nothing to do with their history even as it affects them in the present &ndash; but it tells your GM and fellow players a bit about who they were prior to entering their machine.&nbsp;</p> <p>Think of a background as a prompt to draw on when imagining your pilot&rsquo;s full backstory. How did your pilot first become a soldier, a doctor, or a miner? And from there, how did they become the lancer they are now?&nbsp;</p> <p>When creating a character, you can choose a background from the <a href=\"/srd/compendium/backgrounds\">list</a> or just make one up yourself.</p>"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Invoking Backgrounds"
+        },
+        "content": {
+          "en": "<p>Outside of combat, you (or the GM) can <strong>invoke&nbsp;</strong>your pilot&rsquo;s background to receive <strong>1 ACCURACY</strong> or <strong>1 DIFFICULTY</strong> on any skill check, if their background is relevant. For example, someone who was a colonist might get <strong>+1 ACCURACY</strong> when negotiating with other colonists, navigating the wilderness, or farming. A character born in space, however, might get <strong>+1 DIFFICULTY</strong> when doing the same things.&nbsp;</p> <p>If there is any disagreement, the rest of the group &ndash; <strong>excluding both yourself and the GM</strong> &ndash; arbitrates. If the other players can&rsquo;t reach a consensus, the person who invoked the background decides.</p>"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Triggers"
+    },
+    "content": {
+      "en": "<p>As a central character in the story, your pilot will have moments when their background, training, and personality shine through. These moments are your pilot&rsquo;s <strong>triggers</strong>: short phrases that describe key decisions and actions like<strong>&nbsp;Apply Fists to Faces</strong> or <strong>Get Somewhere Fast</strong>. Triggers are always accompanied by a bonus of <strong>+2</strong>, <strong>+4</strong>, or <strong>+6</strong>.&nbsp;</p> <p>When one of your character&rsquo;s triggers is relevant to a skill check, you get a bonus to the roll. For example, if you have &ldquo;<strong>+2 to Apply Fists to Faces</strong>&rdquo; written on your sheet, any time your character acts in a way that could be construed as applying fists to faces, you get <strong>+2</strong> to the skill check. You can only receive a bonus from one trigger at a time.&nbsp;</p> <p>Triggers apply to actions that depend on your pilot&rsquo;s personal abilities, experience, training, or background &ndash; not actions that rely on their mech&rsquo;s specifications. When taking actions that rely on a mech, <strong>mech skills</strong> are used instead.&nbsp;</p> <p>Triggers are almost always used in <strong>narrative play</strong>, and they never apply to attack rolls, saves, or any rolls other than skill checks.</p> <p>Triggers are usually fairly open-ended, allowing you to apply them in creative ways. That said, the GM is responsible for arbitrating outlandish claims. Be prepared to justify how your <strong>Apply Fists to Faces</strong> trigger helps you hack into an electronic network.</p>"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Creating Triggers"
+        },
+        "content": {
+          "en": "<p>With GM approval, you can write your own triggers. Custom triggers can be more specific than the examples in this book &ndash; <strong>Kill in Cold Blood</strong> or <strong>Insult Someone</strong>, for instance &ndash; but they shouldn&rsquo;t be more general. They should always apply to specific circumstances or actions.</p>"
+        }
+      }
+    ]
+  }
+]

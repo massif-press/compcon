@@ -6,7 +6,7 @@
     <td>GAUNTLET</td>
     <td>
       <v-menu bottom offset-y offset-x open-on-hover>
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-btn
             text
             color="primary"
@@ -30,7 +30,7 @@
       <span v-if="active">
         (
         <v-menu bottom offset-y offset-x open-on-hover>
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn
               text
               color="primary"
@@ -54,7 +54,7 @@
     </td>
     <td v-if="active">
       <v-menu bottom offset-y offset-x open-on-hover>
-        <template v-slot:activator="{ props }">
+        <template #activator="{ props }">
           <v-btn
             text
             color="primary"

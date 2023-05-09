@@ -27,27 +27,20 @@
           :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
           @click="actionFree = !actionFree"
         >
-          <v-icon start small>cc:free-action</v-icon>
+          <v-icon start small>cc:free_action</v-icon>
           Free Action
           <cc-tooltip
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon end small class="fade-select"
-              >mdi-information-outline</v-icon
-            >
+            <v-icon end small class="fade-select">mdi-information-outline</v-icon>
           </cc-tooltip>
         </v-btn>
       </v-col>
     </v-row>
 
     <v-slide-x-reverse-transition>
-      <v-row
-        v-if="actionFree || actionCost"
-        justify="center"
-        align="center"
-        class="py-2"
-      >
+      <v-row v-if="actionFree || actionCost" justify="center" align="center" class="py-2">
         <v-col class="mt-n2">
           <v-row
             density="compact"
@@ -82,11 +75,7 @@
               <div class="heading h3">engineering</div>
               <div class="heading h2 text-accent">
                 {{ mech.Eng }}
-                <cc-synergy-display
-                  inline
-                  :mech="mech"
-                  location="engineering"
-                />
+                <cc-synergy-display inline :mech="mech" location="engineering" />
               </div>
             </v-col>
           </v-row>
@@ -99,11 +88,7 @@
           >
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Accuracy</div>
@@ -125,11 +110,7 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Difficulty</div>
@@ -151,11 +132,7 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Skill Roll</div>

@@ -1,6 +1,6 @@
 <template>
   <v-menu top>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <div v-if="visible" style="position: relative">
         <div class="side-legend">
           <v-btn small variant="outlined" :color="color" v-bind="props">
@@ -11,10 +11,7 @@
       </div>
     </template>
     <v-card variant="outlined" elevation="10">
-      <v-card-title
-        :style="`background-color: ${color}; height: 32px`"
-        class="text-white"
-      >
+      <v-card-title :style="`background-color: ${color}; height: 32px`" class="text-white">
         <div class="mt-n4">
           <v-icon large left dark class="mt-n2">cc:corebonus</v-icon>
           <span class="heading h2">Mount CORE Bonuses</span>
@@ -68,9 +65,7 @@ export default {
       return this.mount.Bonuses.length;
     },
     color(): string {
-      return this.mech.Frame.Manufacturer.GetColor(
-        this.$vuetify.theme.current.dark
-      );
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
     },
     visible(): boolean {
       return this.mech.AvailableBonuses.length || this.mount.Bonuses.length;

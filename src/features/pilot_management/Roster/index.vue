@@ -72,7 +72,7 @@
               </v-col>
               <v-col v-if="g.name" cols="auto" class="ml-auto mr-8">
                 <v-menu offset-x left :close-on-content-click="false">
-                  <template v-slot:activator="{ props }">
+                  <template #activator="{ props }">
                     <v-btn dark small icon class="fade-select" v-bind="props">
                       <v-icon icon="mdi-circle-edit-outline" />
                     </v-btn>
@@ -149,7 +149,7 @@
     <v-row density="compact" justify="center">
       <v-col cols="auto">
         <v-menu v-model="newGroupMenu" top :close-on-content-click="false">
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn variant="outlined" color="accent" class="mt-1" v-bind="props">
               <v-icon start>mdi-folder</v-icon>
               Add Group

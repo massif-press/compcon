@@ -26,15 +26,13 @@
           :color="`action--free ${actionFree ? 'lighten-1' : ''}`"
           @click="actionFree = !actionFree"
         >
-          <v-icon start small>cc:free-action</v-icon>
+          <v-icon start small>cc:free_action</v-icon>
           Free Action
           <cc-tooltip
             inline
             :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
           >
-            <v-icon end small class="fade-select"
-              >mdi-information-outline</v-icon
-            >
+            <v-icon end small class="fade-select">mdi-information-outline</v-icon>
           </cc-tooltip>
         </v-btn>
       </v-col>
@@ -52,19 +50,14 @@
             <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
               <div class="text-overline mb-n2">Attack Roll</div>
               <div class="heading text-text" style="font-size: 24pt">
-                <v-icon size="x-large" class="mr-n1"
-                  >mdi-dice-d20-outline</v-icon
-                >
+                <v-icon size="x-large" class="mr-n1">mdi-dice-d20-outline</v-icon>
                 + {{ mech.AttackBonus }}
               </div>
             </v-col>
             <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
               <div class="text-overline mb-n3">vs. Target</div>
               <v-icon size="x-large" v-html="'cc:evasion'" />
-              <div
-                class="text-overline font-weight-bold mt-n2"
-                v-html="'Evasion'"
-              />
+              <div class="text-overline font-weight-bold mt-n2" v-html="'Evasion'" />
             </v-col>
           </v-row>
         </v-col>
@@ -76,11 +69,7 @@
           >
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Accuracy</div>
@@ -102,11 +91,7 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Difficulty</div>
@@ -128,11 +113,7 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Melee Attack Roll</div>
@@ -195,8 +176,8 @@
       <v-row v-if="succeeded" no-gutters class="mt-2">
         <v-col cols="auto" class="ml-auto" align="end">
           <div class="body-text text-stark font-weight-bold">
-            Your target is knocked PRONE and you may also choose to knock them
-            back by one space, directly away from you
+            Your target is knocked PRONE and you may also choose to knock them back by one space,
+            directly away from you
           </div>
         </v-col>
       </v-row>

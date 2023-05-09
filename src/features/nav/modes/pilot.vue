@@ -5,7 +5,7 @@
     </router-link>
     <v-divider v-if="pilot" vertical dark class="ml-2 mr-2" />
     <v-menu v-if="pilot" nudge-bottom="35px" open-on-hover>
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <v-btn light tile color="white" elevation="0" v-bind="props">
           {{ pilot.Callsign }}
           <v-icon light>arrow_drop_down</v-icon>

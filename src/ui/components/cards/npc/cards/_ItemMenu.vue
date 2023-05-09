@@ -1,10 +1,8 @@
 <template>
   <div class="d-inline-block">
     <v-menu offset-x left>
-      <template v-slot:activator="{ props }">
-        <v-icon icon dark class="fade-select mt-n1" v-bind="props"
-          >mdi-cog</v-icon
-        >
+      <template #activator="{ props }">
+        <v-icon icon dark class="fade-select mt-n1" v-bind="props">mdi-cog</v-icon>
       </template>
       <v-list density="compact">
         <v-list-item :disabled="item.Tier === 3" @click="upgradeTier()">
@@ -46,9 +44,7 @@
               <v-icon color="error">mdi-delete</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              <v-list-item-title
-                >Remove {{ item.Feature.FeatureType }}</v-list-item-title
-              >
+              <v-list-item-title>Remove {{ item.Feature.FeatureType }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </div>

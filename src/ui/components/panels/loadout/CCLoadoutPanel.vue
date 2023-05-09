@@ -12,22 +12,13 @@
     >
       <v-toolbar-title style="max-height: 30px" class="mt-n4">
         <v-menu offset-y top>
-          <template v-slot:activator="{ props }">
-            <v-icon start class="fade-select mt-n2" v-bind="props"
-              >mdi-menu</v-icon
-            >
+          <template #activator="{ props }">
+            <v-icon start class="fade-select mt-n2" v-bind="props">mdi-menu</v-icon>
           </template>
           <v-list class="px-2 py-3">
-            <v-list-item-subtitle class="overline"
-              >Available Loadouts</v-list-item-subtitle
-            >
-            <v-list-item
-              v-for="(l, i) in loadouts"
-              @click="$emit('set-active', l)"
-            >
-              <v-list-item-title class="stat-text">{{
-                l.Name
-              }}</v-list-item-title>
+            <v-list-item-subtitle class="overline">Available Loadouts</v-list-item-subtitle>
+            <v-list-item v-for="(l, i) in loadouts" @click="$emit('set-active', l)">
+              <v-list-item-title class="stat-text">{{ l.Name }}</v-list-item-title>
             </v-list-item>
             <v-list-item v-if="!readonly" @click="$emit('add-loadout')">
               <v-list-item-title class="text-accent font-weight-bold">
@@ -38,11 +29,7 @@
           </v-list>
         </v-menu>
         <span class="l-title">
-          <cc-short-string-editor
-            v-if="!readonly"
-            inline
-            @set="activeLoadout.Name = $event"
-          >
+          <cc-short-string-editor v-if="!readonly" inline @set="activeLoadout.Name = $event">
             {{ activeLoadout.Name }}
           </cc-short-string-editor>
           <span v-else>{{ activeLoadout.Name }}</span>
@@ -54,14 +41,8 @@
           <v-icon icon="mdi-content-duplicate" />
         </v-btn>
         <v-menu v-model="confirmMenu" offset-y top>
-          <template v-slot:activator="{ props }">
-            <v-btn
-              small
-              icon
-              class="fade-select"
-              :disabled="loadouts.length === 1"
-              v-bind="props"
-            >
+          <template #activator="{ props }">
+            <v-btn small icon class="fade-select" :disabled="loadouts.length === 1" v-bind="props">
               <v-icon icon="delete" />
             </v-btn>
           </template>

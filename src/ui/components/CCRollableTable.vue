@@ -1,18 +1,8 @@
 <template>
   <v-card flat>
-    <v-alert
-      variant="outlined"
-      style="border-width: 3px !important"
-      class="pa-2"
-      :color="color"
-    >
+    <v-alert variant="outlined" style="border-width: 3px !important" class="pa-2" :color="color">
       <v-card-text class="pa-0 ma-0">
-        <v-row
-          v-if="print"
-          density="compact"
-          align="center"
-          justify="space-between"
-        >
+        <v-row v-if="print" density="compact" align="center" justify="space-between">
           <v-col class="heading h3">{{ table.Title }}</v-col>
           <v-col cols="auto" class="heading h4 text-grey">
             Roll {{ table.Mult }}D{{ table.Die }}
@@ -60,7 +50,7 @@
           </v-col>
           <v-col cols="auto">
             <v-menu offset-x bottom>
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-btn small color="primary" class="fade-select" v-bind="props">
                   <v-icon start>mdi-reload</v-icon>
                   Rebuild table
@@ -68,43 +58,32 @@
               </template>
               <v-card>
                 <v-card-text>
-                  Do you want to rebuild this table? This will clear out the
-                  current data. This action cannot be undone.
+                  Do you want to rebuild this table? This will clear out the current data. This
+                  action cannot be undone.
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn small color="error" @click="generate"
-                    >Confirm Rebuild</v-btn
-                  >
+                  <v-btn small color="error" @click="generate">Confirm Rebuild</v-btn>
                 </v-card-actions>
               </v-card>
             </v-menu>
           </v-col>
           <v-col cols="auto">
             <v-menu v-if="!noDelete" offset-x left>
-              <template v-slot:activator="{ props }">
-                <v-btn
-                  small
-                  icon
-                  color="error"
-                  class="fade-select"
-                  v-bind="props"
-                >
+              <template #activator="{ props }">
+                <v-btn small icon color="error" class="fade-select" v-bind="props">
                   <v-icon icon="mdi-delete" />
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text>
-                  Do you want to delete this table? This action cannot be
-                  undone.
+                  Do you want to delete this table? This action cannot be undone.
                 </v-card-text>
                 <v-divider />
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn small color="error" @click="$emit('delete')"
-                    >Confirm Deletion</v-btn
-                  >
+                  <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
                 </v-card-actions>
               </v-card>
             </v-menu>
@@ -113,9 +92,7 @@
         <v-simple-table class="my-2 px-1">
           <tr
             v-for="(r, i) in table.Results"
-            :class="`${print ? 'py-2' : ''} ${
-              i % 2 !== 0 ? 'light-panel' : ''
-            }`"
+            :class="`${print ? 'py-2' : ''} ${i % 2 !== 0 ? 'light-panel' : ''}`"
           >
             <td class="text-center heading h4" style="width: 75px">
               <span v-if="r.min === r.max">{{ r.max }}</span>

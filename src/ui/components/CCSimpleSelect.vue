@@ -1,9 +1,7 @@
 <template>
   <v-menu offset-y>
-    <template v-slot:activator="{ props }">
-      <v-icon small class="fade-select" v-bind="props"
-        >mdi-circle-edit-outline</v-icon
-      >
+    <template #activator="{ props }">
+      <v-icon small class="fade-select" v-bind="props">mdi-circle-edit-outline</v-icon>
     </template>
     <v-list density="compact">
       <v-list-item v-for="(item, i) in items" @click="$emit('set', item.value)">

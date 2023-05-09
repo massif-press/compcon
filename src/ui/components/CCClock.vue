@@ -7,37 +7,23 @@
             <v-col cols="12" class="heading h3 text-center">
               {{ clock.Title }}
               <span v-if="!print">
-                <v-btn
-                  small
-                  icon
-                  class="fade-select"
-                  @click="editDialog = true"
-                >
+                <v-btn small icon class="fade-select" @click="editDialog = true">
                   <v-icon icon="mdi-circle-edit-outline" />
                 </v-btn>
                 <v-menu v-if="!noDelete" offset-x left>
-                  <template v-slot:activator="{ props }">
-                    <v-btn
-                      small
-                      icon
-                      color="error"
-                      class="fade-select"
-                      v-bind="props"
-                    >
+                  <template #activator="{ props }">
+                    <v-btn small icon color="error" class="fade-select" v-bind="props">
                       <v-icon icon="mdi-delete" />
                     </v-btn>
                   </template>
                   <v-card>
                     <v-card-text>
-                      Do you want to delete this clock? This action cannot be
-                      undone.
+                      Do you want to delete this clock? This action cannot be undone.
                     </v-card-text>
                     <v-divider />
                     <v-card-actions>
                       <v-spacer />
-                      <v-btn small color="error" @click="$emit('delete')"
-                        >Confirm Deletion</v-btn
-                      >
+                      <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-menu>
@@ -52,9 +38,7 @@
               >
                 <div class="background text-accent" style="border-radius: 2px">
                   <b v-if="print">&emsp; / {{ clock.Segments }}&nbsp;</b>
-                  <b v-else
-                    >&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b
-                  >
+                  <b v-else>&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b>
                 </div>
               </v-progress-linear>
             </v-col>
@@ -85,12 +69,7 @@
 
       <v-row v-else density="compact" align="center">
         <v-col cols="auto">
-          <v-progress-circular
-            :size="size"
-            :width="size / 5"
-            :value="total"
-            :color="color"
-          >
+          <v-progress-circular :size="size" :width="size / 5" :value="total" :color="color">
             <b v-if="print">&emsp;&nbsp; /{{ clock.Segments }}&nbsp;</b>
             <b v-else>{{ progress }} / {{ clock.Segments }}</b>
           </v-progress-circular>
@@ -103,28 +82,19 @@
                 <v-icon icon="mdi-circle-edit-outline" />
               </v-btn>
               <v-menu offset-x left>
-                <template v-slot:activator="{ props }">
-                  <v-btn
-                    small
-                    icon
-                    color="error"
-                    class="fade-select"
-                    v-bind="props"
-                  >
+                <template #activator="{ props }">
+                  <v-btn small icon color="error" class="fade-select" v-bind="props">
                     <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
                 <v-card>
                   <v-card-text>
-                    Do you want to delete this clock? This action cannot be
-                    undone.
+                    Do you want to delete this clock? This action cannot be undone.
                   </v-card-text>
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn small color="error" @click="$emit('delete')"
-                      >Confirm Deletion</v-btn
-                    >
+                    <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-menu>
@@ -184,23 +154,14 @@
               </v-progress-linear>
             </div>
             <div v-else density="compact">
-              <v-progress-circular
-                :size="size"
-                :width="size / 5"
-                :value="total"
-                :color="color"
-              >
+              <v-progress-circular :size="size" :width="size / 5" :value="total" :color="color">
                 <b>{{ progress }} / {{ clock.Segments }}</b>
               </v-progress-circular>
             </div>
           </div>
           <v-row>
             <v-col>
-              <v-text-field
-                v-model="clock.Title"
-                label="Title"
-                @change="$emit('change')"
-              />
+              <v-text-field v-model="clock.Title" label="Title" @change="$emit('change')" />
             </v-col>
             <v-col cols="2">
               <v-text-field

@@ -9,10 +9,10 @@
           density="compact"
           @click="selected = (item as any).ID"
         >
-          <template v-slot:prepend>
+          <template #prepend>
             <v-icon class="ml-2" :icon="getIcon(item)" />
           </template>
-          <template v-slot:title>
+          <template #title>
             <b v-text="(item as any).Name" />
           </template>
         </v-list-item>
@@ -57,8 +57,7 @@ export default {
   methods: {
     getIcon(item: any) {
       if (item.IsExotic) return 'mdi-star';
-      else if (item.Source && item.Manufacturer)
-        return 'cc:' + item.Manufacturer.Icon;
+      else if (item.Source && item.Manufacturer) return 'cc:' + item.Manufacturer.Icon;
       else return 'cc:trait';
     },
   },

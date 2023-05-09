@@ -1,8 +1,4 @@
-import {
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router';
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router';
 // import encounterRoutes from './features/encounters/routes'
 import gmRoutes from './features/gm/routes';
 import pilotRoutes from './features/pilot_management/routes';
@@ -29,7 +25,7 @@ const router = createRouter({
     },
     ...compendiumRoutes.map((route) => ({
       ...route,
-      path: (route.path = '/compendium/' + route.path),
+      path: (route.path = '/srd/' + route.path),
     })),
     ...pilotRoutes.map((route) => ({
       ...route,

@@ -1,6 +1,6 @@
 <template>
   <v-col :cols="cols">
-    <v-hover v-slot:default="{ hover }">
+    <v-hover #default="{ hover }">
       <v-card
         id="underline-parent"
         :class="`clipped-x-large ${hover ? 'on-hover' : ''}`"
@@ -29,13 +29,7 @@
           :style="`display: inline-block; position: absolute; width: 100%; top: 0; left: 0;`"
         >
           <span
-            style="
-              position: absolute;
-              top: 0;
-              right: 0;
-              display: contents;
-              font-size: 22pt;
-            "
+            style="position: absolute; top: 0; right: 0; display: contents; font-size: 22pt"
             class="underline-slide px-4 heading h2"
           >
             {{ name }}

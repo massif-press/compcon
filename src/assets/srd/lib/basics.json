@@ -1,0 +1,162 @@
+[
+  {
+    "title": {
+      "en": "Overview"
+    },
+    "content": {
+      "en": "<p>The Lancer TTRPG (Tabletop Roleplaying Game) is a science-fiction RPG designed by Miguel Lopez and Tom Parkinson-Morgan, published by Massif Press. It is a game about mech combat in a distant future where humanity has spread to the stars.</p><p>Lancer offers deep, modular mech customization, a wide range of player backgrounds and hooks to prompt storytelling, and a system and setting with room for any narrative you and your group want to tell. It’s best with a group of 3-5 players, and can be used to run a one-shot session or persistent campaign. </p>"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Safety"
+        },
+        "content": {
+          "en": "<p>Lancer is a game that involves war, combat, and facing the terrors of the galaxy &ndash; human-made or otherwise &ndash; but this does not mean a GM should force their players to encounter scenarios or content that could be triggering or harmful. If there is any canon assumption that would cause you or your players to feel unsafe or distressed, then it does not need to be included.&nbsp;</p> <p>We recommend utilizing tools such as:&nbsp;</p> <p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">The X Card</a> </p> <p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">The Script Change Toolbox</a></p> <p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">The RPG Safety Toolkit</a></p> <p>The point of a roleplaying game is ultimately to have fun; as such, ensuring that everyone at your table can comfortably enjoy themselves always comes first.</p>"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "The Golden Rules"
+    },
+    "content": {
+      "en": "<p>There are two golden rules to remember when playing Lancer:&nbsp;</p> <p><strong>I: Specific rules override general statements and rules.</strong></p><p><em>For example, when you shoot at an enemy, your roll is normally influenced by whether they&rsquo;re in cover; however, <strong>SEEKING </strong>weapons ignore cover. Because the <strong>SEEKING </strong>tag is a specific rule, it supersedes the general rules governing cover.&nbsp;</em></p><p><strong>II: Always round up (to the nearest whole number).</strong></p>"
+    }
+  },
+  {
+    "title": {
+      "en": "Skill Checks, Attacks, and Saves"
+    },
+    "content": {
+      "en": "<p>There are three types of dice rolls in Lancer: <strong>skill checks</strong>, <strong>attacks</strong>, and <strong>saves</strong>.&nbsp;</p> <p>In narrative play, you will only need to worry about the first of these. In mech combat you will use all three.&nbsp;</p> <p>You make <strong>skill checks</strong> when your character is in a challenging or tense situation that requires effort to overcome. When you want to act in such a situation, state your objective (e.g., break down the door, decrypt the data, or sweet-talk the guard), then roll <strong>1d20</strong>, and add any relevant bonuses. On a total of <strong>10+</strong>, you succeed. A result of<strong>&nbsp;9 or less</strong> means you failed to accomplish your goal and may suffer consequences as a result. Although the GM can&rsquo;t change the target number (<strong>10</strong>), they have access to several tools that are explained later (p. 45-47), such as declaring a skill challenge or deciding that your action is <strong>DIFFICULT </strong>or <strong>RISKY</strong>.&nbsp;</p> <p>In mech combat, <strong>attacks </strong>are any offensive actions against other characters, like firing a weapon or hacking into an opponent&rsquo;s mech. Attack rolls are similar to skill checks &ndash; you roll <strong>1d20</strong> and add any bonuses &ndash; but the target number isn&rsquo;t always <strong>10</strong>, and usually depends on the defensive capabilities of your target. For an attack to be successful it needs to equal or exceed the target&rsquo;s defense. Successful attacks are described as &ldquo;<strong>hits</strong>&rdquo; - so if the rules tell you that an effect happens &ldquo;<strong>on hit</strong>&rdquo;, that means it takes place when you make a successful attack. Some attacks also result in <strong>critical hits</strong>. On a roll of <strong>20+</strong> you perform a critical hit, which allows you to deal more damage or sometimes trigger extra effects.&nbsp;</p> <p>Although there are different types of attacks, including ranged, melee, and tech attacks, they all use the same basic rules described here.&nbsp;</p> <p>Lastly, <strong>saves </strong>are rolls made to avoid or resist negative effects in mech combat. You might roll a save to prevent a hacker wrecking your systems, to avoid being blinded by a flash grenade, or to dive away from an explosion. To save, you roll <strong>1d20</strong> and add any bonuses, but the target number can differ from <strong>10 </strong>as it can with attacks. The target number for a save usually depends on the abilities of the attacker. If you equal or exceed this number, you succeed; if your roll is lower, you fail. The outcome of each result will depend on what you are trying to avoid.</p>"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Contested Checks"
+        },
+        "content": {
+          "en": "<p>In some cases, the rules will tell you to make a contested check, representing a challenge between two parties. In a<strong>&nbsp;contested check</strong>, both participants make skill checks and add any bonuses. Whoever has the highest result wins. If the result is a tie, the attacker &ndash; the one who initiated the contest &ndash; wins.&nbsp;</p> <p>You might make contested checks in both narrative play and mech combat.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Choosing to Fail"
+        },
+        "content": {
+          "en": "<p>You may always choose to fail a skill check or save. You might do this if an ally is trying to help you out or even just because you think failing would create a more interesting story.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Bonuses"
+        },
+        "content": {
+          "en": "<p>There are three kinds of bonuses that can be applied to rolls in Lancer:&nbsp;</p> <ul> <li><strong>ACCURACY</strong></li> <li><strong>DIFFICULTY</strong></li> <li><strong>STATISTIC BONUSES</strong></li> </ul><br><p><strong>ACCURACY&nbsp;</strong>and <strong>DIFFICULTY&nbsp;</strong>represent momentary advantages or disadvantages.<strong>Statistic bonuses</strong> come from three sources: your pilot&rsquo;s talent and experience (<strong>triggers</strong>), their skill with mechs (<strong>mech skills</strong>), and their <strong>GRIT</strong>. Each roll can only benefit from one statistic bonus at a time. In many cases, none of these bonuses will apply and you will just roll <strong>1d20</strong>.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Accuracy and Difficulty"
+        },
+        "content": {
+          "en": "<p>In some cases, the rules will tell you to make a contested check, representing a challenge between two parties. In a<strong>&nbsp;contested check</strong>, both participants make skill checks and add any bonuses. Whoever has the highest result wins. If the result is a tie, the attacker &ndash; the one who initiated the contest &ndash; wins.&nbsp;</p> <p>You might make contested checks in both narrative play and mech combat.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Grit"
+        },
+        "content": {
+          "en": "<p>In some cases, the rules will tell you to make a contested check, representing a challenge between two parties. In a<strong>&nbsp;contested check</strong>, both participants make skill checks and add any bonuses. Whoever has the highest result wins. If the result is a tie, the attacker &ndash; the one who initiated the contest &ndash; wins.&nbsp;</p> <p>You might make contested checks in both narrative play and mech combat.</p>"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Tracking Progress"
+    },
+    "content": {
+      "en": "<p>Unlike in other roleplaying games, in Lancer you don&rsquo;t need to track currency. Your access to mechs, gear, upgrades, talents, and other character options is instead restricted by <strong>licenses</strong>. Licenses represent access to the valuable information, resources, and authority required to acquire mech gear and parts. They are tightly controlled by the major powers in Lancer and allow their holders unlimited access to their included gear.&nbsp;</p> <p>In Lancer, your pilot progresses by completing missions and gaining <strong>license levels (LL)</strong>. Your <strong>LL&nbsp;</strong>applies to both your pilot and your mech &ndash; as you level up, both parts of your character become stronger and gain access to more advanced gear and combat techniques. Increasing it allows you to unlock new manufacturer licenses, opening the door to exclusive gear and mechs. Leveling up also allows your pilot to improve their <strong>triggers</strong>, <strong>mech skills</strong>, and <strong>GRIT</strong>, and lets you choose talents to further customize your play style.&nbsp;</p> <p>A new pilot typically starts at <strong>LL0 </strong>&ndash; an inexperienced rookie &ndash; and levels up to <strong>LL1 </strong>after their first mission, then again after each subsequent mission to a maximum of <strong>LL12</strong>.</p>"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Leveling Up"
+        },
+        "content": {
+          "en": "<p>New players should usually create characters at LL0. Even at this level, your pilot has access to an extensive range of bonuses and gear.&nbsp;</p> <p>LL0 characters start with the following:&nbsp;</p> <ul> <li>A background, which provides bonuses on skill checks.&nbsp;</li> <li>Four +2 pilot triggers.</li> <li>One +2 mech skill or two +1 mech skills.&nbsp;</li> <li>Three rank 1 talents.</li> <li>A license for all General Massive Systems (GMS) gear and weapons, and one mech FRAME - the GMS-SP1 Everest.</li> </ul> <p>When characters complete a mission, whether they succeeded or failed, their LL increases by one and they add:</p> <ul> <li>+2 to an existing trigger or a new trigger at +2.</li> <li>+1 to a mech skill.&nbsp;</li> <li>+1 talent rank to choose a new talent or improve an existing one.&nbsp;</li> <li>+1 license rank to spend on mech talents and licenses.&nbsp;</li> </ul> <p>Leveling up naturally increases a pilot&rsquo;s GRIT, which is equal to 1/2 a pilot&rsquo;s total LL, rounded up. Pilots gain their first point of GRIT at LL1.&nbsp;</p> <p>At every third LL (3, 6, 9, and 12), pilots also get to choose a new core bonus &ndash; a powerful improvement to all mechs they build.</p><p>The most important thing to remember when leveling up is that you only choose or increase the rank of one license at a time, getting access to no more than two weapons or pieces of gear with each increase. Planning out a long-term strategy might seem difficult, but you can always retrofit licenses as you level up, so you’re never locked into decisions. Explore what seems interesting to you and try out different mechs! </p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Reallocating Points"
+        },
+        "content": {
+          "en": "<p>Every time your pilot&rsquo;s <strong>LL </strong>increases, you also have the option to choose one:&nbsp;</p> <ul> <li>Reallocate all ranks from one of your talents to any other talent.</li> <li>Reallocate all ranks from one of your licenses to any other license.</li> <li>Replace one core bonus with another core bonus for which your pilot qualifies.</li> </ul> <p>If reallocating ranks from one license to another means your pilot no longer qualifies for a core bonus, you must replace that core bonus with one you now qualify for.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Clocks"
+        },
+        "content": {
+          "en": "<p>Clocks are an extremely simple tool for GMs to use during narrative play to track complicated tasks, set criteria for success or failure, or ratchet up the tension. Clocks can be used in any Lancer session or campaign.</p> <p>By a &lsquo;clock&rsquo; we mean an actual clock, a little circle that&rsquo;s split into segments. You can draw them out on a piece of paper or a battle map.&nbsp;</p> <p>Clocks aren&rsquo;t meant to be used for every action in the game &ndash; just ones that will take a little more time or skill to complete. They can be used instead of <strong>skill challenges</strong> as they serve a similar purpose. They&rsquo;re intended for use in narrative play, rather than combat.</p> <p>Setting up a clock is very easy. First, decide what the clock represents (or the consequences of filling it up), then draw out a circle with an even number of segments (four, six, eight, ten, or twelve). The more segments a clock has, the more complicated the task is and the longer it will take. Basic clocks should have four or six segments, and a ten or twelve segment clock with take a long time to fill out so only use it for the most complicated or long-term of tasks or goals.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Tracking Tasks"
+            },
+            "content": {
+              "en": "<p>You can set out clocks to track complex tasks or challenges, such as chases, battles, or the invention of a new device in a workshop. These are called <strong>task clocks</strong>. When a character takes an action that relates to a clock and their action is successful or effective (usually a result of <strong>10&ndash;19</strong>), fill in two segments. If they failed or the action was ineffective (usually a result of <strong>0&ndash;9</strong>) fill in either one segment or none. If the action was very effective (or the player rolled a <strong>20+</strong>), fill in three segments. A good way to ensure that a situation stays dynamic is to tick one segment even on a failure, but you don&rsquo;t necessarily have to do so.&nbsp;</p> <p>Using clocks to represent complicated tasks ensures you&rsquo;re only rolling when there&rsquo;s persistent narrative tension, constrains the number of rolls made for any given task, and creates clear parameters for success. It allows the story to progress and means you don&rsquo;t have to waste time lingering on tasks that would otherwise require a lot of rolling, all of which we find extremely effective for speeding up play.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Tracking Progress"
+            },
+            "content": {
+              "en": "<p>You can also use clocks to track the status or time pressure of a larger ongoing situation in the world or campaign, such as a war, a faction&rsquo;s political influence, or an assassination plot. These <strong>progress clocks</strong> tend to move by themselves without any influence from the players. Tick segments on these clocks when the story or campaign moves forward. A good time to do this is after the players complete a period of downtime. When ticking these clocks, tick one segment if the situation progressed a little, two if it progressed as normal, and three if there was great progress. For example, if you have a clock tracking the progress of a war and it&rsquo;s drawing to a close, you might tick three segments on that clock at the end of downtime</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Resolving Clocks"
+            },
+            "content": {
+              "en": "<p>When all of a clock&rsquo;s segments have been filled in, the consequence or outcome that it tracks comes to pass, or the situation it represents is resolved. You can usually erase the clock, but sometimes completing one clock starts another one! You might fill out the <strong>Chase </strong>clock to chase down a bounty hunter, but now you&rsquo;re setting out an <strong>Interrogation </strong>clock to get information from them.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Fail States"
+            },
+            "content": {
+              "en": "<p>You can also create clocks that fill up as a result of failures, rather than successes, establishing fail states for situations. These clocks get filled in as consequences of failed rolls or complications of <strong>RISKY </strong>rolls. For example, if a group of PCs were trying to flee from a band of mercenaries, you might set out two clocks: one that represents the PCs&rsquo; safe escape and one that represents the mercenaries catching up to them and forcing a fight. The <strong>Escape </strong>clock fills up when PCs successfully put some distance between them and their pursuers, while the <strong>Capture </strong>clock fills up when they either fail those actions or have to make trade-offs. You might fill in two segments whenever a PC fails a roll and fill in a single segment if they succeed on a <strong>RISKY </strong>roll.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Un-ticking Clocks"
+            },
+            "content": {
+              "en": "<p>Filled-in clock segments can also be erased if action is taken to reverse an action or situation. In the pursuit scenario described above, for example, the PCs might try something to clear segments from the <strong>Capture </strong>clock instead of filling in segments on the <strong>Escape </strong>clock. This could involve putting down a false trail, blocking off a door, or splitting up.</p>"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Missions, Downtimes and Scenes"
+    },
+    "content": {
+      "en": "<p>Ongoing games of Lancer are usually divided into <strong>missions</strong>, each of which might encompass one play session or several, separated by periods of <strong>downtime</strong>.&nbsp;</p> <p><strong>Missions </strong>have specific goals or objectives that can be completed within a discrete amount of time: destroying a building, breaking into a secure facility to recover vital data, evacuating civilians, uncovering a conspiracy, or holding the line against enemy attack, for example. Missions also provide some preparation time in which you can establish goals, stakes, and equipment for your characters.&nbsp;</p> <p>If your character isn&rsquo;t on a mission, you&rsquo;re in <strong>downtime</strong>. This is the narrative space between missions, in which moment-to-moment action doesn&rsquo;t matter as much and roleplaying matters much more. During downtime you can progress plots, projects, or personal stories, moving the clock forward as much or as little as you want. Days, months, and even years can pass in downtime, depending on the pace of your game.&nbsp;</p> <p>In both missions and downtime, play is divided into <strong>scenes</strong>. A scene is a period of continuous dialogue, action, or activity that has a discrete starting and stopping point. This is called a scene because it&rsquo;s helpful to think about it in cinematic terms: as long as the focus (or &lsquo;camera&rsquo;) is on the players and their action, a scene is happening. When the focus cuts away from the current scene, or the current action naturally ends, that&rsquo;s when the scene should end too.&nbsp;</p> <p>A single combat encounter or a dialogue between characters are both great examples of scenes, but a scene can also be something like a montage.&nbsp;</p> <p>It&rsquo;s important to pay attention to the beginning and end of scenes, as many special character and mech abilities end or reset at the end of a scene.</p>"
+    }
+  }
+]

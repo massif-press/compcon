@@ -4,7 +4,7 @@
     <v-item-group :mandatory="mandatory" :multiple="multiple">
       <v-row density="compact" justify="space-around" align="center">
         <v-col v-for="i in items">
-          <v-item v-slot:default="{ active, toggle }">
+          <v-item #default="{ active, toggle }">
             <v-card
               :color="active ? 'primary' : ''"
               class="d-flex align-center text-center"
@@ -17,14 +17,9 @@
               <v-card-text>
                 <v-scroll-y-transition>
                   <div>
-                    <v-icon v-if="i.icon" :size="multiple ? 40 : 60">{{
-                      i.icon
-                    }}</v-icon>
+                    <v-icon v-if="i.icon" :size="multiple ? 40 : 60">{{ i.icon }}</v-icon>
                     <br v-if="i.icon" />
-                    <span
-                      :class="`font-weight-bold ${active && 'text-white'}`"
-                      >{{ i.text }}</span
-                    >
+                    <span :class="`font-weight-bold ${active && 'text-white'}`">{{ i.text }}</span>
                   </div>
                 </v-scroll-y-transition>
               </v-card-text>

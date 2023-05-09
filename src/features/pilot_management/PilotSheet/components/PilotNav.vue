@@ -4,11 +4,7 @@
     <div v-if="$vuetify.display.mdAndUp" class="d-inline">
       <router-link to="../sheet/0">
         <cc-nav-item :selected="selected === '0'">
-          <cc-tooltip
-            inline
-            delayed
-            content="Pilot IDENT, Status, and Biographical Information"
-          >
+          <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
             DOSSIER
           </cc-tooltip>
         </cc-nav-item>
@@ -42,26 +38,15 @@
       </router-link>
       <router-link to="../sheet/3">
         <cc-nav-item :selected="selected === '3'">
-          <cc-tooltip
-            inline
-            delayed
-            content="Create and Modify Mechs and their Loadouts"
-          >
+          <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
             MECH HANGAR
           </cc-tooltip>
         </cc-nav-item>
       </router-link>
     </div>
     <v-menu v-else open-on-hover>
-      <template v-slot:activator="{ props }">
-        <v-btn
-          light
-          icon
-          color="white"
-          style="z-index: 9"
-          class="unskew pl-1 pr-0"
-          v-bind="props"
-        >
+      <template #activator="{ props }">
+        <v-btn light icon color="white" style="z-index: 9" class="unskew pl-1 pr-0" v-bind="props">
           <v-icon large>mdi-book-open-page-variant</v-icon>
           <v-icon icon="arrow_drop_up" />
         </v-btn>
@@ -117,12 +102,7 @@
       delayed
       :content="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'"
     >
-      <v-btn
-        icon
-        class="unskew ml-6"
-        :disabled="!isAuthed"
-        @click="$refs.share.show()"
-      >
+      <v-btn icon class="unskew ml-6" :disabled="!isAuthed" @click="$refs.share.show()">
         <v-icon color="white">mdi-code-json</v-icon>
       </v-btn>
     </cc-tooltip>
@@ -130,7 +110,7 @@
       <edit-menu :pilot="pilot" class="unskew" style="display: inline-block" />
     </cc-tooltip>
     <v-menu offset-y top right absolute>
-      <template v-slot:activator="{ on: menu }">
+      <template #activator="{ on: menu }">
         <cc-tooltip inline delayed content="Pilot Sheet Layout Options">
           <v-btn class="unskew ml-2" icon dark v-on="menu">
             <v-icon icon="mdi-view-grid-plus" />
@@ -138,9 +118,7 @@
         </cc-tooltip>
       </template>
       <v-list subheader>
-        <div class="heading h2 text-white primary py-0 px-4">
-          Layout Options
-        </div>
+        <div class="heading h2 text-white primary py-0 px-4">Layout Options</div>
         <v-list-item-group>
           <v-list-item @click="$emit('set', 'tabbed')">
             <v-list-item-icon class="ma-0 mr-2 mt-3">
@@ -231,10 +209,7 @@ export default {
         this.$notify('Pilot synced to remote', 'success');
       } catch (error) {
         console.error(error);
-        this.$notify(
-          'An error occurred while attempting to download remote data',
-          'error'
-        );
+        this.$notify('An error occurred while attempting to download remote data', 'error');
       }
       this.loading = false;
     },

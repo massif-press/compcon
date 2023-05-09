@@ -2,7 +2,7 @@
   <v-row no-gutters align="start">
     <v-col
       v-if="$vuetify.display.mdAndUp"
-      style="width: 12vw; position: fixed"
+      style="width: 12vw; min-width: 200px; position: fixed"
       class="pt-2"
     >
       <slot name="alt" />
@@ -18,7 +18,9 @@
       :style="$vuetify.display.mdAndUp ? 'margin-left: 12vw' : ''"
       :class="$vuetify.display.mdAndUp ? 'pl-7 mr-7' : ''"
     >
-      <slot />
+      <v-container class="pt-0">
+        <slot />
+      </v-container>
     </v-col>
   </v-row>
 </template>

@@ -11,7 +11,7 @@
     loading-text="Loading Content Pack Data..."
   >
     <!-- Download -->
-    <template v-slot:[`item.website`]="{ item }">
+    <template #[`item.website`]="{ item }">
       <cc-tooltip content="Download">
         <v-btn target="_blank" :href="item.link" fab small color="secondary">
           <v-icon color="anti">open_in_new</v-icon>
@@ -19,13 +19,13 @@
       </cc-tooltip>
     </template>
     <!-- Name -->
-    <template v-slot:[`item.name`]="{ item }">
+    <template #[`item.name`]="{ item }">
       <span class="title">
         {{ item.title }}
       </span>
     </template>
     <!-- Version -->
-    <template v-slot:[`item.version`]="{ item }">
+    <template #[`item.version`]="{ item }">
       <span class="packVersion">
         {{ item.version }}
         <span v-if="packInstalled(item)">
@@ -37,24 +37,20 @@
           >
             <v-icon color="accent">mdi-alert</v-icon>
           </cc-tooltip>
-          <cc-tooltip
-            v-else
-            inline
-            content="This content pack is installed and up-to-date"
-          >
+          <cc-tooltip v-else inline content="This content pack is installed and up-to-date">
             <v-icon color="success">mdi-check</v-icon>
           </cc-tooltip>
         </span>
       </span>
     </template>
     <!-- Version -->
-    <template v-slot:[`item.cost`]="{ item }">
+    <template #[`item.cost`]="{ item }">
       <span class="cost">
         {{ item.cost }}
       </span>
     </template>
     <!-- Expanded view -->
-    <template v-slot:expanded-item="{ item, headers }">
+    <template #expanded-item="{ item, headers }">
       <td :colspan="headers.length" class="py-4 px-6 w-100 light-panel">
         <v-row>
           <v-col>
@@ -65,12 +61,7 @@
 
             <div v-if="item.website" class="mt-2">
               <v-divider class="ma-1" />
-              <v-btn
-                target="_blank"
-                :href="item.website"
-                text
-                color="secondary"
-              >
+              <v-btn target="_blank" :href="item.website" text color="secondary">
                 <v-icon prepend left>open_in_new</v-icon>
                 Author's Website
               </v-btn>
@@ -133,9 +124,7 @@ export default {
   },
   methods: {
     packInstalled(item) {
-      return this.contentPacks.some(
-        (x) => x.Name === item.name || x.Name === item.title
-      );
+      return this.contentPacks.some((x) => x.Name === item.name || x.Name === item.title);
     },
     packOutdated(item) {
       const installedPack = this.contentPacks.find(

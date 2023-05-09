@@ -1,7 +1,7 @@
 <template>
   <div class="d-inline-flex ma-2" :style="`min-width: ${minWidth};`">
     <v-hover :style="`min-width: ${minWidth}`">
-      <template v-slot:default="{ hover }">
+      <template #default="{ hover }">
         <v-card
           class="card-outline"
           :min-height="minWidth"
@@ -21,34 +21,20 @@
             }; background-color: rgb(var(--v-theme-primary)); transition: opacity 0.2s;`"
           >
             <div
-              :class="`heading ${
-                small || mobile ? 'h3' : 'h2'
-              } text-white flavor-text ml-2`"
+              :class="`heading ${small || mobile ? 'h3' : 'h2'} text-white flavor-text ml-2`"
               style="letter-spacing: 3px; text-overflow: ellipsis"
             >
               {{ pilot.Callsign }}
             </div>
           </div>
-          <div
-            v-show="!(small && mobile)"
-            :class="small ? 'small-triangle' : 'triangle'"
-          />
-          <div
-            v-show="!(small && mobile)"
-            class="ll text-white"
-            style="line-height: 25px"
-          >
+          <div v-show="!(small && mobile)" :class="small ? 'small-triangle' : 'triangle'" />
+          <div v-show="!(small && mobile)" class="ll text-white" style="line-height: 25px">
             <div v-if="!small" class="text-overline mb-n1 text-right">LL</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
             </div>
           </div>
-          <v-img
-            :src="pilot.Portrait"
-            position="top center"
-            height="100%"
-            :aspect-ratio="1"
-          />
+          <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" />
           <v-fade-transition>
             <v-overlay
               v-if="hover && !small"
@@ -75,24 +61,14 @@
                   <div>
                     <span v-for="(s, i) in pilot.TalentsController.Talents">
                       {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
-                      {{
-                        i + 1 !== pilot.TalentsController.Talents.length
-                          ? '-'
-                          : ''
-                      }}
+                      {{ i + 1 !== pilot.TalentsController.Talents.length ? '-' : '' }}
                     </span>
                   </div>
                   <v-divider />
                   <div>
-                    <span
-                      v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
-                    >
+                    <span v-for="(b, i) in pilot.CoreBonusController.CoreBonuses">
                       {{ b.Name }}
-                      {{
-                        i + 1 !== pilot.CoreBonusController.CoreBonuses.length
-                          ? '-'
-                          : ''
-                      }}
+                      {{ i + 1 !== pilot.CoreBonusController.CoreBonuses.length ? '-' : '' }}
                     </span>
                   </div>
                   <div v-if="pilot.ActiveMech">

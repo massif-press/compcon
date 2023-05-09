@@ -1,9 +1,7 @@
 <template>
   <div>
     <div class="px-12">
-      <v-btn block color="primary" @click="dialog = true"
-        >Select Bond Powers</v-btn
-      >
+      <v-btn block color="primary" @click="dialog = true">Select Bond Powers</v-btn>
       <v-row no-gutters justify="end">
         <v-col cols="auto">
           <v-btn
@@ -20,32 +18,15 @@
     </div>
     <v-dialog v-model="dialog" fullscreen style="overflow-y: hidden">
       <v-card>
-        <v-toolbar
-          flat
-          tile
-          density="compact"
-          color="blue-grey darken-4"
-          class="text-white"
-        >
+        <v-toolbar flat tile density="compact" color="blue-grey darken-4" class="text-white">
           Select Bond powers
           <v-spacer />
-          <v-btn icon dark @click="dialog = false"
-            ><v-icon icon="mdi-close"
-          /></v-btn>
+          <v-btn icon dark @click="dialog = false"><v-icon icon="mdi-close" /></v-btn>
         </v-toolbar>
         <v-row no-gutters>
           <v-col cols="3" style="max-width: 325px !important">
-            <v-list
-              density="compact"
-              nav
-              class="side-fixed mt-n1"
-              color="panel"
-            >
-              <v-list-item
-                color="accent"
-                selectable
-                @click="featureSet = 'all'"
-              >
+            <v-list density="compact" nav class="side-fixed mt-n1" color="panel">
+              <v-list-item color="accent" selectable @click="featureSet = 'all'">
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
                     <b>{{ pilot.BondController.Bond.Name }}</b>
@@ -53,11 +34,7 @@
                   </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item
-                color="accent"
-                selectable
-                @click="featureSet = 'assigned'"
-              >
+              <v-list-item color="accent" selectable @click="featureSet = 'assigned'">
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
                     <b>All Selected Powers</b>
@@ -69,11 +46,9 @@
               <v-divider />
 
               <v-list-group no-action color="accent">
-                <template v-slot:activator>
+                <template #activator>
                   <v-list-item-content>
-                    <v-list-item-title class="heading h6"
-                      >Other Bonds</v-list-item-title
-                    >
+                    <v-list-item-title class="heading h6">Other Bonds</v-list-item-title>
                   </v-list-item-content>
                 </template>
 
@@ -95,18 +70,14 @@
           </v-col>
 
           <v-col class="pl-6 pr-8">
-            <v-container
-              style="height: calc(100vh - 35px) !important; overflow-y: scroll"
-            >
+            <v-container style="height: calc(100vh - 35px) !important; overflow-y: scroll">
               <v-row density="compact" align="start" class="mt-n3">
                 <v-col>
                   <span class="heading h3">{{ currentSelection }} Powers</span>
                 </v-col>
                 <v-col>
                   <span class="heading h3">
-                    <b class="text-accent">{{
-                      pilot.BondController.TotalPowerSelections
-                    }}</b>
+                    <b class="text-accent">{{ pilot.BondController.TotalPowerSelections }}</b>
                     Selections Available
                   </span>
                 </v-col>
@@ -149,16 +120,12 @@
                   </v-btn>
                 </v-col>
                 <v-col v-if="!shownPowers.length" cols="12">
-                  <v-alert
-                    v-if="featureSet === 'all'"
-                    variant="outlined"
-                    class="text-center"
-                  >
+                  <v-alert v-if="featureSet === 'all'" variant="outlined" class="text-center">
                     No Bond Power selections remaining
                     <br />
                     <span class="caption text--secondary">
-                      Additional features beyond the reccommended guidelines can
-                      be added by toggling the "Ignore Limit" option above
+                      Additional features beyond the reccommended guidelines can be added by
+                      toggling the "Ignore Limit" option above
                     </span>
                   </v-alert>
                   <v-alert
@@ -172,8 +139,8 @@
                     No Bond Powers available
                     <br />
                     <span class="caption text--secondary">
-                      Additional features beyond the reccommended guidelines can
-                      be added by toggling the "Ignore Limit" option above
+                      Additional features beyond the reccommended guidelines can be added by
+                      toggling the "Ignore Limit" option above
                     </span>
                   </v-alert>
                 </v-col>
@@ -213,16 +180,12 @@ export default {
       }
     },
     shownPowers() {
-      if (
-        !this.pilot.BondController.TotalPowerSelections &&
-        !this.ignoreLimit
-      ) {
+      if (!this.pilot.BondController.TotalPowerSelections && !this.ignoreLimit) {
         if (this.featureSet === 'all')
           return this.pilot.BondController.Bond.Powers.filter((x) =>
             this.pilot.BondController.BondPowers.some((y) => y.name === x.name)
           );
-        if (this.featureSet === 'assigned')
-          return this.pilot.BondController.BondPowers;
+        if (this.featureSet === 'assigned') return this.pilot.BondController.BondPowers;
         return CompendiumStore()
           .Bonds.find((x) => x.ID === this.featureSet)
           .Powers.filter((x) =>
@@ -230,13 +193,10 @@ export default {
           );
       }
 
-      if (this.featureSet === 'all')
-        return this.pilot.BondController.Bond.Powers;
-      if (this.featureSet === 'assigned')
-        return this.pilot.BondController.BondPowers;
+      if (this.featureSet === 'all') return this.pilot.BondController.Bond.Powers;
+      if (this.featureSet === 'assigned') return this.pilot.BondController.BondPowers;
 
-      return CompendiumStore().Bonds.find((x) => x.ID === this.featureSet)
-        .Powers;
+      return CompendiumStore().Bonds.find((x) => x.ID === this.featureSet).Powers;
     },
     Bonds() {
       return CompendiumStore().Bonds.map((x) => ({
@@ -247,15 +207,10 @@ export default {
   },
   methods: {
     hasPower(bond) {
-      return this.pilot.BondController.BondPowers.some(
-        (y) => y.name === bond.name
-      );
+      return this.pilot.BondController.BondPowers.some((y) => y.name === bond.name);
     },
     resetPowers() {
-      this.pilot.BondController.BondPowers.splice(
-        0,
-        this.pilot.BondController.BondPowers.length
-      );
+      this.pilot.BondController.BondPowers.splice(0, this.pilot.BondController.BondPowers.length);
     },
   },
 };

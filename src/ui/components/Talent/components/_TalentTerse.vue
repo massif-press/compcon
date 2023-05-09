@@ -52,7 +52,7 @@
         <v-row align="center" justify="space-around" class="text-center" density="compact">
           <v-col v-for="n in 3" v-show="showFull || (!showFull && rank && Number(rank) >= n)">
             <v-menu open-on-hover top offset-y open-delay="100">
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-btn
                   :block="$vuetify.display.smAndDown"
                   tile

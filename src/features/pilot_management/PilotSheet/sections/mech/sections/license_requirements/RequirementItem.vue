@@ -1,6 +1,6 @@
 <template>
   <v-menu open-on-hover offset-y>
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-chip
         slot="activator"
         label
@@ -16,10 +16,7 @@
     </template>
 
     <v-card tile>
-      <v-card-title
-        v-if="license.missing"
-        class="error text-white font-weight-bolder py-1 my-0"
-      >
+      <v-card-title v-if="license.missing" class="error text-white font-weight-bolder py-1 my-0">
         WARNING: LICENSE MISSING&emsp;
       </v-card-title>
       <v-card-text class="pa-2 text-text">

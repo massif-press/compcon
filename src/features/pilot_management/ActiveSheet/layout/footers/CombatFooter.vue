@@ -1,15 +1,9 @@
 <template>
-  <v-footer
-    fixed
-    style="
-      padding-bottom: 4px;
-      border-top: 2px solid rgb(var(--v-theme-primary));
-    "
-  >
+  <v-footer fixed style="padding-bottom: 4px; border-top: 2px solid rgb(var(--v-theme-primary))">
     <v-row no-gutters justify="space-between" align="center">
       <v-col cols="auto">
         <v-dialog v-model="ecDialog" width="80vw">
-          <template v-slot:activator="{ props }">
+          <template #activator="{ props }">
             <v-btn
               :small="$vuetify.display.mdAndUp"
               :x-small="$vuetify.display.smAndDown"
@@ -20,13 +14,7 @@
             </v-btn>
           </template>
           <v-card>
-            <v-toolbar
-              density="compact"
-              dark
-              flat
-              tile
-              color="warning darken-3 heading h2"
-            >
+            <v-toolbar density="compact" dark flat tile color="warning darken-3 heading h2">
               END COMBAT
             </v-toolbar>
             <v-card-text>
@@ -35,8 +23,8 @@
                 <span class="text-accent">COMP/CON</span>
                 :
                 <span class="stark-text-text">Confirmation Required</span>
-                ] Pilot, proceeding will disengage combat mode and enable rest
-                and repair protocols. This cannot be undone. Continue?
+                ] Pilot, proceeding will disengage combat mode and enable rest and repair protocols.
+                This cannot be undone. Continue?
               </p>
               <v-row justify="center" no-gutters class="mt-n2"></v-row>
               <v-row justify="center" class="mt-2">
@@ -62,13 +50,8 @@
       <v-col cols="auto">
         <v-row density="compact">
           <v-col cols="auto">
-            <v-menu
-              v-if="state.InTurn"
-              v-model="turnConfirm"
-              close-on-content-click
-              offset-y
-            >
-              <template v-slot:activator="{ props }">
+            <v-menu v-if="state.InTurn" v-model="turnConfirm" close-on-content-click offset-y>
+              <template #activator="{ props }">
                 <v-btn
                   slot="activator"
                   :small="$vuetify.display.mdAndUp"
@@ -81,11 +64,7 @@
                   END TURN
                 </v-btn>
               </template>
-              <cc-confirmation
-                no-cc
-                :content="endTurnConfirm"
-                @confirm="stageEndTurn()"
-              />
+              <cc-confirmation no-cc :content="endTurnConfirm" @confirm="stageEndTurn()" />
             </v-menu>
             <v-btn
               v-else
@@ -101,7 +80,7 @@
 
           <v-col cols="auto">
             <v-menu v-model="roundConfirm" close-on-content-click offset-y>
-              <template v-slot:activator="{ props }">
+              <template #activator="{ props }">
                 <v-btn
                   :small="$vuetify.display.mdAndUp"
                   :x-small="$vuetify.display.smAndDown"
@@ -114,11 +93,7 @@
                   START ROUND {{ state.Round + 1 }}
                 </v-btn>
               </template>
-              <cc-confirmation
-                no-cc
-                :content="nextRoundConfirm"
-                @confirm="stageNextRound()"
-              />
+              <cc-confirmation no-cc :content="nextRoundConfirm" @confirm="stageNextRound()" />
             </v-menu>
           </v-col>
         </v-row>
@@ -136,11 +111,7 @@
                 :actions="state.ActionsByType('Protocol')"
                 :mech="pilot.ActiveMech"
                 :available="state.IsProtocolAvailable"
-                :color="
-                  state.IsProtocolAvailable
-                    ? 'action--protocol'
-                    : 'grey darken-1'
-                "
+                :color="state.IsProtocolAvailable ? 'action--protocol' : 'grey darken-1'"
                 title="PROTOCOLS"
                 @open-menu="openMenu(0)"
                 @open-dialog="openDialog($event)"
@@ -150,19 +121,13 @@
             </cc-tooltip>
           </v-col>
 
-          <v-col
-            v-if="$vuetify.display.lgAndUp && !mech.Pilot.IsDownAndOut"
-            cols="auto"
-          >
+          <v-col v-if="$vuetify.display.lgAndUp && !mech.Pilot.IsDownAndOut" cols="auto">
             <v-divider vertical class="mx-3" />
           </v-col>
 
           <v-col v-if="!mech.Pilot.IsDownAndOut" cols="auto">
             <cc-tooltip inline content="Movement" delayed>
-              <move-menu-button
-                :mech="pilot.ActiveMech"
-                @open-dialog="openDialog($event)"
-              />
+              <move-menu-button :mech="pilot.ActiveMech" @open-dialog="openDialog($event)" />
             </cc-tooltip>
           </v-col>
           <v-col v-if="!mech.Pilot.IsDownAndOut">
@@ -176,9 +141,7 @@
                 @open-menu="openMenu(1)"
                 @open-dialog="openDialog($event)"
               >
-                <v-icon slot="icon" color="white" size="30"
-                  >mdi-hexagon-slice-6</v-icon
-                >
+                <v-icon slot="icon" color="white" size="30">mdi-hexagon-slice-6</v-icon>
               </action-menu-button>
             </cc-tooltip>
           </v-col>
@@ -193,9 +156,7 @@
                 @open-menu="openMenu(2)"
                 @open-dialog="openDialog($event)"
               >
-                <v-icon slot="icon" color="white" size="30"
-                  >mdi-hexagon-slice-3</v-icon
-                >
+                <v-icon slot="icon" color="white" size="30">mdi-hexagon-slice-3</v-icon>
               </action-menu-button>
             </cc-tooltip>
           </v-col>
@@ -225,17 +186,12 @@
                 @open-menu="openMenu(4)"
                 @open-dialog="openDialog($event)"
               >
-                <v-icon slot="icon" color="white" size="35"
-                  >cc:free-action</v-icon
-                >
+                <v-icon slot="icon" color="white" size="35">cc:free_action</v-icon>
               </action-menu-button>
             </cc-tooltip>
           </v-col>
 
-          <v-col
-            v-if="$vuetify.display.lgAndUp && !mech.Pilot.IsDownAndOut"
-            cols="auto"
-          >
+          <v-col v-if="$vuetify.display.lgAndUp && !mech.Pilot.IsDownAndOut" cols="auto">
             <v-divider vertical class="mx-3" />
           </v-col>
 
@@ -284,13 +240,7 @@
       :mech="pilot.ActiveMech"
     />
 
-    <cc-solo-dialog
-      ref="actionMenu"
-      no-confirm
-      title="Actions"
-      large
-      no-title-clip
-    >
+    <cc-solo-dialog ref="actionMenu" no-confirm title="Actions" large no-title-clip>
       <action-menu :tab="menuTab" />
     </cc-solo-dialog>
     <burn-dialog ref="burnDialog" :mech="mech" @complete="endTurn($event)" />
@@ -321,10 +271,8 @@ export default {
     },
     nextRoundConfirm() {
       let str = '';
-      if (this.state.Actions > 0)
-        str += `<div class='px-2'>Actions available</div>`;
-      if (this.state.Move > 0)
-        str += `<div class='px-2'>Movement available</div>`;
+      if (this.state.Actions > 0) str += `<div class='px-2'>Actions available</div>`;
+      if (this.state.Move > 0) str += `<div class='px-2'>Movement available</div>`;
       if (str.length) {
         str = `<div class='text-error'>ALERT::<div>${str}`;
       } else
@@ -334,10 +282,8 @@ export default {
     },
     endTurnConfirm() {
       let str = '';
-      if (this.state.Actions > 0)
-        str += `<div class='px-2'>Actions available</div>`;
-      if (this.state.Move > 0)
-        str += `<div class='px-2'>Movement available</div>`;
+      if (this.state.Actions > 0) str += `<div class='px-2'>Actions available</div>`;
+      if (this.state.Move > 0) str += `<div class='px-2'>Movement available</div>`;
       if (str.length) {
         str = `<div class='text-error'>ALERT::<div>${str}`;
       } else str = '';

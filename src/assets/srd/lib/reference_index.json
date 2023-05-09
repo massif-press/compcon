@@ -1,0 +1,54 @@
+[
+  {
+    "title": {
+      "en": "As a Player"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Pilots"
+        },
+        "content": {
+          "en": "content"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Pilot Roster"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Creating a Pilot"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Managing a Pilot"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Sharing Pilot Data"
+            },
+            "content": {
+              "en": "content"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

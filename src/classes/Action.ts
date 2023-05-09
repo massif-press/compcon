@@ -41,14 +41,15 @@ class Frequency {
   public readonly Uses: number;
   public readonly Duration: ActivePeriod;
   public readonly FreqText: string;
-  private _unlimited: boolean;
+  public readonly Unlimited: boolean;
 
   public constructor(frq: string) {
     this.FreqText = frq;
+    this.Unlimited = false;
     if (!frq || !frq.includes('/')) {
       this.Uses = 1;
       this.Duration = ActivePeriod.Unlimited;
-      this._unlimited = true;
+      this.Unlimited = true;
     } else {
       const fArr = frq.split('/');
       const num = parseInt(fArr[0]);
@@ -58,7 +59,7 @@ class Frequency {
       } else {
         this.Uses = 1;
         this.Duration = ActivePeriod.Unlimited;
-        this._unlimited = true;
+        this.Unlimited = true;
       }
 
       switch (fArr[1].toLowerCase()) {
@@ -78,14 +79,14 @@ class Frequency {
         default:
           this.Uses = Number.MAX_SAFE_INTEGER;
           this.Duration = ActivePeriod.Unlimited;
-          this._unlimited = true;
+          this.Unlimited = true;
           break;
       }
     }
   }
 
   public ToString(): string {
-    if (this._unlimited) return this.Duration;
+    if (this.Unlimited) return this.Duration;
     return `${this.Uses}/${this.Duration}`;
   }
 
@@ -131,7 +132,7 @@ class Action {
   public readonly SynergyLocations: string[];
   public readonly Confirm: string[];
   public readonly Log: string;
-  public Deployable: IDeployableData;
+  public Deployable: IDeployableData | undefined;
   private _uses: number;
   private _used: boolean;
   private _ignore_used: boolean;
@@ -141,9 +142,7 @@ class Action {
   public constructor(data: IActionData, origin?: string, heat?: number) {
     if (data.name) this.Name = data.name;
     else this.Name = `Activate ${origin}` || 'Unknown Action';
-    this.ID = data.id
-      ? data.id
-      : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${uuid()}`;
+    this.ID = data.id ? data.id : `act_${this.Name.toLowerCase().replace(/\s/g, '')}_${uuid()}`;
     this.Origin = origin || '';
     this.IsItemAction = !!origin;
     if (data.synergy_locations)
@@ -151,10 +150,7 @@ class Action {
         ? data.synergy_locations
         : [data.synergy_locations];
     else this.SynergyLocations = [];
-    if (data.confirm)
-      this.Confirm = Array.isArray(data.confirm)
-        ? data.confirm
-        : [data.confirm];
+    if (data.confirm) this.Confirm = Array.isArray(data.confirm) ? data.confirm : [data.confirm];
     else this.Confirm = [`ACTIVATION CONFIRMED.`];
     this.Log = data.log || '';
     this.Activation = data.activation || ActivationType.Quick;
@@ -169,16 +165,15 @@ class Action {
     this._uses = this.Frequency.Uses;
     this.Init = data.init || '';
     this.Trigger = data.trigger || '';
-    if (data.damage) this.Damage = data.damage.map((x) => new Damage(x));
-    if (data.range) this.Range = data.range.map((x) => new Range(x));
-    this.IsPilotAction = data.pilot;
-    this.IsTechAttack = data.tech_attack;
+    this.Damage = data.damage ? data.damage.map((x) => new Damage(x)) : [];
+    this.Range = data.range ? data.range.map((x) => new Range(x)) : [];
+    this.IsPilotAction = data.pilot || false;
+    this.IsTechAttack = data.tech_attack || false;
     this.IsMechAction = data.mech || !data.pilot;
-    this.IsActiveHidden = data.hide_active;
-    this.IsDowntimeAction =
-      data.activation && data.activation.toString() === 'Downtime';
+    this.IsActiveHidden = data.hide_active || false;
+    this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime';
     this._used = false;
-    this._ignore_used = data.ignore_used;
+    this._ignore_used = data.ignore_used || false;
     this._free_used = false;
     this.LastUse = null;
     this._log_id = '';
@@ -251,14 +246,11 @@ class Action {
       case ActivationType.Move:
         return 'mdi-arrow-right-bold-hexagon-outline';
       default:
-        return `cc:${this.Activation.toLowerCase().replace(' ', '-')}`;
+        return `cc:${this.Activation.toLowerCase().replace(' ', '_')}`;
     }
   }
 
-  public static CreateDeployAction(
-    d: IDeployableData,
-    origin?: string
-  ): Action {
+  public static CreateDeployAction(d: IDeployableData, origin?: string): Action {
     const a = new Action(
       {
         id: `deploy_${d.name}_${uuid()}`,
@@ -267,9 +259,7 @@ class Action {
         cost: d.cost || 1,
         detail: '',
         synergy_locations:
-          d.type.toLowerCase() === 'drone'
-            ? ['deployable', 'drone']
-            : ['deployable'],
+          d.type.toLowerCase() === 'drone' ? ['deployable', 'drone'] : ['deployable'],
         pilot: d.pilot,
         confirm: ['DEPLOYING EQUIPMENT.'],
       },
@@ -292,10 +282,8 @@ class Action {
       detail: action.Detail,
       pilot: action.IsPilotAction,
       mech: action.IsMechAction,
-      damage: action.Damage
-        ? action.Damage.map((x) => Damage.Serialize(x))
-        : null,
-      range: action.Range ? action.Range.map((x) => Range.Serialize(x)) : null,
+      damage: action.Damage ? action.Damage.map((x) => Damage.Serialize(x)) : [],
+      range: action.Range ? action.Range.map((x) => Range.Serialize(x)) : [],
       hide_active: action.IsActiveHidden,
       synergy_locations: action.SynergyLocations,
       confirm: action.Confirm,
@@ -307,4 +295,5 @@ class Action {
   }
 }
 
-export { IActionData, Action, ActivePeriod };
+export { Action, ActivePeriod };
+export type { IActionData };

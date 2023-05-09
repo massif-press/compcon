@@ -6,7 +6,7 @@
       <v-row justify="space-between" style="height: 100%">
         <main-btn
           icon="cc:compendium"
-          :to="'/compendium'"
+          :to="'/srd'"
           help="Equipment Database"
           @hover="ccLog('compendium')"
         >
@@ -49,9 +49,7 @@
             title="Unloadble Content Detected"
             content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager."
           >
-            <v-avatar color="white"
-              ><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar
-            >
+            <v-avatar color="white"><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar>
           </cc-tooltip>
         </main-btn>
         <main-btn
@@ -76,16 +74,12 @@
             @click="($refs.loginModal as any).show()"
           >
             <v-icon start>
-              {{
-                userstore.IsLoggedIn ? 'cc:pilot' : 'mdi-account-off-outline'
-              }}
+              {{ userstore.IsLoggedIn ? 'cc:pilot' : 'mdi-account-off-outline' }}
             </v-icon>
             <span>{{ userstore.IsLoggedIn ? 'Connected' : 'Log In' }}</span>
           </v-btn>
         </v-col>
-        <v-col cols="auto" class="ml-1 mr-3"
-          ><v-divider vertical class="d-inline"
-        /></v-col>
+        <v-col cols="auto" class="ml-1 mr-3"><v-divider vertical class="d-inline" /></v-col>
         <v-col cols="auto" class="text-center mr-3">
           <v-btn size="small" dark variant="outlined" @click="bulkExport">
             <v-icon start>mdi-database</v-icon>
@@ -100,7 +94,7 @@
         </v-col>
         <v-col cols="auto" class="text-center">
           <v-dialog v-model="importDialog" width="50%">
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <v-btn size="small" dark variant="outlined" v-bind="props">
                 <v-icon start>mdi-database-refresh</v-icon>
                 Load Data Backup
@@ -112,9 +106,7 @@
                   COMP/CON data. It is <b>strongly</b> recommended to back up
                   your data often."
                 >
-                  <v-icon end class="fade-select"
-                    >mdi-help-circle-outline</v-icon
-                  >
+                  <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </v-btn>
             </template>
@@ -225,12 +217,8 @@
     >
       <options-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"
-      ><about-page
-    /></cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"
-      ><help-page
-    /></cc-solo-dialog>
+    <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
     <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
@@ -304,9 +292,7 @@ export default {
     async bulkImport(file) {
       await importAll(file)
         .then(() => this.$notify('Data import successful', 'confirmation'))
-        .catch((err) =>
-          this.$notify(`ERROR: Unable to import: ${err}`, 'error')
-        );
+        .catch((err) => this.$notify(`ERROR: Unable to import: ${err}`, 'error'));
       this.importDialog = false;
     },
     ccLog(btn: string) {
@@ -354,10 +340,7 @@ export default {
           (this.$refs['log'] as any).print('compcon --v', 'About COMP/CON');
           break;
         case 'help':
-          (this.$refs['log'] as any).print(
-            'compcon --h',
-            'Open the COMP/CON help page'
-          );
+          (this.$refs['log'] as any).print('compcon --h', 'Open the COMP/CON help page');
           break;
         case 'update':
           (this.$refs['log'] as any).print(

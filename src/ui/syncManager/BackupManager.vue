@@ -4,7 +4,7 @@
       <v-row>
         <v-col>
           <v-menu top offset-y>
-            <template v-slot:activator="{ props }">
+            <template #activator="{ props }">
               <v-btn block color="accent" v-bind="props">
                 <v-icon start>mdi-database</v-icon>
                 Create Backup
@@ -12,26 +12,18 @@
             </template>
             <v-card max-width="30vw">
               <v-card-text class="text-center text-stark">
-                This tool will save a snapshot of all local user data and LCP
-                content, including data marked for deletion. It produces a
-                .compcon file that can be loaded from the "Load Backup"
-                interface.
+                This tool will save a snapshot of all local user data and LCP content, including
+                data marked for deletion. It produces a .compcon file that can be loaded from the
+                "Load Backup" interface.
                 <v-divider class="my-3" />
-                <v-btn block color="accent" @click="dataExport()"
-                  >Generate Backup</v-btn
-                >
+                <v-btn block color="accent" @click="dataExport()">Generate Backup</v-btn>
               </v-card-text>
             </v-card>
           </v-menu>
         </v-col>
         <v-col>
-          <v-menu
-            v-model="loadBackupDialog"
-            top
-            offset-y
-            :close-on-content-click="false"
-          >
-            <template v-slot:activator="{ props }">
+          <v-menu v-model="loadBackupDialog" top offset-y :close-on-content-click="false">
+            <template #activator="{ props }">
               <v-btn block color="accent" v-bind="props">
                 <v-icon start>mdi-database-refresh</v-icon>
                 Load Backup
@@ -39,8 +31,8 @@
             </template>
             <v-card max-width="30vw">
               <v-card-text class="text-center text-stark">
-                This tool uses a .compcon file produced by the "Create Backup"
-                option. It will replace
+                This tool uses a .compcon file produced by the "Create Backup" option. It will
+                replace
                 <b>all</b>
                 local data.
                 <v-divider class="my-3" />
@@ -79,13 +71,8 @@
           </v-menu>
         </v-col>
         <v-col>
-          <v-menu
-            v-model="deleteLocal"
-            top
-            offset-y
-            :close-on-content-click="false"
-          >
-            <template v-slot:activator="{ props }">
+          <v-menu v-model="deleteLocal" top offset-y :close-on-content-click="false">
+            <template #activator="{ props }">
               <v-btn block color="error darken-1" v-bind="props">
                 <v-icon start>mdi-delete</v-icon>
                 Delete All Local Data
@@ -120,13 +107,8 @@
           </v-menu>
         </v-col>
         <v-col v-if="username && username.length">
-          <v-menu
-            v-model="deleteCloud"
-            top
-            offset-y
-            :close-on-content-click="false"
-          >
-            <template v-slot:activator="{ props }">
+          <v-menu v-model="deleteCloud" top offset-y :close-on-content-click="false">
+            <template #activator="{ props }">
               <v-btn block color="error darken-1" v-bind="props">
                 <v-icon start>mdi-cloud-alert</v-icon>
                 Delete All Cloud Data
@@ -136,9 +118,8 @@
               <v-card-text class="text-center text-stark">
                 This action will delete
                 <b>all</b>
-                COMP/CON data stored in the cloud under the current user ({{
-                  username
-                }}). Local data will not be affected.
+                COMP/CON data stored in the cloud under the current user ({{ username }}). Local
+                data will not be affected.
                 <v-divider class="my-3" />
                 <v-btn
                   v-model="deleteCloudConfirm"
@@ -197,9 +178,7 @@ export default {
     async importfile() {
       importAll(this.fileValue)
         .then(() => this.$notify('Data import successful', 'confirmation'))
-        .catch((err) =>
-          this.$notify(`ERROR: Unable to import: ${err}`, 'error')
-        )
+        .catch((err) => this.$notify(`ERROR: Unable to import: ${err}`, 'error'))
         .finally(() => {
           this.fileValue = null;
           this.loadBackupDialog = false;
@@ -210,9 +189,7 @@ export default {
     async deleteAll(cloud) {
       clearAllData(cloud)
         .then(() => this.$notify('Data deleted', 'confirmation'))
-        .catch((err) =>
-          this.$notify(`ERROR: Unable to import: ${err}`, 'error')
-        )
+        .catch((err) => this.$notify(`ERROR: Unable to import: ${err}`, 'error'))
         .finally(() => {
           this.deleteCloud = false;
           this.deleteCloudConfirm = false;

@@ -13,18 +13,10 @@
     fixed-header
     show-select
     single-select
-    style="
-      text-transform: uppercase;
-      background-color: transparent;
-      max-width: 100vw !important;
-    "
+    style="text-transform: uppercase; background-color: transparent; max-width: 100vw !important"
   >
-    <template v-slot:[`item.data-table-select`]="{ item }">
-      <div
-        v-if="$vuetify.display.smAndDown"
-        class="text-left"
-        style="display: grid"
-      >
+    <template #[`item.data-table-select`]="{ item }">
+      <div v-if="$vuetify.display.smAndDown" class="text-left" style="display: grid">
         <v-btn
           block
           text
@@ -34,65 +26,44 @@
           {{ item.Name }}
         </v-btn>
       </div>
-      <v-btn
-        v-else
-        x-small
-        fab
-        color="primary"
-        dark
-        @click="$refs[`modal_${item.ID}`].show()"
-      >
+      <v-btn v-else x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
         <v-icon icon="mdi-open-in-new" />
       </v-btn>
-      <cc-solo-dialog
-        :ref="`modal_${item.ID}`"
-        :title="`${item.Source} ${item.Name}`"
-        large
-      >
+      <cc-solo-dialog :ref="`modal_${item.ID}`" :title="`${item.Source} ${item.Name}`" large>
         <cc-item-card :item="item" />
       </cc-solo-dialog>
     </template>
-    <template v-slot:[`item.ItemType`]="{ item }">
+    <template #[`item.ItemType`]="{ item }">
       <v-icon v-html="item.Icon" />
     </template>
-    <template v-slot:[`item.Name`]="{ item }">
-      <span
-        v-if="spDisable && item.SP > sp && !spIgnore"
-        class="stat-text text-subtle"
-      >
+    <template #[`item.Name`]="{ item }">
+      <span v-if="spDisable && item.SP > sp && !spIgnore" class="stat-text text-subtle">
         {{ item.Name }}
         <cc-tooltip inline content="Equipment exceeds System Point capacity">
           <v-icon color="warning">mdi-alert</v-icon>
         </cc-tooltip>
       </span>
-      <span
-        v-else
-        :class="`stat-text ${item.IsExotic ? 'text-amber text-accent-4' : ''}`"
-      >
+      <span v-else :class="`stat-text ${item.IsExotic ? 'text-amber text-accent-4' : ''}`">
         {{ item.Name }}
       </span>
     </template>
-    <template v-slot:[`item.SizeInt`]="{ item }">
+    <template #[`item.SizeInt`]="{ item }">
       {{ item.Size }}
     </template>
-    <!-- <template v-slot:[`item.Damage[0].Max`]="{ item }">
+    <!-- <template #[`item.Damage[0].Max`]="{ item }">
       <cc-damage-element small :damage="e.Damage" />
     </template>
-    <template v-slot:[`item.Range[0].Max`]="{ item }">
+    <template #[`item.Range[0].Max`]="{ item }">
       <cc-range-element small :range="item.Range" />
     </template> -->
-    <template v-slot:[`item.Detail`]="{ item }">
+    <template #[`item.Detail`]="{ item }">
       <v-icon color="accent" @click="$refs[`modal_${item.ID}`].show()">
         mdi-information-outline
       </v-icon>
       <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
     </template>
-    <template v-slot:[`item.Equip`]="{ item }">
-      <div
-        v-if="$vuetify.display.smAndDown"
-        class="text-left pl-0 ml-n6"
-        style="display: grid"
-      >
+    <template #[`item.Equip`]="{ item }">
+      <div v-if="$vuetify.display.smAndDown" class="text-left pl-0 ml-n6" style="display: grid">
         <v-btn color="accent" small tile @click="$emit('equip', item)">
           <v-icon small left>mdi-plus</v-icon>
           Equip {{ item.Name }}
@@ -103,12 +74,8 @@
         Equip
       </v-btn>
     </template>
-    <template v-slot:[`item.Add`]="{ item }">
-      <div
-        v-if="$vuetify.display.smAndDown"
-        class="text-left pl-0 ml-n6"
-        style="display: grid"
-      >
+    <template #[`item.Add`]="{ item }">
+      <div v-if="$vuetify.display.smAndDown" class="text-left pl-0 ml-n6" style="display: grid">
         <v-btn color="accent" small tile @click="$emit('equip', item)">
           <v-icon small left>mdi-plus</v-icon>
           Add {{ item.Name }}

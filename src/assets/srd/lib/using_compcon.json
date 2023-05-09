@@ -1,0 +1,224 @@
+[
+  {
+    "title": {
+      "en": "As a Player"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Pilots"
+        },
+        "content": {
+          "en": "content"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Pilot Roster"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Creating a Pilot"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Managing a Pilot"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Sharing Pilot Data"
+            },
+            "content": {
+              "en": "content"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Mechs"
+        },
+        "content": {
+          "en": "content"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Mech Hangar"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Creating a Mech"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Managing a Mech"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Loadouts"
+            },
+            "content": {
+              "en": "content"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Printable Content"
+        },
+        "content": {
+          "en": "content"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Statblocks"
+            },
+            "content": {
+              "en": "content"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Tracking Combat"
+        },
+        "content": {
+          "en": "content"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Pilot Sheets"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "Combat"
+            },
+            "content": {
+              "en": "content"
+            }
+          },
+          {
+            "title": {
+              "en": "External Tools and Apps"
+            },
+            "content": {
+              "en": "content"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "As a GM"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "NPCs"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Encounters"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Campaigns"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Combat"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Lancer Content Packs"
+    },
+    "content": {
+      "en": "content"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Finding LCPs"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Using LCPs"
+        },
+        "content": {
+          "en": "content"
+        }
+      },
+      {
+        "title": {
+          "en": "Creating LCPs"
+        },
+        "content": {
+          "en": "content"
+        }
+      }
+    ]
+  }
+]

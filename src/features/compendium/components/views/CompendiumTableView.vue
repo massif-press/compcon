@@ -6,16 +6,16 @@
     items-per-page="-1"
     @click:row="openDialog($event)"
   />
-  <!-- <template v-slot:[`item.Frame`]="{ item }">
+  <!-- <template #[`item.Frame`]="{ item }">
       <b class="stat-text" v-text="item.Name" />
     </template> -->
-  <!-- <template v-slot:[`item.SizeInt`]="{ item }">
+  <!-- <template #[`item.SizeInt`]="{ item }">
       <span class="stat-text">{{ item.Size }}</span>
     </template> -->
-  <!-- <template v-slot:[`item.Damage[0].Max`]="{ item }">
+  <!-- <template #[`item.Damage[0].Max`]="{ item }">
       <cc-damage-element small :damage="item.Damage" />
     </template>
-    <template v-slot:[`item.Range[0].Max`]="{ item }">
+    <template #[`item.Range[0].Max`]="{ item }">
       <cc-range-element small :range="item.Range" />
     </template> -->
   <!-- </v-data-table> -->

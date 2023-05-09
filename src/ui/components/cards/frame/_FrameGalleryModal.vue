@@ -1,10 +1,8 @@
 <template>
   <div>
     <v-dialog v-model="dialog" fullscreen>
-      <template v-slot:activator="{ props }">
-        <v-btn small variant="outlined" block v-bind="props"
-          >View {{ frame.Name }} Gallery</v-btn
-        >
+      <template #activator="{ props }">
+        <v-btn small variant="outlined" block v-bind="props">View {{ frame.Name }} Gallery</v-btn>
       </template>
       <v-card color="background">
         <v-btn icon fixed top right @click="dialog = false">
@@ -50,11 +48,7 @@
                       <v-icon color="primary">mdi-web</v-icon>
                       <span>Website</span>
                     </a>
-                    <span
-                      v-if="artist.website && artist.twitter"
-                      class="ml-4 mr-2"
-                      >|</span
-                    >
+                    <span v-if="artist.website && artist.twitter" class="ml-4 mr-2">|</span>
                     <a
                       v-if="artist.twitter"
                       target="_blank"
@@ -76,11 +70,7 @@
                   style="max-width: 200px"
                 >
                   <div
-                    :class="
-                      selected === frame.DefaultImage
-                        ? 'selected-img'
-                        : 'unselected-img'
-                    "
+                    :class="selected === frame.DefaultImage ? 'selected-img' : 'unselected-img'"
                     @click="selected = frame.DefaultImage"
                   >
                     <v-img
@@ -92,17 +82,9 @@
                     />
                   </div>
                 </v-col>
-                <v-col
-                  v-for="a in frame.OtherArt"
-                  cols="auto"
-                  style="max-width: 200px"
-                >
+                <v-col v-for="a in frame.OtherArt" cols="auto" style="max-width: 200px">
                   <div
-                    :class="
-                      selected === imgPath(a.tag, a.src)
-                        ? 'selected-img'
-                        : 'unselected-img'
-                    "
+                    :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
                     @click="selectImg(a)"
                   >
                     <v-img
@@ -139,10 +121,7 @@ export default {
   computed: {
     artist() {
       if (!this.selected) return null;
-      const basename = path.basename(
-        this.selected,
-        path.extname(this.selected)
-      );
+      const basename = path.basename(this.selected, path.extname(this.selected));
       const artist = map.find((x) => x.images.some((y) => y.img === basename));
       if (!artist) return null;
       const image = artist.images.find((x) => x.img === basename);

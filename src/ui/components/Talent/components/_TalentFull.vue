@@ -100,7 +100,6 @@ export default {
     talent: { type: Object, required: true },
     selectable: { type: Boolean },
     canAdd: { type: Boolean },
-    showFull: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
   data: () => ({
