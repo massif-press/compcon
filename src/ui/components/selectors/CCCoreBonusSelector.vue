@@ -147,7 +147,9 @@ export default class CCCoreBonusSelector extends Vue {
       .filter(x => !x.IsHidden)
       .map(manufacturer => ({
         manufacturer,
-        coreBonuses: this.coreBonuses.filter(cb => cb.Manufacturer.ID === manufacturer.ID),
+        coreBonuses: this.coreBonuses.filter(
+          cb => cb.Manufacturer.ID.toUpperCase() === manufacturer.ID.toUpperCase()
+        ),
       }))
       .filter(x => x.coreBonuses.length > 0)
   }

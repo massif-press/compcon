@@ -15,7 +15,6 @@
       <sign-up
         v-else-if="state === 'sign-up'"
         :key="'auth-signup'"
-        :oauth-code="oauthCode"
         @set-state="state = $event"
         @success="verifyFlow($event)"
       />
@@ -53,7 +52,6 @@ export default Vue.extend({
     state: 'sign-in',
     email: null,
     currentAuthedUser: null,
-    oauthCode: null,
   }),
   async mounted() {
     await this.getAuthedUser()

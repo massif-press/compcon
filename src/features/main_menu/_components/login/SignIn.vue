@@ -105,7 +105,6 @@ export default Vue.extend({
           throw error
         })
         .then(user => {
-          console.log(user)
           localStorage.removeItem('user.config')
           userstore.setCognitoUser(user)
         })
@@ -113,7 +112,6 @@ export default Vue.extend({
           userstore.setAws({ cognitoUser: userstore.CognitoUser })
         })
         .then(() => {
-          console.log(userstore.UserProfile.Theme)
           SetTheme(userstore.UserProfile.Theme, this.$vuetify)
           this.$notify('Login Complete', 'success')
           // this.$notify('Cloud Data Synchronized', 'success')
