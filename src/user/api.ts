@@ -17,6 +17,7 @@ const api = axios.create({
 })
 
 const get = (id: string) => {
+  console.log('lcp meta key: ', lcp_meta_key)
   return api.get('/user', { params: { id } })
 }
 

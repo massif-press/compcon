@@ -28,7 +28,9 @@ const PutNewUserData = async (
 }
 
 const GetUserData = async (): Promise<any> => {
-  const authedUser = await Auth.currentAuthenticatedUser()
+  const authedUser = await Auth.currentAuthenticatedUser({
+    bypassCache: true,
+  })
   const id = authedUser.username
 
   const res = await APIv2.get(id)
