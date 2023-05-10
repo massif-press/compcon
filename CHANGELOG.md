@@ -1,5 +1,17 @@
 # COMP/CON Changelog
 
+## [2.3.14] (2022-10-3)
+
+### Features
+
+- **Cloud Snyc** Backported a piece of the v3 cloud sync functionality to improve reliability and performance
+
+### Bug Fixes
+
+- **Cloud Sync** Fixed a bug that could prevent the correct user theme from being loaded
+- **Content Manager** Fixed a bug preventing deletion of uninitialized NPCs
+- **Mech Hangar** Fixed a case issue causing otherwise valid Core Bonuses to be ignored [#2229](https://github.com/massif-press/compcon/issues/2227)
+
 ## [2.3.13a] (2022-10-3)
 
 ### Bug Fixes

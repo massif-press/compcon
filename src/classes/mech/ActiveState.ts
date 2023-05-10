@@ -778,7 +778,9 @@ class ActiveState {
       })
       if (this.ActiveMech.CurrentStructure < str) {
         this._stats.reactor_damage += this.ActiveMech.CurrentStress - str
-        const pct = Math.floor((this.ActiveMech.CurrentStructure / this.ActiveMech.MaxStructure) * 100 )
+        const pct = Math.floor(
+          (this.ActiveMech.CurrentStructure / this.ActiveMech.MaxStructure) * 100
+        )
         this.SetLog({
           id: `set_str`,
           event: 'STRUCTURE DAMAGE',
@@ -1187,8 +1189,6 @@ class ActiveState {
       if (this.ActiveMech.Destroyed) {
         return ['act_dismount']
       }
-
-      console.log(this.AllActions.map(x => x.Name))
 
       const out = this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
       if (!this.ActiveMech.IsShutDown) out.splice(out.indexOf('act_boot_up'), 1)

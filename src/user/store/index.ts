@@ -9,7 +9,6 @@ import _ from 'lodash'
 export const SET_LOGGED_IN = 'SET_LOGGED_IN'
 export const SET_AUTH_STATUS = 'SET_AUTH_STATUS'
 export const SET_PATRON = 'SET_PATRON'
-export const SET_PATREON_TOKEN = 'SET_PATREON_TOKEN'
 export const LOAD_USER_PROFILE = 'LOAD_USER_PROFILE'
 export const SET_COGNITO_USER = 'SET_USER'
 export const SET_AWS_DATA = 'SET_AWS_DATA'
@@ -23,7 +22,6 @@ export class UserStore extends VuexModule {
   public IsLoggedIn = false
   public CognitoUser = ''
   public UserProfile: Client.UserProfile = {} as any
-  public PatreonToken = {}
   public AwsData = {}
   public IsPatron = false
 

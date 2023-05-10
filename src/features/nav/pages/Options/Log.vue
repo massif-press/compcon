@@ -40,20 +40,13 @@ export default class OptionsLog extends Vue {
     return `${date.getFullYear()}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date
       .getDate()
       .toString()
-      .padStart(2, '0')} ${date
-      .getHours()
-      .toString()
-      .padStart(2, '0')}:${date
+      .padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date
       .getMinutes()
       .toString()
-      .padStart(2, '0')}:${date
-      .getSeconds()
-      .toString()
-      .padStart(2, '0')}`
+      .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`
   }
 
   onCopy(e, error) {
-    console.log('oncopy fired')
     const text =
       '```\n' +
       (error.component ? `Vue error at [${error.component}]\n` : '') +

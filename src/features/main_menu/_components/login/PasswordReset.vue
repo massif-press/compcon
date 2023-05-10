@@ -84,15 +84,13 @@ export default Vue.extend({
       this.loading = true
       Auth.forgotPassword(this.email)
         .then(data => {
-          console.log(data)
           this.loading = false
           this.sent = true
         })
         .catch(err => {
-          console.log('err at first catch:', err)
+          console.log(err)
           Auth.forgotPassword(this.email.toLowerCase())
             .then(data => {
-              console.log(data)
               this.loading = false
               this.sent = true
             })
@@ -108,13 +106,12 @@ export default Vue.extend({
       this.loading = true
       Auth.forgotPasswordSubmit(this.email, this.code, this.newpass)
         .then(data => {
-          console.log(data)
+          data
           this.loading = false
           this.$notify('Password changed successfully. Please log in again')
           this.$emit('set-state', 'sign-in')
         })
         .catch(err => {
-          console.log(err)
           this.$notify(`Unable to change password: ${err.message}`, 'error')
           this.loading = false
         })

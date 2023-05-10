@@ -14,25 +14,6 @@
     <v-row dense class="panel" justify="center" align="center">
       <v-col cols="auto" style="letter-spacing: 5px">CREATE ACCOUNT</v-col>
     </v-row>
-    <!-- <div v-if="isPatron" class="mt-2 heading h3 accent--text text-center">
-      <v-icon large color="success">mdi-patreon</v-icon>
-      Patreon Account Connected: {{ patreonAuthCode }}
-      <v-icon large color="success">mdi-check</v-icon>
-    </div>
-    <div v-else>
-      <v-row no-gutters justify="center" align="center" class="mt-2">
-        <v-btn x-large color="patreon" dark @click="verifyPatreon">
-          <v-icon left>mdi-patreon</v-icon>
-          Link Patreon Account
-        </v-btn>
-      </v-row>
-      <div class="text-center mt-2">
-        <i>
-          While this feature is in development, you must first authenticate your Patreon account to
-          register a new COMP/CON cloud account.
-        </i>
-      </div>
-    </div> -->
     <div class="mt-2">
       <v-form @submit="createAccount" @submit.prevent>
         <v-row justify="center" align="center">
@@ -58,13 +39,7 @@
         </v-row>
         <v-row no-gutters justify="center">
           <v-col cols="auto">
-            <v-btn
-              large
-              color="secondary"
-              type="submit"
-              :loading="loading"
-              :disabled="!submitOk"
-            >
+            <v-btn large color="secondary" type="submit" :loading="loading" :disabled="!submitOk">
               submit
             </v-btn>
             <br />
@@ -96,10 +71,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import { Auth } from '@aws-amplify/auth'
-// import { loginUrl } from '@/cloud/patreon'
 import { UserStore } from '@/store'
 import { getModule } from 'vuex-module-decorators'
-// import popupOauth from '@/cloud/oauth2-popup'
 
 export default Vue.extend({
   name: 'sign-up',
@@ -111,7 +84,6 @@ export default Vue.extend({
     show: false,
     email: '',
     password: '',
-    // patreonAuthCode: '',
     rules: {
       required: value => !!value || 'Required.',
       min: v => v.length >= 6 || 'Min 6 characters',
@@ -120,9 +92,6 @@ export default Vue.extend({
     },
   }),
   computed: {
-    // isPatron() {
-    //   return !!this.patreonAuthCode
-    // },
     submitOk() {
       return (
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,6})+$/.test(this.email) && this.password.length >= 6
@@ -150,7 +119,6 @@ export default Vue.extend({
         this.showError = false
         this.$emit('success', userEmail)
         // const userstore = getModule(UserStore, this.$store)
-        // userstore.clearOauth()
       } catch (error) {
         console.log('error signing up:', error)
         this.loading = false
@@ -158,16 +126,6 @@ export default Vue.extend({
         this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`
       }
     },
-    // async verifyPatreon() {
-    //   const authorizationCode = await popupOauth(
-    //     'https://www.patreon.com/oauth2/authorize',
-    //     '_1O6Z4dBszp3Q9ERr93RVNCwM1VUveu9xI5vq1DqJUXEK47FC7MkTtF1lwT5_ko3',
-    //     'https://compcon.app/patreon-callback',
-    //     '',
-    //     'code'
-    //   )
-    //   this.patreonAuthCode = authorizationCode
-    // },
   },
 })
 </script>
