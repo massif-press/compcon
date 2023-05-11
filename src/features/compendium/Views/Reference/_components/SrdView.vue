@@ -100,7 +100,7 @@ export default {
   methods: {
     getLangItem(item: any, type: string) {
       if (typeof item === 'string') return item;
-      return item[type][this.lang];
+      return item[type][this.lang] ? item[type][this.lang] : item[type].en;
     },
     scrollTo(item: any): void {
       const title = this.getLangItem(item, 'title');
