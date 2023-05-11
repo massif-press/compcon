@@ -92,10 +92,5 @@ import { CompendiumStore } from '@/stores';
 export default {
   name: 'compendium-home',
   components: { SearchBar, CompendiumPageButton },
-  computed: {
-    hasBonds() {
-      return CompendiumStore().Bonds.length > 0;
-    },
-  },
 };
 </script>

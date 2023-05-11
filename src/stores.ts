@@ -9,13 +9,18 @@ import { CampaignStore } from './features/gm/store';
 const NavStore = defineStore('nav', {
   state: () => ({
     _srdTab: 0,
+    _language: 'en',
   }),
   getters: {
     SrdTab: (state) => state._srdTab,
+    Language: (state) => state._language,
   },
   actions: {
     setSrdTab(tab: number) {
       this._srdTab = tab;
+    },
+    setLanguage(lang: string) {
+      this._language = lang;
     },
   },
 });

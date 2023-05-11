@@ -71,14 +71,12 @@
 </template>
 
 <script lang="ts">
+import { NavStore } from '@/stores';
+
 export default {
   name: 'using-compcon',
   inheritAttrs: false,
   props: {
-    lang: {
-      type: String,
-      default: 'en',
-    },
     content: {
       type: Array,
       default: () => [],
@@ -93,6 +91,12 @@ export default {
       this.scrollTo(this.preScroll);
     } else window.scrollTo({ top: 0 });
   },
+  computed: {
+    lang() {
+      return NavStore().Language;
+    },
+  },
+
   methods: {
     getLangItem(item: any, type: string) {
       if (typeof item === 'string') return item;
