@@ -1,150 +1,438 @@
 [
   {
     "title": {
-      "en": "Overview"
+      "en": "Overview",
+      "ja": "概要",
+      "zh": "概览",
+      "ko": "개요",
+      "ru": "Обзор",
+      "de": "Überblick",
+      "fr": "Aperçu",
+      "es": "Visión general",
+      "it": "Panoramica"
     },
     "content": {
-      "en": "<p>The Lancer TTRPG (Tabletop Roleplaying Game) is a science-fiction RPG designed by Miguel Lopez and Tom Parkinson-Morgan, published by Massif Press. It is a game about mech combat in a distant future where humanity has spread to the stars.</p><p>Lancer offers deep, modular mech customization, a wide range of player backgrounds and hooks to prompt storytelling, and a system and setting with room for any narrative you and your group want to tell. It’s best with a group of 3-5 players, and can be used to run a one-shot session or persistent campaign. </p>"
+      "en": "<p>The Lancer TTRPG (Tabletop Roleplaying Game) is a science-fiction RPG designed by Miguel Lopez and Tom Parkinson-Morgan, published by Massif Press. It is a game about mech combat in a distant future where humanity has spread to the stars.</p><p>Lancer offers deep, modular mech customization, a wide range of player backgrounds and hooks to prompt storytelling, and a system and setting with room for any narrative you and your group want to tell. It’s best with a group of 3-5 players, and can be used to run a one-shot session or persistent campaign. </p>",
+      "ja": "<p>Lancer TTRPG（テーブルトップロールプレイングゲーム）は、Miguel LopezとTom Parkinson-Morganによって設計され、Massif Pressによって出版されたSF RPGです。 それは、人類が星に広がった遠い未来のメック戦闘についてのゲームです。</p><p>Lancerは、深い、モジュラー化されたメックのカスタマイズ、幅広いプレイヤーの背景と物語を促すためのフック、そしてあなたとあなたのグループが語りたい任意の物語のための余地のあるシステムと設定を提供します。 3〜5人のグループで最適であり、ワンショットセッションまたは永続的なキャンペーンを実行するために使用できます。</p>",
+      "zh": "<p>Lancer TTRPG（桌面角色扮演游戏）是由Miguel Lopez和Tom Parkinson-Morgan设计，由Massif Press出版的科幻RPG。 这是一个关于人类在遥远的未来蔓延到星星的机甲战斗的游戏。</p><p>Lancer提供了深入，模块化的机甲定制，广泛的玩家背景和钩子来促进叙事，以及您和您的团队想要讲述任何叙述的系统和环境的空间。 它最适合3-5名玩家组成的小组，并可用于运行一次性会话或持久性活动。</p>",
+      "ko": "<p>Lancer TTRPG (테이블탑 롤플레잉 게임)은 Miguel Lopez와 Tom Parkinson-Morgan이 설계하고 Massif Press가 출판 한 과학 소설 RPG입니다. 그것은 인류가 별들에 퍼져있는 먼 미래의 메크 전투에 관한 게임입니다.</p><p>Lancer는 깊고 모듈식 메크 사용자 정의, 다양한 플레이어 배경 및 스토리텔링을 유도하는 후크, 그리고 당신과 당신의 그룹이 전하고 싶은 어떤 서술도 가능한 시스템과 설정을 제공합니다. 3-5 명의 플레이어로 구성된 그룹과 함께 사용하면 원샷 세션 또는 지속적인 캠페인을 실행하는 데 사용할 수 있습니다.</p>",
+      "ru": "<p>Lancer TTRPG (настольная ролевая игра) - это научно-фантастическая ролевая игра, разработанная Мигелем Лопесом и Томом Паркинсон-Морганом, изданная Massif Press. Это игра о боевых роботах в далеком будущем, когда человечество распространилось по звездам.</p><p>Lancer предлагает глубокую, модульную настройку мехов, широкий спектр фонов и крючков для игроков, чтобы подтолкнуть к повествованию, а также систему и среду, в которой есть место для любой истории, которую вы и ваша группа хотите рассказать. Лучше всего подходит для группы из 3-5 игроков и может использоваться для запуска одноразовой сессии или постоянной кампании.</p>",
+      "de": "<p>Lancer TTRPG (Tabletop-Rollenspiel) ist ein Science-Fiction-Rollenspiel, das von Miguel Lopez und Tom Parkinson-Morgan entworfen und von Massif Press veröffentlicht wurde. Es ist ein Spiel über Mech-Kämpfe in einer fernen Zukunft, in der sich die Menschheit zu den Sternen ausgebreitet hat.</p><p>Lancer bietet eine tiefe, modulare Mech-Anpassung, eine breite Palette von Hintergründen und Spielerhaken, um das Geschichtenerzählen zu fördern, sowie ein System und eine Umgebung, in der Platz für jede Geschichte ist, die Sie und Ihre Gruppe erzählen möchten. Es ist am besten mit einer Gruppe von 3-5 Spielern und kann verwendet werden, um eine Einzelsitzung oder eine dauerhafte Kampagne auszuführen.</p>",
+      "fr": "<p>Lancer TTRPG (jeu de rôle sur table) est un jeu de rôle de science-fiction conçu par Miguel Lopez et Tom Parkinson-Morgan, publié par Massif Press. C'est un jeu de combat de mechas dans un avenir lointain où l'humanité s'est étendue aux étoiles.</p><p>Lancer offre une personnalisation profonde et modulaire des mechas, une large gamme d'antécédents et d'accroches de joueurs pour favoriser la narration, ainsi qu'un système et un environnement dans lesquels il y a de la place pour toute histoire que vous et votre groupe souhaitez raconter. Il est préférable avec un groupe de 3 à 5 joueurs et peut être utilisé pour exécuter une session unique ou une campagne persistante.</p>",
+      "es": "<p>Lancer TTRPG (juego de rol de mesa) es un juego de rol de ciencia ficción diseñado por Miguel López y Tom Parkinson-Morgan, publicado por Massif Press. Es un juego de combate de mechas en un futuro lejano en el que la humanidad se ha extendido a las estrellas.</p><p>Lancer ofrece una personalización profunda y modular de mechas, una amplia gama de antecedentes y ganchos de jugadores para fomentar la narración, así como un sistema y un entorno en el que hay espacio para cualquier historia que usted y su grupo deseen contar. Es mejor con un grupo de 3-5 jugadores y se puede usar para ejecutar una sesión única o una campaña persistente.</p>",
+      "it": "<p>Lancer TTRPG (gioco di ruolo da tavolo) è un gioco di ruolo di fantascienza progettato da Miguel Lopez e Tom Parkinson-Morgan, pubblicato da Massif Press. È un gioco di combattimento mecha in un futuro lontano in cui l'umanità si è diffusa tra le stelle.</p><p>Lancer offre una personalizzazione profonda e modulare dei mecha, una vasta gamma di background e ganci per i giocatori per favorire la narrazione, nonché un sistema e un ambiente in cui c'è spazio per qualsiasi storia tu e il tuo gruppo vogliate raccontare. È meglio con un gruppo di 3-5 giocatori e può essere utilizzato per eseguire una sessione singola o una campagna persistente.</p>"
     },
     "children": [
       {
         "title": {
-          "en": "Safety"
+          "en": "Safety",
+          "de": "Sicherheit",
+          "fr": "Sécurité",
+          "es": "Seguridad",
+          "it": "Sicurezza",
+          "ru": "Безопасность",
+          "zh": "安全",
+          "ja": "安全",
+          "ko": "안전"
         },
         "content": {
-          "en": "<p>Lancer is a game that involves war, combat, and facing the terrors of the galaxy &ndash; human-made or otherwise &ndash; but this does not mean a GM should force their players to encounter scenarios or content that could be triggering or harmful. If there is any canon assumption that would cause you or your players to feel unsafe or distressed, then it does not need to be included.&nbsp;</p> <p>We recommend utilizing tools such as:&nbsp;</p> <p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">The X Card</a> </p> <p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">The Script Change Toolbox</a></p> <p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">The RPG Safety Toolkit</a></p> <p>The point of a roleplaying game is ultimately to have fun; as such, ensuring that everyone at your table can comfortably enjoy themselves always comes first.</p>"
+          "en": "<p>Lancer is a game that involves war, combat, and facing the terrors of the galaxy &ndash; human-made or otherwise &ndash; but this does not mean a GM should force their players to encounter scenarios or content that could be triggering or harmful. If there is any canon assumption that would cause you or your players to feel unsafe or distressed, then it does not need to be included.&nbsp;</p> <p>We recommend utilizing tools such as:&nbsp;</p> <p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">The X Card</a> </p> <p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">The Script Change Toolbox</a></p> <p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">The RPG Safety Toolkit</a></p> <p>The point of a roleplaying game is ultimately to have fun; as such, ensuring that everyone at your table can comfortably enjoy themselves always comes first.</p>",
+          "de": "<p>Lancer ist ein Spiel, das Krieg, Kampf und die Schrecken der Galaxie beinhaltet - menschengemacht oder anderweitig -, aber das bedeutet nicht, dass ein GM seine Spieler zwingen sollte, Szenarien oder Inhalte zu erleben, die auslösend oder schädlich sein könnten. Wenn es eine kanonische Annahme gibt, die dazu führen würde, dass Sie oder Ihre Spieler sich unsicher oder verärgert fühlen, muss sie nicht enthalten sein.</p><p>Wir empfehlen die Verwendung von Tools wie:</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">Die X-Karte</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">Die Script Change Toolbox</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">Das RPG Safety Toolkit</a></p><p>Der Sinn eines Rollenspiels ist letztendlich, Spaß zu haben; daher hat das Wohlbefinden aller an Ihrem Tisch immer Vorrang.</p>",
+          "fr": "<p>Lancer est un jeu qui implique la guerre, le combat et l'affrontement des terreurs de la galaxie &ndash; humaines ou non &ndash; mais cela ne signifie pas qu'un MJ doit forcer ses joueurs à rencontrer des scénarios ou du contenu qui pourraient être déclencheurs ou nocifs. Si une hypothèse canonique devait vous ou vos joueurs à vous sentir en insécurité ou en détresse, elle n'a pas besoin d'être incluse.</p><p>Nous vous recommandons d'utiliser des outils tels que :</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">La carte X</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">La boîte à outils de changement de script</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">La trousse à outils de sécurité RPG</a></p><p>Le but d'un jeu de rôle est avant tout de s'amuser ; en tant que tel, veiller à ce que tout le monde à votre table puisse profiter confortablement de lui-même passe toujours en premier.</p>",
+          "es": "<p>Lancer es un juego que involucra guerra, combate y enfrentar los terrores de la galaxia &ndash; hechos por humanos o de otra manera &ndash; pero esto no significa que un GM deba forzar a sus jugadores a encontrarse con escenarios o contenido que podría ser desencadenante o dañino. Si hay alguna suposición canónica que haría que usted o sus jugadores se sientan inseguros o angustiados, entonces no es necesario incluirla.</p><p>Recomendamos utilizar herramientas como:</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">La tarjeta X</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">La caja de herramientas de cambio de script</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">El kit de herramientas de seguridad RPG</a></p><p>El punto de un juego de rol es, en última instancia, divertirse; como tal, asegurarse de que todos en su mesa puedan disfrutar cómodamente siempre es lo primero.</p>",
+          "it": "<p>Lancer è un gioco che coinvolge guerra, combattimento e affrontare i terrori della galassia &ndash; umani o meno &ndash; ma questo non significa che un GM debba forzare i suoi giocatori a incontrare scenari o contenuti che potrebbero essere scatenanti o dannosi. Se c'è un'ipotesi canonica che ti farebbe sentire insicuro o angosciato, allora non è necessario includerla.</p><p>Raccomandiamo l'utilizzo di strumenti come:</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">La carta X</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">La cassetta degli attrezzi per il cambio di script</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">Il kit di strumenti per la sicurezza del gioco di ruolo</a></p><p>Il punto di un gioco di ruolo è, in definitiva, divertirsi; come tale, assicurarsi che tutti al tuo tavolo possano godersi comodamente sempre viene prima.</p>",
+          "ru": "<p>Lancer - это игра, которая включает в себя войну, бой и столкновение с ужасами галактики &ndash; человеческими или иными &ndash; но это не означает, что Мастер должен заставлять своих игроков сталкиваться с сценариями или контентом, который может быть триггерным или вредным. Если есть каноническое предположение, которое заставит вас или ваших игроков чувствовать себя неуверенно или встревоженно, то его не нужно включать.</p><p>Мы рекомендуем использовать такие инструменты, как:</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">Карта X</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">Набор инструментов для смены сценария</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">Набор инструментов для безопасности TTRPG</a></p><p>Смысл ролевой игры в конечном счете заключается в том, чтобы веселиться; поэтому забота о том, чтобы все за вашим столом могли комфортно наслаждаться собой, всегда имеет приоритет.</p>",
+          "zh": "<p>Lancer是一款涉及战争、战斗和面对银河系恐怖的游戏，无论是人类还是其他人类，但这并不意味着GM必须强迫他的玩家遇到可能会触发或有害的情节或内容。如果有一个经典的假设会让你或你的玩家感到不安或焦虑，那么就没有必要包括它。</p><p>我们建议使用以下工具：</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">X卡</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">脚本更改工具箱</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">TTRPG安全工具包</a></p><p>角色扮演游戏的目的归根结底是为了享受乐趣；因此，确保你桌上的每个人都可以舒适地享受自己，始终是第一位的。</p>",
+          "ja": "<p>Lancerは戦争、戦闘、銀河系の恐怖に直面するゲームであり、人間であれ他の何者であれ、GMがプレイヤーにトリガーになるか有害なシナリオやコンテンツに直面するよう強制する必要はありません。あなたやあなたのプレイヤーが不安や不安に感じるであろうカノニカルな仮定がある場合は、それを含める必要はありません。</p><p>私たちは、次のようなツールを使用することをお勧めします。</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">Xカード</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">スクリプト変更ツールキット</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">TTRPGセーフティツールキット</a></p><p>ロールプレイングゲームの目的は、楽しむことです。したがって、あなたのテーブルの誰もが常に快適に楽しめるようにすることが最優先事項です。</p>",
+          "ko": "<p>Lancer는 전쟁, 전투 및 은하계의 공포에 직면하는 게임이지만 인간이든 그 외의 누구든지 GM이 트리거가 될 수있는 또는 해로운 시나리오 또는 콘텐츠에 직면하도록 강요 할 필요는 없습니다. 당신이나 당신의 플레이어가 불안하거나 불안해 할 수있는 카논적 가정이있는 경우, 그것을 포함 할 필요가 없습니다.</p><p>우리는 다음과 같은 도구를 사용하는 것을 권장합니다.</p><p><a href=\"http://tinyurl.com/x-card-rpg\" target=\"_blank\" rel=\"noopener noreferrer\">X 카드</a></p><p><a href=\"https://briebeau.com/thoughty/script-change/\" target=\"_blank\" rel=\"noopener noreferrer\">스크립트 변경 도구 키트</a></p><p><a href=\"http://bit.ly/ttrpgsafetytoolkit\" target=\"_blank\" rel=\"noopener noreferrer\">TTRPG 안전 도구 키트</a></p><p>역할 연기 게임의 목적은 즐거움입니다. 따라서 당신의 테이블의 모든 사람들이 항상 편안하게 즐길 수 있도록하는 것이 최우선 과제입니다.</p>"
         }
       }
     ]
   },
   {
     "title": {
-      "en": "The Golden Rules"
+      "en": "The Golden Rules",
+      "zh": "黄金法则",
+      "ja": "黄金のルール",
+      "ko": "황금 규칙",
+      "ru": "Золотые правила",
+      "de": "Die goldenen Regeln",
+      "fr": "Les règles d'or",
+      "it": "Le regole d'oro",
+      "es": "Las reglas de oro"
     },
     "content": {
-      "en": "<p>There are two golden rules to remember when playing Lancer:&nbsp;</p> <p><strong>I: Specific rules override general statements and rules.</strong></p><p><em>For example, when you shoot at an enemy, your roll is normally influenced by whether they&rsquo;re in cover; however, <strong>SEEKING </strong>weapons ignore cover. Because the <strong>SEEKING </strong>tag is a specific rule, it supersedes the general rules governing cover.&nbsp;</em></p><p><strong>II: Always round up (to the nearest whole number).</strong></p>"
+      "en": "<p>There are two golden rules to remember when playing Lancer:&nbsp;</p> <p><strong>I: Specific rules override general statements and rules.</strong></p><p><em>For example, when you shoot at an enemy, your roll is normally influenced by whether they&rsquo;re in cover; however, <strong>SEEKING </strong>weapons ignore cover. Because the <strong>SEEKING </strong>tag is a specific rule, it supersedes the general rules governing cover.&nbsp;</em></p><p><strong>II: Always round up (to the nearest whole number).</strong></p>",
+      "zh": "<p>玩Lancer时要记住两条黄金法则：</p><p><strong>I：具体规则优先于一般规则。</strong></p><p><em>例如，当你向敌人射击时，你的投掷通常会受到他们是否在掩体中的影响；然而，<strong>SEEKING</strong>武器无视掩体。因为<strong>SEEKING</strong>标签是一个具体的规则，它取代了掩体的一般规则。</em></p><p><strong>II：总是向上取整（取最接近的整数）。</strong></p>",
+      "ja": "<p>Lancerをプレイするときに覚えておくべき2つの黄金のルールがあります。</p><p><strong>I：特定のルールは一般的な声明やルールを上書きします。</strong></p><p><em>例えば、敵に撃つとき、通常は彼らがカバーにいるかどうかによってあなたのロールに影響を与えます。しかし、<strong>SEEKING</strong>武器はカバーを無視します。 <strong>SEEKING</strong>タグは特定のルールなので、カバーを規定する一般的なルールを上書きします。</em></p><p><strong>II：常に切り上げる（最も近い整数に）。</strong></p>",
+      "ko": "<p>Lancer를 플레이 할 때 기억해야 할 두 가지 황금 규칙이 있습니다.</p><p><strong>I : 구체적인 규칙은 일반적인 명제와 규칙을 우선합니다.</strong></p><p><em>예를 들어, 적을 쏠 때, 당신의 굴림은 보통 그들이 커버에 있는지 여부에 따라 영향을받습니다. 그러나 <strong>SEEKING</strong>무기는 커버를 무시합니다. <strong>SEEKING</strong>태그는 구체적인 규칙이므로 커버를 규정하는 일반적인 규칙을 무시합니다.</em></p><p><strong>II : 항상 올림 (가장 가까운 정수로).</strong></p>",
+      "ru": "<p>Есть два золотых правила, которые нужно помнить, когда играешь в Lancer:</p><p><strong>I: Конкретные правила имеют приоритет над общими утверждениями и правилами.</strong></p><p><em>Например, когда вы стреляете во врага, ваш бросок обычно зависит от того, находится ли он под прикрытием; однако оружие <strong>SEEKING</strong> игнорирует прикрытие. Поскольку тег <strong>SEEKING</strong> является конкретным правилом, он заменяет общие правила, регулирующие прикрытие.</em></p><p><strong>II: Всегда округляйте вверх (до ближайшего целого числа).</strong></p>",
+      "de": "<p>Beim Spielen von Lancer gibt es zwei goldene Regeln zu beachten:</p> <p><strong>I: Spezifische Regeln haben Vorrang vor allgemeinen Aussagen und Regeln.</strong></p><p><em>Zum Beispiel wird normalerweise dein Wurf beeinflusst, wenn du auf einen Feind schießt und er in Deckung ist; <strong>SUCHENDE</strong> Waffen ignorieren jedoch Deckung. Da das Tag <strong>SUCHENDE</strong> eine spezifische Regel ist, übertrifft es die allgemeinen Regeln, die Deckung betreffen.</em></p><p><strong>II: Immer auf die nächste ganze Zahl aufrunden.</strong></p>",
+      "fr": "<p>Il y a deux règles d'or à retenir lorsque vous jouez à Lancer :</p> <p><strong>I : Les règles spécifiques l'emportent sur les déclarations et les règles générales.</strong></p><p><em>Par exemple, lorsque vous tirez sur un ennemi, votre jet est normalement influencé par le fait qu'il soit ou non à couvert ; cependant, les armes <strong>CHERCHEUSES</strong> ignorent les couvertures. Parce que la balise <strong>CHERCHEUSE</strong> est une règle spécifique, elle supplante les règles générales régissant les couvertures.</em></p><p><strong>II : Toujours arrondir à l'entier supérieur.</strong></p>",
+      "it": "<p>Ci sono due regole d'oro da ricordare quando si gioca a Lancer:</p> <p><strong>I: Le regole specifiche hanno la precedenza sulle dichiarazioni e le regole generali.</strong></p><p><em>Ad esempio, quando spari a un nemico, il tuo tiro è normalmente influenzato dal fatto che sia o meno sotto copertura; tuttavia, le armi <strong>RICERCANTI</strong> ignorano le coperture. Poiché il tag <strong>RICERCANTI</strong> è una regola specifica, prevale sulle regole generali che regolano le coperture.</em></p><p><strong>II: Arrotonda sempre per eccesso (al numero intero più vicino).</strong></p>",
+      "es": "<p>Hay dos reglas de oro que debes recordar cuando juegas a Lancer:</p> <p><strong>I: Las reglas específicas tienen prioridad sobre las declaraciones y reglas generales.</strong></p><p><em>Por ejemplo, cuando disparas a un enemigo, tu tirada normalmente se ve afectada por si está o no bajo cobertura; sin embargo, las armas <strong>RASTREADORAS</strong> ignoran la cobertura. Dado que la etiqueta <strong>RASTREADORAS</strong> es una regla específica, supera a las reglas generales que rigen la cobertura.</em></p><p><strong>II: Siempre redondea hacia arriba (al número entero más cercano).</strong></p>"
     }
   },
   {
     "title": {
-      "en": "Skill Checks, Attacks, and Saves"
+      "en": "Skill Checks, Attacks, and Saves",
+      "ko": "스킬 체크, 공격, 구원",
+      "ru": "Проверки навыков, атаки и спасброски",
+      "de": "Fertigkeitswürfe, Angriffe und Rettungswürfe",
+      "fr": "Jets de compétence, attaques et sauvegardes",
+      "it": "Tiri di Abilità, Attacchi e Tiri Salvezza",
+      "es": "Tiradas de habilidad, ataques y salvaciones",
+      "ja": "技能判定、攻撃、セーブ",
+      "zh": "技能检定、攻击、豁免"
     },
     "content": {
-      "en": "<p>There are three types of dice rolls in Lancer: <strong>skill checks</strong>, <strong>attacks</strong>, and <strong>saves</strong>.&nbsp;</p> <p>In narrative play, you will only need to worry about the first of these. In mech combat you will use all three.&nbsp;</p> <p>You make <strong>skill checks</strong> when your character is in a challenging or tense situation that requires effort to overcome. When you want to act in such a situation, state your objective (e.g., break down the door, decrypt the data, or sweet-talk the guard), then roll <strong>1d20</strong>, and add any relevant bonuses. On a total of <strong>10+</strong>, you succeed. A result of<strong>&nbsp;9 or less</strong> means you failed to accomplish your goal and may suffer consequences as a result. Although the GM can&rsquo;t change the target number (<strong>10</strong>), they have access to several tools that are explained later (p. 45-47), such as declaring a skill challenge or deciding that your action is <strong>DIFFICULT </strong>or <strong>RISKY</strong>.&nbsp;</p> <p>In mech combat, <strong>attacks </strong>are any offensive actions against other characters, like firing a weapon or hacking into an opponent&rsquo;s mech. Attack rolls are similar to skill checks &ndash; you roll <strong>1d20</strong> and add any bonuses &ndash; but the target number isn&rsquo;t always <strong>10</strong>, and usually depends on the defensive capabilities of your target. For an attack to be successful it needs to equal or exceed the target&rsquo;s defense. Successful attacks are described as &ldquo;<strong>hits</strong>&rdquo; - so if the rules tell you that an effect happens &ldquo;<strong>on hit</strong>&rdquo;, that means it takes place when you make a successful attack. Some attacks also result in <strong>critical hits</strong>. On a roll of <strong>20+</strong> you perform a critical hit, which allows you to deal more damage or sometimes trigger extra effects.&nbsp;</p> <p>Although there are different types of attacks, including ranged, melee, and tech attacks, they all use the same basic rules described here.&nbsp;</p> <p>Lastly, <strong>saves </strong>are rolls made to avoid or resist negative effects in mech combat. You might roll a save to prevent a hacker wrecking your systems, to avoid being blinded by a flash grenade, or to dive away from an explosion. To save, you roll <strong>1d20</strong> and add any bonuses, but the target number can differ from <strong>10 </strong>as it can with attacks. The target number for a save usually depends on the abilities of the attacker. If you equal or exceed this number, you succeed; if your roll is lower, you fail. The outcome of each result will depend on what you are trying to avoid.</p>"
+      "en": "<p>There are three types of dice rolls in Lancer: <strong>skill checks</strong>, <strong>attacks</strong>, and <strong>saves</strong>.&nbsp;</p> <p>In narrative play, you will only need to worry about the first of these. In mech combat you will use all three.&nbsp;</p> <p>You make <strong>skill checks</strong> when your character is in a challenging or tense situation that requires effort to overcome. When you want to act in such a situation, state your objective (e.g., break down the door, decrypt the data, or sweet-talk the guard), then roll <strong>1d20</strong>, and add any relevant bonuses. On a total of <strong>10+</strong>, you succeed. A result of<strong>&nbsp;9 or less</strong> means you failed to accomplish your goal and may suffer consequences as a result. Although the GM can&rsquo;t change the target number (<strong>10</strong>), they have access to several tools that are explained later (p. 45-47), such as declaring a skill challenge or deciding that your action is <strong>DIFFICULT </strong>or <strong>RISKY</strong>.&nbsp;</p> <p>In mech combat, <strong>attacks </strong>are any offensive actions against other characters, like firing a weapon or hacking into an opponent&rsquo;s mech. Attack rolls are similar to skill checks &ndash; you roll <strong>1d20</strong> and add any bonuses &ndash; but the target number isn&rsquo;t always <strong>10</strong>, and usually depends on the defensive capabilities of your target. For an attack to be successful it needs to equal or exceed the target&rsquo;s defense. Successful attacks are described as &ldquo;<strong>hits</strong>&rdquo; - so if the rules tell you that an effect happens &ldquo;<strong>on hit</strong>&rdquo;, that means it takes place when you make a successful attack. Some attacks also result in <strong>critical hits</strong>. On a roll of <strong>20+</strong> you perform a critical hit, which allows you to deal more damage or sometimes trigger extra effects.&nbsp;</p> <p>Although there are different types of attacks, including ranged, melee, and tech attacks, they all use the same basic rules described here.&nbsp;</p> <p>Lastly, <strong>saves </strong>are rolls made to avoid or resist negative effects in mech combat. You might roll a save to prevent a hacker wrecking your systems, to avoid being blinded by a flash grenade, or to dive away from an explosion. To save, you roll <strong>1d20</strong> and add any bonuses, but the target number can differ from <strong>10 </strong>as it can with attacks. The target number for a save usually depends on the abilities of the attacker. If you equal or exceed this number, you succeed; if your roll is lower, you fail. The outcome of each result will depend on what you are trying to avoid.</p>",
+      "ko": "번역 대기",
+      "ru": "перевод ожидается",
+      "de": "Übersetzung ausstehend",
+      "fr": "traduction en attente",
+      "it": "traduzione in attesa",
+      "es": "traducción pendiente",
+      "ja": "翻訳待ち",
+      "zh": "翻译待定"
     },
     "children": [
       {
         "title": {
-          "en": "Contested Checks"
+          "en": "Contested Checks",
+          "ko": "경쟁 체크",
+          "ru": "спорные проверки",
+          "de": "umstrittene Würfe",
+          "fr": "jets contestés",
+          "it": "tiri contestati",
+          "es": "Tiradas en disputa",
+          "ja": "争われたチェック",
+          "zh": "有争议的检查"
         },
         "content": {
-          "en": "<p>In some cases, the rules will tell you to make a contested check, representing a challenge between two parties. In a<strong>&nbsp;contested check</strong>, both participants make skill checks and add any bonuses. Whoever has the highest result wins. If the result is a tie, the attacker &ndash; the one who initiated the contest &ndash; wins.&nbsp;</p> <p>You might make contested checks in both narrative play and mech combat.</p>"
+          "en": "<p>In some cases, the rules will tell you to make a contested check, representing a challenge between two parties. In a<strong>&nbsp;contested check</strong>, both participants make skill checks and add any bonuses. Whoever has the highest result wins. If the result is a tie, the attacker &ndash; the one who initiated the contest &ndash; wins.&nbsp;</p> <p>You might make contested checks in both narrative play and mech combat.</p>",
+          "ko": "<p>일부 경우에는 규칙에서 두 개체 간의 도전을 나타내는 경쟁 체크를 요구할 수 있습니다. <strong>경쟁 체크</strong>에서는 양측 참가자가 기술 체크를 수행하고 관련 보너스를 추가합니다. 더 높은 결과를 얻은 쪽이 승리합니다. 결과가 동점인 경우, 공격자 - 즉, 경쟁을 시작한 쪽 -이 승리합니다.</p> <p>경쟁 체크는 이야기적인 플레이와 메카 전투 모두에서 이루어질 수 있습니다.</p>",
+          "ru": "<p>В некоторых случаях правила скажут вам сделать спорную проверку, представляющую собой вызов между двумя сторонами. В <strong>спорной проверке</strong> оба участника делают проверку умения и добавляют любые бонусы. Кто имеет самый высокий результат, тот и выигрывает. Если результат оказывается ничьей, то побеждает атакующий - тот, кто начал спор.</p> <p>Вы можете делать спорные проверки как в повествовательной игре, так и в бою на мехах.</p>",
+          "de": "<p>In einigen Fällen werden die Regeln Sie auffordern, einen umstrittenen Wurf zu machen, der eine Herausforderung zwischen zwei Parteien darstellt. Bei einem<strong>&nbsp;umstrittenen Wurf</strong> machen beide Teilnehmer Fertigkeitswürfe und fügen alle Boni hinzu. Wer das höchste Ergebnis hat, gewinnt. Bei einem Unentschieden gewinnt der Angreifer &ndash; derjenige, der den Wettbewerb initiiert hat.</p> <p>Sie können umstrittene Würfe sowohl im narrativen Spiel als auch im Mech-Kampf machen.</p>",
+          "fr": "<p>Dans certains cas, les règles vous demanderont de faire un jet contesté, représentant un défi entre deux parties. Dans un<strong>&nbsp;jet contesté</strong>, les deux participants font des jets de compétence et ajoutent tous les bonus. Celui qui a le résultat le plus élevé gagne. En cas d'égalité, l'attaquant &ndash; celui qui a initié le concours &ndash; gagne.</p> <p>Vous pouvez faire des jets contestés à la fois dans le jeu narratif et dans le combat de mech.</p>",
+          "it": "<p>In alcuni casi, le regole ti diranno di effettuare un tiro contestato, che rappresenta una sfida tra due parti. In un<strong>&nbsp;tiro contestato</strong>, entrambi i partecipanti effettuano tiri abilità e aggiungono tutti i bonus. Chi ha il risultato più alto vince. In caso di parità, vince l'attaccante &ndash; colui che ha iniziato la gara.</p> <p>Puoi effettuare tiri contestati sia nel gioco narrativo che nel combattimento meccanico.</p>",
+          "es": "<p>En algunos casos, las reglas te dirán que hagas una tirada en disputa, que representa un desafío entre dos partes. En una<strong>&nbsp;tirada en disputa</strong>, ambos participantes hacen tiradas de habilidad y añaden cualquier bonificación. Quien tenga el resultado más alto gana. Si el resultado es un empate, el atacante &ndash; el que inició el concurso &ndash; gana.</p> <p>Puedes hacer tiradas en disputa tanto en el juego narrativo como en el combate de mechas.</p>",
+          "ja": "<p>いくつかの場合、ルールはあなたに2つの当事者間の挑戦を表す争われたチェックを行うように指示します。 <strong>争われたチェック</strong>では、両方の参加者がスキルチェックを行い、すべてのボーナスを追加します。 最も高い結果を持つ人が勝ちます。 結果がタイの場合、攻撃者 - コンテストを開始した人 - が勝ちます。</p> <p>あなたは物語のプレイとメック戦闘の両方で争われたチェックを行うことができます。</p>",
+          "zh": "<p>在某些情况下，规则会要求你进行争议检定，代表两个派系之间的挑战。在<strong>&nbsp;争议检定</strong>中，双方都进行技能检定并添加任何奖励。谁的结果最高谁就赢了。如果结果是平局，攻击者 - 发起挑战的人 - 赢了。</p> <p>你可以在叙事游戏和机甲战斗中都进行争议检定。</p>"
         }
       },
       {
         "title": {
-          "en": "Choosing to Fail"
+          "en": "Choosing to Fail",
+          "es": "Elegir fallar",
+          "de": "Scheitern wählen",
+          "ja": "失敗を選択する",
+          "fr": "Choisir d'échouer",
+          "it": "Scegliere di fallire",
+          "zh": "选择失败",
+          "ru": "Выбор провала",
+          "ko": "실패 선택하기"
         },
         "content": {
-          "en": "<p>You may always choose to fail a skill check or save. You might do this if an ally is trying to help you out or even just because you think failing would create a more interesting story.</p>"
+          "en": "<p>You may always choose to fail a skill check or save. You might do this if an ally is trying to help you out or even just because you think failing would create a more interesting story.</p>",
+          "es": "<p>Siempre puedes elegir fallar una tirada de habilidad o salvación. Puedes hacer esto si un aliado está tratando de ayudarte o incluso solo porque crees que fallar crearía una historia más interesante.</p>",
+          "de": "<p>Sie können immer wählen, einen Fertigkeitswurf oder eine Rettung zu verpassen. Sie könnten dies tun, wenn ein Verbündeter versucht, Ihnen zu helfen, oder einfach nur, weil Sie denken, dass das Scheitern eine interessantere Geschichte schaffen würde.</p>",
+          "ja": "<p>あなたは常にスキルチェックまたはセーブを失敗することを選択することができます。 あなたが味方があなたを助けようとしているか、単に失敗がより興味深いストーリーを作成すると思うからです。</p>",
+          "fr": "<p>Vous pouvez toujours choisir d'échouer un jet de compétence ou un jet de sauvegarde. Vous pourriez le faire si un allié essaie de vous aider ou simplement parce que vous pensez que l'échec créerait une histoire plus intéressante.</p>",
+          "it": "<p>Puoi sempre scegliere di fallire un tiro abilità o un tiro salvezza. Potresti farlo se un alleato sta cercando di aiutarti o anche solo perché pensi che fallire creerebbe una storia più interessante.</p>",
+          "zh": "<p>你可以选择失败技能检定或豁免检定。如果盟友试图帮助你，或者只是因为你认为失败会创造出一个更有趣的故事，你可以这样做。</p>",
+          "ru": "<p>Вы всегда можете выбрать провалить проверку умения или спасбросок. Вы можете сделать это, если союзник пытается вам помочь, или просто потому, что вы думаете, что провал создаст более интересную историю.</p>",
+          "ko": "<p>당신은 항상 스킬 체크 또는 세이브를 실패할 수 있습니다. 당신은 당신을 돕기 위해 동맹이 시도하고 있거나 실패가 더 흥미로운 이야기를 만들 것이라고 생각하기 때문에 이것을 할 수 있습니다.</p>"
         }
       },
       {
         "title": {
-          "en": "Bonuses"
+          "en": "Bonuses",
+          "es": "Bonificaciones",
+          "de": "Bonuses",
+          "ja": "ボーナス",
+          "fr": "Bonus",
+          "it": "Bonus",
+          "zh": "奖励",
+          "ru": "Бонусы",
+          "ko": "보너스"
         },
         "content": {
-          "en": "<p>There are three kinds of bonuses that can be applied to rolls in Lancer:&nbsp;</p> <ul> <li><strong>ACCURACY</strong></li> <li><strong>DIFFICULTY</strong></li> <li><strong>STATISTIC BONUSES</strong></li> </ul><br><p><strong>ACCURACY&nbsp;</strong>and <strong>DIFFICULTY&nbsp;</strong>represent momentary advantages or disadvantages.<strong>Statistic bonuses</strong> come from three sources: your pilot&rsquo;s talent and experience (<strong>triggers</strong>), their skill with mechs (<strong>mech skills</strong>), and their <strong>GRIT</strong>. Each roll can only benefit from one statistic bonus at a time. In many cases, none of these bonuses will apply and you will just roll <strong>1d20</strong>.</p>"
+          "en": "<p>There are three kinds of bonuses that can be applied to rolls in Lancer:&nbsp;</p> <ul> <li><strong>ACCURACY</strong></li> <li><strong>DIFFICULTY</strong></li> <li><strong>STATISTIC BONUSES</strong></li> </ul><br><p><strong>ACCURACY&nbsp;</strong>and <strong>DIFFICULTY&nbsp;</strong>represent momentary advantages or disadvantages.<strong>Statistic bonuses</strong> come from three sources: your pilot&rsquo;s talent and experience (<strong>triggers</strong>), their skill with mechs (<strong>mech skills</strong>), and their <strong>GRIT</strong>. Each roll can only benefit from one statistic bonus at a time. In many cases, none of these bonuses will apply and you will just roll <strong>1d20</strong>.</p>",
+          "es": "<p>Hay tres tipos de bonificaciones que se pueden aplicar a los lanzamientos en Lancer:&nbsp;</p> <ul> <li><strong>PRECISIÓN</strong></li> <li><strong>DIFICULTAD</strong></li> <li><strong>BONIFICACIONES ESTADÍSTICAS</strong></li> </ul><br><p><strong>PRECISIÓN&nbsp;</strong>y <strong>DIFICULTAD&nbsp;</strong>representan ventajas o desventajas momentáneas. Las<strong>bonificaciones estadísticas</strong> provienen de tres fuentes: el talento y la experiencia de tu piloto (<strong>disparadores</strong>), su habilidad con los mechs (<strong>habilidades de mech</strong>) y su <strong>GRIT</strong>. Cada tirada solo puede beneficiarse de una bonificación estadística a la vez. En muchos casos, ninguna de estas bonificaciones se aplicará y solo lanzarás <strong>1d20</strong>.</p>",
+          "de": "<p>In Lancer gibt es drei Arten von Boni, die auf Würfe angewendet werden können:</p> <ul> <li><strong>GENAUIGKEIT</strong></li> <li><strong>SCHWIERIGKEIT</strong></li> <li><strong>STATISTIK-BONI</strong></li> </ul><br><p><strong>Genauigkeits-</strong> und <strong>Schwierigkeits-</strong>Boni stellen momentane Vorteile oder Nachteile dar. <strong>Statistik-Boni</strong> stammen aus drei Quellen: dem Talent und der Erfahrung deines Piloten (<strong>Auslöser</strong>), seiner Fähigkeit im Umgang mit Mechs (<strong>Mech-Fähigkeiten</strong>) und seinem <strong>GRIFF</strong>. Jeder Wurf kann nur von einem Statistik-Bonus gleichzeitig profitieren. In vielen Fällen werden keine dieser Boni angewendet und du würfelst einfach mit <strong>1w20</strong>.</p>",
+          "ja": "<p>Lancerにおけるロールに適用できるボーナスは3種類あります:&nbsp;</p> <ul> <li><strong>命中</strong></li> <li><strong>難易度</strong></li> <li><strong>ステータスボーナス</strong></li> </ul><br><p><strong>命中</strong>と<strong>難易度</strong>は一時的な利点または不利を表します。<strong>ステータスボーナス</strong>は3つのソースから得られます:あなたのパイロットの才能と経験(<strong>トリガー</strong>)、彼らのメックスキル(<strong>メックスキル</strong>)、そして彼らの<strong>GRIT</strong>。各ロールは1回のみステータスボーナスを受けることができます。多くの場合、これらのボーナスのいずれも適用されず、<strong>1d20</strong>を振るだけです。</p>",
+          "fr": "<p>Il existe trois types de bonus qui peuvent être appliqués aux jets dans Lancer:&nbsp;</p> <ul> <li><strong>PRÉCISION</strong></li> <li><strong>DIFFICULTÉ</strong></li> <li><strong>BONUS DE STATISTIQUES</strong></li> </ul><br><p><strong>PRÉCISION&nbsp;</strong>et <strong>DIFFICULTÉ&nbsp;</strong>représentent des avantages ou des désavantages momentanés. Les<strong>bonus de statistiques</strong> proviennent de trois sources: le talent et l'expérience de votre pilote (<strong>déclencheurs</strong>), leur compétence avec les mechs (<strong>compétences de mech</strong>) et leur <strong>GRIT</strong>. Chaque jet ne peut bénéficier que d'un seul bonus de statistiques à la fois. Dans de nombreux cas, aucun de ces bonus ne s'appliquera et vous lancerez simplement <strong>1d20</strong>.</p>",
+          "it": "<p>Ci sono tre tipi di bonus che possono essere applicati ai tiri in Lancer:&nbsp;</p> <ul> <li><strong>PRECISIONE</strong></li> <li><strong>DIFFICOLTÀ</strong></li> <li><strong>BONUS STATISTICHE</strong></li> </ul><br><p><strong>PRECISIONE&nbsp;</strong>e <strong>DIFFICOLTÀ&nbsp;</strong>rappresentano vantaggi o svantaggi momentanei. I<strong>bonus statistici</strong> provengono da tre fonti: il talento e l'esperienza del tuo pilota (<strong>trigger</strong>), la sua abilità con i mech (<strong>abilità mech</strong>) e il suo <strong>GRIT</strong>. Ogni tiro può beneficiare di un solo bonus statistico alla volta. In molti casi, nessuno di questi bonus si applicherà e tirerai solo <strong>1d20</strong>.</p>",
+          "ko": "<p>Lancer에서 굴릴 수있는 세 가지 유형의 보너스가 있습니다:&nbsp;</p> <ul> <li><strong>정확도</strong></li> <li><strong>난이도</strong></li> <li><strong>스탯 보너스</strong></li> </ul><br><p><strong>정확도</strong>와 <strong>난이도</strong>는 일시적인 이점 또는 불이익을 나타냅니다. <strong>스탯 보너스</strong>는 세 가지 소스에서 나옵니다: 당신의 파이로트의 재능과 경험 (<strong>트리거</strong>), 그들의 메크 기술 (<strong>메크 기술</strong>) 및 그들의 <strong>GRIT</strong>. 각 롤은 한 번에 하나의 통계 보너스 만 받을 수 있습니다. 많은 경우 이러한 보너스 중 어느 것도 적용되지 않으며 당신은 단지 <strong>1d20</strong>을 굴릴 것입니다.</p>",
+          "zh": "<p>Lancer中有三种类型的奖励可以应用于投掷:&nbsp;</p> <ul> <li><strong>精度</strong></li> <li><strong>难度</strong></li> <li><strong>状态奖励</strong></li> </ul><br><p><strong>精度</strong>和<strong>难度</strong>表示瞬时的优势或劣势。 <strong>状态奖励</strong>来自三个来源:您的飞行员的天赋和经验(<strong>触发器</strong>)、他们的机甲技能(<strong>机甲技能</strong>)和他们的<strong>GRIT</strong>. 每个投掷一次只能获得一个状态奖励。在许多情况下，这些奖励都不适用，您只需投掷<strong>1d20</strong>。</p>",
+          "ru": "<p>В Lancer есть три типа бонусов, которые можно применить к броскам:&nbsp;</p> <ul> <li><strong>Точность</strong></li> <li><strong>Сложность</strong></li> <li><strong>Бонусы статистики</strong></li> </ul><br><p><strong>Точность</strong> и <strong>Сложность</strong> представляют собой мгновенные преимущества или недостатки. <strong>Бонусы статистики</strong> поступают из трех источников: талант и опыт вашего пилота (<strong>Триггер</strong>), его механические навыки (<strong>Навыки меха</strong>) и его <strong>GRIT</strong>. Каждый бросок может получить только один бонус статистики за раз. Во многих случаях ни один из этих бонусов не будет применяться, и вы просто бросите <strong>1d20</strong>.</p>"
         }
       },
       {
         "title": {
-          "en": "Accuracy and Difficulty"
+          "en": "Accuracy and Difficulty",
+          "es": "Precisión y dificultad",
+          "de": "Genauigkeit und Schwierigkeit",
+          "fr": "Précision et difficulté",
+          "it": "Precisione e difficoltà",
+          "ko": "정확도와 난이도",
+          "zh": "精度和难度",
+          "ru": "Точность и сложность",
+          "ja": "精度と難易度"
         },
         "content": {
-          "en": "<p>In some cases, the rules will tell you to make a contested check, representing a challenge between two parties. In a<strong>&nbsp;contested check</strong>, both participants make skill checks and add any bonuses. Whoever has the highest result wins. If the result is a tie, the attacker &ndash; the one who initiated the contest &ndash; wins.&nbsp;</p> <p>You might make contested checks in both narrative play and mech combat.</p>"
+          "en": "<p><strong>ACCURACY</strong> and <strong>DIFFICULTY</strong> are temporary modifiers gained and lost in rapid, chaotic moments of action.</p> <p>For example, two mech pilots, equally matched, duel amidst the shifting debris of a shattered frigate. Attempting to land a shot, they dodge to avoid incoming fire and floating, slagged bulkheads. The debris makes it unlikely that either will land a clean hit; however, one of the pilots, thinking quickly, hides among the floating metal. When their enemy gets close, the pilot springs forth from hiding and catches their opponent unaware &ndash; making the shot much easier than normal.</p> <p>Situations like this can cause pilots to gain <strong>ACCURACY</strong> or <strong>DIFFICULTY</strong>.</p> <ul> <li>Each point of <strong>ACCURACY</strong> adds <strong>1d6</strong> to a roll.</li> <li>Each point of <strong>DIFFICULTY</strong> subtracts <strong>1d6</strong> from a roll.</li> <li><strong>ACCURACY</strong> and <strong>DIFFICULTY</strong> cancel each other out on a 1:1 basis.</li> </ul> <p>If you are lucky enough to be rolling several of the same bonus dice, whether <strong>ACCURACY</strong> or <strong>DIFFICULTY</strong>, you don&rsquo;t add them together to determine the result. Instead, find the highest number rolled and apply it to the final roll. Because of this, no roll can ever receive more than <strong>&ndash;6</strong> or <strong>+6</strong> from <strong>ACCURACY</strong> or <strong>DIFFICULTY</strong>.</p> <p>For example:</p> <ul> <li>For an attack with <strong>2 ACCURACY</strong>, roll <strong>2d6</strong> and choose the highest of the two dice, then add that number to your attack roll. If you roll <strong>3</strong> on one die and <strong>4</strong> on the other, you add <strong>+4</strong> to the roll, not +7.</li> <li>For an attack with <strong>2 ACCURACY</strong> and <strong>1 DIFFICULTY</strong>, you only add <strong>1d6</strong> to your attack roll as <strong>1 DIFFICULTY </strong>and<strong> 1 ACCURACY</strong> cancel each other out.</li> <li>For an attack with <strong>1 ACCURACY </strong>and<strong> 1 DIFFICULTY</strong>, you don&rsquo;t add anything to the roll &ndash; the dice cancel each other out.</li> </ul>",
+          "ko": "번역 대기",
+          "ru": "перевод ожидается",
+          "de": "Übersetzung ausstehend",
+          "fr": "traduction en attente",
+          "it": "traduzione in attesa",
+          "es": "traducción pendiente",
+          "ja": "翻訳待ち",
+          "zh": "翻译待定"
         }
       },
       {
         "title": {
-          "en": "Grit"
+          "en": "Grit",
+          "de": "Grit",
+          "fr": "Grit",
+          "it": "Grit",
+          "ko": "Grit",
+          "zh": "Grit",
+          "ru": "Grit",
+          "ja": "Grit",
+          "es": "Grit"
         },
         "content": {
-          "en": "<p>In some cases, the rules will tell you to make a contested check, representing a challenge between two parties. In a<strong>&nbsp;contested check</strong>, both participants make skill checks and add any bonuses. Whoever has the highest result wins. If the result is a tie, the attacker &ndash; the one who initiated the contest &ndash; wins.&nbsp;</p> <p>You might make contested checks in both narrative play and mech combat.</p>"
+          "en": "<p>Pilots are lucky and unique individuals, multi-talented and resilient. Even so, brand-new pilots don&rsquo;t measure up to tempered, battle-hardened veterans when push comes to shove. The benefits of experience are measured by <strong>GRIT</strong>, a bonus that reflects your pilot&rsquo;s deep reservoirs of resolve and will to live.</p> <p><strong>GRIT</strong> is half of your character&rsquo;s license level, rounded up. It improves attack bonuses, hit points, and save targets for both your pilot and your mech.</p>",
+          "de": "<p>Piloten sind glückliche und einzigartige Individuen, die vielseitig und widerstandsfähig sind. Auch so messen sich brandneue Piloten nicht mit gehärteten, kampferprobten Veteranen, wenn es darauf ankommt. Die Vorteile der Erfahrung werden durch <strong>GRIT</strong> gemessen, einen Bonus, der das tiefe Reservoir an Entschlossenheit und Lebenswillen Ihres Piloten widerspiegelt.</p> <p><strong>GRIT</strong> ist die Hälfte des Lizenzlevels Ihres Charakters, aufgerundet. Es verbessert Angriffsboni, Trefferpunkte und Rettungsziele sowohl für Ihren Piloten als auch für Ihren Mech.</p>",
+          "fr": "<p>Les pilotes sont des individus chanceux et uniques, polyvalents et résilients. Même ainsi, les nouveaux pilotes ne sont pas à la hauteur des vétérans trempés et endurcis au combat quand il s&rsquo;agit de pousser. Les avantages de l&rsquo;expérience sont mesurés par <strong>GRIT</strong>, un bonus qui reflète les réservoirs profonds de résolution et de volonté de vivre de votre pilote.</p> <p><strong>GRIT</strong> est la moitié du niveau de licence de votre personnage, arrondi. Il améliore les bonus d&rsquo;attaque, les points de vie et les cibles de sauvegarde pour votre pilote et votre mech.</p>",
+          "it": "<p>I piloti sono individui fortunati e unici, poliedrici e resilienti. Anche così, i piloti novizi non sono all&rsquo;altezza dei veterani temprati e provati in battaglia quando la spinta arriva a spingere. I vantaggi dell&rsquo;esperienza sono misurati da <strong>GRIT</strong>, un bonus che riflette le profonde riserve di risolutezza e volontà di vivere del tuo pilota.</p> <p><strong>GRIT</strong> è la metà del livello di licenza del tuo personaggio, arrotondato. Migliora i bonus di attacco, i punti ferita e i bersagli di salvataggio sia per il tuo pilota che per il tuo mech.</p>",
+          "ko": "<p>파일럿은 행운과 독특한 개인, 다재다능하고 회복력이 강한 사람입니다. 그럼에도 불구하고 새로운 파일럿은 박차고 나온 경험이 풍부한 베테랑에게 뒤처집니다. 경험의 이점은 <strong>GRIT</strong>에 의해 측정됩니다. 이는 파일럿의 결단력과 생존의 의지를 반영하는 보너스입니다.</p> <p><strong>GRIT</strong>은 캐릭터의 라이센스 레벨의 절반입니다. 이는 파일럿과 메카 모두의 공격 보너스, 체력, 구원 목표를 향상시킵니다.</p>",
+          "zh": "<p>飞行员是幸运而独特的人，多才多艺，有弹性。即便如此，新手飞行员在推动时也无法与经过锻炼的战斗老兵相提并论。经验的好处由<strong>GRIT</strong>衡量，这是一个反映你的飞行员有坚定的决心和生存意志的奖励。</p> <p><strong>GRIT</strong>是你角色的许可等级的一半，四舍五入。它提高了你的飞行员和你的机甲的攻击加成、生命值和救援目标。</p>",
+          "ru": "<p>Пилоты &mdash; счастливые и уникальные личности, многосторонние и упорные. Тем не менее, совсем новые пилоты не могут сравниться с закаленными в боях ветеранами, когда дело доходит до толчка. Преимущества опыта измеряются <strong>GRIT</strong>, бонусом, который отражает глубокие запасы решимости и желания жить вашего пилота.</p> <p><strong>GRIT</strong> составляет половину уровня вашей лицензии, округленную вверх. Он улучшает бонусы атаки, очки здоровья и цели спасения как для вашего пилота, так и для вашего меха.</p>",
+          "ja": "<p>パイロットは幸運でユニークな人物であり、多才で弾力があります。それでも、新人パイロットは、戦闘で鍛えられたベテランに追いつくことはできません。経験の利点は、<strong>GRIT</strong>によって測定されます。これは、あなたのパイロットが決意と生存意欲を持っていることを反映したボーナスです。</p> <p><strong>GRIT</strong>は、あなたのキャラクターのライセンスレベルの半分です。これにより、パイロットとメックの両方の攻撃ボーナス、ヒットポイント、および救助目標が向上します。</p>",
+          "es": "<p>Los pilotos son personas afortunadas y únicas, versátiles y resistentes. Aun así, los pilotos novatos no pueden igualar a los veteranos endurecidos en combate cuando se trata de empujar. Los beneficios de la experiencia se miden por <strong>GRIT</strong>, un bonificador que refleja las profundas reservas de resolución y voluntad de vivir de tu piloto.</p> <p><strong>GRIT</strong> es la mitad del nivel de licencia de tu personaje, redondeado hacia arriba. Mejora los bonificadores de ataque, los puntos de golpe y los objetivos de salvación tanto para tu piloto como para tu mech.</p>"
         }
       }
     ]
   },
   {
     "title": {
-      "en": "Tracking Progress"
+      "en": "Tracking Progress",
+      "ko": "진행 추적",
+      "ru": "Отслеживание прогресса",
+      "ja": "進捗の追跡",
+      "es": "Seguimiento del progreso",
+      "zh": "追踪进度",
+      "de": "Fortschritt verfolgen",
+      "fr": "Suivre les progrès",
+      "it": "Tracciamento del progresso"
     },
     "content": {
-      "en": "<p>Unlike in other roleplaying games, in Lancer you don&rsquo;t need to track currency. Your access to mechs, gear, upgrades, talents, and other character options is instead restricted by <strong>licenses</strong>. Licenses represent access to the valuable information, resources, and authority required to acquire mech gear and parts. They are tightly controlled by the major powers in Lancer and allow their holders unlimited access to their included gear.&nbsp;</p> <p>In Lancer, your pilot progresses by completing missions and gaining <strong>license levels (LL)</strong>. Your <strong>LL&nbsp;</strong>applies to both your pilot and your mech &ndash; as you level up, both parts of your character become stronger and gain access to more advanced gear and combat techniques. Increasing it allows you to unlock new manufacturer licenses, opening the door to exclusive gear and mechs. Leveling up also allows your pilot to improve their <strong>triggers</strong>, <strong>mech skills</strong>, and <strong>GRIT</strong>, and lets you choose talents to further customize your play style.&nbsp;</p> <p>A new pilot typically starts at <strong>LL0 </strong>&ndash; an inexperienced rookie &ndash; and levels up to <strong>LL1 </strong>after their first mission, then again after each subsequent mission to a maximum of <strong>LL12</strong>.</p>"
+      "en": "<p>Unlike in other roleplaying games, in Lancer you don&rsquo;t need to track currency. Your access to mechs, gear, upgrades, talents, and other character options is instead restricted by <strong>licenses</strong>. Licenses represent access to the valuable information, resources, and authority required to acquire mech gear and parts. They are tightly controlled by the major powers in Lancer and allow their holders unlimited access to their included gear.&nbsp;</p> <p>In Lancer, your pilot progresses by completing missions and gaining <strong>license levels (LL)</strong>. Your <strong>LL&nbsp;</strong>applies to both your pilot and your mech &ndash; as you level up, both parts of your character become stronger and gain access to more advanced gear and combat techniques. Increasing it allows you to unlock new manufacturer licenses, opening the door to exclusive gear and mechs. Leveling up also allows your pilot to improve their <strong>triggers</strong>, <strong>mech skills</strong>, and <strong>GRIT</strong>, and lets you choose talents to further customize your play style.&nbsp;</p> <p>A new pilot typically starts at <strong>LL0 </strong>&ndash; an inexperienced rookie &ndash; and levels up to <strong>LL1 </strong>after their first mission, then again after each subsequent mission to a maximum of <strong>LL12</strong>.</p>",
+      "ko": "번역 대기",
+      "ru": "перевод ожидается",
+      "de": "Übersetzung ausstehend",
+      "fr": "traduction en attente",
+      "it": "traduzione in attesa",
+      "es": "traducción pendiente",
+      "ja": "翻訳待ち",
+      "zh": "翻译待定"
     },
     "children": [
       {
         "title": {
-          "en": "Leveling Up"
+          "en": "Leveling Up",
+          "ru": "Повышение уровня",
+          "ja": "レベルアップ",
+          "es": "Subir de Nivel",
+          "zh": "升级",
+          "de": "Levelaufstieg",
+          "fr": "Monter de Niveau",
+          "it": "Salire di Livello",
+          "ko": "레벨 업"
         },
         "content": {
-          "en": "<p>New players should usually create characters at LL0. Even at this level, your pilot has access to an extensive range of bonuses and gear.&nbsp;</p> <p>LL0 characters start with the following:&nbsp;</p> <ul> <li>A background, which provides bonuses on skill checks.&nbsp;</li> <li>Four +2 pilot triggers.</li> <li>One +2 mech skill or two +1 mech skills.&nbsp;</li> <li>Three rank 1 talents.</li> <li>A license for all General Massive Systems (GMS) gear and weapons, and one mech FRAME - the GMS-SP1 Everest.</li> </ul> <p>When characters complete a mission, whether they succeeded or failed, their LL increases by one and they add:</p> <ul> <li>+2 to an existing trigger or a new trigger at +2.</li> <li>+1 to a mech skill.&nbsp;</li> <li>+1 talent rank to choose a new talent or improve an existing one.&nbsp;</li> <li>+1 license rank to spend on mech talents and licenses.&nbsp;</li> </ul> <p>Leveling up naturally increases a pilot&rsquo;s GRIT, which is equal to 1/2 a pilot&rsquo;s total LL, rounded up. Pilots gain their first point of GRIT at LL1.&nbsp;</p> <p>At every third LL (3, 6, 9, and 12), pilots also get to choose a new core bonus &ndash; a powerful improvement to all mechs they build.</p><p>The most important thing to remember when leveling up is that you only choose or increase the rank of one license at a time, getting access to no more than two weapons or pieces of gear with each increase. Planning out a long-term strategy might seem difficult, but you can always retrofit licenses as you level up, so you’re never locked into decisions. Explore what seems interesting to you and try out different mechs! </p>"
+          "en": "<p>New players should usually create characters at LL0. Even at this level, your pilot has access to an extensive range of bonuses and gear.&nbsp;</p> <p>LL0 characters start with the following:&nbsp;</p> <ul> <li>A background, which provides bonuses on skill checks.&nbsp;</li> <li>Four +2 pilot triggers.</li> <li>One +2 mech skill or two +1 mech skills.&nbsp;</li> <li>Three rank 1 talents.</li> <li>A license for all General Massive Systems (GMS) gear and weapons, and one mech FRAME - the GMS-SP1 Everest.</li> </ul> <p>When characters complete a mission, whether they succeeded or failed, their LL increases by one and they add:</p> <ul> <li>+2 to an existing trigger or a new trigger at +2.</li> <li>+1 to a mech skill.&nbsp;</li> <li>+1 talent rank to choose a new talent or improve an existing one.&nbsp;</li> <li>+1 license rank to spend on mech talents and licenses.&nbsp;</li> </ul> <p>Leveling up naturally increases a pilot&rsquo;s GRIT, which is equal to 1/2 a pilot&rsquo;s total LL, rounded up. Pilots gain their first point of GRIT at LL1.&nbsp;</p> <p>At every third LL (3, 6, 9, and 12), pilots also get to choose a new core bonus &ndash; a powerful improvement to all mechs they build.</p><p>The most important thing to remember when leveling up is that you only choose or increase the rank of one license at a time, getting access to no more than two weapons or pieces of gear with each increase. Planning out a long-term strategy might seem difficult, but you can always retrofit licenses as you level up, so you’re never locked into decisions. Explore what seems interesting to you and try out different mechs! </p>",
+          "ko": "번역 대기",
+          "ru": "перевод ожидается",
+          "de": "Übersetzung ausstehend",
+          "fr": "traduction en attente",
+          "it": "traduzione in attesa",
+          "es": "traducción pendiente",
+          "ja": "翻訳待ち",
+          "zh": "翻译待定"
         }
       },
       {
         "title": {
-          "en": "Reallocating Points"
+          "en": "Reallocating Points",
+          "ru": "Перераспределение очков",
+          "ja": "ポイントの再割り当て",
+          "es": "Reasignar Puntos",
+          "zh": "重新分配点数",
+          "de": "Punkte neu verteilen",
+          "fr": "Réaffecter les Points",
+          "it": "Riassegnare i Punti",
+          "ko": "포인트 재할당"
         },
         "content": {
-          "en": "<p>Every time your pilot&rsquo;s <strong>LL </strong>increases, you also have the option to choose one:&nbsp;</p> <ul> <li>Reallocate all ranks from one of your talents to any other talent.</li> <li>Reallocate all ranks from one of your licenses to any other license.</li> <li>Replace one core bonus with another core bonus for which your pilot qualifies.</li> </ul> <p>If reallocating ranks from one license to another means your pilot no longer qualifies for a core bonus, you must replace that core bonus with one you now qualify for.</p>"
+          "en": "<p>Every time your pilot&rsquo;s <strong>LL </strong>increases, you also have the option to choose one:&nbsp;</p> <ul> <li>Reallocate all ranks from one of your talents to any other talent.</li> <li>Reallocate all ranks from one of your licenses to any other license.</li> <li>Replace one core bonus with another core bonus for which your pilot qualifies.</li> </ul> <p>If reallocating ranks from one license to another means your pilot no longer qualifies for a core bonus, you must replace that core bonus with one you now qualify for.</p>",
+          "ru": "<p>Каждый раз, когда уровень вашего пилота повышается, вы также можете выбрать один из следующих вариантов:&nbsp;</p> <ul> <li>Перераспределить все уровни одного из ваших талантов на любой другой талант.</li> <li>Перераспределить все уровни одной из ваших лицензий на любую другую лицензию.</li> <li>Заменить один базовый бонус на другой базовый бонус, на который ваш пилот имеет право.</li> </ul> <p>Если перераспределение уровней с одной лицензии на другую означает, что ваш пилот больше не имеет права на базовый бонус, вы должны заменить этот базовый бонус на тот, на который вы теперь имеете право.</p>",
+          "ja": "<p>パイロットの<strong>LL</strong>が上昇するたびに、以下のいずれかを選択できます。&nbsp;</p> <ul> <li>あなたのタレントのうちの1つからすべてのランクを他のタレントに再割り当てする。</li> <li>あなたのライセンスのうちの1つからすべてのランクを他のライセンスに再割り当てする。</li> <li>あなたのパイロットが適格である他のコアボーナスに、1つのコアボーナスを置き換える。</li> </ul> <p>1つのライセンスから別のライセンスにランクを再割り当てすることで、パイロットがコアボーナスの対象外になる場合は、そのコアボーナスを、現在対象となっているコアボーナスに置き換えなければなりません。</p>",
+          "es": "<p>Cada vez que el <strong>LL</strong> de tu piloto aumenta, también tienes la opción de elegir uno:&nbsp;</p> <ul> <li>Reasignar todos los rangos de uno de tus talentos a cualquier otro talento.</li> <li>Reasignar todos los rangos de una de tus licencias a cualquier otra licencia.</li> <li>Reemplazar una bonificación básica con otra bonificación básica para la que tu piloto califica.</li> </ul> <p>Si reasignar rangos de una licencia a otra significa que tu piloto ya no califica para una bonificación básica, debes reemplazar esa bonificación básica con una para la que ahora calificas.</p>",
+          "zh": "<p>每当你的机师的<strong>LL</strong>提升时，你也可以选择以下一项：&nbsp;</p> <ul> <li>将你的天赋中的所有等级重新分配到任何其他天赋。</li> <li>将你的许可证中的所有等级重新分配到任何其他许可证。</li> <li>将一个核心奖励替换为你的机师符合条件的另一个核心奖励。</li> </ul> <p>如果将等级从一个许可证重新分配到另一个许可证意味着你的机师不再符合核心奖励的条件，你必须用你现在符合条件的核心奖励来替换它。</p>",
+          "de": "<p>Immer wenn der <strong>LL</strong> deines/ deiner Piloten steigt, hast du auch die Möglichkeit, eines der folgenden Dinge zu wählen:&nbsp;</p> <ul> <li>Alle Ränge eines deiner Talente auf ein anderes Talent umzuleiten.</li> <li>Alle Ränge einer deiner Lizenzen auf eine andere Lizenz umzuleiten.</li> <li>Einen Kernbonus durch einen anderen Kernbonus zu ersetzen, für den dein Pilot qualifiziert ist.</li> </ul> <p>Wenn du Ränge von einer Lizenz auf eine andere umleitest und dein Pilot dadurch nicht mehr für einen Kernbonus qualifiziert ist, musst du diesen Kernbonus durch einen ersetzen, für den du jetzt qualifiziert bist.</p>",
+          "fr": "<p>Chaque fois que le <strong>LL</strong> de votre pilote augmente, vous avez également la possibilité d&rsquo;en choisir un :&nbsp;</p> <ul> <li>Réaffectez tous les rangs d&rsquo;un de vos talents à n&rsquo;importe quel autre talent.</li> <li>Réaffectez tous les rangs d&rsquo;une de vos licences à n&rsquo;importe quelle autre licence.</li> <li>Remplacez un bonus de base par un autre bonus de base pour lequel votre pilote est qualifié.</li> </ul> <p>Si la réaffectation des rangs d&rsquo;une licence à une autre signifie que votre pilote ne remplit plus les conditions requises pour un bonus de base, vous devez remplacer ce bonus de base par un autre pour lequel vous remplissez désormais les conditions requises.</p>",
+          "it": "<p>Ogni volta che il <strong>LL</strong> del tuo pilota aumenta, hai anche la possibilità di scegliere uno dei seguenti:&nbsp;</p> <ul> <li>Riassegnare tutti i gradi di uno dei tuoi talenti a qualsiasi altro talento.</li> <li>Riassegnare tutti i gradi di una delle tue licenze a qualsiasi altra licenza.</li> <li>Sostituire un bonus base con un altro bonus base per cui il tuo pilota è qualificato.</li> </ul> <p>Se riassegnare i gradi da una licenza a un&rsquo;altra significa che il tuo pilota non è più qualificato per un bonus base, devi sostituire quel bonus base con un altro per cui ora sei qualificato.</p>",
+          "ko": "<p>당신의 파이로트의 <strong>LL</strong>이 올라갈 때마다, 당신은 다음 중 하나를 선택할 수 있습니다:&nbsp;</p> <ul> <li>당신의 탤런트 중 하나의 모든 랭크를 다른 탤런트로 재할당합니다.</li> <li>당신의 라이선스 중 하나의 모든 랭크를 다른 라이선스로 재할당합니다.</li> <li>당신의 파이로트가 자격을 갖춘 다른 코어 보너스로 한 코어 보너스를 대체합니다.</li> </ul> <p>라이선스에서 다른 라이선스로 랭크를 재할당하는 것이 당신의 파이로트가 더 이상 코어 보너스의 자격이 없다는 것을 의미한다면, 당신은 그 코어 보너스를 당신이 지금 자격이 있는 코어 보너스로 대체해야 합니다.</p>"
         }
       },
       {
         "title": {
-          "en": "Clocks"
+          "en": "Clocks",
+          "ru": "Часы",
+          "ja": "クロック",
+          "es": "Relojes",
+          "zh": "时钟",
+          "de": "Uhren",
+          "fr": "Horloges",
+          "it": "Orologi",
+          "ko": "시계"
         },
         "content": {
-          "en": "<p>Clocks are an extremely simple tool for GMs to use during narrative play to track complicated tasks, set criteria for success or failure, or ratchet up the tension. Clocks can be used in any Lancer session or campaign.</p> <p>By a &lsquo;clock&rsquo; we mean an actual clock, a little circle that&rsquo;s split into segments. You can draw them out on a piece of paper or a battle map.&nbsp;</p> <p>Clocks aren&rsquo;t meant to be used for every action in the game &ndash; just ones that will take a little more time or skill to complete. They can be used instead of <strong>skill challenges</strong> as they serve a similar purpose. They&rsquo;re intended for use in narrative play, rather than combat.</p> <p>Setting up a clock is very easy. First, decide what the clock represents (or the consequences of filling it up), then draw out a circle with an even number of segments (four, six, eight, ten, or twelve). The more segments a clock has, the more complicated the task is and the longer it will take. Basic clocks should have four or six segments, and a ten or twelve segment clock with take a long time to fill out so only use it for the most complicated or long-term of tasks or goals.</p>"
+          "en": "<p>Clocks are an extremely simple tool for GMs to use during narrative play to track complicated tasks, set criteria for success or failure, or ratchet up the tension. Clocks can be used in any Lancer session or campaign.</p> <p>By a &lsquo;clock&rsquo; we mean an actual clock, a little circle that&rsquo;s split into segments. You can draw them out on a piece of paper or a battle map.&nbsp;</p> <p>Clocks aren&rsquo;t meant to be used for every action in the game &ndash; just ones that will take a little more time or skill to complete. They can be used instead of <strong>skill challenges</strong> as they serve a similar purpose. They&rsquo;re intended for use in narrative play, rather than combat.</p> <p>Setting up a clock is very easy. First, decide what the clock represents (or the consequences of filling it up), then draw out a circle with an even number of segments (four, six, eight, ten, or twelve). The more segments a clock has, the more complicated the task is and the longer it will take. Basic clocks should have four or six segments, and a ten or twelve segment clock with take a long time to fill out so only use it for the most complicated or long-term of tasks or goals.</p>",
+          "ko": "번역 대기",
+          "ru": "перевод ожидается",
+          "de": "Übersetzung ausstehend",
+          "fr": "traduction en attente",
+          "it": "traduzione in attesa",
+          "es": "traducción pendiente",
+          "ja": "翻訳待ち",
+          "zh": "翻译待定"
         },
         "children": [
           {
             "title": {
-              "en": "Tracking Tasks"
+              "en": "Tracking Tasks",
+              "ru": "Отслеживание задач",
+              "ja": "タスクの追跡",
+              "es": "Seguimiento de Tareas",
+              "zh": "追踪任务",
+              "de": "Aufgaben verfolgen",
+              "fr": "Suivre les Tâches",
+              "it": "Tracciare le Attività",
+              "ko": "작업 추적"
             },
             "content": {
-              "en": "<p>You can set out clocks to track complex tasks or challenges, such as chases, battles, or the invention of a new device in a workshop. These are called <strong>task clocks</strong>. When a character takes an action that relates to a clock and their action is successful or effective (usually a result of <strong>10&ndash;19</strong>), fill in two segments. If they failed or the action was ineffective (usually a result of <strong>0&ndash;9</strong>) fill in either one segment or none. If the action was very effective (or the player rolled a <strong>20+</strong>), fill in three segments. A good way to ensure that a situation stays dynamic is to tick one segment even on a failure, but you don&rsquo;t necessarily have to do so.&nbsp;</p> <p>Using clocks to represent complicated tasks ensures you&rsquo;re only rolling when there&rsquo;s persistent narrative tension, constrains the number of rolls made for any given task, and creates clear parameters for success. It allows the story to progress and means you don&rsquo;t have to waste time lingering on tasks that would otherwise require a lot of rolling, all of which we find extremely effective for speeding up play.</p>"
+              "en": "<p>You can set out clocks to track complex tasks or challenges, such as chases, battles, or the invention of a new device in a workshop. These are called <strong>task clocks</strong>. When a character takes an action that relates to a clock and their action is successful or effective (usually a result of <strong>10&ndash;19</strong>), fill in two segments. If they failed or the action was ineffective (usually a result of <strong>0&ndash;9</strong>) fill in either one segment or none. If the action was very effective (or the player rolled a <strong>20+</strong>), fill in three segments. A good way to ensure that a situation stays dynamic is to tick one segment even on a failure, but you don&rsquo;t necessarily have to do so.&nbsp;</p> <p>Using clocks to represent complicated tasks ensures you&rsquo;re only rolling when there&rsquo;s persistent narrative tension, constrains the number of rolls made for any given task, and creates clear parameters for success. It allows the story to progress and means you don&rsquo;t have to waste time lingering on tasks that would otherwise require a lot of rolling, all of which we find extremely effective for speeding up play.</p>",
+              "ko": "번역 대기",
+              "ru": "перевод ожидается",
+              "de": "Übersetzung ausstehend",
+              "fr": "traduction en attente",
+              "it": "traduzione in attesa",
+              "es": "traducción pendiente",
+              "ja": "翻訳待ち",
+              "zh": "翻译待定"
             }
           },
           {
             "title": {
-              "en": "Tracking Progress"
+              "en": "Tracking Progress",
+              "ru": "Отслеживание прогресса",
+              "ja": "進捗の追跡",
+              "es": "Seguimiento de Progreso",
+              "zh": "追踪进度",
+              "de": "Fortschritt verfolgen",
+              "fr": "Suivre les Progrès",
+              "it": "Tracciare i Progressi",
+              "ko": "진행 상황 추적"
             },
             "content": {
-              "en": "<p>You can also use clocks to track the status or time pressure of a larger ongoing situation in the world or campaign, such as a war, a faction&rsquo;s political influence, or an assassination plot. These <strong>progress clocks</strong> tend to move by themselves without any influence from the players. Tick segments on these clocks when the story or campaign moves forward. A good time to do this is after the players complete a period of downtime. When ticking these clocks, tick one segment if the situation progressed a little, two if it progressed as normal, and three if there was great progress. For example, if you have a clock tracking the progress of a war and it&rsquo;s drawing to a close, you might tick three segments on that clock at the end of downtime</p>"
+              "en": "<p>You can also use clocks to track the status or time pressure of a larger ongoing situation in the world or campaign, such as a war, a faction&rsquo;s political influence, or an assassination plot. These <strong>progress clocks</strong> tend to move by themselves without any influence from the players. Tick segments on these clocks when the story or campaign moves forward. A good time to do this is after the players complete a period of downtime. When ticking these clocks, tick one segment if the situation progressed a little, two if it progressed as normal, and three if there was great progress. For example, if you have a clock tracking the progress of a war and it&rsquo;s drawing to a close, you might tick three segments on that clock at the end of downtime</p>",
+              "ru": "<p>Вы также можете использовать часы для отслеживания статуса или временного давления более крупной текущей ситуации в мире или кампании, такой как война, политическое влияние фракции или заговор на убийство. Эти <strong>часы прогресса</strong> обычно движутся сами по себе без какого-либо влияния со стороны игроков. Отмечайте сегменты на этих часах, когда история или кампания продвигается вперед. Хорошее время для этого - после того, как игроки завершат период простоя. Когда отмечаются эти часы, отмечайте один сегмент, если ситуация продвинулась немного, два, если она продвинулась как обычно, и три, если был большой прогресс. Например, если у вас есть часы, отслеживающие прогресс войны, и они подходят к концу, вы можете отметить три сегмента на этих часах в конце простоя</p>",
+              "ja": "<p>また、戦争、派閥の政治的影響力、暗殺計画など、世界やキャンペーンの中で進行中の大きな状況の状態や時間的な圧力を追跡するためにクロックを使用することもできます。これらの<strong>進行クロック</strong>は、プレイヤーからの影響なしに自分で動く傾向があります。物語やキャンペーンが前進したときに、これらのクロックのセグメントをチェックします。これを行うのに最適な時期は、プレイヤーがダウンタイムを完了した後です。これらのクロックをチックするときは、状況が少し進んだ場合は1つのセグメントを、通常通り進んだ場合は2つのセグメントを、大きな進歩があった場合は3つのセグメントをチックします。たとえば、戦争の進行状況を追跡するクロックがあり、終盤に近づいている場合、ダウンタイムの終わりにそのクロックの3つのセグメントをチックすることができます</p>",
+              "es": "<p>También puedes usar relojes para rastrear el estado o la presión de tiempo de una situación más grande en curso en el mundo o la campaña, como una guerra, la influencia política de una facción o un complot de asesinato. Estos <strong>relojes de progreso</strong> tienden a moverse por sí mismos sin ninguna influencia de los jugadores. Marca los segmentos de estos relojes cuando la historia o la campaña avance. Un buen momento para hacer esto es después de que los jugadores completen un período de inactividad. Cuando marques estos relojes, marca un segmento si la situación avanzó un poco, dos si avanzó normalmente y tres si hubo un gran progreso. Por ejemplo, si tienes un reloj que rastrea el progreso de una guerra y está llegando a su fin, podrías marcar tres segmentos en ese reloj al final de la inactividad</p>",
+              "zh": "<p>您还可以使用时钟来跟踪世界或战役中正在进行的更大情况的状态或时间压力，例如战争，派系的政治影响力或暗杀阴谋。这些<strong>进度时钟</strong>往往会自行移动，而不受玩家的任何影响。当故事或战役前进时，勾选这些时钟的段。这样做的好时机是在玩家完成休息时间后。当勾选这些时钟时，如果情况有所进展，则勾选一个段，如果情况正常，则勾选两个段，如果情况有很大进展，则勾选三个段。例如，如果您有一个跟踪战争进展的时钟，并且它即将结束，您可以在休息时间结束时在该时钟上勾选三个段</p>",
+              "de": "<p>Sie können Uhren auch verwenden, um den Status oder den Zeitdruck einer größeren laufenden Situation in der Welt oder der Kampagne zu verfolgen, wie zum Beispiel einem Krieg, dem politischen Einfluss einer Fraktion oder einer Attentatsverschwörung. Diese <strong>Fortschrittsuhren</strong> bewegen sich in der Regel von selbst, ohne Einflussnahme der Spieler. Setzen Sie Ticks auf diesen Uhren, wenn sich die Geschichte oder die Kampagne vorwärts bewegt. Ein guter Zeitpunkt dafür ist nachdem die Spieler eine Phase der Inaktivität abgeschlossen haben. Beim Setzen dieser Ticks setzen Sie einen Tick, wenn sich die Situation ein wenig entwickelt hat, zwei, wenn sie sich normal entwickelt hat, und drei, wenn es einen großen Fortschritt gab. Zum Beispiel, wenn Sie eine Uhr haben, die den Fortschritt eines Krieges verfolgt und er sich dem Ende nähert, könnten Sie am Ende der Inaktivitätsphase drei Ticks auf dieser Uhr setzen.</p>",
+              "fr": "<p>Vous pouvez également utiliser des horloges pour suivre l'état ou la pression temporelle d'une situation plus vaste en cours dans le monde ou la campagne, tels qu'une guerre, l'influence politique d'une faction ou un complot d'assassinat. Ces <strong>horloges de progression</strong> ont tendance à avancer d'elles-mêmes sans aucune influence des joueurs. Faites avancer les segments de ces horloges lorsque l'histoire ou la campagne avance. Un bon moment pour le faire est après que les joueurs aient terminé une période de temps mort. Lorsque vous faites avancer ces horloges, faites avancer un segment si la situation a progressé un peu, deux si elle a progressé normalement et trois s'il y a eu un grand progrès. Par exemple, si vous avez une horloge qui suit l'avancée d'une guerre et qu'elle touche à sa fin, vous pourriez faire avancer trois segments sur cette horloge à la fin de la période de temps mort.</p>",
+              "it": "<p>Puoi anche utilizzare orologi per tenere traccia dello stato o della pressione temporale di una situazione più ampia in corso nel mondo o nella campagna, come ad esempio una guerra, l'influenza politica di una fazione o un complotto di assassinio. Questi <strong>orologi di progresso</strong> tendono a muoversi da soli senza alcuna influenza da parte dei giocatori. Fai avanzare i segmenti di questi orologi quando la storia o la campagna procede. Un buon momento per farlo è dopo che i giocatori hanno completato un periodo di inattività. Quando fai avanzare questi orologi, fai avanzare un segmento se la situazione è progredita leggermente, due se è progredita normalmente e tre se c'è stato un grande progresso. Ad esempio, se hai un orologio che tiene traccia dell'avanzamento di una guerra e sta per concludersi, potresti far avanzare tre segmenti su quell'orologio alla fine del periodo di inattività.</p>",
+              "ko": "<p>세계나 캠페인 내에서 진행 중인 대규모 상황의 상태나 시간적 압박을 추적하기 위해 시계(clock)를 사용할 수도 있습니다. 이는 전쟁, 세력의 정치적 영향력 또는 암살 계획과 같은 상황을 대표합니다. 이러한 <strong>진행 상황 시계</strong>는 플레이어의 영향을 받지 않고 스스로 움직이는 경향이 있습니다. 이야기나 캠페인이 진행될 때 이러한 시계의 분절을 이동시킵니다. 플레이어가 휴식 시간을 완료한 후에 이를 수행하는 것이 좋습니다. 이러한 시계를 이동할 때 상황이 약간 진전되었다면 한 분절, 보통 진전이 있었다면 두 분절, 큰 진전이 있었다면 세 분절을 이동시킵니다. 예를 들어, 전쟁의 진행 상황을 추적하는 시계가 마무리 단계에 접어들면, 휴식 시간의 끝에 그 시계에서 세 분절을 이동시킬 수 있습니다.</p>"
             }
           },
           {
             "title": {
-              "en": "Resolving Clocks"
+              "en": "Resolving Clocks",
+              "ru": "Разрешение часов",
+              "ja": "クロックの解決",
+              "es": "Resolución de Relojes",
+              "zh": "解决时钟",
+              "de": "Uhren auflösen",
+              "fr": "Résoudre les Horloges",
+              "it": "Risoluzione degli Orologi",
+              "ko": "시계 해결"
             },
             "content": {
-              "en": "<p>When all of a clock&rsquo;s segments have been filled in, the consequence or outcome that it tracks comes to pass, or the situation it represents is resolved. You can usually erase the clock, but sometimes completing one clock starts another one! You might fill out the <strong>Chase </strong>clock to chase down a bounty hunter, but now you&rsquo;re setting out an <strong>Interrogation </strong>clock to get information from them.</p>"
+              "en": "<p>When all of a clock&rsquo;s segments have been filled in, the consequence or outcome that it tracks comes to pass, or the situation it represents is resolved. You can usually erase the clock, but sometimes completing one clock starts another one! You might fill out the <strong>Chase </strong>clock to chase down a bounty hunter, but now you&rsquo;re setting out an <strong>Interrogation </strong>clock to get information from them.</p>",
+              "ru": "<p>Когда все сегменты часов заполнены, последствие или результат, который они отслеживают, происходит, или ситуация, которую они представляют, разрешается. Вы обычно можете стереть часы, но иногда заполнение одних часов запускает другие! Вы можете заполнить часы <strong>Chase</strong> для преследования охотника за головами, но теперь вы устанавливаете <strong>Interrogation</strong> для получения от них информации.</p>",
+              "ja": "<p>すべてのクロックのセグメントが埋まったら、それが追跡する結果や結果が発生するか、それが表す状況が解決されます。通常、クロックを消去できますが、1つのクロックを完了すると別のクロックが開始される場合があります！ <strong>Chase</strong>クロックを埋めて賞金稼ぎを追跡することができますが、今度は<strong>Interrogation</strong>クロックを設定して情報を入手します。</p>",
+              "es": "<p>Cuando todos los segmentos de un reloj se han completado, la consecuencia o resultado que rastrea se produce, o la situación que representa se resuelve. Por lo general, puede borrar el reloj, ¡pero a veces completar un reloj inicia otro! Puede completar el reloj <strong>Chase</strong> para perseguir a un cazarrecompensas, pero ahora está estableciendo un reloj <strong>Interrogation</strong> para obtener información de ellos.</p>",
+              "zh": "<p>当所有时钟的段都填满时，它所跟踪的后果或结果就会发生，或者它所代表的情况就会解决。您通常可以擦除时钟，但有时完成一个时钟会启动另一个时钟！您可以填写<strong>Chase</strong>时钟以追捕赏金猎人，但现在您正在设置<strong>Interrogation</strong>时钟以从他们那里获得信息。</p>",
+              "de": "<p>Wenn alle Segmente einer Uhr ausgefüllt sind, tritt die Konsequenz oder das Ergebnis, das sie verfolgt, ein, oder die Situation, die sie darstellt, wird gelöst. Sie können die Uhr normalerweise löschen, aber manchmal startet das Ausfüllen einer Uhr eine andere! Sie können die <strong>Chase</strong> Uhr ausfüllen, um einen Kopfgeldjäger zu jagen, aber jetzt stellen Sie eine <strong>Interrogation</strong> Uhr ein, um Informationen von ihnen zu erhalten.</p>",
+              "fr": "<p>Lorsque tous les segments d&rsquo;une horloge ont été remplis, la conséquence ou le résultat qu&rsquo;elle suit se produit, ou la situation qu&rsquo;elle représente est résolue. Vous pouvez généralement effacer l&rsquo;horloge, mais parfois, en complétant une horloge, vous en démarrez une autre ! Vous pouvez remplir l&rsquo;horloge <strong>Chase</strong> pour traquer un chasseur de primes, mais maintenant vous mettez en place une horloge <strong>Interrogation</strong> pour obtenir des informations d&rsquo;eux.</p>",
+              "it": "<p>Quando tutti i segmenti di un orologio sono stati riempiti, la conseguenza o il risultato che traccia si verifica, o la situazione che rappresenta viene risolta. Di solito puoi cancellare l&rsquo;orologio, ma a volte completarne uno ne avvia un altro! Potresti riempire l&rsquo;orologio <strong>Chase</strong> per inseguire un cacciatore di taglie, ma ora stai impostando un orologio <strong>Interrogation</strong> per ottenere informazioni da loro.</p>",
+              "ko": "<p>시계의 모든 세그먼트가 채워지면 추적하는 결과 또는 결과가 발생하거나 나타내는 상황이 해결됩니다. 일반적으로 시계를 지울 수 있지만 때로는 하나의 시계를 완성하면 다른 시계가 시작됩니다! <strong>Chase</strong>시계를 채워서 현상 수배자를 추적 할 수 있지만 이제는 <strong>Interrogation</strong>시계를 설정하여 그들로부터 정보를 얻습니다.</p>"
             }
           },
           {
             "title": {
-              "en": "Fail States"
+              "en": "Fail States",
+              "ru": "Состояния отказа",
+              "ja": "失敗状態",
+              "es": "Estados de Fallo",
+              "zh": "失败状态",
+              "de": "Fehlende Zustände",
+              "fr": "États d&rsquo;Échec",
+              "it": "Stati di Fallimento",
+              "ko": "실패 상태"
             },
             "content": {
-              "en": "<p>You can also create clocks that fill up as a result of failures, rather than successes, establishing fail states for situations. These clocks get filled in as consequences of failed rolls or complications of <strong>RISKY </strong>rolls. For example, if a group of PCs were trying to flee from a band of mercenaries, you might set out two clocks: one that represents the PCs&rsquo; safe escape and one that represents the mercenaries catching up to them and forcing a fight. The <strong>Escape </strong>clock fills up when PCs successfully put some distance between them and their pursuers, while the <strong>Capture </strong>clock fills up when they either fail those actions or have to make trade-offs. You might fill in two segments whenever a PC fails a roll and fill in a single segment if they succeed on a <strong>RISKY </strong>roll.</p>"
+              "en": "<p>You can also create clocks that fill up as a result of failures, rather than successes, establishing fail states for situations. These clocks get filled in as consequences of failed rolls or complications of <strong>RISKY </strong>rolls. For example, if a group of PCs were trying to flee from a band of mercenaries, you might set out two clocks: one that represents the PCs&rsquo; safe escape and one that represents the mercenaries catching up to them and forcing a fight. The <strong>Escape </strong>clock fills up when PCs successfully put some distance between them and their pursuers, while the <strong>Capture </strong>clock fills up when they either fail those actions or have to make trade-offs. You might fill in two segments whenever a PC fails a roll and fill in a single segment if they succeed on a <strong>RISKY </strong>roll.</p>",
+              "ru": "<p>Вы также можете создавать часы, которые заполняются в результате неудач, а не успехов, устанавливая состояния отказа для ситуаций. Эти часы заполняются в качестве последствий неудачных бросков или осложнений <strong>RISKY </strong>rolls. Например, если группа ПК пыталась убежать от отряда наемников, вы можете установить два часа: один, который представляет безопасный побег ПК, и один, который представляет наемников, догоняющих их и заставляющих драться. <strong>Escape </strong>часы заполняются, когда ПК успешно удаляются от преследователей, а <strong>Capture </strong>часы заполняются, когда они либо не выполняют эти действия, либо вынуждены идти на компромисс. Вы можете заполнить два сегмента, когда ПК неудачно бросает кубики, и заполнить один сегмент, если они успешно выполняют <strong>RISKY </strong>бросок.</p>",
+              "ja": "<p>成功ではなく失敗の結果として、状況の失敗状態を確立することで、満たされるクロックを作成することもできます。これらのクロックは、失敗したロールの結果または<strong>RISKY </strong>ロールの合併症として埋められます。たとえば、PCたちの一団が傭兵団から逃げようとしている場合、PCたちの安全な脱出を表す1つと、傭兵団が彼らに追いついて戦いを強いることを表す1つのクロックを設定することができます。 <strong>Escape </strong>クロックは、PCが追跡者との間に距離を置くことに成功したときに満たされ、<strong>Capture </strong>クロックは、それらのアクションに失敗するか、トレードオフを行う必要があるときに満たされます。 PCがロールに失敗した場合は2つのセグメントを埋め、<strong>RISKY </strong>ロールに成功した場合は1つのセグメントを埋めることができます。</p>",
+              "es": "<p>También puedes crear relojes que se llenen como resultado de fallos, en lugar de éxitos, estableciendo estados de fallo para situaciones. Estos relojes se llenan como consecuencias de tiradas fallidas o complicaciones de tiradas <strong>RISKY</strong>. Por ejemplo, si un grupo de PJs intenta huir de una banda de mercenarios, podrías establecer dos relojes: uno que representa la huida segura de los PJs y otro que representa a los mercenarios alcanzándolos y forzando un combate. El reloj de <strong>Escape</strong> se llena cuando los PJs consiguen poner distancia entre ellos y sus perseguidores, mientras que el reloj de <strong>Capture</strong> se llena cuando fallan esas acciones o tienen que hacer concesiones. Podrías llenar dos segmentos cada vez que un PJ falla una tirada y un solo segmento si tienen éxito en una tirada <strong>RISKY</strong>.</p>",
+              "zh": "<p>您还可以创建在失败而不是成功的情况下填充的时钟，从而为情况建立失败状态。这些时钟填充为失败的掷骰结果或<strong> RISKY </strong>掷骰的并发症。例如，如果一组PC试图从一群雇佣兵中逃脱，您可以设置两个时钟：一个代表PC的安全逃脱，另一个代表雇佣兵追上他们并迫使他们战斗。 <strong>逃脱</strong>时钟在PC成功将他们和追捕者之间的距离拉开时填满，而<strong>捕获</strong>时钟在他们失败这些动作或不得不做出让步时填满。如果PC失败了掷骰，您可以填写两个片段，如果他们在<strong> RISKY </strong>掷骰上成功，您可以填写一个片段。</p>",
+              "de": "<p>Sie können auch Uhren erstellen, die als Folge von Fehlern und nicht von Erfolgen gefüllt werden, indem Sie Fehlerzustände für Situationen festlegen. Diese Uhren werden als Folge von fehlgeschlagenen Würfen oder Komplikationen von <strong>RISKY </strong>Würfen gefüllt. Wenn sich die Gruppe der SCs zum Beispiel von einer Söldnertruppe absetzen will, können Sie zwei Uhren einstellen: eine, die die sichere Flucht der SCs darstellt, und eine, die die Söldner darstellt, die sie einholen und zu einem Kampf zwingen. Die <strong>Escape </strong>Uhr wird gefüllt, wenn die SCs es schaffen, Abstand zwischen sich und ihren Verfolgern zu bringen, während die <strong>Capture </strong>Uhr gefüllt wird, wenn sie diese Aktionen nicht schaffen oder Zugeständnisse machen müssen. Sie könnten zwei Segmente füllen, wenn ein SC einen Wurf vermasselt, und ein einziges Segment, wenn er einen <strong>RISKY </strong>Wurf schafft.</p>",
+              "fr": "<p>Vous pouvez également créer des horloges qui se remplissent en cas d'échec plutôt que de succès, en établissant des états d'échec pour les situations. Ces horloges se remplissent en conséquence d'un jet raté ou de complications d'un jet <strong>RISKY</strong>. Par exemple, si un groupe de PJ tente de s'échapper d'une bande de mercenaires, vous pouvez établir deux horloges : l'une représentant l'évasion en toute sécurité des PJ et l'autre représentant les mercenaires les rattrapant et les forçant à combattre. L'horloge <strong>Escape</strong> se remplit lorsque les PJ parviennent à mettre de la distance entre eux et leurs poursuivants, tandis que l'horloge <strong>Capture</strong> se remplit lorsqu'ils échouent dans ces actions ou doivent faire des concessions. Vous pourriez remplir deux segments chaque fois qu'un PJ rate un jet et un seul segment s'il réussit un jet <strong>RISKY</strong>.</p>",
+              "it": "<p>Puoi anche creare orologi che si riempiono come risultato di fallimenti anziché di successi, stabilendo stati di fallimento per le situazioni. Questi orologi si riempiono come conseguenza di un tiro fallito o di complicazioni di un tiro <strong>RISKY</strong>. Ad esempio, se un gruppo di PG cerca di fuggire da una banda di mercenari, potresti stabilire due orologi: uno che rappresenta la fuga sicura dei PG e un altro che rappresenta i mercenari che li raggiungono e li costringono a combattere. L'orologio <strong>Escape</strong> si riempie quando i PG riescono a mettere distanza tra loro e i loro inseguitori, mentre l'orologio <strong>Capture</strong> si riempie quando falliscono in quelle azioni o devono fare delle concessioni. Potresti riempire due segmenti ogni volta che un PG fallisce un tiro e un solo segmento se riesce in un tiro <strong>RISKY</strong>.</p>",
+              "ko": "<p>상황에 실패 상태를 설정하여 실패가 성공보다 더 많은 시계를 생성할 수도 있습니다. 이러한 시계는 실패한 굴림 또는 <strong>RISKY</strong> 굴림의 합병증으로 인해 채워집니다. 예를 들어, PC 그룹이 용병단에서 탈출하려고하는 경우 두 개의 시계를 설정할 수 있습니다. 하나는 PC의 안전한 탈출을 나타내고 다른 하나는 용병단이 그들을 따라잡고 싸우도록하는 것을 나타냅니다. <strong>Escape</strong>시계는 PC가 자신과 추격자 사이의 거리를 벌릴 때 채워지고 <strong>Capture</strong>시계는 그들이 이러한 행동을 실패하거나 양보해야 할 때 채워집니다. PC가 굴림을 실패하면 두 세그먼트를 채우고 <strong>RISKY</strong> 굴림에 성공하면 하나의 세그먼트를 채울 수 있습니다.</p>"
             }
           },
           {
             "title": {
-              "en": "Un-ticking Clocks"
+              "en": "Un-ticking Clocks",
+              "ru": "Отмена отметки часов",
+              "ja": "クロックのチェックを外す",
+              "es": "Desmarcar Relojes",
+              "zh": "取消时钟",
+              "de": "Uhren abhaken",
+              "fr": "Décocher les Horloges",
+              "it": "Deselezionare gli Orologi",
+              "ko": "시계 체크 해제"
             },
             "content": {
-              "en": "<p>Filled-in clock segments can also be erased if action is taken to reverse an action or situation. In the pursuit scenario described above, for example, the PCs might try something to clear segments from the <strong>Capture </strong>clock instead of filling in segments on the <strong>Escape </strong>clock. This could involve putting down a false trail, blocking off a door, or splitting up.</p>"
+              "en": "<p>Filled-in clock segments can also be erased if action is taken to reverse an action or situation. In the pursuit scenario described above, for example, the PCs might try something to clear segments from the <strong>Capture </strong>clock instead of filling in segments on the <strong>Escape </strong>clock. This could involve putting down a false trail, blocking off a door, or splitting up.</p>",
+              "ru": "<p>Заполненные сегменты часов также можно стереть, если предприняты действия по обращению действия или ситуации. В сценарии преследования, описанном выше, например, ПК могут попытаться что-то сделать, чтобы очистить сегменты из <strong>Захвата </strong>часов вместо заполнения сегментов на <strong>Побег </strong>часы. Это может включать в себя установку ложного следа, блокировку двери или разделение.</p>",
+              "ja": "<p>埋め込まれたクロックセグメントは、アクションを逆転させるためのアクションが取られた場合にも消去できます。たとえば、上記の追跡シナリオでは、PCは<strong>脱出</strong>クロックのセグメントを埋める代わりに<strong>捕獲</strong>クロックからセグメントを消去するために何かを試すかもしれません。これには、偽のトレイルを置く、ドアをブロックする、または分割するなどが含まれる可能性があります。</p>",
+              "es": "<p>Los segmentos de reloj llenos también se pueden borrar si se toma una acción para revertir una acción o situación. En el escenario de persecución descrito anteriormente, por ejemplo, los PCs podrían intentar algo para borrar segmentos del reloj <strong>Captura </strong>en lugar de llenar segmentos en el reloj <strong>Escape</strong>. Esto podría implicar dejar un falso rastro, bloquear una puerta o dividirse.</p>",
+              "zh": "<p>如果采取行动来扭转行动或情况，还可以擦除填充的时钟段。例如，在上面描述的追逐场景中，PC可能会尝试某些操作以清除<strong>捕获</strong>时钟上的段，而不是在<strong>逃生</strong>时钟上填充段。这可能涉及放置虚假轨迹，阻止门或分裂。</p>",
+              "de": "<p>Gefüllte Uhrensegmente können auch gelöscht werden, wenn Maßnahmen ergriffen werden, um eine Aktion oder Situation umzukehren. In dem oben beschriebenen Verfolgungsszenario könnten die PCs beispielsweise etwas versuchen, um Segmente aus der <strong>Capture </strong>Uhr zu löschen, anstatt Segmente in der <strong>Escape </strong>Uhr auszufüllen. Dies könnte das Ablegen einer falschen Spur, das Blockieren einer Tür oder das Aufteilen beinhalten.</p>",
+              "fr": "<p>Les segments d&rsquo;horloge remplis peuvent également être effacés si des mesures sont prises pour inverser une action ou une situation. Dans le scénario de poursuite décrit ci-dessus, par exemple, les PCs pourraient essayer quelque chose pour effacer des segments de l&rsquo;horloge <strong>Capture </strong>au lieu de remplir des segments sur l&rsquo;horloge <strong>Escape </strong>. Cela pourrait impliquer de déposer une fausse piste, de bloquer une porte ou de se diviser.</p>",
+              "it": "<p>I segmenti dell&rsquo;orologio riempiti possono anche essere cancellati se vengono intraprese azioni per invertire un&rsquo;azione o una situazione. Nello scenario di inseguimento descritto sopra, ad esempio, i PC potrebbero provare qualcosa per cancellare i segmenti dell&rsquo;orologio <strong>Cattura </strong>invece di riempire i segmenti sull&rsquo;orologio <strong>Fuga </strong>. Questo potrebbe comportare il deposito di una falsa pista, il blocco di una porta o la divisione.</p>",
+              "ko": "<p>채워진 시계 세그먼트는 행동이 취해져 행동 또는 상황을 뒤집을 경우 지워질 수도 있습니다. 위에서 설명한 추격 시나리오에서 예를 들어, PC는 <strong>탈출 </strong>시계에 세그먼트를 채우는 대신 <strong>포획 </strong>시계에서 세그먼트를 지우기 위해 무언가를 시도 할 수 있습니다. 이것은 가짜 트레일을 내려 놓거나 문을 막거나 분할하는 것을 포함할 수 있습니다.</p>"
             }
           }
         ]
@@ -153,10 +441,26 @@
   },
   {
     "title": {
-      "en": "Missions, Downtimes and Scenes"
+      "en": "Missions, Downtimes and Scenes",
+      "ru": "Миссии, простои и сцены",
+      "ja": "ミッション、ダウンタイム、シーン",
+      "es": "Misiones, Tiempos Muertos y Escenas",
+      "zh": "任务，停机时间和场景",
+      "de": "Missionen, Downtimes und Szenen",
+      "fr": "Missions, Temps Morts et Scènes",
+      "it": "Missioni, Tempi Morti e Scene",
+      "ko": "임무, 다운 타임 및 장면"
     },
     "content": {
-      "en": "<p>Ongoing games of Lancer are usually divided into <strong>missions</strong>, each of which might encompass one play session or several, separated by periods of <strong>downtime</strong>.&nbsp;</p> <p><strong>Missions </strong>have specific goals or objectives that can be completed within a discrete amount of time: destroying a building, breaking into a secure facility to recover vital data, evacuating civilians, uncovering a conspiracy, or holding the line against enemy attack, for example. Missions also provide some preparation time in which you can establish goals, stakes, and equipment for your characters.&nbsp;</p> <p>If your character isn&rsquo;t on a mission, you&rsquo;re in <strong>downtime</strong>. This is the narrative space between missions, in which moment-to-moment action doesn&rsquo;t matter as much and roleplaying matters much more. During downtime you can progress plots, projects, or personal stories, moving the clock forward as much or as little as you want. Days, months, and even years can pass in downtime, depending on the pace of your game.&nbsp;</p> <p>In both missions and downtime, play is divided into <strong>scenes</strong>. A scene is a period of continuous dialogue, action, or activity that has a discrete starting and stopping point. This is called a scene because it&rsquo;s helpful to think about it in cinematic terms: as long as the focus (or &lsquo;camera&rsquo;) is on the players and their action, a scene is happening. When the focus cuts away from the current scene, or the current action naturally ends, that&rsquo;s when the scene should end too.&nbsp;</p> <p>A single combat encounter or a dialogue between characters are both great examples of scenes, but a scene can also be something like a montage.&nbsp;</p> <p>It&rsquo;s important to pay attention to the beginning and end of scenes, as many special character and mech abilities end or reset at the end of a scene.</p>"
+      "en": "<p>Ongoing games of Lancer are usually divided into <strong>missions</strong>, each of which might encompass one play session or several, separated by periods of <strong>downtime</strong>.&nbsp;</p> <p><strong>Missions </strong>have specific goals or objectives that can be completed within a discrete amount of time: destroying a building, breaking into a secure facility to recover vital data, evacuating civilians, uncovering a conspiracy, or holding the line against enemy attack, for example. Missions also provide some preparation time in which you can establish goals, stakes, and equipment for your characters.&nbsp;</p> <p>If your character isn&rsquo;t on a mission, you&rsquo;re in <strong>downtime</strong>. This is the narrative space between missions, in which moment-to-moment action doesn&rsquo;t matter as much and roleplaying matters much more. During downtime you can progress plots, projects, or personal stories, moving the clock forward as much or as little as you want. Days, months, and even years can pass in downtime, depending on the pace of your game.&nbsp;</p> <p>In both missions and downtime, play is divided into <strong>scenes</strong>. A scene is a period of continuous dialogue, action, or activity that has a discrete starting and stopping point. This is called a scene because it&rsquo;s helpful to think about it in cinematic terms: as long as the focus (or &lsquo;camera&rsquo;) is on the players and their action, a scene is happening. When the focus cuts away from the current scene, or the current action naturally ends, that&rsquo;s when the scene should end too.&nbsp;</p> <p>A single combat encounter or a dialogue between characters are both great examples of scenes, but a scene can also be something like a montage.&nbsp;</p> <p>It&rsquo;s important to pay attention to the beginning and end of scenes, as many special character and mech abilities end or reset at the end of a scene.</p>",
+      "ko": "번역 대기",
+      "ru": "перевод ожидается",
+      "de": "Übersetzung ausstehend",
+      "fr": "traduction en attente",
+      "it": "traduzione in attesa",
+      "es": "traducción pendiente",
+      "ja": "翻訳待ち",
+      "zh": "翻译待定"
     }
   }
 ]
