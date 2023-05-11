@@ -70,7 +70,11 @@
 <script lang="ts">
 import _ from 'lodash';
 import basics from '@/assets/srd/lib/basics.json';
-import using_compcon from '@/assets/srd/lib/using_compcon.json';
+import combat from '@/assets/srd/lib/combat.json';
+import mechs from '@/assets/srd/lib/mechs.json';
+import pilots from '@/assets/srd/lib/pilots.json';
+import narrative_play from '@/assets/srd/lib/narrative_play.json';
+// import using_compcon from '@/assets/srd/lib/using_compcon.json';
 
 function searchObject(obj, str) {
   const coll = [] as any[];
@@ -139,7 +143,14 @@ export default {
     data: [] as any[],
   }),
   created() {
-    this.data = [...fillDataObject(basics, 'basics'), ...fillDataObject(using_compcon, 'compcon')];
+    this.data = [
+      ...fillDataObject(basics, 'basics'),
+      // ...fillDataObject(using_compcon, 'compcon'),
+      ...fillDataObject(combat, 'combat'),
+      ...fillDataObject(mechs, 'mechs'),
+      ...fillDataObject(pilots, 'pilots'),
+      ...fillDataObject(narrative_play, 'narrative_play'),
+    ];
     console.log(this.data);
     this.data = flatten(this.data);
     console.log(this.data);
