@@ -58,6 +58,7 @@
         icon="cc:repair"
         name="FAQ & Errata"
         to="srd/reference/errata"
+        disabled
       />
       <compendium-page-button
         color="exotic"
@@ -70,11 +71,12 @@
         icon="cc:system_point"
         name="Using COMP/CON"
         to="srd/reference/compcon"
+        disabled
       />
       <compendium-page-button
         color="exotic"
         icon="mdi-search-web"
-        name="Index"
+        name="Quick Reference"
         to="srd/reference/reference"
       />
     </v-row>

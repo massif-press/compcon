@@ -3,24 +3,28 @@
     <fieldset>
       <legend class="text-overline px-4">CONTENTS</legend>
       <v-card-text>
-        <div v-for="item in content">
-          <v-btn
-            variant="text"
-            color="primary"
-            class="heading h3"
-            @click="scrollTo(item)"
-            v-text="getLangItem(item, 'title')"
-          />
-          <div v-for="child in (item as any).children">
-            <v-btn
-              variant="text"
-              color="primary"
-              class="heading h4 ml-4"
-              @click="scrollTo(child)"
-              v-text="getLangItem(child, 'title')"
-            />
-          </div>
-        </div>
+        <v-row justify="space-around">
+          <v-col v-for="n in Math.ceil(content.length / 3)">
+            <div v-for="item in content.slice(3 * (n - 1), 3 * n)">
+              <v-btn
+                variant="text"
+                color="primary"
+                class="heading h3"
+                @click="scrollTo(item)"
+                v-text="getLangItem(item, 'title')"
+              />
+              <div v-for="child in (item as any).children">
+                <v-btn
+                  variant="text"
+                  color="primary"
+                  class="heading h4 ml-4"
+                  @click="scrollTo(child)"
+                  v-text="getLangItem(child, 'title')"
+                />
+              </div>
+            </div>
+          </v-col>
+        </v-row>
       </v-card-text>
     </fieldset>
     <v-container class="px-12 pb-12">

@@ -4,82 +4,775 @@
       "en": "Overview"
     },
     "content": {
-      "en": "content"
-    }
-  },
-  {
-    "title": {
-      "en": "Characters and Objects"
-    },
-    "content": {
-      "en": "content"
-    }
-  },
-  {
-    "title": {
-      "en": "Space, Size, and Measurement"
-    },
-    "content": {
-      "en": "content"
-    }
-  },
-  {
-    "title": {
-      "en": "Turns"
-    },
-    "content": {
-      "en": "content"
+      "en": "<p>It&rsquo;s entirely possible to play through a session of Lancer without even touching a mech, let alone mech combat. Some groups prefer a game focused more on roleplaying and politics, in which most conflicts are decided with skill checks.</p> <p>That said, lancers have a particular talent, and it&rsquo;s one that&rsquo;s bound to come up during missions: fighting in mechs. Even if you&rsquo;re playing a more narrative game, there are times you&rsquo;ll find that you want combat to be more tactical, and for each decision to matter more; you&rsquo;ll want to test out your ingenuity, and put your mech-building and fighting skills to good use. That&rsquo;s the signal that it&rsquo;s time for mech combat. Unlike narrative play, mech combat is <strong>tactical and turn-based</strong>.</p> <p>It&rsquo;s also primarily about mechs &ndash; you can certainly use the mech combat rules for fights between pilots, but the options are far less interesting. There are a couple of key differences between using the mech combat rules to play out combat and playing it out narratively:</p> <p>In mech combat, instead of using triggers and skill checks to determine the outcome of conflicts, you use<strong> attack rolls, mech skill checks, and saves</strong>. Players take turns, and during their turns have access to specific types of actions.</p> <p>The <strong>stakes</strong> of mech combat are much higher, and the scale much larger. Whatever other skills your pilot has, it&rsquo;s only their experience fighting in a mech that will help them succeed. Instead of getting bonuses from triggers, a pilot&rsquo;s GRIT determines their bonuses for attack rolls and saves.</p>"
     },
     "children": [
       {
         "title": {
-          "en": "Movement"
+          "en": "Characters and Objects"
         },
         "content": {
-          "en": "content"
+          "en": "<p>There are two kinds of entities that mechs are likely to interact with during combat: <strong>characters</strong> and <strong>objects</strong>.</p> <p>Broadly speaking, a character is anything capable of taking independent action. This includes <strong>player characters (PCs)</strong> &ndash; the pilots and mechs controlled by the players &ndash; and <strong>non-player characters (NPCs)</strong>, which are controlled by the GM. As long as they can take independent actions or reactions, non-sentient characters like drones and automated turrets can also be characters.</p> <p>Characters can be <strong>hostile</strong> or <strong>allied</strong> depending on their attitude towards you (rather than your attitude to them). <strong>You never count as an allied character to yourself. </strong></p> <p>An object is anything that isn&rsquo;t a character and that isn&rsquo;t held, worn, or otherwise part of a character. This includes both terrain features (e.g., walls, boulders, and trees) and pieces of gear that have been placed down or deployed (e.g., shield generators and landmines).</p>"
         }
       },
       {
         "title": {
-          "en": "Attacks"
+          "en": "Space, Size, and Measurement"
         },
         "content": {
-          "en": "content"
+          "en": "<p>Movement, range, areas of effect, and all other distances are measured in <strong>spaces</strong>. Spaces are equivalent to hexes or squares on a grid map, but can also be measured in inches or similar if you&rsquo;re keeping track of position another way. By default, each space is equivalent to 10 feet (or 3 meters), but the scale can be changed to represent different types of encounters. For example, in a massive pitched battle, spaces might be 50 feet on each side.</p> <p>All characters and objects have a <strong>SIZE</strong> statistic, which describes their physical presence on the battlefield and how many spaces they occupy. A <strong>SIZE 1</strong> character occupies 1 space on all sides and is 1 space high, while a <strong>SIZE 3</strong> character occupies 3 spaces on all sides and is 3 spaces high. Most characters and objects range between <strong>SIZE 1</strong> and <strong>SIZE 3</strong>.</p> <p><strong>SIZE</strong> doesn&rsquo;t always represent a precise height and width &ndash; it describes an area of influence. Not all characters are physically as tall as the space they can control around them. For example, most <strong>SIZE 1</strong> mechs are taller than 10 feet.</p> <p>Characters and objects can be smaller or larger than <strong>SIZE 1</strong>. Pilots, for instance, are <strong>SIZE 1/2</strong>, while mechs can go up to <strong>SIZE 3</strong> and beyond. When measuring spaces, anything smaller than <strong>SIZE 1</strong> is rounded up. Both <strong>SIZE 1</strong> mechs and <strong>SIZE 1/2</strong> pilots take up single <strong>1x1</strong> squares or hexagons.</p> <p>It&rsquo;s helpful to use a map and tokens, icons, or miniatures to track characters and objects during mech combat. The easiest option is to use a tactical grid or hex-based battle map, but you can also measure distances in inches or some other unit of measurement.</p>"
         }
       },
       {
         "title": {
-          "en": "Harm"
+          "en": "Turns and Rounds"
         },
         "content": {
-          "en": "content"
-        }
-      },
-      {
-        "title": {
-          "en": "Actions"
-        },
-        "content": {
-          "en": "content"
+          "en": "<p>Mech combat is separated into <strong>turns</strong> and <strong>rounds</strong>. Each character takes one turn per round unless they otherwise specified. A round ends when every character capable of taking a turn has taken a turn.</p> <p>Turns represent activity, not the passing of time. Even though characters act in a certain order, the turns in each round are assumed to narratively occur at roughly the same time.</p> <p>Players always get to act first. When mech combat begins, the players agree on a player (or an allied NPC) to take the first turn. If the players can&rsquo;t agree on someone, the GM chooses.</p> <p>Next, the GM chooses a hostile NPC to act, followed by a player (or allied NPC) nominated by the player who acted previously. This is followed by another hostile NPC of the GM&rsquo;s choice, then another player, and so on, alternating between hostile and allied characters until every character has acted. If all characters on one side have acted, the remaining characters take their turns in an order decided either the GM or the players, as relevant.</p> <p>When every character has taken a turn, the round ends and a new one begins. The turn order continues to alternate, so if one side took the last turn in the previous round, the other side starts the new round.</p> <p>This can result in hostile NPCs acting first in a new round. Some talents, systems, and weapons can be used once per round, turn, or scene. In their rules, this is written as &ldquo;1/round&rdquo;, &ldquo;1/turn&rdquo;, and so on.</p>"
         }
       }
     ]
   },
   {
     "title": {
-      "en": "Pilot Combat"
+      "en": "Movement"
     },
     "content": {
-      "en": "content"
+      "en": "<p>On their turn, characters can always move spaces equal to their <strong>SPEED</strong>, in addition to any other actions. This is called a <strong>standard move</strong> to distinguish it from movement granted by systems or talents.</p> <p>A character only counts as moving if they move 1 or more spaces.</p> <p>Characters can move into any adjacent space, even diagonally, as long as the space isn&rsquo;t occupied by an obstruction (and is one that they would be able to move in &ndash; characters can't move straight up unless they can fly, for example). There are several factors that can affect movement, which are detailed here.</p>"
     },
     "children": [
       {
         "title": {
-          "en": "Pilots in Mech Combat"
+          "en": "Splitting up Movement and Action"
         },
         "content": {
-          "en": "content"
+          "en": "<p>Any time characters voluntarily move, whether it&rsquo;s a standard move or something else, they can split up their movement with any actions; however, when they do this, any non-movement actions they take must fully resolve before they continue moving. For example, a mech with <strong>6 SPEED</strong> could move 4 spaces, <strong>BARRAGE</strong>, and then move two more spaces; however, it would need to complete the full <strong>BARRAGE</strong> action &ndash; firing with two mounts &ndash; before moving those final 2 spaces. It couldn&rsquo;t fire one mount, move two spaces, and then fire another mount.</p>"
         }
+      },
+      {
+        "title": {
+          "en": "Adjacency"
+        },
+        "content": {
+          "en": "<p>Characters are considered <strong>adjacent</strong> to another character or object when they are within one space of it in any direction &ndash; even diagonal and vertical.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Obstruction"
+        },
+        "content": {
+          "en": "<p>An obstruction is anything that blocks passage, preventing movement into its space entirely. Obstructions are typically environmental but other characters can also be obstructions. Characters are obstructed by any solid objects or characters that are the same <strong>SIZE</strong> as them or larger.</p> <p>Characters can freely pass through spaces occupied by obstructions smaller than them, including other characters; however, they can&rsquo;t end a movement in a space that is occupied by another character or object unless specified. This means that a <strong>SIZE 2</strong> mech, for example, could move through the space of a <strong>SIZE 1</strong> mech or object, but could not finish its move in the same space.</p> <p>Allied characters never cause obstruction, but characters still can&rsquo;t end moves in their space. Additionally, mechs can always move through spaces occupied by unmounted humans.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Engagement"
+        },
+        "content": {
+          "en": "<p>If a character moves adjacent to a hostile character, they both gain the <strong>ENGAGED</strong> status for as long as they remain adjacent to one another. Ranged attacks made by an <strong>ENGAGED</strong> character receive <strong>+1&nbsp;DIFFICULTY</strong>. Additionally, characters that become <strong>ENGAGED</strong> by targets of equal or greater <strong>SIZE</strong> during the course of a movement stop moving immediately and lose any unused movement. After you have become <strong>ENGAGED</strong> with a character, you may make further move actions as normal and moving into other adjacent spaces does not stop your movement, though beginning a move within that character's threat may provoke reactions such as <strong>OVERWATCH</strong></p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Movement and Reactions"
+        },
+        "content": {
+          "en": "<p>Starting movement within <strong>THREAT</strong> of another character, typically <strong>THREAT 1-3</strong>, can trigger reactions such as <strong>OVERWATCH</strong>. Characters that want to move more cautiously can <strong>DISENGAGE</strong> as a full action, allowing them to ignore reactions and engagement when moving.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Involuntary Movement"
+        },
+        "content": {
+          "en": "<p>When characters are pushed, pulled, or knocked in certain directions, it is called <strong>involuntary movement</strong>. Involuntary movement forces the affected character to move in a straight line, in a specified direction. When moving involuntarily, mechs do not provoke reactions or engagement unless specified otherwise but are still blocked by obstructions.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Difficult/Dangerous Terrain"
+        },
+        "content": {
+          "en": "<p>Mech combat takes place on many types of worlds in countless hostile and hazardous environments. <strong>Difficult terrain</strong> can be anything from rough, marshy, or swampy ground, through to icy landscapes, and treacherous, rocky scree. All movement through difficult terrain is at <strong>half speed</strong> &ndash; each space of difficult terrain they move into is equivalent to two spaces of movement.</p> <p>When characters end their turn in dangerous terrain or move into it for the first time in a round, they must make an <strong>ENGINEERING</strong> check. On a failure, they take 5 damage &ndash; <strong>kinetic</strong>, <strong>energy</strong>, <strong>explosive</strong>, or <strong>burn</strong>, depending on the hazard. Each character only needs to make one such check per round. Intense radiation, boiling gases, lava, and falling rocks are all examples of dangerous terrain.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Lifting and Dragging"
+        },
+        "content": {
+          "en": "<p>Mechs can <strong>drag</strong> characters or objects up to twice their <strong>SIZE</strong> but are <strong>SLOWED</strong> while doing so. They can also <strong>lift</strong> characters or objects of equal or lesser <strong>SIZE</strong> overhead but are <strong>IMMOBILIZED</strong> while doing so. While dragging or lifting, characters can&rsquo;t take reactions. The same rules apply to pilots and other characters on foot, but they can&rsquo;t drag or lift anything above <strong>SIZE 1/2</strong>.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Jumping and Climbing"
+        },
+        "content": {
+          "en": "<p>Characters with legs can jump instead of their standard move. They may jump horizontally, moving half their speed in a straight line and ignoring obstructions at ground level that they could jump over (such as pits or gaps), or they may can jump vertically, moving 1 space adjacent and moving up by spaces equivalent to their <strong>SIZE</strong>. For example, a <strong>SIZE 1</strong> mech could jump up to 1 space high, and 1 space over. Characters that jump and end the jump mid air automatically fall at the end of the move.</p> <p>Like moving through difficult terrain, characters climb at half their usual <strong>SPEED</strong> &ndash; each space moved is equivalent to moving 2 spaces normally. A successful <strong>HULL</strong> or <strong>AGILITY</strong> check might be required to climb particularly difficult surfaces without falling.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Falling"
+        },
+        "content": {
+          "en": "<p>Characters take damage when they <strong>fall</strong> three or more spaces and cannot recover before hitting the ground. In standard circumstances, characters fall 10 spaces per round, but mechs can&rsquo;t fall in zero-g or low-g environments, and falling speeds may differ depending on the location.</p> <p>Unless specified otherwise, characters start to fall at the end of the current turn, and fall at the end of each of their turns thereafter. They take <strong>3 AP</strong> (armor piercing) <strong>kinetic damage</strong> for every three spaces fallen, to a maximum of <strong>9 AP kinetic damage</strong>.</p> <p>Falling is a type of <strong>involuntary movement</strong>.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Gravity"
+        },
+        "content": {
+          "en": "<p>Mechs operating underwater, in zero-g, or in space are <strong>SLOWED</strong> unless they have a <strong>propulsion</strong> or <strong>flight system</strong>; however, they can&rsquo;t fall and can fly when moving regardless of whether they have a flight system.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Flight"
+        },
+        "content": {
+          "en": "<p>Some characters can <strong>fly</strong> for either all or part of their movement. Flying characters can move vertically and horizontally up to their <strong>SPEED</strong>. For example, a mech with a flight system and <strong>6 SPEED</strong> could end its movement anywhere within six spaces of its starting location, up to a maximum of 6 spaces high.</p> <p>Flight movement must follow a straight line; however, if a character takes additional movement actions, such as <strong>BOOST</strong>, these can be used to move in a different direction.</p> <p>When flying, characters ignore obstructions as long as it is physically possible for them to do so &ndash; they couldn&rsquo;t, for instance, move through a gap smaller than their mech. Flying characters also have <strong>IMMUNITY</strong> to <strong>PRONE</strong>.</p><p>Flying also comes with some risks:</p> <ul> <li>When flying, characters must move <strong>at least 1 space</strong> on their turn or begin falling.</li> <li>Flying characters begin falling if they become <strong>IMMOBILIZED</strong>, <strong>STUNNED</strong>, or otherwise can&rsquo;t move.</li> <li>Flying characters that take <strong>structure damage </strong>or<strong> stress</strong> must succeed on an <strong>AGILITY</strong> save or begin falling.</li> </ul> <p>During mech combat, characters that fly too high above the battlefield can only take certain actions. Flying characters must remain no more than <strong>10 spaces over any surface</strong> (e.g., ground, water, structures) to act normally. For instance, a flying mech could move 10 spaces above the ground or float 10 spaces above a building five spaces high &ndash; a total of 15 spaces above the ground &ndash; and still act. Characters cannot move beyond this distance if they have already taken an action in the same turn; if they do move more than 10 spaces above the battlefield, they can only move and <strong>BOOST</strong>, and cannot take reactions until they start their turn below that ceiling.</p> <p>This restriction does not exist in zero-g and outside of mech combat.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Carrying Objects and Flight"
+            },
+            "content": {
+              "en": "<p>Except in zero-g environments, mechs cannot carry characters or objects with a total <strong>SIZE</strong> larger than <strong>SIZE 1/2</strong> while flying &ndash; there&rsquo;s just not enough thrust!</p>"
+            }
+          },
+
+          {
+            "title": {
+              "en": "Hover Flight"
+            },
+            "content": {
+              "en": "<p>Some very advanced mechs can <strong>hover</strong>. Hovering characters do not need to move in a straight line, and can remain stationary while airborne without falling.</p>"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Teleportation"
+        },
+        "content": {
+          "en": "<p>Some characters can <strong>teleport</strong>, instantly moving to any free space within a specified range. They must start and end a teleport on a surface they can normally move on; for example, a character that can&rsquo;t fly can&rsquo;t teleport mid-air.</p> <p>Teleportation ignores <strong>obstructions</strong>, does not require <strong>line of sight</strong>, ignores <strong>engagement</strong>, and <strong>does not provoke reactions</strong>; however, it still counts as movement and so is affected by conditions like <strong>IMMOBILIZED</strong>. A teleporting character counts as moving 1 space, no matter how far they travel.</p> <p>Characters can attempt to teleport to spaces they can&rsquo;t see, but if a space is already occupied, the teleport fails.</p>"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Attacks"
+    },
+    "content": {
+      "en": "<p>Mechs attack using the <strong>SKIRMISH</strong>, <strong>BARRAGE</strong>, <strong>QUICK TECH</strong>, <strong>FULL TECH</strong>, and <strong>IMPROVISED ATTACK</strong> actions. Characters on foot attack using the <strong>FIGHT</strong> action. Whichever action is taken, the details of attacks are determined by the weapons or systems that are used.</p> <p>There are three types of attack in mech combat: <strong>melee</strong>, <strong>ranged</strong>, and <strong>tech</strong>.</p>"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Types of Attack"
+        },
+        "content": {
+          "en": ""
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Melee Attack"
+            },
+            "content": {
+              "en": "<p>The attacker chooses a target within weapon <strong>THREAT</strong> and line of sight, then makes a melee attack roll - rolling <strong>1d20</strong>, plus <strong>GRIT</strong> and any <strong>ACCURACY</strong> or <strong>DIFFICULTY</strong>. To hit, they must match or beat the target&rsquo;s <strong>EVASION</strong>.</p> <p>Melee attacks ignore cover.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Ranged Attack"
+            },
+            "content": {
+              "en": "<p>The attacker chooses a target within weapon <strong>RANGE</strong> and line of sight, then makes a <strong>ranged attack roll</strong> - rolling <strong>1d20</strong>, plus <strong>GRIT</strong> and any <strong>ACCURACY</strong> or <strong>DIFFICULTY</strong>. To hit, they must match or beat the target&rsquo;s <strong>EVASION</strong>. Characters that are adjacent to hostile targets (and thus <strong>ENGAGED</strong>) take <strong>+1 DIFFICULTY</strong> on all ranged attacks. When firing at targets in <strong>soft cover</strong>, characters take <strong>+1 DIFFICULTY</strong>&nbsp; on ranged attacks; <strong>hard cover</strong> imposes <strong>+2 DIFFICULTY</strong>.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Tech Attack"
+            },
+            "content": {
+              "en": "<p>The attacker chooses a target within their SENSORS and line of sight, then makes a tech attack roll - rolling <strong>1d20</strong>, plus <strong>TECH ATTACK</strong> and any <strong>ACCURACY</strong> or <strong>DIFFICULTY</strong>. To hit, they must match or beat the target&rsquo;s <strong>E-DEFENSE</strong>. Tech attacks ignore <strong>cover</strong>.</p>"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Critical Hits"
+        },
+        "content": {
+          "en": "<p>A <strong>20+</strong> on a melee or ranged attack causes a <strong>critical hit</strong>. On a critical hit, all <strong>damage dice are rolled twice</strong> (including bonus damage) and the highest result from each source of damage is used. For example, if a player got a critical hit on an attack that would normally deal <strong>2d6</strong> damage, they would instead roll <strong>4d6</strong> and pick the two highest results.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Range and Patterns"
+        },
+        "content": {
+          "en": "<p><strong>RANGE</strong> is measured from any edge of the attacking character, unless specified otherwise. Targets must be inside <strong>RANGE</strong> to be valid targets. On a grid, that means targets must be at least 1 space inside a character&rsquo;s <strong>RANGE</strong> to be attacked.</p> <p>Some weapons and systems have special attack patterns: <strong>LINE</strong>, <strong>CONE</strong>, <strong>BLAST</strong>, and <strong>BURST</strong>. These attacks affect all targets within a defined area. A separate attack roll is made for each target, but damage is only rolled once and bonus damage is halved if there are multiple characters affected. For any ability or effect calling for you to choose a target or targets within <strong>RANGE</strong>, a weapon with a pattern can choose any target that could be hit by its pattern.</p> <ul> <li><strong>LINE X</strong>: affects characters in a straight line, <strong>X spaces</strong> long.</li> <li><strong>CONE X</strong>: affects characters within a cone,<strong> X spaces</strong> long and<strong> X spaces</strong> wide at its furthest point. The cone begins at one space wide.</li> <li><strong>BLAST X</strong>: affects characters within a radius of <strong>X spaces</strong>, drawn from a point within <strong>RANGE</strong> and line of sight. Cover and line of sight for the attacks are calculated based on the center of the blast, rather than the position of the attacker.</li> <li><strong>BURST X</strong>: affects characters within a radius of <strong>X spaces</strong>, centered on and including the space occupied by the user (or target). If the Burst is an attack, the user or target is not affected by the attack unless specified. Cover and line of sight are calculated from the character. If a <strong>BURST</strong> effect is ongoing, it moves with the character at its center.</li> </ul> <p>Some <strong>LINE</strong>, <strong>CONE</strong>, <strong>BURST</strong>, and <strong>BLAST</strong> attacks list a <strong>RANGE</strong>. In these cases, the attack&rsquo;s origin point can be drawn from a point within the range specified and line of sight. For example, an attack with <strong>BLAST 2</strong> and <strong>RANGE 10</strong> would affect a <strong>BLAST 2</strong> area centered on any point within<strong> RANGE 10</strong>. Some mech <strong>FRAMES</strong> and systems grant increased <strong>RANGE</strong>. This does not affect the size of the area affected by <strong>CONE</strong>, <strong>LINE</strong>, <strong>BURST</strong> and <strong>BLAST</strong> attacks, although it does increase the RANGE of such attacks that have a listed range.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Threat"
+        },
+        "content": {
+          "en": "<p><strong>THREAT</strong> is the maximum range at which a melee weapon can be used, and at which both melee and ranged weapons can be used for <strong>OVERWATCH</strong> reactions. <strong>THREAT</strong>, like <strong>RANGE</strong>, is measured from the edge of a character, so larger mechs cover slightly more area than smaller mechs. Unless noted otherwise, all weapons default to <strong>THREAT 1</strong>, which can be increased with some talents and gear.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Valid Targets"
+        },
+        "content": {
+          "en": "<p>The following are valid targets for attacks and effects:</p> <ul> <li>other characters;</li> <li>objects that aren&rsquo;t held or worn, and aren&rsquo;t part of a mech;</li> <li>spaces in the environment or on the ground.</li> </ul> <p>To attack or take an action against a target, by default the target must be within <strong>RANGE</strong>, <strong>SENSORS</strong>, or <strong>THREAT</strong> (as appropriate for the type of attack) and within the attacker&rsquo;s <strong>line of sight</strong>. Unless otherwise specified, characters can&rsquo;t target themselves.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Line of Sight"
+        },
+        "content": {
+          "en": "<p>Characters can only attack or take action against targets that they can see, at least partially. If it&rsquo;s not possible to trace a line to some part of a target &ndash; perhaps because it&rsquo;s completely blocked by cover or terrain &ndash; then they can&rsquo;t be attacked.</p> <p>Line of sight doesn&rsquo;t imply visibility alone, but also a clear path for your attack &ndash; line of effect. Even if you can somehow see an area that&rsquo;s behind a solid wall (using a remote drone, for example), you can&rsquo;t attack targets within.</p> <p><strong>ARCING</strong> weapons are designed to lob projectiles over obstacles. They can be used to attack targets without line of sight, although they are still affected by cover and the attack must be physically possible &ndash; an <strong>ARCING</strong> weapon still can&rsquo;t fire through 50 feet of metal bulkhead.</p> <p>Powerful <strong>SEEKING</strong> weapons completely ignore cover and line of sight, as long as it is physically possible to reach the target. <strong>SEEKING</strong> weapons are usually self-guided, self-propelled, and able to navigate complex environments.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Invisibility"
+        },
+        "content": {
+          "en": "<p>Some characters are able to turn <strong>INVISIBLE</strong>. <strong>INVISIBLE</strong> characters can still be seen or detected by heat patterns and some visual artifacts, but they are extremely hard to target &ndash; all attacks, regardless of type, have a 50 percent chance to miss outright, before an attack roll is made. Roll a die or flip a coin to determine if the attack misses.</p> <p>Additionally, <strong>INVISIBLE</strong> characters can always <strong>HIDE</strong>, even without cover.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Cover"
+        },
+        "content": {
+          "en": "<p>On the battlefield, all sorts of obstructions &ndash; physical, mental, electronic, and others &ndash; can separate an attacker from their target. The two that matter most are <strong>soft cover </strong>and<strong> hard cover</strong>.</p> <p><strong>Soft cover</strong> includes smoke, foliage, trees, blinding light, dust clouds, low hills, and low walls. As the name implies, soft cover isn&rsquo;t solid enough to reliably block enemy fire, but it does cause visual interference or profile reduction sufficient to make aiming difficult. Any time a target is obscured or obstructed somehow, it has soft cover, adding <strong>+1&nbsp;DIFFICULTY</strong> to any ranged attacks.</p> <p><strong>Hard cover</strong> includes ruined buildings, tall walls, bulkheads, reinforced emplacements, and destroyed mechs and vehicles. Hard cover is solid enough to block shots and hide behind, and adds <strong>+21&nbsp;DIFFICULTY</strong>&nbsp;to any ranged attacks. Characters only benefit from hard cover if they are adjacent to whatever they&rsquo;re using for cover and are the same <strong>SIZE</strong> or smaller. A <strong>SIZE 3</strong> mech couldn&rsquo;t get hard cover while hiding behind a <strong>SIZE 1</strong> rock, for example. If a character is obscured by hard cover but isn&rsquo;t adjacent, they don&rsquo;t get hard cover; however, they might still get soft cover.</p> <p>Characters can only benefit from one type of cover at a time &ndash; their benefits don&rsquo;t stack.</p> <p>Unless specified, characters never grant cover to objects or other characters. Some mechs, however, are specifically built to block enemy fire and can grant cover; these mechs typically have the <strong>GUARDIAN</strong> trait.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Checking for Cover"
+            },
+            "content": {
+              "en": "<p>To determine if a character has soft cover, simply <strong>draw a line from the center of one character to the center of another</strong>. If a line can be drawn mostly unbroken, it&rsquo;s a clear shot and neither character has soft cover. If the line is significantly obstructed or is broken up by smoke, trees, or fences the target has soft cover. Targets also have soft cover if they are obstructed by objects that would give hard cover, but which they aren&rsquo;t adjacent to.</p> <p>If a character is adjacent to hard cover, they benefit from that cover against all characters &ndash; except for characters that flank them. When using a hex or grid map, targets are flanked if it is possible to draw a line that is totally clear of hard cover between one of the spaces occupied by the attacker and one occupied by the target.</p> <p>If you aren&rsquo;t using a grid or hex map, draw a straight line where the target touches the hard cover, as in the figure below. If the attacker is over this line, fully or partially, the target does not benefit from hard cover.</p> <p>If a character in hard cover could shoot <strong>over, through, or around</strong> the source of their cover, the cover does not block their line of sight or obscure their attacks.</p>"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Harm"
+    },
+    "content": {
+      "en": ""
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Damage"
+        },
+        "content": {
+          "en": "<p>Every pilot hopes to avoid as much enemy fire as possible, but they know this truth: sooner or later someone&rsquo;s going to punch a few holes in your kit.</p> <p>There are four types of damage pilots need to reckon with: <strong>explosive</strong>, <strong>energy</strong>, <strong>kinetic</strong>, and <strong>burn</strong>, each representing a different sort of weapon or projectile.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Armor and Resistance"
+        },
+        "content": {
+          "en": "<p><strong>ARMOR</strong> reduces all incoming damage from a single source by an amount equal to its rating, which goes from <strong>1&ndash;4</strong>; however, <strong>AP</strong> weapons and <strong>burn</strong> damage ignore <strong>ARMOR</strong> altogether.</p> <p>Characters with <strong>RESISTANCE</strong> to a specific type of damage reduce all incoming damage of that type by half. Characters can only have <strong>RESISTANCE</strong> once per type of damage &ndash; it doesn&rsquo;t stack.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Calculating Damage"
+        },
+        "content": {
+          "en": "<p>After an attacker has successfully rolled an attack, the total damage is calculated in the following order:</p> <ol> <li>The attacker rolls damage, and applies any relevant reductions or increases (such as the doubling from the <strong>Exposed</strong> status).</li> <li>The target&rsquo;s <strong>ARMOR</strong> is subtracted from the total.</li> <li>Any other deductions from the defender are subtracted from the remaining damage. This includes reductions from <strong>RESISTANCE</strong>, and any relevant systems, talents, or reactions.</li> <li>Remaining damage is subtracted from the target&rsquo;s <strong>HP</strong>.</li> </ol> <p>Let&rsquo;s say your mech has a total <strong>HP</strong> of 15. An enemy shoots at you and scores a successful hit by beating your mech&rsquo;s <strong>EVASION</strong> on an attack roll. Thanks to another good roll, their cannon is going to deal <strong>12&nbsp;kinetic damage</strong>; luckily for you, you&rsquo;ve installed armor on your mech. Your armor subtracts two from all incoming damage, reducing the incoming damage to <strong>10</strong>. You&rsquo;re left with only <strong>5 HP</strong> &ndash; take cover!</p> <p>As another example, an attacker fires at an <strong>EXPOSED</strong> target, dealing <strong>5&nbsp;energy damage</strong>. The target has <strong>RESISTANCE</strong> to energy damage and has <strong>2 Armor</strong>. <strong>EXPOSED</strong> doubles the incoming damage to <strong>10</strong>, minus the <strong>2 Armor</strong> means the target takes <strong>8</strong> energy damage, which is halved to <strong>4 energy damage</strong> by their <strong>RESISTANCE</strong>.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Burn"
+        },
+        "content": {
+          "en": "<p>Pilots need to worry about more than just bullet holes on the battlefield. Some weapons deal <strong>burn</strong> (damage over time). Burn might represent flames, searing plasma, acid or something more insidious, like a swarm of greywash nanites.</p> <p>When characters take <strong>burn</strong>, it has two effects: first, they immediately take <strong>burn damage</strong>, ignoring <strong>ARMOR</strong>, and then they mark down the <strong>burn</strong> they just took on their sheet. At the end of their turn, characters with <strong>burn</strong> marked must roll an <strong>ENGINEERING</strong> check. On a success, they clear all burn currently marked; otherwise, they take <strong>burn damage</strong> equal to the amount of <strong>burn</strong> currently marked.</p> <p>Burn from additional sources adds to the total marked burn, so a character that is hit by two separate <strong>2 burn</strong> attacks first takes <strong>4 burn damage</strong> (2 from each attack), then marks down <strong>4 burn</strong> (again, 2 from each attack). At the end of their turn, that character makes an <strong>ENGINEERING</strong> check, failing and taking an additional <strong>4 burn damage</strong>. Next turn, the same character gets hit by another <strong>2 burn</strong> attack. They take <strong>2 burn</strong> damage, then mark the extra burn down (now it&rsquo;s <strong>6</strong>!). At the end of their turn, they must succeed on another <strong>ENGINEERING</strong> check or take <strong>6 burn</strong> more damage. Fortunately they pass, clearing all <strong>burn</strong>.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Heat"
+        },
+        "content": {
+          "en": "<p><strong>Heat</strong> is a special type of harm that doesn&rsquo;t count as damage and ignores <strong>ARMOR</strong>, although it can be affected by <strong>RESISTANCE</strong>. It represents damage to a mech's internal systems and reactor. It's most often inflicted by electronic warfare, but is often generated by a mech&rsquo;s own systems. A mech that takes heat marks it on their sheet. When it reaches its <strong>HEAT CAP</strong>, any additional heat causes it to overheat.</p> <p>If a character without a <strong>HEAT CAP</strong> (such as <strong>BIOLOGICAL</strong> characters and <strong>DRONES</strong>) would take heat, they instead take an equivalent amount of <strong>energy damage</strong>.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Bonus Damage"
+        },
+        "content": {
+          "en": "<p>Some talents, systems, and weapons deal <strong>bonus damage</strong>. Bonus damage can only apply to melee or ranged attacks, and is only ever <strong>kinetic</strong>, <strong>explosive</strong>, or <strong>energy damage</strong> (not <strong>burn</strong> or <strong>heat</strong>). If no type is specified, bonus damage defaults to <strong>kinetic damage</strong>, or the attacker can choose a type from one of the same types as the weapon that dealt it.</p> <p>If an attack that targets more than one character deals bonus damage, the bonus damage is halved.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Immunity"
+        },
+        "content": {
+          "en": "<p>Some characters and objects have <strong>IMMUNITY</strong>, and can&rsquo;t be affected by certain damage types, attacks, or effects. <strong>IMMUNITY</strong> goes beyond simply ignoring damage &ndash; effects or actions that a character has <strong>IMMUNITY</strong> to are completely ignored, and may as well have failed or not having taken place at all. For example, a character with <strong>IMMUNITY</strong> to burn doesn&rsquo;t take any burn from attacks and never counts as having taken burn for the purposes of any other effects. Likewise, a character with <strong>IMMUNITY</strong> to damage never takes damage (even 0 damage), and a character with <strong>IMMUNITY</strong> to tech attacks can&rsquo;t be affected by any tech attacks.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Objects and Damage"
+        },
+        "content": {
+          "en": "<p>Unless specified otherwise, all objects (including terrain, cover, buildings, and deployable items) have <strong>5 EVASION</strong> and <strong>10 HP/SIZE</strong>. This means that a <strong>SIZE 4</strong> object has <strong>40 HP</strong>. If an object is more usefully thought of as a group of multiple sections, each <strong>SIZE 1</strong> section is independently destroyable and has <strong>10 HP</strong>. If an object is especially tough or hardy, like solid rock, it might have <strong>1&ndash;2 ARMOR</strong>; if it&rsquo;s fortified, like a bulkhead, bunker, or starship hull, it might even have <strong>3&ndash;4 ARMOR</strong>.</p> <p>The GM may waive this rule outside of mech combat or when it applies to objects not created by characters (such as the environment). For instance, if a group of players want to bust through a wall in their mechs to surprise their enemies, the GM might decide that they just need to make a <strong>HULL</strong> check</p>"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Actions"
+    },
+    "content": {
+      "en": "<p>This section describes the different actions available to characters, and how they work. While pilots can take several of these actions, most of them are specifically relevant to mechs and mech combat.</p> <p>Characters can take<strong> two quick actions</strong> or <strong>one full action</strong> on their turn.</p> <p>Characters cannot perform the same action more than once in a turn, except as a free action or reaction. For example, characters can only <strong>BOOST</strong> once per turn by default, but some systems or talents might grant a second <strong>BOOST</strong> as a free action; alternatively, a character could also <strong>OVERCHARGE</strong> to get a second <strong>BOOST</strong>.</p><h4>ACTION RESOLUTION</h4> <p>If there's any uncertainty about when certain actions or effects take place or resolve, effects caused by other characters always resolve first during a character&rsquo;s turn. For example, a character starts their turn in a zone created by another character that causes them to take damage &ndash; this resolves before any other effects take place. Otherwise, characters can always choose the resolution order of actions or effects that they take on their turn (for example if they have two effects that trigger at the start of their turn, they can choose which resolve first). If there&rsquo;s any additional clarity needed, the GM adjudicates.</p>"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Types of Actions"
+        },
+        "content": {
+          "en": "<p>Characters can choose between several different kinds of action, depending on what they want to achieve. On their turn, characters can make a <strong>standard move</strong> and take either two <strong>quick actions</strong> or one<strong> full action</strong>. The same action cannot be taken more than once per turn, except in certain cases (e.g., special actions like <strong>free actions</strong> and <strong>reactions</strong>).</p><p>In addition to move, quick, and full actions, there are several types of special actions: <strong>free actions</strong>, <strong>reactions</strong>, and <strong>OVERCHARGE</strong>. Unlike the standard action types, there is no limit to how many <strong>free actions</strong> and <strong>reactions</strong> a character can take per round. Characters can even take reactions outside of their turn.</p> <p>Miscellaneous activities like talking, wiping sweat out of someone&rsquo;s eyes, slapping a button, and taunting an enemy aren&rsquo;t considered actions and can be done any time during a character&rsquo;s turn. If a player has a specific goal and outcome in mind, like taunting an enemy to draw their attention away from an injured friend, then it might be an action, but if it&rsquo;s just a matter of talking smack, there&rsquo;s always time.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Standard Move"
+            },
+            "content": {
+              "en": "<p>Movement up to a character&rsquo;s maximum <strong>SPEED</strong></p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Quick Action"
+            },
+            "content": {
+              "en": "<p>Actions that take a few moments, such as quickly firing a weapon, activating a system, or moving further.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Full Action"
+            },
+            "content": {
+              "en": "<p>Actions that require full attention (e.g. firing a barrage, performing field repairs on a mech).</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Free Action"
+            },
+            "content": {
+              "en": "<p>Free actions are special actions granted by character traits, like mech systems and talents. Characters can take free actions at any point during their turn, and they don&rsquo;t count toward the number of quick or full actions they take. They can also be used to take actions more than once per turn. For example, if a character can <strong>BOOST</strong> as a free action, they can do so even if they have already used <strong>BOOST</strong> in the same turn.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Reaction"
+            },
+            "content": {
+              "en": "<p>Reactions are special actions that can be made outside of the usual turn order as responses to incoming attacks, enemy movement, and other events. Each reaction can only be used a certain number of times per round, and a character can take only one reaction per turn (their turn or that of another character), but there is no limit to how many reactions can be taken, overall. Mechs have two default reactions, each of which can be taken once per round &ndash; <strong>BRACE</strong> and <strong>OVERWATCH</strong> &ndash; but some systems and talents grant additional reactions. Unless specified, reactions resolve after the action that triggers them. Some resolve beforehand under specific triggers, such as when an attack is declared but before the roll is made &ndash; if so, the reaction will specify.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Overcharge"
+            },
+            "content": {
+              "en": "<p>Pilots can overcharge their mech, allowing them to make an additional quick action at the cost of heat.</p>"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Quick Actions"
+        },
+        "content": {
+          "en": ""
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Boost"
+            },
+            "content": {
+              "en": "<p>When you <strong>BOOST</strong>, you move at least 1 space, up to your <strong>SPEED</strong>. This allows you to make an extra movement, on top of your standard move. Certain talents and systems can only be used when you <strong>BOOST</strong>, not when you make a standard move.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Grapple"
+            },
+            "content": {
+              "en": "<p>When you <strong>GRAPPLE</strong>, you try to grab hold of a target and overpower them &ndash; disarming, subduing, or damaging them so they can&rsquo;t do the same to you.</p> <p><strong>To GRAPPLE</strong>, choose an adjacent character and make a melee attack. On a hit:</p> <ul> <li>both characters become <strong>ENGAGED</strong>;</li> <li>neither character can <strong>BOOST</strong> or take reactions for the duration of the grapple;</li> <li>the smaller character becomes <strong>IMMOBILIZED</strong> but moves when the larger party moves, mirroring their movement. If both parties are the same <strong>SIZE</strong>, either can make contested <strong>HULL</strong> checks at the start of their turn: the winner counts as larger than the loser until this contest is repeated.</li> </ul> <p>A <strong>GRAPPLE</strong> ends when:</p> <ul> <li>either character breaks adjacency, such as if they are knocked back by another effect;</li> <li>the attacker chooses to end the grapple as a free action;</li> <li>the defender breaks free by succeeding on a contested <strong>HULL</strong> check as a quick action.</li> </ul> <p>If a <strong>GRAPPLE</strong> involves more than two characters, the same rules apply, but when counting <strong>SIZE</strong>, add together the <strong>SIZE</strong> of all characters on each side. For example, if two <strong>SIZE 1</strong> allied characters are grappling a single <strong>SIZE 2</strong> enemy, the allied characters count as a combined <strong>SIZE 2</strong> and can try to drag their foe around.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Hide"
+            },
+            "content": {
+              "en": "<p>When you <strong>HIDE</strong>, you obscure the position of your mech in order to reposition, avoid incoming fire, repair, or ambush.</p> <p>To <strong>HIDE</strong>, you must not be <strong>ENGAGED</strong> and you must either be outside of any enemies&rsquo; line of sight, obscured by sufficient cover, or invisible. If you <strong>HIDE</strong> while meeting one of these criteria, you gain the <strong>HIDDEN</strong> status.</p> <p>Hard cover is sufficient to <strong>HIDE</strong> as long as it is large enough to totally conceal you, but soft cover is only sufficient if you are completely inside an area or zone that grants soft cover &ndash; many systems and talents that grant soft cover or plain old obscurement just don&rsquo;t provide enough to hide behind!</p><p>If you are <strong>INVISIBLE</strong>, you can always <strong>HIDE</strong>, regardless of cover, unless you&rsquo;re <strong>ENGAGED</strong>.</p> <p>The exact location of <strong>HIDDEN</strong> targets cannot be identified and they cannot be targeted directly by attacks or hostile actions, but they can still be hit by attacks that affect an area. Although NPCs cannot perfectly locate a <strong>HIDDEN</strong> character, they might still know an approximate location. Thus, an NPC could flush an area with a flamethrower even if they don&rsquo;t know exactly where a <strong>HIDDEN</strong> player is lurking.</p> <p>Additionally, other characters ignore engagement with you while you are <strong>HIDDEN</strong> &ndash; it&rsquo;s assumed you&rsquo;re trying to stay stealthy.</p> <p>You cease to be <strong>HIDDEN</strong> if you make an attack (melee, ranged, or tech) or if your mech takes a hostile action (such as forcing a target to make a save). <strong>Using</strong> BOOST or taking reactions with your mech also causes you to lose <strong>HIDDEN</strong>. Other actions can be taken as normal.</p> <p>You also immediately lose <strong>HIDDEN</strong> if your cover disappears or is destroyed, or if you lose cover due to line of sight (e.g., if a mech jumps over a wall and can now draw unbroken line of sight to you). If you&rsquo;re hiding while <strong>INVISIBLE</strong>, you lose <strong>HIDDEN</strong> when you cease to be <strong>INVISIBLE</strong> unless you are in cover.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Quick Tech"
+            },
+            "content": {
+              "en": "<p>When you use <strong>QUICK TECH</strong>, you engage in electronic warfare, countermeasures, and other technical actions, often aided by a mech&rsquo;s powerful computing and simulation cores.</p> <p>Each time you take this action, you choose an option from the <strong>QUICK TECH</strong> list. All mechs have access to these options, but some systems enhance them or make new options available.</p> <p>Unlike other quick actions, <strong>QUICK TECH</strong> can be taken more than once per turn; however, a different option must be chosen every time, unless specified otherwise or granted as a free action.</p>"
+            },
+            "children": [
+              {
+                "title": {
+                  "en": "Bolster"
+                },
+                "content": {
+                  "en": "<p>When you <strong>BOLSTER</strong>, you use your mech&rsquo;s formidable processing power to enhance another character&rsquo;s systems.</p> <p>To <strong>BOLSTER</strong>, choose a character within <strong>SENSORS</strong>. They receive <strong>+2&nbsp;ACCURACY</strong> on the next skill check or save they make between now and the end of their next turn. Characters can only benefit from one <strong>BOLSTER</strong> at a time</p>"
+                }
+              },
+              {
+                "title": {
+                  "en": "Scan"
+                },
+                "content": {
+                  "en": "<p>When you <strong>SCAN</strong>, you use your mech&rsquo;s powerful sensors to perform a deep scan on an enemy.</p> <p>To <strong>SCAN</strong>, choose a character or object within <strong>SENSORS</strong> and line of sight, then ask the GM for <strong>one</strong> of the following pieces of information, which they must answer honestly:</p> <ul> <li>Your target&rsquo;s weapons, systems, and full statistics (<strong>HP, SPEED, EVASION, ARMOR, MECH SKILLS</strong>, and so on).</li> <li>One piece of hidden information about the target, such as confidential cargo or data, current mission, the identity of the pilot, and so on.</li> <li>Generic or public information about the target that can be pulled from an info bank or records, such as the model number of a mech.</li> </ul> <p>Any information gathered is only current at the time of the <strong>SCAN</strong> &ndash; if the target later takes damage, for instance, you don&rsquo;t receive an update.</p>"
+                }
+              },
+              {
+                "title": {
+                  "en": "Lock On"
+                },
+                "content": {
+                  "en": "<p>When you <strong>LOCK ON</strong>, you digitally mark a target, lighting them up for your teammates&rsquo; targeting systems and exposing weak points.</p> <p>To <strong>LOCK ON</strong>, choose a character within <strong>SENSORS</strong> and line of sight. They gain the <strong>LOCK ON</strong> condition. Any character making an attack against a character with <strong>LOCK ON</strong> may choose to gain <strong>+1&nbsp;ACCURACY</strong> on that attack and then clear the <strong>LOCK ON</strong> condition after that attack resolves. This is called <strong>consuming LOCK ON</strong>.</p>"
+                }
+              },
+              {
+                "title": {
+                  "en": "Invade"
+                },
+                "content": {
+                  "en": "<p>When you <strong>INVADE</strong>, you mount a direct electronic attack against a target.</p> <p>To <strong>INVADE</strong>, make a tech attack against a character within <strong>SENSORS</strong> and line of sight. On a success, your target takes <strong>2&nbsp;Heat Damage</strong> and you choose one of the <strong>INVASION</strong> options available to you. <strong>FRAGMENT SIGNAL</strong> is available to all characters, and additional options are granted by certain systems and equipment with the <strong>INVADE</strong> tag.</p> <blockquote> <h4>FRAGMENT SIGNAL</h4> <p>You feed false information, obscene messages, or phantom signals to your target&rsquo;s computing core. They become <strong>IMPAIRED</strong> and <strong>SLOWED</strong> until the end of their next turn.</p> </blockquote> <p>You can also <strong>INVADE</strong> willing allied characters to create certain effects. If your target is willing and allied, you are automatically successful, it doesn&rsquo;t count as an attack, and your target doesn&rsquo;t take any heat.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "title": {
+              "en": "Ram"
+            },
+            "content": {
+              "en": "<p>When you <strong>RAM</strong>, you make a melee attack with the aim of knocking a target down or back.</p> <p><strong>To RAM</strong>, make a melee attack against an adjacent character the same <strong>SIZE</strong> or smaller than you. On a success, your target is knocked <strong>PRONE</strong> and you may also choose to knock them back by one space, directly away from you.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Search"
+            },
+            "content": {
+              "en": "<p>When you <strong>SEARCH</strong>, you attempt to identify hidden characters. To <strong>SEARCH</strong> in a mech, choose a character within your <strong>SENSORS</strong> that you suspect is <strong>HIDDEN</strong> and make a contested <strong>SYSTEMS</strong> check against their <strong>AGILITY</strong>.</p> <p><strong>To SEARCH</strong> as a pilot on foot, make a contested skill check, adding bonuses from triggers as normal. This can be used to reveal characters within <strong>RANGE 5</strong>.</p> <p>Once a <strong>HIDDEN</strong> character has been found using <strong>SEARCH</strong>, they immediately lose <strong>HIDDEN</strong> and can be located again by any character.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Skirmish"
+            },
+            "content": {
+              "en": "<p>When you <strong>SKIRMISH</strong>, you attack with a single weapon.</p> <p><strong>To SKIRMISH</strong>, choose a weapon and a valid target within <strong>RANGE</strong> (or <strong>THREAT</strong>) then make an attack.</p> <ul> <li>In addition to your primary attack, you may also attack with a different <strong>AUXILIARY</strong> weapon on the same mount. That weapon doesn&rsquo;t deal bonus damage.</li> <li><strong>SUPERHEAVY</strong> weapons are too cumbersome to use in a <strong>SKIRMISH</strong>, and can only be fired as part of a <strong>BARRAGE</strong>.</li> </ul>"
+            }
+          },
+          {
+            "title": {
+              "en": "Activate (Quick)"
+            },
+            "content": {
+              "en": "<p>When you <strong>ACTIVATE (QUICK)</strong>, you use a system or piece of gear that requires a quick action. These systems have the <strong>QUICK ACTION</strong> tag. You can <strong>ACTIVATE</strong> any number of times a turn but can&rsquo;t <strong>ACTIVATE</strong> the same system more than once unless you can do so as a free action.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Prepare"
+            },
+            "content": {
+              "en": "<p>When you <strong>PREPARE</strong>, you get ready to take an action at a specific time or when a specific condition is met (a more advantageous shot, for example).</p> <p>As a <strong>quick action</strong>, you can <strong>PREPARE</strong> any other <strong>quick action</strong> and specify a trigger. Until the start of your next turn, when it is triggered, you can take this action as a <strong>reaction</strong>.</p><p>The trigger for your prepared action must be phrased as &ldquo;When <strong>X</strong>, then <strong>Y</strong>,&rdquo; where <strong>X</strong> is a reaction, action or move taken by a hostile or allied character and Y is your action. For example, &ldquo;when an <strong>allied character moves adjacent to me</strong>, I want to <strong>throw a smoke grenade</strong>,&rdquo; or &ldquo;when a <strong>hostile character moves adjacent to me</strong>, I want to <strong>ram them</strong>&rdquo;.</p> <p>Your preparation counts as taking the action, so it follows all usual restrictions on that action and on taking multiple actions. You can&rsquo;t, for example, <strong>SKIRMISH</strong> and then prepare to <strong>SKIRMISH</strong> again; you also can&rsquo;t move and then <strong>PREPARE</strong> to <strong>SKIRMISH</strong> with an <strong>ORDNANCE</strong> weapon, which normally needs to be fired before moving or doing anything else on your turn. Additionally, after you <strong>PREPARE</strong> an action, you can&rsquo;t move or take any other actions or reactions until the start of your next turn or until your action has been triggered, whichever comes first.</p> <p>Although you can&rsquo;t take reactions while holding a prepared action, you can take them normally after it has been triggered. You can also drop your prepared action, allowing you to take reactions as usual. If the trigger condition isn&rsquo;t met, you lose your prepared action.</p> <p>When you <strong>PREPARE</strong>, it is visible to casual observers (e.g., you clearly take aim or cycle up systems).</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Eject"
+            },
+            "content": {
+              "en": "<p>You can <strong>EJECT</strong> as a quick action,<strong> flying 6 spaces in the direction of your choice</strong>; however, this is a single-use system for emergency use only &ndash; it leaves your mech <strong>IMPAIRED</strong>. Your mech remains <strong>IMPAIRED</strong> and you cannot <strong>EJECT</strong> again until your next <strong>FULL REPAIR</strong>.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Self-Destruct"
+            },
+            "content": {
+              "en": "<p>When you <strong>SELF-DESTRUCT</strong>, you overload your mech&rsquo;s reactor in a final, catastrophic play if there&rsquo;s no other option for escape or you deem your sacrifice necessary.</p> <p>You can <strong>SELF-DESTRUCT</strong> as a quick action, initiating a reactor meltdown. At the end of your next turn, or at the end of one of your turns within the following two rounds (your choice), your mech explodes as though it suffered a reactor meltdown. The explosion annihilates your mech, killing anyone inside and causing a <strong>BURST 2</strong> explosion that deals <strong>4d6 explosive damage</strong>. Characters caught in the explosion that succeed on an <strong>AGILITY</strong> save take half of this damage.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Shut Down"
+            },
+            "content": {
+              "en": "<p>When you <strong>SHUT DOWN</strong>, your mech powers completely off and enters a rest state. It&rsquo;s always risky to do in the field, but it&rsquo;s sometimes necessary to prevent a catastrophic systems overload or an NHP cascading.</p> <p>You can <strong>SHUT DOWN</strong> your mech as a quick action. Your mech takes the <strong>SHUT DOWN</strong> status, with these effects:</p> <ul> <li>all <strong>heat</strong> is cleared, as is <strong>EXPOSED</strong>;</li> <li>any cascading NHPs return to a normal state;</li> <li>any statuses or conditions affecting the mech caused by <strong>tech actions</strong>, such as <strong>LOCK ON</strong>, immediately end;</li> <li>the mech gains <strong>IMMUNITY</strong> to all <strong>tech actions</strong> and <strong>attacks</strong>, including any from allied characters;</li> <li>the mech is <strong>STUNNED</strong> indefinitely.</li> </ul> <p>Nothing can prevent this condition, and it remains until the mech ceases to be <strong>SHUT DOWN</strong>. The only way to remove the <strong>SHUT DOWN</strong> status is to <strong>BOOT UP</strong> the mech.</p>"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Full Actions"
+        },
+        "content": {
+          "en": ""
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Barrage"
+            },
+            "content": {
+              "en": "<p>When you <strong>BARRAGE</strong>, you attack with two weapons, or with one <strong>SUPERHEAVY</strong> weapon.</p> <p>To <strong>BARRAGE</strong>, choose your weapons and either one target or different targets &ndash; within range &ndash; then make an attack with each weapon.</p> <ul> <li>In addition to your primary attacks, you may also attack with an <strong>AUXILIARY</strong> weapon on each mount that was fired, so long as the <strong>AUXILIARY</strong> weapon hasn&rsquo;t yet been fired this action. These <strong>AUXILIARY</strong> weapons don&rsquo;t deal bonus damage.</li> <li><strong>SUPERHEAVY</strong> weapons can only be fired as part of a <strong>BARRAGE</strong>.</li> </ul>"
+            }
+          },
+          {
+            "title": {
+              "en": "Disengage"
+            },
+            "content": {
+              "en": "<p>When you <strong>DISENGAGE</strong>, you attempt to extricate yourself safely from a dangerous situation, make a steady and measured retreat, or rely on your mech&rsquo;s agility to slip in and out of threat ranges faster than an enemy can strike.</p> <p>Until the end of your current turn, you ignore <strong>engagement</strong> and your movement does not provoke <strong>reactions</strong>.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Full Tech"
+            },
+            "content": {
+              "en": "<p>When you use <strong>FULL TECH</strong>, you perform multiple tech actions or a single, more complex action.</p> <p>To use <strong>FULL TECH</strong>, choose two <strong>QUICK TECH</strong> options or a single system or tech option that requires <strong>FULL TECH</strong> to activate. If you choose two <strong>QUICK TECH</strong> options, you can choose the same option multiple times.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Improvised Attack"
+            },
+            "content": {
+              "en": "<p>When you make an <strong>IMPROVISED ATTACK</strong>, you attack with a rifle butt, fist, or another improvised melee weapon. You can use anything from the butt of a weapon to a slab of concrete or a length of hull plating &ndash; the flavor of the attack is up to you!</p> <p>To make an <strong>IMPROVISED ATTACK</strong>, make a melee attack against an adjacent target. On a success, they take <strong>1d6&nbsp;kinetic damage</strong>.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Stabilize"
+            },
+            "content": {
+              "en": "<p>When you <strong>STABILIZE</strong>, you enact emergency protocols to purge your mech&rsquo;s systems of excess heat, repair your chassis where you can, or eliminate hostile code.</p> <p>To <strong>STABILIZE</strong>, choose one of the following:</p> <ul> <li>Cool your mech, clearing all <strong>heat</strong> and <strong>EXPOSED</strong>.</li> <li>Mark <strong>1 REPAIR</strong> to restore all <strong>HP</strong>.</li> </ul> <p>Additionally, choose one of the following:</p> <ul> <li>Reload all <strong>LOADING</strong> weapons.</li> <li>Clear any <strong>burn</strong> currently affecting your mech.</li> <li>Clear a <strong>condition</strong> that wasn&rsquo;t caused by one of your own systems, talents, etc.</li> <li>Clear an adjacent allied character&rsquo;s <strong>condition</strong> that wasn&rsquo;t caused by one of their own systems, talents, etc.</li> </ul>"
+            }
+          },
+          {
+            "title": {
+              "en": "Activate (Full)"
+            },
+            "content": {
+              "en": "<p>When you <strong>ACTIVATE (FULL)</strong>, you use a system or piece of gear that requires a full action. These systems have the <strong>FULL ACTION</strong> tag. You can <strong>ACTIVATE</strong> any number of times a turn but can&rsquo;t <strong>ACTIVATE</strong> the same system more than once unless you can do so as a free action.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Boot Up"
+            },
+            "content": {
+              "en": "<p>You can <strong>BOOT UP</strong> a mech that you are piloting as a full action, clearing <strong>SHUT DOWN</strong> and restoring your mech to a powered state.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Mount/Dismount"
+            },
+            "content": {
+              "en": "<p><strong>When you MOUNT</strong> or <strong>DISMOUNT</strong>, you climb onto or off of a mech. Mounting and dismounting are the preferred terms among most pilots. You don&rsquo;t &ldquo;get in&rdquo; or &ldquo;climb aboard&rdquo; &ndash; you mount. You&rsquo;re the cavalry, after all.</p> <p>You can <strong>MOUNT</strong> or <strong>DISMOUNT</strong> as a full action. You must be adjacent your mech to <strong>MOUNT</strong>. Likewise, when you <strong>DISMOUNT</strong>, you are placed in an adjacent space &ndash; if there are no free spaces, you cannot <strong>DISMOUNT</strong>.</p> <p>Additionally, you can also <strong>MOUNT</strong> or <strong>DISMOUNT</strong> willing allied mechs or vehicles. When you do so, move into the same space and then move with them.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Skill Check"
+            },
+            "content": {
+              "en": "<p>When you make a <strong>SKILL CHECK</strong>, you undertake an activity that isn&rsquo;t covered by other actions but has a clear goal and is sufficiently complex to require a roll. The parameters and outcomes of <strong>SKILL CHECKS</strong> are up to the GM, but they must be involved enough to require a full action. If you want to do something that can be done quickly, no action is required.</p>"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Overcharge"
+        },
+        "content": {
+          "en": "<p>When you <strong>OVERCHARGE</strong>, you briefly push your mech beyond factory specifications for a tactical advantage. Moments of intense action won&rsquo;t tax your mech&rsquo;s systems too much, but sustained action beyond prescribed limits takes a toll.</p> <p>Once per turn, you can <strong>OVERCHARGE</strong> your mech, allowing you to make any quick action as a free action &ndash; even actions you have already taken this turn.</p> <p>The first time you <strong>OVERCHARGE</strong>, take <strong>1 heat</strong>.</p> <p>The second time you <strong>OVERCHARGE</strong>, take <strong>1d3 heat</strong>.</p> <p>The third time, take <strong>1d6 heat</strong>, and each time thereafter take <strong>1d6+4 heat</strong>.</p> <p>A <strong>FULL REPAIR</strong> resets this counter.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Reactions"
+        },
+        "content": {
+          "en": "<p>Reactions are special actions that can be taken out of turn order in response to certain triggers, such as enemy attacks or movement. Unless specified otherwise, once you take a reaction you cannot take it again until the beginning of your next turn. Even if a reaction is usable 2/round or more, your uses of it only refresh when your next turn begins.</p> <p>You can only take one reaction per turn &ndash; your turn or other characters&rsquo; turns &ndash; but you can take any number of reactions per round, as long as you have reactions still available.</p> <p>By default, all mechs can take the <strong>BRACE</strong> and <strong>OVERWATCH</strong> reactions. Certain systems and talents can grant other reactions.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Brace"
+            },
+            "content": {
+              "en": "<p>When you <strong>BRACE</strong>, you ready your mech against incoming fire.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Overwatch"
+            },
+            "content": {
+              "en": "<p>When you <strong>OVERWATCH</strong>, you control and defend the space around your mech from enemy incursion through pilot skill, reflexes, or finely tuned subsystems.</p> <p>Unless specified otherwise, all weapons default to <strong>1 THREAT</strong>.</p>"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Free Actions"
+        },
+        "content": {
+          "en": "<p>Free actions are often granted by systems, talents, gear, or <strong>OVERCHARGE</strong>. Characters may perform any number of free actions on their turn, but only on their turn, and only those granted to them. Free actions can always be used to make duplicate actions.</p> <p>The most common type of free action is a <strong>PROTOCOL</strong>, which is granted by gear or systems and can be activated or deactivated only at the start of a turn. Each Protocol can only be taken once per turn.</p>"
+        }
+      }
+    ]
+  },
+  {
+    "title": {
+      "en": "Pilots in Mech Combat"
+    },
+    "content": {
+      "en": "<p>During mech combat, pilots might leave their mechs for all kinds of reasons &ndash; to go somewhere their mech can&rsquo;t go, interact with a computer terminal, or even attempt to climb an enemy mech. Sometimes, pilots use <strong>non-human persons</strong> (<strong>NHPs</strong>) or <strong>comp/cons</strong> &ndash; complex artificial intelligences &ndash; to control their mech when they aren&rsquo;t in the cockpit.</p>"
+    },
+    "children": [
+      {
+        "title": {
+          "en": "Piloting Mechs"
+        },
+        "content": {
+          "en": "<p>Unless specified, a pilot must be physically inside a mech to control it, and can <strong>MOUNT</strong>,<strong> DISMOUNT</strong>, or <strong>BOOT UP</strong> a mech. A powered-off mech always has the <strong>SHUT DOWN</strong> status &ndash; inactive mechs can&rsquo;t do anything and make for easy targets.</p> <p>While inside their mech, your pilot doesn&rsquo;t have line of sight to anything outside the mech and nothing outside has line of sight to them. This means that, as long as your mech is intact and your pilot is in the cockpit, they can&rsquo;t be targeted, damaged, or affected by anyone or anything outside the mech. If the mech does get destroyed, this benefit is lost &ndash; it&rsquo;s got holes blown in it! &ndash; and the wreck merely grants hard cover.</p> <p>If your character pilots a mech they aren&rsquo;t licensed for, such as an enemy mech, the absence of the correct neurological interfaces reduces its effectiveness. While piloting an unlicensed mech, it is <strong>IMPAIRED</strong> (giving <strong>+1&nbsp;DIFFICULTY</strong> on all attacks, saves, and checks), and <strong>SLOWED</strong>, which reduces its movement speed.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Pilot Statistics"
+        },
+        "content": {
+          "en": "<p>In mech combat, pilots have the following default statistics:</p> <blockquote> <div>HP: 6 + GRIT</div> <div>Evasion: 10</div> <div>E-Defense: 10</div> <div>Size: 1/2</div> <div>Speed: 4</div> <div>Armor: 0</div> </blockquote> <p>These statistics can change depending on a pilot&rsquo;s gear.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Fighting on the Ground "
+        },
+        "content": {
+          "en": "<p>On foot, pilots can rapidly find themselves out of their depth: not only are pilot-scale weapons too small to reliably take down mechs, but mech weapons are heavy enough to completely pulverize anything smaller than another mech.</p> <p>In mech combat, the following rules apply regarding unmounted characters:</p> <p>&bull; Unmounted characters make all attacks and saves by adding <strong>GRIT</strong> to the roll instead of using their <strong>triggers</strong>. It doesn&rsquo;t matter how good someone is in a fistfight &ndash; when they&rsquo;re fighting on a mech scale, everyone is on roughly the same footing.</p> <p>&bull; Unmounted characters have the <strong>BIOLOGICAL</strong> tag. They have <strong>IMMUNITY</strong> to all tech actions (even beneficial ones) except <strong>LOCK ON</strong> and <strong>SCAN</strong>, although they can be targeted by electronic systems such as drones and smart weapons. If a <strong>BIOLOGICAL</strong> character would take heat, they instead take an equivalent amount of energy damage.</p> <p>&bull; Unmounted characters can&rsquo;t aid mechs, benefit from talents, or give or receive any bonuses that apply to mech-scale weapons.</p> <p>&bull; Pilots don&rsquo;t cause mechs to become <strong>ENGAGED</strong> and don&rsquo;t count as obstructions to mechs, no matter their <strong>SIZE</strong>.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Pilot Actions"
+        },
+        "content": {
+          "en": "<p>Actions taken by pilots draw from the same pool &ndash; <strong>one standard move </strong>and<strong> two quick actions</strong>, or<strong> one full action</strong> &ndash; as actions taken by their mech. You can split your actions between pilot and mech if you so choose. You could, for instance, take a quick action to <strong>SKIRMISH</strong> with your mech, take a quick action to <strong>EJECT</strong>, and then use your move to run to cover on foot.</p> <p>Pilots can take the following actions, using the same rules as mechs: <strong>BOOST, HIDE, SEARCH, ACTIVATE, SKILL CHECK, DISENGAGE, PREPARE,</strong>&nbsp;and <strong>MOUNT</strong>. Pilots can <strong>OVERWATCH</strong>, and use the <strong>FIGHT</strong> action when they do so.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Fight"
+            },
+            "content": {
+              "en": "<p>When you <strong>FIGHT</strong>, you attack (melee or ranged) with one weapon.</p> <p>To <strong>FIGHT</strong>, choose a weapon and attack a target within <strong>RANGE</strong> or <strong>THREAT</strong> and line of sight as a full action. Ranged attacks are affected by cover and receive <strong>+1&nbsp;DIFFICULTY</strong> if you&rsquo;re <strong>ENGAGED</strong>.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Jockey"
+            },
+            "content": {
+              "en": "<p>When you <strong>JOCKEY</strong>, you aggressively attack an enemy mech while on foot. It cannot be emphasized enough how foolhardy and dangerous this is.</p> <p>To <strong>JOCKEY</strong>, you must be adjacent to a mech. As a full action, make a contested skill check against the mech, using <strong>GRIT</strong> (or a relevant trigger, at the GM&rsquo;s discretion). The mech contests with <strong>HULL</strong>. On a success, you manage to climb onto the mech, sharing its space and moving with it. The mech can attempt to shake you off by succeeding on another contested skill check as a full action; alternatively, you can jump off as part of your movement on your turn.</p> <p>When you successfully <strong>JOCKEY</strong>, choose one of the following options:</p> <p><strong>DISTRACT</strong>: The mech is <strong>IMPAIRED</strong> and <strong>SLOWED</strong> until the end of its next turn.</p> <p><strong>SHRED</strong>: Deal <strong>2 heat</strong> to the mech by ripping at wiring, paneling, and so on.</p> <p><strong>DAMAGE</strong>: Deal <strong>4 kinetic damage</strong> to the mech by attacking joints, hatches, and so on.</p> <p>On each of your subsequent turns, you can continue to choose from the options above as <strong>full actions</strong>, as long as you don't stop jockeying (or get thrown off).</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Reload"
+            },
+            "content": {
+              "en": "<p>When you <strong>RELOAD</strong>, you reload one Pilot Weapon with the <strong>LOADING</strong> tag, making it usable again.</p>"
+            }
+          }
+        ]
+      },
+      {
+        "title": {
+          "en": "Non-Human Persons (NHPs)"
+        },
+        "content": {
+          "en": "<p>In normal circumstances, a pilot needs to be physically present inside the cockpit for a mech to take actions. Mechs with the <strong>AI</strong> tag, however, have some ability to act autonomously.</p> <p>If a mech has the <strong>AI</strong> tag, its pilot can choose to turn over control to the AI as a <strong>protocol</strong>. The pilot cannot take any actions or reactions with the mech until the start of their next turn, but the mech gets its own set of actions and reactions. AIs don&rsquo;t benefit from any pilot talents while controlling a mech.</p> <p>The pilot can act independently until they pick the controls back up. They can do this as a <strong>protocol</strong>, as long as they are physically present inside the mech.</p> <p>AIs in Lancer are typically referred to as NHPs and follow special rules.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Handing over Control"
+            },
+            "content": {
+              "en": "<p>Mechs can only have one system with the AI tag installed at a time. If a mech has the AI tag, its player can choose to give control of the mech to the AI as a protocol, freeing the pilot to take other actions. The pilot can&rsquo;t use the mech to take any actions or reactions until they take control again, but the AI gains its own set of actions and reactions. The AI acts on the same turn as the pilot. AIs don&rsquo;t benefit from the pilot&rsquo;s talents or other features, but otherwise operate as normal.</p> <p>At the start of the player&rsquo;s subsequent turns, control can be returned to the pilot as long as they are physically inside their mech.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Cascades"
+            },
+            "content": {
+              "en": "<p>Except for some limited systems &ndash; like comp/cons &ndash; any time a mech with the <strong>AI</strong> tag makes a structure damage or overheating check, roll <strong>1d20</strong>. On a 1, the NHP&rsquo;s casket has suffered a traumatic impact or code incursion and the NHP enters <strong>cascade</strong>.</p> <p>When an NHP begins to cascade, they immediately take over the mech and become an NPC under the control of the GM. They plan their own agenda, and adopt one of several behavioral patterns &ndash; ignoring their pilot, overruling their pilot, trying to get their pilot out of the way, or simply acting outside the constraints of human logic and desire. In cascade, NHPs&rsquo; actions do not always conform to human logic &ndash; though they are not yet unshackled, their actions may seem odd, contrapositive, or threatening to humans.</p> <p>NHPs in cascade can be stabilized by a pilot choosing to <strong>SHUT DOWN</strong> their mech, returning them to their base state. This is the only action a pilot in a cascading mech can take.</p> <p>NHPs are contained within the physical architecture of a casket. If an NHP's casket is destroyed without some sort of external backup, that iteration of the NHP and all of their knowledge are lost.</p>"
+            }
+          }
+        ]
       }
     ]
   },
@@ -88,57 +781,15 @@
       "en": "Statuses and Conditions"
     },
     "content": {
-      "en": "content"
+      "en": "<p>During combat, characters often inflict and receive <strong>statuses</strong> (like <strong>PRONE</strong> or <strong>SHUT DOWN</strong>) and <strong>conditions</strong> (like <strong>STUNNED</strong>). Conditions are temporary effects caused by things like damage and electronic warfare, whereas statuses are usually effects that can&rsquo;t easily be cleared.</p> <p>Actions, talents, systems, and other effects can all inflict statuses and conditions. The source description indicates how long they last.</p> <p>Often, effects specify that a status or condition lasts until the end of the target&rsquo;s next turn. This refers to their next turn in the turn order; if one of these statuses or conditions is inflicted on a character during their turn, it lasts until the end of their following turn &ndash; not the end of the current turn.</p> <p>Statuses usually require characters to perform a specific action or meet certain criteria before they can be removed, whereas there are many ways to remove conditions. For example, <strong>STABILIZE</strong> allows you to remove a condition like <strong>IMPAIRED</strong>, but not a status like <strong>PRONE</strong>.</p>"
     }
-  },
-  {
-    "title": {
-      "en": "Combat Terminology"
-    },
-    "content": {
-      "en": "content"
-    }
-  },
-  {
-    "title": {
-      "en": "Gear and Systems"
-    },
-    "content": {
-      "en": "content"
-    },
-    "children": [
-      {
-        "title": {
-          "en": "Tags"
-        },
-        "content": {
-          "en": "content"
-        }
-      },
-      {
-        "title": {
-          "en": "Artificial Intelligence"
-        },
-        "content": {
-          "en": "content"
-        }
-      },
-      {
-        "title": {
-          "en": "Reserves"
-        },
-        "content": {
-          "en": "content"
-        }
-      }
-    ]
   },
   {
     "title": {
       "en": "Wear and Tear"
     },
     "content": {
-      "en": "content"
+      "en": ""
     },
     "children": [
       {
@@ -146,40 +797,140 @@
           "en": "Damage and Structure"
         },
         "content": {
-          "en": "content"
-        }
+          "en": "<p>Unlike pilots, mechs don&rsquo;t go <strong>DOWN AND OUT</strong> when they&rsquo;re reduced to <strong>0 HP</strong>. Mechs are powerful machines that can take several hits before they start to break down. Their durability is represented by a <strong>STRUCTURE</strong> score. When they reach <strong>0 HP</strong>, taking major damage to their chassis and systems, mechs take <strong>structure damage</strong>.</p> <p>Player mechs have <strong>4 STRUCTURE</strong>; most NPC mechs have <strong>1 STRUCTURE</strong>, but some have more.</p> <p>When a character with <strong>STRUCTURE</strong> reaches <strong>0 HP</strong>, it takes <strong>1 structure damage</strong>, makes a<strong> structure damage check</strong>, and resets its <strong>HP</strong> to full. Next, it takes any excess damage beyond what was required to reach <strong>0 HP</strong>. This does make it possible for a mech to take several points of structure damage and make multiple structure damage checks in one turn.</p> <p>Let&rsquo;s say that a character with <strong>15 HP</strong> and<strong> 3 STRUCTURE</strong> takes 20 damage. First they take 15 damage, then they make a structure damage check and take 1 structure damage, then take another 5 damage. This will leave them with <strong>2 STRUCTURE</strong> and <strong>10 HP</strong> (assuming they&rsquo;re still standing).</p> <p>When a mech is reduced to<strong> 0 STRUCTURE</strong>, it is <strong>destroyed</strong>.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Structure Damage"
+            },
+            "content": {
+              "en": "<p>When a mech is reduced to 0 HP and takes structure damage, its player (or the GM) makes a <strong>structure damage check</strong>. This represents the results of unusually powerful or accurate hits, which can disable a mech rapidly if not dealt with.</p> <p>To make a <strong>structure damage check</strong>, roll <strong>1d6 per point of structure damage</strong> marked, including the <strong>structure damage</strong> that has just been taken. Choose the lowest result and check <a href=\"/src/reference/reference?preScroll=structure_damage_table\">the structure damage chart</a> to determine the outcome. Rolling multiple 1s has particularly catastrophic consequences.</p>"
+            }
+          }
+        ]
       },
       {
         "title": {
           "en": "Overheating and Stress"
         },
         "content": {
-          "en": "content"
-        }
+          "en": "<p>Combat puts a tremendous amount of stress on mechs&rsquo; electronic systems and mechanical components, represented by <strong>heat</strong>. Electronic warfare, environmental hazards, weaponry, and pushing structural limits can all cause heat buildup. Most mechs are equipped with heat sinks, shunts, coolant, and other heat-dispersal systems that allow them to operate within factory defined margins without generating heat. However, the demands of combat can tax these systems to the limit &ndash; even to the point of causing actual damage.</p> <p><strong>HEAT CAP</strong> determines how much heat a mech can handle before things get dangerous, and the amount of strain a mech&rsquo;s reactor can take is represented by a STRESS score. There&rsquo;s only so much <strong>stress damage</strong> a reactor can take before its core is breached and a meltdown begins. Most mechs have <strong>4 STRESS</strong>, and NPCs typically have <strong>1</strong>.</p> <p>When a mech takes heat over its <strong>HEAT CAP</strong>, the runaway heat buildup places a strain on its cold fusion reactor. It takes <strong>1 STRESS</strong>, makes an <strong>overheating check</strong>, and then clears all heat. Next, it takes any excess heat beyond what was required to exceed its HEAT CAP, potentially causing it to overheat more than once.</p> <p>When a mech reaches <strong>0 STRESS</strong>, it suffers a <strong>reactor meltdown</strong> at the end of its next turn.</p>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Overheating"
+            },
+            "content": {
+              "en": "<p>When a mech exceeds its <strong>HEAT CAP</strong> and takes <strong>stress damage</strong>, its player (or the GM) makes an overheating check.</p> <p>To make an <strong>overheating check</strong>, roll<strong> 1d6 per point of stress damage marked</strong>, including the stress damage that has just been taken. Choose the lowest result and check <a href=\"/src/reference/reference?scrollTo=overheating_chart\">the overheating chart</a> to determine the outcome. Rolling multiple 1s has particularly catastrophic consequences.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Reactor Meltdown"
+            },
+            "content": {
+              "en": "<p>Overheating sometimes results in a <strong>reactor meltdown</strong>. This can take place immediately or following a countdown, in which case the countdown is updated at the start of your turn and the meltdown triggers when specified. When a reactor meltdown takes place, any pilot inside is immediately killed and the mech vaporized in a catastrophic eruption with a <strong>BURST 2</strong> area. The wreck is annihilated and all characters within the affected area must succeed on an <strong>AGILITY</strong> save or take <strong>4d6 explosive</strong>&nbsp;damage. On a success, they take half damage.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Cooling"
+            },
+            "content": {
+              "en": "<p>A mech&rsquo;s marked heat can be cleared with <strong>STABILIZE</strong>, or by using certain systems. Heat also resets when you rest or perform a <strong>FULL REPAIR</strong>.</p>"
+            }
+          },
+          {
+            "title": {
+              "en": "Danger Zone"
+            },
+            "content": {
+              "en": "<p>When a mech is at half of its total <strong>HEAT CAP</strong>, it&rsquo;s in the <strong>DANGER ZONE</strong>. Certain weapons and talents can only be used in this state. It&rsquo;s obvious when a mech is in the <strong>DANGER ZONE</strong>: segments start to glow, smoke, or steam, and external cooling mechanisms (like reactor vents) appear visibly hot or overworked</p>"
+            }
+          }
+        ]
       },
       {
         "title": {
           "en": "Repairs and Rest"
         },
         "content": {
-          "en": "content"
-        }
+          "en": "<p>A mech&rsquo;s <strong>REPAIR CAP</strong> is determined by its <strong>FRAME</strong>, with a bonus from <strong>HULL</strong>. It represents the mechs&rsquo; resilience and ability to continue functioning while damaged, as well as its supplies of parts and tools.</p> <p><strong>REPAIR CAP</strong> also indicates the maximum number of <strong>REPAIRS</strong> a pilot has available to spend on their mech &ndash; in or out of combat &ndash; before returning to base and performing a <strong>FULL REPAIR</strong>.</p> <p>Mechs can be repaired in combat with <strong>STABILIZE</strong> &ndash; regaining all <strong>HP</strong> at the cost of <strong>1 REPAIR</strong> &ndash; and certain systems. Outside of combat, they can be repaired when their pilot rests.</p> <p>To <strong>rest</strong>, pilots require at least an hour of uninterrupted downtime or light activity (e.g., making camp or performing routine maintenance). After resting, characters may:</p> <ul> <li>clear all heat;</li> <li>clear any statuses and conditions affecting their mech;</li> <li>restore half of their pilot&rsquo;s <strong>HP</strong> and clear <strong>DOWN AND OUT</strong>.</li> </ul> <p>They may also spend <strong>REPAIRS</strong> at the following costs:</p> <ul> <li><strong>1 REPAIR:</strong> Restore full <strong>HP</strong>, or repair a destroyed weapon or system.</li> <li><strong>2 REPAIRS:</strong> Restore <strong>1 STRUCTURE </strong>or<strong> 1 STRESS</strong>.</li> <li><strong>4 REPAIRS:</strong> Repair a destroyed mech.</li> </ul>"
+        },
+        "children": [
+          {
+            "title": {
+              "en": "Destroyed Mechs"
+            },
+            "content": {
+              "en": "<p>Destroyed mechs become wreckage &ndash; objects on the battlefield that can be moved and dragged around, and which provide hard cover. Any spaces occupied by wreckage are difficult terrain.</p>"
+            },
+            "children": [
+              {
+                "title": {
+                  "en": "Repairing Destroyed Mechs"
+                },
+                "content": {
+                  "en": "<p>If the wreckage of a destroyed mech can be obtained (i.e., it didn&rsquo;t melt in a reactor explosion), the mech can be restored to working order while resting with <strong>4 REPAIRS</strong>. Anyone can contribute <strong>REPAIRS</strong> to do this, meaning that it a wrecked mech can be restored even if it has insufficient <strong>REPAIRS</strong> remaining. Repairing a destroyed mech is the only time pilots can share <strong>REPAIRS</strong> like this.</p> <p>Once repaired, the mech returns to<strong> 1 STRUCTURE, 1 STRESS</strong>, and <strong>full HP</strong>, no matter how much it had before. Any destroyed weapons or systems remain unusable unless the damaged mech spends <strong>REPAIRS</strong> to fix them as normal.</p>"
+                }
+              }
+            ]
+          },
+          {
+            "title": {
+              "en": "Full Repair"
+            },
+            "content": {
+              "en": "<p>When a character spends at least 10 hours relatively uninterrupted in a secure location, they can perform a <strong>FULL REPAIR</strong>. A <strong>FULL REPAIR</strong> allows them to:</p> <ul> <li>restore all pilot <strong>HP</strong> and clear <strong>DOWN AND OUT</strong>;</li> <li>restore a mech to full <strong>HP, STRESS, </strong>and<strong> STRUCTURE</strong>, as long as it&rsquo;s intact or the wreckage is accessible;</li> <li>clear all statuses and conditions;</li> <li>repair any destroyed weapons or systems;</li> <li>recover <strong>CP</strong>, if used;</li> <li>regain all <strong>REPAIRS</strong> and uses of <strong>LIMITED</strong> weapons;</li> <li>print a new mech and equipment, with the proper facilities.</li> </ul>"
+            }
+          },
+          {
+            "title": {
+              "en": "Printing"
+            },
+            "content": {
+              "en": "<p>If a pilot has access to the proper facilities, they can also use a <strong>FULL REPAIR</strong> to rebuild a mech &ndash; or build an entirely new one. Mechs can be printed from scratch using Union&rsquo;s enormous printing facilities, which are ubiquitous on most occupied worlds.</p> <p>A printer and assembler can perfectly recreate any mech or gear for which a pilot is licensed. Of course, pilots are only licensed to print one mech at a time. If they print a new one, any others immediately cease to function.</p>"
+            }
+          }
+        ]
       },
       {
         "title": {
           "en": "Death"
         },
         "content": {
-          "en": "content"
-        }
-      },
-      {
-        "title": {
-          "en": "Quirks"
+          "en": "<p>The destruction of a mech doesn&rsquo;t always mean the death of its pilot. Pilots are hardy and cunning &ndash; as long as they survive, they can and will escape or eject from mechs that have been shut down, disabled, or even destroyed entirely. Mechs can always be rebuilt; pilots are one of kind - sometimes.</p>"
         },
-        "content": {
-          "en": "content"
-        }
+        "children": [
+          {
+            "title": {
+              "en": "Cloning"
+            },
+            "content": {
+              "en": "<p>Exceptional pilots &ndash; especially lancers &ndash; represent tremendous investments in hardware and training; as such, they tend to have powerful, well-connected patrons with an interest in maintaining their investments. It&rsquo;s no surprise, then, that technologies exist to replace deceased pilots with subjective facsimiles or &ndash; if time doesn't permit &ndash; to create imperfect, flashgrown genetic clones.</p> <p>Unique-subjectivity, natural-life &ldquo;facsimile&rdquo; clones are their own people &ndash; legally, culturally, and cognitively &ndash; and are common throughout the galaxy (in terrestrial world colonization, for example, first- and second-generation cloning is the norm). Flash clones are far less common, as the practice is broadly unlawful. Subjectivity override of either a flash or facsimile clone is exceedingly rare.</p> <p>Growing a body is easy; it is a very different thing &ndash; and much more fraught &ndash; to override a clone&rsquo;s natural subjectivity with the cobbled-together cognitive profile of the deceased. Facsimile subjectivity cloning is incredibly expensive, subject to intense scrutiny, and restricted to approved entities; Unless a pilot is lucky enough to work for an organization with Union&rsquo;s express sanction to run one of these rare and arguably unethical cloning programs, any cloning that does take place is probably unlawful.</p>"
+            },
+            "children": [
+              {
+                "title": {
+                  "en": "Complications"
+                },
+                "content": {
+                  "en": "<p>While facsimile clones suffer fewer physical complications than flash clones, subjectivity override &ndash; whether applied to a facsimile or flash clone &ndash; is an experimental process that always creates complications, personal and social.</p> <p>Unless the other members of a character&rsquo;s team know that subjectivity override is possible, it&rsquo;s going to be a hell of a surprise to see their comrade back from the dead. As for the revivified pilot themselves, they might have to wrestle with the &ldquo;gap&rdquo; in their memory. This &ldquo;gap&rdquo; necessarily means they don&rsquo;t remember any events or interactions after the beginning of the session in which they died, although they keep all LL advancement.</p> <p>It is up to the player whether they want to bring a slain character back as a subjectivity-override clone, or if they simply want to make a new character. It&rsquo;s important to remember that even if a clone has had a subjectivity override, this does not mean that they are the same person as the character who died: they look the same and share an imprint of the deceased&rsquo;s memories, drawing from them to act in novel situations; the original pilot who was killed is dead, their consciousness ended, forever.</p> <p>By default, the following conditions apply to both facsimile- and flash-cloned characters, but they can be tweaked by the GM as needed:</p> <ul> <li>Cloned characters can&rsquo;t join a mission in progress.</li> <li>Flash-cloned characters always come back with a quirk.</li> <li>Additional cloning and subjectivity imprinting adds further quirks.</li> </ul>"
+                }
+              },
+              {
+                "title": {
+                  "en": "Quirks"
+                },
+                "content": {
+                  "en": "<p>Quirks can be physical or mental in nature, but they&rsquo;re always complicating. Whatever they are, they should offer story hooks or create interesting narrative situations &ndash; they don&rsquo;t have significant gameplay effects.</p> <p>Optionally, quirks might also be given to characters who go <strong>DOWN AND OUT</strong> &ndash; representing the lingering trauma of such a close encounter with death &ndash; or to characters who have died and been brought back to life by the GM&rsquo;s discretion or a twist in the narrative.</p> <p>If you want to roll for a random quirk, you can roll <strong>1d20</strong> or choose from <a href=\"/src/reference/reference/quirks\">the Quirks chart</a>. You can use these as examples for designing quirks of your own if you want to decide on a custom quirk with your GM.</p>"
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   }
