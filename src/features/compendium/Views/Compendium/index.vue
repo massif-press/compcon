@@ -12,7 +12,7 @@
     </div>
     <v-row density="compact" justify="center">
       <v-col lg="8" xs="12">
-        <search-bar />
+        <search-bar disabled />
       </v-col>
     </v-row>
   </v-container>
@@ -91,18 +91,21 @@
         icon="cc:npc_class"
         name="NPC Classes"
         to="/srd/compendium/npc_classes"
+        disabled
       />
       <compendium-page-button
         color="primary"
         icon="cc:npc_feature"
         name="NPC Features"
         to="/srd/compendium/npc_features"
+        disabled
       />
       <compendium-page-button
         color="primary"
         icon="cc:npc_template"
         name="NPC Templates"
         to="/srd/compendium/npc_templates"
+        disabled
       />
       <compendium-page-button
         icon="cc:status_exposed"

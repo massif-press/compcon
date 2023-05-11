@@ -4,7 +4,7 @@
       "en": "vs. Mech Combat"
     },
     "content": {
-      "en": "content"
+      "en": "<p>This section deals with narrative play. This part of a mission is more freeform than mech combat, which is a lot more structured. In narrative play, rolls tend to accomplish more, scenes cover larger stretches of time, and the outcome of individual rolls is more important.</p> <p>By contrast, mech combat is turn-based, tactical combat. Switching from narrative play to mech combat is as simple as the GM declaring it&rsquo;s on, drawing a map, and picking who acts first. When you want to play out turn-based, tactical combat, you can swap to mech combat.</p> <p>These two modes of play have different rules, especially for combat. If a fight kicks off during narrative play, combat is resolved using <strong>skill checks</strong>, rather than <strong>attack rolls</strong>. There are no turns, and NPCs don&rsquo;t get to act on their own initiative; instead, their actions are decided by the outcome of player rolls. In mech combat, outcomes are determined using turn-based, tactical play. Players make <strong>attack rolls</strong>, track <strong>HP</strong> and other effects, and NPCs can act independently</p>"
     }
   },
   {
@@ -12,7 +12,7 @@
       "en": "Skill Checks"
     },
     "content": {
-      "en": "content"
+      "en": "<p>In narrative play, skill checks are used to determine the outcome of complicated situations and actions. They are only required in tense narrative situations and when making a roll will move the story forward. Your pilot will generally always succeed in mundane tasks, especially if it relates to their background. You don&rsquo;t need to make a skill check to open a door, cook a meal, or talk to a superior officer &ndash; unless there&rsquo;s something complicating your attempt, the outcome might further a situation or relationship in an interesting way, or it might answer a question.</p> <p>A barroom brawl, a tense escape, decoding an encrypted message, hacking a computer, talking down a pirate, picking someone&rsquo;s pocket, distracting a guard, hunting alien wildlife, and flattering the planetary governor are all examples of situations that have some degree of tension and consequence, and might require a skill check.</p> <p>Skill checks can cover activities as broad or specific as the narrative requires. For example, a skill check might cover an entire day&rsquo;s worth of infiltration into a covert facility, or you might instead roll for individual moments of action &ndash; sneaking into vents, hacking doors, disabling guards, and so on.</p> <p>Let&rsquo;s break down the process of making a skill check:</p> <ol> <li>Name your goal.</li> <li>The GM decides the consequences of failure (e.g., losing time, alerting the guards, getting shot, etc). If there are no consequences, then you automatically succeed.</li> <li>Determine which <strong>triggers</strong> activate, if any, and whether you or the GM are invoking your pilot&rsquo;s background (<strong>+1&nbsp;ACCURACY</strong> or <strong>+1&nbsp;DIFFICULTY</strong>).</li> <li>Roll 1d20 and add any relevant modifiers from triggers, ACCURACY, or DIFFICULTY. On a 9 or less, you fail to accomplish your goal and suffer the established consequences. On a 10+, you accomplish your goal.</li> <li>Only roll once to achieve your goal, and stick with the result (except when you want to <strong>push it</strong>).</li> </ol>"
     },
     "children": [
       {
@@ -20,7 +20,7 @@
           "en": "Teamwork"
         },
         "content": {
-          "en": "content"
+          "en": "<p>If people want to help someone carry out an action, only one character rolls as usual. The character that makes the skill check gains <strong>+1&nbsp;ACCURACY</strong> (no matter how many people are helping), but everyone helping suffers any complications or consequences of failure.</p>"
         }
       },
       {
@@ -28,7 +28,7 @@
           "en": "Difficult, Risky and Heroic Rolls"
         },
         "content": {
-          "en": "content"
+          "en": "<p>Before you roll a skill check, the GM can decide that the action you&rsquo;re attempting is <strong>DIFFICULT</strong> or <strong>RISKY</strong> (or both). A <strong>DIFFICULT</strong> roll is harder than usual and adds <strong>+1 DIFFICULTY</strong>. A <strong>RISKY</strong> roll has clear and obvious complications, even on a success. For example, if a pilot is trying to sneak into a heavily guarded facility, the GM might decide the roll is <strong>RISKY</strong> &ndash; even if the pilot manages to sneak in, they&rsquo;re likely to have limited time to sneak out. When rolling a <strong>RISKY</strong> skill check, a character always suffers the consequences (or a lesser version of them) on any result under <strong>20</strong>. A <strong>RISKY</strong> skill check still succeeds as usual on <strong>10+</strong>, but the character suffers consequences anyway.</p> <p>If an action is so hard that success seems outlandish, the GM can make it <strong>HEROIC</strong>. A <strong>HEROIC</strong> roll is only successful on a result of <strong>20+</strong>, and the character making the attempt also suffers consequences if the result is less than <strong>20</strong>. If the GM wants to push things even further, a <strong>HEROIC</strong> roll can also be <strong>DIFFICULT</strong>. Pilots that accomplish such tasks are the stuff of legend.</p> <p>The GM may always declare that a skill check can&rsquo;t be made under the current circumstances. No matter how good your <strong>Apply Fists to Faces</strong> trigger is, you probably can&rsquo;t punch through a starship hull with your bare hands.</p>"
         }
       },
       {
@@ -36,7 +36,7 @@
           "en": "Trying Again and Pushing It"
         },
         "content": {
-          "en": "content"
+          "en": "<p>An unsuccessful skill check doesn&rsquo;t necessarily equate to outright failure, but it does mean that you have failed to accomplish your goal. If you do fail a check, you cannot attempt the same activity again unless the narrative circumstances have changed (e.g., time has passed, you have new gear, a different approach, or additional help, etc) or you <strong>push it</strong>.</p> <p>As long as a skill check isn&rsquo;t <strong>RISKY</strong>, you can make a second attempt to achieve the goal of a failed skill check in the same circumstances. This is called pushing it. However, if you do this, the skill check immediately becomes <strong>RISKY</strong>. If the situation is already <strong>RISKY</strong>, you can&rsquo;t push it further unless the GM allows it, in which case the skill check becomes <strong>HEROIC</strong>. A <strong>HEROIC</strong> check can never be pushed further.</p>"
         }
       },
       {
@@ -44,7 +44,7 @@
           "en": "Consequences"
         },
         "content": {
-          "en": "content"
+          "en": "<p>When you roll <strong>less than 10</strong> on a skill check (or <strong>less than 20</strong> on a <strong>RISKY</strong> skill check), you suffer the established consequences. Since NPCs don&rsquo;t act on their own in narrative play, these complications and consequences are the main tools the GM has for responding to player action.</p> <p>Before a roll is made, the GM must outline the consequences of failure. They can only inflict consequences that are clearly established this way. The nature of the consequences depends on the skill check and situation. For example, if you&rsquo;re trying to take someone out with a sniper rifle at 200 meters and they have no way to see you or fire back, it&rsquo;s unlikely that failing the roll will immediately result in you being shot. If you&rsquo;re in a melee struggling over someone else&rsquo;s gun, the possibility of getting shot is much higher.</p> <p>Here are some examples of consequences or complications that might apply to a roll:</p> <p><strong>HARM</strong>: Damage, injury, or bodily harm. If you try to take control of the gun someone&rsquo;s pointing at you and fail, you&rsquo;re probably going to get hurt. Most of the time, established harm results in <strong>1&ndash;2 damage</strong>, but getting shot at close range could cause 3&ndash;4 damage and truly deadly harm might cause <strong>6 damage or more</strong>.</p> <p><strong>TIME</strong>: The action takes longer than usual. In a calm environment, you can hack any console &ndash; and this one is no exception &ndash; but under fire and halfdressed, it&rsquo;s going to take a lot longer.</p> <p><strong>RESOURCES</strong>: Something must be used up, lost, or temporarily exhausted. This could be something concrete like running out of ammunition, losing a map, or your gun jamming, or it might be a social resource &ndash; reputation, political power, favor, and so on &ndash; that you need to spend in the process of completing your objective.</p> <p><strong>COLLATERAL</strong>: Someone or something other than yourself or your intended target takes harm or injury, or is put in danger. This could be an innocent bystander, an ally, the whole building, or an organization you belong to.</p> <p><strong>POSITION</strong>: Your actions put you in a worse position: right in the line of fire, clinging to the edge of a cliff, in the bad graces of the baron, or under a spotlight.</p> <p><strong>EFFECT</strong>: Your action is less effective than intended. If you&rsquo;re trying to kill someone, you merely injure them. If you&rsquo;re trying to sneak away undetected, you make a lot more noise than you hoped. If you&rsquo;re fixing a broken door, it only opens for a few people at a time.&nbsp;</p>"
         }
       },
       {
@@ -52,7 +52,7 @@
           "en": "Skill Challenges"
         },
         "content": {
-          "en": "content"
+          "en": "<p>When a group of players are working together to achieve an objective, the outcome is determined by a <strong>skill challenge</strong>. Everyone involved makes a relevant skill check, and success is determined by the proportion of successful rolls. If more players succeed than fail, the challenge is a success; if more players fail than succeed, the challenge is a failure. If the same number of players succeed and fail, the success hangs on a razor&rsquo;s edge &ndash; flip a coin or roll a dice to determine whether the challenge succeeds or fails.</p> <p>Challenges are ideal when players (and GMs) want to extend the narrative impact of rolls.</p> <p>For plans with several distinct stages, an <strong>extended challenge</strong> might be appropriate. An extended challenge has several rounds of rolling, and the outcome is calculated based on the number of rounds &ldquo;won&rdquo; by the players. For instance, an extended challenge with three rounds might require the players to gain the baron&rsquo;s, plant information in the baron&rsquo;s castle, and then sabotage the gate. The players are only truly successful if the majority of these tasks &ndash; two out of three, in this case &ndash; are accomplished.</p>"
         }
       }
     ]
@@ -62,7 +62,7 @@
       "en": "Player Initiative & NPC Action"
     },
     "content": {
-      "en": "content"
+      "en": "<p>In narrative play, players always have the benefit of initiative &ndash; the chance to act first. This means that the GM can&rsquo;t ask for rolls until prompted by player action. To initiate a skill check, players must name a goal &ndash; what they hope to achieve &ndash; then the GM can ask for a roll and decide if it&rsquo;s ordinary, <strong>DIFFICULT, RISKY, </strong>or<strong> HEROIC.</strong> After the roll is made and any consequences enacted, the players have the opportunity to act (or not) once more, probably with a &lsquo;What do you do?&rsquo; from the GM.</p> <p>In practice, this lets players decide the course of action and ensures that each roll has clearly established stakes and parameters &ndash; it helps the game feel fairer and prevents unnecessary rolling.</p> <p>If the players fail to take action, stall, or pass off responsibility, then they are effectively turning initiative over to the GM. Any time the players look to the GM to see what happens next, the GM can move the story forward without player action.</p> <p>Similarly, NPCs don&rsquo;t take action or make rolls in narrative play. Their behaviors are based on the outcome of player rolls. For example, if a player character lies to an NPC, the NPC doesn&rsquo;t get to make a roll to figure out if they&rsquo;re being lied to. As long as the player is successful, the NPC doesn&rsquo;t see through the deception; if the player does fail, the NPC notices the obvious lies. If the GM feels like the NPC is particularly astute or insightful, able to easily see through lies, they might decide the skill check is <strong>DIFFICULT, RISKY</strong>, or both.</p>"
     }
   },
   {
@@ -70,7 +70,7 @@
       "en": "Combat in Narrative Play"
     },
     "content": {
-      "en": "content"
+      "en": "<p>When combat takes place in narrative play, the normal rules for skill checks apply. This allows combat to play out more like a movie than a tactical game. When resolving combat narratively, you don&rsquo;t need to track turns or make attack rolls, and the whole combat might be over in just a few rolls. If there are no mechs involved, it&rsquo;s almost always preferable to resolve combat this way.</p> <p>Like other skill checks, failed combat skill checks can&rsquo;t be repeated until the circumstances change. For example, if Taro gets in a bar fight and fails to knock out his opponent, he can&rsquo;t try again until he changes his approach or the situation changes. He could do this several ways, such as by picking up a bar stool or getting some of his friends to help out.</p> <p>Don&rsquo;t worry about calculating precisely how much damage is dealt to NPCs during narrative combat &ndash; if the pilot&rsquo;s goal is &lsquo;kill the guard&rsquo; and they succeed, they kill the guard. If an NPC is especially well-protected, trained, or otherwise hard to take out, the GM can make the roll <strong>RISKY</strong> or <strong>DIFFICULT</strong>, or else ask for a different approach. For example, trying to take out a guard in a tower with just a combat knife might be nearly impossible, but doing it with a silenced sniper rifle probably isn&rsquo;t even <strong>RISKY</strong>.</p> <p>If you want combat in narrative play to be a bit more structured, you can use skill challenges, with different checks representing different parts of a fight. For example, the GM might ask players to make a skill check to cross open ground, assault the watch tower, then take out the turret that&rsquo;s raining fire on them.</p> <p>If mechs are involved in combat or you want to get into serious detail, then you might be engaging in mech combat rather than narrative play</p>"
     },
     "children": [
       {
@@ -78,7 +78,7 @@
           "en": "Hit Points, Damage, and Injury"
         },
         "content": {
-          "en": "content"
+          "en": "<p>A pilot&rsquo;s <strong>HP</strong> is most relevant during mech combat, but they can also get hurt and take damage as a result of complications during skill checks.</p> <p>At <strong>LL0</strong>, pilots have <strong>6 HP</strong>. As they level up, they add their <strong>GRIT</strong> to their <strong>HP</strong> and can also get <strong>bonus HP</strong> from armor.</p> <p><strong>HP</strong> doesn&rsquo;t equate directly to a certain level of injury; it represents how far a pilot is from death, not only in terms of bodily health, but also in terms of their ability to duck, dodge, and avoid damage, and their sheer luck. A pilot who takes damage doesn&rsquo;t necessarily sustain a physical injury. They might instead draw on their stamina, luck, or quick reflexes to avoid a wound, but they can&rsquo;t do that forever.</p> <p>Consequences and complications from skill checks only deal damage if they would be sufficient, narratively, to hurt or kill someone. Things like minor grazes, a glancing punch, bruises, and so on don&rsquo;t deal damage, although they could cause other issues.</p> <p>Here&rsquo;s what damage to a pilot looks like in narrative play:</p> <p><strong>Minor damage is 1&ndash;2 damage.</strong> Minor damage might be a result of being shot by small arms fire, stabbed, punched, or being hit by a flying rock.</p> <p><strong>Major damage is 3&ndash;5.</strong> Major damage might be dealt by assault and heavy weapons, long falls, toxic gas, or exposure to vacuum.</p> <p><strong>Lethal damage is 6+.</strong> Lethal damage is catastrophic &ndash; a pilot might receive it if a mech falls on them, they&rsquo;re hit by a mech-scale weapon, or a grenade blows up under them.</p> <p>Pilots can have <strong>ARMOR</strong> of <strong>1</strong> or <strong>2</strong>. Armor is subtracted from any damage they take, unless it&rsquo;s dealt by an armor-piercing weapon (i.e. a weapon with the <strong>AP</strong> tag) or is caused by something particularly dramatic, like a long fall, immersion in lava, or exposure to a vacuum.</p>"
         }
       },
       {
@@ -86,7 +86,7 @@
           "en": "Down and Out"
         },
         "content": {
-          "en": "content"
+          "en": "<p>If your pilot is ever reduced to <strong>0 HP</strong>, roll <strong>1d6</strong>:</p> <p>&bull; <strong>On 6</strong>, your pilot barely shrugs off the hit (or it&rsquo;s a close call) &ndash; they return to <strong>1 HP</strong>.</p> <p>&bull;<strong> On 2&ndash;5</strong>, your pilot gains the <strong>DOWN AND OUT</strong> status (and the <strong>STUNNED</strong> condition) and remains at <strong>0 HP</strong>. They are unconscious, pinned, bleeding out, or otherwise unable to act. If you&rsquo;re in mech combat, they are <strong>STUNNED</strong> and their <strong>EVASION</strong> drops to <strong>5</strong>. If they take any more damage &ndash; from being shot in the head, for instance &ndash; they die.</p> <p>&bull;<strong> On 1</strong>, your pilot&rsquo;s luck has run out &ndash; they die immediately.</p> <p>On a roll of <strong>2&ndash;5</strong>, you can choose for your pilot to die rather than becoming <strong>DOWN AND OUT</strong>.</p> <p>If a character spends an hour resting with no strenuous activity, they regain half of their <strong>maximum HP</strong>. If they&rsquo;re <strong>DOWN AND OUT</strong>, they recover and come back to consciousness. It takes at least <strong>10 hours and a FULL REPAIR</strong> to recover all <strong>HP</strong>.</p>"
         }
       }
     ]
@@ -96,7 +96,7 @@
       "en": "Downtime"
     },
     "content": {
-      "en": "content"
+      "en": "<p>Pilots are people &ndash; exceptional people, but people nonetheless &ndash; who have lives to live outside of their mechs. It&rsquo;s assumed in Lancer that your pilot has plenty of business to take care of between missions, although the precise nature of that business depends on the players, the GM, and the narrative.</p> <p>Some stories don&rsquo;t have space for much downtime &ndash; perhaps the characters are on a planet under siege and have little time to pursue other projects. Others will have much more, potentially even skipping ahead several months between missions and allowing characters many opportunities to pursue their goals.</p> <p>There always has to be some downtime between missions, even if it&rsquo;s only a few hours. This space allows players to prepare for the next mission and take actions that will shape the ongoing story.</p>"
     },
     "children": [
       {
@@ -104,7 +104,15 @@
           "en": "Structured and Freeform Play"
         },
         "content": {
-          "en": "content"
+          "en": "<p>There are two components to downtime: <strong>structured downtime actions, </strong>and<strong> freeform play</strong>.</p> <p>Downtime actions are defined activities that allow players to accumulate <strong>RESERVES</strong> for the next mission. Each player gets a limited number of these actions &ndash; usually one, but sometimes two for especially long periods of downtime. If the players are under siege, for example, they probably only have time for a single action. The kinds of actions that characters can take are outlined below.</p> <p>But the purpose of downtime isn&rsquo;t just to prepare for the next mission &ndash; it&rsquo;s also for players to tell personal stories, advance plots, and flesh out characters. Players can do as much freeform roleplaying as they like during downtime &ndash; maybe making skill checks, maybe just talking and interacting. Even if their actions are totally unrelated to preparing for a mission, the GM can still feel free to reward this kind of play in ways that will help them in the field. For example, even if Pan and Penny simply go drinking at a bar together with no intent to prepare something, gain <strong>RESERVES</strong>, or take downtime actions, the GM might decide that their new bond grants them <strong>+1 ACCURACY</strong> on skill checks to help each other during the next mission.</p>"
+        }
+      },
+      {
+        "title": {
+          "en": "Time and Downtime"
+        },
+        "content": {
+          "en": "<p>Downtime is almost entirely narrative and doesn&rsquo;t usually focus on every moment of action. Depending on the situation, one roll in downtime might cover any amount of time, from an hour to a few months.</p> <p>As a general rule, outcomes should be informed by narrative context. A roll made for an activity that takes place over several months will usually have a greater effect than an action that takes a few seconds. If a character only has a few days of downtime to learn a new martial art, they might not become an expert, but they will probably be familiar with the standard moves and techniques. If downtime skips ahead six months, though, that character might actually be a pretty good martial artist by the beginning of the next mission.</p>"
         }
       },
       {
@@ -112,7 +120,7 @@
           "en": "Reserves"
         },
         "content": {
-          "en": "content"
+          "en": "<p>Downtime can be used to prepare <strong>RESERVES</strong> for the next mission. <strong>RESERVES</strong> covers anything being held as an advantage for the next mission, including extra supplies, gear, support, bonuses, allies, and so on. The GM can grant <strong>RESERVES</strong> at any time it makes sense &ndash; for instance, when a group&rsquo;s patron gives them extra supplies for a mission &ndash; but players can also ask for <strong>RESERVES</strong> by making downtime actions. Itemized RESERVES can be found on the <a href=\"/srd/compendium/reserves\">corresponding Compendium page</a>.</p>"
         }
       },
       {
@@ -120,7 +128,7 @@
           "en": "Downtime Actions"
         },
         "content": {
-          "en": "content"
+          "en": "<p><strong>Downtime actions</strong> represent specific activities undertaken by pilots between missions. Unless the downtime takes place over an especially long period, players usually only get to make one downtime action per downtime.</p> <p>Unlike skill checks, downtime actions have specific outcomes depending on whether you succeed, fail, or roll <strong>20+</strong>, and most ask you to choose from a list of possible outcomes. Even though downtime actions aren&rsquo;t skill checks, triggers can still be used to get bonuses when rolling. For example, the <strong>GET A DAMN DRINK</strong> action might benefit from <strong>Survive</strong> (alcohol tolerance), <strong>Charm</strong> (impressing the locals), or <strong>Word on the Streets</strong> (eavesdropping for gossip).</p> <p>Although the outcomes of downtime actions depend on the roll, it&rsquo;s up to the GM and player to flesh out the details using the provided prompts. You can go into as much detail as you want about what actually takes place.</p> <p>In addition to the <a href=\"/src/reference/reference?preScroll=downtime_actions\">downtime actions provided with COMP/CON</a>, you can also easily create new ones that are more relevant to your particular game or story.</p>"
         }
       }
     ]

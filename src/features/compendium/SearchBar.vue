@@ -7,6 +7,7 @@
     solo
     hide-details
     single-line
+    :disabled="disabled"
     :placeholder="`Search the ${loc}`"
     @keyup.enter="search"
   />
@@ -17,6 +18,9 @@ export default {
   name: 'compendium-search-bar',
   props: {
     reference: {
+      type: Boolean,
+    },
+    disabled: {
       type: Boolean,
     },
   },

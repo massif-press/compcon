@@ -1,8 +1,7 @@
 <template>
   <v-container>
-    <h1 class="heading mb-3 ml-5">REFERENCE</h1>
+    <h1 class="heading mb-3 ml-5">QUICK REFERENCE</h1>
     <v-container fluid class="effect-text">
-      <span class="heading mech">Structure Damage & Overheating</span>
       <v-row density="compact" justify="center">
         <v-col>
           <v-toolbar color="red darken-3" dark>
@@ -33,8 +32,7 @@
                 </v-col>
                 <v-col cols="7">
                   <span class="body-text text-text">
-                    Emergency systems kick in and stabilize your mech. However,
-                    your mech is
+                    Emergency systems kick in and stabilize your mech. However, your mech is
                     <b>impaired</b>
                     until the end of your next turn.
                   </span>
@@ -52,13 +50,12 @@
                 </v-col>
                 <v-col cols="7">
                   <span class="body-text text-text">
-                    Parts of your mech are torn off by the damage. Roll a d6. On
-                    a 1-3, all the weapons on one mount are destroyed. On a 4-6,
-                    a system is destroyed. You choose what’s destroyed, but
-                    systems or weapons with the limited tag and no charges left
-                    are not valid. If there’s nothing left of one result, it
-                    becomes the other. If there’s absolutely nothing left to
-                    destroy, this result becomes DIRECT HIT instead.
+                    Parts of your mech are torn off by the damage. Roll a d6. On a 1-3, all the
+                    weapons on one mount are destroyed. On a 4-6, a system is destroyed. You choose
+                    what’s destroyed, but systems or weapons with the limited tag and no charges
+                    left are not valid. If there’s nothing left of one result, it becomes the other.
+                    If there’s absolutely nothing left to destroy, this result becomes DIRECT HIT
+                    instead.
                   </span>
                 </v-col>
               </v-row>
@@ -72,8 +69,8 @@
                 </v-col>
                 <v-col cols="7">
                   <span class="body-text text-text">
-                    This result has different outcomes depending on how much
-                    structure your mech has remaining.
+                    This result has different outcomes depending on how much structure your mech has
+                    remaining.
                     <br />
                     3+ - Your mech is
                     <b>stunned</b>
@@ -143,8 +140,8 @@
                 </v-col>
                 <v-col cols="7">
                   <span class="body-text text-text">
-                    Cooling systems recover and manage to contain the peaking
-                    heat levels. However, your mech is
+                    Cooling systems recover and manage to contain the peaking heat levels. However,
+                    your mech is
                     <b>impaired</b>
                     until the end of your next turn.
                   </span>
@@ -162,11 +159,10 @@
                 </v-col>
                 <v-col cols="7">
                   <span class="body-text text-text">
-                    Your mech’s power plant becomes unstable, ejecting jets of
-                    plasma. Your mech suffers from the
+                    Your mech’s power plant becomes unstable, ejecting jets of plasma. Your mech
+                    suffers from the
                     <b>exposed</b>
-                    status (taking double damage) until it takes action to
-                    remove it.
+                    status (taking double damage) until it takes action to remove it.
                   </span>
                 </v-col>
               </v-row>
@@ -180,19 +176,17 @@
                 </v-col>
                 <v-col cols="7">
                   <span class="body-text text-text">
-                    This result has different outcomes depending on how much
-                    reactor stress your mech has remaining.
+                    This result has different outcomes depending on how much reactor stress your
+                    mech has remaining.
                     <br />
                     3+ - Your mech becomes EXPOSED
                     <br />
-                    2 - Roll an ENGINEERING check. On a success, your mech is
-                    EXPOSED; on a failure, it suffers a reactor meltdown after
-                    1d6 of your turns (rolled by the GM). A reactor meltdown can
-                    be prevented by retrying the ENGINEERING check as a full
+                    2 - Roll an ENGINEERING check. On a success, your mech is EXPOSED; on a failure,
+                    it suffers a reactor meltdown after 1d6 of your turns (rolled by the GM). A
+                    reactor meltdown can be prevented by retrying the ENGINEERING check as a full
                     action.
                     <br />
-                    1 or lower - Your mech suffers a reactor meltdown at the end
-                    of your next turn.
+                    1 or lower - Your mech suffers a reactor meltdown at the end of your next turn.
                   </span>
                 </v-col>
               </v-row>
@@ -207,21 +201,19 @@
                 </v-col>
                 <v-col cols="7">
                   <span class="body-text text-text">
-                    Your reactor goes critical. Your mech will suffer a reactor
-                    meltdown at the end of your next turn.
+                    Your reactor goes critical. Your mech will suffer a reactor meltdown at the end
+                    of your next turn.
                   </span>
                 </v-col>
               </v-row>
               <v-divider class="ma-2" />
               <p class="ma-3 flavor-text">
-                Certain overheating results can cause a reactor meltdown. This
-                can be immediate, or involve a countdown (in which case update
-                the countdown at the start of your turn. The meltdown triggers
-                when specified). When a mech suffers a reactor meltdown, any
-                pilot inside immediately dies, the mech is immediately vaporized
-                in a catastrophic eruption, annihilating the wreck, and any
-                characters inside a burst 2 area centered on the mech must pass
-                an agility save or take 4d6 explosive damage, and half on a
+                Certain overheating results can cause a reactor meltdown. This can be immediate, or
+                involve a countdown (in which case update the countdown at the start of your turn.
+                The meltdown triggers when specified). When a mech suffers a reactor meltdown, any
+                pilot inside immediately dies, the mech is immediately vaporized in a catastrophic
+                eruption, annihilating the wreck, and any characters inside a burst 2 area centered
+                on the mech must pass an agility save or take 4d6 explosive damage, and half on a
                 successful save.
               </p>
             </v-card-text>
@@ -250,8 +242,8 @@
                 </v-col>
                 <v-col cols="10">
                   <span class="body-text text-text">
-                    On 6, your pilot barely shrugs off the hit (or it’s a close
-                    call) – they return to 1 HP.
+                    On 6, your pilot barely shrugs off the hit (or it’s a close call) – they return
+                    to 1 HP.
                   </span>
                 </v-col>
               </v-row>
@@ -264,15 +256,13 @@
                 </v-col>
                 <v-col cols="10">
                   <span class="body-text text-text">
-                    On 2–5, your pilot gains the DOWN AND OUT status (and the
-                    STUNNED condition) and remains at 0 HP. They are
-                    unconscious, pinned, bleeding out, or otherwise unable to
-                    act. If you’re in mech combat, they are Stunned and their
-                    EVASION drops to 5. If they take any more damage – from
-                    being shot in the head, for instance – they die.
+                    On 2–5, your pilot gains the DOWN AND OUT status (and the STUNNED condition) and
+                    remains at 0 HP. They are unconscious, pinned, bleeding out, or otherwise unable
+                    to act. If you’re in mech combat, they are Stunned and their EVASION drops to 5.
+                    If they take any more damage – from being shot in the head, for instance – they
+                    die.
                     <br />
-                    You can choose for your pilot to die instead of becoming
-                    DOWN AND OUT.
+                    You can choose for your pilot to die instead of becoming DOWN AND OUT.
                   </span>
                 </v-col>
               </v-row>
@@ -288,13 +278,12 @@
                 </v-col>
               </v-row>
               <v-divider class="ma-2" />
-              <p class="ma-3 flavor-text">
-                If your pilot is ever reduced to 0 HP, roll 1d6
-              </p>
+              <p class="ma-3 flavor-text">If your pilot is ever reduced to 0 HP, roll 1d6</p>
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
+      Quirks -- todo
     </v-container>
   </v-container>
 </template>
