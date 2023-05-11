@@ -12,7 +12,7 @@
         >
           Compendium
         </main-btn>
-        <main-btn
+        <!-- <main-btn
           icon="cc:pilot"
           :to="'/pilot_management'"
           help="Manage Pilots"
@@ -20,14 +20,6 @@
         >
           Pilot Roster
         </main-btn>
-        <!-- <main-btn
-          icon="cc:encounter"
-          :to="'/gm'"
-          help="Manage NPCs/Encounters/Missions"
-          @hover="ccLog('gm')"
-        >
-          Encounter Toolkit
-        </main-btn> -->
         <main-btn
           icon="cc:encounter"
           :to="'/gm'"
@@ -59,11 +51,11 @@
           @hover="ccLog('encounter')"
         >
           Active Mode
-        </main-btn>
+        </main-btn> -->
       </v-row>
     </v-container>
 
-    <v-footer color="primary" app fixed>
+    <v-footer v-if="false" color="primary" app fixed>
       <v-row no-gutters justify="space-around" align="center">
         <v-col cols="auto" class="text-center mr-3">
           <v-btn
