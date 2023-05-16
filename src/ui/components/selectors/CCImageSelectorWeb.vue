@@ -10,6 +10,19 @@
       <v-row>
         <v-col cols="12" md="6">
           <div class="heading h3 ml-n2">AVAILABLE IMAGES</div>
+          <v-tabs v-model="imageSelectTab">
+            <v-tab>Cloud Account</v-tab>
+            <v-tab>COMP/CON archive</v-tab>
+          </v-tabs>
+          <v-tabs-items>
+            <v-tab-item>
+              <v-card>requires login</v-card>
+            </v-tab-item>
+            <v-tab-item>
+              <v-card></v-card>
+            </v-tab-item>
+          </v-tabs-items>
+
           <mech-image-selector
             v-if="type === 'mech'"
             :mech="item"
@@ -21,6 +34,7 @@
             @set-img="selectedImage = $event"
           />
           <v-divider class="mx-3" />
+
           <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
           <v-file-input
             ref="fileInput"
@@ -88,6 +102,7 @@ export default Vue.extend({
     selectedImage: null,
     imageData: null,
     loading: false,
+    imageSelectTab: 0,
   }),
   computed: {
     displayImage() {
