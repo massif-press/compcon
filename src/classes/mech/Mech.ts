@@ -243,7 +243,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
 
     for (const l of requirements) {
       if (l.source === 'GMS') continue
-      l.missing = !this._pilot.has('License', l.license_id, l.rank)
+      l.missing = !this._pilot.has('License', l.license_id || l.name, l.rank) //l.name is used here as a fallback
     }
 
     return requirements.sort((a, b) => {

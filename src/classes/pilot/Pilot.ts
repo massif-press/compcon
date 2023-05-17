@@ -270,7 +270,13 @@ class Pilot
     } else if (typeName.toLowerCase() === 'corebonus') {
       return this.CoreBonusController.CoreBonuses.findIndex(x => x.ID === id) > -1
     } else if (typeName.toLowerCase() === 'license') {
-      const index = this.LicenseController.Licenses.findIndex(x => x.License.FrameID === id)
+      let index = this.LicenseController.Licenses.findIndex(x => x.License.FrameID === id)
+
+      if (index === -1)
+        index = this.LicenseController.Licenses.findIndex(x => {
+          return x.License.Name.toUpperCase() === id.toUpperCase() // fallback
+        })
+
       return rank ? index > -1 && this.LicenseController.Licenses[index].Rank >= rank : index > -1
     } else if (typeName.toLowerCase() === 'talent') {
       const index = this.TalentsController.Talents.findIndex(x => x.Talent.ID === id)
