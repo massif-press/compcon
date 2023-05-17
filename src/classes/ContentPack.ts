@@ -271,8 +271,10 @@ export class ContentPack {
     self.fillLicenseIds(self._MechWeapons, self._Frames)
     self._MechSystems =
       self._data.systems?.map(x => new MechSystem(x, self._data.tags, self._manifest.name)) || []
+    self.fillLicenseIds(self._MechSystems, self._Frames)
     self._WeaponMods =
       self._data.mods?.map(x => new WeaponMod(x, self._data.tags, self._manifest.name)) || []
+    self.fillLicenseIds(self._WeaponMods, self._Frames)
     self._PilotGear =
       self._data.pilotGear?.map(function (x) {
         if (x.type.toLowerCase() === 'weapon')

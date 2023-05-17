@@ -1,3 +1,4 @@
+import { store } from '@/store'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { LicensedItem } from '../../../../class'
 import { ILicensedItemData } from '../../../../interface'
@@ -63,6 +64,15 @@ class Frame extends LicensedItem implements IFeatureContainer {
     this.OtherArt = frameData.other_art
     this.Specialty = frameData.specialty || false
     this.Variant = frameData.variant || ''
+
+    // fallback for variant frames that don't have a license_id
+    if (this.Variant && !this.LicenseID) {
+      const f = store.getters
+        .getItemCollection('Frames')
+        .find(x => x.Name.toUpperCase() === this.Variant.toUpperCase())
+      if (f) this.SetLicenseID(f.ID)
+      else console.error(`Variant ${this.Variant} not found.`)
+    }
   }
 
   get FeatureSource(): any[] {
