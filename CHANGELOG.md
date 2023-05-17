@@ -1,5 +1,9 @@
 # COMP/CON Changelog
 
+## [2.3.14d] (2023-5-17)
+
+- **Pilot Sheet** Fourth time's the charm
+
 ## [2.3.14c] (2023-5-16)
 
 - **Pilot Sheet** Hotfixed (another) issue where Licenses weren't being collected correctly for LCP content that didn't have license_ids

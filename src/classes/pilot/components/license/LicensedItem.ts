@@ -29,11 +29,6 @@ abstract class LicensedItem extends CompendiumItem {
     this.Source = data.source ? data.source.toUpperCase() : ''
     this._license = data.license || ''
     this._license_id = data.license_id || ''
-    // Temporary fix for data missing license_ids
-    if (!this._license_id && this._license && this._license !== 'GMS') {
-      this._license_id = this._license.toUpperCase()
-      console.log(this._license, this._license_id)
-    }
     this.LicenseLevel = parseInt(data.license_level as any) || 0
   }
 
@@ -52,6 +47,11 @@ abstract class LicensedItem extends CompendiumItem {
 
   public get LicenseID(): string {
     return this._license_id
+  }
+
+  // used to enforce license_id for older LCPs
+  public SetLicenseID(id: string) {
+    this._license_id = id
   }
 
   public get RequiredLicense(): ILicenseRequirement {
