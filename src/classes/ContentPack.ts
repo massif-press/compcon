@@ -268,6 +268,7 @@ export class ContentPack {
       self._data.frames?.map(x => new Frame(x, self._data.tags, self._manifest.name)) || []
     self._MechWeapons =
       self._data.weapons?.map(x => new MechWeapon(x, self._data.tags, self._manifest.name)) || []
+    self.fillLicenseIds(self._MechWeapons, self._Frames)
     self._MechSystems =
       self._data.systems?.map(x => new MechSystem(x, self._data.tags, self._manifest.name)) || []
     self._WeaponMods =
@@ -311,6 +312,19 @@ export class ContentPack {
     self._Bonds = self._data.bonds?.map(x => new Bond(x, self._manifest.name)) || []
 
     self._Reserves = self._data.reserves?.map(x => new Reserve(x, self._manifest.name)) || []
+  }
+
+  private fillLicenseIds(target, frames) {
+    if (!target.length || !frames.length) return
+
+    target.forEach(x => {
+      if (x.LicenseID) return
+      const lName = x.License || x.Variant
+      if (!x.License) return
+      const frame = frames.find(f => f.Name.toUpperCase() === lName.toUpperCase())
+      if (!frame) return
+      x.SetLicenseID(frame.ID)
+    })
   }
 
   public Serialize(): IContentPack {

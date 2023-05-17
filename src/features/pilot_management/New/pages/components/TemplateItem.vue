@@ -152,7 +152,7 @@ export default Vue.extend({
   }),
   computed: {
     frameImage() {
-      return getImagePath(ImageTag.Mech, this.template.image)
+      return this.template.image
     },
   },
   methods: {

@@ -1,6 +1,22 @@
 # COMP/CON Changelog
 
-## [2.3.14] (2022-10-3)
+## [2.3.14d] (2023-5-17)
+
+- **Pilot Sheet** Fourth time's the charm
+
+## [2.3.14c] (2023-5-16)
+
+- **Pilot Sheet** Hotfixed (another) issue where Licenses weren't being collected correctly for LCP content that didn't have license_ids
+
+## [2.3.14b] (2023-5-16)
+
+- **Pilot Sheet** Hotfixed an issue where Licenses weren't being collected correctly for LCP content
+
+## [2.3.14a] (2023-5-16)
+
+- **Global** Image management has been largely disabled while I work on backporting a v3 feature to improve reliability and performance as Imgur changes its policies. This will be re-enabled in a near future release.
+
+## [2.3.14] (2023-5-10)
 
 ### Features
 
@@ -12,25 +28,25 @@
 - **Content Manager** Fixed a bug preventing deletion of uninitialized NPCs
 - **Mech Hangar** Fixed a case issue causing otherwise valid Core Bonuses to be ignored [#2229](https://github.com/massif-press/compcon/issues/2227)
 
-## [2.3.13a] (2022-10-3)
+## [2.3.13a] (2023-5-3)
 
 ### Bug Fixes
 
 - **NPC Roster** Fixed a bug preventing NPCs from correctly saving or loading in certain cases
 
-## [2.3.13] (2022-10-3)
+## [2.3.13] (2023-5-1)
 
 - **Pilot Roster/Mech Hangar** Added support for upcoming Dustgrave content
 - **Printables** Fixed pilot gear print output
 
-## [2.3.12a] (2022-10-3)
+## [2.3.12a] (2023-4-25)
 
 ### Bug Fixes
 
 - **Pilot Loadout** Hotfixed an issue related to Pilot Armor bonuses breaking Pilot loadouts [#2227](https://github.com/massif-press/compcon/issues/2227)
 - **Pilot Profile** Hotfixed an issue related to imported pilot callsigns getting unnecessarily truncated [#2223](https://github.com/massif-press/compcon/issues/2223)
 
-## [2.3.12] (2022-10-3)
+## [2.3.12] (2023-4-13)
 
 ### Other
 

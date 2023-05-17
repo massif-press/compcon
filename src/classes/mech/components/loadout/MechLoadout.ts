@@ -225,7 +225,7 @@ class MechLoadout extends Loadout {
         }
       } else {
         const licenseIndex = requirements.findIndex(
-          x => x.source === item.Source && x.name === item.License && x.rank === item.LicenseLevel
+          x => x.license_id === item.LicenseID && x.rank === item.LicenseLevel
         )
         if (licenseIndex > -1) {
           requirements[licenseIndex].items.push(item.Name)
