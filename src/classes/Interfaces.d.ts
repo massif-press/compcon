@@ -103,6 +103,7 @@ declare interface ITagData {
 declare interface ILicenseRequirement {
   source: string
   name: string
+  license_id: string
   rank: number
   items: string[]
   missing?: boolean

@@ -139,7 +139,7 @@ export default Vue.extend({
         .find(m => m.Type === 'Heavy')
         .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[2].slots[0]))
 
-      mech.PortraitController.SetLocalImage(this.selected.image)
+      mech.PortraitController.SetCloudImage(this.selected.image)
 
       this.pilot.Mechs.forEach(m => {
         this.pilot.RemoveMech(m)
