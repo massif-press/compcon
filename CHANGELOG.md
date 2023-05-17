@@ -1,5 +1,9 @@
 # COMP/CON Changelog
 
+## [2.3.14b] (2023-5-16)
+
+- **Pilot Sheet** Hotfixed an issue where Licenses weren't being collected correctly for LCP content
+
 ## [2.3.14a] (2023-5-16)
 
 - **Global** Image management has been largely disabled while I work on backporting a v3 feature to improve reliability and performance as Imgur changes its policies. This will be re-enabled in a near future release.

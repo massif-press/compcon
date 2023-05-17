@@ -233,17 +233,17 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
 
     if (this._frame.LicenseLevel === 0) {
       const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
-      if (gmsIdx > -1) requirements[gmsIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`)
+      if (gmsIdx > -1) requirements[gmsIdx].items.push(`${this._frame.Name} Frame`)
       else requirements.push(this.Frame.RequiredLicense)
     } else {
-      const reqIdx = requirements.findIndex(x => x.name === `${this._frame.Name}` && x.rank === 2)
-      if (reqIdx > -1) requirements[reqIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`)
+      const reqIdx = requirements.findIndex(x => x.license_id === this.Frame.ID && x.rank === 2)
+      if (reqIdx > -1) requirements[reqIdx].items.push(`${this._frame.Name} Frame`)
       else requirements.push(this.Frame.RequiredLicense)
     }
 
     for (const l of requirements) {
       if (l.source === 'GMS') continue
-      l.missing = !this._pilot.has('License', l.name, l.rank)
+      l.missing = !this._pilot.has('License', l.license_id, l.rank)
     }
 
     return requirements.sort((a, b) => {
@@ -252,9 +252,13 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   }
 
   public HasCompatibleMods(): boolean {
-    for(const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod != null)){
-      if (!w.Mod.AllowedTypes.includes(w.WeaponType) || !w.Mod.AllowedSizes.includes(w.Size) ||
-          w.Mod.RestrictedTypes.includes(w.WeaponType) || w.Mod.RestrictedSizes.includes(w.Size)) {
+    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod != null)) {
+      if (
+        !w.Mod.AllowedTypes.includes(w.WeaponType) ||
+        !w.Mod.AllowedSizes.includes(w.Size) ||
+        w.Mod.RestrictedTypes.includes(w.WeaponType) ||
+        w.Mod.RestrictedSizes.includes(w.Size)
+      ) {
         return false
       }
     }
