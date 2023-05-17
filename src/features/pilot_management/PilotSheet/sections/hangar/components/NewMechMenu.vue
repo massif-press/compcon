@@ -137,8 +137,8 @@ export default Vue.extend({
         i = i.filter(x => {
           return (
             !x.IsExotic &&
-            (this.pilot.has('License', x.LicenseID || x.ID, 2) || // ID is used here as a fallback
-              this.pilot.has('License', x.LicenseID || x.ID, 2) ||
+            (this.pilot.has('License', x.LicenseID, 2) ||
+              this.pilot.has('License', x.LicenseID, 2) ||
               !x.LicenseLevel)
           )
         })
