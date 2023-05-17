@@ -29,6 +29,11 @@ abstract class LicensedItem extends CompendiumItem {
     this.Source = data.source ? data.source.toUpperCase() : ''
     this._license = data.license || ''
     this._license_id = data.license_id || ''
+    // Temporary fix for data missing license_ids
+    if (!this._license_id && this._license && this._license !== 'GMS') {
+      this._license_id = this._license.toUpperCase()
+      console.log(this._license, this._license_id)
+    }
     this.LicenseLevel = parseInt(data.license_level as any) || 0
   }
 
