@@ -5,6 +5,7 @@ import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface'
 interface ILicenseRequirement {
   source: string
   name: string
+  license_id: string
   rank: number
   items: string[]
   missing?: boolean
@@ -52,6 +53,7 @@ abstract class LicensedItem extends CompendiumItem {
     return {
       source: this.Source,
       name: this.getLicenseName(),
+      license_id: this.LicenseID,
       rank: this.LicenseLevel,
       items: [this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name],
     }
@@ -59,7 +61,7 @@ abstract class LicensedItem extends CompendiumItem {
 
   private getLicenseName(): string {
     if (this.ItemType === ItemType.Frame) {
-      const f = (this as unknown) as Frame
+      const f = this as unknown as Frame
       if (f.IsVariantFrame) return f.Variant
       return this.License
     }

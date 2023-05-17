@@ -88,7 +88,7 @@ export default Vue.extend({
           this.sent = true
         })
         .catch(err => {
-          console.log(err)
+          console.error(err)
           Auth.forgotPassword(this.email.toLowerCase())
             .then(data => {
               this.loading = false
