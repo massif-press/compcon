@@ -11,6 +11,7 @@
   "dependencies": {
     "@aws-amplify/datastore": "^2.9.3",
     "@aws-amplify/ui-vue": "^0.2.33",
+    "@massif/lancer-data": "^3.1.1",
     "@mdi/font": "^6.6.96",
     "aws-amplify": "^4.3.17",
     "aws-amplify-vue": "^2.1.5",
@@ -18,7 +19,6 @@
     "core-js": "^3.6.5",
     "external-svg-loader": "^1.4.0",
     "jszip": "^3.7.1",
-    "lancer-data": "^3.0.48",
     "lodash": "^4.17.21",
     "material-icons": "^0.3.1",
     "promisify-file-reader": "^4.1.0",

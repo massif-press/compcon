@@ -11,6 +11,8 @@
 - **Pilot Sheet** Fixed a -- hopefully final! -- bug where LCP custom and/or variant frames were not correctly loading in to the Select Frame menu
 - **Content Manager** Fixed a bug preventing C/C from recognizing Massif pack version numbers [#2235](https://github.com/massif-press/compcon/issues/2235)
 - **Compendium** Fixed a bug causing pilot gear to expose code in table and card views [#2234](https://github.com/massif-press/compcon/issues/2234)
+- **Mech Sheet** Fixed a bug related to Dustgrave's Superheavy Core Bonus that let users stack duplicate Core Bonuses [#2231](https://github.com/massif-press/compcon/issues/2231)
+- **Mech Sheet** Fixed a bug related to Dustgrave's Superheavy Core Bonus that would persist a mount lock if the Core Bonus was removed while the lock was still active [#2230](https://github.com/massif-press/compcon/issues/2230)
 
 ## [2.3.14d] (2023-5-17)
 

@@ -14,7 +14,7 @@ import { store } from './store'
 import 'vuetify/dist/vuetify.min.css'
 import Vuetify from 'vuetify/lib'
 import Ripple from 'vuetify/lib/directives/ripple'
-import lancerData from 'lancer-data'
+import lancerData from '@massif/lancer-data'
 
 import './registerServiceWorker'
 

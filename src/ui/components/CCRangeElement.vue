@@ -19,7 +19,7 @@
           <v-icon x-large :dark="dark" class="mt-n4 mr-n1">
             {{ r.Icon }}
           </v-icon>
-          <span class="heading text--text" style="font-size: 24pt;">
+          <span class="heading text--text" style="font-size: 24pt">
             {{ `${added ? '+' : ''}${r.Value}` }}
           </span>
         </div>
@@ -36,7 +36,7 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Range } from '@/class'
-import { glossary } from 'lancer-data'
+import { glossary } from '@massif/lancer-data'
 
 @Component({ name: 'cc-range-element' })
 export default class CCRangeElement extends Vue {
