@@ -266,6 +266,7 @@ export class ContentPack {
       self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags, self._manifest.name)) || []
     self._Frames =
       self._data.frames?.map(x => new Frame(x, self._data.tags, self._manifest.name)) || []
+    self.fillLicenseIds(self._Frames, self._Frames)
     self._MechWeapons =
       self._data.weapons?.map(x => new MechWeapon(x, self._data.tags, self._manifest.name)) || []
     self.fillLicenseIds(self._MechWeapons, self._Frames)
