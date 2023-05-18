@@ -116,8 +116,6 @@ export default Vue.extend({
   },
   methods: {
     getPack(item) {
-      console.log(this.contentPacks.map(x => x.Name))
-
       return this.contentPacks.find(
         x =>
           x.Name.toLowerCase() === item.name.toLowerCase() ||
@@ -129,9 +127,7 @@ export default Vue.extend({
     },
     packOutdated(item) {
       const installedPack = this.getPack(item)
-      if (!installedPack) console.log(item.name)
       if (!installedPack) return true
-      console.log(item.name, `expects ${item.version} has ${installedPack.Version}`)
       return installedPack.Version !== item.version
     },
   },

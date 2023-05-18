@@ -975,7 +975,9 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
 
   public get AppliedBonuses(): CoreBonus[] {
     return _.flatten(
-      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(true, true).map(x => x.Bonuses)
+      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(true, true, true).map(
+        x => x.Bonuses
+      )
     )
   }
 

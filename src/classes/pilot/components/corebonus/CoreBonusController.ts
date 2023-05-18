@@ -75,7 +75,12 @@ class CoreBonusController implements IFeatureContainer {
       mech.MechLoadoutController.Loadouts.forEach(loadout => {
         if (coreBonus.ID === 'cb_mount_retrofitting') loadout.RemoveRetrofitting()
         if (coreBonus.ID === 'cb_improved_armament') loadout.ImprovedArmamentMount.Clear()
-        if (coreBonus.ID === 'cb_superheavy_mounting') loadout.SuperheavyMount.Clear()
+        if (coreBonus.ID === 'cb_superheavy_mounting') {
+          loadout.SuperheavyMount.Clear()
+          loadout.AllEquippableMounts(true, true, true).forEach(mount => {
+            mount.Unlock()
+          })
+        }
         if (coreBonus.ID === 'cb_integrated_weapon') loadout.IntegratedWeaponMount.Clear()
         loadout.AllEquippableMounts(true).forEach(mount => {
           mount.RemoveCoreBonus(coreBonus)

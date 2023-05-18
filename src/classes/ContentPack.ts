@@ -1,5 +1,6 @@
 import { mapValues } from 'lodash'
 import uuid from 'uuid/v4'
+import { store } from '@/store'
 
 import {
   Manufacturer,
@@ -322,9 +323,13 @@ export class ContentPack {
 
     target.forEach(x => {
       if (x.LicenseID) return
-      const lName = x.License || x.Variant
-      if (!x.License) return
-      const frame = frames.find(f => f.Name.toUpperCase() === lName.toUpperCase())
+      const lName = x.Variant || x.License
+      if (!lName) return
+      let frame = frames.find(f => f.Name.toUpperCase() === lName.toUpperCase())
+      if (!frame)
+        frame = store.getters
+          .getItemCollection('Frames')
+          .find(f => f.Name.toUpperCase().includes(lName.toUpperCase()))
       if (!frame) return
       x.SetLicenseID(frame.ID)
     })
