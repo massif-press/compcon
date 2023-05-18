@@ -1,8 +1,6 @@
 <template>
   <div class="packsList" style="min-height: 300px">
     <div class="heading h2 stark--text mt-3 px-2">Official Massif LANCER Content</div>
-    aaaaaa
-    {{ massifPacks }}
     <directory-table :items="massifPacks" :loading="loading" no-author />
     <v-divider class="my-6" />
     <div class="heading h2 stark--text mt-3 px-2">

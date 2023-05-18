@@ -9,6 +9,7 @@
 ### Bug Fixes
 
 - **Pilot Sheet** Fixed a -- hopefully final! -- bug where LCP custom frames were not correctly loading in to the Select Frame menu
+- **Content Manager** Fixed a bug preventing C/C from recognizing Massif pack version numbers [#2235](https://github.com/massif-press/compcon/issues/2235)
 
 ## [2.3.14d] (2023-5-17)
 
@@ -36,7 +37,7 @@
 
 - **Cloud Sync** Fixed a bug that could prevent the correct user theme from being loaded
 - **Content Manager** Fixed a bug preventing deletion of uninitialized NPCs
-- **Mech Hangar** Fixed a case issue causing otherwise valid Core Bonuses to be ignored [#2229](https://github.com/massif-press/compcon/issues/2227)
+- **Mech Hangar** Fixed a case issue causing otherwise valid Core Bonuses to be ignored [#2235](https://github.com/massif-press/compcon/issues/2235)
 
 ## [2.3.13a] (2023-5-3)
 
