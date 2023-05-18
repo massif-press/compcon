@@ -72,7 +72,7 @@ export default Vue.extend({
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
     },
     visible(): boolean {
-      return this.mech.AvailableBonuses.length || this.mount.Bonuses.length
+      return !this.mount.lock && (this.mech.AvailableBonuses.length || this.mount.Bonuses.length)
     },
   },
 })

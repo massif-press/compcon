@@ -8,8 +8,9 @@
 
 ### Bug Fixes
 
-- **Pilot Sheet** Fixed a -- hopefully final! -- bug where LCP custom frames were not correctly loading in to the Select Frame menu
+- **Pilot Sheet** Fixed a -- hopefully final! -- bug where LCP custom and/or variant frames were not correctly loading in to the Select Frame menu
 - **Content Manager** Fixed a bug preventing C/C from recognizing Massif pack version numbers [#2235](https://github.com/massif-press/compcon/issues/2235)
+- **Compendium** Fixed a bug causing pilot gear to expose code in table and card views [#2234](https://github.com/massif-press/compcon/issues/2234)
 
 ## [2.3.14d] (2023-5-17)
 

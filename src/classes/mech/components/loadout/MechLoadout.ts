@@ -134,7 +134,7 @@ class MechLoadout extends Loadout {
   }
 
   public RemoveRetrofitting(): void {
-    this.AllEquippableMounts(true, true).forEach(x => {
+    this.AllEquippableMounts(true, true, true).forEach(x => {
       if (x.Bonuses.some(x => x.ID === 'cb_mount_retrofitting')) x.ClearBonuses()
     })
   }
@@ -162,7 +162,7 @@ class MechLoadout extends Loadout {
   }
 
   public UnequipSuperheavy(): void {
-    this.AllEquippableMounts(true, true).forEach(x => x.Unlock())
+    this.AllEquippableMounts(true, true, true).forEach(x => x.Unlock())
   }
 
   public get IntegratedSystems(): MechSystem[] {
