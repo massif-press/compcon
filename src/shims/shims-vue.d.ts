@@ -25,7 +25,7 @@ declare module '*.svg' {
   export default content
 }
 
-declare module 'lancer-data' {
+declare module '@massif/lancer-data' {
   const backgrounds: any
   const skills: any
   const core_bonuses: any

@@ -71,7 +71,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { FrameGalleryModal, FrameStatblock, FrameCoreSystemPanel } from './frame'
-import { glossary } from 'lancer-data'
+import { glossary } from '@massif/lancer-data'
 
 export default Vue.extend({
   name: 'cc-frame-card',

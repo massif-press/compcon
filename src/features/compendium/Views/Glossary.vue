@@ -10,7 +10,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import SidebarArrayView from '../components/SidebarArrayView.vue'
-import { glossary } from 'lancer-data'
+import { glossary } from '@massif/lancer-data'
 
 export default Vue.extend({
   name: 'glossary',

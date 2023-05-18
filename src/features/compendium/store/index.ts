@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import lancerData from 'lancer-data'
+import lancerData from '@massif/lancer-data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import {
   License,

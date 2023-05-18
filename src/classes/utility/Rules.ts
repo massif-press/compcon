@@ -1,4 +1,4 @@
-import { rules } from 'lancer-data'
+import { rules } from '@massif/lancer-data'
 
 export class Rules {
   public static get BaseStructure(): number {

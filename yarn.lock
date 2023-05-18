@@ -3794,6 +3794,11 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
+"@massif/lancer-data@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-3.1.1.tgz#cb038fce0abde3bf4aae4af90795fe0a7987fd9e"
+  integrity sha512-Al2ByAlX3hEFnBO/OAB4G3qbOhRQqxMdSVDNKierJu5HGqo2DOhroV+/gaB1Os0uqPNfDnZWp7cjjliALJPIiA==
+
 "@mdi/font@^6.6.96":
   version "6.6.96"
   resolved "https://registry.yarnpkg.com/@mdi/font/-/font-6.6.96.tgz#4eee6faee5f44d3ec401d354fb95775cd6699575"
@@ -8371,11 +8376,6 @@ klona@^2.0.4:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
   integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
-
-lancer-data@^3.0.48:
-  version "3.0.48"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.48.tgz#1aa18f4d5854d97d842954702c602f02a96dda7c"
-  integrity sha512-7sQEQs12SUJ3Z1izUoYTkescvLbio5FKt7nCbnoz9Mip4siLo4FeiMjyfzZuU67evedVzHdx1vhzjID1YvPDyw==
 
 launch-editor-middleware@^2.2.1:
   version "2.3.0"
