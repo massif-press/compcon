@@ -56,9 +56,7 @@
           <v-col>
             <p class="body-text text--text pa-2 mb-1">
               <span v-if="item.description" v-html-safe="item.description" />
-              <span v-else>
-                No description given.
-              </span>
+              <span v-else>No description given.</span>
             </p>
 
             <div v-if="item.website" class="mt-2">
@@ -125,6 +123,7 @@ export default Vue.extend({
         x => x.Name === item.name || x.Name === item.title
       )
       if (!installedPack) return true
+      console.log(item.name, `expects ${item.version} has ${installedPack.Version}`)
       return installedPack.Version !== item.version
     },
   },

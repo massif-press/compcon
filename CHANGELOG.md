@@ -1,5 +1,15 @@
 # COMP/CON Changelog
 
+## [2.3.15] (2023-5-18)
+
+### Features
+
+- **Global** Backported the v3 image management functions. Users with cloud accounts can now upload images to the cloud and use them in COMP/CON, limited to 250mb (for now) This feature is still in beta, so please report any issues you encounter! If not, or if you exceed the limit, a remote image can be used instead.
+
+### Bug Fixes
+
+- **Pilot Sheet** Fixed a -- hopefully final! -- bug where LCP custom frames were not correctly loading in to the Select Frame menu
+
 ## [2.3.14d] (2023-5-17)
 
 - **Pilot Sheet** Fourth time's the charm

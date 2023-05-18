@@ -273,7 +273,6 @@
               max-width="500px"
               max-height="500px"
               class="ml-auto mr-auto"
-              :style="`image-rendering: ${isPixel ? 'pixelated' : 'crisp-edges'};`"
             />
             <v-btn
               color="secondary"
@@ -353,9 +352,6 @@ export default Vue.extend({
       if (this.selectedImage) return this.selectedImage.url
       if (this.item.Portrait) return this.item.Portrait
       else return 'https://via.placeholder.com/550'
-    },
-    isPixel() {
-      return this.selectedImage && path.basename(this.selectedImage).includes('_pixel')
     },
     isAuthed() {
       return getModule(UserStore, this.$store).IsLoggedIn
