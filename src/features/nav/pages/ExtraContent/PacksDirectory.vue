@@ -1,6 +1,8 @@
 <template>
   <div class="packsList" style="min-height: 300px">
     <div class="heading h2 stark--text mt-3 px-2">Official Massif LANCER Content</div>
+    aaaaaa
+    {{ massifPacks }}
     <directory-table :items="massifPacks" :loading="loading" no-author />
     <v-divider class="my-6" />
     <div class="heading h2 stark--text mt-3 px-2">
@@ -12,7 +14,7 @@
         <v-card max-width="500px">
           <v-card-title>LANCER Community Content Packs</v-card-title>
           <v-card-text>
-            <span v-if="communityPacks.length">
+            <span>
               COMP/CON is proud to collborate with the LANCER community in making these unofficial
               content packs available. They are offered as-is at the discretion of the author.
             </span>

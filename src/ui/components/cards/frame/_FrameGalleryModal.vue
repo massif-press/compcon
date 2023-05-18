@@ -13,9 +13,7 @@
             <v-col cols="auto" class="ml-auto mr-auto">
               <v-img
                 :src="selected"
-                :style="`max-height: 1080px; image-rendering: ${
-                  isPixel ? 'pixelated' : 'crisp-edges'
-                };`"
+                :style="`max-height: 1080px;`"
                 max-width="60vw"
                 min-width="30vw"
                 contain
@@ -66,13 +64,7 @@
                     :class="selected === frame.DefaultImage ? 'selected-img' : 'unselected-img'"
                     @click="selected = frame.DefaultImage"
                   >
-                    <v-img
-                      :src="frame.DefaultImage"
-                      :style="`max-height: 200px; image-rendering: ${
-                        isPixel ? 'pixelated' : 'crisp-edges'
-                      };`"
-                      contain
-                    />
+                    <v-img :src="frame.DefaultImage" :style="`max-height: 200px;`" contain />
                   </div>
                 </v-col>
                 <v-col
@@ -85,13 +77,7 @@
                     :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
                     @click="selectImg(a)"
                   >
-                    <v-img
-                      :src="imgPath(a.tag, a.src)"
-                      :style="`max-height: 200px; image-rendering: ${
-                        isPixel ? 'pixelated' : 'crisp-edges'
-                      };`"
-                      contain
-                    />
+                    <v-img :src="imgPath(a.tag, a.src)" :style="`max-height: 200px;`" contain />
                   </div>
                 </v-col>
               </v-row>
@@ -132,9 +118,6 @@ export default Vue.extend({
         website: artist.website || null,
         twitter: artist.twitter || null,
       }
-    },
-    isPixel() {
-      return this.selected.includes('_pixel')
     },
   },
   created() {
