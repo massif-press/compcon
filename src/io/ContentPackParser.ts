@@ -18,7 +18,7 @@ import {
 } from '@/interface'
 import { IActionData } from '@/classes/Action'
 import { IBackgroundData } from '@/classes/Background'
-import { IReserveData } from '@/classes/pilot/components'
+import { IReserveData, ISkillData } from '@/classes/pilot/components'
 
 const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
@@ -86,6 +86,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const pilotGear = generateIDs(await getZipData<IPilotEquipmentData>(zip, 'pilot_gear.json'), 'pg')
   const talents = generateIDs(await getZipData<ITalentData>(zip, 'talents.json'), 't')
   const tags = generateIDs(await getZipData<ITagCompendiumData>(zip, 'tags.json'), 'tg')
+  const skills = generateIDs(await getZipData<ISkillData>(zip, 'skills.json'), 'sk')
 
   const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || []
   const npcFeatures = (await readZipJSON<INpcFeatureData[]>(zip, 'npc_features.json')) || []
@@ -113,6 +114,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
       weapons,
       systems,
       mods,
+      skills,
       pilotGear,
       talents,
       tags,

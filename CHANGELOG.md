@@ -1,5 +1,11 @@
 # COMP/CON Changelog
 
+## [2.3.15a] (2023-5-18)
+
+### Bug Fixes
+
+- **Content Packs** Add missing LCP trigger importer
+
 ## [2.3.15] (2023-5-18)
 
 ### Features

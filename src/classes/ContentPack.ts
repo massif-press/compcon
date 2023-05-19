@@ -49,7 +49,7 @@ import {
 import { Action } from './Action'
 import { Background, IBackgroundData } from './Background'
 import { Bond, IBondData } from './pilot/components/bond/Bond'
-import { IReserveData } from './pilot/components'
+import { IReserveData, ISkillData, Skill } from './pilot/components'
 
 export interface IContentPackManifest {
   name: string
@@ -72,6 +72,7 @@ interface IContentPackData {
   talents: ITalentData[]
   tags: ITagCompendiumData[]
   reserves: IReserveData[]
+  skills: ISkillData[]
 
   npcClasses: INpcClassData[]
   npcFeatures: INpcFeatureData[]
@@ -203,6 +204,11 @@ export class ContentPack {
     return this._Statuses
   }
 
+  private _Skills: Skill[] = []
+  public get Skills(): Skill[] {
+    return this._Skills
+  }
+
   private _Environments: Environment[] = []
   public get Environments(): Environment[] {
     return this._Environments
@@ -306,6 +312,8 @@ export class ContentPack {
     self._PlayerActions = self._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     )
+
+    self._Skills = self._data.skills?.map(x => new Skill(x)) || []
 
     self._Statuses = self._data.statuses || []
     self._Environments = self._data.environments || []

@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-list-item class="primary" style="flex-grow: 0; flex-basis: auto;">
+    <v-list-item class="primary" style="flex-grow: 0; flex-basis: auto">
       <v-list-item-icon>
         <v-icon dark x-large>mdi-package</v-icon>
       </v-list-item-icon>
@@ -19,9 +19,7 @@
         <v-col>
           <p class="body-text text--text light-panel pa-2 mb-1">
             <span v-if="pack.manifest.description" v-html-safe="pack.manifest.description" />
-            <span v-else>
-              No description given.
-            </span>
+            <span v-else>No description given.</span>
           </p>
           <div>
             <h4>Content</h4>
@@ -91,6 +89,7 @@ export default class PackInfo extends Vue {
     actions: ['Player action', 'Player actions'],
     statuses: ['Status/Condition', 'Statuses/Conditions'],
     environments: ['Combat Environment', 'Combat Environments'],
+    skills: ['Skill Trigger', 'Skill Triggers'],
     factions: ['faction', 'factions'],
     sitreps: ['SITREP', 'SITREPs'],
     tables: ['Data Table', 'Data Tables'],

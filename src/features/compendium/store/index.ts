@@ -130,6 +130,7 @@ export class CompendiumStore extends VuexModule {
       .map((x: IBackgroundData) => new Background(x))
       .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
   }
+
   public get Actions(): PlayerAction.Action[] {
     return lancerData.actions
       .map((x: PlayerAction.IActionData) => new PlayerAction.Action(x))
@@ -218,6 +219,7 @@ export class CompendiumStore extends VuexModule {
 
   @Mutation
   private [LOAD_PACK](packData: IContentPack): void {
+    if (packData.data.skills?.length > 0) console.log(packData)
     const pack = new ContentPack(packData)
     this.ContentPacks = [...this.ContentPacks, pack]
   }
