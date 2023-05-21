@@ -80,6 +80,8 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+const semverGte = require('semver/functions/gte')
+const semverCoerce = require('semver/functions/coerce')
 
 export default Vue.extend({
   name: 'content-pack-directory-table',
@@ -128,7 +130,7 @@ export default Vue.extend({
     packOutdated(item) {
       const installedPack = this.getPack(item)
       if (!installedPack) return true
-      return installedPack.Version !== item.version
+      return !semverGte(semverCoerce(installedPack.Version), semverCoerce(item.version))
     },
   },
 })
