@@ -3,6 +3,8 @@ import { Auth, Storage } from 'aws-amplify'
 import { getModule } from 'vuex-module-decorators'
 import { ContentPack } from '@/class'
 import { IContentPack } from '@/classes/ContentPack'
+const semverCompare = require('semver/functions/compare')
+const semverCoerce = require('semver/functions/coerce')
 
 const currentCognitoIdentity = async (): Promise<any> =>
   Auth.currentUserCredentials()
@@ -48,16 +50,16 @@ type LCPItem = {
 }
 
 function determineLatest(item: LCPItem): string {
-  if (item.localVersion === item.cloudVersion) return 'synced'
   if (!item.localVersion) return 'cloud'
   if (!item.cloudVersion) return 'local'
-  if (
-    parseFloat(item.cloudVersion.replace(/[^0-9]/g, '')) >
-    parseFloat(item.localVersion.replace(/[^0-9]/g, ''))
-  ) {
+
+  const versionCompare = semverCompare(semverCoerce(item.cloudVersion), semverCoerce(item.localVersion))
+  if (versionCompare === 1) {
     return 'cloud'
-  } else {
+  } else if (versionCompare === -1) {
     return 'local'
+  } else {
+    return 'synced'
   }
 }
 
