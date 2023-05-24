@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { glossary } from 'lancer-data';
+import { glossary } from '@massif/lancer-data';
 
 export default {
   name: 'CCStatblockPanel',
@@ -56,9 +56,7 @@ export default {
   },
   methods: {
     glossary(name: string): string {
-      const n = glossary.find(
-        (x) => x.name.toLowerCase() === name.toLowerCase()
-      );
+      const n = glossary.find((x) => x.name.toLowerCase() === name.toLowerCase());
       return n ? n.description : 'MISSING';
     },
   },

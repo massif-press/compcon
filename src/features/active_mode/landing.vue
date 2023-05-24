@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid style="overflow: hidden; height: calc(100vh - 50px)">
-    <v-row justify="center" align="center">
+  <v-container style="overflow: hidden">
+    <v-row justify="space-around" align="center" class="mt-2">
       <v-col><v-divider /></v-col>
       <v-col cols="auto">
         <div
@@ -16,7 +16,7 @@
       <v-col v-for="(list, i) in lists">
         <v-list lines="two">
           <v-list-item>
-            <v-img :src="headers[i].img" />
+            <v-img :src="headers[i].img" max-height="350px" />
             <v-list-item-title class="heading h2 text-accent" v-text="headers[i].title" />
           </v-list-item>
           <v-divider />
@@ -43,6 +43,7 @@
 <script lang="ts">
 import { ImageTag } from '@/classes/enums';
 import { getImagePath } from '@/io/ImageManagement';
+import { CCIconDivider } from '@/ui/globals';
 
 export default {
   name: 'home',
@@ -130,5 +131,6 @@ export default {
       ],
     ],
   }),
+  components: { CCIconDivider },
 };
 </script>

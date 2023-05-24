@@ -1,29 +1,34 @@
 <template>
-  <v-container fluid class="px-3" style="margin-top: 40px">
-    <v-row density="compact" align="end" class="mt-2">
+  <v-container>
+    <v-row density="compact" align="end">
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
         <v-btn-toggle :value="getRosterView" mandatory density="compact" class="mt-n4">
-          <v-btn small icon value="list" @click="profile.SetView('roster', 'list')">
+          <v-btn size="small" icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn small icon value="cards" @click="profile.SetView('roster', 'cards')">
+          <v-btn size="small" icon value="cards" @click="profile.SetView('roster', 'cards')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
-          <v-btn small icon value="small-cards" @click="profile.SetView('roster', 'small-cards')">
+          <v-btn
+            size="small"
+            icon
+            value="small-cards"
+            @click="profile.SetView('roster', 'small-cards')"
+          >
             <v-icon color="accent">mdi-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-btn-toggle class="mr-2">
-          <v-btn text small @click="showAll">
+          <v-btn size="small" @click="showAll">
             <v-icon icon="mdi-chevron-down" />
             <span v-if="$vuetify.display.mdAndUp">Expand All</span>
           </v-btn>
-          <v-btn text small @click="hideAll">
+          <v-btn size="small" @click="hideAll">
             <v-icon icon="mdi-chevron-up" />
             <span v-if="$vuetify.display.mdAndUp">Collapse All</span>
           </v-btn>
@@ -55,60 +60,55 @@
     </v-row>
     <v-slide-x-transition mode="out-in">
       <v-container fluid :class="$vuetify.display.mdAndUp ? 'mx-1' : 'mx-n4 pa-0'">
-        <draggable
-          :list="groups"
-          :disabled="preventDnd"
-          v-bind="dragOptions"
-          @change="pilotStore.moveGroup(groups)"
-        >
-          <div v-for="(g, i) in groups">
-            <v-row no-gutters class="pl-10 ml-n12 heading h3 text-white primary sliced">
-              <v-col cols="auto">
-                <v-btn small dark icon class="mt-n1" @click="toggleHidden(g)">
-                  <v-icon v-html="!g.hidden ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
-                </v-btn>
-                {{ g.name ? g.name : 'Ungrouped' }}
-                <span class="overline">({{ g.pilotIDs.length }})</span>
-              </v-col>
-              <v-col v-if="g.name" cols="auto" class="ml-auto mr-8">
-                <v-menu offset-x left :close-on-content-click="false">
-                  <template #activator="{ props }">
-                    <v-btn dark small icon class="fade-select" v-bind="props">
-                      <v-icon icon="mdi-circle-edit-outline" />
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-text>
-                      <v-text-field
-                        :value="g.name"
-                        autofocus
-                        variant="outlined"
-                        hide-details
-                        label="Group Name"
-                        @change="setGroupName(g, $event)"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-menu>
-                <v-btn dark small icon class="fade-select" @click="deleteGroup(g)">
-                  <v-icon icon="mdi-delete" />
-                </v-btn>
-              </v-col>
-            </v-row>
-            <div
-              v-if="!g.hidden"
-              :style="getRosterView !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
-            >
-              <v-expand-transition>
-                <draggable
-                  :list="g.pilotIDs"
-                  :group="{ name: 'group' }"
-                  :disabled="preventDnd"
-                  v-bind="dragOptions"
-                  @start="drag = true"
-                  @end="dragOff()"
-                  @change="movePilot(g.name, $event)"
-                >
+        <div v-for="(g, i) in groups">
+          <v-row no-gutters class="pl-10 ml-n12 heading h3 text-white primary sliced">
+            <v-col cols="auto">
+              <v-btn size="small" dark icon class="mt-n1" @click="toggleHidden(g)">
+                <v-icon :icon="!g.hidden ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
+              </v-btn>
+              {{ g.name ? g.name : 'Ungrouped' }}
+              <span class="overline">({{ g.pilotIDs.length }})</span>
+            </v-col>
+            <v-col v-if="g.name" cols="auto" class="ml-auto mr-8">
+              <v-menu offset-x left :close-on-content-click="false">
+                <template #activator="{ props }">
+                  <v-btn dark size="small" icon class="fade-select" v-bind="props">
+                    <v-icon icon="mdi-circle-edit-outline" />
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-text>
+                    <v-text-field
+                      :value="g.name"
+                      autofocus
+                      variant="outlined"
+                      hide-details
+                      label="Group Name"
+                      @change="setGroupName(g, $event)"
+                    />
+                  </v-card-text>
+                </v-card>
+              </v-menu>
+              <v-btn dark size="small" icon class="fade-select" @click="deleteGroup(g)">
+                <v-icon icon="mdi-delete" />
+              </v-btn>
+            </v-col>
+          </v-row>
+          <div
+            v-if="!g.hidden"
+            :style="getRosterView !== 'list' ? 'margin-left: -8px; width: 100vw;' : ''"
+          >
+            <v-expand-transition>
+              <draggable
+                :list="g.pilotIDs"
+                :group="{ name: 'group' }"
+                :disabled="preventDnd"
+                v-bind="dragOptions"
+                @start="drag = true"
+                @end="dragOff()"
+                @change="movePilot(g.name, $event)"
+              >
+                <template #item="{ element }">
                   <component
                     :is="pilotCardType"
                     v-for="(id, j) in g.pilotIDs"
@@ -116,11 +116,11 @@
                     :small="getRosterView === 'small-cards'"
                     :dragging="drag"
                   />
-                </draggable>
-              </v-expand-transition>
-            </div>
+                </template>
+              </draggable>
+            </v-expand-transition>
           </div>
-        </draggable>
+        </div>
       </v-container>
     </v-slide-x-transition>
     <v-row density="compact" justify="end">
@@ -173,7 +173,13 @@
                   />
                 </v-col>
               </v-row>
-              <v-btn small variant="outlined" block :disabled="!newGroupName" @click="addNewGroup">
+              <v-btn
+                size="small"
+                variant="outlined"
+                block
+                :disabled="!newGroupName"
+                @click="addNewGroup"
+              >
                 Add New Group
               </v-btn>
             </v-card-text>
@@ -230,10 +236,10 @@ export default {
           return 'pilot-list-item';
       }
     },
-    profile(): UserProfile {
-      const store = UserStore();
-      return store.UserProfile;
-    },
+    // profile(): UserProfile {
+    //   const store = UserStore();
+    //   return store.UserProfile;
+    // },
     pilots() {
       return this.pilotStore.Pilots;
     },
@@ -264,6 +270,7 @@ export default {
       }
     },
     getRosterView() {
+      return 'roster';
       if (!this.profile || !this.profile.GetView) return 'list';
       return this.profile.GetView('roster');
     },

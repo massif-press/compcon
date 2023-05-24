@@ -122,6 +122,11 @@
   resolved "https://registry.yarnpkg.com/@kurkle/color/-/color-0.3.2.tgz#5acd38242e8bde4f9986e7913c8fdf49d3aa199f"
   integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
+"@massif/lancer-data@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-3.1.1.tgz#cb038fce0abde3bf4aae4af90795fe0a7987fd9e"
+  integrity sha512-Al2ByAlX3hEFnBO/OAB4G3qbOhRQqxMdSVDNKierJu5HGqo2DOhroV+/gaB1Os0uqPNfDnZWp7cjjliALJPIiA==
+
 "@mdi/font@^7.1.96":
   version "7.2.96"
   resolved "https://registry.yarnpkg.com/@mdi/font/-/font-7.2.96.tgz#af800d9fe3b424f85ad45e9baa755bd003ab4986"

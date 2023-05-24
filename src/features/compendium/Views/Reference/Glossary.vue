@@ -10,7 +10,7 @@
 <script lang="ts">
 import _ from 'lodash';
 import SidebarArrayView from '../../components/SidebarArrayView.vue';
-import { glossary } from 'lancer-data';
+import { glossary } from '@massif/lancer-data';
 
 export default {
   name: 'glossary',

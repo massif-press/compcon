@@ -15,9 +15,7 @@
       </v-icon>
       <div style="position: absolute; right: -10px">
         <v-divider dark vertical class="ml-2 mr-1" />
-        <v-icon :small="!large" @click.stop="dialog = true"
-          >mdi-help-circle-outline</v-icon
-        >
+        <v-icon :small="!large" @click.stop="dialog = true">mdi-help-circle-outline</v-icon>
       </div>
       <span class="px-3">{{ nameOverride ? nameOverride : action.name }}</span>
     </v-btn>
@@ -27,17 +25,14 @@
         {{ action.name }}
       </v-toolbar>
       <v-card tile>
-        <v-card-text
-          class="flavor-text text-text pt-2"
-          v-html="action.detail"
-        />
+        <v-card-text class="flavor-text text-text pt-2" v-html="action.detail" />
       </v-card>
     </v-dialog>
   </v-col>
 </template>
 
 <script lang="ts">
-import { actions } from 'lancer-data';
+import { actions } from '@massif/lancer-data';
 
 export default {
   name: 'action-button',

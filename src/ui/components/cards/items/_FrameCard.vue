@@ -72,7 +72,7 @@ import {
   FrameCoreSystemPanel,
   FrameCombatChart,
 } from '../frame';
-import { glossary } from 'lancer-data';
+import { glossary } from '@massif/lancer-data';
 
 export default {
   name: 'cc-frame-card',
@@ -90,14 +90,12 @@ export default {
   },
   methods: {
     glossary(name: string) {
-      return glossary.find((x) => x.name.toLowerCase() === name.toLowerCase())
-        .description;
+      return glossary.find((x) => x.name.toLowerCase() === name.toLowerCase()).description;
     },
 
     get_mount_tooltip(mount_type: string) {
       const mount_tooltips = {
-        Heavy:
-          'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
+        Heavy: 'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
         Main: 'Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon',
         'Aux/Aux': 'Holds up to two <b>AUXILIARY</b> weapons',
         Aux: 'Holds one <b>AUXILIARY</b> weapon',

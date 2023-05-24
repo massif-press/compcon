@@ -22,11 +22,7 @@
       hide-details
     />
     <v-slide-y-transition>
-      <v-card
-        v-if="type === 'Custom' || reserve"
-        color="light-panel"
-        class="mx-3 mt-1"
-      >
+      <v-card v-if="type === 'Custom' || reserve" color="light-panel" class="mx-3 mt-1">
         <v-card-text class="flavor-text pt-1 pb-0">
           <p
             v-if="type !== 'Custom' && reserve"
@@ -62,7 +58,7 @@
 </template>
 
 <script lang="ts">
-import { reserves } from 'lancer-data';
+import { reserves } from '@massif/lancer-data';
 
 export default {
   name: 'reserve-selector',
@@ -76,8 +72,7 @@ export default {
   computed: {
     reserveComplete() {
       return (
-        (this.type && this.reserve) ||
-        (this.type === 'Custom' && this.custom_name && this.details)
+        (this.type && this.reserve) || (this.type === 'Custom' && this.custom_name && this.details)
       );
     },
     reserves() {

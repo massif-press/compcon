@@ -1,5 +1,5 @@
 import { version } from '../package.json';
-import lancerData from 'lancer-data';
+import lancerData from '@massif/lancer-data';
 import _ from 'lodash';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
@@ -26,10 +26,7 @@ compcon.use(VueSecureHTML);
 
 Object.keys(globals).forEach((key: string) => {
   const componentConfig = globals[key as keyof typeof globals];
-  compcon.component(
-    _.kebabCase(key),
-    componentConfig.default || componentConfig
-  );
+  compcon.component(_.kebabCase(key), componentConfig.default || componentConfig);
 });
 
 compcon.config.globalProperties.$appVersion = version;

@@ -105,7 +105,9 @@ import Selector from './components/_SelectorBase.vue';
 
 import { CompendiumStore } from '@/stores';
 import { Rules, Pilot } from '@/class';
-import { rules } from 'lancer-data';
+import { rules } from '@massif/lancer-data';
+
+import _ from 'lodash';
 
 export default {
   name: 'skill-selector',

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import _ from 'lodash';
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data';
-import lancerData from 'lancer-data';
+import lancerData from '@massif/lancer-data';
 import {
   License,
   CoreBonus,
@@ -32,11 +32,7 @@ import {
 } from '@/interface';
 import { FrameComparison } from '@/classes/mech/components/frame/Frame';
 
-function construct<T>(
-  state,
-  itemType: string,
-  constructor: { new (Y: any): T }
-): T[] {
+function construct<T>(state, itemType: string, constructor: { new (Y: any): T }): T[] {
   return collect<T>(state, itemType).map((x) => new constructor(x));
 }
 
@@ -59,27 +55,20 @@ export const CompendiumStore = defineStore('compendium', {
   }),
   getters: {
     NpcClasses: (state) => construct<NpcClass>(state, 'npc_classes', NpcClass),
-    NpcTemplates: (state) =>
-      construct<NpcTemplate>(state, 'npc_templates', NpcTemplate),
+    NpcTemplates: (state) => construct<NpcTemplate>(state, 'npc_templates', NpcTemplate),
     NpcFeatures: (state) =>
-      collect<INpcFeatureData>(state, 'npc_features').map((x) =>
-        NpcFeature.Factory(x)
-      ),
+      collect<INpcFeatureData>(state, 'npc_features').map((x) => NpcFeature.Factory(x)),
     Bonds: (state) => construct<Bond>(state, 'bonds', Bond),
-    Backgrounds: (state) =>
-      construct<Background>(state, 'backgrounds', Background),
+    Backgrounds: (state) => construct<Background>(state, 'backgrounds', Background),
     Talents: (state) => construct<Talent>(state, 'talents', Talent),
-    CoreBonuses: (state) =>
-      construct<CoreBonus>(state, 'core_bonuses', CoreBonus),
+    CoreBonuses: (state) => construct<CoreBonus>(state, 'core_bonuses', CoreBonus),
     Frames: (state) => construct<Frame>(state, 'frames', Frame),
-    Manufacturers: (state) =>
-      construct<Manufacturer>(state, 'manufacturers', Manufacturer),
+    Manufacturers: (state) => construct<Manufacturer>(state, 'manufacturers', Manufacturer),
     MechWeapons: (state) => construct<MechWeapon>(state, 'weapons', MechWeapon),
     WeaponMods: (state) => construct<WeaponMod>(state, 'mods', WeaponMod),
     MechSystems: (state) => construct<MechSystem>(state, 'systems', MechSystem),
     Skills: (state) => construct<Skill>(state, 'skills', Skill),
-    Actions: (state) =>
-      construct<PlayerAction.Action>(state, 'actions', PlayerAction.Action),
+    Actions: (state) => construct<PlayerAction.Action>(state, 'actions', PlayerAction.Action),
     Tags: (state) => construct<Tag>(state, 'tags', Tag),
     TagData: (state) => collect<ITagCompendiumData>(state, 'tags'),
     Reserves: (state) => construct<Reserve>(state, 'reserves', Reserve),
@@ -87,33 +76,25 @@ export const CompendiumStore = defineStore('compendium', {
     Environments: (state) => collect<Environment>(state, 'environments'),
     Sitreps: (state) => collect<Sitrep>(state, 'sitreps'),
     PilotGear: (state) =>
-      collect<IPilotEquipmentData>(state, 'pilot_gear').map((x) =>
-        PilotEquipment.Factory(x)
-      ),
+      collect<IPilotEquipmentData>(state, 'pilot_gear').map((x) => PilotEquipment.Factory(x)),
     Tables: (state) => {
       const tables = lancerData.tables;
       state.ContentPacks.filter((pack) => pack.Active).forEach((pack) => {
         for (const t in pack.Tables) {
-          if (tables[t] !== undefined)
-            tables[t] = [...tables[t], ...pack.Tables[t]];
+          if (tables[t] !== undefined) tables[t] = [...tables[t], ...pack.Tables[t]];
           else tables[t] = pack.Tables[t];
         }
       });
       return tables;
     },
     Licenses() {
-      function variantLicenseMatch(
-        variantFrame: Frame,
-        licenseFrame: Frame
-      ): boolean {
+      function variantLicenseMatch(variantFrame: Frame, licenseFrame: Frame): boolean {
         if (!!variantFrame.Variant && !!variantFrame.LicenseID) {
           return variantFrame.LicenseID === licenseFrame.ID;
         } else {
           return (
-            variantFrame.Variant.toUpperCase() ===
-              licenseFrame.Name.toUpperCase() &&
-            variantFrame.Source.toUpperCase() ===
-              licenseFrame.Source.toUpperCase()
+            variantFrame.Variant.toUpperCase() === licenseFrame.Name.toUpperCase() &&
+            variantFrame.Source.toUpperCase() === licenseFrame.Source.toUpperCase()
           );
         }
       }
@@ -121,15 +102,12 @@ export const CompendiumStore = defineStore('compendium', {
       return (this.Frames as any)
         .filter((x) => x.Source !== 'GMS' && !x.IsHidden)
         .map((frame) => {
-          const variants = this.Frames.filter(
-            (f) => !f.IsHidden && variantLicenseMatch(f, frame)
-          );
+          const variants = this.Frames.filter((f) => !f.IsHidden && variantLicenseMatch(f, frame));
           return new License(frame, variants);
         });
     },
     packAlreadyInstalled(): any {
-      return (packID: string) =>
-        this.ContentPacks.map((pak) => pak.ID).includes(packID);
+      return (packID: string) => this.ContentPacks.map((pak) => pak.ID).includes(packID);
     },
 
     instantiate(): any | { err: string } {
@@ -138,9 +116,7 @@ export const CompendiumStore = defineStore('compendium', {
           const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
           if (i) return { ...i };
           const miID = `missing_${itemType.toLowerCase()}`;
-          const missingItem = this[itemType].find(
-            (x: any) => x.ID === miID || x.id === miID
-          );
+          const missingItem = this[itemType].find((x: any) => x.ID === miID || x.id === miID);
           if (missingItem) return { ...missingItem };
           return this.nfErr;
         }
@@ -154,9 +130,7 @@ export const CompendiumStore = defineStore('compendium', {
           const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
           if (i) return i;
           const miID = `missing_${itemType.toLowerCase()}`;
-          const missingItem = this[itemType].find(
-            (x: any) => x.ID === miID || x.id === miID
-          );
+          const missingItem = this[itemType].find((x: any) => x.ID === miID || x.id === miID);
           if (missingItem) return missingItem;
           return this.nfErr;
         }
@@ -180,13 +154,8 @@ export const CompendiumStore = defineStore('compendium', {
     setMissingContent(payload: any): void {
       this.MissingContent = payload;
     },
-    async setPackActive(payload: {
-      packID: string;
-      active: boolean;
-    }): Promise<void> {
-      this.ContentPacks.find((pack) => pack.ID === payload.packID)?.SetActive(
-        payload.active
-      );
+    async setPackActive(payload: { packID: string; active: boolean }): Promise<void> {
+      this.ContentPacks.find((pack) => pack.ID === payload.packID)?.SetActive(payload.active);
       await saveUserData(
         'extra_content.json',
         this.ContentPacks.map((pack) => pack.Serialize())
@@ -207,23 +176,16 @@ export const CompendiumStore = defineStore('compendium', {
       );
     },
     async deleteContentPack(packID: string): Promise<void> {
-      this.ContentPacks = this.ContentPacks.filter(
-        (pack) => pack.ID !== packID
-      );
+      this.ContentPacks = this.ContentPacks.filter((pack) => pack.ID !== packID);
       await saveUserData(
         'extra_content.json',
         this.ContentPacks.map((pack) => pack.Serialize())
       );
     },
     async loadExtraContent(): Promise<void> {
-      const content = (await loadUserData(
-        'extra_content.json'
-      )) as IContentPack[];
+      const content = (await loadUserData('extra_content.json')) as IContentPack[];
       try {
-        this.ContentPacks = [
-          ...this.ContentPacks,
-          ...content.map((c) => new ContentPack(c)),
-        ];
+        this.ContentPacks = [...this.ContentPacks, ...content.map((c) => new ContentPack(c))];
         FrameComparison.NormalizeReferenceSet(
           this.Frames.filter((x) => !x.ID.startsWith('missing_'))
         );
