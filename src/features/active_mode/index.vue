@@ -1,7 +1,5 @@
 <template>
-  <div class="wrapper">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script lang="ts">
@@ -19,10 +17,5 @@ export default {
 
 body {
   overflow: hidden;
-}
-
-.wrapper {
-  width: 100%;
-  margin-top: 48px;
 }
 </style>

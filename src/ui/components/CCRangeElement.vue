@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Range } from '@/class';
-import { glossary } from 'lancer-data';
+import { glossary } from '@massif/lancer-data';
 
 export default {
   name: 'CCRangeElement',
@@ -49,9 +49,7 @@ export default {
   },
   methods: {
     Help(name: string): string {
-      const g = glossary.find(
-        (x) => x.name.toLowerCase() === name.toLowerCase()
-      );
+      const g = glossary.find((x) => x.name.toLowerCase() === name.toLowerCase());
       if (g)
         return `<div class="text-overline text-subtle mb-n2 mt-n2">${name}:</div><div>${g.description}</div>`;
       return '';

@@ -1,124 +1,87 @@
 <template>
-  <v-container fluid style="margin-top: 50px">
-    <v-stepper
-      v-model="step"
-      non-linear
-      class="elevation-0"
-      style="background-color: rgb(var(--v-theme-background))"
-    >
-      <v-stepper-header class="elevation-0" style="height: 40px">
-        <v-stepper-step
-          editable
-          :complete="pilot.HasIdent"
-          :color="pilot.HasIdent ? 'success' : 'primary'"
-          edit-icon="mdi-check"
-          step="1"
-        >
-          <span>Identification</span>
-        </v-stepper-step>
-        <v-divider />
-        <v-stepper-step
-          editable
-          :complete="pilot.SkillsController.HasFullSkills"
-          :color="pilot.SkillsController.HasFullSkills ? 'success' : 'primary'"
-          edit-icon="mdi-check"
-          step="2"
-        >
-          <span>Skills</span>
-        </v-stepper-step>
-        <v-divider />
-        <v-stepper-step
-          editable
-          :complete="pilot.TalentsController.HasFullTalents"
-          :color="
-            pilot.TalentsController.HasFullTalents ? 'success' : 'primary'
-          "
-          edit-icon="mdi-check"
-          step="3"
-        >
-          <span>Talents</span>
-        </v-stepper-step>
-        <v-divider />
-        <v-stepper-step
-          editable
-          :complete="pilot.MechSkillsController.HasFullHASE"
-          :color="
-            pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'
-          "
-          edit-icon="mdi-check"
-          step="4"
-        >
-          <span>Mech Skills</span>
-        </v-stepper-step>
-        <v-divider />
-        <v-stepper-step editable step="5">Confirm</v-stepper-step>
-      </v-stepper-header>
-      <v-stepper-items>
-        <v-stepper-content
-          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
-          step="1"
-        >
-          <identification-page
-            :pilot="pilot"
-            :quickstart="quickstart"
-            @next="step++"
-            @templates="step = 6"
-            @set="pilot[$event.attr] = $event.val"
-          />
-        </v-stepper-content>
-        <v-stepper-content
-          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
-          step="2"
-        >
-          <skills-page
-            :pilot="pilot"
-            :quickstart="quickstart"
-            @next="step++"
-            @back="step--"
-          />
-        </v-stepper-content>
-        <v-stepper-content
-          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
-          step="3"
-        >
-          <talents-page
-            :pilot="pilot"
-            :quickstart="quickstart"
-            @next="step++"
-            @back="step--"
-          />
-        </v-stepper-content>
-        <v-stepper-content
-          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
-          step="4"
-        >
-          <mech-skills-page
-            :pilot="pilot"
-            :quickstart="quickstart"
-            @next="step++"
-            @back="step--"
-          />
-        </v-stepper-content>
-        <v-stepper-content
-          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
-          step="5"
-        >
-          <confirm-page
-            :pilot="pilot"
-            :quickstart="quickstart"
-            @next="step++"
-            @back="step--"
-            @done="onDone"
-          />
-        </v-stepper-content>
-        <v-stepper-content
-          :class="$vuetify.display.smAndDown ? 'px-0' : ''"
-          step="6"
-        >
-          <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />
-        </v-stepper-content>
-      </v-stepper-items>
-    </v-stepper>
+  <v-container>
+    <v-tabs v-model="step" grow bg-color="primary">
+      <v-tab> <v-icon start> mdi-check </v-icon> Identification</v-tab>
+      <v-tab>Skills</v-tab>
+      <v-tab>Talents</v-tab>
+      <v-tab>Mech Skills</v-tab>
+      <v-tab>Confirm</v-tab>
+    </v-tabs>
+    <v-stepper-header class="elevation-0" style="height: 40px">
+      <v-stepper-step
+        editable
+        :complete="pilot.HasIdent"
+        :color="pilot.HasIdent ? 'success' : 'primary'"
+        edit-icon="mdi-check"
+        step="1"
+      >
+        <span>Identification</span>
+      </v-stepper-step>
+      <v-divider />
+      <v-stepper-step
+        editable
+        :complete="pilot.SkillsController.HasFullSkills"
+        :color="pilot.SkillsController.HasFullSkills ? 'success' : 'primary'"
+        edit-icon="mdi-check"
+        step="2"
+      >
+        <span>Skills</span>
+      </v-stepper-step>
+      <v-divider />
+      <v-stepper-step
+        editable
+        :complete="pilot.TalentsController.HasFullTalents"
+        :color="pilot.TalentsController.HasFullTalents ? 'success' : 'primary'"
+        edit-icon="mdi-check"
+        step="3"
+      >
+        <span>Talents</span>
+      </v-stepper-step>
+      <v-divider />
+      <v-stepper-step
+        editable
+        :complete="pilot.MechSkillsController.HasFullHASE"
+        :color="pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'"
+        edit-icon="mdi-check"
+        step="4"
+      >
+        <span>Mech Skills</span>
+      </v-stepper-step>
+      <v-divider />
+      <v-stepper-step editable step="5">Confirm</v-stepper-step>
+    </v-stepper-header>
+    <v-stepper-items>
+      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="1">
+        <identification-page
+          :pilot="pilot"
+          :quickstart="quickstart"
+          @next="step++"
+          @templates="step = 6"
+          @set="pilot[$event.attr] = $event.val"
+        />
+      </v-stepper-content>
+      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="2">
+        <skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
+      </v-stepper-content>
+      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="3">
+        <talents-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
+      </v-stepper-content>
+      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="4">
+        <mech-skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
+      </v-stepper-content>
+      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="5">
+        <confirm-page
+          :pilot="pilot"
+          :quickstart="quickstart"
+          @next="step++"
+          @back="step--"
+          @done="onDone"
+        />
+      </v-stepper-content>
+      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="6">
+        <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />
+      </v-stepper-content>
+    </v-stepper-items>
   </v-container>
 </template>
 
@@ -145,12 +108,13 @@ export default {
   },
   data: () => ({
     step: 1,
-    pilot: {},
+    pilot: {} as Pilot,
     done: false,
   }),
   computed: {
     quickstart() {
-      return !!UserStore().UserProfile.GetView('quickstart');
+      return false;
+      // return !!UserStore().UserProfile.GetView('quickstart');
     },
   },
   watch: {

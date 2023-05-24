@@ -7,7 +7,7 @@ import {
   MechSystem,
   CompendiumItem,
 } from '@/class';
-import { reserves } from 'lancer-data';
+import { reserves } from '@massif/lancer-data';
 import { IActionData, Action } from '@/classes/Action';
 import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { ISynergyData, ICounterData } from '@/interface';

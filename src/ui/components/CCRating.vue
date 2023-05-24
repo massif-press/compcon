@@ -4,7 +4,7 @@
     @update:value="(val) => (model = val)"
     hover
     x-large
-    :density="density"
+    density="compact"
     :length="max"
     readonly
     :color="color"
@@ -39,11 +39,11 @@ export default {
     },
   },
   mounted() {
-    this.$children.forEach((ratingBar) => {
-      ratingBar.$children.forEach((cell) => {
-        cell.$el.setAttribute('tabindex', '-1');
-      });
-    });
+    // this.$children.forEach((ratingBar) => {
+    //   ratingBar.$children.forEach((cell) => {
+    //     cell.$el.setAttribute('tabindex', '-1');
+    //   });
+    // });
   },
 };
 </script>
