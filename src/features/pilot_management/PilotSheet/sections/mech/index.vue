@@ -25,19 +25,12 @@
             :source="mech.Frame.Manufacturer"
             :class="small ? 'mt-n5' : ''"
           />
-          <span
-            :class="small ? 'heading h3' : 'heading h2'"
-            style="position: relative; top: -11px"
-          >
+          <span :class="small ? 'heading h3' : 'heading h2'" style="position: relative; top: -11px">
             <span v-if="!small" :style="`color: ${color}`" class="pt-n3">
               {{ mech.Frame.Manufacturer.Name }}
             </span>
             <span class="text-text">{{ mech.Frame.Name }}</span>
-            <v-icon
-              right
-              class="fade-select mt-n1"
-              @click="$refs.frameInfoDialog.show()"
-            >
+            <v-icon right class="fade-select mt-n1" @click="$refs.frameInfoDialog.show()">
               mdi-information-outline
             </v-icon>
             <cc-solo-dialog
@@ -57,12 +50,7 @@
         </div>
       </v-col>
     </v-row>
-    <v-row
-      v-if="mech.StatusString.length"
-      density="compact"
-      justify="center"
-      class="mt-n3 mb-1"
-    >
+    <v-row v-if="mech.StatusString.length" density="compact" justify="center" class="mt-n3 mb-1">
       <v-col v-for="s in mech.StatusString">
         <cc-mech-status-alert
           :type="s"
@@ -94,7 +82,7 @@
         </v-btn>
       </div>
 
-      <cc-image-selector-web ref="imageSelector" :item="mech" type="mech" />
+      <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
     </div>
     <v-row align="center" no-gutters>
       <v-col cols="12" md="8">
@@ -133,7 +121,7 @@
             </v-btn>
           </div>
 
-          <cc-image-selector-web ref="imageSelector" :item="mech" type="mech" />
+          <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
         </div>
       </v-col>
     </v-row>
@@ -144,15 +132,9 @@
       {{ mech.Frame.Source }} {{ mech.Frame.Name }} CORE System
     </cc-title>
     <core-item :core-system="mech.Frame.CoreSystem" :color="color" />
-    <cc-title small :color="color" class="mb-2 ml-n6"
-      >Equipment Loadout</cc-title
-    >
+    <cc-title small :color="color" class="mb-2 ml-n6">Equipment Loadout</cc-title>
     <cc-mech-loadout :mech="mech" class="px-3" />
-    <delete-mech-dialog
-      ref="deleteDialog"
-      :mech="mech"
-      @delete="deleteMech()"
-    />
+    <delete-mech-dialog ref="deleteDialog" :mech="mech" @delete="deleteMech()" />
   </div>
 </template>
 
@@ -192,17 +174,13 @@ export default {
       return this.$vuetify.display.smAndDown;
     },
     pilot(): Pilot {
-      return this.$store.state.management.Pilots.find(
-        (p) => p.ID === this.pilotID
-      );
+      return this.$store.state.management.Pilots.find((p) => p.ID === this.pilotID);
     },
     mech(): Mech {
       return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID);
     },
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(
-        this.$vuetify.theme.current.dark
-      );
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
     },
     isPixel() {
       return this.mech.LocalImage && this.mech.LocalImage.includes('_pixel');

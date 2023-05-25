@@ -71,7 +71,7 @@ import CCBackgroundSelector from './components/selectors/CCBackgroundSelector.vu
 import CCCoreBonusSelector from './components/selectors/CCCoreBonusSelector.vue';
 import CCEquipmentSelector from './components/selectors/CCEquipmentSelector.vue';
 import CCExoticSelector from './components/selectors/CCExoticSelector.vue';
-import CCImageSelectorWeb from './components/selectors/CCImageSelectorWeb.vue';
+import CCImageSelector from './components/selectors/CCImageSelector.vue';
 import CCLicenseSelector from './components/selectors/CCLicenseSelector.vue';
 import CCMechSkillsSelector from './components/selectors/CCMechSkillsSelector.vue';
 import CCReserveSelector from './components/selectors/CCReserveSelector.vue';
@@ -167,7 +167,7 @@ export {
   CCCoreBonusSelector,
   CCEquipmentSelector,
   CCExoticSelector,
-  CCImageSelectorWeb,
+  CCImageSelector,
   CCLicenseSelector,
   CCMechSkillsSelector,
   CCReserveSelector,

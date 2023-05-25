@@ -183,7 +183,7 @@
               <v-icon v-else color="success">mdi-check-circle-outline</v-icon>
             </div>
           </v-btn>
-          <cc-image-selector-web ref="imageSelector" :item="pilot" type="pilot" />
+          <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" />
         </div>
       </v-col>
     </v-row>

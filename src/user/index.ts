@@ -131,13 +131,8 @@ class UserProfile {
       last_sync: this.LastSync,
     };
 
-<<<<<<< HEAD
     localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(data));
     if (UserStore().IsLoggedIn) UpdateUserData(this, false);
-=======
-    localStorage.setItem(CONFIG_FILE_NAME, JSON.stringify(data))
-    // if (getModule(UserStore, store).IsLoggedIn) UpdateUserData(this, false)
->>>>>>> b08131012 (increment version)
   }
 
   public get IsSavePerformant(): boolean {
@@ -154,9 +149,7 @@ class UserProfile {
   }
 
   public get SaveOptions(): string[] {
-    return Object.keys(this.SyncFrequency).filter(
-      (x) => !this.LoadOptions.includes(x)
-    );
+    return Object.keys(this.SyncFrequency).filter((x) => !this.LoadOptions.includes(x));
   }
 
   public get LoadOptions(): string[] {
@@ -262,10 +255,7 @@ class UserProfile {
       day: 'numeric',
     } as const;
 
-    this.LastSync = `${now.toLocaleTimeString()}, ${now.toLocaleDateString(
-      undefined,
-      options
-    )}`;
+    this.LastSync = `${now.toLocaleTimeString()}, ${now.toLocaleDateString(undefined, options)}`;
   }
 
   public static Serialize(data: UserProfile): IUserProfile {
@@ -297,15 +287,11 @@ class UserProfile {
     profile.WelcomeHash = data.welcome_hash || 'none';
     profile.Theme = data.theme || 'gms';
     profile.Achievements = data.achievements || [];
-    profile._viewOptions = data.view_options
-      ? JSON.parse(data.view_options)
-      : defaultViewOptions();
+    profile._viewOptions = data.view_options ? JSON.parse(data.view_options) : defaultViewOptions();
     profile._syncFrequency = data.sync_frequency
       ? JSON.parse(data.sync_frequency)
       : defaultSyncFrequency();
-    profile._syncOptions = data.sync_options
-      ? JSON.parse(data.sync_options)
-      : defaultSyncOptions();
+    profile._syncOptions = data.sync_options ? JSON.parse(data.sync_options) : defaultSyncOptions();
     profile._pilots = data.pilots || [];
     profile._lcp_data = data.lcp_data || '';
     profile._npcs = data.npcs || [];
@@ -323,17 +309,11 @@ async function getLocalProfile(): Promise<UserProfile> {
 
   if (!config) {
     try {
-      localForage.setItem(
-        CONFIG_FILE_NAME,
-        JSON.stringify(new UserProfile(uuid()))
-      );
+      localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(new UserProfile(uuid())));
       config = localForage.getItem(CONFIG_FILE_NAME);
       console.info('Created user profile');
     } catch (err) {
-      console.error(
-        'Critical Error: COMP/CON unable to create user profile',
-        err
-      );
+      console.error('Critical Error: COMP/CON unable to create user profile', err);
     }
   }
 

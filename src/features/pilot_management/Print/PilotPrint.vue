@@ -18,18 +18,14 @@
           <v-col cols="auto">
             <div class="text-overline mt-n2 mb-n3">HP</div>
             <div>
-              <v-icon size="50" color="grey lighten-3" class="mr-n1"
-                >mdi-hexagon-outline</v-icon
-              >
+              <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
               <b class="flavor-text pt-3" v-html="`/${pilot.MaxHP}`" />
             </div>
           </v-col>
           <v-col cols="auto">
             <div class="text-overline mt-n2 mb-n3 ml-n7">ARMOR</div>
             <div style="position: relative; width: max-content">
-              <v-icon size="50" color="grey lighten-3"
-                >mdi-shield-outline</v-icon
-              >
+              <v-icon size="50" color="grey lighten-3">mdi-shield-outline</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Armor" />
             </div>
           </v-col>
@@ -37,10 +33,7 @@
             <div class="text-overline mt-n2 mb-n3 ml-n6">E-DEF</div>
             <div style="position: relative; width: max-content">
               <v-icon size="50" color="grey lighten-3">cc:marker</v-icon>
-              <div
-                class="heading p-stat icon-overlap"
-                v-html="pilot.EDefense"
-              />
+              <div class="heading p-stat icon-overlap" v-html="pilot.EDefense" />
             </div>
           </v-col>
           <v-col cols="auto">
@@ -53,9 +46,7 @@
           <v-col cols="auto">
             <div class="text-overline mt-n2 mb-n3 ml-n6">SPEED</div>
             <div style="position: relative; width: max-content">
-              <v-icon size="50" color="grey lighten-3"
-                >mdi-arrow-right-bold-hexagon-outline</v-icon
-              >
+              <v-icon size="50" color="grey lighten-3">mdi-arrow-right-bold-hexagon-outline</v-icon>
               <div class="heading p-stat icon-overlap" v-html="pilot.Speed" />
             </div>
           </v-col>
@@ -94,15 +85,8 @@
         <v-row density="compact" justify="space-between" class="mt-n5 pl-3">
           <v-col>
             <span class="font-weight-bold overline pr-4">HULL</span>
-            <div
-              class="ml-3 mt-n3"
-              style="position: relative; width: max-content"
-            >
-              <v-icon
-                x-large
-                color="grey lighten-1"
-                style="margin-right: -3px !important"
-              >
+            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
+              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
                 mdi-hexagon-outline
               </v-icon>
               <div
@@ -113,15 +97,8 @@
           </v-col>
           <v-col>
             <span class="font-weight-bold overline pr-3">AGI</span>
-            <div
-              class="ml-3 mt-n3"
-              style="position: relative; width: max-content"
-            >
-              <v-icon
-                x-large
-                color="grey lighten-1"
-                style="margin-right: -3px !important"
-              >
+            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
+              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
                 mdi-hexagon-outline
               </v-icon>
               <div
@@ -132,15 +109,8 @@
           </v-col>
           <v-col>
             <span class="font-weight-bold overline pr-3">SYS</span>
-            <div
-              class="ml-3 mt-n3"
-              style="position: relative; width: max-content"
-            >
-              <v-icon
-                x-large
-                color="grey lighten-1"
-                style="margin-right: -3px !important"
-              >
+            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
+              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
                 mdi-hexagon-outline
               </v-icon>
               <div
@@ -151,15 +121,8 @@
           </v-col>
           <v-col>
             <span class="font-weight-bold overline pr-3">ENG</span>
-            <div
-              class="ml-3 mt-n3"
-              style="position: relative; width: max-content"
-            >
-              <v-icon
-                x-large
-                color="grey lighten-1"
-                style="margin-right: -3px !important"
-              >
+            <div class="ml-3 mt-n3" style="position: relative; width: max-content">
+              <v-icon x-large color="grey lighten-1" style="margin-right: -3px !important">
                 mdi-hexagon-outline
               </v-icon>
               <div
@@ -182,11 +145,7 @@
       <v-col>
         <div class="text-overline mb-n2 mt-n1">LICENSES</div>
         <div class="text-left">
-          <v-chip
-            v-for="(l, i) in pilot.LicenseController.Licenses"
-            small
-            variant="outlined"
-          >
+          <v-chip v-for="(l, i) in pilot.LicenseController.Licenses" small variant="outlined">
             <v-icon start>cc:rank_{{ l.Rank }}</v-icon>
             <span
               class="flavor-text text-black"
@@ -211,12 +170,7 @@
       <v-col>
         <fieldset>
           <legend class="heading ml-1 px-2">{{ t.Talent.Name }}</legend>
-          <v-row
-            v-for="n in t.Rank"
-            align="center"
-            density="compact"
-            no-gutters
-          >
+          <v-row v-for="n in t.Rank" align="center" density="compact" no-gutters>
             <v-col cols="auto" class="mr-1">
               <v-icon icon="cc:rank_{{ n }}" />
             </v-col>
@@ -228,10 +182,7 @@
       </v-col>
     </v-row>
 
-    <div
-      v-if="pilot.CoreBonusController.CoreBonuses.length"
-      class="text-overline mb-n3 mt-n1"
-    >
+    <div v-if="pilot.CoreBonusController.CoreBonuses.length" class="text-overline mb-n3 mt-n1">
       CORE BONUSES
     </div>
     <v-row
@@ -262,19 +213,11 @@
           <div
             class="pa-1 mt-n2"
             v-html="
-<<<<<<< HEAD
-              `+${a.Armor || 0} Armor / E-Def: ${
-                a.EDefense || 'N/A'
-              } / Evasion: ${a.Evasion || 'N/A'}<br>${
-                a.HPBonus ? `HP Bonus: +${a.HPBonus}` : ''
-              }${a.Speed ? ` / Speed: ${a.Speed}` : ''}`
-=======
               `+${a.Armor(pilot) || 0} Armor / E-Def: ${a.EDefense(pilot) || 'N/A'} / Evasion: ${
                 a.Evasion(pilot) || 'N/A'
               }<br>${a.HPBonus(pilot) ? `HP Bonus: +${a.HPBonus(pilot)}` : ''}${
                 a.Speed(pilot) ? ` / Speed: ${a.Speed(pilot)}` : ''
               }`
->>>>>>> b08131012 (increment version)
             "
           />
         </fieldset>

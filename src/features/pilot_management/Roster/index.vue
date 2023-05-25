@@ -1,11 +1,6 @@
 <template>
-<<<<<<< HEAD
   <v-container>
     <v-row density="compact" align="end">
-=======
-  <v-container fluid class="px-3 mt-5">
-    <v-row dense align="end" class="mt-2">
->>>>>>> b08131012 (increment version)
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>

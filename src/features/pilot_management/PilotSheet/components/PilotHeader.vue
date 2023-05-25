@@ -262,7 +262,7 @@
         </v-col>
       </v-row>
     </div>
-    <cc-image-selector-web ref="imageSelector" :item="pilot" type="pilot" />
+    <cc-image-selector ref="imageSelector" :item="pilot" type="pilot" />
     <level-edit-dialog ref="levelEdit" :pilot="pilot" />
   </div>
 </template>
