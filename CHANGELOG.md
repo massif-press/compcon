@@ -5,6 +5,7 @@
 ### Bug Fixes
 
 - **Pilot Sheet** Fix exposed code in pilot gear selector [#2234](https://github.com/massif-press/compcon/issues/2234)
+- **Encounter Builder** Fix a bug preventing map images from saving [#2245](https://github.com/massif-press/compcon/issues/2245) [#2182](https://github.com/massif-press/compcon/issues/2182) [#2069](https://github.com/massif-press/compcon/issues/2069)
 
 ## [2.3.15a] (2023-5-18)
 
