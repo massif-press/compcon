@@ -4,6 +4,7 @@
 
 ### Bug Fixes
 
+- **LCP Directory** Fix incorrect version comparison (thanks msprijatelj!) [#2235](https://github.com/massif-press/compcon/issues/2235)
 - **Pilot Sheet** Fix exposed code in pilot gear selector [#2234](https://github.com/massif-press/compcon/issues/2234)
 - **Encounter Builder** Fix a bug preventing map images from saving [#2245](https://github.com/massif-press/compcon/issues/2245) [#2182](https://github.com/massif-press/compcon/issues/2182) [#2069](https://github.com/massif-press/compcon/issues/2069)
 

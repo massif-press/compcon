@@ -53,7 +53,10 @@ function determineLatest(item: LCPItem): string {
   if (!item.localVersion) return 'cloud'
   if (!item.cloudVersion) return 'local'
 
-  const versionCompare = semverCompare(semverCoerce(item.cloudVersion), semverCoerce(item.localVersion))
+  const versionCompare = semverCompare(
+    semverCoerce(item.cloudVersion.toString()),
+    semverCoerce(item.localVersion.toString())
+  )
   if (versionCompare === 1) {
     return 'cloud'
   } else if (versionCompare === -1) {
