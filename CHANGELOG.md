@@ -1,5 +1,11 @@
 # COMP/CON Changelog
 
+## [2.3.16] (2023-5-25)
+
+### Bug Fixes
+
+- **Pilot Sheet** Fix exposed code in pilot gear selector [#2234](https://github.com/massif-press/compcon/issues/2234)
+
 ## [2.3.15a] (2023-5-18)
 
 ### Bug Fixes
