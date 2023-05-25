@@ -53,16 +53,23 @@ function determineLatest(item: LCPItem): string {
   if (!item.localVersion) return 'cloud'
   if (!item.cloudVersion) return 'local'
 
-  const versionCompare = semverCompare(
-    semverCoerce(item.cloudVersion.toString()),
-    semverCoerce(item.localVersion.toString())
-  )
-  if (versionCompare === 1) {
-    return 'cloud'
-  } else if (versionCompare === -1) {
-    return 'local'
-  } else {
-    return 'synced'
+  try {
+    const versionCompare = semverCompare(
+      semverCoerce(item.cloudVersion.toString()),
+      semverCoerce(item.localVersion.toString())
+    )
+    if (versionCompare === 1) {
+      return 'cloud'
+    } else if (versionCompare === -1) {
+      return 'local'
+    } else {
+      return 'synced'
+    }
+  } catch (error) {
+    console.error(error)
+    if (item.cloudVersion === item.localVersion) {
+      return 'synced'
+    } else return item.cloudVersion > item.localVersion ? 'cloud' : 'local'
   }
 }
 
