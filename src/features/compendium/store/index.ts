@@ -219,7 +219,6 @@ export class CompendiumStore extends VuexModule {
 
   @Mutation
   private [LOAD_PACK](packData: IContentPack): void {
-    if (packData.data.skills?.length > 0) console.log(packData)
     const pack = new ContentPack(packData)
     this.ContentPacks = [...this.ContentPacks, pack]
   }
