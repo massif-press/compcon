@@ -12,7 +12,7 @@ abstract class FeatureCollector {
       if (candidate['Destroyed'] !== undefined && (candidate as any).Destroyed) return
       if (candidate['IsCascading'] !== undefined && (candidate as any).IsCascading) return
       if (
-        collection.toLowerCase() !== 'action' &&
+        collection.toLowerCase() !== 'actions' &&
         candidate['Used'] !== undefined &&
         (candidate as any).Used
       )
