@@ -124,7 +124,10 @@ export default Vue.extend({
       const vm = this as any;
       let i = vm.items;
 
-      if (vm.search) i = i.filter((x) => accentInclude(x.Name, vm.search));
+      if (vm.search) {
+        i = i.filter((x) => accentInclude(x.Name, vm.search) || 
+          (!!x.LicenseString && accentInclude(x.LicenseString, vm.search)));
+      }
 
       if (Object.keys(vm.filters).length) {
         i = ItemFilter.Filter(i, vm.filters);
