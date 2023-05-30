@@ -68,7 +68,7 @@ const nameSort = function(a, b): number {
 }
 
 export default Vue.extend({
-  name: 'weapon-mod-filter',
+  name: 'frame-filter',
   data: () => ({
     sourceFilter: [],
     tagFilter: [],
