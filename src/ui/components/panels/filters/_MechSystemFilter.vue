@@ -18,6 +18,23 @@
     </v-col>
     <v-col cols="12" md="4">
       <v-select
+        v-model="licenseFilter"
+        class="px-2"
+        hide-details
+        dense
+        prepend-icon="cci-license"
+        outlined
+        label="From License"
+        :items="licenses"
+        multiple
+        chips
+        deletable-chips
+        small-chips
+        @change="updateFilters()"
+      />
+    </v-col>
+    <v-col cols="12" md="4">
+      <v-select
         v-model="tagFilter"
         class="px-2"
         hide-details
@@ -138,7 +155,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Tag, SystemType, Manufacturer } from '@/class'
+import { Tag, SystemType, Manufacturer, License } from '@/class'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
@@ -152,6 +169,7 @@ export default Vue.extend({
   name: 'frame-filter',
   data: () => ({
     sourceFilter: [],
+    licenseFilter: [],
     tagFilter: [],
     systemTypeFilter: [],
     sp: '',
@@ -165,6 +183,12 @@ export default Vue.extend({
       return this.$store.getters
         .getItemCollection('Manufacturers')
         .map(x => ({ text: x.Name, value: x.ID }))
+        .sort(nameSort)
+    },
+    licenses(): License[] {
+      return this.$store.getters
+        .getItemCollection('Licenses')
+        .map(x => ({ text: x.Name.toUpperCase(), value: x.ID }))
         .sort(nameSort)
     },
     systemTypes(): SystemType[] {
@@ -191,6 +215,7 @@ export default Vue.extend({
   methods: {
     clear() {
       this.sourceFilter = []
+      this.licenseFilter = []
       this.tagFilter = []
       this.systemTypeFilter = []
       this.sp = ''
@@ -205,6 +230,7 @@ export default Vue.extend({
       if (this.spType && !isNaN(parseInt(this.sp))) fObj[`SP_${this.spType}`] = parseInt(this.sp)
       if (this.licenseLevelType && !isNaN(parseInt(this.licenseLevel))) fObj[`LL_${this.licenseLevelType}`] = parseInt(this.licenseLevel)
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
+      if (this.licenseFilter && this.licenseFilter.length) fObj.License = [this.licenseFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       if (this.systemTypeFilter && this.systemTypeFilter.length) fObj.Type = [this.systemTypeFilter]
       this.$emit('set-filters', fObj)
