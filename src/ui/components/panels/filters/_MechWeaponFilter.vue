@@ -151,6 +151,39 @@
         </v-col>
       </v-row>
     </v-col>
+    <v-col cols="12" md="4" class="text-center">
+      <v-icon>cci-license</v-icon>
+      <span class="text-button">License Level</span>
+      <v-btn-toggle v-model="licenseLevelType" color="accent" class="ml-1 py-1" @change="updateFilters()">
+        <v-btn value="less" small text>Less Than</v-btn>
+        <v-btn value="eq" small text>Equal To</v-btn>
+        <v-btn value="greater" small text>Greater Than</v-btn>
+      </v-btn-toggle>
+      <v-row no-gutters justify="center">
+        <v-col cols="auto">
+          <v-text-field
+            v-model="licenseLevel"
+            type="number"
+            outlined
+            style="width: 150px;"
+            dense
+            hide-details
+            class="hide-input-spinners"
+            prepend-icon="mdi-minus"
+            append-outer-icon="mdi-plus"
+            @click:prepend="
+              licenseLevel > 0 ? licenseLevel-- : licenseLevel
+              updateFilters()
+            "
+            @click:append-outer="
+              licenseLevel++
+              updateFilters()
+            "
+            @change="updateFilters()"
+          />
+        </v-col>
+      </v-row>
+    </v-col>
   </v-row>
 </template>
 
@@ -178,6 +211,8 @@ export default Vue.extend({
     sp: '',
     spType: '',
     lcpFilter: [],
+    licenseLevel: '',
+    licenseLevelType: '',
   }),
   computed: {
     manufacturers(): Manufacturer[] {
@@ -233,11 +268,14 @@ export default Vue.extend({
       this.sp = ''
       this.spType = ''
       this.lcpFilter = []
+      this.licenseLevel = ''
+      this.licenseLevelType = ''
     },
     updateFilters() {
       const fObj = {} as any
       if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter]
       if (this.spType && !isNaN(parseInt(this.sp))) fObj[`SP_${this.spType}`] = parseInt(this.sp)
+      if (this.licenseLevelType && !isNaN(parseInt(this.licenseLevel))) fObj[`LL_${this.licenseLevelType}`] = parseInt(this.licenseLevel)
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       if (this.weaponTypeFilter && this.weaponTypeFilter.length)

@@ -16,6 +16,12 @@ class ItemFilter {
         items = items.filter((x: MechEquipment) => x.SP < filter[p])
       } else if (p === 'SP_eq') {
         items = items.filter((x: MechEquipment) => x.SP === filter[p])
+      } else if (p === 'LL_greater') {
+        items = items.filter((x: MechEquipment) => x.LicenseLevel > filter[p])
+      } else if (p === 'LL_less') {
+        items = items.filter((x: MechEquipment) => x.LicenseLevel < filter[p])
+      } else if (p === 'LL_eq') {
+        items = items.filter((x: MechEquipment) => x.LicenseLevel === filter[p])
       } else if (p === 'MechType') {
         items = items.filter((f: Frame) => filter[p].every(t => f.MechType.includes(t)))
       } else if (p === 'MechSize') {
