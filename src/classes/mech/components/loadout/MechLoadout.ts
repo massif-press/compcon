@@ -123,7 +123,7 @@ class MechLoadout extends Loadout {
   }
 
   public get Mounts(): Mount[] {
-    return (this._integratedMounts as Mount[]).concat(this._equippableMounts)
+    return (this._integratedMounts as Mount[]).concat(this._equippableMounts).concat(this._integratedWeapon)
   }
 
   public get HasEmptyMounts(): boolean {
