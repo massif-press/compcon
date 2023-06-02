@@ -93,6 +93,11 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { MechWeapon, PilotWeapon } from '@/class'
 
+interface comparison {
+  value: number
+  name: string
+}
+
 @Component({ name: 'selector-table-view' })
 export default class SelectorTableView extends Vue {
   @Prop({
@@ -128,33 +133,47 @@ export default class SelectorTableView extends Vue {
     this.onResize()
   }
 
+  private static sortWithFallback(a: comparison, b: comparison, desc: boolean) {
+    let aIsFinite = isFinite(a.value)
+    let bIsFinite = isFinite(b.value)
+
+    // Accommodate 'NaN' damage or range
+    if (aIsFinite && bIsFinite) {
+      // Normal comparison
+      return desc ? b.value - a.value : a.value - b.value
+    } else if (!aIsFinite && !bIsFinite) {
+      // Sort alphabetically
+      if (a.name < b.name) {
+        return desc ? -1 : 1
+      }
+      if (a.name > b.name) {
+        return desc ? 1 : -1
+      }
+      return 0
+    } else if (aIsFinite) {
+      // b is NaN
+      return desc ? 1 : -1
+    } else {
+      // a is Nan
+      return desc ? -1 : 1
+    }
+  }
+
   customSort(items, index, descending) {
     const desc = descending[0]
     items.sort((a, b) => {
       if (index[0] === 'Damage[0].Max') {
-        // Accommodate Mimic Gun's 'NaN' damage
-        if (isFinite(a.MaxDamage) && isFinite(b.MaxDamage)) {
-          // Normal comparison
-          return desc ? b.MaxDamage - a.MaxDamage : a.MaxDamage - b.MaxDamage
-        } else if (isFinite(a.MaxDamage)) {
-          // b is NaN
-          return desc ? 1 : -1
-        } else {
-          // a is Nan
-          return desc ? -1 : 1
-        }
+        return SelectorTableView.sortWithFallback(
+          { value: a.MaxDamage, name: a.Name },
+          { value: b.MaxDamage, name: b.Name },
+          desc
+        )
       } else if (index[0] === 'Range[0].Max') {
-        // Accommodate Mimic Gun's '???0' Max Range
-        if (isFinite(a.Range[0].Max) && isFinite(b.Range[0].Max)) {
-          // Normal comparison
-          return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
-        } else if (isFinite(a.Range[0].Max)) {
-          // b is NaN
-          return desc ? 1 : -1
-        } else {
-          // a is Nan
-          return desc ? -1 : 1
-        }
+        return SelectorTableView.sortWithFallback(
+          { value: a.Range[0].Max, name: a.Name },
+          { value: b.Range[0].Max, name: b.Name },
+          desc
+        )
       } else {
         return desc ? (a[index[0]] < b[index[0]] ? -1 : 1) : b[index[0]] < a[index[0]] ? -1 : 1
       }
