@@ -132,9 +132,29 @@ export default class SelectorTableView extends Vue {
     const desc = descending[0]
     items.sort((a, b) => {
       if (index[0] === 'Damage[0].Max') {
-        return desc ? b.MaxDamage - a.MaxDamage : a.MaxDamage - b.MaxDamage
+        // Accommodate Mimic Gun's 'NaN' damage
+        if (isFinite(a.MaxDamage) && isFinite(b.MaxDamage)) {
+          // Normal comparison
+          return desc ? b.MaxDamage - a.MaxDamage : a.MaxDamage - b.MaxDamage
+        } else if (isFinite(a.MaxDamage)) {
+          // b is NaN
+          return desc ? 1 : -1
+        } else {
+          // a is Nan
+          return desc ? -1 : 1
+        }
       } else if (index[0] === 'Range[0].Max') {
-        return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
+        // Accommodate Mimic Gun's '???0' Max Range
+        if (isFinite(a.Range[0].Max) && isFinite(b.Range[0].Max)) {
+          // Normal comparison
+          return desc ? b.Range[0].Max - a.Range[0].Max : a.Range[0].Max - b.Range[0].Max
+        } else if (isFinite(a.Range[0].Max)) {
+          // b is NaN
+          return desc ? 1 : -1
+        } else {
+          // a is Nan
+          return desc ? -1 : 1
+        }
       } else {
         return desc ? (a[index[0]] < b[index[0]] ? -1 : 1) : b[index[0]] < a[index[0]] ? -1 : 1
       }
