@@ -12,7 +12,6 @@
             )"
             :key="`weap_${j}`"
             :item="w"
-            overwatch
             color="action--reaction"
             @click="overwatch(w, m)"
           />

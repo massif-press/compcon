@@ -252,7 +252,7 @@
                   Attack
                 </v-btn>
               </v-col>
-              <v-col v-else-if="overwatch" cols="auto" align-self="center">
+              <v-col v-else-if="reaction" cols="auto" align-self="center">
                 <v-btn
                   large
                   tile
@@ -625,7 +625,7 @@ export default Vue.extend({
     aux: { type: Boolean },
     improv: { type: Boolean },
     barrage: { type: Boolean },
-    overwatch: { type: Boolean },
+    reaction: { type: Boolean },
   },
   data: () => ({
     tab: 0,
