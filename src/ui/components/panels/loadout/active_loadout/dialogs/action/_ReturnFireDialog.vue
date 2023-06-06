@@ -12,24 +12,10 @@
             )"
             :key="`weap_${j}`"
             :item="w"
-            overwatch
             color="action--reaction"
             @click="returnFire(w, m)"
           />
         </div>
-      </v-container>
-    </v-card-text>
-    <v-card-text v-else class="pt-3">
-      <action-detail-expander :action="action" />
-      <v-divider class="my-3" />
-      <v-container style="max-width: 800px">
-        <item-selector-row
-          v-for="(w, j) in mech.Pilot.Loadout.Weapons"
-          :key="`weap_${j}`"
-          :item="w"
-          color="action--reaction"
-          @click="pilotReturnFire(w)"
-        />
       </v-container>
     </v-card-text>
 
@@ -41,14 +27,6 @@
       returnFire
       @confirm="completeReturnFire($event)"
     />
-
-    <sel-fight-dialog
-      ref="f_dialog"
-      :pilot="mech.Pilot"
-      :item="selected"
-      returnFire
-      @confirm="completeReturnFire($event)"
-    />
   </div>
 </template>
 
@@ -56,7 +34,6 @@
 import ActionDetailExpander from '../../components/_ActionDetailExpander.vue'
 import ItemSelectorRow from '../../components/_ItemSelectorRow.vue'
 import WSkirmishDialog from './_SelSkirmishDialog.vue'
-import SelFightDialog from './_SelFightDialog.vue'
 
 import Vue from 'vue'
 
@@ -66,7 +43,6 @@ export default Vue.extend({
     ActionDetailExpander,
     ItemSelectorRow,
     WSkirmishDialog,
-    SelFightDialog,
   },
   props: {
     used: { type: Boolean },
@@ -91,10 +67,6 @@ export default Vue.extend({
   methods: {
     completeReturnFire(free) {
       this.state.CommitAction(this.action, free)
-    },
-    pilotReturnFire(item) {
-      this.selected = item
-      this.$refs.f_dialog.show()
     },
     returnFire(item, mount) {
       this.selected = item

@@ -13,6 +13,13 @@
           <v-icon large left>close</v-icon>
         </v-btn>
       </cc-titlebar>
+      <cc-titlebar v-else-if="returnFire" large color="action--reaction">
+        <v-icon x-large>cci-reaction</v-icon>
+        Return Fire
+        <v-btn slot="items" dark icon @click="hide">
+          <v-icon large left>close</v-icon>
+        </v-btn>
+      </cc-titlebar>
       <cc-titlebar v-else large color="action--quick">
         <v-icon x-large color="white">mdi-hexagon-slice-3</v-icon>
         Skirmish
@@ -24,12 +31,24 @@
       <v-spacer v-if="$vuetify.breakpoint.mdAndDown" class="titlebar-margin" />
 
       <v-card-text v-if="item && mount" class="mb-0 pb-2">
-        <weapon-attack
+        <weapon-attack v-if="overwatch || returnFire"
           ref="main"
           :item="item"
           :mech="mech"
           :mount="mount"
-          :overwatch="overwatch"
+          reaction
+          @confirm="confirmAttack($event)"
+        >
+          <div class="heading h2 mt-3 mb-n3">
+            <v-icon x-large class="mt-n2 mr-n1">cci-mech-weapon</v-icon>
+            {{ item.Name }}
+          </div>
+        </weapon-attack>
+        <weapon-attack v-else
+          ref="main"
+          :item="item"
+          :mech="mech"
+          :mount="mount"
           @confirm="confirmAttack($event)"
         >
           <div class="heading h2 mt-3 mb-n3">
@@ -91,6 +110,9 @@ export default Vue.extend({
     overwatch: {
       type: Boolean,
     },
+    returnFire: {
+      type: Boolean,
+    },
   },
   data: () => ({
     dialog: false,
@@ -98,13 +120,13 @@ export default Vue.extend({
   }),
   methods: {
     hasAux(mount, primary) {
-      const auxes = mount.Weapons.filter(x => x.Size === WeaponSize.Aux)
+      const auxes = mount.Weapons.filter(x => x.Size === WeaponSize.Aux && x.Loaded)
       if (!auxes.length) return false
       const unusedAux = auxes.filter(x => x !== primary)
       if (!unusedAux.length) return false
       const candidate = unusedAux[0]
       if (this.item === candidate) return false
-      return candidate || false
+      return !this.overwatch && !this.returnFire && (candidate || false)
     },
     confirmAttack(free) {
       this.confirmedFree = free
