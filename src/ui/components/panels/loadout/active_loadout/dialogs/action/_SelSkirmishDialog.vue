@@ -127,7 +127,7 @@ export default Vue.extend({
       if (!unusedAux.length) return false
       const candidate = unusedAux[0]
       if (this.item === candidate) return false
-      return !this.overwatch && !this.returnFire && (candidate || false)
+      return !this.returnFire && (candidate || false)
     },
     confirmAttack(free) {
       this.confirmedFree = free
