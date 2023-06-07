@@ -8,7 +8,7 @@
         <div v-for="(m, i) in mech.MechLoadoutController.ActiveLoadout.Mounts" :key="`bar_${i}`">
           <item-selector-row
             v-for="(w, j) in m.Weapons.filter(
-              x => x.Size === 'Auxiliary' && !x.Destroyed && !x.NoAttack
+              x => x.Size === 'Auxiliary' && !x.Destroyed && !x.NoAttack && x.WeaponType !== 'Melee'
             )"
             :key="`weap_${j}`"
             :item="w"
