@@ -4,6 +4,7 @@
     :fullscreen="$vuetify.breakpoint.mdAndDown"
     :style="$vuetify.breakpoint.mdAndDown ? `x-overflow: hidden` : ''"
     width="90vw"
+    @click:outside="hide"
   >
     <v-card tile class="background">
       <cc-titlebar v-if="overwatch" large color="action--reaction">
