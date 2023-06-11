@@ -178,6 +178,12 @@
                 filled
                 class="flavor-text"
               />
+              <cc-tooltip simple inline content="Copy stat block to clipboard">
+                <v-btn class="mt-n4" color="accent" @click="copyStatBlock()">
+                  <v-icon>mdi-clipboard-text-outline</v-icon>
+                  Copy to Clipboard
+                </v-btn>
+              </cc-tooltip>
             </cc-titled-panel>
           </v-dialog>
         </v-col>
@@ -241,6 +247,13 @@ export default class NpcManager extends Vue {
 
   statblock() {
     return Statblock.GenerateNPC(this.statblockNpc)
+  }
+
+  copyStatBlock() {
+    navigator.clipboard
+      .writeText(this.statblock())
+      .then(() => Vue.prototype.$notify('Stat block copied to clipboard.', 'confirmation'))
+      .catch(() => Vue.prototype.$notifyError('Unable to copy stat block'))
   }
 
   delete_npc(npc: Npc) {
