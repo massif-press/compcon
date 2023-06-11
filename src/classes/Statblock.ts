@@ -306,8 +306,8 @@ class Statblock {
     output += `${npc.Tag}\n`
     output += '[ STATS ]\n'
     output += `  H: ${npc.Stats.Hull} | A: ${npc.Stats.Agility} | S: ${npc.Stats.Systems} | E: ${npc.Stats.Engineering}\n`
-    output += `  STRUCT: ${npc.Stats.Structure} | ARMOR: ${npc.Stats.Armor} | HP: ${npc.Stats.HP}\n`
-    output += `  STRESS: ${npc.Stats.Stress} | HEATCAP: ${npc.Stats.HeatCapacity} | SPD: ${npc.Stats.Speed}\n`
+    output += `  STRUCT: ${npc.CurrentStructure}/${npc.Stats.Structure} | ARMOR: ${npc.Stats.Armor} | HP: ${npc.CurrentHP}/${npc.Stats.HP}\n`
+    output += `  STRESS: ${npc.CurrentStress}/${npc.Stats.Stress} | HEATCAP: ${npc.CurrentHeat}/${npc.Stats.HeatCapacity} | SPD: ${npc.Stats.Speed}\n`
     output += `  SAVE: ${npc.Stats.Save} | EVADE: ${npc.Stats.Evade} | EDEF: ${npc.Stats.EDefense}\n`
     output += `  SENS: ${npc.Stats.Sensor} | SIZE: ${npc.Stats.Size} | ACT: ${npc.Stats.Activations}\n`
     output += '[ FEATURES ]\n  '
