@@ -1,11 +1,11 @@
 <template>
-  <v-card-text>
-    <v-row justify="center" density="compact" class="mt-2 mx-8">
+  <div>
+    <v-row justify="center" density="compact">
       <cc-statblock-panel
         v-if="deployable.size"
         inline
         class="mx-1"
-        :icon="`cc:size-${deployable.size === 0.5 ? 'half' : deployable.size}`"
+        :icon="`cc:size_${deployable.size === 0.5 ? 'half' : deployable.size}`"
         name="Size"
         :value="`${deployable.size === 0.5 ? '½' : deployable.size}`"
       />
@@ -41,7 +41,7 @@
         v-if="deployable.edef"
         inline
         class="mx-1"
-        icon="cc:edef"
+        icon="cc:e_def"
         name="E-Defense"
         :value="deployable.edef"
       />
@@ -65,7 +65,7 @@
         v-if="deployable.techattack"
         inline
         class="mx-1"
-        icon="cc:tech_full"
+        icon="cc:full_tech"
         name="Tech Attack"
         :value="deployable.techattack"
       />
@@ -94,19 +94,15 @@
         :value="deployable.speed"
       />
     </v-row>
-    <v-row justify="center" density="compact">
-      <v-col cols="auto">
-        <p v-html-safe="deployable.detail" class="light-panel mb-0 clipped body-text px-4 py-2" />
-      </v-col>
-    </v-row>
+    <p v-html-safe="deployable.detail" class="body-text pa-2 pt-4" />
     <div v-if="actions.length">
       <v-row no-gutters justify="center">
-        <v-col v-for="(a, i) in actions" cols="auto">
+        <v-col v-for="a in actions" cols="auto">
           <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
         </v-col>
       </v-row>
     </div>
-  </v-card-text>
+  </div>
 </template>
 
 <script lang="ts">

@@ -208,7 +208,7 @@ code.horus {
 
 code.horus:hover {
   background-color: black !important;
-  animation: distort 0.6s infinite;
+  animation: distort 1.95s infinite;
   text-transform: uppercase;
   font-weight: bold;
 }

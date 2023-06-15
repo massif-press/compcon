@@ -1,7 +1,7 @@
 <template>
-  <v-card-text style="height: 100%" :class="$vuetify.display.smAndDown ? 'px-0' : ''">
+  <div v-if="show">
     <div v-if="action.Damage.length || action.Range.length" class="my-2">
-      <v-row density="compact" align="center">
+      <v-row dense align="center">
         <v-col cols="auto">
           <cc-range-element :range="action.Range" />
         </v-col>
@@ -24,7 +24,7 @@
       <div class="text-subtle text-overline mb-n2">Effect</div>
       <div v-html-safe="action.Detail" class="body-text text-stark" />
     </div>
-  </v-card-text>
+  </div>
 </template>
 
 <script lang="ts">
@@ -34,6 +34,18 @@ export default {
     action: {
       type: Object,
       required: true,
+    },
+  },
+  computed: {
+    show() {
+      return (
+        this.action.Damage.length ||
+        this.action.Range.length ||
+        this.action.Init ||
+        !this.action.Frequency.Unlimited ||
+        this.action.Trigger ||
+        this.action.Detail
+      );
     },
   },
 };

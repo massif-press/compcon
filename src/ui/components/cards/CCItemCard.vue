@@ -5,7 +5,6 @@
     :item="item"
     :notes="notes"
     :smallTags="smallTags"
-    tabindex="0"
   />
 </template>
 
@@ -15,10 +14,7 @@ import * as cards from './items';
 export default {
   name: 'CCItemCard',
   props: {
-    item: {
-      type: Object,
-      required: true,
-    },
+    item: Object,
     notes: {
       type: Boolean,
       required: false,

@@ -3,11 +3,7 @@
     <v-card-text>
       <v-row>
         <v-col cols="auto">
-          <div
-            class="heading h3"
-            :style="`color: ${color}`"
-            v-text="trait.Name"
-          />
+          <div class="heading h3" :style="`color: ${color}`" v-text="trait.Name" />
         </v-col>
         <v-col v-if="trait.Use !== 'Mission'" cols="auto" class="ml-auto">
           <div class="text-subtle overline mt-n2">{{ trait.Use }}</div>
@@ -18,18 +14,14 @@
           <div class="body-text text-text" v-html="trait.Description" />
         </v-col>
         <v-col cols="12">
-          <cc-action
-            v-for="(a, i) in trait.Actions"
-            :action="a"
-            :panel="$vuetify.display.lgAndUp"
-          />
+          <cc-action v-for="a in trait.Actions" :action="a" :panel="$vuetify.display.lgAndUp" />
           <cc-deployable-info
-            v-for="(d, i) in trait.Deployables"
+            v-for="d in trait.Deployables"
             :deployable="d"
             :panel="$vuetify.display.lgAndUp"
           />
           <cc-integrated-info
-            v-for="(x, i) in trait.Integrated"
+            v-for="x in trait.Integrated"
             :item="x"
             :panel="$vuetify.display.lgAndUp"
           />

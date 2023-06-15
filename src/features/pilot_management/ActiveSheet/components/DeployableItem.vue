@@ -174,7 +174,7 @@
             v-if="deployable.EDefense"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : 'cc:edef'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:e_def'"
             name="E-Defense"
             :value="deployable.EDefense"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"
@@ -201,7 +201,7 @@
             v-if="deployable.TechAttack"
             inline
             class="mx-1"
-            :icon="$vuetify.display.smAndDown ? '' : 'cc:tech_full'"
+            :icon="$vuetify.display.smAndDown ? '' : 'cc:full_tech'"
             name="Tech Attack"
             :value="deployable.TechAttack"
             :cols="$vuetify.display.smAndDown ? 'auto' : ''"

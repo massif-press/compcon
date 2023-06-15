@@ -4,12 +4,12 @@
 @import 'animation.css';
 
 body {
-  overflow: hidden;
+  overflow: overlay;
   font-family: 'Helvetica Regular', sans-serif;
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 6px;
 }
 
 /* Track */
@@ -20,4 +20,8 @@ body {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #888;
+}
+
+html {
+  scroll-behavior: smooth;
 }

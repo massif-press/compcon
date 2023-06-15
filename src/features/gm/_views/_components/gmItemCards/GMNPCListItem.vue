@@ -5,9 +5,7 @@
       :class="`elevation-${hover ? '12' : '0'}`"
       :style="`border-radius: 2px; border: ${
         hover ? '1px solid rgb(var(--v-theme-primary))' : ''
-      }; background-color: ${
-        odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'
-      }`"
+      }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
       @click="$emit('open', item.ID)"
     >
       <v-col cols="1">
@@ -20,12 +18,7 @@
           <v-col cols="auto">
             <div :class="`heading h3 ${hover ? 'text-accent' : ''}`">
               {{ item.Name }}
-              <v-chip
-                v-if="item.NpcClassController.Class"
-                variant="outlined"
-                label
-                small
-              >
+              <v-chip v-if="item.NpcClassController.Class" variant="outlined" label small>
                 <b>
                   {{ `T${item.NpcClassController.Tier}` }}
                   {{ item.NpcClassController.Class.Name }}
@@ -35,16 +28,8 @@
             </div>
           </v-col>
           <v-spacer />
-          <v-col
-            cols="auto"
-            v-for="(t, i) in item.NpcTemplateController.Templates"
-          >
-            <v-chip
-              label
-              small
-              :color="hover ? 'accent' : 'primary'"
-              class="ma-1"
-            >
+          <v-col cols="auto" v-for="(t, i) in item.NpcTemplateController.Templates">
+            <v-chip label small :color="hover ? 'accent' : 'primary'" class="ma-1">
               <v-icon icon="cc:npc_template" />
               {{ t.Name }}
             </v-chip>
@@ -67,12 +52,7 @@
           </v-col>
         </v-row>
         <v-divider class="my-2" />
-        <v-row
-          density="compact"
-          justify="center"
-          align="center"
-          class="text-center"
-        >
+        <v-row density="compact" justify="center" align="center" class="text-center">
           <v-col>
             <v-chip
               v-for="(e, i) in item.Items"
@@ -113,7 +93,7 @@ export default {
       { title: 'mdi-arrow-right-bold-hexagon-outline', val: 'Speed' },
       { title: 'cc:save', val: 'Save' },
       { title: 'cc:evasion', val: 'Evasion' },
-      { title: 'cc:edef', val: 'EDefense' },
+      { title: 'cc:e_def', val: 'EDefense' },
       { title: 'cc:sensor', val: 'Sensors' },
       { title: 'cc:activate', val: 'Activations' },
     ],

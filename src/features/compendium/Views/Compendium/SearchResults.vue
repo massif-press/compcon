@@ -25,32 +25,35 @@
           hide-details
           single-line
           placeholder="Search"
-          @input="setSearch($event)"
+          @update:modelValue="setSearch($event)"
         />
       </v-col>
     </v-row>
     <v-row class="mx-3">
       <v-col>
-        <div>{{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}</div>
+        <i class="text-overline">
+          {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
+        </i>
         <v-slide-y-reverse-transition mode="out-in">
-          <v-row fill-height>
-            <v-col v-for="(item, index) in searchResults">
+          <v-row :key="searchText" fill-height>
+            <v-col
+              v-for="(item, index) in searchResults"
+              :key="index"
+              style="width: fit-content; min-width: 30vw; max-width: 60vw"
+            >
               <cc-titled-panel
-                :title="(item.ItemType === 'Frame' ? `${item.Source} ` : '') + item.Name"
-                :icon="'cc:' + $_.kebabCase(item.ItemType)"
-                :color="$_.kebabCase(item.ItemType)"
+                :title="(item.ItemType === 'Frame' ? `${(item as Frame).Source} ` : '') + item.Name"
+                :icon="item.Icon"
+                :color="item.Color"
                 clickable
-                @click="$refs[`modal_${item.ID}`][0].show()"
+                @click="onClick(item)"
               >
                 <span
-                  v-html-safe="item.Description || item.Effect || `${item.Source} ${item.ItemType}`"
+                  v-html-safe="item.Description || (item as any).Effect || `${(item as LicensedItem).Source} ${item.ItemType}`"
                   class="item-description"
                 />
               </cc-titled-panel>
               <cc-search-result-modal :ref="`modal_${item.ID}`" :item="item" />
-            </v-col>
-            <v-col cols="12">
-              <br />
             </v-col>
           </v-row>
         </v-slide-y-reverse-transition>
@@ -60,9 +63,9 @@
 </template>
 
 <script lang="ts">
-import { CompendiumItem } from '@/class';
+import _ from 'lodash';
+import { CompendiumItem, LicensedItem, Frame } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
-
 import { CompendiumStore } from '@/stores';
 
 export default {
@@ -73,20 +76,22 @@ export default {
   }),
   computed: {
     validResults(): CompendiumItem[] {
-      // const compendium =CompendiumStore();
-      // return _.flatten(
-      //   _.values(
-      //     _.pick(compendium, [
-      //       'Frames',
-      //       'MechSystems',
-      //       'MechWeapons',
-      //       'WeaponMods',
-      //     ])
-      //   )
-      // );
+      return _.flatten(
+        _.values(
+          _.pick(CompendiumStore(), [
+            'Frames',
+            'MechSystems',
+            'MechWeapons',
+            'WeaponMods',
+            'Talents',
+            'PilotGear',
+            'Reserves',
+          ])
+        )
+      ) as CompendiumItem[];
     },
     searchResults(): CompendiumItem[] {
-      if (!this.searchText) {
+      if (!this.searchText || this.searchText.length < 3) {
         return [];
       }
       const results = this.validResults.filter(
@@ -106,14 +111,13 @@ export default {
         return;
       }
       this.searchText = value;
-      this.$router.replace(`srd/compendium/search?search=${value}`);
+      this.$router.replace(`search?search=${value}`);
     },
     forceInput() {
-      this.setSearch((this.$refs.input as HTMLInputElement as any).value);
+      this.setSearch((this.$refs.input as HTMLInputElement).value);
     },
-
     onClick(item: CompendiumItem) {
-      alert(item.Name);
+      ((this.$refs[`modal_${item.ID}`] as any)[0] as any).show();
     },
   },
 };

@@ -6,11 +6,7 @@
           <v-list-item-title>
             <v-row no-gutters align="center">
               <v-col cols="auto">
-                <v-icon
-                  size="30"
-                  :icon="`cc:${manufacturer(m).Icon}`"
-                  :color="manufacturer(m).Color"
-                />
+                <v-icon size="30" :icon="manufacturer(m).Icon" :color="manufacturer(m).Color" />
               </v-col>
               <v-col
                 cols="auto"
@@ -23,7 +19,10 @@
           </v-list-item-title>
         </v-list-item>
 
-        <v-list-item v-for="cb in bonuses[m]" link :title="cb.Name" @click="scrollTo(cb)">
+        <v-list-item v-for="cb in bonuses[m]" link @click="scrollTo(cb)">
+          <template #title>
+            <b class="heading">{{ cb.Name }}</b>
+          </template>
         </v-list-item>
       </div>
     </template>
@@ -50,7 +49,7 @@
     <div v-for="m in Object.keys(bonuses)">
       <v-row dense align="center">
         <v-col cols="auto">
-          <v-icon size="80" :icon="`cc:${manufacturer(m).Icon}`" :color="manufacturer(m).Color" />
+          <v-icon size="80" :icon="manufacturer(m).Icon" :color="manufacturer(m).Color" />
         </v-col>
         <v-col>
           <div

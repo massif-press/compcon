@@ -8,34 +8,18 @@
         :class="$vuetify.display.smAndDown ? 'mt-4' : ''"
       >
         <v-col lg="auto" cols="12" class="mt-n5">
-          <v-row
-            density="compact"
-            class="text-center mb-n3"
-            justify="start"
-            align="start"
-          >
-            <v-col
-              cols="auto"
-              :class="$vuetify.display.smAndDown ? '' : 'mx-8'"
-            >
+          <v-row density="compact" class="text-center mb-n3" justify="start" align="start">
+            <v-col cols="auto" :class="$vuetify.display.smAndDown ? '' : 'mx-8'">
               <div class="overline">Tech Attack Roll</div>
               <div class="heading text-text" style="font-size: 24pt">
-                <v-icon size="x-large" class="mr-n1"
-                  >mdi-dice-d20-outline</v-icon
-                >
+                <v-icon size="x-large" class="mr-n1">mdi-dice-d20-outline</v-icon>
                 {{ `${mech.TechAttack >= 0 ? '+' : ''}${mech.TechAttack}` }}
               </div>
             </v-col>
-            <v-col
-              cols="auto"
-              :class="$vuetify.display.smAndDown ? '' : 'mx-8'"
-            >
+            <v-col cols="auto" :class="$vuetify.display.smAndDown ? '' : 'mx-8'">
               <div class="overline">vs. Target</div>
-              <v-icon size="x-large" v-html="'cc:edef'" />
-              <div
-                class="text-overline font-weight-bold mt-n2"
-                v-html="'E-Defense'"
-              />
+              <v-icon size="x-large" v-html="'cc:e_def'" />
+              <div class="text-overline font-weight-bold mt-n2" v-html="'E-Defense'" />
             </v-col>
           </v-row>
         </v-col>
@@ -47,11 +31,7 @@
           >
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp
-                  ? 'ml-auto px-12 mr-n10 panel dual-sliced'
-                  : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'ml-auto px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Accuracy</div>
@@ -72,9 +52,7 @@
             </v-col>
             <v-col
               cols="auto"
-              :class="
-                $vuetify.display.mdAndUp ? 'px-12 mr-n10 panel dual-sliced' : ''
-              "
+              :class="$vuetify.display.mdAndUp ? 'px-12 mr-n10 panel dual-sliced' : ''"
               style="height: 70px"
             >
               <div class="text-overline pl-1">Difficulty</div>

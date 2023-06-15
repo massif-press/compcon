@@ -2,7 +2,9 @@
   <cc-sidebar-view>
     <template #sidebar>
       <v-list-item v-for="e in array" link @click="scrollTo(e)">
-        <v-list-item-title>{{ (e as any)[nameKey] }}</v-list-item-title>
+        <template #title>
+          <b v-text="(e as any)[nameKey]" class="heading" />
+        </template>
       </v-list-item>
     </template>
     <h1 class="heading mb-3 mt-2">{{ title }}</h1>

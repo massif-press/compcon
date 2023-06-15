@@ -12,7 +12,7 @@
     </div>
     <v-row density="compact" justify="center">
       <v-col lg="8" xs="12">
-        <search-bar disabled />
+        <search-bar />
       </v-col>
     </v-row>
   </v-container>

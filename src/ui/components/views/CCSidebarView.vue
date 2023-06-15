@@ -8,6 +8,7 @@
       <slot name="alt" />
       <v-list
         density="compact"
+        nav
         class="side-fixed"
         :style="popup ? `top: 65px; padding-bottom: 65px;` : ''"
       >

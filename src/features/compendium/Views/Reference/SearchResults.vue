@@ -32,7 +32,9 @@
     </v-row>
     <v-row class="mx-3">
       <v-col>
-        <div>{{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}</div>
+        <i class="text-overline">
+          {{ searchResults.length }} result{{ searchResults.length === 1 ? '' : 's' }}
+        </i>
         <v-slide-y-reverse-transition mode="out-in">
           <v-container>
             <div v-for="result in searchResults" class="pa-3">
@@ -151,9 +153,7 @@ export default {
       ...fillDataObject(pilots, 'pilots'),
       ...fillDataObject(narrative_play, 'narrative_play'),
     ];
-    console.log(this.data);
     this.data = flatten(this.data);
-    console.log(this.data);
   },
   computed: {
     searchResults(): any {

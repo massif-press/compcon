@@ -1,8 +1,10 @@
 <template>
-  <v-alert variant="outlined" density="compact" :color="action.Color" class="pb-0 ma-1">
-    <v-row no-gutters>
+  <v-alert variant="outlined" density="compact" :color="action.Color">
+    <v-row dense align="center">
       <v-col cols="auto">
-        <v-icon large dark class="mt-n2" color="stark">{{ action.Icon }}</v-icon>
+        <v-icon size="large" color="stark" :icon="action.Icon" />
+      </v-col>
+      <v-col cols="auto">
         <span :class="`heading ${$vuetify.display.smAndDown ? 'h3' : 'h2'} text-text`">
           {{ action.Name }}
         </span>
@@ -12,8 +14,7 @@
           v-if="!action.Frequency.Unlimited"
           slot="title-items"
           color="stark"
-          :small="!$vuetify.display.smAndDown"
-          :x-small="$vuetify.display.smAndDown"
+          :size="$vuetify.display.smAndDown ? 'small' : 'x-small'"
           class="stat-text mr-2"
           variant="outlined"
           label
@@ -21,17 +22,15 @@
           {{ action.Frequency.ToString() }}
         </v-chip>
         <v-chip
-          :small="!$vuetify.display.smAndDown"
-          :x-small="$vuetify.display.smAndDown"
+          :size="$vuetify.display.smAndDown ? 'small' : 'x-small'"
           label
-          dark
           :color="`action--${action.Activation.toLowerCase()}`"
         >
           {{ action.Activation.toUpperCase() }}
         </v-chip>
       </v-col>
     </v-row>
-    <action-base :action="action" class="mt-n6 mb-n2" />
+    <action-base :action="action" />
   </v-alert>
 </template>
 

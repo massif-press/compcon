@@ -7,11 +7,7 @@
       >
         <v-row class="mt-n1" no-gutters>
           <equipment-options v-if="!action" slot="options" :item="mod" />
-          <span
-            v-if="mod.Destroyed"
-            class="error"
-            style="text-decoration: line-through"
-          >
+          <span v-if="mod.Destroyed" class="error" style="text-decoration: line-through">
             DESTROYED
           </span>
           <span v-else>
@@ -43,28 +39,21 @@
             <v-icon icon="cc:system" />
             EQUIPMENT EFFECT
           </div>
-          <p
-            v-html-safe="mod.Effect"
-            class="text-text body-text mb-1 mr-3 ml-7"
-          />
+          <p v-html-safe="mod.Effect" class="text-text body-text mb-1 mr-3 ml-7" />
         </div>
         <v-row v-if="!action" class="text-left" density="compact" align="end">
           <v-col>
             <v-row justify="space-around" density="compact">
               <v-col v-if="mod.Actions.length" cols="auto">
-                <div class="text-overline ml-n2">EQUIPMENT ACTIONS</div>
+                <div class="text-overline ml-n2">//EQUIPMENT ACTIONS</div>
                 <v-row no-gutters justify="center">
                   <v-col v-for="(a, i) in mod.Actions" cols="auto">
-                    <cc-action
-                      :action="a"
-                      :panel="$vuetify.display.lgAndUp"
-                      class="ma-2"
-                    />
+                    <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
                   </v-col>
                 </v-row>
               </v-col>
               <v-col v-if="mod.Deployables.length" cols="auto">
-                <div class="text-overline ml-n2">EQUIPMENT DEPLOYABLES</div>
+                <div class="text-overline ml-n2">//EQUIPMENT DEPLOYABLES</div>
                 <v-row no-gutters justify="center">
                   <v-col v-for="(d, i) in mod.Deployables" cols="auto">
                     <cc-deployable-info

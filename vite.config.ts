@@ -14,6 +14,10 @@ export default defineConfig({
         find: '@',
         replacement: fileURLToPath(new URL('./src', import.meta.url)),
       },
+      {
+        find: './runtimeConfig',
+        replacement: './runtimeConfig.browser',
+      },
     ],
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
   },

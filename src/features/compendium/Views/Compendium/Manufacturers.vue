@@ -17,7 +17,7 @@
           :source="m"
           :color="tabModel == i ? 'white' : 'black'"
         />
-        <v-icon v-else size="40" :icon="`cc:${m.Icon}`" />
+        <v-icon v-else size="40" :icon="m.Icon" />
         {{ m.ID }}
       </v-tab>
     </v-tabs>
@@ -36,22 +36,11 @@
             <cc-logo-splash
               v-if="$vuetify.display.lgAndUp"
               :source="m"
-              style="
-                float: right;
-                margin-left: 20px;
-                margin-right: 50px;
-                min-height: 22vw;
-              "
+              style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"
             />
-            <blockquote
-              v-html-safe="m.Quote"
-              class="quote-block fluff-text text-text"
-            />
+            <blockquote v-html-safe="m.Quote" class="quote-block fluff-text text-text" />
             <v-divider class="ma-2" style="width: 30vw" />
-            <p
-              v-html-safe="m.Description"
-              class="body-text stark-text-text mb-2"
-            />
+            <p v-html-safe="m.Description" class="body-text stark-text-text mb-2" />
           </v-card-text>
         </v-card>
       </v-window-item>

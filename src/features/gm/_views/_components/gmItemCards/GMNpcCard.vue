@@ -16,9 +16,7 @@
             <v-container v-if="item.NpcClassController.HasClass">
               <v-row density="compact" justify="space-around">
                 <v-col cols="auto">
-                  <v-icon size="80" color="white"
-                    >cc:size-{{ item.StatController.Size }}</v-icon
-                  >
+                  <v-icon size="80" color="white">cc:size-{{ item.StatController.Size }}</v-icon>
                 </v-col>
               </v-row>
               <v-row density="compact" justify="space-around">
@@ -28,25 +26,14 @@
                 </v-col>
               </v-row>
               <v-row density="compact" justify="space-around">
-                <v-col
-                  v-for="(e, i) in stats"
-                  v-show="item.StatController[e.val]"
-                  cols="3"
-                >
-                  <v-icon style="opacity: 0.5" color="white">{{
-                    e.text
-                  }}</v-icon>
+                <v-col v-for="(e, i) in stats" v-show="item.StatController[e.val]" cols="3">
+                  <v-icon style="opacity: 0.5" color="white">{{ e.text }}</v-icon>
                   <b v-text="item.StatController[e.val]" />
                 </v-col>
               </v-row>
               <div v-show="big">
                 <v-divider dark class="my-2" />
-                <v-row
-                  density="compact"
-                  justify="center"
-                  align="center"
-                  class="text-center"
-                >
+                <v-row density="compact" justify="center" align="center" class="text-center">
                   <v-col>
                     <v-chip
                       v-for="(e, i) in item.Items"
@@ -59,10 +46,7 @@
                   </v-col>
                 </v-row>
                 <v-row v-if="item.Subtitle" justify="center" align="end">
-                  <v-col
-                    class="text-white flavor-text"
-                    v-text="item.Subtitle"
-                  />
+                  <v-col class="text-white flavor-text" v-text="item.Subtitle" />
                 </v-row>
               </div>
             </v-container>
@@ -131,7 +115,7 @@ export default {
       { title: 'mdi-arrow-right-bold-hexagon-outline', val: 'Speed' },
       { title: 'cc:save', val: 'SaveTarget' },
       { title: 'cc:evasion', val: 'Evasion' },
-      { title: 'cc:edef', val: 'EDefense' },
+      { title: 'cc:e_def', val: 'EDefense' },
       { title: 'cc:sensor', val: 'SensorRange' },
       { title: 'cc:activate', val: 'Activations' },
     ],
