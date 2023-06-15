@@ -2,8 +2,8 @@
   <div id="wrapper">
     <main-title @logupdate="ccLog('update')" />
     <c-c-log v-show="$vuetify.display.mdAndUp" ref="log" />
-    <v-container style="height: calc(100vh - 135px); margin-top: 80px">
-      <v-row justify="space-between" style="height: 100%">
+    <v-container fluid style="height: calc(100vh - 135px); margin-top: 40px">
+      <v-row justify="space-between" align="center" style="height: 100%">
         <main-btn
           icon="cc:compendium"
           :to="'/srd'"
@@ -20,14 +20,6 @@
         >
           Pilot Roster
         </main-btn>
-        <!-- <main-btn
-          icon="cc:encounter"
-          :to="'/gm'"
-          help="Manage NPCs/Encounters/Missions"
-          @hover="ccLog('gm')"
-        >
-          Encounter Toolkit
-        </main-btn> -->
         <main-btn
           icon="cc:encounter"
           :to="'/gm'"
@@ -46,7 +38,7 @@
           <cc-tooltip
             v-if="missingContent"
             inline
-            title="Unloadble Content Detected"
+            title="Unloadable Content Detected"
             content="COMP/CON has detected one or more items that are missing Lancer Content Pack data. These items cannot be loaded without installing and activated LCPs. These issues may be able to be resolved in the Content Manager."
           >
             <v-avatar color="white"><v-icon color="error" large>mdi-folder-off</v-icon></v-avatar>
@@ -358,7 +350,7 @@ export default {
 <style scoped>
 #wrapper {
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   background: url(../../assets/ui/grid.png);
   animation: 600s scroll infinite linear;
   top: 0;

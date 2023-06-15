@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kyvg/vue3-notification": "^2.9.1",
     "@massif/lancer-data": "^3.1.1",
     "@mdi/font": "^7.1.96",
     "aws-amplify": "^5.2.2",
@@ -20,6 +21,7 @@
     "lodash": "^4.17.21",
     "pinia": "^2.0.33",
     "promisify-file-reader": "^4.1.0",
+    "semver": "^7.5.1",
     "typeit": "^8.7.1",
     "uuid": "^9.0.0",
     "vue": "^3.2.47",

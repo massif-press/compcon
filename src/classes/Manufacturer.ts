@@ -50,14 +50,13 @@ class Manufacturer {
 
   public get Logo(): string {
     if (this._logo_url) return this._logo_url;
-    else if (this._logo)
-      return getImagePath(ImageTag.Logo, `${this._logo}.svg`);
+    else if (this._logo) return getImagePath(ImageTag.Logo, `${this._logo}.svg`);
     // else if (this._logo) return this._logo
     return ''; // TODO: placeholder logo?
   }
 
   public get Icon(): string {
-    return this.ID.toLowerCase().replaceAll(/[^a-zA-Z\d]/g, '');
+    return `cc:${this.ID.toLowerCase().replaceAll(/[^a-zA-Z\d]/g, '')}`;
   }
 
   public get isSvg(): boolean {

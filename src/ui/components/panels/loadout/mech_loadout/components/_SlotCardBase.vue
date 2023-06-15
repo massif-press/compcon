@@ -1,16 +1,9 @@
 <template>
   <v-col :class="`pa-${small ? '1' : '2'}`">
     <div style="height: 100%">
-      <v-card
-        flat
-        tile
-        :class="small ? 'panel' : 'clipped-large panel'"
-        style="height: 100%"
-      >
+      <v-card flat tile :class="small ? 'panel' : 'clipped-large panel'" style="height: 100%">
         <v-card-title
-          :class="`text-white py-0 ${
-            small ? 'effect-text' : 'heading h3'
-          } hover-item`"
+          :class="`text-white py-0 ${small ? 'effect-text' : 'heading h3'} hover-item`"
           style="cursor: pointer"
           @click="empty ? '' : $refs.detailDialog.show()"
         >
@@ -23,23 +16,15 @@
             </v-col>
           </v-row>
         </v-card-title>
-        <v-card-text
-          :id="item ? 'underline-parent' : ''"
-          class="`px-2 py-0 text-center`"
-        >
+        <v-card-text :id="item ? 'underline-parent' : ''" class="`px-2 py-0 text-center`">
           <div class="underline-slide">
             <slot />
             <div v-if="item">
               <v-row class="text-left" density="compact" align="end">
                 <v-col>
                   <v-row justify="space-around" density="compact">
-                    <v-col
-                      v-if="item.Actions && item.Actions.length"
-                      cols="auto"
-                    >
-                      <div v-if="!readonly" class="text-overline ml-n2">
-                        EQUIPMENT ACTIONS
-                      </div>
+                    <v-col v-if="item.Actions && item.Actions.length" cols="auto">
+                      <div v-if="!readonly" class="text-overline ml-n2">//EQUIPMENT ACTIONS</div>
                       <v-row no-gutters justify="center">
                         <v-col v-for="(a, i) in item.Actions" cols="auto">
                           <cc-action
@@ -52,7 +37,7 @@
                     </v-col>
                     <v-col v-if="item.Deployables.length" cols="auto">
                       <div v-if="!readonly" class="text-overline ml-n2">
-                        EQUIPMENT DEPLOYABLES
+                        //EQUIPMENT DEPLOYABLES
                       </div>
                       <v-row no-gutters justify="center">
                         <v-col v-for="(d, i) in item.Deployables" cols="auto">
@@ -109,12 +94,7 @@
                   <cc-bonus-display :item="item" />
                 </v-col>
                 <v-col cols="auto">
-                  <cc-synergy-display
-                    :item="item"
-                    :location="synergyLocation"
-                    :mech="mech"
-                    large
-                  />
+                  <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large />
                 </v-col>
               </v-row>
             </div>
@@ -128,10 +108,7 @@
               @click="if (!readonly) $refs.selectorDialog.show();"
             >
               <v-row style="height: 100%">
-                <div
-                  class="heading h2 text-subtle my-auto py-3"
-                  style="width: 100%"
-                >
+                <div class="heading h2 text-subtle my-auto py-3" style="width: 100%">
                   // EMPTY //
                 </div>
               </v-row>
@@ -140,21 +117,10 @@
         </v-card-text>
       </v-card>
     </div>
-    <cc-solo-dialog
-      ref="selectorDialog"
-      no-confirm
-      title="SELECT EQUIPMENT"
-      fullscreen
-      no-pad
-    >
+    <cc-solo-dialog ref="selectorDialog" no-confirm title="SELECT EQUIPMENT" fullscreen no-pad>
       <slot name="selector" />
     </cc-solo-dialog>
-    <cc-solo-dialog
-      ref="detailDialog"
-      no-confirm
-      :title="item ? item.Name : ''"
-      large
-    >
+    <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
       <cc-item-card :item="item" notes />
       <slot name="detail" />
     </cc-solo-dialog>

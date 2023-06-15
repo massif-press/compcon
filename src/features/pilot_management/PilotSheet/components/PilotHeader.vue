@@ -244,7 +244,7 @@
         </v-col>
         <v-col cols="2" class="unskew">
           <cc-tooltip simple inline delay :content="`Electronic Defense: ${pilot.EDefense}`">
-            <v-icon icon="cc:edef" />
+            <v-icon icon="cc:e_def" />
           </cc-tooltip>
           <span class="stat-text">{{ pilot.EDefense }}</span>
         </v-col>

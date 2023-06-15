@@ -7,11 +7,7 @@
       >
         <v-row class="mt-n1" no-gutters>
           <equipment-options slot="options" :item="mod" />
-          <span
-            v-if="mod.Destroyed"
-            class="error"
-            style="text-decoration: line-through"
-          >
+          <span v-if="mod.Destroyed" class="error" style="text-decoration: line-through">
             DESTROYED
           </span>
           <span v-else>
@@ -20,11 +16,7 @@
           <v-spacer />
           <span v-if="mod.SP" class="pr-3">{{ mod.SP }}SP</span>
           <cc-tooltip simple inline content="Remove Mod">
-            <v-icon
-              dark
-              class="mt-n1 fade-select"
-              @click.stop="$emit('remove-mod')"
-            >
+            <v-icon dark class="mt-n1 fade-select" @click.stop="$emit('remove-mod')">
               mdi-delete
             </v-icon>
           </cc-tooltip>
@@ -60,19 +52,15 @@
           <v-col>
             <v-row justify="space-around" density="compact">
               <v-col v-if="mod.Actions.length" cols="auto">
-                <div class="text-overline ml-n2">EQUIPMENT ACTIONS</div>
+                <div class="text-overline ml-n2">//EQUIPMENT ACTIONS</div>
                 <v-row no-gutters justify="center">
                   <v-col v-for="(a, i) in mod.Actions" cols="auto">
-                    <cc-action
-                      :action="a"
-                      :panel="$vuetify.display.lgAndUp"
-                      class="ma-2"
-                    />
+                    <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
                   </v-col>
                 </v-row>
               </v-col>
               <v-col v-if="mod.Deployables.length" cols="auto">
-                <div class="text-overline ml-n2">EQUIPMENT DEPLOYABLES</div>
+                <div class="text-overline ml-n2">//EQUIPMENT DEPLOYABLES</div>
                 <v-row no-gutters justify="center">
                   <v-col v-for="(d, i) in mod.Deployables" cols="auto">
                     <cc-deployable-info

@@ -21,7 +21,7 @@
         </v-col>
         <v-col v-if="item.EDefense" cols="auto">
           <cc-tooltip simple inline content="Electronic Defense">
-            <v-icon icon="cc:edef" />
+            <v-icon icon="cc:e_def" />
           </cc-tooltip>
           <span class="stat-text">{{ item.EDefense }}</span>
         </v-col>

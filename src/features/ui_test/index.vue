@@ -112,7 +112,7 @@
           <v-btn block color="primary" tile variant="outlined">outlined block button</v-btn>
         </v-col>
         <v-col>
-          <v-btn block color="primary" text>text block button</v-btn>
+          <v-btn block color="primary" variant="text">text block button</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -170,7 +170,7 @@
       </v-row>
     </v-container>
     <router-link to="/">
-      <v-btn text x-large>back</v-btn>
+      <v-btn variant="text" x-large>back</v-btn>
     </router-link>
   </v-container>
 </template>
@@ -179,58 +179,56 @@
 import { CompendiumStore } from '@/stores';
 
 const icons = [
-  'npc-template',
+  'npc_template',
   'license',
-  'npc-feature',
-  'npc-class',
+  'npc_feature',
+  'npc_class',
   'squad',
-  'status-downandout',
-  'condition-immobilized',
-  'condition-slow',
+  'status_downandout',
+  'condition_immobilized',
+  'condition_slow',
   'manufacturer',
-  'condition-stunned',
-  'condition-shredded',
-  'condition-lock-on',
-  'condition-jammed',
-  'status-shut-down',
-  'status-prone',
-  'status-invisible',
-  'status-hidden',
-  'status-exposed',
-  'status-engaged',
-  'status-danger-zone',
-  'activation-full',
-  'activation-quick',
-  'tech_full',
+  'condition_stunned',
+  'condition_shredded',
+  'condition_lockon',
+  'condition_jammed',
+  'status_shutdown',
+  'status_prone',
+  'status_invisible',
+  'status_hidden',
+  'status_exposed',
+  'status_engaged',
+  'status_dangerzone',
+  'activation_full',
+  'activation_quick',
   'full_tech',
-  'tech_quick',
+  'quick_tech',
   'quick_tech',
   'invade',
-  'edef',
+  'e_def',
   'downtime',
   'evasion',
-  'npc-tier-custom',
-  'npc-tier-3',
-  'npc-tier-2',
-  'npc-tier-1',
+  'npc_tier_custom',
+  'npc_tier_3',
+  'npc_tier_2',
+  'npc_tier_1',
   'free_action',
   'reaction',
-  'reserve-tactical',
-  'reserve-mech',
-  'reserve-resource',
-  'reserve-bonus',
-  'system-point',
-  'generic-item',
+  'reserve_tactical',
+  'reserve_mech',
+  'reserve_resource',
+  'system_point',
+  'generic_item',
   'save',
   'sensor',
-  'weapon-profile',
+  'weapon_profile',
   'protocol',
   'drone',
   'skill',
   'talent',
   'grenade',
   'deployable',
-  'content-manager',
+  'content_manager',
   'campaign',
   'encounter',
   'compendium',
@@ -251,7 +249,7 @@ const icons = [
   'kinetic',
   'variable',
   'deactivate',
-  'condition-impaired',
+  'condition_impaired',
   'difficulty',
   'frame',
   'melee',
@@ -260,41 +258,38 @@ const icons = [
   'thrown',
   'reactor',
   'repair',
-  'role-artillery',
-  'role-controller',
-  'role-striker',
-  'role-support',
-  'role-tank',
-  'role-defender',
-  'size-1',
-  'size-2',
-  'size-3',
-  'size-4',
-  'size-half',
+  'role_artillery',
+  'role_controller',
+  'role_striker',
+  'role_support',
+  'role_tank',
+  'role_defender',
+  'size_1',
+  'size_2',
+  'size_3',
+  'size_4',
+  'size_half',
   'structure',
   'system',
-  'mech-system',
   'threat',
   'weaponmod',
-  'weapon-mod',
   'trait',
   'weapon',
-  'mech-weapon',
   'blast',
-  'rank-1',
-  'rank-2',
-  'rank-3',
-  'nested-hexagons',
+  'rank_1',
+  'rank_2',
+  'rank_3',
+  'nested_hexagons',
   'orbit',
   'orbital',
-  'large-beam',
+  'large_beam',
   'ammo',
   'burning',
   'balance',
   'reticule',
   'spikes',
   'eclipse',
-  'sword-array',
+  'sword_array',
   'marker',
   'barrage',
 ];
@@ -302,22 +297,22 @@ export default {
   name: 'ui-test',
   data: () => ({
     notificationText: 'test',
-    notificationTypes: ['achievement', 'confirmation', 'error'],
-    notificationType: 'confirmation',
-    exampleTalents: [],
-    chargeExample: null,
-    deployExample: null,
-    droneExample: null,
-    multipleExample: null,
-    aiExample: null,
-    techExample: null,
-    reactionExample: null,
-    genericExample: null,
-    profileExample: null,
-    onAttackExample: null,
-    onHitExample: null,
-    onCritExample: null,
-    asDroneExample: null,
+    notificationTypes: ['success', 'warning', 'error', 'info'],
+    notificationType: 'success',
+    exampleTalents: [] as any[],
+    chargeExample: null as unknown as any,
+    deployExample: null as unknown as any,
+    droneExample: null as unknown as any,
+    multipleExample: null as unknown as any,
+    aiExample: null as unknown as any,
+    techExample: null as unknown as any,
+    reactionExample: null as unknown as any,
+    genericExample: null as unknown as any,
+    profileExample: null as unknown as any,
+    onAttackExample: null as unknown as any,
+    onHitExample: null as unknown as any,
+    onCritExample: null as unknown as any,
+    asDroneExample: null as unknown as any,
   }),
   computed: {
     process() {
@@ -345,7 +340,6 @@ export default {
     this.onCritExample = s.MechWeapons.find((x) => x.ID === 'mw_chain_axe');
     this.asDroneExample = s.MechWeapons.find((x) => x.ID === 'mw_ghast_nexus');
     this.exampleTalents = s.Talents.sort(() => 0.5 - Math.random()).slice(0, 4);
-    console.log(this.exampleTalents);
   },
   methods: {
     allIcons() {
@@ -353,7 +347,7 @@ export default {
     },
     allColors(theme) {
       const t = this.$vuetify.theme.themes[theme];
-      const output = [];
+      const output = [] as any[];
       Object.keys(t).forEach((e) => {
         output.push({ name: e, color: t[e] });
       });
@@ -363,9 +357,11 @@ export default {
       console.log('dialog 1 confirmed');
     },
     doNotify() {
-      this.$notify(this.notificationText, this.notificationType, () =>
-        console.log('yup, you clicked the notification!', this)
-      );
+      (this as any).$notify({
+        title: 'test',
+        text: this.notificationText,
+        data: { type: this.notificationType, icon: 'cc:status_engaged' },
+      });
     },
   },
 };

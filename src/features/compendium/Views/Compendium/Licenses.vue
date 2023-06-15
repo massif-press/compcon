@@ -1,6 +1,22 @@
 <template>
-  <v-container px-5>
-    <h1 class="heading">LICENSES</h1>
+  <v-container>
+    <v-row align="center" id="top">
+      <v-col>
+        <h1 class="heading">LICENSES</h1>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn
+          v-for="m in manufacturers"
+          v-show="hasLicenses(m.ID)"
+          icon
+          flat
+          class="fade-select mx-1"
+          @click="scrollTo(m.ID)"
+        >
+          <v-icon size="40" :icon="m.Icon" :color="m.Color" />
+        </v-btn>
+      </v-col>
+    </v-row>
     <v-row v-for="m in Object.keys(licenses)">
       <v-col v-if="!!manufacturer(m)" class="text-center pa-3">
         <v-row align="center" justify="center">
@@ -14,26 +30,21 @@
             <v-icon
               v-else
               size="60"
-              :icon="`cc:${manufacturer(m).Icon}`"
+              :icon="manufacturer(m).Icon"
               :color="manufacturer(m).GetColor($vuetify.theme.current.dark)"
             />
           </v-col>
           <v-col
             cols="auto"
             :class="$vuetify.display.mdAndDown ? 'heading h2' : 'heading mech'"
-            :style="`color: ${manufacturer(m).GetColor(
-              $vuetify.theme.current.dark
-            )}`"
+            :style="`color: ${manufacturer(m).GetColor($vuetify.theme.current.dark)}`"
           >
             {{ manufacturer(m).Name }}
           </v-col>
         </v-row>
-        <v-expansion-panels accordion focusable active-class="border-primary">
-          <v-expansion-panel
-            v-for="l in licenses[m]"
-            class="panel border-highlight"
-          >
-            <v-expansion-panel-title class="hover-parent" hide-actions>
+        <v-expansion-panels accordion focusable>
+          <v-expansion-panel v-for="l in licenses[m]" :id="m">
+            <v-expansion-panel-title class="hover-parent py-0 pr-0 pl-3" hide-actions>
               <div>
                 <div>
                   <div class="caption">{{ frame(l.FrameID).Source }}</div>
@@ -53,12 +64,10 @@
                   {{ f }}
                 </v-chip>
               </div>
-              <v-img
+              <div
                 :class="$vuetify.display.mdAndDown ? 'img-mobile' : 'img-hover'"
-                cover
-                max-height="100"
-                :src="frame(l.FrameID).DefaultImage"
-                :position="`top ${frame(l.FrameID).YPosition}% left 80px`"
+                :style="`background-image: url('${frame(l.FrameID).DefaultImage}'); height:110px;
+              width:100%;  background-position: top ${frame(l.FrameID).YPosition}% left 80px`"
               />
             </v-expansion-panel-title>
             <v-expansion-panel-text>
@@ -66,9 +75,19 @@
             </v-expansion-panel-text>
           </v-expansion-panel>
         </v-expansion-panels>
-        <v-divider class="mt-5 mb-0" />
       </v-col>
     </v-row>
+    <v-btn
+      size="x-small"
+      variant="tonal"
+      icon
+      color="primary"
+      class="fade-select"
+      style="position: fixed; bottom: 0px; right: 0; margin: 8px; z-index: 999"
+      @click="scrollTo('top')"
+    >
+      <v-icon size="30">mdi-arrow-up</v-icon>
+    </v-btn>
   </v-container>
 </template>
 
@@ -83,11 +102,14 @@ export default {
       const licenseData = CompendiumStore().Licenses.filter((x) => !x.Hidden);
       return _.groupBy(licenseData, 'Source');
     },
+    manufacturers() {
+      return CompendiumStore().Manufacturers;
+    },
   },
   methods: {
     manufacturer(id: string) {
       return (
-        CompendiumStore().Manufacturers.find((x) => x.ID === id) || {
+        this.manufacturers.find((x) => x.ID === id) || {
           GetColor: () => 'black',
           Name: 'err',
           LogoIsExternal: false,
@@ -95,6 +117,19 @@ export default {
         }
       );
     },
+    hasLicenses(id: string): boolean {
+      return this.licenses[id] && this.licenses[id].length > 0;
+    },
+    scrollTo(id: string): void {
+      const el = document.getElementById(id);
+      if (el) {
+        const yOffset = -120;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    },
+
     frame(id: string) {
       return CompendiumStore().referenceByID('Frames', id);
     },
@@ -103,11 +138,6 @@ export default {
 </script>
 
 <style scoped>
-/* .hover-parent {
-  position: relative;
-  display: inline-block;
-} */
-
 .img-hover {
   opacity: 0.55;
   transition: all 0.3s ease-in-out;

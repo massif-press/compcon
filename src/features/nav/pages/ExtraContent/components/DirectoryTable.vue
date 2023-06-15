@@ -78,6 +78,8 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
+import { semverGte } from 'semver/functions/gte';
+import { semverCoerce } from 'semver/functions/coerce';
 
 export default {
   name: 'content-pack-directory-table',
@@ -131,7 +133,7 @@ export default {
         (x) => x.Name === item.name || x.Name === item.title
       );
       if (!installedPack) return true;
-      return installedPack.Version !== item.version;
+      return !semverGte(semverCoerce(installedPack.Version), semverCoerce(item.version));
     },
   },
 };

@@ -14,11 +14,7 @@
           ref="completed"
           class="flavor-text text-subtle text--darken-1 py-0 my-0"
         ></p>
-        <p
-          id="output"
-          ref="output"
-          class="flavor-text text-subtle text--darken-1 py-0 my-0"
-        ></p>
+        <p id="output" ref="output" class="flavor-text text-subtle text--darken-1 py-0 my-0"></p>
       </v-col>
       <v-col cols="auto" class="ml-2">
         <div class="sidebar" />
@@ -115,8 +111,7 @@ export default {
       this.typer.destroy();
 
       //collect written strings so TypeIt doesn't erase them
-      if (this.$refs.completed.innerHTML)
-        this.$refs.completed.innerHTML += '<br>';
+      if (this.$refs.completed.innerHTML) this.$refs.completed.innerHTML += '<br>';
       this.$refs.completed.innerHTML += this.$refs.output.innerHTML;
       this.$refs.output.innerHTML = '';
 

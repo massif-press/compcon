@@ -20,6 +20,7 @@
       </v-row>
       <v-row align="center" justify="center" class="mt-0 mb-3">
         <compendium-card
+          v-for="item in itemsBySource(s.ID)"
           :item="(item as any)"
           :small="$vuetify.display.smAndDown"
         />
@@ -54,9 +55,7 @@ export default {
       if (!this.items.some((x: any) => !x.Source)) {
         const sources = _.uniq(this.items.map((x: any) => x.Source));
         return sources.map((x: string) => {
-          const s = this.compendium.Manufacturers.find(
-            (y) => y.ID === x.toUpperCase()
-          );
+          const s = this.compendium.Manufacturers.find((y) => y.ID === x.toUpperCase());
           return s || x;
         });
       }

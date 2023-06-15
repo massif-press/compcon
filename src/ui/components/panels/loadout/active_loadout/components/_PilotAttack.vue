@@ -100,7 +100,7 @@
               </v-col>
               <v-col cols="auto" class="mx-8">
                 <div class="text-overline mb-n3">vs. Target</div>
-                <v-icon size="x-large" v-html="isSmart ? 'cc:edef' : 'cc:evasion'" />
+                <v-icon size="x-large" v-html="isSmart ? 'cc:e_def' : 'cc:evasion'" />
                 <div
                   class="text-overline font-weight-bold mt-n2"
                   v-html="isSmart ? 'E-Defense' : 'Evasion'"

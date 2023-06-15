@@ -89,10 +89,8 @@ class WeaponProfile extends CompendiumItem {
     data.id += `_profile_${idx || 0}`;
     super(data, packTags);
     this.Cost = parseInt(pData.cost as any) || 1;
-    this.Barrage =
-      pData.barrage != undefined ? pData.barrage : container.Barrage;
-    this.Skirmish =
-      pData.skirmish != undefined ? pData.skirmish : container.Skirmish;
+    this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage;
+    this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish;
     if (pData.damage) this.Damage = pData.damage.map((x) => new Damage(x));
     if (pData.range) this.Range = pData.range.map((x) => new Range(x));
     if (pData.effect) this.Effect = pData.effect;
@@ -116,27 +114,19 @@ class MechWeapon extends MechEquipment {
   private _custom_damage_type?: string | null;
   private _selected_profile: number;
 
-  public constructor(
-    data: IMechWeaponData,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
+  public constructor(data: IMechWeaponData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName);
     this.Size = data.mount;
     this.ModSize = data.mod_size_override ? data.mod_size_override : data.mount;
     this.WeaponType = data.type;
     this.ModType = data.mod_type_override ? data.mod_type_override : data.type;
     this.Skirmish =
-      data.skirmish != undefined
-        ? data.skirmish
-        : data.mount !== WeaponSize.Superheavy;
+      data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy;
     this.Barrage = data.barrage != undefined ? data.skirmish : true;
     this.NoAttack = data.no_attack;
     this.NoCoreBonus = data.no_core_bonus;
     if (data.profiles && data.profiles.length) {
-      this.Profiles = data.profiles.map(
-        (x, i) => new WeaponProfile(x, this, packTags, i)
-      );
+      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, packTags, i));
     } else {
       this.Profiles = [new WeaponProfile(data, this, packTags)];
     }
@@ -201,45 +191,42 @@ class MechWeapon extends MechEquipment {
     this._selected_profile = val;
   }
 
-  public get ProfileEffect(): string {
-    return this.SelectedProfile.Effect || '';
-  }
+  // public get ProfileEffect(): string {
+  //   return this.SelectedProfile.Effect || '';
+  // }
 
-  public get ProfileOnAttack(): string {
-    return this.SelectedProfile.OnAttack || '';
-  }
+  // public get ProfileOnAttack(): string {
+  //   return this.SelectedProfile.OnAttack || '';
+  // }
 
-  public get ProfileOnHit(): string {
-    return this.SelectedProfile.OnHit || '';
-  }
+  // public get ProfileOnHit(): string {
+  //   return this.SelectedProfile.OnHit || '';
+  // }
 
-  public get ProfileOnCrit(): string {
-    return this.SelectedProfile.OnCrit || '';
-  }
+  // public get ProfileOnCrit(): string {
+  //   return this.SelectedProfile.OnCrit || '';
+  // }
 
-  public get ProfileTags(): Tag[] {
-    return this.SelectedProfile.Tags || [];
-  }
+  // public get ProfileTags(): Tag[] {
+  //   return this.SelectedProfile.Tags || [];
+  // }
 
   public get AllTags(): Tag[] {
-    return _.uniqBy(
-      [...this.Tags, ...this.Profiles.flatMap((p) => p.Tags)],
-      'ID'
-    );
+    return _.uniqBy([...this.Tags, ...this.Profiles.flatMap((p) => p.Tags)], 'ID');
   }
 
-  public get ProfileHeatCost(): number {
-    const selfHeatTag = this.ProfileTags.find((x) => x.IsHeatCost);
-    return Number(selfHeatTag ? selfHeatTag.Value : 0);
-  }
+  // public get ProfileHeatCost(): number {
+  //   const selfHeatTag = this.ProfileTags.find((x) => x.IsHeatCost);
+  //   return Number(selfHeatTag ? selfHeatTag.Value : 0);
+  // }
 
-  public get ProfileActions(): Action[] {
-    return this.SelectedProfile.Actions;
-  }
+  // public get ProfileActions(): Action[] {
+  //   return this.SelectedProfile.Actions;
+  // }
 
-  public get ProfileDeployables(): IDeployableData[] {
-    return this.SelectedProfile.Deployables;
-  }
+  // public get ProfileDeployables(): IDeployableData[] {
+  //   return this.SelectedProfile.Deployables;
+  // }
 
   public get Damage(): Damage[] {
     if (this.SelectedProfile.Damage && this.Mod && this.Mod.AddedDamage)
@@ -279,9 +266,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public get DamageType(): DamageType[] {
-    return this.SelectedProfile.Damage
-      ? this.SelectedProfile.Damage.map((x) => x.Type)
-      : [];
+    return this.SelectedProfile.Damage ? this.SelectedProfile.Damage.map((x) => x.Type) : [];
   }
 
   public get DefaultDamageType(): DamageType {
@@ -297,9 +282,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public get RangeType(): RangeType[] {
-    return this.SelectedProfile.Range
-      ? this.SelectedProfile.Range.map((x) => x.Type)
-      : [];
+    return this.SelectedProfile.Range ? this.SelectedProfile.Range.map((x) => x.Type) : [];
   }
 
   public set Mod(_mod: WeaponMod | null) {
@@ -332,10 +315,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
-    const item = CompendiumStore().instantiate(
-      'MechWeapons',
-      data.id
-    ) as MechWeapon;
+    const item = CompendiumStore().instantiate('MechWeapons', data.id) as MechWeapon;
     item._destroyed = data.destroyed || false;
     item._cascading = data.cascading || false;
     item._loaded = data.loaded || true;
@@ -344,8 +324,7 @@ class MechWeapon extends MechEquipment {
     item._flavor_name = data.flavorName;
     item._flavor_description = data.flavorDescription;
     item._custom_damage_type = data.customDamageType || null;
-    item.max_use_override =
-      MechWeapon.SanitizeUsesInput(data.maxUseOverride) || 0;
+    item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride) || 0;
     item.Uses = MechWeapon.SanitizeUsesInput(data.uses) || 0;
     item._selected_profile = data.selectedProfile || 0;
     return item;

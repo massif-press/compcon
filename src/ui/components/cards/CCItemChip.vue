@@ -3,7 +3,7 @@
     <v-menu open-on-hover open-delay="500ms" offset-y top close-on-click close-on-content-click>
       <template #activator="{ props }">
         <div v-bind="props">
-          <v-icon icon="cc:{{ $_.kebabCase(item.ItemType) }}" />
+          <v-icon :icon="item.Icon" />
           <span class="heading h3 px-2 mt-n1">{{ item.Name }}</span>
         </div>
       </template>

@@ -1,15 +1,7 @@
 <template>
   <v-col :cols="cols">
     <cc-tooltip inline :title="name" :content="glossary(name)" delayed>
-      <v-card
-        flat
-        tile
-        color="light-panel"
-        class="text-center"
-        height="100%"
-        width="100%"
-        :style="cols ? '' : inline"
-      >
+      <v-card flat tile color="light-panel" class="text-center" height="100%" width="100%">
         <v-row class="heading h3 py-1" dense align="center" justify="center">
           <v-col cols="auto">
             <v-icon size="30" :icon="icon" />

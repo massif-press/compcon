@@ -1,7 +1,11 @@
 <template>
   <cc-sidebar-view>
     <template #sidebar>
-      <v-list-item v-for="t in talents" slot="sidebar" link :title="t.Name" @click="scrollTo(t)" />
+      <v-list-item v-for="t in talents" slot="sidebar" link @click="scrollTo(t)">
+        <template #title>
+          <b class="heading">{{ t.Name }}</b>
+        </template>
+      </v-list-item>
     </template>
     <v-row density="compact" align="center">
       <v-col cols="auto">

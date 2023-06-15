@@ -10,7 +10,7 @@
           <v-col cols="auto">
             <v-icon v-if="icon" :icon="icon" />
           </v-col>
-          <v-col cols="auto" :class="`heading h3`">
+          <v-col cols="auto" class="heading h3 text-truncate" style="width: 80%">
             {{ title }}
           </v-col>
         </v-row>
@@ -64,27 +64,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.clickable:hover {
-  cursor: pointer;
-}
-
-.titlebar {
-  filter: brightness(100%);
-  transition: all 0.3s ease-in-out;
-}
-
-#panel-wrapper:hover .titlebar {
-  filter: brightness(120%);
-}
-
-#panel-wrapper .v-icon {
-  opacity: 0.7;
-  transition: opacity 0.3s ease-in-out;
-}
-
-#panel-wrapper:hover .v-icon {
-  opacity: 1;
-}
-</style>
