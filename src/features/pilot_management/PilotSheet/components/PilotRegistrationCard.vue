@@ -34,14 +34,10 @@
             <v-col cols="12" md="8">
               <span class="flavor-text">
                 Callsign:
-                <b class="text-accent">{{
-                  pilot.Callsign || 'ERR CALLSIGN NOT FOUND'
-                }}</b>
+                <b class="text-accent">{{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}</b>
                 <br />
                 Name (or legal alias):
-                <b class="text-accent">{{
-                  pilot.Name || 'ERR NAME NOT FOUND'
-                }}</b>
+                <b class="text-accent">{{ pilot.Name || 'ERR NAME NOT FOUND' }}</b>
                 <br />
                 Background:
                 <b class="text-accent">
@@ -64,10 +60,7 @@
             <span class="text-subtle">("H.A.S.E" OMNINET VAULT REMIT)</span>
           </div>
           <v-row class="my-1">
-            <span
-              class="flavor-text ml-3"
-              style="font-size: 22px; line-height: 15px"
-            >
+            <span class="flavor-text ml-3" style="font-size: 22px; line-height: 15px">
               [ HULL:
               <span class="stat-text text-accent" style="font-size: 24px">
                 {{ pilot.MechSkillsController.MechSkills.Hull }}&emsp;
@@ -91,10 +84,7 @@
             <v-col cols="12" md="6">
               <span class="flavor-text">PILOT SKILL TRIGGER AUDIT</span>
               <br />
-              <span
-                v-if="!pilot.SkillsController.Skills.length"
-                class="stat-text text-accent"
-              >
+              <span v-if="!pilot.SkillsController.Skills.length" class="stat-text text-accent">
                 &nbsp;ERR SKILL AUDIT INCOMPLETE
               </span>
               <v-chip
@@ -113,10 +103,7 @@
             <v-col cols="12" md="6">
               <span class="flavor-text">PILOT TALENT AUDIT</span>
               <br />
-              <span
-                v-if="!pilot.TalentsController.Talents.length"
-                class="stat-text text-accent"
-              >
+              <span v-if="!pilot.TalentsController.Talents.length" class="stat-text text-accent">
                 &nbsp;ERR TALENT AUDIT INCOMPLETE
               </span>
               <v-chip
@@ -136,16 +123,12 @@
           <v-row density="compact">
             <span v-if="pilotReady" class="flavor-text text-subtle">
               <v-icon large color="grey darken-2">mdi-fingerprint</v-icon>
-              BIOMETRIC RECORD VALID [[{{ randomNumber(13, 22) }}PB]] :: OHM
-              C//{{ futuredate() }}
+              BIOMETRIC RECORD VALID [[{{ randomNumber(13, 22) }}PB]] :: OHM C//{{ futuredate() }}
             </span>
           </v-row>
         </v-col>
         <v-col>
-          <div
-            class="border ml-auto mr-auto text-center"
-            style="width: 300px; height: 300px"
-          >
+          <div class="border ml-auto mr-auto text-center" style="width: 300px; height: 300px">
             <v-img
               v-if="pilot.Portrait"
               :src="pilot.Portrait"
@@ -157,22 +140,16 @@
       </v-row>
       <v-divider v-show="$vuetify.display.mdAndUp" class="ma-2" />
       <v-row v-show="$vuetify.display.mdAndUp" density="compact">
-        <span
-          class="overline"
-          style="line-height: 13px !important; opacity: 0.4"
-        >
-          Improper use of this IDENT record and/or its constituent data by the
-          record holder or any other persons is punishable under the DoJ/HR
-          A-645-c. This record is the property of the Union Administrative
-          Office and the information herein must be transmitted on request under
-          NDL-C-DISCORDANT-BREATH encryption protocols. This RM-4 record must be
-          updated every five (5) Cradle Standard Years of objective time to
-          retain GMS licensing rights. Far-field operatives that anticipate
-          deployments lasting longer than five Cradle Standard Years that have
-          not been issued a man-portable Omninet Hook should apply for the
-          RM-11-B IDENT Supplemental (b) Extension. Contact your local Union
-          Adminstrative Officer for any other matters regarding this
-          record.&emsp;&emsp;V-CDL//M-265-114-831 (A)
+        <span class="text-overline" style="line-height: 13px !important; opacity: 0.4">
+          Improper use of this IDENT record and/or its constituent data by the record holder or any
+          other persons is punishable under the DoJ/HR A-645-c. This record is the property of the
+          Union Administrative Office and the information herein must be transmitted on request
+          under NDL-C-DISCORDANT-BREATH encryption protocols. This RM-4 record must be updated every
+          five (5) Cradle Standard Years of objective time to retain GMS licensing rights. Far-field
+          operatives that anticipate deployments lasting longer than five Cradle Standard Years that
+          have not been issued a man-portable Omninet Hook should apply for the RM-11-B IDENT
+          Supplemental (b) Extension. Contact your local Union Adminstrative Officer for any other
+          matters regarding this record.&emsp;&emsp;V-CDL//M-265-114-831 (A)
         </span>
       </v-row>
     </div>

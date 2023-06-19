@@ -10,14 +10,14 @@
         <v-col lg="auto" cols="12" class="mt-n5">
           <v-row density="compact" class="text-center mb-n3" justify="start" align="start">
             <v-col cols="auto" :class="$vuetify.display.smAndDown ? '' : 'mx-8'">
-              <div class="overline">Tech Attack Roll</div>
+              <div class="text-overline">Tech Attack Roll</div>
               <div class="heading text-text" style="font-size: 24pt">
                 <v-icon size="x-large" class="mr-n1">mdi-dice-d20-outline</v-icon>
                 {{ `${mech.TechAttack >= 0 ? '+' : ''}${mech.TechAttack}` }}
               </div>
             </v-col>
             <v-col cols="auto" :class="$vuetify.display.smAndDown ? '' : 'mx-8'">
-              <div class="overline">vs. Target</div>
+              <div class="text-overline">vs. Target</div>
               <v-icon size="x-large" v-html="'cc:e_def'" />
               <div class="text-overline font-weight-bold mt-n2" v-html="'E-Defense'" />
             </v-col>

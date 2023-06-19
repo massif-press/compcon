@@ -61,33 +61,30 @@
         <span v-else>
           <div v-if="item.Feature.Accuracy(1) > 0">
             <v-icon icon="cc:accuracy" />
-            +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} /
-            +{{ item.Feature.Accuracy(3) }}
+            +{{ item.Feature.Accuracy(1) }} / +{{ item.Feature.Accuracy(2) }} / +{{
+              item.Feature.Accuracy(3)
+            }}
             Accuracy
           </div>
           <div v-else-if="item.Feature.Accuracy(1) < 0">
             <v-icon icon="cc:difficulty" />
-            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{
-              Math.abs(item.Feature.Accuracy(2))
-            }}
-            / +{{ Math.abs(item.Feature.Accuracy(3)) }}
+            +{{ Math.abs(item.Feature.Accuracy(1)) }} / +{{ Math.abs(item.Feature.Accuracy(2)) }} /
+            +{{ Math.abs(item.Feature.Accuracy(3)) }}
             Difficulty
           </div>
         </span>
       </v-col>
       <v-divider vertical />
       <v-col>
-        <span style="float: right" class="heading h3">{{
-          item.Feature.WeaponType
-        }}</span>
+        <span style="float: right" class="heading h3">{{ item.Feature.WeaponType }}</span>
       </v-col>
     </v-row>
     <div v-if="item.Feature.OnHit">
-      <span class="overline">ON HIT</span>
+      <span class="text-overline">ON HIT</span>
       <p v-html-safe="item.Feature.OnHit" else class="body-1 mb-0 py-1" />
     </div>
     <div v-if="item.Feature.Effect">
-      <span class="overline">EFFECT</span>
+      <span class="text-overline">EFFECT</span>
       <p
         v-if="item.Tier"
         v-html-safe="item.Feature.EffectByTier(item.Tier)"

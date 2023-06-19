@@ -64,12 +64,12 @@
         <v-divider vertical />
       </v-col>
       <v-col class="text-center">
-        <div class="overline" style="line-height: 30px">CORE POWER</div>
+        <div class="text-overline" style="line-height: 30px">CORE POWER</div>
         <v-icon size="30" color="grey lighten-2" class="mr-n1 mt-n3">mdi-battery-outline</v-icon>
         <div class="d-inline-block flavor-text font-weight-bold mb-n2">/1</div>
       </v-col>
       <v-col class="text-center">
-        <div class="overline" style="line-height: 30px">REPAIR CAPACITY</div>
+        <div class="text-overline" style="line-height: 30px">REPAIR CAPACITY</div>
         <v-icon size="30" color="grey lighten-2" class="mr-n1 mt-n3">cc:repair</v-icon>
         <div
           class="d-inline-block flavor-text font-weight-bold mb-n2"
@@ -240,7 +240,7 @@
       <v-col cols="auto">
         <span class="heading h3">
           {{ mech.MechLoadoutController.ActiveLoadout.Name }}
-          <span class="overline">//LOADOUT</span>
+          <span class="text-overline">//LOADOUT</span>
         </span>
       </v-col>
       <v-col>
@@ -253,7 +253,7 @@
       <div v-if="m.IsLocked" class="text-center flavor-text">
         MOUNT LOCKED
         <br />
-        <span class="overline">// SUPERHEAVY WEAPON BRACING //</span>
+        <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
       <div v-for="(w, j) in m.Weapons" v-else class="px-1">
         <v-row no-gutters class="stat-text">
@@ -288,7 +288,7 @@
           <span class="heading">
             {{ w.Mod.Name }}
           </span>
-          <span class="overline">&nbsp;//APPLIED MOD</span>
+          <span class="text-overline">&nbsp;//APPLIED MOD</span>
           <br />
           <p v-if="w.Mod.Effect" :v-html="w.Mod.Effect" print />
         </div>

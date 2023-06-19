@@ -1,9 +1,5 @@
 <template>
-  <cc-stepper-content
-    complete
-    :exit="`/pilot/${pilot.ID}`"
-    @complete="$emit('next')"
-  >
+  <cc-stepper-content complete :exit="`/pilot/${pilot.ID}`" @complete="$emit('next')">
     <cc-title large>Level Up (Overview)&emsp;</cc-title>
     <h2 class="heading">
       MV-2 License Acquisition Request
@@ -17,20 +13,18 @@
     </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>
-        The UAD IDENT MV-2 License Acquisition Request has been designed to
-        allow active Union personnel to register license updates while
-        field-deployed and receive immediate UN and GMS field support resources.
-        Union personnel should confirm the correctness of their submitted form
-        with their local Union officer, or, in the event an officer is
-        unavailable, request an NHP-directed review at secure Omninet address
+        The UAD IDENT MV-2 License Acquisition Request has been designed to allow active Union
+        personnel to register license updates while field-deployed and receive immediate UN and GMS
+        field support resources. Union personnel should confirm the correctness of their submitted
+        form with their local Union officer, or, in the event an officer is unavailable, request an
+        NHP-directed review at secure Omninet address
         <code>un_omni-18364.andes.cerrobonete.node:9</code>
       </span>
       <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
-        <span class="overline">
-          Submitting unauthorized licensing updates and/or submitting
-          applications for unauthorized or previously-witheld license rights
-          without prior MV-8a/j authorization by a Union Administrator will
-          result in the automatic rejection of the licensing application and may
+        <span class="text-overline">
+          Submitting unauthorized licensing updates and/or submitting applications for unauthorized
+          or previously-witheld license rights without prior MV-8a/j authorization by a Union
+          Administrator will result in the automatic rejection of the licensing application and may
           result in a licensing audit under DoJ/HR AR 716-J
         </span>
       </v-alert>
@@ -59,9 +53,7 @@
               <v-col class="text-center" cols="auto">
                 <span class="text-overline text-white">LICENSE LEVEL</span>
                 <br />
-                <span class="text-white display-4 font-weight-black">{{
-                  pilot.Level
-                }}</span>
+                <span class="text-white display-4 font-weight-black">{{ pilot.Level }}</span>
               </v-col>
               <v-col cols="auto" class="flavor-text text-white px-4">
                 <ul>
@@ -70,9 +62,7 @@
                   <li>MECH SKILL UPGRADE</li>
                   <li>GRIT IMPROVEMENT</li>
                   <li>NEW LICENSE UNLOCK</li>
-                  <li v-if="cbEligible" class="font-weight-bolder">
-                    CORE BONUS INSTALLATION
-                  </li>
+                  <li v-if="cbEligible" class="font-weight-bolder">CORE BONUS INSTALLATION</li>
                   <li v-else class="text-subtle">INELIGIBLE FOR CORE BONUS</li>
                 </ul>
               </v-col>

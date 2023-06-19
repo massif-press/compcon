@@ -10,36 +10,25 @@
       @equip="$emit('install', $event)"
     >
       <div v-if="weapon.Mod">
-        <span class="overline">
+        <span class="text-overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-          <span class="text-success text--darken-1"
-            >[ EQUIPMENT MODIFICATION REGISTERED ]</span
-          >
+          <span class="text-success text--darken-1">[ EQUIPMENT MODIFICATION REGISTERED ]</span>
         </span>
         <br />
         <span class="heading h1 text-accent" style="line-height: 20px">
           {{ weapon.Mod.Name }}
         </span>
-        <span class="flavor-text overline mt-n1" style="display: block"
-          >CURRENTLY INSTALLED</span
-        >
+        <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY INSTALLED</span>
       </div>
       <div v-else>
-        <span class="overline">
-          UNION ARMORY EQUIPMENT AUGMENTATION AUTHORIZATION: FRAME
-          ARMAMENT//MODIFICATION
+        <span class="text-overline">
+          UNION ARMORY EQUIPMENT AUGMENTATION AUTHORIZATION: FRAME ARMAMENT//MODIFICATION
         </span>
         <br />
-        <span
-          class="heading h1 text-subtle text--lighten-1"
-          style="line-height: 20px"
-        >
+        <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
           NO SELECTION
         </span>
-        <span
-          class="flavor-text overline mt-n1 text-error"
-          style="display: block"
-        >
+        <span class="flavor-text overline mt-n1 text-error" style="display: block">
           [ MODIFICATION DATA INVALID OR MISSING ]
         </span>
       </div>
@@ -58,9 +47,7 @@
               simple
               inline
               :content="
-                showUnlicensed
-                  ? 'Unlicensed equipment: SHOWN'
-                  : 'Unlicensed equipment: HIDDEN'
+                showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
               "
             >
               <v-icon
@@ -111,11 +98,7 @@
               slot="label"
               simple
               inline
-              :content="
-                showIncompatible
-                  ? 'Incompatible Mods: SHOWN'
-                  : 'Incompatible Mods: HIDDEN'
-              "
+              :content="showIncompatible ? 'Incompatible Mods: SHOWN' : 'Incompatible Mods: HIDDEN'"
             >
               <v-icon
                 class="ml-n2"
@@ -162,33 +145,19 @@ export default {
   }),
   computed: {
     freeSP(): number {
-      return this.weapon.Mod
-        ? this.mech.FreeSP + this.weapon.Mod.SP
-        : this.mech.FreeSP;
+      return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP;
     },
     availableMods(): MechSystem[] {
       let i = this.mods.filter((x) => !x.IsHidden);
 
       if (!this.showIncompatible) {
         // filter by applied_to
-        i = i.filter(
-          (x) => x.AllowedTypes && x.AllowedTypes.includes(this.weapon.ModType)
-        );
-        i = i.filter(
-          (x) => x.AllowedSizes && x.AllowedSizes.includes(this.weapon.ModSize)
-        );
+        i = i.filter((x) => x.AllowedTypes && x.AllowedTypes.includes(this.weapon.ModType));
+        i = i.filter((x) => x.AllowedSizes && x.AllowedSizes.includes(this.weapon.ModSize));
 
         // // filter out any mount restrictions
-        i = i.filter(
-          (x) =>
-            !x.RestrictedTypes ||
-            !x.RestrictedTypes.includes(this.weapon.ModType)
-        );
-        i = i.filter(
-          (x) =>
-            !x.RestrictedSizes ||
-            !x.RestrictedSizes.includes(this.weapon.ModSize)
-        );
+        i = i.filter((x) => !x.RestrictedTypes || !x.RestrictedTypes.includes(this.weapon.ModType));
+        i = i.filter((x) => !x.RestrictedSizes || !x.RestrictedSizes.includes(this.weapon.ModSize));
       }
 
       // filter already equipped
@@ -197,9 +166,7 @@ export default {
       // filter unique
       i = i.filter(
         (x) =>
-          !this.mech.MechLoadoutController.ActiveLoadout.UniqueMods.map(
-            (y) => y.ID
-          ).includes(x.ID)
+          !this.mech.MechLoadoutController.ActiveLoadout.UniqueMods.map((y) => y.ID).includes(x.ID)
       );
 
       // filter ai
@@ -212,9 +179,7 @@ export default {
 
       if (!this.showUnlicensed) {
         i = i.filter(
-          (x) =>
-            !x.LicenseLevel ||
-            this.mech.Pilot.has('License', x.License, x.LicenseLevel)
+          (x) => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
         );
       }
 
@@ -222,11 +187,7 @@ export default {
       //   i = i.filter(x => x.SP <= this.freeSP)
       // }
 
-      i = i.concat(
-        this.mech.Pilot.SpecialEquipment.filter(
-          (x) => x.ItemType === 'WeaponMod'
-        )
-      );
+      i = i.concat(this.mech.Pilot.SpecialEquipment.filter((x) => x.ItemType === 'WeaponMod'));
 
       return i;
     },

@@ -13,7 +13,7 @@
           <v-col align-self="start">
             <slot name="builder" />
             <div v-if="showDescription">
-              <div class="overline">{{ typeText }} DESCRIPTION</div>
+              <div class="text-overline">{{ typeText }} DESCRIPTION</div>
               <cc-rte v-model="item.Description" />
             </div>
           </v-col>

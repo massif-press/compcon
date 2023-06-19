@@ -6,12 +6,8 @@
     @remove-feature="$emit('remove-feature', $event)"
     @recalc="$emit('recalc')"
   >
-    <span class="overline">EFFECT</span>
-    <p
-      v-if="item.Tier"
-      v-html-safe="item.Feature.EffectByTier(item.Tier)"
-      class="body-1 mb-0"
-    />
+    <span class="text-overline">EFFECT</span>
+    <p v-if="item.Tier" v-html-safe="item.Feature.EffectByTier(item.Tier)" class="body-1 mb-0" />
     <p v-else v-html-safe="item.Feature.Effect" class="body-1 mb-0" />
     <cc-tags v-if="item.Feature.Tags" :tags="item.Feature.Tags" small />
   </card-base>

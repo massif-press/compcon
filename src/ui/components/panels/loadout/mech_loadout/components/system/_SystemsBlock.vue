@@ -5,20 +5,17 @@
       <div style="position: relative">
         <div class="side-legend">
           <span
-            :class="`heading h3 ${
-              mech.FreeSP < 0 ? 'text-error' : 'text-subtle text--darken-3'
-            }`"
+            :class="`heading h3 ${mech.FreeSP < 0 ? 'text-error' : 'text-subtle text--darken-3'}`"
           >
             <v-icon v-if="mech.FreeSP < 0" color="error" left>mdi-alert</v-icon>
             {{ mech.FreeSP }} / {{ mech.MaxSP }}
-            <span class="overline">SP</span>
+            <span class="text-overline">SP</span>
           </span>
         </div>
       </div>
 
       <system-slot-card
-        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout
-          .IntegratedSystems"
+        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
         :mech="mech"
         :item="s"
         :color="color"
@@ -78,9 +75,7 @@ export default {
   },
   computed: {
     moddedWeapons() {
-      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter(
-        (x) => x.Mod
-      );
+      return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
     },
   },
   methods: {

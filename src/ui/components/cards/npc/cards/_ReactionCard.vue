@@ -6,14 +6,10 @@
     @remove-feature="$emit('remove-feature', $event)"
     @recalc="$emit('recalc')"
   >
-    <span v-if="item.Feature.Trigger" class="overline">TRIGGER</span>
+    <span v-if="item.Feature.Trigger" class="text-overline">TRIGGER</span>
     <p v-html-safe="item.Feature.Trigger" class="panel body-1 mb-0" />
-    <span class="overline">EFFECT</span>
-    <p
-      v-if="item.Tier"
-      v-html-safe="item.Feature.EffectByTier(item.Tier)"
-      class="body-1 mb-0"
-    />
+    <span class="text-overline">EFFECT</span>
+    <p v-if="item.Tier" v-html-safe="item.Feature.EffectByTier(item.Tier)" class="body-1 mb-0" />
     <p v-else v-html-safe="item.Feature.Effect" class="body-1 mb-0" />
     <v-col slot="extra-action" cols="auto" class="mx-2">
       <cc-tooltip simple :content="`Stage Reaction: ${item.Name}`">

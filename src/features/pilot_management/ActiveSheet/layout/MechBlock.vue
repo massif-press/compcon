@@ -419,7 +419,7 @@
 
         <v-row v-if="pilot.CoreBonusController.CoreBonuses" density="compact">
           <v-col cols="auto" class="mb-n2">
-            <span class="overline">CORE BONUSES</span>
+            <span class="text-overline">CORE BONUSES</span>
             <v-btn small right icon class="fade-select" @click="showCBs = !showCBs">
               <v-icon small v-html="showCBs ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
@@ -465,7 +465,7 @@
 
         <v-row density="compact">
           <v-col cols="auto" class="mb-n2">
-            <span class="overline">PILOT TALENTS</span>
+            <span class="text-overline">PILOT TALENTS</span>
             <v-btn small right icon class="fade-select" @click="showTalents = !showTalents">
               <v-icon small v-html="showTalents ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
@@ -525,7 +525,7 @@
 
         <v-row density="compact">
           <v-col cols="12">
-            <span class="overline">COUNTERS</span>
+            <span class="text-overline">COUNTERS</span>
             <v-btn small right icon class="fade-select" @click="showCounters = !showCounters">
               <v-icon small v-html="showCounters ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>

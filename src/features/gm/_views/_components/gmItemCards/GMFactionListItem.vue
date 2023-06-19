@@ -1,10 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-row
-      density="compact"
-      :class="`elevation-${hover ? '12' : '0'}`"
-      @click="$emit('open')"
-    >
+    <v-row density="compact" :class="`elevation-${hover ? '12' : '0'}`" @click="$emit('open')">
       <v-col cols="1">
         <v-card>
           <v-img :aspect-ratio="1" :src="item.Image" />
@@ -15,9 +11,7 @@
           {{ item.Name }}
         </div>
         <div>{{ item.Description }}</div>
-        <div v-if="item.Factions.length" class="overline">
-          RELATED ORGANIZATIONS
-        </div>
+        <div v-if="item.Factions.length" class="text-overline">RELATED ORGANIZATIONS</div>
         <v-row no-gutters justify="space-between">
           <v-col cols="auto">
             <v-btn
@@ -59,9 +53,7 @@ export default {
   computed: {
     allFactions() {
       if (!CompendiumStore()['faction/getFactions']) return [];
-      return CompendiumStore()['faction/getFactions'].filter(
-        (x) => x.Name !== this.item.Name
-      );
+      return CompendiumStore()['faction/getFactions'].filter((x) => x.Name !== this.item.Name);
     },
   },
   methods: {

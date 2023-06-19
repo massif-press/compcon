@@ -2,20 +2,11 @@
   <div>
     <v-row density="compact">
       <v-col cols="12" class="mt-2">
-        <span class="overline"
+        <span class="text-overline"
           >{{ mech.MechLoadoutController.ActiveLoadout.Name }} Loadout</span
         >
-        <v-btn
-          small
-          right
-          icon
-          class="fade-select"
-          @click="showLoadout = !showLoadout"
-        >
-          <v-icon
-            small
-            v-html="showLoadout ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-          />
+        <v-btn small right icon class="fade-select" @click="showLoadout = !showLoadout">
+          <v-icon small v-html="showLoadout ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>
       </v-col>
       <v-scroll-y-reverse-transition mode="out-in">

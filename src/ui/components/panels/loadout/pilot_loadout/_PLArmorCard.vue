@@ -67,7 +67,7 @@
         @equip="equip($event)"
       >
         <div v-if="item">
-          <span class="overline">
+          <span class="text-overline">
             GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
             <span class="text-success text--darken-1">
               [ PILOT MATERIEL REGISTRATION VERIFIED ]
@@ -78,7 +78,7 @@
           <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
         </div>
         <div v-else>
-          <span class="overline">
+          <span class="text-overline">
             GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMOR::TI - TVII-A
           </span>
           <br />

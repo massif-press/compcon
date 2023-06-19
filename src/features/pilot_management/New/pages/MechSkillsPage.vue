@@ -21,12 +21,11 @@
       </div>
       <v-container class="flavor-text" style="font-size: 14px">
         <div class="mt-n2">
-          The RM-4b PILOT SELF ASSESSMENT (Mech Skills) will be transmitted to
-          print staff to finalize the configuration of your issued GMS-SP1
-          EVEREST. This configuration data will be remitted to your personal
-          Omninet vault on the validation and acceptance of the RM-4 form along
-          with the issuance of your IDENT fingerprint, which then may be applied
-          to any future Frame(s) at your discretion.
+          The RM-4b PILOT SELF ASSESSMENT (Mech Skills) will be transmitted to print staff to
+          finalize the configuration of your issued GMS-SP1 EVEREST. This configuration data will be
+          remitted to your personal Omninet vault on the validation and acceptance of the RM-4 form
+          along with the issuance of your IDENT fingerprint, which then may be applied to any future
+          Frame(s) at your discretion.
         </div>
         <v-alert
           type="warning"
@@ -38,11 +37,10 @@
         >
           <b>Add two (2) Mech Skill Points.</b>
           <br />
-          <div class="overline" style="line-height: 13px">
-            By submitting this form you attest that your responses are truthful
-            and accurate to the best of your knowledge. Knowingly providing
-            false or or incomplete information is punishable under DoJ/HR AR
-            303-J.
+          <div class="text-overline" style="line-height: 13px">
+            By submitting this form you attest that your responses are truthful and accurate to the
+            best of your knowledge. Knowingly providing false or or incomplete information is
+            punishable under DoJ/HR AR 303-J.
           </div>
         </v-alert>
       </v-container>

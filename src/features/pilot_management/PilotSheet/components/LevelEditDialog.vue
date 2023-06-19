@@ -1,10 +1,5 @@
 <template>
-  <cc-solo-dialog
-    ref="dialog"
-    icon="cc:pilot"
-    no-confirm
-    title="Edit Pilot level"
-  >
+  <cc-solo-dialog ref="dialog" icon="cc:pilot" no-confirm title="Edit Pilot level">
     <v-card-text>
       <v-alert
         v-model="alert"
@@ -15,14 +10,14 @@
         variant="outlined"
         prominent
       >
-        This tool skips the level up wizard. Pilot attributes gained through
-        levelling up, such as skill triggers, licenses, talents, mech skills,
-        and CORE bonuses will have to be updated manually
+        This tool skips the level up wizard. Pilot attributes gained through levelling up, such as
+        skill triggers, licenses, talents, mech skills, and CORE bonuses will have to be updated
+        manually
       </v-alert>
 
       <v-row justify="center" align="center" class="text-center">
         <v-col cols="auto">
-          <span class="overline">Current Level:</span>
+          <span class="text-overline">Current Level:</span>
           <br />
           <span style="display: inline-block" class="level-input">
             {{ pilot.Level }}
@@ -30,13 +25,13 @@
         </v-col>
 
         <v-col cols="auto" class="mx-3">
-          <span class="overline"></span>
+          <span class="text-overline"></span>
           <br />
           <v-icon x-large>arrow_forward</v-icon>
         </v-col>
 
         <v-col cols="auto">
-          <span class="overline">New Level:</span>
+          <span class="text-overline">New Level:</span>
           <br />
           <v-select
             v-model="newLevel"

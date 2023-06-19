@@ -19,7 +19,7 @@
       <single cols="12" label="MAJOR BURDEN" height="50" />
     </v-row>
     <v-divider />
-    <span class="overline">BOND POWERS</span>
+    <span class="text-overline">BOND POWERS</span>
     <v-row no-gutters align="start">
       <single v-for="n in 8" cols="6" label="POWER" height="100" />
       <single cols="6" label="VETERAN POWER" height="100" />

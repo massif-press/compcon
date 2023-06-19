@@ -5,7 +5,7 @@
         <div class="panel clipped">
           <v-icon v-for="n in item.SP" x-large>cc:system_point</v-icon>
         </div>
-        <span class="overline">
+        <span class="text-overline">
           <b>{{ item.SP }}</b>
           SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}
         </span>

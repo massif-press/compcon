@@ -11,7 +11,7 @@
     </v-row>
     <v-row no-gutters class="mt-2">
       <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
-        <div class="overline">WEAPON PROFILES</div>
+        <div class="text-overline">WEAPON PROFILES</div>
         <v-tabs v-model="tab" grow height="30px">
           <v-tab v-for="p in item.Profiles">
             <span class="text-accent font-weight-bold">{{ p.Name }}</span>
@@ -88,7 +88,7 @@
           <v-col lg="auto" md="12" class="mt-n5">
             <v-row density="compact" class="text-center mb-n3" justify="start" align="start">
               <v-col v-if="item.Range" cols="auto" class="mr-8">
-                <div class="overline">Range</div>
+                <div class="text-overline">Range</div>
                 <cc-range-element :range="getRange" class="d-inline" />
               </v-col>
               <v-col cols="auto" class="mx-8">
@@ -107,7 +107,7 @@
                 />
               </v-col>
               <v-col v-if="!noDamageItem" cols="auto" class="ml-8">
-                <div class="overline">Damage</div>
+                <div class="text-overline">Damage</div>
                 <cc-damage-element
                   :damage="getDamage"
                   :type-override="ammoDamage"

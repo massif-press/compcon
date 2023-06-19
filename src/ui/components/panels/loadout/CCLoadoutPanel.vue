@@ -16,7 +16,7 @@
             <v-icon start class="fade-select mt-n2" v-bind="props">mdi-menu</v-icon>
           </template>
           <v-list class="px-2 py-3">
-            <v-list-item-subtitle class="overline">Available Loadouts</v-list-item-subtitle>
+            <v-list-item-subtitle class="text-overline">Available Loadouts</v-list-item-subtitle>
             <v-list-item v-for="(l, i) in loadouts" @click="$emit('set-active', l)">
               <v-list-item-title class="stat-text">{{ l.Name }}</v-list-item-title>
             </v-list-item>

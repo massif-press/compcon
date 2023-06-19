@@ -4,11 +4,7 @@
       <v-card
         flat
         tile
-        :class="
-          hide
-            ? 'panel'
-            : `${$vuetify.display.mdAndUp ? 'clipped-large' : ''} panel`
-        "
+        :class="hide ? 'panel' : `${$vuetify.display.mdAndUp ? 'clipped-large' : ''} panel`"
         :style="!hide ? 'height: 100%' : ''"
       >
         <v-card-title
@@ -19,16 +15,8 @@
           <v-row no-gutters>
             <v-col v-if="item" cols="auto">
               <equipment-options :item="item" readonly active />
-              <span
-                v-if="!item.Destroyed"
-                class="ml-n2"
-                :style="item.Used ? 'opacity: 0.6' : ''"
-              >
-                <cc-tooltip
-                  v-if="item.Used"
-                  inline
-                  content="Equipment has been marked as 'Used'"
-                >
+              <span v-if="!item.Destroyed" class="ml-n2" :style="item.Used ? 'opacity: 0.6' : ''">
+                <cc-tooltip v-if="item.Used" inline content="Equipment has been marked as 'Used'">
                   <v-icon color="success">mdi-check</v-icon>
                 </cc-tooltip>
                 <span
@@ -40,13 +28,8 @@
                 >
                   {{ item.Name }}
                 </span>
-                <span v-if="item.FlavorName" class="caption ml-2 my-n1"
-                  >//{{ item.TrueName }}</span
-                >
-                <span
-                  v-show="$vuetify.display.mdAndUp"
-                  class="caption text-subtle ml-1"
-                >
+                <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+                <span v-show="$vuetify.display.mdAndUp" class="caption text-subtle ml-1">
                   <b>{{ item.Size }}</b>
                   {{ item.WeaponType }}
                 </span>
@@ -59,13 +42,7 @@
             </v-col>
             <v-col v-else cols="auto">{{ weaponSlot.Size }} Weapon</v-col>
             <v-col cols="auto" class="ml-auto heading h3">
-              <cc-range-element
-                v-if="item.Range"
-                small
-                :range="getRange"
-                class="d-inline"
-                dark
-              />
+              <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
               <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
               <cc-damage-element
                 v-if="item.Damage"
@@ -76,39 +53,21 @@
               />
             </v-col>
             <v-col cols="auto">
-              <v-btn
-                v-if="!rest"
-                right
-                icon
-                class="fade-select"
-                dark
-                @click.stop="hide = !hide"
-              >
-                <v-icon
-                  small
-                  v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-                />
+              <v-btn v-if="!rest" right icon class="fade-select" dark @click.stop="hide = !hide">
+                <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
               </v-btn>
             </v-col>
           </v-row>
         </v-card-title>
         <v-slide-y-transition>
-          <v-card-text
-            v-if="!rest && !hide"
-            class="underline-parent px-2 py-0 mt-0"
-          >
+          <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
             <div class="underline-slide">
               <v-row no-gutters>
-                <v-col
-                  v-if="item.Profiles && item.Profiles.length > 1"
-                  cols="12"
-                >
-                  <div class="overline">WEAPON PROFILES</div>
+                <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
+                  <div class="text-overline">WEAPON PROFILES</div>
                   <v-tabs v-model="tab" grow height="30px">
                     <v-tab v-for="p in item.Profiles">
-                      <span class="text-accent font-weight-bold">{{
-                        p.Name
-                      }}</span>
+                      <span class="text-accent font-weight-bold">{{ p.Name }}</span>
                     </v-tab>
                   </v-tabs>
                 </v-col>
@@ -130,11 +89,7 @@
                 :use-bonus="mech.LimitedBonus"
               />
               <!-- <ammo-case-inset :level="armoryLevel" readonly /> -->
-              <v-row
-                v-if="item.ProfileActions.length"
-                density="compact"
-                justify="center"
-              >
+              <v-row v-if="item.ProfileActions.length" density="compact" justify="center">
                 <v-col
                   v-for="(a, i) in item.ProfileActions"
                   style="min-width: 40%"
@@ -147,10 +102,7 @@
                     active
                     :activations="mech.Pilot.State.Actions"
                     :disabled="item.Destroyed || mech.IsStunned"
-                    :unusable="
-                      a.Activation === 'Protocol' &&
-                      !mech.Pilot.State.IsProtocolAvailable
-                    "
+                    :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
                     @use="item.Use(a.Cost, $event)"
                     @undo="item.Undo(a.Cost)"
                   />
@@ -189,9 +141,7 @@
                 <div v-if="item.ProfileOnCrit">
                   <div class="mb-n2 mt-1">
                     <v-icon class="mt-n1">cc:weapon</v-icon>
-                    <span class="text-overline text-stark"
-                      >ON CRITICAL HIT</span
-                    >
+                    <span class="text-overline text-stark">ON CRITICAL HIT</span>
                     <p
                       v-html-safe="item.ProfileOnCrit"
                       class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
@@ -199,11 +149,7 @@
                   </div>
                 </div>
                 <v-row v-if="item.Mod" density="compact" justify="center">
-                  <active-mod-inset
-                    :mod="item.Mod"
-                    :mech="mech"
-                    :color="color"
-                  />
+                  <active-mod-inset :mod="item.Mod" :mech="mech" :color="color" />
                 </v-row>
               </div>
             </div>
@@ -213,11 +159,7 @@
                   <v-row justify="space-around" density="compact">
                     <v-col v-if="item.Deployables.length" cols="auto">
                       <v-row no-gutters justify="center">
-                        <v-col
-                          v-for="(d, i) in item.Deployables"
-                          cols="12"
-                          md="auto"
-                        >
+                        <v-col v-for="(d, i) in item.Deployables" cols="12" md="auto">
                           <cc-deployable-info
                             :deployable="d"
                             :panel="false"
@@ -259,12 +201,7 @@
                   <cc-bonus-display :item="item" />
                 </v-col>
                 <v-col cols="auto">
-                  <cc-synergy-display
-                    :item="item"
-                    location="weapon"
-                    :mech="mech"
-                    large
-                  />
+                  <cc-synergy-display :item="item" location="weapon" :mech="mech" large />
                 </v-col>
               </v-row>
             </div>
@@ -272,12 +209,7 @@
         </v-slide-y-transition>
       </v-card>
     </div>
-    <cc-solo-dialog
-      ref="detailDialog"
-      no-confirm
-      :title="item ? item.Name : ''"
-      large
-    >
+    <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
       <cc-item-card :item="item" />
       <slot name="detail" />
     </cc-solo-dialog>
@@ -324,9 +256,7 @@ export default {
   }),
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(
-        this.$vuetify.theme.current.dark
-      );
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
     },
     // armoryLevel() {
     //   if (this.item.Size !== WeaponSize.Main || this.item.WeaponType === WeaponType.Melee) return 0

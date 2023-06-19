@@ -62,7 +62,7 @@
 
     <v-row density="compact" align="start" justify="space-between">
       <v-col>
-        <div class="overline">SKILL TRIGGERS</div>
+        <div class="text-overline">SKILL TRIGGERS</div>
         <div class="text-left">
           <v-chip
             v-for="(s, i) in pilot.SkillsController.Skills"

@@ -39,7 +39,7 @@
             </div>
             <div
               v-if="mech.IsActive"
-              class="overline"
+              class="text-overline"
               :style="`z-index: 3; position: absolute; top: 30px; left: 4px;`"
             >
               <b class="text-success">//ACTIVE</b>
@@ -74,35 +74,35 @@
                     <!-- TODO: add charts -->
                     <v-row no-gutters justify="space-between">
                       <v-col cols="auto">
-                        <span class="overline">
+                        <span class="text-overline">
                           STR
                           <b>{{ mech.MaxStructure }}</b>
                         </span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
-                        <span class="overline">
+                        <span class="text-overline">
                           HP
                           <b>{{ mech.MaxHP }}</b>
                         </span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
-                        <span class="overline">
+                        <span class="text-overline">
                           Stress
                           <b>{{ mech.MaxStress }}</b>
                         </span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
-                        <span class="overline">
+                        <span class="text-overline">
                           Heat
                           <b>{{ mech.HeatCapacity }}</b>
                         </span>
                       </v-col>
                       <v-divider vertical class="mx-2" />
                       <v-col cols="auto">
-                        <span class="overline">
+                        <span class="text-overline">
                           RepCap
                           <b>{{ mech.RepairCapacity }}</b>
                         </span>

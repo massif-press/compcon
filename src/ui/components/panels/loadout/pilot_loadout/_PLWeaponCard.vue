@@ -25,11 +25,7 @@
           <cc-range-element small :range="item.Range" />
         </v-col>
         <v-col cols="2">
-          <cc-damage-element
-            small
-            :damage="item.Damage"
-            :type-override="item.DamageTypeOverride"
-          />
+          <cc-damage-element small :damage="item.Damage" :type-override="item.DamageTypeOverride" />
         </v-col>
         <v-col cols="7" class="text-right">
           <cc-tags small :tags="item.Tags" color="secondary" class="mt-n2" />
@@ -52,36 +48,25 @@
         @equip="equip($event)"
       >
         <div v-if="item">
-          <span class="overline">
+          <span class="text-overline">
             GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
             <span class="text-success text--darken-1">
               [ PILOT ARMAMENT REGISTRATION VERIFIED ]
             </span>
           </span>
           <br />
-          <span class="heading h1 text-accent" style="line-height: 20px">{{
-            item.Name
-          }}</span>
-          <span class="flavor-text overline mt-n1" style="display: block"
-            >CURRENTLY EQUIPPED</span
-          >
+          <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
+          <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
         </div>
         <div v-else>
-          <span class="overline">
-            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 -
-            S3(LTD)
+          <span class="text-overline">
+            GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)
           </span>
           <br />
-          <span
-            class="heading h1 text-subtle text--lighten-1"
-            style="line-height: 20px"
-          >
+          <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
             NO SELECTION
           </span>
-          <span
-            class="flavor-text overline mt-n1 text-error"
-            style="display: block"
-          >
+          <span class="flavor-text overline mt-n1 text-error" style="display: block">
             [ MATERIEL ID INVALID OR MISSING ]
           </span>
         </div>
@@ -136,8 +121,7 @@ export default {
     getWeapons() {
       const compendium = CompendiumStore();
       let gear = compendium.PilotGear.filter(
-        (x: CompendiumItem) =>
-          !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotWeapon
+        (x: CompendiumItem) => !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotWeapon
       );
       if (this.exotics.length) {
         gear = gear.concat(this.exotics);

@@ -4,11 +4,7 @@
     <v-tab ripple class="heading h3" :disabled="!isAuthed">
       <span>
         <div>Import from Share Code</div>
-        <div
-          v-if="!isAuthed"
-          class="overline"
-          v-text="`Requires COMP/CON cloud account`"
-        />
+        <div v-if="!isAuthed" class="text-overline" v-text="`Requires COMP/CON cloud account`" />
       </span>
     </v-tab>
     <v-tab-item>

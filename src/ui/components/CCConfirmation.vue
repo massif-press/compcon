@@ -1,18 +1,14 @@
 <template>
   <v-card>
     <v-card-text class="text-center flavor-text">
-      <span class="overline"
-        >// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span
-      >
+      <span class="text-overline">// PROCESS INTERRUPT: AUTHORIZATION REQUIRED //</span>
       <br />
       <span v-if="!noCc">//[COMP/CON:</span>
       <b class="text-stark" v-html="content" />
       <span v-if="!noCc">]</span>
       <v-divider class="my-2" />
       <v-row density="compact">
-        <cc-btn small color="error" class="ml-auto" @click="$emit('confirm')"
-          >CONFIRM</cc-btn
-        >
+        <cc-btn small color="error" class="ml-auto" @click="$emit('confirm')">CONFIRM</cc-btn>
       </v-row>
     </v-card-text>
   </v-card>
