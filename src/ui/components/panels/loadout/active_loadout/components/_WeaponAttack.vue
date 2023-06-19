@@ -20,7 +20,7 @@
     </v-row>
     <v-row no-gutters class="mt-2">
       <v-col v-if="item.Profiles && item.Profiles.length > 1" cols="12">
-        <div class="overline">WEAPON PROFILES</div>
+        <div class="text-overline">WEAPON PROFILES</div>
         <v-tabs v-model="tab" grow height="30px">
           <v-tab v-for="p in item.Profiles">
             <span class="text-accent font-weight-bold">{{ p.Name }}</span>
@@ -120,7 +120,7 @@
               align="start"
             >
               <v-col v-if="item.Range" cols="auto" :class="$vuetify.display.mdAndUp ? 'mr-8' : ''">
-                <div class="overline">Range</div>
+                <div class="text-overline">Range</div>
                 <cc-range-element :range="getRange" class="d-inline" />
               </v-col>
               <v-col cols="auto" :class="$vuetify.display.mdAndUp ? 'mx-8' : ''">
@@ -144,7 +144,7 @@
                 md="auto"
                 :class="$vuetify.display.mdAndUp ? 'ml-8' : ''"
               >
-                <div class="overline">Damage</div>
+                <div class="text-overline">Damage</div>
                 <cc-damage-element
                   :damage="getDamage"
                   :type-override="ammoDamage"

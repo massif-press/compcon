@@ -9,7 +9,7 @@
           <v-card-text class="text-center">
             <span class="flavor-text">Roll 1d6 per point of structure damage</span>
             <br />
-            <span class="overline">
+            <span class="text-overline">
               <b>{{ totalRolls - rolls.length }}</b>
               rolls remaining
             </span>
@@ -68,7 +68,7 @@
                   </span>
                   <span v-else-if="rolls.length" key="t02" class="heading h3">
                     <b>{{ results[Math.min(...rolls) - 1] }}</b>
-                    <i class="overline">({{ Math.min(...rolls) }})</i>
+                    <i class="text-overline">({{ Math.min(...rolls) }})</i>
                   </span>
                 </v-scroll-y-transition>
               </div>

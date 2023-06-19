@@ -24,10 +24,8 @@
           </span>
         </v-col>
         <v-col cols="auto" class="ml-auto text-right mt-n2 mb-n2">
-          <div class="overline">ITEM USES</div>
-          <v-icon v-if="!item.MaxUses" color="secondary" class="mt-n3 mr-2"
-            >mdi-infinity</v-icon
-          >
+          <div class="text-overline">ITEM USES</div>
+          <v-icon v-if="!item.MaxUses" color="secondary" class="mt-n3 mr-2">mdi-infinity</v-icon>
           <cc-item-uses v-else :item="item" color="secondary" class="mt-n3" />
         </v-col>
       </v-row>
@@ -35,9 +33,7 @@
         v-if="!readonly"
         density="compact"
         class="mt-2"
-        :style="`max-height: ${
-          $vuetify.display.smAndDown ? '125' : '200'
-        }px; overflow-y: scroll`"
+        :style="`max-height: ${$vuetify.display.smAndDown ? '125' : '200'}px; overflow-y: scroll`"
       >
         <p v-html-safe="item.Description" class="text-text" />
       </v-row>
@@ -56,7 +52,7 @@
         @equip="equip($event)"
       >
         <div v-if="item">
-          <span class="overline">
+          <span class="text-overline">
             GMS EQUIPMENT CATALOG PRINTID:
             {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
             <span class="text-success text--darken-1">
@@ -64,28 +60,18 @@
             </span>
           </span>
           <br />
-          <span class="heading h1 text-accent" style="line-height: 20px">{{
-            item.Name
-          }}</span>
-          <span class="flavor-text overline mt-n1" style="display: block"
-            >CURRENTLY EQUIPPED</span
-          >
+          <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
+          <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
         </div>
         <div v-else>
-          <span class="overline"
+          <span class="text-overline"
             >GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)</span
           >
           <br />
-          <span
-            class="heading h1 text-subtle text--lighten-1"
-            style="line-height: 20px"
-          >
+          <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
             NO SELECTION
           </span>
-          <span
-            class="flavor-text overline mt-n1 text-error"
-            style="display: block"
-          >
+          <span class="flavor-text overline mt-n1 text-error" style="display: block">
             [ EQUIPMENT ID INVALID OR MISSING ]
           </span>
         </div>
@@ -139,8 +125,7 @@ export default {
     getGear() {
       const compendium = CompendiumStore();
       let gear = compendium.PilotGear.filter(
-        (x: CompendiumItem) =>
-          !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotGear
+        (x: CompendiumItem) => !x.IsHidden && !x.IsExotic && x.ItemType === ItemType.PilotGear
       );
       if (this.exotics.length) {
         gear = gear.concat(this.exotics);

@@ -1,75 +1,68 @@
 <template>
-  <v-container>
-    <v-tabs v-model="step" grow bg-color="primary">
-      <v-tab> <v-icon start> mdi-check </v-icon> Identification</v-tab>
-      <v-tab>Skills</v-tab>
-      <v-tab>Talents</v-tab>
-      <v-tab>Mech Skills</v-tab>
-      <v-tab>Confirm</v-tab>
-    </v-tabs>
-    <v-stepper-header class="elevation-0" style="height: 40px">
-      <v-stepper-step
-        editable
-        :complete="pilot.HasIdent"
+  <v-tabs v-model="step" grow bg-color="primary">
+    <v-tab>
+      <v-icon
+        v-show="pilot.HasIdent"
         :color="pilot.HasIdent ? 'success' : 'primary'"
-        edit-icon="mdi-check"
-        step="1"
-      >
-        <span>Identification</span>
-      </v-stepper-step>
-      <v-divider />
-      <v-stepper-step
-        editable
-        :complete="pilot.SkillsController.HasFullSkills"
+        start
+        icon="mdi-check"
+      />
+
+      Identification</v-tab
+    >
+    <v-tab>
+      <v-icon
+        v-show="pilot.SkillsController.HasFullSkills"
         :color="pilot.SkillsController.HasFullSkills ? 'success' : 'primary'"
-        edit-icon="mdi-check"
-        step="2"
-      >
-        <span>Skills</span>
-      </v-stepper-step>
-      <v-divider />
-      <v-stepper-step
-        editable
-        :complete="pilot.TalentsController.HasFullTalents"
+        start
+        icon="mdi-check"
+      />
+
+      Skills</v-tab
+    >
+    <v-tab>
+      <v-icon
+        v-show="pilot.TalentsController.HasFullTalents"
         :color="pilot.TalentsController.HasFullTalents ? 'success' : 'primary'"
-        edit-icon="mdi-check"
-        step="3"
-      >
-        <span>Talents</span>
-      </v-stepper-step>
-      <v-divider />
-      <v-stepper-step
-        editable
-        :complete="pilot.MechSkillsController.HasFullHASE"
+        start
+        icon="mdi-check"
+      />
+
+      Talents</v-tab
+    >
+    <v-tab>
+      <v-icon
+        v-show="pilot.MechSkillsController.HasFullHASE"
         :color="pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'"
-        edit-icon="mdi-check"
-        step="4"
-      >
-        <span>Mech Skills</span>
-      </v-stepper-step>
-      <v-divider />
-      <v-stepper-step editable step="5">Confirm</v-stepper-step>
-    </v-stepper-header>
-    <v-stepper-items>
-      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="1">
+        start
+        icon="mdi-check"
+      />
+
+      Mech Skills</v-tab
+    >
+    <v-tab>Confirm</v-tab>
+  </v-tabs>
+  <v-container>
+    <v-window v-model="step">
+      <v-window-item :value="0">
         <identification-page
           :pilot="pilot"
           :quickstart="quickstart"
           @next="step++"
-          @templates="step = 6"
+          @templates="step = 5"
           @set="pilot[$event.attr] = $event.val"
         />
-      </v-stepper-content>
-      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="2">
+      </v-window-item>
+      <v-window-item :value="1">
         <skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
-      </v-stepper-content>
-      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="3">
+      </v-window-item>
+      <v-window-item :value="2">
         <talents-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
-      </v-stepper-content>
-      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="4">
+      </v-window-item>
+      <v-window-item :value="3">
         <mech-skills-page :pilot="pilot" :quickstart="quickstart" @next="step++" @back="step--" />
-      </v-stepper-content>
-      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="5">
+      </v-window-item>
+      <v-window-item :value="4">
         <confirm-page
           :pilot="pilot"
           :quickstart="quickstart"
@@ -77,11 +70,11 @@
           @back="step--"
           @done="onDone"
         />
-      </v-stepper-content>
-      <v-stepper-content :class="$vuetify.display.smAndDown ? 'px-0' : ''" step="6">
+      </v-window-item>
+      <v-window-item :value="5">
         <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />
-      </v-stepper-content>
-    </v-stepper-items>
+      </v-window-item>
+    </v-window>
   </v-container>
 </template>
 

@@ -1,14 +1,8 @@
 <template>
   <div>
-    <v-row
-      :justify="$vuetify.display.mdAndUp ? 'start' : 'center'"
-      align="start"
-      class="mb-n3"
-    >
+    <v-row :justify="$vuetify.display.mdAndUp ? 'start' : 'center'" align="start" class="mb-n3">
       <v-col>
-        <span class="heading mech" style="line-height: 5px">{{
-          pilot.Callsign
-        }}</span>
+        <span class="heading mech" style="line-height: 5px">{{ pilot.Callsign }}</span>
         <div class="flavor-text text-subtle">{{ pilot.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-right mr-2 mt-n2">
@@ -24,58 +18,34 @@
         </div>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <component
-          :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="heading h3 text-accent"
-        >
+        <component :is="$vuetify.display.mdAndUp ? 'div' : 'span'" class="heading h3 text-accent">
           Armor
         </component>
-        <component
-          :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="font-weight-bold"
-        >
+        <component :is="$vuetify.display.mdAndUp ? 'div' : 'span'" class="font-weight-bold">
           {{ pilot.Armor }}
         </component>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <component
-          :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="heading h3 text-accent"
-        >
+        <component :is="$vuetify.display.mdAndUp ? 'div' : 'span'" class="heading h3 text-accent">
           {{ $vuetify.display.mdAndUp ? 'E-DEFENSE' : 'E-DEF' }}
         </component>
-        <component
-          :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="font-weight-bold"
-        >
+        <component :is="$vuetify.display.mdAndUp ? 'div' : 'span'" class="font-weight-bold">
           {{ pilot.EDefense }}
         </component>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <component
-          :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="heading h3 text-accent"
-        >
+        <component :is="$vuetify.display.mdAndUp ? 'div' : 'span'" class="heading h3 text-accent">
           Evasion
         </component>
-        <component
-          :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="font-weight-bold"
-        >
+        <component :is="$vuetify.display.mdAndUp ? 'div' : 'span'" class="font-weight-bold">
           {{ pilot.Evasion }}
         </component>
       </v-col>
       <v-col cols="auto" class="text-right mx-2 mt-n2">
-        <component
-          :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="heading h3 text-accent"
-        >
+        <component :is="$vuetify.display.mdAndUp ? 'div' : 'span'" class="heading h3 text-accent">
           Grit
         </component>
-        <component
-          :is="$vuetify.display.mdAndUp ? 'div' : 'span'"
-          class="font-weight-bold"
-        >
+        <component :is="$vuetify.display.mdAndUp ? 'div' : 'span'" class="font-weight-bold">
           +{{ pilot.Grit }}
         </component>
       </v-col>
@@ -97,9 +67,7 @@
     >
       <v-col cols="auto">
         <v-alert density="compact" variant="outlined" color="error" prominent>
-          <v-icon slot="prepend" color="error" size="90" class="mr-3"
-            >cc:reactor</v-icon
-          >
+          <v-icon slot="prepend" color="error" size="90" class="mr-3">cc:reactor</v-icon>
           <span v-if="pilot.State.SelfDestructCounter > 1" class="heading h1">
             MECH WILL SELF DESTRUCT IN
             {{ pilot.State.SelfDestructCounter }} ROUNDS
@@ -109,12 +77,7 @@
             FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
           </div>
           <div class="px-5 my-1">
-            <v-btn
-              small
-              block
-              color="error"
-              @click="pilot.State.SelfDestruct()"
-            >
+            <v-btn small block color="error" @click="pilot.State.SelfDestruct()">
               <v-icon start>mdi-skull</v-icon>
               DETONATE REACTOR
               <v-icon end>mdi-skull</v-icon>
@@ -145,9 +108,8 @@
     >
       <div class="heading h2">DOWN AND OUT</div>
       <div class="body-text text-text">
-        This Pilot is unconscious and STUNNED – if they take any more damage,
-        they die. They'll regain consciousness and half of their HP when they
-        rest.
+        This Pilot is unconscious and STUNNED – if they take any more damage, they die. They'll
+        regain consciousness and half of their HP when they rest.
       </div>
       <div style="position: relative">
         <v-btn
@@ -165,22 +127,20 @@
     </v-alert>
 
     <div :style="pilot.IsDead || pilot.IsDownAndOut ? 'opacity: 0.5' : ''">
-      <span class="overline">PILOT LOADOUT</span>
+      <span class="text-overline">PILOT LOADOUT</span>
       <cc-pilot-loadout :pilot="pilot" readonly />
 
       <div v-if="pilot.State.Stage === 'Narrative'">
         <v-row density="compact">
           <v-col cols="auto">
-            <span class="overline">SKILL TRIGGERS</span>
+            <span class="text-overline">SKILL TRIGGERS</span>
           </v-col>
           <v-col cols="auto" class="ml-auto">
             <v-btn
               x-small
               variant="outlined"
               class="fade-select"
-              @click="
-                expandAll(pilot.SkillsController.Skills.length, 'sk_', true)
-              "
+              @click="expandAll(pilot.SkillsController.Skills.length, 'sk_', true)"
             >
               <v-icon small left>mdi-chevron-up</v-icon>
               All
@@ -189,9 +149,7 @@
               x-small
               variant="outlined"
               class="fade-select"
-              @click="
-                expandAll(pilot.SkillsController.Skills.length, 'sk_', false)
-              "
+              @click="expandAll(pilot.SkillsController.Skills.length, 'sk_', false)"
             >
               <v-icon small left>mdi-chevron-down</v-icon>
               All
@@ -202,9 +160,7 @@
           <cc-active-card
             v-for="(s, i) in pilot.SkillsController.Skills"
             :ref="`sk_${i}`"
-            :cols="
-              $vuetify.display.smAndDown ? 12 : $vuetify.display.lgAndUp ? 4 : 6
-            "
+            :cols="$vuetify.display.smAndDown ? 12 : $vuetify.display.lgAndUp ? 4 : 6"
             color="secondary"
             collapsible
             start-closed
@@ -215,39 +171,24 @@
       </div>
 
       <span
-        v-if="
-          pilot.ReservesController.Reserves ||
-          pilot.ReservesController.Organizations
-        "
-        class="overline"
+        v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations"
+        class="text-overline"
       >
         RESERVES AND RESOURCES
-        <v-btn
-          small
-          right
-          icon
-          class="fade-select"
-          @click="showReserves = !showReserves"
-        >
-          <v-icon
-            small
-            v-html="showReserves ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-          />
+        <v-btn small right icon class="fade-select" @click="showReserves = !showReserves">
+          <v-icon small v-html="showReserves ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>
       </span>
       <v-scroll-y-reverse-transition mode="out-in">
         <v-row
           v-if="
             showReserves &&
-            (pilot.ReservesController.Reserves ||
-              pilot.ReservesController.Organizations)
+            (pilot.ReservesController.Reserves || pilot.ReservesController.Organizations)
           "
           class="mt-n3"
         >
           <cc-reserve-item
-            v-for="(r, i) in pilot.ReservesController.Reserves.filter(
-              (r) => r.Type !== 'Bonus'
-            )"
+            v-for="(r, i) in pilot.ReservesController.Reserves.filter((r) => r.Type !== 'Bonus')"
             :reserve="r"
             @remove="pilot.ReservesController.RemoveReserve(i)"
           />

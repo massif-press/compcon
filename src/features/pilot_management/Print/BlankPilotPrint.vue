@@ -25,21 +25,13 @@
             <div class="text-overline mb-n1">HP</div>
             <v-row density="compact" no-gutters align="center">
               <v-col cols="auto">
-                <v-icon size="60" color="grey lighten-3" class="mr-n1"
-                  >mdi-hexagon-outline</v-icon
-                >
+                <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
               </v-col>
               <v-col cols="auto" class="mt-6 mr-n2">
-                <span
-                  class="text-subtle text--lighten-1 display-2"
-                  style="line-height: 0"
-                  >/</span
-                >
+                <span class="text-subtle text--lighten-1 display-2" style="line-height: 0">/</span>
               </v-col>
               <v-col cols="auto" class="mb-n2">
-                <v-icon size="50" color="grey lighten-3" class="mr-n1"
-                  >mdi-hexagon-outline</v-icon
-                >
+                <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
               </v-col>
             </v-row>
           </v-col>
@@ -57,9 +49,7 @@
           </v-col>
           <v-col cols="auto">
             <div class="text-overline mb-n1">SPEED</div>
-            <v-icon size="60" color="grey lighten-3"
-              >mdi-arrow-right-bold-hexagon-outline</v-icon
-            >
+            <v-icon size="60" color="grey lighten-3">mdi-arrow-right-bold-hexagon-outline</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -67,14 +57,14 @@
     <v-divider />
     <v-row align="start">
       <v-col>
-        <span class="overline">LICENSES ACQUIRED</span>
+        <span class="text-overline">LICENSES ACQUIRED</span>
         <v-row v-for="n in 6" density="compact" no-gutters>
           <single cols="11" label="LICENSE" height="25" />
           <single cols="1" label="RANK" height="25" />
         </v-row>
       </v-col>
       <v-col>
-        <span class="overline">SKILL TRIGGERS</span>
+        <span class="text-overline">SKILL TRIGGERS</span>
         <v-row v-for="n in 6" no-gutters>
           <single cols="10" label="SKILL" height="25" />
           <single cols="2" label="BONUS" height="25" />
@@ -82,7 +72,7 @@
       </v-col>
     </v-row>
     <v-divider />
-    <span class="overline">TALENTS</span>
+    <span class="text-overline">TALENTS</span>
     <v-row v-for="n in 2" density="compact" justify="space-between" no-gutters>
       <v-col v-for="x in 2">
         <v-row density="compact">
@@ -94,7 +84,7 @@
     </v-row>
     <v-divider class="my-2" />
     <div style="page-break-before: always" />
-    <span class="overline">PILOT EQUIPMENT</span>
+    <span class="text-overline">PILOT EQUIPMENT</span>
     <v-row density="compact" justify="space-between" class="mt-n2">
       <v-col>
         <v-row density="compact">
@@ -126,7 +116,7 @@
     </v-row>
     <br />
     <v-divider class="my-2" />
-    <span class="overline">RESERVES</span>
+    <span class="text-overline">RESERVES</span>
     <v-row density="compact" justify="space-between">
       <v-col v-for="n in 4">
         <v-row density="compact">

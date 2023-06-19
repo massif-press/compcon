@@ -29,7 +29,7 @@
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
         <v-btn icon v-bind="props" to="/">
-          <v-icon icon="mdi-home" />
+          <v-icon color="white" icon="mdi-home" />
         </v-btn>
       </template>
       <span>Main Menu</span>
@@ -38,7 +38,7 @@
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
         <v-btn icon v-bind="props" to="/srd">
-          <v-icon icon="mdi-book" />
+          <v-icon color="white" icon="mdi-book" />
         </v-btn>
       </template>
       <span>Compendium</span>

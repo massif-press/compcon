@@ -35,7 +35,7 @@
           / / NHP IN CASCADE / /
         </v-alert>
         <div>
-          <div class="overline">
+          <div class="text-overline">
             <v-icon icon="cc:system" />
             EQUIPMENT EFFECT
           </div>

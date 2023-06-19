@@ -10,7 +10,7 @@
       @equip="$emit('equip', $event)"
     >
       <div v-if="equipped">
-        <span class="overline">
+        <span class="text-overline">
           UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
           <span class="text-success text--darken-1">
             [ FRAME EQUIPMENT REGISTRATION VERIFIED ]
@@ -20,25 +20,17 @@
         <span class="heading h1 text-accent" style="line-height: 20px">
           {{ equipped.Name }}
         </span>
-        <span class="flavor-text overline mt-n1" style="display: block"
-          >CURRENTLY EQUIPPED</span
-        >
+        <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
       </div>
       <div v-else>
-        <span class="overline">
+        <span class="text-overline">
           UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
         </span>
         <br />
-        <span
-          class="heading h1 text-subtle text--lighten-1"
-          style="line-height: 20px"
-        >
+        <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
           NO SELECTION
         </span>
-        <span
-          class="flavor-text overline mt-n1 text-error"
-          style="display: block"
-        >
+        <span class="flavor-text overline mt-n1 text-error" style="display: block">
           [ EQUIPMENT ID INVALID OR MISSING ]
         </span>
       </div>
@@ -57,9 +49,7 @@
               simple
               inline
               :content="
-                showUnlicensed
-                  ? 'Unlicensed equipment: SHOWN'
-                  : 'Unlicensed equipment: HIDDEN'
+                showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
               "
             >
               <v-icon
@@ -137,9 +127,7 @@ export default {
   }),
   computed: {
     freeSP(): number {
-      return this.equipped
-        ? this.mech.FreeSP + this.equipped.SP
-        : this.mech.FreeSP;
+      return this.equipped ? this.mech.FreeSP + this.equipped.SP : this.mech.FreeSP;
     },
     availableSystems(): MechSystem[] {
       // filter unique
@@ -155,9 +143,7 @@ export default {
 
       if (!this.showUnlicensed) {
         i = i.filter(
-          (x) =>
-            !x.LicenseLevel ||
-            this.mech.Pilot.has('License', x.License, x.LicenseLevel)
+          (x) => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
         );
       }
 
@@ -166,16 +152,12 @@ export default {
       // }
 
       i = i
-        .concat(
-          this.mech.Pilot.SpecialEquipment.filter(
-            (x) => x.ItemType === 'MechSystem'
-          )
-        )
+        .concat(this.mech.Pilot.SpecialEquipment.filter((x) => x.ItemType === 'MechSystem'))
         .filter(
           (x) =>
-            !this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.map(
-              (y) => y.ID
-            ).includes(x.ID)
+            !this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.map((y) => y.ID).includes(
+              x.ID
+            )
         );
 
       return _.sortBy(i, ['Source', 'Name']);

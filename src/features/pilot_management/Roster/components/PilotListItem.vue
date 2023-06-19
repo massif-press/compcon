@@ -3,9 +3,7 @@
     id="pc-wrapper"
     v-show="pilot"
     class="my-1"
-    @click="
-      selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null
-    "
+    @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
   >
     <v-card
       tile
@@ -16,28 +14,17 @@
       :min-height="mobile ? '75px' : '108px'"
     >
       <div id="interior" class="clipped-square-invert">
-        <v-img
-          :src="pilot.Portrait"
-          position="top"
-          :height="mobile ? '75px' : '108px'"
-        />
+        <v-img :src="pilot.Portrait" position="top" :height="mobile ? '75px' : '108px'" />
       </div>
     </v-card>
     <div id="banner" style="width: 100%">
       <div
-        style="
-          width: 100%;
-          display: flex;
-          justify-content: space-between;
-          align-content: center;
-        "
+        style="width: 100%; display: flex; justify-content: space-between; align-content: center"
         class="overlay primary"
       >
         <div
           class="heading callsign"
-          :style="`margin-left: ${
-            mobile ? '75px' : '108px'
-          }; display: inline-block;`"
+          :style="`margin-left: ${mobile ? '75px' : '108px'}; display: inline-block;`"
         >
           {{ pilot.Callsign }}
           <cc-tooltip
@@ -56,26 +43,17 @@
         />
       </div>
       <div
-        :style="`border-top: 0!important;  min-height: ${
-          mobile ? '44px' : '72px'
-        };`"
+        :style="`border-top: 0!important;  min-height: ${mobile ? '44px' : '72px'};`"
         class="light-panel clipped"
       >
-        <div
-          :style="`margin-left: ${
-            mobile ? '75px' : '108px'
-          }; padding-left: 8px;`"
-          class="mt-n1"
-        >
+        <div :style="`margin-left: ${mobile ? '75px' : '108px'}; padding-left: 8px;`" class="mt-n1">
           <p class="flavor-text">
             <span v-show="!mobile">
               <span class="text-subtle">>[</span>
               <b class="text-stark">{{ pilot.Name }}</b>
               <span class="text-subtle">]</span>
               <span class="text-subtle">STATUS [</span>
-              <span :class="`${statusColor(pilot.Status)}text-`">{{
-                pilot.Status
-              }}</span>
+              <span :class="`${statusColor(pilot.Status)}text-`">{{ pilot.Status }}</span>
               <span class="text-subtle">] -</span>
               <span class="text-text">
                 {{ pilot.Background.Name }}
@@ -93,10 +71,7 @@
               ]
             </span>
           </p>
-          <p
-            v-if="pilot.ActiveMech && !mobile"
-            class="flavor-text mb-0 pb-2 mt-n1"
-          >
+          <p v-if="pilot.ActiveMech && !mobile" class="flavor-text mb-0 pb-2 mt-n1">
             <span class="text-subtle">UNB::CAV (LNCR)</span>
             <cc-slashes />
             <span class="text-text">
@@ -104,13 +79,11 @@
               {{ pilot.ActiveMech.Frame.Name }}
             </span>
             <span class="text-subtle">[</span>
-            <span class="text-text font-weight-bold">{{
-              pilot.ActiveMech.Name
-            }}</span>
+            <span class="text-text font-weight-bold">{{ pilot.ActiveMech.Name }}</span>
             <span class="text-subtle">]</span>
           </p>
           <div v-else-if="pilot.ActiveMech" class="mt-n6">
-            <span class="overline">
+            <span class="text-overline">
               {{ pilot.ActiveMech.Frame.Source }}
               {{ pilot.ActiveMech.Frame.Name }}
             </span>

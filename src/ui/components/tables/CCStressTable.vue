@@ -1,10 +1,5 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :fullscreen="$vuetify.display.mdAndDown"
-    width="60vw"
-    persistent
-  >
+  <v-dialog v-model="dialog" :fullscreen="$vuetify.display.mdAndDown" width="60vw" persistent>
     <v-card flat tile>
       <v-toolbar color="title-bg clipped-large" dark flat>
         <v-toolbar-title class="heading h1">OVERHEATING</v-toolbar-title>
@@ -13,20 +8,13 @@
         <v-window-item>
           <v-card-text class="text-center">
             <span class="flavor-text">
-              <v-alert
-                prominent
-                dark
-                density="compact"
-                icon="cc:reactor"
-                color="error"
-                tile
-              >
+              <v-alert prominent dark density="compact" icon="cc:reactor" color="error" tile>
                 <b class="heading h2">REACTOR STRESS CRITICAL</b>
               </v-alert>
               Roll 1d6 per point of reactor stress
             </span>
             <br />
-            <span class="overline">
+            <span class="text-overline">
               <b>{{ totalRolls - rolls.length }}</b>
               rolls remaining
             </span>
@@ -71,11 +59,7 @@
                   icon
                   @click="rolls.push(n)"
                 >
-                  <v-icon
-                    class="die-hover"
-                    size="55px"
-                    v-html="`mdi-dice-${n}`"
-                  />
+                  <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
                 </v-btn>
               </div>
               <div v-else key="tr02">
@@ -89,7 +73,7 @@
                   </span>
                   <span v-else-if="rolls.length" key="t02" class="heading h3">
                     <b>{{ results[Math.min(...rolls) - 1] }}</b>
-                    <i class="overline">({{ Math.min(...rolls) }})</i>
+                    <i class="text-overline">({{ Math.min(...rolls) }})</i>
                   </span>
                 </v-scroll-y-transition>
               </div>
@@ -161,9 +145,7 @@
             </div>
             <div v-else>
               <v-btn color="error" large @click="window = 4">fail check</v-btn>
-              <v-btn color="success" large @click="applyPPD"
-                >succeed check</v-btn
-              >
+              <v-btn color="success" large @click="applyPPD">succeed check</v-btn>
             </div>
           </div>
           <cascade-check :mech="mech" />
@@ -215,9 +197,7 @@ export default {
   computed: {
     totalRolls(): number {
       return (
-        (this.mech.ActiveStatController.CurrentStress -
-          this.mech.StatController.MaxStress) *
-        -1
+        (this.mech.ActiveStatController.CurrentStress - this.mech.StatController.MaxStress) * -1
       );
     },
     resultWindow(): number {

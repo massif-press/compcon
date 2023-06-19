@@ -102,35 +102,35 @@
                 <!-- TODO: add charts -->
                 <v-row v-show="$vuetify.display.mdAndUp" no-gutters justify="space-around">
                   <v-col cols="auto">
-                    <span class="overline">
+                    <span class="text-overline">
                       STR
                       <b>{{ mech.MaxStructure }}</b>
                     </span>
                   </v-col>
                   <v-divider vertical class="mx-2" />
                   <v-col cols="auto">
-                    <span class="overline">
+                    <span class="text-overline">
                       HP
                       <b>{{ mech.MaxHP }}</b>
                     </span>
                   </v-col>
                   <v-divider vertical class="mx-2" />
                   <v-col cols="auto">
-                    <span class="overline">
+                    <span class="text-overline">
                       Stress
                       <b>{{ mech.MaxStress }}</b>
                     </span>
                   </v-col>
                   <v-divider vertical class="mx-2" />
                   <v-col cols="auto">
-                    <span class="overline">
+                    <span class="text-overline">
                       Heat
                       <b>{{ mech.HeatCapacity }}</b>
                     </span>
                   </v-col>
                   <v-divider vertical class="mx-2" />
                   <v-col cols="auto">
-                    <span class="overline">
+                    <span class="text-overline">
                       RepCap
                       <b>{{ mech.RepairCapacity }}</b>
                     </span>

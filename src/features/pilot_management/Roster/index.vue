@@ -1,29 +1,24 @@
 <template>
   <v-container>
-    <v-row density="compact" align="end">
+    <v-row align="end">
       <v-col cols="12" md="auto">
         <div class="heading h1 mb-n3">Pilot Roster</div>
       </v-col>
       <v-col cols="auto">
-        <v-btn-toggle :value="getRosterView" mandatory density="compact" class="mt-n4">
-          <v-btn size="small" icon value="list" @click="profile.SetView('roster', 'list')">
+        <v-btn-toggle :value="getRosterView" mandatory class="mt-n4">
+          <v-btn icon value="list" @click="profile.SetView('roster', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn size="small" icon value="cards" @click="profile.SetView('roster', 'cards')">
+          <v-btn icon value="cards" @click="profile.SetView('roster', 'cards')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
-          <v-btn
-            size="small"
-            icon
-            value="small-cards"
-            @click="profile.SetView('roster', 'small-cards')"
-          >
+          <v-btn icon value="small-cards" @click="profile.SetView('roster', 'small-cards')">
             <v-icon color="accent">mdi-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-btn-toggle class="mr-2">
+        <v-btn-toggle density="compact">
           <v-btn size="small" @click="showAll">
             <v-icon icon="mdi-chevron-down" />
             <span v-if="$vuetify.display.mdAndUp">Expand All</span>
@@ -59,15 +54,15 @@
       </v-col>
     </v-row>
     <v-slide-x-transition mode="out-in">
-      <v-container fluid :class="$vuetify.display.mdAndUp ? 'mx-1' : 'mx-n4 pa-0'">
-        <div v-for="(g, i) in groups">
+      <v-container>
+        <div v-for="g in groups">
           <v-row no-gutters class="pl-10 ml-n12 heading h3 text-white primary sliced">
             <v-col cols="auto">
               <v-btn size="small" dark icon class="mt-n1" @click="toggleHidden(g)">
                 <v-icon :icon="!g.hidden ? 'mdi-chevron-down' : 'mdi-chevron-up'" />
               </v-btn>
               {{ g.name ? g.name : 'Ungrouped' }}
-              <span class="overline">({{ g.pilotIDs.length }})</span>
+              <span class="text-overline">({{ g.pilotIDs.length }})</span>
             </v-col>
             <v-col v-if="g.name" cols="auto" class="ml-auto mr-8">
               <v-menu offset-x left :close-on-content-click="false">
@@ -146,7 +141,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row density="compact" justify="center">
+    <v-row justify="center">
       <v-col cols="auto">
         <v-menu v-model="newGroupMenu" top :close-on-content-click="false">
           <template #activator="{ props }">
@@ -155,12 +150,14 @@
               Add Group
             </v-btn>
           </template>
-          <v-card tile flat>
+          <v-card width="400px">
             <v-card-text>
-              <v-row density="compact" justify="center">
-                <v-col cols="auto">
+              <v-row align="center">
+                <v-col cols="auto" class="mr-n4">
                   <cc-tooltip simple content="Generate Random Name">
-                    <v-icon large color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
+                    <v-icon size="large" color="secondary" @click="randomName()"
+                      >mdi-dice-multiple</v-icon
+                    >
                   </cc-tooltip>
                 </v-col>
                 <v-col>
@@ -175,6 +172,7 @@
               </v-row>
               <v-btn
                 size="small"
+                class="mt-4"
                 variant="outlined"
                 block
                 :disabled="!newGroupName"

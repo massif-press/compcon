@@ -74,7 +74,7 @@
     <template #right-column>
       <div v-for="h in headers">
         <v-divider v-if="$vuetify.display.smAndDown" class="my-2" />
-        <span v-if="h.attr !== 'Custom'" class="overline">Your Ability To</span>
+        <span v-if="h.attr !== 'Custom'" class="text-overline">Your Ability To</span>
         <cc-title v-if="$vuetify.display.mdAndUp" small>{{ h.description }}</cc-title>
         <div v-else class="heading h3 text-accent mb-1">
           {{ h.description }}

@@ -1,10 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-row
-      density="compact"
-      :class="`elevation-${hover ? '12' : '0'}`"
-      @click="$emit('open')"
-    >
+    <v-row density="compact" :class="`elevation-${hover ? '12' : '0'}`" @click="$emit('open')">
       <v-col cols="1">
         <v-card>
           <v-img :aspect-ratio="1" :src="item.Image" />
@@ -15,7 +11,7 @@
           {{ item.Name }}
         </div>
         <div>{{ item.Description }}</div>
-        <div v-if="item.Locations.length" class="overline">SUB-LOCATIONS</div>
+        <div v-if="item.Locations.length" class="text-overline">SUB-LOCATIONS</div>
         <v-row no-gutters justify="space-between">
           <v-col cols="auto">
             <v-btn
@@ -57,9 +53,7 @@ export default {
   computed: {
     allLocations() {
       if (!CompendiumStore()['location/getLocations']) return [];
-      return CompendiumStore()['location/getLocations'].filter(
-        (x) => x.Name !== this.item.Name
-      );
+      return CompendiumStore()['location/getLocations'].filter((x) => x.Name !== this.item.Name);
     },
   },
   methods: {

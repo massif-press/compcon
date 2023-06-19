@@ -10,7 +10,7 @@
         <div>
           <v-icon small color="accent">cc:corebonus</v-icon>
           <strong>{{ b.Name }}</strong>
-          <span class="overline">{{ b.Source }}</span>
+          <span class="text-overline">{{ b.Source }}</span>
         </div>
       </v-row>
       <v-divider v-if="pilot.CoreBonusController.CoreBonuses.length" class="ma-2 ml-4 mr-4" />

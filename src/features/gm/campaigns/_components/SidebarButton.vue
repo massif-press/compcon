@@ -1,18 +1,12 @@
 <template>
   <div
-    :class="`py-1 pl-${2 * indent} ${selected ? 'selected-' : ''}${
-      text ? 'text-' : ''
-    }nav`"
+    :class="`py-1 pl-${2 * indent} ${selected ? 'selected-' : ''}${text ? 'text-' : ''}nav`"
     style="cursor: pointer"
     @click="$emit('click')"
   >
     <v-row no-gutters>
       <v-col>
-        <div
-          :class="
-            text ? (nested ? '' : 'font-weight-bold') : 'text-white heading h4'
-          "
-        >
+        <div :class="text ? (nested ? '' : 'font-weight-bold') : 'text-white heading h4'">
           <slot />
         </div>
       </v-col>
@@ -23,7 +17,7 @@
         class="ml-auto pr-1"
         align-self="end"
       >
-        <i class="overline">{{ idn }}</i>
+        <i class="text-overline">{{ idn }}</i>
       </v-col>
     </v-row>
   </div>

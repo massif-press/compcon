@@ -34,7 +34,7 @@
             <v-icon color="error">mdi-alert</v-icon>
             glyph must be populated.
           </b>
-          <div class="overline" style="line-height: 13px">
+          <div class="text-overline" style="line-height: 13px">
             By submitting this form you attest that your responses are truthful and accurate to the
             best of your knowledge. Knowingly providing false or or incomplete information is
             punishable under DoJ/HR AR 303-J.
@@ -42,9 +42,9 @@
         </v-alert>
       </v-container>
     </div>
-    <v-row :class="$vuetify.display.mdAndUp ? 'mx-6' : ''">
+    <v-row>
       <v-col cols="12" md="5" class="mr-auto">
-        <span v-if="$vuetify.display.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="text-overline">
           RM-4-01 // FULL NAME OR PRIMARY ALIAS
         </span>
         <v-text-field
@@ -66,7 +66,7 @@
           </template>
         </v-text-field>
 
-        <span v-if="$vuetify.display.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="text-overline">
           RM-4-02 // APPROVED CALLSIGN (OR CADET DESIGNATION, IF APPLICABLE)
         </span>
         <v-text-field
@@ -87,7 +87,7 @@
           </template>
         </v-text-field>
 
-        <span v-if="$vuetify.display.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="text-overline">
           RM-4-03 // PRIOR OCCUPATION OR POSITION (ANSWER 17b ON RM-2-C)
         </span>
         <v-text-field
@@ -108,7 +108,7 @@
           </template>
         </v-text-field>
 
-        <span v-if="$vuetify.display.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="text-overline">
           RM-4-04 // ATTACHED BIOGRAPHICAL DOSSIER RM-4b SUPPLEMENTAL
         </span>
         <text-entry-popup
@@ -130,7 +130,7 @@
           </div>
         </text-entry-popup>
 
-        <span v-if="$vuetify.display.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="text-overline">
           RM-4-05 // ATTACHED OHM HEALTH EXAMINATION RESULTS
         </span>
         <text-entry-popup
@@ -156,7 +156,7 @@
         <v-divider vertical />
       </v-col>
       <v-col cols="12" md="5" class="ml-auto">
-        <span v-if="$vuetify.display.mdAndUp" class="overline">
+        <span v-if="$vuetify.display.mdAndUp" class="text-overline">
           RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
         </span>
         <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">

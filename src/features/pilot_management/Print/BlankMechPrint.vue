@@ -28,21 +28,13 @@
         <div class="text-overline mb-n1">STRUCTURE</div>
         <v-row density="compact" no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1"
-              >cc:structure</v-icon
-            >
+            <v-icon size="60" color="grey lighten-3" class="mr-n1">cc:structure</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span
-              class="text-subtle text--lighten-1 display-2"
-              style="line-height: 0"
-              >/</span
-            >
+            <span class="text-subtle text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -54,21 +46,13 @@
         <div class="text-overline mb-n1">HP</div>
         <v-row density="compact" no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span
-              class="text-subtle text--lighten-1 display-2"
-              style="line-height: 0"
-              >/</span
-            >
+            <span class="text-subtle text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -76,21 +60,13 @@
         <div class="text-overline mb-n1">STRESS</div>
         <v-row density="compact" no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1"
-              >cc:reactor</v-icon
-            >
+            <v-icon size="60" color="grey lighten-3" class="mr-n1">cc:reactor</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span
-              class="text-subtle text--lighten-1 display-2"
-              style="line-height: 0"
-              >/</span
-            >
+            <span class="text-subtle text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -98,21 +74,13 @@
         <div class="text-overline mb-n1">HEAT</div>
         <v-row density="compact" no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1"
-              >cc:burn</v-icon
-            >
+            <v-icon size="60" color="grey lighten-3" class="mr-n1">cc:burn</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span
-              class="text-subtle text--lighten-1 display-2"
-              style="line-height: 0"
-              >/</span
-            >
+            <span class="text-subtle text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -120,21 +88,13 @@
         <div class="text-overline mb-n1">REPAIR CAPACITY</div>
         <v-row density="compact" no-gutters align="center">
           <v-col cols="auto">
-            <v-icon size="60" color="grey lighten-3" class="mr-n1"
-              >cc:repair</v-icon
-            >
+            <v-icon size="60" color="grey lighten-3" class="mr-n1">cc:repair</v-icon>
           </v-col>
           <v-col cols="auto" class="mt-6 mr-n2">
-            <span
-              class="text-subtle text--lighten-1 display-2"
-              style="line-height: 0"
-              >/</span
-            >
+            <span class="text-subtle text--lighten-1 display-2" style="line-height: 0">/</span>
           </v-col>
           <v-col cols="auto" class="mb-n2">
-            <v-icon size="50" color="grey lighten-3" class="mr-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
           </v-col>
         </v-row>
       </v-col>
@@ -168,14 +128,14 @@
     </v-row>
 
     <v-divider />
-    <span class="overline">FRAME TRAITS</span>
+    <span class="text-overline">FRAME TRAITS</span>
     <v-row v-for="n in 3">
       <single cols="7" label="TRAIT" height="20" />
       <single cols="12" label="EFFECT" height="75" class="mt-n2" />
     </v-row>
 
     <v-divider />
-    <span class="overline">CORE SYSTEM</span>
+    <span class="text-overline">CORE SYSTEM</span>
     <v-row density="compact" class="mt-n2">
       <single cols="7" label="CORE POWER" height="20" />
       <v-spacer />
@@ -186,23 +146,16 @@
 
     <div style="page-break-before: always" />
 
-    <span class="overline">ARMAMENT</span>
+    <span class="text-overline">ARMAMENT</span>
     <v-row v-for="n in 2">
       <v-col v-for="x in 2">
         <fieldset>
           <legend>
             <div
               class="d-inline-block text-right"
-              style="
-                height: 35px;
-                min-width: 300px;
-                border: 2px solid grey;
-                border-radius: 3px;
-              "
+              style="height: 35px; min-width: 300px; border: 2px solid grey; border-radius: 3px"
             >
-              <span class="d-inline-block flavor-text" style="font-size: 20px"
-                >MOUNT&nbsp;</span
-              >
+              <span class="d-inline-block flavor-text" style="font-size: 20px">MOUNT&nbsp;</span>
             </div>
           </legend>
           <v-row v-for="y in 2" density="compact" class="mt-n1">
@@ -219,7 +172,7 @@
       </v-col>
     </v-row>
     <v-divider class="my-1" />
-    <span class="overline">SYSTEMS</span>
+    <span class="text-overline">SYSTEMS</span>
     <v-row v-for="n in 5">
       <v-col v-for="x in 2">
         <v-row density="compact">

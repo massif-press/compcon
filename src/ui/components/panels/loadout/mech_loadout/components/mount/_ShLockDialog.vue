@@ -8,7 +8,7 @@
         </v-btn>
       </cc-titlebar>
       <v-card-text class="text-center flavor-text mt-2">
-        <span class="overline">// PROCESS INTERRUPT: PILOT INPUT REQUIRED //</span>
+        <span class="text-overline">// PROCESS INTERRUPT: PILOT INPUT REQUIRED //</span>
         <br />
         //[COMP/CON:
         <b class="text-stark">

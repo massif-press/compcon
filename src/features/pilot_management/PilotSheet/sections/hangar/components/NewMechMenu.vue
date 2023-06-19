@@ -75,7 +75,7 @@
       <div v-if="frames[selectedFrame]">
         <v-row justify="center">
           <v-col cols="8">
-            <span class="overline">XK-4-01 // REGISTER MECH NAME</span>
+            <span class="text-overline">XK-4-01 // REGISTER MECH NAME</span>
             <v-text-field v-model="mechName" variant="outlined" label="Name" hide-details>
               <template #prepend>
                 <cc-tooltip simple content="Generate Random Name">

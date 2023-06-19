@@ -51,7 +51,7 @@
         <p class="flavor-text">Flavor Text</p>
         <p class="stat-text">Stat Text</p>
         <p class="caption">Caption</p>
-        <p class="overline">Overline</p>
+        <p class="text-overline">Overline</p>
       </v-col>
       <v-col>
         <p class="ra-quiet">RA Subtle Text</p>

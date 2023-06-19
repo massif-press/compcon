@@ -113,7 +113,7 @@
             <v-divider class="my-4" />
             <v-row density="compact">
               <v-col cols="auto">
-                <span class="overline">PILOT SKILL TRIGGERS</span>
+                <span class="text-overline">PILOT SKILL TRIGGERS</span>
               </v-col>
             </v-row>
             <v-row density="compact" justify="center">
@@ -130,7 +130,7 @@
 
             <div v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations">
               <v-divider class="my-4" />
-              <span class="overline">RESERVES AND RESOURCES</span>
+              <span class="text-overline">RESERVES AND RESOURCES</span>
               <v-row
                 v-if="pilot.ReservesController.Reserves || pilot.ReservesController.Organizations"
                 class="mt-n3"
