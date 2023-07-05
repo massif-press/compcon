@@ -2,7 +2,7 @@
   <v-dialog
     v-model="dialog"
     :fullscreen="fullscreen || $vuetify.display.mdAndDown"
-    :width="small ? '30vw' : large ? '85vw' : '50vw'"
+    :width="fullscreen ? '' : small ? '30vw' : large ? '85vw' : '50vw'"
     :style="fullscreen || $vuetify.display.mdAndDown ? `x-overflow: hidden` : ''"
   >
     <v-card tile>
@@ -86,11 +86,13 @@ export default {
       required: false,
     },
   },
+  emits: ['confirm', 'close'],
   data: () => ({
     dialog: false,
   }),
   methods: {
     confirm() {
+      this.$emit('confirm');
       this.dialog = false;
     },
     show() {

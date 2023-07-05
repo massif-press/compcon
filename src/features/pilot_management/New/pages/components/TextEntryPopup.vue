@@ -1,18 +1,7 @@
 <template>
   <v-row density="compact" class="mb-1">
-    <!-- <v-col cols="auto">
-      <cc-tooltip simple inline content="Feature In Development">
-        <v-icon color="panel" class="mt-2">mdi-dice-multiple</v-icon>
-      </cc-tooltip>
-    </v-col> -->
     <v-col :class="$vuetify.display.mdAndUp ? 'pr-6' : ''">
-      <v-btn
-        variant="outlined"
-        large
-        block
-        color="secondary"
-        @click="$refs.dialog.show()"
-      >
+      <v-btn variant="outlined" large block color="secondary" @click="($refs.dialog as any).show()">
         <slot />
       </v-btn>
     </v-col>
@@ -24,7 +13,7 @@
       :title="label"
       @confirm="save"
     >
-      <cc-rte v-model="text" />
+      <quill-editor theme="snow" v-model:content="text" content-type="html" />
     </cc-solo-dialog>
   </v-row>
 </template>
@@ -46,12 +35,14 @@ export default {
   },
   data: () => ({
     title: '',
+    text: '',
   }),
   mounted() {
     if (this.prepopulate) this.text = this.prepopulate;
   },
   methods: {
     save() {
+      console.log(this.text);
       this.$emit('save', this.text);
     },
   },

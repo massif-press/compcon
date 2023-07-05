@@ -7,7 +7,7 @@
         </template>
       </v-list-item>
     </template>
-    <h1 class="heading mb-3 mt-2">{{ title }}</h1>
+    <h1 v-if="title" class="heading mb-3 mt-2">{{ title }}</h1>
     <cc-titled-panel
       v-for="e in array"
       :id="`e_${(e as any)[nameKey].replace(/\W/g, '')}`"
@@ -15,6 +15,8 @@
       :title="(e as any)[nameKey]"
       class="my-5"
       density="compact"
+      :clickable="selectable"
+      @click="selectable ? $emit('selected', (e as any).Name) : ''"
     >
       <h3
         v-if="subKey && (!subConditional || (e as any)[subConditional])"
@@ -32,7 +34,7 @@ export default {
   props: {
     title: {
       type: String,
-      required: true,
+      required: false,
     },
     array: {
       type: Array,
@@ -63,7 +65,13 @@ export default {
       required: false,
       default: '',
     },
+    selectable: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
+  emits: ['selected'],
   methods: {
     scrollTo(e: any): void {
       const el = document.getElementById(`e_${(e as any)[this.nameKey].replace(/\W/g, '')}`);

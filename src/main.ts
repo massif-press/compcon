@@ -1,4 +1,5 @@
 import { version } from '../package.json';
+import { QuillEditor } from '@vueup/vue-quill';
 import lancerData from '@massif/lancer-data';
 import _ from 'lodash';
 import { createApp } from 'vue';
@@ -6,6 +7,7 @@ import { createPinia } from 'pinia';
 
 import './assets/css/global.css';
 import './ui/style/_style.css';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 import App from './App.vue';
 
@@ -25,6 +27,8 @@ compcon.use(vuetify);
 compcon.use(router);
 compcon.use(VueSecureHTML);
 compcon.use(Notifications);
+
+compcon.component('QuillEditor', QuillEditor);
 
 Object.keys(globals).forEach((key: string) => {
   const componentConfig = globals[key as keyof typeof globals];

@@ -1,46 +1,47 @@
 <template>
-  <v-tabs v-model="step" grow bg-color="primary">
+  <cc-confirm ref="confirm" />
+  <div
+    style="
+      background-color: rgb(var(--v-theme-primary));
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 50px;
+    "
+  />
+  <v-tabs v-model="step" grow stacked bg-color="primary">
     <v-tab>
-      <v-icon
-        v-show="pilot.HasIdent"
-        :color="pilot.HasIdent ? 'success' : 'primary'"
-        start
-        icon="mdi-check"
-      />
-
-      Identification</v-tab
+      <span class="heading h3 pt-3">
+        <v-icon v-show="pilot.HasIdent" icon="mdi-check-circle-outline" />
+        Identification</span
+      ></v-tab
     >
     <v-tab>
-      <v-icon
-        v-show="pilot.SkillsController.HasFullSkills"
-        :color="pilot.SkillsController.HasFullSkills ? 'success' : 'primary'"
-        start
-        icon="mdi-check"
-      />
-
-      Skills</v-tab
+      <span class="heading h3 pt-3">
+        <v-icon
+          v-show="pilot.SkillsController.HasFullSkills"
+          icon="mdi-check-circle-outline"
+        />Skills</span
+      ></v-tab
     >
     <v-tab>
-      <v-icon
-        v-show="pilot.TalentsController.HasFullTalents"
-        :color="pilot.TalentsController.HasFullTalents ? 'success' : 'primary'"
-        start
-        icon="mdi-check"
-      />
-
-      Talents</v-tab
+      <span class="heading h3 pt-3">
+        <v-icon
+          v-show="pilot.TalentsController.HasFullTalents"
+          icon="mdi-check-circle-outline"
+        />Talents</span
+      ></v-tab
     >
     <v-tab>
-      <v-icon
-        v-show="pilot.MechSkillsController.HasFullHASE"
-        :color="pilot.MechSkillsController.HasFullHASE ? 'success' : 'primary'"
-        start
-        icon="mdi-check"
-      />
-
-      Mech Skills</v-tab
+      <span class="heading h3 pt-3">
+        <v-icon
+          v-show="pilot.MechSkillsController.HasFullHASE"
+          icon="mdi-check-circle-outline"
+        />Mech Skills</span
+      ></v-tab
     >
-    <v-tab>Confirm</v-tab>
+    <v-tab><span class="heading h3 pt-3">Confirm</span></v-tab>
   </v-tabs>
   <v-container>
     <v-window v-model="step">
@@ -86,6 +87,7 @@ import MechSkillsPage from './pages/MechSkillsPage.vue';
 import ConfirmPage from './pages/ConfirmPage.vue';
 import TemplatesPage from './pages/TemplatesPage.vue';
 import { Pilot } from '@/class';
+import CcConfirm from '@/ui/notification/CCConfirm.vue';
 
 import { UserStore } from '@/stores';
 
@@ -98,9 +100,10 @@ export default {
     MechSkillsPage,
     ConfirmPage,
     TemplatesPage,
+    CcConfirm,
   },
   data: () => ({
-    step: 1,
+    step: 0,
     pilot: {} as Pilot,
     done: false,
   }),
@@ -124,17 +127,26 @@ export default {
       this.$router.push('./pilot_management');
     },
   },
-  async beforeRouteLeave(to, from, next) {
+  beforeRouteLeave(to, from, next) {
     if (this.done) {
       next();
     } else {
-      const confirmLeave = await this.$confirm(
-        'Exit wizard?',
-        'Are you sure you want to exit the wizard? Your pilot will be discarded.'
-      );
-
-      if (confirmLeave) next();
-      else next(false);
+      (this.$refs as any).confirm
+        .open(
+          'Exit Wizard',
+          'Are you sure you want to exit the wizard? Your pilot will be discarded.'
+        )
+        .then((confirmed) => {
+          if (confirmed) {
+            next();
+          } else {
+            next(false);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          next(false);
+        });
     }
   },
 };
