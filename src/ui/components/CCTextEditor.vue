@@ -1,21 +1,19 @@
 <template>
   <div class="d-inline">
-    <span>
-      <cc-tooltip inline simple content="Edit">
-        <v-icon dark class="fade-select" @click="show()"
-          >mdi-circle-edit-outline</v-icon
-        >
-      </cc-tooltip>
-    </span>
+    <cc-tooltip inline simple content="Edit">
+      <v-icon :color="color" dark :class="color ? '' : 'fade-select'" @click="show()"
+        >mdi-circle-edit-outline</v-icon
+      >
+    </cc-tooltip>
     <cc-solo-dialog
       ref="dialog"
       icon="mdi-circle-edit-outline"
       color="primary"
       large
       :title="label"
-      @confirm="$emit('save', text)"
+      @confirm="save()"
     >
-      <cc-rte v-model="text" />
+      <quill-editor theme="snow" v-model:content="text" content-type="html" />
     </cc-solo-dialog>
   </div>
 </template>
@@ -23,7 +21,7 @@
 <script lang="ts">
 export default {
   name: 'cc-text-editor',
-
+  emits: ['save'],
   props: {
     original: {
       type: String,
@@ -35,16 +33,27 @@ export default {
       required: false,
       default: 'Edit Text',
     },
+    color: {
+      type: String,
+      required: false,
+    },
   },
   data: () => ({
     title: '',
+    text: '',
   }),
-  created() {
-    this.text = this.original || '';
+  mounted() {
+    if (this.original) this.text = this.original;
   },
   methods: {
+    save() {
+      console.log('here');
+      console.log(this.text);
+      this.$emit('save', this.text);
+      (this.$refs.dialog as any).hide();
+    },
     show() {
-      this.text = this.original || '';
+      if (this.original) this.text = this.original;
       (this.$refs.dialog as any).show();
     },
   },

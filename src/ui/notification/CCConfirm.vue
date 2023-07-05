@@ -12,8 +12,8 @@
       <v-card-text v-show="!!message" class="pa-4">{{ message }}</v-card-text>
       <v-card-actions class="pt-0">
         <v-spacer></v-spacer>
-        <v-btn color="accent darken-1" text @click.native="agree">Yes</v-btn>
-        <v-btn color="grey" text @click.native="cancel">Cancel</v-btn>
+        <v-btn color="accent darken-1" @click.native="agree">Yes</v-btn>
+        <v-btn color="grey" @click.native="cancel">Cancel</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -24,10 +24,10 @@ export default {
   name: 'GlobalConfirm',
   data: () => ({
     dialog: false,
-    resolve: null,
-    reject: null,
-    message: null,
-    title: null,
+    resolve: null as any,
+    reject: null as any,
+    message: '',
+    title: '',
     options: {
       color: 'primary',
       width: 500,

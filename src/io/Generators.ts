@@ -1,60 +1,51 @@
 import _ from 'lodash';
+import missions from '@/assets/generators/mission.json';
+
 import { CompendiumStore } from '@/stores';
-import * as callsigns from '@/assets/generators/callsigns.txt';
-import * as mechnames from '@/assets/generators/mechnames.txt';
-import * as teamnames from '@/assets/generators/teamnames.txt';
-import * as traces from '@/assets/generators/traces.txt';
-import * as firstnames from '@/assets/generators/firstnames.txt';
-import * as lastnames from '@/assets/generators/lastnames.txt';
-import * as name_mods from '@/assets/generators/name_mods.json';
-import * as missions from '@/assets/generators/mission.json';
-import * as factions from '@/assets/generators/factions.txt';
 
-// import {CompendiumStore} from '@/features/compendium/store/index'
-
-function pullRandom(data: string, count: number): string[] {
-  const arr = data.split('\n');
-  return _.sampleSize(arr, count).map((x) => x.replace(/[\n\r]/g, ''));
+function pullRandom(data: string[], count: number): string[] {
+  return _.sampleSize(data, count).map((x) => x.replace(/[\n\r]/g, ''));
 }
 
-function callsign(): string {
+async function callsign(): Promise<string> {
+  const callsigns = await fetchData('./src/assets/generators/callsigns.txt');
   return pullRandom(
-    (callsigns as any).concat(CompendiumStore().Tables?.callsigns || []),
+    (callsigns as string[]).concat(CompendiumStore().Tables?.callsigns || []),
     1
   )[0];
 }
 
-function mechname(): string {
+async function mechname(): Promise<string> {
+  const mechnames = await fetchData('./src/assets/generators/mechnames.txt');
   return pullRandom(
-    (mechnames as any).concat(CompendiumStore().Tables?.mech_names || []),
+    (mechnames as string[]).concat(CompendiumStore().Tables?.mech_names || []),
     1
   )[0];
 }
 
-function teamName(): string {
+async function teamName(): Promise<string> {
+  const teamnames = await fetchData('./src/assets/generators/teamnames.txt');
   return pullRandom(
-    (teamnames as any).concat(CompendiumStore().Tables?.team_names || []),
+    (teamnames as string[]).concat(CompendiumStore().Tables?.team_names || []),
     1
   )[0];
 }
 
-function tracert(jumps: number): string[] {
-  return pullRandom(traces as any, jumps || 1);
+async function tracert(jumps: number): Promise<string[]> {
+  const traces = await fetchData('./src/assets/generators/traces.txt');
+  return pullRandom(traces as string[], jumps || 1);
 }
 
 async function name(): Promise<string> {
-  const firstNamesList = firstnames as any;
-  const lastNamesList = lastnames as any;
+  const firstnames = await fetchData('./src/assets/generators/firstnames.txt');
+  const lastnames = await fetchData('./src/assets/generators/lastnames.txt');
+  const name_mods = await fetchData('./src/assets/generators/name_mods.txt');
 
   const prob: any = name_mods;
-  const fn = pullRandom(firstNamesList, 2);
-  const ln = pullRandom(lastNamesList, 2);
-  let name =
-    Math.random() <= prob.middleNameChance ? `${fn[0]} ${fn[1]}` : `${fn[0]}`;
-  name +=
-    Math.random() <= prob.secondSurnameChance
-      ? ` ${ln[0]}-${ln[1]}`
-      : ` ${ln[0]}`;
+  const fn = pullRandom(firstnames as string[], 2);
+  const ln = pullRandom(lastnames as string[], 2);
+  let name = Math.random() <= prob.middleNameChance ? `${fn[0]} ${fn[1]}` : `${fn[0]}`;
+  name += Math.random() <= prob.secondSurnameChance ? ` ${ln[0]}-${ln[1]}` : ` ${ln[0]}`;
 
   if (Math.random() <= prob.suffixChance) name += ` ${_.sample(prob.suffixes)}`;
 
@@ -65,17 +56,8 @@ function mission(): string {
   return `${_.sample((missions as any).a)} ${_.sample((missions as any).b)}`;
 }
 
-function faction(): string {
-  return pullRandom(
-    (factions as any).concat(CompendiumStore().Tables?.team_names || []),
-    1
-  )[0];
-}
-
 function encryption(): string {
-  return `${Math.random()
-    .toString()
-    .substring(2, 4)}::${mission()}`.toUpperCase();
+  return `${Math.random().toString().substring(2, 4)}::${mission()}`.toUpperCase();
 }
 
 function flavorID(template: string): string {
@@ -94,13 +76,18 @@ function flavorID(template: string): string {
   return output;
 }
 
-export {
-  name,
-  callsign,
-  mechname,
-  teamName,
-  mission,
-  tracert,
-  encryption,
-  flavorID,
+const fetchData = (path: string) => {
+  return new Promise((resolve, reject) => {
+    fetch(path)
+      .then((response) => response.text())
+      .then((text) => {
+        const data = text.split('\n').filter(Boolean);
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };
+
+export { name, callsign, mechname, teamName, mission, tracert, encryption, flavorID };

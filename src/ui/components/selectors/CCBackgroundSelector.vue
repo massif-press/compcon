@@ -1,76 +1,49 @@
 <template>
-  <div>
-    <v-icon :small="small" color="secondary" @click="open()">cc:orbit</v-icon>
-    <cc-solo-dialog
-      ref="dialog"
-      fullscreen
-      no-confirm
-      title="Select Pilot Background"
-    >
-      <cc-sidebar-view>
-        <v-list-item
-          v-for="(e, i) in backgrounds"
-          slot="sidebar"
-          link
-          @click="
-            $vuetify.goTo(`#e_${e.ID}`, {
-              duration: 250,
-              easing: 'easeInOutQuad',
-              offset: 25,
-              container: '.v-dialog--active',
-            })
-          "
-        >
-          <v-list-item-title class="heading h3 ml-2">{{
-            e.Name
-          }}</v-list-item-title>
-        </v-list-item>
-        <br />
-        <v-row
-          v-for="(e, i) in backgrounds"
-          :id="`e_${e.ID}`"
-          density="compact"
-        >
-          <v-col>
-            <cc-titled-panel
-              icon="cc:orbit"
-              :title="e.Name"
-              class="ma-3 ml-5"
-              clickable
-              @click="choose(e.Name)"
-            >
-              <h3 v-if="e.InLcp" v-html-safe="e.LcpName" class="heading mb-2" />
-              <p v-html-safe="e.Description" class="flavor-text" />
-            </cc-titled-panel>
-          </v-col>
-        </v-row>
-      </cc-sidebar-view>
-    </cc-solo-dialog>
-  </div>
+  <v-icon :small="small" color="secondary" @click="open()">cc:orbit</v-icon>
+  <cc-solo-dialog ref="dialog" fullscreen no-confirm title="Select Pilot Background">
+    <sidebar-array-view
+      :array="backgrounds"
+      icon="cc:orbit"
+      name-key="Name"
+      description-key="Description"
+      sub-key="LcpName"
+      sub-conditional="InLcp"
+      selectable
+      @selected="
+        $emit('select', $event);
+        ($refs.dialog as any).hide();
+      "
+    />
+  </cc-solo-dialog>
 </template>
 
 <script lang="ts">
+import { Background } from '@/class';
+import SidebarArrayView from '@/features/compendium/components/SidebarArrayView.vue';
+
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'cc-background-selector',
+  components: { SidebarArrayView },
   props: {
     small: {
       type: Boolean,
       required: false,
     },
   },
+  emits: ['select'],
   data: () => ({
     backgrounds: [],
   }),
+  computed: {
+    backgrounds(): Background[] {
+      return CompendiumStore().Backgrounds;
+    },
+  },
   methods: {
     open() {
       (this.$refs.dialog as any).show();
-      this.backgrounds = CompendiumStore().Backgrounds;
-    },
-    choose(background: string) {
-      this.$emit('select', background);
-      (this.$refs.dialog as any).hide();
     },
   },
 };
