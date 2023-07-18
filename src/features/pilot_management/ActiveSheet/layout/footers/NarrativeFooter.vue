@@ -134,7 +134,7 @@
         available
         color="action--downtime"
         title="DOWNTIME ACTIONS"
-        @open-menu="$refs.dialog.show()"
+        @open-menu="($refs as any).dialog.show()"
         @open-dialog="openDialog($event)"
       >
         <v-icon slot="icon" color="white" size="35">cc:downtime</v-icon>
@@ -156,7 +156,7 @@
       no-actions
       fullscreen
     >
-      <downtime-menu @close="$refs.dialog.hide()" />
+      <downtime-menu @close="($refs as any).dialog.hide()" />
     </cc-solo-dialog>
   </v-footer>
 </template>

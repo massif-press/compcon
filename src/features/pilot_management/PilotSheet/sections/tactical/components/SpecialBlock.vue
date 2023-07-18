@@ -1,11 +1,6 @@
 <template>
   <div>
-    <cc-title
-      small
-      color="pilot"
-      class="pl-3"
-      style="margin-left: -50px !important"
-    >
+    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
       <span class="pl-12">Special Equipment</span>
     </cc-title>
     <cc-solo-dialog
@@ -29,24 +24,19 @@
     <v-container>
       <v-row density="compact" class="mb-2">
         <v-col>
-          <v-btn tile block @click="$refs.specialSelector.show()"
+          <v-btn tile block @click="($refs as any).specialSelector.show()"
             >Add Standard Equipment</v-btn
           >
         </v-col>
         <v-col>
-          <v-btn tile block @click="$refs.exoticSelector.show()"
+          <v-btn tile block @click="($refs as any).exoticSelector.show()"
             >Add Exotic Equipment</v-btn
           >
         </v-col>
       </v-row>
       <no-data-block v-if="!pilot.SpecialEquipment.length" />
       <v-row v-else density="compact" justify="space-around">
-        <v-col
-          v-for="i in pilot.SpecialEquipment"
-          cols="12"
-          md="4"
-          class="text-center"
-        >
+        <v-col v-for="i in pilot.SpecialEquipment" cols="12" md="4" class="text-center">
           <cc-item-modal :item="i" style="display: inline-block" />
           <v-btn
             icon

@@ -641,7 +641,7 @@ export default {
   },
   methods: {
     setDamage(index, damage) {
-      Vue.set(this.damageRolls, index, damage.total);
+      this.damageRolls[index] = damage.total;
       this.overkillHeat = damage.overkill;
     },
     setBonusDamage(damage) {

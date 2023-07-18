@@ -1,24 +1,18 @@
 <template>
   <div>
-    <cc-title
-      small
-      color="pilot"
-      class="pl-3"
-      style="margin-left: -70px !important"
-    >
-      <section-edit-icon
-        label="Edit Pilot Appearance"
-        @open-selector="show()"
-      />
-      Pilot Appearance
-    </cc-title>
-    <div class="my-2">
+    <section-header
+      editable
+      title="Pilot Appearance"
+      tooltip="Edit Pilot Appearance"
+      @edit="show()"
+    />
+    <div class="my-2 px-10">
       <p
         v-if="pilot.TextAppearance"
         v-html-safe="pilot.TextAppearance"
         class="flavor-text text-text mx-2 preserve-linebreaks"
       />
-      <no-data-block v-else />
+      <no-data-block v-else class="mx-2" />
     </div>
     <cc-solo-dialog
       ref="dialog"
@@ -28,18 +22,25 @@
       title="Pilot Appearance"
       @confirm="pilot.TextAppearance = appearance"
     >
-      <cc-rte v-model="appearance" />
+      <quill-editor theme="snow" v-model:content="appearance" content-type="html" />
     </cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import SectionEditIcon from '../../components/SectionEditIcon.vue';
+import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
+import { Pilot } from '@/class';
 
 export default {
   name: 'appearance-block',
-  components: { SectionEditIcon, NoDataBlock },
+  components: { SectionHeader, NoDataBlock },
+  props: {
+    pilot: {
+      type: Pilot,
+      required: true,
+    },
+  },
   data: () => ({
     appearance: '',
   }),

@@ -1,15 +1,8 @@
 <template>
   <div>
-    <cc-title
-      small
-      color="pilot"
-      class="pl-3"
-      style="margin-left: -70px !important"
-    >
-      <span class="ml-9">&emsp;</span>
-      Pilot Combat Telemetry Record
-    </cc-title>
-    <v-row density="compact" class="stat-text pt-2 pb-2 pl-2 mt-n2">
+    <section-header title="Pilot Combat Telemetry Record" />
+
+    <v-row density="compact" class="stat-text pt-2 pb-2 px-10 mt-n2">
       <v-col>
         <div>
           MOVES:
@@ -45,7 +38,16 @@
 </template>
 
 <script lang="ts">
+import SectionHeader from '../../components/SectionHeader.vue';
+import { Pilot } from '@/class';
 export default {
   name: 'combat-history-block',
+  components: { SectionHeader },
+  props: {
+    pilot: {
+      type: Pilot,
+      required: true,
+    },
+  },
 };
 </script>

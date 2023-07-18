@@ -1,78 +1,46 @@
 <template>
   <v-row
-    no-gutters
-    class="mb-4"
-    :justify="$vuetify.display.mdAndUp ? 'start' : 'center'"
+    dense
+    align="start"
+    class="rounded-lg mb-2"
+    style="border: 1px solid rgb(var(--v-theme-primary))"
   >
-    <v-col cols="12" md="auto" class="mr-2 text-center">
-      <v-img
-        :src="frameImage"
-        max-width="152px"
-        max-height="206px"
-        contain
-        class="ml-auto mr-auto"
-      />
+    <v-col cols="auto" class="mr-2 text-center">
+      <v-img :src="frameImage" width="152px" max-height="206px" />
     </v-col>
     <v-col cols="12" md="">
-      <v-row
-        density="compact"
-        :class="`pl-2 ${isSelected ? 'selected-gradient' : 'gradient'}`"
-      >
-        <v-col cols="12" md="auto" class="text-white">
+      <v-row dense :class="`px-2 ${isSelected ? 'selected-gradient' : 'gradient'}`">
+        <v-col class="text-white">
           <div v-show="$vuetify.display.mdAndUp" class="text-overline mt-n1">
             {{ template.code }}
           </div>
-          <div
-            :class="
-              $vuetify.display.mdAndUp
-                ? 'heading h1 mt-n6 mb-0 pb-0'
-                : 'heading h2'
-            "
-          >
+          <div :class="$vuetify.display.mdAndUp ? 'heading h1 mt-n6 mb-0 pb-0' : 'heading h2'">
             {{ template.name }}
           </div>
         </v-col>
-        <v-col
-          cols="12"
-          md="auto"
-          :class="$vuetify.display.mdAndUp ? 'ml-auto' : 'mt-n3'"
-        >
-          <v-btn
-            tile
-            :outlined="$vuetify.display.mdAndUp"
-            :block="$vuetify.display.mdAndUp"
-            :small="$vuetify.display.mdAndUp"
-            :color="isSelected ? 'accent' : 'secondary'"
-            class="mt-1"
-            @click="$emit('select')"
-          >
+        <v-col cols="auto">
+          <v-btn :color="isSelected ? 'secondary' : 'accent'" class="mt-1" @click="$emit('select')">
+            <v-icon :icon="isSelected ? 'mdi-check' : 'mdi-chevron-triple-right'" class="mr-1" />
             <span v-if="!isSelected">SELECT {{ template.name }} TEMPLATE</span>
             <span v-else>{{ template.name }} TEMPLATE SELECTED</span>
           </v-btn>
         </v-col>
       </v-row>
-      <div v-html-safe="template.description" class="mt-1 py-1 pl-2" />
-      <div
-        class="sidebar-box ml-2"
-        :style="`max-height:${expanded ? '100%' : '80px;'}`"
-      >
-        <div class="panel clipped py-1 px-2">
+      <div v-html-safe="template.description" class="pa-2" />
+      <div class="sidebar-box ml-2" :style="`max-height:${expanded ? '100%' : '80px;'}`">
+        <div class="panel clipped px-2">
           <div class="caption text-accent mt-1"><b>TACTICS</b></div>
-          <p v-html-safe="template.tactics" class="pb-1 mb-0" />
+          <p v-html-safe="template.tactics" />
         </div>
         <div class="panel clipped py-1 px-2 my-2">
-          <v-row density="compact">
-            <v-col cols="12" md="6">
-              <div class="caption text-accent mt-1">
-                PILOT//
+          <v-row>
+            <v-col>
+              <div class="caption text-accent">
+                PILOT<cc-slashes />
                 <b>SKILLS</b>
               </div>
-              <v-row density="compact" justify="center" class="px-2">
-                <v-col
-                  v-for="s in template.build.skills"
-                  cols="auto"
-                  class="mx-1"
-                >
+              <v-row dense justify="center" class="px-2 text-center">
+                <v-col v-for="s in template.build.skills">
                   <cc-tooltip
                     delayed
                     :title="`${item('Skills', s).Name} (+2)`"
@@ -85,23 +53,16 @@
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="6">
-              <div class="caption text-accent mt-1">
-                PILOT//
+            <v-col>
+              <div class="caption text-accent">
+                PILOT<cc-slashes />
                 <b>TALENTS</b>
               </div>
-              <v-row density="compact" justify="center" class="px-2">
-                <v-col
-                  v-for="t in template.build.talents"
-                  cols="12"
-                  md="auto"
-                  class="mx-1"
-                >
+              <v-row dense justify="center" class="px-2 text-center">
+                <v-col v-for="t in template.build.talents" cols="12" md="auto" class="mx-1">
                   <cc-tooltip
                     delayed
-                    :title="`${item('Talents', t).Name} I: ${
-                      item('Talents', t).Rank(1).Name
-                    }`"
+                    :title="`${item('Talents', t).Name} I: ${item('Talents', t).Rank(1).Name}`"
                     :content="item('Talents', t).Rank(1).Description"
                   >
                     <v-chip variant="outlined" color="accent" label>
@@ -116,28 +77,22 @@
         </div>
         <div class="panel clipped py-1 px-2 my-2">
           <div class="caption text-accent mt-1">
-            GMS EVEREST//
+            GMS EVEREST<cc-slashes />
             <b>LOADOUT</b>
           </div>
-          <v-row density="compact" justify="space-around">
+          <v-row dense justify="center" class="px-2 text-center">
             <v-col v-for="m in template.build.mech.mounts">
-              <div class="flavor-text text-stark text-center">
-                {{ m.mount_type }} Mount
-              </div>
-              <v-row density="compact">
-                <v-col v-for="(w, i) in m.slots" class="text-center">
+              <div class="flavor-text text-stark text-center">{{ m.mount_type }} Mount</div>
+              <v-row dense>
+                <v-col v-for="w in m.slots" class="text-center">
                   <cc-item-modal class="mx-1" :item="item('MechWeapons', w)" />
                 </v-col>
               </v-row>
             </v-col>
           </v-row>
           <div class="flavor-text text-stark text-center mt-1">Systems</div>
-          <v-row density="compact" justify="center">
-            <v-col
-              v-for="s in template.build.mech.systems"
-              class="text-center mx-2"
-              cols="auto"
-            >
+          <v-row dense justify="center" class="px-2 text-center">
+            <v-col v-for="s in template.build.mech.systems" class="text-center mx-2" cols="auto">
               <cc-item-modal :item="item('MechSystems', s)" />
             </v-col>
           </v-row>
@@ -149,9 +104,7 @@
             style="background-color: rgb(var(--v-theme-stark-panel))"
             @click="expanded = !expanded"
           >
-            <v-icon large color="accent"
-              >mdi-chevron-double-{{ expanded ? 'up' : 'down' }}</v-icon
-            >
+            <v-icon large color="accent">mdi-chevron-double-{{ expanded ? 'up' : 'down' }}</v-icon>
           </v-btn>
         </p>
         <div v-if="expanded" style="min-height: 40px" />
@@ -163,8 +116,6 @@
 </template>
 
 <script lang="ts">
-import { getImagePath, ImageTag } from '@/io/ImageManagement';
-
 import { CompendiumStore } from '@/stores';
 
 export default {
@@ -178,7 +129,7 @@ export default {
   }),
   computed: {
     frameImage() {
-      return getImagePath(ImageTag.Mech, this.template.image);
+      return this.template.image;
     },
   },
   methods: {
@@ -237,10 +188,6 @@ export default {
   margin: 0;
   padding: 20px 0;
 
-  background-image: linear-gradient(
-    to bottom,
-    transparent,
-    rgb(var(--v-theme-background))
-  );
+  background-image: linear-gradient(to bottom, transparent, rgb(var(--v-theme-background)));
 }
 </style>

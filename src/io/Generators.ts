@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import missions from '@/assets/generators/mission.json';
+import name_mods from '@/assets/generators/name_mods.json';
 
 import { CompendiumStore } from '@/stores';
 
@@ -39,7 +40,6 @@ async function tracert(jumps: number): Promise<string[]> {
 async function name(): Promise<string> {
   const firstnames = await fetchData('./src/assets/generators/firstnames.txt');
   const lastnames = await fetchData('./src/assets/generators/lastnames.txt');
-  const name_mods = await fetchData('./src/assets/generators/name_mods.txt');
 
   const prob: any = name_mods;
   const fn = pullRandom(firstnames as string[], 2);

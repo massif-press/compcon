@@ -4,14 +4,14 @@
     <div v-if="$vuetify.display.mdAndUp" class="d-inline">
       <!-- Uncomment if/when pilot analytics are done -->
       <!-- <cc-tooltip inline delayed content="Active Mech Configuration">
-        <cc-nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
+        <nav-item tile depressed :selected="selected === 0" @click="$emit('set-page', 0)">
           MECH CONFIGURATION
-        </cc-nav-item>
+        </nav-item>
       </cc-tooltip>
       <cc-tooltip simple inline content="Feature In Development">
-        <cc-nav-item disabled :selected="selected === 1" @click="$emit('set-page', 1)">
+        <nav-item disabled :selected="selected === 1" @click="$emit('set-page', 1)">
           COMBAT ANALYTICS
-        </cc-nav-item>
+        </nav-item>
       </cc-tooltip> -->
       <cc-tooltip inline delayed content="Pilot Sheet">
         <v-btn
@@ -74,7 +74,7 @@
       </template>
       <v-list two-line subheader>
         <div class="heading h2 text-white primary py-0 px-2">Mech Options</div>
-        <v-list-item @click="$refs.printDialog.show()">
+        <v-list-item @click="($refs as any).printDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-printer" />
           </v-list-item-icon>
@@ -83,7 +83,7 @@
             <v-list-item-subtitle>Print a tabletop-ready mech sheet</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.statblockDialog.show()">
+        <v-list-item @click="($refs as any).statblockDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon icon="mdi-file-document-outline" />
           </v-list-item-icon>

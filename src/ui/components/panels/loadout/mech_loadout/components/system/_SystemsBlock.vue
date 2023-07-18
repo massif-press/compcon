@@ -32,21 +32,14 @@
         @remove="w.Mod = null"
       />
 
-      <draggable
-        :list="systems"
-        @start="drag = true"
-        @end="drag = false"
-        @change="moveSystem($event)"
-      >
-        <system-slot-card
-          v-for="(s, i) in systems"
-          :mech="mech"
-          :item="s"
-          :color="color"
-          :index="i"
-          :readonly="readonly"
-        />
-      </draggable>
+      <system-slot-card
+        v-for="(s, i) in systems"
+        :mech="mech"
+        :item="s"
+        :color="color"
+        :index="i"
+        :readonly="readonly"
+      />
       <system-slot-card v-if="!readonly" :mech="mech" empty />
     </fieldset>
   </v-card>
@@ -55,11 +48,10 @@
 <script lang="ts">
 import SystemSlotCard from './_SystemSlotCard.vue';
 import ModEquippedCard from './_ModEquippedCard.vue';
-import draggable from 'vuedraggable';
 
 export default {
   name: 'systems-block',
-  components: { SystemSlotCard, ModEquippedCard, draggable },
+  components: { SystemSlotCard, ModEquippedCard },
   props: {
     mech: {
       type: Object,

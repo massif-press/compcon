@@ -1,79 +1,32 @@
 <template>
-  <div class="nav-body elevation-10">
+  <div class="nav-body elevation-8">
     <div id="cap" />
-    <div v-if="$vuetify.display.mdAndUp" class="d-inline">
-      <router-link to="../sheet/0">
-        <cc-nav-item :selected="selected === '0'">
-          <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
-            DOSSIER
-          </cc-tooltip>
-        </cc-nav-item>
-      </router-link>
-      <router-link to="../sheet/1">
-        <cc-nav-item :selected="selected === '1'">
-          <cc-tooltip
-            inline
-            delayed
-            content="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout"
-          >
-            NARRATIVE PROFILE
-          </cc-tooltip>
-        </cc-nav-item>
-      </router-link>
-      <router-link to="../sheet/4">
-        <cc-nav-item v-show="hasBondData" :selected="selected === '4'">
-          <cc-tooltip inline delayed content="Pilot Bonds">BONDS</cc-tooltip>
-        </cc-nav-item>
-      </router-link>
-      <router-link to="../sheet/2">
-        <cc-nav-item :selected="selected === '2'">
-          <cc-tooltip
-            inline
-            delayed
-            content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents"
-          >
-            TACTICAL PROFILE
-          </cc-tooltip>
-        </cc-nav-item>
-      </router-link>
-      <router-link to="../sheet/3">
-        <cc-nav-item :selected="selected === '3'">
-          <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
-            MECH HANGAR
-          </cc-tooltip>
-        </cc-nav-item>
-      </router-link>
+    <div class="d-inline">
+      <nav-item :selected="selected === 0" @click="$emit('to', 0)">
+        <cc-tooltip inline delayed content="Pilot IDENT, Status, and Biographical Information">
+          DOSSIER
+        </cc-tooltip>
+      </nav-item>
+      <nav-item :selected="selected === 1" @click="$emit('to', 1)">
+        <cc-tooltip inline delayed content="Pilot Skill Triggers, Reserves, and Pilot Gear Loadout">
+          NARRATIVE PROFILE
+        </cc-tooltip>
+      </nav-item>
+      <nav-item :selected="selected === 2" @click="$emit('to', 2)">
+        <cc-tooltip inline delayed content="Pilot Bonds">BONDS</cc-tooltip>
+      </nav-item>
+      <nav-item :selected="selected === 3" @click="$emit('to', 3)">
+        <cc-tooltip inline delayed content="Pilot Licenses, Mech Skills, CORE Bonuses, and Talents">
+          TACTICAL PROFILE
+        </cc-tooltip>
+      </nav-item>
+      <nav-item :selected="selected === 4" @click="$emit('to', 4)">
+        <cc-tooltip inline delayed content="Create and Modify Mechs and their Loadouts">
+          MECH HANGAR
+        </cc-tooltip>
+      </nav-item>
     </div>
-    <v-menu v-else open-on-hover>
-      <template #activator="{ props }">
-        <v-btn light icon color="white" style="z-index: 9" class="unskew pl-1 pr-0" v-bind="props">
-          <v-icon large>mdi-book-open-page-variant</v-icon>
-          <v-icon icon="arrow_drop_up" />
-        </v-btn>
-      </template>
-      <v-list density="compact" class="heading h3">
-        <v-list-item to="../sheet/0">DOSSIER</v-list-item>
-        <v-list-item to="../sheet/1">NARRATIVE PROFILE</v-list-item>
-        <v-list-item v-show="hasBondData" to="../sheet/4">BONDS</v-list-item>
-        <v-list-item to="../sheet/2">TACTICAL PROFILE</v-list-item>
-        <v-list-item to="../sheet/3">MECH HANGAR</v-list-item>
-      </v-list>
-    </v-menu>
 
-    <v-btn
-      icon
-      fab
-      x-small
-      variant="outlined"
-      :disabled="!lastLoaded"
-      class="mx-4 unskew"
-      dark
-      @click="toMech()"
-    >
-      <cc-tooltip inline delayed content="Active Mech Sheet">
-        <v-icon large color="white">cc:frame</v-icon>
-      </cc-tooltip>
-    </v-btn>
     <div id="divider" />
     <cc-tooltip
       v-if="pilot.CloudController.IsRemoteResource"
@@ -102,43 +55,20 @@
       delayed
       :content="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'"
     >
-      <v-btn icon class="unskew ml-6" :disabled="!isAuthed" @click="$refs.share.show()">
+      <v-btn
+        icon
+        variant="plain"
+        class="unskew ml-6"
+        :disabled="!isAuthed"
+        @click="($refs as any).share.show()"
+      >
         <v-icon color="white">mdi-code-json</v-icon>
       </v-btn>
     </cc-tooltip>
     <cc-tooltip inline delayed content="Pilot Options">
       <edit-menu :pilot="pilot" class="unskew" style="display: inline-block" />
     </cc-tooltip>
-    <v-menu offset-y top right absolute>
-      <template #activator="{ on: menu }">
-        <cc-tooltip inline delayed content="Pilot Sheet Layout Options">
-          <v-btn class="unskew ml-2" icon dark v-on="menu">
-            <v-icon icon="mdi-view-grid-plus" />
-          </v-btn>
-        </cc-tooltip>
-      </template>
-      <v-list subheader>
-        <div class="heading h2 text-white primary py-0 px-4">Layout Options</div>
-        <v-list-item-group>
-          <v-list-item @click="$emit('set', 'tabbed')">
-            <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon icon="mdi-view-array" />
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Tabbed View</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item @click="$emit('set', 'classic')">
-            <v-list-item-icon class="ma-0 mr-2 mt-3">
-              <v-icon icon="mdi-view-sequential" />
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Sheet View (Classic View)</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-menu>
+
     <cc-solo-dialog title="Share Code Management" ref="share" no-confirm>
       <share-dialog :pilot="pilot" />
     </cc-solo-dialog>
@@ -148,8 +78,9 @@
 <script lang="ts">
 import EditMenu from './PilotEditMenu.vue';
 import ShareDialog from './ShareDialog.vue';
-
+import { Pilot } from '@/class';
 import { PilotStore, CompendiumStore, UserStore } from '@/stores';
+import NavItem from '../../_components/NavItem.vue';
 // import { Auth } from 'aws-amplify';
 // import { RemoteSyncItem } from '@/cloud/item_sync';
 
@@ -158,14 +89,16 @@ export default {
   components: {
     EditMenu,
     ShareDialog,
+    NavItem,
   },
+  emits: ['to'],
   props: {
     pilot: {
-      type: Object,
+      type: Pilot,
       required: true,
     },
     selected: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
@@ -173,22 +106,21 @@ export default {
     loading: false,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser();
+    // await Auth.currentAuthenticatedUser();
   },
   computed: {
     lastLoaded() {
       const store = PilotStore();
-      return this.pilot.Mechs.some((x) => x.ID === store.LoadedMechID)
-        ? store.LoadedMechID
-        : this.pilot.ActiveMech
-        ? this.pilot.ActiveMech.ID
-        : null;
+      return null;
+      // TODO: Fix this
+      // return this.pilot.Mechs.some((x) => x.ID === store.LoadedMechID)
+      //   ? store.LoadedMechID
+      //   : this.pilot.ActiveMech
+      //   ? this.pilot.ActiveMech.ID
+      //   : null;
     },
     isAuthed() {
       return UserStore().IsLoggedIn;
-    },
-    hasBondData() {
-      return CompendiumStore().Bonds.length;
     },
   },
   methods: {
@@ -203,15 +135,15 @@ export default {
       this.$router.push('/pilot_management');
     },
     async remoteUpdate() {
-      this.loading = true;
-      try {
-        await RemoteSyncItem(this.pilot);
-        this.$notify('Pilot synced to remote', 'success');
-      } catch (error) {
-        console.error(error);
-        this.$notify('An error occurred while attempting to download remote data', 'error');
-      }
-      this.loading = false;
+      // this.loading = true;
+      // try {
+      //   await RemoteSyncItem(this.pilot);
+      //   this.$notify('Pilot synced to remote', 'success');
+      // } catch (error) {
+      //   console.error(error);
+      //   this.$notify('An error occurred while attempting to download remote data', 'error');
+      // }
+      // this.loading = false;
     },
   },
 };
@@ -223,7 +155,8 @@ export default {
   bottom: 20px;
   left: 16px;
   min-height: 40px;
-  padding: 5px 20px 5px 20px;
+  padding-left: 20px;
+  padding-right: 20px;
   transform: skew(-0.65rad);
   background-color: rgb(var(--v-theme-primary));
   color: white;
@@ -244,7 +177,7 @@ export default {
   width: 2px;
   min-width: 2px;
   height: 47px;
-  right: 150px;
+  right: 120px;
   top: 0;
   z-index: 11;
   background-color: white;

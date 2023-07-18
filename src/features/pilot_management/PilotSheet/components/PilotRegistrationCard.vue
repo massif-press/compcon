@@ -1,26 +1,23 @@
 <template>
-  <div class="bordered-primary">
-    <v-row class="primary text-white mt-n3 px-2" density="compact">
+  <div class="bordered-primary pa-2">
+    <v-row dense>
       <v-col>
-        <div :class="`heading h${$vuetify.display.mdAndUp ? '1' : '3'}`">
+        <div class="heading h1 mt-n3">
           {{ pilot.Callsign || 'ERR CALLSIGN NOT FOUND' }}
         </div>
-        <div :class="`heading h${$vuetify.display.mdAndUp ? '2' : '4'}`">
-          &nbsp;({{ pilot.Name || 'ERR NAME NOT FOUND' }})
+        <div class="heading h4 mt-n3">&nbsp;({{ pilot.Name || 'ERR NAME NOT FOUND' }})</div>
+        <div class="flavor-text">
+          Union Administrative RM-4 Pilot Identification Protocol (IDENT) Record
+          {{ pilot.ID }}
         </div>
       </v-col>
-      <v-col v-if="$vuetify.display.mdAndUp" cols="auto" class="ml-auto mt-4">
-        <v-icon size="70" dark>cc:orbital</v-icon>
+      <v-col cols="auto">
+        <v-icon size="70" icon="cc:orbital" />
       </v-col>
     </v-row>
 
-    <div v-if="$vuetify.display.mdAndUp" class="flavor-text ml-2">
-      Union Administrative RM-4 Pilot Identification Protocol (IDENT) Record
-      {{ pilot.ID }}
-    </div>
-
-    <div class="ml-2 py-1 px-2">
-      <v-row v-if="$vuetify.display.mdAndUp" density="compact">
+    <div class="px-4">
+      <v-row dense>
         <span v-if="!pilot.Name" class="flavor-text">
           ERR NAME NOT FOUND UNABLE TO GENERATE UUID
         </span>
@@ -28,7 +25,7 @@
           {{ flipName(pilot.Name) }}:{{ pilot.ID }}//NDL-C-{{ missionName() }}
         </span>
       </v-row>
-      <v-row density="compact">
+      <v-row dense>
         <v-col cols="12" md="8">
           <v-row density="compact">
             <v-col cols="12" md="8">
@@ -123,14 +120,19 @@
           <v-row density="compact">
             <span v-if="pilotReady" class="flavor-text text-subtle">
               <v-icon large color="grey darken-2">mdi-fingerprint</v-icon>
-              BIOMETRIC RECORD VALID [[{{ randomNumber(13, 22) }}PB]] :: OHM C//{{ futuredate() }}
+              BIOMETRIC RECORD VALID [[{{ randomNumber(13, 22) }}PB]] :: OHM C//{{ futureDate() }}
             </span>
           </v-row>
         </v-col>
         <v-col>
           <div class="border ml-auto mr-auto text-center" style="width: 300px; height: 300px">
+            <cc-avatar
+              v-if="pilot.PortraitController.Avatar"
+              :avatar="pilot.PortraitController.Avatar"
+              :size="300"
+            />
             <v-img
-              v-if="pilot.Portrait"
+              v-else-if="pilot.Portrait"
               :src="pilot.Portrait"
               aspect-ratio="1"
               position="top center"
@@ -138,8 +140,8 @@
           </div>
         </v-col>
       </v-row>
-      <v-divider v-show="$vuetify.display.mdAndUp" class="ma-2" />
-      <v-row v-show="$vuetify.display.mdAndUp" density="compact">
+      <v-divider class="ma-2" />
+      <v-row dense>
         <span class="text-overline" style="line-height: 13px !important; opacity: 0.4">
           Improper use of this IDENT record and/or its constituent data by the record holder or any
           other persons is punishable under the DoJ/HR A-645-c. This record is the property of the
@@ -148,7 +150,7 @@
           five (5) Cradle Standard Years of objective time to retain GMS licensing rights. Far-field
           operatives that anticipate deployments lasting longer than five Cradle Standard Years that
           have not been issued a man-portable Omninet Hook should apply for the RM-11-B IDENT
-          Supplemental (b) Extension. Contact your local Union Adminstrative Officer for any other
+          Supplemental (b) Extension. Contact your local Union Administrative Officer for any other
           matters regarding this record.&emsp;&emsp;V-CDL//M-265-114-831 (A)
         </span>
       </v-row>
@@ -174,15 +176,16 @@ export default {
     flipName(name: string): string {
       const suffixes = ['II', 'III', 'IV', 'V', 'VI', 'VII'];
       const nArr = name.split(' ');
-      let last = nArr.pop();
-      if (suffixes.includes(last)) last = nArr.pop();
+      let last = nArr.pop() || '';
+
+      if (suffixes.includes(last)) last = nArr.pop() || '';
       nArr.unshift(last);
       return nArr.join('.').replace('-', '.');
     },
     missionName(): string {
       return mission().replace(' ', '-');
     },
-    futuredate(): string {
+    futureDate(): string {
       const d = new Date();
       d.setFullYear(d.getFullYear() + 3000);
       return d.toISOString();

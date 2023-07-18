@@ -19,9 +19,7 @@
     <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
-    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"
-      ><help-page
-    /></cc-solo-dialog>
+    <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
     <cc-solo-dialog
       ref="contentModal"
       no-title-clip
@@ -59,27 +57,18 @@
           text="Equipment Database"
           :to="'/compendium'"
         />
-        <mobile-btn
-          icon="cc:pilot"
-          title="Roster"
-          text="Manage Pilots"
-          :to="'/pilot_management'"
-        />
+        <mobile-btn icon="cc:pilot" title="Roster" text="Manage Pilots" :to="'/pilot_management'" />
         <mobile-btn
           icon="mdi-flask-empty-plus-outline"
           title="Content"
           text="Manage LCP Data"
-          @clicked="$refs.contentModal.show()"
+          @clicked="($refs as any).contentModal.show()"
         />
         <mobile-btn
-          :icon="
-            userstore.IsLoggedIn
-              ? 'mdi-account-check'
-              : 'mdi-account-off-outline'
-          "
+          :icon="userstore.IsLoggedIn ? 'mdi-account-check' : 'mdi-account-off-outline'"
           :title="userstore.IsLoggedIn ? 'Connected' : 'Log In'"
           text="COMP/CON Account"
-          @clicked="$refs.loginModal.show()"
+          @clicked="($refs as any).loginModal.show()"
         />
       </v-row>
       <div style="height: 40px" />
@@ -89,29 +78,19 @@
         fixed
         style="padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px))"
       >
-        <v-btn
-          x-small
-          dark
-          variant="outlined"
-          @click="$refs.optionsModal.show()"
+        <v-btn x-small dark variant="outlined" @click="($refs as any).optionsModal.show()"
           >Options</v-btn
         >
         <v-spacer />
-        <v-btn x-small dark variant="outlined" @click="$refs.aboutModal.show()"
+        <v-btn x-small dark variant="outlined" @click="($refs as any).aboutModal.show()"
           >About</v-btn
         >
         <v-spacer />
-        <v-btn
-          x-small
-          dark
-          variant="outlined"
-          @click="$refs.creditsModal.show()"
+        <v-btn x-small dark variant="outlined" @click="($refs as any).creditsModal.show()"
           >Credits</v-btn
         >
         <v-spacer />
-        <v-btn x-small dark variant="outlined" @click="$refs.helpModal.show()"
-          >Help</v-btn
-        >
+        <v-btn x-small dark variant="outlined" @click="($refs as any).helpModal.show()">Help</v-btn>
         <v-spacer />
         <v-btn
           target="_blank"

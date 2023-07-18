@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content
+  <stepper-content
     :complete="!pilot.LicenseController.IsMissingLicenses"
     :exit="`/pilot/${pilot.ID}`"
     back
@@ -34,7 +34,7 @@
       </v-alert>
     </v-container>
     <cc-license-selector level-up :pilot="pilot" />
-  </cc-stepper-content>
+  </stepper-content>
 </template>
 
 <script lang="ts">

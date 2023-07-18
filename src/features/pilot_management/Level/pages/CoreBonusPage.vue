@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content
+  <stepper-content
     :complete="!pilot.CoreBonusController.IsMissingCBs"
     :exit="`/pilot/${pilot.ID}`"
     back
@@ -45,7 +45,7 @@
         </span>
       </v-card-text>
     </v-card>
-  </cc-stepper-content>
+  </stepper-content>
 </template>
 
 <script lang="ts">

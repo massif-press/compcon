@@ -1,69 +1,61 @@
 <template>
   <selector
     title="Pilot Talents"
-    height="60vh"
     :success="!pilot.TalentsController.IsMissingTalents && enoughSelections"
   >
     <template #left-column>
-      <v-row v-for="(pTalent, i) in pilot.TalentsController.Talents" class="my-2">
-        <missing-item v-if="pTalent.Talent.err" @remove="remove(pTalent)" />
-        <span v-else>
-          <v-icon color="accent">cc:rank_{{ pTalent.Rank }}</v-icon>
-          <strong>{{ pTalent.Talent.Name }}</strong>
-          <v-icon end class="fade-select" @click="scroll(pTalent.Talent.ID)">
-            mdi-chevron-right
-          </v-icon>
-        </span>
-      </v-row>
-      <v-divider v-if="pilot.TalentsController.Talents.length" class="ma-2 ml-4 mr-4" />
+      <div
+        v-for="pTalent in pilot.TalentsController.Talents"
+        label
+        color="panel"
+        style="width: 100%"
+        class="ma-1"
+        @click="scroll(pTalent.Talent.ID)"
+      >
+        <v-chip dark color="accent">
+          <v-icon start>cc:rank_{{ pTalent.Rank }}</v-icon>
+          <b>{{ pTalent.Talent.Name }}</b>
+        </v-chip>
+      </div>
+      <v-divider v-if="pilot.TalentsController.Talents.length" class="ma-2" />
       <v-row>
-        <v-col>
+        <v-col class="ma-1">
           <v-alert
+            v-show="!pilot.TalentsController.IsMissingTalents && enoughSelections"
             variant="outlined"
-            prominent
             density="compact"
             color="success"
-            icon="check_circle"
-            class="stat-text"
-            style="width: 95%"
-            :value="!pilot.TalentsController.IsMissingTalents && enoughSelections"
-          >
-            Talent Selection Complete
-          </v-alert>
+            icon="mdi-check-circle"
+            class="stat-text py-1 mb-2"
+            text="Talent Selection Complete"
+          />
           <v-alert
-            variant="outlined"
-            prominent
-            density="compact"
-            color="accent"
-            icon="warning"
-            class="stat-text"
-            style="width: 95%"
-            :value="
+            v-show="
               pilot.TalentsController.MaxTalentPoints > pilot.TalentsController.CurrentTalentPoints
             "
-          >
-            {{
-              pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints
-            }}
-            Talent selections remaining
-          </v-alert>
-          <v-alert
             variant="outlined"
-            prominent
             density="compact"
             color="accent"
-            icon="warning"
-            class="stat-text"
-            style="width: 95%"
-            :value="!enoughSelections && newPilot"
-          >
-            Must select a minimum of {{ selectedMin }} talents
-          </v-alert>
+            icon="mdi-alert"
+            class="stat-text py-1 mb-2"
+            :text="`${
+              pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints
+            }
+            Talent selections remaining`"
+          />
+          <v-alert
+            v-show="!enoughSelections && newPilot"
+            variant="outlined"
+            density="compact"
+            color="accent"
+            icon="mdi-alert"
+            class="stat-text py-1 mb-2"
+            :text="`Must select a minimum of ${selectedMin} talents`"
+          />
           <div class="my-2">
             <v-btn
               block
-              text
-              small
+              variant="text"
               :disabled="!talents.length"
               @click="pilot.TalentsController.ClearTalents()"
             >
@@ -75,8 +67,8 @@
     </template>
 
     <template #right-column>
-      <v-row density="compact" align="center">
-        <v-col cols="10" lg="5">
+      <v-row dense align="center">
+        <v-col cols="5">
           <v-text-field
             v-model="search"
             prepend-icon="mdi-magnify"
@@ -91,27 +83,25 @@
         </v-col>
         <v-col cols="auto" class="ml-auto">
           <v-btn-toggle v-model="ctype" mandatory>
-            <v-btn value="full"><v-icon icon="mdi-view-stream" /></v-btn>
-            <v-btn value="terse"><v-icon icon="mdi-view-list" /></v-btn>
-            <v-btn value="small"><v-icon icon="mdi-view-comfy" /></v-btn>
+            <v-btn value="full"><v-icon size="x-large" icon="mdi-view-stream" /></v-btn>
+            <v-btn value="terse"><v-icon size="x-large" icon="mdi-view-list" /></v-btn>
+            <v-btn value="small"><v-icon size="x-large" icon="mdi-view-comfy" /></v-btn>
           </v-btn-toggle>
         </v-col>
       </v-row>
 
-      <v-row id="talent-list" density="compact" justify="center">
-        <cc-talent
-          v-for="(t, i) in talents"
-          :id="`e_${t.ID}`"
-          :talent="t"
-          :rank="pilot.TalentsController.getTalentRank(t.ID)"
-          :terse="ctype === 'terse'"
-          :small="ctype === 'small'"
-          :can-add="canAdd(t.ID)"
-          selectable
-          @add="pilot.TalentsController.AddTalent(t)"
-          @remove="pilot.TalentsController.RemoveTalent(t)"
-        />
-      </v-row>
+      <cc-talent
+        v-for="t in talents"
+        :id="`talent_${t.ID}`"
+        :talent="t"
+        :rank="pilot.TalentsController.getTalentRank(t.ID)"
+        :terse="ctype === 'terse'"
+        :small="ctype === 'small'"
+        :can-add="canAdd(t.ID)"
+        selectable
+        @add="pilot.TalentsController.AddTalent(t)"
+        @remove="pilot.TalentsController.RemoveTalent(t)"
+      />
     </template>
   </selector>
 </template>
@@ -129,7 +119,7 @@ export default {
   name: 'talent-selector',
   components: { Selector, MissingItem },
   props: {
-    pilot: Pilot,
+    pilot: { type: Pilot, required: true },
     levelUp: Boolean,
   },
   data: () => ({
@@ -144,7 +134,6 @@ export default {
       return Rules.MinimumPilotTalents;
     },
     enoughSelections(): boolean {
-      // we should only care about the minimum pilot talents in non-levelup (creation)
       return (
         this.pilot.Level === 0 || !(this.pilot.TalentsController.Talents.length < this.selectedMin)
       );
@@ -176,19 +165,16 @@ export default {
       return this.pilot.TalentsController.IsMissingTalents;
     },
     scroll(id) {
-      if (this.levelUp)
-        this.$vuetify.goTo(`#e_${id}`, {
-          duration: 150,
-          easing: 'easeInOutQuad',
-          offset: 25,
-        });
-      else
-        this.$vuetify.goTo(`#e_${id}`, {
-          duration: 150,
-          easing: 'easeInOutQuad',
-          offset: 25,
-          container: '.v-dialog--active',
-        });
+      this.scrollTo(`#talent_${id}`);
+    },
+    scrollTo(e: any): void {
+      const el = document.getElementById(e);
+      if (el) {
+        const yOffset = -60;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     },
   },
 };

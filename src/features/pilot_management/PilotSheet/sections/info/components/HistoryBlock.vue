@@ -1,21 +1,18 @@
 <template>
   <div>
-    <cc-title
-      small
-      color="pilot"
-      class="pl-3"
-      style="margin-left: -70px !important"
-    >
-      <section-edit-icon label="Edit Pilot Biography" @open-selector="show()" />
-      Pilot Biography
-    </cc-title>
-    <div class="my-2">
+    <section-header
+      editable
+      title="Pilot Biography"
+      tooltip="Edit Pilot Biography"
+      @edit="show()"
+    />
+    <div class="my-2 px-10">
       <p
         v-if="pilot.History"
         v-html-safe="pilot.History"
         class="flavor-text text-text mx-2 preserve-linebreaks"
       />
-      <no-data-block v-else />
+      <no-data-block v-else class="mx-2" />
     </div>
     <cc-solo-dialog
       ref="dialog"
@@ -25,18 +22,25 @@
       title="Pilot Biography"
       @confirm="pilot.History = history"
     >
-      <cc-rte v-model="history" />
+      <quill-editor theme="snow" v-model:content="history" content-type="html" />
     </cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import SectionEditIcon from '../../components/SectionEditIcon.vue';
+import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
+import { Pilot } from '@/class';
 
 export default {
   name: 'history-block',
-  components: { SectionEditIcon, NoDataBlock },
+  components: { NoDataBlock, SectionHeader },
+  props: {
+    pilot: {
+      type: Pilot,
+      required: true,
+    },
+  },
   data: () => ({
     history: '',
   }),

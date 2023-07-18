@@ -1,30 +1,29 @@
 <template>
   <div>
-    <v-row density="compact" align="center" class="mt-n6 mb-n6">
+    <v-row style="height: 129px" class="pt-5">
       <v-col>
-        <ident-block />
+        <ident-block :pilot="pilot" />
       </v-col>
-      <v-col v-if="$vuetify.display.mdAndUp" cols="1" />
+      <v-col style="min-width: 215px; max-width: 215px" />
     </v-row>
-    <v-row>
-      <v-col v-if="$vuetify.display.smAndDown" cols="12">
-        <image-block />
+    <v-row align="center">
+      <v-col cols="8">
+        <clone-block :pilot="pilot" />
+        <history-block :pilot="pilot" />
+        <appearance-block :pilot="pilot" />
+        <notes-block :pilot="pilot" />
+        <combat-history-block :pilot="pilot" />
       </v-col>
-      <v-col cols="12" md="8" density="compact">
-        <clone-block />
-        <history-block />
-        <appearance-block />
-        <notes-block />
-        <combat-history-block />
-      </v-col>
-      <v-col v-if="$vuetify.display.mdAndUp" cols="4" density="compact">
-        <image-block />
+      <v-col cols="4">
+        <image-block :pilot="pilot" />
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script lang="ts">
+import { Pilot } from '@/class';
+
 import IdentBlock from './components/IdentBlock.vue';
 import HistoryBlock from './components/HistoryBlock.vue';
 import AppearanceBlock from './components/AppearanceBlock.vue';
@@ -35,6 +34,12 @@ import CombatHistoryBlock from './components/CombatHistoryBlock.vue';
 
 export default {
   name: 'info-view',
+  props: {
+    pilot: {
+      type: Pilot,
+      required: true,
+    },
+  },
   components: {
     IdentBlock,
     HistoryBlock,

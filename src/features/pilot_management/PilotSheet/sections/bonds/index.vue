@@ -17,12 +17,17 @@
     <div v-else>
       <div v-if="pilot.BondController.Bond" class="heading h1" style="font-size: 50px">
         {{ pilot.BondController.Bond.Name }}
-        <v-btn x-small icon class="fade-select mb-n3 ml-n3" @click="$refs.choosebond.show()">
+        <v-btn
+          x-small
+          icon
+          class="fade-select mb-n3 ml-n3"
+          @click="($refs as any).choosebond.show()"
+        >
           <v-icon icon="mdi-circle-edit-outline" />
         </v-btn>
       </div>
       <div v-else class="heading h1">
-        <v-btn size="x-large" color="primary" @click="$refs.choosebond.show()">
+        <v-btn size="x-large" color="primary" @click="($refs as any).choosebond.show()">
           <v-icon large class="pr-3">mdi-vector-link</v-icon>
           Select Bond
         </v-btn>

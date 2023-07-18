@@ -1,14 +1,8 @@
 <template>
-  <v-row density="compact" align="center">
-    <v-col cols="12">
-      <div class="centered text-left pl-3">
-        <span class="text-stark flavor-text font-weight-bold"
-          >NEW CUSTOM TRIGGER</span
-        >
-      </div>
-    </v-col>
-    <v-col cols="10" md="">
-      <div :class="$vuetify.display.mdAndUp ? 'ml-12 mt-n4' : 'mt-n4'">
+  <div class="text-stark flavor-text font-weight-bold mt-n2">NEW CUSTOM TRIGGER</div>
+  <v-row dense align="center">
+    <v-col>
+      <div>
         <v-text-field
           v-model="newSkill"
           variant="outlined"
@@ -42,14 +36,14 @@
       <div class="mt-2 ml-auto mr-auto">
         <cc-tooltip simple content="Add Skill">
           <v-btn
-            :large="$vuetify.display.mdAndUp"
-            :small="$vuetify.display.smAndDown"
             icon
+            size="x-large"
+            variant="plain"
             color="secondary"
             :disabled="newSkill === '' || !canAdd"
             @click="addSkill"
           >
-            <v-icon x-large>cc:accuracy</v-icon>
+            <v-icon size="50">cc:accuracy</v-icon>
           </v-btn>
         </cc-tooltip>
       </div>
@@ -63,7 +57,7 @@ import { CustomSkill } from '@/class';
 export default {
   name: 'add-custom-skill',
   props: {
-    pilot: Pilot,
+    pilot: { type: Pilot, required: true },
   },
   data: () => ({
     newSkill: '',
@@ -72,11 +66,7 @@ export default {
   }),
   computed: {
     canAdd(): boolean {
-      const custSkill = new CustomSkill(
-        this.newSkill,
-        this.newDesc,
-        this.newDetail
-      );
+      const custSkill = new CustomSkill(this.newSkill, this.newDesc, this.newDetail);
       return this.pilot.SkillsController.CanAddSkill(custSkill);
     },
   },

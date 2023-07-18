@@ -8,7 +8,7 @@
           dark
           :disabled="mech.IsStunned"
           :color="canSkirmish ? `action--quick` : 'grey darken-2'"
-          @click="$refs.sk_dialog.show()"
+          @click="($refs as any).sk_dialog.show()"
         >
           <v-icon start>mdi-hexagon-slice-3</v-icon>
           skirmish
@@ -70,7 +70,7 @@
           dark
           :disabled="mech.IsStunned"
           :color="canSkirmish ? `action--quick` : 'grey darken-2'"
-          @click="$refs.sk_dialog.show()"
+          @click="($refs as any).sk_dialog.show()"
         >
           <v-icon start>mdi-hexagon-slice-3</v-icon>
           skirmish

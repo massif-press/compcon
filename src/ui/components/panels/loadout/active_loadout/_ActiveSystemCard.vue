@@ -4,31 +4,19 @@
       <v-card
         flat
         tile
-        :class="
-          hide
-            ? 'panel'
-            : `${$vuetify.display.mdAndUp ? 'clipped-large' : ''} panel`
-        "
+        :class="hide ? 'panel' : `${$vuetify.display.mdAndUp ? 'clipped-large' : ''} panel`"
         :style="!hide && !rest ? 'height: 100%; min-height: 100px' : ''"
       >
         <v-card-title
           class="text-white py-0 heading h3 hover-item"
           style="cursor: pointer"
-          @click="$refs.detailDialog.show()"
+          @click="($refs as any).detailDialog.show()"
         >
           <v-row no-gutters>
             <v-col v-if="item" cols="auto">
               <equipment-options :item="item" readonly active />
-              <span
-                v-if="!item.Destroyed"
-                class="ml-n2"
-                :style="item.Used ? 'opacity: 0.6' : ''"
-              >
-                <cc-tooltip
-                  v-if="item.Used"
-                  inline
-                  content="Equipment has been marked as 'Used'"
-                >
+              <span v-if="!item.Destroyed" class="ml-n2" :style="item.Used ? 'opacity: 0.6' : ''">
+                <cc-tooltip v-if="item.Used" inline content="Equipment has been marked as 'Used'">
                   <v-icon color="success">mdi-check</v-icon>
                 </cc-tooltip>
                 <span
@@ -40,13 +28,8 @@
                 >
                   {{ item.Name }}
                 </span>
-                <span v-if="item.FlavorName" class="caption ml-2 my-n1"
-                  >//{{ item.TrueName }}</span
-                >
-                <span
-                  v-show="$vuetify.display.mdAndUp"
-                  class="caption text-subtle ml-1"
-                >
+                <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+                <span v-show="$vuetify.display.mdAndUp" class="caption text-subtle ml-1">
                   <b>{{ item.Size }}</b>
                   {{ item.Type }}
                 </span>
@@ -58,34 +41,16 @@
               </span>
             </v-col>
             <v-col cols="auto" class="ml-auto heading">
-              <v-btn
-                v-if="!rest"
-                right
-                dark
-                icon
-                class="fade-select"
-                @click.stop="hide = !hide"
-              >
-                <v-icon
-                  small
-                  v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-                />
+              <v-btn v-if="!rest" right dark icon class="fade-select" @click.stop="hide = !hide">
+                <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
               </v-btn>
             </v-col>
           </v-row>
         </v-card-title>
         <v-slide-y-transition>
-          <v-card-text
-            v-if="!rest && !hide"
-            class="underline-parent px-2 py-0 mt-0"
-          >
+          <v-card-text v-if="!rest && !hide" class="underline-parent px-2 py-0 mt-0">
             <div class="underline-slide">
-              <v-row
-                v-if="item.Actions.length"
-                density="compact"
-                justify="center"
-                class="my-1"
-              >
+              <v-row v-if="item.Actions.length" density="compact" justify="center" class="my-1">
                 <v-col
                   v-for="(a, i) in item.Actions"
                   style="min-width: 40%"
@@ -98,10 +63,7 @@
                     active
                     :activations="mech.Pilot.State.Actions"
                     :disabled="actionDisabled(a)"
-                    :unusable="
-                      a.Activation === 'Protocol' &&
-                      !mech.Pilot.State.IsProtocolAvailable
-                    "
+                    :unusable="a.Activation === 'Protocol' && !mech.Pilot.State.IsProtocolAvailable"
                     @use="item.Use(a.Cost, $event)"
                     @undo="item.Undo(a.Cost)"
                   />
@@ -128,10 +90,7 @@
                   <v-icon icon="cc:system" />
                   EQUIPMENT EFFECT
                 </div>
-                <p
-                  v-html-safe="item.Effect"
-                  class="text-text body-text mb-1 mr-3 ml-7"
-                />
+                <p v-html-safe="item.Effect" class="text-text body-text mb-1 mr-3 ml-7" />
               </div>
             </div>
             <div v-if="item">
@@ -163,12 +122,7 @@
                   <cc-bonus-display :item="item" />
                 </v-col>
                 <v-col cols="auto">
-                  <cc-synergy-display
-                    :item="item"
-                    location="system"
-                    :mech="mech"
-                    large
-                  />
+                  <cc-synergy-display :item="item" location="system" :mech="mech" large />
                 </v-col>
               </v-row>
             </div>
@@ -176,12 +130,7 @@
         </v-slide-y-transition>
       </v-card>
     </div>
-    <cc-solo-dialog
-      ref="detailDialog"
-      no-confirm
-      :title="item ? item.Name : ''"
-      large
-    >
+    <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
       <cc-item-card :item="item" />
       <slot name="detail" />
     </cc-solo-dialog>
@@ -218,9 +167,7 @@ export default {
   }),
   computed: {
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(
-        this.$vuetify.theme.current.dark
-      );
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
     },
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <v-btn
-    tile
-    depressed
+    variant="flat"
+    rounded="0"
     :color="selected ? 'white' : 'primary'"
     :class="selected ? 'text-primary' : 'text-white'"
     :to="to"
@@ -16,7 +16,7 @@
 
 <script lang="ts">
 export default {
-  name: 'cc-nav-item',
+  name: 'nav-item',
   props: {
     to: {
       type: String,

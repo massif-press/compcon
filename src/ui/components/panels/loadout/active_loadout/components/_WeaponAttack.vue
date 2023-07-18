@@ -756,7 +756,7 @@ export default {
       this.ammoDamage = damage;
     },
     setDamage(index, damage) {
-      Vue.set(this.damageRolls, index, damage.total);
+      this.damageRolls[index] = damage.total;
       this.overkillHeat += damage.overkill;
     },
     setBonusDamage(damage) {

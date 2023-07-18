@@ -12,7 +12,7 @@
       v-if="item"
       class="text-left"
       style="cursor: pointer !important"
-      @click="$refs.base.openDetail()"
+      @click="($refs as any).base.openDetail()"
     >
       <span class="h2 heading text-text" style="line-height: 35px">
         {{ item.Name }}

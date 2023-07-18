@@ -51,18 +51,18 @@
                     icon
                     class="fade-select"
                     color="error"
-                    @click.stop="$refs.delete.show()"
+                    @click.stop="($refs as any).delete.show()"
                   >
                     <v-icon small>delete</v-icon>
                   </v-btn>
                 </cc-tooltip>
                 <cc-tooltip simple inline content="Duplicate Mech">
-                  <v-btn small icon class="fade-select" @click.stop="$refs.copy.show()">
+                  <v-btn small icon class="fade-select" @click.stop="($refs as any).copy.show()">
                     <v-icon small>mdi-content-copy</v-icon>
                   </v-btn>
                 </cc-tooltip>
                 <cc-tooltip simple inline content="Print Mech Sheet">
-                  <v-btn small icon class="fade-select" @click.stop="$refs.print.show()">
+                  <v-btn small icon class="fade-select" @click.stop="($refs as any).print.show()">
                     <v-icon small>mdi-printer</v-icon>
                   </v-btn>
                 </cc-tooltip>

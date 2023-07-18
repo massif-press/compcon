@@ -19,8 +19,8 @@
         <v-container>
           <packs-list
             ref="pl"
-            @start-load="$refs.mc.loading = true"
-            @end-load="$refs.mc.loading = false"
+            @start-load="($refs as any).mc.loading = true"
+            @end-load="($refs as any).mc.loading = false"
           />
           <missing-content ref="mc" />
         </v-container>

@@ -12,7 +12,7 @@
       v-if="item"
       class="text-left"
       style="cursor: pointer !important; height: 100%"
-      @click="$refs.base.openDetail()"
+      @click="($refs as any).base.openDetail()"
     >
       <v-row density="compact">
         <v-col>

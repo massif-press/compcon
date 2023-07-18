@@ -4,9 +4,9 @@
       <slot />
       <v-icon
         :dark="before || dark"
-        small
-        :right="right"
-        :lefft="left"
+        size="x-small"
+        :end="right"
+        :start="left"
         :class="`fade-select ${before ? 'mt-n12' : ''}`"
         @click="edit()"
       >
@@ -16,13 +16,12 @@
     <div v-else key="editname" :class="{ 'd-inline': inline }">
       <v-text-field
         v-model="newStr"
-        :dense="!large"
+        :density="large ? 'comfortable' : 'compact'"
         :height="large ? '50px' : ''"
         :placeholder="placeholder"
         required
         hide-details
         autofocus
-        :class="inline ? '' : `d-inline mx-0 my-0 mt-n4`"
         @blur="submit()"
         @keyup.enter="submit()"
         @focus="$event.target.select()"
@@ -55,8 +54,7 @@ export default {
       this.editing = true;
       if (this.$slots.default && this.$slots.default[0]) {
         let prev = '';
-        if (this.$slots.default[0].text)
-          prev = this.$slots.default[0].text.trim();
+        if (this.$slots.default[0].text) prev = this.$slots.default[0].text.trim();
         else if (this.$slots.default[0].children[0].text)
           prev = this.$slots.default[0].children[0].text.trim();
         this.newStr = prev;

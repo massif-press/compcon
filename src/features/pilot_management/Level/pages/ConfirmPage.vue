@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content
+  <stepper-content
     :complete="canContinue()"
     :exit="`/pilot/${pilot.ID}`"
     back
@@ -8,10 +8,9 @@
   >
     <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
     <br />
-    <v-alert type="error" variant="outlined" :value="!pilotReady">
+    <v-alert v-if="!pilotReady" type="error" variant="outlined">
       <span class="stat-text text-accent">
-        WARNING: Submission for IDENT record {{ pilot.ID }} has the following
-        issue(s):
+        WARNING: Submission for IDENT record {{ pilot.ID }} has the following issue(s):
       </span>
       <ul class="flavor-text text-error">
         <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
@@ -19,40 +18,28 @@
         <li v-if="!pilot.SkillsController.HasFullSkills">
           PILOT SKILL TRIGGERS incomplete or invalid
         </li>
-        <li v-if="!pilot.TalentsController.HasFullTalents">
-          PILOT TALENTS incomplete or invalid
-        </li>
+        <li v-if="!pilot.TalentsController.HasFullTalents">PILOT TALENTS incomplete or invalid</li>
         <li v-if="!pilot.MechSkillsController.HasFullHASE">
           PILOT MECH SKILLS incomplete or invalid
         </li>
-        <li v-if="!pilot.LicenseController.HasLicenses">
-          PILOT LICENSES incomplete or invalid
-        </li>
-        <li v-if="!pilot.CoreBonusController.HasCBs">
-          PILOT CORE BONUSES incomplete or invalid
-        </li>
+        <li v-if="!pilot.LicenseController.HasLicenses">PILOT LICENSES incomplete or invalid</li>
+        <li v-if="!pilot.CoreBonusController.HasCBs">PILOT CORE BONUSES incomplete or invalid</li>
       </ul>
     </v-alert>
-    <v-btn
-      x-large
-      block
-      color="secondary"
-      tile
-      class="mx-2 my-8"
-      @click="savePilot()"
-    >
+    <v-btn x-large block color="secondary" tile class="mx-2 my-8" @click="savePilot()">
       Update Pilot Record // {{ pilot.Callsign }} ({{ pilot.Name }})
     </v-btn>
-  </cc-stepper-content>
+  </stepper-content>
 </template>
 
 <script lang="ts">
 import { Pilot } from '@/class';
 import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue';
+import StepperContent from '../../_components/StepperContent.vue';
 
 export default {
   name: 'confirm-page',
-  components: { PilotRegistrationCard },
+  components: { PilotRegistrationCard, StepperContent },
   props: {
     pilot: {
       type: Object,
@@ -75,7 +62,7 @@ export default {
   },
   methods: {
     savePilot() {
-      this.original.ApplyLevel(Pilot.Serialize(this.pilot));
+      this.original.ApplyLevel(Pilot.Serialize(this.pilot as Pilot));
       this.$router.push({ name: 'pilot_sheet', params: { id: this.pilot.ID } });
     },
     canContinue() {

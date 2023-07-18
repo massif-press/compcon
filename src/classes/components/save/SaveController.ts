@@ -1,3 +1,5 @@
+//TODO: fix dispatches
+
 import { ISaveable } from './ISaveable';
 import { CompendiumStore } from '@/stores';
 import { SaveAllLocalUpdates } from '@/io/BulkData';
@@ -32,7 +34,7 @@ class SaveController {
     if (skip || !this._isLoaded) return;
     this.IsDirty = true;
     this.LastModified = new Date().toString();
-    store.dispatch(`set_${this.Parent.ItemType.toLowerCase()}_dirty`);
+    // store.dispatch(`set_${this.Parent.ItemType.toLowerCase()}_dirty`);
     // const sp = getModule(UserStore, store).UserProfile.IsSavePerformant
     // if (!sp) {
     SaveAllLocalUpdates();
@@ -41,16 +43,14 @@ class SaveController {
 
   public delete() {
     this.DeleteTime = new Date().toString();
-    this.ExpireTime = new Date(
-      new Date().getTime() + 30 * 24 * 60 * 60 * 1000
-    ).toString();
+    this.ExpireTime = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000).toString();
     this.IsDeleted = true;
-    store.dispatch(`delete_${this.Parent.ItemType}`, this.Parent);
+    // store.dispatch(`delete_${this.Parent.ItemType}`, this.Parent);
   }
 
   public restore() {
     this.IsDeleted = false;
-    store.dispatch(`restore_${this.Parent.ItemType}`, this.Parent);
+    // store.dispatch(`restore_${this.Parent.ItemType}`, this.Parent);
   }
 
   public get IsDeleted(): boolean {
@@ -92,4 +92,5 @@ class SaveController {
   }
 }
 
-export { ISaveData, SaveController };
+export { SaveController };
+export type { ISaveData };

@@ -10,7 +10,7 @@
   >
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn icon v-bind="props" @click="historyNav(-1)">
+        <v-btn icon variant="plain" size="45" v-bind="props" @click="historyNav(-1)">
           <v-icon icon="mdi-arrow-left" />
         </v-btn>
       </template>
@@ -19,7 +19,7 @@
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn icon v-bind="props" @click="historyNav(1)">
+        <v-btn icon variant="plain" size="45" v-bind="props" @click="historyNav(1)">
           <v-icon icon="mdi-arrow-right" />
         </v-btn>
       </template>
@@ -28,7 +28,13 @@
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn icon v-bind="props" to="/">
+        <v-btn
+          icon
+          variant="plain"
+          size="45"
+          v-bind="props"
+          @click="$router.push({ name: 'main-menu' })"
+        >
           <v-icon color="white" icon="mdi-home" />
         </v-btn>
       </template>
@@ -37,7 +43,13 @@
 
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
-        <v-btn icon v-bind="props" to="/srd">
+        <v-btn
+          icon
+          variant="plain"
+          size="45"
+          v-bind="props"
+          @click="$router.push({ path: '/srd' })"
+        >
           <v-icon color="white" icon="mdi-book" />
         </v-btn>
       </template>
@@ -54,7 +66,7 @@
     <v-spacer />
 
     <div v-if="$vuetify.display.mdAndUp">
-      <pilot-mode v-if="mode === 'pilot'" />
+      <pilot-mode v-if="mode === 'pilot' && activePilot" :pilot="activePilot" />
       <compendium-mode v-if="mode === 'compendium'" />
       <encounter-mode v-if="mode === 'encounter'" />
     </div>
@@ -66,7 +78,7 @@
       location="bottom"
       content="Open cloud account menu"
     >
-      <v-btn icon dark @click="($refs.cloudModal as any).show()">
+      <v-btn icon variant="plain" size="45" dark @click="($refs.cloudModal as any).show()">
         <v-icon icon="mdi-cloud-sync-outline" />
       </v-btn>
     </cc-tooltip>
@@ -74,7 +86,7 @@
     <v-divider v-if="$vuetify.display.mdAndUp" vertical dark class="mx-2" />
 
     <cc-tooltip location="bottom" content="Help &amp; FAQ">
-      <v-btn icon dark @click="($refs.helpModal as any).show()">
+      <v-btn icon variant="plain" size="45" dark @click="($refs.helpModal as any).show()">
         <v-icon icon="mdi-help-circle-outline" />
       </v-btn>
     </cc-tooltip>
@@ -83,7 +95,7 @@
 
     <v-menu nudge-location="40px">
       <template #activator="{ props }">
-        <v-btn icon v-bind="props">
+        <v-btn icon variant="plain" size="45" v-bind="props">
           <v-icon dark>mdi-dots-vertical</v-icon>
         </v-btn>
       </template>
@@ -151,6 +163,8 @@ import EncounterMode from './modes/encounter.vue';
 import CompendiumMode from './modes/compendium.vue';
 
 import { PilotStore, UserStore } from '@/stores';
+
+import { Pilot } from '@/classes/pilot/Pilot';
 // import { Auth } from 'aws-amplify';
 
 export default {
@@ -179,6 +193,9 @@ export default {
     // await Auth.currentAuthenticatedUser();
   },
   computed: {
+    activePilot(): Pilot {
+      return PilotStore().ActivePilot;
+    },
     mode(): string {
       if (this.$route.path.includes('/srd')) return 'compendium';
       else if (

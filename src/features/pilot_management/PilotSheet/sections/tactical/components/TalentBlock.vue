@@ -2,18 +2,13 @@
   <div class="mb-4">
     <v-row no-gutters>
       <v-col cols="auto">
-        <cc-title
-          small
-          color="pilot"
-          class="pl-3"
-          style="margin-left: -50px !important"
-        >
+        <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
           <section-edit-chip
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
             :max="pilot.TalentsController.MaxTalentPoints"
             :label="`Edit Pilot Talents (${pilot.TalentsController.CurrentTalentPoints}/${pilot.TalentsController.MaxTalentPoints})`"
-            @open-selector="$refs.talentSelector.show()"
+            @open-selector="($refs as any).talentSelector.show()"
           />
           Talents
         </cc-title>

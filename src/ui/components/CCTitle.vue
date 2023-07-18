@@ -1,9 +1,11 @@
 <template>
   <div
-    :class="`px-2 pt-2 pb-1 ml-n3 clipped${size} text-white`"
-    :style="`width: max-content;  background-color: rgb(var(--v-theme-${color}));`"
+    :class="block ? 'text-white' : `clipped${size} text-white`"
+    :style="`width: ${
+      block ? '100%' : 'max-content'
+    };  background-color: rgb(var(--v-theme-${color}));`"
   >
-    <div :class="`pr-5 pb-1 pl-5 ctitle${size}`">
+    <div :class="`px-5 ctitle${size}`">
       <slot />
     </div>
   </div>
@@ -13,13 +15,17 @@
 export default {
   name: 'CCTitle',
   props: {
+    block: {
+      type: Boolean,
+    },
     large: {
       type: Boolean,
-      required: false,
     },
     small: {
       type: Boolean,
-      required: false,
+    },
+    xSmall: {
+      type: Boolean,
     },
     dark: {
       type: Boolean,
@@ -34,7 +40,7 @@ export default {
   },
   computed: {
     size() {
-      if (this.$vuetify.display.smAndDown) return '-small';
+      if (this.xSmall) return '-x-small';
       return this.large ? '-large' : this.small ? '-small' : '';
     },
   },
@@ -42,6 +48,15 @@ export default {
 </script>
 
 <style scoped>
+.ctitle-x-small {
+  font-family: 'Helvetica Bold', sans-serif;
+  font-weight: 900;
+  font-size: 14pt;
+  line-height: 13pt;
+  /* letter-spacing: 10px; */
+  text-transform: uppercase;
+}
+
 .ctitle-small {
   font-family: 'Helvetica Bold', sans-serif;
   font-weight: 900;

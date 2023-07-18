@@ -1,41 +1,31 @@
 <template>
-  <v-container fluid style="overflow: hidden">
-    <v-row v-if="$vuetify.display.mdAndDown">
-      <v-col cols="12">
-        <cc-title small :color="success ? 'success' : 'primary'">{{
-          title
-        }}</cc-title>
-        <slot name="left-column" />
-      </v-col>
-      <v-col ref="content" cols="12">
-        <slot name="right-column" />
-      </v-col>
-    </v-row>
-    <v-row v-else>
-      <v-col cols="3" class="pr-4">
-        <div
-          ref="float"
-          style="width: 23vw"
-          :class="`${floating ? 'fixed-float' : ''} ${
-            success ? 'bordered-success' : 'bordered-primary'
-          }`"
-        >
-          <div width="90%" class="ml-3">
-            <cc-title small :color="success ? 'success' : 'primary'">{{
-              title
-            }}</cc-title>
-            <slot name="left-column" />
-          </div>
+  <v-row>
+    <v-col cols="3">
+      <div id="float" :class="success ? 'bordered-success' : 'bordered-primary'">
+        <div>
+          <cc-title x-small :color="success ? 'success' : 'primary'" block>{{ title }}</cc-title>
+          <slot name="left-column" />
         </div>
-      </v-col>
-      <v-col ref="content" cols="9">
-        <slot name="right-column" />
-      </v-col>
-    </v-row>
-  </v-container>
+      </div>
+    </v-col>
+    <v-col ref="content" cols="9">
+      <slot name="right-column" />
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
+function handleScroll() {
+  const e = document.getElementById('float');
+  if (!e) return;
+
+  if (window.scrollY >= 400) {
+    e.classList.add('fixed-float');
+  } else {
+    e.classList.remove('fixed-float');
+  }
+}
+
 export default {
   name: 'selector',
 
@@ -44,11 +34,6 @@ export default {
       type: String,
       required: true,
     },
-    height: {
-      type: String,
-      required: false,
-      default: '90vh',
-    },
     success: {
       type: Boolean,
       required: false,
@@ -56,24 +41,13 @@ export default {
   },
   data: () => ({
     floating: false,
+    listener: () => {},
   }),
   mounted() {
-    this.floating = false;
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (!(this.$refs.float || (!this.$refs as any)).content) return;
-        const floatY = this.$refs['float'].getBoundingClientRect().top;
-        const containerY = this.$refs['content'].getBoundingClientRect().top;
-        if (floatY && floatY <= 30) this.floating = true;
-        else if (floatY < containerY) this.floating = false;
-      },
-      true
-    );
+    window.addEventListener('scroll', handleScroll);
   },
   beforeDestroy() {
-    this.floating = false;
-    window.removeEventListener('scroll', null, false);
+    window.removeEventListener('scroll', handleScroll);
   },
 };
 </script>
@@ -82,5 +56,6 @@ export default {
 .fixed-float {
   position: fixed;
   top: 60px;
+  max-width: 20vw;
 }
 </style>

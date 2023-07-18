@@ -10,9 +10,9 @@
         <template #title>
           {{ title }}
         </template>
-        <template #items>
-          <v-btn @click="hide">
-            <v-icon size="large">close</v-icon>
+        <template #title-items>
+          <v-btn icon variant="plain" @click="hide">
+            <v-icon size="40" icon="mdi-close" />
           </v-btn>
         </template>
       </cc-titlebar>

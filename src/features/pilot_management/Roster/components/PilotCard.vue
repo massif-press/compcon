@@ -1,91 +1,69 @@
 <template>
   <div class="d-inline-flex ma-2" :style="`min-width: ${minWidth};`">
-    <v-hover :style="`min-width: ${minWidth}`">
-      <template #default="{ hover }">
+    <v-hover>
+      <template v-slot="{ isHovering, props }">
         <v-card
           class="card-outline"
           :min-height="minWidth"
           :min-width="minWidth"
           tile
           flat
+          v-bind="props"
           @click="!dragging ? toPilotSheet() : null"
         >
           <div
-            v-show="!(small && mobile)"
+            v-show="!small"
             class="clipped-large"
             :style="`
               z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: ${
-                small || mobile ? '25' : '32'
+                small ? '25' : '32'
               }px; ${
-              small && hover ? 'opacity: 1' : 'opacity: 0.6'
+              small && isHovering ? 'opacity: 1' : 'opacity: 0.6'
             }; background-color: rgb(var(--v-theme-primary)); transition: opacity 0.2s;`"
           >
             <div
-              :class="`heading ${small || mobile ? 'h3' : 'h2'} text-white flavor-text ml-2`"
+              :class="`heading ${small ? 'h3' : 'h2'} text-white flavor-text ml-2`"
               style="letter-spacing: 3px; text-overflow: ellipsis"
             >
               {{ pilot.Callsign }}
             </div>
           </div>
-          <div v-show="!(small && mobile)" :class="small ? 'small-triangle' : 'triangle'" />
-          <div v-show="!(small && mobile)" class="ll text-white" style="line-height: 25px">
+          <div v-show="!small" :class="small ? 'small-triangle' : 'triangle'" />
+          <div v-show="!small" class="ll text-white" style="line-height: 25px">
             <div v-if="!small" class="text-overline mb-n1 text-right">LL</div>
             <div :class="`heading ${small ? 'h3' : 'h2'} mt-n2`">
               {{ pilot.Level.toString().padStart(2, '0') }}
             </div>
           </div>
-          <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" />
-          <v-fade-transition>
-            <v-overlay
-              v-if="hover && !small"
-              absolute
-              color="grey darken-3"
-              opacity="0.8"
-              style="pointer-events: none"
-            >
-              <v-card flat tile class="flavor-text" light>
-                <v-card-text>
-                  {{ pilot.Name }}
-                  <br />
-                  <b>{{ pilot.Callsign }}</b>
-                  <cc-slashes />
-                  <b>{{ pilot.Background }}</b>
-                  <cc-slashes />
-                  <b>{{ pilot.Status }}</b>
-                  <v-divider />
-                  HULL {{ pilot.MechSkillsController.MechSkills.Hull }} - AGI
-                  {{ pilot.MechSkillsController.MechSkills.Agi }} - SYS
-                  {{ pilot.MechSkillsController.MechSkills.Sys }} - ENG
-                  {{ pilot.MechSkillsController.MechSkills.Eng }}
-                  <v-divider />
-                  <div>
-                    <span v-for="(s, i) in pilot.TalentsController.Talents">
-                      {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
-                      {{ i + 1 !== pilot.TalentsController.Talents.length ? '-' : '' }}
-                    </span>
-                  </div>
-                  <v-divider />
-                  <div>
-                    <span v-for="(b, i) in pilot.CoreBonusController.CoreBonuses">
-                      {{ b.Name }}
-                      {{ i + 1 !== pilot.CoreBonusController.CoreBonuses.length ? '-' : '' }}
-                    </span>
-                  </div>
-                  <div v-if="pilot.ActiveMech">
-                    <v-divider class="my-2 mb-1" />
-                    <div class="flavor-text mb-0">
-                      {{ pilot.ActiveMech.Frame.Source }}
-                      {{ pilot.ActiveMech.Frame.Name }}
-                    </div>
-                    <b class="pl-2">
-                      <cc-slashes />
-                      {{ pilot.ActiveMech.Name }}
-                    </b>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-overlay>
-          </v-fade-transition>
+          <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" cover>
+            <v-expand-transition>
+              <div
+                v-if="isHovering && !small"
+                class="flavor-text bg-grey-darken-3 pa-3"
+                style="height: 100%; max-width: 100%; opacity: 0.85"
+              >
+                <br />
+                {{ pilot.Name }}
+                <br />
+                <b>{{ pilot.Callsign }}</b>
+                <cc-slashes />
+                <b>{{ pilot.Status }}</b>
+                <v-divider />
+                HULL {{ pilot.MechSkillsController.MechSkills.Hull }} AGI
+                {{ pilot.MechSkillsController.MechSkills.Agi }} SYS
+                {{ pilot.MechSkillsController.MechSkills.Sys }} ENG
+                {{ pilot.MechSkillsController.MechSkills.Eng }}
+                <v-divider />
+                <div v-for="s in pilot.TalentsController.Talents">
+                  {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
+                </div>
+                <v-divider />
+                <div v-for="b in pilot.CoreBonusController.CoreBonuses">
+                  {{ b.Name }}
+                </div>
+              </div>
+            </v-expand-transition>
+          </v-img>
         </v-card>
       </template>
     </v-hover>
@@ -108,19 +86,13 @@ export default {
     },
   },
   computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
     minWidth() {
-      if (this.mobile) {
-        return this.small ? '18vw' : '40vw';
-      }
       return this.small ? '10vw' : '20vw';
     },
   },
   methods: {
     toPilotSheet() {
-      this.$router.push(`pilot/${this.pilot.ID}`);
+      this.$emit('goTo', this.pilot.ID);
     },
   },
 };

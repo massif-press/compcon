@@ -1,17 +1,12 @@
 <template>
   <div>
-    <cc-title
-      small
-      color="pilot"
-      class="pl-3"
-      style="margin-left: -50px !important"
-    >
+    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
       <section-edit-chip
         :highlight="!pilot.LicenseController.HasLicenses"
         :current="pilot.LicenseController.CurrentLicensePoints"
         :max="pilot.LicenseController.MaxLicensePoints"
         :label="`Edit Pilot Licenses (${pilot.LicenseController.CurrentLicensePoints}/${pilot.LicenseController.MaxLicensePoints})`"
-        @open-selector="$refs.licenseSelector.show()"
+        @open-selector="($refs as any).licenseSelector.show()"
       />
       Licenses
     </cc-title>
@@ -31,11 +26,7 @@
         density="compact"
         :style="$vuetify.display.lgAndUp ? `width: calc(100vw - 250px)` : ''"
       >
-        <v-col
-          v-for="(l, i) in pilot.LicenseController.Licenses"
-          cols="12"
-          md="4"
-        >
+        <v-col v-for="(l, i) in pilot.LicenseController.Licenses" cols="12" md="4">
           <cc-pilot-license-item :pilot-license="l" />
         </v-col>
       </v-row>

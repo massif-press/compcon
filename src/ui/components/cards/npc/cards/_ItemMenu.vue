@@ -21,7 +21,7 @@
             <v-list-item-title>Downgrade Tier</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.cName.show()">
+        <v-list-item @click="($refs as any).cName.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon icon="mdi-circle-edit-outline" />
           </v-list-item-icon>
@@ -29,7 +29,7 @@
             <v-list-item-title>Set Custom Name</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="$refs.cDesc.show()">
+        <v-list-item @click="($refs as any).cDesc.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon icon="mdi-circle-edit-outline" />
           </v-list-item-icon>

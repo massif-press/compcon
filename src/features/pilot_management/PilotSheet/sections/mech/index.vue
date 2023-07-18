@@ -5,7 +5,7 @@
       :pilot="pilot"
       :mech="mech"
       :mechID="mech.ID"
-      @delete="$refs.deleteDialog.show()"
+      @delete="($refs as any).deleteDialog.show()"
     />
     <v-row no-gutters>
       <v-col cols="auto">
@@ -30,7 +30,7 @@
               {{ mech.Frame.Manufacturer.Name }}
             </span>
             <span class="text-text">{{ mech.Frame.Name }}</span>
-            <v-icon right class="fade-select mt-n1" @click="$refs.frameInfoDialog.show()">
+            <v-icon right class="fade-select mt-n1" @click="($refs as any).frameInfoDialog.show()">
               mdi-information-outline
             </v-icon>
             <cc-solo-dialog
@@ -75,7 +75,7 @@
           small
           block
           class="fade-select"
-          @click="$refs.imageSelector.open()"
+          @click="($refs as any).imageSelector.open()"
         >
           <v-icon start>mdi-circle-edit-outline</v-icon>
           Set Mech Image
@@ -114,7 +114,7 @@
               small
               class="fade-select"
               style="position: absolute; bottom: 0; right: 0"
-              @click="$refs.imageSelector.open()"
+              @click="($refs as any).imageSelector.open()"
             >
               <v-icon start>mdi-circle-edit-outline</v-icon>
               Set Mech Image

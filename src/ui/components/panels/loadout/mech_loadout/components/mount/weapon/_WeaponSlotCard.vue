@@ -14,30 +14,18 @@
             <equipment-options
               :item="item"
               :readonly="readonly"
-              @swap="$refs.base.$refs.selectorDialog.show()"
+              @swap="($refs as any).base.$refs.selectorDialog.show()"
               @remove="remove()"
             />
           </v-col>
           <v-col cols="auto">
-            <div
-              v-if="!item.Destroyed"
-              :class="`ml-n2 ${small ? 'text-white effect-text' : ''}`"
-            >
-              <cc-tooltip
-                v-if="item.Mod"
-                inline
-                :content="`Weapon Modification Equipped`"
-              >
+            <div v-if="!item.Destroyed" :class="`ml-n2 ${small ? 'text-white effect-text' : ''}`">
+              <cc-tooltip v-if="item.Mod" inline :content="`Weapon Modification Equipped`">
                 <v-icon style="margin-top: -2px" dark>cc:weaponmod</v-icon>
               </cc-tooltip>
               {{ item.Name }}
-              <span v-if="item.FlavorName" class="caption ml-2 my-n1"
-                >//{{ item.TrueName }}</span
-              >
-              <component
-                :is="small ? 'div' : 'span'"
-                class="caption text-subtle ml-1 my-n1"
-              >
+              <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+              <component :is="small ? 'div' : 'span'" class="caption text-subtle ml-1 my-n1">
                 <b>{{ item.Size }}</b>
                 {{ item.WeaponType }}
               </component>
@@ -53,13 +41,7 @@
       </div>
       <v-row v-if="item" slot="header-items" justify="end" no-gutters>
         <v-col cols="auto">
-          <cc-range-element
-            v-if="item.Range"
-            small
-            :range="getRange"
-            class="d-inline"
-            dark
-          />
+          <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
           <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
           <cc-damage-element
             v-if="item.Damage"
@@ -89,7 +71,7 @@
               class="fade-select mt-n1"
               :small="small"
               dark
-              @click.stop="$refs.base.$refs.selectorDialog.show()"
+              @click.stop="($refs as any).base.$refs.selectorDialog.show()"
               v-html="item ? 'mdi-swap-vertical-variant' : 'mdi-add'"
             />
           </div>
@@ -109,7 +91,7 @@
               small
               :color="color"
               class="mb-1"
-              @click.stop="$refs.modDialog.show()"
+              @click.stop="($refs as any).modDialog.show()"
             >
               <v-icon :color="color" left>cc:weaponmod</v-icon>
               <span>NO MOD INSTALLED</span>
@@ -119,10 +101,7 @@
         <div class="mt-n1">
           <div v-if="item.ProfileEffect">
             <div class="mb-n2">
-              <p
-                v-html-safe="item.ProfileEffect"
-                class="text-text body-text mb-1 mx-3 py-2"
-              />
+              <p v-html-safe="item.ProfileEffect" class="text-text body-text mb-1 mx-3 py-2" />
             </div>
           </div>
           <div v-if="item.ProfileOnAttack">
@@ -139,10 +118,7 @@
             <div class="mb-n2 mt-1">
               <v-icon class="mt-n1">cc:weapon</v-icon>
               <span class="text-overline text-stark">ON HIT</span>
-              <p
-                v-html-safe="item.ProfileOnHit"
-                class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
-              />
+              <p v-html-safe="item.ProfileOnHit" class="text-text body-text mb-1 mr-2 ml-6 mt-n2" />
             </div>
           </div>
           <div v-if="item.ProfileOnCrit">
@@ -156,12 +132,7 @@
             </div>
           </div>
           <v-row v-if="item.Mod" density="compact" justify="center">
-            <mod-inset
-              :mod="item.Mod"
-              :mech="mech"
-              :color="color"
-              @remove-mod="item.Mod = null"
-            />
+            <mod-inset :mod="item.Mod" :mech="mech" :color="color" @remove-mod="item.Mod = null" />
           </v-row>
           <!-- <ammo-case-inset :level="armoryLevel" /> -->
         </div>
@@ -255,9 +226,7 @@ export default {
       return this.weaponSlot.Weapon;
     },
     color() {
-      return this.mech.Frame.Manufacturer.GetColor(
-        this.$vuetify.theme.current.dark
-      );
+      return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
     },
     // armoryLevel() {
     //   if (!this.item) return 0

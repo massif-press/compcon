@@ -176,8 +176,7 @@ export default {
       });
     },
     registerTechRoll(roll) {
-      Vue.set(this, 'attackRoll', roll);
-      Vue.nextTick().then(() => this.$forceUpdate());
+      this.attackRoll = roll;
     },
     complete(success) {
       this.succeeded = success;

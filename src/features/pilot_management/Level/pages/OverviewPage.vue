@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content complete :exit="`/pilot/${pilot.ID}`" @complete="$emit('next')">
+  <stepper-content complete :exit="`/pilot/${pilot.ID}`" @complete="$emit('next')">
     <cc-title large>Level Up (Overview)&emsp;</cc-title>
     <h2 class="heading">
       MV-2 License Acquisition Request
@@ -71,7 +71,7 @@
         </v-card>
       </v-row>
     </v-container>
-  </cc-stepper-content>
+  </stepper-content>
 </template>
 
 <script lang="ts">

@@ -10,7 +10,7 @@
         <v-card-title
           class="text-white py-0 hover-item"
           style="cursor: pointer; word-break: break-word"
-          @click="$refs.detailDialog.show()"
+          @click="($refs as any).detailDialog.show()"
         >
           <v-row no-gutters>
             <v-col v-if="item" cols="auto">

@@ -1,283 +1,129 @@
 <template>
-  <v-container>
-    <v-row density="compact" class="mt-n6 mb-3">
-      <v-col cols="12" md="5" class="ml-auto mr-auto">
-        <v-alert
-          :value="true"
-          :type="pilot.MechSkillsController.IsMissingHASE ? 'info' : 'success'"
-          variant="outlined"
-          class="stat-text mt-6"
-        >
-          {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
-            pilot.MechSkillsController.MaxHASEPoints
-          }}
-          Mech Skills selected
-        </v-alert>
-        <div class="text-center mt-n2">
-          <v-btn
-            small
-            class="fade-select"
-            color="info"
-            variant="outlined"
-            @click="pilot.MechSkillsController.Reset()"
-          >
-            Reset Mech Skills
-          </v-btn>
-        </div>
-      </v-col>
-    </v-row>
+  <div class="text-center mb-4">
+    <v-alert
+      :value="true"
+      :type="pilot.MechSkillsController.IsMissingHASE ? 'info' : 'success'"
+      variant="outlined"
+      class="stat-text"
+    >
+      {{ pilot.MechSkillsController.CurrentHASEPoints }}/{{
+        pilot.MechSkillsController.MaxHASEPoints
+      }}
+      Mech Skills selected
+    </v-alert>
+    <v-btn
+      size="small"
+      class="fade-select mt-2"
+      color="info"
+      variant="outlined"
+      @click="pilot.MechSkillsController.Reset()"
+    >
+      Reset Mech Skills
+    </v-btn>
+  </div>
 
-    <v-row density="compact">
-      <v-col cols="12" lg="6">
-        <cc-title :small="$vuetify.display.smAndDown">HULL</cc-title>
-        <span class="flavor-text">
-          Your HULL skill describes your ability to build and pilot durable,
-          heavy mechs that can take punches and keep going
-        </span>
-        <v-row density="compact">
-          <v-col cols="auto" class="ml-auto mr-auto text-center">
-            <v-btn
-              color="secondary"
-              :disabled="!pilot.MechSkillsController.MechSkills.Hull"
-              fab
-              x-small
-              left
-              bottom
-              class="d-inline elevation-0"
-              @click="remove('Hull')"
-            >
-              <v-icon icon="remove" />
-            </v-btn>
-            <cc-rating
-              :dense="$vuetify.display.mdAndDown"
-              :model="pilot.MechSkillsController.MechSkills.Hull"
-            />
-            <v-btn
-              :disabled="!pilot.MechSkillsController.IsMissingHASE"
-              color="secondary"
-              fab
-              x-small
-              right
-              bottom
-              class="d-inline elevation-0"
-              @click="add('Hull')"
-            >
-              <v-icon icon="add" />
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-row density="compact" class="mt-n3 mb-6">
-          <v-col cols="auto" class="ml-auto mr-auto text-center">
-            <span class="heading h3">
-              MECH HP
-              <span class="text-accent">
-                +{{ pilot.MechSkillsController.MechSkills.Hull * 2 }}
-              </span>
-            </span>
-            <cc-slashes class="ml-1 mr-1" />
-            <span class="heading h3">
-              REPAIR CAPACITY
-              <span class="text-accent">
-                +{{
-                  Math.floor(pilot.MechSkillsController.MechSkills.Hull / 2)
-                }}
-              </span>
-            </span>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <v-col cols="12" lg="6">
-        <cc-title :small="$vuetify.display.smAndDown">AGILITY</cc-title>
-        <span class="flavor-text">
-          Your AGILITY skill describes your ability to build and pilot fast,
-          evasive mechs
-        </span>
-        <v-row density="compact">
-          <v-col cols="auto" class="ml-auto mr-auto text-center">
-            <v-btn
-              color="secondary"
-              :disabled="!pilot.MechSkillsController.MechSkills.Agi"
-              fab
-              x-small
-              left
-              bottom
-              class="d-inline elevation-0"
-              @click="remove('Agi')"
-            >
-              <v-icon icon="remove" />
-            </v-btn>
-            <cc-rating
-              :dense="$vuetify.display.mdAndDown"
-              :model="pilot.MechSkillsController.MechSkills.Agi"
-            />
-            <v-btn
-              :disabled="!pilot.MechSkillsController.IsMissingHASE"
-              color="secondary"
-              class="d-inline elevation-0"
-              fab
-              x-small
-              right
-              bottom
-              @click="add('Agi')"
-            >
-              <v-icon icon="add" />
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row density="compact" class="mt-n3 mb-6">
-          <v-col cols="auto" class="ml-auto mr-auto text-center">
-            <span class="heading h3">EVASION</span>
-            <span class="heading h3 text-accent">
-              +{{ pilot.MechSkillsController.MechSkills.Agi }}
-            </span>
-            <cc-slashes class="ml-1 mr-1" />
-            <span class="heading h3">SPEED</span>
-            <span class="heading h3 text-accent">
-              +{{ Math.floor(pilot.MechSkillsController.MechSkills.Agi / 2) }}
-            </span>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <v-col cols="12" lg="6">
-        <cc-title :small="$vuetify.display.smAndDown">SYSTEMS</cc-title>
-        <span class="flavor-text">
-          Your SYSTEMS skill describes your ability to build and pilot technical
-          mechs with powerful electronic warfare tools
-        </span>
-        <v-row density="compact">
-          <v-col cols="auto" class="ml-auto mr-auto text-center">
-            <v-btn
-              color="secondary"
-              :disabled="!pilot.MechSkillsController.MechSkills.Sys"
-              fab
-              x-small
-              left
-              bottom
-              class="d-inline elevation-0"
-              @click="remove('Sys')"
-            >
-              <v-icon icon="remove" />
-            </v-btn>
-            <cc-rating
-              :dense="$vuetify.display.mdAndDown"
-              :model="pilot.MechSkillsController.MechSkills.Sys"
-            />
-            <v-btn
-              class="d-inline elevation-0"
-              color="secondary"
-              :disabled="!pilot.MechSkillsController.IsMissingHASE"
-              fab
-              x-small
-              right
-              bottom
-              @click="add('Sys')"
-            >
-              <v-icon icon="add" />
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row density="compact" class="mt-n3 mb-6">
-          <v-col cols="auto" class="ml-auto mr-auto text-center">
-            <span class="heading h3">ELECTRONIC DEFENSE</span>
-            <span class="heading h3 text-accent">
-              +{{ pilot.MechSkillsController.MechSkills.Sys }}
-            </span>
-            <cc-slashes class="ml-1 mr-1" />
-            <span class="heading h3">TECH ATTACK</span>
-            <span class="heading h3 text-accent">
-              +{{ pilot.MechSkillsController.MechSkills.Sys }}
-            </span>
-            <cc-slashes class="ml-1 mr-1" />
-            <span class="heading h3">SP</span>
-            <span class="heading h3 text-accent">
-              +{{ Math.floor(pilot.MechSkillsController.MechSkills.Sys / 2) }}
-            </span>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <v-col cols="12" lg="6">
-        <cc-title :small="$vuetify.display.smAndDown">Engineering</cc-title>
-        <span class="flavor-text">
-          Your ENGINEERING skill describes your ability to build and pilot mechs
-          with powerful reactors, supplies and support systems
-        </span>
-        <v-row density="compact">
-          <v-col cols="auto" class="ml-auto mr-auto text-center">
-            <v-btn
-              color="secondary"
-              :disabled="!pilot.MechSkillsController.MechSkills.Eng"
-              fab
-              x-small
-              left
-              bottom
-              class="d-inline elevation-0"
-              @click="remove('Eng')"
-            >
-              <v-icon icon="remove" />
-            </v-btn>
-            <cc-rating
-              :dense="$vuetify.display.mdAndDown"
-              :model="pilot.MechSkillsController.MechSkills.Eng"
-            />
-            <v-btn
-              class="d-inline elevation-0"
-              color="secondary"
-              :disabled="!pilot.MechSkillsController.IsMissingHASE"
-              fab
-              x-small
-              right
-              bottom
-              @click="add('Eng')"
-            >
-              <v-icon icon="add" />
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row density="compact" class="mt-n3 mb-6">
-          <v-col cols="auto" class="ml-auto mr-auto text-center">
-            <span class="heading h3">HEAT CAPACITY</span>
-            <span class="heading h3 text-accent">
-              +{{ pilot.MechSkillsController.MechSkills.Eng }}
-            </span>
-
-            <cc-slashes class="ml-1 mr-1" />
-
-            <span class="heading h3">LIMITED SYSTEMS BONUS</span>
-            <span class="heading h3 text-accent">
-              +{{ Math.floor(pilot.MechSkillsController.MechSkills.Eng / 2) }}
-            </span>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-row align="center">
+    <v-col v-for="s in skills" cols="6">
+      <hase-skill-item
+        :val="s.val"
+        :text="s.text"
+        :description="s.description"
+        :bonuses="s.bonuses"
+        :mech-skills="pilot.MechSkillsController.MechSkills"
+        :isMissingHASE="isMissingHASE"
+        @add="add(s.val)"
+        @remove="remove(s.val)"
+      />
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
 import { Pilot, HASE } from '@/class';
+import HaseSkillItem from './components/_HaseSkillItem.vue';
 
 export default {
   name: 'cc-mech-skills-selector',
+  components: { HaseSkillItem },
   props: {
-    pilot: Pilot,
+    pilot: { type: Pilot, required: true },
   },
   watch: {
     'pilot.MechSkillsController.IsMissingHASE': function (newVal) {
       if (newVal === false) window.scrollTo(0, document.body.scrollHeight);
     },
   },
-  methods: {
-    add(field: HASE) {
-      this.pilot.MechSkillsController.MechSkills.Increment(field);
+  computed: {
+    isMissingHASE(): boolean {
+      return this.pilot.MechSkillsController.IsMissingHASE;
     },
-    remove(field: HASE) {
-      this.pilot.MechSkillsController.MechSkills.Decrement(field);
+    skills() {
+      return [
+        {
+          val: 'Hull',
+          text: 'Hull',
+          description:
+            'Your HULL skill describes your ability to build and pilot durable, heavy mechs that can take punches and keep going',
+          bonuses: [
+            { text: 'MECH HP', value: this.pilot.MechSkillsController.MechSkills.Hull * 2 },
+            {
+              text: 'REPAIR CAPACITY',
+              value: Math.floor(this.pilot.MechSkillsController.MechSkills.Hull / 2),
+            },
+          ],
+        },
+        {
+          val: 'Agi',
+          text: 'Agility',
+          description:
+            'Your AGILITY skill describes your ability to build and pilot fast, evasive mechs',
+          bonuses: [
+            { text: 'EVASION', value: this.pilot.MechSkillsController.MechSkills.Agi },
+            {
+              text: 'SPEED',
+              value: Math.floor(this.pilot.MechSkillsController.MechSkills.Agi / 2),
+            },
+          ],
+        },
+        {
+          val: 'Sys',
+          text: 'Systems',
+          description:
+            'Your SYSTEMS skill describes your ability to build and pilot technical mechs with powerful electronic warfare tools',
+          bonuses: [
+            { text: 'ELECTRONIC DEFENSE', value: this.pilot.MechSkillsController.MechSkills.Sys },
+            {
+              text: 'TECH ATTACK',
+              value: this.pilot.MechSkillsController.MechSkills.Sys,
+            },
+            {
+              text: 'SP',
+              value: Math.floor(this.pilot.MechSkillsController.MechSkills.Sys / 2),
+            },
+          ],
+        },
+        {
+          val: 'Eng',
+          text: 'Engineering',
+          description:
+            'Your ENGINEERING skill describes your ability to build and pilot mechs with powerful reactors, supplies and support systems',
+          bonuses: [
+            { text: 'HEAT CAPACITY', value: this.pilot.MechSkillsController.MechSkills.Eng },
+            {
+              text: 'LIMITED SYSTEMS BONUS',
+              value: Math.floor(this.pilot.MechSkillsController.MechSkills.Eng / 2),
+            },
+          ],
+        },
+      ];
+    },
+  },
+  methods: {
+    add(field: string) {
+      this.pilot.MechSkillsController.MechSkills.Increment(field as HASE);
+    },
+    remove(field: string) {
+      this.pilot.MechSkillsController.MechSkills.Decrement(field as HASE);
     },
     close() {
       this.$emit('close');

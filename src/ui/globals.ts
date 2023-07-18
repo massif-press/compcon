@@ -26,7 +26,6 @@ import CCSlashes from './components/CCSlashes.vue';
 import CCSoloDialog from './components/CCSoloDialog.vue';
 import CCStatblockPanel from './components/CCStatblockPanel.vue';
 import CCStatusSelect from './components/CCStatusSelect.vue';
-import CCStepperContent from './components/CCStepperContent.vue';
 import CCStringEdit from './components/CCStringEdit.vue';
 import CCStringEditDialog from './components/CCStringEditDialog.vue';
 import CCTag from './components/CCTag.vue';
@@ -49,7 +48,6 @@ import CCNpcItemChip from './components/cards/npc/CCNpcItemChip.vue';
 import CCCoreBonusItem from './components/items/CCCoreBonusItem.vue';
 import CCLogo from './components/items/CCLogo.vue';
 import CCLogoSplash from './components/items/CCLogoSplash.vue';
-import CCNavItem from './components/items/CCNavItem.vue';
 import CCOrgItem from './components/items/CCOrgItem.vue';
 import CCPilotLicenseItem from './components/items/CCPilotLicenseItem.vue';
 import CCReserveItem from './components/items/CCReserveItem.vue';
@@ -89,8 +87,10 @@ import CCIconDivider from './components/CCIconDivider.vue';
 import CCDeployableInfo from './components/items/features/deployables/CCDeployableInfo.vue';
 import CCIntegratedInfo from './components/items/features/integrated/CCIntegratedInfo.vue';
 import CCReserveCard from './components/items/features/reserves/CCReserveCard.vue';
+import CCAvatar from './components/items/CCAvatar.vue';
 
 export {
+  CCAvatar,
   CCReserveCard,
   CCIntegratedInfo,
   CCDeployableInfo,
@@ -122,7 +122,6 @@ export {
   CCSoloDialog,
   CCStatblockPanel,
   CCStatusSelect,
-  CCStepperContent,
   CCStringEdit,
   CCStringEditDialog,
   CCTag,
@@ -145,7 +144,6 @@ export {
   CCCoreBonusItem,
   CCLogo,
   CCLogoSplash,
-  CCNavItem,
   CCOrgItem,
   CCPilotLicenseItem,
   CCReserveItem,

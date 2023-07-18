@@ -1,100 +1,83 @@
 <template>
-  <div
-    id="pc-wrapper"
-    v-show="pilot"
-    class="my-1"
+  <v-row
+    no-gutters
+    class="lighten-select"
     @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
   >
-    <v-card
-      tile
-      color="primary"
-      style="position: absolute; z-index: 5"
-      class="overlay clipped-square-invert"
-      :min-width="mobile ? '75px' : '108px'"
-      :min-height="mobile ? '75px' : '108px'"
-    >
-      <div id="interior" class="clipped-square-invert">
-        <v-img :src="pilot.Portrait" position="top" :height="mobile ? '75px' : '108px'" />
+    <v-col cols="auto" style="border: rgb(var(--v-theme-primary)) 3px double">
+      <v-img :src="pilot.Portrait" position="top" height="100px" width="100px" />
+    </v-col>
+    <v-col>
+      <div class="clipped-large-invert" style="background-color: rgb(var(--v-theme-primary))">
+        <v-row no-gutters align="center" class="px-2">
+          <v-col class="heading text-white">
+            {{ pilot.Callsign }}
+            <cc-tooltip
+              v-if="pilot.CloudController.IsRemoteResource"
+              inline
+              title="Remote Resource"
+              :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account. Remote data cannot be saved to your own cloud account.`"
+            >
+              <v-icon dark right>mdi-cloud-braces</v-icon>
+            </cc-tooltip>
+          </v-col>
+          <v-col cols="auto" class="mr-4">
+            <edit-menu density="compact" :pilot="pilot" />
+          </v-col>
+        </v-row>
       </div>
-    </v-card>
-    <div id="banner" style="width: 100%">
-      <div
-        style="width: 100%; display: flex; justify-content: space-between; align-content: center"
-        class="overlay primary"
-      >
-        <div
-          class="heading callsign"
-          :style="`margin-left: ${mobile ? '75px' : '108px'}; display: inline-block;`"
-        >
-          {{ pilot.Callsign }}
-          <cc-tooltip
-            inline
-            v-if="pilot.CloudController.IsRemoteResource"
-            title="Remote Resource"
-            :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account. Remote data cannot be saved to your own cloud account.`"
-          >
-            <v-icon dark right>mdi-cloud-braces</v-icon>
-          </cc-tooltip>
-        </div>
-        <edit-menu
-          style="display: inline-block; padding-right: 10px"
-          density="compact"
-          :pilot="pilot"
-        />
-      </div>
-      <div
-        :style="`border-top: 0!important;  min-height: ${mobile ? '44px' : '72px'};`"
-        class="light-panel clipped"
-      >
-        <div :style="`margin-left: ${mobile ? '75px' : '108px'}; padding-left: 8px;`" class="mt-n1">
-          <p class="flavor-text">
-            <span v-show="!mobile">
+
+      <div class="px-3">
+        <v-row class="detail-row" align="center">
+          <v-col class="flavor-text">
+            <div>
               <span class="text-subtle">>[</span>
               <b class="text-stark">{{ pilot.Name }}</b>
               <span class="text-subtle">]</span>
-              <span class="text-subtle">STATUS [</span>
+              <span class="text-subtle">&nbsp;STATUS [</span>
               <span :class="`${statusColor(pilot.Status)}text-`">{{ pilot.Status }}</span>
-              <span class="text-subtle">] -</span>
+              <span class="text-subtle">] -&nbsp;</span>
+              <b class="text-success">&nbsp;LL: {{ pilot.Level }}&nbsp;</b>
+              <cc-slashes />
               <span class="text-text">
-                {{ pilot.Background.Name }}
+                [ H:{{ pilot.MechSkillsController.MechSkills.Hull }} A:{{
+                  pilot.MechSkillsController.MechSkills.Agi
+                }}
+                S:{{ pilot.MechSkillsController.MechSkills.Sys }} E:{{
+                  pilot.MechSkillsController.MechSkills.Eng
+                }}
+                ]
               </span>
-            </span>
-            <b class="text-success">LL: {{ pilot.Level }}</b>
-            <cc-slashes v-show="$vuetify.display.mdAndUp" />
-            <span class="text-text">
-              [ H:{{ pilot.MechSkillsController.MechSkills.Hull }} A:{{
-                pilot.MechSkillsController.MechSkills.Agi
-              }}
-              S:{{ pilot.MechSkillsController.MechSkills.Sys }} E:{{
-                pilot.MechSkillsController.MechSkills.Eng
-              }}
-              ]
-            </span>
-          </p>
-          <p v-if="pilot.ActiveMech && !mobile" class="flavor-text mb-0 pb-2 mt-n1">
-            <span class="text-subtle">UNB::CAV (LNCR)</span>
-            <cc-slashes />
-            <span class="text-text">
-              {{ pilot.ActiveMech.Frame.Source }}
-              {{ pilot.ActiveMech.Frame.Name }}
-            </span>
-            <span class="text-subtle">[</span>
-            <span class="text-text font-weight-bold">{{ pilot.ActiveMech.Name }}</span>
-            <span class="text-subtle">]</span>
-          </p>
-          <div v-else-if="pilot.ActiveMech" class="mt-n6">
-            <span class="text-overline">
-              {{ pilot.ActiveMech.Frame.Source }}
-              {{ pilot.ActiveMech.Frame.Name }}
-            </span>
-          </div>
-        </div>
+            </div>
+            <v-divider class="my-1" />
+            <v-row no-gutters align="center" justify="space-around">
+              <v-col cols="auto">
+                <v-icon icon="cc:talent" start class="mt-n1" />
+                <span v-for="(s, i) in pilot.TalentsController.Talents">
+                  {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
+                  <cc-slashes v-if="i < pilot.TalentsController.Talents.length - 1" class="pr-3" />
+                </span>
+              </v-col>
+              <v-col v-if="pilot.CoreBonusController.CoreBonuses.length" cols="auto">
+                <v-icon icon="cc:corebonus" start class="mt-n1" />
+                <span v-for="(b, i) in pilot.CoreBonusController.CoreBonuses">
+                  {{ b.Name }}
+                  <cc-slashes
+                    v-if="i < pilot.CoreBonusController.CoreBonuses.length - 1"
+                    class="pr-3"
+                  />
+                </span>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
       </div>
-    </div>
-  </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">
+import { Pilot } from '@/class';
 import EditMenu from '../../PilotSheet/components/PilotEditMenu.vue';
 
 export default {
@@ -104,7 +87,7 @@ export default {
   },
   props: {
     pilot: {
-      type: Object,
+      type: Pilot,
       required: true,
     },
     selectable: {
@@ -121,19 +104,17 @@ export default {
   },
   methods: {
     toPilotSheet() {
-      this.$router.push(`pilot/${this.pilot.ID}`);
+      this.$emit('goTo', this.pilot.ID);
     },
     statusColor(status: string): string {
       switch (status.toLowerCase()) {
         case 'active':
           return 'success';
-          break;
         case 'mia':
         case 'kia':
           return 'error';
         default:
           return 'text';
-          break;
       }
     },
   },
@@ -141,35 +122,10 @@ export default {
 </script>
 
 <style scoped>
-#pc-wrapper {
-  position: relative;
-  /* min-height: 150px; */
-  min-width: 100%;
-  cursor: pointer;
-}
-
-.callsign {
-  color: white;
-  max-height: 32px;
-  min-height: 32px;
-  line-height: 28px;
-}
-
-#interior {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  bottom: 2px;
-  right: 2px;
-  background-color: rgb(var(--v-theme-panel));
-}
-
-.overlay {
-  filter: brightness(70%);
-  transition: filter 0.3s ease-in-out;
-}
-
-#pc-wrapper:hover .overlay {
-  filter: brightness(100%);
+.detail-row {
+  background-color: rgb(var(--v-theme-light-panel));
+  height: 78px;
+  border-bottom: 1px rgb(var(--v-theme-primary)) solid;
+  border-right: 1px rgb(var(--v-theme-primary)) solid;
 }
 </style>

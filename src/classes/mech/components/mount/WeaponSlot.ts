@@ -32,12 +32,12 @@ class WeaponSlot {
 
   public EquipWeapon(weapon: MechWeapon, save = true): void {
     const w = { ...weapon };
-    Vue.set(this, '_weapon', w);
+    this._weapon = w;
     if (save) this.save();
   }
 
   public UnequipWeapon(): void {
-    Vue.set(this, '_weapon', null);
+    this._weapon = null;
     this.save();
   }
 
@@ -48,10 +48,7 @@ class WeaponSlot {
     };
   }
 
-  public static Deserialize(
-    slotData: IWeaponSlotData,
-    parent: Mount
-  ): WeaponSlot {
+  public static Deserialize(slotData: IWeaponSlotData, parent: Mount): WeaponSlot {
     const ws = new WeaponSlot(slotData.size as FittingSize, parent);
     if (slotData.weapon) {
       const w = MechWeapon.Deserialize(slotData.weapon);

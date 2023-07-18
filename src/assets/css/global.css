@@ -62,6 +62,15 @@ a {
   transition: all 0.25s;
 }
 
+.lighten-select {
+  transition: filter 0.25s;
+}
+
+.lighten-select:hover {
+  filter: brightness(120%);
+  cursor: pointer;
+}
+
 .mount-title {
   position: relative;
   top: 15px;
