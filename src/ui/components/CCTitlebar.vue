@@ -19,7 +19,7 @@
         <slot name="title-chips" />
       </v-col>
       <v-spacer />
-      <v-col cols="auto">
+      <v-col cols="auto" class="mr-5">
         <slot name="title-items" />
       </v-col>
     </v-row>

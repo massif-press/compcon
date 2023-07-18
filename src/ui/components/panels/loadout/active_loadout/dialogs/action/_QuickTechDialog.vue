@@ -16,10 +16,8 @@
           v-if="i === 0"
           key="invade_action"
           :item="invadeAction"
-          :color="
-            usedArr.includes('invade') ? 'grey darken-2' : 'action--quick'
-          "
-          @click="$refs.inv_dialog.show()"
+          :color="usedArr.includes('invade') ? 'grey darken-2' : 'action--quick'"
+          @click="($refs as any).inv_dialog.show()"
         />
       </div>
     </v-container>
@@ -87,8 +85,7 @@ export default {
     },
     actions() {
       const qtArr = this.state.TechActions.filter(
-        (x) =>
-          x.Activation === ActivationType.QuickTech && x.ID !== 'act_invade'
+        (x) => x.Activation === ActivationType.QuickTech && x.ID !== 'act_invade'
       );
       return _.groupBy(qtArr, 'Origin');
     },

@@ -7,13 +7,15 @@
         <div v-if="!isAuthed" class="text-overline" v-text="`Requires COMP/CON cloud account`" />
       </span>
     </v-tab>
-    <v-tab-item>
-      <file-import />
-    </v-tab-item>
-    <v-tab-item>
-      <share-import />
-    </v-tab-item>
   </v-tabs>
+  <v-window v-model="step">
+    <v-window-item :value="0">
+      <file-import />
+    </v-window-item>
+    <v-window-item :value="1">
+      <share-import />
+    </v-window-item>
+  </v-window>
 </template>
 
 <script lang="ts">
@@ -25,6 +27,9 @@ import { UserStore } from '@/stores';
 export default {
   name: 'import-dialog',
   components: { FileImport, ShareImport },
+  data: () => ({
+    step: 0,
+  }),
   computed: {
     isAuthed() {
       return UserStore().IsLoggedIn;

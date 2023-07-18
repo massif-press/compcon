@@ -6,12 +6,9 @@ import Active from './ActiveSheet/index.vue';
 import Level from './Level/index.vue';
 
 import Sheet from './PilotSheet/index.vue';
-import Layout from './PilotSheet/layouts/index.vue';
 import MechSheet from './PilotSheet/sections/mech/index.vue';
 
 import New from './New/index.vue';
-
-import { RouteConfig } from 'vue-router';
 
 const routes = [
   {
@@ -29,30 +26,11 @@ const routes = [
         props: true,
       },
       {
+        name: 'pilot_sheet_redirect',
         path: '/pilot/:pilotID',
         component: Sheet,
         props: true,
         children: [
-          {
-            name: 'pilot_sheet',
-            path: '',
-            redirect: 'sheet/1',
-          },
-          {
-            name: 'tactical_profile',
-            path: '',
-            redirect: 'sheet/2',
-          },
-          {
-            name: 'mech_hangar',
-            path: '',
-            redirect: 'sheet/3',
-          },
-          {
-            path: 'sheet/:tab',
-            component: Layout,
-            props: true,
-          },
           {
             path: 'mech/:mechID',
             name: 'mech-sheet',

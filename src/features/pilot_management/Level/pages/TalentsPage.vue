@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content
+  <stepper-content
     :complete="canContinue"
     :exit="`/pilot/${pilot.ID}`"
     back
@@ -38,7 +38,7 @@
       </v-alert>
     </v-container>
     <cc-talent-selector level-up :pilot="pilot" />
-  </cc-stepper-content>
+  </stepper-content>
 </template>
 
 <script lang="ts">

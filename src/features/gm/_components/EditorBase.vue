@@ -33,7 +33,7 @@
               variant="outlined"
               block
               color="accent"
-              @click="$refs.imageSelector.open()"
+              @click="($refs as any).imageSelector.open()"
             >
               Change Image
             </v-btn>

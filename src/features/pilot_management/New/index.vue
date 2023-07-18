@@ -73,7 +73,7 @@
         />
       </v-window-item>
       <v-window-item :value="5">
-        <templates-page :pilot="pilot" @next="step = 5" @back="step = 1" />
+        <templates-page :pilot="pilot" @next="step = 4" @back="step = 1" />
       </v-window-item>
     </v-window>
   </v-container>

@@ -7,28 +7,19 @@
     </v-card>
     <v-expansion-panels v-else focusable accordion style="border-radius: 0px">
       <v-expansion-panel
-        :class="`text-center no-shadow ${
-          noBorder ? '' : 'border-thin-primary '
-        }`"
+        :class="`text-center no-shadow ${noBorder ? '' : 'border-thin-primary '}`"
         :style="pilot ? 'border-color: rgb(var(--v-theme-pilot))' : ''"
       >
-        <v-expansion-panel-header
-          :class="$vuetify.display.mdAndUp ? 'px-2' : 'py-1 px-2'"
-        >
+        <v-expansion-panel-title :class="$vuetify.display.mdAndUp ? 'px-2' : 'py-1 px-2'">
           <v-row no-gutters>
             <v-col cols="12" md="3">
               <div class="centered text-left pl-2">
                 <span class="stat-text">{{ skill.Trigger }}</span>
                 <div v-if="bonus && $vuetify.display.mdAndUp">
-                  <v-icon v-for="n in bonus" color="secondary" small>
-                    mdi-hexagon
-                  </v-icon>
+                  <v-icon v-for="n in bonus" color="secondary" small> mdi-hexagon </v-icon>
                   <span class="flavor-text text-subtle">(+{{ bonus }})</span>
                 </div>
-                <span
-                  v-else-if="bonus"
-                  class="font-weight-bold text-accent pl-2"
-                >
+                <span v-else-if="bonus" class="font-weight-bold text-accent pl-2">
                   +{{ bonus }}
                 </span>
               </div>
@@ -37,14 +28,14 @@
               <span class="body-text pl-2">{{ skill.Description }}</span>
             </v-col>
           </v-row>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content v-if="skill.Detail">
+        </v-expansion-panel-title>
+        <v-expansion-panel-text v-if="skill.Detail">
           <v-row no-gutters>
             <v-col>
               <p class="text-left flavor-text mb-0">{{ skill.Detail }}</p>
             </v-col>
           </v-row>
-        </v-expansion-panel-content>
+        </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
   </div>

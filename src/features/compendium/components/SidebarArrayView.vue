@@ -8,23 +8,24 @@
       </v-list-item>
     </template>
     <h1 v-if="title" class="heading mb-3 mt-2">{{ title }}</h1>
-    <cc-titled-panel
-      v-for="e in array"
-      :id="`e_${(e as any)[nameKey].replace(/\W/g, '')}`"
-      :icon="icon || ''"
-      :title="(e as any)[nameKey]"
-      class="my-5"
-      density="compact"
-      :clickable="selectable"
-      @click="selectable ? $emit('selected', (e as any).Name) : ''"
-    >
-      <h3
-        v-if="subKey && (!subConditional || (e as any)[subConditional])"
-        v-html-safe="(e as any)[subKey]"
-        class="heading mb-2"
-      />
-      <p v-html-safe="(e as any)[descriptionKey]" class="body-text mb-1" />
-    </cc-titled-panel>
+    <div id="content" :style="isModal ? `height: calc(100vh - 100px); overflow-y: scroll` : ''">
+      <div v-for="e in array" :id="`e_${(e as any)[nameKey].replace(/\W/g, '')}`" class="my-5">
+        <cc-titled-panel
+          :icon="icon || ''"
+          :title="(e as any)[nameKey]"
+          density="compact"
+          :clickable="selectable"
+          @click="selectable ? $emit('selected', (e as any).Name) : ''"
+        >
+          <h3
+            v-if="subKey && (!subConditional || (e as any)[subConditional])"
+            v-html-safe="(e as any)[subKey]"
+            class="heading mb-2"
+          />
+          <p v-html-safe="(e as any)[descriptionKey]" class="body-text mb-1" />
+        </cc-titled-panel>
+      </div>
+    </div>
   </cc-sidebar-view>
 </template>
 
@@ -70,16 +71,26 @@ export default {
       required: false,
       default: false,
     },
+    isModal: {
+      type: Boolean,
+    },
   },
   emits: ['selected'],
   methods: {
     scrollTo(e: any): void {
       const el = document.getElementById(`e_${(e as any)[this.nameKey].replace(/\W/g, '')}`);
-      if (el) {
-        const yOffset = -60;
-        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
 
-        window.scrollTo({ top: y, behavior: 'smooth' });
+      if (el) {
+        const yOffset = this.isModal ? -80 : -60;
+        if (this.isModal) {
+          const mEl = document.getElementById('content');
+          if (!mEl) return;
+          const y = el.getBoundingClientRect().top + mEl.scrollTop + yOffset;
+          mEl.scrollTo({ top: y, behavior: 'smooth' });
+        } else {
+          const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
       }
     },
   },

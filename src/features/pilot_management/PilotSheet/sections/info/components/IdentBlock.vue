@@ -1,46 +1,34 @@
 <template>
-  <v-container fluid class="pt-0">
-    <v-row density="compact" class="stat-text pt-0 pb-0 mt-n2">
-      <v-col cols="6" md="4" xl="3">
-        <div class="text-overline mb-n3 text-subtle">CALLSIGN</div>
+  <v-container>
+    <v-row dense class="stat-text text-center">
+      <v-col>
+        <div class="text-overline mb-n3 pb-1 text-subtle">CALLSIGN</div>
         <cc-short-string-editor @set="pilot.Callsign = $event">
           {{ pilot.Callsign }}
         </cc-short-string-editor>
       </v-col>
-      <v-col cols="6" md="4" xl="3">
-        <div class="text-overline mb-n3 text-subtle">NAME</div>
-        <cc-short-string-editor @set="pilot.Name = $event">{{
-          pilot.Name
-        }}</cc-short-string-editor>
+      <v-col>
+        <div class="text-overline mb-n3 pb-1 text-subtle">NAME</div>
+        <cc-short-string-editor @set="pilot.Name = $event">{{ pilot.Name }}</cc-short-string-editor>
       </v-col>
-      <v-col cols="6" md="4" xl="3">
-        <div class="text-overline mb-n3 text-subtle">BACKGROUND</div>
-        <cc-short-string-editor
-          class="d-inline"
-          @set="pilot.Background = $event"
-        >
+      <v-col>
+        <div class="text-overline mb-n3 pb-1 text-subtle">BACKGROUND</div>
+        <cc-short-string-editor class="d-inline" @set="pilot.Background = $event">
           {{ pilot.Background }}
         </cc-short-string-editor>
         <span>
-          <cc-background-selector
-            :pilot="pilot"
-            small
-            class="d-inline fade-select ml-n1"
-            @select="pilot.Background = $event"
-          />
+          <cc-background-selector small @select="pilot.Background = $event" />
         </span>
       </v-col>
-      <v-col cols="6" md="4" xl="3">
-        <div class="text-overline mb-n3 text-subtle">PLAYER</div>
+      <v-col>
+        <div class="text-overline mb-n3 pb-1 text-subtle">PLAYER</div>
         <cc-short-string-editor @set="pilot.PlayerName = $event">
           {{ pilot.PlayerName || '---' }}
         </cc-short-string-editor>
       </v-col>
-      <v-col cols="6" md="4" xl="3">
-        <div class="text-overline mb-n3 text-subtle">STATUS</div>
-        <span :class="`stat-text ${statusColor()}text-`">{{
-          pilot.Status
-        }}</span>
+      <v-col>
+        <div class="text-overline mb-n3 pb-1 text-subtle">STATUS</div>
+        <span :class="`stat-text ${statusColor()}text-`">{{ pilot.Status }}</span>
         <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />
       </v-col>
     </v-row>
@@ -48,10 +36,18 @@
 </template>
 
 <script lang="ts">
+import { Pilot } from '@/class';
+
 // import { Auth } from 'aws-amplify';
 
 export default {
   name: 'ident-block',
+  props: {
+    pilot: {
+      type: Pilot,
+      required: true,
+    },
+  },
   data: () => ({
     pilotStatuses: [
       { title: 'Active', value: 'ACTIVE' },
@@ -67,22 +63,20 @@ export default {
     currentAuthedUser: null,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser().then((res) => {
-      this.currentAuthedUser = !!res.username;
-    });
+    // await Auth.currentAuthenticatedUser().then((res) => {
+    //   this.currentAuthedUser = !!res.username;
+    // });
   },
   methods: {
     statusColor(): string {
       switch (this.pilot.Status.toLowerCase()) {
         case 'active':
           return 'success';
-          break;
         case 'mia':
         case 'kia':
           return 'error';
         default:
           return 'text';
-          break;
       }
     },
   },

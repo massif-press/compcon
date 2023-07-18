@@ -1,6 +1,6 @@
 <template>
   <v-icon :small="small" color="secondary" @click="open()">cc:orbit</v-icon>
-  <cc-solo-dialog ref="dialog" fullscreen no-confirm title="Select Pilot Background">
+  <cc-solo-dialog id="bs-dialog" ref="dialog" fullscreen no-confirm title="Select Pilot Background">
     <sidebar-array-view
       :array="backgrounds"
       icon="cc:orbit"
@@ -9,6 +9,7 @@
       sub-key="LcpName"
       sub-conditional="InLcp"
       selectable
+      :is-modal="true"
       @selected="
         $emit('select', $event);
         ($refs.dialog as any).hide();
@@ -33,9 +34,6 @@ export default {
     },
   },
   emits: ['select'],
-  data: () => ({
-    backgrounds: [],
-  }),
   computed: {
     backgrounds(): Background[] {
       return CompendiumStore().Backgrounds;

@@ -4,8 +4,8 @@
     <v-divider class="ma-3" />
     <v-row density="compact" class="mx-3">
       <v-col cols="auto">
-        <router-link to="exit">
-          <v-btn large text>EXIT</v-btn>
+        <router-link :to="exit">
+          <v-btn large variant="text">EXIT</v-btn>
         </router-link>
       </v-col>
       <v-col cols="auto" class="ml-auto">
@@ -13,7 +13,7 @@
           color="primary"
           :disabled="!back"
           large
-          text
+          variant="text"
           class="ml-auto mr-2"
           @click="$emit('back')"
         >
@@ -29,7 +29,7 @@
           :color="complete || mandatory ? 'success' : 'primary'"
           large
           :disabled="mandatory && !complete"
-          :text="!(complete || mandatory)"
+          :variant="!(complete || mandatory) ? 'text' : 'tonal'"
           :tile="complete || mandatory"
           @click="$emit('complete')"
         >
@@ -42,7 +42,7 @@
 
 <script lang="ts">
 export default {
-  name: 'CCStepperContent',
+  name: 'stepper-content',
   props: {
     noConfirm: {
       type: Boolean,

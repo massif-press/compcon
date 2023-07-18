@@ -153,9 +153,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
 
   public get IsCascading(): boolean {
     if (!this.MechLoadoutController.ActiveLoadout.AICount) return false;
-    return !!this.MechLoadoutController.ActiveLoadout.Equipment.filter(
-      (x) => x.IsCascading
-    ).length;
+    return !!this.MechLoadoutController.ActiveLoadout.Equipment.filter((x) => x.IsCascading).length;
   }
 
   public get RequiredLicenses(): ILicenseRequirement[] {
@@ -165,19 +163,13 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
 
     if (this._frame.LicenseLevel === 0) {
       const gmsIdx = requirements.findIndex((x) => x.source === 'GMS');
-      if (gmsIdx > -1)
-        requirements[gmsIdx].items.push(
-          `${this._frame.Name.toUpperCase()} Frame`
-        );
+      if (gmsIdx > -1) requirements[gmsIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`);
       else requirements.push(this.Frame.RequiredLicense);
     } else {
       const reqIdx = requirements.findIndex(
         (x) => x.name === `${this._frame.Name}` && x.rank === 2
       );
-      if (reqIdx > -1)
-        requirements[reqIdx].items.push(
-          `${this._frame.Name.toUpperCase()} Frame`
-        );
+      if (reqIdx > -1) requirements[reqIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`);
       else requirements.push(this.Frame.RequiredLicense);
     }
 
@@ -263,11 +255,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   }
 
   public get Speed(): number {
-    return Bonus.Int(
-      this._frame.Speed + Math.floor(this.Agi / 2),
-      'speed',
-      this
-    );
+    return Bonus.Int(this._frame.Speed + Math.floor(this.Agi / 2), 'speed', this);
   }
 
   public get SpeedContributors(): string[] {
@@ -424,11 +412,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   }
 
   public get MaxHP(): number {
-    return Bonus.Int(
-      this._frame.HP + this._pilot.Grit + this.Hull * 2,
-      'hp',
-      this
-    );
+    return Bonus.Int(this._frame.HP + this._pilot.Grit + this.Hull * 2, 'hp', this);
   }
 
   public get HPContributors(): string[] {
@@ -450,11 +434,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   }
 
   public get MaxSP(): number {
-    return Bonus.Int(
-      this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2),
-      'sp',
-      this
-    );
+    return Bonus.Int(this.Frame.SP + this._pilot.Grit + Math.floor(this.Sys / 2), 'sp', this);
   }
 
   public get FreeSP(): number {
@@ -504,11 +484,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   }
 
   public get RepairCapacity(): number {
-    return Bonus.Int(
-      this._frame.RepCap + Math.floor(this.Hull / 2),
-      'repcap',
-      this
-    );
+    return Bonus.Int(this._frame.RepCap + Math.floor(this.Hull / 2), 'repcap', this);
   }
 
   public get RepCapContributors(): string[] {
@@ -544,17 +520,12 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
 
   // -- Mountable CORE Bonuses --------------------------------------------------------------------
   public get PilotBonuses(): CoreBonus[] {
-    return this.Pilot.CoreBonusController.CoreBonuses.filter(
-      (x) => x.IsMountable
-    );
+    return this.Pilot.CoreBonusController.CoreBonuses.filter((x) => x.IsMountable);
   }
 
   public get AppliedBonuses(): CoreBonus[] {
     return _.flatten(
-      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
-        true,
-        true
-      ).map((x) => x.Bonuses)
+      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(true, true).map((x) => x.Bonuses)
     );
   }
 
@@ -563,9 +534,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   }
 
   public HasCompatibleMods(): boolean {
-    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(
-      (x) => x.Mod != null
-    )) {
+    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod != null)) {
       if (
         !w.Mod.AllowedTypes.includes(w.ModType) ||
         !w.Mod.AllowedSizes.includes(w.ModSize) ||

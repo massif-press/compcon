@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content
+  <stepper-content
     :complete="canContinue"
     :mandatory="!quickstart"
     exit="pilot_management"
@@ -14,11 +14,7 @@
         <cc-slashes />
         &nbsp;RM-4c Pilot Self Assessment (2/3)
       </h2>
-      <div style="position: absolute; right: 16px; top: 16px">
-        <cc-tooltip simple content="Feature In Development">
-          <v-btn small variant="outlined" disabled>Suggest Talents</v-btn>
-        </cc-tooltip>
-      </div>
+
       <v-container class="flavor-text" style="font-size: 14px">
         <div class="mt-n2">
           The RM-4b PILOT SELF ASSESSMENT (Talents) audit catalogs an individual pilot's
@@ -28,14 +24,7 @@
           licenses. Additional resources may be made available at your request in the course of
           field operations.
         </div>
-        <v-alert
-          type="warning"
-          color="accent"
-          variant="outlined"
-          class="mt-2"
-          density="compact"
-          prominent
-        >
+        <v-alert type="warning" color="accent" variant="outlined" class="mt-2" density="compact">
           <b>Select three (3) Pilot Talents.</b>
           <br />
           <div class="text-overline" style="line-height: 13px">
@@ -46,13 +35,17 @@
         </v-alert>
       </v-container>
     </div>
-    <cc-talent-selector level-up :pilot="pilot" />
-  </cc-stepper-content>
+    <cc-talent-selector :pilot="pilot" />
+  </stepper-content>
 </template>
 
 <script lang="ts">
+import StepperContent from '../../_components/StepperContent.vue';
 export default {
   name: 'talents-page',
+  components: {
+    StepperContent,
+  },
   props: {
     pilot: {
       type: Object,

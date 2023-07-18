@@ -58,30 +58,14 @@
           </v-btn-toggle>
         </v-col>
         <v-col cols="auto" align-self="end">
-          <v-btn small color="primary" @click="$refs.print.show()"
-            >Print Multiple</v-btn
-          >
-          <cc-solo-dialog
-            ref="print"
-            icon="mdi-print"
-            no-confirm
-            large
-            title="Print Multiple"
-          >
+          <v-btn small color="primary" @click="($refs as any).print.show()">Print Multiple</v-btn>
+          <cc-solo-dialog ref="print" icon="mdi-print" no-confirm large title="Print Multiple">
             <cc-mass-print :items="items" />
           </cc-solo-dialog>
         </v-col>
         <v-col cols="auto" align-self="end" class="mr-3">
-          <v-btn small color="error" @click="$refs.delete.show()"
-            >Delete Multiple</v-btn
-          >
-          <cc-solo-dialog
-            ref="delete"
-            icon="mdi-delete"
-            no-confirm
-            large
-            title="Delete Multiple"
-          >
+          <v-btn small color="error" @click="($refs as any).delete.show()">Delete Multiple</v-btn>
+          <cc-solo-dialog ref="delete" icon="mdi-delete" no-confirm large title="Delete Multiple">
             <cc-mass-delete :items="items" />
           </cc-solo-dialog>
         </v-col>
@@ -109,12 +93,7 @@
     </v-row>
     <v-row justify="center" align="center" class="my-4" density="compact">
       <v-col cols="8">
-        <v-btn
-          variant="outlined"
-          block
-          color="primary"
-          @click="$emit('import-item')"
-        >
+        <v-btn variant="outlined" block color="primary" @click="$emit('import-item')">
           <v-icon start>mdi-plus</v-icon>
           Import {{ itemType }}
         </v-btn>

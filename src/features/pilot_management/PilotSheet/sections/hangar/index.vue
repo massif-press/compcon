@@ -1,26 +1,14 @@
 <template>
   <div class="mt-n4">
-    <cc-title large color="pilot" class="ml-n10 pl-3 mb-2"
-      >Hangar&emsp;</cc-title
-    >
+    <cc-title large color="pilot" class="ml-n10 pl-3 mb-2">Hangar&emsp;</cc-title>
     <v-btn-toggle id="viewtoggle" :value="getView" mandatory>
-      <v-btn
-        small
-        icon
-        value="cards"
-        @click="profile.SetView('hangar', 'cards')"
-      >
+      <v-btn small icon value="cards" @click="profile.SetView('hangar', 'cards')">
         <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
       <v-btn small icon value="list" @click="profile.SetView('hangar', 'list')">
         <v-icon color="accent">mdi-view-list</v-icon>
       </v-btn>
-      <v-btn
-        small
-        icon
-        value="table"
-        @click="profile.SetView('hangar', 'table')"
-      >
+      <v-btn small icon value="table" @click="profile.SetView('hangar', 'table')">
         <v-icon color="accent">mdi-format-align-justify</v-icon>
       </v-btn>
     </v-btn-toggle>
@@ -49,24 +37,14 @@
     </v-container>
     <v-row justify="center">
       <v-col cols="auto">
-        <cc-btn
-          size="x-large"
-          class="ml-auto mr-auto"
-          @click="$refs.dialog.show()"
-        >
+        <cc-btn size="x-large" class="ml-auto mr-auto" @click="($refs as any).dialog.show()">
           <v-icon start large>cc:accuracy</v-icon>
           &emsp;Add New Mech
         </cc-btn>
       </v-col>
     </v-row>
-    <cc-solo-dialog
-      ref="dialog"
-      icon="cc:frame"
-      no-confirm
-      title="Add New Mech"
-      fullscreen
-    >
-      <new-mech-menu :pilot="pilot" @close="$refs.dialog.hide()" />
+    <cc-solo-dialog ref="dialog" icon="cc:frame" no-confirm title="Add New Mech" fullscreen>
+      <new-mech-menu :pilot="pilot" @close="($refs as any).dialog.hide()" />
     </cc-solo-dialog>
   </div>
 </template>

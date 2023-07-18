@@ -34,7 +34,7 @@
             <v-list-item-title>Mark as Unused</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+        <v-list-item v-if="item.CanSetDamage" @click="($refs as any).damageTypeDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon icon="cc:variable" />
           </v-list-item-icon>
@@ -42,7 +42,7 @@
             <v-list-item-title>Select Damage Type</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="item.CanSetUses" @click="$refs.maxUseDialog.show()">
+        <v-list-item v-if="item.CanSetUses" @click="($refs as any).maxUseDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon icon="mdi-dice-6" />
           </v-list-item-icon>
@@ -103,7 +103,7 @@
           </v-list-item>
         </div>
         <v-divider v-if="!active" />
-        <v-list-item v-if="!active" @click="$refs.cName.show()">
+        <v-list-item v-if="!active" @click="($refs as any).cName.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon icon="mdi-circle-edit-outline" />
           </v-list-item-icon>
@@ -111,7 +111,7 @@
             <v-list-item-title>Set Custom Name</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="!active" @click="$refs.cDesc.show()">
+        <v-list-item v-if="!active" @click="($refs as any).cDesc.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-2">
             <v-icon icon="mdi-circle-edit-outline" />
           </v-list-item-icon>

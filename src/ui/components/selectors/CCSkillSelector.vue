@@ -1,67 +1,63 @@
 <template>
   <selector
     title="Pilot Skill Triggers"
-    height="60vh"
     :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
   >
     <template #left-column>
-      <div v-for="(pSkill, i) in pilot.SkillsController.Skills" @click="scroll(pSkill.Skill.ID)">
-        <missing-item
-          v-if="pSkill.Skill.err"
-          @remove="pilot.SkillsController.RemoveSkill(pSkill)"
-        />
-        <v-chip v-else label color="panel" style="width: 100%" class="my-1 pa-1">
-          <v-chip dark color="accent" small>
-            +
-            <b>{{ pSkill.Bonus }}</b>
-          </v-chip>
-          &nbsp;
-          <strong>{{ pSkill.Skill.Trigger }}</strong>
+      <div
+        v-for="pSkill in pilot.SkillsController.Skills"
+        label
+        color="panel"
+        style="width: 100%"
+        class="ma-1"
+        @click="scroll(pSkill.Skill.ID)"
+      >
+        <v-chip dark color="accent">
+          +
+          <b>{{ pSkill.Bonus }}</b>
         </v-chip>
+        &nbsp;
+        <b class="text-stark">{{ pSkill.Skill.Trigger }}</b>
       </div>
-      <v-divider v-if="pilot.SkillsController.Skills.length" class="ma-2 ml-4 mr-4" />
+      <v-divider v-if="pilot.SkillsController.Skills.length" class="ma-2" />
       <v-row>
-        <v-col>
+        <v-col class="ma-1">
           <v-alert
+            v-show="!pilot.SkillsController.IsMissingSkills && enoughSelections"
             variant="outlined"
-            :prominent="$vuetify.display.mdAndUp"
             density="compact"
             color="success"
-            icon="check_circle"
-            class="stat-text"
-            :value="!pilot.SkillsController.IsMissingSkills && enoughSelections"
-          >
-            Skill Selection Complete
-          </v-alert>
+            icon="mdi-check-circle"
+            class="stat-text py-1 mb-2"
+            text="Skill Selection Complete"
+          />
           <v-alert
-            variant="outlined"
-            :prominent="$vuetify.display.mdAndUp"
-            density="compact"
-            color="accent"
-            icon="warning"
-            class="stat-text"
-            :value="
+            v-show="
               pilot.SkillsController.MaxSkillPoints > pilot.SkillsController.CurrentSkillPoints
             "
-          >
-            {{ pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints }}
-            Skill Points remaining
-          </v-alert>
-          <v-alert
             variant="outlined"
-            :prominent="$vuetify.display.mdAndUp"
             density="compact"
             color="accent"
-            icon="warning"
-            class="stat-text"
-            :value="!enoughSelections"
-          >
-            Must select a minimum of {{ selectedMin }} skills
-          </v-alert>
+            icon="mdi-alert"
+            class="stat-text py-1 mb-2"
+            :text="`${
+              pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints
+            }
+            Skill Points remaining`"
+          />
+
+          <v-alert
+            v-show="!enoughSelections"
+            variant="outlined"
+            density="compact"
+            color="accent"
+            icon="mdi-alert"
+            class="stat-text py-1 mb-2"
+            :text="`Must select a minimum of ${selectedMin} skills`"
+          />
           <v-btn
             block
-            text
-            small
+            variant="text"
             :disabled="!pilot.SkillsController.Skills.length"
             @click="pilot.SkillsController.ClearSkills()"
           >
@@ -72,15 +68,11 @@
     </template>
 
     <template #right-column>
-      <div v-for="h in headers">
-        <v-divider v-if="$vuetify.display.smAndDown" class="my-2" />
-        <span v-if="h.attr !== 'Custom'" class="text-overline">Your Ability To</span>
-        <cc-title v-if="$vuetify.display.mdAndUp" small>{{ h.description }}</cc-title>
-        <div v-else class="heading h3 text-accent mb-1">
-          {{ h.description }}
-        </div>
+      <div v-for="h in headers" class="mb-4">
+        <div v-if="h.attr !== 'Custom'" class="text-overline">Your Ability To</div>
+        <cc-title small>{{ h.description }}</cc-title>
         <skill-select-item
-          v-for="(s, i) in skills[h.attr]"
+          v-for="s in skills[h.attr]"
           :id="`skill_${s.ID}`"
           :skill="s"
           :can-add="pilot.SkillsController.CanAddSkill(s)"
@@ -104,7 +96,7 @@ import MissingItem from './components/_MissingItem.vue';
 import Selector from './components/_SelectorBase.vue';
 
 import { CompendiumStore } from '@/stores';
-import { Rules, Pilot } from '@/class';
+import { Rules, Pilot, CompendiumItem } from '@/class';
 import { rules } from '@massif/lancer-data';
 
 import _ from 'lodash';
@@ -113,12 +105,12 @@ export default {
   name: 'skill-selector',
   components: { Selector, SkillSelectItem, AddCustomSkill, MissingItem },
   props: {
-    pilot: Pilot,
+    pilot: { type: Pilot, required: true },
     levelUp: Boolean,
   },
   data: () => ({
-    staticSkills: [],
-    headers: [],
+    staticSkills: [] as any,
+    headers: [] as any[],
   }),
   computed: {
     skills() {
@@ -151,28 +143,18 @@ export default {
   },
   methods: {
     scroll(id) {
-      if (this.levelUp)
-        this.$vuetify.goTo(`#skill_${id}`, {
-          duration: 150,
-          easing: 'easeInOutQuad',
-          offset: 25,
-        });
-      else
-        this.$vuetify.goTo(`#skill_${id}`, {
-          duration: 150,
-          easing: 'easeInOutQuad',
-          offset: 25,
-          container: '.v-dialog--active',
-        });
+      if (this.levelUp) this.scrollTo(`#skill_${id}`);
+      else this.scrollTo(`#skill_${id}`);
+    },
+    scrollTo(e: any): void {
+      const el = document.getElementById(e);
+      if (el) {
+        const yOffset = -60;
+        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
     },
   },
 };
 </script>
-
-<style scoped>
-strong {
-  min-height: 30px;
-  display: inline-flex;
-  align-items: center;
-}
-</style>

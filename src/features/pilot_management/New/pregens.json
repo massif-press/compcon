@@ -1,7 +1,7 @@
 [
   {
     "name": "Vanguard",
-    "image": "pre_vanguard_pixel.png",
+    "image": "https://d2c79xe1p61csc.cloudfront.net/frames/pre_vanguard_pixel.png",
     "code": "ACBP://142-CQC::OCTOBER-TALWAR-GOLD",
     "description": "The Vanguard is a frontline, close-quarters striker that does best in the middle of combat or locking down a choke point.",
     "tactics": "Starting with the Combined Arms and Executioner talents means you're at your most deadly when engaged in close combat with multiple opponents. Use your mech's Heavy Charged Blade to deal armor-piercing melee damage, which can attack an additional enemy if it hits, thanks to Executioner. Find or establish choke points to lock down your surroundings with your Threat 3 Shotgun and the Vanguard’s namesake talent, which confers Accuracy on every attack within the weapon's threat. Don’t hesitate to use the Hex Charges when confronted with clustered enemies at midrange, especially due to its degree of guaranteed damage. Combined Arms, as well as your Projected Shield, allows you to synergize with and support allies with similar close-combat profiles.",
@@ -45,7 +45,7 @@
   },
   {
     "name": "Assault",
-    "image": "pre_assault_pixel.png",
+    "image": "https://d2c79xe1p61csc.cloudfront.net/frames/pre_assault_pixel.png",
     "code": "ACBP://806-MDR::JULY-HALBERD-LAUREL",
     "description": "The Assault is a versatile, multi-role combatant optimized for mid-range engagements.",
     "tactics": "The Assault’s eponymous Rifle is an extremely practical weapon thanks to the guaranteed damage from its Reliable 2 tag, which is especially useful against difficult-to-hit opponents. Make use of the Walking Armory Ammo Case to adapt your Assault Rifle to whatever the situation calls for: against single enemies, Thumper and Mag Ammo let you reposition your opponent and ignore line of sight, respectively. Shock Ammo, Hex Charges, and Missile Racks should be used to punish clustered groups of enemies. The Missile Racks become particularly powerful when Locked On, knocking enemies prone thanks to Stormbringer. The Assault does best in close proximity to allies, conferring Accuracy with Bonded and large areas of soft cover with the Smoke Charges.",
@@ -84,7 +84,7 @@
   },
   {
     "name": "Sniper",
-    "image": "pre_sniper_pixel.png",
+    "image": "https://d2c79xe1p61csc.cloudfront.net/frames/pre_sniper_pixel.png",
     "code": "ACBP://014-LNR::AUGUST-DAIKYU-VERMILLION",
     "description": "The Sniper is a stealthy, maneuverable, single-target striker that can deal massive armor-piercing damage at long range with its Anti-Materiel Rifle. ",
     "tactics": "The Sniper relies heavily on stealth and speed to set up shots for its extremely powerful long-range Anti-Materiel Rifle. This rifle is Accurate, and so gains +1 Accuracy by default, which increases to +2 when used with Crack Shot. An additional bonus from Lock On or an ally's talent makes for an all-but-guaranteed hit against even the most evasive enemies. This power is not without cost, though, as the Rifle must be fired as your first non-Protocol move (due to Ordnance), and must be reloaded via the Stabilize Full Action.<br>Make use of Infiltrator, Skirmisher, and your Rapid Burst Jump Jet System to quickly and safely reposition to an advantageous sight line, then use the Jericho Deployable Cover and Smoke Charges to establish a defensible sniper’s nest. Use the Thermal Rifle (when you’re not reloading) to clean up damaged targets and provide fire support to allies that are defending your position.",
@@ -122,7 +122,7 @@
   },
   {
     "name": "Hacker",
-    "image": "pre_hacker_pixel.png",
+    "image": "https://d2c79xe1p61csc.cloudfront.net/frames/pre_hacker_pixel.png",
     "code": "ACBP://900-EWR::NOVEMBER-LABRYS-CITRINE",
     "description": "The Hacker is an aerial Tech Attack platform that primarily attacks enemies’ E-Defense. If that doesn’t work, it’s got a Howitzer.",
     "tactics": "The Hacker’s Ace talent synergizes with the GMS Flight System, giving you a superb repositioning tool to enter hacking range or escape sustained fire. Your +2 Tech Attack bonus and the Hacker talent, as well as your Nexus weapons, make you exceptionally powerful when facing enemies with low E-Defense. Make use of the Scan action to determine which opponents are most vulnerable to your Smart weapons and the Heat you can inflict with Invasion.<br> The Ace talent, the Flight System, and the Howitzer also make the Hacker a serviceable artillery platform. The Howitzer has Ordnance (it must be fired on the first action), Loading (it must be reloaded with the Stabilize Full Action between shots), and Inaccurate (it takes a Difficulty by default), and so is an awkward weapon, but it deals 2d6 Explosive Damage in a Blast 2 radius at Range 20. If you can cancel out the Difficulty through Lock On, a Bonded ally, a Leadership Die, or other means, you can single-handedly turn a difficult operation into a trivial milk run.",
@@ -166,7 +166,7 @@
   },
   {
     "name": "Fire Support",
-    "image": "pre_support_pixel.png",
+    "image": "https://d2c79xe1p61csc.cloudfront.net/frames/pre_support_pixel.png",
     "code": "ACBP://142-FSP::JANUARY-GONFALON-ARGENT",
     "description": "The Fire Support is a force multiplier and adaptable battlefield commander that can turn the tide of a battle from the backline.",
     "tactics": "The Fire Support’s most important feature is the Leadership talent, which lets you grant Accuracy to teammates, and should be used judiciously to ensure clutch shots and narrow escapes fall in your favor. <br>The Heavy Gunner talent can lock down a dangerous enemy with the extremely powerful Heavy Machine Gun, and the dual Threat 3 Pistols punish enemies who get too close. With an expanded Limited capacity, you’re able to deploy additional Turret Drones and Smoke Charges to fortify a control zone or secure a breach into enemy territory. <br>The Fire Support is especially useful to allied sniper and artillery mechs thanks to Spotter, which improves Lock Ons when they’re consumed adjacent to you, and the Jericho Deployable Cover can transform a sniper nest from exposed to impregnable.",

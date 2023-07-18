@@ -3,7 +3,6 @@
     <template v-slot:default="{ isHovering, props }">
       <div
         id="panel-wrapper"
-        v-hover="{ hover: true }"
         :class="`mb-2 ${clickable ? 'clickable' : ''}`"
         v-bind="props"
         @click="$emit('click')"
@@ -51,6 +50,7 @@
 <script lang="ts">
 export default {
   name: 'CCTitledPanel',
+  emits: ['click'],
   props: {
     title: {
       type: String,

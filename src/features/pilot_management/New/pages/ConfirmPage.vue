@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content
+  <stepper-content
     :complete="pilotReady"
     :mandatory="!quickstart"
     exit="pilot_management"
@@ -9,10 +9,9 @@
   >
     <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
     <br />
-    <v-alert type="error" variant="outlined" :value="!pilotReady">
+    <v-alert type="error" variant="outlined" v-if="!pilotReady">
       <span class="stat-text text-accent">
-        WARNING: Submission for IDENT record {{ pilot.ID }} has the following
-        issue(s):
+        WARNING: Submission for IDENT record {{ pilot.ID }} has the following issue(s):
       </span>
       <ul class="flavor-text text-error">
         <li v-if="!pilot.Callsign">PILOT CALLSIGN blank or invalid</li>
@@ -20,9 +19,7 @@
         <li v-if="!pilot.SkillsController.HasFullSkills">
           PILOT SKILL TRIGGERS missing or incomplete
         </li>
-        <li v-if="!pilot.TalentsController.HasFullTalents">
-          PILOT TALENTS missing or incomplete
-        </li>
+        <li v-if="!pilot.TalentsController.HasFullTalents">PILOT TALENTS missing or incomplete</li>
         <li v-if="!pilot.MechSkillsController.HasFullHASE">
           PILOT MECH SKILLS missing or incomplete
         </li>
@@ -44,17 +41,19 @@
       </span>
       <span v-else>Register Pilot</span>
     </v-btn>
-  </cc-stepper-content>
+  </stepper-content>
 </template>
 
 <script lang="ts">
 import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue';
+import StepperContent from '../../_components/StepperContent.vue';
+import { Pilot } from '@/classes/pilot/Pilot';
 
 import { PilotStore } from '@/stores';
 
 export default {
   name: 'confirm-page',
-  components: { PilotRegistrationCard },
+  components: { PilotRegistrationCard, StepperContent },
   props: {
     pilot: {
       type: Object,
@@ -79,11 +78,9 @@ export default {
   methods: {
     savePilot() {
       const store = PilotStore();
-      this.pilot.Callsign = this.pilot.Callsign
-        ? this.pilot.Callsign
-        : this.default_callsign;
+      this.pilot.Callsign = this.pilot.Callsign ? this.pilot.Callsign : this.default_callsign;
       this.pilot.Name = this.pilot.Name ? this.pilot.Name : this.default_name;
-      store.addPilot(this.pilot);
+      store.AddPilot(this.pilot as Pilot);
       this.$emit('done');
     },
   },

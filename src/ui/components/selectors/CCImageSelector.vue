@@ -3,43 +3,25 @@
     id="image-selector-dialog"
     ref="dialog"
     fullscreen
+    closeable
     no-confirm
+    icon="mdi-image"
     title="Select Image"
   >
-    <v-container fluid>
+    <v-container>
       <v-row align="center">
         <v-col cols="12" md="6" style="min-height: 800px">
-          <v-row dense align="start" class="mb-2">
-            <v-col>
-              <div class="heading h3">AVAILABLE IMAGES</div>
-            </v-col>
-            <v-col cols="auto">
-              <v-switch v-model="showAll" dense hide-details color="warning" class="mb-0 mt-0">
-                <cc-tooltip
-                  slot="label"
-                  simple
-                  inline
-                  :content="showAll ? 'Showing all images' : `Showing only ${type} images`"
-                >
-                  <v-icon
-                    :color="showAll ? 'warning' : 'success'"
-                    v-html="showAll ? 'mdi-lock-open' : 'mdi-lock'"
-                  />
-                </cc-tooltip>
-              </v-switch>
-            </v-col>
-          </v-row>
           <v-tabs v-model="imageSelectTab">
             <v-tab>Cloud Account</v-tab>
             <v-tab>COMP/CON Image Archive</v-tab>
           </v-tabs>
-          <v-tabs-items v-model="imageSelectTab">
-            <v-tab-item>
+          <v-window v-model="imageSelectTab">
+            <v-window-item>
               <v-card>
                 <v-alert
                   v-if="!isAuthed"
                   color="subtle"
-                  outlined
+                  variant="outlined"
                   class="ma-2"
                   icon="mdi-cloud-alert"
                 >
@@ -160,8 +142,22 @@
                   </v-card-text>
                 </div>
               </v-card>
-            </v-tab-item>
-            <v-tab-item>
+            </v-window-item>
+            <v-window-item>
+              <v-row class="my-1">
+                <v-col>
+                  <v-select
+                    label="Image Type"
+                    v-model="selectedTags"
+                    hide-details
+                    density="compact"
+                    variant="outlined"
+                    :items="imageTags"
+                    multiple
+                    chips
+                  />
+                </v-col>
+              </v-row>
               <v-card>
                 <v-row dense align="center">
                   <v-col v-for="image in displayedArtistImages" :key="image.url" cols="4" md="3">
@@ -182,30 +178,32 @@
                     </v-card>
                     <v-scale-transition>
                       <v-card v-if="isSelected(image.url)" flat outlined class="pa-1" tile>
-                        <div class="caption text-center">
+                        <div class="text-caption text-center">
                           Artwork by
                           <b>{{ image.artist }}</b>
                         </div>
-                        <div class="text-center">
+                        <div class="text-center mt-n2">
                           <v-btn
                             v-if="image.website"
-                            small
+                            size="small"
                             icon
+                            variant="plain"
                             :href="image.website"
                             target="_blank"
                             class="mx-2"
                           >
-                            <v-icon small>mdi-web</v-icon>
+                            <v-icon>mdi-web</v-icon>
                           </v-btn>
                           <v-btn
                             v-if="image.twitter"
-                            small
+                            size="small"
                             icon
+                            variant="plain"
                             :href="`https://twitter.com/${image.twitter}`"
                             target="_blank"
                             class="mx-2"
                           >
-                            <v-icon small>mdi-twitter</v-icon>
+                            <v-icon>mdi-twitter</v-icon>
                           </v-btn>
                         </div>
                       </v-card>
@@ -219,8 +217,8 @@
                   @input="currentArtistPage = $event"
                 />
               </v-card>
-            </v-tab-item>
-          </v-tabs-items>
+            </v-window-item>
+          </v-window>
 
           <v-divider class="ma-6" />
 
@@ -266,24 +264,71 @@
           </v-alert>
         </v-col>
         <v-col>
-          <div class="text-center">
+          <div class="text-center" style="position: relative">
             <v-img
               :src="displayImage"
               contain
               max-width="500px"
               max-height="500px"
               class="ml-auto mr-auto"
-            />
-            <v-btn
-              color="secondary"
-              :disabled="(!remoteInput || remoteError.length > 0) && !selectedImageUrl"
-              class="px-10 ma-3"
-              @click="saveImage()"
             >
-              Set Image
-            </v-btn>
-            <br />
-            <v-btn small outlined @click="clearImage()">clear image</v-btn>
+              <v-card v-if="avatar" id="avatar-inset" variant="outlined" color="primary">
+                <cc-avatar
+                  v-if="item.PortraitController.Avatar"
+                  :avatar="item.PortraitController.Avatar"
+                />
+                <div v-else class="text-overline pt-2">
+                  no avatar set<br />
+                  <div
+                    v-if="!item.PortraitController.CloudImage"
+                    v-text="'Requires Image Selection'"
+                    class="pt-4"
+                  />
+                </div>
+              </v-card>
+            </v-img>
+            <v-row justify="space-around" class="mt-2">
+              <v-col cols="auto" class="text-left">
+                <v-btn
+                  color="secondary"
+                  :disabled="(!remoteInput || remoteError.length > 0) && !selectedImageUrl"
+                  @click="saveImage()"
+                >
+                  Set Image
+                </v-btn>
+                <br />
+                <v-btn size="small" class="mt-2" variant="outlined" @click="clearImage()"
+                  >clear image</v-btn
+                >
+              </v-col>
+              <v-col v-if="avatar" cols="auto" class="text-right">
+                <v-btn
+                  color="secondary"
+                  :disabled="!item.PortraitController.CloudImage"
+                  @click="($refs.crop_dialog as any).show()"
+                >
+                  Set Avatar
+                </v-btn>
+                <cc-solo-dialog
+                  ref="crop_dialog"
+                  icon="mdi-crop"
+                  color="primary"
+                  large
+                  title="Set Avatar"
+                  no-actions
+                >
+                  <image-crop
+                    :src="selectedImageUrl"
+                    @hide="($refs.crop_dialog as any).hide()"
+                    @confirm="setAvatar($event)"
+                  />
+                </cc-solo-dialog>
+                <br />
+                <v-btn size="small" class="mt-2" variant="outlined" @click="clearCrop()"
+                  >clear avatar</v-btn
+                >
+              </v-col>
+            </v-row>
           </div>
         </v-col>
       </v-row>
@@ -293,12 +338,15 @@
 
 <script lang="ts">
 // import { UserStore } from '@/store';
+import _ from 'lodash';
+import ImageCrop from './components/_ImageCrop.vue';
 import { storageInfo, getPresignedLink, s3api, deleteStorage } from '@/user/api';
 import { Auth } from '@aws-amplify/auth';
 import artistmap from '@/assets/artistmap.json';
 
 export default {
   name: 'web-image-selector',
+  components: { ImageCrop },
   props: {
     item: {
       type: Object,
@@ -307,6 +355,9 @@ export default {
     type: {
       type: String,
       required: true,
+    },
+    avatar: {
+      type: Boolean,
     },
   },
   data: () => ({
@@ -322,11 +373,14 @@ export default {
     accountMax: 250,
     iid: '',
     userStorageData: null as unknown as any,
-    stagedImage: null as unknown as File[],
+    stagedImage: null as unknown as any,
     showAll: false,
     imageUrl: '',
+    selectedTags: [] as string[],
+    cropWindow: false,
   }),
   async mounted() {
+    this.selectedTags = [this.type];
     if (!this.iid) await this.getStorageInfo();
   },
   computed: {
@@ -352,7 +406,7 @@ export default {
       else return 'https://via.placeholder.com/550';
     },
     isAuthed() {
-      return true;
+      return false;
       // TODO
       // return getModule(UserStore, this.$store).IsLoggedIn;
     },
@@ -376,26 +430,16 @@ export default {
         }));
       return contents;
     },
+    imageTags() {
+      return _.uniq([...artistmap.flatMap((x) => Object.keys(x.images))]);
+    },
     artistImages() {
       let out = [] as any[];
 
       artistmap.forEach((artist) => {
-        if (this.showAll) {
-          Object.keys(artist.images).forEach((tag) => {
-            artist.images[tag].forEach((image) => {
-              out.push({
-                url: image.img,
-                filename: image.name,
-                tag: tag,
-                artist: artist.artist,
-                website: artist.website || '',
-                twitter: artist.twitter || '',
-              });
-            });
-          });
-        } else {
-          if (artist.images[this.type])
-            artist.images[this.type].forEach((image) => {
+        this.selectedTags.forEach((t) => {
+          if (artist.images[t])
+            artist.images[t].forEach((image) => {
               out.push({
                 url: image.img,
                 filename: image.name,
@@ -405,7 +449,7 @@ export default {
                 twitter: artist.twitter || '',
               });
             });
-        }
+        });
       });
       return out;
     },
@@ -434,10 +478,10 @@ export default {
       this.selectedImage = null;
     },
     saveImage() {
+      this.item.PortraitController.Avatar = undefined;
       this.item.PortraitController.CloudImage =
         typeof this.selectedImage === 'string' ? this.selectedImage : this.selectedImage.url;
       this.loading = false;
-      this.close();
     },
     setRemoteImage() {
       if (!this.remoteInput) return;
@@ -522,6 +566,31 @@ export default {
     close() {
       (this.$refs as any).dialog.hide();
     },
+    clearCrop() {
+      this.item.PortraitController.Avatar = undefined;
+    },
+    setAvatar(avatar) {
+      console.log(avatar);
+      this.item.PortraitController.Avatar = avatar;
+      (this.$refs.crop_dialog as any).hide();
+    },
   },
 };
 </script>
+
+<style scoped>
+#avatar-inset {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: 200px;
+  background-color: rgb(var(--v-theme-panel));
+  opacity: 0.9;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#avatar-inset:hover {
+  opacity: 1;
+}
+</style>

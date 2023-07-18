@@ -7,31 +7,6 @@ declare module 'vue/types/vue' {
     $notify: (text: string, type?: string, onClick?: () => void) => void;
   }
 }
-// declare module '*.vue' {
-//   import Vue from 'vue'
-//   export default Vue
-// }
-// declare module 'modules'
-
-// declare module 'gist-client'
-// declare module 'imgur'
-// declare module 'vuedraggable'
-// declare module 'tiptap-vuetify'
-// declare module 'vue-html-secure'
-
-// declare module '*.txt' {
-//   const content: string
-//   export default content
-// }
-// declare module '*.json' {
-//   const value: any
-//   export default value
-// }
-
-// declare module '*.svg' {
-//   const content: any
-//   export default content
-// }
 
 declare module 'lancer-data' {
   const backgrounds: any;

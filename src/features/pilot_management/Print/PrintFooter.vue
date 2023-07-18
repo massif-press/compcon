@@ -5,7 +5,7 @@
       <v-icon icon="mdi-close" />
     </v-btn>
     <v-spacer />
-    <v-btn @click="$refs.options.show()">
+    <v-btn @click="($refs as any).options.show()">
       <span>Options</span>
       <v-icon icon="mdi-cog" />
     </v-btn>

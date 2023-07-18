@@ -1,5 +1,5 @@
 <template>
-  <v-card variant="outlined" class="my-1" width="100%">
+  <v-card variant="outlined" class="my-1">
     <v-toolbar color="primary">
       <v-row dense align="center">
         <v-col cols="auto" class="pl-4">

@@ -1,109 +1,70 @@
 <template>
   <div>
-    <v-menu offset-y offset-x>
-      <template #activator="{ on: menu }">
-        <v-btn class="ml-2" icon :dark="!light" v-on="menu">
-          <v-icon icon="mdi-cog" />
-        </v-btn>
-      </template>
-      <v-list two-line subheader color="panel">
-        <div v-if="!dense" class="heading h2 text-white primary py-0 px-2">Pilot Options</div>
-        <v-list-item @click="($refs.printDialog as any).show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon icon="mdi-printer" />
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Print</v-list-item-title>
-            <v-list-item-subtitle>
-              Print tabletop-ready character and mech sheets
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item @click="($refs.cloneDialog as any).show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon icon="mdi-dna" />
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Clone</v-list-item-title>
-            <v-list-item-subtitle>Duplicate or Flash Clone this character</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item @click="($refs.statblockDialog as any).show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon icon="mdi-file-document-outline" />
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Generate Statblock</v-list-item-title>
-            <v-list-item-subtitle>
-              Get a plaintext representation of this character's build
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-          v-if="pilot.CloudController.IsRemoteResource"
-          :disabled="!isAuthed"
-          :loading="loading"
-          @click="remoteUpdate()"
-        >
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon icon="mdi-cloud-sync" />
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Download Latest Data</v-list-item-title>
-            <v-list-item-subtitle>
-              Download all remote changes to this pilot, overwriting local data.
-              <br />
-              <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item v-else :disabled="!isAuthed" @click="($refs.shareDialog as any).show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon icon="mdi-code-json" />
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Get Share Code</v-list-item-title>
-            <v-list-item-subtitle>
-              Generate a share code that other users can use to import and sync this character.
-              <br />
-              <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <!-- <v-list-item @click="($refs.roll20Dialog as any).show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon icon="mdi-dice-d20" />
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Convert to Roll20</v-list-item-title>
-            <v-list-item-subtitle>
-              Copy JSON data that can be interpreted by the Roll20 LANCER sheet
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item> -->
-        <v-list-item @click="($refs.exportDialog as any).show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon icon="mdi-export-variant" />
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Export Pilot</v-list-item-title>
-            <v-list-item-subtitle>Open the pilot export menu</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-        <v-divider />
-        <v-list-item @click="($refs.deleteDialog as any).show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon color="error">mdi-delete</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title class="text-error">Delete Pilot</v-list-item-title>
-            <v-list-item-subtitle class="text-error">
-              Remove this pilot from the roster
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-menu>
+    <v-btn icon size="small" variant="plain" @click.native.stop>
+      <v-icon icon="mdi-cog" color="white" size="large" />
+      <v-menu activator="parent">
+        <v-card>
+          <v-toolbar density="compact" color="primary">
+            <div v-if="!dense" class="heading h2 text-white primary py-0 px-2">Pilot Options</div>
+          </v-toolbar>
+          <v-list two-line subheader color="panel">
+            <v-list-item
+              title="Print"
+              prepend-icon="mdi-printer"
+              subtitle="Print tabletop-ready character and mech sheets"
+              @click="($refs.printDialog as any).show()"
+            />
+            <v-list-item
+              prepend-icon="mdi-dna"
+              title="Clone"
+              subtitle="Duplicate or Flash Clone this character"
+              @click="($refs.cloneDialog as any).show()"
+            />
+            <v-list-item
+              prepend-icon="mdi-file-document-outline"
+              title="Generate Statblock"
+              subtitle="Get a plaintext representation of this character's build"
+              @click="($refs.statblockDialog as any).show()"
+            />
+            <v-list-item
+              v-if="pilot.CloudController.IsRemoteResource"
+              :disabled="!isAuthed"
+              :loading="loading"
+              prepend-icon="mdi-cloud-sync"
+              title="Download Latest Data"
+              subtitle="Download all remote changes to this pilot, overwriting local data"
+              @click="remoteUpdate()"
+            />
+            <v-list-item
+              v-else
+              :disabled="!isAuthed"
+              prepend-icon="mdi-code-json"
+              title="Get Share Code"
+              subtitle="Generate a share code that other users can use to import and sync this character"
+              @click="($refs.shareDialog as any).show()"
+            />
+            <v-list-item
+              prepend-icon="mdi-export-variant"
+              title="Export Pilot"
+              subtitle="Open the export menu"
+              @click="($refs.exportDialog as any).show()"
+            />
+
+            <v-divider />
+            <v-list-item
+              title="Delete Pilot"
+              subtitle="Remove this pilot from the roster"
+              @click="($refs.deleteDialog as any).show()"
+            >
+              <template #prepend>
+                <v-icon color="error">mdi-delete</v-icon>
+              </template>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-menu>
+    </v-btn>
+
     <print-dialog ref="printDialog" :pilot="pilot" />
     <export-dialog ref="exportDialog" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" :pilot="pilot" />
@@ -117,6 +78,7 @@
 </template>
 
 <script lang="ts">
+import { Pilot } from '@/class';
 import CloneDialog from './CloneDialog.vue';
 import StatblockDialog from './StatblockDialog.vue';
 import Roll20Dialog from './Roll20Dialog.vue';
@@ -141,14 +103,14 @@ export default {
   },
   props: {
     pilot: {
-      type: Object,
+      type: Pilot,
       required: true,
     },
     light: {
       type: Boolean,
     },
-    density: {
-      type: String,
+    dense: {
+      type: Boolean,
     },
   },
   data: () => ({
@@ -168,10 +130,19 @@ export default {
       this.loading = true;
       try {
         // await RemoteSyncItem(this.pilot);
-        this.$notify('Pilot synced to remote', 'success');
+
+        this.$notify({
+          title: 'Sync Success',
+          text: 'Pilot synced to remote',
+          data: { type: 'success', icon: 'mdi-check' },
+        });
       } catch (error) {
         console.error(error);
-        this.$notify('An error occurred while attempting to download remote data', 'error');
+        this.$notify({
+          title: 'Sync Error',
+          text: 'An error occurred while attempting to download remote data',
+          data: { type: 'error', icon: 'mdi-alert' },
+        });
       }
       this.loading = false;
     },

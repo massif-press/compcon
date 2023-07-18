@@ -1,35 +1,26 @@
 <template>
-  <v-row density="compact" class="pa-0" align="center">
+  <v-row dense class="pa-0" align="center">
     <v-col class="pa-0">
       <cc-skill-item :bonus="bonus" :skill="skill" />
     </v-col>
     <v-col cols="auto">
-      <div :class="$vuetify.display.mdAndUp ? 'ml-auto mr-auto' : ''">
-        <cc-tooltip simple content="Increase Skill Bonus" inline>
-          <v-btn
-            :large="$vuetify.display.mdAndUp"
-            :small="$vuetify.display.smAndDown"
-            color="secondary"
-            icon
-            :disabled="!canAdd"
-            @click="$emit('add')"
-          >
-            <v-icon x-large>cc:accuracy</v-icon>
-          </v-btn>
-        </cc-tooltip>
-        <cc-tooltip simple content="Decrease Skill Bonus" inline>
-          <v-btn
-            :large="$vuetify.display.mdAndUp"
-            :small="$vuetify.display.smAndDown"
-            color="error"
-            icon
-            :disabled="!canRemove"
-            @click="$emit('remove')"
-          >
-            <v-icon x-large>cc:difficulty</v-icon>
-          </v-btn>
-        </cc-tooltip>
-      </div>
+      <cc-tooltip simple content="Increase Skill Bonus" inline>
+        <v-btn
+          size="x-small"
+          class="mr-1"
+          icon
+          variant="plain"
+          :disabled="!canAdd"
+          @click="$emit('add')"
+        >
+          <v-icon size="40" color="secondary" class="mt-n1">cc:accuracy</v-icon>
+        </v-btn>
+      </cc-tooltip>
+      <cc-tooltip simple content="Decrease Skill Bonus" inline>
+        <v-btn size="x-small" icon variant="plain" :disabled="!canRemove" @click="$emit('remove')">
+          <v-icon size="40" color="error" class="mt-n1">cc:difficulty</v-icon>
+        </v-btn>
+      </cc-tooltip>
     </v-col>
   </v-row>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <cc-stepper-content
+  <stepper-content
     :complete="pilot.HasIdent"
     :mandatory="!quickstart"
     exit="pilot_management"
@@ -180,9 +180,6 @@
           </v-row>
         </div>
       </v-col>
-      <v-col v-if="$vuetify.display.mdAndUp" cols="1" class="ml-auto mr-auto text-center">
-        <v-divider vertical />
-      </v-col>
       <v-col cols="12" md="5" class="ml-auto">
         <div v-if="$vuetify.display.mdAndUp" class="text-caption">
           RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
@@ -221,17 +218,17 @@
       </v-btn>
       <div class="text-overline text-stark">Recommended for New Players</div>
     </div>
-  </cc-stepper-content>
+  </stepper-content>
 </template>
 
 <script lang="ts">
+import StepperContent from '../../_components/StepperContent.vue';
 import { name, callsign } from '@/io/Generators';
-import TextEntryPopup from './components/TextEntryPopup.vue';
 import { CCTextEditor } from '@/ui/globals';
 
 export default {
   name: 'identification-page',
-  components: { TextEntryPopup, CCTextEditor },
+  components: { CCTextEditor, StepperContent },
   props: {
     pilot: {
       type: Object,

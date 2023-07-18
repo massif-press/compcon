@@ -1,14 +1,9 @@
 <template>
   <div class="my-3">
-    <cc-title
-      small
-      color="pilot"
-      class="pl-3"
-      style="margin-left: -70px !important"
-    >
+    <cc-title small color="pilot" class="pl-3" style="margin-left: -70px !important">
       <section-edit-icon
         label="Add Reserves and Bonuses"
-        @open-selector="$refs.dtSelector.show()"
+        @open-selector="($refs as any).dtSelector.show()"
       />
       Reserves and Bonuses
     </cc-title>
@@ -20,7 +15,7 @@
       fullscreen
       no-pad
     >
-      <cc-reserve-selector :pilot="pilot" @close="$refs.dtSelector.hide()" />
+      <cc-reserve-selector :pilot="pilot" @close="($refs as any).dtSelector.hide()" />
     </cc-solo-dialog>
     <v-container>
       <no-data-block

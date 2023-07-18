@@ -6,7 +6,7 @@
         :current="pilot.SkillsController.CurrentSkillPoints"
         :max="pilot.SkillsController.MaxSkillPoints"
         :label="`Edit Pilot Skill Triggers (${pilot.SkillsController.CurrentSkillPoints}/${pilot.SkillsController.MaxSkillPoints})`"
-        @open-selector="$refs.skillSelector.show()"
+        @open-selector="($refs as any).skillSelector.show()"
       />
       Skill Triggers
     </cc-title>
@@ -29,9 +29,7 @@
         <div
           class="heading h1 text-secondary"
           :style="
-            $vuetify.display.lgAndUp
-              ? 'font-size: 80px; line-height: 50px'
-              : 'line-height: 30px'
+            $vuetify.display.lgAndUp ? 'font-size: 80px; line-height: 50px' : 'line-height: 30px'
           "
         >
           +{{ pilot.Grit }}

@@ -81,6 +81,7 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
+import { Pilot } from '@/class';
 
 import _ from 'lodash';
 
@@ -89,6 +90,7 @@ export default {
   props: {
     hideQuirks: { type: Boolean },
     readonly: { type: Boolean },
+    pilot: { type: Object, required: true },
   },
   methods: {
     setQuirk() {

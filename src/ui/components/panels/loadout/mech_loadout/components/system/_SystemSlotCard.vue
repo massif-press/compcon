@@ -8,18 +8,12 @@
           small
           color="primary"
           class="fade-select"
-          @click.stop="$refs.selectorDialog.show()"
+          @click.stop="($refs as any).selectorDialog.show()"
         >
           <v-icon small>mdi-plus</v-icon>
           Add Additional System
         </v-btn>
-        <cc-solo-dialog
-          ref="selectorDialog"
-          no-confirm
-          title="SELECT EQUIPMENT"
-          fullscreen
-          no-pad
-        >
+        <cc-solo-dialog ref="selectorDialog" no-confirm title="SELECT EQUIPMENT" fullscreen no-pad>
           <system-selector :mech="mech" @equip="equipExtra($event)" />
         </cc-solo-dialog>
       </v-col>
@@ -40,14 +34,9 @@
             <equipment-options :item="item" :readonly="readonly" />
           </v-col>
           <v-col cols="auto">
-            <span
-              v-if="!item.Destroyed"
-              :class="`ml-n2 ${small ? 'text-white effect-text' : ''}`"
-            >
+            <span v-if="!item.Destroyed" :class="`ml-n2 ${small ? 'text-white effect-text' : ''}`">
               {{ item.Name }}
-              <span v-if="item.FlavorName" class="caption ml-2 my-n1"
-                >//{{ item.TrueName }}</span
-              >
+              <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
             </span>
             <span v-else class="py-1 error" style="letter-spacing: 3px">
               &nbsp;//
@@ -63,11 +52,7 @@
           <span :class="small ? 'h3' : 'h2'">{{ item.SP }}</span>
           <span class="h3">SP</span>
         </div>
-        <div
-          v-if="!readonly"
-          class="d-inline pl-3 ml-3"
-          style="border-left: 1px solid #616161"
-        >
+        <div v-if="!readonly" class="d-inline pl-3 ml-3" style="border-left: 1px solid #616161">
           <v-icon
             v-if="item"
             dark
@@ -81,7 +66,7 @@
             class="fade-select mt-n1"
             :small="small"
             dark
-            @click.stop="$refs.base.$refs.selectorDialog.show()"
+            @click.stop="($refs as any).base.$refs.selectorDialog.show()"
             v-html="item ? 'mdi-swap-vertical-variant' : 'add'"
           />
         </div>
@@ -102,10 +87,7 @@
             <v-icon icon="cc:system" />
             EQUIPMENT EFFECT
           </div>
-          <p
-            v-html-safe="item.Effect"
-            class="text-text body-text mb-1 mr-3 ml-7"
-          />
+          <p v-html-safe="item.Effect" class="text-text body-text mb-1 mr-3 ml-7" />
         </div>
       </div>
       <div v-if="item && item.Ammo && item.Ammo.length">
@@ -115,12 +97,7 @@
           <span v-html="a.detail" />
         </div>
       </div>
-      <system-selector
-        slot="selector"
-        :mech="mech"
-        :equipped="item"
-        @equip="equip($event)"
-      />
+      <system-selector slot="selector" :mech="mech" :equipped="item" @equip="equip($event)" />
     </slot-card-base>
   </div>
 </template>
@@ -177,10 +154,7 @@ export default {
     },
     equip(sys: MechSystem) {
       if (this.item) {
-        this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
-          this.index,
-          sys
-        );
+        this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(this.index, sys);
       } else {
         this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys);
       }

@@ -6,8 +6,10 @@ import { PilotData } from '@/interface';
 import { deletePermanent, storeSaveDelta } from '@/util/storeUtils';
 
 async function savePilots(pilots: Pilot[]) {
-  const dirty = pilots.filter((x) => x.SaveController.IsDirty);
-  Promise.all(dirty.map((x) => SetItem('pilots', Pilot.Serialize(x))))
+  // TODO: reactivate dirty
+  // const dirty = pilots.filter((x) => x.SaveController.IsDirty);
+
+  Promise.all(pilots.map((x) => SetItem('pilots', Pilot.Serialize(x))))
     .then(() => console.info('Pilot data saved'))
     .catch((err) => console.error('Error while saving Pilot data', err));
   // await saveDelta('pilots_v2.json', serialized)
@@ -38,16 +40,15 @@ export const PilotStore = defineStore('pilot', {
   getters: {
     AllPilots: (state: any) => state.Pilots.concat(state.DeletedPilots),
     getPilots: (state: any) => state.Pilots,
-    unsavedCloudPilots: (state: any) =>
-      state.Pilots.filter((p: Pilot) => p.SaveController.IsDirty),
+    unsavedCloudPilots: (state: any) => state.Pilots.filter((p: Pilot) => p.SaveController.IsDirty),
     getActivePilot: (state: any) => state.ActivePilot,
     getPrintOptions: (state: any) => state.printOptions,
+    getPilotByID: (state: any) => (id: string) => {
+      return state.Pilots.find((p: Pilot) => p.ID === id);
+    },
   },
   actions: {
-    _loadPilots(payload: {
-      pilotData: PilotData[];
-      groupData: PilotGroup[];
-    }): void {
+    _loadPilots(payload: { pilotData: PilotData[]; groupData: PilotGroup[] }): void {
       const all = payload.pilotData.map((x) => Pilot.Deserialize(x));
       this.Pilots = all.filter((x) => !x.SaveController.IsDeleted);
       this.DeletedPilots = all.filter((x) => x.SaveController.IsDeleted);
@@ -55,30 +56,27 @@ export const PilotStore = defineStore('pilot', {
       //clean up deleted
       const del = [] as Pilot[];
       (this.DeletedPilots as Pilot[]).forEach((dp: Pilot) => {
-        if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime))
-          del.push(dp);
+        if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp);
       });
       if (del.length) {
         console.info(`Cleaning up ${del.length} pilots marked for deletion`);
 
         Promise.all(del.map((p) => deletePermanent(p)))
           .then(() =>
-            storeSaveDelta(
-              (this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[])
-            )
+            storeSaveDelta((this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[]))
           )
           .then(() => console.info('Done'))
-          .catch((err) =>
-            console.error('Error in permanently deleting pilots:', err)
-          );
+          .catch((err) => console.error('Error in permanently deleting pilots:', err));
       }
     },
     AddPilot(payload: Pilot): void {
       payload.SaveController.IsDirty = true;
+
+      if (!this.Pilots) this.Pilots = [];
+
       this.Pilots.push(payload);
-      savePilots(
-        (this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[])
-      );
+
+      this.savePilotData();
     },
     ClonePilot(payload: { pilot: Pilot; quirk: boolean }): void {
       const pilotData = Pilot.Serialize(payload.pilot);
@@ -92,9 +90,7 @@ export const PilotStore = defineStore('pilot', {
       this.Pilots.push(newPilot);
     },
     DeletePilot(payload: Pilot): void {
-      const pilotIndex = (this.Pilots as Pilot[]).findIndex(
-        (x: Pilot) => x.ID === payload.ID
-      );
+      const pilotIndex = (this.Pilots as Pilot[]).findIndex((x: Pilot) => x.ID === payload.ID);
 
       if (pilotIndex > -1) {
         this.Pilots.splice(pilotIndex, 1);
@@ -104,18 +100,14 @@ export const PilotStore = defineStore('pilot', {
       }
     },
     DeletePilotPermanent(payload: Pilot): void {
-      const dpIdx = (this.DeletedPilots as Pilot[]).findIndex(
-        (x: Pilot) => x.ID === payload.ID
-      );
+      const dpIdx = (this.DeletedPilots as Pilot[]).findIndex((x: Pilot) => x.ID === payload.ID);
       if (dpIdx > -1) {
         this.DeletedPilots.splice(dpIdx, 1);
         deletePermanent(payload);
       }
     },
     DeleteMissingPilot(payload: any): void {
-      const idx = (this.MissingPilots as any[]).findIndex(
-        (x: Pilot) => x.ID === payload.ID
-      );
+      const idx = (this.MissingPilots as any[]).findIndex((x: Pilot) => x.ID === payload.ID);
       if (idx > -1) {
         this.MissingPilots.splice(idx, 1);
         deletePermanent(payload);
@@ -141,9 +133,10 @@ export const PilotStore = defineStore('pilot', {
     },
 
     savePilotData(): void {
-      savePilots(
-        (this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[])
-      );
+      if (!this.Pilots) this.Pilots = [];
+      if (!this.DeletedPilots) this.DeletedPilots = [];
+
+      savePilots((this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[]));
     },
 
     async LoadPilots() {

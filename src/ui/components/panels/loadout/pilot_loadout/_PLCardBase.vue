@@ -10,7 +10,7 @@
               >
             </template>
             <v-list density="compact">
-              <v-list-item @click="$refs.selectorDialog.show()">
+              <v-list-item @click="($refs as any).selectorDialog.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
                   <v-icon icon="mdi-swap-vertical-variant" />
                 </v-list-item-icon>
@@ -19,7 +19,7 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider />
-              <v-list-item v-if="item.CanSetDamage" @click="$refs.damageTypeDialog.show()">
+              <v-list-item v-if="item.CanSetDamage" @click="($refs as any).damageTypeDialog.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
                   <v-icon icon="cc:variable" />
                 </v-list-item-icon>
@@ -27,7 +27,7 @@
                   <v-list-item-title>Select Damage Type</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click="$refs.cName.show()">
+              <v-list-item @click="($refs as any).cName.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
                   <v-icon icon="mdi-circle-edit-outline" />
                 </v-list-item-icon>
@@ -35,7 +35,7 @@
                   <v-list-item-title>Set Custom Name</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item @click="$refs.cDesc.show()">
+              <v-list-item @click="($refs as any).cDesc.show()">
                 <v-list-item-icon class="ma-0 mr-2 mt-2">
                   <v-icon icon="mdi-circle-edit-outline" />
                 </v-list-item-icon>
@@ -65,7 +65,7 @@
             <v-btn v-if="item" small icon dark @click="$emit('remove')">
               <v-icon class="fade-select">delete</v-icon>
             </v-btn>
-            <v-btn icon small dark @click="$refs.selectorDialog.show()">
+            <v-btn icon small dark @click="($refs as any).selectorDialog.show()">
               <v-icon class="fade-select" v-html="item ? 'mdi-swap-vertical-variant' : 'add'" />
             </v-btn>
           </div>
@@ -77,7 +77,7 @@
         >
           <div class="underline-slide" style="height: 100%">
             <div v-if="item">
-              <slot @click="$refs.detailDialog.show()" />
+              <slot @click="($refs as any).detailDialog.show()" />
               <div v-if="item.Deployables.length">
                 <div class="text-overline ml-n2 text-subtle">EQUIPMENT DEPLOYABLES</div>
                 <v-row no-gutters justify="center">
@@ -96,7 +96,7 @@
               v-else
               class="py-3 text-center fade-select"
               style="cursor: pointer; height: 100%"
-              @click="$refs.selectorDialog.show()"
+              @click="($refs as any).selectorDialog.show()"
             >
               <v-row style="height: 100%">
                 <span class="heading h2 text-subtle my-auto" style="width: 100%">// EMPTY //</span>

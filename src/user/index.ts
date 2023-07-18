@@ -223,7 +223,7 @@ class UserProfile {
     this.save();
   }
 
-  public GetView(view: string): string | boolean {
+  public GetView(view: string): string {
     if (this._viewOptions[view]) return this._viewOptions[view];
     return defaultViewOptions()[view];
   }

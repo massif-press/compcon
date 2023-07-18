@@ -1,5 +1,5 @@
 <template>
-  <v-list-item color="active" @click.stop="$refs.dialog.show()">
+  <v-list-item color="active" @click.stop="($refs as any).dialog.show()">
     <v-list-item-content>
       <v-list-item-title class="title">
         <v-icon class="mt-n1" :style="!available && !action.Used ? 'opacity:0.3' : ''">
