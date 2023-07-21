@@ -116,6 +116,11 @@ export class NpcItem {
     return this._max_uses
   }
 
+  public getTotalUses(bonus?: number): number {
+    const b = bonus ? bonus : 0
+    return this.MaxUses + b
+  }
+
   public Repair(): void {
     this.Destroyed = false
     this.IsCharged = true
