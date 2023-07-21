@@ -12,6 +12,7 @@
 - **Compendium** Add license level filtering (thanks TheQuazman!) [#2169](https://github.com/massif-press/compcon/issues/2169)
 - **Image Selector** Fix non-loading image preview for remote image URLs [#2280](https://github.com/massif-press/compcon/issues/2280)
 - **General** Fix FABI Mod name (and other long item names) breaking mobile view [#2252](https://github.com/massif-press/compcon/issues/2252)
+- **Pilot Sheet** Ensure pilot notes textbox auto-scaled [#2262](https://github.com/massif-press/compcon/issues/2262)
 
 ### Features
 
