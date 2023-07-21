@@ -123,7 +123,7 @@ class MechLoadout extends Loadout {
   }
 
   public get Mounts(): Mount[] {
-    return (this._integratedMounts as Mount[]).concat(this._equippableMounts)
+    return (this._integratedMounts as Mount[]).concat(this._equippableMounts).concat(this._integratedWeapon)
   }
 
   public get HasEmptyMounts(): boolean {
@@ -215,11 +215,10 @@ class MechLoadout extends Loadout {
     const equippedSystems = this._systems as LicensedItem[]
 
     equippedSystems.concat(equippedWeapons).forEach(item => {
-      //TODO: change from GMS to LL0
-      if (item.Source === 'GMS') {
-        const GMSIndex = requirements.findIndex(x => x.source === 'GMS')
-        if (GMSIndex > -1) {
-          requirements[GMSIndex].items.push(item.Name)
+      if (item.LicenseLevel === 0) {
+        const LL0Index = requirements.findIndex(x => x.rank === 0)
+        if (LL0Index > -1) {
+          requirements[LL0Index].items.push(item.Name)
         } else {
           requirements.push(item.RequiredLicense)
         }

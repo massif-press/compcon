@@ -189,7 +189,7 @@ export class CompendiumStore extends VuexModule {
         )
       }
     }
-    return this.Frames.filter(x => x.Source !== 'GMS' && !x.IsHidden).map(frame => {
+    return this.Frames.filter(x => x.LicenseLevel !== 0 && !x.IsHidden).map(frame => {
       const variants = this.Frames.filter(f => !f.IsHidden && variantLicenseMatch(f, frame))
       return new License(frame, variants)
     })
