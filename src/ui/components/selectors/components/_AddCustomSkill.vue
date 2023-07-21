@@ -64,6 +64,7 @@ export default {
     newDesc: '',
     newDetail: '',
   }),
+  emits: ['add-custom'],
   computed: {
     canAdd(): boolean {
       const custSkill = new CustomSkill(this.newSkill, this.newDesc, this.newDetail);

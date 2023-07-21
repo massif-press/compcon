@@ -4,12 +4,16 @@
       v-for="n in max"
       class="d-inline my-0 mx-n1 pa-0"
       icon
-      :small="small"
+      size="small"
+      variant="plain"
       :large="large"
       :color="color"
       @click.stop="set(n)"
     >
-      <v-icon v-html="n <= current ? fullIcon : emptyIcon" />
+      <v-icon
+        :size="small ? '20' : large ? '30' : '25'"
+        :icon="n <= current ? fullIcon : emptyIcon"
+      />
     </v-btn>
   </div>
 </template>

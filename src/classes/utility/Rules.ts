@@ -62,7 +62,8 @@ export class Rules {
   }
 
   public static get MaxPilotArmor(): number {
-    return rules.max_pilot_armor;
+    return 1;
+    // return rules.max_pilot_armor;
   }
 
   public static get MaxPilotGear(): number {

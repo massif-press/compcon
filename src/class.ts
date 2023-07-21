@@ -42,7 +42,7 @@ import { PilotArmor } from './classes/pilot/components/Loadout/equipment/PilotAr
 import { PilotWeapon } from './classes/pilot/components/Loadout/equipment/PilotWeapon';
 import { PilotGear } from './classes/pilot/components/Loadout/equipment/PilotGear';
 import { PilotLicense } from './classes/pilot/components/license/PilotLicense';
-import PilotLoadout from './classes/pilot/components/Loadout/PilotLoadout';
+import { PilotLoadout } from './classes/pilot/components/Loadout/PilotLoadout';
 import PilotSkill from './classes/pilot/components/skill/PilotSkill';
 import PilotTalent from './classes/pilot/components/talent/PilotTalent';
 import { Synergy } from './classes/components/feature/synergy/Synergy';

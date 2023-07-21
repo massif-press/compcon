@@ -1,11 +1,7 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12" md="7">
-      <cc-titled-panel
-        title="New Project"
-        icon="mdi-atom-variant"
-        color="reserve--project"
-      >
+    <v-col>
+      <cc-titled-panel title="New Project" icon="mdi-atom-variant" color="reserve--project">
         <v-row density="compact">
           <v-col cols="12" md="">
             <v-text-field
@@ -27,36 +23,30 @@
                   color="secondary"
                   class="mr-3"
                 >
-                  <span slot="label" class="stat-text text-text">
+                  <template #label class="stat-text text-text">
                     Complicated
                     <cc-tooltip
                       simple
                       inline
                       content="This project is complex, resource-intensive, or generally difficult to complete"
                     >
-                      <v-icon small>mdi-help-circle-outline</v-icon>
+                      <v-icon size="small" end>mdi-help-circle-outline</v-icon>
                     </cc-tooltip>
-                  </span>
+                  </template>
                 </v-switch>
               </v-col>
               <v-col cols="auto" class="text-center">
-                <v-switch
-                  v-model="finished"
-                  density="compact"
-                  inset
-                  hide-details
-                  color="secondary"
-                >
-                  <span slot="label" class="stat-text text-text">
+                <v-switch v-model="finished" density="compact" inset hide-details color="secondary">
+                  <template #label class="stat-text text-text">
                     Finished
                     <cc-tooltip
                       simple
                       inline
                       content="This project is complete and available to use as a <strong>reserve</strong>"
                     >
-                      <v-icon small>mdi-help-circle-outline</v-icon>
+                      <v-icon size="small" end>mdi-help-circle-outline</v-icon>
                     </cc-tooltip>
-                  </span>
+                  </template>
                 </v-switch>
               </v-col>
             </v-row>
@@ -138,8 +128,7 @@ export default {
         used: false,
         consumable: false,
       });
-      if (this.costs && !this.finished)
-        p.ResourceCost = `Requires: ${this.costs.join(', ')}`;
+      if (this.costs && !this.finished) p.ResourceCost = `Requires: ${this.costs.join(', ')}`;
       p.IsFinished = this.finished;
       this.clear();
       this.$emit('add', p);

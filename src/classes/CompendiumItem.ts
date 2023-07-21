@@ -1,7 +1,7 @@
+import _ from 'lodash';
 import { CompendiumStore, PilotStore } from '../stores';
 import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '../class';
 import { ICounterData, ITagCompendiumData, ITagData } from '../interface';
-import _ from 'lodash';
 import { IActionData, Action } from './Action';
 import { IBonusData, Bonus } from './components/feature/bonus/Bonus';
 import { ISynergyData, Synergy } from './components/feature/synergy/Synergy';
@@ -23,6 +23,7 @@ interface ICompendiumItemData {
 }
 
 abstract class CompendiumItem {
+  public readonly InstanceID: string;
   public ItemType: ItemType;
   public readonly Brew: string;
   public readonly LcpName: string = '';
@@ -51,6 +52,7 @@ abstract class CompendiumItem {
     packTags?: ITagCompendiumData[],
     packName?: string
   ) {
+    this.InstanceID = _.uniqueId();
     this.ItemType = ItemType.None;
     if (data) {
       this.ID = data.id;
@@ -71,12 +73,8 @@ abstract class CompendiumItem {
       this.Actions = data.actions
         ? data.actions.map((x) => new Action(x, data.name, heatCost))
         : [];
-      this.Bonuses = data.bonuses
-        ? data.bonuses.map((x) => new Bonus(x, this._name))
-        : [];
-      this.Synergies = data.synergies
-        ? data.synergies.map((x) => new Synergy(x, data.name))
-        : [];
+      this.Bonuses = data.bonuses ? data.bonuses.map((x) => new Bonus(x, this._name)) : [];
+      this.Synergies = data.synergies ? data.synergies.map((x) => new Synergy(x, data.name)) : [];
       this.Deployables = data.deployables ? data.deployables : [];
       if (data.deployables) {
         this.Actions = this.Actions.concat(
@@ -85,9 +83,7 @@ abstract class CompendiumItem {
       }
       this.Counters = data.counters ? data.counters : [];
       this._integrated = data.integrated ? data.integrated : [];
-      this._special_equipment = data.special_equipment
-        ? data.special_equipment
-        : [];
+      this._special_equipment = data.special_equipment ? data.special_equipment : [];
       this.Err = '';
     } else {
       this.ID = `err_${Math.random().toString(36).substring(2)}`;
@@ -101,6 +97,10 @@ abstract class CompendiumItem {
           [];
       this.Err = 'Item data not found!';
     }
+  }
+
+  public static Clone(item: CompendiumItem): CompendiumItem {
+    return _.cloneDeep(item);
   }
 
   protected save(): void {
@@ -126,9 +126,7 @@ abstract class CompendiumItem {
   }
 
   public get Description(): string {
-    return this._flavor_description
-      ? this._flavor_description
-      : this._description;
+    return this._flavor_description ? this._flavor_description : this._description;
   }
 
   public set Description(val: string) {
@@ -187,10 +185,7 @@ abstract class CompendiumItem {
   }
 
   public get Icon(): string {
-    return (
-      'cc:' +
-      _.snakeCase(this.ItemType.toLowerCase().replace(/mech|pilot/gm, ''))
-    );
+    return 'cc:' + _.snakeCase(this.ItemType.toLowerCase().replace(/mech|pilot/gm, ''));
   }
 
   public get Color(): string {

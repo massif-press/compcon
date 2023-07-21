@@ -95,6 +95,7 @@ import TalentRankContents from './_TalentRankContents.vue';
 export default {
   name: 'talent-full',
   components: { TalentEmblem, TalentRankContents },
+  emits: ['expand', 'add', 'remove'],
   props: {
     hideLocked: { type: Boolean },
     talent: { type: Object, required: true },

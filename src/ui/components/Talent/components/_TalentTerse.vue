@@ -148,6 +148,7 @@ export default {
     selectable: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
+  emits: ['expand', 'add', 'remove'],
   data: () => ({
     showAll: false,
   }),

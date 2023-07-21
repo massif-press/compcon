@@ -17,11 +17,9 @@
         </template>
       </cc-titlebar>
 
-      <v-spacer v-if="fullscreen" class="titlebar-margin" />
-
-      <v-card-text :style="noPad || $vuetify.display.mdAndDown ? 'padding: 0!important' : ''">
+      <div :style="fullscreen ? 'margin-top: 64px' : ''">
         <slot />
-      </v-card-text>
+      </div>
       <div v-if="!noActions">
         <v-divider />
 
@@ -42,6 +40,7 @@
 <script lang="ts">
 export default {
   name: 'CCSoloDialog',
+  emits: ['confirm', 'close'],
   props: {
     color: {
       type: String,
@@ -73,10 +72,6 @@ export default {
       type: Boolean,
       required: false,
     },
-    noPad: {
-      type: Boolean,
-      required: false,
-    },
     noTitleClip: {
       type: Boolean,
       required: false,
@@ -85,8 +80,10 @@ export default {
       type: String,
       required: false,
     },
+    noPad: {
+      type: Boolean,
+    },
   },
-  emits: ['confirm', 'close'],
   data: () => ({
     dialog: false,
   }),
@@ -105,9 +102,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.titlebar-margin {
-  padding-top: 60px;
-}
-</style>

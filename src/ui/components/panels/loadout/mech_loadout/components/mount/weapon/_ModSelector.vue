@@ -103,7 +103,7 @@
               <v-icon
                 class="ml-n2"
                 :color="showIncompatible ? 'warning' : 'success'"
-                v-html="'cci-status-downandout'"
+                v-html="'cc:status-downandout'"
               />
             </cc-tooltip>
           </v-switch>

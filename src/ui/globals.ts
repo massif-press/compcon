@@ -1,3 +1,4 @@
+import CCSelector from './components/selector_new/CCSelector.vue';
 import CCBondInfo from './components/CCBondInfo.vue';
 import CCBondPowerCard from './components/CCBondPowerCard.vue';
 import CCBtn from './components/CCBtn.vue';
@@ -180,4 +181,5 @@ export {
   CCTalent,
   CCSidebarView,
   CCIconDivider,
+  CCSelector,
 };

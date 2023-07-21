@@ -1,151 +1,124 @@
-import {
-  Rules,
-  PilotEquipment,
-  PilotArmor,
-  PilotWeapon,
-  PilotGear,
-  Loadout,
-  ItemType,
-} from '@/class'
+import { Rules, PilotEquipment, PilotArmor, PilotWeapon, PilotGear, ItemType } from '@/class';
+import { PilotLoadoutController } from './PilotLoadoutController';
 
-class PilotLoadout extends Loadout {
-  private _armor: (PilotArmor | null)[]
-  private _gear: (PilotGear | null)[]
-  private _weapons: (PilotWeapon | null)[]
-  private _extendedWeapons: (PilotWeapon | null)[]
-  private _extendedGear: (PilotGear | null)[]
+declare interface IPilotLoadoutData {
+  armor: IEquipmentData[];
+  weapons: IEquipmentData[];
+  gear: IEquipmentData[];
+}
 
-  public constructor(count?: number, id?: string) {
-    super(count, id)
-    this._armor = Array(Rules.MaxPilotArmor).fill(null)
-    this._gear = Array(Rules.MaxPilotGear).fill(null)
-    this._weapons = Array(Rules.MaxPilotWeapons).fill(null)
-    this._extendedWeapons = Array(1).fill(null)
-    this._extendedGear = Array(2).fill(null)
+class PilotLoadout {
+  public readonly Parent: PilotLoadoutController;
+
+  private _armor: PilotArmor[];
+  private _gear: PilotGear[];
+  private _weapons: PilotWeapon[];
+
+  public constructor(parent: PilotLoadoutController) {
+    this._armor = [];
+    this._gear = [];
+    this._weapons = [];
+    this.Parent = parent;
   }
 
-  public get Armor(): (PilotArmor | null)[] {
-    return this._armor
+  public get Armor(): PilotArmor[] {
+    return this._armor;
   }
 
-  public set Armor(items: (PilotArmor | null)[]) {
-    this._armor = items
-    this.save()
+  public set Armor(items: PilotArmor[]) {
+    this._armor = items;
+    // this.save();
   }
 
-  public get Weapons(): (PilotWeapon | null)[] {
-    return this._weapons
+  public get Weapons(): PilotWeapon[] {
+    return this._weapons;
   }
 
-  public set Weapons(items: (PilotWeapon | null)[]) {
-    this._weapons = items
-    this.save()
+  public set Weapons(items: PilotWeapon[]) {
+    this._weapons = items;
+    // this.save();
   }
 
-  public get ExtendedWeapons(): (PilotWeapon | null)[] {
-    return this._extendedWeapons
+  public get Gear(): PilotGear[] {
+    return this._gear;
   }
 
-  public set ExtendedWeapons(items: (PilotWeapon | null)[]) {
-    this._extendedWeapons = items
-    this.save()
-  }
-
-  public get Gear(): (PilotGear | null)[] {
-    return this._gear
-  }
-
-  public set Gear(items: (PilotGear | null)[]) {
-    this._gear = items
-    this.save()
-  }
-
-  public get ExtendedGear(): (PilotGear | null)[] {
-    return this._extendedGear
-  }
-
-  public set ExtendedGear(items: (PilotGear | null)[]) {
-    this._extendedGear = items
-    this.save()
+  public set Gear(items: PilotGear[]) {
+    this._gear = items;
+    // this.save();
   }
 
   public get Items(): PilotEquipment[] {
-    return (this._armor as PilotEquipment[])
-      .concat(this._weapons as PilotEquipment[])
-      .concat(this._gear as PilotEquipment[])
+    return [
+      ...(this._armor as PilotEquipment[]),
+      ...(this._weapons as PilotEquipment[]),
+      ...(this._gear as PilotEquipment[]),
+    ];
   }
 
-  public get Equipment(): PilotEquipment[] {
-    return (this._armor.filter(x => x) as PilotEquipment[])
-      .concat(this._weapons.filter(x => x) as PilotEquipment[])
-      .concat(this._gear.filter(x => x) as PilotEquipment[])
-  }
-
-  public Add(item: PilotEquipment, slot: number, extended?: boolean): void {
+  public Add(item: PilotEquipment, index: number): void {
     switch (item.ItemType) {
       case ItemType.PilotArmor:
-        this._armor[slot] = item as PilotArmor
-        break
+        if (index + 1 > this.Parent.MaxArmorSlots) return;
+        if (this._armor[index]) this._armor[index] = item as PilotArmor;
+        else this._armor.push(item as PilotArmor);
+        break;
       case ItemType.PilotWeapon:
-        if (extended) this._extendedWeapons[slot] = item as PilotWeapon
-        else this._weapons[slot] = item as PilotWeapon
-        break
+        if (index + 1 > this.Parent.MaxWeaponSlots) return;
+        if (this._weapons[index]) this._weapons[index] = item as PilotWeapon;
+        else this._weapons.push(item as PilotWeapon);
+        break;
       case ItemType.PilotGear:
-        if (extended) this._extendedGear[slot] = item as PilotGear
-        else this._gear[slot] = item as PilotGear
-        break
+        if (index + 1 > this.Parent.MaxGearSlots) return;
+        if (this._gear[index]) this._gear[index] = item as PilotGear;
+        else this._gear.push(item as PilotGear);
+        break;
       default:
-        break
+        break;
     }
-    this.save()
+    // this.save();
   }
 
-  public Remove(item: PilotEquipment, slot: number, extended?: boolean): void {
+  public Remove(item: PilotEquipment): void {
+    let idx = -1;
     switch (item.ItemType) {
       case ItemType.PilotArmor:
-        if (this._armor[slot]) this._armor[slot] = null
-        break
+        idx = this._armor.findIndex((x) => x.InstanceID === item.InstanceID);
+        if (idx > -1) this._armor.splice(idx, 1);
+        break;
       case ItemType.PilotWeapon:
-        if (extended) this._extendedWeapons[slot] = null
-        if (this._weapons[slot]) this._weapons[slot] = null
-        break
+        idx = this._weapons.findIndex((x) => x.InstanceID === item.InstanceID);
+        if (idx > -1) this._weapons.splice(idx, 1);
+        break;
       case ItemType.PilotGear:
-        if (extended) this._extendedGear[slot] = null
-        if (this._gear[slot]) this._gear[slot] = null
-        break
+        idx = this._gear.findIndex((x) => x.InstanceID === item.InstanceID);
+        if (idx > -1) this._gear.splice(idx, 1);
+        break;
       default:
-        break
+        break;
     }
-    this.save()
+    // this.save();
   }
 
   public static Serialize(pl: PilotLoadout): IPilotLoadoutData {
     return {
-      id: pl.ID,
-      name: pl.Name,
-      armor: pl.Armor.map(x => PilotEquipment.Serialize(x)),
-      weapons: pl.Weapons.map(x => PilotEquipment.Serialize(x)),
-      gear: pl.Gear.map(x => PilotEquipment.Serialize(x)),
-      extendedWeapons: pl.ExtendedWeapons.map(x => PilotEquipment.Serialize(x)),
-      extendedGear: pl.ExtendedGear.map(x => PilotEquipment.Serialize(x)),
-    }
+      armor: pl.Armor.map((x) => PilotEquipment.Serialize(x)),
+      weapons: pl.Weapons.map((x) => PilotEquipment.Serialize(x)),
+      gear: pl.Gear.map((x) => PilotEquipment.Serialize(x)),
+    };
   }
 
-  public static Deserialize(loadoutData: IPilotLoadoutData): PilotLoadout {
-    const loadout = new PilotLoadout(0, loadoutData.id)
-    loadout.ID = loadoutData.id
-    loadout._name = loadoutData.name
-    loadout._armor = loadoutData.armor.map(x => PilotEquipment.Deserialize(x) as PilotArmor)
-    loadout._weapons = loadoutData.weapons.map(x => PilotEquipment.Deserialize(x) as PilotWeapon)
-    loadout._gear = loadoutData.gear.map(x => PilotEquipment.Deserialize(x) as PilotGear)
-    loadout._extendedWeapons = loadoutData.extendedWeapons
-      ? loadoutData.extendedWeapons.map(x => PilotEquipment.Deserialize(x) as PilotWeapon)
-      : Array(1).fill(null)
-    loadout._extendedGear = loadoutData.extendedGear
-      ? loadoutData.extendedGear.map(x => PilotEquipment.Deserialize(x) as PilotGear)
-      : Array(2).fill(null)
-    return loadout
+  public static Deserialize(
+    loadoutData: IPilotLoadoutData,
+    parent: PilotLoadoutController
+  ): PilotLoadout {
+    const loadout = new PilotLoadout(parent);
+    loadout._armor = loadoutData.armor.map((x) => PilotEquipment.Deserialize(x) as PilotArmor);
+    loadout._weapons = loadoutData.weapons.map((x) => PilotEquipment.Deserialize(x) as PilotWeapon);
+    loadout._gear = loadoutData.gear.map((x) => PilotEquipment.Deserialize(x) as PilotGear);
+    return loadout;
   }
 }
 
-export default PilotLoadout
+export { PilotLoadout };
+export type { IPilotLoadoutData };

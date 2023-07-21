@@ -3,6 +3,7 @@
     :item="item"
     :small="small"
     :hover="hover"
+    :equipped="equipped"
     @equip="$emit('equip', $event)"
   >
     <v-row slot="top" no-gutters justify="space-around" align="center">
@@ -26,6 +27,7 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    equipped: { type: Boolean },
   },
 };
 </script>

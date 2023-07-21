@@ -114,7 +114,7 @@ export const CompendiumStore = defineStore('compendium', {
       return (itemType: string, id: string) => {
         if (this[itemType] && this[itemType] instanceof Array) {
           const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
-          if (i) return { ...i };
+          if (i) return _.cloneDeep(i);
           const miID = `missing_${itemType.toLowerCase()}`;
           const missingItem = this[itemType].find((x: any) => x.ID === miID || x.id === miID);
           if (missingItem) return { ...missingItem };
@@ -148,6 +148,13 @@ export const CompendiumStore = defineStore('compendium', {
       const frame_packs = this.Frames.map((x) => x.LcpName);
       const lcp_packs = this.ContentPacks.map((x) => x.Name);
       return _.unionWith(frame_packs, lcp_packs, _.isEqual);
+    },
+
+    itemsByLcp: (state): any => {
+      return (key: string) => {
+        if (!state[key]) throw new Error(`Invalid LCP key: ${key}`);
+        return _.groupBy(state[key], 'LcpName');
+      };
     },
   },
   actions: {

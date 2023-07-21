@@ -121,6 +121,7 @@ import TalentEmblem from './_TalentEmblem.vue';
 export default {
   name: 'talent-small',
   components: { TalentRankContents, TalentEmblem },
+  emits: ['add', 'remove'],
   props: {
     hideLocked: { type: Boolean },
     talent: { type: Object, required: true },

@@ -3,6 +3,7 @@
     :item="item"
     :small="small"
     :hover="hover"
+    :equipped="equipped"
     @equip="$emit('equip', $event)"
   >
     <p
@@ -25,6 +26,7 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    equipped: { type: Boolean },
   },
 };
 </script>

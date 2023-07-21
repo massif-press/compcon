@@ -37,6 +37,7 @@ export default {
     selectable: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
+  emits: ['expand', 'clicked', 'add', 'remove'],
   data: () => ({
     expand: '',
   }),

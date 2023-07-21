@@ -285,8 +285,8 @@ class MechWeapon extends MechEquipment {
     return this.SelectedProfile.Range ? this.SelectedProfile.Range.map((x) => x.Type) : [];
   }
 
-  public set Mod(_mod: WeaponMod | null) {
-    this._mod = { ..._mod };
+  public set Mod(mod: WeaponMod | null) {
+    this._mod = mod ? CompendiumItem.Clone(mod) : null;
   }
 
   public get Mod(): WeaponMod | null {

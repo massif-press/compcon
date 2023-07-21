@@ -1,12 +1,12 @@
 <template>
   <div class="my-3">
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -70px !important">
-      <section-edit-icon
-        label="Add Reserves and Bonuses"
-        @open-selector="($refs as any).dtSelector.show()"
-      />
-      Reserves and Bonuses
-    </cc-title>
+    <section-header
+      title="Reserves and Bonuses"
+      label="Add Reserves and Bonuses"
+      editable
+      @edit="($refs as any).dtSelector.show()"
+    />
+
     <cc-solo-dialog
       ref="dtSelector"
       icon="cc:barrage"
@@ -24,7 +24,7 @@
           !pilot.ReservesController.Organizations.length
         "
       />
-      <v-row v-else density="compact">
+      <v-row v-else>
         <cc-reserve-item
           v-for="(r, i) in pilot.ReservesController.Reserves"
           :reserve="r"
@@ -41,12 +41,12 @@
 </template>
 
 <script lang="ts">
-import SectionEditIcon from '../../components/SectionEditIcon.vue';
+import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 
 export default {
   name: 'dt-resources-block',
-  components: { SectionEditIcon, NoDataBlock },
+  components: { SectionHeader, NoDataBlock },
   props: {
     pilot: {
       type: Object,

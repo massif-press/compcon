@@ -55,7 +55,7 @@ export default {
   },
   computed: {
     canContinue(): boolean {
-      return !this.pilot.TalentsController.IsMissingTalents;
+      return this.pilot.TalentsController.HasFullTalents;
     },
   },
 };

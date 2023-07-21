@@ -1,102 +1,83 @@
 <template>
-  <div>
-    <div
-      v-show="$vuetify.display.mdAndUp"
-      style="
-        position: absolute;
-        top: 0;
-        right: 0;
-        height: 108px;
-        width: 100px;
-        overflow-x: hidden;
-      "
-      class="primary"
-    />
-    <v-tabs background-color="primary" hide-slider grow>
-      <v-tab>
-        <b>Pilot Bonuses</b>
-      </v-tab>
-      <v-tab>
-        <b>Resource Reserves</b>
-      </v-tab>
-      <v-tab>
-        <b>Tactical Reserves</b>
-      </v-tab>
-      <v-tab>
-        <b>Mech Reserves</b>
-      </v-tab>
-      <v-tab>
-        <b>Custom Reserve</b>
-      </v-tab>
-      <v-tab>
-        <b>Project</b>
-      </v-tab>
-      <v-tab>
-        <b>Organization</b>
-      </v-tab>
-      <v-tab-item>
+  <v-tabs v-model="tab" color="primary" grow>
+    <v-tab>
+      <b>Pilot Bonuses</b>
+    </v-tab>
+    <v-tab>
+      <b>Resource Reserves</b>
+    </v-tab>
+    <v-tab>
+      <b>Tactical Reserves</b>
+    </v-tab>
+    <v-tab>
+      <b>Mech Reserves</b>
+    </v-tab>
+    <v-tab>
+      <b>Custom Reserve</b>
+    </v-tab>
+    <v-tab>
+      <b>Project</b>
+    </v-tab>
+    <v-tab>
+      <b>Organization</b>
+    </v-tab>
+  </v-tabs>
+  <v-container>
+    <v-window v-model="tab">
+      <v-window-item :value="0">
         <v-row density="compact">
           <v-col v-for="r in reserves['Bonus']" cols="12" md="6">
-            <reserve-item
-              :reserve="r"
-              icon="cc:pilot"
-              color="pilot"
-              class="ma-2"
-              @click="add(r)"
-            />
+            <reserve-item :reserve="r" icon="cc:pilot" color="pilot" @click="add(r)" />
           </v-col>
         </v-row>
-      </v-tab-item>
-      <v-tab-item>
+      </v-window-item>
+      <v-window-item :value="1">
         <v-row density="compact">
           <v-col v-for="r in reserves['Resource']" cols="12" md="6">
             <reserve-item
               :reserve="r"
               icon="cc:reserve_resource"
               color="reserve--resource"
-              class="ma-2"
               @click="add(r)"
             />
           </v-col>
         </v-row>
-      </v-tab-item>
-      <v-tab-item>
+      </v-window-item>
+      <v-window-item :value="2">
         <v-row density="compact">
           <v-col v-for="r in reserves['Tactical']" cols="12" md="6">
             <reserve-item
               :reserve="r"
               icon="cc:reserve_tactical"
               color="reserve--tactical"
-              class="ma-1"
               @click="add(r)"
             />
           </v-col>
         </v-row>
-      </v-tab-item>
-      <v-tab-item>
+      </v-window-item>
+      <v-window-item :value="3">
         <v-row density="compact">
           <v-col v-for="r in reserves['Mech']" cols="12" md="6">
             <reserve-item
               :reserve="r"
               icon="cc:reserve_mech"
               color="reserve--mech"
-              class="ma-1"
               @click="add(r)"
             />
           </v-col>
         </v-row>
-      </v-tab-item>
-      <v-tab-item>
-        <custom-reserve-panel class="mt-2" @add="add($event)" />
-      </v-tab-item>
-      <v-tab-item>
-        <downtime-project-panel class="mt-2" @add="add($event)" />
-      </v-tab-item>
-      <v-tab-item>
-        <organization-panel class="mt-2" @add="addOrg($event)" />
-      </v-tab-item>
-    </v-tabs>
-  </div>
+      </v-window-item>
+      <v-window-item :value="4">
+        <custom-reserve-panel @add="add($event)" />
+      </v-window-item>
+      <v-window-item :value="5">
+        <downtime-project-panel @add="add($event)" />
+      </v-window-item>
+      <v-window-item :value="6">
+        <organization-panel @add="addOrg($event)" />
+      </v-window-item>
+    </v-window>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -104,8 +85,9 @@ import ReserveItem from './components/_ReserveItem.vue';
 import CustomReservePanel from './components/_CustomReservePanel.vue';
 import DowntimeProjectPanel from './components/_DowntimeProjectPanel.vue';
 import OrganizationPanel from './components/_OrganizationPanel.vue';
-import { Reserve, Organization, Pilot } from '@/class';
+import { Reserve, Organization, Pilot, CompendiumItem } from '@/class';
 import _, { Dictionary } from 'lodash';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'CCReserveSelector',
@@ -121,21 +103,24 @@ export default {
       required: true,
     },
   },
+  emits: ['close'],
   data: () => ({
-    tabModel: 0,
+    tab: 0,
   }),
   computed: {
     reserves(): Dictionary<Reserve[]> {
-      return _.groupBy(this.compendium.Reserves, 'Type');
+      return _.groupBy(CompendiumStore().Reserves, 'Type');
     },
   },
   methods: {
     add(reserve: Reserve): void {
-      this.pilot.ReservesController.AddReserve({ ...reserve });
+      console.log(reserve);
+      console.log(_.cloneDeep(reserve));
+      this.pilot.ReservesController.AddReserve(CompendiumItem.Clone(reserve));
       this.$emit('close');
     },
     addOrg(org: Organization): void {
-      this.pilot.ReservesController.AddOrganization({ ...org });
+      this.pilot.ReservesController.AddOrganization(Organization.Clone(org));
       this.$emit('close');
     },
   },

@@ -5,6 +5,7 @@
     :item="item"
     :notes="notes"
     :smallTags="smallTags"
+    :dense="dense"
   />
 </template>
 
@@ -22,6 +23,9 @@ export default {
     smallTags: {
       type: Boolean,
       required: false,
+    },
+    dense: {
+      type: Boolean,
     },
   },
   computed: {
