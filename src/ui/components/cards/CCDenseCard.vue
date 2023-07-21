@@ -11,27 +11,24 @@
       :color="item.Color"
       flat
       height="30px"
-      class="text-white"
+      class="text-white pa-1 pr-3"
     >
       <span class="heading">
         <item-menu v-if="showMenu" :item="item" />
-        <cc-tooltip inline :content="item.FeatureType">
-          <v-icon start dark>{{ item.Icon }}</v-icon>
-        </cc-tooltip>
+        <v-icon>{{ item.Icon }}</v-icon>
         {{ item.Name }}
       </span>
       <v-spacer />
-      <div
-        class="text-overline text-right text-white"
-        style="line-height: 11px !important"
-      >
+      <div class="text-overline text-right text-white" style="line-height: 11px !important">
         {{ item.OriginString }}
         <cc-tooltip inline :content="item.LcpName">
           <v-icon small dark>cc:compendium</v-icon>
         </cc-tooltip>
       </div>
     </v-toolbar>
-    <cc-item-card :item="item" density="compact" small-tags />
+    <v-card-text class="py-1 px-3">
+      <cc-item-card :item="item" dense small-tags />
+    </v-card-text>
   </v-card>
 </template>
 

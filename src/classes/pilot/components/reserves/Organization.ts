@@ -18,9 +18,13 @@ class Organization {
     this._actions = data.actions;
   }
 
-  private save(): void {
-    store.dispatch('set_pilot_dirty');
+  public static Clone(org: Organization): Organization {
+    return new Organization(Organization.Serialize(org));
   }
+
+  // private save(): void {
+  //   store.dispatch('set_pilot_dirty');
+  // }
 
   public get Type(): string {
     return 'Organization';
@@ -32,7 +36,7 @@ class Organization {
 
   public set Purpose(val: OrgType) {
     this._purpose = val;
-    this.save();
+    // this.save();
   }
 
   public get Name(): string {
@@ -41,7 +45,7 @@ class Organization {
 
   public set Name(name: string) {
     this._name = name;
-    this.save();
+    // this.save();
   }
 
   public get Actions(): string {
@@ -50,7 +54,7 @@ class Organization {
 
   public set Actions(actions: string) {
     this._actions = actions;
-    this.save();
+    // this.save();
   }
 
   public get Description(): string {
@@ -59,7 +63,7 @@ class Organization {
 
   public set Description(description: string) {
     this._description = description;
-    this.save();
+    // this.save();
   }
 
   public get Efficiency(): number {
@@ -69,7 +73,7 @@ class Organization {
   public set Efficiency(n: number) {
     this._efficiency = n;
     if (this._efficiency > 6) this._efficiency = 6;
-    this.save();
+    // this.save();
   }
 
   public get Influence(): number {
@@ -79,7 +83,7 @@ class Organization {
   public set Influence(n: number) {
     this._influence = n;
     if (this._influence > 6) this._influence = 6;
-    this.save();
+    // this.save();
   }
 
   public static Serialize(org: Organization): IOrganizationData {

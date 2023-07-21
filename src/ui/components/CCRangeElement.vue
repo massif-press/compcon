@@ -2,17 +2,17 @@
   <div v-for="r in (range as Range[])" class="text-center d-inline-block px-2">
     <cc-tooltip :title="r.Text" :content="Help(r.Type)">
       <span v-if="small">
-        <v-icon :dark="dark" class="mr-n1">{{ r.Icon }}</v-icon>
-        <v-icon v-if="r.Override">mdi-information-outline</v-icon>
-        <span v-else>
+        <v-icon :icon="r.Icon" />
+        <v-icon v-if="r.Override" icon="mdi-information-outline" />
+        <b v-else>
           {{ `${added ? '+' : ''}${r.Value}` }}
-        </span>
+        </b>
       </span>
       <v-row v-else align="center" no-gutters>
         <v-col cols="auto">
-          <v-icon size="35" :dark="dark" :icon="r.Icon" />
+          <v-icon :size="dense ? 25 : 35" :icon="r.Icon" />
         </v-col>
-        <v-col class="heading text-text" style="font-size: 24pt">
+        <v-col class="heading text-text" :style="`font-size: ${dense ? '20' : '24'}pt`">
           {{ `${added ? '+' : ''}${r.Value}` }}
         </v-col>
       </v-row>
@@ -36,15 +36,12 @@ export default {
     },
     small: {
       type: Boolean,
-      required: false,
     },
-    dark: {
+    dense: {
       type: Boolean,
-      required: false,
     },
     added: {
       type: Boolean,
-      required: false,
     },
   },
   methods: {

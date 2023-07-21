@@ -166,6 +166,21 @@ export default [
     detail: '{INC_DEC} total Pilot Speed by {VAL}',
   },
   {
+    id: 'pilot_gear_slots',
+    title: 'Add Pilot Gear Slot',
+    detail: '{INC_DEC} total Pilot Gear slots by {VAL}',
+  },
+  {
+    id: 'pilot_weapon_slots',
+    title: 'Add Pilot Weapon Slot',
+    detail: '{INC_DEC} total Pilot Weapon slots by {VAL}',
+  },
+  {
+    id: 'pilot_armor_slots',
+    title: 'Add Pilot Armor Slot',
+    detail: '{INC_DEC} total Pilot Armor slots by {VAL}',
+  },
+  {
     id: 'deployable_hp',
     title: 'HP for all Drones and Deployables',
     detail: '{INC_DEC} the total HP of all deployed Deployables by {VAL}',
@@ -285,4 +300,4 @@ export default [
     title: 'Speed for all Drones',
     detail: '{INC_DEC} the Speed of all deployed Drones by {VAL}',
   },
-]
+];

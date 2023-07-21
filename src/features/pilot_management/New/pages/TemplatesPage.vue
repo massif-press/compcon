@@ -65,7 +65,7 @@ import { getImagePath, ImageTag } from '@/io/ImageManagement';
 
 import { CompendiumStore } from '@/stores';
 import Templates from '../pregens.json';
-import { MechSkills, Mech, Pilot } from '@/class';
+import { CompendiumItem, MechSkills, Mech, Pilot, Frame } from '@/class';
 import { mechname } from '@/io/Generators';
 
 export default {
@@ -98,49 +98,50 @@ export default {
     },
   },
   methods: {
-    item(type: string, id: string) {
+    getItem(type: string, id: string) {
       const compendium = CompendiumStore();
-      return compendium.referenceByID(type, id);
+      return CompendiumItem.Clone(compendium.referenceByID(type, id) as CompendiumItem);
     },
     async setTemplate() {
       const t = this.selected.build;
       this.pilot.MechSkillsController.MechSkills = MechSkills.Deserialize(t.mechSkills);
       this.pilot.SkillsController.ClearSkills();
       t.skills.forEach((s) => {
-        this.pilot.SkillsController.AddSkill(this.item('Skills', s));
+        this.pilot.SkillsController.AddSkill(this.getItem('Skills', s));
       });
       this.pilot.TalentsController.ClearTalents();
       t.talents.forEach((t) => {
-        this.pilot.TalentsController.AddTalent(this.item('Talents', t));
+        this.pilot.TalentsController.AddTalent(this.getItem('Talents', t));
       });
-      this.pilot.Loadout.Armor = [this.item('PilotGear', t.gear.armor)];
-      this.pilot.Loadout.Weapons = t.gear.weapons.map((x) => this.item('PilotGear', x));
-      this.pilot.Loadout.Gear = t.gear.gear.map((x) => this.item('PilotGear', x));
+
+      this.pilot.Loadout.Armor = [this.getItem('PilotGear', t.gear.armor)];
+      this.pilot.Loadout.Weapons = t.gear.weapons.map((x) => this.getItem('PilotGear', x));
+      this.pilot.Loadout.Gear = t.gear.gear.map((x) => this.getItem('PilotGear', x));
 
       const m = t.mech;
       const mech = new Mech(
-        this.item('Frames', 'mf_standard_pattern_i_everest'),
+        this.getItem('Frames', 'mf_standard_pattern_i_everest') as Frame,
         this.pilot as Pilot
       );
 
       mech.Name = await mechname();
       mech.MechLoadoutController.ActiveLoadout.Systems = m.systems.map((x) =>
-        this.item('MechSystems', x)
+        this.getItem('MechSystems', x)
       );
 
       // TODO: Chore: Assert these objects exist in controllers for type safety
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Main')
-        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[0].slots[0]));
+        .Slots[0].EquipWeapon(this.getItem('MechWeapons', m.mounts[0].slots[0]));
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Flex')
-        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[1].slots[0]));
+        .Slots[0].EquipWeapon(this.getItem('MechWeapons', m.mounts[1].slots[0]));
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Flex')
-        .Slots[1].EquipWeapon(this.item('MechWeapons', m.mounts[1].slots[1]));
+        .Slots[1].EquipWeapon(this.getItem('MechWeapons', m.mounts[1].slots[1]));
       (mech.MechLoadoutController.ActiveLoadout.AllMounts() as any)
         .find((m) => m.Type === 'Heavy')
-        .Slots[0].EquipWeapon(this.item('MechWeapons', m.mounts[2].slots[0]));
+        .Slots[0].EquipWeapon(this.getItem('MechWeapons', m.mounts[2].slots[0]));
 
       mech.PortraitController.SetCloudImage(this.selected.image);
 

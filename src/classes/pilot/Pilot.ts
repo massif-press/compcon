@@ -1,11 +1,7 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { Rules, Mech, CompendiumItem, PilotLoadout } from '../../class';
-import {
-  IOrganizationData,
-  IPilotLoadoutData,
-  IRankedData,
-} from '../../interface';
+import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface';
 import { ActiveState, ICombatStats } from '../components/combat/ActiveState';
 import { Bonus } from '../components/feature/bonus/Bonus';
 import {
@@ -45,16 +41,9 @@ import { IFeatureController } from '../components/feature/IFeatureController';
 import { FeatureController } from '../components/feature/FeatureController';
 import { PilotLoadoutController } from './components/Loadout/PilotLoadoutController';
 
-import {
-  BrewController,
-  BrewInfo,
-  IBrewData,
-} from '../components/brew/BrewController';
+import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController';
 import { IBrewable } from '../components/brew/IBrewable';
-import {
-  BondController,
-  IPilotBondData,
-} from './components/bond/BondController';
+import { BondController, IPilotBondData } from './components/bond/BondController';
 
 interface IUnlockData {
   PilotGear: string[];
@@ -196,32 +185,18 @@ class Pilot
   public has(typeName: string, id: string, rank?: number): boolean {
     if (typeName.toLowerCase() === 'skill') {
       return (
-        this.SkillsController.Skills.findIndex(
-          (x) => x.Skill.Name === id || x.Skill.ID === id
-        ) > -1
+        this.SkillsController.Skills.findIndex((x) => x.Skill.Name === id || x.Skill.ID === id) > -1
       );
     } else if (typeName.toLowerCase() === 'corebonus') {
-      return (
-        this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1
-      );
+      return this.CoreBonusController.CoreBonuses.findIndex((x) => x.ID === id) > -1;
     } else if (typeName.toLowerCase() === 'license') {
-      const index = this.LicenseController.Licenses.findIndex(
-        (x) => x.License.Name === id
-      );
-      return rank
-        ? index > -1 && this.LicenseController.Licenses[index].Rank >= rank
-        : index > -1;
+      const index = this.LicenseController.Licenses.findIndex((x) => x.License.Name === id);
+      return rank ? index > -1 && this.LicenseController.Licenses[index].Rank >= rank : index > -1;
     } else if (typeName.toLowerCase() === 'talent') {
-      const index = this.TalentsController.Talents.findIndex(
-        (x) => x.Talent.ID === id
-      );
-      return rank
-        ? index > -1 && this.TalentsController.Talents[index].Rank >= rank
-        : index > -1;
+      const index = this.TalentsController.Talents.findIndex((x) => x.Talent.ID === id);
+      return rank ? index > -1 && this.TalentsController.Talents[index].Rank >= rank : index > -1;
     } else if (typeName.toLowerCase() === 'reserve') {
-      const e = this.ReservesController.Reserves.find(
-        (x) => x.ID === `reserve_${id}`
-      );
+      const e = this.ReservesController.Reserves.find((x) => x.ID === `reserve_${id}`);
       return e && !e.Used;
     }
     return false;
@@ -396,9 +371,7 @@ class Pilot
 
   // -- Exotics and Other Equipment ---------------------------------------------------------------
   public get SpecialEquipment(): CompendiumItem[] {
-    return this.FeatureController.IntegratedSpecialEquipment.concat(
-      this._special_equipment
-    );
+    return this.FeatureController.IntegratedSpecialEquipment.concat(this._special_equipment);
   }
 
   public set SpecialEquipment(data: CompendiumItem[]) {
@@ -429,9 +402,7 @@ class Pilot
   public RemoveMech(mech: Mech): void {
     const index = this._mechs.findIndex((x) => x.ID === mech.ID);
     if (index === -1) {
-      console.error(
-        `Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`
-      );
+      console.error(`Loadout "${mech.Name}" does not exist on Pilot ${this._callsign}`);
     } else {
       this._mechs.splice(index, 1);
     }
@@ -468,21 +439,11 @@ class Pilot
             x.ItemType === ItemType.PilotArmor
         )
         .map((i) => i.ID),
-      Frames: equipment
-        .filter((x) => x.ItemType === ItemType.Frame)
-        .map((i) => i.ID),
-      MechWeapons: equipment
-        .filter((x) => x.ItemType === ItemType.MechWeapon)
-        .map((i) => i.ID),
-      WeaponMods: equipment
-        .filter((x) => x.ItemType === ItemType.WeaponMod)
-        .map((i) => i.ID),
-      MechSystems: equipment
-        .filter((x) => x.ItemType === ItemType.MechSystem)
-        .map((i) => i.ID),
-      SystemMods: equipment
-        .filter((x) => x.ItemType === ItemType.SystemMod)
-        .map((i) => i.ID),
+      Frames: equipment.filter((x) => x.ItemType === ItemType.Frame).map((i) => i.ID),
+      MechWeapons: equipment.filter((x) => x.ItemType === ItemType.MechWeapon).map((i) => i.ID),
+      WeaponMods: equipment.filter((x) => x.ItemType === ItemType.WeaponMod).map((i) => i.ID),
+      MechSystems: equipment.filter((x) => x.ItemType === ItemType.MechSystem).map((i) => i.ID),
+      SystemMods: equipment.filter((x) => x.ItemType === ItemType.SystemMod).map((i) => i.ID),
     };
   }
 
@@ -490,9 +451,7 @@ class Pilot
     if (!equipment) return [];
     const items = [] as CompendiumItem[];
     Object.keys(equipment).forEach((key) => {
-      equipment[key].forEach((id) =>
-        items.push(CompendiumStore().referenceByID(key, id))
-      );
+      equipment[key].forEach((id) => items.push(CompendiumStore().referenceByID(key, id)));
     });
     return items;
   }
@@ -556,9 +515,7 @@ class Pilot
 
   public Update(data: PilotData): void {
     this._id = data.id;
-    this._combat_history = data.combat_history
-      ? data.combat_history
-      : ActiveState.NewCombatStats();
+    this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats();
     this._level = data.level;
     this._callsign = data.callsign;
     this._name = data.name;
@@ -567,11 +524,7 @@ class Pilot
     this._text_appearance = data.text_appearance;
     this._notes = data.notes;
     this._history = data.history;
-    this._quirks = data.quirks
-      ? data.quirks
-      : (data as any).quirk
-      ? [(data as any).quirk]
-      : [];
+    this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : [];
     this._background = data.background;
     this._mechs = data.mechs.length
       ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
@@ -593,6 +546,8 @@ class Pilot
     PortraitController.Deserialize(this, data.img);
     PilotLoadoutController.Deserialize(this, data);
     BrewController.Deserialize(this, data);
+
+    console.log(this);
   }
 
   public Clone(): Pilot {

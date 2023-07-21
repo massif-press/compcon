@@ -70,7 +70,7 @@
     <template #right-column>
       <div v-for="h in headers" class="mb-4">
         <div v-if="h.attr !== 'Custom'" class="text-overline">Your Ability To</div>
-        <cc-title small>{{ h.description }}</cc-title>
+        <cc-title small class="py-1 mb-2">{{ h.description }}</cc-title>
         <skill-select-item
           v-for="s in skills[h.attr]"
           :id="`skill_${s.ID}`"

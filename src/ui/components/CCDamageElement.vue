@@ -1,26 +1,16 @@
 <template>
-  <div
-    v-for="d in (damage as Damage[])"
-    class="text-center d-inline-block pr-3"
-  >
-    <cc-tooltip
-      :title="`${d.Value} ${typeOverride || d.Type} Damage`"
-      :content="Help(d)"
-    >
+  <div v-for="d in (damage as Damage[])" class="text-center d-inline-block pr-3">
+    <cc-tooltip :title="`${d.Value} ${typeOverride || d.Type} Damage`" :content="Help(d)">
       <span v-if="small">
-        <v-icon
-          :color="damageColor(d)"
-          class="mr-n2 ml-n1"
-          :icon="damageIcon(d)"
-        />
+        <v-icon :color="damageColor(d)" :icon="damageIcon(d)" />
         <v-icon v-if="d.Override" icon="mdi-information-outline" />
-        <span v-else v-text="`${added ? '+' : ''}${d.Value}`" />
+        <b v-else v-text="`${added ? '+' : ''}${d.Value}`" />
       </span>
       <v-row v-else align="center" no-gutters>
         <v-col cols="auto">
-          <v-icon size="40" :color="damageColor(d)" :icon="damageIcon(d)" />
+          <v-icon :size="dense ? 25 : 35" :color="damageColor(d)" :icon="damageIcon(d)" />
         </v-col>
-        <v-col cols="auto" class="heading text-text" style="font-size: 24pt">
+        <v-col cols="auto" class="heading text-text" :style="`font-size: ${dense ? '20' : '24'}pt`">
           {{ `${added ? '+' : ''}${d.Value}` }}
         </v-col>
       </v-row>
@@ -48,15 +38,15 @@ export default {
     },
     small: {
       type: Boolean,
-      required: false,
     },
     added: {
       type: Boolean,
-      required: false,
     },
     inline: {
       type: Boolean,
-      required: false,
+    },
+    dense: {
+      type: Boolean,
     },
   },
   data: () => ({
@@ -66,14 +56,10 @@ export default {
   }),
   methods: {
     damageColor(d: Damage): string {
-      return this.typeOverride
-        ? `damage--${this.typeOverride.toLowerCase()}`
-        : d.Color;
+      return this.typeOverride ? `damage--${this.typeOverride.toLowerCase()}` : d.Color;
     },
     damageIcon(d: Damage): string {
-      return this.typeOverride
-        ? `cc:${this.typeOverride.toLowerCase()}`
-        : d.Icon;
+      return this.typeOverride ? `cc:${this.typeOverride.toLowerCase()}` : d.Icon;
     },
     Help(d: Damage): string {
       switch (d.Type.toLowerCase()) {

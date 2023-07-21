@@ -1,7 +1,7 @@
 <template>
   <skill-block :pilot="pilot" />
   <dt-resources-block :pilot="pilot" />
-  <!-- <pilot-loadout-block :pilot="pilot" /> -->
+  <pilot-loadout-block :pilot="pilot" />
 </template>
 
 <script lang="ts">

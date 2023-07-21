@@ -124,8 +124,8 @@
                     No Bond Power selections remaining
                     <br />
                     <span class="caption text--secondary">
-                      Additional features beyond the reccommended guidelines can be added by
-                      toggling the "Ignore Limit" option above
+                      Additional features beyond the recommended guidelines can be added by toggling
+                      the "Ignore Limit" option above
                     </span>
                   </v-alert>
                   <v-alert
@@ -139,8 +139,8 @@
                     No Bond Powers available
                     <br />
                     <span class="caption text--secondary">
-                      Additional features beyond the reccommended guidelines can be added by
-                      toggling the "Ignore Limit" option above
+                      Additional features beyond the recommended guidelines can be added by toggling
+                      the "Ignore Limit" option above
                     </span>
                   </v-alert>
                 </v-col>

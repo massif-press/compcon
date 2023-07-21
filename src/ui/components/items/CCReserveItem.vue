@@ -1,15 +1,8 @@
 <template>
-  <v-col cols="12" md="auto">
-    <v-dialog v-model="dialog" :width="$vuetify.display.mdAndDown ? '100vw' : '60vw'">
+  <v-col cols="4">
+    <v-dialog v-model="dialog" width="60vw">
       <template #activator="{ props }">
-        <v-btn
-          :large="$vuetify.display.lgAndUp"
-          variant="outlined"
-          color="stark"
-          class="px-4"
-          block
-          v-bind="props"
-        >
+        <v-btn size="large" variant="outlined" color="stark" block v-bind="props">
           <v-icon start color="stark">{{ reserve.Icon }}</v-icon>
           <s v-if="reserve.Used">
             {{ reserve.Name }}
@@ -19,30 +12,24 @@
           </span>
         </v-btn>
       </template>
-      <cc-titled-panel
-        :title="reserve.Name"
-        :icon="reserve.Icon"
-        :color="reserve.Color"
-        style="height: 100%"
-      >
-        <div slot="items">
-          <cc-tooltip simple inline content="Delete Reserve">
-            <v-btn icon color="error" @click="remove()">
-              <v-icon icon="delete" />
-            </v-btn>
-          </cc-tooltip>
-          <v-btn icon dark @click="dialog = false">
-            <v-icon icon="close" />
+      <cc-titled-panel :title="reserve.Name" :icon="reserve.Icon" :color="reserve.Color">
+        <template #items>
+          <v-btn icon variant="plain" color="error" @click="remove()">
+            <v-icon icon="mdi-delete" />
           </v-btn>
-        </div>
-        <p v-html-safe="reserve.Description" class="flavor-text mx-2 my-1" />
-        <v-card v-if="reserve.ID != 'reserve_skill'" flat variant="outlined" class="px-5">
+          <v-btn icon variant="plain" @click="dialog = false">
+            <v-icon icon="mdi-close" />
+          </v-btn>
+        </template>
+        <div v-html-safe="reserve.Description" class="flavor-text mb-4" />
+        <v-card v-if="reserve.ID != 'reserve_skill'" flat variant="outlined">
           <v-card-text>
-            <v-row>
+            <v-row align="center">
               <v-col cols="9">
                 <div v-if="reserve.Type === 'Resources'">
                   <v-text-field
-                    v-model.lazy="reserve.ResourceName"
+                    v-model="reserve.ResourceName"
+                    hide-details
                     :label="reserve.ResourceLabel"
                     variant="outlined"
                   />
@@ -62,7 +49,8 @@
                   </div>
                   <div v-else>
                     <v-text-field
-                      v-model.lazy="reserve.ResourceName"
+                      v-model="reserve.ResourceName"
+                      hide-details
                       :label="reserve.ResourceLabel"
                     />
                   </div>
@@ -76,23 +64,31 @@
                   hide-details
                   color="secondary"
                 >
-                  <span slot="label" class="stat-text text-text">
+                  <template #label class="stat-text text-text">
                     Used
                     <cc-tooltip
                       simple
                       inline
                       content="Mark this resource as used or unavailable (but not consumed, destroyed or lost)"
                     >
-                      <v-icon small>mdi-help-circle-outline</v-icon>
+                      <v-icon size="small" end>mdi-help-circle-outline</v-icon>
                     </cc-tooltip>
-                  </span>
+                  </template>
                 </v-switch>
               </v-col>
             </v-row>
-            <v-textarea v-model.lazy="reserve.Note" auto-grow filled rows="2" label="Notes" />
 
             <v-textarea
-              v-model.lazy="reserve.ResourceCost"
+              v-model="reserve.Note"
+              auto-grow
+              filled
+              rows="2"
+              label="Notes"
+              class="mt-4"
+            />
+
+            <v-textarea
+              v-model="reserve.ResourceCost"
               auto-grow
               filled
               rows="2"
@@ -101,11 +97,6 @@
             />
           </v-card-text>
         </v-card>
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text @click="dialog = false">Dismiss</v-btn>
-        </v-card-actions>
       </cc-titled-panel>
     </v-dialog>
   </v-col>

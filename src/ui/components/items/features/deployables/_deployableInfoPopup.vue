@@ -1,27 +1,24 @@
 <template>
   <cc-dialog no-dismiss large>
-    <span slot="button" class="text-white" style="width: 100%">
-      <v-icon dark>cc:drone</v-icon>
-      {{ deployable.name }}
-    </span>
+    <template #button>
+      <span class="text-white" style="width: 100%">
+        <v-icon dark>cc:drone</v-icon>
+        {{ deployable.name }}
+      </span>
+    </template>
 
-    <span slot="title">
+    <template #title>
       <v-icon start large dark>cc:drone</v-icon>
       {{ deployable.name }}
-    </span>
-    <v-chip
-      slot="title-items"
-      dark
-      small
-      class="stat-text mr-2 pr-0 mt-4"
-      variant="outlined"
-      label
-    >
-      DEPLOY&nbsp;
-      <v-chip small label dark :color="`action--${activation.toLowerCase()}`">
-        {{ activation.toUpperCase() }}
+    </template>
+    <template #title-items>
+      <v-chip class="mr-2 pr-0" variant="outlined" label>
+        DEPLOY&emsp;
+        <v-chip label variant="elevated" :color="`action--${activation.toLowerCase()}`">
+          {{ activation.toUpperCase() }}
+        </v-chip>
       </v-chip>
-    </v-chip>
+    </template>
     <deployable-info-base :deployable="deployable" />
   </cc-dialog>
 </template>
@@ -40,9 +37,7 @@ export default {
   },
   computed: {
     activation() {
-      return this.deployable.activation
-        ? this.deployable.activation.toLowerCase()
-        : 'quick';
+      return this.deployable.activation ? this.deployable.activation.toLowerCase() : 'quick';
     },
   },
 };

@@ -1,48 +1,34 @@
 <template>
   <cc-solo-dialog ref="dialog" icon="cc:pilot" no-confirm title="Edit Pilot level">
     <v-card-text>
-      <v-alert
-        v-model="alert"
-        close-text="Close"
-        type="warning"
-        color="stark"
-        dismissible
-        variant="outlined"
-        prominent
-      >
+      <v-alert v-model="alert" close-text="Close" icon="mdi-alert" variant="outlined" prominent>
         This tool skips the level up wizard. Pilot attributes gained through levelling up, such as
         skill triggers, licenses, talents, mech skills, and CORE bonuses will have to be updated
         manually
       </v-alert>
 
-      <v-row justify="center" align="center" class="text-center">
+      <v-row justify="center" align="center" class="text-center mt-2">
         <v-col cols="auto">
-          <span class="text-overline">Current Level:</span>
-          <br />
-          <span style="display: inline-block" class="level-input">
+          <div class="text-caption">CURRENT LEVEL:</div>
+          <div class="heading h1 py-3">
             {{ pilot.Level }}
-          </span>
+          </div>
         </v-col>
 
         <v-col cols="auto" class="mx-3">
-          <span class="text-overline"></span>
-          <br />
-          <v-icon x-large>arrow_forward</v-icon>
+          <v-icon size="60">mdi-arrow-right</v-icon>
         </v-col>
 
         <v-col cols="auto">
-          <span class="text-overline">New Level:</span>
-          <br />
+          <div class="text-caption">NEW LEVEL:</div>
           <v-select
             v-model="newLevel"
             :items="levels"
             type="number"
             hide-details
-            hide-spin-buttons
             density="compact"
             variant="outlined"
-            background-color="panel"
-            class="level-input"
+            class="heading h2"
           />
         </v-col>
       </v-row>
@@ -53,7 +39,7 @@
             block
             color="primary"
             x-large
-            :disabled="newLevel === '' || newLevel === pilot.Level"
+            :disabled="newLevel === 0 || newLevel === pilot.Level"
             @click="setLevel"
           >
             Set Pilot Level
@@ -90,41 +76,9 @@ export default {
       (this.$refs.dialog as any).hide();
     },
     setLevel() {
-      this.pilot.Level = parseInt(this.newLevel) || 0;
+      this.pilot.Level = (this.newLevel as Number) || 0;
       this.hide();
     },
   },
 };
 </script>
-
-<style>
-.level-input {
-  font-size: 55px;
-  width: 120px !important;
-  height: 65px !important;
-  line-height: 65px !important;
-}
-
-.level-input .v-select__selection {
-  font-size: 55px;
-  width: 90px !important;
-  height: 65px !important;
-  line-height: 65px !important;
-}
-
-.level-input input {
-  display: none;
-}
-
-.level-input .v-input__control,
-.level-input .v-input__slot {
-  width: inherit !important;
-  height: inherit !important;
-  text-align: center !important;
-}
-
-.level-input .v-input__append-inner {
-  align-self: center !important;
-  margin: 0 !important;
-}
-</style>

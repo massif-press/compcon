@@ -1,11 +1,6 @@
 <template>
-  <div>
-    <v-row
-      no-gutters
-      align="center"
-      justify="center"
-      :style="`min-height: ${small ? '100px' : '200px'}`"
-    >
+  <div :style="equipped ? 'opacity: 0.3' : ''">
+    <v-row align="center" justify="center" :style="`min-height: ${small ? '100px' : '200px'}`">
       <v-col>
         <div>
           <slot name="top" />
@@ -14,24 +9,14 @@
             cols="12"
             :class="`text-center ${small ? '' : 'pb-2 pt-2 my-1'}`"
           >
-            <cc-tags
-              :tags="item.Tags"
-              small
-              density="compact"
-              variant="outlined"
-              color="accent"
-            />
+            <cc-tags :tags="item.Tags" small density="compact" variant="outlined" color="accent" />
           </div>
         </div>
       </v-col>
     </v-row>
-    <v-toolbar
-      density="compact"
-      :color="hover ? 'primary lighten-1' : 'primary'"
-      dark
-    >
-      <span>
-        <div class="text-overline mb-n2">
+    <v-toolbar density="compact" :color="hover ? 'primary lighten-1' : 'primary'" dark>
+      <span class="pl-2">
+        <div class="text-overline">
           <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
           <slot name="overline" />
         </div>
@@ -47,8 +32,14 @@
         </div>
       </span>
       <v-spacer />
-      <v-btn icon large dark class="mr-2" @click.stop="$emit('equip', item)">
-        <v-icon large>mdi-plus</v-icon>
+      <v-btn
+        icon
+        variant="plain"
+        class="mr-2"
+        :disabled="equipped"
+        @click.stop="$emit('equip', item)"
+      >
+        <v-icon>mdi-plus</v-icon>
       </v-btn>
     </v-toolbar>
   </div>
@@ -61,7 +52,9 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    equipped: { type: Boolean },
   },
+  emits: ['equip'],
 };
 </script>
 

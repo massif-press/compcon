@@ -1,68 +1,40 @@
 <template>
-  <div>
-    <v-row :dense="readonly">
+  <div class="mt-3 px-10">
+    <v-row>
       <pilot-armor-card
-        :item="pilot.Loadout.Armor[0]"
-        :readonly="readonly"
-        :exotics="exotics('PilotArmor')"
-        @equip="setArmor($event)"
-        @remove="setArmor(null)"
-        @save="pilot.SaveController.save()"
-      />
-      <v-divider :vertical="$vuetify.display.mdAndUp" class="mx-4 my-1" />
-      <pilot-weapon-card
-        v-for="(w, i) in weapons"
-        :item="w"
+        v-for="i in controller.MaxArmorSlots"
+        :item="controller.Loadout.Armor[i - 1]"
         :readonly="readonly"
         :pilot="pilot"
-        :exotics="exotics('PilotWeapon')"
-        @equip="setWeapon($event, i)"
-        @remove="setWeapon(null, i)"
-        @save="pilot.SaveController.save()"
+        @equip="controller.Loadout.Add($event, i - 1)"
+        @remove="controller.Loadout.Remove($event)"
       />
       <pilot-weapon-card
-        v-for="(w, i) in extendedWeapons"
-        :item="w"
-        :readonly="readonly"
-        :extended="true"
-        :pilot="pilot"
-        :exotics="exotics('PilotWeapon')"
-        @equip="setWeapon($event, i, true)"
-        @remove="setWeapon(null, i, true)"
-        @save="pilot.SaveController.save()"
-      />
-    </v-row>
-    <v-row density="compact">
-      <pilot-gear-card
-        v-for="(g, i) in gear"
-        :item="g"
+        v-for="i in controller.MaxWeaponSlots"
+        :item="controller.Loadout.Weapons[i - 1]"
         :readonly="readonly"
         :pilot="pilot"
-        :exotics="exotics('PilotGear')"
-        @equip="setGear($event, i)"
-        @remove="setGear(null, i)"
-        @save="pilot.SaveController.save()"
+        @equip="controller.Loadout.Add($event, i - 1)"
+        @remove="controller.Loadout.Remove($event)"
       />
       <pilot-gear-card
-        v-for="(g, i) in extendedGear"
-        :item="g"
+        v-for="i in controller.MaxGearSlots"
+        :item="controller.Loadout.Gear[i - 1]"
         :readonly="readonly"
-        :extended="true"
         :pilot="pilot"
-        :exotics="exotics('PilotGear')"
-        @equip="setGear($event, i, true)"
-        @remove="setGear(null, i, true)"
-        @save="pilot.SaveController.save()"
+        @equip="controller.Loadout.Add($event, i - 1)"
+        @remove="controller.Loadout.Remove($event)"
       />
     </v-row>
   </div>
 </template>
 
 <script lang="ts">
+import { CompendiumStore } from '@/stores';
 import PilotArmorCard from './_PLArmorCard.vue';
 import PilotWeaponCard from './_PLWeaponCard.vue';
 import PilotGearCard from './_PLGearCard.vue';
-import { PilotArmor, PilotWeapon, PilotGear } from '@/class';
+import { PilotGear, ItemType } from '@/class';
 
 export default {
   name: 'cc-pilot-loadout',
@@ -77,40 +49,28 @@ export default {
     },
   },
   computed: {
-    gear() {
-      return this.pilot.Loadout.Gear;
+    controller() {
+      return this.pilot.PilotLoadoutController;
     },
-    extendedGear() {
-      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedGear;
-      return [];
+    gear(): PilotGear[] {
+      return (CompendiumStore().PilotGear as PilotGear[]).filter(
+        (x: PilotGear) => x.ItemType === ItemType.PilotGear && !x.IsHidden
+      );
     },
-    weapons() {
-      return this.pilot.Loadout.Weapons;
+    armor(): PilotGear[] {
+      return (CompendiumStore().PilotGear as PilotGear[]).filter(
+        (x: PilotGear) => x.ItemType === ItemType.PilotArmor && !x.IsHidden
+      );
     },
-    extendedWeapons() {
-      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedWeapons;
-      return [];
+    weapons(): PilotGear[] {
+      return (CompendiumStore().PilotGear as PilotGear[]).filter(
+        (x: PilotGear) => x.ItemType === ItemType.PilotWeapon && !x.IsHidden
+      );
     },
   },
   methods: {
     exotics(type: string) {
       return this.pilot.SpecialEquipment.filter((x) => x.ItemType === type);
-    },
-    setArmor(a: PilotArmor | null) {
-      this.$set(this.pilot.Loadout.Armor, 0, a);
-      this.pilot.Heal();
-    },
-    setWeapon(w: PilotWeapon | null, idx: number, extended: boolean) {
-      const weaponArray = extended
-        ? this.pilot.Loadout.ExtendedWeapons
-        : this.pilot.Loadout.Weapons;
-      this.$set(weaponArray, idx, w);
-      this.pilot.Heal();
-    },
-    setGear(g: PilotGear | null, idx: number, extended: boolean) {
-      const gearArray = extended ? this.pilot.Loadout.ExtendedGear : this.pilot.Loadout.Gear;
-      this.$set(gearArray, idx, g);
-      this.pilot.Heal();
     },
   },
 };

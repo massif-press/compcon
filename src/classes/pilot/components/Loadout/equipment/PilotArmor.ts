@@ -89,8 +89,9 @@ class PilotArmor extends PilotEquipment {
   }
 
   public get Icon(): string {
-    return 'cci-pilot';
+    return 'cc:pilot';
   }
 }
 
-export { PilotArmor, IPilotArmorData };
+export { PilotArmor };
+export type { IPilotArmorData };

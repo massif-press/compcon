@@ -1,5 +1,5 @@
 <template>
-  <equipment-card-base :item="item">
+  <equipment-card-base :item="item" :dense="dense">
     <v-row v-if="item.InLcp">
       <div class="heading h3 text-text">{{ item.LcpName }}</div>
     </v-row>
@@ -16,6 +16,9 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+    dense: {
+      type: Boolean,
     },
   },
 };

@@ -1,36 +1,42 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover" @equip="$emit('equip', $event)">
-    <div slot="top">
-      <v-row density="compact" justify="space-around" class="mt-2">
+  <c-card-base
+    :item="item"
+    :small="small"
+    :hover="hover"
+    :equipped="equipped"
+    @equip="$emit('equip', $event)"
+  >
+    <template #top>
+      <v-row dense justify="space-around" class="mt-2">
         <v-col v-if="item.Armor" cols="auto">
           <cc-tooltip simple inline content="Armor Bonus">
             <v-icon icon="mdi-shield-outline" />
           </cc-tooltip>
-          <span class="stat-text">{{ item.Armor }}</span>
+          <span class="stat-text">{{ item.ArmorString }}</span>
         </v-col>
         <v-col v-if="item.HPBonus" cols="auto">
           <cc-tooltip simple inline content="HP Bonus">
             <v-icon icon="mdi-heart" />
           </cc-tooltip>
-          <span class="stat-text">+{{ item.HPBonus }}</span>
+          <span class="stat-text">+{{ item.HpString }}</span>
         </v-col>
         <v-col v-if="item.EDefense" cols="auto">
           <cc-tooltip simple inline content="Electronic Defense">
             <v-icon icon="cc:e_def" />
           </cc-tooltip>
-          <span class="stat-text">{{ item.EDefense }}</span>
+          <span class="stat-text">{{ item.EdefString }}</span>
         </v-col>
         <v-col v-if="item.Evasion" cols="auto">
           <cc-tooltip simple inline content="Evasion">
             <v-icon icon="cc:evasion" />
           </cc-tooltip>
-          <span class="stat-text">{{ item.Evasion }}</span>
+          <span class="stat-text">{{ item.EvasionString }}</span>
         </v-col>
         <v-col v-if="item.Speed" cols="auto">
           <cc-tooltip simple inline content="Speed">
             <v-icon icon="mdi-arrow-right-bold-hexagon-outline" />
           </cc-tooltip>
-          <span class="stat-text">{{ item.Speed }}</span>
+          <span class="stat-text">{{ item.SpeedString }}</span>
         </v-col>
       </v-row>
       <!-- <p
@@ -72,7 +78,7 @@
           </v-col>
         </v-row> -->
       </div>
-    </div>
+    </template>
   </c-card-base>
 </template>
 
@@ -85,6 +91,7 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    equipped: { type: Boolean },
   },
 };
 </script>

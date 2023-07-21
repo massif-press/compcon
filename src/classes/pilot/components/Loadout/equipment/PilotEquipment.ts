@@ -1,10 +1,6 @@
 import { CompendiumStore } from '@/stores';
 import { CompendiumItem, PilotArmor, PilotGear, PilotWeapon } from '@/class';
-import {
-  ICompendiumItemData,
-  IPilotWeaponData,
-  ITagCompendiumData,
-} from '@/interface';
+import { ICompendiumItemData, IPilotWeaponData, ITagCompendiumData } from '@/interface';
 
 interface IPilotEquipmentData extends ICompendiumItemData {
   type?: string;
@@ -39,6 +35,7 @@ abstract class PilotEquipment extends CompendiumItem {
     packName?: string
   ) {
     super(data, packTags, packName);
+
     this._used = false;
     this._destroyed = false;
     this._cascading = false;
@@ -52,9 +49,7 @@ abstract class PilotEquipment extends CompendiumItem {
       this.IsLoading = data.tags.some((x) => x.id === 'tg_loading');
       this.IsAI = data.tags.some((x) => x.id === 'tg_ai');
       this.NoCascade = data.tags.some((x) => x.id === 'tg_no_cascade');
-      this.IsIndestructible = data.tags.some(
-        (x) => x.id === 'tg_indestructible'
-      );
+      this.IsIndestructible = data.tags.some((x) => x.id === 'tg_indestructible');
       this.IsOrdnance = data.tags.some((x) => x.id === 'tg_ordnance');
       this.CanSetDamage = data.tags.some((x) => x.id === 'tg_set_damage_type');
       this.CanSetUses = data.tags.some((x) => x.id === 'tg_set_max_uses');
@@ -167,19 +162,15 @@ abstract class PilotEquipment extends CompendiumItem {
   }
 
   public get MaxUses(): number {
-    return this.max_use_override !== null
-      ? this.max_use_override
-      : this._max_uses;
+    return this.max_use_override !== null ? this.max_use_override : this._max_uses;
   }
 
   public getTotalUses(bonus?: number): number {
     const b = bonus ? bonus : 0;
-    return this.max_use_override !== null
-      ? this.max_use_override
-      : this._max_uses + b;
+    return this.max_use_override !== null ? this.max_use_override : this._max_uses + b;
   }
 
-  public static Serialize(item: PilotEquipment | null): IEquipmentData | null {
+  public static Serialize(item: PilotEquipment): IEquipmentData | null {
     if (!item) return null;
     return {
       id: item.ID,
@@ -193,9 +184,7 @@ abstract class PilotEquipment extends CompendiumItem {
     };
   }
 
-  public static Deserialize(
-    itemData: IEquipmentData | null
-  ): PilotEquipment | null {
+  public static Deserialize(itemData: IEquipmentData): PilotEquipment | null {
     if (!itemData) return null;
     const item = CompendiumStore().instantiate('PilotGear', itemData.id);
     item.Uses = itemData.uses;
@@ -203,6 +192,7 @@ abstract class PilotEquipment extends CompendiumItem {
     item._flavor_name = itemData.flavorName;
     item._flavor_description = itemData.flavorDescription;
     item._custom_damage_type = itemData.customDamageType || null;
+
     return item;
   }
 }

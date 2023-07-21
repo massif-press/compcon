@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col cols="12" md="7">
+    <v-col>
       <cc-titled-panel
         title="New Organization"
         icon="mdi-account-group"
@@ -35,14 +35,14 @@
           rows="2"
           filled
           hide-details
+          class="mt-2"
         />
         <br />
-        <span class="heading h3">Start with:</span>
-        <v-row density="compact" justify="center" class="mx-4">
-          <v-col cols="12" md="" class="text-center">
+        <span class="heading h4">Start with:</span>
+        <v-row justify="center" class="mx-4 py-1">
+          <v-col class="text-center">
             <v-btn
               v-if="!orgStart"
-              large
               block
               variant="outlined"
               color="secondary"
@@ -58,13 +58,11 @@
                 purpose (science, military, etc). You can use these advantages as
                 <strong>reserves.</strong>"
               >
-                <v-icon small right>mdi-help-circle-outline</v-icon>
+                <v-icon size="small" end>mdi-help-circle-outline</v-icon>
               </cc-tooltip>
             </v-btn>
             <div v-else>
-              <span class="heading h3"
-                >+ {{ orgStart === 'efficiency' ? '2' : '0' }}</span
-              >
+              <span class="heading h3">+ {{ orgStart === 'efficiency' ? '2' : '0' }}</span>
               <br />
               <span>Organization Efficiency</span>
             </div>
@@ -73,7 +71,6 @@
           <v-col cols="12" md="" class="text-center">
             <v-btn
               v-if="!orgStart"
-              large
               block
               variant="outlined"
               color="secondary"
@@ -87,13 +84,11 @@
                 Influence be used to acquire assets, create opportunities, or sway public
                 opinion."
               >
-                <v-icon small right>mdi-help-circle-outline</v-icon>
+                <v-icon size="small" end>mdi-help-circle-outline</v-icon>
               </cc-tooltip>
             </v-btn>
             <div v-else>
-              <span class="heading h3"
-                >+ {{ orgStart === 'influence' ? '2' : '0' }}</span
-              >
+              <span class="heading h3">+ {{ orgStart === 'influence' ? '2' : '0' }}</span>
               <br />
               <span>Organization Influence</span>
             </div>
@@ -124,7 +119,7 @@ export default {
   name: 'custom-reserve-panel',
   data: () => ({
     orgName: '',
-    orgType: '',
+    orgType: '' as any,
     orgStart: '',
     orgDetails: '',
   }),
@@ -149,11 +144,10 @@ export default {
       this.$emit('add', o);
     },
     clear() {
-      this.projectName = '';
-      this.details = '';
-      this.complicated = false;
-      this.finished = false;
-      this.costs = [];
+      this.orgName = '';
+      this.orgType = '';
+      this.orgStart = '';
+      this.orgDetails = '';
     },
   },
 };

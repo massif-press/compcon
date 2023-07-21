@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" style="margin-left: -40px !important">
+    <section-header title="Skill Triggers">
       <section-edit-chip
         :highlight="!pilot.SkillsController.HasFullSkills"
         :current="pilot.SkillsController.CurrentSkillPoints"
@@ -8,8 +8,7 @@
         :label="`Edit Pilot Skill Triggers (${pilot.SkillsController.CurrentSkillPoints}/${pilot.SkillsController.MaxSkillPoints})`"
         @open-selector="($refs as any).skillSelector.show()"
       />
-      Skill Triggers
-    </cc-title>
+    </section-header>
     <cc-solo-dialog
       ref="skillSelector"
       icon="cc:skill"
@@ -19,26 +18,17 @@
     >
       <cc-skill-selector :pilot="pilot" />
     </cc-solo-dialog>
-    <v-row
-      :style="$vuetify.display.lgAndUp ? `width: calc(100vw - 250px)` : ''"
-      density="compact"
-      class="mt-2"
-    >
+    <v-row style="width: calc(100vw - 250px)" density="compact" class="mt-2 pl-10">
       <v-col cols="12" md="auto" class="mr-2 text-center">
         <div class="stat-text">PILOT GRIT</div>
-        <div
-          class="heading h1 text-secondary"
-          :style="
-            $vuetify.display.lgAndUp ? 'font-size: 80px; line-height: 50px' : 'line-height: 30px'
-          "
-        >
+        <div class="heading h1 text-secondary" style="font-size: 80px; line-height: 50px">
           +{{ pilot.Grit }}
         </div>
       </v-col>
       <v-col>
         <no-data-block v-if="!pilot.SkillsController.Skills.length" />
         <cc-skill-item
-          v-for="(s, i) in pilot.SkillsController.Skills"
+          v-for="s in pilot.SkillsController.Skills"
           v-else
           :bonus="s.Bonus"
           :skill="s.Skill"
@@ -50,12 +40,13 @@
 </template>
 
 <script lang="ts">
+import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
 
 export default {
   name: 'skill-block',
-  components: { SectionEditChip, NoDataBlock },
+  components: { SectionEditChip, SectionHeader, NoDataBlock },
   props: {
     pilot: {
       type: Object,

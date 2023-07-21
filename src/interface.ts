@@ -39,6 +39,7 @@ import { IContentPackManifest, IContentPack } from './classes/ContentPack';
 import { ICounterData } from './classes/components/combat/counters/Counter';
 import { ITagCompendiumData } from './classes/Tag';
 import { PilotData } from './classes/pilot/Pilot';
+import { IPilotLoadoutData } from './classes/pilot/components/Loadout/PilotLoadout';
 
 interface IImageContainer {
   SetLocalImage(): any;
@@ -101,16 +102,6 @@ interface IOrganizationData {
   efficiency: number;
   influence: number;
   actions: string;
-}
-
-interface IPilotLoadoutData {
-  id: string;
-  name: string;
-  armor: (IEquipmentData | null)[];
-  weapons: (IEquipmentData | null)[];
-  gear: (IEquipmentData | null)[];
-  extendedWeapons: (IEquipmentData | null)[];
-  extendedGear: (IEquipmentData | null)[];
 }
 
 interface IHistoryItem {

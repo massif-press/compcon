@@ -1,12 +1,7 @@
 <template>
   <v-hover>
     <template v-slot:default="{ isHovering, props }">
-      <div
-        id="panel-wrapper"
-        :class="`mb-2 ${clickable ? 'clickable' : ''}`"
-        v-bind="props"
-        @click="$emit('click')"
-      >
+      <div :class="`mb-2 ${clickable ? 'clickable' : ''}`" v-bind="props" @click="$emit('click')">
         <v-toolbar
           :color="clickable && isHovering ? 'active' : color ? color : 'primary'"
           density="compact"
@@ -32,13 +27,13 @@
         </v-toolbar>
 
         <v-card
-          flat
+          rounded="0"
           variant="outlined"
           :style="`background-color: rgb(var(--v-theme-background)); border-color: ${
             color ? color : 'rgb(var(--v-theme-primary))'
-          } !important; margin-top: -2px`"
+          } !important; `"
         >
-          <v-card-text class="pt-2 pb-0 px-4">
+          <v-card-text>
             <slot />
           </v-card-text>
         </v-card>
@@ -77,9 +72,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.v-toolbar {
-  transition: all 0.2s ease-in-out;
-}
-</style>

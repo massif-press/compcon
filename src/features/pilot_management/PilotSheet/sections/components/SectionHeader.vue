@@ -1,6 +1,7 @@
 <template>
   <cc-title small color="pilot" :class="editable ? '' : 'py-2 pl-10'">
     <section-edit-icon v-if="editable" :label="tooltip" @open-selector="$emit('edit')" />
+    <slot />
     <span>{{ title }}</span>
   </cc-title>
 </template>

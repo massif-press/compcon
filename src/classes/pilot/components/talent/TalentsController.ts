@@ -53,10 +53,6 @@ class TalentsController implements IFeatureContainer {
     return Bonus.Int(Rules.MinimumPilotTalents + this.Parent.Level, 'talent_point', this.Parent);
   }
 
-  public get IsMissingTalents(): boolean {
-    return this.CurrentTalentPoints < this.MaxTalentPoints;
-  }
-
   public get HasFullTalents(): boolean {
     return this.CurrentTalentPoints === this.MaxTalentPoints;
   }
@@ -68,14 +64,18 @@ class TalentsController implements IFeatureContainer {
 
   public AddTalent(talent: Talent): void {
     const index = this._talents.findIndex((x) => x.Talent.ID === talent.ID);
+
     if (index === -1) {
       this._talents.push(new PilotTalent(talent));
     } else {
       this._talents[index].Increment();
     }
+
     this.talentSort();
     this.updateIntegratedTalents();
-    this.Parent.SaveController.save();
+
+    // TODO: fix save
+    // this.Parent.SaveController.save();
   }
 
   public RemoveTalent(talent: Talent): void {

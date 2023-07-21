@@ -5,7 +5,7 @@
       block ? '100%' : 'max-content'
     };  background-color: rgb(var(--v-theme-${color}));`"
   >
-    <div :class="`px-5 ctitle${size}`">
+    <div :class="`px-5 py-1 ctitle${size}`">
       <slot />
     </div>
   </div>

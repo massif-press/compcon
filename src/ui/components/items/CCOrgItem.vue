@@ -1,29 +1,22 @@
 <template>
-  <v-col cols="auto" class="mx-2">
-    <v-dialog v-model="dialog" width="70vw">
+  <v-col cols="4">
+    <v-dialog v-model="dialog" width="60vw">
       <template #activator="{ props }">
-        <v-btn large variant="outlined" color="stark" block v-bind="props">
+        <v-btn size="large" block variant="outlined" color="stark" v-bind="props">
           <v-icon small left color="stark">mdi-account-multiple</v-icon>
           {{ org.Name }}
         </v-btn>
       </template>
-      <cc-titled-panel
-        :title="org.Name"
-        icon="mdi-account-multiple"
-        color="primary"
-        style="height: 100%"
-      >
-        <div slot="items">
-          <cc-tooltip simple inline content="Delete Organization">
-            <v-btn icon color="error" @click="remove()">
-              <v-icon icon="delete" />
-            </v-btn>
-          </cc-tooltip>
-          <v-btn icon dark @click="dialog = false">
-            <v-icon icon="close" />
+      <cc-titled-panel :title="org.Name" icon="mdi-account-multiple" color="primary">
+        <template #items>
+          <v-btn icon variant="plain" color="error" @click="remove()">
+            <v-icon icon="mdi-delete" />
           </v-btn>
-        </div>
-        <v-row>
+          <v-btn icon variant="plain" dark @click="dialog = false">
+            <v-icon icon="mdi-close" />
+          </v-btn>
+        </template>
+        <v-row class="mb-1">
           <v-col cols="6">
             <v-text-field
               v-model="org.Name"
@@ -51,10 +44,15 @@
           hide-details
         />
         <br />
-        <v-row density="compact" justify="center" class="mx-12">
+        <v-row dense justify="space-around">
           <v-col cols="auto">
-            <v-btn icon large :disabled="org.Efficiency === 0" @click="org.Efficiency -= 2">
-              <v-icon large color="accent">remove</v-icon>
+            <v-btn
+              icon
+              variant="plain"
+              :disabled="org.Efficiency === 0"
+              @click="org.Efficiency -= 2"
+            >
+              <v-icon size="large" color="accent" icon="mdi-minus" />
             </v-btn>
           </v-col>
           <v-col class="text-center" cols="auto">
@@ -72,20 +70,25 @@
                 purpose (science, military, etc). You can use these advantages as
                 <strong>reserves.</strong>"
                 >
-                  <v-icon small right>mdi-help-circle-outline</v-icon>
+                  <v-icon size="small">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </span>
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-btn icon large :disabled="org.Efficiency === 6" @click="org.Efficiency += 2">
-              <v-icon large color="accent">add</v-icon>
+            <v-btn
+              icon
+              variant="plain"
+              :disabled="org.Efficiency === 6"
+              @click="org.Efficiency += 2"
+            >
+              <v-icon size="large" color="accent" icon="mdi-plus" />
             </v-btn>
           </v-col>
-          <v-spacer />
+          <v-col cols="1" />
           <v-col cols="auto">
-            <v-btn icon large :disabled="org.Influence === 0" @click="org.Influence -= 2">
-              <v-icon large color="accent">remove</v-icon>
+            <v-btn icon variant="plain" :disabled="org.Influence === 0" @click="org.Influence -= 2">
+              <v-icon size="large" color="accent" icon="mdi-minus" />
             </v-btn>
           </v-col>
           <v-col class="text-center" cols="auto">
@@ -101,23 +104,17 @@
                 Influence be used to acquire assets, create opportunities, or sway public
                 opinion."
                 >
-                  <v-icon small right>mdi-help-circle-outline</v-icon>
+                  <v-icon size="small">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </span>
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-btn icon large :disabled="org.Influence === 6" @click="org.Influence += 2">
-              <v-icon large color="accent">add</v-icon>
+            <v-btn icon variant="plain" :disabled="org.Influence === 6" @click="org.Influence += 2">
+              <v-icon size="large" color="accent" icon="mdi-plus" />
             </v-btn>
           </v-col>
         </v-row>
-        <br />
-        <v-divider />
-        <v-card-actions>
-          <v-spacer />
-          <v-btn text @click="dialog = false">Dismiss</v-btn>
-        </v-card-actions>
       </cc-titled-panel>
     </v-dialog>
   </v-col>

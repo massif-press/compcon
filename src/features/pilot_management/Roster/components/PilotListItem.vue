@@ -1,7 +1,7 @@
 <template>
   <v-row
     no-gutters
-    class="lighten-select"
+    class="lighten-select mb-4"
     @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
   >
     <v-col cols="auto" style="border: rgb(var(--v-theme-primary)) 3px double">

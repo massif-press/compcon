@@ -1,7 +1,7 @@
 <template>
   <selector
     title="Pilot Talents"
-    :success="!pilot.TalentsController.IsMissingTalents && enoughSelections"
+    :success="pilot.TalentsController.HasFullTalents && enoughSelections"
   >
     <template #left-column>
       <div
@@ -21,7 +21,7 @@
       <v-row>
         <v-col class="ma-1">
           <v-alert
-            v-show="!pilot.TalentsController.IsMissingTalents && enoughSelections"
+            v-show="pilot.TalentsController.HasFullTalents && enoughSelections"
             variant="outlined"
             density="compact"
             color="success"
@@ -139,7 +139,7 @@ export default {
       );
     },
     selectionComplete(): boolean {
-      return (this.newPilot || this.levelUp) && !this.pilot.TalentsController.IsMissingTalents;
+      return (this.newPilot || this.levelUp) && this.pilot.TalentsController.HasFullTalents;
     },
     talents(): Talent[] {
       const compendium = CompendiumStore();
@@ -159,10 +159,10 @@ export default {
       if (this.newPilot) {
         return (
           this.pilot.TalentsController.getTalentRank(id) === 0 &&
-          this.pilot.TalentsController.IsMissingTalents
+          !this.pilot.TalentsController.HasFullTalents
         );
       }
-      return this.pilot.TalentsController.IsMissingTalents;
+      return !this.pilot.TalentsController.HasFullTalents;
     },
     scroll(id) {
       this.scrollTo(`#talent_${id}`);

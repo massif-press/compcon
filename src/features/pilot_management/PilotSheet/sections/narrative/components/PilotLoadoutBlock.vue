@@ -1,20 +1,16 @@
 <template>
   <div class="pb-3">
-    <cc-title
-      small
-      color="pilot"
-      class="mb-2 pl-5"
-      style="margin-left: -40px !important"
-    >
-      Gear Loadout
-    </cc-title>
+    <section-header title="Gear Loadout" />
     <cc-pilot-loadout :pilot="pilot" />
   </div>
 </template>
 
 <script lang="ts">
+import SectionHeader from '../../components/SectionHeader.vue';
+
 export default {
   name: 'pilot-loadout-block',
+  components: { SectionHeader },
   props: {
     pilot: {
       type: Object,
