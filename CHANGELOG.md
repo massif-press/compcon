@@ -1,5 +1,24 @@
 # COMP/CON Changelog
 
+## [2.3.17] (2023-7-21)
+
+### Bug Fixes
+
+- **Active Mode** Fix Talent actions not correctly repopulating in Active Mode (thanks TheQuazman!) [#2246](https://github.com/massif-press/compcon/pull/2246)
+- **Active Mode** Fix feature usage for NPCs (thanks TheQuazman!) [#2250](https://github.com/massif-press/compcon/issues/2250)
+- **Active Mode** Fix integrated weapon getter for Barrage actions (thanks TheQuazman!) [#2254](https://github.com/massif-press/compcon/issues/2254)
+- **Statblock** Fix mech statblock integrated weapons (thanks TheQuazman!) [#2256](https://github.com/massif-press/compcon/issues/2256)
+- **General** Fix Mimic Gun in-table behavior (thanks TheQuazman!) [#2258](https://github.com/massif-press/compcon/issues/2258)
+- **Compendium** Add license level filtering (thanks TheQuazman!) [#2169](https://github.com/massif-press/compcon/issues/2169)
+- **Image Selector** Fix non-loading image preview for remote image URLs [#2280](https://github.com/massif-press/compcon/issues/2280)
+
+### Features
+
+- **Active Mode** Adds "Return Fire" Reaction UI (thanks TheQuazman!) [#2261](https://github.com/massif-press/compcon/issues/2261)
+- **Encounter Runner** Adds NPC Statblock Generator (thanks TheQuazman!) [#2179](https://github.com/massif-press/compcon/issues/2179)
+- **Licenses** Allow for GMS items with License Levels in LCPs (thanks Melted-Gallium!) [#1747](https://github.com/massif-press/compcon/issues/1747)
+- **Licenses** Allow for gear slot extensions in LCP bonus data (thanks Melted-Gallium!) [#1747](https://github.com/massif-press/compcon/issues/1747)
+
 ## [2.3.16] (2023-5-25)
 
 ### Bug Fixes

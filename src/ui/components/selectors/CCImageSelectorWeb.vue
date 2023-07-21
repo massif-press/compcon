@@ -249,7 +249,7 @@
             <v-col cols="auto">
               <v-btn
                 color="secondary"
-                :disabled="!remoteInput || remoteError.length"
+                :disabled="remoteInput.length < 1 || remoteError.length > 0"
                 @click="setRemoteImage()"
               >
                 Load
@@ -276,7 +276,7 @@
             />
             <v-btn
               color="secondary"
-              :disabled="(!remoteInput || remoteError.length) && !selectedImageUrl"
+              :disabled="(!remoteInput || remoteError.length > 0) && !selectedImageUrl"
               class="px-10 ma-3"
               @click="saveImage()"
             >
@@ -349,7 +349,8 @@ export default Vue.extend({
       return Math.ceil(this.artistImages.length / this.itemsPerPage)
     },
     displayImage() {
-      if (this.selectedImage) return this.selectedImage.url
+      if (this.selectedImage)
+        return this.selectedImage.url ? this.selectedImage.url : this.selectedImage
       if (this.item.Portrait) return this.item.Portrait
       else return 'https://via.placeholder.com/550'
     },
@@ -440,6 +441,9 @@ export default Vue.extend({
       this.close()
     },
     setRemoteImage() {
+      console.log(this.remoteInput)
+      console.log(this.validURL(this.remoteInput))
+
       if (!this.remoteInput) return
       if (!this.validURL(this.remoteInput)) {
         this.remoteError = 'Invalid URL'
