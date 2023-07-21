@@ -88,7 +88,7 @@ export default Vue.extend({
       return this.pilot.Loadout.Gear
     },
     extendedGear() {
-      const extraGearSlots = Bonus.Int(0, "pilot_gear", this.pilot)
+      const extraGearSlots = Bonus.Int(0, "pilot_gear_slots", this.pilot)
       if(extraGearSlots > 0 ) return this.pilot.Loadout.redoExtendedGear(extraGearSlots)
       return []
     },
@@ -96,7 +96,7 @@ export default Vue.extend({
       return this.pilot.Loadout.Weapons
     },
     extendedWeapons() {
-      const extraWeaponSlots = Bonus.Int(0, "pilot_weapon_slot", this.pilot)
+      const extraWeaponSlots = Bonus.Int(0, "pilot_weapon_slots", this.pilot)
       if(extraWeaponSlots > 0 ) return this.pilot.Loadout.redoExtendedWeapons(extraWeaponSlots)
       return []
     },
