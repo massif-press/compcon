@@ -146,6 +146,32 @@ class PilotLoadout extends Loadout {
       : Array(2).fill(null)
     return loadout
   }
+
+  public redoExtendedGear(newGearSlots : number) : PilotGear[]{
+      if(newGearSlots > 0 ) {
+        const currentExtraSlots = this.ExtendedGear.length
+        if(newGearSlots < currentExtraSlots){
+          this.ExtendedGear = this.ExtendedGear.slice(0, newGearSlots)
+        } else if (newGearSlots > currentExtraSlots){
+          const excessGearSlots =  newGearSlots - currentExtraSlots
+          this.ExtendedGear = this.ExtendedGear.concat(Array(excessGearSlots).fill(null))
+        }
+      }
+      return this.ExtendedGear
+  }
+
+  public redoExtendedWeapons(newWeaponSlots : number) : PilotWeapon[]{
+    if(newWeaponSlots > 0 ) {
+      const currentExtraSlots = this.ExtendedWeapons.length
+      if(newWeaponSlots < currentExtraSlots){
+        this.ExtendedWeapons = this.ExtendedWeapons.slice(0, newWeaponSlots)
+      } else if (newWeaponSlots > currentExtraSlots){
+        const excessGearSlots =  newWeaponSlots - currentExtraSlots
+        this.ExtendedWeapons = this.ExtendedWeapons.concat(Array(excessGearSlots).fill(null))
+      }
+    }
+    return this.ExtendedWeapons
+  }
 }
 
 export default PilotLoadout
