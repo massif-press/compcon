@@ -68,6 +68,7 @@ import Vue from 'vue'
 import PilotArmorCard from './_PLArmorCard.vue'
 import PilotWeaponCard from './_PLWeaponCard.vue'
 import PilotGearCard from './_PLGearCard.vue'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 import { PilotArmor, PilotWeapon, PilotGear } from '@/class'
 
 export default Vue.extend({
@@ -87,14 +88,16 @@ export default Vue.extend({
       return this.pilot.Loadout.Gear
     },
     extendedGear() {
-      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedGear
+      const extraGearSlots = Bonus.Int(0, "pilot_gear", this.pilot)
+      if(extraGearSlots > 0 ) return this.pilot.Loadout.redoExtendedGear(extraGearSlots)
       return []
     },
     weapons() {
       return this.pilot.Loadout.Weapons
     },
     extendedWeapons() {
-      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedWeapons
+      const extraWeaponSlots = Bonus.Int(0, "pilot_weapon_slot", this.pilot)
+      if(extraWeaponSlots > 0 ) return this.pilot.Loadout.redoExtendedWeapons(extraWeaponSlots)
       return []
     },
   },
