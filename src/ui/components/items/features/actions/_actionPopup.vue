@@ -2,7 +2,12 @@
   <cc-dialog no-dismiss :color="action.Color" large>
     <span slot="button" class="white--text" style="width: 100%">
       <v-icon dark>{{ action.Icon }}</v-icon>
-      {{ action.Name }}
+      <span v-if="$vuetify.breakpoint.mdAndDown">
+        {{ action.Name.length > 30 ? action.Name.substring(0, 20) + '…' : action.Name }}
+      </span>
+      <span v-else>
+        {{ action.Name }}
+      </span>
     </span>
 
     <span slot="title">
