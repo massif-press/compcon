@@ -8,7 +8,7 @@
 - **Active Mode** Fix feature usage for NPCs (thanks TheQuazman!) [#2250](https://github.com/massif-press/compcon/issues/2250)
 - **Active Mode** Fix integrated weapon getter for Barrage actions (thanks TheQuazman!) [#2254](https://github.com/massif-press/compcon/issues/2254)
 - **Statblock** Fix mech statblock integrated weapons (thanks TheQuazman!) [#2256](https://github.com/massif-press/compcon/issues/2256)
-- **General** Fix Mimic Gun in-table behavior (thanks TheQuazman!) [#2258](https://github.com/massif-press/compcon/issues/2258)
+- **General** Fix Mimic Gun in-table behavior (thanks Hawkzed!) [#2258](https://github.com/massif-press/compcon/issues/2258)
 - **Compendium** Add license level filtering (thanks TheQuazman!) [#2169](https://github.com/massif-press/compcon/issues/2169)
 - **Image Selector** Fix non-loading image preview for remote image URLs [#2280](https://github.com/massif-press/compcon/issues/2280)
 - **General** Fix FABI Mod name (and other long item names) breaking mobile view [#2252](https://github.com/massif-press/compcon/issues/2252)
