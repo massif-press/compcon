@@ -1,99 +1,95 @@
 <template>
-  <div class="packsList">
-    <v-data-table
-      hide-default-footer
-      disable-pagination
-      no-data-text="No content packs installed."
-      :headers="headers"
-      :items="contentPacks"
-      show-expand
-      item-key="Key"
-    >
-      <!-- Active toggle -->
-      <template #[`item.toggleActive`]="{ item }">
-        <v-switch
-          :input-value="item.Active"
-          color="primary"
-          @change="toggleActive(item.ID, $event)"
-        />
-      </template>
-      <!-- Name -->
-      <template #[`item.Name`]="{ item }">
-        <span class="heading h3" :class="item.Active ? 'text-accent' : 'text-subtle font-italic'">
-          {{ item.Name }}
-        </span>
-      </template>
-      <!-- Version -->
-      <template #[`item.Version`]="{ item }">
-        <span class="packVersion">
-          {{ item.Version }}
-        </span>
-      </template>
-      <!-- Delete action -->
-      <template #[`item.deleteAction`]="{ item }">
-        <v-menu offset-y offset-x top nudge-left="30px">
-          <template #activator="{ props }">
-            <v-btn icon color="primary" class="fade-select" v-bind="props">
-              <v-icon icon="delete" />
+  <div>
+    <div v-if="contentPacks.length === 0">
+      <v-alert type="info" variant="outlined"> No content packs installed.</v-alert>
+    </div>
+    <v-table v-else>
+      <thead>
+        <tr class="text-overline">
+          <th style="width: 0" />
+          <th style="width: 0">Active</th>
+          <th class="text-center">Name</th>
+          <th class="text-center">Author</th>
+          <th class="text-center">Version</th>
+          <th style="width: 0" />
+        </tr>
+      </thead>
+      <tbody v-for="(pack, i) in contentPacks">
+        <tr>
+          <td>
+            <v-btn icon color="primary" variant="plain">
+              <v-icon
+                size="x-large"
+                :icon="expandedRows.includes(i) ? 'mdi-chevron-down' : 'mdi-chevron-up'"
+                @click="expandedRows.includes(i) ? expandedRows.splice(i, 1) : expandedRows.push(i)"
+              />
             </v-btn>
-          </template>
-          <v-card>
-            <v-card-text class="text-center body-text">
-              <p>
-                This will remove this pack and all of its contents from COMP/CON. User data that
-                relies on this content will be unavailable and may cause errors. Are you sure you
-                want to continue?
-              </p>
-              <v-divider class="my-2" />
-              <v-row density="compact">
-                <v-btn small text>CANCEL</v-btn>
-                <v-btn small color="error" class="ml-auto" @click="deletePack(item.ID)">
-                  CONFIRM
+          </td>
+          <td>
+            <v-switch
+              :input-value="pack.Active"
+              color="primary"
+              hide-details
+              @change="toggleActive(pack.ID, !pack.Active)"
+            />
+          </td>
+          <td class="text-center">
+            {{ pack.Name }}
+          </td>
+          <td class="text-center">
+            {{ pack.Author }}
+          </td>
+          <td class="text-center">
+            {{ pack.Version }}
+          </td>
+          <td>
+            <v-menu width="400px">
+              <template #activator="{ props }">
+                <v-btn icon color="primary" variant="plain" v-bind="props">
+                  <v-icon icon="mdi-delete" />
                 </v-btn>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-menu>
-      </template>
-      <!-- Expanded view -->
-      <template #expanded-item="{ item, headers }">
-        <td :colspan="headers.length" class="py-4 px-6 w-100 light-panel">
-          <v-row>
-            <v-col>
-              <p class="body-text text-text pa-2 mb-1">
-                <span v-if="item.Description">
-                  {{ item.Description }}
-                </span>
-                <span v-else>No description given.</span>
-              </p>
-
-              <div v-if="item.Website" class="mt-2">
-                <v-divider class="ma-1" />
-                <v-btn target="_blank" :href="item.Website" text color="secondary">
-                  <v-icon prepend class="mr-1">open_in_new</v-icon>
-                  &nbsp;Website
-                </v-btn>
+              </template>
+              <v-card>
+                <v-card-text>
+                  This will remove this pack and all of its contents from COMP/CON. User data that
+                  relies on this content will be unavailable and may cause errors. Are you sure you
+                  want to continue?
+                </v-card-text>
+                <v-divider />
+                <v-card-actions>
+                  <v-btn size="small">CANCEL</v-btn>
+                  <v-btn size="small" color="error" class="ml-auto" @click="deletePack(pack.ID)">
+                    CONFIRM
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-menu>
+          </td>
+        </tr>
+        <tr class="bg-light-panel">
+          <td colspan="6" style="height: 0">
+            <v-expand-transition>
+              <div v-show="expandedRows.includes(i)">
+                <pack-info-card :pack="(pack as ContentPack)" />
               </div>
-            </v-col>
-            <v-col cols="2">
-              <v-img :src="item.ImageURL" alt="Pack image" max-width="200px" max-height="300px" />
-            </v-col>
-          </v-row>
-        </td>
-      </template>
-    </v-data-table>
+            </v-expand-transition>
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
   </div>
 </template>
 
 <script lang="ts">
-import { CompendiumStore, PilotStore, NpcStore } from '@/stores';
-
 import { ContentPack } from '@/class';
+import PackInfoCard from './components/PackInfoCard.vue';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'PacksList',
+  components: { PackInfoCard },
   data: () => ({
-    expanded: [],
+    expandedRows: [] as number[],
     headers: [
       { title: 'Active', value: 'toggleActive', sortable: false },
       { title: 'Name', value: 'Name' },
@@ -103,23 +99,20 @@ export default {
     ],
   }),
   computed: {
-    contentPacks(): ContentPack[] {
-      // return this.CompendiumStore().ContentPacks;
-    },
-    compendiumStore(): CompendiumStore {
-      return CompendiumStore();
+    contentPacks() {
+      return CompendiumStore().ContentPacks;
     },
   },
   methods: {
     async toggleActive(packID: string, active: boolean): Promise<void> {
-      await this.CompendiumStore().setPackActive({
+      await CompendiumStore().setPackActive({
         packID,
         active,
       });
       await this.reload();
     },
     async deletePack(id: string): Promise<void> {
-      await this.CompendiumStore().deleteContentPack(id);
+      await CompendiumStore().deleteContentPack(id);
       await this.reload();
     },
     async reload() {
@@ -131,15 +124,9 @@ export default {
       // missing.pilots = pilotStore.MissingPilots;
       // await npcStore.loadNpcs();
       // missing.npcs = npcStore.MissingNpcs;
-      // await this.CompendiumStore().setMissingContent(missing);
+      // await CompendiumStore().setMissingContent(missing);
       // this.$emit('end-load');
     },
   },
 };
 </script>
-
-<style scoped>
-.packsList :deep(.v-data-table tbody tr.v-data-table__expanded__content) {
-  box-shadow: none;
-}
-</style>

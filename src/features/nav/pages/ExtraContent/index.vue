@@ -1,41 +1,42 @@
 <template>
-  <v-card flat tile class="containerCard">
+  <v-card flat tile>
     <v-tabs v-model="tabs" background-color="panel" color="accent" icons-and-text>
       <v-tab>
+        <v-icon icon="mdi-list-box" />
         Content Packs
-        <v-icon icon="list_alt" />
       </v-tab>
       <v-tab>
+        <v-icon icon="mdi-download" />
         Install Content
-        <v-icon icon="open_in_browser" />
       </v-tab>
       <v-tab>
-        LCP Directory
         <v-icon icon="mdi-format-list-text" />
+        LCP Directory
       </v-tab>
     </v-tabs>
-    <v-tabs-items v-model="tabs">
-      <v-tab-item>
+    <v-window v-model="tabs">
+      <v-window-item>
         <v-container>
           <packs-list
             ref="pl"
             @start-load="($refs as any).mc.loading = true"
             @end-load="($refs as any).mc.loading = false"
           />
+          <v-divider class="my-6" />
           <missing-content ref="mc" />
         </v-container>
-      </v-tab-item>
-      <v-tab-item>
+      </v-window-item>
+      <v-window-item>
         <v-container>
           <pack-install @installed="onInstalled" />
         </v-container>
-      </v-tab-item>
-      <v-tab-item>
+      </v-window-item>
+      <v-window-item>
         <v-container>
           <packs-directory />
         </v-container>
-      </v-tab-item>
-    </v-tabs-items>
+      </v-window-item>
+    </v-window>
   </v-card>
 </template>
 
@@ -50,7 +51,7 @@ export default {
   components: { PacksList, PackInstall, PacksDirectory, MissingContent },
   data: () => {
     return {
-      tabs: null,
+      tabs: 0,
     };
   },
 
@@ -62,10 +63,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.containerCard :deep(.v-window__container),
-.containerCard :deep(.v-window-item) {
-  height: 100%;
-}
-</style>

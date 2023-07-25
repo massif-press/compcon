@@ -162,7 +162,9 @@ export const CompendiumStore = defineStore('compendium', {
       this.MissingContent = payload;
     },
     async setPackActive(payload: { packID: string; active: boolean }): Promise<void> {
-      this.ContentPacks.find((pack) => pack.ID === payload.packID)?.SetActive(payload.active);
+      const pack = this.ContentPacks.find((pack) => pack.ID === payload.packID);
+      if (pack) pack.SetActive(payload.active);
+
       await saveUserData(
         'extra_content.json',
         this.ContentPacks.map((pack) => pack.Serialize())
