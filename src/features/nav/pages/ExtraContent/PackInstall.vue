@@ -5,7 +5,7 @@
         v-model="value"
         placeholder="Select an .LCP file"
         variant="outlined"
-        mr2
+        type="file"
         accept=".lcp"
         prepend-inner-icon="mdi-package"
         prepend-icon
@@ -90,45 +90,50 @@ export default {
     value: null,
     installing: false,
     done: false,
-    // dataStore:CompendiumStore, (this as any).$store(),
-    contentPack: null as IContentPack,
-    error: null as string,
+    contentPack: null as unknown as IContentPack,
+    error: '',
   }),
   computed: {
     packAlreadyInstalled() {
-      // return (
-      //   !!this.contentPack &&
-      //   this.dataStore.packAlreadyInstalled(this.contentPack.id)
-      // );
+      return !!this.contentPack && CompendiumStore().packAlreadyInstalled(this.contentPack.id);
     },
   },
   methods: {
-    async fileChange(file: HTMLInputElement) {
-      this.contentPack = null;
-      this.error = null;
-
-      if (!file) return;
-
-      const fileData = await PromisifyFileReader.readAsBinaryString(file);
-      try {
-        this.contentPack = await parseContentPack(fileData);
-      } catch (e) {
-        this.error = e.message;
+    fileChange(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.readFileAsBinaryString(file);
       }
+    },
+    async readFileAsBinaryString(file) {
+      try {
+        const fileData = await this.readAsBinaryStringAsync(file);
+        this.contentPack = await parseContentPack(fileData as string);
+      } catch (error) {
+        console.error('Error reading the file:', error);
+      }
+    },
+    readAsBinaryStringAsync(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsBinaryString(file);
+      });
     },
     async install(): Promise<void> {
       if (this.done || this.installing) return;
       this.$emit('start-load');
       this.installing = true;
       this.contentPack.active = true;
-      await this.dataStore.installContentPack(this.contentPack);
+      await CompendiumStore().installContentPack(this.contentPack);
       this.installing = false;
 
       this.done = true;
       setTimeout(() => {
         this.$emit('installed');
-        this.contentPack = null;
-        this.error = null;
+        this.contentPack = null as unknown as IContentPack;
+        this.error = '';
         this.value = null;
         this.done = false;
         this.$emit('end-load');
@@ -147,7 +152,6 @@ export default {
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
   animation: dash 750ms cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
-  /* animation-iteration-count: infinite; */
 }
 
 @keyframes dash {

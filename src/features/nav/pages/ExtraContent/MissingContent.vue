@@ -6,23 +6,22 @@
     <v-slide-x-reverse-transition>
       <v-expansion-panels v-if="!loading" class="mt-2">
         <v-expansion-panel :disabled="!missingLength">
-          <v-expansion-panel-header v-if="!missingLength" class="heading h4">
+          <v-expansion-panel-title v-if="!missingLength" class="heading h4">
             <span>
               <v-icon color="success" class="mt-n1">mdi-check-bold</v-icon>
               No Issues Detected
             </span>
-          </v-expansion-panel-header>
-          <v-expansion-panel-header v-else class="heading h3 text-stark">
+          </v-expansion-panel-title>
+          <v-expansion-panel-title v-else class="heading h3 text-stark">
             <span>
               <span class="text-error">{{ missingLength }}</span>
               {{ missingLength > 1 ? 'issues' : 'issue' }} detected
             </span>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
             <p class="body-text" v-if="missingLength > 1">
-              COMP/CON has determined the following items cannot be loaded, and
-              require Lancer Content Packs that are not installed or not
-              activated:
+              COMP/CON has determined the following items cannot be loaded, and require Lancer
+              Content Packs that are not installed or not activated:
             </p>
             <div v-for="key in Object.keys(missing)">
               <v-card variant="outlined" v-for="(item, n) in missing[key]">
@@ -58,49 +57,28 @@
                       <div v-if="notInstalled(item.brews).length">
                         <div v-if="item.brews[0].LcpName">
                           <div class="caption mt-2">MISSING LCPS</div>
-                          <div
-                            v-for="brew in notInstalled(item.brews)"
-                            class="ml-2"
-                          >
+                          <div v-for="brew in notInstalled(item.brews)" class="ml-2">
                             <span class="body-text">
                               LCP
-                              <b
-                                v-text="`${brew.LcpName} @ ${brew.LcpVersion}`"
-                              />
+                              <b v-text="`${brew.LcpName} @ ${brew.LcpVersion}`" />
                               is missing.
                             </span>
                             <div v-if="brew.Website">
                               It may be possible to download this pack at:
-                              <a
-                                target="_blank"
-                                :href="brew.Website"
-                                v-text="brew.Website"
-                              />
+                              <a target="_blank" :href="brew.Website" v-text="brew.Website" />
                             </div>
-                            <auto-updater
-                              :brew="brew"
-                              @update="forceUpdate(item, key)"
-                            />
+                            <auto-updater :brew="brew" @update="forceUpdate(item, key)" />
                           </div>
                         </div>
                         <div v-else>
-                          <div
-                            v-for="brew in notInstalled(item.brews)"
-                            class="ml-2"
-                          >
+                          <div v-for="brew in notInstalled(item.brews)" class="ml-2">
                             <span class="body-text">
                               LCP
                               <b v-text="brew" />
                               is missing.
                             </span>
-                            <div>
-                              This data was saved with an older version of
-                              COMP/CON.
-                            </div>
-                            <auto-updater
-                              :brew="brew"
-                              @update="forceUpdate(item, key)"
-                            />
+                            <div>This data was saved with an older version of COMP/CON.</div>
+                            <auto-updater :brew="brew" @update="forceUpdate(item, key)" />
                           </div>
                         </div>
                       </div>
@@ -111,11 +89,7 @@
                         title="Delete Item"
                         content="Delete this item from local data"
                       >
-                        <v-btn
-                          icon
-                          color="error"
-                          @click="deleteItem(item, key)"
-                        >
+                        <v-btn icon color="error" @click="deleteItem(item, key)">
                           <v-icon icon="mdi-delete" />
                         </v-btn>
                       </cc-tooltip>
@@ -124,11 +98,7 @@
                         title="Force Load"
                         content="Force COMP/CON to load this data. This is useful if you have outdated (but loadable) data, or COMP/CON has made a mistake in analyzing LCP content."
                       >
-                        <v-btn
-                          icon
-                          color="secondary"
-                          @click="forceItem(item, key)"
-                        >
+                        <v-btn icon color="secondary" @click="forceItem(item, key)">
                           <v-icon icon="mdi-download-box" />
                         </v-btn>
                       </cc-tooltip>
@@ -137,7 +107,7 @@
                 </v-card-text>
               </v-card>
             </div>
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </v-slide-x-reverse-transition>
@@ -162,9 +132,7 @@ export default {
 
     missingLength() {
       if (!this.missing) return 0;
-      return (
-        (this.missing.pilots?.length || 0) + (this.missing.npcs?.length || 0)
-      );
+      return (this.missing.pilots?.length || 0) + (this.missing.npcs?.length || 0);
     },
   },
   methods: {
@@ -174,9 +142,7 @@ export default {
         .map((p) => `${p.Name} @ ${p.Version}`);
     },
     notInstalled(itemBrews) {
-      return itemBrews.filter((x) =>
-        CompendiumStore().ContentPacks.some((y) => y.ID === x.LcpId)
-      );
+      return itemBrews.filter((x) => CompendiumStore().ContentPacks.some((y) => y.ID === x.LcpId));
     },
     deleteItem(item, key) {
       if (key === 'pilots') {
