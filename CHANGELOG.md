@@ -1,5 +1,11 @@
 # COMP/CON Changelog
 
+## [2.3.17a] (2023-7-26)
+
+### Bug Fixes
+
+- **Pilot Sheet** Corrected a lancer-data dependency
+
 ## [2.3.17] (2023-7-21)
 
 ### Bug Fixes
