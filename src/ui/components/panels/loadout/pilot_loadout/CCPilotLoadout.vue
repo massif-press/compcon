@@ -10,7 +10,6 @@
         @remove="setArmor(null)"
         @save="pilot.SaveController.save()"
       />
-      <v-divider :vertical="$vuetify.breakpoint.mdAndUp" class="mx-4 my-1" />
       <pilot-weapon-card
         v-for="(w, i) in weapons"
         :key="`pgwi_${i}`"
@@ -88,16 +87,16 @@ export default Vue.extend({
       return this.pilot.Loadout.Gear
     },
     extendedGear() {
-      const extraGearSlots = Bonus.Int(0, "pilot_gear_slots", this.pilot)
-      if(extraGearSlots > 0 ) return this.pilot.Loadout.redoExtendedGear(extraGearSlots)
+      const extraGearSlots = Bonus.Int(0, 'pilot_gear_slots', this.pilot)
+      if (extraGearSlots > 0) return this.pilot.Loadout.redoExtendedGear(extraGearSlots)
       return []
     },
     weapons() {
       return this.pilot.Loadout.Weapons
     },
     extendedWeapons() {
-      const extraWeaponSlots = Bonus.Int(0, "pilot_weapon_slots", this.pilot)
-      if(extraWeaponSlots > 0 ) return this.pilot.Loadout.redoExtendedWeapons(extraWeaponSlots)
+      const extraWeaponSlots = Bonus.Int(0, 'pilot_weapon_slots', this.pilot)
+      if (extraWeaponSlots > 0) return this.pilot.Loadout.redoExtendedWeapons(extraWeaponSlots)
       return []
     },
   },

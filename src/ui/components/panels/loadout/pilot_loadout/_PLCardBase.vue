@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="12" md="">
+  <v-col cols="12" md="4">
     <div style="height: 100%">
       <v-card flat tile class="clipped-large panel" style="height: 100%">
         <v-card-title class="pilot white--text py-0 heading h3" style="height: 24px">
