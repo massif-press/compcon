@@ -2,10 +2,7 @@
   <v-container fluid>
     <v-row class="mx-2 my-1" no-gutters align="center">
       <v-col cols="auto">
-        <h1
-          class="ml-n2 heading text-accent"
-          v-text="Array.isArray(items) ? title : items"
-        />
+        <h1 class="ml-n2 heading text-accent" v-text="Array.isArray(items) ? title : items" />
       </v-col>
       <v-col cols="auto" class="ml-4 mr-2">
         <v-btn-toggle :value="getView" mandatory>
@@ -20,11 +17,7 @@
           <v-btn icon value="list" @click="profile.SetView('selector', 'list')">
             <v-icon color="accent">mdi-view-list</v-icon>
           </v-btn>
-          <v-btn
-            icon
-            value="cards"
-            @click="profile.SetView('selector', 'cards')"
-          >
+          <v-btn icon value="cards" @click="profile.SetView('selector', 'cards')">
             <v-icon color="accent">mdi-view-grid</v-icon>
           </v-btn>
         </v-btn-toggle>
@@ -45,25 +38,14 @@
           :hint="`${fItems.length} Items`"
         />
       </v-col>
-      <cc-filter-panel
-        v-if="!noFilter"
-        :item-type="itemType"
-        @set-filters="setFilters"
-      />
+      <cc-filter-panel v-if="!noFilter" :item-type="itemType" @set-filters="setFilters" />
     </v-row>
     <div>
       <div v-if="getView === 'split' || lockView">
-        <compendium-mobile-view
-          v-if="$vuetify.display.smAndDown"
-          :items="fItems"
-        />
+        <compendium-mobile-view v-if="$vuetify.display.smAndDown" :items="fItems" />
         <compendium-split-view v-else :items="fItems" />
       </div>
-      <compendium-table-view
-        v-else-if="getView === 'list'"
-        :items="fItems"
-        :headers="headers"
-      />
+      <compendium-table-view v-else-if="getView === 'list'" :items="fItems" :headers="headers" />
       <compendium-cards-view v-else-if="getView === 'cards'" :items="fItems" />
     </div>
   </v-container>
@@ -139,9 +121,7 @@ export default {
       }
 
       const canShowExotics =
-        this.profile &&
-        Object.keys(this.profile).length > 0 &&
-        this.profile.GetView('showExotics');
+        this.profile && Object.keys(this.profile).length > 0 && this.profile.GetView('showExotics');
 
       if (!canShowExotics) i = i.filter((x) => !x.IsExotic);
 

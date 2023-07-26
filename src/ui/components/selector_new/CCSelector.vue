@@ -244,7 +244,6 @@ export default {
       let hidden = this.hiddenItemsByLcp(this.selectedLcp);
 
       if (this.search) {
-        console.log('here');
         hidden = hidden.concat(
           this.availableItems
             .filter((i: any) => !this.hiddenItems.includes(i.ID))

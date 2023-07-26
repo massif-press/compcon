@@ -1,13 +1,21 @@
 <template>
-  <compendium-browser :headers="headers" items="Frames" />
+  <!-- <compendium-browser :headers="headers" items="Frames" /> -->
+  <compendium-browser-new
+    :items="frames"
+    :hidden-items="[]"
+    item-type="frame"
+    :table-headers="headers"
+  />
 </template>
 
 <script lang="ts">
 import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
+import CompendiumBrowserNew from '../../components/CompendiumBrowserNew.vue';
+import { CompendiumStore } from '../../store';
 
 export default {
   name: 'Frames',
-  components: { CompendiumBrowser },
+  components: { CompendiumBrowser, CompendiumBrowserNew },
   data: () => ({
     headers: [
       { title: 'Source', key: 'Source' },
@@ -26,5 +34,19 @@ export default {
       { title: 'SP', key: 'SP' },
     ],
   }),
+  computed: {
+    frames() {
+      let items = CompendiumStore().Frames;
+
+      // TODO: profile
+
+      // const canShowExotics =
+      //   this.profile && Object.keys(this.profile).length > 0 && this.profile.GetView('showExotics');
+
+      // if (!canShowExotics) i = i.filter((x) => !x.IsExotic);
+
+      return items.filter((x) => !x.IsHidden);
+    },
+  },
 };
 </script>
