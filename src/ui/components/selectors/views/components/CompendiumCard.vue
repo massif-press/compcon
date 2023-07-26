@@ -82,6 +82,7 @@ export default {
       type: Boolean,
     },
     equipmentAdd: { type: Boolean },
+    highlighted: { type: Boolean },
   },
   computed: {
     isEquippedItem() {

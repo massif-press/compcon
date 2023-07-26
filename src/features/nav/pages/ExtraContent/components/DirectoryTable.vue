@@ -9,6 +9,7 @@
     item-value="name"
     :loading="loading"
     loading-text="Loading Content Pack Data..."
+    items-per-page="-1"
   >
     <!-- Download -->
     <template v-slot:item.website="{ item }">
@@ -72,8 +73,7 @@
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import { semverGte } from 'semver/functions/gte';
-import { semverCoerce } from 'semver/functions/coerce';
+import semver from 'semver';
 
 export default {
   name: 'content-pack-directory-table',
@@ -125,14 +125,14 @@ export default {
   },
   methods: {
     packInstalled(item) {
-      return this.contentPacks.some((x) => x.Name === item.name || x.Name === item.title);
+      return this.contentPacks.some((x) => x.Name === item.raw.name || x.Name === item.raw.title);
     },
     packOutdated(item) {
       const installedPack = this.contentPacks.find(
-        (x) => x.Name === item.name || x.Name === item.title
+        (x) => x.Name === item.raw.name || x.Name === item.raw.title
       );
       if (!installedPack) return true;
-      return !semverGte(semverCoerce(installedPack.Version), semverCoerce(item.version));
+      return !semver.gte(semver.coerce(installedPack.Version), semver.coerce(item.raw.version));
     },
   },
 };

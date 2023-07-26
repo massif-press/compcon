@@ -1,8 +1,11 @@
 <template>
   <v-card-text>
     <v-row dense align="start">
-      <v-col class="heading h1 text-text">
-        {{ item.Source }} {{ item.MechTypeString }} Frame
+      <v-col>
+        <div class="heading mech pb-3">
+          {{ item.Name }}
+        </div>
+        <div class="heading h2 text-text">{{ item.Source }} {{ item.MechTypeString }} Frame</div>
       </v-col>
       <v-col cols="auto" class="mt-n5">
         <cc-tooltip
