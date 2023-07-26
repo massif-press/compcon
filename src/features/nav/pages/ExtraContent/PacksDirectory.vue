@@ -48,19 +48,17 @@ export default {
     communityPacks: [],
     loading: true,
   }),
-  methods: {
-    async mounted(): Promise<void> {
-      scan()
-        .then((res: any) => {
-          this.communityPacks = res.data.community.Items;
-          this.massifPacks = res.data.massif.Items;
-          this.loading = false;
-        })
-        .catch((err) => {
-          console.error('There was an issue downloading the community content packs.', err);
-          this.loading = false;
-        });
-    },
+  async mounted(): Promise<void> {
+    scan()
+      .then((res: any) => {
+        this.communityPacks = res.data.community.Items;
+        this.massifPacks = res.data.massif.Items;
+        this.loading = false;
+      })
+      .catch((err) => {
+        console.error('There was an issue downloading the community content packs.', err);
+        this.loading = false;
+      });
   },
 };
 </script>

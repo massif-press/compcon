@@ -31,9 +31,7 @@ interface IFrameData extends ILicensedItemData {
   stats: IFrameStats;
   traits: IFrameTraitData[];
   core_system: ICoreData;
-  specialty:
-    | boolean
-    | { source: string; min_rank: number; cumulative?: boolean };
+  specialty: boolean | { source: string; min_rank: number; cumulative?: boolean };
   variant?: string;
   y_pos?: number;
   image_url?: string;
@@ -88,9 +86,7 @@ class FrameComparison {
       frame.SP * 3 +
       frame.Mounts.map((x) => this.mScore(frame, x)).reduce((a, b) => a + b, 0);
     this.UtilityRaw =
-      frame.SensorRange * 3 +
-      frame.RepCap * 2 +
-      frame.SP * 5 * Math.max(frame.TechAttack, 1);
+      frame.SensorRange * 3 + frame.RepCap * 2 + frame.SP * 5 * Math.max(frame.TechAttack, 1);
   }
 
   mScore(frame: Frame, mountType: MountType) {
@@ -109,13 +105,7 @@ class FrameComparison {
       const vMax = Math.max(...Frames.map((x) => x.Comparator![`${v}Raw`]));
       const vMin = Math.min(...Frames.map((x) => x.Comparator![`${v}Raw`]));
       Frames.forEach((x) => {
-        x.Comparator![v] = x.Comparator![v] = normalize(
-          x.Comparator![`${v}Raw`],
-          vMin,
-          vMax,
-          0,
-          1
-        );
+        x.Comparator![v] = x.Comparator![v] = normalize(x.Comparator![`${v}Raw`], vMin, vMax, 0, 1);
       });
     });
 
@@ -148,19 +138,13 @@ class Frame extends LicensedItem implements IFeatureContainer {
   public readonly Traits: FrameTrait[];
   public readonly CoreSystem: CoreSystem;
   public readonly OtherArt?: { tag?: ImageTag; src?: string; url?: string }[];
-  public readonly Specialty:
-    | boolean
-    | { source: string; min_rank: number; cumulative?: boolean };
+  public readonly Specialty: boolean | { source: string; min_rank: number; cumulative?: boolean };
   public readonly Variant: string;
   private _image_url?: string;
   private _stats: IFrameStats;
   public Comparator?: FrameComparison;
 
-  public constructor(
-    frameData: IFrameData,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
+  public constructor(frameData: IFrameData, packTags?: ITagCompendiumData[], packName?: string) {
     super(frameData, packTags, packName);
     this.MechType = frameData.mechtype;
     this.YPosition = frameData.y_pos || 30;
@@ -177,9 +161,7 @@ class Frame extends LicensedItem implements IFeatureContainer {
   }
 
   get FeatureSource(): any[] {
-    return [this as any, this.CoreSystem].concat(
-      this.Traits.flatMap((x) => x as any)
-    );
+    return [this as any, this.CoreSystem].concat(this.Traits.flatMap((x) => x as any));
   }
 
   public get IsVariantFrame(): boolean {

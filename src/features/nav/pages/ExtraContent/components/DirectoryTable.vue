@@ -1,74 +1,68 @@
 <template>
   <v-data-table
-    hide-default-footer
-    disable-pagination
+    v-model:expanded="expanded"
+    density="compact"
     no-data-text="No content packs available."
     :headers="tableHeaders"
     :items="items"
     show-expand
-    item-key="name"
+    item-value="name"
     :loading="loading"
     loading-text="Loading Content Pack Data..."
   >
     <!-- Download -->
-    <template #[`item.website`]="{ item }">
+    <template v-slot:item.website="{ item }">
       <cc-tooltip content="Download">
-        <v-btn target="_blank" :href="item.link" fab small color="secondary">
-          <v-icon color="anti">open_in_new</v-icon>
+        <v-btn target="_blank" :href="item.link" icon variant="plain" color="secondary">
+          <v-icon>mdi-open-in-new</v-icon>
         </v-btn>
       </cc-tooltip>
     </template>
     <!-- Name -->
-    <template #[`item.name`]="{ item }">
-      <span class="title">
-        {{ item.title }}
+    <template v-slot:item.name="{ item }">
+      {{ item.columns.name }}
+    </template>
+    <!-- Version -->
+    <template v-slot:item.version="{ item }">
+      {{ item.columns.version }}
+      <span v-if="packInstalled(item)">
+        <cc-tooltip
+          v-if="packOutdated(item)"
+          inline
+          title="Pack Outdated"
+          content="This content pack is installed but out of date, and may cause errors with the latest version of COMP/CON. Click this pack's Download button to get the latest version."
+        >
+          <v-icon color="accent">mdi-alert</v-icon>
+        </cc-tooltip>
+        <cc-tooltip v-else inline content="This content pack is installed and up-to-date">
+          <v-icon color="success">mdi-check</v-icon>
+        </cc-tooltip>
       </span>
     </template>
     <!-- Version -->
-    <template #[`item.version`]="{ item }">
-      <span class="packVersion">
-        {{ item.version }}
-        <span v-if="packInstalled(item)">
-          <cc-tooltip
-            v-if="packOutdated(item)"
-            inline
-            title="Pack Outdated"
-            content="This content pack is installed but out of date, and may cause errors with the latest version of COMP/CON. Click this pack's Download button to get the latest version."
-          >
-            <v-icon color="accent">mdi-alert</v-icon>
-          </cc-tooltip>
-          <cc-tooltip v-else inline content="This content pack is installed and up-to-date">
-            <v-icon color="success">mdi-check</v-icon>
-          </cc-tooltip>
-        </span>
-      </span>
-    </template>
-    <!-- Version -->
-    <template #[`item.cost`]="{ item }">
-      <span class="cost">
-        {{ item.cost }}
-      </span>
+    <template v-slot:item.cost="{ item }">
+      {{ item.columns.cost }}
     </template>
     <!-- Expanded view -->
-    <template #expanded-item="{ item, headers }">
-      <td :colspan="headers.length" class="py-4 px-6 w-100 light-panel">
+    <template v-slot:expanded-row="{ columns, item }">
+      <td :colspan="columns.length" class="pa-4 w-100 bg-light-panel">
         <v-row>
           <v-col>
             <p class="body-text text-text pa-2 mb-1">
-              <span v-if="item.description" v-html-safe="item.description" />
+              <span v-if="item.raw.description" v-html-safe="item.raw.description" />
               <span v-else>No description given.</span>
             </p>
 
-            <div v-if="item.website" class="mt-2">
+            <div v-if="item.raw.website" class="mt-2">
               <v-divider class="ma-1" />
-              <v-btn target="_blank" :href="item.website" text color="secondary">
-                <v-icon prepend left>open_in_new</v-icon>
+              <v-btn target="_blank" :href="item.raw.website" variant="plain" color="secondary">
+                <v-icon prepend start>mdi-open-in-new</v-icon>
                 Author's Website
               </v-btn>
             </div>
           </v-col>
-          <v-col v-if="item.img" cols="2">
-            <v-img :src="item.img" alt="Pack image" />
+          <v-col v-if="item.raw.img" cols="2">
+            <v-img :src="item.raw.img" alt="Pack image" />
           </v-col>
         </v-row>
       </td>
@@ -83,6 +77,9 @@ import { semverCoerce } from 'semver/functions/coerce';
 
 export default {
   name: 'content-pack-directory-table',
+  data: () => ({
+    expanded: [],
+  }),
   props: {
     items: {
       type: Array,
@@ -95,29 +92,31 @@ export default {
     tableHeaders() {
       if (this.noAuthor)
         return [
-          { title: '', value: 'data-table-expand' },
+          { title: '', key: 'data-table-expand', width: '0' },
           {
             title: 'Download',
-            value: 'website',
+            width: '0',
+            key: 'website',
             sortable: false,
             align: 'center',
           },
-          { title: 'Name', value: 'name' },
-          { title: 'Version', value: 'version' },
-          { title: 'Cost', value: 'cost' },
+          { title: 'Name', key: 'name' },
+          { title: 'Version', key: 'version' },
+          { title: 'Cost', key: 'cost' },
         ];
       return [
-        { title: '', value: 'data-table-expand' },
+        { title: '', key: 'data-table-expand', width: '0' },
         {
           title: 'Download',
-          value: 'website',
+          key: 'website',
           sortable: false,
           align: 'center',
+          width: '0',
         },
-        { title: 'Name', value: 'name' },
-        { title: 'Author', value: 'author' },
-        { title: 'Version', value: 'version' },
-        { title: 'Cost', value: 'cost' },
+        { title: 'Name', key: 'name' },
+        { title: 'Author', key: 'author' },
+        { title: 'Version', key: 'version' },
+        { title: 'Cost', key: 'cost' },
       ];
     },
     contentPacks() {
@@ -138,9 +137,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.packsList :deep(.v-data-table tbody tr.v-data-table__expanded__content) {
-  box-shadow: none;
-}
-</style>
