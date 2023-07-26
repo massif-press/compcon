@@ -17,20 +17,20 @@
       <tbody v-for="(pack, i) in contentPacks">
         <tr>
           <td>
-            <v-btn icon color="primary" variant="plain">
-              <v-icon
-                size="x-large"
-                :icon="expandedRows.includes(i) ? 'mdi-chevron-down' : 'mdi-chevron-up'"
-                @click="expandedRows.includes(i) ? expandedRows.splice(i, 1) : expandedRows.push(i)"
-              />
+            <v-btn
+              icon
+              variant="plain"
+              @click="expandedRows.includes(i) ? expandedRows.splice(i, 1) : expandedRows.push(i)"
+            >
+              <v-icon :icon="expandedRows.includes(i) ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
             </v-btn>
           </td>
           <td>
             <v-switch
-              :input-value="pack.Active"
+              :model-value="pack.Active"
               color="primary"
               hide-details
-              @change="toggleActive(pack.ID, !pack.Active)"
+              @change="toggleActive(pack.ID)"
             />
           </td>
           <td class="text-center">
@@ -104,11 +104,8 @@ export default {
     },
   },
   methods: {
-    async toggleActive(packID: string, active: boolean): Promise<void> {
-      await CompendiumStore().setPackActive({
-        packID,
-        active,
-      });
+    async toggleActive(packID: string): Promise<void> {
+      await CompendiumStore().togglePackActive(packID);
       await this.reload();
     },
     async deletePack(id: string): Promise<void> {

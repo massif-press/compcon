@@ -1,4 +1,3 @@
-import { mapValues } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
 import {
@@ -59,6 +58,7 @@ export interface IContentPackManifest {
   website?: string;
   image_url?: string;
 }
+
 interface IContentPackData {
   manufacturers: IManufacturerData[];
   backgrounds: IBackgroundData[];
@@ -249,80 +249,82 @@ export class ContentPack {
     return this._active;
   }
   public SetActive(active: boolean): void {
+    console.log('SetActive', active);
     this._active = active;
   }
 
   constructor(pack: IContentPack) {
+    const self = this;
     const { id, active, manifest, data } = pack;
-    this.Key = uuid();
+    self.Key = uuid();
 
-    this._active = active;
-    this._manifest = manifest;
-    this._data = data;
-    Object.keys(this._data).forEach((key) => this._data[key].forEach((item) => (item.brew = id)));
-    this._id = id;
+    self._active = active;
+    self._manifest = manifest;
+    self._data = data;
+    Object.keys(self._data).forEach((key) => self._data[key].forEach((item) => (item.brew = id)));
+    self._id = id;
 
-    this._Tags = this._data.tags?.map((x) => new Tag(x)) || [];
+    self._Tags = self._data.tags?.map((x) => new Tag(x)) || [];
 
-    this._Manufacturers =
-      this._data.manufacturers?.map((x) => {
+    self._Manufacturers =
+      self._data.manufacturers?.map((x) => {
         const m = new Manufacturer(x);
         m.setCorsSafe();
         return m;
       }) || [];
-    this._Backgrounds =
-      this._data.backgrounds?.map((x) => new Background(x, this._manifest.name)) || [];
-    this._CoreBonuses =
-      this._data.coreBonuses?.map((x) => new CoreBonus(x, this._data.tags, this._manifest.name)) ||
+    self._Backgrounds =
+      self._data.backgrounds?.map((x) => new Background(x, self._manifest.name)) || [];
+    self._CoreBonuses =
+      self._data.coreBonuses?.map((x) => new CoreBonus(x, self._data.tags, self._manifest.name)) ||
       [];
-    this._Frames =
-      this._data.frames?.map((x) => new Frame(x, this._data.tags, this._manifest.name)) || [];
-    this._MechWeapons =
-      this._data.weapons?.map((x) => new MechWeapon(x, this._data.tags, this._manifest.name)) || [];
-    this._MechSystems =
-      this._data.systems?.map((x) => new MechSystem(x, this._data.tags, this._manifest.name)) || [];
-    this._WeaponMods =
-      this._data.mods?.map((x) => new WeaponMod(x, this._data.tags, this._manifest.name)) || [];
-    this._PilotGear =
-      this._data.pilotGear?.map(function (x) {
-        if (x.type.toLowerCase() === 'weapon')
-          return new PilotWeapon(x as IPilotWeaponData, this._data.tags, this._manifest.name);
-        else if (x.type.toLowerCase() === 'armor')
-          return new PilotArmor(x as IPilotArmorData, this._data.tags, this._manifest.name);
-        return new PilotGear(x as IPilotEquipmentData, this._data.tags, this._manifest.name);
+    self._Frames =
+      self._data.frames?.map((x) => new Frame(x, self._data.tags, self._manifest.name)) || [];
+    self._MechWeapons =
+      self._data.weapons?.map((x) => new MechWeapon(x, self._data.tags, self._manifest.name)) || [];
+    self._MechSystems =
+      self._data.systems?.map((x) => new MechSystem(x, self._data.tags, self._manifest.name)) || [];
+    self._WeaponMods =
+      self._data.mods?.map((x) => new WeaponMod(x, self._data.tags, self._manifest.name)) || [];
+    self._PilotGear =
+      self._data.pilotGear?.map(function (x) {
+        if (x.type?.toLowerCase() === 'weapon')
+          return new PilotWeapon(x as IPilotWeaponData, self._data.tags, self._manifest.name);
+        else if (x.type?.toLowerCase() === 'armor')
+          return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name);
+        return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name);
       }) || [];
-    this._Talents =
-      this._data.talents?.map((x) => new Talent(x, this._data.tags, this._manifest.name)) || [];
+    self._Talents =
+      self._data.talents?.map((x) => new Talent(x, self._data.tags, self._manifest.name)) || [];
 
-    this._NpcFeatures =
-      this._data.npcFeatures?.map(function (x) {
+    self._NpcFeatures =
+      self._data.npcFeatures?.map(function (x) {
         if (x.type.toLowerCase() === 'weapon')
-          return new NpcWeapon(x as INpcWeaponData, this._manifest.name);
+          return new NpcWeapon(x as INpcWeaponData, self._manifest.name);
         else if (x.type.toLowerCase() === 'reaction')
-          return new NpcReaction(x as INpcReactionData, this._manifest.name);
-        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x, this._manifest.name);
+          return new NpcReaction(x as INpcReactionData, self._manifest.name);
+        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x, self._manifest.name);
         else if (x.type.toLowerCase() === 'system')
-          return new NpcSystem(x as INpcSystemData, this._manifest.name);
-        return new NpcTech(x as INpcTechData, this._manifest.name);
+          return new NpcSystem(x as INpcSystemData, self._manifest.name);
+        return new NpcTech(x as INpcTechData, self._manifest.name);
       }) || [];
-    this._NpcClasses =
-      this._data.npcClasses?.map((x) => new NpcClass(x, this._manifest.name)) || [];
-    this._NpcTemplates =
-      this._data.npcTemplates?.map((x) => new NpcTemplate(x, this._manifest.name)) || [];
+    self._NpcClasses =
+      self._data.npcClasses?.map((x) => new NpcClass(x, self._manifest.name)) || [];
+    self._NpcTemplates =
+      self._data.npcTemplates?.map((x) => new NpcTemplate(x, self._manifest.name)) || [];
 
-    this._PlayerActions = this._data.actions?.map(
+    self._PlayerActions = self._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     );
 
-    this._Statuses = this._data.statuses || [];
-    this._Environments = this._data.environments || [];
-    this._Sitreps = this._data.sitreps || [];
+    self._Statuses = self._data.statuses || [];
+    self._Environments = self._data.environments || [];
+    self._Sitreps = self._data.sitreps || [];
 
-    this._Tables = this._data.tables || {};
+    self._Tables = self._data.tables || {};
 
-    this._Bonds = this._data.bonds?.map((x) => new Bond(x, this._manifest.name)) || [];
+    self._Bonds = self._data.bonds?.map((x) => new Bond(x, self._manifest.name)) || [];
 
-    this._Reserves = this._data.reserves?.map((x) => new Reserve(x, this._manifest.name)) || [];
+    self._Reserves = self._data.reserves?.map((x) => new Reserve(x, self._manifest.name)) || [];
   }
 
   public Serialize(): IContentPack {
