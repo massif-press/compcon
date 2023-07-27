@@ -31,41 +31,109 @@
           border
           color="primary"
           density="compact"
-          style="width: 100%; height: 25px"
+          style="width: 100%; height: 30px"
           class="mb-2"
         >
-          <v-btn value="source" size="x-small" class="py-0" style="width: 33%">By Source</v-btn>
-          <v-btn value="lcp" size="x-small" class="py-0" style="width: 33%">By LCP</v-btn>
-          <v-btn value="none" size="x-small" class="py-0" style="width: 33%">No Group</v-btn>
+          <v-tooltip text="Group by Manufacturer" location="top">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" value="source" icon style="width: 25%"
+                ><v-icon icon="cc:manufacturer"
+              /></v-btn>
+            </template>
+          </v-tooltip>
+          <v-tooltip text="Group by Content Pack" location="top">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" value="lcp" icon style="width: 25%"
+                ><v-icon icon="cc:content_manager"
+              /></v-btn>
+            </template>
+          </v-tooltip>
+          <v-tooltip text="Group by License" location="top">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" value="license" size="large" icon style="width: 25%"
+                ><v-icon icon="cc:license"
+              /></v-btn>
+            </template>
+          </v-tooltip>
+          <v-tooltip text="No Grouping" location="top">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" value="none" size="small" icon style="width: 25%"
+                ><v-icon icon="mdi-cancel"
+              /></v-btn>
+            </template>
+          </v-tooltip>
         </v-btn-toggle>
-        <v-select
-          v-model="filter"
-          :items="lcps"
-          prepend-icon="mdi-filter"
-          density="compact"
-          hide-details
-          variant="outlined"
-          multiple
-        >
-          <template v-slot:prepend-item>
-            <v-list-item title="Select All" @click="setAllLcps()">
-              <template v-slot:prepend>
-                <v-checkbox-btn
-                  :model-value="filter.length === lcps.length"
-                  :indeterminate="filter.length > 0 && filter.length < lcps.length"
-                />
-              </template>
-            </v-list-item>
-            <v-divider />
-          </template>
 
-          <template v-slot:selection="{ item, index }">
-            <v-chip size="x-small" v-if="index < 2">{{ getTitle(item.title) }}</v-chip>
-            <span v-if="index === 2" class="text-grey text-caption">
-              (+{{ filter.length - 2 }} others)
-            </span>
-          </template>
-        </v-select>
+        <v-btn-toggle
+          mandatory
+          divided
+          variant="plain"
+          border
+          color="primary"
+          density="compact"
+          style="width: 100%; height: 30px"
+        >
+          <v-menu offset-y :close-on-content-click="false" max-width="500px">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" size="small" style="width: 50%">
+                <v-tooltip text="Content Packs" location="top">
+                  <template v-slot:activator="{ props }">
+                    <span v-bind="props">
+                      <v-icon size="x-large" icon="cc:content_manager" start />
+                      <v-chip size="x-small"
+                        ><b>{{ lcpFilter.length }}</b></v-chip
+                      >
+                    </span>
+                  </template>
+                </v-tooltip>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text>
+                <v-list>
+                  <v-list-item title="Select All">
+                    <template v-slot:prepend>
+                      <v-checkbox-btn
+                        :model-value="lcpFilter.length === lcps.length"
+                        :indeterminate="lcpFilter.length > 0 && lcpFilter.length < lcps.length"
+                        @click="setAllLcps()"
+                      />
+                    </template>
+                  </v-list-item>
+                  <v-divider />
+                  <v-list-item v-for="lcp in lcps" :title="lcp">
+                    <template v-slot:prepend>
+                      <v-checkbox-btn v-model="lcpFilter" :value="lcp" />
+                    </template>
+                  </v-list-item>
+                </v-list>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+
+          <v-menu offset-y :close-on-content-click="false" max-width="500px">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" size="small" style="width: 50%">
+                <v-tooltip text="Item Filters" location="top">
+                  <template v-slot:activator="{ props }">
+                    <span v-bind="props">
+                      <v-icon size="large" icon="mdi-filter" start />
+                      <v-chip size="x-small"
+                        ><b>{{ otherFilterCount }}</b></v-chip
+                      >
+                    </span>
+                  </template>
+                </v-tooltip>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text>
+                <cc-item-filter :item-type="itemType" @set-filters="otherFilter = $event" />
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </v-btn-toggle>
+
         <v-text-field
           v-model="search"
           item-title="Name"
@@ -80,7 +148,7 @@
 
         <div v-if="group === 'lcp'">
           <v-list-group
-            v-for="lcp in lcps.filter((l) => filter.includes(l))"
+            v-for="lcp in lcps.filter((l) => lcpFilter.includes(l))"
             :value="lcp"
             color="accent"
             class="pt-0"
@@ -179,6 +247,30 @@
             </v-list-item>
           </v-list-group>
         </div>
+        <div v-else-if="group === 'license'">
+          <v-list-group v-for="license in licenses" :value="license" color="accent" class="pt-0">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props">
+                <template #title>
+                  <span class="text-button">
+                    <b>{{ license }}</b>
+                  </span>
+                </template></v-list-item
+              >
+            </template>
+            <v-list-item
+              v-for="item in getLicenseItems(license)"
+              @click="selectItem(item as CompendiumItem)"
+            >
+              <template #title>
+                <v-icon start class="ml-3" :icon="(item as CompendiumItem).Icon" />
+                <span class="text-button">
+                  {{ (item as CompendiumItem).Name }}
+                </span>
+              </template>
+            </v-list-item>
+          </v-list-group>
+        </div>
         <div v-else>
           <v-list-item v-for="item in shownItems" @click="selectItem(item as CompendiumItem)">
             <template #title>
@@ -192,8 +284,8 @@
       </v-list>
     </v-col>
 
-    <v-col class="pl-6 pr-8">
-      <v-container id="content" style="height: calc(100vh - 35px) !important; overflow-y: scroll">
+    <v-col class="pl-6">
+      <v-container id="content" style="height: calc(100vh - 65px) !important; overflow-y: scroll">
         <v-alert
           v-show="!!$slots.header"
           variant="outlined"
@@ -208,9 +300,10 @@
             <selector-list-item :item="(selectedItem as CompendiumItem)" />
           </v-col>
         </v-row>
-        <v-row v-else-if="view === 'table'">
-          <v-col v-if="group === 'lcp'" cols="12">
-            <div v-for="lcp in filter">
+
+        <div v-else-if="view === 'table'">
+          <div v-if="group === 'lcp'">
+            <div v-for="lcp in lcpFilter">
               <div class="heading mech" v-text="lcp" />
               <selector-table
                 :headers="tableHeaders"
@@ -218,8 +311,9 @@
                 :selected="(selectedItem as any)"
               />
             </div>
-          </v-col>
-          <v-col v-else-if="group === 'source'" cols="12">
+          </div>
+
+          <div v-else-if="group === 'source'" cols="12">
             <div v-for="manufacturer in manufacturers">
               <v-row align="center">
                 <v-col cols="auto">
@@ -250,19 +344,33 @@
                 </v-col>
               </v-row>
             </div>
-          </v-col>
-          <v-col v-else cols="12">
-            <v-row>
-              <v-col>
-                <selector-table
-                  :headers="tableHeaders"
-                  :items="shownItems"
-                  :selected="(selectedItem as any)"
-                />
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
+          </div>
+
+          <div v-else-if="group === 'license'" cols="12">
+            <div v-for="license in licenses">
+              <div class="heading h2 text-primary mt-4" v-text="license" />
+
+              <v-row>
+                <v-col>
+                  <selector-table
+                    :headers="tableHeaders"
+                    :items="getLicenseItems(license)"
+                    :selected="(selectedItem as any)"
+                  />
+                </v-col>
+              </v-row>
+            </div>
+          </div>
+
+          <div v-else cols="12">
+            <selector-table
+              :headers="tableHeaders"
+              :items="shownItems"
+              :selected="(selectedItem as any)"
+            />
+          </div>
+        </div>
+
         <v-row v-else-if="view === 'cards'">
           <selector-card-item
             v-for="item in shownItems"
@@ -278,6 +386,7 @@
 </template>
 
 <script lang="ts">
+import ItemFilter from '@/classes/utility/ItemFilter';
 import _ from 'lodash';
 import SelectorListItem from './items/_selectorListItem.vue';
 import SelectorCardItem from './items/_selectorCardItem.vue';
@@ -306,13 +415,22 @@ export default {
       type: Array,
       required: true,
     },
+    initialView: {
+      type: String,
+      default: 'list',
+    },
+    initialGroup: {
+      type: String,
+      default: 'source',
+    },
   },
   data: () => ({
     open: [] as string[],
     view: 'list',
     group: 'source',
     search: '',
-    filter: [] as string[],
+    otherFilter: {},
+    lcpFilter: [] as string[],
     selectedItem: null as CompendiumItem | null,
   }),
   watch: {
@@ -320,11 +438,22 @@ export default {
       this.open = [...this.lcps, ...this.manufacturers];
     },
   },
+  created() {
+    this.view = this.initialView;
+    this.group = this.initialGroup;
+  },
   mounted() {
-    this.filter = this.lcps;
-    this.open = [...this.lcps, ...this.manufacturers];
+    this.lcpFilter = this.lcps;
+    this.open = [...this.lcps, ...this.manufacturers, ...this.licenses];
   },
   computed: {
+    otherFilterCount() {
+      let count = 0;
+      for (const filter of Object.keys(this.otherFilter)) {
+        count += Object.keys(this.otherFilter[filter]).length;
+      }
+      return count;
+    },
     itemsByLcp() {
       return _.groupBy(this.items, 'LcpName');
     },
@@ -341,11 +470,17 @@ export default {
     lcps() {
       return Object.keys(this.itemsByLcp);
     },
+    licenses() {
+      return _.uniq(this.shownItems.map((x: any) => x.License));
+    },
     shownItems() {
       let shown = this.items;
-      shown = shown.filter((i: any) => this.filter.includes(i.LcpName));
+      shown = shown.filter((i: any) => this.lcpFilter.includes(i.LcpName));
       if (this.search) {
         shown = shown.filter((i: any) => i.Name.toLowerCase().includes(this.search.toLowerCase()));
+      }
+      if (Object.keys(this.otherFilter).length) {
+        shown = ItemFilter.Filter(shown as CompendiumItem[], this.otherFilter);
       }
       return shown;
     },
@@ -355,6 +490,9 @@ export default {
       if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.Source === manufacturer);
 
       return this.shownItems.filter((i: any) => i.Source === manufacturer);
+    },
+    getLicenseItems(license: string) {
+      return this.shownItems.filter((i: any) => i.License === license);
     },
     selectItem(item: CompendiumItem) {
       this.selectedItem = item;
@@ -389,10 +527,10 @@ export default {
       );
     },
     setAllLcps() {
-      if (this.filter.length === this.lcps.length) {
-        this.filter = [];
+      if (this.lcpFilter.length === this.lcps.length) {
+        this.lcpFilter = [];
       } else {
-        this.filter = this.lcps;
+        this.lcpFilter = this.lcps;
       }
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover">
+  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <p
       v-if="item.Effect && item.Effect.length"
       slot="top"
@@ -20,6 +20,7 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    highlighted: { type: Boolean },
   },
 };
 </script>

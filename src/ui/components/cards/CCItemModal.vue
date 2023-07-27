@@ -11,9 +11,9 @@
     >
       <template #button>
         <span class="text-white" style="width: 100%">
-          <v-icon :icon="item.Icon" />
+          <v-icon v-if="!hideType" :icon="item.Icon" />
           {{ truncate(item.Name) }}
-          {{ item.ItemType === 'Frame' ? 'FRAME' : '' }}
+          <span v-if="!hideType">{{ item.ItemType === 'Frame' ? 'FRAME' : '' }}</span>
         </span>
       </template>
 
@@ -50,7 +50,9 @@ export default {
     },
     smallBtn: {
       type: Boolean,
-      required: false,
+    },
+    hideType: {
+      type: Boolean,
     },
   },
   methods: {

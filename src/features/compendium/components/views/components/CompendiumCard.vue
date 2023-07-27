@@ -1,11 +1,12 @@
 <template>
-  <v-col cols="12" md="4">
+  <v-col :cols="4">
     <v-hover>
       <template #default="{ isHovering, props }">
         <v-card
+          v-bind="props"
           class="clipped-large"
           :color="isHovering ? '' : 'panel'"
-          tile
+          variant="outlined"
           @click="($refs.dialog as any).show()"
           @keydown.enter="($refs.dialog as any).show()"
         >
@@ -13,26 +14,37 @@
             v-if="item.ItemType === 'Frame'"
             :item="item"
             :hover="isHovering"
+            :highlighted="highlighted"
             :small="small"
           />
           <weapon-card-content
             v-else-if="item.ItemType === 'MechWeapon'"
             :item="item"
             :hover="isHovering"
+            :highlighted="highlighted"
             :small="small"
           />
           <system-card-content
             v-else-if="item.ItemType === 'MechSystem'"
             :item="item"
             :hover="isHovering"
+            :highlighted="highlighted"
             :small="small"
           />
-          <gear-card-content v-else :item="item" :hover="isHovering" :small="small" />
+          <gear-card-content
+            v-else
+            :item="item"
+            :hover="isHovering"
+            :highlighted="highlighted"
+            :small="small"
+          />
         </v-card>
       </template>
     </v-hover>
     <cc-solo-dialog ref="dialog" :title="`${item.Source} ${item.Name}`" large>
-      <cc-item-card :item="item" />
+      <v-card-text>
+        <cc-item-card :item="item" />
+      </v-card-text>
     </cc-solo-dialog>
   </v-col>
 </template>
@@ -57,6 +69,9 @@ export default {
       required: true,
     },
     small: {
+      type: Boolean,
+    },
+    highlighted: {
       type: Boolean,
     },
   },

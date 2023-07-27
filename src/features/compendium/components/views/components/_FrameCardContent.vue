@@ -1,5 +1,5 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover">
+  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <template #top>
       <v-img
         v-if="item.DefaultImage"
@@ -23,6 +23,7 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    highlighted: { type: Boolean },
   },
 };
 </script>
