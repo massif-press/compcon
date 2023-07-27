@@ -1,21 +1,6 @@
 <template>
   <v-row density="compact" justify="space-around" class="mx-4">
-    <v-col cols="12" md="4">
-      <v-select
-        v-model="sourceFilter"
-        class="px-2"
-        hide-details
-        density="compact"
-        prepend-icon="mdi-factory"
-        variant="outlined"
-        label="From Manufacturer"
-        :items="manufacturers"
-        chips
-        clearable
-        @update:modelValue="updateFilters()"
-      />
-    </v-col>
-    <v-col cols="12" md="4">
+    <v-col cols="12">
       <v-select
         v-model="typeFilter"
         class="px-2"
@@ -31,7 +16,7 @@
         @update:modelValue="updateFilters()"
       />
     </v-col>
-    <v-col cols="12" md="4">
+    <v-col cols="12">
       <v-select
         v-model="mountFilter"
         class="px-2"
@@ -47,7 +32,7 @@
         @update:modelValue="updateFilters()"
       />
     </v-col>
-    <v-col cols="12" md="4">
+    <v-col cols="12">
       <v-select
         v-model="sizeFilter"
         class="px-2"
@@ -59,22 +44,6 @@
         variant="outlined"
         label="Size"
         :items="sizes"
-        multiple
-        @update:modelValue="updateFilters()"
-      />
-    </v-col>
-    <v-col cols="12" md="4">
-      <v-select
-        v-model="lcpFilter"
-        class="px-2"
-        hide-details
-        density="compact"
-        prepend-icon="cc:compendium"
-        chips
-        clearable
-        variant="outlined"
-        label="From Content Pack"
-        :items="lcps"
         multiple
         @update:modelValue="updateFilters()"
       />
@@ -97,10 +66,8 @@ const nameSort = function (a, b): number {
 export default {
   name: 'frame-filter',
   data: () => ({
-    sourceFilter: [],
     typeFilter: [],
     mountFilter: [],
-    lcpFilter: [],
     sizeFilter: [],
   }),
   emits: ['set-filters'],
@@ -135,23 +102,15 @@ export default {
   },
   methods: {
     clear() {
-      this.sourceFilter = [];
       this.typeFilter = [];
       this.mountFilter = [];
-      this.lcpFilter = [];
       this.sizeFilter = [];
     },
     updateFilters() {
       const fObj = {} as any;
-      if (this.lcpFilter && this.lcpFilter.length)
-        fObj.LcpName = [this.lcpFilter];
-      if (this.sourceFilter) fObj.Source = [this.sourceFilter];
-      if (this.sizeFilter && this.sizeFilter.length)
-        fObj.MechSize = this.sizeFilter;
-      if (this.typeFilter && this.typeFilter.length)
-        fObj.MechType = this.typeFilter;
-      if (this.mountFilter && this.mountFilter.length)
-        fObj.Mounts = this.mountFilter;
+      if (this.sizeFilter && this.sizeFilter.length) fObj.MechSize = this.sizeFilter;
+      if (this.typeFilter && this.typeFilter.length) fObj.MechType = this.typeFilter;
+      if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter;
       this.$emit('set-filters', fObj);
     },
   },

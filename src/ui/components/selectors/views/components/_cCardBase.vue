@@ -14,7 +14,10 @@
         </div>
       </v-col>
     </v-row>
-    <v-toolbar density="compact" :color="hover ? 'primary lighten-1' : 'primary'" dark>
+    <v-toolbar
+      density="compact"
+      :color="`${highlighted ? 'primary' : 'secondary'}${hover ? ' lighten-1' : ''}`"
+    >
       <span class="pl-2">
         <div class="text-overline">
           <span v-if="item.Source">{{ item.Source }}&nbsp;</span>
@@ -53,6 +56,7 @@ export default {
     small: { type: Boolean },
     hover: { type: Boolean },
     equipped: { type: Boolean },
+    highlighted: { type: Boolean },
   },
   emits: ['equip'],
 };

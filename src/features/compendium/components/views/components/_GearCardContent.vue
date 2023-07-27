@@ -1,5 +1,5 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover">
+  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <div slot="top">
       <v-row
         v-if="item.ItemType.toLowerCase() === 'pilotarmor'"
@@ -84,6 +84,7 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    highlighted: { type: Boolean },
   },
 };
 </script>

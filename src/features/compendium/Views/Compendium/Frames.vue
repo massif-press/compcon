@@ -3,8 +3,10 @@
   <compendium-browser-new
     :items="frames"
     :hidden-items="[]"
-    item-type="frame"
+    item-type="Frame"
     :table-headers="headers"
+    initial-group="source"
+    initial-view="cards"
   />
 </template>
 

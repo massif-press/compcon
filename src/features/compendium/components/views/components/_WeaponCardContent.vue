@@ -1,5 +1,5 @@
 <template>
-  <c-card-base :item="item" :small="small" :hover="hover">
+  <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <v-row slot="top" no-gutters justify="space-around" align="center">
       <v-col v-if="item.Damage && item.Damage[0]" cols="auto">
         <cc-damage-element :damage="item.Damage" />
@@ -21,6 +21,7 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    highlighted: { type: Boolean },
   },
 };
 </script>

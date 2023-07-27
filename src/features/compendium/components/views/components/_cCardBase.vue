@@ -3,32 +3,20 @@
     no-gutters
     align="center"
     justify="center"
-    :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${
-      small ? '75px' : '200px'
-    }`"
+    :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${small ? '75px' : '200px'}`"
   >
     <v-col>
       <div>
         <slot name="top" />
-        <div
-          v-if="item.Tags && item.Tags.length"
-          cols="12"
-          class="text-center pb-2 pt-2 my-1"
-        >
-          <cc-tags
-            :tags="item.Tags"
-            small
-            density="compact"
-            variant="outlined"
-            color="accent"
-          />
+        <div v-if="item.Tags && item.Tags.length" cols="12" class="text-center pb-2 pt-2 my-1">
+          <cc-tags :tags="item.Tags" small density="compact" variant="outlined" color="accent" />
         </div>
       </div>
     </v-col>
   </v-row>
   <v-toolbar
     density="compact"
-    :color="hover ? 'primary lighten-1' : 'primary'"
+    :color="`${highlighted ? 'secondary' : 'primary'}${hover ? ' lighten-1' : ''}`"
     class="px-3 pb-1"
   >
     <div>
@@ -55,6 +43,7 @@ export default {
     item: { type: Object, required: true },
     small: { type: Boolean },
     hover: { type: Boolean },
+    highlighted: { type: Boolean },
   },
 };
 </script>

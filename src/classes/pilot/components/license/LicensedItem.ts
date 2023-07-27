@@ -1,10 +1,5 @@
 import { CompendiumStore } from '../../../../stores';
-import {
-  CompendiumItem,
-  Frame,
-  ItemType,
-  Manufacturer,
-} from '../../../../class';
+import { CompendiumItem, Frame, ItemType, Manufacturer } from '../../../../class';
 import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface';
 
 interface ILicenseRequirement {
@@ -28,11 +23,7 @@ abstract class LicensedItem extends CompendiumItem {
   private _license: string;
   private _license_id: string;
 
-  public constructor(
-    data: ILicensedItemData,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
+  public constructor(data: ILicensedItemData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName);
     this.Source = data.source ? data.source.toUpperCase() : '';
     this._license = data.license || '';
@@ -62,9 +53,7 @@ abstract class LicensedItem extends CompendiumItem {
       source: this.Source,
       name: this.getLicenseName(),
       rank: this.LicenseLevel,
-      items: [
-        this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name,
-      ],
+      items: [this.ItemType === ItemType.Frame ? `${this.Name} Frame` : this.Name],
     };
   }
 
@@ -78,4 +67,5 @@ abstract class LicensedItem extends CompendiumItem {
   }
 }
 
-export { LicensedItem, ILicensedItemData };
+export { LicensedItem };
+export type { ILicensedItemData };

@@ -1,6 +1,6 @@
-import FramesFilter from './_FrameFilter.vue';
+import FrameFilter from './_FrameFilter.vue';
 import MechSystemFilter from './_MechSystemFilter.vue';
-import MechWeaponsFilter from './_MechWeaponFilter.vue';
-import WeaponModsFilter from './_WeaponModFilter.vue';
+import MechWeaponFilter from './_MechWeaponFilter.vue';
+import WeaponModFilter from './_WeaponModFilter.vue';
 
-export { FramesFilter, MechSystemFilter, MechWeaponsFilter, WeaponModsFilter };
+export { FrameFilter, MechSystemFilter, MechWeaponFilter, WeaponModFilter };

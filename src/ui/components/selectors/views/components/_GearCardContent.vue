@@ -4,6 +4,7 @@
     :small="small"
     :hover="hover"
     :equipped="equipped"
+    :highlighted="highlighted"
     @equip="$emit('equip', $event)"
   >
     <template #top>
@@ -92,6 +93,7 @@ export default {
     small: { type: Boolean },
     hover: { type: Boolean },
     equipped: { type: Boolean },
+    highlighted: { type: Boolean },
   },
 };
 </script>
