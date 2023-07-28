@@ -1,22 +1,25 @@
 <template>
-  <!-- <compendium-browser :headers="headers" items="Mech Weapons" /> -->
-  <compendium-browser-new
+  <new-compendium-browser
     :items="weapons"
     :hidden-items="[]"
     item-type="MechWeapon"
     :table-headers="headers"
     initial-group="license"
     initial-view="list"
-  />
+  >
+    <template #header>
+      <div class="heading h3 text-center text-primary">Mech Weapons</div></template
+    >
+  </new-compendium-browser>
 </template>
 
 <script lang="ts">
-import CompendiumBrowserNew from '../../components/CompendiumBrowserNew.vue';
+import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
 import { CompendiumStore } from '../../store';
 
 export default {
   name: 'Weapons',
-  components: { CompendiumBrowserNew },
+  components: { NewCompendiumBrowser },
   data: () => ({
     headers: [
       { title: 'Source', align: 'left', key: 'Source' },

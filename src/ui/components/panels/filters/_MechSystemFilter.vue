@@ -1,21 +1,6 @@
 <template>
   <v-row density="compact" justify="space-around" class="mx-4">
-    <v-col cols="12" md="4">
-      <v-select
-        v-model="sourceFilter"
-        class="px-2"
-        hide-details
-        density="compact"
-        prepend-icon="mdi-factory"
-        variant="outlined"
-        label="From Manufacturer"
-        :items="manufacturers"
-        chips
-        clearable
-        @update:modelValue="updateFilters()"
-      />
-    </v-col>
-    <v-col cols="12" md="4">
+    <v-col cols="12">
       <v-select
         v-model="tagFilter"
         class="px-2"
@@ -28,12 +13,12 @@
         label="Tags"
         :items="tags"
         multiple
-        item-text="Name"
+        item-title="Name"
         item-value="ID"
         @update:modelValue="updateFilters()"
       />
     </v-col>
-    <v-col cols="12" md="4">
+    <v-col cols="12">
       <v-select
         v-model="systemTypeFilter"
         class="px-2"
@@ -47,65 +32,53 @@
         @update:modelValue="updateFilters()"
       />
     </v-col>
-    <v-col cols="12" md="4">
-      <v-select
-        v-model="lcpFilter"
-        class="px-2"
-        hide-details
+  </v-row>
+  <v-divider class="my-4" />
+  <v-row dense align="center" justify="center">
+    <v-col cols="auto">
+      <v-icon icon="cc:system_point" />
+    </v-col>
+    <v-col cols="auto">
+      <span class="text-button">SP Cost</span>
+    </v-col>
+    <v-col cols="auto">
+      <v-btn-toggle
+        v-model="spType"
+        color="accent"
+        border
+        divided
         density="compact"
-        prepend-icon="cc:compendium"
-        chips
-        clearable
+        style="height: 30px"
+        @update:modelValue="updateFilters()"
+      >
+        <v-btn value="less" size="small">Less Than</v-btn>
+        <v-btn value="eq" size="small">Equal To</v-btn>
+        <v-btn value="greater" size="small">Greater Than</v-btn>
+      </v-btn-toggle>
+    </v-col>
+  </v-row>
+  <v-row dense align="center" justify="center">
+    <v-col cols="auto">
+      <v-text-field
+        v-model="sp"
+        type="number"
         variant="outlined"
-        label="From Content Pack"
-        :items="lcps"
-        multiple
+        style="width: 150px"
+        density="compact"
+        hide-details
+        class="hide-input-spinners"
+        prepend-icon="mdi-minus"
+        append-icon="mdi-plus"
+        @click:prepend="
+          sp > 0 ? sp-- : sp;
+          updateFilters();
+        "
+        @click:append="
+          sp++;
+          updateFilters();
+        "
         @update:modelValue="updateFilters()"
       />
-    </v-col>
-    <v-col cols="12" md="6" class="text-center">
-      <v-row dense align="center">
-        <v-col cols="auto">
-          <v-icon icon="cc:system_point" />
-        </v-col>
-        <v-col cols="auto">
-          <span class="text-button">SP Cost</span>
-        </v-col>
-        <v-col cols="auto">
-          <v-btn-toggle
-            v-model="spType"
-            color="accent"
-            class="ml-1 py-1"
-            @update:modelValue="updateFilters()"
-          >
-            <v-btn value="less" size="small">Less Than</v-btn>
-            <v-btn value="eq" size="small">Equal To</v-btn>
-            <v-btn value="greater" size="small">Greater Than</v-btn>
-          </v-btn-toggle>
-        </v-col>
-        <v-col cols="auto">
-          <v-text-field
-            v-model="sp"
-            type="number"
-            variant="outlined"
-            style="width: 150px"
-            density="compact"
-            hide-details
-            class="hide-input-spinners"
-            prepend-icon="mdi-minus"
-            append-icon="mdi-plus"
-            @click:prepend="
-              sp > 0 ? sp-- : sp;
-              updateFilters();
-            "
-            @click:append="
-              sp++;
-              updateFilters();
-            "
-            @update:modelValue="updateFilters()"
-          />
-        </v-col>
-      </v-row>
     </v-col>
   </v-row>
 </template>
@@ -125,12 +98,10 @@ const nameSort = function (a, b): number {
 export default {
   name: 'frame-filter',
   data: () => ({
-    sourceFilter: [],
     tagFilter: [],
     systemTypeFilter: [] as SystemType[],
-    sp: '',
+    sp: 0,
     spType: '',
-    lcpFilter: [],
   }),
   emits: ['set-filters'],
   computed: {
@@ -163,21 +134,14 @@ export default {
   },
   methods: {
     clear() {
-      this.sourceFilter = [];
       this.tagFilter = [];
       this.systemTypeFilter = [];
-      this.sp = '';
+      this.sp = 0;
       this.spType = '';
-      this.lcpFilter = [];
     },
     updateFilters() {
       const fObj = {} as any;
-      if (this.lcpFilter && this.lcpFilter.length)
-        fObj.LcpName = [this.lcpFilter];
-      if (this.spType && !Number.isNaN(parseInt(this.sp)))
-        fObj[`SP_${this.spType}`] = parseInt(this.sp);
-      if (this.sourceFilter && this.sourceFilter.length)
-        fObj.Source = [this.sourceFilter];
+      if (this.spType && !Number.isNaN(this.sp)) fObj[`SP_${this.spType}`] = this.sp;
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
       if (this.systemTypeFilter && this.systemTypeFilter.length)
         fObj.Type = [this.systemTypeFilter];

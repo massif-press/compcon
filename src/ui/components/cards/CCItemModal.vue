@@ -3,7 +3,7 @@
     <cc-dialog
       ref="dialog"
       no-confirm
-      :color="item.Color"
+      :color="item.Color ? item.Color : 'primary'"
       :large="$vuetify.display.mdAndUp"
       :fullscreen="$vuetify.display.smAndDown"
       :small-btn="smallBtn"
@@ -32,6 +32,8 @@
           <v-icon size="large" class="fade-select">mdi-close</v-icon>
         </v-btn>
       </template>
+
+      {{ item.Color }}
 
       <cc-item-card :item="item" />
     </cc-dialog>

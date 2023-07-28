@@ -1,23 +1,25 @@
 <template>
-  <!-- <compendium-browser :headers="headers" items="Frames" /> -->
-  <compendium-browser-new
+  <new-compendium-browser
     :items="frames"
     :hidden-items="[]"
     item-type="Frame"
     :table-headers="headers"
+    licensed
     initial-group="source"
     initial-view="cards"
-  />
+  >
+    <template #header> <div class="heading h3 text-center text-primary">Frames</div></template>
+  </new-compendium-browser>
 </template>
 
 <script lang="ts">
 import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
-import CompendiumBrowserNew from '../../components/CompendiumBrowserNew.vue';
+import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
 import { CompendiumStore } from '../../store';
 
 export default {
   name: 'Frames',
-  components: { CompendiumBrowser, CompendiumBrowserNew },
+  components: { CompendiumBrowser, NewCompendiumBrowser },
   data: () => ({
     headers: [
       { title: 'Source', key: 'Source' },

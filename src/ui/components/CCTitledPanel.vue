@@ -3,6 +3,7 @@
     <template v-slot:default="{ isHovering, props }">
       <div :class="`mb-2 ${clickable ? 'clickable' : ''}`" v-bind="props" @click="$emit('click')">
         <v-toolbar
+          v-show="title"
           :color="clickable && isHovering ? 'active' : color ? color : 'primary'"
           density="compact"
           :class="`${density === `compact` ? 'clipped-invert' : 'clipped-large-invert'}}`"

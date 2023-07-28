@@ -21,6 +21,8 @@ const theme = {
     'mech-weapon': '#212121',
     'pilot-weapon': '#212121',
 
+    'core-bonus': '#991E2A',
+
     text: '#212121',
     subtle: '#9E9E9E',
     stark: '#000',

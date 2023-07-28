@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import CompendiumCard from '../views/components/CompendiumCard.vue';
+import CompendiumCard from '../views/CompendiumCard.vue';
 export default {
   name: 'selector-cards-view',
   components: { CompendiumCard },

@@ -1,25 +1,28 @@
 <template>
-  <!-- <compendium-browser :headers="headers" :items="systems" title="Mech Systems" /> -->
-  <compendium-browser-new
+  <new-compendium-browser
     :items="systems"
     :hidden-items="[]"
     item-type="MechSystem"
     :table-headers="headers"
     initial-group="license"
     initial-view="list"
-  />
+  >
+    <template #header>
+      <div class="heading h3 text-center text-primary">Mech Systems</div></template
+    >
+  </new-compendium-browser>
 </template>
 
 <script lang="ts">
 import _ from 'lodash';
-import CompendiumBrowserNew from '../../components/CompendiumBrowserNew.vue';
+import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
 
 import { CompendiumStore, UserStore } from '@/stores';
 import { MechEquipment } from '@/class';
 
 export default {
   name: 'Systems',
-  components: { CompendiumBrowserNew },
+  components: { NewCompendiumBrowser },
   data: () => ({
     headers: [
       { title: 'Source', align: 'left', key: 'Source' },

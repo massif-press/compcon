@@ -1,22 +1,16 @@
 <template>
-  <sidebar-array-view
-    title="PILOT SKILL TRIGGERS"
-    :array="skills"
-    icon="cc:accuracy"
-    name-key="Trigger"
-    description-key="Detail"
-  />
+  <simple-compendium-browser :items="skills" item-type="Skill" title="Pilot Skill Triggers" />
 </template>
 
 <script lang="ts">
 import { Skill } from '@/class';
-import SidebarArrayView from '../../components/SidebarArrayView.vue';
+import SimpleCompendiumBrowser from '../../components/SimpleCompendiumBrowser.vue';
 
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'skills',
-  components: { SidebarArrayView },
+  components: { SimpleCompendiumBrowser },
   computed: {
     skills(): Skill[] {
       return CompendiumStore().Skills;

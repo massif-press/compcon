@@ -31,6 +31,7 @@ class Bond {
   public readonly _powers: BondPower[];
   public readonly LcpName: string;
   public readonly InLcp: boolean;
+  public readonly ItemType: string = 'Bond';
 
   public constructor(data: IBondData, packName?: string) {
     this.ID = data.id;

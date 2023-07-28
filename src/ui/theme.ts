@@ -11,6 +11,7 @@ const themeDefaults = {
   hp: '#0284FF',
   armor: '#82B1FF',
   'pilot-armor': '#82B1FF',
+  'core-bonus': '#673AB7',
   heat: '#FF7043',
   stress: '#FF3D00',
   heatcap: '#EF5350',
