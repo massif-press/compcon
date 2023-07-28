@@ -5,6 +5,11 @@
     ref="c"
     @set-filters="$emit('set-filters', $event)"
   />
+  <v-card v-else variant="outlined">
+    <v-card-text class="text center">
+      <i>No filters available</i>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">

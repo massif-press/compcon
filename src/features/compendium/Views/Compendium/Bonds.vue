@@ -26,24 +26,13 @@
       </v-col>
     </v-row>
   </v-container>
-  <cc-sidebar-view v-else>
-    <v-list-item v-for="e in bonds" slot="sidebar" link @click="scrollTo(e)">
-      <v-list-item-title class="heading h3 ml-2">{{ e.Name }}</v-list-item-title>
-    </v-list-item>
-    <h1 class="heading mt-3 mb-n3">Pilot Bonds</h1>
-    <v-container>
-      <cc-bond-info
-        v-for="e in bonds"
-        :id="`e_${e.Name.replace(/\W/g, '')}`"
-        :bond="e"
-        class="my-4"
-      />
-    </v-container>
-  </cc-sidebar-view>
+  <simple-compendium-browser :items="bonds" item-type="Bond" title="Pilot Bonds" />
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
+import { Bond } from '@/class';
+import SimpleCompendiumBrowser from '../../components/SimpleCompendiumBrowser.vue';
 
 export default {
   name: 'bonds',
@@ -58,10 +47,10 @@ export default {
       if (el) {
         const yOffset = -60;
         const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
     },
   },
+  components: { SimpleCompendiumBrowser },
 };
 </script>

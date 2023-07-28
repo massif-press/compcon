@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <div
-      class="font-weight-light text-center my-n2"
+      class="font-weight-light text-center my-n4"
       :style="
         $vuetify.display.mdAndDown
           ? 'letter-spacing: 1vw!important; font-size: 7vw!important;'

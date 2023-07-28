@@ -264,7 +264,7 @@ export class ContentPack {
     Object.keys(self._data).forEach((key) => self._data[key].forEach((item) => (item.brew = id)));
     self._id = id;
 
-    self._Tags = self._data.tags?.map((x) => new Tag(x)) || [];
+    self._Tags = self._data.tags?.map((x) => new Tag(x, self._manifest.name)) || [];
 
     self._Manufacturers =
       self._data.manufacturers?.map((x) => {

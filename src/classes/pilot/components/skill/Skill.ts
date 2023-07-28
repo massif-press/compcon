@@ -27,4 +27,5 @@ class Skill extends CompendiumItem {
   }
 }
 
-export { Skill, ISkillData };
+export { Skill };
+export type { ISkillData };

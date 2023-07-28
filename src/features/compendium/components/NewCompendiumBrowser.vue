@@ -2,6 +2,14 @@
   <v-row>
     <v-col cols="3" style="max-width: 325px !important">
       <v-list density="compact" nav class="side-fixed" color="panel" v-model:opened="open">
+        <v-alert
+          v-show="!!$slots.header"
+          variant="outlined"
+          class="mb-3 py-1"
+          style="border-color: rgb(var(--v-theme-primary))"
+        >
+          <slot name="header"> </slot>
+        </v-alert>
         <v-btn-toggle
           v-model="view"
           mandatory
@@ -36,19 +44,19 @@
         >
           <v-tooltip text="Group by Manufacturer" location="top">
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" value="source" icon style="width: 25%"
+              <v-btn v-bind="props" value="source" icon :style="`width: ${licensed ? '25' : '33'}%`"
                 ><v-icon icon="cc:manufacturer"
               /></v-btn>
             </template>
           </v-tooltip>
           <v-tooltip text="Group by Content Pack" location="top">
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" value="lcp" icon style="width: 25%"
+              <v-btn v-bind="props" value="lcp" icon :style="`width: ${licensed ? '25' : '33'}%`"
                 ><v-icon icon="cc:content_manager"
               /></v-btn>
             </template>
           </v-tooltip>
-          <v-tooltip text="Group by License" location="top">
+          <v-tooltip v-if="licensed" text="Group by License" location="top">
             <template v-slot:activator="{ props }">
               <v-btn v-bind="props" value="license" size="large" icon style="width: 25%"
                 ><v-icon icon="cc:license"
@@ -57,7 +65,12 @@
           </v-tooltip>
           <v-tooltip text="No Grouping" location="top">
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" value="none" size="small" icon style="width: 25%"
+              <v-btn
+                v-bind="props"
+                value="none"
+                size="small"
+                icon
+                :style="`width: ${licensed ? '25' : '33'}%`"
                 ><v-icon icon="mdi-cancel"
               /></v-btn>
             </template>
@@ -247,7 +260,7 @@
             </v-list-item>
           </v-list-group>
         </div>
-        <div v-else-if="group === 'license'">
+        <div v-else-if="licensed && group === 'license'">
           <v-list-group v-for="license in licenses" :value="license" color="accent" class="pt-0">
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props">
@@ -286,15 +299,6 @@
 
     <v-col class="pl-6">
       <v-container id="content" style="height: calc(100vh - 65px) !important; overflow-y: scroll">
-        <v-alert
-          v-show="!!$slots.header"
-          variant="outlined"
-          class="mt-n2 mb-3 py-1"
-          style="border-color: rgb(var(--v-theme-primary))"
-        >
-          <slot name="header"> </slot>
-        </v-alert>
-
         <v-row v-if="view === 'list'">
           <v-col cols="12">
             <selector-list-item :item="(selectedItem as CompendiumItem)" />
@@ -346,7 +350,7 @@
             </div>
           </div>
 
-          <div v-else-if="group === 'license'" cols="12">
+          <div v-else-if="licensed && group === 'license'" cols="12">
             <div v-for="license in licenses">
               <div class="heading h2 text-primary mt-4" v-text="license" />
 
@@ -403,9 +407,8 @@ export default {
       type: Array,
       required: true,
     },
-    hiddenItems: {
-      type: Array,
-      default: () => [],
+    licensed: {
+      type: Boolean,
     },
     itemType: {
       type: String,

@@ -11,6 +11,7 @@ import PilotArmorCard from './_PilotArmorCard.vue';
 import PilotGearCard from './_PilotGearCard.vue';
 import PilotWeaponCard from './_PilotWeaponCard.vue';
 import WeaponModCard from './_WeaponModCard.vue';
+import CoreBonusCard from './_CoreBonusCard.vue';
 
 export {
   EquipmentCardBase,
@@ -25,5 +26,6 @@ export {
   PilotArmorCard,
   PilotGearCard,
   PilotWeaponCard,
+  CoreBonusCard,
   WeaponModCard,
 };

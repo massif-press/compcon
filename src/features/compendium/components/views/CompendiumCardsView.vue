@@ -33,7 +33,7 @@
 import _ from 'lodash';
 
 import { CompendiumStore } from '@/stores';
-import CompendiumCard from './components/CompendiumCard.vue';
+import CompendiumCard from './CompendiumCard.vue';
 
 export default {
   name: 'compendium-cards-view',

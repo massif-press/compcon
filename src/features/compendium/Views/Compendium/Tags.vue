@@ -1,23 +1,20 @@
 <template>
-  <sidebar-array-view title="EQUIPMENT TAGS" :array="tags" icon="mdi-tag" />
+  <simple-compendium-browser :items="tags" item-type="Tag" title="Equipment Tags" />
 </template>
 
 <script lang="ts">
 import _ from 'lodash';
-import SidebarArrayView from '../../components/SidebarArrayView.vue';
+import SimpleCompendiumBrowser from '../../components/SimpleCompendiumBrowser.vue';
 
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'Tags',
-  components: { SidebarArrayView },
+  components: { SimpleCompendiumBrowser },
   computed: {
-    compendium(): CompendiumStore {
-      return CompendiumStore();
-    },
-    tags(): string[] {
+    tags() {
       return _.sortBy(
-        this.compendium.Tags.filter((x) => !x.IsHidden),
+        CompendiumStore().Tags.filter((x) => !x.IsHidden),
         'Name'
       );
     },

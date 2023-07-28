@@ -28,11 +28,13 @@ class Tag {
   public readonly IsSmart: boolean;
   public readonly IsHeatCost: boolean;
   public readonly IsOverkill: boolean;
+  public readonly LcpName: string = '';
+  public readonly InLcp: boolean = false;
   private _name: string;
   private _val: number | string;
   private _description: string;
 
-  public constructor(tagData: ITagCompendiumData) {
+  public constructor(tagData: ITagCompendiumData, packName?: string) {
     this.ID = tagData.id;
     this._name = tagData.name;
     this._description = tagData.description;
@@ -52,6 +54,9 @@ class Tag {
     this.IsHeatCost = this.ID === 'tg_heat_self';
     this.IsOverkill = this.ID === 'tg_overkill';
     this.IsExotic = this.ID === 'tg_exotic';
+
+    this.LcpName = packName || 'LANCER Core Book';
+    this.InLcp = packName ? true : false;
   }
 
   public get Name(): string {
@@ -77,9 +82,7 @@ class Tag {
     if (typeof this._val === 'number') {
       let r = this._val.toString();
       if (bonus)
-        r = `${(
-          this._val + bonus
-        ).toString()} <span class="caption text--secondary">(Limited ${
+        r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
           this._val
         } + ${bonus} bonus)</span>`;
       return this._description.replace(/{VAL}/g, r);
@@ -128,10 +131,8 @@ class Tag {
   public static Populate(item: CompendiumItem): Tag[] {
     const tags = [] as Tag[];
     if (item.Deployables) {
-      if (item.Deployables.some((x) => x.type === 'Drone'))
-        tags.push(Tag._genTag('tg_drone'));
-      if (item.Deployables.some((x) => x.type === 'Mine'))
-        tags.push(Tag._genTag('tg_mine'));
+      if (item.Deployables.some((x) => x.type === 'Drone')) tags.push(Tag._genTag('tg_drone'));
+      if (item.Deployables.some((x) => x.type === 'Mine')) tags.push(Tag._genTag('tg_mine'));
       if (item.Deployables.some((x) => x.type !== 'Drone' && x.type !== 'Mine'))
         tags.push(Tag._genTag('tg_deployable'));
     }
@@ -156,20 +157,15 @@ class Tag {
     return tags;
   }
 
-  public static Deserialize(
-    data: ITagData[],
-    packTags?: ITagCompendiumData[]
-  ): Tag[] {
+  public static Deserialize(data: ITagData[], packTags?: ITagCompendiumData[]): Tag[] {
     const output = [] as Tag[];
     if (!data) return output;
     data.forEach((x) => {
       let t: Tag;
 
-      if (CompendiumStore().TagData.find((t) => t.id === x.id))
-        t = Tag._genTag(x.id);
+      if (CompendiumStore().TagData.find((t) => t.id === x.id)) t = Tag._genTag(x.id);
       else {
-        if (!packTags)
-          throw new Error(`LCP data not provided for tag id: ${x.id}`);
+        if (!packTags) throw new Error(`LCP data not provided for tag id: ${x.id}`);
         const pt = packTags.find((t) => t.id === x.id);
         if (!pt) throw new Error(`Tag ${x.id} not found in pack`);
         t = new Tag(pt);

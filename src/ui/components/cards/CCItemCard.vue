@@ -6,6 +6,7 @@
     :notes="notes"
     :smallTags="smallTags"
     :dense="dense"
+    :charts="charts"
   />
 </template>
 
@@ -25,6 +26,9 @@ export default {
       required: false,
     },
     dense: {
+      type: Boolean,
+    },
+    charts: {
       type: Boolean,
     },
   },

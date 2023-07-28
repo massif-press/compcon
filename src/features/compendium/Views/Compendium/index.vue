@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <div
-      class="font-weight-light text-center my-n2"
+      class="font-weight-light text-center my-n4"
       :style="
         $vuetify.display.mdAndDown
           ? 'letter-spacing: 1vw!important; font-size: 7vw!important;'
@@ -87,6 +87,20 @@
         to="/srd/compendium/bonds"
       />
       <compendium-page-button
+        icon="cc:status_exposed"
+        name="Statuses & Conditions"
+        to="/srd/compendium/statuses"
+      />
+      <compendium-page-button
+        icon="cc:reserve_mech"
+        name="Reserves"
+        to="/srd/compendium/reserves"
+      />
+      <compendium-page-button icon="mdi-tag" name="Equipment Tags" to="/srd/compendium/tags" />
+    </v-row>
+    <cc-icon-divider icon="cc:campaign" />
+    <v-row>
+      <compendium-page-button
         color="primary"
         icon="cc:npc_class"
         name="NPC Classes"
@@ -108,16 +122,26 @@
         disabled
       />
       <compendium-page-button
-        icon="cc:status_exposed"
-        name="Statuses & Conditions"
-        to="/srd/compendium/statuses"
+        color="primary"
+        icon="mdi-map"
+        name="Environments"
+        to="/srd/compendium/npc_classes"
+        disabled
       />
       <compendium-page-button
-        icon="cc:reserve_mech"
-        name="Reserves"
-        to="/srd/compendium/reserves"
+        color="primary"
+        icon="mdi-timeline-text-outline"
+        name="Sitreps"
+        to="/srd/compendium/npc_features"
+        disabled
       />
-      <compendium-page-button icon="mdi-tag" name="Equipment Tags" to="/srd/compendium/tags" />
+      <compendium-page-button
+        color="primary"
+        icon="mdi-folder-table-outline"
+        name="Table Browser"
+        to="/srd/compendium/npc_templates"
+        disabled
+      />
     </v-row>
   </v-container>
 </template>

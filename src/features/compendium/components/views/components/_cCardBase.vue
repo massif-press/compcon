@@ -1,7 +1,6 @@
 <template>
   <v-row
     no-gutters
-    align="center"
     justify="center"
     :style="`max-height: ${small ? '150px' : '200px'}; min-height: ${small ? '75px' : '200px'}`"
   >

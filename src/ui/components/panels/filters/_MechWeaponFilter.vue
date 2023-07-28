@@ -14,7 +14,7 @@
         :items="tags"
         item-value="ID"
         multiple
-        item-text="Name"
+        item-title="Name"
         @update:modelValue="updateFilters()"
       />
     </v-col>
@@ -146,7 +146,6 @@ const nameSort = function (a, b): number {
 export default {
   name: 'frame-filter',
   data: () => ({
-    sourceFilter: [],
     tagFilter: [],
     weaponTypeFilter: [] as WeaponType[],
     weaponSizeFilter: [] as WeaponSize[],
@@ -154,7 +153,6 @@ export default {
     damageTypeFilter: [] as DamageType[],
     sp: 0,
     spType: '',
-    lcpFilter: [],
   }),
   emits: ['set-filters'],
   computed: {
@@ -202,7 +200,6 @@ export default {
   },
   methods: {
     clear() {
-      this.sourceFilter = [];
       this.tagFilter = [];
       this.weaponTypeFilter = [];
       this.weaponSizeFilter = [];
@@ -210,14 +207,11 @@ export default {
       this.damageTypeFilter = [];
       this.sp = 0;
       this.spType = '';
-      this.lcpFilter = [];
     },
     updateFilters() {
       const fObj = {} as any;
-      if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter];
       if (this.spType && this.sp) fObj[`SP_${this.spType}`] = this.sp;
       fObj[`SP_${this.spType}`] = this.sp;
-      if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter];
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;
       if (this.weaponTypeFilter && this.weaponTypeFilter.length)
         fObj.WeaponType = [this.weaponTypeFilter];
