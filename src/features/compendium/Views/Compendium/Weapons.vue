@@ -1,11 +1,9 @@
 <template>
   <new-compendium-browser
     :items="weapons"
-    :hidden-items="[]"
     item-type="MechWeapon"
     :table-headers="headers"
-    initial-group="license"
-    initial-view="list"
+    :options="options"
   >
     <template #header>
       <div class="heading h3 text-center text-primary">Mech Weapons</div></template
@@ -21,6 +19,12 @@ export default {
   name: 'Weapons',
   components: { NewCompendiumBrowser },
   data: () => ({
+    options: {
+      views: ['single', 'table', 'cards'],
+      initialView: 'single',
+      groups: ['source', 'lcp', 'license'],
+      initialGroup: 'license',
+    },
     headers: [
       { title: 'Source', align: 'left', key: 'Source' },
       { title: 'Weapon', align: 'left', key: 'Name' },

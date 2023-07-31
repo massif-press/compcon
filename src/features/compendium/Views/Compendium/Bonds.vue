@@ -26,13 +26,20 @@
       </v-col>
     </v-row>
   </v-container>
-  <simple-compendium-browser :items="bonds" item-type="Bond" title="Pilot Bonds" />
+  <new-compendium-browser
+    :items="bonds"
+    item-type="Bond"
+    :table-headers="headers"
+    :options="options"
+  >
+    <template #header> <div class="heading h3 text-center text-primary">Pilot Bonds</div></template>
+  </new-compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
 import { Bond } from '@/class';
-import SimpleCompendiumBrowser from '../../components/SimpleCompendiumBrowser.vue';
+import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
 
 export default {
   name: 'bonds',
@@ -41,6 +48,20 @@ export default {
       return CompendiumStore().Bonds;
     },
   },
+  data: () => ({
+    headers: [
+      { title: 'Source', key: 'Source' },
+      { title: 'Name', key: 'Name' },
+    ],
+    options: {
+      views: ['single', 'table'],
+      initialView: 'single',
+      groups: ['lcp'],
+      initialGroup: 'lcp',
+      noSource: true,
+      hideTitle: true,
+    },
+  }),
   methods: {
     scrollTo(e: any): void {
       const el = document.getElementById(`e_${e.Name.replace(/\W/g, '')}`);
@@ -51,6 +72,6 @@ export default {
       }
     },
   },
-  components: { SimpleCompendiumBrowser },
+  components: { NewCompendiumBrowser },
 };
 </script>

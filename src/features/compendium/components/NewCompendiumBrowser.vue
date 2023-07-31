@@ -21,15 +21,18 @@
           style="width: 100%; height: 30px"
           class="mb-2"
         >
-          <v-btn value="list" icon size="small" style="width: 33%"
-            ><v-icon size="25" icon="mdi-view-list"
-          /></v-btn>
-          <v-btn value="table" icon size="small" style="width: 33%"
-            ><v-icon size="25" icon="mdi-table"
-          /></v-btn>
-          <v-btn value="cards" icon size="small" style="width: 33%"
-            ><v-icon size="25" icon="mdi-card-multiple-outline"
-          /></v-btn>
+          <v-tooltip v-for="v in options.views" :text="viewTooltip(v)" location="top">
+            <template v-slot:activator="{ props }">
+              <v-btn
+                v-bind="props"
+                :value="v"
+                icon
+                size="small"
+                :style="`width: ${100 / options.views.length}%`"
+                ><v-icon size="25" :icon="viewIcon(v)"
+              /></v-btn>
+            </template>
+          </v-tooltip>
         </v-btn-toggle>
         <v-btn-toggle
           v-model="group"
@@ -42,24 +45,15 @@
           style="width: 100%; height: 30px"
           class="mb-2"
         >
-          <v-tooltip text="Group by Manufacturer" location="top">
+          <v-tooltip v-for="g in options.groups" :text="groupTooltip(g)" location="top">
             <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" value="source" icon :style="`width: ${licensed ? '25' : '33'}%`"
-                ><v-icon icon="cc:manufacturer"
-              /></v-btn>
-            </template>
-          </v-tooltip>
-          <v-tooltip text="Group by Content Pack" location="top">
-            <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" value="lcp" icon :style="`width: ${licensed ? '25' : '33'}%`"
-                ><v-icon icon="cc:content_manager"
-              /></v-btn>
-            </template>
-          </v-tooltip>
-          <v-tooltip v-if="licensed" text="Group by License" location="top">
-            <template v-slot:activator="{ props }">
-              <v-btn v-bind="props" value="license" size="large" icon style="width: 25%"
-                ><v-icon icon="cc:license"
+              <v-btn
+                v-bind="props"
+                :value="g"
+                icon
+                size="small"
+                :style="`width: ${100 / (options.groups.length + 1)}%`"
+                ><v-icon size="25" :icon="groupIcon(g)"
               /></v-btn>
             </template>
           </v-tooltip>
@@ -70,7 +64,7 @@
                 value="none"
                 size="small"
                 icon
-                :style="`width: ${licensed ? '25' : '33'}%`"
+                :style="`width: ${100 / (options.groups.length + 1)}%`"
                 ><v-icon icon="mdi-cancel"
               /></v-btn>
             </template>
@@ -176,7 +170,21 @@
               >
             </template>
 
+            <v-list-item
+              v-if="options.noSource"
+              v-for="item in shownItems"
+              @click="selectItem(item as CompendiumItem)"
+            >
+              <template #title>
+                <v-icon start class="ml-3" :icon="(item as CompendiumItem).Icon" />
+                <span class="text-button">
+                  {{ (item as CompendiumItem).Name }}
+                </span>
+              </template>
+            </v-list-item>
+
             <v-list-group
+              v-else
               v-for="manufacturer in manufacturersByLcp[lcp]"
               :value="`${lcp}_${manufacturer}`"
               color="accent"
@@ -260,7 +268,7 @@
             </v-list-item>
           </v-list-group>
         </div>
-        <div v-else-if="licensed && group === 'license'">
+        <div v-else-if="group === 'license'">
           <v-list-group v-for="license in licenses" :value="license" color="accent" class="pt-0">
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props">
@@ -299,9 +307,28 @@
 
     <v-col class="pl-6">
       <v-container id="content" style="height: calc(100vh - 65px) !important; overflow-y: scroll">
-        <v-row v-if="view === 'list'">
+        <v-row v-if="view === 'single'">
           <v-col cols="12">
-            <selector-list-item :item="(selectedItem as CompendiumItem)" />
+            <selector-list-item
+              :hide-title="options.hideTitle"
+              :item="(selectedItem as CompendiumItem)"
+            />
+          </v-col>
+        </v-row>
+
+        <v-row v-if="view === 'list'">
+          <v-col cols="12" v-for="item in items" :id="(item as any).ID">
+            <v-card
+              :variant="options.hideTitle ? 'flat' : 'outlined'"
+              :color="options.hideTitle ? '' : '#7d7d7d33'"
+              :class="options.hideTitle ? '' : 'px-3'"
+            >
+              <selector-list-item
+                :hide-title="options.hideTitle"
+                :highlighted="selectedItem ? (selectedItem as any).ID === (item as any).ID : false"
+                :item="(item as CompendiumItem)"
+              />
+            </v-card>
           </v-col>
         </v-row>
 
@@ -350,7 +377,7 @@
             </div>
           </div>
 
-          <div v-else-if="licensed && group === 'license'" cols="12">
+          <div v-else-if="group === 'license'" cols="12">
             <div v-for="license in licenses">
               <div class="heading h2 text-primary mt-4" v-text="license" />
 
@@ -398,6 +425,15 @@ import SelectorTable from './items/_selectorTable.vue';
 import { CompendiumItem } from '@/class';
 import { CompendiumStore } from '../store';
 
+type BrowserOptions = {
+  views: string[];
+  initialView: 'single' | 'list' | 'table' | 'cards';
+  groups: string[];
+  initialGroup: 'source' | 'lcp' | 'license';
+  noSource: boolean;
+  hideTitle: boolean;
+};
+
 export default {
   name: 'cc-selector',
   components: { SelectorListItem, SelectorCardItem, SelectorTable },
@@ -407,9 +443,6 @@ export default {
       type: Array,
       required: true,
     },
-    licensed: {
-      type: Boolean,
-    },
     itemType: {
       type: String,
       required: true,
@@ -418,13 +451,9 @@ export default {
       type: Array,
       required: true,
     },
-    initialView: {
-      type: String,
-      default: 'list',
-    },
-    initialGroup: {
-      type: String,
-      default: 'source',
+    options: {
+      type: Object as () => BrowserOptions,
+      required: true,
     },
   },
   data: () => ({
@@ -442,8 +471,8 @@ export default {
     },
   },
   created() {
-    this.view = this.initialView;
-    this.group = this.initialGroup;
+    this.view = this.options.initialView;
+    this.group = this.options.initialGroup;
   },
   mounted() {
     this.lcpFilter = this.lcps;
@@ -489,6 +518,58 @@ export default {
     },
   },
   methods: {
+    viewIcon(i: string) {
+      switch (i) {
+        case 'single':
+          return 'mdi-card-bulleted-outline';
+        case 'list':
+          return 'mdi-view-list';
+        case 'table':
+          return 'mdi-table';
+        case 'cards':
+          return 'mdi-view-grid';
+        default:
+          return '';
+      }
+    },
+    viewTooltip(i: string) {
+      switch (i) {
+        case 'single':
+          return 'Single View';
+        case 'list':
+          return 'List View';
+        case 'table':
+          return 'Table View';
+        case 'cards':
+          return 'Card View';
+        default:
+          return '';
+      }
+    },
+    groupIcon(i: string) {
+      switch (i) {
+        case 'source':
+          return 'cc:manufacturer';
+        case 'lcp':
+          return 'cc:content_manager';
+        case 'license':
+          return 'cc:license';
+        default:
+          return '';
+      }
+    },
+    groupTooltip(i: string) {
+      switch (i) {
+        case 'source':
+          return 'Group by Source';
+        case 'lcp':
+          return 'Group by LCP';
+        case 'license':
+          return 'Group by License';
+        default:
+          return '';
+      }
+    },
     getItems(manufacturer: string, lcp?: string) {
       if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.Source === manufacturer);
 
@@ -499,9 +580,7 @@ export default {
     },
     selectItem(item: CompendiumItem) {
       this.selectedItem = item;
-      if (this.view !== 'list') {
-        this.scrollTo(item.ID);
-      }
+      this.scrollTo(item.ID);
     },
     scrollTo(id: string): void {
       const el = document.getElementById(id);
