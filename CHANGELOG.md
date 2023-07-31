@@ -1,11 +1,5 @@
 # COMP/CON Changelog
 
-## [2.3.17b] (2023-7-26)
-
-### Bug Fixes
-
-- **Global** Fixed a bug where theme settings were getting immediately overwritten
-
 ## [2.3.17a] (2023-7-26)
 
 ### Bug Fixes

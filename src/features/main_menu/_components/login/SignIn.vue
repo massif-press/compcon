@@ -76,7 +76,7 @@ import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
 import { Auth } from '@aws-amplify/auth'
-// import { SetTheme } from '@/classes/utility/ThemeManager'
+import { SetTheme } from '@/classes/utility/ThemeManager'
 
 export default Vue.extend({
   name: 'auth-sign-in',
@@ -112,7 +112,7 @@ export default Vue.extend({
           userstore.setAws({ cognitoUser: userstore.CognitoUser })
         })
         .then(() => {
-          // SetTheme(userstore.UserProfile.Theme, this.$vuetify)
+          SetTheme(userstore.UserProfile.Theme, this.$vuetify)
           this.$notify('Login Complete', 'success')
           // this.$notify('Cloud Data Synchronized', 'success')
           this.loading = false
