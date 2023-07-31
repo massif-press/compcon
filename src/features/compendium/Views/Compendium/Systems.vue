@@ -1,11 +1,9 @@
 <template>
   <new-compendium-browser
     :items="systems"
-    :hidden-items="[]"
     item-type="MechSystem"
     :table-headers="headers"
-    initial-group="license"
-    initial-view="list"
+    :options="options"
   >
     <template #header>
       <div class="heading h3 text-center text-primary">Mech Systems</div></template
@@ -24,6 +22,12 @@ export default {
   name: 'Systems',
   components: { NewCompendiumBrowser },
   data: () => ({
+    options: {
+      views: ['single', 'table', 'cards'],
+      initialView: 'single',
+      groups: ['source', 'lcp', 'license'],
+      initialGroup: 'license',
+    },
     headers: [
       { title: 'Source', align: 'left', key: 'Source' },
       { title: 'System', align: 'left', key: 'Name' },

@@ -1,6 +1,10 @@
 <template>
   <div v-if="item">
-    <div class="heading mech my-n2">
+    <div
+      v-if="!hideTitle"
+      class="heading h1 my-n2"
+      :class="highlighted ? 'text-secondary' : 'text-primary'"
+    >
       {{ item.Name }}
     </div>
     <cc-bond-info v-if="item.ItemType === 'Bond'" :bond="item" hide-title />
@@ -46,6 +50,12 @@ export default {
     item: {
       type: Object,
       required: false,
+    },
+    highlighted: {
+      type: Boolean,
+    },
+    hideTitle: {
+      type: Boolean,
     },
   },
   computed: {

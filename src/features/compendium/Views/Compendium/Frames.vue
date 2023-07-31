@@ -1,12 +1,9 @@
 <template>
   <new-compendium-browser
     :items="frames"
-    :hidden-items="[]"
     item-type="Frame"
     :table-headers="headers"
-    licensed
-    initial-group="source"
-    initial-view="cards"
+    :options="options"
   >
     <template #header> <div class="heading h3 text-center text-primary">Frames</div></template>
   </new-compendium-browser>
@@ -21,6 +18,12 @@ export default {
   name: 'Frames',
   components: { CompendiumBrowser, NewCompendiumBrowser },
   data: () => ({
+    options: {
+      views: ['single', 'table', 'cards'],
+      initialView: 'cards',
+      groups: ['source', 'lcp', 'license'],
+      initialGroup: 'source',
+    },
     headers: [
       { title: 'Source', key: 'Source' },
       { title: 'Name', key: 'Name' },

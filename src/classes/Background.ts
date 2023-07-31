@@ -19,6 +19,10 @@ class Background {
     this.LcpName = packName || 'LANCER Core Book';
     this.InLcp = packName ? true : false;
   }
+
+  public get Icon(): string {
+    return 'cc:orbit';
+  }
 }
 
 export { Background };

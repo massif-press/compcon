@@ -3,8 +3,7 @@
     :items="bonuses"
     :itemType="'CoreBonus'"
     :table-headers="headers"
-    initial-group="source"
-    initial-view="cards"
+    :options="options"
   >
     <template #header>
       <div class="heading h3 text-center text-primary">Core Bonuses</div></template
@@ -25,6 +24,12 @@ export default {
       { title: 'Source', key: 'Source' },
       { title: 'Name', key: 'Name' },
     ],
+    options: {
+      views: ['list', 'table', 'cards'],
+      initialView: 'cards',
+      groups: ['source', 'lcp'],
+      initialGroup: 'source',
+    },
   }),
   computed: {
     bonuses(): CoreBonus[] {
