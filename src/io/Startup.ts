@@ -31,8 +31,11 @@ export default async function (
   Auth.currentAuthenticatedUser()
     .then(cognitoUser => {
       console.log('user is logged in')
+      userstore.setAws({ cognitoUser }).then(() => {
+        if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework)
+      })
     })
-    .finally(() => {
+    .catch(() => {
       userstore.loadUser().then(() => {
         if (vuetify) SetTheme(userstore.UserProfile.Theme, vuetify.framework)
       })
