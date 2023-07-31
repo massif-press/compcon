@@ -3795,9 +3795,9 @@
     postcss "^7.0.0"
 
 "@massif/lancer-data@^3.1.3":
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-3.1.4.tgz#119ac1a755aa53e4b696488f057b7e719172fb65"
-  integrity sha512-VU8wIbbLzbqrhh3DhquWhuSRlStyHKyTwi7/ENvW/LHtaCLyLJSliN6HR1YjrwXeE/Q77SK4lNRtZcvKYZNTkw==
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-3.1.3.tgz#f445a29ef5a9bea7ff1245579da3d88cc878ed11"
+  integrity sha512-8Hn4oddDhN7/fCavmWkbRe27JpNhhrpYpMdhTlbzilYxrcMtDhLe1O4dE+ReI7uoQiakwzZCv4CQ6+fwhvU3Ow==
 
 "@mdi/font@^6.6.96":
   version "6.6.96"
