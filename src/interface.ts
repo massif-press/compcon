@@ -146,13 +146,6 @@ interface PrintOptions {
   combo: boolean;
 }
 
-interface Status {
-  name: string;
-  type: string;
-  icon: string;
-  effects: string[];
-}
-
 interface Environment {
   id: string;
   name: string;
@@ -222,7 +215,6 @@ export type {
   ISnackbarSettings,
   Brew,
   PrintOptions,
-  Status,
   Environment,
   Sitrep,
 };

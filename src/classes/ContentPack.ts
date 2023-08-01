@@ -46,6 +46,7 @@ import {
 } from '@/interface';
 import { Action } from './Action';
 import { Background, IBackgroundData } from './Background';
+import { Status, IStatusData } from './Status';
 import { Bond, IBondData } from './pilot/components/bond/Bond';
 import { IReserveData } from './pilot/components';
 
@@ -80,7 +81,7 @@ interface IContentPackData {
 
   actions: PlayerAction.IActionData[];
 
-  statuses: Status[];
+  statuses: IStatusData[];
   environments: Environment[];
   sitreps: Sitrep[];
 
@@ -249,7 +250,6 @@ export class ContentPack {
     return this._active;
   }
   public SetActive(active: boolean): void {
-    console.log('SetActive', active);
     this._active = active;
   }
 
@@ -274,6 +274,7 @@ export class ContentPack {
       }) || [];
     self._Backgrounds =
       self._data.backgrounds?.map((x) => new Background(x, self._manifest.name)) || [];
+    self._Statuses = self._data.statuses?.map((x) => new Status(x, self._manifest.name)) || [];
     self._CoreBonuses =
       self._data.coreBonuses?.map((x) => new CoreBonus(x, self._data.tags, self._manifest.name)) ||
       [];
@@ -316,7 +317,6 @@ export class ContentPack {
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     );
 
-    self._Statuses = self._data.statuses || [];
     self._Environments = self._data.environments || [];
     self._Sitreps = self._data.sitreps || [];
 
@@ -324,7 +324,8 @@ export class ContentPack {
 
     self._Bonds = self._data.bonds?.map((x) => new Bond(x, self._manifest.name)) || [];
 
-    self._Reserves = self._data.reserves?.map((x) => new Reserve(x, self._manifest.name)) || [];
+    self._Reserves =
+      self._data.reserves?.map((x) => new Reserve(x, self._data.tags, self._manifest.name)) || [];
   }
 
   public Serialize(): IContentPack {

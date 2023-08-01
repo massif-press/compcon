@@ -6,6 +6,7 @@ import {
   MechWeapon,
   MechSystem,
   CompendiumItem,
+  ItemType,
 } from '@/class';
 import { reserves } from '@massif/lancer-data';
 import { IActionData, Action } from '@/classes/Action';
@@ -73,8 +74,10 @@ class Reserve extends CompendiumItem {
     this._integrated = data.integrated ? data.integrated : [];
     this._special_equipment = data.special_equipment || [];
     this._used = false;
+
     this.LcpName = packName || 'LANCER Core Book';
     this.InLcp = packName ? true : false;
+    this.ItemType = ItemType.Reserve;
   }
 
   protected save(): void {

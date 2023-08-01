@@ -1,27 +1,23 @@
 <template>
-  <new-compendium-browser
-    :items="skills"
-    item-type="Skill"
-    :table-headers="headers"
-    :options="options"
-  >
+  <compendium-browser :items="skills" item-type="Skill" :table-headers="headers" :options="options">
     <template #header>
       <div class="heading h3 text-center text-primary">Pilot Skill Triggers</div></template
     >
-  </new-compendium-browser>
+  </compendium-browser>
 </template>
 
 <script lang="ts">
 import { Skill } from '@/class';
-import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
+import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'skills',
-  components: { NewCompendiumBrowser },
+  components: { CompendiumBrowser },
   data: () => ({
     headers: [
+      { title: 'Content Pack', key: 'LcpName' },
       { title: 'Source', key: 'Source' },
       { title: 'Name', key: 'Name' },
     ],

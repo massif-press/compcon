@@ -1,5 +1,5 @@
 <template>
-  <new-compendium-browser
+  <compendium-browser
     :items="bonuses"
     :itemType="'CoreBonus'"
     :table-headers="headers"
@@ -8,19 +8,20 @@
     <template #header>
       <div class="heading h3 text-center text-primary">Core Bonuses</div></template
     >
-  </new-compendium-browser>
+  </compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
 import { CoreBonus } from '@/class';
-import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
+import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
 export default {
   name: 'CoreBonuses',
-  components: { NewCompendiumBrowser },
+  components: { CompendiumBrowser },
   data: () => ({
     headers: [
+      { title: 'Content Pack', key: 'LcpName' },
       { title: 'Source', key: 'Source' },
       { title: 'Name', key: 'Name' },
     ],

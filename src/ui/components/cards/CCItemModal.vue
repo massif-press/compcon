@@ -33,8 +33,6 @@
         </v-btn>
       </template>
 
-      {{ item.Color }}
-
       <cc-item-card :item="item" />
     </cc-dialog>
   </div>

@@ -3,7 +3,7 @@
     <cc-tooltip :title="`${d.Value} ${typeOverride || d.Type} Damage`" :content="Help(d)">
       <span v-if="small">
         <v-icon :color="damageColor(d)" :icon="damageIcon(d)" />
-        <v-icon v-if="d.Override" icon="mdi-information-outline" />
+        <v-icon v-if="d.Override" icon="mdi-information-outline" color="text" />
         <b v-else v-text="`${added ? '+' : ''}${d.Value}`" />
       </span>
       <v-row v-else align="center" no-gutters>
@@ -15,7 +15,7 @@
         </v-col>
       </v-row>
     </cc-tooltip>
-    <div v-if="!small" class="text-overline mt-n2">
+    <div v-if="!small" class="text-overline mt-n2 text-text">
       <b>{{ typeOverride ? typeOverride : d.Type }}</b>
     </div>
   </div>

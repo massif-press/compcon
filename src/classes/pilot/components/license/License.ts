@@ -6,6 +6,7 @@ import { Pilot } from '../../Pilot';
 import { LicensedItem } from './LicensedItem';
 
 class License {
+  public readonly ID: string;
   public readonly Name: string;
   public readonly Source: string;
   public readonly FrameID: string;
@@ -18,23 +19,25 @@ class License {
     cumulative?: boolean;
   };
   public readonly Hidden: boolean = false;
+  public readonly LcpName: string;
+  public readonly InLcp: boolean;
+  public readonly ItemType: string = 'License';
 
   public constructor(frame: Frame, variants?: Frame[]) {
     this.Name = frame.Name;
     this.Source = frame.Source;
     this.FrameID = frame.ID;
+    this.ID = `${frame.ID}_License`;
     this.Brew = frame.Brew || 'Core';
+    this.LcpName = frame.LcpName || 'LANCER Core Book';
+    this.InLcp = frame.InLcp;
 
-    function licenseMatch(
-      licenseItem: LicensedItem,
-      licenseFrame: Frame
-    ): boolean {
+    function licenseMatch(licenseItem: LicensedItem, licenseFrame: Frame): boolean {
       if (!!licenseItem.LicenseID) {
         return licenseItem.LicenseID === licenseFrame.ID;
       } else {
         return (
-          licenseItem.License.toUpperCase() ===
-            licenseFrame.Name.toUpperCase() &&
+          licenseItem.License.toUpperCase() === licenseFrame.Name.toUpperCase() &&
           licenseItem.Source.toUpperCase() === licenseFrame.Source.toUpperCase()
         );
       }
@@ -61,8 +64,7 @@ class License {
       this.Prerequisite = frame.Specialty;
     }
 
-    if (frame.LicenseLevel && !this.Specialty)
-      this.Unlocks[frame.LicenseLevel - 1].unshift(frame);
+    if (frame.LicenseLevel && !this.Specialty) this.Unlocks[frame.LicenseLevel - 1].unshift(frame);
 
     if (variants) {
       variants.forEach((v) => {
@@ -76,21 +78,24 @@ class License {
   public CanSelect(pilot: Pilot): boolean {
     if (!pilot.LicenseController.IsMissingLicenses) return false;
     if (!this.Specialty || !this.Prerequisite) return true;
+
     if (this.Prerequisite.cumulative) {
       const rankTotal = pilot.LicenseController.Licenses.filter(
-        (x) => x.License.Source === this.Prerequisite.source && x.Rank
+        (x) => x.License.Source === this.Prerequisite?.source && x.Rank
       ).reduce((a, b) => +a + +b.Rank, 0);
       return rankTotal >= this.Prerequisite.min_rank;
     }
     return pilot.LicenseController.Licenses.some(
-      (x) =>
-        x.License.Source === this.Prerequisite.source &&
-        x.Rank >= this.Prerequisite.min_rank
+      (x) => x.License.Source === this.Prerequisite?.source && x.Rank >= this.Prerequisite.min_rank
     );
   }
 
   public get Manufacturer(): Manufacturer {
     return CompendiumStore().referenceByID('Manufacturers', this.Source);
+  }
+
+  public get Frame(): Frame {
+    return CompendiumStore().referenceByID('Frames', this.FrameID);
   }
 
   public get MaxRank(): number {
@@ -109,6 +114,10 @@ class License {
 
   public ToString(): string {
     return `${this.Source} ${this.Name}`;
+  }
+
+  public get Icon(): string {
+    return 'cc:license';
   }
 
   public static Deserialize(frameId: string): License {

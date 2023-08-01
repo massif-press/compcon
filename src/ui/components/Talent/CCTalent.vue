@@ -1,16 +1,18 @@
 <template>
-  <component
-    :is="type"
-    :selectable="selectable"
-    :rank="rank"
-    :can-add="canAdd"
-    :hide-locked="hideLocked"
-    :talent="talent"
-    @expand="expand = $event"
-    @clicked="$emit('clicked')"
-    @add="$emit('add')"
-    @remove="$emit('remove')"
-  />
+  <v-lazy>
+    <component
+      :is="type"
+      :selectable="selectable"
+      :rank="rank"
+      :can-add="canAdd"
+      :hide-locked="hideLocked"
+      :talent="talent"
+      @expand="expand = $event"
+      @clicked="$emit('clicked')"
+      @add="$emit('add')"
+      @remove="$emit('remove')"
+    />
+  </v-lazy>
 </template>
 
 <script lang="ts">

@@ -2,7 +2,7 @@
   <div v-for="r in (range as Range[])" class="text-center d-inline-block px-2">
     <cc-tooltip :title="r.Text" :content="Help(r.Type)">
       <span v-if="small">
-        <v-icon :icon="r.Icon" />
+        <v-icon :icon="r.Icon" color="text" />
         <v-icon v-if="r.Override" icon="mdi-information-outline" />
         <b v-else>
           {{ `${added ? '+' : ''}${r.Value}` }}
@@ -10,14 +10,14 @@
       </span>
       <v-row v-else align="center" no-gutters>
         <v-col cols="auto">
-          <v-icon :size="dense ? 25 : 35" :icon="r.Icon" />
+          <v-icon :size="dense ? 25 : 35" :icon="r.Icon" color="text" />
         </v-col>
         <v-col class="heading text-text" :style="`font-size: ${dense ? '20' : '24'}pt`">
           {{ `${added ? '+' : ''}${r.Value}` }}
         </v-col>
       </v-row>
     </cc-tooltip>
-    <div v-if="!small" class="text-overline mt-n2">
+    <div v-if="!small" class="text-overline mt-n2 text-text">
       <b>{{ r.Type }}</b>
     </div>
   </div>

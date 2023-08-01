@@ -40,6 +40,7 @@ const theme = {
 
     'action--downtime': '#37474F',
     'reserve--organization': '#455A64',
+    'reserve--bonus': '#455A64',
     'action--reaction': '#512DA8',
   },
 };

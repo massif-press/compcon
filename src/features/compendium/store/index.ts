@@ -31,6 +31,7 @@ import {
   ITagCompendiumData,
 } from '@/interface';
 import { FrameComparison } from '@/classes/mech/components/frame/Frame';
+import { Status } from '@/classes/Status';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -98,7 +99,7 @@ export const CompendiumStore = defineStore('compendium', {
     Tags: (state) => collect<Tag>(state, 'tags', Tag),
     TagData: (state) => collect<ITagCompendiumData>(state, 'tags'),
     Reserves: (state) => collect<Reserve>(state, 'reserves', Reserve),
-    Statuses: (state) => collect<Status>(state, 'statuses'),
+    Statuses: (state) => collect<Status>(state, 'statuses', Status),
     Environments: (state) => collect<Environment>(state, 'environments'),
     Sitreps: (state) => collect<Sitrep>(state, 'sitreps'),
     PilotGear: (state) =>

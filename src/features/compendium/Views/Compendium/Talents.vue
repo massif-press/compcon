@@ -1,5 +1,5 @@
 <template>
-  <new-compendium-browser
+  <compendium-browser
     :items="talents"
     item-type="Skill"
     :table-headers="headers"
@@ -8,20 +8,20 @@
     <template #header>
       <div class="heading h3 text-center text-primary">Pilot Talents</div></template
     >
-  </new-compendium-browser>
+  </compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
 import { Talent } from '@/class';
-import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
+import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
 export default {
   name: 'Talents',
-  components: { NewCompendiumBrowser },
+  components: { CompendiumBrowser },
   data: () => ({
     headers: [
-      { title: 'Source', key: 'Source' },
+      { title: 'Content Pack', key: 'LcpName' },
       { title: 'Name', key: 'Name' },
     ],
     options: {
