@@ -1,30 +1,21 @@
 <template>
-  <new-compendium-browser
-    :items="backgrounds"
-    item-type="Background"
-    :table-headers="headers"
-    :options="options"
-  >
+  <compendium-browser :items="backgrounds" item-type="Background" :options="options">
     <template #header>
       <div class="heading h3 text-center text-primary">Pilot Background</div></template
     >
-  </new-compendium-browser>
+  </compendium-browser>
 </template>
 
 <script lang="ts">
 import { Background } from '@/class';
-import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
+import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'backgrounds',
-  components: { NewCompendiumBrowser },
+  components: { CompendiumBrowser },
   data: () => ({
-    headers: [
-      { title: 'Source', key: 'Source' },
-      { title: 'Name', key: 'Name' },
-    ],
     options: {
       views: ['list', 'table'],
       initialView: 'list',

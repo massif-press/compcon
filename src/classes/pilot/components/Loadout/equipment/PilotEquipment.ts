@@ -170,6 +170,10 @@ abstract class PilotEquipment extends CompendiumItem {
     return this.max_use_override !== null ? this.max_use_override : this._max_uses + b;
   }
 
+  public get Type(): string {
+    return this.ItemType.replace(/([A-Z])/g, ' $1');
+  }
+
   public static Serialize(item: PilotEquipment): IEquipmentData | null {
     if (!item) return null;
     return {

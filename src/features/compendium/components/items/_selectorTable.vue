@@ -19,11 +19,42 @@
           <div v-else-if="h.key === 'Name'">
             <cc-item-modal small-btn hide-type :item="item.raw" />
           </div>
+          <div v-else-if="h.key === 'Icon'">
+            <v-icon :icon="item.raw.Icon" />
+          </div>
           <div v-else-if="h.key === 'Range'">
             <cc-range-element small :range="(item as any).raw.Range" />
           </div>
           <div v-else-if="h.key === 'Damage'">
             <cc-damage-element small :damage="(item as any).raw.Damage" />
+          </div>
+          <div v-else-if="h.key === 'MaxUses'">
+            <span v-if="item.raw.MaxUses" v-text="item.raw.MaxUses" />
+            <v-icon v-else size="x-small" color="subtle">mdi-infinity</v-icon>
+          </div>
+          <div v-else-if="h.key === 'T1'">
+            <cc-item-modal
+              v-for="e in (item.raw as License).Unlocks[0]"
+              small-btn
+              :item="e"
+              style="padding: 2px"
+            />
+          </div>
+          <div v-else-if="h.key === 'T2'">
+            <cc-item-modal
+              v-for="e in (item.raw as License).Unlocks[1]"
+              small-btn
+              :item="e"
+              style="padding: 2px"
+            />
+          </div>
+          <div v-else-if="h.key === 'T3'">
+            <cc-item-modal
+              v-for="e in (item.raw as License).Unlocks[2]"
+              small-btn
+              :item="e"
+              style="padding: 2px"
+            />
           </div>
           <div v-else>
             {{ item.raw[h.key] }}
@@ -33,33 +64,10 @@
     </template>
     <template #bottom />
   </v-data-table>
-  <!-- <thead>
-      <th v-for="h in (headers as any[])" class="text-left">{{ h.title }}</th>
-    </thead>
-    <tbody>
-      <tr
-        v-for="item in (items as CompendiumItem[])"
-        :id="item.ID"
-        :class="item.ID === (selected && (selected as any).ID) ? 'bg-primary' : ''"
-      >
-        <td v-for="h in (headers as any[])" class="text-left">
-          <cc-item-modal v-if="h.key === 'Name'" :item="item" />
-          <div v-else-if="h.key === 'Range'">
-            <cc-range-element small :range="(item as any).Range" />
-          </div>
-          <div v-else-if="h.key === 'Damage'">
-            <cc-damage-element small :damage="(item as any).Damage" />
-          </div>
-          <div v-else>
-            {{ item[h.key] }}
-          </div>
-        </td>
-      </tr>
-    </tbody> -->
 </template>
 
 <script lang="ts">
-import { CompendiumItem } from '@/class';
+import { License } from '@/class';
 
 export default {
   name: 'selector-table',

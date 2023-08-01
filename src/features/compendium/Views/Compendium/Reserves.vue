@@ -1,40 +1,39 @@
 <template>
-  <div>
-    <h1 class="heading mb-3 ml-5">RESERVES</h1>
-    <v-tabs v-model="tab" background-color="primary" slider-color="active" fixed-tabs>
-      <v-tab v-for="k in Object.keys(reserves)" ripple>
-        {{ k }}
-      </v-tab>
-    </v-tabs>
-    <v-window v-model="tab">
-      <v-window-item v-for="k in Object.keys(reserves)">
-        <v-container fluid>
-          <v-row justify="center">
-            <v-col v-for="reserve in reserves[k]" lg="4" md="6" sm="12">
-              <cc-reserve-card :item="reserve" />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-window-item>
-    </v-window>
-  </div>
+  <compendium-browser
+    :items="reserves"
+    item-type="Reserve"
+    :table-headers="headers"
+    :options="options"
+  >
+    <template #header> <div class="heading h3 text-center text-primary">Reserves</div></template>
+  </compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
+import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 import _ from 'lodash';
 
 export default {
   name: 'reserves',
+  components: { CompendiumBrowser },
   data: () => ({
-    tab: 0,
+    headers: [
+      { title: 'Content Pack', key: 'LcpName' },
+      { title: 'Name', key: 'Name' },
+      { title: 'Type', key: 'Type' },
+    ],
+    options: {
+      views: ['list', 'table'],
+      initialView: 'list',
+      groups: ['lcp', 'type'],
+      initialGroup: 'type',
+      noSource: true,
+    },
   }),
   computed: {
     reserves() {
-      return _.groupBy(
-        CompendiumStore().Reserves.filter((x) => x),
-        'Type'
-      );
+      return CompendiumStore().Reserves.filter((x) => !x.IsHidden);
     },
   },
 };

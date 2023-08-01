@@ -25,11 +25,7 @@ class Talent extends CompendiumItem {
   private _ranks: TalentRank[];
   private _icon_url: string;
 
-  public constructor(
-    data: any,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
+  public constructor(data: any, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName);
     this.Terse = data.terse || '';
     this._icon_url = data.icon_url || '';
@@ -46,13 +42,15 @@ class Talent extends CompendiumItem {
     return `/src/assets/img/talent/${this.Name.toUpperCase()}.svg`;
   }
 
+  public get Color(): string {
+    return 'accent';
+  }
+
   public Rank(rank: number): TalentRank {
     try {
       return this._ranks[rank - 1];
     } catch (err) {
-      console.error(
-        `Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`
-      );
+      console.error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`);
     }
   }
 

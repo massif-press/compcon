@@ -2,11 +2,7 @@
   <v-container fluid>
     <div
       class="font-weight-light text-center my-n4"
-      :style="
-        $vuetify.display.mdAndDown
-          ? 'letter-spacing: 1vw!important; font-size: 7vw!important;'
-          : 'letter-spacing: 2vw!important; font-size: 4vw!important;'
-      "
+      style="letter-spacing: 2vw !important; font-size: 3.6vw !important"
     >
       COMPENDIUM
     </div>
@@ -98,7 +94,7 @@
       />
       <compendium-page-button icon="mdi-tag" name="Equipment Tags" to="/srd/compendium/tags" />
     </v-row>
-    <cc-icon-divider icon="cc:campaign" />
+    <cc-icon-divider icon="cc:campaign" class="mb-n4" />
     <v-row>
       <compendium-page-button
         color="primary"

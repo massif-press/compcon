@@ -1,5 +1,5 @@
 <template>
-  <new-compendium-browser
+  <compendium-browser
     :items="systems"
     item-type="MechSystem"
     :table-headers="headers"
@@ -8,19 +8,19 @@
     <template #header>
       <div class="heading h3 text-center text-primary">Mech Systems</div></template
     >
-  </new-compendium-browser>
+  </compendium-browser>
 </template>
 
 <script lang="ts">
 import _ from 'lodash';
-import NewCompendiumBrowser from '../../components/NewCompendiumBrowser.vue';
+import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
 import { CompendiumStore, UserStore } from '@/stores';
 import { MechEquipment } from '@/class';
 
 export default {
   name: 'Systems',
-  components: { NewCompendiumBrowser },
+  components: { CompendiumBrowser },
   data: () => ({
     options: {
       views: ['single', 'table', 'cards'],

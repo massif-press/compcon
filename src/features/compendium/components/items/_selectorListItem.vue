@@ -7,30 +7,26 @@
     >
       {{ item.Name }}
     </div>
-    <cc-bond-info v-if="item.ItemType === 'Bond'" :bond="item" hide-title />
 
-    <v-card v-else-if="useVCard" variant="outlined" color="subtle" class="mx-4">
-      <v-card-text class="px-2 py-3">
+    <cc-bond-info v-if="item.ItemType === 'Bond'" :bond="item" />
+
+    <div v-else-if="useVCard" variant="outlined" color="subtle" class="mx-4">
+      <v-card-text class="px-2 pt-1 pb-3">
         <div v-html-safe="item.Description" class="body-text" />
       </v-card-text>
-    </v-card>
+    </div>
 
-    <v-card v-else-if="item.ItemType === 'Status'">
-      <div class="flavor-text text-white" v-text="item.type" />
-      <v-row align="center" class="pb-2 mt-n5">
+    <div v-else-if="item.ItemType === 'Status'" class="pb-2">
+      <v-row align="center">
         <v-col cols="auto">
-          <v-icon
-            v-if="item.icon"
-            size="80"
-            color="accent"
-            :icon="`cc:${item.typitem.toLowerCase()}_${item.icon
-              .replaceAll(/-|_/g, '')
-              .toLowerCase()}`"
-          />
-        </v-col>
-        <v-col><p v-html-safe="item.effects" class="mb-0 text-stark body-text" /></v-col>
+          <v-icon v-if="item.Icon" size="80" color="accent" :icon="item.Icon" /> </v-col
+        ><v-col>
+          <div class="flavor-text" v-text="item.StatusType" />
+          <v-divider class="my-1" />
+          <div v-html-safe="item.Effects" class="mb-0 text-stark body-text"
+        /></v-col>
       </v-row>
-    </v-card>
+    </div>
 
     <cc-talent v-else-if="item.ItemType === 'Talent'" :talent="item" />
 

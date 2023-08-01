@@ -1,77 +1,59 @@
 <template>
-  <v-container fluid>
-    <v-row class="mt-1 mb-n10">
-      <v-col cols="auto">
-        <h1 class="heading">PILOT EQUIPMENT</h1>
-      </v-col>
-      <v-col cols="auto">
-        <v-tabs v-model="tab" background-color="primary" slider-color="active">
-          <v-tab>ARMOR</v-tab>
-          <v-tab>WEAPONS</v-tab>
-          <v-tab>GEAR</v-tab>
-        </v-tabs>
-      </v-col>
-    </v-row>
-
-    <v-window v-model="tab" style="height: 90vh; y-overflow: auto">
-      <v-window-item :class="$vuetify.display.mdAndUp ? 'ml-4' : ''">
-        <compendium-browser no-filter :headers="armor_headers" :items="armor" />
-      </v-window-item>
-      <v-window-item :class="$vuetify.display.mdAndUp ? 'ml-4' : ''">
-        <compendium-browser no-filter :headers="weapon_headers" :items="weapons" />
-      </v-window-item>
-      <v-window-item :class="$vuetify.display.mdAndUp ? 'ml-4' : ''">
-        <compendium-browser no-filter :headers="gear_headers" :items="gear" />
-      </v-window-item>
-    </v-window>
-  </v-container>
+  <compendium-browser
+    :items="gear"
+    item-type="PilotGear"
+    :multi-headers="headers"
+    :options="options"
+  >
+    <template #header> <div class="heading h3 text-center text-primary">Pilot Gear</div></template>
+  </compendium-browser>
 </template>
 
 <script lang="ts">
 import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
-import { CompendiumStore, UserStore } from '@/stores';
-import { ItemType, PilotArmor, PilotGear } from '@/class';
-import { PilotWeapon } from '@/class';
+import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'PilotGear',
   components: { CompendiumBrowser },
   data: () => ({
-    tab: 0,
-    armor_headers: [
-      { title: 'Item', align: 'left', value: 'Name' },
-      { title: 'Armor', align: 'center', value: 'Armor' },
-      { title: 'HP Bonus', align: 'center', value: 'HPBonus' },
-      { title: 'E-Defense', align: 'center', value: 'EDefense' },
-      { title: 'Evasion', align: 'center', value: 'Evasion' },
-      { title: 'Speed', align: 'center', value: 'Speed' },
-    ],
-    weapon_headers: [
-      { title: 'Item', align: 'left', value: 'Name' },
-      { title: 'Range', align: 'left', value: 'Range[0].Max' },
-      { title: 'Damage', align: 'left', value: 'Damage[0].Max' },
-    ],
-    gear_headers: [
-      { title: 'Item', align: 'left', value: 'Name' },
-      { title: 'Uses', align: 'center', value: 'MaxUses' },
-    ],
+    headers: {
+      PilotArmor: [
+        { title: 'Content Pack', key: 'LcpName' },
+        { title: 'Type', key: 'Type' },
+        { title: 'Item', key: 'Name' },
+        { title: 'Armor', key: 'ArmorString' },
+        { title: 'HP Bonus', key: 'HpString' },
+        { title: 'E-Defense', key: 'EdefString' },
+        { title: 'Evasion', key: 'EvasionString' },
+        { title: 'Speed', key: 'SpeedString' },
+      ],
+      PilotWeapon: [
+        { title: 'Content Pack', key: 'LcpName' },
+        { title: 'Type', key: 'Type' },
+        { title: 'Item', key: 'Name' },
+        { title: 'Range', key: 'Range' },
+        { title: 'Damage', key: 'Damage' },
+      ],
+      PilotGear: [
+        { title: 'Content Pack', key: 'LcpName' },
+        { title: 'Type', key: 'Type' },
+        { title: 'Item', key: 'Name' },
+        { title: 'Uses', key: 'MaxUses' },
+      ],
+    },
+    options: {
+      views: ['list', 'table'],
+      initialView: 'list',
+      groups: ['lcp', 'type'],
+      initialGroup: 'type',
+      noSource: true,
+    },
   }),
   computed: {
-    armor(): PilotArmor[] {
-      return CompendiumStore().PilotGear.filter(
-        (x: any) => x.ItemType === ItemType.PilotArmor
-      ) as PilotArmor[];
-    },
-    weapons(): PilotWeapon[] {
-      return CompendiumStore().PilotGear.filter(
-        (x: any) => x.ItemType === ItemType.PilotWeapon
-      ) as PilotWeapon[];
-    },
-    gear(): PilotGear[] {
-      return CompendiumStore().PilotGear.filter(
-        (x: any) => x.ItemType === ItemType.PilotGear
-      ) as PilotGear[];
+    gear(): any[] {
+      return CompendiumStore().PilotGear.filter((x: any) => !x.IsHidden);
     },
   },
 };
