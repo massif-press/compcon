@@ -1,14 +1,14 @@
 <template>
   <div class="nav-body elevation-10">
     <div id="cap" />
-    <cc-nav-item v-if="actor.Activations > 0" @clicked="actor.Activations -= 1">
+    <cc-nav-item v-if="actor.CurrentActivations > 0" @clicked="actor.CurrentActivations -= 1">
       <cc-tooltip simple content="End Turn">
         <v-icon size="50" color="white" class="end-turn mt-n2 pl-n2">
           cci-activate
         </v-icon>
       </cc-tooltip>
     </cc-nav-item>
-    <div v-if="actor.Activations > 0" id="divider-2" />
+    <div v-if="actor.CurrentActivations > 0" id="divider-2" />
     <cc-nav-item @clicked="noteSheet = true">
       <cc-tooltip simple content="GM Notepad">
         <v-icon>mdi-note</v-icon>
