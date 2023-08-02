@@ -146,10 +146,10 @@ export default Vue.extend({
       return this.actors.find(x => x.ID === this.selectedActor)
     },
     initiative() {
-      return this.actors.filter(x => x.Activations > 0 && !x.Defeat)
+      return this.actors.filter(x => x.CurrentActivations > 0 && !x.Defeat)
     },
     finished() {
-      return this.actors.filter(x => x.Activations === 0 && !x.Defeat)
+      return this.actors.filter(x => x.CurrentActivations === 0 && !x.Defeat)
     },
     defeated() {
       return this.actors.filter(x => x.Defeat)
