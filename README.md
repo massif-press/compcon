@@ -15,7 +15,7 @@
   <!-- <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a> -->
   <a href="https://discord.gg/rwcpzsU"><img src="https://img.shields.io/badge/discord-%23compcon-7289DA?logo=discord&logoColor=white" alt="Join the LANCER discord"></a>
   <br>
-  <a href="https://patreon.com/compcon"><img src="https://img.shields.io/endpoint?style=for-the-badge&url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Fcompcon" alt="Support COMP/CON on Patreon"></a>
+  <a href="https://patreon.com/compcon"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.vercel.app%2Fapi%3Fusername%3Dcompcon%26type%3Dpatrons&style=for-the-badge" alt="Support COMP/CON on Patreon"></a>
 </p>
 
 ## Features

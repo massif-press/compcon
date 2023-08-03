@@ -41,7 +41,12 @@
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-if="pilot.CloudController.IsRemoteResource" :disabled="!isAuthed" :loading="loading" @click="remoteUpdate()">
+        <v-list-item
+          v-if="pilot.CloudController.IsRemoteResource"
+          :disabled="!isAuthed"
+          :loading="loading"
+          @click="remoteUpdate()"
+        >
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-cloud-sync</v-icon>
           </v-list-item-icon>
@@ -49,7 +54,7 @@
             <v-list-item-title>Download Latest Data</v-list-item-title>
             <v-list-item-subtitle>
               Download all remote changes to this pilot, overwriting local data.
-              <br/>
+              <br />
               <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
             </v-list-item-subtitle>
           </v-list-item-content>
@@ -62,22 +67,11 @@
             <v-list-item-title>Get Share Code</v-list-item-title>
             <v-list-item-subtitle>
               Generate a share code that other users can use to import and sync this character.
-              <br/>
+              <br />
               <b v-show="!isAuthed">Requires a COMP/CON cloud account.</b>
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-        <!-- <v-list-item @click="$refs.roll20Dialog.show()">
-          <v-list-item-icon class="ma-0 mr-2 mt-3">
-            <v-icon>mdi-dice-d20</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Convert to Roll20</v-list-item-title>
-            <v-list-item-subtitle>
-              Copy JSON data that can be interpreted by the Roll20 LANCER sheet
-            </v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item> -->
         <v-list-item @click="$refs.exportDialog.show()">
           <v-list-item-icon class="ma-0 mr-2 mt-3">
             <v-icon>mdi-export-variant</v-icon>
@@ -104,7 +98,6 @@
     <print-dialog ref="printDialog" :pilot="pilot" />
     <export-dialog ref="exportDialog" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" :pilot="pilot" />
-    <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="delete_pilot()" />
     <clone-dialog ref="cloneDialog" :pilot="pilot" />
     <cc-solo-dialog title="Share Code Management" ref="shareDialog" no-confirm>
@@ -118,7 +111,6 @@ import Vue from 'vue'
 
 import CloneDialog from './CloneDialog.vue'
 import StatblockDialog from './StatblockDialog.vue'
-import Roll20Dialog from './Roll20Dialog.vue'
 import ExportDialog from './ExportDialog.vue'
 import ShareDialog from './ShareDialog.vue'
 import PrintDialog from './PrintDialog.vue'
@@ -132,7 +124,6 @@ export default Vue.extend({
   name: 'edit-menu',
   components: {
     StatblockDialog,
-    Roll20Dialog,
     ExportDialog,
     PrintDialog,
     DeleteDialog,

@@ -234,23 +234,36 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
       : ([] as ILicenseRequirement[])
 
     if (this._frame.LicenseLevel === 0) {
-      const gmsIdx = requirements.findIndex(x => x.source === 'GMS')
-      if (gmsIdx > -1) requirements[gmsIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`)
+      const LL0Idx = requirements.findIndex(x => x.rank === 0)
+      if (LL0Idx > -1) requirements[LL0Idx].items.push(`${this.Frame.Name} Frame`)
       else requirements.push(this.Frame.RequiredLicense)
     } else {
-      const reqIdx = requirements.findIndex(x => x.name === `${this._frame.Name}` && x.rank === 2)
-      if (reqIdx > -1) requirements[reqIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`)
+      const reqIdx = requirements.findIndex(x => x.license_id === this.Frame.ID && x.rank === 2)
+      if (reqIdx > -1) requirements[reqIdx].items.push(`${this._frame.Name} Frame`)
       else requirements.push(this.Frame.RequiredLicense)
     }
 
     for (const l of requirements) {
-      if (l.source === 'GMS') continue
-      l.missing = !this._pilot.has('License', l.name, l.rank)
+      if (l.rank !== 0) l.missing = !this._pilot.has('License', l.license_id, l.rank)
     }
 
     return requirements.sort((a, b) => {
       return a.rank < b.rank ? -1 : a.rank > b.rank ? 1 : 0
     })
+  }
+
+  public HasCompatibleMods(): boolean {
+    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter(x => x.Mod != null)) {
+      if (
+        !w.Mod.AllowedTypes.includes(w.WeaponType) ||
+        !w.Mod.AllowedSizes.includes(w.Size) ||
+        w.Mod.RestrictedTypes.includes(w.WeaponType) ||
+        w.Mod.RestrictedSizes.includes(w.Size)
+      ) {
+        return false
+      }
+    }
+    return true
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -790,6 +803,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     if (this.FreeSP > 0) out.push('underSP')
     if (this.MechLoadoutController.ActiveLoadout.HasEmptyMounts) out.push('unfinished')
     if (this.RequiredLicenses.filter(x => x.missing).length) out.push('unlicensed')
+    if (!this.HasCompatibleMods()) out.push('incompatiblemod')
     return out
   }
 
@@ -970,7 +984,9 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
 
   public get AppliedBonuses(): CoreBonus[] {
     return _.flatten(
-      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(true, true).map(x => x.Bonuses)
+      this.MechLoadoutController.ActiveLoadout.AllEquippableMounts(true, true, true).map(
+        x => x.Bonuses
+      )
     )
   }
 

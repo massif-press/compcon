@@ -25,9 +25,14 @@ export default [
     detail: "{INC_DEC} the Pilot's total available CORE Bonus selections by {VAL}",
   },
   {
-    id: 'pilot_gear',
+    id: 'pilot_gear_slots',
     title: 'Pilot Gear Capacity',
     detail: "{INC_DEC} the Pilot's total available Pilot Gear capacity by {VAL}",
+  },
+    {
+    id: 'pilot_weapon_slots',
+    title: 'Pilot Weapon Capacity',
+    detail: "{INC_DEC} the Pilot's total available Pilot Weapon capacity by {VAL}",
   },
   {
     id: 'range',

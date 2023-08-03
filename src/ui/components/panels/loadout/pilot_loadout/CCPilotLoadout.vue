@@ -5,16 +5,17 @@
         :item="pilot.Loadout.Armor[0]"
         :readonly="readonly"
         :exotics="exotics('PilotArmor')"
+        :pilot="pilot"
         @equip="setArmor($event)"
         @remove="setArmor(null)"
         @save="pilot.SaveController.save()"
       />
-      <v-divider :vertical="$vuetify.breakpoint.mdAndUp" class="mx-4 my-1" />
       <pilot-weapon-card
         v-for="(w, i) in weapons"
         :key="`pgwi_${i}`"
         :item="w"
         :readonly="readonly"
+        :pilot="pilot"
         :exotics="exotics('PilotWeapon')"
         @equip="setWeapon($event, i)"
         @remove="setWeapon(null, i)"
@@ -26,6 +27,7 @@
         :item="w"
         :readonly="readonly"
         :extended="true"
+        :pilot="pilot"
         :exotics="exotics('PilotWeapon')"
         @equip="setWeapon($event, i, true)"
         @remove="setWeapon(null, i, true)"
@@ -39,6 +41,7 @@
         :item="g"
         :readonly="readonly"
         :exotics="exotics('PilotGear')"
+        :pilot="pilot"
         @equip="setGear($event, i)"
         @remove="setGear(null, i)"
         @save="pilot.SaveController.save()"
@@ -50,6 +53,7 @@
         :readonly="readonly"
         :extended="true"
         :exotics="exotics('PilotGear')"
+        :pilot="pilot"
         @equip="setGear($event, i, true)"
         @remove="setGear(null, i, true)"
         @save="pilot.SaveController.save()"
@@ -63,6 +67,7 @@ import Vue from 'vue'
 import PilotArmorCard from './_PLArmorCard.vue'
 import PilotWeaponCard from './_PLWeaponCard.vue'
 import PilotGearCard from './_PLGearCard.vue'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 import { PilotArmor, PilotWeapon, PilotGear } from '@/class'
 
 export default Vue.extend({
@@ -82,14 +87,16 @@ export default Vue.extend({
       return this.pilot.Loadout.Gear
     },
     extendedGear() {
-      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedGear
+      const extraGearSlots = Bonus.Int(0, 'pilot_gear_slots', this.pilot)
+      if (extraGearSlots > 0) return this.pilot.Loadout.redoExtendedGear(extraGearSlots)
       return []
     },
     weapons() {
       return this.pilot.Loadout.Weapons
     },
     extendedWeapons() {
-      if (this.pilot.has('reserve', 'extended_harness')) return this.pilot.Loadout.ExtendedWeapons
+      const extraWeaponSlots = Bonus.Int(0, 'pilot_weapon_slots', this.pilot)
+      if (extraWeaponSlots > 0) return this.pilot.Loadout.redoExtendedWeapons(extraWeaponSlots)
       return []
     },
   },

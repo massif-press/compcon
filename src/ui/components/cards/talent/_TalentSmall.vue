@@ -13,7 +13,7 @@
     >
       <template v-slot:activator="{ on }">
         <div style="position: relative" v-on="on">
-          <talent-emblem :url="talent.Image" :name="talent.Name" large />
+          <talent-emblem :url="item.Image" :name="item.Name" large />
           <div v-if="rank" class="triangle" />
           <div
             v-if="rank"
@@ -26,9 +26,9 @@
       </template>
       <v-card height="100%">
         <v-toolbar flat dense tile color="primary">
-          <span class="heading h3 white--text">{{ talent.Name }}</span>
+          <span class="heading h3 white--text">{{ item.Name }}</span>
           <v-spacer />
-          <span v-if="talent.InLcp" class="heading h3 white--text mr-3">{{ talent.LcpName }}</span>
+          <span v-if="item.InLcp" class="heading h3 white--text mr-3">{{ item.LcpName }}</span>
           <cc-tooltip v-if="hideLocked" :content="`${showAll ? 'Hide' : 'Show'} All`">
             <v-btn small icon class="fadeSelect" @click="showAll = !showAll">
               <v-icon small>mdi-eye</v-icon>
@@ -69,12 +69,12 @@
                   >
                     cci-rank-{{ n }}
                   </v-icon>
-                  {{ talent.Rank(n).Name }}
+                  {{ item.Rank(n).Name }}
                 </span>
               </v-toolbar>
               <v-card-text style="min-height: 100%">
                 <talent-rank-contents
-                  :talent-rank="talent.Rank(n)"
+                  :talent-rank="item.Rank(n)"
                   :unlocked="!rank || parseInt(rank) >= (selectable ? n - 1 : n)"
                 />
               </v-card-text>
@@ -89,7 +89,7 @@
                   @click="$emit('add')"
                 >
                   <v-icon left>mdi-lock-open</v-icon>
-                  Unlock {{ talent.Rank(n).Name }}
+                  Unlock {{ item.Rank(n).Name }}
                 </v-btn>
                 <v-btn v-else-if="n > parseInt(rank)" small disabled>
                   <v-icon left>mdi-lock</v-icon>
@@ -127,7 +127,7 @@ export default Vue.extend({
   components: { TalentRankContents, TalentEmblem },
   props: {
     hideLocked: { type: Boolean },
-    talent: { type: Object, required: true },
+    item: { type: Object, required: true },
     canAdd: { type: Boolean },
     selectable: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },

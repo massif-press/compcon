@@ -26,14 +26,14 @@ class CoreBonus extends CompendiumItem {
 
   public constructor(data?: ICoreBonusData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName)
-    this.Source = data.source
+    this.Source = data.source.toUpperCase()
     this.Effect = data.effect
     this.MountedEffect = data.mounted_effect || ''
     this.ItemType = ItemType.CoreBonus
   }
 
   public get Manufacturer(): Manufacturer {
-    return store.getters.referenceByID('Manufacturers', this.Source)
+    return store.getters.referenceByID('Manufacturers', this.Source.toUpperCase())
   }
 
   public get IsMountable(): boolean {

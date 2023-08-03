@@ -93,7 +93,7 @@ export default Vue.extend({
       )
     },
     lcps(): string[] {
-      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+      return getModule(CompendiumStore).lcpNames
     },
   },
   methods: {

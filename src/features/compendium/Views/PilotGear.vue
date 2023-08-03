@@ -39,11 +39,11 @@ import { PilotWeapon } from '@/class'
 export default class PilotGearBrowser extends Vue {
   public armor_headers = [
     { text: 'Item', align: 'left', value: 'Name' },
-    { text: 'Armor', align: 'center', value: 'Armor' },
-    { text: 'HP Bonus', align: 'center', value: 'HPBonus' },
-    { text: 'E-Defense', align: 'center', value: 'EDefense' },
-    { text: 'Evasion', align: 'center', value: 'Evasion' },
-    { text: 'Speed', align: 'center', value: 'Speed' },
+    { text: 'Armor', align: 'center', value: 'ArmorString' },
+    { text: 'HP Bonus', align: 'center', value: 'HpString' },
+    { text: 'E-Defense', align: 'center', value: 'EdefString' },
+    { text: 'Evasion', align: 'center', value: 'EvasionString' },
+    { text: 'Speed', align: 'center', value: 'SpeedString' },
   ]
   public weapon_headers = [
     { text: 'Item', align: 'left', value: 'Name' },

@@ -114,7 +114,11 @@ export default Vue.extend({
   }),
   computed: {
     quickstart() {
-      return !!getModule(UserStore, this.$store).UserProfile.GetView('quickstart')
+      const us = getModule(UserStore, this.$store)
+      if (!us.UserProfile.GetView || typeof us.UserProfile.GetView !== 'function') {
+        return false
+      }
+      return !!us?.UserProfile?.GetView('quickstart')
     },
   },
   watch: {

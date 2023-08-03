@@ -56,9 +56,7 @@
           <v-col>
             <p class="body-text text--text pa-2 mb-1">
               <span v-if="item.description" v-html-safe="item.description" />
-              <span v-else>
-                No description given.
-              </span>
+              <span v-else>No description given.</span>
             </p>
 
             <div v-if="item.website" class="mt-2">
@@ -82,6 +80,8 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
+const semverGte = require('semver/functions/gte')
+const semverCoerce = require('semver/functions/coerce')
 
 export default Vue.extend({
   name: 'content-pack-directory-table',
@@ -117,15 +117,20 @@ export default Vue.extend({
     },
   },
   methods: {
+    getPack(item) {
+      return this.contentPacks.find(
+        x =>
+          x.Name.toLowerCase() === item.name.toLowerCase() ||
+          x.Name.toLowerCase() === item.title.toLowerCase()
+      )
+    },
     packInstalled(item) {
-      return this.contentPacks.some(x => x.Name === item.name || x.Name === item.title)
+      return !!this.getPack(item)
     },
     packOutdated(item) {
-      const installedPack = this.contentPacks.find(
-        x => x.Name === item.name || x.Name === item.title
-      )
+      const installedPack = this.getPack(item)
       if (!installedPack) return true
-      return installedPack.Version !== item.version
+      return !semverGte(semverCoerce(installedPack.Version), semverCoerce(item.version))
     },
   },
 })

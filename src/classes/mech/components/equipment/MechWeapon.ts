@@ -43,6 +43,8 @@ interface IMechWeaponData extends IMechEquipmentData {
   range?: IRangeData[]
   profiles?: IWeaponProfileData[]
   selected_profile: number
+  mod_type_override?: WeaponType
+  mod_size_override?: WeaponSize
 }
 
 interface IWeaponProfileData {
@@ -100,7 +102,9 @@ class WeaponProfile extends CompendiumItem {
 
 class MechWeapon extends MechEquipment {
   public readonly Size: WeaponSize
+  public readonly ModSize: WeaponSize
   public readonly WeaponType: WeaponType
+  public readonly ModType: WeaponType
   public readonly Profiles: WeaponProfile[]
   public readonly Skirmish: boolean
   public readonly Barrage: boolean
@@ -113,7 +117,9 @@ class MechWeapon extends MechEquipment {
   public constructor(data: IMechWeaponData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName)
     this.Size = data.mount
+    this.ModSize = data.mod_size_override ? data.mod_size_override : data.mount
     this.WeaponType = data.type
+    this.ModType = data.mod_type_override ? data.mod_type_override : data.type
     this.Skirmish =
       data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy
     this.Barrage = data.barrage != undefined ? data.skirmish : true

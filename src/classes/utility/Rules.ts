@@ -1,4 +1,4 @@
-import { rules } from 'lancer-data'
+import { rules } from '@massif/lancer-data'
 
 export class Rules {
   public static get BaseStructure(): number {
@@ -82,7 +82,7 @@ export class Rules {
   }
 
   public static get MountFittings(): object {
-    return rules.mount_fittings
+    return { ...rules.mount_fittings, ...{ Superheavy: ['Superheavy'] } }
   }
 
   public static get Overcharge(): string[] {

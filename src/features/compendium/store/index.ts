@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import lancerData from 'lancer-data'
+import lancerData from '@massif/lancer-data'
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 import {
   License,
@@ -130,22 +130,23 @@ export class CompendiumStore extends VuexModule {
       .map((x: IBackgroundData) => new Background(x))
       .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Backgrounds))
   }
+
   public get Actions(): PlayerAction.Action[] {
     return lancerData.actions
       .map((x: PlayerAction.IActionData) => new PlayerAction.Action(x))
       .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Actions))
   }
 
-  public get Tags(): Tag[]{
+  public get Tags(): Tag[] {
     return lancerData.tags
-    .map((x: ITagCompendiumData) => new Tag(x))
-    .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Tags))
+      .map((x: ITagCompendiumData) => new Tag(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Tags))
   }
 
-  public get Reserves(): Reserve[]{
+  public get Reserves(): Reserve[] {
     return lancerData.reserves
-    .map((x: IReserveData) => new Reserve(x))
-    .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Reserves))
+      .map((x: IReserveData) => new Reserve(x))
+      .concat(this.ContentPacks.filter(pack => pack.Active).flatMap(pack => pack.Reserves))
   }
 
   public get Statuses(): Status[] {
@@ -182,10 +183,13 @@ export class CompendiumStore extends VuexModule {
       if (!!variantFrame.Variant && !!variantFrame.LicenseID) {
         return variantFrame.LicenseID === licenseFrame.ID
       } else {
-        return (variantFrame.Variant.toUpperCase() === licenseFrame.Name.toUpperCase()) && (variantFrame.Source.toUpperCase() === licenseFrame.Source.toUpperCase())
+        return (
+          variantFrame.Variant.toUpperCase() === licenseFrame.Name.toUpperCase() &&
+          variantFrame.Source.toUpperCase() === licenseFrame.Source.toUpperCase()
+        )
       }
     }
-    return this.Frames.filter(x => x.Source !== 'GMS' && !x.IsHidden).map(frame => {
+    return this.Frames.filter(x => x.LicenseLevel !== 0 && !x.IsHidden).map(frame => {
       const variants = this.Frames.filter(f => !f.IsHidden && variantLicenseMatch(f, frame))
       return new License(frame, variants)
     })
@@ -321,6 +325,12 @@ export class CompendiumStore extends VuexModule {
     return (itemType: string) => {
       return this[itemType].filter(x => x && !x.IsHidden)
     }
+  }
+
+  get lcpNames(): string[] {
+    let frame_packs = this.Frames.map(x => x.LcpName)
+    let lcp_packs = this.ContentPacks.map(x => x.Name)
+    return _.unionWith(frame_packs, lcp_packs, _.isEqual)
   }
 
   get getVersion(): string {

@@ -36,9 +36,6 @@ export default Vue.extend({
     disabled: {
       type: Boolean,
     },
-    overwatch: {
-      type: Boolean,
-    },
     color: {
       type: String,
       required: false,

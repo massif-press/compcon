@@ -32,6 +32,7 @@ enum MountType {
   MainAux = 'Main/Aux',
   Flex = 'Flex',
   Integrated = 'Integrated',
+  Superheavy = 'Superheavy',
 }
 
 // governs what can be added to a mount (weapon slot)
@@ -41,6 +42,7 @@ enum FittingSize {
   Flex = 'Flex',
   Heavy = 'Heavy',
   Integrated = 'Integrated',
+  Superheavy = 'Superheavy',
 }
 
 enum WeaponSize {
@@ -76,6 +78,7 @@ enum ItemType {
   WeaponMod = 'WeaponMod',
   SystemMod = 'SystemMod',
   NpcFeature = 'NpcFeature',
+  Reserve = 'Reserve',
 }
 
 enum SystemType {

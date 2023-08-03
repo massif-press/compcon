@@ -12,7 +12,7 @@
         <v-card max-width="500px">
           <v-card-title>LANCER Community Content Packs</v-card-title>
           <v-card-text>
-            <span v-if="communityPacks.length">
+            <span>
               COMP/CON is proud to collborate with the LANCER community in making these unofficial
               content packs available. They are offered as-is at the discretion of the author.
             </span>

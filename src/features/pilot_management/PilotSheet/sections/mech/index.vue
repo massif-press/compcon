@@ -1,6 +1,12 @@
 <template>
   <div :class="small ? 'mt-n3' : ''">
-    <mech-nav :selected="0" :pilot="pilot" :mech="mech" :mechID="mech.ID" @delete="$refs.deleteDialog.show()" />
+    <mech-nav
+      :selected="0"
+      :pilot="pilot"
+      :mech="mech"
+      :mechID="mech.ID"
+      @delete="$refs.deleteDialog.show()"
+    />
     <v-row no-gutters>
       <v-col cols="auto">
         <cc-short-string-editor large before @set="mech.Name = $event">
@@ -59,9 +65,7 @@
         <img
           :key="mech.Image"
           :src="mech.Portrait"
-          :style="`object-fit: contain; width: 100%; image-rendering: ${
-            isPixel ? 'pixelated' : 'crisp-edges'
-          };`"
+          :style="`object-fit: contain; width: 100%;`"
           position="top center"
         />
         <v-btn
@@ -99,9 +103,7 @@
             <img
               :key="mech.Image"
               :src="mech.Portrait"
-              :style="`object-fit: contain; width: 100%; image-rendering: ${
-                isPixel ? 'pixelated' : 'crisp-edges'
-              };`"
+              :style="`object-fit: contain; width: 100%;`"
               position="top center"
             />
             <v-btn
@@ -178,9 +180,6 @@ export default Vue.extend({
     },
     color() {
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.dark)
-    },
-    isPixel() {
-      return this.mech.LocalImage && this.mech.LocalImage.includes('_pixel')
     },
   },
   methods: {

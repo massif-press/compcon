@@ -68,7 +68,7 @@
               :src="f.DefaultImage"
               max-height="100%"
               :position="`top ${f.YPosition}% left 80px`"
-              style="position:absolute; top: 0; right: 0;"
+              style="position: absolute; top: 0; right: 0"
             />
           </v-expansion-panel-header>
         </v-expansion-panel>
@@ -134,13 +134,14 @@ export default Vue.extend({
       let i = this.frames as Frame[]
 
       if (!this.showAll)
-        i = i.filter(
-          x =>
+        i = i.filter(x => {
+          return (
             !x.IsExotic &&
-            (this.pilot.has('License', x.Name, 2) ||
-              this.pilot.has('License', x.Variant, 2) ||
+            (this.pilot.has('License', x.LicenseID, 2) ||
+              this.pilot.has('License', x.LicenseID, 2) ||
               !x.LicenseLevel)
-        )
+          )
+        })
 
       if (Object.keys(this.filters).length) {
         i = ItemFilter.Filter(i, this.filters) as Frame[]

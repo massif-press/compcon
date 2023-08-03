@@ -1,3 +1,4 @@
+import { store } from '@/store'
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer'
 import { LicensedItem } from '../../../../class'
 import { ILicensedItemData } from '../../../../interface'

@@ -8,6 +8,7 @@
         <cc-tooltip title="Available Mount Fittings" :content="`${mount.AvailableFittings}`">
           {{ mount.Name }}
           <span v-if="impArm">(IMPROVED ARMAMENT)</span>
+          <span v-if="superheavy">(SUPERHEAVY MOUNTING)</span>
         </cc-tooltip>
       </legend>
       <cb-mount-menu
@@ -66,6 +67,9 @@ export default Vue.extend({
       type: Boolean,
     },
     impArm: {
+      type: Boolean,
+    },
+    superheavy: {
       type: Boolean,
     },
     readonly: {

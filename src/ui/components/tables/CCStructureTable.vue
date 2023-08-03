@@ -285,7 +285,8 @@ export default class CCSidebarView extends Vue {
     return this.loadout
       .AllMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
-        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')
+        this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
+        this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       )
       .filter(x => x.Weapons.some(w => !w.Destroyed && !(w.IsLimited && w.Uses === 0)))
       .map((m, i) => ({ name: m.Name, index: i }))

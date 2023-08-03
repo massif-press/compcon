@@ -48,6 +48,7 @@
       multi-sort
       show-select
       single-select
+      :custom-sort="customSort"
     >
       <template v-slot:item.data-table-select="{ item }">
         <v-btn x-small fab color="primary" dark @click="$refs[`modal_${item.ID}`].show()">
@@ -139,6 +140,15 @@ export default class NpcClasses extends Vue {
   public get fItems(): NpcClass[] {
     if (this.search) return this.classes.filter(x => accentInclude(x.Name, this.search))
     return this.classes
+  }
+
+  private customSort(items, sortBy, sortDesc): NpcClass[] {
+    if (sortBy === null || !sortBy.length) return items;
+
+    return items.sort((a, b) => sortBy.map(val => val === "Evasion" ? "evade" : val.toLowerCase()).reduce((acc, val, idx) => {
+      if (acc || val === "structure" || val === "stress") return acc;
+      return ((val === "name" || val === "role") ? a[`_${val}`].localeCompare(b[`_${val}`]) : (a._stats._stats[val][this.tier-1] - b._stats._stats[val][this.tier-1])) * (sortDesc[idx] ? -1 : 1);
+    }, 0));
   }
 
   onResize(): void {

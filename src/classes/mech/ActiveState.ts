@@ -730,22 +730,22 @@ class ActiveState {
   public SetStructure(val: number) {
     this._stats.structure_damage += this.ActiveMech.CurrentStructure - val
     this.ActiveMech.CurrentStructure = val
-    const pct = (this.ActiveMech.CurrentStructure / this.ActiveMech.MaxStructure).toFixed(2)
+    const pct = Math.floor((this.ActiveMech.CurrentStructure / this.ActiveMech.MaxStructure) * 100)
     this.SetLog({
       id: `set_str`,
       event: 'STRUCTURE DAMAGE',
-      detail: `!CRITICAL! FRAME.STR::INTEGRITY COMPROMISED ++${pct}++`,
+      detail: `!CRITICAL! FRAME.STR::INTEGRITY COMPROMISED ++${pct}%++`,
     })
   }
 
   public SetStress(val: number) {
     this._stats.reactor_damage += this.ActiveMech.CurrentStress - val
     this.ActiveMech.CurrentStress = val
-    const pct = (this.ActiveMech.CurrentStress / this.ActiveMech.MaxStress).toFixed(2)
+    const pct = Math.floor((this.ActiveMech.CurrentStress / this.ActiveMech.MaxStress) * 100)
     this.SetLog({
       id: `set_stress`,
       event: 'REACTOR STRESS',
-      detail: `!CRITICAL! FRAME.REACTOR::INTEGRITY COMPROMISED ++${pct}++`,
+      detail: `!CRITICAL! FRAME.REACTOR::INTEGRITY COMPROMISED ++${pct}%++`,
     })
   }
 
@@ -760,42 +760,46 @@ class ActiveState {
   }
 
   public SetHp(val: number) {
-    this._stats.hp_damage += this.ActiveMech.CurrentHP - val
-    if (val > this.ActiveMech.CurrentHP) {
-      this.ActiveMech.CurrentHP = val
+    const dif = val - this.ActiveMech.CurrentHP
+    const str = this.ActiveMech.CurrentStructure
+    this.ActiveMech.CurrentHP = val
+    if (dif < 0) {
       this.SetLog({
         id: `rep_dmg`,
         event: 'REPAIR',
-        detail: `FRAME/REP.PROCESS:: ${val} HP RESTORED`,
+        detail: `FRAME/REP.PROCESS:: ${-dif} HP RESTORED`,
       })
     } else {
-      const str = this.ActiveMech.CurrentStructure
-      this.ActiveMech.CurrentHP = val
+      this._stats.hp_damage += dif
       this.SetLog({
         id: `add_dmg`,
         event: 'DAMAGE',
-        detail: `!WARN! INC:: ${val} HP DAMAGE`,
+        detail: `!WARN! INC:: ${dif} HP DAMAGE`,
       })
       if (this.ActiveMech.CurrentStructure < str) {
-        const pct = (this.ActiveMech.CurrentStructure / this.ActiveMech.MaxStructure).toFixed(2)
+        this._stats.reactor_damage += this.ActiveMech.CurrentStress - str
+        const pct = Math.floor(
+          (this.ActiveMech.CurrentStructure / this.ActiveMech.MaxStructure) * 100
+        )
         this.SetLog({
           id: `set_str`,
           event: 'STRUCTURE DAMAGE',
-          detail: `!CRITICAL! FRAME.STR::INTEGRITY COMPROMISED ++${pct}++`,
+          detail: `!CRITICAL! FRAME.STR::INTEGRITY COMPROMISED ++${pct}%++`,
         })
       }
     }
   }
 
   public SetHeat(val: number) {
-    this._stats.heat_damage += val
-    if (val < this.ActiveMech.CurrentHeat) {
-      const dz = this.ActiveMech.IsInDangerZone
-      this.ActiveMech.CurrentHeat = val
+    const dz = this.ActiveMech.IsInDangerZone
+    const dif = val - this.ActiveMech.CurrentHeat
+    const str = this.ActiveMech.CurrentStress
+    this.ActiveMech.CurrentHeat = val
+    if (dif < 0) {
       this.SetLog({
         id: `clear_heat`,
         event: 'CLEAR HEAT',
-        detail: `FRAME/REACTOR.VENT:: ${val} HEAT CLEARED`,
+        detail: `FRAME/REACTOR.VENT:: ${-dif} HEAT CLEARED`,
       })
       if (dz && !this.ActiveMech.IsInDangerZone) {
         this.SetLog({
@@ -805,12 +809,11 @@ class ActiveState {
         })
       }
     } else {
-      const str = this.ActiveMech.CurrentStress
-      this.ActiveMech.CurrentHeat = val
+      this._stats.heat_damage += dif
       this.SetLog({
         id: `add_heat`,
         event: 'HEAT',
-        detail: `!WARN! FRAME/REACTOR.HEAT_LVL:: ${val} HEAT`,
+        detail: `!WARN! FRAME/REACTOR.HEAT_LVL:: ${dif} HEAT`,
       })
       if (this.ActiveMech.IsInDangerZone) {
         this.SetLog({
@@ -820,11 +823,12 @@ class ActiveState {
         })
       }
       if (this.ActiveMech.CurrentStress < str) {
-        const pct = (this.ActiveMech.CurrentStress / this.ActiveMech.MaxStress).toFixed(2)
+        this._stats.reactor_damage += str - this.ActiveMech.CurrentStress
+        const pct = Math.floor((this.ActiveMech.CurrentStress / this.ActiveMech.MaxStress) * 100)
         this.SetLog({
           id: `set_stress`,
           event: 'REACTOR STRESS',
-          detail: `!CRITICAL! FRAME.REACTOR::INTEGRITY COMPROMISED ++${pct}++`,
+          detail: `!CRITICAL! FRAME.REACTOR::INTEGRITY COMPROMISED ++${pct}%++`,
         })
       }
     }
@@ -1185,8 +1189,6 @@ class ActiveState {
       if (this.ActiveMech.Destroyed) {
         return ['act_dismount']
       }
-
-      console.log(this.AllActions.map(x => x.Name))
 
       const out = this.AllActions.filter(x => x.IsMechAction && !x.IsActiveHidden).map(x => x.ID)
       if (!this.ActiveMech.IsShutDown) out.splice(out.indexOf('act_boot_up'), 1)
