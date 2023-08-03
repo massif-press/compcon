@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { glossary } from 'lancer-data'
+import { glossary } from '@massif/lancer-data'
 
 @Component({ name: 'cc-statblock-panel' })
 export default class CCStatblockPanel extends Vue {

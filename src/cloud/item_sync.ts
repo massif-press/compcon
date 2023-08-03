@@ -25,7 +25,6 @@ const ListCloudItems = async (): Promise<any> => {
   console.info(id)
   return Storage.list('', { level: 'protected' })
     .then(result => {
-      console.log(result)
       return result.filter(x => !x.key.includes('s3-remove-flag'))
     })
     .catch(err => console.error(err))

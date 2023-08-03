@@ -105,7 +105,6 @@ export default Vue.extend({
           throw error
         })
         .then(user => {
-          console.log(user)
           localStorage.removeItem('user.config')
           userstore.setCognitoUser(user)
         })
@@ -113,9 +112,9 @@ export default Vue.extend({
           userstore.setAws({ cognitoUser: userstore.CognitoUser })
         })
         .then(() => {
-          console.log(userstore.UserProfile.Theme)
           SetTheme(userstore.UserProfile.Theme, this.$vuetify)
-          this.$notify('Cloud Data Synchronized', 'success')
+          this.$notify('Login Complete', 'success')
+          // this.$notify('Cloud Data Synchronized', 'success')
           this.loading = false
           this.showError = false
         })
@@ -129,10 +128,9 @@ export default Vue.extend({
           this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`
         })
     },
-    emailValid(){
-      return this.email.indexOf('.') > -1 
-        && this.email.indexOf('@') > -1;
-    }
+    emailValid() {
+      return this.email.indexOf('.') > -1 && this.email.indexOf('@') > -1
+    },
   },
 })
 </script>

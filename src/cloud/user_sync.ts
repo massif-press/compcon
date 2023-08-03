@@ -1,7 +1,7 @@
 import * as Client from '@/user'
-import { API } from 'aws-amplify'
+import { API, Auth } from 'aws-amplify'
+import * as APIv2 from '../user/api'
 import { createUserData, updateUserData } from '@/graphql/mutations'
-import { syncUserData } from '@/graphql/queries'
 import _ from 'lodash'
 
 const PutNewUserData = async (
@@ -27,20 +27,22 @@ const PutNewUserData = async (
   return newUser
 }
 
-const GetUserData = async (user_id: string): Promise<any> => {
-  const res: any = await API.graphql({
-    query: syncUserData,
-    variables: { filter: { user_id: { eq: user_id } } },
+const GetUserData = async (): Promise<any> => {
+  const authedUser = await Auth.currentAuthenticatedUser({
+    bypassCache: true,
   })
+  const id = authedUser.username
 
-  return res.data.syncUserData.items[0]
+  const res = await APIv2.get(id)
+
+  return res.data
 }
 
 const GetCloudProfile = async (uid?: string): Promise<Client.UserProfile> => {
   const localUserData = Client.getLocalProfile()
   const user_id = uid || localUserData.UserID
 
-  const userData = await GetUserData(user_id)
+  const userData = await GetUserData()
 
   if (userData) {
     try {

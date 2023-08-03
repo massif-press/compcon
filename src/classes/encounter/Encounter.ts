@@ -4,10 +4,20 @@ import { EncounterStore, store } from '@/store'
 import { getImagePath, ImageTag } from '@/io/ImageManagement'
 import { IMissionStep } from './IMissionStep'
 import { ICloudSyncable } from '../components/cloud/ICloudSyncable'
-import { CloudController, ICloudData, ISaveData, SaveController } from '../components'
+import {
+  CloudController,
+  ICloudData,
+  IPortraitContainer,
+  IPortraitData,
+  ISaveData,
+  PortraitController,
+  SaveController,
+} from '../components'
 import { getModule } from 'vuex-module-decorators'
 
-class IEncounterData implements ICloudData, ISaveData {
+class IEncounterData implements ICloudData, ISaveData, IPortraitData {
+  portrait: string
+  cloud_portrait: string
   remoteIID: string
   remoteKey: string
   shareCodeExpiry: string
@@ -36,11 +46,13 @@ class IEncounterData implements ICloudData, ISaveData {
   local_map?: string
 }
 
-class Encounter implements IMissionStep, ICloudSyncable {
+class Encounter implements IMissionStep, ICloudSyncable, IPortraitContainer {
   public readonly ItemType: string = 'encounter'
   public readonly SyncIgnore: string[] = ['group', 'sortIndex', 'isLocal']
   public CloudController: CloudController
   public SaveController: SaveController
+  public PortraitController: PortraitController
+
   public IsLocallyOwned: boolean
   public LastSync: string
   public CloudID: string
@@ -60,13 +72,13 @@ class Encounter implements IMissionStep, ICloudSyncable {
   private _environment: string
   private _environment_details: string
   private _sitrep: Sitrep
-  private _cloud_map: string
-  private _local_map: string
+  public readonly ImageTag: ImageTag
 
   public constructor() {
     this._id = uuid()
     this.SaveController = new SaveController(this)
     this.CloudController = new CloudController(this)
+    this.PortraitController = new PortraitController(this)
     this._name = 'New Encounter'
     this._location = ''
     this._labels = []
@@ -75,12 +87,11 @@ class Encounter implements IMissionStep, ICloudSyncable {
     this._narrative_notes = ''
     this._environment = 'Nominal'
     this._environment_details = ''
-    this._cloud_map = ''
-    this._local_map = ''
     this._sitrep = store.getters.getItemCollection('Sitreps')[0]
     this._npcs = []
     this._reinforcements = []
     this.LastSync = new Date('1-1-1000').toJSON()
+    this.ImageTag = ImageTag.Map
   }
 
   public get ID(): string {
@@ -234,27 +245,30 @@ class Encounter implements IMissionStep, ICloudSyncable {
     }
   }
 
-  public SetCloudImage(src: string): void {
-    this._cloud_map = src
-    this.SaveController.save()
-  }
+  // public SetCloudImage(src: string): void {
+  //   this._cloud_map = src
+  //   this.SaveController.save()
+  // }
 
-  public get CloudImage(): string {
-    return this._cloud_map
-  }
+  // public get CloudImage(): string {
+  //   return this._cloud_map
+  // }
 
-  public SetLocalImage(src: string): void {
-    this._local_map = src
-    this.SaveController.save()
-  }
+  // public SetLocalImage(src: string): void {
+  //   this._local_map = src
+  //   this.SaveController.save()
+  // }
 
-  public get LocalImage(): string {
-    return this._local_map
+  // public get LocalImage(): string {
+  //   return this._local_map
+  // }
+
+  public get Portrait(): string {
+    return this.Map
   }
 
   public get Map(): string {
-    if (this._cloud_map) return this._cloud_map
-    else return getImagePath(ImageTag.Map, 'nodata.png')
+    return this.PortraitController.Portrait
   }
 
   public static Serialize(enc: Encounter): IEncounterData {
@@ -271,11 +285,10 @@ class Encounter implements IMissionStep, ICloudSyncable {
       environment: enc.Environment,
       environmentDetails: enc.EnvironmentDetails,
       sitrep: enc.Sitrep,
-      cloud_map: enc.CloudImage,
-      local_map: enc.LocalImage,
     }
     SaveController.Serialize(enc, data)
     CloudController.Serialize(enc, data)
+    PortraitController.Serialize(enc, data)
     return data as IEncounterData
   }
 
@@ -306,11 +319,10 @@ class Encounter implements IMissionStep, ICloudSyncable {
     this._narrative_notes = data.narrativeNotes
     this._environment = data.environment
     this._environment_details = data.environmentDetails
-    this._cloud_map = data.cloud_map
-    this._local_map = data.local_map
     this._sitrep = data.sitrep
     this._npcs = data.npcs
     this._reinforcements = data.reinforcements
+    if (data.cloud_map) this.PortraitController.SetCloudImage(data.cloud_map)
   }
 
   public static Deserialize(data: IEncounterData): Encounter {
@@ -319,6 +331,7 @@ class Encounter implements IMissionStep, ICloudSyncable {
       e.Update(data)
       SaveController.Deserialize(e, data)
       CloudController.Deserialize(e, data)
+      PortraitController.Deserialize(e, data)
       e.SaveController.SetLoaded()
       return e
     } catch (err) {

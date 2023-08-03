@@ -1,5 +1,6 @@
 import { mapValues } from 'lodash'
 import uuid from 'uuid/v4'
+import { store } from '@/store'
 
 import {
   Manufacturer,
@@ -48,7 +49,7 @@ import {
 import { Action } from './Action'
 import { Background, IBackgroundData } from './Background'
 import { Bond, IBondData } from './pilot/components/bond/Bond'
-import { IReserveData } from './pilot/components'
+import { IReserveData, ISkillData, Skill } from './pilot/components'
 
 export interface IContentPackManifest {
   name: string
@@ -71,6 +72,7 @@ interface IContentPackData {
   talents: ITalentData[]
   tags: ITagCompendiumData[]
   reserves: IReserveData[]
+  skills: ISkillData[]
 
   npcClasses: INpcClassData[]
   npcFeatures: INpcFeatureData[]
@@ -202,6 +204,11 @@ export class ContentPack {
     return this._Statuses
   }
 
+  private _Skills: Skill[] = []
+  public get Skills(): Skill[] {
+    return this._Skills
+  }
+
   private _Environments: Environment[] = []
   public get Environments(): Environment[] {
     return this._Environments
@@ -266,12 +273,16 @@ export class ContentPack {
       self._data.coreBonuses?.map(x => new CoreBonus(x, self._data.tags, self._manifest.name)) || []
     self._Frames =
       self._data.frames?.map(x => new Frame(x, self._data.tags, self._manifest.name)) || []
+    self.fillLicenseIds(self._Frames, self._Frames)
     self._MechWeapons =
       self._data.weapons?.map(x => new MechWeapon(x, self._data.tags, self._manifest.name)) || []
+    self.fillLicenseIds(self._MechWeapons, self._Frames)
     self._MechSystems =
       self._data.systems?.map(x => new MechSystem(x, self._data.tags, self._manifest.name)) || []
+    self.fillLicenseIds(self._MechSystems, self._Frames)
     self._WeaponMods =
       self._data.mods?.map(x => new WeaponMod(x, self._data.tags, self._manifest.name)) || []
+    self.fillLicenseIds(self._WeaponMods, self._Frames)
     self._PilotGear =
       self._data.pilotGear?.map(function (x) {
         if (x.type.toLowerCase() === 'weapon')
@@ -302,6 +313,8 @@ export class ContentPack {
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     )
 
+    self._Skills = self._data.skills?.map(x => new Skill(x)) || []
+
     self._Statuses = self._data.statuses || []
     self._Environments = self._data.environments || []
     self._Sitreps = self._data.sitreps || []
@@ -311,6 +324,23 @@ export class ContentPack {
     self._Bonds = self._data.bonds?.map(x => new Bond(x, self._manifest.name)) || []
 
     self._Reserves = self._data.reserves?.map(x => new Reserve(x, self._manifest.name)) || []
+  }
+
+  private fillLicenseIds(target, frames) {
+    if (!target.length || !frames.length) return
+
+    target.forEach(x => {
+      if (x.LicenseID) return
+      const lName = x.Variant || x.License
+      if (!lName) return
+      let frame = frames.find(f => f.Name.toUpperCase() === lName.toUpperCase())
+      if (!frame)
+        frame = store.getters
+          .getItemCollection('Frames')
+          .find(f => f.Name.toUpperCase().includes(lName.toUpperCase()))
+      if (!frame) return
+      x.SetLicenseID(frame.ID)
+    })
   }
 
   public Serialize(): IContentPack {

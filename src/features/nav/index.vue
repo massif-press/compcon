@@ -66,7 +66,11 @@
 
     <v-divider v-if="$vuetify.breakpoint.mdAndUp && isAuthed" vertical dark class="mx-2" />
 
-    <cc-tooltip v-if="$vuetify.breakpoint.mdAndUp && isAuthed" bottom content="Open cloud account menu">
+    <cc-tooltip
+      v-if="$vuetify.breakpoint.mdAndUp && isAuthed"
+      bottom
+      content="Open cloud account menu"
+    >
       <v-btn icon dark @click="$refs.cloudModal.show()">
         <v-icon>mdi-cloud-sync-outline</v-icon>
       </v-btn>
@@ -180,7 +184,7 @@ export default vueMixins(activePilot).extend({
     optionsDialog: false,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser()
+    // await Auth.currentAuthenticatedUser()
   },
   computed: {
     mode(): string {

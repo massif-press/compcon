@@ -18,6 +18,23 @@
     </v-col>
     <v-col cols="12" md="4">
       <v-select
+        v-model="licenseFilter"
+        class="px-2"
+        hide-details
+        dense
+        prepend-icon="cci-license"
+        outlined
+        label="From License"
+        :items="licenses"
+        multiple
+        chips
+        deletable-chips
+        small-chips
+        @change="updateFilters()"
+      />
+    </v-col>
+    <v-col cols="12" md="4">
+      <v-select
         v-model="tagFilter"
         dense
         hide-details
@@ -151,12 +168,45 @@
         </v-col>
       </v-row>
     </v-col>
+    <v-col cols="12" md="4" class="text-center">
+      <v-icon>cci-license</v-icon>
+      <span class="text-button">License Level</span>
+      <v-btn-toggle v-model="licenseLevelType" color="accent" class="ml-1 py-1" @change="updateFilters()">
+        <v-btn value="less" small text>Less Than</v-btn>
+        <v-btn value="eq" small text>Equal To</v-btn>
+        <v-btn value="greater" small text>Greater Than</v-btn>
+      </v-btn-toggle>
+      <v-row no-gutters justify="center">
+        <v-col cols="auto">
+          <v-text-field
+            v-model="licenseLevel"
+            type="number"
+            outlined
+            style="width: 150px;"
+            dense
+            hide-details
+            class="hide-input-spinners"
+            prepend-icon="mdi-minus"
+            append-outer-icon="mdi-plus"
+            @click:prepend="
+              licenseLevel > 0 ? licenseLevel-- : licenseLevel
+              updateFilters()
+            "
+            @click:append-outer="
+              licenseLevel++
+              updateFilters()
+            "
+            @change="updateFilters()"
+          />
+        </v-col>
+      </v-row>
+    </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import { Tag, WeaponType, WeaponSize, RangeType, DamageType, Manufacturer } from '@/class'
+import { Tag, WeaponType, WeaponSize, RangeType, DamageType, Manufacturer, License } from '@/class'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 
@@ -170,6 +220,7 @@ export default Vue.extend({
   name: 'frame-filter',
   data: () => ({
     sourceFilter: [],
+    licenseFilter: [],
     tagFilter: [],
     weaponTypeFilter: [],
     weaponSizeFilter: [],
@@ -178,12 +229,20 @@ export default Vue.extend({
     sp: '',
     spType: '',
     lcpFilter: [],
+    licenseLevel: '',
+    licenseLevelType: '',
   }),
   computed: {
     manufacturers(): Manufacturer[] {
       return this.$store.getters
         .getItemCollection('Manufacturers')
         .map(x => ({ text: x.Name, value: x.ID }))
+        .sort(nameSort)
+    },
+    licenses(): License[] {
+      return this.$store.getters
+        .getItemCollection('Licenses')
+        .map(x => ({ text: x.Name.toUpperCase(), value: x.ID }))
         .sort(nameSort)
     },
     weaponTypes(): WeaponType[] {
@@ -219,12 +278,13 @@ export default Vue.extend({
       )
     },
     lcps(): string[] {
-      return getModule(CompendiumStore).Frames.map(x => x.LcpName)
+      return getModule(CompendiumStore).lcpNames
     },
   },
   methods: {
     clear() {
       this.sourceFilter = []
+      this.licenseFilter = []
       this.tagFilter = []
       this.weaponTypeFilter = []
       this.weaponSizeFilter = []
@@ -233,12 +293,16 @@ export default Vue.extend({
       this.sp = ''
       this.spType = ''
       this.lcpFilter = []
+      this.licenseLevel = ''
+      this.licenseLevelType = ''
     },
     updateFilters() {
       const fObj = {} as any
       if (this.lcpFilter && this.lcpFilter.length) fObj.LcpName = [this.lcpFilter]
-      if (this.spType && parseInt(this.sp) !== NaN) fObj[`SP_${this.spType}`] = parseInt(this.sp)
+      if (this.spType && !isNaN(parseInt(this.sp))) fObj[`SP_${this.spType}`] = parseInt(this.sp)
+      if (this.licenseLevelType && !isNaN(parseInt(this.licenseLevel))) fObj[`LL_${this.licenseLevelType}`] = parseInt(this.licenseLevel)
       if (this.sourceFilter && this.sourceFilter.length) fObj.Source = [this.sourceFilter]
+      if (this.licenseFilter && this.licenseFilter.length) fObj.License = [this.licenseFilter]
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter
       if (this.weaponTypeFilter && this.weaponTypeFilter.length)
         fObj.WeaponType = [this.weaponTypeFilter]

@@ -151,7 +151,14 @@
           <span slot="label">Enable quick pilot creation and level-up</span>
         </v-switch>
         <h3 class="heading accent--text mt-2">Theme</h3>
-        <v-select v-model="theme" dense outlined :items="themes" item-text="name" />
+        <v-select
+          v-model="theme"
+          dense
+          outlined
+          :items="themes"
+          item-text="name"
+          @change="updateUserTheme"
+        />
       </v-col>
     </v-row>
 
@@ -274,6 +281,9 @@ export default Vue.extend({
     async deleteAll() {
       await clearAllData(false)
       this.deleteDialog = false
+    },
+    async updateUserTheme() {
+      this.$store.dispatch('updateUserData')
     },
   },
 })

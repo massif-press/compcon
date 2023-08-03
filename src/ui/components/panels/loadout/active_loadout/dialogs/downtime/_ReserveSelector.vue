@@ -32,8 +32,8 @@
           <div
             v-if="
               type !== 'Mech' &&
-                reserve !== 'reserve_extendedharness' &&
-                reserve !== 'reserve_bombardment'
+              reserve !== 'reserve_extendedharness' &&
+              reserve !== 'reserve_bombardment'
             "
           >
             <v-text-field
@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { reserves } from 'lancer-data'
+import { reserves } from '@massif/lancer-data'
 
 export default Vue.extend({
   name: 'reserve-selector',

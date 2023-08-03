@@ -11,31 +11,31 @@
           <cc-tooltip simple inline content="Armor Bonus">
             <v-icon>mdi-shield-outline</v-icon>
           </cc-tooltip>
-          <span class="stat-text">{{ item.Armor }}</span>
+          <span class="stat-text">{{ item.ArmorString }}</span>
         </v-col>
         <v-col v-if="item.HPBonus" cols="auto">
           <cc-tooltip simple inline content="HP Bonus">
             <v-icon>mdi-heart</v-icon>
           </cc-tooltip>
-          <span class="stat-text">+{{ item.HPBonus }}</span>
+          <span class="stat-text">+{{ item.HpString }}</span>
         </v-col>
         <v-col v-if="item.EDefense" cols="auto">
           <cc-tooltip simple inline content="Electronic Defense">
             <v-icon>cci-edef</v-icon>
           </cc-tooltip>
-          <span class="stat-text">{{ item.EDefense }}</span>
+          <span class="stat-text">{{ item.EDefString }}</span>
         </v-col>
         <v-col v-if="item.Evasion" cols="auto">
           <cc-tooltip simple inline content="Evasion">
             <v-icon>cci-evasion</v-icon>
           </cc-tooltip>
-          <span class="stat-text">{{ item.Evasion }}</span>
+          <span class="stat-text">{{ item.EvasionString }}</span>
         </v-col>
         <v-col v-if="item.Speed" cols="auto">
           <cc-tooltip simple inline content="Speed">
             <v-icon>$vuetify.icons.move</v-icon>
           </cc-tooltip>
-          <span class="stat-text">{{ item.Speed }}</span>
+          <span class="stat-text">{{ item.SpeedString }}</span>
         </v-col>
       </v-row>
       <p

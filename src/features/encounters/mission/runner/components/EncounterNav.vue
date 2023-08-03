@@ -57,6 +57,14 @@
               <v-list-item-title>Full Repair</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item v-if="actor.Tier" @click="setStatBlock(actor)">
+            <v-list-item-icon class="ma-0 mr-2 mt-2">
+              <v-icon>mdi-file-document-outline</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Generate NPC Statblock</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
           <v-divider />
           <v-list-item @click="deleteDialog = true">
             <v-list-item-icon class="ma-0 mr-2 mt-2">
@@ -92,6 +100,17 @@
           <v-btn block large tile color="success darken-1" @click="repair()">
             Confirm Full Repair
           </v-btn>
+        </cc-titled-panel>
+      </v-dialog>
+      <v-dialog v-model="statBlockDialog" width="50%" @click:outside="close()">
+        <cc-titled-panel title="NPC Statblock">
+          <v-textarea v-if="statBlockNpc" :value="statBlock()" auto-grow readonly outlined filled class="flavor-text"/>
+          <cc-tooltip simple inline content="Copy stat block to clipboard">
+            <v-btn class="mt-n4" color="accent" @click="copyStatBlock()">
+              <v-icon>mdi-clipboard-text-outline</v-icon>
+              Copy to Clipboard
+            </v-btn>
+          </cc-tooltip>
         </cc-titled-panel>
       </v-dialog>
       <v-dialog v-model="deleteDialog" width="50%">
@@ -137,6 +156,7 @@
 import Vue from 'vue'
 import InfoModal from './InfoModal.vue'
 import ReinforcementsModal from './ReinforcementsModal.vue'
+import { Npc, Statblock } from '@/class'
 
 export default Vue.extend({
   name: 'encounter-nav',
@@ -162,15 +182,30 @@ export default Vue.extend({
     reactionDialog: false,
     removeDialog: false,
     repairDialog: false,
+    statBlockDialog: false,
     deleteDialog: false,
     reinforcementDialog: false,
     noteSheet: false,
+    statBlockNpc: null,
   }),
   methods: {
     react() {
       this.actor.AddReaction(this.reaction)
       this.reaction = ''
       this.close()
+    },
+    statBlock() {
+      return Statblock.GenerateNPC(this.statBlockNpc)
+    },
+    copyStatBlock() {
+      navigator.clipboard
+        .writeText(this.statBlock())
+        .then(() => Vue.prototype.$notify('Stat block copied to clipboard.', 'confirmation'))
+        .catch(() => Vue.prototype.$notifyError('Unable to copy stat block'))
+    },
+    setStatBlock(npc: Object) {
+      this.statBlockNpc = npc
+      this.statBlockDialog = true
     },
     removeActor() {
       this.actor.Defeat = this.reason
@@ -189,6 +224,7 @@ export default Vue.extend({
       this.reactionDialog = false
       this.removeDialog = false
       this.repairDialog = false
+      this.statBlockDialog = false
       this.deleteDialog = false
     },
   },

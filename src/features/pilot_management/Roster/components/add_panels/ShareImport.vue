@@ -263,7 +263,7 @@ export default Vue.extend({
         this.$notify('Pilot successfully imported', 'success')
       } catch (error) {
         this.$notify(
-          'An error occured during the import attempt. Please check the console log.',
+          'An error occurred during the import attempt. Please check the console log.',
           'error'
         )
       }

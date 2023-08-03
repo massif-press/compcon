@@ -181,7 +181,7 @@ export default Vue.extend({
     loading: false,
   }),
   async mounted() {
-    await Auth.currentAuthenticatedUser()
+    // await Auth.currentAuthenticatedUser()
   },
   computed: {
     lastLoaded() {

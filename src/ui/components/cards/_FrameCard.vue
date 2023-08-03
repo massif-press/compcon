@@ -35,9 +35,9 @@
       </v-col>
       <v-col v-if="$vuetify.breakpoint.lgAndUp" cols="5">
         <v-img :src="item.DefaultImage" max-width="35vw" />
-        <cc-tooltip simple content="Feature In Development">
+        <!-- <cc-tooltip simple content="Feature In Development">
           <frame-gallery-modal :frame="item" />
-        </cc-tooltip>
+        </cc-tooltip> -->
       </v-col>
     </v-row>
 
@@ -71,7 +71,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { FrameGalleryModal, FrameStatblock, FrameCoreSystemPanel } from './frame'
-import { glossary } from 'lancer-data'
+import { glossary } from '@massif/lancer-data'
 
 export default Vue.extend({
   name: 'cc-frame-card',
@@ -89,17 +89,18 @@ export default Vue.extend({
 
     get_mount_tooltip(mount_type: string) {
       const mount_tooltips = {
-        "Heavy": "Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon",
-        "Main": "Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon",
-        "Aux/Aux": "Holds up to two <b>AUXILIARY</b> weapons",
-        "Aux": "Holds one <b>AUXILIARY</b> weapon",
-        "Main/Aux": "Holds one <b>MAIN</b> weapon and one <b>AUXILIARY</b> weapon, or two <b>AUXILIARY</b> weapons",
-        "Flex": "Holds either one <b>MAIN</b> weapon or up to two <b>AUXILIARY</b> weapons",
+        Heavy: 'Holds one <b>HEAVY</b>, <b>MAIN</b>, or <b>AUXILIARY</b> weapon',
+        Main: 'Holds one <b>MAIN</b> or <b>AUXILIARY</b> weapon',
+        'Aux/Aux': 'Holds up to two <b>AUXILIARY</b> weapons',
+        Aux: 'Holds one <b>AUXILIARY</b> weapon',
+        'Main/Aux':
+          'Holds one <b>MAIN</b> weapon and one <b>AUXILIARY</b> weapon, or two <b>AUXILIARY</b> weapons',
+        Flex: 'Holds either one <b>MAIN</b> weapon or up to two <b>AUXILIARY</b> weapons',
       }
       if (mount_type in mount_tooltips) {
         return mount_tooltips[mount_type]
       }
-      return "Error: Unknown Mount Type"
+      return 'Error: Unknown Mount Type'
     },
   },
 })

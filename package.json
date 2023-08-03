@@ -1,6 +1,6 @@
 {
   "name": "compcon",
-  "version": "2.3.11",
+  "version": "2.3.15",
   "description": "A digital toolkit for the LANCER TTRPG",
   "author": "Massif Press",
   "scripts": {
@@ -11,6 +11,7 @@
   "dependencies": {
     "@aws-amplify/datastore": "^2.9.3",
     "@aws-amplify/ui-vue": "^0.2.33",
+    "@massif/lancer-data": "^3.1.4",
     "@mdi/font": "^6.6.96",
     "aws-amplify": "^4.3.17",
     "aws-amplify-vue": "^2.1.5",
@@ -18,13 +19,13 @@
     "core-js": "^3.6.5",
     "external-svg-loader": "^1.4.0",
     "jszip": "^3.7.1",
-    "lancer-data": "^3.0.47",
     "lodash": "^4.17.21",
     "material-icons": "^0.3.1",
     "promisify-file-reader": "^4.1.0",
     "raw-loader": "^4.0.2",
     "register-service-worker": "^1.7.1",
     "sass-loader": "10.1.1",
+    "semver": "^7.5.1",
     "tiptap-vuetify": "^2.24.0",
     "typeit": "^6.0.3",
     "vue": "^2.6.11",
@@ -47,6 +48,7 @@
     "@vue/cli-plugin-typescript": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "@vue/runtime-dom": "^3.2.47",
     "prettier": "^2.2.1",
     "sass": "~1.32.0",
     "source-map-support": "^0.5.10",

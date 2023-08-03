@@ -114,7 +114,7 @@ import Selector from './components/_SelectorBase.vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore } from '@/store'
 import { Rules, Pilot } from '@/class'
-import { rules } from 'lancer-data'
+import { rules } from '@massif/lancer-data'
 
 export default Vue.extend({
   name: 'skill-selector',

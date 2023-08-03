@@ -39,7 +39,12 @@
               :key="item.Name"
               :class="`ml-n2 ${small ? 'white--text effect-text' : ''}`"
             >
-              {{ item.Name }}
+              <span v-if="$vuetify.breakpoint.mdAndDown">
+                {{ item.Name.length > 30 ? item.Name.substring(0, 20) + '…' : item.Name }}
+              </span>
+              <span v-else>
+                {{ item.Name }}
+              </span>
               <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
             </span>
             <span v-else :key="item.Name + '_dest'" class="py-1 error" style="letter-spacing: 3px">

@@ -25,7 +25,10 @@ class License {
       if (!!licenseItem.LicenseID) {
         return licenseItem.LicenseID === licenseFrame.ID
       } else {
-        return (licenseItem.License.toUpperCase() === licenseFrame.Name.toUpperCase()) && (licenseItem.Source.toUpperCase() === licenseFrame.Source.toUpperCase())
+        return (
+          licenseItem.License.toUpperCase() === licenseFrame.Name.toUpperCase() &&
+          licenseItem.Source.toUpperCase() === licenseFrame.Source.toUpperCase()
+        )
       }
     }
 
@@ -53,7 +56,7 @@ class License {
 
     if (frame.LicenseLevel && !this.Specialty) this.Unlocks[frame.LicenseLevel - 1].unshift(frame)
 
-    if (variants) {
+    if (variants && variants.length) {
       variants.forEach(v => {
         this.Unlocks[v.LicenseLevel - 1].push(v)
       })

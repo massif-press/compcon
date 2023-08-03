@@ -10,28 +10,34 @@
             align-md="start"
           >
             <v-col cols="auto">
-              <div
-                :class="`heading ${
-                  $vuetify.breakpoint.lgAndUp ? 'h1' : $vuetify.breakpoint.mdAndUp ? 'h1' : 'h3'
-                }`"
-                style="
-                  letter-spacing: 10px;
-                  overflow: hidden;
-                  white-space: nowrap;
-                  text-overflow: ellipsis;
-                "
-              >
-                {{ pilot.Callsign }}
-                <cc-tooltip
-                  inline
-                  v-if="pilot.CloudController.IsRemoteResource"
-                  bottom
-                  title="Remote Resource"
-                  :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.`"
-                >
-                  <v-icon dark class="mb-n2 ml-n5 fadeSelect">mdi-cloud-braces</v-icon>
-                </cc-tooltip>
-              </div>
+              <v-row dense align="center">
+                <v-col cols="auto">
+                  <div
+                    :class="`heading ${
+                      $vuetify.breakpoint.lgAndUp ? 'h1' : $vuetify.breakpoint.mdAndUp ? 'h1' : 'h3'
+                    }`"
+                    style="
+                      letter-spacing: 10px;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                    "
+                  >
+                    {{ pilot.Callsign }}
+                  </div>
+                </v-col>
+                <v-col cols="auto" class="ml-3">
+                  <cc-tooltip
+                    v-if="pilot.CloudController.IsRemoteResource"
+                    inline
+                    bottom
+                    title="Remote Resource"
+                    :content="`The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.`"
+                  >
+                    <v-icon dark class="mb-n2 ml-n5 fadeSelect">mdi-cloud-braces</v-icon>
+                  </cc-tooltip>
+                </v-col>
+              </v-row>
             </v-col>
             <v-col v-if="$vuetify.breakpoint.smAndDown" cols="auto" class="ml-auto">
               <cc-tooltip

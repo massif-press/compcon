@@ -101,7 +101,7 @@ export default Vue.extend({
     used: {
       immediate: true,
       deep: true,
-      handler: function(newval) {
+      handler: function (newval) {
         if (!this.$refs.main)
           Vue.nextTick().then(() => {
             if (!newval) this.$refs.main.init()

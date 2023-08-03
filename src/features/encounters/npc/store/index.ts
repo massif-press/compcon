@@ -24,6 +24,7 @@ async function saveNpcData(npcs: Npc[]) {
 
 async function delete_npc(npc: Npc) {
   console.log('deleting npc permanently: ', npc.Name)
+  if ((npc as any).id) await deleteDataById('npcs_v2.json', [(npc as any).id])
   await deleteDataById('npcs_v2.json', [npc.ID])
 }
 

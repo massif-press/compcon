@@ -1,7 +1,131 @@
 # COMP/CON Changelog
+
+## [2.3.17a] (2023-7-26)
+
+### Bug Fixes
+
+- **Pilot Sheet** Corrected a lancer-data dependency
+
+## [2.3.17] (2023-7-21)
+
+### Bug Fixes
+
+- **Active Mode** Fix Talent actions not correctly repopulating in Active Mode (thanks TheQuazman!) [#2246](https://github.com/massif-press/compcon/pull/2246)
+- **Active Mode** Fix feature usage for NPCs (thanks TheQuazman!) [#2250](https://github.com/massif-press/compcon/issues/2250)
+- **Active Mode** Fix integrated weapon getter for Barrage actions (thanks TheQuazman!) [#2254](https://github.com/massif-press/compcon/issues/2254)
+- **Statblock** Fix mech statblock integrated weapons (thanks TheQuazman!) [#2256](https://github.com/massif-press/compcon/issues/2256)
+- **General** Fix Mimic Gun in-table behavior (thanks Hawkzed!) [#2258](https://github.com/massif-press/compcon/issues/2258)
+- **Compendium** Add license level filtering (thanks TheQuazman!) [#2169](https://github.com/massif-press/compcon/issues/2169)
+- **Image Selector** Fix non-loading image preview for remote image URLs [#2280](https://github.com/massif-press/compcon/issues/2280)
+- **General** Fix FABI Mod name (and other long item names) breaking mobile view [#2252](https://github.com/massif-press/compcon/issues/2252)
+- **Pilot Sheet** Ensure pilot notes textbox auto-scaled [#2262](https://github.com/massif-press/compcon/issues/2262)
+
+### Features
+
+- **Active Mode** Adds "Return Fire" Reaction UI (thanks TheQuazman!) [#2261](https://github.com/massif-press/compcon/issues/2261)
+- **Encounter Runner** Adds NPC Statblock Generator (thanks TheQuazman!) [#2179](https://github.com/massif-press/compcon/issues/2179)
+- **Licenses** Allow for GMS items with License Levels in LCPs (thanks Melted-Gallium!) [#1747](https://github.com/massif-press/compcon/issues/1747)
+- **Licenses** Allow for gear slot extensions in LCP bonus data (thanks Melted-Gallium!) [#1747](https://github.com/massif-press/compcon/issues/1747)
+
+## [2.3.16] (2023-5-25)
+
+### Bug Fixes
+
+- **LCP Directory** Fix incorrect version comparison (thanks msprijatelj!) [#2235](https://github.com/massif-press/compcon/issues/2235)
+- **Pilot Sheet** Fix exposed code in pilot gear selector [#2234](https://github.com/massif-press/compcon/issues/2234)
+- **Encounter Builder** Fix a bug preventing map images from saving [#2245](https://github.com/massif-press/compcon/issues/2245) [#2182](https://github.com/massif-press/compcon/issues/2182) [#2069](https://github.com/massif-press/compcon/issues/2069)
+
+## [2.3.15a] (2023-5-18)
+
+### Bug Fixes
+
+- **Content Packs** Add missing LCP trigger importer
+
+## [2.3.15] (2023-5-18)
+
+### Features
+
+- **Global** Backported the v3 image management functions. Users with cloud accounts can now upload images to the cloud and use them in COMP/CON, limited to 250mb (for now) This feature is still in beta, so please report any issues you encounter! If not, or if you exceed the limit, a remote image can be used instead.
+
+### Bug Fixes
+
+- **Pilot Sheet** Fixed a -- hopefully final! -- bug where LCP custom and/or variant frames were not correctly loading in to the Select Frame menu
+- **Content Manager** Fixed a bug preventing C/C from recognizing Massif pack version numbers [#2235](https://github.com/massif-press/compcon/issues/2235)
+- **Compendium** Fixed a bug causing pilot gear to expose code in table and card views [#2234](https://github.com/massif-press/compcon/issues/2234)
+- **Mech Sheet** Fixed a bug related to Dustgrave's Superheavy Core Bonus that let users stack duplicate Core Bonuses [#2231](https://github.com/massif-press/compcon/issues/2231)
+- **Mech Sheet** Fixed a bug related to Dustgrave's Superheavy Core Bonus that would persist a mount lock if the Core Bonus was removed while the lock was still active [#2230](https://github.com/massif-press/compcon/issues/2230)
+
+## [2.3.14d] (2023-5-17)
+
+- **Pilot Sheet** Fourth time's the charm
+
+## [2.3.14c] (2023-5-16)
+
+- **Pilot Sheet** Hotfixed (another) issue where Licenses weren't being collected correctly for LCP content that didn't have license_ids
+
+## [2.3.14b] (2023-5-16)
+
+- **Pilot Sheet** Hotfixed an issue where Licenses weren't being collected correctly for LCP content
+
+## [2.3.14a] (2023-5-16)
+
+- **Global** Image management has been largely disabled while I work on backporting a v3 feature to improve reliability and performance as Imgur changes its policies. This will be re-enabled in a near future release.
+
+## [2.3.14] (2023-5-10)
+
+### Features
+
+- **Cloud Snyc** Backported a piece of the v3 cloud sync functionality to improve reliability and performance
+
+### Bug Fixes
+
+- **Cloud Sync** Fixed a bug that could prevent the correct user theme from being loaded
+- **Content Manager** Fixed a bug preventing deletion of uninitialized NPCs
+- **Mech Hangar** Fixed a case issue causing otherwise valid Core Bonuses to be ignored [#2235](https://github.com/massif-press/compcon/issues/2235)
+
+## [2.3.13a] (2023-5-3)
+
+### Bug Fixes
+
+- **NPC Roster** Fixed a bug preventing NPCs from correctly saving or loading in certain cases
+
+## [2.3.13] (2023-5-1)
+
+- **Pilot Roster/Mech Hangar** Added support for upcoming Dustgrave content
+- **Printables** Fixed pilot gear print output
+
+## [2.3.12a] (2023-4-25)
+
+### Bug Fixes
+
+- **Pilot Loadout** Hotfixed an issue related to Pilot Armor bonuses breaking Pilot loadouts [#2227](https://github.com/massif-press/compcon/issues/2227)
+- **Pilot Profile** Hotfixed an issue related to imported pilot callsigns getting unnecessarily truncated [#2223](https://github.com/massif-press/compcon/issues/2223)
+
+## [2.3.12] (2023-4-13)
+
+### Other
+
+Automatic cloud saving has been temporarily disabled while persistent issues are resolved
+
+### Bug Fixes
+
+- **NPC Roster** Fix NPC Class sorting (thanks NicholasBreazeale!) [#840](https://github.com/massif-press/compcon/issues/840)
+- **Active Mode** Fix combat log HP/Heat tracking (thanks TesserWract!) [#1994](https://github.com/massif-press/compcon/issues/1994) [#1995](https://github.com/massif-press/compcon/issues/1995)
+- **Compendium** Collect packnames from LCP directly (thanks msprijatelj!) [#2206](https://github.com/massif-press/compcon/issues/2206)
+- **Global** Ensure Synergies collect unique elements (thanks TesserWract!) [#1968](https://github.com/massif-press/compcon/issues/1968)
+- **Cloud** Improve cloud save functionality (thanks Hawkzed!) [#2124](https://github.com/massif-press/compcon/issues/2124)
+
+### Features
+
+- **Compendium** Significantly enhance Compendium search feature (thanks super-salad!)
+- **Compendium** Allow for unrestricted weapon mods when the unrestricted toggle is on (thanks Tidomann!) [#2180](https://github.com/massif-press/compcon/issues/2180)
+- **Mech Hangar** Allow weapons to specify an alternate type and size for mods [#2180](https://github.com/massif-press/compcon/issues/2180)
+- **Compendium** Allow Frames to be sorted by size [#2195](https://github.com/massif-press/compcon/issues/2195)
+
 ## [2.3.11] (2022-10-3)
 
 ### Bug Fixes
+
 - **Data** Various fixes and corrections (thanks lenaleciel, msprijatelj)
 - **Mech Hangar** Corrects buggy loadout saving (thanks msprijatelj!) [#2138](https://github.com/massif-press/compcon/issues/2138)
 - **Compendium** Updates Pilot Gear headers (thanks msprijatelj!) [#2141](https://github.com/massif-press/compcon/issues/2141)
@@ -13,12 +137,13 @@
 - **Mech Hangar** Add toggle for system reorder (thanks super-salad!) [#2095](https://github.com/massif-press/compcon/issues/2095)
 
 ### Features
-- **Statblock** Improve output capitalization (thanks msprijatelj!)
 
+- **Statblock** Improve output capitalization (thanks msprijatelj!)
 
 ## [2.3.10] (2022-8-11)
 
 ### Bug Fixes
+
 - **Sign In** require e-mail for verification code functions (thanks super-salad!) [#2061](https://github.com/massif-press/compcon/issues/2061)
 - **UI** Remove references to Roll20 (thanks msprijatelj!)
 - **Active Mode** Filter actions based on LCP Active status (thanks super-salad!) [#2025](https://github.com/massif-press/compcon/issues/2025) [#2076](https://github.com/massif-press/compcon/issues/2076)
@@ -28,13 +153,14 @@
 - **Pilot Mode** improve Bond saving reliability [#2055](https://github.com/massif-press/compcon/issues/2055)
 
 ### Features
+
 - **Mech Hangar** Add editable system order (thanks super-salad!) [#1828](https://github.com/massif-press/compcon/issues/1828)
 - **Mech Hangar** Add "redeploy" action to deployables (thanks msprijatelj!)
-
 
 ## [2.3.9] (2022-6-27)
 
 ### Bug Fixes
+
 - **Mech Sheet** Mechs should now correctly save changed equipment on reload/when logged out. Thanks to msprijatelj for the help! [#1989](https://github.com/massif-press/compcon/issues/1989)
 - **Active Mode** Correct a bug that was preventing all actions from being populated and not respecting their correct use state [#2005](https://github.com/massif-press/compcon/issues/2005) [#2037](https://github.com/massif-press/compcon/issues/2037)
 - **Help Menu** Update help menu options [#2001](https://github.com/massif-press/compcon/issues/2001)
@@ -43,11 +169,11 @@
 - **Pilot Sheet** Fixed failing import for Pilots with Bond data being imported into environments without the KTB LCP installed [#2007](https://github.com/massif-press/compcon/issues/2007)
 
 ### Features
+
 - **Global** Improved Keyboard accesibility ((thanks Qazzquimby! First PR! 🎉) [#1557](https://github.com/massif-press/compcon/issues/1557)
 - **Pilot Sheet** Revised Statblock Generator (thanks karidyas!) [#1887](https://github.com/massif-press/compcon/issues/1887)
 - **LCP Importer** Humanize Reserves/Factions (thanks msprijatelj!) [#1557](https://github.com/massif-press/compcon/issues/1557)
 - **Nav** Add Help Icon, FAQ links, style fixes (thanks msprijatelj!) [#2033](https://github.com/massif-press/compcon/issues/2033)
-
 
 ## [2.3.8] (2022-5-9)
 
@@ -71,8 +197,9 @@
 ### Features
 
 - **Mech Sheet** Better Tag display for multi-profile weapons [#1959](https://github.com/massif-press/compcon/issues/1959)
-- **Mech Hangar** AND logic for frame filtering  (thanks msprijatelj!) [#1966](https://github.com/massif-press/compcon/issues/1966)
-- 
+- **Mech Hangar** AND logic for frame filtering (thanks msprijatelj!) [#1966](https://github.com/massif-press/compcon/issues/1966)
+-
+
 ### Bug Fixes
 
 - **Active Mode** Fix reserve bonuses not being added correctly (thanks TranslucentSabre!) [#1819](https://github.com/massif-press/compcon/issues/1819)
@@ -125,8 +252,8 @@
 ### Bug Fixes
 
 - **Various** A handful of hotfixes to correct bugs.
-- **Mech Sheet** Corrected a bug that prevented most synergies from being displayed  [#1919](https://github.com/massif-press/compcon/issues/1919)
-- **Mech Sheet** Corrected a bug with the TalentController in Active Mode  [#1916](https://github.com/massif-press/compcon/issues/1916)
+- **Mech Sheet** Corrected a bug that prevented most synergies from being displayed [#1919](https://github.com/massif-press/compcon/issues/1919)
+- **Mech Sheet** Corrected a bug with the TalentController in Active Mode [#1916](https://github.com/massif-press/compcon/issues/1916)
 - **Pilot Roster** Corrected a bug that was preventing the Pilot Roster view from being changed [#1917](https://github.com/massif-press/compcon/issues/1917)
 
 ## [2.3.2] (2022-4-13)
@@ -138,7 +265,7 @@
 ### Bug Fixes
 
 - **Various** A handful of hotfixes to correct bugs.
-- **Mech Sheet** Corrected an error in the Bonus controller that was preventing some mechs from being saved  [#1910](https://github.com/massif-press/compcon/issues/1910)
+- **Mech Sheet** Corrected an error in the Bonus controller that was preventing some mechs from being saved [#1910](https://github.com/massif-press/compcon/issues/1910)
 
 ## [2.3.1] (2022-4-12)
 
@@ -185,6 +312,7 @@
 ## [2.2.37] (2022-2-21)
 
 ### Features
+
 - **LCP** Enable new LCP metadata hosting method
 - **LCP** Enable LCP Background import humanized info text (thanks, msprijatelj!)[#1858](https://github.com/massif-press/compcon/issues/1858)
 - **Compendium** Change tag search logic to AND (thanks, msprijatelj!)[#1860](https://github.com/massif-press/compcon/issues/1860)
