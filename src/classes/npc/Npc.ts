@@ -525,11 +525,6 @@ class Npc
     return this.Stats.Activations
   }
 
-  // public set Activations(val: number) {
-  //   this.Stats.Activations = val
-  //   this.SaveController.save()
-  // }
-
   public get CurrentActivations(): number{
     return this.CurrentStats.Activations;
   }
