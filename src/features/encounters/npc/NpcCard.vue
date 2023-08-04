@@ -223,10 +223,10 @@
           <v-row dense no-gutters>
             <editable-attribute
               attr="ACTIVATIONS"
-              :val="npc.Stats.CurrentActivations"
+              :val="npc.Stats.Activations"
               :color="npc.Class.Color"
               :editable="npc.IsCustomTier"
-              @set="npc.Stats.CurrentActivations = $event"
+              @set="npc.Stats.Activations = $event"
             />
             <size-attribute
               :stats="npc.Stats"
