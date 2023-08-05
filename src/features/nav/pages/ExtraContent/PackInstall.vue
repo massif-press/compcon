@@ -7,14 +7,16 @@
         variant="outlined"
         type="file"
         accept=".lcp"
-        prepend-inner-icon="mdi-package"
+        prepend-inner-icon="cc:content_manager"
         prepend-icon
+        clearable
+        @click:clear="reset()"
         @change="fileChange($event)"
       />
       <v-btn
         block
         type="flat"
-        :disabled="!contentPack || installing"
+        :disabled="!contentPack || installing || uninstalledDependencies.length > 0"
         :color="done ? 'success' : 'primary'"
         class="mb-2"
         @click="install"
@@ -38,13 +40,27 @@
       </v-btn>
       <p v-if="error" style="color: red">{{ error }}</p>
       <v-alert
-        :value="packAlreadyInstalled && !(installing || done)"
+        v-show="packAlreadyInstalled && !(installing || done)"
         type="info"
         class="transition-swing"
         transition="slide-y-reverse-transition"
       >
         A pack with this same name and author is already installed. It will be replaced by this
         copy.
+      </v-alert>
+      <v-alert
+        v-show="uninstalledDependencies.length > 0 && !(installing || done)"
+        type="error"
+        class="transition-swing"
+        transition="slide-y-reverse-transition"
+      >
+        This LCP requires the following content to be installed before it can be added:
+        <div v-for="dep in uninstalledDependencies" :key="dep.id" class="text-caption">
+          <v-chip size="small">{{ dep.name }}</v-chip> @ {{ parseVersion(dep.version) }}
+          <v-btn v-if="dep.link" icon variant="plain" size="x-small" @click="openLink(dep.link)"
+            ><v-icon>mdi-open-in-new</v-icon></v-btn
+          >
+        </div>
       </v-alert>
     </v-col>
     <v-divider vertical class="mx-3" />
@@ -97,8 +113,30 @@ export default {
     packAlreadyInstalled() {
       return !!this.contentPack && CompendiumStore().packAlreadyInstalled(this.contentPack.id);
     },
+    uninstalledDependencies() {
+      if (!this.contentPack) return [];
+      const pack = this.contentPack as any;
+      const deps = pack.manifest ? pack.manifest.dependencies : [];
+      if (!deps) return [];
+      return deps.filter((dep) => !CompendiumStore().packAlreadyInstalled(dep.name, dep.version));
+    },
   },
   methods: {
+    async reset() {
+      this.contentPack = null as unknown as IContentPack;
+      this.error = '';
+      this.value = null;
+      this.done = false;
+      await this.$nextTick();
+    },
+    openLink(link) {
+      window.open(link, '_blank');
+    },
+    parseVersion(version) {
+      if (version.includes('*')) return 'any version';
+      if (version.includes('=')) return version.replace('=', '');
+      return version + ' or later';
+    },
     fileChange(event) {
       const file = event.target.files[0];
       if (file) {

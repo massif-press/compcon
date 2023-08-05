@@ -21,6 +21,55 @@
             </v-chip>
           </div>
         </div>
+        <div class="pt-2">
+          <h4>
+            Dependencies
+            <v-tooltip location="top" max-width="300px"
+              ><template v-slot:activator="{ props }">
+                <v-icon
+                  v-bind="props"
+                  size="small"
+                  icon="mdi-information-outline"
+                  class="fade-select"
+              /></template>
+              Dependencies are other content packs that this pack requires to function properly.
+              They must be installed and activated for this pack to load correctly.
+            </v-tooltip>
+          </h4>
+          <i v-if="packDependencies.length === 0" class="pl-2">None</i>
+          <div v-else>
+            <v-card
+              v-for="item in packDependencies"
+              :variant="d(item).installed ? 'outlined' : 'tonal'"
+              :color="d(item).installed ? 'secondary' : 'error'"
+              size="small"
+              class="ma-1 pa-1"
+            >
+              <div class="font-weight-bold">
+                <v-icon
+                  :icon="d(item).installed ? 'mdi-check' : 'mdi-close'"
+                  :color="d(item).installed ? 'success' : 'error'"
+                  class="mr-1"
+                />{{ d(item).name }} @ {{ d(item).version }}
+              </div>
+              <div
+                class="text-caption px-2"
+                v-html="
+                  d(item).installed
+                    ? 'Dependency installed'
+                    : `${manifest.name} requires Lancer Content Pack <b>${
+                        d(item).name
+                      } at version ${d(item).version}</b> to be installed before it can be loaded.`
+                "
+              />
+              <div v-if="d(item).link" class="text-caption px-2 text-right">
+                <a :href="d(item).link" target="_blank" rel="noopener noreferrer"
+                  ><v-icon size="small" icon="mdi-download" />{{ d(item).name }}</a
+                >
+              </div>
+            </v-card>
+          </div>
+        </div>
       </v-col>
       <v-col cols="12" md="4">
         <v-img :src="manifest.image_url" max-height="300px" />
@@ -44,9 +93,10 @@
 
 <script lang="ts">
 import { ContentPack } from '@/class';
-import { IContentPack } from '@/interface';
+import { IContentPack, IContentPackManifest, ContentPackDependency } from '@/interface';
 import _ from 'lodash';
 import { PropType } from 'vue';
+import { CompendiumStore } from '@/stores';
 
 export default {
   props: {
@@ -100,6 +150,30 @@ export default {
           const [singular, plural]: [string, string] = pair;
           return { count, name: Number(count) > 1 ? plural : singular };
         });
+    },
+    packDependencies() {
+      const manifest = (
+        (this.pack as any).manifest
+          ? (this.pack as IContentPack).manifest
+          : (this.pack as ContentPack).Manifest
+      ) as IContentPackManifest;
+
+      return manifest.dependencies ? manifest.dependencies : [];
+    },
+  },
+  methods: {
+    parseVersion(version) {
+      if (version.includes('*')) return 'any version';
+      if (version.includes('=')) return version.replace('=', '');
+      return version + ' or later';
+    },
+    d(dep: ContentPackDependency) {
+      return {
+        name: dep.name,
+        version: this.parseVersion(dep.version),
+        link: dep.link,
+        installed: CompendiumStore().packAlreadyInstalled(dep.name, dep.version),
+      };
     },
   },
 };

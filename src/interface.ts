@@ -35,7 +35,7 @@ import {
   INpcTechData,
   INpcData,
 } from './classes/npc/interfaces';
-import { IContentPackManifest, IContentPack } from './classes/ContentPack';
+import { IContentPackManifest, IContentPack, ContentPackDependency } from './classes/ContentPack';
 import { ICounterData } from './classes/components/combat/counters/Counter';
 import { ITagCompendiumData } from './classes/Tag';
 import { PilotData } from './classes/pilot/Pilot';
@@ -197,6 +197,7 @@ export type {
   INpcItemSaveData,
   IContentPackManifest,
   IContentPack,
+  ContentPackDependency,
   ICounterData,
   ITagCompendiumData,
   IImageContainer,

@@ -50,7 +50,13 @@ import { Status, IStatusData } from './Status';
 import { Bond, IBondData } from './pilot/components/bond/Bond';
 import { IReserveData } from './pilot/components';
 
-export interface IContentPackManifest {
+type ContentPackDependency = {
+  name: string;
+  version: string;
+  link: string;
+};
+
+interface IContentPackManifest {
   name: string;
   item_prefix: string;
   author: string;
@@ -58,6 +64,7 @@ export interface IContentPackManifest {
   description?: string;
   website?: string;
   image_url?: string;
+  dependencies?: ContentPackDependency[];
 }
 
 interface IContentPackData {
@@ -88,21 +95,111 @@ interface IContentPackData {
   tables: any;
 }
 
-export interface IContentPack {
+interface IContentPack {
   id: string;
   active: boolean;
   manifest: IContentPackManifest;
   data: IContentPackData;
+  missing_content?: boolean;
 }
 
-export class ContentPack {
-  private _manifest: IContentPackManifest;
-  private _id: string;
+class ContentPack {
+  private _manifest!: IContentPackManifest;
+  private _id!: string;
+  private _active!: boolean;
+  private _missing!: boolean;
+  private _data!: IContentPackData;
+
+  private _dependencies!: ContentPackDependency[];
+
   public Key: string;
+
+  constructor(pack: IContentPack) {
+    this.Key = uuid();
+
+    const self = this;
+    const { id, manifest, data } = pack;
+
+    console.info(`Loading content pack: ${manifest.name}`);
+
+    self._missing = pack.missing_content || false;
+    self._active = !self._missing;
+    self._manifest = manifest;
+
+    if (manifest.dependencies) self._dependencies = manifest.dependencies;
+    else self._dependencies = [];
+
+    self._data = data;
+    Object.keys(self._data).forEach((key) => self._data[key].forEach((item) => (item.brew = id)));
+    self._id = id;
+
+    self._Tags = self._data.tags?.map((x) => new Tag(x, self._manifest.name)) || [];
+
+    self._Manufacturers =
+      self._data.manufacturers?.map((x) => {
+        const m = new Manufacturer(x);
+        m.setCorsSafe();
+        return m;
+      }) || [];
+    self._Backgrounds =
+      self._data.backgrounds?.map((x) => new Background(x, self._manifest.name)) || [];
+    self._Statuses = self._data.statuses?.map((x) => new Status(x, self._manifest.name)) || [];
+    self._CoreBonuses =
+      self._data.coreBonuses?.map((x) => new CoreBonus(x, self._data.tags, self._manifest.name)) ||
+      [];
+    self._Frames =
+      self._data.frames?.map((x) => new Frame(x, self._data.tags, self._manifest.name)) || [];
+    self._MechWeapons =
+      self._data.weapons?.map((x) => new MechWeapon(x, self._data.tags, self._manifest.name)) || [];
+    self._MechSystems =
+      self._data.systems?.map((x) => new MechSystem(x, self._data.tags, self._manifest.name)) || [];
+    self._WeaponMods =
+      self._data.mods?.map((x) => new WeaponMod(x, self._data.tags, self._manifest.name)) || [];
+    self._PilotGear =
+      self._data.pilotGear?.map(function (x) {
+        if (x.type?.toLowerCase() === 'weapon')
+          return new PilotWeapon(x as IPilotWeaponData, self._data.tags, self._manifest.name);
+        else if (x.type?.toLowerCase() === 'armor')
+          return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name);
+        return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name);
+      }) || [];
+    self._Talents =
+      self._data.talents?.map((x) => new Talent(x, self._data.tags, self._manifest.name)) || [];
+
+    self._NpcFeatures =
+      self._data.npcFeatures?.map(function (x) {
+        if (x.type.toLowerCase() === 'weapon')
+          return new NpcWeapon(x as INpcWeaponData, self._manifest.name);
+        else if (x.type.toLowerCase() === 'reaction')
+          return new NpcReaction(x as INpcReactionData, self._manifest.name);
+        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x, self._manifest.name);
+        else if (x.type.toLowerCase() === 'system')
+          return new NpcSystem(x as INpcSystemData, self._manifest.name);
+        return new NpcTech(x as INpcTechData, self._manifest.name);
+      }) || [];
+    self._NpcClasses =
+      self._data.npcClasses?.map((x) => new NpcClass(x, self._manifest.name)) || [];
+    self._NpcTemplates =
+      self._data.npcTemplates?.map((x) => new NpcTemplate(x, self._manifest.name)) || [];
+
+    self._PlayerActions = self._data.actions?.map(
+      (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
+    );
+
+    self._Environments = self._data.environments || [];
+    self._Sitreps = self._data.sitreps || [];
+
+    self._Tables = self._data.tables || {};
+
+    self._Bonds = self._data.bonds?.map((x) => new Bond(x, self._manifest.name)) || [];
+
+    self._Reserves =
+      self._data.reserves?.map((x) => new Reserve(x, self._data.tags, self._manifest.name)) || [];
+  }
+
   public get ID(): string {
     return this._id;
   }
-
   public get Manifest(): IContentPackManifest {
     return this._manifest;
   }
@@ -124,8 +221,6 @@ export class ContentPack {
   public get ImageURL(): string | undefined {
     return this._manifest.image_url;
   }
-
-  private _data: IContentPackData;
   public get Data(): IContentPackData {
     return this._data;
   }
@@ -245,87 +340,22 @@ export class ContentPack {
     return this._Reserves;
   }
 
-  private _active: boolean;
+  public get Missing(): boolean {
+    return this._missing;
+  }
+
   public get Active(): boolean {
+    if (this._missing) return false;
     return this._active;
   }
+
   public SetActive(active: boolean): void {
+    if (this._missing) return;
     this._active = active;
   }
 
-  constructor(pack: IContentPack) {
-    const self = this;
-    const { id, active, manifest, data } = pack;
-    self.Key = uuid();
-
-    self._active = active;
-    self._manifest = manifest;
-    self._data = data;
-    Object.keys(self._data).forEach((key) => self._data[key].forEach((item) => (item.brew = id)));
-    self._id = id;
-
-    self._Tags = self._data.tags?.map((x) => new Tag(x, self._manifest.name)) || [];
-
-    self._Manufacturers =
-      self._data.manufacturers?.map((x) => {
-        const m = new Manufacturer(x);
-        m.setCorsSafe();
-        return m;
-      }) || [];
-    self._Backgrounds =
-      self._data.backgrounds?.map((x) => new Background(x, self._manifest.name)) || [];
-    self._Statuses = self._data.statuses?.map((x) => new Status(x, self._manifest.name)) || [];
-    self._CoreBonuses =
-      self._data.coreBonuses?.map((x) => new CoreBonus(x, self._data.tags, self._manifest.name)) ||
-      [];
-    self._Frames =
-      self._data.frames?.map((x) => new Frame(x, self._data.tags, self._manifest.name)) || [];
-    self._MechWeapons =
-      self._data.weapons?.map((x) => new MechWeapon(x, self._data.tags, self._manifest.name)) || [];
-    self._MechSystems =
-      self._data.systems?.map((x) => new MechSystem(x, self._data.tags, self._manifest.name)) || [];
-    self._WeaponMods =
-      self._data.mods?.map((x) => new WeaponMod(x, self._data.tags, self._manifest.name)) || [];
-    self._PilotGear =
-      self._data.pilotGear?.map(function (x) {
-        if (x.type?.toLowerCase() === 'weapon')
-          return new PilotWeapon(x as IPilotWeaponData, self._data.tags, self._manifest.name);
-        else if (x.type?.toLowerCase() === 'armor')
-          return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name);
-        return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name);
-      }) || [];
-    self._Talents =
-      self._data.talents?.map((x) => new Talent(x, self._data.tags, self._manifest.name)) || [];
-
-    self._NpcFeatures =
-      self._data.npcFeatures?.map(function (x) {
-        if (x.type.toLowerCase() === 'weapon')
-          return new NpcWeapon(x as INpcWeaponData, self._manifest.name);
-        else if (x.type.toLowerCase() === 'reaction')
-          return new NpcReaction(x as INpcReactionData, self._manifest.name);
-        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x, self._manifest.name);
-        else if (x.type.toLowerCase() === 'system')
-          return new NpcSystem(x as INpcSystemData, self._manifest.name);
-        return new NpcTech(x as INpcTechData, self._manifest.name);
-      }) || [];
-    self._NpcClasses =
-      self._data.npcClasses?.map((x) => new NpcClass(x, self._manifest.name)) || [];
-    self._NpcTemplates =
-      self._data.npcTemplates?.map((x) => new NpcTemplate(x, self._manifest.name)) || [];
-
-    self._PlayerActions = self._data.actions?.map(
-      (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
-    );
-
-    self._Environments = self._data.environments || [];
-    self._Sitreps = self._data.sitreps || [];
-
-    self._Tables = self._data.tables || {};
-
-    self._Bonds = self._data.bonds?.map((x) => new Bond(x, self._manifest.name)) || [];
-
-    self._Reserves =
-      self._data.reserves?.map((x) => new Reserve(x, self._data.tags, self._manifest.name)) || [];
+  public get Dependencies(): ContentPackDependency[] {
+    return this._dependencies;
   }
 
   public Serialize(): IContentPack {
@@ -337,3 +367,6 @@ export class ContentPack {
     };
   }
 }
+
+export { ContentPack };
+export type { IContentPack, IContentPackManifest, IContentPackData, ContentPackDependency };
