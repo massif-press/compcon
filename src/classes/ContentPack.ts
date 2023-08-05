@@ -1,4 +1,3 @@
-import { mapValues } from 'lodash'
 import uuid from 'uuid/v4'
 import { store } from '@/store'
 
@@ -51,6 +50,12 @@ import { Background, IBackgroundData } from './Background'
 import { Bond, IBondData } from './pilot/components/bond/Bond'
 import { IReserveData, ISkillData, Skill } from './pilot/components'
 
+export type ContentPackDependency = {
+  name: string
+  version: string
+  link: string
+}
+
 export interface IContentPackManifest {
   name: string
   item_prefix: string
@@ -59,8 +64,10 @@ export interface IContentPackManifest {
   description?: string
   website?: string
   image_url?: string
+  dependencies?: ContentPackDependency[]
 }
-interface IContentPackData {
+
+export interface IContentPackData {
   manufacturers: IManufacturerData[]
   backgrounds: IBackgroundData[]
   coreBonuses: ICoreBonusData[]
@@ -94,14 +101,26 @@ export interface IContentPack {
   active: boolean
   manifest: IContentPackManifest
   data: IContentPackData
+  missing_content?: boolean
 }
 
 export class ContentPack {
-  private _manifest: IContentPackManifest
-  private _id: string
+  private _manifest!: IContentPackManifest
+  private _id!: string
+  private _active!: boolean
+  private _missing!: boolean
+  private _data!: IContentPackData
+
+  private _dependencies!: ContentPackDependency[]
+
   public Key: string
+
   public get ID(): string {
     return this._id
+  }
+
+  public get Manifest(): IContentPackManifest {
+    return this._manifest
   }
 
   public get Name(): string {
@@ -122,8 +141,6 @@ export class ContentPack {
   public get ImageURL(): string | undefined {
     return this._manifest.image_url
   }
-
-  private _data: IContentPackData
 
   private _Manufacturers: Manufacturer[] = []
   public get Manufacturers(): Manufacturer[] {
@@ -239,12 +256,26 @@ export class ContentPack {
     return this._Reserves
   }
 
-  private _active: boolean
+  public get Missing(): boolean {
+    return this._missing
+  }
+
   public get Active(): boolean {
+    if (this._missing) return false
     return this._active
   }
+
   public SetActive(active: boolean): void {
+    if (this._missing) return
     this._active = active
+  }
+
+  public get Dependencies(): ContentPackDependency[] {
+    return this._dependencies
+  }
+
+  public get Data(): IContentPackData {
+    return this._data
   }
 
   constructor(pack: IContentPack) {
@@ -253,8 +284,15 @@ export class ContentPack {
     const self = this
     this.Key = uuid()
 
-    self._active = active
+    console.info(`Loading content pack: ${manifest.name}`)
+
+    self._missing = pack.missing_content || false
+    self._active = !self._missing
     self._manifest = manifest
+
+    if (manifest.dependencies) self._dependencies = manifest.dependencies
+    else self._dependencies = []
+
     self._data = data
     Object.keys(self._data).forEach(key => self._data[key].forEach(item => (item.brew = id)))
     self._id = id

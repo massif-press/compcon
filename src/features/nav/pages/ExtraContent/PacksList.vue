@@ -12,20 +12,33 @@
       <!-- Active toggle -->
       <template v-slot:[`item.toggleActive`]="{ item }">
         <v-switch
+          v-if="!item.Missing"
           :input-value="item.Active"
           color="primary"
           @change="toggleActive(item.ID, $event)"
         />
+        <cc-tooltip
+          v-else
+          location="top"
+          inline
+          content="This pack is missing one or more dependencies and cannot be activated."
+        >
+          <v-icon color="error" v-text="'mdi-alert'" />
+        </cc-tooltip>
       </template>
       <!-- Name -->
       <template v-slot:[`item.Name`]="{ item }">
-        <span class="heading h3" :class="item.Active ? 'accent--text' : 'subtle--text font-italic'">
+        <span
+          class="heading h3"
+          :class="item.Active ? 'accent--text' : 'subtle--text font-italic'"
+          :style="item.Missing ? 'opacity: 0.4' : ''"
+        >
           {{ item.Name }}
         </span>
       </template>
       <!-- Version -->
       <template v-slot:[`item.Version`]="{ item }">
-        <span class="packVersion">
+        <span class="packVersion" :style="item.Missing ? 'opacity: 0.4' : ''">
           {{ item.Version }}
         </span>
       </template>
@@ -58,27 +71,7 @@
       <!-- Expanded view -->
       <template v-slot:expanded-item="{ item, headers }">
         <td :colspan="headers.length" class="py-4 px-6 w-100 light-panel">
-          <v-row>
-            <v-col>
-              <p class="body-text text--text pa-2 mb-1">
-                <span v-if="item.Description">
-                  {{ item.Description }}
-                </span>
-                <span v-else>No description given.</span>
-              </p>
-
-              <div v-if="item.Website" class="mt-2">
-                <v-divider class="ma-1" />
-                <v-btn target="_blank" :href="item.Website" text color="secondary">
-                  <v-icon prepend class="mr-1">open_in_new</v-icon>
-                  &nbsp;Website
-                </v-btn>
-              </div>
-            </v-col>
-            <v-col cols="2">
-              <v-img :src="item.ImageURL" alt="Pack image" max-width="200px" max-height="300px" />
-            </v-col>
-          </v-row>
+          <pack-info-card :pack="item" />
         </td>
       </template>
     </v-data-table>
@@ -90,10 +83,13 @@ import Vue from 'vue'
 import Component from 'vue-class-component'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store'
+import PackInfoCard from './components/PackInfoCard.vue'
 
 import { ContentPack } from '@/class'
 
-@Component
+@Component({
+  components: { PackInfoCard },
+})
 export default class PacksList extends Vue {
   private expanded
   private compendiumStore = getModule(CompendiumStore, this.$store)

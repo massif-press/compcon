@@ -5,8 +5,11 @@
     </v-row>
     <v-slide-x-reverse-transition>
       <v-expansion-panels v-if="!loading" class="mt-2">
-        <v-expansion-panel :disabled="!missingLength">
-          <v-expansion-panel-header v-if="!missingLength" class="heading h4">
+        <v-expansion-panel :disabled="!missingLength && !missingPacks.length">
+          <v-expansion-panel-header
+            v-if="!missingLength && !missingPacks.length"
+            class="heading h4"
+          >
             <span>
               <v-icon color="success" class="mt-n1">mdi-check-bold</v-icon>
               No Issues Detected
@@ -19,10 +22,25 @@
             </span>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
-            <p class="body-text" v-if="missingLength > 1">
+            <p class="body-text">
               COMP/CON has determined the following items cannot be loaded, and require Lancer
               Content Packs that are not installed or not activated:
             </p>
+            <v-container v-if="missingPacks.length">
+              <div v-for="pack in missingPacks">
+                Lancer Content Pack
+                <b>{{ pack.Name }}</b>
+                cannot be loaded because it is missing the following dependencies:
+                <ul class="py-2 pl-8">
+                  <li v-for="dep in getMissingDependencies(pack)">
+                    <b>{{ dep.name }}</b>
+                    @
+                    <b>{{ dep.version }}</b>
+                    <a v-if="dep.link" :href="dep.link" target="_blank" class="pl-2">[link]</a>
+                  </li>
+                </ul>
+              </div>
+            </v-container>
             <div v-for="key in Object.keys(missing)" :key="key">
               <v-card outlined v-for="(item, n) in missing[key]" :key="`mp_${n}`">
                 <v-card-title v-if="key === 'pilots'" class="heading h3 mb-n4">
@@ -126,7 +144,7 @@
 import Vue from 'vue'
 import { getModule } from 'vuex-module-decorators'
 import { CompendiumStore, PilotManagementStore, NpcStore } from '@/store'
-import { Pilot } from '@/classes/pilot/Pilot'
+import { Pilot, ContentPack } from '@/class'
 import AutoUpdater from './components/AutoUpdater.vue'
 
 export default Vue.extend({
@@ -139,13 +157,36 @@ export default Vue.extend({
     missing() {
       return getModule(CompendiumStore, this.$store).MissingContent
     },
-
+    missingPacks(): ContentPack[] {
+      return getModule(CompendiumStore, this.$store).ContentPacks.filter(
+        x => x.Missing
+      ) as ContentPack[]
+    },
     missingLength() {
-      if (!this.missing) return 0
-      return (this.missing.pilots?.length || 0) + (this.missing.npcs?.length || 0)
+      if (!this.missing && !this.missingPacks) return 0
+      return (
+        (this.missing.pilots?.length || 0) +
+        (this.missing.npcs?.length || 0) +
+        this.missingPacks.length
+      )
     },
   },
   methods: {
+    getMissingDependencies(pack: ContentPack) {
+      return pack.Dependencies.map(dep => {
+        return {
+          name: dep.name,
+          version: dep.version.includes('=')
+            ? dep.version.replace('=', '')
+            : dep.version + ' or later',
+          link: dep.link,
+          installed: getModule(CompendiumStore, this.$store).packAlreadyInstalled(
+            dep.name,
+            dep.version
+          ),
+        }
+      }).filter(x => !x.installed)
+    },
     notActive(itemBrews) {
       return getModule(CompendiumStore, this.$store)
         .ContentPacks.filter(x => itemBrews.some(y => y.LcpId === x.ID))
