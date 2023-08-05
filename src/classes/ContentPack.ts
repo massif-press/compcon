@@ -287,7 +287,7 @@ export class ContentPack {
     console.info(`Loading content pack: ${manifest.name}`)
 
     self._missing = pack.missing_content || false
-    self._active = !self._missing
+    self._active = self._missing ? false : active
     self._manifest = manifest
 
     if (manifest.dependencies) self._dependencies = manifest.dependencies
