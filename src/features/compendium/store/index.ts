@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import _ from 'lodash';
+import semver from 'semver';
 import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data';
 import lancerData from '@massif/lancer-data';
 import {
@@ -72,6 +73,45 @@ function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }):
   ];
 }
 
+function sortByDependencies(packs: IContentPack[]): IContentPack[] {
+  function dfs(node, visited, stack) {
+    if (!visited[node.id]) {
+      visited[node.id] = true;
+      for (const dependencyId of node.manifest.dependencies) {
+        const dependentNode = packs.find((obj) => obj.id === dependencyId);
+        if (dependentNode) {
+          dfs(dependentNode, visited, stack);
+        }
+      }
+      stack.push(node);
+    }
+  }
+
+  const sortedStack = [];
+  const visited = {};
+
+  for (const pack of packs) {
+    dfs(pack, visited, sortedStack);
+  }
+
+  return sortedStack.reverse();
+}
+
+//iterate through the content packs and find the ones missing an installed dependency
+function findMissingDependencies(packs: IContentPack[]): IContentPack[] {
+  const missing = [] as IContentPack[];
+  for (const pack of packs) {
+    if (!pack.manifest.dependencies) continue;
+    for (const dependency of pack.manifest.dependencies) {
+      const dependentNode = packs.some((pack) => pack.manifest.name === dependency.name);
+      if (!dependentNode) {
+        missing.push(pack);
+      }
+    }
+  }
+  return missing;
+}
+
 export const CompendiumStore = defineStore('compendium', {
   state: () => ({
     LancerVersion: '',
@@ -137,7 +177,19 @@ export const CompendiumStore = defineStore('compendium', {
     },
 
     packAlreadyInstalled(): any {
-      return (packID: string) => this.ContentPacks.map((pak) => pak.ID).includes(packID);
+      return (packStr: string, version?: string) => {
+        let candidates = this.ContentPacks.filter(
+          (pack) => packStr === pack.Name || packStr === pack.ID
+        );
+
+        if (!version || version === '*') return candidates.length > 0;
+        if (version.startsWith('='))
+          return candidates.some((pack) => pack.Version === version.slice(1));
+
+        return candidates.some((pack) => {
+          return semver.gte(semver.coerce(pack.Version), semver.coerce(version));
+        });
+      };
     },
 
     instantiate(): any | { err: string } {
@@ -222,6 +274,7 @@ export const CompendiumStore = defineStore('compendium', {
         'extra_content.json',
         this.ContentPacks.map((pack) => pack.Serialize())
       );
+      await this.refreshExtraContent();
     },
     async deleteContentPack(packID: string): Promise<void> {
       this.ContentPacks = this.ContentPacks.filter((pack) => pack.ID !== packID);
@@ -229,9 +282,21 @@ export const CompendiumStore = defineStore('compendium', {
         'extra_content.json',
         this.ContentPacks.map((pack) => pack.Serialize())
       );
+      await this.refreshExtraContent();
     },
     async loadExtraContent(): Promise<void> {
-      const content = (await loadUserData('extra_content.json')) as IContentPack[];
+      let content = (await loadUserData('extra_content.json')) as IContentPack[];
+      content.forEach((pack) => {
+        if (!pack.manifest.dependencies) pack.manifest.dependencies = [];
+      });
+
+      content = sortByDependencies(content);
+
+      const packsMissingContent = findMissingDependencies(content);
+      packsMissingContent.forEach((pack) => {
+        pack.missing_content = true;
+      });
+
       try {
         this.ContentPacks = [...this.ContentPacks, ...content.map((c) => new ContentPack(c))];
         FrameComparison.NormalizeReferenceSet(

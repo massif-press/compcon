@@ -25,21 +25,28 @@
               <v-icon :icon="expandedRows.includes(i) ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
             </v-btn>
           </td>
-          <td>
+          <td class="text-center">
             <v-switch
+              v-if="!pack.Missing"
               :model-value="pack.Active"
               color="primary"
               hide-details
               @change="toggleActive(pack.ID)"
             />
+            <v-tooltip v-else location="top" max-width="400px">
+              <template v-slot:activator="{ props }">
+                <v-icon v-bind="props" color="error" icon="mdi-alert" />
+              </template>
+              This pack is missing one or more dependencies and cannot be activated.
+            </v-tooltip>
           </td>
-          <td class="text-center">
+          <td class="text-center" :style="pack.Missing ? 'opacity: 0.4' : ''">
             {{ pack.Name }}
           </td>
-          <td class="text-center">
+          <td class="text-center" :style="pack.Missing ? 'opacity: 0.4' : ''">
             {{ pack.Author }}
           </td>
-          <td class="text-center">
+          <td class="text-center" :style="pack.Missing ? 'opacity: 0.4' : ''">
             {{ pack.Version }}
           </td>
           <td>
