@@ -14,7 +14,7 @@
       <v-btn
         block
         type="flat"
-        :disabled="!contentPack || installing"
+        :disabled="!contentPack || installing || uninstalledDependencies.length > 0"
         :color="done ? 'success' : 'primary'"
         class="mb-2"
         @click="install"
@@ -38,7 +38,7 @@
       </v-btn>
       <p v-if="error" style="color: red">{{ error }}</p>
       <v-alert
-        :value="packAlreadyInstalled && !(installing || done)"
+        v-show="packAlreadyInstalled && !(installing || done)"
         type="info"
         class="transition-swing"
         transition="slide-y-reverse-transition"
@@ -46,12 +46,27 @@
         A pack with this same name and author is already installed. It will be replaced by this
         copy.
       </v-alert>
+      <v-alert
+        v-show="uninstalledDependencies.length > 0 && !(installing || done)"
+        type="error"
+        class="transition-swing"
+        transition="slide-y-reverse-transition"
+      >
+        This LCP requires the following content to be installed before it can be added:
+        <div v-for="dep in uninstalledDependencies" :key="dep.id" class="text-caption">
+          <v-chip size="small">{{ dep.name }}</v-chip>
+          @ {{ parseVersion(dep.version) }}
+          <v-btn v-if="dep.link" icon variant="plain" size="x-small" @click="openLink(dep.link)">
+            <v-icon>mdi-open-in-new</v-icon>
+          </v-btn>
+        </div>
+      </v-alert>
     </v-col>
     <v-divider vertical class="mx-3" />
     <v-col class="px-3 py-4">
       <v-fade-transition mode="out-in">
         <div v-if="contentPack" key="pack">
-          <pack-info :pack="contentPack" />
+          <pack-info-card :pack="contentPack" />
         </div>
         <div
           v-else
@@ -84,10 +99,10 @@ import { CompendiumStore } from '@/store'
 
 import { IContentPack } from '@/interface'
 
-import PackInfo from './PackInfo.vue'
+import PackInfoCard from './components/PackInfoCard.vue'
 
 @Component({
-  components: { PackInfo },
+  components: { PackInfoCard },
 })
 export default class PackInstall extends Vue {
   private dataStore = getModule(CompendiumStore, this.$store)
@@ -111,6 +126,24 @@ export default class PackInstall extends Vue {
 
   get packAlreadyInstalled() {
     return !!this.contentPack && this.dataStore.packAlreadyInstalled(this.contentPack.id)
+  }
+
+  get uninstalledDependencies() {
+    if (!this.contentPack) return []
+    const pack = this.contentPack as any
+    const deps = pack.manifest ? pack.manifest.dependencies : []
+    if (!deps) return []
+    return deps.filter(dep => !this.dataStore.packAlreadyInstalled(dep.name, dep.version))
+  }
+
+  openLink(link) {
+    window.open(link, '_blank')
+  }
+
+  parseVersion(version) {
+    if (version.includes('*')) return 'any version'
+    if (version.includes('=')) return version.replace('=', '')
+    return version + ' or later'
   }
 
   public value = null

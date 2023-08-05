@@ -1,5 +1,11 @@
 # COMP/CON Changelog
 
+## [2.3.18] (2023-8-5)
+
+### Features
+
+- **Content Manager** Backported v3 LCP dependency functionality to allow for LCPs to depend on other LCPs
+
 ## [2.3.17a] (2023-7-26)
 
 ### Bug Fixes
