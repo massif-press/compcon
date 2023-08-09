@@ -210,15 +210,15 @@ export default {
         : [
             this.relative ? frame.Comparator.HP : frame.HP,
             this.relative ? frame.Comparator.Armor : frame.Armor,
+            this.relative ? frame.Comparator.RepCap : frame.RepCap,
             this.relative ? frame.Comparator.Evasion : frame.Evasion,
+            this.relative ? frame.Comparator.Speed : frame.Speed,
             this.relative ? frame.Comparator.EDefense : frame.EDefense,
+            this.relative ? frame.Comparator.TechAttack : frame.TechAttack,
+            this.relative ? frame.Comparator.SP : frame.SP,
             this.relative ? frame.Comparator.HeatCap : frame.HeatCap,
             this.relative ? frame.Comparator.SensorRange : frame.SensorRange,
-            this.relative ? frame.Comparator.TechAttack : frame.TechAttack,
-            this.relative ? frame.Comparator.RepCap : frame.RepCap,
             this.relative ? frame.Comparator.SaveTarget : frame.SaveTarget,
-            this.relative ? frame.Comparator.Speed : frame.Speed,
-            this.relative ? frame.Comparator.SP : frame.SP,
           ];
 
       return dataset;
