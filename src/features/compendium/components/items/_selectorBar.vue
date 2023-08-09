@@ -1,95 +1,156 @@
 <template>
   <div>
-    <div class="heading h2 text-center text-primary">
-      {{ group === 'none' ? 'All Items' : `By ${group}` }}
-    </div>
-
     <div>
-      <div v-if="group === 'lcp'">
-        <div v-for="lcp in lcpFilter">
-          <div class="heading mech" v-text="lcp" />
-          <bar :options="options" :data="itemsByLcp[lcp]" />
-        </div>
-      </div>
+      <div>
+        <div v-if="group === 'lcp'">
+          <div class="text-center">
+            <v-btn
+              v-for="(lcp, i) in (lcpFilter as string[])"
+              :active="lcpTab === i"
+              :color="lcpTab === i ? 'primary' : ''"
+              variant="tonal"
+              size="small"
+              rounded="0"
+              @click="lcpTab = i"
+            >
+              {{ lcp }}
+            </v-btn>
+          </div>
 
-      <div v-else-if="group === 'source'" style="height: calc(100vh - 180px)">
-        <div v-for="manufacturer in (manufacturers as string[])">
-          <v-row align="center">
-            <v-col cols="auto">
+          <v-window v-model="lcpTab">
+            <v-window-item v-for="lcp in lcpFilter">
+              <div class="heading mech" v-text="lcp" />
+              <div style="height: calc(100vh - 250px)">
+                <bar :options="options" :data="getChartData(getItems(undefined, lcp as string))" />
+              </div>
+            </v-window-item>
+          </v-window>
+        </div>
+
+        <div v-else-if="group === 'source'">
+          <div class="text-center">
+            <v-btn
+              v-for="(m, i) in (manufacturers as string[])"
+              :active="mfTab === i"
+              :color="mfTab === i ? 'primary' : ''"
+              variant="tonal"
+              size="small"
+              rounded="0"
+              @click="mfTab = i"
+            >
               <cc-logo
-                v-if="mf(manufacturer).LogoIsExternal"
-                :source="mf(manufacturer)"
-                size="x-large"
-                class="pt-3 mb-n1"
+                v-if="m && mf(m).LogoIsExternal"
+                size="small"
+                :source="mf(m)"
+                :color="mfTab == i ? 'white' : 'black'"
               />
-              <v-icon
-                v-else
-                size="60"
-                :icon="mf(manufacturer).Icon"
-                :color="mf(manufacturer).GetColor($vuetify.theme.current.dark)"
-              />
-            </v-col>
-            <v-col>
-              <div class="heading mech" v-text="manufacturer" />
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <bar :data="getItems(manufacturer)" :options="options" />
-            </v-col>
-          </v-row>
+              <v-icon v-else-if="!!m" size="20" :icon="mf(m).Icon" />
+
+              {{ !m ? 'None' : mf(m).Name }}
+            </v-btn>
+          </div>
+
+          <v-window v-model="mfTab">
+            <v-window-item v-for="manufacturer in (manufacturers as string[])">
+              <v-row v-if="manufacturer" align="center">
+                <v-col cols="auto">
+                  <cc-logo
+                    v-if="mf(manufacturer).LogoIsExternal"
+                    :source="mf(manufacturer)"
+                    size="x-large"
+                    class="pt-3 mb-n1"
+                  />
+                  <v-icon
+                    v-else
+                    size="60"
+                    :icon="mf(manufacturer).Icon"
+                    :color="mf(manufacturer).GetColor($vuetify.theme.current.dark)"
+                  />
+                </v-col>
+                <v-col>
+                  <div class="heading mech" v-text="manufacturer" />
+                </v-col>
+              </v-row>
+              <div v-else>
+                <div class="heading mech" v-text="'No Manufacturer'" />
+              </div>
+              <v-row class="mt-n8">
+                <v-col style="height: calc(100vh - 225px)">
+                  <bar :data="getChartData(getItems(manufacturer))" :options="options" />
+                </v-col>
+              </v-row>
+            </v-window-item>
+          </v-window>
         </div>
-      </div>
 
-      <div v-else-if="group === 'license'" style="height: calc(100vh - 180px)">
-        <div v-for="license in licenses">
-          <div class="heading h2 text-primary mt-4" v-text="license" />
+        <div v-else-if="group === 'license'">
+          <div class="text-center">
+            <v-btn
+              v-for="(l, i) in (licenses as string[])"
+              :active="licenseTab === i"
+              :color="licenseTab === i ? 'primary' : ''"
+              variant="tonal"
+              size="small"
+              rounded="0"
+              @click="licenseTab = i"
+            >
+              {{ !l ? 'None' : l }}
+            </v-btn>
+          </div>
 
-          <v-row>
-            <v-col>
-              <bar :data="getLicenseItems(license)" :options="options" />
-            </v-col>
-          </v-row>
+          <v-window v-model="licenseTab">
+            <v-window-item v-for="l in (licenses as string[])">
+              <div class="heading h2 text-primary mt-4" v-text="l" />
+              <v-row class="mt-n8">
+                <v-col style="height: calc(100vh - 225px)">
+                  <bar :data="getChartData(getLicenseItems(l))" :options="options" />
+                </v-col>
+              </v-row>
+            </v-window-item>
+          </v-window>
         </div>
-      </div>
 
-      <div v-else-if="group === 'type'" style="height: calc(100vh - 180px)">
-        <div v-for="subtype in subtypes">
-          <div class="heading h2 text-primary mt-4" v-text="subtype" />
-          <v-row>
-            <v-col>
-              <bar :data="getSubtypeItems(subtype)" :options="options" />
-            </v-col>
-          </v-row>
+        <div v-else style="height: calc(100vh - 130px)">
+          <bar :data="getChartData(items)" :options="options" />
         </div>
-      </div>
-
-      <div v-else style="height: calc(100vh - 180px)">
-        <bar :data="getChartData()" :options="options" />
       </div>
     </div>
-
-    <div>
-      <v-row no-gutters align="center">
-        <v-col style="height: calc(100vh - 180px)">
-          <bar ref="chart" :data="chartData" :options="options" />
-        </v-col>
-      </v-row>
-    </div>
-    <v-row class="px-12 pt-1">
+  </div>
+  <v-footer
+    border
+    class="bg-primary pb-2 pt-3 px-5"
+    app
+    style="margin-left: 325px; width: calc(100vw - 335px)"
+  >
+    <v-row>
       <v-col>
         <v-select
-          v-model="yAxis"
+          v-model="xAxis"
           :items="axes"
-          label="Y Axis"
+          label="Metric"
           variant="outlined"
           return-object
           density="compact"
           hide-details
         />
       </v-col>
+      <v-col cols="auto">
+        <v-btn size="small" icon variant="plain" @click="sort = 'ascending'">
+          <v-icon size="25" icon="mdi-sort-ascending" />
+        </v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn size="small" icon variant="plain" @click="sort = 'descending'">
+          <v-icon size="25" icon="mdi-sort-descending" />
+        </v-btn>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn size="small" icon variant="plain" @click="sort = ''">
+          <v-icon size="25" icon="mdi-sort-variant-off" />
+        </v-btn>
+      </v-col>
     </v-row>
-  </div>
+  </v-footer>
 </template>
 
 <script lang="ts">
@@ -137,7 +198,10 @@ export default {
   components: { Bar },
   data: () => ({
     xAxis: { title: '', value: '' },
-    yAxis: { title: '', value: '' },
+    mfTab: 0,
+    lcpTab: 0,
+    licenseTab: 0,
+    sort: '',
     options: {
       responsive: true,
       maintainAspectRatio: false,
@@ -172,7 +236,6 @@ export default {
           color: '#fff',
           backgroundColor: 'rgba(0,0,0,0.6)',
           borderRadius: 4,
-          clamp: true,
           anchor: 'start',
           offset: 8,
           font: {
@@ -184,24 +247,9 @@ export default {
     },
   }),
   mounted() {
-    this.yAxis = this.axes[0];
+    this.xAxis = this.axes[0];
   },
   computed: {
-    itemMap() {
-      let arr = [] as any[];
-      if (this.items && (this.items[0] as any).StatsByProfile)
-        arr = (this.items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
-      else arr = this.items;
-
-      return arr.map((x: any) => {
-        return {
-          label: x.Name,
-          stats: { ...x.Stats },
-          source: x.Source,
-          lcp: x.LcpName,
-        };
-      });
-    },
     axes() {
       switch ((this.items[0] as CompendiumItem).ItemType) {
         case 'Frame':
@@ -242,10 +290,19 @@ export default {
     },
   },
   methods: {
-    getChartData() {
-      const data = this.itemMap.map((x) => ({
+    sortItems(items) {
+      if (this.sort === 'ascending') {
+        return _.sortBy(items, (x: any) => x.stats[this.xAxis.value]);
+      }
+      if (this.sort === 'descending') {
+        return _.sortBy(items, (x: any) => x.stats[this.xAxis.value]).reverse();
+      }
+      return items;
+    },
+    getChartData(items) {
+      const data = this.mapItems(items).map((x) => ({
         label: x.label,
-        value: x.stats[this.yAxis.value],
+        value: x.stats[this.xAxis.value],
         color: this.mf(x.source).GetColor(),
       }));
 
@@ -253,7 +310,7 @@ export default {
         labels: data.map((row) => row.label),
         datasets: [
           {
-            label: this.yAxis.title,
+            label: this.xAxis.title,
             data: data.map((row) => row.value),
             backgroundColor: data.map((row) => row.color),
           },
@@ -270,17 +327,34 @@ export default {
         }
       );
     },
+    mapItems(items) {
+      let arr = [] as any[];
+      if (items && (items[0] as any).StatsByProfile)
+        arr = (items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
+      else arr = items;
 
-    getItems(manufacturer: string, lcp?: string) {
-      if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.Source === manufacturer);
+      return this.sortItems(
+        arr.map((x: any) => {
+          return {
+            label: x.Name,
+            stats: { ...x.Stats },
+            source: x.Source,
+            lcp: x.LcpName,
+          };
+        })
+      );
+    },
+
+    getItems(manufacturer?: string, lcp?: string) {
+      if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.LcpName === lcp);
 
       return this.items.filter((i: any) => i.Source === manufacturer);
     },
-    getLicenseItems(license: string) {
-      return this.items.filter((i: any) => i.License === license);
-    },
     getSubtypeItems(t: string) {
       return this.items.filter((i: any) => i.Type === t);
+    },
+    getLicenseItems(license: string) {
+      return this.items.filter((i: any) => i.License === license);
     },
   },
 };

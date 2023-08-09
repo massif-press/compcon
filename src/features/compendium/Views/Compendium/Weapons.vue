@@ -20,7 +20,7 @@ export default {
   components: { CompendiumBrowser },
   data: () => ({
     options: {
-      views: ['single', 'table', 'cards', 'scatter'],
+      views: ['single', 'table', 'cards', 'scatter', 'bar'],
       initialView: 'single',
       groups: ['source', 'lcp', 'license'],
       initialGroup: 'license',

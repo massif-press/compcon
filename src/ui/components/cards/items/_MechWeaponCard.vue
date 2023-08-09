@@ -91,7 +91,7 @@
     </template>
 
     <template v-if="charts" #charts>
-      <mech-weapon-chart :mech-weapon="item" />
+      <mech-weapon-chart :item="item" />
     </template>
   </equipment-card-base>
 </template>

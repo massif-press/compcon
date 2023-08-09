@@ -1,21 +1,15 @@
 <template>
   <v-row align="center">
     <v-col cols="6">
-      <Radar
-        :data="chartData"
-        :options="chartOptions"
-        style="max-height: 600px"
-      />
-      <div>
-        <v-row dense align="center" justify="space-around">
+      <Radar :data="chartData" :options="chartOptions" style="max-height: 600px" />
+      <div class="px-4 mt-2">
+        <v-row align="center" justify="space-around">
           <v-col cols="auto">
             <v-row align="center" class="text-overline" dense>
               <v-col cols="auto">
                 Absolute
                 <cc-tooltip inline content="Chart raw stat values ">
-                  <v-icon size="small" class="fade-select"
-                    >mdi-information-outline</v-icon
-                  >
+                  <v-icon size="small" class="fade-select">mdi-information-outline</v-icon>
                 </cc-tooltip></v-col
               >
               <v-col cols="auto">
@@ -27,13 +21,11 @@
                   inline
                   content="Chart stat values relative to all other frames in the Compendium"
                 >
-                  <v-icon size="small" class="fade-select"
-                    >mdi-information-outline</v-icon
-                  >
+                  <v-icon size="small" class="fade-select">mdi-information-outline</v-icon>
                 </cc-tooltip>
               </v-col>
             </v-row>
-            <v-row align="center" class="text-overline mt-n5" dense>
+            <!-- <v-row align="center" class="text-overline mt-n5" dense>
               <v-col cols="auto">
                 Standard
                 <cc-tooltip inline content="Chart standard Frame stats">
@@ -58,10 +50,10 @@
                   >
                 </cc-tooltip>
               </v-col>
-            </v-row>
+            </v-row> -->
           </v-col>
-          <v-col cols="auto">
-            <v-select
+          <v-col>
+            <v-autocomplete
               v-model="compareFrames"
               :items="frames"
               item-title="Name"
@@ -99,14 +91,7 @@ import {
 import { Frame } from '@/class';
 import FrameStatblock from './_FrameStatblock.vue';
 
-ChartJS.register(
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend
-);
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 export default {
   name: 'FrameCombatChart',
@@ -134,7 +119,14 @@ export default {
       'SP',
     ],
     aggregateLabels: ['Survivability', 'Mobility', 'Offense', 'Utility'],
+    colors: [] as string[],
   }),
+  mounted() {
+    this.colors = Array.from(
+      { length: this.frames.length },
+      () => '#' + Math.floor(Math.random() * 16777215).toString(16)
+    );
+  },
   computed: {
     labels() {
       return this.aggregate ? this.aggregateLabels : this.standardLabels;
@@ -188,34 +180,28 @@ export default {
         datasets: this.compareFrames.length
           ? [
               this.getDataset(this.frame),
-              ...this.compareFrames.map((x) => this.getDataset(x, true)),
+              ...this.compareFrames.map((x, i) => this.getDataset(x, i, true)),
             ]
           : [this.getDataset(this.frame)],
       };
     },
   },
   methods: {
-    getColor() {
-      const hexChars = '0123456789ABCDEF';
-      let hex = '#';
-      for (let i = 0; i < 6; i++) {
-        hex += hexChars[Math.floor(Math.random() * 16)];
-      }
-      return hex;
-    },
-    getDataset(frame, compare?: boolean) {
+    getDataset(frame, idx?: number, compare?: boolean) {
       const dataset = {
         label: frame.Name,
-        backgroundColor: compare ? this.getColor() + '1A' : '#673AB333',
-        borderColor: compare ? this.getColor() + 'CC' : '#673AB7',
+        backgroundColor: compare
+          ? this.colors[idx as number] + '1A'
+          : this.$vuetify.theme.current.colors.primary + '33',
+        borderColor: compare
+          ? this.colors[idx as number] + 'CC'
+          : this.$vuetify.theme.current.colors.primary + 'B7',
         data: [] as any[],
       };
 
       dataset.data = this.aggregate
         ? [
-            this.relative
-              ? frame.Comparator.Survivability
-              : frame.SurvivabilityRaw,
+            this.relative ? frame.Comparator.Survivability : frame.SurvivabilityRaw,
             this.relative ? frame.Comparator.Mobility : frame.MobilityRaw,
             this.relative ? frame.Comparator.Offense : frame.OffenseRaw,
             this.relative ? frame.Comparator.Utility : frame.UtilityRaw,

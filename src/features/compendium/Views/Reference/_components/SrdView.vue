@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="padding: 0 12vw 0 12vw">
     <fieldset>
       <legend class="text-overline px-4">CONTENTS</legend>
       <v-card-text>
@@ -32,14 +32,14 @@
         <cc-title
           small
           color="primary"
-          class="mb-3 mt-4"
+          class="mb-3 mt-6"
           style="padding-left: 300px !important; margin-left: -350px !important"
         >
           {{ getLangItem(item, 'title') }}</cc-title
         >
         <div v-html="getLangItem(item, 'content')" class="content" />
         <div v-for="child in (item as any).children" :id="`e_${child.title.en.replace(/\W/g, '')}`">
-          <h3 class="text-primary ml-n5" v-text="getLangItem(child, 'title')" />
+          <h3 class="text-primary ml-n5 mt-4" v-text="getLangItem(child, 'title')" />
           <div v-html="getLangItem(child, 'content')" class="content" />
           <div
             v-for="subchild in (child as any).children"

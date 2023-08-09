@@ -13,9 +13,9 @@ export default {
   components: { CompendiumBrowser },
   data: () => ({
     options: {
-      views: ['single', 'table', 'cards', 'scatter'],
+      views: ['single', 'table', 'cards', 'scatter', 'bar'],
       initialView: 'cards',
-      groups: ['source', 'lcp', 'license'],
+      groups: ['source', 'lcp'],
       initialGroup: 'source',
     },
     headers: [

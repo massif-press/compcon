@@ -347,7 +347,6 @@
         <div v-else-if="view === 'bar'">
           <selector-bar
             :items="shownItems"
-            :selected="selectedItem"
             :group="group"
             :manufacturers="manufacturers"
             :licenses="licenses"
