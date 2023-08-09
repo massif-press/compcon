@@ -98,6 +98,17 @@ class WeaponProfile extends CompendiumItem {
     if (pData.on_hit) this.OnHit = pData.on_hit;
     if (pData.on_crit) this.OnCrit = pData.on_crit;
   }
+
+  public DamageSum(type?: DamageType) {
+    if (!this.Damage) return 0;
+    return this.Damage.reduce((a, b) => a + b.ToNumber(type), 0);
+  }
+
+  public RangeSum(type?: RangeType) {
+    if (!this.Range) return 0;
+    if (!type) return Math.max(...this.Range.map((r) => r.Max));
+    return this.Range.find((x) => x.Type === type)?.Max || 0;
+  }
 }
 
 class MechWeapon extends MechEquipment {
@@ -295,6 +306,30 @@ class MechWeapon extends MechEquipment {
 
   public get Color(): string {
     return 'mech-weapon';
+  }
+
+  // for scatter and comparators
+  public get StatsByProfile() {
+    return this.Profiles.map((p) => {
+      return {
+        Name: p.Name && p.Name !== this.Name ? `${this.Name} (${p.Name})` : this.Name,
+        Source: this.Source,
+        LcpName: this.LcpName,
+        Stats: {
+          range: p.RangeSum(),
+          line: p.RangeSum(RangeType.Line),
+          cone: p.RangeSum(RangeType.Cone),
+          blast: p.RangeSum(RangeType.Blast),
+          burst: p.RangeSum(RangeType.Burst),
+          damage: p.DamageSum(),
+          kineticDamage: p.DamageSum(DamageType.Kinetic),
+          energyDamage: p.DamageSum(DamageType.Energy),
+          explosiveDamage: p.DamageSum(DamageType.Explosive),
+          burnDamage: p.DamageSum(DamageType.Burn),
+          variableDamage: p.DamageSum(DamageType.Variable),
+        },
+      };
+    });
   }
 
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {

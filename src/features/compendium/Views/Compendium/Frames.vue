@@ -6,15 +6,14 @@
 
 <script lang="ts">
 import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 import { CompendiumStore } from '../../store';
 
 export default {
   name: 'Frames',
-  components: { CompendiumBrowser, CompendiumBrowser },
+  components: { CompendiumBrowser },
   data: () => ({
     options: {
-      views: ['single', 'table', 'cards'],
+      views: ['single', 'table', 'cards', 'scatter'],
       initialView: 'cards',
       groups: ['source', 'lcp', 'license'],
       initialGroup: 'source',

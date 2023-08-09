@@ -2,6 +2,20 @@
   <v-row density="compact" justify="space-around" class="mx-4">
     <v-col cols="12">
       <v-select
+        v-model="sourceFilter"
+        class="px-2"
+        hide-details
+        density="compact"
+        prepend-icon="cc:manufacturer"
+        variant="outlined"
+        label="From Manufacturer"
+        :items="manufacturers"
+        clearable
+        @update:modelValue="updateFilters()"
+      />
+    </v-col>
+    <v-col cols="12">
+      <v-select
         v-model="tagFilter"
         density="compact"
         hide-details
@@ -146,6 +160,7 @@ const nameSort = function (a, b): number {
 export default {
   name: 'frame-filter',
   data: () => ({
+    sourceFilter: [],
     tagFilter: [],
     weaponTypeFilter: [] as WeaponType[],
     weaponSizeFilter: [] as WeaponSize[],
@@ -200,6 +215,7 @@ export default {
   },
   methods: {
     clear() {
+      this.sourceFilter = [];
       this.tagFilter = [];
       this.weaponTypeFilter = [];
       this.weaponSizeFilter = [];
@@ -210,6 +226,7 @@ export default {
     },
     updateFilters() {
       const fObj = {} as any;
+      if (this.sourceFilter) fObj.Source = [this.sourceFilter];
       if (this.spType && this.sp) fObj[`SP_${this.spType}`] = this.sp;
       fObj[`SP_${this.spType}`] = this.sp;
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;

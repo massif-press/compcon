@@ -56,16 +56,11 @@ class Range {
 
   public get Text(): string {
     if (this._override) return this.Value.toString();
-    if (this._bonus)
-      return `${this._range_type} ${this.Value} (+${this._bonus})`;
+    if (this._bonus) return `${this._range_type} ${this.Value} (+${this._bonus})`;
     return `${this._range_type} ${this.Value}`;
   }
 
-  public static CalculateRange(
-    item: MechWeapon,
-    mech: Mech,
-    addedRange?: Range[]
-  ): Range[] {
+  public static CalculateRange(item: MechWeapon, mech: Mech, addedRange?: Range[]): Range[] {
     if (!item || !mech) return [];
     if (item.NoBonuses) return item.Range;
 
@@ -90,22 +85,12 @@ class Range {
     });
 
     if (!Bonus.get('range', mech) || item.NoCoreBonus) return output;
-    const bonuses = mech.FeatureController.Bonuses.filter(
-      (x) => x.ID === 'range'
-    );
+    const bonuses = mech.FeatureController.Bonuses.filter((x) => x.ID === 'range');
     output.forEach((r) => {
       if (r.Override) return;
       bonuses.forEach((b) => {
-        if (
-          b.WeaponTypes.length &&
-          !b.WeaponTypes.some((wt) => item.WeaponType === wt)
-        )
-          return;
-        if (
-          b.WeaponSizes.length &&
-          !b.WeaponSizes.some((ws) => item.Size === ws)
-        )
-          return;
+        if (b.WeaponTypes.length && !b.WeaponTypes.some((wt) => item.WeaponType === wt)) return;
+        if (b.WeaponSizes.length && !b.WeaponSizes.some((ws) => item.Size === ws)) return;
         if (
           b.DamageTypes.length &&
           !b.DamageTypes.some((dt) => item.DamageType.some((x) => x === dt))

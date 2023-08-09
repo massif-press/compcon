@@ -26,8 +26,7 @@ class Damage {
       else this.Value = `${damage.val} + ${damage.bonus}`;
     } else {
       if (damage.bonus)
-        this.Value =
-          damage.val + damage.bonus ? ` + ${damage.bonus.toString()}` : '';
+        this.Value = damage.val + damage.bonus ? ` + ${damage.bonus.toString()}` : '';
       else this.Value = damage.val;
     }
     this.Bonus = damage.bonus
@@ -60,8 +59,7 @@ class Damage {
     if (typeof this._raw_value === 'number') return this._raw_value;
     else {
       let bonus = 0;
-      if (this._raw_value.split('+').length === 2)
-        bonus = parseInt(this._raw_value.split('+')[1]);
+      if (this._raw_value.split('+').length === 2) bonus = parseInt(this._raw_value.split('+')[1]);
       const split = this._raw_value.split('d');
       // (qty * size) + bonus
       return parseInt(split[0]) * parseInt(split[1]) + bonus;
@@ -70,35 +68,18 @@ class Damage {
 
   public static CalculateDamage(item: MechWeapon, mech: Mech): Damage[] {
     if (!item || !mech) return [];
-    if (!Bonus.get('damage', mech) || item.NoCoreBonus || item.NoBonuses)
-      return item.Damage;
-    const bonuses = mech.FeatureController.Bonuses.filter(
-      (x) => x.ID === 'damage'
-    );
+    if (!Bonus.get('damage', mech) || item.NoCoreBonus || item.NoBonuses) return item.Damage;
+    const bonuses = mech.FeatureController.Bonuses.filter((x) => x.ID === 'damage');
     const output = [];
     item.Damage.forEach((d) => {
       if (d.Override) return;
       let bonus = 0;
       bonuses.forEach((b) => {
-        if (
-          b.WeaponTypes.length &&
-          !b.WeaponTypes.some((wt) => item.WeaponType === wt)
-        )
+        if (b.WeaponTypes.length && !b.WeaponTypes.some((wt) => item.WeaponType === wt)) return;
+        if (b.WeaponSizes.length && !b.WeaponSizes.some((ws) => item.Size === ws)) return;
+        if (b.RangeTypes.length && !b.RangeTypes.some((rt) => item.RangeType.some((x) => x === rt)))
           return;
-        if (
-          b.WeaponSizes.length &&
-          !b.WeaponSizes.some((ws) => item.Size === ws)
-        )
-          return;
-        if (
-          b.RangeTypes.length &&
-          !b.RangeTypes.some((rt) => item.RangeType.some((x) => x === rt))
-        )
-          return;
-        if (
-          !b.DamageTypes.length ||
-          b.DamageTypes.some((rt) => d.Type === rt)
-        ) {
+        if (!b.DamageTypes.length || b.DamageTypes.some((rt) => d.Type === rt)) {
           bonus += Bonus.Evaluate(b, mech.Pilot);
         }
       });
@@ -128,6 +109,12 @@ class Damage {
   public get Text(): string {
     if (this.Override) return this.Value;
     return `${this.Value} ${this.Type} Damage`;
+  }
+
+  public ToNumber(type?: DamageType): number {
+    if (!type) return this.Max;
+    if (this.Type === type) return this.Max;
+    return 0;
   }
 
   public static Serialize(damage: Damage): IDamageData {
