@@ -340,6 +340,21 @@
           </v-col>
         </v-row>
 
+        <div v-else-if="view === 'scatter'">
+          <selector-scatter :items="shownItems" :selected="selectedItem" :group="group" />
+        </div>
+
+        <div v-else-if="view === 'bar'">
+          <selector-bar
+            :items="shownItems"
+            :selected="selectedItem"
+            :group="group"
+            :manufacturers="manufacturers"
+            :licenses="licenses"
+            :lcp-filter="lcpFilter"
+          />
+        </div>
+
         <div v-if="view === 'list' && itemType === 'License'">
           <v-row v-for="m in manufacturers">
             <v-col v-if="!!mf(m)" class="text-center pa-3">
@@ -525,6 +540,8 @@ import _ from 'lodash';
 import SelectorListItem from './items/_selectorListItem.vue';
 import SelectorCardItem from './items/_selectorCardItem.vue';
 import SelectorTable from './items/_selectorTable.vue';
+import SelectorScatter from './items/_selectorScatter.vue';
+import SelectorBar from './items/_selectorBar.vue';
 import { CompendiumItem, License } from '@/class';
 import { CompendiumStore } from '../store';
 
@@ -539,7 +556,7 @@ type BrowserOptions = {
 
 export default {
   name: 'cc-selector',
-  components: { SelectorListItem, SelectorCardItem, SelectorTable },
+  components: { SelectorListItem, SelectorCardItem, SelectorTable, SelectorScatter, SelectorBar },
   emits: ['equip'],
   props: {
     items: {
@@ -642,6 +659,10 @@ export default {
           return 'mdi-table';
         case 'cards':
           return 'mdi-view-grid';
+        case 'scatter':
+          return 'mdi-chart-scatter-plot';
+        case 'bar':
+          return 'mdi-chart-bar';
         default:
           return '';
       }
@@ -656,6 +677,10 @@ export default {
           return 'Table View';
         case 'cards':
           return 'Card View';
+        case 'scatter':
+          return 'Scatter View';
+        case 'bar':
+          return 'Chart View';
         default:
           return '';
       }
@@ -669,7 +694,7 @@ export default {
         case 'type':
           return 'cc:generic_item';
         case 'license':
-          return 'cc:reserve';
+          return 'cc:license';
         default:
           return '';
       }

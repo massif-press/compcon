@@ -2,6 +2,20 @@
   <v-row density="compact" justify="space-around" class="mx-4">
     <v-col cols="12">
       <v-select
+        v-model="sourceFilter"
+        class="px-2"
+        hide-details
+        density="compact"
+        prepend-icon="cc:manufacturer"
+        variant="outlined"
+        label="From Manufacturer"
+        :items="manufacturers"
+        clearable
+        @update:modelValue="updateFilters()"
+      />
+    </v-col>
+    <v-col cols="12">
+      <v-select
         v-model="typeFilter"
         class="px-2"
         hide-details
@@ -66,6 +80,7 @@ const nameSort = function (a, b): number {
 export default {
   name: 'frame-filter',
   data: () => ({
+    sourceFilter: [],
     typeFilter: [],
     mountFilter: [],
     sizeFilter: [],
@@ -103,11 +118,13 @@ export default {
   methods: {
     clear() {
       this.typeFilter = [];
+      this.sourceFilter = [];
       this.mountFilter = [];
       this.sizeFilter = [];
     },
     updateFilters() {
       const fObj = {} as any;
+      if (this.sourceFilter) fObj.Source = [this.sourceFilter];
       if (this.sizeFilter && this.sizeFilter.length) fObj.MechSize = this.sizeFilter;
       if (this.typeFilter && this.typeFilter.length) fObj.MechType = this.typeFilter;
       if (this.mountFilter && this.mountFilter.length) fObj.Mounts = this.mountFilter;

@@ -173,6 +173,10 @@ class Frame extends LicensedItem implements IFeatureContainer {
     return `${this.MechType[0]} / ${this.MechType[1]}`;
   }
 
+  public get Stats(): IFrameStats {
+    return this._stats;
+  }
+
   public get Size(): number {
     return Number(this._stats.size);
   }
