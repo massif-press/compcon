@@ -108,15 +108,16 @@ export default {
     compareFrames: [] as Frame[],
     standardLabels: [
       'HP',
+      'Armor',
+      'Repair Capacity',
       'Evasion',
+      'Speed',
       'E-Defense',
+      'Tech Attack',
+      'SP',
       'Heat Capacity',
       'Sensors',
-      'Tech Attack',
-      'Repair Capacity',
       'Save Target',
-      'Speed',
-      'SP',
     ],
     aggregateLabels: ['Survivability', 'Mobility', 'Offense', 'Utility'],
     colors: [] as string[],
@@ -208,6 +209,7 @@ export default {
           ]
         : [
             this.relative ? frame.Comparator.HP : frame.HP,
+            this.relative ? frame.Comparator.Armor : frame.Armor,
             this.relative ? frame.Comparator.Evasion : frame.Evasion,
             this.relative ? frame.Comparator.EDefense : frame.EDefense,
             this.relative ? frame.Comparator.HeatCap : frame.HeatCap,

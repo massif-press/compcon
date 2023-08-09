@@ -111,6 +111,7 @@ class FrameComparison {
 
     const statVals = [
       'HP',
+      'Armor',
       'Evasion',
       'EDefense',
       'HeatCap',
