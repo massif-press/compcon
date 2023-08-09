@@ -125,7 +125,7 @@ class FrameComparison {
       const vMax = Math.max(...Frames.map((x) => x[v]));
       const vMin = Math.min(...Frames.map((x) => x[v]));
       Frames.forEach((x) => {
-        x.Comparator![v] = normalize(x[v], vMin, vMax, 0, 100) + 10;
+        x.Comparator![v] = Math.floor(normalize(x[v], vMin, vMax, 0, 100) + 10);
       });
     });
   }

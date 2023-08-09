@@ -324,6 +324,7 @@ class MechWeapon extends MechEquipment {
           damage: p.DamageSum(),
           kineticDamage: p.DamageSum(DamageType.Kinetic),
           energyDamage: p.DamageSum(DamageType.Energy),
+          heatDamage: p.DamageSum(DamageType.Heat),
           explosiveDamage: p.DamageSum(DamageType.Explosive),
           burnDamage: p.DamageSum(DamageType.Burn),
           variableDamage: p.DamageSum(DamageType.Variable),
