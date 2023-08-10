@@ -98,7 +98,7 @@ class FrameComparison {
 
   public static NormalizeReferenceSet(Frames: Frame[]) {
     const normalize = (val, valMin, valMax, min, max) =>
-      ((val - valMin) / (valMax - valMin)) * (max - min) + min + 1;
+      ((val - valMin) / (valMax - valMin)) * (max - min) + min;
 
     const combatVals = ['Survivability', 'Mobility', 'Offense', 'Utility'];
     combatVals.forEach((v) => {

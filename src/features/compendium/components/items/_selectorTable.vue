@@ -11,7 +11,7 @@
         <td
           v-for="h in (headers as any[])"
           class="text-left"
-          :class="item.raw.ID === selected && (selected as any).ID ? 'bg-primary' : ''"
+          :class="selected && (selected as any).ID === item.raw.ID  ? 'bg-primary' : ''"
         >
           <div v-if="h.key === 'Size'">
             <span v-text="item.raw.Size === 0.5 ? '½' : item.raw.Size" />

@@ -39,7 +39,6 @@ export default {
       const f = `${this.itemType.replace(' ', '')}Filter`;
 
       if (!filters[f]) {
-        console.log(filters);
         console.error(`No filter found for item type ${this.itemType}`);
         return null;
       }

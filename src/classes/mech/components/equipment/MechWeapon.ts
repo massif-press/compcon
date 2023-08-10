@@ -315,8 +315,11 @@ class MechWeapon extends MechEquipment {
         Name: p.Name && p.Name !== this.Name ? `${this.Name} (${p.Name})` : this.Name,
         Source: this.Source,
         LcpName: this.LcpName,
+        ID: this.ID,
         Stats: {
           range: p.RangeSum(),
+          threat: p.RangeSum(RangeType.Threat),
+          thrown: p.RangeSum(RangeType.Thrown),
           line: p.RangeSum(RangeType.Line),
           cone: p.RangeSum(RangeType.Cone),
           blast: p.RangeSum(RangeType.Blast),
@@ -331,6 +334,10 @@ class MechWeapon extends MechEquipment {
         },
       };
     });
+  }
+
+  public get Stats() {
+    return this.StatsByProfile[0].Stats;
   }
 
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {

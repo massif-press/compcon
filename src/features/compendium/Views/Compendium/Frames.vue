@@ -13,7 +13,7 @@ export default {
   components: { CompendiumBrowser },
   data: () => ({
     options: {
-      views: ['single', 'table', 'cards', 'scatter', 'bar'],
+      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
       initialView: 'cards',
       groups: ['source', 'lcp'],
       initialGroup: 'source',

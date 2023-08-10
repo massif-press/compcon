@@ -57,12 +57,12 @@
     <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" />
   </div>
 
-  <slot name="charts" />
-
   <div v-if="item.Description" class="my-2">
     <div v-show="!dense" class="text-overline text-subtle">//COMPENDIUM DATA</div>
     <div v-html-safe="item.Description" class="flavor-text" />
   </div>
+
+  <slot name="charts" />
 
   <div v-if="notes">
     <v-textarea

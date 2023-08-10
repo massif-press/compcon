@@ -89,21 +89,16 @@
         <cc-tags :tags="item.Profiles[tab].Tags" extended />
       </div>
     </template>
-
-    <template v-if="charts" #charts>
-      <mech-weapon-chart :item="item" />
-    </template>
   </equipment-card-base>
 </template>
 
 <script lang="ts">
 import EquipmentCardBase from './_EquipmentCardBase.vue';
 import OnElement from './_components/OnElement.vue';
-import { MechWeaponChart } from '../mech_weapon';
 
 export default {
   name: 'cc-mech-weapon-card',
-  components: { EquipmentCardBase, OnElement, MechWeaponChart },
+  components: { EquipmentCardBase, OnElement },
   props: {
     item: { type: Object, required: true },
     notes: Boolean,

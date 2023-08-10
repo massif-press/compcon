@@ -173,11 +173,24 @@
             <v-list-item
               v-if="options.noSource"
               v-for="item in itemsByLcp[lcp]"
-              @click="selectItem(item as CompendiumItem)"
+              :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
+              @click="
+                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
+                  ? selectItem(null)
+                  : selectItem(item as CompendiumItem)
+              "
             >
               <template #title>
-                <v-icon start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                 <span class="text-button">
+                  <v-checkbox-btn
+                    v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
+                    density="compact"
+                    v-model="comparisons"
+                    @click.stop
+                    class="d-inline ml-3"
+                    :value="(item as CompendiumItem)"
+                  />
+                  <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                   {{ (item as CompendiumItem).Name }}
                 </span>
               </template>
@@ -214,11 +227,24 @@
               </template>
               <v-list-item
                 v-for="item in getItems(manufacturer, lcp)"
-                @click="selectItem(item as CompendiumItem)"
+                :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
+                @click="
+                  selectedItem && selectedItem.ID === (item as CompendiumItem).ID
+                    ? selectItem(null)
+                    : selectItem(item as CompendiumItem)
+                "
               >
                 <template #title>
-                  <v-icon start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                   <span class="text-button">
+                    <v-checkbox-btn
+                      v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
+                      density="compact"
+                      v-model="comparisons"
+                      @click.stop
+                      class="d-inline ml-3"
+                      :value="(item as CompendiumItem)"
+                    />
+                    <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                     {{ (item as CompendiumItem).Name }}
                   </span>
                 </template>
@@ -257,11 +283,24 @@
             </template>
             <v-list-item
               v-for="item in getItems(manufacturer)"
-              @click="selectItem(item as CompendiumItem)"
+              :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
+              @click="
+                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
+                  ? selectItem(null)
+                  : selectItem(item as CompendiumItem)
+              "
             >
               <template #title>
-                <v-icon start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                 <span class="text-button">
+                  <v-checkbox-btn
+                    v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
+                    density="compact"
+                    v-model="comparisons"
+                    @click.stop
+                    class="d-inline ml-3"
+                    :value="(item as CompendiumItem)"
+                  />
+                  <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                   {{ (item as CompendiumItem).Name }}
                 </span>
               </template>
@@ -281,11 +320,24 @@
             </template>
             <v-list-item
               v-for="item in getLicenseItems(license)"
-              @click="selectItem(item as CompendiumItem)"
+              :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
+              @click="
+                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
+                  ? selectItem(null)
+                  : selectItem(item as CompendiumItem)
+              "
             >
               <template #title>
-                <v-icon start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                 <span class="text-button">
+                  <v-checkbox-btn
+                    v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
+                    density="compact"
+                    v-model="comparisons"
+                    @click.stop
+                    class="d-inline ml-3"
+                    :value="(item as CompendiumItem)"
+                  />
+                  <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                   {{ (item as CompendiumItem).Name }}
                 </span>
               </template>
@@ -305,11 +357,24 @@
             </template>
             <v-list-item
               v-for="item in getSubtypeItems(subtype)"
-              @click="selectItem(item as CompendiumItem)"
+              :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
+              @click="
+                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
+                  ? selectItem(null)
+                  : selectItem(item as CompendiumItem)
+              "
             >
               <template #title>
-                <v-icon start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                 <span class="text-button">
+                  <v-checkbox-btn
+                    v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
+                    density="compact"
+                    v-model="comparisons"
+                    @click.stop
+                    class="d-inline ml-3"
+                    :value="(item as CompendiumItem)"
+                  />
+                  <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                   {{ (item as CompendiumItem).Name }}
                 </span>
               </template>
@@ -317,10 +382,26 @@
           </v-list-group>
         </div>
         <div v-else>
-          <v-list-item v-for="item in shownItems" @click="selectItem(item as CompendiumItem)">
+          <v-list-item
+            v-for="item in shownItems"
+            :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
+            @click="
+              selectedItem && selectedItem.ID === (item as CompendiumItem).ID
+                ? selectItem(null)
+                : selectItem(item as CompendiumItem)
+            "
+          >
             <template #title>
-              <v-icon start class="ml-3" :icon="(item as CompendiumItem).Icon" />
               <span class="text-button">
+                <v-checkbox-btn
+                  v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
+                  density="compact"
+                  v-model="comparisons"
+                  @click.stop
+                  class="d-inline ml-3"
+                  :value="(item as CompendiumItem)"
+                />
+                <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
                 {{ (item as CompendiumItem).Name }}
               </span>
             </template>
@@ -341,7 +422,7 @@
         </v-row>
 
         <div v-else-if="view === 'scatter'">
-          <selector-scatter :items="shownItems" :selected="selectedItem" :group="group" />
+          <selector-scatter :items="shownItems" :selected="(selectedItem as any)" :group="group" />
         </div>
 
         <div v-else-if="view === 'bar'">
@@ -351,6 +432,7 @@
             :manufacturers="manufacturers"
             :licenses="licenses"
             :lcp-filter="lcpFilter"
+            :selected="(selectedItem as any)"
           />
         </div>
 
@@ -527,6 +609,15 @@
             :highlighted="selectedItem ? (selectedItem as any).ID === (item as any).ID : false"
           />
         </v-row>
+
+        <div v-else-if="view === 'compare'">
+          <selector-compare
+            :items="comparisons"
+            :selected="(selectedItem as any)"
+            @clear="comparisons = []"
+          />
+        </div>
+
         <div style="height: 30px" />
       </v-container>
     </v-col>
@@ -541,6 +632,7 @@ import SelectorCardItem from './items/_selectorCardItem.vue';
 import SelectorTable from './items/_selectorTable.vue';
 import SelectorScatter from './items/_selectorScatter.vue';
 import SelectorBar from './items/_selectorBar.vue';
+import SelectorCompare from './items/_selectorCompare.vue';
 import { CompendiumItem, License } from '@/class';
 import { CompendiumStore } from '../store';
 
@@ -555,7 +647,14 @@ type BrowserOptions = {
 
 export default {
   name: 'cc-selector',
-  components: { SelectorListItem, SelectorCardItem, SelectorTable, SelectorScatter, SelectorBar },
+  components: {
+    SelectorListItem,
+    SelectorCardItem,
+    SelectorTable,
+    SelectorScatter,
+    SelectorBar,
+    SelectorCompare,
+  },
   emits: ['equip'],
   props: {
     items: {
@@ -591,10 +690,15 @@ export default {
     otherFilter: {},
     lcpFilter: [] as string[],
     selectedItem: null as CompendiumItem | null,
+    comparisons: [] as CompendiumItem[],
   }),
   watch: {
     group() {
       this.open = [...this.lcps, ...this.manufacturers, ...this.subtypes, ...this.licenses];
+    },
+    comparisons() {
+      const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
+      if (idx > -1) this.comparisons.splice(idx, 1);
     },
   },
   created() {
@@ -662,6 +766,8 @@ export default {
           return 'mdi-chart-scatter-plot';
         case 'bar':
           return 'mdi-chart-bar';
+        case 'compare':
+          return 'mdi-compare';
         default:
           return '';
       }
@@ -680,6 +786,8 @@ export default {
           return 'Scatter View';
         case 'bar':
           return 'Chart View';
+        case 'compare':
+          return 'Comparison View';
         default:
           return '';
       }
@@ -723,9 +831,9 @@ export default {
     getSubtypeItems(t: string) {
       return this.shownItems.filter((i: any) => i.Type === t);
     },
-    selectItem(item: CompendiumItem) {
+    selectItem(item: CompendiumItem | null) {
       this.selectedItem = item;
-      this.scrollTo(item.ID);
+      if (item) this.scrollTo(item.ID);
     },
     scrollTo(id: string): void {
       const el = document.getElementById(id);
