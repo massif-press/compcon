@@ -64,57 +64,6 @@ import { CompendiumStore } from '@/stores';
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);
 
-const ColorArr = [
-  '#991E2A',
-  '#aec7e8',
-  '#ff7f0e',
-  '#ffbb78',
-  '#2ca02c',
-  '#98df8a',
-  '#d62728',
-  '#ff9896',
-  '#9467bd',
-  '#c5b0d5',
-  '#8c564b',
-  '#c49c94',
-  '#e377c2',
-  '#f7b6d2',
-  '#7f7f7f',
-  '#c7c7c7',
-  '#bcbd22',
-  '#dbdb8d',
-  '#17becf',
-  '#9edae5',
-  '#393b79',
-  '#5254a3',
-  '#636363',
-  '#7b4173',
-  '#ad494a',
-  '#d6616b',
-  '#31a354',
-  '#74c476',
-  '#a1d99b',
-  '#756bb1',
-  '#9e9ac8',
-  '#bcbddc',
-  '#dadaeb',
-  '#636363',
-  '#6b6ecf',
-  '#9c9ede',
-  '#cedb9c',
-  '#e7cb94',
-  '#bd9e39',
-  '#e7ba52',
-  '#843c39',
-  '#ad494a',
-  '#d6616b',
-  '#e7969c',
-  '#7b4173',
-  '#a55194',
-  '#ce6dbd',
-  '#de9ed6',
-];
-
 export default {
   name: 'SelectorScatter',
   props: {
@@ -127,67 +76,24 @@ export default {
       required: true,
       default: 'None',
     },
+    selected: {
+      type: Object,
+      required: false,
+    },
   },
   components: { Scatter },
   data: () => ({
     xAxis: { title: '', value: '' },
     yAxis: { title: '', value: '' },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: {
-          offset: true,
-          ticks: {
-            stepSize: 1,
-          },
-          title: {
-            display: false,
-          },
-        },
-        y: {
-          offset: true,
-          ticks: {
-            stepSize: 1,
-          },
-          title: {
-            display: false,
-          },
-        },
-      },
-      layout: {
-        padding: 10,
-      },
-      legend: {
-        display: false,
-      },
-      elements: {
-        point: {
-          radius: 6,
-          hoverRadius: 6,
-          borderColor: '#fff',
-          borderWidth: 2,
-        },
-      },
-      plugins: {
-        datalabels: {
-          color: '#fff',
-          backgroundColor: 'rgba(0,0,0,0.6)',
-          borderRadius: 4,
-          clamp: true,
-          align: 'bottom',
-          offset: 8,
-          font: {
-            family: 'Helvetica',
-            size: 15,
-          },
-        },
-      },
-    },
+    colors: [] as string[],
   }),
   mounted() {
     this.xAxis = this.axes[0];
     this.yAxis = this.axes[1];
+    this.colors = Array.from(
+      { length: this.items.length },
+      () => '#' + Math.floor(Math.random() * 16777215).toString(16)
+    );
   },
   computed: {
     itemMap() {
@@ -225,6 +131,8 @@ export default {
           return [
             { title: 'Range', value: 'range' },
             { title: 'Total Damage', value: 'damage' },
+            { title: 'Threat', value: 'threat' },
+            { title: 'Thrown', value: 'thrown' },
             { title: 'Line', value: 'line' },
             { title: 'Blast', value: 'blast' },
             { title: 'Burst', value: 'burst' },
@@ -266,7 +174,7 @@ export default {
             id: key || 'None',
             label: key || 'None',
             data: this.collateData(byLcp[key]),
-            backgroundColor: ColorArr[i],
+            backgroundColor: this.colors[i],
           };
         });
       }
@@ -274,6 +182,83 @@ export default {
       return {
         datasets,
       };
+    },
+    options() {
+      let o = {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            offset: true,
+            ticks: {
+              stepSize: 1,
+            },
+            title: {
+              display: false,
+            },
+          },
+          y: {
+            offset: true,
+            ticks: {
+              stepSize: 1,
+            },
+            title: {
+              display: false,
+            },
+          },
+        },
+        layout: {
+          padding: 10,
+        },
+        legend: {
+          display: false,
+        },
+        elements: {
+          point: {
+            radius: 6,
+            hoverRadius: 6,
+            borderColor: '#fff',
+            borderWidth: 2,
+          },
+        },
+        plugins: {
+          annotation: {
+            annotations: {},
+          },
+          datalabels: {
+            color: '#fff',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            borderRadius: 4,
+            clamp: true,
+            align: 'bottom',
+            offset: 8,
+            font: {
+              family: 'Helvetica',
+              size: 15,
+            },
+          },
+        },
+      } as any;
+
+      if (this.selected) {
+        const stats = this.selected.Stats
+          ? this.selected.Stats
+          : this.selected.StatsByProfile[0].Stats;
+
+        o.plugins.annotation.annotations = {
+          point1: {
+            type: 'point',
+            xValue: stats[this.xAxis.value] || 0,
+            yValue: stats[this.yAxis.value] || 0,
+            radius: 18,
+            backgroundColor: 'rgba(153, 30, 42, 0.25)',
+            borderWidth: 4,
+            borderColor: '#991E2A',
+          },
+        };
+      }
+
+      return o;
     },
   },
   methods: {

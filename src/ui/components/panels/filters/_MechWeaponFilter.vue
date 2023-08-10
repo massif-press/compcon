@@ -10,7 +10,9 @@
         variant="outlined"
         label="From Manufacturer"
         :items="manufacturers"
+        chips
         clearable
+        multiple
         @update:modelValue="updateFilters()"
       />
     </v-col>
@@ -120,7 +122,7 @@
     </v-col>
   </v-row>
   <v-row dense align="center" justify="center">
-    <v-col cols="auto">
+    <v-col cols="auto" class="text-center">
       <v-text-field
         v-model="sp"
         type="number"
@@ -141,6 +143,16 @@
         "
         @update:modelValue="updateFilters()"
       />
+      <v-btn
+        size="x-small"
+        variant="plain"
+        @click="
+          sp = 0;
+          spType = '';
+          updateFilters();
+        "
+        >Reset</v-btn
+      >
     </v-col>
   </v-row>
 </template>
@@ -160,7 +172,7 @@ const nameSort = function (a, b): number {
 export default {
   name: 'frame-filter',
   data: () => ({
-    sourceFilter: [],
+    sourceFilter: [] as any[],
     tagFilter: [],
     weaponTypeFilter: [] as WeaponType[],
     weaponSizeFilter: [] as WeaponSize[],
@@ -171,32 +183,32 @@ export default {
   }),
   emits: ['set-filters'],
   computed: {
-    manufacturers(): Manufacturer[] {
+    manufacturers(): any[] {
       return CompendiumStore()
         .getItemCollection('Manufacturers')
         .map((x) => ({ title: x.Name, value: x.ID }))
         .sort(nameSort);
     },
-    weaponTypes(): WeaponType[] {
+    weaponTypes(): any[] {
       return Object.keys(WeaponType)
         .map((k) => WeaponType[k as any])
         .filter((k) => k !== 'Integrated')
-        .sort() as WeaponType[];
+        .sort();
     },
-    weaponSizes(): WeaponSize[] {
+    weaponSizes(): any[] {
       return Object.keys(WeaponSize)
         .map((k) => WeaponSize[k as any])
-        .sort() as WeaponSize[];
+        .sort();
     },
-    attackTypes(): RangeType[] {
+    attackTypes(): any[] {
       return Object.keys(RangeType)
         .map((k) => RangeType[k as any])
-        .sort() as RangeType[];
+        .sort();
     },
-    damageTypes(): DamageType[] {
+    damageTypes(): any[] {
       return Object.keys(DamageType)
         .map((k) => DamageType[k as any])
-        .sort() as DamageType[];
+        .sort();
     },
     tags(): Tag[] {
       return _.uniqBy(
@@ -215,7 +227,7 @@ export default {
   },
   methods: {
     clear() {
-      this.sourceFilter = [];
+      this.sourceFilter = this.manufacturers.map((x) => x.value);
       this.tagFilter = [];
       this.weaponTypeFilter = [];
       this.weaponSizeFilter = [];
@@ -226,7 +238,7 @@ export default {
     },
     updateFilters() {
       const fObj = {} as any;
-      if (this.sourceFilter) fObj.Source = [this.sourceFilter];
+      if (this.sourceFilter) fObj.Source = this.sourceFilter;
       if (this.spType && this.sp) fObj[`SP_${this.spType}`] = this.sp;
       fObj[`SP_${this.spType}`] = this.sp;
       if (this.tagFilter && this.tagFilter.length) fObj.Tags = this.tagFilter;

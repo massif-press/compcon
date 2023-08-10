@@ -18,7 +18,7 @@
           </div>
 
           <v-window v-model="lcpTab">
-            <v-window-item v-for="lcp in lcpFilter">
+            <v-window-item v-for="lcp in lcpFilter" eager>
               <div class="heading mech" v-text="lcp" />
               <div style="height: calc(100vh - 250px)">
                 <bar :options="options" :data="getChartData(getItems(undefined, lcp as string))" />
@@ -51,7 +51,7 @@
           </div>
 
           <v-window v-model="mfTab">
-            <v-window-item v-for="manufacturer in (manufacturers as string[])">
+            <v-window-item v-for="manufacturer in (manufacturers as string[])" eager>
               <v-row v-if="manufacturer" align="center">
                 <v-col cols="auto">
                   <cc-logo
@@ -99,7 +99,7 @@
           </div>
 
           <v-window v-model="licenseTab">
-            <v-window-item v-for="l in (licenses as string[])">
+            <v-window-item v-for="l in (licenses as string[])" eager>
               <div class="heading h2 text-primary mt-4" v-text="l" />
               <v-row class="mt-n8">
                 <v-col style="height: calc(100vh - 225px)">
@@ -154,6 +154,7 @@
 </template>
 
 <script lang="ts">
+import { Bar } from 'vue-chartjs';
 import {
   Chart as ChartJS,
   LinearScale,
@@ -161,14 +162,27 @@ import {
   LineElement,
   Tooltip,
   Legend,
+  CategoryScale,
+  BarElement,
 } from 'chart.js';
-import { Bar } from 'vue-chartjs';
-import _ from 'lodash';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import annotationPlugin from 'chartjs-plugin-annotation';
+
+import _ from 'lodash';
 import { CompendiumItem, MechWeapon } from '@/class';
 import { CompendiumStore } from '@/stores';
 
-ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);
+ChartJS.register(
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  BarElement,
+  ChartDataLabels,
+  annotationPlugin
+);
 
 export default {
   name: 'SelectorScatter',
@@ -194,6 +208,10 @@ export default {
       type: Array,
       required: true,
     },
+    selected: {
+      type: Object,
+      required: false,
+    },
   },
   components: { Bar },
   data: () => ({
@@ -202,51 +220,8 @@ export default {
     lcpTab: 0,
     licenseTab: 0,
     sort: '',
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          offset: true,
-          ticks: {
-            stepSize: 1,
-          },
-          title: {
-            display: false,
-          },
-        },
-      },
-      layout: {
-        padding: 10,
-      },
-
-      elements: {
-        point: {
-          radius: 6,
-          hoverRadius: 6,
-          borderColor: '#fff',
-          borderWidth: 2,
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        datalabels: {
-          color: '#fff',
-          backgroundColor: 'rgba(0,0,0,0.6)',
-          borderRadius: 4,
-          anchor: 'start',
-          offset: 8,
-          font: {
-            family: 'Helvetica',
-            size: 12,
-          },
-        },
-      },
-    },
   }),
-  mounted() {
+  created() {
     this.xAxis = this.axes[0];
   },
   computed: {
@@ -270,6 +245,8 @@ export default {
           return [
             { title: 'Range', value: 'range' },
             { title: 'Total Damage', value: 'damage' },
+            { title: 'Threat', value: 'threat' },
+            { title: 'Thrown', value: 'thrown' },
             { title: 'Line', value: 'line' },
             { title: 'Blast', value: 'blast' },
             { title: 'Burst', value: 'burst' },
@@ -287,6 +264,82 @@ export default {
     },
     itemsByLcp() {
       return _.groupBy(this.items, 'LcpName');
+    },
+    options(): any {
+      let o = {
+        responsive: true,
+        maintainAspectRatio: false,
+        // transitions: {
+        //   resize: {
+        //     animation: false,
+        //   },
+        // },
+        scales: {
+          y: {
+            offset: true,
+            ticks: {
+              stepSize: 1,
+            },
+            title: {
+              display: false,
+            },
+          },
+        },
+        layout: {
+          padding: 10,
+        },
+        elements: {
+          point: {
+            radius: 6,
+            hoverRadius: 6,
+            borderColor: '#fff',
+            borderWidth: 2,
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          annotation: {
+            annotations: {},
+          },
+          datalabels: {
+            color: '#fff',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            borderRadius: 4,
+            anchor: 'start',
+            offset: 8,
+            font: {
+              family: 'Helvetica',
+              size: 12,
+            },
+          },
+        },
+      };
+
+      if (this.selected) {
+        const stats = this.selected.Stats
+          ? this.selected.Stats
+          : this.selected.StatsByProfile[0].Stats;
+
+        o.plugins.annotation.annotations = {
+          line1: {
+            type: 'line',
+            yMin: stats[this.xAxis.value] || 0,
+            yMax: stats[this.xAxis.value] || 0,
+            borderColor: this.mf(this.selected.Source).GetColor(),
+            borderDash: [4, 4],
+            label: {
+              content: `${this.selected.Source} ${this.selected.Name} (${stats[this.xAxis.value]} ${
+                this.xAxis.title
+              })`,
+              display: true,
+            },
+          },
+        };
+      }
+
+      return o;
     },
   },
   methods: {
@@ -340,6 +393,7 @@ export default {
             stats: { ...x.Stats },
             source: x.Source,
             lcp: x.LcpName,
+            id: x.ID,
           };
         })
       );
