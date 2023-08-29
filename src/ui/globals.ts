@@ -1,3 +1,4 @@
+import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue';
 import CCSelector from './components/selector_new/CCSelector.vue';
 import CCBondInfo from './components/CCBondInfo.vue';
 import CCBondPowerCard from './components/CCBondPowerCard.vue';
@@ -91,6 +92,7 @@ import CCReserveCard from './components/items/features/reserves/CCReserveCard.vu
 import CCAvatar from './components/items/CCAvatar.vue';
 
 export {
+  CCCompendiumBrowser,
   CCAvatar,
   CCReserveCard,
   CCIntegratedInfo,

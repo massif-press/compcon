@@ -1,20 +1,22 @@
 <template>
   <v-icon :small="small" color="secondary" @click="open()">cc:orbit</v-icon>
   <cc-solo-dialog id="bs-dialog" ref="dialog" fullscreen no-confirm title="Select Pilot Background">
-    <sidebar-array-view
-      :array="backgrounds"
-      icon="cc:orbit"
-      name-key="Name"
-      description-key="Description"
-      sub-key="LcpName"
-      sub-conditional="InLcp"
-      selectable
-      :is-modal="true"
-      @selected="
-        $emit('select', $event);
+    <cc-compendium-browser
+      :items="backgrounds"
+      item-type="Background"
+      :options="options"
+      equippable
+      @equip="
+        $emit('select', $event.Name);
         ($refs.dialog as any).hide();
       "
-    />
+    >
+      <template #header>
+        <div class="heading h4 text-center text-primary mt-2">
+          Select Pilot Background
+        </div></template
+      >
+    </cc-compendium-browser>
   </cc-solo-dialog>
 </template>
 
@@ -33,6 +35,15 @@ export default {
       required: false,
     },
   },
+  data: () => ({
+    options: {
+      views: ['list', 'table'],
+      initialView: 'list',
+      groups: ['lcp'],
+      initialGroup: 'lcp',
+      noSource: true,
+    },
+  }),
   emits: ['select'],
   computed: {
     backgrounds(): Background[] {

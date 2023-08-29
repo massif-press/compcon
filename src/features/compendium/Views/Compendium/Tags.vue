@@ -1,20 +1,19 @@
 <template>
-  <compendium-browser :items="tags" item-type="Tag" :table-headers="headers" :options="options">
+  <cc-compendium-browser :items="tags" item-type="Tag" :table-headers="headers" :options="options">
     <template #header>
       <div class="heading h3 text-center text-primary">Equipment Tags</div></template
     >
-  </compendium-browser>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import _ from 'lodash';
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'Tags',
-  components: { CompendiumBrowser },
+
   data: () => ({
     headers: [
       { title: 'Content Pack', key: 'LcpName' },

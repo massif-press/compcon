@@ -15,6 +15,9 @@ import CoreBonusCard from './_CoreBonusCard.vue';
 import LicenseCard from './_LicenseCard.vue';
 import TalentCard from './_TalentCard.vue';
 import ReserveCard from './_ReserveCard.vue';
+import BackgroundCard from './_BackgroundCard.vue';
+import EnvironmentCard from './_EnvironmentCard.vue';
+import SitrepCard from './_SitrepCard.vue';
 
 export {
   EquipmentCardBase,
@@ -34,4 +37,7 @@ export {
   LicenseCard,
   TalentCard,
   ReserveCard,
+  SitrepCard,
+  BackgroundCard,
+  EnvironmentCard,
 };

@@ -88,6 +88,8 @@ import {
 } from './classes/npc';
 import { ContentPack } from './classes/ContentPack';
 import { Counter } from './classes/components/combat/counters/Counter';
+import { Environment } from './classes/Environment';
+import { Sitrep } from './classes/encounter/Sitrep';
 
 export {
   Background,
@@ -170,4 +172,6 @@ export {
   Counter,
   PlayerAction,
   Bond,
+  Environment,
+  Sitrep,
 };

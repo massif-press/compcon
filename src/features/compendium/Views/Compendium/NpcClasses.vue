@@ -101,17 +101,12 @@
 </template>
 
 <script lang="ts">
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
-
 import { CompendiumStore } from '@/stores';
 import { NpcClass } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
 
 export default {
   name: 'NpcClasses',
-  components: {
-    CompendiumBrowser,
-  },
   data: () => ({
     tier: 1,
     search: '',

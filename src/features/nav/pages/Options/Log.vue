@@ -1,78 +1,78 @@
 <template>
-  <div style="max-height: 550px; overflow-y: scroll">
-    <h2 class="heading text-accent mb-3">Recent Errors</h2>
-    <v-expansion-panels>
-      <v-expansion-panel v-for="(error, i) in errors">
-        <v-expansion-panel-header>
-          <div class="flavor-text font-small text-text">
-            <span class="flavor-text text-error font-big">{{
-              error.message
-            }}</span>
-            - {{ dateFormat(error.time) }}
-            <span v-if="error.component">
-              at
-              <span class="text-secondary">[{{ error.component }}]</span>
-            </span>
-          </div>
-        </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <h5 class="text-error">STACK TRACE</h5>
-          <pre
-            class="flavor-text text-error stack"
-            @copy="onCopy($event, error)"
-            >{{ error.stack }}</pre
-          >
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </div>
+  <v-container>
+    <div style="max-height: 550px; overflow-y: scroll">
+      <v-expansion-panels>
+        <v-expansion-panel v-for="item in history">
+          <v-expansion-panel-title>
+            <v-chip size="small" label class="mr-4" :color="item.color">{{ item.type }}</v-chip>
+            {{ item.message }} - {{ timestamp(item.timestamp) }}
+            <v-spacer />
+            <v-btn size="small" icon variant="plain" @click="sendToClipboard(item)">
+              <v-icon icon="mdi-content-copy" />
+            </v-btn>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-row>
+              <v-col>
+                <div class="heading h3">TRACE</div>
+                <v-divider />
+                <ol>
+                  <li v-for="t in item.trace">
+                    <div v-html="formatTrace(t)" />
+                  </li>
+                </ol>
+              </v-col>
+              <v-col>
+                <div class="heading h3">CALLER</div>
+                <v-divider />
+                <div v-if="item.caller">
+                  <div class="text-primary font-weight-bold">
+                    {{ item.caller.constructor.name }}
+                  </div>
+                  <v-list density="compact">
+                    <v-list-item
+                      v-for="k in Object.keys(item.caller)"
+                      :title="k"
+                      :subtitle="JSON.stringify(item.caller[k])"
+                    />
+                  </v-list>
+                </div>
+                <div v-else>no data</div>
+              </v-col>
+            </v-row>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+    </div>
+  </v-container>
 </template>
 
 <script lang="ts">
+import logger from '@/user/logger';
+
 export default {
   name: 'Log',
   computed: {
-    errors() {
-      return '';
+    history() {
+      return logger.History.reverse();
     },
   },
   methods: {
-    dateFormat(date: Date) {
-      return `${date.getFullYear()}/${(date.getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date
-        .getHours()
-        .toString()
-        .padStart(2, '0')}:${date
-        .getMinutes()
-        .toString()
-        .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+    timestamp(t: number) {
+      return new Date(t).toLocaleTimeString();
     },
-    onCopy(e, error) {
-      console.log('oncopy fired');
-      const text =
-        '```\n' +
-        (error.component ? `Vue error at [${error.component}]\n` : '') +
-        window.getSelection().toString() +
-        '```';
-      e.clipboardData.setData('text/plain', text);
-      e.preventDefault();
+    formatTrace(t: string) {
+      if (!t) return 'no data';
+      return (
+        t.replace('(', '').replace('/', '<div style="font-size:13px; margin-top: -4px">/') +
+        '</div>'
+      );
+    },
+    sendToClipboard(item: any) {
+      let trace = item.trace.join('\n');
+      let text = `${item.message} (${item.type})\n${trace}\n${item.caller || 'no caller'}`;
+      navigator.clipboard.writeText(text);
     },
   },
 };
 </script>
-
-<style scoped>
-.font-small {
-  font-size: 12px;
-}
-
-.stack {
-  font-size: 14px;
-  user-select: all;
-  border: 1px solid rgb(var(--v-theme-subtle-darken2));
-  border-radius: 4px;
-  padding: 10px;
-  margin: 3px 0;
-}
-</style>

@@ -170,31 +170,30 @@
               >
             </template>
 
-            <v-list-item
+            <b-list-item
               v-if="options.noSource"
               v-for="item in itemsByLcp[lcp]"
-              :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
-              @click="
+              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :compare="view === 'compare'"
+              :item="(item as CompendiumItem)"
+              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              @equip="$emit('equip', item)"
+              @clicked="
                 selectedItem && selectedItem.ID === (item as CompendiumItem).ID
                   ? selectItem(null)
                   : selectItem(item as CompendiumItem)
               "
             >
-              <template #title>
-                <span class="text-button">
-                  <v-checkbox-btn
-                    v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
-                    density="compact"
-                    v-model="comparisons"
-                    @click.stop
-                    class="d-inline ml-3"
-                    :value="(item as CompendiumItem)"
-                  />
-                  <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
-                  {{ (item as CompendiumItem).Name }}
-                </span>
+              <template #checkbox>
+                <v-checkbox-btn
+                  density="compact"
+                  v-model="comparisons"
+                  @click.stop
+                  class="d-inline ml-3"
+                  :value="(item as CompendiumItem)"
+                />
               </template>
-            </v-list-item>
+            </b-list-item>
 
             <v-list-group
               v-else
@@ -220,35 +219,32 @@
                       start
                     />
                     <span class="text-button">
-                      <b>{{ manufacturer }}</b>
+                      <b>{{ manufacturer ? manufacturer : 'Other' }}</b>
                     </span>
                   </template></v-list-item
                 >
               </template>
-              <v-list-item
+              <b-list-item
                 v-for="item in getItems(manufacturer, lcp)"
-                :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
-                @click="
+                :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+                :compare="view === 'compare'"
+                :item="(item as CompendiumItem)"
+                @clicked="
                   selectedItem && selectedItem.ID === (item as CompendiumItem).ID
                     ? selectItem(null)
                     : selectItem(item as CompendiumItem)
                 "
               >
-                <template #title>
-                  <span class="text-button">
-                    <v-checkbox-btn
-                      v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
-                      density="compact"
-                      v-model="comparisons"
-                      @click.stop
-                      class="d-inline ml-3"
-                      :value="(item as CompendiumItem)"
-                    />
-                    <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
-                    {{ (item as CompendiumItem).Name }}
-                  </span>
+                <template #checkbox>
+                  <v-checkbox-btn
+                    density="compact"
+                    v-model="comparisons"
+                    @click.stop
+                    class="d-inline ml-3"
+                    :value="(item as CompendiumItem)"
+                  />
                 </template>
-              </v-list-item>
+              </b-list-item>
             </v-list-group>
           </v-list-group>
         </div>
@@ -276,35 +272,34 @@
                     start
                   />
                   <span class="text-button">
-                    <b>{{ manufacturer }}</b>
+                    <b>{{ manufacturer ? manufacturer : 'Other' }}</b>
                   </span>
                 </template></v-list-item
               >
             </template>
-            <v-list-item
+            <b-list-item
               v-for="item in getItems(manufacturer)"
-              :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
-              @click="
+              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :compare="view === 'compare'"
+              :item="(item as CompendiumItem)"
+              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              @equip="$emit('equip', item)"
+              @clicked="
                 selectedItem && selectedItem.ID === (item as CompendiumItem).ID
                   ? selectItem(null)
                   : selectItem(item as CompendiumItem)
               "
             >
-              <template #title>
-                <span class="text-button">
-                  <v-checkbox-btn
-                    v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
-                    density="compact"
-                    v-model="comparisons"
-                    @click.stop
-                    class="d-inline ml-3"
-                    :value="(item as CompendiumItem)"
-                  />
-                  <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
-                  {{ (item as CompendiumItem).Name }}
-                </span>
+              <template #checkbox>
+                <v-checkbox-btn
+                  density="compact"
+                  v-model="comparisons"
+                  @click.stop
+                  class="d-inline ml-3"
+                  :value="(item as CompendiumItem)"
+                />
               </template>
-            </v-list-item>
+            </b-list-item>
           </v-list-group>
         </div>
         <div v-else-if="group === 'license'">
@@ -313,35 +308,34 @@
               <v-list-item v-bind="props">
                 <template #title>
                   <span class="text-button">
-                    <b>{{ license }}</b>
+                    <b>{{ license ? license : 'Other' }}</b>
                   </span>
                 </template></v-list-item
               >
             </template>
-            <v-list-item
+            <b-list-item
               v-for="item in getLicenseItems(license)"
-              :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
-              @click="
+              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :compare="view === 'compare'"
+              :item="(item as CompendiumItem)"
+              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              @equip="$emit('equip', item)"
+              @clicked="
                 selectedItem && selectedItem.ID === (item as CompendiumItem).ID
                   ? selectItem(null)
                   : selectItem(item as CompendiumItem)
               "
             >
-              <template #title>
-                <span class="text-button">
-                  <v-checkbox-btn
-                    v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
-                    density="compact"
-                    v-model="comparisons"
-                    @click.stop
-                    class="d-inline ml-3"
-                    :value="(item as CompendiumItem)"
-                  />
-                  <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
-                  {{ (item as CompendiumItem).Name }}
-                </span>
+              <template #checkbox>
+                <v-checkbox-btn
+                  density="compact"
+                  v-model="comparisons"
+                  @click.stop
+                  class="d-inline ml-3"
+                  :value="(item as CompendiumItem)"
+                />
               </template>
-            </v-list-item>
+            </b-list-item>
           </v-list-group>
         </div>
         <div v-else-if="group === 'type'">
@@ -355,57 +349,53 @@
                 </template></v-list-item
               >
             </template>
-            <v-list-item
+            <b-list-item
               v-for="item in getSubtypeItems(subtype)"
-              :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
-              @click="
+              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :compare="view === 'compare'"
+              :item="(item as CompendiumItem)"
+              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              @equip="$emit('equip', item)"
+              @clicked="
                 selectedItem && selectedItem.ID === (item as CompendiumItem).ID
                   ? selectItem(null)
                   : selectItem(item as CompendiumItem)
               "
             >
-              <template #title>
-                <span class="text-button">
-                  <v-checkbox-btn
-                    v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
-                    density="compact"
-                    v-model="comparisons"
-                    @click.stop
-                    class="d-inline ml-3"
-                    :value="(item as CompendiumItem)"
-                  />
-                  <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
-                  {{ (item as CompendiumItem).Name }}
-                </span>
-              </template>
-            </v-list-item>
-          </v-list-group>
-        </div>
-        <div v-else>
-          <v-list-item
-            v-for="item in shownItems"
-            :class="selectedItem && selectedItem.ID === (item as CompendiumItem).ID ? 'bg-primary' : ''"
-            @click="
-              selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                ? selectItem(null)
-                : selectItem(item as CompendiumItem)
-            "
-          >
-            <template #title>
-              <span class="text-button">
+              <template #checkbox>
                 <v-checkbox-btn
-                  v-if="view === 'compare' && !!selectedItem && (item as CompendiumItem).ID !== (selectedItem as CompendiumItem).ID"
                   density="compact"
                   v-model="comparisons"
                   @click.stop
                   class="d-inline ml-3"
                   :value="(item as CompendiumItem)"
                 />
-                <v-icon v-else start class="ml-3" :icon="(item as CompendiumItem).Icon" />
-                {{ (item as CompendiumItem).Name }}
-              </span>
+              </template>
+            </b-list-item>
+          </v-list-group>
+        </div>
+        <div v-else>
+          <b-list-item
+            v-for="item in shownItems"
+            :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+            :compare="view === 'compare'"
+            :item="(item as CompendiumItem)"
+            @clicked="
+              selectedItem && selectedItem.ID === (item as CompendiumItem).ID
+                ? selectItem(null)
+                : selectItem(item as CompendiumItem)
+            "
+          >
+            <template #checkbox>
+              <v-checkbox-btn
+                density="compact"
+                v-model="comparisons"
+                @click.stop
+                class="d-inline ml-3"
+                :value="(item as CompendiumItem)"
+              />
             </template>
-          </v-list-item>
+          </b-list-item>
         </div>
       </v-list>
     </v-col>
@@ -627,14 +617,18 @@
 <script lang="ts">
 import ItemFilter from '@/classes/utility/ItemFilter';
 import _ from 'lodash';
-import SelectorListItem from './items/_selectorListItem.vue';
-import SelectorCardItem from './items/_selectorCardItem.vue';
-import SelectorTable from './items/_selectorTable.vue';
-import SelectorScatter from './items/_selectorScatter.vue';
-import SelectorBar from './items/_selectorBar.vue';
-import SelectorCompare from './items/_selectorCompare.vue';
+
+import SelectorListItem from './views/_selectorListItem.vue';
+import SelectorCardItem from './views/_selectorCardItem.vue';
+import SelectorTable from './views/_selectorTable.vue';
+import SelectorScatter from './views/_selectorScatter.vue';
+import SelectorBar from './views/_selectorBar.vue';
+import SelectorCompare from './views/_selectorCompare.vue';
+
+import bListItem from './components/_b-list-item.vue';
+
 import { CompendiumItem, License } from '@/class';
-import { CompendiumStore } from '../store';
+import { CompendiumStore } from '@/stores';
 
 type BrowserOptions = {
   views: string[];
@@ -654,6 +648,7 @@ export default {
     SelectorScatter,
     SelectorBar,
     SelectorCompare,
+    bListItem,
   },
   emits: ['equip'],
   props: {
@@ -680,6 +675,13 @@ export default {
     options: {
       type: Object as () => BrowserOptions,
       required: true,
+    },
+    equippable: {
+      type: Boolean,
+    },
+    equipped: {
+      type: Object,
+      required: false,
     },
   },
   data: () => ({

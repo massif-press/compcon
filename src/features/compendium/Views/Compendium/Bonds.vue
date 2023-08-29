@@ -26,15 +26,14 @@
       </v-col>
     </v-row>
   </v-container>
-  <compendium-browser :items="bonds" item-type="Bond" :options="options">
+  <cc-compendium-browser :items="bonds" item-type="Bond" :options="options">
     <template #header> <div class="heading h3 text-center text-primary">Pilot Bonds</div></template>
-  </compendium-browser>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
 import { Bond } from '@/class';
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
 export default {
   name: 'bonds',
@@ -63,6 +62,5 @@ export default {
       }
     },
   },
-  components: { CompendiumBrowser },
 };
 </script>

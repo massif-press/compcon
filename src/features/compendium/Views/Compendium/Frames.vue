@@ -1,16 +1,20 @@
 <template>
-  <compendium-browser :items="frames" item-type="Frame" :table-headers="headers" :options="options">
+  <cc-compendium-browser
+    :items="frames"
+    item-type="Frame"
+    :table-headers="headers"
+    :options="options"
+  >
     <template #header> <div class="heading h3 text-center text-primary">Frames</div></template>
-  </compendium-browser>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 import { CompendiumStore } from '../../store';
 
 export default {
   name: 'Frames',
-  components: { CompendiumBrowser },
+
   data: () => ({
     options: {
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],

@@ -1,5 +1,5 @@
 <template>
-  <compendium-browser
+  <cc-compendium-browser
     :items="weapons"
     item-type="MechWeapon"
     :table-headers="headers"
@@ -8,16 +8,15 @@
     <template #header>
       <div class="heading h3 text-center text-primary">Mech Weapons</div></template
     >
-  </compendium-browser>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 import { CompendiumStore } from '../../store';
 
 export default {
   name: 'Weapons',
-  components: { CompendiumBrowser },
+
   data: () => ({
     options: {
       views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],

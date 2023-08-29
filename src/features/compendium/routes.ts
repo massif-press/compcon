@@ -19,6 +19,9 @@ import Talents from './Views/Compendium/Talents.vue';
 import Backgrounds from './Views/Compendium/Backgrounds.vue';
 import Reserves from './Views/Compendium/Reserves.vue';
 import Bonds from './Views/Compendium/Bonds.vue';
+import Environments from './Views/Compendium/Environments.vue';
+import Sitreps from './Views/Compendium/Sitreps.vue';
+import Tables from './Views/Compendium/Tables.vue';
 
 import Reference from './Views/Reference/index.vue';
 import ReferenceSearch from './Views/Reference/SearchResults.vue';
@@ -125,6 +128,18 @@ const routes = [
   {
     path: 'compendium/bonds',
     component: Bonds,
+  },
+  {
+    path: 'compendium/environments',
+    component: Environments,
+  },
+  {
+    path: 'compendium/sitreps',
+    component: Sitreps,
+  },
+  {
+    path: 'compendium/tables',
+    component: Tables,
   },
   {
     path: 'reference',

@@ -22,6 +22,8 @@ import {
   NpcSystem,
   NpcTech,
   Reserve,
+  Environment,
+  Sitrep,
 } from '@/class';
 import * as PlayerAction from '@/classes/Action';
 import {
@@ -49,6 +51,8 @@ import { Background, IBackgroundData } from './Background';
 import { Status, IStatusData } from './Status';
 import { Bond, IBondData } from './pilot/components/bond/Bond';
 import { IReserveData } from './pilot/components';
+import { IEnvironmentData } from './Environment';
+import { ISitrepData } from './encounter/Sitrep';
 
 type ContentPackDependency = {
   name: string;
@@ -89,8 +93,8 @@ interface IContentPackData {
   actions: PlayerAction.IActionData[];
 
   statuses: IStatusData[];
-  environments: Environment[];
-  sitreps: Sitrep[];
+  environments: IEnvironmentData[];
+  sitreps: ISitrepData[];
 
   tables: any;
 }
@@ -186,8 +190,10 @@ class ContentPack {
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     );
 
-    self._Environments = self._data.environments || [];
-    self._Sitreps = self._data.sitreps || [];
+    self._Environments =
+      self._data.environments?.map((x) => new Environment(x, self._manifest.name)) || [];
+
+    self._Sitreps = self._data.sitreps?.map((x) => new Sitrep(x, self._manifest.name)) || [];
 
     self._Tables = self._data.tables || {};
 
