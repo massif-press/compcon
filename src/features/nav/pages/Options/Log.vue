@@ -16,11 +16,11 @@
               <v-col>
                 <div class="heading h3">TRACE</div>
                 <v-divider />
-                <ol>
+                <ul>
                   <li v-for="t in item.trace">
                     <div v-html="formatTrace(t)" />
                   </li>
-                </ol>
+                </ul>
               </v-col>
               <v-col>
                 <div class="heading h3">CALLER</div>
@@ -59,18 +59,34 @@ export default {
   },
   methods: {
     timestamp(t: number) {
-      return new Date(t).toLocaleTimeString();
+      const date = new Date(t);
+      const hours = date.getHours();
+      const minutes = date.getMinutes();
+      const seconds = date.getSeconds();
+      const milliseconds = date.getMilliseconds();
+
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const formattedHours = String(hours % 12 || 12).padStart(2, '0');
+      const formattedMinutes = String(minutes).padStart(2, '0');
+      const formattedSeconds = String(seconds).padStart(2, '0');
+      const formattedMilliseconds = String(milliseconds).padStart(3, '0');
+
+      return `${formattedHours}:${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds} ${period}`;
     },
     formatTrace(t: string) {
       if (!t) return 'no data';
       return (
-        t.replace('(', '').replace('/', '<div style="font-size:13px; margin-top: -4px">/') +
+        t
+          .replace('(', '')
+          .replace('/', '<div style="font-size:13px; margin-top: -4px; margin-left: 6px">/') +
         '</div>'
       );
     },
     sendToClipboard(item: any) {
       let trace = item.trace.join('\n');
-      let text = `${item.message} (${item.type})\n${trace}\n${item.caller || 'no caller'}`;
+      let text = `${item.message} (${item.type})\n------\ntrace:\n${trace}\n------\n${
+        item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
+      }`;
       navigator.clipboard.writeText(text);
     },
   },
