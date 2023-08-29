@@ -50,7 +50,7 @@ class Logger {
 
     // prune unnecessary content
     stack = stack.map((line) => line.replace(/https?:\/\/localhost(:\d{4})?/g, ''));
-    stack = stack.map((line) => line.replace(/https:\/\/compcon\.app/g, ''));
+    stack = stack.map((line) => line.replace(/https?:\/\/[^\s\/]+\.app/g, ''));
     stack = stack.map((line) => line.split('?')[0]);
 
     return stack;
@@ -83,8 +83,6 @@ class Logger {
       caller,
       timestamp: Date.now(),
     });
-
-    console.log(caller ? caller.constructor.name : '');
 
     if (logLevel[type] < logLevel[this.level]) return;
     console.log(
