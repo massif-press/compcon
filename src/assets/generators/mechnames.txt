@@ -1,12 +1,22 @@
 777
 A Dangersome Inheritance
+A Distant Echo
+A Distant Memory
+A Distant Star
+A Distant Voice
 A Few Words
+A Final Appeal
 A Final Donation
+A Final Word
+A First Step
 A Good Example
 A Good Left Undone
 A Heart Full of Fire
+A Heart Full of Love
+A Hush Prevails
 A Kind Word
 A Lecture on Philosophy
+A Letter From the Grave
 A Letter in the Coffin
 A Little Bit Unnatural
 A Little Less Conversation Between Us
@@ -14,6 +24,10 @@ A Little Less is Better
 A Little Shock
 A Little Solace
 A Long Goodbye
+A Long Time Coming
+A Material Condition
+A Moment of Clarity
+A Moment of Reflection
 A Moment of Silence
 A Parting Word
 A Profound Problem
@@ -27,67 +41,139 @@ A Thousand Bitter Tears
 A Thousand Lives
 A Very Pleasant Trap
 A Very Private War
+A Very Simple Plan
+A Voyage into the Unknown
 A World of Difference
 A World of Fear
 A World Without Fear
 Absolute Value
+Absolute Zero
+Absurdly Simple
 Abundance of Caution
+Abundance of Love
 Act of Hospitality
 Act of Mercy
+Act of War
+Action and Contemplation
 Action and Doctrine
+Action and Reaction
 Action Research
+Actionable Intelligence
+Active and Passive
 Acts of Participation
+Actual and Potential
 Ad Infinitum
+Ad Nauseam
+Adaptation and Evolution
+Adaptation and Survival
+Adaptation and Transformation
+Adrenaline Anthem
 Aesthetics After Finitude
+Affectionate and Unquestionable
+Affirmative Negation
+Affirmative Prayer
 After All
+After All This Time
+After the End
 After the Water, the Clouds
 Aftermarket Alimony
 Again in Hell
+Against All Odds
+Against the Tide
+Agape and Eros
+Age of Reason
+Ageless and Unquestionable
 Agent of Entropy
+Agent of Grace
+Agent of the State
+Agent of the Unseen
+Aggressive Ascension
+Aging Gracefully
 Aging Well
 Agorophile
+Agree to Disagree
 Agreeable Work
-Ain't Nothin
+Aimless and Unquestionable
+Ain't Nothin'
 Alcatraz Charcoal
 Algorithmic Governance
 All Might Be Well
+All My Love
+All the Time in the World
+All the Way Up
 All You Never Imagined
 Always a Way
+Always and Forever
 Amen to Nothingness
+Amicable Separation
+Amicable Separation, But Not Quite
 An Intended Dream
+An Unbearable Truth
 An Unjust World
 Ancient Breathing Apparatus
+Ancient History
+Ancient Wisdom
+And I'm Not Even Sorry
 And That’s That
 Anodyne
 Anomalous Noise
+Anomalous Signal
+Anomalous Waveform
+Another Day
 Anxious Unrequited Relationships
+Any Day Now
 Anything But That
+Anything is Possible
 Armchair Critic
 Armchair Warrior
+Armed and Dangerous
+Armed and Ready
 Arrow of Time
+Art of the Possible
 Artistic License
 As Advertised
 Ask Not
 Asking for a Friend
+Asking for a Friend, But Not Really
+Asking for a Friend, But Not Really, But Maybe
 Aspect Aversion
 Assisted Living
 Atrocity Exhibition
-Attitude Adjuster
+Attractive Nuisance
+Aurora Polaris
 Baby
 Back By Popular Demand
+Back to the Drawing Board
 Bad Authority
+Bad Faith
+Bad Idea
+Bad News
+Bad News, But Not That Bad
+Ballad for Introverts
 Banished to Interplanetary Space
 Banker
 Basic Etiquette
+Basic Superstructure
 Beast Step
+Beautiful and Unquestionable
 Belvedere Charcoal
+Beneath the Ice
 Beneath the Planet
 Beneath the Snow
 Best of Luck
+Best of the Best
+Best of the Worst
+Best of Times
 Best Step
+Better and Better
 Better Business
+Better Days
+Better Luck Next Time
+Better Than Nothing
 Beware the Fool
 Beware! I Am Your Enemy
+Beyond All Reason
+Beyond All Reasonable Doubt
 Beyond Despair
 Bigger Fish
 Bigger Frog
@@ -96,14 +182,27 @@ Bit Entropy
 Bitter Tears For All the Wrong Reasons
 Bittersweet Release
 Blackbird
+Blameless and Unquestionable
 Blank Slate
 Blessed by the Algorithm
+Blink Demographics
+Blink Dog
+Blink Dogma
+Blink Dogmatist
+Blinkrat
 Bloodthirsty Reunion
 Bodhisattva of Broken Noses
 Body Language
+Bolt From the Blue
 Bombs Away
+Bonds of Love
+Bonds of Trust
 Bonus Points
+Book of the Dead
+Book of the Wind
+Boredom and Inertia
 Bravado Tempest
+Breach of Contract
 Break All the Laws That Bind
 Brevity Without Wit
 Broken Bridge
@@ -115,49 +214,80 @@ Bulldozer Lightning
 Bulldozer Slate
 Business as Unusual
 Business as Usual
+Business Casual
+Business Ethics
+Business Model
 By Way of Apology
+By Way of Explanation
+Caffeine Sonata
+Calculated Risk
 Calculating Etiquette
+Call and Response
+Call Me When You're Ready
 Called Bluff
 Cartesian Other
+Catastrophic Failure
+Catastrophic Success
 Catlike Tread
+Causal Inference
 Causal Loop
+Causal Nexus
 Cavalier Approach
+Cavalier Disregard
+Celestial Chord
 Ceremonial Sympathy
+Chains of Love
 Chair Of Shame
 Chance Encounter
+Change of Heart
+Change of Plans
 Charm, Charm, Charm
 Chase the Sun
 Chief Opponent
+Chronicles of a Hidden Heart
 Circumference of Heaven
 Circumstantial Evidence
 Clawhammer
+Clean Slate
+Clear and Present Danger
 Clear Realization
 Closing Thoughts
+Cloud of Dust
 Coal-Fired Friendship
 Coda
 Codenames from Delta
+Cognitive Dissonance
 Coherence of Dissenters
 Cold Comfort
+Cold Shoulder
+Cold Sweat
 Cold World
 Collateral Damage
 Colorless Life
 Come Closer
+Commodity Fetish
 Communist Wokery
 Complaint Department
+Completely Unreasonable
 Concerning Syncretism
 Conflict of Interest
+Confrontation
+Confrontation and Resolution
 Confused But Supportive
 Confused Dance
 Conquest of the Mind
 Consumption And Production
 Content Management
+Contentment and Rest
 Continue to Pretend Otherwise
+Continuing Education
 Continuing Engagement
 Contrarian
 Controversies on Grace
 Cordiality Assured
 Corruption From Within
 Cosmic Censor
+Cosmic Heartstrings
 Cosmological Constant
 Cosmological Horizon
 Counter-narrative
@@ -165,11 +295,16 @@ Court In Session
 Courtier
 Craven But Kind
 Crown of Diamonds
+Crown of Thorns
+Cruel to Be Kind
 Cultivation of Ideas
+Cultural Exchange
 Custodial Services
 Customary Martyrdom
 Cyberpositive
 Dance Less
+Dancing with Shadows
+Dancing with the Dead
 Danger Close
 Dangerous But Not Unbearably So
 Dangerous New Things
@@ -179,30 +314,41 @@ Date With Devilry
 Dawn and Eclipse
 Dawn's First Light
 Deadly Affirmatives
+Deadly Negatives
+Deadly Silence
 Death in Vain
 Declined Promotion
 Degree of Freedom
 Delays In Processing
 Democratic Dialogue
+Demographic Shift
+Denial of Service
 Departure Song
+Dependable
 Desperate Measure
 Desperate Measurements
 Devastating Revelation
 Devil's Caravan
 Dhamma's Embrace of the True
 Dialectical Materialism
+Dialectical Tension
 Die Like You Mean It
 Difference of Opinion
 Different Definitions Of Irony
+Different Definitions of Success
 Diplomacy
 Diplomat
+Diplomatic Solution
+Direct Action
 Direct Application of Force
 Dirty Work
 Disastrous Proposition
 Discernible Dialogue
 Disciple
 Discourse on the Nature of Actions
+Discussion Over Breakfast
 Disintegration and Rejection
+Disinterested Observer
 Distant Early Warning
 Distant Echoes
 Distant Memories
@@ -215,7 +361,10 @@ Don't Say I Didn't Warn You
 Don't Say You Weren't Warned
 Don't Worry, This Will Only Hurt Briefly
 Doomed to Think
+Doubt and Certainty
+Doubt and Faith
 Drake Equation
+Dreadfully Close to Home
 Dreadfully Close to Normal
 Drives Night from Heaven
 Drown in the Sea of Poetry
@@ -225,19 +374,30 @@ Du Fan's Advice In The Field
 Du Fan's Confession
 Due Grey
 Dusk to Dawn
+Dust and Ashes
 Early and Often
+Early Bird
 Earth as my Witness
 Easy Does It
+Easy to Understand
+Echoes of the Heart
 Efficacious Grace
+Effortless Grace
 Effortless Introspection
+Electric Dreamscape
+Elegance in Chaos
+Elegy for the Sun
 Emperor's Blade
 Empty Threat
+Enchanted Missteps
 End-Of-Lifer
 Enthusiastically Re-purposed
+Ephemeral Eternity
 Epistle
 Epistle of Mayhem
 Epistle of Power
 Epistle of Void
+Equality of Opportunity
 Error of Your Ways
 Escape From The House of Love
 Ethereal and Unquestionable
@@ -247,60 +407,84 @@ Every Decision Is a Choice
 Everyone is Invited
 Everything Goes Black
 Everything is Fine
-Evil Research
 Evolution By Shock
 Evolution of Wisdom
-Ex-Fool
 Ex-Plowshare
+Examination of Conscience
 Examination Protocol
 Exchange of Affection
+Exchange of Ideas
 Exhaustion and Reflection
 Exit Poll
+Expedient Means
 Expropriation
 Extensive Discussion
 Extraordinary Charisma
+Extraordinary Grace
 Extreme Prejudice
+Eye of the Storm
 Face the Sun
 Faith in Rebellion
 Falconer's Conjecture
-Familliar Face
+Familiar Face
+Familiar Stranger
+Familiarity Breeds Contempt
 Far Too Trusting
 Fashion of the Future
 Faustian Slip
+Fear and Trembling
+Fear of the Unknown
+Fearful Symmetry
+Feast of the Senses
 Fellow Traveler
 Fictional Tomes
 Fiendishly Clever
 Fierce Competition
-Fight Like You Mean It
+Fierce Urgency
 Fight or Flight
 Final Argument
 Final Boss
 Final Frontier
 Final Word
 Finale
+Finders Keepers
 Fire and Brimstone
 Fire and Fornication
+Fire and Water
 Fireworks Machine
+First Among Equals
+First Contact
+First Contact Protocol
+First Light
+First of Many
 First to the Party
 Five Point Plan
+Flaming Sword
 Flammable Feelings
 Flash in the Pan
 Flexible Action
 Floor Model
 Fluctuating Values
+Flux Capacitor
 Fly's Footfall
 Fool Me Once
 Foolish Lies
+Foolishness and Wisdom
 Foot in the Grave
 For Demonstration Purposes Only
 For Display Only
+For Example
 For One Time Only
 Forger
 Formal Complaint
+Formal Request
 Four Sigma Event
+Fragments of Time
 Free to Love
 Friendship Without Committing
+From Bad to Worse
 From Cradle
+From Cradle To The Grave
 From Creation to Destruction
 Full Disclosure
 Fully Conscious
@@ -308,10 +492,16 @@ Funerary Service
 Funny Meeting You Here
 Furtive Glance
 Future-Thinking Consumer
+Galactic Jigsaw
+Gambler's Fallacy
+Game Over
 Garment of Adventure
 General Protection Fault
+Generous Offer
+Gentleman's Agreement
 Gentlemen, Please, Stop
 Geography of the Mind
+Geometric Progression
 Gestalt and Gravity
 Giant Fighting Robot
 Gilded Aimlessness
@@ -319,8 +509,10 @@ Give Me a Break
 Give Me A Reason
 Give Me One Example
 Glad to Be Here
+Glittering Misfits
 Glories of this World
 Golden Hero
+Golden Silence
 Gone but Not Forgotten
 Gone, Gone, Gone
 Good and Bad Days
@@ -331,10 +523,13 @@ Gotta Leave Somebody Behind
 Gradual Revelation
 Grave Danger
 Gravity's Spiral
+Gray Goose
 Great Alternative
 Great Attractor
 Great Catastrophe
+Great Filter
 Grey Area
+Grief's Quiet Embrace
 Grim Herculean Task
 Grooving Up Slowly
 Grossly Literal
@@ -350,17 +545,24 @@ Happiness and Wealth
 Happiness In Action
 Happiness Without Money
 Happy Ending Problem
+Hard to Believe
+Hard to Explain
+Hardened Harmonics
 Harmonic Inversion of Negative
 Harmonious Hypothesis
 Harpist's Song
 Hatred Is Not An Option
+Haunting Hymns of the Past
+Haunting Resonates Still
 Hazy Mirage
-He Loves You
 Headhunter
 Healthy Opinion
 Hear Now, Obey!
+Heart of the Matter
 Heartbroken and Empty
 Heaven or High Water
+Heavy Heart
+Heavy Heartbeat
 Hell or High Water
 Hello, Goodbye
 Henceforth Inconvenient
@@ -372,9 +574,16 @@ Hidden Conspiracy
 Hiding Place
 Hierarchical Consequences
 Hierarchical Order
+High and Dry
+Hijink
 Historic Mistake
+Historical Materialist
 History's Judge
 Homecoming
+Honesty and Integrity
+Honesty and Transparency
+Honesty is the Best Policy
+Honesty is the Best Policy, However
 Honeymoon Phase
 Honeymoon Two
 Hook-Up of the Century
@@ -386,40 +595,78 @@ How to Help Anyone
 How to Make It Through the Day
 How to Make Peace
 How to Shake Hands With the Devil
+How to Stop Worrying
 Huge if True
 Humanity, Tested
+Humble Pie
 I Abhor Violence, But
 I Am Just So Proud
+I Am Not a Weapon
+I Am Not a Weapon, and Yet...
 I Come in Peace
+I Don't Care Who You Think You Are
+I Don't Care, I'm Still Standing
 I Don't Need Your Love
 I Don't Want You So Much
 I Just Want Your Love
 I See You in my Dreams
 I Still Haven't Met Your Mother
+I Think I'm in Love
 I Think They Like Me
+I Think You're Cute
 I Told You So
+I Want to Believe
+I Want to Know
 I Was In Love with You Again
 I Was There Before You Were
 I Wish I Could Change My Mind
-I'll Be Missing You 
+I'll Be Missing You
 I'll Have to Lie
+I'll Never Forget You
+I'll Never Let You Go
+I'll Never Love Again
+I'll Never Love You Like This Again
+I'm Being Kind
+I'm Being Nice
+I'm Being Polite
 I'm Not Being Trusted, but I'm Being Enthusiastic
 I'm So Happy Here
 I'm Too Stupid to Know Better
+I've Been Here Before
+I've Been Here Since the Beginning
+I've Been Here Since the End
+Iconoclast
 Ideal Objection
+Idealized Self
 Identity Crisis
+Ideological Apparatus
+Ideological Disagreement
+If I Could Change My Mind
+If I Could Do It Again
 If I Could Tell You
+If I Had One Manna For Every Time...
 If There's One Thing I Know
 Imagination and Immaturity
+Imitation of Life
+Imitation of Love
+Imitation of Truth
 Immovable Force
+Impartial Observer
+Imperfectly Understood
+Impermanence
+Impermanence and Incompleteness
 In Memoriam
+In My Defense
 In Praise of the Dead
+In Praise of the Living
 In Sickness And In Hell
 In The Long Run
-Inauthentic Behaviour
+In Your Dreams
+Inauthentic Behavior
 Incompatible Result
 Indemnity and Oblivion
 Independent Variable
+Indirect Action
 Indirect Injection
 Inertia for the Long Term
 Inevitable Sequel
@@ -430,6 +677,7 @@ Innocent and Unquestionable
 Innocent Soul
 Innocent Until Proven
 Intellectual Interference
+Intense Impulse
 Interesting Incident
 Into Dust Descend
 Investment Management
@@ -442,16 +690,21 @@ It Must Have Been Written
 It Will Happen Next Time
 It's All Here
 It's Hard To Get Along Without You
+It's Not Always Love
 It's What You Do After
-Gray Goose
 Jilted Lover
 Jitterbug Denim
+Journey to the End of Night
+Journey to the End of Time
 Judgemental Connotation
 Juju Eyeball
 Just a Little Bit More
 Just Checking
 Just for Fun
+Just for the Record
 Just Getting Started
+Just in Case
+Just One More Thing
 Justice Shared Freely
 Kadamakara
 Keep Clear
@@ -482,6 +735,7 @@ Light Treason
 Lightly Curled Round The Wrist
 Lightly Seared
 Like Your Life Depends On It
+Lingering Grief Whispers
 Living Interests
 Loneliness In Action
 Lonely Light
@@ -492,18 +746,21 @@ Loving You So Hard
 Loyal Unwitting Friend
 Lucky Number
 Lucky You
+Lullaby for a Midnight Sky
 Luxury Life
 Magic Falls
 Main Theme
 Malice Aforethought
 Maniacal Laughter
 Manna Acquisition Device
+March of the Martians
 Marching Westward
 Market Analyst
 Matter to Energy Converter
 Meaningful Glance
 Meaningful Vote
 Meaningless Compromise
+Mechanized Bourgeoisie Remover
 Melodious Oddity
 Mental Exclusion
 Mercantile Black Hole
@@ -520,6 +777,7 @@ Misplaced Security
 Modern Tendency
 Mojo Filter
 Momentary Diversion
+Moon? What Moon?
 Moral Injury
 Moral Responsibility
 More Poetry
@@ -532,6 +790,7 @@ My Regards
 Narrow Idea of Fun
 Nasty Brutish and Short
 Necessary, Therefore Possible
+Neon Nostalgia
 Never Mind the Ballistics
 Never Mind the Lasers
 New Arrangement
@@ -554,14 +813,17 @@ Noise, Exhaustion and Reflection
 Non Proliferation Disagreement
 Non-Refundable Deposit
 Not Disquieting At All
+Not Ever
 Not Fun By Myself
 Not In My Back Yard
 Not Nice
+Not Now
 Not Now, Not Ever!
 Not Quite
 Not Safe For Work
 Not Too Soon
 Not Worth Going Back For
+Not Yet
 Nothing But The Machine
 Nothing Ever Changes
 Nothing Happens Next
@@ -584,7 +846,7 @@ Obsession with Possibility
 Ode to Love
 Ode to Truth
 Off to the Races
-Okay I Guess 
+Okay I Guess
 Old Desires
 Old Fashioned
 On Deck
@@ -619,9 +881,9 @@ Out of Nowhere
 Out of the Blue
 Outlived Mantra
 Outside Context Problem
-Over Powered
 Pace of Nature
 Pain in the Ass
+Painful Memory
 Pale, Stupid, and Dumb
 Panic Like You Mean It
 Paracausal Angel
@@ -656,7 +918,7 @@ Plea Deal
 Point of Entry
 Pointed Riposte
 Populating Minds
-Porkpie's Belly
+Position of Union in Relation to the Various Existing Opposition Parties
 Positive Deviance
 Post-Grindstone Nose
 Poverty Without Pleasure
@@ -676,28 +938,45 @@ Principal Investigator
 Professional Responsibility
 Progeny
 Projectile Victory
+Promises Kept
+Promises Made
+Promises, Promises
+Proof of Concept
+Proof of Work
 Proper Procedure
 Prophet's Promise
 Prophetic Imagination
+Prophetic Vision
+Psychedelic Soliloquy
 Public Health Threat
 Public Nuisance
 Pure Affection
 Pure Ideology
+Pure Intention
+Pure Love
+Pure Reason
+Purely Academic
+Purely Theoretical
 Purity
+Purposeful Action
+Purposeful Negligence
+Quantum Love Triangle
 Quid pro Quo
 Race To The Bottom
 Raging Sage
 Raised in the Danger of Not Understanding
+Rapidly Approaching
 Raving Amorous
 Ready Or Not
 Real Life
-Reality Change
 Reality Graft
 Realizing a Better Tomorrow
 Reasonable Doubt
 Reckless Distrust
 Red Horse
 Regulatory Sandbox
+Reign of Terror
+Reign of the Self-Actualized
 Remains of Love
 Remembrance
 Repeat Until Done
@@ -705,15 +984,23 @@ Reply All
 Resigned Optimism
 Rest for the Wicked
 Revelation
+Revelation of the Past
+Reverie of the Winds
 Rewriting of Shadows
 Riddle of the Great Designer
 Rig Paladin
 Right this Minute
+Riotous Radiance
 Rise Now or Fall Back
 Rise of the Self-Actualized
+Rising Action
+Rising Tide
+Rising Tides
 Risk and Reputation Management
+Risk and Reward
 Riskiest Assumption
 Robot Unfazed
+Rockstar
 Roses and Thorns
 Rotten Grapeshot
 Rough and Confused
@@ -723,7 +1010,11 @@ Same Time Tomorrow
 Sappy But Bittersweet
 Savage Messiah
 Saving Hearts
+Say it Again
+Say it Again, But Louder
+Say it Again, But Not So Loud
 Say it Ain't So
+Schroedinger's Hammer
 Second Strangeness
 Secondhand Blues
 Secondhand Hope
@@ -732,19 +1023,28 @@ Secret of the Angels
 Self-Serving Criticism
 Senseless Act of Beauty
 Served Cold
+Set in Stone
 Seventh Gate
 Shantideva's Sword
+Shattered Illusion
+Shattered Silence
+Shattered Solitude
 Shockingly Simple Method
+Shooting Star
+Short and Sweet
+Short and to the Point
 Shot Noise
 Shrinking Planet
-Schroedinger's Hammer
 Signal To Noise
 Simplicity Itself
 Sincerity Couched Behind Humor
 Sleepwalker
 Slow News Day
+Slowly But Surely
+Small and Insignificant
 Snow Upon the Desert
 So Beautiful, and Yet...
+So Much for That
 Sobering Reality Check
 Soft Machine
 Solved Problem
@@ -762,34 +1062,49 @@ Speed and Politics
 Spiteful Misery
 Splitting the Atom
 Spoiler Alert
+Spontaneous Order
+Spontaneous Unfolding of the Self
 Spurious Signal
 Staged Scene
+Stalemate
 Stallion Charcoal
 Standard Deviant
 Standing Room Only
+Stardust Staccato
 Stash of Sunlight
 State of the System
 Statistician
 Statistician's War
+Stay the Course
+Stay the Night
+Steady State
+Steel and Shadows
 Stopping the Machines
 Stories Of Our Past Lives
+Storm of the Century
 Strange Heat
 Strange Matter
 Street Legal
+Stress Test
 Strictly Business
 Strictly Rhythm
 Striven Long in Vain
 Stupid in the Matter of a Few Tricks
 Sudden Intervention
 Suffer The Fools To Know
+Suffering and Salvation
+Suffering and the End of Suffering
 Sufficiently Long Lever
+Sunset Serenade
 Suppressed Evidence
 Supreme Form
-Surprise Visitation
 Surely The Time Has Come
+Surplus Value
 Surprise Surprise
+Surprise Visitation
 Suspense and Inescapability
 Suspiciously Close
+Symmetry Breaker
 Taste of Home
 Tender Crown
 Terms and Conditions
@@ -798,6 +1113,7 @@ Test Run
 Testament of Beauty
 Thanks in Advance
 The Anxiety Mechanism
+The Art of Being Alone
 The Art of Conversation
 The Believing Widow
 The Best Intentions
@@ -805,8 +1121,10 @@ The Best Of
 The Big Bang
 The Bonds Which Bind
 The Coming Revolution
+The Consequences of Inaction
 The Culprit
 The Decision Is Final
+The Devil's Due
 The Diamond Sutra
 The Diplomat
 The Doorway Is Open
@@ -815,6 +1133,7 @@ The Ecstasy of Communication
 The End is Final
 The End is Near
 The End of Everything
+The End of the World
 The Fastest Route
 The Final Act Of Time and Reason
 The Final Phase of Existence
@@ -824,6 +1143,8 @@ The First Step Toward Truth
 The First Wave
 The Fool's Guide To Happiness
 The Future
+The Future is Now
+The Future is Ours
 The Gateless Gate
 The Gates of Paradise
 The Glorious Life
@@ -831,21 +1152,25 @@ The Gods Have Spoken
 The Great Deception
 The Great Dilemma
 The Hands of Morning
+The Horizon Beckons
 The Hour of Decision
-The Human Condition
 The Human Condition
 The Indiscretion of Falling
 The Kingdom Of Fear
 The Kiss Goodbye
+The Language of Embers
+The Language of the Stars
 The Last Kiss
 The Last of Kings
 The Last of the New Age
 The Last Poem of Hoshin
+The Last Word
 The Law Of Attraction
 The Life of an Evangelist
 The Long Night
 The Means
 The Means of Destruction
+The Nature of Exploitation
 The Night After, Part 2
 The Offense
 The Other One
@@ -853,14 +1178,17 @@ The Other Side of the Story
 The Perfect Gift
 The Perfect Time to Exist
 The Perfect Workout
+The Philosophy of Praxis
 The Point of Peace
 The Power of the Now
 The Preferred Solution
+The Problem of Dictatorship
 The Problem of Time
 The Problem with Inertia
 The Questioning Way
 The Reluctant Heir
 The Road Less Traveled
+The Role of Violence in Revolution
 The Scheme of Things
 The Seat of Enlightenment
 The Seer
@@ -869,6 +1197,7 @@ The Shape of the Dragon
 The Ten Dances Of The Damned
 The Thought that Counts
 The Tower Of Babel
+The Transformation Problem
 The Truth Isn't Always a Big Deal
 The Truths I Know
 The Unbearable Truth
@@ -879,20 +1208,34 @@ The Way She Goes
 The Way You Used to Be
 The Weather
 The Wind Up Here
+The Working Day
+The World of Tomorrow
+The World Without Us
 They Looked Hostile to Me
+They're Not Even Trying
 This End Up
+This Is Not A Drill
 This Is Not God
+This Is Not The End
 This is Nothing
 This is The End
 This Just In
-This Machine Doesn't
+This Machine Kills Anthrochauvs
 This Set Of Lies
 This Will Make Your Life Untenable
+This Will Never Work
+This Will Not End Well
+This Will Not End Well, But It Will End
 Thou Shalt
-Thought for Rainment
+Thought for Raiment
+Thoughts and Prayers
+Three Point Plan
+Three Strikes
 Through The Looking Glass
+Thunderous Triumph
 Tickets Sold Out
 Till Death Do Us Part
+Time and Again
 Time and Motion
 Time Paradox
 Time's Punishment
@@ -900,24 +1243,37 @@ Timelike Infinity
 Tired of Running
 Tired of Waiting
 To Be Continued
+To Be Determined
 To Everything There Is a Season
 To Know the Truth
 To Touch and Reveal
 Tongues Of God
+Too Big to Fail
 Totality of Suffering
 Touch Me, Not Too Much
+Touch of the Void
 Tough Times For Business
 Travel In An Unknown Land
 Trouble in the Air
 Truth From Error
+Twilight's Embrace
 Tyrant
 Tâtonnement
+Unbearable
+Unbearable Beauty
+Unbearable, But Not Unbearably So
 Unbearably Honest
 Uncomfortably Vague
+Uncomfortably Warm
 Unconditional Love
+Unconditional Surrender
+Unconditional Trust
 Unconventional
 Undocumented Feature
 Unending Hype
+Unending Love
+Unending Pain
+Unending Sorrow
 Unfaithful, And Then Failing to Learn from Errors
 Unfinished Business
 Unforeseen Boon
@@ -925,46 +1281,84 @@ Unforeseen Impossibilities
 Universal Definition
 Unknown Venue
 Unleaded Florescence
+Unplugged Utopia
 Unpromised Song of Rest
+Unreasonable Doubt
+Unreasonable Expectations
 Unreasonable Optimism
 Unseen and Unheard
+Unseen Sorrow
 Unspoken Language
 Unspoken Secret
+Unspoken Sorrows
 Untidy Intentions
+Unveiling the Silence
 Unwelcome Advice
+Unwelcome Guest
+Unwilling to Learn
+Unwilling to Listen
 Unwittingly Honest
 Vain and Meaningless
 Vampiric Touch
 Velvet Anvil
+Velvet Revolution
+Velvet Vortex Voyage
 Very Well But Very, Very Short
+Vicious Cycle
 Violent Schism
 Virtuously Clean
 Visions of the Unseen
 Vivid Blue
 Walk Free
 Walking Under Fire
+Wandering in the Dark
+Wandering in the Light
+Wandering in the Wilderness
+Wandering in the Wind
+Warlock's Waltz
 Warmest Regards
 Warning Signs
 Way Too Personal
 Ways and Means
+We Are All One
+We Are All One, But Not All of Us Are One
 We Are Not Free
 We Must Be Together
 We Patched Things Up
 We Used to Wait
 We Were Made for Each Other
+We'll Always Have Carina
+We'll Always Have Cornucopia
+We'll Always Have Cradle
+We'll Always Have Deimos
+We'll Always Have Karrakis
+We'll Always Have Ras Sharma
+We'll Have This Conversation Again
+We'll Have This Conversation Later
+We'll Have This Conversation Never
+We'll Have This Conversation Tomorrow
+We'll Have This Conversation Yesterday
+We're All in This Together
 Weight of the World
 Well Of Stars
+Well, That's Just Great
 Well-Being for All
+Well-Intentioned Extremist
 Well-Intentioned Mistake
 What Exactly Is It With You?
+What Happens Next
+What if We...?
 What Is Love After Death?
 What Lies Ahead
+What Lies Beyond
 What Shall We Do Now?
 What You Get
 When In Doubt
 Where There's Smoke
+Whispered Echoes of the Soul
 Whole-Ass One Thing
 Wonderful Paradox
+Words Left Unspoken
 Work Ethic In Action
 Work from Home
 Work In Progress
@@ -988,7 +1382,7 @@ You Like Him Better?
 You Won't Even Know
 You'll Make It Through This
 You're Getting Unfairly Accustomed to This
-Your Burden 
+Your Burden
 Your Own Risk
 Your Parting Thoughts
 Zealous Indifference

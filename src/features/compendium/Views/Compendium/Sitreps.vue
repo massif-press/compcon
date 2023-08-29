@@ -1,22 +1,19 @@
 <template>
   <cc-compendium-browser
-    :items="talents"
-    item-type="Skill"
+    :items="sitreps"
+    item-type="Sitrep"
     :table-headers="headers"
     :options="options"
   >
-    <template #header>
-      <div class="heading h3 text-center text-primary">Pilot Talents</div></template
-    >
+    <template #header> <div class="heading h3 text-center text-primary">Sitreps</div></template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import { Talent } from '@/class';
 
 export default {
-  name: 'Talents',
+  name: 'sitreps',
 
   data: () => ({
     headers: [
@@ -29,12 +26,11 @@ export default {
       groups: ['lcp'],
       initialGroup: 'lcp',
       noSource: true,
-      hideTitle: true,
     },
   }),
   computed: {
-    talents(): Talent[] {
-      return CompendiumStore().Talents.filter((x) => !x.IsHidden);
+    sitreps() {
+      return CompendiumStore().Sitreps;
     },
   },
 };

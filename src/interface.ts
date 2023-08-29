@@ -40,6 +40,12 @@ import { ICounterData } from './classes/components/combat/counters/Counter';
 import { ITagCompendiumData } from './classes/Tag';
 import { PilotData } from './classes/pilot/Pilot';
 import { IPilotLoadoutData } from './classes/pilot/components/Loadout/PilotLoadout';
+import { IEnvironmentData } from './classes/encounter/EnvironmentData';
+import { IStatusData } from './classes/Status';
+import { IActionData } from './classes/Action';
+import { IBackgroundData } from './classes/Background';
+import { IReserveData } from './classes/pilot/components';
+import { ISitrepData } from './classes/encounter/Sitrep';
 
 interface IImageContainer {
   SetLocalImage(): any;
@@ -146,25 +152,6 @@ interface PrintOptions {
   combo: boolean;
 }
 
-interface Environment {
-  id: string;
-  name: string;
-  description: string;
-}
-
-interface Sitrep {
-  id: string;
-  name: string;
-  description: string;
-  pcVictory: string;
-  enemyVictory: string;
-  noVictory?: string;
-  deployment?: string;
-  objective?: string;
-  controlZone?: string;
-  extraction?: string;
-}
-
 export { Action, INpcData, PilotData };
 export type {
   ICompendiumItemData,
@@ -216,6 +203,10 @@ export type {
   ISnackbarSettings,
   Brew,
   PrintOptions,
-  Environment,
-  Sitrep,
+  IActionData,
+  IBackgroundData,
+  IReserveData,
+  IEnvironmentData,
+  ISitrepData,
+  IStatusData,
 };

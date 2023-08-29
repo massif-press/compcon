@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <compendium-browser
+    <cc-compendium-browser
       :headers="headers"
       :items="features"
       title="NPC Features"
@@ -11,14 +11,12 @@
 </template>
 
 <script lang="ts">
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
-
 import { CompendiumStore } from '@/stores';
 import { NpcFeature } from '@/class';
 
 export default {
   name: 'NpcFeatures',
-  components: { CompendiumBrowser },
+
   data: () => ({
     headers: [
       { title: 'Feature', align: 'left', value: 'Name' },

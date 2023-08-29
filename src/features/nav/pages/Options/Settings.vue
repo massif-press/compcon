@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <h3 class="heading text-accent">User Options</h3>
     <v-row density="compact">
       <v-col md="12" lg="6" class="mr-3">
@@ -76,20 +76,8 @@
       </v-col>
       <v-col>
         <h3 class="heading text-accent mb-n2">Advanced Options</h3>
-        <v-switch v-model="userSaveStrategy" color="secondary" inset density="compact" hide-details>
-          <span slot="label">
-            Enable Performant Saving
-            <cc-tooltip
-              title="Save Strategy"
-              :content="`COMP/CON tries to write changes to your save data every time a value changes. On some systems this can cause poor app performance. Enabling Performant Saving restricts saving data to page navigation and browser exit events, increasing performance at a cost of save reliablity. This option works best on Chrome browsers.`"
-              inline
-            >
-              <v-icon icon="mdi-information-outline" />
-            </cc-tooltip>
-          </span>
-        </v-switch>
         <v-switch v-model="userViewExotics" color="exotic" inset density="compact" hide-details>
-          <span slot="label">
+          <template #label>
             Show Exotic items in the Compendium
             <cc-tooltip
               title="SPOILER ALERT"
@@ -99,10 +87,10 @@
             >
               <v-icon color="warning">mdi-alert</v-icon>
             </cc-tooltip>
-          </span>
+          </template>
         </v-switch>
         <v-switch v-model="userAllowQuickstart" color="exotic" inset density="compact" hide-details>
-          <span slot="label">Enable quick pilot creation and level-up</span>
+          <template #label>Enable quick pilot creation and level-up</template>
         </v-switch>
         <h3 class="heading text-accent mt-2">Theme</h3>
         <v-select
@@ -129,7 +117,7 @@
         <v-btn small text>UI Test</v-btn>
       </router-link>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -145,7 +133,7 @@ export default {
   name: 'options-settings',
   components: { DeletedItems },
   data: () => ({
-    themes: [],
+    themes: [] as { name: string; value: string }[],
     importDialog: false,
     fileValue: null,
     deleteDialog: false,
@@ -157,7 +145,7 @@ export default {
     },
     userViewExotics: {
       get: function () {
-        return this.user.GetView('showExotics');
+        return this.user.Option('showExotics');
       },
       set: function (newval) {
         this.user.SetView('showExotics', newval);
@@ -165,18 +153,10 @@ export default {
     },
     userAllowQuickstart: {
       get: function () {
-        return this.user.GetView('quickstart');
+        return this.user.Option('quickstart');
       },
       set: function (newval) {
         this.user.SetView('quickstart', newval);
-      },
-    },
-    userSaveStrategy: {
-      get: function () {
-        return this.user.GetView('savePerformant');
-      },
-      set: function (newval) {
-        this.user.SetView('savePerformant', newval);
       },
     },
     theme: {
@@ -189,7 +169,7 @@ export default {
       },
     },
     userID() {
-      return this.user.id;
+      return this.user.ID;
     },
     userTheme() {
       return this.user.Theme;
@@ -221,8 +201,20 @@ export default {
     },
     async bulkImport(file) {
       await importAll(file)
-        .then(() => this.$notify('Data import successful', 'confirmation'))
-        .catch((err) => this.$notify(`ERROR: Unable to import: ${err}`, 'error'));
+        .then(() =>
+          this.$notify({
+            title: 'Data import successful',
+            text: `Local user data has been overwritten.`,
+            data: { icon: 'mdi-database-arrow-left-outline' },
+          })
+        )
+        .catch((err) =>
+          this.$notify({
+            title: 'Unable to import data',
+            text: `ERROR: ${err}`,
+            data: { color: 'error', icon: 'mdi-database-off-outline' },
+          })
+        );
       this.importDialog = false;
     },
     async deleteAll() {

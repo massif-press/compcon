@@ -121,22 +121,19 @@
         color="primary"
         icon="mdi-map"
         name="Environments"
-        to="/srd/compendium/npc_classes"
-        disabled
+        to="/srd/compendium/environments"
       />
       <compendium-page-button
         color="primary"
         icon="mdi-timeline-text-outline"
         name="Sitreps"
-        to="/srd/compendium/npc_features"
-        disabled
+        to="/srd/compendium/sitreps"
       />
       <compendium-page-button
         color="primary"
         icon="mdi-folder-table-outline"
         name="Table Browser"
-        to="/srd/compendium/npc_templates"
-        disabled
+        to="/srd/compendium/tables"
       />
     </v-row>
   </v-container>

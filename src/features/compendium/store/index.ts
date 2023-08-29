@@ -23,6 +23,8 @@ import {
   Background,
   PlayerAction,
   Bond,
+  Environment,
+  Sitrep,
 } from '@/class';
 import {
   IContentPack,
@@ -140,8 +142,8 @@ export const CompendiumStore = defineStore('compendium', {
     TagData: (state) => collect<ITagCompendiumData>(state, 'tags'),
     Reserves: (state) => collect<Reserve>(state, 'reserves', Reserve),
     Statuses: (state) => collect<Status>(state, 'statuses', Status),
-    Environments: (state) => collect<Environment>(state, 'environments'),
-    Sitreps: (state) => collect<Sitrep>(state, 'sitreps'),
+    Environments: (state) => collect<Environment>(state, 'environments', Environment),
+    Sitreps: (state) => collect<Sitrep>(state, 'sitreps', Sitrep),
     PilotGear: (state) =>
       collect<IPilotEquipmentData>(state, 'pilot_gear').map((x) => PilotEquipment.Factory(x)),
 

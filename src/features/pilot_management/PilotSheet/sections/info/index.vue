@@ -12,7 +12,7 @@
         <history-block :pilot="pilot" />
         <appearance-block :pilot="pilot" />
         <notes-block :pilot="pilot" />
-        <combat-history-block :pilot="pilot" />
+        <!-- <combat-history-block :pilot="pilot" /> -->
       </v-col>
       <v-col cols="4">
         <image-block :pilot="pilot" />

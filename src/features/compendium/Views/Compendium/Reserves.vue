@@ -1,22 +1,22 @@
 <template>
-  <compendium-browser
+  <cc-compendium-browser
     :items="reserves"
     item-type="Reserve"
     :table-headers="headers"
     :options="options"
   >
     <template #header> <div class="heading h3 text-center text-primary">Reserves</div></template>
-  </compendium-browser>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
+
 import _ from 'lodash';
 
 export default {
   name: 'reserves',
-  components: { CompendiumBrowser },
+
   data: () => ({
     headers: [
       { title: 'Content Pack', key: 'LcpName' },

@@ -116,29 +116,3 @@ declare interface PrintOptions {
   loadout_index: number;
   combo: boolean;
 }
-
-declare interface Status {
-  name: string;
-  type: string;
-  icon: string;
-  effects: string[];
-}
-
-declare interface Environment {
-  id: string;
-  name: string;
-  description: string;
-}
-
-declare interface Sitrep {
-  id: string;
-  name: string;
-  description: string;
-  pcVictory: string;
-  enemyVictory: string;
-  noVictory?: string;
-  deployment?: string;
-  objective?: string;
-  controlZone?: string;
-  extraction?: string;
-}

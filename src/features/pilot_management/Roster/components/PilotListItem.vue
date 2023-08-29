@@ -51,6 +51,13 @@
             </div>
             <v-divider class="my-1" />
             <v-row no-gutters align="center" justify="space-around">
+              <!-- <v-col cols="auto">
+                <v-icon icon="cc:skill" start class="mt-n1" />
+                <span v-for="(s, i) in pilot.SkillsController.Skills">
+                  {{ s.Skill.Name }} {{ 'I'.repeat(s.Rank) }}
+                  <cc-slashes v-if="i < pilot.SkillsController.Skills.length - 1" class="pr-3" />
+                </span>
+              </v-col> -->
               <v-col cols="auto">
                 <v-icon icon="cc:talent" start class="mt-n1" />
                 <span v-for="(s, i) in pilot.TalentsController.Talents">

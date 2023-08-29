@@ -1,5 +1,5 @@
 <template>
-  <compendium-browser
+  <cc-compendium-browser
     :items="statuses"
     item-type="Status"
     :table-headers="headers"
@@ -8,17 +8,17 @@
     <template #header>
       <div class="heading h3 text-center text-primary">Statuses & Conditions</div></template
     >
-  </compendium-browser>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
+
 import { Status } from '@/classes/Status';
 
 export default {
   name: 'statuses',
-  components: { CompendiumBrowser },
+
   data: () => ({
     headers: [
       { title: 'Content Pack', key: 'LcpName' },

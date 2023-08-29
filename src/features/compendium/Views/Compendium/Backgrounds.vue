@@ -1,20 +1,19 @@
 <template>
-  <compendium-browser :items="backgrounds" item-type="Background" :options="options">
+  <cc-compendium-browser :items="backgrounds" item-type="Background" :options="options">
     <template #header>
       <div class="heading h3 text-center text-primary">Pilot Background</div></template
     >
-  </compendium-browser>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import { Background } from '@/class';
-import CompendiumBrowser from '../../components/CompendiumBrowser.vue';
 
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'backgrounds',
-  components: { CompendiumBrowser },
+
   data: () => ({
     options: {
       views: ['list', 'table'],

@@ -150,7 +150,7 @@ export default {
       this.$notify({
         title: 'Pilot Armor Equipped',
         text: `${item.Name} equipped to ${this.pilot.Name}.`,
-        data: { icon: 'mdi-pilot' },
+        data: { icon: 'cc:pilot' },
       });
     },
 
