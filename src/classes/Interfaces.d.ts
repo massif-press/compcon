@@ -85,6 +85,7 @@ declare interface IHistoryItem {
 declare interface IMountData {
   mount_type: string
   lock: boolean
+  modifiable: boolean
   slots: IWeaponSlotData[]
   extra: IWeaponSlotData[]
   bonus_effects: string[]

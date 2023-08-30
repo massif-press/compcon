@@ -37,11 +37,17 @@ class ReservesController implements IFeatureContainer {
 
   public AddReserve(reserve: Reserve): void {
     this._reserves.push(reserve)
+    reserve.Bonuses.filter(x => x.ID === "mount_modification").forEach(
+      x => this.Parent.UpdateMechMounts(x, true)
+    )
     this.Parent.SaveController.save()
   }
 
   public RemoveReserve(index: number): void {
-    this._reserves.splice(index, 1)
+    const removedReserve = this._reserves.splice(index, 1)[0]
+    removedReserve.Bonuses.filter(
+      x => x.ID === "mount_modification").forEach(
+      x => this.Parent.UpdateMechMounts(x, false))
     this.Parent.SaveController.save()
   }
 
