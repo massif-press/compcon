@@ -24,16 +24,16 @@ class PilotTalent {
     return allRanks
   }
 
-  public Increment(): boolean {
-    if (this.Talent.Ranks.length === this._rank) return false
+  public Increment(): TalentRank {
+    if (this.Talent.Ranks.length === this._rank) return null
     this._rank += 1
-    return true
+    return this.Talent.Ranks[this._rank-1]
   }
 
-  public Decrement(): boolean {
-    if (this._rank <= 1) return false
+  public Decrement(): TalentRank {
+    if (this._rank <= 0) return null
     this._rank -= 1
-    return false
+    return this.Talent.Ranks[this._rank]
   }
 
   public static Serialize(item: PilotTalent): IRankedData {
