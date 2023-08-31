@@ -1,18 +1,12 @@
 <template>
   <div>
-    <v-alert
-      variant="outlined"
-      class="text-center"
-      color="subtle"
-      density="compact"
-    >
+    <v-alert variant="outlined" class="text-center" color="subtle" density="compact">
       <span v-if="items.length">
-        Deleted items are preserved for 30 days, after which they are
-        automatically removed
+        Deleted items are preserved for 30 days, after which they are automatically removed
       </span>
       <span v-else>No items found</span>
     </v-alert>
-    <v-simple-table v-if="items.length" class="text-left pa-2">
+    <v-table v-if="items.length" class="text-left pa-2">
       <thead>
         <th>Item Type</th>
         <th>Item Name</th>
@@ -24,20 +18,14 @@
       <tbody>
         <tr v-for="item in items">
           <td>{{ item.ItemType.toUpperCase() }}</td>
-          <td>
-            {{ item.Name }}{{ item.Callsign ? ` (${item.Callsign})` : '' }}
-          </td>
+          <td>{{ item.Name }}{{ item.Callsign ? ` (${item.Callsign})` : '' }}</td>
           <td>{{ item.SaveController.DeleteTime }}</td>
           <td>{{ item.SaveController.ExpireTime }}</td>
           <td class="text-right">
-            <v-btn small color="primary" @click="item.SaveController.restore()"
-              >Restore</v-btn
-            >
+            <v-btn small color="primary" @click="item.SaveController.restore()">Restore</v-btn>
           </td>
           <td class="text-right">
-            <v-btn small color="primary" @click="permanentlyDelete(item)"
-              >Permanently Delete</v-btn
-            >
+            <v-btn small color="primary" @click="permanentlyDelete(item)">Permanently Delete</v-btn>
           </td>
         </tr>
       </tbody>
@@ -49,13 +37,11 @@
             <v-btn small color="error" @click="restoreAll()">Restore All</v-btn>
           </td>
           <td>
-            <v-btn small color="error" @click="deleteAll()"
-              >Permanently Delete All</v-btn
-            >
+            <v-btn small color="error" @click="deleteAll()">Permanently Delete All</v-btn>
           </td>
         </tr>
       </tfoot>
-    </v-simple-table>
+    </v-table>
   </div>
 </template>
 

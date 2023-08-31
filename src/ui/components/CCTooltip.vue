@@ -5,19 +5,19 @@
         <slot />
       </div>
     </template>
-    <div class="text-white">
+    <div>
       <div v-if="err">
         Unable to load tooltip information. This may be due to malformed data or an unloaded content
         package.
       </div>
       <div v-else>
         <div v-if="!title">
-          <div class="body-text text-white" v-html="content" />
+          <div v-html="content" />
         </div>
         <div v-else>
-          <span class="heading h3 text-white">{{ title }}</span>
+          <span class="heading h3">{{ title }}</span>
           <v-divider class="my-1" />
-          <div class="body-text text-white" v-html="content" />
+          <div v-html="content" />
         </div>
       </div>
     </div>

@@ -59,8 +59,6 @@ const Initialize = async function () {
 
 const SetItem = async function (collection: string, item: any) {
   const id = item.ID ? item.ID : item.id;
-  console.log(id);
-  console.log(collection, item);
 
   storeRegistry[collection.toLowerCase()].setItem(id, JSON.stringify(item));
 };
@@ -86,6 +84,12 @@ const GetAll = async function (collection: string) {
   return output;
 };
 
+const GetLength = async function (collection: string) {
+  const db = await storeRegistry[collection.toLowerCase()];
+
+  if (db && db._dbInfo) return await db.length();
+};
+
 const convertLocalstorage = async function (): Promise<void> {
   // TODO
   const pv2 = localStorage.getItem('pilots_v2.json');
@@ -97,4 +101,4 @@ const convertLocalstorage = async function (): Promise<void> {
   }
 };
 
-export { Initialize, SetItem, GetItem, RemoveItem, GetAll };
+export { Initialize, SetItem, GetItem, RemoveItem, GetAll, GetLength };

@@ -292,6 +292,17 @@ const icons = [
   'sword_array',
   'marker',
   'barrage',
+  'achievement_1',
+  'achievement_2',
+  'achievement_3',
+  'achievement_4',
+  'cosmopolitan',
+  'diasporan',
+  'honor',
+  'lancer',
+  'monist',
+  'nhp',
+  'thanks',
 ];
 export default {
   name: 'ui-test',

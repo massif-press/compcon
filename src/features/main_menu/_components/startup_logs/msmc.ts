@@ -57,14 +57,19 @@ const phrases = [
 
 const getLogo = (): string => {
   const l = _.sample(logos);
-  return l.replace(/\//g, '&#47;');
+  return (l as string).replace(/\//g, '&#47;');
 };
 
 const getPhrase = (): string => {
-  return _.sample(phrases);
+  return _.sample(phrases) as string;
 };
 
-const plog = (typer) => {
+const plog = async (typer) => {
+  const c = await callsign();
+  const e = await encryption();
+
+  console.log(c, e);
+
   typer
     .type('<br>')
     .type('<br>')
@@ -91,7 +96,7 @@ const plog = (typer) => {
     .break()
     .type('USERNAME: ')
     .pause(90)
-    .type(`${callsign()}_${Math.floor(Math.random() * 9999)}`)
+    .type(`${c}_${Math.floor(Math.random() * 9999)}`)
     .break()
     .type('PASSWORD: ')
     .pause(90)
@@ -108,10 +113,7 @@ const plog = (typer) => {
     .type(
       `AVAILABLE MISSIONS: <b>${Math.floor(Math.random() * 99)
         .toString()
-        .padStart(
-          2,
-          '0'
-        )}</b> &emsp;&nbsp;&nbsp;|&emsp; AVAILABLE BOUNTIES: <b>${Math.floor(
+        .padStart(2, '0')}</b> &emsp;&nbsp;&nbsp;|&emsp; AVAILABLE BOUNTIES: <b>${Math.floor(
         Math.random() * 99
       )
         .toString()

@@ -1,0 +1,716 @@
+[
+  {
+    "name": "Boots on the Ground",
+    "description": "%24%1A%00%12%03%01%1B%02G%0C%02%17%1DD%09%0E%15%06%19B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M2%06%08%00%13",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "compcon.process.fork()",
+    "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%0CB%2C%2B%227H6%22%2CO%11%01%0E%13U%04%0C%1C%10%0E%0B%0B%10%09",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "ERR: lp0 on fire",
+    "description": "*%14%1F%09O%05O%24(8%3DM%2C%2B!G%12%1B%04%16OF%2B%02%14%01%1F%0D%16%01%0BE",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Déjà vu",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%24%03%05%1C%0FJ6%01%0D%01%01%0BG7%1C%01%0D%1B",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Revenant",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%24%03%05%1C%0FG6%01%0D%01%01O%08%01U%0CB)%08%0E%14%0FX.%0E%00%0A%0A%03G%25%04%0E%00%10",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Eternal Recurrence",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%16%07%0D%1D%03G%12%08%0C%0A%16%0E%13%0E%1A%03B)%08%0E%14%0FU.%0E%00%0A%0A",
+    "rarity": 3,
+    "hidden": false,
+    "secret": true
+  },
+  {
+    "name": "In An Unfriendly Sea",
+    "description": "!%1C%08%0E%0BD%0E%09G%3C%3D1B*O!%15%14%00%07",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "As Long As You Can Keep It",
+    "description": "!%1C%08%0E%0BD%0EG%2F%3A%3F7%3CD)%15%06%18%08",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Superior By Design",
+    "description": "!%1C%08%0E%0BD%0EG%2F4M%24%1D%05%02%02",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "You Only Need One",
+    "description": "!%1C%08%0E%0BD%0EG4%26.B)%16%0E%0A%02",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Rode Hard, Put Away Wet",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%18%0E%13%1DM%0D%01%08%16GVU%3E%16%1D%11%0C%13%12%07%08B%0E%0A%0BGVU%3E%16%1D%01%1C%14G%07%08%0F%0E%0D%01%0E%09%12",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Aftermarket Parts",
+    "description": "!%1C%08%0E%0BD%0EG*%10%0E%0AO%13%06%13%0FU%0C%0CO%11%01%0B%0E%16%08%0C%1C%01%0BG4%0C%1E%16%0A%09O%08%15U%3A%07%0E%14%00%09",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Where'd You Get That?",
+    "description": "!%1C%08%0E%0BD%0EG*%10%0E%0AO%13%06%13%0FU%0C%0CO!%17%08%13%1C%0EB%3C%1D%1C%13%02%18M%0D%1DD8%02%06%05%02%0C",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Ain't Nothin'",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%13G9!S%5DD%06%09G%14%03B*%12%0A%15%02%06%19B)%16%0E%0A%02",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Back in a Moment",
+    "description": "%23%1C%1E%0F%00%11%01%13G%14M%0F%0A%07%07G%10%1C%19%0AO!%17%17%06%1B%09%07%0BD%2C%08%0A%05%0C%10%1B%09%0A%09%13U%04%0C%1C%10%0E%0B%0B%10%09",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Sorry About This...",
+    "description": "%22%1F%08%01%1BD%09%15%08%18M%03O%09%0A%04%0FU%1A%0B%1B%0CO%22%1F%05%0C%0C%0B%01%0BG%24%1A%00%12%0E%16%1B%0A%02%1B%19B%06%0A%1C%13%06%19%01%07%0B",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Very Sorry About This!",
+    "description": "%2B%1A%1E%07O%1D%00%12%15U%00%07%0C%0CO%10%0F%1C%01%07O%0C%0E%11%0E%1B%0AB%0E%0AO%22%1F%05%0C%0C%0B%01%0BG%24%1A%00%12%0E%16%1B%0A%02%1B%19B%06%0A%1C%13%06%19%01%07%0B",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Really Just Incredibly Sorry About This, Honestly...",
+    "description": "4%10%01%04B%00%0A%14%13%07%18%01%1BD%0EG%0A%10%0E%0AO%10%07%06%13U%05%03%1CD*%1F%17%14%03%06%0A%00O%24%08%18%1D%03%1D%10%02%02%09%01M%2B%01%17%1B%06%0B%19%08%06",
+    "rarity": 3,
+    "hidden": true,
+    "secret": true
+  },
+  {
+    "name": "Organic Ablative Armor",
+    "description": "*%14%1F%09O%05%01G%22%0D%1D%03%01%00%0A%03G6%02%0F%1F%05%1D%13%0A%10%03%16OF%2B%02%14%01%1F%0D%16%01%0BE",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "That'll Buff Right Out",
+    "description": "5%1A%01%0EO%05OQG%1A%03B%1B%0C%0AG4%01%1F%17%0C%10%1A%15%02U)%03%02%05%08%02G%01%0C%00%03%01O%10%0F%1C%01%07O%02%06%02%0B%11%04%0C%08D%0EG%0A%10%0E%0AO%13%06%13%0FU.%17%1C%10%00%0AG%25%0C%0B%01%10O-%08%17M%0B%01%17%1B%06%0B%19%08%06",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Remote Work",
+    "description": "%23%10%1D%0E%00%1DO%06G1%1F%0D%01%01",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Brood Leader",
+    "description": "%22%1B%09B%0ED%1B%12%15%1BM%15%06%10%07G%13%1D%1F%07%0AD%00%01G%0C%02%17%1DD%2B%15%08%1B%08%11O%00%0A%17%0B%1A%14%07%0BD%0E%09%03U%02%12%0A%16%0E%13%0E%1A%03%03%03",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Hive Lord",
+    "description": "%22%1B%09B%0ED%1B%12%15%1BM%15%06%10%07G%01%1C%1B%07O%0B%09G%1E%1A%18%10O%20%1D%08%09%10%1EB%0B%01%1F%0B%08%0C%08%06O%05%01%03G%1A%1D%07%1D%05%1B%0E%08%1B%0C%0E",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Swarm God",
+    "description": "%22%1B%09B%0ED%1B%12%15%1BM%15%06%10%07G%13%10%03B%00%02O%1E%08%00%1FB%2B%16%00%09%02%06M%06%0A%14%03%08%1E%10%09B%0E%0A%0BG%08%05%08%10%0E%10%06%08%09%14%01",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Redline",
+    "description": "5%10%0C%01%07D%1B%0F%02U%00%03%17%0D%02%12%0AU%22%14%0A%16%0C%0F%06%07%0A%07O%14%0A%09%06%19%19%1BO%0D%01G%06%1BM%07%01%07%00%12%09%01%08%10",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "RA, Take the Wheel",
+    "description": "%22%1B%09B%0E%0AO%02%09%16%02%17%01%10%0A%15G%02%04%16%07D%00%09%02U%02%10O%09%00%15%02U%23*%3FD%1C%1E%14%01%08%0F%1CD%06%09G6%0C%11%0C%05%0B%02",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Plug Puller",
+    "description": "*%14%1F%09O%05O%24%06%06%0E%03%0B%0D%01%00G%3B%252O%17%16%14%13%10%00B%0E%17OE%23%10%1E%16%1D%0B%16%02%03W",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Turn It Off and On Again",
+    "description": "5%10%1E%07%1BD%0EG%24%14%1E%01%0E%00%06%09%00U%23*%3FD%1C%1E%14%01%08%0F",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Not My Fault",
+    "description": "*%14%1F%09O%05O%0A%02%16%05B%0E%17OE%23%10%1E%16%1D%0B%16%02%03WM%15%07%0D%03%02G%1C%19B%07%05%1CG%08%1B%08B%00%16O%0A%08%07%08B!%2C%3FG%14%0C%1E%16%0A%09%1CG%0E%1BM!%0E%17%0C%06%03%10",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Click Click Click",
+    "description": "%22%0D%1D%07%01%00O%06%0B%19M%17%1C%01%1CG%08%13M%03O(%06%0A%0E%01%08%06O%17%16%14%13%10%00B%06%0AO%06G%06%04%0C%08%08%0AG%02%1B%0E%0D%1A%0A%1B%02%15",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Argo Navis Aeternum",
+    "description": "!%1C%08%0E%0BD%0E%09G%3C%3D1B*O!%15%14%00%07O%13%06%13%0FU%02%0C%03%1DO.7%26%40%2CO%03%0A%06%15U%08%13%1A%0D%1F%17%02%11",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Stable Master",
+    "description": "%2F%14%1B%07O%10%07%15%02%10M%0F%0A%07%07%14G%1C%03B%16%0B%1A%15G%1D%0C%0C%08%05%1DG%13%1D%0C%16O%0C%0E%11%02U%08%03%0C%0CO%04%08%18%1D%0E%0A%10%0A%03G%14%19B%03%01%0E%14%13U%02%0C%0AD%0A%09%04%1A%18%0C%1B%01%1D",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Cramped",
+    "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%19%15%00D!%2F7U%1E%1B%1C%10%0A%0A%14U%04%0C%1C%10%0E%0B%0B%10%09",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Packed",
+    "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%19%0A%1D%01%0AG)%3D%3DB%1C%1D%1C%13%02%18%1EB%06%0A%1C%13%06%19%01%07%0B",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Clown Car",
+    "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%19%0A%1D%01%0AG)%3D%3DB%1C%1D%1C%13%02%18%1EB.*%2BG%22%0D%1D%03%01%00%0A%03G6%02%0F%1F%05%1D%13%0A%10%03%16O%0D%01%14%13%14%01%0E%0A%00",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Pathetic Creature of Meat and Bone",
+    "description": "%22%1F%08%01%1BDG%08%15U%0F%07O%01%05%02%04%01%08%06FD%09%15%08%18M%03O%09%0A%04%0FU%1A%0B%1B%0CO%06%09U%23*%3FD%1C%1E%14%01%08%0FO%0D%01G%24%14%1E%01%0E%00%0A",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "It's Fine",
+    "description": "3%14%06%07ORO%08%15U%00%0D%1D%01O%25%12%07%03B%2B%05%02%06%00%10M%0B%01D%0EG%14%1C%03%05%03%01O%15%08%00%03%06",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Very Hot, Extremely Bothered",
+    "description": "3%14%06%07O6%0A%06%04%01%02%10O7%1B%15%02%06%1EB%06%0AO%06G%07%02%17%01%00O%1E%08%00M%11%1B%05%1D%13%02%11M%15%06%10%07GWU%25%07%0E%10",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Consolation Achievement",
+    "description": "%23%10%1E%16%1D%0B%16G%06U%00%07%0C%0CO%05%1EU%1F%0D%03%08%06%09%00U%19%15%00D%5E%14G%1A%03B%1B%0C%0AG4%01%1F%17%0C%10%1A%15%02U)%03%02%05%08%02G!%0C%00%03%01",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Front Towards Enemy",
+    "description": "%23%10%1D%0E%00%1DO%01%0E%03%08B%00%16O%0A%08%07%08B%02%0D%01%02%14U%04%0CO%05O%14%0E%1B%0A%0E%0AD%0A%09%04%1A%18%0C%1B%01%1D",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Frag Out",
+    "description": "%23%10%1D%0E%00%1DO%01%0E%03%08B%00%16O%0A%08%07%08B%08%16%0A%09%06%11%08%11O%0D%01G%06U%1E%0B%01%03%03%02G%10%03%01%00%11%01%13%02%07",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Party Bus",
+    "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%0F%0D%1B%0CO%22%1F%01%08%0C%0B%01%0BG%24%1A%00%12%0E%16%1B%0A%02%1B%19B%0E%0A%0BG*%20!'O%2C%0E%15%09%10%1E%11O%0D%01%14%13%14%01%0E%0A%00",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "One-Way Trip",
+    "description": "4%10%01%04B%00%0A%14%13%07%18%01%1BHO%03%02%06%19%10%00%1D%06%09%00U%14%0D%1A%16O%0A%02%16%05B%0E%0A%0BG%0C%1C%01%0E%06%0A%08G%1E%1A%18%10O4%06%0B%08%01",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Coup de grâce",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG*%10%01%07%0AD8%02%06%05%02%0CO%07%1D%0E%13%1C%0E%03%03D%07%0E%13",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Headshot",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG5%1C%0B%0E%0AD8%02%06%05%02%0CO%07%1D%0E%13%1C%0E%03%03D%07%0E%13",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Noscope",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG5%1C%0B%0E%0AD8%02%06%05%02%0CO%13%06%13%0FU%0C%16O%08%0A%06%14%01MSO%20%06%01%01%1C%0E%17%03%10%16",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Noscope 360",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG5%1C%0B%0E%0AD8%02%06%05%02%0CO%13%06%13%0FU%0CB%2C%16%06%13%0E%16%0C%0EO%2C%06%13G%02%04%16%07D%0E%13G%19%08%03%1C%10OVG1%04%04%09%0D%0C%12%0B%01%14",
+    "rarity": 4,
+    "hidden": true,
+    "secret": false
+  },
+  {
+    "name": "Double-tap",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG%14%10%0E%0D%01%00%0E%15%1EU%2C%17%17D%18%02%06%05%02%0C",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "The Sweet Science",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0E%09G%3C%00%12%1D%0B%19%0E%14%10%09B.%10%1B%06%04%1E",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Xiaoli, Returned",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0E%09G%3C%00%12%1D%0B%19%0E%14%10%09B.%10%1B%06%04%1EM%01%1D%0D%1B%0E%04%14%01B%07%0D%1B",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Knock-Down Drag-Out",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%05%0B%03%01O%08%09%19%14B%07%05%19%0E%09%12M%0D%01%01O4%13%07%18%01%1B%11%1D%02",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Get In, Get Out",
+    "description": "%22%1B%09B%0E%0AO%22%09%16%02%17%01%10%0A%15G%1C%03B%03%01%1C%14G%01%05%03%01D%1C%0E%1FU%1F%0D%1A%0A%0B%14",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Working Overtime",
+    "description": "%22%1B%09B%0E%0AO%22%09%16%02%17%01%10%0A%15G%14%0B%16%0A%16O%06%13U%01%07%0E%17%1BG%13%02%08%0E%19%01O%15%08%00%03%06%1C",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "The Long Haul",
+    "description": "%22%1B%09B%0E%0AO%22%09%16%02%17%01%10%0A%15G%14%0B%16%0A%16O%06%13U%01%07%0E%17%1BG%13%02%08%0C%1B%1DO%15%08%00%03%06%1C",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Standard Pattern",
+    "description": "!%1C%08%0E%0BD%0EG3%10%00%12%03%05%1B%02G8%08%01%07",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Painterly",
+    "description": "!%1C%08%0E%0BD%0EG*%10%0E%0AO%13%06%13%0FU%0CB%0C%0B%03%08%15%13%18%0EO%0A%0E%0A%02",
+    "rarity": 2,
+    "hidden": true,
+    "secret": true
+  },
+  {
+    "name": "Best Done By Hand",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%05%0B%03%01O2%09%18%02%17%01%10%0A%03",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Why'd I Even Bring This Thing?",
+    "description": ".%1BM%03O%17%06%09%00%19%08B*%0A%0C%08%12%1B%19%07%1DHO%03%02%06%19%10%00%1DO%0A%08%07%08B%0A%0A%0A%0A%0E%10%1EB%18%0C%06%0B%02U8%0C%02%0B%1A%09%13%10%09B%1B%0C%0E%09G8%02%17%01%10%0A%03",
+    "rarity": 4,
+    "hidden": true,
+    "secret": true
+  },
+  {
+    "name": "Target Painter",
+    "description": "%2B%1A%0E%09O%2B%01G%13%1D%1F%07%0AD%00%15G%18%02%10%0AD%1B%0E%0A%10%1EB%06%0AO%06G%06%04%0C%08%08%0AG%22%1B%0E%0D%1A%0A%1B%02%15",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Wetwork",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1E",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Operator",
+    "description": "%23%10%1E%16%1D%0B%16G%13%1D%1F%07%0AD%0A%09%02%18%04%07%1CD%06%09G%14M%11%06%0A%08%0B%02U(%0C%0C%0B%1A%09%13%10%1F",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Berserker",
+    "description": "%23%10%1E%16%1D%0B%16G%01%1C%1B%07O%01%01%02%0A%1C%08%11O%0D%01G%06U%1E%0B%01%03%03%02G0%03%01%00%11%01%13%02%07",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "EVA",
+    "description": "%23%1C%1E%0F%00%11%01%13G%5D%02%10O!%05%02%04%01DB%09%16%00%0AG%14M%2F%0A%07%07G%0E%1BM%03OF%23%08%10U*%10%0E%12%06%13%1EU(%0C%19%0D%1D%08%09%18%08%0C%1BFO%02%09%16%02%17%01%10%0A%15",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Enmetafolded",
+    "description": "7%1C%01%0D%1BD%0EG*%1C%03%0D%1B%05%1A%15G%02%05%0B%03%01O%0E%13U%04%11O%00%0A%14%13%07%02%1B%0A%00",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Pacifist",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B*%0A%0C%08%12%1B%19%07%1DD%18%0E%13%1D%02%17%1BD%0B%02%06%19%04%0C%08D%0B%06%0A%14%0A%07",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Get Back Up",
+    "description": "%20%1AM%26%00%13%01G%06%1B%09B%20%11%1BKG%14%03%06O%16%0A%04%08%03%08%10",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "I Don't Have Time for This",
+    "description": "%23%1C%1E%0F%00%11%01%13G%5D%02%10O!%05%02%04%01DB%09%16%00%0AG%14M1%1B%11%01%09%02%11M%2F%0A%07%07",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "You Knew the Risks",
+    "description": "%24%14%1E%16%06%03%0E%13%02U%19%0A%0AD*%09%02%18%04%07%1CD%00%01G%01%05%07O%23%00%03%0F%10%0C%06O%0D%01G%06U%00%07%0C%0CO%13%0F%14%19B%07%05%1CG%22%0D%1D%03%01%00%0A%03G6%02%0F%1F%05%1D%13%0A%10%03%16O-%01%14%13%14%01%0E%0A%00",
+    "rarity": 4,
+    "hidden": true,
+    "secret": false
+  },
+  {
+    "name": "Enemies: Castigated",
+    "description": "%24%14%1E%16%06%03%0E%13%02U%19%0A%0AD*%09%02%18%04%07%1CD%00%01G%01%05%07O%23%00%03%0F%10%0C%06",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "But... but...",
+    "description": "4%20%3F4%262*G%24%14%1E%16%06%03%0E%13%0E%1B%0AB%1B%0C%0AG%22%1B%08%0F%06%01%1CG%08%13M%16%07%01O%20%08%11%05%07%0E%00",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Finish It",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B*%0A%0C%08%12%1B%19%07%1DD%00%09G%01%05%07O%17%0E%0A%02U%3F%0D%1A%0A%0BG%1E%1A%18B%0E%07%1B%0E%11%14%19%07O%1D%00%12%15U.%0D%1D%01O7%08%02%08%10",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "No Sweat",
+    "description": "4%00%0E%01%0A%01%0BG%08%1BM%03O6%06%14%0C%0CM1%04%0D%03%0BG6%05%07%0C%0F",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Rocks Fall",
+    "description": "!%14%04%0EO%05O5%0E%06%06%1BO7%04%0E%0B%19M!%07%01%0C%0C",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "We're So Back",
+    "description": "4%00%0E%01%0A%01%0BG%08%1BM%03O%2C%0A%15%08%1C%0EB%3C%0F%06%0B%0BU.%0A%0A%07%04",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "It's So Over",
+    "description": "!%14%04%0EO%05O%2F%02%07%02%0B%0CD%3C%0C%0E%19%01B%2C%0C%0A%04%0C",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "RM-4 Filed",
+    "description": "%24%07%08%03%1B%01O%1E%08%00%1FB%09%0D%1D%14%13U%3D%0B%03%0B%1B",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Teambuilding Exercise",
+    "description": "%24%07%08%03%1B%01O%1E%08%00%1FB%5ET%1B%0FG%25%04%0E%00%10",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Squad Goals",
+    "description": "%24%07%08%03%1B%01O%1E%08%00%1FBZT%1B%0FG%25%04%0E%00%10",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Private Army",
+    "description": "%24%07%08%03%1B%01O%1E%08%00%1FB%5ET_%13%0FU%3D%0B%03%0B%1B",
+    "rarity": 4,
+    "hidden": true,
+    "secret": false
+  },
+  {
+    "name": "Retrograded",
+    "description": "%24%07%08%03%1B%01O%06G%25%04%0E%00%10O%06%09%11M%2F%0A%07%07G%12%06%04%0C%08D%0EG3%10%00%12%03%05%1B%02",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Fresh From the Printers",
+    "description": "%24%07%08%03%1B%01O%1E%08%00%1FB%09%0D%1D%14%13U%20%07%0C%0C",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Fully Kitted Out",
+    "description": "!%00%01%0E%16D%0A%16%12%1C%1DB%0ED%22%02%04%1D",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "The Hard Way",
+    "description": "%2B%10%1B%07%03D%0EG%14%1C%03%05%03%01O7%0E%19%02%16O%02%1D%08%0AU!.%5ED%1B%08G9!S%5DHO%10%0E%01%05%0D%1A%10O%12%14%1C%03%05O%10%07%02G0%09%0B%1BD%23%02%11%10%01B%09%01%0E%13%12%07%08",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Homebrew",
+    "description": "%26%11%09B%0ED%0C%12%14%01%02%0FO%00%0A%14%04%07%04%12%1B%0D%00%09G%01%02B%0ED%1F%0E%02%16%08B%00%02O7%0E%19%02%16O%23%0A%06%15",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Nonstandard Issue",
+    "description": "%26%11%09B%0ED%0C%12%14%01%02%0FO%00%0A%14%04%07%04%12%1B%0D%00%09G%01%02B%0ED%1F%0E%02%16%08B%00%02O*%02%16%05B*%15%1A%0E%17%18%08%0C%1B",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "From Cradle",
+    "description": ".%1B%1E%16%0E%08%03G%06U*%2F%3CD%2C(50M%20%00%0A%1A%14",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "To the Stars",
+    "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD(*4U.-%3D!O%25%08%1B%18%11%0A%17",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Trunk Security",
+    "description": ".%1B%1E%16%0E%08%03G%06%1BM%2B%3F7B)G6%220*D-%08%09%00%1E",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Northstarstruck",
+    "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD%2674X%23B%2C%2B%3D%22G7%02%0C%1A%17%0A%14",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Super Soldier",
+    "description": ".%1B%1E%16%0E%08%03G%06U%25%23O'%205%22U%2F%0D%01%11%1C",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Child Of Ras Shamra",
+    "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD'%26G6%220*D-%08%09%00%1E%07%1C",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Prestigious",
+    "description": ".%1B%1E%16%0E%08%03G%06%1BM1%3C'O%24('(B-%0B%01%12%14",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Iconic",
+    "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD%3C4%24U.-%3D!O%25%08%1B%18%11%0A%17",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Supplicant to the Godhead",
+    "description": ".%1B%1E%16%0E%08%03G%06U%25-%3D1%3CG%24%3A%3F'O%26%00%09%12%06",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Hearald of the Godhead",
+    "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD'(5%20%3EB%2C%2B%3D%22G7%02%0C%1A%17%0A%14",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Maxed Out",
+    "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06U!%0B%0C%01%01%14%02",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Security Specialist",
+    "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06%1BM%2B%3F7B)G9%04%01%0A%0A%1C%02",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Luxuriant Licensing",
+    "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06%1BM1%3C'O%2B%0E%16%08%0C%1C%01",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Malware",
+    "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06U%25-%3D1%3CG%2B%1C%0E%07%01%17%0A",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Full-Spectrum Superiority",
+    "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06U%25%23O(%06%04%02%1B%1E%07",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Focused",
+    "description": "2%1B%01%0D%0C%0FOSG'%0C%0C%04D%5CG%2B%1C%0E%07%01%17%0A%14G%1A%03B%0ED%1C%0E%09%12%01%07O4%06%0B%08%01",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  },
+  {
+    "name": "Multi-Multiclass",
+    "description": "5%10%0C%01%07D%23%2BVGM%15%06%10%07%08%12%01M%03O6%0E%09%0CU%5EB%23%0D%0C%02%09%06%08",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false
+  }
+]

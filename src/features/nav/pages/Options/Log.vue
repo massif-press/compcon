@@ -1,13 +1,13 @@
 <template>
   <v-container>
-    <div style="max-height: 550px; overflow-y: scroll">
-      <v-expansion-panels>
+    <div style="max-height: 525px; overflow-y: scroll">
+      <v-expansion-panels multiple>
         <v-expansion-panel v-for="item in history">
           <v-expansion-panel-title>
             <v-chip size="small" label class="mr-4" :color="item.color">{{ item.type }}</v-chip>
             {{ item.message }} - {{ timestamp(item.timestamp) }}
             <v-spacer />
-            <v-btn size="small" icon variant="plain" @click="sendToClipboard(item)">
+            <v-btn size="small" icon variant="plain" @click.stop="sendToClipboard(item)">
               <v-icon icon="mdi-content-copy" />
             </v-btn>
           </v-expansion-panel-title>
@@ -37,7 +37,7 @@
                     />
                   </v-list>
                 </div>
-                <div v-else>no data</div>
+                <div v-else class="text-center text-disabled"><i>no data</i></div>
               </v-col>
             </v-row>
           </v-expansion-panel-text>

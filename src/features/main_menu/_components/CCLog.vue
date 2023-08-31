@@ -43,13 +43,8 @@ export default {
     lock: false,
   }),
   computed: {
-    profile(): UserProfile {
-      const store = UserStore();
-      return store.UserProfile;
-    },
     theme(): string {
-      return 'gms';
-      return this.profile.Theme;
+      return JSON.parse(localStorage.getItem('cc_theme') as string) || 'gms';
     },
   },
   watch: {
@@ -82,9 +77,9 @@ export default {
         afterString: () => {
           this.$refs.output?.scrollIntoView({ block: 'end' });
         },
-        afterComplete: () => {
+        afterComplete: async () => {
           if (this.theme === 'horus') {
-            HorusChat(this.$refs.output);
+            await HorusChat(this.$refs.output);
           } else {
             this.lock = false;
           }
@@ -94,11 +89,11 @@ export default {
       switch (this.theme) {
         case 'horus':
           // this.typer.go()
-          HorusStart(this.typer);
+          await HorusStart(this.typer);
           // HorusChat(this.typer)
           break;
         case 'msmc':
-          MsmcStart(this.typer);
+          await MsmcStart(this.typer);
         default:
           GmsStart(this.typer);
           break;

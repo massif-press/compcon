@@ -2,6 +2,10 @@ import { h } from 'vue';
 import type { IconSet, IconProps } from 'vuetify';
 
 import accuracy from './svg/accuracy.vue';
+import achievement_1 from './svg/achievement_1.vue';
+import achievement_2 from './svg/achievement_2.vue';
+import achievement_3 from './svg/achievement_3.vue';
+import achievement_4 from './svg/monist.vue';
 import activate from './svg/activate.vue';
 import activation_full from './svg/activation_full.vue';
 import activation_quick from './svg/activation_quick.vue';
@@ -25,8 +29,10 @@ import condition_impaired from './svg/difficulty.vue';
 import cone from './svg/cone.vue';
 import content_manager from './svg/content_manager.vue';
 import corebonus from './svg/corebonus.vue';
+import cosmopolitan from './svg/cosmopolitan.vue';
 import deactivate from './svg/deactivate.vue';
 import deployable from './svg/deployable.vue';
+import diasporan from './svg/diasporan.vue';
 import difficulty from './svg/difficulty.vue';
 import downtime from './svg/downtime.vue';
 import drone from './svg/drone.vue';
@@ -42,7 +48,9 @@ import free from './svg/free_action.vue';
 import generic_item from './svg/generic_item.vue';
 import grenade from './svg/grenade.vue';
 import heat from './svg/heat.vue';
+import honor from './svg/honor.vue';
 import kinetic from './svg/kinetic.vue';
+import lancer from './svg/lancer.vue';
 import large_beam from './svg/large-beam.vue';
 import license from './svg/license.vue';
 import line from './svg/line.vue';
@@ -50,7 +58,9 @@ import manufacturer from './svg/manufacturer.vue';
 import marker from './svg/marker.vue';
 import melee from './svg/melee.vue';
 import mine from './svg/mine.vue';
+import monist from './svg/monist.vue';
 import nested_hexagons from './svg/nested-hexagons.vue';
+import nhp from './svg/nhp.vue';
 import npc_class from './svg/npc_class.vue';
 import npc_feature from './svg/npc_feature.vue';
 import npc_template from './svg/npc_template.vue';
@@ -106,6 +116,7 @@ import talent from './svg/talent.vue';
 import full_tech from './svg/tech_full.vue';
 import invade from './svg/tech_full.vue';
 import quick_tech from './svg/tech_quick.vue';
+import thanks from './svg/thanks.vue';
 import threat from './svg/threat.vue';
 import thrown from './svg/thrown.vue';
 import trait from './svg/trait.vue';
@@ -122,6 +133,10 @@ import horus from './svg/horus.vue';
 
 const svgs: any = {
   accuracy,
+  achievement_1,
+  achievement_2,
+  achievement_3,
+  achievement_4,
   activate,
   activation_full,
   activation_quick,
@@ -239,6 +254,13 @@ const svgs: any = {
   ssc,
   horus,
   condition_impaired,
+  cosmopolitan,
+  diasporan,
+  honor,
+  lancer,
+  monist,
+  nhp,
+  thanks,
 };
 
 const ccIcons: IconSet = {

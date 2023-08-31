@@ -1,121 +1,173 @@
 <template>
   <v-container>
-    <h3 class="heading text-accent">User Options</h3>
-    <v-row density="compact">
-      <v-col md="12" lg="6" class="mr-3">
-        <div class="flavor-text">
-          <b>USER ID:</b>
-          <span class="text-accent">
-            {{ userID }}
-          </span>
-        </div>
-        <v-divider />
-        <div class="text-center">
-          <div>
-            <v-btn large block color="info" class="my-1" @click="reload">
-              Download Updates and Reload
-            </v-btn>
-            <v-btn block color="accent" class="my-1" @click="showMessage()">
-              Show Latest Update Message
-            </v-btn>
-            <v-divider class="my-2" />
+    <div style="max-height: 525px; overflow-y: scroll; overflow-x: hidden">
+      <v-row density="compact">
+        <v-col md="12" lg="6" class="mr-3">
+          <h3 class="heading text-accent">User Options</h3>
+          <div class="flavor-text">
+            <div>
+              <b>LOCAL USER ID:</b>
+              <span class="text-accent pl-3">
+                {{ userID }}
+              </span>
+            </div>
+            <div>
+              <b>CLOUD USER ID:</b>
+              <span class="text-subtle pl-3">Not Connected</span>
+            </div>
+            <v-divider />
+            <v-row class="text-center py-4">
+              <v-col>
+                <b>itch.io account:</b>
+                <div class="text-subtle">Unlinked</div>
+                <v-btn size="small" color="#fa5c5c">
+                  Link itch.io
+                  <v-tooltip max-width="400px">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props" size="large" end>mdi-help-circle-outline</v-icon>
+                    </template>
+                    Linking your itch.io account will allow you to download Massif and
+                    community-approved homebrew content from the itch.io store with one click.<br />You
+                    can also subscribe to LCPs to auto-update your local copy when the author
+                    releases a new version. <br /><v-divider class="my-3" />This
+                    <b>does not</b> require a COMP/CON cloud account, and your itch account data
+                    will not be stored in your COMP/CON cloud account, only in your local app data.
+                    You will have to re-link your account if you reset your local data or set up
+                    COMP/CON on a new device.
+                  </v-tooltip></v-btn
+                >
+              </v-col>
+              <v-col>
+                <b>Patreon account:</b>
+                <div class="text-subtle">Unlinked</div>
+                <v-btn size="small" color="#FF424D">
+                  Link Patreon
+                  <v-tooltip max-width="400px">
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props" size="large" end>mdi-help-circle-outline</v-icon>
+                    </template>
+                    If you are subscribed to the COMP/CON Patreon, linking your Patreon account will
+                    increase your maximum cloud storage space, and unlock realtime table creation in
+                    GM mode. <br /><v-divider class="my-3" />This <b>does</b> require a COMP/CON
+                    cloud account, but your Patreon account data will not be stored in your COMP/CON
+                    cloud account, only in your local app data. You will have to re-link your
+                    account if you reset your local data or set up COMP/CON on a new device.
+                  </v-tooltip></v-btn
+                >
+              </v-col>
+            </v-row>
           </div>
-          <div class="text-center my-2">
-            <v-btn block large color="primary" @click="bulkExport">
-              <v-icon start>mdi-database</v-icon>
-              Create Data Backup
+
+          <v-divider />
+          <div class="text-center">
+            <div>
+              <v-btn large block color="info" class="my-1" @click="reload">
+                Check for Updates
+              </v-btn>
+              <v-btn block color="accent" class="my-1" @click="$emit('show-message')">
+                Show Latest Update Message
+              </v-btn>
+              <v-divider class="my-2" />
+            </div>
+            <div class="text-center my-2">
+              <v-btn block large color="primary" @click="bulkExport">
+                <v-icon start>mdi-database</v-icon>
+                Create Data Backup
+                <cc-tooltip
+                  inline
+                  content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+                >
+                  <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
+                </cc-tooltip>
+              </v-btn>
+            </div>
+            <div class="text-center my-2">
+              <v-dialog v-model="importDialog" width="50%">
+                <template #activator="{ props }">
+                  <v-btn block large color="primary" v-bind="props">
+                    <v-icon start>mdi-database-refresh</v-icon>
+                    Load Data Backup
+                    <cc-tooltip
+                      inline
+                      content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
+                    >
+                      <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
+                    </cc-tooltip>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-card-text class="pa-6">
+                    <p class="text-center heading h3 text-text">
+                      This will OVERWRITE
+                      <b class="text-accent">ALL</b>
+                      local COMP/CON data.
+                      <br />
+                      This
+                      <b class="text-accent">cannot</b>
+                      be undone.
+                    </p>
+                    <v-file-input
+                      v-model="fileValue"
+                      accept=".compcon"
+                      variant="outlined"
+                      density="compact"
+                      hide-details
+                      autofocus
+                      placeholder="Select COMP/CON Bulk Export File"
+                      prepend-icon="mdi-paperclip"
+                      @change="bulkImport"
+                    />
+                  </v-card-text>
+                </v-card>
+              </v-dialog>
+            </div>
+          </div>
+        </v-col>
+        <v-col>
+          <h3 class="heading text-accent">Advanced Options</h3>
+          <v-switch v-model="userViewExotics" color="exotic" inset density="compact" hide-details>
+            <template #label>
+              Show Exotic items in the Compendium
               <cc-tooltip
-                inline
-                content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-              >
-                <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
-              </cc-tooltip>
-            </v-btn>
-          </div>
-          <div class="text-center my-2">
-            <v-dialog v-model="importDialog" width="50%">
-              <template #activator="{ props }">
-                <v-btn block large color="primary" v-bind="props">
-                  <v-icon start>mdi-database-refresh</v-icon>
-                  Load Data Backup
-                  <cc-tooltip
-                    inline
-                    content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-                  >
-                    <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
-                  </cc-tooltip>
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-text class="pa-6">
-                  <p class="text-center heading h3 text-text">
-                    This will OVERWRITE
-                    <b class="text-accent">ALL</b>
-                    local COMP/CON data.
-                    <br />
-                    This
-                    <b class="text-accent">cannot</b>
-                    be undone.
-                  </p>
-                  <v-file-input
-                    v-model="fileValue"
-                    accept=".compcon"
-                    variant="outlined"
-                    density="compact"
-                    hide-details
-                    autofocus
-                    placeholder="Select COMP/CON Bulk Export File"
-                    prepend-icon="mdi-paperclip"
-                    @change="bulkImport"
-                  />
-                </v-card-text>
-              </v-card>
-            </v-dialog>
-          </div>
-        </div>
-      </v-col>
-      <v-col>
-        <h3 class="heading text-accent mb-n2">Advanced Options</h3>
-        <v-switch v-model="userViewExotics" color="exotic" inset density="compact" hide-details>
-          <template #label>
-            Show Exotic items in the Compendium
-            <cc-tooltip
-              title="SPOILER ALERT"
-              content="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED
+                title="SPOILER ALERT"
+                content="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED
               if you are not the GM"
-              inline
-            >
-              <v-icon color="warning">mdi-alert</v-icon>
-            </cc-tooltip>
-          </template>
-        </v-switch>
-        <v-switch v-model="userAllowQuickstart" color="exotic" inset density="compact" hide-details>
-          <template #label>Enable quick pilot creation and level-up</template>
-        </v-switch>
-        <h3 class="heading text-accent mt-2">Theme</h3>
-        <v-select
-          v-model="theme"
-          density="compact"
-          variant="outlined"
-          :items="themes"
-          item-text="name"
-        />
-      </v-col>
-    </v-row>
+                inline
+              >
+                <v-icon end size="small" color="deep-orange" icon="mdi-alert-outline" />
+              </cc-tooltip>
+            </template>
+          </v-switch>
+          <v-switch
+            v-model="userAllowQuickstart"
+            color="exotic"
+            inset
+            density="compact"
+            hide-details
+          >
+            <template #label>Enable quick pilot creation and level-up</template>
+          </v-switch>
+          <h3 class="heading text-accent mt-2">Theme</h3>
+          <v-select
+            v-model="theme"
+            density="compact"
+            variant="outlined"
+            :items="themes"
+            item-title="name"
+          />
+        </v-col>
+      </v-row>
 
-    <v-divider class="my-4" />
+      <v-divider class="my-4" />
 
-    <h3 class="heading text-accent">Achievements</h3>
-    <p class="panel py-3 text-center text-subtle">
-      <v-icon color="grey">mdi-lock</v-icon>
-      <br />
-      // FEATURE IN DEVELOPMENT //
-    </p>
+      <h3 class="heading text-accent">Achievements</h3>
+      <achievements-viewer />
 
-    <div class="text-right">
-      <router-link to="./ui-test">
-        <v-btn small text>UI Test</v-btn>
-      </router-link>
+      <v-divider class="my-4" />
+
+      <div class="text-right">
+        <v-btn size="small" variant="text" to="ui-test">UI Test</v-btn>
+      </div>
     </div>
   </v-container>
 </template>
@@ -126,18 +178,17 @@ import * as allThemes from '@/ui/style/themes';
 import { UserStore } from '@/stores';
 import { exportAll, importAll, clearAllData } from '@/io/BulkData';
 import { saveFile } from '@/io/Dialog';
-import DeletedItems from './DeletedItems.vue';
-import { SetTheme } from '@/classes/utility/ThemeManager';
+import AchievementsViewer from './components/AchievementsViewer.vue';
 
 export default {
   name: 'options-settings',
-  components: { DeletedItems },
   data: () => ({
-    themes: [] as { name: string; value: string }[],
     importDialog: false,
     fileValue: null,
     deleteDialog: false,
   }),
+  components: { AchievementsViewer },
+  emits: ['show-message'],
   computed: {
     user() {
       const store = UserStore();
@@ -147,49 +198,38 @@ export default {
       get: function () {
         return this.user.Option('showExotics');
       },
-      set: function (newval) {
-        this.user.SetView('showExotics', newval);
+      set: function (newVal) {
+        this.user.SetOption('showExotics', newVal);
       },
     },
     userAllowQuickstart: {
       get: function () {
         return this.user.Option('quickstart');
       },
-      set: function (newval) {
-        this.user.SetView('quickstart', newval);
+      set: function (newVal) {
+        this.user.SetOption('quickstart', newVal);
       },
     },
     theme: {
       get: function () {
         return this.user.Theme;
       },
-      set: function (newval) {
-        this.user.Theme = newval;
-        SetTheme(this.theme, this.$vuetify);
+      set: function (newVal) {
+        this.user.Theme = newVal;
+        // @ts-ignore
+        this.$vuetify.theme.global.name = newVal;
       },
     },
     userID() {
       return this.user.ID;
     },
-    userTheme() {
-      return this.user.Theme;
+    themes() {
+      return Object.keys(allThemes).map((x) => ({ name: allThemes[x].name, value: x }));
     },
-  },
-  created() {
-    for (const k in allThemes) {
-      const e = allThemes[k];
-      this.themes.push({ name: e.name, value: e.id });
-    }
   },
   methods: {
     reload() {
       location.reload();
-    },
-    showMessage() {
-      const store = UserStore();
-      store.UserProfile.WelcomeHash = '';
-      localStorage.removeItem('cc-welcome-hash');
-      this.reload();
     },
     async bulkExport() {
       const result = await exportAll();

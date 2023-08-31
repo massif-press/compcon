@@ -8,6 +8,8 @@ import '@mdi/font/css/materialdesignicons.css';
 
 import * as themes from './themes';
 
+const preload = JSON.parse(localStorage.getItem('cc_theme') as string) || 'gms';
+
 const vuetify = createVuetify({
   components: {
     ...components,
@@ -15,17 +17,9 @@ const vuetify = createVuetify({
   },
   directives,
   theme: {
-    defaultTheme: 'gms',
+    defaultTheme: preload,
     variations: {
-      colors: [
-        'primary',
-        'secondary',
-        'accent',
-        'error',
-        'warning',
-        'info',
-        'success',
-      ],
+      colors: ['primary', 'secondary', 'accent', 'error', 'warning', 'info', 'success'],
       lighten: 5,
       darken: 5,
     },
