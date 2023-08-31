@@ -21,7 +21,7 @@ interface IUserProfile {
   welcome_hash: string;
   theme: string;
   view_options: string;
-  achievements: string[];
+  achievement_unlocks: { id: string; date: number }[];
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -34,35 +34,39 @@ class UserProfile {
   public readonly ID: string;
   private _welcome_hash: string;
   private _theme: string;
-  private _achievements: string[];
+  private _achievement_unlocks: { id: string; date: number }[];
   private _options: IUserOptions;
 
-  public constructor(id: string) {
+  public constructor(id?: string) {
     this.ID = id || uuid();
     this._theme = 'gms';
     this._welcome_hash = 'none';
     this._options = defaultOptions();
-    this._achievements = [];
+    this._achievement_unlocks = [];
   }
 
   private save(): void {
-    console.dir(this);
     logger.log('Saving user profile', 'debug', this);
     localForage.setItem(CONFIG_FILE_NAME, JSON.stringify(UserProfile.Serialize(this)));
   }
 
-  public get Achievements(): string[] {
-    return this._achievements;
+  private localSave(item: string, value: any): void {
+    logger.log(`Saving user ${item}`, 'debug', this);
+    localStorage.setItem(`cc_${item}`, JSON.stringify(value));
   }
 
-  public set Achievements(data: string[]) {
-    this._achievements = data;
+  public get Achievements(): { id: string; date: number }[] {
+    return this._achievement_unlocks;
+  }
+
+  public set Achievements(data: { id: string; date: number }[]) {
+    this._achievement_unlocks = data;
     this.save();
   }
 
   public SetOption(option: string, setting: string | boolean): void {
     if (!Object.keys(defaultOptions()).includes(option))
-      throw new Error('Invalid option, did you mean to use SetView?');
+      throw new Error(`Invalid option set (${option}, ${setting}), did you mean to use SetView?`);
     this._options[option] = setting;
     this.save();
   }
@@ -88,6 +92,7 @@ class UserProfile {
 
   public set Theme(t: string) {
     this._theme = t;
+    this.localSave('theme', t);
     this.save();
   }
 
@@ -100,21 +105,29 @@ class UserProfile {
     this.save();
   }
 
+  public Reset() {
+    this._theme = 'gms';
+    this.localSave('theme', this._theme);
+    this._welcome_hash = 'none';
+    this._options = defaultOptions();
+    this.save();
+  }
+
   public static Serialize(data: UserProfile): IUserProfile {
     return {
       id: data.ID,
       theme: data.Theme,
       welcome_hash: data.WelcomeHash,
-      achievements: data._achievements,
+      achievement_unlocks: data._achievement_unlocks,
       view_options: JSON.stringify(data._options),
     };
   }
 
   public static Deserialize(data: IUserProfile): UserProfile {
     const profile = new UserProfile(data.id);
-    profile.WelcomeHash = data.welcome_hash || 'none';
-    profile.Theme = data.theme || 'gms';
-    profile.Achievements = data.achievements || [];
+    profile._welcome_hash = data.welcome_hash || 'none';
+    profile._theme = data.theme || 'gms';
+    profile._achievement_unlocks = data.achievement_unlocks || [];
     profile._options = data.view_options ? JSON.parse(data.view_options) : defaultOptions();
     return profile;
   }

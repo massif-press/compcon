@@ -1,14 +1,30 @@
 import _ from 'lodash';
 import { tracert } from '@/io/Generators';
 
-function motd(): string {
-  return _.sample(
-    require('raw-loader!./horus_chat/motd.txt').default.split('\n')
-  );
-}
+const fetchData = (path: string) => {
+  return new Promise((resolve, reject) => {
+    fetch(path)
+      .then((response) => response.text())
+      .then((text) => {
+        const data = text.split('\n').filter(Boolean);
+        resolve(data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+};
 
-const HorusStart = (typer) => {
-  const nfo = require('raw-loader!./horus_chat/nfo.txt').default;
+const HorusStart = async (typer) => {
+  let _nfo = await fetchData(
+    './src/features/main_menu/_components/startup_logs/horus_chat/nfo.txt'
+  );
+  _nfo = (_nfo as string[]).join('\n');
+
+  let _motd = await fetchData(
+    './src/features/main_menu/_components/startup_logs/horus_chat/motd.txt'
+  );
+  _motd = _.sample(_motd as string[]);
 
   typer
     .type('<br>')
@@ -35,7 +51,7 @@ const HorusStart = (typer) => {
     .break()
     .pause(250)
     .options({ speed: 0, lifeLike: false })
-    .type(`<pre class="ibm-text">${nfo}</pre>`)
+    .type(`<pre class="ibm-text">${_nfo}</pre>`)
     .break()
     .options({ speed: 3, lifeLike: false })
     .pause(250)
@@ -45,17 +61,17 @@ const HorusStart = (typer) => {
     .break()
     .type(`rt//CC/LOCALNET 0ns`)
     .break()
-    .type(tracert(1)[0])
+    .type(await tracert(1))
     .break()
-    .type(tracert(1)[0])
+    .type(await tracert(1))
     .break()
-    .type(tracert(1)[0])
+    .type(await tracert(1))
     .break()
-    .type(tracert(1)[0])
+    .type(await tracert(1))
     .break()
-    .type(tracert(1)[0])
+    .type(await tracert(1))
     .break()
-    .type(tracert(1)[0])
+    .type(await tracert(1))
     .break()
     .type('rt//INC OVERRIDE>')
     .type('>')
@@ -80,7 +96,7 @@ const HorusStart = (typer) => {
     .break()
     .type('MOTD:')
     .break()
-    .type(motd())
+    .type(_motd)
     .break()
     .type('------------------------------------------------------------')
     .pause(550)
@@ -112,9 +128,9 @@ function formatAdmin(input: string): string {
 }
 
 function formatBan(input: string[]): string {
-  return `<span class="text-warning">// USER: ${input[0]} ${_.sample(
-    banTypes
-  )} | REASON: ${input[1]} --ADMIN //</span>`;
+  return `<span class="text-warning">// USER: ${input[0]} ${_.sample(banTypes)} | REASON: ${
+    input[1]
+  } --ADMIN //</span>`;
 }
 
 function randomNoRepeat(arr) {
@@ -130,15 +146,27 @@ function randomNoRepeat(arr) {
   };
 }
 
-const HorusChat = (output) => {
-  const chat = require('raw-loader!./horus_chat/chat.txt').default.split('\n');
-  const mods = require('raw-loader!./horus_chat/mods.txt').default.split('\n');
-  const admin = require('raw-loader!./horus_chat/admin.txt').default.split(
-    '\n'
-  );
-  const bans = require('raw-loader!./horus_chat/bans.txt').default.split('\n');
+const HorusChat = async (output) => {
+  let chat = (await fetchData(
+    './src/features/main_menu/_components/startup_logs/horus_chat/chat.txt'
+  )) as string[];
+  chat = chat as string[];
+  console.log(chat);
 
-  const allLines = [];
+  let mods = (await fetchData(
+    './src/features/main_menu/_components/startup_logs/horus_chat/mods.txt'
+  )) as string[];
+  mods = mods as string[];
+
+  let admin = (await fetchData(
+    './src/features/main_menu/_components/startup_logs/horus_chat/admin.txt'
+  )) as string[];
+
+  let bans = (await fetchData(
+    './src/features/main_menu/_components/startup_logs/horus_chat/bans.txt'
+  )) as string[];
+
+  const allLines = [] as string[];
 
   chat.forEach((l) => {
     allLines.push(formatChat(l.split(/,(.+)/)));
@@ -161,8 +189,7 @@ const HorusChat = (output) => {
   function callback(): void {
     output.innerHTML += `<br>${sel()}`;
     output.scrollIntoView({ block: 'end' });
-    if (output && output.innerHTML.length > 2500)
-      output.innerHTML = output.innerHTML.trim(200);
+    if (output && output.innerHTML.length > 2500) output.innerHTML = output.innerHTML.trim(200);
   }
 
   function loop(): void {

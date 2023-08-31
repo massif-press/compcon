@@ -1,7 +1,13 @@
 <template>
   <cc-solo-dialog ref="dialog" icon="cc:pilot" no-confirm title="Edit Pilot level">
     <v-card-text>
-      <v-alert v-model="alert" close-text="Close" icon="mdi-alert" variant="outlined" prominent>
+      <v-alert icon="mdi-alert" variant="outlined" prominent color="error-darken-2">
+        Editing this Pilot's level may prevent certain achievements from being unlocked with this
+        Pilot. If you want to use this Pilot to unlock related achievements normally, use the Level
+        Up wizard instead.
+      </v-alert>
+
+      <v-alert class="mt-2">
         This tool skips the level up wizard. Pilot attributes gained through levelling up, such as
         skill triggers, licenses, talents, mech skills, and CORE bonuses will have to be updated
         manually
