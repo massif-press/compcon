@@ -180,17 +180,17 @@
       style="border: 2px solid"
       :style="a.secret ? `background: linear-gradient(90deg, #991E2A 0%, #673AB7 100%);` : ''"
     >
-      <v-row align="center">
+      <v-row align="center" :style="a.unlocked ? '' : 'opacity: 0.4'">
         <v-col cols="auto">
           <v-icon size="70" :icon="`cc:achievement_${a.rarity}`" />
         </v-col>
         <v-col v-if="!a.hidden">
-          <div class="heading h3">{{ decode(a.name) }}</div>
-          <div>{{ decode(a.description) }}</div>
+          <div class="heading h3 text-text">{{ decode(a.name) }}</div>
+          <div class="text-text">{{ decode(a.description) }}</div>
         </v-col>
         <v-col v-else>
-          <div class="heading h3">[ DATA REDACTED ]</div>
-          <div>This achievement is hidden and will be revealed once unlocked</div>
+          <div class="heading h3 text-text">[ DATA REDACTED ]</div>
+          <div class="text-text">This achievement is hidden and will be revealed once unlocked</div>
         </v-col>
         <v-col v-if="a.unlocked" cols="auto" class="text-center mx-6">
           <div class="text-caption"><span v-if="a.secret">SECRET ACHIEVEMENT </span>UNLOCKED</div>
