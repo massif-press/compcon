@@ -160,11 +160,6 @@
 
       <v-divider class="my-4" />
 
-      <h3 class="heading text-accent">Achievements</h3>
-      <achievements-viewer />
-
-      <v-divider class="my-4" />
-
       <div class="text-right">
         <v-btn size="small" variant="text" to="ui-test">UI Test</v-btn>
       </div>
@@ -178,7 +173,6 @@ import * as allThemes from '@/ui/style/themes';
 import { UserStore } from '@/stores';
 import { exportAll, importAll, clearAllData } from '@/io/BulkData';
 import { saveFile } from '@/io/Dialog';
-import AchievementsViewer from './components/AchievementsViewer.vue';
 
 export default {
   name: 'options-settings',
@@ -187,7 +181,6 @@ export default {
     fileValue: null,
     deleteDialog: false,
   }),
-  components: { AchievementsViewer },
   emits: ['show-message'],
   computed: {
     user() {

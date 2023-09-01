@@ -1,9 +1,9 @@
 <template>
   <v-dialog
     v-model="dialog"
-    :fullscreen="fullscreen || $vuetify.display.mdAndDown"
+    :fullscreen="fullscreen"
     :width="fullscreen ? '' : small ? '30vw' : large ? '85vw' : '50vw'"
-    :style="fullscreen || $vuetify.display.mdAndDown ? `x-overflow: hidden` : ''"
+    :style="fullscreen ? `x-overflow: hidden` : ''"
   >
     <v-card tile>
       <cc-titlebar :clipped="!noTitleClip" large :icon="icon" :color="color" :fixed="fullscreen">

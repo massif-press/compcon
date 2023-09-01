@@ -11,4 +11,18 @@ function decrypt(encryptedText) {
   }
   return decrypted;
 }
-export { decrypt };
+
+function encrypt(text) {
+  let encrypted = '';
+  for (let i = 0; i < text.length; i++) {
+    const charCode =
+      text.charCodeAt(i) ^
+      import.meta.env.VITE_ACHIEVEMENT_KEY.charCodeAt(
+        i % import.meta.env.VITE_ACHIEVEMENT_KEY.length
+      );
+    encrypted += String.fromCharCode(charCode);
+  }
+  return encodeURIComponent(encrypted);
+}
+
+export { decrypt, encrypt };
