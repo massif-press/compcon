@@ -106,6 +106,7 @@ import status_engaged from './svg/status_engaged.vue';
 import status_exposed from './svg/status_exposed.vue';
 import status_hidden from './svg/status_hidden.vue';
 import status_invisible from './svg/status_invisible.vue';
+import status_intangible from './svg/status_intangible.vue';
 import status_prone from './svg/status_prone.vue';
 import status_shutdown from './svg/status_shutdown.vue';
 import structure from './svg/structure.vue';
@@ -230,6 +231,7 @@ const svgs: any = {
   status_exposed,
   status_hidden,
   status_invisible,
+  status_intangible,
   status_prone,
   status_shutdown,
   structure,

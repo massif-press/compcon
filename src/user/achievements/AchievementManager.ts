@@ -1,3 +1,6 @@
+import * as dict from '@/assets/achievementsDict.json';
+import { decrypt } from '@/util/Decode';
+
 enum Rarity {
   Common = 1,
   Epic = 2,
@@ -42,6 +45,10 @@ class AchievementManager {
     this._achievements = [];
   }
 
+  public static AllAchievements(): Achievement[] {
+    return [];
+  }
+
   public get Achievements(): Achievement[] {
     return this._achievements;
   }
@@ -50,3 +57,5 @@ class AchievementManager {
     this._achievements = data;
   }
 }
+
+export { Achievement, AchievementManager };

@@ -1,8 +1,9 @@
 //  This is the local user profile class. Cloud/cognito user information should be stored in a new class.
 
+import Vue from 'vue';
+
 import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
-import { UpdateUserData } from '@/cloud/user_sync';
 
 import { UserStore } from '@/stores';
 import localForage from 'localforage';
@@ -21,7 +22,7 @@ interface IUserProfile {
   welcome_hash: string;
   theme: string;
   view_options: string;
-  achievement_unlocks: { id: string; date: number }[];
+  achievement_unlocks: { id: string; unlocked: number }[];
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -34,7 +35,7 @@ class UserProfile {
   public readonly ID: string;
   private _welcome_hash: string;
   private _theme: string;
-  private _achievement_unlocks: { id: string; date: number }[];
+  private _achievement_unlocks: { id: string; unlocked: number }[];
   private _options: IUserOptions;
 
   public constructor(id?: string) {
@@ -55,11 +56,26 @@ class UserProfile {
     localStorage.setItem(`cc_${item}`, JSON.stringify(value));
   }
 
-  public get Achievements(): { id: string; date: number }[] {
+  public get Achievements(): { id: string; unlocked: number }[] {
     return this._achievement_unlocks;
   }
 
-  public set Achievements(data: { id: string; date: number }[]) {
+  public AddAchievement(id: string): void {
+    // TODO: call global achievement notifier
+
+    // Vue.prototype.$notify({
+    //   title: 'Achievement Unlocked!',
+    //   text: `Achievement Name and Description Here`,
+    //   data: { icon: 'mdi-trophy' },
+    // });
+
+    if (!this._achievement_unlocks.find((a) => a.id === id)) {
+      this._achievement_unlocks.push({ id, unlocked: Date.now() });
+      this.save();
+    }
+  }
+
+  public set Achievements(data: { id: string; unlocked: number }[]) {
     this._achievement_unlocks = data;
     this.save();
   }

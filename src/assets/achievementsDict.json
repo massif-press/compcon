@@ -1,716 +1,1100 @@
 [
   {
-    "name": "Boots on the Ground",
+    "id": "%5ELT%5BV%5DV%5E%5ELT%5BV%5DV%5E",
+    "name": "%25%14%09B%2C%0B%0B%02%0A%14%03",
+    "description": "%2F%14%0E%09%0A%00O%1E%08%00%1F%11%0A%08%09G%06%1BM%03%0C%0C%06%02%11%10%00%07%01%10AG%24%1D%08%03%1B%01%1DF",
+    "rarity": 1,
+    "hidden": false,
+    "secret": true,
+    "labels": ["Pilot Mode", "Pilot"]
+  },
+  {
+    "id": "%0A%1E%06%06%02%0FZP%13%1E%5D%0A_%06X%09",
+    "name": "%25%1A%02%16%1CD%00%09G%01%05%07O%23%1D%08%12%1B%09",
     "description": "%24%1A%00%12%03%01%1B%02G%0C%02%17%1DD%09%0E%15%06%19B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M2%06%08%00%13",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Pilot"]
   },
   {
-    "name": "compcon.process.fork()",
+    "id": "%06A%5D%0F%09%03%15V%02C%01%5B%1E%17%0BS",
+    "name": "%04%1A%00%12%0C%0B%01I%17%07%02%01%0A%17%1CI%01%1A%1F%09GM",
     "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%0CB%2C%2B%227H6%22%2CO%11%01%0E%13U%04%0C%1C%10%0E%0B%0B%10%09",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "ERR: lp0 on fire",
+    "id": "%03%1EZ%1B%1B%02%18%1F%09B%06%5BY%1C%15%16",
+    "name": "%22'%3FXO%08%1FWG%1A%03B%09%0D%1D%02",
     "description": "*%14%1F%09O%05O%24(8%3DM%2C%2B!G%12%1B%04%16OF%2B%02%14%01%1F%0D%16%01%0BE",
-    "rarity": 2,
-    "hidden": false,
-    "secret": false
-  },
-  {
-    "name": "Déjà vu",
-    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%24%03%05%1C%0FJ6%01%0D%01%01%0BG7%1C%01%0D%1B",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Revenant",
-    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%24%03%05%1C%0FG6%01%0D%01%01O%08%01U%0CB)%08%0E%14%0FX.%0E%00%0A%0A%03G%25%04%0E%00%10",
+    "id": "%14%10%03%00%1E%03ZQ%14%1B%0CT%07P%1A%06",
+    "name": "%23%C2%9C%07%C2%82O%12%1A",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%24%03%05%1C%0FJ6%01%0D%01%01%0BG7%1C%01%0D%1B",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Pilot"]
   },
   {
-    "name": "Eternal Recurrence",
-    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%16%07%0D%1D%03G%12%08%0C%0A%16%0E%13%0E%1A%03B)%08%0E%14%0FU.%0E%00%0A%0A",
+    "id": "%05%1B%1E%16_%12%5E%0E%16%0F%1D%05%5C%08%08%06",
+    "name": "5%10%1B%07%01%05%01%13",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%24%03%05%1C%0FG6%01%0D%01%01O%08%01U%0CB)%08%0E%14%0FX.%0E%00%0A%0A%03G%25%04%0E%00%10",
     "rarity": 3,
-    "hidden": false,
-    "secret": true
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Pilot"]
   },
   {
-    "name": "In An Unfriendly Sea",
+    "id": "%16C%0E%11Z%12%01%00%0A%1F%1C%03%5E%15ZV",
+    "name": "%22%01%08%10%01%05%03G5%10%0E%17%1D%16%0A%09%04%10",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%14G%14M%16%07%0D%1D%03G%12%08%0C%0A%16%0E%13%0E%1A%03B)%08%0E%14%0FU.%0E%00%0A%0A",
+    "rarity": 4,
+    "hidden": false,
+    "secret": true,
+    "labels": ["Active Mode", "Pilot"]
+  },
+  {
+    "id": "%1D%05_%12%5E%0A%1A%0F%0D%11%03%16%1C%13%02T",
+    "name": ".%1BM%23%01D%3A%09%01%07%04%07%01%00%03%1EG%26%08%03",
     "description": "!%1C%08%0E%0BD%0E%09G%3C%3D1B*O!%15%14%00%07",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Mech", " IPS-N"]
   },
   {
-    "name": "As Long As You Can Keep It",
+    "id": "%12%0F%18%17%0C%00W%17%02%0D%1AW%04%0D%03%1D",
+    "name": "%26%06M.%00%0A%08G%26%06M%3B%00%11O%24%06%1BM)%0A%01%1FG.%01",
     "description": "!%1C%08%0E%0BD%0EG%2F%3A%3F7%3CD)%15%06%18%08",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Mech", " HORUS"]
   },
   {
-    "name": "Superior By Design",
+    "id": "%17%00%06%00%15%1E%5C%17%0F%16%15%5B%07%08%1E%04",
+    "name": "4%00%1D%07%1D%0D%00%15G7%14B%2B%01%1C%0E%00%1B",
     "description": "!%1C%08%0E%0BD%0EG%2F4M%24%1D%05%02%02",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Mech", " HA"]
   },
   {
-    "name": "You Only Need One",
+    "id": "%10%1F%5DQ%06%1C%0C%0D%12B%18S%0AV%17R",
+    "name": "%3E%1A%18B%20%0A%03%1EG%3B%08%07%0BD%20%09%02",
     "description": "!%1C%08%0E%0BD%0EG4%26.B)%16%0E%0A%02",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Mech", " SSC"]
   },
   {
-    "name": "Rode Hard, Put Away Wet",
+    "id": "P%1E%1C%06%1CQ%1C%04%06%40%19%09%18%5D%00%12",
+    "name": "5%1A%09%07O%2C%0E%15%03YM2%1A%10O%26%10%14%14B8%01%1B",
     "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%18%0E%13%1DM%0D%01%08%16GVU%3E%16%1D%11%0C%13%12%07%08B%0E%0A%0BGVU%3E%16%1D%01%1C%14G%07%08%0F%0E%0D%01%0E%09%12",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Aftermarket Parts",
+    "id": "%16%1BZ%06%08%0EZ%1E%01%40%01%15%1C%16%0D%1F",
+    "name": "%26%13%19%07%1D%09%0E%15%0C%10%19B%3F%05%1D%13%14",
     "description": "!%1C%08%0E%0BD%0EG*%10%0E%0AO%13%06%13%0FU%0C%0CO%11%01%0B%0E%16%08%0C%1C%01%0BG4%0C%1E%16%0A%09O%08%15U%3A%07%0E%14%00%09",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Where'd You Get That?",
+    "id": "%12M%5D%16%00%16%18%14%13%01_%16%5C%08%0D%05",
+    "name": "0%1D%08%10%0AC%0BG%3E%1A%18B(%01%1BG3%1D%0C%16P",
     "description": "!%1C%08%0E%0BD%0EG*%10%0E%0AO%13%06%13%0FU%0C%0CO!%17%08%13%1C%0EB%3C%1D%1C%13%02%18M%0D%1DD8%02%06%05%02%0C",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Ain't Nothin'",
+    "id": "U%1A%1ES%15S%1F%1E%05%1D%0C%0A%1D%06%07S",
+    "name": "%26%1C%03E%1BD!%08%13%1D%04%0CH",
     "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%0E%13G9!S%5DD%06%09G%14%03B*%12%0A%15%02%06%19B)%16%0E%0A%02",
-    "rarity": 3,
+    "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Mech", " GMS"]
   },
   {
-    "name": "Back in a Moment",
+    "id": "%16M%0C%07VS%08%06%12%16%0AV%02%08_%11",
+    "name": "%25%14%0E%09O%0D%01G%06U%20%0D%02%01%01%13",
     "description": "%23%1C%1E%0F%00%11%01%13G%14M%0F%0A%07%07G%10%1C%19%0AO!%17%17%06%1B%09%07%0BD%2C%08%0A%05%0C%10%1B%09%0A%09%13U%04%0C%1C%10%0E%0B%0B%10%09",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Sorry About This...",
+    "id": "%04L%1DQX%1E%5B__%1D%03%0E%1DR%1F%16",
+    "name": "4%1A%1F%10%16D.%05%08%00%19B%3B%0C%06%14I%5BC",
     "description": "%22%1F%08%01%1BD%09%15%08%18M%03O%09%0A%04%0FU%1A%0B%1B%0CO%22%1F%05%0C%0C%0B%01%0BG%24%1A%00%12%0E%16%1B%0A%02%1B%19B%06%0A%1C%13%06%19%01%07%0B",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Very Sorry About This!",
+    "id": "%11%03%1F%1B%15%16%08%0D%06%13U%13%16%16ZR",
+    "name": "1%10%1F%1BO7%00%15%15%0CM%23%0D%0B%1A%13G!%05%0B%1CE",
     "description": "%2B%1A%1E%07O%1D%00%12%15U%00%07%0C%0CO%10%0F%1C%01%07O%0C%0E%11%0E%1B%0AB%0E%0AO%22%1F%05%0C%0C%0B%01%0BG%24%1A%00%12%0E%16%1B%0A%02%1B%19B%06%0A%1C%13%06%19%01%07%0B",
-    "rarity": 2,
-    "hidden": false,
-    "secret": false
-  },
-  {
-    "name": "Really Just Incredibly Sorry About This, Honestly...",
-    "description": "4%10%01%04B%00%0A%14%13%07%18%01%1BD%0EG%0A%10%0E%0AO%10%07%06%13U%05%03%1CD*%1F%17%14%03%06%0A%00O%24%08%18%1D%03%1D%10%02%02%09%01M%2B%01%17%1B%06%0B%19%08%06",
     "rarity": 3,
     "hidden": true,
-    "secret": true
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Organic Ablative Armor",
+    "id": "Q%18%05%03_%1C%06%00_%18%14TX%09%5B%09",
+    "name": "5%10%0C%0E%03%1DO-%12%06%19B%26%0A%0C%15%02%11%04%00%03%1DO4%08%07%1F%1BO%25%0D%08%12%01M6%07%0D%1CKG%3D%02%0C%0A%17%1B%0B%1E%5BCL",
+    "description": "4%10%01%04B%00%0A%14%13%07%18%01%1BD%0EG%0A%10%0E%0AO%10%07%06%13U%05%03%1CD*%1F%17%14%03%06%0A%00O%24%08%18%1D%03%1D%10%02%02%09%01M%2B%01%17%1B%06%0B%19%08%06",
+    "rarity": 4,
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
+  },
+  {
+    "id": "%14L%02V%5E%00%1CP%0CD%5E%11%0AR%02%04",
+    "name": "(%07%0A%03%01%0D%0CG%26%17%01%03%1B%0D%19%02G4%1F%0F%00%16",
     "description": "*%14%1F%09O%05%01G%22%0D%1D%03%01%00%0A%03G6%02%0F%1F%05%1D%13%0A%10%03%16OF%2B%02%14%01%1F%0D%16%01%0BE",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "That'll Buff Right Out",
+    "id": "P%0DT%1AW%0E%5D%0C%03%14%00S%16%13%0D%00",
+    "name": "3%1D%0C%16H%08%03G%25%00%0B%04O6%06%00%0F%01M-%1A%10",
     "description": "5%1A%01%0EO%05OQG%1A%03B%1B%0C%0AG4%01%1F%17%0C%10%1A%15%02U)%03%02%05%08%02G%01%0C%00%03%01O%10%0F%1C%01%07O%02%06%02%0B%11%04%0C%08D%0EG%0A%10%0E%0AO%13%06%13%0FU.%17%1C%10%00%0AG%25%0C%0B%01%10O-%08%17M%0B%01%17%1B%06%0B%19%08%06",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Remote Work",
+    "id": "%14%10_%05%1E%12%07%0A%15D%07Z%5E%1D%09%1F",
+    "name": "5%10%00%0D%1B%01O0%08%07%06",
     "description": "%23%10%1D%0E%00%1DO%06G1%1F%0D%01%01",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Brood Leader",
+    "id": "%01B%15P%15%0E%1E%09%01%12_W%03%06%1A_",
+    "name": "%25%07%02%0D%0BD%23%02%06%11%08%10",
     "description": "%22%1B%09B%0ED%1B%12%15%1BM%15%06%10%07G%13%1D%1F%07%0AD%00%01G%0C%02%17%1DD%2B%15%08%1B%08%11O%00%0A%17%0B%1A%14%07%0BD%0E%09%03U%02%12%0A%16%0E%13%0E%1A%03%03%03",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Hive Lord",
+    "id": "%00%1A%18%16W%0D%16%13%5E%07%0C%15%5D%06%1C%14",
+    "name": "%2F%1C%1B%07O(%00%15%03",
     "description": "%22%1B%09B%0ED%1B%12%15%1BM%15%06%10%07G%01%1C%1B%07O%0B%09G%1E%1A%18%10O%20%1D%08%09%10%1EB%0B%01%1F%0B%08%0C%08%06O%05%01%03G%1A%1D%07%1D%05%1B%0E%08%1B%0C%0E",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Swarm God",
+    "id": "%05%03T%0B%1AU%1FV%13%14%08%5BY%0F%1C%01",
+    "name": "4%02%0C%10%02D(%08%03",
     "description": "%22%1B%09B%0ED%1B%12%15%1BM%15%06%10%07G%13%10%03B%00%02O%1E%08%00%1FB%2B%16%00%09%02%06M%06%0A%14%03%08%1E%10%09B%0E%0A%0BG%08%05%08%10%0E%10%06%08%09%14%01",
     "rarity": 3,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Redline",
+    "id": "%0CL%01Q%02T%0EU%12DZT%0C%08%02%13",
+    "name": "5%10%09%0E%06%0A%0A",
     "description": "5%10%0C%01%07D%1B%0F%02U%00%03%17%0D%02%12%0AU%22%14%0A%16%0C%0F%06%07%0A%07O%14%0A%09%06%19%19%1BO%0D%01G%06%1BM%07%01%07%00%12%09%01%08%10",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "RA, Take the Wheel",
+    "id": "%04%1CX%01%19%02%17%0BV%00%0E%15%1D%0A%08%0C",
+    "name": "54AB%3B%05%04%02G%01%05%07O3%07%02%02%19",
     "description": "%22%1B%09B%0E%0AO%02%09%16%02%17%01%10%0A%15G%02%04%16%07D%00%09%02U%02%10O%09%00%15%02U%23*%3FD%1C%1E%14%01%08%0F%1CD%06%09G6%0C%11%0C%05%0B%02",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Equipment"]
   },
   {
-    "name": "Plug Puller",
+    "id": "%13%00%08P%08%5D%05%10%14M%5BV%0A%00Z%11",
+    "name": "7%19%18%05O4%1A%0B%0B%10%1F",
     "description": "*%14%1F%09O%05O%24%06%06%0E%03%0B%0D%01%00G%3B%252O%17%16%14%13%10%00B%0E%17OE%23%10%1E%16%1D%0B%16%02%03W",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Equipment"]
   },
   {
-    "name": "Turn It Off and On Again",
+    "id": "%1F%11%15V%05V%1B%03%5E%01%07%13%01%13%0B%12",
+    "name": "3%00%1F%0CO-%1BG(%13%0BB%0E%0A%0BG(%1BM%23%08%05%06%09",
     "description": "5%10%1E%07%1BD%0EG%24%14%1E%01%0E%00%06%09%00U%23*%3FD%1C%1E%14%01%08%0F",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Equipment"]
   },
   {
-    "name": "Not My Fault",
+    "id": "%1FG%03Z%0DW%17%1DP%17UZ%03V%17%05",
+    "name": ")%1A%19B%22%1DO!%06%00%01%16",
     "description": "*%14%1F%09O%05O%0A%02%16%05B%0E%17OE%23%10%1E%16%1D%0B%16%02%03WM%15%07%0D%03%02G%1C%19B%07%05%1CG%08%1B%08B%00%16O%0A%08%07%08B!%2C%3FG%14%0C%1E%16%0A%09%1CG%0E%1BM!%0E%17%0C%06%03%10",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Equipment"]
   },
   {
-    "name": "Click Click Click",
+    "id": "W%17%05V%07%14%19%13%02C%19%5B%0D%09W%00",
+    "name": "%24%19%04%01%04D%2C%0B%0E%16%06B%2C%08%06%04%0C",
     "description": "%22%0D%1D%07%01%00O%06%0B%19M%17%1C%01%1CG%08%13M%03O(%06%0A%0E%01%08%06O%17%16%14%13%10%00B%06%0AO%06G%06%04%0C%08%08%0AG%02%1B%0E%0D%1A%0A%1B%02%15",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Argo Navis Aeternum",
+    "id": "T%10%5D%0D%1A%08%1D%08W%11%1E%07%5B%06%1DS",
+    "name": "%26%07%0A%0DO*%0E%11%0E%06M%23%0A%10%0A%15%09%00%00",
     "description": "!%1C%08%0E%0BD%0E%09G%3C%3D1B*O!%15%14%00%07O%13%06%13%0FU%02%0C%03%1DO.7%26%40%2CO%03%0A%06%15U%08%13%1A%0D%1F%17%02%11",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment", " IPS-N"]
   },
   {
-    "name": "Stable Master",
+    "id": "%10M%0B%17%07%17%0E%05%00F%1AR%1B%1EV%0F",
+    "name": "4%01%0C%00%03%01O*%06%06%19%07%1D",
     "description": "%2F%14%1B%07O%10%07%15%02%10M%0F%0A%07%07%14G%1C%03B%16%0B%1A%15G%1D%0C%0C%08%05%1DG%13%1D%0C%16O%0C%0E%11%02U%08%03%0C%0CO%04%08%18%1D%0E%0A%10%0A%03G%14%19B%03%01%0E%14%13U%02%0C%0AD%0A%09%04%1A%18%0C%1B%01%1D",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Mech", " Combat"]
   },
   {
-    "name": "Cramped",
+    "id": "%06C%1D%1B%5DS%03%0A%14%19%06T%07%02%1C%03",
+    "name": "%24%07%0C%0F%1F%01%0B",
     "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%19%15%00D!%2F7U%1E%1B%1C%10%0A%0A%14U%04%0C%1C%10%0E%0B%0B%10%09",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Packed",
+    "id": "PE%0B%16%1EU%1C%1D%17%1B%04%0B%0E%01%5C%1E",
+    "name": "7%14%0E%09%0A%00",
     "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%19%0A%1D%01%0AG)%3D%3DB%1C%1D%1C%13%02%18%1EB%06%0A%1C%13%06%19%01%07%0B",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Clown Car",
+    "id": "%13%03%1A%07%0B%0B%0D%06%12%1C%0F%04%15%5CW%09",
+    "name": "%24%19%02%15%01D%2C%06%15",
     "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%19%0A%1D%01%0AG)%3D%3DB%1C%1D%1C%13%02%18%1EB.*%2BG%22%0D%1D%03%01%00%0A%03G6%02%0F%1F%05%1D%13%0A%10%03%16O%0D%01%14%13%14%01%0E%0A%00",
     "rarity": 3,
-    "hidden": false,
-    "secret": false
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "Pathetic Creature of Meat and Bone",
+    "id": "%12%11%1A%17%5B%1E%05%00%00M%00%13ZTY%13",
+    "name": "7%14%19%0A%0A%10%06%04G6%1F%07%0E%10%1A%15%02U%02%04O)%0A%06%13U%0C%0C%0BD-%08%09%10",
     "description": "%22%1F%08%01%1BDG%08%15U%0F%07O%01%05%02%04%01%08%06FD%09%15%08%18M%03O%09%0A%04%0FU%1A%0B%1B%0CO%06%09U%23*%3FD%1C%1E%14%01%08%0FO%0D%01G%24%14%1E%01%0E%00%0A",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Equipment"]
   },
   {
-    "name": "It's Fine",
+    "id": "%0BG_%05%17%02%1D_%09%05U%0A%08P%00S",
+    "name": ".%01J%11O%22%06%09%02",
     "description": "3%14%06%07ORO%08%15U%00%0D%1D%01O%25%12%07%03B%2B%05%02%06%00%10M%0B%01D%0EG%14%1C%03%05%03%01O%15%08%00%03%06",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Very Hot, Extremely Bothered",
+    "id": "QF_%03%5C%0A%15U%02%03U%0DVU%0D%1F",
+    "name": "1%10%1F%1BO%2C%00%13KU(%1A%1B%16%0A%0A%02%19%14B-%0B%1B%0F%02%07%08%06",
     "description": "3%14%06%07O6%0A%06%04%01%02%10O7%1B%15%02%06%1EB%06%0AO%06G%07%02%17%01%00O%1E%08%00M%11%1B%05%1D%13%02%11M%15%06%10%07GWU%25%07%0E%10",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Consolation Achievement",
+    "id": "V%00%1D%0EX%1D%1ET%0B%1E%1C%09%02%1D%0A%05",
+    "name": "%24%1A%03%11%00%08%0E%13%0E%1A%03B.%07%07%0E%02%03%08%0F%0A%0A%1B",
     "description": "%23%10%1E%16%1D%0B%16G%06U%00%07%0C%0CO%05%1EU%1F%0D%03%08%06%09%00U%19%15%00D%5E%14G%1A%03B%1B%0C%0AG4%01%1F%17%0C%10%1A%15%02U)%03%02%05%08%02G!%0C%00%03%01",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Front Towards Enemy",
+    "id": "%00B_QY%1D%04%0E%00%05%05%5BX%14%1B%12",
+    "name": "!%07%02%0C%1BD%3B%08%10%14%1F%06%1CD*%09%02%18%14",
     "description": "%23%10%1D%0E%00%1DO%01%0E%03%08B%00%16O%0A%08%07%08B%02%0D%01%02%14U%04%0CO%05O%14%0E%1B%0A%0E%0AD%0A%09%04%1A%18%0C%1B%01%1D",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Equipment"]
   },
   {
-    "name": "Frag Out",
+    "id": "%10%1C%00%5BZ%0D%02Q%03D%5B%09%17%06%17Q",
+    "name": "!%07%0C%05O%2B%1A%13",
     "description": "%23%10%1D%0E%00%1DO%01%0E%03%08B%00%16O%0A%08%07%08B%08%16%0A%09%06%11%08%11O%0D%01G%06U%1E%0B%01%03%03%02G%10%03%01%00%11%01%13%02%07",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Equipment"]
   },
   {
-    "name": "Party Bus",
+    "id": "%11%13%09%10%15%1E%07%0E_%11%09%12%1A%11Y%0B",
+    "name": "7%14%1F%16%16D-%12%14",
     "description": "!%1C%08%0E%0BD%0EG%0A%10%0E%0AO%13%06%13%0FU%0F%0D%1B%0CO%22%1F%01%08%0C%0B%01%0BG%24%1A%00%12%0E%16%1B%0A%02%1B%19B%0E%0A%0BG*%20!'O%2C%0E%15%09%10%1E%11O%0D%01%14%13%14%01%0E%0A%00",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Equipment"]
   },
   {
-    "name": "One-Way Trip",
+    "id": "%05%12%0A%03%08%0F%00%00Q%14%1F%03%19VY%1E",
+    "name": "(%1B%08O8%05%16G3%07%04%12",
     "description": "4%10%01%04B%00%0A%14%13%07%18%01%1BHO%03%02%06%19%10%00%1D%06%09%00U%14%0D%1A%16O%0A%02%16%05B%0E%0A%0BG%0C%1C%01%0E%06%0A%08G%1E%1A%18%10O4%06%0B%08%01",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Pilot"]
   },
   {
-    "name": "Coup de grâce",
+    "id": "%03DY%0B%06%0A%02R%14EU%0A%0B%03%07%00",
+    "name": "%24%1A%18%12O%00%0AG%00%07%C2%8F%01%0A",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG*%10%01%07%0AD8%02%06%05%02%0CO%07%1D%0E%13%1C%0E%03%03D%07%0E%13",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Weapon"]
   },
   {
-    "name": "Headshot",
+    "id": "%0B%19%5D%08%07S%5D%05%0E%12%1C%5B%03%13%02%0B",
+    "name": "%2F%10%0C%06%1C%0C%00%13",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG5%1C%0B%0E%0AD8%02%06%05%02%0CO%07%1D%0E%13%1C%0E%03%03D%07%0E%13",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Weapon"]
   },
   {
-    "name": "Noscope",
+    "id": "%15%12%15%0A%06V%1A%04%5E%1B%1A%05%03%07Z%17",
+    "name": ")%1A%1E%01%00%14%0A",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG5%1C%0B%0E%0AD8%02%06%05%02%0CO%13%06%13%0FU%0C%16O%08%0A%06%14%01MSO%20%06%01%01%1C%0E%17%03%10%16",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Weapon"]
   },
   {
-    "name": "Noscope 360",
+    "id": "%01%03Z%0AVV%0B%0F%00%16ZT%17%0C%1A%11",
+    "name": ")%1A%1E%01%00%14%0AGTC%5D",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG5%1C%0B%0E%0AD8%02%06%05%02%0CO%13%06%13%0FU%0CB%2C%16%06%13%0E%16%0C%0EO%2C%06%13G%02%04%16%07D%0E%13G%19%08%03%1C%10OVG1%04%04%09%0D%0C%12%0B%01%14",
     "rarity": 4,
-    "hidden": true,
-    "secret": false
-  },
-  {
-    "name": "Double-tap",
-    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG%14%10%0E%0D%01%00%0E%15%1EU%2C%17%17D%18%02%06%05%02%0C",
-    "rarity": 3,
     "hidden": false,
-    "secret": false
+    "secret": true,
+    "labels": ["Active Mode", "Combat", " Weapon"]
   },
   {
-    "name": "The Sweet Science",
+    "id": "%03%11%0F%1B%19%03X%0CP%1C%0BR%5CP%1E%10",
+    "name": "%25%07%02%03%0B%17%06%03%02%11",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG%24%14%03%0C%00%0AO0%02%14%1D%0D%01",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Weapon"]
+  },
+  {
+    "id": "%02%06%02%12%08%15%09%16%04%04T%1A%08%5D%1D%1D",
+    "name": "%23%1A%18%00%03%01B%13%06%05",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG%14%10%0E%0D%01%00%0E%15%1EU%2C%17%17D%18%02%06%05%02%0C",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Weapon"]
+  },
+  {
+    "id": "%15D%06%0D%03P%0D%1EP%01%08WW%0E%5E%10",
+    "name": "5%1A%0F%0D%1BD%3D%02%0A%1A%1B%07%1D",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0EG4%00%1D%07%1D%0C%0A%06%11%0CM%15%0A%05%1F%08%09",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Weapon"]
+  },
+  {
+    "id": "%14%1CU%15%0B%1D%0C_%1E%10%04%18Y%5C%08R",
+    "name": "3%1D%08B%3C%13%0A%02%13U%3E%01%06%01%01%04%02",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0E%09G%3C%00%12%1D%0B%19%0E%14%10%09B.%10%1B%06%04%1E",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Xiaoli, Returned",
+    "id": "%10%06%01%05%0E%13%0DQ%08L%08%08%5B%09%06%11",
+    "name": "%3F%1C%0C%0D%03%0DCG5%10%19%17%1D%0A%0A%03",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%04%16%07D%0E%09G%3C%00%12%1D%0B%19%0E%14%10%09B.%10%1B%06%04%1EM%01%1D%0D%1B%0E%04%14%01B%07%0D%1B",
     "rarity": 3,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Knock-Down Drag-Out",
+    "id": "R%06%1B%09%06%06%0B%0F%0C%16TR%0A%5D%1D%13",
+    "name": "%2C%1B%02%01%04I%2B%08%10%1BM%26%1D%05%08J(%00%19",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%05%0B%03%01O%08%09%19%14B%07%05%19%0E%09%12M%0D%01%01O4%13%07%18%01%1B%11%1D%02",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Get In, Get Out",
+    "id": "%0DC%5E%06%19%07%08%1D%0A%00%09V%01%01XV",
+    "name": "%20%10%19B%26%0ACG%20%10%19B%20%11%1B",
     "description": "%22%1B%09B%0E%0AO%22%09%16%02%17%01%10%0A%15G%1C%03B%03%01%1C%14G%01%05%03%01D%1C%0E%1FU%1F%0D%1A%0A%0B%14",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Working Overtime",
+    "id": "%03F%05%5B%0B%5D%1BU%1F%1A%0E%0A%08RV%16",
+    "name": "0%1A%1F%09%06%0A%08G(%03%08%10%1B%0D%02%02",
     "description": "%22%1B%09B%0E%0AO%22%09%16%02%17%01%10%0A%15G%14%0B%16%0A%16O%06%13U%01%07%0E%17%1BG%13%02%08%0E%19%01O%15%08%00%03%06%1C",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "The Long Haul",
+    "id": "%17A%5B%15%15W_RT%1F%1E%0AY%0E%1F%00",
+    "name": "3%1D%08B%23%0B%01%00G%3D%0C%17%03",
     "description": "%22%1B%09B%0E%0AO%22%09%16%02%17%01%10%0A%15G%14%0B%16%0A%16O%06%13U%01%07%0E%17%1BG%13%02%08%0C%1B%1DO%15%08%00%03%06%1C",
     "rarity": 3,
-    "hidden": false,
-    "secret": false
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Standard Pattern",
+    "id": "Q%17%5B%00%0BW%1D%1F%04%17%5D%13%18%13V%05",
+    "name": "4%01%0C%0C%0B%05%1D%03G%25%0C%16%1B%01%1D%09",
     "description": "!%1C%08%0E%0BD%0EG3%10%00%12%03%05%1B%02G8%08%01%07",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Mech"]
   },
   {
-    "name": "Painterly",
+    "id": "%1D%11%14%18_%0B%5DRPG%19%0C%09V%05%06",
+    "name": "7%14%04%0C%1B%01%1D%0B%1E",
     "description": "!%1C%08%0E%0BD%0EG*%10%0E%0AO%13%06%13%0FU%0CB%0C%0B%03%08%15%13%18%0EO%0A%0E%0A%02",
     "rarity": 2,
     "hidden": true,
-    "secret": true
+    "secret": true,
+    "labels": ["Active Mode", "Mech"]
   },
   {
-    "name": "Best Done By Hand",
+    "id": "%0C%1E%14%01%07UW%1D%12%0D%5C%1B%18%05VW",
+    "name": "1%10%19%07%1D%05%01",
+    "description": "!%1C%08%0E%0BD%0EG%2B%1C%0E%07%01%17%0AG%2B%10%1B%07%03D%5EUG%25%04%0E%00%10",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Pilot"]
+  },
+  {
+    "id": "%08%12%5D%0D%1CW%03W%06%17%5C%0F%0DR%0C_",
+    "name": ".R%09B%3D%05%1B%0F%02%07M5%0E%08%04",
+    "description": "%24%1A%00%12%03%01%1B%02G%14%03B%0A%0A%0C%08%12%1B%19%07%1DD%18%0F%0E%19%08B%3A%0A%02%08%12%1B%19%07%0B",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Pilot"]
+  },
+  {
+    "id": "%09%06%04%06%01%10%06P_%13%01%03%1ER%1FV",
+    "name": "%25%10%1E%16O%20%00%09%02U%2F%1BO%2C%0E%09%03",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1EG%02%05%0B%03%01O2%09%18%02%17%01%10%0A%03",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Pilot"]
   },
   {
-    "name": "Why'd I Even Bring This Thing?",
+    "id": "%12%1A%17V%0E%15%06_%1EA%07T%1D%11%1C%0D",
+    "name": "4%02%04%16%0C%0CO%2F%0E%01%19%07%1D",
+    "description": ".%1BM%03O%17%06%09%00%19%08B%0A%0A%0C%08%12%1B%19%07%1DHO%03%02%06%19%10%00%1DO%06%13U%01%07%0E%17%1BG%08%1B%08B%0A%0A%0A%0A%1EU%1A%0A%06%08%0AG*%1A%18%0C%1B%01%0BG%06%1B%09B%0E%10O%0B%02%14%1E%16O%0B%01%02G%02%05%0B%03%01O2%09%18%02%17%01%10%0A%03",
+    "rarity": 3,
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Pilot"]
+  },
+  {
+    "id": "%0A%03%07%07%16%10%15W%11%1F%1D%16%0B%07%09%1F",
+    "name": "0%1D%14E%0BD%26G%22%03%08%0CO%26%1D%0E%09%12M6%07%0D%1CG3%1D%04%0C%08%5B",
     "description": ".%1BM%03O%17%06%09%00%19%08B*%0A%0C%08%12%1B%19%07%1DHO%03%02%06%19%10%00%1DO%0A%08%07%08B%0A%0A%0A%0A%0E%10%1EB%18%0C%06%0B%02U8%0C%02%0B%1A%09%13%10%09B%1B%0C%0E%09G8%02%17%01%10%0A%03",
     "rarity": 4,
     "hidden": true,
-    "secret": true
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Pilot"]
   },
   {
-    "name": "Target Painter",
+    "id": "%15%0F%1B%10%1F%01%15%13%1D%0D%15%06%07%0E%1C%02",
+    "name": "3%14%1F%05%0A%10O7%06%1C%03%16%0A%16",
     "description": "%2B%1A%0E%09O%2B%01G%13%1D%1F%07%0AD%00%15G%18%02%10%0AD%1B%0E%0A%10%1EB%06%0AO%06G%06%04%0C%08%08%0AG%22%1B%0E%0D%1A%0A%1B%02%15",
     "rarity": 0,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Wetwork",
+    "id": "%0B%00%19V%0C%10%0A%5E_%00YR%04%10%04%09",
+    "name": "0%10%19%15%00%16%04",
     "description": "%23%10%1E%16%1D%0B%16G%06%1BM%07%01%01%02%1E",
     "rarity": 0,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Operator",
+    "id": "%12%03%1A%0C%0E%1C%1D%5E%14%0DY%15%09%0C%5C%16",
+    "name": "(%05%08%10%0E%10%00%15",
     "description": "%23%10%1E%16%1D%0B%16G%13%1D%1F%07%0AD%0A%09%02%18%04%07%1CD%06%09G%14M%11%06%0A%08%0B%02U(%0C%0C%0B%1A%09%13%10%1F",
     "rarity": 0,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Berserker",
+    "id": "R%1F%01%04W%17ZWT%0C%1F%0A%0DP%09%1E",
+    "name": "%25%10%1F%11%0A%16%04%02%15",
     "description": "%23%10%1E%16%1D%0B%16G%01%1C%1B%07O%01%01%02%0A%1C%08%11O%0D%01G%06U%1E%0B%01%03%03%02G0%03%01%00%11%01%13%02%07",
     "rarity": 0,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "EVA",
+    "id": "%17%16%19Q%0B%0B%15%0D%04M%04%14%0D%09%00_",
+    "name": "%22%23%2C",
     "description": "%23%1C%1E%0F%00%11%01%13G%5D%02%10O!%05%02%04%01DB%09%16%00%0AG%14M%2F%0A%07%07G%0E%1BM%03OF%23%08%10U*%10%0E%12%06%13%1EU(%0C%19%0D%1D%08%09%18%08%0C%1BFO%02%09%16%02%17%01%10%0A%15",
     "rarity": 0,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Enmetafolded",
+    "id": "%02%10%01W%09%01%1B%05%1D%1E%09%12W%10%0D%00",
+    "name": "%22%1B%00%07%1B%05%09%08%0B%11%08%06",
     "description": "7%1C%01%0D%1BD%0EG*%1C%03%0D%1B%05%1A%15G%02%05%0B%03%01O%0E%13U%04%11O%00%0A%14%13%07%02%1B%0A%00",
     "rarity": 0,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Mech"]
   },
   {
-    "name": "Pacifist",
+    "id": "%03%05%00SW%0E%1EU%17B%0A%0B%09R%5B%13",
+    "name": "7%14%0E%0B%09%0D%1C%13",
     "description": "%24%1A%00%12%03%01%1B%02G%14%03B*%0A%0C%08%12%1B%19%07%1DD%18%0E%13%1D%02%17%1BD%0B%02%06%19%04%0C%08D%0B%06%0A%14%0A%07",
     "rarity": 3,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "Get Back Up",
+    "id": "%11B%1A%03%01Q%06%0B%08%01%5B%0B%16%09%1B%00",
+    "name": "5%10%1B%14%06%0AHG2%05M%3B%00%11%1DG%22%1B%0A%0B%01%01",
+    "description": "%22%1B%19%07%1DD%1B%0F%02U)%03%01%03%0A%15G%2F%02%0C%0A",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
+  },
+  {
+    "id": "_%14%05%04%18%05%01%02PA%0CP%1C%14W%0F",
+    "name": "%2B%1C%1E%16%0A%0AO%13%08U%25%07%1DD'%08%10%19%04%0CHD%3D%08%06%07",
+    "description": "3%14%06%07O7%1B%15%02%06%1EB%0D%1DO%06%04%01%04%14%0E%10%06%09%00U%08%13%1A%0D%1F%0A%02%1B%19B%18%0D%1B%0FG%01%05%07O%2C%0A%06%13UE%11%0A%08%09NG%01%0C%05O%13%07%0E%0B%10M%0B%01D%1B%0F%02U)%03%01%03%0A%15G%2F%02%0C%0A",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
+  },
+  {
+    "id": "%17%04U%00%0D%10_%14%02F%1B%0F%18%05WU",
+    "name": "*%10%19%03%03D%3A%09%03%10%1FB%3B%01%01%14%0E%1A%03",
+    "description": ".%1BM%03O%17%06%09%00%19%08B*%0A%0C%08%12%1B%19%07%1DHO%14%17%10%03%06OQ_BG%1A%1FB%02%0B%1D%02G%1A%0BB%16%0B%1A%15G%01%18%10%01%17O%0E%09U%19%0A%0AD%2B%06%09%12%08%10O%3E%00%09%02",
+    "rarity": 3,
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
+  },
+  {
+    "id": "%04%04Z%04%03%0F%0B%13Q%00Y%0C%06%0A%5E%0C",
+    "name": "%2F%1C%0A%0A%18%05%16G3%1AM6%07%01AIIT",
+    "description": ".%1BM%03O%17%06%09%00%19%08B*%0A%0C%08%12%1B%19%07%1DHO%02%09%11M%07%19%01%1D%1EG%07%02%17%01%00O%10%0E%01%05B%16%0B%1A%15G%18%08%01%07D%06%09G%01%05%07O%20%0E%09%00%10%1FB5%0B%01%02",
+    "rarity": 4,
+    "hidden": false,
+    "secret": true,
+    "labels": ["Active Mode", "Combat"]
+  },
+  {
+    "id": "%01%04%04%14%09%0B%1C%00%16%07%08%12X%10_S",
+    "name": "%20%10%19B-%05%0C%0CG%20%1D",
     "description": "%20%1AM%26%00%13%01G%06%1B%09B%20%11%1BKG%14%03%06O%16%0A%04%08%03%08%10",
-    "rarity": 0,
+    "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "I Don't Have Time for This",
+    "id": "%11%12Z%08Y%06%1EW%5E%03%15%10%0C%5C%09%12",
+    "name": ".U)%0D%01C%1BG%2F%14%1B%07O0%06%0A%02U%0B%0D%1DD%3B%0F%0E%06",
     "description": "%23%1C%1E%0F%00%11%01%13G%5D%02%10O!%05%02%04%01DB%09%16%00%0AG%14M1%1B%11%01%09%02%11M%2F%0A%07%07",
-    "rarity": 0,
+    "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
   },
   {
-    "name": "You Knew the Risks",
+    "id": "%16%03%1CW%1CQW%01W%05%05S%17%05%03%16",
+    "name": "%3E%1A%18B%24%0A%0A%10G%01%05%07O6%06%14%0C%06",
     "description": "%24%14%1E%16%06%03%0E%13%02U%19%0A%0AD*%09%02%18%04%07%1CD%00%01G%01%05%07O%23%00%03%0F%10%0C%06O%0D%01G%06U%00%07%0C%0CO%13%0F%14%19B%07%05%1CG%22%0D%1D%03%01%00%0A%03G6%02%0F%1F%05%1D%13%0A%10%03%16O-%01%14%13%14%01%0E%0A%00",
     "rarity": 4,
-    "hidden": true,
-    "secret": false
+    "hidden": false,
+    "secret": true,
+    "labels": ["Active Mode", "Combat", " Mech", " Core Power"]
   },
   {
-    "name": "Enemies: Castigated",
+    "id": "V%16%0A%0D%0B%03%19V%10%17_W%00VV%04",
+    "name": "%22%1B%08%0F%06%01%1C%5DG6%0C%11%1B%0D%08%06%13%10%09",
     "description": "%24%14%1E%16%06%03%0E%13%02U%19%0A%0AD*%09%02%18%04%07%1CD%00%01G%01%05%07O%23%00%03%0F%10%0C%06",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Mech", " Core Power"]
   },
   {
-    "name": "But... but...",
+    "id": "%05%1A%01%09%5E%0A%0A%0D%1D%07%14%08%0E%1C%04%0C",
+    "name": "%25%00%19LAJO%05%12%01CLA",
     "description": "4%20%3F4%262*G%24%14%1E%16%06%03%0E%13%0E%1B%0AB%1B%0C%0AG%22%1B%08%0F%06%01%1CG%08%13M%16%07%01O%20%08%11%05%07%0E%00",
     "rarity": 3,
-    "hidden": false,
-    "secret": false
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Mech", " Core Power"]
   },
   {
-    "name": "Finish It",
+    "id": "%0B%1F%14%12%1D%07%19Q%09%1D%1A%0FV%09%5C%5E",
+    "name": "!%1C%03%0B%1C%0CO.%13",
     "description": "%24%1A%00%12%03%01%1B%02G%14%03B*%0A%0C%08%12%1B%19%07%1DD%00%09G%01%05%07O%17%0E%0A%02U%3F%0D%1A%0A%0BG%1E%1A%18B%0E%07%1B%0E%11%14%19%07O%1D%00%12%15U.%0D%1D%01O7%08%02%08%10",
     "rarity": 0,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Core Power"]
   },
   {
-    "name": "No Sweat",
+    "id": "%02%1B%15P%09%0C%15W%09AZT%09%0D%1B%10",
+    "name": "%23%10%1E%0B%08%0A%0E%13%02%11M1%1A%16%19%0E%11%1A%1F",
+    "description": "%22%1B%09B%0E%0AO%02%09%16%02%17%01%10%0A%15G%02%05%0B%03%01O%05%02%1C%03%05O%10%07%02G%1A%03%0E%16D%3F%24G%02%04%16%07D%0E%09G%1C%03%16%0E%07%1BG*%10%0E%0A",
+    "rarity": 4,
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
+  },
+  {
+    "id": "%0BC%5B%05%0D%06%16W%00%14%15Q%1D%12%07W",
+    "name": "2%1B%06%0B%03%08%0E%05%0B%10",
+    "description": "%22%1B%09B%0E%0AO%02%09%16%02%17%01%10%0A%15G%02%04%16%07D%5E4%13%07%08%11%1CK%5E%2F7",
+    "rarity": 4,
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Combat"]
+  },
+  {
+    "id": "_%12%19%15%00S%01%17S%1B%01%13%08W%1C%1D",
+    "name": "%23%10%0F%0D%01%00%0A%03",
+    "description": "%3E%1A%18%10O%26%00%09%03%18%0C%16%0AC%1CG%0A%10%0E%0AO%0D%1CG%03%10%1E%16%1D%0B%16%02%03",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Talent"]
+  },
+  {
+    "id": "R%19%09%0E%07%1D%0C%0D%08%12%17%14%08%03%5DU",
+    "name": "%26%03%08%0C%08%01AIIU%20%07AJAF",
+    "description": "%2F%14%1B%07O%1D%00%12%15U%00%07%0C%0CO%03%02%06%19%10%00%1D%0A%03G%14%1EB%0ED%1D%02%14%00%01%16O%0B%09G%13%14%06%0B%01%03O%03%06%18%0C%05%0AD%19%0E%06U%19%0A%0AD%26%09%13%10%1F%01%0A%00%0AG%15%10%0C%01%1B%0D%00%09",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Talent"]
+  },
+  {
+    "id": "QB%1FV%01%5D%03%00%02%16%06%06Z%15%1C%1D",
+    "name": "0%14%1F%0A%0E%09%02%02%15",
+    "description": "%23%10%0C%0EOU%5BLG%11%0C%0F%0E%03%0AG%01%07%02%0FO%05%01G.%18%1D%10%00%12%06%14%02%11M%23%1B%10%0E%04%0C",
+    "rarity": 0,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Talent"]
+  },
+  {
+    "id": "Q%04%18%18%16%05%01S%0F%02%18%03%0DP%0D%00",
+    "name": "%2C%5B%22L",
+    "description": "%23%10%0B%07%0E%10O%06%09U%08%0C%0A%09%16G%10%1C%19%0AO%2F%01%08%04%1E%02%17%1BD-%0B%08%02",
+    "rarity": 1,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Talent"]
+  },
+  {
+    "id": "T%1D%5D%10%0BU%03%02T%0F%06%03XV%01%0D",
+    "name": "3%5B%26L%20J",
+    "description": "%23%10%0B%07%0E%10O%06%09U%08%0C%0A%09%16G%10%1C%19%0AO%2F%01%08%04%1E%02%17%1BD-%0B%08%02AB%0B%01%0E%0B%0E%1B%0AB%5CD%0B%06%0A%14%0A%07O%0B%1DG%0B%10%1E%11",
+    "rarity": 4,
+    "hidden": true,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Talent"]
+  },
+  {
+    "id": "%0A%12%15%0F_%0D%17S%08D%03%13%00%0EY%15",
+    "name": "!%1C%03%03%03%08%16F",
+    "description": "%2F%1C%19B%0E%0AO%08%17%05%02%0C%0A%0A%1BG%10%1D%04%0E%0AD%07%06%11%1C%03%05OWDG%26%16%0E%17%1D%05%0C%1E",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Talent"]
+  },
+  {
+    "id": "%12%1C%0A%03%5C%0B%1B_%5E%0C%09%10%04%5D%08%04",
+    "name": "%24%1A%04%0E%0A%00O7%08%01%08%0C%0C%1D",
+    "description": "%25%10%0A%0B%01D%0EG%13%00%1F%0CO%13%06%13%0FU%0CB%5CD-%0B%06%11%08%0F%0E%17%1B%02%15U%09%0B%0C%01",
+    "rarity": 2,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Talent"]
+  },
+  {
+    "id": "%0F%12%09%1A%5D%0B%0B%10%08%07%02%14ZS%17T",
+    "name": "%26U%3C%17%06%07%04G%23%10%0C%16%07",
+    "description": "%23%10%1E%16%1D%0B%16G%06%1BM%0D%1F%14%00%09%02%1B%19B%06%0AO%13%0F%10M%11%0E%09%0AG%15%1A%18%0C%0BD%16%08%12U%00%03%1D%0F%0A%03G%01%05%07%02D%18%0E%13%1DM%16%07%01O%23%12%10%01B%1B%0BO%13%0F%10M%26%0A%05%1B%0FG%25%1F%0D%1B%0B%0C%08%0B",
+    "rarity": 3,
+    "hidden": false,
+    "secret": false,
+    "labels": ["Active Mode", "Combat", " Talent"]
+  },
+  {
+    "id": "%03%40%5D%04%00%00%19%08%09%03%09S%0AR%05W",
+    "name": ")%1AM1%18%01%0E%13",
     "description": "4%00%0E%01%0A%01%0BG%08%1BM%03O6%06%14%0C%0CM1%04%0D%03%0BG6%05%07%0C%0F",
-    "rarity": 0,
+    "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Narrative Mode"]
   },
   {
-    "name": "Rocks Fall",
+    "id": "%0F%18%1DT%06%00%5B%02%14M%19Q%5C%01%17R",
+    "name": "5%1A%0E%09%1CD)%06%0B%19",
     "description": "!%14%04%0EO%05O5%0E%06%06%1BO7%04%0E%0B%19M!%07%01%0C%0C",
-    "rarity": 0,
+    "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Narrative Mode"]
   },
   {
-    "name": "We're So Back",
+    "id": "R%0C%0A%08%04V%16RPL%1D%00ZR%17%11",
+    "name": "0%10J%10%0AD%3C%08G7%0C%01%04",
     "description": "4%00%0E%01%0A%01%0BG%08%1BM%03O%2C%0A%15%08%1C%0EB%3C%0F%06%0B%0BU.%0A%0A%07%04",
-    "rarity": 0,
+    "rarity": 3,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Narrative Mode"]
   },
   {
-    "name": "It's So Over",
+    "id": "%08%04%01Z%07%08Z%5ET%16%5D%1B%02S%08R",
+    "name": ".%01J%11O7%00G(%03%08%10",
     "description": "!%14%04%0EO%05O%2F%02%07%02%0B%0CD%3C%0C%0E%19%01B%2C%0C%0A%04%0C",
-    "rarity": 0,
+    "rarity": 3,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Narrative Mode"]
   },
   {
-    "name": "RM-4 Filed",
+    "id": "%0A%13%5B%0D%17%11%5E%0EV%14%0AQ%19%00%15T",
+    "name": "58%40VO%22%06%0B%02%11",
     "description": "%24%07%08%03%1B%01O%1E%08%00%1FB%09%0D%1D%14%13U%3D%0B%03%0B%1B",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Teambuilding Exercise",
+    "id": "%0C%01Z%5B%00%0C%5D_%02G%05%0A_%09%0DV",
+    "name": "3%10%0C%0F%0D%11%06%0B%03%1C%03%05O!%17%02%15%16%04%11%0A",
     "description": "%24%07%08%03%1B%01O%1E%08%00%1FB%5ET%1B%0FG%25%04%0E%00%10",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Squad Goals",
+    "id": "%1E%0D%05R%0A%12%04%04%08%0C%04W%1E%0B%01%0F",
+    "name": "4%04%18%03%0BD(%08%06%19%1E",
     "description": "%24%07%08%03%1B%01O%1E%08%00%1FBZT%1B%0FG%25%04%0E%00%10",
     "rarity": 3,
-    "hidden": false,
-    "secret": false
+    "hidden": true,
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Private Army",
+    "id": "%0A%1E%09%05%01%10%02%0DT%1CX%1A%17W%5B%0C",
+    "name": "7%07%04%14%0E%10%0AG%26%07%00%1B",
     "description": "%24%07%08%03%1B%01O%1E%08%00%1FB%5ET_%13%0FU%3D%0B%03%0B%1B",
     "rarity": 4,
-    "hidden": true,
-    "secret": false
+    "hidden": false,
+    "secret": true,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Retrograded",
+    "id": "%0D%10Z%07%16%16%01%1FT%07%14%16%06P%5D%1D",
+    "name": "5%10%19%10%00%03%1D%06%03%10%09",
     "description": "%24%07%08%03%1B%01O%06G%25%04%0E%00%10O%06%09%11M%2F%0A%07%07G%12%06%04%0C%08D%0EG3%10%00%12%03%05%1B%02",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Fresh From the Printers",
+    "id": "%5EDU%05%1A%0F%08%5E%11F%0FZ%0E%17%15%01",
+    "name": "!%07%08%11%07D)%15%08%18M%16%07%01O7%15%1C%03%16%0A%16%1C",
     "description": "%24%07%08%03%1B%01O%1E%08%00%1FB%09%0D%1D%14%13U%20%07%0C%0C",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Fully Kitted Out",
+    "id": "R%12%08VZ%14%02%0D%14E%5E%12%15%5C%1B%02",
+    "name": "!%00%01%0E%16D%24%0E%13%01%08%06O%2B%1A%13",
     "description": "!%00%01%0E%16D%0A%16%12%1C%1DB%0ED%22%02%04%1D",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "The Hard Way",
+    "id": "_%00%0BT%1C%0D%01V%09%0C%06%15%09%09%18%09",
+    "name": "3%1D%08B'%05%1D%03G%22%0C%1B",
     "description": "%2B%10%1B%07%03D%0EG%14%1C%03%05%03%01O7%0E%19%02%16O%02%1D%08%0AU!.%5ED%1B%08G9!S%5DHO%10%0E%01%05%0D%1A%10O%12%14%1C%03%05O%10%07%02G0%09%0B%1BD%23%02%11%10%01B%09%01%0E%13%12%07%08",
     "rarity": 3,
-    "hidden": false,
-    "secret": false
+    "hidden": true,
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Homebrew",
+    "id": "TL%09%0AZP%08%17%1D%1B%5B%1A%5C%1CW%0D",
+    "name": "%2F%1A%00%07%0D%16%0A%10",
     "description": "%26%11%09B%0ED%0C%12%14%01%02%0FO%00%0A%14%04%07%04%12%1B%0D%00%09G%01%02B%0ED%1F%0E%02%16%08B%00%02O7%0E%19%02%16O%23%0A%06%15",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Nonstandard Issue",
+    "id": "%04C%5BS%0A%0DY%0CVC%0C%11%15%12W%1F",
+    "name": ")%1A%03%11%1B%05%01%03%06%07%09B%26%17%1C%12%02",
     "description": "%26%11%09B%0ED%0C%12%14%01%02%0FO%00%0A%14%04%07%04%12%1B%0D%00%09G%01%02B%0ED%1F%0E%02%16%08B%00%02O*%02%16%05B*%15%1A%0E%17%18%08%0C%1B",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "From Cradle",
+    "id": "Q%13%5D%13%04Q%1A%0C_%00%05%1B%0BQ%09%16",
+    "name": "!%07%02%0FO'%1D%06%03%19%08",
     "description": ".%1B%1E%16%0E%08%03G%06U*%2F%3CD%2C(50M%20%00%0A%1A%14",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "To the Stars",
+    "id": "%5EM%03T%07%01%0B%0BU%12%06%0A%06%14%18%02",
+    "name": "3%1AM%16%07%01O4%13%14%1F%11",
     "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD(*4U.-%3D!O%25%08%1B%18%11%0A%17",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Trunk Security",
+    "id": "%09%02%17%17%1B%11%07P%5E%12%0CZ%09V%0A%1E",
+    "name": "3%07%18%0C%04D%3C%02%04%00%1F%0B%1B%1D",
     "description": ".%1B%1E%16%0E%08%03G%06%1BM%2B%3F7B)G6%220*D-%08%09%00%1E",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Northstarstruck",
+    "id": "%17%1A%01%17_%15Z%0B%0D%14%1B%14%17%0D%0A%0A",
+    "name": ")%1A%1F%16%07%17%1B%06%15%06%19%10%1A%07%04",
     "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD%2674X%23B%2C%2B%3D%22G7%02%0C%1A%17%0A%14",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Super Soldier",
+    "id": "%11%18%5C%0C%08%03%07%03U%13%07%12%17%10%1AU",
+    "name": "4%00%1D%07%1DD%3C%08%0B%11%04%07%1D",
     "description": ".%1B%1E%16%0E%08%03G%06U%25%23O'%205%22U%2F%0D%01%11%1C",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Child Of Ras Shamra",
+    "id": "%0D%40%15Q%0E%09%5CW%0ALU%18%04%05%15%15",
+    "name": "%24%1D%04%0E%0BD%20%01G'%0C%11O7%07%06%0A%07%0C",
     "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD'%26G6%220*D-%08%09%00%1E%07%1C",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Prestigious",
+    "id": "%0E%0C%04P%05%12%0C%03%17%0DUZ%07%02%1D%09",
+    "name": "7%07%08%11%1B%0D%08%0E%08%00%1E",
     "description": ".%1B%1E%16%0E%08%03G%06%1BM1%3C'O%24('(B-%0B%01%12%14",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Iconic",
+    "id": "%1E%14%1E%0C%5D%17%5BT%06%07%5CQ%5D%5C%1FW",
+    "name": ".%16%02%0C%06%07",
     "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD%3C4%24U.-%3D!O%25%08%1B%18%11%0A%17",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Supplicant to the Godhead",
+    "id": "%00%05%5D%00Y%0E%05W%0AC%19%0B%00%0E%00%10",
+    "name": "4%00%1D%12%03%0D%0C%06%09%01M%16%00D%1B%0F%02U*%0D%0B%0C%0A%06%03",
     "description": ".%1B%1E%16%0E%08%03G%06U%25-%3D1%3CG%24%3A%3F'O%26%00%09%12%06",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Hearald of the Godhead",
+    "id": "V%05%09%0A%1C%15%1B%09%12%1C%1B%15%01%00%1B%00",
+    "name": "%2F%10%0C%10%0E%08%0BG%08%13M%16%07%01O%20%08%11%05%07%0E%00",
     "description": ".%1B%1E%16%0E%08%03G%13%1D%1F%07%0AD'(5%20%3EB%2C%2B%3D%22G7%02%0C%1A%17%0A%14",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Maxed Out",
+    "id": "P%1CU%07%03U%1F%00%09%16%17P%1A%06%05%04",
+    "name": "*%14%15%07%0BD%20%12%13",
     "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06U!%0B%0C%01%01%14%02",
     "rarity": 1,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Security Specialist",
+    "id": "%1E%16%1EW%19%16%09%13%08%11%15%13%1E%00%0E%0D",
+    "name": "4%10%0E%17%1D%0D%1B%1EG%26%1D%07%0C%0D%0E%0B%0E%06%19",
     "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06%1BM%2B%3F7B)G9%04%01%0A%0A%1C%02",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Luxuriant Licensing",
+    "id": "%08%0D%5C%04%08TX%08%15%07%5DS%1C%15%02%1E",
+    "name": "%2B%00%15%17%1D%0D%0E%09%13U!%0B%0C%01%01%14%0E%1B%0A",
     "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06%1BM1%3C'O%2B%0E%16%08%0C%1C%01",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Malware",
+    "id": "_%17UT%01R%1AS%04%02%04W%5D%0E%09T",
+    "name": "*%14%01%15%0E%16%0A",
     "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06U%25-%3D1%3CG%2B%1C%0E%07%01%17%0A",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Full-Spectrum Superiority",
+    "id": "%09%06%0C%12%5EQ%06%14%05%07%5E%0E%1F%5D%1D%0A",
+    "name": "!%00%01%0EB7%1F%02%04%01%1F%17%02D%3C%12%17%10%1F%0B%00%16%06%13%1E",
     "description": "5%10%0C%01%07D%3D%06%09%1EMQO%0D%01G%06U%25%23O(%06%04%02%1B%1E%07",
     "rarity": 2,
     "hidden": false,
-    "secret": false
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Focused",
+    "id": "%16%11_%1BZ%0B%15_%0D%17T%0A_%03%08%1F",
+    "name": "!%1A%0E%17%1C%01%0B",
     "description": "2%1B%01%0D%0C%0FOSG'%0C%0C%04D%5CG%2B%1C%0E%07%01%17%0A%14G%1A%03B%0ED%1C%0E%09%12%01%07O4%06%0B%08%01",
     "rarity": 3,
-    "hidden": false,
-    "secret": false
+    "hidden": true,
+    "secret": false,
+    "labels": ["Pilot Mode"]
   },
   {
-    "name": "Multi-Multiclass",
+    "id": "%0B%1C%0FV%0DQ%06%01%14%12%05%16Z%14%0EV",
+    "name": "*%00%01%16%06I%22%12%0B%01%04%01%03%05%1C%14",
     "description": "5%10%0C%01%07D%23%2BVGM%15%06%10%07%08%12%01M%03O6%0E%09%0CU%5EB%23%0D%0C%02%09%06%08",
     "rarity": 3,
-    "hidden": false,
-    "secret": false
+    "hidden": true,
+    "secret": false,
+    "labels": ["Pilot Mode"]
   }
 ]

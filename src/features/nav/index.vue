@@ -58,14 +58,14 @@
 
     <v-divider vertical dark class="mx-2" />
 
-    <v-toolbar-title v-if="$vuetify.display.mdAndUp">
+    <v-toolbar-title>
       <span class="heading">COMP/CON</span>
       <span class="flavor-text text-white" style="opacity: 0.5">&nbsp;{{ $appVersion }}</span>
     </v-toolbar-title>
 
     <v-spacer />
 
-    <div v-if="$vuetify.display.mdAndUp">
+    <div>
       <pilot-mode v-if="mode === 'pilot' && activePilot" :pilot="activePilot" />
       <compendium-mode v-if="mode === 'compendium'" />
       <encounter-mode v-if="mode === 'encounter'" />
@@ -83,11 +83,19 @@
       </v-btn>
     </cc-tooltip>
 
-    <v-divider v-if="$vuetify.display.mdAndUp" vertical dark class="mx-2" />
+    <v-divider vertical dark class="mx-2" />
 
     <cc-tooltip location="bottom" content="Help &amp; FAQ">
       <v-btn icon variant="plain" size="45" dark @click="($refs.helpModal as any).show()">
         <v-icon icon="mdi-help-circle-outline" />
+      </v-btn>
+    </cc-tooltip>
+
+    <v-divider vertical dark class="mx-2" />
+
+    <cc-tooltip location="bottom" content="Achievements">
+      <v-btn icon variant="plain" size="45" dark @click="($refs.achievementsModal as any).show()">
+        <v-icon icon="cc:achievement_1" size="30" />
       </v-btn>
     </cc-tooltip>
 
@@ -147,6 +155,15 @@
     <cc-solo-dialog ref="cloudModal" large no-confirm title="Cloud Account">
       <cloud-page />
     </cc-solo-dialog>
+    <cc-solo-dialog
+      ref="achievementsModal"
+      fullscreen
+      no-confirm
+      no-title-clip
+      title="Achievements"
+    >
+      <achievements-page />
+    </cc-solo-dialog>
   </v-app-bar>
 </template>
 
@@ -157,6 +174,7 @@ import CreditsPage from './pages/Credits.vue';
 import OptionsPage from './pages/Options/index.vue';
 import ContentPage from './pages/ExtraContent/index.vue';
 import CloudPage from './pages/Cloud.vue';
+import AchievementsPage from './pages/Achievements.vue';
 
 import PilotMode from './modes/pilot.vue';
 import EncounterMode from './modes/encounter.vue';
@@ -179,6 +197,7 @@ export default {
     EncounterMode,
     CompendiumMode,
     CloudPage,
+    AchievementsPage,
   },
   props: {
     pilotManagement: { type: Boolean },
