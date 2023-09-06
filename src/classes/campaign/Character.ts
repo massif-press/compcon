@@ -96,7 +96,6 @@ class Character extends CollectionItem {
     const c = new Character();
     try {
       c.Update(data);
-      c.SaveController.SetLoaded();
       return c;
     } catch (err) {
       throw err;

@@ -87,11 +87,7 @@ class Campaign implements ISaveable {
   }
 
   public MoveSection(from: number, to: number) {
-    this.Sections = this.Sections.splice(
-      to,
-      0,
-      this.Sections.splice(from, 1)[0]
-    );
+    this.Sections = this.Sections.splice(to, 0, this.Sections.splice(from, 1)[0]);
     this.SaveController.save();
   }
 
@@ -115,9 +111,7 @@ class Campaign implements ISaveable {
   // }
 
   public Count(type: string): number {
-    return this.Sections.flatMap((x) =>
-      x.Children.map((y) => y.ItemType === type)
-    ).length;
+    return this.Sections.flatMap((x) => x.Children.map((y) => y.ItemType === type)).length;
   }
 
   public static Serialize(c: Campaign): ICampaignData {
@@ -163,7 +157,6 @@ class Campaign implements ISaveable {
     const c = new Campaign();
     try {
       c.Update(data);
-      c.SaveController.SetLoaded();
       return c;
     } catch (err) {
       throw err;

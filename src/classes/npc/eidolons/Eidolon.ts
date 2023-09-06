@@ -11,11 +11,7 @@ import {
   SaveController,
   PortraitController,
 } from '@/classes/components';
-import {
-  BrewController,
-  BrewInfo,
-  IBrewData,
-} from '@/classes/components/brew/BrewController';
+import { BrewController, BrewInfo, IBrewData } from '@/classes/components/brew/BrewController';
 import { IBrewable } from '@/classes/components/brew/IBrewable';
 import { FeatureController } from '@/classes/components/feature/FeatureController';
 import { IFeatureController } from '@/classes/components/feature/IFeatureController';
@@ -222,7 +218,6 @@ class Eidolon
       BrewController.Deserialize(e, data);
       CounterController.Deserialize(e, data);
       NarrativeController.Deserialize(e, data);
-      e.SaveController.SetLoaded();
       return e;
     } catch (err) {
       console.error(err);

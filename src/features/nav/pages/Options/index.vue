@@ -23,7 +23,6 @@
 import Settings from './Settings.vue';
 import Storage from './Storage.vue';
 import Log from './Log.vue';
-import Logger from '@/user/logger';
 
 export default {
   name: 'options',
@@ -31,8 +30,5 @@ export default {
   data: () => ({
     tab: 0,
   }),
-  mounted() {
-    Logger.log('Options mounted');
-  },
 };
 </script>

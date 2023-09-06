@@ -6,7 +6,7 @@
     :options="options"
   >
     <template #header>
-      <div class="heading h3 text-center text-primary">Statuses & Conditions</div></template
+      <div class="heading h3 text-center text-accent">Statuses & Conditions</div></template
     >
   </cc-compendium-browser>
 </template>

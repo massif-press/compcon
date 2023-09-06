@@ -8,7 +8,7 @@
             <div v-for="item in content.slice(3 * (n - 1), 3 * n)">
               <v-btn
                 variant="text"
-                color="primary"
+                color="accent"
                 class="heading h3"
                 @click="scrollTo(item)"
                 v-text="getLangItem(item, 'title')"
@@ -16,7 +16,7 @@
               <div v-for="child in (item as any).children">
                 <v-btn
                   variant="text"
-                  color="primary"
+                  color="accent"
                   class="heading h4 ml-4"
                   @click="scrollTo(child)"
                   v-text="getLangItem(child, 'title')"
@@ -39,13 +39,13 @@
         >
         <div v-html="getLangItem(item, 'content')" class="content" />
         <div v-for="child in (item as any).children" :id="`e_${child.title.en.replace(/\W/g, '')}`">
-          <h3 class="text-primary ml-n5 mt-4" v-text="getLangItem(child, 'title')" />
+          <h3 class="text-accent ml-n5 mt-4" v-text="getLangItem(child, 'title')" />
           <div v-html="getLangItem(child, 'content')" class="content" />
           <div
             v-for="subchild in (child as any).children"
             :id="`e_${subchild.title.en.replace(/\W/g, '')}`"
           >
-            <b class="text-primary ml-n2" v-text="getLangItem(subchild, 'title')" />
+            <b class="text-accent ml-n2" v-text="getLangItem(subchild, 'title')" />
             <div v-html="getLangItem(subchild, 'content')" class="content" />
           </div>
         </div>

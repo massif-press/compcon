@@ -42,7 +42,6 @@ class Location extends CollectionItem {
     const c = new Location();
     try {
       c.Update(data);
-      c.SaveController.SetLoaded();
       return c;
     } catch (err) {
       throw err;

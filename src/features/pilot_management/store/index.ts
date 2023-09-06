@@ -4,16 +4,18 @@ import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator';
 import { Pilot } from '@/class';
 import { PilotData } from '@/interface';
 import { deletePermanent, storeSaveDelta } from '@/util/storeUtils';
+import { PilotGroup, PilotGroupData } from './PilotGroup';
+import { PortraitController, SaveController } from '@/classes/components';
 
-async function savePilots(pilots: Pilot[]) {
-  // TODO: reactivate dirty
-  // const dirty = pilots.filter((x) => x.SaveController.IsDirty);
+// async function save() {
+//   // TODO: reactivate dirty
+//   // const dirty = pilots.filter((x) => x.SaveController.IsDirty);
 
-  Promise.all(pilots.map((x) => SetItem('pilots', Pilot.Serialize(x))))
-    .then(() => console.info('Pilot data saved'))
-    .catch((err) => console.error('Error while saving Pilot data', err));
-  // await saveDelta('pilots_v2.json', serialized)
-}
+//   Promise.all(pilots.map((x) => SetItem('pilots', Pilot.Serialize(x))))
+//     .then(() => console.info('Pilot data saved'))
+//     .catch((err) => console.error('Error while saving Pilot data', err));
+//   // await saveDelta('pilots_v2.json', serialized)
+// }
 
 async function delete_pilot(pilot: Pilot) {
   RemoveItem('pilots', pilot.ID)
@@ -21,63 +23,80 @@ async function delete_pilot(pilot: Pilot) {
     .catch((err) => console.error('Error while deleting Pilot data', err));
 }
 
-export interface PilotGroup {
-  name: string;
-  pilotIDs: string[];
-  hidden: boolean;
-}
-
 export const PilotStore = defineStore('pilot', {
   state: () => ({
-    Pilots: [] as Pilot[],
-    DeletedPilots: [] as Pilot[],
     PilotGroups: [] as PilotGroup[],
-    MissingPilots: [] as PilotData[],
     LoadedMechID: '',
     ActivePilot: null as Pilot | null,
     printOptions: null as PrintOptions | null,
   }),
   getters: {
-    AllPilots: (state: any) => state.Pilots.concat(state.DeletedPilots),
-    getPilots: (state: any) => state.Pilots,
-    unsavedCloudPilots: (state: any) => state.Pilots.filter((p: Pilot) => p.SaveController.IsDirty),
-    getActivePilot: (state: any) => state.ActivePilot,
-    getPrintOptions: (state: any) => state.printOptions,
+    Pilots: (state: any) => state.PilotGroups.flatMap((x: PilotGroup) => x.Pilots),
+    GetPilotGroups: (state: any) => state.PilotGroups,
     getPilotByID: (state: any) => (id: string) => {
       return state.Pilots.find((p: Pilot) => p.ID === id);
     },
   },
   actions: {
-    _loadPilots(payload: { pilotData: PilotData[]; groupData: PilotGroup[] }): void {
-      const all = payload.pilotData.map((x) => Pilot.Deserialize(x));
-      this.Pilots = all.filter((x) => !x.SaveController.IsDeleted);
-      this.DeletedPilots = all.filter((x) => x.SaveController.IsDeleted);
+    async LoadPilots(): Promise<void> {
+      let pilotGroupData = await GetAll('pilots');
 
-      //clean up deleted
-      const del = [] as Pilot[];
-      (this.DeletedPilots as Pilot[]).forEach((dp: Pilot) => {
-        if (new Date().getTime() > Date.parse(dp.SaveController.ExpireTime)) del.push(dp);
-      });
-      if (del.length) {
-        console.info(`Cleaning up ${del.length} pilots marked for deletion`);
+      this.PilotGroups = pilotGroupData.map((x) => PilotGroup.Deserialize(x));
 
-        Promise.all(del.map((p) => deletePermanent(p)))
-          .then(() =>
-            storeSaveDelta((this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[]))
-          )
-          .then(() => console.info('Done'))
-          .catch((err) => console.error('Error in permanently deleting pilots:', err));
+      if (!this.PilotGroups.some((x) => x.ID === 'no_group')) {
+        this.PilotGroups.push(
+          new PilotGroup({
+            id: 'no_group',
+            name: 'No Group',
+            pilots: [],
+            description: '',
+            history: '',
+            img: PortraitController.NewPortraitData(),
+            save: SaveController.NewSaveData(),
+          })
+        );
       }
+
+      // TODO: evaluate items with/missing LCP
+      // this._loadPilots({
+      //   pilotData: ItemsWithLcp(pilotData),
+      // });
+      // this.SetMissingPilots(ItemsMissingLcp(pilotData));
+
+      this.ImportUngroupedPilots();
     },
-    AddPilot(payload: Pilot): void {
-      payload.SaveController.IsDirty = true;
-
-      if (!this.Pilots) this.Pilots = [];
-
-      this.Pilots.push(payload);
-
-      this.savePilotData();
+    ImportUngroupedPilots(): void {
+      // TODO: import ungrouped pilots
+      // import v2 pilots
+      // const localData = localStorage.getItem('pilots_v2');
+      // console.log('localData', localData);
+      // if (localData) {
+      //   const localPilots = JSON.parse(localData);
+      //   console.log('localPilots', localPilots);
+      // }
     },
+    AddPilot(payload: Pilot, groupID?: string): void {
+      // payload.SaveController.IsDirty = true;
+      // if (!this.Pilots) this.Pilots = [];
+
+      const gID = groupID ? groupID : 'no_group';
+
+      let gIndex = this.PilotGroups.findIndex((x) => x.ID === gID);
+
+      this.PilotGroups[gIndex].Pilots.push(payload);
+
+      this.SavePilotData();
+    },
+    async SavePilotData(): Promise<void> {
+      // TODO: reactivate dirty
+
+      Promise.all(
+        this.PilotGroups.map((x) => SetItem('pilots', PilotGroup.Serialize(x as PilotGroup)))
+      )
+        .then(() => console.info('Pilot data saved'))
+        .catch((err) => console.error('Error while saving Pilot data', err));
+    },
+
     ClonePilot(payload: { pilot: Pilot; quirk: boolean }): void {
       const pilotData = Pilot.Serialize(payload.pilot);
       const newPilot = Pilot.Deserialize(pilotData);
@@ -89,80 +108,46 @@ export const PilotStore = defineStore('pilot', {
       }
       this.Pilots.push(newPilot);
     },
-    DeletePilot(payload: Pilot): void {
-      const pilotIndex = (this.Pilots as Pilot[]).findIndex((x: Pilot) => x.ID === payload.ID);
-
-      if (pilotIndex > -1) {
-        this.Pilots.splice(pilotIndex, 1);
-        this.DeletedPilots.push(payload);
-      } else {
-        throw console.error('Pilot not loaded!');
-      }
-    },
     DeletePilotPermanent(payload: Pilot): void {
-      const dpIdx = (this.DeletedPilots as Pilot[]).findIndex((x: Pilot) => x.ID === payload.ID);
-      if (dpIdx > -1) {
-        this.DeletedPilots.splice(dpIdx, 1);
-        deletePermanent(payload);
-      }
-    },
-    DeleteMissingPilot(payload: any): void {
-      const idx = (this.MissingPilots as any[]).findIndex((x: Pilot) => x.ID === payload.ID);
-      if (idx > -1) {
-        this.MissingPilots.splice(idx, 1);
-        deletePermanent(payload);
-      }
-    },
-    restorePilot(payload: Pilot): void {
-      const pilotIndex = (this.DeletedPilots as Pilot[]).findIndex(
-        (x: Pilot) => x.ID === payload.ID
+      const groupIndex = this.PilotGroups.findIndex((x) =>
+        x.Pilots.some((p) => p.ID === payload.ID)
       );
-      if (pilotIndex > -1) {
-        this.DeletedPilots.splice(pilotIndex, 1);
-        this.Pilots.push(payload);
+
+      if (groupIndex > -1) {
+        this.PilotGroups[groupIndex].Pilots.splice(
+          this.PilotGroups[groupIndex].Pilots.findIndex((x) => x.ID === payload.ID),
+          1
+        );
       } else {
-        throw console.error('Pilot not loaded!');
+        console.error('Pilot not found in any group');
       }
     },
     setLoadedMech(payload: string): void {
       this.LoadedMechID = payload;
     },
 
-    SetMissingPilots(payload: PilotData[]): void {
-      this.MissingPilots = payload;
-    },
+    // savePilotData(): void {
+    //   if (!this.Pilots) this.Pilots = [];
+    //   if (!this.DeletedPilots) this.DeletedPilots = [];
 
-    savePilotData(): void {
-      if (!this.Pilots) this.Pilots = [];
-      if (!this.DeletedPilots) this.DeletedPilots = [];
+    //   savePilots((this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[]));
+    // },
 
-      savePilots((this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[]));
-    },
+    // async loadCloudPilots(payload: PilotData) {
+    //   this._loadPilots({ pilotData: [payload] });
+    // },
 
-    async LoadPilots() {
-      const pilotData = await GetAll('pilots');
-      this._loadPilots({
-        pilotData: ItemsWithLcp(pilotData),
-        groupData: [],
-      });
-      this.SetMissingPilots(ItemsMissingLcp(pilotData));
-    },
+    // delete_pilot(payload: Pilot): void {
+    //   this.DeletePilot(payload);
+    // },
 
-    async loadCloudPilots(payload: PilotData) {
-      this._loadPilots({ pilotData: [payload], groupData: [] });
-    },
+    // deletePilotPermanent(payload: Pilot): void {
+    //   if (!payload.SaveController.IsDeleted) this.DeletePilot(payload);
+    //   this.deletePilotPermanent(payload);
+    // },
 
-    delete_pilot(payload: Pilot): void {
-      this.DeletePilot(payload);
-    },
-
-    deletePilotPermanent(payload: Pilot): void {
-      if (!payload.SaveController.IsDeleted) this.DeletePilot(payload);
-      this.deletePilotPermanent(payload);
-    },
-
-    restore_pilot(payload: Pilot): void {
-      this.restorePilot(payload);
-    },
+    // restore_pilot(payload: Pilot): void {
+    //   this.restorePilot(payload);
+    // },
   },
 });

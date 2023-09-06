@@ -54,7 +54,7 @@ const Initialize = async function () {
   localforage.config({
     name: dbName,
   });
-  await convertLocalstorage();
+  // await convertLocalstorage();
 };
 
 const SetItem = async function (collection: string, item: any) {
@@ -74,6 +74,8 @@ const RemoveItem = async function (collection: string, id: string) {
 
 const GetAll = async function (collection: string) {
   const output = [] as any[];
+  if (!storeRegistry[collection.toLowerCase()]) return output;
+
   await storeRegistry[collection.toLowerCase()]
     .iterate(function (value: any) {
       output.push(JSON.parse(value));
@@ -90,15 +92,15 @@ const GetLength = async function (collection: string) {
   if (db && db._dbInfo) return await db.length();
 };
 
-const convertLocalstorage = async function (): Promise<void> {
-  // TODO
-  const pv2 = localStorage.getItem('pilots_v2.json');
-  // console.log(pv2)
-  if (pv2 && pv2.length) {
-    const pilots = JSON.parse(pv2);
-    await Promise.all(pilots.map((x) => SetItem('pilots', x)));
-    localStorage.removeItem('pilots_v2.json');
-  }
-};
+// const convertLocalstorage = async function (): Promise<void> {
+//   // TODO
+//   const pv2 = localStorage.getItem('pilots_v2.json');
+//   // console.log(pv2)
+//   if (pv2 && pv2.length) {
+//     const pilots = JSON.parse(pv2);
+//     await Promise.all(pilots.map((x) => SetItem('pilots', x)));
+//     localStorage.removeItem('pilots_v2.json');
+//   }
+// };
 
 export { Initialize, SetItem, GetItem, RemoveItem, GetAll, GetLength };

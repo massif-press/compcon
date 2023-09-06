@@ -6,7 +6,7 @@
       >
       <v-col cols="auto"
         ><v-btn
-          color="primary"
+          color="accent"
           size="small"
           variant="outlined"
           :to="`/srd/reference/search?search=${searchText}`"

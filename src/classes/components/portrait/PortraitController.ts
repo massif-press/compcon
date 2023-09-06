@@ -21,6 +21,14 @@ class PortraitController {
     this._cloud_portrait = '';
   }
 
+  public static NewPortraitData(): IPortraitData {
+    return {
+      portrait: '',
+      avatar: undefined,
+      cloud_portrait: '',
+    };
+  }
+
   public SetLocalImage(src: string): void {
     this._portrait = src;
     this.Parent.SaveController.save();

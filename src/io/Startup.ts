@@ -35,9 +35,10 @@ export default async function (): Promise<void> {
   await CompendiumStore().refreshExtraContent();
   const missing = { pilots: [] as PilotData[], npcs: [] as INpcData[] };
   await PilotStore().LoadPilots();
-  missing.pilots = PilotStore().MissingPilots;
+  console.log('pilots loaded');
+  // missing.pilots = PilotStore().MissingPilots;
   await NpcStore().LoadNpcs();
-  missing.npcs = NpcStore().MissingNpcs;
+  // missing.npcs = NpcStore().MissingNpcs;
   CompendiumStore().setMissingContent(missing);
 
   // await NarrativeStore.loadCharacters();

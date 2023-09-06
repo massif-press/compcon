@@ -595,8 +595,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     SaveController.Deserialize(m, data.save);
     PortraitController.Deserialize(m, data.img);
 
-    m.SaveController.SetLoaded();
-
     return m;
   }
 }

@@ -170,6 +170,7 @@ enum ImageTag {
   Object = 'object',
   Logo = 'logo',
   Misc = 'misc',
+  Emblem = 'emblem',
 }
 
 export {

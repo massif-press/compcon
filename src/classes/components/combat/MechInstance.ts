@@ -2,16 +2,10 @@ import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 import { Mech } from '@/class';
 import { ImageTag } from '@/io/ImageManagement';
-import {
-  IMechLoadoutData,
-  MechLoadout,
-} from '../../mech/components/loadout/MechLoadout';
+import { IMechLoadoutData, MechLoadout } from '../../mech/components/loadout/MechLoadout';
 import { ISaveable, ISaveData, SaveController } from '..';
 import { PilotInstance } from './PilotInstance';
-import {
-  ActiveStatController,
-  IActiveStatData,
-} from './stats/ActiveStatController';
+import { ActiveStatController, IActiveStatData } from './stats/ActiveStatController';
 import { IStatData, StatController } from './stats/StatController';
 
 class IMechInstanceData {
@@ -131,17 +125,12 @@ class MechInstance implements ISaveable {
     return data as IMechInstanceData;
   }
 
-  public static Deserialize(
-    data: IMechInstanceData,
-    p: PilotInstance
-  ): MechInstance {
+  public static Deserialize(data: IMechInstanceData, p: PilotInstance): MechInstance {
     const m = new MechInstance(p);
 
     m.Update(data, p);
 
     SaveController.Deserialize(m, data.save);
-
-    m.SaveController.SetLoaded();
 
     return m;
   }

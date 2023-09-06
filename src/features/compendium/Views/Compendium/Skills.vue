@@ -6,7 +6,7 @@
     :options="options"
   >
     <template #header>
-      <div class="heading h3 text-center text-primary">Pilot Skill Triggers</div></template
+      <div class="heading h3 text-center text-accent">Pilot Skill Triggers</div></template
     >
   </cc-compendium-browser>
 </template>
