@@ -4,13 +4,7 @@ import { Mech, PilotLoadout, Pilot, Synergy } from '../../../class';
 import { Action, IPilotLoadoutData, IRankedData } from '../../../interface';
 import { ActiveState, IActiveStateData, ICombatStats } from './ActiveState';
 import { Bonus, IBonusData } from '../feature/bonus/Bonus';
-import {
-  IReserveData,
-  CoreBonus,
-  Reserve,
-  PilotSkill,
-  PilotTalent,
-} from '../../pilot/components';
+import { IReserveData, CoreBonus, Reserve, PilotSkill, PilotTalent } from '../../pilot/components';
 import {
   CounterController,
   ICounterCollection,
@@ -23,10 +17,7 @@ import {
 } from '..';
 import { ImageTag } from '@/io/ImageManagement';
 import { IDeployableData } from '../feature/deployable/Deployable';
-import {
-  IActiveStatData,
-  ActiveStatController,
-} from './stats/ActiveStatController';
+import { IActiveStatData, ActiveStatController } from './stats/ActiveStatController';
 import { IMechInstanceData, MechInstance } from './MechInstance';
 import { IStatData, StatController } from './stats/StatController';
 
@@ -231,7 +222,6 @@ class PilotInstance implements ISaveable, ICounterContainer {
     const p = new PilotInstance();
     try {
       p.Update(data);
-      p.SaveController.SetLoaded();
       return p;
     } catch (err) {
       console.error(err);

@@ -5,7 +5,7 @@
     :multi-headers="headers"
     :options="options"
   >
-    <template #header> <div class="heading h3 text-center text-primary">Pilot Gear</div></template>
+    <template #header> <div class="heading h3 text-center text-accent">Pilot Gear</div></template>
   </cc-compendium-browser>
 </template>
 

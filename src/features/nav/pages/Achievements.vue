@@ -204,16 +204,68 @@
 
     <v-row class="text-center">
       <v-col cols="auto">
-        <v-btn size="small" color="accent" variant="elevated" disabled>
+        <v-btn size="small" color="primary" variant="elevated" @click="exportBackup()">
           Create Achievement Backup
         </v-btn>
       </v-col>
       <v-spacer />
       <v-col cols="auto">
-        <v-btn size="x-small" color="error" variant="elevated" class="mx-6" disabled>
-          Load Achievement Backup
-        </v-btn>
-        <v-btn size="x-small" color="error" variant="elevated" disabled> Reset Achievements </v-btn>
+        <v-dialog v-model="importDialog" width="50%">
+          <template #activator="{ props }">
+            <v-btn size="x-small" color="error" variant="outlined" class="mx-6" v-bind="props">
+              Load Achievement Backup
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text class="pa-6">
+              <p class="text-center">
+                This will
+                <b class="text-accent">OVERWRITE ALL</b>
+                user achievement data.
+                <br /><br />
+                This
+                <b class="text-accent">cannot</b>
+                be undone. It is strongly recommended to create a backup first.
+              </p>
+              <br />
+              <v-file-input
+                v-model="fileValue"
+                accept=".json"
+                variant="outlined"
+                density="compact"
+                hide-details
+                autofocus
+                label="Select COMP/CON Achievement Export File"
+                prepend-icon="mdi-paperclip"
+                @change="importBackup()"
+              />
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="clearDialog" width="50%">
+          <template #activator="{ props }">
+            <v-btn size="x-small" color="error" variant="outlined" v-bind="props">
+              Reset Achievements
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text class="pa-6">
+              <p class="text-center">
+                This will
+                <b class="text-accent">ERASE ALL</b>
+                user achievement data.
+                <br /><br />
+                This
+                <b class="text-accent">cannot</b>
+                be undone. It is strongly recommended to create a backup first.
+              </p>
+              <v-btn color="error" block class="mt-4" @click="clearAchievements()"
+                >Reset Achievements</v-btn
+              >
+            </v-card-text>
+          </v-card>
+        </v-dialog>
       </v-col>
     </v-row>
   </v-container>
@@ -237,6 +289,9 @@ export default {
     sort: 'none',
     showDetail: false,
     rarities: ['Common', 'Epic', 'Legendary', 'Mythic'],
+    importDialog: false,
+    clearDialog: false,
+    fileValue: null as any,
   }),
   watch: {
     userAchievements: {
@@ -380,6 +435,33 @@ export default {
           .length,
         total: this.nsAchievements.filter((a) => a.labels.includes(label)).length,
       };
+    },
+    exportBackup() {
+      const jsonBlob = new Blob([JSON.stringify(this.user.Achievements)], {
+        type: 'application/json',
+      });
+      const url = window.URL.createObjectURL(jsonBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'cc_achievement_archive.json');
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+    },
+    async importBackup() {
+      if (!this.fileValue) return;
+      const file = this.fileValue[0];
+      const json = await file.text();
+      const data = JSON.parse(json);
+      this.user.Achievements = data;
+      this.updateAchievements();
+      this.importDialog = false;
+    },
+    clearAchievements() {
+      this.user.Achievements = [];
+      this.updateAchievements();
+      this.clearDialog = false;
     },
   },
 };

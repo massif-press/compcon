@@ -3,13 +3,7 @@
     <cc-extended-tag :tag="t" :color="t.IsExotic ? 'exotic' : color" />
   </div>
   <div v-else-if="print">
-    <v-chip
-      v-for="t in (tags as Tag[])"
-      variant="outlined"
-      x-small
-      label
-      class="mx-1 mt-n1 my-0"
-    >
+    <v-chip v-for="t in (tags as Tag[])" variant="outlined" x-small label class="mx-1 mt-n1 my-0">
       {{ t.GetName(bonus) }}
     </v-chip>
   </div>
@@ -55,7 +49,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'accent',
     },
     tags: {
       type: Array,

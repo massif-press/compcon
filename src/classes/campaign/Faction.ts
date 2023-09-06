@@ -48,7 +48,6 @@ class Faction extends CollectionItem {
     const c = new Faction();
     try {
       c.Update(data);
-      c.SaveController.SetLoaded();
       return c;
     } catch (err) {
       throw err;

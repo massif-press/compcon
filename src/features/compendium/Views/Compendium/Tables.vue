@@ -3,7 +3,7 @@
     <div class="heading h4">Other</div>
     <v-expansion-panels class="px-12">
       <v-expansion-panel v-for="t in tables">
-        <v-expansion-panel-title class="heading h3 text-primary">
+        <v-expansion-panel-title class="heading h3 text-accent">
           {{ t.name }}
         </v-expansion-panel-title>
         <v-expansion-panel-text v-if="t.type === 'string'">

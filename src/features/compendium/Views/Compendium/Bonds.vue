@@ -22,12 +22,12 @@
     <br />
     <v-row align="center" justify="center">
       <v-col cols="auto">
-        <v-btn color="primary" to="/srd/compendium">Return to Compendium</v-btn>
+        <v-btn color="accent" to="/srd/compendium">Return to Compendium</v-btn>
       </v-col>
     </v-row>
   </v-container>
   <cc-compendium-browser :items="bonds" item-type="Bond" :options="options">
-    <template #header> <div class="heading h3 text-center text-primary">Pilot Bonds</div></template>
+    <template #header> <div class="heading h3 text-center text-accent">Pilot Bonds</div></template>
   </cc-compendium-browser>
 </template>
 

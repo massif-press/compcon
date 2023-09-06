@@ -17,60 +17,35 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-    </v-row>
-    <v-slide-x-transition mode="out-in">
-      <v-container>
-        <div v-for="pilot in pilots">
-          <component
-            :is="pilotCardType"
-            :pilot="pilot"
-            :small="rosterView === 'small-cards'"
-            @goTo="toPilotSheet($event)"
-          />
-        </div>
-      </v-container>
-    </v-slide-x-transition>
-    <v-row density="compact" justify="end">
-      <v-col cols="auto">
-        <v-btn x-small color="primary" @click="($refs as any).delete.show()">Delete Multiple</v-btn>
-        <cc-solo-dialog ref="delete" icon="mdi-delete" no-confirm large title="Delete Multiple">
-          <cc-mass-delete :items="pilots" />
+      <v-col cols="auto" class="ml-auto" align-self="center">
+        <v-btn x-small color="primary" @click="($refs as any).organize.show()">Organize</v-btn>
+        <cc-solo-dialog ref="organize" icon="mdi-cog-outline" no-confirm large title="Organize">
+          <organize-panel />
         </cc-solo-dialog>
       </v-col>
     </v-row>
-    <v-divider class="my-3" />
-    <v-row density="compact" justify="center">
-      <v-col cols="auto" class="mx-4">
-        <v-btn size="x-large" tile color="accent" @click="$router.push('new')">
-          <v-icon start large>cc:accuracy</v-icon>
-          Create New Pilot
-        </v-btn>
-      </v-col>
-      <v-col cols="auto" class="mx-4">
-        <v-btn size="x-large" tile color="accent" @click="($refs as any).import.show()">
-          <v-icon large left class="pr-2">mdi-import</v-icon>
-          Import Pilot
-        </v-btn>
-      </v-col>
-    </v-row>
-    <cc-solo-dialog ref="import" icon="cc:pilot" no-confirm large title="Import Pilot">
-      <import-dialog />
-    </cc-solo-dialog>
+    <v-expansion-panels class="my-3">
+      <group-panel v-for="group in pilotGroups" :group="group" />
+    </v-expansion-panels>
+    <v-divider />
+    <div class="pa-4">
+      <v-btn block variant="outlined" color="accent" @click="($refs as any).newGroupMenu = true">
+        Create New Group
+      </v-btn>
+    </div>
   </v-container>
 </template>
 
 <script lang="ts">
-import PilotCard from './components/PilotCard.vue';
-import PilotListItem from './components/PilotListItem.vue';
-import ImportDialog from './components/ImportDialog.vue';
+import OrganizePanel from './components/OrganizePanel.vue';
+import GroupPanel from './components/GroupPanel.vue';
 
 import { UserStore, PilotStore } from '@/stores';
-import { Pilot } from '@/class';
 import { UserProfile } from '@/user';
 
 export default {
   name: 'roster-view',
-  components: { ImportDialog, PilotListItem, PilotCard },
+  components: { OrganizePanel, GroupPanel },
   data: () => ({
     sortParams: null,
     newGroupMenu: false,
@@ -80,38 +55,13 @@ export default {
   }),
   computed: {
     pilotStore() {
-      const mod = PilotStore();
-      return mod;
+      return PilotStore();
     },
-    pilotCardType(): string {
-      switch (this.rosterView) {
-        case 'cards':
-        case 'small-cards':
-          return 'pilot-card';
-        case 'list':
-        default:
-          return 'pilot-list-item';
-      }
+    pilotGroups() {
+      return this.pilotStore.PilotGroups;
     },
     profile(): UserProfile {
-      const store = UserStore();
-      return store.UserProfile as any;
-    },
-    pilots() {
-      return this.pilotStore.Pilots;
-    },
-    getRosterView(): string {
-      return 'list';
-      if (!this.profile || !this.profile.GetView) return 'list';
-      return this.profile.GetView('roster');
-    },
-  },
-  mounted() {
-    this.rosterView = this.getRosterView;
-  },
-  methods: {
-    toPilotSheet(pilotId: string) {
-      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID: pilotId } });
+      return UserStore().UserProfile as any;
     },
   },
 };

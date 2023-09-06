@@ -69,7 +69,6 @@ class PilotData
   cloud!: ICloudData;
   brews!: BrewInfo[];
   img!: IPortraitData;
-  group!: IGroupData;
 
   // pilot
   level!: number;
@@ -139,10 +138,8 @@ class Pilot
   private _special_equipment: CompendiumItem[];
   private _mechs: Mech[];
 
-  private _combat_history: ICombatStats;
-
-  public constructor() {
-    this._id = uuid();
+  public constructor(data?: PilotData) {
+    this._id = data?.id || uuid();
     this.SaveController = new SaveController(this);
     this.CloudController = new CloudController(this);
     this.PortraitController = new PortraitController(this);
@@ -158,6 +155,21 @@ class Pilot
     this.PilotLoadoutController = new PilotLoadoutController(this);
     this.BrewController = new BrewController(this);
 
+    if (data) {
+      MechSkillsController.Deserialize(this, data);
+      SaveController.Deserialize(this, data.save);
+      CloudController.Deserialize(this, data.cloud);
+      SkillsController.Deserialize(this, data);
+      TalentsController.Deserialize(this, data);
+      CoreBonusController.Deserialize(this, data);
+      LicenseController.Deserialize(this, data);
+      ReservesController.Deserialize(this, data);
+      BondController.Deserialize(this, data.bond);
+      PortraitController.Deserialize(this, data.img);
+      PilotLoadoutController.Deserialize(this, data);
+      BrewController.Deserialize(this, data);
+    }
+
     this.FeatureController.Register(
       this.TalentsController,
       this.CoreBonusController,
@@ -165,19 +177,22 @@ class Pilot
       this.PilotLoadoutController
     );
 
-    this._level = 0;
-    this._callsign = '';
-    this._name = '';
-    this._player_name = '';
-    this._status = 'Active';
-    this._text_appearance = '';
-    this._notes = '';
-    this._history = '';
-    this._quirks = [];
-    this._background = '';
-    this._special_equipment = [];
-    this._mechs = [];
-    this._combat_history = ActiveState.NewCombatStats();
+    this._level = data?.level || 0;
+    this._callsign = data?.callsign || '';
+    this._name = data?.name || '';
+    this._player_name = data?.player_name || '';
+    this._status = data?.status || 'ACTIVE';
+    this._text_appearance = data?.text_appearance || '';
+    this._notes = data?.notes || '';
+    this._history = data?.history || '';
+    this._quirks = data && data.quirks ? [(data as any).quirk] : [];
+    this._background = data?.background || '';
+    this._mechs = data?.mechs.length
+      ? data?.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
+      : [];
+    this._special_equipment = data?.special_equipment
+      ? Pilot.deserializeSE(data?.special_equipment)
+      : [];
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -418,16 +433,6 @@ class Pilot
     this.SaveController.save();
   }
 
-  public UpdateCombatStats(ms: ICombatStats): void {
-    for (const k in this._combat_history) {
-      if (ms[k]) this._combat_history[k] += ms[k];
-    }
-  }
-
-  public get CombatHistory(): ICombatStats {
-    return this._combat_history;
-  }
-
   // -- I/O ---------------------------------------------------------------------------------------
   private static serializeSE(equipment: CompendiumItem[]): IUnlockData {
     return {
@@ -471,7 +476,6 @@ class Pilot
       background: p.Background,
       mechs: p.Mechs.length ? p.Mechs.map((x) => Mech.Serialize(x)) : [],
       special_equipment: this.serializeSE(p._special_equipment),
-      combat_history: p._combat_history,
     };
 
     SaveController.Serialize(p, data);
@@ -498,57 +502,14 @@ class Pilot
   public static AddNew(data: PilotData, sync?: boolean): Pilot {
     const p = Pilot.Deserialize(data);
     if (sync) p.CloudController.MarkSync();
-    // getModule(PilotStore, store).addPilot(p);
     return p;
   }
 
   public static Deserialize(pilotData: PilotData): Pilot {
-    const p = new Pilot();
-    try {
-      p.Update(pilotData);
-      p.SaveController.SetLoaded();
-      return p;
-    } catch (err) {
-      throw err;
-    }
+    return new Pilot(pilotData);
   }
 
-  public Update(data: PilotData): void {
-    this._id = data.id;
-    this._combat_history = data.combat_history ? data.combat_history : ActiveState.NewCombatStats();
-    this._level = data.level;
-    this._callsign = data.callsign;
-    this._name = data.name;
-    this._player_name = data.player_name;
-    this._status = data.status || 'ACTIVE';
-    this._text_appearance = data.text_appearance;
-    this._notes = data.notes;
-    this._history = data.history;
-    this._quirks = data.quirks ? data.quirks : (data as any).quirk ? [(data as any).quirk] : [];
-    this._background = data.background;
-    this._mechs = data.mechs.length
-      ? data.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
-      : [];
-    this._special_equipment = data.special_equipment
-      ? Pilot.deserializeSE(data.special_equipment)
-      : [];
-
-    MechSkillsController.Deserialize(this, data);
-    SaveController.Deserialize(this, data.save);
-    CloudController.Deserialize(this, data.cloud);
-    SkillsController.Deserialize(this, data);
-    TalentsController.Deserialize(this, data);
-    CoreBonusController.Deserialize(this, data);
-    LicenseController.Deserialize(this, data);
-    ReservesController.Deserialize(this, data);
-    BondController.Deserialize(this, data.bond);
-    GroupController.Deserialize(this, data.group);
-    PortraitController.Deserialize(this, data.img);
-    PilotLoadoutController.Deserialize(this, data);
-    BrewController.Deserialize(this, data);
-
-    console.log(this);
-  }
+  public Update(data: PilotData): void {}
 
   public Clone(): Pilot {
     const itemData = Pilot.Serialize(this);

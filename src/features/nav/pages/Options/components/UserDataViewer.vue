@@ -15,7 +15,8 @@
       <tbody>
         <tr v-for="key in Object.keys(user)">
           <td v-text="key" />
-          <td v-text="user[key]" />
+          <td v-if="Array.isArray(user[key])" v-text="`${user[key].length} items`" />
+          <td v-else v-text="user[key]" />
         </tr>
       </tbody>
     </v-table>

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h1 class="heading text-center">ACTION ECONOMY</h1>
-    <h2 id="overview" class="heading h1 text-primary">Per Turn</h2>
+    <h2 id="overview" class="heading h1 text-accent">Per Turn</h2>
     <v-card color="panel" elevation-10>
       <v-card-text>
         <v-row justify="center" density="compact">

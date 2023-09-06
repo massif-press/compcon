@@ -20,10 +20,7 @@ import { FeatureController } from '../components/feature/FeatureController';
 import { BrewController, BrewInfo } from '../components/brew/BrewController';
 import { IBrewable } from '../components/brew/IBrewable';
 import { CompendiumItem } from '../CompendiumItem';
-import {
-  INpcClassSaveData,
-  NpcClassController,
-} from './components/npcClass/NpcClassController';
+import { INpcClassSaveData, NpcClassController } from './components/npcClass/NpcClassController';
 import {
   INpcFeatureSaveData,
   NpcFeatureController,
@@ -34,10 +31,7 @@ import {
   NarrativeElementData,
 } from '../components/narrative/NarrativeController';
 import { INarrativeElement } from '../components/narrative/INarrativeElement';
-import {
-  IStatData,
-  StatController,
-} from '../components/combat/stats/StatController';
+import { IStatData, StatController } from '../components/combat/stats/StatController';
 
 class INpcData implements INpcClassSaveData, INpcFeatureSaveData {
   id!: string;
@@ -59,14 +53,7 @@ class INpcData implements INpcClassSaveData, INpcFeatureSaveData {
   items!: INpcItemSaveData[];
 }
 
-class Npc
-  implements
-    ICloudSyncable,
-    ISaveable,
-    IBrewable,
-    IFeatureController,
-    INarrativeElement
-{
+class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, INarrativeElement {
   public readonly ItemType: string = 'npc';
   public ImageTag!: ImageTag.NPC;
   public CloudController: CloudController;
@@ -296,7 +283,6 @@ class Npc
       NarrativeController.Deserialize(npc, data.narrative);
       StatController.Deserialize(npc, data.stats);
       GroupController.Deserialize(npc, data.group);
-      npc.SaveController.SetLoaded();
       return npc;
     } catch (err) {
       console.error(err);

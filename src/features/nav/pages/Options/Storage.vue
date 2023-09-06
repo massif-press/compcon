@@ -135,15 +135,22 @@ export default {
   }),
   async mounted() {
     const est = await navigator.storage.estimate();
-    logger.log(`'navigator storage estimate: `, 'info', est);
 
-    this.size = await navigator.storage.estimate();
     for (const db of Object.keys(this.data)) {
       const len = await this.GetLength(db);
       if (len) {
         this.data[db].length = len;
       }
     }
+
+    if (!est.usage || !est.quota) {
+      logger.log('unable to request storage estimate', 'warning', est);
+    } else
+      logger.log(
+        `navigator storage estimate: ${((est.usage / est.quota) * 100).toFixed(5)}% `,
+        'info',
+        est
+      );
   },
   methods: {
     bytesToSize(bytes: number) {

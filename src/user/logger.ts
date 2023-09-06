@@ -1,17 +1,8 @@
-enum logLevel {
-  debug,
-  info,
-  warn,
-  error,
-}
-
 class Logger {
   private static instance: Logger;
   private constructor() {}
 
-  private level: string = 'info';
-
-  public History: {
+  private _history: {
     type: string;
     color: string;
     message: string;
@@ -20,14 +11,14 @@ class Logger {
     timestamp: number;
   }[] = [];
 
+  public get History() {
+    return this._history;
+  }
+
   public static getInstance(): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger();
     }
-    const level = localStorage.getItem('logLevel');
-    if (level) Logger.instance.level = level;
-    else localStorage.setItem('logLevel', 'info');
-
     return Logger.instance;
   }
 
@@ -75,7 +66,7 @@ class Logger {
         break;
     }
 
-    this.History.push({
+    this._history.push({
       type,
       color: typeColor,
       message,
@@ -84,7 +75,7 @@ class Logger {
       timestamp: Date.now(),
     });
 
-    if (logLevel[type] < logLevel[this.level]) return;
+    if (t === 'debug') return;
     console.log(
       `%cCOMP/CON%c${type.toUpperCase()}%c${message}`,
       'color: white; background-color:#991E2A; font-weight: bolder; font-size: 14px; padding: 2px 5px; border-radius: 3px;',

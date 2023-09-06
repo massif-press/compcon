@@ -1,7 +1,7 @@
 <template>
   <cc-compendium-browser :items="tags" item-type="Tag" :table-headers="headers" :options="options">
     <template #header>
-      <div class="heading h3 text-center text-primary">Equipment Tags</div></template
+      <div class="heading h3 text-center text-accent">Equipment Tags</div></template
     >
   </cc-compendium-browser>
 </template>

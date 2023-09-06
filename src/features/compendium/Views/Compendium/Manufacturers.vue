@@ -4,7 +4,7 @@
     <v-tabs
       v-model="tabModel"
       :vertical="$vuetify.display.lgAndUp"
-      background-color="primary"
+      background-color="accent"
       :slider-size="12"
       slider-color="active"
       icons-and-text

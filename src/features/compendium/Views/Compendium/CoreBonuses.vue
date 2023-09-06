@@ -5,9 +5,7 @@
     :table-headers="headers"
     :options="options"
   >
-    <template #header>
-      <div class="heading h3 text-center text-primary">Core Bonuses</div></template
-    >
+    <template #header> <div class="heading h3 text-center text-accent">Core Bonuses</div></template>
   </cc-compendium-browser>
 </template>
 

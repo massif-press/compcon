@@ -16,7 +16,7 @@
           divided
           variant="plain"
           border
-          color="primary"
+          color="accent"
           density="compact"
           style="width: 100%; height: 30px"
           class="mb-2"
@@ -40,7 +40,7 @@
           divided
           variant="plain"
           border
-          color="primary"
+          color="accent"
           density="compact"
           style="width: 100%; height: 30px"
           class="mb-2"
@@ -76,7 +76,7 @@
           divided
           variant="plain"
           border
-          color="primary"
+          color="accent"
           density="compact"
           style="width: 100%; height: 30px"
         >
@@ -553,7 +553,7 @@
 
           <div v-else-if="group === 'license'" cols="12">
             <div v-for="license in licenses">
-              <div class="heading h2 text-primary mt-4" v-text="license" />
+              <div class="heading h2 text-accent mt-4" v-text="license" />
 
               <v-row>
                 <v-col>
@@ -569,7 +569,7 @@
 
           <div v-else-if="group === 'type'" cols="12">
             <div v-for="subtype in subtypes">
-              <div class="heading h2 text-primary mt-4" v-text="subtype" />
+              <div class="heading h2 text-accent mt-4" v-text="subtype" />
               <v-row>
                 <v-col>
                   <selector-table

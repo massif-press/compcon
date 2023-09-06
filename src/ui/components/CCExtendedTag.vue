@@ -26,7 +26,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'active',
+      default: 'accent',
     },
     bonus: {
       type: Number,

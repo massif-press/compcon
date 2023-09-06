@@ -4,10 +4,7 @@ import { Npc } from '@/class';
 import { ImageTag } from '@/io/ImageManagement';
 import { ISaveable, ISaveData, SaveController } from '..';
 import { PilotInstance } from './PilotInstance';
-import {
-  ActiveStatController,
-  IActiveStatData,
-} from './stats/ActiveStatController';
+import { ActiveStatController, IActiveStatData } from './stats/ActiveStatController';
 import { IStatData, StatController } from './stats/StatController';
 
 class INpcInstanceData {
@@ -98,17 +95,12 @@ class NpcInstance implements ISaveable {
     return data as INpcInstanceData;
   }
 
-  public static Deserialize(
-    data: INpcInstanceData,
-    p: PilotInstance
-  ): NpcInstance {
+  public static Deserialize(data: INpcInstanceData, p: PilotInstance): NpcInstance {
     const m = new NpcInstance(p);
 
     m.Update(data, p);
 
     SaveController.Deserialize(m, data.save);
-
-    m.SaveController.SetLoaded();
 
     return m;
   }

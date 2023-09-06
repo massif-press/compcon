@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <v-row class="my-2" justify="center">
       <v-col cols="4">
         <v-btn
@@ -69,10 +69,9 @@
     </v-row>
     <v-row>
       <v-col cols="auto" class="text-center">
-        Adding an issue directly to the GitHub repository is strongly encouraged
-        to allow us to ask questions and for you to be able to track issue
-        progress. However, if this isn't possible, the old bug reporting form
-        (which does not require a GitHub account) can be found
+        Adding an issue directly to the GitHub repository is strongly encouraged to allow us to ask
+        questions and for you to be able to track issue progress. However, if this isn't possible,
+        the old bug reporting form (which does not require a GitHub account) can be found
         <a target="_blank" href="https://forms.gle/pj6o8BzxCe4xGQ5M7">here</a>
         .
       </v-col>
@@ -87,14 +86,12 @@
     <div class="body-text text-text">
       <b>Where are the NPCs?</b>
       <p>
-        Now that LANCER is offically released, COMP/CON mirrors the Core Book
-        structure in terms of paid/free content. If you bought the LANCER Core
-        Book, you'll find a downloadble data package that contains all Core NPC
-        data on the LANCER Core Book's itch.io page, which you can access by
-        going to the Content Manager in the main page or in the nav bar options
-        menu and selecting the Core Book item from the LCP Directory tab. You
-        can use the Content Manager's Install LCP tab to import the package and
-        start building and running encounters.
+        Now that LANCER is officially released, COMP/CON mirrors the Core Book structure in terms of
+        paid/free content. If you bought the LANCER Core Book, you'll find a downloadable data
+        package that contains all Core NPC data on the LANCER Core Book's itch.io page, which you
+        can access by going to the Content Manager in the main page or in the nav bar options menu
+        and selecting the Core Book item from the LCP Directory tab. You can use the Content
+        Manager's Install LCP tab to import the package and start building and running encounters.
       </p>
       <b>Can I import my COMP/CON pilot to Roll20?</b>
       <p>Roll20 does not support imports from COMP/CON at this time.</p>
@@ -109,16 +106,15 @@
         v-html="`COMP/CON FAQ`"
         tabindex="0"
       />
-      may have an answer to your question! If you still can't find what you're
-      looking for, please stop by
+      may have an answer to your question! If you still can't find what you're looking for, please
+      stop by
       <a
         target="_blank"
         href="https://discord.gg/rwcpzsU"
         v-html="`the unofficial LANCER discord`"
         tabindex="0"
       />
-      (and specifically the #comp-con channel) with your questions or comments
-      for the developers.
+      (and specifically the #comp-con channel) with your questions or comments for the developers.
     </p>
 
     <!-- <h3 class="heading text-accent">Video Guide</h3>
@@ -127,7 +123,7 @@
       <br />
       // FEATURE IN DEVELOPMENT //
     </p> -->
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">

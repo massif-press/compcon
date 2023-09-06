@@ -1,13 +1,13 @@
-import { SaveController } from './SaveController'
+import { SaveController } from './SaveController';
 
 interface ISaveable {
-  SaveController: SaveController
+  SaveController: SaveController;
 
-  Name: string
-  ID: string
-  ItemType: string
+  Name: string;
+  ID: string;
+  ItemType: string;
 
-  Clone(): ISaveable
+  Clone(): ISaveable;
 }
 
-export { ISaveable }
+export type { ISaveable };

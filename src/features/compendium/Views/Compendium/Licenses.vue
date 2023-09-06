@@ -5,7 +5,7 @@
     :table-headers="headers"
     :options="options"
   >
-    <template #header> <div class="heading h3 text-center text-primary">Licenses</div></template>
+    <template #header> <div class="heading h3 text-center text-accent">Licenses</div></template>
   </cc-compendium-browser>
 </template>
 

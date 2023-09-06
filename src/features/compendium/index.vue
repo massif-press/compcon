@@ -1,5 +1,5 @@
 <template>
-  <v-tabs :model-value="tab" density="compact" class="mt-2" fixed-tabs color="primary">
+  <v-tabs :model-value="tab" density="compact" class="mt-2" fixed-tabs color="accent">
     <v-tab @click="setTab(0)">Compendium</v-tab>
     <v-tab @click="setTab(1)">System Reference</v-tab>
   </v-tabs>

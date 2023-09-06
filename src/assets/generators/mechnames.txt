@@ -923,6 +923,7 @@ Positive Deviance
 Post-Grindstone Nose
 Poverty Without Pleasure
 Powder and Wind
+Power of Will
 Power of Won't
 Practical Advice
 Practical Advice to a New Man
@@ -1000,7 +1001,6 @@ Risk and Reputation Management
 Risk and Reward
 Riskiest Assumption
 Robot Unfazed
-Rockstar
 Roses and Thorns
 Rotten Grapeshot
 Rough and Confused
@@ -1130,7 +1130,6 @@ The Diplomat
 The Doorway Is Open
 The Dream is Everlasting
 The Ecstasy of Communication
-The End is Final
 The End is Near
 The End of Everything
 The End of the World
@@ -1215,7 +1214,6 @@ They Looked Hostile to Me
 They're Not Even Trying
 This End Up
 This Is Not A Drill
-This Is Not God
 This Is Not The End
 This is Nothing
 This is The End

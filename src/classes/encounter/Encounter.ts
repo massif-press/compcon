@@ -119,7 +119,6 @@ class Encounter {
     try {
       e.Update(data);
       SaveController.Deserialize(e, data.save);
-      e.SaveController.SetLoaded();
       return e;
     } catch (err) {
       console.error(err);

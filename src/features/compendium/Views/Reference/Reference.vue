@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h1 class="heading h1 ml-5">Quick Reference</h1>
-    <v-tabs v-model="tab" fixed-tabs color="primary">
+    <v-tabs v-model="tab" fixed-tabs color="accent">
       <v-tab value="0">Action Economy</v-tab>
       <v-tab value="1">Damage Tables</v-tab>
     </v-tabs>
