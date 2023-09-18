@@ -150,7 +150,7 @@
 
 <script lang="ts">
 import { exportAll, importAll, clearAllData } from '@/io/BulkData';
-import { saveFile } from '@/io/Dialog';
+import { saveFile } from '@/io/Data';
 
 export default {
   name: 'backup-manager',

@@ -19,19 +19,34 @@
       </v-col>
       <v-col cols="auto" class="ml-auto" align-self="center">
         <v-btn x-small color="primary" @click="($refs as any).organize.show()">Organize</v-btn>
-        <cc-solo-dialog ref="organize" icon="mdi-cog-outline" no-confirm large title="Organize">
-          <organize-panel />
+        <cc-solo-dialog ref="organize" icon="mdi-cog-outline" no-actions large title="Organize">
+          <organize-panel @close="($refs.organize as any).hide()" />
         </cc-solo-dialog>
       </v-col>
     </v-row>
-    <v-expansion-panels class="my-3">
+    <div class="my-3">
       <group-panel v-for="group in pilotGroups" :group="group" />
-    </v-expansion-panels>
+    </div>
     <v-divider />
     <div class="pa-4">
-      <v-btn block variant="outlined" color="accent" @click="($refs as any).newGroupMenu = true">
+      <v-btn
+        block
+        variant="tonal"
+        color="accent"
+        size="large"
+        @click="($refs as any).newGroup.show()"
+      >
         Create New Group
       </v-btn>
+      <cc-solo-dialog
+        ref="newGroup"
+        icon="mdi-account-multiple"
+        no-confirm
+        large
+        title="Add Pilot Group"
+      >
+        <group-menu @close="($refs as any).newGroup.hide()" />
+      </cc-solo-dialog>
     </div>
   </v-container>
 </template>
@@ -39,26 +54,26 @@
 <script lang="ts">
 import OrganizePanel from './components/OrganizePanel.vue';
 import GroupPanel from './components/GroupPanel.vue';
+import GroupMenu from './components/GroupMenu.vue';
 
 import { UserStore, PilotStore } from '@/stores';
 import { UserProfile } from '@/user';
 
 export default {
   name: 'roster-view',
-  components: { OrganizePanel, GroupPanel },
+  components: { OrganizePanel, GroupPanel, GroupMenu },
   data: () => ({
     sortParams: null,
     newGroupMenu: false,
     newGroupName: '',
     rosterView: 'list',
-    groups: [],
   }),
   computed: {
-    pilotStore() {
-      return PilotStore();
+    shownGroups() {
+      return [0];
     },
     pilotGroups() {
-      return this.pilotStore.PilotGroups;
+      return PilotStore().getPilotGroups();
     },
     profile(): UserProfile {
       return UserStore().UserProfile as any;

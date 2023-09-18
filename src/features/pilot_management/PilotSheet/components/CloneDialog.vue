@@ -93,7 +93,6 @@ export default {
     },
     clonePilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot));
-      newPilot.GroupController.reset();
       newPilot.CloudController.reset();
       newPilot.RenewID();
       if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※';
@@ -103,13 +102,11 @@ export default {
       for (const mech of newPilot.Mechs) {
         mech.RenewID();
       }
-      newPilot.GroupController.SortIndex = -1;
       this.$store.dispatch('addPilot', newPilot);
       this.hide();
     },
     copyPilot() {
       const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot));
-      newPilot.GroupController.reset();
       newPilot.CloudController.reset();
       newPilot.RenewID();
       newPilot.Callsign += '″';
@@ -118,7 +115,6 @@ export default {
       for (const mech of newPilot.Mechs) {
         mech.RenewID();
       }
-      newPilot.GroupController.SortIndex = -1;
       this.$store.dispatch('addPilot', newPilot);
       this.hide();
     },

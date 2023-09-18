@@ -3,6 +3,11 @@ import localforage from 'localforage';
 const dbName = 'COMPCON Persistent';
 
 const storeRegistry = {
+  pilot_groups: localforage.createInstance({
+    name: dbName,
+    storeName: 'pilot_groups',
+    description: 'Stores Pilot Group data',
+  }),
   pilots: localforage.createInstance({
     name: dbName,
     storeName: 'pilots',
@@ -58,8 +63,14 @@ const Initialize = async function () {
 };
 
 const SetItem = async function (collection: string, item: any) {
+  let save = true;
   const id = item.ID ? item.ID : item.id;
 
+  if (item.SaveController) {
+    save = item.SaveController.IsDirty;
+  }
+
+  if (!save) return;
   storeRegistry[collection.toLowerCase()].setItem(id, JSON.stringify(item));
 };
 

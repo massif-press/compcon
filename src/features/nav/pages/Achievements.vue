@@ -168,39 +168,57 @@
         >
           Date Unlocked
         </v-btn>
+        <div class="pt-2 pl-12 ml-12">
+          <v-text-field
+            v-model="search"
+            label="Search"
+            density="compact"
+            hide-details
+            clearable
+            variant="outlined"
+            prepend-icon="mdi-magnify"
+          />
+        </div>
       </v-col>
     </v-row>
-    <v-card
-      v-for="a in shownAchievements"
-      v-show="!a.secret || a.unlocked"
-      variant="tonal"
-      :color="getColor(a)"
-      rounded="lg"
-      class="ma-2"
-      style="border: 2px solid"
-      :style="a.secret ? `background: linear-gradient(90deg, #991E2A 0%, #673AB7 100%);` : ''"
-    >
-      <v-row align="center" :style="a.unlocked ? '' : 'opacity: 0.4'">
-        <v-col cols="auto">
-          <v-icon size="70" :icon="`cc:achievement_${a.rarity}`" />
-        </v-col>
-        <v-col v-if="!a.hidden">
-          <div class="heading h3 text-text">{{ decode(a.name) }}</div>
-          <div class="text-text">{{ decode(a.description) }}</div>
-        </v-col>
-        <v-col v-else>
-          <div class="heading h3 text-text">[ DATA REDACTED ]</div>
-          <div class="text-text">This achievement is hidden and will be revealed once unlocked</div>
-        </v-col>
-        <v-col v-if="a.unlocked" cols="auto" class="text-center mx-6">
-          <div class="text-caption"><span v-if="a.secret">SECRET ACHIEVEMENT </span>UNLOCKED</div>
-          <div class="heading">{{ formatDate(a.unlocked) }}</div>
-        </v-col>
-      </v-row>
-    </v-card>
-    <div v-if="hiddenAchievements" class="text-right text-caption px-4">
-      <i>{{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} not shown</i>
-    </div>
+    <v-container>
+      <v-card
+        v-for="a in shownAchievements"
+        v-show="!a.secret || a.unlocked"
+        variant="tonal"
+        :color="getColor(a)"
+        rounded="lg"
+        class="ma-2"
+        style="border: 2px solid"
+        :style="a.secret ? `background: linear-gradient(90deg, #991E2A 0%, #673AB7 100%);` : ''"
+      >
+        <v-row align="center" :style="a.unlocked ? '' : 'opacity: 0.4'">
+          <v-col cols="auto">
+            <v-icon size="70" :icon="`cc:achievement_${a.rarity}`" />
+          </v-col>
+          <v-col v-if="!a.hidden">
+            <div class="heading h3 text-text">{{ decode(a.name) }}</div>
+            <div class="text-text">{{ decode(a.description) }}</div>
+          </v-col>
+          <v-col v-else>
+            <div class="heading h3 text-text">[ DATA REDACTED ]</div>
+            <div class="text-text">
+              This achievement is hidden and will be revealed once unlocked
+            </div>
+          </v-col>
+          <v-col v-if="a.unlocked" cols="auto" class="text-center mx-6">
+            <div class="text-caption"><span v-if="a.secret">SECRET ACHIEVEMENT </span>UNLOCKED</div>
+            <div class="heading">{{ formatDate(a.unlocked) }}</div>
+          </v-col>
+        </v-row>
+      </v-card>
+      <div v-if="hiddenAchievements" class="text-right text-caption px-4">
+        <i
+          >{{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} not
+          shown</i
+        >
+      </div>
+    </v-container>
 
     <v-row class="text-center">
       <v-col cols="auto">
@@ -292,6 +310,7 @@ export default {
     importDialog: false,
     clearDialog: false,
     fileValue: null as any,
+    search: '',
   }),
   watch: {
     userAchievements: {
@@ -325,6 +344,17 @@ export default {
         if (!this.showRarity.includes(a.rarity - 1)) return false;
         if (!this.showLock.includes(a.unlocked ? 1 : 0)) return false;
         if (!this.showHidden.length && a.hidden) return false;
+
+        if (this.search) {
+          if (a.hidden && !a.unlocked) return false;
+          const s = this.search.toLowerCase();
+          if (
+            !decrypt(a.name).toLowerCase().includes(s) &&
+            !decrypt(a.description).toLowerCase().includes(s)
+          ) {
+            return false;
+          }
+        }
 
         return true;
       });

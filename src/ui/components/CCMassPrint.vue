@@ -43,7 +43,6 @@ const pilotHeaders = [
   },
   { title: 'LL', value: 'Level' },
   { title: 'Name', value: 'Name' },
-  { title: 'Group', value: 'GroupController.Group' },
 ];
 
 const npcHeaders = [

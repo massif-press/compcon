@@ -4,13 +4,18 @@
     <v-tab ripple class="heading h3" :disabled="!isAuthed">
       <span>
         <div>Import from Share Code</div>
-        <div v-if="!isAuthed" class="text-overline" v-text="`Requires COMP/CON cloud account`" />
+        <div
+          v-if="!isAuthed"
+          class="text-overline"
+          style="line-height: 10px"
+          v-text="`Requires COMP/CON cloud account`"
+        />
       </span>
     </v-tab>
   </v-tabs>
   <v-window v-model="step">
     <v-window-item :value="0">
-      <file-import />
+      <file-import :group-id="groupId" />
     </v-window-item>
     <v-window-item :value="1">
       <share-import />
@@ -27,6 +32,12 @@ import { UserStore } from '@/stores';
 export default {
   name: 'import-dialog',
   components: { FileImport, ShareImport },
+  props: {
+    groupId: {
+      type: String,
+      required: true,
+    },
+  },
   data: () => ({
     step: 0,
   }),

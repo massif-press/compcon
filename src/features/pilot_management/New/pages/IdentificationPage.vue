@@ -55,7 +55,6 @@
             hide-details
             density="compact"
             class="my-1"
-            @change="$emit('set', { attr: 'Name', val: $event })"
           >
             <template #prepend>
               <cc-tooltip simple content="Generate Random Name">

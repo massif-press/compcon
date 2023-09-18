@@ -18,14 +18,12 @@ import {
 } from './components/';
 import { IMechData } from '../mech/Mech';
 import { ItemType } from '../enums';
-import { CompendiumStore, PilotStore, store } from '../../stores';
+import { CompendiumStore, PilotStore } from '../../stores';
 import {
   CloudController,
-  GroupController,
   ICloudData,
   ICloudSyncable,
   ICollectionGroupable,
-  IGroupData,
   IHASEContainer,
   IMechSkillsData,
   IPortraitContainer,
@@ -108,6 +106,8 @@ class Pilot
 {
   public readonly ItemType: string = 'pilot';
 
+  public SortIndex: number = -1;
+
   public SaveController: SaveController;
   public CloudController: CloudController;
   public SkillsController: SkillsController;
@@ -117,7 +117,6 @@ class Pilot
   public LicenseController: LicenseController;
   public ReservesController: ReservesController;
   public BondController: BondController;
-  public GroupController: GroupController;
   public PortraitController: PortraitController;
   public ImageTag = ImageTag.Pilot;
   public FeatureController: FeatureController;
@@ -150,7 +149,6 @@ class Pilot
     this.LicenseController = new LicenseController(this);
     this.ReservesController = new ReservesController(this);
     this.BondController = new BondController(this);
-    this.GroupController = new GroupController(this);
     this.FeatureController = new FeatureController(this);
     this.PilotLoadoutController = new PilotLoadoutController(this);
     this.BrewController = new BrewController(this);
@@ -487,7 +485,6 @@ class Pilot
     LicenseController.Serialize(p, data);
     ReservesController.Serialize(p, data);
     BondController.Serialize(p, data);
-    GroupController.Serialize(p, data);
     PortraitController.Serialize(p, data);
     PilotLoadoutController.Serialize(p, data);
     BrewController.Serialize(p, data);

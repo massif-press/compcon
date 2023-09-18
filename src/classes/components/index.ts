@@ -2,10 +2,7 @@ import { Bonus, IBonusData } from './feature/bonus/Bonus';
 import { CloudController, ICloudData } from './cloud/CloudController';
 import { ICloudSyncable } from './cloud/ICloudSyncable';
 import { IPortraitContainer } from './portrait/IPortraitContainer';
-import {
-  PortraitController,
-  IPortraitData,
-} from './portrait/PortraitController';
+import { PortraitController, IPortraitData } from './portrait/PortraitController';
 import { ICounterData, Counter } from './combat/counters/Counter';
 import {
   ICounterSaveData,
@@ -13,14 +10,10 @@ import {
   CounterController,
 } from './combat/counters/CounterController';
 import { ICounterContainer } from './combat/counters/ICounterContainer';
-import { GroupController, IGroupData } from './group/GroupController';
 import { ICollectionGroupable } from './group/ICollectionGroupable';
 import { IHASEContainer } from './mechskills/IHASEContainer';
 import MechSkills from './mechskills/MechSkills';
-import {
-  MechSkillsController,
-  IMechSkillsData,
-} from './mechskills/MechSkillsController';
+import { MechSkillsController, IMechSkillsData } from './mechskills/MechSkillsController';
 import { ISaveable } from './save/ISaveable';
 import { ISaveData, SaveController } from './save/SaveController';
 
@@ -30,7 +23,6 @@ export {
   PortraitController,
   Counter,
   CounterController,
-  GroupController,
   MechSkills,
   MechSkillsController,
   SaveController,
@@ -45,7 +37,6 @@ export type {
   ICounterSaveData,
   ICounterCollection,
   ICounterContainer,
-  IGroupData,
   ICollectionGroupable,
   IHASEContainer,
   IMechSkillsData,

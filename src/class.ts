@@ -90,6 +90,7 @@ import { ContentPack } from './classes/ContentPack';
 import { Counter } from './classes/components/combat/counters/Counter';
 import { Environment } from './classes/Environment';
 import { Sitrep } from './classes/encounter/Sitrep';
+import { PilotGroup } from './features/pilot_management/store/PilotGroup';
 
 export {
   Background,
@@ -174,4 +175,5 @@ export {
   Bond,
   Environment,
   Sitrep,
+  PilotGroup,
 };

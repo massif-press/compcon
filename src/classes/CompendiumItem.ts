@@ -20,6 +20,7 @@ interface ICompendiumItemData {
   integrated?: string[];
   brew?: string;
   tags?: ITagData[];
+  flavorDescription?: string;
 }
 
 abstract class CompendiumItem {
@@ -62,7 +63,7 @@ abstract class CompendiumItem {
       this._name = data.name;
       this._flavor_name = '';
       this._description = data.description || '';
-      this._flavor_description = data.description || '';
+      this._flavor_description = data.flavorDescription || '';
       this.Brew = data.brew || 'Core';
       this.LcpName = packName || 'LANCER Core Book';
       this.InLcp = packName ? true : false;

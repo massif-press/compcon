@@ -67,6 +67,7 @@
         <confirm-page
           :pilot="pilot"
           :quickstart="quickstart"
+          :groupID="groupID"
           @next="step++"
           @back="step--"
           @done="onDone"
@@ -102,6 +103,13 @@ export default {
     TemplatesPage,
     CcConfirm,
   },
+  props: {
+    groupID: {
+      type: String,
+      required: false,
+      default: 'no_group',
+    },
+  },
   data: () => ({
     step: 0,
     pilot: {} as Pilot,
@@ -124,7 +132,7 @@ export default {
   methods: {
     onDone() {
       this.done = true;
-      this.$router.push('./pilot_management');
+      this.$router.push({ name: 'pilot_roster' });
     },
   },
   beforeRouteLeave(to, from, next) {

@@ -1,43 +1,56 @@
 <template>
   <div>
-    <v-alert variant="outlined" class="text-center" color="subtle" density="compact">
-      <span v-if="items.length">
-        Deleted items are preserved for 30 days, after which they are automatically removed
-      </span>
-      <span v-else>No items found</span>
+    <v-alert
+      v-if="!items.length"
+      variant="outlined"
+      class="text-center"
+      color="subtle"
+      density="compact"
+    >
+      <span>No items found</span>
     </v-alert>
     <v-table v-if="items.length" class="text-left pa-2">
       <thead>
         <th>Item Type</th>
         <th>Item Name</th>
         <th>Deleted On</th>
-        <th>Expires On</th>
         <th />
         <th />
       </thead>
       <tbody>
         <tr v-for="item in items">
           <td>{{ item.ItemType.toUpperCase() }}</td>
-          <td>{{ item.Name }}{{ item.Callsign ? ` (${item.Callsign})` : '' }}</td>
-          <td>{{ item.SaveController.DeleteTime }}</td>
-          <td>{{ item.SaveController.ExpireTime }}</td>
+          <td>{{ item.Name }}{{ (item as any).Callsign ? ` (${(item as any).Callsign})` : '' }}</td>
+          <td>{{ item.SaveController.DeleteTimeFormatted }}</td>
           <td class="text-right">
-            <v-btn small color="primary" @click="item.SaveController.restore()">Restore</v-btn>
+            <v-btn
+              color="accent"
+              variant="plain"
+              size="small"
+              @click="item.SaveController.Restore()"
+              >Restore</v-btn
+            >
           </td>
           <td class="text-right">
-            <v-btn small color="primary" @click="permanentlyDelete(item)">Permanently Delete</v-btn>
+            <v-btn color="error" variant="plain" size="small" @click="permanentlyDelete(item)"
+              >Permanently Delete</v-btn
+            >
           </td>
         </tr>
       </tbody>
 
-      <tfoot class="light-panel">
+      <tfoot class="text-right">
         <tr>
-          <td colspan="4" />
+          <td colspan="3" />
           <td>
-            <v-btn small color="error" @click="restoreAll()">Restore All</v-btn>
+            <v-btn size="small" variant="tonal" color="accent" @click="restoreAll()"
+              >Restore All</v-btn
+            >
           </td>
           <td>
-            <v-btn small color="error" @click="deleteAll()">Permanently Delete All</v-btn>
+            <v-btn size="small" variant="tonal" color="error" @click="deleteAll()"
+              >Permanently Delete All</v-btn
+            >
           </td>
         </tr>
       </tfoot>
@@ -47,27 +60,35 @@
 
 <script lang="ts">
 import { NpcStore, PilotStore } from '@/stores';
+import { Pilot, PilotGroup } from '@/class';
 
 export default {
   name: 'deleted-items',
   computed: {
     items() {
       return [
-        ...NpcStore().AllNpcs.filter((x) => x.SaveController.IsDeleted),
-        ...PilotStore().AllPilots.filter((x) => x.SaveController.IsDeleted),
+        // ...NpcStore().AllNpcs.filter((x) => x.SaveController.IsDeleted),
+        ...PilotStore().Pilots.filter((x) => x.SaveController.IsDeleted),
+        ...PilotStore().PilotGroups.filter((x) => x.SaveController.IsDeleted),
       ];
     },
   },
   methods: {
     permanentlyDelete(item) {
+      const ps = PilotStore();
+
       switch (item.ItemType) {
-        case 'npc':
-          const ns = NpcStore();
-          ns.deleteNpcPermanent(ns.AllNpcs.find((x) => x.ID === item.ID));
-          break;
+        // case 'npc':
+        //   const ns = NpcStore();
+        //   ns.deleteNpcPermanent(ns.AllNpcs.find((x) => x.ID === item.ID));
+        //   break;
         case 'pilot':
-          const ps = PilotStore();
-          ps.deletePilotPermanent(ps.AllPilots.find((x) => x.ID === item.ID));
+          const pilot = ps.Pilots.find((x) => x.ID === item.ID) as Pilot;
+          ps.DeletePilotPermanent(pilot);
+          break;
+        case 'pilot_group':
+          const group = ps.PilotGroups.find((x) => x.ID === item.ID) as PilotGroup;
+          ps.DeleteGroupPermanent(group);
           break;
         default:
           break;
@@ -75,7 +96,7 @@ export default {
     },
     restoreAll() {
       this.items.forEach((item) => {
-        item.SaveController.restore();
+        item.SaveController.Restore();
       });
     },
     deleteAll() {

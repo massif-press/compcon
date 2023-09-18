@@ -172,7 +172,7 @@ import * as allThemes from '@/ui/style/themes';
 
 import { UserStore } from '@/stores';
 import { exportAll, importAll, clearAllData } from '@/io/BulkData';
-import { saveFile } from '@/io/Dialog';
+import { saveFile } from '@/io/Data';
 
 export default {
   name: 'options-settings',

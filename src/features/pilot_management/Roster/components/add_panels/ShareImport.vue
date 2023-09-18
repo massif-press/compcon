@@ -5,11 +5,12 @@
         <v-text-field
           v-model="shareCode"
           variant="outlined"
+          density="compact"
           label="Pilot Share Code"
-          style="width: 200px"
           hide-details
           clearable
           color="accent"
+          style="min-width: 300px"
           @click:clear="reset"
           @keyup="sanitizeShareCode()"
           :readonly="!!searchResults"
@@ -17,8 +18,7 @@
       </v-col>
       <v-col cols="auto">
         <v-btn
-          large
-          color="secondary"
+          color="accent"
           :disabled="shareCode && shareCode.length !== 6"
           :loading="loading"
           @click="search()"
@@ -31,16 +31,13 @@
     <div v-if="searchResults !== null" class="my-2">
       <v-card outlined>
         <v-card-text class="text-center">
-          <i v-if="!searchResults.Item"
-            >No record found with share code {{ shareCode }}</i
-          >
+          <i v-if="!searchResults.Item">No record found with share code {{ shareCode }}</i>
           <div v-else>
             <div>Record found! Attempting to load data...</div>
             <v-progress-linear v-show="loading" indeterminate />
             <v-fade-transition>
               <div v-if="pilotData">
-                Loaded {{ pilotData.callsign }} ({{ pilotData.name }}). Staging
-                for import...
+                Loaded {{ pilotData.callsign }} ({{ pilotData.name }}). Staging for import...
               </div>
             </v-fade-transition>
           </div>
@@ -49,22 +46,20 @@
     </div>
     <v-card v-if="missingContent.length">
       <p v-if="oldBrewsWarning" class="heading h3 text-accent">
-        WARNING: The imported Pilot was created using an older version of
-        COMP/CON. Lancer Content Pack analysis may not be comprehensive and
-        there is a chance COMP/CON will be unable to correctly load this data.
-        Export the original file in the latest version of COMP/CON to guarantee
-        LCP validation.
+        WARNING: The imported Pilot was created using an older version of COMP/CON. Lancer Content
+        Pack analysis may not be comprehensive and there is a chance COMP/CON will be unable to
+        correctly load this data. Export the original file in the latest version of COMP/CON to
+        guarantee LCP validation.
       </p>
       <v-card-text class="text-center">
         <p class="heading h4 text-accent">
-          The imported Pilot requires the following content packs that are not
-          currently installed/active, or have mismatching versions:
+          The imported Pilot requires the following content packs that are not currently
+          installed/active, or have mismatching versions:
         </p>
         <p class="effect-text text-center" v-html="missingContent" />
         <p class="text-text">
-          This Pilot cannot be imported until the missing content packs are
-          installed and activated, or the content pack versions are
-          synchronized.
+          This Pilot cannot be imported until the missing content packs are installed and activated,
+          or the content pack versions are synchronized.
         </p>
       </v-card-text>
       <v-divider />
@@ -75,17 +70,15 @@
     </v-card>
     <div class="mt-2">
       <p v-if="alreadyPresentItem" class="text-accent text-center">
-        A Pilot with this ID already exists in the roster. Unable to set this
-        pilot as a remote resource. You may
+        A Pilot with this ID already exists in the roster. Unable to set this pilot as a remote
+        resource. You may
         <b class="text-accent">permanently delete</b>
         the existing pilot to continue this import.
-        <v-btn x-small color="error" @click="deleteAP()"
-          >Permanenty delete local item</v-btn
-        >
+        <v-btn x-small color="error" @click="deleteAP()">Permanenty delete local item</v-btn>
       </p>
       <p v-if="isSameUser" class="text-accent text-center">
-        The cloud account ID associated with this item is the same as the
-        currently logged-in user. Unable to set this pilot as a remote resource.
+        The cloud account ID associated with this item is the same as the currently logged-in user.
+        Unable to set this pilot as a remote resource.
       </p>
       <v-slide-x-reverse-transition>
         <v-row v-if="stagedData" align="center" justify="space-around">
@@ -105,9 +98,7 @@
             <v-btn
               large
               color="secondary"
-              :disabled="
-                missingContent.length > 0 || alreadyPresentItem || isSameUser
-              "
+              :disabled="missingContent.length > 0 || alreadyPresentItem || isSameUser"
               @click="importAsRemote()"
             >
               <v-icon large left>cc:accuracy</v-icon>
@@ -190,10 +181,7 @@ export default {
         })
         .catch((err) => {
           console.error(err);
-          this.$notify(
-            'An error occurred when searching for the share code.',
-            err
-          );
+          this.$notify('An error occurred when searching for the share code.', err);
           this.loading = false;
         });
     },
@@ -222,8 +210,7 @@ export default {
           .ContentPacks.filter((x) => x.Active)
           .map((x) => `${x.Name} @ ${x.Version}`);
         const missingPacks = _.pullAll(this.pilotData.brews, installedPacks);
-        if (missingPacks.length)
-          this.missingContent = missingPacks.join('<br />');
+        if (missingPacks.length) this.missingContent = missingPacks.join('<br />');
       } else {
         const installedPacks = CompendiumStore()
           .ContentPacks.filter((x) => x.Active)
@@ -248,7 +235,6 @@ export default {
         this.pilotData.name += '※';
         this.pilotData.callsign += '※';
         const importPilot = Pilot.Deserialize(this.stagedData);
-        importPilot.GroupController.reset();
         importPilot.CloudController.reset();
         importPilot.RenewID();
         this.$store.dispatch('addPilot', importPilot);
@@ -266,7 +252,6 @@ export default {
       console.log('importing as remote');
       try {
         const importPilot = Pilot.Deserialize(this.stagedData);
-        importPilot.GroupController.reset();
         const record = this.searchResults.Item;
         // importPilot.CloudController.SetRemoteResource(record.iid, record.key);
         this.$store.dispatch('addPilot', importPilot);
@@ -289,9 +274,7 @@ export default {
     },
     deleteAP() {
       const ps = PilotStore();
-      ps.deletePilotPermanent(
-        ps.AllPilots.find((x) => x.ID === this.alreadyPresentItem.ID)
-      );
+      ps.deletePilotPermanent(ps.AllPilots.find((x) => x.ID === this.alreadyPresentItem.ID));
       this.alreadyPresentItem = null;
     },
   },
