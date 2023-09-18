@@ -26,10 +26,10 @@
       </ul>
     </v-alert>
     <v-btn
-      :x-large="$vuetify.display.mdAndUp"
+      size="x-large"
       block
       :disabled="!pilotReady && !quickstart"
-      color="secondary"
+      color="secondary-darken-2"
       tile
       class="mx-2 my-8"
       @click="savePilot()"
@@ -60,6 +60,7 @@ export default {
       required: true,
     },
     quickstart: { type: Boolean },
+    groupID: { type: String },
   },
   data: () => ({
     default_callsign: '[NEW CALLSIGN]',
@@ -80,7 +81,7 @@ export default {
       const store = PilotStore();
       this.pilot.Callsign = this.pilot.Callsign ? this.pilot.Callsign : this.default_callsign;
       this.pilot.Name = this.pilot.Name ? this.pilot.Name : this.default_name;
-      store.AddPilot(this.pilot as Pilot);
+      store.AddPilot(this.pilot as Pilot, this.groupID);
       this.$emit('done');
     },
   },

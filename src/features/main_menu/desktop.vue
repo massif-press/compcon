@@ -229,7 +229,7 @@
 
 <script lang="ts">
 import { exportAll, importAll } from '@/io/BulkData';
-import { saveFile } from '@/io/Dialog';
+import { saveFile } from '@/io/Data';
 import MainTitle from './_components/MainTitle.vue';
 import MainBtn from './_components/MainBtn.vue';
 import CCLog from './_components/CCLog.vue';

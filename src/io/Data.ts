@@ -76,9 +76,62 @@ const loadData = async function <T>(collection: string): Promise<T[]> {
   }
 };
 
-const importData = async function <T>(file: File): Promise<T> {
-  const text = await PromisifyFileReader.readAsText(file);
-  return JSON.parse(text) as T;
+const _importFile = async function <T>(file: File): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      try {
+        const fileContent = event.target?.result as string;
+        const jsonObject = JSON.parse(fileContent);
+        resolve(jsonObject);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    reader.onerror = (event) => {
+      reject(new Error('An error occurred while reading the file.' + event));
+    };
+
+    reader.readAsText(file);
+  });
 };
 
-export { writeFile, readFile, saveData, saveDelta, deleteDataById, loadData, importData, exists };
+const ImportData = async function <T>(file: File): Promise<T> {
+  const json = await _importFile(file);
+  try {
+    if ((json as any).EXPORT_TYPE) return JSON.parse((json as any).data) as T;
+    else return json as T;
+  } catch (error) {
+    throw new Error('Invalid JSON');
+  }
+};
+
+const saveFile = function (filename: string, data: Object, exportType: string) {
+  const json = JSON.stringify({ EXPORT_TYPE: exportType, data });
+
+  const blob = new Blob([json]);
+  if ((window.navigator as any).msSaveOrOpenBlob) {
+    (window.navigator as any).msSaveBlob(blob, filename);
+  } else {
+    const elem = window.document.createElement('a');
+    elem.href = window.URL.createObjectURL(blob);
+    elem.download = filename;
+    document.body.appendChild(elem);
+    elem.click();
+    document.body.removeChild(elem);
+  }
+};
+
+export {
+  writeFile,
+  readFile,
+  saveData,
+  saveDelta,
+  deleteDataById,
+  loadData,
+  ImportData,
+  exists,
+  saveFile,
+};

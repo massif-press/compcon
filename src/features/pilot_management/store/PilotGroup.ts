@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid';
-import { Pilot } from '@/class';
 import {
   ISaveData,
   IPortraitData,
@@ -9,46 +8,69 @@ import {
   ISaveable,
 } from '@/classes/components';
 import { ImageTag } from '@/classes/enums';
-import { PilotData } from '@/interface';
 
-class PilotGroupData {
-  id!: string;
-  save!: ISaveData;
-  img!: IPortraitData;
-  name!: string;
-  pilots!: PilotData[];
-  description!: string;
-  history!: string;
-}
+type PilotGroupData = {
+  id: string;
+  sortIndex: number;
+  save: ISaveData;
+  img: IPortraitData;
+  name: string;
+  pilots: PilotIndexItem[];
+  description: string;
+  history: string;
+  expanded: boolean;
+};
+
+type PilotIndexItem = {
+  id: string;
+  index: number;
+};
 
 class PilotGroup implements ISaveable, IPortraitContainer {
   save!: ISaveData;
   img!: IPortraitData;
+
+  public SortIndex: number;
 
   public SaveController: SaveController;
   public PortraitController: PortraitController;
 
   private _id: string;
   private _name: string;
-  private _pilots: Pilot[];
+  private _pilots: PilotIndexItem[];
   private _description: string;
   private _history: string;
   public readonly ImageTag: ImageTag = ImageTag.Emblem;
   public readonly ItemType: string = 'pilot_group';
 
+  // controls whether the group is expanded in the UI
+  public Expanded: boolean = true;
+
   constructor(data?: PilotGroupData) {
     this._id = data?.id || uuid();
+    this.SortIndex = data && !isNaN(data.sortIndex) ? data.sortIndex : -1;
 
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
 
     this._name = data?.name || 'New Group';
-    this._pilots = data?.pilots.map((x) => Pilot.Deserialize(x)) || ([] as Pilot[]);
+    this._pilots = data?.pilots || ([] as PilotIndexItem[]);
     this._description = data?.description || '';
     this._history = data?.history || '';
+    this.Expanded = data?.expanded || true;
+  }
+
+  private Save(): void {
+    this.SaveController.save();
   }
 
   public get ID(): string {
+    return this._id;
+  }
+
+  public RenewID(): string {
+    this._id = uuid();
+    this.Save();
     return this._id;
   }
 
@@ -62,14 +84,16 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
   public set Name(val: string) {
     this._name = val;
+    this.Save();
   }
 
-  public get Pilots(): Pilot[] {
-    return this._pilots;
+  public get Pilots(): PilotIndexItem[] {
+    return this._pilots.sort((a, b) => a.index - b.index);
   }
 
-  public set Pilots(val: Pilot[]) {
+  public set Pilots(val: PilotIndexItem[]) {
     this._pilots = val;
+    this.Save();
   }
 
   public get Description(): string {
@@ -78,6 +102,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
   public set Description(val: string) {
     this._description = val;
+    this.Save();
   }
 
   public get History(): string {
@@ -86,6 +111,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
   public set History(val: string) {
     this._history = val;
+    this.Save();
   }
 
   public static Serialize = (group: PilotGroup): PilotGroupData => {
@@ -94,7 +120,8 @@ class PilotGroup implements ISaveable, IPortraitContainer {
       name: group.Name,
       description: group.Description,
       history: group.History,
-      pilots: group.Pilots.length ? group.Pilots.map((x) => Pilot.Serialize(x)) : [],
+      pilots: group._pilots,
+      sortIndex: group.SortIndex,
     };
 
     SaveController.Serialize(group, data);
@@ -116,4 +143,5 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   };
 }
 
-export { PilotGroup, PilotGroupData };
+export { PilotGroup };
+export type { PilotGroupData };

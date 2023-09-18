@@ -34,6 +34,10 @@ class PortraitController {
     this.Parent.SaveController.save();
   }
 
+  public get HasImage(): boolean {
+    return this._portrait !== '' || this._cloud_portrait !== '';
+  }
+
   public get LocalImage(): string {
     return this._portrait;
   }

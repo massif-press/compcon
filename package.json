@@ -25,6 +25,8 @@
     "pinia": "^2.0.33",
     "promisify-file-reader": "^4.1.0",
     "semver": "^7.5.4",
+    "sortablejs": "^1.15.0",
+    "sortablejs-vue3": "^1.2.9",
     "typeit": "^8.7.1",
     "uuid": "^9.0.0",
     "vue": "^3.2.47",

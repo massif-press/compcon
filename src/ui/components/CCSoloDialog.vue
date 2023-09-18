@@ -28,9 +28,9 @@
           <v-btn @click="hide">dismiss</v-btn>
         </v-card-actions>
         <v-card-actions v-else>
-          <v-btn @click="hide">cancel</v-btn>
+          <v-btn variant="plain" @click="hide">cancel</v-btn>
           <v-spacer />
-          <cc-btn @click="confirm">confirm</cc-btn>
+          <v-btn color="accent" variant="tonal" @click="confirm">confirm</v-btn>
         </v-card-actions>
       </div>
     </v-card>

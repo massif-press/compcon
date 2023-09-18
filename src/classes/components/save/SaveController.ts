@@ -31,18 +31,15 @@ class SaveController {
     };
   }
 
-  public save(skip?: boolean) {
+  public save() {
     this.IsDirty = true;
     this.LastModified = new Date().getTime();
-    // store.dispatch(`set_${this.Parent.ItemType.toLowerCase()}_dirty`);
-    // const sp = getModule(UserStore, store).UserProfile.IsSavePerformant
-    // if (!sp) {
+
     SaveAllLocalUpdates();
-    // }
   }
 
-  public restore() {
-    this.IsDeleted = false;
+  public Restore() {
+    this.DeleteTime = 0;
     // store.dispatch(`restore_${this.Parent.ItemType}`, this.Parent);
   }
 
@@ -50,7 +47,11 @@ class SaveController {
     return this.DeleteTime > 0;
   }
 
-  public set IsDeleted(val: boolean) {
+  public get DeleteTimeFormatted(): string {
+    return new Date(this.DeleteTime).toLocaleString();
+  }
+
+  public Delete() {
     this.DeleteTime = new Date().getTime();
     this.save();
   }

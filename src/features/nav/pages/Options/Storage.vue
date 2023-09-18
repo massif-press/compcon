@@ -136,6 +136,8 @@ export default {
   async mounted() {
     const est = await navigator.storage.estimate();
 
+    this.size = est;
+
     for (const db of Object.keys(this.data)) {
       const len = await this.GetLength(db);
       if (len) {

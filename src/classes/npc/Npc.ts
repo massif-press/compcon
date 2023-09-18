@@ -4,10 +4,8 @@ import { NpcClass, NpcItem } from './';
 import { INpcItemSaveData } from './interfaces';
 import {
   CloudController,
-  GroupController,
   ICloudData,
   ICloudSyncable,
-  IGroupData,
   IPortraitData,
   ISaveable,
   ISaveData,
@@ -65,7 +63,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
   public NpcTemplateController: NpcTemplateController;
   public NpcClassController: NpcClassController;
   public NarrativeController: NarrativeController;
-  public GroupController: GroupController;
   public StatController: StatController;
 
   private _id: string;
@@ -88,7 +85,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
     this.NpcFeatureController = new NpcFeatureController(this);
     this.NpcTemplateController = new NpcTemplateController(this);
     this.NarrativeController = new NarrativeController(this);
-    this.GroupController = new GroupController(this);
     this.StatController = new StatController(this);
 
     this.FeatureController.Register();
@@ -137,10 +133,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
   // public get Campaign(): string {
   //   return this.Campaign || 'None'
   // }
-
-  public get Collection(): string {
-    return this.GroupController.Group;
-  }
 
   // -------------------------------------------------------------------------------------------------
 
@@ -245,7 +237,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
     NpcFeatureController.Serialize(npc, data);
     NarrativeController.Serialize(npc, data);
     StatController.Serialize(npc, data);
-    GroupController.Serialize(npc, data);
 
     return data as INpcData;
   }
@@ -282,7 +273,6 @@ class Npc implements ICloudSyncable, ISaveable, IBrewable, IFeatureController, I
       NpcFeatureController.Deserialize(npc, data);
       NarrativeController.Deserialize(npc, data.narrative);
       StatController.Deserialize(npc, data.stats);
-      GroupController.Deserialize(npc, data.group);
       return npc;
     } catch (err) {
       console.error(err);

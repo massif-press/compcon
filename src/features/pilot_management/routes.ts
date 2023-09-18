@@ -51,7 +51,9 @@ const routes = [
         component: Level,
       },
       {
-        path: '/new',
+        path: '/new/:groupID',
+        name: 'new',
+        props: true,
         component: New,
       },
     ],

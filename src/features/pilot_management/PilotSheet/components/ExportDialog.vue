@@ -9,14 +9,7 @@
     <v-card-text>
       <v-row>
         <v-col>
-          <v-btn
-            large
-            block
-            tile
-            variant="outlined"
-            color="accent"
-            @click="exportPilot()"
-          >
+          <v-btn large block tile variant="outlined" color="accent" @click="exportPilot()">
             Export Pilot Data File
           </v-btn>
         </v-col>
@@ -32,14 +25,7 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-btn
-            large
-            block
-            tile
-            variant="outlined"
-            color="accent"
-            @click="copyPilot()"
-          >
+          <v-btn large block tile variant="outlined" color="accent" @click="copyPilot()">
             Copy Pilot Data to Clipboard
           </v-btn>
         </v-col>
@@ -58,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { saveFile } from '@/io/Dialog';
+import { saveFile } from '@/io/Data';
 import { Pilot } from '@/class';
 
 export default {
@@ -84,16 +70,14 @@ export default {
       this.pilot.BrewController.SetBrewData();
       saveFile(
         this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
-        JSON.stringify(Pilot.Serialize(this.pilot)),
+        Pilot.Serialize(this.pilot as Pilot),
         'Save Pilot'
       );
       this.hide();
     },
     copyPilot() {
       this.pilot.BrewController.SetBrewData();
-      navigator.clipboard.writeText(
-        JSON.stringify(Pilot.Serialize(this.pilot))
-      );
+      navigator.clipboard.writeText(JSON.stringify(Pilot.Serialize(this.pilot as Pilot)));
       Vue.prototype.$notify('Pilot data copied to clipboard');
       this.hide();
     },
@@ -101,10 +85,7 @@ export default {
       this.copyConfirm = true;
       navigator.clipboard.writeText(this.pilot.ShareCode).then(
         function () {
-          Vue.prototype.$notify(
-            'Cloud ID copied to clipboard.',
-            'confirmation'
-          );
+          Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation');
         },
         function () {
           Vue.prototype.$notifyError('Unable to copy Cloud ID');
