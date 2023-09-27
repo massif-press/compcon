@@ -83,7 +83,7 @@
           :disabled="!projectName"
           @click="add()"
         >
-          <v-icon start>cc:accuracy</v-icon>
+          <v-icon start>mdi-plus</v-icon>
           Add Project
         </v-btn>
       </cc-titled-panel>

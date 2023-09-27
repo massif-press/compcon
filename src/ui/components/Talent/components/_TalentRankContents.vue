@@ -1,6 +1,10 @@
 <template>
-  <div :style="unlocked ? '' : 'opacity: 0.6'">
-    <div v-html-safe="talentRank.Description" class="text-text" />
+  <div>
+    <div
+      v-html-safe="talentRank.Description"
+      class="text-text"
+      :style="inColumn ? 'width: 40vw' : ''"
+    />
     <div v-if="talentRank.Actions.length">
       <v-row density="compact" justify="center">
         <v-col v-for="a in talentRank.Actions" cols="auto">
@@ -40,7 +44,7 @@ export default {
   name: 'talent-rank-contents',
   props: {
     talentRank: { type: Object, required: true },
-    unlocked: { type: Boolean, default: true },
+    inColumn: { type: Boolean, default: false },
   },
 };
 </script>

@@ -53,6 +53,11 @@ const storeRegistry = {
     storeName: 'images',
     description: 'Stores user images',
   }),
+  remoteImages: localforage.createInstance({
+    name: dbName,
+    storeName: 'remote-images',
+    description: 'Stores remotely hosted image urls',
+  }),
 };
 
 const Initialize = async function () {
@@ -100,7 +105,26 @@ const GetAll = async function (collection: string) {
 const GetLength = async function (collection: string) {
   const db = await storeRegistry[collection.toLowerCase()];
 
-  if (db && db._dbInfo) return await db.length();
+  if (db) return await db.length();
+  return 0;
+};
+
+const GetKeys = async function (collection: string) {
+  const db = await storeRegistry[collection.toLowerCase()];
+  console.log(db);
+
+  if (db) return await db.keys();
+  return [];
+};
+
+const AddBlob = async function (collection: string, key: string, blob: Blob) {
+  const db = await storeRegistry[collection.toLowerCase()];
+  return await db.setItem(key, blob);
+};
+
+const GetBlob = async function (collection: string, key: string) {
+  const db = await storeRegistry[collection.toLowerCase()];
+  return await db.getItem(key);
 };
 
 // const convertLocalstorage = async function (): Promise<void> {
@@ -114,4 +138,4 @@ const GetLength = async function (collection: string) {
 //   }
 // };
 
-export { Initialize, SetItem, GetItem, RemoveItem, GetAll, GetLength };
+export { Initialize, SetItem, GetItem, RemoveItem, GetAll, GetLength, GetKeys, AddBlob, GetBlob };

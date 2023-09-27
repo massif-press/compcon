@@ -6,17 +6,12 @@
     @back="$emit('back')"
     @complete="$emit('next')"
   >
-    <cc-title large>Add CORE Bonus&emsp;</cc-title>
+    <cc-title large class="ml-n6">Add CORE Bonus&emsp;</cc-title>
     <h2 class="heading">
       MV-2 License Acquisition Request
       <cc-slashes />
       &nbsp;MV-2(a) CORE Supplemental
     </h2>
-    <div style="position: absolute; right: 16px; top: 16px">
-      <cc-tooltip simple content="Feature In Development">
-        <v-btn small variant="outlined" disabled>Suggest CORE Bonus</v-btn>
-      </cc-tooltip>
-    </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>
         The MV-2(a) Supplemental Amendment registers a major CORE modification, upgrade, retrofit,
@@ -49,8 +44,11 @@
 </template>
 
 <script lang="ts">
+import StepperContent from '../../_components/StepperContent.vue';
+
 export default {
   name: 'core-bonus-page',
+  components: { StepperContent },
   props: {
     pilot: {
       type: Object,

@@ -161,6 +161,8 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
       ? this.MechLoadoutController.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[]);
 
+    console.log(requirements);
+
     if (this._frame.LicenseLevel === 0) {
       const gmsIdx = requirements.findIndex((x) => x.source === 'GMS');
       if (gmsIdx > -1) requirements[gmsIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`);
@@ -185,7 +187,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
 
   // -- Attributes --------------------------------------------------------------------------------
   public get SizeIcon(): string {
-    return `cc:size-${this.Size === 0.5 ? 'half' : this.Size}`;
+    return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`;
   }
 
   public get Size(): number {

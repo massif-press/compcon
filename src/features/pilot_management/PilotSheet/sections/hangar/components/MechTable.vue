@@ -1,14 +1,10 @@
 <template>
-  <v-simple-table
-    density="compact"
-    fixed-header
-    class="mb-4 mt-4 flavor-text panel px-0"
-  >
+  <v-table class="my-4 flavor-text">
     <thead>
       <tr>
         <th class="text-left">Name</th>
+        <th class="text-left">Manufacturer</th>
         <th class="text-left">Frame</th>
-        <th class="text-left">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -17,18 +13,17 @@
           <v-btn
             text
             color="accent"
+            variant="outlined"
             class="heading h3"
             @click="$emit('go', m)"
-            >{{ m.Name }}</v-btn
+            >{{ (m as Mech).Name }}</v-btn
           >
         </td>
-        <td>{{ m.Frame.Source }} {{ m.Frame.Name }}</td>
-        <td>
-          <b :class="getMechStatus(m)[1]">{{ getMechStatus(m)[0] }}</b>
-        </td>
+        <td>{{ (m as Mech).Frame.Source }}</td>
+        <td>{{ (m as Mech).Frame.Name }}</td>
       </tr>
     </tbody>
-  </v-simple-table>
+  </v-table>
 </template>
 
 <script lang="ts">
@@ -39,14 +34,6 @@ export default {
     mechs: {
       type: Array,
       required: true,
-    },
-  },
-  methods: {
-    getMechStatus(m: Mech) {
-      // if (m.Destroyed) return ['DESTROYED', 'text-red text--darken-2']
-      // if (m.ReactorDestroyed) return ['REACTOR DESTROYED', 'text-error']
-      // if (m.IsActive) return ['ACTIVE', 'text-success']
-      return ['STANDBY', 'text-subtle text--darken-2'];
     },
   },
 };

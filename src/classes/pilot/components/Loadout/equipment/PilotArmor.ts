@@ -91,6 +91,27 @@ class PilotArmor extends PilotEquipment {
   public get Icon(): string {
     return 'cc:pilot';
   }
+
+  // for scatter and comparators
+  public get StatsByProfile() {
+    return {
+      Name: this.Name,
+      Source: '',
+      LcpName: this.LcpName,
+      ID: this.ID,
+      Stats: this.Stats,
+    };
+  }
+
+  public get Stats() {
+    return {
+      armor: Number(this.ArmorString),
+      hp: Number(this.HpString),
+      edef: Number(this.EdefString),
+      evasion: Number(this.EvasionString),
+      speed: Number(this.SpeedString),
+    };
+  }
 }
 
 export { PilotArmor };

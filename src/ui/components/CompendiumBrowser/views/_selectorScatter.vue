@@ -12,7 +12,7 @@
             </div>
           </div>
         </v-col>
-        <v-col style="height: calc(100vh - 180px)">
+        <v-col :style="`height: calc(100vh - ${short ? '300px' : '180px'})`">
           <scatter ref="chart" :data="chartData" :options="options" />
         </v-col>
         <v-col cols="12" class="text-center text-caption"
@@ -80,6 +80,11 @@ export default {
       type: Object,
       required: false,
     },
+    short: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   components: { Scatter },
   data: () => ({
@@ -126,6 +131,19 @@ export default {
             { title: 'Save', value: 'save' },
             { title: 'Speed', value: 'speed' },
             { title: 'System Points', value: 'sp' },
+          ];
+        case 'PilotArmor':
+          return [
+            { title: 'Armor', value: 'armor' },
+            { title: 'HP Bonus', value: 'hp' },
+            { title: 'E-Defense', value: 'edef' },
+            { title: 'Evasion', value: 'evasion' },
+            { title: 'Speed', value: 'speed' },
+          ];
+        case 'PilotWeapon':
+          return [
+            { title: 'Range', value: 'range' },
+            { title: 'Total Damage', value: 'damage' },
           ];
         default:
           return [

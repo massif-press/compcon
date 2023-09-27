@@ -5,91 +5,97 @@
     :success="!pilot.CoreBonusController.IsMissingCBs"
   >
     <template #left-column>
-      <v-row v-for="b in pilot.CoreBonusController.CoreBonuses" class="my-2" style="width: 98%">
-        <!-- <missing-item v-if="b.err" @remove="pilot.CoreBonusController.RemoveCoreBonus(b)" /> -->
-        <div>
-          <v-icon small color="accent">cc:corebonus</v-icon>
-          <strong>{{ b.Name }}</strong>
-          <span class="text-overline">{{ b.Source }}</span>
-        </div>
-      </v-row>
-      <v-divider v-if="pilot.CoreBonusController.CoreBonuses.length" class="ma-2 ml-4 mr-4" />
-      <v-row>
-        <v-alert
-          variant="outlined"
-          color="success"
-          icon="check_circle"
-          class="stat-text"
-          style="width: 95%"
-          :value="!pilot.CoreBonusController.IsMissingCBs"
-        >
-          CORE Bonus Selection Complete
-        </v-alert>
-        <v-alert
-          variant="outlined"
-          color="accent"
-          icon="warning"
-          class="stat-text"
-          :value="pilot.CoreBonusController.IsMissingCBs"
-        >
-          {{ pilot.CoreBonusController.CurrentCBPoints }} /
-          {{ pilot.CoreBonusController.MaxCBPoints }} CORE Bonuses selected
-        </v-alert>
-        <div class="my-2">
-          <v-btn
-            block
-            text
-            small
-            :disabled="!pilot.CoreBonusController.CoreBonuses.length"
-            @click="pilot.CoreBonusController.ClearCoreBonuses()"
-          >
-            Reset
+      <v-row
+        v-for="b in pilot.CoreBonusController.CoreBonuses"
+        dense
+        align="center"
+        color="panel"
+        style="width: 100%"
+        class="px-1"
+        @click="scroll(b.ID)"
+      >
+        <v-col cols="auto">
+          <v-icon color="accent" icon="cc:corebonus" />
+        </v-col>
+        <v-col class="mb-n1">
+          <b>{{ b.Name }}</b>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn icon size="x-small" variant="plain" @click="scroll(b.ID)">
+            <v-icon size="25" icon="mdi-menu-right" />
           </v-btn>
-        </div>
+        </v-col>
+      </v-row>
+      <v-divider v-if="pilot.CoreBonusController.CoreBonuses.length" class="ma-2" />
+      <v-row>
+        <v-col class="ma-1">
+          <v-alert
+            v-show="!pilot.CoreBonusController.IsMissingCBs"
+            variant="outlined"
+            color="success"
+            icon="check_circle"
+            class="stat-text"
+            style="width: 95%"
+          >
+            CORE Bonus Selection Complete
+          </v-alert>
+
+          <v-alert
+            v-show="pilot.CoreBonusController.IsMissingCBs"
+            variant="outlined"
+            color="accent"
+            icon="warning"
+            class="stat-text"
+          >
+            {{ pilot.CoreBonusController.CurrentCBPoints }} /
+            {{ pilot.CoreBonusController.MaxCBPoints }} CORE Bonuses selected
+          </v-alert>
+          <div class="my-2">
+            <v-btn
+              block
+              text
+              small
+              :disabled="!pilot.CoreBonusController.CoreBonuses.length"
+              @click="pilot.CoreBonusController.ClearCoreBonuses()"
+            >
+              Reset
+            </v-btn>
+          </div>
+        </v-col>
       </v-row>
     </template>
 
     <template #right-column>
-      <v-expansion-panels>
+      <v-expansion-panels class="pr-4 pt-2">
         <v-expansion-panel
           v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
           class="no-shadow"
         >
-          <v-expansion-panel-header color="panel" class="px-1">
+          <v-expansion-panel-title color="panel" class="px-1">
             <div>
               <v-row
-                no-gutters
                 align="center"
-                :class="`heading ${$vuetify.display.smAndDown ? 'h3' : 'h1'}`"
+                class="heading h1"
                 :style="`color: ${manufacturer.GetColor($vuetify.theme.current.dark)}`"
               >
                 <v-col cols="auto">
-                  <cc-logo
-                    :source="manufacturer"
-                    :size="$vuetify.display.smAndDown ? 'large' : 'xLarge'"
-                  />
+                  <v-icon :icon="manufacturer.Icon" />
                 </v-col>
                 <v-col cols="auto">
                   {{ manufacturer.Name }}
                 </v-col>
               </v-row>
-              <v-alert
+              <v-card
                 variant="outlined"
                 :color="manufacturer.GetColor($vuetify.theme.current.dark)"
-                class="py-3 my-2"
+                class="my-1 pa-3"
               >
-                <v-row class="text-center">
-                  <span
-                    class="flavor-text text-text"
-                    style="width: 100%"
-                    v-html="requirement(manufacturer)"
-                  />
-                </v-row>
-              </v-alert>
+                <div class="flavor-text text-text text-center" v-html="requirement(manufacturer)" />
+              </v-card>
             </div>
-          </v-expansion-panel-header>
+          </v-expansion-panel-title>
 
-          <v-expansion-panel-content color="panel">
+          <v-expansion-panel-text color="panel">
             <core-bonus-select-item
               v-for="b in coreBonuses"
               :bonus="b"
@@ -99,7 +105,7 @@
               @add="pilot.CoreBonusController.AddCoreBonus(b)"
               @remove="pilot.CoreBonusController.RemoveCoreBonus(b)"
             />
-          </v-expansion-panel-content>
+          </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
     </template>
@@ -116,7 +122,7 @@ import { Pilot, CoreBonus, Manufacturer } from '@/class';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
 export default {
-  name: 'CCCoreBonusSelector',
+  name: 'CoreBonusSelector',
   components: { Selector, CoreBonusSelectItem, MissingItem },
   props: {
     pilot: { type: Object, required: true },
@@ -180,7 +186,7 @@ export default {
     },
     availableCount(m: string): number {
       if (m.toUpperCase() === 'GMS') return Infinity;
-      const extraLicenses = Bonus.Int(0, 'cb_point', this.pilot);
+      const extraLicenses = Bonus.Int(0, 'cb_point', this.pilot as Pilot);
       return (
         Math.floor(this.pilot.LicenseController.LicenseLevel(m) / 3) +
         extraLicenses -
@@ -193,8 +199,27 @@ export default {
     isSelected(b: CoreBonus): boolean {
       return this.pilot.has('CoreBonus', b.ID);
     },
-  },
+    scroll(id) {
+      this.scrollTo(`talent_${id}`);
+    },
+    scrollTo(e: any): void {
+      const el = document.getElementById(e);
+      if (el) {
+        const ce = document.getElementById('content-col');
+        if (ce) {
+          const yOffset = -70;
+          const y = el.offsetTop + yOffset;
 
+          ce.scrollTo({ top: y, behavior: 'smooth' });
+        } else {
+          const yOffset = -60;
+          const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }
+    },
+  },
   mounted() {
     this.$emit('update:selectionComplete', this.selectionComplete);
   },

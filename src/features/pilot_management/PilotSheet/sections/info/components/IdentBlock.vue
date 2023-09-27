@@ -12,13 +12,13 @@
         <cc-short-string-editor @set="pilot.Name = $event">{{ pilot.Name }}</cc-short-string-editor>
       </v-col>
       <v-col>
-        <div class="text-overline mb-n3 pb-1 text-subtle">BACKGROUND</div>
+        <div class="text-overline mb-n3 pb-1 text-subtle">
+          BACKGROUND
+          <background-selector small @select="pilot.Background = $event" />
+        </div>
         <cc-short-string-editor class="d-inline" @set="pilot.Background = $event">
           {{ pilot.Background }}
         </cc-short-string-editor>
-        <span>
-          <cc-background-selector small @select="pilot.Background = $event" />
-        </span>
       </v-col>
       <v-col>
         <div class="text-overline mb-n3 pb-1 text-subtle">PLAYER</div>
@@ -28,7 +28,7 @@
       </v-col>
       <v-col>
         <div class="text-overline mb-n3 pb-1 text-subtle">STATUS</div>
-        <span :class="`stat-text ${statusColor()}text-`">{{ pilot.Status }}</span>
+        <span :class="`stat-text ${statusColor()}text-`" class="pr-2">{{ pilot.Status }}</span>
         <cc-combo-select :items="pilotStatuses" @set="pilot.Status = $event" />
       </v-col>
     </v-row>
@@ -37,11 +37,13 @@
 
 <script lang="ts">
 import { Pilot } from '@/class';
+import BackgroundSelector from '../../../../_components/selectors/BackgroundSelector.vue';
 
 // import { Auth } from 'aws-amplify';
 
 export default {
   name: 'ident-block',
+  components: { BackgroundSelector },
   props: {
     pilot: {
       type: Pilot,

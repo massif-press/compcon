@@ -2,8 +2,6 @@ import { defineStore } from 'pinia';
 import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
 import { ItemsMissingLcp, ItemsWithLcp } from '@/io/ContentEvaluator';
 import { Pilot } from '@/class';
-import { PilotData } from '@/interface';
-import { deletePermanent, storeSaveDelta } from '@/util/storeUtils';
 import { PilotGroup, PilotGroupData } from './PilotGroup';
 import { PortraitController, SaveController } from '@/classes/components';
 import _ from 'lodash';
@@ -12,8 +10,6 @@ export const PilotStore = defineStore('pilot', {
   state: () => ({
     PilotGroups: [] as PilotGroup[],
     Pilots: [] as Pilot[],
-    LoadedMechID: '',
-    ActivePilot: null as Pilot | null,
     printOptions: null as PrintOptions | null,
   }),
   getters: {
@@ -31,8 +27,6 @@ export const PilotStore = defineStore('pilot', {
     getPilots: (state: any) => (groupID: string, showDeleted?: boolean) => {
       if (!state.Pilots.length) return [];
       const group = state.PilotGroups.find((x: PilotGroup) => x.ID === groupID);
-
-      console.log(group);
 
       let out = state.Pilots.filter((p) => group.Pilots.map((x) => x.id).includes(p.ID));
 
@@ -114,7 +108,11 @@ export const PilotStore = defineStore('pilot', {
 
       this.SavePilotData();
     },
-
+    SetPilot(index: number, pilot: Pilot): void {
+      if (!this.Pilots[index]) return;
+      this.Pilots.splice(index, 1, pilot);
+      this.SavePilotData();
+    },
     AddGroup(group: PilotGroup): void {
       this.PilotGroups.push(group);
       this.SavePilotData();
@@ -201,9 +199,6 @@ export const PilotStore = defineStore('pilot', {
       }
 
       this.SaveGroupData();
-    },
-    setLoadedMech(payload: string): void {
-      this.LoadedMechID = payload;
     },
     movePilotIndex(group: PilotGroup, from: number, to: number): void {
       this._moveItemInArray(group.Pilots, from, to);

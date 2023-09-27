@@ -35,44 +35,45 @@
     </div>
 
     <template #selector>
-      <v-card-text>
-        <cc-selector
-          itemType="Pilot Gear"
-          :items="weapons"
-          :hidden-items="[]"
-          :equipped="item"
-          :table-headers="headers"
-          @equip="equip($event)"
+      <cc-compendium-browser
+        :items="weapons"
+        item-type="PilotWeapon"
+        :options="options"
+        equippable
+        @equip="equip($event)"
+      >
+        <template #header>
+          <div class="heading h4 text-center text-primary">Select Pilot Weapon</div></template
         >
-          <template #header>
-            <div v-if="item">
-              <span class="text-overline">
-                GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-                <span class="text-success text--darken-1">
-                  [ PILOT ARMAMENT REGISTRATION VERIFIED ]
-                </span>
+
+        <template #top>
+          <div v-if="item">
+            <span class="text-overline">
+              GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              <span class="text-success text--darken-1">
+                [ PILOT ARMAMENT REGISTRATION VERIFIED ]
               </span>
-              <br />
-              <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
-              <span class="flavor-text overline mt-n1" style="display: block"
-                >CURRENTLY EQUIPPED</span
-              >
-            </div>
-            <div v-else>
-              <span class="text-overline">
-                GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)
-              </span>
-              <br />
-              <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
-                NO SELECTION
-              </span>
-              <span class="flavor-text overline mt-n1 text-error" style="display: block">
-                [ MATERIEL ID INVALID OR MISSING ]
-              </span>
-            </div>
-          </template>
-        </cc-selector>
-      </v-card-text>
+            </span>
+            <br />
+            <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
+            <span class="flavor-text overline mt-n1" style="display: block"
+              >CURRENTLY EQUIPPED</span
+            >
+          </div>
+          <div v-else>
+            <span class="text-overline">
+              GMS ARMORY EQUIPMENT AUTHORIZATION: PILOT/PERSONAL ARMAMENT::S0 - S3(LTD)
+            </span>
+            <br />
+            <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
+              NO SELECTION
+            </span>
+            <span class="flavor-text overline mt-n1 text-error" style="display: block">
+              [ MATERIEL ID INVALID OR MISSING ]
+            </span>
+          </div>
+        </template>
+      </cc-compendium-browser>
     </template>
   </pl-card-base>
 </template>
@@ -108,10 +109,19 @@ export default {
   },
   data: () => ({
     headers: [
-      { title: 'Item', align: 'left', value: 'Name' },
-      { title: 'Range', align: 'left', value: 'Range' },
-      { title: 'Damage', align: 'left', value: 'Damage' },
+      { title: 'Content Pack', key: 'LcpName' },
+      { title: 'Type', key: 'Type' },
+      { title: 'Item', key: 'Name' },
+      { title: 'Range', key: 'Range' },
+      { title: 'Damage', key: 'Damage' },
     ],
+    options: {
+      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+      initialView: 'single',
+      groups: ['lcp', 'type'],
+      initialGroup: 'type',
+      noSource: true,
+    },
   }),
   computed: {
     exotics(): PilotWeapon[] {

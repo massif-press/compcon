@@ -104,11 +104,6 @@ export default {
       type: Boolean,
     },
   },
-  computed: {
-    mobile() {
-      return this.$vuetify.display.smAndDown;
-    },
-  },
   methods: {
     toPilotSheet() {
       this.$emit('goTo', this.pilot.ID);

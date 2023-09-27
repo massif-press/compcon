@@ -20,7 +20,7 @@
         <v-row dense align="center" class="mt-1">
           <v-col cols="auto">
             {{ talent.Name }}
-            <span v-if="rank" class="flavor-text text-white">
+            <span v-if="rank" class="flavor-text text-white pr-6">
               <cc-slashes />
               RANK {{ 'I'.repeat(Number(rank)) }}
             </span>
@@ -33,20 +33,14 @@
           >
             {{ talent.LcpName }}
           </v-col>
-          <v-col cols="auto" class="mr-8 mt-n1">
-            <v-btn
-              size="30"
-              icon
-              color="white"
-              class="fade-select"
-              @click="$emit('expand', 'full')"
-            >
-              <v-icon size="x-small" icon="mdi-arrow-expand" />
+          <v-col v-if="!hideChange" cols="auto" class="mr-8 mt-n1">
+            <v-btn size="small" icon color="white" variant="plain" @click="$emit('expand', 'full')">
+              <v-icon icon="mdi-arrow-expand" />
             </v-btn>
           </v-col>
         </v-row>
       </div>
-      <div :class="$vuetify.display.mdAndUp ? 'box-outline px-2 py-1' : 'px-2'">
+      <div class="box-outline px-2">
         <div v-if="showFull" class="flavor-text mb-2 px-3">{{ talent.Terse }}</div>
         <div v-else style="height: 30px" />
         <v-row align="center" justify="space-around" class="text-center" density="compact">
@@ -120,16 +114,14 @@
         </v-row>
       </div>
     </v-col>
-    <v-col v-if="hideLocked" cols="12" class="ma-0 pa-0 mt-n8 ml-n2">
-      <v-row no-gutters>
-        <v-col cols="auto" class="ml-auto">
-          <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
-            <v-btn small icon class="fade-select" @click="showAll = !showAll">
-              <v-icon small>mdi-eye</v-icon>
-            </v-btn>
-          </cc-tooltip>
-        </v-col>
-      </v-row>
+    <v-col v-if="hideLocked" cols="12" style="position: relative">
+      <div style="position: absolute; bottom: -4px; right: -4px">
+        <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
+          <v-btn size="small" icon variant="plain" @click="showAll = !showAll">
+            <v-icon>mdi-eye</v-icon>
+          </v-btn>
+        </cc-tooltip>
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -146,6 +138,7 @@ export default {
     talent: { type: Object, required: true },
     canAdd: { type: Boolean },
     selectable: { type: Boolean },
+    hideChange: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
   emits: ['expand', 'add', 'remove'],

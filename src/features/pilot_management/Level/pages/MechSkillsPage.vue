@@ -6,17 +6,12 @@
     @back="$emit('back')"
     @complete="$emit('next')"
   >
-    <cc-title large>Improve Mech Skills&emsp;</cc-title>
+    <cc-title large class="ml-n6">Improve Mech Skills&emsp;</cc-title>
     <h2 class="heading">
       MV-2 License Acquisition Request
       <cc-slashes />
       &nbsp;MV-2//c Frame Configuration Update
     </h2>
-    <div style="position: absolute; right: 16px; top: 16px">
-      <cc-tooltip simple content="Feature In Development">
-        <v-btn small variant="outlined" disabled>Suggest Mech Skills</v-btn>
-      </cc-tooltip>
-    </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>
         On acceptance of the MV-2//c Frame Configuration Update the Union IDENT//eng subsystem will
@@ -35,13 +30,18 @@
         </span>
       </v-alert>
     </v-container>
-    <cc-mech-skills-selector level-up :pilot="pilot" />
+    <mech-skills-selector level-up :pilot="(pilot as Pilot)" />
   </stepper-content>
 </template>
 
 <script lang="ts">
+import MechSkillsSelector from '../../_components/selectors/MechSkillsSelector.vue';
+import { Pilot } from '@/class';
+import StepperContent from '../../_components/StepperContent.vue';
+
 export default {
   name: 'mech-skills-page',
+  components: { MechSkillsSelector, StepperContent },
   props: {
     pilot: {
       type: Object,

@@ -1,10 +1,5 @@
-import { PilotEquipment, Range, Damage, ItemType, DamageType } from '@/class';
-import {
-  IPilotEquipmentData,
-  IRangeData,
-  IDamageData,
-  ITagCompendiumData,
-} from '@/interface';
+import { PilotEquipment, Range, Damage, ItemType, DamageType, RangeType } from '@/class';
+import { IPilotEquipmentData, IRangeData, IDamageData, ITagCompendiumData } from '@/interface';
 
 interface IPilotWeaponData extends IPilotEquipmentData {
   range: IRangeData[];
@@ -17,11 +12,7 @@ class PilotWeapon extends PilotEquipment {
   public readonly Damage: Damage[];
   public readonly Effect: string;
 
-  public constructor(
-    data: IPilotWeaponData,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
+  public constructor(data: IPilotWeaponData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName);
     this.Range = data.range.map((x) => new Range(x));
     this.Damage = data.damage.map((x) => new Damage(x));
@@ -30,7 +21,7 @@ class PilotWeapon extends PilotEquipment {
   }
 
   public get DamageTypeOverride(): string {
-    return this._custom_damage_type || null;
+    return this._custom_damage_type || '';
   }
 
   public set DamageTypeOverride(val: string) {
@@ -57,6 +48,36 @@ class PilotWeapon extends PilotEquipment {
   public get Icon(): string {
     return 'cc:pilot';
   }
+
+  public DamageSum(type?: DamageType) {
+    if (!this.Damage) return 0;
+    return this.Damage.reduce((a, b) => a + b.ToNumber(type), 0);
+  }
+
+  public RangeSum(type?: RangeType) {
+    if (!this.Range) return 0;
+    if (!type) return Math.max(...this.Range.map((r) => r.Max));
+    return this.Range.find((x) => x.Type === type)?.Max || 0;
+  }
+
+  // for scatter and comparators
+  public get StatsByProfile() {
+    return {
+      Name: this.Name,
+      Source: '',
+      LcpName: this.LcpName,
+      ID: this.ID,
+      Stats: this.Stats,
+    };
+  }
+
+  public get Stats() {
+    return {
+      range: this.RangeSum(),
+      damage: this.DamageSum(),
+    };
+  }
 }
 
-export { PilotWeapon, IPilotWeaponData };
+export { PilotWeapon };
+export type { IPilotWeaponData };

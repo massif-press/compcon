@@ -37,16 +37,20 @@
         </div>
       </v-alert>
     </v-container>
-    <cc-skill-selector level-up :pilot="pilot" />
+    <skill-selector level-up :pilot="(pilot as Pilot)" />
   </stepper-content>
 </template>
 
 <script lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
+import SkillSelector from '../../_components/selectors/SkillSelector.vue';
+import { Pilot } from '@/class';
+
 export default {
   name: 'skills-page',
   components: {
     StepperContent,
+    SkillSelector,
   },
   props: {
     pilot: {

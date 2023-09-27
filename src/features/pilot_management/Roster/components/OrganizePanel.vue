@@ -1,7 +1,17 @@
 <template>
   <div class="py-3">
-    <v-row dense justify="end" align="end" class="px-5">
-      <v-col class="text-caption"
+    <v-row dense justify="space-between" align="center" class="px-5">
+      <v-col cols="auto">
+        <v-switch
+          v-model="showDeleted"
+          label="Show Deleted"
+          density="compact"
+          color="accent"
+          inset
+          hide-details
+        />
+      </v-col>
+      <v-col cols="auto" class="text-caption"
         ><i
           >{{ allPilots - deletedPilots }}
           <span v-if="deletedPilots" class="text-error">({{ deletedPilots }})</span> pilots in
@@ -75,7 +85,6 @@
           </v-list>
         </v-menu>
       </v-col>
-      <v-col cols="auto"> </v-col>
     </v-row>
     <v-container>
       <sortable
@@ -90,7 +99,7 @@
         @end="moveGroup($event)"
       >
         <template #item="{ element, index }">
-          <v-row dense>
+          <v-row dense v-show="!showDeleted ? !element.deleted : true">
             <v-col cols="auto">
               <v-icon size="40" icon="mdi-drag" class="handle pa-0 mr-n3" />
             </v-col>
@@ -201,7 +210,12 @@
                     @end="movePilot(element, $event)"
                   >
                     <template #item="{ element, index }">
-                      <v-card variant="tonal" color="primary" class="my-1">
+                      <v-card
+                        v-show="!showDeleted ? !element.deleted : true"
+                        variant="tonal"
+                        color="primary"
+                        class="my-1"
+                      >
                         <v-row dense align="center" class="draggable text-text" :key="element">
                           <v-col cols="auto">
                             <v-icon size="large" icon="mdi-drag" class="handle" />
@@ -260,8 +274,6 @@
 import _ from 'lodash';
 import { UserStore, PilotStore } from '@/stores';
 import { Sortable } from 'sortablejs-vue3';
-import { PilotGroup } from '../../store/PilotGroup';
-import { group } from 'console';
 
 const moveItemInArray = <T>(array: T[], from: number, to: number) => {
   const item = array.splice(from, 1)[0];
@@ -276,6 +288,7 @@ export default {
   data: () => ({
     list: [] as any[],
     dirty: false,
+    showDeleted: true,
   }),
   emits: ['close'],
   created() {

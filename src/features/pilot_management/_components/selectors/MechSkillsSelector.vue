@@ -43,7 +43,7 @@ import { Pilot, HASE } from '@/class';
 import HaseSkillItem from './components/_HaseSkillItem.vue';
 
 export default {
-  name: 'cc-mech-skills-selector',
+  name: 'mech-skills-selector',
   components: { HaseSkillItem },
   props: {
     pilot: { type: Pilot, required: true },

@@ -7,6 +7,8 @@
       :can-add="canAdd"
       :hide-locked="hideLocked"
       :talent="talent"
+      :in-column="inColumn"
+      :hide-change="hideChange"
       @expand="expand = $event"
       @clicked="$emit('clicked')"
       @add="$emit('add')"
@@ -37,6 +39,8 @@ export default {
     small: { type: Boolean },
     terse: { type: Boolean },
     selectable: { type: Boolean },
+    inColumn: { type: Boolean },
+    hideChange: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
   emits: ['expand', 'clicked', 'add', 'remove'],

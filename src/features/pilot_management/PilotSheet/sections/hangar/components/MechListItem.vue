@@ -1,10 +1,13 @@
 <template>
-  <div id="pc-wrapper" @click="$emit('go', mech)">
+  <v-card
+    id="pc-wrapper"
+    variant="outlined"
+    :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
+    @click="$emit('go', mech)"
+  >
     <v-card
       tile
-      :color="
-        mech.IsActive ? 'success' : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
-      "
+      :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
       style="position: absolute; z-index: 5"
       class="overlay clipped-square-invert"
       min-width="138px"
@@ -18,69 +21,23 @@
       <div
         style="width: 100%"
         class="overlay"
-        :style="`background-color: ${
-          mech.IsActive
-            ? 'rgb(var(--v-theme-success))'
-            : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
-        }`"
+        :style="`background-color: ${mech.Frame.Manufacturer.GetColor(
+          $vuetify.theme.current.dark
+        )}`"
       >
         <v-row no-gutters>
           <span class="heading h2 callsign" style="margin-left: 138px">{{ mech.Name }}</span>
-          <v-fade-transition>
-            <span
-              v-if="mech.IsActive"
-              v-show="$vuetify.display.mdAndUp"
-              class="heading h2 callsign ml-auto pr-10"
-            >
-              / / ACTIVE / /&nbsp;
-            </span>
-          </v-fade-transition>
         </v-row>
       </div>
-      <div style="border-top: 0 !important" class="light-panel clipped">
-        <div style="margin-left: 138px; padding-left: 8px; min-height: 100px">
-          <p class="flavor-text mb-0">
-            <v-row no-gutters>
-              <v-col cols="auto">
-                <b>{{ mech.Frame.Source }} {{ mech.Frame.Name }}</b>
-              </v-col>
-              <v-col cols="auto" class="ml-auto mr-4">
-                <cc-tooltip simple inline content="Delete Mech">
-                  <v-btn
-                    small
-                    icon
-                    class="fade-select"
-                    color="error"
-                    @click.stop="($refs as any).delete.show()"
-                  >
-                    <v-icon small>delete</v-icon>
-                  </v-btn>
-                </cc-tooltip>
-                <cc-tooltip simple inline content="Duplicate Mech">
-                  <v-btn small icon class="fade-select" @click.stop="($refs as any).copy.show()">
-                    <v-icon small>mdi-content-copy</v-icon>
-                  </v-btn>
-                </cc-tooltip>
-                <cc-tooltip simple inline content="Print Mech Sheet">
-                  <v-btn small icon class="fade-select" @click.stop="($refs as any).print.show()">
-                    <v-icon small>mdi-printer</v-icon>
-                  </v-btn>
-                </cc-tooltip>
-                <cc-tooltip simple inline content="Set As Active Mech">
-                  <v-btn
-                    small
-                    icon
-                    class="fade-select"
-                    :disabled="mech.Pilot.ActiveMech === mech"
-                    @click.stop="mech.Pilot.ActiveMech = mech"
-                  >
-                    <v-icon icon="cc:activate" />
-                  </v-btn>
-                </cc-tooltip>
-              </v-col>
-            </v-row>
-            <v-row no-gutters class="mt-n2">
-              <v-col cols="auto">
+      <div style="border-top: 0" class="light-panel">
+        <div style="margin-left: 137px; margin-top: -1px; padding-left: 8px; min-height: 100px">
+          <div class="flavor-text text-text">
+            <v-row align="center">
+              <v-col>
+                <div class="heading h5 pt-1 mb-n1">
+                  {{ mech.Frame.Source }} {{ mech.Frame.Name }}
+                </div>
+
                 <fieldset class="px-3">
                   <legend class="px-2">
                     Loadout//{{
@@ -89,18 +46,18 @@
                         : 'ERR'
                     }}
                   </legend>
-                  <div v-if="mech.MechLoadoutController.ActiveLoadout">
+                  <div v-if="mech.MechLoadoutController.ActiveLoadout" class="pb-3">
                     <span v-for="(item, i) in loadoutWeapons">
-                      {{ item }}
+                      <span v-html="item" />
+                      <cc-slashes v-if="i + 1 < loadoutWeapons.length" class="px-2" />
                     </span>
                     <br />
                     <span v-for="(item, i) in loadoutSystems">
-                      {{ i > 0 ? ' - ' : '' }}{{ item }}
+                      {{ i > 0 ? ' - ' : '' }} <span v-html="item" />
                     </span>
                   </div>
                 </fieldset>
-                <!-- TODO: add charts -->
-                <v-row v-show="$vuetify.display.mdAndUp" no-gutters justify="space-around">
+                <v-row no-gutters justify="space-around">
                   <v-col cols="auto">
                     <span class="text-overline">
                       STR
@@ -137,44 +94,44 @@
                   </v-col>
                 </v-row>
               </v-col>
-              <v-col cols="auto" class="text-white flavor-text">
-                <v-alert
-                  v-if="mech.Destroyed"
-                  color="error"
-                  density="compact"
-                  tile
-                  class="text-center"
-                >
-                  <span style="letter-spacing: 5px">// DESTROYED //</span>
-                </v-alert>
-                <v-alert
-                  v-if="mech.MeltdownImminent"
-                  color="orange"
-                  density="compact"
-                  tile
-                  class="text-center"
-                >
-                  <span style="letter-spacing: 5px">// REACTOR CRITICAL //</span>
-                </v-alert>
-                <v-alert
-                  v-if="mech.ReactorDestroyed"
-                  color="accent"
-                  density="compact"
-                  tile
-                  class="text-center"
-                >
-                  <span style="letter-spacing: 5px">// REACTOR DESTROYED //</span>
-                </v-alert>
+              <v-col cols="auto" class="pr-8">
+                <cc-tooltip simple content="Delete Mech">
+                  <v-btn
+                    size="small"
+                    icon
+                    variant="plain"
+                    color="error"
+                    @click.stop="($refs as any).delete.show()"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+                <cc-tooltip simple content="Duplicate Mech">
+                  <v-btn size="small" icon variant="plain" @click.stop="($refs as any).copy.show()">
+                    <v-icon>mdi-content-copy</v-icon>
+                  </v-btn>
+                </cc-tooltip>
+                <cc-tooltip simple content="Print Mech Sheet">
+                  <v-btn
+                    size="small"
+                    icon
+                    variant="plain"
+                    @click.stop="($refs as any).print.show()"
+                  >
+                    <v-icon>mdi-printer</v-icon>
+                  </v-btn>
+                </cc-tooltip>
               </v-col>
             </v-row>
-          </p>
+          </div>
         </div>
       </div>
     </div>
+
     <copy-mech-dialog ref="copy" :mech="mech" @copy="$emit('copy', mech)" />
     <delete-mech-dialog ref="delete" :mech="mech" @delete="$emit('delete', mech)" />
     <print-dialog ref="print" :pilot="mech.Pilot" />
-  </div>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -193,25 +150,26 @@ export default {
   },
   computed: {
     loadoutWeapons() {
-      const output = [];
+      const output = [] as string[];
       for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
         this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
         this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       )) {
         if (!mount.IsLocked) {
-          let str = `${mount.Name}:`;
+          let str = `<i style="opacity:0.5">${mount.Name}</i>:`;
           if (!mount.Weapons.length) str += ' EMPTY';
           else {
             mount.Weapons.forEach((w, i) => {
-              str += ` ${w.Name}`;
-              if (w.Mod) str += ` (${w.Mod.Name})`;
-              if (i + 1 < mount.Weapons.length) str += '/';
+              str += ` ${w._name}`;
+              if (w.Mod) str += ` (${w.Mod._name})`;
+              if (i + 1 < mount.Weapons.length) str += ' /';
             });
           }
           output.push(str);
         }
       }
+
       return output;
     },
     loadoutSystems() {
@@ -228,6 +186,7 @@ export default {
   min-width: 100%;
   cursor: pointer;
   margin-bottom: 12px;
+  border-radius: 0;
 }
 
 .callsign {

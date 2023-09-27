@@ -67,18 +67,8 @@ import CCBonusDisplay from './components/panels/loadout/mech_loadout/CCBonusDisp
 import CCMechLoadout from './components/panels/loadout/mech_loadout/CCMechLoadout.vue';
 import CCSynergyDisplay from './components/panels/loadout/mech_loadout/CCSynergyDisplay.vue';
 import CCPilotLoadout from './components/panels/loadout/pilot_loadout/CCPilotLoadout.vue';
-import CCBackgroundSelector from './components/selectors/CCBackgroundSelector.vue';
-import CCCoreBonusSelector from './components/selectors/CCCoreBonusSelector.vue';
-import CCEquipmentSelector from './components/selectors/CCEquipmentSelector.vue';
-import CCExoticSelector from './components/selectors/CCExoticSelector.vue';
 import CCImageSelector from './components/selectors/CCImageSelector.vue';
-import CCLicenseSelector from './components/selectors/CCLicenseSelector.vue';
-import CCMechSkillsSelector from './components/selectors/CCMechSkillsSelector.vue';
-import CCReserveSelector from './components/selectors/CCReserveSelector.vue';
 import CCSelectorTable from './components/selectors/CCSelectorTable.vue';
-import CCSimpleImageSelector from './components/selectors/CCSimpleImageSelector.vue';
-import CCSkillSelector from './components/selectors/CCSkillSelector.vue';
-import CCTalentSelector from './components/selectors/CCTalentSelector.vue';
 import CCRefStressTable from './components/tables/CCRefStressTable.vue';
 import CCRefStructureTable from './components/tables/CCRefStructureTable.vue';
 import CCStressTable from './components/tables/CCStressTable.vue';
@@ -164,18 +154,8 @@ export {
   CCMechLoadout,
   CCSynergyDisplay,
   CCPilotLoadout,
-  CCBackgroundSelector,
-  CCCoreBonusSelector,
-  CCEquipmentSelector,
-  CCExoticSelector,
   CCImageSelector,
-  CCLicenseSelector,
-  CCMechSkillsSelector,
-  CCReserveSelector,
   CCSelectorTable,
-  CCSimpleImageSelector,
-  CCSkillSelector,
-  CCTalentSelector,
   CCRefStressTable,
   CCRefStructureTable,
   CCStressTable,

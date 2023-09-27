@@ -30,11 +30,7 @@
         </v-col>
       </v-row>
       <v-slide-y-transition>
-        <v-row
-          v-show="skillRoll"
-          justify="center"
-          class="text-center flavor-text"
-        >
+        <v-row v-show="skillRoll" justify="center" class="text-center flavor-text">
           <v-col cols="10">
             <p
               v-if="skillRoll < 10"
@@ -59,9 +55,7 @@
             />
             <v-card color="panel" flat tile class="ml-5 mr-5">
               <v-toolbar dark density="compact" color="action--downtime">
-                <v-toolbar-title class="heading h2"
-                  >Bought Time</v-toolbar-title
-                >
+                <v-toolbar-title class="heading h2">Bought Time</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
                 <v-textarea
@@ -85,7 +79,7 @@
       <v-btn
         large
         tile
-        color="primary"
+        color="accent"
         :disabled="skillRoll === '' || details === ''"
         @click="addReserve()"
       >
@@ -114,8 +108,7 @@ export default {
         type: 'Resource',
         name: 'Bought Time',
         label: '',
-        description:
-          'More time and breathing room for you and your group to act',
+        description: 'More time and breathing room for you and your group to act',
         resource_note: this.details,
         resource_cost: '',
         resource_name: '',
@@ -123,8 +116,7 @@ export default {
         consumable: true,
       });
       if (this.skillRoll < 10)
-        nr.ResourceCost =
-          'Only a little time, and only if drastic measures are taken right now';
+        nr.ResourceCost = 'Only a little time, and only if drastic measures are taken right now';
       else if (this.skillRoll < 20)
         nr.ResourceCost = 'The situation becomes precarious or desperate';
       this.pilot.ReservesController.AddReserve(nr);

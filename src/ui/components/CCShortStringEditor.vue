@@ -1,19 +1,16 @@
 <template>
   <v-fade-transition leave-absolute>
-    <div v-if="!editing" key="str" :class="{ 'd-inline': inline }">
-      <slot />
-      <v-icon
-        :dark="before || dark"
-        size="x-small"
-        :end="right"
-        :start="left"
-        :class="`fade-select ${before ? 'mt-n12' : ''}`"
-        @click="edit()"
-      >
-        mdi-circle-edit-outline
-      </v-icon>
-    </div>
-    <div v-else key="editname" :class="{ 'd-inline': inline }">
+    <v-row no-gutters v-if="!editing" justify="center" align="end" key="str">
+      <v-col cols="auto">
+        <slot />
+      </v-col>
+      <v-col cols="auto">
+        <v-btn size="x-small" icon variant="plain" @click="edit()">
+          <v-icon size="20" icon="mdi-circle-edit-outline" />
+        </v-btn>
+      </v-col>
+    </v-row>
+    <div v-else key="editname">
       <v-text-field
         v-model="newStr"
         :density="large ? 'comfortable' : 'compact'"
@@ -35,12 +32,7 @@ export default {
   name: 'cc-short-string-editor',
   props: {
     placeholder: { type: String, required: false },
-    inline: { type: Boolean },
     large: { type: Boolean },
-    before: { type: Boolean },
-    dark: { type: Boolean },
-    right: { type: Boolean },
-    left: { type: Boolean },
   },
   data: () => ({
     newStr: '',

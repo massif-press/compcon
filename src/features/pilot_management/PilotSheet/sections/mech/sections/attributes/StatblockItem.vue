@@ -1,5 +1,5 @@
 <template>
-  <v-col cols="4" md="" class="text-center flavor-text">
+  <v-col class="text-center flavor-text">
     <v-card flat tile class="ma-1 clipped" color="panel darken-1">
       <v-card-text
         class="text-white heading h3 pa-0"

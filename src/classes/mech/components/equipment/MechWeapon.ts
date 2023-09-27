@@ -20,7 +20,6 @@ import {
   ISynergyData,
   ICounterData,
   ITagCompendiumData,
-  IMechWeaponSaveData,
   Action,
   ICompendiumItemData,
 } from '@/interface';
@@ -45,6 +44,14 @@ interface IMechWeaponData extends IMechEquipmentData {
   selected_profile: number;
   mod_type_override?: WeaponType;
   mod_size_override?: WeaponSize;
+}
+
+interface IMechWeaponSaveData extends IEquipmentData {
+  loaded: boolean;
+  mod?: IEquipmentData;
+  customDamageType?: string;
+  maxUseOverride?: number;
+  selectedProfile: number;
 }
 
 interface IWeaponProfileData {
@@ -133,19 +140,24 @@ class MechWeapon extends MechEquipment {
     this.ModType = data.mod_type_override ? data.mod_type_override : data.type;
     this.Skirmish =
       data.skirmish != undefined ? data.skirmish : data.mount !== WeaponSize.Superheavy;
-    this.Barrage = data.barrage != undefined ? data.skirmish : true;
-    this.NoAttack = data.no_attack;
-    this.NoCoreBonus = data.no_core_bonus;
+    this.Barrage = data.barrage != undefined ? data.skirmish ?? false : true;
+    this.NoAttack = data.no_attack || false;
+    this.NoCoreBonus = data.no_core_bonus || false;
     if (data.profiles && data.profiles.length) {
       this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, packTags, i));
     } else {
       this.Profiles = [new WeaponProfile(data, this, packTags)];
     }
+    this._name = data.name;
     this._selected_profile = 0;
     this._mod = null;
     this.ItemType = ItemType.MechWeapon;
     this.max_use_override = 0;
     this._custom_damage_type = null;
+  }
+
+  public get Name(): string {
+    return this._name;
   }
 
   public get TotalSP(): number {
@@ -297,7 +309,7 @@ class MechWeapon extends MechEquipment {
   }
 
   public set Mod(mod: WeaponMod | null) {
-    this._mod = mod ? CompendiumItem.Clone(mod) : null;
+    this._mod = mod ? (CompendiumItem.Clone(mod) as WeaponMod) : null;
   }
 
   public get Mod(): WeaponMod | null {
@@ -347,7 +359,7 @@ class MechWeapon extends MechEquipment {
       cascading: item.IsCascading,
       loaded: item.Loaded,
       note: item.Note,
-      mod: item.Mod ? WeaponMod.Serialize(item.Mod) : null,
+      mod: item.Mod ? (WeaponMod.Serialize(item.Mod) as IEquipmentData) : null,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || null,
@@ -364,14 +376,15 @@ class MechWeapon extends MechEquipment {
     item._loaded = data.loaded || true;
     item._mod = data.mod ? WeaponMod.Deserialize(data.mod) : null;
     item._note = data.note;
-    item._flavor_name = data.flavorName;
-    item._flavor_description = data.flavorDescription;
+    item._flavor_name = data.flavorName || '';
+    item._flavor_description = data.flavorDescription || '';
     item._custom_damage_type = data.customDamageType || null;
-    item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride) || 0;
-    item.Uses = MechWeapon.SanitizeUsesInput(data.uses) || 0;
+    item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride || 0);
+    item.Uses = MechWeapon.SanitizeUsesInput(data.uses || 0);
     item._selected_profile = data.selectedProfile || 0;
     return item;
   }
 }
 
-export { MechWeapon, IMechWeaponData };
+export { MechWeapon };
+export type { IMechWeaponData, IMechWeaponSaveData };

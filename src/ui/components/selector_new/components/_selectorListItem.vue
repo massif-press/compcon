@@ -10,7 +10,7 @@
         @click="$emit('equip', item)"
       >
         <cc-tooltip simple :content="equipped ? 'Item Equipped' : `Equip ${item.Name}`">
-          <v-icon size="70" icon="cc:accuracy" />
+          <v-icon size="70" icon="mdi-plus" />
         </cc-tooltip>
       </v-btn>
     </v-col>

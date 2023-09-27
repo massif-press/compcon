@@ -116,21 +116,23 @@
       <slot name="selector" />
     </cc-solo-dialog>
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
-      <cc-item-card :item="item" />
-      <slot name="detail" />
-      <div v-if="item">
-        <v-textarea
-          v-model="item.Note"
-          variant="outlined"
-          auto-grow
-          rows="2"
-          filled
-          density="compact"
-          hide-details
-          prepend-icon="mdi-note"
-          label="Equipment Notes"
-          class="mt-2"
-        />
+      <div class="py-2 px-4">
+        <cc-item-card :item="item" />
+        <slot name="detail" />
+        <div v-if="item">
+          <v-textarea
+            v-model="item.Note"
+            variant="outlined"
+            auto-grow
+            rows="2"
+            filled
+            density="compact"
+            hide-details
+            prepend-icon="mdi-note"
+            label="Equipment Notes"
+            class="mt-2"
+          />
+        </div>
       </div>
     </cc-solo-dialog>
     <cc-string-edit-dialog

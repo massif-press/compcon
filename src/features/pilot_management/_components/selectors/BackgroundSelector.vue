@@ -1,5 +1,5 @@
 <template>
-  <v-icon :small="small" color="secondary" @click="open()">cc:orbit</v-icon>
+  <v-icon :small="small" color="secondary" class="fade-select" @click="open()">cc:orbit</v-icon>
   <cc-solo-dialog id="bs-dialog" ref="dialog" fullscreen no-confirm title="Select Pilot Background">
     <cc-compendium-browser
       :items="backgrounds"
@@ -27,7 +27,7 @@ import SidebarArrayView from '@/features/compendium/components/SidebarArrayView.
 import { CompendiumStore } from '@/stores';
 
 export default {
-  name: 'cc-background-selector',
+  name: 'background-selector',
   components: { SidebarArrayView },
   props: {
     small: {

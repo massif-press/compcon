@@ -2,7 +2,7 @@
   <div class="mb-4">
     <v-row no-gutters>
       <v-col cols="auto">
-        <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
+        <section-header title="Talents">
           <section-edit-chip
             :highlight="!pilot.TalentsController.HasFullTalents"
             :current="pilot.TalentsController.CurrentTalentPoints"
@@ -10,8 +10,7 @@
             :label="`Edit Pilot Talents (${pilot.TalentsController.CurrentTalentPoints}/${pilot.TalentsController.MaxTalentPoints})`"
             @open-selector="($refs as any).talentSelector.show()"
           />
-          Talents
-        </cc-title>
+        </section-header>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <v-btn-toggle v-model="ctype" mandatory>
@@ -24,7 +23,7 @@
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.TalentsController.Talents.length" />
-      <v-row v-else density="compact" justify="center">
+      <v-row v-else dense justify="space-around">
         <cc-talent
           v-for="(t, i) in pilot.TalentsController.Talents"
           hide-locked
@@ -32,6 +31,8 @@
           :rank="t.Rank"
           :terse="ctype === 'terse'"
           :small="ctype === 'small'"
+          in-column
+          hide-change
         />
       </v-row>
     </v-container>
@@ -42,20 +43,23 @@
       title="Set Pilot Talents"
       fullscreen
     >
-      <cc-talent-selector :pilot="pilot" />
+      <talent-selector :pilot="(pilot as Pilot)" modal />
     </cc-solo-dialog>
   </div>
 </template>
 
 <script lang="ts">
+import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
+import TalentSelector from '@/features/pilot_management/_components/selectors/TalentSelector.vue';
+import { Pilot } from '@/class';
 
 import { UserStore } from '@/stores';
 
 export default {
   name: 'skill-block',
-  components: { SectionEditChip, NoDataBlock },
+  components: { SectionHeader, SectionEditChip, NoDataBlock, TalentSelector },
   props: {
     pilot: {
       type: Object,
@@ -68,7 +72,8 @@ export default {
     },
     ctype: {
       get: function (): string {
-        return this.profile.GetView('talents');
+        return this.profile.View('talents');
+        // return this.profile.GetView('talents');
       },
       set: function (newval: string) {
         this.profile.SetView('talents', newval);

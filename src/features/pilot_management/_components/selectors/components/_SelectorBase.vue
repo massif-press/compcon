@@ -9,7 +9,9 @@
       </div>
     </v-col>
     <v-col ref="content" cols="9">
-      <slot name="right-column" />
+      <div id="content-col" :class="modal ? 'fixed-window' : ''">
+        <slot name="right-column" />
+      </div>
     </v-col>
   </v-row>
 </template>
@@ -38,6 +40,10 @@ export default {
       type: Boolean,
       required: false,
     },
+    modal: {
+      type: Boolean,
+      required: false,
+    },
   },
   data: () => ({
     floating: false,
@@ -57,5 +63,12 @@ export default {
   position: fixed;
   top: 60px;
   max-width: 20vw;
+}
+
+.fixed-window {
+  max-height: calc(100vh - 125px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 16px;
 }
 </style>

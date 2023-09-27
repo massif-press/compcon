@@ -10,18 +10,22 @@
         class="ma-1"
         v-bind="props"
       >
-        <v-icon start>cc:rank_{{ license.rank }}</v-icon>
-        {{ license.source }} {{ license.name }} {{ 'I'.repeat(license.rank) }}
+        <span v-if="license.name === 'GMS'"> <v-icon start icon="mdi-check" /> GMS </span>
+        <span v-else>
+          <v-icon start :icon="`cc:rank_${license.rank}`" />
+          {{ license.source }} {{ license.name }} {{ 'I'.repeat(license.rank) }}
+        </span>
       </v-chip>
     </template>
 
-    <v-card tile>
+    <v-card width="40vw">
       <v-card-title v-if="license.missing" class="error text-white font-weight-bolder py-1 my-0">
         WARNING: LICENSE MISSING&emsp;
       </v-card-title>
       <v-card-text class="pa-2 text-text">
-        <b>{{ license.name }} RANK {{ license.rank }}</b>
-        <br />
+        <b v-if="license.name === 'GMS'">GMS STANDARD PILOT'S LICENSE</b>
+        <b v-else>{{ license.name }} RANK {{ license.rank }}</b>
+        <v-divider class="my-1" />
         <i>Required for:&nbsp;</i>
         {{ license.items.join(', ') }}
       </v-card-text>

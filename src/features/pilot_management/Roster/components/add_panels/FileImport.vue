@@ -45,7 +45,7 @@
           <v-col cols="auto">
             <v-btn
               color="accent"
-              prepend-icon="cc:accuracy"
+              prepend-icon="mdi-plus"
               :disabled="missingContent.length > 0"
               @click="importFile()"
             >

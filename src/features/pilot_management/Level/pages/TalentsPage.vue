@@ -6,17 +6,12 @@
     @back="$emit('back')"
     @complete="$emit('next')"
   >
-    <cc-title large>Improve Talents&emsp;</cc-title>
+    <cc-title large class="ml-n6">Improve Talents&emsp;</cc-title>
     <h2 class="heading">
       MV-2 License Acquisition Request
       <cc-slashes />
       &nbsp;MV-2//b COA Resource Requisition
     </h2>
-    <div style="position: absolute; right: 16px; top: 16px">
-      <cc-tooltip simple content="Feature In Development">
-        <v-btn small variant="outlined" disabled>Suggest Talents</v-btn>
-      </cc-tooltip>
-    </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>
         The Combat Operation Ability Requisition, on the approval of a NHP-guided automated request
@@ -37,13 +32,18 @@
         </span>
       </v-alert>
     </v-container>
-    <cc-talent-selector level-up :pilot="pilot" />
+    <talent-selector level-up :pilot="(pilot as Pilot)" />
   </stepper-content>
 </template>
 
 <script lang="ts">
+import TalentSelector from '../../_components/selectors/TalentSelector.vue';
+import { Pilot } from '@/class';
+import StepperContent from '../../_components/StepperContent.vue';
+
 export default {
   name: 'talents-page',
+  components: { TalentSelector, StepperContent },
   props: {
     pilot: {
       type: Object,
@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     canContinue(): boolean {
-      return !this.pilot.TalentsController.HasFullTalents;
+      return this.pilot.TalentsController.HasFullTalents;
     },
   },
 };

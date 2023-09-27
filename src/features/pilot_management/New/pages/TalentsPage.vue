@@ -35,16 +35,19 @@
         </v-alert>
       </v-container>
     </div>
-    <cc-talent-selector :pilot="pilot" />
+    <talent-selector :pilot="(pilot as Pilot)" />
   </stepper-content>
 </template>
 
 <script lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
+import TalentSelector from '../../_components/selectors/TalentSelector.vue';
+import { Pilot } from '@/class';
 export default {
   name: 'talents-page',
   components: {
     StepperContent,
+    TalentSelector,
   },
   props: {
     pilot: {

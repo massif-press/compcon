@@ -1,53 +1,30 @@
 <template>
-  <v-col
-    cols="12"
-    md=""
-    :style="$vuetify.display.mdAndUp ? 'min-width: 400px; max-width: 50%' : ''"
-  >
+  <v-col cols="12" style="min-width: 20%; max-width: 50%">
     <div
-      v-if="mech"
-      :style="`border: 2px solid ${
-        mech.IsActive
-          ? 'rgb(var(--v-theme-success))'
-          : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
-      }`"
+      :style="`border: 2px solid ${mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)}`"
     >
       <v-hover>
-        <template #default="{ hover }">
-          <v-card height="300px" tile flat @click="$emit('go', mech)">
-            <div
-              class="clipped-large"
-              :style="`z-index: 2; position: absolute; top: 0; left: -2px; right: -2px; height: 32px; background-color: ${
-                mech.IsActive
-                  ? 'rgb(var(--v-theme-success))'
-                  : mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)
-              }`"
+        <template v-slot="{ isHovering, props }">
+          <v-card height="40vh" flat v-bind="props" @click="$emit('go', mech)">
+            <v-toolbar
+              density="compact"
+              :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
+              class="mb-n10 px-2"
             >
-              <span class="heading h2 text-white flavor-text ml-2" style="letter-spacing: 3px">
+              <span class="heading h2" style="letter-spacing: 3px">
                 {{ mech.Name }}
               </span>
-            </div>
-            <div
-              :style="`z-index: 3; position: absolute; top: -5px; right: 20px; height: 32px; width:32px`"
-            >
-              <cc-logo
-                size="xLarge"
-                :source="mech.Frame.Manufacturer"
-                color="white"
-                :stroke="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
-              />
-            </div>
-            <div
-              v-if="mech.IsActive"
-              class="text-overline"
-              :style="`z-index: 3; position: absolute; top: 30px; left: 4px;`"
-            >
-              <b class="text-success">//ACTIVE</b>
-            </div>
-            <v-img :src="mech.Portrait" position="top center" height="100%" />
-            <v-fade-transition>
-              <v-overlay v-if="hover" absolute color="grey darken-3" opacity="0.8">
-                <v-card flat tile class="flavor-text" light>
+              <v-spacer />
+              <v-icon size="50" :icon="mech.Frame.Manufacturer.Icon" color="white" />
+            </v-toolbar>
+
+            <v-img :src="mech.Portrait" position="top center" height="100%">
+              <v-expand-transition>
+                <v-card
+                  v-if="isHovering"
+                  class="flavor-text"
+                  style="height: 100%; max-width: 100%; opacity: 0.9"
+                >
                   <v-card-text>
                     <b>{{ mech.Name }}</b>
                     //
@@ -61,17 +38,17 @@
                             : 'ERR'
                         }}
                       </legend>
-                      <div v-if="mech && mech.MechLoadoutController.ActiveLoadout">
+                      <div v-if="mech.MechLoadoutController.ActiveLoadout" class="px-2 pb-2">
                         <span v-for="(item, i) in loadoutWeapons">
-                          {{ item }}
+                          <span v-html="item" />
+                          <cc-slashes v-if="i + 1 < loadoutWeapons.length" class="px-2" />
                         </span>
                         <br />
                         <span v-for="(item, i) in loadoutSystems">
-                          {{ i > 0 ? ' - ' : '' }}{{ item }}
+                          {{ i > 0 ? ' - ' : '' }} <span v-html="item" />
                         </span>
                       </div>
                     </fieldset>
-                    <!-- TODO: add charts -->
                     <v-row no-gutters justify="space-between">
                       <v-col cols="auto">
                         <span class="text-overline">
@@ -143,20 +120,20 @@
                     <v-spacer />
                     <cc-tooltip simple inline content="Delete Mech">
                       <v-btn
-                        small
+                        size="small"
                         icon
-                        class="fade-select"
+                        variant="plain"
                         color="error"
                         @click.stop="($refs as any).delete.show()"
                       >
-                        <v-icon icon="delete" />
+                        <v-icon icon="mdi-delete" />
                       </v-btn>
                     </cc-tooltip>
                     <cc-tooltip simple inline content="Duplicate Mech">
                       <v-btn
-                        small
+                        size="small"
                         icon
-                        class="fade-select"
+                        variant="plain"
                         @click.stop="($refs as any).copy.show()"
                       >
                         <v-icon icon="mdi-content-copy" />
@@ -164,9 +141,9 @@
                     </cc-tooltip>
                     <cc-tooltip simple inline content="Print Mech Sheet">
                       <v-btn
-                        small
+                        size="small"
                         icon
-                        class="fade-select"
+                        variant="plain"
                         @click.stop="($refs as any).print.show()"
                       >
                         <v-icon icon="mdi-printer" />
@@ -185,8 +162,8 @@
                     </cc-tooltip>
                   </v-card-actions>
                 </v-card>
-              </v-overlay>
-            </v-fade-transition>
+              </v-expand-transition>
+            </v-img>
           </v-card>
         </template>
       </v-hover>
@@ -213,25 +190,26 @@ export default {
   },
   computed: {
     loadoutWeapons() {
-      const output = [];
+      const output = [] as string[];
       for (const mount of this.mech.MechLoadoutController.ActiveLoadout.AllEquippableMounts(
         this.mech.Pilot.has('CoreBonus', 'cb_improved_armament'),
         this.mech.Pilot.has('CoreBonus', 'cb_integrated_weapon'),
         this.mech.Pilot.has('CoreBonus', 'cb_superheavy_mounting')
       )) {
         if (!mount.IsLocked) {
-          let str = `${mount.Name}:`;
+          let str = `<i style="opacity:0.8">${mount.Name}</i>:`;
           if (!mount.Weapons.length) str += ' EMPTY';
           else {
             mount.Weapons.forEach((w, i) => {
-              str += ` ${w.Name}`;
-              if (w.Mod) str += ` (${w.Mod.Name})`;
-              if (i + 1 < mount.Weapons.length) str += '/';
+              str += ` ${w._name}`;
+              if (w.Mod) str += ` (${w.Mod._name})`;
+              if (i + 1 < mount.Weapons.length) str += ' /';
             });
           }
           output.push(str);
         }
       }
+
       return output;
     },
     loadoutSystems() {

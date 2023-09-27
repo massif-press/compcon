@@ -1,8 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
-      <span class="pl-12">Special Equipment</span>
-    </cc-title>
+    <section-header title="Special Equipment" />
     <cc-solo-dialog
       ref="specialSelector"
       icon="mdi-star-circle-outline"
@@ -10,7 +8,7 @@
       title="Manage Special Equipment"
       fullscreen
     >
-      <cc-equipment-selector :pilot="pilot" @select="addItem($event)" />
+      <equipment-selector :pilot="pilot" @select="addItem($event)" />
     </cc-solo-dialog>
     <cc-solo-dialog
       ref="exoticSelector"
@@ -19,21 +17,9 @@
       title="Manage Exotic Equipment"
       fullscreen
     >
-      <cc-exotic-selector :pilot="pilot" @select="addItem($event)" />
+      <equipment-selector :pilot="pilot" exotic @select="addItem($event)" />
     </cc-solo-dialog>
     <v-container>
-      <v-row density="compact" class="mb-2">
-        <v-col>
-          <v-btn tile block @click="($refs as any).specialSelector.show()"
-            >Add Standard Equipment</v-btn
-          >
-        </v-col>
-        <v-col>
-          <v-btn tile block @click="($refs as any).exoticSelector.show()"
-            >Add Exotic Equipment</v-btn
-          >
-        </v-col>
-      </v-row>
       <no-data-block v-if="!pilot.SpecialEquipment.length" />
       <v-row v-else density="compact" justify="space-around">
         <v-col v-for="i in pilot.SpecialEquipment" cols="12" md="4" class="text-center">
@@ -49,16 +35,39 @@
           </v-btn>
         </v-col>
       </v-row>
+
+      <v-row class="my-1">
+        <v-col>
+          <v-btn
+            color="accent"
+            variant="outlined"
+            block
+            @click="($refs as any).specialSelector.show()"
+            >Add Standard Equipment</v-btn
+          >
+        </v-col>
+        <v-col>
+          <v-btn
+            color="accent"
+            variant="outlined"
+            block
+            @click="($refs as any).exoticSelector.show()"
+            >Add Exotic Equipment</v-btn
+          >
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
 
 <script lang="ts">
+import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
+import EquipmentSelector from '../../../../_components/selectors/EquipmentSelector.vue';
 
 export default {
   name: 'special-block',
-  components: { NoDataBlock },
+  components: { SectionHeader, NoDataBlock, EquipmentSelector },
   props: {
     pilot: {
       type: Object,

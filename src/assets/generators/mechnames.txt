@@ -11,27 +11,24 @@ A Final Word
 A First Step
 A Good Example
 A Good Left Undone
-A Heart Full of Fire
-A Heart Full of Love
+Heart Full of Fire
+Heart Full of Love
 A Hush Prevails
 A Kind Word
 A Lecture on Philosophy
 A Letter From the Grave
-A Letter in the Coffin
-A Little Bit Unnatural
 A Little Less Conversation Between Us
 A Little Less is Better
-A Little Shock
 A Little Solace
 A Long Goodbye
 A Long Time Coming
-A Material Condition
-A Moment of Clarity
-A Moment of Reflection
-A Moment of Silence
-A Parting Word
-A Profound Problem
-A Scandal in Heaven
+Material Condition
+Moment of Clarity
+Moment of Reflection
+Moment of Silence
+Parting Word
+Profound Problem
+Scandal in Heaven
 A Short Look at the Human Mind
 A Simple Life
 A Simple Wish
@@ -41,11 +38,10 @@ A Thousand Bitter Tears
 A Thousand Lives
 A Very Pleasant Trap
 A Very Private War
-A Very Simple Plan
+Private War
 A Voyage into the Unknown
-A World of Difference
-A World of Fear
-A World Without Fear
+World of Difference
+World Without Fear
 Absolute Value
 Absolute Zero
 Absurdly Simple
@@ -143,8 +139,6 @@ Attractive Nuisance
 Aurora Polaris
 Baby
 Back By Popular Demand
-Back to the Drawing Board
-Bad Authority
 Bad Faith
 Bad Idea
 Bad News
@@ -159,11 +153,8 @@ Beautiful and Unquestionable
 Belvedere Charcoal
 Beneath the Ice
 Beneath the Planet
-Beneath the Snow
+Beneath the Sun
 Best of Luck
-Best of the Best
-Best of the Worst
-Best of Times
 Best Step
 Better and Better
 Better Business
@@ -190,6 +181,8 @@ Blink Dog
 Blink Dogma
 Blink Dogmatist
 Blinkrat
+Blinkrat's Revenge
+Blissful Ignorance
 Bloodthirsty Reunion
 Bodhisattva of Broken Noses
 Body Language

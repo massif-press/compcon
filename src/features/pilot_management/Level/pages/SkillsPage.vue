@@ -6,17 +6,12 @@
     @back="$emit('back')"
     @complete="$emit('next')"
   >
-    <cc-title large>Improve Skill Triggers&emsp;</cc-title>
+    <cc-title large class="ml-n6">Improve Skill Triggers&emsp;</cc-title>
     <h2 class="heading">
       MV-2 License Acquisition Request
       <cc-slashes />
       &nbsp;MV-2//a Skill Improvement Assessment
     </h2>
-    <div style="position: absolute; right: 16px; top: 16px">
-      <cc-tooltip simple content="Feature In Development">
-        <v-btn small variant="outlined" disabled>Suggest Skills</v-btn>
-      </cc-tooltip>
-    </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>
         The MV2//a Pilot Self Assessment audit catalogs an individual pilot's self-reported
@@ -38,13 +33,18 @@
         </span>
       </v-alert>
     </v-container>
-    <cc-skill-selector level-up :pilot="pilot" />
+    <skill-selector level-up :pilot="(pilot as Pilot)" />
   </stepper-content>
 </template>
 
 <script lang="ts">
+import SkillSelector from '../../_components/selectors/SkillSelector.vue';
+import { Pilot } from '@/class';
+import StepperContent from '../../_components/StepperContent.vue';
+
 export default {
   name: 'skills-page',
+  components: { SkillSelector, StepperContent },
   props: {
     pilot: {
       type: Object,

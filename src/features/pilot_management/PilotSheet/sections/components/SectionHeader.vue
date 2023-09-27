@@ -1,5 +1,10 @@
 <template>
-  <cc-title small color="pilot" :class="editable ? '' : 'py-2 pl-10'">
+  <cc-title
+    small
+    color="pilot"
+    style="padding-left: 100px !important; margin-left: -100px"
+    :class="editable ? '' : 'py-2 pl-10'"
+  >
     <section-edit-icon v-if="editable" :label="tooltip" @open-selector="$emit('edit')" />
     <slot />
     <span>{{ title }}</span>
@@ -17,6 +22,7 @@ export default {
     editable: {
       type: Boolean,
     },
+
     tooltip: {
       type: String,
       required: false,

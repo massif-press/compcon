@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
+    <section-header title="CORE Bonuses">
       <section-edit-chip
         :highlight="!pilot.CoreBonusController.HasCBs"
         :current="pilot.CoreBonusController.CurrentCBPoints"
@@ -8,8 +8,8 @@
         :label="`Edit Pilot CORE Bonuses (${pilot.CoreBonusController.CurrentCBPoints}/${pilot.CoreBonusController.MaxCBPoints})`"
         @open-selector="($refs as any).bonusSelector.show()"
       />
-      CORE Bonuses
-    </cc-title>
+    </section-header>
+
     <cc-solo-dialog
       ref="bonusSelector"
       icon="cc:corebonus"
@@ -17,7 +17,7 @@
       title="Set Pilot CORE Bonuses"
       fullscreen
     >
-      <cc-core-bonus-selector :pilot="pilot" />
+      <core-bonus-selector :pilot="pilot" />
     </cc-solo-dialog>
     <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
@@ -36,12 +36,14 @@
 </template>
 
 <script lang="ts">
+import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
+import CoreBonusSelector from '@/features/pilot_management/_components/selectors/CoreBonusSelector.vue';
 
 export default {
   name: 'skill-block',
-  components: { NoDataBlock, SectionEditChip },
+  components: { SectionHeader, NoDataBlock, SectionEditChip, CoreBonusSelector },
   props: {
     pilot: {
       type: Object,

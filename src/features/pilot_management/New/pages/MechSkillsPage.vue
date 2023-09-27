@@ -32,16 +32,20 @@
         </v-alert>
       </v-container>
     </div>
-    <cc-mech-skills-selector level-up :pilot="pilot" />
+    <mech-skills-selector level-up :pilot="(pilot as Pilot)" />
   </stepper-content>
 </template>
 
 <script lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
+import MechSkillsSelector from '../../_components/selectors/MechSkillsSelector.vue';
+import { Pilot } from '@/class';
+
 export default {
   name: 'mech-skills-page',
   components: {
     StepperContent,
+    MechSkillsSelector,
   },
   props: {
     pilot: {

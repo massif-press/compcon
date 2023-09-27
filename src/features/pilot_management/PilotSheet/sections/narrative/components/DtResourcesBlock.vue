@@ -15,7 +15,7 @@
       fullscreen
       no-pad
     >
-      <cc-reserve-selector :pilot="pilot" @close="($refs as any).dtSelector.hide()" />
+      <reserve-selector :pilot="pilot" @close="($refs as any).dtSelector.hide()" />
     </cc-solo-dialog>
     <v-container>
       <no-data-block
@@ -43,10 +43,11 @@
 <script lang="ts">
 import SectionHeader from '../../components/SectionHeader.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
+import ReserveSelector from '@/features/pilot_management/_components/selectors/ReserveSelector.vue';
 
 export default {
   name: 'dt-resources-block',
-  components: { SectionHeader, NoDataBlock },
+  components: { SectionHeader, NoDataBlock, ReserveSelector },
   props: {
     pilot: {
       type: Object,

@@ -1,7 +1,7 @@
 <template>
-  <div class="mt-n4">
-    <cc-title large color="pilot" class="ml-n10 pl-3 mb-2">Hangar&emsp;</cc-title>
-    <v-btn-toggle id="viewtoggle" :value="getView" mandatory>
+  <div>
+    <cc-title large color="pilot" class="pr-8 mb-2">Hangar</cc-title>
+    <v-btn-toggle id="viewToggle" :value="getView" mandatory>
       <v-btn small icon value="cards" @click="profile.SetView('hangar', 'cards')">
         <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
@@ -12,8 +12,8 @@
         <v-icon color="accent">mdi-format-align-justify</v-icon>
       </v-btn>
     </v-btn-toggle>
-    <v-container v-if="getView === 'cards'" fluid>
-      <v-row justify="center">
+    <v-container class="mt-2">
+      <v-row v-if="getView === 'cards'" justify="center">
         <mech-card
           v-for="m in pilot.Mechs"
           :mech="m"
@@ -22,25 +22,26 @@
           @go="toMechSheet($event)"
         />
       </v-row>
-    </v-container>
-    <v-container v-else-if="getView === 'list'" class="mt-2 px-0" fluid>
       <mech-list-item
+        v-else-if="getView === 'list'"
         v-for="m in pilot.Mechs"
         :mech="m"
         @delete="pilot.RemoveMech($event)"
         @copy="pilot.CloneMech($event)"
         @go="toMechSheet($event)"
       />
-    </v-container>
-    <v-container v-else class="px-0">
-      <mech-table :mechs="pilot.Mechs" @go="toMechSheet($event)" />
+      <mech-table v-else :mechs="pilot.Mechs" @go="toMechSheet($event)" />
     </v-container>
     <v-row justify="center">
       <v-col cols="auto">
-        <cc-btn size="x-large" class="ml-auto mr-auto" @click="($refs as any).dialog.show()">
-          <v-icon start large>cc:accuracy</v-icon>
-          &emsp;Add New Mech
-        </cc-btn>
+        <v-btn
+          color="accent"
+          prepend-icon="mdi-plus"
+          class="px-10"
+          @click="($refs as any).dialog.show()"
+        >
+          Add New Mech
+        </v-btn>
       </v-col>
     </v-row>
     <cc-solo-dialog ref="dialog" icon="cc:frame" no-confirm title="Add New Mech" fullscreen>
@@ -54,7 +55,7 @@ import MechCard from './components/MechCard.vue';
 import MechListItem from './components/MechListItem.vue';
 import MechTable from './components/MechTable.vue';
 import NewMechMenu from './components/NewMechMenu.vue';
-import { UserStore, PilotStore } from '@/stores';
+import { UserStore } from '@/stores';
 import { Pilot } from '@/class';
 import { UserProfile } from '@/user';
 
@@ -69,26 +70,24 @@ export default {
   },
   computed: {
     profile(): UserProfile {
-      const store = UserStore();
-      return store.UserProfile;
+      return UserStore().UserProfile as UserProfile;
     },
     getView() {
-      if (this.profile) return this.profile.GetView('hangar');
-      return 'cards';
+      const view = this.profile?.View('hangar');
+      return view || 'cards';
     },
   },
   methods: {
     toMechSheet(mech) {
-      const store = PilotStore();
-      store.setLoadedMech(mech.ID);
-      this.$router.push(`../mech/${mech.ID}`);
+      // this.$router.push(`../mech/${mech.ID}`);
+      this.$router.push({ name: `mech-sheet`, params: { mechID: mech.ID } });
     },
   },
 };
 </script>
 
 <style scoped>
-#viewtoggle {
+#viewToggle {
   z-index: 4;
 }
 </style>

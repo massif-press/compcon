@@ -167,7 +167,7 @@
         <v-spacer />
         <v-btn
           color="accent"
-          prepend-icon="cc:accuracy"
+          prepend-icon="mdi-plus"
           variant="tonal"
           class="mx-5"
           @click="$router.push({ name: 'new', params: { groupID: group.ID } })"
