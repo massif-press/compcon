@@ -6,12 +6,12 @@
       </v-col>
       <v-col style="min-width: 215px; max-width: 215px" />
     </v-row>
-    <v-row align="center">
+    <v-row align="start">
       <v-col cols="8">
         <clone-block :pilot="pilot" />
         <history-block :pilot="pilot" />
         <appearance-block :pilot="pilot" />
-        <notes-block :pilot="pilot" />
+        <notes-editor :item="pilot" title="Pilot" />
         <!-- <combat-history-block :pilot="pilot" /> -->
       </v-col>
       <v-col cols="4">
@@ -28,7 +28,7 @@ import IdentBlock from './components/IdentBlock.vue';
 import HistoryBlock from './components/HistoryBlock.vue';
 import AppearanceBlock from './components/AppearanceBlock.vue';
 import ImageBlock from './components/ImageBlock.vue';
-import NotesBlock from './components/NotesBlock.vue';
+import NoteEditor from '../../components/NoteEditor.vue';
 import CloneBlock from './components/CloneBlock.vue';
 import CombatHistoryBlock from './components/CombatHistoryBlock.vue';
 
@@ -45,7 +45,7 @@ export default {
     HistoryBlock,
     AppearanceBlock,
     ImageBlock,
-    NotesBlock,
+    NoteEditor,
     CloneBlock,
     CombatHistoryBlock,
   },

@@ -1,11 +1,7 @@
 //  This is the local user profile class. Cloud/cognito user information should be stored in a new class.
-
-import Vue from 'vue';
-
 import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 
-import { UserStore } from '@/stores';
 import localForage from 'localforage';
 import logger from './logger';
 

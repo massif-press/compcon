@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import _ from 'lodash';
 import semver from 'semver';
-import { saveData as saveUserData, loadData as loadUserData } from '@/io/Data';
 import lancerData from '@massif/lancer-data';
 import {
   License,
@@ -35,6 +34,7 @@ import {
 } from '@/interface';
 import { FrameComparison } from '@/classes/mech/components/frame/Frame';
 import { Status } from '@/classes/Status';
+import { GetAll, SetItem } from '@/io/Storage';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -242,6 +242,11 @@ export const CompendiumStore = defineStore('compendium', {
     },
   },
   actions: {
+    async saveUserData(): Promise<void> {
+      Promise.all([this.ContentPacks.map((y) => SetItem('content', y.Serialize()))])
+        .then(() => console.info('LCP data saved'))
+        .catch((err) => console.error('Error while saving LCP data', err));
+    },
     setMissingContent(payload: any): void {
       this.MissingContent = payload;
     },
@@ -249,19 +254,13 @@ export const CompendiumStore = defineStore('compendium', {
       const pack = this.ContentPacks.find((pack) => pack.ID === payload);
       if (pack) pack.SetActive(!pack.Active);
 
-      await saveUserData(
-        'extra_content.json',
-        this.ContentPacks.map((pack) => pack.Serialize())
-      );
+      await this.saveUserData();
     },
     async setPackActive(payload: { packID: string; active: boolean }): Promise<void> {
       const pack = this.ContentPacks.find((pack) => pack.ID === payload.packID);
       if (pack) pack.SetActive(payload.active);
 
-      await saveUserData(
-        'extra_content.json',
-        this.ContentPacks.map((pack) => pack.Serialize())
-      );
+      await this.saveUserData();
     },
     async installContentPack(packData: IContentPack): Promise<void> {
       if (this.packAlreadyInstalled(packData.id)) {
@@ -272,22 +271,17 @@ export const CompendiumStore = defineStore('compendium', {
       }
       const pack = new ContentPack(packData);
       this.ContentPacks = [...this.ContentPacks, pack];
-      await saveUserData(
-        'extra_content.json',
-        this.ContentPacks.map((pack) => pack.Serialize())
-      );
+      await this.saveUserData();
       await this.refreshExtraContent();
     },
     async deleteContentPack(packID: string): Promise<void> {
       this.ContentPacks = this.ContentPacks.filter((pack) => pack.ID !== packID);
-      await saveUserData(
-        'extra_content.json',
-        this.ContentPacks.map((pack) => pack.Serialize())
-      );
+      await this.saveUserData();
       await this.refreshExtraContent();
     },
     async loadExtraContent(): Promise<void> {
-      let content = (await loadUserData('extra_content.json')) as IContentPack[];
+      let content = (await GetAll('content')) as IContentPack[];
+
       content.forEach((pack) => {
         if (!pack.manifest.dependencies) pack.manifest.dependencies = [];
       });

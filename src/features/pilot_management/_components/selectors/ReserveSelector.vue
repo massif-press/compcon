@@ -1,5 +1,5 @@
 <template>
-  <v-tabs v-model="tab" color="primary" grow>
+  <v-tabs v-model="tab" color="accent" grow>
     <v-tab>
       <b>Pilot Bonuses</b>
     </v-tab>

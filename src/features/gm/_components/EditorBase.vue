@@ -37,10 +37,10 @@
             >
               Change Image
             </v-btn>
-            <cc-simple-image-selector
+            <!-- <cc-simple-image-selector
               ref="imageSelector"
               @set="item.PortraitController.Image = $event"
-            />
+            /> -->
           </v-col>
         </v-row>
         <slot />

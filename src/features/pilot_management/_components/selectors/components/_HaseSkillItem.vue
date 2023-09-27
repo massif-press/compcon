@@ -4,7 +4,7 @@
   <v-row density="compact">
     <v-col cols="auto" class="ml-auto mr-auto text-center">
       <v-btn
-        color="secondary"
+        color="accent"
         :disabled="!mechSkills[val]"
         icon
         variant="plain"
@@ -13,11 +13,11 @@
       >
         <v-icon size="x-large" icon="mdi-minus" />
       </v-btn>
-      <v-icon v-if="filled" v-for="n in filled" color="primary" size="x-large" icon="mdi-hexagon" />
+      <v-icon v-if="filled" v-for="n in filled" color="accent" size="x-large" icon="mdi-hexagon" />
       <v-icon
         v-if="empty"
         v-for="n in empty"
-        color="primary"
+        color="accent"
         size="x-large"
         icon="mdi-hexagon-outline"
       />

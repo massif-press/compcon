@@ -107,9 +107,7 @@
           >
             <template #prepend>
               <cc-tooltip simple content="Select Predefined Background">
-                <cc-background-selector
-                  @select="$emit('set', { attr: 'Background', val: $event })"
-                />
+                <background-selector @select="$emit('set', { attr: 'Background', val: $event })" />
               </cc-tooltip>
             </template>
             <template #append>
@@ -222,12 +220,13 @@
 
 <script lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
+import BackgroundSelector from '../../_components/selectors/BackgroundSelector.vue';
 import { name, callsign } from '@/io/Generators';
 import { CCTextEditor } from '@/ui/globals';
 
 export default {
   name: 'identification-page',
-  components: { CCTextEditor, StepperContent },
+  components: { CCTextEditor, StepperContent, BackgroundSelector },
   props: {
     pilot: {
       type: Object,

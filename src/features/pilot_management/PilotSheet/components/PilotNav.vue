@@ -12,7 +12,7 @@
           NARRATIVE PROFILE
         </cc-tooltip>
       </nav-item>
-      <nav-item :selected="selected === 2" @click="$emit('to', 2)">
+      <nav-item v-if="hasBonds" :selected="selected === 2" @click="$emit('to', 2)">
         <cc-tooltip inline delayed content="Pilot Bonds">BONDS</cc-tooltip>
       </nav-item>
       <nav-item :selected="selected === 3" @click="$emit('to', 3)">
@@ -121,6 +121,9 @@ export default {
     },
     isAuthed() {
       return UserStore().IsLoggedIn;
+    },
+    hasBonds() {
+      return CompendiumStore().Bonds.length > 0;
     },
   },
   methods: {

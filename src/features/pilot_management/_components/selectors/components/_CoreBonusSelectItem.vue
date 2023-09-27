@@ -12,12 +12,8 @@
         @click="$emit(isSelected ? 'remove' : 'add', bonus)"
       >
         <cc-tooltip simple inline :content="ttContent()">
-          <v-icon v-if="isSelected" size="80" color="error"
-            >cc:difficulty</v-icon
-          >
-          <v-icon v-else-if="isSelectable" size="80" color="secondary"
-            >cc:accuracy</v-icon
-          >
+          <v-icon v-if="isSelected" size="80" color="error">mdi-minus</v-icon>
+          <v-icon v-else-if="isSelectable" size="80" color="secondary">mdi-plus</v-icon>
           <v-icon v-else size="80" color="grey">mdi-lock</v-icon>
         </cc-tooltip>
       </v-btn>
@@ -25,12 +21,7 @@
     <v-col cols="12" md="" class="pl-0">
       <cc-core-bonus-item :bonus="bonus" />
     </v-col>
-    <v-col
-      v-if="$vuetify.display.smAndDown"
-      cols="12"
-      md="auto"
-      class="mb-4 mt-n2"
-    >
+    <v-col v-if="$vuetify.display.smAndDown" cols="12" md="auto" class="mb-4 mt-n2">
       <v-btn
         tile
         block

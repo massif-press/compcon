@@ -62,6 +62,7 @@ abstract class PilotEquipment extends CompendiumItem {
   }
 
   public static Factory<T>(data: IPilotEquipmentData): T {
+    if ((data as any).InstanceID) return data as T;
     if (data.type?.toLowerCase() === 'armor') return new PilotArmor(data) as T;
     if (data.type?.toLowerCase() === 'weapon')
       return new PilotWeapon(data as IPilotWeaponData) as T;

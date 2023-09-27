@@ -29,7 +29,8 @@
             <v-switch
               v-if="!pack.Missing"
               :model-value="pack.Active"
-              color="primary"
+              color="accent"
+              inset
               hide-details
               @change="toggleActive(pack.ID)"
             />
@@ -52,7 +53,7 @@
           <td>
             <v-menu width="400px">
               <template #activator="{ props }">
-                <v-btn icon color="primary" variant="plain" v-bind="props">
+                <v-btn icon color="error" variant="plain" v-bind="props">
                   <v-icon icon="mdi-delete" />
                 </v-btn>
               </template>

@@ -1,24 +1,20 @@
 <template>
   <stepper-content complete :exit="`/pilot/${pilot.ID}`" @complete="$emit('next')">
-    <cc-title large>Level Up (Overview)&emsp;</cc-title>
+    <cc-title large class="ml-n6">Level Up (Overview)&emsp;</cc-title>
     <h2 class="heading">
       MV-2 License Acquisition Request
       <cc-slashes />
       &nbsp;Overview
     </h2>
-    <div style="position: absolute; right: 16px; top: 16px">
-      <cc-tooltip simple content="Feature In Development">
-        <v-btn small variant="outlined" disabled>Suggest Level Upgrades</v-btn>
-      </cc-tooltip>
-    </div>
     <v-container class="flavor-text" style="font-size: 14px">
       <span>
         The UAD IDENT MV-2 License Acquisition Request has been designed to allow active Union
         personnel to register license updates while field-deployed and receive immediate UN and GMS
         field support resources. Union personnel should confirm the correctness of their submitted
         form with their local Union officer, or, in the event an officer is unavailable, request an
-        NHP-directed review at secure Omninet address
-        <code>un_omni-18364.andes.cerrobonete.node:9</code>
+        NHP-directed review at secure Omninet address<code
+          >un_omni-18364.andes.cerrobonete.node:9</code
+        >
       </span>
       <v-alert color="accent" variant="outlined" density="compact" class="mt-2">
         <span class="text-overline">
@@ -75,8 +71,11 @@
 </template>
 
 <script lang="ts">
+import StepperContent from '../../_components/StepperContent.vue';
+
 export default {
   name: 'overview-page',
+  components: { StepperContent },
   props: {
     pilot: {
       type: Object,

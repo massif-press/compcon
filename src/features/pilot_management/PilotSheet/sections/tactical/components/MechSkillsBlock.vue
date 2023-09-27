@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
+    <section-header title="Mech Skills">
       <section-edit-chip
         :highlight="!pilot.MechSkillsController.HasFullHASE"
         :current="pilot.MechSkillsController.CurrentHASEPoints"
@@ -8,8 +8,8 @@
         :label="`Edit Pilot Mech Skills (${pilot.MechSkillsController.CurrentHASEPoints}/${pilot.MechSkillsController.MaxHASEPoints})`"
         @open-selector="($refs as any).mechskillsSelector.show()"
       />
-      Mech Skills
-    </cc-title>
+    </section-header>
+
     <cc-solo-dialog
       ref="mechskillsSelector"
       icon="cc:frame"
@@ -17,19 +17,21 @@
       title="Set Pilot Mech Skills"
       fullscreen
     >
-      <cc-mech-skills-selector :pilot="pilot" />
+      <v-container>
+        <mech-skills-selector :pilot="(pilot as Pilot)" />
+      </v-container>
     </cc-solo-dialog>
-    <v-row density="compact" class="pt-3 pb-3" justify="space-around">
-      <v-col cols="auto" density="compact" class="py-0">
+    <v-row dense class="py-3" justify="space-around">
+      <v-col cols="auto">
         <hase-pips title="hull" :skill-points="pilot.MechSkillsController.MechSkills.Hull" />
       </v-col>
-      <v-col cols="auto" density="compact" class="py-0">
+      <v-col cols="auto">
         <hase-pips title="agility" :skill-points="pilot.MechSkillsController.MechSkills.Agi" />
       </v-col>
-      <v-col cols="auto" density="compact" class="py-0">
+      <v-col cols="auto">
         <hase-pips title="systems" :skill-points="pilot.MechSkillsController.MechSkills.Sys" />
       </v-col>
-      <v-col cols="auto" density="compact" class="py-0">
+      <v-col cols="auto">
         <hase-pips title="engineering" :skill-points="pilot.MechSkillsController.MechSkills.Eng" />
       </v-col>
     </v-row>
@@ -37,12 +39,15 @@
 </template>
 
 <script lang="ts">
+import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
+import MechSkillsSelector from '@/features/pilot_management/_components/selectors/MechSkillsSelector.vue';
 import HasePips from './HasePips.vue';
+import { Pilot } from '@/class';
 
 export default {
   name: 'skill-block',
-  components: { SectionEditChip, HasePips },
+  components: { SectionHeader, SectionEditChip, HasePips, MechSkillsSelector },
   props: {
     pilot: {
       type: Object,

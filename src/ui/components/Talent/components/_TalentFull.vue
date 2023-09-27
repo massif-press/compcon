@@ -14,7 +14,7 @@
         <v-col v-if="talent.InLcp" cols="auto">
           <div class="text-white heading h3">{{ talent.LcpName }}</div>
         </v-col>
-        <v-col cols="auto" align-self="center" class="pr-4">
+        <v-col v-if="!hideChange" cols="auto" align-self="center" class="pr-4">
           <v-icon color="white" class="fade-select" @click="$emit('expand', 'terse')">
             mdi-arrow-collapse
           </v-icon>
@@ -30,6 +30,7 @@
         v-show="showFull || (!showFull && rank && Number(rank) >= n)"
         dense
         :class="rank && Number(rank) < n ? 'text--disabled' : 'text-stark'"
+        :style="isUnlocked(n) ? '' : 'opacity: 0.35'"
       >
         <v-col cols="auto">
           <v-icon size="40">cc:rank_{{ n }}</v-icon>
@@ -69,22 +70,17 @@
               </v-btn>
             </v-col>
           </v-row>
-          <talent-rank-contents
-            :talent-rank="talent.Rank(n)"
-            :unlocked="!rank || Number(rank) >= (selectable ? n - 1 : n)"
-          />
+          <talent-rank-contents :talent-rank="talent.Rank(n)" :in-column="!showAll && inColumn" />
         </v-col>
       </v-row>
     </v-card-text>
-    <v-row v-if="hideLocked" no-gutters>
-      <v-col cols="auto" class="ml-auto">
-        <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
-          <v-btn small icon class="fade-select" @click="showAll = !showAll">
-            <v-icon small>mdi-eye</v-icon>
-          </v-btn>
-        </cc-tooltip>
-      </v-col>
-    </v-row>
+    <div v-if="hideLocked" style="position: absolute; bottom: -4px; right: -4px">
+      <cc-tooltip :content="`${showAll ? 'Hide' : 'Show'} All`">
+        <v-btn size="small" icon variant="plain" @click="showAll = !showAll">
+          <v-icon :icon="showAll ? 'mdi-eye-off-outline' : 'mdi-eye'" />
+        </v-btn>
+      </cc-tooltip>
+    </div>
   </v-card>
 </template>
 
@@ -101,6 +97,8 @@ export default {
     talent: { type: Object, required: true },
     selectable: { type: Boolean },
     canAdd: { type: Boolean },
+    hideChange: { type: Boolean },
+    inColumn: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
   data: () => ({
@@ -110,6 +108,13 @@ export default {
     showFull() {
       if (this.hideLocked) return this.showAll;
       return true;
+    },
+  },
+  methods: {
+    isUnlocked(rank: number) {
+      // !rank || Number(rank) >= (selectable ? n - 1 : n)
+      if (!this.rank) return true;
+      return Number(this.rank) >= rank;
     },
   },
 };

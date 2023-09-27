@@ -104,7 +104,7 @@
           :disabled="!orgName || !orgType || !orgStart"
           @click="add()"
         >
-          <v-icon start>cc:accuracy</v-icon>
+          <v-icon start>mdi-plus</v-icon>
           Add Organization
         </v-btn>
       </cc-titled-panel>

@@ -28,45 +28,46 @@
       <cc-tags small :tags="item.Tags" color="secondary" />
     </div>
     <template #selector>
-      <v-card-text>
-        <cc-selector
-          itemType="Pilot Gear"
-          :items="gear"
-          :hidden-items="[]"
-          :equipped="item"
-          :table-headers="headers"
-          @equip="equip($event)"
+      <cc-compendium-browser
+        :items="gear"
+        item-type="PilotGear"
+        :options="options"
+        equippable
+        @equip="equip($event)"
+      >
+        <template #header>
+          <div class="heading h4 text-center text-primary">Select Pilot Equipment</div></template
         >
-          <template #header>
-            <div v-if="item">
-              <span class="text-overline">
-                GMS EQUIPMENT CATALOG PRINTID:
-                {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-                <span class="text-success text--darken-1">
-                  [ PILOT EQUIPMENT REGISTRATION VERIFIED ]
-                </span>
+
+        <template #top>
+          <div v-if="item">
+            <span class="text-overline">
+              GMS EQUIPMENT CATALOG PRINTID:
+              {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              <span class="text-success text--darken-1">
+                [ PILOT EQUIPMENT REGISTRATION VERIFIED ]
               </span>
-              <br />
-              <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
-              <span class="flavor-text overline mt-n1" style="display: block"
-                >CURRENTLY EQUIPPED</span
-              >
-            </div>
-            <div v-else>
-              <span class="text-overline"
-                >GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)</span
-              >
-              <br />
-              <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
-                NO SELECTION
-              </span>
-              <span class="flavor-text overline mt-n1 text-error" style="display: block">
-                [ EQUIPMENT ID INVALID OR MISSING ]
-              </span>
-            </div>
-          </template>
-        </cc-selector>
-      </v-card-text>
+            </span>
+            <br />
+            <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
+            <span class="flavor-text overline mt-n1" style="display: block"
+              >CURRENTLY EQUIPPED</span
+            >
+          </div>
+          <div v-else>
+            <span class="text-overline"
+              >GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)</span
+            >
+            <br />
+            <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
+              NO SELECTION
+            </span>
+            <span class="flavor-text overline mt-n1 text-error" style="display: block">
+              [ EQUIPMENT ID INVALID OR MISSING ]
+            </span>
+          </div>
+        </template>
+      </cc-compendium-browser>
     </template>
   </pl-card-base>
 </template>
@@ -102,9 +103,18 @@ export default {
   },
   data: () => ({
     headers: [
-      { title: 'Item', align: 'left', value: 'Name' },
-      { title: 'Uses', align: 'center', value: 'MaxUses' },
+      { title: 'Content Pack', key: 'LcpName' },
+      { title: 'Type', key: 'Type' },
+      { title: 'Item', key: 'Name' },
+      { title: 'Uses', key: 'MaxUses' },
     ],
+    options: {
+      views: ['single', 'table', 'cards'],
+      initialView: 'single',
+      groups: ['lcp', 'type'],
+      initialGroup: 'type',
+      noSource: true,
+    },
   }),
   computed: {
     exotics(): PilotGear[] {
@@ -114,6 +124,8 @@ export default {
       let gear = (CompendiumStore().PilotGear as PilotEquipment[]).filter(
         (x: PilotEquipment) => x.ItemType === ItemType.PilotGear && !x.IsHidden && !x.IsExotic
       ) as PilotGear[];
+
+      console.log(gear);
 
       if (this.exotics.length) {
         gear = gear.concat(this.exotics);

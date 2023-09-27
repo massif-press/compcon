@@ -22,7 +22,10 @@ import { IPilotWeaponData } from './classes/pilot/components/Loadout/equipment/P
 import { IManufacturerData } from './classes/Manufacturer';
 import { ITalentData } from './classes/pilot/components/talent/Talent';
 import { ISkillData } from './classes/pilot/components/skill/Skill';
-import { IMechWeaponData } from './classes/mech/components/equipment/MechWeapon';
+import {
+  IMechWeaponData,
+  IMechWeaponSaveData,
+} from './classes/mech/components/equipment/MechWeapon';
 import {
   INpcFeatureData,
   INpcReactionData,
@@ -91,14 +94,6 @@ interface IEquipmentData {
   flavorName?: string;
   flavorDescription?: string;
   customDamageType?: string;
-}
-
-interface IMechWeaponSaveData extends IEquipmentData {
-  loaded: boolean;
-  mod?: IEquipmentData;
-  customDamageType?: string;
-  maxUseOverride?: number;
-  selectedProfile: number;
 }
 
 interface IOrganizationData {

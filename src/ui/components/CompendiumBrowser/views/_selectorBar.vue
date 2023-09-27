@@ -20,7 +20,7 @@
           <v-window v-model="lcpTab">
             <v-window-item v-for="lcp in lcpFilter" eager>
               <div class="heading mech" v-text="lcp" />
-              <div style="height: calc(100vh - 250px)">
+              <div :style="`height: calc(100vh - ${short ? '400px' : '180px'})`">
                 <bar :options="options" :data="getChartData(getItems(undefined, lcp as string))" />
               </div>
             </v-window-item>
@@ -110,7 +110,7 @@
           </v-window>
         </div>
 
-        <div v-else style="height: calc(100vh - 130px)">
+        <div v-else :style="`height: calc(100vh - ${short ? '300px' : '130px'})`">
           <bar :data="getChartData(items)" :options="options" />
         </div>
       </div>
@@ -212,6 +212,11 @@ export default {
       type: Object,
       required: false,
     },
+    short: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
   components: { Bar },
   data: () => ({
@@ -240,6 +245,19 @@ export default {
             { title: 'Save', value: 'save' },
             { title: 'Speed', value: 'speed' },
             { title: 'System Points', value: 'sp' },
+          ];
+        case 'PilotArmor':
+          return [
+            { title: 'Armor', value: 'armor' },
+            { title: 'HP Bonus', value: 'hp' },
+            { title: 'E-Defense', value: 'edef' },
+            { title: 'Evasion', value: 'evasion' },
+            { title: 'Speed', value: 'speed' },
+          ];
+        case 'PilotWeapon':
+          return [
+            { title: 'Range', value: 'range' },
+            { title: 'Total Damage', value: 'damage' },
           ];
         default:
           return [
@@ -330,9 +348,9 @@ export default {
             borderColor: this.mf(this.selected.Source).GetColor(),
             borderDash: [4, 4],
             label: {
-              content: `${this.selected.Source} ${this.selected.Name} (${stats[this.xAxis.value]} ${
-                this.xAxis.title
-              })`,
+              content: `${this.selected.Source || ''} ${this.selected.Name} (${
+                stats[this.xAxis.value]
+              } ${this.xAxis.title})`,
               display: true,
             },
           },

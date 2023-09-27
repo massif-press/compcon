@@ -43,7 +43,7 @@
             :disabled="newSkill === '' || !canAdd"
             @click="addSkill"
           >
-            <v-icon size="50">cc:accuracy</v-icon>
+            <v-icon size="50" icon="mdi-plus" />
           </v-btn>
         </cc-tooltip>
       </div>

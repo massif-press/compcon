@@ -5,7 +5,7 @@
         <v-alert
           v-show="!!$slots.header"
           variant="outlined"
-          class="mb-3 py-1"
+          class="mb-3 py-1 mt-4"
           style="border-color: rgb(var(--v-theme-primary))"
         >
           <slot name="header"> </slot>
@@ -402,6 +402,15 @@
 
     <v-col class="pl-6">
       <v-container id="content" style="height: calc(100vh - 65px) !important; overflow-y: scroll">
+        <v-alert
+          v-show="!!$slots.top"
+          variant="outlined"
+          class="mb-3 py-1"
+          style="border-color: rgb(var(--v-theme-primary))"
+        >
+          <slot name="top" />
+        </v-alert>
+
         <v-row v-if="view === 'single'">
           <v-col cols="12">
             <selector-list-item
@@ -412,7 +421,12 @@
         </v-row>
 
         <div v-else-if="view === 'scatter'">
-          <selector-scatter :items="shownItems" :selected="(selectedItem as any)" :group="group" />
+          <selector-scatter
+            :items="shownItems"
+            :selected="(selectedItem as any)"
+            :group="group"
+            :short="!!$slots.top"
+          />
         </div>
 
         <div v-else-if="view === 'bar'">
@@ -423,6 +437,7 @@
             :licenses="licenses"
             :lcp-filter="lcpFilter"
             :selected="(selectedItem as any)"
+            :short="!!$slots.top"
           />
         </div>
 

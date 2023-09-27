@@ -1,6 +1,6 @@
 <template>
   <div id="header-container">
-    <v-row class="pr-0">
+    <v-row class="pr-0 pl-2">
       <v-col>
         <v-row align="center">
           <v-col cols="auto">
@@ -94,7 +94,7 @@
               variant="tonal"
               size="small"
               class="fade-select"
-              @click="$router.push({ name: 'level-up', params: { id: pilot.ID } })"
+              @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })"
             >
               Level Up
               <v-icon size="large" end>mdi-arrow-up-bold-hexagon-outline</v-icon>

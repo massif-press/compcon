@@ -1,34 +1,16 @@
 <template>
   <div>
-    <v-row
-      no-gutters
-      align="start"
-      :justify="justify"
-      :class="`${$vuetify.display.smAndDown ? 'my-n1' : ''}`"
-    >
+    <v-row no-gutters align="center" :justify="justify">
       <v-col v-if="!flipInput" cols="auto">
         <slot />
       </v-col>
-      <v-col v-if="!flipInput && !hideValues" cols="auto" class="heading h3">
-        <span
-          v-if="!hideMax"
-          v-html="`: ${current}${hideMax ? '' : `/${max}`}`"
-        />
+      <v-col v-if="!flipInput && !hideValues" cols="auto" class="heading h4">
+        <div v-if="!hideMax" v-text="`: ${current}${hideMax ? '' : `/${max}`}`" />
       </v-col>
-      <v-col
-        v-if="!noInput && !readonly"
-        cols="auto"
-        :class="!large ? 'mt-n1' : ''"
-      >
+      <v-col v-if="!noInput && !readonly" cols="auto">
         <v-fade-transition leave-absolute>
-          <v-btn
-            v-if="!inputting"
-            icon
-            small
-            class="fade-select"
-            @click="startInputting"
-          >
-            <v-icon :small="small" :color="color">mdi-keyboard</v-icon>
+          <v-btn v-if="!inputting" icon size="x-small" variant="plain" @click="startInputting">
+            <v-icon :size="small ? '' : 'x-large'" :color="color">mdi-keyboard</v-icon>
           </v-btn>
           <div v-else style="position: relative">
             <input
@@ -50,27 +32,25 @@
       <v-col v-if="flipInput" cols="auto">
         <slot />
       </v-col>
-      <v-col v-if="flipInput && !hideValues" cols="auto" class="heading h3">
-        <span
-          v-if="!hideMax"
-          v-html="`${current}${hideMax ? '' : `/${max}`}`"
-        />
+      <v-col v-if="flipInput && !hideValues" cols="auto" class="heading h4">
+        <div v-if="!hideMax" v-html="`${current}${hideMax ? '' : `/${max}`}`" />
       </v-col>
       <v-col v-if="clearable" cols="auto">
-        <v-btn icon small @click="$emit('update', 0)">
-          <v-icon :color="color">clear</v-icon>
+        <v-btn icon size="small" variant="plain" @click="$emit('update', 0)">
+          <v-icon :color="color" icon="mdi-close" />
         </v-btn>
       </v-col>
     </v-row>
-    <v-row no-gutters align="center" :justify="justify" class="mt-0">
+    <v-row no-gutters align="center" :justify="justify" class="my-n4">
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
         <v-btn
           icon
-          small
+          size="small"
+          variant="plain"
           class="fade-select"
           @click="$emit('update', model - 1)"
         >
-          <v-icon :color="color">mdi-minus</v-icon>
+          <v-icon :color="color" icon="mdi-minus" />
         </v-btn>
       </v-col>
       <v-col v-if="!noPips && !maxExceeded" cols="auto">
@@ -90,22 +70,12 @@
         />
       </v-col>
       <div v-else-if="maxExceeded">
-        <v-icon
-          :large="large"
-          :small="small"
-          :color="color"
-          v-html="fullIcon"
-        />
-        <span class="flavor-text text-subtle">x</span>
-        <span class="heading h3">{{ current }}</span>
+        <v-icon :large="large" :small="small" :color="color" v-html="fullIcon" />
+        <div class="flavor-text text-subtle">x</div>
+        <div class="heading h3">{{ current }}</div>
       </div>
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
-        <v-btn
-          icon
-          small
-          class="fade-select"
-          @click="$emit('update', model + 1)"
-        >
+        <v-btn icon small class="fade-select" @click="$emit('update', model + 1)">
           <v-icon :color="color">mdi-plus</v-icon>
         </v-btn>
       </v-col>

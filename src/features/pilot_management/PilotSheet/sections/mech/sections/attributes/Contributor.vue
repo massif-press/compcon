@@ -1,6 +1,6 @@
 <template>
   <cc-tooltip :title="title" :content="content">
-    <span>{{ label }}</span>
+    <span class="pa-1">{{ label?.toUpperCase() }}</span>
   </cc-tooltip>
 </template>
 
@@ -15,11 +15,10 @@ export default {
   },
   computed: {
     title(): string {
-      return this.reverse
-        ? `${this.label} ${this.value}`
-        : `${this.value} ${this.label}`;
+      return this.reverse ? `${this.label} ${this.value}` : `${this.value} ${this.label}`;
     },
     content(): string {
+      if (!this.contributors || this.contributors.length === 0) return '';
       return this.contributors.join('<br />');
     },
   },

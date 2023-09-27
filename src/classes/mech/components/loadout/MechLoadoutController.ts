@@ -10,8 +10,8 @@ interface IMechLoadoutSaveData {
 
 class MechLoadoutController implements IFeatureContainer {
   public readonly Parent: Mech;
-  private _loadouts: MechLoadout[];
-  private _active_loadout: MechLoadout;
+  private _loadouts!: MechLoadout[];
+  private _active_loadout!: MechLoadout;
 
   constructor(parent: Mech) {
     this.Parent = parent;
@@ -112,4 +112,5 @@ class MechLoadoutController implements IFeatureContainer {
   }
 }
 
-export { MechLoadoutController, IMechLoadoutSaveData };
+export { MechLoadoutController };
+export type { IMechLoadoutSaveData };

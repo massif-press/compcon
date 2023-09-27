@@ -64,7 +64,7 @@
 </template>
 
 <script lang="ts">
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore, PilotStore } from '@/stores';
 import _ from 'lodash';
 import { Pilot } from '@/class';
 
@@ -92,21 +92,20 @@ export default {
       this.quirk = _.sample(compendium.Tables.quirks);
     },
     clonePilot() {
-      const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot));
+      const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot as Pilot));
       newPilot.CloudController.reset();
       newPilot.RenewID();
-      if (!this.pilot.Callsign.includes('※')) this.pilot.Callsign += '※';
-      if (!this.pilot.Callsign.includes('※')) this.pilot.Name += '※';
-      this.pilot.Heal();
+      this.pilot.Name += '※';
       this.pilot.AddQuirk(this.quirk);
       for (const mech of newPilot.Mechs) {
         mech.RenewID();
       }
-      this.$store.dispatch('addPilot', newPilot);
+      PilotStore().AddPilot(newPilot);
       this.hide();
+      this.$router.push({ name: 'pilot_sheet', params: { id: newPilot.ID } });
     },
     copyPilot() {
-      const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot));
+      const newPilot = Pilot.Deserialize(Pilot.Serialize(this.pilot as Pilot));
       newPilot.CloudController.reset();
       newPilot.RenewID();
       newPilot.Callsign += '″';
@@ -115,8 +114,9 @@ export default {
       for (const mech of newPilot.Mechs) {
         mech.RenewID();
       }
-      this.$store.dispatch('addPilot', newPilot);
+      PilotStore().AddPilot(newPilot);
       this.hide();
+      this.$router.push({ name: 'pilot_sheet', params: { id: newPilot.ID } });
     },
   },
 };

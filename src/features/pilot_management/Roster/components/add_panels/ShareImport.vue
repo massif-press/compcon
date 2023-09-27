@@ -89,7 +89,7 @@
               :disabled="missingContent.length > 0"
               @click="importAsCopy()"
             >
-              <v-icon large left>cc:accuracy</v-icon>
+              <v-icon large left>mdi-plus</v-icon>
               Import {{ stagedData.callsign }} ({{ stagedData.name }}) as&nbsp;
               <b>a copy</b>
             </v-btn>
@@ -101,7 +101,7 @@
               :disabled="missingContent.length > 0 || alreadyPresentItem || isSameUser"
               @click="importAsRemote()"
             >
-              <v-icon large left>cc:accuracy</v-icon>
+              <v-icon large left>mdi-plus</v-icon>
               Import {{ stagedData.callsign }} ({{ stagedData.name }}) as&nbsp;
               <b>a remote resource</b>
               <cc-tooltip

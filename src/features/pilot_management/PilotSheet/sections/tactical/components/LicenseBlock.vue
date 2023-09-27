@@ -1,6 +1,6 @@
 <template>
   <div>
-    <cc-title small color="pilot" class="pl-3" style="margin-left: -50px !important">
+    <section-header title="Licenses">
       <section-edit-chip
         :highlight="!pilot.LicenseController.HasLicenses"
         :current="pilot.LicenseController.CurrentLicensePoints"
@@ -8,8 +8,7 @@
         :label="`Edit Pilot Licenses (${pilot.LicenseController.CurrentLicensePoints}/${pilot.LicenseController.MaxLicensePoints})`"
         @open-selector="($refs as any).licenseSelector.show()"
       />
-      Licenses
-    </cc-title>
+    </section-header>
     <cc-solo-dialog
       ref="licenseSelector"
       icon="cc:frame"
@@ -17,17 +16,13 @@
       title="Set Pilot Licenses"
       fullscreen
     >
-      <cc-license-selector :pilot="pilot" />
+      <license-selector :pilot="(pilot as Pilot)" modal />
     </cc-solo-dialog>
     <v-container>
       <no-data-block v-if="!pilot.LicenseController.Licenses.length" />
-      <v-row
-        v-else
-        density="compact"
-        :style="$vuetify.display.lgAndUp ? `width: calc(100vw - 250px)` : ''"
-      >
-        <v-col v-for="(l, i) in pilot.LicenseController.Licenses" cols="12" md="4">
-          <cc-pilot-license-item :pilot-license="l" />
+      <v-row v-else>
+        <v-col v-for="l in pilot.LicenseController.Licenses" cols="12" md="4">
+          <cc-pilot-license-item :pilot-license="l" title />
         </v-col>
       </v-row>
     </v-container>
@@ -35,12 +30,15 @@
 </template>
 
 <script lang="ts">
+import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
+import LicenseSelector from '@/features/pilot_management/_components/selectors/LicenseSelector.vue';
+import { Pilot } from '@/class';
 
 export default {
   name: 'license-block',
-  components: { SectionEditChip, NoDataBlock },
+  components: { SectionHeader, SectionEditChip, NoDataBlock, LicenseSelector },
   props: {
     pilot: {
       type: Object,

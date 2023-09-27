@@ -7,8 +7,12 @@
       <b class="text-stark" v-html="content" />
       <span v-if="!noCc">]</span>
       <v-divider class="my-2" />
-      <v-row density="compact">
-        <cc-btn small color="error" class="ml-auto" @click="$emit('confirm')">CONFIRM</cc-btn>
+      <v-row justify="end">
+        <v-col cols="auto">
+          <v-btn size="small" color="error" class="ml-auto" @click="$emit('confirm')"
+            >CONFIRM</v-btn
+          >
+        </v-col>
       </v-row>
     </v-card-text>
   </v-card>

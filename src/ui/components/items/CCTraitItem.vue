@@ -6,7 +6,7 @@
           <div class="heading h3" :style="`color: ${color}`" v-text="trait.Name" />
         </v-col>
         <v-col v-if="trait.Use !== 'Mission'" cols="auto" class="ml-auto">
-          <div class="text-subtle overline mt-n2">{{ trait.Use }}</div>
+          <v-chip size="small" variant="outlined">{{ trait.Use }}</v-chip>
         </v-col>
       </v-row>
       <v-row dense align="center">

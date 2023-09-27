@@ -49,15 +49,18 @@
     </div>
 
     <template #selector>
-      <cc-selector
-        itemType="Pilot Gear"
+      <cc-compendium-browser
         :items="armor"
-        :hidden-items="[]"
-        :equipped="item"
-        :table-headers="headers"
+        item-type="PilotArmor"
+        :options="options"
+        equippable
         @equip="equip($event)"
       >
         <template #header>
+          <div class="heading h4 text-center text-primary">Select Pilot Armor</div></template
+        >
+
+        <template #top>
           <div v-if="item">
             <span class="text-overline">
               GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
@@ -84,7 +87,7 @@
             </span>
           </div>
         </template>
-      </cc-selector>
+      </cc-compendium-browser>
     </template>
   </pl-card-base>
 </template>
@@ -120,13 +123,22 @@ export default {
   },
   data: () => ({
     headers: [
-      { title: 'Item', align: 'left', value: 'Name' },
-      { title: 'Armor', align: 'center', value: 'ArmorString' },
-      { title: 'HP Bonus', align: 'center', value: 'HpString' },
-      { title: 'E-Defense', align: 'center', value: 'EdefString' },
-      { title: 'Evasion', align: 'center', value: 'EvasionString' },
-      { title: 'Speed', align: 'center', value: 'SpeedString' },
+      { title: 'Content Pack', key: 'LcpName' },
+      { title: 'Type', key: 'Type' },
+      { title: 'Item', key: 'Name' },
+      { title: 'Armor', key: 'ArmorString' },
+      { title: 'HP Bonus', key: 'HpString' },
+      { title: 'E-Defense', key: 'EdefString' },
+      { title: 'Evasion', key: 'EvasionString' },
+      { title: 'Speed', key: 'SpeedString' },
     ],
+    options: {
+      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+      initialView: 'single',
+      groups: ['lcp', 'type'],
+      initialGroup: 'type',
+      noSource: true,
+    },
   }),
   computed: {
     exotics(): PilotArmor[] {

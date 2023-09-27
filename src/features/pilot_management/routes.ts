@@ -30,14 +30,12 @@ const routes = [
         path: '/pilot/:pilotID',
         component: Sheet,
         props: true,
-        children: [
-          {
-            path: 'mech/:mechID',
-            name: 'mech-sheet',
-            component: MechSheet,
-            props: true,
-          },
-        ],
+      },
+      {
+        path: '/pilot/:pilotID/mech/:mechID',
+        name: 'mech-sheet',
+        component: MechSheet,
+        props: true,
       },
       {
         path: '/active/:pilotID',

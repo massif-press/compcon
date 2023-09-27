@@ -6,7 +6,7 @@
     no-confirm
     @back="$emit('back')"
   >
-    <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" />
+    <pilot-registration-card :pilot="pilot" :pilot-ready="pilotReady" class="mt-4" />
     <br />
     <v-alert v-if="!pilotReady" type="error" variant="outlined">
       <span class="stat-text text-accent">
@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { Pilot } from '@/class';
+import { PilotStore } from '@/stores';
 import PilotRegistrationCard from '../../PilotSheet/components/PilotRegistrationCard.vue';
 import StepperContent from '../../_components/StepperContent.vue';
 
@@ -62,8 +63,9 @@ export default {
   },
   methods: {
     savePilot() {
-      this.original.ApplyLevel(Pilot.Serialize(this.pilot as Pilot));
-      this.$router.push({ name: 'pilot_sheet', params: { id: this.pilot.ID } });
+      const originalIndex = PilotStore().Pilots.findIndex((p) => p.ID === this.pilot.ID);
+      PilotStore().SetPilot(originalIndex, this.pilot as Pilot);
+      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID: this.pilot.ID } });
     },
     canContinue() {
       return (

@@ -93,7 +93,7 @@ class MechLoadout extends Loadout {
     if (integrated) ms.push(this._integratedWeapon);
     if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament);
     if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting);
-    ms = ms.concat(this._equippableMounts).concat(this._integratedMounts);
+    ms = ms.concat(this._equippableMounts).concat(this._integratedMounts as any);
 
     return ms;
   }
@@ -191,13 +191,13 @@ class MechLoadout extends Loadout {
   }
 
   public AddSystem(system: MechSystem): void {
-    const sys = { ...system };
+    const sys = { ...system } as MechSystem;
     this._systems.push(sys);
     this.saveMechLoadout();
   }
 
   public ChangeSystem(index: number, system: MechSystem): void {
-    this._systems.splice(index, 1, { ...system });
+    this._systems.splice(index, 1, { ...system } as MechSystem);
     this.saveMechLoadout();
   }
 
@@ -209,17 +209,21 @@ class MechLoadout extends Loadout {
 
   public get RequiredLicenses(): ILicenseRequirement[] {
     const requirements = [] as ILicenseRequirement[];
-    const equippedWeapons = (this.Weapons as LicensedItem[]).concat(
-      this.Weapons.map((x) => x.Mod).filter((x) => x !== null) as LicensedItem[]
-    );
-    const equippedSystems = this._systems as LicensedItem[];
+    const equippedWeapons = this.Weapons as LicensedItem[];
+    const equippedMods = this.Weapons.map((x) => x.Mod).filter((x) => !!x) as LicensedItem[];
+    const equippedSystems = (this.Systems as LicensedItem[]).concat(equippedMods);
+
+    console.log(equippedWeapons);
 
     equippedSystems.concat(equippedWeapons).forEach((item) => {
+      if (!item) return;
       //TODO: change from GMS to LL0
       if (item.Source === 'GMS') {
         const GMSIndex = requirements.findIndex((x) => x.source === 'GMS');
         if (GMSIndex > -1) {
-          requirements[GMSIndex].items.push(item.Name);
+          if (!item.Name) console.log(item as MechWeapon);
+          // TODO: figure out why Name isn't being exposed correctly
+          requirements[GMSIndex].items.push((item as any)._name);
         } else {
           requirements.push(item.RequiredLicense);
         }
@@ -236,6 +240,7 @@ class MechLoadout extends Loadout {
         }
       }
     });
+    console.log(requirements);
     return requirements;
   }
 
@@ -266,7 +271,7 @@ class MechLoadout extends Loadout {
   }
 
   public get UniqueMods(): WeaponMod[] {
-    return this.Weapons.map((x) => x.Mod).filter((y) => y && y.IsUnique);
+    return this.Weapons.map((x) => !!x && x.Mod).filter((y) => !!y && y.IsUnique) as WeaponMod[];
   }
 
   public get UniqueItems(): MechEquipment[] {

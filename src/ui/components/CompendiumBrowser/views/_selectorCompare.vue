@@ -21,7 +21,7 @@
             <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
             </td>
-            <td class="text-center side-border font-weight-bold text-primary">
+            <td class="text-center side-border font-weight-bold text-accent">
               {{ selected.Stats[metric.value] }}
             </td>
             <td v-for="item in items" class="text-center side-border">
@@ -72,6 +72,19 @@ export default {
             { title: 'Save', value: 'save' },
             { title: 'Speed', value: 'speed' },
             { title: 'System Points', value: 'sp' },
+          ];
+        case 'PilotArmor':
+          return [
+            { title: 'Armor', value: 'armor' },
+            { title: 'HP Bonus', value: 'hp' },
+            { title: 'E-Defense', value: 'edef' },
+            { title: 'Evasion', value: 'evasion' },
+            { title: 'Speed', value: 'speed' },
+          ];
+        case 'PilotWeapon':
+          return [
+            { title: 'Range', value: 'range' },
+            { title: 'Total Damage', value: 'damage' },
           ];
         default:
           return [

@@ -38,9 +38,8 @@
         >
           <v-col cols="10">
             <p v-if="skillRoll < 10" class="font-weight-bold px-3">
-              You can choose to get out now, or get what you are looking for. If
-              you choose the latter, you get your information but it immediately
-              gets you into trouble.
+              You can choose to get out now, or get what you are looking for. If you choose the
+              latter, you get your information but it immediately gets you into trouble.
               <br />
               <v-slide-x-transition>
                 <v-btn
@@ -94,12 +93,7 @@
                     <v-toolbar-title>Gathered Information</v-toolbar-title>
                   </v-toolbar>
                   <v-card-text>
-                    <v-textarea
-                      v-model="details"
-                      auto-grow
-                      rows="1"
-                      label="Details"
-                    />
+                    <v-textarea v-model="details" auto-grow rows="1" label="Details" />
                   </v-card-text>
                 </v-card>
               </v-slide-y-transition>
@@ -112,13 +106,7 @@
     <v-card-actions>
       <v-btn text @click="close()">cancel</v-btn>
       <v-spacer />
-      <v-btn
-        large
-        tile
-        color="primary"
-        :disabled="!skillRoll || !details"
-        @click="addReserve"
-      >
+      <v-btn large tile color="accent" :disabled="!skillRoll || !details" @click="addReserve">
         add reserve
       </v-btn>
     </v-card-actions>
@@ -160,8 +148,7 @@ export default {
         consumable: true,
       });
       if (this.skillRoll < 10)
-        nr.ResourceCost =
-          'Gathering this information has gotten you into immediate trouble';
+        nr.ResourceCost = 'Gathering this information has gotten you into immediate trouble';
       else if (this.skillRoll < 20) nr.ResourceCost = this.choices[this.choice];
       this.pilot.ReservesController.AddReserve(nr);
       this.close();

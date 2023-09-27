@@ -1,89 +1,23 @@
 <template>
   <v-card flat outlined>
-    <v-card-text class="py-1 px-2 ma-0">
-      <v-row v-if="clock.Linear" density="compact" align="center">
-        <v-col>
-          <v-row density="compact">
-            <v-col cols="12" class="heading h3 text-center">
-              {{ clock.Title }}
-              <span v-if="!print">
-                <v-btn small icon class="fade-select" @click="editDialog = true">
-                  <v-icon icon="mdi-circle-edit-outline" />
-                </v-btn>
-                <v-menu v-if="!noDelete" offset-x left>
-                  <template #activator="{ props }">
-                    <v-btn small icon color="error" class="fade-select" v-bind="props">
-                      <v-icon icon="mdi-delete" />
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-text>
-                      Do you want to delete this clock? This action cannot be undone.
-                    </v-card-text>
-                    <v-divider />
-                    <v-card-actions>
-                      <v-spacer />
-                      <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-menu>
-              </span>
-            </v-col>
-            <v-col cols="12">
-              <v-progress-linear
-                background-color="grey lighten-2"
-                :height="size / 2.5"
-                :value="total"
-                :color="color"
-              >
-                <div class="background text-accent" style="border-radius: 2px">
-                  <b v-if="print">&emsp; / {{ clock.Segments }}&nbsp;</b>
-                  <b v-else>&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b>
-                </div>
-              </v-progress-linear>
-            </v-col>
-
-            <v-col>
-              <div v-if="clock.Description">
-                <div class="text-overline mb-n1">DESCRIPTION</div>
-                <div class="ml-2" v-html-safe="clock.Description" />
-              </div>
-              <div v-if="clock.Resolution">
-                <div class="text-overline mb-n1">RESOLUTION</div>
-                <div class="ml-2" v-html-safe="clock.Resolution" />
-              </div>
-            </v-col>
-          </v-row>
-        </v-col>
-
-        <v-col v-if="!print" cols="auto">
-          <v-btn icon @click="clock.Increment()">
-            <v-icon large color="accent">cc:accuracy</v-icon>
-          </v-btn>
-          <br />
-          <v-btn icon @click="clock.Decrement()">
-            <v-icon large color="accent">cc:difficulty</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
-
-      <v-row v-else density="compact" align="center">
-        <v-col cols="auto">
-          <v-progress-circular :size="size" :width="size / 5" :value="total" :color="color">
+    <v-card-text class="pa-2 ma-0">
+      <v-row :align="clock.Linear ? 'start' : 'center'">
+        <v-col v-if="!clock.Linear" cols="auto">
+          <v-progress-circular v-model="total" :size="size" :width="size / 5" :color="color">
             <b v-if="print">&emsp;&nbsp; /{{ clock.Segments }}&nbsp;</b>
             <b v-else>{{ progress }} / {{ clock.Segments }}</b>
           </v-progress-circular>
         </v-col>
         <v-col>
-          <div class="heading h3">
+          <div class="heading h2">
             {{ clock.Title }}
             <span v-if="!print">
-              <v-btn small icon class="fade-select" @click="editDialog = true">
+              <v-btn size="small" icon variant="plain" @click="editDialog = true">
                 <v-icon icon="mdi-circle-edit-outline" />
               </v-btn>
               <v-menu offset-x left>
                 <template #activator="{ props }">
-                  <v-btn small icon color="error" class="fade-select" v-bind="props">
+                  <v-btn size="small" icon color="error" variant="plain" v-bind="props">
                     <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
@@ -94,12 +28,26 @@
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
+                    <v-btn size="small" color="error" @click="$emit('delete')"
+                      >Confirm Deletion</v-btn
+                    >
                   </v-card-actions>
                 </v-card>
               </v-menu>
             </span>
           </div>
+          <v-progress-linear
+            v-if="clock.Linear"
+            background-color="grey lighten-2"
+            :height="size / 2.5"
+            :value="total"
+            :color="color"
+          >
+            <div class="background text-accent" style="border-radius: 2px">
+              <b v-if="print">&emsp; / {{ clock.Segments }}&nbsp;</b>
+              <b v-else>&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b>
+            </div>
+          </v-progress-linear>
           <div v-if="clock.Description">
             <div class="text-overline mb-n1">DESCRIPTION</div>
             <div class="ml-2" v-html-safe="clock.Description" />
@@ -111,23 +59,27 @@
         </v-col>
         <v-col v-if="!print" cols="auto">
           <v-btn
+            size="x-large"
+            variant="plain"
             icon
             @click="
               clock.Increment();
               $emit('change');
             "
           >
-            <v-icon large color="accent">cc:accuracy</v-icon>
+            <v-icon size="50" color="accent">mdi-plus</v-icon>
           </v-btn>
           <br />
           <v-btn
+            size="x-large"
+            variant="plain"
             icon
             @click="
               clock.Decrement();
               $emit('change');
             "
           >
-            <v-icon large color="accent">cc:difficulty</v-icon>
+            <v-icon size="50" color="accent">mdi-minus</v-icon>
           </v-btn>
         </v-col>
       </v-row>
@@ -210,7 +162,7 @@
 export default {
   name: 'cc-clock',
   props: {
-    size: { type: Number, required: false, default: 70 },
+    size: { type: Number, required: false, default: 100 },
     clock: { type: Object, required: true },
     color: { type: String, required: false, default: 'primary' },
     print: { type: Boolean },
@@ -226,7 +178,7 @@ export default {
     },
     total() {
       if (this.print) return 0;
-      return (parseInt(this.progress) / parseInt(this.clock.Segments)) * 100;
+      return (parseInt(this.progress as any) / parseInt(this.clock.Segments)) * 100;
     },
   },
 };

@@ -16,7 +16,7 @@
       title="Set Pilot Skill Triggers"
       fullscreen
     >
-      <cc-skill-selector :pilot="pilot" />
+      <skill-selector :pilot="(pilot as Pilot)" modal />
     </cc-solo-dialog>
     <v-row style="width: calc(100vw - 250px)" density="compact" class="mt-2 pl-10">
       <v-col cols="12" md="auto" class="mr-2 text-center">
@@ -43,10 +43,12 @@
 import SectionHeader from '../../components/SectionHeader.vue';
 import SectionEditChip from '../../components/SectionEditChip.vue';
 import NoDataBlock from '../../components/NoDataBlock.vue';
+import SkillSelector from '@/features/pilot_management/_components/selectors/SkillSelector.vue';
+import { Pilot } from '@/class';
 
 export default {
   name: 'skill-block',
-  components: { SectionEditChip, SectionHeader, NoDataBlock },
+  components: { SectionEditChip, SectionHeader, NoDataBlock, SkillSelector },
   props: {
     pilot: {
       type: Object,

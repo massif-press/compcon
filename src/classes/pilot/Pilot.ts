@@ -183,7 +183,7 @@ class Pilot
     this._text_appearance = data?.text_appearance || '';
     this._notes = data?.notes || '';
     this._history = data?.history || '';
-    this._quirks = data && data.quirks ? [(data as any).quirk] : [];
+    this._quirks = data?.quirks || [];
     this._background = data?.background || '';
     this._mechs = data?.mechs.length
       ? data?.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
@@ -210,7 +210,7 @@ class Pilot
       return rank ? index > -1 && this.TalentsController.Talents[index].Rank >= rank : index > -1;
     } else if (typeName.toLowerCase() === 'reserve') {
       const e = this.ReservesController.Reserves.find((x) => x.ID === `reserve_${id}`);
-      return e && !e.Used;
+      return !!e && !e.Used;
     }
     return false;
   }
@@ -248,11 +248,6 @@ class Pilot
 
   public set Level(level: number) {
     this._level = level;
-    this.SaveController.save();
-  }
-
-  public ApplyLevel(update: PilotData): void {
-    this.Update(update);
     this.SaveController.save();
   }
 

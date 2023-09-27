@@ -37,11 +37,11 @@
           tile
           large
           class="my-3"
-          color="primary"
+          color="accent"
+          prepend-icon="mdi-plus"
           :disabled="!customType || !customName"
           @click="add()"
         >
-          <v-icon start>cc:accuracy</v-icon>
           Add Reserve
         </v-btn>
       </cc-titled-panel>

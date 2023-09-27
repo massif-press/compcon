@@ -3,8 +3,8 @@
     <v-row style="min-height: 70px" align="center">
       <v-col cols="auto">
         <cc-tooltip simple content="Add Reserve">
-          <v-btn icon variant="plain" :color="color" class="mt-n4" @click="$emit('click')">
-            <v-icon size="60">cc:accuracy</v-icon>
+          <v-btn icon variant="plain" color="accent" class="mt-n4" @click="$emit('click')">
+            <v-icon size="60">mdi-plus</v-icon>
           </v-btn>
         </cc-tooltip>
       </v-col>
@@ -27,7 +27,7 @@ export default {
     color: {
       type: String,
       required: false,
-      default: 'primary',
+      default: 'accent',
     },
     icon: {
       type: String,

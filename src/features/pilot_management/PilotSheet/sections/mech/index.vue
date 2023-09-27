@@ -1,163 +1,100 @@
 <template>
-  <div :class="small ? 'mt-n3' : ''">
-    <mech-nav
-      :selected="0"
-      :pilot="pilot"
-      :mech="mech"
-      :mechID="mech.ID"
-      @delete="($refs as any).deleteDialog.show()"
-    />
-    <v-row no-gutters>
-      <v-col cols="auto">
-        <cc-short-string-editor large before @set="mech.Name = $event">
-          <cc-title
-            :small="small"
-            :large="!small && mech.Name.length < 31"
-            :color="color"
-            class="px-3 ml-n6"
-          >
-            {{ mech.Name }}&emsp;
-          </cc-title>
-        </cc-short-string-editor>
-        <div :class="`mt-n${small ? '3' : '6'}`">
-          <cc-logo
-            :size="small ? '' : 'large'"
-            :source="mech.Frame.Manufacturer"
-            :class="small ? 'mt-n5' : ''"
-          />
-          <span :class="small ? 'heading h3' : 'heading h2'" style="position: relative; top: -11px">
-            <span v-if="!small" :style="`color: ${color}`" class="pt-n3">
-              {{ mech.Frame.Manufacturer.Name }}
-            </span>
-            <span class="text-text">{{ mech.Frame.Name }}</span>
-            <v-icon right class="fade-select mt-n1" @click="($refs as any).frameInfoDialog.show()">
-              mdi-information-outline
-            </v-icon>
-            <cc-solo-dialog
-              ref="frameInfoDialog"
-              icon="cc:frame"
-              :color="color"
-              no-actions
-              large
-              :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
-            >
-              <p
-                v-html-safe="mech.Frame.Description"
-                class="flavor-text mt-3 mb-1 px-1 text-text"
-              />
-            </cc-solo-dialog>
-          </span>
-        </div>
-      </v-col>
-    </v-row>
-    <v-row v-if="mech.StatusString.length" density="compact" justify="center" class="mt-n3 mb-1">
-      <v-col v-for="s in mech.StatusString">
-        <cc-mech-status-alert
-          :type="s"
-          @clear-ejected="mech.Ejected = false"
-          @clear-status="mech.Repair()"
-          @reprint="mech.FullRepair()"
-        />
-      </v-col>
-    </v-row>
-    <div>
-      <div v-if="small" class="text-center mb-2">
-        <img
-          :src="mech.Portrait"
-          :style="`object-fit: contain; width: 100%; image-rendering: ${
-            isPixel ? 'pixelated' : 'crisp-edges'
-          };`"
-          position="top center"
-        />
-        <v-btn
-          variant="outlined"
-          color="secondary"
-          small
-          block
-          class="fade-select"
-          @click="($refs as any).imageSelector.open()"
-        >
-          <v-icon start>mdi-circle-edit-outline</v-icon>
-          Set Mech Image
-        </v-btn>
-      </div>
-
-      <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
-    </div>
-    <v-row align="center" no-gutters>
-      <v-col cols="12" md="8">
-        <v-row class="px-3 mt-n4">
-          <v-col>
-            <operator-notes :mech="mech" :color="color" />
-          </v-col>
-        </v-row>
-        <v-row class="px-3 mt-n6">
-          <license-requirement-block :mech="mech" :color="color" />
-        </v-row>
-        <v-row class="px-3 mt-n6">
-          <trait-block :mech="mech" :color="color" />
-        </v-row>
-      </v-col>
-      <v-col v-if="!small" cols="4" style="max-height: inherit">
-        <div class="text-center mt-n10" style="max-height: inherit">
-          <div style="position: relative; max-height: inherit">
-            <img
-              :src="mech.Portrait"
-              :style="`object-fit: contain; width: 100%; image-rendering: ${
-                isPixel ? 'pixelated' : 'crisp-edges'
-              };`"
-              position="top center"
-            />
-            <v-btn
-              variant="outlined"
-              color="secondary"
-              small
-              class="fade-select"
-              style="position: absolute; bottom: 0; right: 0"
-              @click="($refs as any).imageSelector.open()"
-            >
-              <v-icon start>mdi-circle-edit-outline</v-icon>
-              Set Mech Image
-            </v-btn>
-          </div>
-
-          <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
-        </div>
-      </v-col>
-    </v-row>
-    <v-row :class="`mt-n6 mb-2 ${small ? '' : 'px-3'}`">
-      <attributes-block :color="color" :mech="mech" :pilot="pilot" />
-    </v-row>
-    <cc-title small class="ml-n6" :color="color">
-      {{ mech.Frame.Source }} {{ mech.Frame.Name }} CORE System
-    </cc-title>
-    <core-item :core-system="mech.Frame.CoreSystem" :color="color" />
-    <cc-title small :color="color" class="mb-2 ml-n6">Equipment Loadout</cc-title>
-    <cc-mech-loadout :mech="mech" class="px-3" />
-    <delete-mech-dialog ref="deleteDialog" :mech="mech" @delete="deleteMech()" />
+  <div class="mt-8" :style="`background-color: ${color}`">
+    <cc-short-string-editor large :placeholder="mech.Name" @set="mech.Name = $event">
+      <span class="heading" style="font-size: 75px; line-height: 85px">{{ mech.Name }}</span>
+    </cc-short-string-editor>
   </div>
+
+  <div class="text-center heading h2">
+    <v-icon :icon="mech.Frame.Manufacturer.Icon" />
+    <span :style="`color: ${color}`">
+      {{ mech.Frame.Manufacturer.Name }}
+    </span>
+    <span class="text-text pl-3">{{ mech.Frame.Name }}</span>
+    <v-btn icon variant="plain" @click="($refs as any).frameInfoDialog.show()">
+      <v-icon icon="mdi-information-outline" />
+    </v-btn>
+    <cc-solo-dialog
+      ref="frameInfoDialog"
+      icon="cc:frame"
+      :color="color"
+      no-actions
+      large
+      :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
+    >
+      <v-container class="px-12 pt-1">
+        <p v-html-safe="mech.Frame.Description" class="flavor-text text-text" />
+      </v-container>
+    </cc-solo-dialog>
+  </div>
+
+  <mech-nav
+    :selected="0"
+    :pilot="pilot"
+    :mech="mech"
+    :mechID="mech.ID"
+    @delete="($refs as any).deleteDialog.show()"
+  />
+
+  <v-container>
+    <v-row align="start">
+      <v-col>
+        <note-editor :item="mech" type="Operator" class="mb-4" />
+        <license-requirement-block :mech="mech" :color="color" />
+        <trait-block :mech="mech" :color="color" />
+      </v-col>
+      <v-col cols="auto">
+        <v-img :src="mech.Portrait" width="22vw" position="top center" />
+        <div class="text-right mt-n10">
+          <v-btn
+            variant="outlined"
+            color="secondary"
+            size="small"
+            class="fade-select"
+            @click="($refs as any).imageSelector.open()"
+          >
+            <v-icon start>mdi-circle-edit-outline</v-icon>
+            Set Mech Image
+          </v-btn>
+        </div>
+
+        <cc-image-selector ref="imageSelector" :item="mech" type="mech" />
+      </v-col>
+    </v-row>
+
+    <attributes-block :color="color" :mech="mech" :pilot="pilot" />
+
+    <core-block :mech="mech" :color="color" />
+
+    <loadout-block :mech="mech" />
+
+    <delete-mech-dialog ref="deleteDialog" :mech="mech" @delete="deleteMech()" />
+  </v-container>
 </template>
 
 <script lang="ts">
 import MechNav from './components/MechNav.vue';
-import CoreItem from './components/CoreItem.vue';
-import OperatorNotes from './sections/OperatorNotes.vue';
+import NoteEditor from '../../components/NoteEditor.vue';
 import LicenseRequirementBlock from './sections/license_requirements/index.vue';
-import TraitBlock from './sections/traits/index.vue';
+import TraitBlock from './sections/TraitBlock.vue';
 import AttributesBlock from './sections/attributes/index.vue';
 import DeleteMechDialog from '../hangar/components/DeleteMechDialog.vue';
 import { Pilot, Mech } from '@/class';
+import { PilotStore } from '@/stores';
+import CoreBlock from './sections/CoreBlock.vue';
+import LoadoutBlock from './sections/LoadoutBlock.vue';
 
 export default {
   name: 'mech-sheet',
   components: {
     MechNav,
     LicenseRequirementBlock,
-    OperatorNotes,
+    NoteEditor,
     TraitBlock,
     AttributesBlock,
-    CoreItem,
     DeleteMechDialog,
+    CoreBlock,
+    LoadoutBlock,
   },
   props: {
     pilotID: {
@@ -170,20 +107,14 @@ export default {
     },
   },
   computed: {
-    small() {
-      return this.$vuetify.display.smAndDown;
-    },
     pilot(): Pilot {
-      return this.$store.state.management.Pilots.find((p) => p.ID === this.pilotID);
+      return PilotStore().Pilots.find((p) => p.ID === this.pilotID) as Pilot;
     },
     mech(): Mech {
-      return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID);
+      return this.pilot.Mechs.find((m: Mech) => m.ID === this.mechID) as Mech;
     },
     color() {
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);
-    },
-    isPixel() {
-      return this.mech.LocalImage && this.mech.LocalImage.includes('_pixel');
     },
   },
   methods: {

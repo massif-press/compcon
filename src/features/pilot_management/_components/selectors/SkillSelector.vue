@@ -2,23 +2,25 @@
   <selector
     title="Pilot Skill Triggers"
     :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
+    :modal="modal"
   >
     <template #left-column>
-      <div
-        v-for="pSkill in pilot.SkillsController.Skills"
-        label
-        color="panel"
-        style="width: 100%"
-        class="ma-1"
-        @click="scroll(pSkill.Skill.ID)"
-      >
-        <v-chip dark color="accent">
-          +
-          <b>{{ pSkill.Bonus }}</b>
-        </v-chip>
-        &nbsp;
-        <b class="text-stark">{{ pSkill.Skill.Trigger }}</b>
-      </div>
+      <v-row v-for="pSkill in pilot.SkillsController.Skills" dense align="center" class="px-2">
+        <v-col cols="auto">
+          <v-chip color="accent" size="small">
+            +
+            <b>{{ pSkill.Bonus }}</b>
+          </v-chip>
+        </v-col>
+        <v-col>
+          <b class="text-stark">{{ pSkill.Skill.Trigger }}</b>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn icon size="x-small" variant="plain" @click="scroll(pSkill.Skill.ID)">
+            <v-icon size="25" icon="mdi-menu-right" />
+          </v-btn>
+        </v-col>
+      </v-row>
       <v-divider v-if="pilot.SkillsController.Skills.length" class="ma-2" />
       <v-row>
         <v-col class="ma-1">
@@ -85,6 +87,7 @@
         :pilot="pilot"
         @add-custom="pilot.SkillsController.AddCustomSkill($event)"
       />
+      <div style="height: 12px" />
     </template>
   </selector>
 </template>
@@ -107,6 +110,7 @@ export default {
   props: {
     pilot: { type: Pilot, required: true },
     levelUp: Boolean,
+    modal: Boolean,
   },
   data: () => ({
     staticSkills: [] as any,
@@ -143,16 +147,23 @@ export default {
   },
   methods: {
     scroll(id) {
-      if (this.levelUp) this.scrollTo(`#skill_${id}`);
-      else this.scrollTo(`#skill_${id}`);
+      this.scrollTo(`skill_${id}`);
     },
     scrollTo(e: any): void {
       const el = document.getElementById(e);
       if (el) {
-        const yOffset = -60;
-        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        const ce = document.getElementById('content-col');
+        if (ce) {
+          const yOffset = -60;
+          const y = el.offsetTop + yOffset;
 
-        window.scrollTo({ top: y, behavior: 'smooth' });
+          ce.scrollTo({ top: y, behavior: 'smooth' });
+        } else {
+          const yOffset = -60;
+          const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
       }
     },
   },

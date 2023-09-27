@@ -46,8 +46,8 @@
             <v-list-item
               prepend-icon="mdi-export-variant"
               title="Export Pilot"
-              subtitle="Open the export menu"
-              @click="($refs.exportDialog as any).show()"
+              subtitle="Export this pilot as a JSON file"
+              @click="exportPilot()"
             />
 
             <v-divider />
@@ -66,7 +66,6 @@
     </v-btn>
 
     <print-dialog ref="printDialog" :pilot="pilot" />
-    <export-dialog ref="exportDialog" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" :pilot="pilot" />
     <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="delete_pilot()" />
@@ -78,11 +77,11 @@
 </template>
 
 <script lang="ts">
+import { saveFile } from '@/io/Data';
 import { Pilot } from '@/class';
 import CloneDialog from './CloneDialog.vue';
 import StatblockDialog from './StatblockDialog.vue';
 import Roll20Dialog from './Roll20Dialog.vue';
-import ExportDialog from './ExportDialog.vue';
 import ShareDialog from './ShareDialog.vue';
 import PrintDialog from './PrintDialog.vue';
 import DeleteDialog from './DeletePilotDialog.vue';
@@ -95,7 +94,6 @@ export default {
   components: {
     StatblockDialog,
     Roll20Dialog,
-    ExportDialog,
     PrintDialog,
     DeleteDialog,
     CloneDialog,
@@ -123,8 +121,34 @@ export default {
   },
   methods: {
     delete_pilot() {
-      this.pilot.SaveController.delete();
+      this.pilot.SaveController.Delete();
       if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management');
+    },
+    exportPilot() {
+      this.pilot.BrewController.SetBrewData();
+
+      try {
+        saveFile(
+          this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',
+          Pilot.Serialize(this.pilot as Pilot),
+          'Save Pilot'
+        );
+        this.$notify({
+          title: 'Export Success',
+          text: `Pilot data saved as "${this.pilot.Callsign.toUpperCase().replace(
+            /\W/g,
+            ''
+          )}.json"`,
+          data: { type: 'success', icon: 'mdi-check' },
+        });
+      } catch (error) {
+        console.error(error);
+        this.$notify({
+          title: 'Export Error',
+          text: 'COMP/CON was unable to export pilot data',
+          data: { type: 'error', icon: 'mdi-alert' },
+        });
+      }
     },
     async remoteUpdate() {
       this.loading = true;

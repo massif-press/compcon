@@ -1,16 +1,16 @@
 <template>
-  <v-col class="py-0">
-    <span class="text-uppercase stat-text">{{ title }}</span>
-    <span class="flavor-text text-subtle">({{ skillPoints || 0 }})</span>
-    <cc-tooltip simple :content="tooltip()">
-      <cc-rating
-        :model="skillPoints"
-        :max="6"
-        density="compact"
-        color="secondary"
-      />
-    </cc-tooltip>
-  </v-col>
+  <span class="text-uppercase stat-text">{{ title }}</span>
+  <span class="flavor-text text--disabled pl-2">({{ skillPoints || 0 }})</span>
+  <cc-tooltip simple :content="tooltip()">
+    <v-icon v-if="filled" v-for="n in filled" color="secondary" size="large" icon="mdi-hexagon" />
+    <v-icon
+      v-if="empty"
+      v-for="n in empty"
+      color="secondary"
+      size="large"
+      icon="mdi-hexagon-outline"
+    />
+  </cc-tooltip>
 </template>
 
 <script lang="ts">
@@ -26,14 +26,22 @@ export default {
       required: true,
     },
   },
+  computed: {
+    filled(): number {
+      return this.skillPoints;
+    },
+    empty(): number {
+      return 6 - this.filled;
+    },
+  },
   methods: {
     //TODO: move into rules util class
     tooltip(): string {
       switch (this.title) {
         case 'hull':
-          return `MECH HP <b>+${
-            this.skillPoints * 2
-          }</b><br>REPAIR CAPACITY <b>+${Math.floor(this.skillPoints / 2)}</b>`;
+          return `MECH HP <b>+${this.skillPoints * 2}</b><br>REPAIR CAPACITY <b>+${Math.floor(
+            this.skillPoints / 2
+          )}</b>`;
         case 'agility':
           return `EVASION <b>+${this.skillPoints}</b><br>SPEED <b>+${Math.floor(
             this.skillPoints / 2
@@ -45,9 +53,7 @@ export default {
         case 'engineering':
           return `HEAT CAPACITY <b>+${
             this.skillPoints
-          }</b><br>LIMITED SYSTEMS BONUS <b>+${Math.floor(
-            this.skillPoints / 2
-          )}</b>`;
+          }</b><br>LIMITED SYSTEMS BONUS <b>+${Math.floor(this.skillPoints / 2)}</b>`;
         default:
           return '';
       }

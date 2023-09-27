@@ -2,21 +2,30 @@
   <selector
     title="Pilot Talents"
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
+    :modal="modal"
   >
     <template #left-column>
-      <div
+      <v-row
         v-for="pTalent in pilot.TalentsController.Talents"
-        label
+        dense
+        align="center"
         color="panel"
         style="width: 100%"
-        class="ma-1"
+        class="px-1"
         @click="scroll(pTalent.Talent.ID)"
       >
-        <v-chip dark color="accent">
-          <v-icon start>cc:rank_{{ pTalent.Rank }}</v-icon>
+        <v-col cols="auto">
+          <v-icon color="accent" :icon="`cc:rank_${pTalent.Rank}`" />
+        </v-col>
+        <v-col class="mb-n1">
           <b>{{ pTalent.Talent.Name }}</b>
-        </v-chip>
-      </div>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn icon size="x-small" variant="plain" @click="scroll(pTalent.Talent.ID)">
+            <v-icon size="25" icon="mdi-menu-right" />
+          </v-btn>
+        </v-col>
+      </v-row>
       <v-divider v-if="pilot.TalentsController.Talents.length" class="ma-2" />
       <v-row>
         <v-col class="ma-1">
@@ -67,7 +76,7 @@
     </template>
 
     <template #right-column>
-      <v-row dense align="center">
+      <v-row dense align="center" class="pt-2">
         <v-col cols="5">
           <v-text-field
             v-model="search"
@@ -121,6 +130,7 @@ export default {
   props: {
     pilot: { type: Pilot, required: true },
     levelUp: Boolean,
+    modal: Boolean,
   },
   data: () => ({
     search: '',
@@ -165,15 +175,23 @@ export default {
       return !this.pilot.TalentsController.HasFullTalents;
     },
     scroll(id) {
-      this.scrollTo(`#talent_${id}`);
+      this.scrollTo(`talent_${id}`);
     },
     scrollTo(e: any): void {
       const el = document.getElementById(e);
       if (el) {
-        const yOffset = -60;
-        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        const ce = document.getElementById('content-col');
+        if (ce) {
+          const yOffset = -70;
+          const y = el.offsetTop + yOffset;
 
-        window.scrollTo({ top: y, behavior: 'smooth' });
+          ce.scrollTo({ top: y, behavior: 'smooth' });
+        } else {
+          const yOffset = -60;
+          const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
+
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
       }
     },
   },
