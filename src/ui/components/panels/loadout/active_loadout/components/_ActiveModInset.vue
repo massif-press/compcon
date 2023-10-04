@@ -35,7 +35,7 @@
           / / NHP IN CASCADE / /
         </v-alert>
         <div>
-          <div class="text-overline">
+          <div class="text-overline text-disabled">
             <v-icon icon="cc:system" />
             EQUIPMENT EFFECT
           </div>
@@ -45,7 +45,9 @@
           <v-col>
             <v-row justify="space-around" density="compact">
               <v-col v-if="mod.Actions.length" cols="auto">
-                <div class="text-overline ml-n2">//EQUIPMENT ACTIONS</div>
+                <div class="text-overline ml-n2 text-disabled">
+                  <v-icon size="small" icon="cc:activate" />EQUIPMENT ACTIONS
+                </div>
                 <v-row no-gutters justify="center">
                   <v-col v-for="(a, i) in mod.Actions" cols="auto">
                     <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
@@ -53,7 +55,9 @@
                 </v-row>
               </v-col>
               <v-col v-if="mod.Deployables.length" cols="auto">
-                <div class="text-overline ml-n2">//EQUIPMENT DEPLOYABLES</div>
+                <div class="text-overline ml-n2 text-disabled">
+                  <v-icon size="small" icon="cc:drone" />EQUIPMENT DEPLOYABLES
+                </div>
                 <v-row no-gutters justify="center">
                   <v-col v-for="(d, i) in mod.Deployables" cols="auto">
                     <cc-deployable-info

@@ -17,10 +17,8 @@
       </v-slide-x-reverse-transition>
       <v-slide-x-reverse-transition>
         <div v-if="finished" class="text-right">
-          <v-btn x-small color="primary" class="fade-select" @click="undo()">
-            <cc-tooltip
-              content="Undo this action, refunding any cost it may have had"
-            >
+          <v-btn x-small color="primary" variant="plain" @click="undo()">
+            <cc-tooltip content="Undo this action, refunding any cost it may have had">
               <v-icon small left>mdi-reload</v-icon>
               UNDO
             </cc-tooltip>
@@ -71,11 +69,8 @@ export default {
   computed: {
     finalLog() {
       const out =
-        this.logOverride && this.logOverride.length
-          ? this.logOverride
-          : this.action.Confirm;
-      if (this.action.HeatCost)
-        out.push('ALERT: REACTOR HEAT LEVELS INCREASING');
+        this.logOverride && this.logOverride.length ? this.logOverride : this.action.Confirm;
+      if (this.action.HeatCost) out.push('ALERT: REACTOR HEAT LEVELS INCREASING');
       return out;
     },
     finished() {

@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <div class="text-black pa-2">
     <v-row density="compact" align="top">
       <v-col cols="auto">
         <div class="text-overline my-n2 text-grey">
@@ -319,7 +319,7 @@
         </div>
       </div>
     </fieldset>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">

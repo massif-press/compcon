@@ -80,7 +80,7 @@
               inline
               content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
             >
-              <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
+              <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
             </cc-tooltip>
           </v-btn>
         </v-col>
@@ -98,7 +98,7 @@
                   COMP/CON data. It is <b>strongly</b> recommended to back up
                   your data often."
                 >
-                  <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
+                  <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </v-btn>
             </template>
@@ -211,7 +211,7 @@
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
     <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
-    <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
+    <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
     <cc-solo-dialog

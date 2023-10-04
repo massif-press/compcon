@@ -36,7 +36,7 @@
           prepend-icon="mdi-printer"
           title="Print"
           subtitle="Print a tabletop-ready mech sheet"
-          @click="($refs as any).printDialog.show()"
+          @click="$router.push(`/print/${pilot.ID}/${mechID}`)"
         />
 
         <v-list-item
@@ -58,7 +58,6 @@
       </v-list>
     </v-menu>
 
-    <print-dialog ref="printDialog" class="unskew" :pilot="pilot" />
     <statblock-dialog
       ref="statblockDialog"
       class="unskew"
@@ -70,12 +69,11 @@
 
 <script lang="ts">
 import StatblockDialog from '../../../components/StatblockDialog.vue';
-import PrintDialog from '../../../components/PrintDialog.vue';
 import { Pilot } from '@/class';
 
 export default {
   name: 'mech-nav',
-  components: { StatblockDialog, PrintDialog },
+  components: { StatblockDialog },
   props: {
     pilot: {
       type: Pilot,
@@ -92,10 +90,7 @@ export default {
   },
   methods: {
     toTacticalProfile() {
-      this.$router.push({ name: 'tactical_profile' });
-    },
-    toActive() {
-      this.$router.push(`/active/${this.pilot.ID}`);
+      this.$router.push({ name: 'pilot_sheet_redirect', params: { pilotID: this.pilot.ID } });
     },
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div class="mt-5">
-    <section-header title="Equipment Loadout" />
-    <!-- <cc-mech-loadout :mech="mech" class="px-3" /> -->
+    <section-header title="Equipment Loadout" class="mb-5" />
+    <cc-mech-loadout :mech="mech" class="px-3" />
   </div>
 </template>
 

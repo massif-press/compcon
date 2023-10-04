@@ -87,7 +87,9 @@
         <div v-if="item">
           <slot @click="($refs as any).detailDialog.show()" />
           <div v-if="item.Deployables.length">
-            <div class="text-overline ml-n2 text-subtle">EQUIPMENT DEPLOYABLES</div>
+            <div class="text-overline ml-n2 text-disabled">
+              <v-icon size="small" icon="cc:drone" />EQUIPMENT DEPLOYABLES
+            </div>
             <v-row v-if="item.Deployables" no-gutters justify="center">
               <v-col v-for="d in item.Deployables" cols="auto">
                 <cc-deployable-info
@@ -107,7 +109,7 @@
           @click="($refs as any).selectorDialog.show()"
         >
           <v-row>
-            <v-col class="heading h2 text-subtle">// EMPTY //</v-col>
+            <v-col class="heading h2 text-disabled">// EMPTY //</v-col>
           </v-row>
         </div>
       </v-card-text>

@@ -6,12 +6,12 @@
   <slot name="statblock" />
 
   <div v-if="item.Effect">
-    <div v-show="!dense" class="text-overline text-subtle">//EFFECT</div>
+    <div v-show="!dense" class="text-overline text-disabled">//EFFECT</div>
     <p v-html-safe="item.Effect" class="text-text body-text mb-1" />
   </div>
 
   <div v-if="item.Actions && item.Actions.length">
-    <div v-show="!dense" class="text-overline text-subtle">//ACTIONS</div>
+    <div v-show="!dense" class="text-overline text-disabled">//ACTIONS</div>
     <v-row no-gutters justify="center">
       <v-col v-for="a in item.Actions" cols="auto">
         <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
@@ -20,7 +20,7 @@
   </div>
 
   <div v-if="item.Deployables && item.Deployables.length">
-    <div v-show="!dense" class="text-overline text-subtle">//DEPLOYABLES</div>
+    <div v-show="!dense" class="text-overline text-disabled">//DEPLOYABLES</div>
     <v-row no-gutters justify="center">
       <v-col v-for="d in item.Deployables" cols="auto">
         <cc-deployable-info
@@ -34,7 +34,7 @@
   </div>
 
   <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
-    <div v-show="!dense" class="text-overline text-subtle">//INTEGRATIONS</div>
+    <div v-show="!dense" class="text-overline text-disabled">//INTEGRATIONS</div>
     <v-row no-gutters justify="center">
       <v-col v-for="x in item.IntegratedEquipment" cols="auto">
         <cc-integrated-info :item="x" :panel="$vuetify.display.lgAndUp" />
@@ -45,14 +45,14 @@
   <slot name="profile" />
 
   <div v-if="item.Tags && item.Tags.length && !hideTags" class="mt-2">
-    <div v-show="!dense" class="text-overline text-subtle">//TAGS</div>
+    <div v-show="!dense" class="text-overline text-disabled">//TAGS</div>
     <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" />
   </div>
 
   <slot name="charts" />
 
   <div v-if="item.Description" class="my-2">
-    <div v-show="!dense" class="text-overline text-subtle">//COMPENDIUM DATA</div>
+    <div v-show="!dense" class="text-overline text-disabled">//COMPENDIUM DATA</div>
     <div v-html-safe="item.Description" class="flavor-text" />
   </div>
 

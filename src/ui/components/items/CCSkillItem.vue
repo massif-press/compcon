@@ -2,7 +2,7 @@
   <div>
     <v-card v-if="skill.err" flat outlined>
       <v-card-text class="text-center pa-1">
-        <span class="flavor-text text-subtle">// MISSING DATA //</span>
+        <span class="flavor-text text-disabled">// MISSING DATA //</span>
       </v-card-text>
     </v-card>
     <v-expansion-panels v-else focusable accordion style="border-radius: 0px">
@@ -17,7 +17,7 @@
                 <span class="stat-text">{{ skill.Trigger }}</span>
                 <div v-if="bonus && $vuetify.display.mdAndUp">
                   <v-icon v-for="n in bonus" color="secondary" small> mdi-hexagon </v-icon>
-                  <span class="flavor-text text-subtle">(+{{ bonus }})</span>
+                  <span class="flavor-text text-disabled">(+{{ bonus }})</span>
                 </div>
                 <span v-else-if="bonus" class="font-weight-bold text-accent pl-2">
                   +{{ bonus }}

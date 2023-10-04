@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i class="text-subtle">
+    <i class="text-disabled">
       This is the locally-saved user data. These items should generally not have to be reset, but
       may be useful in debugging or clearing a persistent loading issue.
       <br />Resetting User Data will not reset achievement unlocks (this can be done in the

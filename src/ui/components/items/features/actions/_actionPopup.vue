@@ -6,16 +6,10 @@
     </span>
 
     <span slot="title">
-      <v-icon start large dark>{{ action.Icon }}</v-icon>
+      <v-icon start size="large">{{ action.Icon }}</v-icon>
       {{ action.Name }}
     </span>
-    <v-chip
-      slot="title-items"
-      color="white"
-      class="stat-text mt-4 mr-6"
-      variant="outlined"
-      label
-    >
+    <v-chip slot="title-items" class="stat-text mt-4 mr-6" variant="outlined" label>
       {{ action.Frequency.ToString() }}
     </v-chip>
 

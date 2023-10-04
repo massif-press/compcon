@@ -31,7 +31,7 @@ class WeaponSlot {
   }
 
   public EquipWeapon(weapon: MechWeapon, save = true): void {
-    const w = { ...weapon };
+    const w = _.clone(weapon);
     this._weapon = w;
     if (save) this.save();
   }

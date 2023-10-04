@@ -59,7 +59,7 @@
               >GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)</span
             >
             <br />
-            <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
+            <span class="heading h1 text-disabled text--lighten-1" style="line-height: 20px">
               NO SELECTION
             </span>
             <span class="flavor-text overline mt-n1 text-error" style="display: block">

@@ -83,7 +83,7 @@
                 </cc-tooltip>
               </v-col>
               <v-col cols="auto">
-                <v-btn icon class="fade-select" @click="moreDice = !moreDice">
+                <v-btn icon variant="plain" @click="moreDice = !moreDice">
                   <v-icon v-if="moreDice">mdi-chevron-double-left</v-icon>
                   <v-icon v-else>mdi-chevron-double-right</v-icon>
                 </v-btn>

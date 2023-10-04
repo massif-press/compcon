@@ -8,41 +8,23 @@
   >
     <v-card-text class="flavor-text">
       <v-card flat tile>
-        <fieldset>
-          <legend class="clipped-small heading h3">
-            General Print Options&emsp;
-          </legend>
-          <print-option-select
-            mandatory
-            title="Layout"
-            :items="layoutOptions"
-          />
-          <print-option-select
-            mandatory
-            title="Font Size"
-            :items="fontSizeOptions"
-          />
-          <print-option-select
-            mandatory
-            title="Print Trackable Stats as:"
-            :items="trackableStatOptions"
-          />
+        <fieldset class="pa-2">
+          <legend class="clipped-small heading h3">General Print Options&emsp;</legend>
+          <print-option-select mandatory title="Layout" :items="layoutOptions" />
+          <v-row>
+            <v-col>
+              <print-option-select mandatory title="Orientation" :items="orientationOptions" />
+            </v-col>
+            <v-col>
+              <print-option-select mandatory title="Stat Tracking" :items="trackableStatOptions" />
+            </v-col>
+          </v-row>
         </fieldset>
-        <v-overlay absolute :value="true" color="panel" opacity="0.85">
-          <span class="heading h2 text-text">Feature In Development</span>
-        </v-overlay>
       </v-card>
       <v-card flat tile>
-        <fieldset>
-          <legend class="clipped-small heading h3">
-            Pilot Sheet Options&emsp;
-          </legend>
-          include:
-          <print-option-select
-            multiple
-            title="Include"
-            :items="pilotIncludeOptions"
-          />
+        <fieldset class="pa-2">
+          <legend class="clipped-small heading h3">Pilot Sheet Options&emsp;</legend>
+          <print-option-select multiple title="Include" :items="pilotIncludeOptions" />
         </fieldset>
         <v-overlay absolute :value="true" color="panel" opacity="0.85">
           <span class="heading h2 text-text">Feature In Development</span>
@@ -50,16 +32,9 @@
       </v-card>
       <v-scroll-y-transition>
         <v-card flat tile>
-          <fieldset>
-            <legend class="clipped-small heading h3">
-              Mech Sheet Options&emsp;
-            </legend>
-            include:
-            <print-option-select
-              multiple
-              title="Include"
-              :items="mechIncludeOptions"
-            />
+          <fieldset class="pa-2">
+            <legend class="clipped-small heading h3">Mech Sheet Options&emsp;</legend>
+            <print-option-select multiple title="Include" :items="mechIncludeOptions" />
           </fieldset>
           <v-overlay absolute :value="true" color="panel" opacity="0.85">
             <span class="heading h2 text-text">Feature In Development</span>
@@ -67,13 +42,9 @@
         </v-card>
       </v-scroll-y-transition>
       <v-card flat tile>
-        <fieldset>
+        <fieldset class="pa-2">
           <legend>Extras</legend>
-          <print-option-select
-            multiple
-            title="Also Print"
-            :items="extraOptions"
-          />
+          <print-option-select multiple title="Also Print" :items="extraOptions" />
         </fieldset>
         <v-overlay absolute :value="true" color="panel" opacity="0.85">
           <span class="heading h2 text-text">Feature In Development</span>
@@ -92,22 +63,20 @@ export default {
   data: () => ({
     options: null,
     layoutOptions: [
-      { title: 'Graphic/Portrait', icon: 'mdi-file' },
-      { title: 'Graphic/Landscape', icon: 'mdi-note' },
-      { title: 'Text-Only/Portrait', icon: 'mdi-file-document-outline' },
-      {
-        title: 'Text-Only/Landscape',
-        icon: 'mdi-file-document-outline-outline',
-      },
+      { title: 'Minimal', icon: 'mdi-text-short' },
+      { title: 'Terse', icon: 'mdi-file-document-outline' },
+      { title: 'Standard', icon: 'mdi-book-open' },
+      { title: 'Expanded', icon: 'mdi-book-open-page-variant-outline' },
+      { title: 'Cards', icon: 'mdi-cards-outline' },
     ],
-    fontSizeOptions: [
-      { title: 'Small', icon: 'mdi-format-font-size-decrease' },
-      { title: 'Regular', icon: 'mdi-format-text-variant' },
-      { title: 'Large', icon: 'mdi-format-font-size-increase' },
+    orientationOptions: [
+      { title: 'Portrait', icon: 'mdi-file' },
+      { title: 'Landscape', icon: 'mdi-note' },
     ],
+
     trackableStatOptions: [
       { title: 'Numbers', icon: 'mdi-numeric' },
-      { title: 'Pips', icon: 'mdi-checkbox-multiple-marked-outline' },
+      { title: 'Pips', icon: 'mdi-hexagon-multiple-outline' },
     ],
     pilotIncludeOptions: [
       { title: 'Pilot Portrait' },
@@ -140,6 +109,7 @@ export default {
     ],
     extraOptions: [
       { title: 'Relevant Tag Info' },
+      { title: 'Relevant Action Reference' },
       { title: 'Combat Quick Reference' },
       { title: 'Downtime Quick Reference' },
     ],

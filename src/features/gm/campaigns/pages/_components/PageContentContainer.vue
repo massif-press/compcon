@@ -5,7 +5,7 @@
       <cc-clock v-else-if="item.ItemType === 'Clock'" :clock="item" no-delete />
       <text-editor v-else :item="item" />
     </v-col>
-    <v-col cols="auto" class="fade-select">
+    <v-col cols="auto" variant="plain">
       <cc-tooltip left content="Move Up">
         <v-btn icon small @click="$emit('move-up')"><v-icon icon="mdi-arrow-up" /></v-btn>
       </cc-tooltip>

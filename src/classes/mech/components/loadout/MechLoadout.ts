@@ -191,13 +191,13 @@ class MechLoadout extends Loadout {
   }
 
   public AddSystem(system: MechSystem): void {
-    const sys = { ...system } as MechSystem;
+    const sys = _.clone(system) as MechSystem;
     this._systems.push(sys);
     this.saveMechLoadout();
   }
 
   public ChangeSystem(index: number, system: MechSystem): void {
-    this._systems.splice(index, 1, { ...system } as MechSystem);
+    this._systems.splice(index, 1, _.clone(system) as MechSystem);
     this.saveMechLoadout();
   }
 
@@ -212,8 +212,6 @@ class MechLoadout extends Loadout {
     const equippedWeapons = this.Weapons as LicensedItem[];
     const equippedMods = this.Weapons.map((x) => x.Mod).filter((x) => !!x) as LicensedItem[];
     const equippedSystems = (this.Systems as LicensedItem[]).concat(equippedMods);
-
-    console.log(equippedWeapons);
 
     equippedSystems.concat(equippedWeapons).forEach((item) => {
       if (!item) return;

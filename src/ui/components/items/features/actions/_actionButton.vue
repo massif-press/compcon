@@ -12,7 +12,7 @@
       <v-menu v-if="!noAction" offset-y max-width="700px">
         <template #activator="{ on }">
           <v-btn right icon v-bind="on">
-            <v-icon class="fade-select" icon="mdi-information-outline" />
+            <v-icon variant="plain" icon="mdi-information-outline" />
           </v-btn>
         </template>
         <v-card>

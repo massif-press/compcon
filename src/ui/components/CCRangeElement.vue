@@ -2,7 +2,7 @@
   <div v-for="r in (range as Range[])" class="text-center d-inline-block px-2">
     <cc-tooltip :title="r.Text" :content="Help(r.Type)">
       <span v-if="small">
-        <v-icon :icon="r.Icon" color="text" />
+        <v-icon :icon="r.Icon" />
         <v-icon v-if="r.Override" icon="mdi-information-outline" />
         <b v-else>
           {{ `${added ? '+' : ''}${r.Value}` }}
@@ -10,7 +10,7 @@
       </span>
       <v-row v-else align="center" no-gutters>
         <v-col cols="auto">
-          <v-icon :size="dense ? 25 : 35" :icon="r.Icon" color="text" />
+          <v-icon :size="dense ? 25 : 35" :icon="r.Icon" />
         </v-col>
         <v-col class="heading text-text" :style="`font-size: ${dense ? '20' : '24'}pt`">
           {{ `${added ? '+' : ''}${r.Value}` }}
@@ -48,7 +48,7 @@ export default {
     Help(name: string): string {
       const g = glossary.find((x) => x.name.toLowerCase() === name.toLowerCase());
       if (g)
-        return `<div class="text-overline text-subtle mb-n2 mt-n2">${name}:</div><div>${g.description}</div>`;
+        return `<div class="text-overline text-disabled mb-n2 mt-n2">${name}:</div><div>${g.description}</div>`;
       return '';
     },
   },

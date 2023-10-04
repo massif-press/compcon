@@ -29,7 +29,7 @@
                   {{ item.Name }}
                 </span>
                 <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-                <span v-show="$vuetify.display.mdAndUp" class="caption text-subtle ml-1">
+                <span v-show="$vuetify.display.mdAndUp" class="caption text-disabled ml-1">
                   <b>{{ item.Size }}</b>
                   {{ item.Type }}
                 </span>
@@ -41,7 +41,7 @@
               </span>
             </v-col>
             <v-col cols="auto" class="ml-auto heading">
-              <v-btn v-if="!rest" right dark icon class="fade-select" @click.stop="hide = !hide">
+              <v-btn v-if="!rest" right dark icon variant="plain" @click.stop="hide = !hide">
                 <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
               </v-btn>
             </v-col>
@@ -86,7 +86,7 @@
                 / / AI IN CASCADE / /
               </v-alert>
               <div v-if="item && item.Effect">
-                <div class="text-overline mt-2">
+                <div class="text-overline mt-2 text-disabled">
                   <v-icon icon="cc:system" />
                   EQUIPMENT EFFECT
                 </div>

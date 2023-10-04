@@ -5,8 +5,8 @@
         <slot />
       </v-col>
       <v-col cols="auto">
-        <v-btn size="x-small" icon variant="plain" @click="edit()">
-          <v-icon size="20" icon="mdi-circle-edit-outline" />
+        <v-btn size="x-small" icon variant="plain" class="mb-n1" @click="edit()">
+          <v-icon size="15" icon="mdi-circle-edit-outline" />
         </v-btn>
       </v-col>
     </v-row>

@@ -7,7 +7,7 @@
         <v-row justify="center" density="compact">
           <v-col :cols="$vuetify.display.smAndDown ? 12 : 4" class="effect-text text-center">
             Full Action
-            <i class="text-subtle text--darken-1">or&nbsp</i>
+            <i class="text-disabled text--darken-1">or&nbsp</i>
             2 Quick Actions
             <br />
             <v-card tile color="action--full" width="100%" class="text-center pt-4 pb-4">
@@ -57,10 +57,9 @@
   </v-footer>
   <v-btn
     size="x-small"
-    variant="tonal"
     icon
     color="primary"
-    class="fade-select"
+    variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
     @click="scrollTo(content[0])"
   >

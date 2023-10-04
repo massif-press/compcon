@@ -22,7 +22,7 @@
             variant="plain"
             color="accent"
             class="mt-n4"
-            @click="$emit('equip', item)"
+            @click.stop="$emit('equip', item)"
           >
             <v-icon size="35" icon="mdi-plus-box" />
           </v-btn>

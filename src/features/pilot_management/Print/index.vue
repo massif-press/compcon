@@ -1,29 +1,63 @@
 <template>
-  <v-card
-    tile
-    flat
-    light
-    class="printable"
-    style="margin-left: auto; margin-right: auto"
-  >
-    <div v-if="blank">
+  <v-card tile flat class="printable text-black" style="margin-left: auto; margin-right: auto">
+    <div v-if="!selectedPilot">
       <blank-pilot-print />
       <div v-if="hasBondData" style="page-break-before: always" />
       <blank-bonds-print v-if="hasBondData" />
       <div style="page-break-before: always" />
-      <blank-mech-print />
     </div>
     <div v-else>
-      <pilot-print v-if="pilot" :pilot="pilot" />
-      <div v-if="hasBondData" style="page-break-before: always" />
-      <bonds-print
-        v-if="hasBondData && pilot.BondController.Bond"
-        :bc="pilot.BondController"
-      />
-      <div style="page-break-before: always" />
-      <mech-print v-if="mech" :mech="mech" />
+      <pilot-print v-if="selectedPilot" :pilot="selectedPilot" />
+      <page-break />
+      <div v-if="hasBondData" />
+      <bonds-print v-if="selectedPilot.BondController.Bond" :bc="selectedPilot.BondController" />
     </div>
-    <print-footer />
+    <page-break />
+    <mech-print v-if="selectedMech" :mech="selectedMech" />
+    <blank-mech-print v-else />
+
+    <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
+      <v-btn stacked @click="$router.go(-1)">
+        <span>Close Preview</span>
+        <v-icon icon="mdi-close" />
+      </v-btn>
+      <v-select
+        v-model="selectedPilot"
+        :items="allPilots"
+        :item-title="(x: Pilot) => `${x.Name} // ${x.Callsign}`"
+        return-object
+        density="compact"
+        hide-details
+        variant="outlined"
+        label="Pilot"
+        class="mx-3"
+        clearable
+        style="width: 10vw"
+      />
+      <v-select
+        v-model="selectedMech"
+        :items="pilotMechs"
+        :item-title="(x: Mech) => `${x.Name} // ${x.Frame.Name}`"
+        return-object
+        density="compact"
+        hide-details
+        variant="outlined"
+        label="Mech"
+        class="mx-3"
+        clearable
+        style="width: 10vw"
+      />
+      <v-spacer />
+      <v-btn @click="($refs as any).options.show()">
+        <span>Options</span>
+        <v-icon icon="mdi-cog" />
+      </v-btn>
+      <options-dialog ref="options" @set="setOptions($event)" />
+      <v-btn @click="print()">
+        <span>Print</span>
+        <v-icon icon="mdi-printer" />
+      </v-btn>
+    </v-bottom-navigation>
     <div class="no-print" style="min-height: 60px !important" />
   </v-card>
 </template>
@@ -35,10 +69,11 @@ import BlankBondsPrint from './BlankBondsPrint.vue';
 import BondsPrint from './BondsPrint.vue';
 import BlankMechPrint from './BlankMechPrint.vue';
 import MechPrint from './MechPrint.vue';
-import PrintFooter from './PrintFooter.vue';
+import OptionsDialog from './OptionsDialog.vue';
 
 import { PilotStore, CompendiumStore } from '@/stores';
-import { Pilot } from '@/class';
+import { Pilot, Mech } from '@/class';
+import PageBreak from './components/PageBreak.vue';
 
 export default {
   name: 'combined-print',
@@ -49,35 +84,48 @@ export default {
     BondsPrint,
     BlankMechPrint,
     MechPrint,
-    PrintFooter,
+    OptionsDialog,
+    PageBreak,
   },
   props: {
-    pilotID: {
+    presetPilot: {
       type: String,
       required: true,
     },
-    mechID: {
+    presetMech: {
       type: String,
       required: false,
       default: '',
     },
   },
   data: () => ({
-    pilot: null,
-    mech: null,
-    blank: false,
+    selectedPilot: null as Pilot | null,
+    selectedMech: null as Mech | null,
   }),
   created() {
-    if (this.pilotID === 'blank') this.blank = true;
-    this.pilot = PilotStore().Pilots.find((p) => p.ID === this.pilotID);
-    this.mech =
-      !this.mechID || this.mechID === 'blank'
-        ? null
-        : (this.pilot as Pilot).Mechs.find((m) => m.ID === this.mechID);
+    if (!this.presetPilot) return;
+    if (this.presetPilot)
+      this.selectedPilot = PilotStore().Pilots.find((p) => p.ID === this.presetPilot) as Pilot;
+    if (this.presetMech)
+      this.selectedMech = this.selectedPilot?.Mechs.find((m) => m.ID === this.presetMech) || null;
   },
   computed: {
+    allPilots() {
+      return PilotStore().Pilots.filter((x) => !x.SaveController.IsDeleted);
+    },
+    pilotMechs() {
+      return this.selectedPilot ? this.selectedPilot.Mechs : [];
+    },
     hasBondData() {
       return CompendiumStore().Bonds.length;
+    },
+  },
+  methods: {
+    print() {
+      window.print();
+    },
+    setOptions(options) {
+      console.log(options);
     },
   },
 };
@@ -119,7 +167,7 @@ export default {
 
     margin: 0 !important;
     padding: 0 !important;
-    color-adjust: exact !important;
+    print-color-adjust: exact !important;
     -webkit-print-color-adjust: exact !important;
   }
   .caption {

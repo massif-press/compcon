@@ -1,28 +1,16 @@
 <template>
-  <div
-    v-show="!item || (item && !item.NoSynergies)"
-    :class="inline ? 'd-inline-block' : ''"
-  >
-    <div
-      v-if="!synergies.length && showNone"
-      class="text-center"
-      style="opacity: 0.5"
-    >
+  <div v-show="!item || (item && !item.NoSynergies)" :class="inline ? 'd-inline-block' : ''">
+    <div v-if="!synergies.length && showNone" class="text-center" style="opacity: 0.5">
       <i>None</i>
     </div>
-    <cc-tooltip
-      v-for="(s, i) in synergies"
-      inline
-      :title="s.Origin"
-      :content="s.Detail"
-    >
-      <v-icon :small="small" :large="large" color="accent">cc:talent</v-icon>
+    <cc-tooltip v-for="(s, i) in synergies" inline :title="s.Origin" :content="s.Detail">
+      <v-icon :size="small ? 'small' : large ? 'large' : ''" color="accent">cc:talent</v-icon>
     </cc-tooltip>
   </div>
 </template>
 
 <script lang="ts">
-import { Synergy } from '@/class';
+import { Mech, Synergy } from '@/class';
 
 export default {
   name: 'cc-synergy-display',
@@ -46,7 +34,7 @@ export default {
   },
   computed: {
     synergies() {
-      return Synergy.Collect(this.location, this.mech, this.item);
+      return Synergy.Collect(this.location, this.mech as Mech, this.item as any);
     },
   },
 };

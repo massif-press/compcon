@@ -33,7 +33,7 @@
           </span>
         </v-col>
         <v-col cols="auto" class="ml-auto">
-          <v-chip small label dark :color="`action--${coreSystem.Activation.toLowerCase()}`">
+          <v-chip size="small" label>
             {{ coreSystem.Activation.toUpperCase() }}
           </v-chip>
         </v-col>

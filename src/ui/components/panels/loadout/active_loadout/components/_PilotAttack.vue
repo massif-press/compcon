@@ -230,7 +230,7 @@
                     inline
                     content="Special rules or equipment may allow you to Skirmish as a Free Action. Using this button will commit the attack without spending a Quick Action this turn"
                   >
-                    <v-icon end small class="fade-select">mdi-information-outline</v-icon>
+                    <v-icon end small variant="plain">mdi-information-outline</v-icon>
                   </cc-tooltip>
                 </v-btn>
                 <div v-if="item.ProfileHeatCost" class="text-overline text-error text-center">
@@ -378,7 +378,7 @@ each source of damage is used.`"
                     </div>
                   </v-col>
                 </v-row>
-                <div v-if="summedDamage" class="text-overline my-n3 pr-1 text-subtle text-right">
+                <div v-if="summedDamage" class="text-overline my-n3 pr-1 text-disabled text-right">
                   <b v-if="!!reliable && summedDamage < reliable" class="text-accent">
                     ({{ reliable }})
                   </b>
@@ -422,7 +422,7 @@ each source of damage is used.`"
                     <v-icon large color="dangerzone">mdi-fire</v-icon>
                     <div class="text-overline my-n2">
                       +1 HEAT
-                      <v-icon small class="fade-select" @click="overkillHeat--">mdi-close</v-icon>
+                      <v-icon small variant="plain" @click="overkillHeat--">mdi-close</v-icon>
                     </div>
                   </v-col>
                   <v-col cols="auto">
@@ -507,7 +507,7 @@ each source of damage is used.`"
               ALERT: REACTOR HEAT LEVELS INCREASING
             </span>
             <cc-tooltip inline content="Undo this attack, refunding any actions it may have cost">
-              <v-btn x-small color="primary" class="fade-select" @click="reset">
+              <v-btn x-small color="primary" variant="plain" @click="reset">
                 <v-icon small left>mdi-reload</v-icon>
                 UNDO
               </v-btn>

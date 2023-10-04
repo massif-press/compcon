@@ -12,8 +12,8 @@
       </v-col>
       <v-col v-if="item.LicenseString" cols="auto" class="ml-auto text-right">
         <div class="heading h2">{{ item.Type }}</div>
-        <span class="flavor-text text-subtle">// {{ item.LicenseString }}</span>
-        <div v-if="item.InLcp" class="flavor-text text-subtle">
+        <span class="flavor-text text-disabled">// {{ item.LicenseString }}</span>
+        <div v-if="item.InLcp" class="flavor-text text-disabled">
           {{ item.LcpName }}
         </div>
       </v-col>

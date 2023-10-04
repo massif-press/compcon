@@ -56,7 +56,7 @@
       <v-icon v-html="item.Icon" />
     </template>
     <template #[`item.Name`]="{ item }">
-      <span v-if="spDisable && item.SP > sp && !spIgnore" class="stat-text text-subtle">
+      <span v-if="spDisable && item.SP > sp && !spIgnore" class="stat-text text-disabled">
         {{ item.Name }}
         <cc-tooltip inline content="Equipment exceeds System Point capacity">
           <v-icon color="warning">mdi-alert</v-icon>

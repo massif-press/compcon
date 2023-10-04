@@ -1,25 +1,27 @@
 <template>
   <div>
-    <span class="heading h3 text-accent">{{ title }}</span>
+    <div class="heading h3 text-accent pb-2">{{ title }}</div>
     <v-item-group :mandatory="mandatory" :multiple="multiple">
       <v-row density="compact" justify="space-around" align="center">
         <v-col v-for="i in items">
-          <v-item #default="{ active, toggle }">
+          <v-item v-slot="{ isSelected, toggle }">
             <v-card
-              :color="active ? 'primary' : ''"
+              :color="isSelected ? 'accent' : ''"
               class="d-flex align-center text-center"
-              :min-width="!multiple ? '225px' : ''"
+              min-width="13vw"
               min-height="100%"
-              :dark="!multiple"
-              :outlined="multiple"
+              variant="tonal"
+              :ripple="false"
               @click="toggle"
             >
               <v-card-text>
                 <v-scroll-y-transition>
                   <div>
-                    <v-icon v-if="i.icon" :size="multiple ? 40 : 60">{{ i.icon }}</v-icon>
-                    <br v-if="i.icon" />
-                    <span :class="`font-weight-bold ${active && 'text-white'}`">{{ i.text }}</span>
+                    <v-icon v-if="(i as any).icon" size="60">{{ (i as any).icon }}</v-icon>
+                    <br v-if="(i as any).icon" />
+                    <div :class="`font-weight-bold ${isSelected && 'text-white'}`">
+                      {{ (i as any).title }}
+                    </div>
                   </div>
                 </v-scroll-y-transition>
               </v-card-text>

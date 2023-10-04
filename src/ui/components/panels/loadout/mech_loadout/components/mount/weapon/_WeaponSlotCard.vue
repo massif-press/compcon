@@ -1,104 +1,99 @@
 <template>
   <div>
-    <slot-card-base
-      ref="base"
-      :item="item"
-      :mech="mech"
-      :readonly="readonly"
-      :color="color"
-      :empty="!item"
-    >
-      <div slot="header">
-        <v-row v-if="item" no-gutters>
+    <slot-card-base ref="base" :item="item" :mech="mech" :color="color" :empty="!item">
+      <template #header>
+        <v-row v-if="item" dense align="center">
           <v-col cols="auto">
             <equipment-options
               :item="item"
-              :readonly="readonly"
               @swap="($refs as any).base.$refs.selectorDialog.show()"
               @remove="remove()"
             />
           </v-col>
+          <v-col v-if="item.Mod" cols="auto">
+            <cc-tooltip inline content="Weapon Modification Equipped">
+              <v-icon color="accent" icon="cc:weaponmod" />
+            </cc-tooltip>
+          </v-col>
           <v-col cols="auto">
-            <div v-if="!item.Destroyed" :class="`ml-n2 ${small ? 'text-white effect-text' : ''}`">
-              <cc-tooltip v-if="item.Mod" inline :content="`Weapon Modification Equipped`">
-                <v-icon style="margin-top: -2px" dark>cc:weaponmod</v-icon>
-              </cc-tooltip>
+            <div>
               {{ item.Name }}
-              <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-              <component :is="small ? 'div' : 'span'" class="caption text-subtle ml-1 my-n1">
-                <b>{{ item.Size }}</b>
+              <span v-if="item.FlavorName" class="text-overline ml-2" style="line-height: 12px"
+                >//{{ item.TrueName }}</span
+              >
+              <div class="text-overline" style="line-height: 12px; opacity: 0.5">
+                {{ item.Size }}
                 {{ item.WeaponType }}
-              </component>
-            </div>
-            <div v-else class="py-1 error" style="letter-spacing: 3px">
-              &nbsp;//
-              <strike>{{ item.Name }}</strike>
-              //&nbsp;
+              </div>
             </div>
           </v-col>
         </v-row>
         <div v-else>{{ weaponSlot.Size }} Weapon</div>
-      </div>
-      <v-row v-if="item" slot="header-items" justify="end" no-gutters>
-        <v-col cols="auto">
-          <cc-range-element v-if="item.Range" small :range="getRange" class="d-inline" dark />
-          <cc-slashes v-if="item.Range && item.Damage" class="px-2" />
-          <cc-damage-element
-            v-if="item.Damage"
-            small
-            :damage="getDamage"
-            :type-override="item.DamageTypeOverride"
-            class="d-inline"
-          />
-        </v-col>
-        <v-col v-if="item && item.SP" cols="auto">
-          <div class="pl-3 ml-3" style="border-left: 1px solid #616161">
-            <span>{{ item.SP }}SP</span>
-          </div>
-        </v-col>
-        <v-col v-if="!readonly" cols="auto">
-          <div class="pl-3 ml-3" style="border-left: 1px solid #616161">
-            <v-icon
-              v-if="item"
-              :small="small"
-              dark
-              class="fade-select mt-n1"
-              @click.stop="remove()"
-            >
-              delete
-            </v-icon>
-            <v-icon
-              class="fade-select mt-n1"
-              :small="small"
-              dark
-              @click.stop="($refs as any).base.$refs.selectorDialog.show()"
-              v-html="item ? 'mdi-swap-vertical-variant' : 'mdi-add'"
+      </template>
+      <template #header-items>
+        <v-row v-if="item" justify="center" no-gutters>
+          <v-col cols="auto">
+            <cc-range-element v-if="item.Range" small :range="getRange" />
+            <cc-slashes v-if="item.Range && item.Damage" class="px-1" />
+            <cc-damage-element
+              v-if="item.Damage"
+              small
+              :damage="getDamage"
+              :type-override="item.DamageTypeOverride"
             />
-          </div>
-        </v-col>
-      </v-row>
-      <div v-if="item" class="mt-1">
+          </v-col>
+          <v-col v-if="item && item.SP" cols="auto">
+            <div class="pl-3" style="border-left: 1px solid #616161">
+              <span>{{ item.SP }}SP</span>
+            </div>
+          </v-col>
+          <v-col cols="auto">
+            <div style="border-left: 1px solid #616161">
+              <v-btn
+                v-if="item"
+                size="x-small"
+                icon
+                variant="plain"
+                color="error"
+                @click.stop="remove()"
+              >
+                <v-icon size="20" icon="mdi-delete" />
+              </v-btn>
+              <v-btn
+                size="x-small"
+                icon
+                variant="plain"
+                @click.stop="($refs as any).base.$refs.selectorDialog.show()"
+              >
+                <v-icon size="20" :icon="item ? 'mdi-swap-vertical-variant' : 'mdi-add'" />
+              </v-btn>
+            </div>
+          </v-col>
+        </v-row>
+      </template>
+      <div v-if="item" class="pt-1">
         <equipment-header
           :item="item"
           :readonly="readonly"
           :color="color"
           :use-bonus="mech.LimitedBonus"
         >
-          <div v-if="!intWeapon && !readonly" slot="left">
-            <v-btn
-              v-if="!item.Mod && !item.NoMods"
-              variant="outlined"
-              small
-              :color="color"
-              class="mb-1"
-              @click.stop="($refs as any).modDialog.show()"
-            >
-              <v-icon :color="color" left>cc:weaponmod</v-icon>
-              <span>NO MOD INSTALLED</span>
-            </v-btn>
-          </div>
+          <template #left>
+            <div v-if="!intWeapon">
+              <v-btn
+                v-if="!item.Mod && !item.NoMods"
+                variant="plain"
+                size="small"
+                :color="color"
+                prepend-icon="cc:weaponmod"
+                @click.stop="($refs as any).modDialog.show()"
+              >
+                NO MOD INSTALLED
+              </v-btn>
+            </div>
+          </template>
         </equipment-header>
-        <div class="mt-n1">
+        <!-- <div>
           <div v-if="item.ProfileEffect">
             <div class="mb-n2">
               <p v-html-safe="item.ProfileEffect" class="text-text body-text mb-1 mx-3 py-2" />
@@ -131,18 +126,19 @@
               />
             </div>
           </div>
-          <v-row v-if="item.Mod" density="compact" justify="center">
-            <mod-inset :mod="item.Mod" :mech="mech" :color="color" @remove-mod="item.Mod = null" />
-          </v-row>
-          <!-- <ammo-case-inset :level="armoryLevel" /> -->
-        </div>
+          <ammo-case-inset :level="armoryLevel" /> 
+        </div> -->
+        <mod-inset
+          v-if="item.Mod"
+          :mod="item.Mod"
+          :mech="mech"
+          :color="color"
+          @remove-mod="item.Mod = null"
+        />
       </div>
-      <weapon-selector
-        slot="selector"
-        :weapon-slot="weaponSlot"
-        :mech="mech"
-        @equip="equip($event)"
-      />
+      <template #selector>
+        <weapon-selector :weapon-slot="weaponSlot" :mech="mech" @equip="equip($event)" />
+      </template>
     </slot-card-base>
     <sh-lock-dialog
       ref="lockDialog"
@@ -158,7 +154,7 @@
       fullscreen
       no-pad
     >
-      <mod-selector :weapon="item" :mech="mech" @install="install($event)" />
+      <mod-selector :weapon="item" :mech="mech" @equip="install($event)" />
     </cc-solo-dialog>
   </div>
 </template>
@@ -181,6 +177,7 @@ import {
   WeaponType,
   Range,
   Damage,
+  Mech,
 } from '@/class';
 
 export default {
@@ -216,7 +213,7 @@ export default {
     },
   },
   data: () => ({
-    stagedSH: null,
+    stagedSH: null as MechWeapon | null,
   }),
   computed: {
     small() {
@@ -241,16 +238,16 @@ export default {
       if (!this.item) return [];
       const mod = this.weaponSlot.Mod;
       const ar = mod && mod.AddedRange ? mod.AddedRange : null;
-      return Range.CalculateRange(this.item, this.mech, ar);
+      return Range.CalculateRange(this.item, this.mech as Mech, ar);
     },
     getDamage() {
       if (!this.item) return [];
-      return Damage.CalculateDamage(this.item, this.mech);
+      return Damage.CalculateDamage(this.item, this.mech as Mech);
     },
   },
   methods: {
     equip(item: MechWeapon) {
-      (this.$refs.base.$refs.selectorDialog as any).hide();
+      ((this.$refs as any).base.$refs.selectorDialog as any).hide();
       if (item.Size === WeaponSize.Superheavy) {
         this.equipSuperheavy(item);
       } else {
@@ -266,7 +263,7 @@ export default {
     finalizeSuperheavy(lockTarget: EquippableMount) {
       if (this.item && this.item.Size === WeaponSize.Superheavy)
         this.mech.MechLoadoutController.ActiveLoadout.UnequipSuperheavy();
-      lockTarget.Lock(this.mount);
+      lockTarget.Lock(this.mount as EquippableMount);
       this.weaponSlot.EquipWeapon(this.stagedSH, this.mech.Pilot);
       (this.$refs.lockDialog as any).hide();
       this.stagedSH = null;

@@ -13,13 +13,13 @@
             </div>
             <div>
               <b>CLOUD USER ID:</b>
-              <span class="text-subtle pl-3">Not Connected</span>
+              <span class="text-disabled pl-3">Not Connected</span>
             </div>
             <v-divider />
             <v-row class="text-center py-4">
               <v-col>
                 <b>itch.io account:</b>
-                <div class="text-subtle">Unlinked</div>
+                <div class="text-disabled">Unlinked</div>
                 <v-btn size="small" color="#fa5c5c">
                   Link itch.io
                   <v-tooltip max-width="400px">
@@ -39,7 +39,7 @@
               </v-col>
               <v-col>
                 <b>Patreon account:</b>
-                <div class="text-subtle">Unlinked</div>
+                <div class="text-disabled">Unlinked</div>
                 <v-btn size="small" color="#FF424D">
                   Link Patreon
                   <v-tooltip max-width="400px">
@@ -77,7 +77,7 @@
                   inline
                   content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
                 >
-                  <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
+                  <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </v-btn>
             </div>
@@ -91,7 +91,7 @@
                       inline
                       content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
                     >
-                      <v-icon end class="fade-select">mdi-help-circle-outline</v-icon>
+                      <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
                     </cc-tooltip>
                   </v-btn>
                 </template>

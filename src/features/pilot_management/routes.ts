@@ -21,7 +21,7 @@ const routes = [
         component: Roster,
       },
       {
-        path: '/print/:pilotID/:mechID',
+        path: '/print/:presetPilot/:presetMech?',
         component: Print,
         props: true,
       },

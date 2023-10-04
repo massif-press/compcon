@@ -34,12 +34,11 @@
       class="mx-2 my-8"
       @click="savePilot()"
     >
-      <span v-if="$vuetify.display.mdAndUp">
+      <span>
         Register New Pilot // {{ pilot.Callsign || default_callsign }} ({{
           pilot.Name || default_name
         }})
       </span>
-      <span v-else>Register Pilot</span>
     </v-btn>
   </stepper-content>
 </template>

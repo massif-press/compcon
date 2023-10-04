@@ -10,7 +10,7 @@
           icon
           dark
           x-small
-          class="fade-select"
+          variant="plain"
           absolute
           @click="editMode = true"
         >

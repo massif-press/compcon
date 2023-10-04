@@ -1,13 +1,8 @@
 <template>
   <v-row no-gutters justify="center">
     <v-col v-for="(s, i) in synergies">
-      <v-alert
-        density="compact"
-        variant="outlined"
-        class="py-1 ma-1"
-        color="primary"
-      >
-        <div class="text-overline mt-n2 text-subtle">
+      <v-alert density="compact" variant="outlined" class="py-1 ma-1" color="primary">
+        <div class="text-overline mt-n2 text-disabled">
           ACTIVE SYNERGY
           <cc-slashes />
           <span class="text-text">{{ s.Origin }}</span>
@@ -42,9 +37,7 @@ export default {
     synergies() {
       if (!this.locations) return [];
       if (Array.isArray(this.locations))
-        return this.locations.flatMap((l) =>
-          Synergy.Collect(l as string, this.mech, this.item)
-        );
+        return this.locations.flatMap((l) => Synergy.Collect(l as string, this.mech, this.item));
       return Synergy.Collect(this.locations, this.mech, this.item);
     },
   },

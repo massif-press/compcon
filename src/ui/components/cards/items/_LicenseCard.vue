@@ -4,7 +4,7 @@
       <v-col v-for="n in item.MaxRank" v-show="item.Unlocks[n - 1].length" cols="4">
         <div class="text-center">
           <p class="pt-1 mb-1">
-            <span class="stat-text text-subtle text--darken-1"> RANK {{ 'I'.repeat(n) }} </span>
+            <span class="stat-text text-disabled text--darken-1"> RANK {{ 'I'.repeat(n) }} </span>
           </p>
           <div v-for="i in item.Unlocks[n - 1]">
             <cc-item-modal :item="i" class="ma-1" />

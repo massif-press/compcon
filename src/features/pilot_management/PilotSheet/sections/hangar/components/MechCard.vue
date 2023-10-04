@@ -144,7 +144,7 @@
                         size="small"
                         icon
                         variant="plain"
-                        @click.stop="($refs as any).print.show()"
+                        @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)"
                       >
                         <v-icon icon="mdi-printer" />
                       </v-btn>
@@ -153,7 +153,7 @@
                       <v-btn
                         small
                         icon
-                        class="fade-select"
+                        variant="plain"
                         :disabled="mech.Pilot.ActiveMech === mech"
                         @click.stop="mech.Pilot.ActiveMech = mech"
                       >
@@ -170,18 +170,16 @@
     </div>
     <copy-mech-dialog ref="copy" :mech="mech" @copy="$emit('copy', mech)" />
     <delete-mech-dialog ref="delete" :mech="mech" @delete="$emit('delete', mech)" />
-    <print-dialog ref="print" :pilot="mech.Pilot" />
   </v-col>
 </template>
 
 <script lang="ts">
 import CopyMechDialog from './CopyMechDialog.vue';
 import DeleteMechDialog from './DeleteMechDialog.vue';
-import PrintDialog from '../../../components/PrintDialog.vue';
 
 export default {
   name: 'mech-card',
-  components: { CopyMechDialog, DeleteMechDialog, PrintDialog },
+  components: { CopyMechDialog, DeleteMechDialog },
   props: {
     mech: {
       type: Object,
@@ -201,8 +199,8 @@ export default {
           if (!mount.Weapons.length) str += ' EMPTY';
           else {
             mount.Weapons.forEach((w, i) => {
-              str += ` ${w._name}`;
-              if (w.Mod) str += ` (${w.Mod._name})`;
+              str += ` ${w.Name}`;
+              if (w.Mod) str += ` (${w.Mod.Name})`;
               if (i + 1 < mount.Weapons.length) str += ' /';
             });
           }

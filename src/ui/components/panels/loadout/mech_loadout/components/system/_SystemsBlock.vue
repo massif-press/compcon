@@ -5,7 +5,7 @@
       <div style="position: relative">
         <div class="side-legend">
           <span
-            :class="`heading h3 ${mech.FreeSP < 0 ? 'text-error' : 'text-subtle text--darken-3'}`"
+            :class="`heading h3 ${mech.FreeSP < 0 ? 'text-error' : 'text-disabled text--darken-3'}`"
           >
             <v-icon v-if="mech.FreeSP < 0" color="error" left>mdi-alert</v-icon>
             {{ mech.FreeSP }} / {{ mech.MaxSP }}
@@ -35,7 +35,7 @@
       <system-slot-card
         v-for="(s, i) in systems"
         :mech="mech"
-        :item="s"
+        :item="(s as any)"
         :color="color"
         :index="i"
         :readonly="readonly"
@@ -104,7 +104,7 @@ legend {
   position: absolute;
   right: 20px;
   top: -30px;
-  background-color: white;
+  background-color: rgb(var(--v-theme-background));
   padding: 0px 8px;
   height: 28px;
   border: 1px solid grey;

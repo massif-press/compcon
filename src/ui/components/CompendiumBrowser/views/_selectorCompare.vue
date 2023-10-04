@@ -1,6 +1,6 @@
 <template>
   <v-card style="max-width: calc(100vw - 390px) !important">
-    <v-card-text v-if="!selected" class="heading h2 py-12 my-12 text-center text-subtle"
+    <v-card-text v-if="!selected" class="heading h2 py-12 my-12 text-center text-disabled"
       >NO SELECTION</v-card-text
     >
     <v-card-text v-else>

@@ -4,7 +4,6 @@
       :loadouts="mech.MechLoadoutController.Loadouts"
       :active-loadout="mech.MechLoadoutController.ActiveLoadout"
       :color="color"
-      :readonly="readonly"
       @set-active="mech.MechLoadoutController.ActiveLoadout = $event"
       @add-loadout="mech.MechLoadoutController.AddLoadout()"
       @clone-loadout="mech.MechLoadoutController.CloneLoadout()"

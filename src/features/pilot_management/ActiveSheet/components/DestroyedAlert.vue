@@ -17,7 +17,7 @@
         REACTOR DESTROYED
       </span>
     </span>
-    <div class="heading mt-n4 text-subtle">
+    <div class="heading mt-n4 text-disabled">
       {{
         mech.ReactorDestroyed
           ? 'ERR ERR ERR ERR ERR ERR ERR'
@@ -30,8 +30,7 @@
       {{ mech.Frame.Source }} {{ mech.Frame.Name }}) has been destroyed.
       <span v-if="!mech.ReactorDestroyed"></span>
       <span v-if="mech.ReactorDestroyed">
-        The reactor has gone critical and the frame is unrecoverable. This mech
-        must be reprinted.
+        The reactor has gone critical and the frame is unrecoverable. This mech must be reprinted.
       </span>
     </div>
     <div style="position: relative">
@@ -39,12 +38,7 @@
         v-if="!mech.ReactorDestroyed"
         content="Certain actions and equipment allow for battlefield repairs. Clicking here will restore your mech to 1 Structure Point and 1 HP."
       >
-        <v-btn
-          x-small
-          color="primary"
-          class="fade-select"
-          @click="restore(false)"
-        >
+        <v-btn x-small color="primary" variant="plain" @click="restore(false)">
           <v-icon small left>cc:repair</v-icon>
           REPAIR
         </v-btn>
@@ -53,12 +47,7 @@
         v-else-if="mech.ReactorDestroyed"
         content="Revert this state and restore your mech to 1 Structure Point and 1 HP."
       >
-        <v-btn
-          x-small
-          color="primary"
-          class="fade-select"
-          @click="restore(true)"
-        >
+        <v-btn x-small color="primary" variant="plain" @click="restore(true)">
           <v-icon small left>mdi-reload</v-icon>
           RESTORE
         </v-btn>

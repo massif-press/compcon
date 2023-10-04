@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="auto">
-      <span class="text-subtle">// MISSING DATA //</span>
+      <span class="text-disabled">// MISSING DATA //</span>
     </v-col>
     <v-col cols="auto">
       <v-btn icon text color="error" @click="$emit('remove')">

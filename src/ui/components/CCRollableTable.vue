@@ -51,7 +51,7 @@
           <v-col cols="auto">
             <v-menu offset-x bottom>
               <template #activator="{ props }">
-                <v-btn small color="primary" class="fade-select" v-bind="props">
+                <v-btn small color="primary" variant="plain" v-bind="props">
                   <v-icon start>mdi-reload</v-icon>
                   Rebuild table
                 </v-btn>
@@ -72,7 +72,7 @@
           <v-col cols="auto">
             <v-menu v-if="!noDelete" offset-x left>
               <template #activator="{ props }">
-                <v-btn small icon color="error" class="fade-select" v-bind="props">
+                <v-btn small icon color="error" variant="plain" v-bind="props">
                   <v-icon icon="mdi-delete" />
                 </v-btn>
               </template>

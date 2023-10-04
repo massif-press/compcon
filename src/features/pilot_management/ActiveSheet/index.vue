@@ -11,17 +11,8 @@
     <div>
       <div class="text-overline my-2">
         PLAYER NOTES
-        <v-btn
-          small
-          right
-          icon
-          class="fade-select"
-          @click="showNotes = !showNotes"
-        >
-          <v-icon
-            small
-            v-html="showNotes ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-          />
+        <v-btn small right icon variant="plain" @click="showNotes = !showNotes">
+          <v-icon small v-html="showNotes ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>
       </div>
       <v-textarea

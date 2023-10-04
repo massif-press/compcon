@@ -1,63 +1,33 @@
 <template>
   <div>
-    <v-toolbar
-      v-if="!readonly"
-      id="toolbar"
-      :color="color"
-      dark
-      flat
-      density="compact"
-      class="sliced"
-      max-height="30px"
-    >
-      <v-toolbar-title style="max-height: 30px" class="mt-n4">
-        <v-menu offset-y top>
-          <template #activator="{ props }">
-            <v-icon start class="fade-select mt-n2" v-bind="props">mdi-menu</v-icon>
-          </template>
-          <v-list class="px-2 py-3">
-            <v-list-item-subtitle class="text-overline">Available Loadouts</v-list-item-subtitle>
-            <v-list-item v-for="(l, i) in loadouts" @click="$emit('set-active', l)">
-              <v-list-item-title class="stat-text">{{ l.Name }}</v-list-item-title>
-            </v-list-item>
-            <v-list-item v-if="!readonly" @click="$emit('add-loadout')">
-              <v-list-item-title class="text-accent font-weight-bold">
-                <v-icon color="primary" left>add</v-icon>
-                Add New Loadout
-              </v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <span class="l-title">
-          <cc-short-string-editor v-if="!readonly" inline @set="activeLoadout.Name = $event">
-            {{ activeLoadout.Name }}
-          </cc-short-string-editor>
-          <span v-else>{{ activeLoadout.Name }}</span>
-        </span>
-      </v-toolbar-title>
-      <v-spacer />
-      <v-toolbar-items v-if="!readonly" class="mr-6 mt-n4">
-        <v-btn small icon class="fade-select" @click="$emit('clone-loadout')">
-          <v-icon icon="mdi-content-duplicate" />
-        </v-btn>
-        <v-menu v-model="confirmMenu" offset-y top>
-          <template #activator="{ props }">
-            <v-btn small icon class="fade-select" :disabled="loadouts.length === 1" v-bind="props">
-              <v-icon icon="delete" />
-            </v-btn>
-          </template>
-          <cc-confirmation
-            :content="`Lancer, please confirm deletion of:
-          <span class='text-accent'>
-            ${activeLoadout.Name}
-          </span> Loadout`"
-            @confirm="removeConfirm"
+    <v-toolbar :color="color" flat density="compact">
+      <v-menu offset-y top>
+        <template #activator="{ props }">
+          <v-btn size="small" icon variant="plain" v-bind="props">
+            <v-icon icon="mdi-menu" />
+          </v-btn>
+        </template>
+        <v-list density="compact">
+          <div class="text-overline px-3">Available Loadouts</div>
+          <v-list-item
+            v-for="l in loadouts"
+            :title="(l as Loadout).Name"
+            @click="$emit('set-active', l)"
           />
-        </v-menu>
-      </v-toolbar-items>
+          <v-divider />
+          <v-list-item
+            prepend-icon="mdi-plus"
+            title="Add New Loadout"
+            @click="$emit('add-loadout')"
+          />
+        </v-list>
+      </v-menu>
+      <cc-short-string-editor :placeholder="activeLoadout.Name" @set="activeLoadout.Name = $event">
+        <span class="heading h3">{{ activeLoadout.Name }}</span>
+      </cc-short-string-editor>
     </v-toolbar>
-    <v-card flat :outlined="!readonly" tile :color="color">
-      <v-card-text class="px-2 py-0 background">
+    <v-card flat variant="outlined" class="rounded-0" :color="color">
+      <v-card-text>
         <slot />
       </v-card-text>
     </v-card>
@@ -65,6 +35,8 @@
 </template>
 
 <script lang="ts">
+import { Loadout } from '@/class';
+
 export default {
   name: 'cc-loadout-panel',
   props: {
@@ -81,9 +53,6 @@ export default {
       required: false,
       default: 'primary',
     },
-    readonly: {
-      type: Boolean,
-    },
   },
   data: () => ({
     confirmMenu: false,
@@ -96,14 +65,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.l-title {
-  font-family: 'Helvetica Bold', sans-serif;
-  font-weight: 900;
-  font-size: 18pt;
-  line-height: 14pt;
-  color: white;
-  text-transform: uppercase;
-}
-</style>

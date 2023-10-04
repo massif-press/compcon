@@ -8,23 +8,22 @@
       </div>
       <v-container class="flavor-text" style="font-size: 14px">
         <div class="mt-n4">
-          This I-7a (CAVALRY UNIT REGISTRATION) is a self-directed registration form for the purpose
-          of registering a new unit designation for one or more IDENT-registered pilots. This form
-          is to be used by pilots who are not currently assigned to a unit or who are registering a
-          new unit designation for the first time. If you wish to register a new designation for an
-          existing unit, please submit form I-7b (CAVALRY UNIT DOCUMENTATION UPDATE) instead.
+          IDENT-CR-7a (CAVALRY UNIT REGISTRATION) is a self-directed registration form for the
+          purpose of registering a new unit designation for one or more IDENT-registered pilots.
+          This form is to be used by pilots who are not currently assigned to a unit or who are
+          registering a new unit designation for the first time. If you wish to register a new
+          designation for an existing unit, please submit form CR-7b (CAVALRY UNIT DOCUMENTATION
+          UPDATE) instead.
           <br />
-          Unit registration submission will be reviewed by the UAD/CAVCOM Office of Records and, if
-          approved, will be added to the Union Administrative Department Cavalry Command Cavalry
-          Unit Registry in the order they are received. You will be contacted by CAVCOM staff if
-          your submission is incomplete or requires additional information.
+          Unit registration submission will be reviewed by the UAD/CAVCOM Office of Records in the
+          order they are received.
         </div>
       </v-container>
       <v-row align="center">
         <v-col>
           <div class="my-2">
             <div class="text-caption">
-              I-7-00 // ENCODED DATA REMIT <i class="text-disabled">(OPTIONAL)</i>
+              CR-7-00 // ENCODED DATA REMIT <i class="text-disabled">(OPTIONAL)</i>
             </div>
             <div class="px-10 pt-1">
               <group-file-import @toggle-import="importHide = $event" @done="$emit('close')" />
@@ -38,7 +37,7 @@
           <v-row align="start">
             <v-col cols="12" md="5" class="mr-auto">
               <div class="my-2">
-                <div class="text-caption">I-7-01 // UNIT DESIGNATION</div>
+                <div class="text-caption">CR-7-01 // UNIT DESIGNATION</div>
                 <v-text-field
                   v-model="group.Name"
                   variant="outlined"
@@ -60,7 +59,7 @@
               </div>
 
               <div class="my-4">
-                <div class="text-caption">I-7-02a // ATTACHED NDAP COMP/DISP ANALYSIS RESULTS</div>
+                <div class="text-caption">CR-7-02a // ATTACHED NDAP COMP/DISP ANALYSIS RESULTS</div>
                 {{ group.Description }}
                 <v-row align="center">
                   <v-col cols="auto">
@@ -91,7 +90,7 @@
 
               <div class="my-4">
                 <div class="text-caption">
-                  I7-A-02b // ATTACHED TACANALYSIS RECORDS (I7-A-02b SUPPLEMENTAL)
+                  CR-7-02b // ATTACHED TACANALYSIS RECORDS (SUPPLEMENTAL)
                 </div>
                 <v-row align="center">
                   <v-col cols="auto">
@@ -121,7 +120,7 @@
               </div>
             </v-col>
             <v-col cols="12" md="5" class="ml-auto">
-              <div class="text-caption">I-7-03 // UNIT LIVERY</div>
+              <div class="text-caption">CR-7-03 // UNIT LIVERY</div>
               <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
                 <v-img v-if="group.Portrait" :src="group.Portrait" aspect-ratio="1" />
               </div>

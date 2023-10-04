@@ -9,7 +9,7 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-icon size="large" icon="mdi-close" class="fade-select" @click="props.close" />
+            <v-icon size="large" icon="mdi-close" variant="plain" @click="props.close" />
           </v-col>
         </v-row>
         <v-row dense align="center">

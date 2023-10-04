@@ -1,9 +1,6 @@
 <template>
-  <v-col
-    :style="$vuetify.display.lgAndUp ? 'min-width: 40vw' : ''"
-    :cols="$vuetify.display.mdAndDown ? '12' : ''"
-  >
-    <fieldset class="ma-0 py-0" style="height: 100%">
+  <v-col style="min-width: 40vw">
+    <fieldset style="height: 100%">
       <legend :style="`color: ${color}`" class="heading h3">
         <cc-tooltip title="Available Mount Fittings" :content="`${mount.AvailableFittings}`">
           {{ mount.Name }}

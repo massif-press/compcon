@@ -30,7 +30,7 @@
           <v-spacer />
           <span v-if="talent.InLcp" class="heading h3 text-white mr-3">{{ talent.LcpName }}</span>
           <cc-tooltip v-if="hideLocked" :content="`${showAll ? 'Hide' : 'Show'} All`">
-            <v-btn small icon class="fade-select" @click="showAll = !showAll">
+            <v-btn small icon variant="plain" @click="showAll = !showAll">
               <v-icon small>mdi-eye</v-icon>
             </v-btn>
           </cc-tooltip>
@@ -95,8 +95,7 @@
                 <v-btn
                   v-else-if="selectable && Number(rank) === n"
                   color="error"
-                  variant="outlined"
-                  class="fade-select"
+                  variant="plain"
                   @click="$emit('remove')"
                 >
                   <v-icon start>mdi-close</v-icon>

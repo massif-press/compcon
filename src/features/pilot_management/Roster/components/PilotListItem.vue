@@ -31,12 +31,12 @@
         <v-row class="detail-row" align="center">
           <v-col class="flavor-text">
             <div>
-              <span class="text-subtle">>[</span>
+              <span class="text-disabled">>[</span>
               <b class="text-stark">{{ pilot.Name }}</b>
-              <span class="text-subtle">]</span>
-              <span class="text-subtle">&nbsp;STATUS [</span>
+              <span class="text-disabled">]</span>
+              <span class="text-disabled">&nbsp;STATUS [</span>
               <span :class="`${statusColor(pilot.Status)}text-`">{{ pilot.Status }}</span>
-              <span class="text-subtle">] -&nbsp;</span>
+              <span class="text-disabled">] -&nbsp;</span>
               <b class="text-success">&nbsp;LL: {{ pilot.Level }}&nbsp;</b>
               <cc-slashes />
               <span class="text-text">

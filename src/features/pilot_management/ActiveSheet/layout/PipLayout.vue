@@ -8,15 +8,8 @@
         class="ml-auto text-center"
       >
         <fieldset class="ma-0 py-0 px-3" style="height: 100%">
-          <legend class="text-overline px-1 mb-n1" style="line-height: 0">
-            Active Effects
-          </legend>
-          <cc-synergy-display
-            large
-            location="active_effects"
-            :mech="mech"
-            show-none
-          />
+          <legend class="text-overline px-1 mb-n1" style="line-height: 0">Active Effects</legend>
+          <cc-synergy-display large location="active_effects" :mech="mech" show-none />
         </fieldset>
       </v-col>
       <v-col cols="12" md="auto">
@@ -29,9 +22,7 @@
           clearable
           @update="state.SetMove($event)"
         >
-          <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">
-            Movement
-          </div>
+          <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">Movement</div>
         </cc-tick-bar>
       </v-col>
       <v-col cols="12" md="auto">
@@ -47,19 +38,12 @@
             no-input
             @update="state.SetBoost($event)"
           >
-            <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">
-              Boost
-            </div>
+            <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">Boost</div>
           </cc-tick-bar>
         </v-fade-transition>
       </v-col>
       <v-col cols="auto" align-self="end">
-        <cc-synergy-display
-          large
-          location="move"
-          :mech="mech"
-          class="d-inline"
-        />
+        <cc-synergy-display large location="move" :mech="mech" class="d-inline" />
       </v-col>
       <v-col
         v-if="$vuetify.display.mdAndUp"
@@ -68,15 +52,8 @@
         class="ml-auto text-center"
       >
         <fieldset class="ma-0 py-0 px-3" style="height: 100%">
-          <legend class="text-overline px-1 mb-n1" style="line-height: 0">
-            Active Effects
-          </legend>
-          <cc-synergy-display
-            large
-            location="active_effects"
-            :mech="mech"
-            show-none
-          />
+          <legend class="text-overline px-1 mb-n1" style="line-height: 0">Active Effects</legend>
+          <cc-synergy-display large location="active_effects" :mech="mech" show-none />
         </fieldset>
       </v-col>
       <v-col v-if="!$vuetify.display.smAndDown" cols="auto" align-self="center">
@@ -86,22 +63,13 @@
     <v-row
       align="start"
       density="compact"
-      :class="
-        $vuetify.display.smAndDown
-          ? 'justify-space-between'
-          : 'justify-space-around'
-      "
+      :class="$vuetify.display.smAndDown ? 'justify-space-between' : 'justify-space-around'"
       class="mt-n3"
     >
       <v-col cols="auto">
         <v-row density="compact">
           <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-            <cc-synergy-display
-              large
-              location="structure"
-              :mech="mech"
-              class="d-inline"
-            />
+            <cc-synergy-display large location="structure" :mech="mech" class="d-inline" />
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
@@ -116,23 +84,14 @@
               :class="{ rolledOver: structRollover }"
               @update="state.SetStructure($event)"
             >
-              <div
-                :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`"
-              >
-                Structure
-              </div>
+              <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">Structure</div>
             </cc-tick-bar>
           </v-col>
         </v-row>
       </v-col>
       <v-col v-if="$vuetify.display.smAndDown && mech.Armor" cols="auto">
         <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-          <cc-synergy-display
-            large
-            location="armor"
-            :mech="mech"
-            class="d-inline"
-          />
+          <cc-synergy-display large location="armor" :mech="mech" class="d-inline" />
         </v-col>
         <cc-tick-bar
           :current="mech.Armor"
@@ -152,20 +111,11 @@
       <v-col>
         <v-row
           density="compact"
-          :class="
-            $vuetify.display.smAndDown
-              ? 'justify-space-between'
-              : 'justify-space-around'
-          "
+          :class="$vuetify.display.smAndDown ? 'justify-space-between' : 'justify-space-around'"
         >
           <v-col v-if="$vuetify.display.mdAndUp && mech.Armor" cols="auto">
             <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-              <cc-synergy-display
-                large
-                location="armor"
-                :mech="mech"
-                class="d-inline"
-              />
+              <cc-synergy-display large location="armor" :mech="mech" class="d-inline" />
             </v-col>
             <cc-tick-bar
               :current="mech.Armor"
@@ -182,18 +132,8 @@
               <div class="heading h3">Armor: {{ mech.Armor }}</div>
             </cc-tick-bar>
           </v-col>
-          <v-col
-            v-if="$vuetify.display.mdAndUp"
-            cols="auto"
-            align-self="end"
-            class="ma-0 pa-0"
-          >
-            <cc-synergy-display
-              large
-              location="hp"
-              :mech="mech"
-              class="d-inline"
-            />
+          <v-col v-if="$vuetify.display.mdAndUp" cols="auto" align-self="end" class="ma-0 pa-0">
+            <cc-synergy-display large location="hp" :mech="mech" class="d-inline" />
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
@@ -209,21 +149,12 @@
               justify="start"
               @update="state.SetHp($event)"
             >
-              <div
-                :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`"
-              >
-                HP
-              </div>
+              <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">HP</div>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto">
             <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-              <cc-synergy-display
-                large
-                location="overshield"
-                :mech="mech"
-                class="d-inline"
-              />
+              <cc-synergy-display large location="overshield" :mech="mech" class="d-inline" />
             </v-col>
             <cc-tick-bar
               :current="mech.Overshield"
@@ -240,9 +171,7 @@
               clearable
               @update="state.SetOvershield($event)"
             >
-              <div
-                :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`"
-              >
+              <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">
                 OVERSHIELD: {{ mech.Overshield }}
               </div>
             </cc-tick-bar>
@@ -254,21 +183,12 @@
     <v-row
       align="start"
       class="mt-n3"
-      :class="
-        $vuetify.display.smAndDown
-          ? 'justify-space-between'
-          : 'justify-space-around'
-      "
+      :class="$vuetify.display.smAndDown ? 'justify-space-between' : 'justify-space-around'"
     >
       <v-col cols="auto">
         <v-row density="compact">
           <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-            <cc-synergy-display
-              large
-              location="stress"
-              :mech="mech"
-              class="d-inline"
-            />
+            <cc-synergy-display large location="stress" :mech="mech" class="d-inline" />
           </v-col>
           <v-col cols="auto">
             <cc-tick-bar
@@ -283,23 +203,14 @@
               :class="{ rolledOver: stressRollover }"
               @update="state.SetStress($event)"
             >
-              <div
-                :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`"
-              >
-                Stress
-              </div>
+              <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">Stress</div>
             </cc-tick-bar>
           </v-col>
         </v-row>
       </v-col>
       <v-col v-if="$vuetify.display.smAndDown" cols="auto">
         <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-          <cc-synergy-display
-            large
-            location="core_energy"
-            :mech="mech"
-            class="d-inline"
-          />
+          <cc-synergy-display large location="core_energy" :mech="mech" class="d-inline" />
         </v-col>
         <cc-tick-bar
           :current="mech.CurrentCoreEnergy"
@@ -324,26 +235,19 @@
           >
             AVAILABLE
           </div>
-          <div v-else class="text-center caption text-subtle">EXHAUSTED</div>
+          <div v-else class="text-center caption text-disabled">EXHAUSTED</div>
         </div>
       </v-col>
       <v-col>
         <v-row
           density="compact"
           :class="
-            $vuetify.display.smAndDown
-              ? 'mt-n4 justify-space-between'
-              : 'justify-space-around'
+            $vuetify.display.smAndDown ? 'mt-n4 justify-space-between' : 'justify-space-around'
           "
         >
           <v-col cols="auto">
             <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-              <cc-synergy-display
-                large
-                location="heat"
-                :mech="mech"
-                class="d-inline"
-              />
+              <cc-synergy-display large location="heat" :mech="mech" class="d-inline" />
             </v-col>
             <cc-tick-bar
               :current="mech.CurrentHeat"
@@ -357,15 +261,8 @@
               clearable
               @update="state.SetHeat($event)"
             >
-              <span
-                v-if="mech.IsInDangerZone"
-                class="text-dangerzone heading h3"
-                >HEAT</span
-              >
-              <span
-                v-else
-                :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`"
-              >
+              <span v-if="mech.IsInDangerZone" class="text-dangerzone heading h3">HEAT</span>
+              <span v-else :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">
                 HEAT
               </span>
             </cc-tick-bar>
@@ -375,21 +272,13 @@
             >
               // HEAT::DANGER ZONE //
             </div>
-            <div
-              v-else-if="!$vuetify.display.smAndDown"
-              class="caption text-subtle text-center"
-            >
+            <div v-else-if="!$vuetify.display.smAndDown" class="caption text-disabled text-center">
               HEAT LEVELS NOMINAL
             </div>
           </v-col>
           <v-col cols="auto">
             <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-              <cc-synergy-display
-                large
-                location="repairs"
-                :mech="mech"
-                class="d-inline"
-              />
+              <cc-synergy-display large location="repairs" :mech="mech" class="d-inline" />
             </v-col>
             <cc-tick-bar
               :current="mech.CurrentRepairs"
@@ -408,22 +297,14 @@
               >
                 REPAIR
               </span>
-              <span
-                v-else
-                :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`"
-              >
+              <span v-else :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">
                 REPAIR CAPACITY
               </span>
             </cc-tick-bar>
           </v-col>
           <v-col cols="auto">
             <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-              <cc-synergy-display
-                large
-                location="overcharge"
-                :mech="mech"
-                class="d-inline"
-              />
+              <cc-synergy-display large location="overcharge" :mech="mech" class="d-inline" />
             </v-col>
             <cc-tick-bar
               :current="mech.CurrentOvercharge"
@@ -437,11 +318,7 @@
               hide-values
               @update="state.SetOvercharge($event)"
             >
-              <div
-                :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`"
-              >
-                Overcharge
-              </div>
+              <div :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">Overcharge</div>
             </cc-tick-bar>
             <div class="text-center caption text-overcharge font-weight-bold">
               +{{ mech.OverchargeTrack[mech.CurrentOvercharge] }}
@@ -449,12 +326,7 @@
           </v-col>
           <v-col v-if="$vuetify.display.mdAndUp" cols="auto">
             <v-col cols="auto" align-self="end" class="ma-0 pa-0">
-              <cc-synergy-display
-                large
-                location="core_energy"
-                :mech="mech"
-                class="d-inline"
-              />
+              <cc-synergy-display large location="core_energy" :mech="mech" class="d-inline" />
             </v-col>
             <cc-tick-bar
               :current="mech.CurrentCoreEnergy"
@@ -476,10 +348,7 @@
               >
                 CP
               </span>
-              <span
-                v-else
-                :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`"
-              >
+              <span v-else :class="`heading ${$vuetify.display.smAndDown ? 'h4' : 'h3'}`">
                 CORE POWER
               </span>
             </cc-tick-bar>
@@ -489,7 +358,7 @@
             >
               AVAILABLE
             </div>
-            <div v-else class="text-center caption text-subtle">EXHAUSTED</div>
+            <div v-else class="text-center caption text-disabled">EXHAUSTED</div>
           </v-col>
         </v-row>
       </v-col>

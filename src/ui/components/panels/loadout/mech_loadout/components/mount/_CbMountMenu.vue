@@ -3,29 +3,32 @@
     <template #activator="{ props }">
       <div v-if="visible" style="position: relative">
         <div class="side-legend">
-          <v-btn small variant="outlined" :color="color" v-bind="props">
-            <v-icon :left="!hasEffect">cc:corebonus</v-icon>
+          <v-btn
+            size="small"
+            variant="outlined"
+            class="bg-background"
+            prepend-icon="cc:corebonus"
+            v-bind="props"
+          >
             <span v-if="!hasEffect">Core Bonus Available</span>
           </v-btn>
         </div>
       </div>
     </template>
-    <v-card variant="outlined" elevation="10">
-      <v-card-title :style="`background-color: ${color}; height: 32px`" class="text-white">
-        <div class="mt-n4">
-          <v-icon large left dark class="mt-n2">cc:corebonus</v-icon>
-          <span class="heading h2">Mount CORE Bonuses</span>
-        </div>
-      </v-card-title>
+    <v-card>
+      <v-toolbar class="px-2" :color="color">
+        <v-icon size="large" start icon="cc:corebonus" />
+        <span class="heading h2">Mount CORE Bonuses</span>
+      </v-toolbar>
       <v-card-text class="text-center">
-        <v-row density="compact" class="mt-2 mx-3">
+        <v-row dense>
           <v-btn
             v-for="b in mech.AvailableBonuses"
             block
-            color="primary"
+            variant="tonal"
+            color="accent"
             class="my-1"
-            tile
-            large
+            size="large"
             @click="mount.AddCoreBonus(b)"
           >
             Install {{ b.Name }}
@@ -36,7 +39,7 @@
             color="secondary"
             class="my-1"
             variant="outlined"
-            large
+            size="large"
             @click="mount.RemoveCoreBonus(b)"
           >
             Uninstall {{ b.Name }}
@@ -78,7 +81,7 @@ export default {
 .side-legend {
   position: absolute;
   right: 20px;
-  top: -40px;
+  top: -24px;
   background-color: rgb(var(--v-theme-background));
   height: 30px;
   border: 2px;

@@ -37,7 +37,7 @@
             <cc-slashes />
             "{{ pilot.Callsign }}"
             <br />
-            <span class="text-overline text-subtle">{{ pilot.ID }}</span>
+            <span class="text-overline text-disabled">{{ pilot.ID }}</span>
           </div>
           &nbsp;is eligible for the following license update:
         </v-col>
@@ -59,7 +59,7 @@
                   <li>GRIT IMPROVEMENT</li>
                   <li>NEW LICENSE UNLOCK</li>
                   <li v-if="cbEligible" class="font-weight-bolder">CORE BONUS INSTALLATION</li>
-                  <li v-else class="text-subtle">INELIGIBLE FOR CORE BONUS</li>
+                  <li v-else class="text-disabled">INELIGIBLE FOR CORE BONUS</li>
                 </ul>
               </v-col>
             </v-row>
