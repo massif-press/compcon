@@ -12,15 +12,7 @@
             </v-col>
           </v-row>
         </v-card>
-        <v-btn
-          x-small
-          block
-          class="fade-select"
-          variant="outlined"
-          color="accent"
-        >
-          Change Campaign Image
-        </v-btn>
+        <v-btn x-small block variant="plain" color="accent"> Change Campaign Image </v-btn>
       </v-col>
     </v-row>
     <v-row justify="center" density="compact">

@@ -32,31 +32,29 @@
             </v-row>
             <v-row class="mt-n9 pt-0">
               <v-col cols="auto">
-                <div class="text-overline mb-n3 text-subtle">name</div>
+                <div class="text-overline mb-n3 text-disabled">name</div>
                 <div class="stat-text text-white mt-n2 mb-n1">
                   {{ pilot.Name }}
                 </div>
               </v-col>
               <v-col v-if="pilot.Background" cols="auto">
-                <div class="text-overline mb-n3 text-subtle">background</div>
+                <div class="text-overline mb-n3 text-disabled">background</div>
                 <div class="stat-text text-white mt-n2 mb-n1">
                   {{ pilot.Background }}
                 </div>
               </v-col>
               <v-col v-if="pilot.PlayerName" cols="auto">
-                <div class="text-overline mb-n3 text-subtle">player</div>
+                <div class="text-overline mb-n3 text-disabled">player</div>
                 <div class="stat-text text-white mt-n2 mb-n1">
                   {{ pilot.PlayerName }}
                 </div>
               </v-col>
               <v-col cols="auto">
-                <div class="text-overline mb-n3 text-subtle">rm-4://(IDENT)</div>
+                <div class="text-overline mb-n3 text-disabled">rm-4://(IDENT)</div>
                 <div class="stat-text text-white mt-n2 mb-n1">
                   <v-dialog max-width="1200px">
                     <template #activator="{ props }">
-                      <v-icon dark class="fade-select" v-bind="props"
-                        >mdi-card-bulleted-outline</v-icon
-                      >
+                      <v-icon dark variant="plain" v-bind="props">mdi-card-bulleted-outline</v-icon>
                     </template>
                     <v-sheet class="transparent">
                       <pilot-registration-card :pilot="pilot" pilot-ready />
@@ -81,7 +79,7 @@
                   bottom
                   content="Edit License Level"
                 >
-                  <v-icon size="15" class="fade-select" @click="($refs as any).levelEdit.show()">
+                  <v-icon size="15" variant="plain" @click="($refs as any).levelEdit.show()">
                     mdi-circle-edit-outline
                   </v-icon>
                 </cc-tooltip>
@@ -91,9 +89,8 @@
             <v-btn
               v-if="!isLevelingUp && pilot.Level < 12"
               block
-              variant="tonal"
               size="small"
-              class="fade-select"
+              variant="plain"
               @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })"
             >
               Level Up

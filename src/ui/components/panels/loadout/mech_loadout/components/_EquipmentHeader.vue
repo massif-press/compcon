@@ -1,29 +1,14 @@
 <template>
-  <v-row no-gutters align="center" class="mt-0 mb-n1">
-    <v-col cols="auto">
-      <span :class="`heading h3 ${interior ? 'text-white' : 'text-text'}`">
-        <v-icon v-if="item.IsCascading" color="warning" class="mt-n1">mdi-link-variant-off</v-icon>
-      </span>
-    </v-col>
+  <v-row dense align="center">
     <v-col v-if="item.IsLimited" cols="auto" class="mx-2">
       <cc-item-uses :item="item" :bonus="useBonus" :color="color" class="d-inline" />
       <span class="text-overline">({{ item.Uses }}/{{ item.getTotalUses(useBonus) }}) USES</span>
     </v-col>
-    <v-col v-if="item.IsLoading && readonly" cols="auto" class="ma-1">
-      <v-btn
-        small
-        dark
-        :color="item.Loaded ? 'pilot' : 'grey'"
-        @click.stop="item.Loaded = !item.Loaded"
-      >
-        <v-icon start small>mdi-progress-{{ item.Loaded ? 'upload' : 'download' }}</v-icon>
-        {{ item.Loaded ? 'LOADED' : 'NOT LOADED' }}
-      </v-btn>
-    </v-col>
+
     <v-col cols="auto">
       <slot name="left" />
     </v-col>
-    <v-col cols="auto" class="mx-2">
+    <v-col cols="auto">
       <slot />
     </v-col>
   </v-row>
@@ -54,9 +39,6 @@ export default {
       type: Boolean,
     },
     mod: {
-      type: Boolean,
-    },
-    readonly: {
       type: Boolean,
     },
   },

@@ -7,22 +7,15 @@
         </v-col>
         <v-col cols="auto">
           <span class="heading h2">{{ deployable.name }}</span>
-          <span v-if="deployable.type" class="heading h3 text-subtle">
+          <span v-if="deployable.type" class="heading h3 text-disabled">
             <cc-slashes class="pl-1" />
             {{ deployable.type }}
           </span>
         </v-col>
         <v-col cols="auto" class="ml-auto">
-          <v-chip
-            slot="title-items"
-            color="stark"
-            small
-            class="stat-text mr-2 pr-0"
-            variant="outlined"
-            label
-          >
+          <v-chip slot="title-items" size="small" class="stat-text pr-0 mb-2" label>
             DEPLOY&nbsp;
-            <v-chip small label dark :color="`action--${activation}`" class="text-uppercase">
+            <v-chip label class="text-uppercase">
               {{ activation }}
             </v-chip>
           </v-chip>

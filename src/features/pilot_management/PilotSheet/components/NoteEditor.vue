@@ -22,7 +22,9 @@
       :title="`${type} Notes`"
       @confirm="item.Notes = notes"
     >
-      <quill-editor theme="snow" v-model:content="notes" content-type="html" />
+      <v-container>
+        <quill-editor theme="snow" v-model:content="notes" content-type="html" />
+      </v-container>
     </cc-solo-dialog>
   </div>
 </template>

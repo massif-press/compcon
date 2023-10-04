@@ -12,7 +12,7 @@
               title="Print"
               prepend-icon="mdi-printer"
               subtitle="Print tabletop-ready character and mech sheets"
-              @click="($refs.printDialog as any).show()"
+              @click="$router.push(`/print/${pilot.ID}`)"
             />
             <v-list-item
               prepend-icon="mdi-dna"
@@ -65,7 +65,6 @@
       </v-menu>
     </v-btn>
 
-    <print-dialog ref="printDialog" :pilot="pilot" />
     <statblock-dialog ref="statblockDialog" :pilot="pilot" />
     <roll20-dialog ref="roll20Dialog" :pilot="pilot" />
     <delete-dialog ref="deleteDialog" :pilot="pilot" @delete="delete_pilot()" />
@@ -83,7 +82,6 @@ import CloneDialog from './CloneDialog.vue';
 import StatblockDialog from './StatblockDialog.vue';
 import Roll20Dialog from './Roll20Dialog.vue';
 import ShareDialog from './ShareDialog.vue';
-import PrintDialog from './PrintDialog.vue';
 import DeleteDialog from './DeletePilotDialog.vue';
 
 import { UserStore } from '@/stores';
@@ -94,7 +92,6 @@ export default {
   components: {
     StatblockDialog,
     Roll20Dialog,
-    PrintDialog,
     DeleteDialog,
     CloneDialog,
     ShareDialog,

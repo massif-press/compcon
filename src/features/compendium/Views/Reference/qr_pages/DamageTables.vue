@@ -290,10 +290,9 @@
   </v-footer>
   <v-btn
     size="x-small"
-    variant="tonal"
     icon
     color="primary"
-    class="fade-select"
+    variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
     @click="scrollTo(content[0])"
   >

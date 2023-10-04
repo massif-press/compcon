@@ -12,12 +12,7 @@
     <v-container slot="builder">
       <v-row density="compact" align="center">
         <v-col cols="auto">
-          <v-btn
-            icon
-            color="secondary"
-            class="fade-select"
-            @click="randomName()"
-          >
+          <v-btn icon color="secondary" variant="plain" @click="randomName()">
             <v-icon icon="mdi-dice-multiple" />
           </v-btn>
         </v-col>
@@ -25,12 +20,7 @@
           <v-text-field v-model="character.Name" label="Name" />
         </v-col>
         <v-col cols="auto">
-          <v-btn
-            icon
-            color="secondary"
-            class="fade-select"
-            @click="randomAlias()"
-          >
+          <v-btn icon color="secondary" variant="plain" @click="randomAlias()">
             <v-icon icon="mdi-dice-multiple" />
           </v-btn>
         </v-col>

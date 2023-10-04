@@ -7,7 +7,7 @@
       LANCER Community Content
       <v-menu bottom open-on-hover>
         <template #activator="{ props }">
-          <v-icon class="fade-select" v-bind="props">mdi-information-outline</v-icon>
+          <v-icon variant="plain" v-bind="props">mdi-information-outline</v-icon>
         </template>
         <v-card max-width="500px">
           <v-card-title>LANCER Community Content Packs</v-card-title>

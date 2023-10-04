@@ -1,16 +1,17 @@
 <template>
-  <v-alert
-    dark
-    prominent
-    density="compact"
-    color="pilot"
-    class="mt-1 mb-n1 mx-2"
-  >
-    <v-icon slot="prepend" size="40" class="mr-3">cc:corebonus</v-icon>
-    <span class="heading h3">{{ bonus.Name }}</span>
-    <br />
-    <span class="flavor-text text-white">{{ bonus.MountedEffect }}</span>
-  </v-alert>
+  <v-card color="pilot" class="mt-2 mx-2">
+    <v-card-text>
+      <v-row dense>
+        <v-col cols="auto">
+          <v-icon slot="prepend" size="40" class="mr-3" icon="cc:corebonus" />
+        </v-col>
+        <v-col>
+          <div class="heading h3">{{ bonus.Name }}</div>
+          <div class="flavor-text text-white">{{ bonus.MountedEffect }}</div>
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">

@@ -29,7 +29,7 @@
 
       <template #title-items>
         <v-btn slot="title-items" dark icon @click="($refs.dialog as any).confirm()">
-          <v-icon size="large" class="fade-select">mdi-close</v-icon>
+          <v-icon size="large" variant="plain">mdi-close</v-icon>
         </v-btn>
       </template>
 

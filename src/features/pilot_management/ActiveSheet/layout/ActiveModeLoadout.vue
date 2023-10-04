@@ -5,7 +5,7 @@
         <span class="text-overline"
           >{{ mech.MechLoadoutController.ActiveLoadout.Name }} Loadout</span
         >
-        <v-btn small right icon class="fade-select" @click="showLoadout = !showLoadout">
+        <v-btn small right icon variant="plain" @click="showLoadout = !showLoadout">
           <v-icon small v-html="showLoadout ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>
       </v-col>

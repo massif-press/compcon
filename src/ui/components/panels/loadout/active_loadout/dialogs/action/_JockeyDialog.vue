@@ -44,7 +44,7 @@
                 inline
                 :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
               >
-                <v-icon end small class="fade-select">mdi-information-outline</v-icon>
+                <v-icon end small variant="plain">mdi-information-outline</v-icon>
               </cc-tooltip>
             </v-btn>
           </v-col>
@@ -234,7 +234,7 @@
           <v-row v-if="actionUsed" no-gutters>
             <v-col cols="auto" class="ml-auto">
               <cc-tooltip content="Undo this action, refunding any cost it may have had">
-                <v-btn x-small color="primary" class="fade-select" @click="reset">
+                <v-btn x-small color="primary" variant="plain" @click="reset">
                   <v-icon small left>mdi-reload</v-icon>
                   UNDO
                 </v-btn>
@@ -304,7 +304,7 @@ export default {
       if (this.rollResultString) {
         str += `<div class="text-overline my-n2">Last Roll:</div><div class="caption ml-3">${this.rollResultString}`;
         if (this.rollAccuracyResults.length)
-          str += ` <span class="text-subtle">[${this.rollAccuracyResults.join(', ')}]</span>`;
+          str += ` <span class="text-disabled">[${this.rollAccuracyResults.join(', ')}]</span>`;
         str += '</div>';
       }
       return str;

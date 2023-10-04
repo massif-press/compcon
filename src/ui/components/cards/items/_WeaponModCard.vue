@@ -1,40 +1,43 @@
 <template>
   <equipment-card-base :item="item">
-    <v-col cols="auto" class="text-center">
-      <v-icon size="56px" color="stark" class="mt-n3 mb-n2">cc:weapon-mod</v-icon>
-      <div class="text-overline mb-n1">WEAPON</div>
-      <div class="text-overline">MODIFICATION</div>
-    </v-col>
-    <v-divider vertical class="mx-4" />
-    <v-col v-if="item.AddedRange && item.AddedRange.length" cols="auto" align-self="center">
-      <cc-range-element :range="item.AddedRange" added />
-    </v-col>
-    <v-divider v-if="item.AddedRange && item.AddedRange.length" vertical class="mx-4" />
-    <v-col v-if="item.AddedDamage && item.AddedDamage.length" cols="auto" align-self="center">
-      <cc-damage-element :damage="item.AddedDamage" added />
-    </v-col>
-    <v-divider v-if="item.AddedDamage && item.AddedDamage.length" vertical class="mx-4" />
-    <v-col v-if="item.SP" cols="auto" class="text-center">
-      <div class="panel clipped">
-        <v-icon v-for="n in item.SP" x-large>cc:system_point</v-icon>
-      </div>
-      <span class="text-overline">
-        <b>{{ item.SP }}</b>
-        SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}
-      </span>
-    </v-col>
-    <v-col cols="auto" class="ml-auto text-right">
-      <span class="flavor-text text-subtle">// {{ item.LicenseString }}</span>
-      <div v-if="item.InLcp" class="flavor-text text-subtle">
-        {{ item.LcpName }}
-      </div>
-      <div v-if="item.Restricted">
-        <span class="stat-text text-error">
-          RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS
+    <v-row align="center">
+      <v-col cols="auto" class="text-center">
+        <v-icon size="50" color="stark" icon="cc:weaponmod" />
+        <div class="text-overline mb-n1">WEAPON</div>
+        <div class="text-overline">MODIFICATION</div>
+      </v-col>
+      <v-divider vertical class="mx-4" />
+      <v-col v-if="item.AddedRange && item.AddedRange.length" cols="auto" align-self="center">
+        <cc-range-element :range="item.AddedRange" added />
+      </v-col>
+      <v-divider v-if="item.AddedRange && item.AddedRange.length" vertical class="mx-4" />
+      <v-col v-if="item.AddedDamage && item.AddedDamage.length" cols="auto" align-self="center">
+        <cc-damage-element :damage="item.AddedDamage" added />
+      </v-col>
+      <v-divider v-if="item.AddedDamage && item.AddedDamage.length" vertical class="mx-4" />
+      <v-col v-if="item.SP" cols="auto" class="text-center">
+        <div class="panel clipped">
+          <v-icon v-for="n in item.SP" x-large>cc:system_point</v-icon>
+        </div>
+        <span class="text-overline">
+          <b>{{ item.SP }}</b>
+          SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}
         </span>
-      </div>
-    </v-col>
-    <div slot="statblock">
+      </v-col>
+      <v-col cols="auto" class="ml-auto text-right">
+        <span class="flavor-text text-disabled">// {{ item.LicenseString }}</span>
+        <div v-if="item.InLcp" class="flavor-text text-disabled">
+          {{ item.LcpName }}
+        </div>
+        <div v-if="item.Restricted">
+          <span class="stat-text text-error">
+            RESTRICTED: {{ item.Restricted.join('/').toUpperCase() }} MOUNTS
+          </span>
+        </div>
+      </v-col>
+    </v-row>
+
+    <template #statblock>
       <div class="text-overline mb-n3">CAN BE APPLIED TO</div>
       <v-chip-group>
         <v-chip
@@ -74,7 +77,7 @@
           </v-chip>
         </v-chip-group>
       </div>
-    </div>
+    </template>
   </equipment-card-base>
 </template>
 

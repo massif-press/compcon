@@ -43,7 +43,7 @@
               </span>
             </v-col>
             <v-col v-if="$vuetify.display.mdAndUp">
-              <span class="flavor-text text-subtle">
+              <span class="flavor-text text-disabled">
                 {{ pilot.Callsign ? 'CALLSIGN AVAILABLE' : '--' }}
                 <br />
                 {{ pilot.Name ? 'IDENTITY VERIFIED' : '--' }}
@@ -54,7 +54,7 @@
           </v-row>
           <div class="flavor-text mt-2">
             FRAME CONFIGURATION OPTIONS
-            <span class="text-subtle">("H.A.S.E" OMNINET VAULT REMIT)</span>
+            <span class="text-disabled">("H.A.S.E" OMNINET VAULT REMIT)</span>
           </div>
           <v-row class="my-1">
             <span class="flavor-text ml-3" style="font-size: 22px; line-height: 15px">
@@ -118,7 +118,7 @@
             </v-col>
           </v-row>
           <v-row density="compact">
-            <span v-if="pilotReady" class="flavor-text text-subtle">
+            <span v-if="pilotReady" class="flavor-text text-disabled">
               <v-icon large color="grey darken-2">mdi-fingerprint</v-icon>
               BIOMETRIC RECORD VALID [[{{ randomNumber(13, 22) }}PB]] :: OHM C//{{ futureDate() }}
             </span>

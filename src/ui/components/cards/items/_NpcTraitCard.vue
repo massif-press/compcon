@@ -1,7 +1,7 @@
 <template>
   <equipment-card-base :item="item" small-tags>
     <v-col cols="auto" class="ml-auto text-right">
-      <div v-if="item.InLcp" class="flavor-text text-subtle">
+      <div v-if="item.InLcp" class="flavor-text text-disabled">
         {{ item.LcpName }}
       </div>
     </v-col>

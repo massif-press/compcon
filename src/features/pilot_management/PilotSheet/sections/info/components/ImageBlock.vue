@@ -4,11 +4,10 @@
       <v-img v-if="pilot.Portrait" :src="pilot.Portrait" max-width="100%" />
     </div>
     <v-btn
-      variant="outlined"
       color="secondary"
       small
       block
-      class="fade-select"
+      variant="plain"
       @click="($refs as any).imageSelector.open()"
     >
       <v-icon start>mdi-circle-edit-outline</v-icon>

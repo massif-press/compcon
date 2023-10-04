@@ -5,27 +5,12 @@
         <v-icon size="large" color="stark" :icon="action.Icon" />
       </v-col>
       <v-col cols="auto">
-        <span :class="`heading ${$vuetify.display.smAndDown ? 'h3' : 'h2'} text-text`">
+        <span class="heading h2 text-text">
           {{ action.Name }}
         </span>
       </v-col>
       <v-col cols="auto" class="ml-auto pl-5">
-        <v-chip
-          v-if="!action.Frequency.Unlimited"
-          slot="title-items"
-          color="stark"
-          :size="$vuetify.display.smAndDown ? 'small' : 'x-small'"
-          class="stat-text mr-2"
-          variant="outlined"
-          label
-        >
-          {{ action.Frequency.ToString() }}
-        </v-chip>
-        <v-chip
-          :size="$vuetify.display.smAndDown ? 'small' : 'x-small'"
-          label
-          :color="`action--${action.Activation.toLowerCase()}`"
-        >
+        <v-chip size="small" label class="text-text">
           {{ action.Activation.toUpperCase() }}
         </v-chip>
       </v-col>

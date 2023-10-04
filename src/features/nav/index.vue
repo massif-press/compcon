@@ -1,6 +1,6 @@
 <template>
   <v-app-bar
-    v-show="mode"
+    v-show="!hide"
     app
     top
     color="primary"
@@ -60,16 +60,10 @@
 
     <v-toolbar-title>
       <span class="heading">COMP/CON</span>
-      <span class="flavor-text text-white" style="opacity: 0.5">&nbsp;{{ $appVersion }}</span>
+      <span class="flavor-text text-white" style="opacity: 0.4">&nbsp;{{ $appVersion }}</span>
     </v-toolbar-title>
 
     <v-spacer />
-
-    <div>
-      <pilot-mode v-if="mode === 'pilot' && activePilot" :pilot="activePilot" />
-      <compendium-mode v-if="mode === 'compendium'" />
-      <encounter-mode v-if="mode === 'encounter'" />
-    </div>
 
     <v-divider v-if="$vuetify.display.mdAndUp && isAuthed" vertical dark class="mx-2" />
 
@@ -149,7 +143,7 @@
       <credits-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="helpModal" large no-confirm title="Help"><help-page /></cc-solo-dialog>
-    <cc-solo-dialog ref="creditsModal" fullscreen no-confirm title="Credits">
+    <cc-solo-dialog ref="creditsModal" large no-confirm title="Credits">
       <credits-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="cloudModal" large no-confirm title="Cloud Account">
@@ -176,10 +170,6 @@ import ContentPage from './pages/ExtraContent/index.vue';
 import CloudPage from './pages/Cloud.vue';
 import AchievementsPage from './pages/Achievements.vue';
 
-import PilotMode from './modes/pilot.vue';
-import EncounterMode from './modes/encounter.vue';
-import CompendiumMode from './modes/compendium.vue';
-
 import { PilotStore, UserStore } from '@/stores';
 
 import { Pilot } from '@/classes/pilot/Pilot';
@@ -193,9 +183,6 @@ export default {
     CreditsPage,
     OptionsPage,
     ContentPage,
-    PilotMode,
-    EncounterMode,
-    CompendiumMode,
     CloudPage,
     AchievementsPage,
   },
@@ -212,33 +199,13 @@ export default {
     // await Auth.currentAuthenticatedUser();
   },
   computed: {
-    activePilot(): Pilot {
-      return PilotStore().ActivePilot;
-    },
-    mode(): string {
-      if (this.$route.path.includes('/srd')) return 'compendium';
-      else if (
-        this.$route.path.includes('/pilot') ||
-        this.$route.path.includes('/active') ||
-        this.$route.path.includes('/new')
-      )
-        return 'pilot';
-      else if (this.$route.path.includes('/gm')) return 'encounter';
-      else return '';
-    },
-    unsaved() {
-      return PilotStore().unsavedCloudPilots;
+    hide(): boolean {
+      console.log(this.$route.path);
+      if (this.$route.path === '/') return true;
+      return false;
     },
     isAuthed() {
       return UserStore().IsLoggedIn;
-    },
-    syncTooltip(): string {
-      if (!this.unsaved.length) return 'Pilot data synced';
-      return (
-        '<div class="text-center"><b>LOCAL CHANGES<br></b>' +
-        this.unsaved.map((p) => `Pilot::${p.Callsign}`).join('<br>') +
-        '<br><span class="caption">Click to save changes to your cloud account</span></div>'
-      );
     },
   },
   methods: {

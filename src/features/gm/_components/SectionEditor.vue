@@ -14,7 +14,7 @@
             <v-col cols="auto">
               <v-menu offset-x left>
                 <template #activator="{ props }">
-                  <v-btn small icon color="error" class="fade-select" v-bind="props">
+                  <v-btn small icon color="error" variant="plain" v-bind="props">
                     <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>

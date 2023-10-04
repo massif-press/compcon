@@ -5,7 +5,7 @@
     <div>
       <v-row density="compact">
         <v-col class="mt-n5">
-          <div v-show="$vuetify.display.mdAndUp" class="text-overline text-subtle">MOUNTED::</div>
+          <div v-show="$vuetify.display.mdAndUp" class="text-overline text-disabled">MOUNTED::</div>
           <div :class="$vuetify.display.mdAndUp ? 'heading h2 mt-n4' : 'font-weight-bold'">
             <span class="text-accent">{{ mech.Frame.Source }} {{ mech.Frame.Name }}</span>
             <cc-slashes />
@@ -13,8 +13,8 @@
           </div>
         </v-col>
         <v-col v-show="$vuetify.display.mdAndUp" cols="auto" class="ml-auto mr-2 mt-n3">
-          <div class="text-overline text-subtle mt-n2">PILOT::</div>
-          <div class="heading h2 mt-n3 text-subtle">{{ pilot.Callsign }}</div>
+          <div class="text-overline text-disabled mt-n2">PILOT::</div>
+          <div class="heading h2 mt-n3 text-disabled">{{ pilot.Callsign }}</div>
         </v-col>
       </v-row>
 
@@ -36,7 +36,7 @@
               SELF DESTRUCT IN {{ state.SelfDestructCounter }} ROUNDS
             </span>
             <span v-else class="heading h1">SELF DESTRUCT IMMINENT</span>
-            <div class="heading mt-n4 text-subtle">
+            <div class="heading mt-n4 text-disabled">
               FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
             </div>
             <div class="px-5 my-1">
@@ -47,12 +47,7 @@
               </v-btn>
             </div>
             <div class="text-right mt-1">
-              <v-btn
-                x-small
-                color="primary"
-                class="fade-select"
-                @click="state.CancelSelfDestruct()"
-              >
+              <v-btn x-small color="primary" variant="plain" @click="state.CancelSelfDestruct()">
                 <v-icon small left>mdi-reload</v-icon>
                 UNDO
               </v-btn>
@@ -80,8 +75,7 @@
                 absolute
                 right
                 small
-                variant="outlined"
-                class="fade-select"
+                variant="plain"
                 style="bottom: 0; right: 0"
                 v-bind="props"
               >
@@ -107,7 +101,7 @@
             <span :class="$vuetify.display.mdAndUp ? 'heading h1' : 'heading h3'">
               MECH SHUT DOWN
             </span>
-            <div class="heading mt-n4 text-subtle">FRAME.STATUS//ERR: NO RESPONSE</div>
+            <div class="heading mt-n4 text-disabled">FRAME.STATUS//ERR: NO RESPONSE</div>
           </v-alert>
         </v-col>
       </v-row>
@@ -180,7 +174,7 @@
             <cc-tooltip slot="repair" simple inline content="Full Repair">
               <v-menu v-model="repairMenu" offset-y offset-x bottom left>
                 <template #activator="{ props }">
-                  <v-btn v-if="!mech.Destroyed" icon class="fade-select" v-bind="props">
+                  <v-btn v-if="!mech.Destroyed" icon variant="plain" v-bind="props">
                     <v-icon x-large>cc:repair</v-icon>
                   </v-btn>
                   <v-btn v-else size="x-large" color="secondary" icon v-bind="props">
@@ -207,32 +201,40 @@
               <div :class="$vuetify.display.smAndDown ? 'd-inline ' : 'mb-n2'">
                 <span class="heading h2 text-accent">
                   {{ pilot.MechSkillsController.MechSkills.Hull }}
-                  <span v-if="$vuetify.display.smAndDown" class="heading h3 text-subtle"> H </span>
-                  <span v-else class="flavor-text text-subtle">//HULL</span>
+                  <span v-if="$vuetify.display.smAndDown" class="heading h3 text-disabled">
+                    H
+                  </span>
+                  <span v-else class="flavor-text text-disabled">//HULL</span>
                   <cc-synergy-display location="hull" :mech="mech" class="d-inline" />
                 </span>
               </div>
               <div :class="$vuetify.display.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 text-accent">
                   {{ pilot.MechSkillsController.MechSkills.Agi }}
-                  <span v-if="$vuetify.display.smAndDown" class="heading h3 text-subtle"> A </span>
-                  <span v-else class="flavor-text text-subtle">//AGI</span>
+                  <span v-if="$vuetify.display.smAndDown" class="heading h3 text-disabled">
+                    A
+                  </span>
+                  <span v-else class="flavor-text text-disabled">//AGI</span>
                   <cc-synergy-display location="agility" :mech="mech" class="d-inline" />
                 </span>
               </div>
               <div :class="$vuetify.display.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 text-accent">
                   {{ pilot.MechSkillsController.MechSkills.Sys }}
-                  <span v-if="$vuetify.display.smAndDown" class="heading h3 text-subtle"> S </span>
-                  <span v-else class="flavor-text text-subtle">//SYS</span>
+                  <span v-if="$vuetify.display.smAndDown" class="heading h3 text-disabled">
+                    S
+                  </span>
+                  <span v-else class="flavor-text text-disabled">//SYS</span>
                   <cc-synergy-display location="systems" :mech="mech" class="d-inline" />
                 </span>
               </div>
               <div :class="$vuetify.display.smAndDown ? 'd-inline' : 'mb-n2'">
                 <span class="heading h2 text-accent">
                   {{ pilot.MechSkillsController.MechSkills.Eng }}
-                  <span v-if="$vuetify.display.smAndDown" class="heading h3 text-subtle"> E </span>
-                  <span v-else class="flavor-text text-subtle">//ENG</span>
+                  <span v-if="$vuetify.display.smAndDown" class="heading h3 text-disabled">
+                    E
+                  </span>
+                  <span v-else class="flavor-text text-disabled">//ENG</span>
                   <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
                 </span>
               </div>
@@ -352,7 +354,7 @@
                 <div v-if="mech.Frame.CoreSystem.PassiveName" class="mb-2">
                   <span class="heading h2">
                     {{ mech.Frame.CoreSystem.PassiveName }}
-                    <span class="pt-2 ml-2 caption text-subtle">(PASSIVE)</span>
+                    <span class="pt-2 ml-2 caption text-disabled">(PASSIVE)</span>
                   </span>
                   <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="mb-1" />
                   <cc-action
@@ -381,7 +383,7 @@
                 </v-row>
                 <span class="heading h2">
                   {{ mech.Frame.CoreSystem.ActiveName }}
-                  <span class="pt-2 ml-2 caption text-subtle">(ACTIVE)</span>
+                  <span class="pt-2 ml-2 caption text-disabled">(ACTIVE)</span>
                 </span>
                 <p
                   v-html-safe="mech.Frame.CoreSystem.ActiveEffect"
@@ -420,7 +422,7 @@
         <v-row v-if="pilot.CoreBonusController.CoreBonuses" density="compact">
           <v-col cols="auto" class="mb-n2">
             <span class="text-overline">CORE BONUSES</span>
-            <v-btn small right icon class="fade-select" @click="showCBs = !showCBs">
+            <v-btn small right icon variant="plain" @click="showCBs = !showCBs">
               <v-icon small v-html="showCBs ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
           </v-col>
@@ -428,8 +430,7 @@
             <v-col v-if="showCBs" cols="auto" class="ml-auto">
               <v-btn
                 x-small
-                variant="outlined"
-                class="fade-select"
+                variant="plain"
                 @click="expandAll(pilot.CoreBonusController.CoreBonuses.length, 'cb_', true)"
               >
                 <v-icon small left>mdi-chevron-up</v-icon>
@@ -437,8 +438,7 @@
               </v-btn>
               <v-btn
                 x-small
-                variant="outlined"
-                class="fade-select"
+                variant="plain"
                 @click="expandAll(pilot.CoreBonusController.CoreBonuses.length, 'cb_', false)"
               >
                 <v-icon small left>mdi-chevron-down</v-icon>
@@ -466,7 +466,7 @@
         <v-row density="compact">
           <v-col cols="auto" class="mb-n2">
             <span class="text-overline">PILOT TALENTS</span>
-            <v-btn small right icon class="fade-select" @click="showTalents = !showTalents">
+            <v-btn small right icon variant="plain" @click="showTalents = !showTalents">
               <v-icon small v-html="showTalents ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
           </v-col>
@@ -474,8 +474,7 @@
             <v-col v-if="showTalents" cols="auto" class="ml-auto">
               <v-btn
                 x-small
-                variant="outlined"
-                class="fade-select"
+                variant="plain"
                 @click="expandAll(pilot.TalentsController.Talents.length, 'tal_', true)"
               >
                 <v-icon small left>mdi-chevron-up</v-icon>
@@ -483,8 +482,7 @@
               </v-btn>
               <v-btn
                 x-small
-                variant="outlined"
-                class="fade-select"
+                variant="plain"
                 @click="expandAll(pilot.TalentsController.Talents.length, 'tal_', false)"
               >
                 <v-icon small left>mdi-chevron-down</v-icon>
@@ -526,7 +524,7 @@
         <v-row density="compact">
           <v-col cols="12">
             <span class="text-overline">COUNTERS</span>
-            <v-btn small right icon class="fade-select" @click="showCounters = !showCounters">
+            <v-btn small right icon variant="plain" @click="showCounters = !showCounters">
               <v-icon small v-html="showCounters ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
             </v-btn>
           </v-col>

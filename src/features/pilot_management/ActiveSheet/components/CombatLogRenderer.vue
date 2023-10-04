@@ -3,9 +3,8 @@
     <v-col>
       <v-row v-for="(l, i) in state.Log" density="compact">
         <v-col>
-          <div class="caption text-subtle mb-n1">
-            MISSION {{ l.mission }} // ENCOUNTER {{ l.encounter }} // ROUND
-            {{ l.round }} ::
+          <div class="caption text-disabled mb-n1">
+            MISSION {{ l.mission }} // ENCOUNTER {{ l.encounter }} // ROUND {{ l.round }} ::
             {{ l.timestamp }}
           </div>
           <p class="flavor-text ma-0 ml-3 mb-2">
@@ -15,21 +14,9 @@
             <span class="text-stark">{{ l.detail }}</span>
           </p>
         </v-col>
-        <v-col
-          v-if="l.undoAction"
-          cols="auto"
-          class="ml-auto"
-          align-self="center"
-        >
-          <cc-tooltip
-            content="Undo this action, refunding any cost it may have had"
-          >
-            <v-btn
-              x-small
-              color="primary"
-              class="fade-select"
-              @click="undo(l.undoAction)"
-            >
+        <v-col v-if="l.undoAction" cols="auto" class="ml-auto" align-self="center">
+          <cc-tooltip content="Undo this action, refunding any cost it may have had">
+            <v-btn x-small color="primary" variant="plain" @click="undo(l.undoAction)">
               <v-icon small left>mdi-reload</v-icon>
               UNDO
             </v-btn>

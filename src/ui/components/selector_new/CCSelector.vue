@@ -137,7 +137,7 @@
                 color="accent"
                 label="Ignore Restrictions"
               />
-              <div class="text-caption text-subtle text-right">
+              <div class="text-caption text-disabled text-right">
                 {{ activeHiddenItems.length }} HIDDEN ITEMS
               </div>
             </v-col>

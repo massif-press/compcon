@@ -228,6 +228,8 @@
                 v-for="item in getItems(manufacturer, lcp)"
                 :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
                 :compare="view === 'compare'"
+                :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+                @equip="$emit('equip', item)"
                 :item="(item as CompendiumItem)"
                 @clicked="
                   selectedItem && selectedItem.ID === (item as CompendiumItem).ID
@@ -379,6 +381,8 @@
             v-for="item in shownItems"
             :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
             :compare="view === 'compare'"
+            :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+            @equip="$emit('equip', item)"
             :item="(item as CompendiumItem)"
             @clicked="
               selectedItem && selectedItem.ID === (item as CompendiumItem).ID
@@ -716,6 +720,10 @@ export default {
     comparisons() {
       const idx = this.comparisons.findIndex((x) => x.ID === this.selectedItem?.ID);
       if (idx > -1) this.comparisons.splice(idx, 1);
+    },
+    items() {
+      this.lcpFilter = this.lcps;
+      this.open = [...this.lcps, ...this.manufacturers, ...this.subtypes, ...this.licenses];
     },
   },
   created() {

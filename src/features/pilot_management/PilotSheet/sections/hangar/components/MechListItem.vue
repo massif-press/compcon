@@ -116,7 +116,7 @@
                     size="small"
                     icon
                     variant="plain"
-                    @click.stop="($refs as any).print.show()"
+                    @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)"
                   >
                     <v-icon>mdi-printer</v-icon>
                   </v-btn>
@@ -130,18 +130,16 @@
 
     <copy-mech-dialog ref="copy" :mech="mech" @copy="$emit('copy', mech)" />
     <delete-mech-dialog ref="delete" :mech="mech" @delete="$emit('delete', mech)" />
-    <print-dialog ref="print" :pilot="mech.Pilot" />
   </v-card>
 </template>
 
 <script lang="ts">
 import CopyMechDialog from './CopyMechDialog.vue';
 import DeleteMechDialog from './DeleteMechDialog.vue';
-import PrintDialog from '../../../components/PrintDialog.vue';
 
 export default {
   name: 'mech-list-item',
-  components: { CopyMechDialog, DeleteMechDialog, PrintDialog },
+  components: { CopyMechDialog, DeleteMechDialog },
   props: {
     mech: {
       type: Object,

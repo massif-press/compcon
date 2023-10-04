@@ -3,16 +3,16 @@
     <v-row align="start" class="mb-n3">
       <v-col>
         <span class="heading mech" style="line-height: 5px">{{ pilot.Callsign }}</span>
-        <div class="flavor-text text-subtle">{{ pilot.Name }}</div>
+        <div class="flavor-text text-disabled">{{ pilot.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-right mr-2 mt-n2">
         <div class="heading h3 text-accent">HP</div>
         <div class="font-weight-bold mr-n5">
-          <v-btn icon x-small class="fade-select" @click="pilot.CurrentHP -= 1">
+          <v-btn icon x-small variant="plain" @click="pilot.CurrentHP -= 1">
             <v-icon small color="primary">mdi-minus</v-icon>
           </v-btn>
           {{ pilot.CurrentHP }}/{{ pilot.MaxHP }}
-          <v-btn icon x-small class="fade-select" @click="pilot.CurrentHP += 1">
+          <v-btn icon x-small variant="plain" @click="pilot.CurrentHP += 1">
             <v-icon small color="primary">mdi-plus</v-icon>
           </v-btn>
         </div>
@@ -41,7 +41,7 @@
           <v-alert density="compact" variant="outlined" color="error" prominent>
             <v-icon slot="prepend" color="error" size="70" class="mr-3">cc:eclipse</v-icon>
             <span class="heading h1">MECH DESTROYED</span>
-            <div class="heading mt-n4 text-subtle">FRAME.CRITICAL//: CATASTROPHIC DAMAGE</div>
+            <div class="heading mt-n4 text-disabled">FRAME.CRITICAL//: CATASTROPHIC DAMAGE</div>
           </v-alert>
         </v-col>
       </v-row>
@@ -59,7 +59,7 @@
             pilots that wish to contribute, in any combination.
           </div>
         </v-alert>
-        <div class="text-subtle mt-2">
+        <div class="text-disabled mt-2">
           REPAIR CAPACITY REMAINING:
           <b class="text-accent">{{ mech.CurrentRepairs }}</b>
         </div>
@@ -116,7 +116,7 @@
       </div>
       <span v-if="!mech.Destroyed && !mech.ReactorDestroyed" class="text-overline">
         FIELD REPAIR INTERFACE
-        <v-btn small right icon class="fade-select" @click="showRepair = !showRepair">
+        <v-btn small right icon variant="plain" @click="showRepair = !showRepair">
           <v-icon small v-html="showRepair ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>
       </span>
@@ -126,7 +126,7 @@
       >
         <v-row density="compact" class="px-3">
           <v-col v-if="$vuetify.display.mdAndUp">
-            <p class="caption flavor-text text-subtle pb-0 mb-0">
+            <p class="caption flavor-text text-disabled pb-0 mb-0">
               //[COMP/CON: COMBAT OPERATIONS COMPLETE
               <br />
               DISCONNECTING PILOT SENSORIUM ... done
@@ -139,7 +139,7 @@
                 {{ mech.Frame.Source }} {{ mech.Frame.Name }} DIAGNOSTICS COMPLETE
               </span>
             </p>
-            <p class="flavor-text text-subtle mb-0">
+            <p class="flavor-text text-disabled mb-0">
               >//[
               <span class="text-accent">COMP/CON</span>
               <span class="text-text">
@@ -377,8 +377,7 @@
             <v-col cols="12" md="auto" class="ml-auto">
               <v-btn
                 x-small
-                variant="outlined"
-                class="fade-select"
+                variant="plain"
                 @click="expandAll(pilot.SkillsController.Skills.length, 'sk_', true)"
               >
                 <v-icon small left>mdi-chevron-up</v-icon>
@@ -386,8 +385,7 @@
               </v-btn>
               <v-btn
                 x-small
-                variant="outlined"
-                class="fade-select"
+                variant="plain"
                 @click="expandAll(pilot.SkillsController.Skills.length, 'sk_', false)"
               >
                 <v-icon small left>mdi-chevron-down</v-icon>
@@ -414,7 +412,7 @@
           class="text-overline"
         >
           RESERVES AND RESOURCES
-          <v-btn small right icon class="fade-select" @click="showReserves = !showReserves">
+          <v-btn small right icon variant="plain" @click="showReserves = !showReserves">
             <v-icon small v-html="showReserves ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
           </v-btn>
         </span>

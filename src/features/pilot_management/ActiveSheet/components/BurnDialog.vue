@@ -1,17 +1,12 @@
 <template>
   <v-dialog v-model="dialog" width="60vw">
     <v-card>
-      <v-toolbar
-        flat
-        density="compact"
-        dark
-        color="damage--burn"
-        class="heading h2"
+      <v-toolbar flat density="compact" dark color="damage--burn" class="heading h2"
         >Burn</v-toolbar
       >
       <v-card-text class="text-center">
         <div class="heading h3 font-weight-bold text-stark mt-2">
-          <span class="text-subtle">FRAME.ALERT::</span>
+          <span class="text-disabled">FRAME.ALERT::</span>
           mech has been inflicted with
           <span class="text-damage-burn">{{ mech.Burn }} Burn</span>
         </div>
@@ -23,37 +18,20 @@
         </p>
         <v-row justify="center" class="text-center mt-4">
           <v-col lg="auto" md="12" class="mt-n5">
-            <v-row
-              density="compact"
-              class="text-center mb-n3"
-              justify="start"
-              align="start"
-            >
+            <v-row density="compact" class="text-center mb-n3" justify="start" align="start">
               <v-col cols="auto" class="mx-8">
                 <div class="text-overline mb-n2">Engineering Roll</div>
                 <div class="heading text-text" style="font-size: 24pt">
-                  <v-icon size="x-large" class="mr-n1"
-                    >mdi-dice-d20-outline</v-icon
-                  >
+                  <v-icon size="x-large" class="mr-n1">mdi-dice-d20-outline</v-icon>
                   + {{ mech.Eng }}
-                  <cc-synergy-display
-                    location="engineering"
-                    :mech="mech"
-                    class="d-inline"
-                  />
+                  <cc-synergy-display location="engineering" :mech="mech" class="d-inline" />
                 </div>
               </v-col>
             </v-row>
           </v-col>
           <v-col cols="auto" class="mr-2">
             <cc-tooltip title="Roll Engineering Check" :content="rollTooltip">
-              <v-btn
-                icon
-                small
-                color="accent"
-                class="mt-1 mr-n3"
-                @click="rollCheck"
-              >
+              <v-btn icon small color="accent" class="mt-1 mr-n3" @click="rollCheck">
                 <v-icon large>mdi-dice-multiple</v-icon>
               </v-btn>
             </cc-tooltip>

@@ -1,24 +1,12 @@
 <template>
-  <v-col class="pa-2 mt-2" style="height: 100%">
-    <v-card
-      flat
-      tile
-      class="clipped-large light-panel"
-      style="height: calc(100% - 20px); min-height: 100px"
-    >
-      <v-row
-        class="text-center"
-        style="height: 100%"
-        justify="center"
-        align="center"
-      >
-        <v-col class="panel">
-          <div class="heading h1 text-subtle text--darken-1">MOUNT LOCKED</div>
-          <div class="mt-2 mb-n4">SUPERHEAVY WEAPON BRACING</div>
-        </v-col>
-      </v-row>
-    </v-card>
-  </v-col>
+  <v-card flat style="height: 100%">
+    <v-row class="text-center" style="height: 100%" justify="center" align="center">
+      <v-col cols="auto" style="opacity: 0.3">
+        <div class="heading h1 mt-8">MOUNT LOCKED</div>
+        <div class="text-overline">SUPERHEAVY WEAPON BRACING</div>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <script lang="ts">

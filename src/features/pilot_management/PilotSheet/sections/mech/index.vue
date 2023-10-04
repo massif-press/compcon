@@ -5,28 +5,34 @@
     </cc-short-string-editor>
   </div>
 
-  <div class="text-center heading h2">
-    <v-icon :icon="mech.Frame.Manufacturer.Icon" />
-    <span :style="`color: ${color}`">
-      {{ mech.Frame.Manufacturer.Name }}
-    </span>
-    <span class="text-text pl-3">{{ mech.Frame.Name }}</span>
-    <v-btn icon variant="plain" @click="($refs as any).frameInfoDialog.show()">
-      <v-icon icon="mdi-information-outline" />
-    </v-btn>
-    <cc-solo-dialog
-      ref="frameInfoDialog"
-      icon="cc:frame"
-      :color="color"
-      no-actions
-      large
-      :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
-    >
-      <v-container class="px-12 pt-1">
-        <p v-html-safe="mech.Frame.Description" class="flavor-text text-text" />
-      </v-container>
-    </cc-solo-dialog>
-  </div>
+  <v-row align="center" justify="center" dense class="heading h2">
+    <v-col cols="auto">
+      <v-icon :icon="mech.Frame.Manufacturer.Icon" />
+    </v-col>
+    <v-col cols="auto">
+      <span :style="`color: ${color}`">
+        {{ mech.Frame.Manufacturer.Name }}
+      </span>
+      <span class="text-text pl-2">{{ mech.Frame.Name }}</span>
+    </v-col>
+    <v-col cols="auto" class="px-0 ml-n2">
+      <v-btn icon size="small" variant="plain" @click="($refs as any).frameInfoDialog.show()">
+        <v-icon icon="mdi-information-outline" />
+      </v-btn>
+      <cc-solo-dialog
+        ref="frameInfoDialog"
+        icon="cc:frame"
+        :color="color"
+        no-actions
+        large
+        :title="`${mech.Frame.Manufacturer.Name} ${mech.Frame.Name}`"
+      >
+        <v-container class="px-12 pt-1">
+          <p v-html-safe="mech.Frame.Description" class="flavor-text text-text" />
+        </v-container>
+      </cc-solo-dialog>
+    </v-col>
+  </v-row>
 
   <mech-nav
     :selected="0"
@@ -50,7 +56,6 @@
             variant="outlined"
             color="secondary"
             size="small"
-            class="fade-select"
             @click="($refs as any).imageSelector.open()"
           >
             <v-icon start>mdi-circle-edit-outline</v-icon>

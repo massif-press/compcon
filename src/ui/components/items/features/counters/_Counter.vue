@@ -14,7 +14,7 @@
       </div>
       <v-spacer />
       <cc-tooltip simple content="Reset Counter">
-        <v-btn class="fade-select" dark icon x-small @click="counter.Reset()">
+        <v-btn variant="plain" dark icon x-small @click="counter.Reset()">
           <v-icon small>mdi-reload</v-icon>
         </v-btn>
       </cc-tooltip>

@@ -3,16 +3,16 @@
     <v-row :justify="$vuetify.display.mdAndUp ? 'start' : 'center'" align="start" class="mb-n3">
       <v-col>
         <span class="heading mech" style="line-height: 5px">{{ pilot.Callsign }}</span>
-        <div class="flavor-text text-subtle">{{ pilot.Name }}</div>
+        <div class="flavor-text text-disabled">{{ pilot.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-right mr-2 mt-n2">
         <div class="heading h3 text-accent">HP</div>
         <div class="font-weight-bold mr-n5">
-          <v-btn icon x-small class="fade-select" @click="pilot.CurrentHP -= 1">
+          <v-btn icon x-small variant="plain" @click="pilot.CurrentHP -= 1">
             <v-icon small color="primary">mdi-minus</v-icon>
           </v-btn>
           {{ pilot.CurrentHP }}/{{ pilot.MaxHP }}
-          <v-btn icon x-small class="fade-select" @click="pilot.CurrentHP += 1">
+          <v-btn icon x-small variant="plain" @click="pilot.CurrentHP += 1">
             <v-icon small color="primary">mdi-plus</v-icon>
           </v-btn>
         </div>
@@ -73,7 +73,7 @@
             {{ pilot.State.SelfDestructCounter }} ROUNDS
           </span>
           <span v-else class="heading h1">MECH SELF DESTRUCTION IMMINENT</span>
-          <div class="heading mt-n4 text-subtle">
+          <div class="heading mt-n4 text-disabled">
             FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT
           </div>
           <div class="px-5 my-1">
@@ -87,7 +87,7 @@
             <v-btn
               x-small
               color="primary"
-              class="fade-select"
+              variant="plain"
               @click="pilot.State.CancelSelfDestruct()"
             >
               <v-icon small left>mdi-reload</v-icon>
@@ -116,7 +116,7 @@
           small
           :absolute="$vuetify.display.mdAndUp"
           color="error"
-          class="fade-select"
+          variant="plain"
           style="bottom: 0; right: 0"
           @click="pilot.Kill()"
         >
@@ -138,8 +138,7 @@
           <v-col cols="auto" class="ml-auto">
             <v-btn
               x-small
-              variant="outlined"
-              class="fade-select"
+              variant="plain"
               @click="expandAll(pilot.SkillsController.Skills.length, 'sk_', true)"
             >
               <v-icon small left>mdi-chevron-up</v-icon>
@@ -147,8 +146,7 @@
             </v-btn>
             <v-btn
               x-small
-              variant="outlined"
-              class="fade-select"
+              variant="plain"
               @click="expandAll(pilot.SkillsController.Skills.length, 'sk_', false)"
             >
               <v-icon small left>mdi-chevron-down</v-icon>
@@ -175,7 +173,7 @@
         class="text-overline"
       >
         RESERVES AND RESOURCES
-        <v-btn small right icon class="fade-select" @click="showReserves = !showReserves">
+        <v-btn small right icon variant="plain" @click="showReserves = !showReserves">
           <v-icon small v-html="showReserves ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
         </v-btn>
       </span>

@@ -3,33 +3,17 @@
     <v-card-text>
       <p
         class="text-center body-text"
-        v-html="
-          'Start, run, or improve an organization, business, or other venture.'
-        "
+        v-html="'Start, run, or improve an organization, business, or other venture.'"
       />
       <v-divider class="mb-2" />
       <v-card>
-        <v-tabs
-          v-model="tabs"
-          color="white"
-          background-color="primary"
-          slider-color="white"
-          grow
-        >
+        <v-tabs v-model="tabs" color="white" background-color="primary" slider-color="white" grow>
           <v-tab>Establish Organization</v-tab>
           <v-tab :disabled="!organizations.length">Improve Organization</v-tab>
           <v-tab-item>
             <v-card flat tile class="ma-3">
-              <v-toolbar
-                dark
-                flat
-                tile
-                density="compact"
-                color="action--downtime"
-              >
-                <v-toolbar-title class="heading h2"
-                  >New Organization</v-toolbar-title
-                >
+              <v-toolbar dark flat tile density="compact" color="action--downtime">
+                <v-toolbar-title class="heading h2">New Organization</v-toolbar-title>
               </v-toolbar>
               <v-card-text class="pa-4">
                 <v-row density="compact">
@@ -82,9 +66,7 @@
                         Efficiency
                       </v-btn>
                       <div v-else class="text-center flavor-text">
-                        <span class="heading h2"
-                          >+ {{ start === 'efficiency' ? '2' : '0' }}</span
-                        >
+                        <span class="heading h2">+ {{ start === 'efficiency' ? '2' : '0' }}</span>
                         <br />
                         <span>Organization Efficiency</span>
                       </div>
@@ -108,9 +90,7 @@
                         Influence
                       </v-btn>
                       <div v-else class="text-center flavor-text">
-                        <span class="heading h2"
-                          >+ {{ start === 'influence' ? '2' : '0' }}</span
-                        >
+                        <span class="heading h2">+ {{ start === 'influence' ? '2' : '0' }}</span>
                         <br />
                         <span>Organization Influence</span>
                       </div>
@@ -143,12 +123,7 @@
                   </v-btn>
 
                   <v-card tile flat>
-                    <v-toolbar
-                      dark
-                      flat
-                      density="compact"
-                      color="action--downtime"
-                    >
+                    <v-toolbar dark flat density="compact" color="action--downtime">
                       <v-toolbar-title class="heading h2">
                         {{ selected.Name }}
                       </v-toolbar-title>
@@ -172,24 +147,16 @@
                             append-icon="mdi-plus-circle-outline"
                             prepend-icon="mdi-minus-circle-outline"
                             @click:append="improveRoll++"
-                            @click:prepend="
-                              improveRoll > 1 ? improveRoll-- : ''
-                            "
+                            @click:prepend="improveRoll > 1 ? improveRoll-- : ''"
                           />
                         </v-col>
                       </v-row>
 
                       <v-slide-y-transition>
-                        <v-row
-                          v-if="improveRoll"
-                          density="compact"
-                          class="text-center flavor-text"
-                        >
+                        <v-row v-if="improveRoll" density="compact" class="text-center flavor-text">
                           <v-col v-if="improveRoll < 10">
                             <v-row density="compact" justify="center">
-                              <v-col cols="auto" class="pr-2"
-                                >This organization</v-col
-                              >
+                              <v-col cols="auto" class="pr-2">This organization</v-col>
                               <v-col cols="auto" class="mt-n5">
                                 <v-radio-group
                                   v-model="badChoice"
@@ -197,16 +164,11 @@
                                   density="compact"
                                   style="display: inline-block"
                                 >
-                                  <v-radio
-                                    label="Folds Immediately"
-                                    value="fold"
-                                    color="error"
-                                  />
+                                  <v-radio label="Folds Immediately" value="fold" color="error" />
                                   <v-radio
                                     :label="`Loses 2 Efficiency (${selected.Efficiency} available) and 2 Influence (${selected.Influence} available)`"
                                     :disabled="
-                                      selected.Influence === 0 &&
-                                      selected.Efficiency === 0
+                                      selected.Influence === 0 && selected.Efficiency === 0
                                     "
                                     value="efficiencyInfluence"
                                     color="warning"
@@ -222,25 +184,14 @@
                             <v-slide-x-reverse-transition>
                               <div v-show="badChoice === 'takeAction'">
                                 <br />
-                                <span>
-                                  The organization takes one of the following
-                                  actions:
-                                </span>
+                                <span> The organization takes one of the following actions: </span>
                                 <v-btn-toggle v-model="action" mandatory>
-                                  <v-btn text large value="Pay Debts"
-                                    >Pay Debts</v-btn
-                                  >
+                                  <v-btn text large value="Pay Debts">Pay Debts</v-btn>
                                   <v-btn text large value="Prove Worthiness">
                                     Prove Worthiness
                                   </v-btn>
-                                  <v-btn text large value="Get Bailed Out"
-                                    >Get Bailed Out</v-btn
-                                  >
-                                  <v-btn
-                                    text
-                                    large
-                                    value="Make an Aggressive Move"
-                                  >
+                                  <v-btn text large value="Get Bailed Out">Get Bailed Out</v-btn>
+                                  <v-btn text large value="Make an Aggressive Move">
                                     Make an Aggressive Move
                                   </v-btn>
                                 </v-btn-toggle>
@@ -249,15 +200,12 @@
                           </v-col>
                           <v-col v-else-if="improveRoll <= 20" cols="12">
                             <v-row
-                              v-if="
-                                selected.Influence === 6 &&
-                                selected.Efficiency === 6
-                              "
+                              v-if="selected.Influence === 6 && selected.Efficiency === 6"
                               row
                               wrap
                             >
                               <v-col class="text-center">
-                                <span class="heading h3 text-subtle">
+                                <span class="heading h3 text-disabled">
                                   Organization is operating at maximum capacity
                                 </span>
                               </v-col>
@@ -274,8 +222,7 @@
                                       block
                                       color="primary"
                                       :disabled="
-                                        selected.Efficiency === 6 ||
-                                        improvement === 'efficiency'
+                                        selected.Efficiency === 6 || improvement === 'efficiency'
                                       "
                                       @click="improvement = 'efficiency'"
                                     >
@@ -295,15 +242,13 @@
                                     </div>
                                   </div>
                                   <span>
-                                    How directly effective your organization is
-                                    at what it does (a military organization
-                                    with high efficiency would be good at
+                                    How directly effective your organization is at what it does (a
+                                    military organization with high efficiency would be good at
                                     combat, for example).
                                     <br />
-                                    Efficiency can be used to perform activities
-                                    related to your organization’s purpose
-                                    (science, military, etc). You can use these
-                                    advantages as
+                                    Efficiency can be used to perform activities related to your
+                                    organization’s purpose (science, military, etc). You can use
+                                    these advantages as
                                     <strong>reserves.</strong>
                                   </span>
                                 </v-tooltip>
@@ -317,8 +262,7 @@
                                       block
                                       color="primary"
                                       :disabled="
-                                        selected.Influence === 6 ||
-                                        improvement === 'influence'
+                                        selected.Influence === 6 || improvement === 'influence'
                                       "
                                       @click="improvement = 'influence'"
                                     >
@@ -328,8 +272,7 @@
                                       <span class="heading h3">
                                         +
                                         {{
-                                          selected.Influence +
-                                          (improvement === 'influence' ? 2 : 0)
+                                          selected.Influence + (improvement === 'influence' ? 2 : 0)
                                         }}
                                         Influence
                                       </span>
@@ -338,9 +281,8 @@
                                     </div>
                                   </div>
                                   <span>
-                                    Influence is your organization’s size,
-                                    reach, wealth, and reputation. Influence be
-                                    used to acquire assets, create
+                                    Influence is your organization’s size, reach, wealth, and
+                                    reputation. Influence be used to acquire assets, create
                                     opportunities, or sway public opinion.
                                   </span>
                                 </v-tooltip>
@@ -349,19 +291,12 @@
                           </v-col>
                           <v-col v-else cols="12">
                             <span
-                              v-if="
-                                selected.Influence < 6 &&
-                                selected.Efficiency < 6
-                              "
+                              v-if="selected.Influence < 6 && selected.Efficiency < 6"
                               class="heading h3 text-accent"
                             >
-                              Organization Influence and Efficiency increased by
-                              +2
+                              Organization Influence and Efficiency increased by +2
                             </span>
-                            <span
-                              v-else-if="selected.Influence < 6"
-                              class="heading h3 text-accent"
-                            >
+                            <span v-else-if="selected.Influence < 6" class="heading h3 text-accent">
                               Organization Influence increased by +2
                             </span>
                             <span
@@ -370,7 +305,7 @@
                             >
                               Organization Efficiency increased by +2
                             </span>
-                            <span v-else class="heading h3 text-subtle">
+                            <span v-else class="heading h3 text-disabled">
                               Organization is operating at maximum capacity
                             </span>
                           </v-col>
@@ -438,13 +373,9 @@ export default {
       if (this.tabs === 0) return !this.name || !this.type || !this.start;
       if (this.tabs === 1) {
         if (this.improveRoll < 10) {
-          return !(
-            this.badChoice === 'fold' ||
-            (this.badChoice && this.action)
-          );
+          return !(this.badChoice === 'fold' || (this.badChoice && this.action));
         } else if (this.improveRoll < 20) {
-          if (this.selected.Efficiency === 6 && this.selected.Influence === 6)
-            return false;
+          if (this.selected.Efficiency === 6 && this.selected.Influence === 6) return false;
           else return;
           !this.improvement;
         } else {

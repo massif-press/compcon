@@ -21,7 +21,7 @@
       <v-container>
         <p v-html-safe="action.Detail" class="body-text text-text mt-n3" />
         <div v-if="action.SubActions && action.SubActions.length">
-          <div class="text-overline text-subtle">OPTIONS</div>
+          <div class="text-overline text-disabled">OPTIONS</div>
           <v-row no-gutters justify="center">
             <v-col v-for="a in action.SubActions" cols="auto">
               <cc-action :action="a" :panel="false" class="ma-2" />

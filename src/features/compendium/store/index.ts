@@ -201,7 +201,7 @@ export const CompendiumStore = defineStore('compendium', {
           if (i) return _.cloneDeep(i);
           const miID = `missing_${itemType.toLowerCase()}`;
           const missingItem = this[itemType].find((x: any) => x.ID === miID || x.id === miID);
-          if (missingItem) return { ...missingItem };
+          if (missingItem) return _.clone(missingItem);
           return this.nfErr;
         }
         return { err: 'Invalid Item Type' };

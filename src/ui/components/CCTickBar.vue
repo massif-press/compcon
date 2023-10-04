@@ -43,13 +43,7 @@
     </v-row>
     <v-row no-gutters align="center" :justify="justify" class="my-n4">
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
-        <v-btn
-          icon
-          size="small"
-          variant="plain"
-          class="fade-select"
-          @click="$emit('update', model - 1)"
-        >
+        <v-btn icon size="small" variant="plain" @click="$emit('update', model - 1)">
           <v-icon :color="color" icon="mdi-minus" />
         </v-btn>
       </v-col>
@@ -71,11 +65,11 @@
       </v-col>
       <div v-else-if="maxExceeded">
         <v-icon :large="large" :small="small" :color="color" v-html="fullIcon" />
-        <div class="flavor-text text-subtle">x</div>
+        <div class="flavor-text text-disabled">x</div>
         <div class="heading h3">{{ current }}</div>
       </div>
       <v-col v-if="!hideButtons" cols="auto" class="mx-n1">
-        <v-btn icon small class="fade-select" @click="$emit('update', model + 1)">
+        <v-btn icon small variant="plain" @click="$emit('update', model + 1)">
           <v-icon :color="color">mdi-plus</v-icon>
         </v-btn>
       </v-col>

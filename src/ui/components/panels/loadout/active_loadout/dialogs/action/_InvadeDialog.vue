@@ -9,11 +9,7 @@
       <action-titlebar :action="action" :mech="mech" @hide="hide()" />
 
       <v-card-text class="pt-4">
-        <cc-active-synergy
-          :locations="action.SynergyLocations"
-          :mech="mech"
-          class="mb-n4"
-        />
+        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
 
         <v-row justify="center" align="center">
           <v-col cols="12" md="">
@@ -48,21 +44,14 @@
               </v-col>
             </v-row>
             <v-row density="compact" justify="center">
-              <v-col
-                v-for="(a, j) in actions"
-                cols="auto"
-                style="min-width: 400px"
-              >
+              <v-col v-for="(a, j) in actions" cols="auto" style="min-width: 400px">
                 <v-card
                   tile
                   variant="outlined"
                   :class="selected === a ? 'optionSelect' : 'optionFade'"
                   @click="select(a)"
                 >
-                  <v-toolbar
-                    :color="selected === a ? 'secondary' : ''"
-                    density="compact"
-                  >
+                  <v-toolbar :color="selected === a ? 'secondary' : ''" density="compact">
                     <v-toolbar-title class="px-n2 heading h3">
                       {{ a.Name }}
                     </v-toolbar-title>
@@ -78,11 +67,7 @@
         </v-slide-x-reverse-transition>
 
         <v-slide-x-reverse-transition>
-          <v-row
-            v-if="failed || (succeeded && selected)"
-            no-gutters
-            class="mt-2"
-          >
+          <v-row v-if="failed || (succeeded && selected)" no-gutters class="mt-2">
             <v-col cols="auto" class="ml-auto" align="end">
               <v-fade-transition v-for="(s, i) in skLog">
                 <p v-if="timer > 10 * i" class="flavor-text text-stark ma-0">
@@ -101,15 +86,8 @@
         <v-slide-x-reverse-transition>
           <v-row v-if="finished" no-gutters>
             <v-col cols="auto" class="ml-auto">
-              <cc-tooltip
-                content="Undo this action, refunding any cost it may have had"
-              >
-                <v-btn
-                  x-small
-                  color="primary"
-                  class="fade-select"
-                  @click="reset"
-                >
+              <cc-tooltip content="Undo this action, refunding any cost it may have had">
+                <v-btn x-small color="primary" variant="plain" @click="reset">
                   <v-icon small left>mdi-reload</v-icon>
                   UNDO
                 </v-btn>
@@ -175,9 +153,7 @@ export default {
       return this.mech.Pilot.State;
     },
     actions() {
-      return this.state.TechActions.filter(
-        (x) => x.Activation === ActivationType.Invade
-      );
+      return this.state.TechActions.filter((x) => x.Activation === ActivationType.Invade);
     },
     skLog() {
       let l = ['UPLINK ESTABLISHED. ATTEMPTING REMOTE ACCESS.'];

@@ -1,102 +1,89 @@
 <template>
-  <div>
-    <cc-selector-table
-      :items="availableSystems"
-      :headers="headers"
-      sp-disable
-      :sp-ignore="showOverSP"
-      :sp="freeSP"
-      item-type-fallback="MechSystem"
-      @equip="$emit('equip', $event)"
-    >
-      <div v-if="equipped">
-        <span class="text-overline">
-          UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-          <span class="text-success text--darken-1">
-            [ FRAME EQUIPMENT REGISTRATION VERIFIED ]
-          </span>
-        </span>
-        <br />
-        <span class="heading h1 text-accent" style="line-height: 20px">
-          {{ equipped.Name }}
-        </span>
-        <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</span>
-      </div>
-      <div v-else>
-        <span class="text-overline">
-          UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
-        </span>
-        <br />
-        <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
-          NO SELECTION
-        </span>
-        <span class="flavor-text overline mt-n1 text-error" style="display: block">
-          [ EQUIPMENT ID INVALID OR MISSING ]
-        </span>
-      </div>
-      <div slot="extra-item" class="mt-2 mb-n2">
-        <div class="mb-n2">
-          <v-switch
-            v-model="showUnlicensed"
-            density="compact"
-            inset
-            hide-details
-            color="warning"
-            class="mr-3 d-inline"
-          >
-            <cc-tooltip
-              slot="label"
-              simple
-              inline
-              :content="
-                showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-              "
+  <cc-compendium-browser
+    :items="availableSystems"
+    item-type="MechSystem"
+    :table-headers="headers"
+    :options="options"
+    equippable
+    @equip="$emit('equip', $event)"
+  >
+    <template #header> <div class="heading h3 text-center text-accent">Mech Weapons</div></template>
+    <template #top>
+      <v-row>
+        <v-col>
+          <div v-if="equipped">
+            <span class="text-overline">
+              UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              <span class="text-success text--darken-1">
+                [ FRAME EQUIPMENT REGISTRATION VERIFIED ]
+              </span>
+            </span>
+            <br />
+            <span class="heading h1 text-accent" style="line-height: 20px">
+              {{ equipped.Name }}
+            </span>
+            <span class="flavor-text overline mt-n1" style="display: block"
+              >CURRENTLY EQUIPPED</span
             >
-              <v-icon
-                class="ml-n2"
-                :color="showUnlicensed ? 'warning' : 'success'"
-                v-html="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
-              />
-            </cc-tooltip>
+          </div>
+          <div v-else>
+            <span class="text-overline">
+              UNION ARMORY EQUIPMENT AUTHORIZATION: FRAME EQUIPMENT//COMBAT SYSTEM
+            </span>
+            <br />
+            <span class="heading h1 text-disabled text--lighten-1" style="line-height: 20px">
+              NO SELECTION
+            </span>
+            <span class="flavor-text overline mt-n1 text-error" style="display: block">
+              [ EQUIPMENT ID INVALID OR MISSING ]
+            </span>
+          </div>
+        </v-col>
+        <v-col cols="auto">
+          <v-switch v-model="showUnlicensed" density="compact" inset hide-details color="warning">
+            <template #label>
+              <cc-tooltip
+                slot="label"
+                simple
+                inline
+                :content="
+                  showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
+                "
+              >
+                <v-icon
+                  :color="showUnlicensed ? 'warning' : 'success'"
+                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
+                />
+              </cc-tooltip>
+            </template>
           </v-switch>
-        </div>
-        <div class="mt-n4">
-          <v-switch
-            v-model="showOverSP"
-            density="compact"
-            inset
-            hide-details
-            color="warning"
-            class="mr-3 d-inline"
-          >
-            <cc-tooltip
-              slot="label"
-              simple
-              inline
-              :content="
-                showOverSP
-                  ? 'Systems exceeding SP Capacity: SHOWN'
-                  : 'Systems exceeding SP Capacity: HIDDEN'
-              "
-            >
-              <v-icon
-                class="ml-n2"
-                :color="showOverSP ? 'warning' : 'success'"
-                v-html="'cc:system_point'"
-              />
-            </cc-tooltip>
+          <v-switch v-model="showOverSP" density="compact" inset hide-details color="warning">
+            <template #label>
+              <cc-tooltip
+                slot="label"
+                simple
+                inline
+                :content="
+                  showOverSP
+                    ? 'Systems exceeding SP Capacity: SHOWN'
+                    : 'Systems exceeding SP Capacity: HIDDEN'
+                "
+              >
+                <v-icon :color="showOverSP ? 'warning' : 'success'" icon="cc:system_point" />
+              </cc-tooltip>
+            </template>
           </v-switch>
-        </div>
-      </div>
-    </cc-selector-table>
-  </div>
+        </v-col>
+      </v-row>
+    </template>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import _ from 'lodash';
 
 import { CompendiumStore } from '@/stores';
-import { MechSystem } from '@/class';
+import { Mech, MechSystem } from '@/class';
 import { flavorID } from '@/io/Generators';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
@@ -114,14 +101,19 @@ export default {
     },
   },
   data: () => ({
+    options: {
+      views: ['single', 'table', 'cards'],
+      initialView: 'single',
+      groups: ['source', 'lcp', 'license'],
+      initialGroup: 'license',
+    },
     headers: [
-      { title: 'Source', align: 'left', value: 'Source' },
-      { title: 'System', align: 'left', value: 'Name' },
-      { title: 'License', align: 'left', value: 'LicenseString' },
-      { title: 'SP Cost', align: 'left', value: 'SP' },
-      { title: '', align: 'center', value: 'Equip' },
+      { title: 'Source', align: 'left', key: 'Source' },
+      { title: 'System', align: 'left', key: 'Name' },
+      { title: 'License', align: 'left', key: 'License' },
+      { title: 'License Level', align: 'left', key: 'LicenseLevel' },
+      { title: 'SP Cost', align: 'left', key: 'SP' },
     ],
-    systems: [],
     showUnlicensed: false,
     showOverSP: false,
   }),
@@ -129,14 +121,17 @@ export default {
     freeSP(): number {
       return this.equipped ? this.mech.FreeSP + this.equipped.SP : this.mech.FreeSP;
     },
+    systems(): MechSystem[] {
+      return CompendiumStore().MechSystems;
+    },
     availableSystems(): MechSystem[] {
       // filter unique
-      let i = this.systems.filter((x) => !x.IsHidden && !x.IsExotic);
+      let i = this.systems.filter((x) => x.Source && !x.IsHidden && !x.IsExotic);
 
       // filter ai
       if (
         this.mech.MechLoadoutController.ActiveLoadout.AICount >=
-        1 + Bonus.get('ai_cap', this.mech)
+        1 + Bonus.get('ai_cap', this.mech as Mech)
       ) {
         i = i.filter((x) => !x.IsAI);
       }
@@ -147,9 +142,9 @@ export default {
         );
       }
 
-      // if (!this.showOverSP) {
-      //   i = i.filter(x => x.SP <= this.freeSP)
-      // }
+      if (!this.showOverSP) {
+        i = i.filter((x) => x.SP <= this.freeSP);
+      }
 
       i = i
         .concat(this.mech.Pilot.SpecialEquipment.filter((x) => x.ItemType === 'MechSystem'))
@@ -162,10 +157,6 @@ export default {
 
       return _.sortBy(i, ['Source', 'Name']);
     },
-  },
-  created() {
-    const compendium = CompendiumStore();
-    this.systems = compendium.MechSystems.filter((x) => x.Source);
   },
   methods: {
     fID(template: string): string {

@@ -4,15 +4,9 @@
     <p v-html-safe="cs.Description" class="flavor-text px-3 pb-4" />
 
     <div v-if="cs.PassiveName">
-      <span class="heading sub"
-        >PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span
-      >
+      <span class="heading sub">PASSIVE {{ cs.PassiveName ? ` - ${cs.PassiveName}` : '' }}</span>
       <div class="light-panel pa-2 clipped mb-2 mx-3">
-        <p
-          v-if="cs.PassiveEffect"
-          v-html-safe="cs.PassiveEffect"
-          class="body-text mb-1 px-3"
-        />
+        <p v-if="cs.PassiveEffect" v-html-safe="cs.PassiveEffect" class="body-text mb-1 px-3" />
         <v-row no-gutters justify="center">
           <v-col cols="auto">
             <cc-action
@@ -27,9 +21,7 @@
 
     <v-row>
       <v-col cols="auto">
-        <span class="heading sub"
-          >ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span
-        >
+        <span class="heading sub">ACTIVE {{ cs.ActiveName ? ` - ${cs.ActiveName}` : '' }}</span>
       </v-col>
       <v-col cols="auto" class="ml-auto">
         <!-- <v-chip
@@ -41,12 +33,7 @@
           variant="outlined"         >
           {{ cs.Duration.toUpperCase() }}
         </v-chip> -->
-        <v-chip
-          small
-          label
-          dark
-          :color="`action--${cs.Activation.toLowerCase()}`"
-        >
+        <v-chip size="small" label>
           {{ cs.Activation.toUpperCase() }}
         </v-chip>
       </v-col>
@@ -61,10 +48,7 @@
       />
     </div>
 
-    <span
-      v-if="cs.IntegratedEquipment.length || cs.Deployables.length"
-      class="heading sub"
-    >
+    <span v-if="cs.IntegratedEquipment.length || cs.Deployables.length" class="heading sub">
       CORE INTEGRATED EQUIPMENT
     </span>
     <v-row v-if="cs.IntegratedEquipment.length" no-gutters justify="center">
@@ -75,11 +59,7 @@
 
     <v-row v-if="cs.Deployables.length" no-gutters justify="center">
       <v-col v-for="(d, i) in cs.Deployables" cols="auto">
-        <cc-deployable-info
-          :deployable="d"
-          :panel="$vuetify.display.lgAndUp"
-          class="ma-2"
-        />
+        <cc-deployable-info :deployable="d" :panel="$vuetify.display.lgAndUp" class="ma-2" />
       </v-col>
     </v-row>
 

@@ -12,10 +12,10 @@
       {{ deployable.name }}
     </template>
     <template #title-items>
-      <v-chip class="mr-2 pr-0" variant="outlined" label>
-        DEPLOY&emsp;
-        <v-chip label variant="elevated" :color="`action--${activation.toLowerCase()}`">
-          {{ activation.toUpperCase() }}
+      <v-chip slot="title-items" size="small" class="stat-text pr-0 mb-2" label>
+        DEPLOY&nbsp;
+        <v-chip label class="text-uppercase">
+          {{ activation }}
         </v-chip>
       </v-chip>
     </template>

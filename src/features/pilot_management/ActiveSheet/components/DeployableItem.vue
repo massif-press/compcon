@@ -13,7 +13,7 @@
               </cc-short-string-editor>
             </v-col>
             <v-col v-if="$vuetify.display.mdAndUp">
-              <span class="pl-3 flavor-text text-subtle">//{{ deployable.BaseName }}</span>
+              <span class="pl-3 flavor-text text-disabled">//{{ deployable.BaseName }}</span>
             </v-col>
           </v-row>
         </v-toolbar-title>
@@ -24,7 +24,7 @@
             small
             text
             color="accent"
-            class="fade-select"
+            variant="plain"
             :disabled="!canRecall"
             @click="recall"
           >
@@ -36,7 +36,7 @@
             small
             text
             color="accent"
-            class="fade-select"
+            variant="plain"
             :disabled="!canRedeploy"
             @click="redeploy"
           >
@@ -45,7 +45,7 @@
           </v-btn>
           <v-menu v-model="removeMenu" offset-y offset-x top left>
             <template #activator="{ props }">
-              <v-btn small text color="error" class="fade-select" v-bind="props">Remove</v-btn>
+              <v-btn small text color="error" variant="plain" v-bind="props">Remove</v-btn>
             </template>
             <cc-confirmation
               content="Lancer, this will remove this deployable from the Deployed Equipment list. <span class='text-accent'>This cannot be undone.</span> Do you want to continue?"
@@ -60,7 +60,7 @@
       <v-card-text v-if="deployable.Destroyed">
         <div class="heading h3 text-error text-center">EQUIPMENT DESTROYED</div>
         <div class="text-right mr-3 mb-n3">
-          <v-btn x-small color="primary" class="fade-select" @click="deployable.Repair()">
+          <v-btn x-small color="primary" variant="plain" @click="deployable.Repair()">
             <cc-tooltip
               content="Restore this deployable to working order. This does not consume an action and should be used to correct an error or in special cases, such as GM fiat"
             >
@@ -71,9 +71,9 @@
         </div>
       </v-card-text>
       <v-card-text v-else-if="recallState">
-        <div class="heading h3 text-subtle text-center">EQUIPMENT RECALLED</div>
+        <div class="heading h3 text-disabled text-center">EQUIPMENT RECALLED</div>
         <div class="text-right mr-3 mb-n3">
-          <v-btn x-small color="primary" class="fade-select" @click="freeRecall()">
+          <v-btn x-small color="primary" variant="plain" @click="freeRecall()">
             <cc-tooltip
               content="Return this deployable to the battlefield. This does not consume an action and should be used to correct an error or in special cases, such as GM fiat"
             >

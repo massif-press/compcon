@@ -12,7 +12,7 @@
           offset-y
         >
           <template #activator="{ props }">
-            <v-btn icon dark x-small class="fade-select" absolute v-bind="props">
+            <v-btn icon dark x-small variant="plain" absolute v-bind="props">
               <v-icon icon="mdi-circle-edit-outline" />
             </v-btn>
           </template>

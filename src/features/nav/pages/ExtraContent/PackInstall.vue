@@ -80,7 +80,7 @@
             justify-content: center;
           "
         >
-          <div class="heading h3 font-italic text-subtle text--darken-1">
+          <div class="heading h3 font-italic text-disabled text--darken-1">
             No content pack selected.
           </div>
         </div>

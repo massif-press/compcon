@@ -81,7 +81,7 @@
                 <v-btn
                   x-small
                   color="primary"
-                  class="fade-select"
+                  variant="plain"
                   @click="rolls.splice(0, rolls.length)"
                 >
                   <v-icon small left>mdi-reload</v-icon>

@@ -1,121 +1,96 @@
 <template>
-  <div>
-    <cc-selector-table
-      :items="availableMods"
-      :headers="headers"
-      sp-disable
-      :sp="freeSP"
-      :sp-ignore="showOverSP"
-      item-type-fallback="WeaponMod"
-      @equip="$emit('install', $event)"
-    >
-      <div v-if="weapon.Mod">
-        <span class="text-overline">
-          UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
-          <span class="text-success text--darken-1">[ EQUIPMENT MODIFICATION REGISTERED ]</span>
-        </span>
-        <br />
-        <span class="heading h1 text-accent" style="line-height: 20px">
-          {{ weapon.Mod.Name }}
-        </span>
-        <span class="flavor-text overline mt-n1" style="display: block">CURRENTLY INSTALLED</span>
-      </div>
-      <div v-else>
-        <span class="text-overline">
-          UNION ARMORY EQUIPMENT AUGMENTATION AUTHORIZATION: FRAME ARMAMENT//MODIFICATION
-        </span>
-        <br />
-        <span class="heading h1 text-subtle text--lighten-1" style="line-height: 20px">
-          NO SELECTION
-        </span>
-        <span class="flavor-text overline mt-n1 text-error" style="display: block">
-          [ MODIFICATION DATA INVALID OR MISSING ]
-        </span>
-      </div>
-      <div slot="extra-item" class="mt-2 mb-n2">
-        <div class="mb-n2">
-          <v-switch
-            v-model="showUnlicensed"
-            density="compact"
-            inset
-            hide-details
-            color="warning"
-            class="mr-3 d-inline"
-          >
-            <cc-tooltip
-              slot="label"
-              simple
-              inline
-              :content="
-                showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-              "
-            >
-              <v-icon
-                class="ml-n2"
-                :color="showUnlicensed ? 'warning' : 'success'"
-                v-html="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
-              />
-            </cc-tooltip>
+  <cc-compendium-browser
+    :items="availableMods"
+    item-type="MechSystem"
+    :table-headers="headers"
+    :options="options"
+    equippable
+    @equip="$emit('equip', $event)"
+  >
+    <template #header> <div class="heading h3 text-center text-accent">Weapon Mods</div></template>
+    <template #top>
+      <v-row>
+        <v-col>
+          <div v-if="weapon.Mod">
+            <div class="text-overline">
+              UNION ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              <div class="text-success text--darken-1">[ EQUIPMENT MODIFICATION REGISTERED ]</div>
+            </div>
+            <br />
+            <div class="heading h1 text-accent" style="line-height: 30px">
+              {{ weapon.Mod.Name }}
+            </div>
+            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY INSTALLED</div>
+          </div>
+          <div v-else>
+            <div class="text-overline">
+              UNION ARMORY EQUIPMENT AUGMENTATION AUTHORIZATION: FRAME ARMAMENT//MODIFICATION
+            </div>
+            <div class="heading h1 text-disabled text--lighten-1" style="line-height: 30px">
+              NO SELECTION
+            </div>
+            <div class="flavor-text overline text-error" style="display: block">
+              [ MODIFICATION DATA INVALID OR MISSING ]
+            </div>
+          </div>
+        </v-col>
+        <v-col cols="auto">
+          <v-switch v-model="showUnlicensed" density="compact" inset hide-details color="warning">
+            <template #label>
+              <cc-tooltip
+                slot="label"
+                inline
+                :content="
+                  showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
+                "
+              >
+                <v-icon
+                  :color="showUnlicensed ? 'warning' : 'success'"
+                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
+                />
+              </cc-tooltip>
+            </template>
           </v-switch>
-        </div>
-        <div class="mt-n4">
-          <v-switch
-            v-model="showOverSP"
-            density="compact"
-            inset
-            hide-details
-            color="warning"
-            class="mr-3 d-inline"
-          >
-            <cc-tooltip
-              slot="label"
-              simple
-              inline
-              :content="
-                showOverSP
-                  ? 'Systems exceeding SP Capacity: SHOWN'
-                  : 'Systems exceeding SP Capacity: HIDDEN'
-              "
-            >
-              <v-icon
-                class="ml-n2"
-                :color="showOverSP ? 'warning' : 'success'"
-                v-html="'cc:system_point'"
-              />
-            </cc-tooltip>
+          <v-switch v-model="showOverSP" density="compact" inset hide-details color="warning">
+            <template #label>
+              <cc-tooltip
+                slot="label"
+                inline
+                :content="
+                  showOverSP
+                    ? 'Systems exceeding SP Capacity: SHOWN'
+                    : 'Systems exceeding SP Capacity: HIDDEN'
+                "
+              >
+                <v-icon :color="showOverSP ? 'warning' : 'success'" :icon="'cc:system_point'" />
+              </cc-tooltip>
+            </template>
           </v-switch>
-        </div>
-        <div class="mt-n4">
-          <v-switch
-            v-model="showIncompatible"
-            dense
-            inset
-            hide-details
-            color="warning"
-            class="mr-3 d-inline"
-          >
-            <cc-tooltip
-              slot="label"
-              simple
-              inline
-              :content="showIncompatible ? 'Incompatible Mods: SHOWN' : 'Incompatible Mods: HIDDEN'"
-            >
-              <v-icon
-                class="ml-n2"
-                :color="showIncompatible ? 'warning' : 'success'"
-                v-html="'cc:status-downandout'"
-              />
-            </cc-tooltip>
+          <v-switch v-model="showIncompatible" density="compact" inset hide-details color="warning">
+            <template #label>
+              <cc-tooltip
+                slot="label"
+                inline
+                :content="
+                  showIncompatible ? 'Incompatible Mods: SHOWN' : 'Incompatible Mods: HIDDEN'
+                "
+              >
+                <v-icon
+                  :color="showIncompatible ? 'warning' : 'success'"
+                  :icon="'cc:status_downandout'"
+                />
+              </cc-tooltip>
+            </template>
           </v-switch>
-        </div>
-      </div>
-    </cc-selector-table>
-  </div>
+        </v-col>
+      </v-row>
+    </template>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
 import { CompendiumStore } from '@/stores';
-import { MechSystem } from '@/class';
+import { Mech, MechSystem, WeaponMod } from '@/class';
 import { flavorID } from '@/io/Generators';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
 
@@ -132,22 +107,31 @@ export default {
     },
   },
   data: () => ({
+    options: {
+      views: ['single', 'table', 'cards'],
+      initialView: 'single',
+      groups: ['source', 'lcp', 'license'],
+      initialGroup: 'none',
+    },
     headers: [
-      { title: 'Source', align: 'left', value: 'Source' },
-      { title: 'Mod', align: 'left', value: 'Name' },
-      { title: 'License', align: 'left', value: 'LicenseString' },
-      { title: 'SP', align: 'left', value: 'SP' },
-      { title: '', align: 'center', value: 'Equip' },
+      { title: 'Source', align: 'left', key: 'Source' },
+      { title: 'System', align: 'left', key: 'Name' },
+      { title: 'License', align: 'left', key: 'License' },
+      { title: 'License Level', align: 'left', key: 'LicenseLevel' },
+      { title: 'SP Cost', align: 'left', key: 'SP' },
     ],
-    mods: [],
     showUnlicensed: false,
+    showIncompatible: false,
     showOverSP: false,
   }),
   computed: {
     freeSP(): number {
       return this.weapon.Mod ? this.mech.FreeSP + this.weapon.Mod.SP : this.mech.FreeSP;
     },
-    availableMods(): MechSystem[] {
+    mods(): WeaponMod[] {
+      return CompendiumStore().WeaponMods as WeaponMod[];
+    },
+    availableMods(): WeaponMod[] {
       let i = this.mods.filter((x) => !x.IsHidden);
 
       if (!this.showIncompatible) {
@@ -172,12 +156,13 @@ export default {
       // filter ai
       if (
         this.mech.MechLoadoutController.ActiveLoadout.AICount >=
-        1 + Bonus.get('ai_cap', this.mech)
+        1 + Bonus.get('ai_cap', this.mech as Mech)
       ) {
         i = i.filter((x) => !x.IsAI);
       }
 
       if (!this.showUnlicensed) {
+        console.log(this.showUnlicensed);
         i = i.filter(
           (x) => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
         );
@@ -189,12 +174,10 @@ export default {
 
       i = i.concat(this.mech.Pilot.SpecialEquipment.filter((x) => x.ItemType === 'WeaponMod'));
 
+      console.log(i);
+
       return i;
     },
-  },
-  created() {
-    const compendium = CompendiumStore();
-    this.mods = compendium.WeaponMods.filter((x) => x.Source);
   },
   methods: {
     fID(template: string): string {

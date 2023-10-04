@@ -96,8 +96,7 @@
                   <v-btn
                     v-else-if="selectable && Number(rank) === n"
                     color="error"
-                    variant="outlined"
-                    class="fade-select"
+                    variant="plain"
                     @click="$emit('remove')"
                   >
                     <v-icon start>mdi-close</v-icon>

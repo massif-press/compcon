@@ -14,7 +14,7 @@
     >
       <v-list-item-title class="heading h2 ml-2">{{ e.Name }}</v-list-item-title>
     </v-list-item>
-    <div v-if="!templates.length" class="text-subtle heading h2 text-center">
+    <div v-if="!templates.length" class="text-disabled heading h2 text-center">
       // NO TEMPLATES AVAILABLE //
     </div>
     <v-row v-for="(e, i) in templates" :id="`e_${e.ID}`">

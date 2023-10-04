@@ -1,12 +1,7 @@
 <template>
   <div v-show="!item.NoBonus">
-    <cc-tooltip
-      v-for="(b, i) in item.Bonuses"
-      inline
-      :title="`Bonus: ${b.Title}`"
-      :content="b.Detail"
-    >
-      <v-icon large color="accent">cc:accuracy</v-icon>
+    <cc-tooltip v-for="b in item.Bonuses" inline :title="`Bonus: ${b.Title}`" :content="b.Detail">
+      <v-icon size="x-large" color="accent">cc:accuracy</v-icon>
     </cc-tooltip>
   </div>
 </template>

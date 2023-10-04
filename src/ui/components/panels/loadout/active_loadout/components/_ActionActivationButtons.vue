@@ -27,7 +27,7 @@
         inline
         :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
       >
-        <v-icon end small class="fade-select">mdi-information-outline</v-icon>
+        <v-icon end small variant="plain">mdi-information-outline</v-icon>
       </cc-tooltip>
     </v-btn>
     <div v-if="action.HeatCost" class="text-overline text-error text-center">

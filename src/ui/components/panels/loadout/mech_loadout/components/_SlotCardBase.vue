@@ -1,13 +1,15 @@
 <template>
-  <v-col :class="`pa-${small ? '1' : '2'}`">
+  <v-col>
     <div style="height: 100%">
-      <v-card flat tile :class="small ? 'panel' : 'clipped-large panel'" style="height: 100%">
-        <v-card-title
-          :class="`text-white py-0 ${small ? 'effect-text' : 'heading h3'} hover-item`"
+      <v-card class="clipped-large panel" style="height: 100%">
+        <v-toolbar
+          class="heading h3 pl-2"
+          color="pilot"
+          density="compact"
           style="cursor: pointer"
-          @click="empty ? '' : $refs.detailDialog.show()"
+          @click="empty ? '' : ($refs as any).detailDialog.show()"
         >
-          <v-row no-gutters>
+          <v-row dense>
             <v-col cols="auto">
               <slot name="header" />
             </v-col>
@@ -15,35 +17,33 @@
               <slot name="header-items" />
             </v-col>
           </v-row>
-        </v-card-title>
-        <v-card-text :id="item ? 'underline-parent' : ''" class="`px-2 py-0 text-center`">
-          <div class="underline-slide">
+        </v-toolbar>
+        <v-card-text class="`px-2 py-0 text-center`">
+          <div>
             <slot />
             <div v-if="item">
               <v-row class="text-left" density="compact" align="end">
                 <v-col>
                   <v-row justify="space-around" density="compact">
                     <v-col v-if="item.Actions && item.Actions.length" cols="auto">
-                      <div v-if="!readonly" class="text-overline ml-n2">//EQUIPMENT ACTIONS</div>
+                      <div class="text-overline ml-n2 text-disabled">
+                        <v-icon size="small" icon="cc:activate" />EQUIPMENT ACTIONS
+                      </div>
                       <v-row no-gutters justify="center">
-                        <v-col v-for="(a, i) in item.Actions" cols="auto">
-                          <cc-action
-                            :action="a"
-                            :panel="!readonly && $vuetify.display.lgAndUp"
-                            class="ma-2"
-                          />
+                        <v-col v-for="a in item.Actions" cols="auto">
+                          <cc-action :action="a" panel class="ma-2" />
                         </v-col>
                       </v-row>
                     </v-col>
                     <v-col v-if="item.Deployables.length" cols="auto">
-                      <div v-if="!readonly" class="text-overline ml-n2">
-                        //EQUIPMENT DEPLOYABLES
+                      <div class="text-overline ml-n2 text-disabled">
+                        <v-icon size="small" icon="cc:drone" />EQUIPMENT DEPLOYABLES
                       </div>
                       <v-row no-gutters justify="center">
-                        <v-col v-for="(d, i) in item.Deployables" cols="auto">
+                        <v-col v-for="d in item.Deployables" cols="auto">
                           <cc-deployable-info
                             :deployable="d"
-                            :panel="!readonly && $vuetify.display.lgAndUp"
+                            panel
                             :name-override="item.Name"
                             class="ma-2"
                           />
@@ -53,7 +53,7 @@
                   </v-row>
                 </v-col>
               </v-row>
-              <v-row no-gutters class="mr-3 mt-n1 pb-1">
+              <v-row dense align="center">
                 <v-col cols="auto">
                   <cc-tags
                     v-if="item.Tags"
@@ -65,7 +65,7 @@
                 </v-col>
                 <v-col
                   v-show="item.Profiles.length > 1"
-                  v-for="(p, i) in item.Profiles"
+                  v-for="p in item.Profiles"
                   class="mr-4"
                   cols="auto"
                 >
@@ -89,11 +89,8 @@
                     :bonus="mech.Pilot.LimitedBonus"
                   />
                 </v-col>
-                <v-spacer />
-                <v-col cols="auto">
+                <v-col cols="auto" class="ml-auto mr-4 pb-2">
                   <cc-bonus-display :item="item" />
-                </v-col>
-                <v-col cols="auto">
                   <cc-synergy-display :item="item" :location="synergyLocation" :mech="mech" large />
                 </v-col>
               </v-row>
@@ -101,14 +98,11 @@
             <div
               v-else
               class="py-3 text-center fade-select"
-              style="height: 100%"
-              :style="{
-                cursor: readonly ? 'inherit' : 'pointer',
-              }"
-              @click="if (!readonly) $refs.selectorDialog.show();"
+              style="height: 100%; cursor: pointer"
+              @click="($refs as any).selectorDialog.show()"
             >
               <v-row style="height: 100%">
-                <div class="heading h2 text-subtle my-auto py-3" style="width: 100%">
+                <div class="heading h2 text-disabled my-auto py-3" style="width: 100%">
                   // EMPTY //
                 </div>
               </v-row>
@@ -117,12 +111,14 @@
         </v-card-text>
       </v-card>
     </div>
-    <cc-solo-dialog ref="selectorDialog" no-confirm title="SELECT EQUIPMENT" fullscreen no-pad>
+    <cc-solo-dialog ref="selectorDialog" no-actions title="SELECT EQUIPMENT" fullscreen no-pad>
       <slot name="selector" />
     </cc-solo-dialog>
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
-      <cc-item-card :item="item" notes />
-      <slot name="detail" />
+      <v-container>
+        <cc-item-card :item="item" notes />
+        <slot name="detail" />
+      </v-container>
     </cc-solo-dialog>
   </v-col>
 </template>
@@ -142,10 +138,6 @@ export default {
       type: Object,
       required: true,
       default: null,
-    },
-    readonly: {
-      type: Boolean,
-      default: false,
     },
     empty: {
       type: Boolean,
@@ -168,18 +160,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#underline-parent {
-  background-color: rgb(var(--v-theme-light-panel));
-}
-
-.hover-item {
-  background-color: rgb(var(--v-theme-pilot));
-  transition: 0.4s all;
-}
-
-.hover-item:hover {
-  background-color: rgb(var(--v-theme-pilot-lighten1));
-}
-</style>

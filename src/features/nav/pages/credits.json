@@ -4,28 +4,29 @@
       "name": "Miguel Lopez",
       "twitter": "The_One_Lopez",
       "website": "https://massifpress.com",
-      "image": "https://pbs.twimg.com/profile_images/1229549300046127104/0wkpyfo6_400x400.jpg"
+      "image": "https://pbs.twimg.com/profile_images/1623187647404576768/qStwsDvw_400x400.jpg"
     },
     {
       "name": "Tom Parkinson Morgan",
       "twitter": "Orbitaldropkick",
       "website": "https://killsixbilliondemons.com/",
-      "image": "https://pbs.twimg.com/profile_images/1181997333824901129/db5oOkTm_400x400.png"
+      "image": "https://c10.patreonusercontent.com/4/patreon-media/p/campaign/210205/78ec61daa64b4f0580cb9b5f929ea36c/eyJoIjoxMDgwLCJ3IjoxMDgwfQ%3D%3D/1.jpeg?token-time=1697241600&token-hash=Gwfzwgph0amuLnetogMYvocL_siFkc7Q-Q1Ty5_pcO4%3D"
     }
   ],
   "lead_devs": [
     {
       "name": "John Arena",
-      "twitter": "jarena2",
+      "twitter": "beeftime99",
       "website": "http://jarena3.github.io/",
-      "image": "https://pbs.twimg.com/profile_images/1123993702425350144/OD4BlOya_400x400.png"
+      "image": "https://pbs.twimg.com/profile_images/1645475965902921728/6QCM9Xq2_400x400.jpg",
+      "github": "https://github.com/massif-press"
     }
   ],
   "devs": [
     {
       "name": "Ari K",
       "twitter": "deathimouto",
-      "image": "https://pbs.twimg.com/profile_images/1370417988348821508/kbdRM2tO_400x400.png"
+      "image": "https://pbs.twimg.com/profile_images/1589737654610010112/ZxsYT-Jj_400x400.png"
     },
     {
       "name": "Matthew Johnston",
@@ -42,6 +43,17 @@
       "name": "Qwertronix",
       "github": "Qwertronix",
       "image": "https://avatars2.githubusercontent.com/u/360217?s=460&v=4"
+    },
+    {
+      "name": "Eranziel",
+      "github": "Eranziel",
+      "image": "https://avatars.githubusercontent.com/u/49248157?v=4"
+    },
+    {
+      "name": "Michael Prijatelj",
+      "github": "msprijatelj",
+      "website": "https://trainlightning.com/",
+      "image": "https://avatars.githubusercontent.com/u/44978587?v=4"
     }
   ],
   "graphics": [
@@ -65,19 +77,19 @@
     {
       "name": "Retrograde Minis",
       "twitter": "MinisRetrograde",
-      "image": "https://pbs.twimg.com/profile_images/1333305506232864769/0rBNHF_5_400x400.jpg",
+      "image": "https://pbs.twimg.com/profile_images/1510048658519388161/2JNzNkZH_400x400.jpg",
       "website": "https://www.retrogrademinis.com/"
     },
     {
       "name": "juan gee",
       "twitter": "juangeedraws",
-      "image": "https://pbs.twimg.com/profile_images/1346671208775880707/FYi8SWKC_400x400.jpg",
-      "website": " http://juangeedraws-portfolio.squarespace.com/"
+      "image": "https://images.squarespace-cdn.com/content/v1/6054461d8d144513dc0780ed/1616135835236-5QRZTGS2ZIDG1DWZ1VBP/jg+signature.png?format=1500w",
+      "website": "http://juangeedraws-portfolio.squarespace.com/"
     },
     {
       "name": "WampyreKeli",
       "twitter": "WampyreKeli",
-      "image": "https://pbs.twimg.com/profile_images/1334706241071968260/Ue9nvCOa_400x400.jpg",
+      "image": "https://pbs.twimg.com/profile_images/1505243993097084928/5YkoPhmP_400x400.jpg",
       "website": "https://www.wampyrekeli.com/"
     }
   ],

@@ -36,8 +36,8 @@
 
       <v-col cols="auto" class="ml-auto text-right">
         <div class="heading h2">{{ item.Size }} {{ item.WeaponType }}</div>
-        <div v-if="item.Source" class="flavor-text text-subtle">// {{ item.LicenseString }}</div>
-        <div v-if="item.InLcp" class="flavor-text text-subtle">
+        <div v-if="item.Source" class="flavor-text text-disabled">// {{ item.LicenseString }}</div>
+        <div v-if="item.InLcp" class="flavor-text text-disabled">
           {{ item.LcpName }}
         </div>
       </v-col>
@@ -63,7 +63,7 @@
       </div>
 
       <div v-if="item.Profiles[tab].Actions.length">
-        <div class="text-overline ml-n2 text-subtle">//PROFILE ACTIONS</div>
+        <div class="text-overline ml-n2 text-disabled">//PROFILE ACTIONS</div>
         <v-row no-gutters justify="center">
           <v-col v-for="a in item.Profiles[tab].Actions" cols="auto">
             <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
@@ -72,7 +72,7 @@
       </div>
 
       <div v-if="item.Profiles[tab].Deployables.length">
-        <div class="text-overline ml-n2 text-subtle">//PROFILE DEPLOYABLES</div>
+        <div class="text-overline ml-n2 text-disabled">//PROFILE DEPLOYABLES</div>
         <v-row no-gutters justify="center">
           <v-col v-for="(d, i) in item.Profiles[tab].Deployables" cols="auto">
             <cc-deployable-info
@@ -85,7 +85,7 @@
         </v-row>
       </div>
       <div v-if="item.Profiles[tab].Tags.length">
-        <div class="text-overline ml-n2 mb-n1 text-subtle">//PROFILE TAGS</div>
+        <div class="text-overline ml-n2 mb-n1 text-disabled">//PROFILE TAGS</div>
         <cc-tags :tags="item.Profiles[tab].Tags" extended />
       </div>
     </template>

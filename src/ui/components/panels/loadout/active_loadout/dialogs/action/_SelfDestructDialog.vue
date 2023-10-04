@@ -13,7 +13,7 @@
             SELF DESTRUCT IN {{ state.SelfDestructCounter }} ROUNDS
           </span>
           <span v-else class="heading h1">SELF DESTRUCT IMMINENT</span>
-          <div class="heading text-subtle">FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT</div>
+          <div class="heading text-disabled">FRAME.PRIORITY.ALERT::REACTOR CRITICALITY EVENT</div>
           <div class="px-5 my-1">
             <v-btn small block color="error" @click="selfDestruct()">
               <v-icon start>mdi-skull</v-icon>
@@ -23,7 +23,7 @@
           </div>
         </v-alert>
         <div class="text-right mt-1">
-          <v-btn x-small color="primary" class="fade-select" @click="reset()">
+          <v-btn x-small color="primary" variant="plain" @click="reset()">
             <v-icon small left>mdi-reload</v-icon>
             UNDO
           </v-btn>
@@ -86,7 +86,7 @@
                 inline
                 :content="`Special rules or equipment may allow you to ${action.Name} as a Free Action. Using this button will commit the action without spending a ${action.Activation} Action this turn`"
               >
-                <v-icon end small class="fade-select">mdi-information-outline</v-icon>
+                <v-icon end small variant="plain">mdi-information-outline</v-icon>
               </cc-tooltip>
             </v-btn>
           </v-col>
@@ -163,7 +163,7 @@
         <v-row v-if="finished" no-gutters>
           <v-col cols="auto" class="ml-auto">
             <cc-tooltip content="Undo this action, refunding any cost it may have had">
-              <v-btn x-small color="primary" class="fade-select" @click="reset">
+              <v-btn x-small color="primary" variant="plain" @click="reset">
                 <v-icon small left>mdi-reload</v-icon>
                 UNDO
               </v-btn>

@@ -28,7 +28,9 @@
                 <v-icon size="60" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>
               </v-col>
               <v-col cols="auto" class="mt-6 mr-n2">
-                <span class="text-subtle text--lighten-1 display-2" style="line-height: 0">/</span>
+                <span class="text-disabled text--lighten-1 display-2" style="line-height: 0"
+                  >/</span
+                >
               </v-col>
               <v-col cols="auto" class="mb-n2">
                 <v-icon size="50" color="grey lighten-3" class="mr-n1">mdi-hexagon-outline</v-icon>

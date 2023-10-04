@@ -8,19 +8,13 @@
               <v-list-item-icon>
                 <v-icon v-if="equipmentAdd" v-html="i.Icon" />
                 <v-icon v-else-if="i.IsExotic" color="exotic">mdi-star</v-icon>
-                <cc-logo
-                  v-else-if="i.Manufacturer"
-                  :source="i.Manufacturer"
-                  class="mb-n1"
-                />
+                <cc-logo v-else-if="i.Manufacturer" :source="i.Manufacturer" class="mb-n1" />
                 <v-icon v-else>cc:trait</v-icon>
               </v-list-item-icon>
               <v-list-item-content class="ml-n6 mt-n1">
                 <v-list-item-title
                   :class="`heading h3 ${
-                    spDisable && i.SP > 0 && i.SP > sp && !spIgnore
-                      ? 'text-subtle'
-                      : 'text-stark'
+                    spDisable && i.SP > 0 && i.SP > sp && !spIgnore ? 'text-disabled' : 'text-stark'
                   } font-weight-bold`"
                   style="font-size: 15px"
                 >
@@ -51,23 +45,13 @@
           <v-divider class="mt-4 mb-1" />
           <cc-item-card :item="selectedItem" />
           <div v-if="equipmentAdd" class="text-center mt-3">
-            <v-btn
-              color="accent"
-              x-large
-              tile
-              @click="$emit('equip', selectedItem)"
-            >
+            <v-btn color="accent" x-large tile @click="$emit('equip', selectedItem)">
               Add {{ selectedItem.Name }}
             </v-btn>
           </div>
           <div v-else class="text-center mt-3">
             <div
-              v-if="
-                spDisable &&
-                selectedItem.SP > 0 &&
-                selectedItem.SP > sp &&
-                !spIgnore
-              "
+              v-if="spDisable && selectedItem.SP > 0 && selectedItem.SP > sp && !spIgnore"
               class="text-overline text-warning"
             >
               // ALERT: EQUIPMENT EXCEEDS SYSTEM POINT CAPACITY //
@@ -76,12 +60,7 @@
               color="secondary"
               x-large
               tile
-              :disabled="
-                spDisable &&
-                selectedItem.SP > 0 &&
-                selectedItem.SP > sp &&
-                !spIgnore
-              "
+              :disabled="spDisable && selectedItem.SP > 0 && selectedItem.SP > sp && !spIgnore"
               @click="$emit('equip', selectedItem)"
             >
               Equip {{ selectedItem.Name }}

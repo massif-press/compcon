@@ -12,9 +12,9 @@
         <p
           id="completed"
           ref="completed"
-          class="flavor-text text-subtle text--darken-1 py-0 my-0"
+          class="flavor-text text-disabled text--darken-1 py-0 my-0"
         ></p>
-        <p id="output" ref="output" class="flavor-text text-subtle text--darken-1 py-0 my-0"></p>
+        <p id="output" ref="output" class="flavor-text text-disabled text--darken-1 py-0 my-0"></p>
       </v-col>
       <v-col cols="auto" class="ml-2">
         <div class="sidebar" />

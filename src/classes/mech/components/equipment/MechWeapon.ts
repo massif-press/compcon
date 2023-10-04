@@ -148,16 +148,11 @@ class MechWeapon extends MechEquipment {
     } else {
       this.Profiles = [new WeaponProfile(data, this, packTags)];
     }
-    this._name = data.name;
     this._selected_profile = 0;
     this._mod = null;
     this.ItemType = ItemType.MechWeapon;
     this.max_use_override = 0;
     this._custom_damage_type = null;
-  }
-
-  public get Name(): string {
-    return this._name;
   }
 
   public get TotalSP(): number {
@@ -214,42 +209,9 @@ class MechWeapon extends MechEquipment {
     this._selected_profile = val;
   }
 
-  // public get ProfileEffect(): string {
-  //   return this.SelectedProfile.Effect || '';
-  // }
-
-  // public get ProfileOnAttack(): string {
-  //   return this.SelectedProfile.OnAttack || '';
-  // }
-
-  // public get ProfileOnHit(): string {
-  //   return this.SelectedProfile.OnHit || '';
-  // }
-
-  // public get ProfileOnCrit(): string {
-  //   return this.SelectedProfile.OnCrit || '';
-  // }
-
-  // public get ProfileTags(): Tag[] {
-  //   return this.SelectedProfile.Tags || [];
-  // }
-
   public get AllTags(): Tag[] {
     return _.uniqBy([...this.Tags, ...this.Profiles.flatMap((p) => p.Tags)], 'ID');
   }
-
-  // public get ProfileHeatCost(): number {
-  //   const selfHeatTag = this.ProfileTags.find((x) => x.IsHeatCost);
-  //   return Number(selfHeatTag ? selfHeatTag.Value : 0);
-  // }
-
-  // public get ProfileActions(): Action[] {
-  //   return this.SelectedProfile.Actions;
-  // }
-
-  // public get ProfileDeployables(): IDeployableData[] {
-  //   return this.SelectedProfile.Deployables;
-  // }
 
   public get Damage(): Damage[] {
     if (this.SelectedProfile.Damage && this.Mod && this.Mod.AddedDamage)
@@ -359,10 +321,10 @@ class MechWeapon extends MechEquipment {
       cascading: item.IsCascading,
       loaded: item.Loaded,
       note: item.Note,
-      mod: item.Mod ? (WeaponMod.Serialize(item.Mod) as IEquipmentData) : null,
+      mod: item.Mod ? (WeaponMod.Serialize(item.Mod) as IEquipmentData) : undefined,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
-      customDamageType: item._custom_damage_type || null,
+      customDamageType: item._custom_damage_type || undefined,
       maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
       uses: MechWeapon.SanitizeUsesInput(item.Uses) || 0,
       selectedProfile: item._selected_profile || 0,

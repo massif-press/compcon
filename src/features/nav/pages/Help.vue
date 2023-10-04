@@ -1,11 +1,12 @@
 <template>
   <v-container>
-    <v-row class="my-2" justify="center">
-      <v-col cols="4">
+    <v-row justify="space-around">
+      <v-col>
         <v-btn
           target="_blank"
           href="https://github.com/massif-press/compcon/wiki/Frequently-Asked-Questions"
-          x-large
+          size="large"
+          variant="tonal"
           block
           color="secondary"
           class="text-white"
@@ -14,11 +15,12 @@
           Frequently Asked Questions
         </v-btn>
       </v-col>
-      <v-col cols="4">
+      <v-col>
         <v-btn
           target="_blank"
           href="https://github.com/massif-press/compcon/wiki/FAQ%3A-Troubleshooting"
-          x-large
+          size="large"
+          variant="tonal"
           block
           color="secondary"
           class="text-white"
@@ -33,7 +35,8 @@
         <v-btn
           target="_blank"
           href="https://github.com/massif-press/compcon/issues/new/choose"
-          x-large
+          size="large"
+          variant="tonal"
           block
           color="error"
           class="text-white"
@@ -46,7 +49,8 @@
         <v-btn
           target="_blank"
           href="https://github.com/massif-press/compcon/discussions"
-          x-large
+          size="large"
+          variant="tonal"
           block
           color="error"
           class="text-white"
@@ -58,7 +62,8 @@
         <v-btn
           target="_blank"
           href="https://github.com/massif-press/compcon/wiki"
-          x-large
+          size="large"
+          variant="tonal"
           block
           color="error"
           class="text-white"
@@ -77,26 +82,57 @@
       </v-col>
     </v-row>
     <!-- <h3 class="heading text-accent">Tutorial Mode</h3>
-    <p class="panel py-3 text-center text-subtle">
+    <p class="panel py-3 text-center text-disabled">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //
     </p> -->
     <h3 class="heading text-accent mt-4">Quick FAQ</h3>
-    <div class="body-text text-text">
-      <b>Where are the NPCs?</b>
-      <p>
-        Now that LANCER is officially released, COMP/CON mirrors the Core Book structure in terms of
-        paid/free content. If you bought the LANCER Core Book, you'll find a downloadable data
-        package that contains all Core NPC data on the LANCER Core Book's itch.io page, which you
-        can access by going to the Content Manager in the main page or in the nav bar options menu
-        and selecting the Core Book item from the LCP Directory tab. You can use the Content
-        Manager's Install LCP tab to import the package and start building and running encounters.
-      </p>
-      <b>Can I import my COMP/CON pilot to Roll20?</b>
-      <p>Roll20 does not support imports from COMP/CON at this time.</p>
-    </div>
-
+    <v-row class="body-text text-text">
+      <v-col>
+        <b>Where are the NPCs?</b>
+        <v-divider class="my-1" />
+        <p>
+          If you bought the LANCER Core Book, you'll find a downloadable data package that contains
+          all Core NPC data on the LANCER Core Book's itch.io page, which you can access through the
+          Content Manager. You can use the Content Manager's <b>Install LCP</b> tab to import the
+          package and start building and running encounters.
+        </p>
+      </v-col>
+      <v-col>
+        <b>How do I add content from Lancer expansions to COMP/CON?</b>
+        <v-divider class="my-1" />
+        <p>
+          Official LANCER content can be found on
+          <a target="_blank" href="https://massif-press.itch.io/">Massif Press's itch.io page.</a>
+          Player-facing LCP content for COMP/CON can be found in the <b>Download demo</b> section
+          for any Massif Press publication; GM-facing content (i.e. NPCs) can be purchased alongside
+          the PDF content. Links to this content (and featured community content) can also be found
+          in the Content Manager's <b>LCP Directory</b>.
+        </p>
+      </v-col>
+    </v-row>
+    <v-row class="body-text text-text">
+      <v-col>
+        <b>How do I see Exotic Items in the Compendium?</b>
+        <v-divider class="my-1" />
+        <p>
+          To prevent spoilers for players, COMP/CON defaults to hiding Exotic Items. To change their
+          visibility, you can use COMP/CON's <b>Options</b> menu, and can enable the
+          <b>"Show Exotic items in the Compendium"</b> toggle.
+        </p>
+      </v-col>
+      <v-col>
+        <b>Do I need to pay to make a COMP/CON cloud account?</b>
+        <v-divider class="my-1" />
+        <p>
+          COMP/CON Cloud Accounts are free for all users. For Patreon supporters, cloud accounts
+          gain access to additional features, such as the expanded cloud storage and additional
+          active table instances.
+        </p>
+      </v-col>
+    </v-row>
+    <br />
     <h3 class="heading text-accent">Additional Help</h3>
     <p class="body-text">
       The
@@ -118,7 +154,7 @@
     </p>
 
     <!-- <h3 class="heading text-accent">Video Guide</h3>
-    <p class="panel py-3 text-center text-subtle">
+    <p class="panel py-3 text-center text-disabled">
       <v-icon color="grey">mdi-lock</v-icon>
       <br />
       // FEATURE IN DEVELOPMENT //

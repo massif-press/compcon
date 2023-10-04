@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-row
-      density="compact"
-      align="center"
-      justify="space-between"
-      class="mt-n3"
-    >
+    <v-row density="compact" align="center" justify="space-between" class="mt-n3">
       <v-col cols="auto">
         <cc-tick-bar
           :current="mech.CurrentStructure"
@@ -87,18 +82,13 @@
           max-length="12"
           @update="mech.CurrentHeat = $event"
         >
-          <span v-if="mech.IsInDangerZone" class="text-dangerzone heading h3"
-            >HEAT</span
-          >
+          <span v-if="mech.IsInDangerZone" class="text-dangerzone heading h3">HEAT</span>
           <span v-else class="heading h3">HEAT</span>
         </cc-tick-bar>
-        <div
-          v-if="mech.IsInDangerZone"
-          class="caption font-weight-bold text-dangerzone"
-        >
+        <div v-if="mech.IsInDangerZone" class="caption font-weight-bold text-dangerzone">
           // HEAT::DANGER ZONE //
         </div>
-        <div v-else class="caption text-subtle">HEAT LEVELS NOMINAL</div>
+        <div v-else class="caption text-disabled">HEAT LEVELS NOMINAL</div>
       </v-col>
       <v-col cols="auto">
         <cc-tick-bar
@@ -131,13 +121,10 @@
         >
           <span class="heading h3">CORE POWER</span>
         </cc-tick-bar>
-        <div
-          v-if="mech.CurrentCoreEnergy > 0"
-          class="caption font-weight-bold text-corepower"
-        >
+        <div v-if="mech.CurrentCoreEnergy > 0" class="caption font-weight-bold text-corepower">
           AVAILABLE
         </div>
-        <div v-else class="caption text-subtle">EXHAUSTED</div>
+        <div v-else class="caption text-disabled">EXHAUSTED</div>
       </v-col>
 
       <v-col cols="auto">

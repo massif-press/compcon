@@ -10,20 +10,14 @@
     >
       <div class="text-center">
         <p class="pt-1 mb-1">
-          <span class="stat-text text-subtle text--darken-1">
+          <span class="stat-text text-disabled text--darken-1">
             RANK {{ 'I'.repeat(n) }}
             <v-icon v-if="ranked && rank < n" right>mdi-lock-outline</v-icon>
-            <v-icon v-else-if="ranked && rank >= n" right
-              >mdi-lock-open-outline</v-icon
-            >
+            <v-icon v-else-if="ranked && rank >= n" right>mdi-lock-open-outline</v-icon>
           </span>
         </p>
         <div v-for="i in license.Unlocks[n - 1]">
-          <cc-item-modal
-            :item="i"
-            :small-btn="$vuetify.display.mdAndDown"
-            class="ma-1"
-          />
+          <cc-item-modal :item="i" :small-btn="$vuetify.display.mdAndDown" class="ma-1" />
         </div>
       </div>
     </v-col>

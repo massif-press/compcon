@@ -9,7 +9,7 @@
               <v-col cols="auto">
                 Absolute
                 <cc-tooltip inline content="Chart raw stat values ">
-                  <v-icon size="small" class="fade-select">mdi-information-outline</v-icon>
+                  <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
                 </cc-tooltip></v-col
               >
               <v-col cols="auto">
@@ -21,7 +21,7 @@
                   inline
                   content="Chart stat values relative to all other frames in the Compendium"
                 >
-                  <v-icon size="small" class="fade-select">mdi-information-outline</v-icon>
+                  <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
                 </cc-tooltip>
               </v-col>
             </v-row>
@@ -29,7 +29,7 @@
               <v-col cols="auto">
                 Standard
                 <cc-tooltip inline content="Chart standard Frame stats">
-                  <v-icon size="small" class="fade-select"
+                  <v-icon size="small" variant="plain"
                     >mdi-information-outline</v-icon
                   >
                 </cc-tooltip></v-col
@@ -45,7 +45,7 @@
                   title="Experimental Feature"
                   content="Selecting this option aggregates Frame stats into aptitude ratings for Survivability, Mobility, Offense, and Utility. This is an experimental feature and may not be accurate, but is actively being developed into a more useful indicator of Frame capability."
                 >
-                  <v-icon size="small" color="warning" class="fade-select"
+                  <v-icon size="small" color="warning" variant="plain"
                     >mdi-alert</v-icon
                   >
                 </cc-tooltip>

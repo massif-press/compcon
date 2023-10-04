@@ -2,17 +2,8 @@
   <div>
     <div class="text-overline mb-2">
       DEPLOYED EQUIPMENT
-      <v-btn
-        small
-        right
-        icon
-        class="fade-select"
-        @click="showDeployed = !showDeployed"
-      >
-        <v-icon
-          small
-          v-html="showDeployed ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
-        />
+      <v-btn small right icon variant="plain" @click="showDeployed = !showDeployed">
+        <v-icon small v-html="showDeployed ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
       </v-btn>
     </div>
     <v-scroll-y-reverse-transition mode="out-in" leave-absolute>
@@ -24,19 +15,12 @@
           v-else
           flat
           tile
-          :class="`${
-            $vuetify.display.mdAndUp ? 'clipped-large' : ''
-          } light-panel`"
+          :class="`${$vuetify.display.mdAndUp ? 'clipped-large' : ''} light-panel`"
           style="height: calc(100% - 20px)"
         >
-          <v-row
-            class="text-center"
-            style="height: 100%"
-            justify="center"
-            align="center"
-          >
+          <v-row class="text-center" style="height: 100%" justify="center" align="center">
             <v-col class="panel">
-              <div class="heading h2 text-subtle" style="opacity: 0.4">
+              <div class="heading h2 text-disabled" style="opacity: 0.4">
                 <cc-slashes />
                 NO EQUIPMENT DEPLOYED
                 <cc-slashes />

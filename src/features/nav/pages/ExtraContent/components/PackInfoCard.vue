@@ -26,11 +26,7 @@
             Dependencies
             <v-tooltip location="top" max-width="300px"
               ><template v-slot:activator="{ props }">
-                <v-icon
-                  v-bind="props"
-                  size="small"
-                  icon="mdi-information-outline"
-                  class="fade-select"
+                <v-icon v-bind="props" size="small" icon="mdi-information-outline" variant="plain"
               /></template>
               Dependencies are other content packs that this pack requires to function properly.
               They must be installed and activated for this pack to load correctly.

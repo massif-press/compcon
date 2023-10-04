@@ -15,7 +15,7 @@
           <v-menu offset-y max-width="700px">
             <template #activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
-                <v-icon class="fade-select">mdi-information-outline</v-icon>
+                <v-icon variant="plain">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -47,7 +47,7 @@
           <v-menu offset-y max-width="700px">
             <template #activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
-                <v-icon class="fade-select">mdi-information-outline</v-icon>
+                <v-icon variant="plain">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -77,7 +77,7 @@
           <v-menu offset-y max-width="700px">
             <template #activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
-                <v-icon class="fade-select">mdi-information-outline</v-icon>
+                <v-icon variant="plain">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>
@@ -110,7 +110,7 @@
           <v-menu offset-y max-width="700px">
             <template #activator="{ on, attrs }">
               <v-btn style="position: absolute; right: 0" icon v-bind="props">
-                <v-icon class="fade-select">mdi-information-outline</v-icon>
+                <v-icon variant="plain">mdi-information-outline</v-icon>
               </v-btn>
             </template>
             <v-card>

@@ -22,9 +22,7 @@
           <v-icon x-large>cc:reticule</v-icon>
         </div>
         <span>
-          +{{ item.AttackBonus(1) }}/+{{ item.AttackBonus(2) }}/+{{
-            item.AttackBonus(3)
-          }}
+          +{{ item.AttackBonus(1) }}/+{{ item.AttackBonus(2) }}/+{{ item.AttackBonus(3) }}
           <br />
           <div class="text-overline mt-n1">Attack Bonus</div>
         </span>
@@ -41,9 +39,7 @@
           <v-icon x-large>cc:accuracy</v-icon>
         </div>
         <span>
-          +{{ item.Accuracy(1) }}/+{{ item.Accuracy(2) }}/+{{
-            item.Accuracy(3)
-          }}
+          +{{ item.Accuracy(1) }}/+{{ item.Accuracy(2) }}/+{{ item.Accuracy(3) }}
           <br />
           <div class="text-overline mt-n1">Accuracy</div>
         </span>
@@ -57,9 +53,9 @@
           <v-icon x-large>cc:difficulty</v-icon>
         </div>
         <span>
-          +{{ Math.abs(item.Accuracy(1)) }}/+{{
-            Math.abs(item.Accuracy(2))
-          }}/+{{ Math.abs(item.Accuracy(3)) }}
+          +{{ Math.abs(item.Accuracy(1)) }}/+{{ Math.abs(item.Accuracy(2)) }}/+{{
+            Math.abs(item.Accuracy(3))
+          }}
           <br />
           <div class="text-overline mt-n1">Difficulty</div>
         </span>
@@ -67,7 +63,7 @@
     </v-col>
     <v-col cols="auto" class="ml-auto text-right">
       <div class="heading h2">{{ item.WeaponType }}</div>
-      <div v-if="item.InLcp" class="flavor-text text-subtle">
+      <div v-if="item.InLcp" class="flavor-text text-disabled">
         {{ item.LcpName }}
       </div>
     </v-col>

@@ -29,7 +29,7 @@
                   {{ item.Name }}
                 </span>
                 <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
-                <span v-show="$vuetify.display.mdAndUp" class="caption text-subtle ml-1">
+                <span v-show="$vuetify.display.mdAndUp" class="caption text-disabled ml-1">
                   <b>{{ item.Size }}</b>
                   {{ item.WeaponType }}
                 </span>
@@ -53,7 +53,7 @@
               />
             </v-col>
             <v-col cols="auto">
-              <v-btn v-if="!rest" right icon class="fade-select" dark @click.stop="hide = !hide">
+              <v-btn v-if="!rest" right icon variant="plain" dark @click.stop="hide = !hide">
                 <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
               </v-btn>
             </v-col>

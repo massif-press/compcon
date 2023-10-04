@@ -15,7 +15,7 @@
           <div class="text-white heading h3">{{ talent.LcpName }}</div>
         </v-col>
         <v-col v-if="!hideChange" cols="auto" align-self="center" class="pr-4">
-          <v-icon color="white" class="fade-select" @click="$emit('expand', 'terse')">
+          <v-icon color="white" variant="plain" @click="$emit('expand', 'terse')">
             mdi-arrow-collapse
           </v-icon>
         </v-col>
@@ -61,8 +61,7 @@
                 v-else-if="selectable && Number(rank) === n"
                 small
                 color="error"
-                variant="outlined"
-                class="fade-select"
+                variant="plain"
                 @click="$emit('remove')"
               >
                 <v-icon start>mdi-close</v-icon>
