@@ -14,7 +14,7 @@
         <div class="flavor-text mt-n1 ml-2">{{ npc.Subtitle }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-btn v-if="npc.Activations === 0" large color="secondary" @click="npc.Activations += 1">
+        <v-btn v-if="npc.CurrentActivations === 0" large color="secondary" @click="npc.CurrentActivations += 1">
           Reactivate
         </v-btn>
       </v-col>
@@ -25,7 +25,7 @@
     </v-alert>
 
     <v-alert
-      v-if="npc.Activations === 0 && !npc.Defeat"
+      v-if="npc.CurrentActivations === 0 && !npc.Defeat"
       dark
       dense
       border="left"
@@ -194,13 +194,13 @@
           </v-col>
           <v-col class="mr-4">
             <cc-tick-bar
-              :key="npc.Activations"
-              :current="npc.Activations"
+              :key="npc.CurrentActivations"
+              :current="npc.CurrentActivations"
               :max="npc.Activations"
               large
               color="secondary"
               full-icon="cci-activate"
-              readonly
+              @update="npc.CurrentActivations = $event"
             >
               <span class="heading h3">ACTIVATIONS</span>
             </cc-tick-bar>
