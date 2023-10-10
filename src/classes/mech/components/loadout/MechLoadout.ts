@@ -13,6 +13,7 @@ import {
   MechWeapon,
   WeaponMod,
 } from '@/class'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
 interface IMechLoadoutData {
   id: string
@@ -24,6 +25,8 @@ interface IMechLoadoutData {
   improved_armament: IMountData
   superheavy_mounting: IMountData
   integratedWeapon: IMountData
+  extraMounts?: IMountData[]
+  extraIntegratedMounts?: IMountData[]
 }
 
 class MechLoadout extends Loadout {
@@ -35,6 +38,8 @@ class MechLoadout extends Loadout {
   private _integratedWeapon: EquippableMount
   private _systems: MechSystem[]
   private _integratedSystems: MechSystem[]
+  private _extraMounts: EquippableMount[]
+  private _extraIntegratedMounts: EquippableMount[]
 
   public constructor(mech: Mech) {
     super(mech.MechLoadoutController ? mech.MechLoadoutController.Loadouts.length : 0)
@@ -46,6 +51,8 @@ class MechLoadout extends Loadout {
     this._improvedArmament = new EquippableMount(MountType.Flex, this)
     this._superheavyMounting = new EquippableMount(MountType.Superheavy, this)
     this._integratedWeapon = new EquippableMount(MountType.Aux, this)
+    this._extraMounts = []
+    this._extraIntegratedMounts = []
   }
 
   public saveMechLoadout() {
@@ -89,12 +96,20 @@ class MechLoadout extends Loadout {
     return this._superheavyMounting
   }
 
+  public get ExtraMounts(): EquippableMount[] {
+    return this._extraMounts
+  }
+
+  public get ExtraIntegratedMounts(): EquippableMount[] {
+    return this._extraIntegratedMounts
+  }
+
   public AllMounts(improved?: boolean, integrated?: boolean, superheavy?: boolean): Mount[] {
     let ms = []
     if (integrated) ms.push(this._integratedWeapon)
     if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament)
     if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting)
-    ms = ms.concat(this._equippableMounts).concat(this._integratedMounts)
+    ms = ms.concat(this._equippableMounts, this._integratedMounts, this._extraMounts, this._extraIntegratedMounts)
     return ms
   }
 
@@ -107,7 +122,7 @@ class MechLoadout extends Loadout {
     if (integrated) ms.push(this._integratedWeapon)
     if (improved && this._equippableMounts.length < 3) ms.push(this._improvedArmament)
     if (superheavy && this._equippableMounts.length < 3) ms.push(this._superheavyMounting)
-    ms = ms.concat(this._equippableMounts)
+    ms = ms.concat(this._equippableMounts, this._extraMounts, this._extraIntegratedMounts)
     return ms
   }
 
@@ -118,7 +133,7 @@ class MechLoadout extends Loadout {
       ms.push(this.ImprovedArmamentMount)
     if (m.Pilot.has('CoreBonus', 'cb_superheavy_mounting') && this.EquippableMounts.length < 3)
       ms.push(this.SuperheavyMount)
-    ms = ms.concat(this.EquippableMounts).concat(this.IntegratedMounts)
+    ms = ms.concat(this.EquippableMounts, this.IntegratedMounts, this.ExtraMounts, this.ExtraIntegratedMounts)
     return ms.filter(x => x.Weapons.length)
   }
 
@@ -163,6 +178,86 @@ class MechLoadout extends Loadout {
 
   public UnequipSuperheavy(): void {
     this.AllEquippableMounts(true, true, true).forEach(x => x.Unlock())
+  }
+
+  private CanApplyBonus(b: Bonus): boolean {
+    var canApply = false;
+
+    if (Array.isArray(b.Value) && b.Value.length === 5) {
+      const bonusMountLimit = parseInt(b.Value[3])
+      const moreMountsThanLimit = (b.Value[4] === "false")
+      canApply = (
+        bonusMountLimit == 0 ||
+        (moreMountsThanLimit && this.EquippableMounts.length > bonusMountLimit) ||
+        (!moreMountsThanLimit && this.EquippableMounts.length < bonusMountLimit)
+      )
+    }
+
+    return canApply
+  }
+
+  public ExtendedMountChanges(b: Bonus, add: Boolean): void {
+    if (this.CanApplyBonus(b)) {
+      if (add) {
+        this.AddExtendedMountFromBonus(b)
+      }
+      else {
+        this.RemoveExtendedMountFromBonus(b)
+      }
+      this.saveMechLoadout()
+    }
+  }
+
+  private AddExtendedMountFromBonus(b: Bonus) {
+    const current = new EquippableMount(b.Value[0] as MountType, this)
+    if (b.Value[1] === "true") this.ExtraIntegratedMounts.push(current)
+    else this.ExtraMounts.push(current)
+    if (b.Value[2] === "true") current.LockModification()
+    this.saveMechLoadout()
+  }
+
+  private RemoveExtendedMountFromBonus(b: Bonus) {
+    if (b.Value[0] == "Superheavy") this.UnequipSuperheavy()
+    if (b.Value[1] === "true") {
+      const index = this.ExtraIntegratedMounts.findIndex(x => x.Type == b.Value[0] as MountType && x.IsModifiable == !(b.Value[2] === "true"))
+      if (index > -1) this.ExtraIntegratedMounts.splice(index, 1)
+    } else {
+      const index = this.ExtraMounts.findIndex(x => x.Type == b.Value[0] as MountType && x.IsModifiable == !(b.Value[2] === "true"))
+      if (index > -1) this.ExtraMounts.splice(index, 1)
+    }
+    this.saveMechLoadout()
+  }
+
+  public CheckExtendedMounts(bonuses: Bonus[]): void {
+    bonuses = bonuses.filter(bonus => this.CanApplyBonus(bonus))
+    this.CrossCheckBonusesAndMounts(bonuses.filter(x => x.Value[1] === 'true'), [...this.ExtraIntegratedMounts], true)
+    this.CrossCheckBonusesAndMounts(bonuses.filter(x => x.Value[1] !== 'true'), [...this.ExtraMounts], false)  
+  }
+
+  private CrossCheckBonusesAndMounts(bonuses: Bonus[], mounts: EquippableMount[], integrated: boolean): void {
+    bonuses.forEach(bonus => {
+      const bonusIsModifiable = !(bonus.Value[2] === "true")
+      const matchingMountIndex = mounts.findIndex(x => x.Type == bonus.Value[0] as MountType && x.IsModifiable == bonusIsModifiable)
+      if (matchingMountIndex == -1) {
+        this.AddExtendedMountFromBonus(bonus)
+      }
+      else {
+        mounts.splice(matchingMountIndex, 1)
+      }
+    })
+    mounts.forEach(mount => this.RemoveExtendedMount(mount, integrated))
+  }
+
+  private RemoveExtendedMount(m: EquippableMount, integrated: Boolean): void{
+    if (m.Type === MountType["Superheavy"]) this.UnequipSuperheavy()
+    if (integrated) {
+      const index = this.ExtraIntegratedMounts.findIndex(x => _.isEqual(x, m))
+      if (index > -1) this.ExtraIntegratedMounts.splice(index, 1)
+    } else {
+      const index = this.ExtraMounts.findIndex(x => _.isEqual(x, m))
+      if (index > -1) this.ExtraMounts.splice(index, 1)
+    }
+    this.saveMechLoadout()
   }
 
   public get IntegratedSystems(): MechSystem[] {
@@ -244,6 +339,8 @@ class MechLoadout extends Loadout {
       this._improvedArmament,
       this._integratedWeapon,
       this._superheavyMounting,
+      ...this._extraMounts,
+      ...this._extraIntegratedMounts,
     ]
       .flatMap(x => x.Weapons)
       .reduce(function (a, b) {
@@ -289,6 +386,8 @@ class MechLoadout extends Loadout {
       improved_armament: EquippableMount.Serialize(ml._improvedArmament),
       superheavy_mounting: EquippableMount.Serialize(ml._superheavyMounting),
       integratedWeapon: EquippableMount.Serialize(ml._integratedWeapon),
+      extraMounts: ml._extraMounts.map(x => EquippableMount.Serialize(x)),
+      extraIntegratedMounts: ml._extraIntegratedMounts.map(x => EquippableMount.Serialize(x)),
     }
   }
 
@@ -312,6 +411,12 @@ class MechLoadout extends Loadout {
       ? new EquippableMount(MountType.Aux, ml)
       : EquippableMount.Deserialize(loadoutData.integratedWeapon, ml)
     if (!loadoutData.integratedSystems) ml.SetAllIntegrated()
+    ml._extraMounts = !loadoutData.extraMounts 
+      ? [] 
+      : loadoutData.extraMounts.map(x => EquippableMount.Deserialize(x, ml))
+    ml._extraIntegratedMounts = !loadoutData.extraIntegratedMounts 
+      ? [] 
+      : loadoutData.extraIntegratedMounts.map(x => EquippableMount.Deserialize(x, ml))
     return ml
   }
 }

@@ -149,6 +149,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     )
 
     this.MechLoadoutController.UpdateLoadouts()
+    this.CheckLoadoutExtendedMounts();
   }
 
   // -- Passthroughs ------------------------------------------------------------------------------
@@ -975,6 +976,10 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   // -- Loadouts ----------------------------------------------------------------------------------
   public get ActiveMounts(): Mount[] {
     return this.MechLoadoutController.ActiveLoadout.AllActiveMounts(this)
+  }
+
+  public CheckLoadoutExtendedMounts(): void {
+    this.MechLoadoutController.CheckExtendedMounts(Bonus.getUneval("mount_modification" , this.Parent))
   }
 
   // -- Mountable CORE Bonuses --------------------------------------------------------------------
