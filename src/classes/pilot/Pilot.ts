@@ -548,6 +548,14 @@ class Pilot
     this._state.ActiveMech = mech
   }
 
+  public UpdateMechMounts(addons: Bonus, add: boolean) {
+    this.Mechs.forEach(mech => {
+      mech.MechLoadoutController.Loadouts.forEach(loadout => {
+        loadout.ExtendedMountChanges(addons, add)
+      })
+    })
+  }
+
   // -- Active Mode -------------------------------------------------------------------------------
   public SpecialEval(val: number | string): number {
     if (typeof val === 'number') return val

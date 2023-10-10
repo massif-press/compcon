@@ -22,7 +22,7 @@
 
         <mount-block
           v-if="mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')"
-          int-weapon
+          notModifiable
           :readonly="readonly"
           :mount="mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount"
           :mech="mech"
@@ -49,6 +49,25 @@
           superheavy
           :readonly="readonly"
           :mount="mech.MechLoadoutController.ActiveLoadout.SuperheavyMount"
+          :mech="mech"
+          :color="color"
+        />
+                
+        <mount-block 
+          v-for="(Em, Ek) in mech.MechLoadoutController.ActiveLoadout.ExtraMounts"
+          :key="`Em_${Ek}`"
+          :readonly="readonly"
+          :mount="Em"
+          :mech="mech"
+          :color="color"
+        />
+
+        <mount-block 
+          v-for="(Eim, Eik) in mech.MechLoadoutController.ActiveLoadout.ExtraIntegratedMounts"
+          :key="`Eim_${Eik}`"
+          :readonly="readonly"
+          integrated
+          :mount="Eim"
           :mech="mech"
           :color="color"
         />
