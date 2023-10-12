@@ -1,8 +1,8 @@
-import _ from "lodash"
-import { IRankedData } from "../../../../interface"
-import { Pilot } from "../../Pilot"
-import License from "./License"
-import { PilotLicense } from "./PilotLicense"
+import _ from 'lodash'
+import { IRankedData } from '../../../../interface'
+import { Pilot } from '../../Pilot'
+import License from './License'
+import { PilotLicense } from './PilotLicense'
 
 interface ILicenseSaveData {
   licenses: IRankedData[]
@@ -37,7 +37,9 @@ class LicenseController {
   }
 
   public get MaxLicensePoints(): number {
-    const bonus = this.Parent.ReservesController.Reserves.filter(x => x.ID === 'reserve_license').length
+    const bonus = this.Parent.ReservesController.Reserves.filter(
+      x => x.ID === 'reserve_license'
+    ).length
     return this.Parent.Level + bonus
   }
 
@@ -67,7 +69,9 @@ class LicenseController {
   public RemoveLicense(license: License): void {
     const index = this._licenses.findIndex(x => x.License.FrameID === license.FrameID)
     if (index === -1) {
-      console.error(`License "${license.ToString()}" does not exist on Pilot ${this.Parent.Callsign}`)
+      console.error(
+        `License "${license.ToString()}" does not exist on Pilot ${this.Parent.Callsign}`
+      )
     } else {
       if (this._licenses[index].Rank > 1) {
         this._licenses[index].Decrement()
@@ -91,9 +95,14 @@ class LicenseController {
   }
 
   public static Deserialize(parent: Pilot, data: ILicenseSaveData) {
-    if (!parent.LicenseController) throw new Error(`LicenseController not found on parent (${typeof parent}). New LicenseControllers must be instantiated in the parent's constructor method.`);
+    if (!parent.LicenseController)
+      throw new Error(
+        `LicenseController not found on parent (${typeof parent}). New LicenseControllers must be instantiated in the parent's constructor method.`
+      )
 
-    parent.LicenseController._licenses = data.licenses.map((x: IRankedData) => PilotLicense.Deserialize(x))
+    parent.LicenseController._licenses = data.licenses.map((x: IRankedData) =>
+      PilotLicense.Deserialize(x)
+    )
   }
 }
 
