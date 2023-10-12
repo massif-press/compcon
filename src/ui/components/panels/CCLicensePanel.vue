@@ -17,7 +17,7 @@
             <v-icon v-else-if="ranked && rank >= n" right>mdi-lock-open-outline</v-icon>
           </span>
         </p>
-        <div v-for="i in license.Unlocks[n - 1]" :key="i.id" class="my-2">
+        <div v-for="i in getLicense.Unlocks[n - 1]" :key="i.ID" class="my-2">
           <cc-item-modal :item="i" :small-btn="$vuetify.breakpoint.mdAndDown" />
         </div>
       </div>
@@ -27,6 +27,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { getModule } from 'vuex-module-decorators'
+import { CompendiumStore } from '@/store'
 
 export default Vue.extend({
   name: 'cc-license-panel',
@@ -43,6 +45,14 @@ export default Vue.extend({
       type: Number,
       required: false,
       default: 0,
+    },
+  },
+  computed: {
+    getLicense() {
+      const licenseData = getModule(CompendiumStore, this.$store).Licenses.find(
+        x => x.FrameID === this.license.FrameID
+      )
+      return licenseData
     },
   },
   methods: {

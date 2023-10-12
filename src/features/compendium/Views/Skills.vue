@@ -22,7 +22,6 @@ export default Vue.extend({
   }),
   async created() {
     const compendium = getModule(CompendiumStore, this.$store)
-    console.log(compendium.Skills.filter(x => x.InLcp))
     this.skills = await compendium.Skills.filter(x => x)
   },
 })

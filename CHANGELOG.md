@@ -12,6 +12,7 @@
 
 - **Print** Fix some systems not appearing in printed output (thanks ThamasMC!) [#2285](https://github.com/massif-press/compcon/pull/2285)
 - **Compendium** Fix license-based filters [#2308](https://github.com/massif-press/compcon/pull/2308)
+- **Pilot Sheet** Correct license unlock display [#2296](https://github.com/massif-press/compcon/pull/2296)
 
 ## [2.3.18] (2023-8-5)
 
