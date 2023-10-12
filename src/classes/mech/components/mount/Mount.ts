@@ -10,12 +10,14 @@ abstract class Mount {
   protected slots: WeaponSlot[]
   protected extra: WeaponSlot[]
   protected _name_override: string
+  protected modifiable: boolean
 
   public constructor(mountType: MountType, parent: MechLoadout) {
     this._parent = parent
     this._id = uuid()
     this._mount_type = mountType
     this.lock = false
+    this.modifiable = true
     this.extra = []
     this._name_override = ''
     this.slots = []
@@ -132,6 +134,10 @@ abstract class Mount {
 
   public get IsLocked(): boolean {
     return this.lock
+  }
+
+  public get IsModifiable(): boolean {
+    return this.modifiable
   }
 }
 

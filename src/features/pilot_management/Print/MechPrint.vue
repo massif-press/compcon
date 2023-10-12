@@ -296,7 +296,7 @@
     <fieldset>
       <legend class="heading ml-1 px-2">Systems</legend>
       <div
-        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
+        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.AllActiveSystems"
         :key="`mms_${i}`"
         class="bordered-block"
       >

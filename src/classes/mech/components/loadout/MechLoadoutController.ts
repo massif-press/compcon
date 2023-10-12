@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { Mech } from '../../Mech'
 import { MechLoadout } from './MechLoadout'
 import { IMechLoadoutData } from './MechLoadout'
+import { Bonus } from '@/classes/components/feature/bonus/Bonus'
 
 interface IMechLoadoutSaveData {
   loadouts: IMechLoadoutData[]
@@ -47,6 +48,7 @@ class MechLoadoutController implements IFeatureContainer {
     this._loadouts.push(newLoadout)
     this.ActiveLoadout = newLoadout
     this.Parent.SaveController.save()
+    this.Parent.CheckLoadoutExtendedMounts()
   }
 
   public RemoveLoadout(): void {
@@ -77,6 +79,11 @@ class MechLoadoutController implements IFeatureContainer {
     this._loadouts.forEach(x => {
       x.SetAllIntegrated()
     })
+  }
+
+  public CheckExtendedMounts(b: Bonus[]): void{
+    this.ActiveLoadout.CheckExtendedMounts(b)
+    this.Loadouts.forEach(x => x.CheckExtendedMounts(b))
   }
 
   public static Serialize(parent: Mech, target: any) {

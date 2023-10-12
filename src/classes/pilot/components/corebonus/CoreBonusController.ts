@@ -48,6 +48,9 @@ class CoreBonusController implements IFeatureContainer {
 
   public AddCoreBonus(coreBonus: CoreBonus): void {
     this._core_bonuses.push(coreBonus)
+    coreBonus.Bonuses.filter(x => x.ID === "mount_modification").forEach(
+      x => this.Parent.UpdateMechMounts(x, true)
+    )
     this.Parent.SaveController.save()
   }
 
@@ -85,6 +88,9 @@ class CoreBonusController implements IFeatureContainer {
         loadout.AllEquippableMounts(true).forEach(mount => {
           mount.RemoveCoreBonus(coreBonus)
         })
+        coreBonus.Bonuses.filter(x => x.ID === "mount_modification").forEach(bonus =>
+              loadout.ExtendedMountChanges(bonus, false)
+        )
       })
     })
   }

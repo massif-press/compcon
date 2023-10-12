@@ -85,6 +85,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   private _current_core_energy: number
   private _current_overcharge: number
   private _activations: number
+  private _current_activations: number
   private _active: boolean
   private _pilot: Pilot
   private _cc_ver: string
@@ -135,6 +136,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     this._currentMove = frame.Speed
     this._boost = 0
     this._activations = 1
+    this._current_activations = 1
     this._turn_actions = 2
     this._core_active = false
     this._cc_ver = store.getters.getVersion || 'N/A'
@@ -147,6 +149,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     )
 
     this.MechLoadoutController.UpdateLoadouts()
+    this.CheckLoadoutExtendedMounts();
   }
 
   // -- Passthroughs ------------------------------------------------------------------------------
@@ -725,6 +728,14 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
     this.SaveController.save()
   }
 
+  public get CurrentActivations(): number{
+    return this._current_activations;
+  }
+
+  public set CurrentActivations(val: number){
+    this._current_activations = val;
+  }
+
   public get TurnActions(): number {
     return this._turn_actions
   }
@@ -777,7 +788,7 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   }
 
   public NewTurn(): void {
-    this._activations = 1
+    this._current_activations = 1 
     this._turn_actions = 2
     this._currentMove = this.MaxMove
     this.SaveController.save()
@@ -965,6 +976,10 @@ class Mech implements IActor, IPortraitContainer, ISaveable, IFeatureController 
   // -- Loadouts ----------------------------------------------------------------------------------
   public get ActiveMounts(): Mount[] {
     return this.MechLoadoutController.ActiveLoadout.AllActiveMounts(this)
+  }
+
+  public CheckLoadoutExtendedMounts(): void {
+    this.MechLoadoutController.CheckExtendedMounts(Bonus.getUneval("mount_modification" , this.Parent))
   }
 
   // -- Mountable CORE Bonuses --------------------------------------------------------------------
