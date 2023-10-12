@@ -1,5 +1,18 @@
 # COMP/CON Changelog
 
+## [2.3.19] (2023-10-10)
+
+### Features
+
+- **Global** Added support for upcoming LANCER content
+- **Mech Sheet** Added support for generalized mount bonuses (thanks Melted-Gallium!) [#1992](https://github.com/massif-press/compcon/pull/1992)
+- **Encounter Runner** Added support for NPC activation management (thanks super-salad!) [#2156](https://github.com/massif-press/compcon/pull/2156)
+
+### Bug Fixes
+
+- **Print** Fix some systems not appearing in printed output (thanks ThamasMC!) [#2285](https://github.com/massif-press/compcon/pull/2285)
+- **Compendium** Fix license-based filters [#2308](https://github.com/massif-press/compcon/pull/2308)
+
 ## [2.3.18] (2023-8-5)
 
 ### Features
