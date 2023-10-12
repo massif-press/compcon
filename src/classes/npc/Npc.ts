@@ -24,6 +24,7 @@ import { IActor } from '../encounter/IActor'
 import { BrewController, BrewInfo, IBrewData } from '../components/brew/BrewController'
 import { IBrewable } from '../components/brew/IBrewable'
 import { CompendiumItem } from '../CompendiumItem'
+import { values } from 'lodash'
 
 class INpcData implements ISaveData, ICloudData, IPortraitData, IBrewData {
   remoteIID: string
@@ -521,10 +522,14 @@ class Npc
   }
 
   public get Activations(): number {
-    return this.CurrentStats.Activations
+    return this.Stats.Activations
   }
 
-  public set Activations(val: number) {
+  public get CurrentActivations(): number{
+    return this.CurrentStats.Activations;
+  }
+
+  public set CurrentActivations(val: number){
     this.CurrentStats.Activations = val
     this.SaveController.save()
   }

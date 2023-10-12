@@ -57,14 +57,14 @@
         </div>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-btn v-if="mech.Activations === 0" large color="secondary" @click="mech.Activations += 1">
+        <v-btn v-if="mech.CurrentActivations === 0" large color="secondary" @click="mech.CurrentActivations += 1">
           Reactivate
         </v-btn>
       </v-col>
     </v-row>
 
     <v-alert
-      v-if="mech.Activations === 0 && !mech.Defeat"
+      v-if="mech.CurrentActivations === 0 && !mech.Defeat"
       dark
       dense
       border="left"

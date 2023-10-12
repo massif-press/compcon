@@ -78,7 +78,7 @@
           :color="color"
           :use-bonus="mech.LimitedBonus"
         >
-          <div v-if="!intWeapon && !readonly" slot="left">
+          <div v-if="!readonly && modifiable" slot="left">
             <v-btn
               v-if="!item.Mod && !item.NoMods"
               outlined
@@ -209,7 +209,7 @@ export default Vue.extend({
     readonly: {
       type: Boolean,
     },
-    intWeapon: {
+    modifiable: {
       type: Boolean,
     },
   },

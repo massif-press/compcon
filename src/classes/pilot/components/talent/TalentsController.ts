@@ -68,9 +68,17 @@ class TalentsController implements IFeatureContainer {
   public AddTalent(talent: Talent): void {
     const index = this._talents.findIndex(x => x.Talent.ID === talent.ID)
     if (index === -1) {
-      this._talents.push(new PilotTalent(talent))
+      var currentTalent = new PilotTalent(talent)
+      currentTalent.UnlockedRanks.forEach(tal =>     
+        tal.Bonuses.filter(x => x.ID === "mount_modification").forEach(
+        x => this.Parent.UpdateMechMounts(x, true)
+      ))
+      this._talents.push(currentTalent)
     } else {
-      this._talents[index].Increment()
+      const addedTalentRank = this._talents[index].Increment()
+      addedTalentRank.Bonuses.filter(x => x.ID === "mount_modification").forEach(
+        x => this.Parent.UpdateMechMounts(x, true)
+      )
     }
     this.talentSort()
     this.updateIntegratedTalents()
@@ -83,8 +91,12 @@ class TalentsController implements IFeatureContainer {
       console.error(`Talent "${talent.Name}" does not exist on Pilot ${this.Parent.Callsign}`)
     } else {
       if (this._talents[index].Rank > 1) {
-        this._talents[index].Decrement()
+        const removedTalentRank = this._talents[index].Decrement()
+        removedTalentRank.Bonuses.filter(x => x.ID === "mount_modification").forEach(
+          x => this.Parent.UpdateMechMounts(x, false))
       } else {
+        this._talents[index].Talent.Ranks[0].Bonuses.filter(x => x.ID === "mount_modification").forEach(
+          x => this.Parent.UpdateMechMounts(x, false))
         this._talents.splice(index, 1)
       }
     }

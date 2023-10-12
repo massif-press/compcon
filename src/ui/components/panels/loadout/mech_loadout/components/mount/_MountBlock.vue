@@ -12,7 +12,7 @@
         </cc-tooltip>
       </legend>
       <cb-mount-menu
-        v-if="!intWeapon && !integrated && !readonly"
+        v-if="!integrated && !readonly && modifiable"
         :key="mech.AvailableBonuses.length"
         :mech="mech"
         :mount="mount"
@@ -28,7 +28,7 @@
             :mech="mech"
             :mount="mount"
             :readonly="integrated || readonly"
-            :int-weapon="intWeapon"
+            :modifiable="modifiable"
           />
         </v-col>
       </v-row>
@@ -63,9 +63,6 @@ export default Vue.extend({
     integrated: {
       type: Boolean,
     },
-    intWeapon: {
-      type: Boolean,
-    },
     impArm: {
       type: Boolean,
     },
@@ -74,6 +71,11 @@ export default Vue.extend({
     },
     readonly: {
       type: Boolean,
+    },
+  },
+  computed: {
+    modifiable() {
+      return this.mount.IsModifiable
     },
   },
 })

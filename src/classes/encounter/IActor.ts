@@ -11,6 +11,7 @@ interface IActor {
   Destroyed: boolean
   Defeat: string
   Activations: number
+  CurrentActivations: number
   Evasion: number
   EDefense: number
   TurnActions: number

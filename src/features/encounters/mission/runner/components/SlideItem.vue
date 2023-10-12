@@ -74,10 +74,10 @@
             <cc-tooltip
               inline
               title="Activations"
-              :content="`${actor.Activations} Activation remaining this Round`"
+              :content="`${actor.CurrentActivations} Activation remaining this Round`"
             >
               <v-icon dark class="mr-n2">mdi-hexagon-slice-3</v-icon>
-              {{ actor.Activations }}
+              {{ actor.CurrentActivations }}
             </cc-tooltip>
           </v-col>
           <v-col cols="auto">
