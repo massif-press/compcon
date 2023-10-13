@@ -47,11 +47,11 @@ const importAll = async function (file): Promise<void> {
 
 const clearAllData = async function (clear_cloud: boolean): Promise<void> {
   console.info('Erasing all COMP/CON data...')
+  if (!clear_cloud) {
   for (const file of files) {
     localStorage.removeItem(file)
   }
-
-  if (clear_cloud) {
+} else if (clear_cloud) {
     await DeleteAll()
   }
 
