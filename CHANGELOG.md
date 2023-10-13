@@ -1,4 +1,9 @@
 # COMP/CON Changelog
+## [2.3.19a] (2023-10-13)
+### Bug Fixes
+
+- **Cloud Storage** Fixed a bug that would erroneously erase local data when deleting cloud data.
+
 
 ## [2.3.19] (2023-10-10)
 
