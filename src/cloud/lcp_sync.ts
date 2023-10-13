@@ -149,7 +149,7 @@ const DeleteLCP = async (lcp: LCPItem): Promise<any> => {
   const idx = lcps.findIndex(x => x.id === lcp.id)
   if (idx > -1) lcps.splice(idx, 1)
 
-  await setLocalLCPs(lcps.map(x => x.localData.Serialize()))
+  // await setLocalLCPs(lcps.map(x => x.localData.Serialize()))
   await updateCloudLCPs(lcps.map(x => x.cloudData.Serialize()))
 }
 
