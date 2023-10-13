@@ -1,6 +1,6 @@
 <template>
-  <div class="text-black pa-2">
-    <v-row density="compact" align="top">
+  <div class="text-black px-2">
+    <v-row density="compact">
       <v-col cols="auto">
         <div class="text-overline my-n2 text-grey">
           {{ mech.Frame.Source }} {{ mech.Frame.Name }}
@@ -8,69 +8,55 @@
         <div class="heading h2 mt-n4 font-weight-bolder">{{ mech.Name }}</div>
       </v-col>
       <v-col cols="auto" class="ml-auto text-center caption">
-        <div class="text-overline mt-n2">OVERCHARGE</div>
-        <span class="mx-1 oc-border">
+        <div class="text-overline my-n2">OVERCHARGE</div>
+        <v-chip size="20" variant="outlined" class="ml-1">
           &nbsp;+1
-          <v-icon small class="ml-n1">mdi-fire</v-icon>
-        </span>
-        <span class="mx-1 oc-border">
+          <v-icon size="small" icon="mdi-fire" />
+        </v-chip>
+        <v-chip size="20" variant="outlined" class="ml-1">
           &nbsp;+1d3
-          <v-icon small class="ml-n1">mdi-fire</v-icon>
-        </span>
-        <span class="mx-1 oc-border">
+          <v-icon size="small" icon="mdi-fire" />
+        </v-chip>
+        <v-chip size="20" variant="outlined" class="ml-1">
           &nbsp;+1d6
-          <v-icon small class="ml-n1">mdi-fire</v-icon>
-        </span>
-        <span class="mx-1 oc-border">
+          <v-icon size="small" icon="mdi-fire" />
+        </v-chip>
+        <v-chip size="20" variant="outlined" class="ml-1">
           &nbsp;+1d6+4
-          <v-icon small class="ml-n1">mdi-fire</v-icon>
-        </span>
+          <v-icon size="small" icon="mdi-fire" />
+        </v-chip>
       </v-col>
     </v-row>
 
-    <v-row density="compact" align="center" justify="space-around" class="mt-n5 mb-1">
+    <v-row justify="space-around" class="mt-n5">
       <v-col cols="auto">
-        <span class="font-weight-bold overline pr-3">HULL</span>
-        <div class="ml-4 mt-n3" style="position: relative; width: max-content">
-          <v-icon size="x-large" style="margin-right: -3px !important">mdi-hexagon-outline</v-icon>
-          <div class="heading h2 icon-overlap" v-html="mech.Hull" />
-        </div>
+        <div class="font-weight-bold overline">HULL</div>
+        <div class="heading h2" style="line-height: 10px" v-text="mech.Hull" />
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline pr-3">AGI</span>
-        <div class="ml-4 mt-n3" style="position: relative; width: max-content">
-          <v-icon size="x-large" style="margin-right: -3px !important">mdi-hexagon-outline</v-icon>
-          <div class="heading h2 icon-overlap" v-html="mech.Agi" />
-        </div>
+        <div class="font-weight-bold overline">AGI</div>
+        <div class="heading h2" style="line-height: 10px" v-text="mech.Agi" />
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline pr-3">SYS</span>
-        <div class="ml-4 mt-n3" style="position: relative; width: max-content">
-          <v-icon size="x-large" style="margin-right: -3px !important">mdi-hexagon-outline</v-icon>
-          <div class="heading h2 icon-overlap" v-html="mech.Sys" />
-        </div>
+        <div class="font-weight-bold overline">SYS</div>
+        <div class="heading h2" style="line-height: 10px" v-text="mech.Sys" />
       </v-col>
       <v-col cols="auto">
-        <span class="font-weight-bold overline pr-3">ENG</span>
-        <div class="ml-4 mt-n3" style="position: relative; width: max-content">
-          <v-icon size="x-large" style="margin-right: -3px !important">mdi-hexagon-outline</v-icon>
-          <div class="heading h2 icon-overlap" v-html="mech.Eng" />
-        </div>
+        <div class="font-weight-bold overline">ENG</div>
+        <div class="heading h2" style="line-height: 10px" v-text="mech.Eng" />
       </v-col>
-      <v-col cols="auto" class="mt-4 ml-4">
+      <v-col cols="auto">
         <v-icon size="40">{{ mech.SizeIcon }}</v-icon>
       </v-col>
-      <v-col>
-        <v-divider vertical />
-      </v-col>
+
       <v-col class="text-center">
-        <div class="text-overline" style="line-height: 30px">CORE POWER</div>
-        <v-icon size="30" color="grey lighten-2" class="mr-n1 mt-n3">mdi-battery-outline</v-icon>
+        <div class="text-overline mt-n4">CORE POWER</div>
+        <v-icon size="35" color="grey-lighten-1" class="mr-n1 mt-n3">mdi-battery-outline</v-icon>
         <div class="d-inline-block flavor-text font-weight-bold mb-n2">/1</div>
       </v-col>
       <v-col class="text-center">
-        <div class="text-overline" style="line-height: 30px">REPAIR CAPACITY</div>
-        <v-icon size="30" color="grey lighten-2" class="mr-n1 mt-n3">cc:repair</v-icon>
+        <div class="text-overline mt-n4">REPAIR CAPACITY</div>
+        <v-icon size="40" color="grey-lighten-1" class="mr-n1 mt-n5">cc:repair</v-icon>
         <div
           class="d-inline-block flavor-text font-weight-bold mb-n2"
           v-html="`/${mech.RepairCapacity}`"
@@ -78,33 +64,33 @@
       </v-col>
     </v-row>
 
-    <v-row density="compact" justify="space-between" align="start" class="mt-n4">
+    <v-row>
       <v-col class="text-center">
-        <div style="line-height: 0" class="text-overline mb-4">STRUCTURE</div>
+        <div style="line-height: 10px" class="text-overline mb-4">STRUCTURE</div>
         <div>
-          <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">cc:structure</v-icon>
+          <v-icon size="60" color="grey-lighten-1" class="mr-n3 mt-n5">cc:structure</v-icon>
           <b
             class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-html="`/${mech.MaxStructure}`"
+            v-text="`&nbsp;/${mech.MaxStructure}`"
           />
         </div>
       </v-col>
       <v-col cols="auto">
         <v-row density="compact" no-gutters justify="center">
           <v-col cols="auto" class="text-center">
-            <div style="line-height: 0" class="text-overline mb-4 mr-6">HP</div>
+            <div style="line-height: 10px" class="text-overline mb-4 mr-6">HP</div>
             <div>
-              <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">
+              <v-icon size="60" color="grey-lighten-1" class="mr-n3 mt-n4">
                 mdi-hexagon-outline
               </v-icon>
               <b
                 class="d-inline-block flavor-text font-weight-bold mb-n2"
-                v-html="`/${mech.MaxHP}`"
+                v-text="`&nbsp;/${mech.MaxHP}`"
               />
             </div>
           </v-col>
           <v-col v-if="mech.Armor" cols="auto" class="text-center mb-1" align-self="end">
-            <div style="line-height: 0" class="text-overline mb-4 ml-2">ARMOR</div>
+            <div style="line-height: 10px" class="text-overline mb-4 ml-2">ARMOR</div>
             <div class="heading h2 mt-n4 mr-n2">
               <v-icon class="mt-n1 mr-n1">mdi-shield</v-icon>
               {{ mech.Armor }}
@@ -114,28 +100,28 @@
       </v-col>
       <v-spacer />
       <v-col class="text-center">
-        <div style="line-height: 0" class="text-overline mb-4 mr-2">STRESS</div>
+        <div style="line-height: 10px" class="text-overline mb-4 mr-2">STRESS</div>
         <div>
-          <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">cc:reactor</v-icon>
+          <v-icon size="60" color="grey-lighten-1" class="mr-n3 mt-n5">cc:reactor</v-icon>
           <b
             class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-html="`/${mech.MaxStress}`"
+            v-text="`&nbsp;/${mech.MaxStress}`"
           />
         </div>
       </v-col>
       <v-col class="text-center">
-        <div style="line-height: 0" class="text-overline mb-4 mr-6">HEAT</div>
+        <div style="line-height: 10px" class="text-overline mb-4 mr-6">HEAT</div>
         <div>
-          <v-icon size="60" color="grey lighten-3" class="mr-n3 mt-n6">mdi-fire</v-icon>
+          <v-icon size="60" color="grey-lighten-1" class="mr-n3 mt-n5">mdi-fire</v-icon>
           <b
             class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-html="`/${mech.HeatCapacity}`"
+            v-text="`&nbsp;/${mech.HeatCapacity}`"
           />
         </div>
       </v-col>
     </v-row>
 
-    <v-row density="compact">
+    <v-row dense>
       <v-col>
         <fieldset>
           <legend class="caption font-weight-bold px-1">ATK</legend>
@@ -192,19 +178,19 @@
       </v-col>
     </v-row>
 
-    <div class="text-overline mb-n2">FRAME TRAITS</div>
-    <v-row density="compact" justify="space-between" class="caption mt-n1">
+    <div class="text-overline mb-n3 text-grey">FRAME TRAITS</div>
+    <v-row dense justify="space-between" class="caption mt-n1">
       <v-col v-for="(t, i) in mech.Frame.Traits">
         <fieldset>
           <legend class="heading ml-1 px-2">{{ t.Name }}</legend>
-          <p v-html-safe="t.Description" class="ml-6 mb-0" />
+          <p v-html-safe="t.Description" />
         </fieldset>
       </v-col>
     </v-row>
 
-    <div class="text-overline mb-n3">CORE SYSTEM</div>
+    <div class="text-overline mb-n3 text-grey">CORE SYSTEM</div>
     <fieldset class="mt-n2">
-      <legend class="heading h3 ml-1 px-2">
+      <legend class="heading h4 ml-1 px-2">
         {{ mech.Frame.CoreSystem.Name }}
       </legend>
       <div v-if="mech.Frame.CoreSystem.PassiveEffect">
@@ -233,46 +219,37 @@
       </div>
     </fieldset>
 
-    <v-row density="compact" class="mb-n3">
-      <v-col cols="1">
-        <v-divider class="mt-3" />
-      </v-col>
-      <v-col cols="auto">
-        <span class="heading h3">
-          {{ mech.MechLoadoutController.ActiveLoadout.Name }}
-          <span class="text-overline">//LOADOUT</span>
-        </span>
-      </v-col>
-      <v-col>
-        <v-divider class="mt-3" />
-      </v-col>
-    </v-row>
+    <div class="text-overline mb-n3 text-grey">LOADOUT</div>
 
-    <fieldset v-for="(m, i) in mounts" style="position: relative; page-break-inside: avoid">
-      <legend class="heading ml-1 px-2 mb-n2">{{ m.Name }}</legend>
+    <fieldset v-for="m in mounts" style="position: relative; page-break-inside: avoid">
+      <legend class="heading h4 ml-1 px-2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked" class="text-center flavor-text">
         MOUNT LOCKED
         <br />
         <span class="text-overline">// SUPERHEAVY WEAPON BRACING //</span>
       </div>
-      <div v-for="(w, j) in m.Weapons" v-else class="px-1">
-        <v-row no-gutters class="stat-text">
-          {{ w.Name }}
-          <div class="d-inline-block overline ml-2 my-n1">
-            {{ w.Source }} {{ w.Size }} {{ w.WeaponType }}
-          </div>
-          <v-spacer />
-          <span v-if="w.Uses">
-            <v-icon v-for="n in w.getTotalUses(mech.Pilot.LimitedBonus)" small>
+      <div v-else v-for="w in m.Weapons" class="px-1 caption">
+        <v-row dense>
+          <v-col cols="auto">
+            <b class="text-overline font-weight-black" style="line-height: 0">{{ w.Name }}</b>
+          </v-col>
+          <v-col>
+            <span class="text-overline" style="line-height: 0">
+              {{ w.Source }} {{ w.Size }} {{ w.WeaponType }}
+            </span>
+          </v-col>
+          <v-col v-if="w.Uses" cols="auto">
+            <v-icon v-for="n in w.getTotalUses(mech.Pilot.LimitedBonus)" size="small">
               mdi-hexagon-outline
             </v-icon>
-          </span>
+          </v-col>
         </v-row>
+
         <div v-for="p in w.Profiles">
           <div class="caption">
-            <b v-for="(r, k) in p.Range">{{ r.Text }}&nbsp;</b>
-            <span v-if="p.Damage && p.Damage.length">|</span>
-            <b v-for="(d, k) in p.Damage">{{ d.Text }}&nbsp;</b>
+            <b v-for="r in p.Range" class="px-1">{{ r.Text }}</b>
+            <span v-if="p.Damage && p.Damage.length" class="px-1">|</span>
+            <b v-for="d in p.Damage" class="px-1">{{ d.Text }}</b>
             <p v-if="p.Effect" :v-html-safe="p.Effect" print />
             <p v-if="p.OnAttack" :v-html-safe="`<b>ON ATTACK:</b> ${p.OnAttack}`" print />
             <p v-if="p.OnHit" :v-html-safe="`<b>ON HIT:</b> ${p.OnHit}`" print />
@@ -280,10 +257,19 @@
             <print-action :actions="p.Actions" />
             <print-deployable :deployables="p.Deployables" />
           </div>
-          <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0">
-            <cc-tags :tags="p.Tags" :bonus="mech.Pilot.LimitedBonus" print />
+          <div class="text-right" style="position: absolute; bottom: 5px; right: 5px">
+            <v-chip
+              v-for="t in p.Tags"
+              size="x-small"
+              label
+              variant="outlined"
+              class="mx-1 bg-white"
+            >
+              {{ t.Name }}
+            </v-chip>
           </div>
         </div>
+
         <div v-if="w.Mod" class="px-2">
           <span class="heading">
             {{ w.Mod.Name }}
@@ -296,28 +282,43 @@
     </fieldset>
 
     <fieldset>
-      <legend class="heading ml-1 px-2">Systems</legend>
-      <div
-        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
-        class="bordered-block"
+      <legend class="heading h4 ml-1 px-2">Systems</legend>
+      <v-card
+        v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems"
+        variant="outlined"
+        class="px-1"
+        :class="s.Tags ? 'pb-2 mb-1' : ''"
+        style="position: relative; page-break-inside: avoid; border-color: rgba(0, 0, 0, 0.2)"
       >
-        <v-row no-gutters class="stat-text mt-n1">
-          {{ s.Name }}
-          <div class="d-inline-block overline ml-2 my-n1">{{ s.Source }} {{ s.Type }}</div>
-          <v-spacer />
-          <span v-if="s.Uses">
-            <v-icon v-for="n in s.getTotalUses(mech.Pilot.LimitedBonus)" small>
+        <v-row>
+          <v-col cols="auto">
+            <b class="text-overline font-weight-black" style="line-height: 0">{{ s.Name }}</b>
+          </v-col>
+          <v-col>
+            <span class="text-overline" style="line-height: 0"> {{ s.Source }} {{ s.Type }} </span>
+          </v-col>
+          <v-col v-if="s.Uses" cols="auto">
+            <v-icon v-for="n in s.getTotalUses(mech.Pilot.LimitedBonus)" size="small">
               mdi-hexagon-outline
             </v-icon>
-          </span>
+          </v-col>
         </v-row>
         <p v-if="s.Effect" class="caption mb-n1" v-html="s.Effect" />
         <print-action :actions="s.Actions" />
         <print-deployable :deployables="s.Deployables" />
         <div class="text-right" style="position: absolute; bottom: 0; left: 0; right: 0">
-          <cc-tags :tags="s.Tags" :bonus="mech.Pilot.LimitedBonus" print />
+          <v-chip
+            v-for="t in s.Tags"
+            v-show="showTag(t.ID)"
+            size="x-small"
+            label
+            variant="outlined"
+            class="mx-1 bg-white"
+          >
+            {{ t.GetName() }}
+          </v-chip>
         </div>
-      </div>
+      </v-card>
     </fieldset>
   </div>
 </template>
@@ -348,23 +349,17 @@ export default {
     signed(val: number) {
       return val > -1 ? `+${val}` : `${val}`;
     },
+    showTag(id) {
+      const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
+      return !hiddenTags.includes(id);
+    },
   },
 };
 </script>
 
 <style scoped>
 .caption {
-  font-size: 14px;
-}
-
-.icon-overlap {
-  position: absolute;
-  top: 1.5px;
-  left: 1px;
-  width: 100%;
-  width: -webkit-fill-available;
-  width: -moz-available;
-  text-align: center;
+  font-size: 12px;
 }
 
 .p-stat {
@@ -376,24 +371,5 @@ fieldset {
   height: 100%;
   border-radius: 3px;
   border-color: rgb(var(--v-theme-grey-lighten2));
-}
-
-.oc-border {
-  border: 1px solid;
-  border-color: darkgrey;
-  border-radius: 2px;
-}
-
-.bordered-block {
-  border: 1px solid grey;
-  border-radius: 2px;
-  padding: 4px;
-  height: 100%;
-  position: relative;
-  padding-bottom: 12px;
-  margin-top: 4px;
-  margin-bottom: 4px;
-  display: block;
-  page-break-inside: avoid !important;
 }
 </style>

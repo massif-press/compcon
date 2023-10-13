@@ -18,6 +18,8 @@ interface ILicensedItemData extends ICompendiumItemData {
 }
 
 abstract class LicensedItem extends CompendiumItem {
+  public IsIntegrated: boolean = false;
+
   public readonly Source: string;
   public readonly LicenseLevel: number;
   private _license: string;
@@ -26,6 +28,7 @@ abstract class LicensedItem extends CompendiumItem {
   public constructor(data: ILicensedItemData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName);
     this.Source = data.source ? data.source.toUpperCase() : '';
+    if (!this.Source) this.IsIntegrated = true;
     this._license = data.license || '';
     this._license_id = data.license_id || '';
     this.LicenseLevel = parseInt(data.license_level as any) || 0;
@@ -64,6 +67,14 @@ abstract class LicensedItem extends CompendiumItem {
       return this.License;
     }
     return this.License;
+  }
+
+  // for the purposes of this function, Exotic and Integrated equipment is not considered licensed
+  public static AllUnlicensedItems(): LicensedItem[] {
+    return CompendiumStore()
+      .allEquipment.filter((x) => !x.LicenseLevel)
+      .filter((x) => !x.IsExotic)
+      .filter((x) => !x.IsIntegrated);
   }
 }
 

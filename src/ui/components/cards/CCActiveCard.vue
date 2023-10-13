@@ -21,17 +21,10 @@
         >
           {{ header }}
         </span>
-        <v-divider
-          v-if="content && prominent && $vuetify.display.lgAndUp"
-          class="mx-3 subtle"
-          style="opacity: 0.5"
-        />
+        <v-divider v-if="content && prominent" class="mx-3 subtle" style="opacity: 0.5" />
         <v-spacer v-else />
         <span class="text-overline text-white mr-2">{{ subheader }}</span>
-        <span
-          v-if="content && prominent"
-          :class="`heading ${$vuetify.display.lgAndup ? 'h1' : 'h2'} pt-1 pb-3 pr-3 text-white`"
-        >
+        <span v-if="content && prominent" class="heading h1 pt-1 pb-3 pr-3 text-white">
           {{ content }}
         </span>
       </v-card-title>

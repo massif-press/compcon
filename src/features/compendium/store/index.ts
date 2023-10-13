@@ -24,6 +24,7 @@ import {
   Bond,
   Environment,
   Sitrep,
+  LicensedItem,
 } from '@/class';
 import {
   IContentPack,
@@ -173,8 +174,7 @@ export const CompendiumStore = defineStore('compendium', {
       return (this.Frames as any)
         .filter((x) => x.Source !== 'GMS' && !x.IsHidden)
         .map((frame) => {
-          const variants = this.Frames.filter((f) => !f.IsHidden && variantLicenseMatch(f, frame));
-          return new License(frame, variants);
+          return new License(frame);
         });
     },
 
@@ -239,6 +239,14 @@ export const CompendiumStore = defineStore('compendium', {
         if (!state[key]) throw new Error(`Invalid LCP key: ${key}`);
         return _.groupBy(state[key], 'LcpName');
       };
+    },
+
+    allEquipment(): LicensedItem[] {
+      return (this.MechWeapons as LicensedItem[])
+        .concat(this.WeaponMods as LicensedItem[])
+        .concat(this.MechSystems as LicensedItem[])
+        .concat(this.Frames as LicensedItem[])
+        .filter((x) => !x.IsHidden);
     },
   },
   actions: {

@@ -64,7 +64,7 @@
 import _ from 'lodash';
 
 import { CompendiumStore } from '@/stores';
-import { Pilot, Frame, Mech } from '@/class';
+import { Pilot, Frame, Mech, ItemType } from '@/class';
 import { mechname } from '@/io/Generators';
 
 export default {
@@ -103,23 +103,9 @@ export default {
   }),
   computed: {
     filteredFrames() {
-      let i = this.frames as Frame[];
+      if (this.showAll) return CompendiumStore().Frames.filter((x) => !x.IsHidden);
 
-      if (!this.showAll)
-        i = i.filter(
-          (x) =>
-            !x.IsExotic &&
-            (this.pilot.has('License', x.Name, 2) ||
-              this.pilot.has('License', x.Variant, 2) ||
-              !x.LicenseLevel)
-        );
-
-      const special = this.pilot.SpecialEquipment.filter((x) => x.ItemType === 'Frame');
-
-      return i.concat(special as Frame[]);
-    },
-    frames() {
-      return CompendiumStore().Frames.filter((x) => !x.IsHidden);
+      return this.pilot.LicenseController.AllowedItems(ItemType.Frame);
     },
   },
   methods: {

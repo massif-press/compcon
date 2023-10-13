@@ -25,6 +25,15 @@
       <cc-short-string-editor :placeholder="activeLoadout.Name" @set="activeLoadout.Name = $event">
         <span class="heading h3">{{ activeLoadout.Name }}</span>
       </cc-short-string-editor>
+      <v-btn
+        v-if="loadouts.length > 1"
+        size="small"
+        variant="plain"
+        icon
+        @click="$emit('remove-loadout')"
+      >
+        <v-icon icon="mdi-delete" />
+      </v-btn>
     </v-toolbar>
     <v-card flat variant="outlined" class="rounded-0" :color="color">
       <v-card-text>

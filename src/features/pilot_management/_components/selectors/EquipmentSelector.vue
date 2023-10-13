@@ -4,10 +4,7 @@
     item-type="Equipment"
     :options="options"
     equippable
-    @equip="
-      $emit('select', $event.Name);
-      ($refs.dialog as any).hide();
-    "
+    @equip="$emit('select', $event)"
   >
     <template #header>
       <div class="heading h4 text-center text-primary">
@@ -37,12 +34,6 @@ export default {
     },
   },
   data: () => ({
-    options: {
-      views: ['single', 'table', 'cards'],
-      initialView: 'single',
-      groups: ['source', 'lcp', 'license'],
-      initialGroup: 'lcp',
-    },
     headers: [
       { title: 'Source', align: 'left', key: 'Source' },
       { title: 'Weapon', align: 'left', key: 'Name' },
@@ -54,17 +45,18 @@ export default {
     ],
   }),
   computed: {
+    options() {
+      return {
+        views: ['single', 'table', 'cards'],
+        initialView: 'single',
+        groups: this.exotic ? ['lcp'] : ['source', 'lcp', 'license'],
+        initialGroup: this.exotic ? 'none' : 'lcp',
+      };
+    },
     availableItems(): CompendiumItem[] {
-      let pilotLicensedItems = this.pilot.LicenseController.Licenses.flatMap((x: PilotLicense) =>
-        x.License.UnlocksByTotalRank(x.Rank)
-      ).map((x) => x.ID);
-
-      pilotLicensedItems = pilotLicensedItems.concat(this.pilot.SpecialEquipment.map((x) => x.ID));
-
-      return _.sortBy(
-        this.items.filter((x) => !pilotLicensedItems.some((y) => y === x.ID)),
-        ['Source', 'Name']
-      ) as CompendiumItem[];
+      return CompendiumStore().allEquipment.filter(
+        (x) => !this.pilot.LicenseController.LicensedItems.some((y) => y.ID === x.ID)
+      );
     },
     items(): CompendiumItem[] {
       const compendium = CompendiumStore();

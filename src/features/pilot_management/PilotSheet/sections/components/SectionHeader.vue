@@ -2,7 +2,7 @@
   <cc-title
     small
     color="pilot"
-    style="padding-left: 100px !important; margin-left: -100px"
+    style="padding-left: 200px !important; margin-left: -200px"
     :class="editable ? '' : 'py-2 pl-10'"
   >
     <section-edit-icon v-if="editable" :label="tooltip" @open-selector="$emit('edit')" />

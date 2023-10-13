@@ -1,20 +1,8 @@
 <template>
-  <v-card tile flat class="printable text-black" style="margin-left: auto; margin-right: auto">
-    <div v-if="!selectedPilot">
-      <blank-pilot-print />
-      <div v-if="hasBondData" style="page-break-before: always" />
-      <blank-bonds-print v-if="hasBondData" />
-      <div style="page-break-before: always" />
+  <v-card tile flat class="printable text-black mt-6" style="margin-left: auto; margin-right: auto">
+    <div>
+      <terse :selected-mech="(selectedMech as Mech)" :selected-pilot="(selectedPilot as Pilot)" />
     </div>
-    <div v-else>
-      <pilot-print v-if="selectedPilot" :pilot="selectedPilot" />
-      <page-break />
-      <div v-if="hasBondData" />
-      <bonds-print v-if="selectedPilot.BondController.Bond" :bc="selectedPilot.BondController" />
-    </div>
-    <page-break />
-    <mech-print v-if="selectedMech" :mech="selectedMech" />
-    <blank-mech-print v-else />
 
     <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
       <v-btn stacked @click="$router.go(-1)">
@@ -48,6 +36,13 @@
         style="width: 10vw"
       />
       <v-spacer />
+      <v-btn :color="blank ? 'accent' : ''" @click="blank = !blank">
+        <span>Blank</span>
+        <v-icon
+          :color="blank ? 'accent' : ''"
+          :icon="blank ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'"
+        />
+      </v-btn>
       <v-btn @click="($refs as any).options.show()">
         <span>Options</span>
         <v-icon icon="mdi-cog" />
@@ -58,17 +53,13 @@
         <v-icon icon="mdi-printer" />
       </v-btn>
     </v-bottom-navigation>
-    <div class="no-print" style="min-height: 60px !important" />
   </v-card>
+  <div class="no-print" style="min-height: 70px !important" />
 </template>
 
 <script lang="ts">
-import BlankPilotPrint from './BlankPilotPrint.vue';
-import PilotPrint from './PilotPrint.vue';
-import BlankBondsPrint from './BlankBondsPrint.vue';
-import BondsPrint from './BondsPrint.vue';
-import BlankMechPrint from './BlankMechPrint.vue';
-import MechPrint from './MechPrint.vue';
+import Terse from './layouts/terse/index.vue';
+
 import OptionsDialog from './OptionsDialog.vue';
 
 import { PilotStore, CompendiumStore } from '@/stores';
@@ -78,12 +69,7 @@ import PageBreak from './components/PageBreak.vue';
 export default {
   name: 'combined-print',
   components: {
-    BlankPilotPrint,
-    PilotPrint,
-    BlankBondsPrint,
-    BondsPrint,
-    BlankMechPrint,
-    MechPrint,
+    Terse,
     OptionsDialog,
     PageBreak,
   },
@@ -101,6 +87,7 @@ export default {
   data: () => ({
     selectedPilot: null as Pilot | null,
     selectedMech: null as Mech | null,
+    blank: false,
   }),
   created() {
     if (!this.presetPilot) return;

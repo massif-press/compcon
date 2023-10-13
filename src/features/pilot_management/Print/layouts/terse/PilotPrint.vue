@@ -1,5 +1,5 @@
 <template>
-  <div class="text-black pa-2">
+  <div class="text-black px-2">
     <v-row dense align="start">
       <v-col cols="auto" class="mr-4">
         <div class="text-caption text-grey mb-n3">CALLSIGN</div>
@@ -161,11 +161,12 @@
             <v-chip
               v-for="t in a.Tags"
               size="x-small"
+              v-show="showTag(t.ID)"
               label
               variant="outlined"
               class="mx-1 bg-white"
             >
-              {{ t.Name }}
+              {{ t.GetName() }}
             </v-chip>
           </div>
         </fieldset>
@@ -192,11 +193,12 @@
               <v-chip
                 v-for="t in w.Tags"
                 size="x-small"
+                v-show="showTag(t.ID)"
                 label
                 variant="outlined"
                 class="mx-1 bh-white"
               >
-                {{ t.Name }}
+                {{ t.GetName() }}
               </v-chip>
             </div>
           </div>
@@ -226,12 +228,13 @@
             <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
               <v-chip
                 v-for="t in g.Tags"
+                v-show="showTag(t.ID)"
                 size="x-small"
                 label
                 variant="outlined"
                 class="mx-1 bg-white"
               >
-                {{ t.Name }}
+                {{ t.GetName() }}
               </v-chip>
             </div>
           </div>
@@ -250,22 +253,18 @@ export default {
       required: true,
     },
   },
+  methods: {
+    showTag(id) {
+      const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
+      return !hiddenTags.includes(id);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .caption {
   font-size: 12px;
-}
-
-.icon-overlap {
-  position: absolute;
-  top: -2px;
-  left: 1px;
-  width: 100%;
-  width: -webkit-fill-available;
-  width: -moz-available;
-  text-align: center;
 }
 
 .p-stat {

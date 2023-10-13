@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import Single from './blanks/Single.vue';
+import Single from './components/Single.vue';
 
 export default {
   name: 'bonds-blank-view',

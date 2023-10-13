@@ -1,7 +1,9 @@
 <template>
   <div class="mt-8" :style="`background-color: ${color}`">
     <cc-short-string-editor large :placeholder="mech.Name" @set="mech.Name = $event">
-      <span class="heading" style="font-size: 75px; line-height: 85px">{{ mech.Name }}</span>
+      <span class="heading text-white" style="font-size: 75px; line-height: 85px">{{
+        mech.Name
+      }}</span>
     </cc-short-string-editor>
   </div>
 

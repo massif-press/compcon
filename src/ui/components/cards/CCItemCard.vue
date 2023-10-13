@@ -49,7 +49,6 @@ export default {
       t += 'Card';
 
       if (!cards[t]) {
-        console.log(cards);
         console.error(`No card found for item type ${t}`);
         return null;
       }
