@@ -28,7 +28,7 @@ class EquippableMount extends Mount {
     this.save()
   }
 
-  public unlockModification(): void{
+  public unlockModification(): void {
     this.modifiable = true
     this.save()
   }
@@ -95,7 +95,7 @@ class EquippableMount extends Mount {
     m.extra = mountData.extra.map(x => WeaponSlot.Deserialize(x, m))
     m._bonuses = mountData.bonus_effects.map(x => CoreBonus.Deserialize(x))
     m.lock = mountData.lock
-    m.modifiable = mountData.modifiable
+    m.modifiable = mountData.modifiable === undefined ? true : mountData.modifiable
     m.getID()
     return m
   }
