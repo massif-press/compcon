@@ -11,7 +11,7 @@
         <clone-block :pilot="pilot" />
         <history-block :pilot="pilot" />
         <appearance-block :pilot="pilot" />
-        <notes-editor :item="pilot" title="Pilot" />
+        <note-editor :item="pilot" type="Pilot" />
         <!-- <combat-history-block :pilot="pilot" /> -->
       </v-col>
       <v-col cols="4">

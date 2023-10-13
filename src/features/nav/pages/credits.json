@@ -22,7 +22,7 @@
       "github": "https://github.com/massif-press"
     }
   ],
-  "devs": [
+  "devs1": [
     {
       "name": "Ari K",
       "twitter": "deathimouto",
@@ -38,7 +38,9 @@
       "twitter": "scottmacmillan",
       "website": "https://commandertso.com",
       "image": "https://cdn.discordapp.com/attachments/575847689506390017/672844868095049738/image0.jpg"
-    },
+    }
+  ],
+  "devs2": [
     {
       "name": "Qwertronix",
       "github": "Qwertronix",

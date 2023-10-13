@@ -10,8 +10,8 @@ class License {
   public readonly Name: string;
   public readonly Source: string;
   public readonly FrameID: string;
+  public readonly FrameName: string;
   public readonly Brew: string;
-  public readonly Unlocks: LicensedItem[][];
   public readonly Specialty: boolean;
   public readonly Prerequisite?: {
     source: string;
@@ -23,53 +23,19 @@ class License {
   public readonly InLcp: boolean;
   public readonly ItemType: string = 'License';
 
-  public constructor(frame: Frame, variants?: Frame[]) {
+  public constructor(frame: Frame) {
     this.Name = frame.Name;
     this.Source = frame.Source;
     this.FrameID = frame.ID;
+    this.FrameName = frame.Name.toLowerCase();
     this.ID = `${frame.ID}_License`;
     this.Brew = frame.Brew || 'Core';
     this.LcpName = frame.LcpName || 'LANCER Core Book';
     this.InLcp = frame.InLcp;
 
-    function licenseMatch(licenseItem: LicensedItem, licenseFrame: Frame): boolean {
-      if (!!licenseItem.LicenseID) {
-        return licenseItem.LicenseID === licenseFrame.ID;
-      } else {
-        return (
-          licenseItem.License.toUpperCase() === licenseFrame.Name.toUpperCase() &&
-          licenseItem.Source.toUpperCase() === licenseFrame.Source.toUpperCase()
-        );
-      }
-    }
-
-    const items: LicensedItem[] = [
-      ...CompendiumStore().getItemCollection('MechWeapons'),
-      ...CompendiumStore().getItemCollection('WeaponMods'),
-      ...CompendiumStore().getItemCollection('MechSystems'),
-    ].filter((x: LicensedItem) => licenseMatch(x, frame));
-
-    const lls = [...items].map((i) => i.LicenseLevel);
-
-    const max = lls.length ? Math.max(...lls) : frame.LicenseLevel;
-
-    this.Unlocks = new Array<LicensedItem[]>(max).fill([]);
-
-    for (let i = 0; i < this.Unlocks.length; i++) {
-      this.Unlocks[i] = items.filter((x) => x.LicenseLevel === i + 1);
-    }
-
     this.Specialty = !!frame.Specialty;
     if (typeof frame.Specialty !== 'boolean') {
       this.Prerequisite = frame.Specialty;
-    }
-
-    if (frame.LicenseLevel && !this.Specialty) this.Unlocks[frame.LicenseLevel - 1].unshift(frame);
-
-    if (variants) {
-      variants.forEach((v) => {
-        this.Unlocks[v.LicenseLevel - 1].push(v);
-      });
     }
 
     if (frame.IsVariantFrame) this.Hidden = true;
@@ -96,6 +62,44 @@ class License {
 
   public get Frame(): Frame {
     return CompendiumStore().referenceByID('Frames', this.FrameID);
+  }
+
+  private licenseMatch(licenseItem: LicensedItem): boolean {
+    if (!!licenseItem.LicenseID) {
+      return licenseItem.LicenseID === this.FrameID;
+    } else if ((licenseItem as Frame).Variant) {
+      return (licenseItem as Frame).Variant.toLowerCase() === this.FrameName;
+    } else {
+      return (
+        licenseItem.License.toLowerCase() === this.licenseFrame.Name.toLowerCase() &&
+        licenseItem.Source.toLowerCase() === this.licenseFrame.Source.toLowerCase()
+      );
+    }
+  }
+
+  private get licenseFrame(): Frame {
+    return CompendiumStore().referenceByID('Frames', this.FrameID);
+  }
+
+  public get Unlocks(): LicensedItem[][] {
+    const items: LicensedItem[] = [
+      ...CompendiumStore().getItemCollection('MechWeapons'),
+      ...CompendiumStore().getItemCollection('WeaponMods'),
+      ...CompendiumStore().getItemCollection('MechSystems'),
+      ...CompendiumStore().getItemCollection('Frames'),
+    ].filter((x: LicensedItem) => this.licenseMatch(x));
+
+    const lls = [...items].map((i) => i.LicenseLevel);
+
+    const max = lls.length ? Math.max(...lls) : this.licenseFrame.LicenseLevel;
+
+    const unlocks = new Array<LicensedItem[]>(max).fill([]);
+
+    for (let i = 0; i < unlocks.length; i++) {
+      unlocks[i] = items.filter((x) => x.LicenseLevel === i + 1);
+    }
+
+    return unlocks;
   }
 
   public get MaxRank(): number {

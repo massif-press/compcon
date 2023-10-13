@@ -3,7 +3,7 @@
     <div
       v-if="!hideTitle"
       class="heading h1 my-n2"
-      :class="highlighted ? 'text-secondary' : 'text-primary'"
+      :class="highlighted ? 'text-secondary' : 'text-accent'"
     >
       {{ item.Name }}
     </div>

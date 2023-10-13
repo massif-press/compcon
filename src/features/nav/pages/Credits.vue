@@ -2,23 +2,26 @@
   <v-container>
     <div class="heading h2 mb-1">LANCER by:</div>
     <v-row>
-      <dev-badge v-for="c in credits.writers" :info="c" :cols="3" />
+      <dev-badge v-for="c in credits.writers" :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">COMP/CON by:</div>
     <v-row>
-      <dev-badge v-for="c in credits.lead_devs" :info="c" :cols="3" />
+      <dev-badge v-for="c in credits.lead_devs" :info="c" />
     </v-row>
     <div class="heading h3 mt-4 mb-1">With:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.devs" :info="c" :cols="3" />
+      <dev-badge v-for="c in credits.devs1" :info="c" />
+    </v-row>
+    <v-row dense>
+      <dev-badge v-for="c in credits.devs2" :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">Graphic design by:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.graphics" :info="c" :cols="3" />
+      <dev-badge v-for="c in credits.graphics" :info="c" />
     </v-row>
     <div class="heading h2 mt-4 mb-1">Additional art by:</div>
     <v-row dense>
-      <dev-badge v-for="c in credits.art" :info="c" :cols="3" />
+      <dev-badge v-for="c in credits.art" :info="c" />
     </v-row>
     <div class="text-center mt-8">
       <span class="heading h2">

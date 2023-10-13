@@ -9,16 +9,16 @@
     variant="outlined"
     :disabled="disabled"
   >
-    <v-row no-gutters :class="`${headerColor} text-white heading h4 py-1 px-3`">
+    <v-row dense :class="`bg-${headerColor} text-white heading h4 py-1 px-3`">
       <v-col>{{ power.name }}</v-col>
       <v-col v-if="power.veteran" cols="auto">
-        <v-chip small color="primary" v-text="'Veteran Power'" />
+        <v-chip size="small" variant="tonal">Veteran Power</v-chip>
       </v-col>
       <v-col v-if="power.master" cols="auto">
-        <v-chip small color="primary" v-text="'Master Power'" />
+        <v-chip size="small" variant="tonal">Master Power</v-chip>
       </v-col>
       <v-col v-if="power.frequency" cols="auto">
-        <v-chip small v-text="power.frequency" />
+        <v-chip size="small" variant="tonal">{{ power.frequency }}</v-chip>
       </v-col>
     </v-row>
     <div v-if="power.prerequisite" class="caption pa-3 text--disabled">

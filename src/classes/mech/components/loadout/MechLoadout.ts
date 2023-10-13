@@ -219,9 +219,7 @@ class MechLoadout extends Loadout {
       if (item.Source === 'GMS') {
         const GMSIndex = requirements.findIndex((x) => x.source === 'GMS');
         if (GMSIndex > -1) {
-          if (!item.Name) console.log(item as MechWeapon);
-          // TODO: figure out why Name isn't being exposed correctly
-          requirements[GMSIndex].items.push((item as any)._name);
+          requirements[GMSIndex].items.push((item as any).Name);
         } else {
           requirements.push(item.RequiredLicense);
         }
@@ -238,7 +236,6 @@ class MechLoadout extends Loadout {
         }
       }
     });
-    console.log(requirements);
     return requirements;
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <v-col :cols="cols">
+  <v-col>
     <v-card variant="tonal">
       <v-card-text>
         <v-row align="center">

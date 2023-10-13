@@ -22,10 +22,17 @@
     <v-container>
       <no-data-block v-if="!pilot.SpecialEquipment.length" />
       <v-row v-else density="compact" justify="space-around">
-        <v-col v-for="i in pilot.SpecialEquipment" cols="12" md="4" class="text-center">
+        <v-col v-for="i in pilot.SpecialEquipment" cols="4" class="text-center">
           <cc-item-modal :item="i" style="display: inline-block" />
-          <v-btn icon small variant="plain" style="display: inline-block" @click="removeItem(i)">
-            <v-icon icon="mdi-close" />
+          <v-btn
+            icon
+            size="small"
+            color="error"
+            variant="plain"
+            style="display: inline-block"
+            @click="removeItem(i)"
+          >
+            <v-icon icon="mdi-delete" />
           </v-btn>
         </v-col>
       </v-row>
