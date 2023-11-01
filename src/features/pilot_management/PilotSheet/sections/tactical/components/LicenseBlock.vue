@@ -18,7 +18,7 @@
     >
       <license-selector :pilot="(pilot as Pilot)" modal />
     </cc-solo-dialog>
-    <v-container>
+    <v-container style="padding-right: 10vw">
       <no-data-block v-if="!pilot.LicenseController.Licenses.length" />
       <v-row v-else>
         <v-col v-for="l in pilot.LicenseController.Licenses" cols="12" md="4">

@@ -1,14 +1,20 @@
 <template>
-  <div>
-    <div class="heading h3 text-accent pb-2">{{ title }}</div>
-    <v-item-group :mandatory="mandatory" :multiple="multiple">
-      <v-row density="compact" justify="space-around" align="center">
+  <div v-show="items.length > 0">
+    <div v-if="title" class="heading h3 text-accent pb-2">{{ title }}</div>
+    <div v-else style="height: 8px" />
+    <v-item-group
+      :modelValue="modelValue"
+      @update:modelValue="$emit('update:model-value', $event)"
+      :mandatory="mandatory"
+      :multiple="multiple"
+    >
+      <v-row justify="space-around" align="center">
         <v-col v-for="i in items">
-          <v-item v-slot="{ isSelected, toggle }">
+          <v-item :value="i" v-slot="{ isSelected, toggle }">
             <v-card
               :color="isSelected ? 'accent' : ''"
               class="d-flex align-center text-center"
-              min-width="13vw"
+              :min-width="widen ? '18vw' : '14vw'"
               min-height="100%"
               variant="tonal"
               :ripple="false"
@@ -36,10 +42,15 @@
 <script lang="ts">
 export default {
   name: 'print-option-select',
+  emits: ['update:model-value'],
   props: {
+    modelValue: {
+      type: [Object, Array],
+      required: true,
+    },
     title: {
       type: String,
-      required: true,
+      required: false,
     },
     items: {
       type: Array,
@@ -50,6 +61,10 @@ export default {
       required: false,
     },
     multiple: {
+      type: Boolean,
+      required: false,
+    },
+    widen: {
       type: Boolean,
       required: false,
     },

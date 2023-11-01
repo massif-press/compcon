@@ -1,12 +1,6 @@
 <template>
-  <div class="mt-1 mb-3 mx-2">
-    <div v-for="d in deployables" style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
-      <div class="text-center mb-1">
-        <v-chip size="x-small"
-          ><b>{{ (d as any).name }}</b></v-chip
-        >
-      </div>
-
+  <div v-show="deployables.length" class="mb-3 mx-2">
+    <div v-for="d in deployables" class="py-1">
       <v-row justify="center" dense class="text-center">
         <v-col v-if="(d as any).size" cols="auto">
           <div
@@ -55,7 +49,7 @@
         </v-col>
       </v-row>
       <div>
-        <p class="caption mb-0 px-2" v-html-safe="(d as any).detail" />
+        <p class="caption mb-0 px-2" v-html="(d as any).detail" />
       </div>
       <div v-if="actions(d).length">
         <print-action :actions="actions(d)" />

@@ -5,7 +5,7 @@
     @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
   >
     <v-col cols="auto" style="border: rgb(var(--v-theme-primary)) 3px double">
-      <v-img :src="pilot.Portrait" position="top" height="100px" width="100px" />
+      <v-img :src="pilot.Portrait" position="top" height="150px" width="150px" />
     </v-col>
     <v-col>
       <div class="clipped-large-invert" style="background-color: rgb(var(--v-theme-primary))">
@@ -40,10 +40,10 @@
               <b class="text-success">&nbsp;LL: {{ pilot.Level }}&nbsp;</b>
               <cc-slashes />
               <span class="text-text">
-                [ H:{{ pilot.MechSkillsController.MechSkills.Hull }} A:{{
+                [ <b>H</b>:{{ pilot.MechSkillsController.MechSkills.Hull }} <b>A</b>:{{
                   pilot.MechSkillsController.MechSkills.Agi
                 }}
-                S:{{ pilot.MechSkillsController.MechSkills.Sys }} E:{{
+                <b>S</b>:{{ pilot.MechSkillsController.MechSkills.Sys }} <b>E</b>:{{
                   pilot.MechSkillsController.MechSkills.Eng
                 }}
                 ]
@@ -51,18 +51,26 @@
             </div>
             <v-divider class="my-1" />
             <v-row no-gutters align="center" justify="space-around">
-              <!-- <v-col cols="auto">
+              <v-col cols="auto">
                 <v-icon icon="cc:skill" start class="mt-n1" />
                 <span v-for="(s, i) in pilot.SkillsController.Skills">
                   {{ s.Skill.Name }} {{ 'I'.repeat(s.Rank) }}
-                  <cc-slashes v-if="i < pilot.SkillsController.Skills.length - 1" class="pr-3" />
+                  <cc-slashes
+                    v-if="i < pilot.SkillsController.Skills.length - 1"
+                    class="pr-3"
+                    style="opacity: 0.4"
+                  />
                 </span>
-              </v-col> -->
+              </v-col>
               <v-col cols="auto">
                 <v-icon icon="cc:talent" start class="mt-n1" />
                 <span v-for="(s, i) in pilot.TalentsController.Talents">
                   {{ s.Talent.Name }} {{ 'I'.repeat(s.Rank) }}
-                  <cc-slashes v-if="i < pilot.TalentsController.Talents.length - 1" class="pr-3" />
+                  <cc-slashes
+                    v-if="i < pilot.TalentsController.Talents.length - 1"
+                    class="pr-3"
+                    style="opacity: 0.4"
+                  />
                 </span>
               </v-col>
               <v-col v-if="pilot.CoreBonusController.CoreBonuses.length" cols="auto">
@@ -72,6 +80,7 @@
                   <cc-slashes
                     v-if="i < pilot.CoreBonusController.CoreBonuses.length - 1"
                     class="pr-3"
+                    style="opacity: 0.4"
                   />
                 </span>
               </v-col>
@@ -126,7 +135,7 @@ export default {
 <style scoped>
 .detail-row {
   background-color: rgb(var(--v-theme-light-panel));
-  height: 78px;
+  height: 128px;
   border-bottom: 1px rgb(var(--v-theme-primary)) solid;
   border-right: 1px rgb(var(--v-theme-primary)) solid;
 }

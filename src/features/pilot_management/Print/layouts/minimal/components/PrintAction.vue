@@ -1,5 +1,5 @@
 <template>
-  <div v-for="a in actions">
+  <div v-show="actions.length" v-for="a in actions">
     <div>
       <v-icon size="x-small" :icon="(a as Action).Icon" :color="(a as Action).Color" />
       <span class="caption">
@@ -8,7 +8,7 @@
       </span>
     </div>
 
-    <div class="ml-3 mt-n1">
+    <div class="ml-3">
       <div v-if="(a as Action).Init" v-html-safe="(a as Action).Init" class="caption" />
       <v-row no-gutters v-if="(a as Action).Trigger">
         <v-col cols="auto" class="caption font-weight-bold">Trigger:&nbsp;</v-col>
