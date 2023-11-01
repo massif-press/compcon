@@ -1,5 +1,5 @@
 <template>
-  <div class="text-black px-2">
+  <div class="text-black px-2 pb-2">
     <v-row dense align="center">
       <v-col cols="auto">
         <div class="text-overline mt-n2 mb-n2 text-primary">BOND</div>
@@ -14,25 +14,15 @@
       <v-col class="text-right">
         <div class="text-overline text-primary mt-n2 mb-n3">XP</div>
         <div>
-          <v-icon
-            v-for="n in landscape || pips ? 8 : 1"
-            :size="blank ? 31 : pips ? 31 : 40"
-            color="primary"
-            style="opacity: 0.5"
-            class="mr-n1"
+          <v-icon v-for="n in 8" :size="31" color="primary" style="opacity: 0.5" class="mr-n1"
             >mdi-hexagon-outline</v-icon
           >
-          <b v-if="!blank && !landscape && !pips" class="flavor-text pt-3" v-text="'/8'" />
         </div>
       </v-col>
       <v-col class="text-right">
         <div class="text-overline text-primary mt-n2 mb-n3 ml-n7">STRESS</div>
         <div>
-          <v-icon
-            v-for="n in landscape || pips ? 8 : 1"
-            :size="blank ? 31 : pips ? 31 : 40"
-            color="primary"
-            style="opacity: 0.5"
+          <v-icon v-for="n in 8" :size="31" color="primary" style="opacity: 0.5"
             >mdi-heart-outline</v-icon
           >
         </div>
@@ -89,11 +79,15 @@
       </v-row>
     </div>
 
-    <div v-if="bc.Clocks.length" class="text-overline text-primary mt-4" style="line-height: 0">
+    <div
+      v-if="bc.Clocks.length && !blank"
+      class="text-overline text-primary mt-4"
+      style="line-height: 0"
+    >
       OTHER CLOCKS
     </div>
     <v-row
-      v-for="b in bc.Clocks"
+      v-for="b in bc.Clocks && !blank"
       density="compact"
       justify="space-between"
       class="mt-n1 caption"

@@ -13,7 +13,7 @@ import { Pilot, Mech } from '@/class';
 import PageBreak from '../../components/PageBreak.vue';
 
 export default {
-  name: 'terse-print',
+  name: 'minimal-print',
   components: {
     PilotPrint,
     BondsPrint,

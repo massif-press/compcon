@@ -1,9 +1,21 @@
 <template>
-  <v-card tile flat class="printable text-black mt-6" style="margin-left: auto; margin-right: auto">
+  <v-card
+    tile
+    flat
+    :class="options.orientation"
+    class="bg-white text-black mt-6"
+    style="margin-left: auto; margin-right: auto"
+  >
     <div>
-      <terse :selected-mech="(selectedMech as Mech)" :selected-pilot="(selectedPilot as Pilot)" />
+      <component
+        :is="options.layout"
+        :options="options"
+        :selected-mech="(selectedMech as Mech)"
+        :selected-pilot="(selectedPilot as Pilot)"
+        :hasBonds="hasBondData"
+      />
     </div>
-
+    <!-- {{ options }} -->
     <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
       <v-btn stacked @click="$router.go(-1)">
         <span>Close Preview</span>
@@ -36,18 +48,12 @@
         style="width: 10vw"
       />
       <v-spacer />
-      <v-btn :color="blank ? 'accent' : ''" @click="blank = !blank">
-        <span>Blank</span>
-        <v-icon
-          :color="blank ? 'accent' : ''"
-          :icon="blank ? 'mdi-checkbox-marked' : 'mdi-checkbox-blank-outline'"
-        />
-      </v-btn>
+
       <v-btn @click="($refs as any).options.show()">
         <span>Options</span>
         <v-icon icon="mdi-cog" />
       </v-btn>
-      <options-dialog ref="options" @set="setOptions($event)" />
+      <options-dialog ref="options" :hasBonds="hasBondData" @set="setOptions($event)" />
       <v-btn @click="print()">
         <span>Print</span>
         <v-icon icon="mdi-printer" />
@@ -58,7 +64,10 @@
 </template>
 
 <script lang="ts">
+import Expanded from './layouts/expanded/index.vue';
+import Standard from './layouts/standard/index.vue';
 import Terse from './layouts/terse/index.vue';
+import Minimal from './layouts/minimal/index.vue';
 
 import OptionsDialog from './OptionsDialog.vue';
 
@@ -69,7 +78,10 @@ import PageBreak from './components/PageBreak.vue';
 export default {
   name: 'combined-print',
   components: {
+    Standard,
     Terse,
+    Minimal,
+    Expanded,
     OptionsDialog,
     PageBreak,
   },
@@ -88,6 +100,7 @@ export default {
     selectedPilot: null as Pilot | null,
     selectedMech: null as Mech | null,
     blank: false,
+    options: {} as any,
   }),
   created() {
     if (!this.presetPilot) return;
@@ -104,7 +117,7 @@ export default {
       return this.selectedPilot ? this.selectedPilot.Mechs : [];
     },
     hasBondData() {
-      return CompendiumStore().Bonds.length;
+      return CompendiumStore().Bonds.length > 0;
     },
   },
   methods: {
@@ -112,7 +125,15 @@ export default {
       window.print();
     },
     setOptions(options) {
-      console.log(options);
+      let out = {};
+      for (const key in options) {
+        if (Array.isArray(options[key])) {
+          out[key] = options[key].map((x) => x.title.toLowerCase());
+        } else {
+          out[key] = options[key].title.toLowerCase();
+        }
+      }
+      this.options = out;
     },
   },
 };
@@ -125,9 +146,14 @@ export default {
 </style>
 
 <style scoped>
-.printable {
+.portrait {
   background-color: white !important;
   width: 210mm;
+}
+
+.landscape {
+  background-color: white !important;
+  width: 297mm;
 }
 
 @page {
