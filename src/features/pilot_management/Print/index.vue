@@ -14,6 +14,20 @@
         :selected-pilot="(selectedPilot as Pilot)"
         :hasBonds="hasBondData"
       />
+      <div v-if="selectedPilot && options && options.extras">
+        <combat-ref v-if="options.extras.includes('combat quick reference')" />
+        <action-ref v-if="options.extras.includes('action reference')" />
+        <downtime-ref v-if="options.extras.includes('downtime quick reference')" />
+        <trigger-info-print
+          v-if="options.extras.includes('relevant trigger reference')"
+          :pilot="(selectedPilot as Pilot)"
+        />
+        <tag-info-print
+          v-if="options.extras.includes('relevant tag reference')"
+          :pilot="(selectedPilot as Pilot)"
+          :mech="(selectedMech as Mech)"
+        />
+      </div>
     </div>
     <!-- {{ options }} -->
     <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
@@ -69,6 +83,12 @@ import Standard from './layouts/standard/index.vue';
 import Terse from './layouts/terse/index.vue';
 import Minimal from './layouts/minimal/index.vue';
 
+import TagInfoPrint from './extras/TagInfoPrint.vue';
+import TriggerInfoPrint from './extras/TriggerInfoPrint.vue';
+import CombatRef from './extras/CombatRef.vue';
+import ActionRef from './extras/ActionRef.vue';
+import DowntimeRef from './extras/DowntimeRef.vue';
+
 import OptionsDialog from './OptionsDialog.vue';
 
 import { PilotStore, CompendiumStore } from '@/stores';
@@ -84,6 +104,11 @@ export default {
     Expanded,
     OptionsDialog,
     PageBreak,
+    TagInfoPrint,
+    TriggerInfoPrint,
+    CombatRef,
+    ActionRef,
+    DowntimeRef,
   },
   props: {
     presetPilot: {

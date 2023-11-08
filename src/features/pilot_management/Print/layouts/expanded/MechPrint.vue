@@ -72,254 +72,123 @@
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-around" class="mt-n1">
-      <v-col cols="auto" class="text-center">
-        <div style="line-height: 10px" class="text-overline text-primary font-weight-bold mb-4">
-          STRUCTURE
-        </div>
-        <v-row v-if="blank" dense align="center" justify="center" class="mt-n5">
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-          <v-col cols="auto" class="px-1"
-            ><span class="heading h3 text-grey" style="line-height: 0">/</span></v-col
-          >
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-        </v-row>
-        <div v-else-if="pips">
-          <v-icon
-            v-for="n in mech.MaxStructure"
-            size="35"
-            color="grey-lighten-1"
-            class="mr-n1 mt-n5"
-            >cc:structure</v-icon
-          >
-        </div>
-        <div v-else>
-          <v-icon size="60" color="grey-lighten-1" class="mr-n1 mt-n5">cc:structure</v-icon>
-          <b
-            class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-text="`/${mech.MaxStructure}`"
-          />
-        </div>
+    <v-row dense class="mt-n1">
+      <v-col cols="4">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">HP</legend>
+          <div style="min-width: 12vw">
+            <blank-line :height="60" />
+          </div>
+          <v-row dense align="center" class="mb-n2">
+            <v-col><v-divider /></v-col>
+            <v-col cols="auto"><span class="text-primary caption"> MAX HP </span></v-col>
+            <v-col><v-divider /></v-col>
+          </v-row>
+          <div v-if="!blank" class="text-center heading h3" v-text="mech.MaxHP" />
+          <blank-line v-else :height="26" class="mb-1" />
+        </fieldset>
       </v-col>
 
-      <v-col :cols="getHpCols">
-        <v-row dense justify="center">
-          <v-col cols="auto" class="text-center">
-            <div
-              style="line-height: 10px"
-              :class="blank ? '' : 'mr-6'"
-              class="text-overline text-primary font-weight-bold mb-4"
-            >
-              HP
-            </div>
-            <v-row v-if="blank" dense align="center" justify="center" class="mt-n5">
-              <v-col cols="auto">
-                <blank-line :width="80" :height="35" class="d-inline-block" />
-              </v-col>
-              <v-col cols="auto" class="px-1"
-                ><span class="heading h3 text-grey" style="line-height: 0">/</span></v-col
-              >
-              <v-col cols="auto">
-                <blank-line :width="80" :height="35" class="d-inline-block" />
-              </v-col>
-            </v-row>
-            <v-row v-else-if="pips" no-gutters class="mt-n4 pb-3" justify="center">
-              <v-col v-for="n in mech.MaxHP" cols="auto" class="mx-n1 mb-n1">
-                <v-icon v-if="mech.MaxHP < 10" :size="40" color="grey-lighten-1"
-                  >mdi-hexagon-outline</v-icon
-                >
-                <v-icon v-else-if="mech.MaxHP <= 26" :size="35" color="grey-lighten-1"
-                  >mdi-hexagon-outline</v-icon
-                >
-                <v-icon v-else:size="25" color="grey-lighten-1">mdi-hexagon-outline</v-icon>
-              </v-col>
-            </v-row>
-            <div v-else>
-              <v-icon size="55" color="grey-lighten-1" class="mr-n1 mt-n4">
-                mdi-hexagon-outline
-              </v-icon>
-              <b
-                class="d-inline-block flavor-text font-weight-bold mb-n2"
-                v-text="`/${mech.MaxHP}`"
+      <v-col cols="3">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">STRUCTURE</legend>
+          <blank-line :height="60" />
+          <v-row dense align="center" class="mb-n2">
+            <v-col><v-divider /></v-col>
+            <v-col cols="auto"><span class="text-primary caption"> MAX STRUCTURE </span></v-col>
+            <v-col><v-divider /></v-col>
+          </v-row>
+          <div v-if="!blank" class="text-center heading h3" v-text="mech.MaxStructure" />
+          <blank-line v-else :height="26" class="mb-1" />
+        </fieldset>
+      </v-col>
+
+      <v-col cols="3">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">OVERSHIELD</legend>
+          <blank-line :height="102" />
+        </fieldset>
+      </v-col>
+
+      <v-col v-if="mech.Armor" class="text-center">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">ARMOR</legend>
+
+          <blank-line v-if="blank" :height="102" />
+
+          <v-row v-else style="height: 100%" class="mt-0" align="center">
+            <v-col class="text-primary">
+              <v-icon
+                v-for="n in mech.Armor"
+                size="40"
+                style="opacity: 0.6"
+                icon="mdi-shield-outline"
               />
-            </div>
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <v-col v-if="mech.Armor" cols="auto" class="text-center">
-        <div style="line-height: 10px" class="text-overline text-primary font-weight-bold mb-4">
-          ARMOR
-        </div>
-        <v-row v-if="blank" dense align="center" justify="center" class="mt-n5">
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-        </v-row>
-        <div v-else class="heading h2 mr-n2 text-primary" :class="pips ? 'mt-n4' : 'mt-n3'">
-          <v-icon size="40" class="mt-n1 mr-n1" style="opacity: 0.6">mdi-shield-outline</v-icon>
-          {{ mech.Armor }}
-        </div>
-      </v-col>
-
-      <v-col cols="auto" class="text-center mb-1">
-        <div
-          style="line-height: 10px"
-          :class="blank ? '' : 'pb-2'"
-          class="text-overline text-primary font-weight-bold"
-        >
-          OVERSHIELD
-        </div>
-        <div class="px-6 mt-n1">
-          <blank-line :height="pips || blank ? 35 : 38" />
-        </div>
-      </v-col>
-    </v-row>
-
-    <v-row dense justify="space-around">
-      <v-col cols="auto" class="text-center" :class="pips ? 'mt-n2' : ''">
-        <div
-          style="line-height: 10px"
-          class="text-overline text-primary font-weight-bold mb-3 mr-2"
-        >
-          STRESS
-        </div>
-        <v-row v-if="blank" dense align="center" justify="center" class="mt-n5">
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block mt-1" />
-          </v-col>
-          <v-col cols="auto" class="px-1"
-            ><span class="heading h3 text-grey" style="line-height: 0">/</span></v-col
-          >
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-        </v-row>
-        <div v-else-if="pips" class="mt-4">
-          <v-icon v-for="n in mech.MaxStress" size="35" color="grey-lighten-1" class="mr-n1 mt-n7"
-            >cc:reactor</v-icon
-          >
-        </div>
-        <div v-else>
-          <v-icon size="65" color="grey-lighten-1" class="mr-n4 mt-n5">cc:reactor</v-icon>
-          <b
-            class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-text="`&nbsp;/${mech.MaxStress}`"
-          />
-        </div>
-      </v-col>
-
-      <v-col :cols="pips ? '' : 'auto'" class="text-center" :class="pips ? 'mt-n3' : ''">
-        <div
-          style="line-height: 10px"
-          :class="blank ? '' : 'ml-6'"
-          class="text-overline text-primary font-weight-bold mb-5"
-        >
-          HEAT
-        </div>
-        <v-row v-if="blank" no-gutters align="center" justify="center" class="mt-n5">
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-          <v-col cols="auto" class="px-1"
-            ><span class="heading h3 text-grey" style="line-height: 0">/</span></v-col
-          >
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-        </v-row>
-        <div v-else-if="pips" class="text-center">
-          <v-icon
-            v-for="n in Math.floor(mech.HeatCapacity / 2)"
-            size="35"
-            color="grey-lighten-1"
-            class="mr-n1 mt-n7"
-            >mdi-fire</v-icon
-          >
-          <v-icon
-            v-for="n in Math.ceil(mech.HeatCapacity / 2)"
-            size="35"
-            color="grey-lighten-1"
-            class="mr-n1 mt-n7"
-            >mdi-fire-circle</v-icon
-          >
-        </div>
-        <div v-else>
-          <v-icon size="60" color="grey-lighten-1" class="mr-n5 mt-n5">mdi-fire</v-icon>
-          <b
-            class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-text="`&nbsp;/${mech.HeatCapacity}`"
-          />
-        </div>
-      </v-col>
-
-      <v-col :cols="pips ? '' : 'auto'" class="text-center" :class="pips ? 'mt-n3' : ''">
-        <div
-          style="line-height: 10px"
-          :class="blank ? '' : 'ml-6'"
-          class="text-overline text-primary font-weight-bold mb-5"
-        >
-          REPAIR CAPACITY
-        </div>
-        <v-row v-if="blank" no-gutters align="center" justify="center" class="mt-n5">
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-          <v-col cols="auto" class="px-1"
-            ><span class="heading h3 text-grey" style="line-height: 0">/</span></v-col
-          >
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-        </v-row>
-        <div v-else-if="pips" class="text-center">
-          <v-icon
-            v-for="n in mech.RepairCapacity"
-            size="35"
-            color="grey-lighten-1"
-            class="mr-n1 mt-n7"
-            >cc:repair</v-icon
-          >
-        </div>
-        <div v-else>
-          <v-icon size="65" color="grey-lighten-1" class="mr-n4 mt-n6">cc:repair</v-icon>
-          <b
-            class="d-inline-block flavor-text font-weight-bold mb-n2"
-            v-text="`&nbsp;/${mech.RepairCapacity}`"
-          />
-        </div>
-      </v-col>
-
-      <v-col :cols="pips ? '' : 'auto'" class="text-center" :class="pips ? 'mt-n3' : ''">
-        <div
-          style="line-height: 10px"
-          :class="blank ? '' : 'ml-6'"
-          class="text-overline text-primary font-weight-bold mb-5"
-        >
-          CORE POWER
-        </div>
-        <v-row v-if="blank" no-gutters align="center" justify="center" class="mt-n5">
-          <v-col cols="auto">
-            <blank-line :width="80" :height="35" class="d-inline-block" />
-          </v-col>
-        </v-row>
-        <div v-else-if="pips" class="text-center">
-          <v-icon v-for="n in 1" size="35" color="grey-lighten-1" class="mr-n1 mt-n7"
-            >mdi-battery-outline</v-icon
-          >
-        </div>
-        <div v-else>
-          <v-icon size="65" color="grey-lighten-1" class="mr-n3 mt-n6">mdi-battery-outline</v-icon>
-          <b class="d-inline-block flavor-text font-weight-bold mb-n2" v-text="`/1`" />
-        </div>
+            </v-col>
+          </v-row>
+        </fieldset>
       </v-col>
     </v-row>
 
     <v-row dense>
+      <v-col cols="4">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">HEAT</legend>
+          <blank-line :height="60" />
+          <v-row dense align="center" class="mb-n2">
+            <v-col><v-divider /></v-col>
+            <v-col cols="auto"><span class="text-primary caption"> HEAT CAPACITY </span></v-col>
+            <v-col><v-divider /></v-col>
+          </v-row>
+          <div v-if="!blank" class="text-center heading h3" v-text="mech.HeatCapacity" />
+          <blank-line v-else :height="26" class="mb-1" />
+        </fieldset>
+      </v-col>
+
+      <v-col cols="3">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">STRESS</legend>
+          <blank-line :height="60" />
+          <v-row dense align="center" class="mb-n2">
+            <v-col><v-divider /></v-col>
+            <v-col cols="auto"><span class="text-primary caption"> MAX STRESS </span></v-col>
+            <v-col><v-divider /></v-col>
+          </v-row>
+          <div v-if="!blank" class="text-center heading h3" v-text="mech.MaxStress" />
+          <blank-line v-else :height="26" class="mb-1" />
+        </fieldset>
+      </v-col>
+
+      <v-col cols="3">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">REPAIRS</legend>
+          <blank-line :height="60" />
+          <v-row dense align="center" class="mb-n2">
+            <v-col><v-divider /></v-col>
+            <v-col cols="auto"><span class="text-primary caption"> REPAIR CAPACITY </span></v-col>
+            <v-col><v-divider /></v-col>
+          </v-row>
+          <div v-if="!blank" class="text-center heading h3" v-text="mech.RepairCapacity" />
+          <blank-line v-else :height="26" class="mb-1" />
+        </fieldset>
+      </v-col>
+
+      <v-col class="text-center">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">CORE POWER</legend>
+
+          <blank-line v-if="blank" :height="102" />
+
+          <v-row v-else style="height: 100%" class="mt-0" align="center">
+            <v-col class="text-primary">
+              <v-icon size="40" style="opacity: 0.6" icon="mdi-battery-outline" />
+            </v-col>
+          </v-row>
+        </fieldset>
+      </v-col>
+    </v-row>
+
+    <v-row dense class="mt-2">
       <v-col cols="8">
         <v-row dense :class="blank ? 'mt-n3' : ''">
           <v-col :style="`min-height: ${blank ? '60' : '50'}px`" style="min-width: 4vw">
@@ -389,8 +258,8 @@
 
         <div class="text-overline mb-n3 text-primary">FRAME TRAITS</div>
         <v-row dense v-if="blank">
-          <v-col v-for="n in 4" cols="6">
-            <blank-line :height="80" />
+          <v-col v-for="n in 4" cols="12">
+            <blank-line :height="100" />
           </v-col>
         </v-row>
         <v-row v-else dense justify="space-between" class="caption mt-n1">
@@ -402,44 +271,38 @@
           </v-col>
         </v-row>
 
-        <div class="text-overline mb-n1 text-primary mt-n1">CORE SYSTEM</div>
-        <div dense v-if="blank" class="mt-n2">
-          <blank-line :height="112" />
-        </div>
-        <fieldset v-else class="mt-n2" style="height: fit-content">
-          <legend class="heading h4 ml-1 px-2">
-            {{ mech.Frame.CoreSystem.Name }}
-          </legend>
-          <div v-if="mech.Frame.CoreSystem.PassiveEffect">
-            <span class="heading ml-4">
+        <div v-if="!blank">
+          <div class="text-overline mb-n1 text-primary mt-n1">CORE SYSTEM</div>
+          <fieldset class="mt-n2" style="height: fit-content">
+            <legend class="heading h4 ml-1 px-2">
+              {{ mech.Frame.CoreSystem.Name }}
+            </legend>
+            <div v-if="mech.Frame.CoreSystem.PassiveEffect">
+              <span class="heading ml-4">
+                {{
+                  mech.Frame.CoreSystem.PassiveName
+                    ? `${mech.Frame.CoreSystem.PassiveName} (PASSIVE)`
+                    : 'CORE PASSIVE'
+                }}
+              </span>
+              <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="caption ml-6 mb-1" />
+            </div>
+            <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
               {{
-                mech.Frame.CoreSystem.PassiveName
-                  ? `${mech.Frame.CoreSystem.PassiveName} (PASSIVE)`
-                  : 'CORE PASSIVE'
+                mech.Frame.CoreSystem.ActiveName
+                  ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
+                  : 'CORE ACTIVE'
               }}
-            </span>
-            <p v-html-safe="mech.Frame.CoreSystem.PassiveEffect" class="caption ml-6 mb-1" />
-          </div>
-          <div v-if="mech.Frame.CoreSystem.PassiveEffect" class="heading ml-4">
-            {{
-              mech.Frame.CoreSystem.ActiveName
-                ? `${mech.Frame.CoreSystem.ActiveName} (ACTIVE)`
-                : 'CORE ACTIVE'
-            }}
-          </div>
-          <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
-          <div v-if="mech.Frame.CoreSystem.Tags" class="text-right">
-            <tag-block :tags="mech.Frame.CoreSystem.Tags" :options="options" mech />
-          </div>
-        </fieldset>
-
-        <div v-if="mech.Notes && !blank" class="pt-2">
-          <div class="text-overline text-primary mt-3" style="line-height: 0">NOTES</div>
-          <div v-html-safe="mech.Notes" class="mt-2 caption" />
+            </div>
+            <p v-html-safe="mech.Frame.CoreSystem.ActiveEffect" class="caption ml-6 mb-1" />
+            <div v-if="mech.Frame.CoreSystem.Tags" class="text-right">
+              <tag-block :tags="mech.Frame.CoreSystem.Tags" :options="options" mech />
+            </div>
+          </fieldset>
         </div>
       </v-col>
 
-      <v-col cols="4" style="margin-top: 6px">
+      <v-col cols="4" style="margin-top: -2px">
         <v-card height="100%" variant="outlined" color="grey">
           <v-row style="height: 100%" align="center">
             <v-col>
@@ -450,10 +313,16 @@
       </v-col>
     </v-row>
 
-    <div v-if="blank" class="pt-2">
-      <div class="text-overline text-primary mt-3" style="line-height: 0">NOTES</div>
-      <notes :rows="5" lined />
+    <div v-if="blank">
+      <div class="text-overline mb-n2 text-primary">CORE SYSTEM</div>
+      <blank-line :height="124" />
     </div>
+
+    <fieldset class="py-1">
+      <legend class="heading ml-1 px-2">Operator Notes</legend>
+      <notes v-if="blank || !mech.notes" :rows="8" lined />
+      <div v-else v-html-safe="mech.Notes" class="caption px-2" />
+    </fieldset>
 
     <div class="text-overline mb-n3 mt-1 text-primary">LOADOUT</div>
 
@@ -617,11 +486,11 @@
     </fieldset>
 
     <fieldset v-if="options.mechInclude.includes('append lined section')" class="mx-1 my-3 px-3">
-      <div class="mb-4"><notes :rows="16" lined /></div>
+      <div class="mb-4"><notes :rows="48" lined /></div>
     </fieldset>
 
     <fieldset v-if="options.mechInclude.includes('append unlined section')" class="mx-1 my-3 px-3">
-      <div class="mb-4"><notes :rows="16" /></div>
+      <div class="mb-4"><notes :rows="48" /></div>
     </fieldset>
   </div>
 </template>
@@ -660,14 +529,8 @@ export default {
     landscape() {
       return this.options.orientation === 'landscape';
     },
-    pips() {
-      return this.options.tracking === 'pips';
-    },
-    getHpCols() {
-      if (this.pips) {
-        return this.landscape ? 8 : 7;
-      }
 
+    getHpCols() {
       return 'auto';
     },
   },

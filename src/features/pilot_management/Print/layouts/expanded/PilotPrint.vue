@@ -5,14 +5,14 @@
         <v-row dense align="center" class="mt-2">
           <v-col :cols="blank ? '' : 'auto'" class="pr-6 mt-n1">
             <div class="text-caption text-primary h0 mt-1">CALLSIGN</div>
-            <blank-line v-if="blank" :height="38" />
+            <blank-line v-if="blank" :height="38" class="mt-2" />
             <div v-else class="heading h2 ml-2" style="font-size: 52px; line-height: 50px">
               {{ pilot.Callsign }}
             </div>
           </v-col>
           <v-col cols="auto" class="ml-auto mt-n2">
             <div class="text-caption text-primary h0 mt-n1">LICENSE LEVEL</div>
-            <blank-line v-if="blank" :height="32" class="my-2" />
+            <blank-line v-if="blank" :height="38" class="mb-n3 mt-2" />
             <div v-else class="heading h2 text-right">
               {{ pilot.Level }}
             </div>
@@ -20,8 +20,8 @@
         </v-row>
       </v-col>
       <v-col cols="auto" class="text-right ml-4">
-        <div class="text-caption mr-9 text-primary">GRIT</div>
-        <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-n2 mr-4"
+        <div class="text-caption mr-9 text-primary">GRIT&nbsp;</div>
+        <v-icon v-if="blank" size="60" color="primary" style="opacity: 0.5" class="mt-n4 mr-0"
           >mdi-hexagon-outline</v-icon
         >
         <div v-else class="heading mt-n5" style="font-size: 65px; line-height: 60px">
@@ -33,17 +33,17 @@
     <v-row dense>
       <v-col>
         <div class="text-caption text-primary h0">PILOT</div>
-        <blank-line v-if="blank" :height="32" class="my-2" />
+        <blank-line v-if="blank" :height="38" class="my-2" />
         <div v-else class="heading h3 ml-2">
           {{ pilot.Name }}
         </div>
         <div class="text-caption text-primary h0 mt-1">PLAYER</div>
-        <blank-line v-if="blank" :height="32" class="my-2" />
+        <blank-line v-if="blank" :height="24" class="my-2" />
         <div v-else class="heading h3 ml-2">
           {{ pilot.PlayerName }}
         </div>
         <div class="text-caption text-primary h0 mt-1">BACKGROUND</div>
-        <blank-line v-if="!pilot.Background" :height="32" class="my-2" />
+        <blank-line v-if="blank || !pilot.Background" :height="24" class="my-2" />
         <div v-else class="heading h3 ml-2">
           {{ pilot.Background }}
         </div>
@@ -71,7 +71,8 @@
 
     <fieldset class="py-1">
       <legend class="heading ml-1 px-2">Pilot Notes</legend>
-      <div v-html-safe="pilot.Notes" class="caption px-2" />
+      <notes v-if="blank || !pilot.notes" :rows="8" lined />
+      <div v-else v-html-safe="pilot.Notes" class="caption px-2" />
     </fieldset>
 
     <fieldset class="pa-1">
@@ -85,6 +86,23 @@
         <v-col>
           <div class="text-overline text-primary" style="line-height: 0">DETAIL</div>
           <blank-line :height="600" class="mt-3" />
+        </v-col>
+      </v-row>
+    </fieldset>
+
+    <fieldset v-if="options.pilotInclude.includes('expanded mission log')" class="pa-1">
+      <legend class="heading ml-1 px-2">
+        Mission Log <span class="caption font-weight-regular">(CONT.)</span>
+      </legend>
+      <v-row no-gutters class="mt-1">
+        <v-col cols="2">
+          <div class="text-overline text-primary" style="line-height: 0">SESSION</div>
+          <blank-line :height="1000" class="mt-3" />
+        </v-col>
+        <v-col cols="auto"> &nbsp; </v-col>
+        <v-col>
+          <div class="text-overline text-primary" style="line-height: 0">DETAIL</div>
+          <blank-line :height="1000" class="mt-3" />
         </v-col>
       </v-row>
     </fieldset>
@@ -120,10 +138,21 @@
 
     <div class="text-caption mb-n2 mt-1 text-primary">TALENTS</div>
     <v-row dense v-if="blank">
-      <v-col v-for="n in 12" :cols="6">
-        <blank-line :height="48" inline />
+      <v-col v-for="n in 8" :cols="12">
+        <blank-line :height="120" inline />
       </v-col>
     </v-row>
+    <v-chip
+      v-else-if="options.pilotInclude.includes('separate talent detail')"
+      v-for="t in pilot.TalentsController.Talents"
+      label
+      variant="outlined"
+      size="small"
+      class="caption mx-1 mt-1"
+    >
+      <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" /> {{ t.Talent.Name }}
+      {{ 'I'.repeat(t.Rank) }}
+    </v-chip>
     <div
       v-else
       v-for="t in pilot.TalentsController.Talents"
@@ -147,8 +176,8 @@
 
     <div class="text-caption mb-n2 mt-2 text-primary">CORE BONUSES</div>
     <v-row dense v-if="blank">
-      <v-col v-for="n in 4">
-        <blank-line :height="48" inline />
+      <v-col v-for="n in 4" cols="6">
+        <blank-line :height="80" inline />
       </v-col>
     </v-row>
     <div
@@ -172,49 +201,47 @@
     </div>
 
     <div class="text-caption mb-n2 mt-2 text-primary">COMBAT PROFILE</div>
-    <v-row>
+    <v-row align="center">
+      <v-col cols="auto">
+        <fieldset>
+          <legend class="font-weight-bold caption text-primary px-2 text-center">PILOT HP</legend>
+          <div style="min-width: 12vw">
+            <blank-line :height="60" />
+          </div>
+          <v-row dense align="center" class="mb-n2">
+            <v-col><v-divider /></v-col>
+            <v-col cols="auto"><span class="text-primary caption"> MAX HP </span></v-col>
+            <v-col><v-divider /></v-col>
+          </v-row>
+          <div v-if="!blank" class="text-center heading h3" v-text="pilot.MaxHP" />
+          <blank-line v-else :height="26" class="mb-1" />
+        </fieldset>
+      </v-col>
+
       <v-col>
         <v-row class="text-center" justify="space-between">
-          <v-col cols="auto">
-            <div class="font-weight-bold caption text-primary mb-n3">PILOT HP</div>
-            <v-row v-if="blank" dense align="center" justify="center" class="mt-2">
-              <v-col cols="auto">
-                <blank-line :width="80" :height="35" class="d-inline-block" />
-              </v-col>
-              <v-col cols="auto" class="px-1"
-                ><span class="heading h3 text-grey" style="line-height: 0">/</span></v-col
-              >
-              <v-col cols="auto">
-                <blank-line :width="80" :height="35" class="d-inline-block" />
-              </v-col>
-            </v-row>
-            <div v-else class="mt-3">
-              <blank-line :height="26" :width="50" class="d-inline-block ml-5" />
-              <b v-if="!blank" class="flavor-text text-black" v-text="`/${pilot.MaxHP}`" />
-            </div>
-          </v-col>
-          <v-col cols="auto">
+          <v-col>
             <div class="font-weight-bold caption text-primary mb-n3">ARMOR</div>
             <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2"
               >mdi-hexagon-outline</v-icon
             >
             <div v-else class="heading p-stat" v-text="pilot.Armor" />
           </v-col>
-          <v-col cols="auto">
+          <v-col>
             <div class="font-weight-bold caption text-primary mb-n3">E-DEFENSE</div>
             <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2"
               >mdi-hexagon-outline</v-icon
             >
             <div v-else class="heading p-stat" v-text="pilot.EDefense" />
           </v-col>
-          <v-col cols="auto">
+          <v-col>
             <div class="font-weight-bold caption text-primary mb-n3">EVASION</div>
             <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2"
               >mdi-hexagon-outline</v-icon
             >
             <div v-else class="heading p-stat" v-text="pilot.Evasion" />
           </v-col>
-          <v-col cols="auto">
+          <v-col>
             <div class="font-weight-bold caption text-primary mb-n3">SPEED</div>
             <v-icon v-if="blank" size="45" color="primary" style="opacity: 0.5" class="mt-2"
               >mdi-hexagon-outline</v-icon
@@ -223,38 +250,36 @@
           </v-col>
         </v-row>
 
-        <v-row dense class="mt-n4">
+        <v-divider class="mb-3" />
+
+        <v-row class="text-center" justify="space-between">
           <v-col>
-            <v-row class="text-center">
-              <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2">HULL</div>
-                <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
+            <div class="font-weight-bold caption text-primary mb-n2">HULL</div>
+            <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
 
-                <div
-                  v-else
-                  class="heading h2"
-                  v-html="pilot.MechSkillsController.MechSkills.Hull"
-                />
-              </v-col>
-              <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2 text-primary">AGILITY</div>
-                <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
+            <div
+              v-else
+              class="heading p-stat"
+              v-html="pilot.MechSkillsController.MechSkills.Hull"
+            />
+          </v-col>
+          <v-col>
+            <div class="font-weight-bold caption text-primary mb-n2 text-primary">AGILITY</div>
+            <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html="pilot.MechSkillsController.MechSkills.Agi" />
-              </v-col>
-              <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2">SYSTEMS</div>
-                <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
+            <div v-else class="heading p-stat" v-html="pilot.MechSkillsController.MechSkills.Agi" />
+          </v-col>
+          <v-col>
+            <div class="font-weight-bold caption text-primary mb-n2">SYSTEMS</div>
+            <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html="pilot.MechSkillsController.MechSkills.Sys" />
-              </v-col>
-              <v-col>
-                <div class="font-weight-bold caption text-primary mb-n2">ENGINEERING</div>
-                <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
+            <div v-else class="heading p-stat" v-html="pilot.MechSkillsController.MechSkills.Sys" />
+          </v-col>
+          <v-col>
+            <div class="font-weight-bold caption text-primary mb-n2">ENGINEERING</div>
+            <blank-line v-if="blank" :width="80" :height="35" class="d-inline-block mt-2" />
 
-                <div v-else class="heading h2" v-html="pilot.MechSkillsController.MechSkills.Eng" />
-              </v-col>
-            </v-row>
+            <div v-else class="heading p-stat" v-html="pilot.MechSkillsController.MechSkills.Eng" />
           </v-col>
         </v-row>
       </v-col>
@@ -268,7 +293,7 @@
         cols="12"
       >
         <fieldset v-if="a">
-          <legend class="heading ml-1 px-1">
+          <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
               {{ a.Name }}
               <span class="text-caption flavor-text">//ARMOR</span>
@@ -308,7 +333,7 @@
         cols="12"
       >
         <fieldset v-if="w || blank">
-          <legend class="heading ml-1 px-1">
+          <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
               {{ w.Name }}
               <span class="text-caption flavor-text">//WEAPON</span>
@@ -317,9 +342,14 @@
           </legend>
           <div v-if="blank" style="height: 150px" />
           <div v-else>
-            <b v-for="r in w.Range">{{ r.Text }}</b>
-            |
-            <b v-for="d in w.Damage">{{ d.Text }}</b>
+            <b v-for="r in w.Range" class="px-1"
+              ><v-icon class="mt-n1" :icon="r.Icon" />{{ r.Text }}</b
+            >
+            <span v-if="w.Damage && w.Damage.length" class="pl-2 pr-1"><cc-slashes /></span>
+            <b v-for="d in w.Damage">
+              <v-icon class="mt-n1" :icon="d.Icon" :color="d.Color" />
+              {{ d.Text }}</b
+            >
             <div v-if="w.Effect" v-html-safe="w.Effect" />
             <v-card v-for="act in w.Actions" variant="outlined" class="pa-1 mt-1 mb-3"
               ><b>{{ act.Name }}</b
@@ -337,7 +367,7 @@
         cols="12"
       >
         <fieldset v-if="g || blank">
-          <legend class="heading ml-1 px-1">
+          <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
               {{ g.Name }}
               <span class="text-caption flavor-text">//GEAR</span>
@@ -370,13 +400,81 @@
     </v-row>
   </div>
 
+  <div v-if="!blank && pilot.ReservesController.Reserves.length" class="pa-2">
+    <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
+    <fieldset v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')">
+      <legend class="px-1 mb-n2">
+        <span class="heading caption text-primary"> {{ r.Name }}</span>
+        <i class="caption text-grey">&nbsp;({{ r.Type }})</i>
+      </legend>
+      <div v-if="r.ResourceName || r.Note || r.ResourceCost">
+        <b class="caption">{{ r.ResourceName }}</b>
+        <div class="caption">{{ r.Note }}</div>
+        <div class="caption text-grey text-right">{{ r.ResourceCost }}</div>
+      </div>
+      <blank-line v-else :height="80" class="my-1" style="min-height: 80px; height: 85%" />
+    </fieldset>
+  </div>
+
+  <div v-if="blank" class="pa-2">
+    <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
+    <fieldset
+      v-for="r in options.pilotInclude.includes('extra reserves space') ? 9 : 6"
+      class="mt-2"
+      style="position: relative; page-break-inside: avoid"
+    >
+      <legend class="px-1">
+        <blank-line :height="26" :width="200" />
+      </legend>
+      <div style="position: absolute; top: -26px; right: 10px">
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+          >BONUS</v-chip
+        ><v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+          >RESOURCE</v-chip
+        >
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+          >TACTICAL</v-chip
+        >
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+          >MECH</v-chip
+        >
+        <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+          >OTHER</v-chip
+        >
+      </div>
+
+      <blank-line :height="80" class="my-1" style="min-height: 80px; height: 85%" />
+    </fieldset>
+  </div>
+
   <fieldset v-if="options.pilotInclude.includes('append lined section')" class="mx-1 my-3 px-3">
-    <div class="mb-4"><notes :rows="24" lined /></div>
+    <div class="mb-4"><notes :rows="48" lined /></div>
   </fieldset>
 
   <fieldset v-if="options.pilotInclude.includes('append unlined section')" class="mx-1 my-3 px-3">
-    <div class="mb-4"><notes :rows="24" /></div>
+    <div class="mb-4"><notes :rows="48" /></div>
   </fieldset>
+
+  <div
+    v-if="options.pilotInclude.includes('separate talent detail')"
+    v-for="t in pilot.TalentsController.Talents"
+    dense
+    justify="space-between"
+    class="mt-n1 caption px-2"
+    style="position: relative; page-break-inside: avoid"
+  >
+    <fieldset class="pb-2 my-2">
+      <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
+      <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
+        <v-col cols="auto" class="mr-2">
+          <v-icon :icon="`cc:rank_${n}`" color="primary" size="large" class="mb-1" />
+        </v-col>
+        <v-col>
+          <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
+        </v-col>
+      </v-row>
+    </fieldset>
+  </div>
 </template>
 
 <script lang="ts">
@@ -408,9 +506,6 @@ export default {
     },
     landscape() {
       return this.options.orientation === 'landscape';
-    },
-    pips() {
-      return this.options.tracking === 'pips';
     },
   },
   methods: {

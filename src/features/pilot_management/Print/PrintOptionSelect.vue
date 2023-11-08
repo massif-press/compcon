@@ -9,12 +9,11 @@
       :multiple="multiple"
     >
       <v-row justify="space-around" align="center">
-        <v-col v-for="i in items">
+        <v-col v-for="i in items" style="min-width: 16vw">
           <v-item :value="i" v-slot="{ isSelected, toggle }">
             <v-card
               :color="isSelected ? 'accent' : ''"
               class="d-flex align-center text-center"
-              :min-width="widen ? '18vw' : '14vw'"
               min-height="100%"
               variant="tonal"
               :ripple="false"

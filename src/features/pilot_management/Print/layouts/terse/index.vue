@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import PilotPrint from './PilotPrint.vue';
-import BondsPrint from './BondsPrint.vue';
+import BondsPrint from '../../extras/BondsPrint.vue';
 import MechPrint from './MechPrint.vue';
 
 import { Pilot, Mech } from '@/class';
