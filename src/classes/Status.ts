@@ -5,6 +5,7 @@ interface IStatusData {
   type: string;
   icon: string;
   effects: string[];
+  terse?: string;
 }
 
 class Status {
@@ -12,6 +13,7 @@ class Status {
   public readonly InstanceID: string;
   public readonly Name: string;
   public readonly Effects: string[];
+  public readonly Terse: string;
   public readonly LcpName: string;
   public readonly InLcp: boolean;
   public readonly ItemType: string = 'Status';
@@ -23,6 +25,8 @@ class Status {
     this.InstanceID = uuid();
     this.Name = data.name;
     this.Effects = data.effects;
+    if (data.terse) this.Terse = data.terse;
+    else this.Terse = data.effects.join(', ');
     this._icon = data.icon;
     this.StatusType = data.type;
     this.LcpName = packName || 'LANCER Core Book';

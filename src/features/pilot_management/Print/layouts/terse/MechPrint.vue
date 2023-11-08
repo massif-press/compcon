@@ -84,9 +84,7 @@
       <v-col class="text-center">
         <div class="text-overline mt-n4 text-primary">CORE POWER</div>
         <v-icon size="35" color="grey-lighten-1" class="mr-n1 mt-n3">mdi-battery-outline</v-icon>
-        <div v-if="!blank && !pips" class="d-inline-block flavor-text font-weight-bold mb-n2">
-          /1
-        </div>
+        <div v-if="!blank" class="d-inline-block flavor-text font-weight-bold mb-n2">/1</div>
       </v-col>
       <v-col class="text-center">
         <div class="text-overline text-primary mt-n4 pb-1">
@@ -103,15 +101,6 @@
             <blank-line :width="landscape ? 80 : 50" :height="35" />
           </v-col>
         </v-row>
-        <div v-else-if="pips">
-          <v-icon
-            v-for="n in mech.RepairCapacity"
-            size="40"
-            color="grey-lighten-1"
-            class="mr-n1 mt-n5"
-            >cc:repair</v-icon
-          >
-        </div>
         <div v-else>
           <v-icon size="40" color="grey-lighten-1" class="mr-n1 mt-n5">cc:repair</v-icon>
           <div
@@ -136,15 +125,6 @@
             <blank-line :width="landscape ? 75 : 58" :height="35" class="d-inline-block" />
           </v-col>
         </v-row>
-        <div v-else-if="pips">
-          <v-icon
-            v-for="n in mech.MaxStructure"
-            size="35"
-            color="grey-lighten-1"
-            class="mr-n1 mt-n5"
-            >cc:structure</v-icon
-          >
-        </div>
         <div v-else>
           <v-icon size="60" color="grey-lighten-1" class="mr-n3 mt-n5">cc:structure</v-icon>
           <b
@@ -175,17 +155,6 @@
                 <blank-line :width="landscape ? 75 : 58" :height="35" class="d-inline-block" />
               </v-col>
             </v-row>
-            <v-row v-else-if="pips" no-gutters class="mt-n4" justify="center">
-              <v-col v-for="n in mech.MaxHP" cols="auto" class="mx-n1 mb-n1">
-                <v-icon v-if="mech.MaxHP < 10" :size="40" color="grey-lighten-1"
-                  >mdi-hexagon-outline</v-icon
-                >
-                <v-icon v-else-if="mech.MaxHP <= 26" :size="35" color="grey-lighten-1"
-                  >mdi-hexagon-outline</v-icon
-                >
-                <v-icon v-else:size="25" color="grey-lighten-1">mdi-hexagon-outline</v-icon>
-              </v-col>
-            </v-row>
             <div v-else>
               <v-icon size="60" color="grey-lighten-1" class="mr-n3 mt-n4">
                 mdi-hexagon-outline
@@ -206,13 +175,13 @@
             <blank-line :width="landscape ? 75 : 58" :height="35" class="d-inline-block" />
           </v-col>
         </v-row>
-        <div v-else class="heading h2 mr-n2 text-primary" :class="pips ? 'mt-n4' : 'mt-n2'">
+        <div v-else class="heading h2 mr-n2 text-primary" :class="'mt-n2'">
           <v-icon size="35" class="mt-n1 mr-n1" style="opacity: 0.6">mdi-shield-outline</v-icon>
           {{ mech.Armor }}
         </div>
       </v-col>
 
-      <v-col v-if="!pips" cols="auto" class="text-center mb-1">
+      <v-col cols="auto" class="text-center mb-1">
         <div
           style="line-height: 10px"
           :class="blank ? '' : 'pb-2'"
@@ -221,11 +190,11 @@
           OVERSHIELD
         </div>
         <div class="px-6">
-          <blank-line :height="pips || blank ? 35 : 40" />
+          <blank-line :height="blank ? 35 : 40" />
         </div>
       </v-col>
 
-      <v-col cols="auto" class="text-center" :class="pips ? 'mt-n2' : ''">
+      <v-col cols="auto" class="text-center">
         <div style="line-height: 10px" class="text-overline text-primary mb-4 mr-2">STRESS</div>
         <v-row v-if="blank" dense align="center" justify="center" class="mt-n5">
           <v-col cols="auto">
@@ -238,11 +207,7 @@
             <blank-line :width="landscape ? 75 : 58" :height="35" class="d-inline-block" />
           </v-col>
         </v-row>
-        <div v-else-if="pips">
-          <v-icon v-for="n in mech.MaxStress" size="35" color="grey-lighten-1" class="mr-n1 mt-n7"
-            >cc:reactor</v-icon
-          >
-        </div>
+
         <div v-else>
           <v-icon size="60" color="grey-lighten-1" class="mr-n3 mt-n5">cc:reactor</v-icon>
           <b
@@ -252,7 +217,7 @@
         </div>
       </v-col>
 
-      <v-col :cols="pips ? '' : 'auto'" class="text-center" :class="pips ? 'mt-n3' : ''">
+      <v-col :cols="'auto'" class="text-center">
         <div
           style="line-height: 10px"
           :class="blank ? '' : 'ml-6'"
@@ -271,22 +236,6 @@
             <blank-line :width="landscape ? 75 : 58" :height="35" class="d-inline-block" />
           </v-col>
         </v-row>
-        <div v-else-if="pips" class="text-center">
-          <v-icon
-            v-for="n in Math.floor(mech.HeatCapacity / 2)"
-            size="35"
-            color="grey-lighten-1"
-            class="mr-n1 mt-n7"
-            >mdi-fire</v-icon
-          >
-          <v-icon
-            v-for="n in Math.ceil(mech.HeatCapacity / 2)"
-            size="35"
-            color="grey-lighten-1"
-            class="mr-n1 mt-n7"
-            >mdi-fire-circle</v-icon
-          >
-        </div>
         <div v-else>
           <v-icon size="60" color="grey-lighten-1" class="mr-n3 mt-n5">mdi-fire</v-icon>
           <b
@@ -294,15 +243,6 @@
             v-text="`&nbsp;/${mech.HeatCapacity}`"
           />
         </div>
-      </v-col>
-
-      <v-col v-if="pips" cols="auto" class="text-center mt-n3">
-        <div style="line-height: 10px" class="text-overline text-primary mb-4 ml-2">OVERSHIELD</div>
-        <v-row dense align="center" justify="center" class="mt-n4">
-          <v-col cols="auto">
-            <blank-line :width="landscape ? 75 : 58" :height="35" class="d-inline-block" />
-          </v-col>
-        </v-row>
       </v-col>
     </v-row>
 
@@ -658,14 +598,7 @@ export default {
     landscape() {
       return this.options.orientation === 'landscape';
     },
-    pips() {
-      return this.options.tracking === 'pips';
-    },
     getHpCols() {
-      if (this.pips) {
-        return this.landscape ? 9 : 8;
-      }
-
       return 'auto';
     },
   },

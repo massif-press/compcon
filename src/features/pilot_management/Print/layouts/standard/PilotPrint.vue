@@ -197,6 +197,17 @@
             <blank-line :height="48" inline />
           </v-col>
         </v-row>
+        <v-chip
+          v-else-if="options.pilotInclude.includes('separate talent detail')"
+          v-for="t in pilot.TalentsController.Talents"
+          label
+          variant="outlined"
+          size="small"
+          class="caption mx-1 mt-1"
+        >
+          <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" /> {{ t.Talent.Name }}
+          {{ 'I'.repeat(t.Rank) }}
+        </v-chip>
         <v-row
           v-else
           v-for="t in pilot.TalentsController.Talents"
@@ -340,7 +351,7 @@
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-between" class="mt-n2 caption pb-3">
+    <v-row dense justify="space-between" class="mt-n2 caption">
       <v-col
         v-if="options.pilotInclude.includes('extra equipment space')"
         v-for="n in 3"
@@ -357,6 +368,61 @@
     </v-row>
   </div>
 
+  <div v-if="!blank && pilot.ReservesController.Reserves.length" class="pa-2">
+    <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
+    <v-row dense>
+      <v-col
+        v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
+        style="min-width: 20vw"
+        class="my-n1"
+      >
+        <fieldset>
+          <legend class="px-1 mb-n2">
+            <span class="heading caption text-primary"> {{ r.Name }}</span>
+            <i class="caption text-grey">&nbsp;({{ r.Type }})</i>
+          </legend>
+          <div v-if="r.ResourceName || r.Note || r.ResourceCost">
+            <b class="caption">{{ r.ResourceName }}</b>
+            <div class="caption">{{ r.Note }}</div>
+            <div class="caption text-grey text-right">{{ r.ResourceCost }}</div>
+          </div>
+          <blank-line v-else :height="50" class="my-1" style="min-height: 64px; height: 85%" />
+        </fieldset>
+      </v-col>
+    </v-row>
+  </div>
+
+  <div v-if="blank" class="pa-2">
+    <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
+    <v-row>
+      <v-col v-for="r in options.pilotInclude.includes('extra reserves space') ? 9 : 6" cols="6">
+        <fieldset class="mt-2" style="position: relative; page-break-inside: avoid">
+          <legend class="px-1">
+            <blank-line :height="26" :width="200" />
+          </legend>
+          <div v-if="landscape" style="position: absolute; top: -26px; right: 10px">
+            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+              >BONUS</v-chip
+            ><v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+              >RESOURCE</v-chip
+            >
+            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+              >TACTICAL</v-chip
+            >
+            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+              >MECH</v-chip
+            >
+            <v-chip label size="x-small" variant="outlined" color="grey" class="bg-white px-1 mx-1"
+              >OTHER</v-chip
+            >
+          </div>
+
+          <blank-line :height="80" class="my-1" style="min-height: 70px; height: 90%" />
+        </fieldset>
+      </v-col>
+    </v-row>
+  </div>
+
   <fieldset v-if="options.pilotInclude.includes('append lined section')" class="mx-1 my-3 px-3">
     <div class="mb-4"><notes :rows="24" lined /></div>
   </fieldset>
@@ -364,6 +430,27 @@
   <fieldset v-if="options.pilotInclude.includes('append unlined section')" class="mx-1 my-3 px-3">
     <div class="mb-4"><notes :rows="24" /></div>
   </fieldset>
+
+  <div
+    v-if="options.pilotInclude.includes('separate talent detail')"
+    v-for="t in pilot.TalentsController.Talents"
+    dense
+    justify="space-between"
+    class="mt-n1 caption px-2"
+    style="position: relative; page-break-inside: avoid"
+  >
+    <fieldset class="pb-2 my-2">
+      <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
+      <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
+        <v-col cols="auto" class="mr-2">
+          <v-icon :icon="`cc:rank_${n}`" color="primary" size="large" class="mb-1" />
+        </v-col>
+        <v-col>
+          <div v-html-safe="t.Talent.Ranks[n - 1].Description" />
+        </v-col>
+      </v-row>
+    </fieldset>
+  </div>
 </template>
 
 <script lang="ts">
@@ -395,9 +482,6 @@ export default {
     },
     landscape() {
       return this.options.orientation === 'landscape';
-    },
-    pips() {
-      return this.options.tracking === 'pips';
     },
   },
   methods: {

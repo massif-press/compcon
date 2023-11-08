@@ -243,7 +243,7 @@
       </v-col>
     </v-row>
 
-    <v-row dense justify="space-between" class="mt-n1 caption pb-3">
+    <v-row dense justify="space-between" class="mt-n1 caption pb-1">
       <v-col
         v-for="g in pilot.Loadout.Gear.filter((x) => x)"
         style="position: relative; page-break-inside: avoid"
@@ -283,6 +283,31 @@
         </fieldset>
       </v-col>
     </v-row>
+
+    <div v-if="!blank && pilot.ReservesController.Reserves.length">
+      <div class="text-caption my-n1 text-primary">RESERVES</div>
+      <div class="pb-1">
+        <v-chip
+          v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
+          label
+          variant="outlined"
+          size="small"
+          class="caption mx-1"
+        >
+          <v-icon :icon="r.Icon" start />
+          <div class="text-caption mb-n1 text-primary">{{ r.Name }}</div>
+        </v-chip>
+      </div>
+    </div>
+
+    <div v-if="blank" class="pa-2 mt-n5">
+      <div class="text-caption mb-n1 mt-1 text-primary">RESERVES</div>
+      <v-row dense>
+        <v-col v-for="r in options.pilotInclude.includes('extra reserves space') ? 8 : 4" cols="3">
+          <blank-line :height="26" />
+        </v-col>
+      </v-row>
+    </div>
   </div>
 </template>
 
@@ -312,9 +337,6 @@ export default {
     },
     landscape() {
       return this.options.orientation === 'landscape';
-    },
-    pips() {
-      return this.options.tracking === 'pips';
     },
   },
   methods: {

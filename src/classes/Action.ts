@@ -167,7 +167,7 @@ class Action {
     this.Trigger = data.trigger || '';
     this.Damage = data.damage ? data.damage.map((x) => new Damage(x)) : [];
     this.Range = data.range ? data.range.map((x) => new Range(x)) : [];
-    this.IsPilotAction = data.pilot || false;
+    this.IsPilotAction = data.pilot || data.id === 'act_free_action' || false;
     this.IsTechAttack = data.tech_attack || false;
     this.IsMechAction = data.mech || !data.pilot;
     this.IsActiveHidden = data.hide_active || false;

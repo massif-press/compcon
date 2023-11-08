@@ -121,7 +121,7 @@
         </div>
       </v-col>
 
-      <v-col v-if="!pips" cols="auto" class="text-center">
+      <v-col cols="auto" class="text-center">
         <div style="line-height: 0" class="text-overline text-primary mb-2">OVERSHIELD</div>
         <div class="d-inline-block"><blank-line :height="20" :width="40" /></div>
       </v-col>
@@ -139,7 +139,7 @@
         />
       </v-col>
 
-      <v-col :cols="pips ? '' : 'auto'" class="text-center">
+      <v-col :cols="'auto'" class="text-center">
         <div style="line-height: 0" class="text-overline text-primary mb-2">HEAT</div>
         <div>
           <div class="d-inline-block"><blank-line :height="20" :width="40" /></div>
@@ -484,14 +484,7 @@ export default {
     landscape() {
       return this.options.orientation === 'landscape';
     },
-    pips() {
-      return this.options.tracking === 'pips';
-    },
     getHpCols() {
-      if (this.pips) {
-        return this.landscape ? 9 : 8;
-      }
-
       return 'auto';
     },
   },
