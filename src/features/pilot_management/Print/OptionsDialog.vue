@@ -173,7 +173,6 @@ export default {
           return [
             { title: 'Show Expanded Tags' },
             { title: 'Separate Talent Detail' },
-            { title: 'Expanded Mission Log' },
             { title: 'Extra Equipment Space' },
             { title: 'Extra Reserve Space' },
             { title: 'Append Unlined Section' },
@@ -223,7 +222,8 @@ export default {
             { title: 'Print Alternate Loadouts' },
             { title: 'Append Lined Section' },
           ];
-
+        case 'Cards':
+          return [{ title: 'Show Bonuses' }, { title: 'Show Synergies' }];
         default:
           return [];
       }

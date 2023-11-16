@@ -171,10 +171,8 @@ export default {
     },
     scrollTo(e: any): void {
       const el = document.getElementById(e);
-      console.log(el);
       if (el) {
         const ce = document.getElementById('content-col');
-        console.log(ce);
         if (ce) {
           const yOffset = -60;
           const y = el.getBoundingClientRect().top + yOffset;

@@ -82,6 +82,7 @@ import Expanded from './layouts/expanded/index.vue';
 import Standard from './layouts/standard/index.vue';
 import Terse from './layouts/terse/index.vue';
 import Minimal from './layouts/minimal/index.vue';
+import Cards from './layouts/cards/index.vue';
 
 import TagInfoPrint from './extras/TagInfoPrint.vue';
 import TriggerInfoPrint from './extras/TriggerInfoPrint.vue';
@@ -109,6 +110,7 @@ export default {
     CombatRef,
     ActionRef,
     DowntimeRef,
+    Cards,
   },
   props: {
     presetPilot: {
