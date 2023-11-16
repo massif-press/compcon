@@ -343,18 +343,26 @@
                 </v-col>
               </v-row>
 
+              <div v-if="showCollectedEffect(w)" class="caption">
+                {{ w.Profiles[0].Effect }}
+              </div>
               <div v-for="p in w.Profiles">
                 <div class="caption">
+                  <span v-if="w.Profiles.length > 1 && p.Name" class="heading">
+                    {{ p.Name }}:&nbsp;</span
+                  >
                   <span v-for="r in p.Range"
                     ><v-icon size="15" :icon="r.Icon" /> {{ r.Value }}</span
                   >
                   <span v-for="d in p.Damage"
                     ><v-icon size="20" :icon="d.Icon" :color="d.Color" /> {{ d.Value }}</span
                   >
-                  <div v-if="p.Effect" :v-html-safe="p.Effect" print />
-                  <div v-if="p.OnAttack" :v-html-safe="`<b>ON ATTACK:</b> ${p.OnAttack}`" print />
-                  <div v-if="p.OnHit" :v-html-safe="`<b>ON HIT:</b> ${p.OnHit}`" print />
-                  <div v-if="p.OnCrit" :v-html-safe="`<b>ON CRIT:</b> ${p.OnCrit}`" print />
+                  <div v-if="p.Effect && !showCollectedEffect(w)" class="caption">
+                    {{ p.Effect }}
+                  </div>
+                  <div v-if="p.OnAttack" class="caption"><b>ON ATTACK:</b> {{ p.OnAttack }}</div>
+                  <div v-if="p.OnHit" class="caption"><b>ON HIT:</b> {{ p.OnHit }}</div>
+                  <div v-if="p.OnCrit" class="caption"><b>ON CRIT:</b> {{ p.OnCrit }}</div>
                   <print-action :actions="p.Actions" />
                   <print-deployable :deployables="p.Deployables" />
                 </div>
@@ -495,6 +503,10 @@ export default {
     showTag(id) {
       const hiddenTags = ['tg_hidden', 'tg_unique', 'tg_set_damage_type'];
       return !hiddenTags.includes(id);
+    },
+    showCollectedEffect(w) {
+      if (!w.Profiles[0].Effect) return false;
+      return w.Profiles.every((x) => x.Effect === w.Profiles[0].Effect);
     },
   },
 };
