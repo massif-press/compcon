@@ -125,11 +125,6 @@ export default {
       (this.$refs.selectorDialog as any).hide();
     },
     equip(sys: MechSystem) {
-      if (this.item) {
-        this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(this.index, sys);
-      } else {
-        this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys);
-      }
       ((this.$refs as any).base.$refs.selectorDialog as any).hide();
     },
     remove(sys: MechSystem) {

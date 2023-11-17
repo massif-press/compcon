@@ -60,7 +60,9 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   public constructor(frame: Frame, pilot: Pilot) {
     this._id = uuid();
     this._frame = frame;
-    this.SaveController = new SaveController(this);
+    this._pilot = pilot;
+
+    this.SaveController = new SaveController(this.Pilot);
     this.PortraitController = new PortraitController(this);
     this.FeatureController = new FeatureController(this);
     this.MechLoadoutController = new MechLoadoutController(this);
@@ -68,7 +70,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     this._name = '';
     this._notes = '';
     this._gm_note = '';
-    this._pilot = pilot;
     this._destroyed = false;
     this._defeat = '';
     this._reactor_destroyed = false;

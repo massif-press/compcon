@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-1" style="position: absolute; bottom: 0; left: 4px; right: 4px">
+  <div class="pb-1" :style="block ? '' : 'position: absolute; bottom: 0; left: 4px; right: 4px'">
     <v-divider />
     <v-chip
       v-for="t in (tags as any[])"
@@ -29,6 +29,9 @@ export default {
       required: true,
     },
     mech: {
+      type: Boolean,
+    },
+    block: {
       type: Boolean,
     },
   },

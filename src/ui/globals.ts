@@ -80,8 +80,10 @@ import CCDeployableInfo from './components/items/features/deployables/CCDeployab
 import CCIntegratedInfo from './components/items/features/integrated/CCIntegratedInfo.vue';
 import CCReserveCard from './components/items/features/reserves/CCReserveCard.vue';
 import CCAvatar from './components/items/CCAvatar.vue';
+import CCImg from './components/CCImg.vue';
 
 export {
+  CCImg,
   CCCompendiumBrowser,
   CCAvatar,
   CCReserveCard,

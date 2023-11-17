@@ -1,7 +1,7 @@
 //TODO: fix dispatches
 
 import { ISaveable } from './ISaveable';
-import { SaveAllLocalUpdates } from '@/io/BulkData';
+import { SetItem } from '@/io/Storage';
 
 interface ISaveData {
   lastModified: number;
@@ -35,7 +35,7 @@ class SaveController {
     this.IsDirty = true;
     this.LastModified = new Date().getTime();
 
-    SaveAllLocalUpdates();
+    SetItem(this.Parent.StorageType, this.Parent.Serialize());
   }
 
   public Restore() {

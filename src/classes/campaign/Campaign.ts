@@ -43,6 +43,7 @@ class Campaign implements ISaveable {
   public Factions: Faction[];
   public Status: CampaignStatus;
   public ItemType: string;
+  public StorageType: string;
   public SaveController: SaveController;
 
   constructor() {
@@ -59,6 +60,7 @@ class Campaign implements ISaveable {
     this.Factions = [];
     this.Status = CampaignStatus.Unpublished;
     this.ItemType = 'Campaign';
+    this.StorageType = 'Campaigns';
 
     this.SaveController = new SaveController(this);
   }
