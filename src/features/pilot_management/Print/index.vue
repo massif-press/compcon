@@ -1,80 +1,83 @@
 <template>
-  <v-card
-    tile
-    flat
-    :class="options.orientation"
-    class="bg-white text-black mt-6"
-    style="margin-left: auto; margin-right: auto"
-  >
-    <div>
-      <component
-        :is="options.layout"
-        :options="options"
-        :selected-mech="(selectedMech as Mech)"
-        :selected-pilot="(selectedPilot as Pilot)"
-        :hasBonds="hasBondData"
-      />
-      <div v-if="selectedPilot && options && options.extras">
-        <combat-ref v-if="options.extras.includes('combat quick reference')" />
-        <action-ref v-if="options.extras.includes('action reference')" />
-        <downtime-ref v-if="options.extras.includes('downtime quick reference')" />
-        <trigger-info-print
-          v-if="options.extras.includes('relevant trigger reference')"
-          :pilot="(selectedPilot as Pilot)"
+  <div class="printable">
+    <v-card
+      tile
+      flat
+      :class="options.orientation"
+      class="print-card"
+      style="margin-left: auto; margin-right: auto"
+    >
+      <div>
+        <component
+          :is="options.layout"
+          :options="options"
+          :selected-mech="(selectedMech as Mech)"
+          :selected-pilot="(selectedPilot as Pilot)"
+          :hasBonds="hasBondData"
         />
-        <tag-info-print
-          v-if="options.extras.includes('relevant tag reference')"
-          :pilot="(selectedPilot as Pilot)"
-          :mech="(selectedMech as Mech)"
-        />
+        <div v-if="selectedPilot && options && options.extras">
+          <combat-ref v-if="options.extras.includes('combat quick reference')" />
+          <action-ref v-if="options.extras.includes('action reference')" />
+          <downtime-ref v-if="options.extras.includes('downtime quick reference')" />
+          <trigger-info-print
+            v-if="options.extras.includes('relevant trigger reference')"
+            :pilot="(selectedPilot as Pilot)"
+          />
+          <tag-info-print
+            v-if="options.extras.includes('relevant tag reference')"
+            :pilot="(selectedPilot as Pilot)"
+            :mech="(selectedMech as Mech)"
+          />
+        </div>
       </div>
-    </div>
-    <!-- {{ options }} -->
-    <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
-      <v-btn stacked @click="$router.go(-1)">
-        <span>Close Preview</span>
-        <v-icon icon="mdi-close" />
-      </v-btn>
-      <v-select
-        v-model="selectedPilot"
-        :items="allPilots"
-        :item-title="(x: Pilot) => `${x.Name} // ${x.Callsign}`"
-        return-object
-        density="compact"
-        hide-details
-        variant="outlined"
-        label="Pilot"
-        class="mx-3"
-        clearable
-        style="width: 10vw"
-      />
-      <v-select
-        v-model="selectedMech"
-        :items="pilotMechs"
-        :item-title="(x: Mech) => `${x.Name} // ${x.Frame.Name}`"
-        return-object
-        density="compact"
-        hide-details
-        variant="outlined"
-        label="Mech"
-        class="mx-3"
-        clearable
-        style="width: 10vw"
-      />
-      <v-spacer />
 
-      <v-btn @click="($refs as any).options.show()">
-        <span>Options</span>
-        <v-icon icon="mdi-cog" />
-      </v-btn>
-      <options-dialog ref="options" :hasBonds="hasBondData" @set="setOptions($event)" />
-      <v-btn @click="print()">
-        <span>Print</span>
-        <v-icon icon="mdi-printer" />
-      </v-btn>
-    </v-bottom-navigation>
-  </v-card>
-  <div class="no-print" style="min-height: 70px !important" />
+      <!-- {{ options }} -->
+      <v-bottom-navigation fixed grow horizontal color="primary" class="no-print pa-2">
+        <v-btn stacked @click="$router.go(-1)">
+          <span>Close Preview</span>
+          <v-icon icon="mdi-close" />
+        </v-btn>
+        <v-select
+          v-model="selectedPilot"
+          :items="allPilots"
+          :item-title="(x: Pilot) => `${x.Name} // ${x.Callsign}`"
+          return-object
+          density="compact"
+          hide-details
+          variant="outlined"
+          label="Pilot"
+          class="mx-3"
+          clearable
+          style="width: 10vw"
+        />
+        <v-select
+          v-model="selectedMech"
+          :items="pilotMechs"
+          :item-title="(x: Mech) => `${x.Name} // ${x.Frame.Name}`"
+          return-object
+          density="compact"
+          hide-details
+          variant="outlined"
+          label="Mech"
+          class="mx-3"
+          clearable
+          style="width: 10vw"
+        />
+        <v-spacer />
+
+        <v-btn @click="($refs as any).options.show()">
+          <span>Options</span>
+          <v-icon icon="mdi-cog" />
+        </v-btn>
+        <options-dialog ref="options" :hasBonds="hasBondData" @set="setOptions($event)" />
+        <v-btn @click="print()">
+          <span>Print</span>
+          <v-icon icon="mdi-printer" />
+        </v-btn>
+      </v-bottom-navigation>
+    </v-card>
+    <div class="no-print" style="min-height: 70px !important" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -183,6 +186,12 @@ export default {
   width: 297mm;
 }
 
+.print-card {
+  background-color: white;
+  color: black;
+  margin-top: 16px;
+}
+
 @page {
   margin: 0;
   padding: 0;
@@ -190,32 +199,34 @@ export default {
 
 @media print {
   @page {
-    max-height: 100%;
+    size: portrait;
     width: 100% !important;
     max-width: 100% !important;
     margin: 0;
     padding: 0;
     color-adjust: exact !important;
     -webkit-print-color-adjust: exact !important;
-    background-color: white;
+    background-color: white !important;
+    overflow: visible;
+  }
+
+  .print-card {
+    margin: 0;
+    padding: 0;
+    width: 100% !important;
+    overflow: visible;
   }
 
   .printable {
     /* zoom: 75%; */
     width: 100% !important;
     max-width: 100% !important;
-
+    background-color: white;
     margin: 0 !important;
     padding: 0 !important;
     print-color-adjust: exact !important;
     -webkit-print-color-adjust: exact !important;
-  }
-  .caption {
-    line-height: normal;
-  }
-  fieldset {
-    padding: 0px;
-    border-style: solid;
+    overflow: visible;
   }
 }
 </style>

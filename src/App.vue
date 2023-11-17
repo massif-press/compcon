@@ -2,7 +2,7 @@
   <v-app id="app">
     <cc-notify />
     <navbar />
-    <div style="height: 40px" />
+    <div style="height: 40px" class="no-print" />
     <router-view />
   </v-app>
 </template>

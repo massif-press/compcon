@@ -363,7 +363,7 @@
       </fieldset>
     </div>
 
-    <fieldset v-else v-for="m in mounts" style="position: relative; page-break-inside: avoid">
+    <fieldset v-else v-for="m in mounts" style="position: relative">
       <legend class="heading h3 ml-1 px-2">{{ m.Name }}</legend>
       <div v-if="m.IsLocked" class="text-center flavor-text">
         MOUNT LOCKED
@@ -457,7 +457,7 @@
         v-for="s in mech.MechLoadoutController.ActiveLoadout.Systems"
         variant="outlined"
         class="pa-1 my-1"
-        style="position: relative; page-break-inside: avoid; border-color: rgba(0, 0, 0, 0.2)"
+        style="position: relative; border-color: rgba(0, 0, 0, 0.2)"
       >
         <v-row>
           <v-col cols="auto">

@@ -63,7 +63,7 @@
         density="compact"
         justify="space-between"
         class="mt-n1 caption"
-        style="position: relative; page-break-inside: avoid"
+        style="position: relative"
       >
         <v-col>
           <fieldset>
@@ -92,7 +92,7 @@
       density="compact"
       justify="space-between"
       class="mt-n1 caption"
-      style="position: relative; page-break-inside: avoid"
+      style="position: relative"
     >
       <v-col>
         <fieldset>
@@ -140,11 +140,7 @@
       </v-row>
     </div>
     <v-row v-else dense justify="center" class="mt-n1 caption">
-      <v-col
-        v-for="p in bc.BondPowers"
-        cols="6"
-        style="position: relative; page-break-inside: avoid"
-      >
+      <v-col v-for="p in bc.BondPowers" cols="6" style="position: relative">
         <fieldset>
           <legend class="heading ml-1 px-2">
             {{ p.name }}

@@ -1,6 +1,5 @@
 <template>
-  <v-divider class="pb-4" />
-  <div class="text-black px-2">
+  <div class="text-black px-2 mt-4">
     <v-row dense class="pb-1">
       <v-col v-if="blank" class="mb-1 mt-n2">
         <blank-line :height="30" />
@@ -425,7 +424,7 @@
       variant="outlined"
       class="px-1"
       :class="s.Tags ? 'pb-1 mb-1' : ''"
-      style="position: relative; page-break-inside: avoid; border-color: rgba(0, 0, 0, 0.2)"
+      style="position: relative; border-color: rgba(0, 0, 0, 0.2)"
     >
       <v-row dense class="my-n2">
         <v-col cols="auto">

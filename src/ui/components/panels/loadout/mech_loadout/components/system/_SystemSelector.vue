@@ -5,7 +5,7 @@
     :table-headers="headers"
     :options="options"
     equippable
-    @equip="$emit('equip', $event)"
+    @equip="equip($event)"
   >
     <template #header> <div class="heading h3 text-center text-accent">Mech Weapons</div></template>
     <template #top>
@@ -161,6 +161,17 @@ export default {
   methods: {
     fID(template: string): string {
       return flavorID(template);
+    },
+    equip(sys: MechSystem) {
+      if (this.equipped) {
+        this.mech.MechLoadoutController.ActiveLoadout.ChangeSystem(
+          this.mech.MechLoadoutController.ActiveLoadout.UniqueSystems.indexOf(this.equipped),
+          sys
+        );
+      } else {
+        this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys);
+      }
+      this.$emit('equip');
     },
   },
 };

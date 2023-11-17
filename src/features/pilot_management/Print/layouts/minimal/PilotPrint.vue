@@ -152,10 +152,7 @@
 
     <div class="text-caption mb-n2 mt-1 text-primary">PILOT LOADOUT</div>
     <v-row dense justify="space-between" class="mt-n1 caption">
-      <v-col
-        v-for="a in pilot.Loadout.Armor.filter((x) => x)"
-        style="position: relative; page-break-inside: avoid"
-      >
+      <v-col v-for="a in pilot.Loadout.Armor.filter((x) => x)" style="position: relative">
         <fieldset v-if="a">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
@@ -204,10 +201,7 @@
           </div>
         </fieldset>
       </v-col>
-      <v-col
-        v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
-        style="position: relative; page-break-inside: avoid"
-      >
+      <v-col v-for="w in pilot.Loadout.Weapons.filter((x) => x)" style="position: relative">
         <fieldset v-if="w || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
@@ -244,10 +238,7 @@
     </v-row>
 
     <v-row dense justify="space-between" class="mt-n1 caption pb-1">
-      <v-col
-        v-for="g in pilot.Loadout.Gear.filter((x) => x)"
-        style="position: relative; page-break-inside: avoid"
-      >
+      <v-col v-for="g in pilot.Loadout.Gear.filter((x) => x)" style="position: relative">
         <fieldset v-if="g || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">

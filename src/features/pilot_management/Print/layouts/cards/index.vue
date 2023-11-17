@@ -1,24 +1,29 @@
 <template>
-  <pilot-print v-if="selectedPilot" :pilot="selectedPilot" :options="options" />
-  <bonds-print v-if="showBondPrint" :bc="selectedPilot.BondController" :options="options" />
-  <mech-print v-if="selectedMech" :mech="selectedMech" :options="options" />
+  <div class="text-black pa-3">
+    <v-row>
+      <pilot-print v-if="selectedPilot" :pilot="selectedPilot" :options="options" />
+      <mech-print v-if="selectedMech" :mech="selectedMech" :options="options" />
+      <std-action-print v-if="options.card.includes('include standard actions')" />
+      <status-cards v-if="options.card.includes('include status/condition cards')" />
+    </v-row>
+  </div>
 </template>
 
 <script lang="ts">
 import PilotPrint from './PilotPrint.vue';
-import BondsPrint from '../../extras/BondsPrint.vue';
 import MechPrint from './MechPrint.vue';
+import StdActionPrint from './StdActionPrint.vue';
+import StatusCards from './StatusCards.vue';
 
 import { Pilot, Mech } from '@/class';
-import PageBreak from '../../components/PageBreak.vue';
 
 export default {
   name: 'standard-print',
   components: {
     PilotPrint,
-    BondsPrint,
     MechPrint,
-    PageBreak,
+    StdActionPrint,
+    StatusCards,
   },
   props: {
     selectedPilot: {
@@ -32,17 +37,6 @@ export default {
     options: {
       type: Object,
       required: true,
-    },
-    hasBonds: {
-      type: Boolean,
-    },
-  },
-  computed: {
-    showBondPrint() {
-      if (!this.selectedPilot) return false;
-      if (!this.hasBonds) return false;
-      if (this.options.bonds === 'omit') return false;
-      return this.options.content === 'blank' || this.selectedPilot.BondController.Bond;
     },
   },
 };

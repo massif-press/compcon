@@ -182,7 +182,7 @@
           dense
           justify="space-between"
           class="mt-n1 caption"
-          style="position: relative; page-break-inside: avoid"
+          style="position: relative"
         >
           <v-col>
             <fieldset>
@@ -239,7 +239,7 @@
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
         v-for="a in pilot.Loadout.Armor.filter((x) => x)"
-        style="position: relative; page-break-inside: avoid"
+        style="position: relative; break-inside: avoid"
       >
         <fieldset v-if="a">
           <legend class="heading ml-1 px-1">
@@ -287,10 +287,7 @@
           </div>
         </fieldset>
       </v-col>
-      <v-col
-        v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
-        style="position: relative; page-break-inside: avoid"
-      >
+      <v-col v-for="w in pilot.Loadout.Weapons.filter((x) => x)" style="position: relative">
         <fieldset v-if="w || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
@@ -326,10 +323,7 @@
       </v-col>
     </v-row>
     <v-row dense justify="space-between" class="mt-n1 caption pb-3">
-      <v-col
-        v-for="g in pilot.Loadout.Gear.filter((x) => x)"
-        style="position: relative; page-break-inside: avoid"
-      >
+      <v-col v-for="g in pilot.Loadout.Gear.filter((x) => x)" style="position: relative">
         <fieldset v-if="g || blank">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
@@ -370,7 +364,7 @@
       <v-col
         v-if="options.pilotInclude.includes('extra equipment space')"
         v-for="n in 3"
-        style="position: relative; page-break-inside: avoid"
+        style="position: relative"
       >
         <fieldset>
           <legend class="heading ml-1 px-1">
@@ -405,7 +399,7 @@
       <div class="text-caption mb-n2 mt-1 text-primary">RESERVES</div>
       <v-row dense>
         <v-col v-for="r in options.pilotInclude.includes('extra reserves space') ? 9 : 6" cols="4">
-          <fieldset class="mt-2" style="position: relative; page-break-inside: avoid">
+          <fieldset class="mt-2" style="position: relative">
             <legend class="px-1">
               <blank-line :height="26" :width="200" />
             </legend>
@@ -447,7 +441,7 @@
     dense
     justify="space-between"
     class="mt-n1 caption px-2"
-    style="position: relative; page-break-inside: avoid"
+    style="position: relative"
   >
     <fieldset class="pb-2 my-2">
       <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>

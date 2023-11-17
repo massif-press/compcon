@@ -138,7 +138,7 @@
         </v-avatar>
       </card>
 
-      <card>
+      <card v-if="pilot.CoreBonusController.CoreBonuses.length">
         <div class="caption text-center mt-n1" style="letter-spacing: 10px; font-size: 10px">
           CORE&emsp;BONUSES
         </div>

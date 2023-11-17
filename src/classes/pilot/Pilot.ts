@@ -105,6 +105,7 @@ class Pilot
     IBrewable
 {
   public readonly ItemType: string = 'pilot';
+  public readonly StorageType: string = 'pilots';
 
   public SortIndex: number = -1;
 

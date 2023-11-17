@@ -25,3 +25,25 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+@media print {
+  body {
+    overflow: visible;
+    height: 100%;
+    background-color: white;
+  }
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  display: none;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+
+}

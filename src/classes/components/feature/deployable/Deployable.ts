@@ -81,9 +81,7 @@ class Deployable extends CompendiumItem {
     super(data);
     this.ID = data.id;
     this._data = data;
-    this.BaseName = `${owner ? `${owner.EncounterName}'s ` : ''}${data.name}${
-      n ? ` (#${n})` : ''
-    }`;
+    this.BaseName = `${owner ? `${owner.EncounterName}'s ` : ''}${data.name}${n ? ` (#${n})` : ''}`;
     this.Type = data.type || 'Deployable';
     this.Detail = data.detail;
     this.Recall = data.recall || null;
@@ -98,48 +96,44 @@ class Deployable extends CompendiumItem {
       );
     }
     this.Size = this.collect(data.size, owner, 'size');
-    this.MaxHP = this.collect(data.hp, owner, 'hp');
+    this.MaxHP = this.collect(data.hp || 0, owner, 'hp');
     this._missing_hp = 0;
-    this.Armor = this.collect(data.armor, owner, 'armor');
+    this.Armor = this.collect(data.armor || 0, owner, 'armor');
     this.Evasion = this.collect(
-      data.evasion,
+      data.evasion || 0,
       owner,
       'evasion',
       data.type.toLowerCase() !== 'mine' ? 5 : 0
     );
     this.EDefense = this.collect(
-      data.edef,
+      data.edef || 0,
       owner,
       'edef',
       data.type.toLowerCase() !== 'mine' ? 8 : 0
     );
-    this.Heatcap = this.collect(data.heatcap, owner, 'heatcap');
-    this.Repcap = this.collect(data.repcap, owner, 'repcap');
-    this.Sensors = this.collect(data.sensor_range, owner, 'sensor_range');
-    this.TechAttack = this.collect(data.tech_attack, owner, 'tech_attack');
-    this.Save = this.collect(data.save, owner, 'save');
-    this.Speed = this.collect(data.speed, owner, 'speed');
+    this.Heatcap = this.collect(data.heatcap || 0, owner, 'heatcap');
+    this.Repcap = this.collect(data.repcap || 0, owner, 'repcap');
+    this.Sensors = this.collect(data.sensor_range || 0, owner, 'sensor_range');
+    this.TechAttack = this.collect(data.tech_attack || 0, owner, 'tech_attack');
+    this.Save = this.collect(data.save || 0, owner, 'save');
+    this.Speed = this.collect(data.speed || 0, owner, 'speed');
     this.Instances = data.instances || 1;
     this._overshield = 0;
     this._current_heat = 0;
     this._current_repairs = 0;
     this._destroyed = false;
     this._resistances = data.resistances || [];
-    this.IsPilotDeployable = data.pilot;
+    this.IsPilotDeployable = data.pilot || false;
     this.IsMechDeployable = data.mech || !data.pilot;
   }
 
-  private collect(
-    val: string | number,
-    owner: Mech,
-    bonusID: string,
-    mineVal?: number
-  ): number {
+  private collect(val: string | number, owner: Mech, bonusID: string, mineVal?: number): number {
     const prefix = this.Type.toLowerCase() === 'drone' ? 'drone' : 'deployable';
-    let out = val ? val : 0;
+    let out = Number(val ? val : 0);
     if (!out && mineVal) return mineVal;
     if (owner && owner.Pilot) {
-      out = owner.Pilot.SpecialEval(out);
+      // TODO: reimplement
+      // out = owner.Pilot.SpecialEval(out);
       out += Bonus.get(`${prefix}_${bonusID}`, owner);
       out += Bonus.get(`${prefix}_${bonusID}`, owner.Pilot);
     }
@@ -236,6 +230,10 @@ class Deployable extends CompendiumItem {
     return 'cc:deployable';
   }
 
+  public get SizeIcon(): string {
+    return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`;
+  }
+
   public static Serialize(deployable: Deployable): IDeployedData {
     return {
       // id: deployable.ID,
@@ -247,13 +245,14 @@ class Deployable extends CompendiumItem {
   }
 
   public static Deserialize(d: IDeployedData, owner: Mech): Deployable {
-    if (!d.data) return;
+    if (!d.data) throw new Error('Deployable data is missing.');
     const dep = new Deployable(d.data, owner);
     dep.Name = d.assigned_name;
     dep.CurrentHP = d.current_hp;
-    dep.Destroyed = d.Destroyed;
+    dep.Destroyed = d.Destroyed || false;
     return dep;
   }
 }
 
-export { IDeployableData, IDeployedData, Deployable };
+export { Deployable };
+export type { IDeployableData, IDeployedData };

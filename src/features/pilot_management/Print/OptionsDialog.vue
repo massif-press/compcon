@@ -16,7 +16,15 @@
             title="Layout"
             :items="layoutOptions"
           />
-          <v-row>
+          <v-row v-if="options.layout.title !== 'Cards'">
+            <v-col>
+              <print-option-select
+                v-model="options.paper"
+                mandatory
+                title="Paper"
+                :items="paperOptions"
+              />
+            </v-col>
             <v-col>
               <print-option-select
                 v-model="options.content"
@@ -40,6 +48,24 @@
                 title="Bonds"
                 :items="bondsOptions"
               />
+            </v-col>
+          </v-row>
+          <v-row v-else>
+            <v-col>
+              <print-option-select
+                v-model="options.paper"
+                mandatory
+                title="Paper"
+                :items="paperOptions"
+              />
+              <v-col>
+                <print-option-select
+                  v-model="options.card"
+                  mandatory
+                  title="Card Options"
+                  :items="cardOptions"
+                />
+              </v-col>
             </v-col>
           </v-row>
         </fieldset>
@@ -106,9 +132,11 @@ export default {
       orientation: { title: 'Portrait', icon: 'mdi-file' },
       content: { title: 'Pilot', icon: 'cc:pilot' },
       bonds: { title: 'Include', icon: 'mdi-link' },
+      paper: { title: 'Letter', icon: 'mdi-text-box-check-outline' },
       pilotInclude: [],
       mechInclude: [],
       extras: [],
+      card: [],
     },
     layoutOptions: [
       { title: 'Minimal', icon: 'mdi-text-short' },
@@ -128,6 +156,14 @@ export default {
     bondsOptions: [
       { title: 'Include', icon: 'mdi-link' },
       { title: 'Omit', icon: 'mdi-link-off' },
+    ],
+    paperOptions: [
+      { title: 'Letter', icon: 'mdi-text-box-check-outline' },
+      { title: 'A4', icon: 'mdi-file-star-four-points-outline' },
+    ],
+    cardOptions: [
+      { title: 'Include Standard Actions', icon: 'mdi-hexagon-slice-3 ' },
+      { title: 'Include Status/Condition Cards', icon: 'cc:eclipse' },
     ],
   }),
   mounted() {
@@ -178,17 +214,6 @@ export default {
             { title: 'Append Unlined Section' },
             { title: 'Append Lined Section' },
           ];
-        case 'Cards':
-          return [
-            { title: 'Appearance Notes' },
-            { title: 'Pilot Biography' },
-            { title: 'Pilot Notes' },
-            { title: 'Extra Equipment Space' },
-            { title: 'Extra Reserve Space' },
-            { title: 'Append Unlined Section' },
-            { title: 'Append Lined Section' },
-          ];
-
         default:
           return [];
       }
@@ -222,8 +247,6 @@ export default {
             { title: 'Print Alternate Loadouts' },
             { title: 'Append Lined Section' },
           ];
-        case 'Cards':
-          return [{ title: 'Show Bonuses' }, { title: 'Show Synergies' }];
         default:
           return [];
       }
