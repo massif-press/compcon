@@ -52,7 +52,7 @@
         <trait-block :mech="mech" :color="color" />
       </v-col>
       <v-col cols="auto">
-        <v-img :src="mech.Portrait" width="22vw" position="top center" />
+        <cc-img :src="mech.Portrait" width="22vw" position="top center" />
         <div class="text-right mt-n10">
           <v-btn
             variant="outlined"

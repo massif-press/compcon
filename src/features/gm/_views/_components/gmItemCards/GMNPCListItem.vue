@@ -10,7 +10,7 @@
     >
       <v-col cols="1">
         <v-card>
-          <v-img :aspect-ratio="1" :src="item.PortraitController.Image" />
+          <cc-img :aspect-ratio="1" :src="item.PortraitController.Image" />
         </v-card>
       </v-col>
       <v-col>

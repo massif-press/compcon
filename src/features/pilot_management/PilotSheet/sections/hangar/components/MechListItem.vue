@@ -14,7 +14,7 @@
       min-height="100%"
     >
       <div id="interior" class="clipped-square-invert">
-        <v-img :src="mech.Portrait" position="top center" height="100%" />
+        <cc-img :src="mech.Portrait" position="top center" height="100%" />
       </div>
     </v-card>
     <div id="banner" style="width: 100%">

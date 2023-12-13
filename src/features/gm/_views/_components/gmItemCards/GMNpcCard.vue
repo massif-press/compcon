@@ -6,7 +6,7 @@
       height="100%"
       @click="$emit('open', item.ID)"
     >
-      <v-img :aspect-ratio="1" :src="item.PortraitController.Image">
+      <cc-img :aspect-ratio="1" :src="item.PortraitController.Image">
         <v-fade-transition>
           <div
             v-if="hover"
@@ -52,7 +52,7 @@
             </v-container>
           </div>
         </v-fade-transition>
-      </v-img>
+      </cc-img>
       <div style="position: absolute; top: 0">
         <v-chip
           small

@@ -373,7 +373,7 @@
         <v-card height="100%" variant="outlined" color="grey">
           <v-row style="height: 100%" align="center">
             <v-col>
-              <v-img v-if="!blank" :src="mech.Portrait" cover />
+              <cc-img v-if="!blank" :src="mech.Portrait" cover />
             </v-col>
           </v-row>
         </v-card>

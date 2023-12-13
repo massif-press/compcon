@@ -5,7 +5,7 @@
     @click="group.Expanded = !group.Expanded"
   >
     <v-avatar v-if="group.PortraitController.HasImage" size="36px" class="mr-2">
-      <v-img :src="group.Portrait" />
+      <cc-img :src="group.Portrait" />
     </v-avatar>
     <span class="heading h3">{{ group.Name }}</span>
     <span class="pl-4 text-caption">
@@ -52,7 +52,7 @@
             </v-card-text>
           </v-col>
           <v-col v-if="group.PortraitController.CloudImage || edit" cols="3" class="text-right">
-            <v-img :src="group.Portrait" />
+            <cc-img :src="group.Portrait" />
             <div v-if="edit">
               <v-btn
                 variant="outlined"

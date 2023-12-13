@@ -52,6 +52,7 @@ class PortraitController {
 
   public set Avatar(data: any) {
     this._avatar = data;
+    this.Parent.SaveController.save();
   }
 
   public get Portrait(): string {

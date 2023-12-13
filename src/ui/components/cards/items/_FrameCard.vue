@@ -24,7 +24,7 @@
         </div>
       </v-col>
       <v-col v-if="$vuetify.display.lgAndUp" cols="4">
-        <v-img :src="item.DefaultImage" max-width="35vw" />
+        <cc-img :src="item.DefaultImage" max-width="35vw" />
         <!-- <cc-tooltip simple content="Feature In Development"> -->
         <!-- <frame-gallery-modal :frame="item" /> -->
         <!-- </cc-tooltip> -->

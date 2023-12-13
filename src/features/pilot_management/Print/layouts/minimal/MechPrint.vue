@@ -259,7 +259,7 @@
 
       <v-col v-if="options.mechInclude.includes('mech image')">
         <div style="border: 1px solid rgba(0, 0, 0, 0.2); border-radius: 3px">
-          <v-img v-if="!blank" :src="mech.Portrait" />
+          <cc-img v-if="!blank" :src="mech.Portrait" />
           <div v-else style="height: 355px" />
         </div>
       </v-col>

@@ -182,7 +182,7 @@
           RM-4-06 // ATTACHED OHM IMAGING SCAN (MUST INCLUDE RETINAL DATA)
         </div>
         <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
-          <v-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
+          <cc-img v-if="pilot.Portrait" :src="pilot.Portrait" aspect-ratio="1" />
         </div>
         <div class="mr-8 mt-3">
           <v-btn

@@ -53,9 +53,9 @@ const storeRegistry = {
     storeName: 'images',
     description: 'Stores user images',
   }),
-  remoteImages: localforage.createInstance({
+  remote_images: localforage.createInstance({
     name: dbName,
-    storeName: 'remote-images',
+    storeName: 'remote_images',
     description: 'Stores remotely hosted image urls',
   }),
 };
@@ -68,6 +68,17 @@ const Initialize = async function () {
 };
 
 const SetItem = async function (collection: string, item: any) {
+  if (typeof item === 'string') {
+    console.log(collection);
+    console.log(storeRegistry);
+    console.log(storeRegistry[collection.toLowerCase()]);
+
+    const sr = await storeRegistry[collection.toLowerCase()];
+    console.log(sr);
+    sr.setItem(item, item);
+    return;
+  }
+
   let save = true;
   const id = item.ID ? item.ID : item.id;
 

@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts">
+import { GetBlob } from '@/io/Storage';
 import { Preview } from 'vue-advanced-cropper';
 
 export default {
@@ -19,6 +20,12 @@ export default {
       type: Number,
       default: 200,
     },
+  },
+  async mounted() {
+    if (!this.avatar.image.src.startsWith('http') || !this.avatar.image.src.startsWith('blob')) {
+      const blob = await GetBlob('images', this.avatar.image.src);
+      this.avatar.image.src = URL.createObjectURL(blob);
+    }
   },
 };
 </script>

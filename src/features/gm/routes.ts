@@ -21,8 +21,6 @@ import Factions from './factions/index.vue';
 import FactionsEditor from './factions/editor.vue';
 import Runner from './runner/index.vue';
 
-import { RouteConfig } from 'vue-router';
-
 const routes = [
   {
     path: '',
@@ -38,25 +36,25 @@ const routes = [
         name: 'gm-campaigns',
         component: Campaigns,
       },
-      {
-        path: 'campaigns/edit',
-        name: 'gm-campaigns',
-        component: CampaignEditor,
-        children: [
-          {
-            path: 'overview',
-            name: 'campaign-edit-overview',
-            component: CampaignOverviewPage,
-            props: true,
-          },
-          {
-            path: 'section/',
-            name: 'campaign-edit-section',
-            component: CampaignSectionPage,
-            props: true,
-          },
-        ],
-      },
+      // {
+      //   path: 'campaigns/edit',
+      //   name: 'gm-campaigns',
+      //   component: CampaignEditor,
+      //   children: [
+      //     {
+      //       path: 'overview',
+      //       name: 'campaign-edit-overview',
+      //       component: CampaignOverviewPage,
+      //       props: true,
+      //     },
+      //     {
+      //       path: 'section/',
+      //       name: 'campaign-edit-section',
+      //       component: CampaignSectionPage,
+      //       props: true,
+      //     },
+      //   ],
+      // },
       {
         path: 'npcs',
         name: 'gm-npcs',

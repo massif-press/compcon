@@ -1,42 +1,42 @@
 <template>
-  <div>
-    <v-tabs v-if="eidolons" v-model="tab">
-      <v-tab>NPC Roster</v-tab>
-      <v-tab>Eidolon Roster</v-tab>
-    </v-tabs>
-    <v-tabs-items v-model="tab">
-      <v-tab-item>
-        <gm-collection-view
-          title="NPCs"
-          item-type="Npc"
-          :items="npcs"
-          :groupings="groupings"
-          :sortings="sortings"
-          @add-new="addNew()"
-          @import-item="importItem()"
-          @open="openItem($event)"
-        />
-        <v-dialog v-model="dialog" fullscreen>
-          <v-card flat>
-            <editor
-              v-if="dialog"
-              :id="selected"
-              @exit="dialog = false"
-              @copy="copyItem()"
-              @deleteItem="deleteItem()"
-              @save="SaveAndClose()"
-            >
-              <builder slot="upper" :item="selected" />
-              <features slot="lower" :item="selected" />
-            </editor>
-          </v-card>
-        </v-dialog>
-      </v-tab-item>
-      <v-tab-item>
-        <eidolon-index />
-      </v-tab-item>
-    </v-tabs-items>
-  </div>
+  <!-- TODO: eidolon check -->
+  <v-tabs v-model="tab" grow color="secondary" density="compact" mandatory height="30" class="mt-2">
+    <v-tab>NPCs</v-tab>
+    <v-tab>Eidolons</v-tab>
+  </v-tabs>
+
+  <v-window v-model="tab">
+    <v-window-item>
+      <gm-collection-view
+        title="NPCs"
+        item-type="Npc"
+        :items="npcs"
+        :groupings="groupings"
+        :sortings="sortings"
+        @add-new="addNew()"
+        @import-item="importItem()"
+        @open="openItem($event)"
+      />
+      <v-dialog v-model="dialog" fullscreen>
+        <v-card flat>
+          <editor
+            v-if="dialog"
+            :id="selected"
+            @exit="dialog = false"
+            @copy="copyItem()"
+            @deleteItem="deleteItem()"
+            @save="SaveAndClose()"
+          >
+            <builder slot="upper" :item="selected" />
+            <features slot="lower" :item="selected" />
+          </editor>
+        </v-card>
+      </v-dialog>
+    </v-window-item>
+    <v-window-item>
+      <eidolon-index />
+    </v-window-item>
+  </v-window>
 </template>
 
 <script lang="ts">
@@ -55,16 +55,7 @@ export default {
     tab: 0,
     dialog: false,
     selected: null,
-    groupings: [
-      'None',
-      'Labels',
-      'Size',
-      'Tag',
-      'Role',
-      'Tier',
-      'Campaign',
-      'Collection',
-    ],
+    groupings: ['None', 'Labels', 'Size', 'Tag', 'Role', 'Tier', 'Campaign', 'Collection'],
     sortings: ['Name', 'Size', 'Tier'],
   }),
   computed: {
