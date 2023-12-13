@@ -169,6 +169,10 @@
           </v-dialog>
           <v-dialog v-model="statblockDialog" width="50%">
             <cc-titled-panel title="NPC Statblock">
+              <v-radio-group v-model="genRadios" row mandatory label="Generate:">
+                <v-radio label="Basic" value="basic"></v-radio>
+                <v-radio label="Full" value="full"></v-radio>
+              </v-radio-group>
               <v-textarea
                 v-if="statblockNpc"
                 :value="statblock()"
@@ -227,6 +231,7 @@ export default class NpcManager extends Vue {
   npcImportFile: File = null
   importNpc: Npc = null
   statblockNpc = null
+  genRadios = 'basic'
 
   @Watch('selectedNpc')
   onSelectedNpcChanged() {
