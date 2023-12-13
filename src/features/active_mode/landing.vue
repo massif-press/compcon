@@ -1,5 +1,5 @@
 <template>
-  <v-container style="overflow: hidden">
+  <v-container style="overflow: hidden" fluid>
     <v-row justify="space-around" align="center" class="mt-2">
       <v-col><v-divider /></v-col>
       <v-col cols="auto">
@@ -12,29 +12,31 @@
       </v-col>
       <v-col><v-divider /></v-col>
     </v-row>
-    <v-row style="height: 100%" class="mt-1 px-5" justify="space-around">
+    <v-row style="height: calc(100vh - 130px)" class="mt-1 px-5" justify="space-around">
       <v-col v-for="(list, i) in lists">
-        <v-list lines="two">
-          <v-list-item>
-            <v-img :src="headers[i].img" max-height="350px" />
-            <v-list-item-title class="heading h2 text-accent" v-text="headers[i].title" />
-          </v-list-item>
-          <v-divider />
-          <v-list-item
-            v-for="e in list"
-            :key="e.title"
-            :title="e.title"
-            :subtitle="e.subtitle"
-            :to="e.to"
-            :disabled="e.disabled"
-          >
-            <template #prepend>
-              <v-avatar color="grey-lighten-1">
-                <v-icon size="x-large" color="accent" :icon="e.icon" />
-              </v-avatar>
-            </template>
-          </v-list-item>
-        </v-list>
+        <v-card variant="tonal" height="100%" class="px-6">
+          <v-list lines="two">
+            <v-list-item class="text-center">
+              <v-icon :icon="headers[i].icon" size="300" />
+              <v-list-item-title class="heading h2 text-accent" v-text="headers[i].title" />
+            </v-list-item>
+            <v-divider />
+            <v-list-item
+              v-for="e in list"
+              :key="e.title"
+              :title="e.title"
+              :subtitle="e.subtitle"
+              :to="e.to"
+              :disabled="e.disabled"
+            >
+              <template #prepend>
+                <v-avatar>
+                  <v-icon size="x-large" color="primary" :icon="e.icon" />
+                </v-avatar>
+              </template>
+            </v-list-item>
+          </v-list>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -50,15 +52,15 @@ export default {
   data: () => ({
     headers: [
       {
-        img: getImagePath(ImageTag.Misc, 'lancer.svg'),
+        icon: 'cc:lancer',
         title: 'LANCER',
       },
       {
-        img: getImagePath(ImageTag.Misc, 'nhp.svg'),
+        icon: 'cc:nhp',
         title: 'GAME MASTER',
       },
       {
-        img: getImagePath(ImageTag.Misc, 'diasporan.svg'),
+        icon: 'cc:diasporan',
         title: 'OBSERVER',
       },
     ],

@@ -6,7 +6,7 @@
           <slot />
         </v-col>
         <v-col cols="3" class="text-center">
-          <v-img :src="item.Image" />
+          <cc-img :src="item.Image" />
         </v-col>
       </v-row>
       <v-divider v-if="item.Sections.length" class="my-2" />
@@ -69,21 +69,11 @@
       </v-row> -->
       <v-divider class="my-2" />
       <div v-if="item.Clocks.length" class="caption">{{ typeText }} CLOCKS</div>
-      <cc-clock
-        v-for="(c, i) in item.Clocks"
-        :clock="c"
-        class="mx-1 my-2"
-        print
-      />
+      <cc-clock v-for="(c, i) in item.Clocks" :clock="c" class="mx-1 my-2" print />
       <v-divider class="my-2" />
       <div v-if="item.Tables.length">
         <div class="caption">{{ typeText }} TABLES</div>
-        <cc-rollable-table
-          v-for="(t, i) in item.Tables"
-          :table="t"
-          class="mx-1 my-2"
-          print
-        />
+        <cc-rollable-table v-for="(t, i) in item.Tables" :table="t" class="mx-1 my-2" print />
       </div>
       <div v-if="item.Notes.length">
         <v-divider class="my-2" />

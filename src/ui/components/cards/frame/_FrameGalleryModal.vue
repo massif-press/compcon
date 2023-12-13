@@ -11,7 +11,7 @@
         <v-container fluid class="px-5">
           <v-row density="compact">
             <v-col cols="auto" class="ml-auto mr-auto">
-              <v-img
+              <cc-img
                 :src="selected"
                 :style="`max-height: 1080px; image-rendering: ${
                   isPixel ? 'pixelated' : 'crisp-edges'
@@ -73,7 +73,7 @@
                     :class="selected === frame.DefaultImage ? 'selected-img' : 'unselected-img'"
                     @click="selected = frame.DefaultImage"
                   >
-                    <v-img
+                    <cc-img
                       :src="frame.DefaultImage"
                       :style="`max-height: 200px; image-rendering: ${
                         isPixel ? 'pixelated' : 'crisp-edges'
@@ -87,7 +87,7 @@
                     :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
                     @click="selectImg(a)"
                   >
-                    <v-img
+                    <cc-img
                       :src="imgPath(a.tag, a.src)"
                       :style="`max-height: 200px; image-rendering: ${
                         isPixel ? 'pixelated' : 'crisp-edges'

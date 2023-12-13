@@ -1,7 +1,7 @@
 <template>
   <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <template #top>
-      <v-img
+      <cc-img
         v-if="item.DefaultImage"
         :src="item.DefaultImage"
         :max-height="small ? '175px' : '225px'"

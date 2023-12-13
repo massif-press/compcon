@@ -1,13 +1,9 @@
 <template>
   <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-row
-      density="compact"
-      :class="`elevation-${hover ? '12' : '0'}`"
-      @click="$emit('open')"
-    >
+    <v-row density="compact" :class="`elevation-${hover ? '12' : '0'}`" @click="$emit('open')">
       <v-col cols="1">
         <v-card>
-          <v-img :aspect-ratio="1" :src="item.Image" />
+          <cc-img :aspect-ratio="1" :src="item.Image" />
         </v-card>
       </v-col>
       <v-col>

@@ -68,7 +68,7 @@
         </div>
       </v-col>
       <v-col cols="12" md="4">
-        <v-img :src="manifest.image_url" max-height="300px" />
+        <cc-img :src="manifest.image_url" max-height="300px" />
         <div v-if="manifest.website" class="mt-2">
           <v-btn
             target="_blank"

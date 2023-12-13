@@ -36,7 +36,7 @@
       </v-col>
       <v-col cols="12" md="4">
         <b class="caption text-accent mt-n2">MECH ART COURTESY OF</b>
-        <v-img
+        <cc-img
           target="_blank"
           href="https://www.retrogrademinis.com/"
           src="./src/assets/img/misc/retrograde_logo.png"

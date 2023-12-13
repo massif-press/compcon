@@ -63,7 +63,7 @@
             </div>
           </v-col>
           <v-col v-if="item.raw.img" cols="2">
-            <v-img :src="item.raw.img" alt="Pack image" />
+            <cc-img :src="item.raw.img" alt="Pack image" />
           </v-col>
         </v-row>
       </td>

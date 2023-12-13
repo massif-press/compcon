@@ -49,6 +49,12 @@
       @input="currentUserPage = $event"
     />
     <v-divider class="my-3" />
+    <v-alert density="compact" class="my-2 text-caption" style="opacity: 0.5"
+      ><i
+        >Images in this gallery are saved as COMP/CON app data and will count towards the app
+        storage limit set by your browser.
+      </i></v-alert
+    >
     <v-card-text>
       <div class="heading h3 ml-n2">UPLOAD IMAGE</div>
       <v-row align="center">

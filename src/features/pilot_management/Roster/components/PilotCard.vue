@@ -35,7 +35,7 @@
               {{ pilot.Level.toString().padStart(2, '0') }}
             </div>
           </div>
-          <v-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" cover>
+          <cc-img :src="pilot.Portrait" position="top center" height="100%" :aspect-ratio="1" cover>
             <v-expand-transition>
               <div
                 v-if="isHovering && !small"
@@ -63,7 +63,7 @@
                 </div>
               </div>
             </v-expand-transition>
-          </v-img>
+          </cc-img>
         </v-card>
       </template>
     </v-hover>

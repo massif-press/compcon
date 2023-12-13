@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <v-img
+    <cc-img
       ref="img"
       :src="src"
       class="pa-2"
@@ -8,11 +8,7 @@
       min-height="100%"
       contain
       :class="
-        white
-          ? 'white-emblem'
-          : $vuetify.theme.current.dark
-          ? 'white-emblem'
-          : 'black-emblem'
+        white ? 'white-emblem' : $vuetify.theme.current.dark ? 'white-emblem' : 'black-emblem'
       "
       @error="imageLoadFailed()"
     />

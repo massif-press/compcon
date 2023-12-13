@@ -1,65 +1,65 @@
 <template>
   <v-container fluid style="overflow: hidden; height: calc(100vh - 50px)">
-    <v-row style="height: 100%" class="mt-1" align="center">
-      <v-col cols="12">
-        <v-row align="center" justify="center" density="compact">
-          <landing-card
-            cols="8"
-            to="gm/campaigns"
-            name="Campaign Manager"
-            description="Create and run LANCER campaigns"
-            :ratio="7"
-            img="jungle.jpg"
-            dark
-          />
-          <v-col cols="8">
-            <v-btn block small variant="outlined" color="secondary" disabled
-              >Continue Campaign</v-btn
-            >
-          </v-col>
-          <v-col cols="8">
-            <v-btn block small variant="outlined" color="secondary" disabled
-              >Continue Encounter</v-btn
-            >
-          </v-col>
-        </v-row>
+    <v-row justify="space-around" align="center" class="mt-0">
+      <v-col><v-divider /></v-col>
+      <v-col cols="auto">
+        <div
+          class="font-weight-light text-center my-n2"
+          style="letter-spacing: 2vw !important; font-size: 2vw !important"
+        >
+          GM TOOLKIT
+        </div>
       </v-col>
-      <v-col cols="12" class="panel lighten-1">
-        <v-row align="center" justify="space-around" density="compact">
+      <v-col><v-divider /></v-col>
+    </v-row>
+    <v-row class="mt-1" align="start">
+      <landing-card
+        cols="4"
+        to="gm/campaigns"
+        name="Campaign Manager"
+        description="Create, modify, and browse LANCER campaigns"
+        img="campaign"
+        max-height="84.7vh"
+      />
+
+      <v-col>
+        <v-row>
           <landing-card
-            cols="2"
             to="gm/npcs"
             name="NPCS"
-            description="Create and manage non-player characters"
-            img="npc.jpg"
+            description="Manage non-player combat units"
+            img="npcs"
+            max-height="41vh"
           />
           <landing-card
-            cols="2"
             to="gm/encounters"
             name="Encounters"
             description="Create combat encounters"
-            img="combat.jpg"
+            img="encounters"
+            max-height="41vh"
           />
+        </v-row>
+        <v-row>
           <landing-card
-            cols="2"
             to="gm/characters"
             name="Characters"
-            description="Manage non-player narrative characters"
-            img="oda.jpg"
+            description="Manage non-player characters"
+            img="characters"
+            max-height="41vh"
           />
           <landing-card
-            cols="2"
             to="gm/locations"
             name="Locations"
             description="Manage locations and settings"
-            img="location.jpg"
+            img="location"
+            max-height="41vh"
           />
           <landing-card
-            cols="2"
             to="gm/factions"
             name="Factions"
             description="Manage factions and organizations"
-            img="faction.jpg"
+            img="factions"
+            max-height="41vh"
           />
         </v-row>
       </v-col>

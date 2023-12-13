@@ -1,107 +1,49 @@
 import { defineStore } from 'pinia';
-import { loadData } from '@/io/Data';
+import { SetItem, RemoveItem, GetAll } from '@/io/Storage';
 
-import {
-  Campaign,
-  CampaignStatus,
-  ICampaignData,
-} from '@/classes/campaign/Campaign';
-import { storeSaveDelta } from '@/util/storeUtils';
+import { Campaign, CampaignStatus, ICampaignData } from '@/classes/campaign/Campaign';
 
 export const CampaignStore = defineStore('campaign', {
   state: () => ({
     EditCampaign: null as unknown as Campaign,
     Campaigns: [] as Campaign[],
-    Dirty: false,
   }),
   getters: {
     getCampaigns: (state: any) => state.Campaigns,
     getEditCampaign: (state: any) => state.EditCampaign,
     getUnpublishedCampaigns: (state: any) =>
-      state.Campaigns.filter(
-        (x: Campaign) => x.Status === CampaignStatus.Unpublished
-      ),
-    getActiveCampaigns: (state: any) =>
-      state.Campaigns.filter(
-        (x: Campaign) => x.Status === CampaignStatus.Active
-      ),
+      state.Campaigns.filter((x: Campaign) => x.Status === CampaignStatus.Unpublished),
     getPublishedCampaigns: (state: any) =>
-      state.Campaigns.filter(
-        (x: Campaign) => x.Status === CampaignStatus.Published
-      ),
-    getArchivedCampaigns: (state: any) =>
-      state.Campaigns.filter(
-        (x: Campaign) => x.Status === CampaignStatus.Archived
-      ),
+      state.Campaigns.filter((x: Campaign) => x.Status === CampaignStatus.Published),
   },
   actions: {
-    LOAD_CAMPAIGNS(state: any, payload: ICampaignData[]): void {
-      state.Campaigns = [...payload.map((x) => Campaign.Deserialize(x))];
+    async LoadCampaigns(): Promise<void> {
+      let campaignData = await GetAll('campaigns');
+      this.Campaigns = campaignData.map((x) => Campaign.Deserialize(x));
     },
-
-    SET_EDIT_CAMPAIGN(state: any, payload: Campaign): void {
-      state.EditCampaign = payload;
+    SetEditCampaign(payload: Campaign): void {
+      this.EditCampaign = payload;
     },
-
-    SAVE_DATA(state: any): void {
-      if (state.Dirty) {
-        storeSaveDelta(state.Campaigns);
-        state.Dirty = false;
+    SaveCampaigns(): void {
+      Promise.all([this.Campaigns.map((y) => SetItem('pilots', Campaign.Serialize(y as Campaign)))])
+        .then(() => console.info('Campaign data saved'))
+        .catch((err) => console.error('Error while saving Campaign data', err));
+    },
+    AddCampaign(payload: Campaign): void {
+      this.Campaigns.push(payload);
+      this.SaveCampaigns();
+    },
+    CloneCampaign(payload: Campaign): void {
+      this.Campaigns.push(payload.Clone());
+      this.SaveCampaigns();
+    },
+    async DeleteCampaign(payload: Campaign): Promise<void> {
+      const idx = this.Campaigns.findIndex((x: any) => x.ID === payload.ID);
+      if (idx === -1) {
+        throw new Error('Campaign not found');
       }
-    },
-
-    SET_DIRTY(state: any): void {
-      state.Dirty = true;
-    },
-
-    ADD_CAMPAIGN(state: any, payload: Campaign): void {
-      payload.SaveController.IsDirty = true;
-      state.Campaigns.push(payload);
-      state.Dirty = true;
-    },
-
-    CLONE_CAMPAIGN(state: any, payload: Campaign): void {
-      state.Campaigns.push(payload.Clone());
-      state.Dirty = true;
-    },
-
-    DELETE_CAMPAIGN(state: any, payload: Campaign): void {
-      const idx = state.Campaigns.findIndex(
-        (x: Campaign) => x.ID === payload.ID
-      );
-      if (idx > -1) {
-        state.Campaigns.splice(idx, 1);
-      } else {
-        throw console.error('CAMPAIGN not loaded!');
-      }
-      state.Dirty = true;
-    },
-    setEditCampaign({ state, commit }: any, id: string): void {
-      commit(
-        'SET_EDIT_CAMPAIGN',
-        state.Campaigns.find((x: Campaign) => x.ID === id)
-      );
-    },
-
-    saveCampaignData({ commit }: any): void {
-      commit('SAVE_DATA');
-    },
-
-    cloneCampaign({ commit }: any, payload: Campaign): void {
-      commit('CLONE_CAMPAIGN', payload);
-    },
-
-    addCampaign({ commit }: any, payload: Campaign): void {
-      commit('ADD_CAMPAIGN', payload);
-    },
-
-    deleteCampaign({ commit }: any, payload: Campaign): void {
-      commit('DELETE_CAMPAIGN', payload);
-    },
-
-    async loadCampaigns({ commit }: any) {
-      const campaignData = await loadData<ICampaignData>('campaigns');
-      commit('LOAD_CAMPAIGNS', campaignData);
+      this.Campaigns.splice(idx, 1);
+      await RemoveItem('campaigns', payload.ID);
     },
   },
 });

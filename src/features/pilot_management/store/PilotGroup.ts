@@ -42,6 +42,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   private _history: string;
   public readonly ImageTag: ImageTag = ImageTag.Emblem;
   public readonly ItemType: string = 'pilot_group';
+  public readonly StorageType: string = 'pilot_groups';
 
   // controls whether the group is expanded in the UI
   public Expanded: boolean = true;
@@ -137,6 +138,10 @@ class PilotGroup implements ISaveable, IPortraitContainer {
 
     return group;
   };
+
+  public Serialize(): PilotGroupData {
+    return PilotGroup.Serialize(this);
+  }
 
   public Clone = (): PilotGroup => {
     throw new Error('Cannot clone PilotGroup');

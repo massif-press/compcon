@@ -5,7 +5,19 @@
     @click="selectable ? $emit('select', pilot) : !dragging ? toPilotSheet() : null"
   >
     <v-col cols="auto" style="border: rgb(var(--v-theme-primary)) 3px double">
-      <v-img :src="pilot.Portrait" position="top" height="150px" width="150px" />
+      <cc-avatar
+        v-if="pilot.PortraitController.Avatar"
+        :avatar="pilot.PortraitController.Avatar"
+        :size="150"
+      />
+      <cc-img
+        v-else-if="pilot.PortraitController.Portrait"
+        :src="pilot.PortraitController.Portrait"
+        aspect-ratio="1"
+        position="top center"
+        height="150px"
+        width="150px"
+      />
     </v-col>
     <v-col>
       <div class="clipped-large-invert" style="background-color: rgb(var(--v-theme-primary))">

@@ -131,7 +131,7 @@
               :avatar="pilot.PortraitController.Avatar"
               :size="300"
             />
-            <v-img
+            <cc-img
               v-else-if="pilot.Portrait"
               :src="pilot.Portrait"
               aspect-ratio="1"

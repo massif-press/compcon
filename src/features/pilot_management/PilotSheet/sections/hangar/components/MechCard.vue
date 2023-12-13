@@ -18,7 +18,7 @@
               <v-icon size="50" :icon="mech.Frame.Manufacturer.Icon" color="white" />
             </v-toolbar>
 
-            <v-img :src="mech.Portrait" position="top center" height="100%">
+            <cc-img :src="mech.Portrait" position="top center" height="100%">
               <v-expand-transition>
                 <v-card
                   v-if="isHovering"
@@ -163,7 +163,7 @@
                   </v-card-actions>
                 </v-card>
               </v-expand-transition>
-            </v-img>
+            </cc-img>
           </v-card>
         </template>
       </v-hover>

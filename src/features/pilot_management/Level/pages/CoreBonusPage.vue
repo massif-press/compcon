@@ -30,7 +30,7 @@
         </span>
       </v-alert>
     </v-container>
-    <cc-core-bonus-selector v-if="cbEligible" level-up :pilot="pilot" />
+    <core-bonus-selector v-if="cbEligible" level-up :pilot="pilot" />
     <v-card v-else flat tile color="panel">
       <v-card-text class="flavor-text text-center py-5 px-3">
         <span class="heading h2 text-disabled text--darken-1">PILOT INELIGIBLE FOR CORE BONUS</span>
@@ -45,10 +45,11 @@
 
 <script lang="ts">
 import StepperContent from '../../_components/StepperContent.vue';
+import CoreBonusSelector from '../../_components/selectors/CoreBonusSelector.vue';
 
 export default {
   name: 'core-bonus-page',
-  components: { StepperContent },
+  components: { StepperContent, CoreBonusSelector },
   props: {
     pilot: {
       type: Object,

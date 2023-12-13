@@ -5,7 +5,7 @@
         <v-row align="center">
           <v-col cols="auto" class="mr-2 ml-2">
             <v-avatar size="80px">
-              <v-img v-if="info.image" :src="info.image" />
+              <cc-img v-if="info.image" :src="info.image" />
               <span v-else class="text-white headline">{{ info.name.substring(0, 1) }}</span>
             </v-avatar>
           </v-col>

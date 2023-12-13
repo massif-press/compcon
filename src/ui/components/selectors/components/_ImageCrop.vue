@@ -28,7 +28,7 @@
   <v-card-actions>
     <v-btn @click="$emit('hide')">dismiss</v-btn>
     <v-spacer />
-    <v-btn variant="plain" color="success" @click="$emit('confirm', result)">set avatar</v-btn>
+    <v-btn variant="plain" color="success" @click="set()">set avatar</v-btn>
   </v-card-actions>
 </template>
 
@@ -45,8 +45,8 @@ export default {
   emits: ['confirm', 'hide'],
   data: () => ({
     result: {
-      coordinates: null,
-      image: null,
+      coordinates: null as any,
+      image: null as any,
     },
     stencilProps: {
       aspectRatio: 1,
@@ -57,6 +57,10 @@ export default {
       type: String,
       required: true,
     },
+    imgKey: {
+      type: String,
+      required: false,
+    },
   },
   methods: {
     change({ coordinates, image }) {
@@ -64,6 +68,11 @@ export default {
         coordinates,
         image,
       };
+    },
+    set() {
+      if (this.imgKey?.length) this.result.image.src = this.imgKey;
+      console.log(this.result);
+      this.$emit('confirm', this.result);
     },
   },
 };

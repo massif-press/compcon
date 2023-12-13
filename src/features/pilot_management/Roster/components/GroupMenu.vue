@@ -122,7 +122,7 @@
             <v-col cols="12" md="5" class="ml-auto">
               <div class="text-caption">CR-7-03 // UNIT LIVERY</div>
               <div class="border mr-8 ml-auto mr-auto" style="width: 300px; height: 300px">
-                <v-img v-if="group.Portrait" :src="group.Portrait" aspect-ratio="1" />
+                <cc-img v-if="group.Portrait" :src="group.Portrait" aspect-ratio="1" />
               </div>
               <div class="mr-8 mt-3">
                 <v-btn

@@ -6,7 +6,7 @@
     style="border: 1px solid rgb(var(--v-theme-primary))"
   >
     <v-col cols="auto" class="mr-2 text-center">
-      <v-img :src="frameImage" width="152px" max-height="206px" />
+      <cc-img :src="frameImage" width="152px" max-height="206px" />
     </v-col>
     <v-col cols="12" md="">
       <v-row dense :class="`px-2 ${isSelected ? 'selected-gradient' : 'gradient'}`">

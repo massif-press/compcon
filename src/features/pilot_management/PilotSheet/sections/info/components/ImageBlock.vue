@@ -1,7 +1,7 @@
 <template>
   <div class="text-center mr-6">
     <div class="border">
-      <v-img v-if="pilot.Portrait" :src="pilot.Portrait" max-width="100%" />
+      <cc-img v-if="pilot.Portrait" :src="pilot.Portrait" max-width="100%" />
     </div>
     <v-btn
       color="secondary"

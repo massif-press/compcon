@@ -1,14 +1,11 @@
 <template>
   <cc-solo-dialog ref="dialog" icon="mdi-dna" large no-confirm title="Clone Pilot">
     <v-card-text>
-      <v-row>
-        <v-col>
-          <div class="text-center body-text light-panel pa-2" style="border-radius: 3px">
-            Duplicating or Cloning a pilot will remove any Vault links, saving the copied Pilot as a
-            new character on your account
-          </div>
-        </v-col>
-      </v-row>
+      <div class="text-center body-text light-panel mb-4" style="border-radius: 3px">
+        Duplicating or Cloning a pilot will remove any Vault links, saving the copied Pilot as a new
+        character on your account
+      </div>
+
       <v-row density="compact" justify="space-around">
         <v-col cols="5" class="text-center">
           <cc-tooltip
@@ -33,6 +30,41 @@
       </v-row>
       <v-scale-transition>
         <div v-if="quirk">
+          <v-alert color="deep-orange" variant="tonal" density="compact" class="my-4">
+            <div class="text-center pb-1">
+              <v-icon size="small" icon="mdi-alert" /><b style="letter-spacing: 10px"> WARNING</b>
+              <v-icon size="small" icon="mdi-alert" />
+            </div>
+            <div class="text-overline" style="line-height: 18px">
+              Any organizations, individuals, or technologies facilitating whole-body facsimile
+              cloning are bound by the First Contact Accords of 3002. Any activities that violate
+              the principles set forth in the Accords are prohibited, including, but not limited to:
+              <ul class="pb-1">
+                <li>
+                  Reproducing the subjective personage of a sentient being in whole or in part.
+                </li>
+                <li>
+                  Transferring the subjective personage of a sentient being into a manufactured or
+                  cultivated substrate.
+                </li>
+                <li>
+                  Emulation of a sentient being's subjective personage in a manufactured or
+                  cultivated substrate.
+                </li>
+                <li>
+                  Intentional decorporealization of a sentient being or other subjective continuity.
+                </li>
+              </ul>
+              <v-divider class="pb-1" />
+              <div class="text-center">
+                All forms of whole-subjectivity rapid process cloning are prohibited under Union
+                jurisdiction. Any persons found to be in violation of this statute will be subject
+                to prosecution by the Union Department of Justice and Human Resource's Facsimile
+                Rights Department.
+              </div>
+            </div>
+          </v-alert>
+
           <v-row align="center">
             <v-col>
               <div class="text-overline">CLONE QUIRK</div>

@@ -1,28 +1,36 @@
 <template>
-  <v-col :cols="cols">
-    <v-hover v-slot="{ hover }" style="cursor: pointer">
-      <v-card flat variant="outlined" class="mx-auto" :to="to">
-        <v-img
-          :aspect-ratio="ratio"
-          :src="`../../../../static/img/misc/${img}`"
-        >
-          <v-fade-transition>
-            <div
-              v-if="hover"
-              class="d-flex text-center primary darken-2 v-card--reveal heading h2 text-white"
-              style="height: 100%"
-            >
-              {{ description }}
-            </div>
-          </v-fade-transition>
-        </v-img>
-        <v-card-text
-          class="py-2 text-center heading h2"
-          style="position: relative"
-        >
-          <span :class="hover ? 'text-primary' : ''">{{ name }}</span>
-        </v-card-text>
-      </v-card>
+  <v-col :cols="cols" style="cursor: pointer; position: relative; height: 100%">
+    <v-hover>
+      <template v-slot="{ isHovering, props }">
+        <v-card v-bind="props" flat variant="tonal" :to="to">
+          <v-img
+            class="ts"
+            :src="`https://d2c79xe1p61csc.cloudfront.net/other/${img}.jpg`"
+            cover
+            :height="maxHeight"
+            :style="`opacity: ${isHovering ? '.9' : '.4'}`"
+          />
+          <v-card
+            :color="isHovering ? 'rgba(18, 18, 18, 0.95)' : 'rgba(38, 49, 68, 0.75)'"
+            rounded="lg"
+            elevation="0"
+            style="position: absolute; bottom: 8px; left: 24px; right: 24px"
+          >
+            <v-card-text class="py-2 text-center heading h3">
+              <div class="pb-2 ts" :class="isHovering ? 'text-white' : 'text-grey-lighten-1'">
+                {{ name }}
+              </div>
+              <v-divider class="py-1" />
+              <div
+                class="flavor-text ts"
+                :class="isHovering ? 'text-white' : 'text-grey-lighten-1'"
+              >
+                {{ description }}
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-card>
+      </template>
     </v-hover>
   </v-col>
 </template>
@@ -34,21 +42,15 @@ export default {
     to: { type: String, required: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
-    img: { type: String, required: true },
     cols: { type: [String, Number], required: false, default: '' },
-    ratio: { type: Number, required: false, default: 1 },
-    // dark: { type: Boolean },
+    img: { type: String, required: true },
+    maxHeight: { type: [String, Number], required: false, default: '' },
   },
 };
 </script>
 
-<style>
-.v-card--reveal {
-  align-items: center;
-  bottom: 0;
-  justify-content: center;
-  opacity: 0.85;
-  position: absolute;
-  width: 100%;
+<style scoped>
+.ts {
+  transition: opacity 0.4s;
 }
 </style>

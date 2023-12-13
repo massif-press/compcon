@@ -81,7 +81,8 @@
                   no-actions
                 >
                   <image-crop
-                    :src="selectedImageUrl"
+                    :src="displayImage"
+                    :img-key="selectedImageKey"
                     @hide="($refs.crop_dialog as any).hide()"
                     @confirm="setAvatar($event)"
                   />
@@ -125,6 +126,7 @@ export default {
   },
   data: () => ({
     selectedImage: null as unknown as any,
+    selectedImageKey: null as unknown as any,
     imageSelectTab: 0,
     stagedImage: null as unknown as any,
     imageUrl: '',
@@ -132,12 +134,19 @@ export default {
   }),
   computed: {
     displayImage() {
-      if (this.selectedImage) return this.selectedImage.url;
+      if (this.selectedImage) {
+        if (typeof this.selectedImage === 'string') return this.selectedImage;
+        return this.selectedImage.url;
+      }
       if (this.item.Portrait) return this.item.Portrait;
       else return 'https://via.placeholder.com/550';
     },
     selectedImageUrl() {
-      return this.selectedImage ? this.selectedImage.url : '';
+      if (this.selectedImage) {
+        if (typeof this.selectedImage === 'string') return this.selectedImage;
+        return this.selectedImage.url;
+      }
+      return '';
     },
   },
   methods: {
@@ -150,15 +159,9 @@ export default {
       if (!this.avatar) this.close();
     },
     saveImage() {
-      this.item.PortraitController.Avatar = undefined;
       this.item.PortraitController.CloudImage =
-        typeof this.selectedImage === 'string' ? this.selectedImage : this.selectedImage.url;
+        typeof this.selectedImage === 'string' ? this.selectedImage : this.selectedImage.key;
       if (!this.avatar) this.close();
-    },
-    setStagedImage() {
-      if (!this.stagedImage) return;
-      this.selectedImage = null;
-      this.imageUrl = URL.createObjectURL(this.stagedImage);
     },
     open() {
       (this.$refs as any).dialog.show();
@@ -170,20 +173,19 @@ export default {
       this.item.PortraitController.Avatar = undefined;
     },
     setAvatar(avatar) {
-      console.log(avatar);
       this.item.PortraitController.Avatar = avatar;
       (this.$refs.crop_dialog as any).hide();
     },
     setLocalImage(img: any) {
       this.selectedImage = img;
-      console.log(this.selectedImage);
+      this.selectedImageKey = img.key;
     },
     setLibImage(img: any) {
-      console.log(img);
+      this.selectedImageKey = '';
       this.selectedImage = img;
     },
     setRemoteImage(img: any) {
-      console.log(img);
+      this.selectedImageKey = '';
       this.selectedImage = img;
     },
   },

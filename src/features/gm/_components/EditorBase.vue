@@ -27,7 +27,7 @@
               class="mb-2"
             />
             <v-combobox v-model="item.Campaign" variant="outlined" hide-details label="Campaign" />
-            <v-img :src="item.PortraitController.Image" />
+            <cc-img :src="item.PortraitController.Image" />
             <v-btn
               small
               variant="outlined"

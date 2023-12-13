@@ -1,23 +1,23 @@
 <template>
   <v-card>
     <v-row dense align="center">
-      <v-col v-for="image in displayedUserImages" cols="4" md="3">
+      <v-col v-for="image in displayedRemoteImages" cols="4" md="3">
         <v-card
           class="ma-2"
           outlined
           tile
-          :color="selectedImage === image.url ? 'primary' : ''"
+          :color="selectedImage === image ? 'primary' : ''"
           :class="{ selected: image === selectedImage }"
           style="border-width: 3px"
-          @click="selectedImage === image.url ? (selectedImage = null) : stage(image)"
+          @click="selectedImage === image ? (selectedImage = null) : stage(image)"
         >
           <div class="background">
-            <v-img :src="image.url" contain max-height="200px" />
+            <v-img :src="image" contain max-height="200px" />
           </div>
         </v-card>
         <v-scale-transition>
           <v-card
-            v-if="selectedImage === image.url"
+            v-if="selectedImage === image"
             flat
             color="subtle"
             variant="outlined"
@@ -25,7 +25,7 @@
             tile
           >
             <div class="text-caption pb-1 text-center">
-              {{ image.key }}
+              {{ image }}
             </div>
             <v-menu offset-y offset-x top left>
               <template v-slot:activator="{ props }">
@@ -34,8 +34,8 @@
                 >
               </template>
               <cc-confirmation
-                content="This will permanently delete this image from storage.</span> Do you want to continue?"
-                @confirm="deleteLocalImage(image.key)"
+                content="This will delete this image link from your library.</span> Do you want to continue?"
+                @confirm="deleteRemoteImage(image)"
               />
             </v-menu>
           </v-card>
@@ -43,12 +43,24 @@
       </v-col>
     </v-row>
     <v-pagination
-      v-model="currentUserPage"
-      :length="totalUserPages"
+      v-model="currentRemotePage"
+      :length="totalRemotePages"
       total-visible="9"
-      @input="currentUserPage = $event"
+      @input="currentRemotePage = $event"
     />
     <v-divider class="my-3" />
+    <v-alert
+      density="compact"
+      class="my-2 text-caption"
+      prominent
+      icon="mdi-alert"
+      style="opacity: 0.5"
+      ><i
+        >Images in this gallery are links to remote resources and are not managed by COMP/CON. If
+        you do not control the remote host, items may be removed or changed at any time.
+      </i></v-alert
+    >
+
     <v-card-text>
       <div class="heading h3">
         ADD REMOTE IMAGE
@@ -96,87 +108,52 @@
 
 <script lang="ts">
 import _ from 'lodash';
-import { GetKeys, RemoveItem, AddBlob, GetBlob } from '@/io/Storage';
+import { SetItem, RemoveItem, GetKeys } from '@/io/Storage';
 
 export default {
   name: 'remote-image-archive',
   data: () => ({
-    currentUserPage: 1,
-    currentArtistPage: 1,
+    currentRemotePage: 1,
     itemsPerPage: 12,
     selectedImage: null as unknown as any,
     loading: false,
     imageSelectTab: 0,
     remoteInput: '',
     remoteError: '',
-    accountUsage: 0,
-    accountMax: 250,
     iid: '',
-    userStorageData: null as unknown as any,
     stagedImage: null as unknown as any,
     showAll: false,
     imageUrl: '',
-    selectedTags: [] as string[],
-    cropWindow: false,
-    userImages: [],
+    remoteImages: [] as string[],
     urls: [] as string[],
   }),
   emits: ['set-staged'],
   async mounted() {
-    await this.getStorageInfo();
-    await this.getUserImages();
+    await this.getRemoteImages();
   },
   computed: {
-    displayedUserImages() {
-      const images = this.userImages.map((key, index) => ({
-        key,
-        url: this.urls[index],
-      }));
-      const startIndex = (this.currentUserPage - 1) * this.itemsPerPage;
+    displayedRemoteImages() {
+      const startIndex = (this.currentRemotePage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return images.slice(startIndex, endIndex);
+      return this.remoteImages.slice(startIndex, endIndex);
     },
-    totalUserPages() {
-      return Math.ceil(this.userImages.length / this.itemsPerPage);
+    totalRemotePages() {
+      return Math.ceil(this.remoteImages.length / this.itemsPerPage);
     },
   },
   methods: {
-    async getUserImages() {
-      this.userImages = await GetKeys('images');
-      const blobs = await Promise.all(this.userImages.map((key) => GetBlob('images', key)));
-      this.urls = blobs.map((blob) => URL.createObjectURL(blob));
+    async getRemoteImages() {
+      this.remoteImages = await GetKeys('remote_images');
     },
-    async dataUrl(key) {
-      const url = URL.createObjectURL(await GetBlob('images', key));
-      this.urls.push(url);
-      return url;
-    },
-    async getStorageInfo() {
-      const est = await navigator.storage.estimate();
-
-      if (est) {
-        this.accountUsage = est.usage ? est.usage / 1000000 : 0;
-        this.accountMax = est.quota ? est.quota / 1000000 : 0;
-      }
-    },
-    async uploadImage() {
-      if (!this.stagedImage) return;
-      this.loading = true;
-
-      const blob = new Blob(this.stagedImage, { type: 'image/jpeg' });
-      AddBlob('images', this.stagedImage[0].name, blob)
-        .then(() => this.getUserImages())
-        .catch((e) => console.error(e))
-        .finally(() => (this.loading = false));
-    },
-    async deleteLocalImage(key) {
-      RemoveItem('images', key);
+    async deleteRemoteImage(key) {
+      RemoveItem('remote_images', key);
+      await this.getRemoteImages();
     },
     stage(image) {
-      this.selectedImage = image.url;
+      this.selectedImage = image;
       this.$emit('set-staged', image);
     },
-    setRemoteImage() {
+    async setRemoteImage() {
       if (!this.remoteInput) return;
       if (!this.validURL(this.remoteInput)) {
         this.remoteError = 'Invalid URL';
@@ -193,8 +170,13 @@ export default {
         return;
       }
 
+      console.log(this.remoteInput);
+
       this.remoteError = '';
       this.selectedImage = this.remoteInput;
+      await SetItem('remote_images', this.remoteInput);
+      await this.getRemoteImages();
+      this.currentRemotePage = this.totalRemotePages;
     },
     // Pulled from Stackoverflow: https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url
     validURL(str: string): boolean {
