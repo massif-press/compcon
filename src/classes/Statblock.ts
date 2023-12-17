@@ -300,6 +300,26 @@ class Statblock {
     } else return '>> NO MECH SELECTED <<'
   }
 
+  // public static GenerateNPC(npc: Npc): string {
+  //   let output = `// ${npc.Name} //\n`
+  //   output += `${npc.Class.Name.toUpperCase()}`
+  //   if (npc.Templates) output += ` ${npc.Templates.map(t => t.Name).join(' ')}`
+  //   output += typeof npc.Tier === 'number' ? `, Tier ${npc.Tier} ` : ', Custom '
+  //   output += `${npc.Tag}\n`
+  //   output += '[ STATS ]\n'
+  //   output += `  H: ${npc.Stats.Hull} | A: ${npc.Stats.Agility} | S: ${npc.Stats.Systems} | E: ${npc.Stats.Engineering}\n`
+  //   output += `  STRUCT: ${npc.CurrentStructure}/${npc.Stats.Structure} | ARMOR: ${npc.Stats.Armor} | HP: ${npc.CurrentHP}/${npc.Stats.HP}\n`
+  //   output += `  STRESS: ${npc.CurrentStress}/${npc.Stats.Stress} | HEATCAP: ${npc.CurrentHeat}/${npc.Stats.HeatCapacity} | SPD: ${npc.Stats.Speed}\n`
+  //   output += `  SAVE: ${npc.Stats.Save} | EVADE: ${npc.Stats.Evade} | EDEF: ${npc.Stats.EDefense}\n`
+  //   output += `  SENS: ${npc.Stats.Sensor} | SIZE: ${npc.Stats.Size} | ACT: ${npc.Stats.Activations}\n`
+  //   output += '[ FEATURES ]\n  '
+  //   output += npc.Items.map(
+  //     (item, index) =>
+  //       `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
+  //   ).join('')
+  //   return output
+  // }
+
   public static GenerateNPC(npc: Npc): string {
     let output = `// ${npc.Name} //\n`
     output += `${npc.Class.Name.toUpperCase()}`
@@ -312,11 +332,11 @@ class Statblock {
     output += `  STRESS: ${npc.CurrentStress}/${npc.Stats.Stress} | HEATCAP: ${npc.CurrentHeat}/${npc.Stats.HeatCapacity} | SPD: ${npc.Stats.Speed}\n`
     output += `  SAVE: ${npc.Stats.Save} | EVADE: ${npc.Stats.Evade} | EDEF: ${npc.Stats.EDefense}\n`
     output += `  SENS: ${npc.Stats.Sensor} | SIZE: ${npc.Stats.Size} | ACT: ${npc.Stats.Activations}\n`
-    output += '[ FEATURES ]\n  '
+    output += '[ FEATURES ]\n'
     output += npc.Items.map(
-      (item, index) =>
-        `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
-    ).join('')
+      (item) =>
+      `${item.Statblock}`
+    ).join('\n')
     return output
   }
 }
