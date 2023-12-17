@@ -24,6 +24,7 @@ export class NpcItem {
   private _charged: boolean
   private _uses: number
   private _max_uses: number
+  private _statblock: string
 
   public constructor(feature: NpcFeature, tier: number, parent: Npc) {
     this.Parent = parent
@@ -33,6 +34,7 @@ export class NpcItem {
     this._destroyed = false
     this._charged = true
     this._uses = 0
+    this._statblock = this.generateStatblock()
     const f = feature as any
     if (f.IsLimited) {
       const ltd = f.Tags.find(x => x.IsLimited)
@@ -125,6 +127,28 @@ export class NpcItem {
     this.Destroyed = false
     this.IsCharged = true
     this.Uses = 0
+  }
+
+  private generateStatblock(): string {
+    let output = '  '
+    output += `${this.Name} (${'I'.repeat(this.Tier)})\n    `
+    output += `${this.Feature.Origin}: ${this.Feature.Name}\n    `
+    
+    if(this.Feature.ItemType=='NpcWeapon'){
+      output += `This is where weapon stat goes\n    `
+    }
+
+    output += `${this.Feature.EffectByTier(this.Tier)}\n    `
+    return output
+  }
+
+  public get Statblock(): string {
+    return this._statblock
+  }
+
+  public set Statblock(val: string) {
+    this._statblock = val
+    this.save()
   }
 
   public static Serialize(item: NpcItem): INpcItemSaveData {
