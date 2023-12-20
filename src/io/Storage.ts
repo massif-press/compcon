@@ -33,20 +33,10 @@ const storeRegistry = {
     storeName: 'npcs',
     description: 'Stores NPC data',
   }),
-  characters: localforage.createInstance({
+  narrative: localforage.createInstance({
     name: dbName,
-    storeName: 'character',
-    description: 'Stores Character data',
-  }),
-  locations: localforage.createInstance({
-    name: dbName,
-    storeName: 'location',
-    description: 'Stores Location data',
-  }),
-  factions: localforage.createInstance({
-    name: dbName,
-    storeName: 'faction',
-    description: 'Stores Faction data',
+    storeName: 'narrative',
+    description: 'Stores Narrative data',
   }),
   images: localforage.createInstance({
     name: dbName,
@@ -69,12 +59,7 @@ const Initialize = async function () {
 
 const SetItem = async function (collection: string, item: any) {
   if (typeof item === 'string') {
-    console.log(collection);
-    console.log(storeRegistry);
-    console.log(storeRegistry[collection.toLowerCase()]);
-
     const sr = await storeRegistry[collection.toLowerCase()];
-    console.log(sr);
     sr.setItem(item, item);
     return;
   }
@@ -122,7 +107,6 @@ const GetLength = async function (collection: string) {
 
 const GetKeys = async function (collection: string) {
   const db = await storeRegistry[collection.toLowerCase()];
-  console.log(db);
 
   if (db) return await db.keys();
   return [];

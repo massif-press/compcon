@@ -1,39 +1,22 @@
 <template>
   <div>
     <v-data-table
+      density="compact"
       :items="items"
-      :group-by="grouping === 'None' ? [] : grouping"
-      :sort-by="sorting"
+      item-key="ID"
       :headers="headers"
-      :items-per-page="-1"
-      hide-default-footer
+      :items-per-page="25"
     >
-      <template #[`item.Campaigns`]="{ item }">
-        <v-chip v-for="c in item.Campaigns" small color="accent" variant="outlined" class="mr-1">
-          {{ c }}
-        </v-chip>
-      </template>
-      <template #[`item.Labels`]="{ item }">
-        <v-chip v-for="l in item.Labels" small color="primary" label class="mr-1">
-          {{ l }}
-        </v-chip>
-      </template>
-      <template #[`item.NpcTemplateController.Templates`]="{ item }">
-        <v-chip
-          v-for="(t, i) in item.NpcTemplateController.Templates"
-          small
-          color="primary"
-          label
-          class="mr-1"
+      <template v-slot:item.ItemType="{ item }">
+        <v-btn
+          icon
+          size="small"
+          variant="plain"
+          color="accent"
+          class="mr-n12"
+          @click="$emit('open', item)"
         >
-          <v-icon small>cc:npc_template</v-icon>
-          {{ t.Name }}
-        </v-chip>
-      </template>
-      <template #[`item.ItemType`]="{ item }">
-        <v-btn small color="primary" class="text-white" @click="$emit('open', item.ID)">
-          <v-icon start>mdi-open-in-new</v-icon>
-          Open
+          <v-icon>mdi-pencil-outline</v-icon>
         </v-btn>
       </template>
     </v-data-table>
@@ -53,23 +36,17 @@ export default {
     sorting: { type: String, required: false, default: 'Name' },
     sortDir: { type: String, required: false, default: 'asc' },
   },
+  emits: ['open'],
   computed: {
     headers() {
       return headers[this.itemType];
     },
     groupings() {
-      if (this.grouping === 'None') return ['All'];
-      return _.uniq(this.items.flatMap((x) => x[this.grouping]));
+      if (this.grouping === 'None') return [`All`];
+      return _.uniq(this.items.flatMap((x) => (x as any)[this.grouping]));
     },
-  },
-  methods: {
-    groupedItems(group) {
-      if (this.grouping === 'None') return this.items;
-      return this.items.filter((x) => x[this.grouping].some((y) => y === group));
-      // return _.orderBy(
-      //   this.sorting,
-      //   this.sortDir
-      // )
+    sortBy() {
+      return [{ key: this.sorting, order: 'asc' }];
     },
   },
 };

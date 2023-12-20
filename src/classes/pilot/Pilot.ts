@@ -502,14 +502,15 @@ class Pilot
     return new Pilot(pilotData);
   }
 
-  public Update(data: PilotData): void {}
-
   public Clone(): Pilot {
-    const itemData = Pilot.Serialize(this);
-    const newItem = Pilot.Deserialize(itemData);
-    newItem.RenewID();
-    newItem.Name += ' (COPY)';
-    return newItem;
+    const newPilot = Pilot.Deserialize(Pilot.Serialize(this));
+    newPilot.RenewID();
+    newPilot.Name += ' (CLONE)';
+    newPilot.Callsign += '*';
+    for (const mech of newPilot.Mechs) {
+      mech.RenewID();
+    }
+    return newPilot;
   }
 }
 

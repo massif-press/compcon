@@ -18,7 +18,9 @@
         </v-btn-toggle>
       </v-col>
       <v-col cols="auto" class="ml-auto" align-self="center">
-        <v-btn x-small color="primary" @click="($refs as any).organize.show()">Organize</v-btn>
+        <v-btn size="small" variant="tonal" color="accent" @click="($refs as any).organize.show()"
+          ><v-icon start icon="mdi-queue-first-in-last-out" />Organize</v-btn
+        >
         <cc-solo-dialog ref="organize" icon="mdi-cog-outline" no-actions large title="Organize">
           <organize-panel @close="($refs.organize as any).hide()" />
         </cc-solo-dialog>

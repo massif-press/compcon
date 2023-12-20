@@ -21,10 +21,10 @@
 
 <script lang="ts">
 import { NpcStore, NarrativeStore } from '@/stores';
-import NpcPrintContent from '../npcs/_components/NpcPrintContent.vue';
-import CharacterPrintContent from '../characters/_components/CharacterPrintContent.vue';
-import FactionPrintContent from '../factions/_components/FactionPrintContent.vue';
-import LocationPrintContent from '../locations/_components/LocationPrintContent.vue';
+import NpcPrintContent from '../npc_roster/npcs/_components/NpcPrintContent.vue';
+import CharacterPrintContent from '../narrative/characters/_components/CharacterPrintContent.vue';
+import FactionPrintContent from '../narrative/factions/_components/FactionPrintContent.vue';
+import LocationPrintContent from '../narrative/locations/_components/LocationPrintContent.vue';
 
 export default {
   name: 'item-print-wrapper',

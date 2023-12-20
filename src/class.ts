@@ -74,8 +74,8 @@ import {
 } from './classes/dice/DiceRoller';
 import { DiceStats, DiceStatsResult } from './classes/dice/DiceStats';
 import {
-  NpcFeatureType,
   NpcFeature,
+  NpcFeatureType,
   NpcTrait,
   NpcReaction,
   NpcSystem,

@@ -81,6 +81,8 @@ import CCIntegratedInfo from './components/items/features/integrated/CCIntegrate
 import CCReserveCard from './components/items/features/reserves/CCReserveCard.vue';
 import CCAvatar from './components/items/CCAvatar.vue';
 import CCImg from './components/CCImg.vue';
+import CCRelationshipItem from './components/CCRelationshipItem.vue';
+import CCRichTextArea from './components/CCRichTextArea.vue';
 
 export {
   CCImg,
@@ -166,4 +168,6 @@ export {
   CCSidebarView,
   CCIconDivider,
   CCSelector,
+  CCRelationshipItem,
+  CCRichTextArea,
 };

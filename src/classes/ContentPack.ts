@@ -37,13 +37,6 @@ import {
   IPilotWeaponData,
   IPilotArmorData,
   ITalentData,
-  INpcClassData,
-  INpcFeatureData,
-  INpcTemplateData,
-  INpcWeaponData,
-  INpcReactionData,
-  INpcSystemData,
-  INpcTechData,
   ITagCompendiumData,
 } from '@/interface';
 import { Action } from './Action';
@@ -53,6 +46,13 @@ import { Bond, IBondData } from './pilot/components/bond/Bond';
 import { IReserveData } from './pilot/components';
 import { IEnvironmentData } from './Environment';
 import { ISitrepData } from './encounter/Sitrep';
+import { INpcClassData } from './npc/class/NpcClass';
+import { INpcFeatureData } from './npc/feature/NpcFeature';
+import { INpcReactionData } from './npc/feature/NpcItem/NpcReaction';
+import { INpcSystemData } from './npc/feature/NpcItem/NpcSystem';
+import { INpcTechData } from './npc/feature/NpcItem/NpcTech';
+import { INpcWeaponData } from './npc/feature/NpcItem/NpcWeapon';
+import { INpcTemplateData } from './npc/template/NpcTemplate';
 
 type ContentPackDependency = {
   name: string;
@@ -181,8 +181,10 @@ class ContentPack {
           return new NpcSystem(x as INpcSystemData, self._manifest.name);
         return new NpcTech(x as INpcTechData, self._manifest.name);
       }) || [];
+
     self._NpcClasses =
       self._data.npcClasses?.map((x) => new NpcClass(x, self._manifest.name)) || [];
+
     self._NpcTemplates =
       self._data.npcTemplates?.map((x) => new NpcTemplate(x, self._manifest.name)) || [];
 

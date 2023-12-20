@@ -1,8 +1,5 @@
-import { IClockData, Clock } from '../components/narrative/elements/Clock';
-import {
-  IRollableTableData,
-  RollableTable,
-} from '../components/narrative/elements/RollableTable';
+import { IClockData, Clock } from '../narrative/elements/Clock';
+import { IRollableTableData, RollableTable } from '../narrative/elements/RollableTable';
 
 interface ISectionData {
   header: string;
@@ -45,9 +42,7 @@ abstract class CampaignItem {
     this.Links = data?.links || [];
     this.Labels = data?.labels || [];
     this.Clocks = data?.clocks ? data.clocks.map((c) => new Clock(c)) : [];
-    this.Tables = data?.tables
-      ? data.tables.map((t) => new RollableTable(t))
-      : [];
+    this.Tables = data?.tables ? data.tables.map((t) => new RollableTable(t)) : [];
   }
 
   public AddSection(s: ISectionData) {
@@ -55,9 +50,7 @@ abstract class CampaignItem {
   }
 
   public DeleteSection(s: ISectionData) {
-    const idx = this.Sections.findIndex(
-      (x) => x.body === s.body && x.header === s.header
-    );
+    const idx = this.Sections.findIndex((x) => x.body === s.body && x.header === s.header);
     if (idx === -1) return;
     this.Sections.splice(idx, 1);
   }
@@ -89,9 +82,7 @@ abstract class CampaignItem {
 
   public DeleteRelationship(type: string, r: IRelationshipData) {
     if (!Array.isArray(this[type])) return;
-    const idx = this[type].findIndex(
-      (x) => r.name === x.name && r.relationship === x.relationship
-    );
+    const idx = this[type].findIndex((x) => r.name === x.name && r.relationship === x.relationship);
     if (idx === -1) return;
     this[type].splice(idx, 1);
   }

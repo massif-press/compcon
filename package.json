@@ -34,7 +34,7 @@
     "vue-chartjs": "^5.2.0",
     "vue-html-secure": "^1.0.10",
     "vue-router": "^4.1.6",
-    "vuetify": "^3.3.17"
+    "vuetify": "^3.4.7"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
