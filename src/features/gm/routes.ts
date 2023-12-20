@@ -10,16 +10,11 @@ import CampaignEditor from './campaigns/editor.vue';
 import CampaignOverviewPage from './campaigns/pages/overview.vue';
 import CampaignSectionPage from './campaigns/pages/section.vue';
 
-import NPCs from './npcs/index.vue';
-import Eidolons from './eidolons/index.vue';
+import NpcRoster from './npc_roster/index.vue';
+
+import NarrativeIndex from './narrative/index.vue';
+
 import Encounters from './encounters/index.vue';
-import Characters from './characters/index.vue';
-import CharacterEditor from './characters/editor.vue';
-import Locations from './locations/index.vue';
-import LocationsEditor from './locations/editor.vue';
-import Factions from './factions/index.vue';
-import FactionsEditor from './factions/editor.vue';
-import Runner from './runner/index.vue';
 
 const routes = [
   {
@@ -58,12 +53,7 @@ const routes = [
       {
         path: 'npcs',
         name: 'gm-npcs',
-        component: NPCs,
-      },
-      {
-        path: 'eidolons',
-        name: 'gm-eidolons',
-        component: Eidolons,
+        component: NpcRoster,
       },
       {
         path: 'encounters',
@@ -71,43 +61,11 @@ const routes = [
         component: Encounters,
       },
       {
-        path: 'characters',
-        name: 'gm-characters',
-        component: Characters,
+        path: 'narrative',
+        name: 'gm-narrative',
+        component: NarrativeIndex,
       },
-      {
-        path: 'characters/edit/:id',
-        name: 'gm-character-edit',
-        component: CharacterEditor,
-        props: true,
-      },
-      {
-        path: 'locations',
-        name: 'gm-locations',
-        component: Locations,
-      },
-      {
-        path: 'locations/edit/:id',
-        name: 'gm-location-edit',
-        component: LocationsEditor,
-        props: true,
-      },
-      {
-        path: 'factions',
-        name: 'gm-faction',
-        component: Factions,
-      },
-      {
-        path: 'factions/edit/:id',
-        name: 'gm-factions-edit',
-        component: FactionsEditor,
-        props: true,
-      },
-      {
-        path: 'runner',
-        name: 'gm-runner',
-        component: Runner,
-      },
+
       {
         path: '/gm/print/:type/:id',
         name: 'gm-print',

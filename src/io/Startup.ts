@@ -1,14 +1,6 @@
-import { SetTheme } from '@/classes/utility/ThemeManager';
-import { INpcData, PilotData } from '@/interface';
-import {
-  CompendiumStore,
-  PilotStore,
-  NpcStore,
-  UserStore,
-  // NarrativeStore,
-  // NarrativeStore,
-  // NarrativeStore,
-} from '@/stores';
+// import { SetTheme } from '@/classes/utility/ThemeManager';
+// import { NpcData, PilotData } from '@/interface';
+import { CompendiumStore, PilotStore, NpcStore, UserStore, NarrativeStore } from '@/stores';
 // import { Auth } from '@aws-amplify/auth';
 
 import { Initialize, SetItem, GetItem, RemoveItem } from './Storage';
@@ -33,17 +25,18 @@ export default async function (): Promise<void> {
   await UserStore().loadUser();
 
   await CompendiumStore().refreshExtraContent();
-  const missing = { pilots: [] as PilotData[], npcs: [] as INpcData[] };
+  // const missing = { pilots: [] as PilotData[], npcs: [] as NpcData[] };
   await PilotStore().LoadPilots();
   console.log('pilots loaded');
   // missing.pilots = PilotStore().MissingPilots;
   await NpcStore().LoadNpcs();
+  console.log('npcs loaded');
   // missing.npcs = NpcStore().MissingNpcs;
-  CompendiumStore().setMissingContent(missing);
+  // CompendiumStore().setMissingContent(missing);
 
-  // await NarrativeStore.loadCharacters();
-  // await NarrativeStore.loadLocations();
-  // await NarrativeStore.loadFactions();
+  console.log(NarrativeStore());
+
+  await NarrativeStore().LoadCollectionItems();
 
   console.info('loading complete');
 }

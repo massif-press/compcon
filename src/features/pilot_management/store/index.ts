@@ -138,7 +138,7 @@ export const PilotStore = defineStore('pilot', {
     async SavePilotData(): Promise<void> {
       // TODO: reactivate dirty
 
-      Promise.all([this.Pilots.map((y) => SetItem('pilots', Pilot.Serialize(y as Pilot)))])
+      Promise.all(this.Pilots.map((y) => SetItem('pilots', Pilot.Serialize(y as Pilot))))
         .then(() => this.SaveGroupData())
         .then(() => console.info('Pilot data saved'))
         .catch((err) => console.error('Error while saving Pilot data', err));
@@ -153,18 +153,10 @@ export const PilotStore = defineStore('pilot', {
         .catch((err) => console.error('Error while saving Pilot data', err));
     },
 
-    ClonePilot(payload: { pilot: Pilot; quirk: boolean }): void {
+    ClonePilot(payload: Pilot): void {
       //TODO: add group setting
-      const pilotData = Pilot.Serialize(payload.pilot);
-      const newPilot = Pilot.Deserialize(pilotData);
-      newPilot.RenewID();
-      newPilot.Name += ' (CLONE)';
-      newPilot.Callsign += '*';
-      for (const mech of newPilot.Mechs) {
-        mech.RenewID();
-      }
 
-      this.AddPilot(newPilot, this.getGroupByPilotID(payload.pilot.ID));
+      this.AddPilot(payload.Clone(), this.getGroupByPilotID(payload.ID));
     },
     DeletePilotPermanent(pilot: Pilot): void {
       const groupIndex = this.PilotGroups.findIndex((x) =>

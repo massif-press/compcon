@@ -1,28 +1,32 @@
 <template>
-  <div>
-    <gm-item-table
-      v-if="table"
-      :item-type="itemType"
-      :items="items"
-      :grouping="grouping"
-      :sorting="sorting"
-      :sort-dir="sortDir"
-      @open="$emit('open', $event)"
-    />
-    <div v-else>
-      <v-row v-for="(group, i) in groupings" density="compact">
-        <v-col cols="12">
-          <div class="primary text-white heading h3 pa-1 pl-2">
-            {{ group }}
-          </div>
+  <gm-item-table
+    v-if="table"
+    :item-type="itemType"
+    :items="items"
+    :grouping="grouping"
+    :sorting="sorting"
+    :sort-dir="sortDir"
+    @open="$emit('open', $event)"
+  />
+  <div v-else>
+    <div v-for="group in groupings">
+      <v-row dense align="center">
+        <v-col cols="auto" style="width: 2vw"><v-divider /></v-col>
+        <v-col cols="auto" class="heading h3">
+          {{ group }}
+          <span class="text-caption text-disabled">({{ groupedItems(group).length }})</span>
         </v-col>
-        <v-col
-          v-for="(item, j) in groupedItems(group)"
-          :cols="list ? 12 : big ? 3 : 2"
-        >
+        <v-col>
+          <v-divider />
+        </v-col>
+      </v-row>
+      <div v-if="!items.length" class="text-center text-disabled"><i>No Data</i></div>
+      <v-row v-else dense>
+        <v-col v-for="(item, i) in groupedItems(group)" :cols="list ? 12 : big ? 3 : 2">
           <item-card
-            :item="item"
+            :item="(item as any)"
             :big="big"
+            :odd="i % 2 > 0"
             :list="list"
             @open="$emit('open', $event)"
           />
@@ -53,15 +57,13 @@ export default {
   computed: {
     groupings() {
       if (this.grouping === 'None') return [`All`];
-      return _.uniq(this.items.flatMap((x) => x[this.grouping]));
+      return _.uniq(this.items.flatMap((x) => (x as any)[this.grouping]));
     },
   },
   methods: {
     groupedItems(group) {
       if (this.grouping === 'None') return this.items;
-      return this.items.filter((x) =>
-        x[this.grouping].some((y) => y === group)
-      );
+      return this.items.filter((x) => (x as any)[this.grouping].some((y) => y === group));
     },
   },
 };

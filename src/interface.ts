@@ -1,7 +1,7 @@
 // Maintain this file as the single point of import for all interface definitions
 // (to the extent possible) in order to avoid any circular reference errors. Basic types and
 // abstract classes should be imported before their children. AFAIK the definitions can be
-// stored anywhere and collected imports are fine as long as their constituents are impored
+// stored anywhere and collected imports are fine as long as their constituents are imported
 // first in this file.
 
 import { ICompendiumItemData } from './classes/CompendiumItem';
@@ -26,18 +26,6 @@ import {
   IMechWeaponData,
   IMechWeaponSaveData,
 } from './classes/mech/components/equipment/MechWeapon';
-import {
-  INpcFeatureData,
-  INpcReactionData,
-  INpcSystemData,
-  INpcDamageData,
-  INpcWeaponData,
-  INpcClassData,
-  INpcTemplateData,
-  INpcItemSaveData,
-  INpcTechData,
-  INpcData,
-} from './classes/npc/interfaces';
 import { IContentPackManifest, IContentPack, ContentPackDependency } from './classes/ContentPack';
 import { ICounterData } from './classes/components/combat/counters/Counter';
 import { ITagCompendiumData } from './classes/Tag';
@@ -147,7 +135,7 @@ interface PrintOptions {
   combo: boolean;
 }
 
-export { Action, INpcData, PilotData };
+export { Action, PilotData };
 export type {
   ICompendiumItemData,
   ILicensedItemData,
@@ -168,15 +156,6 @@ export type {
   ITalentData,
   ISkillData,
   IMechWeaponData,
-  INpcFeatureData,
-  INpcReactionData,
-  INpcSystemData,
-  INpcTechData,
-  INpcDamageData,
-  INpcWeaponData,
-  INpcClassData,
-  INpcTemplateData,
-  INpcItemSaveData,
   IContentPackManifest,
   IContentPack,
   ContentPackDependency,

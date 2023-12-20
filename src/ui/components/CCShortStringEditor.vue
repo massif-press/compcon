@@ -1,6 +1,6 @@
 <template>
   <v-fade-transition leave-absolute>
-    <v-row no-gutters v-if="!editing" justify="center" align="end" key="str">
+    <v-row no-gutters v-if="!editing" :justify="justify" align="end" key="str">
       <v-col cols="auto">
         <slot />
       </v-col>
@@ -33,6 +33,7 @@ export default {
   props: {
     placeholder: { type: String, required: false },
     large: { type: Boolean },
+    justify: { type: String, required: false, default: 'center' },
   },
   data: () => ({
     newStr: '',

@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { Npc } from '@/class';
 import { CompendiumStore } from '@/stores';
 import { ISaveData, SaveController } from '../components';
-import { INpcData } from '../npc/Npc';
+import { NpcData } from '../npc/Npc';
 import { ISitrepData, SitrepData } from './Sitrep';
 import { IEnvironmentData, EnvironmentData } from './EnvironmentData';
 import { EncounterMap, IMapData } from './Map';
@@ -11,7 +11,7 @@ class IEncounterData {
   id: string;
   lastModified: string;
   name: string;
-  npcs: INpcData[];
+  npcs: NpcData[];
   sitrep: ISitrepData;
   environment: IEnvironmentData;
   map?: IMapData;

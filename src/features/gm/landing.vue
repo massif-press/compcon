@@ -41,24 +41,10 @@
         </v-row>
         <v-row>
           <landing-card
-            to="gm/characters"
-            name="Characters"
-            description="Manage non-player characters"
-            img="characters"
-            max-height="41vh"
-          />
-          <landing-card
-            to="gm/locations"
-            name="Locations"
-            description="Manage locations and settings"
+            to="gm/narrative"
+            name="Narrative Elements"
+            description="Manage characters, locations, and factions"
             img="location"
-            max-height="41vh"
-          />
-          <landing-card
-            to="gm/factions"
-            name="Factions"
-            description="Manage factions and organizations"
-            img="factions"
             max-height="41vh"
           />
         </v-row>

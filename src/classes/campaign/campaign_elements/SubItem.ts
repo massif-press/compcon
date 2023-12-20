@@ -1,6 +1,6 @@
-import { Clock } from '@/classes/components/narrative/elements/Clock';
+import { Clock } from '@/classes/narrative/elements/Clock';
 import { v4 as uuid } from 'uuid';
-import { RollableTable } from '../../components/narrative/elements/RollableTable';
+import { RollableTable } from '../../narrative/elements/RollableTable';
 
 interface ISubItemData {
   id?: string;

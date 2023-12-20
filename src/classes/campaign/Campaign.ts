@@ -1,15 +1,12 @@
 import { v4 as uuid } from 'uuid';
 import { ISaveable, ISaveData, SaveController } from '../components';
 import { ISectionData, Section } from './campaign_elements/Section';
-import { Character, ICharacterData } from './Character';
-import { Faction, IFactionData } from './Faction';
-import { ILocationData, Location } from './Location';
+import { Character, ICharacterData } from '../narrative/Character';
+import { Faction, IFactionData } from '../narrative/Faction';
+import { ILocationData, Location } from '../narrative/Location';
 
 enum CampaignStatus {
-  Active = 'Active',
   Unpublished = 'Unpublished',
-  Catalog = 'Catalog',
-  Archived = 'Archived',
   Published = 'Published',
 }
 

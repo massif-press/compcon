@@ -1,42 +1,40 @@
 <template>
   <div>
     <div v-if="item.NarrativeController.TextItems.length">
-      <v-row v-for="(s, i) in item.NarrativeController.TextItems" density="compact">
-        <v-col>
-          <v-row no-gutters justify="space-between">
-            <v-col cols="auto">
-              <div class="heading h3">
-                <cc-short-string-editor large @set="s.header = $event">
-                  {{ s.header }}
-                </cc-short-string-editor>
-              </div>
-            </v-col>
-            <v-col cols="auto">
-              <v-menu offset-x left>
-                <template #activator="{ props }">
-                  <v-btn small icon color="error" variant="plain" v-bind="props">
-                    <v-icon icon="mdi-delete" />
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-card-text>
-                    Do you want to delete the textItem titled "{{ s.header }}"? This action cannot
-                    be undone.
-                  </v-card-text>
-                  <v-divider />
-                  <v-card-actions>
-                    <v-spacer />
-                    <v-btn small color="error" @click="deleteTextItem(s)">Confirm Deletion</v-btn>
-                  </v-card-actions>
-                </v-card>
-              </v-menu>
-            </v-col>
-          </v-row>
-          <v-col cols="12">
-            <cc-rte v-model="s.body" />
-          </v-col>
-        </v-col>
-      </v-row>
+      <v-card v-for="s in item.NarrativeController.TextItems" variant="tonal" class="mb-2">
+        <v-toolbar density="compact" class="px-3">
+          <div class="heading h3">
+            <cc-short-string-editor large @set="s.header = $event">
+              {{ s.header }}
+            </cc-short-string-editor>
+          </div>
+          <v-spacer />
+
+          <v-menu offset-x left>
+            <template #activator="{ props }">
+              <v-btn size="small" icon color="error" variant="plain" v-bind="props">
+                <v-icon icon="mdi-delete" />
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text>
+                Do you want to delete the textItem titled "{{ s.header }}"? This action cannot be
+                undone.
+              </v-card-text>
+              <v-divider />
+              <v-card-actions>
+                <v-spacer />
+                <v-btn size="small" color="error" @click="deleteTextItem(s)"
+                  >Confirm Deletion</v-btn
+                >
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </v-toolbar>
+        <div class="pa-2">
+          <cc-rich-text-area :item="s" note-property="body" />
+        </div>
+      </v-card>
     </div>
     <v-row justify="end">
       <v-col cols="auto">
@@ -48,7 +46,7 @@
           :close-on-content-click="false"
         >
           <template #activator="{ props }">
-            <v-btn color="accent" variant="outlined" small v-bind="props">
+            <v-btn color="accent" variant="outlined" size="small" v-bind="props">
               <v-icon start>mdi-plus</v-icon>
               Add New Text Section
             </v-btn>
@@ -56,10 +54,10 @@
           <v-card>
             <v-card-text>
               <v-combobox
-                v-if="item.NarrativeController.TextItemSuggestions"
+                v-if="item.SectionSuggestions"
                 v-model="newTextItemHeader"
                 label="Title"
-                :items="item.NarrativeController.TextItemSuggestions"
+                :items="item.SectionSuggestions"
               />
               <v-text-field
                 v-else
@@ -84,8 +82,11 @@
 </template>
 
 <script lang="ts">
+import NoteEditor from './NoteEditor.vue';
+
 export default {
   name: 'campaign-item-textItem-editor',
+  components: { NoteEditor },
   props: {
     item: { type: Object, required: true },
   },

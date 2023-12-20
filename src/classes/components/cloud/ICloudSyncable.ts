@@ -9,7 +9,6 @@ interface ICloudSyncable {
   SaveController: SaveController;
 
   Serialize(item: any);
-  Update(data: any);
 }
 
 export type { ICloudSyncable };

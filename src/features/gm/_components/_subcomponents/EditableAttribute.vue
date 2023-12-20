@@ -1,0 +1,85 @@
+<template>
+  <v-col :cols="cols">
+    <v-card tile variant="outlined" class="text-center">
+      <v-card-title
+        :class="`${color} text-white caption py-1`"
+        style="font-weight: bold; max-height: 28px; font-size: 18px !important"
+      >
+        <v-btn
+          v-if="editable && !editMode"
+          icon
+          dark
+          x-small
+          variant="plain"
+          absolute
+          @click="editMode = true"
+        >
+          <v-icon icon="mdi-circle-edit-outline" />
+        </v-btn>
+        <v-spacer />
+        {{ attr }}
+        <v-spacer />
+      </v-card-title>
+      <v-card-text class="pa-1 text-text">
+        <v-text-field
+          v-if="editMode"
+          v-model="model"
+          solo
+          variant="outlined"
+          filled
+          density="compact"
+          hide-details
+          autofocus
+          type="number"
+          @input="$emit('set', parseInt(model))"
+          @blur="editMode = false"
+          @keyup.enter="editMode = false"
+          @focus="$event.target.select()"
+        />
+        <span v-else class="heading h2">{{ val || '0' }}</span>
+      </v-card-text>
+    </v-card>
+  </v-col>
+</template>
+
+<script lang="ts">
+export default {
+  name: 'editable-attribute',
+  props: {
+    attr: {
+      type: String,
+      required: true,
+    },
+    val: {
+      type: [String, Number],
+      required: true,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: 'primary',
+    },
+    cols: {
+      type: [String, Number],
+      required: false,
+      default: '',
+    },
+    editable: {
+      type: Boolean,
+    },
+  },
+  emits: ['set'],
+  data: () => ({
+    model: 0,
+    editMode: false,
+  }),
+  mounted() {
+    this.model = this.val;
+  },
+  watch: {
+    val() {
+      this.model = this.val;
+    },
+  },
+};
+</script>
