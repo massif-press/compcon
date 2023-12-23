@@ -132,10 +132,11 @@ export class NpcItem {
   private generateStatblock(): string {
     let output = '  '
     output += `${this.Name} (${'I'.repeat(this.Tier)})\n    `
-    output += `${this.Feature.Origin}: ${this.Feature.Name}\n    `
+    output += `${this.Feature.Origin}\n    `
     
-    if(this.Feature.ItemType=='NpcWeapon'){
-      output += `This is where weapon stat goes\n    `
+    if(this.Feature.ItemType=='NpcWeapon'||'NpcTech'){
+      output += `This is where weapon/tech stat goes\n    `
+      // output += `${this.Feature.Name}`
     }
 
     output += `${this.Feature.EffectByTier(this.Tier)}\n    `
