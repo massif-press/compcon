@@ -106,7 +106,7 @@ export abstract class NpcFeature {
     return this._effect
   }
 
-  public EffectByTier(tier: number, htmltag: boolean = true): string {
+  public EffectByTier(tier: number): string {
     if (!this._effect) return ''
     let fmt = this._effect
     const perTier = /(\{.*?\})/g
@@ -114,12 +114,7 @@ export abstract class NpcFeature {
     if (m) {
       m.forEach(x => {
         const tArr = x.replace('{', '').replace('}', '').split('/')
-        if (htmltag) {
-          fmt = fmt.replace(x, `<b class="accent--text">${tArr[tier - 1]}</b>`)
-        }
-        else {
-          fmt = fmt.replace(x, `${tArr[tier - 1]}`)
-        }
+        fmt = fmt.replace(x, `<b class="accent--text">${tArr[tier - 1]}</b>`)
       })
     }
     return fmt

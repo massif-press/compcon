@@ -139,7 +139,7 @@ export class NpcItem {
       // output += `${this.Feature.Name}`
     }
 
-    output += `${this.Feature.EffectByTier(this.Tier, false)}\n    `
+    output += `${this.Feature.EffectByTier(this.Tier)}\n    `
     return output
   }
 
