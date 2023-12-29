@@ -140,6 +140,11 @@ export class NpcItem {
     }
 
     output += `${this.Feature.EffectByTier(this.Tier)}\n    `
+    
+    output = output.replaceAll('<b class="accent--text">','')
+    output = output.replaceAll('</b>','')
+    output = output.replaceAll('<br>','\n')
+    
     return output
   }
 
