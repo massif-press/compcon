@@ -81,6 +81,39 @@ export class NpcWeapon extends NpcFeature {
     return this._attack_bonus[tier - 1]
   }
 
+  public generateSummary(tier: number): string {
+    let output = ''
+    output += `${this.WeaponType}\n    `
+    this.Range.forEach(
+      item => {
+        output += `${item.Type} ${item.Value} `
+        console.log(`${item.Type} ${item.Value} `)
+      }
+    )
+    output += '| '
+    this.Damage(tier).forEach(
+      item => {
+        output += `${item.Value} ${item.Type} `
+        console.log(`${item.Value} ${item.Type} `)
+      }
+    )
+
+    output += '| Attack Bonus: '
+    if(this.AttackBonus(tier)<0) {
+      output += this.AttackBonus(tier)
+    } else {
+      output += `+${this.AttackBonus(tier)}`
+    }
+    if(this.Accuracy(tier)<0) {
+      output += `, ${this.Accuracy(tier)} DIF`
+    } else if(this.Accuracy(tier)>0) {
+      output += `, ${this.Accuracy(tier)} ACC`
+    }
+    output+='\n'
+    
+    return output
+  }
+
   public get Color(): string {
     return 'npc--weapon'
   }

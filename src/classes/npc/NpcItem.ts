@@ -1,6 +1,6 @@
 // Wrapper class for items assigned to an NPC
 
-import { NpcFeature } from './'
+import { NpcFeature, NpcWeapon } from './'
 import { store } from '@/store'
 import { Npc } from './Npc'
 
@@ -134,12 +134,14 @@ export class NpcItem {
     output += `${this.Name} (${'I'.repeat(this.Tier)})\n    `
     output += `${this.Feature.Origin}\n    `
     
-    if(this.Feature.ItemType=='NpcWeapon'||'NpcTech'){
-      output += `This is where weapon/tech stat goes\n    `
-      // output += `${this.Feature.Name}`
+    if(this.Feature.ItemType=='NpcWeapon'){
+      let weapon: NpcWeapon = this.Feature as NpcWeapon
+      output += weapon.generateSummary(this.Tier)
     }
 
-    output += `${this.Feature.EffectByTier(this.Tier)}\n    `
+    if(this.Feature.EffectByTier(this.Tier)){
+      output += `${this.Feature.EffectByTier(this.Tier)}\n    `
+  }
     
     output = output.replaceAll('<b class="accent--text">','')
     output = output.replaceAll('</b>','')
