@@ -20,7 +20,6 @@ export class NpcReaction extends NpcFeature {
   }
 
   public generateSummary(tier: number): string {
-    console.log(this)
     let output: string = ''
     if(this.Tags.length){
       output += this.Tags.map(
