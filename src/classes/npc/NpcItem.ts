@@ -1,6 +1,6 @@
 // Wrapper class for items assigned to an NPC
 
-import { NpcFeature, NpcWeapon } from './'
+import { NpcFeature } from './'
 import { store } from '@/store'
 import { Npc } from './Npc'
 
