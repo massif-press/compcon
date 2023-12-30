@@ -137,7 +137,7 @@ export class NpcItem {
     
     output = output.replaceAll('<b class="accent--text">','')
     output = output.replaceAll('</b>','')
-    output = output.replaceAll('<br>','\n')
+    output = output.replaceAll('<br>','\n    ')
     
     return output
   }
