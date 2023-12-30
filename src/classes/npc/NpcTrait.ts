@@ -9,7 +9,16 @@ export class NpcTrait extends NpcFeature {
 
   public generateSummary(tier: number): string {
     let output: string = ''
-    output += `Trait summary goes here`
+    if(this.Tags.length){
+      output += this.Tags.map(
+        (item) => 
+          `${item.GetName()}`
+      ).join(', ')
+      output += '\n    '
+    }
+    if(this.EffectByTier(tier)){
+      output += `${this.EffectByTier(tier)}`
+    }
     return output
   }
 
