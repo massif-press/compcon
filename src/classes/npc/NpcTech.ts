@@ -47,8 +47,31 @@ export class NpcTech extends NpcFeature {
   }
 
   public generateSummary(tier: number): string {
+    console.log(this)
     let output: string = ''
-    output += `Tech summary goes here`
+    if(this.Tags.length){
+      output += this.Tags.map(
+        (item) => 
+          `${item.GetName()}`
+      ).join(', ')
+      output += '\n    '
+    }
+
+    output += 'Attack Bonus: '
+    if(this.AttackBonus(tier)<0) {
+      output += this.AttackBonus(tier)
+    } else {
+      output += `+${this.AttackBonus(tier)}`
+    }
+    if(this.Accuracy(tier)<0) {
+      output += `, ${this.Accuracy(tier)} DIF`
+    } else if(this.Accuracy(tier)>0) {
+      output += `, ${this.Accuracy(tier)} ACC`
+    }
+
+    if(this.EffectByTier(tier)){
+      output += `\n    ${this.EffectByTier(tier)}`
+    }
     return output
   }
 
