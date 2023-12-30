@@ -20,8 +20,20 @@ export class NpcReaction extends NpcFeature {
   }
 
   public generateSummary(tier: number): string {
+    console.log(this)
     let output: string = ''
-    output += `Reaction summary goes here`
+    if(this.Tags.length){
+      output += this.Tags.map(
+        (item) => 
+          `${item.GetName()}`
+      ).join(', ')
+      output += '\n    '
+    }
+
+    output += `Trigger: ${this.Trigger}\n    `
+
+
+    output += `Effect: ${this.EffectByTier(tier)}`
     return output
   }
 
