@@ -19,6 +19,12 @@ export class NpcReaction extends NpcFeature {
     return this._trigger
   }
 
+  public generateSummary(tier: number): string {
+    let output: string = ''
+    output += `Reaction summary goes here`
+    return output
+  }
+
   public get Color(): string {
     return 'npc--reaction'
   }

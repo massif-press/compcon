@@ -46,6 +46,12 @@ export class NpcTech extends NpcFeature {
     return this._attack_bonus[tier - 1]
   }
 
+  public generateSummary(tier: number): string {
+    let output: string = ''
+    output += `Tech summary goes here`
+    return output
+  }
+
   public get Color(): string {
     return 'npc--tech'
   }

@@ -93,6 +93,8 @@ export abstract class NpcFeature {
     return this._override
   }
 
+  abstract generateSummary(tier: number): string
+
   public get Effect(): string {
     if (!this._effect) return ''
     const perTier = /(\{.*?\})/

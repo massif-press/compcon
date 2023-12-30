@@ -133,15 +133,7 @@ export class NpcItem {
     let output = '  '
     output += `${this.Name} (${'I'.repeat(this.Tier)})\n    `
     output += `${this.Feature.Origin}\n    `
-    
-    if(this.Feature.ItemType=='NpcWeapon'){
-      let weapon: NpcWeapon = this.Feature as NpcWeapon
-      output += weapon.generateSummary(this.Tier)
-    }
-
-    if(this.Feature.EffectByTier(this.Tier)){
-      output += `${this.Feature.EffectByTier(this.Tier)}\n    `
-  }
+    output += `${this.Feature.generateSummary(this.Tier)}\n`
     
     output = output.replaceAll('<b class="accent--text">','')
     output = output.replaceAll('</b>','')
