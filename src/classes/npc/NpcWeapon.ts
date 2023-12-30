@@ -84,7 +84,7 @@ export class NpcWeapon extends NpcFeature {
   public generateSummary(tier: number): string {
     let output = ''
     output += `${this.WeaponType}\n    `
-    
+
     if(this.Tags.length){
       output += this.Tags.map(
         (item) => 
@@ -97,34 +97,32 @@ export class NpcWeapon extends NpcFeature {
       (item) =>
         `${item.Type} ${item.Value} `
     ).join(' ')
-
     output += '| '
     output += this.Damage(tier).map(
       (item) =>
         `${item.Value} ${item.Type}`
     ).join(' ')
-
     output += ' | Attack Bonus: '
     if(this.AttackBonus(tier)<0) {
-      output += this.AttackBonus(tier)
+      output += `${this.AttackBonus(tier)}`
     } else {
       output += `+${this.AttackBonus(tier)}`
     }
+    output += ', '
     if(this.Accuracy(tier)<0) {
-      output += `, ${this.Accuracy(tier)} DIF`
+      output += `${this.Accuracy(tier)} DIF`
     } else if(this.Accuracy(tier)>0) {
-      output += `, ${this.Accuracy(tier)} ACC`
+      output += `${this.Accuracy(tier)} ACC`
     }
+
     if(this.OnHit) {
       output += `\n    On Hit: ${this.OnHit}`
     }
     if(this.EffectByTier(tier)){
       output += `\n    ${this.EffectByTier(tier)}`
     }
-
     return output
   }
-
   public get Color(): string {
     return 'npc--weapon'
   }

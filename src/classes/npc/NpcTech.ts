@@ -58,14 +58,15 @@ export class NpcTech extends NpcFeature {
 
     output += 'Attack Bonus: '
     if(this.AttackBonus(tier)<0) {
-      output += this.AttackBonus(tier)
+      output += `${this.AttackBonus(tier)}`
     } else {
       output += `+${this.AttackBonus(tier)}`
     }
+    output += ', '
     if(this.Accuracy(tier)<0) {
-      output += `, ${this.Accuracy(tier)} DIF`
+      output += `${this.Accuracy(tier)} DIF`
     } else if(this.Accuracy(tier)>0) {
-      output += `, ${this.Accuracy(tier)} ACC`
+      output += `${this.Accuracy(tier)} ACC`
     }
 
     if(this.EffectByTier(tier)){

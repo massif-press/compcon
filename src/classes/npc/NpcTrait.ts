@@ -16,6 +16,7 @@ export class NpcTrait extends NpcFeature {
       ).join(', ')
       output += '\n    '
     }
+
     if(this.EffectByTier(tier)){
       output += `${this.EffectByTier(tier)}`
     }

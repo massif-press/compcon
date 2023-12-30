@@ -129,26 +129,16 @@ export class NpcItem {
     this.Uses = 0
   }
 
-  private generateStatblock(): string {
+  public generateStatblock(): string {
     let output = '  '
     output += `${this.Name} (${'I'.repeat(this.Tier)})\n    `
     output += `${this.Feature.Origin}\n    `
     output += `${this.Feature.generateSummary(this.Tier)}\n`
-    
+
     output = output.replaceAll('<b class="accent--text">','')
     output = output.replaceAll('</b>','')
     output = output.replaceAll('<br>','\n    ')
-    
     return output
-  }
-
-  public get Statblock(): string {
-    return this._statblock
-  }
-
-  public set Statblock(val: string) {
-    this._statblock = val
-    this.save()
   }
 
   public static Serialize(item: NpcItem): INpcItemSaveData {

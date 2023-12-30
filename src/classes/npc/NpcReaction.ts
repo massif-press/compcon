@@ -30,8 +30,6 @@ export class NpcReaction extends NpcFeature {
     }
 
     output += `Trigger: ${this.Trigger}\n    `
-
-
     output += `Effect: ${this.EffectByTier(tier)}`
     return output
   }
