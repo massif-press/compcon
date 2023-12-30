@@ -28,7 +28,7 @@ export class NpcReaction extends NpcFeature {
       ).join(', ')
       output += '\n    '
     }
-    
+
     output += `Trigger: ${this.Trigger}\n    `
     output += `Effect: ${this.EffectByTier(tier)}`
     return output

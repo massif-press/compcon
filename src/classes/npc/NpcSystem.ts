@@ -32,13 +32,13 @@ export class NpcSystem extends NpcFeature {
       ).join(', ')
       output += '\n    '
     }
-    
+
     if(this.EffectByTier(tier)){
       output += `${this.EffectByTier(tier)}`
     }
     return output
   }
-  
+
   public get Color(): string {
     return 'npc--system'
   }
