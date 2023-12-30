@@ -300,7 +300,7 @@ class Statblock {
     } else return '>> NO MECH SELECTED <<'
   }
 
-  public static GenerateNPC(npc: Npc, genRadio: string): string {
+  public static GenerateNPC(npc: Npc, genRadio?: string): string {
     let output = `// ${npc.Name} //\n`
     output += `${npc.Class.Name.toUpperCase()}`
     if (npc.Templates) output += ` ${npc.Templates.map(t => t.Name).join(' ')}`

@@ -195,7 +195,7 @@ export default Vue.extend({
       this.close()
     },
     statBlock() {
-      return Statblock.GenerateNPC(this.statBlockNpc)
+      return Statblock.GenerateNPC(this.statBlockNpc,"compact")
     },
     copyStatBlock() {
       navigator.clipboard
