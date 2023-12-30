@@ -104,7 +104,7 @@ export class NpcWeapon extends NpcFeature {
         `${item.Value} ${item.Type}`
     ).join(' ')
 
-    output += '| Attack Bonus: '
+    output += ' | Attack Bonus: '
     if(this.AttackBonus(tier)<0) {
       output += this.AttackBonus(tier)
     } else {
