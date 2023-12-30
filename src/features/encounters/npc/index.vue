@@ -251,7 +251,7 @@ export default class NpcManager extends Vue {
   }
 
   statblock() {
-    return Statblock.GenerateNPC(this.statblockNpc)
+    return Statblock.GenerateNPC(this.statblockNpc,this.genRadios)
   }
 
   copyStatBlock() {
