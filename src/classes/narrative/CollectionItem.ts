@@ -19,13 +19,6 @@ interface ISectionData {
   body: string;
 }
 
-type Relationship = {
-  id: string;
-  name: string;
-  relationship: string;
-  note: string;
-};
-
 class ICollectionItemData {
   protected collectionItemType: string = 'collection-item';
   id!: string;
@@ -33,8 +26,6 @@ class ICollectionItemData {
   cloud!: ICloudData;
   img!: IPortraitData;
   narrative!: NarrativeElementData;
-  relationships!: Relationship[];
-
   name!: string;
   note!: string;
 }
@@ -52,16 +43,14 @@ abstract class CollectionItem
   public NarrativeController: NarrativeController;
 
   private _id: string;
-  private _name: string = 'New NPC';
+  protected _name: string = 'New NPC';
   private _note: string = '';
-  private _relationships: Relationship[] = [];
   static ID: string;
   static Name: string;
 
   public constructor(data?: ICollectionItemData) {
     this._id = data?.id || uuid();
     this._note = data?.note || '';
-    this._relationships = data?.relationships || [];
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
     this.CloudController = new CloudController(this);
@@ -102,15 +91,6 @@ abstract class CollectionItem
     this.SaveController.save();
   }
 
-  public get Relationships(): Relationship[] {
-    return this._relationships;
-  }
-
-  public set Relationships(val: Relationship[]) {
-    this._relationships = val;
-    this.SaveController.save();
-  }
-
   public Clone<T>(): T {
     throw new Error('Method inaccessible in abstract class.');
   }
@@ -125,4 +105,4 @@ abstract class CollectionItem
 }
 
 export { ICollectionItemData, CollectionItem };
-export type { Relationship, ISectionData };
+export type { ISectionData };

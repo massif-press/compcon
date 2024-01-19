@@ -1,22 +1,23 @@
+import { IStatData, StatController } from '@/classes/components/combat/stats/StatController';
 import { CloudController, PortraitController, SaveController } from '../../components';
-// import { IStatData, StatController } from '../../components/combat/stats/StatController';
 import { NpcData, Npc } from '../Npc';
 import { BrewController } from '@/classes/components/brew/BrewController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
 
 class DoodadData extends NpcData {
   npcType: 'doodad' = 'doodad';
-  // stats!: IStatData;
+  stats!: IStatData;
 }
 
 class Doodad extends Npc {
-  // public StatController: StatController;
+  public StatController: StatController;
   public ItemType: string = 'doodad';
+  public MandatoryStats: string[] = [];
 
   public constructor(data?: DoodadData) {
     super(data);
-    this.Name = data?.name || 'New Doodad';
-    // this.StatController = new StatController(this);
+    this._name = data?.name || 'New Doodad';
+    this.StatController = new StatController(this);
   }
 
   public static Serialize(doodad: Doodad): DoodadData {
@@ -32,7 +33,7 @@ class Doodad extends Npc {
     PortraitController.Serialize(doodad, data);
     BrewController.Serialize(doodad, data);
     NarrativeController.Serialize(doodad, data);
-    // StatController.Serialize(doodad, data);
+    StatController.Serialize(doodad, data);
 
     return data as DoodadData;
   }
@@ -47,7 +48,7 @@ class Doodad extends Npc {
     PortraitController.Deserialize(doodad, data.img);
     BrewController.Deserialize(doodad, data);
     NarrativeController.Deserialize(doodad, data.narrative);
-    // StatController.Deserialize(doodad, data.stats);
+    StatController.Deserialize(doodad, data.stats);
     return doodad;
   }
 

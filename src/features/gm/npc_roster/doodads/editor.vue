@@ -5,12 +5,13 @@
     @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
-    @copy="dupe()"
-  >
+    @copy="dupe()">
     <template v-slot:builder>
       <builder :item="item" />
     </template>
-    <template v-slot:stats> stats </template>
+    <template v-slot:stats>
+      <stat-editor :item="item" />
+    </template>
   </editor-base>
 </template>
 
@@ -21,10 +22,11 @@ import EditorBase from '../../../gm/_components/EditorBase.vue';
 import Builder from './builder.vue';
 
 import { NpcStore } from '@/stores';
+import StatEditor from '../../_components/StatEditor.vue';
 
 export default {
   name: 'gm-doodad-editor-base',
-  components: { Builder, EditorBase },
+  components: { Builder, EditorBase, StatEditor },
   props: {
     item: { type: Object, required: true },
   },

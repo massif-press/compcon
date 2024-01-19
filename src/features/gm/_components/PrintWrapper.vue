@@ -22,17 +22,17 @@
 <script lang="ts">
 import { NpcStore, NarrativeStore } from '@/stores';
 import NpcPrintContent from '../npc_roster/npcs/_components/NpcPrintContent.vue';
-import CharacterPrintContent from '../narrative/characters/_components/CharacterPrintContent.vue';
-import FactionPrintContent from '../narrative/factions/_components/FactionPrintContent.vue';
-import LocationPrintContent from '../narrative/locations/_components/LocationPrintContent.vue';
+// import CharacterPrintContent from '../narrative/characters/_components/CharacterPrintContent.vue';
+// import FactionPrintContent from '../narrative/factions/_components/FactionPrintContent.vue';
+// import LocationPrintContent from '../narrative/locations/_components/LocationPrintContent.vue';
 
 export default {
   name: 'item-print-wrapper',
   components: {
     NpcPrintContent,
-    CharacterPrintContent,
-    FactionPrintContent,
-    LocationPrintContent,
+    // CharacterPrintContent,
+    // FactionPrintContent,
+    // LocationPrintContent,
   },
   props: {
     type: { type: String, required: true },
@@ -58,12 +58,12 @@ export default {
     component() {
       if (!this.item) return null;
       switch (this.type.toLowerCase()) {
-        case 'character':
-          return CharacterPrintContent;
-        case 'location':
-          return LocationPrintContent;
-        case 'faction':
-          return FactionPrintContent;
+        // case 'character':
+        //   return CharacterPrintContent;
+        // case 'location':
+        //   return LocationPrintContent;
+        // case 'faction':
+        //   return FactionPrintContent;
         default:
           return NpcPrintContent;
       }

@@ -1,42 +1,44 @@
 <template>
-  <v-col :cols="cols">
-    <v-card tile variant="outlined" class="text-center">
-      <v-card-title
-        :class="`${color} text-white caption py-1`"
-        style="font-weight: bold; max-height: 28px; font-size: 18px !important"
-      >
+  <v-col style="min-width: 10vw">
+    <v-card variant="tonal" class="text-center">
+      <div class="heading pt-1">
+        {{ stat.title }}
         <v-btn
-          v-if="editable && !editMode"
+          v-if="deletable"
           icon
-          dark
-          x-small
-          variant="plain"
-          absolute
-          @click="editMode = true"
-        >
-          <v-icon icon="mdi-circle-edit-outline" />
-        </v-btn>
-        <v-spacer />
-        {{ attr }}
-        <v-spacer />
-      </v-card-title>
-      <v-card-text class="pa-1 text-text">
+          size="xs"
+          class="fade-select ml-1 mt-n1"
+          @click="$emit('remove', stat.key)"
+          ><v-icon icon="mdi-delete" size="x-small" color="error"
+        /></v-btn>
+      </div>
+      <v-card-text class="px-3 pb-1 pt-0">
         <v-text-field
-          v-if="editMode"
+          v-if="stat.type === 'number'"
           v-model="model"
-          solo
           variant="outlined"
-          filled
           density="compact"
           hide-details
           autofocus
           type="number"
-          @input="$emit('set', parseInt(model))"
+          @input="$emit('set', { value: Number(model), tier: 0 })"
           @blur="editMode = false"
           @keyup.enter="editMode = false"
-          @focus="$event.target.select()"
-        />
-        <span v-else class="heading h2">{{ val || '0' }}</span>
+          @focus="$event.target.select()" />
+        <div v-else-if="'size'">
+          <v-select
+            v-model="model"
+            :items="stat.sizes"
+            dense
+            outlined
+            hide-details
+            @input="$emit('set', { value: model, tier: model })"
+            @blur="editMode = false"
+            @keyup.enter="editMode = false"
+            @focus="$event.target.select()" />
+        </div>
+        <div v-else-if="'sizes'">sizes</div>
+        <div v-else>Unknown Stat type: {{ stat.type }}</div>
       </v-card-text>
     </v-card>
   </v-col>
@@ -46,40 +48,40 @@
 export default {
   name: 'editable-attribute',
   props: {
-    attr: {
-      type: String,
+    stat: {
+      type: Object,
       required: true,
     },
     val: {
-      type: [String, Number],
-      required: true,
-    },
-    color: {
-      type: String,
+      type: Number,
       required: false,
-      default: 'primary',
+      default: '',
     },
     cols: {
       type: [String, Number],
       required: false,
       default: '',
     },
-    editable: {
+    deletable: {
       type: Boolean,
+      default: false,
     },
   },
-  emits: ['set'],
+  emits: ['set', 'remove'],
   data: () => ({
     model: 0,
     editMode: false,
   }),
+  watch: {
+    stat: {
+      immediate: true,
+      handler() {
+        this.model = this.val;
+      },
+    },
+  },
   mounted() {
     this.model = this.val;
-  },
-  watch: {
-    val() {
-      this.model = this.val;
-    },
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
-  <v-card flat outlined>
-    <v-card-text class="pa-2 ma-0">
+  <v-card variant="tonal">
+    <v-card-text class="px-2 py-0 ma-0">
       <v-row :align="clock.Linear ? 'start' : 'center'">
         <v-col v-if="!clock.Linear" cols="auto">
           <v-progress-circular v-model="total" :size="size" :width="size / 5" :color="color">
@@ -36,13 +36,13 @@
               </v-menu>
             </span>
           </div>
+
           <v-progress-linear
             v-if="clock.Linear"
             background-color="grey lighten-2"
             :height="size / 2.5"
             :value="total"
-            :color="color"
-          >
+            :color="color">
             <div class="background text-accent" style="border-radius: 2px">
               <b v-if="print">&emsp; / {{ clock.Segments }}&nbsp;</b>
               <b v-else>&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b>
@@ -65,8 +65,7 @@
             @click="
               clock.Increment();
               $emit('change');
-            "
-          >
+            ">
             <v-icon size="50" color="accent">mdi-plus</v-icon>
           </v-btn>
           <br />
@@ -77,8 +76,7 @@
             @click="
               clock.Decrement();
               $emit('change');
-            "
-          >
+            ">
             <v-icon size="50" color="accent">mdi-minus</v-icon>
           </v-btn>
         </v-col>
@@ -87,7 +85,7 @@
     <v-dialog v-model="editDialog" width="70vw">
       <v-card>
         <v-toolbar density="compact" color="primary" class="text-white">
-          <span class="heading h3">CLOCK EDITOR</span>
+          <v-toolbar-title class="heading h3">CLOCK EDITOR</v-toolbar-title>
           <v-spacer />
           <v-btn icon class="text-white" @click="editDialog = false">
             <v-icon large>mdi-close</v-icon>
@@ -100,8 +98,7 @@
                 background-color="grey lighten-2"
                 :height="size / 3"
                 :value="total"
-                :color="color"
-              >
+                :color="color">
                 <b>{{ progress }} / {{ clock.Segments }}</b>
               </v-progress-linear>
             </div>
@@ -111,25 +108,51 @@
               </v-progress-circular>
             </div>
           </div>
-          <v-row>
+          <v-row align="center">
             <v-col>
-              <v-text-field v-model="clock.Title" label="Title" @change="$emit('change')" />
+              <v-text-field
+                v-model="clock.Title"
+                label="Title"
+                hide-details
+                @change="$emit('change')" />
             </v-col>
             <v-col cols="2">
               <v-text-field
                 v-model="clock.Segments"
                 label="Segments"
                 number
-                @change="$emit('change')"
-              />
+                hide-details
+                @change="$emit('change')" />
             </v-col>
             <v-col cols="auto">
               <v-switch
                 v-model="clock.Linear"
                 label="Linear"
                 hide-details
-                @change="$emit('change')"
-              />
+                @change="$emit('change')" />
+            </v-col>
+            <v-col cols="auto">
+              <div>
+                <v-checkbox-btn v-model="clock.GmOnly" hide-details>
+                  <template #label>
+                    GM Only
+                    <v-tooltip location="top">
+                      <template #activator="{ props }">
+                        <v-icon
+                          class="fade-select"
+                          size="x-small"
+                          end
+                          icon="mdi-information-outline"
+                          v-bind="props" />
+                      </template>
+                      <div>
+                        Marking a field or item "GM Only" will hide it from player-facing exports
+                        and print output
+                      </div>
+                    </v-tooltip>
+                  </template>
+                </v-checkbox-btn>
+              </div>
             </v-col>
           </v-row>
           <v-textarea
@@ -140,8 +163,7 @@
             label="Description"
             class="mx-1 my-2"
             hide-details
-            @change="$emit('change')"
-          />
+            @change="$emit('change')" />
           <v-textarea
             v-model="clock.Resolution"
             variant="outlined"
@@ -150,8 +172,7 @@
             label="Resolution"
             class="ma-1"
             hide-details
-            @change="$emit('change')"
-          />
+            @change="$emit('change')" />
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -164,7 +185,7 @@ export default {
   props: {
     size: { type: Number, required: false, default: 100 },
     clock: { type: Object, required: true },
-    color: { type: String, required: false, default: 'primary' },
+    color: { type: String, required: false, default: 'accent' },
     print: { type: Boolean },
     noDelete: { type: Boolean },
   },

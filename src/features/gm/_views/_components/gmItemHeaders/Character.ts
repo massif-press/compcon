@@ -1,29 +1,34 @@
+// export default [
+//   { title: '', value: 'ItemType', align: 'start', width: '1px', groupable: false },
+//   {
+//     title: 'Name',
+//     align: 'start',
+//     value: 'Name',
+//     groupable: false,
+//   },
+// ];
+
 export default [
+  { title: '', value: 'ItemType', align: 'start', width: '1px', groupable: false },
   {
-    text: 'Name',
+    title: 'Name',
     align: 'start',
     value: 'Name',
     groupable: false,
   },
   {
-    text: 'Alias',
+    title: 'Alias',
     value: 'Alias',
     groupable: false,
   },
   {
-    text: 'Title',
+    title: 'Title',
     value: 'Title',
     groupable: false,
   },
   {
-    text: 'Pronouns',
+    title: 'Pronouns',
     value: 'Pronouns',
-    groupable: false,
+    groupable: true,
   },
-  {
-    text: 'Labels',
-    value: 'Labels',
-    groupable: false,
-  },
-  { text: '', value: 'ItemType', align: 'right' },
-]
+];

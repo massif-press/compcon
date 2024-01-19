@@ -19,28 +19,21 @@
             <slot name="stats" />
           </v-col>
           <v-col cols="3" class="text-center ml-auto">
-            <v-combobox
-              v-model="item.Labels"
-              multiple
-              variant="outlined"
-              hide-details
-              label="GM Labels"
-              class="mb-2"
-            />
+            <gm-label-editor :item="item" class="mb-4" />
             <cc-img :src="item.PortraitController.Image" />
             <v-btn
               small
               variant="outlined"
               block
               color="accent"
-              @click="($refs as any).imageSelector.open()"
-            >
+              @click="($refs as any).imageSelector.open()">
               Change Image
             </v-btn>
-            <!-- <cc-simple-image-selector
+            <cc-image-selector
               ref="imageSelector"
-              @set="item.PortraitController.Image = $event"
-            /> -->
+              :item="item"
+              type="doodad"
+              @set="item.PortraitController.Image = $event" />
           </v-col>
         </v-row>
         <slot />
@@ -53,16 +46,14 @@
           v-for="c in item.NarrativeController.Clocks"
           :clock="c"
           class="mx-1 my-2"
-          @delete="item.NarrativeController.DeleteClock(c)"
-        />
+          @delete="item.NarrativeController.DeleteClock(c)" />
         <v-row justify="end">
           <v-col cols="auto">
             <v-btn
               color="accent"
               variant="outlined"
               size="small"
-              @click="item.NarrativeController.AddClock()"
-            >
+              @click="item.NarrativeController.AddClock()">
               <v-icon start>mdi-plus</v-icon>
               Add New Clock
             </v-btn>
@@ -74,16 +65,14 @@
           v-for="t in item.NarrativeController.Tables"
           :table="t"
           class="mx-1 my-2"
-          @delete="item.DeleteTable(t)"
-        />
+          @delete="item.DeleteTable(t)" />
         <v-row justify="end">
           <v-col cols="auto">
             <v-btn
               color="accent"
               variant="outlined"
               size="small"
-              @click="item.NarrativeController.AddTable()"
-            >
+              @click="item.NarrativeController.AddTable()">
               <v-icon start>mdi-plus</v-icon>
               Add New Table
             </v-btn>
@@ -98,6 +87,13 @@
   <v-footer app color="panel">
     <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
       ><v-icon start icon="mdi-printer" />Print</v-btn
+    >
+    <v-btn
+      variant="tonal"
+      size="small"
+      class="ml-2"
+      :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
+      ><v-icon start icon="mdi-upload" />Export</v-btn
     >
     <v-spacer />
     <v-menu v-model="dupeMenu" offset-y offset-x top left>
@@ -116,8 +112,7 @@
       </template>
       <cc-confirmation
         content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
-        @confirm="deleteItem()"
-      />
+        @confirm="deleteItem()" />
     </v-menu>
     <v-btn variant="tonal" size="small" color="secondary" class="mx-3" @click="saveExit()"
       ><v-icon start icon="mdi-content-save" />Save and Exit</v-btn
@@ -128,10 +123,11 @@
 <script lang="ts">
 import NoteEditor from './NoteEditor.vue';
 import SectionEditor from './SectionEditor.vue';
+import GmLabelEditor from './_subcomponents/GMLabelEditor.vue';
 
 export default {
   name: 'gm-editor-base',
-  components: { SectionEditor, NoteEditor },
+  components: { SectionEditor, NoteEditor, GmLabelEditor },
   props: {
     isNew: { type: Boolean },
     showDescription: { type: Boolean },

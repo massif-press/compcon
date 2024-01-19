@@ -5,23 +5,38 @@ import { INarrativeElement } from './INarrativeElement';
 type TextItem = {
   title: string;
   body: string;
+  gm_only?: boolean;
+};
+
+type Relationship = {
+  id: string;
+  name: string;
+  relationship: string;
+  note: string;
+  gm_only?: boolean;
 };
 
 interface NarrativeElementData {
   textItems: TextItem[];
   clocks: IClockData[];
   tables: IRollableTableData[];
-  labels: string[];
-  campaign: string;
+  labels: Label[];
+  relationships: Relationship[];
 }
+
+type Label = {
+  title: string;
+  value: any;
+  gm_only?: boolean;
+};
 
 class NarrativeController {
   public readonly Parent: INarrativeElement;
   private _textItems: TextItem[];
   private _clocks: Clock[];
   private _tables: RollableTable[];
-  private _labels: string[];
-  private _campaign: string;
+  private _relationships: Relationship[];
+  private _labels: Label[];
 
   public constructor(parent: INarrativeElement) {
     this.Parent = parent;
@@ -29,23 +44,21 @@ class NarrativeController {
     this._clocks = [];
     this._tables = [];
     this._labels = [];
-    this._campaign = '';
+    this._relationships = [];
   }
 
-  public get Campaign(): string {
-    return this._campaign;
-  }
-
-  public set Campaign(val: string) {
-    this._campaign = val;
-    this.Parent.SaveController.save();
-  }
-
-  public get Labels(): string[] {
+  public get Labels(): Label[] {
     return this._labels;
   }
 
-  public set Labels(val: string[]) {
+  public get LabelDictionary(): any {
+    return this.Labels.reduce((obj, item) => {
+      obj[item.title] = item.value || true;
+      return obj;
+    }, {});
+  }
+
+  public set Labels(val: Label[]) {
     this._labels = val;
     this.Parent.SaveController.save();
   }
@@ -117,11 +130,20 @@ class NarrativeController {
     this.Parent.SaveController.save();
   }
 
+  public get Relationships(): Relationship[] {
+    return this._relationships;
+  }
+
+  public set Relationships(val: Relationship[]) {
+    this._relationships = val;
+    this.Parent.SaveController.save();
+  }
+
   public static Serialize(parent: INarrativeElement, target: any) {
     if (!target.narrative) target.narrative = {};
     target.narrative.textItems = parent.NarrativeController.TextItems;
-    target.narrative.campaign = parent.NarrativeController.Campaign;
     target.narrative.labels = parent.NarrativeController.Labels;
+    target.narrative.relationships = parent.NarrativeController.Relationships;
     target.narrative.clocks = parent.NarrativeController.Clocks.map((x) => Clock.Serialize(x));
     target.narrative.tables = parent.NarrativeController.Tables.map((x) =>
       RollableTable.Serialize(x)
@@ -136,11 +158,11 @@ class NarrativeController {
 
     parent.NarrativeController._textItems = data.textItems;
     parent.NarrativeController._labels = data.labels;
-    parent.NarrativeController._campaign = data.campaign;
+    parent.NarrativeController._relationships = data.relationships;
     parent.NarrativeController._clocks = data.clocks.map((x) => Clock.Deserialize(x));
     parent.NarrativeController._tables = data.tables.map((x) => RollableTable.Deserialize(x));
   }
 }
 
 export { NarrativeController };
-export type { NarrativeElementData };
+export type { TextItem, Relationship, NarrativeElementData, Label };

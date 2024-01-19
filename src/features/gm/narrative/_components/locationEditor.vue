@@ -5,10 +5,28 @@
     @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
-    @copy="dupe()"
-  >
-    <template v-slot:builder> builder slot </template>
-    <template v-slot:stats> stats </template>
+    @copy="dupe()">
+    <template v-slot:builder>
+      <v-row dense>
+        <v-col>
+          <div class="heading mech mt-n5" style="min-width: 30vw">
+            <cc-short-string-editor
+              large
+              justify="start"
+              :placeholder="item.Name"
+              @set="item.Name = $event">
+              <div class="heading-block">
+                {{ item.Name }}
+              </div>
+            </cc-short-string-editor>
+          </div>
+        </v-col>
+      </v-row>
+    </template>
+    <template v-slot:stats>
+      <v-divider class="mt-4 mb-1" />
+      <relationship-editor :item="item" />
+    </template>
   </editor-base>
 </template>
 
@@ -16,10 +34,11 @@
 import { Location } from '@/classes/narrative/Location';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import { NarrativeStore } from '@/stores';
+import RelationshipEditor from '../../_components/RelationshipEditor.vue';
 
 export default {
   name: 'gm-location-editor-base',
-  components: { EditorBase },
+  components: { EditorBase, RelationshipEditor },
   props: {
     item: { type: Object, required: true },
   },

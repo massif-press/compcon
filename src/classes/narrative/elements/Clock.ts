@@ -8,6 +8,7 @@ interface IClockData {
   segments?: number;
   progress?: number;
   linear?: boolean;
+  gm_only?: boolean;
 }
 
 class Clock {
@@ -18,6 +19,7 @@ class Clock {
   private segments: number;
   public Progress: number;
   public Linear: boolean;
+  public GmOnly: boolean;
   public ItemType: string = 'Clock';
 
   public constructor(data?: IClockData) {
@@ -28,6 +30,7 @@ class Clock {
     this.Description = data?.description || '';
     this.Resolution = data?.resolution || '';
     this.Linear = data?.linear || false;
+    this.GmOnly = data?.gm_only || false;
   }
 
   public get Segments(): number {
@@ -63,4 +66,5 @@ class Clock {
   }
 }
 
-export { IClockData, Clock };
+export { Clock };
+export type { IClockData };

@@ -1,54 +1,41 @@
 <template>
-  <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-card :elevation="hover ? 12 : 0" :outlined="!hover" @click="$emit('open', item.ID)">
-      <cc-img :aspect-ratio="1" :src="item.Image">
+  <v-hover>
+    <template #default="{ isHovering, props }">
+      <v-card
+        v-bind="props"
+        :elevation="isHovering ? 12 : 0"
+        :variant="isHovering ? 'outlined' : 'flat'"
+        height="100%"
+        style="position: relative"
+        @click="$emit('open', item)">
+        <cc-img :aspect-ratio="1" :src="item.PortraitController.Image" />
         <v-fade-transition>
-          <div
-            v-if="hover"
-            class="d-flex text-center primary darken-2 v-card--reveal text-white"
-            style="height: 100%"
-          >
-            <v-container>
-              <v-row no-gutters v-if="item.Pronouns" class="text-overline">
-                <v-col>{{ item.Pronouns }}</v-col>
-              </v-row>
-              <v-row no-gutters v-if="item.Alias" :class="big ? 'heading h2' : 'heading h3'">
-                <v-col>"{{ item.Alias }}"</v-col>
-              </v-row>
-              <v-row v-if="item.Alias && item.Title" density="compact" align="center">
-                <v-col><v-divider dark /></v-col>
-                <v-col cols="auto">
-                  <v-icon x- small dark style="opacity: 0.4">mdi-rhombus-outline</v-icon>
-                </v-col>
-                <v-col><v-divider dark /></v-col>
-              </v-row>
-              <v-row density="compact">
-                <v-col :class="big ? 'heading h3' : 'font-weight-bold'">{{ item.Title }}</v-col>
-              </v-row>
-            </v-container>
-          </div>
+          <v-card
+            v-if="isHovering"
+            style="position: absolute; bottom: 0; left: 0; right: 0"
+            class="pa-2 text-center">
+            <div class="heading">{{ item.Name }}</div>
+            <div v-if="big">
+              <v-divider />
+              {{ item.Title }} <br v-if="item.Title" />
+              <i class="text-caption">({{ item.Pronouns }})</i>
+            </div>
+          </v-card>
         </v-fade-transition>
-      </cc-img>
-      <v-card-text class="py-2 text-center" style="position: relative">
-        <div
-          :class="`${big ? 'heading h2' : 'body-text font-weight-bold'} ${
-            hover ? 'text-primary' : ''
-          }`"
-        >
-          {{ item.Name }}
-        </div>
-        <div v-if="big" class="body-text" :class="hover ? 'text-primary' : ''"></div>
-      </v-card-text>
-    </v-card>
+      </v-card>
+    </template>
   </v-hover>
 </template>
 
 <script lang="ts">
 export default {
   name: 'gm-character-card',
+  emits: ['open'],
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
+    odd: { type: Boolean },
+    grouping: { type: Object, required: false, default: '' },
   },
 };
 </script>

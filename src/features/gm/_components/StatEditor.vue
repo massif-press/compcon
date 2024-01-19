@@ -1,117 +1,109 @@
 <template>
-  <div>
-    <v-row density="compact">
-      <editable-attribute
-        attr="HULL"
-        :val="item.StatController.Hull || 0"
-        editable
-        @set="item.StatController.Hull = $event"
-      />
-      <editable-attribute
-        attr="AGI"
-        :val="item.StatController.Agi || 0"
-        editable
-        @set="item.StatController.Agi = $event"
-      />
-      <editable-attribute
-        attr="SYS"
-        :val="item.StatController.Sys || 0"
-        editable
-        @set="item.StatController.Sys = $event"
-      />
-      <editable-attribute
-        attr="ENG"
-        :val="item.StatController.Eng || 0"
-        editable
-        @set="item.StatController.Eng = $event"
-      />
-    </v-row>
-    <v-row density="compact">
-      <editable-attribute
-        attr="STRUCTURE"
-        :val="item.StatController.MaxStructure || 0"
-        editable
-        @set="item.StatController.MaxStructure = $event"
-      />
-      <editable-attribute
-        attr="ARMOR"
-        :val="item.StatController.Armor || 0"
-        editable
-        @set="item.StatController.Armor = $event"
-      />
-      <editable-attribute
-        attr="HP"
-        :val="item.StatController.MaxHP || 0"
-        editable
-        @set="item.StatController.MaxHP = $event"
-      />
-      <editable-attribute
-        attr="REACTOR"
-        :val="item.StatController.MaxStress || 0"
-        editable
-        @set="item.StatController.MaxStress = $event"
-      />
-      <editable-attribute
-        v-if="!item.IsBiological"
-        attr="HEAT CAPACITY"
-        :val="item.StatController.HeatCapacity || 0"
-        editable
-        @set="item.StatController.HeatCapacity = $event"
-      />
-    </v-row>
-    <v-row density="compact">
-      <editable-attribute
-        attr="SPEED"
-        :val="item.StatController.Speed || 0"
-        editable
-        @set="item.StatController.Speed = $event"
-      />
-      <editable-attribute
-        attr="SAVE"
-        :val="item.StatController.SaveTarget || 0"
-        editable
-        @set="item.StatController.SaveTarget = $event"
-      />
-      <editable-attribute
-        attr="EVASION"
-        :val="item.StatController.Evasion || 0"
-        editable
-        @set="item.StatController.Evasion = $event"
-      />
-      <editable-attribute
-        attr="E-DEFENSE"
-        :val="item.StatController.EDefense || 0"
-        editable
-        @set="item.StatController.EDefense = $event"
-      />
-      <editable-attribute
-        attr="SENSORS"
-        :val="item.StatController.SensorRange || 0"
-        editable
-        @set="item.StatController.SensorRange = $event"
-      />
-    </v-row>
-    <v-row no-gutters class="mt-2">
-      <editable-attribute
-        attr="ACTIVATIONS PER ROUND"
-        :val="item.StatController.Activations || 0"
-        editable
-        @set="item.StatController.Activations = $event"
-      />
-      <size-attribute :stat-controller="item.StatController" editable selectable />
-    </v-row>
+  <div class="text-overline pt-2">STATS</div>
+  <div class="px-2">
+    <v-card variant="outlined" class="pa-1" style="border-color: rgb(var(--v-theme-panel))">
+      <v-row dense v-if="item.StatController.DisplayKeys.length">
+        <editable-attribute
+          v-for="kvp in item.StatController.DisplayKeys"
+          :stat="kvp"
+          :val="item.StatController.MaxStats[kvp.key]"
+          :deletable="!item.MandatoryStats.includes(kvp.key)"
+          @set="item.StatController.setMax(kvp.key, $event.value, $event.tier)"
+          @remove="item.StatController.RemoveStat($event)" />
+      </v-row>
+      <div v-else class="text-center text-disabled text-caption pa-2">
+        <i>No stats to display</i>
+      </div>
+    </v-card>
+    <div class="pa-2">
+      <v-menu v-model="coreMenu" :close-on-content-click="false">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" color="accent" variant="tonal" class="mr-2"
+            ><v-icon start icon="cc:compendium" />Add Core Stat
+          </v-btn>
+        </template>
+        <v-card style="min-width: 30vw">
+          <v-card-text>
+            <v-select
+              v-model="statsToAdd"
+              :items="availableCoreStats"
+              item-value="key"
+              multiple
+              clearable
+              density="compact"
+              hide-details
+              chips />
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-spacer />
+            <v-btn variant="tonal" color="accent" size="small" @click="addCoreStats()">Add</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
+      <v-menu v-model="customMenu" :close-on-content-click="false">
+        <template v-slot:activator="{ props }">
+          <v-btn v-bind="props" color="secondary" variant="tonal"
+            ><v-icon start icon="mdi-flask" />Add Custom Stat
+          </v-btn>
+        </template>
+        <v-card style="min-width: 20vw">
+          <v-card-text>
+            <v-text-field
+              v-model="customTitle"
+              clearable
+              density="compact"
+              label="Stat Name"
+              hide-details />
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-spacer />
+            <v-btn variant="tonal" color="accent" size="small" @click="addCustomStat()">Add</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-menu>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import { StatController } from '@/classes/components/combat/stats/StatController';
 import EditableAttribute from './_subcomponents/EditableAttribute.vue';
-import SizeAttribute from './_subcomponents/SizeAttribute.vue';
 
 export default {
   name: 'stat-editor',
-  components: { EditableAttribute, SizeAttribute },
+  components: { EditableAttribute },
   props: {
     item: { type: Object, required: true },
+  },
+  data: () => ({
+    statsToAdd: [],
+    coreMenu: false,
+    customTitle: '',
+    customMenu: false,
+  }),
+  computed: {
+    coreStats() {
+      return StatController.CoreStats;
+    },
+    availableCoreStats() {
+      return StatController.CoreStats.filter(
+        (x) => !this.item.StatController.DisplayKeys.some((y) => y.key === x.key)
+      );
+    },
+  },
+  methods: {
+    addCoreStats() {
+      this.statsToAdd.forEach((x) => this.item.StatController.AddCoreStat(x));
+      this.statsToAdd = [];
+      this.coreMenu = false;
+    },
+    addCustomStat() {
+      this.item.StatController.AddCustomStat(this.customTitle);
+      this.customTitle = '';
+      this.customMenu = false;
+    },
   },
 };
 </script>

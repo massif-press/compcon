@@ -6,8 +6,7 @@
         <div
           :class="`${big ? 'heading h2' : 'body-text font-weight-bold'} ${
             hover ? 'text-primary' : ''
-          }`"
-        >
+          }`">
           {{ item.Name }}
         </div>
       </v-card-text>
@@ -21,6 +20,7 @@ export default {
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
+    grouping: { type: Object, required: false, default: '' },
   },
 };
 </script>

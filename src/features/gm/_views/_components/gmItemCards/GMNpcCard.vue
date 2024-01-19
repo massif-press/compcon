@@ -4,15 +4,13 @@
       :elevation="hover ? 12 : 0"
       :outlined="!hover"
       height="100%"
-      @click="$emit('open', item.ID)"
-    >
+      @click="$emit('open', item.ID)">
       <cc-img :aspect-ratio="1" :src="item.PortraitController.Image">
         <v-fade-transition>
           <div
             v-if="hover"
             class="d-flex text-center primary darken-2 v-card--reveal heading h2 text-white"
-            style="height: 100%"
-          >
+            style="height: 100%">
             <v-container v-if="item.NpcClassController.HasClass">
               <v-row density="compact" justify="space-around">
                 <v-col cols="auto">
@@ -41,8 +39,7 @@
                       label
                       variant="outlined"
                       dark
-                      v-text="e.Name"
-                    />
+                      v-text="e.Name" />
                   </v-col>
                 </v-row>
                 <v-row v-if="item.Subtitle" justify="center" align="end">
@@ -59,8 +56,7 @@
           label
           :color="hover ? 'accent' : 'primary'"
           class="ma-1"
-          v-for="(t, i) in item.NpcTemplateController.Templates"
-        >
+          v-for="(t, i) in item.NpcTemplateController.Templates">
           <v-icon small>cc:npc_template</v-icon>
           {{ t.Name }}
         </v-chip>
@@ -78,15 +74,6 @@
         <div class="heading h2" :class="hover ? 'text-accent' : ''">
           {{ item.Name }}
         </div>
-
-        <!-- <v-divider /> -->
-        <!-- <v-chip
-          small
-          :color="hover ? 'accent' : ''"
-          v-for="(l, i) in item.Labels"
-          
-          v-text="l"
-        /> -->
       </v-card-text>
     </v-card>
   </v-hover>
@@ -98,6 +85,7 @@ export default {
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
+    grouping: { type: Object, required: false, default: '' },
   },
   data: () => ({
     hase: [

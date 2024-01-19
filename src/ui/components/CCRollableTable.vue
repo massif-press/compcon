@@ -7,40 +7,59 @@
         </v-col>
       </v-row> -->
     <v-toolbar density="compact" class="pl-3">
-      <div style="min-width: 30vw">
+      <div style="min-width: 200px">
         <cc-short-string-editor
           justify="start"
           :placeholder="table.Title"
-          @set="table.Title = $event"
-        >
+          @set="table.Title = $event">
           <span class="heading h3">{{ table.Title }}</span>
         </cc-short-string-editor>
       </div>
+      <div>
+        <v-checkbox-btn v-model="table.GmOnly" hide-details>
+          <template #label>
+            GM Only
+            <v-tooltip location="top">
+              <template #activator="{ props }">
+                <v-icon
+                  class="fade-select"
+                  size="x-small"
+                  end
+                  icon="mdi-information-outline"
+                  v-bind="props" />
+              </template>
+              <div>
+                Marking a field or item "GM Only" will hide it from player-facing exports and print
+                output
+              </div>
+            </v-tooltip>
+          </template>
+        </v-checkbox-btn>
+      </div>
+      <v-spacer />
       <div class="heading pl-3 pr-6">Roll</div>
       <v-select
         v-model="table.Mult"
         density="compact"
         hide-details
         style="max-width: 70px"
-        :items="mults"
-      />
+        :items="mults" />
       <div class="heading px-1">D</div>
       <v-select
         v-model="table.Die"
         density="compact"
         hide-details
         style="max-width: 70px"
-        :items="dice"
-      />
+        :items="dice" />
       <div class="heading pl-3 pr-1">Step</div>
       <v-text-field
         v-model="step"
         type="number"
         style="max-width: 60px"
         density="compact"
-        hide-details
-      />
+        hide-details />
       <v-spacer />
+
       <v-menu offset-x bottom>
         <template #activator="{ props }">
           <v-btn size="small" variant="tonal" v-bind="props">
@@ -83,8 +102,7 @@
       <v-table class="my-2 px-1">
         <tr
           v-for="(r, i) in table.Results"
-          :class="`${print ? 'py-2' : ''} ${i % 2 !== 0 ? 'light-panel' : ''}`"
-        >
+          :class="`${print ? 'py-2' : ''} ${i % 2 !== 0 ? 'light-panel' : ''}`">
           <td class="text-center heading h4" style="width: 75px">
             <span v-if="r.min === r.max">{{ r.max }}</span>
             <span v-else>{{ r.min }} - {{ r.max }}</span>
@@ -98,8 +116,7 @@
               rows="2"
               variant="outlined"
               auto-grow
-              class="my-1"
-            />
+              class="my-1" />
             <p v-else class="mb-0" v-html-safe="r.result" />
           </td>
         </tr>

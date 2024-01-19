@@ -3,6 +3,7 @@ import { GetAll, SetItem } from '@/io/Storage';
 import { defineStore } from 'pinia';
 import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad';
 import { Unit, UnitData } from '@/classes/npc/unit/Unit';
+import _ from 'lodash';
 
 export const NpcStore = defineStore('npc', {
   state: () => ({
@@ -15,6 +16,12 @@ export const NpcStore = defineStore('npc', {
     getUnits: (state: any) => state.Npcs.filter((x) => x instanceof Unit),
     getDoodads: (state: any) => state.Npcs.filter((x) => x instanceof Doodad),
     getEidolons: (state: any) => state.Npcs.filter((x) => x instanceof Eidolon),
+    getAllLabels: (state: any) => {
+      return _.uniqBy(
+        state.Npcs.flatMap((x: any) => x.NarrativeController.Labels),
+        'title'
+      );
+    },
   },
   actions: {
     async LoadNpcs(): Promise<void> {

@@ -5,8 +5,7 @@
       :items="items"
       item-key="ID"
       :headers="headers"
-      :items-per-page="25"
-    >
+      :items-per-page="25">
       <template v-slot:item.ItemType="{ item }">
         <v-btn
           icon
@@ -14,8 +13,7 @@
           variant="plain"
           color="accent"
           class="mr-n12"
-          @click="$emit('open', item)"
-        >
+          @click="$emit('open', item)">
           <v-icon>mdi-pencil-outline</v-icon>
         </v-btn>
       </template>
@@ -39,7 +37,40 @@ export default {
   emits: ['open'],
   computed: {
     headers() {
-      return headers[this.itemType];
+      const statHeaders = [] as any[];
+      if ((this.items[0] as any).StatController) {
+        const stats = _.uniqBy(
+          this.items.map((x: any) => x.StatController.DisplayKeys).flat(),
+          'key'
+        );
+
+        stats.forEach((s) => {
+          statHeaders.push({
+            title: s.title,
+            value: `StatController.MaxStats.${s.key}`,
+            align: 'center',
+            sortable: true,
+          });
+        });
+      }
+
+      const labelHeaders = [] as any[];
+      if ((this.items[0] as any).NarrativeController) {
+        const labels = new Set(
+          this.items.flatMap((x: any) => x.NarrativeController.Labels).map((x) => x.title)
+        );
+
+        labels.forEach((l) => {
+          labelHeaders.push({
+            title: l,
+            value: `NarrativeController.LabelDictionary.${l}`,
+            align: 'center',
+            sortable: true,
+          });
+        });
+      }
+
+      return headers[this.itemType].concat(statHeaders).concat(labelHeaders);
     },
     groupings() {
       if (this.grouping === 'None') return [`All`];

@@ -6,8 +6,7 @@
       :style="`border-radius: 2px; border: ${
         hover ? '1px solid rgb(var(--v-theme-primary))' : ''
       }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
-      @click="$emit('open', item.ID)"
-    >
+      @click="$emit('open', item.ID)">
       <v-col cols="1">
         <v-card>
           <cc-img :aspect-ratio="1" :src="item.PortraitController.Image" />
@@ -45,8 +44,7 @@
             v-for="(e, i) in stats"
             v-show="item.StatController[e.val]"
             cols="auto"
-            class="pr-2"
-          >
+            class="pr-2">
             <v-icon style="opacity: 0.5">{{ e.text }}</v-icon>
             <b v-text="item.StatController[e.val]" />
           </v-col>
@@ -60,8 +58,7 @@
               label
               variant="outlined"
               class="mx-1"
-              v-text="e.Name"
-            />
+              v-text="e.Name" />
           </v-col>
         </v-row>
       </v-col>
@@ -76,6 +73,7 @@ export default {
     item: { type: Object, required: true },
     big: { type: Boolean },
     odd: { type: Boolean },
+    grouping: { type: Object, required: false, default: '' },
   },
   data: () => ({
     hase: [
