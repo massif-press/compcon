@@ -1,4 +1,4 @@
-import GMNpcListItem from './GMNpcListItem.vue';
+// import GMNpcListItem from './GMNpcListItem.vue';
 import GMNpcCard from './GMNpcCard.vue';
 import GMCharacterCard from './GMCharacterCard.vue';
 import GMCharacterListItem from './GMCharacterListItem.vue';
@@ -19,5 +19,5 @@ export {
   GMLocationCard,
   GMLocationListItem,
   GMNpcCard,
-  GMNpcListItem,
+  // GMNpcListItem,
 };
