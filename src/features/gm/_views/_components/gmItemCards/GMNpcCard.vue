@@ -19,13 +19,13 @@
               </v-row>
               <v-row density="compact" justify="space-around">
                 <v-col v-for="(e, i) in hase">
-                  <span style="opacity: 0.5">{{ e.text }}</span>
+                  <span style="opacity: 0.5">{{ (e as any).text }}</span>
                   <b v-text="item.StatController[e.val]" />
                 </v-col>
               </v-row>
               <v-row density="compact" justify="space-around">
                 <v-col v-for="(e, i) in stats" v-show="item.StatController[e.val]" cols="3">
-                  <v-icon style="opacity: 0.5" color="white">{{ e.text }}</v-icon>
+                  <v-icon style="opacity: 0.5" color="white">{{ (e as any).text }}</v-icon>
                   <b v-text="item.StatController[e.val]" />
                 </v-col>
               </v-row>
