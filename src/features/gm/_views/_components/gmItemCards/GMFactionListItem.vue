@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import SortChips from './_subcomponents/SortChips.vue';
+import SortChips from './_subcomponents/sortChips.vue';
 
 export default {
   name: 'gm-location-list-item',
