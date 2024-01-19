@@ -5,8 +5,7 @@
       variant="outlined"
       tile
       class="text-center"
-      @click="to ? $router.push(to) : $emit('clicked')"
-    >
+      @click="to ? $router.push(to) : $emit('clicked')">
       <div :class="disabled ? 'grey py-4' : 'primary fade py-4'">
         <v-icon dark size="125">
           {{ icon }}
@@ -30,7 +29,7 @@ export default {
     to: { type: String, required: false, default: '' },
     title: { type: String, required: true },
     icon: { type: String, required: true },
-    title: { type: String, required: true },
+    text: { type: String, required: true },
     disabled: { type: Boolean },
     loading: { type: Boolean },
   },
