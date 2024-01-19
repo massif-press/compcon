@@ -25,9 +25,9 @@
 <script lang="ts">
 import { NpcStore, NarrativeStore } from '@/stores';
 import NpcPrintContent from '../npc_roster/npcs/_components/NpcPrintContent.vue';
-import CharacterPrintContent from '../narrative/characters/_components/CharacterPrintContent.vue';
-import LocationPrintContent from '../narrative/locations/_components/LocationPrintContent.vue';
-import FactionPrintContent from '../narrative/factions/_components/FactionPrintContent.vue';
+// import CharacterPrintContent from '../narrative/characters/_components/CharacterPrintContent.vue';
+// import LocationPrintContent from '../narrative/locations/_components/LocationPrintContent.vue';
+// import FactionPrintContent from '../narrative/factions/_components/FactionPrintContent.vue';
 
 export default {
   name: 'gm-mass-print',
@@ -58,12 +58,12 @@ export default {
       switch (this.type.toLowerCase()) {
         case 'npc':
           return NpcPrintContent;
-        case 'character':
-          return CharacterPrintContent;
-        case 'location':
-          return LocationPrintContent;
-        case 'faction':
-          return FactionPrintContent;
+        // case 'character':
+        //   return CharacterPrintContent;
+        // case 'location':
+        //   return LocationPrintContent;
+        // case 'faction':
+        //   return FactionPrintContent;
         default:
           return null;
       }

@@ -19,7 +19,7 @@ class Character extends CollectionItem {
 
   public constructor(data?: CharacterData) {
     super(data);
-    this.Name = data?.name || 'New Character';
+    this._name = data?.name || 'New Character';
     this._alias = data?.alias || '';
     this._title = data?.title || '';
     this._pronouns = data?.pronouns || 'They/Them';

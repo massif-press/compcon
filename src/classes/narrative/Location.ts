@@ -12,7 +12,7 @@ class Location extends CollectionItem {
 
   public constructor(data?: LocationData) {
     super(data);
-    this.Name = data?.name || 'New Location';
+    this._name = data?.name || 'New Location';
   }
 
   public get SectionSuggestions(): string[] {

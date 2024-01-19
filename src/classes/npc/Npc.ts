@@ -16,7 +16,7 @@ import { FeatureController } from '../components/feature/FeatureController';
 import { BrewController, BrewInfo } from '../components/brew/BrewController';
 import { IBrewable } from '../components/brew/IBrewable';
 import { CompendiumItem } from '../CompendiumItem';
-import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
+import { Label, NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
 import { INarrativeElement } from '../narrative/INarrativeElement';
 
 class NpcData {
@@ -46,7 +46,7 @@ abstract class Npc
   public NarrativeController: NarrativeController;
 
   private _id: string;
-  private _name: string = 'New NPC';
+  protected _name: string = 'New NPC';
   private _note: string = '';
   static ID: string;
   static Name: string;
@@ -80,10 +80,6 @@ abstract class Npc
   public get BrewableCollection(): CompendiumItem[] {
     // TODO!
     return [];
-  }
-
-  public get Labels(): string[] {
-    return this.NarrativeController.Labels;
   }
 
   public get Portrait(): string {

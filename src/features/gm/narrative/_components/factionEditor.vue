@@ -5,8 +5,7 @@
     @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
-    @copy="dupe()"
-  >
+    @copy="dupe()">
     <template v-slot:builder>
       <v-row dense>
         <v-col>
@@ -15,27 +14,22 @@
               large
               justify="start"
               :placeholder="item.Name"
-              @set="item.Name = $event"
-            >
+              @set="item.Name = $event">
               <div class="heading-block">
                 {{ item.Name }}
               </div>
             </cc-short-string-editor>
-          </div>
-          <div class="heading h2">
-            <v-text-field placeholder="Title" v-model="item.Title" style="width: 30vw" />
           </div>
         </v-col>
         <v-col cols="auto">
           <v-combobox
             v-model="item.Pronouns"
             density="compact"
-            :items="['He/Him', 'She/Her', 'They/Them']"
-            variant="underlined"
+            :items="item.TypeSuggestions"
+            variant="outlined"
             hide-details
-            label="Pronouns"
-            style="width: 135px"
-          />
+            label="Organization Type"
+            style="width: 335px" />
         </v-col>
       </v-row>
     </template>
@@ -47,13 +41,13 @@
 </template>
 
 <script lang="ts">
-import { Character } from '@/classes/narrative/Character';
+import { Faction } from '@/classes/narrative/Faction';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import { NarrativeStore } from '@/stores';
 import RelationshipEditor from '../../_components/RelationshipEditor.vue';
 
 export default {
-  name: 'gm-character-editor-base',
+  name: 'gm-faction-editor-base',
   components: { EditorBase, RelationshipEditor },
   props: {
     item: { type: Object, required: true },
@@ -64,7 +58,7 @@ export default {
       this.$emit('exit');
     },
     saveAsNew() {
-      NarrativeStore().AddItem(this.item as Character);
+      NarrativeStore().AddItem(this.item as Faction);
       this.exit();
     },
     save() {
@@ -72,11 +66,11 @@ export default {
       this.$emit('exit');
     },
     deleteItem() {
-      (this.item as Character).SaveController.Delete();
+      (this.item as Faction).SaveController.Delete();
       this.$emit('exit');
     },
     dupe() {
-      NarrativeStore().CloneItem(this.item as Character);
+      NarrativeStore().CloneItem(this.item as Faction);
       this.$emit('exit');
     },
   },

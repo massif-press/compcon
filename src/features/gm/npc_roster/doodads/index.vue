@@ -6,22 +6,19 @@
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
-    @open="openItem($event)"
-  >
+    @open="openItem($event)">
     <template #tooltip>
       <v-tooltip
         text="Non-character objects (such as terrain items) that can be tracked in combat encounters. Doodads cannot take NPC items or features, but have stats and can be given narrative content."
         location="bottom"
-        max-width="400"
-      >
+        max-width="400">
         <template v-slot:activator="{ props }">
           <v-icon
             v-bind="props"
             end
             icon="mdi-information-outline"
             class="fade-select ml-n1 mb-n1"
-            size="15"
-          />
+            size="15" />
         </template>
       </v-tooltip>
     </template>
@@ -33,8 +30,7 @@
         :item="selected"
         @exit="dialog = false"
         @copy="copyItem()"
-        @save="SaveAndClose()"
-      />
+        @save="SaveAndClose()" />
     </v-card>
   </v-dialog>
 </template>
@@ -52,10 +48,42 @@ export default {
   data: () => ({
     dialog: false,
     selected: null as Doodad | null,
-    groupings: ['None', 'Labels', 'Campaign'],
-    sortings: ['Name', 'Layers'],
   }),
   computed: {
+    groupings() {
+      const allLabelTitles = new Set(
+        NpcStore()
+          .getAllLabels.filter((x) => x.title.length > 0)
+          .map((x) => x.title)
+      );
+
+      const statGroupings = new Set(
+        this.doodads.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
+      );
+
+      console.log(statGroupings);
+
+      const baseGroupings = ['None'];
+
+      return [...baseGroupings, ...statGroupings, ...allLabelTitles];
+    },
+    sortings() {
+      console.log(NpcStore().getAllLabels);
+      const allLabelTitles = new Set(
+        NpcStore()
+          .getAllLabels.filter((x) => x.title.length > 0)
+          .map((x) => x.title)
+      );
+
+      const statSortings = new Set(
+        this.doodads.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
+      );
+
+      const baseSortings = ['Name'];
+
+      return [...baseSortings, ...statSortings, ...allLabelTitles];
+    },
+
     doodads() {
       return NpcStore().getDoodads.filter((x) => !x.SaveController.IsDeleted);
     },

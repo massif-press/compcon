@@ -1,104 +1,229 @@
 import { IStatContainer } from './IStatContainer';
 
 interface IStatData {
-  maxHP: number;
-  size: number;
-  sizes?: number[];
-  armor: number;
-  evasion: number;
-  speed: number;
-  edef: number;
-  activations: number;
-  saveTarget?: number;
-  sensorRange?: number;
-  limitedBonus?: number;
-  attackBonus?: number;
-  techAttack?: number;
-  grapple?: number;
-  ram?: number;
-  saveBonus?: number;
-  hull?: number;
-  agi?: number;
-  sys?: number;
-  eng?: number;
-  maxStructure?: number;
-  heatCapacity?: number;
-  maxStress?: number;
-  repairCapacity?: number;
-  overchargeTrack?: string[];
+  max: any;
+  current: any;
 }
 
 class StatController {
   public Parent: IStatContainer;
 
-  public MaxHP = 0;
-  public Size = 1;
-  public Sizes = [1];
-  public Armor = 0;
-  public Evasion = 0;
-  public Speed = 0;
-  public EDefense = 0;
-  public Activations = 0;
-  public SaveTarget = 0;
-  public SensorRange = 0;
-  public LimitedBonus = 0;
-  public AttackBonus = 0;
-  public TechAttack = 0;
-  public Grapple = 0;
-  public Ram = 0;
-  public SaveBonus = 0;
-  public Hull = 0;
-  public Agi = 0;
-  public Sys = 0;
-  public Eng = 0;
-  public MaxStructure = 0;
-  public HeatCapacity = 0;
-  public MaxStress = 0;
-  public RepairCapacity = 0;
-  public OverchargeTrack = [];
+  private _maxStats = {};
+  private _currentStats = {};
 
-  public constructor(parent: IStatContainer, source?: any) {
-    if (source) this.Update(source);
+  public static get DefaultStats(): any {
+    return {
+      activations: 1,
+      size: 1,
+      sizes: [0.5, 1, 2, 3],
+      structure: 1,
+      hp: 6,
+      armor: 0,
+      stress: 1,
+      heat: 6,
+      repairCapacity: 4,
+      attackBonus: 0,
+      techAttack: 0,
+      limitedBonus: 0,
+      speed: 4,
+      evasion: 6,
+      edef: 6,
+      sensorRange: 1,
+      saveBonus: 1,
+      saveTarget: 1,
+      grapple: 0,
+      ram: 0,
+      hull: 0,
+      agi: 0,
+      sys: 0,
+      eng: 0,
+    };
+  }
+
+  public constructor(parent: IStatContainer, data?: any) {
+    this._maxStats = {};
+
+    for (const key in this._maxStats) {
+      if (parent.MandatoryStats.includes(key)) {
+        this._maxStats[key] = StatController.DefaultStats[key];
+      }
+    }
+
+    if (data && data.max) {
+      if (!Array.isArray(data)) data = [data];
+      data.max.forEach((d) => {
+        Object.keys(d).forEach((key) => {
+          let statKey = this.cleanKey(key);
+
+          if (Array.isArray(d[key])) {
+            this._maxStats[statKey] = d[key];
+          } else {
+            this._maxStats[statKey] = Array(3).fill(d[key]);
+          }
+        });
+      });
+    }
+
+    this._currentStats = Object.keys(StatController.DefaultStats).reduce((acc, key) => {
+      acc[key] =
+        data && data.current && data.current[key]
+          ? data.current[key]
+          : StatController.DefaultStats[key][0];
+      return acc;
+    }, {});
+
     this.Parent = parent;
   }
 
-  public Update(source: any) {
-    for (const key in this) {
-      if (source[key]) this[key] = source[key];
+  private cleanKey(key: string): string {
+    let k = key.replace(/[\s_\-]/g, '');
+
+    switch (k.toLowerCase()) {
+      case 'repcap':
+        k = 'repairCapacity';
+        break;
+      case 'save':
+        k = 'saveBonus';
+        break;
+      case 'target':
+        k = 'saveTarget';
+        break;
+      case 'sensors':
+        k = 'sensorRange';
+        break;
+      case 'edefense':
+        k = 'edef';
+        break;
+      case 'agility':
+        k = 'agi';
+        break;
+      case 'systems':
+        k = 'sys';
+        break;
+      case 'engineering':
+        k = 'eng';
+        break;
+    }
+
+    return k.charAt(0).toLowerCase() + k.slice(1);
+  }
+
+  private static expandKey(key: string): string {
+    let k = key;
+    switch (key.toLowerCase()) {
+      case 'hp':
+        return 'HP';
+      case 'heat':
+        return 'Heat Capacity';
+      case 'edef':
+        return 'E-Defense';
+      case 'grapple':
+      case 'ram':
+        k += ' bonus';
+        break;
+      case 'agi':
+        return 'Agility';
+      case 'sys':
+        return 'Systems';
+      case 'eng':
+        return 'Engineering';
+    }
+
+    k = key.charAt(0).toUpperCase() + key.slice(1);
+    k = k.replace(/([A-Z])/g, ' $1').trim();
+
+    return k;
+  }
+
+  public get DisplayKeys(): { key: string; title: string; type: string }[] {
+    return Object.keys(this._maxStats).map((key) => ({
+      key,
+      title: StatController.expandKey(key),
+      type: StatController.getKeyType(key),
+    }));
+  }
+
+  public static get CoreStats(): { key: string; title: string; type: string }[] {
+    return Object.keys(this.DefaultStats).map((key) => ({
+      key,
+      title: this.expandKey(key),
+      type: this.getKeyType(key),
+    }));
+  }
+
+  private static getKeyType(key: string): string {
+    switch (key.toLowerCase()) {
+      case 'size':
+        return 'array';
+      case 'sizes':
+        return 'sizes';
+      default:
+        return 'number';
     }
   }
 
+  public AddCoreStat(key: string): void {
+    this._maxStats[key] = StatController.DefaultStats[key];
+  }
+
+  public AddCustomStat(title: string, type: string): void {
+    const key = this.cleanKey(title);
+    switch (type) {
+      case 'array':
+        this._maxStats[key] = [];
+        break;
+      default:
+        this._maxStats[key] = Array(3).fill(0);
+    }
+  }
+
+  public RemoveStat(key: string): void {
+    if (this.Parent.MandatoryStats.includes(key)) return;
+    delete this._maxStats[key];
+  }
+
+  public get MaxStats(): any {
+    return this._maxStats;
+  }
+
+  public get CurrentStats(): any {
+    return this._currentStats;
+  }
+
+  public getStatArray(stat: string): number {
+    return this[this.cleanKey(stat)];
+  }
+
+  public getMax(stat: string): number {
+    return this._maxStats[this.cleanKey(stat)];
+  }
+
+  public setMax(stat: string, val: any) {
+    const k = this.cleanKey(stat);
+    if (Array.isArray(val) && !Array.isArray(this._maxStats[k][0])) {
+      this._maxStats[k] = val;
+    } else {
+      this._maxStats[k] = val;
+    }
+  }
+
+  public getCurrent(stat: string): number {
+    return this._currentStats[this.cleanKey(stat)];
+  }
+
+  public setCurrent(stat: string, val: any) {
+    this._currentStats[this.cleanKey(stat)] = val;
+  }
+
   public get SizeIcon(): string {
-    return `cc:size-${this.Size === 0.5 ? 'half' : this.Size}`;
+    if (!this.getCurrent('size')) return 'cc:size-1';
+    return `cc:size-${this.getCurrent('size') === 0.5 ? 'half' : this.getCurrent('size')}`;
   }
 
   public static Serialize(parent: IStatContainer, target: any) {
     if (!target.stats) target.stats = {};
-    target.stats.maxHP = parent.StatController.MaxHP;
-    target.stats.size = parent.StatController.Size;
-    target.stats.armor = parent.StatController.Armor;
-    target.stats.evasion = parent.StatController.Evasion;
-    target.stats.speed = parent.StatController.Speed;
-    target.stats.edef = parent.StatController.EDefense;
-    target.stats.activations = parent.StatController.Activations;
-    target.stats.saveTarget = parent.StatController.SaveTarget || null;
-    target.stats.sensorRange = parent.StatController.SensorRange || null;
-    target.stats.limitedBonus = parent.StatController.LimitedBonus || null;
-    target.stats.attackBonus = parent.StatController.AttackBonus || null;
-    target.stats.techAttack = parent.StatController.TechAttack || null;
-    target.stats.grapple = parent.StatController.Grapple || null;
-    target.stats.ram = parent.StatController.Ram || null;
-    target.stats.saveBonus = parent.StatController.SaveBonus || null;
-    target.stats.hull = parent.StatController.Hull || null;
-    target.stats.agi = parent.StatController.Agi || null;
-    target.stats.sys = parent.StatController.Sys || null;
-    target.stats.eng = parent.StatController.Eng || null;
-    target.stats.maxStructure = parent.StatController.MaxStructure || null;
-    target.stats.heatCapacity = parent.StatController.HeatCapacity || null;
-    target.stats.maxStress = parent.StatController.MaxStress || null;
-    target.stats.repairCapacity = parent.StatController.RepairCapacity || null;
-    target.stats.overchargeTrack =
-      parent.StatController.OverchargeTrack || null;
+    target.stats.max = parent.StatController._maxStats;
+    target.stats.current = parent.StatController._currentStats;
   }
 
   public static Deserialize(parent: IStatContainer, data: IStatData) {
@@ -106,30 +231,9 @@ class StatController {
       throw new Error(
         `StatController not found on parent (${typeof parent}). New StatControllers must be instantiated in the parent's constructor method.`
       );
-    parent.StatController.MaxHP = data.maxHP;
-    parent.StatController.Size = data.size;
-    parent.StatController.Armor = data.armor;
-    parent.StatController.Evasion = data.evasion;
-    parent.StatController.Speed = data.speed;
-    parent.StatController.EDefense = data.edef;
-    parent.StatController.Activations = data.activations;
-    parent.StatController.SaveTarget = data.saveTarget || 0;
-    parent.StatController.SensorRange = data.sensorRange || 0;
-    parent.StatController.LimitedBonus = data.limitedBonus || 0;
-    parent.StatController.AttackBonus = data.attackBonus || 0;
-    parent.StatController.TechAttack = data.techAttack || 0;
-    parent.StatController.Grapple = data.grapple || 0;
-    parent.StatController.Ram = data.ram || 0;
-    parent.StatController.SaveBonus = data.saveBonus || 0;
-    parent.StatController.Hull = data.hull || 0;
-    parent.StatController.Agi = data.agi || 0;
-    parent.StatController.Sys = data.sys || 0;
-    parent.StatController.Eng = data.eng || 0;
-    parent.StatController.MaxStructure = data.maxStructure || 0;
-    parent.StatController.HeatCapacity = data.heatCapacity || 0;
-    parent.StatController.MaxStress = data.maxStress || 0;
-    parent.StatController.RepairCapacity = data.repairCapacity || 0;
-    parent.StatController.OverchargeTrack = data.overchargeTrack || ([] as any);
+
+    parent.StatController._maxStats = data.max || {};
+    parent.StatController._currentStats = data.current || {};
   }
 }
 

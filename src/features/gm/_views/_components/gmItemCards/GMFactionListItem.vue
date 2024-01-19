@@ -1,71 +1,44 @@
 <template>
-  <v-hover v-slot="{ hover }" style="cursor: pointer">
-    <v-row density="compact" :class="`elevation-${hover ? '12' : '0'}`" @click="$emit('open')">
-      <v-col cols="1">
-        <v-card>
-          <cc-img :aspect-ratio="1" :src="item.Image" />
-        </v-card>
-      </v-col>
-      <v-col>
-        <div :class="`heading h3 ${hover ? 'text-accent' : ''}`">
-          {{ item.Name }}
-        </div>
-        <div>{{ item.Description }}</div>
-        <div v-if="item.Factions.length" class="text-overline">RELATED ORGANIZATIONS</div>
-        <v-row no-gutters justify="space-between">
-          <v-col cols="auto">
-            <v-btn
-              v-for="(f, i) in item.Factions"
-              small
-              variant="outlined"
-              class="mr-2"
-              :disabled="!isLink(f.name)"
-              @click.stop="goTo(f.name)"
-            >
-              {{ f.name }}
-            </v-btn>
-          </v-col>
-          <v-col cols="auto">
-            <v-chip
-              v-for="l in item.Labels"
-              small
-              color="primary"
-              label
-              :outlined="!hover"
-              class="mr-2"
-            >
-              {{ l }}
-            </v-chip>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
+  <v-hover>
+    <template #default="{ isHovering, props }">
+      <v-row
+        v-bind="props"
+        dense
+        :style="`position: relative; cursor: pointer; border-radius: 2px; border: ${
+          isHovering ? '1px solid rgb(var(--v-theme-primary))' : ''
+        }; background-color: ${odd ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05'}`"
+        @click="$emit('open', item)">
+        <v-col cols="auto">
+          <v-card variant="tonal" class="rounded-0">
+            <cc-img :aspect-ratio="1" :src="item.PortraitController.Image" width="75" />
+          </v-card>
+        </v-col>
+        <v-col>
+          <v-row dense class="pl-1 pr-3">
+            <v-col :class="`heading h3 ${isHovering ? 'text-accent' : ''}`">
+              <div>{{ item.Name }}</div>
+            </v-col>
+          </v-row>
+        </v-col>
+        <sort-chips :grouping="grouping" :sorting="sorting" />
+      </v-row>
+    </template>
   </v-hover>
 </template>
 
 <script lang="ts">
+import SortChips from './_subcomponents/SortChips.vue';
+
 export default {
-  name: 'gm-faction-list-item',
+  name: 'gm-location-list-item',
+  components: { SortChips },
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
+    odd: { type: Boolean },
+    grouping: { type: [Object, String], required: false, default: '' },
+    sorting: { type: [Object, String], required: false, default: '' },
   },
-  computed: {
-    allFactions() {
-      if (!CompendiumStore()['faction/getFactions']) return [];
-      return CompendiumStore()['faction/getFactions'].filter((x) => x.Name !== this.item.Name);
-    },
-  },
-  methods: {
-    isLink(name) {
-      return this.allFactions.some((x) => x.Name === name);
-    },
-    goTo(name) {
-      const e = this.allFactions.find((x) => x.Name === name);
-      if (!e) return;
-      this.item.save();
-      this.$router.push({ name: `gm-factions-edit`, params: { id: e.ID } });
-    },
-  },
+  emits: ['open'],
 };
 </script>

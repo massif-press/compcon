@@ -7,8 +7,7 @@
     :sortings="sortings"
     @add-new="addNew()"
     @import-item="importItem()"
-    @open="openItem($event)"
-  />
+    @open="openItem($event)" />
   <v-dialog v-model="dialog" fullscreen>
     <v-card flat>
       <editor
@@ -16,8 +15,7 @@
         :id="selected"
         @exit="dialog = false"
         @copy="copyItem()"
-        @save="SaveAndClose()"
-      >
+        @save="SaveAndClose()">
         <builder slot="upper" :item="selected" />
         <features slot="lower" :item="selected" />
       </editor>
@@ -31,7 +29,7 @@ import Editor from './editor.vue';
 import Builder from './builder.vue';
 import Features from './features.vue';
 
-import { CompendiumStore, NpcStore } from '@/stores';
+import { NpcStore } from '@/stores';
 
 export default {
   name: 'npc-roster',
@@ -39,10 +37,39 @@ export default {
   data: () => ({
     dialog: false,
     selected: null,
-    groupings: ['None', 'Labels', 'Size', 'Tag', 'Role', 'Tier', 'Campaign', 'Collection'],
-    sortings: ['Name', 'Size', 'Tier'],
   }),
   computed: {
+    groupings() {
+      const allLabelTitles = new Set(
+        NpcStore()
+          .getAllLabels.filter((x) => x.title.length > 0)
+          .map((x) => x.title)
+      );
+
+      const statGroupings = new Set(
+        this.npcs.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
+      );
+
+      const baseGroupings = ['None', 'Tier', 'Role', 'Tag'];
+
+      return [...baseGroupings, ...statGroupings, ...allLabelTitles];
+    },
+    sortings() {
+      const allLabelTitles = new Set(
+        NpcStore()
+          .getAllLabels.filter((x) => x.title.length > 0)
+          .map((x) => x.title)
+      );
+
+      const baseSortings = ['Name', 'Tier', 'Role', 'Tag'];
+
+      const statSortings = new Set(
+        this.npcs.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
+      );
+
+      return [...baseSortings, ...statSortings, ...allLabelTitles];
+    },
+
     npcs() {
       return NpcStore().getUnits;
     },

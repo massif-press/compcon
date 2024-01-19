@@ -1,14 +1,14 @@
 export default [
+  { title: '', value: 'ItemType', align: 'start', width: '1px', groupable: false },
   {
-    text: 'Name',
+    title: 'Name',
     align: 'start',
     value: 'Name',
     groupable: false,
   },
-  {
-    text: 'Labels',
-    value: 'Labels',
-    groupable: false,
-  },
-  { text: '', value: 'ItemType', align: 'right' },
-]
+  // {
+  //   key: 'Labels',
+  //   value: 'Labels',
+  //   groupable: false,
+  // },
+];

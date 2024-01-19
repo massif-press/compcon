@@ -83,6 +83,7 @@ import CCAvatar from './components/items/CCAvatar.vue';
 import CCImg from './components/CCImg.vue';
 import CCRelationshipItem from './components/CCRelationshipItem.vue';
 import CCRichTextArea from './components/CCRichTextArea.vue';
+import CCSplitChip from './components/CCSplitChip.vue';
 
 export {
   CCImg,
@@ -170,4 +171,5 @@ export {
   CCSelector,
   CCRelationshipItem,
   CCRichTextArea,
+  CCSplitChip,
 };

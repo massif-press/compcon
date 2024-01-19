@@ -5,14 +5,45 @@ import { ItemType } from '../enums';
 
 class FactionData extends ICollectionItemData {
   collectionItemType: string = 'faction';
+  factionType: string = '';
 }
 
 class Faction extends CollectionItem {
   public ItemType: string = ItemType.Faction;
+  private _factionType: string;
 
   public constructor(data?: FactionData) {
     super(data);
-    this.Name = data?.name || 'New Faction';
+    this._factionType = data?.factionType || '';
+    this._name = data?.name || 'New Faction';
+  }
+
+  public get TypeSuggestions(): string[] {
+    return [
+      'Government',
+      'Political Group',
+      'Corporation',
+      'Military',
+      'Criminal Organization',
+      'Team',
+      'Club',
+      'Media Group',
+      'Professional Association',
+      'Religious Sect',
+      'Academic Society',
+      'Cultural Association',
+      'Collective',
+      'Social Movement',
+    ];
+  }
+
+  public get FactionType(): string {
+    return this._factionType;
+  }
+
+  public set FactionType(val: string) {
+    this._factionType = val;
+    this.SaveController.save();
   }
 
   public get SectionSuggestions(): string[] {
@@ -41,6 +72,7 @@ class Faction extends CollectionItem {
       id: faction.ID,
       name: faction.Name,
       note: faction.Note,
+      factionType: faction.FactionType,
     };
 
     SaveController.Serialize(faction, data);

@@ -1,7 +1,9 @@
 import { Character, CharacterData } from '@/classes/narrative/Character';
+import { CollectionItem } from '@/classes/narrative/CollectionItem';
 import { Faction, FactionData } from '@/classes/narrative/Faction';
 import { Location, LocationData } from '@/classes/narrative/Location';
 import { GetAll, SetItem } from '@/io/Storage';
+import _ from 'lodash';
 import { defineStore } from 'pinia';
 
 export const NarrativeStore = defineStore('narrative', {
@@ -10,16 +12,26 @@ export const NarrativeStore = defineStore('narrative', {
   }),
   getters: {
     getItemByID: (state: any) => (id: string) => {
-      return state.AllCollectionItems.find((x) => x.ID === id);
+      return state.CollectionItems.find((x) => x.ID === id);
     },
     getCharacters: (state: any) => state.CollectionItems.filter((x) => x instanceof Character),
     getLocations: (state: any) => state.CollectionItems.filter((x) => x instanceof Location),
     getFactions: (state: any) => state.CollectionItems.filter((x) => x instanceof Faction),
+    getItemRelationships: (state: any) => (id: string) => {
+      return state.CollectionItems.flatMap(
+        (x: CollectionItem) => x.NarrativeController.Relationships
+      ).filter((x) => x.id === id);
+    },
+    getAllLabels: (state: any) => {
+      return _.uniqBy(
+        state.CollectionItems.flatMap((x: any) => x.NarrativeController.Labels),
+        'title'
+      );
+    },
   },
   actions: {
     async LoadCollectionItems(): Promise<void> {
       const all = await GetAll('narrative');
-      console.log(all);
       this.CollectionItems = all
         .filter((x) => x.collectionItemType === 'character')
         .map((x) => Character.Deserialize(x as CharacterData))
@@ -33,6 +45,8 @@ export const NarrativeStore = defineStore('narrative', {
             .filter((x) => x.collectionItemType === 'faction')
             .map((x) => Faction.Deserialize(x as FactionData)) as any[]
         );
+
+      console.log(this.CollectionItems);
     },
 
     AddItem(payload: Character | Location | Faction): void {

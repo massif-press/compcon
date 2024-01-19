@@ -1,27 +1,29 @@
 <template>
   <div class="text-overline">RELATIONSHIPS</div>
 
-  <v-card v-for="r in item.Relationships" class="mb-2">
+  <v-card v-for="r in item.NarrativeController.Relationships" class="mb-2">
     <v-card variant="tonal">
       <v-toolbar density="compact" class="px-3">
         <v-row dense>
           <v-col>
-            <v-combobox
+            <v-autocomplete
+              v-model="r.id"
               density="compact"
               hide-details
               variant="outlined"
               auto-select-first="exact"
               :items="allCollectionItems"
               item-title="Name"
-            />
+              item-value="ID"
+              @update:modelValue="setName(r)" />
           </v-col>
           <v-col>
             <v-text-field
+              v-model="r.relationship"
               density="compact"
               hide-details
               variant="outlined"
-              placeholder="Relationship"
-            />
+              placeholder="Relationship" />
           </v-col>
           <v-spacer />
           <v-col cols="auto">
@@ -60,7 +62,7 @@
     >
   </div>
 
-  <cc-relationship-item :item="{ id: 'test', name: 'test', relationship: 'test', note: 'test' }" />
+  <cc-relationship-item v-for="l in linkedRelationships" :item="l" />
 </template>
 
 <script lang="ts">
@@ -76,21 +78,29 @@ export default {
   },
   computed: {
     allCollectionItems() {
-      return NarrativeStore().CollectionItems;
+      return NarrativeStore().CollectionItems.filter((i) => i.ID !== this.item.ID);
+    },
+    linkedRelationships() {
+      return NarrativeStore().getItemRelationships(this.item.ID);
     },
   },
   methods: {
     addRelationship() {
-      this.item.Relationships.push({
+      this.item.NarrativeController.Relationships.push({
         id: '',
         name: '',
         relationship: '',
         notes: '',
       });
-      console.log(this.item.Relationships);
     },
     removeRelationship(index: number) {
-      this.item.Relationships.splice(index, 1);
+      this.item.NarrativeController.Relationships.splice(index, 1);
+    },
+    setName(r: any) {
+      const item = this.allCollectionItems.find((i) => i.ID === r.id);
+      if (item) {
+        r.name = item.Name;
+      }
     },
   },
 };

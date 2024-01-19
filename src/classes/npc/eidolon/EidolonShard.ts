@@ -14,7 +14,7 @@ class EidolonShard extends Npc {
     super();
     this.Parent = parent;
 
-    this.Name = data.name || `New Eidolon Shard`;
+    this.Name = data._name || `New Eidolon Shard`;
   }
 
   public static Serialize(e: EidolonShard): EidolonShardData {

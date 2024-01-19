@@ -8,7 +8,27 @@
               {{ s.header }}
             </cc-short-string-editor>
           </div>
-          <v-spacer />
+          <div style="width: 100px" />
+
+          <v-checkbox-btn v-model="s.GmOnly" hide-details>
+            <template #label>
+              GM Only
+              <v-tooltip location="top">
+                <template #activator="{ props }">
+                  <v-icon
+                    class="fade-select"
+                    size="small"
+                    end
+                    icon="mdi-information-outline"
+                    v-bind="props" />
+                </template>
+                <div>
+                  Marking a field or item "GM Only" will hide it from player-facing exports and
+                  print output
+                </div>
+              </v-tooltip>
+            </template>
+          </v-checkbox-btn>
 
           <v-menu offset-x left>
             <template #activator="{ props }">
@@ -43,8 +63,7 @@
           offset-x
           left
           :close-on-click="false"
-          :close-on-content-click="false"
-        >
+          :close-on-content-click="false">
           <template #activator="{ props }">
             <v-btn color="accent" variant="outlined" size="small" v-bind="props">
               <v-icon start>mdi-plus</v-icon>
@@ -57,16 +76,14 @@
                 v-if="item.SectionSuggestions"
                 v-model="newTextItemHeader"
                 label="Title"
-                :items="item.SectionSuggestions"
-              />
+                :items="item.SectionSuggestions" />
               <v-text-field
                 v-else
                 v-model="newTextItemHeader"
                 label="New Title"
                 density="compact"
                 hide-details
-                variant="outlined"
-              />
+                variant="outlined" />
             </v-card-text>
             <v-divider />
             <v-card-actions>

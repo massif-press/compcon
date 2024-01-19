@@ -28,7 +28,7 @@ class EidolonLayer extends Npc {
     this.LayerIndex = data.index;
     if (data.index === 0) this.Required = true;
 
-    this.Name = data.name || `New Eidolon Layer`;
+    this.Name = data._name || `New Eidolon Layer`;
   }
 
   public get Active(): boolean {

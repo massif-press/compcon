@@ -21,7 +21,7 @@ class Eidolon extends Npc {
     this.Layers = data.layers ? data.layers.map((l) => EidolonLayer.Deserialize(l, this)) : [];
     this.ActiveLayerIndex = data.activeLayerIndex || 0;
 
-    this.Name = data.name || `New Eidolon`;
+    this.Name = data._name || `New Eidolon`;
   }
 
   public get ActiveLayer(): EidolonLayer {
