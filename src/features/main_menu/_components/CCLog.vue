@@ -32,6 +32,7 @@ import Vue from 'vue'
 import TypeIt from 'typeit'
 import GmsStart from './startup_logs/gms'
 import MsmcStart from './startup_logs/msmc'
+import SscStart from './startup_logs/ssc'
 import { HorusStart, HorusChat } from './startup_logs/horus'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
@@ -100,6 +101,8 @@ export default Vue.extend({
           break
         case 'msmc':
           MsmcStart(this.typer)
+        case 'ssc':
+          SscStart(this.typer)
         default:
           GmsStart(this.typer)
           break
