@@ -14,13 +14,13 @@ const theme = {
     pilot: '#061a1f',
     error: '#cc472d',
     info: '#4276b3',
-    success: '#079141',
+    success: '#107038',
     warning: '#FFAB00',
     exotic: '#FFAB00',
 
-    weapon: '#555555',
-    'mech-weapon': '#555555',
-    'pilot-weapon': '#555555',
+    weapon: '#212121',
+    'mech-weapon': '#212121',
+    'pilot-weapon': '#212121',
 
     //typography
     headers:"#33332f",
@@ -31,10 +31,14 @@ const theme = {
     'light-text': '#8c6f46', //flavor text
     'stark-text': '#000',
 
-    'v-card':"#c7b5a3",
+    'v-card': "#c7b5a3",
+    'v-expansion-panel': "#dbcfc3",
+    'v-data-table': "#dbcfc3",
+    'search-field': "#dbcfc3",
+    
     background: '#e3ceb9',
     panel: '#eadbcb',
-    tooltip: '#7d7268',
+    tooltip: '#d6c9b0',
     'light-panel': '#eadbcb',
     'dark-panel': '#c7b5a3',
     'panel-border': '#8a949e',
