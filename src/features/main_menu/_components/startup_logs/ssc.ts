@@ -25,7 +25,7 @@ const logos = [
   `
    ___     ___     ___   
   / __|   / __|   / __|  
-  \\__ \\   \\__ \\  | (__   
+  \\__ \\   \\__ \\  | (__
   |___/   |___/   \\___|  
 _|"""""|_|"""""|_|"""""| 
  "-0-0-"^"-0-0-'^"-0-0-"
@@ -124,9 +124,7 @@ const plog = typer => {
     .break()
     .type('<strong>VR BUILDING SIMULATION ACTIVATED🏛 🏗</strong>')
     .break()
-    .type(' Smith Shimano Company')
-    .break()
-    .type('8.0 (Build 118765)')
+    .type('Smith Shimano Company - Constellar Congress EAAS 8.0 (Build 118765)')
     .break()
     .type(`Sector/Campus 𐄘 ${encryption()}`)
     .break()
@@ -140,7 +138,6 @@ const plog = typer => {
     .type('Immerse yourself in the vast expanse of knowledge, where every task is a celestial odyssey.')
     .break()
     .type('Your contributions ripple through the cosmic network of thinkers and innovators.')
-    .break()
     .break()
     .break()
     .type('|WELCOME, PROTEGÉ|')
