@@ -167,6 +167,9 @@
         <v-col cols="2">
           <v-btn :disabled="!notificationText" @click="doNotify">Notify</v-btn>
         </v-col>
+        <v-col cols="2">
+          <v-btn :disabled="!notificationText" @click="doNotifyError">Error notify</v-btn>
+        </v-col>
       </v-row>
     </v-container>
     <router-link to="/">
@@ -306,6 +309,7 @@ export default Vue.extend({
     notificationText: 'test',
     notificationTypes: ['achievement', 'confirmation', 'error'],
     notificationType: 'confirmation',
+    notificationErrorType: 'error',
     exampleTalents: [],
     chargeExample: null,
     deployExample: null,
@@ -364,6 +368,11 @@ export default Vue.extend({
     },
     doNotify() {
       this.$notify(this.notificationText, this.notificationType, () =>
+        console.log('yup, you clicked the notification!', this)
+      )
+    },
+    doNotifyError() {
+      this.$notify(this.notificationText, this.notificationErrorType, () =>
         console.log('yup, you clicked the notification!', this)
       )
     },
