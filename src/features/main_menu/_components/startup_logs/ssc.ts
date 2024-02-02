@@ -1,74 +1,88 @@
 import _ from 'lodash'
-import { callsign, encryption } from '@/io/Generators'
+import { callsign, encryption, tracert } from '@/io/Generators'
 
 const logos = [
   `
-  SSCTEST!!!!!!!!!!!!!!
-  Constellar Congress
-███████╗███████╗ ██████╗
-██╔════╝██╔════╝ ██╔═══╝
-███████╗███████╗╔██║     
-╚════██║╚════██║║██║     
-███████║███████║╚██████╗
-╚══════╝╚══════╝ ╚═════╝ 
--- [ MIRRORSMOKE MERCENARY COMPANY ] --
->>>>>>>>> ((   PILOT NET   )) <<<<<<<<< 
----------------------------------------
+╭═══════════════════════════════════════════╮ 
+║                     %..,                  ║  
+║                  ((((((((.                ║    
+║    (((((((((((    ((((((    (((((((((((   ║    
+║      ((((((((((((  ((((  ((((((((((((.    ║    
+║       (((((((((((.  ((   (((((((((((      ║    
+║         ((((((((((/  .  ((((((((((        ║    
+║    *((    & (((((((    ((((((( #    ((*   ║    
+║   .(((((((((                  /((((((((.  ║    
+║   .((((((((                    ((((((((.  ║    
+║     ((     ((((((((    ((((((((    .((    ║    
+║         ((((((((((#  ,  ((((((((((.       ║    
+║       (((((((((((.  (((  (((((((((((,     ║    
+║      ((((((((((((  ((((  /(((((((((((.    ║    
+║     *********..  &((((((%  . *********,   ║    
+║                .((((((((                  ║   
+║                    %%                     ║   
+╚═══════════════════════════════════════════╝
 `,
   `
-  SSCTEST!!!!!!!!!!!!!!
-  Constellar Congress
-'7MMM.     ,MMF' .M"""bgd '7MMM.     ,MMF' .g8"""bgd 
-  MMMb    dPMM  ,MI    "Y   MMMb    dPMM .dP'     'M 
-  M YM   ,M MM  'MMb.       M YM   ,M MM dM'       ' 
-  M  Mb  M' MM    'YMMNq.   M  Mb  M' MM MM          
-  M  YM.P'  MM  .     'MM   M  YM.P'  MM MM.         
-  M  'YM'   MM  Mb     dM   M  'YM'   MM 'Mb.     ,' 
-.JML. ''  .JMML.P"Ybmmd"  .JML. ''  .JMML. '"bmmmd'  
---------- [ MIRRORSMOKE MERCENARY COMPANY ] ---------
-|                ((   PILOT NET   ))                |
-|---------------------------------------------------|
+   ___     ___     ___   
+  / __|   / __|   / __|  
+  \\__ \\   \\__ \\  | (__   
+  |___/   |___/   \\___|  
+_|"""""|_|"""""|_|"""""| 
+ "-0-0-"^"-0-0-'^"-0-0-"
 `,
   `
-  SSCTEST!!!!!!!!!!!!!!
-  Constellar Congress
-888b     d888  .d8888b.  888b     d888  .d8888b.  
-8888b   d8888 d88P  Y88b 8888b   d8888 d88P  Y88b 
-88888b.d88888 Y88b.      88888b.d88888 888    888 
-888Y88888P888  "Y888b.   888Y88888P888 888        
-888 Y888P 888     "Y88b. 888 Y888P 888 888        
-888  Y8P  888       "888 888  Y8P  888 888    888 
-888   "   888 Y88b  d88P 888   "   888 Y88b  d88P 
-888       888  "Y8888P"  888       888  "Y8888P"  
-------- [ MIRRORSMOKE MERCENARY COMPANY ] -------
-|              ((   PILOT NET   ))              |
--------------------------------------------------     
+,d88~~\\ ,d88~~\\  e88~-_  
+8888    8888    d888   \\ 
+'Y88b   'Y88b   8888     
+ 'Y88b,  'Y88b, 8888     
+   8888    8888 Y888   / 
+\\__88P' \\__88P'  "88_-~  
+                         
+`,
+` ______ ______ _______ 
+ / _____) _____|_______)
+( (____( (____  _       
+ \\____ \\\\____ \\| |      
+ _____) )____) ) |_____ 
+(______(______/ \\______)
+`,
+`
+...                ...               ...          
+.x888888hx    :    .x888888hx    :    xH88"'~ .x8X    
+d88888888888hxx    d88888888888hxx   :8888   .f"8888Hf 
+8" ... '"*8888%'   8" ... '"*8888%'  :8888>  X8L  ^""'  
+!  "   ' .xnxx.    !  "   ' .xnxx.    X8888  X888h       
+X X   .H8888888%:  X X   .H8888888%:  88888  !88888.     
+X 'hn8888888*"   > X 'hn8888888*"   > 88888   %88888     
+X: '*88888%'     ! X: '*88888%'     ! 88888 '> '8888>    
+'8h.. ''     ..x8> '8h.. ''     ..x8> '8888L %  ?888   ! 
+'88888888888888f   '88888888888888f   '8888  '-*""   /  
+'%8888888888*"     '%8888888888*"      "888.      :"   
+  ^"****""'          ^"****""'          '""***~"'     
+`,
+`
+_       ___       ____    __
+ )  ____)  )  ____)  /  __) 
+(  (___   (  (___   |  /    
+ \\___  \\   \\___  \\  | |     
+ ____)  )  ____)  ) |  \\__  
+(      (__(      (___\\    )_
 `,
 ]
 
-const phrases = [
-  `LET'S GET THIS BREAD`,
-  `REACH HEAVEN THROUGH VIOLENCE`,
-  `KEEP POSTING I'M RELOADING`,
-  `GET IN GET OUT GET PAID`,
-  `SECURE THE BAG`,
-  `TIME TO CAKE UP`,
-  `MOVE TO THE SOUND OF THE GUNS`,
-  `WHAT WOULD XIAOLI DO?`,
-  `UPHOLD THE CONTRACT`,
-  `CHECK YOUR CORNERS, EVEN AT A DESK. CORPORATE ESPIONAGE STARTS AND STOPS WITH YOU`,
-  `MSMC AND MSMC LEGAL CORPS RESERVE THE RIGHT TO ACCESS AND/OR REDISTRIBUTE ANY USER DATA`,
-  `SHOOT FIRST, LET MSMC LEGAL CORPS HANDLE THE REST`,
-]
 
 const getLogo = (): string => {
-  const l = _.sample(logos)
-  return l.replace(/\//g, '&#47;')
+  const weights = [ //probability = amount index/amount all index
+    0,0,0,0,0,0,0,0,0,0,  //original ssc logo   50%
+    1,                    //train ssc logo      5%
+    2,2,2,                //cursive ssc logo    15%
+    3,3,                  //tronlike ssc logo   10%
+    4,4,4,                //calligraphy ssc logo15%
+    5,5,                  //banner ssc logo     10%
+  ]
+  return logos[_.sample(weights)]
 }
 
-const getPhrase = (): string => {
-  return _.sample(phrases)
-}
 
 const plog = typer => {
   typer
@@ -76,63 +90,65 @@ const plog = typer => {
     .type('<br>')
     .type('<br>')
     .type('<br>')
-    .type('Constellar Congress building')
+    .type('<span class="secondary--text">Constellar Congress access requested</span>')
     .break()
-    .type('GMS COMP/CON Unit Mk XI Rev 11.4.1c')
     .break()
-    .type('5017.3.12 General Massive Systems // Please Operate Responsibly')
+    .type('<strong>INITIALIZING PIVATE OMNINET TUNNEL⏣</strong>')
     .break()
-    .type('Mirrorsmoke (R) MSMCOS (R) 8.0 (Build 113409)')
+    .type('analyzing')
+    .type(` 𐄫 [[${tracert(0)}]] found`)
+    .pause(500)
+    .type(' --> evaluation fail [insecure]')
+    .pause(500)
     .break()
-    .type('Connecting to Pilot NET ')
-    .pause(150)
-    .type('. ')
-    .pause(150)
-    .type('. ')
-    .pause(150)
-    .type('. ')
-    .pause(150)
+    .type('analyzing')
+    .type(` 𐄫 [[${tracert(0)}]] found`)
+    .type(' --> evaluation success [secure]')
     .break()
-    .type('Connected to Pilot NET. Please enter MSMC LC-CRED ')
+    .type('Congress Node connected. Your connection is secure.')
     .break()
-    .type('USERNAME: ')
-    .pause(90)
-    .type(`${callsign()}_${Math.floor(Math.random() * 9999)}`)
     .break()
-    .type('PASSWORD: ')
-    .pause(90)
-    .type(`************`)
-    .pause(250)
+    .type('<strong>CONNECTING TO CONSTELLAR CONGRESS ⧟</strong>')
     .break()
-    .type('Credentials verified. Welcome to Pilot NET! ')
-    .type(`&nbsp; (<b>${Math.floor(Math.random() * 99999)}</b> USERS ONLINE)`)
+    .type('Connected to Constellar Congress. Prepare for bio-authentication flare.')
+    .break()
+    .break()
+    .type('<strong>USERSCAN INITIATED ⊹</strong>')
+    .break()
+    .type('GENETIC PROFILING')
+    .pause(700)
+    .type(` 99.99${Math.floor(Math.random() * 999)}% match`)
+    .break()
+    .type(`Biometric readings confirmed.  Welcome, ${callsign()}_${Math.floor(Math.random() * 9999)}!`)
+    .break()
+    .break()
+    .type('<strong>VR BUILDING SIMULATION ACTIVATED🏛 🏗</strong>')
+    .break()
+    .type(' Smith Shimano Company')
+    .break()
+    .type('8.0 (Build 118765)')
+    .break()
+    .type(`Sector/Campus 𐄘 ${encryption()}`)
+    .break()
     .break()
     .type(`<pre>${getLogo()}</pre>`)
-    .type(`>>${getPhrase()} `)
+    .break()
+    .type('<strong>VIRTUAL ENVIRONMENT NAVIGATION ENABLED 🗺</strong>')
+    .break()
+    .type('<strong>------- [ CONSTELLAR CONGRESS VIRTUAL ENVIRONMENT ] -------</strong>')
+    .break()
+    .type('Immerse yourself in the vast expanse of knowledge, where every task is a celestial odyssey.')
+    .break()
+    .type('Your contributions ripple through the cosmic network of thinkers and innovators.')
     .break()
     .break()
-    .type(
-      `AVAILABLE MISSIONS: <b>${Math.floor(Math.random() * 99)
-        .toString()
-        .padStart(2, '0')}</b> &emsp;&nbsp;&nbsp;|&emsp; AVAILABLE BOUNTIES: <b>${Math.floor(
-        Math.random() * 99
-      )
-        .toString()
-        .padStart(2, '0')}</b>`
-    )
     .break()
-    .type(
-      `PENDING PAYMENTS: MN$<b>${Math.floor(Math.random() * 999)
-        .toString()
-        .padStart(3, '0')}</b> &emsp;|&emsp; INBOX: <b>${Math.floor(
-        Math.random() * 999
-      )}</b> UNREAD MSG`
-    )
+    .type('|WELCOME, PROTEGÉ|')
     .break()
-    .type(`-------------------------------------`)
+    .type(`~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`)
     .break()
     .type(
-      '>//[<span class="accent--text">COMP/CON</span>: <span class="stark-text--text">Welcome, Lancer. Input Command.</span>]'
+      '>//[<span class="accent--text">ATHENA</span>: <span class="stark-text--text">Select destination-chamber.</span>]'
     )
     .go()
 }
