@@ -6,11 +6,7 @@ const theme = {
   name: 'SSC Constellar Congress',
   colors: {
     ...themeDefaults,
-    //'theme--dark':"#11ffff",
-    //'theme--light':"#11ffff",
-    'v-card':"#c7b5a3",
     
-    //blub:"#ff0111",
     primary: '#d1920a',
     active: '#89610B',
     accent: '#948054',
@@ -35,6 +31,7 @@ const theme = {
     'light-text': '#8c6f46', //flavor text
     'stark-text': '#000',
 
+    'v-card':"#c7b5a3",
     background: '#e3ceb9',
     panel: '#eadbcb',
     tooltip: '#7d7268',
