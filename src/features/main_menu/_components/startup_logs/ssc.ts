@@ -2,8 +2,7 @@ import _ from 'lodash'
 import { callsign, encryption, tracert } from '@/io/Generators'
 
 const logos = [
-  `
-╭═══════════════════════════════════════════╮ 
+  `╭═══════════════════════════════════════════╮ 
 ║                     %..,                  ║  
 ║                  ((((((((.                ║    
 ║    (((((((((((    ((((((    (((((((((((   ║    
@@ -132,8 +131,6 @@ const plog = typer => {
     .type(`<pre>${getLogo()}</pre>`)
     .break()
     .type('<strong>VIRTUAL ENVIRONMENT NAVIGATION ENABLED 🗺</strong>')
-    .break()
-    .type('<strong>------- [ CONSTELLAR CONGRESS VIRTUAL ENVIRONMENT ] -------</strong>')
     .break()
     .type('Immerse yourself in the vast expanse of knowledge, where every task is a celestial odyssey.')
     .break()
