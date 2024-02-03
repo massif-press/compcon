@@ -373,7 +373,7 @@ export default Vue.extend({
     },
     doNotifyError() {
       this.$notify(this.notificationText, this.notificationErrorType, () =>
-        console.log('yup, you clicked the notification!', this)
+        console.log('yup, you clicked the error!', this)
       )
     },
   },
