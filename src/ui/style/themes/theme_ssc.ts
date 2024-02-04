@@ -23,7 +23,6 @@ const theme = {
     'pilot-weapon': '#212121',
 
     //typography
-    headers:"#33332f",
     text: '#5e4b30',
     subtle: '#736e91',
     stark: '#000',
