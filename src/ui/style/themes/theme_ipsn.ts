@@ -2,22 +2,22 @@ import themeDefaults from './common'
 
 const theme = {
   type: 'light',
-  id: 'ssc',
-  name: 'SSC Constellar Congress (Community)',
+  id: 'ipsn',
+  name: 'IPS-N Carina (Community)',
   colors: {
     ...themeDefaults,
-    
+
     //Main-Colors
-    primary: '#d1920a',
-    secondary: '#685d99',
-    active: '#89610B',
-    accent: '#948054',
-    background: '#e3ceb9',
+    primary: '#1952A2',
+    secondary: '#c77634',
+    active: '#1976D2',
+    accent: '#19A2A2',
+    background: '#dbdbdb',
 
     //signal colors
-    error: '#cc472d',
-    info: '#4276b3',
-    success: '#107038',
+    error: '#F44336',
+    info: '#1565C0',
+    success: '#00C853',
     warning: '#FFAB00',
 
     //misc
@@ -32,25 +32,24 @@ const theme = {
     'pilot-weapon': '#212121',
 
     //typography
-    text: '#5e4b30',
-    subtle: '#736e91',
+    text: '#212121',
+    subtle: '#9E9E9E',
     stark: '#000',
     anti: '#fff',
-    'light-text': '#8c6f46', //flavor text
+    'light-text': '#424242', //flavor text
     'stark-text': '#000',
 
     //UI-Boxes and elements
-    'v-card': "#c7b5a3",
-    'v-expansion-panel': "#dbcfc3",
-    'v-data-table': "#dbcfc3",
+    'v-card': "#adadad",
+    'v-expansion-panel': "#adadad",
+    'v-data-table': "#adadad",
     
-    panel: '#eadbcb',
-    tooltip: '#d6c9b0',
-    'light-panel': '#eadbcb',
-    'dark-panel': '#c7b5a3',
+    panel: '#ccc',
+    tooltip: '#e8e8e8',
+    'light-panel': '#dbdbdb',
+    'dark-panel': '#d6d6d6',
     'panel-border': '#8a949e',
-    'stark-panel': '#5a4c3f',
-   
+    'stark-panel': '#EDEDED',
   },
 }
 export default theme
