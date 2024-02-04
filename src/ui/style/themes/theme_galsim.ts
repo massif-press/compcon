@@ -2,17 +2,17 @@ import themeDefaults from './common'
 
 const theme = {
   type: 'dark',
-  id: 'aunic',
-  name: 'Aunic Ascendency Messhall (Community)',
+  id: 'galsim',
+  name: 'FORECAST/GALSIM (Community)',
   colors: {
     ...themeDefaults,
 
     //Main-Colors
-    primary: '#321970',
+    primary: '#e36600',
     secondary: '#3e6a94',
     active: '#332080',
     accent: '#533587',
-    background: '#000000',
+    background: '#2b2b2b',
 
     //signal colors
     error: '#F44336',
