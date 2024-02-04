@@ -34,6 +34,8 @@ import GmsStart from './startup_logs/gms'
 import MsmcStart from './startup_logs/msmc'
 import SscStart from './startup_logs/ssc'
 import IpsnStart from './startup_logs/ipsn'
+import HaStart from './startup_logs/ha'
+import AunicStart from './startup_logs/aunic'
 import { HorusStart, HorusChat } from './startup_logs/horus'
 import { getModule } from 'vuex-module-decorators'
 import { UserStore } from '@/store'
@@ -106,6 +108,10 @@ export default Vue.extend({
           SscStart(this.typer)
         case 'ipsn':
           IpsnStart(this.typer)
+        case 'ha':
+          HaStart(this.typer)
+        case 'aunic':
+          AunicStart(this.typer)
         default:
           GmsStart(this.typer)
           break
