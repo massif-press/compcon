@@ -3,29 +3,29 @@ import themeDefaults from './common'
 const theme = {
   type: 'dark',
   id: 'galsim',
-  name: 'FORECAST/GALSIM (Community)',
+  name: 'FORECAST/GALSIM (Community)',  
   colors: {
     ...themeDefaults,
 
     //Main-Colors
-    primary: '#e36600',
-    secondary: '#3e6a94',
-    active: '#332080',
-    accent: '#533587',
-    background: '#2b2b2b',
+    primary: '#e36600',    // Orange
+    secondary: '#3e6a94',  // Blue-Grey
+    active: '#2a416b',     // Dark Blue
+    accent: '#4974bf',     // Medium Blue
+    background: '#2b2b2b', // Very Dark Grey
 
     //signal colors
     error: '#F44336',
     info: '#1565C0',
-    success: '#00C853',
-    warning: '#FFAB00',
+    success: '#10a14c',
+    warning: '#e89f0c',
 
     //misc
-    pilot: '#a67c00',
+    pilot: '#3e6a94',
     exotic: '#FFAB00',
     'action--downtime': '#1dc2c2',
     'reserve--organization': '#3ec2c2',
-    'action--reaction': '#be51ed',
+    'action--reaction': '#823aa1',
 
     weapon: '#555555',
     'mech-weapon': '#555555',
