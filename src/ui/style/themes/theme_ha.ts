@@ -3,13 +3,13 @@ import themeDefaults from './common'
 const theme = {
   type: 'dark',
   id: 'ha',
-  name: 'Harrison Armor Ras Shamra (Community)',
+  name: 'Harrison Armory Ras Shamra (Community)',
   colors: {
     ...themeDefaults,
 
     //Main-Colors
     primary: '#771675',
-    secondary: '#9c8200',
+    secondary: '#cf4bdb',
     active: '#a15ea8',
     accent: '#e080de',
     background: '#2b2b2b',
