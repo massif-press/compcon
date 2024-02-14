@@ -128,7 +128,7 @@ const plog = typer => {
     .type(`Sector/Campus 𐄘 ${encryption()}`)
     .break()
     .break()
-    .type(`<pre>${getLogo()}</pre>`)
+    .type(`<span class="accent--text"><pre>${getLogo()}</pre></span>`)
     .break()
     .type('<strong>VIRTUAL ENVIRONMENT NAVIGATION ENABLED 🗺</strong>')
     .break()

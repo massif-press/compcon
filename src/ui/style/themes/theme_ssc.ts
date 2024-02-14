@@ -11,8 +11,8 @@ const theme = {
     primary: '#d1920a',
     secondary: '#685d99',
     active: '#89610B',
-    accent: '#948054',
-    background: '#e3ceb9',
+    accent: '#b58900',
+    background: '#eee8d5',
 
     //signal colors
     error: '#cc472d',
