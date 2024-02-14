@@ -3,13 +3,13 @@
     :items="weapons"
     item-type="MechWeapon"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header> <div class="heading h3 text-center text-accent">Mech Weapons</div></template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { CompendiumStore } from '../../store';
 
 export default {
@@ -43,7 +43,10 @@ export default {
 
       // if (!canShowExotics) i = i.filter((x) => !x.IsExotic);
 
-      return items.filter((x) => !x.IsHidden);
+      return _.orderBy(
+        items.filter((x) => !x.IsHidden),
+        'Name'
+      );
     },
   },
 };

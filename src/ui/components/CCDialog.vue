@@ -6,8 +6,7 @@
       :color="color"
       variant="text"
       :dark="dark"
-      @click="dialog = true"
-    >
+      @click="dialog = true">
       <slot name="button" />
     </v-btn>
     <v-btn
@@ -16,15 +15,10 @@
       flat
       :size="smallBtn || $vuetify.display.smAndDown ? 'small' : 'default'"
       :color="color"
-      @click="dialog = true"
-    >
+      @click="dialog = true">
       <slot name="button" />
     </v-btn>
-    <v-dialog
-      v-model="dialog"
-      :fullscreen="fullscreen || $vuetify.display.mdAndDown"
-      :width="small ? '30vw' : large ? '80vw' : '50vw'"
-    >
+    <v-dialog v-model="dialog" :fullscreen="fullscreen">
       <v-card tile class="background">
         <cc-titlebar :color="color" :icon="icon">
           <template #title>
@@ -35,6 +29,9 @@
           </template>
           <template #title-items>
             <slot name="title-items" />
+            <v-btn icon @click="dialog = false">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
           </template>
         </cc-titlebar>
 

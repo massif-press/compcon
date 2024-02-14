@@ -3,8 +3,7 @@
     :items="skills"
     item-type="Skill"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header>
       <div class="heading h3 text-center text-accent">Pilot Skill Triggers</div></template
     >
@@ -12,6 +11,7 @@
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { Skill } from '@/class';
 
 import { CompendiumStore } from '@/stores';
@@ -35,7 +35,7 @@ export default {
   }),
   computed: {
     skills(): Skill[] {
-      return CompendiumStore().Skills;
+      return _.orderBy(CompendiumStore().Skills, 'Name');
     },
   },
 };

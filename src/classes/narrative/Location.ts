@@ -35,6 +35,37 @@ class Location extends CollectionItem {
     ];
   }
 
+  public GetRelationshipSuggestions(connectionType: string): string[] {
+    const s = connectionType.toLowerCase();
+    switch (s) {
+      case 'character':
+        return ['Resident', 'Visitor', 'Regular', 'Tourist', 'Exile', 'Local'];
+      case 'location':
+        return [
+          'Subregion',
+          'Trade partners',
+          'Connected',
+          'Shared culture',
+          'Collaborative regions',
+          'Economic interdependence',
+          'Geographic proximity',
+          'Political alliance',
+        ];
+      case 'faction':
+        return [
+          'Headquarters',
+          'Branch or satellite',
+          'Outpost',
+          'Venue',
+          'Holding',
+          'Base',
+          'Territory',
+          'Disputed Area',
+        ];
+    }
+    return [];
+  }
+
   public static Serialize(location: Location): LocationData {
     let data = {
       collectionItemType: 'location',

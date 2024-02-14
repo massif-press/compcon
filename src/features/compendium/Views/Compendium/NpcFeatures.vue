@@ -1,33 +1,47 @@
 <template>
-  <v-container fluid>
-    <cc-compendium-browser
-      :headers="headers"
-      :items="features"
-      title="NPC Features"
-      no-filter
-      lock-view
-    />
-  </v-container>
+  <cc-compendium-browser
+    ref="browser"
+    :items="features"
+    item-type="NpcFeature"
+    :table-headers="headers"
+    :options="options">
+    <template #header>
+      <div class="heading h3 text-center text-accent">NPC Features</div>
+    </template>
+  </cc-compendium-browser>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
+
 import { CompendiumStore } from '@/stores';
-import { NpcFeature } from '@/class';
+import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 
 export default {
   name: 'NpcFeatures',
 
   data: () => ({
-    headers: [
-      { title: 'Feature', align: 'left', value: 'Name' },
-      { title: 'Type', align: 'left', value: 'FeatureType' },
-      { title: 'Class', align: 'left', value: 'OriginClass' },
-      { title: 'Set', align: 'left', value: 'OriginSet' },
-    ],
+    selectedTier: 1,
+    tieredView: false,
+    options: {
+      views: ['single', 'table', 'cards'],
+      initialView: 'single',
+      groups: ['lcp', 'featureType', 'origin'],
+      initialGroup: 'lcp',
+    },
   }),
+
   computed: {
     features(): NpcFeature[] {
-      return CompendiumStore().NpcFeatures as NpcFeature[];
+      return _.orderBy(CompendiumStore().NpcFeatures, ['FeatureType', 'Origin.Name', 'Name']);
+    },
+    headers() {
+      const h = [
+        { title: 'Content Pack', key: 'LcpName' },
+        { title: 'Origin', key: 'Origin' },
+        { title: 'Name', key: 'Name' },
+      ] as any[];
+      return h;
     },
   },
 };

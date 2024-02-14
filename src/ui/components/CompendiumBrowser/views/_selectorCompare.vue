@@ -16,7 +16,7 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="isNpcClass">
           <tr v-for="metric in relevantMetrics">
             <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
@@ -26,6 +26,20 @@
             </td>
             <td v-for="item in items" class="text-center side-border">
               {{ (item as any).Stats[metric.value] }} <span v-html="diff(metric.value, item)" />
+            </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr v-for="metric in metrics">
+            <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
+              {{ metric.title }}
+            </td>
+            <td class="text-center side-border font-weight-bold text-accent">
+              {{ selected.Stats.Stat(metric.value, tier) }}
+            </td>
+            <td v-for="item in items" class="text-center side-border">
+              {{ (item as any).Stats.Stat(metric.value, tier) }}
+              <span v-html="npcDiff(metric.value, item)" />
             </td>
           </tr>
         </tbody>
@@ -54,9 +68,17 @@ export default {
       type: Object,
       required: false,
     },
+    tier: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
   },
   emits: ['clear'],
   computed: {
+    isNpcClass() {
+      return (this.selected as CompendiumItem).ItemType === 'NpcClass';
+    },
     metrics() {
       switch ((this.selected as CompendiumItem).ItemType) {
         case 'Frame':
@@ -86,6 +108,21 @@ export default {
             { title: 'Range', value: 'range' },
             { title: 'Total Damage', value: 'damage' },
           ];
+        case 'NpcClass':
+          return [
+            { title: 'Hull', value: 'hull' },
+            { title: 'Agility', value: 'agi' },
+            { title: 'Systems', value: 'sys' },
+            { title: 'Engineering', value: 'eng' },
+            { title: 'Armor', value: 'armor' },
+            { title: 'HP', value: 'hp' },
+            { title: 'HeatCap', value: 'heat' },
+            { title: 'Evade', value: 'evasion' },
+            { title: 'E-Defense', value: 'edef' },
+            { title: 'Speed', value: 'speed' },
+            { title: 'Sensor Range', value: 'sensorRange' },
+            { title: 'Save Target', value: 'saveTarget' },
+          ];
         default:
           return [
             { title: 'Range', value: 'range', bold: true },
@@ -110,11 +147,21 @@ export default {
         );
       });
     },
+    npcMetrics() {},
   },
   methods: {
     diff(metric: string, item: any) {
       const selectedValue = (this.selected as any).Stats[metric];
       const itemValue = item.Stats[metric];
+      if (selectedValue === itemValue) return '';
+
+      return `<i class="text-overline ${
+        selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
+      }${itemValue - selectedValue})</i>`;
+    },
+    npcDiff(metric: string, item: any) {
+      const selectedValue = (this.selected as any).Stats.Stat(metric, this.tier);
+      const itemValue = item.Stats.Stat(metric, this.tier);
       if (selectedValue === itemValue) return '';
 
       return `<i class="text-overline ${

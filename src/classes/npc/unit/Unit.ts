@@ -7,6 +7,7 @@ import { INpcClassSaveData, NpcClassController } from '../class/NpcClassControll
 import { INpcFeatureSaveData, NpcFeatureController } from '../feature/NpcFeatureController';
 import { INpcItemSaveData } from '../feature/NpcItem/NpcItem';
 import { NpcTemplateController } from '../template/NpcTemplateController';
+import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 
 class UnitData extends NpcData implements INpcClassSaveData, INpcFeatureSaveData {
   npcType: 'unit' = 'unit';
@@ -20,16 +21,40 @@ class UnitData extends NpcData implements INpcClassSaveData, INpcFeatureSaveData
   items!: INpcItemSaveData[];
 }
 
-class Unit extends Npc {
-  private _tag: string = 'Other';
+class Unit extends Npc implements IStatContainer {
+  private _tag: string = 'Mech';
 
   public NpcFeatureController: NpcFeatureController;
   public NpcTemplateController: NpcTemplateController;
   public NpcClassController: NpcClassController;
   public StatController: StatController;
 
-  public constructor(data: UnitData) {
-    super();
+  public MandatoryStats: string[] = [
+    'activations',
+    'size',
+    'structure',
+    'hp',
+    'armor',
+    'stress',
+    'heat',
+    'speed',
+    'evasion',
+    'edef',
+    'sensorRange',
+    'saveTarget',
+    'hull',
+    'agi',
+    'sys',
+    'eng',
+  ];
+
+  public ItemType: string = 'Unit';
+
+  public constructor(data?: UnitData) {
+    super(data);
+    this._name = data?.name || 'New NPC';
+    this._tag = data?.tag || 'Mech';
+
     this.NpcClassController = new NpcClassController(this);
     this.NpcFeatureController = new NpcFeatureController(this);
     this.NpcTemplateController = new NpcTemplateController(this);

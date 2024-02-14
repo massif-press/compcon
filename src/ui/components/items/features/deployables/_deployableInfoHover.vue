@@ -1,5 +1,5 @@
 <template>
-  <v-menu open-on-hover bottom offset-y>
+  <v-menu open-on-hover bottom offset-y width="70vw">
     <template #activator="{ props }">
       <v-chip :color="deployable.Color" v-bind="props">
         <span class="text-white">
@@ -14,7 +14,7 @@
         <span class="heading h3">{{ deployable.Name }}</span>
       </v-toolbar>
       <v-card-text class="mt-n3">
-        <deployable-info-base :action="action" />
+        <deployable-info-base :deployable="deployable" />
       </v-card-text>
     </v-card>
   </v-menu>

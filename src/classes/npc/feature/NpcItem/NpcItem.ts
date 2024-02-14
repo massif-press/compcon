@@ -1,8 +1,8 @@
 // Wrapper class for items assigned to an NPC
 import { v4 as uuid } from 'uuid';
 import { CompendiumStore } from '@/stores';
-import { NpcTemplate } from '@/class';
 import { NpcFeature } from '../NpcFeature';
+import { NpcTemplate } from '../../template/NpcTemplate';
 
 export interface INpcItemSaveData {
   itemID: string;

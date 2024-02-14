@@ -4,60 +4,62 @@
     :headers="headers"
     :items="items"
     :items-per-page="-1"
-    style="max-width: calc(100vw - 390px)"
-  >
+    style="max-width: calc(100vw - 390px)">
     <template v-slot:item="{ item }">
-      <tr :id="item.raw.ID">
+      <tr :id="item.ID">
         <td
-          v-for="h in (headers as any[])"
+          v-for="h in headers as any[]"
           class="text-left"
-          :class="selected && (selected as any).ID === item.raw.ID  ? 'bg-primary' : ''"
-        >
+          :class="selected && (selected as any).ID === item.ID ? 'bg-primary' : ''">
           <div v-if="h.key === 'Size'">
-            <span v-text="item.raw.Size === 0.5 ? '½' : item.raw.Size" />
+            <span v-text="item.Size === 0.5 ? '½' : item.Size" />
           </div>
           <div v-else-if="h.key === 'Name'">
-            <cc-item-modal small-btn hide-type :item="item.raw" />
+            <cc-item-modal small-btn hide-type :item="item" />
+          </div>
+          <div v-else-if="h.key === 'Origin'">
+            <cc-item-modal small-btn hide-type :item="item.Origin" />
           </div>
           <div v-else-if="h.key === 'Icon'">
-            <v-icon :icon="item.raw.Icon" />
+            <v-icon :icon="item.Icon" />
           </div>
           <div v-else-if="h.key === 'Range'">
-            <cc-range-element small :range="(item as any).raw.Range" />
+            <cc-range-element small :range="(item as any).Range" />
           </div>
           <div v-else-if="h.key === 'Damage'">
-            <cc-damage-element small :damage="(item as any).raw.Damage" />
+            <cc-damage-element small :damage="(item as any).Damage" />
           </div>
           <div v-else-if="h.key === 'MaxUses'">
-            <span v-if="item.raw.MaxUses" v-text="item.raw.MaxUses" />
+            <span v-if="item.MaxUses" v-text="item.MaxUses" />
             <v-icon v-else size="x-small" color="subtle">mdi-infinity</v-icon>
           </div>
           <div v-else-if="h.key === 'T1'">
             <cc-item-modal
-              v-for="e in (item.raw as License).Unlocks[0]"
+              v-for="e in (item as License).Unlocks[0]"
               small-btn
               :item="e"
-              style="padding: 2px"
-            />
+              style="padding: 2px" />
           </div>
           <div v-else-if="h.key === 'T2'">
             <cc-item-modal
-              v-for="e in (item.raw as License).Unlocks[1]"
+              v-for="e in (item as License).Unlocks[1]"
               small-btn
               :item="e"
-              style="padding: 2px"
-            />
+              style="padding: 2px" />
           </div>
           <div v-else-if="h.key === 'T3'">
             <cc-item-modal
-              v-for="e in (item.raw as License).Unlocks[2]"
+              v-for="e in (item as License).Unlocks[2]"
               small-btn
               :item="e"
-              style="padding: 2px"
-            />
+              style="padding: 2px" />
           </div>
+          <div v-else-if="h.tier" class="text-center">
+            {{ (item as NpcClass).Stats.Stat(h.key, h.tier) }}
+          </div>
+
           <div v-else>
-            {{ item.raw[h.key] }}
+            {{ item[h.key] }}
           </div>
         </td>
       </tr>
@@ -68,6 +70,7 @@
 
 <script lang="ts">
 import { License } from '@/class';
+import { NpcClass } from '@/classes/npc/class/NpcClass';
 
 export default {
   name: 'selector-table',

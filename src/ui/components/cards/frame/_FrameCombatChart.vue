@@ -19,8 +19,7 @@
                 Relative
                 <cc-tooltip
                   inline
-                  content="Chart stat values relative to all other frames in the Compendium"
-                >
+                  content="Chart stat values relative to all other frames in the Compendium">
                   <v-icon size="small" variant="plain">mdi-information-outline</v-icon>
                 </cc-tooltip>
               </v-col>
@@ -63,8 +62,7 @@
               hide-details
               clearable
               multiple
-              style="min-width: 150px"
-            />
+              style="min-width: 150px" />
           </v-col>
         </v-row>
       </div>
@@ -90,6 +88,7 @@ import {
 } from 'chart.js';
 import { Frame } from '@/class';
 import FrameStatblock from './_FrameStatblock.vue';
+import { GenerateContrastingColors } from '@/util/Colors';
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -123,10 +122,7 @@ export default {
     colors: [] as string[],
   }),
   mounted() {
-    this.colors = Array.from(
-      { length: this.frames.length },
-      () => '#' + Math.floor(Math.random() * 16777215).toString(16)
-    );
+    this.colors = GenerateContrastingColors(this.frames.length + 1);
   },
   computed: {
     labels() {
@@ -140,9 +136,15 @@ export default {
     chartOptions() {
       return this.relative
         ? {
+            plugins: {
+              datalabels: {
+                display: false,
+              },
+            },
             layout: {
               padding: 0,
             },
+
             scales: {
               r: {
                 angleLines: {
@@ -158,6 +160,11 @@ export default {
             },
           }
         : {
+            plugins: {
+              datalabels: {
+                display: false,
+              },
+            },
             layout: {
               padding: 0,
             },
@@ -169,7 +176,7 @@ export default {
                 suggestedMin: -3,
                 beginAtZero: true,
                 ticks: {
-                  display: true,
+                  display: false,
                 },
               },
             },
@@ -193,10 +200,10 @@ export default {
         label: frame.Name,
         backgroundColor: compare
           ? this.colors[idx as number] + '1A'
-          : this.$vuetify.theme.current.colors.primary + '33',
+          : this.$vuetify.theme.current.colors.accent + '33',
         borderColor: compare
           ? this.colors[idx as number] + 'CC'
-          : this.$vuetify.theme.current.colors.primary + 'B7',
+          : this.$vuetify.theme.current.colors.accent + 'B7',
         data: [] as any[],
       };
 

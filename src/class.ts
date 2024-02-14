@@ -1,7 +1,7 @@
 // Maintain this file as the single point of import for all class definitions
 // (to the extent possible) in order to avoid any circular reference errors. Basic types and
 // abstract classes should be imported before their children. AFAIK the definitions can be
-// stored anywhere and collected imports are fine as long as their constituents are impored
+// stored anywhere and collected imports are fine as long as their constituents are imported
 // first in this file.
 
 import { Rules } from './classes/utility/Rules';
@@ -73,19 +73,6 @@ import {
   DieSet,
 } from './classes/dice/DiceRoller';
 import { DiceStats, DiceStatsResult } from './classes/dice/DiceStats';
-import {
-  NpcFeature,
-  NpcFeatureType,
-  NpcTrait,
-  NpcReaction,
-  NpcSystem,
-  NpcTech,
-  NpcWeapon,
-  NpcClass,
-  NpcTemplate,
-  NpcItem,
-  Npc,
-} from './classes/npc';
 import { ContentPack } from './classes/ContentPack';
 import { Counter } from './classes/components/combat/counters/Counter';
 import { Environment } from './classes/Environment';
@@ -158,17 +145,6 @@ export {
   DieSet,
   DiceStats,
   DiceStatsResult,
-  NpcFeatureType,
-  NpcFeature,
-  NpcReaction,
-  NpcSystem,
-  NpcTrait,
-  NpcWeapon,
-  NpcClass,
-  NpcTemplate,
-  NpcItem,
-  NpcTech,
-  Npc,
   ContentPack,
   Counter,
   PlayerAction,

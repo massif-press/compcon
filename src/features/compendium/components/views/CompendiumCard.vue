@@ -8,16 +8,14 @@
           :color="isHovering ? '' : 'panel'"
           variant="outlined"
           @click="($refs.dialog as any).show()"
-          @keydown.enter="($refs.dialog as any).show()"
-        >
+          @keydown.enter="($refs.dialog as any).show()">
           <component
             :is="componentLoader"
             v-if="componentLoader"
             :item="item"
             :hover="isHovering"
             :highlighted="highlighted"
-            :small="small"
-          />
+            :small="small" />
         </v-card>
       </template>
     </v-hover>
@@ -63,7 +61,6 @@ export default {
       t += 'Content';
 
       if (!content[t]) {
-        console.log(content);
         console.error(`No card found for item type ${t}`);
         return null;
       }

@@ -3,8 +3,7 @@
     :items="statuses"
     item-type="Status"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header>
       <div class="heading h3 text-center text-accent">Statuses & Conditions</div></template
     >
@@ -12,6 +11,7 @@
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 
 import { Status } from '@/classes/Status';
@@ -36,7 +36,7 @@ export default {
   }),
   computed: {
     statuses(): Status[] {
-      return CompendiumStore().Statuses;
+      return _.orderBy(CompendiumStore().Statuses, 'Name');
     },
   },
 };

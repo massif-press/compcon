@@ -7,13 +7,11 @@
       <b class="text-stark" v-html="content" />
       <span v-if="!noCc">]</span>
       <v-divider class="my-2" />
-      <v-row justify="end">
-        <v-col cols="auto">
-          <v-btn size="small" color="error" class="ml-auto" @click="$emit('confirm')"
-            >CONFIRM</v-btn
-          >
-        </v-col>
-      </v-row>
+      <v-card-actions class="my-n2">
+        <v-btn v-if="cancellable" @click="$emit('cancel')">CANCEL</v-btn>
+        <v-spacer />
+        <v-btn color="error" class="ml-auto" @click="$emit('confirm')">CONFIRM</v-btn>
+      </v-card-actions>
     </v-card-text>
   </v-card>
 </template>
@@ -27,6 +25,8 @@ export default {
       required: true,
     },
     noCc: { type: Boolean },
+    cancellable: { type: Boolean },
   },
+  emits: ['confirm', 'cancel'],
 };
 </script>

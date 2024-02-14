@@ -6,8 +6,7 @@
     :notes="notes"
     :smallTags="smallTags"
     :dense="dense"
-    :charts="charts"
-  />
+    :charts="charts" />
 </template>
 
 <script lang="ts">

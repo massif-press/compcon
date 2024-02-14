@@ -11,7 +11,7 @@
           ><v-icon start icon="mdi-pencil" />Edit Labels
         </v-btn>
       </template>
-      <v-card>
+      <v-card style="min-height: 40vh">
         <v-toolbar density="compact" class="heading h3"
           ><v-toolbar-title
             >Labels<cc-slashes class="px-2" /><span class="text-accent">{{
@@ -91,11 +91,11 @@
               <div class="text-caption text-text">LABEL PALETTE</div>
               <v-divider class="text-text" />
               <div style="position: absolute; top: 24px; bottom: 0">
-                <v-chip-group v-if="availableLabels.length" class="pa-1" style="height: 100%">
+                <v-chip-group v-if="availableLabels.length" class="pa-1">
                   <v-chip
                     v-for="label in availableLabels"
                     size="small"
-                    color="primary"
+                    color="accent"
                     @click="addPaletteChip(label.title)"
                     >{{ label.title }}</v-chip
                   >
@@ -112,6 +112,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <div v-if="item.NarrativeController.Labels.length === 0" class="text-caption text-center pa-1">
+      <i style="opacity: 0.6">No Labels</i>
+    </div>
 
     <v-chip-group class="pa-1 mt-n1">
       <cc-split-chip v-for="label in item.NarrativeController.Labels" :label="label" />

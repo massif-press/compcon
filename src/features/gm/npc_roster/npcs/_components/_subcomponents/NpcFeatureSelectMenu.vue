@@ -7,8 +7,7 @@
           x-small
           variant="outlined"
           class="fade-select mt-1"
-          @click="npc.NpcFeatureController.ResetFeatures()"
-        >
+          @click="npc.NpcFeatureController.ResetFeatures()">
           Reset Features
         </v-btn>
       </v-col>
@@ -21,8 +20,7 @@
           <cc-tooltip
             v-for="(alert, i) in npc.NpcTemplateController.TemplateFeatureAlerts"
             :title="alert.severity"
-            :content="alert.message"
-          >
+            :content="alert.message">
             <v-icon end :color="alert.severity">mdi-alert</v-icon>
           </cc-tooltip>
           <v-spacer />
@@ -54,7 +52,7 @@
               <v-divider />
               <v-list-item color="accent" @click="featureSet = npc.NpcClassController.Class.ID">
                 <v-list-item-icon>
-                  <v-icon v-text="npc.NpcClassController.Class.RoleIcon" />
+                  <v-icon v-text="npc.NpcClassController.Class.Icon" />
                 </v-list-item-icon>
                 <v-list-item-content>
                   <v-list-item-title class="text-button">
@@ -87,8 +85,7 @@
                   v-for="c in allClasses"
                   color="accent"
                   class="pl-6"
-                  @click="featureSet = c.ID"
-                >
+                  @click="featureSet = c.ID">
                   <v-list-item-icon>
                     <v-icon :icon="c.Icon" />
                   </v-list-item-icon>
@@ -112,8 +109,7 @@
                   v-for="t in allTemplates"
                   color="accent"
                   class="pl-6"
-                  @click="featureSet = t.ID"
-                >
+                  @click="featureSet = t.ID">
                   <v-list-item-icon>
                     <v-icon v-text="'cc:npc_template'" />
                   </v-list-item-icon>
@@ -143,8 +139,7 @@
                     density="compact"
                     hide-details
                     class="ma-0"
-                    label="Ignore Limit"
-                  />
+                    label="Ignore Limit" />
                   <v-switch
                     v-else
                     v-model="allowDupes"
@@ -152,8 +147,7 @@
                     density="compact"
                     hide-details
                     class="ma-0"
-                    label="Allow Duplicates"
-                  />
+                    label="Allow Duplicates" />
                 </v-col>
               </v-row>
               <v-divider class="mt-2 mb-4" />
@@ -163,16 +157,14 @@
                     :item="f"
                     :style="`height: calc(100% - ${
                       allowDupes && hasItem(f) ? '70' : '35'
-                    }px)!important`"
-                  />
+                    }px)!important`" />
                   <v-btn
                     v-if="!hasItem(f) || allowDupes"
                     color="accent"
                     block
                     variant="outlined"
                     tile
-                    @click="npc.NpcFeatureController.AddFeature(f)"
-                  >
+                    @click="npc.NpcFeatureController.AddFeature(f)">
                     <v-icon start>mdi-plus</v-icon>
                     Add {{ f.Name }}
                   </v-btn>
@@ -183,8 +175,7 @@
                     block
                     variant="outlined"
                     tile
-                    @click="npc.NpcFeatureController.RemoveFeature(f)"
-                  >
+                    @click="npc.NpcFeatureController.RemoveFeature(f)">
                     <v-icon start>mdi-minus</v-icon>
                     Remove {{ f.Name }}
                   </v-btn>
@@ -201,8 +192,7 @@
                   <v-alert
                     v-else-if="featureSet === 'assigned'"
                     variant="outlined"
-                    class="text-center"
-                  >
+                    class="text-center">
                     No NPC Features assigned
                   </v-alert>
                   <v-alert v-else variant="outlined" class="text-center">
@@ -261,7 +251,7 @@ export default {
       return CompendiumStore().NpcClasses.map((x) => ({
         Name: x.Name,
         ID: x.ID,
-        Icon: x.RoleIcon,
+        Icon: x.Icon,
       }));
     },
     allTemplates() {

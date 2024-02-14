@@ -6,10 +6,10 @@
           <v-icon size="large" color="stark" icon="cc:drone" />
         </v-col>
         <v-col cols="auto">
-          <span class="heading h2">{{ deployable.name }}</span>
-          <span v-if="deployable.type" class="heading h3 text-disabled">
+          <span class="heading h2">{{ deployable.Name }}</span>
+          <span v-if="deployable.Type" class="heading h3 text-disabled">
             <cc-slashes class="pl-1" />
-            {{ deployable.type }}
+            {{ deployable.Type }}
           </span>
         </v-col>
         <v-col cols="auto" class="ml-auto">
@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     activation() {
-      return this.deployable.activation ? this.deployable.activation.toLowerCase() : 'quick';
+      return this.deployable.Activation ? this.deployable.Activation.toLowerCase() : 'Quick';
     },
   },
 };

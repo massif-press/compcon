@@ -3,20 +3,18 @@
     v-if="!tag.IsHidden"
     :class="`text-center d-inline-block ${
       density === `compact` || $vuetify.display.mdAndDown ? '' : 'my-2'
-    }`"
-  >
+    }`">
     <cc-tooltip :err="tag.err" :title="tag.GetName(bonus)" :content="tag.GetDescription(bonus)">
       <v-chip
-        :class="$vuetify.display.mdAndUp ? 'px-2 py-2 mx-1' : 'ma-1'"
+        :class="$vuetify.display.mdAndUp ? 'px-2 mx-1' : 'ma-1'"
         :color="getColor"
         dark
         label
-        :small="small"
-        :outlined="outlined"
-      >
+        :size="small ? 'small' : ''"
+        :outlined="outlined">
         <v-avatar>
           <v-icon v-if="tag.err" size="small" icon="mdi-label-off" :color="getColor" />
-          <v-icon v-else size="small" icon="mdi-label" :color="getColor" />
+          <v-icon v-else size="small" start icon="mdi-label" :color="getColor" />
         </v-avatar>
         <span v-if="tag.err">MISSING DATA</span>
         <span v-else>{{ tag.GetName(bonus).toUpperCase() }}</span>

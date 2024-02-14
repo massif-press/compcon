@@ -1,20 +1,18 @@
 <template>
   <gm-collection-view
     title="NPCs"
-    item-type="Npc"
+    item-type="Unit"
     :items="npcs"
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
-    @import-item="importItem()"
     @open="openItem($event)" />
   <v-dialog v-model="dialog" fullscreen>
     <v-card flat>
       <editor
         v-if="dialog && selected"
-        :id="selected"
+        :item="selected"
         @exit="dialog = false"
-        @copy="copyItem()"
         @save="SaveAndClose()">
         <builder slot="upper" :item="selected" />
         <features slot="lower" :item="selected" />
@@ -28,6 +26,7 @@ import GmCollectionView from '../../_views/GMCollectionView.vue';
 import Editor from './editor.vue';
 import Builder from './builder.vue';
 import Features from './features.vue';
+import { Unit } from '@/classes/npc/unit/Unit';
 
 import { NpcStore } from '@/stores';
 
@@ -36,14 +35,14 @@ export default {
   components: { GmCollectionView, Editor, Builder, Features },
   data: () => ({
     dialog: false,
-    selected: null,
+    selected: null as Unit | null,
   }),
   computed: {
     groupings() {
       const allLabelTitles = new Set(
         NpcStore()
-          .getAllLabels.filter((x) => x.title.length > 0)
-          .map((x) => x.title)
+          .getAllLabels.filter((x: any) => x.title.length > 0)
+          .map((x: any) => x.title)
       );
 
       const statGroupings = new Set(
@@ -57,8 +56,8 @@ export default {
     sortings() {
       const allLabelTitles = new Set(
         NpcStore()
-          .getAllLabels.filter((x) => x.title.length > 0)
-          .map((x) => x.title)
+          .getAllLabels.filter((x: any) => x.title.length > 0)
+          .map((x: any) => x.title)
       );
 
       const baseSortings = ['Name', 'Tier', 'Role', 'Tag'];
@@ -71,37 +70,25 @@ export default {
     },
 
     npcs() {
-      return NpcStore().getUnits;
-    },
-    eidolons() {
-      return false;
-      // return CompendiumStore().AllowEidolons;
+      return NpcStore().getUnits.filter((x) => !x.SaveController.IsDeleted);
     },
   },
   methods: {
-    openItem(id) {
-      this.selected = id;
+    openItem(item) {
+      this.selected = item;
       this.dialog = true;
     },
     addNew() {
-      // this.selected = 'new';
+      this.selected = new Unit();
       this.dialog = true;
     },
-    importItem() {
-      console.error('NOT YET IMPLEMENTED');
-    },
-    deleteItem() {
-      console.error('NOT YET IMPLEMENTED');
-    },
     SaveAndClose() {
-      // const store =NpcStore();
+      // const store =EidolonStore();
       // TODO: check for and ask to update instances on save
-      // store.addNpc(this.selected);
+      // store.addEidolon(this.selected);
+      // this.$set(this, 'selected', null);
       this.selected = null;
       this.dialog = false;
-    },
-    copyItem() {
-      console.error('NOT YET IMPLEMENTED');
     },
   },
 };

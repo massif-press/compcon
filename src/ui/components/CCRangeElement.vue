@@ -1,5 +1,5 @@
 <template>
-  <div v-for="r in (range as Range[])" class="text-center d-inline-block px-2">
+  <div v-for="r in range as Range[]" class="text-center d-inline-block px-2">
     <cc-tooltip :title="r.Text" :content="Help(r.Type)">
       <span v-if="small">
         <v-icon :icon="r.Icon" />

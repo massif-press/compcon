@@ -1,25 +1,32 @@
-[{
+[
+  {
     "name": "Mech",
-    "description": "These NPCs are ambulatory, mechanized cavalry units (like the PCs)."
+    "description": "These NPCs are ambulatory, mechanized cavalry units (like the PCs).",
+    "icon": "cc:frame"
   },
   {
     "name": "Vehicle",
-    "description": "These NPCs are vehicles of various descriptions, other than mechs and ships."
+    "description": "These NPCs are vehicles of various descriptions, other than mechs and ships.",
+    "icon": "cc:vehicle"
   },
   {
     "name": "Ship",
-    "description": "These NPCs are vehicles capable of space and atmospheric travel."
+    "description": "These NPCs are vehicles capable of space and atmospheric travel.",
+    "icon": "cc:ship"
   },
   {
     "name": "Biological",
-    "description": "These NPCs don’t have a Heat Cap, are immune to tech actions other than Scan and Lock On (including beneficial ones), and can’t take tech actions unless specified."
+    "description": "These NPCs don’t have a Heat Cap, are immune to tech actions other than Scan and Lock On (including beneficial ones), and can’t take tech actions unless specified.",
+    "icon": "cc:biological"
   },
   {
     "name": "Squad",
-    "description": "These NPCs aren’t individual people – instead, they are a large squad of smaller enemies that act together."
+    "description": "These NPCs aren’t individual people – instead, they are a large squad of smaller enemies that act together.",
+    "icon": "cc:squad"
   },
   {
     "name": "Other",
-    "description": "Non-NPC entities that can be tracked in combat encounters, such as complex obstacles or terrain objects with special rules."
+    "description": "",
+    "icon": "mdi-tag"
   }
 ]

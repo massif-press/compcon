@@ -18,6 +18,8 @@ import ReserveCard from './_ReserveCard.vue';
 import BackgroundCard from './_BackgroundCard.vue';
 import EnvironmentCard from './_EnvironmentCard.vue';
 import SitrepCard from './_SitrepCard.vue';
+import NpcClassCard from './_NpcClassCard.vue';
+import NpcTemplateCard from './_NpcTemplateCard.vue';
 
 export {
   EquipmentCardBase,
@@ -40,4 +42,6 @@ export {
   SitrepCard,
   BackgroundCard,
   EnvironmentCard,
+  NpcClassCard,
+  NpcTemplateCard,
 };

@@ -5,14 +5,13 @@
         <div v-if="group === 'lcp'">
           <div class="text-center">
             <v-btn
-              v-for="(lcp, i) in (lcpFilter as string[])"
+              v-for="(lcp, i) in lcpFilter"
               :active="lcpTab === i"
               :color="lcpTab === i ? 'primary' : ''"
               variant="tonal"
               size="small"
               rounded="0"
-              @click="lcpTab = i"
-            >
+              @click="lcpTab = i">
               {{ lcp }}
             </v-btn>
           </div>
@@ -30,42 +29,38 @@
         <div v-else-if="group === 'source'">
           <div class="text-center">
             <v-btn
-              v-for="(m, i) in (manufacturers as string[])"
+              v-for="(m, i) in manufacturers"
               :active="mfTab === i"
               :color="mfTab === i ? 'primary' : ''"
               variant="tonal"
               size="small"
               rounded="0"
-              @click="mfTab = i"
-            >
+              @click="mfTab = i">
               <cc-logo
-                v-if="m && mf(m).LogoIsExternal"
+                v-if="m && mf(m as string).LogoIsExternal"
                 size="small"
-                :source="mf(m)"
-                :color="mfTab == i ? 'white' : 'black'"
-              />
-              <v-icon v-else-if="!!m" size="20" :icon="mf(m).Icon" />
+                :source="mf(m as string)"
+                :color="mfTab == i ? 'white' : 'black'" />
+              <v-icon v-else-if="!!m" size="20" :icon="mf(m as string).Icon" />
 
-              {{ !m ? 'None' : mf(m).Name }}
+              {{ !m ? 'None' : mf(m as string).Name }}
             </v-btn>
           </div>
 
           <v-window v-model="mfTab">
-            <v-window-item v-for="manufacturer in (manufacturers as string[])" eager>
+            <v-window-item v-for="manufacturer in manufacturers" eager>
               <v-row v-if="manufacturer" align="center">
                 <v-col cols="auto">
                   <cc-logo
-                    v-if="mf(manufacturer).LogoIsExternal"
-                    :source="mf(manufacturer)"
+                    v-if="mf(manufacturer as string).LogoIsExternal"
+                    :source="mf(manufacturer as string)"
                     size="x-large"
-                    class="pt-3 mb-n1"
-                  />
+                    class="pt-3 mb-n1" />
                   <v-icon
                     v-else
                     size="60"
-                    :icon="mf(manufacturer).Icon"
-                    :color="mf(manufacturer).GetColor($vuetify.theme.current.dark)"
-                  />
+                    :icon="mf(manufacturer as string).Icon"
+                    :color="mf(manufacturer as string).GetColor($vuetify.theme.current.dark)" />
                 </v-col>
                 <v-col>
                   <div class="heading mech" v-text="manufacturer" />
@@ -76,7 +71,7 @@
               </div>
               <v-row class="mt-n8">
                 <v-col style="height: calc(100vh - 225px)">
-                  <bar :data="getChartData(getItems(manufacturer))" :options="options" />
+                  <bar :data="getChartData(getItems(manufacturer as string))" :options="options" />
                 </v-col>
               </v-row>
             </v-window-item>
@@ -86,24 +81,23 @@
         <div v-else-if="group === 'license'">
           <div class="text-center">
             <v-btn
-              v-for="(l, i) in (licenses as string[])"
+              v-for="(l, i) in licenses"
               :active="licenseTab === i"
               :color="licenseTab === i ? 'primary' : ''"
               variant="tonal"
               size="small"
               rounded="0"
-              @click="licenseTab = i"
-            >
+              @click="licenseTab = i">
               {{ !l ? 'None' : l }}
             </v-btn>
           </div>
 
           <v-window v-model="licenseTab">
-            <v-window-item v-for="l in (licenses as string[])" eager>
+            <v-window-item v-for="l in licenses" eager>
               <div class="heading h2 text-primary mt-4" v-text="l" />
               <v-row class="mt-n8">
                 <v-col style="height: calc(100vh - 225px)">
-                  <bar :data="getChartData(getLicenseItems(l))" :options="options" />
+                  <bar :data="getChartData(getLicenseItems(l as string))" :options="options" />
                 </v-col>
               </v-row>
             </v-window-item>
@@ -120,8 +114,7 @@
     border
     class="bg-primary pb-2 pt-3 px-5"
     app
-    style="margin-left: 325px; width: calc(100vw - 335px)"
-  >
+    style="margin-left: 325px; width: calc(100vw - 335px)">
     <v-row>
       <v-col>
         <v-select
@@ -131,8 +124,7 @@
           variant="outlined"
           return-object
           density="compact"
-          hide-details
-        />
+          hide-details />
       </v-col>
       <v-col cols="auto">
         <v-btn size="small" icon variant="plain" @click="sort = 'ascending'">
@@ -171,6 +163,7 @@ import annotationPlugin from 'chartjs-plugin-annotation';
 import _ from 'lodash';
 import { CompendiumItem, MechWeapon } from '@/class';
 import { CompendiumStore } from '@/stores';
+import { NpcClass } from '@/classes/npc/class/NpcClass';
 
 ChartJS.register(
   LinearScale,
@@ -217,6 +210,11 @@ export default {
       required: false,
       default: false,
     },
+    tier: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
   },
   components: { Bar },
   data: () => ({
@@ -258,6 +256,21 @@ export default {
           return [
             { title: 'Range', value: 'range' },
             { title: 'Total Damage', value: 'damage' },
+          ];
+        case 'NpcClass':
+          return [
+            { title: 'Hull', value: 'hull' },
+            { title: 'Agility', value: 'agi' },
+            { title: 'Systems', value: 'sys' },
+            { title: 'Engineering', value: 'eng' },
+            { title: 'Armor', value: 'armor' },
+            { title: 'HP', value: 'hp' },
+            { title: 'HeatCap', value: 'heat' },
+            { title: 'Evade', value: 'evasion' },
+            { title: 'E-Defense', value: 'edef' },
+            { title: 'Speed', value: 'speed' },
+            { title: 'Sensor Range', value: 'sensorRange' },
+            { title: 'Save Target', value: 'saveTarget' },
           ];
         default:
           return [
@@ -336,16 +349,20 @@ export default {
       };
 
       if (this.selected) {
-        const stats = this.selected.Stats
+        let stats = this.selected.Stats
           ? this.selected.Stats
           : this.selected.StatsByProfile[0].Stats;
+
+        if (this.selected.ItemType === 'NpcClass') {
+          stats = this.selected.Stats.AllStats(this.tier);
+        }
 
         o.plugins.annotation.annotations = {
           line1: {
             type: 'line',
             yMin: stats[this.xAxis.value] || 0,
             yMax: stats[this.xAxis.value] || 0,
-            borderColor: this.mf(this.selected.Source).GetColor(),
+            borderColor: this.$vuetify.theme.themes.gms.colors.primary,
             borderDash: [4, 4],
             label: {
               content: `${this.selected.Source || ''} ${this.selected.Name} (${
@@ -374,7 +391,7 @@ export default {
       const data = this.mapItems(items).map((x) => ({
         label: x.label,
         value: x.stats[this.xAxis.value],
-        color: this.mf(x.source).GetColor(),
+        color: x.color,
       }));
 
       return {
@@ -402,7 +419,19 @@ export default {
       let arr = [] as any[];
       if (items && (items[0] as any).StatsByProfile)
         arr = (items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
-      else arr = items;
+      else if (items && (items[0] as NpcClass).Stats) {
+        arr = items.map((x) => ({
+          ID: x.ID,
+          Name: x.Name,
+          Source: x.Source,
+          LcpName: x.LcpName,
+          Color:
+            x.ItemType === 'NpcClass'
+              ? this.$vuetify.theme.themes.gms.colors[x.Color]
+              : this.mf(x.Source).GetColor(),
+          Stats: x.Stats.AllStats(this.tier),
+        }));
+      } else arr = items;
 
       return this.sortItems(
         arr.map((x: any) => {
@@ -412,6 +441,7 @@ export default {
             source: x.Source,
             lcp: x.LcpName,
             id: x.ID,
+            color: x.Color,
           };
         })
       );

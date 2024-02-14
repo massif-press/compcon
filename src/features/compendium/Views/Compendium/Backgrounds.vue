@@ -7,6 +7,7 @@
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { Background } from '@/class';
 
 import { CompendiumStore } from '@/stores';
@@ -25,7 +26,7 @@ export default {
   }),
   computed: {
     backgrounds(): Background[] {
-      return CompendiumStore().Backgrounds;
+      return _.orderBy(CompendiumStore().Backgrounds, 'Name');
     },
   },
 };

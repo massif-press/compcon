@@ -3,13 +3,14 @@ import { CloudController, PortraitController, SaveController } from '../../compo
 import { NpcData, Npc } from '../Npc';
 import { BrewController } from '@/classes/components/brew/BrewController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
+import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 
 class DoodadData extends NpcData {
   npcType: 'doodad' = 'doodad';
   stats!: IStatData;
 }
 
-class Doodad extends Npc {
+class Doodad extends Npc implements IStatContainer {
   public StatController: StatController;
   public ItemType: string = 'doodad';
   public MandatoryStats: string[] = [];

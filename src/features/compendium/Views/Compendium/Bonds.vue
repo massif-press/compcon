@@ -26,12 +26,13 @@
       </v-col>
     </v-row>
   </v-container>
-  <cc-compendium-browser :items="bonds" item-type="Bond" :options="options">
+  <cc-compendium-browser v-else :items="bonds" item-type="Bond" :options="options">
     <template #header> <div class="heading h3 text-center text-accent">Pilot Bonds</div></template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import { Bond } from '@/class';
 
@@ -39,7 +40,7 @@ export default {
   name: 'bonds',
   computed: {
     bonds(): Bond[] {
-      return CompendiumStore().Bonds;
+      return _.orderBy(CompendiumStore().Bonds, 'Name');
     },
   },
   data: () => ({

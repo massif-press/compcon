@@ -3,8 +3,7 @@
     :items="talents"
     item-type="Skill"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header>
       <div class="heading h3 text-center text-accent">Pilot Talents</div></template
     >
@@ -12,6 +11,7 @@
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import { Talent } from '@/class';
 
@@ -34,7 +34,10 @@ export default {
   }),
   computed: {
     talents(): Talent[] {
-      return CompendiumStore().Talents.filter((x) => !x.IsHidden);
+      return _.orderBy(
+        CompendiumStore().Talents.filter((x) => !x.IsHidden),
+        'Name'
+      );
     },
   },
 };

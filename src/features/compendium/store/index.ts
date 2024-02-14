@@ -14,9 +14,6 @@ import {
   Talent,
   Reserve,
   Manufacturer,
-  NpcClass,
-  NpcTemplate,
-  NpcFeature,
   ContentPack,
   PilotEquipment,
   Background,
@@ -26,16 +23,13 @@ import {
   Sitrep,
   LicensedItem,
 } from '@/class';
-import {
-  IContentPack,
-  INpcClassData,
-  INpcFeatureData,
-  IPilotEquipmentData,
-  ITagCompendiumData,
-} from '@/interface';
+import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
 import { FrameComparison } from '@/classes/mech/components/frame/Frame';
 import { Status } from '@/classes/Status';
 import { GetAll, SetItem } from '@/io/Storage';
+import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
+import { NpcClass, NpcComparison } from '@/classes/npc/class/NpcClass';
+import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -126,8 +120,7 @@ export const CompendiumStore = defineStore('compendium', {
   getters: {
     NpcClasses: (state) => collect<NpcClass>(state, 'npc_classes', NpcClass),
     NpcTemplates: (state) => collect<NpcTemplate>(state, 'npc_templates', NpcTemplate),
-    // NpcFeatures: (state) =>
-    //   collect<INpcFeatureData>(state, 'npc_features').map((x) => NpcFeature.Factory(x)),
+    NpcFeatures: (state) => collect<NpcFeature>(state, 'npc_features'),
     Bonds: (state) => collect<Bond>(state, 'bonds', Bond),
     Backgrounds: (state) => collect<Background>(state, 'backgrounds', Background),
     Talents: (state) => collect<Talent>(state, 'talents', Talent),
@@ -303,9 +296,15 @@ export const CompendiumStore = defineStore('compendium', {
 
       try {
         this.ContentPacks = [...this.ContentPacks, ...content.map((c) => new ContentPack(c))];
+
         FrameComparison.NormalizeReferenceSet(
           this.Frames.filter((x) => !x.ID.startsWith('missing_'))
         );
+        NpcComparison.NormalizeReferenceSet(this.NpcClasses);
+
+        this.NpcFeatures.forEach((feature) => {
+          feature.SetOrigin();
+        });
       } catch (err) {
         console.error(err);
       }

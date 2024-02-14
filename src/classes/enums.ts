@@ -82,6 +82,13 @@ enum ItemType {
   Location = 'Location',
   Faction = 'Faction',
   Reserve = 'Reserve',
+  NpcClass = 'NpcClass',
+  NpcTemplate = 'NpcTemplate',
+  NpcWeapon = 'NpcWeapon',
+  NpcSystem = 'NpcSystem',
+  NpcTech = 'NpcTech',
+  NpcTrait = 'NpcTrait',
+  NpcReaction = 'NpcReaction',
 }
 
 enum SystemType {

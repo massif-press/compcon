@@ -1,170 +1,139 @@
 <template>
-  <div class="pt-3">
-    <div class="caption mb-1">TEMPLATES</div>
-    <v-chip
-      v-for="t in item.NpcTemplateController.Templates"
-      cols="auto"
-      variant="outlined"
-      label
-      class="mr-2"
-    >
-      <cc-tooltip :content="t.Description">
-        {{ t.Name }}
-      </cc-tooltip>
-    </v-chip>
-    <v-btn small color="accent" tile variant="outlined" @click="dialog = true"
-      >Set NPC Templates</v-btn
-    >
+  <div class="text-caption my-1">TEMPLATES</div>
+  <v-row>
+    <v-col v-if="item.NpcTemplateController.Templates.length" cols="auto" dense align="center">
+      <v-chip
+        v-for="t in item.NpcTemplateController.Templates"
+        variant="outlined"
+        label
+        class="mr-4">
+        <cc-tooltip :content="t.Description || t.Tactics">
+          <v-icon icon="cc:npc_template" class="mt-n1 ml-n1" />
+          {{ t.Name }}
+        </cc-tooltip>
+      </v-chip>
+    </v-col>
+    <v-col cols="auto" :class="item.NpcTemplateController.Templates.length ? 'ml-auto' : ''">
+      <v-btn color="accent" variant="tonal" @click="dialog = true"
+        >{{ item.NpcTemplateController.Templates.length ? 'Edit' : 'Assign' }} NPC Templates</v-btn
+      >
+    </v-col>
+  </v-row>
 
-    <v-dialog v-model="dialog">
-      <v-card>
-        <v-toolbar density="compact" color="primary" flat>
-          <span class="heading h6 text-white">Select Template</span>
-          <v-spacer />
-          <v-btn icon color="white" @click="dialog = false"><v-icon large>mdi-close</v-icon></v-btn>
-        </v-toolbar>
+  <v-dialog v-model="dialog">
+    <v-card>
+      <v-toolbar density="compact" color="primary">
+        <v-toolbar-title class="heading">SELECT TEMPLATE</v-toolbar-title>
+        <v-spacer />
+        <v-btn icon color="white" @click="dialog = false"><v-icon large>mdi-close</v-icon></v-btn>
+      </v-toolbar>
+      <v-card-text v-if="!templates.length" class="mt-n4">
+        <v-container>
+          <div style="min-height: 20vh; width: 700px; margin: auto" class="py-4">
+            <div class="heading h2 mb-2 text-center pb-4">No NPC Template data found!</div>
 
-        <panel-view no-border>
-          <template slot="left">
-            <v-row density="compact">
-              <v-col>
-                <v-text-field
-                  v-model="search"
-                  prepend-inner-icon="mdi-magnify"
-                  density="compact"
-                  hide-details
-                  variant="outlined"
-                  clearable
-                />
-              </v-col>
-            </v-row>
-            <v-divider class="my-2" />
-            <v-row density="compact" style="max-height: calc(100% - 145px); overflow-y: scroll">
-              <v-data-table
+            NPC data are included with the paid version of the LANCER Core Book and are therefore
+            not included with COMP/CON by default. You can find NPC Class, Template, and Feature
+            data as additional downloadable content on the
+            <a href="https://massif-press.itch.io/corebook-pdf" target="_blank"
+              >LANCER: Core Book itch.io page</a
+            >.<br /><br />
+            If you have already downloaded the NPC data, you can import it into COMP/CON via the
+            Content Manager available on the Main Menu or in the Options menu on the right side of
+            the nav bar.
+            <br />
+            <br />
+            If you purchased a physical copy of the LANCER Core Book, but have not received
+            instructions on how to redeem your copy of the digital version and its associated
+            assets, including core NPC data, please contact Massif Press at
+            <a href="mailto:massifpress@gmail.com">massifpress@gmail.com</a>.
+          </div>
+        </v-container>
+      </v-card-text>
+      <panel-view v-else ref="view">
+        <template #title>
+          <v-row density="compact" align="center" class="mt-n8 mb-n6">
+            <v-col cols="4" class="my-3">
+              <v-text-field
+                v-model="search"
+                prepend-inner-icon="mdi-magnify"
                 density="compact"
-                :items="templates"
-                :search="search"
-                :headers="headers"
-                hide-default-footer
-                hide-default-header
-                no-results-text="No NPC Templates Found"
-                class="transparent"
-                style="min-width: 100%"
-                disable-pagination
-              >
-                <template #[`item.Name`]="{ item }">
-                  <v-btn
-                    block
-                    tile
-                    :outlined="!isAssigned(item)"
-                    :color="isAssigned(item) ? 'primary' : ''"
-                    class="my-1"
-                    @click="selected = item"
-                  >
-                    <v-icon v-if="isAssigned(item)" left>mdi-check</v-icon>
-                    {{ item.Name }}
-                    <v-scroll-x-transition leave-absolute>
-                      <v-icon v-if="selected === item" right>mdi-chevron-triple-right</v-icon>
-                    </v-scroll-x-transition>
-                  </v-btn>
-                </template>
-              </v-data-table>
-            </v-row>
-          </template>
-          <template slot="right">
-            <v-container v-if="selected" class="mt-n6">
-              <v-row no-gutters align="center">
-                <v-col class="heading h1 text-text">{{ selected.Name }}</v-col>
-                <v-col cols="auto">
-                  <v-btn
-                    v-if="isAssigned(selected)"
-                    variant="outlined"
-                    @click="item.NpcTemplateController.RemoveTemplate(selected)"
-                  >
-                    <v-icon start>mdi-minus</v-icon>
-                    Remove Template
-                  </v-btn>
-                  <v-btn
-                    v-else
-                    variant="outlined"
-                    @click="item.NpcTemplateController.AddTemplate(selected)"
-                  >
-                    <v-icon start>mdi-plus</v-icon>
-                    Assign Template
-                  </v-btn>
-                </v-col>
-              </v-row>
+                hide-details
+                variant="outlined"
+                clearable />
+            </v-col>
+            <v-col>
+              <v-btn
+                v-if="isAssigned(selected)"
+                large
+                block
+                variant="tonal"
+                color="error"
+                @click="item.NpcTemplateController.RemoveTemplate(selected)">
+                <v-icon start>mdi-minus</v-icon>
+                Remove Template
+              </v-btn>
 
-              <div v-if="selected.InLcp" class="heading h3 text-text">
-                {{ selected.LcpName }}
-              </div>
-              <p class="flavor-text mb-0" v-html-safe="selected.Description" />
+              <v-btn v-else-if="templateConflict(selected).length" large block disabled>
+                <v-icon start icon="mdi-cancel" />
+                Cannot assign (conflicts with {{ templateConflict(selected) }})
+              </v-btn>
 
-              <v-alert
-                v-show="selected.ClassFeatureSelectionInfo"
-                density="compact"
-                color="panel"
-                class="text-center ma-0"
-                v-html="selected.ClassFeatureSelectionInfo"
-              />
-
-              <v-expansion-panels :value="[0, 1]" class="mt-2" multiple>
-                <v-expansion-panel>
-                  <v-expansion-panel-header>
-                    <span class="heading h3">
-                      <b class="text-accent">Base</b>
-                      Features
-                      <span class="caption">({{ selected.BaseFeatures.length }})</span>
-                    </span>
-                  </v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <cc-dense-card v-for="b in selected.BaseFeatures" :item="b" class="my-1" />
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-                <v-expansion-panel v-if="selected.OptionalFeatures.length">
-                  <v-expansion-panel-header>
-                    <v-row no-gutters align="centter">
-                      <v-col align-self="center">
-                        <div class="heading h3">
-                          <b class="text-accent">Optional</b>
-                          Features
-                          <span class="caption">({{ selected.OptionalFeatures.length }})</span>
-                        </div>
-                      </v-col>
-                      <v-col align-self="center">
-                        <v-alert
-                          v-show="selected.FeatureSelectionInfo"
-                          density="compact"
-                          color="panel"
-                          class="text-center ma-0"
-                          v-html="selected.FeatureSelectionInfo"
-                        />
-                        <v-alert
-                          v-show="selected.Caveat"
-                          density="compact"
-                          color="panel"
-                          class="text-center mb-0 mt-1"
-                          v-html="selected.Caveat"
-                        />
-                      </v-col>
-                    </v-row>
-                  </v-expansion-panel-header>
-                  <v-expansion-panel-content>
-                    <cc-dense-card v-for="f in selected.OptionalFeatures" :item="f" class="my-1" />
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </v-container>
-            <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
+              <v-btn
+                v-else
+                large
+                block
+                variant="tonal"
+                color="secondary"
+                @click="item.NpcTemplateController.AddTemplate(selected)">
+                <v-icon start>mdi-plus</v-icon>
+                Assign Template
+              </v-btn>
+            </v-col>
+          </v-row>
+        </template>
+        <template #left>
+          <v-list style="width: 100%; overflow-y: scroll" class="bg-transparent mt-n5">
+            <v-list-item
+              v-for="item in templates"
+              color="accent"
+              :class="isAssigned(item) ? 'bg-primary rounded-sm' : ''"
+              :value="item"
+              @click="selected = item">
+              <template #title>
+                <v-scroll-x-transition leave-absolute>
+                  <v-icon v-if="selected === item" start>mdi-chevron-triple-right</v-icon>
+                </v-scroll-x-transition>
+                <span class="heading"> {{ item.Name }} </span>
+              </template>
+            </v-list-item>
+          </v-list>
+        </template>
+        <template #right>
+          <v-container v-if="selected">
+            <v-row dense align="center" class="mt-n8">
               <v-col cols="auto">
-                <span class="heading h1 text-disabled text--lighten-2">select npc template</span>
+                <span class="heading mech">
+                  {{ selected.Name }}
+                </span>
+              </v-col>
+              <v-col v-if="selected.InLcp" class="ml-auto">
+                <div class="heading h3 text-text">
+                  {{ selected.LcpName }}
+                </div>
               </v-col>
             </v-row>
-          </template>
-        </panel-view>
-      </v-card>
-    </v-dialog>
-  </div>
+            <cc-item-card :item="selected" />
+          </v-container>
+          <v-row v-else align="center" justify="center" style="width: 100%; height: 100%">
+            <v-col cols="auto">
+              <span class="heading h1 text-disabled text--lighten-2">select npc template</span>
+            </v-col>
+          </v-row>
+        </template>
+      </panel-view>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts">
@@ -179,19 +148,25 @@ export default {
   },
   data: () => ({
     dialog: false,
-    templates: [],
-    selected: null,
+    selected: null as any,
     search: '',
-    grouping: null,
-    headers: [{ title: 'Name', value: 'Name', align: 'left' }],
-    classes: [],
   }),
-  created() {
-    // const compendium =CompendiumStore();
-    // this.templates = compendium.NpcTemplates;
+  computed: {
+    templates() {
+      return CompendiumStore().NpcTemplates;
+    },
   },
   methods: {
+    templateConflict(t) {
+      if (!t) return '';
+      return this.item.NpcTemplateController.Templates.filter((x) =>
+        x.ProhibitTemplates.includes(t.ID)
+      )
+        .map((x) => x.Name)
+        .join(', ');
+    },
     isAssigned(t) {
+      if (!t) return false;
       return this.item.NpcTemplateController.Templates.some((x) => x.ID === t.ID);
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <v-card-text>
-    {{ bonus }}
+    {{ bonus.Detail }}
   </v-card-text>
 </template>
 

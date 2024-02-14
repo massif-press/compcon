@@ -25,6 +25,28 @@
               variant="outlined"
               placeholder="Relationship" />
           </v-col>
+          <v-col>
+            <v-menu v-if="r.id.length" location="right">
+              <template #activator="{ props }">
+                <v-btn size="small" icon color="secondary" variant="plain" v-bind="props">
+                  <v-tooltip bottom>
+                    <template #activator="{ props }">
+                      <v-icon v-bind="props" icon="mdi-lightbulb" />
+                    </template>
+                    <span>Suggestions</span>
+                  </v-tooltip>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-list>
+                  <v-list-item
+                    v-for="s in item.GetRelationshipSuggestions(getRelationItem(r))"
+                    @click="r.relationship = s"
+                    :title="s" />
+                </v-list>
+              </v-card>
+            </v-menu>
+          </v-col>
           <v-spacer />
           <v-col cols="auto">
             <v-menu offset-x left>
@@ -101,6 +123,9 @@ export default {
       if (item) {
         r.name = item.Name;
       }
+    },
+    getRelationItem(r: any) {
+      return NarrativeStore().CollectionItems.find((i) => i.ID === r.id).ItemType;
     },
   },
 };

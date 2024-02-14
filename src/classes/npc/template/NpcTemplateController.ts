@@ -25,6 +25,7 @@ class NpcTemplateController {
 
   public AddTemplate(temp: NpcTemplate): void {
     this._templates.push(temp);
+    if (temp.ForceTag) this.Parent.Tag = temp.ForceTag;
     temp.BaseFeatures.forEach((f) => this.Parent.NpcFeatureController.AddFeature(f, true));
     // this.Parent.RecalcBonuses();
   }
@@ -49,11 +50,11 @@ class NpcTemplateController {
       let required = 0;
       let allowed = 0;
       if (template.OptionalMin || template.OptionalMax) {
-        required = template.ForceOptional
+        required = template.OptionalMax
           ? template.OptionalMin *
             (template.OptionalPerTier ? this.Parent.NpcClassController.Tier : 1)
           : 0;
-        allowed = !template.ForceOptional
+        allowed = !template.OptionalMax
           ? template.OptionalMax *
             (template.OptionalPerTier ? this.Parent.NpcClassController.Tier : 1)
           : 0;
@@ -124,9 +125,7 @@ class NpcTemplateController {
     const selectedOptional = this.Parent.NpcFeatureController.SelectedFeatures.filter(
       (x) => x.Origin.Optional
     ).length;
-    const optionalSelectTemplates = this.Templates.filter((x) => x.AllowOptional).map(
-      (x) => x.Name
-    );
+    const optionalSelectTemplates = this.Templates.filter((x) => x.OptionalMax).map((x) => x.Name);
     // const selectedString = `${this.Parent.NpcClassController.Class.Name}${
     //   optionalSelectTemplates.length ? `/${optionalSelectTemplates.join('/')}` : ''
     // }`;

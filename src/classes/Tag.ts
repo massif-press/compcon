@@ -60,7 +60,16 @@ class Tag {
   }
 
   public get Name(): string {
-    return this._name.replace(/{VAL}/g, 'X');
+    let out = this._name;
+    out = out.replace(/{VAL}/g, 'X');
+    const perTier = /(\{.*?\})/gi;
+    const matches = out.match(perTier);
+    if (matches) {
+      matches.forEach((m) => {
+        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
+      });
+    }
+    return out;
   }
 
   public get Value(): number | string {
@@ -72,7 +81,16 @@ class Tag {
   }
 
   public get Description(): string {
-    return this._description.replace(/{VAL}/g, 'X');
+    let out = this._description;
+    out = out.replace(/{VAL}/g, 'X');
+    const perTier = /(\{.*?\})/gi;
+    const matches = out.match(perTier);
+    if (matches) {
+      matches.forEach((m) => {
+        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
+      });
+    }
+    return out;
   }
 
   public GetDescription(addBonus?: number): string {
