@@ -30,6 +30,10 @@ export default {
     },
     cardComponent() {
       if (this.list) {
+        console.log(CardItems);
+        console.log(this.type);
+        console.log(`GM${this.type}ListItem`);
+        console.log(CardItems[`GM${this.type}ListItem`]);
         return CardItems[`GM${this.type}ListItem`];
       }
       return CardItems[`GM${this.type}Card`];

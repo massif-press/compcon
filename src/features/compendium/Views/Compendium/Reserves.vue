@@ -3,8 +3,7 @@
     :items="reserves"
     item-type="Reserve"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header> <div class="heading h3 text-center text-accent">Reserves</div></template>
   </cc-compendium-browser>
 </template>
@@ -33,7 +32,10 @@ export default {
   }),
   computed: {
     reserves() {
-      return CompendiumStore().Reserves.filter((x) => !x.IsHidden);
+      return _.orderBy(
+        CompendiumStore().Reserves.filter((x) => !x.IsHidden),
+        'Name'
+      );
     },
   },
 };

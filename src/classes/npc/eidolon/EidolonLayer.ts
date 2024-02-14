@@ -1,10 +1,9 @@
-import { Npc } from '@/class';
 import { BrewController } from '@/classes/components/brew/BrewController';
 import { EidolonShard, EidolonShardData } from './EidolonShard';
 import { Eidolon } from './Eidolon';
 import { SaveController, CloudController, PortraitController } from '@/classes/components';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
-import { NpcData } from '../Npc';
+import { Npc, NpcData } from '../Npc';
 
 class EidolonLayerData extends NpcData {
   index!: number;

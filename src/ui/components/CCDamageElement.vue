@@ -1,8 +1,10 @@
 <template>
-  <div v-for="d in (damage as Damage[])" class="text-center d-inline-block pr-3">
+  <div
+    v-for="d in <Damage[]>damage"
+    :class="`text-center d-inline-block pr-${dense || small ? '1' : '3'}`">
     <cc-tooltip :title="`${d.Value} ${typeOverride || d.Type} Damage`" :content="Help(d)">
       <span v-if="small">
-        <v-icon :color="damageColor(d)" :icon="damageIcon(d)" />
+        <v-icon :color="damageColor(d)" :icon="damageIcon(d)" class="mt-n1" />
         <v-icon v-if="d.Override" icon="mdi-information-outline" color="text" />
         <b v-else v-text="`${added ? '+' : ''}${d.Value}`" />
       </span>
@@ -15,7 +17,7 @@
         </v-col>
       </v-row>
     </cc-tooltip>
-    <div v-if="!small" class="text-overline mt-n2 text-text">
+    <div v-if="!small" class="text-overline mt-n2 text-text" style="line-height: 0px">
       <b>{{ typeOverride ? typeOverride : d.Type }}</b>
     </div>
   </div>

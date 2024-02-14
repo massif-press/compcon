@@ -5,14 +5,14 @@
         v-for="item in npc.NpcFeatureController.Items"
         :item="item"
         class="list-group-item"
-        @remove-feature="npc.RemoveFeature(item)"
-      />
+        @remove-feature="npc.RemoveFeature(item)" />
     </v-container>
     <npc-feature-select-menu :npc="npc" />
   </v-container>
 </template>
 
 <script lang="ts">
+import { CompendiumStore } from '@/stores';
 import NpcFeatureSelectMenu from './_subcomponents/NpcFeatureSelectMenu.vue';
 
 export default {
@@ -20,6 +20,9 @@ export default {
   components: { NpcFeatureSelectMenu },
   props: {
     npc: { type: Object, required: true },
+  },
+  mounted() {
+    console.log(CompendiumStore().NpcFeatures);
   },
 };
 </script>

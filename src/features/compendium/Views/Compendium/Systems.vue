@@ -3,8 +3,7 @@
     :items="systems"
     item-type="MechSystem"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header> <div class="heading h3 text-center text-accent">Mech Systems</div></template>
   </cc-compendium-browser>
 </template>
@@ -35,8 +34,11 @@ export default {
   }),
   computed: {
     systems(): MechEquipment[] {
-      return [...CompendiumStore().MechSystems, ...CompendiumStore().WeaponMods].filter(
-        (x) => !x.IsHidden
+      return _.orderBy(
+        [...CompendiumStore().MechSystems, ...CompendiumStore().WeaponMods].filter(
+          (x) => !x.IsHidden
+        ),
+        'Name'
       );
     },
   },

@@ -6,6 +6,7 @@ import PilotGearContent from './_PilotGearContent.vue';
 import PilotArmorContent from './_PilotArmorContent.vue';
 import PilotWeaponContent from './_PilotWeaponContent.vue';
 import CoreBonusContent from './_CoreBonusContent.vue';
+import NpcClassContent from './_NpcClassContent.vue';
 
 export {
   FrameContent,
@@ -16,4 +17,5 @@ export {
   PilotWeaponContent,
   CoreBonusContent,
   WeaponModContent,
+  NpcClassContent,
 };

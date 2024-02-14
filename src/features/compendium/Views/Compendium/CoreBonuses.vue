@@ -3,13 +3,13 @@
     :items="bonuses"
     :itemType="'CoreBonus'"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header> <div class="heading h3 text-center text-accent">Core Bonuses</div></template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import { CoreBonus } from '@/class';
 
@@ -31,7 +31,10 @@ export default {
   }),
   computed: {
     bonuses(): CoreBonus[] {
-      return CompendiumStore().CoreBonuses.filter((x: CoreBonus) => !x.IsHidden);
+      return _.orderBy(
+        CompendiumStore().CoreBonuses.filter((x: CoreBonus) => !x.IsHidden),
+        'Name'
+      );
     },
   },
 };

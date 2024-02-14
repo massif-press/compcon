@@ -1,22 +1,18 @@
+import { ItemType } from '@/class';
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature';
 
 interface INpcReactionData extends INpcFeatureData {
   trigger: string;
+  detail: string;
   type: NpcFeatureType.Reaction;
 }
 
-class NpcReaction {
-  // extends NpcFeature {
-  private _trigger: string;
+class NpcReaction extends NpcFeature {
+  public ItemType: ItemType = ItemType.NpcReaction;
+  public FeatureType = NpcFeatureType.Reaction;
 
   public constructor(data: INpcReactionData, packName?: string) {
-    // super(data, packName);
-    this._trigger = data.trigger || '';
-    // this.type = NpcFeatureType.Reaction;
-  }
-
-  public get Trigger(): string {
-    return this._trigger;
+    super(data, packName);
   }
 
   public get Color(): string {

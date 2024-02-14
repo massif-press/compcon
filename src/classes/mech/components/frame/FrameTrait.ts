@@ -2,13 +2,10 @@ import { CompendiumStore } from '@/stores';
 import { MechWeapon, Duration, MechSystem, CompendiumItem } from '@/class';
 import { IActionData, Action } from '../../../Action';
 import { IBonusData, Bonus } from '../../../components/feature/bonus/Bonus';
-import {
-  ISynergyData,
-  Synergy,
-} from '../../../components/feature/synergy/Synergy';
+import { ISynergyData, Synergy } from '../../../components/feature/synergy/Synergy';
 import { ICounterData } from '../../../components/combat/counters/Counter';
 import { MechEquipment } from '../equipment/MechEquipment';
-import { IDeployableData } from '../../../components/feature/deployable/Deployable';
+import { Deployable, IDeployableData } from '../../../components/feature/deployable/Deployable';
 
 interface IFrameTraitData {
   name: string;
@@ -30,7 +27,7 @@ class FrameTrait {
   public readonly Actions: Action[];
   public readonly Bonuses: Bonus[];
   public readonly Synergies: Synergy[];
-  public readonly Deployables: IDeployableData[];
+  public readonly Deployables: Deployable[];
   public readonly Counters: ICounterData[];
   private _integrated: string[];
   private _special_equipment: string[];
@@ -43,10 +40,13 @@ class FrameTrait {
     this.Bonuses = data.bonuses
       ? data.bonuses.map((x) => new Bonus(x, `${this.Name} (Frame Trait)`))
       : [];
-    this.Synergies = data.synergies
-      ? data.synergies.map((x) => new Synergy(x, 'Frame Trait'))
-      : [];
-    this.Deployables = data.deployables ? data.deployables : [];
+    this.Synergies = data.synergies ? data.synergies.map((x) => new Synergy(x, 'Frame Trait')) : [];
+    this.Deployables = data.deployables ? data.deployables.map((x) => new Deployable(x)) : [];
+    if (data.deployables) {
+      this.Actions = this.Actions.concat(
+        data.deployables.map((d) => Action.CreateDeployAction(d, this.Name))
+      );
+    }
     this.Counters = data.counters ? data.counters : [];
     this._integrated = data.integrated ? data.integrated : [];
     this._special_equipment = data.special_equipment || [];
@@ -90,4 +90,5 @@ class FrameTrait {
   }
 }
 
-export { FrameTrait, IFrameTraitData };
+export { FrameTrait };
+export type { IFrameTraitData };

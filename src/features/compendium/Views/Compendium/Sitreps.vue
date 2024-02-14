@@ -3,13 +3,13 @@
     :items="sitreps"
     item-type="Sitrep"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header> <div class="heading h3 text-center text-accent">Sitreps</div></template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 
 export default {
@@ -30,7 +30,7 @@ export default {
   }),
   computed: {
     sitreps() {
-      return CompendiumStore().Sitreps;
+      return _.orderBy(CompendiumStore().Sitreps, 'Name');
     },
   },
 };

@@ -5,7 +5,7 @@ import { ICounterData, ITagCompendiumData, ITagData } from '../interface';
 import { IActionData, Action } from './Action';
 import { IBonusData, Bonus } from './components/feature/bonus/Bonus';
 import { ISynergyData, Synergy } from './components/feature/synergy/Synergy';
-import { IDeployableData } from './components/feature/deployable/Deployable';
+import { Deployable, IDeployableData } from './components/feature/deployable/Deployable';
 
 interface ICompendiumItemData {
   id: string;
@@ -33,7 +33,7 @@ abstract class CompendiumItem {
   public readonly Actions: Action[];
   public readonly Bonuses: Bonus[];
   public readonly Synergies: Synergy[];
-  public readonly Deployables: IDeployableData[];
+  public readonly Deployables: Deployable[];
   public readonly Counters: ICounterData[];
   // public readonly Tags: Tag[]
   public readonly Err: string;
@@ -76,7 +76,7 @@ abstract class CompendiumItem {
         : [];
       this.Bonuses = data.bonuses ? data.bonuses.map((x) => new Bonus(x, this._name)) : [];
       this.Synergies = data.synergies ? data.synergies.map((x) => new Synergy(x, data.name)) : [];
-      this.Deployables = data.deployables ? data.deployables : [];
+      this.Deployables = data.deployables ? data.deployables.map((x) => new Deployable(x)) : [];
       if (data.deployables) {
         this.Actions = this.Actions.concat(
           data.deployables.map((d) => Action.CreateDeployAction(d, this._name))

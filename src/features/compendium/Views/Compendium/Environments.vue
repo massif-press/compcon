@@ -3,13 +3,13 @@
     :items="environments"
     item-type="Environment"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header> <div class="heading h3 text-center text-accent">Environments</div></template>
   </cc-compendium-browser>
 </template>
 
 <script lang="ts">
+import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 
 export default {
@@ -30,7 +30,7 @@ export default {
   }),
   computed: {
     environments() {
-      return CompendiumStore().Environments;
+      return _.orderBy(CompendiumStore().Environments, 'Name');
     },
   },
 };

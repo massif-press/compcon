@@ -13,14 +13,6 @@ import {
   PilotGear,
   Talent,
   Tag,
-  NpcClass,
-  NpcTemplate,
-  NpcFeature,
-  NpcWeapon,
-  NpcReaction,
-  NpcTrait,
-  NpcSystem,
-  NpcTech,
   Reserve,
   Environment,
   Sitrep,
@@ -46,13 +38,10 @@ import { Bond, IBondData } from './pilot/components/bond/Bond';
 import { IReserveData } from './pilot/components';
 import { IEnvironmentData } from './Environment';
 import { ISitrepData } from './encounter/Sitrep';
-import { INpcClassData } from './npc/class/NpcClass';
-import { INpcFeatureData } from './npc/feature/NpcFeature';
-import { INpcReactionData } from './npc/feature/NpcItem/NpcReaction';
-import { INpcSystemData } from './npc/feature/NpcItem/NpcSystem';
-import { INpcTechData } from './npc/feature/NpcItem/NpcTech';
-import { INpcWeaponData } from './npc/feature/NpcItem/NpcWeapon';
-import { INpcTemplateData } from './npc/template/NpcTemplate';
+import { INpcClassData, NpcClass } from './npc/class/NpcClass';
+import { INpcFeatureData, NpcFeature } from './npc/feature/NpcFeature';
+import { INpcTemplateData, NpcTemplate } from './npc/template/NpcTemplate';
+import { NpcFeatureFactory } from './npc/feature/NpcFeatureFactory';
 
 type ContentPackDependency = {
   name: string;
@@ -170,23 +159,14 @@ class ContentPack {
     self._Talents =
       self._data.talents?.map((x) => new Talent(x, self._data.tags, self._manifest.name)) || [];
 
-    self._NpcFeatures =
-      self._data.npcFeatures?.map(function (x) {
-        if (x.type.toLowerCase() === 'weapon')
-          return new NpcWeapon(x as INpcWeaponData, self._manifest.name);
-        else if (x.type.toLowerCase() === 'reaction')
-          return new NpcReaction(x as INpcReactionData, self._manifest.name);
-        else if (x.type.toLowerCase() === 'trait') return new NpcTrait(x, self._manifest.name);
-        else if (x.type.toLowerCase() === 'system')
-          return new NpcSystem(x as INpcSystemData, self._manifest.name);
-        return new NpcTech(x as INpcTechData, self._manifest.name);
-      }) || [];
-
     self._NpcClasses =
       self._data.npcClasses?.map((x) => new NpcClass(x, self._manifest.name)) || [];
 
     self._NpcTemplates =
       self._data.npcTemplates?.map((x) => new NpcTemplate(x, self._manifest.name)) || [];
+
+    self._NpcFeatures =
+      self._data.npcFeatures?.map((x) => NpcFeatureFactory.Build(x, self._manifest.name)) || [];
 
     self._PlayerActions = self._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
@@ -303,13 +283,11 @@ class ContentPack {
 
   private _NpcFeatures: NpcFeature[] = [];
   public get NpcFeatures(): NpcFeature[] {
-    this._NpcFeatures.forEach((x) => (x.IsHidden = !this.Active));
     return this._NpcFeatures;
   }
 
   private _EidolonFeatures: NpcFeature[] = [];
   public get EidolonFeatures(): NpcFeature[] {
-    this._EidolonFeatures.forEach((x) => (x.IsHidden = !this.Active));
     return this._EidolonFeatures;
   }
 

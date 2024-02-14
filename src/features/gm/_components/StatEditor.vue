@@ -3,13 +3,19 @@
   <div class="px-2">
     <v-card variant="outlined" class="pa-1" style="border-color: rgb(var(--v-theme-panel))">
       <v-row dense v-if="item.StatController.DisplayKeys.length">
-        <editable-attribute
+        <v-col
           v-for="kvp in item.StatController.DisplayKeys"
-          :stat="kvp"
-          :val="item.StatController.MaxStats[kvp.key]"
-          :deletable="!item.MandatoryStats.includes(kvp.key)"
-          @set="item.StatController.setMax(kvp.key, $event.value, $event.tier)"
-          @remove="item.StatController.RemoveStat($event)" />
+          v-show="kvp.key !== 'sizes'"
+          style="min-width: 10vw">
+          <editable-attribute
+            v-if="kvp.key !== 'sizes'"
+            :stat="kvp"
+            :selections="item.StatController.StatSelections(kvp.key)"
+            :val="item.StatController.MaxStats[kvp.key]"
+            :deletable="!item.MandatoryStats.includes(kvp.key)"
+            @set="item.StatController.setMax(kvp.key, $event.value, $event.tier)"
+            @remove="item.StatController.RemoveStat($event)" />
+        </v-col>
       </v-row>
       <div v-else class="text-center text-disabled text-caption pa-2">
         <i>No stats to display</i>
@@ -90,7 +96,7 @@ export default {
     availableCoreStats() {
       return StatController.CoreStats.filter(
         (x) => !this.item.StatController.DisplayKeys.some((y) => y.key === x.key)
-      );
+      ).filter((x) => x.key !== 'sizes');
     },
   },
   methods: {

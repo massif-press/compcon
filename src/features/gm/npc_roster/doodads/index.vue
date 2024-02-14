@@ -29,7 +29,6 @@
         v-if="dialog && selected"
         :item="selected"
         @exit="dialog = false"
-        @copy="copyItem()"
         @save="SaveAndClose()" />
     </v-card>
   </v-dialog>
@@ -53,15 +52,13 @@ export default {
     groupings() {
       const allLabelTitles = new Set(
         NpcStore()
-          .getAllLabels.filter((x) => x.title.length > 0)
-          .map((x) => x.title)
+          .getAllLabels.filter((x: any) => x.title.length > 0)
+          .map((x: any) => x.title)
       );
 
       const statGroupings = new Set(
         this.doodads.flatMap((x) => x.StatController.DisplayKeys.map((k) => k.title))
       );
-
-      console.log(statGroupings);
 
       const baseGroupings = ['None'];
 
@@ -71,8 +68,8 @@ export default {
       console.log(NpcStore().getAllLabels);
       const allLabelTitles = new Set(
         NpcStore()
-          .getAllLabels.filter((x) => x.title.length > 0)
-          .map((x) => x.title)
+          .getAllLabels.filter((x: any) => x.title.length > 0)
+          .map((x: any) => x.title)
       );
 
       const statSortings = new Set(
@@ -104,12 +101,6 @@ export default {
       // this.$set(this, 'selected', null);
       this.selected = null;
       this.dialog = false;
-    },
-    deleteItem() {
-      console.error('NOT YET IMPLEMENTED');
-    },
-    copyItem() {
-      console.error('NOT YET IMPLEMENTED');
     },
   },
 };

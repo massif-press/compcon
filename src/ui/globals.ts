@@ -1,5 +1,4 @@
 import CCCompendiumBrowser from './components/CompendiumBrowser/CCCompendiumBrowser.vue';
-import CCSelector from './components/selector_new/CCSelector.vue';
 import CCBondInfo from './components/CCBondInfo.vue';
 import CCBondPowerCard from './components/CCBondPowerCard.vue';
 import CCBtn from './components/CCBtn.vue';
@@ -44,9 +43,6 @@ import CCItemCard from './components/cards/CCItemCard.vue';
 import CCItemChip from './components/cards/CCItemChip.vue';
 import CCItemModal from './components/cards/CCItemModal.vue';
 import CCSearchResultModal from './components/cards/CCSearchResultModal.vue';
-import CCNpcFeatureCard from './components/cards/npc/CCNpcFeatureCard.vue';
-import CCNpcItemCard from './components/cards/npc/CCNpcItemCard.vue';
-import CCNpcItemChip from './components/cards/npc/CCNpcItemChip.vue';
 import CCCoreBonusItem from './components/items/CCCoreBonusItem.vue';
 import CCLogo from './components/items/CCLogo.vue';
 import CCLogoSplash from './components/items/CCLogoSplash.vue';
@@ -84,6 +80,9 @@ import CCImg from './components/CCImg.vue';
 import CCRelationshipItem from './components/CCRelationshipItem.vue';
 import CCRichTextArea from './components/CCRichTextArea.vue';
 import CCSplitChip from './components/CCSplitChip.vue';
+import CCTitledDivider from './components/CCTitledDivider.vue';
+import CCTieredAttribute from './components/CCTieredAttribute.vue';
+import CCBonus from './components/items/features/bonuses/CCBonus.vue';
 
 export {
   CCImg,
@@ -136,9 +135,6 @@ export {
   CCItemChip,
   CCItemModal,
   CCSearchResultModal,
-  CCNpcFeatureCard,
-  CCNpcItemCard,
-  CCNpcItemChip,
   CCCoreBonusItem,
   CCLogo,
   CCLogoSplash,
@@ -168,8 +164,10 @@ export {
   CCTalent,
   CCSidebarView,
   CCIconDivider,
-  CCSelector,
   CCRelationshipItem,
   CCRichTextArea,
   CCSplitChip,
+  CCTitledDivider,
+  CCTieredAttribute,
+  CCBonus,
 };

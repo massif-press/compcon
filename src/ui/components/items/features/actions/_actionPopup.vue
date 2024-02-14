@@ -1,17 +1,21 @@
 <template>
   <cc-dialog no-dismiss :color="action.Color" large>
-    <span slot="button" class="text-white" style="width: 100%">
-      <v-icon dark>{{ action.Icon }}</v-icon>
-      {{ action.Name }}
-    </span>
+    <template #button>
+      <span class="text-white" style="width: 100%">
+        <v-icon dark>{{ action.Icon }}</v-icon>
+        {{ action.Name }}
+      </span>
+    </template>
 
-    <span slot="title">
+    <template #title>
       <v-icon start size="large">{{ action.Icon }}</v-icon>
       {{ action.Name }}
-    </span>
-    <v-chip slot="title-items" class="stat-text mt-4 mr-6" variant="outlined" label>
-      {{ action.Frequency.ToString() }}
-    </v-chip>
+    </template>
+    <template #title-items>
+      <v-chip class="stat-text mt-4 mr-6" variant="outlined" label>
+        {{ action.Frequency.ToString() }}
+      </v-chip>
+    </template>
 
     <action-base :action="action" />
   </cc-dialog>

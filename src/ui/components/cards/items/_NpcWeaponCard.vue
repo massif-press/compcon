@@ -1,79 +1,78 @@
 <template>
-  <equipment-card-base :item="item" class="pt-2" small-tags>
-    <v-col cols="auto">
-      <cc-range-element :range="item.Range" />
-    </v-col>
-    <v-divider vertical class="mx-4" />
-    <v-col cols="auto">
-      <div class="text-center ml-auto mr-auto" style="display: inline-block">
-        <span>
-          <cc-damage-element :damage="item.Damage(1)" inline />
-          <cc-slashes class="heading h1 px-1" />
-          <cc-damage-element :damage="item.Damage(2)" inline />
-          <cc-slashes class="heading h1 px-1" />
-          <cc-damage-element :damage="item.Damage(3)" inline />
-        </span>
-      </div>
-    </v-col>
-    <v-divider vertical class="mx-4" />
-    <v-col cols="auto">
-      <div class="text-center ml-auto mr-auto" style="display: inline-block">
-        <div class="clip-icon">
-          <v-icon x-large>cc:reticule</v-icon>
+  <equipment-card-base :item="item" :dense="dense" force-actions small-tags :footer="dense">
+    <v-row dense justify="space-around" class="text-center" align="center">
+      <v-col :cols="dense ? 'auto' : ''">
+        <cc-range-element :range="item.Range" :small="dense" />
+      </v-col>
+      <v-col v-if="item.Damage(0).length" :cols="dense ? 'auto' : ''" :class="dense ? '' : 'mt-n2'">
+        <div :class="dense ? '' : 'heading h1'">
+          <cc-damage-element :damage="item.Damage(1)" inline :small="dense" />
+          <span>/</span>
+          <cc-damage-element :damage="item.Damage(2)" inline :small="dense" />
+          <span>/</span>
+          <cc-damage-element :damage="item.Damage(3)" inline :small="dense" />
         </div>
-        <span>
-          +{{ item.AttackBonus(1) }}/+{{ item.AttackBonus(2) }}/+{{ item.AttackBonus(3) }}
-          <br />
-          <div class="text-overline mt-n1">Attack Bonus</div>
-        </span>
-      </div>
-    </v-col>
-    <v-divider vertical class="mx-4" />
-    <v-col cols="auto">
-      <div
-        v-if="item.Accuracy(1) > 0"
-        class="text-center ml-auto mr-auto"
-        style="display: inline-block"
-      >
-        <div class="clip-icon">
-          <v-icon x-large>cc:accuracy</v-icon>
+      </v-col>
+      <v-col :cols="dense ? 'auto' : ''">
+        <div class="heading" :style="dense ? '' : 'font-size: 24pt'">
+          <v-tooltip location="top">
+            <template v-slot:activator="{ props }">
+              <v-icon :size="dense ? '20' : '35'" :start="!dense" class="mt-n1" v-bind="props"
+                >cc:reticule</v-icon
+              >
+            </template>
+            <span>Attack Bonus</span>
+          </v-tooltip>
+          <span v-for="n in 3">
+            +<b>{{ item.AttackBonus(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
+          </span>
+          <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
+            Attack Bonus
+          </div>
         </div>
-        <span>
-          +{{ item.Accuracy(1) }}/+{{ item.Accuracy(2) }}/+{{ item.Accuracy(3) }}
-          <br />
-          <div class="text-overline mt-n1">Accuracy</div>
-        </span>
-      </div>
-      <div
-        v-else-if="item.Accuracy(1) < 0"
-        class="text-center ml-auto mr-auto"
-        style="display: inline-block"
-      >
-        <div class="clip-icon">
-          <v-icon x-large>cc:difficulty</v-icon>
+      </v-col>
+      <v-col v-if="item.HasAccuracy" :cols="dense ? 'auto' : ''">
+        <div class="heading" :style="dense ? '' : 'font-size: 24pt'">
+          <v-tooltip location="top">
+            <template v-slot:activator="{ props }">
+              <v-icon
+                :size="dense ? '20' : '45'"
+                :start="!dense"
+                class="mt-n1"
+                v-bind="props"
+                :icon="item.Accuracy(1) < 0 ? 'cc:difficulty' : 'cc:accuracy'" />
+            </template>
+            <span>{{ item.Accuracy(1) < 0 ? 'Difficulty' : 'Accuracy' }}</span>
+          </v-tooltip>
+          <span v-for="n in 3">
+            +<b>{{ item.Accuracy(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
+          </span>
+          <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
+            {{ item.Accuracy(1) < 0 ? 'Difficulty' : 'Accuracy' }}
+          </div>
         </div>
-        <span>
-          +{{ Math.abs(item.Accuracy(1)) }}/+{{ Math.abs(item.Accuracy(2)) }}/+{{
-            Math.abs(item.Accuracy(3))
-          }}
-          <br />
-          <div class="text-overline mt-n1">Difficulty</div>
-        </span>
-      </div>
-    </v-col>
-    <v-col cols="auto" class="ml-auto text-right">
-      <div class="heading h2">{{ item.WeaponType }}</div>
-      <div v-if="item.InLcp" class="flavor-text text-disabled">
-        {{ item.LcpName }}
-      </div>
-    </v-col>
+      </v-col>
+    </v-row>
+    <v-alert
+      v-if="item.Attacks && item.Attacks.some((x) => x > 1)"
+      density="compact"
+      prominent
+      variant="tonal"
+      icon="cc:weapon"
+      class="my-1">
+      This weapon can make <b class="text-accent">{{ item.Attacks.join(' / ') }}</b> attacks at a
+      time. Multiple attacks may be made against the same or different targets.
+    </v-alert>
     <p
       v-if="item.OnHit"
       slot="statblock"
       v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
-      class="panel text-text"
-      style="font-size: 20px"
-    />
+      class="panel text-text py-1" />
+    <p
+      v-if="item.OnCrit"
+      slot="statblock"
+      v-html-safe="`<b>On Hit:&nbsp;</b>${item.OnHit}`"
+      class="panel text-text py-1" />
   </equipment-card-base>
 </template>
 
@@ -87,6 +86,11 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+    dense: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 };

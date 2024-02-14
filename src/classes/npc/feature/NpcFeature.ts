@@ -1,10 +1,11 @@
-import { CompendiumItem } from '@/class';
+import { CompendiumItem, Tag } from '@/class';
 import { ICompendiumItemData } from '@/interface';
-import { NpcReaction, INpcReactionData } from './NpcItem/NpcReaction';
-import { NpcSystem, INpcSystemData } from './NpcItem/NpcSystem';
-import { NpcTech, INpcTechData } from './NpcItem/NpcTech';
-import NpcTrait from './NpcItem/NpcTrait';
-import { NpcWeapon, INpcWeaponData } from './NpcItem/NpcWeapon';
+import { NpcClass } from '../class/NpcClass';
+import { NpcTemplate } from '../template/NpcTemplate';
+import { CompendiumStore } from '@/stores';
+import { Bonus, IBonusData } from '@/classes/components';
+import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
+import { Npc } from '../Npc';
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -14,74 +15,106 @@ export enum NpcFeatureType {
   Tech = 'Tech',
 }
 
-interface IOriginData {
-  type: string;
-  name: string;
-  optional: boolean;
-  origin_id: string;
-}
-
 interface INpcFeatureData extends ICompendiumItemData {
   id: string;
   name: string;
-  origin: IOriginData;
-  locked: boolean;
+  origin: string;
+  base?: boolean;
   effect?: string;
   bonus?: object;
-  override?: object;
+  mod?: IFeatureModData;
   tags: ITagData[];
   brew: string;
   hide_active: boolean;
-  type: NpcFeatureType;
+  type: string;
+  deprecated?: boolean;
+  build_feature?: boolean;
+}
+
+interface IFeatureModData {
+  target: string;
+  add_effect?: string;
+  add_bonuses?: IBonusData[];
+  add_tags?: ITagData[];
+  add_deployables?: IDeployableData[];
+}
+
+class NpcFeatureMod {
+  _targetID: string;
+  Target?: NpcFeature;
+  AddEffect: string;
+  AddBonuses: Bonus[];
+  AddTags: ITagData[];
+  AddDeployables: Deployable[];
+
+  constructor(data: IFeatureModData, parent: NpcFeature) {
+    this._targetID = data.target;
+    this.AddEffect = data.add_effect || '';
+    this.AddBonuses = data.add_bonuses
+      ? data.add_bonuses.map((x) => new Bonus(x, parent.Name))
+      : [];
+    this.AddTags = data.add_tags || [];
+    this.AddDeployables = data.add_deployables
+      ? data.add_deployables.map((x) => new Deployable(x))
+      : [];
+  }
+
+  public SetTarget() {
+    this.Target = CompendiumStore().referenceByID('NpcFeatures', this._targetID) as NpcFeature;
+    if ((this.Target as any).err) {
+      console.error(`Mod ${this._targetID} has no valid target data!`);
+    }
+  }
 }
 
 abstract class NpcFeature extends CompendiumItem {
-  private _origin: IOriginData;
+  private _originID: string;
   private _effect: string;
-  private _locked: boolean;
   private _hide_active: boolean;
-  protected type: NpcFeatureType = NpcFeatureType.Trait;
+  protected FeatureType: NpcFeatureType = NpcFeatureType.Trait;
   public IsHidden: boolean = false;
+  public readonly Base: boolean;
   public readonly LcpName: string;
   public readonly InLcp: boolean;
+  public readonly Deprecated: boolean = false;
+  public readonly BuildFeature: boolean = false;
+  public readonly Mod?: NpcFeatureMod;
+  // set after all content packs have loaded
+  public Origin!: NpcClass | NpcTemplate;
 
   public constructor(data: INpcFeatureData, packName?: string) {
     super(data);
-    this._origin = data.origin;
+    this._originID = data.origin;
     this._effect = data.effect || '';
-    this._locked = data.locked || false;
     this._hide_active = data.hide_active || false;
+    this.Base = data.base || false;
     this.LcpName = packName || 'Lancer CORE NPCs';
     this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false;
-  }
-
-  public static Factory<T>(data: INpcFeatureData, packName?: string): T {
-    if (data.type === NpcFeatureType.Reaction)
-      return new NpcReaction(data as INpcReactionData, packName) as T;
-    if (data.type === NpcFeatureType.System)
-      return new NpcSystem(data as INpcSystemData, packName) as T;
-    if (data.type === NpcFeatureType.Tech) return new NpcTech(data as INpcTechData, packName) as T;
-    if (data.type === NpcFeatureType.Weapon)
-      return new NpcWeapon(data as INpcWeaponData, packName) as T;
-    return new NpcTrait(data, packName) as T;
+    this.Deprecated = data.deprecated || false;
+    if (data.mod) this.Mod = new NpcFeatureMod(data.mod, this);
   }
 
   public get Name(): string {
     return this._name;
   }
 
-  public get Origin() {
-    return {
-      ID: this._origin.origin_id,
-      Type: this._origin.type,
-      Name: this._origin.name,
-      Optional: this._origin.optional,
-    };
+  public SetOrigin() {
+    this.Origin = CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass;
+    if ((this.Origin as any).err) {
+      this.Origin = CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate;
+    }
+    if ((this.Origin as any).err) {
+      console.error(`Feature ${this._name} has no valid origin data!`);
+    }
+
+    if (this.Mod) {
+      this.Mod.SetTarget();
+    }
   }
 
-  public get OriginString(): string {
-    return `${this.Origin.Optional ? 'Optional' : ''} ${this.Origin.Name} ${this.FeatureType}`;
-  }
+  // public get OriginString(): string {
+  //   return `${this.Origin.Optional ? 'Optional' : ''} ${this.Origin.Name} ${this.FeatureType}`;
+  // }
 
   // public get OriginString(): string {
   //   return `${this._origin.name} ${this._origin.type} - ${
@@ -97,21 +130,29 @@ abstract class NpcFeature extends CompendiumItem {
   //   return !this._origin.optional ? 'Base' : 'Optional'
   // }
 
-  public get IsBase(): boolean {
-    return !this._origin.optional;
+  // public get IsBase(): boolean {
+  //   return !this._origin.optional;
+  // }
+
+  public get EffectLength(): number {
+    return (
+      this._effect.length +
+      this.Actions.map((x) => x.Detail.length + x.Trigger.length || 0).reduce((a, b) => a + b, 0) +
+      this.Deployables.map((x) => x.Detail.length).reduce((a, b) => a + b, 0)
+    );
   }
 
   public get Effect(): string {
     if (!this._effect) return '';
-    const perTier = /(\{.*?\})/;
-    const m = this._effect.match(perTier);
-    if (m) {
-      return this._effect.replace(
-        perTier,
-        m[0].replace('{', '<b class="text-accent">').replace('}', '</b>')
-      );
+    let out = this._effect;
+    const perTier = /(\{.*?\})/gi;
+    const matches = out.match(perTier);
+    if (matches) {
+      matches.forEach((m) => {
+        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
+      });
     }
-    return this._effect;
+    return out;
   }
 
   public EffectByTier(tier: number): string {
@@ -128,23 +169,10 @@ abstract class NpcFeature extends CompendiumItem {
     return fmt;
   }
 
-  public get IsLocked(): boolean {
-    return this._locked;
-  }
-
   public get HideActive(): boolean {
     return this._hide_active;
-  }
-
-  public get FeatureType(): NpcFeatureType {
-    return this.type;
-  }
-
-  public get Source(): string {
-    return '';
-    // return this._origin.name
   }
 }
 
 export { NpcFeature };
-export type { INpcFeatureData, IOriginData };
+export type { INpcFeatureData };

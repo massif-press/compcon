@@ -2,102 +2,91 @@
   <div>
     <v-row justify="center" density="compact">
       <cc-statblock-panel
-        v-if="deployable.size"
+        v-if="deployable.Size"
         inline
         class="mx-1"
-        :icon="`cc:size_${deployable.size === 0.5 ? 'half' : deployable.size}`"
+        :icon="`cc:size_${deployable.Size === 0.5 ? 'half' : deployable.Size}`"
         name="Size"
-        :value="`${deployable.size === 0.5 ? '½' : deployable.size}`"
-      />
+        :value="`${deployable.Size === 0.5 ? '½' : deployable.Size}`" />
       <cc-statblock-panel
-        v-if="deployable.armor"
+        v-if="deployable.Armor"
         inline
         class="mx-1"
         icon="mdi-shield"
         name="Armor"
-        :value="deployable.armor"
-      />
+        :value="deployable.Armor" />
       <cc-statblock-panel
-        v-if="deployable.hp || deployable.size"
+        v-if="deployable.HP || deployable.Size"
         inline
         class="mx-1"
         icon="mdi-heart"
         name="HP"
         :value="
-          deployable.hp
-            ? deployable.hp.toString().replace(/[{}]/gim, '')
-            : parseFloat(deployable.size || 0.5) * 10
-        "
-      />
+          deployable.HP
+            ? deployable.HP.toString().replace(/[{}]/gim, '')
+            : parseFloat(deployable.Size || 0.5) * 10
+        " />
       <cc-statblock-panel
-        v-if="deployable.size"
+        v-if="deployable.Size"
         icon="cc:evasion"
         inline
         class="mx-1"
         name="Evasion"
-        :value="deployable.evasion || 5"
-      />
+        :value="deployable.evasion || 5" />
       <cc-statblock-panel
-        v-if="deployable.edef"
+        v-if="deployable.EDefense"
         inline
         class="mx-1"
         icon="cc:e_def"
         name="E-Defense"
-        :value="deployable.edef"
-      />
+        :value="deployable.EDefense" />
       <cc-statblock-panel
-        v-if="deployable.heatcap"
+        v-if="deployable.Heatcap"
         inline
         class="mx-1"
         icon="cc:heat"
         name="Heat Capacity"
-        :value="deployable.heatcap"
-      />
+        :value="deployable.Heatcap" />
       <cc-statblock-panel
-        v-if="deployable.sensor"
+        v-if="deployable.Sensors"
         inline
         class="mx-1"
         icon="cc:sensor"
         name="Sensor Range"
-        :value="deployable.sensor"
-      />
+        :value="deployable.Sensors" />
       <cc-statblock-panel
-        v-if="deployable.techattack"
+        v-if="deployable.TechAttack"
         inline
         class="mx-1"
         icon="cc:full_tech"
         name="Tech Attack"
-        :value="deployable.techattack"
-      />
+        :value="deployable.TechAttack" />
       <cc-statblock-panel
-        v-if="deployable.repcap"
+        v-if="deployable.Repcap"
         inline
         class="mx-1"
         icon="cc:repair"
         name="Repair Capacity"
-        :value="deployable.repcap"
-      />
+        :value="deployable.Repcap" />
       <cc-statblock-panel
-        v-if="deployable.save"
+        v-if="deployable.Save"
         inline
         class="mx-1"
         icon="cc:save"
         name="Save Target"
-        :value="deployable.save"
-      />
+        :value="deployable.Save" />
       <cc-statblock-panel
-        v-if="deployable.speed"
+        v-if="deployable.Speed"
         inline
         class="mx-1"
         icon="mdi-arrow-right-bold-hexagon-outline"
         name="Speed"
-        :value="deployable.speed"
-      />
+        :value="deployable.Speed" />
     </v-row>
-    <p v-html-safe="deployable.detail" class="body-text pa-2 pt-4" />
-    <div v-if="actions.length">
+    <p v-html-safe="deployable.Detail" class="body-text pa-2 pt-4" />
+    <div v-if="deployable.Actions && deployable.Actions.length">
       <v-row no-gutters justify="center">
-        <v-col v-for="a in actions" cols="auto">
+        <v-col v-for="a in deployable.Actions" cols="auto">
           <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
         </v-col>
       </v-row>
@@ -114,11 +103,6 @@ export default {
     deployable: {
       type: Object,
       required: true,
-    },
-  },
-  computed: {
-    actions() {
-      return this.deployable.actions ? this.deployable.actions.map((x) => new Action(x)) : [];
     },
   },
 };

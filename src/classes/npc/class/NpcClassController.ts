@@ -1,7 +1,7 @@
 import { NpcClass } from './NpcClass';
 import { CompendiumStore } from '@/stores';
-import { StatController } from '@/classes/components/combat/stats/StatController';
 import { Unit } from '../unit/Unit';
+import { Stats } from '@/classes/components/combat/stats/Stats';
 
 interface INpcClassSaveData {
   class: string;
@@ -31,32 +31,31 @@ class NpcClassController {
     return this._tier;
   }
 
-  public ClassStats(tier: number): object {
-    if (!this.Class) return {};
-    return {
-      Activations: this.Class.Stats.Activations(tier),
-      Structure: this.Class.Stats.Structure(tier),
-      Stress: this.Class.Stats.Stress(tier),
-      Armor: this.Class.Stats.Armor(tier),
-      MaxHP: this.Class.Stats.HP(tier),
-      Evasion: this.Class.Stats.Evade(tier),
-      EDefense: this.Class.Stats.EDefense(tier),
-      HeatCapacity: this.Class.Stats.HeatCapacity(tier),
-      Speed: this.Class.Stats.Speed(tier),
-      Sensor: this.Class.Stats.Sensor(tier),
-      SaveTarget: this.Class.Stats.Save(tier),
-      Hull: this.Class.Stats.Hull(tier),
-      Agi: this.Class.Stats.Agility(tier),
-      Sys: this.Class.Stats.Systems(tier),
-      Eng: this.Class.Stats.Engineering(tier),
-      Sizes: this.Class.Stats.Sizes(tier),
-      Size: this.Class.Stats.Sizes(tier)[0],
-    };
+  private _setClassStats(tier: number): any {
+    this.Parent.MandatoryStats.forEach((key) => {
+      let statVal = this.Class?.Stats.Stat(key, tier);
+      if (!statVal) statVal = Stats.DefaultStats[key];
+
+      this.Parent.StatController.setMax(key, statVal);
+    });
+  }
+
+  public get ChangedStats(): any {
+    const changedStats = {};
+    this.Parent.MandatoryStats.forEach((key) => {
+      if (this.Parent.StatController.getMax(key) !== this.Class?.Stats.Stat(key, this.Tier)) {
+        changedStats[key] = this.Class?.Stats.Stat(key, this.Tier);
+      }
+    });
+    return changedStats;
   }
 
   public set Tier(newTier: number) {
+    if (!this.HasClass) return;
     this._tier = newTier;
-    this.Parent.StatController = new StatController(this.Parent, this.ClassStats(newTier));
+
+    this._setClassStats(newTier);
+
     // this.Parent.Items.forEach((i) => {
     //   i.Tier = newTier;
     // });
@@ -66,7 +65,7 @@ class NpcClassController {
 
   public ResetStats(tier: number) {
     if (!this.HasClass) return;
-    this.Parent.StatController = new StatController(this.Parent, this.ClassStats(tier));
+    this._setClassStats(tier);
   }
 
   public SetClass(npcClass: NpcClass, tier: number) {

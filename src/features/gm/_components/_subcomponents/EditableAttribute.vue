@@ -1,47 +1,42 @@
 <template>
-  <v-col style="min-width: 10vw">
-    <v-card variant="tonal" class="text-center">
-      <div class="heading pt-1">
-        {{ stat.title }}
-        <v-btn
-          v-if="deletable"
-          icon
-          size="xs"
-          class="fade-select ml-1 mt-n1"
-          @click="$emit('remove', stat.key)"
-          ><v-icon icon="mdi-delete" size="x-small" color="error"
-        /></v-btn>
-      </div>
-      <v-card-text class="px-3 pb-1 pt-0">
-        <v-text-field
-          v-if="stat.type === 'number'"
-          v-model="model"
-          variant="outlined"
-          density="compact"
-          hide-details
-          autofocus
-          type="number"
-          @input="$emit('set', { value: Number(model), tier: 0 })"
-          @blur="editMode = false"
-          @keyup.enter="editMode = false"
-          @focus="$event.target.select()" />
-        <div v-else-if="'size'">
-          <v-select
-            v-model="model"
-            :items="stat.sizes"
-            dense
-            outlined
-            hide-details
-            @input="$emit('set', { value: model, tier: model })"
-            @blur="editMode = false"
-            @keyup.enter="editMode = false"
-            @focus="$event.target.select()" />
-        </div>
-        <div v-else-if="'sizes'">sizes</div>
-        <div v-else>Unknown Stat type: {{ stat.type }}</div>
-      </v-card-text>
-    </v-card>
-  </v-col>
+  <v-card :color="cardColor" variant="tonal" class="text-center">
+    <div class="heading pt-1">
+      {{ stat.title }}
+      <v-btn
+        v-if="deletable"
+        icon
+        size="xs"
+        class="fade-select ml-1 mt-n1"
+        @click="$emit('remove', stat.key)"
+        ><v-icon icon="mdi-delete" size="x-small" color="error"
+      /></v-btn>
+    </div>
+    <v-card-text class="px-3 pb-1 pt-0">
+      <v-select
+        v-if="selections.length"
+        v-model="model"
+        :items="selections"
+        density="compact"
+        variant="outlined"
+        hide-details
+        @input="$emit('set', { value: model, tier: model })"
+        @blur="editMode = false"
+        @keyup.enter="editMode = false"
+        @focus="$event.target.select()" />
+      <v-text-field
+        v-else
+        v-model="model"
+        variant="outlined"
+        density="compact"
+        hide-details
+        autofocus
+        type="number"
+        @input="$emit('set', { value: Number(model), tier: 0 })"
+        @blur="editMode = false"
+        @keyup.enter="editMode = false"
+        @focus="$event.target.select()" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -57,6 +52,11 @@ export default {
       required: false,
       default: '',
     },
+    selections: {
+      type: Array,
+      required: false,
+      default: () => [],
+    },
     cols: {
       type: [String, Number],
       required: false,
@@ -71,17 +71,45 @@ export default {
   data: () => ({
     model: 0,
     editMode: false,
+    cardColor: '',
   }),
   watch: {
-    stat: {
+    val: {
       immediate: true,
-      handler() {
+      deep: true,
+      handler(oldval, newval) {
         this.model = this.val;
+        if (oldval !== newval) this.flashBackground();
       },
     },
   },
   mounted() {
     this.model = this.val;
   },
+  methods: {
+    flashBackground() {
+      this.cardColor = 'accent-darken-1';
+      setTimeout(() => {
+        this.cardColor = 'accent-lighten-1';
+      }, 50);
+      setTimeout(() => {
+        this.cardColor = 'accent';
+      }, 50);
+      setTimeout(() => {
+        this.cardColor = '';
+      }, 800);
+    },
+  },
 };
 </script>
+
+<style scoped>
+.v-text-field >>> input {
+  text-align: center;
+  margin-right: -12px;
+}
+
+.v-card {
+  transition: all 0.3s;
+}
+</style>

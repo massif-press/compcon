@@ -1,107 +1,90 @@
 export interface INpcClassStats {
-  activations: number[]
-  armor: number[]
-  hp: number[]
-  evade: number[]
-  edef: number[]
-  heatcap: number[]
-  speed: number[]
-  sensor: number[]
-  save: number[]
-  hull: number[]
-  agility: number[]
-  systems: number[]
-  engineering: number[]
-  size: number[][]
-  structure?: number[]
-  stress?: number[]
+  activations: number[] | number;
+  armor: number[] | number;
+  hp: number[] | number;
+  evade: number[] | number;
+  edef: number[] | number;
+  heatcap: number[] | number;
+  speed: number[] | number;
+  sensor: number[] | number;
+  save: number[] | number;
+  hull: number[] | number;
+  agility: number[] | number;
+  systems: number[] | number;
+  engineering: number[] | number;
+  size: number[][] | number;
+  structure?: number[] | number;
+  stress?: number[] | number;
 }
 
+const statMap = {
+  heatcap: 'heat',
+  evade: 'evasion',
+  sensor: 'sensorRange',
+  save: 'saveTarget',
+  agility: 'agi',
+  systems: 'sys',
+  engineering: 'eng',
+};
+
 export class NpcClassStats {
-  private _stats: INpcClassStats
+  private _stats: INpcClassStats;
 
   public constructor(data: INpcClassStats) {
-    this._stats = data
+    // transform old stat keys
+    this._transformKeys(data);
+    this._stats = data;
   }
 
-  public StatsByTier(tier: number): any {
-    let out = {}
-    for (const key in this._stats) {
-      out[key] = this.Stat(key, tier)
+  private _transformKeys(data: INpcClassStats): any {
+    if (!data.structure) data.structure = 1;
+    if (!data.stress) data.stress = 1;
+    for (const key in data) {
+      if (Object.keys(statMap).includes(key.toLowerCase())) {
+        data[statMap[key]] = data[key];
+        delete data[key];
+      }
     }
-    return out
+    for (const key in data) if (!Array.isArray(data[key])) data[key] = new Array(3).fill(data[key]);
   }
 
   public Stat(key: string, tier: number): number {
-    return this._stats[key] ? this._stats[key][tier - 1] : 1
+    return this._getStatVal(this._stats[key], tier);
+  }
+
+  public AllStats(tier: number): any {
+    const stats: any = {};
+    for (const key in this._stats) {
+      stats[key] = this._getStatVal(this._stats[key], tier);
+    }
+    return stats;
   }
 
   public StatArr(key: string): number[] {
-    const s = this._stats[key.toLowerCase()]
-    return s ? s : []
+    let s = this._stats[key.toLowerCase()];
+    if (!s) s = this._stats[statMap[key.toLowerCase()]];
+    if (!s) return [0, 0, 0];
+
+    return Array.isArray(s) ? s : new Array(3).fill(s);
   }
 
-  public Activations(tier: number): number {
-    return this._stats.activations[tier - 1]
+  private _getStatVal(stat: number | number[], tier: number): number {
+    if (Array.isArray(stat)) return stat[tier - 1];
+    return stat;
   }
 
-  public Armor(tier: number): number {
-    return this._stats.armor[tier - 1]
+  // for comparitors
+  public Average(key: string) {
+    if (!this._stats[key]) {
+      console.log('no stat', key);
+      return 0;
+    }
+    return this._stats[key].reduce((a, b) => a + b, 0) / this._stats[key].length;
   }
 
-  public HP(tier: number): number {
-    return this._stats.hp[tier - 1]
-  }
-
-  public Evade(tier: number): number {
-    return this._stats.evade[tier - 1]
-  }
-
-  public EDefense(tier: number): number {
-    return this._stats.edef[tier - 1]
-  }
-
-  public HeatCapacity(tier: number): number {
-    return this._stats.heatcap[tier - 1]
-  }
-
-  public Speed(tier: number): number {
-    return this._stats.speed[tier - 1]
-  }
-
-  public Sensor(tier: number): number {
-    return this._stats.sensor[tier - 1]
-  }
-
-  public Save(tier: number): number {
-    return this._stats.save[tier - 1]
-  }
-
-  public Hull(tier: number): number {
-    return this._stats.hull[tier - 1]
-  }
-
-  public Agility(tier: number): number {
-    return this._stats.agility[tier - 1]
-  }
-
-  public Systems(tier: number): number {
-    return this._stats.systems[tier - 1]
-  }
-
-  public Engineering(tier: number): number {
-    return this._stats.engineering[tier - 1]
-  }
-
-  public Sizes(tier: number): number[] {
-    return this._stats.size[tier - 1]
-  }
-
-  public Structure(tier: number): number {
-    return this._stats.structure ? this._stats.structure[tier - 1] : 1
-  }
-
-  public Stress(tier: number): number {
-    return this._stats.stress ? this._stats.stress[tier - 1] : 1
-  }
+  // public Sizes(tier: number): number[] {
+  //   if (!this._stats.size) return [1];
+  //   if (!Array.isArray(this._stats.size)) return [this._stats.size];
+  //   return this._stats.size[tier - 1];
+  // }
 }

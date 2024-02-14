@@ -17,6 +17,9 @@
           <div :class="`heading h3 ${isHovering ? 'text-accent' : ''}`">
             {{ item.Name }}
           </div>
+          <div class="text-caption">
+            <stat-chips :stat-controller="item.StatController" />
+          </div>
         </v-col>
         <sort-chips :grouping="grouping" :sorting="sorting" />
       </v-row>
@@ -26,10 +29,11 @@
 
 <script lang="ts">
 import SortChips from './_subcomponents/sortChips.vue';
+import StatChips from './_subcomponents/statChips.vue';
 
 export default {
   name: 'gm-doodad-list-item',
-  components: { SortChips },
+  components: { SortChips, StatChips },
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
@@ -38,26 +42,5 @@ export default {
     sorting: { type: [Object, String], required: false, default: '' },
   },
   emits: ['open'],
-  data: () => ({
-    hase: [
-      { title: 'H', val: 'Hull' },
-      { title: 'A', val: 'Agility' },
-      { title: 'S', val: 'Systems' },
-      { title: 'E', val: 'Engineering' },
-    ],
-    stats: [
-      { title: 'cc:structure', val: 'Structure' },
-      { title: 'mdi-shield', val: 'Armor' },
-      { title: 'mdi-heart', val: 'HP' },
-      { title: 'cc:reactor', val: 'Stress' },
-      { title: 'cc:heat', val: 'Heatcap' },
-      { title: 'mdi-arrow-right-bold-hexagon-outline', val: 'Speed' },
-      { title: 'cc:save', val: 'Save' },
-      { title: 'cc:evasion', val: 'Evasion' },
-      { title: 'cc:e_def', val: 'EDefense' },
-      { title: 'cc:sensor', val: 'Sensors' },
-      { title: 'cc:activate', val: 'Activations' },
-    ],
-  }),
 };
 </script>

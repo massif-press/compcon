@@ -1,3 +1,4 @@
+import { ItemType } from '@/classes/enums';
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature';
 
 export interface INpcTechData extends INpcFeatureData {
@@ -8,18 +9,23 @@ export interface INpcTechData extends INpcFeatureData {
   type: NpcFeatureType.Tech;
 }
 
-export class NpcTech {
-  //extends NpcFeature {
-  private _tech_type: string;
+export class NpcTech extends NpcFeature {
+  public ItemType: ItemType = ItemType.NpcTech;
+  public FeatureType = NpcFeatureType.Tech;
+
   private _accuracy: number[];
   private _attack_bonus: number[];
 
   public constructor(data: INpcTechData, packName?: string) {
-    // super(data, packName);
-    this._tech_type = data.tech_type;
-    this._accuracy = data.accuracy || [0, 0, 0];
-    this._attack_bonus = data.attack_bonus || [0, 0, 0];
-    // this.type = NpcFeatureType.Tech;
+    super(data, packName);
+    this._accuracy = this._expand(data.accuracy);
+    this._attack_bonus = this._expand(data.attack_bonus);
+  }
+
+  private _expand(x: any) {
+    if (!x) return [0, 0, 0];
+    if (Array.isArray(x)) return x;
+    return [x, x, x];
   }
 
   // public get IsLimited(): boolean {
@@ -35,12 +41,16 @@ export class NpcTech {
   //   return rechargingTag ? rechargingTag.Value.toString() : '';
   // }
 
-  public get TechType(): string {
-    return this._tech_type;
+  public get HasAccuracy(): boolean {
+    return this._accuracy.some((x) => x > 0);
   }
 
   public Accuracy(tier: number): number {
     return this._accuracy[tier - 1];
+  }
+
+  public get HasAttackBonus(): boolean {
+    return this._attack_bonus.some((x) => x > 0);
   }
 
   public AttackBonus(tier: number): number {

@@ -1,15 +1,20 @@
+import { ItemType } from '@/classes/enums';
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature';
 
-export interface INpcSystemData {
-  //} extends INpcFeatureData {
+export interface INpcSystemData extends INpcFeatureData {
   type: NpcFeatureType.System;
 }
 
-export class NpcSystem {
-  //extends NpcFeature {
+export class NpcSystem extends NpcFeature {
+  public ItemType: ItemType = ItemType.NpcSystem;
+  public FeatureType = NpcFeatureType.System;
+
   public constructor(data: INpcSystemData, packName?: string) {
-    // super(data, packName);
-    // this.type = NpcFeatureType.System;
+    super(data, packName);
+  }
+
+  public get Icon(): string {
+    return 'cc:system';
   }
 
   // public get IsLimited(): boolean {

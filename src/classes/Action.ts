@@ -115,7 +115,6 @@ class Action {
   public readonly Origin: string;
   public readonly Activation: ActivationType;
   public readonly Terse: string;
-  public readonly Detail: string;
   public readonly Cost: number;
   public readonly HeatCost: number;
   public readonly Frequency: Frequency;
@@ -133,11 +132,9 @@ class Action {
   public readonly Confirm: string[];
   public readonly Log: string;
   public Deployable: IDeployableData | undefined;
+  private _detail: string;
   private _uses: number;
-  private _used: boolean;
   private _ignore_used: boolean;
-  private _free_used: boolean;
-  private _log_id: string;
 
   public constructor(data: IActionData, origin?: string, heat?: number) {
     if (data.name) this.Name = data.name;
@@ -155,7 +152,7 @@ class Action {
     this.Log = data.log || '';
     this.Activation = data.activation || ActivationType.Quick;
     this.Terse = data.terse || '';
-    this.Detail = data.detail || '';
+    this._detail = data.detail || '';
     this.Cost = data.cost || 1;
     this.HeatCost = heat && isNumber(heat) ? heat : 0;
     // heat cost override
@@ -172,61 +169,26 @@ class Action {
     this.IsMechAction = data.mech || !data.pilot;
     this.IsActiveHidden = data.hide_active || false;
     this.IsDowntimeAction = data.activation && data.activation.toString() === 'Downtime';
-    this._used = false;
     this._ignore_used = data.ignore_used || false;
-    this._free_used = false;
     this.LastUse = null;
-    this._log_id = '';
   }
 
-  public get Used(): boolean {
-    return this._used || this._uses == 0;
+  public get Detail(): string {
+    if (!this._detail) return '';
+    let out = this._detail;
+    const perTier = /(\{.*?\})/gi;
+    const matches = out.match(perTier);
+    if (matches) {
+      matches.forEach((m) => {
+        console.log(m);
+        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
+      });
+    }
+    return out;
   }
 
   public get Uses(): number {
     return this._uses;
-  }
-
-  public Use(): void {
-    this._log_id = uuid();
-    this._uses -= this.Cost;
-    if (!this._ignore_used) this._used = true;
-    this.LastUse = this.Activation;
-  }
-
-  public get FreeUsed(): boolean {
-    return this._free_used;
-  }
-
-  public get AnyUsed(): boolean {
-    return this._free_used || this._used;
-  }
-
-  public UseFree(): void {
-    this._log_id = uuid();
-    this._uses -= this.Cost;
-    this._free_used = true;
-    this.LastUse = ActivationType.Free;
-  }
-
-  public get LogID(): string {
-    return this._log_id;
-  }
-
-  public Undo(): void {
-    this._uses += this.Cost;
-    this._used = false;
-    this._free_used = false;
-    this.LastUse = null;
-  }
-
-  public Reset(event: ActivePeriod = ActivePeriod.Mission): void {
-    if (this.Frequency.RegainUsesOnEvent(event)) {
-      this._uses = this.Frequency.Uses;
-    }
-    this._used = false;
-    this._free_used = false;
-    this.LastUse = null;
   }
 
   public get Color(): string {

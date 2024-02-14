@@ -12,7 +12,7 @@ import { reserves } from '@massif/lancer-data';
 import { IActionData, Action } from '@/classes/Action';
 import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus';
 import { ISynergyData, ICounterData } from '@/interface';
-import { IDeployableData } from '@/classes/components/feature/deployable/Deployable';
+import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
 
 declare interface IReserveData {
   id: string;
@@ -39,11 +39,6 @@ class Reserve extends CompendiumItem {
   public readonly ResourceLabel: string;
   public readonly Consumable: boolean;
   public readonly Type: ReserveType;
-  public readonly Actions: Action[];
-  public readonly Bonuses: Bonus[];
-  public readonly Synergies: Synergy[];
-  public readonly Deployables: IDeployableData[];
-  public readonly Counters: ICounterData[];
   public readonly LcpName: string;
   public readonly InLcp: boolean;
   private _resource_name: string;
@@ -62,15 +57,6 @@ class Reserve extends CompendiumItem {
     this._resource_note = data.resource_note || '';
     this._resource_cost = data.resource_cost || '';
     this._description = data.description || '';
-    this.Actions = data.actions ? data.actions.map((x) => new Action(x)) : [];
-    this.Bonuses = data.bonuses
-      ? data.bonuses.map((x) => new Bonus(x, `${this._name} (${this.Type} Reserve)`))
-      : [];
-    this.Synergies = data.synergies
-      ? data.synergies.map((x) => new Synergy(x, `Reserve: ${data.name}`))
-      : [];
-    this.Deployables = data.deployables ? data.deployables : [];
-    this.Counters = data.counters ? data.counters : [];
     this._integrated = data.integrated ? data.integrated : [];
     this._special_equipment = data.special_equipment || [];
     this._used = false;

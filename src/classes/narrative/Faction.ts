@@ -66,6 +66,47 @@ class Faction extends CollectionItem {
     ];
   }
 
+  public GetRelationshipSuggestions(connectionType: string): string[] {
+    const s = connectionType.toLowerCase();
+    switch (s) {
+      case 'character':
+        return [
+          'Member',
+          'Leader',
+          'Employee',
+          'Patron',
+          'Supporter',
+          'Stakeholder',
+          'Affiliate',
+          'Opponent',
+        ];
+      case 'location':
+        return [
+          'Headquarters',
+          'Branch or satellite',
+          'Outpost',
+          'Venue',
+          'Holding',
+          'Base',
+          'Territory',
+          'Disputed Area',
+        ];
+      case 'faction':
+        return [
+          'Allies',
+          'Enemies',
+          'Collaborators',
+          'Suppliers',
+          'Client',
+          'Competitors',
+          'Rivals',
+          'Subsidiary',
+          'Parent Organization',
+        ];
+    }
+    return [];
+  }
+
   public static Serialize(faction: Faction): FactionData {
     let data = {
       collectionItemType: 'faction',

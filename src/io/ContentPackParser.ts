@@ -11,9 +11,6 @@ import {
   IContentPackManifest,
   ITagCompendiumData,
   IContentPack,
-  INpcClassData,
-  INpcFeatureData,
-  INpcTemplateData,
   ICompendiumItemData,
   IActionData,
   IBackgroundData,
@@ -22,6 +19,9 @@ import {
   ISitrepData,
   IStatusData,
 } from '@/interface';
+import { INpcClassData } from '@/classes/npc/class/NpcClass';
+import { INpcFeatureData } from '@/classes/npc/feature/NpcFeature';
+import { INpcTemplateData } from '@/classes/npc/template/NpcTemplate';
 
 const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
@@ -47,6 +47,14 @@ const getPackID = async function (manifest: IContentPackManifest): Promise<strin
   const hash = await crypto.subtle.digest('SHA-1', enc.encode(signature));
   return btoa(String.fromCharCode.apply(null, new Uint8Array(hash) as any));
 };
+
+async function getZipFiles(zip: JSZip): Promise<string[]> {
+  let out = [] as string[];
+  zip.forEach(function (relativePath) {
+    out.push(relativePath);
+  });
+  return out;
+}
 
 async function getZipData<T>(zip: JSZip, filename: string): Promise<T[]> {
   let readResult;
@@ -79,6 +87,8 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     return data.map((x) => ({ ...x, id: x.id || generateItemID(dataPrefix, x.name) }));
   }
 
+  const files = await getZipFiles(zip);
+
   const manufacturers = await getZipData<IManufacturerData>(zip, 'manufacturers.json');
   const backgrounds = await getZipData<IBackgroundData>(zip, 'backgrounds.json');
   const coreBonuses = generateIDs(await getZipData<ICoreBonusData>(zip, 'core_bonuses.json'), 'cb');
@@ -93,10 +103,6 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const talents = generateIDs(await getZipData<ITalentData>(zip, 'talents.json'), 't');
   const tags = generateIDs(await getZipData<ITagCompendiumData>(zip, 'tags.json'), 'tg');
 
-  const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || [];
-  const npcFeatures = (await readZipJSON<INpcFeatureData[]>(zip, 'npc_features.json')) || [];
-  const npcTemplates = (await readZipJSON<INpcTemplateData[]>(zip, 'npc_templates.json')) || [];
-
   const actions = (await readZipJSON<IActionData[]>(zip, 'actions.json')) || [];
   const statuses = (await readZipJSON<IStatusData[]>(zip, 'statuses.json')) || [];
   const environments = (await readZipJSON<IEnvironmentData[]>(zip, 'environments.json')) || [];
@@ -104,6 +110,53 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
   const tables = (await readZipJSON<any[]>(zip, 'tables.json')) || [];
   const bonds = (await readZipJSON<any[]>(zip, 'bonds.json')) || [];
   const reserves = (await readZipJSON<IReserveData[]>(zip, 'reserves.json')) || [];
+
+  const npcClasses = (await readZipJSON<INpcClassData[]>(zip, 'npc_classes.json')) || [];
+  const npcTemplates = (await readZipJSON<INpcTemplateData[]>(zip, 'npc_templates.json')) || [];
+
+  const npcFeaturePromises: Promise<INpcFeatureData[]>[] = files
+    .filter((x) => x.startsWith('npc_') && !x.includes('classes') && !x.includes('templates'))
+    .map(async (x) => (await readZipJSON<INpcFeatureData[]>(zip, x)) || []);
+
+  const npcFeatures = (await Promise.all(npcFeaturePromises)).flat();
+
+  if (files.some((x) => x.toLowerCase().startsWith('npcc_'))) {
+    const npcClassDataPromises = files
+      .filter((x) => x.startsWith('npcc_'))
+      .map(async (x) => (await readZipJSON<any[]>(zip, x)) || []);
+
+    const npcClassCollections = await Promise.all(npcClassDataPromises);
+
+    npcClassCollections.forEach((x) => {
+      const addClass = x.find((y) => y.role);
+      if (addClass) {
+        npcClasses.push(addClass);
+        x.filter((x) => x.id !== addClass.id).forEach((e) => {
+          e.origin = addClass.id;
+          npcFeatures.push(e);
+        });
+      }
+    });
+  }
+
+  if (files.some((x) => x.toLowerCase().startsWith('npct_'))) {
+    const npcTemplateDataPromises = files
+      .filter((x) => x.startsWith('npct_'))
+      .map(async (x) => (await readZipJSON<any[]>(zip, x)) || []);
+
+    const npcTemplateCollections = await Promise.all(npcTemplateDataPromises);
+
+    npcTemplateCollections.forEach((x) => {
+      const addTemplate = x.find((y) => y.template);
+      if (addTemplate) {
+        npcTemplates.push(addTemplate);
+        x.filter((x) => x.id !== addTemplate.id).forEach((e) => {
+          e.origin = addTemplate.id;
+          npcFeatures.push(e);
+        });
+      }
+    });
+  }
 
   const id = await getPackID(manifest);
 

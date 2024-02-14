@@ -65,7 +65,7 @@
           v-for="t in item.NarrativeController.Tables"
           :table="t"
           class="mx-1 my-2"
-          @delete="item.DeleteTable(t)" />
+          @delete="item.NarrativeController.DeleteTable(t)" />
         <v-row justify="end">
           <v-col cols="auto">
             <v-btn
@@ -79,7 +79,21 @@
           </v-col>
         </v-row>
         <v-divider class="my-2" />
-        <div class="text-caption">GM NOTES</div>
+        <div class="text-caption mb-2">
+          GM NOTES
+          <v-tooltip location="top" :open-delay="300">
+            <template #activator="{ props }">
+              <v-icon
+                v-bind="props"
+                size="13"
+                icon="mdi-information-outline"
+                class="mt-n1 fade-select" />
+            </template>
+            <span
+              >This is only visible to the GM and will be hidden in player-facing material.</span
+            >
+          </v-tooltip>
+        </div>
         <cc-rich-text-area :item="item" note-property="Note" />
       </v-container>
     </v-card>

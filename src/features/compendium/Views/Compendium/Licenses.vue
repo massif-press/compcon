@@ -3,8 +3,7 @@
     :items="licenses"
     item-type="License"
     :table-headers="headers"
-    :options="options"
-  >
+    :options="options">
     <template #header> <div class="heading h3 text-center text-accent">Licenses</div></template>
   </cc-compendium-browser>
 </template>
@@ -34,7 +33,10 @@ export default {
   }),
   computed: {
     licenses() {
-      return CompendiumStore().Licenses.filter((x) => !x.Hidden);
+      return _.orderBy(
+        CompendiumStore().Licenses.filter((x) => !x.Hidden),
+        'Name'
+      );
     },
   },
 };

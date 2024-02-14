@@ -6,8 +6,7 @@
           <div style="position: relative; width: 50px">
             <div
               style="position: absolute; transform: rotate(-90deg)"
-              class="text-center text-caption"
-            >
+              class="text-center text-caption">
               <b>{{ yAxis.title }}</b>
             </div>
           </div>
@@ -29,8 +28,7 @@
           variant="outlined"
           return-object
           density="compact"
-          hide-details
-        />
+          hide-details />
       </v-col>
       <v-col cols="12" md="6">
         <v-select
@@ -40,8 +38,7 @@
           variant="outlined"
           return-object
           density="compact"
-          hide-details
-        />
+          hide-details />
       </v-col>
     </v-row>
   </div>
@@ -61,6 +58,7 @@ import _ from 'lodash';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CompendiumItem, MechWeapon } from '@/class';
 import { CompendiumStore } from '@/stores';
+import { NpcClass } from '@/classes/npc/class/NpcClass';
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend, ChartDataLabels);
 
@@ -85,6 +83,11 @@ export default {
       required: false,
       default: false,
     },
+    tier: {
+      type: Number,
+      required: false,
+      default: 1,
+    },
   },
   components: { Scatter },
   data: () => ({
@@ -105,7 +108,19 @@ export default {
       let arr = [] as any[];
       if (this.items && (this.items[0] as any).StatsByProfile)
         arr = (this.items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
-      else arr = this.items;
+      else if (this.items && (this.items[0] as NpcClass).Stats) {
+        arr = this.items.map((x: any) => ({
+          ID: x.ID,
+          Name: x.Name,
+          Source: x.Source,
+          LcpName: x.LcpName,
+          Color:
+            x.ItemType === 'NpcClass'
+              ? this.$vuetify.theme.themes.gms.colors[x.Color]
+              : this.mf(x.Source).GetColor(),
+          Stats: x.Stats.AllStats(this.tier),
+        }));
+      } else arr = this.items;
 
       return arr.map((x: any) => {
         return {
@@ -144,6 +159,21 @@ export default {
           return [
             { title: 'Range', value: 'range' },
             { title: 'Total Damage', value: 'damage' },
+          ];
+        case 'NpcClass':
+          return [
+            { title: 'Hull', value: 'hull' },
+            { title: 'Agility', value: 'agi' },
+            { title: 'Systems', value: 'sys' },
+            { title: 'Engineering', value: 'eng' },
+            { title: 'Armor', value: 'armor' },
+            { title: 'HP', value: 'hp' },
+            { title: 'HeatCap', value: 'heat' },
+            { title: 'Evade', value: 'evasion' },
+            { title: 'E-Defense', value: 'edef' },
+            { title: 'Speed', value: 'speed' },
+            { title: 'Sensor Range', value: 'sensorRange' },
+            { title: 'Save Target', value: 'saveTarget' },
           ];
         default:
           return [
@@ -259,9 +289,13 @@ export default {
       } as any;
 
       if (this.selected) {
-        const stats = this.selected.Stats
+        let stats = this.selected.Stats
           ? this.selected.Stats
           : this.selected.StatsByProfile[0].Stats;
+
+        if (this.selected.ItemType === 'NpcClass') {
+          stats = this.selected.Stats.AllStats(this.tier);
+        }
 
         o.plugins.annotation.annotations = {
           point1: {

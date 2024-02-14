@@ -75,6 +75,38 @@ class Character extends CollectionItem {
     ];
   }
 
+  public GetRelationshipSuggestions(connectionType: string): string[] {
+    const s = connectionType.toLowerCase();
+    switch (s) {
+      case 'character':
+        return [
+          'Family',
+          'Friend',
+          'Enemy',
+          'Family',
+          'Romantic Partner',
+          'Colleague',
+          'Mentor',
+          'Student',
+          'Rival',
+        ];
+      case 'location':
+        return ['Resident', 'Visitor', 'Regular', 'Tourist', 'Exile', 'Local'];
+      case 'faction':
+        return [
+          'Member',
+          'Leader',
+          'Employee',
+          'Patron',
+          'Supporter',
+          'Stakeholder',
+          'Affiliate',
+          'Rival',
+        ];
+    }
+    return [];
+  }
+
   public static Serialize(character: Character): CharacterData {
     let data = {
       collectionItemType: 'character',

@@ -1,10 +1,12 @@
+import { ItemType } from '@/classes/enums';
 import { NpcFeature, INpcFeatureData, NpcFeatureType } from '../NpcFeature';
 
-export class NpcTrait {
-  // extends NpcFeature {
+export class NpcTrait extends NpcFeature {
+  public ItemType: ItemType = ItemType.NpcTrait;
+  public FeatureType = NpcFeatureType.Trait;
+
   public constructor(data: INpcFeatureData, packName?: string) {
-    // super(data, packName);
-    // this.type = NpcFeatureType.Trait;
+    super(data, packName);
   }
 
   public get Color(): string {
