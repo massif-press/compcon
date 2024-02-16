@@ -180,7 +180,6 @@ class Action {
     const matches = out.match(perTier);
     if (matches) {
       matches.forEach((m) => {
-        console.log(m);
         out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
       });
     }

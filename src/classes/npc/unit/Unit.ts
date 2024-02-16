@@ -18,6 +18,7 @@ class UnitData extends NpcData implements INpcClassSaveData, INpcFeatureSaveData
   subtitle!: string;
   tag!: string;
   templates!: string[];
+  features!: string[];
   items!: INpcItemSaveData[];
 }
 

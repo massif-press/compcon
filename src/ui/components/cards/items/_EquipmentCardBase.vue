@@ -30,8 +30,8 @@
           <v-col v-for="a in item.Actions" cols="auto">
             <cc-action
               :action="a"
-              :panel="forceActions || $vuetify.display.lgAndUp"
-              :hover="dense && !forceActions"
+              :panel="!collapseActions || $vuetify.display.lgAndUp"
+              :hover="dense && collapseActions"
               class="ma-2" />
           </v-col>
         </v-row>
@@ -53,8 +53,8 @@
           <v-col v-for="d in item.Deployables" cols="auto">
             <cc-deployable-info
               :deployable="d"
-              :panel="forceActions || $vuetify.display.lgAndUp"
-              :hover="dense && !forceActions"
+              :panel="!collapseActions || $vuetify.display.lgAndUp"
+              :hover="dense && collapseActions"
               class="ma-2" />
           </v-col>
         </v-row>
@@ -64,7 +64,7 @@
         <div v-show="!dense" class="text-overline text-disabled">//EQUIPMENT INTEGRATIONS</div>
         <v-row dense justify="center">
           <v-col v-for="x in item.IntegratedEquipment" cols="auto">
-            <cc-integrated-info :item="x" :panel="forceActions || $vuetify.display.lgAndUp" />
+            <cc-integrated-info :item="x" :panel="!collapseActions || $vuetify.display.lgAndUp" />
           </v-col>
         </v-row>
       </div>
@@ -127,9 +127,11 @@ export default {
     dense: { type: Boolean },
     hideTags: { type: Boolean },
     hideBonuses: { type: Boolean },
-    forceActions: { type: Boolean },
     charts: { type: Boolean },
     footer: { type: Boolean },
+    collapseActions: {
+      type: Boolean,
+    },
   },
   computed: {
     showFooter() {
