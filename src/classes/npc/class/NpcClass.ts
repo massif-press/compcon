@@ -145,7 +145,7 @@ class NpcClass {
     return this._role;
   }
 
-  private get _features(): NpcFeature[] {
+  public get Features(): NpcFeature[] {
     return CompendiumStore()
       .getItemCollection('NpcFeatures')
       .filter((x) => x.Origin.ID === this.ID && !x.Deprecated);
@@ -153,14 +153,14 @@ class NpcClass {
 
   public get BaseFeatures(): NpcFeature[] {
     return _.orderBy(
-      this._features.filter((x) => x.Base),
+      this.Features.filter((x) => x.Base),
       'EffectLength'
     );
   }
 
   public get OptionalFeatures(): NpcFeature[] {
     return _.orderBy(
-      this._features.filter((x) => !x.Base),
+      this.Features.filter((x) => !x.Base),
       'EffectLength'
     );
   }

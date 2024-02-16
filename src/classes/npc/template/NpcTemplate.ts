@@ -37,7 +37,7 @@ class NpcTemplate {
   public readonly OptionalClassMin: number;
   public readonly OptionalClassMax: number;
   public readonly OptionalClassPerTier: number;
-  public readonly Caveat: string;
+  public readonly FreeOptions: boolean;
   public readonly LcpName: string;
   public readonly InLcp: boolean;
 
@@ -60,7 +60,8 @@ class NpcTemplate {
     this.OptionalClassMin = data.optionalClassMin || 0;
     this.OptionalClassMax = data.optionalClassMax || 0;
     this.OptionalClassPerTier = data.optionalClassPerTier || 0;
-    this.Caveat = data.caveat || '';
+
+    this.FreeOptions = !this.OptionalMin && !this.OptionalMax && !this.OptionalPerTier;
   }
 
   public get ID(): string {
@@ -80,15 +81,27 @@ class NpcTemplate {
   }
 
   public get FeatureSelectionInfo(): string {
-    if (!this.OptionalFeatures.length) return '';
+    let out = '';
+    if (!this.OptionalFeatures.length) return out;
     if (!this.OptionalMax && !this.OptionalMin)
-      return `When choosing optional systems, the ${this.Name} can also choose from the ${this.Name} Template Optional Features list.`;
-    let out = `The ${this.Name} ${this.OptionalMax ? 'chooses' : 'may choose'} `;
-    if (this.OptionalMin === this.OptionalMax) out += `${this.OptionalMin} `;
-    else out += `between ${this.OptionalMin} and ${this.OptionalMax} `;
-    out += `option${this.OptionalMax > 1 ? 's' : ''} from the ${
-      this.Name
-    } Template Optional Features list. ${this.OptionalPerTier ? 'per NPC Tier' : ''}`;
+      out += `When choosing optional systems, the ${this.Name} can also choose from the ${this.Name} Template Optional Features list.`;
+    else {
+      out += `The ${this.Name} ${this.OptionalMax ? 'chooses' : 'may choose'} `;
+      if (this.OptionalMin === this.OptionalMax) out += `${this.OptionalMin} `;
+      else out += `between ${this.OptionalMin} and ${this.OptionalMax} `;
+      out += `option${this.OptionalMax > 1 ? 's' : ''} from the ${
+        this.Name
+      } Template Optional Features list`;
+    }
+
+    if (this.OptionalPerTier) {
+      out += ` The ${this.Name} can choose ${
+        this.OptionalPerTier > 1
+          ? `${this.OptionalPerTier} additional optional features`
+          : 'an additional optional feature'
+      } per NPC Tier`;
+    }
+
     return out;
   }
 
@@ -100,10 +113,11 @@ class NpcTemplate {
     out += `additional optional feature${this.OptionalClassMax > 1 ? 's' : ''} from their class ${
       this.OptionalClassPerTier ? 'per NPC Tier' : ''
     }`;
+
     return out;
   }
 
-  private get _features(): NpcFeature[] {
+  public get Features(): NpcFeature[] {
     return CompendiumStore()
       .getItemCollection('NpcFeatures')
       .filter((x) => x.Origin.ID === this.ID);
@@ -111,14 +125,14 @@ class NpcTemplate {
 
   public get BaseFeatures(): NpcFeature[] {
     return _.orderBy(
-      this._features.filter((x) => x.Base),
+      this.Features.filter((x) => x.Base),
       'EffectLength'
     );
   }
 
   public get OptionalFeatures(): NpcFeature[] {
     return _.orderBy(
-      this._features.filter((x) => !x.Base),
+      this.Features.filter((x) => !x.Base),
       'EffectLength'
     );
   }

@@ -1,5 +1,10 @@
 <template>
-  <equipment-card-base :item="item" :dense="dense" force-actions small-tags :footer="dense">
+  <equipment-card-base
+    :item="item"
+    :dense="dense"
+    :collapse-actions="collapseActions"
+    small-tags
+    :footer="dense">
     <v-row
       v-if="item.HasAttackBonus && item.HasAccuracy"
       justify="space-around"
@@ -63,6 +68,9 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    collapseActions: {
+      type: Boolean,
     },
   },
 };

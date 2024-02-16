@@ -1,24 +1,80 @@
 <template>
-  <v-container>
+  <div>
     <v-alert
-      v-for="(alert, i) in item.NpcTemplateController.TemplateFeatureAlerts"
+      v-if="expanded"
+      v-for="item in templateController.FeatureRequirements"
+      v-show="showItem(item)"
       density="compact"
       prominent
-      variant="outlined"
-      :color="alert.severity"
-      icon="mdi-alert"
-      class="heading h3"
-    >
-      {{ alert.message }}
+      variant="tonal"
+      :color="getColor(item)"
+      :icon="getIcon(item)"
+      class="mb-1">
+      <div class="heading">{{ item.source }}</div>
+      <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
+      <div v-else-if="!item.optional_complete">
+        You may select up to {{ item.optionalMax - item.selected }} additional features
+      </div>
+      <div v-else>{{ item.source }} selections complete</div>
     </v-alert>
-  </v-container>
+    <v-menu v-else v-for="item in templateController.FeatureRequirements" open-on-hover>
+      <template v-slot:activator="{ props }">
+        <v-icon
+          v-show="showItem(item)"
+          v-bind="props"
+          :icon="getIcon(item)"
+          :color="getColor(item)" />
+      </template>
+      <v-card>
+        <v-toolbar density="compact" :color="getColor(item)">
+          <v-toolbar-title><v-icon :icon="getIcon(item)" start />{{ item.source }}</v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+          <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
+          <div v-else-if="!item.optional_complete">
+            You may select up to {{ item.optionalMax - item.selected }} additional features
+          </div>
+          <div v-else>{{ item.source }} selections complete</div>
+        </v-card-text>
+      </v-card>
+    </v-menu>
+  </div>
 </template>
 
 <script lang="ts">
 export default {
   name: 'npc-feature-alerts',
   props: {
-    item: { type: Object, required: true },
+    templateController: {
+      type: Object,
+      required: true,
+    },
+    expanded: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    hideComplete: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  methods: {
+    showItem(item) {
+      if (this.hideComplete) return !item.complete || !item.optional_complete;
+      return item.min + item.max + item.optionalMin + item.optionalMax > 0;
+    },
+    getColor(item) {
+      if (!item.complete) return 'error';
+      if (!item.optional_complete) return 'warning';
+      return 'success';
+    },
+    getIcon(item) {
+      if (!item.complete) return 'mdi-alert';
+      if (!item.optional_complete) return 'mdi-alert-circle-outline';
+      return 'mdi-check';
+    },
   },
 };
 </script>

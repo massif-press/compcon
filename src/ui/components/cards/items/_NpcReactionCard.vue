@@ -1,5 +1,10 @@
 <template>
-  <equipment-card-base :item="item" :dense="dense" force-actions small-tags :footer="dense" />
+  <equipment-card-base
+    :item="item"
+    :dense="dense"
+    :collapse-actions="collapseActions"
+    small-tags
+    :footer="dense" />
 </template>
 
 <script lang="ts">
@@ -16,6 +21,9 @@ export default {
     dense: {
       type: Boolean,
       default: false,
+    },
+    collapseActions: {
+      type: Boolean,
     },
   },
 };

@@ -6,7 +6,8 @@
     :notes="notes"
     :smallTags="smallTags"
     :dense="dense"
-    :charts="charts" />
+    :charts="charts"
+    :collapse-actions="collapseActions" />
 </template>
 
 <script lang="ts">
@@ -18,16 +19,17 @@ export default {
     item: Object,
     notes: {
       type: Boolean,
-      required: false,
     },
     smallTags: {
       type: Boolean,
-      required: false,
     },
     dense: {
       type: Boolean,
     },
     charts: {
+      type: Boolean,
+    },
+    collapseActions: {
       type: Boolean,
     },
   },

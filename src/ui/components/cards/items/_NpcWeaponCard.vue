@@ -1,5 +1,10 @@
 <template>
-  <equipment-card-base :item="item" :dense="dense" force-actions small-tags :footer="dense">
+  <equipment-card-base
+    :item="item"
+    :dense="dense"
+    :collapse-actions="collapseActions"
+    small-tags
+    :footer="dense">
     <v-row dense justify="space-around" class="text-center" align="center">
       <v-col :cols="dense ? 'auto' : ''">
         <cc-range-element :range="item.Range" :small="dense" />
@@ -91,6 +96,9 @@ export default {
       type: Boolean,
       required: false,
       default: false,
+    },
+    collapseActions: {
+      type: Boolean,
     },
   },
 };
