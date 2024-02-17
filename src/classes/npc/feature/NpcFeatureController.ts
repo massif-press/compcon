@@ -18,12 +18,14 @@ class NpcFeatureController {
 
   public get BaseClassFeatures(): NpcFeature[] {
     if (!this.Parent.NpcClassController.Class) return [];
-    return this.Parent.NpcClassController.Class.BaseFeatures;
+    return this.Parent.NpcClassController.Class.BaseFeatures.filter((x) => !x.Deprecated);
   }
 
   public get BaseTemplateFeatures(): NpcFeature[] {
     if (!this.Parent.NpcTemplateController.Templates) return [];
-    return this.Parent.NpcTemplateController.Templates.flatMap((x) => x.BaseFeatures);
+    return this.Parent.NpcTemplateController.Templates.flatMap((x) => x.BaseFeatures).filter(
+      (x) => !x.Deprecated
+    );
   }
 
   public get BaseFeatures(): NpcFeature[] {
