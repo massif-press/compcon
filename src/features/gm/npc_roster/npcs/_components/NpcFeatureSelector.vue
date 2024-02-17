@@ -161,7 +161,7 @@
               <div v-if="featureSet === 'all' || featureSet === 'assigned'" align="center">
                 <v-btn-toggle density="compact" multiple v-model="shownOrigins">
                   <v-btn
-                    v-for="o in availableOrigins"
+                    v-for="o in <any[]>availableOrigins"
                     :key="o.ID"
                     color="accent"
                     variant="tonal"
@@ -257,6 +257,13 @@ export default {
   }),
   mounted() {
     this.shownOrigins = this.availableOrigins.map((x: any) => x.ID);
+  },
+  watch: {
+    dialog(val) {
+      if (val) {
+        this.shownOrigins = this.availableOrigins.map((x: any) => x.ID);
+      }
+    },
   },
   computed: {
     currentSelection() {

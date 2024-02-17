@@ -14,7 +14,7 @@
     </template>
     <v-card max-width="40vw">
       <v-list lines="two">
-        <v-list-subheader v-if="locked.length > 0"
+        <v-list-subheader v-if="locked && locked.length > 0"
           >Tag selection limited by template ({{ locked }})</v-list-subheader
         >
         <v-list-subheader v-else>Select NPC Tag</v-list-subheader>
@@ -24,7 +24,9 @@
           :title="t.name"
           :subtitle="t.description"
           @click="item.Tag = t.name"
-          :disabled="locked.length > 0 && t.name.toLowerCase() !== item.Tag.toLowerCase()" />
+          :disabled="
+            locked && locked.length > 0 && t.name.toLowerCase() !== item.Tag.toLowerCase()
+          " />
       </v-list>
     </v-card>
   </v-menu>

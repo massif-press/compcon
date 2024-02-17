@@ -43,7 +43,39 @@
           item.NpcClassController.HasClass ? item.NpcClassController.Class.Name : 'Set NPC Class'
         }}
       </v-btn>
-      <npc-class-selector ref="classSelector" :item="item" />
+
+      <cc-solo-dialog ref="classSelector" fullscreen no-confirm title="Set NPC Class">
+        <cc-compendium-browser
+          ref="browser"
+          :items="classes"
+          item-type="NpcClass"
+          :table-headers="headers"
+          :tier="selectedTier"
+          :options="options"
+          equippable
+          @equip="equip($event)"
+          @view-change="toggleTieredView">
+          <template #header>
+            <div class="heading h3 text-center text-accent">Set NPC Class</div>
+            <v-slide-y-transition>
+              <div v-if="tieredView" class="text-center my-n1">
+                <v-btn-toggle
+                  v-model="selectedTier"
+                  density="compact"
+                  color="secondary-darken-3"
+                  mandatory
+                  style="height: 15px">
+                  <v-btn size="x-small" :value="1">Tier 1</v-btn>
+                  <v-btn size="x-small" :value="2">Tier 2</v-btn>
+                  <v-btn size="x-small" :value="3">Tier 3</v-btn>
+                </v-btn-toggle>
+              </div>
+            </v-slide-y-transition>
+          </template>
+        </cc-compendium-browser>
+      </cc-solo-dialog>
+
+      <!-- <npc-class-selector ref="classSelector" :item="item" /> -->
     </v-col>
     <v-col cols="auto">
       <div class="text-caption mb-1">NPC TAG</div>
@@ -57,12 +89,30 @@
 </template>
 
 <script lang="ts">
+import { NpcClass } from '@/classes/npc/class/NpcClass';
+import { CompendiumStore } from '@/stores';
+import _ from 'lodash';
 import {
   NpcClassSelector,
   NpcTemplateSelector,
   NpcTierSelector,
   NpcTagSelector,
 } from './_components';
+
+const keymap = {
+  hull: 'Hull',
+  agi: 'Agi',
+  sys: 'Sys',
+  eng: 'Eng',
+  armor: 'Armor',
+  hp: 'HP',
+  heat: 'HeatCap',
+  evasion: 'Evade',
+  edef: 'E-Def',
+  speed: 'Speed',
+  sensorRange: 'Sensor',
+  saveTarget: 'Save',
+};
 
 export default {
   name: 'npc-builder-content',
@@ -74,6 +124,49 @@ export default {
   },
   props: {
     item: { type: Object, required: true },
+  },
+
+  data: () => ({
+    selectedTier: 1,
+    tieredView: false,
+    options: {
+      views: ['single', 'table', 'cards', 'scatter', 'bar', 'compare'],
+      initialView: 'single',
+      groups: ['lcp', 'role'],
+      initialGroup: 'role',
+    },
+  }),
+  computed: {
+    classes(): NpcClass[] {
+      return _.orderBy(CompendiumStore().NpcClasses, ['Role', 'Name']);
+    },
+    headers() {
+      const h = [
+        { title: 'Content Pack', key: 'LcpName' },
+        { title: 'Role', key: 'Icon' },
+        { title: 'Name', key: 'Name' },
+      ] as any[];
+      for (const key in keymap) {
+        h.push({
+          title: keymap[key],
+          key,
+          tier: this.selectedTier,
+          sortRaw: (a: NpcClass, b: NpcClass) =>
+            a.Stats.Stat(key, this.selectedTier) - b.Stats.Stat(key, this.selectedTier),
+          align: 'center',
+        });
+      }
+      return h;
+    },
+  },
+  methods: {
+    toggleTieredView(evt) {
+      this.tieredView = evt === 'table' || evt === 'scatter' || evt === 'bar' || evt === 'compare';
+    },
+    equip(item) {
+      this.item.NpcClassController.SetClass(item, this.item.NpcClassController.Tier);
+      (this.$refs.classSelector as any).hide();
+    },
   },
 };
 </script>

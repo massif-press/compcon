@@ -153,14 +153,14 @@ class NpcClass {
 
   public get BaseFeatures(): NpcFeature[] {
     return _.orderBy(
-      this.Features.filter((x) => x.Base),
+      this.Features.filter((x) => x.Base && !x.Deprecated),
       'EffectLength'
     );
   }
 
   public get OptionalFeatures(): NpcFeature[] {
     return _.orderBy(
-      this.Features.filter((x) => !x.Base),
+      this.Features.filter((x) => !x.Base && !x.Deprecated),
       'EffectLength'
     );
   }
