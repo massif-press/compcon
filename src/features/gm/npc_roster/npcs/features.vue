@@ -10,7 +10,8 @@
         class="my-1"
         :min-width="getMinWidth(f)"
         full-height
-        collapse-actions />
+        collapse-actions
+        :tier="item.NpcClassController.Tier" />
     </v-row>
 
     <npc-feature-selector :npc="item" />

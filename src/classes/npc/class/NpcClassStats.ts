@@ -25,6 +25,7 @@ const statMap = {
   agility: 'agi',
   systems: 'sys',
   engineering: 'eng',
+  size: 'sizes',
 };
 
 export class NpcClassStats {
@@ -48,7 +49,7 @@ export class NpcClassStats {
     for (const key in data) if (!Array.isArray(data[key])) data[key] = new Array(3).fill(data[key]);
   }
 
-  public Stat(key: string, tier: number): number {
+  public Stat(key: string, tier: number): number | number[] {
     return this._getStatVal(this._stats[key], tier);
   }
 
@@ -68,7 +69,7 @@ export class NpcClassStats {
     return Array.isArray(s) ? s : new Array(3).fill(s);
   }
 
-  private _getStatVal(stat: number | number[], tier: number): number {
+  private _getStatVal(stat: number | number[] | number[][], tier: number): number | number[] {
     if (Array.isArray(stat)) return stat[tier - 1];
     return stat;
   }

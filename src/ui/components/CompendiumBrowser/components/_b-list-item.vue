@@ -3,8 +3,7 @@
     title=""
     :class="selected && !equippable ? 'bg-primary' : ''"
     :style="selected && equippable ? 'border: 3px solid rgb(var(--v-theme-primary)' : ''"
-    @click="$emit('clicked')"
-  >
+    @click="$emit('clicked')">
     <template #title>
       <span class="text-button">
         <slot v-if="compare && !selected" name="checkbox" />
@@ -20,10 +19,9 @@
             icon
             size="20"
             variant="plain"
-            color="accent"
+            color="secondary"
             class="mt-n4"
-            @click.stop="$emit('equip', item)"
-          >
+            @click.stop="$emit('equip', item)">
             <v-icon size="35" icon="mdi-plus-box" />
           </v-btn>
         </template>

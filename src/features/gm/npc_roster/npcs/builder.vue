@@ -44,38 +44,7 @@
         }}
       </v-btn>
 
-      <cc-solo-dialog ref="classSelector" fullscreen no-confirm title="Set NPC Class">
-        <cc-compendium-browser
-          ref="browser"
-          :items="classes"
-          item-type="NpcClass"
-          :table-headers="headers"
-          :tier="selectedTier"
-          :options="options"
-          equippable
-          @equip="equip($event)"
-          @view-change="toggleTieredView">
-          <template #header>
-            <div class="heading h3 text-center text-accent">Set NPC Class</div>
-            <v-slide-y-transition>
-              <div v-if="tieredView" class="text-center my-n1">
-                <v-btn-toggle
-                  v-model="selectedTier"
-                  density="compact"
-                  color="secondary-darken-3"
-                  mandatory
-                  style="height: 15px">
-                  <v-btn size="x-small" :value="1">Tier 1</v-btn>
-                  <v-btn size="x-small" :value="2">Tier 2</v-btn>
-                  <v-btn size="x-small" :value="3">Tier 3</v-btn>
-                </v-btn-toggle>
-              </div>
-            </v-slide-y-transition>
-          </template>
-        </cc-compendium-browser>
-      </cc-solo-dialog>
-
-      <!-- <npc-class-selector ref="classSelector" :item="item" /> -->
+      <npc-class-selector ref="classSelector" :item="item" />
     </v-col>
     <v-col cols="auto">
       <div class="text-caption mb-1">NPC TAG</div>

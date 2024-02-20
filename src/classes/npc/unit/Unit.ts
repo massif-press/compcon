@@ -33,6 +33,7 @@ class Unit extends Npc implements IStatContainer {
   public MandatoryStats: string[] = [
     'activations',
     'size',
+    'sizes',
     'structure',
     'hp',
     'armor',
@@ -60,6 +61,8 @@ class Unit extends Npc implements IStatContainer {
     this.NpcFeatureController = new NpcFeatureController(this);
     this.NpcTemplateController = new NpcTemplateController(this);
     this.StatController = new StatController(this);
+
+    this.FeatureController.Register(this.NpcFeatureController);
   }
 
   public get IsBiological(): boolean {

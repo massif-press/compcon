@@ -4,7 +4,8 @@
     :dense="dense"
     :collapse-actions="collapseActions"
     small-tags
-    :footer="dense">
+    :footer="dense"
+    :tier="tier">
     <v-row
       v-if="item.HasAttackBonus && item.HasAccuracy"
       justify="space-around"
@@ -20,7 +21,10 @@
             </template>
             <span>Attack Bonus</span>
           </v-tooltip>
-          <span v-for="n in 3">
+          <span v-if="tier">
+            +<b>{{ item.AttackBonus(tier) }}</b>
+          </span>
+          <span v-else v-for="n in 3">
             +<b>{{ item.AttackBonus(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
           </span>
           <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
@@ -41,7 +45,10 @@
             </template>
             <span>{{ item.Accuracy(1) < 0 ? 'Difficulty' : 'Accuracy' }}</span>
           </v-tooltip>
-          <span v-for="n in 3">
+          <span v-if="tier">
+            +<b>{{ item.Accuracy(tier) }}</b>
+          </span>
+          <span v-else v-for="n in 3">
             +<b>{{ item.Accuracy(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
           </span>
           <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
@@ -71,6 +78,10 @@ export default {
     },
     collapseActions: {
       type: Boolean,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
 };

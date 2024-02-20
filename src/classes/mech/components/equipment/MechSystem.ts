@@ -9,11 +9,7 @@ interface IMechSystemData extends IMechEquipmentData {
 class MechSystem extends MechEquipment {
   private _system_type: SystemType;
 
-  public constructor(
-    data: IMechSystemData,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
+  public constructor(data: IMechSystemData, packTags?: ITagCompendiumData[], packName?: string) {
     super(data, packTags, packName);
     this._system_type = data.type || SystemType.System;
     this.ItemType = ItemType.MechSystem;
@@ -24,7 +20,7 @@ class MechSystem extends MechEquipment {
   }
 
   public get Color(): string {
-    return 'mech-system';
+    return 'system';
   }
 
   public static Serialize(item: MechSystem): IEquipmentData {
@@ -40,10 +36,7 @@ class MechSystem extends MechEquipment {
   }
 
   public static Deserialize(data: IEquipmentData): MechSystem {
-    const item = CompendiumStore().instantiate(
-      'MechSystems',
-      data.id
-    ) as MechSystem;
+    const item = CompendiumStore().instantiate('MechSystems', data.id) as MechSystem;
     item.Uses = data.uses || 0;
     item._destroyed = data.destroyed || false;
     item._cascading = data.cascading || false;

@@ -121,7 +121,7 @@ export default {
     sort(items) {
       return _.orderBy(items, (x: any) => {
         if (x[this.sorting]) return x[this.sorting];
-        if (x.StatController) return x.StatController.getMax(this.sorting);
+        if (x.StatController) return x.StatController.getStat(this.sorting);
         if (x.NarrativeController) return x.NarrativeController.LabelDictionary[this.sorting];
       });
     },

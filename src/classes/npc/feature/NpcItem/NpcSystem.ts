@@ -13,6 +13,10 @@ export class NpcSystem extends NpcFeature {
     super(data, packName);
   }
 
+  public get Color(): string {
+    return 'system';
+  }
+
   public get Icon(): string {
     return 'cc:system';
   }

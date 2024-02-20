@@ -3,10 +3,9 @@
     v-model="dialog"
     :fullscreen="fullscreen"
     :width="fullscreen ? '' : small ? '30vw' : large ? '85vw' : '50vw'"
-    :style="fullscreen ? `x-overflow: hidden` : ''"
-  >
+    :style="fullscreen ? `x-overflow: hidden` : ''">
     <v-card tile>
-      <cc-titlebar :clipped="!noTitleClip" large :icon="icon" :color="color" :fixed="fullscreen">
+      <cc-titlebar :clipped="!noTitleClip" :icon="icon" :color="color" :fixed="fullscreen">
         <template #title>
           {{ title }}
         </template>

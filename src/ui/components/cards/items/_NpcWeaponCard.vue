@@ -4,18 +4,24 @@
     :dense="dense"
     :collapse-actions="collapseActions"
     small-tags
-    :footer="dense">
+    :footer="dense"
+    :tier="tier">
     <v-row dense justify="space-around" class="text-center" align="center">
       <v-col :cols="dense ? 'auto' : ''">
         <cc-range-element :range="item.Range" :small="dense" />
       </v-col>
       <v-col v-if="item.Damage(0).length" :cols="dense ? 'auto' : ''" :class="dense ? '' : 'mt-n2'">
         <div :class="dense ? '' : 'heading h1'">
-          <cc-damage-element :damage="item.Damage(1)" inline :small="dense" />
-          <span>/</span>
-          <cc-damage-element :damage="item.Damage(2)" inline :small="dense" />
-          <span>/</span>
-          <cc-damage-element :damage="item.Damage(3)" inline :small="dense" />
+          <div v-if="tier">
+            <cc-damage-element :damage="item.Damage(tier)" inline :small="dense" />
+          </div>
+          <div v-else>
+            <cc-damage-element :damage="item.Damage(1)" inline :small="dense" />
+            <span>/</span>
+            <cc-damage-element :damage="item.Damage(2)" inline :small="dense" />
+            <span>/</span>
+            <cc-damage-element :damage="item.Damage(3)" inline :small="dense" />
+          </div>
         </div>
       </v-col>
       <v-col :cols="dense ? 'auto' : ''">
@@ -28,7 +34,10 @@
             </template>
             <span>Attack Bonus</span>
           </v-tooltip>
-          <span v-for="n in 3">
+          <span v-if="tier">
+            +<b>{{ item.AttackBonus(tier) }}</b>
+          </span>
+          <span v-else v-for="n in 3">
             +<b>{{ item.AttackBonus(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
           </span>
           <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
@@ -49,7 +58,10 @@
             </template>
             <span>{{ item.Accuracy(1) < 0 ? 'Difficulty' : 'Accuracy' }}</span>
           </v-tooltip>
-          <span v-for="n in 3">
+          <span v-if="tier">
+            +<b>{{ item.Accuracy(tier) }}</b>
+          </span>
+          <span v-else v-for="n in 3">
             +<b>{{ item.Accuracy(n) }}</b> {{ n < 3 ? '&nbsp;/' : '' }}
           </span>
           <div v-if="!dense" class="text-overline" style="line-height: 14px; margin-top: 2px">
@@ -65,8 +77,9 @@
       variant="tonal"
       icon="cc:weapon"
       class="my-1">
-      This weapon can make <b class="text-accent">{{ item.Attacks.join(' / ') }}</b> attacks at a
-      time. Multiple attacks may be made against the same or different targets.
+      This weapon can make
+      <b class="text-accent">{{ tier ? item.Attacks[tier - 1] : item.Attacks.join(' / ') }}</b>
+      attacks at a time. Multiple attacks may be made against the same or different targets.
     </v-alert>
     <p
       v-if="item.OnHit"
@@ -99,6 +112,10 @@ export default {
     },
     collapseActions: {
       type: Boolean,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
 };
