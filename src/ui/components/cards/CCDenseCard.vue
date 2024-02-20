@@ -25,7 +25,12 @@
         </div>
       </v-toolbar>
       <v-card-text class="pt-1 pb-0 px-3" style="min-height: 70px; height: calc(100% - 30px)">
-        <cc-item-card :item="item" dense small-tags :collapse-actions="collapseActions" />
+        <cc-item-card
+          :item="item"
+          dense
+          small-tags
+          :collapse-actions="collapseActions"
+          :tier="tier" />
       </v-card-text>
     </v-card>
   </v-col>
@@ -53,6 +58,10 @@ export default {
       type: String,
       required: false,
       default: '20vw',
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
   computed: {

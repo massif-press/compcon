@@ -19,7 +19,8 @@
 
       <div v-if="item.Effect">
         <div v-show="!dense" class="text-overline text-disabled">//EQUIPMENT EFFECT</div>
-        <p v-html-safe="item.Effect" class="text-text body-text mb-1" />
+        <p v-if="tier" v-html-safe="item.Effect" class="text-text body-text mb-1" />
+        <p v-else v-html-safe="item.EffectByTier(tier)" class="text-text body-text mb-1" />
       </div>
 
       <div v-if="item.Actions && item.Actions.length">
@@ -131,6 +132,10 @@ export default {
     footer: { type: Boolean },
     collapseActions: {
       type: Boolean,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
   computed: {

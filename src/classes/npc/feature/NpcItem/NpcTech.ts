@@ -58,7 +58,7 @@ export class NpcTech extends NpcFeature {
   }
 
   public get Color(): string {
-    return 'npc--tech';
+    return 'tech';
   }
 
   public get Icon(): string {

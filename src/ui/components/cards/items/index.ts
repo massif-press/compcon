@@ -2,8 +2,6 @@ import EquipmentCardBase from './_EquipmentCardBase.vue';
 import FrameCard from './_FrameCard.vue';
 import MechSystemCard from './_MechSystemCard.vue';
 import MechWeaponCard from './_MechWeaponCard.vue';
-import NpcReactionCard from './_NpcReactionCard.vue';
-import NpcSystemCard from './_NpcSystemCard.vue';
 import NpcTechCard from './_NpcTechCard.vue';
 import NpcTraitCard from './_NpcTraitCard.vue';
 import NpcWeaponCard from './_NpcWeaponCard.vue';
@@ -26,8 +24,6 @@ export {
   FrameCard,
   MechSystemCard,
   MechWeaponCard,
-  NpcReactionCard,
-  NpcSystemCard,
   NpcTechCard,
   NpcTraitCard,
   NpcWeaponCard,

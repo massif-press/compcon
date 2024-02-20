@@ -38,12 +38,16 @@ class NpcClassController {
 
       this.Parent.StatController.setMax(key, statVal);
     });
+    let sizes = this.Class?.Stats.Stat('sizes', tier) || 1;
+    if (!Array.isArray(sizes)) sizes = [sizes];
+    this.Parent.StatController.setMax('size', sizes[0]);
   }
 
   public get ChangedStats(): any {
     const changedStats = {};
     this.Parent.MandatoryStats.forEach((key) => {
-      if (this.Parent.StatController.getMax(key) !== this.Class?.Stats.Stat(key, this.Tier)) {
+      if (key === 'size' || key === 'sizes') return;
+      if (this.Parent.StatController.getStat(key) !== this.Class?.Stats.Stat(key, this.Tier)) {
         changedStats[key] = this.Class?.Stats.Stat(key, this.Tier);
       }
     });
@@ -55,15 +59,11 @@ class NpcClassController {
     this._tier = newTier;
 
     this._setClassStats(newTier);
-
-    // this.Parent.Items.forEach((i) => {
-    //   i.Tier = newTier;
-    // });
-    // this.Parent.RecalcBonuses();
     this.Parent.SaveController.save();
   }
 
-  public ResetStats(tier: number) {
+  public ResetStats(tier?: number) {
+    if (!tier) tier = this.Tier;
     if (!this.HasClass) return;
     this._setClassStats(tier);
   }

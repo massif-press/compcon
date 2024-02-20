@@ -2,18 +2,23 @@ import { CompendiumStore } from '@/stores';
 import { Unit } from '../unit/Unit';
 import { NpcFeature } from './NpcFeature';
 import { INpcItemSaveData, NpcItem } from './NpcItem/NpcItem';
+import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
 
 interface INpcFeatureSaveData {
   features: string[];
 }
 
-class NpcFeatureController {
+class NpcFeatureController implements IFeatureContainer {
   public readonly Parent: Unit;
   private _selectedFeatures: string[];
 
   public constructor(parent: Unit) {
     this.Parent = parent;
     this._selectedFeatures = [];
+  }
+
+  get FeatureSource(): any[] {
+    return this.Features;
   }
 
   public get BaseClassFeatures(): NpcFeature[] {

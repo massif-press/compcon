@@ -117,9 +117,7 @@
       <i style="opacity: 0.6">No Labels</i>
     </div>
 
-    <v-chip-group class="pa-1 mt-n1">
-      <cc-split-chip v-for="label in item.NarrativeController.Labels" :label="label" />
-    </v-chip-group>
+    <cc-split-chip v-for="label in item.NarrativeController.Labels" :label="label" class="mx-1" />
   </fieldset>
 </template>
 

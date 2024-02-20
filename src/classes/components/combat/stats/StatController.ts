@@ -4,16 +4,15 @@ import { Stats } from './Stats';
 
 interface IStatData {
   max: any;
-  current: any;
 }
 
 class StatController {
   public Parent: IStatContainer;
 
   private _maxStats = {};
-  private _currentStats = {};
 
-  public constructor(parent: IStatContainer, data?: any) {
+  // public constructor(parent: IStatContainer, data?: any) {
+  public constructor(parent: IStatContainer) {
     this._maxStats = {};
 
     for (const key in this._maxStats) {
@@ -22,26 +21,21 @@ class StatController {
       }
     }
 
-    if (data && data.max) {
-      if (!Array.isArray(data)) data = [data];
-      data.max.forEach((d) => {
-        Object.keys(d).forEach((key) => {
-          let statKey = Stats.cleanKey(key);
+    // console.log(data);
+    // if (data && data.max) {
+    //   if (!Array.isArray(data)) data = [data];
+    //   data.max.forEach((d) => {
+    //     Object.keys(d).forEach((key) => {
+    //       let statKey = Stats.cleanKey(key);
 
-          if (Array.isArray(d[key])) {
-            this._maxStats[statKey] = d[key];
-          } else {
-            this._maxStats[statKey] = Array(3).fill(d[key]);
-          }
-        });
-      });
-    }
-
-    this._currentStats = Object.keys(Stats.DefaultStats).reduce((acc, key) => {
-      acc[key] =
-        data && data.current && data.current[key] ? data.current[key] : Stats.DefaultStats[key][0];
-      return acc;
-    }, {});
+    //       if (Array.isArray(d[key])) {
+    //         this._maxStats[statKey] = d[key];
+    //       } else {
+    //         this._maxStats[statKey] = Array(3).fill(d[key]);
+    //       }
+    //     });
+    //   });
+    // }
 
     this.Parent = parent;
   }
@@ -67,7 +61,11 @@ class StatController {
   }
 
   public StatSelections(key: string) {
-    if (key === 'size') return this.getMax('sizes');
+    if (key === 'size') {
+      let sizes = this.getStat('sizes') as number | number[];
+      if (!Array.isArray(sizes)) sizes = [sizes];
+      return sizes;
+    }
     return [];
   }
 
@@ -104,15 +102,11 @@ class StatController {
     return this._maxStats;
   }
 
-  public get CurrentStats(): any {
-    return this._currentStats;
-  }
-
   public getStatArray(stat: string): number {
     return this[Stats.cleanKey(stat)];
   }
 
-  public getMax(stat: string): number {
+  public getStat(stat: string): number {
     return this._maxStats[Stats.cleanKey(stat)];
   }
 
@@ -125,23 +119,14 @@ class StatController {
     }
   }
 
-  public getCurrent(stat: string): number {
-    return this._currentStats[Stats.cleanKey(stat)];
-  }
-
-  public setCurrent(stat: string, val: any) {
-    this._currentStats[Stats.cleanKey(stat)] = val;
-  }
-
   public get SizeIcon(): string {
-    if (!this.getCurrent('size')) return 'cc:size-1';
-    return `cc:size-${this.getCurrent('size') === 0.5 ? 'half' : this.getCurrent('size')}`;
+    if (!this.getStat('size')) return 'cc:size-1';
+    return `cc:size-${this.getStat('size') === 0.5 ? 'half' : this.getStat('size')}`;
   }
 
   public static Serialize(parent: IStatContainer, target: any) {
     if (!target.stats) target.stats = {};
     target.stats.max = parent.StatController._maxStats;
-    target.stats.current = parent.StatController._currentStats;
   }
 
   public static Deserialize(parent: IStatContainer, data: IStatData) {
@@ -151,7 +136,6 @@ class StatController {
       );
 
     parent.StatController._maxStats = data.max || {};
-    parent.StatController._currentStats = data.current || {};
   }
 }
 

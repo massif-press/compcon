@@ -11,7 +11,7 @@
     </template>
     <div v-if="item.NpcClassController.Class">
       <npc-tier-selector :item="item" class="mb-n8" />
-      <stat-editor :item="item" />
+      <stat-editor :item="item" :bonuses="item.FeatureController.Bonuses" />
       <features :item="item" />
     </div>
   </editor-base>

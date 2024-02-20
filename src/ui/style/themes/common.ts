@@ -1,7 +1,6 @@
 export default {
   frame: '#673AB7',
-  system: '#58b434',
-  'mech-system': '#58b434',
+  system: '#489928',
   'pilot-gear': '#58b434',
   trait: '#673AB7',
   protocol: '#1b6361',
@@ -19,6 +18,10 @@ export default {
   overcharge: '#F50057',
   corepower: '#00BFA5',
   background: '#f4f4f4',
+  tech: '#007674',
+  reaction: '#512DA8',
+
+  'npc--trait': '#991E2A',
 
   'action--move': '#C62828',
   'action--full': '#283593',
@@ -49,17 +52,10 @@ export default {
   'role--artillery': '#a64d79',
   'role--biological': '#7e52a3',
 
-  'npc--feature': '#991E2A',
-  'npc--trait': '#991E2A',
-  'npc--system': '#58b434',
-  'npc--weapon': '#212121',
-  'npc--tech': '#007674',
-  'npc--reaction': '#512DA8',
-
   enemy: '#C62828',
   ally: '#1661b8',
   neutral: '#455A64',
 
   // brand colors
-  patreon: '#FF424D'
-}
+  patreon: '#FF424D',
+};

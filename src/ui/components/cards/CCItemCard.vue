@@ -7,7 +7,8 @@
     :smallTags="smallTags"
     :dense="dense"
     :charts="charts"
-    :collapse-actions="collapseActions" />
+    :collapse-actions="collapseActions"
+    :tier="tier" />
 </template>
 
 <script lang="ts">
@@ -32,6 +33,10 @@ export default {
     collapseActions: {
       type: Boolean,
     },
+    tier: {
+      type: Number,
+      required: false,
+    },
   },
   computed: {
     componentLoader(): any {
@@ -45,7 +50,9 @@ export default {
         return null;
       }
 
-      let t = this.item.ItemType ? this.item.ItemType : `Npc${this.item.type}`;
+      let t = this.item.ItemType;
+
+      if (t === 'NpcReaction' || t === 'NpcSystem') t = 'NpcTrait';
 
       t += 'Card';
 

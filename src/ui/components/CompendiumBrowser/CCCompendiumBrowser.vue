@@ -1,7 +1,13 @@
 <template>
   <v-row>
     <v-col cols="3" style="max-width: 325px !important">
-      <v-list density="compact" nav class="side-fixed" color="panel" v-model:opened="open">
+      <v-list
+        density="compact"
+        nav
+        class="side-fixed"
+        color="panel"
+        v-model:opened="open"
+        :class="dialog ? 'mt-4' : ''">
         <v-alert
           v-show="!!$slots.header"
           variant="outlined"
@@ -732,6 +738,11 @@ export default {
       type: Number,
       required: false,
       default: 1,
+    },
+    dialog: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   data: () => ({

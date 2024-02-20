@@ -80,6 +80,14 @@ class Bonus {
     return 'mdi-tooltip-check-outline';
   }
 
+  public get Symbol(): string {
+    if (this.Overwrite || this.Replace) return '=';
+    if (isNaN(this.Value as number)) return '';
+    if ((this.Value as number) > -1) return '+';
+    if ((this.Value as number) < 0) return '-';
+    return '±';
+  }
+
   public static SumStatic(item: IBonusDataContainer, bonusId: string): string {
     const bArr = item.bonuses?.filter((x) => x.id === bonusId).map((y) => y.val) || [];
     const uncompVal = bArr.filter((x) => !isNaN(parseInt(x as any)));

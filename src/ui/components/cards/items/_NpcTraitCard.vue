@@ -4,7 +4,8 @@
     :dense="dense"
     :collapse-actions="collapseActions"
     small-tags
-    :footer="dense" />
+    :footer="dense"
+    :tier="tier" />
 </template>
 
 <script lang="ts">
@@ -25,6 +26,10 @@ export default {
     },
     collapseActions: {
       type: Boolean,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
 };

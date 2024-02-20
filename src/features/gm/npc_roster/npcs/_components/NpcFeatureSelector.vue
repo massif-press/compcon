@@ -293,7 +293,7 @@ export default {
         if (selectionsRemaining || this.ignoreLimit) {
           let out = [] as NpcFeature[];
           this.npc.NpcTemplateController.FeatureRequirements.forEach((x) => {
-            if (x.complete && x.optional_complete) return;
+            if (x.complete && x.optional_complete && !this.ignoreLimit) return;
             out = out.concat(
               this.npc.NpcFeatureController.AvailableFeatures.filter(
                 (y) => y.Origin.ID === x.source_id
