@@ -1,10 +1,13 @@
 import axios from 'axios';
 
-const lcp_meta_key = process.env.VITE_LCP_META_KEY;
+let lcp_meta_key = process.env.VITE_LCP_META_KEY;
+if (!lcp_meta_key) lcp_meta_key = import.meta.env.VITE_LCP_META_KEY;
 
 const headers = {
   headers: {
     'Content-Type': 'application/json',
+    // 'Access-Control-Allow-Origin': '*',
+    // 'Access-Control-Allow-Credentials': true,
     'x-api-key': lcp_meta_key,
   },
 };
@@ -41,4 +44,8 @@ const deleteStorage = (key: string) => {
   return api.delete('/storage', { params: { key } });
 };
 
-export { get, storageInfo, getPresignedLink, s3api, deleteStorage };
+const getLcpPresigned = (packName: string) => {
+  return api.get('/lcp', { params: { packName } });
+};
+
+export { get, storageInfo, getPresignedLink, s3api, deleteStorage, getLcpPresigned };
