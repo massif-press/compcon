@@ -18,8 +18,7 @@
         <div
           v-if="allowedStorageState === 'denied' || allowedStorageState === 'prompt'"
           class="mt-2 pa-2"
-          style="border: white 1px solid"
-        >
+          style="border: white 1px solid">
           <b>
             COMP/CON has detected that persistent storage has been denied for this app. Persistent
             storage must be enabled for COMP/CON to operate correctly
@@ -55,7 +54,7 @@ export default {
   },
   methods: {
     async hasPermanentStorage() {
-      return await navigator.storage.persist();
+      return await navigator.storage.persisted();
     },
     async hasPermanentStoragePermission() {
       const res = await navigator.permissions.query({
