@@ -162,8 +162,12 @@ abstract class NpcFeature extends CompendiumItem {
     const m = this._effect.match(perTier);
     if (m) {
       m.forEach((x) => {
-        const tArr = x.replace('{', '').replace('}', '').split('/');
-        fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`);
+        console.log(x, tier);
+        if (tier) {
+          const tArr = x.replace('{', '').replace('}', '').split('/');
+          console.log(tArr, tier, tArr[tier - 1]);
+          fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`);
+        } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'));
       });
     }
     return fmt;
