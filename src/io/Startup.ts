@@ -2,8 +2,12 @@
 // import { NpcData, PilotData } from '@/interface';
 import { CompendiumStore, PilotStore, NpcStore, UserStore, NarrativeStore } from '@/stores';
 // import { Auth } from '@aws-amplify/auth';
+import { getLcpPresigned } from '@/user/api';
 
 import { Initialize, SetItem, GetItem, RemoveItem } from './Storage';
+
+// TODO: remove when finished exhibiting npcs
+import { parseContentPack } from '@/io/ContentPackParser';
 
 export default async function (): Promise<void> {
   await Initialize();
@@ -25,6 +29,29 @@ export default async function (): Promise<void> {
   await UserStore().loadUser();
 
   await CompendiumStore().refreshExtraContent();
+
+  // TODO: remove when finished exhibiting npcs
+  // sideload start
+  if (CompendiumStore().ContentPacks.some((x) => x.Name === 'Lancer CORE NPCs')) {
+    console.log('core NPCs loaded already');
+  } else {
+    const npcExhibitionData = await getLcpPresigned('lancer-npc-data.lcp');
+    const npcData = npcExhibitionData.data.data;
+    const uint8Array = new Uint8Array(npcData);
+
+    let binaryString = '';
+    uint8Array.forEach((byte) => {
+      binaryString += String.fromCharCode(byte);
+    });
+
+    const contentPack = await parseContentPack(binaryString as string);
+    contentPack.active = true;
+    await CompendiumStore().installContentPack(contentPack);
+
+    console.info('core NPCs loaded');
+  }
+  // sideload end
+
   // const missing = { pilots: [] as PilotData[], npcs: [] as NpcData[] };
   await PilotStore().LoadPilots();
   console.log('pilots loaded');

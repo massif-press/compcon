@@ -1,5 +1,5 @@
 <template>
-  <fieldset class="rounded-s" style="position: relative">
+  <fieldset class="rounded-s pb-2" style="position: relative">
     <legend class="text-caption text-left ml-2 px-2">GM LABELS</legend>
     <v-dialog v-model="dialog" width="75vw">
       <template #activator="{ props }">

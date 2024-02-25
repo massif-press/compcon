@@ -20,8 +20,7 @@
             <v-btn
               icon
               variant="plain"
-              @click="expandedRows.includes(i) ? expandedRows.splice(i, 1) : expandedRows.push(i)"
-            >
+              @click="expandedRows.includes(i) ? expandedRows.splice(i, 1) : expandedRows.push(i)">
               <v-icon :icon="expandedRows.includes(i) ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
             </v-btn>
           </td>
@@ -32,8 +31,7 @@
               color="accent"
               inset
               hide-details
-              @change="toggleActive(pack.ID)"
-            />
+              @change="toggleActive(pack.ID)" />
             <v-tooltip v-else location="top" max-width="400px">
               <template v-slot:activator="{ props }">
                 <v-icon v-bind="props" color="error" icon="mdi-alert" />
@@ -78,7 +76,7 @@
           <td colspan="6" style="height: 0">
             <v-expand-transition>
               <div v-show="expandedRows.includes(i)">
-                <pack-info-card :pack="(pack as ContentPack)" />
+                <pack-info-card :pack="<ContentPack>pack" />
               </div>
             </v-expand-transition>
           </td>
@@ -114,11 +112,9 @@ export default {
   methods: {
     async toggleActive(packID: string): Promise<void> {
       await CompendiumStore().togglePackActive(packID);
-      await this.reload();
     },
     async deletePack(id: string): Promise<void> {
       await CompendiumStore().deleteContentPack(id);
-      await this.reload();
     },
     async reload() {
       // this.$emit('start-load');

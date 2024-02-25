@@ -26,7 +26,7 @@ import {
 import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
 import { FrameComparison } from '@/classes/mech/components/frame/Frame';
 import { Status } from '@/classes/Status';
-import { GetAll, SetItem } from '@/io/Storage';
+import { GetAll, RemoveItem, SetItem } from '@/io/Storage';
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 import { NpcClass, NpcComparison } from '@/classes/npc/class/NpcClass';
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
@@ -277,6 +277,7 @@ export const CompendiumStore = defineStore('compendium', {
     },
     async deleteContentPack(packID: string): Promise<void> {
       this.ContentPacks = this.ContentPacks.filter((pack) => pack.ID !== packID);
+      RemoveItem('content', packID);
       await this.saveUserData();
       await this.refreshExtraContent();
     },
