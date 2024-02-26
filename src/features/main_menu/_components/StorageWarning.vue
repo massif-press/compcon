@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     async hasPermanentStorage() {
+      await navigator.storage.persist();
       return await navigator.storage.persisted();
     },
     async hasPermanentStoragePermission() {
