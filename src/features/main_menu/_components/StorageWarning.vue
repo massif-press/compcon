@@ -45,12 +45,16 @@ export default {
     hasStorage: false,
     allowedStorage: false,
     allowedStorageState: '',
+    hasQuota: false,
   }),
   async mounted() {
     this.hasStorage = await this.hasPermanentStorage();
     this.allowedStorageState = await this.hasPermanentStoragePermission();
+    console.log(this.allowedStorageState);
     this.allowedStorage = this.allowedStorageState === 'granted';
-    this.show = !this.hasStorage || !this.allowedStorage;
+    this.hasQuota = await this.storageQuota();
+    console.log(this.hasQuota, this.hasStorage, this.allowedStorage, this.allowedStorageState);
+    this.show = (!this.hasStorage || !this.allowedStorage) && !this.hasQuota;
   },
   methods: {
     async hasPermanentStorage() {
@@ -61,6 +65,12 @@ export default {
         name: 'persistent-storage',
       });
       return res.state;
+    },
+    async storageQuota() {
+      const est = await navigator.storage.estimate();
+      if (!est.quota) return false;
+      console.log(est.quota / 1048576 > 5, est.quota / 1048576, est.quota);
+      return est.quota / 1048576 > 5;
     },
   },
 };
