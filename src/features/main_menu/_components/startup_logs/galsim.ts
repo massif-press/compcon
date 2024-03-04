@@ -1,3 +1,14 @@
+import { encryption } from '@/io/Generators'
+
+const getLogo = (): string => {
+  return `   ..|'''.|      |     '||'       .|'''.|  '||' '||    ||' 
+  .|'     '     |||     ||        ||..  '   ||   |||  |||  
+  ||    ....   |  ||    ||         ''|||.   ||   |'|..'||  
+  '|.    ||   .''''|.   ||       .     '||  ||   | '|' ||  
+   ''|...'|  .|.  .||. .||.....| |'....|'  .||. .|. | .||. `
+}
+
+
 const plog = typer => {
   typer
     .type('<br>')
@@ -12,6 +23,7 @@ const plog = typer => {
     .pause(150)
     .type('.')
     .break()
+    .type(`<span class="accent--text"><pre>${getLogo()}</pre></span>`)
     .break()
     .type('uib-internal deamons running')
     .break()

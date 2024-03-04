@@ -33,16 +33,16 @@ const theme = {
 
     //typography
     text: '#212121',
-    subtle: '#9E9E9E',
+    subtle: '#5c5c5c',
     stark: '#000',
     anti: '#fff',
     'light-text': '#424242', //flavor text
     'stark-text': '#000',
 
     //UI-Boxes and elements
-    'v-card': "#adadad",
-    'v-expansion-panel': "#adadad",
-    'v-data-table': "#adadad",
+    'v-card': "#c9c7c7",
+    'v-expansion-panel': "#c9c7c7",
+    'v-data-table': "#c9c7c7",
     
     panel: '#ccc',
     tooltip: '#e8e8e8',
