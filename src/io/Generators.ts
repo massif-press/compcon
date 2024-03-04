@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { sample } from 'lodash'
 import { store } from '@/store'
 // import {CompendiumStore} from '@/features/compendium/store/index'
 
@@ -53,6 +53,62 @@ async function name(): Promise<string> {
   return name
 }
 
+function shipname_ipsn(): string {
+  const shipnames_ipsnData = require('raw-loader!@/assets/generators/shipnames_ipsn.txt').default.concat(
+    store.getters.Tables?.shipnames_ipsn || []
+  )
+  return pullRandom(shipnames_ipsnData, 1)[0]
+}
+
+function planet(): string {
+  const planetsData = require('raw-loader!@/assets/generators/planets.txt').default.concat(
+    store.getters.Tables?.planets || []
+  )
+  return pullRandom(planetsData, 1)[0]
+}
+
+function station(): string {
+  const stationsData = require('raw-loader!@/assets/generators/stations.txt').default.concat(
+    store.getters.Tables?.stations || []
+  )
+  return pullRandom(stationsData, 1)[0]
+}
+
+function location(): string {
+  if (Math.random() > 0.5) {
+    return planet()
+  } else {  
+    return station()
+  }
+}
+
+function cargo(): string {
+  const cargoData = require('raw-loader!@/assets/generators/cargo.txt').default.concat(
+    store.getters.Tables?.cargo || []
+  )
+  return pullRandom(cargoData, 1)[0]
+}
+
+function cargo_formatted(): string {
+  const cargoData = require('raw-loader!@/assets/generators/cargo.txt').default.concat(
+    store.getters.Tables?.cargo || []
+  )
+
+  const secrets = ['Redacted', 'Classified', 'None of your business']
+  const chance = Math.random()
+  let cargo = ""
+
+  if(chance <= 0.05) {
+    cargo = '<span class="horus--subtle">'+_.sample(secrets)+'</span>'
+  } else {
+    cargo= pullRandom(cargoData, 1)[0]
+  }
+
+  cargo=cargo.concat(` - ${Math.floor(Math.random()* (30 - 1) + 1)} units`)
+
+  return cargo
+}
+
 function mission(): string {
   const m = require('@/assets/generators/mission.json')
   return `${_.sample(m.a)} ${_.sample(m.b)}`
@@ -80,4 +136,4 @@ function flavorID(template: string): string {
   return output
 }
 
-export { name, callsign, mechname, teamName, mission, tracert, encryption, flavorID }
+export { name, callsign, mechname, teamName, shipname_ipsn, planet, station, location, cargo, cargo_formatted, mission, tracert, encryption, flavorID }
