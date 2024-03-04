@@ -1,4 +1,50 @@
-import { encryption } from '@/io/Generators'
+import { encryption, flavorID, callsign, shipname_ipsn, location, cargo_formatted } from '@/io/Generators'
+import _ from 'lodash'
+
+const getLogo = (): string => {
+  return _.sample(logos)}
+  
+  const logos=[`                           @~                                                    
+                          @@@                          
+        @@-      <@@     .@@@~     @@]      .@@          
+         <@@@ [@@@@@     }@@@@     @@@@@# #@@[           
+           @@@@@@@-      @@@@@      :@@@@@@@-            
+          -@@@@@@@      :@@@@@+      @@@@@@@^            
+         )@@@@@@@@@@{   )@@@@@{   (@@@@@@@@@@}           
+        <@@@{    @@@@@@@@@@@@@@@@@@@@@    )@@@}          
+        *#@#      @@@@@@@@@@@@@@@@@@@      [@%>          
+                  :@@@@@@@@@@@@@@@@@-                  
+        +#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@^        
+  *}@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@{>  
+             +@@@@@@@@@@@@@@@@@@@@@@@@@@@*.            
+        .)       @@@@@@@@@@@@@@@@@          )      
+        %@@@   +@@@@@@@@@@@@@@@@@@@<     @@@@          
+         @@@@ {@@@@@@@@@@@@@@@@@@@@@@@  @@@@           
+          @@@@@@@@@[    ^@@@@@(  (@@@@@@@@@@            
+           @@@@@@.       @@@@@        @@@@@@             
+          {@@@@@@@@(     @@@@@      <@@@@@@@@@            
+         @@%   )@@@@     ^@@@]     @@@@[    %@@          
+       :@-                @@@.                -@:                              
+                          (@#                          
+                           @.`,
+
+`
+   █████ ███████████   █████████             ██████   █████      ███     
+  ░░███ ░░███░░░░░███ ███░░░░░███           ░░██████ ░░███  ███ ░███  ███
+   ░███  ░███    ░███░███    ░░░             ░███░███ ░███ ░░░█████████░ 
+   ░███  ░██████████ ░░█████████  ██████████ ░███░░███░███   ░░░█████░   
+   ░███  ░███░░░░░░   ░░░░░░░░███░░░░░░░░░░  ░███ ░░██████    █████████  
+   ░███  ░███         ███    ░███            ░███  ░░█████  ███░░███░░███
+   █████ █████       ░░█████████             █████  ░░█████░░░  ░███ ░░░ 
+  ░░░░░ ░░░░░         ░░░░░░░░░             ░░░░░    ░░░░░      ░░░      `,
+   `
+   ___     ___     ___            _  _    _/\\_   
+  |_ _|   | _ \\   / __|    ___   | \\| |   >  <   
+   | |    |  _/   \\__ \\   |___|  | .' |    \\/    
+  |___|   |_|__   |___/   _____  |_|\\_|   _____  
+_|"""""|_| """ |_|"""""|_|     |_|"""""|_|     | 
+"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-'"'-0-0-' `]
+
 
 const plog = typer => {
   typer
@@ -8,13 +54,13 @@ const plog = typer => {
     .type('<br>')
     .type('COMPANION/CONCIERGE UNIT INITIALIZING')
     .break()
-    .type('IPSN-Test')
+    .type('IPSN COMP/CON Unit Carronade v9.3.1')
     .break()
-    .type('GMS COMP/CON Unit Mk XI Rev 11.4.1c')
+    .type(`<span class="accent--text"><pre>${getLogo()}</pre></span>`)
     .break()
-    .type('5016.8.22 General Massive Systems // Please Operate Responsibly')
+    .type('<span class="primary--text">Your friend in an unfriendly sea.<span>')
     .break()
-    .type('Initializing semantic manifold ')
+    .type('Receiving ALLCOMM message from nearby vessel')
     .pause(150)
     .type('. ')
     .pause(150)
@@ -22,71 +68,66 @@ const plog = typer => {
     .pause(150)
     .type('. ')
     .pause(150)
-    .type('done')
+    .type('translated')
     .break()
-    .type('Initializing logic gradients ')
-    .pause(150)
-    .type('. ')
-    .pause(150)
-    .type('. ')
-    .pause(150)
-    .type('. ')
-    .pause(150)
-    .type('done')
+    .type('[AUG(UNS-LS_03272)]:: TRANSMIT FLYING MANIFEST AND DOCUMENTS')
     .break()
-    .type('&emsp;&emsp;1.0255EB FREE (3.6EB TOTAL)')
     .break()
-    .type('KERNEL supported CPUs:')
+    .type(`Compiling Shipping Manifest for <b>${shipname_ipsn()}</b>  (Battlegroup ${flavorID("aNNAA")} ${Math.floor(Math.random() * 2)+1}/3)`)
     .break()
-    .type('&emsp;&emsp;GMS MISSISSIPPI Series (MkII+)')
+    .type(`ShippingID IPS-N ${flavorID("NNAA-aaa-NNNNAA")}`)
     .break()
-    .type('&emsp;&emsp;IPS-N Carronade v9.1+')
+    .type(`Realtime start (4.3.50${Math.floor(Math.random() * 99)}u ${Math.floor(Math.random() * 1000)} CrST)`)
     .break()
-    .type('&emsp;&emsp;SSC Premier IV-XIV')
+    .type(`Subjective timedebt - ${Math.floor(Math.random() * 300)} years`)
     .break()
-    .type('&emsp;&emsp;HA DOMINANCE line/all')
     .break()
-    .type(
-      '&emsp;&emsp;[WN UNKNOWN UNKNOWN UNKNOWN <span class="horus--subtle">UN</span>KNOWN UNKNOWN UNKN]'
-    )
+    .type(`Designation/Route`)
     .break()
-    .type(`Policy Zone: ${encryption()}`)
+    .type(`o--------------o--------------o`)
     .break()
-    .type('Demand map ICRS at 3c0001000-23c0001000.')
+    .type(`${location()}-->${location()}-->${location()}`)  
     .break()
-    .type('Heap//PSIM at 23c0002000-43c0002000.')
     .break()
-    .type('Thread "Idle": pointer: 0x23c0002010, stack: 0x6440000')
+    .type('Cargo Manifest:')
     .break()
-    .type('Thread "Main": pointer: 0x23c0002f70, stack: 0x6460000')
+    .type(`${cargo_formatted()}`)
     .break()
-    .type(`****** VDOMAIN for frame//integrator ******`)
+    .type(`${cargo_formatted()}`)
     .break()
-    .type('backend at /local/domain/0/backend/gms/')
+    .type(`${cargo_formatted()}`)
     .break()
-    .type('Failed to read /local/domain/0/ssc/fs_sync.')
+    .type(`${cargo_formatted()}`)
     .break()
-    .type('Failed to read /local/domain/0/gms/dummy_plug.')
+    .type(`${cargo_formatted()}`)
     .break()
-    .type('Failed to read /local/domain/0/gms/manual_controls.')
     .break()
-    .type('WARNING: FRAME NOT PRESENT OR INVALID')
+    .type('Transmit? (Y/N)')
     .break()
     .type('******************************************')
     .break()
-    .type('Initializing gms-cc-subsys v_int')
+    .type('Escort')
     .break()
-    .type('Initializing gms-cc-subsys tests')
+    .type(`Caliban LL5	${callsign()}`)
     .break()
-    .type('Initializing gms-cc-subsys omninet_cls')
+    .type(`Vlad 	 LL4	${callsign()}`)
     .break()
-    .type('Initializing gms-cc-subsys events')
+    .type(`Tortuga LL3	${callsign()}`)
     .break()
-    .type('Hierarchical RCU implementation.')
     .break()
-    .type('RCU subjective-clock acceleration is DISABLED.')
+    .type(`Incident ${Math.floor(Math.random() * 20)+1}`)
     .break()
-    .type(`Establishing encrypted link (${encryption()}) `)
+    .type('Asignee: Caliban')
+    .break()
+    .type(`Casualties Opfor ${Math.floor(Math.random() * 30)+7}`)
+    .break()
+    .type('Casualties Allies 0 (minor abbresions on armor)')
+    .break()
+    .type('Summary: Pirate Squad hid onboard Status: Green')
+    .break()
+    .break()
+    .type(`Establishing encrypted link to tower (${encryption()}) `)
+    .break()
     .pause(200)
     .type('. ')
     .pause(200)
@@ -96,12 +137,8 @@ const plog = typer => {
     .pause(300)
     .type('done')
     .break()
-    .type('AM-LI in unprivileged domain disabled')
-    .break()
-    .type('No sensory bridge found // manual input mode enabled')
-    .break()
     .type(
-      '>//[<span class="accent--text">COMP/CON</span>: <span class="stark-text--text">Welcome, Lancer. Input Command.</span>]'
+      `>//[<span class="accent--text">COMP/CON</span>: <span class="stark-text--text">Welcome, Traveller. Point the way.</span>]`
     )
     .go()
 }
