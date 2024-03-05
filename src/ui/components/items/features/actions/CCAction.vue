@@ -6,9 +6,9 @@
     :activations="activations"
     :unusable="unusable"
     :disabled="disabled"
+    :tier="tier"
     @use="$emit('use', $event)"
-    @undo="$emit('undo')"
-  />
+    @undo="$emit('undo')" />
 </template>
 
 <script lang="ts">
@@ -49,6 +49,10 @@ export default {
       type: Number,
       required: false,
       default: 2,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
   computed: {

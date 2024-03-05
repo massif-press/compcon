@@ -31,6 +31,7 @@
           small-tags
           :collapse-actions="collapseActions"
           :tier="tier" />
+        <slot name="extra" />
       </v-card-text>
     </v-card>
   </v-col>

@@ -1,31 +1,84 @@
 import { CloudController, SaveController, PortraitController } from '@/classes/components';
 import { BrewController } from '@/classes/components/brew/BrewController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
-import { EidolonLayer, EidolonLayerData } from './EidolonLayer';
 import { Npc, NpcData } from '../Npc';
+import { CompendiumStore } from '@/stores';
+import { IStatData } from '@/classes/components/combat/stats/StatController';
+import { EidolonLayerSaveData } from './EidolonLayerSaveData';
+import { EidolonShardSaveData } from './EidolonShardSaveData';
 
 class EidolonData extends NpcData {
   npcType: 'eidolon' = 'eidolon';
-  layers!: EidolonLayerData[];
-  activeLayerIndex!: number;
+  tier!: number;
+  layer_data!: {
+    id: string;
+    description: string;
+    stats: IStatData;
+    shard: IStatData;
+  }[];
 }
 
 class Eidolon extends Npc {
-  public readonly ItemType: string = 'eidolon';
+  public readonly ItemType: string = 'Eidolon';
+  private _tier: number;
 
-  public Layers: EidolonLayer[];
-  public ActiveLayerIndex: number = 0;
+  private _layers: EidolonLayerSaveData[];
 
-  public constructor(data: EidolonData) {
-    super();
-    this.Layers = data.layers ? data.layers.map((l) => EidolonLayer.Deserialize(l, this)) : [];
-    this.ActiveLayerIndex = data.activeLayerIndex || 0;
+  public constructor(data?: EidolonData) {
+    super(data);
+    this._name = data?.name || 'New Eidolon';
 
-    this.Name = data._name || `New Eidolon`;
+    this._tier = data?.tier || 1;
+
+    this._layers = [];
+    if (data?.layer_data) {
+      this._layers = data.layer_data.map((l) => new EidolonLayerSaveData(l, this));
+    }
+
+    if (!data || this._layers.length === 0)
+      this._layers.push(new EidolonLayerSaveData({ id: 'el_core', description: '' }, this));
   }
 
-  public get ActiveLayer(): EidolonLayer {
-    return this.Layers[this.ActiveLayerIndex];
+  public get Tier(): number {
+    return this._tier;
+  }
+
+  public set Tier(newTier: number) {
+    this._tier = newTier;
+
+    this._layers.forEach((l) => {
+      l.ResetStats();
+      l.Shard.ResetStats();
+    });
+
+    this.SaveController.save();
+  }
+
+  public get Class() {
+    const l = this._layers.length - 1;
+    if (l < 3) return '0';
+    if (l > 5) return '3+';
+    return (l - 2).toString();
+  }
+
+  public get Layers(): EidolonLayerSaveData[] {
+    return this._layers;
+  }
+
+  public AddLayer(id: string) {
+    this._layers.push(new EidolonLayerSaveData({ id, description: '' }, this));
+  }
+
+  public AddRandomLayer() {
+    const availableLayers = CompendiumStore().EidolonLayers.filter(
+      (l) => !this._layers.some((x) => x.Layer.ID === l.ID)
+    );
+    const l = availableLayers[Math.floor(Math.random() * availableLayers.length)];
+    if (l) this._layers.push(new EidolonLayerSaveData({ id: l.ID, description: '' }, this));
+  }
+
+  public RemoveLayer(index: number) {
+    if (index > -1) this._layers.splice(index, 1);
   }
 
   public static Serialize(eidolon: Eidolon): EidolonData {
@@ -34,7 +87,18 @@ class Eidolon extends Npc {
       id: eidolon.ID,
       name: eidolon.Name,
       note: eidolon.Note,
+      tier: eidolon.Tier,
+      layer_data: [] as { id: string; description: string; stats: IStatData; shard: IStatData }[],
     };
+
+    eidolon._layers.forEach((layer) => {
+      data.layer_data.push({
+        id: layer.Layer.ID,
+        description: layer.Description,
+        stats: EidolonLayerSaveData.Serialize(layer),
+        shard: EidolonShardSaveData.Serialize(layer.Shard),
+      });
+    });
 
     SaveController.Serialize(eidolon, data);
     CloudController.Serialize(eidolon, data);

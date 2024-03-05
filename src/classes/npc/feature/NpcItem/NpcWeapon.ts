@@ -72,6 +72,7 @@ export class NpcWeapon extends NpcFeature {
   }
 
   public Damage(tier: number): Damage[] {
+    if (!this._damage_data) return [];
     return this._damage_data.map((x: INpcDamageData) => {
       let d = x.damage;
       if (!Array.isArray(d)) d = Array(3).fill(d);

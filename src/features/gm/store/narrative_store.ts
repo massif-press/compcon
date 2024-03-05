@@ -45,8 +45,6 @@ export const NarrativeStore = defineStore('narrative', {
             .filter((x) => x.collectionItemType === 'faction')
             .map((x) => Faction.Deserialize(x as FactionData)) as any[]
         );
-
-      console.log(this.CollectionItems);
     },
 
     AddItem(payload: Character | Location | Faction): void {

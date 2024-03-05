@@ -16,7 +16,7 @@
           <v-tooltip location="top">
             <template v-slot:activator="{ props }">
               <v-icon :size="dense ? '20' : '35'" :start="!dense" class="mt-n1" v-bind="props"
-                >cc:reticule</v-icon
+                >cc:reticle</v-icon
               >
             </template>
             <span>Attack Bonus</span>

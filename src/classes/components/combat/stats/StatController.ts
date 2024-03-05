@@ -11,7 +11,6 @@ class StatController {
 
   private _maxStats = {};
 
-  // public constructor(parent: IStatContainer, data?: any) {
   public constructor(parent: IStatContainer) {
     this._maxStats = {};
 
@@ -20,22 +19,6 @@ class StatController {
         this._maxStats[key] = Stats.DefaultStats[key];
       }
     }
-
-    // console.log(data);
-    // if (data && data.max) {
-    //   if (!Array.isArray(data)) data = [data];
-    //   data.max.forEach((d) => {
-    //     Object.keys(d).forEach((key) => {
-    //       let statKey = Stats.cleanKey(key);
-
-    //       if (Array.isArray(d[key])) {
-    //         this._maxStats[statKey] = d[key];
-    //       } else {
-    //         this._maxStats[statKey] = Array(3).fill(d[key]);
-    //       }
-    //     });
-    //   });
-    // }
 
     this.Parent = parent;
   }

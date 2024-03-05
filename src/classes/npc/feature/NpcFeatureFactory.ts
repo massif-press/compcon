@@ -7,7 +7,6 @@ import { NpcWeapon, INpcWeaponData } from './NpcItem/NpcWeapon';
 
 class NpcFeatureFactory {
   public static Build<T>(data: INpcFeatureData, packName?: string): T {
-    if (!data.type) console.log(data);
     const t = data.type.toLowerCase();
     if (t === 'reaction') return new NpcReaction(data as INpcReactionData, packName) as T;
     if (t === 'system') return new NpcSystem(data as INpcSystemData, packName) as T;

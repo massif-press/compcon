@@ -83,10 +83,8 @@ export const PilotStore = defineStore('pilot', {
     ImportUngroupedPilots(): void {
       // import v2 pilots
       // const localData = localStorage.getItem('pilots_v2');
-      // console.log('localData', localData);
       // if (localData) {
       //   const localPilots = JSON.parse(localData);
-      //   console.log('localPilots', localPilots);
       // }
 
       const groupedIds = this.PilotGroups.flatMap((x) => x.Pilots);

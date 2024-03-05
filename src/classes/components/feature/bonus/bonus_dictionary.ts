@@ -317,6 +317,11 @@ export default [
       'Take an additional turn per round if there are {VAL} or more PC characters in the encounter',
   },
   {
+    id: 'hp_per_player',
+    title: 'HP Per Player',
+    detail: '{INC_DEC} HP by {VAL} per PC characters in the encounter',
+  },
+  {
     id: 'immunity',
     title: 'Immunity',
     detail: 'Grants immunity to {VAL}. This negates all damage from the specified source.',

@@ -162,8 +162,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
       ? this.MechLoadoutController.ActiveLoadout.RequiredLicenses
       : ([] as ILicenseRequirement[]);
 
-    console.log(requirements);
-
     if (this._frame.LicenseLevel === 0) {
       const gmsIdx = requirements.findIndex((x) => x.source === 'GMS');
       if (gmsIdx > -1) requirements[gmsIdx].items.push(`${this._frame.Name.toUpperCase()} Frame`);

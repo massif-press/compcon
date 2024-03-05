@@ -54,18 +54,18 @@ class NpcClassController {
     return changedStats;
   }
 
+  public ResetStats(tier?: number) {
+    if (!tier) tier = this.Tier;
+    if (!this.HasClass) return;
+    this._setClassStats(tier);
+  }
+
   public set Tier(newTier: number) {
     if (!this.HasClass) return;
     this._tier = newTier;
 
     this._setClassStats(newTier);
     this.Parent.SaveController.save();
-  }
-
-  public ResetStats(tier?: number) {
-    if (!tier) tier = this.Tier;
-    if (!this.HasClass) return;
-    this._setClassStats(tier);
   }
 
   public SetClass(npcClass: NpcClass, tier: number) {

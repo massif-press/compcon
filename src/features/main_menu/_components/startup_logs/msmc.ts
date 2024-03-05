@@ -68,8 +68,6 @@ const plog = async (typer) => {
   const c = await callsign();
   const e = await encryption();
 
-  console.log(c, e);
-
   typer
     .type('<br>')
     .type('<br>')

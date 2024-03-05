@@ -11,16 +11,14 @@
                 color="accent"
                 class="heading h3"
                 @click="scrollTo(item)"
-                v-text="getLangItem(item, 'title')"
-              />
+                v-text="getLangItem(item, 'title')" />
               <div v-for="child in (item as any).children">
                 <v-btn
                   variant="text"
                   color="accent"
                   class="heading h4 ml-4"
                   @click="scrollTo(child)"
-                  v-text="getLangItem(child, 'title')"
-                />
+                  v-text="getLangItem(child, 'title')" />
               </div>
             </div>
           </v-col>
@@ -33,8 +31,7 @@
           small
           color="primary"
           class="mb-3 mt-6"
-          style="padding-left: 300px !important; margin-left: -350px !important"
-        >
+          style="padding-left: 300px !important; margin-left: -350px !important">
           {{ getLangItem(item, 'title') }}</cc-title
         >
         <div v-html="getLangItem(item, 'content')" class="content" />
@@ -43,8 +40,7 @@
           <div v-html="getLangItem(child, 'content')" class="content" />
           <div
             v-for="subchild in (child as any).children"
-            :id="`e_${subchild.title.en.replace(/\W/g, '')}`"
-          >
+            :id="`e_${subchild.title.en.replace(/\W/g, '')}`">
             <b class="text-accent ml-n2" v-text="getLangItem(subchild, 'title')" />
             <div v-html="getLangItem(subchild, 'content')" class="content" />
           </div>
@@ -63,8 +59,7 @@
     color="primary"
     variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
-    @click="scrollTo(content[0])"
-  >
+    @click="scrollTo(content[0])">
     <v-icon size="30">mdi-arrow-up</v-icon>
   </v-btn>
 </template>
@@ -105,7 +100,6 @@ export default {
       const title = this.getLangItem(item, 'title');
       const el = document.getElementById(`e_${title.replace(/\W/g, '')}`);
       if (el) {
-        console.log(el);
         const yOffset = -60;
         const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
 

@@ -5,8 +5,7 @@
     :table-headers="headers"
     :options="options"
     equippable
-    @equip="$emit('equip', $event)"
-  >
+    @equip="$emit('equip', $event)">
     <template #header> <div class="heading h3 text-center text-accent">Weapon Mods</div></template>
     <template #top>
       <v-row>
@@ -42,12 +41,10 @@
                 inline
                 :content="
                   showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-                "
-              >
+                ">
                 <v-icon
                   :color="showUnlicensed ? 'warning' : 'success'"
-                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
-                />
+                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'" />
               </cc-tooltip>
             </template>
           </v-switch>
@@ -60,8 +57,7 @@
                   showOverSP
                     ? 'Systems exceeding SP Capacity: SHOWN'
                     : 'Systems exceeding SP Capacity: HIDDEN'
-                "
-              >
+                ">
                 <v-icon :color="showOverSP ? 'warning' : 'success'" :icon="'cc:system_point'" />
               </cc-tooltip>
             </template>
@@ -73,12 +69,10 @@
                 inline
                 :content="
                   showIncompatible ? 'Incompatible Mods: SHOWN' : 'Incompatible Mods: HIDDEN'
-                "
-              >
+                ">
                 <v-icon
                   :color="showIncompatible ? 'warning' : 'success'"
-                  :icon="'cc:status_downandout'"
-                />
+                  :icon="'cc:status_downandout'" />
               </cc-tooltip>
             </template>
           </v-switch>
@@ -162,7 +156,6 @@ export default {
       }
 
       if (!this.showUnlicensed) {
-        console.log(this.showUnlicensed);
         i = i.filter(
           (x) => !x.LicenseLevel || this.mech.Pilot.has('License', x.License, x.LicenseLevel)
         );
@@ -173,8 +166,6 @@ export default {
       // }
 
       i = i.concat(this.mech.Pilot.SpecialEquipment.filter((x) => x.ItemType === 'WeaponMod'));
-
-      console.log(i);
 
       return i;
     },

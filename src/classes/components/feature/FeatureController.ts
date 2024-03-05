@@ -25,6 +25,7 @@ class FeatureController {
     if (!this.Containers.length) {
       throw new Error('FeatureControllers not registered!');
     }
+
     return this.Containers.flatMap((container) =>
       FeatureCollector.Collect(collection, container.FeatureSource)
     );

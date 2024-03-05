@@ -21,73 +21,69 @@
         class="mx-1"
         icon="mdi-heart"
         name="HP"
-        :value="
-          deployable.HP
-            ? deployable.HP.toString().replace(/[{}]/gim, '')
-            : parseFloat(deployable.Size || 0.5) * 10
-        " />
+        :value="deployable.HP ? byTier(deployable.HP) : parseFloat(deployable.Size || 0.5) * 10" />
       <cc-statblock-panel
         v-if="deployable.Size"
         icon="cc:evasion"
         inline
         class="mx-1"
         name="Evasion"
-        :value="deployable.evasion || 5" />
+        :value="byTier(deployable.evasion) || 5" />
       <cc-statblock-panel
         v-if="deployable.EDefense"
         inline
         class="mx-1"
         icon="cc:e_def"
         name="E-Defense"
-        :value="deployable.EDefense" />
+        :value="byTier(deployable.EDefense)" />
       <cc-statblock-panel
         v-if="deployable.Heatcap"
         inline
         class="mx-1"
         icon="cc:heat"
         name="Heat Capacity"
-        :value="deployable.Heatcap" />
+        :value="byTier(deployable.Heatcap)" />
       <cc-statblock-panel
         v-if="deployable.Sensors"
         inline
         class="mx-1"
         icon="cc:sensor"
         name="Sensor Range"
-        :value="deployable.Sensors" />
+        :value="byTier(deployable.Sensors)" />
       <cc-statblock-panel
         v-if="deployable.TechAttack"
         inline
         class="mx-1"
         icon="cc:full_tech"
         name="Tech Attack"
-        :value="deployable.TechAttack" />
+        :value="byTier(deployable.TechAttack)" />
       <cc-statblock-panel
         v-if="deployable.Repcap"
         inline
         class="mx-1"
         icon="cc:repair"
         name="Repair Capacity"
-        :value="deployable.Repcap" />
+        :value="byTier(deployable.Repcap)" />
       <cc-statblock-panel
         v-if="deployable.Save"
         inline
         class="mx-1"
         icon="cc:save"
         name="Save Target"
-        :value="deployable.Save" />
+        :value="byTier(deployable.Save)" />
       <cc-statblock-panel
         v-if="deployable.Speed"
         inline
         class="mx-1"
         icon="mdi-arrow-right-bold-hexagon-outline"
         name="Speed"
-        :value="deployable.Speed" />
+        :value="byTier(deployable.Speed)" />
     </v-row>
-    <p v-html-safe="deployable.Detail" class="body-text pa-2 pt-4" />
+    <p v-html-safe="deployable.getDetail(tier)" class="body-text pa-2 pt-4" />
     <div v-if="deployable.Actions && deployable.Actions.length">
       <v-row no-gutters justify="center">
         <v-col v-for="a in deployable.Actions" cols="auto">
-          <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
+          <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" :tier="tier" />
         </v-col>
       </v-row>
     </div>
@@ -95,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { Action } from '@/classes/Action';
+import ByTier from '@/util/tierFormat';
 
 export default {
   name: 'deployable-info-base',
@@ -103,6 +99,15 @@ export default {
     deployable: {
       type: Object,
       required: true,
+    },
+    tier: {
+      type: Number,
+      required: false,
+    },
+  },
+  methods: {
+    byTier(str: string) {
+      return ByTier(str, this.tier);
     },
   },
 };

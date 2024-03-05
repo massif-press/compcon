@@ -17,7 +17,7 @@
       </v-chip>
     </template>
 
-    <action-base :action="action" />
+    <action-base :action="action" :tier="tier" />
   </cc-dialog>
 </template>
 
@@ -31,6 +31,10 @@ export default {
     action: {
       type: Object,
       required: true,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
 };

@@ -38,8 +38,7 @@
               :reserve="r"
               icon="cc:reserve_resource"
               color="reserve--resource"
-              @click="add(r)"
-            />
+              @click="add(r)" />
           </v-col>
         </v-row>
       </v-window-item>
@@ -50,8 +49,7 @@
               :reserve="r"
               icon="cc:reserve_tactical"
               color="reserve--tactical"
-              @click="add(r)"
-            />
+              @click="add(r)" />
           </v-col>
         </v-row>
       </v-window-item>
@@ -62,8 +60,7 @@
               :reserve="r"
               icon="cc:reserve_mech"
               color="reserve--mech"
-              @click="add(r)"
-            />
+              @click="add(r)" />
           </v-col>
         </v-row>
       </v-window-item>
@@ -114,8 +111,6 @@ export default {
   },
   methods: {
     add(reserve: Reserve): void {
-      console.log(reserve);
-      console.log(_.cloneDeep(reserve));
       this.pilot.ReservesController.AddReserve(CompendiumItem.Clone(reserve));
       this.$emit('close');
     },

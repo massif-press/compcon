@@ -65,7 +65,6 @@ export default {
       return [...baseGroupings, ...statGroupings, ...allLabelTitles];
     },
     sortings() {
-      console.log(NpcStore().getAllLabels);
       const allLabelTitles = new Set(
         NpcStore()
           .getAllLabels.filter((x: any) => x.title.length > 0)

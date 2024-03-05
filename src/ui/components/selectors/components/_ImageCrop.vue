@@ -8,15 +8,13 @@
         :debounce="false"
         :src="src"
         style="border-radius: 20px"
-        @change="change"
-      />
+        @change="change" />
       <v-card class="preview-container" variant="outlined" color="primary">
         <preview
           :width="200"
           :height="200"
           :image="result.image"
-          :coordinates="result.coordinates"
-        />
+          :coordinates="result.coordinates" />
       </v-card>
     </div>
   </v-card-text>
@@ -71,7 +69,6 @@ export default {
     },
     set() {
       if (this.imgKey?.length) this.result.image.src = this.imgKey;
-      console.log(this.result);
       this.$emit('confirm', this.result);
     },
   },

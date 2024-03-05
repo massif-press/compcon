@@ -88,8 +88,7 @@
             label
             variant="outlined"
             size="small"
-            class="mx-1"
-          >
+            class="mx-1">
             <span class="stat-text ml-n1 mr-1"> +{{ s.Bonus }} </span>
             <span>{{ s.Skill.Trigger }}</span>
           </v-chip>
@@ -105,8 +104,7 @@
             <div
               v-else
               class="heading h2 mt-n2"
-              v-html="pilot.MechSkillsController.MechSkills.Hull"
-            />
+              v-html="pilot.MechSkillsController.MechSkills.Hull" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">AGI</div>
@@ -116,8 +114,7 @@
             <div
               v-else
               class="heading h2 mt-n2"
-              v-html="pilot.MechSkillsController.MechSkills.Agi"
-            />
+              v-html="pilot.MechSkillsController.MechSkills.Agi" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">SYS</div>
@@ -127,8 +124,7 @@
             <div
               v-else
               class="heading h2 mt-n2"
-              v-html="pilot.MechSkillsController.MechSkills.Sys"
-            />
+              v-html="pilot.MechSkillsController.MechSkills.Sys" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">ENG</div>
@@ -138,8 +134,7 @@
             <div
               v-else
               class="heading h2 mt-n2"
-              v-html="pilot.MechSkillsController.MechSkills.Eng"
-            />
+              v-html="pilot.MechSkillsController.MechSkills.Eng" />
           </v-col>
         </v-row>
         <v-row dense v-if="blank" class="mt-n2">
@@ -160,8 +155,7 @@
         <v-row dense v-if="blank">
           <v-col
             v-for="n in 12"
-            :cols="landscape ? (options.pilotInclude.includes('pilot portrait') ? 6 : 3) : 6"
-          >
+            :cols="landscape ? (options.pilotInclude.includes('pilot portrait') ? 6 : 3) : 6">
             <blank-line :height="24" inline />
           </v-col>
         </v-row>
@@ -171,8 +165,7 @@
           label
           variant="outlined"
           size="small"
-          class="caption mx-1 mt-1"
-        >
+          class="caption mx-1 mt-1">
           <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" /> {{ t.Talent.Name }}
           {{ 'I'.repeat(t.Rank) }}
         </v-chip>
@@ -182,8 +175,7 @@
           dense
           justify="space-between"
           class="mt-n1 caption"
-          style="position: relative"
-        >
+          style="position: relative">
           <v-col>
             <fieldset>
               <legend class="heading ml-1 px-2">{{ t.Talent.Name }}</legend>
@@ -214,8 +206,7 @@
     <v-row dense v-if="blank">
       <v-col
         v-for="n in 4"
-        :cols="landscape ? (options.pilotInclude.includes('pilot portrait') ? 6 : 3) : 6"
-      >
+        :cols="landscape ? (options.pilotInclude.includes('pilot portrait') ? 6 : 3) : 6">
         <blank-line :height="24" inline />
       </v-col>
     </v-row>
@@ -225,8 +216,7 @@
       v-for="b in pilot.CoreBonusController.CoreBonuses"
       dense
       justify="space-between"
-      class="mt-n1 caption"
-    >
+      class="mt-n1 caption">
       <v-col>
         <fieldset>
           <legend class="heading ml-1 px-2">{{ b.Name }}</legend>
@@ -239,8 +229,7 @@
     <v-row dense justify="space-between" class="mt-n1 caption">
       <v-col
         v-for="a in pilot.Loadout.Armor.filter((x) => x)"
-        style="position: relative; break-inside: avoid"
-      >
+        style="position: relative; break-inside: avoid">
         <fieldset v-if="a">
           <legend class="heading ml-1 px-1">
             <span v-if="!blank">
@@ -279,8 +268,7 @@
                 v-show="showTag(t.ID)"
                 label
                 variant="outlined"
-                class="mx-1 bg-white"
-              >
+                class="mx-1 bg-white">
                 {{ t.GetName() }}
               </v-chip>
             </div>
@@ -313,8 +301,7 @@
                 v-show="showTag(t.ID)"
                 label
                 variant="outlined"
-                class="mx-1 bh-white"
-              >
+                class="mx-1 bh-white">
                 {{ t.GetName() }}
               </v-chip>
             </div>
@@ -350,8 +337,7 @@
                 size="x-small"
                 label
                 variant="outlined"
-                class="mx-1 bg-white"
-              >
+                class="mx-1 bg-white">
                 {{ t.GetName() }}
               </v-chip>
             </div>
@@ -364,8 +350,7 @@
       <v-col
         v-if="options.pilotInclude.includes('extra equipment space')"
         v-for="n in 3"
-        style="position: relative"
-      >
+        style="position: relative">
         <fieldset>
           <legend class="heading ml-1 px-1">
             <blank-line :width="150" :height="20" />
@@ -380,8 +365,7 @@
       <v-row dense>
         <v-col
           v-for="r in pilot.ReservesController.Reserves.filter((x) => x.Type !== 'Bonus')"
-          style="min-width: 18vw"
-        >
+          style="min-width: 18vw">
           <fieldset>
             <legend class="heading caption mb-n1 text-primary px-1">{{ r.Name }}</legend>
             <div v-if="r.ResourceName || r.Note || r.ResourceCost">
@@ -441,8 +425,7 @@
     dense
     justify="space-between"
     class="mt-n1 caption px-2"
-    style="position: relative"
-  >
+    style="position: relative">
     <fieldset class="pb-2 my-2">
       <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
       <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
@@ -479,7 +462,7 @@ export default {
   },
   computed: {
     blank() {
-      console.log(this.options);
+      this.options;
       return this.options.content === 'blank';
     },
     landscape() {

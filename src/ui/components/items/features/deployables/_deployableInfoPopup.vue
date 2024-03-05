@@ -19,7 +19,7 @@
         </v-chip>
       </v-chip>
     </template>
-    <deployable-info-base :deployable="deployable" />
+    <deployable-info-base :deployable="deployable" :tier="tier" />
   </cc-dialog>
 </template>
 
@@ -33,6 +33,10 @@ export default {
     deployable: {
       type: Object,
       required: true,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
   computed: {

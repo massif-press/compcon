@@ -1,5 +1,5 @@
 interface IFeatureContainer {
-  get FeatureSource(): any[]
+  get FeatureSource(): any[];
 }
 
-export { IFeatureContainer }
+export type { IFeatureContainer };

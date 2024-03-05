@@ -22,6 +22,7 @@ import {
 import { INpcClassData } from '@/classes/npc/class/NpcClass';
 import { INpcFeatureData } from '@/classes/npc/feature/NpcFeature';
 import { INpcTemplateData } from '@/classes/npc/template/NpcTemplate';
+import CoreLayerData from '@/classes/npc/eidolon/core_layer.json';
 
 const isValidManifest = function (obj: any): obj is IContentPackManifest {
   return (
@@ -158,6 +159,11 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
     });
   }
 
+  const eidolonLayers = (await readZipJSON<any[]>(zip, 'eidolon_layers.json')) || [];
+  if (eidolonLayers.length) {
+    eidolonLayers.push(CoreLayerData);
+  }
+
   const id = await getPackID(manifest);
 
   return {
@@ -185,6 +191,7 @@ const parseContentPack = async function (binString: string): Promise<IContentPac
       tables,
       bonds,
       reserves,
+      eidolonLayers,
     },
   };
 };

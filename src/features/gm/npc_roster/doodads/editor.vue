@@ -10,7 +10,7 @@
       <builder :item="item" />
     </template>
     <template v-slot:stats>
-      <stat-editor :item="item" />
+      <stat-editor :item="item" :controller="item" />
     </template>
   </editor-base>
 </template>

@@ -23,7 +23,7 @@
       </div>
       <div v-if="action.Detail">
         <div class="text-disabled text-overline mb-n2">Effect</div>
-        <div v-html-safe="action.Detail" class="body-text text-stark" />
+        <div v-html-safe="action.getDetail(tier)" class="body-text text-stark" />
       </div>
     </v-card-text>
   </div>
@@ -36,6 +36,10 @@ export default {
     action: {
       type: Object,
       required: true,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
   computed: {

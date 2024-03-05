@@ -286,7 +286,7 @@ const icons = [
   'ammo',
   'burning',
   'balance',
-  'reticule',
+  'reticle',
   'spikes',
   'eclipse',
   'sword_array',
@@ -365,7 +365,7 @@ export default {
       return output;
     },
     dialog1Confirm() {
-      console.log('dialog 1 confirmed');
+      console.info('dialog 1 confirmed');
     },
     doNotify() {
       (this as any).$notify({

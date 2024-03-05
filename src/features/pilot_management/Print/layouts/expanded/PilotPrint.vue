@@ -122,8 +122,7 @@
         v-else
         v-for="s in pilot.SkillsController.Skills"
         variant="outlined"
-        class="my-2 py-1 px-2"
-      >
+        class="my-2 py-1 px-2">
         <v-row>
           <v-col cols="auto">
             <span class="heading" style="font-size: 33px"> +{{ s.Bonus }} </span>
@@ -148,8 +147,7 @@
       label
       variant="outlined"
       size="small"
-      class="caption mx-1 mt-1"
-    >
+      class="caption mx-1 mt-1">
       <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" /> {{ t.Talent.Name }}
       {{ 'I'.repeat(t.Rank) }}
     </v-chip>
@@ -159,8 +157,7 @@
       dense
       justify="space-between"
       class="mt-n1 caption"
-      style="position: relative"
-    >
+      style="position: relative">
       <fieldset class="pb-2 my-2">
         <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
         <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
@@ -185,8 +182,7 @@
       v-for="b in pilot.CoreBonusController.CoreBonuses"
       dense
       justify="space-between"
-      class="mt-n1 caption"
-    >
+      class="mt-n1 caption">
       <fieldset class="pb-2 my-2">
         <legend class="heading h3 ml-1 px-2">{{ b.Name }}</legend>
         <v-row dense align="center">
@@ -260,8 +256,7 @@
             <div
               v-else
               class="heading p-stat"
-              v-html="pilot.MechSkillsController.MechSkills.Hull"
-            />
+              v-html="pilot.MechSkillsController.MechSkills.Hull" />
           </v-col>
           <v-col>
             <div class="font-weight-bold caption text-primary mb-n2 text-primary">AGILITY</div>
@@ -326,8 +321,7 @@
       <v-col
         v-for="w in pilot.Loadout.Weapons.filter((x) => x)"
         style="position: relative"
-        cols="12"
-      >
+        cols="12">
         <fieldset v-if="w || blank">
           <legend class="heading h3 ml-1 px-1">
             <span v-if="!blank">
@@ -380,8 +374,7 @@
         v-if="options.pilotInclude.includes('extra equipment space')"
         v-for="n in 3"
         style="position: relative"
-        cols="12"
-      >
+        cols="12">
         <fieldset>
           <legend class="heading ml-1 px-1">
             <blank-line :width="150" :height="20" />
@@ -413,8 +406,7 @@
     <fieldset
       v-for="r in options.pilotInclude.includes('extra reserves space') ? 9 : 6"
       class="mt-2"
-      style="position: relative"
-    >
+      style="position: relative">
       <legend class="px-1">
         <blank-line :height="26" :width="200" />
       </legend>
@@ -453,8 +445,7 @@
     dense
     justify="space-between"
     class="mt-n1 caption px-2"
-    style="position: relative"
-  >
+    style="position: relative">
     <fieldset class="pb-2 my-2">
       <legend class="heading h3 ml-1 px-2">{{ t.Talent.Name }}</legend>
       <v-row v-for="n in t.Rank" align="center" dense class="my-n1">
@@ -493,7 +484,6 @@ export default {
   },
   computed: {
     blank() {
-      console.log(this.options);
       return this.options.content === 'blank';
     },
     landscape() {

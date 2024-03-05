@@ -9,8 +9,7 @@
           :color="selectedImage === image ? 'primary' : ''"
           :class="{ selected: image === selectedImage }"
           style="border-width: 3px"
-          @click="selectedImage === image ? (selectedImage = null) : stage(image)"
-        >
+          @click="selectedImage === image ? (selectedImage = null) : stage(image)">
           <div class="background">
             <v-img :src="image" contain max-height="200px" />
           </div>
@@ -22,8 +21,7 @@
             color="subtle"
             variant="outlined"
             class="pa-1"
-            tile
-          >
+            tile>
             <div class="text-caption pb-1 text-center">
               {{ image }}
             </div>
@@ -35,8 +33,7 @@
               </template>
               <cc-confirmation
                 content="This will delete this image link from your library.</span> Do you want to continue?"
-                @confirm="deleteRemoteImage(image)"
-              />
+                @confirm="deleteRemoteImage(image)" />
             </v-menu>
           </v-card>
         </v-scale-transition>
@@ -46,8 +43,7 @@
       v-model="currentRemotePage"
       :length="totalRemotePages"
       total-visible="9"
-      @input="currentRemotePage = $event"
-    />
+      @input="currentRemotePage = $event" />
     <v-divider class="my-3" />
     <v-alert
       density="compact"
@@ -66,8 +62,7 @@
         ADD REMOTE IMAGE
         <cc-tooltip
           inline
-          content="Link a remotely-hosted image to this asset. These images are not stored or managed by COMP/CON and are subject to change or removal based on their hosts."
-        >
+          content="Link a remotely-hosted image to this asset. These images are not stored or managed by COMP/CON and are subject to change or removal based on their hosts.">
           <v-icon left>mdi-information-outline</v-icon>
         </cc-tooltip>
       </div>
@@ -81,15 +76,13 @@
             hide-details
             placeholder="Link Image"
             prepend-icon="mdi-image-sync"
-            :disabled="loading"
-          />
+            :disabled="loading" />
         </v-col>
         <v-col cols="auto">
           <v-btn
             color="secondary"
             :disabled="!remoteInput || remoteError.length > 0"
-            @click="setRemoteImage()"
-          >
+            @click="setRemoteImage()">
             Load
           </v-btn>
         </v-col>
@@ -169,8 +162,6 @@ export default {
         this.remoteError = 'Image not found';
         return;
       }
-
-      console.log(this.remoteInput);
 
       this.remoteError = '';
       this.selectedImage = this.remoteInput;

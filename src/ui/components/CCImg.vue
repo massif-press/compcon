@@ -11,8 +11,7 @@
     :max-height="maxHeight"
     :min-height="minHeight"
     :contain="contain"
-    :style="style"
-  />
+    :style="style" />
 </template>
 
 <script>
@@ -80,8 +79,7 @@ export default {
   },
   methods: {
     async handleImageError() {
-      console.log('Image failed to load');
-      console.log(this.src);
+      console.error('Image failed to load', this.src);
       // if the image fails to load, create a url from the blob
       const blob = await GetBlob('images', this.src);
       this.imageUrl = URL.createObjectURL(blob);

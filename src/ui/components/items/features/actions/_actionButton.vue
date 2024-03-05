@@ -5,8 +5,7 @@
       block
       :small="$vuetify.display.smAndDown"
       :disabled="disabled"
-      @click="($refs.dialog as any).show()"
-    >
+      @click="($refs.dialog as any).show()">
       <v-icon v-if="!noAction" dark left :icon="action.Icon" />
       {{ action.Name }}
       <v-menu v-if="!noAction" offset-y max-width="700px">
@@ -23,13 +22,11 @@
           <v-card-text
             v-if="displayFreq"
             v-html-safe="action.Frequency.ToString()"
-            class="body-text text-text mt-0 pt-1"
-          />
+            class="body-text text-text mt-0 pt-1" />
           <v-card-text
             v-if="action.Detail"
-            v-html-safe="action.Detail"
-            class="body-text text-text mt-0 pt-1"
-          />
+            v-html-safe="byTier(action.Detail)"
+            class="body-text text-text mt-0 pt-1" />
         </v-card>
       </v-menu>
     </v-btn>
@@ -40,12 +37,12 @@
       :action="action"
       :mech="pilot.ActiveMech"
       @use="$emit('use', $event)"
-      @undo="$emit('undo', $event)"
-    />
+      @undo="$emit('undo', $event)" />
   </div>
 </template>
 
 <script lang="ts">
+import ByTier from '@/util/tierFormat';
 import { ActivationType } from '@/classes/enums';
 
 import ActionBase from './_actionBase.vue';
@@ -67,6 +64,10 @@ export default {
     unusable: { type: Boolean },
     noAction: { type: Boolean },
     pilot: { type: Object },
+    tier: {
+      type: Number,
+      required: false,
+    },
   },
   computed: {
     cost() {
@@ -79,6 +80,11 @@ export default {
     },
     displayFreq() {
       return this.action.Frequency.ToString() !== 'Unlimited';
+    },
+  },
+  methods: {
+    byTier(value: string) {
+      return ByTier(value, this.tier);
     },
   },
 };

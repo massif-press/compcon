@@ -8,8 +8,7 @@
       :items-per-page="-1"
       show-select
       hide-default-footer
-      item-key="ID"
-    >
+      item-key="ID">
       <template #[`item.NpcTemplateController.Templates`]="{ item }">
         {{ item.NpcTemplateController.Templates.map((x) => x.Name).join(', ') }}
       </template>
@@ -87,7 +86,6 @@ export default {
   methods: {
     commit() {
       const type = this.items[0].ItemType.toLowerCase();
-      console.log(type);
       const ids = this.selected.map((x) => x.ID).join(',');
       this.$router.push(`mass-print/${type}/${ids}`);
     },

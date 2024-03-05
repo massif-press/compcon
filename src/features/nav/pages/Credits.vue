@@ -135,8 +135,6 @@ export default {
       );
     }
 
-    console.log(this.active);
-
     this.loading = false;
   },
   methods: {

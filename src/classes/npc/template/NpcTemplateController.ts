@@ -60,7 +60,7 @@ class NpcTemplateController {
     this.Templates.forEach((template) => {
       let required = 0;
       let allowed = 0;
-      if (template.OptionalPerTier || template.OptionalClassPerTier) console.log(template);
+      if (template.OptionalPerTier || template.OptionalClassPerTier) console.info(template);
       if (template.OptionalMin || template.OptionalMax) {
         required = template.OptionalMax
           ? template.OptionalMin *

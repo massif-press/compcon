@@ -10,18 +10,12 @@
           variant="outlined"
           density="compact"
           label="E-Mail Address"
-          hide-details
-        />
+          hide-details />
       </v-col>
     </v-row>
     <v-row no-gutters justify="center" align="start" class="mt-n2 text-center">
       <v-col cols="auto">
-        <v-btn
-          color="secondary"
-          :disabled="!email"
-          :loading="loading"
-          @click="reset()"
-        >
+        <v-btn color="secondary" :disabled="!email" :loading="loading" @click="reset()">
           Send Password Reset E-Mail
         </v-btn>
       </v-col>
@@ -36,8 +30,7 @@
             v-model="code"
             variant="outlined"
             density="compact"
-            label="Password Reset Code"
-          />
+            label="Password Reset Code" />
         </v-col>
         <v-col lg="6" cols="12">
           <v-text-field
@@ -48,8 +41,7 @@
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show ? 'text' : 'password'"
             :rules="[rules.passLength]"
-            @click:append="show = !show"
-          />
+            @click:append="show = !show" />
         </v-col>
       </v-row>
       <v-row v-if="sent" key="b" no-gutters justify="end" class="mt-n2">
@@ -59,8 +51,7 @@
             color="primary"
             :loading="loading"
             :disabled="!newpass"
-            @click="setNewPassword()"
-          >
+            @click="setNewPassword()">
             submit
           </v-btn>
         </v-col>
@@ -68,12 +59,7 @@
     </v-slide-x-transition>
     <v-row justify="center">
       <v-col cols="auto">
-        <v-btn
-          text
-          color="accent"
-          class="mt-1"
-          @click="$emit('set-state', 'sign-in')"
-        >
+        <v-btn text color="accent" class="mt-1" @click="$emit('set-state', 'sign-in')">
           Cancel
         </v-btn>
       </v-col>
@@ -104,15 +90,12 @@ export default {
       this.loading = true;
       Auth.forgotPassword(this.email)
         .then((data) => {
-          console.log(data);
           this.loading = false;
           this.sent = true;
         })
         .catch((err) => {
-          console.log('err at first catch:', err);
           Auth.forgotPassword(this.email.toLowerCase())
             .then((data) => {
-              console.log(data);
               this.loading = false;
               this.sent = true;
             })
@@ -120,10 +103,7 @@ export default {
               console.error(err);
               this.loading = false;
               this.sent = false;
-              this.$notify(
-                `Unable to send reset e-mail: ${err.message}`,
-                'error'
-              );
+              this.$notify(`Unable to send reset e-mail: ${err.message}`, 'error');
             });
         });
     },
@@ -131,13 +111,11 @@ export default {
       this.loading = true;
       Auth.forgotPasswordSubmit(this.email, this.code, this.newpass)
         .then((data) => {
-          console.log(data);
           this.loading = false;
           this.$notify('Password changed successfully. Please log in again');
           this.$emit('set-state', 'sign-in');
         })
         .catch((err) => {
-          console.log(err);
           this.$notify(`Unable to change password: ${err.message}`, 'error');
           this.loading = false;
         });

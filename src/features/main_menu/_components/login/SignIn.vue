@@ -11,20 +11,14 @@
             label="E-Mail Address"
             density="compact"
             variant="outlined"
-            hide-details
-          />
+            hide-details />
           <div>
             <v-fade-transition>
               <div>
-                <a
-                  v-if="email && emailValid()"
-                  @click="$emit('reverify', email)"
-                >
+                <a v-if="email && emailValid()" @click="$emit('reverify', email)">
                   <i>Click here to use a verification code.</i>
                 </a>
-                <i v-else-if="!email"
-                  >Have a verification code? Enter your email to use it.</i
-                >
+                <i v-else-if="!email">Have a verification code? Enter your email to use it.</i>
                 <i v-else>Please enter a valid email address</i>
               </div>
             </v-fade-transition>
@@ -39,27 +33,20 @@
             hide-details
             :type="show ? 'text' : 'password'"
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="show = !show"
-          />
+            @click:append="show = !show" />
           <div class="text-right" @click="$emit('set-state', 'reset')">
             <a><i>Forgot Password?</i></a>
           </div>
         </v-col>
       </v-row>
-      <v-row
-        no-gutters
-        justify="center"
-        align="start"
-        class="mt-n2 text-center"
-      >
+      <v-row no-gutters justify="center" align="start" class="mt-n2 text-center">
         <v-col cols="auto">
           <v-btn
             large
             color="secondary"
             type="submit"
             :loading="loading"
-            :disabled="loading || !email || !password"
-          >
+            :disabled="loading || !email || !password">
             Sign In
           </v-btn>
           <br />
@@ -68,8 +55,7 @@
             color="accent"
             class="mt-1"
             variant="outlined"
-            @click="$emit('set-state', 'sign-up')"
-          >
+            @click="$emit('set-state', 'sign-up')">
             Create Account
           </v-btn>
         </v-col>
@@ -84,8 +70,7 @@
         density="compact"
         class="mt-2"
         icon="mdi-alert"
-        dismissible
-      >
+        dismissible>
         <div class="font-weight-bold">ERROR</div>
         <div v-html="error" />
       </v-alert>
@@ -125,7 +110,6 @@ export default {
       //     throw error;
       //   })
       //   .then((user) => {
-      //     console.log(user);
       //     localStorage.removeItem('user.config');
       //     userstore.setCognitoUser(user);
       //   })
@@ -133,7 +117,6 @@ export default {
       //     userstore.setAws({ cognitoUser: userstore.CognitoUser });
       //   })
       //   .then(() => {
-      //     console.log(userstore.UserProfile.Theme);
       //     SetTheme(userstore.UserProfile.Theme, this.$vuetify);
       //     this.$notify('Cloud Data Synchronized', 'success');
       //     this.loading = false;

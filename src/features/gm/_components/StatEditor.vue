@@ -1,5 +1,5 @@
 <template>
-  <div class="text-overline pt-2">STATS</div>
+  <div class="text-overline pt-2">{{ prefix }} STATS</div>
   <div class="px-2">
     <v-card variant="outlined" class="pa-1" style="border-color: rgb(var(--v-theme-panel))">
       <v-row dense v-if="item.StatController.DisplayKeys.length">
@@ -90,8 +90,9 @@
           </template>
           <v-card style="min-width: 30vw">
             <v-card-text>
-              This will reset all stats to T{{ item.NpcClassController.Tier }}
-              {{ item.NpcClassController.Class.Name }} default values. Are you sure?
+              This will reset all stats to T{{ controller.Tier }}
+              {{ controller.Class ? controller.Class.Name : controller.Layer.Name }} default values.
+              Are you sure?
             </v-card-text>
             <v-card-actions>
               <v-spacer />
@@ -99,7 +100,7 @@
                 variant="tonal"
                 color="error"
                 @click="
-                  item.NpcClassController.ResetStats();
+                  controller.ResetStats();
                   resetMenu = false;
                 "
                 >Reset</v-btn
@@ -123,7 +124,9 @@ export default {
   components: { EditableAttribute },
   props: {
     item: { type: Object, required: true },
+    controller: { type: Object, required: true },
     bonuses: { type: Array, default: () => [] },
+    prefix: { type: String, default: '' },
   },
   data: () => ({
     statsToAdd: [],

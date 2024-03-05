@@ -21,6 +21,7 @@ interface INpcFeatureData extends ICompendiumItemData {
   origin: string;
   base?: boolean;
   effect?: string;
+  detail?: string;
   bonus?: object;
   mod?: IFeatureModData;
   tags: ITagData[];
@@ -85,7 +86,7 @@ abstract class NpcFeature extends CompendiumItem {
   public constructor(data: INpcFeatureData, packName?: string) {
     super(data);
     this._originID = data.origin;
-    this._effect = data.effect || '';
+    this._effect = data.effect || data.detail || '';
     this._hide_active = data.hide_active || false;
     this.Base = data.base || false;
     this.LcpName = packName || 'Lancer CORE NPCs';
@@ -111,28 +112,6 @@ abstract class NpcFeature extends CompendiumItem {
       this.Mod.SetTarget();
     }
   }
-
-  // public get OriginString(): string {
-  //   return `${this.Origin.Optional ? 'Optional' : ''} ${this.Origin.Name} ${this.FeatureType}`;
-  // }
-
-  // public get OriginString(): string {
-  //   return `${this._origin.name} ${this._origin.type} - ${
-  //     !this._origin.optional ? 'Base' : 'Optional'
-  //   } ${this.FeatureType}`
-  // }
-
-  // public get OriginClass(): string {
-  //   return this._origin.name
-  // }
-
-  // public get OriginSet(): string {
-  //   return !this._origin.optional ? 'Base' : 'Optional'
-  // }
-
-  // public get IsBase(): boolean {
-  //   return !this._origin.optional;
-  // }
 
   public get EffectLength(): number {
     return (
@@ -162,10 +141,8 @@ abstract class NpcFeature extends CompendiumItem {
     const m = this._effect.match(perTier);
     if (m) {
       m.forEach((x) => {
-        console.log(x, tier);
         if (tier) {
           const tArr = x.replace('{', '').replace('}', '').split('/');
-          console.log(tArr, tier, tArr[tier - 1]);
           fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`);
         } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'));
       });

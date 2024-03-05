@@ -1,61 +1,74 @@
 <template>
-  <div>
-    <gm-collection-view
-      title="Eidolons"
-      item-type="Eidolon"
-      :items="eidolons"
-      :groupings="groupings"
-      :sortings="sortings"
-      @add-new="addNew()"
-      @open="openItem($event)"
-    />
-    <v-dialog v-model="dialog" fullscreen>
-      <v-card flat>
-        <editor
-          v-if="dialog && selected"
-          :id="selected"
-          @exit="dialog = false"
-          @copy="copyItem()"
-          @save="SaveAndClose()"
-        >
-          <builder slot="upper" :item="selected" />
-          <features slot="lower" :item="selected" />
-        </editor>
-      </v-card>
-    </v-dialog>
-  </div>
+  <gm-collection-view
+    title="Eidolons"
+    item-type="Eidolon"
+    :items="eidolons"
+    :groupings="groupings"
+    :sortings="sortings"
+    @add-new="addNew()"
+    @open="openItem($event)" />
+  <v-dialog v-model="dialog" fullscreen>
+    <v-card flat>
+      <editor
+        v-if="dialog && selected"
+        :item="selected"
+        @exit="dialog = false"
+        @save="SaveAndClose()">
+        <builder slot="upper" :item="selected" />
+      </editor>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts">
 import GmCollectionView from '../../_views/GMCollectionView.vue';
 import Editor from './editor.vue';
 import Builder from './builder.vue';
-import Features from './features.vue';
-
-// import { EidolonStore } from '@/store';
+import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
+import { NpcStore } from '@/stores';
 
 export default {
   name: 'eidolon-roster',
-  components: { GmCollectionView, Editor, Builder, Features },
+  components: { GmCollectionView, Editor, Builder },
   data: () => ({
     dialog: false,
-    selected: null,
-    groupings: ['None', 'Labels', 'Layers', 'Campaign'],
-    sortings: ['Name', 'Layers'],
+    selected: null as Eidolon | null,
   }),
   computed: {
+    groupings() {
+      const allLabelTitles = new Set(
+        NpcStore()
+          .getAllLabels.filter((x: any) => x.title.length > 0)
+          .map((x: any) => x.title)
+      );
+
+      const baseGroupings = ['None', 'Class'];
+
+      return [...baseGroupings, ...allLabelTitles];
+    },
+    sortings() {
+      const allLabelTitles = new Set(
+        NpcStore()
+          .getAllLabels.filter((x: any) => x.title.length > 0)
+          .map((x: any) => x.title)
+      );
+
+      const baseSortings = ['Name', 'Class'];
+
+      return [...baseSortings, ...allLabelTitles];
+    },
+
     eidolons() {
-      return [];
-      // return EidolonStore().Eidolons;
+      return NpcStore().getEidolons.filter((x) => !x.SaveController.IsDeleted);
     },
   },
   methods: {
-    openItem(id) {
-      this.selected = id;
+    openItem(item) {
+      this.selected = item;
       this.dialog = true;
     },
     addNew() {
-      // this.selected = 'new';
+      this.selected = new Eidolon();
       this.dialog = true;
     },
     SaveAndClose() {
@@ -65,12 +78,6 @@ export default {
       // this.$set(this, 'selected', null);
       this.selected = null;
       this.dialog = false;
-    },
-    deleteItem() {
-      console.error('NOT YET IMPLEMENTED');
-    },
-    copyItem() {
-      console.error('NOT YET IMPLEMENTED');
     },
   },
 };

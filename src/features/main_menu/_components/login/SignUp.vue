@@ -41,8 +41,7 @@
               v-model="email"
               label="E-Mail Address"
               :rules="[rules.required, rules.emailMatch]"
-              solo
-            />
+              solo />
           </v-col>
           <v-col lg="4" cols="12">
             <v-text-field
@@ -52,8 +51,7 @@
               :type="show ? 'text' : 'password'"
               solo
               :rules="[rules.required, rules.min]"
-              @click:append="show = !show"
-            />
+              @click:append="show = !show" />
           </v-col>
         </v-row>
         <v-row no-gutters justify="center">
@@ -78,8 +76,7 @@
         density="compact"
         class="mt-2"
         icon="mdi-alert"
-        dismissible
-      >
+        dismissible>
         <div class="font-weight-bold">ERROR</div>
         <div v-html="error" />
       </v-alert>
@@ -142,7 +139,7 @@ export default {
         // const userstore =UserStore()
         // userstore.clearOauth()
       } catch (error) {
-        console.log('error signing up:', error);
+        console.error('error signing up:', error);
         this.loading = false;
         this.showError = true;
         this.error = `${error.message}<br><div class='text-right'>${error.name}</div>`;

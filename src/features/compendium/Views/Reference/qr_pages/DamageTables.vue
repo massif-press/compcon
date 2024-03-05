@@ -294,8 +294,7 @@
     color="primary"
     variant="plain"
     style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
-    @click="scrollTo(content[0])"
-  >
+    @click="scrollTo(content[0])">
     <v-icon size="30">mdi-arrow-up</v-icon>
   </v-btn>
 </template>
@@ -310,7 +309,6 @@ export default {
     scrollTo(item: any): void {
       const el = document.getElementById(`${item.replace(/\W/g, '')}`);
       if (el) {
-        console.log(el);
         const yOffset = -60;
         const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
 

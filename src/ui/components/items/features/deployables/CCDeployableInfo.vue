@@ -1,14 +1,8 @@
 <template>
   <component
-    :is="
-      hover
-        ? 'deployableInfoHover'
-        : panel
-        ? 'deployableInfoPanel'
-        : 'deployableInfoPopup'
-    "
+    :is="hover ? 'deployableInfoHover' : panel ? 'deployableInfoPanel' : 'deployableInfoPopup'"
     :deployable="deployable"
-  />
+    :tier="tier" />
 </template>
 
 <script lang="ts">
@@ -33,6 +27,10 @@ export default {
     },
     hover: {
       type: Boolean,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
 };

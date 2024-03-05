@@ -11,8 +11,7 @@
           :model-value="(allUnlocked.length / nsAchievements.length) * 100"
           height="30"
           rounded="xl"
-          color="accent"
-        >
+          color="accent">
           <span class="text-overline"
             >{{ ((allUnlocked.length / nsAchievements.length) * 100).toFixed(2) }}%</span
           >
@@ -32,8 +31,7 @@
                     height="25px"
                     class="my-2"
                     rounded="md"
-                    :color="getColor({ unlocked: true, rarity: i + 1 })"
-                  >
+                    :color="getColor({ unlocked: true, rarity: i + 1 })">
                     <span style="text-transform: capitalize">{{ r }} </span>
                   </v-progress-linear>
                   <div class="text-caption font-italic mt-n2">
@@ -49,8 +47,7 @@
                     <v-progress-linear
                       :model-value="(byLabel(l).has / byLabel(l).total) * 100"
                       height="20px"
-                      color="primary"
-                    >
+                      color="primary">
                       {{ l }}
                     </v-progress-linear>
                     <div class="text-caption font-italic">
@@ -84,8 +81,7 @@
               color="accent"
               multiple
               density="compact"
-              class="py-1"
-            >
+              class="py-1">
               <v-btn size="small"> Common </v-btn>
               <v-btn size="small"> Epic </v-btn>
               <v-btn size="small"> Legendary </v-btn>
@@ -104,8 +100,7 @@
               color="accent"
               multiple
               density="compact"
-              class="py-1"
-            >
+              class="py-1">
               <v-btn size="small"> Hidden </v-btn>
             </v-btn-toggle>
           </v-col>
@@ -116,8 +111,7 @@
           multiple
           density="compact"
           variant="outlined"
-          class="mt-2"
-        >
+          class="mt-2">
           <template #selection="{ item, index }">
             <v-chip size="small" v-if="index < 11">
               <span>{{ item.title }}</span>
@@ -133,8 +127,7 @@
                 <v-checkbox-btn
                   :model-value="showLabels.length === labels.length"
                   :indeterminate="showLabels.length > 0 && showLabels.length < labels.length"
-                  @click="setAllLabels()"
-                />
+                  @click="setAllLabels()" />
               </template>
             </v-list-item>
             <v-divider />
@@ -148,24 +141,21 @@
           color="primary"
           size="small"
           class="mr-3"
-          @click="sort = sort === 'name_asc' ? 'name_desc' : 'name_asc'"
-        >
+          @click="sort = sort === 'name_asc' ? 'name_desc' : 'name_asc'">
           Name
         </v-btn>
         <v-btn
           color="primary"
           size="small"
           class="mr-3"
-          @click="sort = sort === 'rarity_asc' ? 'rarity_desc' : 'rarity_asc'"
-        >
+          @click="sort = sort === 'rarity_asc' ? 'rarity_desc' : 'rarity_asc'">
           Rarity
         </v-btn>
         <v-btn
           color="primary"
           size="small"
           class="mr-3"
-          @click="sort = sort === 'date_asc' ? 'date_desc' : 'date_asc'"
-        >
+          @click="sort = sort === 'date_asc' ? 'date_desc' : 'date_asc'">
           Date Unlocked
         </v-btn>
         <div class="pt-2 pl-12 ml-12">
@@ -176,8 +166,7 @@
             hide-details
             clearable
             variant="outlined"
-            prepend-icon="mdi-magnify"
-          />
+            prepend-icon="mdi-magnify" />
         </div>
       </v-col>
     </v-row>
@@ -190,8 +179,7 @@
         rounded="lg"
         class="ma-2"
         style="border: 2px solid"
-        :style="a.secret ? `background: linear-gradient(90deg, #991E2A 0%, #673AB7 100%);` : ''"
-      >
+        :style="a.secret ? `background: linear-gradient(90deg, #991E2A 0%, #673AB7 100%);` : ''">
         <v-row align="center" :style="a.unlocked ? '' : 'opacity: 0.4'">
           <v-col cols="auto">
             <v-icon size="70" :icon="`cc:achievement_${a.rarity}`" />
@@ -255,8 +243,7 @@
                 autofocus
                 label="Select COMP/CON Achievement Export File"
                 prepend-icon="mdi-paperclip"
-                @change="importBackup()"
-              />
+                @change="importBackup()" />
             </v-card-text>
           </v-card>
         </v-dialog>
@@ -400,7 +387,6 @@ export default {
 
       this.userAchievements.forEach((ua) => {
         const idx = this.achievements.findIndex((a) => a.id === encrypt(ua.id));
-        console.log(idx);
         if (idx !== -1) {
           this.achievements[idx].unlocked = ua.unlocked;
         }

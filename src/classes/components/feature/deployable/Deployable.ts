@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { IActionData, Action } from '../../../Action';
 import { Bonus, IBonusData } from '../bonus/Bonus';
 import { ICompendiumItemData, CompendiumItem } from '../../../CompendiumItem';
+import ByTier from '@/util/tierFormat';
 
 interface IDeployableData extends ICompendiumItemData {
   name: string;
@@ -111,6 +112,10 @@ class Deployable {
       });
     }
     return out;
+  }
+
+  public getDetail(tier?: number) {
+    return ByTier(this._detail, tier);
   }
 
   public get Icon(): string {
