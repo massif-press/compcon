@@ -82,20 +82,25 @@
     <cc-icon-divider icon="cc:campaign" class="mb-n4" />
     <v-row>
       <compendium-page-button
-        color="primary"
+        color="error"
         icon="cc:npc_class"
         name="NPC Classes"
         to="/srd/compendium/npc_classes" />
       <compendium-page-button
-        color="primary"
+        color="error"
         icon="cc:npc_feature"
         name="NPC Features"
         to="/srd/compendium/npc_features" />
       <compendium-page-button
-        color="primary"
+        color="error"
         icon="cc:npc_template"
         name="NPC Templates"
         to="/srd/compendium/npc_templates" />
+      <compendium-page-button
+        color="exotic"
+        icon="cc:monist"
+        name="Eidolon Layers"
+        to="/srd/compendium/eidolon_layers" />
       <compendium-page-button
         color="primary"
         icon="mdi-map"

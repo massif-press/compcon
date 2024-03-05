@@ -4,6 +4,7 @@ import { IDeployableData } from './components/feature/deployable/Deployable';
 import { isNumber } from 'lodash';
 import { IDamageData } from './Damage';
 import { IRangeData } from './Range';
+import ByTier from '@/util/tierFormat';
 
 interface IActionData {
   id?: string;
@@ -184,6 +185,10 @@ class Action {
       });
     }
     return out;
+  }
+
+  public getDetail(tier?: number): string {
+    return ByTier(this._detail, tier);
   }
 
   public get Uses(): number {

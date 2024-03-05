@@ -1,73 +1,60 @@
 <template>
   <editor-base
-    :item="eidolon"
-    :isNew="!!newEidolon"
+    :item="item"
     @exit="$emit('exit')"
-    @add-new="saveAsNew($event)"
+    @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
-    @copy="dupe()"
-  >
-    <builder slot="builder" :item="eidolon" />
-    <features :item="eidolon" />
+    @copy="dupe()">
+    <template v-slot:builder>
+      <builder :item="item" />
+    </template>
+    <template v-slot:stats>
+      <persistent-traits />
+    </template>
+    <tier-selector :item="item" />
+    <eidolon-layer-editor :item="item" />
   </editor-base>
 </template>
 
 <script lang="ts">
 import EditorBase from '../../../gm/_components/EditorBase.vue';
+import EidolonLayerEditor from './_components/EidolonLayerEditor.vue';
 
-// import { EidolonStore } from '@/store';
-import Features from './features.vue';
+import { NpcStore } from '@/stores';
 import Builder from './builder.vue';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
+import PersistentTraits from './_components/PersistentTraits.vue';
+import TierSelector from './_components/TierSelector.vue';
 
 export default {
   name: 'gm-eidolon-editor-base',
-  components: { Builder, Features, EditorBase },
+  components: { Builder, EditorBase, EidolonLayerEditor, PersistentTraits, TierSelector },
   props: {
-    id: { type: String, required: true },
+    item: { type: Object, required: true },
   },
-  data: () => ({
-    newEidolon: null,
-  }),
-  computed: {
-    eidolon() {
-      if (this.id === 'new') {
-        if (!this.newEidolon) this.newEidolon = new Eidolon();
-        return this.newEidolon;
-      }
-      return EidolonStore().Eidolons.find((x) => x.ID === this.id);
-    },
-  },
+  emits: ['exit'],
   methods: {
     exit() {
-      this.$set(this, 'newEidolon', null);
       this.$emit('exit');
     },
     saveAsNew() {
-      const store = EidolonStore();
-      store.addEidolon(this.eidolon);
+      NpcStore().AddNpc(this.item as Eidolon);
       this.exit();
     },
     save() {
-      const store = EidolonStore();
-      // TODO: check for and ask to update instances on save
-      store.saveEidolonData();
+      NpcStore().SaveNpcData();
       this.$emit('exit');
     },
     deleteItem() {
-      const store = EidolonStore();
-      store.deleteEidolon(this.eidolon);
+      (this.item as Eidolon).SaveController.Delete();
       this.$emit('exit');
     },
     dupe() {
-      const store = EidolonStore();
-      const dupe = Eidolon.Deserialize(Eidolon.Serialize(this.eidolon));
-      dupe.RenewID();
-      store.addEidolon(dupe);
+      NpcStore().CloneNpc(this.item as Eidolon);
       this.$emit('exit');
     },
   },
 };
 </script>
-@/classes/npc/eidolon/Eidolon
+./_components/EidolonLayerEditor.vue

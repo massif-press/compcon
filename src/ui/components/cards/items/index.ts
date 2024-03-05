@@ -18,6 +18,7 @@ import EnvironmentCard from './_EnvironmentCard.vue';
 import SitrepCard from './_SitrepCard.vue';
 import NpcClassCard from './_NpcClassCard.vue';
 import NpcTemplateCard from './_NpcTemplateCard.vue';
+import EidolonLayerCard from './_EidolonLayerCard.vue';
 
 export {
   EquipmentCardBase,
@@ -40,4 +41,5 @@ export {
   EnvironmentCard,
   NpcClassCard,
   NpcTemplateCard,
+  EidolonLayerCard,
 };

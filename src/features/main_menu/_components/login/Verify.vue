@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-row density="compact" class="panel" justify="center" align="center">
-      <v-col cols="auto" style="letter-spacing: 5px"
-        >VERIFY E-MAIL ADDRESS</v-col
-      >
+      <v-col cols="auto" style="letter-spacing: 5px">VERIFY E-MAIL ADDRESS</v-col>
     </v-row>
     <p class="body-text text-center mt-2">
       A verification code was sent to
@@ -22,33 +20,16 @@
           label="Verification Code"
           density="compact"
           variant="outlined"
-          hide-details
-        />
+          hide-details />
       </v-col>
     </v-row>
-    <v-row
-      density="compact"
-      justify="center"
-      align="start"
-      class="mt-n2 text-center"
-    >
+    <v-row density="compact" justify="center" align="start" class="mt-n2 text-center">
       <v-col cols="auto">
-        <v-btn
-          large
-          color="success"
-          :loading="loading"
-          :disabled="!verify"
-          @click="confirm"
-        >
+        <v-btn large color="success" :loading="loading" :disabled="!verify" @click="confirm">
           Confirm Verification Code
         </v-btn>
         <br />
-        <v-btn
-          text
-          color="accent"
-          class="mt-1"
-          @click="$emit('set-state', 'sign-in')"
-        >
+        <v-btn text color="accent" class="mt-1" @click="$emit('set-state', 'sign-in')">
           Cancel
         </v-btn>
       </v-col>
@@ -61,8 +42,7 @@
         density="compact"
         class="mt-2"
         icon="mdi-alert"
-        dismissible
-      >
+        dismissible>
         <div class="font-weight-bold">ERROR</div>
         <div v-html="error" />
       </v-alert>
@@ -98,10 +78,7 @@ export default {
       })
         .then((data) => {
           this.loading = false;
-          this.$notify(
-            'User Account created successfully. Redirecting to Sign-In.'
-          );
-          console.log(data);
+          this.$notify('User Account created successfully. Redirecting to Sign-In.');
           this.$emit('set-state', 'sign-in');
         })
         .catch((error) => {
@@ -112,10 +89,7 @@ export default {
     },
     resend() {
       Auth.resendSignUp(this.email).then((res) => {
-        console.log(res);
-        this.$notify(
-          `New verification e-mail sent to ${this.email.toLowerCase()}`
-        ).catch((err) => {
+        this.$notify(`New verification e-mail sent to ${this.email.toLowerCase()}`).catch((err) => {
           console.error(err);
           this.$notify(`Error sending verification e-mail: ${err}`);
         });

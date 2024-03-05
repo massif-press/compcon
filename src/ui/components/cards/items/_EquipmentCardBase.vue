@@ -33,6 +33,7 @@
               :action="a"
               :panel="!collapseActions || $vuetify.display.lgAndUp"
               :hover="dense && collapseActions"
+              :tier="tier"
               class="ma-2" />
           </v-col>
         </v-row>
@@ -56,6 +57,7 @@
               :deployable="d"
               :panel="!collapseActions || $vuetify.display.lgAndUp"
               :hover="dense && collapseActions"
+              :tier="tier"
               class="ma-2" />
           </v-col>
         </v-row>
@@ -81,7 +83,7 @@
 
       <div v-if="!footer && showFooter">
         <div v-show="!dense" class="text-overline text-disabled">//EQUIPMENT TAGS</div>
-        <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" />
+        <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />
       </div>
 
       <div v-if="notes">
@@ -102,11 +104,11 @@
       <v-footer v-if="footer && showFooter" color="panel" class="mx-n4 py-0 mt-2">
         <v-row>
           <v-col v-if="!hideTags" cols="auto">
-            <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" />
+            <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />
           </v-col>
           <v-col v-if="!hideBonuses" cols="auto" class="ml-auto">
             <div>
-              <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip />
+              <cc-bonus v-for="b in item.Bonuses" :bonus="b" chip :tier="tier" />
             </div>
           </v-col>
         </v-row>

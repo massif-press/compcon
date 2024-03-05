@@ -1,12 +1,11 @@
 <template>
-  <v-col :cols="cols" lg="4" md="6" sm="12">
+  <v-col style="min-width: 30vw">
     <v-card
       variant="tonal"
       :color="color"
       class="pa-2"
       @click="$router.push(to)"
-      :disabled="disabled"
-    >
+      :disabled="disabled">
       <v-row align="center">
         <v-col cols="auto">
           <v-icon class="icn" size="50" :color="`${color} lighten-1`">

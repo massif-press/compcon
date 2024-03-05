@@ -6,8 +6,7 @@
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove', item)"
-    @save="$emit('save')"
-  >
+    @save="$emit('save')">
     <template v-if="item" #title-items>
       <div class="text-overline mb-n4">ITEM USES</div>
       <div class="text-right">
@@ -20,8 +19,7 @@
       v-if="item"
       class="text-left"
       style="cursor: pointer !important"
-      @click="($refs as any).base.openDetail()"
-    >
+      @click="($refs as any).base.openDetail()">
       <v-card-text v-if="!readonly" class="py-0">
         <div v-html-safe="item.Description" />
       </v-card-text>
@@ -33,8 +31,7 @@
         item-type="PilotGear"
         :options="options"
         equippable
-        @equip="equip($event)"
-      >
+        @equip="equip($event)">
         <template #header>
           <div class="heading h4 text-center text-primary">Select Pilot Equipment</div></template
         >
@@ -124,8 +121,6 @@ export default {
       let gear = (CompendiumStore().PilotGear as PilotEquipment[]).filter(
         (x: PilotEquipment) => x.ItemType === ItemType.PilotGear && !x.IsHidden && !x.IsExotic
       ) as PilotGear[];
-
-      console.log(gear);
 
       if (this.exotics.length) {
         gear = gear.concat(this.exotics);

@@ -1,7 +1,7 @@
-import { FeatureController } from './FeatureController'
+import { FeatureController } from './FeatureController';
 
 interface IFeatureController {
-  FeatureController: FeatureController
+  FeatureController: FeatureController;
 }
 
-export { IFeatureController }
+export type { IFeatureController };

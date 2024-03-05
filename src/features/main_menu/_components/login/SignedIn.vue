@@ -16,13 +16,7 @@
         </v-col>
 
         <v-col cols="auto">
-          <v-btn
-            small
-            tile
-            color="warning darken-1"
-            :loading="loading"
-            @click="signOut"
-          >
+          <v-btn small tile color="warning darken-1" :loading="loading" @click="signOut">
             Sign Out
           </v-btn>
         </v-col>
@@ -39,8 +33,7 @@
             label="Old Password"
             :type="showOld ? 'text' : 'password'"
             :append-icon="showOld ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showOld = !showOld"
-          />
+            @click:append="showOld = !showOld" />
         </v-col>
         <v-col lg="6" cols="12">
           <v-text-field
@@ -51,8 +44,7 @@
             :rules="[rules.passLength, passMatch]"
             :type="showNew ? 'text' : 'password'"
             :append-icon="showNew ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showNew = !showNew"
-          />
+            @click:append="showNew = !showNew" />
         </v-col>
       </v-row>
       <v-row no-gutters justify="end" class="mt-n3">
@@ -62,8 +54,7 @@
             color="accent"
             :disabled="!oldpass || !newpass || oldpass === newpass"
             :loading="loading"
-            @click="changePass"
-          >
+            @click="changePass">
             Submit
           </v-btn>
         </v-col>
@@ -80,42 +71,28 @@
         </cc-tooltip>
       </div>
 
-      <v-alert
-        class="my-3"
-        prominent
-        icon="mdi-alert"
-        color="warning darken-2"
-        variant="outlined"
-      >
+      <v-alert class="my-3" prominent icon="mdi-alert" color="warning darken-2" variant="outlined">
         <b>Cloud Sync functionality has changed</b>
         <div class="text-text">
           Cloud auto-syncing has
           <b>changed,</b>
-          manual saving or loading to/from the cloud can be done here, or
-          through the options in the nav bar. If auto-sync is enabled, COMP/CON
-          will try to sync all local and cloud data when your account is logged
-          in.
+          manual saving or loading to/from the cloud can be done here, or through the options in the
+          nav bar. If auto-sync is enabled, COMP/CON will try to sync all local and cloud data when
+          your account is logged in.
         </div>
 
         <div v-show="!isOnV2" class="pa-2">
           <v-card
             variant="outlined"
-            style="border-color: rgb(var(--v-theme-error)); border-width: 3px"
-          >
+            style="border-color: rgb(var(--v-theme-error)); border-width: 3px">
             <div class="font-weight-bold text-text pa-2">
-              COMP/CON has determined that your cloud account is not configured
-              for the most recent backend changes. Clicking the upgrade button
-              will save a backup of your current local data and attempt to
-              update your account data. This process should take less than a
+              COMP/CON has determined that your cloud account is not configured for the most recent
+              backend changes. Clicking the upgrade button will save a backup of your current local
+              data and attempt to update your account data. This process should take less than a
               second and the app will reload itself once complete.
             </div>
             <div class="px-12 py-2">
-              <v-btn
-                block
-                class="secondary"
-                :loading="upgradeLoading"
-                @click="v2Upgrade()"
-              >
+              <v-btn block class="secondary" :loading="upgradeLoading" @click="v2Upgrade()">
                 UPGRADE
               </v-btn>
             </div>
@@ -132,8 +109,7 @@
                 On Login
                 <cc-tooltip
                   inline
-                  content="This will automatically smart sync all item and LCP data whenever the account login process is successful. If you do not log out, this will occur shortly after the application starts. "
-                >
+                  content="This will automatically smart sync all item and LCP data whenever the account login process is successful. If you do not log out, this will occur shortly after the application starts. ">
                   <v-icon start>mdi-information-outline</v-icon>
                 </cc-tooltip>
               </span>
@@ -145,12 +121,9 @@
                 hide-details
                 inset
                 color="accent"
-                @change="userUpdate()"
-              />
+                @change="userUpdate()" />
             </v-col>
-            <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"
-              ><b>ON</b></v-col
-            >
+            <v-col v-if="userProfile.SyncFrequency.cloudSync_v2" cols="auto"><b>ON</b></v-col>
             <v-col v-else cols="auto"><i>OFF</i></v-col>
           </v-row>
           <v-row density="compact" align="center">
@@ -159,8 +132,7 @@
                 Sync Remote Resources
                 <cc-tooltip
                   inline
-                  content="This will automatically attempt to sync all remote resources with the latest versions in their authors' cloud accounts. Remote data cannot be saved to your own cloud account."
-                >
+                  content="This will automatically attempt to sync all remote resources with the latest versions in their authors' cloud accounts. Remote data cannot be saved to your own cloud account.">
                   <v-icon start>mdi-information-outline</v-icon>
                 </cc-tooltip>
               </span>
@@ -172,12 +144,9 @@
                 hide-details
                 inset
                 color="accent"
-                @change="userUpdate()"
-              />
+                @change="userUpdate()" />
             </v-col>
-            <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"
-              ><b>ON</b></v-col
-            >
+            <v-col v-if="userProfile.SyncFrequency.remotes" cols="auto"><b>ON</b></v-col>
             <v-col v-else cols="auto"><i>OFF</i></v-col>
           </v-row>
         </v-card-text>
@@ -189,8 +158,7 @@
       <backup-manager
         ref="backup"
         :username="userProfile.Username"
-        @change="($refs.sync as any).fetch()"
-      />
+        @change="($refs.sync as any).fetch()" />
 
       <v-scroll-y-transition leave-absolute hide-on-leave>
         <v-alert
@@ -201,8 +169,7 @@
           density="compact"
           class="mt-2"
           icon="mdi-alert"
-          dismissible
-        >
+          dismissible>
           <div class="font-weight-bold">ERROR</div>
           <div v-html="error" />
         </v-alert>
@@ -256,10 +223,7 @@ export default {
       return UserStore().UserProfile;
     },
     isOnV2() {
-      return (
-        this.userProfile &&
-        _.has(this.userProfile.SyncFrequency, 'cloudSync_v2')
-      );
+      return this.userProfile && _.has(this.userProfile.SyncFrequency, 'cloudSync_v2');
     },
   },
   mounted() {
@@ -323,7 +287,7 @@ export default {
       //   });
     },
     userUpdate() {
-      // UpdateUserData(this.userProfile).then((res) => console.log(res));
+      // UpdateUserData(this.userProfile).then((res) => console.info(res));
     },
     copyIid() {
       // navigator.clipboard

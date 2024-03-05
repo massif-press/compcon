@@ -34,6 +34,7 @@ import Combat from './Views/Reference/Combat.vue';
 import Narrative from './Views/Reference/Narrative.vue';
 import Errata from './Views/Reference/Errata.vue';
 import Glossary from './Views/Reference/Glossary.vue';
+import EidolonLayers from './Views/Compendium/EidolonLayers.vue';
 // import ActionEconomy from './Views/Reference/ActionEconomy.vue';
 
 const routes = [
@@ -88,6 +89,10 @@ const routes = [
   {
     path: 'compendium/npc_templates',
     component: NpcTemplates,
+  },
+  {
+    path: 'compendium/eidolon_layers',
+    component: EidolonLayers,
   },
   {
     path: 'compendium/statuses',

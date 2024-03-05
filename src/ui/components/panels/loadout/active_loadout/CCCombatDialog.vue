@@ -4,26 +4,16 @@
     :fullscreen="$vuetify.display.mdAndDown"
     :style="$vuetify.display.mdAndDown ? `x-overflow: hidden` : ''"
     width="85vw"
-    class="suppress-horiz"
-  >
-    <v-card
-      tile
-      class="background suppress-horiz"
-      style="min-height: 175px; height: 100%"
-    >
+    class="suppress-horiz">
+    <v-card tile class="background suppress-horiz" style="min-height: 175px; height: 100%">
       <action-titlebar
         :used="action.Used"
         :no-action="noAction"
         :action="action"
         :mech="mech"
-        @hide="hide()"
-      />
+        @hide="hide()" />
       <v-card-text class="pt-1 pb-0">
-        <cc-active-synergy
-          :locations="action.SynergyLocations"
-          :mech="mech"
-          class="mb-n4"
-        />
+        <cc-active-synergy :locations="action.SynergyLocations" :mech="mech" class="mb-n4" />
         <component
           :is="component"
           v-if="component"
@@ -33,16 +23,14 @@
           :mech="mech"
           :action="action"
           @use="use($event)"
-          @hide="hide()"
-        />
+          @hide="hide()" />
       </v-card-text>
       <tech-attack
         v-if="action.IsTechAttack"
         :used="action.IsItemAction ? action.Used : techAttack"
         :action="action"
         :mech="mech"
-        @techAttackComplete="techAttackComplete($event)"
-      />
+        @techAttackComplete="techAttackComplete($event)" />
       <action-confirm-log
         ref="log"
         :used="displayLog"
@@ -51,8 +39,7 @@
         :log-override="logOverride"
         :hide-log="action && action.ID === 'act_self_destruct'"
         @undo="undo()"
-        @hide="hide()"
-      />
+        @hide="hide()" />
     </v-card>
   </v-dialog>
 </template>
@@ -169,7 +156,7 @@ export default {
     },
     hide() {
       if (!(this.$refs.c as any).init) {
-        console.log('no init fn', (this.$refs.c as any).name);
+        console.error('no init fn', (this.$refs.c as any).name);
       } else {
         (this.$refs.c as any).init();
         (this.$refs.log as any).init();

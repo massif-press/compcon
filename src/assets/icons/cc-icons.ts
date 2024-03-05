@@ -83,7 +83,7 @@ import repair from './svg/repair.vue';
 import reserve_mech from './svg/reserve_mech.vue';
 import reserve_tactical from './svg/reserve_tactical.vue';
 import reserve_resource from './svg/orbital.vue';
-import reticule from './svg/reticule.vue';
+import reticle from './svg/reticle.vue';
 import role_artillery from './svg/role-artillery.vue';
 import role_controller from './svg/role-controller.vue';
 import role_defender from './svg/role-defender.vue';
@@ -208,7 +208,7 @@ const svgs: any = {
   reserve_mech,
   reserve_tactical,
   reserve_resource,
-  reticule,
+  reticle,
   role_artillery,
   role_controller,
   role_defender,

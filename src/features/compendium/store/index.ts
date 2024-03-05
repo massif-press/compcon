@@ -30,6 +30,7 @@ import { GetAll, RemoveItem, SetItem } from '@/io/Storage';
 import { NpcFeature } from '@/classes/npc/feature/NpcFeature';
 import { NpcClass, NpcComparison } from '@/classes/npc/class/NpcClass';
 import { NpcTemplate } from '@/classes/npc/template/NpcTemplate';
+import { EidolonLayer } from '@/classes/npc/eidolon/EidolonLayer';
 
 const hydratedKeys = {
   npc_classes: 'NpcClasses',
@@ -52,6 +53,7 @@ const hydratedKeys = {
   environments: 'Environments',
   sitreps: 'Sitreps',
   pilot_gear: 'PilotGear',
+  eidolon_layers: 'EidolonLayers',
 };
 
 function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }): T[] {
@@ -121,6 +123,7 @@ export const CompendiumStore = defineStore('compendium', {
     NpcClasses: (state) => collect<NpcClass>(state, 'npc_classes', NpcClass),
     NpcTemplates: (state) => collect<NpcTemplate>(state, 'npc_templates', NpcTemplate),
     NpcFeatures: (state) => collect<NpcFeature>(state, 'npc_features'),
+    EidolonLayers: (state) => collect<EidolonLayer>(state, 'eidolon_layers'),
     Bonds: (state) => collect<Bond>(state, 'bonds', Bond),
     Backgrounds: (state) => collect<Background>(state, 'backgrounds', Background),
     Talents: (state) => collect<Talent>(state, 'talents', Talent),

@@ -11,8 +11,7 @@
       color="primary"
       large
       :title="label"
-      @confirm="save()"
-    >
+      @confirm="save()">
       <quill-editor theme="snow" v-model:content="text" content-type="html" />
     </cc-solo-dialog>
   </div>
@@ -47,8 +46,6 @@ export default {
   },
   methods: {
     save() {
-      console.log('here');
-      console.log(this.text);
       this.$emit('save', this.text);
       (this.$refs.dialog as any).hide();
     },

@@ -50,6 +50,25 @@ export default async function (): Promise<void> {
 
     console.info('core NPCs loaded');
   }
+
+  if (CompendiumStore().ContentPacks.some((x) => x.Name === 'No Room for a Wallflower NPCs')) {
+    console.log('eidolon test loaded already');
+  } else {
+    const npcExhibitionData = await getLcpPresigned('eidolon_test.lcp');
+    const npcData = npcExhibitionData.data.data;
+    const uint8Array = new Uint8Array(npcData);
+
+    let binaryString = '';
+    uint8Array.forEach((byte) => {
+      binaryString += String.fromCharCode(byte);
+    });
+
+    const contentPack = await parseContentPack(binaryString as string);
+    contentPack.active = true;
+    await CompendiumStore().installContentPack(contentPack);
+
+    console.info('Eidolon test loaded');
+  }
   // sideload end
 
   // const missing = { pilots: [] as PilotData[], npcs: [] as NpcData[] };

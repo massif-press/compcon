@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Layer Order",
+    "detail": "Only one of the Eidolon’s layers is active at a time and only the active layer is a valid target that can take damage."
+  },
+  {
+    "name": "Metamorphosis",
+    "detail": "When the active layer reaches 0 HP, that layer is destroyed, evaporating from the field. The Eidolon and its shards clear all statuses and conditions, and all other effects targeting them immediately end (including GRAPPLE, etc). The Eidolon remains, occupying the same space and providing obstruction as a blurring, shifting image, but it and all its shards gain IMMUNITY to all damage and effects until the start of its next turn. At the start of that turn, a new layer manifests and any effects specific to that layer begin (including the creation of new shards, etc)."
+  },
+  {
+    "name": "Predictable",
+    "detail": "The Eidolon can take any actions available to an NPC (QUICK TECH, HIDE, etc.) but always performs any special actions available to its current layer first, if possible. Each layer profile presents a suggested order, but these are not mandatory. Unless stated otherwise, shards can only take a standard move."
+  },
+  {
+    "name": "Memetic Weapons",
+    "detail": "Eidolons have a new type of weapons: MEMETIC weapons. These weapons ignore engagement and do not affect allied characters, even if they are caught in their area of effect."
+  },
+  {
+    "name": "Bonus Activations",
+    "detail": "Each round, the Eidolon takes one turn for every two mech characters hostile to it in the combat, to a maximum of four turns. It regains spent reactions at the start of each of its turns, though 1/round effects only refresh on its first turn each round."
+  },
+  {
+    "name": "Ominous Hovering",
+    "detail": "The Eidolon and its shards can fly equal to their SPEED and hover, but never willingly move more than 1 space above the ground or any other surface. They never fall; if forced to land, they will always descend safely to the ground."
+  },
+  {
+    "name": "Incomprehensible",
+    "detail": "SCAN (and other abilities that reveal an NPCs statistics) provide no information about the Eidolon or its shards. Instead, characters that SCAN the Eidolon or try to reveal its statistics receive hints about the active layer’s capabilities (listed in the layer profile under “Hints”)."
+  }
+]

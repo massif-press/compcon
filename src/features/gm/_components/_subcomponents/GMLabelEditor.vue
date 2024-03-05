@@ -151,7 +151,6 @@ export default {
   watch: {
     dialog(val) {
       if (!val) {
-        console.log(this.item.NarrativeController.Labels);
         this.item.NarrativeController.Labels = this.item.NarrativeController.Labels.filter(
           (label) => label.title.length > 0
         );

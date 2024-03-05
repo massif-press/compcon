@@ -12,6 +12,10 @@ export default {
       type: Object,
       required: true,
     },
+    tier: {
+      type: Number,
+      required: false,
+    },
   },
 };
 </script>

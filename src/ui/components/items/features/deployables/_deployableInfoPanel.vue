@@ -21,7 +21,7 @@
           </v-chip>
         </v-col>
       </v-row>
-      <deployable-info-base :deployable="deployable" />
+      <deployable-info-base :deployable="deployable" :tier="tier" />
     </div>
   </v-alert>
 </template>
@@ -36,6 +36,10 @@ export default {
     deployable: {
       type: Object,
       required: true,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
   computed: {

@@ -8,6 +8,8 @@ import GMFactionCard from './GMFactionCard.vue';
 import GMFactionListItem from './GMFactionListItem.vue';
 import GMLocationCard from './GMLocationCard.vue';
 import GMLocationListItem from './GMLocationListItem.vue';
+import GMEidolonCard from './GMEidolonCard.vue';
+import GMEidolonListItem from './GMEidolonListItem.vue';
 
 export {
   GMCharacterCard,
@@ -20,4 +22,6 @@ export {
   GMLocationListItem,
   GMUnitCard,
   GMUnitListItem,
+  GMEidolonCard,
+  GMEidolonListItem,
 };

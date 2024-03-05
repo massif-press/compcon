@@ -23,7 +23,7 @@
           {{ action.Frequency.ToString() }}
         </v-chip>
       </v-toolbar>
-      <action-base :action="action" />
+      <action-base :action="action" :tier="tier" />
     </v-card>
   </v-menu>
 </template>
@@ -38,6 +38,10 @@ export default {
     action: {
       type: Object,
       required: true,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
 };

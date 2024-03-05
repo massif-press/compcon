@@ -1,72 +1,115 @@
-import { BrewController } from '@/classes/components/brew/BrewController';
-import { EidolonShard, EidolonShardData } from './EidolonShard';
-import { Eidolon } from './Eidolon';
-import { SaveController, CloudController, PortraitController } from '@/classes/components';
-import { NarrativeController } from '@/classes/narrative/NarrativeController';
-import { Npc, NpcData } from '../Npc';
+import { NpcClassStats } from '../class/NpcClassStats';
+import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
+import { NpcFeatureFactory } from '../feature/NpcFeatureFactory';
+import { EidolonShard, IEidolonShardData } from './EidolonShard';
 
-class EidolonLayerData extends NpcData {
-  index!: number;
-  shards!: EidolonShardData[];
+interface IEidolonLayerData {
+  id: string;
+  name: string;
+  appearance: string;
+  hints: string;
+  rules: string;
+  features: INpcFeatureData[];
+  shards: IEidolonShardData;
 }
 
-class EidolonLayer extends Npc {
-  public readonly Parent: Eidolon;
-  public readonly ItemType: string = 'eidolon_layer';
-  public readonly Required: boolean = false;
+const layer_stats = {
+  hull: [1, 2, 3],
+  agility: [1, 2, 3],
+  systems: [1, 2, 3],
+  engineering: [1, 2, 3],
+  hp: [10, 15, 20],
+  armor: 0,
+  size: 2,
+  heatcap: 10,
+  evade: [10, 12, 14],
+  edef: [10, 12, 14],
+  save: [12, 14, 16],
+  speed: 5,
+  sensor: 20,
+  activations: 1,
+};
 
-  public LayerIndex: number;
-  public ActiveShards: EidolonShard[] = [];
+class EidolonLayer {
+  public readonly ItemType = 'EidolonLayer';
+  public readonly LcpName: string;
+  public readonly InLcp: boolean;
+  public readonly HpPerPlayer: number = 5;
 
-  public constructor(parent: Eidolon, data: EidolonLayerData) {
-    super();
-    this.Parent = parent;
-    this.ActiveShards = data.shards
-      ? data.shards.map((s) => EidolonShard.Deserialize(s, this))
-      : [];
-    this.LayerIndex = data.index;
-    if (data.index === 0) this.Required = true;
+  public readonly Appearance: string;
+  public readonly Hints: string;
+  public readonly Features: NpcFeature[];
+  public readonly Shards: EidolonShard;
 
-    this.Name = data._name || `New Eidolon Layer`;
+  private _id: string;
+  private _name: string;
+  private _rules: string;
+
+  private _stats: NpcClassStats;
+
+  public static EidolonLayerBaseStats = layer_stats;
+
+  public constructor(data: IEidolonLayerData, packName?: string) {
+    this._id = data.id;
+    this._name = data.name;
+    this._stats = new NpcClassStats(layer_stats);
+    this._rules = data.rules;
+    this.LcpName = packName || 'Lancer CORE NPCs';
+
+    this.Appearance = data.appearance;
+    this.Hints = data.hints;
+
+    this.Features = data.features.map((f) => NpcFeatureFactory.Build(f));
+    this.Shards = new EidolonShard(data.shards);
+    this.InLcp = true;
   }
 
-  public get Active(): boolean {
-    return this.LayerIndex === this.Parent.ActiveLayerIndex;
+  public get ID(): string {
+    return this._id;
   }
 
-  public static Serialize(e: EidolonLayer): EidolonLayerData {
-    let data = {
-      id: e.ID,
-      name: e.Name,
-      note: e.Note,
-      index: e.LayerIndex,
-      shards: e.ActiveShards.map((s) => EidolonShard.Serialize(s)),
-    };
-
-    SaveController.Serialize(e, data);
-    CloudController.Serialize(e, data);
-    PortraitController.Serialize(e, data);
-    BrewController.Serialize(e, data);
-    NarrativeController.Serialize(e, data);
-
-    return data as EidolonLayerData;
+  public get Name(): string {
+    return this._name;
   }
 
-  public Serialize<EidolonLayerData>(): EidolonLayerData {
-    return EidolonLayer.Serialize(this) as EidolonLayerData;
+  public get Stats(): NpcClassStats {
+    return this._stats;
   }
 
-  public static Deserialize(data: EidolonLayerData, parent: Eidolon): EidolonLayer {
-    return new EidolonLayer(parent, data);
+  public get Rules(): string {
+    if (!this._rules) return '';
+    let out = this._rules;
+    const perTier = /(\{.*?\})/gi;
+    const matches = out.match(perTier);
+    if (matches) {
+      matches.forEach((m) => {
+        out = out.replace(m, m.replace('{', '<b class="text-accent">').replace('}', '</b>'));
+      });
+    }
+    return out;
   }
 
-  public Clone<EidolonLayer>(): EidolonLayer {
-    const itemData = EidolonLayer.Serialize(this);
-    const newItem = EidolonLayer.Deserialize(itemData, this.Parent);
-    newItem.RenewID();
-    newItem.Name += ' (COPY)';
-    return newItem as EidolonLayer;
+  public RulesByTier(tier: number): string {
+    if (!this._rules) return '';
+    let fmt = this._rules;
+    const perTier = /(\{.*?\})/g;
+    const m = this._rules.match(perTier);
+    if (m) {
+      m.forEach((x) => {
+        if (tier) {
+          const tArr = x.replace('{', '').replace('}', '').split('/');
+          fmt = fmt.replace(x, `<b class="text-accent">${tArr[tier - 1]}</b>`);
+        } else fmt = fmt.replace(x, x.replace('{', '<b class="text-accent">').replace('}', '</b>'));
+      });
+    }
+    return fmt;
+  }
+
+  //TODO: passthrough for datatable until bug gets fixed
+  public get ShardCount(): string {
+    return this.Shards.CountString;
   }
 }
 
-export { EidolonLayer, EidolonLayerData };
+export { EidolonLayer };
+export type { IEidolonLayerData };

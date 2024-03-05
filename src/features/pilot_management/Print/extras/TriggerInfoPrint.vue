@@ -29,7 +29,6 @@ export default {
   },
   computed: {
     triggers() {
-      console.log(this.pilot);
       return CompendiumStore().Skills.filter((s) =>
         this.pilot.SkillsController.Skills.some((x) => x.Skill.ID === s.ID)
       );

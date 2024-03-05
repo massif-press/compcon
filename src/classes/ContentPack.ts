@@ -42,6 +42,7 @@ import { INpcClassData, NpcClass } from './npc/class/NpcClass';
 import { INpcFeatureData, NpcFeature } from './npc/feature/NpcFeature';
 import { INpcTemplateData, NpcTemplate } from './npc/template/NpcTemplate';
 import { NpcFeatureFactory } from './npc/feature/NpcFeatureFactory';
+import { EidolonLayer, IEidolonLayerData } from './npc/eidolon/EidolonLayer';
 
 type ContentPackDependency = {
   name: string;
@@ -76,6 +77,8 @@ interface IContentPackData {
   npcClasses: INpcClassData[];
   npcFeatures: INpcFeatureData[];
   npcTemplates: INpcTemplateData[];
+
+  eidolonLayers: IEidolonLayerData[];
 
   bonds: IBondData[];
 
@@ -171,6 +174,8 @@ class ContentPack {
     self._PlayerActions = self._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
     );
+
+    self._EidolonLayers = self._data.eidolonLayers.map((x) => new EidolonLayer(x));
 
     self._Environments =
       self._data.environments?.map((x) => new Environment(x, self._manifest.name)) || [];
@@ -286,9 +291,9 @@ class ContentPack {
     return this._NpcFeatures;
   }
 
-  private _EidolonFeatures: NpcFeature[] = [];
-  public get EidolonFeatures(): NpcFeature[] {
-    return this._EidolonFeatures;
+  private _EidolonLayers: EidolonLayer[] = [];
+  public get EidolonLayers(): EidolonLayer[] {
+    return this._EidolonLayers;
   }
 
   private _Statuses: Status[] = [];

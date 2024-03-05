@@ -15,7 +15,7 @@
         </v-chip>
       </v-col>
     </v-row>
-    <action-base :action="action" />
+    <action-base :action="action" :tier="tier" />
   </v-alert>
 </template>
 
@@ -29,6 +29,10 @@ export default {
     action: {
       type: Object,
       required: true,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
 };

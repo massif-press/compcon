@@ -8,8 +8,7 @@
     density="compact"
     hide-details
     @change="stageImport"
-    @click:clear="reset"
-  />
+    @click:clear="reset" />
   <v-row v-if="stagedPilots.length" justify="end">
     <v-col cols="auto">
       <v-checkbox
@@ -17,8 +16,7 @@
         color="accent"
         :label="`Import Pilots (${stagedPilots.length})`"
         density="compact"
-        hide-details
-      />
+        hide-details />
     </v-col>
   </v-row>
   <v-card v-if="stagedPilots.length && missingContent.length">
@@ -48,8 +46,7 @@
             color="accent"
             prepend-icon="mdi-plus"
             :disabled="missingContent.length > 0"
-            @click="importFile()"
-          >
+            @click="importFile()">
             Import {{ (stagedData as any).name }}
             <span v-if="stagedPilots.length && importPilots">
               &nbsp;and {{ stagedPilots.length }} Pilot{{
@@ -125,8 +122,6 @@ export default {
       const exists = PilotStore().PilotGroups.find(
         (x) => x.Name === groupExportData.groupData.name
       );
-
-      console.log(exists);
 
       if (exists && !exists.SaveController.IsDeleted) {
         this.alreadyPresent =

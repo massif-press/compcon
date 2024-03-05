@@ -9,8 +9,7 @@
     single-line
     :disabled="disabled"
     :placeholder="`Search the ${loc}`"
-    @keyup.enter="search"
-  />
+    @keyup.enter="search" />
 </template>
 
 <script lang="ts">
@@ -34,7 +33,6 @@ export default {
   },
   methods: {
     search() {
-      console.log(this.searchText);
       this.$router.push(`srd/${this.loc.toLowerCase()}/search?search=${this.searchText}`);
     },
   },

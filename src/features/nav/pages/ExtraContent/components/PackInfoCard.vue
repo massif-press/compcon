@@ -14,8 +14,7 @@
               variant="outlined"
               color="secondary"
               size="small"
-              class="mr-2 mb-1 text-overline"
-            >
+              class="mr-2 mb-1 text-overline">
               <v-avatar color="secondary" start v-text="item.count" />
               {{ item.name }}
             </v-chip>
@@ -39,14 +38,12 @@
               :variant="d(item).installed ? 'outlined' : 'tonal'"
               :color="d(item).installed ? 'secondary' : 'error'"
               size="small"
-              class="ma-1 pa-1"
-            >
+              class="ma-1 pa-1">
               <div class="font-weight-bold">
                 <v-icon
                   :icon="d(item).installed ? 'mdi-check' : 'mdi-close'"
                   :color="d(item).installed ? 'success' : 'error'"
-                  class="mr-1"
-                />{{ d(item).name }} @ {{ d(item).version }}
+                  class="mr-1" />{{ d(item).name }} @ {{ d(item).version }}
               </div>
               <div
                 class="text-caption px-2"
@@ -56,8 +53,7 @@
                     : `${manifest.name} requires Lancer Content Pack <b>${
                         d(item).name
                       } at version ${d(item).version}</b> to be installed before it can be loaded.`
-                "
-              />
+                " />
               <div v-if="d(item).link" class="text-caption px-2 text-right">
                 <a :href="d(item).link" target="_blank" rel="noopener noreferrer"
                   ><v-icon size="small" icon="mdi-download" />{{ d(item).name }}</a
@@ -76,8 +72,7 @@
             color="secondary"
             variant="outlined"
             size="small"
-            block
-          >
+            block>
             <v-icon prepend class="mr-1">mdi-open-in-new</v-icon>
             &nbsp;Website
           </v-btn>
@@ -121,6 +116,7 @@ export default {
       factions: ['faction', 'factions'],
       sitreps: ['SITREP', 'SITREPs'],
       tables: ['Data Table', 'Data Tables'],
+      eidolonLayers: ['Eidolon Layer', 'Eidolon Layers'],
     },
   }),
 

@@ -14,7 +14,7 @@
         <span class="heading h3">{{ deployable.Name }}</span>
       </v-toolbar>
       <v-card-text class="mt-n3">
-        <deployable-info-base :deployable="deployable" />
+        <deployable-info-base :deployable="deployable" :tier="tier" />
       </v-card-text>
     </v-card>
   </v-menu>
@@ -30,6 +30,10 @@ export default {
     deployable: {
       type: Object,
       required: true,
+    },
+    tier: {
+      type: Number,
+      required: false,
     },
   },
 };

@@ -138,7 +138,6 @@ export default {
       if (!file) return;
       let content = [] as any[];
       const data = await ImportData<any>(file.target.files[0]);
-      console.log(data);
       if (data.type && data.type === 'collection') content = data.data;
       else content.push(data);
 

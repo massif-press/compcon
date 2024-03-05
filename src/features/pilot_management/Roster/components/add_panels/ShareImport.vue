@@ -13,16 +13,14 @@
           style="min-width: 300px"
           @click:clear="reset"
           @keyup="sanitizeShareCode()"
-          :readonly="!!searchResults"
-        />
+          :readonly="!!searchResults" />
       </v-col>
       <v-col cols="auto">
         <v-btn
           color="accent"
           :disabled="shareCode && shareCode.length !== 6"
           :loading="loading"
-          @click="search()"
-        >
+          @click="search()">
           <v-icon large left>mdi-account-search</v-icon>
           Search
         </v-btn>
@@ -87,8 +85,7 @@
               large
               color="secondary"
               :disabled="missingContent.length > 0"
-              @click="importAsCopy()"
-            >
+              @click="importAsCopy()">
               <v-icon large left>mdi-plus</v-icon>
               Import {{ stagedData.callsign }} ({{ stagedData.name }}) as&nbsp;
               <b>a copy</b>
@@ -99,8 +96,7 @@
               large
               color="secondary"
               :disabled="missingContent.length > 0 || alreadyPresentItem || isSameUser"
-              @click="importAsRemote()"
-            >
+              @click="importAsRemote()">
               <v-icon large left>mdi-plus</v-icon>
               Import {{ stagedData.callsign }} ({{ stagedData.name }}) as&nbsp;
               <b>a remote resource</b>
@@ -110,8 +106,7 @@
               will create a
               <b>read-only</b>
               version of this pilot in your roster that can be updated when the owner of this data
-              publishes changes to their cloud account. Remote data cannot be saved to your own cloud account. An editable local copy of a remote resource pilot can be made by duplicating the pilot (Pilot Options > Clone > Duplicate)"
-              >
+              publishes changes to their cloud account. Remote data cannot be saved to your own cloud account. An editable local copy of a remote resource pilot can be made by duplicating the pilot (Pilot Options > Clone > Duplicate)">
                 <v-icon end>mdi-information-outline</v-icon>
               </cc-tooltip>
             </v-btn>
@@ -230,7 +225,6 @@ export default {
       this.stagedData = this.pilotData;
     },
     importAsCopy() {
-      console.log('importing as copy');
       try {
         this.pilotData.name += '※';
         this.pilotData.callsign += '※';
@@ -249,7 +243,6 @@ export default {
       }
     },
     importAsRemote() {
-      console.log('importing as remote');
       try {
         const importPilot = Pilot.Deserialize(this.stagedData);
         const record = this.searchResults.Item;

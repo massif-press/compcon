@@ -151,7 +151,6 @@ const HorusChat = async (output) => {
     './src/features/main_menu/_components/startup_logs/horus_chat/chat.txt'
   )) as string[];
   chat = chat as string[];
-  console.log(chat);
 
   let mods = (await fetchData(
     './src/features/main_menu/_components/startup_logs/horus_chat/mods.txt'

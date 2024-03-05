@@ -6,8 +6,7 @@
     color="primary"
     class="clipped-large no-print"
     density="compact"
-    style="z-index: 50"
-  >
+    style="z-index: 50">
     <v-tooltip location="bottom" open-delay="500ms">
       <template #activator="{ props }">
         <v-btn icon variant="plain" size="45" v-bind="props" @click="historyNav(-1)">
@@ -33,8 +32,7 @@
           variant="plain"
           size="45"
           v-bind="props"
-          @click="$router.push({ name: 'main-menu' })"
-        >
+          @click="$router.push({ name: 'main-menu' })">
           <v-icon color="white" icon="mdi-home" />
         </v-btn>
       </template>
@@ -48,8 +46,7 @@
           variant="plain"
           size="45"
           v-bind="props"
-          @click="$router.push({ path: '/srd' })"
-        >
+          @click="$router.push({ path: '/srd' })">
           <v-icon color="white" icon="mdi-book" />
         </v-btn>
       </template>
@@ -70,8 +67,7 @@
     <cc-tooltip
       v-if="$vuetify.display.mdAndUp && isAuthed"
       location="bottom"
-      content="Open cloud account menu"
-    >
+      content="Open cloud account menu">
       <v-btn icon variant="plain" size="45" dark @click="($refs.cloudModal as any).show()">
         <v-icon icon="mdi-cloud-sync-outline" />
       </v-btn>
@@ -123,8 +119,7 @@
       no-pad
       large
       no-confirm
-      title="Manage Content Packs"
-    >
+      title="Manage Content Packs">
       <content-page />
     </cc-solo-dialog>
 
@@ -134,8 +129,7 @@
       no-confirm
       no-pad
       no-title-clip
-      title="Options & User Profile"
-    >
+      title="Options & User Profile">
       <options-page />
     </cc-solo-dialog>
     <cc-solo-dialog ref="aboutModal" large no-confirm title="About"><about-page /></cc-solo-dialog>
@@ -154,8 +148,7 @@
       fullscreen
       no-confirm
       no-title-clip
-      title="Achievements"
-    >
+      title="Achievements">
       <achievements-page />
     </cc-solo-dialog>
   </v-app-bar>
@@ -200,7 +193,6 @@ export default {
   },
   computed: {
     hide(): boolean {
-      console.log(this.$route.path);
       if (this.$route.path === '/') return true;
       return false;
     },
