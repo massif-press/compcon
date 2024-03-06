@@ -17,6 +17,26 @@
           <v-icon>mdi-pencil-outline</v-icon>
         </v-btn>
       </template>
+      <template v-slot:item.Layers="{ item }">
+        <v-chip
+          v-for="l in item.Layers"
+          label
+          size="x-small"
+          prepend-icon="mdi-layers"
+          class="mr-1">
+          {{ l.Layer.Name }}
+        </v-chip>
+      </template>
+      <template v-slot:item.Templates="{ item }">
+        <v-chip
+          v-for="t in item.NpcTemplateController.Templates"
+          label
+          size="x-small"
+          prepend-icon="cc:npc_template"
+          class="mr-1">
+          {{ t.Name }}
+        </v-chip>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -38,7 +58,7 @@ export default {
   computed: {
     headers() {
       const statHeaders = [] as any[];
-      if ((this.items[0] as any).StatController) {
+      if (this.items.length && (this.items[0] as any).StatController) {
         const stats = _.uniqBy(
           this.items.map((x: any) => x.StatController.DisplayKeys).flat(),
           'key'
@@ -55,7 +75,7 @@ export default {
       }
 
       const labelHeaders = [] as any[];
-      if ((this.items[0] as any).NarrativeController) {
+      if (this.items.length && (this.items[0] as any).NarrativeController) {
         const labels = new Set(
           this.items.flatMap((x: any) => x.NarrativeController.Labels).map((x) => x.title)
         );
