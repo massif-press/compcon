@@ -29,6 +29,8 @@ class NpcData {
 
   name!: string;
   note!: string;
+  description!: string;
+  gmDescription!: string;
 }
 
 abstract class Npc
@@ -46,13 +48,19 @@ abstract class Npc
   public NarrativeController: NarrativeController;
 
   private _id: string;
-  protected _name: string = 'New NPC';
-  private _note: string = '';
+  protected _name: string;
+  private _note: string;
+  private _description: string;
+  private _gmDescription: string;
   static ID: string;
   static Name: string;
 
   public constructor(data?: NpcData) {
     this._id = data ? data.id : uuid();
+    this._note = data ? data.note : '';
+    this._description = data ? data.description : '';
+    this._gmDescription = data ? data.gmDescription : '';
+
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
     this.CloudController = new CloudController(this);
@@ -111,6 +119,24 @@ abstract class Npc
 
   public set Note(val: string) {
     this._note = val;
+    this.SaveController.save();
+  }
+
+  public get Description(): string {
+    return this._description;
+  }
+
+  public set Description(val: string) {
+    this._description = val;
+    this.SaveController.save();
+  }
+
+  public get GmDescription(): string {
+    return this._gmDescription;
+  }
+
+  public set GmDescription(val: string) {
+    this._gmDescription = val;
     this.SaveController.save();
   }
 }

@@ -85,6 +85,8 @@ class Unit extends Npc implements IStatContainer {
       name: unit.Name,
       tag: unit.Tag,
       note: unit.Note,
+      description: unit.Description,
+      gmDescription: unit.GmDescription,
     };
 
     SaveController.Serialize(unit, data);

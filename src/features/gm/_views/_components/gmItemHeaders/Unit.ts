@@ -1,38 +1,34 @@
 export default [
+  { text: '', value: 'ItemType', align: 'right' },
   {
-    text: 'Name',
+    title: 'Name',
     align: 'start',
     value: 'Name',
     groupable: false,
   },
   {
-    text: 'Class',
+    title: 'Class',
     align: 'start',
     value: 'NpcClassController.Class.Name',
     groupable: true,
   },
   {
-    text: 'Tier',
+    title: 'Tier',
     align: 'start',
     value: 'NpcClassController.Tier',
     groupable: true,
   },
   {
-    text: 'Tag',
+    title: 'Tag',
     align: 'start',
     value: 'Tag',
     groupable: true,
   },
   {
-    text: 'Templates',
+    title: 'Templates',
+    key: 'Templates',
     align: 'start',
     value: 'NpcTemplateController.Templates',
     groupable: true,
   },
-  {
-    text: 'Labels',
-    value: 'Labels',
-    groupable: false,
-  },
-  { text: '', value: 'ItemType', align: 'right' },
-]
+];
