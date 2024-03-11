@@ -300,7 +300,7 @@ class Statblock {
     } else return '>> NO MECH SELECTED <<'
   }
 
-  public static GenerateNPC(npc: Npc): string {
+  public static GenerateNPC(npc: Npc, genRadio: string="compact"): string {
     let output = `// ${npc.Name} //\n`
     output += `${npc.Class.Name.toUpperCase()}`
     if (npc.Templates) output += ` ${npc.Templates.map(t => t.Name).join(' ')}`
@@ -312,11 +312,20 @@ class Statblock {
     output += `  STRESS: ${npc.CurrentStress}/${npc.Stats.Stress} | HEATCAP: ${npc.CurrentHeat}/${npc.Stats.HeatCapacity} | SPD: ${npc.Stats.Speed}\n`
     output += `  SAVE: ${npc.Stats.Save} | EVADE: ${npc.Stats.Evade} | EDEF: ${npc.Stats.EDefense}\n`
     output += `  SENS: ${npc.Stats.Sensor} | SIZE: ${npc.Stats.Size} | ACT: ${npc.Stats.Activations}\n`
-    output += '[ FEATURES ]\n  '
-    output += npc.Items.map(
-      (item, index) =>
-        `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
-    ).join('')
+    output += '[ FEATURES ]\n'
+    if (genRadio == "detailed"){
+      output += npc.Items.map(
+        (item) =>
+          `${item.generateStatblock()}`
+      ).join('\n')
+    }
+    if (genRadio == "compact"){
+      output += "  "
+      output += npc.Items.map(
+        (item, index) =>
+          `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
+      ).join('')
+    }
     return output
   }
 }

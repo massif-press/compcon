@@ -19,6 +19,21 @@ export class NpcReaction extends NpcFeature {
     return this._trigger
   }
 
+  public generateSummary(tier: number): string {
+    let output: string = ''
+    if(this.Tags.length){
+      output += this.Tags.map(
+        (item) => 
+          `${item.GetName()}`
+      ).join(', ')
+      output += '\n    '
+    }
+    
+    output += `Trigger: ${this.Trigger}\n    `
+    output += `Effect: ${this.EffectByTier(tier)}`
+    return output
+  }
+
   public get Color(): string {
     return 'npc--reaction'
   }
