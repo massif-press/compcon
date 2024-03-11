@@ -23,6 +23,22 @@ export class NpcSystem extends NpcFeature {
     return this.Tags.find(x => x.IsRecharging).Value.toString()
   }
 
+  public generateSummary(tier: number): string {
+    let output: string = ''
+    if(this.Tags.length){
+      output += this.Tags.map(
+        (item) => 
+          `${item.GetName()}`
+      ).join(', ')
+      output += '\n    '
+    }
+    
+    if(this.EffectByTier(tier)){
+      output += `${this.EffectByTier(tier)}`
+    }
+    return output
+  }
+  
   public get Color(): string {
     return 'npc--system'
   }

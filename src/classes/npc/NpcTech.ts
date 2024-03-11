@@ -46,6 +46,35 @@ export class NpcTech extends NpcFeature {
     return this._attack_bonus[tier - 1]
   }
 
+  public generateSummary(tier: number): string {
+    let output: string = ''
+    if(this.Tags.length){
+      output += this.Tags.map(
+        (item) => 
+          `${item.GetName()}`
+      ).join(', ')
+      output += '\n    '
+    }
+
+    output += 'Attack Bonus: '
+    if(this.AttackBonus(tier)<0) {
+      output += `${this.AttackBonus(tier)}`
+    } else {
+      output += `+${this.AttackBonus(tier)}`
+    }
+    output += ', '
+    if(this.Accuracy(tier)<0) {
+      output += `${this.Accuracy(tier)} DIF`
+    } else if(this.Accuracy(tier)>0) {
+      output += `${this.Accuracy(tier)} ACC`
+    }
+
+    if(this.EffectByTier(tier)){
+      output += `\n    ${this.EffectByTier(tier)}`
+    }
+    return output
+  }
+  
   public get Color(): string {
     return 'npc--tech'
   }
