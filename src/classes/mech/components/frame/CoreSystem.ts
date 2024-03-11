@@ -7,6 +7,7 @@ import { ICounterData } from '../../../components/combat/counters/Counter';
 import { MechEquipment } from '../equipment/MechEquipment';
 import { Deployable, IDeployableData } from '../../../components/feature/deployable/Deployable';
 import { CompendiumItem } from '../../../CompendiumItem';
+import { ITagData } from '@/interface';
 
 interface ICoreData {
   name: string;
@@ -49,17 +50,15 @@ class CoreSystem {
   public readonly PassiveBonuses: Bonus[];
   public readonly PassiveSynergies: Synergy[];
   public readonly Deployables: Deployable[];
-  public readonly DeployActions: Action[];
+  public readonly DeployActions: Action[] = [];
   public readonly Counters: ICounterData[];
   public readonly Actions: Action[];
 
-  public IsActive: boolean;
   public Energy: number;
 
   private _integrated: string[];
   private _special_equipment: string[];
   private _tags: ITagData[];
-  private _used: boolean;
 
   private generateActivateAction(): Action {
     return new Action(
@@ -117,38 +116,26 @@ class CoreSystem {
     this.Energy = 1;
   }
 
-  private activeFeatures(type: string): any[] {
-    return this[`Passive${type}`].concat(this.IsActive ? this[`Active${type}`] : []);
+  // private activeFeatures(type: string): any[] {
+  //   return this[`Passive${type}`].concat(this.IsActive ? this[`Active${type}`] : []);
+  // }
+
+  private Features(type: string): any[] {
+    return this[`Passive${type}`].concat(this[`Active${type}`]);
   }
 
   public get Bonuses(): Bonus[] {
-    return this.activeFeatures('Bonuses');
+    return this.Features('Bonuses');
   }
 
   public get Synergies(): Synergy[] {
-    return this.activeFeatures('Synergies');
+    return this.Features('Synergies');
   }
 
   public getActions(): Action[] {
-    const arr = this.activeFeatures('Actions');
+    const arr = this.Features('Actions');
     arr.push(this.ActivateAction);
     return arr;
-  }
-
-  public get Used(): boolean {
-    return this._used;
-  }
-
-  public Use(): void {
-    this._used = true;
-  }
-
-  public Reset(): void {
-    this._used = false;
-  }
-
-  public Undo(): void {
-    this._used = false;
   }
 
   public get SpecialEquipment(): CompendiumItem[] {

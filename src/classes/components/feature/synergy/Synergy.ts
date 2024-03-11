@@ -28,11 +28,7 @@ class Synergy {
     this.SystemTypes = data.system_types || ['any'];
   }
 
-  public static Collect(
-    location: string,
-    mech: Mech,
-    item?: CompendiumItem
-  ): Synergy[] {
+  public static Collect(location: string, mech: Mech, item?: CompendiumItem): Synergy[] {
     let sArr = [
       ...mech.FeatureController.Synergies.filter((s) =>
         s.Locations.includes(location.toLowerCase())
@@ -53,10 +49,7 @@ class Synergy {
           if (s.WeaponSizes.includes('any')) return true;
           return s.WeaponSizes.includes((item as MechWeapon).Size);
         });
-      } else if (
-        item.ItemType === ItemType.MechSystem ||
-        item.ItemType === ItemType.WeaponMod
-      ) {
+      } else if (item.ItemType === ItemType.MechSystem || item.ItemType === ItemType.WeaponMod) {
         sArr = sArr.filter((s) => {
           if (s.SystemTypes.includes('any')) return true;
           return s.SystemTypes.includes((item as MechSystem).Type);
@@ -78,4 +71,5 @@ class Synergy {
   }
 }
 
-export { Synergy, ISynergyData };
+export { Synergy };
+export type { ISynergyData };

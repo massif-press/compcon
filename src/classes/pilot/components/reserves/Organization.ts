@@ -1,5 +1,6 @@
 import { CompendiumStore } from '@/stores';
 import { OrgType } from '@/class';
+import { IOrganizationData } from '@/interface';
 
 class Organization {
   private _purpose: OrgType;

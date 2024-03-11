@@ -66,14 +66,15 @@ class Range {
 
     if (!addedRange || !addedRange.length) addedRange = [];
 
-    const output = [];
+    const output = [] as Range[];
 
     item.Range.forEach((r) => {
       if (r.Override) return;
       let bonus = 0;
-      addedRange.forEach((added) => {
-        if (added._range_type === r._range_type) bonus += added._value;
-      });
+      if (addedRange && addedRange.length)
+        addedRange.forEach((added) => {
+          if (added._range_type === r._range_type) bonus += added._value;
+        });
       output.push(
         new Range({
           type: r.Type,
@@ -118,4 +119,5 @@ class Range {
   }
 }
 
-export { Range, IRangeData };
+export { Range };
+export type { IRangeData };

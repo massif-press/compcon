@@ -23,7 +23,6 @@ import {
   CloudController,
   ICloudData,
   ICloudSyncable,
-  ICollectionGroupable,
   IHASEContainer,
   IMechSkillsData,
   IPortraitContainer,
@@ -99,7 +98,6 @@ class Pilot
     ICloudSyncable,
     ISaveable,
     IHASEContainer,
-    ICollectionGroupable,
     IPortraitContainer,
     IFeatureController,
     IBrewable

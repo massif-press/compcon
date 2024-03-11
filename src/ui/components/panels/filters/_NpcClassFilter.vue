@@ -24,8 +24,8 @@ import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 
 const nameSort = function (a, b): number {
-  if (a.title.toUpperCase() < b.title.toUpperCase()) return -1;
-  if (a.title.toUpperCase() > b.title.toUpperCase()) return 1;
+  if (a.toUpperCase() < b.toUpperCase()) return -1;
+  if (a.toUpperCase() > b.toUpperCase()) return 1;
   return 0;
 };
 
@@ -38,7 +38,7 @@ export default {
   computed: {
     roles() {
       return _.uniqBy(CompendiumStore().NpcClasses, 'Role')
-        .map((x) => ({ title: x.Role, value: x.ID }))
+        .map((x) => x.Role)
         .sort(nameSort);
     },
   },
@@ -48,7 +48,8 @@ export default {
     },
     updateFilters() {
       const fObj = {} as any;
-      if (this.roleFilter) fObj.Role = this.roleFilter;
+      if (this.roleFilter && this.roleFilter.length > 0) fObj.Role = this.roleFilter;
+
       this.$emit('set-filters', fObj);
     },
   },

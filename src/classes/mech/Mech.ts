@@ -20,25 +20,22 @@ import {
   MechLoadoutController,
 } from './components/loadout/MechLoadoutController';
 import { CompendiumItem } from '../CompendiumItem';
+import { ILicenseRequirement } from '../pilot/components/license/LicensedItem';
 
 class IMechData implements IMechLoadoutSaveData {
-  save: ISaveData;
-  img: IPortraitData;
-  id: string;
-  name: string;
-  notes: string;
-  gm_note: string;
-  frame: string;
-  loadouts: IMechLoadoutData[];
-  active_loadout_index: number;
-  destroyed: boolean;
-  defeat: string;
-  reactor_destroyed: boolean;
-  core_active: boolean;
+  save!: ISaveData;
+  img!: IPortraitData;
+  id!: string;
+  name!: string;
+  notes!: string;
+  frame!: string;
+  loadouts!: IMechLoadoutData[];
+  active_loadout_index!: number;
 }
 
 class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   public readonly ItemType: string = 'mech';
+  public readonly StorageType: string = 'Mechs';
 
   public SaveController: SaveController;
   public PortraitController: PortraitController;
@@ -49,13 +46,8 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   private _id: string;
   private _name: string;
   private _notes: string;
-  private _gm_note: string;
   private _frame: Frame;
   private _pilot: Pilot;
-  private _destroyed: boolean;
-  private _defeat: string;
-  private _reactor_destroyed: boolean;
-  private _core_active: boolean;
 
   public constructor(frame: Frame, pilot: Pilot) {
     this._id = uuid();
@@ -69,10 +61,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
 
     this._name = '';
     this._notes = '';
-    this._gm_note = '';
-    this._destroyed = false;
-    this._defeat = '';
-    this._reactor_destroyed = false;
 
     this.FeatureController.Register(
       this.Frame,
@@ -131,15 +119,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     this.SaveController.save();
   }
 
-  public get GmNote(): string {
-    return this._gm_note;
-  }
-
-  public set GmNote(val: string) {
-    this._gm_note = val;
-    this.SaveController.save();
-  }
-
   public get Frame(): Frame {
     return this._frame;
   }
@@ -150,11 +129,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
 
   public get Parent(): Pilot {
     return this._pilot;
-  }
-
-  public get IsCascading(): boolean {
-    if (!this.MechLoadoutController.ActiveLoadout.AICount) return false;
-    return !!this.MechLoadoutController.ActiveLoadout.Equipment.filter((x) => x.IsCascading).length;
   }
 
   public get RequiredLicenses(): ILicenseRequirement[] {
@@ -500,15 +474,6 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     return output;
   }
 
-  public get IsCoreActive(): boolean {
-    return this.Frame.CoreSystem.IsActive;
-  }
-
-  public set IsCoreActive(val: boolean) {
-    this.Frame.CoreSystem.IsActive = val;
-    this.SaveController.save();
-  }
-
   public get OverchargeTrack(): string[] {
     const b = Bonus.getUneval('overcharge', this);
     return b.length ? b[0].Value : Rules.Overcharge;
@@ -535,12 +500,12 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   }
 
   public HasCompatibleMods(): boolean {
-    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod != null)) {
+    for (const w of this.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => !!x.Mod)) {
       if (
-        !w.Mod.AllowedTypes.includes(w.ModType) ||
-        !w.Mod.AllowedSizes.includes(w.ModSize) ||
-        w.Mod.RestrictedTypes.includes(w.ModType) ||
-        w.Mod.RestrictedSizes.includes(w.ModSize)
+        !w.Mod!.AllowedTypes.includes(w.ModType) ||
+        !w.Mod!.AllowedSizes.includes(w.ModSize) ||
+        w.Mod!.RestrictedTypes.includes(w.ModType) ||
+        w.Mod!.RestrictedSizes.includes(w.ModSize)
       ) {
         return false;
       }
@@ -554,12 +519,7 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
       id: m.ID,
       name: m.Name,
       notes: m.Notes,
-      gm_note: m.GmNote,
       frame: m.Frame.ID,
-      destroyed: m._destroyed,
-      defeat: m._defeat,
-      reactor_destroyed: m._reactor_destroyed,
-      core_active: m._core_active,
     };
 
     SaveController.Serialize(m, data);
@@ -567,6 +527,10 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     MechLoadoutController.Serialize(m, data);
 
     return data as IMechData;
+  }
+
+  Serialize(): IMechData {
+    return Mech.Serialize(this);
   }
 
   Clone(): ISaveable {
@@ -580,18 +544,12 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
   public static Deserialize(data: IMechData, pilot: Pilot): Mech {
     const f = CompendiumStore().referenceByID('Frames', data.frame);
     const m = new Mech(f, pilot);
-    // m.MechLoadoutController.UpdateLoadouts()
 
     m._id = data.id;
     MechLoadoutController.Deserialize(m, data);
 
     m._name = data.name;
     m._notes = data.notes;
-    m._gm_note = data.gm_note;
-    m._destroyed = data.destroyed || false;
-    m._defeat = data.defeat || '';
-    m._reactor_destroyed = data.reactor_destroyed || false;
-    m._core_active = data.core_active || false;
 
     SaveController.Deserialize(m, data.save);
     PortraitController.Deserialize(m, data.img);

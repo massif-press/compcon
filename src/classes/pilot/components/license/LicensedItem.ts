@@ -79,4 +79,4 @@ abstract class LicensedItem extends CompendiumItem {
 }
 
 export { LicensedItem };
-export type { ILicensedItemData };
+export type { ILicensedItemData, ILicenseRequirement };

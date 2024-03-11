@@ -1,6 +1,7 @@
 import { CompendiumItem, ItemType } from '@/class';
 import { CompendiumStore } from '@/stores';
 import { ActivationType } from './enums';
+import { ITagData } from '@/interface';
 
 export interface ITagCompendiumData {
   id: string;
@@ -149,9 +150,9 @@ class Tag {
   public static Populate(item: CompendiumItem): Tag[] {
     const tags = [] as Tag[];
     if (item.Deployables) {
-      if (item.Deployables.some((x) => x.type === 'Drone')) tags.push(Tag._genTag('tg_drone'));
-      if (item.Deployables.some((x) => x.type === 'Mine')) tags.push(Tag._genTag('tg_mine'));
-      if (item.Deployables.some((x) => x.type !== 'Drone' && x.type !== 'Mine'))
+      if (item.Deployables.some((x) => x.Type === 'Drone')) tags.push(Tag._genTag('tg_drone'));
+      if (item.Deployables.some((x) => x.Type === 'Mine')) tags.push(Tag._genTag('tg_mine'));
+      if (item.Deployables.some((x) => x.Type !== 'Drone' && x.Type !== 'Mine'))
         tags.push(Tag._genTag('tg_deployable'));
     }
     if (item.Actions) {

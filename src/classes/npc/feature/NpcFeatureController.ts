@@ -1,7 +1,6 @@
 import { CompendiumStore } from '@/stores';
 import { Unit } from '../unit/Unit';
 import { NpcFeature } from './NpcFeature';
-import { INpcItemSaveData, NpcItem } from './NpcItem/NpcItem';
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
 
 interface INpcFeatureSaveData {

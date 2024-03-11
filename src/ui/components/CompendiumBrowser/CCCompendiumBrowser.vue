@@ -26,7 +26,7 @@
           :other-filter="otherFilter"
           :item-type="itemType"
           @set-all="setAllLcps()"
-          @set-filter="otherFilter = $event" />
+          @set-filters="otherFilter = $event" />
 
         <v-text-field
           v-model="search"

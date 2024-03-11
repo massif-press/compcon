@@ -31,7 +31,6 @@ import { ICounterData } from './classes/components/combat/counters/Counter';
 import { ITagCompendiumData } from './classes/Tag';
 import { PilotData } from './classes/pilot/Pilot';
 import { IPilotLoadoutData } from './classes/pilot/components/Loadout/PilotLoadout';
-import { IEnvironmentData } from './classes/encounter/EnvironmentData';
 import { IStatusData } from './classes/Status';
 import { IActionData } from './classes/Action';
 import { IBackgroundData } from './classes/Background';
@@ -75,10 +74,7 @@ interface IRankedData {
 
 interface IEquipmentData {
   id: string;
-  destroyed: boolean;
-  cascading: boolean;
   note: string;
-  uses?: number;
   flavorName?: string;
   flavorDescription?: string;
   customDamageType?: string;
@@ -180,7 +176,6 @@ export type {
   IActionData,
   IBackgroundData,
   IReserveData,
-  IEnvironmentData,
   ISitrepData,
   IStatusData,
 };

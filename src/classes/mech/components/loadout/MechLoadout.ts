@@ -12,6 +12,8 @@ import {
   MechWeapon,
   WeaponMod,
 } from '@/class';
+import { IEquipmentData, IMechWeaponSaveData, IMountData } from '@/interface';
+import { ILicenseRequirement } from '@/classes/pilot/components/license/LicensedItem';
 
 interface IMechLoadoutData {
   id: string;
@@ -153,12 +155,6 @@ class MechLoadout extends Loadout {
       .filter((x) => !x.IsLocked)
       .flatMap((x) => x.Weapons)
       .filter((x) => x != null);
-  }
-
-  public ReloadAll(): void {
-    this.Weapons.forEach((w) => {
-      if (w.IsLoading) w.Loaded = true;
-    });
   }
 
   public UnequipSuperheavy(): void {
