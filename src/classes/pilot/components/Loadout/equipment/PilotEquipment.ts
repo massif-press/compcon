@@ -5,6 +5,7 @@ import { ICompendiumItemData, ITagCompendiumData } from '@/interface'
 interface IPilotEquipmentData extends ICompendiumItemData {
   type?: string
   tags: ITagData[]
+  effect?: string
 }
 
 abstract class PilotEquipment extends CompendiumItem {
@@ -35,6 +36,7 @@ abstract class PilotEquipment extends CompendiumItem {
     packName?: string
   ) {
     super(data, packTags, packName)
+    this.Effect = data.effect || ''
     this._used = false
     this._destroyed = false
     this._cascading = false
