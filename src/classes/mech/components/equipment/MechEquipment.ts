@@ -14,11 +14,6 @@ interface IMechEquipmentData extends ILicensedItemData {
 }
 
 abstract class MechEquipment extends LicensedItem {
-  protected _missing_uses: number;
-  protected _used: boolean;
-  protected _destroyed: boolean;
-  protected _cascading: boolean;
-  protected _loaded: boolean;
   protected max_use_override: number = 0;
   private _max_uses: number;
   public readonly SP: number;
@@ -44,10 +39,6 @@ abstract class MechEquipment extends LicensedItem {
     this.SP = parseInt(data.sp as any) || 0;
     this.Effect = data.effect;
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated');
-    this._destroyed = false;
-    this._cascading = false;
-    this._loaded = true;
-    this._used = false;
     if (data.tags) {
       const ltd = data.tags.find((x) => x.id === 'tg_limited');
       this.IsLimited = !!ltd;
@@ -63,7 +54,6 @@ abstract class MechEquipment extends LicensedItem {
     } else {
       this._max_uses = 0;
     }
-    this._missing_uses = 0;
     this.Ammo = data.ammo || [];
     this.NoMods = data.no_mods || false;
     this.NoBonuses = data.no_bonuses || false;
@@ -74,99 +64,8 @@ abstract class MechEquipment extends LicensedItem {
     return data.tags.some((x) => x.id === id);
   }
 
-  public Use(cost?: number, free?: boolean): void {
-    if (!free) {
-      if (!this.CheckUsable(cost)) return;
-      this._used = true;
-    }
-    if (this.IsLoading) this._loaded = false;
-    if (this.IsLimited && cost) this.Uses -= cost;
-  }
-
-  public Undo(cost?: number): void {
-    if (cost) this.Uses += cost;
-    if (this.IsLoading) this._loaded = true;
-    this._used = false;
-  }
-
-  public Reset(): void {
-    this._used = false;
-  }
-
-  public CheckUsable(cost?: number): boolean {
-    if (this.IsLoading && !this._loaded) return false;
-    if (this.IsCascading) return false;
-    if (this.IsLimited && this.Uses === 0) return false;
-    if (this.IsLimited && cost && this.Uses < cost) return false;
-    return true;
-  }
-
-  public get Used(): boolean {
-    return this._used;
-  }
-
-  public set Used(b: boolean) {
-    this._used = b;
-  }
-
-  public get IsCascading(): boolean {
-    return this._cascading;
-  }
-
-  public set IsCascading(b: boolean) {
-    this._cascading = b;
-  }
-
-  public Unshackle(): void {
-    if (!this.IsAI) return;
-    this._cascading = true;
-    this.save();
-  }
-
-  public Shackle(): void {
-    this._cascading = false;
-    this.save();
-  }
-
-  public get Destroyed(): boolean {
-    return this._destroyed;
-  }
-
-  public set Destroyed(b: boolean) {
-    this._destroyed = b;
-  }
-
-  public Destroy(): void {
-    if (this.IsIndestructible) return;
-    this._destroyed = true;
-    this.save();
-  }
-
-  public Repair(): void {
-    this._destroyed = false;
-    this.save();
-  }
-
-  public get Loaded(): boolean {
-    return this._loaded;
-  }
-
-  public set Loaded(_loaded: boolean) {
-    this._loaded = _loaded;
-    this.save();
-  }
-
   public get Uses(): number {
-    return this.MaxUses - this._missing_uses;
-  }
-
-  public set Uses(val: number) {
-    this._missing_uses = this.MaxUses - val;
-    this.save();
-  }
-
-  public get MissingUses(): number {
-    return this._missing_uses;
+    return this.MaxUses;
   }
 
   public get MaxUses(): number {

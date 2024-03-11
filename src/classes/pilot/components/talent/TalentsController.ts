@@ -4,7 +4,7 @@ import { Bonus } from '../../../components/feature/bonus/Bonus';
 import { Rules } from '../../../utility/Rules';
 import { Pilot } from '../../Pilot';
 import PilotTalent from './PilotTalent';
-import { Talent } from './Talent';
+import { Talent, TalentRank } from './Talent';
 import { CompendiumItem } from '@/class';
 
 interface ITalentsData {
@@ -23,9 +23,9 @@ class TalentsController implements IFeatureContainer {
   get FeatureSource(): any[] {
     const talents = this.Talents.map((t) => t.Talent);
 
-    let trData = [];
+    let trData = [] as TalentRank[];
     this.Talents.forEach((t) => {
-      let rankData = [];
+      let rankData = [] as TalentRank[];
       t.UnlockedRanks.forEach((r) => {
         if (r.Exclusive) rankData = [r];
         else rankData.push(r);
@@ -143,4 +143,5 @@ class TalentsController implements IFeatureContainer {
   }
 }
 
-export { TalentsController, ITalentsData };
+export { TalentsController };
+export type { ITalentsData };

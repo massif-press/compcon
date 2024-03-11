@@ -48,7 +48,7 @@ abstract class Npc
   public NarrativeController: NarrativeController;
 
   private _id: string;
-  protected _name: string;
+  protected _name: string = 'New NPC';
   private _note: string;
   private _description: string;
   private _gmDescription: string;

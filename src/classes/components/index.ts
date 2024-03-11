@@ -10,7 +10,6 @@ import {
   CounterController,
 } from './combat/counters/CounterController';
 import { ICounterContainer } from './combat/counters/ICounterContainer';
-import { ICollectionGroupable } from './group/ICollectionGroupable';
 import { IHASEContainer } from './mechskills/IHASEContainer';
 import MechSkills from './mechskills/MechSkills';
 import { MechSkillsController, IMechSkillsData } from './mechskills/MechSkillsController';
@@ -37,7 +36,6 @@ export type {
   ICounterSaveData,
   ICounterCollection,
   ICounterContainer,
-  ICollectionGroupable,
   IHASEContainer,
   IMechSkillsData,
   ISaveable,

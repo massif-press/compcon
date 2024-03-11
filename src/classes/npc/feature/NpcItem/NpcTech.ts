@@ -2,7 +2,6 @@ import { ItemType } from '@/classes/enums';
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature';
 
 export interface INpcTechData extends INpcFeatureData {
-  tags: ITagData[];
   tech_type: string;
   accuracy?: number[];
   attack_bonus?: number[];
@@ -11,7 +10,6 @@ export interface INpcTechData extends INpcFeatureData {
 
 export class NpcTech extends NpcFeature {
   public ItemType: ItemType = ItemType.NpcTech;
-  public FeatureType = NpcFeatureType.Tech;
 
   private _accuracy: number[];
   private _attack_bonus: number[];
@@ -20,6 +18,7 @@ export class NpcTech extends NpcFeature {
     super(data, packName);
     this._accuracy = this._expand(data.accuracy);
     this._attack_bonus = this._expand(data.attack_bonus);
+    this.FeatureType = NpcFeatureType.Tech;
   }
 
   private _expand(x: any) {

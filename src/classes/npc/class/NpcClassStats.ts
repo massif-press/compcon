@@ -77,7 +77,7 @@ export class NpcClassStats {
   // for comparitors
   public Average(key: string) {
     if (!this._stats[key]) {
-      console.log('no stat', key);
+      console.error('no stat for', key);
       return 0;
     }
     return this._stats[key].reduce((a, b) => a + b, 0) / this._stats[key].length;

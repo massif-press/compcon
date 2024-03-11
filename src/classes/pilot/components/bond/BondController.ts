@@ -20,7 +20,7 @@ class BondController {
   public readonly Parent: Pilot;
   private _powerSelections: number;
   private _maxStress: number;
-  private _bond: Bond;
+  private _bond: Bond | null;
   private _xp: number;
   private _stress: number;
   private _isBroken: boolean;
@@ -45,13 +45,13 @@ class BondController {
     this._bond = null;
   }
 
-  public get Bond(): Bond {
+  public get Bond(): Bond | null {
     return this._bond;
   }
 
-  public set Bond(bond: Bond) {
-    if (!bond) return;
+  public set Bond(bond: Bond | null) {
     this._bond = bond;
+    if (!bond) return;
     this._answers = bond.Questions ? new Array(bond.Questions.length) : ['', ''];
     this.Parent.SaveController.save();
   }
@@ -218,7 +218,7 @@ class BondController {
 
   public get HasVeteranPower() {
     if (!this._bond) return false;
-    return this._bondPowers.some((x) => !this._bond._powers.map((y) => y.name).includes(x.name));
+    return this._bondPowers.some((x) => !this._bond!._powers.map((y) => y.name).includes(x.name));
   }
 
   public static Serialize(parent: Pilot, target: any) {
@@ -258,4 +258,5 @@ class BondController {
   }
 }
 
-export { BondController, IPilotBondData };
+export { BondController };
+export type { IPilotBondData };

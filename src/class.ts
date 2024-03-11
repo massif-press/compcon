@@ -22,11 +22,11 @@ import {
   ReserveType,
   OrgType,
 } from './classes/enums';
+import { CompendiumItem } from './classes/CompendiumItem';
 import { Background } from './classes/Background';
 import * as PlayerAction from './classes/Action';
 import { Bond } from './classes/pilot/components/bond/Bond';
 import Tag from './classes/Tag';
-import { CompendiumItem } from './classes/CompendiumItem';
 import { LicensedItem } from './classes/pilot/components/license/LicensedItem';
 import { CoreBonus } from './classes/pilot/components/corebonus/CoreBonus';
 import { Damage } from './classes/Damage';
@@ -80,6 +80,8 @@ import { Sitrep } from './classes/encounter/Sitrep';
 import { PilotGroup } from './features/pilot_management/store/PilotGroup';
 
 export {
+  CompendiumItem,
+  LicensedItem,
   Background,
   Rules,
   ActivationType,
@@ -100,8 +102,6 @@ export {
   License,
   CoreBonus,
   Damage,
-  CompendiumItem,
-  LicensedItem,
   Loadout,
   Range,
   Skill,

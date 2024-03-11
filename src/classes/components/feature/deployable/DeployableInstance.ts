@@ -1,5 +1,5 @@
 import { ActivationType, Mech, Pilot } from '@/class';
-import { ICounterData, ISynergyData } from '@/interface';
+import { ICounterData, ISynergyData, ITagData } from '@/interface';
 import { v4 as uuid } from 'uuid';
 import { IActionData, Action } from '../../../Action';
 import { Bonus, IBonusData } from '../bonus/Bonus';

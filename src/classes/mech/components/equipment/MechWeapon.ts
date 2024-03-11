@@ -22,6 +22,7 @@ import {
   ITagCompendiumData,
   Action,
   ICompendiumItemData,
+  IEquipmentData,
 } from '@/interface';
 import { IActionData } from '@/classes/Action';
 import { IBonusData } from '@/classes/components';
@@ -47,7 +48,6 @@ interface IMechWeaponData extends IMechEquipmentData {
 }
 
 interface IMechWeaponSaveData extends IEquipmentData {
-  loaded: boolean;
   mod?: IEquipmentData;
   customDamageType?: string;
   maxUseOverride?: number;
@@ -168,14 +168,6 @@ class MechWeapon extends MechEquipment {
     return this.SelectedProfile.Cost;
   }
 
-  public get CanSkirmish(): boolean {
-    return this.SelectedProfile.Skirmish && this.CheckUsable(this.Cost);
-  }
-
-  public get CanBarrage(): boolean {
-    return this.SelectedProfile.Barrage && this.CheckUsable(this.Cost);
-  }
-
   public get SelectedProfile(): WeaponProfile {
     return this.Profiles[this._selected_profile];
   }
@@ -239,7 +231,6 @@ class MechWeapon extends MechEquipment {
   public set MaxUseOverride(val: number) {
     const safeVal = MechWeapon.SanitizeUsesInput(val);
     this.max_use_override = safeVal;
-    this._missing_uses = 0;
     this.save();
   }
 
@@ -317,32 +308,24 @@ class MechWeapon extends MechEquipment {
   public static Serialize(item: MechWeapon): IMechWeaponSaveData {
     return {
       id: item.ID,
-      destroyed: item.Destroyed,
-      cascading: item.IsCascading,
-      loaded: item.Loaded,
       note: item.Note,
       mod: item.Mod ? (WeaponMod.Serialize(item.Mod) as IEquipmentData) : undefined,
       flavorName: item._flavor_name,
       flavorDescription: item._flavor_description,
       customDamageType: item._custom_damage_type || undefined,
       maxUseOverride: MechWeapon.SanitizeUsesInput(item.max_use_override) || 0,
-      uses: MechWeapon.SanitizeUsesInput(item.Uses) || 0,
       selectedProfile: item._selected_profile || 0,
     };
   }
 
   public static Deserialize(data: IMechWeaponSaveData): MechWeapon {
     const item = CompendiumStore().instantiate('MechWeapons', data.id) as MechWeapon;
-    item._destroyed = data.destroyed || false;
-    item._cascading = data.cascading || false;
-    item._loaded = data.loaded || true;
     item._mod = data.mod ? WeaponMod.Deserialize(data.mod) : null;
     item._note = data.note;
     item._flavor_name = data.flavorName || '';
     item._flavor_description = data.flavorDescription || '';
     item._custom_damage_type = data.customDamageType || null;
     item.max_use_override = MechWeapon.SanitizeUsesInput(data.maxUseOverride || 0);
-    item.Uses = MechWeapon.SanitizeUsesInput(data.uses || 0);
     item._selected_profile = data.selectedProfile || 0;
     return item;
   }

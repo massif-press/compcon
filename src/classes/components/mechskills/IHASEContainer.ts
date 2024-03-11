@@ -1,11 +1,9 @@
-import { SaveController } from "../save/SaveController";
-import { MechSkillsController } from "./MechSkillsController";
+import { SaveController } from '../save/SaveController';
+import { MechSkillsController } from './MechSkillsController';
 
 interface IHASEContainer {
-  SaveController: SaveController
-  MechSkillsController: MechSkillsController
+  SaveController: SaveController;
+  MechSkillsController: MechSkillsController;
 }
 
-export {
-  IHASEContainer
-}
+export type { IHASEContainer };

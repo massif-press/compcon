@@ -47,7 +47,7 @@
       </v-card>
     </v-menu>
 
-    <v-menu offset-y :close-on-content-click="false" max-width="500px">
+    <v-menu offset-y :close-on-content-click="false" width="500px">
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props" size="small" style="width: 50%">
           <v-tooltip text="Item Filters" location="top">
@@ -64,8 +64,16 @@
       </template>
       <v-card>
         <v-card-text>
-          <cc-item-filter :item-type="itemType" @set-filters="$emit('set-filters', $event)" />
+          <cc-item-filter
+            ref="itemFilter"
+            :item-type="itemType"
+            @set-filters="setFilters($event)" />
         </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn @click="clearFilters">Clear Filters</v-btn>
+        </v-card-actions>
       </v-card>
     </v-menu>
   </v-btn-toggle>
@@ -104,6 +112,15 @@ export default {
         count += Object.keys(this.otherFilter[filter]).length;
       }
       return count;
+    },
+  },
+  methods: {
+    setFilters(filters: any) {
+      this.$emit('set-filters', filters);
+    },
+    clearFilters() {
+      (this.$refs.itemFilter as any).clear();
+      this.$emit('set-filters', {});
     },
   },
 };

@@ -100,4 +100,5 @@ class CoreBonusController implements IFeatureContainer {
   }
 }
 
-export { ICoreBonusSaveData, CoreBonusController };
+export { CoreBonusController };
+export type { ICoreBonusSaveData };

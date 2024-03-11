@@ -30,11 +30,11 @@ abstract class CompendiumItem {
   public readonly LcpName: string = '';
   public readonly InLcp: boolean = false;
   public readonly ID: string;
-  public readonly Actions: Action[];
-  public readonly Bonuses: Bonus[];
-  public readonly Synergies: Synergy[];
-  public readonly Deployables: Deployable[];
-  public readonly Counters: ICounterData[];
+  public Actions: Action[];
+  public Bonuses: Bonus[];
+  public Synergies: Synergy[];
+  public Deployables: Deployable[];
+  public Counters: ICounterData[];
   // public readonly Tags: Tag[]
   public readonly Err: string;
   public IsHidden: boolean = false;

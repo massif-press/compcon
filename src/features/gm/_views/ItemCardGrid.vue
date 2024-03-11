@@ -43,6 +43,7 @@ import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer
 import ItemCard from './_components/GMItemCard.vue';
 import GmItemTable from './GMItemTable.vue';
 import _ from 'lodash';
+import { Unit } from '@/classes/npc/unit/Unit';
 
 export default {
   name: 'item-card-grid',
@@ -96,7 +97,48 @@ export default {
         });
       }
 
-      const out = { ...stats, ...labels };
+      const classGrp = {} as any;
+
+      if ((this.items[0] as any).NpcClassController) {
+        this.items.forEach((item) => {
+          const nc = item as Unit;
+          if (this.grouping === 'Role') {
+            let role = nc.NpcClassController.Class?.Role;
+            if (!role) role = 'N/A';
+            if (!classGrp[role]) classGrp[role] = [];
+            classGrp[role].push(item);
+          }
+          if (this.grouping === 'Tier') {
+            const tier = nc.NpcClassController.Tier;
+            if (!classGrp[`T${tier}`]) classGrp[`T${tier}`] = [];
+            classGrp[`T${tier}`].push(item);
+          }
+          if (this.grouping === 'Tag') {
+            const tag = nc.Tag;
+            if (!classGrp[tag]) classGrp[tag] = [];
+            classGrp[tag].push(item);
+          }
+        });
+      }
+
+      const eidolonGrp = {} as any;
+      if ((this.items[0] as any).Layers) {
+        this.items.forEach((item) => {
+          const ec = item as any;
+          if (this.grouping === 'Tier') {
+            const tier = ec.Tier;
+            if (!eidolonGrp[`T${tier}`]) eidolonGrp[`T${tier}`] = [];
+            eidolonGrp[`T${tier}`].push(item);
+          }
+          if (this.grouping === 'Class') {
+            const c = `Class ${ec.Class}`;
+            if (!eidolonGrp[c]) eidolonGrp[c] = [];
+            eidolonGrp[c].push(item);
+          }
+        });
+      }
+
+      const out = { ...stats, ...labels, ...classGrp, ...eidolonGrp };
 
       const ids = Object.values(out)
         .flat()
@@ -121,8 +163,15 @@ export default {
     sort(items) {
       return _.orderBy(items, (x: any) => {
         if (x[this.sorting]) return x[this.sorting];
-        if (x.StatController) return x.StatController.getStat(this.sorting);
-        if (x.NarrativeController) return x.NarrativeController.LabelDictionary[this.sorting];
+        if (x.StatController && x.StatController.getStat(this.sorting))
+          return x.StatController.getStat(this.sorting);
+        if (x.NarrativeController && x.NarrativeController.LabelDictionary[this.sorting])
+          return x.NarrativeController.LabelDictionary[this.sorting];
+        if (x.NpcClassController) {
+          if (this.sorting === 'Role') return x.NpcClassController.Class.Role;
+          if (this.sorting === 'Tier') return x.NpcClassController.Tier;
+          if (this.sorting === 'Tag') return x.Tag;
+        }
       });
     },
   },

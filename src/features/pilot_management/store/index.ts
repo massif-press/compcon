@@ -204,7 +204,6 @@ export const PilotStore = defineStore('pilot', {
     Reorder(): void {
       this.PilotGroups = _.orderBy(this.PilotGroups, 'SortIndex', 'asc');
       this.PilotGroups.forEach((group) => {
-        console.log(group.Pilots.map((x) => x.id + ' ' + x.index));
         group.Pilots = _.orderBy(group.Pilots, 'index', 'asc');
       });
       this.SavePilotData();

@@ -45,6 +45,7 @@ class Reserve extends CompendiumItem {
   private _resource_note: string;
   private _resource_cost: string;
   private _used: boolean;
+  private _deployableData: IDeployableData[];
 
   public constructor(data: any, packTags?: any, packName?: string) {
     super(data, packTags, packName);
@@ -64,6 +65,7 @@ class Reserve extends CompendiumItem {
     this.LcpName = packName || 'LANCER Core Book';
     this.InLcp = packName ? true : false;
     this.ItemType = ItemType.Reserve;
+    this._deployableData = data.deployables;
   }
 
   protected save(): void {
@@ -176,7 +178,7 @@ class Reserve extends CompendiumItem {
       bonuses: reserve.Bonuses.map((x) => Bonus.Serialize(x)),
       actions: reserve.Actions.map((x) => Action.Serialize(x)),
       synergies: reserve.Synergies.map((x) => Synergy.Serialize(x)),
-      deployables: reserve.Deployables,
+      deployables: reserve._deployableData,
       counters: reserve.Counters,
       integrated: reserve._integrated,
       special_equipment: reserve._special_equipment,

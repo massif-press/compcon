@@ -7,10 +7,10 @@ export interface INpcSystemData extends INpcFeatureData {
 
 export class NpcSystem extends NpcFeature {
   public ItemType: ItemType = ItemType.NpcSystem;
-  public FeatureType = NpcFeatureType.System;
 
   public constructor(data: INpcSystemData, packName?: string) {
     super(data, packName);
+    this.FeatureType = NpcFeatureType.System;
   }
 
   public get Color(): string {

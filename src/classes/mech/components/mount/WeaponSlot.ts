@@ -2,6 +2,7 @@ import { MechWeapon, FittingSize, Mount } from '@/class';
 import _ from 'lodash';
 import { CompendiumStore } from '@/stores';
 import { WeaponMod } from '@/class';
+import { IWeaponSlotData } from '@/interface';
 
 class WeaponSlot {
   private _size: FittingSize;

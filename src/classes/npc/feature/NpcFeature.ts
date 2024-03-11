@@ -1,5 +1,5 @@
 import { CompendiumItem, Tag } from '@/class';
-import { ICompendiumItemData } from '@/interface';
+import { ICompendiumItemData, ITagData } from '@/interface';
 import { NpcClass } from '../class/NpcClass';
 import { NpcTemplate } from '../template/NpcTemplate';
 import { CompendiumStore } from '@/stores';
@@ -72,7 +72,7 @@ abstract class NpcFeature extends CompendiumItem {
   private _originID: string;
   private _effect: string;
   private _hide_active: boolean;
-  protected FeatureType: NpcFeatureType = NpcFeatureType.Trait;
+  public FeatureType: NpcFeatureType = NpcFeatureType.Trait;
   public IsHidden: boolean = false;
   public readonly Base: boolean;
   public readonly LcpName: string;

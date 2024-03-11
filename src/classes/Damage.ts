@@ -70,7 +70,7 @@ class Damage {
     if (!item || !mech) return [];
     if (!Bonus.get('damage', mech) || item.NoCoreBonus || item.NoBonuses) return item.Damage;
     const bonuses = mech.FeatureController.Bonuses.filter((x) => x.ID === 'damage');
-    const output = [];
+    const output = [] as Damage[];
     item.Damage.forEach((d) => {
       if (d.Override) return;
       let bonus = 0;
@@ -127,4 +127,5 @@ class Damage {
   }
 }
 
-export { Damage, IDamageData };
+export { Damage };
+export type { IDamageData };

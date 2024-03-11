@@ -1,5 +1,6 @@
 import { Rules, PilotEquipment, PilotArmor, PilotWeapon, PilotGear, ItemType } from '@/class';
 import { PilotLoadoutController } from './PilotLoadoutController';
+import { IEquipmentData } from '@/interface';
 
 declare interface IPilotLoadoutData {
   armor: IEquipmentData[];
@@ -102,9 +103,9 @@ class PilotLoadout {
 
   public static Serialize(pl: PilotLoadout): IPilotLoadoutData {
     return {
-      armor: pl.Armor.map((x) => PilotEquipment.Serialize(x)),
-      weapons: pl.Weapons.map((x) => PilotEquipment.Serialize(x)),
-      gear: pl.Gear.map((x) => PilotEquipment.Serialize(x)),
+      armor: pl.Armor.map((x) => PilotEquipment.Serialize(x)) as IEquipmentData[],
+      weapons: pl.Weapons.map((x) => PilotEquipment.Serialize(x)) as IEquipmentData[],
+      gear: pl.Gear.map((x) => PilotEquipment.Serialize(x)) as IEquipmentData[],
     };
   }
 

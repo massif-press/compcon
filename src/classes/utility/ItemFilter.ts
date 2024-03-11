@@ -1,7 +1,9 @@
 import { MechEquipment, CompendiumItem, MechWeapon, Frame, LicensedItem } from '@/class';
+import { NpcClass } from '../npc/class/NpcClass';
+import { NpcFeature } from '../npc/feature/NpcFeature';
 
 class ItemFilter {
-  public static Filter(items: CompendiumItem[], filter: any): CompendiumItem[] {
+  public static Filter(items: any[], filter: any): CompendiumItem[] {
     Object.keys(filter).forEach((p) => {
       if (p === 'LcpName') {
         items = items.filter((i) => filter[p][0].includes(i.LcpName));
@@ -26,6 +28,12 @@ class ItemFilter {
         items = (items as Frame[]).filter((f) => filter[p].every((t) => f.Size === t));
       } else if (p === 'Mounts') {
         items = (items as Frame[]).filter((f) => filter[p].every((m) => f.Mounts.includes(m)));
+      } else if (p === 'Role') {
+        items = (items as NpcClass[]).filter((npc) => filter[p].includes(npc.Role));
+      } else if (p === 'FeatureType') {
+        items = (items as NpcFeature[]).filter((feat) => filter[p].includes(feat.FeatureType));
+      } else if (p === 'Origin') {
+        items = (items as NpcFeature[]).filter((feat) => filter[p].includes(feat.Origin.ID));
       } else if (filter[p].length)
         items = items.filter((x) => filter[p].some((e) => x[p].includes(e)));
     });

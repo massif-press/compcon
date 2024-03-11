@@ -9,10 +9,10 @@ interface INpcReactionData extends INpcFeatureData {
 
 class NpcReaction extends NpcFeature {
   public ItemType: ItemType = ItemType.NpcReaction;
-  public FeatureType = NpcFeatureType.Reaction;
 
   public constructor(data: INpcReactionData, packName?: string) {
     super(data, packName);
+    this.FeatureType = NpcFeatureType.Reaction;
   }
 
   public get Color(): string {

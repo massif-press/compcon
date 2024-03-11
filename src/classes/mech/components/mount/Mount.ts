@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid';
-import { CompendiumStore } from '@/stores';
 import { MechWeapon, WeaponSlot, MountType, FittingSize, WeaponSize, MechLoadout } from '@/class';
 
 abstract class Mount {

@@ -58,7 +58,7 @@ class SkillsController {
       this.IsMissingSkills &&
       (!this.Parent.has('Skill', skill.ID) ||
         (hasMinSkills &&
-          this._skills.find((x) => x.Skill.ID === skill.ID).Rank < Rules.MaxTriggerRank))
+          (this._skills.find((x) => x.Skill.ID === skill.ID)?.Rank || 0) < Rules.MaxTriggerRank))
     );
   }
 
@@ -135,4 +135,5 @@ class SkillsController {
   }
 }
 
-export { SkillsController, ISkillsData };
+export { SkillsController };
+export type { ISkillsData };

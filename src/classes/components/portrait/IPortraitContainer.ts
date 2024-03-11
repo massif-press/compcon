@@ -1,13 +1,13 @@
-import { ImageTag } from '@/io/ImageManagement'
-import { SaveController } from '../save/SaveController'
-import { PortraitController } from './PortraitController'
+import { ImageTag } from '@/io/ImageManagement';
+import { SaveController } from '../save/SaveController';
+import { PortraitController } from './PortraitController';
 
 interface IPortraitContainer {
-  SaveController: SaveController
-  PortraitController: PortraitController
+  SaveController: SaveController;
+  PortraitController: PortraitController;
 
-  ImageTag: ImageTag
-  Portrait: string
+  ImageTag: ImageTag;
+  Portrait: string;
 }
 
-export { IPortraitContainer }
+export type { IPortraitContainer };

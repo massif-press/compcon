@@ -1,4 +1,4 @@
-import { IRangeData } from '@/interface';
+import { IRangeData, ITagData } from '@/interface';
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from '../NpcFeature';
 import { Damage, DamageType, ItemType, Range } from '@/class';
 
@@ -16,12 +16,10 @@ export interface INpcWeaponData extends INpcFeatureData {
   accuracy?: number[];
   attack_bonus?: number[];
   attacks: number | number[];
-  tags: ITagData[];
 }
 
 export class NpcWeapon extends NpcFeature {
   public ItemType: ItemType = ItemType.NpcWeapon;
-  public FeatureType = NpcFeatureType.Weapon;
 
   private _weapon_type: string;
   private _damage_data: INpcDamageData[];
@@ -42,6 +40,7 @@ export class NpcWeapon extends NpcFeature {
     this._accuracy = this._expand(data.accuracy);
     this._attack_bonus = this._expand(data.attack_bonus);
     this._range = data.range.map((x) => new Range(x));
+    this.FeatureType = NpcFeatureType.Weapon;
   }
 
   private _expand(x: any) {

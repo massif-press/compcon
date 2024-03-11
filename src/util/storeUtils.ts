@@ -11,15 +11,13 @@ const __ssd_internal = async (items: ISaveable[]) => {
   const t = items[0].ItemType.toLowerCase();
   await saveDelta(
     `${t}s`,
-    items
-      .filter((x) => x.SaveController.IsDirty)
-      .map((x) => x.constructor['Serialize'](x))
+    items.filter((x) => x.SaveController.IsDirty).map((x) => x.constructor['Serialize'](x))
   );
 };
 
 const deletePermanent = async (item: ISaveable) => {
   const t = item.ItemType.toLowerCase();
-  console.log(`deleting ${t} permanently: `, item.Name ? item.Name : 'Unknown');
+  console.info(`deleting ${t} permanently: `, item.Name ? item.Name : 'Unknown');
   await deleteDataById(`${t}s`, [item.ID]);
 };
 

@@ -50,7 +50,7 @@ class Talent extends CompendiumItem {
     try {
       return this._ranks[rank - 1];
     } catch (err) {
-      console.error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`);
+      throw new Error(`Talent ${this.ID}/${this.Name} does not contain rank ${rank} data, ${err}`);
     }
   }
 
