@@ -87,7 +87,7 @@
       <b>Where are the NPCs?</b>
       <p>
         Now that LANCER is offically released, COMP/CON mirrors the Core Book structure in terms of
-        paid/free content. If you bought the LANCER Core Book, you'll find a downloadble data
+        paid/free content. If you bought the LANCER Core Book, you'll find a downloadable data
         package that contains all Core NPC data on the LANCER Core Book's itch.io page, which you
         can access by going to the Content Manager in the main page or in the nav bar options menu
         and selecting the Core Book item from the LCP Directory tab. You can use the Content
