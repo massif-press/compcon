@@ -155,10 +155,20 @@
           v-model="theme"
           dense
           outlined
+          hide-details
           :items="themes"
           item-text="name"
           @change="updateUserTheme"
         />
+        &emsp;
+        <i>
+          Community themes by
+          <a target="_blank" href="https://github.com/vialra">vialra,</a>
+          Asger Toft,
+          <a target="_blank" href="https://github.com/Lunardog15">thecrystalwoods,</a>
+          and
+          <a target="_blank" href="https://github.com/nimoooos">Suji</a>
+        </i>
       </v-col>
     </v-row>
 
