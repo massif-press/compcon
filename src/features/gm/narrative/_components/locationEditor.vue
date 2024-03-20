@@ -5,6 +5,7 @@
     @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
+    @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
       <v-row dense>
@@ -35,6 +36,7 @@ import { Location } from '@/classes/narrative/Location';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import { NarrativeStore } from '@/stores';
 import RelationshipEditor from '../../_components/RelationshipEditor.vue';
+import exportAsJson from '@/util/jsonExport';
 
 export default {
   name: 'gm-location-editor-base',
@@ -62,6 +64,9 @@ export default {
     dupe() {
       NarrativeStore().CloneItem(this.item as Location);
       this.$emit('exit');
+    },
+    exportItem(item) {
+      exportAsJson(Location.Serialize(item), `${item.Name}.json`);
     },
   },
 };

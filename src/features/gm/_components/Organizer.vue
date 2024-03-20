@@ -43,7 +43,7 @@
                 </v-btn>
               </th>
               <th>Name</th>
-              <th v-if="items.length && (items[0] as any).StatController" width="35%">Stats</th>
+              <th>Folder</th>
               <th>GM Labels</th>
             </tr>
           </thead>
@@ -58,14 +58,14 @@
                 ">
                 {{ (item as any).Name }}
               </td>
-              <th v-if="(item as any).StatController">
-                <cc-split-chip
-                  v-for="label in (item as IStatContainer).StatController.DisplayKeys"
-                  :label="{
-                    title: label.title,
-                    value: (item as IStatContainer).StatController.MaxStats[label.key],
-                  }"
-                  class="mr-1 mb-1" />
+              <th>
+                <v-chip
+                  v-if="(item as any).FolderController.Folder"
+                  size="x-small"
+                  label
+                  prepend-icon="mdi-folder">
+                  {{ (item as any).FolderController.Folder }}
+                </v-chip>
               </th>
               <td>
                 <cc-split-chip
@@ -88,15 +88,15 @@
         </div>
         <v-list>
           <v-list-item
-            title="Set Stat"
-            subtitle="Add, set, or delete a stat value"
-            prepend-icon="mdi-plus"
+            title="Set Folder"
+            subtitle="Set item folder"
+            prepend-icon="mdi-folder"
             :disabled="!selected.length"
-            @click="addStatDialog = true" />
+            @click="setFolderDialog = true" />
           <v-list-item
             title="Set GM Label"
             subtitle="Add, set, or delete a GM Label"
-            prepend-icon="mdi-plus"
+            prepend-icon="mdi-label"
             :disabled="!selected.length"
             @click="addLabelDialog = true" />
           <v-list-item
@@ -112,7 +112,7 @@
             "
             prepend-icon="mdi-upload"
             :disabled="!selected.length"
-            @click="exportAsJson()" />
+            @click="exportItems()" />
           <v-list-item
             :title="selected.length < 2 ? 'Delete' : 'Delete Multiple'"
             :subtitle="
@@ -132,77 +132,57 @@
             prepend-icon="mdi-file-restore-outline"
             :disabled="!selected.length"
             @click="deleteItems(true)" />
+          <v-list-item
+            v-if="showDeleted && !showDeleteConfirm"
+            title="Delete Permanently"
+            subtitle="Delete these items permanently"
+            prepend-icon="mdi-delete-forever-outline"
+            base-color="warning"
+            :disabled="!selected.length"
+            @click="showDeleteConfirm = true" />
+          <v-divider v-if="showDeleteConfirm" />
+          <v-list-item
+            v-if="showDeleteConfirm"
+            title="Confirm Permanent Deletion"
+            subtitle="This action cannot be undone"
+            prepend-icon="mdi-exclamation-thick"
+            :disabled="!selected.length"
+            @click="deleteItemsPermanent()"
+            base-color="error" />
+          <v-list-item
+            v-if="showDeleteConfirm"
+            title="Cancel Permanent Deletion"
+            prepend-icon="mdi-cancel"
+            @click="showDeleteConfirm = false"
+            base-color="accent" />
         </v-list>
       </v-col>
     </v-row>
   </v-card-text>
-  <v-dialog v-model="addStatDialog" max-width="500px">
+  <v-dialog v-model="setFolderDialog" max-width="500px">
     <v-card>
       <v-toolbar density="compact"
-        ><v-toolbar-title>Set Stat</v-toolbar-title>
+        ><v-toolbar-title>Set Folder</v-toolbar-title>
         <v-spacer />
-        <v-btn icon @click="addStatDialog = false">
+        <v-btn icon @click="setFolderDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-tabs v-model="statTab" grow density="compact">
-        <v-tab value="set">Set</v-tab>
-        <v-tab value="delete">Delete</v-tab>
-      </v-tabs>
       <v-card-text>
-        <v-window v-model="statTab">
-          <v-window-item value="set">
-            <div class="text-caption">
-              This will add <b>or overwrite</b> the stat value for all selected items.
-            </div>
-            <v-row class="mt-2">
-              <v-col>
-                <v-select
-                  v-model="addKvp.key"
-                  :items="allStats"
-                  item-text="title"
-                  item-value="key"
-                  label="Stat"
-                  :rules="[(v) => !!v || 'required']" />
-              </v-col>
-              <v-col>
-                <v-text-field
-                  v-model="addKvp.value"
-                  label="Value"
-                  type="number"
-                  :rules="[(v) => !!v || 'required']" />
-              </v-col>
-            </v-row>
-          </v-window-item>
-          <v-window-item value="delete">
-            <div class="text-caption">
-              This will <b>delete</b> the stat value for all selected items.
-            </div>
-            <v-row class="mt-2">
-              <v-col>
-                <v-select
-                  v-model="addKvp.key"
-                  :items="selectedStats"
-                  item-text="title"
-                  item-value="key"
-                  label="Stat"
-                  :rules="[(v) => !!v || 'required']" />
-              </v-col>
-            </v-row>
-          </v-window-item>
-        </v-window>
+        <v-combobox
+          v-model="stagedFolderName"
+          :items="allFolders"
+          label="Folder"
+          outlined
+          dense
+          clearable
+          hide-details />
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn text @click="addStatDialog = false">Cancel</v-btn>
+        <v-btn text @click="setFolderDialog = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn
-          variant="tonal"
-          :color="statTab === 'set' ? 'accent' : 'error'"
-          :disabled="!addKvp.key || !addKvp.value"
-          @click="setData('stat', statTab)"
-          >{{ statTab }}</v-btn
-        >
+        <v-btn text @click="setFolder" color="accent">Set</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -281,6 +261,8 @@ import { StatController } from '@/classes/components/combat/stats/StatController
 import _ from 'lodash';
 import { NarrativeStore } from '../store/narrative_store';
 import { NpcStore } from '../store/npc_store';
+import exportAsJson from '@/util/jsonExport';
+import { deletePermanent } from '@/util/storeUtils';
 
 export default {
   name: 'Organizer',
@@ -296,7 +278,6 @@ export default {
       key: '',
       value: '',
     },
-    addStatDialog: false,
     statTab: 'set' as 'set' | 'delete',
     addLabelDialog: false,
     labelTab: 'set' as 'set' | 'delete',
@@ -305,6 +286,9 @@ export default {
     shownTypes: [] as string[],
     allTypes: [] as string[],
     showDeleted: false,
+    setFolderDialog: false,
+    stagedFolderName: '',
+    showDeleteConfirm: false,
   }),
   mounted: function () {
     this.allTypes =
@@ -326,14 +310,11 @@ export default {
           (this.showDeleted || !x.SaveController.IsDeleted)
       );
     },
-    allStats() {
-      return StatController.CoreStats;
+    allFolders() {
+      return NpcStore().getFolders.concat(NarrativeStore().getFolders);
     },
     allLabels() {
       return NarrativeStore().getAllLabels;
-    },
-    selectedStats() {
-      return this.getSelectedData('stat');
     },
     selectedLabels() {
       return this.getSelectedData('label');
@@ -382,34 +363,42 @@ export default {
         key: '',
         value: '',
       };
-      this.addLabelDialog = this.addStatDialog = false;
+      this.addLabelDialog = this.setFolderDialog = false;
       NarrativeStore().SaveItemData();
       NpcStore().SaveNpcData();
     },
-    exportAsJson() {
-      let json = '';
+    setFolder() {
+      this.selected.forEach((id) => {
+        const item = this.items.find((x: any) => x.ID === id) as any;
+        if (item) {
+          item.FolderController.Folder = this.stagedFolderName;
+        }
+      });
+      this.stagedFolderName = '';
+      this.setFolderDialog = false;
+      NarrativeStore().SaveItemData();
+      NpcStore().SaveNpcData();
+    },
+    exportItems() {
+      let json = {} as any;
       let filename = '';
       if (this.selected.length === 1) {
         const item = this.items.find((x: any) => x.ID === this.selected[0]);
         if (item) {
-          json = JSON.stringify((item as any).Serialize());
+          json = (item as any).Serialize();
           filename = (item as any).Name + '.json';
         }
       } else {
         const data = this.items.filter((x: any) => this.selected.includes(x.ID));
-        json = JSON.stringify({
+        json = {
           type: 'collection',
           item_count: data.length,
           data: data.map((x: any) => x.Serialize()),
-        });
+        };
         filename = `GM_export_${new Date().toLocaleDateString().replaceAll('/', '-')}.json`;
       }
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = filename;
-      link.click();
+
+      exportAsJson(json, filename);
     },
     deleteItems(undelete: boolean = false) {
       this.selected.forEach((id) => {
@@ -422,6 +411,21 @@ export default {
       this.selected = [];
       NarrativeStore().SaveItemData();
       NpcStore().SaveNpcData();
+    },
+    async deleteItemsPermanent() {
+      const promises = [] as Promise<any>[];
+      this.selected.forEach((id) => {
+        const item = this.items.find((x: any) => x.ID === id) as any;
+        if (item && item.SaveController.IsDeleted) {
+          if (item.StorageType === 'narrative')
+            promises.push(NarrativeStore().DeleteItemPermanent(item));
+          else if (item.StorageType === 'npc') promises.push(NpcStore().DeleteNpcPermanent(item));
+        }
+      });
+      await Promise.all(promises);
+
+      this.selected = [];
+      this.showDeleteConfirm = false;
     },
   },
 };

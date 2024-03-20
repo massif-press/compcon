@@ -36,6 +36,7 @@
             </div>
           </v-card>
         </v-fade-transition>
+        <sort-chips :grouping="grouping" :sorting="sorting" />
       </v-card>
     </template>
   </v-hover>
@@ -43,15 +44,17 @@
 
 <script lang="ts">
 import StatChips from './_subcomponents/statChips.vue';
+import SortChips from './_subcomponents/sortChips.vue';
 
 export default {
   name: 'gm-unit-card',
-  components: { StatChips },
+  components: { StatChips, SortChips },
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
     odd: { type: Boolean },
-    grouping: { type: Object, required: false, default: '' },
+    grouping: { type: [Object, String], required: false, default: '' },
+    sorting: { type: Object, required: false, default: '' },
   },
   emits: ['open'],
 };

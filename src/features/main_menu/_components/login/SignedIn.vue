@@ -191,7 +191,6 @@ import BackupManager from '@/ui/syncManager/BackupManager.vue';
 // import { Auth } from '@aws-amplify/auth';
 
 import { UserStore } from '@/stores';
-import { UpdateUserData } from '@/cloud/user_sync';
 import _ from 'lodash';
 
 export default {

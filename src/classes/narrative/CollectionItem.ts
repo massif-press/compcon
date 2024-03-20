@@ -13,6 +13,8 @@ import {
 } from '../components';
 import { NarrativeController, NarrativeElementData } from './NarrativeController';
 import { INarrativeElement } from './INarrativeElement';
+import { FolderController, IFolderData } from '../components/folder/FolderController';
+import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 
 interface ISectionData {
   header: string;
@@ -26,12 +28,13 @@ class ICollectionItemData {
   cloud!: ICloudData;
   img!: IPortraitData;
   narrative!: NarrativeElementData;
+  folder!: IFolderData;
   name!: string;
   note!: string;
 }
 
 abstract class CollectionItem
-  implements INarrativeElement, ICloudSyncable, ISaveable, IPortraitContainer
+  implements INarrativeElement, ICloudSyncable, ISaveable, IPortraitContainer, IFolderPlaceable
 {
   public readonly StorageType: string = 'narrative';
   public ItemType: string = 'collection-item';
@@ -41,6 +44,7 @@ abstract class CollectionItem
   public SaveController: SaveController;
   public PortraitController: PortraitController;
   public NarrativeController: NarrativeController;
+  public FolderController: FolderController;
 
   private _id: string;
   protected _name: string = 'New NPC';
@@ -55,6 +59,7 @@ abstract class CollectionItem
     this.PortraitController = new PortraitController(this);
     this.CloudController = new CloudController(this);
     this.NarrativeController = new NarrativeController(this);
+    this.FolderController = new FolderController(this);
   }
 
   // -- Passthroughs ------------------------------------------------------------------------------

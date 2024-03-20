@@ -2,6 +2,7 @@ import { CloudController, PortraitController, SaveController } from '../componen
 import { NarrativeController } from './NarrativeController';
 import { CollectionItem, ICollectionItemData } from './CollectionItem';
 import { ItemType } from '../enums';
+import { FolderController } from '../components/folder/FolderController';
 
 class FactionData extends ICollectionItemData {
   collectionItemType: string = 'faction';
@@ -120,6 +121,7 @@ class Faction extends CollectionItem {
     CloudController.Serialize(faction, data);
     PortraitController.Serialize(faction, data);
     NarrativeController.Serialize(faction, data);
+    FolderController.Serialize(faction, data);
 
     return data as FactionData;
   }
@@ -133,6 +135,7 @@ class Faction extends CollectionItem {
     SaveController.Deserialize(faction, data.save);
     PortraitController.Deserialize(faction, data.img);
     NarrativeController.Deserialize(faction, data.narrative);
+    FolderController.Deserialize(faction, data.folder);
     return faction;
   }
 

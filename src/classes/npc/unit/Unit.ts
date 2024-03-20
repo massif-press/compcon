@@ -5,9 +5,9 @@ import { NarrativeController } from '@/classes/narrative/NarrativeController';
 import { NpcData, Npc } from '../Npc';
 import { INpcClassSaveData, NpcClassController } from '../class/NpcClassController';
 import { INpcFeatureSaveData, NpcFeatureController } from '../feature/NpcFeatureController';
-import { INpcItemSaveData } from '../feature/NpcItem/NpcItem';
 import { NpcTemplateController } from '../template/NpcTemplateController';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
+import { FolderController } from '@/classes/components/folder/FolderController';
 
 class UnitData extends NpcData implements INpcClassSaveData, INpcFeatureSaveData {
   npcType: 'unit' = 'unit';
@@ -19,7 +19,6 @@ class UnitData extends NpcData implements INpcClassSaveData, INpcFeatureSaveData
   tag!: string;
   templates!: string[];
   features!: string[];
-  items!: INpcItemSaveData[];
 }
 
 class Unit extends Npc implements IStatContainer {
@@ -98,6 +97,7 @@ class Unit extends Npc implements IStatContainer {
     NpcClassController.Serialize(unit, data);
     NarrativeController.Serialize(unit, data);
     StatController.Serialize(unit, data);
+    FolderController.Serialize(unit, data);
 
     return data as UnitData;
   }
@@ -116,6 +116,7 @@ class Unit extends Npc implements IStatContainer {
     NpcFeatureController.Deserialize(unit, data);
     NarrativeController.Deserialize(unit, data.narrative);
     StatController.Deserialize(unit, data.stats);
+    FolderController.Deserialize(unit, data.folder);
     return unit;
   }
 

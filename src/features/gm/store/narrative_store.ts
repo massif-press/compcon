@@ -2,13 +2,14 @@ import { Character, CharacterData } from '@/classes/narrative/Character';
 import { CollectionItem } from '@/classes/narrative/CollectionItem';
 import { Faction, FactionData } from '@/classes/narrative/Faction';
 import { Location, LocationData } from '@/classes/narrative/Location';
-import { GetAll, SetItem } from '@/io/Storage';
+import { GetAll, RemoveItem, SetItem } from '@/io/Storage';
 import _ from 'lodash';
 import { defineStore } from 'pinia';
 
 export const NarrativeStore = defineStore('narrative', {
   state: () => ({
     CollectionItems: [] as any[],
+    Folders: [] as string[],
   }),
   getters: {
     getItemByID: (state: any) => (id: string) => {
@@ -18,9 +19,9 @@ export const NarrativeStore = defineStore('narrative', {
     getLocations: (state: any) => state.CollectionItems.filter((x) => x instanceof Location),
     getFactions: (state: any) => state.CollectionItems.filter((x) => x instanceof Faction),
     getItemRelationships: (state: any) => (id: string) => {
-      return state.CollectionItems.flatMap(
-        (x: CollectionItem) => x.NarrativeController.Relationships
-      ).filter((x) => x.id === id);
+      return state.CollectionItems.filter((x) =>
+        x.NarrativeController.Relationships.some((y) => id === y.id)
+      );
     },
     getAllLabels: (state: any) => {
       return _.uniqBy(
@@ -28,6 +29,12 @@ export const NarrativeStore = defineStore('narrative', {
         'title'
       );
     },
+    getFolders: (state: any): string[] =>
+      _.uniq(
+        state.Folders.concat(
+          state.CollectionItems.flatMap((x: any) => x.FolderController.Folder)
+        ).filter((x) => !!x)
+      ),
   },
   actions: {
     async LoadCollectionItems(): Promise<void> {
@@ -47,6 +54,28 @@ export const NarrativeStore = defineStore('narrative', {
         );
     },
 
+    AddFolder(payload: string): void {
+      this.Folders.push(payload);
+    },
+
+    EditFolder(payload: { old: string; newName: string }): void {
+      this.CollectionItems.filter((x) => x.FolderController.Folder === payload.old).forEach(
+        (x) => (x.FolderController.Folder = payload.newName)
+      );
+
+      const idx = this.Folders.findIndex((x) => x === payload.old);
+      if (idx >= 0) this.Folders[idx] = payload.newName;
+    },
+
+    RemoveFolder(payload: string): void {
+      this.CollectionItems.filter((x) => x.FolderController.Folder === payload).forEach(
+        (x) => (x.FolderController.Folder = '')
+      );
+
+      const idx = this.Folders.findIndex((x) => x === payload);
+      if (idx >= 0) this.Folders.splice(idx, 1);
+    },
+
     AddItem(payload: Character | Location | Faction): void {
       this.CollectionItems.push(payload);
       this.SaveItemData();
@@ -58,9 +87,10 @@ export const NarrativeStore = defineStore('narrative', {
       this.SaveItemData();
     },
 
-    DeleteItemPermanent(payload: Character | Location | Faction): void {
+    async DeleteItemPermanent(payload: Character | Location | Faction): Promise<void> {
       const idx = this.CollectionItems.findIndex((x) => x.ID === payload.ID);
       if (idx >= 0) this.CollectionItems.splice(idx, 1);
+      await RemoveItem('narrative', payload.ID);
       this.SaveItemData();
     },
 

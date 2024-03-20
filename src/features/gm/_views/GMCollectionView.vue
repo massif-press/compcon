@@ -39,142 +39,23 @@
               :disabled="view === 'table'" />
           </v-col>
           <v-col cols="auto">
-            <v-dialog v-model="filterDialog" max-width="70vw">
-              <template v-slot:activator="{ props }">
-                <v-badge v-model="filters.length" dot color="secondary">
-                  <v-btn icon color="primary" variant="elevated" size="small" v-bind="props">
-                    <v-icon size="23" icon="mdi-filter-variant" />
-                  </v-btn>
-                </v-badge>
-              </template>
-              <v-card>
-                <v-toolbar density="compact" color="primary">
-                  <v-toolbar-title>Filters </v-toolbar-title>
-                  <v-spacer />
-                  <v-btn icon @click="filterDialog = false">
-                    <v-icon>mdi-close</v-icon>
-                  </v-btn>
-                </v-toolbar>
-                <v-card-text>
-                  <div>
-                    <v-row>
-                      <v-col v-if="(items as any)[0].StatController">
-                        <div class="heading h3">Stats</div>
-                        <v-divider />
-
-                        <v-row>
-                          <v-col>
-                            <div class="text-caption text-disabled"><i>Show items with:</i></div>
-                            <v-chip
-                              v-for="f in statFilters.filter((f) => !filters.some((x) => x === f))"
-                              size="small"
-                              class="mr-1 mb-1"
-                              @click="filters.push(f)"
-                              ><v-icon start size="x-small" icon="mdi-eye" /> {{ f }}</v-chip
-                            >
-                          </v-col>
-                          <v-col>
-                            <div class="text-caption text-disabled"><i>Hide items with:</i></div>
-                            <v-chip
-                              v-for="f in statFilters.filter((f) => filters.some((x) => x === f))"
-                              size="small"
-                              class="mr-1 mb-1"
-                              @click="filters.splice(filters.indexOf(f), 1)"
-                              ><v-icon start size="x-small" icon="mdi-eye-off" />{{ f }}</v-chip
-                            >
-                          </v-col>
-                        </v-row>
-                      </v-col>
-
-                      <v-col v-if="(items as any)[0].NarrativeController">
-                        <div class="heading h3">Labels</div>
-                        <v-divider />
-                        <v-row>
-                          <v-col>
-                            <div class="text-caption text-disabled"><i>Show items with:</i></div>
-                            <v-chip
-                              v-for="f in labelFilters.filter((f) => !filters.some((x) => x === f))"
-                              size="small"
-                              class="mr-1 mb-1"
-                              @click="filters.push(f)"
-                              ><v-icon start size="x-small" icon="mdi-eye" /> {{ f }}</v-chip
-                            >
-                          </v-col>
-                          <v-col>
-                            <div class="text-caption text-disabled"><i>Hide items with:</i></div>
-                            <v-chip
-                              v-for="f in labelFilters.filter((f) => filters.some((x) => x === f))"
-                              size="small"
-                              class="mr-1 mb-1"
-                              @click="filters.splice(filters.indexOf(f), 1)"
-                              ><v-icon start size="x-small" icon="mdi-eye-off" />{{ f }}</v-chip
-                            >
-                          </v-col>
-                        </v-row>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col>
-                        <v-btn
-                          block
-                          variant="plain"
-                          color="accent"
-                          size="x-small"
-                          @click="all('show', 'stats')"
-                          >Show All</v-btn
-                        >
-                      </v-col>
-                      <v-col>
-                        <v-btn
-                          block
-                          variant="plain"
-                          color="accent"
-                          size="x-small"
-                          @click="all('hide', 'stats')"
-                          >Hide All</v-btn
-                        >
-                      </v-col>
-                      <v-col>
-                        <v-btn
-                          block
-                          variant="plain"
-                          color="accent"
-                          size="x-small"
-                          @click="all('show', 'labels')"
-                          >Show All</v-btn
-                        >
-                      </v-col>
-                      <v-col>
-                        <v-btn
-                          block
-                          variant="plain"
-                          color="accent"
-                          size="x-small"
-                          @click="all('hide', 'labels')"
-                          >Hide All</v-btn
-                        >
-                      </v-col>
-                    </v-row>
-                  </div>
-                  <div class="text-right mt-6">
-                    <v-btn color="accent" variant="tonal" size="small" @click="filters = []"
-                      ><v-icon left start>mdi-filter-off</v-icon>Clear All Filters</v-btn
-                    >
-                  </div>
-                </v-card-text>
-                <v-divider />
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn color="accent" text @click="filterDialog = false">Dismiss</v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
+            <gm-collection-filter
+              :items="items"
+              :filters="filters"
+              @add-filter="filters.push($event)"
+              @remove-filter="filters.splice(filters.indexOf($event), 1)"
+              @set-filters="filters = $event" />
           </v-col>
         </v-row>
       </v-toolbar>
       <v-row justify="space-between">
         <v-col cols="auto">
-          <v-btn-toggle v-model="view" density="compact" mandatory tile class="rounded-t-0">
+          <v-btn-toggle
+            v-model="view"
+            density="compact"
+            mandatory
+            tile
+            class="rounded-t-0 rounded-s-0">
             <v-btn value="list">
               <v-icon color="accent">mdi-view-list</v-icon>
             </v-btn>
@@ -189,8 +70,17 @@
             </v-btn>
           </v-btn-toggle>
         </v-col>
+        <v-col cols="auto" class="ml-auto">
+          <v-btn-toggle density="compact" tile class="rounded-t-0 rounded-e-0">
+            <v-btn v-model="hideFolders" @click="hideFolders = !hideFolders">
+              <v-icon
+                color="accent"
+                :icon="!hideFolders ? 'mdi-folder-eye-outline' : 'mdi-folder-off-outline'" />
+            </v-btn>
+          </v-btn-toggle>
+        </v-col>
       </v-row>
-      <v-card-text>
+      <v-card-text v-if="!folders.length || hideFolders">
         <item-card-grid
           :item-type="itemType"
           :items="filteredItems"
@@ -200,14 +90,71 @@
           :table="view === 'table'"
           :grouping="grouping"
           :sorting="sorting"
+          :all-folders="folders"
           @open="$emit('open', $event)" />
       </v-card-text>
+      <v-card-text v-else>
+        <gm-collection-folder
+          v-for="folder in folders"
+          :folder="folder"
+          :filteredItems="filteredItems"
+          :items="items"
+          :itemType="itemType"
+          :search="search"
+          :view="view"
+          :grouping="grouping"
+          :sorting="sorting"
+          :all-folders="folders"
+          @set-folder-name="setFolderName(folder, $event)"
+          @remove-folder="removeFolder($event)"
+          @open="$emit('open', $event)" />
+
+        <v-card v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0">
+          <v-toolbar density="compact" style="height: 40px" class="mt-n2">
+            <v-btn size="x-small" icon @click="showNoFolder = !showNoFolder"
+              ><v-icon
+                size="30"
+                icon="mdi-menu-right"
+                :class="showNoFolder ? 'mdi-rotate-90' : ''" /></v-btn
+            ><v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
+            <v-spacer />
+            <div class="px-2 text-disabled text-caption">
+              {{ filteredItems.filter((x: any) => !x.FolderController?.Folder).length }}
+              ({{ items.filter((x: any) => !x.FolderController?.Folder).length }})
+            </div>
+          </v-toolbar>
+          <v-expand-transition>
+            <v-card-text v-if="showNoFolder">
+              <item-card-grid
+                :item-type="itemType"
+                :items="filteredItems.filter((x: any) => !x.FolderController?.Folder)"
+                :search="search"
+                :big="view === 'big-grid'"
+                :list="view === 'list'"
+                :table="view === 'table'"
+                :grouping="grouping"
+                :sorting="sorting"
+                :all-folders="folders"
+                @open="$emit('open', $event)" />
+            </v-card-text>
+          </v-expand-transition>
+        </v-card>
+      </v-card-text>
+
       <div v-if="hidden" class="text-right pa-2 text-disabled">
         <i>{{ hidden }} items hidden by filter</i>
       </div>
     </v-card>
 
     <v-footer fixed>
+      <v-btn
+        :value="true"
+        prepend-icon="mdi-folder-multiple-plus"
+        variant="tonal"
+        color="accent"
+        @click="addFolder">
+        Add Folder
+      </v-btn>
       <v-spacer />
       <v-btn color="secondary" @click="$emit('add-new')">
         <v-icon size="large" start icon="mdi-plus" />
@@ -220,10 +167,15 @@
 <script lang="ts">
 import ItemCardGrid from '../_views/ItemCardGrid.vue';
 import Organizer from '../_components/Organizer.vue';
+import GmCollectionFilter from './_components/GMCollectionFilter.vue';
+import GmCollectionFolder from './_components/GMCollectionFolder.vue';
+import { NpcStore } from '../store/npc_store';
+import { NarrativeStore } from '../store/narrative_store';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'gm-collection-view',
-  components: { ItemCardGrid, Organizer },
+  components: { ItemCardGrid, Organizer, GmCollectionFilter, GmCollectionFolder },
   props: {
     items: { type: Array, required: true },
     itemType: { type: String, required: true },
@@ -236,28 +188,55 @@ export default {
     view: 'list',
     sorting: 'Name',
     grouping: 'None',
-    filterDialog: false,
-    filterSets: ['Stats', 'Labels'],
     filters: [] as any[],
+    openFolders: [] as string[],
+    showNoFolder: true,
+    hideFolders: false,
   }),
-  computed: {
-    labelFilters() {
-      return [
-        ...new Set(
-          this.items
-            .flatMap((item: any) => item.NarrativeController.Labels)
-            .map((x: any) => x.title)
-        ),
-      ];
+  emits: ['open', 'add-new'],
+  mounted() {
+    const user = UserStore().User;
+    if (!user || !user.View) return;
+    this.view = user.View(this.itemType.toLowerCase() + 'View', 'list');
+    this.sorting = user.View(this.itemType.toLowerCase() + 'Sorting', 'Name');
+    this.grouping = user.View(this.itemType.toLowerCase() + 'Grouping', 'None');
+    this.filters = user.View(this.itemType.toLowerCase() + 'Filters', []) as any[];
+    this.hideFolders = user.View(this.itemType.toLowerCase() + 'HideFolders', false);
+  },
+  watch: {
+    view(val) {
+      if (!val) return;
+      UserStore().User.SetView(this.itemType.toLowerCase() + 'View', val);
     },
-    statFilters() {
-      return [
-        ...new Set(
-          this.items
-            .flatMap((item: any) => item.StatController.DisplayKeys)
-            .map((x: any) => x.title)
-        ),
-      ];
+    sorting(val) {
+      if (!val) return;
+      UserStore().User.SetView(this.itemType.toLowerCase() + 'Sorting', val);
+    },
+    grouping(val) {
+      if (!val) return;
+      UserStore().User.SetView(this.itemType.toLowerCase() + 'Grouping', val);
+    },
+    filters(val) {
+      UserStore().User.SetView(this.itemType.toLowerCase() + 'Filters', val);
+    },
+    hideFolders(val) {
+      UserStore().User.SetView(this.itemType.toLowerCase() + 'HideFolders', val);
+    },
+  },
+  computed: {
+    folderStore(): any {
+      switch (this.itemType.toLowerCase()) {
+        case 'npc':
+        case 'unit':
+        case 'doodad':
+        case 'eidolon':
+          return NpcStore();
+        default:
+          return NarrativeStore();
+      }
+    },
+    folders(): string[] {
+      return this.folderStore.getFolders;
     },
     filteredItems() {
       let out = this.items;
@@ -282,20 +261,28 @@ export default {
     },
   },
   methods: {
-    all(action: 'show' | 'hide', type: 'stats' | 'labels') {
-      if (type === 'stats') {
-        if (action === 'show') {
-          this.filters = this.filters.filter((x) => !this.statFilters.some((y) => y === x));
-        } else {
-          this.filters.push(...this.statFilters);
-        }
-      } else {
-        if (action === 'show') {
-          this.filters = this.filters.filter((x) => !this.labelFilters.some((y) => y === x));
-        } else {
-          this.filters.push(...this.labelFilters);
-        }
+    addFolder() {
+      let folderName = 'New Folder';
+      if (this.folders.some((x) => x === folderName)) {
+        let i = 1;
+        while (this.folders.some((x) => x === `${folderName} ${i}`)) i++;
+        folderName = `${folderName} ${i}`;
       }
+      this.folderStore.AddFolder(folderName);
+      this.hideFolders = false;
+    },
+    toggleFolder(folder: string) {
+      if (this.openFolders.includes(folder)) {
+        this.openFolders.splice(this.openFolders.indexOf(folder), 1);
+      } else {
+        this.openFolders.push(folder);
+      }
+    },
+    setFolderName(old: string, newName: string) {
+      this.folderStore.EditFolder({ old, newName });
+    },
+    removeFolder(folder: string) {
+      this.folderStore.RemoveFolder(folder);
     },
   },
 };

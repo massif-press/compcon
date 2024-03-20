@@ -5,6 +5,7 @@
     @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
+    @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
       <builder :item="item" />
@@ -23,6 +24,7 @@ import Builder from './builder.vue';
 
 import { NpcStore } from '@/stores';
 import StatEditor from '../../_components/StatEditor.vue';
+import exportAsJson from '@/util/jsonExport';
 
 export default {
   name: 'gm-doodad-editor-base',
@@ -50,6 +52,9 @@ export default {
     dupe() {
       NpcStore().CloneNpc(this.item as Doodad);
       this.$emit('exit');
+    },
+    exportItem(item) {
+      exportAsJson(Doodad.Serialize(item), `${item.Name}.json`);
     },
   },
 };

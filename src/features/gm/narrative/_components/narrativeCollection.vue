@@ -48,8 +48,8 @@ export default {
     groupings() {
       const allLabelTitles = new Set(
         NarrativeStore()
-          .getAllLabels.filter((x) => x.title.length > 0)
-          .map((x) => x.title)
+          .getAllLabels.filter((x: any) => x.title.length > 0)
+          .map((x: any) => x.title)
       );
 
       return ['None', ...allLabelTitles];
@@ -57,8 +57,8 @@ export default {
     sortings() {
       const allLabelTitles = new Set(
         NarrativeStore()
-          .getAllLabels.filter((x) => x.title.length > 0)
-          .map((x) => x.title)
+          .getAllLabels.filter((x: any) => x.title.length > 0)
+          .map((x: any) => x.title)
       );
 
       const baseSortings = ['Name'];

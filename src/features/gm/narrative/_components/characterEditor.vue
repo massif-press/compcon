@@ -5,6 +5,7 @@
     @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
+    @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
       <v-row dense>
@@ -48,6 +49,7 @@ import { Character } from '@/classes/narrative/Character';
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import { NarrativeStore } from '@/stores';
 import RelationshipEditor from '../../_components/RelationshipEditor.vue';
+import exportAsJson from '@/util/jsonExport';
 
 export default {
   name: 'gm-character-editor-base',
@@ -75,6 +77,9 @@ export default {
     dupe() {
       NarrativeStore().CloneItem(this.item as Character);
       this.$emit('exit');
+    },
+    exportItem(item) {
+      exportAsJson(Character.Serialize(item), `${item.Name}.json`);
     },
   },
 };

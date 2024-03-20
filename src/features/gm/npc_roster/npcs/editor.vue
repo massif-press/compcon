@@ -5,6 +5,7 @@
     @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
+    @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
       <builder :item="item" />
@@ -29,6 +30,7 @@ import { NpcStore } from '@/stores';
 import Features from './features.vue';
 import Builder from './builder.vue';
 import { Unit } from '@/classes/npc/unit/Unit';
+import exportAsJson from '@/util/jsonExport';
 
 export default {
   name: 'gm-editor-npc',
@@ -56,6 +58,9 @@ export default {
     dupe() {
       NpcStore().CloneNpc(this.item as Unit);
       this.$emit('exit');
+    },
+    exportItem(item) {
+      exportAsJson(Unit.Serialize(item), `${item.Name}.json`);
     },
   },
 };

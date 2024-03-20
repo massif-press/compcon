@@ -2,6 +2,7 @@ import { ItemType } from '../enums';
 import { CollectionItem, ICollectionItemData } from './CollectionItem';
 import { CloudController, PortraitController, SaveController } from '../components';
 import { NarrativeController } from './NarrativeController';
+import { FolderController } from '../components/folder/FolderController';
 
 class CharacterData extends ICollectionItemData {
   collectionItemType: string = 'character';
@@ -91,7 +92,7 @@ class Character extends CollectionItem {
           'Rival',
         ];
       case 'location':
-        return ['Resident', 'Visitor', 'Regular', 'Tourist', 'Exile', 'Local'];
+        return ['Home', 'Destination', 'Birthplace', 'Workplace', 'Hideout'];
       case 'faction':
         return [
           'Member',
@@ -122,6 +123,7 @@ class Character extends CollectionItem {
     CloudController.Serialize(character, data);
     PortraitController.Serialize(character, data);
     NarrativeController.Serialize(character, data);
+    FolderController.Serialize(character, data);
 
     return data as CharacterData;
   }
@@ -135,6 +137,7 @@ class Character extends CollectionItem {
     SaveController.Deserialize(character, data.save);
     PortraitController.Deserialize(character, data.img);
     NarrativeController.Deserialize(character, data.narrative);
+    FolderController.Deserialize(character, data.folder);
     return character;
   }
 

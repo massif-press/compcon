@@ -126,6 +126,7 @@ import { NarrativeStore } from '../../store/narrative_store';
 import { NpcStore } from '../../store/npc_store';
 
 export default {
+  name: 'gm-label-editor',
   props: {
     item: {
       type: Object,

@@ -6,6 +6,7 @@ import { CompendiumStore } from '@/stores';
 import { IStatData } from '@/classes/components/combat/stats/StatController';
 import { EidolonLayerSaveData } from './EidolonLayerSaveData';
 import { EidolonShardSaveData } from './EidolonShardSaveData';
+import { FolderController } from '@/classes/components/folder/FolderController';
 
 class EidolonData extends NpcData {
   npcType: 'eidolon' = 'eidolon';
@@ -105,6 +106,7 @@ class Eidolon extends Npc {
     PortraitController.Serialize(eidolon, data);
     BrewController.Serialize(eidolon, data);
     NarrativeController.Serialize(eidolon, data);
+    FolderController.Serialize(eidolon, data);
 
     return data as EidolonData;
   }
@@ -119,6 +121,7 @@ class Eidolon extends Npc {
     PortraitController.Deserialize(eidolon, data.img);
     BrewController.Deserialize(eidolon, data);
     NarrativeController.Deserialize(eidolon, data.narrative);
+    FolderController.Deserialize(eidolon, data.folder);
     return eidolon;
   }
 

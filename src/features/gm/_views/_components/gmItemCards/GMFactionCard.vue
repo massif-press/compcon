@@ -10,17 +10,22 @@
           {{ item.Name }}
         </div>
       </v-card-text>
+      <sort-chips :grouping="grouping" :sorting="sorting" />
     </v-card>
   </v-hover>
 </template>
 
 <script lang="ts">
+import SortChips from './_subcomponents/sortChips.vue';
 export default {
   name: 'gm-faction-card',
+  components: { SortChips },
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
-    grouping: { type: Object, required: false, default: '' },
+    grouping: { type: [Object, String], required: false, default: '' },
+    sorting: { type: [Object, String], required: false, default: '' },
   },
+  emits: ['open'],
 };
 </script>

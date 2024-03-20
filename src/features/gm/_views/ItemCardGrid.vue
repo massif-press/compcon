@@ -23,9 +23,16 @@
       </v-row>
       <div v-if="!items.length" class="text-center text-disabled"><i>No Data</i></div>
       <v-row v-else dense>
-        <v-col v-for="(item, i) in groupedItems(groupings[key])" :cols="list ? 12 : big ? 3 : 2">
+        <v-col
+          v-for="(item, i) in groupedItems(groupings[key])"
+          :cols="list ? 12 : big ? 3 : 2"
+          style="position: relative">
+          <folder-menu
+            v-if="allFolders && allFolders.length > 0"
+            :item="item.FolderController"
+            :all-folders="allFolders" />
           <item-card
-            :item="item as any"
+            :item="<any>item"
             :big="big"
             :odd="i % 2 > 0"
             :list="list"
@@ -41,13 +48,15 @@
 <script lang="ts">
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import ItemCard from './_components/GMItemCard.vue';
+import FolderMenu from './_components/FolderMenu.vue';
 import GmItemTable from './GMItemTable.vue';
 import _ from 'lodash';
 import { Unit } from '@/classes/npc/unit/Unit';
+import { NpcStore } from '../store/npc_store';
 
 export default {
   name: 'item-card-grid',
-  components: { ItemCard, GmItemTable },
+  components: { ItemCard, GmItemTable, FolderMenu },
   props: {
     itemType: { type: String, required: true },
     items: { type: Array, required: true },
@@ -58,6 +67,7 @@ export default {
     grouping: { type: String, required: false, default: 'None' },
     sorting: { type: String, required: false, default: 'Name' },
     sortDir: { type: String, required: false, default: 'asc' },
+    allFolders: { type: Array, required: false, default: () => [] },
   },
   computed: {
     groupings() {
@@ -66,7 +76,7 @@ export default {
       const stats = {} as any;
 
       //check stats
-      if ((this.items[0] as IStatContainer).StatController) {
+      if (this.items.length > 0 && (this.items[0] as IStatContainer).StatController) {
         this.items.forEach((item) => {
           const sc = item as IStatContainer;
           const stat = sc.StatController.DisplayKeys.find(
@@ -84,7 +94,7 @@ export default {
       const labels = {} as any;
 
       // check labels
-      if ((this.items[0] as any).NarrativeController) {
+      if (this.items.length > 0 && (this.items[0] as any).NarrativeController) {
         this.items.forEach((item) => {
           const nc = item as any;
           const label = nc.NarrativeController.Labels.find((x) => x.title === this.grouping);
@@ -99,7 +109,7 @@ export default {
 
       const classGrp = {} as any;
 
-      if ((this.items[0] as any).NpcClassController) {
+      if (this.items.length > 0 && (this.items[0] as any).NpcClassController) {
         this.items.forEach((item) => {
           const nc = item as Unit;
           if (this.grouping === 'Role') {
@@ -122,7 +132,7 @@ export default {
       }
 
       const eidolonGrp = {} as any;
-      if ((this.items[0] as any).Layers) {
+      if (this.items.length > 0 && (this.items[0] as any).Layers) {
         this.items.forEach((item) => {
           const ec = item as any;
           if (this.grouping === 'Tier') {

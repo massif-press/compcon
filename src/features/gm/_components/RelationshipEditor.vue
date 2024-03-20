@@ -1,82 +1,12 @@
 <template>
   <div class="text-overline">RELATIONSHIPS</div>
-
-  <v-card v-for="r in item.NarrativeController.Relationships" class="mb-2">
-    <v-card variant="tonal">
-      <v-toolbar density="compact" class="px-3">
-        <v-row dense>
-          <v-col>
-            <v-autocomplete
-              v-model="r.id"
-              density="compact"
-              hide-details
-              variant="outlined"
-              auto-select-first="exact"
-              :items="allCollectionItems"
-              item-title="Name"
-              item-value="ID"
-              @update:modelValue="setName(r)" />
-          </v-col>
-          <v-col>
-            <v-text-field
-              v-model="r.relationship"
-              density="compact"
-              hide-details
-              variant="outlined"
-              placeholder="Relationship" />
-          </v-col>
-          <v-col>
-            <v-menu v-if="r.id.length" location="right">
-              <template #activator="{ props }">
-                <v-btn size="small" icon color="secondary" variant="plain" v-bind="props">
-                  <v-tooltip bottom>
-                    <template #activator="{ props }">
-                      <v-icon v-bind="props" icon="mdi-lightbulb" />
-                    </template>
-                    <span>Suggestions</span>
-                  </v-tooltip>
-                </v-btn>
-              </template>
-              <v-card>
-                <v-list>
-                  <v-list-item
-                    v-for="s in item.GetRelationshipSuggestions(getRelationItem(r))"
-                    @click="r.relationship = s"
-                    :title="s" />
-                </v-list>
-              </v-card>
-            </v-menu>
-          </v-col>
-          <v-spacer />
-          <v-col cols="auto">
-            <v-menu offset-x left>
-              <template #activator="{ props }">
-                <v-btn size="small" icon color="error" variant="plain" v-bind="props">
-                  <v-icon icon="mdi-delete" />
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-text>
-                  Do you want to delete this relationship? This action cannot be undone.
-                </v-card-text>
-                <v-divider />
-                <v-card-actions>
-                  <v-spacer />
-                  <v-btn size="small" color="error" @click="removeRelationship(r)"
-                    >Confirm Deletion</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-menu>
-          </v-col>
-        </v-row>
-      </v-toolbar>
-      <div class="pa-2">
-        <div class="text-caption">DETAIL</div>
-        <cc-rich-text-area :item="r" note-property="note" />
-      </div>
-    </v-card>
-  </v-card>
+  <cc-relationship-item
+    v-for="(r, idx) in item.NarrativeController.Relationships"
+    :item="r"
+    :ref="'relationship' + idx"
+    :origin-item="item"
+    editable
+    @delete="removeRelationship(idx)" />
 
   <div class="text-right">
     <v-btn variant="tonal" size="small" color="accent" @click="addRelationship()"
@@ -84,7 +14,8 @@
     >
   </div>
 
-  <cc-relationship-item v-for="l in linkedRelationships" :item="l" />
+  <div class="text-overline">LINKED ENTITIES</div>
+  <cc-relationship-item v-for="l in linkedRelationships" :item="l.item" :origin-item="l.origin" />
 </template>
 
 <script lang="ts">
@@ -103,16 +34,33 @@ export default {
       return NarrativeStore().CollectionItems.filter((i) => i.ID !== this.item.ID);
     },
     linkedRelationships() {
-      return NarrativeStore().getItemRelationships(this.item.ID);
+      console.log(this.item.NarrativeController.Relationships);
+      const linkedItems = NarrativeStore().getItemRelationships(this.item.ID);
+      let relationships: any[] = [];
+      linkedItems.forEach((l) => {
+        const links = l.NarrativeController.Relationships.filter(
+          (r: any) => r.id === this.item.ID
+        ).map((r: any) => ({
+          item: r,
+          origin: l,
+        }));
+        relationships = relationships.concat(links);
+      });
+
+      return relationships;
     },
   },
   methods: {
     addRelationship() {
       this.item.NarrativeController.Relationships.push({
         id: '',
-        name: '',
+        name: 'New Relationship',
         relationship: '',
         notes: '',
+      });
+      this.$nextTick(() => {
+        const idx = this.item.NarrativeController.Relationships.length - 1;
+        (this.$refs['relationship' + idx] as any)[0].openDialog();
       });
     },
     removeRelationship(index: number) {
@@ -123,9 +71,6 @@ export default {
       if (item) {
         r.name = item.Name;
       }
-    },
-    getRelationItem(r: any) {
-      return NarrativeStore().CollectionItems.find((i) => i.ID === r.id).ItemType;
     },
   },
 };
