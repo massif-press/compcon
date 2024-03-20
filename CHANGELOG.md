@@ -1,5 +1,11 @@
 # COMP/CON Changelog
 
+## [2.3.21] (2024-03-20)
+
+### Bug Fixes
+
+- **Global** Minor updates and corrections to the new themes
+
 ## [2.3.20] (2024-03-11)
 
 ### Features
