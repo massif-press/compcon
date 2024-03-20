@@ -26,7 +26,7 @@
       Import
     </v-btn>
     <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
-      <importer type="npc" />
+      <importer @complete="($refs as any).import.hide()" />
     </cc-solo-dialog>
     <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()"
       ><v-icon start icon="mdi-queue-first-in-last-out" />Organize</v-btn
@@ -57,3 +57,4 @@ export default {
   }),
 };
 </script>
+./Importer.vue../_components/Importer.vue

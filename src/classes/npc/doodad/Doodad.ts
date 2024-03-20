@@ -4,6 +4,7 @@ import { NpcData, Npc } from '../Npc';
 import { BrewController } from '@/classes/components/brew/BrewController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
+import { FolderController } from '@/classes/components/folder/FolderController';
 
 class DoodadData extends NpcData {
   npcType: 'doodad' = 'doodad';
@@ -35,6 +36,7 @@ class Doodad extends Npc implements IStatContainer {
     BrewController.Serialize(doodad, data);
     NarrativeController.Serialize(doodad, data);
     StatController.Serialize(doodad, data);
+    FolderController.Serialize(doodad, data);
 
     return data as DoodadData;
   }
@@ -50,6 +52,7 @@ class Doodad extends Npc implements IStatContainer {
     BrewController.Deserialize(doodad, data);
     NarrativeController.Deserialize(doodad, data.narrative);
     StatController.Deserialize(doodad, data.stats);
+    FolderController.Deserialize(doodad, data.folder);
     return doodad;
   }
 

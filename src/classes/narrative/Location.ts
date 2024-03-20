@@ -2,6 +2,7 @@ import { CollectionItem, ICollectionItemData } from './CollectionItem';
 import { CloudController, PortraitController, SaveController } from '../components';
 import { NarrativeController } from './NarrativeController';
 import { ItemType } from '../enums';
+import { FolderController } from '../components/folder/FolderController';
 
 class LocationData extends ICollectionItemData {
   collectionItemType: string = 'location';
@@ -78,6 +79,7 @@ class Location extends CollectionItem {
     CloudController.Serialize(location, data);
     PortraitController.Serialize(location, data);
     NarrativeController.Serialize(location, data);
+    FolderController.Serialize(location, data);
 
     return data as LocationData;
   }
@@ -91,6 +93,7 @@ class Location extends CollectionItem {
     SaveController.Deserialize(location, data.save);
     PortraitController.Deserialize(location, data.img);
     NarrativeController.Deserialize(location, data.narrative);
+    FolderController.Deserialize(location, data.folder);
     return location;
   }
 

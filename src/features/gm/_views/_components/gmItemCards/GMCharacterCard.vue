@@ -22,20 +22,25 @@
             </div>
           </v-card>
         </v-fade-transition>
+        <sort-chips :grouping="grouping" :sorting="sorting" />
       </v-card>
     </template>
   </v-hover>
 </template>
 
 <script lang="ts">
+import SortChips from './_subcomponents/sortChips.vue';
+
 export default {
   name: 'gm-character-card',
   emits: ['open'],
+  components: { SortChips },
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
     odd: { type: Boolean },
-    grouping: { type: Object, required: false, default: '' },
+    grouping: { type: [Object, String], required: false, default: '' },
+    sorting: { type: [Object, String], required: false, default: '' },
   },
 };
 </script>

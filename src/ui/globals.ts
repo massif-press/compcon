@@ -83,6 +83,7 @@ import CCSplitChip from './components/CCSplitChip.vue';
 import CCTitledDivider from './components/CCTitledDivider.vue';
 import CCTieredAttribute from './components/CCTieredAttribute.vue';
 import CCBonus from './components/items/features/bonuses/CCBonus.vue';
+import CCNarrativeItemContent from './components/CCNarrativeItemContent.vue';
 
 export {
   CCImg,
@@ -170,4 +171,5 @@ export {
   CCTitledDivider,
   CCTieredAttribute,
   CCBonus,
+  CCNarrativeItemContent,
 };

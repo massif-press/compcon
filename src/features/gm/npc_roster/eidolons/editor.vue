@@ -5,6 +5,7 @@
     @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
+    @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
       <builder :item="item" />
@@ -26,6 +27,7 @@ import Builder from './builder.vue';
 import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 import PersistentTraits from './_components/PersistentTraits.vue';
 import TierSelector from './_components/TierSelector.vue';
+import exportAsJson from '@/util/jsonExport';
 
 export default {
   name: 'gm-eidolon-editor-base',
@@ -53,6 +55,9 @@ export default {
     dupe() {
       NpcStore().CloneNpc(this.item as Eidolon);
       this.$emit('exit');
+    },
+    exportItem(item) {
+      exportAsJson(Eidolon.Serialize(item), `${item.Name}.json`);
     },
   },
 };

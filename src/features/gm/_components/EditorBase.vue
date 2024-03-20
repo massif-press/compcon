@@ -19,6 +19,7 @@
             <slot name="stats" />
           </v-col>
           <v-col cols="3" class="text-center ml-auto">
+            <gm-folder-editor :item="item" class="mb-1" />
             <gm-label-editor :item="item" class="mb-4" />
             <cc-img :src="item.PortraitController.Image" />
             <v-btn
@@ -102,11 +103,7 @@
     <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
       ><v-icon start icon="mdi-printer" />Print</v-btn
     >
-    <v-btn
-      variant="tonal"
-      size="small"
-      class="ml-2"
-      :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
+    <v-btn variant="tonal" size="small" class="ml-2" @click="$emit('export', item)"
       ><v-icon start icon="mdi-upload" />Export</v-btn
     >
     <v-spacer />
@@ -138,16 +135,17 @@
 import NoteEditor from './NoteEditor.vue';
 import SectionEditor from './SectionEditor.vue';
 import GmLabelEditor from './_subcomponents/GMLabelEditor.vue';
+import GmFolderEditor from './_subcomponents/GMFolderEditor.vue';
 
 export default {
   name: 'gm-editor-base',
-  components: { SectionEditor, NoteEditor, GmLabelEditor },
+  components: { SectionEditor, NoteEditor, GmLabelEditor, GmFolderEditor },
   props: {
     isNew: { type: Boolean },
     showDescription: { type: Boolean },
     item: { type: Object, required: true },
   },
-  emits: ['exit', 'save', 'add-new', 'copy', 'delete'],
+  emits: ['exit', 'save', 'add-new', 'copy', 'delete', 'export'],
   data: () => ({
     printDialog: false,
     dupeMenu: false,

@@ -13,6 +13,7 @@ import CampaignSectionPage from './campaigns/pages/section.vue';
 import NpcRoster from './npc_roster/index.vue';
 
 import NarrativeIndex from './narrative/index.vue';
+import NarrativeGraph from './narrative/graph.vue';
 
 import Encounters from './encounters/index.vue';
 
@@ -64,6 +65,11 @@ const routes = [
         path: 'narrative',
         name: 'gm-narrative',
         component: NarrativeIndex,
+      },
+      {
+        path: 'narrative/graph',
+        name: 'gm-narrative-graph',
+        component: NarrativeGraph,
       },
 
       {

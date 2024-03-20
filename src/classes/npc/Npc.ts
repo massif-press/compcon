@@ -18,11 +18,14 @@ import { IBrewable } from '../components/brew/IBrewable';
 import { CompendiumItem } from '../CompendiumItem';
 import { Label, NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
 import { INarrativeElement } from '../narrative/INarrativeElement';
+import { FolderController, IFolderData } from '../components/folder/FolderController';
+import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 
 class NpcData {
   id!: string;
   save!: ISaveData;
   cloud!: ICloudData;
+  folder!: IFolderData;
   brews!: BrewInfo[];
   img!: IPortraitData;
   narrative!: NarrativeElementData;
@@ -34,7 +37,13 @@ class NpcData {
 }
 
 abstract class Npc
-  implements IBrewable, IFeatureController, INarrativeElement, ICloudSyncable, ISaveable
+  implements
+    IBrewable,
+    IFeatureController,
+    INarrativeElement,
+    ICloudSyncable,
+    ISaveable,
+    IFolderPlaceable
 {
   public readonly ItemType: string = 'npc';
   public readonly StorageType: string = 'npcs';
@@ -46,6 +55,7 @@ abstract class Npc
   public BrewController: BrewController;
   public FeatureController: FeatureController;
   public NarrativeController: NarrativeController;
+  public FolderController: FolderController;
 
   private _id: string;
   protected _name: string = 'New NPC';
@@ -67,6 +77,7 @@ abstract class Npc
     this.BrewController = new BrewController(this);
     this.FeatureController = new FeatureController(this);
     this.NarrativeController = new NarrativeController(this);
+    this.FolderController = new FolderController(this);
 
     this.FeatureController.Register();
   }
