@@ -11,7 +11,7 @@
   "dependencies": {
     "@aws-amplify/datastore": "^2.9.3",
     "@aws-amplify/ui-vue": "^0.2.33",
-    "@massif/lancer-data": "^3.1.6",
+    "@massif/lancer-data": "^3.1.7",
     "@mdi/font": "^6.6.96",
     "aws-amplify": "^4.3.17",
     "aws-amplify-vue": "^2.1.5",
