@@ -3794,10 +3794,10 @@
     cssnano-preset-default "^4.0.0"
     postcss "^7.0.0"
 
-"@massif/lancer-data@^3.1.4":
-  version "3.1.5"
-  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-3.1.5.tgz#328660bb7cebf6c46bf0d9d80d1db378c7218251"
-  integrity sha512-/oIxdKQn0Z6y4lY2Ikr63nezt3qcdJHrszBTT7y8uVPuXr3JwTSUUTXSZwuW9ukvGuzQBmNPITioyTwF7unirQ==
+"@massif/lancer-data@^3.1.6":
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-3.1.6.tgz#39e44c54c71fe0d0da329a49fc898fa3cf09a8e5"
+  integrity sha512-xZ4O4dKUytara0BtyzAAWVbUW7YxDDgnHsumCDLjNyeIzDanGIk6dEPP8bkTOaFvu8mInDxi+Eqy3fVeVRWcRw==
 
 "@mdi/font@^6.6.96":
   version "6.6.96"
