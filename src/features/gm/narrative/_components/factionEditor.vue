@@ -24,7 +24,7 @@
         </v-col>
         <v-col cols="auto">
           <v-combobox
-            v-model="item.Pronouns"
+            v-model="item.FactionType"
             density="compact"
             :items="item.TypeSuggestions"
             variant="outlined"

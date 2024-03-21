@@ -18,7 +18,7 @@
       <v-card-text>
         <div>
           <v-row>
-            <v-col v-if="(items as any)[0].StatController">
+            <v-col v-if="items.length > 0 && (items as any)[0].StatController">
               <div class="heading h3">Stats</div>
               <v-divider />
 
@@ -46,7 +46,7 @@
               </v-row>
             </v-col>
 
-            <v-col v-if="(items as any)[0].NarrativeController">
+            <v-col v-if="items.length > 0 && (items as any)[0].NarrativeController">
               <div class="heading h3">Labels</div>
               <v-divider />
               <v-row>
@@ -145,6 +145,7 @@ export default {
   emits: ['add-filter', 'remove-filter', 'set-filters'],
   computed: {
     labelFilters() {
+      if (!this.items.length || !(this.items as any)[0].NarrativeController) return [];
       return [
         ...new Set(
           this.items
@@ -154,6 +155,7 @@ export default {
       ];
     },
     statFilters() {
+      if (!this.items.length || !(this.items as any)[0].StatController) return [];
       return [
         ...new Set(
           this.items

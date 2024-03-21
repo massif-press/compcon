@@ -1,51 +1,74 @@
 import { v4 as uuid } from 'uuid';
-import { Npc } from '@/class';
-import { CompendiumStore } from '@/stores';
-import { ISaveData, SaveController } from '../components';
-import { NpcData } from '../npc/Npc';
-import { ISitrepData, SitrepData } from './Sitrep';
-import { IEnvironmentData, EnvironmentData } from './EnvironmentData';
+import {
+  IPortraitData,
+  ISaveData,
+  ISaveable,
+  PortraitController,
+  SaveController,
+} from '../components';
+import { ISitrepData, Sitrep } from './Sitrep';
 import { EncounterMap, IMapData } from './Map';
+import { FolderController, IFolderData } from '../components/folder/FolderController';
+import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
+import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
+import { INarrativeElement } from '../narrative/INarrativeElement';
+import { ImageTag } from '@/io/ImageManagement';
+import { IEnvironmentData } from '../Environment';
 
-class IEncounterData {
+interface IEncounterData {
   id: string;
-  lastModified: string;
   name: string;
-  npcs: NpcData[];
+  note?: string;
+  description?: string;
+  gmDescription?: string;
+  save: ISaveData;
+  folder: IFolderData;
+  img: IPortraitData;
+  narrative: NarrativeElementData;
   sitrep: ISitrepData;
   environment: IEnvironmentData;
   map?: IMapData;
-
-  save: ISaveData;
 }
 
-class Encounter {
+class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public readonly ItemType: string = 'encounter';
-  public SaveController: SaveController;
-  public IsDirty: boolean;
-  public LastModified: string;
-
-  public Sitrep: SitrepData;
-  public EnvironmentData: EnvironmentData;
-  public Map?: EncounterMap;
-
-  private _npcData: [];
-  public InstancedNpcs: [];
+  public readonly StorageType: string = 'encounters';
 
   private _id: string;
-  private _name: string;
-  private _labels: string[];
+  protected _name: string = 'New Encounter';
 
-  public constructor() {
-    this._id = uuid();
+  private _note: string;
+  private _description: string;
+  private _gmDescription: string;
+
+  // public Sitrep: Sitrep;
+  // public EnvironmentData: EnvironmentData;
+  public Map?: EncounterMap;
+
+  public ImageTag: ImageTag = ImageTag.Map;
+  public SaveController: SaveController;
+  public PortraitController: PortraitController;
+  public NarrativeController: NarrativeController;
+  public FolderController: FolderController;
+
+  public constructor(data?: IEncounterData) {
+    this._id = data?.id || uuid();
+    this._note = data?.note || '';
+    this._description = data?.description || '';
+    this._gmDescription = data?.gmDescription || '';
+
+    // this.Sitrep = new Sitrep(data?.sitrep);
+    // this.EnvironmentData = new EnvironmentData(data?.environment);
+    // this.Map = data?.map ? new EncounterMap(data.map) : undefined;
+
     this.SaveController = new SaveController(this);
-    this.Sitrep = new SitrepData();
-    this.EnvironmentData = new EnvironmentData();
-    this._name = 'New Encounter';
-    this._labels = [];
+    this.PortraitController = new PortraitController(this);
+    this.NarrativeController = new NarrativeController(this);
+    this.FolderController = new FolderController(this);
+  }
 
-    this._npcData = [];
-    this.InstancedNpcs = [];
+  public get Portrait(): string {
+    return this.PortraitController.Portrait;
   }
 
   public get ID(): string {
@@ -66,36 +89,45 @@ class Encounter {
     this.SaveController.save();
   }
 
-  public get Labels(): string[] {
-    return this._labels;
+  public get Note(): string {
+    return this._note;
   }
 
-  public set Labels(val: string[]) {
-    this._labels = val;
+  public set Note(val: string) {
+    this._note = val;
     this.SaveController.save();
   }
 
-  // this should return npc data when editing and instanced npcs when running
-  public Npcs(): Npc[] {
-    const npcs = [];
-
-    return npcs;
+  public get Description(): string {
+    return this._description;
   }
 
-  // these should add/rem from encounter template when editing, and reinforcements when running
-  public AddNpc() {}
-  public RemoveNpc() {}
+  public set Description(val: string) {
+    this._description = val;
+    this.SaveController.save();
+  }
 
-  // find npc data by id, update
-  public UpdateNpcs() {}
+  public get GmDescription(): string {
+    return this._gmDescription;
+  }
+
+  public set GmDescription(val: string) {
+    this._gmDescription = val;
+    this.SaveController.save();
+  }
 
   public static Serialize(enc: Encounter): IEncounterData {
     const data = {
       id: enc.ID,
       name: enc.Name,
-      labels: enc.Labels,
-    };
+      note: enc.Note,
+      description: enc.Description,
+      gmDescription: enc.GmDescription,
+    } as IEncounterData;
     SaveController.Serialize(enc, data);
+    PortraitController.Serialize(enc, data);
+    NarrativeController.Serialize(enc, data);
+    FolderController.Serialize(enc, data);
 
     return data as IEncounterData;
   }
@@ -108,22 +140,10 @@ class Encounter {
     return Encounter.Deserialize(Encounter.Serialize(this));
   }
 
-  public Update(data: IEncounterData): void {
-    this._id = data.id;
-    this._name = data.name;
-    // this._sitrep = data.sitrep
-  }
-
   public static Deserialize(data: IEncounterData): Encounter {
-    const e = new Encounter();
-    try {
-      e.Update(data);
-      SaveController.Deserialize(e, data.save);
-      return e;
-    } catch (err) {
-      console.error(err);
-    }
+    return new Encounter(data);
   }
 }
 
-export { Encounter, IEncounterData };
+export { Encounter };
+export type { IEncounterData };

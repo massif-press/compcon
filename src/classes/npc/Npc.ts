@@ -62,8 +62,6 @@ abstract class Npc
   private _note: string;
   private _description: string;
   private _gmDescription: string;
-  static ID: string;
-  static Name: string;
 
   public constructor(data?: NpcData) {
     this._id = data ? data.id : uuid();
