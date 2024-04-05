@@ -57,30 +57,30 @@ export const EncounterStore = defineStore('encounter', {
 
     AddEncounter(payload: Encounter): void {
       this.Encounters.push(payload);
-      this.SaveIEncounterData();
+      this.SaveEncounterData();
     },
 
     CloneEncounter(payload: Encounter): void {
       this.Encounters.push(payload.Clone());
 
-      this.SaveIEncounterData();
+      this.SaveEncounterData();
     },
 
     async DeleteEncounterPermanent(payload: Encounter): Promise<void> {
       const idx = this.Encounters.findIndex((x) => x.ID === payload.ID);
       if (idx >= 0) this.Encounters.splice(idx, 1);
       await RemoveItem('Encounters', payload.ID);
-      this.SaveIEncounterData();
+      this.SaveEncounterData();
     },
 
     SetEncounter(payload: Encounter): void {
       console.error('SetEncounter not implemented');
     },
 
-    async SaveIEncounterData(): Promise<void> {
-      Promise.all((this.Encounters as any).map((y) => SetItem('npcs', y.Serialize())))
-        .then(() => console.info('NPC data saved'))
-        .catch((err) => console.error('Error while saving NPC data', err));
+    async SaveEncounterData(): Promise<void> {
+      Promise.all((this.Encounters as any).map((y) => SetItem('encounters', y.Serialize())))
+        .then(() => console.info('Encounter data saved'))
+        .catch((err) => console.error('Error while saving Encounter data', err));
     },
   },
 });

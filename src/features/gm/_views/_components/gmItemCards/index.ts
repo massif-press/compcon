@@ -10,6 +10,7 @@ import GMLocationCard from './GMLocationCard.vue';
 import GMLocationListItem from './GMLocationListItem.vue';
 import GMEidolonCard from './GMEidolonCard.vue';
 import GMEidolonListItem from './GMEidolonListItem.vue';
+import GMEncounterListItem from './GMEncounterListItem.vue';
 
 export {
   GMCharacterCard,
@@ -24,4 +25,5 @@ export {
   GMUnitListItem,
   GMEidolonCard,
   GMEidolonListItem,
+  GMEncounterListItem,
 };

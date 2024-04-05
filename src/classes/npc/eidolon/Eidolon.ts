@@ -132,6 +132,10 @@ class Eidolon extends Npc {
     newItem.Name += ' (COPY)';
     return newItem as Eidolon;
   }
+
+  public get Icon(): string {
+    return 'cc:monist';
+  }
 }
 
 export { Eidolon, EidolonData };

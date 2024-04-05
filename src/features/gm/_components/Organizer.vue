@@ -263,6 +263,7 @@ import { NarrativeStore } from '../store/narrative_store';
 import { NpcStore } from '../store/npc_store';
 import exportAsJson from '@/util/jsonExport';
 import { deletePermanent } from '@/util/storeUtils';
+import { EncounterStore } from '@/stores';
 
 export default {
   name: 'Organizer',
@@ -291,8 +292,14 @@ export default {
     showDeleteConfirm: false,
   }),
   mounted: function () {
-    this.allTypes =
-      this.type === 'npc' ? ['unit', 'doodad', 'eidolon'] : ['character', 'location', 'faction'];
+    if (this.type === 'npc') {
+      this.allTypes = ['unit', 'doodad', 'eidolon'];
+    } else if (this.type === 'narrative') {
+      this.allTypes = ['character', 'location', 'faction'];
+    } else if (this.type === 'encounter') {
+      this.allTypes = ['encounter'];
+    }
+
     this.shownTypes = this.allTypes;
   },
   computed: {
@@ -304,11 +311,21 @@ export default {
             (this.showDeleted || !x.SaveController.IsDeleted)
         );
 
-      return NarrativeStore().CollectionItems.filter(
-        (x: any) =>
-          this.shownTypes.includes(x.ItemType.toLowerCase()) &&
-          (this.showDeleted || !x.SaveController.IsDeleted)
-      );
+      if (this.type === 'narrative')
+        return NarrativeStore().CollectionItems.filter(
+          (x: any) =>
+            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
+            (this.showDeleted || !x.SaveController.IsDeleted)
+        );
+
+      if (this.type === 'encounter')
+        return EncounterStore().Encounters.filter(
+          (x: any) =>
+            this.shownTypes.includes(x.ItemType.toLowerCase()) &&
+            (this.showDeleted || !x.SaveController.IsDeleted)
+        );
+
+      return [];
     },
     allFolders() {
       return NpcStore().getFolders.concat(NarrativeStore().getFolders);
@@ -411,6 +428,7 @@ export default {
       this.selected = [];
       NarrativeStore().SaveItemData();
       NpcStore().SaveNpcData();
+      EncounterStore().SaveEncounterData();
     },
     async deleteItemsPermanent() {
       const promises = [] as Promise<any>[];
@@ -419,6 +437,8 @@ export default {
         if (item && item.SaveController.IsDeleted) {
           if (item.StorageType === 'narrative')
             promises.push(NarrativeStore().DeleteItemPermanent(item));
+          else if (item.StorageType === 'encounters')
+            promises.push(EncounterStore().DeleteEncounterPermanent(item));
           else if (item.StorageType === 'npc') promises.push(NpcStore().DeleteNpcPermanent(item));
         }
       });

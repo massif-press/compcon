@@ -6,14 +6,14 @@ import {
   PortraitController,
   SaveController,
 } from '../components';
-import { ISitrepData, Sitrep } from './Sitrep';
-import { EncounterMap, IMapData } from './Map';
+import { ISitrepData, Sitrep, SitrepInstance } from './Sitrep';
+import { EncounterMap, IMapData } from './EncounterMap';
 import { FolderController, IFolderData } from '../components/folder/FolderController';
 import { NarrativeController, NarrativeElementData } from '../narrative/NarrativeController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { ImageTag } from '@/io/ImageManagement';
-import { IEnvironmentData } from '../Environment';
+import { Environment, EnvironmentInstance, IEnvironmentData } from '../Environment';
 
 interface IEncounterData {
   id: string;
@@ -25,8 +25,8 @@ interface IEncounterData {
   folder: IFolderData;
   img: IPortraitData;
   narrative: NarrativeElementData;
-  sitrep: ISitrepData;
-  environment: IEnvironmentData;
+  sitrep?: ISitrepData;
+  environment?: IEnvironmentData;
   map?: IMapData;
 }
 
@@ -40,10 +40,12 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   private _note: string;
   private _description: string;
   private _gmDescription: string;
+  private _sitrep?: SitrepInstance;
+  private _environment?: EnvironmentInstance;
 
   // public Sitrep: Sitrep;
   // public EnvironmentData: EnvironmentData;
-  public Map?: EncounterMap;
+  public _map?: EncounterMap;
 
   public ImageTag: ImageTag = ImageTag.Map;
   public SaveController: SaveController;
@@ -53,18 +55,31 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public constructor(data?: IEncounterData) {
     this._id = data?.id || uuid();
+    this._name = data?.name || 'New Encounter';
     this._note = data?.note || '';
     this._description = data?.description || '';
     this._gmDescription = data?.gmDescription || '';
 
-    // this.Sitrep = new Sitrep(data?.sitrep);
-    // this.EnvironmentData = new EnvironmentData(data?.environment);
-    // this.Map = data?.map ? new EncounterMap(data.map) : undefined;
+    if (data?.sitrep) {
+      this._sitrep = new SitrepInstance(this, new Sitrep(data.sitrep));
+    }
+
+    if (data?.environment) {
+      this._environment = new EnvironmentInstance(this, new Environment(data.environment));
+    }
+
+    if (data?.map) {
+      this._map = EncounterMap.Deserialize(data.map);
+    }
 
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
     this.NarrativeController = new NarrativeController(this);
     this.FolderController = new FolderController(this);
+  }
+
+  public save(): void {
+    this.SaveController.save();
   }
 
   public get Portrait(): string {
@@ -77,7 +92,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public RenewID(): void {
     this._id = uuid();
-    this.SaveController.save();
+    this.save();
   }
 
   public get Name(): string {
@@ -86,7 +101,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public set Name(val: string) {
     this._name = val;
-    this.SaveController.save();
+    this.save();
   }
 
   public get Note(): string {
@@ -95,7 +110,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public set Note(val: string) {
     this._note = val;
-    this.SaveController.save();
+    this.save();
   }
 
   public get Description(): string {
@@ -104,7 +119,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public set Description(val: string) {
     this._description = val;
-    this.SaveController.save();
+    this.save();
   }
 
   public get GmDescription(): string {
@@ -113,7 +128,41 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
 
   public set GmDescription(val: string) {
     this._gmDescription = val;
-    this.SaveController.save();
+    this.save();
+  }
+
+  public get Sitrep(): SitrepInstance {
+    if (!this._sitrep) {
+      this._sitrep = new SitrepInstance(this);
+    }
+    return this._sitrep;
+  }
+
+  public set Sitrep(val: SitrepInstance) {
+    this._sitrep = val;
+    this.save();
+  }
+
+  public get Environment(): EnvironmentInstance {
+    if (!this._environment) {
+      this._environment = new EnvironmentInstance(this);
+    }
+
+    return this._environment;
+  }
+
+  public set Environment(val: EnvironmentInstance) {
+    this._environment = val;
+    this.save();
+  }
+
+  public get Map(): EncounterMap | undefined {
+    return this._map;
+  }
+
+  public set Map(val: EncounterMap | undefined) {
+    this._map = val;
+    this.save();
   }
 
   public static Serialize(enc: Encounter): IEncounterData {
@@ -123,7 +172,11 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       note: enc.Note,
       description: enc.Description,
       gmDescription: enc.GmDescription,
+      sitrep: SitrepInstance.Serialize(enc.Sitrep),
+      environment: EnvironmentInstance.Serialize(enc.Environment),
+      map: enc.Map ? EncounterMap.Serialize(enc.Map) : undefined,
     } as IEncounterData;
+
     SaveController.Serialize(enc, data);
     PortraitController.Serialize(enc, data);
     NarrativeController.Serialize(enc, data);
@@ -141,7 +194,13 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public static Deserialize(data: IEncounterData): Encounter {
-    return new Encounter(data);
+    console.log(data);
+    const encounter = new Encounter(data);
+    SaveController.Deserialize(encounter, data.save);
+    PortraitController.Deserialize(encounter, data.img);
+    NarrativeController.Deserialize(encounter, data.narrative);
+    FolderController.Deserialize(encounter, data.folder);
+    return encounter;
   }
 }
 

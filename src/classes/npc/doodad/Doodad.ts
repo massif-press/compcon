@@ -63,6 +63,10 @@ class Doodad extends Npc implements IStatContainer {
     newItem.Name += ' (COPY)';
     return newItem as Doodad;
   }
+
+  public get Icon(): string {
+    return 'mdi-cube-outline';
+  }
 }
 
 export { DoodadData, Doodad };

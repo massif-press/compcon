@@ -6,11 +6,13 @@ import { SetItem } from '@/io/Storage';
 interface ISaveData {
   lastModified: number;
   deleteTime: number;
+  created: number;
 }
 
 class SaveController {
   public readonly Parent: ISaveable;
 
+  public Created: number = new Date().getTime();
   public LastModified: number;
   public DeleteTime: number;
   public _isMissingContent: boolean;
@@ -26,6 +28,7 @@ class SaveController {
 
   public static NewSaveData(): ISaveData {
     return {
+      created: new Date().getTime(),
       lastModified: 0,
       deleteTime: 0,
     };
@@ -68,6 +71,7 @@ class SaveController {
     if (!target.save) target.save = {};
     target.save.lastModified = parent.SaveController.LastModified;
     target.save.deleteTime = parent.SaveController.DeleteTime;
+    target.save.created = parent.SaveController.Created;
   }
 
   public static Deserialize(parent: ISaveable, data: ISaveData) {
@@ -78,6 +82,7 @@ class SaveController {
 
     parent.SaveController.LastModified = data.lastModified;
     parent.SaveController.DeleteTime = data.deleteTime;
+    parent.SaveController.Created = data.created;
   }
 }
 

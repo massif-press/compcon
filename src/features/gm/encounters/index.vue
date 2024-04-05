@@ -75,9 +75,9 @@
         </v-col>
       </v-row>
 
-      <!-- <v-card-text v-if="!folders.length || hideFolders">
+      <v-card-text v-if="!folders.length || hideFolders">
         <item-card-grid
-          :item-type="itemType"
+          item-type="Encounter"
           :items="filteredItems"
           :search="search"
           :big="view === 'big-grid'"
@@ -86,7 +86,7 @@
           :grouping="grouping"
           :sorting="sorting"
           :all-folders="folders"
-          @open="$emit('open', $event)" />
+          @open="openItem($event)" />
       </v-card-text>
       <v-card-text v-else>
         <gm-collection-folder
@@ -94,7 +94,7 @@
           :folder="folder"
           :filteredItems="filteredItems"
           :items="items"
-          :itemType="itemType"
+          item-type="Encounter"
           :search="search"
           :view="view"
           :grouping="grouping"
@@ -102,7 +102,7 @@
           :all-folders="folders"
           @set-folder-name="setFolderName(folder, $event)"
           @remove-folder="removeFolder($event)"
-          @open="$emit('open', $event)" />
+          @open="openItem($event)" />
 
         <v-card v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0">
           <v-toolbar density="compact" style="height: 40px" class="mt-n2">
@@ -121,7 +121,7 @@
           <v-expand-transition>
             <v-card-text v-if="showNoFolder">
               <item-card-grid
-                :item-type="itemType"
+                item-type="Encounter"
                 :items="filteredItems.filter((x: any) => !x.FolderController?.Folder)"
                 :search="search"
                 :big="view === 'big-grid'"
@@ -130,11 +130,11 @@
                 :grouping="grouping"
                 :sorting="sorting"
                 :all-folders="folders"
-                @open="$emit('open', $event)" />
+                @open="openItem($event)" />
             </v-card-text>
           </v-expand-transition>
         </v-card>
-      </v-card-text> -->
+      </v-card-text>
 
       <div v-if="hidden" class="text-right pa-2 text-disabled">
         <i>{{ hidden }} items hidden by filter</i>
@@ -142,7 +142,7 @@
     </v-card>
 
     <v-dialog v-model="editDialog" fullscreen>
-      <encounter-editor :item="selected" />
+      <encounter-editor :item="selected" @exit="editDialog = false" />
     </v-dialog>
 
     <v-footer fixed>
@@ -161,20 +161,49 @@
       </v-btn>
     </v-footer>
   </v-container>
+  <v-footer app>
+    <v-spacer />
+    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).import.show()">
+      <v-icon start icon="mdi-download" />
+      Import
+    </v-btn>
+    <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
+      <importer @complete="($refs as any).import.hide()" />
+    </cc-solo-dialog>
+    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()"
+      ><v-icon start icon="mdi-queue-first-in-last-out" />Organize</v-btn
+    >
+    <cc-solo-dialog
+      ref="organize"
+      icon="mdi-queue-first-in-last-out"
+      no-confirm
+      large
+      title="Organize">
+      <organizer type="encounter" />
+    </cc-solo-dialog>
+  </v-footer>
 </template>
 
 <script lang="ts">
 import ItemCardGrid from '../_views/ItemCardGrid.vue';
-import Organizer from '../_components/Organizer.vue';
 import GmCollectionFilter from '../_views/_components/GMCollectionFilter.vue';
 import GmCollectionFolder from '../_views/_components/GMCollectionFolder.vue';
 import { EncounterStore, UserStore } from '@/stores';
 import { Encounter } from '@/classes/encounter/Encounter';
 import EncounterEditor from './_components/EncounterEditor.vue';
+import Organizer from '../_components/Organizer.vue';
+import Importer from '../_components/Importer.vue';
 
 export default {
   name: 'gm-encounter-view',
-  components: { ItemCardGrid, Organizer, GmCollectionFilter, GmCollectionFolder, EncounterEditor },
+  components: {
+    ItemCardGrid,
+    Organizer,
+    GmCollectionFilter,
+    GmCollectionFolder,
+    EncounterEditor,
+    Importer,
+  },
   data: () => ({
     search: '',
     view: 'list',
@@ -252,7 +281,9 @@ export default {
           .map((x: any) => x.title)
       );
 
-      return ['None', ...allLabelTitles];
+      const baseGroupings = ['Sitrep', 'Environment'];
+
+      return ['None', ...baseGroupings, ...allLabelTitles];
     },
     sortings() {
       const allLabelTitles = new Set(
@@ -261,7 +292,7 @@ export default {
           .map((x: any) => x.title)
       );
 
-      const baseSortings = ['Name'];
+      const baseSortings = ['Name', 'Sitrep', 'Environment', 'Created', 'Updated'];
 
       return [...baseSortings, ...allLabelTitles];
     },

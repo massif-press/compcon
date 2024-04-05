@@ -75,8 +75,7 @@
                 Create Data Backup
                 <cc-tooltip
                   inline
-                  content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-                >
+                  content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
                   <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </v-btn>
@@ -89,8 +88,7 @@
                     Load Data Backup
                     <cc-tooltip
                       inline
-                      content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often."
-                    >
+                      content="COMP/CON relies on your browser to save and load its data. Settings, utilities, and other applications can erase your browser's localStorage cache, resulting in the loss of your COMP/CON data. IT is <b>strongly</b> recommended to back up your data often.">
                       <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
                     </cc-tooltip>
                   </v-btn>
@@ -115,8 +113,7 @@
                       autofocus
                       placeholder="Select COMP/CON Bulk Export File"
                       prepend-icon="mdi-paperclip"
-                      @change="bulkImport"
-                    />
+                      @change="bulkImport" />
                   </v-card-text>
                 </v-card>
               </v-dialog>
@@ -132,8 +129,7 @@
                 title="SPOILER ALERT"
                 content="Enabling this option may reveal campaign spoilers and it is recommended to leave this setting DISABLED
               if you are not the GM"
-                inline
-              >
+                inline>
                 <v-icon end size="small" color="deep-orange" icon="mdi-alert-outline" />
               </cc-tooltip>
             </template>
@@ -143,8 +139,7 @@
             color="exotic"
             inset
             density="compact"
-            hide-details
-          >
+            hide-details>
             <template #label>Enable quick pilot creation and level-up</template>
           </v-switch>
           <h3 class="heading text-accent mt-2">Theme</h3>
@@ -153,15 +148,14 @@
             density="compact"
             variant="outlined"
             :items="themes"
-            item-title="name"
-          />
+            item-title="name" />
         </v-col>
       </v-row>
 
       <v-divider class="my-4" />
 
       <div class="text-right">
-        <v-btn size="small" variant="text" to="ui-test">UI Test</v-btn>
+        <v-btn size="small" variant="text" to="/ui-test">UI Test</v-btn>
       </div>
     </div>
   </v-container>
@@ -184,8 +178,7 @@ export default {
   emits: ['show-message'],
   computed: {
     user() {
-      const store = UserStore();
-      return store.UserProfile;
+      return UserStore().User;
     },
     userViewExotics: {
       get: function () {
