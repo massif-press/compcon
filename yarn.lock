@@ -2275,15 +2275,15 @@
   resolved "https://registry.yarnpkg.com/@kyvg/vue3-notification/-/vue3-notification-2.9.1.tgz#6c74e5c1723ead8a0a42f00d81c2b3a13eee2f96"
   integrity sha512-FsY8g25tQetr3etnarxHtCeNFKssH8sheFu13LyL2JJmOOel437QqKV5n4RBDDDTIo55iKgIVYXeojliXYdEhw==
 
-"@massif/lancer-data@^3.1.6":
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-3.1.6.tgz#39e44c54c71fe0d0da329a49fc898fa3cf09a8e5"
-  integrity sha512-xZ4O4dKUytara0BtyzAAWVbUW7YxDDgnHsumCDLjNyeIzDanGIk6dEPP8bkTOaFvu8mInDxi+Eqy3fVeVRWcRw==
+"@massif/lancer-data@^3.1.7":
+  version "3.1.7"
+  resolved "https://registry.yarnpkg.com/@massif/lancer-data/-/lancer-data-3.1.7.tgz#570e6dcbc1eb4a4f7b2493f58951da526c632c4f"
+  integrity sha512-4hhx+Uw19vCFdFJl/R6Oaj9h7FJDHAHcwOQgqRkwAvEUh3G5BZjwW5ez7WDvyHRoCJoKPbwgWzNCA9V+HexuYA==
 
-"@mdi/font@^7.1.96":
-  version "7.3.67"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-7.3.67.tgz#faa344a04c9d02f608c891a01134084febeb42db"
-  integrity sha512-SWxvzRbUQRfewlIV+OF4/YF4DkeTjMWoT8Hh9yeU/5UBVdJZj9Uf4a9+cXjknSIhIaMxZ/4N1O/s7ojApOOGjg==
+"@mdi/font@^7.4.47":
+  version "7.4.47"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-7.4.47.tgz#2ae522867da3a5c88b738d54b403eb91471903af"
+  integrity sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==
 
 "@turf/boolean-clockwise@6.5.0":
   version "6.5.0"
@@ -2812,6 +2812,11 @@ easy-bem@^1.0.2:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/easy-bem/-/easy-bem-1.1.1.tgz#1bfcc10425498090bcfddc0f9c000aba91399e03"
   integrity sha512-GJRqdiy2h+EXy6a8E6R+ubmqUM08BK0FWNq41k24fup6045biQ8NXxoXimiwegMQvFFV3t1emADdGNL1TlS61A==
+
+ef-infinite-canvas@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/ef-infinite-canvas/-/ef-infinite-canvas-0.6.4.tgz#46c3bd19e4c43627f0b2a4b9bce7bdba2aef3963"
+  integrity sha512-zA3ipct4AsTbvUI/jqdBLdjm1QXoV1k8YzVEOVPLzzw9CtOeC/NDSHXVh0ork0Gb49JgC9nlul8n3utY25w5qw==
 
 entities@2.2.0:
   version "2.2.0"

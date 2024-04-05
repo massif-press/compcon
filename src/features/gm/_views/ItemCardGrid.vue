@@ -73,6 +73,32 @@ export default {
     groupings() {
       if (this.grouping === 'None') return [`All`];
 
+      if (this.grouping === 'Sitrep') {
+        const sitreps = this.items
+          .map((x) => (x as any).Sitrep.Name)
+          .filter((x, i, a) => a.indexOf(x) === i);
+
+        const out = {} as any;
+        sitreps.forEach((sitrep) => {
+          out[sitrep] = this.items.filter((x) => (x as any).Sitrep.Name === sitrep);
+        });
+
+        return out;
+      }
+
+      if (this.grouping === 'Environment') {
+        const environments = this.items
+          .map((x) => (x as any).Environment.Name)
+          .filter((x, i, a) => a.indexOf(x) === i);
+
+        const out = {} as any;
+        environments.forEach((environment) => {
+          out[environment] = this.items.filter((x) => (x as any).Environment.Name === environment);
+        });
+
+        return out;
+      }
+
       const stats = {} as any;
 
       //check stats
@@ -172,7 +198,11 @@ export default {
     },
     sort(items) {
       return _.orderBy(items, (x: any) => {
+        if (this.sorting === 'Sitrep') return x.Sitrep.Name;
+        if (this.sorting === 'Environment') return x.Environment.Name;
+
         if (x[this.sorting]) return x[this.sorting];
+
         if (x.StatController && x.StatController.getStat(this.sorting))
           return x.StatController.getStat(this.sorting);
         if (x.NarrativeController && x.NarrativeController.LabelDictionary[this.sorting])

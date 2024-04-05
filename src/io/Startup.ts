@@ -1,4 +1,11 @@
-import { CompendiumStore, PilotStore, NpcStore, UserStore, NarrativeStore } from '@/stores';
+import {
+  CompendiumStore,
+  PilotStore,
+  NpcStore,
+  UserStore,
+  NarrativeStore,
+  EncounterStore,
+} from '@/stores';
 import { getLcpPresigned } from '@/user/api';
 
 import { Initialize, SetItem, GetItem, RemoveItem } from './Storage';
@@ -67,9 +74,11 @@ export default async function (): Promise<void> {
   // missing.npcs = NpcStore().MissingNpcs;
   // CompendiumStore().setMissingContent(missing);
 
-  console.log(NarrativeStore());
-
   await NarrativeStore().LoadCollectionItems();
+  console.log('narrative collection items loaded');
+
+  await EncounterStore().LoadEncounters();
+  console.log('encounters loaded');
 
   console.info('loading complete');
 }

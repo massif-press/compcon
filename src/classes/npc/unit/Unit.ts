@@ -127,6 +127,11 @@ class Unit extends Npc implements IStatContainer {
     newItem.Name += ' (COPY)';
     return newItem as Unit;
   }
+
+  public get Icon(): string {
+    if (this.NpcClassController.HasClass) return this.NpcClassController.Class!.Icon;
+    return 'cc:encounter';
+  }
 }
 
 export { UnitData, Unit };
