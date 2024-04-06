@@ -1,7 +1,7 @@
 <template>
   <div v-show="item">
     <v-card class="rounded-0 pb-12 elevation-0">
-      <v-toolbar density="compact" class="rounded-0 pl-2" color="primary">
+      <v-toolbar v-if="!readonly" density="compact" class="rounded-0 pl-2" color="primary">
         <div class="heading h3 pa-1 text-white">
           <v-icon start size="large" icon="mdi-robot-industrial" /> {{ typeText }} EDITOR
         </div>
@@ -14,92 +14,114 @@
         <v-row>
           <v-col cols="9">
             <slot name="builder" />
-            <div class="text-overline">{{ typeText }} DESCRIPTION</div>
-            <cc-rich-text-area :item="item" note-property="Description" />
+            <div v-if="!readonly || (readonly && item.Description?.length > 0)">
+              <div class="text-overline">{{ typeText }} DESCRIPTION</div>
+              <cc-rich-text-area :readonly="readonly" :item="item" note-property="Description" />
+            </div>
             <slot name="stats" />
           </v-col>
           <v-col cols="3" class="text-center ml-auto">
-            <gm-folder-editor :item="item" class="mb-1" />
-            <gm-label-editor :item="item" class="mb-4" />
+            <gm-folder-editor :readonly="readonly" :item="item" class="mb-1" />
+            <gm-label-editor :readonly="readonly" :item="item" class="mb-4" />
             <cc-img :src="item.PortraitController.Image" />
-            <v-btn
-              small
-              variant="outlined"
-              block
-              color="accent"
-              @click="($refs as any).imageSelector.open()">
-              Change Image
-            </v-btn>
-            <cc-image-selector
-              ref="imageSelector"
-              :item="item"
-              type="doodad"
-              @set="item.PortraitController.Image = $event" />
+            <div v-if="!readonly">
+              <v-btn
+                small
+                variant="outlined"
+                block
+                color="accent"
+                @click="($refs as any).imageSelector.open()">
+                Change Image
+              </v-btn>
+              <cc-image-selector
+                ref="imageSelector"
+                :item="item"
+                type="doodad"
+                @set="item.PortraitController.Image = $event" />
+            </div>
           </v-col>
         </v-row>
         <slot />
-        <cc-icon-divider icon="mdi-robot-industrial" />
-        <div class="text-caption">ADDITIONAL DETAIL</div>
-        <section-editor :item="item" />
-        <v-divider class="my-2" />
-        <div class="text-caption">CLOCKS</div>
-        <cc-clock
-          v-for="c in item.NarrativeController.Clocks"
-          :clock="c"
-          class="mx-1 my-2"
-          @delete="item.NarrativeController.DeleteClock(c)" />
-        <v-row justify="end">
-          <v-col cols="auto">
-            <v-btn
-              color="accent"
-              variant="outlined"
-              size="small"
-              @click="item.NarrativeController.AddClock()">
-              <v-icon start>mdi-plus</v-icon>
-              Add New Clock
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-divider class="my-2" />
-        <div class="text-caption">TABLES</div>
-        <cc-rollable-table
-          v-for="t in item.NarrativeController.Tables"
-          :table="t"
-          class="mx-1 my-2"
-          @delete="item.NarrativeController.DeleteTable(t)" />
-        <v-row justify="end">
-          <v-col cols="auto">
-            <v-btn
-              color="accent"
-              variant="outlined"
-              size="small"
-              @click="item.NarrativeController.AddTable()">
-              <v-icon start>mdi-plus</v-icon>
-              Add New Table
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-divider class="my-2" />
-        <div class="text-caption mb-2">
-          GM NOTES
-          <v-tooltip location="top" :open-delay="300">
-            <template #activator="{ props }">
-              <v-icon
-                v-bind="props"
-                size="13"
-                icon="mdi-information-outline"
-                class="mt-n1 fade-select" />
-            </template>
-            <span
-              >This is only visible to the GM and will be hidden in player-facing material.</span
-            >
-          </v-tooltip>
+        <cc-icon-divider v-if="!readonly" icon="mdi-robot-industrial" />
+
+        <div v-if="!readonly || (readonly && item.NarrativeController.TextItems.length)">
+          <div class="text-caption">ADDITIONAL DETAIL</div>
+          <section-editor :item="item" :readonly="readonly" />
         </div>
-        <cc-rich-text-area :item="item" note-property="Note" />
+
+        <div v-if="!readonly || (readonly && item.NarrativeController.Clocks.length)">
+          <v-divider class="my-2" />
+          <div class="text-caption">CLOCKS</div>
+          <cc-clock
+            v-for="c in item.NarrativeController.Clocks"
+            :clock="c"
+            class="mx-1 my-2"
+            :readonly="readonly"
+            @delete="item.NarrativeController.DeleteClock(c)" />
+          <v-row v-if="!readonly" justify="end">
+            <v-col cols="auto">
+              <v-btn
+                color="accent"
+                variant="outlined"
+                size="small"
+                @click="item.NarrativeController.AddClock()">
+                <v-icon start>mdi-plus</v-icon>
+                Add New Clock
+              </v-btn>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div v-if="!readonly || (readonly && item.NarrativeController.Tables.length)">
+          <v-divider class="my-2" />
+          <div
+            v-if="!readonly || (readonly && item.NarrativeController.Tables.length)"
+            class="text-caption">
+            TABLES
+          </div>
+          <cc-rollable-table
+            v-for="t in item.NarrativeController.Tables"
+            :table="t"
+            class="mx-1 my-2"
+            :readonly="readonly"
+            @delete="item.NarrativeController.DeleteTable(t)" />
+          <v-row v-if="!readonly" justify="end">
+            <v-col cols="auto">
+              <v-btn
+                color="accent"
+                variant="outlined"
+                size="small"
+                @click="item.NarrativeController.AddTable()">
+                <v-icon start>mdi-plus</v-icon>
+                Add New Table
+              </v-btn>
+            </v-col>
+          </v-row>
+        </div>
+
+        <div v-if="!readonly || (readonly && item.Note.length)">
+          <v-divider class="my-2" />
+          <div class="text-caption mb-2">
+            GM NOTES
+            <v-tooltip location="top" :open-delay="300">
+              <template #activator="{ props }">
+                <v-icon
+                  v-bind="props"
+                  size="13"
+                  icon="mdi-information-outline"
+                  class="mt-n1 fade-select" />
+              </template>
+              <span
+                >This is only visible to the GM and will be hidden in player-facing material.</span
+              >
+            </v-tooltip>
+          </div>
+          <cc-rich-text-area :item="item" :readonly="readonly" note-property="Note" />
+        </div>
       </v-container>
     </v-card>
   </div>
-  <v-footer app color="panel">
+  <v-footer v-if="!readonly" app color="panel">
     <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
       ><v-icon start icon="mdi-printer" />Print</v-btn
     >
@@ -144,6 +166,7 @@ export default {
     isNew: { type: Boolean },
     showDescription: { type: Boolean },
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   emits: ['exit', 'save', 'add-new', 'copy', 'delete', 'export'],
   data: () => ({

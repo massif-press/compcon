@@ -1,7 +1,10 @@
 <template>
   <div class="text-overline pt-2">FEATURES</div>
   <div v-if="item.NpcClassController.HasClass">
-    <npc-feature-alerts :template-controller="item.NpcTemplateController" expanded />
+    <npc-feature-alerts
+      v-if="!readonly"
+      :template-controller="item.NpcTemplateController"
+      expanded />
 
     <v-row dense>
       <cc-dense-card
@@ -14,11 +17,14 @@
         :tier="item.NpcClassController.Tier" />
     </v-row>
 
-    <npc-feature-selector :npc="item" />
+    <npc-feature-selector v-if="!readonly" :npc="item" />
   </div>
   <v-card v-else variant="outlined" class="pa-1" style="border-color: rgb(var(--v-theme-panel))">
-    <div class="text-center text-disabled text-caption pa-2">
+    <div v-if="!readonly" class="text-center text-disabled text-caption pa-2">
       <i>Select a Class to add Features</i>
+    </div>
+    <div v-else class="text-center text-disabled text-caption pa-2">
+      <i>No NPC features</i>
     </div>
   </v-card>
 </template>
@@ -35,6 +41,7 @@ export default {
   },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   methods: {
     getMinWidth(b: any) {

@@ -1,6 +1,7 @@
 <template>
   <editor-base
     :item="item"
+    :readonly="readonly"
     @exit="$emit('exit')"
     @add-new="saveAsNew()"
     @save="save()"
@@ -8,13 +9,13 @@
     @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
-      <builder :item="item" />
+      <builder :item="item" :readonly="readonly" />
     </template>
     <template v-slot:stats>
       <persistent-traits />
     </template>
-    <tier-selector :item="item" />
-    <eidolon-layer-editor :item="item" />
+    <tier-selector v-if="!readonly" :item="item" />
+    <eidolon-layer-editor :item="item" :readonly="readonly" />
   </editor-base>
 </template>
 
@@ -34,6 +35,7 @@ export default {
   components: { Builder, EditorBase, EidolonLayerEditor, PersistentTraits, TierSelector },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   emits: ['exit'],
   methods: {

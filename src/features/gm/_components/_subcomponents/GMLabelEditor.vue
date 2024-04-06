@@ -4,6 +4,7 @@
     <v-dialog v-model="dialog" width="75vw">
       <template #activator="{ props }">
         <v-btn
+          v-show="!readonly"
           size="x-small"
           color="primary"
           style="position: absolute; top: -20px; right: 8px"
@@ -131,6 +132,9 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+    readonly: {
+      type: Boolean,
     },
   },
   data: () => ({

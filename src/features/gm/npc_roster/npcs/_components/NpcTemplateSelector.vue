@@ -1,5 +1,12 @@
 <template>
   <div class="text-caption my-1">TEMPLATES</div>
+  <div v-if="readonly && item.NpcTemplateController.Templates.length === 0" class="mb-6">
+    <v-card flat>
+      <div class="text-disabled text-caption pl-2">
+        <i>No Templates</i>
+      </div>
+    </v-card>
+  </div>
   <v-row>
     <v-col v-if="item.NpcTemplateController.Templates.length" cols="auto" dense align="center">
       <v-chip
@@ -13,7 +20,10 @@
         </cc-tooltip>
       </v-chip>
     </v-col>
-    <v-col cols="auto" :class="item.NpcTemplateController.Templates.length ? 'ml-auto' : ''">
+    <v-col
+      v-if="!readonly"
+      cols="auto"
+      :class="item.NpcTemplateController.Templates.length ? 'ml-auto' : ''">
       <v-btn color="accent" variant="tonal" @click="dialog = true"
         >{{ item.NpcTemplateController.Templates.length ? 'Edit' : 'Assign' }} NPC Templates</v-btn
       >
@@ -145,6 +155,7 @@ export default {
   components: { PanelView },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   data: () => ({
     dialog: false,

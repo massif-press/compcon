@@ -6,6 +6,7 @@
     <v-col>
       <cc-short-string-editor
         large
+        :readonly="readonly"
         justify="start"
         :placeholder="item.Name"
         @set="item.Name = $event">
@@ -30,6 +31,7 @@
       hide-detail
       rows="1"
       auto-grow
+      :readonly="readonly"
       v-model="item.GmDescription" />
   </div>
 </template>
@@ -39,6 +41,7 @@ export default {
   name: 'eidolon-builder-content',
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
 };
 </script>

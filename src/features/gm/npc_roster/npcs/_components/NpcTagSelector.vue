@@ -1,5 +1,9 @@
 <template>
-  <v-menu offset-y>
+  <v-chip v-if="readonly" size="large" variant="tonal" color="secondary" label>
+    <v-icon start :icon="getTagIcon" />
+    {{ item.Tag ? item.Tag : 'Set NPC Tag' }}
+  </v-chip>
+  <v-menu v-else offset-y>
     <template #activator="{ props }">
       <v-btn size="large" variant="tonal" color="secondary" v-bind="props">
         <v-icon start :icon="getTagIcon" />
@@ -39,6 +43,7 @@ export default {
   name: 'npc-class-selector',
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   computed: {
     locked() {

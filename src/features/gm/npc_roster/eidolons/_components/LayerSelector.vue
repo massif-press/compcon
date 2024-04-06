@@ -113,6 +113,7 @@ export default {
   name: 'npc-class-selector',
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   components: { PanelView },
   data: () => ({
