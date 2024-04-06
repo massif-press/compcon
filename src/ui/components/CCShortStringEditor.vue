@@ -4,7 +4,7 @@
       <v-col cols="auto">
         <slot />
       </v-col>
-      <v-col cols="auto">
+      <v-col v-if="!readonly" cols="auto">
         <v-btn size="x-small" icon variant="plain" class="mb-n1" @click="edit()">
           <v-icon size="15" icon="mdi-circle-edit-outline" />
         </v-btn>
@@ -21,8 +21,7 @@
         autofocus
         @blur="submit()"
         @keyup.enter="submit()"
-        @focus="$event.target.select()"
-      />
+        @focus="$event.target.select()" />
     </div>
   </v-fade-transition>
 </template>
@@ -33,6 +32,7 @@ export default {
   props: {
     placeholder: { type: String, required: false },
     large: { type: Boolean },
+    readonly: { type: Boolean },
     justify: { type: String, required: false, default: 'center' },
   },
   data: () => ({
@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     edit(): void {
+      if (this.readonly) return;
       this.editing = true;
       if (this.$slots.default && this.$slots.default[0]) {
         let prev = '';

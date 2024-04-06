@@ -1,6 +1,14 @@
 <template>
   <div>
+    <v-card
+      v-if="readonly"
+      variant="outlined"
+      class="pa-2"
+      style="border-color: rgb(var(--v-theme-panel))">
+      <p v-html-safe="notes" />
+    </v-card>
     <quill-editor
+      v-else
       v-model:content="notes"
       :toolbar="[
         { size: ['small', false, 'large', 'huge'] },
@@ -15,12 +23,13 @@
         'clean',
       ]"
       content-type="html"
-      @text-change="item[noteProperty] = notes"
-    />
+      @text-change="item[noteProperty] = notes" />
   </div>
 </template>
 
 <script lang="ts">
+import { readonly } from 'vue';
+
 export default {
   name: 'cc-rich-text-area',
   props: {
@@ -31,6 +40,9 @@ export default {
     noteProperty: {
       type: String,
       default: 'Notes',
+    },
+    readonly: {
+      type: Boolean,
     },
   },
   data: () => ({

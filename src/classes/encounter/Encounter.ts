@@ -14,6 +14,9 @@ import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { ImageTag } from '@/io/ImageManagement';
 import { Environment, EnvironmentInstance, IEnvironmentData } from '../Environment';
+import { InstanceController } from '../components/instance/InstanceController';
+import { NpcInstance } from '../components/combat/NpcInstance';
+import { Npc } from '../npc/Npc';
 
 interface IEncounterData {
   id: string;
@@ -43,8 +46,6 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   private _sitrep?: SitrepInstance;
   private _environment?: EnvironmentInstance;
 
-  // public Sitrep: Sitrep;
-  // public EnvironmentData: EnvironmentData;
   public _map?: EncounterMap;
 
   public ImageTag: ImageTag = ImageTag.Map;
@@ -52,6 +53,10 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public PortraitController: PortraitController;
   public NarrativeController: NarrativeController;
   public FolderController: FolderController;
+
+  public InstanceController: InstanceController;
+
+  private _npcInstances: NpcInstance[] = [];
 
   public constructor(data?: IEncounterData) {
     this._id = data?.id || uuid();
@@ -76,6 +81,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     this.PortraitController = new PortraitController(this);
     this.NarrativeController = new NarrativeController(this);
     this.FolderController = new FolderController(this);
+    this.InstanceController = new InstanceController(this);
   }
 
   public save(): void {
@@ -163,6 +169,14 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public set Map(val: EncounterMap | undefined) {
     this._map = val;
     this.save();
+  }
+
+  public NpcInstances(): NpcInstance[] {
+    return this._npcInstances;
+  }
+
+  public AddNpcInstance(npc: Npc): void {
+    this.InstanceController.AddInstance(npc);
   }
 
   public static Serialize(enc: Encounter): IEncounterData {

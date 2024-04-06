@@ -8,6 +8,7 @@
         large
         justify="start"
         :placeholder="item.Name"
+        :readonly="readonly"
         @set="item.Name = $event">
         <div class="heading-block">
           {{ item.Name }}
@@ -26,34 +27,38 @@
       hide-detail
       rows="1"
       auto-grow
+      :readonly="readonly"
       v-model="item.GmDescription" />
   </div>
 
   <v-row dense class="mt-n5">
     <v-col>
       <div class="text-caption mb-1">NPC CLASS</div>
+      <div v-if="readonly" class="heading h2 ml-2 mt-n2 text-accent">
+        {{
+          item.NpcClassController.HasClass ? item.NpcClassController.Class.Name : 'Set NPC Class'
+        }}
+      </div>
       <v-btn
+        v-else
         size="large"
         block
         :color="!item.NpcClassController.HasClass ? 'error' : 'accent'"
         variant="tonal"
         class="px-12"
         @click="($refs.classSelector as any).show()">
-        {{
-          item.NpcClassController.HasClass ? item.NpcClassController.Class.Name : 'Set NPC Class'
-        }}
+        {{ item.NpcClassController.HasClass ? item.NpcClassController.Class.Name : 'No NPC Class' }}
       </v-btn>
-
       <npc-class-selector ref="classSelector" :item="item" />
     </v-col>
     <v-col cols="auto">
       <div class="text-caption mb-1">NPC TAG</div>
-      <npc-tag-selector :item="item" />
+      <npc-tag-selector :readonly="readonly" :item="item" />
     </v-col>
   </v-row>
 
   <div v-if="item.NpcClassController.HasClass">
-    <npc-template-selector :item="item" />
+    <npc-template-selector :readonly="readonly" :item="item" />
   </div>
 </template>
 
@@ -93,6 +98,7 @@ export default {
   },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
 
   data: () => ({
@@ -121,7 +127,8 @@ export default {
           key,
           tier: this.selectedTier,
           sortRaw: (a: NpcClass, b: NpcClass) =>
-            a.Stats.Stat(key, this.selectedTier) - b.Stats.Stat(key, this.selectedTier),
+            Number(a.Stats.Stat(key, this.selectedTier)) -
+            Number(b.Stats.Stat(key, this.selectedTier)),
           align: 'center',
         });
       }

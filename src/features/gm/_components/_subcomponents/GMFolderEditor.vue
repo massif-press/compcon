@@ -2,7 +2,7 @@
   <div v-show="allFolders.length">
     <fieldset class="rounded-s pb-2" style="position: relative">
       <legend class="text-caption text-left ml-2 px-2">COLLECTION FOLDER</legend>
-      <v-menu width="250px" :close-on-content-click="false">
+      <v-menu width="250px" :close-on-content-click="false" :disabled="readonly">
         <template #activator="{ props }">
           <v-chip
             size="small"
@@ -45,6 +45,9 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+    readonly: {
+      type: Boolean,
     },
   },
   data: () => ({

@@ -1,6 +1,7 @@
 <template>
   <editor-base
     :item="item"
+    :readonly="readonly"
     @exit="$emit('exit')"
     @add-new="saveAsNew()"
     @save="save()"
@@ -8,10 +9,10 @@
     @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
-      <builder :item="item" />
+      <builder :item="item" :readonly="readonly" />
     </template>
     <template v-slot:stats>
-      <stat-editor :item="item" :controller="item" />
+      <stat-editor :item="item" :controller="item" :readonly="readonly" />
     </template>
   </editor-base>
 </template>
@@ -31,6 +32,7 @@ export default {
   components: { Builder, EditorBase, StatEditor },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   emits: ['exit'],
   methods: {

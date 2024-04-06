@@ -1,6 +1,7 @@
 <template>
   <editor-base
     :item="item"
+    :readonly="readonly"
     @exit="$emit('exit')"
     @add-new="saveAsNew()"
     @save="save()"
@@ -8,15 +9,16 @@
     @export="exportItem($event)"
     @copy="dupe()">
     <template v-slot:builder>
-      <builder :item="item" />
+      <builder :item="item" :readonly="readonly" />
     </template>
     <div v-if="item.NpcClassController.Class">
-      <npc-tier-selector :item="item" class="mb-n8" />
+      <npc-tier-selector :item="item" :readonly="readonly" class="mb-n8" />
       <stat-editor
         :item="item"
         :controller="item.NpcClassController"
-        :bonuses="item.FeatureController.Bonuses" />
-      <features :item="item" />
+        :bonuses="item.FeatureController.Bonuses"
+        :readonly="readonly" />
+      <features :item="item" :readonly="readonly" />
     </div>
   </editor-base>
 </template>
@@ -37,6 +39,7 @@ export default {
   components: { Builder, Features, EditorBase, StatEditor, NpcTierSelector },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   emits: ['exit'],
   methods: {

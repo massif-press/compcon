@@ -4,7 +4,7 @@
       {{ stat.title }}
       <v-icon v-if="overwriteVal" icon="mdi-lock" color="secondary" size="x-small" />
       <v-btn
-        v-if="deletable"
+        v-if="!readonly && deletable"
         icon
         size="xs"
         class="fade-select ml-1 mt-n1"
@@ -15,6 +15,10 @@
     <v-card-text class="px-3 pb-1 pt-0">
       <div v-if="overwriteVal">
         <div class="heading h3 text-center my-2">{{ overwriteVal }}</div>
+      </div>
+      <div v-else-if="readonly">
+        <v-divider />
+        <div class="heading h2 text-center py-1">{{ model }}</div>
       </div>
       <div v-else-if="stat.key === 'size'">
         <v-select
@@ -117,6 +121,10 @@ export default {
       default: '',
     },
     deletable: {
+      type: Boolean,
+      default: false,
+    },
+    readonly: {
       type: Boolean,
       default: false,
     },

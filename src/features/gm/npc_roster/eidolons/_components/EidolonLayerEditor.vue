@@ -3,7 +3,7 @@
     <v-col>
       <div class="text-overline">LAYERS</div>
     </v-col>
-    <v-col cols="auto">
+    <v-col v-if="!readonly" cols="auto">
       <v-btn
         variant="tonal"
         color="accent"
@@ -39,13 +39,14 @@
           style="border-color: rgb(var(--v-theme-primary))">
           <v-card-text class="my-0 py-0">
             <div class="text-overline">Layer Description</div>
-            <cc-rich-text-area :item="layer" note-property="Description" />
+            <cc-rich-text-area :item="layer" note-property="Description" :readonly="readonly" />
           </v-card-text>
           <v-card-text class="mt-n2 pt-0">
             <stat-editor
               :item="layer"
               :controller="layer"
               :bonuses="layer.FeatureController.Bonuses"
+              :readonly="readonly"
               prefix="layer" />
           </v-card-text>
           <cc-dense-card :item="layer.Layer" :tier="item.Tier">
@@ -89,6 +90,7 @@ export default {
   components: { LayerSelector, StatEditor },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   data: () => ({
     tab: 0,

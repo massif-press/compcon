@@ -9,6 +9,7 @@
           style="min-width: 10vw">
           <editable-attribute
             v-if="kvp.key !== 'sizes'"
+            :readonly="readonly"
             :stat="kvp"
             :selections="item.StatController.StatSelections(kvp.key)"
             :val="item.StatController.MaxStats[kvp.key]"
@@ -22,7 +23,7 @@
         <i>No stats to display</i>
       </div>
     </v-card>
-    <v-row dense class="mt-2 mb-1">
+    <v-row v-if="!readonly" dense class="mt-2 mb-1">
       <v-col cols="auto">
         <v-menu v-model="coreMenu" :close-on-content-click="false">
           <template v-slot:activator="{ props }">
@@ -127,6 +128,7 @@ export default {
     controller: { type: Object, required: true },
     bonuses: { type: Array, default: () => [] },
     prefix: { type: String, default: '' },
+    readonly: { type: Boolean, default: false },
   },
   data: () => ({
     statsToAdd: [],

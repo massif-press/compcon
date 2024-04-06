@@ -56,7 +56,7 @@
         </div>
       </v-card>
     </div>
-    <v-row justify="end">
+    <v-row v-if="!readonly" justify="end">
       <v-col cols="auto">
         <v-menu
           v-model="textItemMenu"
@@ -106,6 +106,7 @@ export default {
   components: { NoteEditor },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   data: () => ({
     textItemMenu: false,

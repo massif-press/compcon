@@ -1,14 +1,18 @@
 <template>
-  <v-row dense align="center">
+  <v-row dense align="center" :class="readonly ? 'pb-4' : ''">
     <v-col cols="1"><v-divider /></v-col>
     <v-col cols="auto">
+      <div v-if="readonly">
+        <v-icon start>cc:rank_{{ item.NpcClassController.Tier }}</v-icon>
+      </div>
       <v-btn
+        v-else
         v-for="i in 3"
         @click="updateTier(i)"
         :variant="item.NpcClassController.Tier === i ? 'tonal' : 'text'"
         :color="item.NpcClassController.Tier === i ? 'accent' : ''"
         class="mx-1">
-        <v-icon start>cc:rank_1</v-icon>
+        <v-icon start>cc:rank_{{ i }}</v-icon>
         Tier {{ i }}
       </v-btn>
     </v-col>
@@ -28,7 +32,7 @@
 <script lang="ts">
 export default {
   name: 'npc-tier-selector',
-  props: { item: { type: Object, required: true } },
+  props: { item: { type: Object, required: true }, readonly: { type: Boolean, default: false } },
   data: () => ({
     showConfirmation: false,
     changed: [] as string[],
