@@ -6,6 +6,7 @@ import { IActionData, Action } from './Action';
 import { IBonusData, Bonus } from './components/feature/bonus/Bonus';
 import { ISynergyData, Synergy } from './components/feature/synergy/Synergy';
 import { Deployable, IDeployableData } from './components/feature/deployable/Deployable';
+import { IInstanceable } from './components/instance/IInstanceable';
 
 interface ICompendiumItemData {
   id: string;
@@ -23,8 +24,9 @@ interface ICompendiumItemData {
   flavorDescription?: string;
 }
 
-abstract class CompendiumItem {
+abstract class CompendiumItem implements IInstanceable {
   public readonly InstanceID: string;
+  public readonly ItemData: ICompendiumItemData;
   public ItemType: ItemType;
   public readonly Brew: string;
   public readonly LcpName: string = '';
@@ -55,6 +57,7 @@ abstract class CompendiumItem {
   ) {
     this.InstanceID = _.uniqueId();
     this.ItemType = ItemType.None;
+    this.ItemData = data || ({} as ICompendiumItemData);
     if (data) {
       this.ID = data.id;
       if (data.id && data.id.includes('missing_')) {
@@ -104,18 +107,12 @@ abstract class CompendiumItem {
     return _.cloneDeep(item);
   }
 
-  protected save(): void {
-    // TODO: set pilot store to dirty
-    // PilotStore().;
-  }
-
   public get Name(): string {
     return this._flavor_name ? this._flavor_name : this._name;
   }
 
   public set Name(val: string) {
     this._flavor_name = val;
-    this.save();
   }
 
   public get FlavorName(): string {
@@ -132,7 +129,6 @@ abstract class CompendiumItem {
 
   public set Description(val: string) {
     this._flavor_description = val;
-    this.save();
   }
 
   public get SpecialEquipment(): CompendiumItem[] {
@@ -182,7 +178,6 @@ abstract class CompendiumItem {
 
   public set Note(note: string) {
     this._note = note;
-    this.save();
   }
 
   public get Icon(): string {

@@ -72,6 +72,16 @@ function collect<T>(state, itemType: string, constructor?: { new (Y: any): T }):
   ];
 }
 
+function fromData<T>(state, id: string, itemType: string) {
+  let item = lancerData[itemType].find((x) => x.id === id);
+  if (!item)
+    state.ContentPacks.filter((pack: ContentPack) => pack.Active)
+      .flatMap((pack: ContentPack) => pack[hydratedKeys[itemType]] || [])
+      .find((x) => x.id === id);
+
+  return item;
+}
+
 function sortByDependencies(packs: IContentPack[]): IContentPack[] {
   function dfs(node, visited, stack) {
     if (!visited[node.id]) {
@@ -120,6 +130,8 @@ export const CompendiumStore = defineStore('compendium', {
     nfErr: { err: 'ID not found' },
   }),
   getters: {
+    ItemData: (state) => (itemType: string, id: string) => fromData(state, id, itemType),
+
     NpcClasses: (state) => collect<NpcClass>(state, 'npc_classes', NpcClass),
     NpcTemplates: (state) => collect<NpcTemplate>(state, 'npc_templates', NpcTemplate),
     NpcFeatures: (state) => collect<NpcFeature>(state, 'npc_features'),

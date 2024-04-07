@@ -8,6 +8,7 @@ import { INpcFeatureSaveData, NpcFeatureController } from '../feature/NpcFeature
 import { NpcTemplateController } from '../template/NpcTemplateController';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import { FolderController } from '@/classes/components/folder/FolderController';
+import { IInstanceable } from '@/classes/components/instance/IInstanceable';
 
 class UnitData extends NpcData implements INpcClassSaveData, INpcFeatureSaveData {
   npcType: 'unit' = 'unit';
@@ -21,7 +22,22 @@ class UnitData extends NpcData implements INpcClassSaveData, INpcFeatureSaveData
   features!: string[];
 }
 
-class Unit extends Npc implements IStatContainer {
+class UnitInstanceData extends UnitData {
+  instance: boolean = true;
+
+  className?: string;
+  classId?: string;
+  role?: string;
+
+  templateNames?: string[];
+  templateIds?: string[];
+
+  instancedFeatures!: INpcFeatureSaveData[];
+}
+
+class Unit extends Npc implements IStatContainer, IInstanceable {
+  public IsInstance: boolean = false;
+
   private _tag: string = 'Mech';
 
   public NpcFeatureController: NpcFeatureController;
@@ -51,7 +67,7 @@ class Unit extends Npc implements IStatContainer {
 
   public ItemType: string = 'Unit';
 
-  public constructor(data?: UnitData) {
+  public constructor(data?: UnitData | UnitInstanceData) {
     super(data);
     this._name = data?.name || 'New NPC';
     this._tag = data?.tag || 'Mech';
@@ -77,7 +93,19 @@ class Unit extends Npc implements IStatContainer {
     this.SaveController.save();
   }
 
-  public static Serialize(unit: Unit): UnitData {
+  public CreateInstance(): UnitInstanceData {
+    const data = this.Serialize(true) as UnitInstanceData;
+    data.instance = true;
+
+    data.classId = this.NpcClassController.Class?.ID;
+    data.className = this.NpcClassController.Class?.Name;
+    data.templateIds = this.NpcTemplateController.Templates.map((x) => x.ID);
+    data.templateNames = this.NpcTemplateController.Templates.map((x) => x.Name);
+
+    return data;
+  }
+
+  public static Serialize(unit: Unit, createInstance: boolean): UnitData {
     let data = {
       npcType: 'unit',
       id: unit.ID,
@@ -93,7 +121,7 @@ class Unit extends Npc implements IStatContainer {
     PortraitController.Serialize(unit, data);
     BrewController.Serialize(unit, data);
     NpcTemplateController.Serialize(unit, data);
-    NpcFeatureController.Serialize(unit, data);
+    NpcFeatureController.Serialize(unit, data, createInstance);
     NpcClassController.Serialize(unit, data);
     NarrativeController.Serialize(unit, data);
     StatController.Serialize(unit, data);
@@ -102,8 +130,8 @@ class Unit extends Npc implements IStatContainer {
     return data as UnitData;
   }
 
-  public Serialize<UnitData>(): UnitData {
-    return Unit.Serialize(this) as UnitData;
+  public Serialize<UnitData>(createInstance: boolean = false): UnitData {
+    return Unit.Serialize(this, createInstance) as UnitData;
   }
 
   public static Deserialize(data: UnitData): Unit {

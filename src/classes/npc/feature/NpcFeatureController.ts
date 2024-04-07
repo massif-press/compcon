@@ -2,18 +2,31 @@ import { CompendiumStore } from '@/stores';
 import { Unit } from '../unit/Unit';
 import { NpcFeature } from './NpcFeature';
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
+import { INpcFeatureInstanceData, NpcFeatureInstance } from './NpcFeatureInstance';
+import { CompendiumItemInstance } from '@/classes/CompendiumItemInstance';
 
 interface INpcFeatureSaveData {
-  features: string[];
+  features?: string[];
+  instancedFeatures?: INpcFeatureInstanceData[];
 }
 
 class NpcFeatureController implements IFeatureContainer {
   public readonly Parent: Unit;
-  private _selectedFeatures: string[];
+  private _selectedFeatures: string[] = [];
+  private _instancedFeatures: NpcFeatureInstance[] = [];
 
   public constructor(parent: Unit) {
     this.Parent = parent;
-    this._selectedFeatures = [];
+  }
+
+  public get InstancedFeatures(): NpcFeature[] {
+    return this._instancedFeatures as unknown[] as NpcFeature[];
+  }
+
+  public get ReferencedFeatures(): NpcFeature[] {
+    return this._selectedFeatures.map((x) =>
+      CompendiumStore().NpcFeatures.find((y) => x === y.ID)
+    ) as NpcFeature[];
   }
 
   get FeatureSource(): any[] {
@@ -37,9 +50,7 @@ class NpcFeatureController implements IFeatureContainer {
   }
 
   public get Features(): NpcFeature[] {
-    return this._selectedFeatures.map((x) =>
-      CompendiumStore().NpcFeatures.find((y) => x === y.ID)
-    ) as NpcFeature[];
+    return this.InstancedFeatures.concat(this.ReferencedFeatures);
   }
 
   public get AvailableFeatures(): NpcFeature[] {
@@ -86,7 +97,24 @@ class NpcFeatureController implements IFeatureContainer {
     this.Parent.SaveController.save();
   }
 
-  public static Serialize(parent: Unit, target: any) {
+  public static Serialize(parent: Unit, target: any, instance: boolean) {
+    if (instance) {
+      const instancedAlready = parent.NpcFeatureController._instancedFeatures.map((x) =>
+        x.Serialize()
+      );
+
+      const newInstances = parent.NpcFeatureController.ReferencedFeatures.map(
+        (x) =>
+          new NpcFeatureInstance({
+            sourceId: x.ID,
+            sourceType: x.ItemType,
+            sourceData: CompendiumItemInstance.GetItemData(x.ID, x.ItemType),
+            pack: x.LcpName,
+          })
+      ).map((x) => x.Serialize());
+
+      target.instancedFeatures = instancedAlready.concat(newInstances);
+    }
     target.features = parent.NpcFeatureController._selectedFeatures;
   }
 
@@ -97,6 +125,9 @@ class NpcFeatureController implements IFeatureContainer {
       );
 
     parent.NpcFeatureController._selectedFeatures = data.features || [];
+    parent.NpcFeatureController._instancedFeatures = data.instancedFeatures
+      ? data.instancedFeatures.map((x) => new NpcFeatureInstance(x))
+      : [];
   }
 }
 

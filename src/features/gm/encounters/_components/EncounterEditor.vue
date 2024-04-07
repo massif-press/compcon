@@ -4,7 +4,7 @@
       <v-card class="rounded-0 pb-12 elevation-0">
         <v-toolbar density="compact" class="rounded-0 pl-2" color="primary">
           <div class="heading h3 pa-1 text-white">
-            <v-icon start size="large" icon="mdi-robot-industrial" /> ENCOUNTER EDITOR
+            <v-icon start size="large" icon="cc:encounter" /> ENCOUNTER EDITOR
           </div>
           <v-spacer />
           <v-btn icon @click="$emit('exit')">

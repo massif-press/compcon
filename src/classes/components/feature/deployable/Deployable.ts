@@ -126,6 +126,31 @@ class Deployable {
   public get SizeIcon(): string {
     return `cc:size_${this.Size === 0.5 ? 'half' : this.Size}`;
   }
+
+  public static Serialize(deployable: Deployable): IDeployableData {
+    return {
+      id: deployable.Name,
+      name: deployable.Name,
+      detail: deployable._detail,
+      description: '',
+      type: deployable.Type,
+      activation: ActivationType.Full,
+      size: deployable.Size,
+      hp: deployable.MaxHP,
+      armor: deployable.Armor,
+      evasion: deployable.Evasion,
+      edef: deployable.EDefense,
+      heatcap: deployable.Heatcap,
+      repcap: deployable.Repcap,
+      sensor_range: deployable.Sensors,
+      tech_attack: deployable.TechAttack,
+      save: deployable.Save,
+      speed: deployable.Speed,
+      actions: deployable.Actions.map((x) => Action.Serialize(x)),
+      pilot: deployable.IsPilotDeployable,
+      mech: deployable.IsMechDeployable,
+    };
+  }
 }
 
 export { Deployable };
