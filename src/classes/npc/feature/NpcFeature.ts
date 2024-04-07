@@ -5,7 +5,8 @@ import { NpcTemplate } from '../template/NpcTemplate';
 import { CompendiumStore } from '@/stores';
 import { Bonus, IBonusData } from '@/classes/components';
 import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
-import { Npc } from '../Npc';
+import { IInstanceable } from '@/classes/components/instance/IInstanceable';
+import Compendium from '@/assets/icons/svg/compendium.vue';
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -68,7 +69,7 @@ class NpcFeatureMod {
   }
 }
 
-abstract class NpcFeature extends CompendiumItem {
+abstract class NpcFeature extends CompendiumItem implements IInstanceable {
   private _originID: string;
   private _effect: string;
   private _hide_active: boolean;
@@ -152,6 +153,26 @@ abstract class NpcFeature extends CompendiumItem {
 
   public get HideActive(): boolean {
     return this._hide_active;
+  }
+
+  Serialize(): INpcFeatureData {
+    const data = Compendium.CreateInstanceData() as INpcFeatureData;
+    data.origin = this._originID;
+    data.effect = this._effect;
+    data.hide_active = this._hide_active;
+    data.base = this.Base;
+    data.deprecated = this.Deprecated;
+    data.build_feature = this.BuildFeature;
+    if (this.Mod) {
+      data.mod = {
+        target: this.Mod._targetID,
+        add_effect: this.Mod.AddEffect,
+        add_bonuses: this.Mod.AddBonuses.map((x) => Bonus.Serialize(x)),
+        add_tags: this.Mod.AddTags,
+        add_deployables: this.Mod.AddDeployables.map((x) => Deployable.Serialize(x)),
+      };
+    }
+    return data;
   }
 }
 

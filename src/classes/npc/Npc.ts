@@ -20,6 +20,7 @@ import { Label, NarrativeController, NarrativeElementData } from '../narrative/N
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { FolderController, IFolderData } from '../components/folder/FolderController';
 import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
+import { IInstanceable } from '../components/instance/IInstanceable';
 
 class NpcData {
   id!: string;
@@ -45,6 +46,7 @@ abstract class Npc
     ISaveable,
     IFolderPlaceable
 {
+  public readonly IsInstance: boolean = false;
   public readonly ItemType: string = 'npc';
   public readonly StorageType: string = 'npcs';
 
@@ -64,6 +66,8 @@ abstract class Npc
   private _gmDescription: string;
 
   public constructor(data?: NpcData) {
+    if ((data as any)?.instance) this.IsInstance = true;
+
     this._id = data ? data.id : uuid();
     this._note = data ? data.note : '';
     this._description = data ? data.description : '';

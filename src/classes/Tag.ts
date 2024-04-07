@@ -176,6 +176,15 @@ class Tag {
     return tags;
   }
 
+  public static Serialize(tags: Tag[]): ITagData[] {
+    return tags.map((x) => {
+      return {
+        id: x.ID,
+        val: x.Value,
+      };
+    });
+  }
+
   public static Deserialize(data: ITagData[], packTags?: ITagCompendiumData[]): Tag[] {
     const output = [] as Tag[];
     if (!data) return output;
