@@ -1,9 +1,14 @@
-import { IInstance } from './IInstance';
-
 interface IInstanceable {
   ID: string;
+  IsInstance: boolean;
+  InstanceID?: string;
 
-  // CreateInstance(): IInstance;
+  IsLinked: boolean;
+
+  CreateInstance<T>(): T;
+  SetInstanceProxies<T>(data: T): void;
+  Serialize(asInstance: boolean): any;
+  GetLinkedItem<T>(): T;
 }
 
 export type { IInstanceable };

@@ -131,7 +131,7 @@
 <script lang="ts">
 import _ from 'lodash';
 import { ImportData } from '@/io/Data';
-import { CompendiumStore, NpcStore, NarrativeStore } from '@/stores';
+import { CompendiumStore, NpcStore, NarrativeStore, EncounterStore } from '@/stores';
 import { v4 as uuid } from 'uuid';
 import { Unit } from '@/classes/npc/unit/Unit';
 import { Doodad } from '@/classes/npc/doodad/Doodad';
@@ -139,6 +139,7 @@ import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 import { Character } from '@/classes/narrative/Character';
 import { Location } from '@/classes/narrative/Location';
 import { Faction } from '@/classes/narrative/Faction';
+import { Encounter } from '@/classes/encounter/Encounter';
 
 export default {
   name: 'file-import',
@@ -167,7 +168,7 @@ export default {
       if (!file) return;
       let content = [] as any[];
       const data = await ImportData<any>(file.target.files[0]);
-      if (data.type && data.type === 'collection') content = data.data;
+      if (data.type && data.type.includes('collection')) content = data.data;
       else content.push(data);
 
       this.stagedItems = [...content];
@@ -175,6 +176,7 @@ export default {
       this.stagedData = content;
 
       this.stagedItems.forEach((item) => {
+        console.log(item);
         if (item.npcType) {
           item.collection = 'NPC';
           item.type = item.npcType.charAt(0).toUpperCase() + item.npcType.slice(1);
@@ -184,6 +186,11 @@ export default {
           item.collection = 'Narrative Item';
           item.type =
             item.collectionItemType.charAt(0).toUpperCase() + item.collectionItemType.slice(1);
+          item.content_packs = 'N/A';
+          item.status = true;
+        } else if (item.itemType === 'encounter') {
+          item.collection = 'Encounter';
+          item.type = 'Encounter';
           item.content_packs = 'N/A';
           item.status = true;
         }
@@ -264,6 +271,8 @@ export default {
               NarrativeStore().AddItem(Location.Deserialize(item));
             else if (item.collectionItemType === 'faction')
               NarrativeStore().AddItem(Faction.Deserialize(item));
+          } else if (item.itemType === 'encounter') {
+            EncounterStore().AddEncounter(Encounter.Deserialize(item));
           }
 
           this.reset();

@@ -169,18 +169,13 @@
     </v-textarea>
 
     <v-card v-for="(c, i) in item.Sitrep.Conditions" class="pa-2">
-      <v-text-field
-        v-model="item.Sitrep.Conditions[i].title"
-        label="Title"
-        density="compact"
-        hide-details
-        class="mb-2">
+      <v-text-field v-model="c.title" label="Title" density="compact" hide-details class="mb-2">
         <template #append>
           <v-icon icon="mdi-delete" class="fade-select" @click="item.Sitrep.Conditions.splice(i)" />
         </template>
       </v-text-field>
       <v-textarea
-        v-model="item.Sitrep.Conditions[i].condition"
+        v-model="c.condition"
         label="Conditions"
         density="compact"
         rows="1"
@@ -237,10 +232,12 @@ export default {
       return CompendiumStore().Sitreps;
     },
   },
+  mounted() {
+    this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
+  },
   methods: {
     assignPreset() {
       this.item.Sitrep = new SitrepInstance(this.item as Encounter, this.staged);
-      console.log(this.item.Sitrep);
       this.shownKeys = this.keys.filter((x) => this.item.Sitrep[x].length);
       this.dialog = false;
     },

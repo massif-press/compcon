@@ -23,6 +23,10 @@ class StatController {
     this.Parent = parent;
   }
 
+  public setStats(stats: any) {
+    this._maxStats = stats;
+  }
+
   public get DisplayKeys(): { key: string; title: string; type: string }[] {
     return Object.keys(this._maxStats)
       .filter((x) => x.toLowerCase() !== 'sizes')
@@ -83,6 +87,10 @@ class StatController {
 
   public get MaxStats(): any {
     return this._maxStats;
+  }
+
+  public set MaxStats(val: any) {
+    this._maxStats = val;
   }
 
   public getStatArray(stat: string): number {

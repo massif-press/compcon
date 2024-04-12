@@ -3,7 +3,7 @@
     <v-col cols="12">
       <slot />
 
-      <v-row v-if="item.Mod" align="center" class="pt-1 pb-2">
+      <v-row v-if="item.Mod && item.Mod.Target" align="center" class="pt-1 pb-2">
         <v-col><v-divider /></v-col>
         <v-col cols="auto">
           <v-chip color="secondary" variant="outlined">

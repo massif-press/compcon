@@ -251,7 +251,7 @@ export default {
       return EncounterStore().getFolders;
     },
     items(): any[] {
-      return EncounterStore().Encounters;
+      return EncounterStore().Encounters.filter((x) => !x.SaveController.IsDeleted);
     },
     filteredItems() {
       let out = this.items;

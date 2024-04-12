@@ -1,4 +1,3 @@
-import { IInstanceData } from './IInstanceData';
 import { IInstanceable } from './IInstanceable';
 
 interface IInstance {

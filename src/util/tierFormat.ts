@@ -1,5 +1,6 @@
 const ByTier = (str: string, tier?: number): string => {
   if (!str) return '';
+  if (typeof str !== 'string') return JSON.stringify(str);
   let fmt = str;
   const perTier = /(\{.*?\})/g;
   const m = str.match(perTier);

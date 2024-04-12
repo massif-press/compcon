@@ -52,7 +52,11 @@
           <cc-dense-card :item="layer.Layer" :tier="item.Tier">
             <template v-if="layer.Layer.Shards.Count !== 0" #extra>
               <v-card-text class="mt-n2 pt-0">
-                <stat-editor :item="layer.Shard" :controller="layer.Shard" prefix="Shard" />
+                <stat-editor
+                  :item="layer.Layer.Shards"
+                  :controller="layer.Layer.Shards.StatController"
+                  prefix="Shard"
+                  readonly />
               </v-card-text>
             </template>
           </cc-dense-card>

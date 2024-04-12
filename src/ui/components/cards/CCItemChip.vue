@@ -1,10 +1,10 @@
 <template>
-  <v-chip :label="!small" :variant="variant" :size="small ? 'small' : ''" :color="item.Color">
+  <v-chip :label="!isSmall" :variant="variant" :size="size" :color="item.Color">
     <v-menu open-on-hover open-delay="300" close-on-click close-on-content-click width="60vw">
       <template #activator="{ props }">
         <div v-bind="props">
-          <v-icon :icon="item.Icon" start :class="small ? '' : 'mt-n2'" />
-          <span :class="small ? '' : 'heading h3'">{{ item.Name }}</span>
+          <v-icon :icon="item.Icon" start :class="isSmall ? '' : 'mt-n2'" />
+          <span :class="isSmall ? '' : 'heading h3'">{{ item.Name }}</span>
         </div>
       </template>
       <v-card max-width="60vw">
@@ -27,9 +27,8 @@ export default {
       type: Object,
       required: true,
     },
-    small: {
-      type: Boolean,
-      default: false,
+    size: {
+      type: String,
     },
     variant: {
       type: String,
@@ -37,6 +36,11 @@ export default {
     },
     tier: {
       type: Number,
+    },
+  },
+  computed: {
+    isSmall() {
+      return this.size?.includes('small');
     },
   },
 };

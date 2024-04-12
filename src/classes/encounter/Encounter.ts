@@ -14,11 +14,13 @@ import { IFolderPlaceable } from '../components/folder/IFolderPlaceable';
 import { INarrativeElement } from '../narrative/INarrativeElement';
 import { ImageTag } from '@/io/ImageManagement';
 import { Environment, EnvironmentInstance, IEnvironmentData } from '../Environment';
-import { InstanceController } from '../components/instance/InstanceController';
-import { NpcInstance } from '../components/combat/NpcInstance';
 import { Npc } from '../npc/Npc';
+import { Unit, UnitData } from '../npc/unit/Unit';
+import { Doodad, DoodadData } from '../npc/doodad/Doodad';
+import { Eidolon, EidolonData } from '../npc/eidolon/Eidolon';
 
 interface IEncounterData {
+  itemType: 'encounter';
   id: string;
   name: string;
   note?: string;
@@ -31,7 +33,28 @@ interface IEncounterData {
   sitrep?: ISitrepData;
   environment?: IEnvironmentData;
   map?: IMapData;
+  combatants: CombatantSaveData[];
 }
+
+type CombatantData = {
+  index: number;
+  type: 'unit' | 'doodad' | 'eidolon';
+  npc: Unit | Doodad | Eidolon;
+  side: 'enemy' | 'ally' | 'other';
+  playerCount: number;
+  reinforcement: boolean;
+  reinforcementTurn: number;
+};
+
+type CombatantSaveData = {
+  index: number;
+  type: 'unit' | 'doodad' | 'eidolon';
+  npc: UnitData | DoodadData | EidolonData;
+  side?: 'enemy' | 'ally' | 'other';
+  playerCount?: number;
+  reinforcement?: boolean;
+  reinforcementTurn?: number;
+};
 
 class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public readonly ItemType: string = 'encounter';
@@ -54,9 +77,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   public NarrativeController: NarrativeController;
   public FolderController: FolderController;
 
-  public InstanceController: InstanceController;
-
-  private _npcInstances: NpcInstance[] = [];
+  private _combatants: CombatantData[] = [];
 
   public constructor(data?: IEncounterData) {
     this._id = data?.id || uuid();
@@ -77,11 +98,39 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       this._map = EncounterMap.Deserialize(data.map);
     }
 
+    if (data?.combatants) {
+      this._combatants = data.combatants.map((c) => {
+        let npc;
+        switch (c.type) {
+          case 'unit':
+            npc = Unit.Deserialize(c.npc as UnitData);
+            break;
+          case 'doodad':
+            npc = Doodad.Deserialize(c.npc as DoodadData);
+            break;
+          case 'eidolon':
+            npc = Eidolon.Deserialize(c.npc as EidolonData);
+            break;
+          default:
+            throw new Error('Invalid combatant type');
+        }
+
+        return {
+          index: c.index,
+          type: c.type,
+          npc,
+          side: c.side || 'enemy',
+          playerCount: c.playerCount || 1,
+          reinforcement: c.reinforcement || false,
+          reinforcementTurn: c.reinforcementTurn || 0,
+        };
+      });
+    }
+
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
     this.NarrativeController = new NarrativeController(this);
     this.FolderController = new FolderController(this);
-    this.InstanceController = new InstanceController(this);
   }
 
   public save(): void {
@@ -171,16 +220,52 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
     this.save();
   }
 
-  public NpcInstances(): NpcInstance[] {
-    return this._npcInstances;
+  public get Combatants(): CombatantData[] {
+    return this._combatants;
   }
 
-  public AddNpcInstance(npc: Npc): void {
-    this.InstanceController.AddInstance(npc);
+  public AddCombatant(npc: Npc): void {
+    const type = npc.ItemType.toLowerCase();
+    let c;
+    let iData;
+
+    switch (type) {
+      case 'unit':
+        iData = (npc as Unit).CreateInstance();
+        c = Unit.Deserialize(iData as UnitData);
+        break;
+      case 'doodad':
+        iData = (npc as Doodad).CreateInstance();
+        c = Doodad.Deserialize(iData as DoodadData);
+        break;
+      case 'eidolon':
+        iData = (npc as Eidolon).CreateInstance();
+        console.log(iData);
+        c = Eidolon.Deserialize(iData as EidolonData);
+        console.log(c);
+        break;
+      default:
+        throw new Error('Invalid combatant type');
+    }
+
+    this.Combatants.push({
+      index: this.Combatants.length,
+      type,
+      npc: c,
+      side: 'enemy',
+      playerCount: 0,
+      reinforcement: false,
+      reinforcementTurn: 0,
+    });
+  }
+
+  public RemoveCombatant(index: number): void {
+    this.Combatants.splice(index, 1);
   }
 
   public static Serialize(enc: Encounter): IEncounterData {
     const data = {
+      itemType: 'encounter',
       id: enc.ID,
       name: enc.Name,
       note: enc.Note,
@@ -189,6 +274,17 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
       sitrep: SitrepInstance.Serialize(enc.Sitrep),
       environment: EnvironmentInstance.Serialize(enc.Environment),
       map: enc.Map ? EncounterMap.Serialize(enc.Map) : undefined,
+      combatants: enc.Combatants.map((c) => {
+        return {
+          index: c.index,
+          type: c.type,
+          npc: (c.npc as any).Serialize(true),
+          side: c.side,
+          playerCount: c.playerCount,
+          reinforcement: c.reinforcement,
+          reinforcementTurn: c.reinforcementTurn,
+        };
+      }),
     } as IEncounterData;
 
     SaveController.Serialize(enc, data);
@@ -208,7 +304,6 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
   }
 
   public static Deserialize(data: IEncounterData): Encounter {
-    console.log(data);
     const encounter = new Encounter(data);
     SaveController.Deserialize(encounter, data.save);
     PortraitController.Deserialize(encounter, data.img);

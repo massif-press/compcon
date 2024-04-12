@@ -1,3 +1,4 @@
+import { v4 as uuid } from 'uuid';
 import { IStatData, StatController } from '@/classes/components/combat/stats/StatController';
 import { CloudController, PortraitController, SaveController } from '../../components';
 import { NpcData, Npc } from '../Npc';
@@ -5,27 +6,62 @@ import { BrewController } from '@/classes/components/brew/BrewController';
 import { NarrativeController } from '@/classes/narrative/NarrativeController';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
 import { FolderController } from '@/classes/components/folder/FolderController';
+import { IInstanceableData } from '@/classes/components/instance/IInstancableData';
+import { IInstanceable } from '@/classes/components/instance/IInstanceable';
+import { NpcStore } from '@/stores';
 
-class DoodadData extends NpcData {
-  npcType: 'doodad' = 'doodad';
+class DoodadData extends NpcData implements IInstanceableData {
+  npcType: 'unit' = 'unit';
+  instance: boolean = false;
+  instanceId: string | undefined;
+
   stats!: IStatData;
 }
 
-class Doodad extends Npc implements IStatContainer {
+class Doodad extends Npc implements IStatContainer, IInstanceable {
+  public IsInstance: boolean;
+  public InstanceID?: string;
+
   public StatController: StatController;
   public ItemType: string = 'doodad';
   public MandatoryStats: string[] = [];
 
   public constructor(data?: DoodadData) {
     super(data);
+
+    this.IsInstance = data?.instance || false;
+    this.InstanceID = data?.instanceId;
+
     this._name = data?.name || 'New Doodad';
     this.StatController = new StatController(this);
   }
 
-  public static Serialize(doodad: Doodad): DoodadData {
+  public CreateInstance<DoodadData>(): DoodadData {
+    const data = this.Serialize(true) as DoodadData;
+    this.SetInstanceProxies<DoodadData>(data);
+    (data as any).instanceId = uuid();
+
+    return data;
+  }
+
+  SetInstanceProxies<T>(dd: T) {
+    // unnecessary for doodads
+  }
+
+  public get IsLinked(): boolean {
+    return this.GetLinkedItem<Npc>() !== undefined;
+  }
+
+  public GetLinkedItem<Npc>(): Npc {
+    return NpcStore().getNpcByID(this.ID);
+  }
+
+  public static Serialize(doodad: Doodad, asInstance: boolean): DoodadData {
     let data = {
       npcType: 'doodad',
       id: doodad.ID,
+      instance: doodad.IsInstance || asInstance,
+      instanceId: doodad.InstanceID,
       name: doodad.Name,
       note: doodad.Note,
     };
@@ -41,8 +77,8 @@ class Doodad extends Npc implements IStatContainer {
     return data as DoodadData;
   }
 
-  public Serialize<DoodadData>(): DoodadData {
-    return Doodad.Serialize(this) as DoodadData;
+  public Serialize<DoodadData>(asInstance: boolean = false): DoodadData {
+    return Doodad.Serialize(this, asInstance) as DoodadData;
   }
 
   public static Deserialize(data: DoodadData): Doodad {
@@ -57,7 +93,7 @@ class Doodad extends Npc implements IStatContainer {
   }
 
   public Clone<Doodad>(): Doodad {
-    const itemData = Doodad.Serialize(this);
+    const itemData = Doodad.Serialize(this, false);
     const newItem = Doodad.Deserialize(itemData);
     newItem.RenewID();
     newItem.Name += ' (COPY)';
@@ -65,6 +101,10 @@ class Doodad extends Npc implements IStatContainer {
   }
 
   public get Icon(): string {
+    return 'mdi-cube-outline';
+  }
+
+  public get TagIcon(): string {
     return 'mdi-cube-outline';
   }
 }

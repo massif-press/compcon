@@ -12,7 +12,7 @@ export const NpcStore = defineStore('npc', {
   }),
   getters: {
     getNpcByID: (state: any) => (id: string) => {
-      return state.AllNpcs.find((x) => x.ID === id);
+      return state.Npcs.find((x) => x.ID === id);
     },
     getUnits: (state: any) => state.Npcs.filter((x) => x instanceof Unit),
     getDoodads: (state: any) => state.Npcs.filter((x) => x instanceof Doodad),

@@ -8,8 +8,7 @@
           height="20"
           class="mb-5"
           rounded
-          color="primary"
-        >
+          color="primary">
           <v-chip small variant="elevated" color="primary-lighten-5" style="opacity: 0.5"
             >{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</v-chip
           >
@@ -51,8 +50,7 @@
                 color="error"
                 icon="mdi-alert-circle"
                 border="bottom"
-                class="my-3"
-              >
+                class="my-3">
                 <span class="heading h2">WARNING // WARNING // WARNING</span>
               </v-alert>
               <p class="text-center heading h2 text-text">

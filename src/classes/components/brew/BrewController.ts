@@ -26,9 +26,7 @@ class BrewController {
   public SetBrewData(): void {
     if (!this.Parent.BrewableCollection.length) return;
 
-    const packs = CompendiumStore().getItemCollection(
-      'ContentPacks'
-    ) as ContentPack[];
+    const packs = CompendiumStore().getItemCollection('ContentPacks') as ContentPack[];
 
     this.Brews = this.Parent.BrewableCollection.filter(
       (item) => item.Brew && item.Brew.toLowerCase() !== 'core'
@@ -41,10 +39,12 @@ class BrewController {
         LcpVersion: pack?.Version || '',
         Website: pack?.Website || '',
       }))
-      .filter(
-        (value, index, self) =>
-          index === self.findIndex((t) => t.LcpId === value.LcpId)
-      );
+      .filter((value, index, self) => index === self.findIndex((t) => t.LcpId === value.LcpId));
+  }
+
+  public get AllContentAvailable(): boolean {
+    return true;
+    // return false;
   }
 
   public static Serialize(parent: IBrewable, target: any) {

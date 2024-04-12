@@ -53,13 +53,17 @@
             <template #[`item.Select`]="{ item }">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-btn
-                    v-bind="props"
-                    variant="tonal"
-                    color="secondary"
-                    @click.stop="$emit('select', item)">
-                    <v-icon icon="mdi-plus" size="x-large" />
-                  </v-btn>
+                  <v-badge
+                    :color="itemCount(item) ? 'primary' : 'transparent'"
+                    :content="itemCount(item) || ''">
+                    <v-btn
+                      v-bind="props"
+                      variant="tonal"
+                      color="secondary"
+                      @click.stop="$emit('select', item)">
+                      <v-icon icon="mdi-plus" size="x-large" />
+                    </v-btn>
+                  </v-badge>
                 </template>
                 <span>Add to Encounter</span>
               </v-tooltip>
@@ -96,7 +100,7 @@
                 v-for="f in item.NpcFeatureController.Features"
                 :item="f"
                 :tier="item.NpcClassController.Tier"
-                small
+                size="x-small"
                 variant="elevated"
                 class="ma-1" />
             </template>
@@ -225,7 +229,7 @@ export default {
   components: { UnitEditor, DoodadEditor, EidolonEditor, GmCollectionFilter },
   emits: ['select'],
   props: {
-    mode: { type: String, default: 'list' },
+    encounter: { type: Object, required: true },
   },
   data: () => ({
     selected: null,
@@ -239,7 +243,7 @@ export default {
   }),
   computed: {
     npcs() {
-      return NpcStore().Npcs;
+      return NpcStore().Npcs.filter((x) => !x.SaveController.IsDeleted);
     },
 
     units() {
@@ -345,7 +349,10 @@ export default {
           return true;
         });
       }
-      return out;
+      return out.filter((x) => !x.SaveController.IsDeleted);
+    },
+    itemCount(item) {
+      return this.encounter.Combatants.filter((x) => x.npc.ID === item.ID).length;
     },
   },
 };

@@ -1,7 +1,11 @@
 <template>
   <div v-show="item">
     <v-card class="rounded-0 pb-12 elevation-0">
-      <v-toolbar v-if="!readonly" density="compact" class="rounded-0 pl-2" color="primary">
+      <v-toolbar
+        v-if="!readonly && !hideToolbar"
+        density="compact"
+        class="rounded-0 pl-2"
+        color="primary">
         <div class="heading h3 pa-1 text-white">
           <v-icon start size="large" icon="mdi-robot-industrial" /> {{ typeText }} EDITOR
         </div>
@@ -121,7 +125,7 @@
       </v-container>
     </v-card>
   </div>
-  <v-footer v-if="!readonly" app color="panel">
+  <v-footer v-if="!readonly && !hideFooter" app color="panel">
     <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
       ><v-icon start icon="mdi-printer" />Print</v-btn
     >
@@ -167,6 +171,8 @@ export default {
     showDescription: { type: Boolean },
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },
+    hideToolbar: { type: Boolean, default: false },
+    hideFooter: { type: Boolean, default: false },
   },
   emits: ['exit', 'save', 'add-new', 'copy', 'delete', 'export'],
   data: () => ({

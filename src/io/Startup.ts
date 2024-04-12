@@ -26,6 +26,7 @@ export default async function (): Promise<void> {
 
   // TODO: remove when finished exhibiting npcs
   // sideload start
+
   if (CompendiumStore().ContentPacks.some((x) => x.Name === 'Lancer CORE NPCs')) {
     console.log('core NPCs loaded already');
   } else {
@@ -63,6 +64,7 @@ export default async function (): Promise<void> {
 
     console.info('Eidolon test loaded');
   }
+
   // sideload end
 
   // const missing = { pilots: [] as PilotData[], npcs: [] as NpcData[] };
