@@ -8,12 +8,11 @@
             :current="pilot.TalentsController.CurrentTalentPoints"
             :max="pilot.TalentsController.MaxTalentPoints"
             :label="`Edit Pilot Talents (${pilot.TalentsController.CurrentTalentPoints}/${pilot.TalentsController.MaxTalentPoints})`"
-            @open-selector="($refs as any).talentSelector.show()"
-          />
+            @open-selector="($refs as any).talentSelector.show()" />
         </section-header>
       </v-col>
       <v-col cols="auto" class="ml-auto">
-        <v-btn-toggle v-model="ctype" mandatory>
+        <v-btn-toggle v-model="view" mandatory>
           <v-btn value="full"><v-icon icon="mdi-view-stream" /></v-btn>
           <v-btn value="terse"><v-icon icon="mdi-view-list" /></v-btn>
           <v-btn value="small"><v-icon icon="mdi-view-comfy" /></v-btn>
@@ -29,11 +28,10 @@
           hide-locked
           :talent="t.Talent"
           :rank="t.Rank"
-          :terse="ctype === 'terse'"
-          :small="ctype === 'small'"
+          :terse="view === 'terse'"
+          :small="view === 'small'"
           in-column
-          hide-change
-        />
+          hide-change />
       </v-row>
     </v-container>
     <cc-solo-dialog
@@ -41,9 +39,8 @@
       icon="cc:trait"
       no-confirm
       title="Set Pilot Talents"
-      fullscreen
-    >
-      <talent-selector :pilot="(pilot as Pilot)" modal />
+      fullscreen>
+      <talent-selector :pilot="pilot" modal />
     </cc-solo-dialog>
   </div>
 </template>
@@ -62,22 +59,22 @@ export default {
   components: { SectionHeader, SectionEditChip, NoDataBlock, TalentSelector },
   props: {
     pilot: {
-      type: Object,
+      type: Object as () => Pilot,
       required: true,
     },
   },
-  computed: {
-    profile() {
-      return UserStore().UserProfile;
-    },
-    ctype: {
-      get: function (): string {
-        return this.profile.View('talents');
-        // return this.profile.GetView('talents');
-      },
-      set: function (newval: string) {
-        this.profile.SetView('talents', newval);
-      },
+  data: () => ({
+    view: 'terse',
+  }),
+  mounted() {
+    const user = UserStore().User;
+    if (!user || !user.View) return;
+    this.view = user.View('talentBlockStyle', 'terse');
+  },
+  watch: {
+    view(val) {
+      if (!val) return;
+      UserStore().User.SetView('talentBlockStyle', val);
     },
   },
 };

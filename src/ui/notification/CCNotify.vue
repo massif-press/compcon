@@ -9,7 +9,11 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <v-icon size="large" icon="mdi-close" variant="plain" @click="props.close" />
+            <v-icon
+              size="large"
+              icon="mdi-close"
+              variant="plain"
+              @click.stop="closePopup(props.close)" />
           </v-col>
         </v-row>
         <v-row dense align="center">
@@ -18,8 +22,7 @@
               v-if="props.item.data.icon"
               :color="props.item.data.iconColor"
               :size="props.item.data.iconSize"
-              :class="props.item.data.iconClass"
-            >
+              :class="props.item.data.iconClass">
               {{ props.item.data.icon }}
             </v-icon>
           </v-col>
@@ -35,5 +38,10 @@
 <script lang="ts">
 export default {
   name: 'cc-notify',
+  methods: {
+    closePopup(close: () => void) {
+      close();
+    },
+  },
 };
 </script>

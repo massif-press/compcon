@@ -39,7 +39,7 @@ export default {
   }),
   computed: {
     user() {
-      return UserStore().UserProfile;
+      return UserStore().User;
     },
   },
   methods: {

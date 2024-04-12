@@ -2,6 +2,8 @@
   <editor-base
     :item="item"
     :readonly="readonly"
+    :hide-toolbar="hideToolbar"
+    :hide-footer="hideFooter"
     @exit="$emit('exit')"
     @add-new="saveAsNew()"
     @save="save()"
@@ -36,6 +38,8 @@ export default {
   props: {
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },
+    hideToolbar: { type: Boolean, default: false },
+    hideFooter: { type: Boolean, default: false },
   },
   emits: ['exit'],
   methods: {
@@ -59,7 +63,7 @@ export default {
       this.$emit('exit');
     },
     exportItem(item) {
-      exportAsJson(Eidolon.Serialize(item), `${item.Name}.json`);
+      exportAsJson(Eidolon.Serialize(item, false), `${item.Name}.json`);
     },
   },
 };

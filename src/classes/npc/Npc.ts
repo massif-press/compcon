@@ -84,15 +84,24 @@ abstract class Npc
     this.FeatureController.Register();
   }
 
-  public Clone<T>(): T {
+  save(): void {
+    if (this.IsInstance) return;
+    this.SaveController.save();
+  }
+
+  public Clone(): ISaveable {
     throw new Error('Method inaccessible in abstract class.');
   }
 
-  public Serialize<T>(): T {
+  public Serialize(): Object {
     throw new Error('Method inaccessible in abstract class.');
   }
 
-  public Deserialize<T>(): T {
+  public Deserialize() {
+    throw new Error('Method inaccessible in abstract class.');
+  }
+
+  public CreateInstance() {
     throw new Error('Method inaccessible in abstract class.');
   }
 
@@ -123,7 +132,7 @@ abstract class Npc
 
   public set Name(val: string) {
     this._name = val;
-    this.SaveController.save();
+    this.save();
   }
 
   public get Note(): string {
@@ -132,7 +141,7 @@ abstract class Npc
 
   public set Note(val: string) {
     this._note = val;
-    this.SaveController.save();
+    this.save();
   }
 
   public get Description(): string {
@@ -141,7 +150,7 @@ abstract class Npc
 
   public set Description(val: string) {
     this._description = val;
-    this.SaveController.save();
+    this.save();
   }
 
   public get GmDescription(): string {
@@ -150,8 +159,15 @@ abstract class Npc
 
   public set GmDescription(val: string) {
     this._gmDescription = val;
-    this.SaveController.save();
+    this.save();
   }
+
+  // Instance Utilities
+  public abstract get IsLinked(): boolean;
+
+  public abstract GetLinkedItem<Npc>(): Npc;
+
+  public abstract SetInstanceProxies<T>(data: T): void;
 }
 
 export { NpcData, Npc };

@@ -129,6 +129,7 @@ export default {
     bonuses: { type: Array, default: () => [] },
     prefix: { type: String, default: '' },
     readonly: { type: Boolean, default: false },
+    tierOverride: { type: Number, default: 0 },
   },
   data: () => ({
     statsToAdd: [],

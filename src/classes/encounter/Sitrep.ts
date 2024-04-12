@@ -5,7 +5,7 @@ interface ISitrepData {
   id?: string;
   name: string;
   description: string;
-  conditions?: string[];
+  conditions?: { title: string; condition: string }[];
   deployment?: string;
   objective?: string;
   controlZone?: string;
@@ -37,7 +37,7 @@ class Sitrep {
 
     this.Name = data.name;
     this.Description = data.description;
-    this.Conditions = [];
+    this.Conditions = data.conditions || [];
     this.Deployment = data.deployment || '';
     this.Objective = data.objective || '';
     this.ControlZone = data.controlZone || '';
@@ -165,7 +165,7 @@ class SitrepInstance {
       objective: sitrep.Objective,
       controlZone: sitrep.ControlZone,
       extraction: sitrep.Extraction,
-      conditions: sitrep.Conditions.map((c) => c.condition),
+      conditions: sitrep.Conditions,
     };
   }
 

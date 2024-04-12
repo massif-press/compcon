@@ -43,6 +43,7 @@ import energy from './svg/energy.vue';
 import evasion from './svg/evasion.vue';
 import explosive from './svg/explosive.vue';
 import frame from './svg/frame.vue';
+import mech from './svg/frame.vue';
 import free_action from './svg/free_action.vue';
 import free from './svg/free_action.vue';
 import generic_item from './svg/generic_item.vue';
@@ -172,6 +173,7 @@ const svgs: any = {
   evasion,
   explosive,
   frame,
+  mech,
   free_action,
   free,
   generic_item,

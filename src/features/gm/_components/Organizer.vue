@@ -397,6 +397,7 @@ export default {
       NpcStore().SaveNpcData();
     },
     exportItems() {
+      console.log(this.type);
       let json = {} as any;
       let filename = '';
       if (this.selected.length === 1) {
@@ -408,7 +409,7 @@ export default {
       } else {
         const data = this.items.filter((x: any) => this.selected.includes(x.ID));
         json = {
-          type: 'collection',
+          type: `${this.type}_collection`,
           item_count: data.length,
           data: data.map((x: any) => x.Serialize()),
         };
@@ -439,7 +440,7 @@ export default {
             promises.push(NarrativeStore().DeleteItemPermanent(item));
           else if (item.StorageType === 'encounters')
             promises.push(EncounterStore().DeleteEncounterPermanent(item));
-          else if (item.StorageType === 'npc') promises.push(NpcStore().DeleteNpcPermanent(item));
+          else if (item.StorageType === 'npcs') promises.push(NpcStore().DeleteNpcPermanent(item));
         }
       });
       await Promise.all(promises);

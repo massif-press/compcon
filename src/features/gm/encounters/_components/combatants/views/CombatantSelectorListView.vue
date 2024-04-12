@@ -34,13 +34,17 @@
             <template #append>
               <v-tooltip>
                 <template #activator="{ props }">
-                  <v-btn
-                    v-bind="props"
-                    variant="tonal"
-                    color="secondary"
-                    @click.stop="$emit('select', n)">
-                    <v-icon icon="mdi-plus" size="x-large" />
-                  </v-btn>
+                  <v-badge
+                    :color="itemCount(n) ? 'primary' : 'transparent'"
+                    :content="itemCount(n) || ''">
+                    <v-btn
+                      v-bind="props"
+                      variant="tonal"
+                      color="secondary"
+                      @click.stop="$emit('select', n)">
+                      <v-icon icon="mdi-plus" size="x-large" />
+                    </v-btn>
+                  </v-badge>
                 </template>
                 <span>Add to Encounter</span>
               </v-tooltip>
@@ -85,7 +89,7 @@ export default {
   components: { UnitEditor, DoodadEditor, EidolonEditor },
   emits: ['select'],
   props: {
-    mode: { type: String, default: 'list' },
+    encounter: { type: Object, required: true },
   },
   data: () => ({
     selected: null,
@@ -93,7 +97,7 @@ export default {
   }),
   computed: {
     npcs() {
-      return NpcStore().Npcs;
+      return NpcStore().Npcs.filter((x) => !x.SaveController.IsDeleted);
     },
     filteredNpcs() {
       return this.npcs.filter((n) => this.itemTypes.includes(n.ItemType.toLowerCase()));
@@ -105,6 +109,9 @@ export default {
   methods: {
     addUnit() {
       throw new Error('Method not implemented.');
+    },
+    itemCount(item) {
+      return this.encounter.Combatants.filter((x) => x.npc.ID === item.ID).length;
     },
   },
 };
