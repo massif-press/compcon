@@ -23,7 +23,8 @@
         'clean',
       ]"
       content-type="html"
-      @text-change="item[noteProperty] = notes" />
+      @text-change="item[noteProperty] = notes"
+      @blur="$emit('blur')" />
   </div>
 </template>
 

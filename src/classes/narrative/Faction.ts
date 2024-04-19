@@ -113,6 +113,7 @@ class Faction extends CollectionItem {
       collectionItemType: 'faction',
       id: faction.ID,
       name: faction.Name,
+      description: faction.Description,
       note: faction.Note,
       factionType: faction.FactionType,
     };

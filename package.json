@@ -31,12 +31,12 @@
     "sortablejs-vue3": "^1.2.9",
     "typeit": "^8.7.1",
     "uuid": "^9.0.0",
-    "vue": "^3.2.47",
+    "vue": "^3.4.21",
     "vue-advanced-cropper": "^2.8.8",
     "vue-chartjs": "^5.2.0",
     "vue-html-secure": "^1.0.10",
-    "vue-router": "^4.1.6",
-    "vuetify": "^3.4.7"
+    "vue-router": "^4.3.0",
+    "vuetify": "^3.5.15"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",

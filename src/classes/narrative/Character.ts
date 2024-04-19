@@ -113,6 +113,7 @@ class Character extends CollectionItem {
       collectionItemType: 'character',
       id: character.ID,
       name: character.Name,
+      description: character.Description,
       note: character.Note,
       alias: character.Alias,
       title: character.Title,

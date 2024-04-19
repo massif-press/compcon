@@ -33,12 +33,12 @@
                 </v-col>
 
                 <v-col cols="auto" class="ml-auto pt-0">
-                  <combatant-settings-menu :item="item" />
+                  <combatant-settings-menu :readonly="readonly" :item="item" />
                 </v-col>
 
                 <v-divider vertical />
 
-                <v-col cols="auto">
+                <v-col v-if="!readonly" cols="auto">
                   <v-menu v-model="deleteMenu">
                     <template #activator="{ props }">
                       <v-icon
@@ -51,14 +51,15 @@
                       cancellable
                       :content="`Confirm deletion of ${item.npc.Name} from the encounter`"
                       @confirm="removeItem"
-                      @cancel="deleteMenu = false" /> </v-menu
-                ></v-col>
+                      @cancel="deleteMenu = false" />
+                  </v-menu>
+                </v-col>
               </v-row>
             </div>
           </v-toolbar>
           <slot />
         </v-col>
-        <v-tooltip :open-delay="500" max-width="300px">
+        <v-tooltip v-if="!readonly" :open-delay="500" max-width="300px">
           <template #activator="{ props }">
             <v-icon
               v-bind="props"
@@ -67,12 +68,11 @@
               :icon="item.npc.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
               style="position: absolute; bottom: 2px; right: 2px" />
           </template>
-          <span v-if="item.npc.IsLinked"
-            >The source of this NPC instance is present in your NPC roster (<b
-              class="text-primary"
-              >{{ item.npc.GetLinkedItem().Name }}</b
-            >) and can receive updates from the original</span
-          >
+          <span v-if="item.npc.IsLinked">
+            The source of this NPC instance is present in your NPC roster (
+            <b class="text-primary">{{ item.npc.GetLinkedItem().Name }}</b>
+            ) and can receive updates from the original
+          </span>
           <span v-else>This NPC instance is not linked to a valid source in your NPC roster</span>
         </v-tooltip>
       </v-row>
@@ -90,6 +90,7 @@ export default {
   props: {
     item: { type: Object, required: true },
     odd: { type: Boolean },
+    readonly: { type: Boolean, default: false },
   },
   data: () => ({
     deleteMenu: false,

@@ -17,8 +17,10 @@
     },
     "noImplicitAny": false,
     "allowJs": true,
-    "noEmitOnError": false
+    "noEmitOnError": false,
+    "outDir": "dist"
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["dist"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

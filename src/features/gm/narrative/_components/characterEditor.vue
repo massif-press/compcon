@@ -21,9 +21,10 @@
               </div>
             </cc-short-string-editor>
           </div>
-          <div class="heading h2">
-            <v-text-field placeholder="Title" v-model="item.Title" style="width: 30vw" />
-          </div>
+          <v-row class="heading h3">
+            <v-col><v-text-field label="Title" v-model="item.Title" /></v-col>
+            <v-col><v-text-field label="Alias" v-model="item.Alias" /></v-col>
+          </v-row>
         </v-col>
         <v-col cols="auto">
           <v-combobox

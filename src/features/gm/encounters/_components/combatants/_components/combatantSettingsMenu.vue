@@ -34,15 +34,22 @@
       </template>
       <div>
         This NPC will join the encounter as a reinforcement
-        <span v-if="item.reinforcementTurn"
-          >&mdash; Reinforces on turn {{ item.reinforcementTurn }}</span
-        >
+        <span v-if="item.reinforcementTurn">
+          &mdash; Reinforces on turn {{ item.reinforcementTurn }}
+        </span>
       </div>
     </v-tooltip>
   </span>
   <v-menu :close-on-content-click="false">
     <template #activator="{ props }">
-      <v-btn icon size="x-small" variant="text" color="accent" class="ml-1" v-bind.stop="props">
+      <v-btn
+        v-if="!readonly"
+        icon
+        size="x-small"
+        variant="text"
+        color="accent"
+        class="ml-1"
+        v-bind.stop="props">
         <v-tooltip max-width="300px" open-delay="900">
           <template #activator="{ props }">
             <v-icon v-bind="props" size="large" icon="mdi-pencil" />
@@ -72,11 +79,11 @@
             <template #activator="{ props }">
               <v-icon v-bind="props" size="small" icon="mdi-information-outline" />
             </template>
-            <span
-              >This NPC will be marked as being part of the encounter only if there are at least as
+            <span>
+              This NPC will be marked as being part of the encounter only if there are at least as
               many Player Characters as indicated. Leaving this blank will indicate that is will be
-              part of the encounter at all PC counts.</span
-            >
+              part of the encounter at all PC counts.
+            </span>
           </v-tooltip>
         </div>
         <v-text-field
@@ -102,11 +109,11 @@
               <template #activator="{ props }">
                 <v-icon v-bind="props" size="small" icon="mdi-information-outline" />
               </template>
-              <span
-                >This NPC will be marked as joining the encounter on the specified turn. Leaving
-                this blank will indicate that this NPC can be used as a reinforcement at the GM's
-                discretion.</span
-              >
+              <span>
+                This NPC will be marked as joining the encounter on the specified turn. Leaving this
+                blank will indicate that this NPC can be used as a reinforcement at the GM's
+                discretion.
+              </span>
             </v-tooltip>
           </div>
           <v-text-field
@@ -127,6 +134,7 @@ export default {
   name: 'combatant-settings-menu',
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   computed: {
     sideColor() {

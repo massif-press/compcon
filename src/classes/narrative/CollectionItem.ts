@@ -31,6 +31,7 @@ class ICollectionItemData {
   folder!: IFolderData;
   name!: string;
   note!: string;
+  description!: string;
 }
 
 abstract class CollectionItem
@@ -49,12 +50,14 @@ abstract class CollectionItem
   private _id: string;
   protected _name: string = 'New NPC';
   private _note: string = '';
+  private _description: string = '';
   static ID: string;
   static Name: string;
 
   public constructor(data?: ICollectionItemData) {
     this._id = data?.id || uuid();
     this._note = data?.note || '';
+    this._description = data?.description || '';
     this.SaveController = new SaveController(this);
     this.PortraitController = new PortraitController(this);
     this.CloudController = new CloudController(this);
@@ -84,6 +87,15 @@ abstract class CollectionItem
 
   public set Name(val: string) {
     this._name = val;
+    this.SaveController.save();
+  }
+
+  public get Description(): string {
+    return this._description;
+  }
+
+  public set Description(val: string) {
+    this._description = val;
     this.SaveController.save();
   }
 

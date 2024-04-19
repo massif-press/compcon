@@ -84,6 +84,8 @@ import CCTitledDivider from './components/CCTitledDivider.vue';
 import CCTieredAttribute from './components/CCTieredAttribute.vue';
 import CCBonus from './components/items/features/bonuses/CCBonus.vue';
 import CCNarrativeItemContent from './components/CCNarrativeItemContent.vue';
+import CCSitrepDisplay from './components/CCSitrepDisplay.vue';
+import CCEnvironmentDisplay from './components/CCEnvironmentDisplay.vue';
 
 export {
   CCImg,
@@ -172,4 +174,6 @@ export {
   CCTieredAttribute,
   CCBonus,
   CCNarrativeItemContent,
+  CCSitrepDisplay,
+  CCEnvironmentDisplay,
 };

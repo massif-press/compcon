@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" v-if="component" :item="item" :odd="odd" />
+  <component :is="component" v-if="component" :item="item" :odd="odd" :readonly="readonly" />
 </template>
 
 <script lang="ts">
@@ -12,6 +12,7 @@ export default {
   props: {
     item: { type: Object, required: true },
     odd: { type: Boolean },
+    readonly: { type: Boolean, default: false },
   },
   computed: {
     component() {
