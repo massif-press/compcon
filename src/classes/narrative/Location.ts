@@ -73,6 +73,8 @@ class Location extends CollectionItem {
       id: location.ID,
       name: location.Name,
       note: location.Note,
+
+      description: location.Description,
     };
 
     SaveController.Serialize(location, data);

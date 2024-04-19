@@ -1,23 +1,23 @@
 <template>
-  <c-list-item-base :item="item">
+  <c-list-item-base :item="item" :readonly="readonly">
     <template #title>
       <v-icon :icon="item.npc.NpcClassController.Class.Icon" class="mt-n1 ml-1" />
       {{ item.npc.Name }}
 
-      <span v-if="item.npc.NpcClassController.HasClass"
-        >&mdash; T{{ item.npc.NpcClassController.Tier }}
-        {{ item.npc.NpcClassController.Class.Name }}</span
-      >
+      <span v-if="item.npc.NpcClassController.HasClass">
+        &mdash; T{{ item.npc.NpcClassController.Tier }} {{ item.npc.NpcClassController.Class.Name }}
+      </span>
       <span class="px-4">
-        <!-- <v-chip
+        <v-chip
           v-for="t in item.npc.NpcTemplateController.Templates"
           size="x-small"
           variant="flat"
           label
           color="primary"
-          class="mr-3 mt-n1"
-          ><v-icon icon="cc:npc_template" start />{{ t.Name }}</v-chip
-        > -->
+          class="mr-3 mt-n1">
+          <v-icon icon="cc:npc_template" start />
+          {{ t.Name }}
+        </v-chip>
       </span>
     </template>
 
@@ -45,6 +45,7 @@ export default {
   components: { StatChips, cListItemBase },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
 };
 </script>

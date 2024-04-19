@@ -2,185 +2,124 @@
   <div>
     <div v-if="!campaign">ERR: NO CAMPAIGN LOADED</div>
     <v-row v-else no-gutters>
-      <v-navigation-drawer
-        permanent
-        height="calc(100% - 48px)"
-        fixed
-        style="margin-top: 48px; y-overflow: scroll"
-        class="pb-8"
-      >
-        <v-row density="compact" class="pa-2" justify="center" align="center">
-          <v-col cols="auto" class="heading h3 text-center">
-            {{ campaign.Name }}
-          </v-col>
-        </v-row>
-
-        <v-divider class="my-2" />
-        <div class="ma-2">
-          <v-btn
-            :color="componentType === 'Overview' ? 'accent' : 'secondary'"
-            variant="outlined"
-            block
-            @click="setPage(campaign, 'Overview')"
-          >
-            Overview
-          </v-btn>
-
-          <v-divider class="my-2" />
-
-          <div v-for="(s, i) in campaign.Sections">
-            <sidebar-button
-              :selected="s === selected"
-              :idn="s.ItemNumber"
-              @click="setPage(s)"
-            >
-              {{ s.Title }}
-            </sidebar-button>
-            <div v-for="(c, j) in s.Children" class="mt-n1">
-              <sidebar-button
-                :selected="c === selected"
-                text
-                :idn="c.ItemNumber"
-                :indent="2"
-                @click="setPage(c)"
-              >
-                {{ c.Title.toUpperCase() }}
-              </sidebar-button>
-              <div v-for="(e, k) in c.Children" class="mt-n2">
-                <sidebar-button
-                  :selected="e === selected"
-                  :indent="3"
-                  :idn="e.ItemNumber"
-                  nested
-                  text
-                  @click="setPage(e)"
-                >
-                  {{ e.Title.toUpperCase() }}
-                </sidebar-button>
-                <div v-for="(f, l) in e.Children" class="mt-n2">
-                  <sidebar-button
-                    :selected="f === selected"
-                    :indent="4"
-                    :idn="f.ItemNumber"
-                    text
-                    nested
-                    @click="setPage(f)"
-                  >
-                    {{ f.Title.toUpperCase() }}
-                  </sidebar-button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <v-btn
-            class="my-1"
-            small
-            block
-            color="accent"
-            @click="campaign.AddSection()"
-          >
-            <v-icon start>mdi-plus</v-icon>
-            Add New Section
-          </v-btn>
-        </div>
-        <v-divider class="my-2" />
-        <div class="px-2">
-          <v-btn
-            block
-            variant="outlined"
-            class="my-2 pa-2"
-            color="accent"
-            @click="setPage(campaign, 'Locations')"
-          >
-            Locations
-          </v-btn>
-          <v-btn
-            block
-            variant="outlined"
-            class="my-2 pa-2"
-            color="accent"
-            @click="setPage(campaign, 'Factions')"
-          >
-            Factions
-          </v-btn>
-          <v-btn
-            block
-            variant="outlined"
-            class="my-2 pa-2"
-            color="accent"
-            @click="setPage(campaign, 'Characters')"
-          >
-            Characters
-          </v-btn>
-          <v-btn
-            block
-            variant="outlined"
-            class="my-2 pa-2"
-            color="accent"
-            @click="setPage(campaign, 'Encounters')"
-          >
-            Encounters
-          </v-btn>
-        </div>
-        <v-divider class="my-2" />
-        <div class="px-2">
-          <v-btn
-            block
-            class="my-2 pa-2"
-            color="secondary"
-            @click="campaign.save()"
-          >
-            Save Campaign
-          </v-btn>
-          <v-btn block class="my-2 pa-2" color="accent" disabled
-            >Publish Campaign</v-btn
-          >
-        </div>
-      </v-navigation-drawer>
+      <campaign-editor-sidebar
+        :campaign="campaign"
+        :current-page="currentPage"
+        @set-selected="setSelected"
+        @set-page="setPage" />
       <v-col>
         <v-fade-transition leave-absolute>
-          <div style="padding-left: 256px">
+          <div style="padding-left: 256px; padding-bottom: 45px">
             <component
               v-if="itemComponent"
               :is="itemComponent"
+              :campaign="campaign"
               :item="selected"
-            />
+              @delete="deleteCampaignPage(selected)"
+              @preview="showPreview($event)" />
           </div>
         </v-fade-transition>
       </v-col>
     </v-row>
   </div>
+  <v-dialog v-if="campaign" v-model="previewDialog" fullscreen>
+    <v-card class="pb-6">
+      <component
+        v-if="previewItemComponent"
+        :is="previewItemComponent"
+        :campaign="campaign"
+        :item="selected" />
+      <div
+        class="bg-panel"
+        style="
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          overflow-x: hidden;
+          overflow-y: hidden;
+        ">
+        <v-row dense align="center" class="px-4 py-1">
+          <v-col>
+            <v-chip size="small">Currently viewing</v-chip>
+            {{ campaign.Title }} &mdash; Credits
+          </v-col>
+          <v-col cols="auto">
+            <v-btn size="small" variant="tonal" color="accent" @click="previewDialog = false">
+              Close Preview
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts">
-import * as Components from './pages';
-import SidebarButton from './_components/SidebarButton.vue';
+import campaignEditorSidebar from './_components/campaignEditorSidebar.vue';
+import Overview from './pages/overview.vue';
+import Credits from '@/features/compendium/Views/CampaignLibrary/pages/credits.vue';
+import ContentPage from '@/features/compendium/Views/CampaignLibrary/pages/contentPage.vue';
+
+import Page from './pages/CampaignPage.vue';
 
 import { CampaignStore } from '@/stores';
 
 export default {
   name: 'campaign-editor',
-  components: { SidebarButton },
-  data: () => ({
-    selected: null,
-    componentType: 'Overview',
-  }),
-  created() {
-    this.selected = this.campaign;
+  components: { campaignEditorSidebar, Overview, Page, Credits, ContentPage },
+  props: {
+    id: { type: String, required: true },
   },
+  data: () => ({
+    componentType: 'overview',
+    previewType: 'credits',
+    selected: null,
+    previewDialog: false,
+  }),
+
   computed: {
     itemComponent() {
-      return Components[this.componentType];
+      switch (this.componentType.toLowerCase()) {
+        case 'overview':
+          return Overview;
+        default:
+          return Page;
+      }
+    },
+    previewItemComponent() {
+      switch (this.previewType.toLowerCase()) {
+        case 'credits':
+          return Credits;
+        default:
+          return ContentPage;
+      }
     },
     campaign() {
-      return CampaignStore().EditCampaign;
+      return CampaignStore().Campaigns.find((c) => c.ID === this.id);
+    },
+    currentPage() {
+      return this.componentType;
     },
   },
   methods: {
-    async setPage(item, type = false) {
+    setPage(type) {
+      this.componentType = type;
+      this.selected = null;
+    },
+    setSelected(item) {
+      this.componentType = item.SectionType;
       this.selected = item;
-      this.componentType = type ? type : item.ItemType;
+    },
+    showPreview(preview) {
+      this.previewType = preview;
+      this.previewDialog = true;
+    },
+    deleteCampaignPage(item) {
+      if (item) {
+        this.componentType = 'overview';
+        item.DeleteSelf();
+      }
     },
   },
 };

@@ -37,6 +37,8 @@ import Glossary from './Views/Reference/Glossary.vue';
 import EidolonLayers from './Views/Compendium/EidolonLayers.vue';
 // import ActionEconomy from './Views/Reference/ActionEconomy.vue';
 
+import CampaignViewer from './Views/CampaignLibrary/CampaignViewer.vue';
+
 const routes = [
   {
     path: '',
@@ -208,6 +210,12 @@ const routes = [
     path: 'reference/search',
     name: 'srd_search',
     component: ReferenceSearch,
+  },
+  {
+    path: 'campaign/:id',
+    name: 'campaign_view',
+    component: CampaignViewer,
+    props: true,
   },
 ];
 

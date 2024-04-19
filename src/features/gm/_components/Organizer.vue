@@ -14,7 +14,7 @@
                 </div>
               </v-col>
               <v-col><v-divider /></v-col>
-              <v-col cols="auto"> {{ items.length }} items </v-col>
+              <v-col cols="auto">{{ items.length }} items</v-col>
             </v-row>
           </v-col>
         </v-row>
@@ -84,7 +84,8 @@
       </v-col>
       <v-col cols="auto" style="width: 350px">
         <div>
-          <b class="text-accent">{{ selected.length }}</b> selected
+          <b class="text-accent">{{ selected.length }}</b>
+          selected
         </div>
         <v-list>
           <v-list-item
@@ -161,8 +162,8 @@
   </v-card-text>
   <v-dialog v-model="setFolderDialog" max-width="500px">
     <v-card>
-      <v-toolbar density="compact"
-        ><v-toolbar-title>Set Folder</v-toolbar-title>
+      <v-toolbar density="compact">
+        <v-toolbar-title>Set Folder</v-toolbar-title>
         <v-spacer />
         <v-btn icon @click="setFolderDialog = false">
           <v-icon>mdi-close</v-icon>
@@ -180,17 +181,17 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn text @click="setFolderDialog = false">Cancel</v-btn>
+        <v-btn variant="text" @click="setFolderDialog = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn text @click="setFolder" color="accent">Set</v-btn>
+        <v-btn variant="text" @click="setFolder" color="accent">Set</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
 
   <v-dialog v-model="addLabelDialog" max-width="500px">
     <v-card>
-      <v-toolbar density="compact"
-        ><v-toolbar-title>Set Label</v-toolbar-title>
+      <v-toolbar density="compact">
+        <v-toolbar-title>Set Label</v-toolbar-title>
         <v-spacer />
         <v-btn icon @click="addLabelDialog = false">
           <v-icon>mdi-close</v-icon>
@@ -204,7 +205,9 @@
         <v-window v-model="labelTab">
           <v-window-item value="set">
             <div class="text-caption">
-              This will add <b>or overwrite</b> the label value for all selected items.
+              This will add
+              <b>or overwrite</b>
+              the label value for all selected items.
             </div>
             <v-row class="mt-2">
               <v-col>
@@ -223,7 +226,9 @@
           </v-window-item>
           <v-window-item value="delete">
             <div class="text-caption">
-              This will <b>delete</b> the label value for all selected items.
+              This will
+              <b>delete</b>
+              the label value for all selected items.
             </div>
             <v-row class="mt-2">
               <v-col>
@@ -241,15 +246,15 @@
       </v-card-text>
       <v-divider />
       <v-card-actions>
-        <v-btn text @click="addLabelDialog = false">Cancel</v-btn>
+        <v-btn variant="text" @click="addLabelDialog = false">Cancel</v-btn>
         <v-spacer />
         <v-btn
           variant="tonal"
           :color="labelTab === 'set' ? 'accent' : 'error'"
           :disabled="!addKvp.key"
-          @click="setData('label', labelTab)"
-          >{{ labelTab }}</v-btn
-        >
+          @click="setData('label', labelTab)">
+          {{ labelTab }}
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

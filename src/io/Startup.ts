@@ -5,6 +5,7 @@ import {
   UserStore,
   NarrativeStore,
   EncounterStore,
+  CampaignStore,
 } from '@/stores';
 import { getLcpPresigned } from '@/user/api';
 
@@ -81,6 +82,9 @@ export default async function (): Promise<void> {
 
   await EncounterStore().LoadEncounters();
   console.log('encounters loaded');
+
+  await CampaignStore().LoadCampaigns();
+  console.log('campaigns loaded');
 
   console.info('loading complete');
 }

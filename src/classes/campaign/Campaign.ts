@@ -1,135 +1,351 @@
 import { v4 as uuid } from 'uuid';
-import { ISaveable, ISaveData, SaveController } from '../components';
-import { ISectionData, Section } from './campaign_elements/Section';
-import { Character, ICharacterData } from '../narrative/Character';
-import { Faction, IFactionData } from '../narrative/Faction';
-import { ILocationData, Location } from '../narrative/Location';
-
-enum CampaignStatus {
-  Unpublished = 'Unpublished',
-  Published = 'Published',
-}
+import { ISaveData, ISaveable, SaveController } from '../components';
+import { ICampaignSectionData, CampaignSection } from './CampaignSection';
+import _ from 'lodash';
+import { EncounterDataContainer } from './EncounterDataContainer';
 
 type ICampaignData = {
   id: string;
-  name: string;
-  image: string;
+  title: string;
+  subtitle: string;
   author: string;
   description: string;
-  contributors: string;
-  license: string;
-  sections: ISectionData[];
-  characters: ICharacterData[];
-  factions: IFactionData[];
-  locations: ILocationData[];
-  status: CampaignStatus;
+  cover_image_url: string;
+  banner_image_url: string;
+  author_contact: { service: string; contact: string }[];
+  website: string;
+  ll: [number, number];
+  players: [number, number];
+
+  publish_info?: {
+    origin_id: string;
+    version_history: { ver: string; changes: string; date: number }[];
+  };
+
+  published: boolean;
+
+  title_page_content: ICampaignSectionData;
+
+  content: ICampaignSectionData[];
+
   save: ISaveData;
 };
 
 class Campaign implements ISaveable {
-  private _id: string;
-  public Name: string;
-  public Image: string;
-  public Author: string;
-  public Description: string;
-  public Contributors: string;
-  public License: string;
-  public Sections: Section[];
-  public Characters: Character[];
-  public Locations: Location[];
-  public Factions: Faction[];
-  public Status: CampaignStatus;
-  public ItemType: string;
-  public StorageType: string;
+  public readonly ID: string;
+  public readonly ItemType: string = 'Campaign';
+  public readonly StorageType: string = 'campaigns';
+  public readonly Published: boolean = false;
+
+  private _title: string;
+  private _subtitle: string;
+  private _description: string;
+  private _coverImageUrl: string;
+  private _bannerImageUrl: string;
+  private _author: string;
+  private _authorContact: { service: string; contact: string }[];
+  private _website: string;
+  private _ll: [number, number];
+  private _players: [number, number];
+
+  private _originID?: string;
+  private _versionHistory: { ver: string; changes: string; date: number }[] = [];
+
+  public TitlePageContent: CampaignSection;
+  public Contents: CampaignSection[];
+
   public SaveController: SaveController;
 
-  constructor() {
-    this._id = uuid();
-    this.Name = 'New Campaign';
-    this.Image = '';
-    this.Author = '';
-    this.Description = '';
-    this.Contributors = '';
-    this.License = '';
-    this.Sections = [];
-    this.Characters = [];
-    this.Locations = [];
-    this.Factions = [];
-    this.Status = CampaignStatus.Unpublished;
-    this.ItemType = 'Campaign';
-    this.StorageType = 'Campaigns';
+  constructor(data?: ICampaignData) {
+    this.Published = data?.published || false;
+
+    this.ID = data?.id || uuid();
+    this._title = data?.title || 'New Campaign';
+    this._subtitle = data?.subtitle || '';
+    this._description = data?.description || '';
+    this._coverImageUrl = data?.cover_image_url || '';
+    this._bannerImageUrl = data?.banner_image_url || '';
+    this._author = data?.author || '';
+    this._authorContact = data?.author_contact || [{ service: '', contact: '' }];
+    this._website = data?.website || '';
+    this._ll = data?.ll || [1, 3];
+    this._players = data?.players || [3, 5];
+
+    if (data?.publish_info) {
+      this._originID = data.publish_info.origin_id;
+      this._versionHistory = data.publish_info.version_history;
+    }
+
+    if (data?.title_page_content)
+      this.TitlePageContent = new CampaignSection(null, this, data.title_page_content);
+    else
+      this.TitlePageContent = new CampaignSection(null, this, {
+        title: 'Title Page',
+        sectionType: 'section',
+        children: [],
+        content: [
+          {
+            title: 'Contributors',
+            headerType: 'header-4',
+            variant: '',
+            color: 'text',
+            contentType: 'text',
+            content: {
+              Body: '',
+            },
+          },
+          {
+            title: 'License',
+            headerType: 'header-4',
+            variant: '',
+            color: 'text',
+            contentType: 'text',
+            content: {
+              Body: '',
+            },
+          },
+        ],
+      });
+
+    this.Contents =
+      data && data.content.length > 0
+        ? data.content.map((x) => new CampaignSection(null, this, x))
+        : [];
 
     this.SaveController = new SaveController(this);
   }
 
-  public get ID(): string {
-    return this._id;
-  }
-
-  public RenewID(): void {
-    this._id = uuid();
+  public save(): void {
     this.SaveController.save();
   }
 
-  public AddSection() {
-    this.Sections.push(
-      new Section({
-        id: uuid(),
-        title: 'New Section',
-        item_number: (this.Sections.length + 1).toString(),
-        content: [],
-        children: [],
-        item_type: 'Section',
-      })
-    );
-    this.SaveController.save();
+  public get Name(): string {
+    return this._title;
+  }
+
+  public set Name(value: string) {
+    this._title = value;
+    this.save();
+  }
+
+  public get Title(): string {
+    return this._title;
+  }
+
+  public set Title(value: string) {
+    this.Name = value;
+  }
+
+  public get Subtitle(): string {
+    return this._subtitle;
+  }
+
+  public set Subtitle(value: string) {
+    this._subtitle = value;
+    this.save();
+  }
+
+  public get Description(): string {
+    return this._description;
+  }
+
+  public set Description(value: string) {
+    this._description = value;
+    this.save();
+  }
+
+  public get CoverImageUrl(): string {
+    return this._coverImageUrl;
+  }
+
+  public set CoverImageUrl(value: string) {
+    this._coverImageUrl = value;
+    this.save();
+  }
+
+  public get BannerImageUrl(): string {
+    return this._bannerImageUrl;
+  }
+
+  public set BannerImageUrl(value: string) {
+    this._bannerImageUrl = value;
+    this.save();
+  }
+
+  public get Author(): string {
+    return this._author;
+  }
+
+  public set Author(value: string) {
+    this._author = value;
+    this.save();
+  }
+
+  public get AuthorContact(): { service: string; contact: string }[] {
+    return this._authorContact;
+  }
+
+  public set AuthorContact(value: { service: string; contact: string }[]) {
+    this._authorContact = value;
+    this.save();
+  }
+
+  public get Website(): string {
+    return this._website;
+  }
+
+  public set Website(value: string) {
+    this._website = value;
+    this.save();
+  }
+
+  public get MinLL(): number {
+    return this._ll[0];
+  }
+
+  public get MaxLL(): number {
+    return this._ll[1];
+  }
+
+  public set MinLL(value: number) {
+    this._ll[0] = value;
+    this.save();
+  }
+
+  public set MaxLL(value: number) {
+    this._ll[1] = value;
+    this.save();
+  }
+
+  public get MinPlayers(): number {
+    return this._players[0];
+  }
+
+  public get MaxPlayers(): number {
+    return this._players[1];
+  }
+
+  public set MinPlayers(value: number) {
+    this._players[0] = value;
+    this.save();
+  }
+
+  public set MaxPlayers(value: number) {
+    this._players[1] = value;
+    this.save();
+  }
+
+  public AddSection(data?: ICampaignSectionData): void {
+    this.Contents.push(new CampaignSection(null, this, data));
+    this.save();
+  }
+
+  public RemoveSection(index: number): void {
+    this.Contents.splice(index, 1);
+    this.save();
   }
 
   public MoveSection(from: number, to: number) {
-    this.Sections = this.Sections.splice(to, 0, this.Sections.splice(from, 1)[0]);
-    this.SaveController.save();
+    this.Contents = this.Contents.splice(to, 0, this.Contents.splice(from, 1)[0]);
+    this.save();
   }
 
-  public DeleteSection(s: Section) {
-    const idx = this.Sections.findIndex((x) => x.ID === s.ID);
+  public DeleteSection(idx: number) {
     if (idx === -1) return;
-    this.Sections.splice(idx, 1);
-    this.SaveController.save();
+    this.Contents.splice(idx, 1);
+    this.save();
   }
 
-  // public AddCharacter() {
-  //   this.Characters.push(new Character({ name: 'New Character' }))
-  // }
+  public get AllContent(): CampaignSection[] {
+    return this.Contents.concat(this.Contents.flatMap((x) => x.AllChildren));
+  }
 
-  // public AddFaction() {
-  //   this.Factions.push(new Faction({ name: 'New Faction' }))
-  // }
+  public get AllNpcContent(): any[] {
+    console.log(
+      this.AllContent.flatMap((x) => x.Content)
+        .filter((x) => x.ContentType === 'encounter')
+        .flatMap((x) => x.Content as EncounterDataContainer)
+        .map((x) => x.Data?.Combatants)
+    );
 
-  // public AddLocation() {
-  //   this.Locations.push(new Location({ name: 'New Location' }))
-  // }
+    return this.AllContent.flatMap((x) => x.Content)
+      .filter((x) => x.ContentType === 'encounter')
+      .flatMap((x) => x.Content as EncounterDataContainer)
+      .map((x) => x.Data?.Combatants);
+  }
 
-  public Count(type: string): number {
-    return this.Sections.flatMap((x) => x.Children.map((y) => y.ItemType === type)).length;
+  // passthroughs for move functions, TODO: clean up
+  public get Content(): CampaignSection[] {
+    return this.Contents;
+  }
+
+  public get Children(): CampaignSection[] {
+    return this.Contents;
+  }
+
+  public ContentMoveLocations(self: CampaignSection): CampaignSection[] {
+    return this.Contents.concat(this.Contents.flatMap((x) => x.AllChildrenExclusive(self))).filter(
+      (x) => _.isEqual(x, self) === false
+    );
+  }
+
+  public get VersionHistory(): { ver: string; changes: string; date: number }[] {
+    return this._versionHistory || [];
+  }
+
+  public get Latest(): {
+    ver: string;
+    changes: string;
+    date: number;
+  } {
+    return this._versionHistory[this._versionHistory.length - 1];
+  }
+
+  public get OriginID(): string {
+    return this._originID || '';
+  }
+
+  public Publish(version: string, changelog: string): ICampaignData {
+    const newVer = { ver: version, changes: changelog, date: Date.now() };
+    this._versionHistory.push(newVer);
+    this.save();
+
+    this._originID = this.ID;
+
+    const data = this.Serialize();
+
+    data.id = uuid();
+    data.published = true;
+
+    return data;
   }
 
   public static Serialize(c: Campaign): ICampaignData {
     const data = {
       id: c.ID,
-      name: c.Name,
-      image: c.Image,
+      title: c.Title,
       author: c.Author,
+      ll: c._ll,
+      players: c._players,
+      subtitle: c.Subtitle,
       description: c.Description,
-      contributors: c.Contributors,
-      license: c.License,
-      sections: c.Sections.map((s) => Section.Serialize(s)),
-      characters: c.Characters.map((s) => Character.Serialize(s)),
-      factions: c.Factions.map((s) => Faction.Serialize(s)),
-      locations: c.Locations.map((s) => Location.Serialize(s)),
-      status: c.Status,
-    };
+      cover_image_url: c.CoverImageUrl,
+      banner_image_url: c.BannerImageUrl,
+      author_contact: c.AuthorContact,
+      website: c.Website,
+      title_page_content: CampaignSection.Serialize(c.TitlePageContent),
+      content: c.Contents.map((x) => CampaignSection.Serialize(x)),
+    } as ICampaignData;
+
+    if (c.VersionHistory.length) {
+      data.publish_info = {
+        origin_id: c.OriginID,
+        version_history: c.VersionHistory,
+      };
+    }
 
     SaveController.Serialize(c, data);
+
     return data as ICampaignData;
   }
 
@@ -137,39 +353,22 @@ class Campaign implements ISaveable {
     return Campaign.Serialize(this);
   }
 
-  Update(data: ICampaignData) {
-    this.Name = data.name;
-    this.Image = data.image;
-    this.Author = data.author;
-    this.Description = data.description;
-    this.Contributors = data.contributors;
-    this.License = data.license;
-    this.Sections = data.sections.map((s) => Section.Deserialize(s));
-    this.Characters = data.characters.map((s) => Character.Deserialize(s));
-    this.Locations = data.locations.map((s) => Location.Deserialize(s));
-    this.Factions = data.factions.map((s) => Faction.Deserialize(s));
-    this.Status = data.status;
-    SaveController.Deserialize(this, data.save);
-  }
-
   public static Deserialize(data: ICampaignData): Campaign {
-    const c = new Campaign();
-    try {
-      c.Update(data);
-      return c;
-    } catch (err) {
-      throw err;
-    }
+    const c = new Campaign(data);
+
+    SaveController.Deserialize(c, data.save);
+
+    return c;
   }
 
   public Clone(): Campaign {
     const itemData = Campaign.Serialize(this);
+    itemData.id = uuid();
     const newItem = Campaign.Deserialize(itemData);
-    newItem.RenewID();
-    newItem.Name += ' (COPY)';
+    newItem.Title += ' (COPY)';
     return newItem;
   }
 }
 
-export { Campaign, CampaignStatus };
+export { Campaign };
 export type { ICampaignData };

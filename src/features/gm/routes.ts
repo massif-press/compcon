@@ -7,8 +7,6 @@ import GmPrint from './_components/PrintWrapper.vue';
 
 import Campaigns from './campaigns/index.vue';
 import CampaignEditor from './campaigns/editor.vue';
-import CampaignOverviewPage from './campaigns/pages/overview.vue';
-import CampaignSectionPage from './campaigns/pages/section.vue';
 
 import NpcRoster from './npc_roster/index.vue';
 
@@ -32,25 +30,12 @@ const routes = [
         name: 'gm-campaigns',
         component: Campaigns,
       },
-      // {
-      //   path: 'campaigns/edit',
-      //   name: 'gm-campaigns',
-      //   component: CampaignEditor,
-      //   children: [
-      //     {
-      //       path: 'overview',
-      //       name: 'campaign-edit-overview',
-      //       component: CampaignOverviewPage,
-      //       props: true,
-      //     },
-      //     {
-      //       path: 'section/',
-      //       name: 'campaign-edit-section',
-      //       component: CampaignSectionPage,
-      //       props: true,
-      //     },
-      //   ],
-      // },
+      {
+        path: 'campaigns/edit/:id',
+        name: 'gm-campaign-editor',
+        component: CampaignEditor,
+        props: true,
+      },
       {
         path: 'npcs',
         name: 'gm-npcs',

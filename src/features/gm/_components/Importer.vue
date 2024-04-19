@@ -3,7 +3,7 @@
     <v-row align="center" justify="center">
       <v-col cols="6">
         <v-file-input
-          v-model="fileValue"
+          v-model="<any>fileValue"
           accept="text/json"
           variant="outlined"
           label="Select Data File"
@@ -79,8 +79,9 @@
                 <span v-if="item.status">Item is ready for import</span>
                 <span v-else>
                   Item is missing one or more content packs and cannot be imported. Items without
-                  LCP support may only be imported as <b>instances</b></span
-                >
+                  LCP support may only be imported as
+                  <b>instances</b>
+                </span>
               </v-tooltip>
             </td>
           </tr>
@@ -176,7 +177,6 @@ export default {
       this.stagedData = content;
 
       this.stagedItems.forEach((item) => {
-        console.log(item);
         if (item.npcType) {
           item.collection = 'NPC';
           item.type = item.npcType.charAt(0).toUpperCase() + item.npcType.slice(1);

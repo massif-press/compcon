@@ -1,5 +1,5 @@
 <template>
-  <c-list-item-base :item="item">
+  <c-list-item-base :item="item" :readonly="readonly">
     <template #title>
       <v-icon size="30" icon="mdi-cube-outline" class="mt-n1" />
       {{ item.npc.Name }}
@@ -20,6 +20,7 @@ export default {
   components: { StatChips, cListItemBase },
   props: {
     item: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
 };
 </script>

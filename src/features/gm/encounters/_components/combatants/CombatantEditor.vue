@@ -6,7 +6,7 @@
       <div v-if="encounter.Combatants.filter((x) => x.side === 'enemy').length > 0">
         <v-row dense align="center">
           <v-col cols="auto" style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto" class="text-caption text-disabled"> ENEMY FORCES </v-col>
+          <v-col cols="auto" class="text-caption text-disabled">ENEMY FORCES</v-col>
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
@@ -14,12 +14,13 @@
         v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'enemy')"
         :item="c"
         :odd="i % 2 === 0"
+        :readonly="readonly"
         @open="editUnit"
         @remove="encounter.RemoveCombatant(i)" />
       <div v-if="encounter.Combatants.filter((x) => x.side === 'ally').length > 0" class="mt-3">
         <v-row dense align="center">
           <v-col cols="auto" style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto" class="text-caption text-disabled"> ALLIED FORCES </v-col>
+          <v-col cols="auto" class="text-caption text-disabled">ALLIED FORCES</v-col>
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
@@ -27,12 +28,13 @@
         v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'ally')"
         :item="c"
         :odd="i % 2 === 0"
+        :readonly="readonly"
         @open="editUnit"
         @remove="encounter.RemoveCombatant(i)" />
       <div v-if="encounter.Combatants.filter((x) => x.side === 'other').length > 0" class="mt-3">
         <v-row dense align="center">
           <v-col cols="auto" style="width: 30px"><v-divider /></v-col>
-          <v-col cols="auto" class="text-caption text-disabled"> OTHER </v-col>
+          <v-col cols="auto" class="text-caption text-disabled">OTHER</v-col>
           <v-col><v-divider /></v-col>
         </v-row>
       </div>
@@ -40,6 +42,7 @@
         v-for="(c, i) in encounter.Combatants.filter((x) => x.side === 'other')"
         :item="c"
         :odd="i % 2 === 0"
+        :readonly="readonly"
         @open="editUnit"
         @remove="encounter.RemoveCombatant(i)" />
     </v-card-text>
@@ -50,15 +53,18 @@
         <cc-slashes class="mx-2" />
         <v-icon icon="cc:mech" class="mt-n1" color="success" />
         {{ encounter.Combatants.filter((x) => x.side === 'ally').length }}
-        <cc-slashes class="mx-2" /> <v-icon icon="cc:mech" class="mt-n1" />
+        <cc-slashes class="mx-2" />
+        <v-icon icon="cc:mech" class="mt-n1" />
         {{ encounter.Combatants.filter((x) => x.side === 'other').length }}
       </v-toolbar-title>
       <v-spacer />
-      <v-btn color="secondary" prepend-icon="mdi-plus" @click="addDialog = true"> Add NPC</v-btn>
+      <v-btn v-if="!readonly" color="secondary" prepend-icon="mdi-plus" @click="addDialog = true">
+        Add NPC
+      </v-btn>
     </v-toolbar>
   </v-card>
 
-  <v-dialog v-model="addDialog" fullscreen>
+  <v-dialog v-if="!readonly" v-model="addDialog" fullscreen>
     <v-card>
       <v-toolbar density="compact">
         <v-toolbar-title class="heading h3">
@@ -69,7 +75,7 @@
             variant="tonal"
             color="accent"
             mandatory>
-            <v-btn value="list" icon><v-icon icon="mdi-view-list" /> </v-btn>
+            <v-btn value="list" icon><v-icon icon="mdi-view-list" /></v-btn>
             <v-btn value="table" icon><v-icon icon="mdi-table" /></v-btn>
           </v-btn-toggle>
         </v-toolbar-title>
@@ -86,15 +92,15 @@
     <v-card>
       <v-toolbar class="pl-4">
         <div>
-          <div class="text-caption text-disabled mb-n1">CURRENTLY EDITING</div>
+          <div v-if="!readonly" class="text-caption text-disabled mb-n1">CURRENTLY EDITING</div>
           <div>
             <v-icon :icon="selected?.npc.Icon" size="x-small" class="mt-n1" start />
             <span class="heading">{{ selected?.npc.Name }}</span>
-            <span class="text-caption text-disabled"
-              >&emsp;(Encounter Instance #{{ selected.index }})</span
-            >
+            <span class="text-caption text-disabled">
+              &emsp;(Encounter Instance #{{ selected.index }})
+            </span>
 
-            <span>
+            <span v-if="!readonly">
               <v-tooltip location="bottom" open-delay="200" max-width="300px">
                 <template #activator="{ props }">
                   <v-icon
@@ -104,18 +110,18 @@
                     size="x-small"
                     icon="mdi-help-circle" />
                 </template>
-                <span
-                  >This is a unique instance of this NPC tied to this Encounter data. Editing this
-                  NPC will not affect the original NPC data.</span
-                >
+                <span>
+                  This is a unique instance of this NPC tied to this Encounter data. Editing this
+                  NPC will not affect the original NPC data.
+                </span>
               </v-tooltip>
             </span>
           </div>
         </div>
         <v-spacer />
-        <combatant-settings-menu :item="selected" />
+        <combatant-settings-menu :readonly="readonly" :item="selected" />
         <v-spacer />
-        <v-tooltip location="bottom" open-delay="200" max-width="300px">
+        <v-tooltip v-if="!readonly" location="bottom" open-delay="200" max-width="300px">
           <template #activator="{ props }">
             <v-icon
               v-bind="props"
@@ -123,16 +129,15 @@
               :icon="selected.npc.IsLinked ? 'mdi-link-variant' : 'mdi-link-variant-off'"
               start />
           </template>
-          <span v-if="selected.npc.IsLinked"
-            >The source of this NPC instance is present in your NPC roster (<b
-              class="text-primary"
-              >{{ selected.npc.GetLinkedItem().Name }}</b
-            >) and can receive updates from the original</span
-          >
+          <span v-if="selected.npc.IsLinked">
+            The source of this NPC instance is present in your NPC roster (
+            <b class="text-primary">{{ selected.npc.GetLinkedItem().Name }}</b>
+            ) and can receive updates from the original
+          </span>
           <span v-else>This NPC instance is not linked to a valid source in your NPC roster.</span>
         </v-tooltip>
 
-        <b :class="selected.npc.IsLinked ? 'text-accent' : 'text-disabled'">
+        <b v-if="!readonly" :class="selected.npc.IsLinked ? 'text-accent' : 'text-disabled'">
           <v-menu :close-on-content-click="false" width="50vw">
             <template #activator="{ props }">
               <v-btn
@@ -163,9 +168,9 @@
                         itemDiff[key].instance.length > itemDiff[key].source.length
                           ? 'text-success'
                           : 'text-error'
-                      "
-                      >{{ itemDiff[key].instance }}</v-col
-                    >
+                      ">
+                      {{ itemDiff[key].instance }}
+                    </v-col>
                     <v-col>{{ itemDiff[key].source }}</v-col>
                     <v-col cols="auto">
                       <v-tooltip location="bottom" open-delay="200" max-width="300px">
@@ -194,9 +199,9 @@
                             size="small"
                             variant="tonal"
                             color="accent"
-                            @click="diffUpdateAll(itemDiff)"
-                            >Update all</v-btn
-                          >
+                            @click="diffUpdateAll(itemDiff)">
+                            Update all
+                          </v-btn>
                         </template>
                         <span>Update all instance properties to the source</span>
                       </v-tooltip>
@@ -209,7 +214,7 @@
           </v-menu>
         </b>
 
-        <v-spacer />
+        <v-spacer v-if="!readonly" />
         <v-btn icon @click="editDialog = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -219,7 +224,7 @@
           v-if="selected"
           :is="editorComponent"
           :item="selected.npc"
-          :readonly="!selected.npc.IsLinked"
+          :readonly="readonly || !selected.npc.IsLinked"
           hide-toolbar
           hide-footer />
       </div>
@@ -250,6 +255,7 @@ export default {
   },
   props: {
     encounter: { type: Object, required: true },
+    readonly: { type: Boolean, default: false },
   },
   data: () => ({
     selected: null as any,

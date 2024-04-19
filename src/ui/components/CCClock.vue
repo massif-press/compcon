@@ -1,23 +1,33 @@
 <template>
-  <v-card variant="tonal">
-    <v-card-text class="px-2 py-0 ma-0">
-      <v-row :align="clock.Linear ? 'start' : 'center'">
+  <v-card variant="tonal" :class="dense ? 'rounded-0' : ''">
+    <v-card-text :class="dense ? 'ma-0 py-1' : 'px-2 pb-3 py-0 ma-0'">
+      <v-row :dense="dense" :align="clock.Linear ? 'start' : 'center'">
         <v-col v-if="!clock.Linear" cols="auto">
-          <v-progress-circular v-model="total" :size="size" :width="size / 5" :color="color">
+          <v-progress-circular
+            v-model="total"
+            :size="dense ? size / 2 : size"
+            :width="dense ? size / 20 : size / 5"
+            :color="color">
             <b v-if="print">&emsp;&nbsp; /{{ clock.Segments }}&nbsp;</b>
             <b v-else>{{ progress }} / {{ clock.Segments }}</b>
           </v-progress-circular>
         </v-col>
         <v-col>
-          <div class="heading h2">
+          <div :class="`heading ${dense ? 'h3' : 'h2'}`">
             {{ clock.Title }}
             <span v-if="!print">
-              <v-btn size="small" icon variant="plain" @click="editDialog = true">
+              <v-btn v-if="!readonly" size="small" icon variant="plain" @click="editDialog = true">
                 <v-icon icon="mdi-circle-edit-outline" />
               </v-btn>
               <v-menu offset-x left>
                 <template #activator="{ props }">
-                  <v-btn size="small" icon color="error" variant="plain" v-bind="props">
+                  <v-btn
+                    v-if="!readonly"
+                    size="small"
+                    icon
+                    color="error"
+                    variant="plain"
+                    v-bind="props">
                     <v-icon icon="mdi-delete" />
                   </v-btn>
                 </template>
@@ -28,9 +38,9 @@
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <v-btn size="small" color="error" @click="$emit('delete')"
-                      >Confirm Deletion</v-btn
-                    >
+                    <v-btn size="small" color="error" @click="$emit('delete')">
+                      Confirm Deletion
+                    </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-menu>
@@ -40,7 +50,7 @@
           <v-progress-linear
             v-if="clock.Linear"
             background-color="grey lighten-2"
-            :height="size / 2.5"
+            :height="dense ? size / 6 : size / 2.5"
             :value="total"
             :color="color">
             <div class="background text-accent" style="border-radius: 2px">
@@ -49,15 +59,15 @@
             </div>
           </v-progress-linear>
           <div v-if="clock.Description">
-            <div class="text-overline mb-n1">DESCRIPTION</div>
+            <div class="text-caption mb-n1">DESCRIPTION</div>
             <div class="ml-2" v-html-safe="clock.Description" />
           </div>
           <div v-if="clock.Resolution">
-            <div class="text-overline mb-n1">RESOLUTION</div>
+            <div class="text-caption mb-n1">RESOLUTION</div>
             <div class="ml-2" v-html-safe="clock.Resolution" />
           </div>
         </v-col>
-        <v-col v-if="!print" cols="auto">
+        <v-col v-if="!print && !dense && !readonly" cols="auto">
           <v-btn
             size="x-large"
             variant="plain"
@@ -78,6 +88,31 @@
               $emit('change');
             ">
             <v-icon size="50" color="accent">mdi-minus</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col v-else-if="dense && !readonly" cols="auto" align-self="end">
+          <v-btn
+            variant="tonal"
+            icon
+            color="accent"
+            style="width: 26px; height: 26px"
+            class="mr-2"
+            @click="
+              clock.Increment();
+              $emit('change');
+            ">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          <v-btn
+            variant="tonal"
+            icon
+            color="accent"
+            style="width: 26px; height: 26px"
+            @click="
+              clock.Decrement();
+              $emit('change');
+            ">
+            <v-icon>mdi-minus</v-icon>
           </v-btn>
         </v-col>
       </v-row>
@@ -161,7 +196,7 @@
             rows="3"
             auto-grow
             label="Description"
-            class="mx-1 my-2"
+            class="mx-1 my-4"
             hide-details
             @change="$emit('change')" />
           <v-textarea
@@ -170,7 +205,7 @@
             rows="3"
             auto-grow
             label="Resolution"
-            class="ma-1"
+            class="mx-1 my-4"
             hide-details
             @change="$emit('change')" />
         </v-card-text>
@@ -188,11 +223,16 @@ export default {
     color: { type: String, required: false, default: 'accent' },
     print: { type: Boolean },
     noDelete: { type: Boolean },
+    readonly: { type: Boolean },
+    density: { type: String, default: '' },
   },
   data: () => ({
     editDialog: false,
   }),
   computed: {
+    dense() {
+      return this.density === 'compact';
+    },
     progress() {
       if (this.print) return 0;
       return parseInt(this.clock.Progress);

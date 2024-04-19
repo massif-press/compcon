@@ -204,25 +204,25 @@ a {
   -webkit-appearance: none;
 }
 
-.v-application,
+/* .v-application,
 .v-light,
 .v-list,
 .v-stepper .v-card {
   background: rgb(var(--v-theme-background)) !important;
-}
+} */
 
-.v-tabs-items {
+/* .v-tabs-items {
   background-color: unset !important;
-}
+} */
 
 .no-wrap {
   white-space: nowrap !important;
 }
 
-.v-tabs :deep(.v-slide-group__prev) {
+/* .v-tabs :deep(.v-slide-group__prev) {
   display: none !important;
 }
 
 .v-slide-group__prev {
   display: none !important;
-}
+} */

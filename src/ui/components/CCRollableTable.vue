@@ -1,21 +1,17 @@
 <template>
   <v-card variant="tonal">
-    <!-- <v-row v-if="print" density="compact" align="center" justify="space-between">
-        <v-col class="heading h3">{{ table.Title }}</v-col>
-        <v-col cols="auto" class="heading h4">
-          Roll {{ table.Mult }}D{{ table.Die }}
-        </v-col>
-      </v-row> -->
     <v-toolbar density="compact" class="pl-3">
       <div style="min-width: 200px">
         <cc-short-string-editor
+          v-if="!readonly"
           justify="start"
           :placeholder="table.Title"
           @set="table.Title = $event">
           <span class="heading h3">{{ table.Title }}</span>
         </cc-short-string-editor>
+        <div v-else class="heading h3">{{ table.Title }}</div>
       </div>
-      <div>
+      <div v-if="!dense">
         <v-checkbox-btn v-model="table.GmOnly" hide-details>
           <template #label>
             GM Only
@@ -37,91 +33,125 @@
         </v-checkbox-btn>
       </div>
       <v-spacer />
-      <div class="heading pl-3 pr-6">Roll</div>
-      <v-select
-        v-model="table.Mult"
-        density="compact"
-        hide-details
-        style="max-width: 70px"
-        :items="mults" />
-      <div class="heading px-1">D</div>
-      <v-select
-        v-model="table.Die"
-        density="compact"
-        hide-details
-        style="max-width: 70px"
-        :items="dice" />
-      <div class="heading pl-3 pr-1">Step</div>
-      <v-text-field
-        v-model="step"
-        type="number"
-        style="max-width: 60px"
-        density="compact"
-        hide-details />
-      <v-spacer />
+      <div v-if="!dense" class="heading pl-3 pr-6">Roll</div>
+      <div v-if="!readonly">
+        <v-menu>
+          <template #activator="{ props }">
+            <v-btn icon v-bind="props" variant="tonal" size="x-small" class="mt-n1">
+              <span class="heading h3">{{ table.Mult || '#' }}</span>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text>
+              <v-btn
+                v-for="n in 5"
+                icon
+                variant="tonal"
+                color="accent"
+                size="x-small"
+                class="mx-2"
+                @click="table.Mult = n">
+                <span class="heading h3">{{ n }}</span>
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </v-menu>
 
-      <v-menu offset-x bottom>
-        <template #activator="{ props }">
-          <v-btn size="small" variant="tonal" v-bind="props">
-            <v-icon start>mdi-reload</v-icon>
-            Rebuild
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-text>
-            Do you want to rebuild this table? This will clear out the current data. This action
-            cannot be undone.
-          </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn small color="error" @click="generate">Confirm Rebuild</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
-      <v-menu v-if="!noDelete" offset-x left>
-        <template #activator="{ props }">
-          <v-btn small icon color="error" variant="plain" v-bind="props">
-            <v-icon icon="mdi-delete" />
-          </v-btn>
-        </template>
-        <v-card>
-          <v-card-text>
-            Do you want to delete this table? This action cannot be undone.
-          </v-card-text>
-          <v-divider />
-          <v-card-actions>
-            <v-spacer />
-            <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-menu>
+        <div class="heading" style="margin: 0px 4px 0 2px">D</div>
+        <v-menu>
+          <template #activator="{ props }">
+            <v-btn icon v-bind="props" variant="tonal" size="x-small" class="mt-n1">
+              <span class="heading h3">{{ table.Die || '#' }}</span>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text>
+              <v-btn
+                v-for="n in dice"
+                icon
+                variant="tonal"
+                color="accent"
+                size="x-small"
+                class="mx-2"
+                @click="table.Die = n">
+                <span class="heading h3">{{ n }}</span>
+              </v-btn>
+            </v-card-text>
+          </v-card>
+        </v-menu>
+        <v-spacer />
+        <div class="heading pl-3 pr-1">Step</div>
+        <v-text-field
+          v-model="step"
+          type="number"
+          style="max-width: 60px"
+          density="compact"
+          hide-details />
+        <v-spacer />
+
+        <v-menu offset-x bottom>
+          <template #activator="{ props }">
+            <v-btn size="small" :icon="dense" variant="tonal" v-bind="props">
+              <v-icon :start="!dense">mdi-reload</v-icon>
+              <span v-if="!dense">Rebuild</span>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text>
+              Do you want to rebuild this table? This will clear out the current data. This action
+              cannot be undone.
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-spacer />
+              <v-btn small color="error" @click="generate">Confirm Rebuild</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+        <v-menu v-if="!noDelete" offset-x left>
+          <template #activator="{ props }">
+            <v-btn small icon color="error" variant="plain" v-bind="props">
+              <v-icon icon="mdi-delete" />
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-text>
+              Do you want to delete this table? This action cannot be undone.
+            </v-card-text>
+            <v-divider />
+            <v-card-actions>
+              <v-spacer />
+              <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+      </div>
     </v-toolbar>
 
-    <v-card-text class="pa-2">
-      <v-table class="my-2 px-1">
-        <tr
-          v-for="(r, i) in table.Results"
-          :class="`${print ? 'py-2' : ''} ${i % 2 !== 0 ? 'light-panel' : ''}`">
-          <td class="text-center heading h4" style="width: 75px">
-            <span v-if="r.min === r.max">{{ r.max }}</span>
-            <span v-else>{{ r.min }} - {{ r.max }}</span>
-          </td>
-          <td>
-            <v-textarea
-              v-if="!print"
-              v-model="r.result"
-              density="compact"
-              hide-details
-              rows="2"
-              variant="outlined"
-              auto-grow
-              class="my-1" />
-            <p v-else class="mb-0" v-html-safe="r.result" />
-          </td>
-        </tr>
-      </v-table>
-    </v-card-text>
+    <v-table class="pr-3 py-1 rounded-0">
+      <tr
+        v-for="(r, i) in table.Results"
+        :class="`${print ? 'py-2' : ''} ${i % 2 !== 0 ? 'light-panel' : ''}`">
+        <td class="text-center heading h4" style="width: 75px">
+          <span v-if="r.min === r.max">{{ r.max }}</span>
+          <span v-else>{{ r.min }} - {{ r.max }}</span>
+        </td>
+        <td>
+          <v-textarea
+            v-if="!print && !readonly"
+            v-model="r.result"
+            density="compact"
+            hide-details
+            rows="2"
+            variant="outlined"
+            auto-grow
+            class="my-1" />
+          <v-card v-else variant="plain" class="mb-1" :class="dense ? 'pa-1' : 'pa-2'">
+            <p v-html-safe="r.result" />
+          </v-card>
+        </td>
+      </tr>
+    </v-table>
   </v-card>
 </template>
 
@@ -133,6 +163,8 @@ export default {
     color: { type: String, required: false, default: 'primary' },
     print: { type: Boolean },
     noDelete: { type: Boolean },
+    readonly: { type: Boolean },
+    density: { type: String, default: '' },
   },
   data: () => ({
     editDialog: false,
@@ -140,7 +172,11 @@ export default {
     dice: [2, 3, 6, 8, 10, 12, 20],
     mults: [1, 2, 3, 4, 5],
   }),
-  computed: {},
+  computed: {
+    dense() {
+      return this.density === 'compact';
+    },
+  },
   watch: {
     step() {
       if (this.step < 1) this.step = 1;

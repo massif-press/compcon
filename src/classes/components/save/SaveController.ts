@@ -13,7 +13,7 @@ class SaveController {
   public readonly Parent: ISaveable;
 
   public Created: number = new Date().getTime();
-  public LastModified: number;
+  public LastModified: number = 0;
   public DeleteTime: number;
   public _isMissingContent: boolean;
 
@@ -21,7 +21,6 @@ class SaveController {
 
   public constructor(parent: ISaveable) {
     this.Parent = parent;
-    this.LastModified = new Date().getTime();
     this._isMissingContent = false;
     this.DeleteTime = 0;
   }

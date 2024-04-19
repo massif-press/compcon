@@ -23,6 +23,11 @@ const storeRegistry = {
     storeName: 'campaigns',
     description: 'Stores Campaign data',
   }),
+  campaign_collection: localforage.createInstance({
+    name: dbName,
+    storeName: 'campaign_collection',
+    description: 'Stores Published Campaign data',
+  }),
   encounters: localforage.createInstance({
     name: dbName,
     storeName: 'encounters',
