@@ -11,40 +11,33 @@
           v-if="!item.IsIntegrated"
           prepend-icon="mdi-swap-vertical-variant"
           title="Change Item"
-          @click="$emit('swap')"
-        />
+          @click="$emit('swap')" />
         <v-divider />
         <v-list-item
           v-if="item.CanSetDamage"
           title="Select Damage Type"
           prepend-icon="cc:variable"
-          @click="($refs as any).damageTypeDialog.show()"
-        >
-        </v-list-item>
+          @click="($refs as any).damageTypeDialog.show()"></v-list-item>
         <v-list-item
           v-if="item.CanSetUses"
           title="Set Max Uses"
           prepend-icon="mdi-dice-6"
-          @click="($refs as any).maxUseDialog.show()"
-        >
-        </v-list-item>
+          @click="($refs as any).maxUseDialog.show()"></v-list-item>
         <v-divider />
         <v-list-item
           title="Set Custom Name"
           prepend-icon="mdi-circle-edit-outline"
-          @click="($refs as any).cName.show()"
-        >
-        </v-list-item>
+          @click="($refs as any).cName.show()"></v-list-item>
         <v-list-item
           title="Set Custom Description"
           prepend-icon="mdi-circle-edit-outline"
-          @click="($refs as any).cDesc.show()"
-        >
-        </v-list-item>
+          @click="($refs as any).cDesc.show()"></v-list-item>
         <div v-if="!item.IsIntegrated">
           <v-divider />
-          <v-list-item title="Remove Item" prepend-icon="mdi-delete" @click="$emit('remove')">
-          </v-list-item>
+          <v-list-item
+            title="Remove Item"
+            prepend-icon="mdi-delete"
+            @click="$emit('remove')"></v-list-item>
         </div>
       </v-list>
     </v-menu>
@@ -54,30 +47,27 @@
       :placeholder="item.Name"
       label="Custom Item Name"
       @save="save('Name', $event)"
-      @reset="save('Name', '')"
-    />
+      @reset="save('Name', '')" />
     <cc-string-edit-dialog
       v-if="item"
       ref="cDesc"
-      :placeholder="item.Description"
+      multiline
+      :placeholder="item.FlavorDescription || item.Description"
       label="Custom Item Description"
-      @save="save('Description', $event)"
-      @reset="save('Description', '')"
-    />
+      @save="save('FlavorDescription', $event)"
+      @reset="save('FlavorDescription', '')" />
     <cc-damage-type-picker
       v-if="item"
       ref="damageTypeDialog"
       :allowed-types="['Explosive', 'Energy', 'Kinetic']"
-      @select="item.DamageTypeOverride = $event"
-    />
+      @select="item.DamageTypeOverride = $event" />
     <cc-string-edit-dialog
       v-if="item"
       ref="maxUseDialog"
       number
       :placeholder="(item.MaxUseOverride || item.MaxUses).toString()"
       label="Set Maximum Uses"
-      @save="item.MaxUseOverride = Number($event)"
-    />
+      @save="item.MaxUseOverride = Number($event)" />
   </span>
 </template>
 

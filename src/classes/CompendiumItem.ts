@@ -1,12 +1,13 @@
 import _ from 'lodash';
-import { CompendiumStore, PilotStore } from '../stores';
+import { CompendiumStore } from '../stores';
 import { ItemType, MechEquipment, MechWeapon, MechSystem, Tag } from '../class';
-import { ICounterData, ITagCompendiumData, ITagData } from '../interface';
+import { ICounterData, ITagData } from '../interface';
 import { IActionData, Action } from './Action';
 import { IBonusData, Bonus } from './components/feature/bonus/Bonus';
 import { ISynergyData, Synergy } from './components/feature/synergy/Synergy';
 import { Deployable, IDeployableData } from './components/feature/deployable/Deployable';
-import { IInstanceable } from './components/instance/IInstanceable';
+import { BrewInfo } from './components/brew/BrewController';
+import { ContentPack } from './ContentPack';
 
 interface ICompendiumItemData {
   id: string;
@@ -19,16 +20,16 @@ interface ICompendiumItemData {
   counters?: ICounterData[];
   special_equipment?: string[];
   integrated?: string[];
-  brew?: string;
   tags?: ITagData[];
   flavorDescription?: string;
+  brew?: BrewInfo;
 }
 
-abstract class CompendiumItem implements IInstanceable {
+abstract class CompendiumItem {
   public readonly InstanceID: string;
   public readonly ItemData: ICompendiumItemData;
   public ItemType: ItemType;
-  public readonly Brew: string;
+  public readonly Brew: BrewInfo;
   public readonly LcpName: string = '';
   public readonly InLcp: boolean = false;
   public readonly ID: string;
@@ -50,11 +51,7 @@ abstract class CompendiumItem implements IInstanceable {
   protected _flavor_description: string = '';
   private _baseTags: Tag[];
 
-  public constructor(
-    data?: ICompendiumItemData,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
+  public constructor(data?: ICompendiumItemData, lcp?: ContentPack) {
     this.InstanceID = _.uniqueId();
     this.ItemType = ItemType.None;
     this.ItemData = data || ({} as ICompendiumItemData);
@@ -67,10 +64,28 @@ abstract class CompendiumItem implements IInstanceable {
       this._flavor_name = '';
       this._description = data.description || '';
       this._flavor_description = data.flavorDescription || '';
-      this.Brew = data.brew || 'Core';
-      this.LcpName = packName || 'LANCER Core Book';
-      this.InLcp = packName ? true : false;
-      this._baseTags = Tag.Deserialize(data.tags || [], packTags);
+      this.Brew = {
+        LcpId: '',
+        LcpName: 'LANCER Core Book',
+        LcpVersion: '',
+        Website: '',
+        Status: 'OK',
+      };
+      if (data.brew) {
+        this.Brew = data.brew;
+      }
+      if (lcp) {
+        this.Brew = {
+          LcpId: lcp.ID,
+          LcpName: lcp.Name,
+          LcpVersion: lcp.Version,
+          Website: lcp.Website || '',
+          Status: 'OK',
+        };
+      }
+      this.InLcp = !!lcp;
+      this.LcpName = lcp?.Name || 'LANCER Core Book';
+      this._baseTags = Tag.Deserialize(data.tags || [], lcp?.Data.tags || []);
       this.IsExotic = this._baseTags.some((x) => x.IsExotic);
       const heatTag = this.Tags.find((x) => x.IsHeatCost);
       const heatCost = Number(heatTag ? heatTag.Value : 0);
@@ -91,7 +106,8 @@ abstract class CompendiumItem implements IInstanceable {
       this.Err = '';
     } else {
       this.ID = `err_${Math.random().toString(36).substring(2)}`;
-      this._name = this._description = this._note = this.Brew = '';
+      this._name = this._description = this._note = '';
+      this.Brew = {} as BrewInfo;
       this.Actions =
         this.Bonuses =
         this.Synergies =
@@ -124,48 +140,52 @@ abstract class CompendiumItem implements IInstanceable {
   }
 
   public get Description(): string {
-    return this._flavor_description ? this._flavor_description : this._description;
+    return this._description || this.FlavorDescription || '';
   }
 
-  public set Description(val: string) {
+  public set FlavorDescription(val: string) {
     this._flavor_description = val;
+  }
+
+  public get FlavorDescription(): string {
+    return this._flavor_description;
   }
 
   public get SpecialEquipment(): CompendiumItem[] {
     if (!this._special_equipment) return [];
     const res = this._special_equipment.map((x) => {
-      const w = CompendiumStore().referenceByID('MechWeapons', x);
-      if (w && !w.err) return w;
-      const s = CompendiumStore().referenceByID('MechSystems', x);
-      if (s && !s.err) return s;
-      const wm = CompendiumStore().referenceByID('WeaponMods', x);
-      if (wm && !wm.err) return wm;
-      const pg = CompendiumStore().referenceByID('PilotGear', x);
-      if (pg && !pg.err) return pg;
+      const w = CompendiumStore().MechWeapons.find((item) => item.ID === x);
+      if (w) return w;
+      const s = CompendiumStore().MechSystems.find((item) => item.ID === x);
+      if (s) return s;
+      const wm = CompendiumStore().WeaponMods.find((item) => item.ID === x);
+      if (wm) return wm;
+      const pg = CompendiumStore().PilotGear.find((item: any) => item.ID === x);
+      if (pg) return pg;
       return false;
     });
-    return res.filter((x) => x);
+    return res as CompendiumItem[];
   }
 
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return [];
     return this._integrated.map((x) => {
-      const w = CompendiumStore().referenceByID('MechWeapons', x);
-      if (w.Name) return w;
-      return CompendiumStore().referenceByID('MechSystems', x);
-    });
+      const w = CompendiumStore().MechWeapons.find((item) => item.ID === x);
+      if (w) return w as MechEquipment;
+      return CompendiumStore().MechSystems.find((item) => item.ID === x) as MechEquipment;
+    }) as MechEquipment[];
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
     return this._integrated
-      .map((x) => CompendiumStore().referenceByID('MechWeapons', x))
-      .filter((x) => !x.err);
+      .map((x) => CompendiumStore().MechWeapons.find((item) => item.ID === x))
+      .filter((x) => !!x) as MechWeapon[];
   }
 
   public get IntegratedSystems(): MechSystem[] {
     return this._integrated
-      .map((x) => CompendiumStore().referenceByID('MechSystems', x))
-      .filter((x) => !x.err);
+      .map((x) => CompendiumStore().MechSystems.find((item) => item.ID === x))
+      .filter((x) => !!x) as MechSystem[];
   }
 
   public get Tags(): Tag[] {

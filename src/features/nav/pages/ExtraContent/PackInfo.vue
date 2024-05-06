@@ -13,7 +13,8 @@
 
 <script lang="ts">
 import PackInfoCard from './components/PackInfoCard.vue';
-import { IContentPack } from '@/interface';
+import { ContentPack } from '@/class';
+import { IContentPack } from '@/classes/ContentPack';
 import _ from 'lodash';
 import { PropType } from 'vue';
 

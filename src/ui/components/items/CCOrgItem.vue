@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="60vw">
       <template #activator="{ props }">
         <v-btn size="large" block variant="outlined" color="stark" v-bind="props">
-          <v-icon small left color="stark">mdi-account-multiple</v-icon>
+          <v-icon start color="stark">mdi-account-multiple</v-icon>
           {{ org.Name }}
         </v-btn>
       </template>
@@ -22,8 +22,7 @@
               v-model="org.Name"
               label="Organization Name"
               variant="outlined"
-              hide-details
-            />
+              hide-details />
           </v-col>
           <v-col cols="6">
             <v-select
@@ -31,8 +30,7 @@
               label="Organization Type"
               :items="orgTypes"
               variant="outlined"
-              hide-details
-            />
+              hide-details />
           </v-col>
         </v-row>
         <v-textarea
@@ -41,8 +39,7 @@
           auto-grow
           rows="2"
           filled
-          hide-details
-        />
+          hide-details />
         <br />
         <v-row dense justify="space-around">
           <v-col cols="auto">
@@ -50,8 +47,7 @@
               icon
               variant="plain"
               :disabled="org.Efficiency === 0"
-              @click="org.Efficiency -= 2"
-            >
+              @click="org.Efficiency -= 2">
               <v-icon size="large" color="accent" icon="mdi-minus" />
             </v-btn>
           </v-col>
@@ -68,8 +64,7 @@
                 organization with high efficiency would be good at combat, for example).
                 <br />Efficiency can be used to perform activities related to your organization’s
                 purpose (science, military, etc). You can use these advantages as
-                <strong>reserves.</strong>"
-                >
+                <strong>reserves.</strong>">
                   <v-icon size="small">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </span>
@@ -80,8 +75,7 @@
               icon
               variant="plain"
               :disabled="org.Efficiency === 6"
-              @click="org.Efficiency += 2"
-            >
+              @click="org.Efficiency += 2">
               <v-icon size="large" color="accent" icon="mdi-plus" />
             </v-btn>
           </v-col>
@@ -102,8 +96,7 @@
                   inline
                   content="Influence is your organization’s size, reach, wealth, and reputation.
                 Influence be used to acquire assets, create opportunities, or sway public
-                opinion."
-                >
+                opinion.">
                   <v-icon size="small">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </span>

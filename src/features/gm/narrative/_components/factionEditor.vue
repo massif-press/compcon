@@ -2,7 +2,6 @@
   <editor-base
     :item="item"
     @exit="$emit('exit')"
-    @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
     @export="exportItem($event)"
@@ -59,13 +58,9 @@ export default {
     exit() {
       this.$emit('exit');
     },
-    saveAsNew() {
-      NarrativeStore().AddItem(this.item as Faction);
+    async save() {
+      await NarrativeStore().SaveItemData();
       this.exit();
-    },
-    save() {
-      NarrativeStore().SaveItemData();
-      this.$emit('exit');
     },
     deleteItem() {
       (this.item as Faction).SaveController.Delete();

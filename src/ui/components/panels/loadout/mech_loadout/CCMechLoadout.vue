@@ -7,16 +7,14 @@
       @set-active="mech.MechLoadoutController.ActiveLoadout = $event"
       @add-loadout="mech.MechLoadoutController.AddLoadout()"
       @clone-loadout="mech.MechLoadoutController.CloneLoadout()"
-      @remove-loadout="mech.MechLoadoutController.RemoveLoadout()"
-    >
+      @remove-loadout="mech.MechLoadoutController.RemoveLoadout()">
       <v-row density="compact">
         <mount-block
-          v-for="(im, j) in mech.MechLoadoutController.ActiveLoadout.IntegratedMounts"
+          v-for="im in mech.MechLoadoutController.ActiveLoadout.IntegratedMounts"
           integrated
           :mount="im"
           :mech="mech"
-          :color="color"
-        />
+          :color="color" />
 
         <mount-block
           v-if="mech.Pilot.has('CoreBonus', 'cb_integrated_weapon')"
@@ -24,8 +22,7 @@
           :readonly="readonly"
           :mount="mech.MechLoadoutController.ActiveLoadout.IntegratedWeaponMount"
           :mech="mech"
-          :color="color"
-        />
+          :color="color" />
 
         <mount-block
           v-if="
@@ -36,8 +33,7 @@
           :readonly="readonly"
           :mount="mech.MechLoadoutController.ActiveLoadout.ImprovedArmamentMount"
           :mech="mech"
-          :color="color"
-        />
+          :color="color" />
 
         <mount-block
           v-if="
@@ -48,16 +44,14 @@
           :readonly="readonly"
           :mount="mech.MechLoadoutController.ActiveLoadout.SuperheavyMount"
           :mech="mech"
-          :color="color"
-        />
+          :color="color" />
 
         <mount-block
           v-for="(m, k) in mech.MechLoadoutController.ActiveLoadout.EquippableMounts"
           :readonly="readonly"
           :mount="m"
           :mech="mech"
-          :color="color"
-        />
+          :color="color" />
       </v-row>
       <v-divider class="my-2" />
       <systems-block :mech="mech" :color="color" :readonly="readonly" />

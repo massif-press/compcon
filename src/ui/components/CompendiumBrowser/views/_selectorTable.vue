@@ -1,21 +1,21 @@
 <template>
   <v-data-table
     density="compact"
-    :headers="headers"
-    :items="items"
+    :headers="<any[]>headers"
+    :items="<any[]>items"
     :items-per-page="-1"
     style="max-width: calc(100vw - 390px)">
     <template v-slot:item="{ item }">
       <tr :id="item.ID">
         <td
-          v-for="h in headers as any[]"
+          v-for="h in <any[]>headers"
           class="text-left"
           :class="selected && (selected as any).ID === item.ID ? 'bg-primary' : ''">
           <div v-if="h.key === 'Size'">
             <span v-text="item.Size === 0.5 ? '½' : item.Size" />
           </div>
           <div v-else-if="h.key === 'Name'">
-            <cc-item-modal small-btn hide-type :item="item" />
+            <cc-item-modal small-btn style="display: inline-block" hide-type :item="item" />
           </div>
           <div v-else-if="h.key === 'Origin'">
             <cc-item-modal small-btn hide-type :item="item.Origin" />

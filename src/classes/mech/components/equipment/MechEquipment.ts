@@ -1,5 +1,10 @@
-import { LicensedItem } from '../../../../class';
-import { ILicensedItemData, ITagCompendiumData, ITagData } from '../../../../interface';
+import { ContentPack, LicensedItem } from '../../../../class';
+import {
+  IContentPack,
+  ILicensedItemData,
+  ITagCompendiumData,
+  ITagData,
+} from '../../../../interface';
 
 interface IMechEquipmentData extends ILicensedItemData {
   sp: number;
@@ -34,8 +39,8 @@ abstract class MechEquipment extends LicensedItem {
   // TODO: expand
   public readonly Ammo: any[];
 
-  public constructor(data: IMechEquipmentData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data: IMechEquipmentData, pack?: ContentPack) {
+    super(data, pack);
     this.SP = parseInt(data.sp as any) || 0;
     this.Effect = data.effect;
     this.IsIntegrated = data.talent_item || data.frame_id || data.id.includes('_integrated');

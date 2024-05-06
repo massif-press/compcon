@@ -1,3 +1,5 @@
+import { ContentPack } from './ContentPack';
+
 interface IBackgroundData {
   id: string;
   name: string;
@@ -12,12 +14,12 @@ class Background {
   public readonly InLcp: boolean;
   public readonly ItemType: string = 'Background';
 
-  public constructor(data: IBackgroundData, packName?: string) {
+  public constructor(data: IBackgroundData, pack?: ContentPack) {
     this.ID = data.id;
     this.Name = data.name;
     this.Description = data.description;
-    this.LcpName = packName || 'LANCER Core Book';
-    this.InLcp = packName ? true : false;
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
   }
 
   public get Icon(): string {

@@ -5,11 +5,10 @@
     </div>
     <v-btn
       color="secondary"
-      small
+      size="small"
       block
-      variant="plain"
-      @click="($refs as any).imageSelector.open()"
-    >
+      variant="tonal"
+      @click="($refs as any).imageSelector.open()">
       <v-icon start>mdi-circle-edit-outline</v-icon>
       Set Pilot Portrait
     </v-btn>

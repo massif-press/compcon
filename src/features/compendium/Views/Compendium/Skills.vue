@@ -5,8 +5,8 @@
     :table-headers="headers"
     :options="options">
     <template #header>
-      <div class="heading h3 text-center text-accent">Pilot Skill Triggers</div></template
-    >
+      <div class="heading h3 text-center text-accent">Pilot Skill Triggers</div>
+    </template>
   </cc-compendium-browser>
 </template>
 
@@ -22,7 +22,6 @@ export default {
   data: () => ({
     headers: [
       { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Source', key: 'Source' },
       { title: 'Name', key: 'Name' },
     ],
     options: {

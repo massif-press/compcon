@@ -41,49 +41,37 @@
       </v-btn>
       <v-spacer />
 
-      <v-menu width="600px" location="center" y-offset>
+      <section-add-menu :item="item" />
+
+      <v-spacer />
+      <v-menu y-offset :close-on-content-click="false">
         <template #activator="{ props }">
-          <v-btn
-            v-bind="props"
-            size="small"
-            variant="tonal"
-            prepend-icon="mdi-plus"
-            :disabled="item.Depth >= 10">
-            Add Subsection
+          <v-btn v-bind="props" size="x-small" variant="tonal" class="mr-2" icon>
+            <v-tooltip location="bottom" open-delay="300">
+              <template v-slot:activator="{ props }">
+                <v-icon v-bind="props" size="x-large" icon="mdi-tooltip-edit-outline" />
+              </template>
+              <span>Change Section Type</span>
+            </v-tooltip>
           </v-btn>
         </template>
-        <v-card variant="outlined" color="panel">
-          <v-list density="compact" lines="three">
-            <v-list-item
-              title="Add Subsection"
-              prepend-icon="mdi-page-next"
-              subtitle="Add a new empty free-form section under this page. A Section is a container for other content items, and can be used to organize your campaign in any way you see fit."
-              @click="item.AddChildSection()" />
-            <v-list-item
-              title="Add Beat"
-              prepend-icon="mdi-metronome"
-              subtitle="Add a new empty Beat under this section. A Beat is a section for an important event or moment in the story."
-              @click="item.AddChildSection({ sectionType: 'beat' })" />
-            <v-list-item
-              title="Add Mission"
-              prepend-icon="cc:orbit"
-              subtitle="Add a new empty Mission under this page. A Mission contains specific goals and objectives that can be completed within a discrete period of time, and typically contains Combats."
-              @click="item.AddChildSection({ sectionType: 'mission' })" />
-            <v-list-item
-              title="Add Combat"
-              prepend-icon="cc:encounter"
-              subtitle="Add a new empty Combat under this page. A Combat contains Encounters, as well as GM guidelines, narrative detail regarding the battle, and potential outcomes."
-              @click="item.AddChildSection({ sectionType: 'combat' })" />
-            <v-list-item
-              title="Add Downtime"
-              prepend-icon="cc:downtime"
-              subtitle="Add a new empty Downtime under this page. Downtime is the narrative space between missions, where moment-to-moment action doesn't matter as much and roleplaying matters much more."
-              @click="item.AddChildSection({ sectionType: 'downtime' })" />
-          </v-list>
+        <v-card>
+          <v-card-text>
+            <v-row dense>
+              <v-col cols="auto" v-for="t in sectionTypes">
+                <v-btn
+                  variant="tonal"
+                  size="small"
+                  :color="item.SectionType === t ? 'secondary' : 'accent'"
+                  @click="item.SectionType = t">
+                  {{ t }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-card-text>
         </v-card>
       </v-menu>
 
-      <v-spacer />
       <v-menu y-offset :close-on-content-click="false">
         <template #activator="{ props }">
           <v-btn v-bind="props" size="x-small" variant="tonal" class="mr-2" icon>
@@ -200,10 +188,11 @@
 <script lang="ts">
 import _ from 'lodash';
 import PageContentContainer from './_components/PageContentContainer.vue';
+import sectionAddMenu from '../_components/sectionAddMenu.vue';
 
 export default {
   name: 'campaign-editor-page',
-  components: { PageContentContainer },
+  components: { PageContentContainer, sectionAddMenu },
   props: {
     item: { type: Object, required: true },
   },
@@ -211,6 +200,7 @@ export default {
     linkSelectDialog: false,
     moveLoc: null as any,
     encounterDialog: false,
+    sectionTypes: ['section', 'beat', 'mission', 'combat', 'downtime'],
   }),
   computed: {
     moveItems() {

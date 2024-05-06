@@ -2,32 +2,44 @@
   <v-col>
     <div style="height: 100%">
       <v-card class="clipped-large panel" style="height: 100%">
-        <v-toolbar
-          class="heading h3 pl-2"
-          color="pilot"
+        <v-row
+          dense
+          align="center"
+          class="bg-pilot heading h3 pa-1"
           density="compact"
           style="cursor: pointer"
-          @click="empty ? '' : ($refs as any).detailDialog.show()"
-        >
-          <v-row dense>
-            <v-col cols="auto">
-              <slot name="header" />
-            </v-col>
-            <v-col cols="auto" class="ml-auto">
-              <slot name="header-items" />
-            </v-col>
-          </v-row>
-        </v-toolbar>
+          @click="empty ? '' : ($refs as any).detailDialog.show()">
+          <v-col cols="auto">
+            <slot name="header" />
+          </v-col>
+          <v-col cols="auto" class="ml-auto">
+            <slot name="header-items" />
+          </v-col>
+        </v-row>
         <v-card-text class="`px-2 py-0 text-center`">
+          <v-card
+            v-if="item && item.FlavorDescription"
+            variant="tonal"
+            class="mx-1 mt-1 py-1 px-2 mb-n2">
+            {{ item.FlavorDescription }}
+          </v-card>
           <div>
             <slot />
             <div v-if="item">
+              <div v-if="item.Effect">
+                <div class="text-overline text-disabled">
+                  <v-icon :icon="item.Icon" start />
+                  EQUIPMENT EFFECT
+                </div>
+                <p v-html-safe="item.Effect" class="text-text body-text mb-1" />
+              </div>
               <v-row class="text-left" density="compact" align="end">
                 <v-col>
                   <v-row justify="space-around" density="compact">
                     <v-col v-if="item.Actions && item.Actions.length" cols="auto">
                       <div class="text-overline ml-n2 text-disabled">
-                        <v-icon size="small" icon="cc:activate" />EQUIPMENT ACTIONS
+                        <v-icon size="small" icon="cc:activate" />
+                        EQUIPMENT ACTIONS
                       </div>
                       <v-row no-gutters justify="center">
                         <v-col v-for="a in item.Actions" cols="auto">
@@ -37,7 +49,8 @@
                     </v-col>
                     <v-col v-if="item.Deployables.length" cols="auto">
                       <div class="text-overline ml-n2 text-disabled">
-                        <v-icon size="small" icon="cc:drone" />EQUIPMENT DEPLOYABLES
+                        <v-icon size="small" icon="cc:drone" />
+                        EQUIPMENT DEPLOYABLES
                       </div>
                       <v-row no-gutters justify="center">
                         <v-col v-for="d in item.Deployables" cols="auto">
@@ -45,8 +58,7 @@
                             :deployable="d"
                             panel
                             :name-override="item.Name"
-                            class="ma-2"
-                          />
+                            class="ma-2" />
                         </v-col>
                       </v-row>
                     </v-col>
@@ -60,15 +72,13 @@
                     small
                     :tags="item.Tags"
                     :color="color"
-                    :bonus="mech.Pilot.LimitedBonus"
-                  />
+                    :bonus="mech.Pilot.LimitedBonus" />
                 </v-col>
                 <v-col
                   v-show="item.Profiles.length > 1"
                   v-for="p in item.Profiles"
                   class="mr-4"
-                  cols="auto"
-                >
+                  cols="auto">
                   <div v-if="p.Tags.length">
                     <div class="text-overline my-n1" v-text="p.Name" />
                     <cc-tags
@@ -76,8 +86,7 @@
                       small
                       :tags="p.Tags"
                       :color="color"
-                      :bonus="mech.Pilot.LimitedBonus"
-                    />
+                      :bonus="mech.Pilot.LimitedBonus" />
                   </div>
                 </v-col>
                 <v-col cols="auto">
@@ -86,8 +95,7 @@
                     small
                     :tags="item.Mod.AddedTags"
                     color="mod darken-2"
-                    :bonus="mech.Pilot.LimitedBonus"
-                  />
+                    :bonus="mech.Pilot.LimitedBonus" />
                 </v-col>
                 <v-col cols="auto" class="ml-auto mr-4 pb-2">
                   <cc-bonus-display :item="item" />
@@ -99,8 +107,7 @@
               v-else
               class="py-3 text-center fade-select"
               style="height: 100%; cursor: pointer"
-              @click="($refs as any).selectorDialog.show()"
-            >
+              @click="($refs as any).selectorDialog.show()">
               <v-row style="height: 100%">
                 <div class="heading h2 text-disabled my-auto py-3" style="width: 100%">
                   // EMPTY //

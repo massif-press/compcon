@@ -1,5 +1,5 @@
-import { CompendiumItem, Tag } from '@/class';
-import { ICompendiumItemData, ITagData } from '@/interface';
+import { CompendiumItem, ContentPack, Tag } from '@/class';
+import { ICompendiumItemData, IContentPack, ITagData } from '@/interface';
 import { NpcClass } from '../class/NpcClass';
 import { NpcTemplate } from '../template/NpcTemplate';
 import { CompendiumStore } from '@/stores';
@@ -7,6 +7,7 @@ import { Bonus, IBonusData } from '@/classes/components';
 import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
 import { IInstanceable } from '@/classes/components/instance/IInstanceable';
 import Compendium from '@/assets/icons/svg/compendium.vue';
+import { BrewInfo } from '@/classes/components/brew/BrewController';
 
 export enum NpcFeatureType {
   Trait = 'Trait',
@@ -26,7 +27,6 @@ interface INpcFeatureData extends ICompendiumItemData {
   bonus?: object;
   mod?: IFeatureModData;
   tags: ITagData[];
-  brew: string;
   hide_active: boolean;
   type: string;
   deprecated?: boolean;
@@ -69,29 +69,26 @@ class NpcFeatureMod {
   }
 }
 
-abstract class NpcFeature extends CompendiumItem implements IInstanceable {
+abstract class NpcFeature extends CompendiumItem {
+  public InLcp: boolean = true;
   private _originID: string;
   private _effect: string;
   private _hide_active: boolean;
   public FeatureType: NpcFeatureType = NpcFeatureType.Trait;
   public IsHidden: boolean = false;
   public readonly Base: boolean;
-  public readonly LcpName: string;
-  public readonly InLcp: boolean;
   public readonly Deprecated: boolean = false;
   public readonly BuildFeature: boolean = false;
   public readonly Mod?: NpcFeatureMod;
   // set after all content packs have loaded
   public Origin!: NpcClass | NpcTemplate;
 
-  public constructor(data: INpcFeatureData, packName?: string) {
-    super(data);
+  public constructor(data: INpcFeatureData, pack?: ContentPack) {
+    super(data as ICompendiumItemData, pack);
     this._originID = data.origin;
     this._effect = data.effect || data.detail || '';
     this._hide_active = data.hide_active || false;
     this.Base = data.base || false;
-    this.LcpName = packName || 'Lancer CORE NPCs';
-    this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false;
     this.Deprecated = data.deprecated || false;
     if (data.mod) this.Mod = new NpcFeatureMod(data.mod, this);
   }
@@ -101,12 +98,18 @@ abstract class NpcFeature extends CompendiumItem implements IInstanceable {
   }
 
   public SetOrigin() {
-    this.Origin = CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass;
-    if ((this.Origin as any).err) {
-      this.Origin = CompendiumStore().referenceByID('NpcTemplates', this._originID) as NpcTemplate;
-    }
-    if ((this.Origin as any).err) {
-      console.error(`Feature ${this._name} has no valid origin data!`);
+    // nested try/catch to preserve missing LCP error throws. Works but smells.
+    try {
+      this.Origin = CompendiumStore().referenceByID('NpcClasses', this._originID) as NpcClass;
+    } catch (e) {
+      try {
+        this.Origin = CompendiumStore().referenceByID(
+          'NpcTemplates',
+          this._originID
+        ) as NpcTemplate;
+      } catch (e) {
+        console.error(`Feature ${this._name} has no valid origin data!`);
+      }
     }
 
     if (this.Mod) {

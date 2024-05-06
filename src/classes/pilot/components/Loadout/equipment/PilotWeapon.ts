@@ -1,5 +1,11 @@
 import { PilotEquipment, Range, Damage, ItemType, DamageType, RangeType } from '@/class';
-import { IPilotEquipmentData, IRangeData, IDamageData, ITagCompendiumData } from '@/interface';
+import {
+  IPilotEquipmentData,
+  IRangeData,
+  IDamageData,
+  ITagCompendiumData,
+  IContentPack,
+} from '@/interface';
 
 interface IPilotWeaponData extends IPilotEquipmentData {
   range: IRangeData[];
@@ -12,8 +18,8 @@ class PilotWeapon extends PilotEquipment {
   public readonly Damage: Damage[];
   public readonly Effect: string;
 
-  public constructor(data: IPilotWeaponData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data: IPilotWeaponData, pack?: ContentPack) {
+    super(data, pack);
     this.Range = data.range.map((x) => new Range(x));
     this.Damage = data.damage.map((x) => new Damage(x));
     this.Effect = data.effect || '';
@@ -26,7 +32,7 @@ class PilotWeapon extends PilotEquipment {
 
   public set DamageTypeOverride(val: string) {
     this._custom_damage_type = val;
-    this.save();
+    // this.save();
   }
 
   public get DefaultDamageType(): DamageType {

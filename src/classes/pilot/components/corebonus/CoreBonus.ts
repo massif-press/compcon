@@ -1,6 +1,11 @@
-import { CompendiumItem, ItemType, Manufacturer } from '../../../../class';
+import { CompendiumItem, ContentPack, ItemType, Manufacturer } from '../../../../class';
 import { CompendiumStore } from '../../../../stores';
-import { ICompendiumItemData, ICounterData, ITagCompendiumData } from '../../../../interface';
+import {
+  ICompendiumItemData,
+  IContentPack,
+  ICounterData,
+  ITagCompendiumData,
+} from '../../../../interface';
 import { IActionData } from '../../../Action';
 import { IBonusData } from '../../../components/feature/bonus/Bonus';
 import { ISynergyData } from '../../../components/feature/synergy/Synergy';
@@ -24,8 +29,8 @@ class CoreBonus extends CompendiumItem {
   public readonly Effect: string;
   public readonly MountedEffect: string;
 
-  public constructor(data?: ICoreBonusData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data?: ICoreBonusData, pack?: ContentPack) {
+    super(data, pack);
     this.ItemType = ItemType.CoreBonus;
     this.Source = data?.source || '';
     this.Effect = data?.effect || '';

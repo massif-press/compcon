@@ -2,8 +2,7 @@
   <selector
     title="Pilot Skill Triggers"
     :success="!pilot.SkillsController.IsMissingSkills && enoughSelections"
-    :modal="modal"
-  >
+    :modal="modal">
     <template #left-column>
       <v-row v-for="pSkill in pilot.SkillsController.Skills" dense align="center" class="px-2">
         <v-col cols="auto">
@@ -31,8 +30,7 @@
             color="success"
             icon="mdi-check-circle"
             class="stat-text py-1 mb-2"
-            text="Skill Selection Complete"
-          />
+            text="Skill Selection Complete" />
           <v-alert
             v-show="
               pilot.SkillsController.MaxSkillPoints > pilot.SkillsController.CurrentSkillPoints
@@ -45,8 +43,7 @@
             :text="`${
               pilot.SkillsController.MaxSkillPoints - pilot.SkillsController.CurrentSkillPoints
             }
-            Skill Points remaining`"
-          />
+            Skill Points remaining`" />
 
           <v-alert
             v-show="!enoughSelections"
@@ -55,14 +52,12 @@
             color="accent"
             icon="mdi-alert"
             class="stat-text py-1 mb-2"
-            :text="`Must select a minimum of ${selectedMin} skills`"
-          />
+            :text="`Must select a minimum of ${selectedMin} skills`" />
           <v-btn
             block
             variant="text"
             :disabled="!pilot.SkillsController.Skills.length"
-            @click="pilot.SkillsController.ClearSkills()"
-          >
+            @click="pilot.SkillsController.ClearSkills()">
             Reset
           </v-btn>
         </v-col>
@@ -80,13 +75,11 @@
           :can-add="pilot.SkillsController.CanAddSkill(s)"
           :can-remove="pilot.SkillsController.CanRemoveSkill(s)"
           @add="pilot.SkillsController.AddSkill(s)"
-          @remove="pilot.SkillsController.RemoveSkill(s)"
-        />
+          @remove="pilot.SkillsController.RemoveSkill(s)" />
       </div>
       <add-custom-skill
         :pilot="pilot"
-        @add-custom="pilot.SkillsController.AddCustomSkill($event)"
-      />
+        @add-custom="pilot.SkillsController.AddCustomSkill($event)" />
       <div style="height: 12px" />
     </template>
   </selector>
@@ -101,6 +94,8 @@ import Selector from './components/_SelectorBase.vue';
 import { CompendiumStore } from '@/stores';
 import { Rules, Pilot, CompendiumItem } from '@/class';
 import { rules } from '@massif/lancer-data';
+
+import scrollTo from '@/util/scrollTo';
 
 import _ from 'lodash';
 
@@ -151,20 +146,7 @@ export default {
     },
     scrollTo(e: any): void {
       const el = document.getElementById(e);
-      if (el) {
-        const ce = document.getElementById('content-col');
-        if (ce) {
-          const yOffset = -60;
-          const y = el.offsetTop + yOffset;
-
-          ce.scrollTo({ top: y, behavior: 'smooth' });
-        } else {
-          const yOffset = -60;
-          const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
-
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      }
+      if (el) scrollTo(el, this.modal);
     },
   },
 };

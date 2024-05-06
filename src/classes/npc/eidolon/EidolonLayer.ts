@@ -1,3 +1,4 @@
+import { ContentPack } from '@/class';
 import { NpcClassStats } from '../class/NpcClassStats';
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory';
@@ -49,12 +50,13 @@ class EidolonLayer {
 
   public static EidolonLayerBaseStats = layer_stats;
 
-  public constructor(data: IEidolonLayerData, packName?: string) {
+  public constructor(data: IEidolonLayerData, pack?: ContentPack) {
     this._id = data.id;
     this._name = data.name;
     this._stats = new NpcClassStats(layer_stats);
     this._rules = data.rules;
-    this.LcpName = packName || 'Lancer CORE NPCs';
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
 
     this.Appearance = data.appearance;
     this.Hints = data.hints;

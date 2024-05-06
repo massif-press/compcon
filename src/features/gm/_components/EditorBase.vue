@@ -7,14 +7,18 @@
         class="rounded-0 pl-2"
         color="primary">
         <div class="heading h3 pa-1 text-white">
-          <v-icon start size="large" icon="mdi-robot-industrial" /> {{ typeText }} EDITOR
+          <v-icon start size="large" icon="mdi-robot-industrial" />
+          {{ typeText }} EDITOR
         </div>
         <v-spacer />
         <v-btn icon @click="$emit('exit')">
           <v-icon large color="white">mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-container>
+      <v-container style="position: relative">
+        <div style="position: absolute; top: 4px; right: -12px">
+          <cc-brew-info v-if="item.BrewController" :controller="item.BrewController" />
+        </div>
         <v-row>
           <v-col cols="9">
             <slot name="builder" />
@@ -115,9 +119,9 @@
                   icon="mdi-information-outline"
                   class="mt-n1 fade-select" />
               </template>
-              <span
-                >This is only visible to the GM and will be hidden in player-facing material.</span
-              >
+              <span>
+                This is only visible to the GM and will be hidden in player-facing material.
+              </span>
             </v-tooltip>
           </div>
           <cc-rich-text-area :item="item" :readonly="readonly" note-property="Note" />
@@ -126,34 +130,39 @@
     </v-card>
   </div>
   <v-footer v-if="!readonly && !hideFooter" app color="panel">
-    <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`"
-      ><v-icon start icon="mdi-printer" />Print</v-btn
-    >
-    <v-btn variant="tonal" size="small" class="ml-2" @click="$emit('export', item)"
-      ><v-icon start icon="mdi-upload" />Export</v-btn
-    >
+    <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">
+      <v-icon start icon="mdi-printer" />
+      Print
+    </v-btn>
+    <v-btn variant="tonal" size="small" class="ml-2" @click="$emit('export', item)">
+      <v-icon start icon="mdi-upload" />
+      Export
+    </v-btn>
     <v-spacer />
     <v-menu v-model="dupeMenu" offset-y offset-x top left>
       <template #activator="{ props }">
-        <v-btn variant="tonal" size="small" class="mx-3" v-bind="props"
-          ><v-icon start icon="mdi-content-copy" />Duplicate</v-btn
-        >
+        <v-btn variant="tonal" size="small" class="mx-3" v-bind="props">
+          <v-icon start icon="mdi-content-copy" />
+          Duplicate
+        </v-btn>
       </template>
       <cc-confirmation content="Confirm duplication of this NPC" @confirm="copy()" />
     </v-menu>
     <v-menu v-model="deleteMenu" offset-y offset-x top left>
       <template #activator="{ props }">
-        <v-btn variant="tonal" size="small" color="error" class="mx-3" v-bind="props"
-          ><v-icon start icon="mdi-delete" />Delete</v-btn
-        >
+        <v-btn variant="tonal" size="small" color="error" class="mx-3" v-bind="props">
+          <v-icon start icon="mdi-delete" />
+          Delete
+        </v-btn>
       </template>
       <cc-confirmation
         content="This will reset delete this NPC from your NPC roster. NPCs of this type added to Encounters will not be affected. Are you sure?"
         @confirm="deleteItem()" />
     </v-menu>
-    <v-btn variant="tonal" size="small" color="secondary" class="mx-3" @click="saveExit()"
-      ><v-icon start icon="mdi-content-save" />Save and Exit</v-btn
-    >
+    <v-btn variant="tonal" size="small" color="secondary" class="mx-3" @click="saveExit()">
+      <v-icon start icon="mdi-content-save" />
+      Save and Exit
+    </v-btn>
   </v-footer>
 </template>
 
@@ -167,7 +176,6 @@ export default {
   name: 'gm-editor-base',
   components: { SectionEditor, NoteEditor, GmLabelEditor, GmFolderEditor },
   props: {
-    isNew: { type: Boolean },
     showDescription: { type: Boolean },
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },
@@ -188,15 +196,14 @@ export default {
   },
   methods: {
     deleteItem() {
-      if (!this.isNew) this.$emit('delete');
+      this.$emit('delete');
     },
     copy() {
-      if (!this.isNew) this.$emit('copy');
+      this.$emit('copy');
       this.$emit('exit');
     },
     saveExit() {
-      if (this.isNew) this.$emit('add-new', this.item);
-      else this.$emit('save');
+      this.$emit('save');
     },
   },
 };

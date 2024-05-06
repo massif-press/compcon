@@ -77,8 +77,8 @@ abstract class Npc
     this.PortraitController = new PortraitController(this);
     this.CloudController = new CloudController(this);
     this.BrewController = new BrewController(this);
-    this.FeatureController = new FeatureController(this);
     this.NarrativeController = new NarrativeController(this);
+    this.FeatureController = new FeatureController(this);
     this.FolderController = new FolderController(this);
 
     this.FeatureController.Register();
@@ -105,11 +105,16 @@ abstract class Npc
     throw new Error('Method inaccessible in abstract class.');
   }
 
+  public static LoadError(self: Npc, err: any, message: string): void {
+    console.error(err);
+    console.error(`${self.ItemType} ${self.ID} (${self.Name}) failed to load ${message}`);
+    self.BrewController.MissingContent = true;
+  }
+
   // -- Passthroughs ------------------------------------------------------------------------------
 
   public get BrewableCollection(): CompendiumItem[] {
-    // TODO!
-    return [];
+    return this.FeatureController.AllItems;
   }
 
   public get Portrait(): string {

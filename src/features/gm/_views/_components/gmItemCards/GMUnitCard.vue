@@ -1,54 +1,33 @@
 <template>
-  <v-hover>
-    <template #default="{ isHovering, props }">
-      <v-card
-        v-bind="props"
-        :elevation="isHovering ? 12 : 0"
-        :variant="isHovering ? 'outlined' : 'flat'"
-        height="100%"
-        style="position: relative"
-        @click="$emit('open', item)">
-        <cc-img :aspect-ratio="1" :src="item.PortraitController.Image" />
-        <v-fade-transition>
-          <v-card
-            v-if="isHovering"
-            style="position: absolute; bottom: 0; left: 0; right: 0"
-            class="pa-2 text-center">
-            <div class="heading">{{ item.Name }}</div>
-            <div v-if="big">
-              <v-divider />
-              <div v-if="item.NpcClassController.Class" class="my-1">
-                T{{ item.NpcClassController.Tier }} {{ item.NpcClassController.Class.Name }}
-              </div>
-              <div class="my-1">
-                <v-chip
-                  v-for="t in item.NpcTemplateController.Templates"
-                  size="x-small"
-                  variant="flat"
-                  label
-                  color="primary"
-                  class="mr-2"
-                  ><v-icon icon="cc:npc_template" start />{{ t.Name }}</v-chip
-                >
-              </div>
-              <v-divider />
-              <stat-chips :stat-controller="item.StatController" />
-            </div>
-          </v-card>
-        </v-fade-transition>
-        <sort-chips :grouping="grouping" :sorting="sorting" />
-      </v-card>
-    </template>
-  </v-hover>
+  <gm-card-base
+    :item="item"
+    :big="big"
+    :grouping="grouping"
+    :sorting="sorting"
+    @open="$emit('open', item)">
+    <div v-if="item.NpcClassController.Class" class="my-1">
+      T{{ item.NpcClassController.Tier }} {{ item.NpcClassController.Class.Name }}
+    </div>
+    <div class="my-1">
+      <v-chip
+        v-for="t in item.NpcTemplateController.Templates"
+        size="x-small"
+        variant="flat"
+        label
+        color="primary"
+        class="mr-2">
+        <v-icon icon="cc:npc_template" start />
+        {{ t.Name }}
+      </v-chip>
+    </div>
+  </gm-card-base>
 </template>
 
 <script lang="ts">
-import StatChips from './_subcomponents/statChips.vue';
-import SortChips from './_subcomponents/sortChips.vue';
-
+import GmCardBase from './_GMCardBase.vue';
 export default {
   name: 'gm-unit-card',
-  components: { StatChips, SortChips },
+  components: { GmCardBase },
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },

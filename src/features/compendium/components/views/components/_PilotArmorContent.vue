@@ -3,33 +3,43 @@
     <template #top>
       <v-row justify="space-around" align="center" class="text-text py-5">
         <v-col v-if="item.ArmorString" cols="auto">
-          <cc-tooltip simple inline content="Armor Bonus">
-            <v-icon icon="mdi-shield-outline" />
-          </cc-tooltip>
+          <v-tooltip text="Armor Bonus">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-shield-outline" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">{{ item.ArmorString }}</span>
         </v-col>
         <v-col v-if="item.HpString" cols="auto">
-          <cc-tooltip simple inline content="HP Bonus">
-            <v-icon icon="mdi-heart" />
-          </cc-tooltip>
+          <v-tooltip text="HP Bonus">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-heart" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">+{{ item.HpString }}</span>
         </v-col>
         <v-col v-if="item.EdefString" cols="auto">
-          <cc-tooltip simple inline content="Electronic Defense">
-            <v-icon icon="cc:e_def" />
-          </cc-tooltip>
+          <v-tooltip text="Electronic Defense">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" icon="cc:e_def" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">{{ item.EdefString }}</span>
         </v-col>
         <v-col v-if="item.EvasionString" cols="auto">
-          <cc-tooltip simple inline content="Evasion">
-            <v-icon icon="cc:evasion" />
-          </cc-tooltip>
+          <v-tooltip text="Evasion">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" icon="cc:evasion" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">{{ item.EvasionString }}</span>
         </v-col>
         <v-col v-if="item.SpeedString" cols="auto">
-          <cc-tooltip simple inline content="Speed">
-            <v-icon icon="mdi-arrow-right-bold-hexagon-outline" />
-          </cc-tooltip>
+          <v-tooltip text="Speed">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" icon="mdi-arrow-right-bold-hexagon-outline" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">{{ item.SpeedString }}</span>
         </v-col>
       </v-row>
@@ -37,14 +47,12 @@
         v-if="item.Description"
         v-html-safe="item.Description"
         class="card-effect pa-2 mb-1 text-text"
-        style="font-size: 15px"
-      />
+        style="font-size: 15px" />
       <p
         v-if="item.Detail"
         v-html-safe="item.Detail"
         class="card-effect pa-2 mb-1 text-text"
-        style="font-size: 15px"
-      />
+        style="font-size: 15px" />
       <div></div>
     </template>
   </c-card-base>

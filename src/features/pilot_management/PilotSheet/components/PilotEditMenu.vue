@@ -12,50 +12,41 @@
               title="Print"
               prepend-icon="mdi-printer"
               subtitle="Print tabletop-ready character and mech sheets"
-              @click="$router.push(`/print/${pilot.ID}`)"
-            />
+              @click="$router.push(`/print/${pilot.ID}`)" />
             <v-list-item
               prepend-icon="mdi-dna"
               title="Clone"
               subtitle="Duplicate or Flash Clone this character"
-              @click="($refs.cloneDialog as any).show()"
-            />
+              @click="($refs.cloneDialog as any).show()" />
             <v-list-item
               prepend-icon="mdi-file-document-outline"
               title="Generate Statblock"
               subtitle="Get a plaintext representation of this character's build"
-              @click="($refs.statblockDialog as any).show()"
-            />
+              @click="($refs.statblockDialog as any).show()" />
             <v-list-item
               v-if="pilot.CloudController.IsRemoteResource"
-              :disabled="!isAuthed"
               :loading="loading"
               prepend-icon="mdi-cloud-sync"
               title="Download Latest Data"
               subtitle="Download all remote changes to this pilot, overwriting local data"
-              @click="remoteUpdate()"
-            />
+              @click="remoteUpdate()" />
             <v-list-item
               v-else
-              :disabled="!isAuthed"
               prepend-icon="mdi-code-json"
               title="Get Share Code"
               subtitle="Generate a share code that other users can use to import and sync this character"
-              @click="($refs.shareDialog as any).show()"
-            />
+              @click="($refs.shareDialog as any).show()" />
             <v-list-item
               prepend-icon="mdi-export-variant"
               title="Export Pilot"
               subtitle="Export this pilot as a JSON file"
-              @click="exportPilot()"
-            />
+              @click="exportPilot()" />
 
             <v-divider />
             <v-list-item
               title="Delete Pilot"
               subtitle="Remove this pilot from the roster"
-              @click="($refs.deleteDialog as any).show()"
-            >
+              @click="($refs.deleteDialog as any).show()">
               <template #prepend>
                 <v-icon color="error">mdi-delete</v-icon>
               </template>
@@ -111,19 +102,12 @@ export default {
   data: () => ({
     loading: false,
   }),
-  computed: {
-    isAuthed() {
-      return UserStore().IsLoggedIn;
-    },
-  },
   methods: {
     delete_pilot() {
       this.pilot.SaveController.Delete();
       if (this.$route.path !== '/pilot_management') this.$router.push('/pilot_management');
     },
     exportPilot() {
-      this.pilot.BrewController.SetBrewData();
-
       try {
         saveFile(
           this.pilot.Callsign.toUpperCase().replace(/\W/g, '') + '.json',

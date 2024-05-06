@@ -1,7 +1,8 @@
 <template>
   <card>
     <div class="caption text-center mt-n1" style="letter-spacing: 3px; font-size: 10px">
-      {{ header }} // <b>DEPLOYABLE</b>
+      {{ header }} //
+      <b>DEPLOYABLE</b>
     </div>
     <v-row dense align="center">
       <v-col cols="auto" class="text-center heading caption my-1">
@@ -11,27 +12,30 @@
     </v-row>
     <div class="caption">
       <div class="text-center mb-2">
-        <v-chip size="small" class="heading" color="primary"
-          ><b>{{ (deployable as any).name }}</b></v-chip
-        >
+        <v-chip size="small" class="heading" color="primary">
+          <b>{{ (deployable as any).name }}</b>
+        </v-chip>
       </div>
 
       <v-row justify="center" dense class="text-center heading">
         <v-col v-if="(deployable as any).size">
           <v-card variant="tonal" class="pa-1">
-            <b>Size:</b> <br />
+            <b>Size:</b>
+            <br />
             {{ getSize }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).armor">
           <v-card variant="tonal" class="pa-1">
-            <b>Armor:</b> <br />
+            <b>Armor:</b>
+            <br />
             {{ (deployable as any).armor }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).hp || (deployable as any).size">
           <v-card variant="tonal" class="pa-1">
-            <b>HP:</b> <br />
+            <b>HP:</b>
+            <br />
             {{
               (deployable as any).hp
                 ? (deployable as any).hp.toString().replace(/[{}]/gim, '')
@@ -41,49 +45,57 @@
         </v-col>
         <v-col v-if="(deployable as any).size">
           <v-card variant="tonal" class="pa-1">
-            <b>Evasion:</b> <br />
+            <b>Evasion:</b>
+            <br />
             {{ (deployable as any).evasion || 10 }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).edef">
           <v-card variant="tonal" class="pa-1">
-            <b>E-Def:</b> <br />
+            <b>E-Def:</b>
+            <br />
             {{ (deployable as any).edef }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).heatcap">
           <v-card variant="tonal" class="pa-1">
-            <b>Heat Cap.:</b> <br />
+            <b>Heat Cap.:</b>
+            <br />
             {{ (deployable as any).heatcap }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).sensor">
           <v-card variant="tonal" class="pa-1">
-            <b>Sensors:</b> <br />
+            <b>Sensors:</b>
+            <br />
             {{ (deployable as any).sensor }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).techattack">
           <v-card variant="tonal" class="pa-1">
-            <b>Tech Atk:</b> <br />
+            <b>Tech Atk:</b>
+            <br />
             {{ (deployable as any).techattack }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).repcap">
           <v-card variant="tonal" class="pa-1">
-            <b>Repair Cap.:</b> <br />
+            <b>Repair Cap.:</b>
+            <br />
             {{ (deployable as any).repcap }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).save">
           <v-card variant="tonal" class="pa-1">
-            <b>Save:</b> <br />
+            <b>Save:</b>
+            <br />
             {{ (deployable as any).save }}
           </v-card>
         </v-col>
         <v-col v-if="(deployable as any).speed">
           <v-card variant="tonal" class="pa-1">
-            <b>Speed:</b> <br />
+            <b>Speed:</b>
+            <br />
             {{ (deployable as any).speed }}
           </v-card>
         </v-col>

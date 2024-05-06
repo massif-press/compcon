@@ -2,7 +2,6 @@ import Main from './index.vue';
 
 import Roster from './Roster/index.vue';
 import Print from './Print/index.vue';
-import Active from './ActiveSheet/index.vue';
 import Level from './Level/index.vue';
 
 import Sheet from './PilotSheet/index.vue';
@@ -37,11 +36,7 @@ const routes = [
         component: MechSheet,
         props: true,
       },
-      {
-        path: '/active/:pilotID',
-        props: true,
-        component: Active,
-      },
+
       {
         path: 'level/:pilotID',
         name: 'level-up',

@@ -1,8 +1,8 @@
 <template>
   <v-card style="max-width: calc(100vw - 390px) !important">
-    <v-card-text v-if="!selected" class="heading h2 py-12 my-12 text-center text-disabled"
-      >NO SELECTION</v-card-text
-    >
+    <v-card-text v-if="!selected" class="heading h2 py-12 my-12 text-center text-disabled">
+      NO SELECTION
+    </v-card-text>
     <v-card-text v-else>
       <v-table>
         <thead>
@@ -16,7 +16,7 @@
             </th>
           </tr>
         </thead>
-        <tbody v-if="isNpcClass">
+        <tbody v-if="!isNpcClass">
           <tr v-for="metric in relevantMetrics">
             <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
@@ -25,11 +25,12 @@
               {{ selected.Stats[metric.value] }}
             </td>
             <td v-for="item in items" class="text-center side-border">
-              {{ (item as any).Stats[metric.value] }} <span v-html="diff(metric.value, item)" />
+              {{ (item as any).Stats[metric.value] }}
+              <span v-html="diff(metric.value, item)" />
             </td>
           </tr>
         </tbody>
-        <tbody>
+        <tbody v-else>
           <tr v-for="metric in metrics">
             <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
@@ -46,9 +47,9 @@
       </v-table>
     </v-card-text>
     <div v-show="!!selected" class="text-right px-4 pb-2">
-      <v-btn size="x-small" variant="outlined" color="primary" @click="$emit('clear')"
-        >Clear All</v-btn
-      >
+      <v-btn size="x-small" variant="outlined" color="primary" @click="$emit('clear')">
+        Clear All
+      </v-btn>
     </div>
   </v-card>
 </template>

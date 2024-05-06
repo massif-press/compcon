@@ -4,7 +4,7 @@ import { IDeployableData } from './components/feature/deployable/Deployable';
 import { isNumber } from 'lodash';
 import { IDamageData } from './Damage';
 import { IRangeData } from './Range';
-import ByTier from '@/util/tierFormat';
+import { ByTier } from '@/util/tierFormat';
 
 interface IActionData {
   id?: string;

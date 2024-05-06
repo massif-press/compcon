@@ -14,9 +14,9 @@
         <v-col :style="`height: calc(100vh - ${short ? '300px' : '180px'})`">
           <scatter ref="chart" :data="chartData" :options="options" />
         </v-col>
-        <v-col cols="12" class="text-center text-caption"
-          ><b>{{ xAxis.title }}</b></v-col
-        >
+        <v-col cols="12" class="text-center text-caption">
+          <b>{{ xAxis.title }}</b>
+        </v-col>
       </v-row>
     </div>
     <v-row class="px-12 pt-2">
@@ -108,7 +108,11 @@ export default {
       let arr = [] as any[];
       if (this.items && (this.items[0] as any).StatsByProfile)
         arr = (this.items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
-      else if (this.items && (this.items[0] as NpcClass).Stats) {
+      else if (
+        this.items &&
+        (this.items[0] as any).ItemType === 'NpcClass' &&
+        (this.items[0] as NpcClass).Stats
+      ) {
         arr = this.items.map((x: any) => ({
           ID: x.ID,
           Name: x.Name,

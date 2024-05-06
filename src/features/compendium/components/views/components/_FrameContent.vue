@@ -1,15 +1,15 @@
 <template>
   <c-card-base :item="item" :small="small" :highlighted="highlighted" :hover="hover">
     <template #top>
-      <cc-img
+      <v-img
         v-if="item.DefaultImage"
         :src="item.DefaultImage"
-        :max-height="small ? '175px' : '225px'"
         contain
-        class="py-2"
-      />
+        lazy
+        :height="small ? '175px' : '225px'"
+        class="py-2" />
     </template>
-    <template #overline> {{ item.MechTypeString }} Frame </template>
+    <template #overline>{{ item.MechTypeString }} Frame</template>
   </c-card-base>
 </template>
 

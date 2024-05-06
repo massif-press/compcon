@@ -76,9 +76,9 @@ export const NarrativeStore = defineStore('narrative', {
       if (idx >= 0) this.Folders.splice(idx, 1);
     },
 
-    AddItem(payload: Character | Location | Faction): void {
+    async AddItem(payload: Character | Location | Faction): Promise<void> {
       this.CollectionItems.push(payload);
-      this.SaveItemData();
+      await this.SaveItemData();
     },
 
     CloneItem(payload: Character | Location | Faction): void {

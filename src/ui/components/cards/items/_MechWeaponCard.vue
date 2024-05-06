@@ -18,15 +18,14 @@
       <v-col cols="auto">
         <cc-damage-element
           :damage="item.Profiles[tab].Damage"
-          :type-override="item.Profiles[tab].DamageTypeOverride"
-        />
+          :type-override="item.Profiles[tab].DamageTypeOverride" />
       </v-col>
       <v-col v-if="item.SP" cols="auto">
         <v-divider vertical class="px-4 py-8" />
       </v-col>
       <v-col v-if="item.SP" cols="auto" class="text-center">
         <div class="panel clipped">
-          <v-icon v-for="n in item.SP" x-large>cc:system_point</v-icon>
+          <v-icon v-for="n in item.SP" size="x-large">cc:system_point</v-icon>
         </div>
         <span class="text-overline">
           <b>{{ item.SP }}</b>
@@ -46,17 +45,16 @@
     <on-element
       v-for="action in ['hit', 'crit', 'attack']"
       :profile="item.Profiles[tab]"
-      :action="action"
-    />
+      :action="action" />
 
     <template v-if="item.Profiles.length > 1" #profile>
       <div>
         <div v-if="item.Profiles[tab].Effect" class="panel clipped pa-2">
           <v-row dense align="end">
-            <v-col cols="auto"> <v-icon size="large" icon="cc:weapon" /> </v-col>
+            <v-col cols="auto"><v-icon size="large" icon="cc:weapon" /></v-col>
             <v-col>
-              <div class="heading">{{ item.Profiles[tab].Name }}</div></v-col
-            >
+              <div class="heading">{{ item.Profiles[tab].Name }}</div>
+            </v-col>
           </v-row>
           <p v-html-safe="item.Profiles[tab].Effect" class="px-2" />
         </div>
@@ -79,8 +77,7 @@
               :deployable="d"
               :panel="$vuetify.display.lgAndUp"
               :name-override="item.Name"
-              class="ma-2"
-            />
+              class="ma-2" />
           </v-col>
         </v-row>
       </div>

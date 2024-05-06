@@ -141,26 +141,26 @@ class CoreSystem {
   public get SpecialEquipment(): CompendiumItem[] {
     if (!this._special_equipment) return [];
     const res = this._special_equipment.map((x) => {
-      const w = CompendiumStore().referenceByID('MechWeapons', x);
-      if (w && !w.err) return w;
-      const s = CompendiumStore().referenceByID('MechSystems', x);
-      if (s && !s.err) return s;
-      const wm = CompendiumStore().referenceByID('WeaponMods', x);
-      if (wm && !wm.err) return wm;
-      const pg = CompendiumStore().referenceByID('PilotGear', x);
-      if (pg && !pg.err) return pg;
+      const w = CompendiumStore().MechWeapons.find((item) => item.ID === x);
+      if (w) return w;
+      const s = CompendiumStore().MechSystems.find((item) => item.ID === x);
+      if (s) return s;
+      const wm = CompendiumStore().WeaponMods.find((item) => item.ID === x);
+      if (wm) return wm;
+      const pg = CompendiumStore().PilotGear.find((item: any) => item.ID === x);
+      if (pg) return pg;
       return false;
     });
-    return res.filter((x) => x);
+    return res as CompendiumItem[];
   }
 
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return [];
     return this._integrated.map((x) => {
-      const w = CompendiumStore().referenceByID('MechWeapons', x);
-      if (w) return w;
-      return CompendiumStore().referenceByID('MechSystems', x);
-    });
+      const w = CompendiumStore().MechWeapons.find((item) => item.ID === x);
+      if (w) return w as MechEquipment;
+      return CompendiumStore().MechSystems.find((item) => item.ID === x) as MechEquipment;
+    }) as MechEquipment[];
   }
 
   public get PassiveIntegratedWeapons(): MechWeapon[] {
@@ -173,8 +173,8 @@ class CoreSystem {
 
   public get IntegratedWeapons(): MechWeapon[] {
     return this._integrated
-      .map((x) => CompendiumStore().referenceByID('MechWeapons', x))
-      .filter((x) => !x.err);
+      .map((x) => CompendiumStore().MechWeapons.find((item) => item.ID === x))
+      .filter((x) => !!x) as MechWeapon[];
   }
 
   public get PassiveIntegratedSystems(): MechSystem[] {
@@ -183,8 +183,8 @@ class CoreSystem {
 
   public get IntegratedSystems(): MechSystem[] {
     return this._integrated
-      .map((x) => CompendiumStore().referenceByID('MechSystems', x))
-      .filter((x) => !x.err);
+      .map((x) => CompendiumStore().MechSystems.find((item) => item.ID === x))
+      .filter((x) => !!x) as MechSystem[];
   }
 
   public get Tags(): Tag[] {

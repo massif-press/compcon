@@ -4,6 +4,7 @@ import { Manufacturer } from '../../../Manufacturer';
 import { Frame } from '../../../mech/components/frame/Frame';
 import { Pilot } from '../../Pilot';
 import { LicensedItem } from './LicensedItem';
+import { ContentPack } from '@/class';
 
 class License {
   public readonly ID: string;
@@ -11,7 +12,6 @@ class License {
   public readonly Source: string;
   public readonly FrameID: string;
   public readonly FrameName: string;
-  public readonly Brew: string;
   public readonly Specialty: boolean;
   public readonly Prerequisite?: {
     source: string;
@@ -23,15 +23,14 @@ class License {
   public readonly InLcp: boolean;
   public readonly ItemType: string = 'License';
 
-  public constructor(frame: Frame) {
+  public constructor(frame: Frame, pack?: ContentPack) {
     this.Name = frame.Name;
     this.Source = frame.Source;
     this.FrameID = frame.ID;
     this.FrameName = frame.Name.toLowerCase();
     this.ID = `${frame.ID}_License`;
-    this.Brew = frame.Brew || 'Core';
-    this.LcpName = frame.LcpName || 'LANCER Core Book';
-    this.InLcp = frame.InLcp;
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
 
     this.Specialty = !!frame.Specialty;
     if (typeof frame.Specialty !== 'boolean') {

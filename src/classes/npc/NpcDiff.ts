@@ -170,7 +170,6 @@ const statDiff = (diff: any, target: Unit | Doodad, source: Unit | Doodad) => {
 };
 
 const SetDiff = (target: Npc, key: string) => {
-  console.log(key);
   const source = target.GetLinkedItem<Npc>();
   if (!source) return;
 
@@ -192,8 +191,6 @@ const SetDiff = (target: Npc, key: string) => {
   }
 
   if (key === 'Stats') {
-    console.log('stats');
-
     (target as Doodad).StatController.MaxStats = (source as Doodad).StatController.MaxStats;
 
     return;

@@ -3,18 +3,15 @@
     <v-row v-if="empty && mech.FreeSP <= 0" no-gutters justify="end">
       <v-col cols="auto">
         <v-btn
-          text
-          dark
-          small
-          color="primary"
-          variant="plain"
+          size="small"
+          color="accent"
+          variant="tonal"
           prepend-icon="mdi-plus"
-          @click.stop="($refs as any).selectorDialog.show()"
-        >
+          @click.stop="($refs as any).selectorDialog.show()">
           Add Additional System
         </v-btn>
         <cc-solo-dialog ref="selectorDialog" no-confirm title="SELECT EQUIPMENT" fullscreen no-pad>
-          <system-selector :mech="mech" @equip="equipExtra($event)" />
+          <system-selector :mech="mech" @equip="($refs as any).selectorDialog.hide()" />
         </cc-solo-dialog>
       </v-col>
     </v-row>
@@ -27,7 +24,9 @@
           </v-col>
           <v-col cols="auto">
             {{ item.Name }}
-            <span v-if="item.FlavorName" class="caption ml-2 my-n1">//{{ item.TrueName }}</span>
+            <span v-if="item.FlavorName" class="text-caption text-disabled text-uppercase">
+              //{{ item.TrueName }}
+            </span>
           </v-col>
         </v-row>
         <span v-else>System</span>
@@ -44,30 +43,19 @@
               icon
               variant="plain"
               color="error"
-              @click.stop="remove(item as MechSystem)"
-            >
+              @click.stop="remove(item as MechSystem)">
               <v-icon icon="mdi-delete" />
             </v-btn>
             <v-btn
               size="small"
               icon
               variant="plain"
-              @click.stop="($refs as any).base.$refs.selectorDialog.show()"
-            >
+              @click.stop="($refs as any).base.$refs.selectorDialog.show()">
               <v-icon :icon="item ? 'mdi-swap-vertical-variant' : 'add'" />
             </v-btn>
           </v-col>
         </v-row>
       </template>
-      <div v-if="item">
-        <div v-if="item && item.Effect">
-          <div class="text-overline mt-2 text-disabled">
-            <v-icon icon="cc:system" />
-            EQUIPMENT EFFECT
-          </div>
-          <div v-html-safe="item.Effect" />
-        </div>
-      </div>
       <div v-if="item && item.Ammo && item.Ammo.length">
         <div v-for="a in item.Ammo" class="body-text">
           <b>{{ a.name }}</b>
@@ -76,7 +64,10 @@
         </div>
       </div>
       <template #selector>
-        <system-selector :mech="mech" :equipped="item" @equip="equip($event)" />
+        <system-selector
+          :mech="mech"
+          :equipped="item"
+          @equip="(($refs as any).base.$refs.selectorDialog as any).hide()" />
       </template>
     </slot-card-base>
   </div>
@@ -120,13 +111,6 @@ export default {
     },
   },
   methods: {
-    equipExtra(sys: MechSystem) {
-      this.mech.MechLoadoutController.ActiveLoadout.AddSystem(sys);
-      (this.$refs.selectorDialog as any).hide();
-    },
-    equip(sys: MechSystem) {
-      ((this.$refs as any).base.$refs.selectorDialog as any).hide();
-    },
     remove(sys: MechSystem) {
       this.mech.MechLoadoutController.ActiveLoadout.RemoveSystem(sys);
     },

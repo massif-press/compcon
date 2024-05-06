@@ -2,8 +2,7 @@
   <selector
     title="Pilot Talents"
     :success="pilot.TalentsController.HasFullTalents && enoughSelections"
-    :modal="modal"
-  >
+    :modal="modal">
     <template #left-column>
       <v-row
         v-for="pTalent in pilot.TalentsController.Talents"
@@ -12,8 +11,7 @@
         color="panel"
         style="width: 100%"
         class="px-1"
-        @click="scroll(pTalent.Talent.ID)"
-      >
+        @click="scroll(pTalent.Talent.ID)">
         <v-col cols="auto">
           <v-icon color="accent" :icon="`cc:rank_${pTalent.Rank}`" />
         </v-col>
@@ -36,8 +34,7 @@
             color="success"
             icon="mdi-check-circle"
             class="stat-text py-1 mb-2"
-            text="Talent Selection Complete"
-          />
+            text="Talent Selection Complete" />
           <v-alert
             v-show="
               pilot.TalentsController.MaxTalentPoints > pilot.TalentsController.CurrentTalentPoints
@@ -50,8 +47,7 @@
             :text="`${
               pilot.TalentsController.MaxTalentPoints - pilot.TalentsController.CurrentTalentPoints
             }
-            Talent selections remaining`"
-          />
+            Talent selections remaining`" />
           <v-alert
             v-show="!enoughSelections && newPilot"
             variant="outlined"
@@ -59,15 +55,13 @@
             color="accent"
             icon="mdi-alert"
             class="stat-text py-1 mb-2"
-            :text="`Must select a minimum of ${selectedMin} talents`"
-          />
+            :text="`Must select a minimum of ${selectedMin} talents`" />
           <div class="my-2">
             <v-btn
               block
               variant="text"
               :disabled="!talents.length"
-              @click="pilot.TalentsController.ClearTalents()"
-            >
+              @click="pilot.TalentsController.ClearTalents()">
               Reset
             </v-btn>
           </div>
@@ -87,15 +81,7 @@
             hide-details
             class="mb-2"
             variant="outlined"
-            clearable
-          />
-        </v-col>
-        <v-col cols="auto" class="ml-auto">
-          <v-btn-toggle v-model="ctype" mandatory>
-            <v-btn value="full"><v-icon size="x-large" icon="mdi-view-stream" /></v-btn>
-            <v-btn value="terse"><v-icon size="x-large" icon="mdi-view-list" /></v-btn>
-            <v-btn value="small"><v-icon size="x-large" icon="mdi-view-comfy" /></v-btn>
-          </v-btn-toggle>
+            clearable />
         </v-col>
       </v-row>
 
@@ -104,13 +90,11 @@
         :id="`talent_${t.ID}`"
         :talent="t"
         :rank="pilot.TalentsController.getTalentRank(t.ID)"
-        :terse="ctype === 'terse'"
-        :small="ctype === 'small'"
         :can-add="canAdd(t.ID)"
+        hide-change
         selectable
         @add="pilot.TalentsController.AddTalent(t)"
-        @remove="pilot.TalentsController.RemoveTalent(t)"
-      />
+        @remove="pilot.TalentsController.RemoveTalent(t)" />
     </template>
   </selector>
 </template>
@@ -123,6 +107,7 @@ import MissingItem from './components/_MissingItem.vue';
 import { CompendiumStore } from '@/stores';
 import { Rules, Pilot, Talent } from '@/class';
 import { accentInclude } from '@/classes/utility/accent_fold';
+import scrollTo from '@/util/scrollTo';
 
 export default {
   name: 'talent-selector',
@@ -179,20 +164,7 @@ export default {
     },
     scrollTo(e: any): void {
       const el = document.getElementById(e);
-      if (el) {
-        const ce = document.getElementById('content-col');
-        if (ce) {
-          const yOffset = -70;
-          const y = el.offsetTop + yOffset;
-
-          ce.scrollTo({ top: y, behavior: 'smooth' });
-        } else {
-          const yOffset = -60;
-          const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
-
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      }
+      if (el) scrollTo(el, this.modal);
     },
   },
 };

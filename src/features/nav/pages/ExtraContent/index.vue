@@ -2,28 +2,23 @@
   <v-card flat tile>
     <v-tabs v-model="tabs" background-color="panel" color="accent" icons-and-text>
       <v-tab>
-        <v-icon icon="mdi-list-box" />
+        <v-icon start icon="mdi-list-box" />
         Content Packs
       </v-tab>
       <v-tab>
-        <v-icon icon="mdi-download" />
+        <v-icon start icon="mdi-download" />
         Install Content
       </v-tab>
       <v-tab>
-        <v-icon icon="mdi-format-list-text" />
+        <v-icon start icon="mdi-format-list-text" />
         LCP Directory
       </v-tab>
     </v-tabs>
     <v-window v-model="tabs">
       <v-window-item>
         <v-container>
-          <packs-list
-            ref="pl"
-            @start-load="($refs as any).mc.loading = true"
-            @end-load="($refs as any).mc.loading = false"
-          />
-          <v-divider class="my-6" />
-          <missing-content ref="mc" />
+          <packs-list />
+          <missing-content />
         </v-container>
       </v-window-item>
       <v-window-item>

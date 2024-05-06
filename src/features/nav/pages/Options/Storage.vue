@@ -9,17 +9,63 @@
           class="mb-5"
           rounded
           color="primary">
-          <v-chip small variant="elevated" color="primary-lighten-5" style="opacity: 0.5"
-            >{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</v-chip
-          >
+          <v-chip small variant="elevated" color="primary-lighten-5" style="opacity: 0.5">
+            {{ ((size.usage / size.quota) * 100).toFixed(3) }}%
+          </v-chip>
         </v-progress-linear>
 
         <p class="px-2">
           COMP/CON is currently using {{ bytesToSize(size.usage) }} of
           {{ bytesToSize(size.quota) }}, or
-          <b class="text-accent">{{ ((size.usage / size.quota) * 100).toFixed(3) }}%</b>
+          <b class="text-accent">{{ ((size.usage / size.quota) * 100).toFixed(2) }}%</b>
           of your available storage. This includes space reserved by COMP/CON for app management.
         </p>
+
+        <div class="mb-4">
+          <h3 class="heading text-accent my-2">Storage Settings</h3>
+          <div class="text-caption mb-n2">
+            <b>STORAGE THRESHOLDS</b>
+          </div>
+          <v-range-slider
+            v-model="storageRange"
+            thumb-label
+            hide-details
+            strict
+            type="number"
+            track-fill-color="secondary"
+            @end="updateUserStorage" />
+          <div class="text-caption text-right text-stark">
+            COMP/CON will display a warning message when {{ storageRange[0].toFixed(2) }}% of
+            available system storage (
+            <b class="text-accent">{{ bytesToSize((storageRange[0] / 100) * size.quota) }}</b>
+            ) has been used
+          </div>
+          <div class="text-caption text-right text-stark">
+            COMP/CON will prevent the creation of new data after {{ storageRange[1].toFixed(2) }}%
+            of available system storage (
+            <b class="text-accent">{{ bytesToSize((storageRange[1] / 100) * size.quota) }}</b>
+            ) has been used
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-caption mb-n2">
+            <b>AUTO-DELETE</b>
+          </div>
+          <v-select
+            v-model="deleteDays"
+            :items="deleteDaySelections"
+            hide-details
+            density="compact"
+            class="mt-2"
+            @update:modelValue="updateDeleteDays()" />
+          <div class="text-caption text-right text-stark">
+            COMP/CON will permanently delete data after it has been marked as deleted for at least
+            <b class="text-accent">{{ deleteDays }} days.</b>
+            This will not affect items not already marked for deletion.
+          </div>
+        </div>
+
         <v-table class="text-left mt-4" density="compact">
           <thead>
             <th v-for="item in data" v-text="item.title" />
@@ -31,53 +77,6 @@
             </tr>
           </tbody>
         </v-table>
-
-        <v-dialog v-model="deleteDialog" width="80%">
-          <template #activator="{ props }">
-            <div class="text-right">
-              <v-btn size="small" variant="outlined" color="error" class="mt-3" v-bind="props">
-                <v-icon start size="x-large" icon="mdi-alert-outline" />
-                Clear All Data
-                <v-icon end size="x-large" icon="mdi-alert-outline" />
-              </v-btn>
-            </div>
-          </template>
-          <v-card flat tile>
-            <v-card-text>
-              <v-alert
-                prominent
-                dark
-                color="error"
-                icon="mdi-alert-circle"
-                border="bottom"
-                class="my-3">
-                <span class="heading h2">WARNING // WARNING // WARNING</span>
-              </v-alert>
-              <p class="text-center heading h2 text-text">
-                This will delete
-                <b class="text-accent">ALL</b>
-                local COMP/CON data.
-                <br />
-                This
-                <b class="text-accent">cannot</b>
-                be undone.
-                <br />
-                <br />
-                <b class="text-accent">Are you sure you want to continue?</b>
-              </p>
-            </v-card-text>
-            <v-divider />
-            <v-card-actions>
-              <v-btn color="secondary" text large @click="deleteDialog = false">Dismiss</v-btn>
-              <v-spacer />
-              <v-btn color="error" text @click="deleteAll">
-                <v-icon start size="x-large" icon="mdi-alert-outline" />
-                Delete All User Data
-                <v-icon end size="x-large" icon="mdi-alert-outline" />
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-card-text>
       <v-card-text v-else class="flavor-text">
         COMP/CON is unable to access device storage. This may be due to a browser setting or
@@ -87,6 +86,7 @@
         that blocks storage access, please disable it for COMP/CON. If neither of these options
         work, please consider downloading COMP/CON as a PWA.
       </v-card-text>
+
       <v-divider class="my-4" />
 
       <h3 class="heading text-accent">Deleted Items (local data only)</h3>
@@ -100,6 +100,55 @@
       <v-card-text>
         <user-data-viewer />
       </v-card-text>
+
+      <v-dialog v-model="deleteDialog" width="80%">
+        <template #activator="{ props }">
+          <div class="text-center">
+            <v-btn size="small" variant="outlined" color="error" class="my-6" v-bind="props">
+              <v-icon start size="x-large" icon="mdi-alert-outline" />
+              Clear All Data
+              <v-icon end size="x-large" icon="mdi-alert-outline" />
+            </v-btn>
+          </div>
+        </template>
+        <v-card flat tile>
+          <v-card-text>
+            <v-alert
+              prominent
+              dark
+              color="error"
+              icon="mdi-alert-circle"
+              border="bottom"
+              class="my-3">
+              <span class="heading h2">WARNING // WARNING // WARNING</span>
+            </v-alert>
+            <p class="text-center heading h2 text-text">
+              This will delete
+              <b class="text-accent">ALL</b>
+              local COMP/CON data.
+              <br />
+              This
+              <b class="text-accent">cannot</b>
+              be undone.
+              <br />
+              <br />
+              <b class="text-accent">Are you sure you want to continue?</b>
+            </p>
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-btn color="secondary" variant="text" large @click="deleteDialog = false">
+              Dismiss
+            </v-btn>
+            <v-spacer />
+            <v-btn color="error" variant="text" @click="deleteAll">
+              <v-icon start size="x-large" icon="mdi-alert-outline" />
+              Delete All User Data
+              <v-icon end size="x-large" icon="mdi-alert-outline" />
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </v-container>
 </template>
@@ -110,6 +159,7 @@ import DeletedItems from './components/DeletedItems.vue';
 import UserDataViewer from './components/UserDataViewer.vue';
 import { GetLength } from '@/io/Storage';
 import logger from '@/user/logger';
+import { UserStore } from '@/stores';
 
 export default {
   name: 'options-storage',
@@ -118,6 +168,8 @@ export default {
     importDialog: false,
     fileValue: null,
     deleteDialog: false,
+    storageRange: [0, 0],
+    deleteDays: 0,
     size: {} as StorageEstimate,
     data: {
       pilots: { title: 'Pilots', length: 0 },
@@ -130,8 +182,21 @@ export default {
       content: { title: 'LCPs', length: 0 },
       images: { title: 'Local Images', length: 0 },
     },
+    deleteDaySelections: [
+      { title: 'Never', value: 0 },
+      { title: '1 Week', value: 7 },
+      { title: '2 Weeks', value: 14 },
+      { title: '1 Month', value: 30 },
+      { title: '3 Months', value: 90 },
+      { title: '6 Months', value: 180 },
+      { title: '1 Year', value: 365 },
+    ],
   }),
   async mounted() {
+    this.storageRange[0] = this.user.StorageWarning;
+    this.storageRange[1] = this.user.StorageMax;
+    this.deleteDays = this.user.AutoDeleteDays;
+
     const est = await navigator.storage.estimate();
 
     this.size = est;
@@ -152,6 +217,11 @@ export default {
         est
       );
   },
+  computed: {
+    user() {
+      return UserStore().User;
+    },
+  },
   methods: {
     bytesToSize(bytes: number) {
       const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
@@ -167,6 +237,13 @@ export default {
     async GetLength(db: string): Promise<any> {
       const len = await GetLength(db);
       if (len) return len;
+    },
+    updateUserStorage() {
+      this.user.StorageWarning = this.storageRange[0];
+      this.user.StorageMax = this.storageRange[1];
+    },
+    updateDeleteDays() {
+      this.user.AutoDeleteDays = this.deleteDays;
     },
   },
 };

@@ -4,9 +4,8 @@
     item-type="MechSystem"
     :table-headers="headers"
     :options="options"
-    equippable
-    @equip="$emit('equip', $event)">
-    <template #header> <div class="heading h3 text-center text-accent">Weapon Mods</div></template>
+    equippable>
+    <template #header><div class="heading h3 text-center text-accent">Weapon Mods</div></template>
     <template #top>
       <v-row>
         <v-col>
@@ -161,9 +160,9 @@ export default {
         );
       }
 
-      // if (!this.showOverSP) {
-      //   i = i.filter(x => x.SP <= this.freeSP)
-      // }
+      if (!this.showOverSP) {
+        i = i.filter((x) => x.SP <= this.freeSP);
+      }
 
       i = i.concat(this.mech.Pilot.SpecialEquipment.filter((x) => x.ItemType === 'WeaponMod'));
 

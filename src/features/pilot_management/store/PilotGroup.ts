@@ -45,7 +45,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   public readonly StorageType: string = 'pilot_groups';
 
   // controls whether the group is expanded in the UI
-  public Expanded: boolean = true;
+  private _expanded: boolean;
 
   constructor(data?: PilotGroupData) {
     this._id = data?.id || uuid();
@@ -58,7 +58,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
     this._pilots = data?.pilots || ([] as PilotIndexItem[]);
     this._description = data?.description || '';
     this._history = data?.history || '';
-    this.Expanded = data?.expanded || true;
+    this._expanded = data?.expanded || false;
   }
 
   private Save(): void {
@@ -89,7 +89,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
   }
 
   public get Pilots(): PilotIndexItem[] {
-    return this._pilots.sort((a, b) => a.index - b.index);
+    return this._pilots;
   }
 
   public set Pilots(val: PilotIndexItem[]) {
@@ -115,6 +115,15 @@ class PilotGroup implements ISaveable, IPortraitContainer {
     this.Save();
   }
 
+  public get Expanded(): boolean {
+    return this._expanded;
+  }
+
+  public set Expanded(val: boolean) {
+    this._expanded = val;
+    this.Save();
+  }
+
   public static Serialize = (group: PilotGroup): PilotGroupData => {
     const data = {
       id: group.ID,
@@ -123,6 +132,7 @@ class PilotGroup implements ISaveable, IPortraitContainer {
       history: group.History,
       pilots: group._pilots,
       sortIndex: group.SortIndex,
+      expanded: group.Expanded,
     };
 
     SaveController.Serialize(group, data);

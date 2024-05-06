@@ -44,9 +44,9 @@
               <v-divider />
               <v-card-actions>
                 <v-spacer />
-                <v-btn size="small" color="error" @click="deleteTextItem(s)"
-                  >Confirm Deletion</v-btn
-                >
+                <v-btn size="small" color="error" @click="deleteTextItem(s)">
+                  Confirm Deletion
+                </v-btn>
               </v-card-actions>
             </v-card>
           </v-menu>
@@ -87,7 +87,7 @@
             </v-card-text>
             <v-divider />
             <v-card-actions>
-              <v-btn text @click="textItemMenu = false">Cancel</v-btn>
+              <v-btn variant="text" @click="textItemMenu = false">Cancel</v-btn>
               <v-spacer />
               <v-btn color="secondary" @click="addTextItem">Add</v-btn>
             </v-card-actions>

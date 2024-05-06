@@ -8,8 +8,7 @@
           variant="outlined"
           density="compact"
           hide-details
-          label="New Skill Trigger"
-        />
+          label="New Skill Trigger" />
         <v-textarea
           v-model="newDesc"
           variant="outlined"
@@ -18,8 +17,7 @@
           rows="1"
           auto-grow
           class="pl-4 mt-1"
-          label="Description"
-        />
+          label="Description" />
         <v-textarea
           v-model="newDetail"
           variant="outlined"
@@ -28,8 +26,7 @@
           rows="3"
           auto-grow
           class="pl-4 mt-1"
-          label="Detail"
-        />
+          label="Detail" />
       </div>
     </v-col>
     <v-col cols="auto" md="1" class="text-center">
@@ -38,11 +35,10 @@
           <v-btn
             icon
             size="x-large"
-            variant="plain"
-            color="secondary"
+            variant="text"
+            :color="newSkill === '' || !canAdd ? '' : 'secondary'"
             :disabled="newSkill === '' || !canAdd"
-            @click="addSkill"
-          >
+            @click="addSkill">
             <v-icon size="50" icon="mdi-plus" />
           </v-btn>
         </cc-tooltip>

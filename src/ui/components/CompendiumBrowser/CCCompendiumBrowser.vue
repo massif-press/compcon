@@ -13,7 +13,7 @@
           variant="outlined"
           class="mb-3 py-1"
           style="border-color: rgb(var(--v-theme-primary))">
-          <slot name="header"> </slot>
+          <slot name="header"></slot>
         </v-alert>
 
         <b-view-toggle v-model="view" :options="options" />
@@ -51,22 +51,20 @@
                   <span class="text-button">
                     <b>{{ lcp }}</b>
                   </span>
-                </template></v-list-item
-              >
+                </template>
+              </v-list-item>
             </template>
 
             <b-list-item
               v-if="options.noSource"
               v-for="item in itemsByLcp[lcp]"
-              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
-              :item="item as CompendiumItem"
-              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              :item="<CompendiumItem>item"
+              :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="$emit('equip', item)"
               @clicked="
-                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                  ? selectItem(null)
-                  : selectItem(item as CompendiumItem)
+                selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
               <template #checkbox>
                 <v-checkbox-btn
@@ -86,17 +84,13 @@
               :role="role">
               <b-list-item
                 v-for="item in getRoleItems(role, lcp)"
-                :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+                :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
-                :equippable="
-                  equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)
-                "
+                :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
                 @equip="$emit('equip', item)"
-                :item="item as CompendiumItem"
+                :item="<CompendiumItem>item"
                 @clicked="
-                  selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                    ? selectItem(null)
-                    : selectItem(item as CompendiumItem)
+                  selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
                 <template #checkbox>
                   <v-checkbox-btn
@@ -116,17 +110,13 @@
               :collection="origin">
               <b-list-item
                 v-for="item in getOriginItems(origin, lcp)"
-                :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+                :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
-                :equippable="
-                  equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)
-                "
+                :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
                 @equip="$emit('equip', item)"
-                :item="item as CompendiumItem"
+                :item="<CompendiumItem>item"
                 @clicked="
-                  selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                    ? selectItem(null)
-                    : selectItem(item as CompendiumItem)
+                  selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
                 <template #checkbox>
                   <v-checkbox-btn
@@ -147,17 +137,13 @@
               :manufacturer="mf(manufacturer)">
               <b-list-item
                 v-for="item in getItems(manufacturer, lcp)"
-                :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+                :selected="!!selectedItem && selectedItem.ID === item.ID"
                 :compare="view === 'compare'"
-                :equippable="
-                  equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)
-                "
+                :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
                 @equip="$emit('equip', item)"
-                :item="item as CompendiumItem"
+                :item="<CompendiumItem>item"
                 @clicked="
-                  selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                    ? selectItem(null)
-                    : selectItem(item as CompendiumItem)
+                  selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
                 ">
                 <template #checkbox>
                   <v-checkbox-btn
@@ -195,21 +181,19 @@
                   <span class="text-button">
                     <b>{{ manufacturer ? manufacturer : 'Other' }}</b>
                   </span>
-                </template></v-list-item
-              >
+                </template>
+              </v-list-item>
             </template>
 
             <b-list-item
               v-for="item in getItems(manufacturer)"
-              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
-              :item="item as CompendiumItem"
-              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              :item="<CompendiumItem>item"
+              :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="$emit('equip', item)"
               @clicked="
-                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                  ? selectItem(null)
-                  : selectItem(item as CompendiumItem)
+                selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
               <template #checkbox>
                 <v-checkbox-btn
@@ -227,15 +211,13 @@
           <b-list-group v-for="role in roles" :collection="role" :role="role">
             <b-list-item
               v-for="item in getRoleItems(role)"
-              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
-              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="$emit('equip', item)"
-              :item="item as CompendiumItem"
+              :item="<CompendiumItem>item"
               @clicked="
-                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                  ? selectItem(null)
-                  : selectItem(item as CompendiumItem)
+                selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
               <template #checkbox>
                 <v-checkbox-btn
@@ -256,15 +238,13 @@
             :feature="featureType">
             <b-list-item
               v-for="item in getFeatureItems(featureType)"
-              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
-              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="$emit('equip', item)"
-              :item="item as CompendiumItem"
+              :item="<CompendiumItem>item"
               @clicked="
-                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                  ? selectItem(null)
-                  : selectItem(item as CompendiumItem)
+                selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
               <template #checkbox>
                 <v-checkbox-btn
@@ -282,15 +262,13 @@
           <b-list-group v-for="origin in origins" :collection="origin">
             <b-list-item
               v-for="item in getOriginItems(origin)"
-              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
-              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="$emit('equip', item)"
-              :item="item as CompendiumItem"
+              :item="<CompendiumItem>item"
               @clicked="
-                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                  ? selectItem(null)
-                  : selectItem(item as CompendiumItem)
+                selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
               <template #checkbox>
                 <v-checkbox-btn
@@ -312,20 +290,18 @@
                   <span class="text-button">
                     <b>{{ license ? license : 'Other' }}</b>
                   </span>
-                </template></v-list-item
-              >
+                </template>
+              </v-list-item>
             </template>
             <b-list-item
               v-for="item in getLicenseItems(license)"
-              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
-              :item="item as CompendiumItem"
-              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              :item="<CompendiumItem>item"
+              :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="$emit('equip', item)"
               @clicked="
-                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                  ? selectItem(null)
-                  : selectItem(item as CompendiumItem)
+                selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
               <template #checkbox>
                 <v-checkbox-btn
@@ -347,20 +323,18 @@
                   <span class="text-button">
                     <b>{{ subtype }}</b>
                   </span>
-                </template></v-list-item
-              >
+                </template>
+              </v-list-item>
             </template>
             <b-list-item
               v-for="item in getSubtypeItems(subtype)"
-              :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+              :selected="!!selectedItem && selectedItem.ID === item.ID"
               :compare="view === 'compare'"
-              :item="item as CompendiumItem"
-              :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+              :item="<CompendiumItem>item"
+              :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
               @equip="$emit('equip', item)"
               @clicked="
-                selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                  ? selectItem(null)
-                  : selectItem(item as CompendiumItem)
+                selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
               ">
               <template #checkbox>
                 <v-checkbox-btn
@@ -377,15 +351,13 @@
         <div v-else>
           <b-list-item
             v-for="item in shownItems"
-            :selected="!!selectedItem && selectedItem.ID === (item as CompendiumItem).ID"
+            :selected="!!selectedItem && selectedItem.ID === item.ID"
             :compare="view === 'compare'"
-            :equippable="equippable && (!equipped || equipped.ID !== (item as CompendiumItem).ID)"
+            :equippable="equippable && (!equipped || equipped.ID !== item.ID)"
             @equip="$emit('equip', item)"
-            :item="item as CompendiumItem"
+            :item="<CompendiumItem>item"
             @clicked="
-              selectedItem && selectedItem.ID === (item as CompendiumItem).ID
-                ? selectItem(null)
-                : selectItem(item as CompendiumItem)
+              selectedItem && selectedItem.ID === item.ID ? selectItem(null) : selectItem(item)
             ">
             <template #checkbox>
               <v-checkbox-btn
@@ -414,14 +386,14 @@
           <v-col cols="12">
             <selector-list-item
               :hide-title="options.hideTitle"
-              :item="selectedItem as CompendiumItem" />
+              :item="<CompendiumItem>selectedItem" />
           </v-col>
         </v-row>
 
         <div v-else-if="view === 'scatter'">
           <selector-scatter
             :items="shownItems"
-            :selected="selectedItem as any"
+            :selected="<CompendiumItem>selectedItem"
             :group="group"
             :tier="tier"
             :short="!!$slots.top" />
@@ -434,7 +406,7 @@
             :manufacturers="manufacturers"
             :licenses="licenses"
             :lcp-filter="lcpFilter"
-            :selected="selectedItem as any"
+            :selected="<CompendiumItem>selectedItem"
             :tier="tier"
             :short="!!$slots.top" />
         </div>
@@ -465,33 +437,35 @@
               <v-expansion-panels accordion focusable>
                 <v-expansion-panel v-for="item in getItems(m)" :id="(item as License).ID">
                   <v-expansion-panel-title class="hover-parent py-0 pr-0 pl-3" hide-actions>
-                    <div>
+                    <template #default="{ expanded }">
                       <div>
-                        <div class="caption">{{ (item as License).Frame.Source }}</div>
-                        <div class="heading h2 font-weight-bold">
-                          {{ (item as License).Frame.Name }}
+                        <div>
+                          <div class="caption">{{ (item as License).Frame.Source }}</div>
+                          <div class="heading h2 font-weight-bold">
+                            {{ (item as License).Frame.Name }}
+                          </div>
+                        </div>
+                        <div style="min-width: 20vw">
+                          <v-chip
+                            v-for="f in (item as License).Frame.MechType"
+                            size="small"
+                            dark
+                            variant="outlined"
+                            color="accent"
+                            class="ma-1">
+                            {{ f }}
+                          </v-chip>
                         </div>
                       </div>
-                      <div style="min-width: 20vw">
-                        <v-chip
-                          v-for="f in (item as License).Frame.MechType"
-                          size="small"
-                          dark
-                          variant="outlined"
-                          color="accent"
-                          class="ma-1">
-                          {{ f }}
-                        </v-chip>
-                      </div>
-                    </div>
-                    <div
-                      class="img-hover"
-                      :style="`background-image: url('${
-                        (item as License).Frame.DefaultImage
-                      }'); height:110px;
+                      <div
+                        :class="expanded ? 'img-expanded' : 'img-hover'"
+                        :style="`background-image: url('${
+                          (item as License).Frame.DefaultImage
+                        }'); height:110px;
                     width:100%;  background-position: top ${
                       (item as License).Frame.YPosition
                     }% left 0`" />
+                    </template>
                   </v-expansion-panel-title>
                   <v-expansion-panel-text>
                     <cc-license-panel :license="item" />
@@ -503,14 +477,14 @@
         </div>
 
         <v-row v-else-if="view === 'list'">
-          <v-col cols="12" v-for="item in items" :id="(item as any).ID">
+          <v-col cols="12" v-for="item in <any[]>items" :id="item.ID">
             <v-card
               :variant="options.hideTitle ? 'flat' : 'outlined'"
               :class="options.hideTitle ? '' : 'px-3'">
               <selector-list-item
                 :hide-title="options.hideTitle"
-                :highlighted="selectedItem ? (selectedItem as any).ID === (item as any).ID : false"
-                :item="item as CompendiumItem" />
+                :highlighted="selectedItem ? selectedItem.ID === item.ID : false"
+                :item="item" />
             </v-card>
           </v-col>
         </v-row>
@@ -522,7 +496,7 @@
               <selector-table
                 :headers="tableHeaders"
                 :items="itemsByLcp[lcp]"
-                :selected="selectedItem as any" />
+                :selected="<CompendiumItem>selectedItem" />
             </div>
           </div>
 
@@ -550,7 +524,7 @@
                   <selector-table
                     :headers="tableHeaders"
                     :items="getItems(manufacturer)"
-                    :selected="selectedItem as any" />
+                    :selected="<CompendiumItem>selectedItem" />
                 </v-col>
               </v-row>
             </div>
@@ -565,7 +539,7 @@
                   <selector-table
                     :headers="tableHeaders"
                     :items="getLicenseItems(license)"
-                    :selected="selectedItem as any" />
+                    :selected="<CompendiumItem>selectedItem" />
                 </v-col>
               </v-row>
             </div>
@@ -579,7 +553,7 @@
                   <selector-table
                     :headers="getMultiHeader(subtype)"
                     :items="getSubtypeItems(subtype)"
-                    :selected="selectedItem as any" />
+                    :selected="<CompendiumItem>selectedItem" />
                 </v-col>
               </v-row>
             </div>
@@ -593,7 +567,7 @@
                   <selector-table
                     :headers="tableHeaders"
                     :items="getRoleItems(role)"
-                    :selected="selectedItem as any" />
+                    :selected="<CompendiumItem>selectedItem" />
                 </v-col>
               </v-row>
             </div>
@@ -607,7 +581,7 @@
                   <selector-table
                     :headers="tableHeaders"
                     :items="getFeatureItems(featureType)"
-                    :selected="selectedItem as any" />
+                    :selected="<CompendiumItem>selectedItem" />
                 </v-col>
               </v-row>
             </div>
@@ -621,7 +595,7 @@
                   <selector-table
                     :headers="tableHeaders"
                     :items="getOriginItems(origin)"
-                    :selected="selectedItem as any" />
+                    :selected="<CompendiumItem>selectedItem" />
                 </v-col>
               </v-row>
             </div>
@@ -631,22 +605,30 @@
             <selector-table
               :headers="tableHeaders"
               :items="shownItems"
-              :selected="selectedItem as any" />
+              :selected="<CompendiumItem>selectedItem" />
           </div>
         </div>
 
-        <v-row v-else-if="view === 'cards'">
-          <selector-card-item
-            v-for="item in shownItems"
-            :id="(item as any).ID"
-            :item="item as CompendiumItem"
-            :highlighted="selectedItem ? (selectedItem as any).ID === (item as any).ID : false" />
-        </v-row>
+        <div v-else-if="view === 'cards'">
+          <v-row>
+            <selector-card-item
+              v-for="item in shownItems.slice(minSliceIndex, maxSliceIndex)"
+              :id="item.ID"
+              :item="item"
+              :highlighted="selectedItem ? selectedItem.ID === item.ID : false" />
+          </v-row>
+          <v-pagination
+            v-model="page"
+            total-visible="8"
+            class="mt-8"
+            :length="Math.ceil(shownItems.length / itemsPerPage)" />
+          <!-- @input="scrollToTop()" /> -->
+        </div>
 
         <div v-else-if="view === 'compare'">
           <selector-compare
             :items="comparisons"
-            :selected="selectedItem as any"
+            :selected="<CompendiumItem>selectedItem"
             :tier="tier"
             @clear="comparisons = []" />
         </div>
@@ -659,7 +641,7 @@
 
 <script lang="ts">
 import ItemFilter from '@/classes/utility/ItemFilter';
-import _ from 'lodash';
+import _, { min } from 'lodash';
 
 import SelectorListItem from './views/_selectorListItem.vue';
 import SelectorCardItem from './views/_selectorCardItem.vue';
@@ -675,7 +657,7 @@ import bFilterSet from './components/_b-filter-set.vue';
 import bListGroup from './components/_b-list-group.vue';
 
 import { CompendiumItem, License } from '@/class';
-import { CompendiumStore } from '@/stores';
+import { CompendiumStore, UserStore } from '@/stores';
 
 type BrowserOptions = {
   views: string[];
@@ -684,6 +666,14 @@ type BrowserOptions = {
   initialGroup: string;
   noSource?: boolean;
   hideTitle?: boolean;
+  showExotics?: boolean;
+};
+
+const sortFn = (a: any, b: any): number => {
+  const excl = ['exotic'];
+  if (!a || excl.includes(a.toLowerCase())) return 1;
+  if (!b || excl.includes(b.toLowerCase())) return -1;
+  return a.localeCompare(b);
 };
 
 export default {
@@ -752,8 +742,10 @@ export default {
     search: '',
     otherFilter: {},
     lcpFilter: [] as string[],
-    selectedItem: null as CompendiumItem | null,
+    selectedItem: null as CompendiumItem | License | null,
     comparisons: [] as CompendiumItem[],
+    page: 1,
+    itemsPerPage: 15,
   }),
   watch: {
     group() {
@@ -780,72 +772,90 @@ export default {
     this.open = [...this.lcps, ...this.manufacturers, ...this.subtypes, ...this.licenses];
   },
   computed: {
+    minSliceIndex() {
+      return (this.page - 1) * this.itemsPerPage;
+    },
+    maxSliceIndex() {
+      return this.page * this.itemsPerPage;
+    },
     itemsByLcp() {
-      return _.groupBy(this.items, 'LcpName');
+      return _.groupBy(this.items as CompendiumItem[], 'LcpName');
     },
     manufacturers() {
-      return _.uniq(this.shownItems.map((x: any) => x.Source));
+      return _.uniq(this.shownItems.map((x: any) => x.Source)).sort((a, b) => sortFn(a, b));
     },
     manufacturersByLcp() {
       const m = {} as any;
       for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Source));
+        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Source)).sort((a, b) =>
+          sortFn(a, b)
+        );
       }
       return m;
     },
     roles() {
-      return _.uniq(this.shownItems.map((x: any) => x.Role));
+      return _.uniq(this.shownItems.map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
     },
     rolesByLcp() {
       const m = {} as any;
       for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Role));
+        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Role)).sort((a, b) => sortFn(a, b));
       }
       return m;
     },
     featureTypes() {
-      return _.uniq(this.shownItems.map((x: any) => x.FeatureType));
+      return _.uniq(this.shownItems.map((x: any) => x.FeatureType)).sort((a, b) => sortFn(a, b));
     },
     featureTypesByLcp() {
       const m = {} as any;
       for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.FeatureType));
+        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.FeatureType)).sort((a, b) =>
+          sortFn(a, b)
+        );
       }
       return m;
     },
     origins() {
-      return _.uniq(this.shownItems.map((x: any) => x.Origin.Name));
+      return _.uniq(this.shownItems.map((x: any) => x.Origin.Name)).sort((a, b) => sortFn(a, b));
     },
     originsByLcp() {
       const m = {} as any;
       for (const lcp of this.lcps) {
-        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Origin.Name));
+        m[lcp] = _.uniq(this.itemsByLcp[lcp].map((x: any) => x.Origin.Name)).sort((a, b) =>
+          sortFn(a, b)
+        );
       }
       return m;
     },
     lcps() {
-      return Object.keys(this.itemsByLcp);
+      return Object.keys(this.itemsByLcp).sort((a, b) => sortFn(a, b));
     },
     licenses() {
-      return _.uniq(this.shownItems.map((x: any) => x.License));
+      return _.uniq(this.shownItems.map((x: any) => x.License)).sort((a, b) => sortFn(a, b));
     },
     subtypes() {
-      return _.uniq(this.shownItems.map((x: any) => x.Type));
+      return _.uniq(this.shownItems.map((x: any) => x.Type)).sort((a, b) => sortFn(a, b));
+    },
+    showExotics() {
+      return this.options.showExotics || UserStore().User.Option('showExotics');
     },
     shownItems() {
-      let shown = this.items;
+      let shown = this.items as CompendiumItem[];
       shown = shown.filter((i: any) => this.lcpFilter.includes(i.LcpName));
       if (this.search) {
         shown = shown.filter((i: any) => i.Name.toLowerCase().includes(this.search.toLowerCase()));
       }
       if (Object.keys(this.otherFilter).length) {
-        shown = ItemFilter.Filter(shown as CompendiumItem[], this.otherFilter);
+        shown = ItemFilter.Filter(shown, this.otherFilter);
       }
+
+      if (!this.showExotics) shown = shown.filter((i: CompendiumItem) => !i.IsExotic);
+
       return shown;
     },
   },
   methods: {
-    getItems(manufacturer: string, lcp?: string) {
+    getItems(manufacturer: string, lcp?: string): CompendiumItem[] | License[] {
       if (lcp) return this.itemsByLcp[lcp].filter((i: any) => i.Source === manufacturer);
 
       return this.shownItems.filter((i: any) => i.Source === manufacturer);
@@ -871,9 +881,14 @@ export default {
     getSubtypeItems(t: string) {
       return this.shownItems.filter((i: any) => i.Type === t);
     },
-    selectItem(item: CompendiumItem | null) {
+    selectItem(item: CompendiumItem | License | null) {
       this.selectedItem = item;
-      if (item) this.scrollTo(item.ID);
+      if (item) {
+        this.page = Math.ceil(
+          (this.shownItems.findIndex((x: any) => x.ID === item.ID) + 1) / this.itemsPerPage
+        );
+        this.$nextTick(() => this.scrollTo(item.ID));
+      }
     },
     scrollTo(id: string): void {
       const el = document.getElementById(id);
@@ -929,11 +944,16 @@ export default {
 }
 
 .img-hover {
-  filter: brightness(100%);
-  transition: all 0.3s ease-in-out;
+  filter: brightness(60%) saturate(0.7);
+  transition: all 0.15s ease-in-out;
+}
+
+.img-expanded {
+  filter: brightness(115%) saturate(1.1);
+  transition: all 0.15s ease-in-out;
 }
 
 .hover-parent:hover > .img-hover {
-  filter: brightness(150%);
+  filter: brightness(100%);
 }
 </style>

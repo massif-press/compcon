@@ -7,11 +7,12 @@ import {
   MechSystem,
   CompendiumItem,
   ItemType,
+  ContentPack,
 } from '@/class';
 import { reserves } from '@massif/lancer-data';
 import { IActionData, Action } from '@/classes/Action';
 import { IBonusData, Bonus } from '@/classes/components/feature/bonus/Bonus';
-import { ISynergyData, ICounterData } from '@/interface';
+import { ISynergyData, ICounterData, IContentPack } from '@/interface';
 import { Deployable, IDeployableData } from '@/classes/components/feature/deployable/Deployable';
 
 declare interface IReserveData {
@@ -39,16 +40,14 @@ class Reserve extends CompendiumItem {
   public readonly ResourceLabel: string;
   public readonly Consumable: boolean;
   public readonly Type: ReserveType;
-  public readonly LcpName: string;
-  public readonly InLcp: boolean;
   private _resource_name: string;
   private _resource_note: string;
   private _resource_cost: string;
   private _used: boolean;
   private _deployableData: IDeployableData[];
 
-  public constructor(data: any, packTags?: any, packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data: any, pack?: ContentPack) {
+    super(data, pack);
     this.ID = data.id;
     this.ResourceLabel = data.label || '';
     this.Consumable = data.consumable;
@@ -62,8 +61,6 @@ class Reserve extends CompendiumItem {
     this._special_equipment = data.special_equipment || [];
     this._used = false;
 
-    this.LcpName = packName || 'LANCER Core Book';
-    this.InLcp = packName ? true : false;
     this.ItemType = ItemType.Reserve;
     this._deployableData = data.deployables;
   }
@@ -82,34 +79,38 @@ class Reserve extends CompendiumItem {
   public get SpecialEquipment(): CompendiumItem[] {
     if (!this._special_equipment) return [];
     const res = this._special_equipment.map((x) => {
-      const w = CompendiumStore().referenceByID('MechWeapons', x);
-      if (w && !w.err) return w;
-      const s = CompendiumStore().referenceByID('MechSystems', x);
-      if (s && !s.err) return s;
-      const wm = CompendiumStore().referenceByID('WeaponMods', x);
-      if (wm && !wm.err) return wm;
-      const pg = CompendiumStore().referenceByID('PilotGear', x);
-      if (pg && !pg.err) return pg;
+      const w = CompendiumStore().MechWeapons.find((item) => item.ID === x);
+      if (w) return w;
+      const s = CompendiumStore().MechSystems.find((item) => item.ID === x);
+      if (s) return s;
+      const wm = CompendiumStore().WeaponMods.find((item) => item.ID === x);
+      if (wm) return wm;
+      const pg = CompendiumStore().PilotGear.find((item: any) => item.ID === x);
+      if (pg) return pg;
       return false;
     });
-    return res.filter((x) => x);
+    return res as CompendiumItem[];
   }
 
   public get IntegratedEquipment(): MechEquipment[] {
     if (!this._integrated) return [];
     return this._integrated.map((x) => {
-      const w = CompendiumStore().referenceByID('MechWeapons', x);
-      if (w) return w;
-      return CompendiumStore().referenceByID('MechSystems', x);
-    });
+      const w = CompendiumStore().MechWeapons.find((item) => item.ID === x);
+      if (w) return w as MechEquipment;
+      return CompendiumStore().MechSystems.find((item) => item.ID === x) as MechEquipment;
+    }) as MechEquipment[];
   }
 
   public get IntegratedWeapons(): MechWeapon[] {
-    return this._integrated.map((x) => CompendiumStore().referenceByID('MechWeapons', x));
+    return this._integrated
+      .map((x) => CompendiumStore().MechWeapons.find((item) => item.ID === x))
+      .filter((x) => !!x) as MechWeapon[];
   }
 
   public get IntegratedSystems(): MechSystem[] {
-    return this._integrated.map((x) => CompendiumStore().referenceByID('MechSystems', x));
+    return this._integrated
+      .map((x) => CompendiumStore().MechSystems.find((item) => item.ID === x))
+      .filter((x) => !!x) as MechSystem[];
   }
 
   public get Color(): string {

@@ -1,5 +1,5 @@
 <template>
-  <v-col style="min-width: 40vw">
+  <v-col style="min-width: 44vw">
     <fieldset style="height: 100%">
       <legend :style="`color: ${color}`" class="heading h3">
         <cc-tooltip title="Available Mount Fittings" :content="`${mount.AvailableFittings}`">
@@ -19,8 +19,7 @@
             :mech="mech"
             :mount="mount"
             :readonly="integrated || readonly"
-            :int-weapon="intWeapon"
-          />
+            :int-weapon="intWeapon || integrated" />
         </v-col>
       </v-row>
     </fieldset>

@@ -11,7 +11,9 @@
     :max-height="maxHeight"
     :min-height="minHeight"
     :contain="contain"
-    :style="style" />
+    :style="style">
+    <slot />
+  </v-img>
 </template>
 
 <script>

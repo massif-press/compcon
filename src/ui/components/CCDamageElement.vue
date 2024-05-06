@@ -17,7 +17,7 @@
         </v-col>
       </v-row>
     </cc-tooltip>
-    <div v-if="!small" class="text-overline mt-n2 text-text" style="line-height: 0px">
+    <div v-if="!small" class="text-caption text-text text-uppercase mt-n1">
       <b>{{ typeOverride ? typeOverride : d.Type }}</b>
     </div>
   </div>

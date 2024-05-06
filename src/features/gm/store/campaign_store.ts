@@ -14,7 +14,7 @@ export const CampaignStore = defineStore('campaign', {
       this.Campaigns = campaignData.map((x) => Campaign.Deserialize(x));
       this.CampaignCollection = await GetAll('campaign_collection');
     },
-    SaveCampaigns(): void {
+    async SaveCampaigns(): Promise<void> {
       Promise.all([
         this.Campaigns.map((y) => SetItem('campaigns', Campaign.Serialize(y as Campaign))),
       ])
@@ -27,7 +27,7 @@ export const CampaignStore = defineStore('campaign', {
         await this.DeleteCampaign(sameId);
       }
       this.Campaigns.push(payload);
-      this.SaveCampaigns();
+      await this.SaveCampaigns();
     },
     async AddCollectionCampaign(payload: ICampaignData): Promise<void> {
       if (this.CampaignCollection.find((x) => x.id === payload.id)) {
@@ -35,11 +35,11 @@ export const CampaignStore = defineStore('campaign', {
       }
 
       this.CampaignCollection.push(payload);
-      SetItem('campaign_collection', payload);
+      await SetItem('campaign_collection', payload);
     },
-    CloneCampaign(payload: Campaign): void {
+    async CloneCampaign(payload: Campaign): Promise<void> {
       this.Campaigns.push(payload.Clone());
-      this.SaveCampaigns();
+      await this.SaveCampaigns();
     },
     async DeleteCampaign(payload: Campaign): Promise<void> {
       const idx = this.Campaigns.findIndex((x) => x.ID === payload.ID);

@@ -2,8 +2,7 @@
   <selector
     title="Pilot CORE Bonuses"
     height="60vh"
-    :success="!pilot.CoreBonusController.IsMissingCBs"
-  >
+    :success="!pilot.CoreBonusController.IsMissingCBs">
     <template #left-column>
       <v-row
         v-for="b in pilot.CoreBonusController.CoreBonuses"
@@ -12,8 +11,7 @@
         color="panel"
         style="width: 100%"
         class="px-1"
-        @click="scroll(b.ID)"
-      >
+        @click="scroll(b.ID)">
         <v-col cols="auto">
           <v-icon color="accent" icon="cc:corebonus" />
         </v-col>
@@ -35,8 +33,7 @@
             color="success"
             icon="check_circle"
             class="stat-text"
-            style="width: 95%"
-          >
+            style="width: 95%">
             CORE Bonus Selection Complete
           </v-alert>
 
@@ -45,19 +42,17 @@
             variant="outlined"
             color="accent"
             icon="warning"
-            class="stat-text"
-          >
+            class="stat-text">
             {{ pilot.CoreBonusController.CurrentCBPoints }} /
             {{ pilot.CoreBonusController.MaxCBPoints }} CORE Bonuses selected
           </v-alert>
           <div class="my-2">
             <v-btn
               block
-              text
+              variant="text"
               small
               :disabled="!pilot.CoreBonusController.CoreBonuses.length"
-              @click="pilot.CoreBonusController.ClearCoreBonuses()"
-            >
+              @click="pilot.CoreBonusController.ClearCoreBonuses()">
               Reset
             </v-btn>
           </div>
@@ -69,15 +64,13 @@
       <v-expansion-panels class="pr-4 pt-2">
         <v-expansion-panel
           v-for="{ manufacturer, coreBonuses } in manufacturersWithCBs"
-          class="no-shadow"
-        >
+          class="no-shadow">
           <v-expansion-panel-title color="panel" class="px-1">
             <div>
               <v-row
                 align="center"
                 class="heading h1"
-                :style="`color: ${manufacturer.GetColor($vuetify.theme.current.dark)}`"
-              >
+                :style="`color: ${manufacturer.GetColor($vuetify.theme.current.dark)}`">
                 <v-col cols="auto">
                   <v-icon :icon="manufacturer.Icon" />
                 </v-col>
@@ -88,8 +81,7 @@
               <v-card
                 variant="outlined"
                 :color="manufacturer.GetColor($vuetify.theme.current.dark)"
-                class="my-1 pa-3"
-              >
+                class="my-1 pa-3">
                 <div class="flavor-text text-text text-center" v-html="requirement(manufacturer)" />
               </v-card>
             </div>
@@ -98,13 +90,13 @@
           <v-expansion-panel-text color="panel">
             <core-bonus-select-item
               v-for="b in coreBonuses"
+              :id="b.ID"
               :bonus="b"
               :is-selectable="isSelectable(b)"
               :is-selected="isSelected(b)"
               :color="manufacturer.GetColor($vuetify.theme.current.dark)"
               @add="pilot.CoreBonusController.AddCoreBonus(b)"
-              @remove="pilot.CoreBonusController.RemoveCoreBonus(b)"
-            />
+              @remove="pilot.CoreBonusController.RemoveCoreBonus(b)" />
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -120,6 +112,7 @@ import CoreBonusSelectItem from './components/_CoreBonusSelectItem.vue';
 import { CompendiumStore } from '@/stores';
 import { Pilot, CoreBonus, Manufacturer } from '@/class';
 import { Bonus } from '@/classes/components/feature/bonus/Bonus';
+import scrollTo from '@/util/scrollTo';
 
 export default {
   name: 'CoreBonusSelector',
@@ -127,6 +120,7 @@ export default {
   props: {
     pilot: { type: Object, required: true },
     levelUp: { type: Boolean, default: false },
+    modal: { type: Boolean, default: false },
   },
   computed: {
     coreBonuses(): CoreBonus[] {
@@ -156,6 +150,9 @@ export default {
         this.$emit('update:selectionComplete', this.selectionComplete);
       },
       deep: true,
+    },
+    selectionComplete(bool) {
+      if (bool) window.scrollTo(0, document.body.scrollHeight);
     },
   },
   methods: {
@@ -200,24 +197,11 @@ export default {
       return this.pilot.has('CoreBonus', b.ID);
     },
     scroll(id) {
-      this.scrollTo(`talent_${id}`);
+      this.scrollTo(`${id}`);
     },
     scrollTo(e: any): void {
       const el = document.getElementById(e);
-      if (el) {
-        const ce = document.getElementById('content-col');
-        if (ce) {
-          const yOffset = -70;
-          const y = el.offsetTop + yOffset;
-
-          ce.scrollTo({ top: y, behavior: 'smooth' });
-        } else {
-          const yOffset = -60;
-          const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
-
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      }
+      if (el) scrollTo(el, this.modal);
     },
   },
   mounted() {

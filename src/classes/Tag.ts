@@ -1,7 +1,7 @@
-import { CompendiumItem, ItemType } from '@/class';
+import { CompendiumItem, ContentPack, ItemType } from '@/class';
 import { CompendiumStore } from '@/stores';
 import { ActivationType } from './enums';
-import { ITagData } from '@/interface';
+import { IContentPack, ITagData } from '@/interface';
 
 export interface ITagCompendiumData {
   id: string;
@@ -9,7 +9,6 @@ export interface ITagCompendiumData {
   description: string;
   filter_ignore?: boolean;
   hidden?: boolean;
-  brew?: string;
 }
 
 class Tag {
@@ -17,7 +16,6 @@ class Tag {
   public readonly FilterIgnore: boolean;
   public readonly IsHidden: boolean;
   public readonly ItemType: ItemType;
-  public readonly Brew: string;
   public readonly IsUnique: boolean;
   public readonly IsAI: boolean;
   public readonly NoCascade: boolean;
@@ -35,11 +33,10 @@ class Tag {
   private _val: number | string;
   private _description: string;
 
-  public constructor(tagData: ITagCompendiumData, packName?: string) {
+  public constructor(tagData: ITagCompendiumData, pack?: ContentPack) {
     this.ID = tagData.id;
     this._name = tagData.name;
     this._description = tagData.description;
-    this.Brew = tagData.brew || 'Core';
     this._val = '';
     this.IsHidden = tagData.hidden || false;
     this.FilterIgnore = tagData.filter_ignore || this.IsHidden;
@@ -56,8 +53,8 @@ class Tag {
     this.IsOverkill = this.ID === 'tg_overkill';
     this.IsExotic = this.ID === 'tg_exotic';
 
-    this.LcpName = packName || 'LANCER Core Book';
-    this.InLcp = packName ? true : false;
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
   }
 
   public get Name(): string {
@@ -94,51 +91,81 @@ class Tag {
     return out;
   }
 
-  public GetDescription(addBonus?: number): string {
+  public GetDescription(addBonus?: number, tier?: number): string {
+    let out = this._description;
     let bonus = 0;
     if (this.ID === 'tg_limited') bonus = addBonus || 0;
-    if (!this._val) return this._description;
-    if (typeof this._val === 'number') {
-      let r = this._val.toString();
-      if (bonus)
-        r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
-          this._val
-        } + ${bonus} bonus)</span>`;
-      return this._description.replace(/{VAL}/g, r);
-    } else {
-      const str = String(this._val);
-      if (str.includes('+')) {
-        const split = str.split('+');
-        const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
-        const newDesc = this._description.replace(/{VAL}/g, newVal);
-        return bonus ? `${newDesc} (+${bonus})` : newDesc;
+    if (this._val) {
+      if (typeof this._val === 'number') {
+        let r = this._val.toString();
+        if (bonus)
+          r = `${(this._val + bonus).toString()} <span class="caption text--secondary">(Limited ${
+            this._val
+          } + ${bonus} bonus)</span>`;
+        out = this._description.replace(/{VAL}/g, r);
       } else {
-        return bonus > 0
-          ? this._description.replace(/{VAL}/g, `${this._val}+${bonus}`)
-          : this._description.replace(/{VAL}/g, this._val);
+        const str = String(this._val);
+        if (str.includes('+')) {
+          const split = str.split('+');
+          const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
+          const newDesc = this._description.replace(/{VAL}/g, newVal);
+          out = bonus ? `${newDesc} (+${bonus})` : newDesc;
+        } else {
+          out =
+            bonus > 0
+              ? this._description.replace(/{VAL}/g, `${this._val}+${bonus}`)
+              : this._description.replace(/{VAL}/g, this._val);
+        }
       }
     }
+
+    const tierPattern = /\{\d+\/\d+\/\d+\}/;
+    if (tier) {
+      const matches = out.match(tierPattern);
+      if (matches) {
+        const split = matches[0].replace('{', '').replace('}', '').split('/');
+        const val = parseInt(split[tier - 1]);
+        out = out.replace(tierPattern, val.toString());
+      }
+    }
+
+    return out;
   }
 
-  public GetName(addBonus?: number): string {
+  public GetName(addBonus?: number, tier?: number): string {
+    let out = this._name;
     let bonus = 0;
     if (this.IsLimited) bonus = addBonus || 0;
-    if (!this._val) return this._name;
-    if (typeof this._val === 'number') {
-      return this._name.replace(/{VAL}/g, (this._val + bonus).toString());
-    } else {
-      const str = String(this._val);
-      if (str.includes('+')) {
-        const split = str.split('+');
-        const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
-        const newName = this._name.replace(/{VAL}/g, newVal);
-        return bonus ? `${newName} (+${bonus})` : newName;
+    if (this._val) {
+      if (typeof this._val === 'number') {
+        out = this._name.replace(/{VAL}/g, (this._val + bonus).toString());
       } else {
-        return bonus > 0
-          ? this._name.replace(/{VAL}/g, `${this._val}+${bonus}`)
-          : this._name.replace(/{VAL}/g, this._val);
+        const str = String(this._val);
+        if (str.includes('+')) {
+          const split = str.split('+');
+          const newVal = `${split[0]}+${parseInt(split[1]) + bonus}`;
+          const newName = this._name.replace(/{VAL}/g, newVal);
+          out = bonus ? `${newName} (+${bonus})` : newName;
+        } else {
+          out =
+            bonus > 0
+              ? this._name.replace(/{VAL}/g, `${this._val}+${bonus}`)
+              : this._name.replace(/{VAL}/g, this._val);
+        }
       }
     }
+
+    const tierPattern = /\{\d+\/\d+\/\d+\}/;
+    if (tier) {
+      const matches = out.match(tierPattern);
+      if (matches) {
+        const split = matches[0].replace('{', '').replace('}', '').split('/');
+        const val = parseInt(split[tier - 1]);
+        out = out.replace(tierPattern, val.toString());
+      }
+    }
+
+    return out;
   }
 
   public static _genTag(id: string): Tag {

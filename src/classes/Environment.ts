@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { Encounter } from './encounter/Encounter';
+import { ContentPack } from './ContentPack';
 
 interface IEnvironmentData {
   id?: string;
@@ -16,14 +17,14 @@ class Environment {
   public readonly ItemType: string = 'Environment';
   public readonly Icon: string = 'mdi-map';
 
-  public constructor(data: IEnvironmentData, packName?: string) {
+  public constructor(data: IEnvironmentData, pack?: ContentPack) {
     this.ID = data.id
       ? data.id
-      : `${packName || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
+      : `${pack?.Name || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
     this.Name = data.name;
     this.Description = data.description;
-    this.LcpName = packName || 'LANCER Core Book';
-    this.InLcp = packName ? true : false;
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
   }
 }
 

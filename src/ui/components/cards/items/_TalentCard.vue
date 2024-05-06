@@ -1,7 +1,5 @@
 <template>
-  <info-card-base :item="item" :notes="notes" :charts="charts">
-    <cc-talent :talent="item" />
-  </info-card-base>
+  <cc-talent :talent="item" hide-change hide-title />
 </template>
 
 <script lang="ts">

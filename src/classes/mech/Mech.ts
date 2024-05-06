@@ -546,7 +546,12 @@ class Mech implements IPortraitContainer, ISaveable, IFeatureController {
     const m = new Mech(f, pilot);
 
     m._id = data.id;
-    MechLoadoutController.Deserialize(m, data);
+    try {
+      MechLoadoutController.Deserialize(m, data);
+    } catch (e) {
+      pilot.LoadError(e, 'Mech Loadouts');
+      pilot.BrewController.MissingContent = true;
+    }
 
     m._name = data.name;
     m._notes = data.notes;

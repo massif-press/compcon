@@ -1,3 +1,4 @@
+import { ContentPack } from '@/class';
 import { CompendiumStore } from '../../../../stores';
 
 type prompt = {
@@ -33,15 +34,15 @@ class Bond {
   public readonly InLcp: boolean;
   public readonly ItemType: string = 'Bond';
 
-  public constructor(data: IBondData, packName?: string) {
+  public constructor(data: IBondData, pack?: ContentPack) {
     this.ID = data.id;
     this.Name = data.name;
     this.MajorIdeals = data.major_ideals;
     this.MinorIdeals = data.minor_ideals;
     this.Questions = data.questions;
     this._powers = data.powers;
-    this.LcpName = packName || 'LANCER Core Book';
-    this.InLcp = packName ? true : false;
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
   }
 
   public get Powers() {

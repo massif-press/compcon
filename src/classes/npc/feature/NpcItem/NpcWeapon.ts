@@ -1,6 +1,6 @@
-import { IRangeData, ITagData } from '@/interface';
+import { IContentPack, IRangeData, ITagData } from '@/interface';
 import { INpcFeatureData, NpcFeature, NpcFeatureType } from '../NpcFeature';
-import { Damage, DamageType, ItemType, Range } from '@/class';
+import { ContentPack, Damage, DamageType, ItemType, Range } from '@/class';
 
 export interface INpcDamageData {
   type: string;
@@ -30,8 +30,8 @@ export class NpcWeapon extends NpcFeature {
   public readonly OnCrit: string;
   public readonly Attacks: number[];
 
-  public constructor(data: INpcWeaponData, packName?: string) {
-    super(data, packName);
+  public constructor(data: INpcWeaponData, pack?: ContentPack) {
+    super(data, pack);
     this.OnHit = data.on_hit || '';
     this.OnCrit = data.on_crit || '';
     this._weapon_type = data.weapon_type;

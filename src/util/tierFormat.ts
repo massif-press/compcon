@@ -15,4 +15,13 @@ const ByTier = (str: string, tier?: number): string => {
   return fmt;
 };
 
-export default ByTier;
+const ByTierArray = (arr: string, tier?: number): string => {
+  if (!arr) return '';
+  let fmt = arr;
+  if (!tier) return arr;
+  if (typeof arr === 'string') fmt = JSON.parse(arr);
+  if (!Array.isArray(fmt)) return arr;
+  return fmt[tier - 1];
+};
+
+export { ByTier, ByTierArray };

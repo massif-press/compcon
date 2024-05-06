@@ -86,6 +86,8 @@ import CCBonus from './components/items/features/bonuses/CCBonus.vue';
 import CCNarrativeItemContent from './components/CCNarrativeItemContent.vue';
 import CCSitrepDisplay from './components/CCSitrepDisplay.vue';
 import CCEnvironmentDisplay from './components/CCEnvironmentDisplay.vue';
+import CCBrewInfo from './components/CCBrewInfo.vue';
+import CCMissingContentList from './components/CCMissingContentList.vue';
 
 export {
   CCImg,
@@ -176,4 +178,6 @@ export {
   CCNarrativeItemContent,
   CCSitrepDisplay,
   CCEnvironmentDisplay,
+  CCBrewInfo,
+  CCMissingContentList,
 };

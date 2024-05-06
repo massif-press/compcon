@@ -1,5 +1,6 @@
 import { ItemType } from '@/classes/enums';
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature';
+import { ContentPack } from '@/class';
 
 export interface INpcSystemData extends INpcFeatureData {
   type: NpcFeatureType.System;
@@ -8,8 +9,8 @@ export interface INpcSystemData extends INpcFeatureData {
 export class NpcSystem extends NpcFeature {
   public ItemType: ItemType = ItemType.NpcSystem;
 
-  public constructor(data: INpcSystemData, packName?: string) {
-    super(data, packName);
+  public constructor(data: INpcSystemData, pack?: ContentPack) {
+    super(data, pack);
     this.FeatureType = NpcFeatureType.System;
   }
 

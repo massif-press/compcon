@@ -16,7 +16,9 @@
               :color="manufacturer.GetColor($vuetify.theme.current.dark)"
               start />
             <span class="text-button">
-              <b>{{ manufacturer ? manufacturer : 'Other' }}</b>
+              <b>
+                {{ mName }}
+              </b>
             </span>
           </div>
           <div v-else-if="role">
@@ -36,8 +38,8 @@
               <b>{{ collection }}</b>
             </span>
           </div>
-        </template></v-list-item
-      >
+        </template>
+      </v-list-item>
     </template>
     <slot />
   </v-list-group>
@@ -53,7 +55,7 @@ export default {
       required: false,
     },
     collection: {
-      type: String,
+      type: [String, Object],
       required: true,
     },
     manufacturer: {
@@ -72,7 +74,13 @@ export default {
   computed: {
     groupValue(): string {
       if (this.parent) return `${this.parent}_${this.collection}`;
-      return this.collection;
+      return this.collection.toString();
+    },
+    mName(): string {
+      if (this.collection.toLowerCase() === 'exotic') return 'Exotic';
+      const name = this.manufacturer?.Name || 'Other';
+      if (name === 'err') return 'Other';
+      return name;
     },
   },
   methods: {

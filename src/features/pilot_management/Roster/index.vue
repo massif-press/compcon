@@ -17,12 +17,18 @@
           </v-btn>
         </v-btn-toggle>
       </v-col>
-      <v-col cols="auto" class="ml-auto" align-self="center">
-        <v-btn size="small" variant="tonal" color="accent" @click="($refs as any).organize.show()"
-          ><v-icon start icon="mdi-queue-first-in-last-out" />Organize</v-btn
-        >
-        <cc-solo-dialog ref="organize" icon="mdi-cog-outline" no-actions large title="Organize">
-          <organize-panel @close="($refs.organize as any).hide()" />
+      <v-col cols="auto" align-self="center">
+        <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()">
+          <v-icon start icon="mdi-queue-first-in-last-out" />
+          Organize
+        </v-btn>
+        <cc-solo-dialog
+          ref="organize"
+          icon="mdi-queue-first-in-last-out"
+          no-confirm
+          large
+          title="Organize">
+          <organizer type="encounter" />
         </cc-solo-dialog>
       </v-col>
     </v-row>
@@ -36,8 +42,7 @@
         variant="tonal"
         color="accent"
         size="large"
-        @click="($refs as any).newGroup.show()"
-      >
+        @click="($refs as any).newGroup.show()">
         Create New Group
       </v-btn>
       <cc-solo-dialog
@@ -45,8 +50,7 @@
         icon="mdi-account-multiple"
         no-confirm
         large
-        title="Add Pilot Group"
-      >
+        title="Add Pilot Group">
         <group-menu @close="($refs as any).newGroup.hide()" />
       </cc-solo-dialog>
     </div>
@@ -54,31 +58,30 @@
 </template>
 
 <script lang="ts">
-import OrganizePanel from './components/OrganizePanel.vue';
+import Organizer from './components/Organizer.vue';
 import GroupPanel from './components/GroupPanel.vue';
 import GroupMenu from './components/GroupMenu.vue';
 
 import { UserStore, PilotStore } from '@/stores';
-import { UserProfile } from '@/user';
 
 export default {
   name: 'roster-view',
-  components: { OrganizePanel, GroupPanel, GroupMenu },
+  components: { Organizer, GroupPanel, GroupMenu },
   data: () => ({
     sortParams: null,
     newGroupMenu: false,
     newGroupName: '',
     rosterView: 'list',
   }),
+  mounted() {
+    this.rosterView = this.profile.View('roster', 'list');
+  },
   computed: {
-    shownGroups() {
-      return [0];
-    },
     pilotGroups() {
       return PilotStore().getPilotGroups();
     },
-    profile(): UserProfile {
-      return UserStore().UserProfile as any;
+    profile() {
+      return UserStore().User;
     },
   },
 };

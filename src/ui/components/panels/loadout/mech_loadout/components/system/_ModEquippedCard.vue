@@ -1,54 +1,56 @@
 <template>
-  <div style="height: 100%" :class="readonly ? 'mt-n1' : ''">
-    <slot-card-base ref="base" :item="mod" :mech="mech" :readonly="readonly" style="height: 100%">
-      <div slot="header">
-        <span v-if="mod">
-          <equipment-options :item="mod" :readonly="readonly" :active="readonly" />
-          <span v-if="!mod.Destroyed" class="ml-n2">
-            {{ mod.Name }}
-            <span v-if="mod.FlavorName" class="caption ml-2 my-n1">//{{ mod.TrueName }}</span>
+  <slot-card-base ref="base" :item="mod" :mech="mech" :readonly="readonly">
+    <template #header>
+      <v-row v-if="mod" dense align="center">
+        <v-col cols="auto">
+          <v-icon icon="cc:weaponmod" />
+        </v-col>
+        <v-col cols="auto">
+          {{ mod.Name }}
+          <span v-if="mod.FlavorName" class="text-caption text-disabled text-uppercase">
+            //{{ mod.TrueName }}
           </span>
-          <span v-else class="py-1 error" style="letter-spacing: 3px">
-            &emsp;/ / {{ mod.Name }} DESTROYED / /&emsp;
-          </span>
-        </span>
-      </div>
-      <div slot="header-items" class="text-right">
-        <div style="display: inline-block">
-          <span class="heading h2">{{ mod.SP }}</span>
-          <span class="heading h3">SP</span>
-        </div>
-        <div v-if="!readonly" class="d-inline pl-3 ml-3" style="border-left: 1px solid #616161">
-          <v-btn v-if="mod" icon dark @click="$emit('remove')">
-            <v-icon class="fade-select mt-n1">delete</v-icon>
+        </v-col>
+      </v-row>
+    </template>
+    <template #header-items>
+      <v-row v-if="mod" align="center" no-gutters>
+        <v-col cols="auto" class="pr-4">
+          <v-icon v-for="n in mod.SP" icon="cc:system_point" class="mr-1" />
+        </v-col>
+        <v-col cols="auto" style="border-left: 1px solid #616161">
+          <v-btn
+            v-if="mod"
+            size="small"
+            icon
+            variant="plain"
+            color="error"
+            @click.stop="$emit('remove')">
+            <v-icon icon="mdi-delete" />
           </v-btn>
-        </div>
-        <v-btn v-else right icon variant="plain" @click.stop="hide = !hide">
-          <v-icon small v-html="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" />
-        </v-btn>
-      </div>
-      <v-slide-y-transition>
-        <v-row v-if="!hide" density="compact" no-gutters style="height: 100%">
-          <v-col cols="auto">
-            <v-alert
-              v-if="mod.IsCascading"
-              density="compact"
-              tile
-              color="error"
-              class="text-center text-white stat-text"
-              style="letter-spacing: 3px"
-            >
-              / / AI IN CASCADE / /
-            </v-alert>
-            <div class="text-overline mt-n1">APPLIED TO</div>
-            <div class="heading h3 text-disabled ml-3 mt-n2 mb-1">
-              {{ weapon.Name }}
-            </div>
-          </v-col>
-        </v-row>
-      </v-slide-y-transition>
-    </slot-card-base>
-  </div>
+        </v-col>
+      </v-row>
+    </template>
+    <v-slide-y-transition>
+      <v-row v-if="!hide" density="compact" no-gutters style="height: 100%">
+        <v-col cols="auto">
+          <v-alert
+            v-if="mod.IsCascading"
+            density="compact"
+            tile
+            color="error"
+            class="text-center text-white stat-text"
+            style="letter-spacing: 3px">
+            / / AI IN CASCADE / /
+          </v-alert>
+          <div class="text-caption mt-2">APPLIED TO</div>
+          <div class="heading h3 text-disabled ml-3">
+            {{ weapon.Name }}
+          </div>
+        </v-col>
+      </v-row>
+    </v-slide-y-transition>
+  </slot-card-base>
 </template>
 
 <script lang="ts">
@@ -61,6 +63,7 @@ export default {
     SlotCardBase,
     EquipmentOptions,
   },
+  emits: ['remove'],
   props: {
     mech: {
       type: Object,

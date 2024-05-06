@@ -9,16 +9,15 @@
           size="x-small"
           class="mr-1"
           icon
-          variant="plain"
+          variant="text"
           :disabled="!canAdd"
-          @click="$emit('add')"
-        >
-          <v-icon size="40" color="secondary" class="mt-n1">mdi-plus</v-icon>
+          @click="$emit('add')">
+          <v-icon size="40" :color="canAdd ? 'secondary' : ''" class="mt-n1">mdi-plus</v-icon>
         </v-btn>
       </cc-tooltip>
       <cc-tooltip simple content="Decrease Skill Bonus" inline>
         <v-btn size="x-small" icon variant="plain" :disabled="!canRemove" @click="$emit('remove')">
-          <v-icon size="40" color="error" class="mt-n1">mdi-minus</v-icon>
+          <v-icon size="40" :color="canRemove ? 'error' : ''" class="mt-n1">mdi-minus</v-icon>
         </v-btn>
       </cc-tooltip>
     </v-col>

@@ -244,11 +244,11 @@ class MechLoadout extends Loadout {
     ]
       .flatMap((x) => x.Weapons)
       .reduce(function (a, b) {
-        return a + (b ? b.TotalSP : 0);
+        return a + (!!b ? b.TotalSP : 0);
       }, 0);
 
     const systemSP = this._systems.reduce(function (a, b) {
-      return a + b.SP;
+      return a + (!!b ? b.SP : 0);
     }, 0);
     return mountSP + systemSP;
   }

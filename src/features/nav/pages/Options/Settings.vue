@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div style="max-height: 525px; overflow-y: scroll; overflow-x: hidden">
+    <div style="overflow-y: scroll; overflow-x: hidden">
       <v-row density="compact">
         <v-col md="12" lg="6" class="mr-3">
           <h3 class="heading text-accent">User Options</h3>
@@ -27,15 +27,20 @@
                       <v-icon v-bind="props" size="large" end>mdi-help-circle-outline</v-icon>
                     </template>
                     Linking your itch.io account will allow you to download Massif and
-                    community-approved homebrew content from the itch.io store with one click.<br />You
-                    can also subscribe to LCPs to auto-update your local copy when the author
-                    releases a new version. <br /><v-divider class="my-3" />This
-                    <b>does not</b> require a COMP/CON cloud account, and your itch account data
-                    will not be stored in your COMP/CON cloud account, only in your local app data.
-                    You will have to re-link your account if you reset your local data or set up
-                    COMP/CON on a new device.
-                  </v-tooltip></v-btn
-                >
+                    community-approved homebrew content from the itch.io store with one click.
+                    <br />
+                    You can also subscribe to LCPs to auto-update your local copy when the author
+                    releases a new version.
+                    <br />
+                    <v-divider class="my-3" />
+                    This
+                    <b>does not</b>
+                    require a COMP/CON cloud account, and your itch account data will not be stored
+                    in your COMP/CON cloud account, only in your local app data. You will have to
+                    re-link your account if you reset your local data or set up COMP/CON on a new
+                    device.
+                  </v-tooltip>
+                </v-btn>
               </v-col>
               <v-col>
                 <b>Patreon account:</b>
@@ -48,28 +53,34 @@
                     </template>
                     If you are subscribed to the COMP/CON Patreon, linking your Patreon account will
                     increase your maximum cloud storage space, and unlock realtime table creation in
-                    GM mode. <br /><v-divider class="my-3" />This <b>does</b> require a COMP/CON
-                    cloud account, but your Patreon account data will not be stored in your COMP/CON
-                    cloud account, only in your local app data. You will have to re-link your
-                    account if you reset your local data or set up COMP/CON on a new device.
-                  </v-tooltip></v-btn
-                >
+                    GM mode.
+                    <br />
+                    <v-divider class="my-3" />
+                    This
+                    <b>does</b>
+                    require a COMP/CON cloud account, but your Patreon account data will not be
+                    stored in your COMP/CON cloud account, only in your local app data. You will
+                    have to re-link your account if you reset your local data or set up COMP/CON on
+                    a new device.
+                  </v-tooltip>
+                </v-btn>
               </v-col>
             </v-row>
           </div>
 
-          <v-divider />
-          <div class="text-center">
-            <div>
-              <v-btn large block color="info" class="my-1" @click="reload">
-                Check for Updates
-              </v-btn>
-              <v-btn block color="accent" class="my-1" @click="$emit('show-message')">
+          <v-divider class="my-4" />
+          <v-row dense>
+            <v-col>
+              <v-btn variant="tonal" block color="info" @click="reload">Check for Updates</v-btn>
+            </v-col>
+            <v-col>
+              <v-btn block color="accent" variant="tonal" @click="$emit('show-message')">
                 Show Latest Update Message
               </v-btn>
-              <v-divider class="my-2" />
-            </div>
-            <div class="text-center my-2">
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col>
               <v-btn block large color="primary" @click="bulkExport">
                 <v-icon start>mdi-database</v-icon>
                 Create Data Backup
@@ -79,8 +90,9 @@
                   <v-icon end variant="plain">mdi-help-circle-outline</v-icon>
                 </cc-tooltip>
               </v-btn>
-            </div>
-            <div class="text-center my-2">
+            </v-col>
+
+            <v-col>
               <v-dialog v-model="importDialog" width="50%">
                 <template #activator="{ props }">
                   <v-btn block large color="primary" v-bind="props">
@@ -117,8 +129,8 @@
                   </v-card-text>
                 </v-card>
               </v-dialog>
-            </div>
-          </div>
+            </v-col>
+          </v-row>
         </v-col>
         <v-col>
           <h3 class="heading text-accent">Advanced Options</h3>
@@ -149,13 +161,32 @@
             variant="outlined"
             :items="themes"
             item-title="name" />
+          <h3 class="heading text-accent mt-2">Log Level</h3>
+          <v-menu>
+            <template #activator="{ props }">
+              <v-list-item v-bind="props" three-line>
+                <v-list-item-title>Log level:</v-list-item-title>
+                <v-list-item-subtitle>
+                  <b class="text-uppercase">{{ logLevel.name }}</b>
+                </v-list-item-subtitle>
+              </v-list-item>
+            </template>
+            <v-list>
+              <v-list-item
+                v-for="item in logLevels"
+                :key="item.level"
+                @click="setLogLevel(item)"
+                :class="{ 'primary--text': item.level === logLevel.level }">
+                <v-list-item-title>{{ item.name }}</v-list-item-title>
+                <v-list-item-subtitle>{{ item.detail }}</v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </v-col>
       </v-row>
 
-      <v-divider class="my-4" />
-
       <div class="text-right">
-        <v-btn size="small" variant="text" to="/ui-test">UI Test</v-btn>
+        <v-btn size="x-small" variant="text" to="/ui-test">UI Test</v-btn>
       </div>
     </div>
   </v-container>
@@ -172,8 +203,19 @@ export default {
   name: 'options-settings',
   data: () => ({
     importDialog: false,
-    fileValue: null,
+    fileValue: null as any,
     deleteDialog: false,
+    logLevel: {
+      name: 'Warning',
+      level: 3,
+      detail: 'Record warning and error messages (recommended)',
+    },
+    logLevels: [
+      { name: 'Debug', level: 1, detail: 'Record all log messages (slow, use only for debugging)' },
+      { name: 'Info', level: 2, detail: 'Record info, warning, and error messages' },
+      { name: 'Warning', level: 3, detail: 'Record warning and error messages (recommended)' },
+      { name: 'Error', level: 4, detail: 'Record only error messages' },
+    ],
   }),
   emits: ['show-message'],
   computed: {
@@ -213,9 +255,17 @@ export default {
       return Object.keys(allThemes).map((x) => ({ name: allThemes[x].name, value: x }));
     },
   },
+  mounted() {
+    this.logLevel =
+      this.logLevels.find((x) => x.name.toLowerCase() === this.user.LogLevel) || this.logLevels[2];
+  },
   methods: {
     reload() {
       location.reload();
+    },
+    setLogLevel(item) {
+      this.logLevel = item;
+      this.user.LogLevel = item.name.toLowerCase();
     },
     async bulkExport() {
       const result = await exportAll();

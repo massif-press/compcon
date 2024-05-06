@@ -1,6 +1,6 @@
 import { CompendiumStore } from '../../../../stores';
-import { CompendiumItem, Frame, ItemType, Manufacturer } from '../../../../class';
-import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface';
+import { CompendiumItem, ContentPack, Frame, ItemType, Manufacturer } from '../../../../class';
+import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../../interface';
 
 interface ILicenseRequirement {
   source: string;
@@ -25,8 +25,8 @@ abstract class LicensedItem extends CompendiumItem {
   private _license: string;
   private _license_id: string;
 
-  public constructor(data: ILicensedItemData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data: ILicensedItemData, pack?: ContentPack) {
+    super(data, pack);
     this.Source = data.source ? data.source.toUpperCase() : '';
     if (!this.Source) this.IsIntegrated = true;
     this._license = data.license || '';
@@ -49,6 +49,10 @@ abstract class LicensedItem extends CompendiumItem {
 
   public get LicenseID(): string {
     return this._license_id;
+  }
+
+  public get ManufacturerColor(): string {
+    return this.Manufacturer.Color;
   }
 
   public get RequiredLicense(): ILicenseRequirement {

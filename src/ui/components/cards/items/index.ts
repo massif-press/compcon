@@ -10,6 +10,7 @@ import PilotGearCard from './_PilotGearCard.vue';
 import PilotWeaponCard from './_PilotWeaponCard.vue';
 import WeaponModCard from './_WeaponModCard.vue';
 import CoreBonusCard from './_CoreBonusCard.vue';
+import SkillCard from './_SkillCard.vue';
 import LicenseCard from './_LicenseCard.vue';
 import TalentCard from './_TalentCard.vue';
 import ReserveCard from './_ReserveCard.vue';
@@ -32,6 +33,7 @@ export {
   PilotGearCard,
   PilotWeaponCard,
   CoreBonusCard,
+  SkillCard,
   WeaponModCard,
   LicenseCard,
   TalentCard,

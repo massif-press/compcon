@@ -1,13 +1,9 @@
 import { PilotEquipment, ItemType } from '@/class';
-import { IPilotEquipmentData, ITagCompendiumData } from '@/interface';
+import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
 
 class PilotGear extends PilotEquipment {
-  public constructor(
-    data: IPilotEquipmentData,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
-    super(data, packTags, packName);
+  public constructor(data: IPilotEquipmentData, pack?: ContentPack) {
+    super(data, pack);
     this.ItemType = ItemType.PilotGear;
   }
 

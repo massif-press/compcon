@@ -1,10 +1,8 @@
 <template>
   <section-header title="Licenses Required" />
-  <v-row class="px-10 py-3">
-    <v-col>
-      <requirement-item v-for="l in mech.RequiredLicenses" :license="l" />
-    </v-col>
-  </v-row>
+  <div class="px-10 py-3">
+    <requirement-item v-for="l in requirements" :license="l" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -23,6 +21,11 @@ export default {
       type: String,
       required: false,
       default: 'primary',
+    },
+  },
+  computed: {
+    requirements() {
+      return this.mech.RequiredLicenses;
     },
   },
 };

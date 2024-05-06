@@ -5,8 +5,9 @@
       <div style="position: relative">
         <div class="side-legend">
           <span
-            :class="`heading h3 ${mech.FreeSP < 0 ? 'text-error' : 'text-disabled text--darken-3'}`"
-          >
+            :class="`heading h3 ${
+              mech.FreeSP < 0 ? 'text-error' : 'text-disabled text--darken-3'
+            }`">
             <v-icon v-if="mech.FreeSP < 0" color="error" left>mdi-alert</v-icon>
             {{ mech.FreeSP }} / {{ mech.MaxSP }}
             <span class="text-overline">SP</span>
@@ -15,31 +16,28 @@
       </div>
 
       <system-slot-card
-        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
+        v-for="s in mech.MechLoadoutController.ActiveLoadout.IntegratedSystems"
         :mech="mech"
         :item="s"
         :color="color"
-        readonly
-      />
+        readonly />
 
       <mod-equipped-card
-        v-for="(w, i) in moddedWeapons"
+        v-for="w in moddedWeapons"
         :mech="mech"
         :mod="w.Mod"
         :weapon="w"
         :color="color"
         :readonly="readonly"
-        @remove="w.Mod = null"
-      />
+        @remove="w.Mod = null" />
 
       <system-slot-card
-        v-for="(s, i) in systems"
+        v-for="(s, i) in mech.MechLoadoutController.ActiveLoadout.Systems"
         :mech="mech"
-        :item="(s as any)"
+        :item="s"
         :color="color"
         :index="i"
-        :readonly="readonly"
-      />
+        :readonly="readonly" />
       <system-slot-card v-if="!readonly" :mech="mech" empty />
     </fieldset>
   </v-card>
@@ -69,21 +67,6 @@ export default {
     moddedWeapons() {
       return this.mech.MechLoadoutController.ActiveLoadout.Weapons.filter((x) => x.Mod);
     },
-  },
-  methods: {
-    moveSystem(event) {
-      if (event.moved) {
-        this.mech.SaveController.save();
-      }
-    },
-  },
-  data: () => {
-    return {
-      systems: null,
-    };
-  },
-  mounted() {
-    this.systems = this.mech.MechLoadoutController.ActiveLoadout.Systems;
   },
 };
 </script>

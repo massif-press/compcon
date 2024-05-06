@@ -5,7 +5,12 @@
     :width="fullscreen ? '' : small ? '30vw' : large ? '85vw' : '50vw'"
     :style="fullscreen ? `x-overflow: hidden` : ''">
     <v-card tile>
-      <cc-titlebar :clipped="!noTitleClip" :icon="icon" :color="color" :fixed="fullscreen">
+      <cc-titlebar
+        :clipped="!noTitleClip"
+        :icon="icon"
+        :color="color"
+        :density="density"
+        :fixed="fullscreen">
         <template #title>
           {{ title }}
         </template>
@@ -55,6 +60,11 @@ export default {
       type: Boolean,
       required: false,
     },
+    density: {
+      type: String,
+      required: false,
+      default: 'compact',
+    },
     large: {
       type: Boolean,
       required: false,
@@ -86,6 +96,11 @@ export default {
   data: () => ({
     dialog: false,
   }),
+  computed: {
+    dense() {
+      return this.density === 'dense';
+    },
+  },
   methods: {
     confirm() {
       this.$emit('confirm');

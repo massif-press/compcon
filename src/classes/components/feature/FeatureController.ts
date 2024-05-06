@@ -69,6 +69,10 @@ class FeatureController {
   public get IntegratedSpecialEquipment(): CompendiumItem[] {
     return this.collectAll('SpecialEquipment');
   }
+
+  public get AllItems(): CompendiumItem[] {
+    return this.Containers.flatMap((container) => container.FeatureSource).map((item) => item);
+  }
 }
 
 export { FeatureController };

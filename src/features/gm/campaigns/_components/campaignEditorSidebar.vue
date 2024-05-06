@@ -26,16 +26,7 @@
         :selected="<any>selected"
         @clicked="setSelected($event)" />
 
-      <v-btn
-        size="x-small"
-        block
-        variant="tonal"
-        color="accent"
-        prepend-icon="mdi-plus"
-        class="my-1"
-        @click="campaign.AddSection()">
-        Add Section
-      </v-btn>
+      <section-add-menu main :item="campaign" />
     </div>
     <v-divider class="my-2" />
     <div class="px-2">
@@ -95,7 +86,7 @@
           </v-card>
         </template>
       </v-dialog>
-      <campaign-publisher :campaign="campaign" />
+      <campaign-publisher :campaign="campaign" @published="save()" />
     </div>
     <div style="position: absolute; bottom: 0; left: 0; right: 0" class="px-2">
       <v-btn
@@ -119,10 +110,11 @@ import CampaignPublisher from './campaignPublisher.vue';
 import CurrentVersionExport from './currentVersionExport.vue';
 import IndentedList from '@/features/compendium/Views/CampaignLibrary/components/IndentedList.vue';
 import exportAsJson from '@/util/jsonExport';
+import sectionAddMenu from './sectionAddMenu.vue';
 
 export default {
   name: 'campaign-editor-sidebar',
-  components: { IndentedList, CampaignPublisher, CurrentVersionExport },
+  components: { IndentedList, CampaignPublisher, CurrentVersionExport, sectionAddMenu },
   props: {
     campaign: { type: Object, required: true },
     currentPage: { type: String },

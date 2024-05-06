@@ -5,33 +5,28 @@
         :mech="mech"
         attr="hull"
         :val="pilot.MechSkillsController.MechSkills.Hull"
-        :color="color"
-      />
+        :color="color" />
       <hase-pips
         :mech="mech"
         attr="agility"
         :val="pilot.MechSkillsController.MechSkills.Agi"
-        :color="color"
-      />
+        :color="color" />
       <hase-pips
         :mech="mech"
         attr="systems"
         :val="pilot.MechSkillsController.MechSkills.Sys"
-        :color="color"
-      />
+        :color="color" />
       <hase-pips
         :mech="mech"
         attr="engineering"
         :val="pilot.MechSkillsController.MechSkills.Eng"
-        :color="color"
-      />
+        :color="color" />
       <div>
         <v-divider class="mt-2" />
         <span class="text-overline no-height">System Points</span>
         <cc-tooltip
           :title="`${mech.MaxSP} System Points`"
-          :content="mech.SPContributors.join('<br />')"
-        >
+          :content="mech.SPContributors.join('<br />')">
           <span class="heading h3 no-height">&nbsp;{{ mech.MaxSP }}</span>
         </cc-tooltip>
       </div>
@@ -44,21 +39,18 @@
               attr="Structure"
               :val="mech.MaxStructure"
               :contributors="mech.StructureContributors"
-              :color="color"
-            />
+              :color="color" />
             <statblock-item
               attr="HP"
               :val="mech.MaxHP"
               :contributors="mech.HPContributors"
-              :color="color"
-            />
+              :color="color" />
 
             <statblock-item
               attr="Armor"
               :val="mech.Armor"
               :contributors="mech.ArmorContributors"
-              :color="color"
-            />
+              :color="color" />
           </v-row>
 
           <v-row dense>
@@ -66,20 +58,17 @@
               attr="Stress"
               :val="mech.MaxStress"
               :contributors="mech.StressContributors"
-              :color="color"
-            />
+              :color="color" />
             <statblock-item
               attr="Heat Capacity"
               :val="mech.HeatCapacity"
               :contributors="mech.HeatCapContributors"
-              :color="color"
-            />
+              :color="color" />
             <statblock-item
               attr="Repair Capacity"
               :val="mech.RepairCapacity"
               :contributors="mech.RepCapContributors"
-              :color="color"
-            />
+              :color="color" />
           </v-row>
         </v-col>
         <v-col cols="auto">
@@ -92,54 +81,46 @@
           signed
           :val="mech.AttackBonus"
           :contributors="mech.AttackBonusContributors"
-          :color="color"
-        />
+          :color="color" />
         <statblock-item
           attr="Tech Attack"
           signed
           :val="mech.TechAttack"
           :contributors="mech.TechAttackContributors"
-          :color="color"
-        />
+          :color="color" />
         <statblock-item
           attr="Limited System Bonus"
           signed
           :val="mech.LimitedBonus"
           :contributors="mech.LimitedContributors"
-          :color="color"
-        />
+          :color="color" />
       </v-row>
       <v-row dense>
         <statblock-item
           attr="Speed"
           :val="mech.Speed"
           :contributors="mech.SpeedContributors"
-          :color="color"
-        />
+          :color="color" />
         <statblock-item
           attr="Evasion"
           :val="mech.Evasion"
           :contributors="mech.EvasionContributors"
-          :color="color"
-        />
+          :color="color" />
         <statblock-item
           attr="E-Defense"
           :val="mech.EDefense"
           :contributors="mech.EDefenseContributors"
-          :color="color"
-        />
+          :color="color" />
         <statblock-item
           attr="Sensors"
           :val="mech.SensorRange"
           :contributors="mech.SensorRangeContributors"
-          :color="color"
-        />
+          :color="color" />
         <statblock-item
           attr="Save"
           :val="mech.SaveTarget"
           :contributors="mech.SaveTargetContributors"
-          :color="color"
-        />
+          :color="color" />
       </v-row>
     </v-col>
   </v-row>

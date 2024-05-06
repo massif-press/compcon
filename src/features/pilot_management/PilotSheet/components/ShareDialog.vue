@@ -5,12 +5,10 @@
       density="compact"
       prominent
       icon="mdi-information-outline"
-      class="body-text mt-2"
-    >
-      Generating a share code for this pilot will allow other users with
-      COMP/CON cloud accounts to download a copy and subscribe to updates you
-      make to this pilot. Regenerating a share code will prevent subscribers
-      from downloading future updates under the old share code.
+      class="body-text mt-2">
+      Generating a share code for this pilot will allow other users with COMP/CON cloud accounts to
+      download a copy and subscribe to updates you make to this pilot. Regenerating a share code
+      will prevent subscribers from downloading future updates under the old share code.
     </v-alert>
     <div v-if="pilot.CloudController.ShareCode">
       <v-row justify="center">
@@ -19,21 +17,20 @@
           <b
             class="text-accent"
             style="font-size: 80px; letter-spacing: 15px"
-            v-text="pilot.CloudController.ShareCode"
-          />
-          <cc-tooltip simple inline content="Copy share code to clipboard">
+            v-text="pilot.CloudController.ShareCode" />
+          <v-tooltip text="Copy share code to clipboard">
             <v-btn icon small class="ml-n3" @click="copy()">
               <v-icon small>mdi-clipboard-text-outline</v-icon>
             </v-btn>
-          </cc-tooltip>
+          </v-tooltip>
         </v-col>
       </v-row>
       <div class="text-center px-6">
         <b class="text-accent">
-          Share codes are valid for 90 days, after which the code will expire.
-          This pilot's code will expire on
-          {{ pilot.CloudController.ShareCodeExpiration }}. This can be extended
-          by clicking the button below
+          Share codes are valid for 90 days, after which the code will expire. This pilot's code
+          will expire on
+          {{ pilot.CloudController.ShareCodeExpiration }}. This can be extended by clicking the
+          button below
         </b>
         <br />
         <v-btn
@@ -48,15 +45,13 @@
               : `Extend to
           ${extendedDate}`
           "
-          @click="refresh(pilot)"
-        />
+          @click="refresh(pilot)" />
         <div v-if="isSameDate" class="caption text-disabled"></div>
       </div>
       <v-row justify="end" class="mt-12">
         <v-col cols="auto">
           <cc-tooltip
-            content="Regenerating this item's share code will prevent any other users from updating their copies of this Pilot until they re-import with the new code."
-          >
+            content="Regenerating this item's share code will prevent any other users from updating their copies of this Pilot until they re-import with the new code.">
             <v-btn x-small color="error" @click="generate()">
               Delete and Regenerate Share Code
             </v-btn>
@@ -67,20 +62,12 @@
     <div v-else>
       <v-row justify="center">
         <v-col cols="auto" class="py-12 text-center">
-          <v-btn
-            size="x-large"
-            class="primary"
-            :loading="loading"
-            @click="generate()"
-          >
+          <v-btn size="x-large" class="primary" :loading="loading" @click="generate()">
             Generate Pilot Share Code
           </v-btn>
-          <div
-            v-show="!pilot.CloudController.LastUpdateCloud"
-            class="text-overline text-disabled"
-          >
-            Generating a Share Code will upload this pilot to your cloud
-            account. This process may take several seconds.
+          <div v-show="!pilot.CloudController.LastUpdateCloud" class="text-overline text-disabled">
+            Generating a Share Code will upload this pilot to your cloud account. This process may
+            take several seconds.
           </div>
         </v-col>
       </v-row>
@@ -103,8 +90,7 @@ export default {
     isSameDate() {
       return (
         Math.floor(
-          (new Date().valueOf() -
-            new Date(this.pilot.CloudController.ShareCodeExpiry).valueOf()) /
+          (new Date().valueOf() - new Date(this.pilot.CloudController.ShareCodeExpiry).valueOf()) /
             (1000 * 60 * 60 * 24)
         ) < 1
       );
@@ -128,10 +114,7 @@ export default {
         .then((res) => this.pilot.CloudController.SetShareCode(res))
         .then(() => this.$notify('Share Code generated', 'success'))
         .catch(() =>
-          this.$notify(
-            'An error occurred while attempting to generate a share code',
-            'error'
-          )
+          this.$notify('An error occurred while attempting to generate a share code', 'error')
         );
       this.loading = false;
     },
@@ -142,19 +125,14 @@ export default {
         .then(() => this.pilot.CloudController.SetShareCode(c))
         .then(() => this.$notify('Share Code refreshed', 'success'))
         .catch(() =>
-          this.$notify(
-            'An error occurred while attempting to refresh the share code',
-            'error'
-          )
+          this.$notify('An error occurred while attempting to refresh the share code', 'error')
         );
       this.loading = false;
     },
     copy() {
       navigator.clipboard
         .writeText(this.pilot.CloudController.ShareCode)
-        .then(() =>
-          Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation')
-        )
+        .then(() => Vue.prototype.$notify('Cloud ID copied to clipboard.', 'confirmation'))
         .catch(() => Vue.prototype.$notifyError('Unable to copy Cloud ID'));
     },
   },

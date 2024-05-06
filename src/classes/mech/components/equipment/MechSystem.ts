@@ -1,6 +1,6 @@
 import { CompendiumStore } from '@/stores';
-import { MechEquipment, SystemType, ItemType } from '@/class';
-import { IEquipmentData, IMechEquipmentData, ITagCompendiumData } from '@/interface';
+import { MechEquipment, SystemType, ItemType, ContentPack } from '@/class';
+import { IContentPack, IEquipmentData, IMechEquipmentData, ITagCompendiumData } from '@/interface';
 
 interface IMechSystemData extends IMechEquipmentData {
   type: SystemType;
@@ -9,8 +9,8 @@ interface IMechSystemData extends IMechEquipmentData {
 class MechSystem extends MechEquipment {
   private _system_type: SystemType;
 
-  public constructor(data: IMechSystemData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data: IMechSystemData, pack?: ContentPack) {
+    super(data, pack);
     this._system_type = data.type || SystemType.System;
     this.ItemType = ItemType.MechSystem;
   }

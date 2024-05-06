@@ -267,7 +267,6 @@ import _ from 'lodash';
 import { NarrativeStore } from '../store/narrative_store';
 import { NpcStore } from '../store/npc_store';
 import exportAsJson from '@/util/jsonExport';
-import { deletePermanent } from '@/util/storeUtils';
 import { EncounterStore } from '@/stores';
 
 export default {
@@ -402,7 +401,6 @@ export default {
       NpcStore().SaveNpcData();
     },
     exportItems() {
-      console.log(this.type);
       let json = {} as any;
       let filename = '';
       if (this.selected.length === 1) {

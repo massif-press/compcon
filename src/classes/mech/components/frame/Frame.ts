@@ -1,6 +1,6 @@
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
-import { LicensedItem } from '../../../../class';
-import { ILicensedItemData } from '../../../../interface';
+import { ContentPack, LicensedItem } from '../../../../class';
+import { IContentPack, ILicensedItemData } from '../../../../interface';
 import { ImageTag, getImagePath } from '../../../../io/ImageManagement';
 import { MechType, MountType, ItemType } from '../../../enums';
 import { ITagCompendiumData } from '../../../Tag';
@@ -145,8 +145,8 @@ class Frame extends LicensedItem implements IFeatureContainer {
   private _stats: IFrameStats;
   public Comparator?: FrameComparison;
 
-  public constructor(frameData: IFrameData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(frameData, packTags, packName);
+  public constructor(frameData: IFrameData, pack?: ContentPack) {
+    super(frameData, pack);
     this.MechType = frameData.mechtype;
     this.YPosition = frameData.y_pos || 30;
     this.Mounts = frameData.mounts;

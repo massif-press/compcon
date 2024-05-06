@@ -6,25 +6,21 @@
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove', item)"
-    @save="$emit('save')"
-  >
+    @save="$emit('save')">
     <div
       v-if="item"
       class="text-left"
       style="cursor: pointer !important"
-      @click="($refs as any).base.openDetail()"
-    >
-      <v-row align="center" justify="space-between">
-        <v-col cols="2">
+      @click="($refs as any).base.openDetail()">
+      <v-row align="center" justify="space-around">
+        <v-col cols="auto">
           <cc-range-element :range="item.Range" />
         </v-col>
-        <v-col cols="2">
+        <v-col cols="auto">
           <cc-damage-element :damage="item.Damage" :type-override="item.DamageTypeOverride" />
         </v-col>
-        <v-col cols="auto" v-if="item.Tags && item.Tags.length">
-          <cc-tags size="small" :tags="item.Tags" color="secondary" class="mt-n2" />
-        </v-col>
       </v-row>
+      <cc-tags small :tags="item.Tags" color="secondary" />
       <v-row v-if="item.notes">
         <v-col v-for="n in item.notes">
           <cc-tooltip simple inline :content="n">
@@ -40,25 +36,25 @@
         item-type="PilotWeapon"
         :options="options"
         equippable
-        @equip="equip($event)"
-      >
+        @equip="equip($event)">
         <template #header>
-          <div class="heading h4 text-center text-primary">Select Pilot Weapon</div></template
-        >
+          <div class="heading h4 text-center text-accent">Select Pilot Weapon</div>
+        </template>
 
         <template #top>
           <div v-if="item">
             <span class="text-overline">
               GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
-                [ PILOT ARMAMENT REGISTRATION VERIFIED ]
+                [ PILOT MATERIEL REGISTRATION VERIFIED ]
               </span>
             </span>
             <br />
-            <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
-            <span class="flavor-text overline mt-n1" style="display: block"
-              >CURRENTLY EQUIPPED</span
-            >
+            <div class="heading h2 text-accent mt-n2">
+              <cc-slashes />
+              {{ item.Name }}
+            </div>
+            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</div>
           </div>
           <div v-else>
             <span class="text-overline">

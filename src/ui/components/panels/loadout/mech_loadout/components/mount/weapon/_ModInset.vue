@@ -6,17 +6,9 @@
         {{ mod.Name }}
         <v-spacer />
         <span v-if="mod.SP" class="pr-3">{{ mod.SP }}SP</span>
-        <cc-tooltip simple inline content="Remove Mod">
-          <v-btn
-            size="x-small"
-            icon
-            color="error"
-            variant="plain"
-            @click.stop="$emit('remove-mod')"
-          >
-            <v-icon size="20" icon="mdi-delete" />
-          </v-btn>
-        </cc-tooltip>
+        <v-btn size="x-small" icon color="error" variant="plain" @click.stop="$emit('remove-mod')">
+          <v-icon size="20" icon="mdi-delete" />
+        </v-btn>
       </v-row>
     </v-toolbar>
     <div class="mod-border px-2">
@@ -33,7 +25,8 @@
           <v-row justify="space-around" density="compact">
             <v-col v-if="mod.Actions.length" cols="auto">
               <div class="text-overline ml-n2 text-disabled">
-                <v-icon size="small" icon="cc:activate" />EQUIPMENT ACTIONS
+                <v-icon size="small" icon="cc:activate" />
+                EQUIPMENT ACTIONS
               </div>
               <v-row no-gutters justify="center">
                 <v-col v-for="a in mod.Actions" cols="auto">
@@ -43,7 +36,8 @@
             </v-col>
             <v-col v-if="mod.Deployables.length" cols="auto">
               <div class="text-overline ml-n2 text-disabled">
-                <v-icon size="small" icon="cc:drone" /> EQUIPMENT DEPLOYABLES
+                <v-icon size="small" icon="cc:drone" />
+                EQUIPMENT DEPLOYABLES
               </div>
               <v-row no-gutters justify="center">
                 <v-col v-for="d in mod.Deployables" cols="auto">
@@ -51,8 +45,7 @@
                     :deployable="d"
                     panel
                     :name-override="mod.Name"
-                    class="ma-2"
-                  />
+                    class="ma-2" />
                 </v-col>
               </v-row>
             </v-col>

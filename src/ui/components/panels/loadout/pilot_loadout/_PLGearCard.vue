@@ -10,8 +10,10 @@
     <template v-if="item" #title-items>
       <div class="text-overline mb-n4">ITEM USES</div>
       <div class="text-right">
-        <v-icon v-if="!item.MaxUses" color="secondary" class="mt-2">mdi-infinity</v-icon>
-        <cc-item-uses v-else :item="item" color="secondary" />
+        <v-icon
+          color="secondary"
+          class="mt-2"
+          :icon="!item.MaxUses ? 'mdi-infinity' : 'mdi-hexagon-slice-6'" />
       </div>
     </template>
 
@@ -33,28 +35,28 @@
         equippable
         @equip="equip($event)">
         <template #header>
-          <div class="heading h4 text-center text-primary">Select Pilot Equipment</div></template
-        >
+          <div class="heading h4 text-center text-accent">Select Pilot Equipment</div>
+        </template>
 
         <template #top>
           <div v-if="item">
             <span class="text-overline">
-              GMS EQUIPMENT CATALOG PRINTID:
-              {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
+              GMS ARMORY PRINTID: {{ fID('ANN-NNN-NNN::AA//AA') }} &mdash;
               <span class="text-success text--darken-1">
-                [ PILOT EQUIPMENT REGISTRATION VERIFIED ]
+                [ PILOT MATERIEL REGISTRATION VERIFIED ]
               </span>
             </span>
             <br />
-            <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
-            <span class="flavor-text overline mt-n1" style="display: block"
-              >CURRENTLY EQUIPPED</span
-            >
+            <div class="heading h2 text-accent mt-n2">
+              <cc-slashes />
+              {{ item.Name }}
+            </div>
+            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</div>
           </div>
           <div v-else>
-            <span class="text-overline"
-              >GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)</span
-            >
+            <span class="text-overline">
+              GMS EQUIPMENT AUTHORIZATION: PILOT/ADDITIONAL GEAR (ANY)
+            </span>
             <br />
             <span class="heading h1 text-disabled text--lighten-1" style="line-height: 20px">
               NO SELECTION

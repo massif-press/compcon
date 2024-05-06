@@ -51,7 +51,7 @@ export default {
   methods: {
     calcHeight(item: any) {
       const len = item.Title.length;
-      const linelength = len + this.level * 6;
+      const linelength = len + this.level * 3;
       return Math.floor(linelength / 30) * 14 + 24;
     },
   },

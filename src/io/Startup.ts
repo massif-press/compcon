@@ -21,6 +21,7 @@ export default async function (): Promise<void> {
 
   await UserStore().loadUser();
   console.log('loaded user profile');
+  console.log('checking storage limits');
   console.log(UserStore().User);
 
   await CompendiumStore().refreshExtraContent();
@@ -85,6 +86,10 @@ export default async function (): Promise<void> {
 
   await CampaignStore().LoadCampaigns();
   console.log('campaigns loaded');
+
+  console.log('removing old data');
+  const results = await UserStore().removeOldItems();
+  console.info(results);
 
   console.info('loading complete');
 }

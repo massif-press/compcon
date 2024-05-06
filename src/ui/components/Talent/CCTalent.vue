@@ -1,20 +1,18 @@
 <template>
-  <v-lazy>
-    <component
-      :is="type"
-      :selectable="selectable"
-      :rank="rank"
-      :can-add="canAdd"
-      :hide-locked="hideLocked"
-      :talent="talent"
-      :in-column="inColumn"
-      :hide-change="hideChange"
-      @expand="expand = $event"
-      @clicked="$emit('clicked')"
-      @add="$emit('add')"
-      @remove="$emit('remove')"
-    />
-  </v-lazy>
+  <component
+    :is="type"
+    :selectable="selectable"
+    :rank="rank"
+    :can-add="canAdd"
+    :hide-locked="hideLocked"
+    :talent="talent"
+    :in-column="inColumn"
+    :hide-change="hideChange"
+    :hide-title="hideTitle"
+    @expand="expand = <string>$event"
+    @clicked="$emit('clicked')"
+    @add="$emit('add')"
+    @remove="$emit('remove')" />
 </template>
 
 <script lang="ts">
@@ -41,6 +39,7 @@ export default {
     selectable: { type: Boolean },
     inColumn: { type: Boolean },
     hideChange: { type: Boolean },
+    hideTitle: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },
   emits: ['expand', 'clicked', 'add', 'remove'],

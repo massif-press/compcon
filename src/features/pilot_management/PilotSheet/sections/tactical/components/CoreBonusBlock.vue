@@ -6,8 +6,7 @@
         :current="pilot.CoreBonusController.CurrentCBPoints"
         :max="pilot.CoreBonusController.MaxCBPoints"
         :label="`Edit Pilot CORE Bonuses (${pilot.CoreBonusController.CurrentCBPoints}/${pilot.CoreBonusController.MaxCBPoints})`"
-        @open-selector="($refs as any).bonusSelector.show()"
-      />
+        @open-selector="($refs as any).bonusSelector.show()" />
     </section-header>
 
     <cc-solo-dialog
@@ -15,9 +14,8 @@
       icon="cc:corebonus"
       no-confirm
       title="Set Pilot CORE Bonuses"
-      fullscreen
-    >
-      <core-bonus-selector :pilot="pilot" />
+      fullscreen>
+      <core-bonus-selector :pilot="pilot" modal />
     </cc-solo-dialog>
     <v-container class="px-0">
       <no-data-block v-if="!pilot.CoreBonusController.CoreBonuses.length" />
@@ -26,8 +24,7 @@
           v-for="(b, i) in pilot.CoreBonusController.CoreBonuses"
           cols="12"
           md=""
-          :style="$vuetify.display.mdAndUp ? 'min-width: 500px;' : ''"
-        >
+          :style="$vuetify.display.mdAndUp ? 'min-width: 500px;' : ''">
           <cc-core-bonus-item :bonus="b" />
         </v-col>
       </v-row>

@@ -1,16 +1,16 @@
 <template>
   <v-col cols="12" style="min-width: 20%; max-width: 50%">
     <div
-      :style="`border: 2px solid ${mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)}`"
-    >
+      :style="`border: 2px solid ${mech.Frame.Manufacturer.GetColor(
+        $vuetify.theme.current.dark
+      )}; border-radius: 2px`">
       <v-hover>
         <template v-slot="{ isHovering, props }">
-          <v-card height="40vh" flat v-bind="props" @click="$emit('go', mech)">
+          <v-card height="40vh" tile flat v-bind="props" @click="$emit('go', mech)">
             <v-toolbar
               density="compact"
               :color="mech.Frame.Manufacturer.GetColor($vuetify.theme.current.dark)"
-              class="mb-n10 px-2"
-            >
+              class="mb-n10 px-2">
               <span class="heading h2" style="letter-spacing: 3px">
                 {{ mech.Name }}
               </span>
@@ -23,8 +23,7 @@
                 <v-card
                   v-if="isHovering"
                   class="flavor-text"
-                  style="height: 100%; max-width: 100%; opacity: 0.9"
-                >
+                  style="height: 100%; max-width: 100%; opacity: 0.9">
                   <v-card-text>
                     <b>{{ mech.Name }}</b>
                     //
@@ -45,7 +44,8 @@
                         </span>
                         <br />
                         <span v-for="(item, i) in loadoutSystems">
-                          {{ i > 0 ? ' - ' : '' }} <span v-html="item" />
+                          {{ i > 0 ? ' - ' : '' }}
+                          <span v-html="item" />
                         </span>
                       </div>
                     </fieldset>
@@ -91,8 +91,7 @@
                     color="error"
                     density="compact"
                     tile
-                    class="text-center"
-                  >
+                    class="text-center">
                     <span style="letter-spacing: 5px">// DESTROYED //</span>
                   </v-alert>
                   <v-alert
@@ -100,8 +99,7 @@
                     color="accent"
                     density="compact"
                     tile
-                    class="text-center"
-                  >
+                    class="text-center">
                     <span style="letter-spacing: 5px">// REACTOR DESTROYED //</span>
                   </v-alert>
                   <v-expand-transition>
@@ -110,56 +108,63 @@
                       color="success"
                       density="compact"
                       tile
-                      class="text-center"
-                    >
+                      class="text-center">
                       <span style="letter-spacing: 5px">// ACTIVE //</span>
                     </v-alert>
                   </v-expand-transition>
                   <v-divider />
                   <v-card-actions>
                     <v-spacer />
-                    <cc-tooltip simple inline content="Delete Mech">
-                      <v-btn
-                        size="small"
-                        icon
-                        variant="plain"
-                        color="error"
-                        @click.stop="($refs as any).delete.show()"
-                      >
-                        <v-icon icon="mdi-delete" />
-                      </v-btn>
-                    </cc-tooltip>
-                    <cc-tooltip simple inline content="Duplicate Mech">
-                      <v-btn
-                        size="small"
-                        icon
-                        variant="plain"
-                        @click.stop="($refs as any).copy.show()"
-                      >
-                        <v-icon icon="mdi-content-copy" />
-                      </v-btn>
-                    </cc-tooltip>
-                    <cc-tooltip simple inline content="Print Mech Sheet">
-                      <v-btn
-                        size="small"
-                        icon
-                        variant="plain"
-                        @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)"
-                      >
-                        <v-icon icon="mdi-printer" />
-                      </v-btn>
-                    </cc-tooltip>
-                    <cc-tooltip simple inline content="Set As Active Mech">
-                      <v-btn
-                        small
-                        icon
-                        variant="plain"
-                        :disabled="mech.Pilot.ActiveMech === mech"
-                        @click.stop="mech.Pilot.ActiveMech = mech"
-                      >
-                        <v-icon icon="cc:activate" />
-                      </v-btn>
-                    </cc-tooltip>
+                    <v-tooltip text="Delete Mech">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          size="small"
+                          icon
+                          variant="plain"
+                          color="error"
+                          @click.stop="($refs as any).delete.show()">
+                          <v-icon icon="mdi-delete" />
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip text="Duplicate Mech">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          size="small"
+                          icon
+                          variant="plain"
+                          @click.stop="($refs as any).copy.show()">
+                          <v-icon icon="mdi-content-copy" />
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip text="Print Mech Sheet">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          size="small"
+                          icon
+                          variant="plain"
+                          @click.stop="$router.push(`/print/${mech.Pilot.ID}/${mech.ID}`)">
+                          <v-icon icon="mdi-printer" />
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                    <v-tooltip text="Set As Active Mech">
+                      <template #activator="{ props }">
+                        <v-btn
+                          v-bind="props"
+                          small
+                          icon
+                          variant="plain"
+                          :disabled="mech.Pilot.ActiveMech === mech"
+                          @click.stop="mech.Pilot.ActiveMech = mech">
+                          <v-icon icon="cc:activate" />
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
                   </v-card-actions>
                 </v-card>
               </v-expand-transition>

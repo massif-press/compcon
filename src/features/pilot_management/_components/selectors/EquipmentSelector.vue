@@ -4,13 +4,14 @@
     item-type="Equipment"
     :options="options"
     equippable
-    @equip="$emit('select', $event)"
-  >
+    @equip="$emit('select', $event)">
     <template #header>
       <div class="heading h4 text-center text-primary">
-        Add <span v-if="exotic">Exotic</span> Equipment
-      </div></template
-    >
+        Add
+        <span v-if="exotic">Exotic</span>
+        Equipment
+      </div>
+    </template>
   </cc-compendium-browser>
 </template>
 
@@ -19,7 +20,6 @@ import _ from 'lodash';
 
 import { CompendiumStore } from '@/stores';
 import { CompendiumItem } from '@/classes/CompendiumItem';
-import { PilotLicense } from '@/class';
 
 export default {
   name: 'equipment-selector',
@@ -54,22 +54,11 @@ export default {
       };
     },
     availableItems(): CompendiumItem[] {
+      if (this.exotic) return CompendiumStore().allEquipment.filter((x) => x.IsExotic);
+
       return CompendiumStore().allEquipment.filter(
         (x) => !this.pilot.LicenseController.LicensedItems.some((y) => y.ID === x.ID)
       );
-    },
-    items(): CompendiumItem[] {
-      const compendium = CompendiumStore();
-      let items = [
-        ...(compendium.MechWeapons as CompendiumItem[]),
-        ...(compendium.WeaponMods as CompendiumItem[]),
-        ...(compendium.MechSystems as CompendiumItem[]),
-        ...(compendium.Frames as CompendiumItem[]),
-      ];
-
-      if (this.exotic) items = items.concat(compendium.PilotGear as CompendiumItem[]);
-
-      return items.filter((x) => (this.exotic ? x.IsExotic : !x.IsExotic && !x.IsHidden));
     },
   },
 };

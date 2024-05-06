@@ -8,9 +8,11 @@
         :dark="license.missing"
         :color="license.missing ? 'deep-orange darken-4' : 'success darken-2'"
         class="ma-1"
-        v-bind="props"
-      >
-        <span v-if="license.name === 'GMS'"> <v-icon start icon="mdi-check" /> GMS </span>
+        v-bind="props">
+        <span v-if="license.source === 'GMS'">
+          <v-icon start size="large" icon="cc:gms" />
+          GMS
+        </span>
         <span v-else>
           <v-icon start :icon="`cc:rank_${license.rank}`" />
           {{ license.source }} {{ license.name }} {{ 'I'.repeat(license.rank) }}
@@ -23,7 +25,7 @@
         WARNING: LICENSE MISSING&emsp;
       </v-card-title>
       <v-card-text class="pa-2 text-text">
-        <b v-if="license.name === 'GMS'">GMS STANDARD PILOT'S LICENSE</b>
+        <b v-if="license.source === 'GMS'">GMS STANDARD PILOT'S LICENSE</b>
         <b v-else>{{ license.name }} RANK {{ license.rank }}</b>
         <v-divider class="my-1" />
         <i>Required for:&nbsp;</i>

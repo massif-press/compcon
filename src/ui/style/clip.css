@@ -55,8 +55,8 @@
 }
 
 .clipped-large-invert {
-  clip-path: polygon(calc(100% - 30px) 0%, 100% calc(100% - 20px), 100% 100%, 0 100%, 0 0);
-  -webkit-clip-path: polygon(calc(100% - 30px) 0%, 100% calc(100% - 20px), 100% 100%, 0 100%, 0 0);
+  clip-path: polygon(calc(100% - 20px) 0%, 100% calc(100% - 20px), 100% 100%, 0 100%, 0 0);
+  -webkit-clip-path: polygon(calc(100% - 20px) 0%, 100% calc(100% - 20px), 100% 100%, 0 100%, 0 0);
 }
 
 .clipped-square-invert {

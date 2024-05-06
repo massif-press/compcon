@@ -1,5 +1,5 @@
 import { IFeatureContainer } from '@/classes/components/feature/IFeatureContainer';
-import { Rules, Pilot, PilotLoadout } from '@/class';
+import { Rules, Pilot, PilotLoadout, CompendiumItem, PilotEquipment } from '@/class';
 
 import { IPilotLoadoutData } from './PilotLoadout';
 import { Bonus } from '@/classes/components';
@@ -15,6 +15,11 @@ class PilotLoadoutController implements IFeatureContainer {
   constructor(parent: Pilot) {
     this.Parent = parent;
     this._loadout = new PilotLoadout(this);
+  }
+
+  public RemoveBrewable(item: PilotEquipment): void {
+    this.Loadout.Remove(item);
+    this.Parent.SaveController.save();
   }
 
   public get MaxArmorSlots(): number {

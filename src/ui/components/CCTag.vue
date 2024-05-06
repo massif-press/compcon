@@ -4,7 +4,10 @@
     :class="`text-center d-inline-block ${
       density === `compact` || $vuetify.display.mdAndDown ? '' : 'my-2'
     }`">
-    <cc-tooltip :err="tag.err" :title="tag.GetName(bonus)" :content="tag.GetDescription(bonus)">
+    <cc-tooltip
+      :err="tag.err"
+      :title="tag.GetName(bonus, tier)"
+      :content="tag.GetDescription(bonus, tier)">
       <v-chip
         :class="$vuetify.display.mdAndUp ? 'px-2 mx-1' : 'ma-1'"
         :color="getColor"
@@ -17,7 +20,7 @@
           <v-icon v-else size="small" start icon="mdi-label" :color="getColor" />
         </v-avatar>
         <span v-if="tag.err">MISSING DATA</span>
-        <span v-else>{{ tag.GetName(bonus).toUpperCase() }}</span>
+        <span v-else>{{ tag.GetName(bonus, tier).toUpperCase() }}</span>
       </v-chip>
     </cc-tooltip>
   </div>
@@ -57,6 +60,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+    tier: {
+      type: Number,
+      required: false,
+      default: 1,
     },
   },
   computed: {

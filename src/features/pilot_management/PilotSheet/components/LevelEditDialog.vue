@@ -1,7 +1,7 @@
 <template>
   <cc-solo-dialog ref="dialog" icon="cc:pilot" no-confirm title="Edit Pilot level">
     <v-card-text>
-      <v-alert icon="mdi-alert" variant="outlined" prominent color="error-darken-2">
+      <v-alert icon="mdi-alert" variant="outlined" prominent color="error">
         Editing this Pilot's level may prevent certain achievements from being unlocked with this
         Pilot. If you want to use this Pilot to unlock related achievements normally, use the Level
         Up wizard instead.
@@ -34,8 +34,7 @@
             hide-details
             density="compact"
             variant="outlined"
-            class="heading h2"
-          />
+            class="heading h2" />
         </v-col>
       </v-row>
 
@@ -46,8 +45,7 @@
             color="primary"
             x-large
             :disabled="newLevel === 0 || newLevel === pilot.Level"
-            @click="setLevel"
-          >
+            @click="setLevel">
             Set Pilot Level
           </v-btn>
         </v-col>
