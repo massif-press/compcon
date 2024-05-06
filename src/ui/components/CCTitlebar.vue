@@ -3,12 +3,11 @@
     :color="color"
     :class="{ 'clipped-large': clipped }"
     :style="fixed ? 'position: fixed; width: 100%; z-index:99' : ''"
-  >
+    :density="<any>density">
     <v-row
       align="center"
       :class="`heading ${$vuetify.display.mdAndDown ? 'h3' : 'h2'} px-2`"
-      style="text-transform: uppercase"
-    >
+      style="text-transform: uppercase">
       <v-col cols="auto">
         <v-icon v-if="icon" size="50" :icon="icon" />
       </v-col>
@@ -56,6 +55,11 @@ export default {
     large: {
       type: Boolean,
       required: false,
+    },
+    density: {
+      type: String,
+      required: false,
+      default: 'default',
     },
   },
 };

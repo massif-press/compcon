@@ -7,40 +7,39 @@
       left: 0;
       right: 0;
       height: 50px;
-    "
-  />
+    " />
   <v-tabs v-model="step" bg-color="primary">
     <v-tab :value="1">
-      <v-icon v-if="step > 1" icon="mdi-check" />
+      <v-icon v-if="step > 1" start icon="mdi-check" />
       <span>Overview</span>
     </v-tab>
     <v-divider />
     <v-tab :value="2">
-      <v-icon v-if="pilot.SkillsController.HasFullSkills" icon="mdi-check" />
+      <v-icon v-if="pilot.SkillsController.HasFullSkills" start icon="mdi-check" />
       <span>Skills</span>
     </v-tab>
     <v-divider />
     <v-tab :value="3">
-      <v-icon v-if="pilot.TalentsController.HasFullTalents" icon="mdi-check" />
+      <v-icon v-if="pilot.TalentsController.HasFullTalents" start icon="mdi-check" />
       <span>Talents</span>
     </v-tab>
     <v-divider />
     <v-tab :value="4">
-      <v-icon v-if="pilot.MechSkillsController.HasFullHASE" icon="mdi-check" />
+      <v-icon v-if="pilot.MechSkillsController.HasFullHASE" start icon="mdi-check" />
       <span>Mech Skills</span>
     </v-tab>
     <v-divider />
 
     <v-divider />
     <v-tab :value="5">
-      <v-icon v-if="pilot.LicenseController.HasLicenses" icon="mdi-check" />
+      <v-icon v-if="pilot.LicenseController.HasLicenses" start icon="mdi-check" />
       <span>Licenses</span>
     </v-tab>
     <v-divider />
 
     <v-divider />
     <v-tab :value="6">
-      <v-icon v-if="pilot.CoreBonusController.HasCBs" icon="mdi-check" />
+      <v-icon v-if="pilot.CoreBonusController.HasCBs" start icon="mdi-check" />
       <span>CORE Bonuses</span>
     </v-tab>
     <v-divider />

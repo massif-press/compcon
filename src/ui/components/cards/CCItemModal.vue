@@ -7,14 +7,12 @@
       :large="$vuetify.display.mdAndUp"
       :fullscreen="$vuetify.display.smAndDown"
       :small-btn="smallBtn"
-      :icon="item.Icon"
-    >
+      :icon="item.Icon">
       <template #button>
-        <span class="text-white" style="width: 100%">
-          <v-icon v-if="!hideType" :icon="item.Icon" />
-          {{ truncate(item.Name) }}
-          <span v-if="!hideType">{{ item.ItemType === 'Frame' ? 'FRAME' : '' }}</span>
-        </span>
+        <v-icon v-if="item.IsExotic" start color="exotic">mdi-star</v-icon>
+        <v-icon v-if="!hideType" start :icon="item.Icon" />
+        {{ truncate(item.Name) }}
+        <span v-if="!hideType">{{ item.ItemType === 'Frame' ? 'FRAME' : '' }}</span>
       </template>
 
       <template #title>
@@ -25,12 +23,6 @@
         <v-chip class="stat-text mt-n1" size="small" variant="outlined" label>
           {{ item.Source || '' }} {{ startCase(item.ItemType) }}
         </v-chip>
-      </template>
-
-      <template #title-items>
-        <v-btn slot="title-items" dark icon @click="($refs.dialog as any).confirm()">
-          <v-icon size="large" variant="plain">mdi-close</v-icon>
-        </v-btn>
       </template>
 
       <cc-item-card :item="item" />

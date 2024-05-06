@@ -7,10 +7,9 @@
             <equipment-options
               :item="item"
               @swap="($refs as any).base.$refs.selectorDialog.show()"
-              @remove="remove()"
-            />
+              @remove="remove()" />
           </v-col>
-          <v-col v-if="item.Mod" cols="auto">
+          <v-col v-if="mod" cols="auto">
             <cc-tooltip inline content="Weapon Modification Equipped">
               <v-icon color="accent" icon="cc:weaponmod" />
             </cc-tooltip>
@@ -18,9 +17,9 @@
           <v-col cols="auto">
             <div>
               {{ item.Name }}
-              <span v-if="item.FlavorName" class="text-overline ml-2" style="line-height: 12px"
-                >//{{ item.TrueName }}</span
-              >
+              <span v-if="item.FlavorName" class="text-caption text-disabled text-uppercase">
+                //{{ item.TrueName }}
+              </span>
               <div class="text-overline" style="line-height: 12px; opacity: 0.5">
                 {{ item.Size }}
                 {{ item.WeaponType }}
@@ -31,7 +30,7 @@
         <div v-else>{{ weaponSlot.Size }} Weapon</div>
       </template>
       <template #header-items>
-        <v-row v-if="item" justify="center" no-gutters>
+        <v-row v-if="item" align="center" class="mb-n1" no-gutters>
           <v-col cols="auto">
             <cc-range-element v-if="item.Range" small :range="getRange" />
             <cc-slashes v-if="item.Range && item.Damage" class="px-1" />
@@ -39,8 +38,7 @@
               v-if="item.Damage"
               small
               :damage="getDamage"
-              :type-override="item.DamageTypeOverride"
-            />
+              :type-override="item.DamageTypeOverride" />
           </v-col>
           <v-col v-if="item && item.SP" cols="auto">
             <div class="pl-3" style="border-left: 1px solid #616161">
@@ -48,23 +46,21 @@
             </div>
           </v-col>
           <v-col cols="auto">
-            <div style="border-left: 1px solid #616161">
+            <div class="ml-2" style="border-left: 1px solid rgba(155, 155, 155, 0.3)">
               <v-btn
                 v-if="item"
                 size="x-small"
                 icon
                 variant="plain"
                 color="error"
-                @click.stop="remove()"
-              >
+                @click.stop="remove()">
                 <v-icon size="20" icon="mdi-delete" />
               </v-btn>
               <v-btn
                 size="x-small"
                 icon
                 variant="plain"
-                @click.stop="($refs as any).base.$refs.selectorDialog.show()"
-              >
+                @click.stop="($refs as any).base.$refs.selectorDialog.show()">
                 <v-icon size="20" :icon="item ? 'mdi-swap-vertical-variant' : 'mdi-add'" />
               </v-btn>
             </div>
@@ -76,65 +72,83 @@
           :item="item"
           :readonly="readonly"
           :color="color"
-          :use-bonus="mech.LimitedBonus"
-        >
+          :use-bonus="mech.LimitedBonus">
           <template #left>
-            <div v-if="!intWeapon">
+            <div v-if="!intWeapon && !mod && !item.NoMods">
               <v-btn
-                v-if="!item.Mod && !item.NoMods"
                 variant="plain"
                 size="small"
                 :color="color"
                 prepend-icon="cc:weaponmod"
-                @click.stop="($refs as any).modDialog.show()"
-              >
+                @click.stop="($refs as any).modDialog.show()">
                 NO MOD INSTALLED
               </v-btn>
             </div>
           </template>
         </equipment-header>
-        <!-- <div>
-          <div v-if="item.ProfileEffect">
-            <div class="mb-n2">
-              <p v-html-safe="item.ProfileEffect" class="text-text body-text mb-1 mx-3 py-2" />
+        <div>
+          <div v-if="item.Profiles && item.Profiles.length > 1">
+            <v-tabs
+              v-if="item.Profiles && item.Profiles.length > 1"
+              v-model="item.ProfileIndex"
+              density="compact"
+              align="center"
+              center-active>
+              <v-tab v-for="p in item.Profiles">{{ p.Name }}</v-tab>
+            </v-tabs>
+            <div>
+              <div v-if="item.Profiles[item.ProfileIndex].Effect" class="panel clipped pa-2">
+                <v-row dense align="end">
+                  <v-col cols="auto"><v-icon size="large" icon="cc:weapon" /></v-col>
+                  <v-col>
+                    <div class="heading">{{ item.Profiles[item.ProfileIndex].Name }}</div>
+                  </v-col>
+                </v-row>
+                <p v-html-safe="item.Profiles[item.ProfileIndex].Effect" class="px-2" />
+              </div>
             </div>
-          </div>
-          <div v-if="item.ProfileOnAttack">
-            <div class="mb-n2 mt-1">
-              <v-icon class="mt-n1">cc:weapon</v-icon>
-              <span class="text-overline text-stark">ON ATTACK</span>
-              <p
-                v-html-safe="item.ProfileOnAttack"
-                class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
-              />
+
+            <div v-if="item.Profiles[item.ProfileIndex].Actions.length">
+              <div class="text-overline ml-n2 text-disabled">//PROFILE ACTIONS</div>
+              <v-row no-gutters justify="center">
+                <v-col v-for="a in item.Profiles[item.ProfileIndex].Actions" cols="auto">
+                  <cc-action :action="a" :panel="$vuetify.display.lgAndUp" class="ma-2" />
+                </v-col>
+              </v-row>
             </div>
-          </div>
-          <div v-if="item.ProfileOnHit">
-            <div class="mb-n2 mt-1">
-              <v-icon class="mt-n1">cc:weapon</v-icon>
-              <span class="text-overline text-stark">ON HIT</span>
-              <p v-html-safe="item.ProfileOnHit" class="text-text body-text mb-1 mr-2 ml-6 mt-n2" />
+
+            <div v-if="item.Profiles[item.ProfileIndex].Deployables.length">
+              <div class="text-overline ml-n2 text-disabled">//PROFILE DEPLOYABLES</div>
+              <v-row no-gutters justify="center">
+                <v-col v-for="(d, i) in item.Profiles[item.ProfileIndex].Deployables" cols="auto">
+                  <cc-deployable-info
+                    :deployable="d"
+                    :panel="$vuetify.display.lgAndUp"
+                    :name-override="item.Name"
+                    class="ma-2" />
+                </v-col>
+              </v-row>
             </div>
-          </div>
-          <div v-if="item.ProfileOnCrit">
-            <div class="mb-n2 mt-1">
-              <v-icon class="mt-n1">cc:weapon</v-icon>
-              <span class="text-overline text-stark">ON CRITICAL HIT</span>
-              <p
-                v-html-safe="item.ProfileOnCrit"
-                class="text-text body-text mb-1 mr-2 ml-6 mt-n2"
-              />
+            <div v-if="item.Profiles[item.ProfileIndex].Tags.length">
+              <div class="text-overline ml-n2 mb-n1 text-disabled">//PROFILE TAGS</div>
+              <cc-tags :tags="item.Profiles[item.ProfileIndex].Tags" extended />
             </div>
+            <on-element
+              v-for="action in ['hit', 'crit', 'attack']"
+              :profile="item.Profiles[item.ProfileIndex]"
+              :action="action" />
           </div>
-          <ammo-case-inset :level="armoryLevel" /> 
-        </div> -->
-        <mod-inset
-          v-if="item.Mod"
-          :mod="item.Mod"
-          :mech="mech"
-          :color="color"
-          @remove-mod="item.Mod = null"
-        />
+          <div v-else>
+            <on-element
+              v-for="action in ['hit', 'crit', 'attack']"
+              :profile="item.Profiles[0]"
+              :action="action" />
+          </div>
+          <!-- <ammo-case-inset :level="armoryLevel" />  -->
+        </div>
+        <div v-if="mod">
+          <mod-inset :mod="mod" :mech="mech" :color="color" @remove-mod="uninstall()" />
+        </div>
       </div>
       <template #selector>
         <weapon-selector :weapon-slot="weaponSlot" :mech="mech" @equip="equip($event)" />
@@ -144,16 +158,14 @@
       ref="lockDialog"
       :mount="mount"
       :mech="mech"
-      @select="finalizeSuperheavy($event)"
-    />
+      @select="finalizeSuperheavy($event)" />
     <cc-solo-dialog
       v-if="item"
       ref="modDialog"
       no-confirm
-      :title="`${item.Mod ? 'Modify' : 'Install'} ${item.Name} Modification`"
+      :title="`${mod ? 'Modify' : 'Install'} ${item.Name} Modification`"
       fullscreen
-      no-pad
-    >
+      no-pad>
       <mod-selector :weapon="item" :mech="mech" @equip="install($event)" />
     </cc-solo-dialog>
   </div>
@@ -168,6 +180,7 @@ import ModInset from './_ModInset.vue';
 import EquipmentOptions from '../../_EquipmentOptions.vue';
 import EquipmentHeader from '../../_EquipmentHeader.vue';
 import ShLockDialog from '../_ShLockDialog.vue';
+import OnElement from '@/ui/components/cards/items/_components/OnElement.vue';
 import {
   MechWeapon,
   WeaponMod,
@@ -191,6 +204,7 @@ export default {
     EquipmentOptions,
     EquipmentHeader,
     ShLockDialog,
+    OnElement,
   },
   props: {
     weaponSlot: {
@@ -221,6 +235,9 @@ export default {
     },
     item() {
       return this.weaponSlot.Weapon;
+    },
+    mod() {
+      return this.item.Mod;
     },
     color() {
       return this.mech.Frame.Manufacturer.GetColor(this.$vuetify.theme.current.dark);

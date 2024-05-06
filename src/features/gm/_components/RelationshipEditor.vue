@@ -9,9 +9,10 @@
     @delete="removeRelationship(idx)" />
 
   <div class="text-right">
-    <v-btn variant="tonal" size="small" color="accent" @click="addRelationship()"
-      ><v-icon start icon="mdi-heart-plus-outline" />Add Relationship</v-btn
-    >
+    <v-btn variant="tonal" size="small" color="accent" @click="addRelationship()">
+      <v-icon start icon="mdi-heart-plus-outline" />
+      Add Relationship
+    </v-btn>
   </div>
 
   <div class="text-overline">LINKED ENTITIES</div>
@@ -34,7 +35,6 @@ export default {
       return NarrativeStore().CollectionItems.filter((i) => i.ID !== this.item.ID);
     },
     linkedRelationships() {
-      console.log(this.item.NarrativeController.Relationships);
       const linkedItems = NarrativeStore().getItemRelationships(this.item.ID);
       let relationships: any[] = [];
       linkedItems.forEach((l) => {

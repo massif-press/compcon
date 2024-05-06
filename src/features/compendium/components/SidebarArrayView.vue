@@ -15,13 +15,11 @@
           :title="(e as any)[nameKey]"
           density="compact"
           :clickable="selectable"
-          @click="selectable ? $emit('selected', (e as any).Name) : ''"
-        >
+          @click="selectable ? $emit('selected', (e as any).Name) : ''">
           <h3
             v-if="subKey && (!subConditional || (e as any)[subConditional])"
             v-html-safe="(e as any)[subKey]"
-            class="heading mb-2"
-          />
+            class="heading mb-2" />
           <p v-html-safe="(e as any)[descriptionKey]" class="body-text mb-1" />
         </cc-titled-panel>
       </div>
@@ -30,6 +28,8 @@
 </template>
 
 <script lang="ts">
+import scrollTo from '@/util/scrollTo';
+
 export default {
   name: 'sidebar-array-view',
   props: {
@@ -78,20 +78,10 @@ export default {
   emits: ['selected'],
   methods: {
     scrollTo(e: any): void {
+      console.log(e);
       const el = document.getElementById(`e_${(e as any)[this.nameKey].replace(/\W/g, '')}`);
-
-      if (el) {
-        const yOffset = this.isModal ? -80 : -60;
-        if (this.isModal) {
-          const mEl = document.getElementById('content');
-          if (!mEl) return;
-          const y = el.getBoundingClientRect().top + mEl.scrollTop + yOffset;
-          mEl.scrollTo({ top: y, behavior: 'smooth' });
-        } else {
-          const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
-          window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-      }
+      console.log(el);
+      if (el) scrollTo(el, this.isModal);
     },
   },
 };

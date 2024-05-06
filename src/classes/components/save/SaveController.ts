@@ -15,13 +15,11 @@ class SaveController {
   public Created: number = new Date().getTime();
   public LastModified: number = 0;
   public DeleteTime: number;
-  public _isMissingContent: boolean;
 
   public IsDirty = false;
 
   public constructor(parent: ISaveable) {
     this.Parent = parent;
-    this._isMissingContent = false;
     this.DeleteTime = 0;
   }
 
@@ -56,14 +54,6 @@ class SaveController {
   public Delete() {
     this.DeleteTime = new Date().getTime();
     this.save();
-  }
-
-  public get IsMissingContent(): boolean {
-    return this._isMissingContent;
-  }
-
-  public set IsMissingContent(val: boolean) {
-    this._isMissingContent = val;
   }
 
   public static Serialize(parent: ISaveable, target: any) {

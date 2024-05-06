@@ -4,10 +4,11 @@ import { defineStore } from 'pinia';
 import { Doodad, DoodadData } from '@/classes/npc/doodad/Doodad';
 import { Unit, UnitData } from '@/classes/npc/unit/Unit';
 import _ from 'lodash';
+import { Npc } from '@/classes/npc/Npc';
 
 export const NpcStore = defineStore('npc', {
   state: () => ({
-    Npcs: [] as any[],
+    Npcs: [] as Npc[],
     Folders: [] as string[],
   }),
   getters: {
@@ -31,6 +32,9 @@ export const NpcStore = defineStore('npc', {
           )
         ).filter((x) => !!x)
       ) as string[],
+    getMissingDataNpcs: (state: any) => {
+      return state.Npcs.filter((x: Npc) => x.BrewController.MissingContent);
+    },
   },
   actions: {
     async LoadNpcs(): Promise<void> {

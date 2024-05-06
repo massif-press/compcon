@@ -22,17 +22,15 @@
 
     <v-container class="px-0">
       <no-data-block v-if="!pilot.TalentsController.Talents.length" />
-      <v-row v-else dense justify="space-around">
-        <cc-talent
-          v-for="(t, i) in pilot.TalentsController.Talents"
-          hide-locked
-          :talent="t.Talent"
-          :rank="t.Rank"
-          :terse="view === 'terse'"
-          :small="view === 'small'"
-          in-column
-          hide-change />
-      </v-row>
+      <cc-talent
+        v-for="t in pilot.TalentsController.Talents"
+        hide-locked
+        :talent="t.Talent"
+        :rank="t.Rank"
+        :terse="view === 'terse'"
+        :small="view === 'small'"
+        in-column
+        hide-change />
     </v-container>
     <cc-solo-dialog
       ref="talentSelector"

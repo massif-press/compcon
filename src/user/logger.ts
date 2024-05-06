@@ -1,5 +1,20 @@
+enum LEVELS {
+  DEBUG = 'debug',
+  INFO = 'info',
+  WARN = 'warn',
+  ERROR = 'error',
+}
+
+const severityMap = {
+  debug: 0,
+  info: 1,
+  warn: 2,
+  error: 3,
+};
+
 class Logger {
   private static instance: Logger;
+  private _level = LEVELS.WARN;
   private constructor() {}
 
   private _history: {
@@ -15,11 +30,38 @@ class Logger {
     return this._history;
   }
 
+  public get level() {
+    return this._level;
+  }
+
+  public set level(level: LEVELS) {
+    this._level = level;
+  }
+
   public static getInstance(): Logger {
     if (!Logger.instance) {
       Logger.instance = new Logger();
     }
     return Logger.instance;
+  }
+
+  public export(): string {
+    let out = `COMP/CON Log for ${new Date(Date.now()).toLocaleString()}\n
+    Log Level is ${this.level}
+    \n--------------------------------------------\n`;
+
+    const history = this._history.map((log) => {
+      return `${new Date(log.timestamp).toLocaleString()} - ${log.type.toUpperCase()} - ${
+        log.message
+      }\nTRACE:\n${log.trace.join('\n')}\nCALLER:\n${JSON.stringify(
+        log.caller || [],
+        null,
+        2
+      )}\n\n`;
+    });
+
+    out += history;
+    return out;
   }
 
   private getStackTrace() {
@@ -48,6 +90,8 @@ class Logger {
   }
 
   public log(message: string, t?: string, caller?: any): void {
+    if (!t || !severityMap[t]) t = 'info';
+    if (severityMap[t] < severityMap[this.level]) return;
     const type = t || 'info';
     let typeColor = '';
 

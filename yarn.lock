@@ -3166,11 +3166,6 @@ jszip@^3.10.1:
     readable-stream "~2.3.6"
     setimmediate "^1.0.5"
 
-lancer-data@^3.0.48:
-  version "3.0.48"
-  resolved "https://registry.yarnpkg.com/lancer-data/-/lancer-data-3.0.48.tgz#1aa18f4d5854d97d842954702c602f02a96dda7c"
-  integrity sha512-7sQEQs12SUJ3Z1izUoYTkescvLbio5FKt7nCbnoz9Mip4siLo4FeiMjyfzZuU67evedVzHdx1vhzjID1YvPDyw==
-
 lie@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/lie/-/lie-3.1.1.tgz#9a436b2cc7746ca59de7a41fa469b3efb76bd87e"

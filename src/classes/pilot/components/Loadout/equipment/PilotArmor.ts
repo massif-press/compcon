@@ -1,6 +1,6 @@
 import { PilotEquipment, ItemType, Pilot } from '@/class';
 import { IBonusDataContainer } from '@/classes/components/feature/bonus/IBonusDataContainer';
-import { IPilotEquipmentData, ITagCompendiumData } from '@/interface';
+import { IContentPack, IPilotEquipmentData, ITagCompendiumData } from '@/interface';
 import { Bonus } from '../../../../components/feature/bonus/Bonus';
 
 interface IPilotArmorData extends IPilotEquipmentData {
@@ -20,8 +20,8 @@ class PilotArmor extends PilotEquipment {
   public readonly _edef: string;
   public readonly _evasion: string;
 
-  public constructor(data: IPilotArmorData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data: IPilotArmorData, pack?: ContentPack) {
+    super(data, pack);
     this._hpBonus = Bonus.SumStatic(data as IBonusDataContainer, 'pilot_hp');
     this._speed = Bonus.SumStatic(data as IBonusDataContainer, 'pilot_speed');
     this._armor = Bonus.SumStatic(data as IBonusDataContainer, 'pilot_armor');

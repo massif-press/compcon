@@ -70,7 +70,7 @@ class NpcClassController {
   }
 
   private _setClassStats(tier: number): any {
-    if (!this.HasClass || !this.isLinked) return;
+    if (!this.HasClass || (this.isInstance && !this.isLinked)) return;
 
     const c = this.Class as NpcClass;
 
@@ -86,7 +86,7 @@ class NpcClassController {
   }
 
   public get ChangedStats(): any {
-    if (!this.HasClass || !this.isLinked) return;
+    if (!this.HasClass || (this.isInstance && !this.isLinked)) return;
 
     const c = this.Class as NpcClass;
 
@@ -102,12 +102,12 @@ class NpcClassController {
 
   public ResetStats(tier?: number) {
     if (!tier) tier = this.Tier;
-    if (!this.HasClass || !this.isLinked) return;
+    if (!this.HasClass || (this.isInstance && !this.isLinked)) return;
     this._setClassStats(tier);
   }
 
   public set Tier(newTier: number) {
-    if (!this.HasClass || !this.isLinked) return;
+    if (!this.HasClass || (this.isInstance && !this.isLinked)) return;
     this._tier = newTier;
 
     this._setClassStats(newTier);
@@ -155,7 +155,7 @@ class NpcClassController {
         (data.class as any).Name,
         (data.class as any).Role
       );
-    } else {
+    } else if (!!data.class) {
       parent.NpcClassController._class = CompendiumStore().referenceByID('NpcClasses', data.class);
     }
     parent.NpcClassController._tier = data.tier;

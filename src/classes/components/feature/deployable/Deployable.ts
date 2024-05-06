@@ -3,7 +3,7 @@ import { ICounterData, ISynergyData, ITagData } from '@/interface';
 import { IActionData, Action } from '../../../Action';
 import { Bonus, IBonusData } from '../bonus/Bonus';
 import { ICompendiumItemData } from '../../../CompendiumItem';
-import ByTier from '@/util/tierFormat';
+import { ByTier } from '@/util/tierFormat';
 
 interface IDeployableData extends ICompendiumItemData {
   name: string;

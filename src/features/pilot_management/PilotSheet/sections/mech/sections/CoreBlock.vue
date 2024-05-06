@@ -8,15 +8,14 @@
 
       <div v-if="coreSystem.PassiveName">
         <span class="heading sub">
-          <v-chip size="large" class="heading" label>PASSIVE</v-chip>
+          <v-chip size="small" class="heading" label>PASSIVE</v-chip>
           {{ coreSystem.PassiveName }}
         </span>
         <div class="light-panel pa-2 clipped mb-2 mx-3">
           <p
             v-if="coreSystem.PassiveEffect"
             v-html-safe="coreSystem.PassiveEffect"
-            class="body-text mb-1 px-3"
-          />
+            class="body-text mb-1 px-3" />
           <v-row no-gutters justify="center">
             <v-col cols="auto">
               <cc-action v-for="a in coreSystem.PassiveActions" :action="a" panel />
@@ -28,7 +27,7 @@
       <v-row no-gutters>
         <v-col cols="auto">
           <span class="heading sub">
-            <v-chip size="large" class="heading" label>ACTIVE</v-chip>
+            <v-chip size="small" class="heading" label>ACTIVE</v-chip>
             {{ coreSystem.ActiveName }}
           </span>
         </v-col>

@@ -18,6 +18,10 @@ interface IUserProfile {
   theme: string;
   options: IUserOptions;
   achievement_unlocks: { id: string; unlocked: number }[];
+  logLevel: 'debug' | 'info' | 'warn' | 'error';
+  storage_warning: number;
+  storage_max: number;
+  auto_delete_days: number;
 }
 
 const defaultOptions = (): IUserOptions => ({
@@ -32,6 +36,10 @@ class UserProfile {
   private _theme: string;
   private _achievement_unlocks: { id: string; unlocked: number }[];
   private _options: IUserOptions;
+  private _logLevel: 'debug' | 'info' | 'warn' | 'error' = 'warn';
+  private _storageWarning: number = 40;
+  private _storageMax: number = 60;
+  private _autoDeleteDays: number = 30;
 
   public constructor(id?: string) {
     this.ID = id || uuid();
@@ -49,6 +57,47 @@ class UserProfile {
   private localSave(item: string, value: any): void {
     logger.log(`Saving user ${item}`, 'debug', this);
     localStorage.setItem(`cc_${item}`, JSON.stringify(value));
+  }
+
+  public get LogLevel(): 'debug' | 'info' | 'warn' | 'error' {
+    return this._logLevel;
+  }
+
+  public get LogLevelValue(): number {
+    return _.get({ debug: 0, info: 1, warn: 2, error: 3 }, this._logLevel);
+  }
+
+  public set LogLevel(level: 'debug' | 'info' | 'warn' | 'error') {
+    logger.level = level as any;
+    this._logLevel = level;
+    this.save();
+  }
+
+  public get StorageWarning(): number {
+    return this._storageWarning;
+  }
+
+  public set StorageWarning(value: number) {
+    this._storageWarning = value;
+    this.save();
+  }
+
+  public get StorageMax(): number {
+    return this._storageMax;
+  }
+
+  public set StorageMax(value: number) {
+    this._storageMax = value;
+    this.save();
+  }
+
+  public get AutoDeleteDays(): number {
+    return this._autoDeleteDays;
+  }
+
+  public set AutoDeleteDays(value: number) {
+    this._autoDeleteDays = value;
+    this.save();
   }
 
   public get Achievements(): { id: string; unlocked: number }[] {
@@ -83,7 +132,7 @@ class UserProfile {
   }
 
   public Option(option: string): string {
-    if (this._options[option]) return this._options[option];
+    if (Object.hasOwn(this._options, option)) return this._options[option];
     return defaultOptions()[option];
   }
 
@@ -125,6 +174,7 @@ class UserProfile {
     this.localSave('theme', this._theme);
     this._welcome_hash = 'none';
     this._options = defaultOptions();
+    this._logLevel = 'warn';
     this.save();
   }
 
@@ -135,6 +185,10 @@ class UserProfile {
       welcome_hash: data.WelcomeHash,
       achievement_unlocks: data._achievement_unlocks,
       options: data._options,
+      logLevel: data.LogLevel,
+      storage_warning: data.StorageWarning,
+      storage_max: data.StorageMax,
+      auto_delete_days: data.AutoDeleteDays,
     };
   }
 
@@ -144,6 +198,11 @@ class UserProfile {
     profile._theme = data.theme || 'gms';
     profile._achievement_unlocks = data.achievement_unlocks || [];
     profile._options = data.options ? data.options : defaultOptions();
+    profile._logLevel = data.logLevel || 'warn';
+    logger.level = profile._logLevel as any;
+    profile._storageWarning = data.storage_warning || 40;
+    profile._storageMax = data.storage_max || 60;
+    profile._autoDeleteDays = data.auto_delete_days || 30;
     return profile;
   }
 }

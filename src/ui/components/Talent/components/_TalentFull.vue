@@ -1,6 +1,6 @@
 <template>
-  <v-card variant="outlined" class="my-1">
-    <v-toolbar color="primary">
+  <v-card :variant="hideTitle ? 'flat' : 'outlined'" class="my-1">
+    <v-toolbar v-if="!hideTitle" color="primary">
       <v-row dense align="center">
         <v-col cols="auto" class="pl-4">
           <talent-emblem :url="talent.Image" :name="talent.Name" white />
@@ -12,7 +12,7 @@
           <v-icon size="45" color="white">cc:rank_{{ rank }}</v-icon>
         </v-col>
         <v-col v-if="talent.InLcp" cols="auto">
-          <div class="text-white heading h3">{{ talent.LcpName }}</div>
+          <div class="text-white heading pr-3">{{ talent.LcpName }}</div>
         </v-col>
         <v-col v-if="!hideChange" cols="auto" align-self="center" class="pr-4">
           <v-icon color="white" variant="plain" @click="$emit('expand', 'terse')">
@@ -30,8 +30,7 @@
         v-show="showFull || (!showFull && rank && Number(rank) >= n)"
         dense
         :class="rank && Number(rank) < n ? 'text--disabled' : 'text-stark'"
-        :style="isUnlocked(n - 1) ? '' : 'opacity: 0.35'"
-      >
+        :style="isUnlocked(n - 1) ? '' : 'opacity: 0.35'">
         <v-col cols="auto">
           <v-icon size="40">cc:rank_{{ n }}</v-icon>
         </v-col>
@@ -52,8 +51,7 @@
                 small
                 color="secondary"
                 :disabled="!canAdd"
-                @click="$emit('add')"
-              >
+                @click="$emit('add')">
                 <v-icon start small>mdi-lock-open</v-icon>
                 Unlock
               </v-btn>
@@ -62,14 +60,13 @@
                 small
                 color="error"
                 variant="plain"
-                @click="$emit('remove')"
-              >
+                @click="$emit('remove')">
                 <v-icon start>mdi-close</v-icon>
                 Remove
               </v-btn>
             </v-col>
           </v-row>
-          <talent-rank-contents :talent-rank="talent.Rank(n)" :in-column="!showAll && inColumn" />
+          <talent-rank-contents :talent-rank="talent.Rank(n)" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -97,6 +94,7 @@ export default {
     selectable: { type: Boolean },
     canAdd: { type: Boolean },
     hideChange: { type: Boolean },
+    hideTitle: { type: Boolean },
     inColumn: { type: Boolean },
     rank: { type: [Number, String], required: false, default: null },
   },

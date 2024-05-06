@@ -1,5 +1,6 @@
 import { ItemType } from '@/classes/enums';
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature';
+import { ContentPack } from '@/class';
 
 export interface INpcTechData extends INpcFeatureData {
   tech_type: string;
@@ -14,8 +15,8 @@ export class NpcTech extends NpcFeature {
   private _accuracy: number[];
   private _attack_bonus: number[];
 
-  public constructor(data: INpcTechData, packName?: string) {
-    super(data, packName);
+  public constructor(data: INpcTechData, pack?: ContentPack) {
+    super(data, pack);
     this._accuracy = this._expand(data.accuracy);
     this._attack_bonus = this._expand(data.attack_bonus);
     this.FeatureType = NpcFeatureType.Tech;

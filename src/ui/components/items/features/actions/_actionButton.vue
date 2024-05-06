@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import ByTier from '@/util/tierFormat';
+import { ByTier } from '@/util/tierFormat';
 import { ActivationType } from '@/classes/enums';
 
 import ActionBase from './_actionBase.vue';

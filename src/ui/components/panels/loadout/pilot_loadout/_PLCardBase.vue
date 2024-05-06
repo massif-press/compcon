@@ -14,34 +14,29 @@
                 <v-list-item
                   @click="($refs as any).selectorDialog.show()"
                   prepend-icon="mdi-swap-vertical-variant"
-                  title="Change Item"
-                />
+                  title="Change Item" />
                 <v-divider />
                 <v-list-item
                   v-if="item.CanSetDamage"
                   @click="($refs as any).damageTypeDialog.show()"
                   prepend-icon="cc:variable"
-                  title="Select Damage"
-                >
+                  title="Select Damage">
                   Type
                 </v-list-item>
                 <v-list-item
                   @click="($refs as any).cName.show()"
                   prepend-icon="mdi-circle-edit-outline"
-                  title="Set Custom Name"
-                />
+                  title="Set Custom Name" />
                 <v-list-item
                   @click="($refs as any).cDesc.show()"
                   prepend-icon="mdi-circle-edit-outline"
-                  title="Set Custom Description"
-                />
+                  title="Set Custom Description" />
                 <v-divider />
                 <v-list-item
                   @click="$emit('remove', item)"
                   prepend-icon="mdi-delete"
                   color="error"
-                  title="Remove Item"
-                />
+                  title="Remove Item" />
               </v-list>
             </v-menu>
           </v-col>
@@ -62,8 +57,7 @@
                 icon
                 variant="plain"
                 size="small"
-                @click="($refs as any).selectorDialog.show()"
-              >
+                @click="($refs as any).selectorDialog.show()">
                 <v-icon size="x-large" :icon="item ? 'mdi-swap-vertical-variant' : 'mdi-plus'" />
               </v-btn>
             </div>
@@ -83,12 +77,17 @@
         </v-col>
       </v-row>
 
+      <v-card v-if="item && item.FlavorDescription" variant="tonal" class="mx-1 py-1 px-2 mb-n2">
+        {{ item.FlavorDescription }}
+      </v-card>
+
       <v-card-text>
         <div v-if="item">
           <slot @click="($refs as any).detailDialog.show()" />
           <div v-if="item.Deployables.length">
             <div class="text-overline ml-n2 text-disabled">
-              <v-icon size="small" icon="cc:drone" />EQUIPMENT DEPLOYABLES
+              <v-icon size="small" icon="cc:drone" />
+              EQUIPMENT DEPLOYABLES
             </div>
             <v-row v-if="item.Deployables" no-gutters justify="center">
               <v-col v-for="d in item.Deployables" cols="auto">
@@ -96,8 +95,7 @@
                   :deployable="d"
                   :panel="false"
                   :name-override="item.Name"
-                  class="ma-2"
-                />
+                  class="ma-2" />
               </v-col>
             </v-row>
           </div>
@@ -106,15 +104,19 @@
           v-else
           class="py-3 text-center fade-select"
           style="cursor: pointer"
-          @click="($refs as any).selectorDialog.show()"
-        >
+          @click="($refs as any).selectorDialog.show()">
           <v-row>
             <v-col class="heading h2 text-disabled">// EMPTY //</v-col>
           </v-row>
         </div>
       </v-card-text>
     </v-card>
-    <cc-solo-dialog ref="selectorDialog" no-actions :title="`Equip ${title}`" fullscreen>
+    <cc-solo-dialog
+      ref="selectorDialog"
+      no-actions
+      density="compact"
+      :title="`Equip ${title}`"
+      fullscreen>
       <slot name="selector" />
     </cc-solo-dialog>
     <cc-solo-dialog ref="detailDialog" no-confirm :title="item ? item.Name : ''" large>
@@ -132,8 +134,7 @@
             hide-details
             prepend-icon="mdi-note"
             label="Equipment Notes"
-            class="mt-2"
-          />
+            class="mt-2" />
         </div>
       </div>
     </cc-solo-dialog>
@@ -143,22 +144,20 @@
       :placeholder="item.Name"
       label="Custom Item Name"
       @save="save('Name', $event)"
-      @reset="save('Name', '')"
-    />
+      @reset="save('Name', '')" />
     <cc-string-edit-dialog
       v-if="item"
       ref="cDesc"
-      :placeholder="item.Description"
+      multiline
+      :placeholder="item.FlavorDescription || item.Description"
       label="Custom Item Description"
-      @save="save('Description', $event)"
-      @reset="save('Description', '')"
-    />
+      @save="save('FlavorDescription', $event)"
+      @reset="save('FlavorDescription', '')" />
     <cc-damage-type-picker
       v-if="item"
       ref="damageTypeDialog"
       :allowed-types="['Explosive', 'Energy', 'Kinetic']"
-      @select="save('DamageTypeOverride', $event)"
-    />
+      @select="save('DamageTypeOverride', $event)" />
   </v-col>
 </template>
 

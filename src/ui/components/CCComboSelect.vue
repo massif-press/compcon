@@ -1,5 +1,5 @@
 <template>
-  <v-menu v-model="menu" offset-y :close-on-content-click="false">
+  <v-menu v-model="menu" offset-y :close-on-content-click="false" width="300">
     <template #activator="{ props }">
       <v-icon size="small" variant="plain" v-bind="props">mdi-circle-edit-outline</v-icon>
     </template>
@@ -13,8 +13,7 @@
           variant="outlined"
           hide-details
           :items="items"
-          item-value="value"
-        />
+          item-value="value" />
       </v-card-text>
     </v-card>
   </v-menu>

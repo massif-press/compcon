@@ -64,11 +64,9 @@
       </v-row>
       <div v-if="iid" class="caption text-center mt-1 mb-n3">
         COMP/CON USER IDENTITYID: {{ iid }}
-        <cc-tooltip simple inline content="Copy IID to clipboard">
-          <v-btn icon small right @click="copyIid()">
-            <v-icon small>mdi-clipboard-text-outline</v-icon>
-          </v-btn>
-        </cc-tooltip>
+        <v-btn icon small right @click="copyIid()">
+          <v-icon small>mdi-clipboard-text-outline</v-icon>
+        </v-btn>
       </div>
 
       <v-alert class="my-3" prominent icon="mdi-alert" color="warning darken-2" variant="outlined">

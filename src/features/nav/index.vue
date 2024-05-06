@@ -56,18 +56,75 @@
     <v-divider vertical dark class="mx-2" />
 
     <v-toolbar-title>
+      <span v-if="StorageWarning">
+        <v-tooltip location="bottom" max-width="300px">
+          <template #activator="{ props }">
+            <v-icon v-bind="props" color="warning" icon="mdi-database-alert" start />
+          </template>
+          <span>
+            <v-chip color="warning" variant="elevated" size="x-small">WARNING</v-chip>
+            COMP/CON has exceeded the storage warning threshold. More details are available in the
+            <b>Storage</b>
+            tab of the Options Menu.
+          </span>
+        </v-tooltip>
+      </span>
+      <span v-else-if="StorageMax">
+        <v-tooltip location="bottom" max-width="300px">
+          <template #activator="{ props }">
+            <v-icon v-bind="props" color="error" icon="mdi-database-off" start />
+          </template>
+          <span>
+            <v-chip color="error" variant="elevated" size="x-small">ALERT</v-chip>
+            COMP/CON has exceeded the maximum storage threshold.
+
+            <v-alert color="error">
+              <b>NO NEW ITEMS WILL BE SAVED UNTIL THE LIMIT IS INCREASED OR DATA IS DELETED.</b>
+            </v-alert>
+            More details are available in the
+            <b>Storage</b>
+            tab of the Options Menu.
+          </span>
+        </v-tooltip>
+        <v-dialog v-model="storageFullDialog" width="780px">
+          <v-card>
+            <v-toolbar color="error" class="heading h2">
+              <v-toolbar-title>
+                <v-icon icon="mdi-database-off" start />
+                STORAGE LIMIT EXCEEDED
+              </v-toolbar-title>
+              <v-spacer />
+              <v-btn icon @click="storageFullDialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-card-text>
+              <p>
+                COMP/CON has exceeded the maximum storage threshold.
+                <br />
+                <br />
+                <b class="text-accent">
+                  NO NEW ITEMS WILL BE SAVED UNTIL THE LIMIT IS INCREASED OR DATA IS DELETED.
+                </b>
+                <br />
+                <br />
+                More details are available in the
+                <b>Storage</b>
+                tab of the Options Menu.
+              </p>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </span>
       <span class="heading">COMP/CON</span>
       <span class="flavor-text text-white" style="opacity: 0.4">&nbsp;{{ $appVersion }}</span>
     </v-toolbar-title>
 
     <v-spacer />
 
-    <v-divider v-if="$vuetify.display.mdAndUp && isAuthed" vertical dark class="mx-2" />
+    <v-divider v-if="$vuetify.display.mdAndUp" vertical dark class="mx-2" />
 
-    <cc-tooltip
-      v-if="$vuetify.display.mdAndUp && isAuthed"
-      location="bottom"
-      content="Open cloud account menu">
+    <cc-tooltip v-if="$vuetify.display.mdAndUp" location="bottom" content="Open cloud account menu">
       <v-btn icon variant="plain" size="45" dark @click="($refs.cloudModal as any).show()">
         <v-icon icon="mdi-cloud-sync-outline" />
       </v-btn>
@@ -187,25 +244,26 @@ export default {
     aboutDialog: false,
     helpDialog: false,
     optionsDialog: false,
+    storageWarningDialog: false,
+    storageFullDialog: false,
   }),
-  async mounted() {
-    // await Auth.currentAuthenticatedUser();
+  mounted() {
+    this.storageFullDialog = this.StorageMax;
   },
+
   computed: {
     hide(): boolean {
       if (this.$route.path === '/') return true;
       return false;
     },
-    isAuthed() {
-      return UserStore().IsLoggedIn;
+    StorageWarning(): boolean {
+      return UserStore().StorageWarning;
+    },
+    StorageMax(): boolean {
+      return UserStore().StorageFull;
     },
   },
   methods: {
-    sync() {
-      // UserStore().cloudSync({
-      //   callback: (status, message) => this.$notify(status, message),
-      // });
-    },
     historyNav(dir: number) {
       this.$router.go(dir);
     },

@@ -1,8 +1,14 @@
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { Rules, Mech, CompendiumItem, PilotLoadout } from '../../class';
+import {
+  Rules,
+  Mech,
+  CompendiumItem,
+  PilotLoadout,
+  MechEquipment,
+  PilotEquipment,
+} from '../../class';
 import { IOrganizationData, IPilotLoadoutData, IRankedData } from '../../interface';
-import { ActiveState, ICombatStats } from '../components/combat/ActiveState';
 import { Bonus } from '../components/feature/bonus/Bonus';
 import {
   CoreBonusController,
@@ -66,6 +72,7 @@ class PilotData
   cloud!: ICloudData;
   brews!: BrewInfo[];
   img!: IPortraitData;
+  sortIndex!: number;
 
   // pilot
   level!: number;
@@ -78,19 +85,18 @@ class PilotData
   history!: string;
   quirks!: string[];
   background!: string;
+  mechSkills!: number[];
+  orgs!: IOrganizationData[];
+
   special_equipment!: IUnlockData;
   mechs!: IMechData[];
-  combat_history!: ICombatStats;
   loadout!: IPilotLoadoutData;
-
   bond!: IPilotBondData;
   skills!: IRankedData[];
   talents!: IRankedData[];
-  mechSkills!: number[];
   core_bonuses!: string[];
   licenses!: IRankedData[];
   reserves!: IReserveData[];
-  orgs!: IOrganizationData[];
 }
 
 class Pilot
@@ -105,7 +111,7 @@ class Pilot
   public readonly ItemType: string = 'pilot';
   public readonly StorageType: string = 'pilots';
 
-  public SortIndex: number = -1;
+  public SortIndex: number;
 
   public SaveController: SaveController;
   public CloudController: CloudController;
@@ -152,19 +158,46 @@ class Pilot
     this.PilotLoadoutController = new PilotLoadoutController(this);
     this.BrewController = new BrewController(this);
 
+    this.SortIndex = data && !isNaN(data?.sortIndex) ? data?.sortIndex : -1;
+
     if (data) {
-      MechSkillsController.Deserialize(this, data);
       SaveController.Deserialize(this, data.save);
       CloudController.Deserialize(this, data.cloud);
-      SkillsController.Deserialize(this, data);
-      TalentsController.Deserialize(this, data);
-      CoreBonusController.Deserialize(this, data);
-      LicenseController.Deserialize(this, data);
-      ReservesController.Deserialize(this, data);
-      BondController.Deserialize(this, data.bond);
+      MechSkillsController.Deserialize(this, data);
       PortraitController.Deserialize(this, data.img);
-      PilotLoadoutController.Deserialize(this, data);
       BrewController.Deserialize(this, data);
+      ReservesController.Deserialize(this, data);
+
+      try {
+        SkillsController.Deserialize(this, data);
+      } catch (e) {
+        this.LoadError(e, 'skills');
+      }
+      try {
+        TalentsController.Deserialize(this, data);
+      } catch (e) {
+        this.LoadError(e, 'talents');
+      }
+      try {
+        CoreBonusController.Deserialize(this, data);
+      } catch (e) {
+        this.LoadError(e, 'coreBonuses');
+      }
+      try {
+        LicenseController.Deserialize(this, data);
+      } catch (e) {
+        this.LoadError(e, 'licenses');
+      }
+      try {
+        BondController.Deserialize(this, data.bond);
+      } catch (e) {
+        this.LoadError(e, 'bonds');
+      }
+      try {
+        PilotLoadoutController.Deserialize(this, data);
+      } catch (e) {
+        this.LoadError(e, 'pilot loadouts');
+      }
     }
 
     this.FeatureController.Register(
@@ -184,12 +217,23 @@ class Pilot
     this._history = data?.history || '';
     this._quirks = data?.quirks || [];
     this._background = data?.background || '';
-    this._mechs = data?.mechs.length
-      ? data?.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
-      : [];
-    this._special_equipment = data?.special_equipment
-      ? Pilot.deserializeSE(data?.special_equipment)
-      : [];
+    try {
+      this._mechs = data?.mechs.length
+        ? data?.mechs.map((x: IMechData) => Mech.Deserialize(x, this))
+        : [];
+    } catch (e) {
+      this.LoadError(e, 'pilot mechs');
+      this._mechs = [];
+    }
+
+    try {
+      this._special_equipment = data?.special_equipment
+        ? Pilot.deserializeSE(data?.special_equipment)
+        : [];
+    } catch (e) {
+      this.LoadError(e, 'pilot special equipment');
+      this._special_equipment = [];
+    }
   }
 
   // -- Utility -----------------------------------------------------------------------------------
@@ -214,6 +258,12 @@ class Pilot
     return false;
   }
 
+  public LoadError(err: any, message: string): void {
+    console.error(err);
+    console.error(`Pilot ${this.ID} (${this.Callsign}) failed to load ${message}`);
+    this.BrewController.MissingContent = true;
+  }
+
   // -- Passthroughs ----------------------------------------------------------------------
 
   public get Loadout(): PilotLoadout {
@@ -229,6 +279,11 @@ class Pilot
       ...this.Mechs.flatMap((m) => m.BrewableItems),
       this.PilotLoadoutController.Loadout.Items,
     ] as CompendiumItem[];
+  }
+
+  public RemoveBrewable(item: CompendiumItem): void {
+    this.Mechs.forEach((m) => m.MechLoadoutController.RemoveBrewable(item as MechEquipment));
+    this.PilotLoadoutController.RemoveBrewable(item as PilotEquipment);
   }
 
   // -- Attributes --------------------------------------------------------------------------------
@@ -287,6 +342,7 @@ class Pilot
   }
 
   public get Status(): string {
+    if (this.BrewController.IsUnableToLoad) return 'ERR';
     return this._status;
   }
 
@@ -460,7 +516,7 @@ class Pilot
       callsign: p.Callsign,
       name: p.Name,
       player_name: p.PlayerName,
-      status: p.Status,
+      status: p._status,
       text_appearance: p.TextAppearance,
       notes: p.Notes,
       history: p.History,
@@ -468,6 +524,7 @@ class Pilot
       background: p.Background,
       mechs: p.Mechs.length ? p.Mechs.map((x) => Mech.Serialize(x)) : [],
       special_equipment: this.serializeSE(p._special_equipment),
+      sortIndex: p.SortIndex,
     };
 
     SaveController.Serialize(p, data);

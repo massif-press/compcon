@@ -90,14 +90,12 @@ export default {
       this.dialog = true;
     },
     addNew() {
-      this.selected = new Doodad();
+      const d = new Doodad();
+      NpcStore().AddNpc(d);
+      this.selected = d;
       this.dialog = true;
     },
     SaveAndClose() {
-      // const store =EidolonStore();
-      // TODO: check for and ask to update instances on save
-      // store.addEidolon(this.selected);
-      // this.$set(this, 'selected', null);
       this.selected = null;
       this.dialog = false;
     },

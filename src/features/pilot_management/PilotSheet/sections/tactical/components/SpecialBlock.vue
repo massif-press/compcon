@@ -4,10 +4,9 @@
     <cc-solo-dialog
       ref="specialSelector"
       icon="mdi-star-circle-outline"
-      no-confirm
+      no-actions
       title="Manage Special Equipment"
-      fullscreen
-    >
+      fullscreen>
       <equipment-selector :pilot="pilot" @select="addItem($event)" />
     </cc-solo-dialog>
     <cc-solo-dialog
@@ -15,8 +14,7 @@
       icon="mdi-star-circle-outline"
       no-confirm
       title="Manage Exotic Equipment"
-      fullscreen
-    >
+      fullscreen>
       <equipment-selector :pilot="pilot" exotic @select="addItem($event)" />
     </cc-solo-dialog>
     <v-container>
@@ -28,10 +26,10 @@
             icon
             size="small"
             color="error"
-            variant="plain"
+            variant="text"
+            class="fade-select"
             style="display: inline-block"
-            @click="removeItem(i)"
-          >
+            @click="removeItem(i)">
             <v-icon icon="mdi-delete" />
           </v-btn>
         </v-col>
@@ -41,20 +39,16 @@
         <v-col>
           <v-btn
             color="accent"
-            variant="outlined"
+            variant="tonal"
             block
-            @click="($refs as any).specialSelector.show()"
-            >Add Standard Equipment</v-btn
-          >
+            @click="($refs as any).specialSelector.show()">
+            Add Standard Equipment
+          </v-btn>
         </v-col>
         <v-col>
-          <v-btn
-            color="accent"
-            variant="outlined"
-            block
-            @click="($refs as any).exoticSelector.show()"
-            >Add Exotic Equipment</v-btn
-          >
+          <v-btn color="accent" variant="tonal" block @click="($refs as any).exoticSelector.show()">
+            Add Exotic Equipment
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>

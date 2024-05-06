@@ -50,7 +50,6 @@ class Eidolon extends Npc implements IInstanceable {
       if (!data.instance && data.layer_data) {
         this._layers = data.layer_data.map((l) => new EidolonLayerSaveData(l, this));
       } else if (data.instance && data.layer_instance_data) {
-        console.log(data.layer_instance_data);
         this._layers =
           data.layer_instance_data.map((l) => EidolonLayerSaveData.Deserialize(l, this)) || [];
       }
@@ -72,7 +71,6 @@ class Eidolon extends Npc implements IInstanceable {
     const data = eData as EidolonData;
 
     data.layer_instance_data = this._layers.map((l) => l.Serialize(true));
-    console.log(data.layer_instance_data);
   }
 
   public get IsLinked(): boolean {

@@ -1,6 +1,10 @@
 <template>
   <v-container>
     <div style="max-height: 525px; overflow-y: scroll">
+      <div class="text-caption">
+        Log level:
+        <b class="text-uppercase">{{ logger.level }}</b>
+      </div>
       <v-expansion-panels multiple>
         <v-expansion-panel v-for="item in history">
           <v-expansion-panel-title>
@@ -26,15 +30,14 @@
                 <div class="heading h3">CALLER</div>
                 <v-divider />
                 <div v-if="item.caller">
-                  <div class="text-primary font-weight-bold">
+                  <div class="text-accent font-weight-bold">
                     {{ item.caller.constructor.name }}
                   </div>
                   <v-list density="compact">
                     <v-list-item
                       v-for="k in Object.keys(item.caller)"
                       :title="k"
-                      :subtitle="JSON.stringify(item.caller[k])"
-                    />
+                      :subtitle="JSON.stringify(item.caller[k])" />
                   </v-list>
                 </div>
                 <div v-else class="text-center text-disabled"><i>no data</i></div>
@@ -43,6 +46,12 @@
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
+      <v-card-actions>
+        <v-spacer />
+        <v-btn icon :disabled="!history.length" @click="exportLog">
+          <v-icon>mdi-file-download</v-icon>
+        </v-btn>
+      </v-card-actions>
     </div>
   </v-container>
 </template>
@@ -55,6 +64,9 @@ export default {
   computed: {
     history() {
       return logger.History.reverse();
+    },
+    logger() {
+      return logger;
     },
   },
   methods: {
@@ -88,6 +100,15 @@ export default {
         item.caller ? 'caller:\n' + JSON.stringify(item.caller, null, 2) : 'no caller'
       }`;
       navigator.clipboard.writeText(text);
+    },
+    exportLog() {
+      const data = logger.export();
+      const blob = new Blob([data], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `compcon-log-${new Date(Date.now()).toLocaleDateString()}.txt`;
+      a.click();
     },
   },
 };

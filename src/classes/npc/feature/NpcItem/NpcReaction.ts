@@ -1,4 +1,4 @@
-import { ItemType } from '@/class';
+import { ContentPack, ItemType } from '@/class';
 import { INpcFeatureData, NpcFeatureType, NpcFeature } from '../NpcFeature';
 
 interface INpcReactionData extends INpcFeatureData {
@@ -10,8 +10,8 @@ interface INpcReactionData extends INpcFeatureData {
 class NpcReaction extends NpcFeature {
   public ItemType: ItemType = ItemType.NpcReaction;
 
-  public constructor(data: INpcReactionData, packName?: string) {
-    super(data, packName);
+  public constructor(data: INpcReactionData, pack?: ContentPack) {
+    super(data, pack);
     this.FeatureType = NpcFeatureType.Reaction;
   }
 

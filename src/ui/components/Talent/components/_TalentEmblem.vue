@@ -1,6 +1,6 @@
 <template>
-  <div style="position: relative">
-    <cc-img
+  <span>
+    <v-img
       ref="img"
       :src="src"
       class="pa-2"
@@ -10,16 +10,14 @@
       :class="
         white ? 'white-emblem' : $vuetify.theme.current.dark ? 'white-emblem' : 'black-emblem'
       "
-      @error="imageLoadFailed()"
-    />
-    <div
+      @error="imageLoadFailed()" />
+    <span
       v-if="backup"
       :class="`banner ${small ? 'overline' : 'caption'}`"
-      :style="`width: ${size}`"
-    >
+      :style="`width: ${size}`">
       {{ backup }}
-    </div>
-  </div>
+    </span>
+  </span>
 </template>
 
 <script lang="ts">

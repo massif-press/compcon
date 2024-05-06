@@ -116,7 +116,6 @@ export const CompendiumStore = defineStore('compendium', {
     LancerVersion: '',
     CCVersion: '',
     ContentPacks: [] as ContentPack[],
-    MissingContent: { pilots: [], npcs: [] },
     nfErr: { err: 'ID not found' },
     packData: [] as IContentPack[],
   }),
@@ -178,7 +177,7 @@ export const CompendiumStore = defineStore('compendium', {
     packAlreadyInstalled(): any {
       return (packStr: string, version?: string) => {
         let candidates = this.ContentPacks.filter(
-          (pack) => packStr === pack.Name || packStr === pack.ID
+          (pack) => packStr.toLowerCase() === pack.Name.toLowerCase()
         );
 
         if (!version || version === '*') return candidates.length > 0;
@@ -191,31 +190,25 @@ export const CompendiumStore = defineStore('compendium', {
       };
     },
 
-    instantiate(): any | { err: string } {
+    instantiate(): any {
       return (itemType: string, id: string) => {
         if (this[itemType] && this[itemType] instanceof Array) {
           const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
           if (i) return _.cloneDeep(i);
-          const miID = `missing_${itemType.toLowerCase()}`;
-          const missingItem = this[itemType].find((x: any) => x.ID === miID || x.id === miID);
-          if (missingItem) return _.clone(missingItem);
-          return this.nfErr;
+          throw new Error(`ID not found: ${id}`);
         }
-        return { err: 'Invalid Item Type' };
+        throw new Error(`Invalid item type: ${itemType}`);
       };
     },
 
-    referenceByID(): any | { err: string } {
+    referenceByID(): any {
       return (itemType: string, id: string) => {
         if (this[itemType] && this[itemType] instanceof Array) {
           const i = this[itemType].find((x: any) => x.ID === id || x.id === id);
           if (i) return i;
-          const miID = `missing_${itemType.toLowerCase()}`;
-          const missingItem = this[itemType].find((x: any) => x.ID === miID || x.id === miID);
-          if (missingItem) return missingItem;
-          return this.nfErr;
+          throw new Error(`ID not found: ${id}`);
         }
-        return { err: 'Invalid Item Type' };
+        throw new Error(`Invalid item type: ${itemType}`);
       };
     },
 
@@ -251,9 +244,6 @@ export const CompendiumStore = defineStore('compendium', {
       Promise.all([this.ContentPacks.map((y) => SetItem('content', y.Serialize()))])
         .then(() => console.info('LCP data saved'))
         .catch((err) => console.error('Error while saving LCP data', err));
-    },
-    setMissingContent(payload: any): void {
-      this.MissingContent = payload;
     },
     async togglePackActive(payload: string): Promise<void> {
       const pack = this.ContentPacks.find((pack) => pack.ID === payload);

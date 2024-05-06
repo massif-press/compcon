@@ -6,8 +6,7 @@
     :groupings="groupings"
     :sortings="sortings"
     @add-new="addNew()"
-    @open="openItem($event)">
-  </gm-collection-view>
+    @open="openItem($event)"></gm-collection-view>
   <v-dialog v-model="dialog" fullscreen>
     <v-card flat>
       <component
@@ -45,6 +44,9 @@ export default {
     selected: null as INarrativeElement | null,
   }),
   computed: {
+    allNarrativeItems() {
+      return NarrativeStore().CollectionItems.length;
+    },
     groupings() {
       const allLabelTitles = new Set(
         NarrativeStore()
@@ -96,20 +98,20 @@ export default {
       this.dialog = true;
     },
     addNew() {
+      let e;
       switch (this.itemType) {
         case 'Character':
-          this.selected = new Character();
+          e = new Character();
           break;
         case 'Location':
-          this.selected = new Location();
+          e = new Location();
           break;
         case 'Faction':
-          this.selected = new Faction();
-          break;
-        default:
-          this.selected = null;
+          e = new Faction();
           break;
       }
+      NarrativeStore().AddItem(e);
+      this.selected = e;
       this.dialog = true;
     },
     SaveAndClose() {

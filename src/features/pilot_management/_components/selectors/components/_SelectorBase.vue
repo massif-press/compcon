@@ -9,7 +9,7 @@
       </div>
     </v-col>
     <v-col ref="content" cols="9">
-      <div id="content-col" :class="modal ? 'fixed-window' : ''">
+      <div id="content" :class="modal ? 'fixed-window' : ''">
         <slot name="right-column" />
       </div>
     </v-col>

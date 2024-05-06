@@ -123,8 +123,7 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
 
   public get IsLinked(): boolean {
     return (
-      this.GetLinkedItem<Npc>() !== undefined &&
-      this.GetLinkedItem<Npc>().BrewController.AllContentAvailable
+      this.GetLinkedItem<Npc>() !== undefined && !this.GetLinkedItem<Npc>().BrewController.HasError
     );
   }
 
@@ -148,13 +147,13 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     SaveController.Serialize(unit, data);
     CloudController.Serialize(unit, data);
     PortraitController.Serialize(unit, data);
-    BrewController.Serialize(unit, data);
     NpcTemplateController.Serialize(unit, data);
     NpcFeatureController.Serialize(unit, data);
     NpcClassController.Serialize(unit, data);
     NarrativeController.Serialize(unit, data);
     StatController.Serialize(unit, data);
     FolderController.Serialize(unit, data);
+    BrewController.Serialize(unit, data);
 
     return data as UnitData;
   }
@@ -167,13 +166,25 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     const unit = new Unit(data);
     SaveController.Deserialize(unit, data.save);
     PortraitController.Deserialize(unit, data.img);
-    BrewController.Deserialize(unit, data);
-    NpcClassController.Deserialize(unit, data as any);
-    NpcTemplateController.Deserialize(unit, data as any);
-    NpcFeatureController.Deserialize(unit, data as any);
+    try {
+      NpcClassController.Deserialize(unit, data as any);
+    } catch (e) {
+      Npc.LoadError(unit, e, 'Npc Class Controller');
+    }
+    try {
+      NpcTemplateController.Deserialize(unit, data as any);
+    } catch (e) {
+      Npc.LoadError(unit, e, 'Npc Template Controller');
+    }
+    try {
+      NpcFeatureController.Deserialize(unit, data as any);
+    } catch (e) {
+      Npc.LoadError(unit, e, 'Npc Feature Controller');
+    }
     NarrativeController.Deserialize(unit, data.narrative);
     StatController.Deserialize(unit, data.stats);
     FolderController.Deserialize(unit, data.folder);
+    BrewController.Deserialize(unit, data);
     return unit;
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-for="r in range as Range[]" class="text-center d-inline-block px-2">
+  <div v-for="r in <Range[]>range" class="text-center d-inline-block px-2">
     <cc-tooltip :title="r.Text" :content="Help(r.Type)">
       <span v-if="small">
         <v-icon :icon="r.Icon" />
@@ -17,7 +17,7 @@
         </v-col>
       </v-row>
     </cc-tooltip>
-    <div v-if="!small" class="text-overline mt-n2 text-text">
+    <div v-if="!small" class="text-caption text-text text-uppercase mt-n1">
       <b>{{ r.Type }}</b>
     </div>
   </div>

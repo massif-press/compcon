@@ -1,7 +1,7 @@
 <template>
   <div>
     <cc-title large color="pilot" class="pr-8 mb-2">Hangar</cc-title>
-    <v-btn-toggle id="viewToggle" :value="getView" mandatory>
+    <v-btn-toggle id="viewToggle" :value="view" mandatory>
       <v-btn small icon value="cards" @click="profile.SetView('hangar', 'cards')">
         <v-icon color="accent">mdi-view-grid</v-icon>
       </v-btn>
@@ -13,23 +13,21 @@
       </v-btn>
     </v-btn-toggle>
     <v-container class="mt-2">
-      <v-row v-if="getView === 'cards'" justify="center">
+      <v-row v-if="view === 'cards'" justify="center">
         <mech-card
           v-for="m in pilot.Mechs"
           :mech="m"
           @delete="pilot.RemoveMech($event)"
           @copy="pilot.CloneMech($event)"
-          @go="toMechSheet($event)"
-        />
+          @go="toMechSheet($event)" />
       </v-row>
       <mech-list-item
-        v-else-if="getView === 'list'"
+        v-else-if="view === 'list'"
         v-for="m in pilot.Mechs"
         :mech="m"
         @delete="pilot.RemoveMech($event)"
         @copy="pilot.CloneMech($event)"
-        @go="toMechSheet($event)"
-      />
+        @go="toMechSheet($event)" />
       <mech-table v-else :mechs="pilot.Mechs" @go="toMechSheet($event)" />
     </v-container>
     <v-row justify="center">
@@ -38,8 +36,9 @@
           color="accent"
           prepend-icon="mdi-plus"
           class="px-10"
-          @click="($refs as any).dialog.show()"
-        >
+          variant="tonal"
+          size="large"
+          @click="($refs as any).dialog.show()">
           Add New Mech
         </v-btn>
       </v-col>
@@ -57,7 +56,6 @@ import MechTable from './components/MechTable.vue';
 import NewMechMenu from './components/NewMechMenu.vue';
 import { UserStore } from '@/stores';
 import { Pilot } from '@/class';
-import { UserProfile } from '@/user';
 
 export default {
   name: 'mech-hangar-view',
@@ -69,12 +67,11 @@ export default {
     },
   },
   computed: {
-    profile(): UserProfile {
-      return UserStore().UserProfile as UserProfile;
+    profile() {
+      return UserStore().User;
     },
-    getView() {
-      const view = this.profile?.View('hangar');
-      return view || 'cards';
+    view() {
+      return this.profile.View('hangar', 'cards');
     },
   },
   methods: {

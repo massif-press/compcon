@@ -9,8 +9,7 @@
         <cc-damage-element
           :damage="item.Damage"
           :type-override="item.DamageTypeOverride"
-          :dense="dense"
-        />
+          :dense="dense" />
       </v-col>
       <v-col v-if="item.InLcp && !dense" cols="auto" class="ml-auto text-right">
         <div class="heading h3 text-text">{{ item.LcpName }}</div>

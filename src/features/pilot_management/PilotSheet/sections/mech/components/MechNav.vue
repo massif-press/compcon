@@ -8,7 +8,7 @@
           MECH CONFIGURATION
         </nav-item>
       </cc-tooltip>
-      <cc-tooltip simple inline content="Feature In Development">
+      <v-tooltip simple inline content="Feature In Development">
         <nav-item disabled :selected="selected === 1" @click="$emit('set-page', 1)">
           COMBAT ANALYTICS
         </nav-item>
@@ -36,15 +36,13 @@
           prepend-icon="mdi-printer"
           title="Print"
           subtitle="Print a tabletop-ready mech sheet"
-          @click="$router.push(`/print/${pilot.ID}/${mechID}`)"
-        />
+          @click="$router.push(`/print/${pilot.ID}/${mechID}`)" />
 
         <v-list-item
           prepend-icon="mdi-file-document-outline"
           title="Generate Statblock"
           subtitle="Get a plaintext representation of this mech configuration"
-          @click="($refs as any).statblockDialog.show()"
-        />
+          @click="($refs as any).statblockDialog.show()" />
 
         <v-divider />
 
@@ -53,17 +51,15 @@
           prepend-icon="mdi-delete"
           title="Delete Mech"
           subtitle="Remove mech from the Hangar"
-          @click="$emit('delete')"
-        />
+          @click="$emit('delete')" />
       </v-list>
     </v-menu>
 
     <statblock-dialog
       ref="statblockDialog"
       class="unskew"
-      :pilot="(pilot as Pilot)"
-      :mechID="mechID"
-    />
+      :pilot="pilot as Pilot"
+      :mechID="mechID" />
   </div>
 </template>
 

@@ -11,16 +11,14 @@
         prepend-icon
         clearable
         @click:clear="reset()"
-        @change="fileChange($event)"
-      />
+        @change="fileChange($event)" />
       <v-btn
         block
         type="flat"
         :disabled="!contentPack || installing || uninstalledDependencies.length > 0"
         :color="done ? 'success' : 'primary'"
         class="mb-2"
-        @click="install"
-      >
+        @click="install">
         <v-fade-transition mode="out-in">
           <svg
             v-show="done"
@@ -28,12 +26,10 @@
             xmlns="http://www.w3.org/2000/svg"
             width="32px"
             height="32px"
-            viewBox="0 0 154 154"
-          >
+            viewBox="0 0 154 154">
             <polyline
               points="43.5,77.8 63.7,97.9 112.2,49.4 "
-              style="stroke: white; fill: none; stroke-width: 12px"
-            />
+              style="stroke: white; fill: none; stroke-width: 12px" />
           </svg>
         </v-fade-transition>
         <span v-show="!done">{{ packAlreadyInstalled ? 'Replace' : 'Install' }}</span>
@@ -43,8 +39,7 @@
         v-show="packAlreadyInstalled && !(installing || done)"
         type="info"
         class="transition-swing"
-        transition="slide-y-reverse-transition"
-      >
+        transition="slide-y-reverse-transition">
         A pack with this same name and author is already installed. It will be replaced by this
         copy.
       </v-alert>
@@ -52,14 +47,14 @@
         v-show="uninstalledDependencies.length > 0 && !(installing || done)"
         type="error"
         class="transition-swing"
-        transition="slide-y-reverse-transition"
-      >
+        transition="slide-y-reverse-transition">
         This LCP requires the following content to be installed before it can be added:
         <div v-for="dep in uninstalledDependencies" :key="dep.id" class="text-caption">
-          <v-chip size="small">{{ dep.name }}</v-chip> @ {{ parseVersion(dep.version) }}
-          <v-btn v-if="dep.link" icon variant="plain" size="x-small" @click="openLink(dep.link)"
-            ><v-icon>mdi-open-in-new</v-icon></v-btn
-          >
+          <v-chip size="small">{{ dep.name }}</v-chip>
+          @ {{ parseVersion(dep.version) }}
+          <v-btn v-if="dep.link" icon variant="plain" size="x-small" @click="openLink(dep.link)">
+            <v-icon>mdi-open-in-new</v-icon>
+          </v-btn>
         </div>
       </v-alert>
     </v-col>
@@ -78,8 +73,7 @@
             height: 200px;
             align-items: center;
             justify-content: center;
-          "
-        >
+          ">
           <div class="heading h3 font-italic text-disabled text--darken-1">
             No content pack selected.
           </div>
@@ -95,9 +89,10 @@ import { parseContentPack } from '@/io/ContentPackParser';
 
 import { CompendiumStore } from '@/stores';
 
-import { IContentPack } from '@/interface';
+import { ContentPack } from '@/class';
 
 import PackInfo from './PackInfo.vue';
+import { IContentPack } from '@/classes/ContentPack';
 
 export default {
   name: 'PackInstall',

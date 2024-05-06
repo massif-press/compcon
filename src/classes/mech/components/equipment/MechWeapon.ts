@@ -2,6 +2,7 @@ import { CompendiumStore } from '@/stores';
 import _ from 'lodash';
 import {
   CompendiumItem,
+  ContentPack,
   Damage,
   DamageType,
   ItemType,
@@ -23,6 +24,7 @@ import {
   Action,
   ICompendiumItemData,
   IEquipmentData,
+  IContentPack,
 } from '@/interface';
 import { IActionData } from '@/classes/Action';
 import { IBonusData } from '@/classes/components';
@@ -88,13 +90,13 @@ class WeaponProfile extends CompendiumItem {
   public constructor(
     pData: IWeaponProfileData | IMechWeaponData,
     container: MechWeapon,
-    packTags?: ITagCompendiumData[],
+    pack?: ContentPack,
     idx?: number
   ) {
     const data = Object.assign({}, pData) as ICompendiumItemData;
     if (!data.id) data.id = container.ID;
     data.id += `_profile_${idx || 0}`;
-    super(data, packTags);
+    super(data, pack);
     this.Cost = parseInt(pData.cost as any) || 1;
     this.Barrage = pData.barrage != undefined ? pData.barrage : container.Barrage;
     this.Skirmish = pData.skirmish != undefined ? pData.skirmish : container.Skirmish;
@@ -132,8 +134,8 @@ class MechWeapon extends MechEquipment {
   private _custom_damage_type?: string | null;
   private _selected_profile: number;
 
-  public constructor(data: IMechWeaponData, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data: IMechWeaponData, pack?: ContentPack) {
+    super(data, pack);
     this.Size = data.mount;
     this.ModSize = data.mod_size_override ? data.mod_size_override : data.mount;
     this.WeaponType = data.type;
@@ -144,9 +146,9 @@ class MechWeapon extends MechEquipment {
     this.NoAttack = data.no_attack || false;
     this.NoCoreBonus = data.no_core_bonus || false;
     if (data.profiles && data.profiles.length) {
-      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, packTags, i));
+      this.Profiles = data.profiles.map((x, i) => new WeaponProfile(x, this, pack, i));
     } else {
-      this.Profiles = [new WeaponProfile(data, this, packTags)];
+      this.Profiles = [new WeaponProfile(data, this, pack)];
     }
     this._selected_profile = 0;
     this._mod = null;
@@ -190,7 +192,7 @@ class MechWeapon extends MechEquipment {
   public SetProfileSelection(val: number): void {
     // TODO: recognize when this is instantiated on an existing mech so we can correctly call the save function from the setter
     this._selected_profile = val;
-    this.save();
+    // this.save();
   }
 
   public get ProfileIndex(): number {
@@ -225,13 +227,13 @@ class MechWeapon extends MechEquipment {
 
   public set DamageTypeOverride(val: string | null) {
     this._custom_damage_type = val;
-    this.save();
+    // this.save();
   }
 
   public set MaxUseOverride(val: number) {
     const safeVal = MechWeapon.SanitizeUsesInput(val);
     this.max_use_override = safeVal;
-    this.save();
+    // this.save();
   }
 
   public static SanitizeUsesInput(val: number): number {
@@ -262,11 +264,17 @@ class MechWeapon extends MechEquipment {
   }
 
   public set Mod(mod: WeaponMod | null) {
-    this._mod = mod ? (CompendiumItem.Clone(mod) as WeaponMod) : null;
+    if (mod) {
+      const m = _.clone(mod);
+      console.log(m);
+      this._mod = m;
+    } else {
+      this._mod = null;
+    }
   }
 
   public get Mod(): WeaponMod | null {
-    return this._mod || null;
+    return this._mod;
   }
 
   public get Color(): string {

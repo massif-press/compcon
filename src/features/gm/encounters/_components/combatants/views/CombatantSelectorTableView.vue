@@ -12,17 +12,17 @@
       </v-col>
       <v-col cols="auto" align-self="center" class="mx-4">
         <v-row dense align="center">
-          <v-col cols="auto"
-            ><v-switch v-model="labelHeaders" color="primary" hide-details density="compact" inset
-          /></v-col>
+          <v-col cols="auto">
+            <v-switch v-model="labelHeaders" color="primary" hide-details density="compact" inset />
+          </v-col>
           <v-col cols="auto">
             <v-tooltip location="bottom">
               <template #activator="{ props }">
                 <v-icon v-bind="props" icon="mdi-label" />
               </template>
               <span>Show GM label headers</span>
-            </v-tooltip></v-col
-          >
+            </v-tooltip>
+          </v-col>
         </v-row>
       </v-col>
       <v-col cols="auto">
@@ -69,37 +69,43 @@
               </v-tooltip>
             </template>
             <template #[`item.NpcClassController.Class.Role`]="{ item }">
-              <v-tooltip location="top">
-                <template #activator="{ props }">
-                  <v-icon v-bind="props" :icon="roleIcon(item.NpcClassController.Class.Role)" />
-                </template>
-                <span>{{ item.NpcClassController.Class.Role }}</span>
-              </v-tooltip>
+              <div v-if="(item as Unit).NpcClassController?.HasClass">
+                <v-tooltip location="top">
+                  <template #activator="{ props }">
+                    <v-icon
+                      v-bind="props"
+                      :icon="roleIcon((item as Unit).NpcClassController.Class?.Role || '')" />
+                  </template>
+                  <span>{{ (item as Unit).NpcClassController.Class?.Role }}</span>
+                </v-tooltip>
+              </div>
             </template>
             <template #[`item.Tag`]="{ item }">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-icon v-bind="props" :icon="tagIcon(item.Tag)" />
+                  <v-icon v-bind="props" :icon="tagIcon((item as Unit).Tag)" />
                 </template>
-                <span>{{ item.Tag }}</span>
+                <span>{{ (item as Unit).Tag }}</span>
               </v-tooltip>
             </template>
             <template #[`item.NpcClassController.Tier`]="{ item }">
               <v-tooltip location="top">
                 <template #activator="{ props }">
-                  <v-icon v-bind="props" :icon="`cc:npc_tier_${item.NpcClassController.Tier}`" />
+                  <v-icon
+                    v-bind="props"
+                    :icon="`cc:npc_tier_${(item as Unit).NpcClassController.Tier}`" />
                 </template>
-                <span>Tier {{ item.NpcClassController.Tier }}</span>
+                <span>Tier {{ (item as Unit).NpcClassController.Tier }}</span>
               </v-tooltip>
             </template>
             <template #[`item.Templates`]="{ item }">
-              {{ item.NpcTemplateController.Templates.map((x) => x.Name).join(', ') }}
+              {{ (item as Unit).NpcTemplateController.Templates.map((x) => x.Name).join(', ') }}
             </template>
             <template #[`item.Features`]="{ item }">
               <cc-item-chip
-                v-for="f in item.NpcFeatureController.Features"
+                v-for="f in (item as Unit).NpcFeatureController.Features"
                 :item="f"
-                :tier="item.NpcClassController.Tier"
+                :tier="(item as Unit).NpcClassController.Tier"
                 size="x-small"
                 variant="elevated"
                 class="ma-1" />
@@ -178,13 +184,13 @@
             </template>
             <template #[`item.Layers`]="{ item }">
               <v-chip
-                v-for="l in item.Layers"
+                v-for="l in (item as Eidolon).Layers"
                 size="small"
                 label
                 prepend-icon="mdi-layers"
-                class="mx-1 my-1"
-                >{{ l.Layer.Name }}</v-chip
-              >
+                class="mx-1 my-1">
+                {{ l.Layer.Name }}
+              </v-chip>
             </template>
             <template #[`item.View`]="{ item }">
               <v-btn
@@ -223,6 +229,8 @@ import EidolonEditor from '@/features/gm/npc_roster/eidolons/editor.vue';
 import GmCollectionFilter from '@/features/gm/_views/_components/GMCollectionFilter.vue';
 import { Npc } from '@/classes/npc/Npc';
 import _ from 'lodash';
+import { Unit } from '@/classes/npc/unit/Unit';
+import { Eidolon } from '@/classes/npc/eidolon/Eidolon';
 
 export default {
   name: 'combatant-selector-table-view',

@@ -236,7 +236,8 @@ class Campaign implements ISaveable {
   }
 
   public AddSection(data?: ICampaignSectionData): void {
-    this.Contents.push(new CampaignSection(null, this, data));
+    const s = new CampaignSection(null, this, data);
+    this.Contents.push(s);
     this.save();
   }
 
@@ -261,13 +262,6 @@ class Campaign implements ISaveable {
   }
 
   public get AllNpcContent(): any[] {
-    console.log(
-      this.AllContent.flatMap((x) => x.Content)
-        .filter((x) => x.ContentType === 'encounter')
-        .flatMap((x) => x.Content as EncounterDataContainer)
-        .map((x) => x.Data?.Combatants)
-    );
-
     return this.AllContent.flatMap((x) => x.Content)
       .filter((x) => x.ContentType === 'encounter')
       .flatMap((x) => x.Content as EncounterDataContainer)

@@ -11,23 +11,25 @@
 
     <div v-else-if="useVCard" variant="outlined" color="subtle" class="mx-4">
       <v-card-text class="px-2 pt-1 pb-3">
-        <div v-html-safe="item.Description" class="body-text" />
+        <div v-if="item.Detail" v-html-safe="item.Detail" class="body-text" />
+        <div v-else v-html-safe="item.Description" class="body-text" />
       </v-card-text>
     </div>
 
     <div v-else-if="item.ItemType === 'Status'" class="pb-2">
       <v-row align="center">
         <v-col cols="auto">
-          <v-icon v-if="item.Icon" size="80" color="accent" :icon="item.Icon" /> </v-col
-        ><v-col>
+          <v-icon v-if="item.Icon" size="80" color="accent" :icon="item.Icon" />
+        </v-col>
+        <v-col>
           <div class="flavor-text" v-text="item.StatusType" />
           <v-divider class="my-1" />
-          <div v-html-safe="item.Effects" class="mb-0 text-stark body-text"
-        /></v-col>
+          <div v-html-safe="item.Effects" class="mb-0 text-stark body-text" />
+        </v-col>
       </v-row>
     </div>
 
-    <cc-talent v-else-if="item.ItemType === 'Talent'" :talent="item" />
+    <cc-talent v-else-if="item.ItemType === 'Talent'" :talent="item" hide-change />
 
     <cc-item-card v-else :item="item" charts />
   </div>

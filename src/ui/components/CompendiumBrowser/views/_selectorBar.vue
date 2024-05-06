@@ -7,7 +7,7 @@
             <v-btn
               v-for="(lcp, i) in lcpFilter"
               :active="lcpTab === i"
-              :color="lcpTab === i ? 'primary' : ''"
+              :color="lcpTab === i ? 'accent' : ''"
               variant="tonal"
               size="small"
               rounded="0"
@@ -419,7 +419,11 @@ export default {
       let arr = [] as any[];
       if (items && (items[0] as any).StatsByProfile)
         arr = (items as MechWeapon[]).flatMap((x: MechWeapon) => x.StatsByProfile);
-      else if (items && (items[0] as NpcClass).Stats) {
+      else if (
+        (this.items[0] as any).ItemType === 'NpcClass' &&
+        items &&
+        (items[0] as NpcClass).Stats
+      ) {
         arr = items.map((x) => ({
           ID: x.ID,
           Name: x.Name,
@@ -441,7 +445,7 @@ export default {
             source: x.Source,
             lcp: x.LcpName,
             id: x.ID,
-            color: x.Color,
+            color: x.ManufacturerColor || x.Color,
           };
         })
       );

@@ -6,13 +6,18 @@
       </v-col>
       <v-col style="min-width: 215px; max-width: 215px" />
     </v-row>
-    <v-row align="start">
-      <v-col cols="8">
+    <v-row>
+      <v-col cols="8" class="mt-n2">
         <clone-block :pilot="pilot" />
-        <history-block :pilot="pilot" />
-        <appearance-block :pilot="pilot" />
-        <note-editor :item="pilot" type="Pilot" />
-        <!-- <combat-history-block :pilot="pilot" /> -->
+
+        <section-header title="Pilot Biography" />
+        <cc-rich-text-area :item="pilot" note-property="History" class="mb-3" />
+
+        <section-header title="Pilot Appearance" />
+        <cc-rich-text-area :item="pilot" note-property="TextAppearance" class="mb-3" />
+
+        <section-header title="Pilot Notes" />
+        <cc-rich-text-area :item="pilot" note-property="Notes" class="mb-3" />
       </v-col>
       <v-col cols="4">
         <image-block :pilot="pilot" />
@@ -23,14 +28,11 @@
 
 <script lang="ts">
 import { Pilot } from '@/class';
+import SectionHeader from '../components/SectionHeader.vue';
 
 import IdentBlock from './components/IdentBlock.vue';
-import HistoryBlock from './components/HistoryBlock.vue';
-import AppearanceBlock from './components/AppearanceBlock.vue';
 import ImageBlock from './components/ImageBlock.vue';
-import NoteEditor from '../../components/NoteEditor.vue';
 import CloneBlock from './components/CloneBlock.vue';
-import CombatHistoryBlock from './components/CombatHistoryBlock.vue';
 
 export default {
   name: 'info-view',
@@ -41,13 +43,10 @@ export default {
     },
   },
   components: {
+    SectionHeader,
     IdentBlock,
-    HistoryBlock,
-    AppearanceBlock,
     ImageBlock,
-    NoteEditor,
     CloneBlock,
-    CombatHistoryBlock,
   },
 };
 </script>

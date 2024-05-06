@@ -3,7 +3,7 @@
     <v-row align="center">
       <v-col v-if="item.SP" cols="auto" class="text-center">
         <div class="panel clipped">
-          <v-icon v-for="n in item.SP" x-large>cc:system_point</v-icon>
+          <v-icon v-for="n in item.SP" size="x-large">cc:system_point</v-icon>
         </div>
         <span class="text-overline">
           <b>{{ item.SP }}</b>

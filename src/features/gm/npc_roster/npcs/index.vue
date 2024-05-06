@@ -79,14 +79,12 @@ export default {
       this.dialog = true;
     },
     addNew() {
-      this.selected = new Unit();
+      const u = new Unit();
+      NpcStore().AddNpc(u);
+      this.selected = u;
       this.dialog = true;
     },
     SaveAndClose() {
-      // const store =EidolonStore();
-      // TODO: check for and ask to update instances on save
-      // store.addEidolon(this.selected);
-      // this.$set(this, 'selected', null);
       this.selected = null;
       this.dialog = false;
     },

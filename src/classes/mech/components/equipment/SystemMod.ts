@@ -1,5 +1,5 @@
 import { CompendiumStore } from '@/stores';
-import { ItemType, MechEquipment, SystemType } from '@/class';
+import { ContentPack, ItemType, MechEquipment, SystemType } from '@/class';
 import { IEquipmentData, IMechEquipmentData, ITagData } from '@/interface';
 
 interface ISystemModData extends IMechEquipmentData {
@@ -12,8 +12,8 @@ class SystemMod extends MechEquipment {
   public readonly AllowedTypes: SystemType[];
   public readonly RestrictedTypes: SystemType[];
 
-  public constructor(data: ISystemModData) {
-    super(data);
+  public constructor(data: ISystemModData, pack?: ContentPack) {
+    super(data, pack);
     this.AllowedTypes =
       data.allowed_types || Object.keys(SystemType).map((k) => SystemType[k as string]);
     this.RestrictedTypes = data.restricted_types || [];

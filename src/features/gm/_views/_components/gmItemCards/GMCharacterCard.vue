@@ -1,46 +1,29 @@
 <template>
-  <v-hover>
-    <template #default="{ isHovering, props }">
-      <v-card
-        v-bind="props"
-        :elevation="isHovering ? 12 : 0"
-        :variant="isHovering ? 'outlined' : 'flat'"
-        height="100%"
-        style="position: relative"
-        @click="$emit('open', item)">
-        <cc-img :aspect-ratio="1" :src="item.PortraitController.Image" />
-        <v-fade-transition>
-          <v-card
-            v-if="isHovering"
-            style="position: absolute; bottom: 0; left: 0; right: 0"
-            class="pa-2 text-center">
-            <div class="heading">{{ item.Name }}</div>
-            <div v-if="big">
-              <v-divider />
-              {{ item.Title }} <br v-if="item.Title" />
-              <i class="text-caption">({{ item.Pronouns }})</i>
-            </div>
-          </v-card>
-        </v-fade-transition>
-        <sort-chips :grouping="grouping" :sorting="sorting" />
-      </v-card>
-    </template>
-  </v-hover>
+  <gm-card-base
+    :item="item"
+    :big="big"
+    :grouping="grouping"
+    :sorting="sorting"
+    @open="$emit('open', item)">
+    {{ item.Title }}
+    <br v-if="item.Title" />
+    <i class="text-caption">({{ item.Pronouns }})</i>
+  </gm-card-base>
 </template>
 
 <script lang="ts">
-import SortChips from './_subcomponents/sortChips.vue';
+import GmCardBase from './_GMCardBase.vue';
 
 export default {
   name: 'gm-character-card',
   emits: ['open'],
-  components: { SortChips },
+  components: { GmCardBase },
   props: {
     item: { type: Object, required: true },
     big: { type: Boolean },
     odd: { type: Boolean },
     grouping: { type: [Object, String], required: false, default: '' },
-    sorting: { type: [Object, String], required: false, default: '' },
+    sorting: { type: Object, required: false, default: '' },
   },
 };
 </script>

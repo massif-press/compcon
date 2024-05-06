@@ -3,8 +3,7 @@
     :complete="pilot.HasIdent"
     :mandatory="!quickstart"
     exit="pilot_management"
-    @complete="$emit('next')"
-  >
+    @complete="$emit('next')">
     <cc-title large>New Pilot Registration&emsp;</cc-title>
     <div v-show="$vuetify.display.mdAndUp">
       <h2 class="heading">
@@ -27,8 +26,7 @@
           variant="outlined"
           class="mt-2 mb-1"
           density="compact"
-          prominent
-        >
+          prominent>
           <b>
             All fields marked with the
             <v-icon color="error">mdi-alert</v-icon>
@@ -54,8 +52,7 @@
             label="Name"
             hide-details
             density="compact"
-            class="my-1"
-          >
+            class="my-1">
             <template #prepend>
               <cc-tooltip simple content="Generate Random Name">
                 <v-icon color="secondary" @click="randomName()">mdi-dice-multiple</v-icon>
@@ -79,8 +76,7 @@
             label="Callsign"
             density="compact"
             class="my-1"
-            hide-details
-          >
+            hide-details>
             <template #prepend>
               <cc-tooltip simple content="Generate Random Callsign">
                 <v-icon color="secondary" @click="randomCallsign()">mdi-dice-multiple</v-icon>
@@ -103,8 +99,7 @@
             label="Background"
             density="compact"
             class="my-1"
-            hide-details
-          >
+            hide-details>
             <template #prepend>
               <cc-tooltip simple content="Select Predefined Background">
                 <background-selector @select="$emit('set', { attr: 'Background', val: $event })" />
@@ -128,8 +123,7 @@
                 label="Pilot Biography"
                 color="secondary"
                 :original="pilot.History"
-                @save="$emit('set', { attr: 'History', val: $event })"
-              />
+                @save="$emit('set', { attr: 'History', val: $event })" />
             </v-col>
             <v-col>
               <v-btn variant="outlined" block color="secondary" @click="($refs.bio as any).show()">
@@ -156,16 +150,14 @@
                 label="Pilot Description"
                 color="secondary"
                 :original="pilot.TextAppearance"
-                @save="$emit('set', { attr: 'TextAppearance', val: $event })"
-              />
+                @save="$emit('set', { attr: 'TextAppearance', val: $event })" />
             </v-col>
             <v-col>
               <v-btn
                 variant="outlined"
                 block
                 color="secondary"
-                @click="($refs.appearance as any).show()"
-              >
+                @click="($refs.appearance as any).show()">
                 <div v-if="!pilot.TextAppearance">Add Pilot Description</div>
                 <div v-else>Edit Pilot Description</div>
               </v-btn>
@@ -190,8 +182,7 @@
             large
             block
             color="secondary"
-            @click="($refs.imageSelector as any).open()"
-          >
+            @click="($refs.imageSelector as any).open()">
             <div v-if="!pilot.Portrait">
               <v-icon start>mdi-plus</v-icon>
               Add Pilot Image
@@ -209,11 +200,11 @@
         </div>
       </v-col>
     </v-row>
-    <div slot="other" class="text-center">
-      <v-btn color="accent" class="mx-2" large @click="$emit('templates')">
+    <div slot="other" class="text-center mt-4">
+      <v-btn color="accent" variant="tonal" @click="$emit('templates')">
         Select Character Template
       </v-btn>
-      <div class="text-overline text-stark">Recommended for New Players</div>
+      <div class="text-caption text-disabled"><i>Recommended for New Players</i></div>
     </div>
   </stepper-content>
 </template>

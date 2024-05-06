@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" width="60vw">
       <template #activator="{ props }">
         <v-btn size="large" variant="outlined" color="stark" block v-bind="props">
-          <v-icon start color="stark">{{ reserve.Icon }}</v-icon>
+          <v-icon start size="x-large" class="mt-n1" color="stark">{{ reserve.Icon }}</v-icon>
           <s v-if="reserve.Used">
             {{ reserve.Name }}
           </s>
@@ -31,8 +31,7 @@
                     v-model="reserve.ResourceName"
                     hide-details
                     :label="reserve.ResourceLabel"
-                    variant="outlined"
-                  />
+                    variant="outlined" />
                 </div>
                 <div v-else-if="reserve.Type === 'Mech'">
                   <span class="effect-text">{{ reserve.Description }}</span>
@@ -42,8 +41,7 @@
                     v-if="
                       reserve.ID === 'reserve_bombardment' ||
                       reserve.ID === 'reserve_extendedharness'
-                    "
-                  >
+                    ">
                     <span class="effect-text">{{ reserve.Description }}</span>
                     <v-spacer class="pb-4" />
                   </div>
@@ -51,8 +49,7 @@
                     <v-text-field
                       v-model="reserve.ResourceName"
                       hide-details
-                      :label="reserve.ResourceLabel"
-                    />
+                      :label="reserve.ResourceLabel" />
                   </div>
                 </div>
               </v-col>
@@ -62,15 +59,13 @@
                   density="compact"
                   inset
                   hide-details
-                  color="secondary"
-                >
+                  color="secondary">
                   <template #label class="stat-text text-text">
                     Used
                     <cc-tooltip
                       simple
                       inline
-                      content="Mark this resource as used or unavailable (but not consumed, destroyed or lost)"
-                    >
+                      content="Mark this resource as used or unavailable (but not consumed, destroyed or lost)">
                       <v-icon size="small" end>mdi-help-circle-outline</v-icon>
                     </cc-tooltip>
                   </template>
@@ -84,8 +79,7 @@
               filled
               rows="2"
               label="Notes"
-              class="mt-4"
-            />
+              class="mt-4" />
 
             <v-textarea
               v-model="reserve.ResourceCost"
@@ -93,8 +87,7 @@
               filled
               rows="2"
               label="Cost/Complications"
-              clearable
-            />
+              clearable />
           </v-card-text>
         </v-card>
       </cc-titled-panel>

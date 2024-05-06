@@ -2,6 +2,9 @@ import { IFeatureContainer } from '@/classes/components/feature/IFeatureContaine
 import { Mech } from '../../Mech';
 import { MechLoadout } from './MechLoadout';
 import { IMechLoadoutData } from './MechLoadout';
+import { MechEquipment } from '../equipment/MechEquipment';
+import { MechSystem } from '../equipment/MechSystem';
+import { MechWeapon } from '../equipment/MechWeapon';
 
 interface IMechLoadoutSaveData {
   loadouts: IMechLoadoutData[];
@@ -44,6 +47,20 @@ class MechLoadoutController implements IFeatureContainer {
   public set ActiveLoadout(loadout: MechLoadout) {
     this._active_loadout = loadout;
     this.Parent.SaveController.save();
+  }
+
+  public RemoveBrewable(item: MechEquipment): void {
+    this.Loadouts.forEach((loadout) => {
+      if (item instanceof MechWeapon) {
+        loadout.AllMounts(true, true).forEach((mount) => {
+          mount.Slots.forEach((slot) => {
+            if (slot.Weapon?.ID === item.ID) slot.UnequipWeapon();
+          });
+        });
+      } else if (item instanceof MechSystem) {
+        loadout.RemoveSystem(item);
+      }
+    });
   }
 
   public AddLoadout(): void {

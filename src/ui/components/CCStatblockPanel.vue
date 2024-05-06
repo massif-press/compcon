@@ -11,8 +11,8 @@
             <span v-if="inline" class="pl-2">{{ value }}</span>
           </v-col>
         </v-row>
-        <div v-if="!inline" class="heading pb-4" style="font-size: 32px">
-          {{ value }}
+        <div v-if="!inline" class="heading pb-4" style="font-size: 26px">
+          {{ isArray ? (value as string[]).join('/') : value }}
         </div>
       </v-card>
     </cc-tooltip>
@@ -21,6 +21,7 @@
 
 <script lang="ts">
 import { glossary } from '@massif/lancer-data';
+import { isArray } from 'lodash';
 
 export default {
   name: 'CCStatblockPanel',
@@ -34,7 +35,7 @@ export default {
       required: true,
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Array],
       required: true,
     },
     cols: {
@@ -44,6 +45,11 @@ export default {
     inline: {
       type: Boolean,
       required: false,
+    },
+  },
+  computed: {
+    isArray(): boolean {
+      return isArray(this.value);
     },
   },
   methods: {

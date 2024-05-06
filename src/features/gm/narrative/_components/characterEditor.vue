@@ -2,7 +2,6 @@
   <editor-base
     :item="item"
     @exit="$emit('exit')"
-    @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
     @export="exportItem($event)"
@@ -63,21 +62,17 @@ export default {
     exit() {
       this.$emit('exit');
     },
-    saveAsNew() {
-      NarrativeStore().AddItem(this.item as Character);
+    async save() {
+      await NarrativeStore().SaveItemData();
       this.exit();
-    },
-    save() {
-      NarrativeStore().SaveItemData();
-      this.$emit('exit');
     },
     deleteItem() {
       (this.item as Character).SaveController.Delete();
-      this.$emit('exit');
+      this.exit();
     },
     dupe() {
       NarrativeStore().CloneItem(this.item as Character);
-      this.$emit('exit');
+      this.exit();
     },
     exportItem(item) {
       exportAsJson(Character.Serialize(item), `${item.Name}.json`);

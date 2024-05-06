@@ -1,7 +1,8 @@
 <template>
-  <v-dialog v-model="dialog" width="35vw">
+  <v-dialog v-model="dialog" width="50vw" min-width="600px">
     <v-card tile>
-      <v-text-field
+      <component
+        :is="multiline ? 'v-textarea' : 'v-text-field'"
         v-model="newString"
         :label="label"
         :placeholder="placeholder"
@@ -11,14 +12,15 @@
         autofocus
         class="pa-4"
         @focus="$event.target.select()"
-        @keyup.enter="confirm()"
-      />
+        @keyup.enter="confirm()" />
       <v-divider />
       <v-card-actions>
-        <v-btn small text @click="dialog = false">Cancel</v-btn>
+        <v-btn size="small" variant="text" @click="dialog = false">Cancel</v-btn>
         <v-spacer />
-        <v-btn v-if="!number" small text color="primary" @click="reset()">Reset</v-btn>
-        <v-btn small text color="success darken-1" @click="confirm()">Save</v-btn>
+        <v-btn v-if="!number" size="small" variant="text" color="primary" @click="reset()">
+          Reset
+        </v-btn>
+        <v-btn size="small" variant="text" color="success darken-1" @click="confirm()">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -44,6 +46,14 @@ export default {
       type: Boolean,
       required: false,
     },
+    number: {
+      type: Boolean,
+      required: false,
+    },
+    multiline: {
+      type: Boolean,
+      required: false,
+    },
   },
   data: () => ({
     newString: '',
@@ -63,6 +73,7 @@ export default {
       this.dialog = false;
     },
     show() {
+      this.newString = this.placeholder;
       this.dialog = true;
     },
     hide() {

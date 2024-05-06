@@ -14,8 +14,7 @@
         <cc-statblock-panel
           icon="mdi-arrow-right-bold-hexagon-outline"
           name="Speed"
-          :value="item.SpeedString"
-        />
+          :value="item.SpeedString" />
       </v-row>
     </template>
   </equipment-card-base>

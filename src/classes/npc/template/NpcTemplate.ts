@@ -1,6 +1,7 @@
 import { CompendiumStore } from '@/stores';
 import { NpcFeature } from '../feature/NpcFeature';
 import _ from 'lodash';
+import { ContentPack } from '@/class';
 
 interface INpcTemplateData {
   id: string;
@@ -22,6 +23,7 @@ interface INpcTemplateData {
 }
 
 class NpcTemplate {
+  public InLcp: boolean = true;
   public readonly ItemType = 'NpcTemplate';
   private _id: string;
   private _name: string;
@@ -30,7 +32,6 @@ class NpcTemplate {
   public readonly ForceTag: string;
   public readonly ProhibitTemplates: string[];
 
-  private _brew: string;
   public readonly OptionalMin: number;
   public readonly OptionalMax: number;
   public readonly OptionalPerTier: number;
@@ -39,9 +40,8 @@ class NpcTemplate {
   public readonly OptionalClassPerTier: number;
   public readonly FreeOptions: boolean;
   public readonly LcpName: string;
-  public readonly InLcp: boolean;
 
-  public constructor(data: INpcTemplateData, packName?: string) {
+  public constructor(data: INpcTemplateData, pack?: ContentPack) {
     this._id = data.id;
     this._name = data.name;
     this._description = data.description || '';
@@ -50,9 +50,7 @@ class NpcTemplate {
     this.ForceTag = data.forceTag || '';
     this.ProhibitTemplates = data.prohibitTemplates || [];
 
-    this._brew = data.brew || 'CORE';
-    this.LcpName = packName || 'Lancer CORE NPCs';
-    this.InLcp = this.LcpName != 'Lancer CORE NPCs' ? true : false;
+    this.LcpName = pack?.Name || 'LANCER Core NPCs';
 
     this.OptionalMin = data.optionalMin || 0;
     this.OptionalMax = data.optionalMax || 0;

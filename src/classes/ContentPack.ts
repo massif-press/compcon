@@ -126,10 +126,10 @@ class ContentPack {
     else self._dependencies = [];
 
     self._data = data;
-    Object.keys(self._data).forEach((key) => self._data[key].forEach((item) => (item.brew = id)));
+
     self._id = id;
 
-    self._Tags = self._data.tags?.map((x) => new Tag(x, self._manifest.name)) || [];
+    self._Tags = self._data.tags?.map((x) => new Tag(x, self)) || [];
 
     self._Manufacturers =
       self._data.manufacturers?.map((x) => {
@@ -137,39 +137,27 @@ class ContentPack {
         m.setCorsSafe();
         return m;
       }) || [];
-    self._Backgrounds =
-      self._data.backgrounds?.map((x) => new Background(x, self._manifest.name)) || [];
-    self._Statuses = self._data.statuses?.map((x) => new Status(x, self._manifest.name)) || [];
-    self._CoreBonuses =
-      self._data.coreBonuses?.map((x) => new CoreBonus(x, self._data.tags, self._manifest.name)) ||
-      [];
-    self._Frames =
-      self._data.frames?.map((x) => new Frame(x, self._data.tags, self._manifest.name)) || [];
-    self._MechWeapons =
-      self._data.weapons?.map((x) => new MechWeapon(x, self._data.tags, self._manifest.name)) || [];
-    self._MechSystems =
-      self._data.systems?.map((x) => new MechSystem(x, self._data.tags, self._manifest.name)) || [];
-    self._WeaponMods =
-      self._data.mods?.map((x) => new WeaponMod(x, self._data.tags, self._manifest.name)) || [];
+    self._Backgrounds = self._data.backgrounds?.map((x) => new Background(x, self)) || [];
+    self._Statuses = self._data.statuses?.map((x) => new Status(x, self)) || [];
+    self._CoreBonuses = self._data.coreBonuses?.map((x) => new CoreBonus(x, self)) || [];
+    self._Frames = self._data.frames?.map((x) => new Frame(x, self)) || [];
+    self._MechWeapons = self._data.weapons?.map((x) => new MechWeapon(x, self)) || [];
+    self._MechSystems = self._data.systems?.map((x) => new MechSystem(x, self)) || [];
+    self._WeaponMods = self._data.mods?.map((x) => new WeaponMod(x, self)) || [];
     self._PilotGear =
       self._data.pilotGear?.map(function (x) {
-        if (x.type?.toLowerCase() === 'weapon')
-          return new PilotWeapon(x as IPilotWeaponData, self._data.tags, self._manifest.name);
+        if (x.type?.toLowerCase() === 'weapon') return new PilotWeapon(x as IPilotWeaponData, self);
         else if (x.type?.toLowerCase() === 'armor')
-          return new PilotArmor(x as IPilotArmorData, self._data.tags, self._manifest.name);
-        return new PilotGear(x as IPilotEquipmentData, self._data.tags, self._manifest.name);
+          return new PilotArmor(x as IPilotArmorData, self);
+        return new PilotGear(x as IPilotEquipmentData, self);
       }) || [];
-    self._Talents =
-      self._data.talents?.map((x) => new Talent(x, self._data.tags, self._manifest.name)) || [];
+    self._Talents = self._data.talents?.map((x) => new Talent(x, self)) || [];
 
-    self._NpcClasses =
-      self._data.npcClasses?.map((x) => new NpcClass(x, self._manifest.name)) || [];
+    self._NpcClasses = self._data.npcClasses?.map((x) => new NpcClass(x, self)) || [];
 
-    self._NpcTemplates =
-      self._data.npcTemplates?.map((x) => new NpcTemplate(x, self._manifest.name)) || [];
+    self._NpcTemplates = self._data.npcTemplates?.map((x) => new NpcTemplate(x, self)) || [];
 
-    self._NpcFeatures =
-      self._data.npcFeatures?.map((x) => NpcFeatureFactory.Build(x, self._manifest.name)) || [];
+    self._NpcFeatures = self._data.npcFeatures?.map((x) => NpcFeatureFactory.Build(x, self)) || [];
 
     self._PlayerActions = self._data.actions?.map(
       (x: PlayerAction.IActionData) => new PlayerAction.Action(x)
@@ -177,17 +165,15 @@ class ContentPack {
 
     self._EidolonLayers = self._data.eidolonLayers.map((x) => new EidolonLayer(x));
 
-    self._Environments =
-      self._data.environments?.map((x) => new Environment(x, self._manifest.name)) || [];
+    self._Environments = self._data.environments?.map((x) => new Environment(x, self)) || [];
 
-    self._Sitreps = self._data.sitreps?.map((x) => new Sitrep(x, self._manifest.name)) || [];
+    self._Sitreps = self._data.sitreps?.map((x) => new Sitrep(x, self)) || [];
 
     self._Tables = self._data.tables || {};
 
-    self._Bonds = self._data.bonds?.map((x) => new Bond(x, self._manifest.name)) || [];
+    self._Bonds = self._data.bonds?.map((x) => new Bond(x, self)) || [];
 
-    self._Reserves =
-      self._data.reserves?.map((x) => new Reserve(x, self._data.tags, self._manifest.name)) || [];
+    self._Reserves = self._data.reserves?.map((x) => new Reserve(x, self)) || [];
   }
 
   public get ID(): string {

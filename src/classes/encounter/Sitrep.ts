@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { Encounter } from './Encounter';
+import { ContentPack } from '../ContentPack';
 
 interface ISitrepData {
   id?: string;
@@ -26,14 +27,14 @@ class Sitrep {
   public readonly ControlZone: string;
   public readonly Extraction: string;
 
-  constructor(data: ISitrepData, packName?: string) {
+  constructor(data: ISitrepData, pack?: ContentPack) {
     this.ID = data.id
       ? data.id
-      : `${packName || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
+      : `${pack?.Name || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
     this.Name = data.name;
     this.Description = data.description;
-    this.LcpName = packName || 'LANCER Core Book';
-    this.InLcp = packName ? true : false;
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
 
     this.Name = data.name;
     this.Description = data.description;

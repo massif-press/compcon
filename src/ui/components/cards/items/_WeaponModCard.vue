@@ -17,7 +17,7 @@
       <v-divider v-if="item.AddedDamage && item.AddedDamage.length" vertical class="mx-4" />
       <v-col v-if="item.SP" cols="auto" class="text-center">
         <div class="panel clipped">
-          <v-icon v-for="n in item.SP" x-large>cc:system_point</v-icon>
+          <v-icon v-for="n in item.SP" size="x-large">cc:system_point</v-icon>
         </div>
         <span class="text-overline">
           <b>{{ item.SP }}</b>
@@ -45,8 +45,7 @@
           small
           label
           variant="outlined"
-          class="text-uppercase"
-        >
+          class="text-uppercase">
           {{ a }}
         </v-chip>
         <v-chip v-for="a in item.PossibleSizes" small label class="text-uppercase">
@@ -62,8 +61,7 @@
             label
             variant="outlined"
             color="error"
-            class="text-uppercase"
-          >
+            class="text-uppercase">
             {{ a }}
           </v-chip>
           <v-chip
@@ -71,8 +69,7 @@
             small
             label
             color="error"
-            class="text-uppercase"
-          >
+            class="text-uppercase">
             {{ a }}
           </v-chip>
         </v-chip-group>

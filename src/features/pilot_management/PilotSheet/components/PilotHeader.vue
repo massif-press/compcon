@@ -13,8 +13,7 @@
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
-                  "
-                >
+                  ">
                   {{ pilot.Callsign }}
                 </div>
               </v-col>
@@ -24,8 +23,7 @@
                   inline
                   bottom
                   title="Remote Resource"
-                  content="The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account."
-                >
+                  content="The instance of this item is linked to data in another user's account. Local changes will not persist, and when synced this item will be updated to the latest version of the data published to the author's cloud account.">
                   <v-icon dark class="mb-n2 ml-n5 fadeSelect">mdi-cloud-braces</v-icon>
                 </cc-tooltip>
               </v-col>
@@ -62,11 +60,15 @@
                   </v-dialog>
                 </div>
               </v-col>
+              <v-col v-if="pilot.BrewController.Brews.length" cols="auto">
+                <div class="text-overline mb-n3" style="opacity: 0.4">RM-6://(DATA)</div>
+                <cc-brew-info :controller="pilot.BrewController" color="" />
+              </v-col>
             </v-row>
           </v-col>
           <v-col cols="auto" class="ml-auto" style="margin-right: 225px">
             <v-row dense align="center" justify="end">
-              <v-col cols="auto" class="heading h3"> license level </v-col>
+              <v-col cols="auto" class="heading h3">license level</v-col>
               <v-col cols="auto" class="heading h2">
                 {{ pilot.Level }}
               </v-col>
@@ -77,9 +79,8 @@
                   simple
                   inline
                   bottom
-                  content="Edit License Level"
-                >
-                  <v-icon size="15" variant="plain" @click="($refs as any).levelEdit.show()">
+                  content="Edit License Level">
+                  <v-icon size="15" class="fade-select" @click="($refs as any).levelEdit.show()">
                     mdi-circle-edit-outline
                   </v-icon>
                 </cc-tooltip>
@@ -90,8 +91,7 @@
               v-if="!isLevelingUp && pilot.Level < 12"
               block
               variant="tonal"
-              @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })"
-            >
+              @click="$router.push({ name: 'level-up', params: { pilotID: pilot.ID } })">
               Level Up
               <v-icon size="large" end>mdi-arrow-up-bold-hexagon-outline</v-icon>
             </v-btn>
@@ -100,29 +100,16 @@
           <v-col cols="auto">
             <div id="image-bg" />
             <div id="triangle" />
-            <v-hover>
-              <template #default="{ hover }">
-                <div id="image" class="border">
-                  <cc-avatar
-                    v-if="pilot.PortraitController.Avatar"
-                    :avatar="pilot.PortraitController.Avatar"
-                  />
-                  <cc-img
-                    v-else-if="pilot.PortraitController.Portrait"
-                    :src="pilot.PortraitController.Portrait"
-                    aspect-ratio="1"
-                    position="top center"
-                  />
-                  <v-fade-transition>
-                    <v-overlay v-if="hover" absolute color="secondary">
-                      <cc-btn color="secondary" @click="($refs as any).imageSelector.open()">
-                        Set Pilot Portrait
-                      </cc-btn>
-                    </v-overlay>
-                  </v-fade-transition>
-                </div>
-              </template>
-            </v-hover>
+            <div id="image" class="border">
+              <cc-avatar
+                v-if="pilot.PortraitController.Avatar"
+                :avatar="pilot.PortraitController.Avatar" />
+              <cc-img
+                v-else-if="pilot.PortraitController.Portrait"
+                :src="pilot.PortraitController.Portrait"
+                aspect-ratio="1"
+                position="top center" />
+            </div>
           </v-col>
         </v-row>
       </v-col>

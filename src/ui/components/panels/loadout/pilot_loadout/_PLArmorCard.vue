@@ -6,38 +6,47 @@
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove', item)"
-    @save="$emit('save')"
-  >
+    @save="$emit('save')">
     <div v-if="item" style="cursor: pointer !important" @click="($refs as any).base.openDetail()">
       <v-row align="center" justify="space-around">
         <v-col class="my-auto">
-          <cc-tooltip simple inline content="Armor Bonus">
-            <v-icon size="large" icon="mdi-shield-outline" />
-          </cc-tooltip>
+          <v-tooltip text="Armor Bonus">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" size="large" icon="mdi-shield-outline" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">{{ item.Armor(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <cc-tooltip simple inline content="HP Bonus">
-            <v-icon size="large" icon="mdi-heart" />
-          </cc-tooltip>
+          <v-tooltip text="HP Bonus">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" size="large" icon="mdi-heart" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">+{{ item.HPBonus(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <cc-tooltip simple inline content="Electronic Defense">
-            <v-icon size="large" icon="cc:e_def" />
-          </cc-tooltip>
+          <v-tooltip text="Electronic Defense">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" size="large" icon="cc:e_def" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">{{ item.EDefense(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <cc-tooltip simple inline content="Evasion">
-            <v-icon size="large" icon="cc:evasion" />
-          </cc-tooltip>
+          <v-tooltip text="Evasion">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" size="large" icon="cc:evasion" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">{{ item.Evasion(pilot) }}</span>
         </v-col>
         <v-col class="my-auto">
-          <cc-tooltip simple inline content="Speed">
-            <v-icon size="large" icon="mdi-arrow-right-bold-hexagon-outline" />
-          </cc-tooltip>
+          <v-tooltip text="Speed">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" size="large" icon="mdi-arrow-right-bold-hexagon-outline" />
+            </template>
+          </v-tooltip>
           <span class="stat-text">{{ item.Speed(pilot) }}</span>
         </v-col>
       </v-row>
@@ -54,11 +63,10 @@
         item-type="PilotArmor"
         :options="options"
         equippable
-        @equip="equip($event)"
-      >
+        @equip="equip($event)">
         <template #header>
-          <div class="heading h4 text-center text-primary">Select Pilot Armor</div></template
-        >
+          <div class="heading h4 text-center text-accent">Select Pilot Armor</div>
+        </template>
 
         <template #top>
           <div v-if="item">
@@ -69,10 +77,11 @@
               </span>
             </span>
             <br />
-            <span class="heading h1 text-accent" style="line-height: 20px">{{ item.Name }}</span>
-            <span class="flavor-text overline mt-n1" style="display: block"
-              >CURRENTLY EQUIPPED</span
-            >
+            <div class="heading h2 text-accent mt-n2">
+              <cc-slashes />
+              {{ item.Name }}
+            </div>
+            <div class="flavor-text overline mt-n1" style="display: block">CURRENTLY EQUIPPED</div>
           </div>
           <div v-else>
             <span class="text-overline">

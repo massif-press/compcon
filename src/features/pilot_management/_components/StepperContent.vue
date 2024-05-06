@@ -15,8 +15,7 @@
           large
           variant="text"
           class="ml-auto mr-2"
-          @click="$emit('back')"
-        >
+          @click="$emit('back')">
           BACK
         </v-btn>
       </v-col>
@@ -26,13 +25,12 @@
       <v-col cols="auto" class="ml-auto">
         <v-btn
           v-if="!noConfirm"
-          :color="complete || mandatory ? 'success' : 'primary'"
+          :color="complete || mandatory ? 'success' : ''"
           large
           :disabled="mandatory && !complete"
-          :variant="!(complete || mandatory) ? 'text' : 'tonal'"
+          :variant="!(complete || mandatory) ? 'text' : 'elevated'"
           :tile="complete || mandatory"
-          @click="$emit('complete')"
-        >
+          @click="$emit('complete')">
           {{ complete || mandatory ? 'CONTINUE' : 'SKIP STEP' }}
         </v-btn>
       </v-col>

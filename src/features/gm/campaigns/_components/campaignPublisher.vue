@@ -85,6 +85,7 @@
 import { Campaign } from '@/classes/campaign/Campaign';
 import CurrentVersionExport from './currentVersionExport.vue';
 import JSZip from 'jszip';
+import { CampaignStore } from '../../store/campaign_store';
 
 export default {
   name: 'campaign-publisher',
@@ -99,6 +100,7 @@ export default {
     changes: '',
     dOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
   }),
+  emits: ['published'],
   mounted() {
     if (!this.versionHistory.length) {
       this.major = 1;
@@ -135,8 +137,9 @@ export default {
     },
   },
   methods: {
-    publishCampaign() {
+    async publishCampaign() {
       (this.campaign as Campaign).Publish(this.version, this.changes);
+      this.$emit('published');
     },
     async exportLcd() {
       const filename = `${this.campaign.Name} - ${this.version}.lcd`;

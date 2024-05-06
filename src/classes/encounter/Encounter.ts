@@ -240,9 +240,7 @@ class Encounter implements INarrativeElement, ISaveable, IFolderPlaceable {
         break;
       case 'eidolon':
         iData = (npc as Eidolon).CreateInstance();
-        console.log(iData);
         c = Eidolon.Deserialize(iData as EidolonData);
-        console.log(c);
         break;
       default:
         throw new Error('Invalid combatant type');

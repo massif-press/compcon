@@ -6,19 +6,17 @@
         :current="pilot.LicenseController.CurrentLicensePoints"
         :max="pilot.LicenseController.MaxLicensePoints"
         :label="`Edit Pilot Licenses (${pilot.LicenseController.CurrentLicensePoints}/${pilot.LicenseController.MaxLicensePoints})`"
-        @open-selector="($refs as any).licenseSelector.show()"
-      />
+        @open-selector="($refs as any).licenseSelector.show()" />
     </section-header>
     <cc-solo-dialog
       ref="licenseSelector"
       icon="cc:frame"
       no-confirm
       title="Set Pilot Licenses"
-      fullscreen
-    >
-      <license-selector :pilot="(pilot as Pilot)" modal />
+      fullscreen>
+      <license-selector :pilot="<Pilot>pilot" modal />
     </cc-solo-dialog>
-    <v-container style="padding-right: 10vw">
+    <v-container style="padding-right: 180px">
       <no-data-block v-if="!pilot.LicenseController.Licenses.length" />
       <v-row v-else>
         <v-col v-for="l in pilot.LicenseController.Licenses" cols="12" md="4">

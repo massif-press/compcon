@@ -2,6 +2,7 @@ import { CompendiumStore } from '@/stores';
 import { CompendiumItem, PilotArmor, PilotGear, PilotWeapon } from '@/class';
 import {
   ICompendiumItemData,
+  IContentPack,
   IEquipmentData,
   IPilotWeaponData,
   ITagCompendiumData,
@@ -35,12 +36,8 @@ abstract class PilotEquipment extends CompendiumItem {
   public readonly CanSetUses: boolean = false;
   public readonly NoCascade: boolean = false;
 
-  public constructor(
-    data: IPilotEquipmentData,
-    packTags?: ITagCompendiumData[],
-    packName?: string
-  ) {
-    super(data, packTags, packName);
+  public constructor(data: IPilotEquipmentData, pack?: ContentPack) {
+    super(data, pack);
 
     this._used = false;
     this._destroyed = false;
@@ -67,11 +64,11 @@ abstract class PilotEquipment extends CompendiumItem {
     this._missing_uses = 0;
   }
 
-  public static Factory<T>(data: IPilotEquipmentData): T {
+  public static Factory<T>(data: IPilotEquipmentData, pack?: ContentPack): T {
     if ((data as any).InstanceID) return data as T;
-    if (data.type?.toLowerCase() === 'armor') return new PilotArmor(data) as T;
+    if (data.type?.toLowerCase() === 'armor') return new PilotArmor(data, pack) as T;
     if (data.type?.toLowerCase() === 'weapon')
-      return new PilotWeapon(data as IPilotWeaponData) as T;
+      return new PilotWeapon(data as IPilotWeaponData, pack) as T;
     return new PilotGear(data) as T;
   }
 

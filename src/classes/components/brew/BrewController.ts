@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { IBrewable } from './IBrewable';
 import { CompendiumStore } from '@/stores';
-import { ContentPack } from '@/class';
+import { CompendiumItem } from '@/class';
 
 interface IBrewData {
   brews: BrewInfo[];
@@ -12,44 +12,67 @@ type BrewInfo = {
   LcpName: string;
   LcpVersion: string;
   Website: string;
+  Status: 'OK' | 'OLD' | 'MISSING' | 'OFF';
 };
 
 class BrewController {
   public readonly Parent: IBrewable;
-  public Brews: BrewInfo[];
+  private _savedBrewData: BrewInfo[] = [];
+  public MissingContent: Boolean = false;
 
   public constructor(parent: IBrewable) {
     this.Parent = parent;
-    this.Brews = [];
   }
 
-  public SetBrewData(): void {
-    if (!this.Parent.BrewableCollection.length) return;
+  public get Brews(): BrewInfo[] {
+    let out = [] as BrewInfo[];
+    if (!this.Parent.BrewableCollection.length) return out;
 
-    const packs = CompendiumStore().getItemCollection('ContentPacks') as ContentPack[];
+    out = this.Parent.BrewableCollection.filter((x) => x && x.InLcp).map((item) => item.Brew);
 
-    this.Brews = this.Parent.BrewableCollection.filter(
-      (item) => item.Brew && item.Brew.toLowerCase() !== 'core'
-    )
-      .map((item) => packs.find((p) => p.ID === item.Brew))
-      .filter((p) => !!p)
-      .map((pack) => ({
-        LcpId: pack?.ID || '',
-        LcpName: pack?.Name || 'ERR',
-        LcpVersion: pack?.Version || '',
-        Website: pack?.Website || '',
-      }))
-      .filter((value, index, self) => index === self.findIndex((t) => t.LcpId === value.LcpId));
+    this._savedBrewData.forEach((pack) => {
+      if (!out.some((x) => x.LcpId === pack.LcpId)) out.push(pack);
+    });
+
+    out.forEach((brew) => {
+      const p = CompendiumStore().ContentPacks.find((x) => x.ID === brew.LcpId);
+      if (!p) return;
+      brew.Status = p.Version === brew.LcpVersion ? (!!p.Active ? 'OK' : 'OFF') : 'OLD';
+    });
+
+    return _.uniqBy(out, 'LcpId');
   }
 
-  public get AllContentAvailable(): boolean {
-    return true;
-    // return false;
+  get HasError(): boolean {
+    return this.MissingBrews.length + this.OutdatedBrews.length + this.DeactivatedBrews.length > 0;
+  }
+
+  get IsUnableToLoad(): boolean {
+    return this.MissingBrews.length + this.DeactivatedBrews.length > 0;
+  }
+
+  get DeactivatedBrews(): BrewInfo[] {
+    return this.Brews.filter((x) => x.Status === 'OFF');
+  }
+
+  get MissingBrews(): BrewInfo[] {
+    return this.Brews.filter((x) => x.Status === 'MISSING');
+  }
+
+  get OutdatedBrews(): BrewInfo[] {
+    return this.Brews.filter((x) => x.Status === 'OLD');
+  }
+
+  public FixMissing() {
+    this._savedBrewData = [];
+    this.Parent.SaveController.save();
   }
 
   public static Serialize(parent: IBrewable, target: any) {
-    parent.BrewController.SetBrewData();
-    target.brews = parent.BrewController.Brews;
+    target.brews = [...parent.BrewController.Brews];
+    target.brews.forEach((b) => {
+      b.Status = 'MISSING';
+    });
   }
 
   public static Deserialize(parent: IBrewable, data: IBrewData) {
@@ -58,7 +81,7 @@ class BrewController {
         `BrewController not found on parent (${typeof parent}). New BrewControllers must be instantiated in the parent's constructor method.`
       );
 
-    parent.BrewController.Brews = data.brews;
+    parent.BrewController._savedBrewData = data.brews;
   }
 }
 export { BrewController };

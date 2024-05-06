@@ -20,7 +20,6 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "ef-infinite-canvas": "^0.6.4",
     "jszip": "^3.10.1",
-    "lancer-data": "^3.0.48",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "pinia": "^2.0.33",

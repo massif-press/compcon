@@ -3,6 +3,7 @@ import { NpcClassStats } from '../class/NpcClassStats';
 import { INpcFeatureData, NpcFeature } from '../feature/NpcFeature';
 import { NpcFeatureFactory } from '../feature/NpcFeatureFactory';
 import { IStatContainer } from '@/classes/components/combat/stats/IStatContainer';
+import { ContentPack } from '@/class';
 
 interface IEidolonShardData {
   count: number | string | number[];
@@ -45,8 +46,9 @@ class EidolonShard implements IStatContainer {
 
   public static EidolonShardBaseStats = shard_stats;
 
-  public constructor(data: IEidolonShardData, packName?: string, tier?: number) {
-    this.LcpName = packName || 'Lancer CORE NPCs';
+  public constructor(data: IEidolonShardData, pack?: ContentPack, tier?: number) {
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
 
     this.Count = data.count;
     this.Detail = data.detail;

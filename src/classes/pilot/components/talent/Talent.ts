@@ -1,6 +1,6 @@
 import { CompendiumStore } from '../../../../stores';
-import { CompendiumItem, ItemType } from '../../../../class';
-import { ICompendiumItemData, ITagCompendiumData } from '../../../../interface';
+import { CompendiumItem, ContentPack, ItemType } from '../../../../class';
+import { ICompendiumItemData, IContentPack, ITagCompendiumData } from '../../../../interface';
 
 interface ITalentRankData extends ICompendiumItemData {
   exclusive: boolean;
@@ -25,8 +25,8 @@ class Talent extends CompendiumItem {
   private _ranks: TalentRank[];
   private _icon_url: string;
 
-  public constructor(data: any, packTags?: ITagCompendiumData[], packName?: string) {
-    super(data, packTags, packName);
+  public constructor(data: any, pack?: ContentPack) {
+    super(data, pack);
     this.Terse = data.terse || '';
     this._icon_url = data.icon_url || '';
     this._ranks = data.ranks.map((x) => new TalentRank(x));

@@ -15,15 +15,16 @@
             </span>
             <br />
             <div v-for="n in rolls.length">
-              <cc-tooltip simple inline content="Click to re-roll">
-                <v-btn text icon @click="rolls.splice(n - 1, 1)">
-                  <v-icon
-                    x-large
-                    :color="rolls[n - 1] === 1 ? 'error' : 'stark'"
-                    v-html="`mdi-dice-${rolls[n - 1]}`"
-                  />
-                </v-btn>
-              </cc-tooltip>
+              <v-tooltip text="Click to re-roll">
+                <template #activator="{ props }">
+                  <v-btn v-bind="props" variant="text" icon @click="rolls.splice(n - 1, 1)">
+                    <v-icon
+                      x-large
+                      :color="rolls[n - 1] === 1 ? 'error' : 'stark'"
+                      v-html="`mdi-dice-${rolls[n - 1]}`" />
+                  </v-btn>
+                </template>
+              </v-tooltip>
             </div>
             <div v-for="n in totalRolls - rolls.length" class="d-inline">
               <v-btn text icon size="x-large" disabled>
@@ -39,8 +40,7 @@
                     color="accent"
                     class="mt-n1 mb-1"
                     :disabled="rolls.length === totalRolls"
-                    @click="rolls.push(rollRandom())"
-                  >
+                    @click="rolls.push(rollRandom())">
                     <v-icon large>mdi-dice-multiple</v-icon>
                   </v-btn>
                 </cc-tooltip>
@@ -52,8 +52,7 @@
                   x-large
                   color="primary"
                   icon
-                  @click="rolls.push(n)"
-                >
+                  @click="rolls.push(n)">
                   <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
                 </v-btn>
               </div>
@@ -62,8 +61,7 @@
                   <span
                     v-if="rolls.filter((x) => x === 1).length > 1"
                     key="t01"
-                    class="heading h3 text-error"
-                  >
+                    class="heading h3 text-error">
                     // CRITICAL STRUCTURAL DAMAGE //
                   </span>
                   <span v-else-if="rolls.length" key="t02" class="heading h3">
@@ -77,8 +75,7 @@
                   x-small
                   color="primary"
                   variant="plain"
-                  @click="rolls.splice(0, rolls.length)"
-                >
+                  @click="rolls.splice(0, rolls.length)">
                   <v-icon small left>mdi-reload</v-icon>
                   UNDO
                 </v-btn>
@@ -94,8 +91,7 @@
               large
               tile
               :disabled="totalRolls - rolls.length > 0"
-              @click="window = resultWindow"
-            >
+              @click="window = resultWindow">
               continue
             </v-btn>
           </v-card-actions>
@@ -105,8 +101,7 @@
           :content="resultData[0].description"
           @dismiss="close()"
           @previous="window = 0"
-          @confirm="applyGlancingBlow()"
-        >
+          @confirm="applyGlancingBlow()">
           <cascade-check :mech="mech" />
         </table-window-item>
         <table-window-item
@@ -117,8 +112,7 @@
           "
           @dismiss="close()"
           @previous="window = 0"
-          @confirm="applySystemTrauma()"
-        >
+          @confirm="applySystemTrauma()">
           <p class="fluff-text">Parts of your mech have been torn off by the damage. Roll a d6.</p>
           <cc-tooltip inline content="Roll Die">
             <v-btn
@@ -126,8 +120,7 @@
               color="accent"
               class="mt-n1 mb-1"
               :disabled="!!systemTraumaRoll"
-              @click="systemTraumaRoll = rollRandom()"
-            >
+              @click="systemTraumaRoll = rollRandom()">
               <v-icon large>mdi-dice-multiple</v-icon>
             </v-btn>
           </cc-tooltip>
@@ -139,8 +132,7 @@
             x-large
             :color="systemTraumaRoll === n ? 'error' : 'primary'"
             icon
-            @click="systemTraumaRoll = n"
-          >
+            @click="systemTraumaRoll = n">
             <v-icon class="die-hover" size="55px" v-html="`mdi-dice-${n}`" />
           </v-btn>
           <div v-if="systemTraumaRoll && systemTraumaRoll <= 3">
@@ -153,8 +145,7 @@
               :items="destroyableMounts"
               item-text="name"
               item-value="index"
-              color="accent"
-            />
+              color="accent" />
             <span class="effect-text">All weapons on this mount are destroyed</span>
           </div>
           <div v-else-if="systemTraumaRoll && systemTraumaRoll >= 4">
@@ -167,8 +158,7 @@
               :items="destroyableSystems"
               item-text="Name"
               item-value="ID"
-              color="accent"
-            />
+              color="accent" />
             <span class="effect-text">This system is destroyed</span>
           </div>
           <cascade-check :mech="mech" />
@@ -177,15 +167,13 @@
           :title="resultData[2].name"
           other-btn
           @dismiss="close()"
-          @previous="window = 0"
-        >
+          @previous="window = 0">
           <p
             v-html="
               mech.CurrentStructure >= 3
                 ? 'Your mech is <b>stunned</b> until the end of your next turn.'
                 : 'Your mech must pass a <b>hull</b> check or be <b>destroyed</b>. Even on a successful check, your mech is <b>stunned</b> until the end of your next turn.'
-            "
-          />
+            " />
           <cascade-check :mech="mech" />
           <div slot="confirm-button">
             <div v-if="mech.CurrentStructure >= 3">
@@ -204,8 +192,7 @@
           :content="resultData[3].description"
           @dismiss="close()"
           @previous="window = 0"
-          @confirm="applyDestroyed()"
-        >
+          @confirm="applyDestroyed()">
           <cascade-check :mech="mech" />
         </table-window-item>
       </v-window>

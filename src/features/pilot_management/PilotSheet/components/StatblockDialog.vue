@@ -5,8 +5,7 @@
     large
     no-confirm
     title="Generate Statblock"
-    @close="clearSelected()"
-  >
+    @close="clearSelected()">
     <v-card-text>
       <v-row class="px-3">
         <v-col>
@@ -32,7 +31,7 @@
 
       <v-expand-transition>
         <v-select
-          v-model="mechSelect"
+          v-model="selected_mech"
           v-if="genRadios != 'pilotBuild'"
           :items="pilot.Mechs"
           placeholder="N/A"
@@ -42,8 +41,7 @@
           label="Select Mech"
           variant="outlined"
           class="mb-4"
-          hide-details
-        />
+          hide-details />
       </v-expand-transition>
 
       <v-textarea
@@ -52,18 +50,16 @@
         readonly
         rows="20"
         variant="solo-filled"
-        class="flavor-text"
-      />
-      <cc-tooltip simple inline content="Copy stat block to clipboard">
+        class="flavor-text" />
+      <v-tooltip text="Copy stat block to clipboard">
         <v-btn
           class="mt-n4"
           prepend-icon="mdi-clipboard-text-outline"
           color="accent"
-          @click="copy()"
-        >
+          @click="copy()">
           Copy to Clipboard
         </v-btn>
-      </cc-tooltip>
+      </v-tooltip>
     </v-card-text>
   </cc-solo-dialog>
 </template>
@@ -90,12 +86,13 @@ export default {
   data: () => ({
     selected_mech: null as any,
     discordEmoji: false,
-    genRadios: 'pilotBuild',
+    genRadios: 'full',
   }),
   mounted() {
-    if (this.mechSelect == null) {
+    if (this.defaultMechID == null) {
       this.genRadios = 'pilotBuild';
     }
+    this.selected_mech = this.defaultMechID;
   },
   computed: {
     defaultMechID() {

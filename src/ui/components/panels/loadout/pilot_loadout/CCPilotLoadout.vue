@@ -8,7 +8,7 @@
         :pilot="pilot"
         @equip="controller.Loadout.Add($event, i - 1)"
         @remove="controller.Loadout.Remove($event)"
-      />
+        @save="pilot.SaveController.save()" />
       <pilot-weapon-card
         v-for="i in controller.MaxWeaponSlots"
         :item="controller.Loadout.Weapons[i - 1]"
@@ -16,7 +16,7 @@
         :pilot="pilot"
         @equip="controller.Loadout.Add($event, i - 1)"
         @remove="controller.Loadout.Remove($event)"
-      />
+        @save="pilot.SaveController.save()" />
       <pilot-gear-card
         v-for="i in controller.MaxGearSlots"
         :item="controller.Loadout.Gear[i - 1]"
@@ -24,7 +24,7 @@
         :pilot="pilot"
         @equip="controller.Loadout.Add($event, i - 1)"
         @remove="controller.Loadout.Remove($event)"
-      />
+        @save="pilot.SaveController.save()" />
     </v-row>
   </div>
 </template>

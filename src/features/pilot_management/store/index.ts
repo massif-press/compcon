@@ -10,11 +10,10 @@ export const PilotStore = defineStore('pilot', {
   state: () => ({
     PilotGroups: [] as PilotGroup[],
     Pilots: [] as Pilot[],
-    printOptions: null as PrintOptions | null,
   }),
   getters: {
     getPilotGroups: (state: any) => (showDeleted?: boolean) => {
-      let out = _.sortBy(state.PilotGroups, 'SortIndex', 'asc');
+      let out = _.orderBy(state.PilotGroups, 'SortIndex', 'asc');
       if (!showDeleted) out = out.filter((x: PilotGroup) => !x.SaveController.IsDeleted);
       return out;
     },
@@ -30,13 +29,13 @@ export const PilotStore = defineStore('pilot', {
 
       let out = state.Pilots.filter((p) => group.Pilots.map((x) => x.id).includes(p.ID));
 
-      group.Pilots.forEach((pi, idx) => {
-        const found = state.Pilots.find((p) => p.ID === pi.id);
-        if (found) found.SortIndex = pi.index;
-        else group.Pilots.splice(idx, 1);
-      });
+      // group.Pilots.forEach((pi, idx) => {
+      //   const found = state.Pilots.find((p) => p.ID === pi.id);
+      //   if (found) found.SortIndex = pi.index;
+      //   else group.Pilots.splice(idx, 1);
+      // });
 
-      out = _.sortBy(out, 'SortIndex', 'asc');
+      // out = _.sortBy(out, 'SortIndex', 'asc');
 
       if (!showDeleted) out = out.filter((x: Pilot) => !x.SaveController.IsDeleted);
       return out;
@@ -47,6 +46,9 @@ export const PilotStore = defineStore('pilot', {
     },
     getGroupByPilotID: (state: any) => (pilotID: string) => {
       return state.PilotGroups.find((x: PilotGroup) => x.Pilots.map((x) => x.id).includes(pilotID));
+    },
+    getMissingDataPilots: (state: any) => {
+      return state.Pilots.filter((x: Pilot) => x.BrewController.MissingContent);
     },
   },
   actions: {
@@ -72,11 +74,6 @@ export const PilotStore = defineStore('pilot', {
           })
         );
       }
-
-      // TODO: evaluate items with/missing LCP
-      // this._loadPilots({
-      //   pilotData: ItemsWithLcp(pilotData),
-      // });
 
       this.ImportUngroupedPilots();
     },
@@ -156,7 +153,7 @@ export const PilotStore = defineStore('pilot', {
 
       this.AddPilot(payload.Clone(), this.getGroupByPilotID(payload.ID));
     },
-    DeletePilotPermanent(pilot: Pilot): void {
+    async DeletePilotPermanent(pilot: Pilot): Promise<void> {
       const groupIndex = this.PilotGroups.findIndex((x) =>
         x.Pilots.map((x) => x.id).includes(pilot.ID)
       );
@@ -199,38 +196,42 @@ export const PilotStore = defineStore('pilot', {
     _moveItemInArray<T>(array: T[], from: number, to: number): void {
       const item = array.splice(from, 1)[0];
       array.splice(to, 0, item);
-      this.SavePilotData();
+      array.forEach((x: any, i) => (x.SortIndex = i));
     },
-    Reorder(): void {
-      this.PilotGroups = _.orderBy(this.PilotGroups, 'SortIndex', 'asc');
-      this.PilotGroups.forEach((group) => {
-        group.Pilots = _.orderBy(group.Pilots, 'index', 'asc');
+    ReorderPilot(pilot: Pilot, dir: 'top' | 'up' | 'down' | 'bottom'): void {
+      const group = this.getGroupByPilotID(pilot.ID);
+
+      if (dir === 'top') {
+        this.movePilotIndex(group, pilot.SortIndex, 0);
+      } else if (dir === 'up') {
+        this.movePilotIndex(group, pilot.SortIndex, pilot.SortIndex - 1);
+      } else if (dir === 'down') {
+        this.movePilotIndex(group, pilot.SortIndex, pilot.SortIndex + 1);
+      } else if (dir === 'bottom') {
+        this.movePilotIndex(group, pilot.SortIndex, group.Pilots.length - 1);
+      }
+
+      group.Pilots.forEach((pItem, idx) => {
+        const pilot = this.getPilotByID(pItem.id);
+        if (pilot) pilot.SortIndex = idx;
       });
       this.SavePilotData();
+      this.SaveGroupData();
     },
+    ReorderGroup(group: PilotGroup, dir: 'top' | 'up' | 'down' | 'bottom'): void {
+      const index = this.PilotGroups.findIndex((x) => x.ID === group.ID);
 
-    // savePilotData(): void {
-    //   if (!this.Pilots) this.Pilots = [];
-    //   if (!this.DeletedPilots) this.DeletedPilots = [];
-
-    //   savePilots((this.Pilots as Pilot[]).concat(this.DeletedPilots as Pilot[]));
-    // },
-
-    // async loadCloudPilots(payload: PilotData) {
-    //   this._loadPilots({ pilotData: [payload] });
-    // },
-
-    // delete_pilot(payload: Pilot): void {
-    //   this.DeletePilot(payload);
-    // },
-
-    // deletePilotPermanent(payload: Pilot): void {
-    //   if (!payload.SaveController.IsDeleted) this.DeletePilot(payload);
-    //   this.deletePilotPermanent(payload);
-    // },
-
-    // restore_pilot(payload: Pilot): void {
-    //   this.restorePilot(payload);
-    // },
+      if (dir === 'top') {
+        this.moveGroupIndex(index, 0);
+      } else if (dir === 'up') {
+        this.moveGroupIndex(index, index - 1);
+      } else if (dir === 'down') {
+        this.moveGroupIndex(index, index + 1);
+      } else if (dir === 'bottom') {
+        this.moveGroupIndex(index, this.PilotGroups.length - 1);
+      }
+      this.SavePilotData();
+      this.SaveGroupData();
+    },
   },
 });

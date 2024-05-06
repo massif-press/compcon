@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { ContentPack } from './ContentPack';
 
 interface IStatusData {
   name: string;
@@ -20,8 +21,8 @@ class Status {
   public readonly StatusType: string = 'Status';
   private _icon: string;
 
-  public constructor(data: IStatusData, packName?: string) {
-    this.ID = `${packName || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
+  public constructor(data: IStatusData, pack?: ContentPack) {
+    this.ID = `${pack?.Name || 'LANCER Core Book'}_${data.name}`.replace(/ /g, '_');
     this.InstanceID = uuid();
     this.Name = data.name;
     this.Effects = data.effects;
@@ -29,8 +30,8 @@ class Status {
     else this.Terse = data.effects.join(', ');
     this._icon = data.icon;
     this.StatusType = data.type;
-    this.LcpName = packName || 'LANCER Core Book';
-    this.InLcp = packName ? true : false;
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
   }
 
   public get Icon(): string {

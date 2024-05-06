@@ -1,25 +1,21 @@
 <template>
-  <div v-if="extended && $vuetify.display.mdAndUp" v-for="t in tags as Tag[]">
+  <div v-if="extended && $vuetify.display.mdAndUp" v-for="t in <Tag[]>tags">
     <cc-extended-tag :tag="t" :color="t.IsExotic ? 'exotic' : color" />
   </div>
   <div v-else-if="print">
-    <v-chip
-      v-for="t in tags as Tag[]"
-      variant="outlined"
-      size="small"
-      label
-      class="mx-1 mt-n1 my-0">
-      {{ t.GetName(bonus) }}
+    <v-chip v-for="t in <Tag[]>tags" variant="outlined" size="small" label class="mx-1 mt-n1 my-0">
+      {{ t.GetName(bonus, tier) }}
     </v-chip>
   </div>
   <div v-else class="text-center">
     <cc-tag
-      v-for="t in tags as Tag[]"
+      v-for="t in <Tag[]>tags"
       :tag="t"
       :small="small"
       :density="density"
       :outlined="outlined"
       :color="color"
+      :tier="tier"
       :bonus="bonus" />
   </div>
 </template>
@@ -63,6 +59,11 @@ export default {
       type: Number,
       required: false,
       default: 0,
+    },
+    tier: {
+      type: Number,
+      required: false,
+      default: 1,
     },
   },
 };

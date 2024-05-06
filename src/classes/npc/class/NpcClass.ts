@@ -2,6 +2,7 @@ import { CompendiumStore } from '@/stores';
 import { NpcFeature } from '../feature/NpcFeature';
 import { INpcClassStats, NpcClassStats } from './NpcClassStats';
 import _ from 'lodash';
+import { ContentPack } from '@/class';
 
 interface INpcClassData {
   id: string;
@@ -86,7 +87,6 @@ class NpcClass {
     terse?: string;
   };
   private _stats: NpcClassStats;
-  private _brew: string;
 
   // Additional feature selections
   public readonly OptionalClassMin: number;
@@ -95,15 +95,14 @@ class NpcClass {
 
   public Comparator: NpcComparison;
 
-  public constructor(data: INpcClassData, packName?: string) {
+  public constructor(data: INpcClassData, pack?: ContentPack) {
     this._id = data.id;
     this._name = data.name;
     this._role = data.role;
     this._info = data.info;
     this._stats = new NpcClassStats(data.stats);
-    this._brew = data.brew || 'CORE';
-    this.LcpName = packName || 'Lancer CORE NPCs';
-    this.InLcp = true;
+    this.LcpName = pack?.Name || 'LANCER Core Book';
+    this.InLcp = !!pack;
     this.OptionalClassMin = data.optionalClassMin || 0;
     this.OptionalClassMax = data.optionalClassMax || 0;
     this.OptionalClassPerTier = data.optionalClassPerTier || 0;

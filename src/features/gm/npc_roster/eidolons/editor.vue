@@ -5,7 +5,6 @@
     :hide-toolbar="hideToolbar"
     :hide-footer="hideFooter"
     @exit="$emit('exit')"
-    @add-new="saveAsNew()"
     @save="save()"
     @delete="deleteItem()"
     @export="exportItem($event)"
@@ -46,12 +45,8 @@ export default {
     exit() {
       this.$emit('exit');
     },
-    saveAsNew() {
-      NpcStore().AddNpc(this.item as Eidolon);
-      this.exit();
-    },
-    save() {
-      NpcStore().SaveNpcData();
+    async save() {
+      await NpcStore().SaveNpcData();
       this.$emit('exit');
     },
     deleteItem() {
@@ -68,4 +63,3 @@ export default {
   },
 };
 </script>
-./_components/EidolonLayerEditor.vue
