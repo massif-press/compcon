@@ -48,17 +48,21 @@
         :value="statblock"
         auto-grow
         readonly
+        hide-details
         rows="20"
         variant="solo-filled"
         class="flavor-text" />
       <v-tooltip text="Copy stat block to clipboard">
-        <v-btn
-          class="mt-n4"
-          prepend-icon="mdi-clipboard-text-outline"
-          color="accent"
-          @click="copy()">
-          Copy to Clipboard
-        </v-btn>
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            variant="tonal"
+            prepend-icon="mdi-clipboard-text-outline"
+            color="accent"
+            @click="copy()">
+            Copy to Clipboard
+          </v-btn>
+        </template>
       </v-tooltip>
     </v-card-text>
   </cc-solo-dialog>

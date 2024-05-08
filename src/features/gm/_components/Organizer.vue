@@ -105,7 +105,7 @@
             subtitle="Generate item printables"
             prepend-icon="mdi-printer"
             :disabled="!selected.length"
-            @click="printDialog = true" />
+            @click="routePrint()" />
           <v-list-item
             :title="selected.length < 2 ? 'Export' : 'Export Collection'"
             :subtitle="
@@ -450,6 +450,11 @@ export default {
 
       this.selected = [];
       this.showDeleteConfirm = false;
+    },
+    routePrint() {
+      if (this.type === 'narrative')
+        this.$router.push(`/gm/print/narrative/${JSON.stringify(this.selected)}`);
+      else this.$router.push(`/gm/print/${JSON.stringify(this.selected)}`);
     },
   },
 };

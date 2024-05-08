@@ -176,9 +176,7 @@ export default {
       }
     },
     move(direction: 'top' | 'up' | 'down' | 'bottom') {
-      console.log(this.pilot.SortIndex);
       PilotStore().ReorderPilot(this.pilot as Pilot, direction);
-      console.log(this.pilot.SortIndex);
     },
   },
 };

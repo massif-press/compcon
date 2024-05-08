@@ -39,6 +39,16 @@ class StatController {
       }));
   }
 
+  public get TrackableStats(): { key: string; title: string; type: string }[] {
+    const trackable = ['hp', 'stress', 'heat', 'structure', 'repairCapacity'];
+    return this.DisplayKeys.filter((x) => trackable.includes(x.key));
+  }
+
+  public get NonTrackableStats(): { key: string; title: string; type: string }[] {
+    const trackable = ['hp', 'stress', 'heat', 'structure', 'repairCapacity'];
+    return this.DisplayKeys.filter((x) => !trackable.includes(x.key));
+  }
+
   public static get CoreStats(): { key: string; title: string; type: string }[] {
     return Object.keys(Stats.DefaultStats).map((key) => ({
       key,

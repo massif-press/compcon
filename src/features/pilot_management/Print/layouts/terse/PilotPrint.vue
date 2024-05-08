@@ -11,12 +11,13 @@
         </div>
         <div v-if="!blank" class="my-n2">
           <div class="text-caption">
-            {{ pilot.Name }}, LL<b>{{ pilot.Level }}</b>
+            {{ pilot.Name }}, LL
+            <b>{{ pilot.Level }}</b>
           </div>
         </div>
       </v-col>
-      <v-col v-if="blank && landscape" cols="auto"
-        ><div class="text-caption text-primary mb-n1">NAME</div>
+      <v-col v-if="blank && landscape" cols="auto">
+        <div class="text-caption text-primary mb-n1">NAME</div>
         <blank-line :width="260" :height="40" />
       </v-col>
       <v-col cols="auto ml-auto">
@@ -30,39 +31,39 @@
           </v-col>
           <v-col cols="auto">
             <div class="text-caption mb-n4">ARMOR</div>
-            <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-2"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-2">
+              mdi-hexagon-outline
+            </v-icon>
             <div v-else class="heading p-stat" v-text="pilot.Armor" />
           </v-col>
           <v-col cols="auto">
             <div class="text-caption mb-n4">E-DEF</div>
-            <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-2"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-2">
+              mdi-hexagon-outline
+            </v-icon>
             <div v-else class="heading p-stat" v-text="pilot.EDefense" />
           </v-col>
           <v-col cols="auto">
             <div class="text-caption mb-n4">EVASION</div>
-            <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-2"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-2">
+              mdi-hexagon-outline
+            </v-icon>
             <div v-else class="heading p-stat" v-text="pilot.Evasion" />
           </v-col>
           <v-col cols="auto">
             <div class="text-caption mb-n4">SPEED</div>
-            <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-2"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-2">
+              mdi-hexagon-outline
+            </v-icon>
             <div v-else class="heading p-stat" v-text="pilot.Speed" />
           </v-col>
         </v-row>
       </v-col>
       <v-col cols="auto" class="text-right ml-4">
         <div class="text-caption mr-9">GRIT</div>
-        <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-n2 mr-4"
-          >mdi-hexagon-outline</v-icon
-        >
+        <v-icon v-if="blank" size="50" color="primary" style="opacity: 0.5" class="mt-n2 mr-4">
+          mdi-hexagon-outline
+        </v-icon>
         <div v-else class="heading mt-n5" style="font-size: 65px; line-height: 60px">
           +{{ pilot.Grit }}
         </div>
@@ -76,9 +77,9 @@
           <v-row dense v-if="blank" class="mt-n2">
             <v-col v-for="n in 6" cols="6">
               <v-row dense align="center">
-                <v-col cols="9"> <blank-line :height="24" inline /></v-col
-                ><v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col
-                ><v-col cols="2"><blank-line :height="24" inline /> </v-col>
+                <v-col cols="9"><blank-line :height="24" inline /></v-col>
+                <v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col>
+                <v-col cols="2"><blank-line :height="24" inline /></v-col>
               </v-row>
             </v-col>
           </v-row>
@@ -89,7 +90,7 @@
             variant="outlined"
             size="small"
             class="mx-1">
-            <span class="stat-text ml-n1 mr-1"> +{{ s.Bonus }} </span>
+            <span class="stat-text ml-n1 mr-1">+{{ s.Bonus }}</span>
             <span>{{ s.Skill.Trigger }}</span>
           </v-chip>
         </div>
@@ -98,9 +99,9 @@
         <v-row class="mt-0 text-right mt-n2 pr-2">
           <v-col>
             <div class="font-weight-bold caption">HULL</div>
-            <v-icon v-if="blank" size="30" color="primary" style="opacity: 0.5" class="mt-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="30" color="primary" style="opacity: 0.5" class="mt-n1">
+              mdi-hexagon-outline
+            </v-icon>
             <div
               v-else
               class="heading h2 mt-n2"
@@ -108,9 +109,9 @@
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">AGI</div>
-            <v-icon v-if="blank" size="30" color="primary" style="opacity: 0.5" class="mr-n1 mt-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="30" color="primary" style="opacity: 0.5" class="mr-n1 mt-n1">
+              mdi-hexagon-outline
+            </v-icon>
             <div
               v-else
               class="heading h2 mt-n2"
@@ -118,9 +119,9 @@
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">SYS</div>
-            <v-icon v-if="blank" size="30" color="primary" style="opacity: 0.5" class="mr-n1 mt-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="30" color="primary" style="opacity: 0.5" class="mr-n1 mt-n1">
+              mdi-hexagon-outline
+            </v-icon>
             <div
               v-else
               class="heading h2 mt-n2"
@@ -128,9 +129,9 @@
           </v-col>
           <v-col>
             <div class="font-weight-bold caption">ENG</div>
-            <v-icon v-if="blank" size="30" color="primary" style="opacity: 0.5" class="mr-n1 mt-n1"
-              >mdi-hexagon-outline</v-icon
-            >
+            <v-icon v-if="blank" size="30" color="primary" style="opacity: 0.5" class="mr-n1 mt-n1">
+              mdi-hexagon-outline
+            </v-icon>
             <div
               v-else
               class="heading h2 mt-n2"
@@ -140,9 +141,9 @@
         <v-row dense v-if="blank" class="mt-n2">
           <v-col v-for="n in 2" cols="12">
             <v-row dense align="center">
-              <v-col cols="9"> <blank-line :height="24" inline /></v-col
-              ><v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col
-              ><v-col cols="2"><blank-line :height="24" inline /> </v-col>
+              <v-col cols="9"><blank-line :height="24" inline /></v-col>
+              <v-col cols="auto" class="heading h3 mr-n1 mt-n1">+</v-col>
+              <v-col cols="2"><blank-line :height="24" inline /></v-col>
             </v-row>
           </v-col>
         </v-row>
@@ -166,7 +167,8 @@
           variant="outlined"
           size="small"
           class="caption mx-1 mt-1">
-          <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" /> {{ t.Talent.Name }}
+          <v-icon :icon="`cc:rank_${t.Rank}`" color="primary" class="ml-n2" />
+          {{ t.Talent.Name }}
           {{ 'I'.repeat(t.Rank) }}
         </v-chip>
         <v-row
@@ -257,10 +259,10 @@
                 <span v-text="`${a.Speed(pilot) ? `Speed: ${a.Speed(pilot)}` : ''}`" />
               </v-col>
             </v-row>
-            <v-card v-for="act in a.Actions" variant="outlined" class="pa-1 mt-1 mb-3"
-              ><b>{{ act.Name }}</b
-              >: {{ act.Detail }}</v-card
-            >
+            <v-card v-for="act in a.Actions" variant="outlined" class="pa-1 mt-1 mb-3">
+              <b>{{ act.Name }}</b>
+              : {{ act.Detail }}
+            </v-card>
             <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
               <v-chip
                 v-for="t in a.Tags"
@@ -290,10 +292,10 @@
             |
             <b v-for="d in w.Damage">{{ d.Text }}</b>
             <div v-if="w.Effect" v-html-safe="w.Effect" class="mb-5" />
-            <v-card v-for="act in w.Actions" variant="outlined" class="pa-1 mt-1 mb-3"
-              ><b>{{ act.Name }}</b
-              >: {{ act.Detail }}</v-card
-            >
+            <v-card v-for="act in w.Actions" variant="outlined" class="pa-1 mt-1 mb-3">
+              <b>{{ act.Name }}</b>
+              : {{ act.Detail }}
+            </v-card>
             <div class="text-right" style="position: absolute; bottom: 10px; right: 5px">
               <v-chip
                 v-for="t in w.Tags"
@@ -397,12 +399,12 @@
     <div v-if="options.pilotInclude.includes('appearance notes')">
       <div class="text-overline text-primary" style="line-height: 0">APPEARANCE</div>
       <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
-      <div v-else v-html-safe="pilot.Notes" class="mt-2 caption" />
+      <div v-else v-html-safe="pilot.AppearanceNotes" class="mt-2 caption" />
     </div>
     <div v-if="options.pilotInclude.includes('pilot biography')">
       <div class="text-overline text-primary" style="line-height: 0">BIOGRAPHY</div>
       <div v-if="blank" class="mb-4"><notes :rows="5" lined /></div>
-      <div v-else v-html-safe="pilot.Notes" class="mt-2 caption" />
+      <div v-else v-html-safe="pilot.History" class="mt-2 caption" />
     </div>
     <div v-if="options.pilotInclude.includes('pilot notes')">
       <div class="text-overline text-primary" style="line-height: 0">NOTES</div>

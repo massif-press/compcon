@@ -78,9 +78,7 @@ export default {
   emits: ['selected'],
   methods: {
     scrollTo(e: any): void {
-      console.log(e);
       const el = document.getElementById(`e_${(e as any)[this.nameKey].replace(/\W/g, '')}`);
-      console.log(el);
       if (el) scrollTo(el, this.isModal);
     },
   },

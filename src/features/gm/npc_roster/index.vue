@@ -1,10 +1,9 @@
 <template>
-  <!-- TODO: eidolon check -->
   <div style="position: absolute; top: 0; right: 0; left: 0; height: 50px" class="bg-primary" />
   <v-tabs v-model="tab" grow density="compact" mandatory height="50px" bg-color="primary">
-    <v-tab><span class="heading" style="letter-spacing: 6px">NPCs</span> </v-tab>
-    <v-tab><span class="heading" style="letter-spacing: 6px">Doodads</span> </v-tab>
-    <v-tab><span class="heading" style="letter-spacing: 6px">Eidolons</span> </v-tab>
+    <v-tab><span class="heading" style="letter-spacing: 6px">NPCs</span></v-tab>
+    <v-tab><span class="heading" style="letter-spacing: 6px">Doodads</span></v-tab>
+    <v-tab><span class="heading" style="letter-spacing: 6px">Eidolons</span></v-tab>
   </v-tabs>
 
   <v-window v-model="tab">
@@ -28,9 +27,10 @@
     <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
       <importer @complete="($refs as any).import.hide()" />
     </cc-solo-dialog>
-    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()"
-      ><v-icon start icon="mdi-queue-first-in-last-out" />Organize</v-btn
-    >
+    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()">
+      <v-icon start icon="mdi-queue-first-in-last-out" />
+      Organize
+    </v-btn>
     <cc-solo-dialog
       ref="organize"
       icon="mdi-queue-first-in-last-out"

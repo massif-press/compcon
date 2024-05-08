@@ -117,6 +117,12 @@ class Deployable {
     return ByTier(this._detail, tier);
   }
 
+  public getStat(key: string, tier?: number): string {
+    const v = this[key] as any;
+    if (Array.isArray(v) && tier) return v[tier - 1];
+    return v;
+  }
+
   public get Icon(): string {
     if (this.Type.toLowerCase() === 'mine') return 'cc:mine';
     if (this.Type.toLowerCase() === 'drone') return 'cc:drone';

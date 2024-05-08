@@ -2,8 +2,9 @@ import Main from './index.vue';
 
 import Home from './landing.vue';
 
-import GmMassPrintable from './_components/GMMassPrintable.vue';
-import GmPrint from './_components/PrintWrapper.vue';
+import GmPrint from './npc_roster/print/index.vue';
+import NarrativePrint from './narrative/print/index.vue';
+import EncounterPrint from './encounters/print/index.vue';
 
 import Campaigns from './campaigns/index.vue';
 import CampaignEditor from './campaigns/editor.vue';
@@ -58,15 +59,21 @@ const routes = [
       },
 
       {
-        path: '/gm/print/:type/:id',
+        path: '/gm/print/:ids',
         name: 'gm-print',
         component: GmPrint,
         props: true,
       },
       {
-        path: 'mass-print/:type/:ids',
-        name: 'gm-mass-print',
-        component: GmMassPrintable,
+        path: '/gm/print/narrative/:ids',
+        name: 'gm-narrative-print',
+        component: NarrativePrint,
+        props: true,
+      },
+      {
+        path: '/gm/print/encounter/:id',
+        name: 'gm-encounter-print',
+        component: EncounterPrint,
         props: true,
       },
     ],

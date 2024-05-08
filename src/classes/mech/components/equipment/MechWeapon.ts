@@ -266,7 +266,6 @@ class MechWeapon extends MechEquipment {
   public set Mod(mod: WeaponMod | null) {
     if (mod) {
       const m = _.clone(mod);
-      console.log(m);
       this._mod = m;
     } else {
       this._mod = null;

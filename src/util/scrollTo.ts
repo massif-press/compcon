@@ -3,7 +3,6 @@ const scrollTo = (element: HTMLElement, yOffset?: boolean) => {
     const yo = yOffset ? -80 : -60;
     if (yOffset) {
       const mEl = document.getElementById('content');
-      console.log(mEl);
       if (!mEl) return;
       const y = element.getBoundingClientRect().top + mEl.scrollTop + yo;
       mEl.scrollTo({ top: y, behavior: 'smooth' });
