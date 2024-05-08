@@ -1,6 +1,7 @@
 import { Bond } from '@/classes/pilot/components/bond/Bond';
 /* eslint-disable @typescript-eslint/indent */
 import { Pilot, Mech, PilotWeapon, MechWeapon } from '../class';
+import { Unit } from './npc/unit/Unit';
 
 function linebreak(i: number, length: number): string {
   if (i > 0 && (i + 1) % 2 === 0 && i + 1 !== length) {
@@ -293,29 +294,45 @@ class Statblock {
     } else return '>> NO MECH SELECTED <<';
   }
 
-  // public static GenerateNPC(npc: Npc): string {
-  //   let output = `// ${npc.Name} //\n`
-  //   output += `${npc.NpcClassController.Class.Name.toUpperCase()}`
-  //   if (npc.NpcTemplateController.Templates)
-  //     output += ` ${npc.NpcTemplateController.Templates.map(t => t.Name).join(' ')}`
-  //   output +=
-  //     typeof npc.NpcClassController.Tier === 'number'
-  //       ? `, Tier ${npc.NpcClassController.Tier} `
-  //       : ', Custom '
-  //   output += `${npc.Tag}\n`
-  //   output += '[ STATS ]\n'
-  //   output += `  H: ${npc.StatController.Hull} | A: ${npc.StatController.Agi} | S: ${npc.StatController.Sys} | E: ${npc.StatController.Eng}\n`
-  //   output += `  STRUCT: ${npc.StatController.MaxStructure} | ARMOR: ${npc.StatController.Armor} | HP: ${npc.StatController.MaxHP}\n`
-  //   output += `  STRESS: ${npc.StatController.MaxStress} | HEATCAP: ${npc.StatController.HeatCapacity} | SPD: ${npc.StatController.Speed}\n`
-  //   output += `  SAVE: ${npc.StatController.SaveTarget} | EVADE: ${npc.StatController.Evasion} | EDEF: ${npc.StatController.EDefense}\n`
-  //   output += `  SENS: ${npc.StatController.SensorRange} | SIZE: ${npc.StatController.Size} | ACT: ${npc.StatController.Activations}\n`
-  //   output += '[ FEATURES ]\n  '
-  //   output += npc.Items.map(
-  //     (item, index) =>
-  //       `${item.Name} (${'I'.repeat(item.Tier)})${linebreak(index, npc.Items.length)}`
-  //   ).join('')
-  //   return output
-  // }
+  public static GenerateNPC(npc: Unit): string {
+    let output = `// ${npc.Name} //\n`;
+    if (npc.NpcTemplateController.Templates)
+      output += `${npc.NpcTemplateController.Templates.map((t) => t.Name).join(' ')}`;
+    if (npc.NpcClassController.HasClass)
+      output += ` ${npc.NpcClassController.Class!.Name.toUpperCase()}`;
+    output +=
+      typeof npc.NpcClassController.Tier === 'number'
+        ? `, Tier ${npc.NpcClassController.Tier} `
+        : ', Custom ';
+    output += `${npc.Tag}\n`;
+    output += '[ STATS ]\n';
+    output += `  H: ${npc.StatController.getStat('Hull')} | A: ${npc.StatController.getStat(
+      'Agi'
+    )} | S: ${npc.StatController.getStat('Sys')} | E: ${npc.StatController.getStat('Eng')}\n`;
+    output += `  STRUCT: ${npc.StatController.getStat(
+      'Structure'
+    )} | ARMOR: ${npc.StatController.getStat('Armor')} | HP: ${npc.StatController.getStat('hp')}\n`;
+    output += `  STRESS: ${npc.StatController.getStat(
+      'Stress'
+    )} | HEATCAP: ${npc.StatController.getStat('heat')} | SPD: ${npc.StatController.getStat(
+      'Speed'
+    )}\n`;
+    output += `  SAVE: ${npc.StatController.getStat(
+      'SaveTarget'
+    )} | EVADE: ${npc.StatController.getStat('Evasion')} | EDEF: ${npc.StatController.getStat(
+      'EDefense'
+    )}\n`;
+    output += `  SENS: ${npc.StatController.getStat(
+      'SensorRange'
+    )} | SIZE: ${npc.StatController.getStat('Size')} | ACT: ${npc.StatController.getStat(
+      'Activations'
+    )}\n`;
+    output += '[ FEATURES ]\n  ';
+    output += npc.NpcFeatureController.Features.map(
+      (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
+    ).join('');
+    return output;
+  }
 }
 
 export default Statblock;

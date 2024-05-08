@@ -46,13 +46,11 @@ export default {
       if (!this.id) return null;
       switch (this.type.toLowerCase()) {
         case 'character':
-          return NarrativeStore().Characters.find((x) => x.ID === this.id);
-        case 'location':
-          return NarrativeStore().Locations.find((x) => x.ID === this.id);
         case 'faction':
-          return NarrativeStore().Factions.find((x) => x.ID === this.id);
+        case 'location':
+          return NarrativeStore().CollectionItems.find((x) => x.ID === this.id);
         default:
-          return NpcStore().Npcs.find((x) => x.ID === this.id());
+          return NpcStore().Npcs.find((x) => x.ID === this.id);
       }
     },
     component() {

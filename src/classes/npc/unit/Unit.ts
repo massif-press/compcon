@@ -200,6 +200,10 @@ class Unit extends Npc implements IStatContainer, IInstanceable {
     if (this.NpcClassController.HasClass) return this.NpcClassController.Class!.Icon;
     return 'cc:encounter';
   }
+
+  public get TierIcon(): string {
+    return `cc:npc_tier_${this.NpcClassController.Tier || 1}`;
+  }
 }
 
 export { UnitData, Unit };

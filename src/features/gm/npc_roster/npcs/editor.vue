@@ -9,8 +9,19 @@
     @delete="deleteItem()"
     @export="exportItem($event)"
     @copy="dupe()">
-    <template v-slot:builder>
+    <template #builder>
       <builder :item="item" :readonly="readonly" />
+    </template>
+    <template #footer>
+      <v-dialog>
+        <template #activator="{ props }">
+          <v-btn v-bind="props" variant="tonal" size="small" class="ml-2">
+            <v-icon start icon="mdi-text-account" />
+            Statblock
+          </v-btn>
+        </template>
+        <npc-statblock :item="<Unit>item" />
+      </v-dialog>
     </template>
     <div v-if="item.NpcClassController.Class">
       <npc-tier-selector :item="item" :readonly="readonly" class="mb-n8" />
@@ -28,6 +39,7 @@
 import EditorBase from '../../../gm/_components/EditorBase.vue';
 import StatEditor from '../../_components/StatEditor.vue';
 import NpcTierSelector from './_components/NpcTierSelector.vue';
+import NpcStatblock from './_components/NpcStatblock.vue';
 
 import { NpcStore } from '@/stores';
 import Features from './features.vue';
@@ -37,7 +49,7 @@ import exportAsJson from '@/util/jsonExport';
 
 export default {
   name: 'gm-editor-npc',
-  components: { Builder, Features, EditorBase, StatEditor, NpcTierSelector },
+  components: { Builder, Features, EditorBase, StatEditor, NpcTierSelector, NpcStatblock },
   props: {
     item: { type: Object, required: true },
     readonly: { type: Boolean, default: false },

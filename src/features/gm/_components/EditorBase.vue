@@ -130,7 +130,7 @@
     </v-card>
   </div>
   <v-footer v-if="!readonly && !hideFooter" app color="panel">
-    <v-btn variant="tonal" size="small" :to="`/gm/print/${typeText.toLowerCase()}/${item.ID}`">
+    <v-btn variant="tonal" size="small" @click="routePrint(item.ID)">
       <v-icon start icon="mdi-printer" />
       Print
     </v-btn>
@@ -138,6 +138,7 @@
       <v-icon start icon="mdi-upload" />
       Export
     </v-btn>
+    <slot name="footer" />
     <v-spacer />
     <v-menu v-model="dupeMenu" offset-y offset-x top left>
       <template #activator="{ props }">
@@ -204,6 +205,12 @@ export default {
     },
     saveExit() {
       this.$emit('save');
+    },
+    routePrint(id: string) {
+      const narrativeTypes = ['character', 'location', 'faction'];
+      if (narrativeTypes.includes(this.item.ItemType.toLowerCase()))
+        this.$router.push(`/gm/print/narrative/${JSON.stringify([id])}`);
+      else this.$router.push(`/gm/print/${JSON.stringify([id])}`);
     },
   },
 };

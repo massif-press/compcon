@@ -79,12 +79,12 @@
             prepend-icon="mdi-account-group"
             :disabled="!selected.length"
             @click="setGroupDialog = true" />
-          <v-list-item
+          <!-- <v-list-item
             :title="selected.length < 2 ? 'Print' : 'Print Multiple'"
             subtitle="Generate item printables"
             prepend-icon="mdi-printer"
             :disabled="!selected.length"
-            @click="printDialog = true" />
+            @click="printDialog = true" /> -->
           <v-list-item
             :title="selected.length < 2 ? 'Export' : 'Export Collection'"
             :subtitle="
