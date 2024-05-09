@@ -1,5 +1,11 @@
 import _ from 'lodash';
 import { tracert } from '@/io/Generators';
+import _nfo from './horus_chat/nfo.txt?raw';
+import _motd from './horus_chat/motd.txt?raw';
+import _chat from './horus_chat/chat.txt?raw';
+import _mods from './horus_chat/mods.txt?raw';
+import _admin from './horus_chat/admin.txt?raw';
+import _bans from './horus_chat/bans.txt?raw';
 
 const fetchData = (path: string) => {
   return new Promise((resolve, reject) => {
@@ -16,15 +22,11 @@ const fetchData = (path: string) => {
 };
 
 const HorusStart = async (typer) => {
-  let _nfo = await fetchData(
-    './src/features/main_menu/_components/startup_logs/horus_chat/nfo.txt'
-  );
-  _nfo = (_nfo as string[]).join('\n');
+  let nfo = _nfo as unknown as string;
 
-  let _motd = await fetchData(
-    './src/features/main_menu/_components/startup_logs/horus_chat/motd.txt'
-  );
-  _motd = _.sample(_motd as string[]);
+  console.log(nfo);
+
+  let motd = _.sample((_motd as unknown as string).split('\n'));
 
   typer
     .type('<br>')
@@ -51,7 +53,7 @@ const HorusStart = async (typer) => {
     .break()
     .pause(250)
     .options({ speed: 0, lifeLike: false })
-    .type(`<pre class="ibm-text">${_nfo}</pre>`)
+    .type(`<pre class="ibm-text">${nfo}</pre>`)
     .break()
     .options({ speed: 3, lifeLike: false })
     .pause(250)
@@ -96,7 +98,7 @@ const HorusStart = async (typer) => {
     .break()
     .type('MOTD:')
     .break()
-    .type(_motd)
+    .type(motd)
     .break()
     .type('------------------------------------------------------------')
     .pause(550)
@@ -147,23 +149,13 @@ function randomNoRepeat(arr) {
 }
 
 const HorusChat = async (output) => {
-  let chat = (await fetchData(
-    './src/features/main_menu/_components/startup_logs/horus_chat/chat.txt'
-  )) as string[];
-  chat = chat as string[];
+  let chat = (_chat as unknown as string).split('\n');
 
-  let mods = (await fetchData(
-    './src/features/main_menu/_components/startup_logs/horus_chat/mods.txt'
-  )) as string[];
-  mods = mods as string[];
+  let mods = (_mods as unknown as string).split('\n');
 
-  let admin = (await fetchData(
-    './src/features/main_menu/_components/startup_logs/horus_chat/admin.txt'
-  )) as string[];
+  let admin = (_admin as unknown as string).split('\n');
 
-  let bans = (await fetchData(
-    './src/features/main_menu/_components/startup_logs/horus_chat/bans.txt'
-  )) as string[];
+  let bans = (_bans as unknown as string).split('\n');
 
   const allLines = [] as string[];
 
