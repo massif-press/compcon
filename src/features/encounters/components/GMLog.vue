@@ -4,7 +4,7 @@
       <v-col cols="auto" class="mr-2">
         <div class="sidebar" />
         <div>
-          <img src="../../../assets/ui/sb_l.png" />
+          <img src="../../../assets/ui/sb_l.png" alt="" />
         </div>
       </v-col>
       <v-col>
@@ -22,7 +22,7 @@
       <v-col cols="auto" class="ml-2">
         <div class="sidebar" />
         <div>
-          <img class="ml-n2" src="../../../assets/ui/sb_r.png" />
+          <img class="ml-n2" src="../../../assets/ui/sb_r.png" alt="" />
         </div>
       </v-col>
     </v-row>
