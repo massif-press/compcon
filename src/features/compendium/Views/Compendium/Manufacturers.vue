@@ -8,15 +8,13 @@
       :slider-size="12"
       slider-color="active"
       icons-and-text
-      show-arrows
-    >
+      show-arrows>
       <v-tab v-for="(m, i) in manufacturers" ripple>
         <cc-logo
           v-if="m.LogoIsExternal"
           size="large"
           :source="m"
-          :color="tabModel == i ? 'white' : 'black'"
-        />
+          :color="tabModel == i ? 'white' : 'black'" />
         <v-icon v-else size="40" :icon="m.Icon" />
         {{ m.ID }}
       </v-tab>
@@ -26,8 +24,7 @@
         <v-card flat class="px-3 py-3 panel clipped-x-large">
           <v-card-title
             :class="`heading ${$vuetify.display.lgAndUp ? 'mech pb-3' : 'h2'}`"
-            :style="`color: ${m.Color}; word-break: break-word!important`"
-          >
+            :style="`color: ${m.Color}; word-break: break-word!important`">
             <span style="overflow-wrap: normal !important">
               {{ m.Name }}
             </span>
@@ -36,9 +33,8 @@
             <cc-logo-splash
               v-if="$vuetify.display.lgAndUp"
               :source="m"
-              style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw"
-            />
-            <blockquote v-html-safe="m.Quote" class="quote-block fluff-text text-text" />
+              style="float: right; margin-left: 20px; margin-right: 50px; min-height: 22vw" />
+            <blockquote v-html-safe="m.Quote" class="quote-block" />
             <v-divider class="ma-2" style="width: 30vw" />
             <p v-html-safe="m.Description" class="body-text stark-text-text mb-2" />
           </v-card-text>
@@ -65,7 +61,10 @@ export default {
 
 <style scoped>
 .quote-block {
-  border-left: 8px solid rgb(var(--v-theme-panel-darken1));
+  border-left: 6px solid rgb(var(--v-theme-panel));
+  border-radius: 3px;
   padding-left: 6px;
+  font-size: 22px;
+  line-height: 26px;
 }
 </style>

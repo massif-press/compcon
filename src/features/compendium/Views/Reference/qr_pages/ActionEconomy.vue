@@ -67,12 +67,18 @@
 
 <script lang="ts">
 import ActionCard from '../_components/ActionCard.vue';
+import scrollTo from '@/util/scrollTo';
 
 import { CompendiumStore } from '@/stores';
 
 export default {
   name: 'action-economy',
   components: { ActionCard },
+  props: {
+    isModal: {
+      type: Boolean,
+    },
+  },
   data: () => ({
     content: ['overview', 'mech actions', 'pilot actions', 'downtime actions'],
     actionTypes: [
@@ -96,12 +102,7 @@ export default {
   methods: {
     scrollTo(item: any): void {
       const el = document.getElementById(`${item.replace(/\W/g, '')}`);
-      if (el) {
-        const yOffset = -60;
-        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
+      if (el) scrollTo(el, this.isModal);
     },
   },
 };

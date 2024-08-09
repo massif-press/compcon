@@ -164,11 +164,14 @@
           <h3 class="heading text-accent mt-2">Log Level</h3>
           <v-menu>
             <template #activator="{ props }">
-              <v-list-item v-bind="props" three-line>
+              <v-list-item v-bind="props" three-line border>
                 <v-list-item-title>Log level:</v-list-item-title>
                 <v-list-item-subtitle>
                   <b class="text-uppercase">{{ logLevel.name }}</b>
                 </v-list-item-subtitle>
+                <template #append>
+                  <v-icon>mdi-chevron-down</v-icon>
+                </template>
               </v-list-item>
             </template>
             <v-list>

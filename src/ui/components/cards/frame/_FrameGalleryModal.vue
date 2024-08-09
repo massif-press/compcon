@@ -11,15 +11,14 @@
         <v-container fluid class="px-5">
           <v-row density="compact">
             <v-col cols="auto" class="ml-auto mr-auto">
-              <cc-img
+              <v-img
                 :src="selected"
                 :style="`max-height: 1080px; image-rendering: ${
                   isPixel ? 'pixelated' : 'crisp-edges'
                 };`"
                 max-width="60vw"
                 min-width="30vw"
-                contain
-              />
+                contain />
             </v-col>
             <v-col cols="4" class="ml-auto pr-6">
               <div class="heading h1 text-accent">{{ frame.Name }}</div>
@@ -28,8 +27,7 @@
                 variant="outlined"
                 density="compact"
                 color="primary"
-                class="my-2"
-              >
+                class="my-2">
                 <v-row>
                   <v-col>
                     <div>
@@ -43,8 +41,7 @@
                       target="_blank"
                       :href="`${artist.website}`"
                       class="ml-3"
-                      style="text-decoration: none"
-                    >
+                      style="text-decoration: none">
                       <v-icon color="primary">mdi-web</v-icon>
                       <span>Website</span>
                     </a>
@@ -54,8 +51,7 @@
                       target="_blank"
                       :href="`https://twitter.com/${artist.twitter}`"
                       class="ml-3"
-                      style="text-decoration: none"
-                    >
+                      style="text-decoration: none">
                       <v-icon color="primary">mdi-twitter</v-icon>
                       <span>@{{ artist.twitter }}</span>
                     </a>
@@ -67,33 +63,28 @@
                 <v-col
                   v-if="frame.ID !== 'mf_standard_pattern_i_everest'"
                   cols="auto"
-                  style="max-width: 200px"
-                >
+                  style="max-width: 200px">
                   <div
                     :class="selected === frame.DefaultImage ? 'selected-img' : 'unselected-img'"
-                    @click="selected = frame.DefaultImage"
-                  >
-                    <cc-img
+                    @click="selected = frame.DefaultImage">
+                    <v-img
                       :src="frame.DefaultImage"
                       :style="`max-height: 200px; image-rendering: ${
                         isPixel ? 'pixelated' : 'crisp-edges'
                       };`"
-                      contain
-                    />
+                      contain />
                   </div>
                 </v-col>
                 <v-col v-for="a in frame.OtherArt" cols="auto" style="max-width: 200px">
                   <div
                     :class="selected === imgPath(a.tag, a.src) ? 'selected-img' : 'unselected-img'"
-                    @click="selectImg(a)"
-                  >
-                    <cc-img
+                    @click="selectImg(a)">
+                    <v-img
                       :src="imgPath(a.tag, a.src)"
                       :style="`max-height: 200px; image-rendering: ${
                         isPixel ? 'pixelated' : 'crisp-edges'
                       };`"
-                      contain
-                    />
+                      contain />
                   </div>
                 </v-col>
               </v-row>

@@ -28,6 +28,7 @@
                 <v-icon
                   v-bind="props"
                   start
+                  color="white"
                   @click.stop
                   icon="mdi-queue-first-in-last-out"
                   size="small"

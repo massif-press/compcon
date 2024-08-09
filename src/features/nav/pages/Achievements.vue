@@ -12,15 +12,15 @@
           height="30"
           rounded="xl"
           color="accent">
-          <span class="text-overline"
-            >{{ ((allUnlocked.length / nsAchievements.length) * 100).toFixed(2) }}%</span
-          >
+          <span class="text-overline">
+            {{ ((allUnlocked.length / nsAchievements.length) * 100).toFixed(2) }}%
+          </span>
         </v-progress-linear>
         <div class="text-overline text-right text-disabled">
           {{ allUnlocked.length }} of {{ nsAchievements.length }} unlocked
-          <v-btn icon size="x-small" variant="plain" @click="showDetail = !showDetail"
-            ><v-icon size="20" :icon="showDetail ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-          /></v-btn>
+          <v-btn icon size="x-small" variant="plain" @click="showDetail = !showDetail">
+            <v-icon size="20" :icon="showDetail ? 'mdi-chevron-up' : 'mdi-chevron-down'" />
+          </v-btn>
           <v-expand-transition>
             <v-card v-if="showDetail" variant="outlined">
               <v-card-text>
@@ -32,7 +32,7 @@
                     class="my-2"
                     rounded="md"
                     :color="getColor({ unlocked: true, rarity: i + 1 })">
-                    <span style="text-transform: capitalize">{{ r }} </span>
+                    <span style="text-transform: capitalize">{{ r }}</span>
                   </v-progress-linear>
                   <div class="text-caption font-italic mt-n2">
                     {{ byRarity(i + 1).has }} / {{ byRarity(i + 1).total }} ({{
@@ -82,16 +82,16 @@
               multiple
               density="compact"
               class="py-1">
-              <v-btn size="small"> Common </v-btn>
-              <v-btn size="small"> Epic </v-btn>
-              <v-btn size="small"> Legendary </v-btn>
-              <v-btn size="small"> Mythic </v-btn>
+              <v-btn size="small">Common</v-btn>
+              <v-btn size="small">Epic</v-btn>
+              <v-btn size="small">Legendary</v-btn>
+              <v-btn size="small">Mythic</v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="auto">
             <v-btn-toggle v-model="showLock" color="accent" multiple density="compact" class="py-1">
-              <v-btn size="small"> Locked </v-btn>
-              <v-btn size="small"> Unlocked </v-btn>
+              <v-btn size="small">Locked</v-btn>
+              <v-btn size="small">Unlocked</v-btn>
             </v-btn-toggle>
           </v-col>
           <v-col cols="auto">
@@ -101,7 +101,7 @@
               multiple
               density="compact"
               class="py-1">
-              <v-btn size="small"> Hidden </v-btn>
+              <v-btn size="small">Hidden</v-btn>
             </v-btn-toggle>
           </v-col>
         </v-row>
@@ -136,7 +136,7 @@
       </v-col>
       <v-col class="text-right">
         <div class="text-overline">SORT:</div>
-        <v-btn color="primary" size="small" class="mr-3" @click="sort = 'none'"> None </v-btn>
+        <v-btn color="primary" size="small" class="mr-3" @click="sort = 'none'">None</v-btn>
         <v-btn
           color="primary"
           size="small"
@@ -195,16 +195,18 @@
             </div>
           </v-col>
           <v-col v-if="a.unlocked" cols="auto" class="text-center mx-6">
-            <div class="text-caption"><span v-if="a.secret">SECRET ACHIEVEMENT </span>UNLOCKED</div>
+            <div class="text-caption">
+              <span v-if="a.secret">SECRET ACHIEVEMENT</span>
+              UNLOCKED
+            </div>
             <div class="heading">{{ formatDate(a.unlocked) }}</div>
           </v-col>
         </v-row>
       </v-card>
       <div v-if="hiddenAchievements" class="text-right text-caption px-4">
-        <i
-          >{{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} not
-          shown</i
-        >
+        <i>
+          {{ hiddenAchievements }} achievement{{ hiddenAchievements === 1 ? '' : 's' }} not shown
+        </i>
       </div>
     </v-container>
 
@@ -228,7 +230,8 @@
                 This will
                 <b class="text-accent">OVERWRITE ALL</b>
                 user achievement data.
-                <br /><br />
+                <br />
+                <br />
                 This
                 <b class="text-accent">cannot</b>
                 be undone. It is strongly recommended to create a backup first.
@@ -260,14 +263,15 @@
                 This will
                 <b class="text-accent">ERASE ALL</b>
                 user achievement data.
-                <br /><br />
+                <br />
+                <br />
                 This
                 <b class="text-accent">cannot</b>
                 be undone. It is strongly recommended to create a backup first.
               </p>
-              <v-btn color="error" block class="mt-4" @click="clearAchievements()"
-                >Reset Achievements</v-btn
-              >
+              <v-btn color="error" block class="mt-4" @click="clearAchievements()">
+                Reset Achievements
+              </v-btn>
             </v-card-text>
           </v-card>
         </v-dialog>

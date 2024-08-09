@@ -5,9 +5,8 @@
     :table-headers="headers"
     :options="options"
     equippable
-    @equip="equip($event)"
-  >
-    <template #header> <div class="heading h3 text-center text-accent">Mech Weapons</div></template>
+    @equip="equip($event)">
+    <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
     <template #top>
       <v-row>
         <v-col>
@@ -22,9 +21,9 @@
             <span class="heading h1 text-accent" style="line-height: 20px">
               {{ equipped.Name }}
             </span>
-            <span class="flavor-text overline mt-n1" style="display: block"
-              >CURRENTLY EQUIPPED</span
-            >
+            <span class="flavor-text overline mt-n1" style="display: block">
+              CURRENTLY EQUIPPED
+            </span>
           </div>
           <div v-else>
             <span class="text-overline">
@@ -48,12 +47,10 @@
                 inline
                 :content="
                   showUnlicensed ? 'Unlicensed equipment: SHOWN' : 'Unlicensed equipment: HIDDEN'
-                "
-              >
+                ">
                 <v-icon
                   :color="showUnlicensed ? 'warning' : 'success'"
-                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'"
-                />
+                  :icon="showUnlicensed ? 'mdi-lock-open' : 'mdi-lock'" />
               </cc-tooltip>
             </template>
           </v-switch>
@@ -67,8 +64,7 @@
                   showOverSP
                     ? 'Systems exceeding SP Capacity: SHOWN'
                     : 'Systems exceeding SP Capacity: HIDDEN'
-                "
-              >
+                ">
                 <v-icon :color="showOverSP ? 'warning' : 'success'" icon="cc:system_point" />
               </cc-tooltip>
             </template>
@@ -108,7 +104,7 @@ export default {
       initialGroup: 'license',
     },
     headers: [
-      { title: 'Source', align: 'left', key: 'Source' },
+      { title: 'Manufacturer', align: 'left', key: 'Source' },
       { title: 'System', align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'License' },
       { title: 'License Level', align: 'left', key: 'LicenseLevel' },

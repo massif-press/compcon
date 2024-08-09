@@ -33,99 +33,112 @@
         </v-checkbox-btn>
       </div>
       <v-spacer />
-      <div v-if="!dense" class="heading pl-3 pr-6">Roll</div>
-      <div v-if="!readonly">
-        <v-menu>
-          <template #activator="{ props }">
-            <v-btn icon v-bind="props" variant="tonal" size="x-small" class="mt-n1">
-              <span class="heading h3">{{ table.Mult || '#' }}</span>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-text>
-              <v-btn
-                v-for="n in 5"
-                icon
-                variant="tonal"
-                color="accent"
-                size="x-small"
-                class="mx-2"
-                @click="table.Mult = n">
-                <span class="heading h3">{{ n }}</span>
-              </v-btn>
-            </v-card-text>
-          </v-card>
-        </v-menu>
+      <v-row no-gutters v-if="!readonly" align="center">
+        <v-col cols="auto" v-if="!dense" class="heading pl-3 pr-3">Roll</v-col>
 
-        <div class="heading" style="margin: 0px 4px 0 2px">D</div>
-        <v-menu>
-          <template #activator="{ props }">
-            <v-btn icon v-bind="props" variant="tonal" size="x-small" class="mt-n1">
-              <span class="heading h3">{{ table.Die || '#' }}</span>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-text>
-              <v-btn
-                v-for="n in dice"
-                icon
-                variant="tonal"
-                color="accent"
-                size="x-small"
-                class="mx-2"
-                @click="table.Die = n">
-                <span class="heading h3">{{ n }}</span>
+        <v-col cols="auto">
+          <v-menu>
+            <template #activator="{ props }">
+              <v-btn icon v-bind="props" variant="tonal" size="x-small" class="mt-n1">
+                <span class="heading h3">{{ table.Mult || '#' }}</span>
               </v-btn>
-            </v-card-text>
-          </v-card>
-        </v-menu>
-        <v-spacer />
-        <div class="heading pl-3 pr-1">Step</div>
-        <v-text-field
-          v-model="step"
-          type="number"
-          style="max-width: 60px"
-          density="compact"
-          hide-details />
-        <v-spacer />
+            </template>
+            <v-card>
+              <v-card-text>
+                <v-btn
+                  v-for="n in 5"
+                  icon
+                  variant="tonal"
+                  color="accent"
+                  size="x-small"
+                  class="mx-2"
+                  @click="table.Mult = n">
+                  <span class="heading h3">{{ n }}</span>
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </v-col>
 
-        <v-menu offset-x bottom>
-          <template #activator="{ props }">
-            <v-btn size="small" :icon="dense" variant="tonal" v-bind="props">
-              <v-icon :start="!dense">mdi-reload</v-icon>
-              <span v-if="!dense">Rebuild</span>
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-text>
-              Do you want to rebuild this table? This will clear out the current data. This action
-              cannot be undone.
-            </v-card-text>
-            <v-divider />
-            <v-card-actions>
-              <v-spacer />
-              <v-btn small color="error" @click="generate">Confirm Rebuild</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-        <v-menu v-if="!noDelete" offset-x left>
-          <template #activator="{ props }">
-            <v-btn small icon color="error" variant="plain" v-bind="props">
-              <v-icon icon="mdi-delete" />
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-text>
-              Do you want to delete this table? This action cannot be undone.
-            </v-card-text>
-            <v-divider />
-            <v-card-actions>
-              <v-spacer />
-              <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-      </div>
+        <v-col cols="auto" class="heading" style="margin: 0px 2px 0 2px">D</v-col>
+        <v-col cols="auto">
+          <v-menu>
+            <template #activator="{ props }">
+              <v-btn icon v-bind="props" variant="tonal" size="x-small" class="mt-n1">
+                <span class="heading h3">{{ table.Die || '#' }}</span>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text>
+                <v-btn
+                  v-for="n in dice"
+                  icon
+                  variant="tonal"
+                  color="accent"
+                  size="x-small"
+                  class="mx-2"
+                  @click="table.Die = n">
+                  <span class="heading h3">{{ n }}</span>
+                </v-btn>
+              </v-card-text>
+            </v-card>
+          </v-menu>
+        </v-col>
+        <v-spacer />
+        <v-col cols="auto" class="heading pl-3 pr-1">Step</v-col>
+        <v-col cols="auto">
+          <v-text-field
+            v-model="step"
+            type="number"
+            variant="outlined"
+            style="max-width: 60px"
+            density="compact"
+            class=""
+            hide-details />
+        </v-col>
+
+        <v-spacer />
+        <v-col cols="auto">
+          <v-menu offset-x bottom>
+            <template #activator="{ props }">
+              <v-btn size="small" :icon="dense" variant="tonal" v-bind="props">
+                <v-icon :start="!dense">mdi-reload</v-icon>
+                <span v-if="!dense">Rebuild</span>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text>
+                Do you want to rebuild this table? This will clear out the current data. This action
+                cannot be undone.
+              </v-card-text>
+              <v-divider />
+              <v-card-actions>
+                <v-spacer />
+                <v-btn small color="error" @click="generate">Confirm Rebuild</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </v-col>
+        <v-col cols="auto" v-if="!noDelete">
+          <v-menu offset-x left>
+            <template #activator="{ props }">
+              <v-btn small icon color="error" variant="plain" v-bind="props">
+                <v-icon icon="mdi-delete" />
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-text>
+                Do you want to delete this table? This action cannot be undone.
+              </v-card-text>
+              <v-divider />
+              <v-card-actions>
+                <v-spacer />
+                <v-btn small color="error" @click="$emit('delete')">Confirm Deletion</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-menu>
+        </v-col>
+      </v-row>
     </v-toolbar>
 
     <v-table class="pr-3 py-1 rounded-0">

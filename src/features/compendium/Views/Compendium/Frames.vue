@@ -4,7 +4,7 @@
     item-type="Frame"
     :table-headers="headers"
     :options="options">
-    <template #header> <div class="heading h3 text-center text-accent">Frames</div></template>
+    <template #header><div class="heading h3 text-center text-accent">Frames</div></template>
   </cc-compendium-browser>
 </template>
 
@@ -23,7 +23,7 @@ export default {
       initialGroup: 'source',
     },
     headers: [
-      { title: 'Source', key: 'Source' },
+      { title: 'Manufacturer', key: 'Source' },
       { title: 'Name', key: 'Name' },
       { title: 'Size', key: 'Size' },
       { title: 'Armor', key: 'Armor' },

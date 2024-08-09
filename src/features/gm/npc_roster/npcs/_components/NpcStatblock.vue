@@ -11,20 +11,15 @@
       </v-btn>
     </v-toolbar>
     <v-card-text>
-      <!-- <v-row class="px-3 mb-1" justify="end">
+      <v-row class="px-3 mb-1" justify="end">
         <v-col cols="auto">
-          <v-switch v-model="discordEmoji" inset color="accent" density="compact" hide-details>
+          <v-switch v-model="narrativeElements" inset color="accent" density="compact" hide-details>
             <template #label>
-              <div>
-                Include Pilot NET Discord damage type Emoji
-                <div class="text-caption" style="line-height: 8px">
-                  (Doesn't work in code block format)
-                </div>
-              </div>
+              <div>Include Narrative Elements</div>
             </template>
           </v-switch>
         </v-col>
-      </v-row> -->
+      </v-row>
 
       <v-textarea
         :value="statblock"
@@ -32,7 +27,7 @@
         readonly
         rows="20"
         hide-details
-        variant="solo-filled"
+        variant="outlined"
         class="flavor-text" />
       <v-tooltip text="Copy stat block to clipboard">
         <template #activator="{ props }">
@@ -41,6 +36,7 @@
             variant="tonal"
             prepend-icon="mdi-clipboard-text-outline"
             color="accent"
+            size="small"
             @click="copy()">
             Copy to Clipboard
           </v-btn>
@@ -63,11 +59,11 @@ export default {
     },
   },
   data: () => ({
-    discordEmoji: false,
+    narrativeElements: false,
   }),
   computed: {
     statblock(): string {
-      return Statblock.GenerateNPC(this.item);
+      return Statblock.GenerateNPC(this.item, this.narrativeElements);
     },
   },
 

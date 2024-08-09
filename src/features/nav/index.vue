@@ -53,6 +53,35 @@
       <span>Compendium</span>
     </v-tooltip>
 
+    <v-dialog v-model="qrDialog">
+      <template #activator="{ props }">
+        <v-btn
+          icon
+          variant="plain"
+          size="45"
+          v-bind="props"
+          @click="$router.push({ path: '/srd' })">
+          <v-tooltip location="bottom" open-delay="500ms">
+            <template #activator="{ props }">
+              <v-icon v-bind="props" color="white" icon="mdi-contain" />
+            </template>
+            <span>Quick Reference</span>
+          </v-tooltip>
+        </v-btn>
+      </template>
+      <v-card id="content">
+        <v-toolbar color="primary" density="compact" style="position: fixed; z-index: 2">
+          <v-toolbar-title class="heading h3 text-uppercase">Quick Reference</v-toolbar-title>
+          <v-spacer />
+          <v-btn icon @click="qrDialog = false">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-toolbar>
+        <div style="min-height: 22px" />
+        <reference :is-modal="true" />
+      </v-card>
+    </v-dialog>
+
     <v-divider vertical dark class="mx-2" />
 
     <v-toolbar-title>
@@ -220,6 +249,8 @@ import ContentPage from './pages/ExtraContent/index.vue';
 import CloudPage from './pages/Cloud.vue';
 import AchievementsPage from './pages/Achievements.vue';
 
+import Reference from '../compendium/Views/Reference/Reference.vue';
+
 import { PilotStore, UserStore } from '@/stores';
 
 import { Pilot } from '@/classes/pilot/Pilot';
@@ -235,6 +266,7 @@ export default {
     ContentPage,
     CloudPage,
     AchievementsPage,
+    Reference,
   },
   props: {
     pilotManagement: { type: Boolean },
@@ -246,6 +278,7 @@ export default {
     optionsDialog: false,
     storageWarningDialog: false,
     storageFullDialog: false,
+    qrDialog: false,
   }),
   mounted() {
     this.storageFullDialog = this.StorageMax;

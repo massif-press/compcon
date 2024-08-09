@@ -106,12 +106,13 @@
 
         <v-card v-if="filteredItems.filter((x: any) => !x.FolderController?.Folder).length > 0">
           <v-toolbar density="compact" style="height: 40px" class="mt-n2">
-            <v-btn size="x-small" icon @click="showNoFolder = !showNoFolder"
-              ><v-icon
+            <v-btn size="x-small" icon @click="showNoFolder = !showNoFolder">
+              <v-icon
                 size="30"
                 icon="mdi-menu-right"
-                :class="showNoFolder ? 'mdi-rotate-90' : ''" /></v-btn
-            ><v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
+                :class="showNoFolder ? 'mdi-rotate-90' : ''" />
+            </v-btn>
+            <v-toolbar-title class="heading h3">No Folder</v-toolbar-title>
             <v-spacer />
             <div class="px-2 text-disabled text-caption">
               {{ filteredItems.filter((x: any) => !x.FolderController?.Folder).length }}
@@ -170,9 +171,10 @@
     <cc-solo-dialog ref="import" icon="mdi-download-multiple" no-confirm large title="Import">
       <importer @complete="($refs as any).import.hide()" />
     </cc-solo-dialog>
-    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()"
-      ><v-icon start icon="mdi-queue-first-in-last-out" />Organize</v-btn
-    >
+    <v-btn variant="tonal" color="accent" class="mx-4" @click="($refs as any).organize.show()">
+      <v-icon start icon="mdi-queue-first-in-last-out" />
+      Organize
+    </v-btn>
     <cc-solo-dialog
       ref="organize"
       icon="mdi-queue-first-in-last-out"
@@ -326,7 +328,9 @@ export default {
       this.editDialog = true;
     },
     addNew() {
-      this.selected = new Encounter();
+      const e = new Encounter();
+      EncounterStore().AddEncounter(e);
+      this.selected = e;
       this.editDialog = true;
     },
   },

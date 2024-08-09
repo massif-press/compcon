@@ -3,10 +3,9 @@
     dense
     align="start"
     class="rounded-lg mb-2"
-    style="border: 1px solid rgb(var(--v-theme-primary))"
-  >
+    style="border: 1px solid rgb(var(--v-theme-primary))">
     <v-col cols="auto" class="mr-2 text-center">
-      <cc-img :src="frameImage" width="152px" max-height="206px" />
+      <v-img :src="frameImage" width="152px" max-height="206px" />
     </v-col>
     <v-col cols="12" md="">
       <v-row dense :class="`px-2 ${isSelected ? 'selected-gradient' : 'gradient'}`">
@@ -36,7 +35,8 @@
           <v-row>
             <v-col>
               <div class="caption text-accent">
-                PILOT<cc-slashes />
+                PILOT
+                <cc-slashes />
                 <b>SKILLS</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
@@ -44,18 +44,18 @@
                   <cc-tooltip
                     delayed
                     :title="`${item('Skills', s).Name} (+2)`"
-                    :content="item('Skills', s).Detail"
-                  >
-                    <v-chip variant="outlined" color="info" label>{{
-                      item('Skills', s).Name
-                    }}</v-chip>
+                    :content="item('Skills', s).Detail">
+                    <v-chip variant="outlined" color="info" label>
+                      {{ item('Skills', s).Name }}
+                    </v-chip>
                   </cc-tooltip>
                 </v-col>
               </v-row>
             </v-col>
             <v-col>
               <div class="caption text-accent">
-                PILOT<cc-slashes />
+                PILOT
+                <cc-slashes />
                 <b>TALENTS</b>
               </div>
               <v-row dense justify="center" class="px-2 text-center">
@@ -63,8 +63,7 @@
                   <cc-tooltip
                     delayed
                     :title="`${item('Talents', t).Name} I: ${item('Talents', t).Rank(1).Name}`"
-                    :content="item('Talents', t).Rank(1).Description"
-                  >
+                    :content="item('Talents', t).Rank(1).Description">
                     <v-chip variant="outlined" color="accent" label>
                       <v-icon start>cc:rank_1</v-icon>
                       {{ item('Talents', t).Name }}
@@ -77,7 +76,8 @@
         </div>
         <div class="panel clipped py-1 px-2 my-2">
           <div class="caption text-accent mt-1">
-            GMS EVEREST<cc-slashes />
+            GMS EVEREST
+            <cc-slashes />
             <b>LOADOUT</b>
           </div>
           <v-row dense justify="center" class="px-2 text-center">
@@ -102,8 +102,7 @@
             icon
             class="mb-n3"
             style="background-color: rgb(var(--v-theme-stark-panel))"
-            @click="expanded = !expanded"
-          >
+            @click="expanded = !expanded">
             <v-icon large color="accent">mdi-chevron-double-{{ expanded ? 'up' : 'down' }}</v-icon>
           </v-btn>
         </p>

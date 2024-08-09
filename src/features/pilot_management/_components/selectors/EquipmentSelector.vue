@@ -35,7 +35,7 @@ export default {
   },
   data: () => ({
     headers: [
-      { title: 'Source', align: 'left', key: 'Source' },
+      { title: 'Manufacturer', align: 'left', key: 'Source' },
       { title: 'Weapon', align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'LicenseString' },
       { title: 'Size', align: 'left', key: 'SizeInt' },

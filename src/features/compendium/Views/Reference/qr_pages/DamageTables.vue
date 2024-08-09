@@ -300,20 +300,22 @@
 </template>
 
 <script lang="ts">
+import scrollTo from '@/util/scrollTo';
+
 export default {
   name: 'damage-tables',
+  props: {
+    isModal: {
+      type: Boolean,
+    },
+  },
   data: () => ({
     content: ['structure damage', 'overheating', 'down and out'],
   }),
   methods: {
     scrollTo(item: any): void {
       const el = document.getElementById(`${item.replace(/\W/g, '')}`);
-      if (el) {
-        const yOffset = -60;
-        const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
+      if (el) scrollTo(el, this.isModal);
     },
   },
 };

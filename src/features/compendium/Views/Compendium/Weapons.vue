@@ -4,7 +4,7 @@
     item-type="MechWeapon"
     :table-headers="headers"
     :options="options">
-    <template #header> <div class="heading h3 text-center text-accent">Mech Weapons</div></template>
+    <template #header><div class="heading h3 text-center text-accent">Mech Weapons</div></template>
   </cc-compendium-browser>
 </template>
 
@@ -23,7 +23,7 @@ export default {
       initialGroup: 'license',
     },
     headers: [
-      { title: 'Source', align: 'left', key: 'Source' },
+      { title: 'Manufacturer', align: 'left', key: 'Source' },
       { title: 'Weapon', align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'LicenseString' },
       { title: 'Size', align: 'left', key: 'SizeInt' },

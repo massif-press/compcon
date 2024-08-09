@@ -7,24 +7,8 @@ import _mods from './horus_chat/mods.txt?raw';
 import _admin from './horus_chat/admin.txt?raw';
 import _bans from './horus_chat/bans.txt?raw';
 
-const fetchData = (path: string) => {
-  return new Promise((resolve, reject) => {
-    fetch(path)
-      .then((response) => response.text())
-      .then((text) => {
-        const data = text.split('\n').filter(Boolean);
-        resolve(data);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
-};
-
 const HorusStart = async (typer) => {
   let nfo = _nfo as unknown as string;
-
-  console.log(nfo);
 
   let motd = _.sample((_motd as unknown as string).split('\n'));
 

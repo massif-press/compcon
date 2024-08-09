@@ -4,7 +4,7 @@
     :itemType="'CoreBonus'"
     :table-headers="headers"
     :options="options">
-    <template #header> <div class="heading h3 text-center text-accent">Core Bonuses</div></template>
+    <template #header><div class="heading h3 text-center text-accent">Core Bonuses</div></template>
   </cc-compendium-browser>
 </template>
 
@@ -19,7 +19,7 @@ export default {
   data: () => ({
     headers: [
       { title: 'Content Pack', key: 'LcpName' },
-      { title: 'Source', key: 'Source' },
+      { title: 'Manufacturer', key: 'Source' },
       { title: 'Name', key: 'Name' },
     ],
     options: {

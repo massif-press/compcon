@@ -323,6 +323,7 @@ export default {
 <style scoped>
 .title-hover {
   background-color: rgb(var(--v-theme-primary));
+  color: white;
 
   transition: background-color 0.3s ease-in-out;
 }

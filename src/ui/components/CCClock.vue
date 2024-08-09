@@ -49,11 +49,11 @@
 
           <v-progress-linear
             v-if="clock.Linear"
+            v-model="total"
             background-color="grey lighten-2"
             :height="dense ? size / 6 : size / 2.5"
-            :value="total"
             :color="color">
-            <div class="background text-accent" style="border-radius: 2px">
+            <div class="bg-background text-accent" style="border-radius: 2px">
               <b v-if="print">&emsp; / {{ clock.Segments }}&nbsp;</b>
               <b v-else>&nbsp;{{ progress }} / {{ clock.Segments }}&nbsp;</b>
             </div>

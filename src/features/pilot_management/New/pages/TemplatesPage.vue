@@ -5,8 +5,7 @@
     back
     mandatory
     @back="$emit('back')"
-    @complete="setTemplate()"
-  >
+    @complete="setTemplate()">
     <cc-title large>New Pilot Registration&emsp;</cc-title>
     <h2 v-show="$vuetify.display.mdAndUp" class="heading">
       UAD IDENT Service
@@ -36,15 +35,14 @@
       </v-col>
       <v-col cols="12" md="4">
         <b class="caption text-accent mt-n2">MECH ART COURTESY OF</b>
-        <cc-img
+        <v-img
           target="_blank"
           href="https://www.retrogrademinis.com/"
           src="./src/assets/img/misc/retrograde_logo.png"
           class="img-select"
           max-height="131px"
           max-width="478px"
-          contain
-        />
+          contain />
       </v-col>
     </v-row>
     <v-row :class="$vuetify.display.mdAndUp ? 'mx-6' : 'mx-2'">
@@ -52,8 +50,7 @@
         v-for="t in templates"
         :template="t"
         :isSelected="selected && t.name === selected.name"
-        @select="selected = t"
-      />
+        @select="selected = t" />
     </v-row>
   </stepper-content>
 </template>
