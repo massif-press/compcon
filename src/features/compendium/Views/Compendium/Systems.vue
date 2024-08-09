@@ -4,7 +4,7 @@
     item-type="MechSystem"
     :table-headers="headers"
     :options="options">
-    <template #header> <div class="heading h3 text-center text-accent">Mech Systems</div></template>
+    <template #header><div class="heading h3 text-center text-accent">Mech Systems</div></template>
   </cc-compendium-browser>
 </template>
 
@@ -25,7 +25,7 @@ export default {
       initialGroup: 'license',
     },
     headers: [
-      { title: 'Source', align: 'left', key: 'Source' },
+      { title: 'Manufacturer', align: 'left', key: 'Source' },
       { title: 'System', align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'License' },
       { title: 'License Level', align: 'left', key: 'LicenseLevel' },

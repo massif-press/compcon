@@ -7,10 +7,10 @@
     </v-tabs>
     <v-window v-model="tab">
       <v-window-item>
-        <action-economy />
+        <action-economy :is-modal="isModal" />
       </v-window-item>
       <v-window-item>
-        <damage-tables />
+        <damage-tables :is-modal="isModal" />
       </v-window-item>
     </v-window>
   </v-container>
@@ -22,6 +22,11 @@ import DamageTables from './qr_pages/DamageTables.vue';
 
 export default {
   name: 'reference',
+  props: {
+    isModal: {
+      type: Boolean,
+    },
+  },
   components: {
     ActionEconomy,
     DamageTables,

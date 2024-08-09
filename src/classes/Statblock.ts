@@ -294,7 +294,7 @@ class Statblock {
     } else return '>> NO MECH SELECTED <<';
   }
 
-  public static GenerateNPC(npc: Unit): string {
+  public static GenerateNPC(npc: Unit, includeNarrative: boolean): string {
     let output = `// ${npc.Name} //\n`;
     if (npc.NpcTemplateController.Templates)
       output += `${npc.NpcTemplateController.Templates.map((t) => t.Name).join(' ')}`;
@@ -331,6 +331,42 @@ class Statblock {
     output += npc.NpcFeatureController.Features.map(
       (item, index) => `${item.Name}${linebreak(index, npc.NpcFeatureController.Features.length)}`
     ).join('');
+
+    if (includeNarrative) {
+      output += this.generateNarrativeBlock(npc);
+    }
+
+    return output;
+  }
+
+  public static generateNarrativeBlock(npc: Unit): string {
+    let output = '';
+    if (npc.NarrativeController.TextItems.length > 0) {
+      output += '[ ADDITIONAL DETAIL ]\n';
+      npc.NarrativeController.TextItems.forEach((item) => {
+        output += `  ${item.title || (item as any).header}\n   ${item.body.replace(
+          /<[^>]*>/gi,
+          ''
+        )}\n`;
+      });
+    }
+    if (npc.NarrativeController.Clocks.length > 0) {
+      output += '[ CLOCKS ]\n';
+      npc.NarrativeController.Clocks.forEach((clock) => {
+        output += `  ${clock.Title}: ${'▣'.repeat(clock.Progress)}${'▢'.repeat(
+          clock.Segments - clock.Progress
+        )}\n`;
+      });
+    }
+    if (npc.NarrativeController.Tables.length > 0) {
+      output += '[ TABLES ]\n';
+      npc.NarrativeController.Tables.forEach((table) => {
+        output += `  ${table.Title} (${table.Mult}D${table.Die})\n`;
+        table.Results.forEach((result) => {
+          output += `    ${result.min} - ${result.max}: ${result.result}\n`;
+        });
+      });
+    }
     return output;
   }
 }

@@ -5,9 +5,7 @@
       :title="`${action.Name}${exclusive}`"
       :icon="action.Icon"
       :color="action.Color"
-      style="height: 100%"
-      @click="($refs.dialog as any).show()"
-    >
+      @click="($refs.dialog as any).show()">
       <p v-html-safe="action.Terse" class="body-text mb-2 pa-2" />
     </cc-titled-panel>
     <cc-solo-dialog
@@ -16,8 +14,7 @@
       :icon="action.Icon"
       :color="action.Color"
       no-actions
-      width="80vw"
-    >
+      width="80vw">
       <v-container>
         <p v-html-safe="action.Detail" class="body-text text-text mt-n3" />
         <div v-if="action.SubActions && action.SubActions.length">

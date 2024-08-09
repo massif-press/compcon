@@ -107,7 +107,7 @@ export default {
       initialGroup: 'none',
     },
     headers: [
-      { title: 'Source', align: 'left', key: 'Source' },
+      { title: 'Manufacturer', align: 'left', key: 'Source' },
       { title: 'System', align: 'left', key: 'Name' },
       { title: 'License', align: 'left', key: 'License' },
       { title: 'License Level', align: 'left', key: 'LicenseLevel' },

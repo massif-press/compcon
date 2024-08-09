@@ -13,7 +13,7 @@
       </span>
     </div>
     <div>
-      <p>
+      <p v-if="missingLength > 0">
         COMP/CON has determined the following items cannot be loaded, and require Lancer Content
         Packs that are not installed or not activated:
       </p>

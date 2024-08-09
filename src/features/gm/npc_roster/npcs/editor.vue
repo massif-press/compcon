@@ -20,7 +20,9 @@
             Statblock
           </v-btn>
         </template>
-        <npc-statblock :item="<Unit>item" />
+        <template #default="{ isActive }">
+          <npc-statblock :item="<Unit>item" @close="isActive.value = false" />
+        </template>
       </v-dialog>
     </template>
     <div v-if="item.NpcClassController.Class">

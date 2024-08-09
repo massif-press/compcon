@@ -4,23 +4,23 @@
     item-type="Frame"
     :options="options"
     equippable
-    @equip="select($event)"
-  >
+    @equip="select($event)">
     <template #header>
-      <div class="heading h4 text-center text-primary">Select New Frame</div></template
-    >
+      <div class="heading h4 text-center text-primary">Select New Frame</div>
+    </template>
 
     <template #top>
-      <v-row justify="end"
-        ><v-col cols="auto"
-          ><v-switch
+      <v-row justify="end">
+        <v-col cols="auto">
+          <v-switch
             v-model="showAll"
             label="Show All"
             inset
             hide-details
             density="compact"
-            color="accent" /></v-col
-      ></v-row>
+            color="accent" />
+        </v-col>
+      </v-row>
     </template>
   </cc-compendium-browser>
 
@@ -85,7 +85,7 @@ export default {
       initialGroup: 'source',
     },
     headers: [
-      { title: 'Source', key: 'Source' },
+      { title: 'Manufacturer', key: 'Source' },
       { title: 'Name', key: 'Name' },
       { title: 'Size', key: 'Size' },
       { title: 'Armor', key: 'Armor' },

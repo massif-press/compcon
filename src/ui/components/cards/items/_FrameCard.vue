@@ -7,8 +7,7 @@
       <v-col cols="auto" class="mt-n5">
         <cc-tooltip
           :title="`Size ${item.Size === 0.5 ? '½' : item.Size}`"
-          :content="glossary('size')"
-        >
+          :content="glossary('size')">
           <v-icon size="65" color="accent" :icon="item.SizeIcon" />
         </cc-tooltip>
       </v-col>
@@ -24,7 +23,7 @@
         </div>
       </v-col>
       <v-col v-if="$vuetify.display.lgAndUp" cols="4">
-        <cc-img :src="item.DefaultImage" max-width="35vw" />
+        <v-img :src="item.DefaultImage" max-width="35vw" />
         <!-- <cc-tooltip simple content="Feature In Development"> -->
         <!-- <frame-gallery-modal :frame="item" /> -->
         <!-- </cc-tooltip> -->
@@ -42,8 +41,7 @@
         <cc-trait-item
           :trait="t"
           :color="item.Manufacturer.GetColor($vuetify.theme.current.dark)"
-          class="mb-2"
-        />
+          class="mb-2" />
       </v-col>
     </v-row>
 

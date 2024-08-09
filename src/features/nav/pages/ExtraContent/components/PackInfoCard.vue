@@ -23,10 +23,14 @@
         <div class="pt-2">
           <h4>
             Dependencies
-            <v-tooltip location="top" max-width="300px"
-              ><template v-slot:activator="{ props }">
-                <v-icon v-bind="props" size="small" icon="mdi-information-outline" variant="plain"
-              /></template>
+            <v-tooltip location="top" max-width="300px">
+              <template v-slot:activator="{ props }">
+                <v-icon
+                  v-bind="props"
+                  size="small"
+                  icon="mdi-information-outline"
+                  variant="plain" />
+              </template>
               Dependencies are other content packs that this pack requires to function properly.
               They must be installed and activated for this pack to load correctly.
             </v-tooltip>
@@ -43,7 +47,8 @@
                 <v-icon
                   :icon="d(item).installed ? 'mdi-check' : 'mdi-close'"
                   :color="d(item).installed ? 'success' : 'error'"
-                  class="mr-1" />{{ d(item).name }} @ {{ d(item).version }}
+                  class="mr-1" />
+                {{ d(item).name }} @ {{ d(item).version }}
               </div>
               <div
                 class="text-caption px-2"
@@ -55,16 +60,17 @@
                       } at version ${d(item).version}</b> to be installed before it can be loaded.`
                 " />
               <div v-if="d(item).link" class="text-caption px-2 text-right">
-                <a :href="d(item).link" target="_blank" rel="noopener noreferrer"
-                  ><v-icon size="small" icon="mdi-download" />{{ d(item).name }}</a
-                >
+                <a :href="d(item).link" target="_blank" rel="noopener noreferrer">
+                  <v-icon size="small" icon="mdi-download" />
+                  {{ d(item).name }}
+                </a>
               </div>
             </v-card>
           </div>
         </div>
       </v-col>
       <v-col cols="12" md="4">
-        <cc-img :src="manifest.image_url" max-height="300px" />
+        <v-img :src="manifest.image_url" max-height="300px" />
         <div v-if="manifest.website" class="mt-2">
           <v-btn
             target="_blank"

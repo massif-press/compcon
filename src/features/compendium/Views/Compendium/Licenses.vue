@@ -4,7 +4,7 @@
     item-type="License"
     :table-headers="headers"
     :options="options">
-    <template #header> <div class="heading h3 text-center text-accent">Licenses</div></template>
+    <template #header><div class="heading h3 text-center text-accent">Licenses</div></template>
   </cc-compendium-browser>
 </template>
 
@@ -17,7 +17,7 @@ export default {
 
   data: () => ({
     headers: [
-      { title: 'Source', key: 'Source' },
+      { title: 'Manufacturer', key: 'Source' },
       { title: 'Name', key: 'Name' },
       { title: 'Tier I', key: 'T1', sortable: false },
       { title: 'Tier II', key: 'T2', sortable: false },
