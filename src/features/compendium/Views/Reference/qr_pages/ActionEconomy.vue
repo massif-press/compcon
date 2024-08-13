@@ -44,7 +44,7 @@
       <action-card v-for="a in pilotActions" :action="a" />
     </v-row>
 
-    <cc-icon-divider id="downtimeactions" icon="cc:downtime" />
+    <cc-icon-divider id="downtime_actions" icon="cc:downtime" />
     <v-row justify="center">
       <action-card v-for="a in downtimeActions" :action="a" downtime />
     </v-row>

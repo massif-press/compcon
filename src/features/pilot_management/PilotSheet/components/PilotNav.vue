@@ -37,15 +37,13 @@
         isAuthed
           ? 'Download all remote changes to this pilot, overwriting local data.'
           : 'Requires Cloud Account'
-      "
-    >
+      ">
       <v-btn
         icon
         class="unskew ml-6"
         :disabled="!isAuthed"
         :loading="loading"
-        @click="remoteUpdate()"
-      >
+        @click="remoteUpdate()">
         <v-icon color="white">mdi-cloud-sync</v-icon>
       </v-btn>
     </cc-tooltip>
@@ -53,15 +51,13 @@
       v-else
       inline
       delayed
-      :content="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'"
-    >
+      :content="isAuthed ? 'Share Pilot Data' : 'Requires Cloud Account'">
       <v-btn
         icon
         variant="plain"
         class="unskew ml-6"
         :disabled="!isAuthed"
-        @click="($refs as any).share.show()"
-      >
+        @click="($refs as any).share.show()">
         <v-icon color="white">mdi-code-json</v-icon>
       </v-btn>
     </cc-tooltip>
@@ -188,6 +184,6 @@ export default {
 }
 
 .unskew {
-  transform: skew(0.65rad);
+  transform: translateZ(0) skew(0.65rad);
 }
 </style>
