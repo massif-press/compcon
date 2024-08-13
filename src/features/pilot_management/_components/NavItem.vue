@@ -6,8 +6,7 @@
     :class="selected ? 'text-primary' : 'text-white'"
     :to="to"
     :disabled="disabled"
-    @click="to ? '' : $emit('clicked')"
-  >
+    @click="to ? '' : $emit('clicked')">
     <span class="unskew">
       <slot />
     </span>
@@ -36,6 +35,6 @@ export default {
 
 <style scoped>
 .unskew {
-  transform: skew(0.65rad);
+  transform: translateZ(0) skew(0.65rad);
 }
 </style>

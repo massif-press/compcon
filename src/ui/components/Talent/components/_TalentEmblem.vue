@@ -49,6 +49,9 @@ export default {
       this.src = '/src/assets/img/talent/GENERIC TALENT.svg';
       this.backup = this.name;
     },
+    getImageLoc() {
+      return new URL(this.src, import.meta.url).href;
+    },
   },
 };
 </script>

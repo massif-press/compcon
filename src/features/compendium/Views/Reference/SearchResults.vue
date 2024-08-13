@@ -1,18 +1,22 @@
 <template>
   <v-container>
     <v-row align="center">
-      <v-col
-        ><div class="heading h2">Search<cc-slashes />REFERENCE</div></v-col
-      >
-      <v-col cols="auto"
-        ><v-btn
+      <v-col>
+        <div class="heading h2">
+          Search
+          <cc-slashes />
+          REFERENCE
+        </div>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn
           color="accent"
           size="small"
           variant="outlined"
-          :to="`/srd/compendium/search?search=${searchText}`"
-          >Switch to compendium search</v-btn
-        ></v-col
-      >
+          :to="`/srd/compendium/search?search=${searchText}`">
+          Switch to compendium search
+        </v-btn>
+      </v-col>
     </v-row>
 
     <v-row justify="center">
@@ -26,8 +30,7 @@
           hide-details
           single-line
           placeholder="Search"
-          @update:modelValue="setSearch($event)"
-        />
+          @update:modelValue="setSearch($event)" />
       </v-col>
     </v-row>
     <v-row class="mx-3">
@@ -49,8 +52,7 @@
                         size="x-small"
                         variant="flat"
                         color="primary"
-                        @click="itemLink(result)"
-                      >
+                        @click="itemLink(result)">
                         {{ result.location.replace(/-|_/g, ' ') }}
                         <v-icon end icon="mdi-arrow-right" />
                       </v-btn>
@@ -189,7 +191,10 @@ export default {
     input.focus();
   },
   methods: {
-    highlightText(text: string) {
+    highlightText(sourceText: string) {
+      const text = sourceText.replace(/<[^>]*>/g, '');
+      console.log(text);
+      console.log(this.searchText);
       const regex = new RegExp(this.searchText, 'gi');
       return text.replace(regex, (match) => `<span class="highlight">${match}</span>`);
     },

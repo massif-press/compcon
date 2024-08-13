@@ -151,6 +151,7 @@ const routes = [
   {
     path: 'reference',
     component: Reference,
+    props: (route) => ({ preScroll: route.query.preScroll }),
   },
   {
     path: 'reference/basics',
@@ -184,7 +185,7 @@ const routes = [
   },
   {
     path: 'reference/narrative',
-    name: 'srd_narrative',
+    name: 'srd_narrative_play',
     component: Narrative,
     props: (route) => ({ preScroll: route.query.preScroll }),
   },

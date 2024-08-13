@@ -26,10 +26,24 @@ export default {
     isModal: {
       type: Boolean,
     },
+    preScroll: {
+      type: String,
+      default: '',
+    },
   },
   components: {
     ActionEconomy,
     DamageTables,
+  },
+  mounted() {
+    if (this.preScroll) {
+      this.$nextTick(() => {
+        const el = document.getElementById(this.preScroll);
+        if (el) {
+          el.scrollIntoView();
+        }
+      });
+    }
   },
   data: () => ({
     tab: '0',
