@@ -1,0 +1,75 @@
+<template>
+  <v-container class="pb-12">
+    <h1 class="heading" id="mechactions">Mech Actions</h1>
+    <v-row justify="center">
+      <action-card v-for="a in actions" :action="a" />
+    </v-row>
+
+    <h1 class="heading" id="pilotactions">Pilot Actions</h1>
+    <v-row justify="center">
+      <action-card v-for="a in pilotActions" :action="a" />
+    </v-row>
+
+    <h1 class="heading" id="downtimeactions">Downtime Actions</h1>
+    <v-row justify="center">
+      <action-card v-for="a in downtimeActions" :action="a" downtime />
+    </v-row>
+  </v-container>
+  <v-footer border app class="py-0 bg-primary">
+    <v-tabs density="compact" center-active grow>
+      <v-tab v-for="item in content" v-text="item" @click="scrollTo(item)" />
+    </v-tabs>
+  </v-footer>
+  <v-btn
+    size="x-small"
+    icon
+    color="primary"
+    variant="plain"
+    style="position: fixed; bottom: 35px; right: 0; margin: 8px; z-index: 999"
+    @click="scrollTo(content[0])">
+    <v-icon size="30">mdi-arrow-up</v-icon>
+  </v-btn>
+</template>
+
+<script lang="ts">
+import ActionCard from '../_components/ActionCard.vue';
+import scrollTo from '@/util/scrollTo';
+
+import { CompendiumStore } from '@/stores';
+
+export default {
+  name: 'action-economy',
+  components: { ActionCard },
+  props: {
+    isModal: {
+      type: Boolean,
+    },
+  },
+  data: () => ({
+    content: ['mech actions', 'pilot actions', 'downtime actions'],
+    actionTypes: [
+      { action: 'move', icon: 'mdi-arrow-right-bold-hexagon-outline' },
+      { action: 'overcharge', icon: 'cc:overcharge' },
+      { action: 'reaction', icon: 'cc:reaction' },
+      { action: 'free', icon: 'cc:free' },
+    ],
+  }),
+  computed: {
+    actions() {
+      return CompendiumStore().Actions.filter((a) => a && !a.IsDowntimeAction && !a.IsPilotAction);
+    },
+    pilotActions() {
+      return CompendiumStore().Actions.filter((a) => a && a.IsPilotAction);
+    },
+    downtimeActions() {
+      return CompendiumStore().Actions.filter((a) => a && a.IsDowntimeAction);
+    },
+  },
+  methods: {
+    scrollTo(item: any): void {
+      const el = document.getElementById(`${item.replace(/\W/g, '')}`);
+      if (el) scrollTo(el, this.isModal);
+    },
+  },
+};
+</script>

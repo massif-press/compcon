@@ -1,8 +1,6 @@
 <template>
   <equipment-card-base :item="item" :dense="dense">
-    <v-row v-if="item.InLcp">
-      <div class="heading h3 text-text">{{ item.LcpName }}</div>
-    </v-row>
+    <div v-if="item.InLcp" class="heading h3 text-text text-right">{{ item.LcpName }}</div>
   </equipment-card-base>
 </template>
 

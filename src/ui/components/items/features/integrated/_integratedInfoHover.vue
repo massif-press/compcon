@@ -1,7 +1,7 @@
 <template>
   <v-menu open-on-hover bottom offset-y>
     <template #activator="{ props }">
-      <v-chip :color="item.Color" v-bind="props">
+      <v-chip :color="item.Color" v-bind="props" variant="flat">
         <span class="text-white">
           <v-icon start dark>{{ item.Icon }}</v-icon>
           {{ item.Name }}
@@ -10,8 +10,10 @@
     </template>
     <v-card flat tile>
       <v-toolbar density="compact" flat :color="item.Color" class="text-white">
-        <v-icon start large dark>{{ item.Icon }}</v-icon>
-        <span class="heading h3">{{ item.Name }}</span>
+        <v-toolbar-title>
+          <v-icon start large dark>{{ item.Icon }}</v-icon>
+          <span class="heading h3">{{ item.Name }}</span>
+        </v-toolbar-title>
       </v-toolbar>
       <v-card-text class="mt-n3">
         <integrated-info-base :item="item" />

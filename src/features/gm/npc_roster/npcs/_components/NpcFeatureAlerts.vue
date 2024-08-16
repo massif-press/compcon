@@ -27,7 +27,10 @@
       </template>
       <v-card>
         <v-toolbar density="compact" :color="getColor(item)">
-          <v-toolbar-title><v-icon :icon="getIcon(item)" start />{{ item.source }}</v-toolbar-title>
+          <v-toolbar-title>
+            <v-icon :icon="getIcon(item)" start />
+            {{ item.source }}
+          </v-toolbar-title>
         </v-toolbar>
         <v-card-text>
           <div v-if="!item.complete">Select {{ item.max - item.selected }} additional features</div>
@@ -67,12 +70,12 @@ export default {
     },
     getColor(item) {
       if (!item.complete) return 'error';
-      if (!item.optional_complete) return 'warning';
+      if (!item.optional_complete) return 'secondary';
       return 'success';
     },
     getIcon(item) {
       if (!item.complete) return 'mdi-alert';
-      if (!item.optional_complete) return 'mdi-alert-circle-outline';
+      if (!item.optional_complete) return 'cc:npc_feature';
       return 'mdi-check';
     },
   },

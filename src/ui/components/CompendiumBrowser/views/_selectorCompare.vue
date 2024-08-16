@@ -21,12 +21,12 @@
             <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
             </td>
-            <td class="text-center side-border font-weight-bold text-accent">
+            <td class="text-center heading h3 side-border font-weight-bold bg-primary">
               {{ selected.Stats[metric.value] }}
             </td>
-            <td v-for="item in items" class="text-center side-border">
+            <td v-for="item in items" class="text-center heading h3 font-weight-bold side-border">
               {{ (item as any).Stats[metric.value] }}
-              <span v-html="diff(metric.value, item)" />
+              <div class="mt-n3" v-html="diff(metric.value, item)" />
             </td>
           </tr>
         </tbody>
@@ -35,12 +35,12 @@
             <td class="text-left side-border" :class="metric.bold ? 'font-weight-bold' : ''">
               {{ metric.title }}
             </td>
-            <td class="text-center side-border font-weight-bold text-accent">
+            <td class="text-center heading h3 side-border font-weight-bold text-accent">
               {{ selected.Stats.Stat(metric.value, tier) }}
             </td>
-            <td v-for="item in items" class="text-center side-border">
+            <td v-for="item in items" class="text-center heading h3 side-border">
               {{ (item as any).Stats.Stat(metric.value, tier) }}
-              <span v-html="npcDiff(metric.value, item)" />
+              <div class="mt-n3" v-html="npcDiff(metric.value, item)" />
             </td>
           </tr>
         </tbody>
@@ -156,7 +156,7 @@ export default {
       const itemValue = item.Stats[metric];
       if (selectedValue === itemValue) return '';
 
-      return `<i class="text-overline ${
+      return `<i class="text-caption font-weight-bold  ${
         selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
       }${itemValue - selectedValue})</i>`;
     },
@@ -165,7 +165,7 @@ export default {
       const itemValue = item.Stats.Stat(metric, this.tier);
       if (selectedValue === itemValue) return '';
 
-      return `<i class="text-overline ${
+      return `<i class="text-caption font-weight-bold  ${
         selectedValue > itemValue ? 'text-error">(' : 'text-success">(+'
       }${itemValue - selectedValue})</i>`;
     },
@@ -176,5 +176,9 @@ export default {
 <style scoped>
 .side-border {
   border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.lh0 {
+  line-height: 12px;
 }
 </style>

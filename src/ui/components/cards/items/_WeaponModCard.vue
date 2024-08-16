@@ -16,13 +16,11 @@
       </v-col>
       <v-divider v-if="item.AddedDamage && item.AddedDamage.length" vertical class="mx-4" />
       <v-col v-if="item.SP" cols="auto" class="text-center">
-        <div class="panel clipped">
-          <v-icon v-for="n in item.SP" size="x-large">cc:system_point</v-icon>
+        <div class="heading h2 mb-n2">
+          {{ item.SP }}
+          <v-icon icon="cc:system_point" class="mt-n2 ml-n2" />
         </div>
-        <span class="text-overline">
-          <b>{{ item.SP }}</b>
-          SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}
-        </span>
+        <span class="text-overline">SYSTEM POINT{{ item.SP > 1 ? 'S' : '' }}</span>
       </v-col>
       <v-col cols="auto" class="ml-auto text-right">
         <span class="flavor-text text-disabled">// {{ item.LicenseString }}</span>

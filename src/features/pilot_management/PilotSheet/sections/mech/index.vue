@@ -47,7 +47,7 @@
       <v-row align="start">
         <v-col>
           <section-header title="Operator Notes" />
-          <cc-rich-text-area :item="mech" note-property="Notes" class="mb-3" />
+          <cc-rich-text-area :item="mech" note-property="Notes" class="mb-3 mt-2" />
           <license-requirement-block :mech="mech" :color="color" />
           <trait-block :mech="mech" :color="color" />
         </v-col>

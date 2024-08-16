@@ -1,8 +1,8 @@
 <template>
   <cc-compendium-browser :items="backgrounds" item-type="Background" :options="options">
     <template #header>
-      <div class="heading h3 text-center text-accent">Pilot Background</div></template
-    >
+      <div class="heading h3 text-center text-accent">Pilot Background</div>
+    </template>
   </cc-compendium-browser>
 </template>
 

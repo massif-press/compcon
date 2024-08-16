@@ -7,7 +7,8 @@
         <v-col><v-divider /></v-col>
         <v-col cols="auto">
           <v-chip color="secondary" variant="outlined">
-            <v-icon start icon="cc:weaponmod" />Modifies: {{ item.Mod.Target.Name }}
+            <v-icon start icon="cc:weaponmod" />
+            Modifies: {{ item.Mod.Target.Name }}
           </v-chip>
         </v-col>
         <v-col><v-divider /></v-col>
@@ -18,14 +19,15 @@
       <slot name="statblock" />
 
       <div v-if="item.Effect">
-        <div v-show="!dense" class="text-overline text-disabled">//EQUIPMENT EFFECT</div>
+        <div v-show="!dense" class="text-overline text-disabled mb-n2">//EQUIPMENT EFFECT</div>
         <p v-if="tier" v-html-safe="item.EffectByTier(tier)" class="text-text body-text mb-1" />
         <p v-else v-html-safe="item.Effect" class="text-text body-text mb-1" />
       </div>
 
       <div v-if="item.Actions && item.Actions.length">
-        <div v-show="!dense" class="text-overline text-disabled">
-          <v-icon size="small" icon="cc:activate" />EQUIPMENT ACTIONS
+        <div v-show="!dense" class="text-overline text-disabled mb-n4">
+          <v-icon size="small" icon="cc:activate" />
+          EQUIPMENT ACTIONS
         </div>
         <v-row dense justify="center">
           <v-col v-for="a in item.Actions" cols="auto">
@@ -48,8 +50,9 @@
       </div>
 
       <div v-if="item.Deployables && item.Deployables.length">
-        <div v-show="!dense" class="text-overline text-disabled">
-          <v-icon size="small" icon="cc:drone" />EQUIPMENT DEPLOYABLES
+        <div v-show="!dense" class="text-overline text-disabled mb-n2">
+          <v-icon size="small" icon="cc:drone" />
+          EQUIPMENT DEPLOYABLES
         </div>
         <v-row dense justify="center">
           <v-col v-for="d in item.Deployables" cols="auto">
@@ -64,7 +67,9 @@
       </div>
 
       <div v-if="item.IntegratedEquipment && item.IntegratedEquipment.length">
-        <div v-show="!dense" class="text-overline text-disabled">//EQUIPMENT INTEGRATIONS</div>
+        <div v-show="!dense" class="text-overline text-disabled mb-n2">
+          //EQUIPMENT INTEGRATIONS
+        </div>
         <v-row dense justify="center">
           <v-col v-for="x in item.IntegratedEquipment" cols="auto">
             <cc-integrated-info :item="x" :panel="!collapseActions || $vuetify.display.lgAndUp" />
@@ -74,16 +79,21 @@
 
       <slot name="profile" />
 
-      <div v-if="item.Description" class="my-2">
-        <div v-show="!dense" class="text-overline text-disabled">//COMPENDIUM DATA</div>
-        <div v-html-safe="item.Description" class="flavor-text" />
-      </div>
-
       <slot name="charts" />
 
-      <div v-if="!footer && showFooter">
-        <div v-show="!dense" class="text-overline text-disabled">//EQUIPMENT TAGS</div>
+      <div v-if="!footer && showFooter && item.Tags?.length">
+        <div v-show="!dense" class="text-overline text-disabled mb-n2">//EQUIPMENT TAGS</div>
         <cc-tags :tags="item.Tags" :extended="!smallTags" :small="smallTags" :tier="tier" />
+      </div>
+
+      <div v-if="item.Description?.length">
+        <div v-show="!dense" class="text-overline text-disabled mb-n2">//COMPENDIUM DATA</div>
+        <div v-html-safe="item.Description" class="flavor-text px-2 pb-2" />
+      </div>
+
+      <div v-if="item.FlavorDescription?.length">
+        <div v-show="!dense" class="text-overline text-disabled mb-n2">//FIELD DATA</div>
+        <div v-html-safe="item.FlavorDescription" class="flavor-text px-2 pb-2" />
       </div>
 
       <div v-if="notes">

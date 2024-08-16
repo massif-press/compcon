@@ -1,5 +1,5 @@
 <template>
-  <v-col style="min-width: 30vw">
+  <v-col :style="$vuetify.display.mdAndDown ? 'min-width: 50vw' : 'min-width: 30vw'">
     <v-card
       variant="tonal"
       :color="color"

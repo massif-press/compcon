@@ -64,7 +64,6 @@ import CCMechLoadout from './components/panels/loadout/mech_loadout/CCMechLoadou
 import CCSynergyDisplay from './components/panels/loadout/mech_loadout/CCSynergyDisplay.vue';
 import CCPilotLoadout from './components/panels/loadout/pilot_loadout/CCPilotLoadout.vue';
 import CCImageSelector from './components/selectors/CCImageSelector.vue';
-import CCSelectorTable from './components/selectors/CCSelectorTable.vue';
 import CCRefStressTable from './components/tables/CCRefStressTable.vue';
 import CCRefStructureTable from './components/tables/CCRefStructureTable.vue';
 import CCStressTable from './components/tables/CCStressTable.vue';
@@ -161,7 +160,6 @@ export {
   CCSynergyDisplay,
   CCPilotLoadout,
   CCImageSelector,
-  CCSelectorTable,
   CCRefStressTable,
   CCRefStructureTable,
   CCStressTable,

@@ -6,7 +6,8 @@
     :item="item"
     :readonly="readonly"
     @remove="$emit('remove', item)"
-    @save="$emit('save')">
+    @save="$emit('save')"
+    @propagate-click="($refs as any).base.openDetail()">
     <div v-if="item" style="cursor: pointer !important" @click="($refs as any).base.openDetail()">
       <v-row align="center" justify="space-around">
         <v-col class="my-auto">

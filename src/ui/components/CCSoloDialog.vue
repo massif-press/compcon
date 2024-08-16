@@ -21,7 +21,7 @@
         </template>
       </cc-titlebar>
 
-      <div :style="fullscreen ? 'margin-top: 64px' : ''">
+      <div :style="fullscreen ? 'margin-top: 40px' : ''">
         <slot />
       </div>
       <div v-if="!noActions">
